@@ -34,6 +34,7 @@ check_prediction_data.PredictionDataClassif = function(pdata) { # nolint
       pdata$response = factor(colnames(prob)[i], levels = lvls)
     }
   }
+  # FIXME: impact
 
   pdata
 }
@@ -50,6 +51,7 @@ is_missing_prediction_data.PredictionDataClassif = function(pdata) { # nolint
   if (!is.null(pdata$prob)) {
     miss = miss | apply(pdata$prob, 1L, anyMissing)
   }
+  # FIXME: impact
 
   pdata$row_ids[miss]
 }
@@ -78,14 +80,20 @@ c.PredictionDataClassif = function(..., keep_duplicates = TRUE) {
   elems = c("row_ids", "truth", intersect(predict_types[[1L]], "response"))
   tab = map_dtr(dots, function(x) x[elems], .fill = FALSE)
   prob = do.call(rbind, map(dots, "prob"))
+  impact = map(dots, "impact")
+  nms = names(impact[[1L]])
+  impact = pmap(impact, rbind)
+  names(impact) = nms
 
   if (!keep_duplicates) {
     keep = !duplicated(tab, by = "row_ids", fromLast = TRUE)
     tab = tab[keep]
     prob = prob[keep,, drop = FALSE]
+    impact = map(impact, function(x) x[keep,, drop = FALSE])
   }
 
   result = as.list(tab)
   result$prob = prob
+  result$impact = impact
   new_prediction_data(result, "classif")
 }

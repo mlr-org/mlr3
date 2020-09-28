@@ -43,11 +43,14 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
     #'   Each individual distribution in the vector represents the random variable 'survival time'
     #'   for an individual observation.
     #'
+    #' @param impact (`list()`)\cr
+    #' FIXME:
+    #'
     #' @param check (`logical(1)`)\cr
     #'   If `TRUE`, performs some argument checks and predict type conversions.
-    initialize = function(task = NULL, row_ids = task$row_ids, truth = task$truth(), response = NULL, se = NULL, distr = NULL, check = TRUE) {
+    initialize = function(task = NULL, row_ids = task$row_ids, truth = task$truth(), response = NULL, se = NULL, distr = NULL, impact = NULL, check = TRUE) {
       pdata = new_prediction_data(
-        list(row_ids = row_ids, truth = truth, response = response, se = se, distr = distr),
+        list(row_ids = row_ids, truth = truth, response = response, se = se, distr = distr, impact = impact),
         task_type = "regr"
       )
 
@@ -57,7 +60,7 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
       self$task_type = "regr"
       self$man = "mlr3::PredictionRegr"
       self$data = pdata
-      self$predict_types = intersect(c("response", "se", "distr"), names(pdata))
+      self$predict_types = intersect(c("response", "se", "distr", "impact"), names(pdata))
     }
   ),
 
@@ -84,6 +87,13 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
         require_namespaces("distr6")
       }
       return(self$data$distr)
+    },
+
+    #' @field impact (`matrix()`)\cr
+    #' Access to the stored impact encodings.
+    impact = function(rhs) {
+      assert_ro_binding(rhs)
+      self$data$impact
     }
   )
 )
@@ -98,5 +108,12 @@ as.data.table.PredictionRegr = function(x, ...) { # nolint
     require_namespaces("distr6")
     tab$distr = list(x$distr)
   }
+
+  if ("impact" %in% x$predict_types) {
+    impact = as.data.table(x$data$impact)
+    setnames(impact, names(impact), paste0("impact.", names(impact)))
+    tab = rcbind(tab, impact)
+  }
+
   tab
 }

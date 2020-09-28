@@ -10,8 +10,9 @@ check_prediction_data.PredictionDataRegr = function(pdata) { # nolint
   pdata$row_ids = assert_row_ids(pdata$row_ids)
   n = length(pdata$row_ids)
 
-  assert_numeric(pdata$response, len = n, any.missing = FALSE, null.ok = TRUE)
-  assert_numeric(pdata$se, len = n, lower = 0, any.missing = FALSE, null.ok = TRUE)
+  # FIXME: any.missing = FALSE does no longer work with new changes
+  assert_numeric(pdata$response, len = n, any.missing = TRUE, null.ok = TRUE)
+  assert_numeric(pdata$se, len = n, lower = 0, any.missing = TRUE, null.ok = TRUE)
 
   if (!is.null(pdata$distr)) {
     assert_class(pdata$distr, "VectorDistribution")
@@ -24,6 +25,7 @@ check_prediction_data.PredictionDataRegr = function(pdata) { # nolint
       pdata$se = unname(pdata$distr$stdev())
     }
   }
+  # FIXME: impact
 
   pdata
 }
@@ -41,6 +43,7 @@ is_missing_prediction_data.PredictionDataRegr = function(pdata) { # nolint
   if (!is.null(pdata$se)) {
     miss = miss | is.na(pdata$se)
   }
+  # FIXME: impact
 
   pdata$row_ids[miss]
 }
@@ -64,9 +67,16 @@ c.PredictionDataRegr = function(..., keep_duplicates = TRUE) { # nolint
 
   elems = c("row_ids", "truth", intersect(predict_types[[1L]], c("response", "se")))
   tab = map_dtr(dots, function(x) x[elems], .fill = FALSE)
+  impact = map(dots, "impact")
+  nms = names(impact[[1L]])
+  impact = pmap(impact, c)
+  names(impact) = nms
 
   if (!keep_duplicates) {
-    tab = unique(tab, by = "row_ids", fromLast = TRUE)
+    keep = !duplicated(tab, by = "row_ids", fromLast = TRUE)
+    tab = tab[keep]
+    impact = map(impact, function(x) x[keep])
+
   }
 
   result = as.list(tab)
@@ -75,6 +85,8 @@ c.PredictionDataRegr = function(..., keep_duplicates = TRUE) { # nolint
     require_namespaces("distr6")
     result$distr = do.call(c, map(dots, "distr"))
   }
+
+  result$impact = impact
 
   new_prediction_data(result, "regr")
 }

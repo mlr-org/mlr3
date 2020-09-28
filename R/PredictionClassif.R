@@ -87,11 +87,14 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
     #'   If `prob` is provided, but `response` is not, the class labels are calculated from
     #'   the probabilities using [max.col()] with `ties.method` set to `"random"`.
     #'
+    #' @param impact (`list()`)\cr
+    #' FIXME:
+    #'
     #' @param check (`logical(1)`)\cr
     #'   If `TRUE`, performs some argument checks and predict type conversions.
-    initialize = function(task = NULL, row_ids = task$row_ids, truth = task$truth(), response = NULL, prob = NULL, check = TRUE) {
+    initialize = function(task = NULL, row_ids = task$row_ids, truth = task$truth(), response = NULL, prob = NULL, impact = NULL, check = TRUE) {
       pdata = new_prediction_data(
-        list(row_ids = row_ids, truth = truth, response = response, prob = prob),
+        list(row_ids = row_ids, truth = truth, response = response, prob = prob, impact = impact),
         task_type = "classif"
       )
 
@@ -101,7 +104,7 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
       self$task_type = "classif"
       self$man = "mlr3::PredictionClassif"
       self$data = pdata
-      self$predict_types = intersect(c("response", "prob"), names(pdata))
+      self$predict_types = intersect(c("response", "prob", "impact"), names(pdata))
     },
 
 
@@ -162,6 +165,13 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
       self$data$prob
     },
 
+    #' @field impact (`matrix()`)\cr
+    #' Access to the stored impact encodings.
+    impact = function(rhs) {
+      assert_ro_binding(rhs)
+      self$data$impact
+    },
+
     #' @field confusion (`matrix()`)\cr
     #' Confusion matrix, as resulting from the comparison of truth and response.
     #' Truth is in columns, predicted response is in rows.
@@ -181,6 +191,12 @@ as.data.table.PredictionClassif = function(x, ...) { # nolint
     prob = as.data.table(x$data$prob)
     setnames(prob, names(prob), paste0("prob.", names(prob)))
     tab = rcbind(tab, prob)
+  }
+
+  if ("impact" %in% x$predict_types) {
+    impact = as.data.table(x$data$impact)
+    setnames(impact, names(impact), paste0("impact.", names(impact)))
+    tab = rcbind(tab, impact)
   }
 
   tab[]
