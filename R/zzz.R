@@ -4,6 +4,7 @@
 #' @import mlr3misc
 #' @importFrom R6 R6Class is.R6
 #' @importFrom utils data head tail getFromNamespace
+#' @importFrom graphics plot
 #' @importFrom stats predict rnorm runif sd contr.treatment
 #' @importFrom uuid UUIDgenerate
 #' @section Additional resources:
