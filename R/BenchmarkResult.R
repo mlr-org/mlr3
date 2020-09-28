@@ -160,7 +160,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
       measures = assert_measures(as_measures(measures, task_type = self$task_type))
       assert_flag(ids)
 
-      tab = score_measures(self, measures)
+      tab = score_measures(self, measures, view = NULL)
       tab = merge(self$data$data$uhashes, tab, by = "uhash", sort = FALSE)
       tab[, "nr" := .GRP, by = "uhash"]
 
