@@ -151,12 +151,12 @@ learner_continue = function(learner, task, row_ids = NULL) {
     lg$debug("Learner '%s' on task '%s' succeeded to continue the model",
       learner$id, task$id, learner = learner$clone(), result = result$result, messages = result$log$msg)
 
-
     # Write new model to state
     learner$state = insert_named(learner$state, list(
       model = result$result,
-      log = append_log(NULL, "train", result$log$class, result$log$msg),
-      train_time = result$elapsed # FIXME: Train time should be train and continue
+      log = rbindlist(list(learner$state$log,
+        append_log(NULL, "train", result$log$class, result$log$msg))),
+      train_time = learner$state$train_time + result$elapsed
     ))
   }
 
@@ -285,7 +285,8 @@ workhorse = function(iteration, task, learner, resampling, lgr_threshold = NULL,
   list(learner_state = learner$state, prediction = pdatas)
 }
 
-workhorse_continue = function(iteration, task, learner, resampling, lgr_threshold = NULL, store_models = FALSE, pb = NULL) {
+workhorse_continue = function(iteration, task, learner, resampling,
+  lgr_threshold = NULL, store_models = FALSE, pb = NULL) {
   if (!is.null(lgr_threshold)) {
     lg$set_threshold(lgr_threshold)
   }
@@ -295,7 +296,7 @@ workhorse_continue = function(iteration, task, learner, resampling, lgr_threshol
     test = resampling$test_set(iteration)
   )
 
-  # train model
+  # continue model
   learner = learner_continue(learner$clone(), task, sets[["train"]])
 
   # predict for each set
