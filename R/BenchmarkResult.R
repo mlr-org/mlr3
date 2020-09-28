@@ -452,7 +452,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
 
 #' @export
 as.data.table.BenchmarkResult = function(x, ..., hashes = FALSE, predict_sets = "test") { # nolint
-  tab = x$data$as_data_table(predict_sets = predict_sets)
+  tab = x$data$as_data_table(view = NULL, predict_sets = predict_sets)
   tab[, c("uhash", "task", "learner", "resampling", "iteration", "prediction"), with = FALSE]
 }
 
