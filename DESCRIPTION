@@ -81,9 +81,13 @@ Suggests:
     future,
     future.callr,
     mlr3data,
+    mlr3learners,
     progressr,
     rpart,
-    testthat
+    testthat,
+    xgboost
+Remotes:
+    mlr-org/mlr3learners@continue
 RdMacros:
     mlr3misc
 Encoding: UTF-8
