@@ -126,7 +126,7 @@ benchmark = function(design, store_models = FALSE) {
 
   lg$info("Finished benchmark")
 
-  BenchmarkResult$new(rdata_from_table(grid))
+  BenchmarkResult$new(grid)
 }
 
 #' @title Repeat a Benchmark

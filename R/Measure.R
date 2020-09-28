@@ -199,7 +199,7 @@ Measure = R6Class("Measure",
     aggregate = function(rr) {
       if (self$average == "macro") {
         aggregator = self$aggregator %??% mean
-        tab = score_measures(rr, list(self))
+        tab = score_measures(rr, list(self), reassemble = FALSE)
         set_names(aggregator(tab[[self$id]]), self$id)
       } else { # "micro"
         self$score(rr$prediction(self$predict_sets))
@@ -269,11 +269,10 @@ score_single_measure = function(measure, task, learner, train_set, prediction) {
 #' @return (`data.table()`) with added score columns.
 #'
 #' @noRd
-score_measures = function(obj, measures) {
-  # reassemble_tasks = any(map_lgl(measures, function(m) "requires_task" %in% m$properties))
-  # reassemble_learners = any(map_lgl(measures, function(m) "requires_model" %in% m$properties))
-  tab = as.data.table(obj$data, hashes = FALSE, reassemble_tasks = TRUE,
-    reassemble_learners = TRUE, convert_predictions = FALSE)
+score_measures = function(obj, measures, reassemble = TRUE, view = NULL) {
+  reassemble_tasks = reassemble || some(measures, function(m) "requires_task" %in% m$properties)
+  reassemble_learners = reassemble || some(measures, function(m) "requires_model" %in% m$properties)
+  tab = obj$data$as_data_table(view, reassemble_tasks = reassemble_tasks, reassemble_learners = reassemble_learners, convert_predictions = FALSE)
 
   for (measure in measures) {
     score = pmap_dbl(tab[, c("task", "learner", "resampling", "iteration", "prediction"), with = FALSE],

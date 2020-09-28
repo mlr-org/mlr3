@@ -79,10 +79,10 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #'   An object of type `ResultData`, either extracted from another [ResampleResult], another
     #'   [BenchmarkResult], or manually constructed with [as_result_data()].
     initialize = function(data = NULL) {
-      if (is.null(data)) {
-        self$data = rdata_init()
+      if (inherits(data, "ResultData")) {
+        self$data = data
       } else {
-        self$data = assert_class(data, "ResultData")
+        self$data = ResultData$new(data)
       }
     },
 
@@ -101,10 +101,11 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #' @description
     #' Printer.
     print = function() {
-      tab = remove_named(self$aggregate(measures = list(), conditions = TRUE), c("uhash", "resample_result"))
+      tab = self$aggregate(measures = list(), conditions = TRUE)
       catf("%s of %i rows with %i resampling runs",
-        format(self), nrow(self$data$fact), nrow(tab))
+        format(self), self$data$iterations(), nrow(tab))
       if (nrow(tab)) {
+        tab = remove_named(tab, c("uhash", "resample_result"))
         print(tab, class = FALSE, row.names = FALSE, print.keys = FALSE, digits = 3)
       }
     },
@@ -119,16 +120,16 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #'
     #' @return
     #' Returns the object itself, but modified **by reference**.
-    #' You need to explicitly `$clone()` the object beforehand if you want to keeps
+    #' You need to explicitly `$clone()` the object beforehand if you want to keep
     #' the object in its previous state.
     combine = function(bmr) {
       if (!is.null(bmr)) {
         assert_benchmark_result(bmr)
-        if (nrow(self$data$fact) && self$task_type != bmr$task_type) {
+        if (self$data$iterations() && self$task_type != bmr$task_type) {
           stopf("BenchmarkResult is of task type '%s', but must be '%s'", bmr$task_type, self$task_type)
         }
 
-        self$data = rdata_append(self$data, bmr$data)
+        self$data$combine(bmr$data)
       }
 
       invisible(self)
@@ -160,21 +161,21 @@ BenchmarkResult = R6Class("BenchmarkResult",
       assert_flag(ids)
 
       tab = score_measures(self, measures)
+      tab = merge(self$data$data$uhashes, tab, by = "uhash", sort = FALSE)
+      tab[, "nr" := .GRP, by = "uhash"]
 
-      tab[, ("nr") := .GRP, by = "uhash"][, ("uhash") := NULL]
       if (ids) {
         set(tab, j = "task_id", value = ids(tab$task))
         set(tab, j = "learner_id", value = ids(tab$learner))
         set(tab, j = "resampling_id", value = ids(tab$resampling))
-        setcolorder(tab, c("nr", "task", "task_id", "learner", "learner_id",
-            "resampling", "resampling_id", "iteration", "prediction"))
-      } else {
-        setcolorder(tab, "nr")
       }
 
       set(tab, j = "prediction", value = as_predictions(tab$prediction, predict_sets))
 
-      tab[]
+      cns = c("uhash", "nr", "task", "task_id", "learner", "learner_id", "resampling", "resampling_id",
+        "iteration", "prediction", ids(measures))
+      cns = intersect(cns, names(tab))
+      tab[, cns, with = FALSE]
     },
 
     #' @description
@@ -210,7 +211,12 @@ BenchmarkResult = R6Class("BenchmarkResult",
       assert_flag(params)
       assert_flag(conditions)
 
-      tab = self$data$fact[, list(
+      create_rr = function(view) {
+        if (length(view)) ResampleResult$new(self$data, view = copy(view)) else list()
+      }
+
+      rdata = self$data$data
+      tab = rdata$fact[rdata$uhashes, list(
         nr = .GRP,
         iters = .N,
         task_hash = .SD$task_hash[1L],
@@ -218,17 +224,17 @@ BenchmarkResult = R6Class("BenchmarkResult",
         learner_hash = .SD$learner_hash[1L],
         learner_phash = .SD$learner_phash[1L],
         resampling_hash = .SD$resampling_hash[1L],
-        resample_result = list(ResampleResult$new(rdata_subset(.SD, self$data))),
+        resample_result = list(create_rr(.BY[[1L]])),
         warnings = if (conditions) sum(map_int(.SD$learner_state, function(s) sum(s$log$class == "warning"))) else NA_integer_,
         errors = if (conditions) sum(map_int(.SD$learner_state, function(s) sum(s$log$class == "error"))) else NA_integer_
-      ), by = "uhash", .SDcols = names(self$data$fact)]
+      ), by = "uhash", on = "uhash", nomatch = NULL]
 
       if (ids) {
-        tab = merge(tab, self$data$tasks[, list(task_phash = .SD$task_phash, task_id = ids(.SD$task))],
+        tab = merge(tab, rdata$tasks[, list(task_phash = .SD$task_phash, task_id = ids(.SD$task))],
           by = "task_phash", sort = FALSE)
-        tab = merge(tab, self$data$learners[, list(learner_phash = .SD$learner_phash, learner_id = ids(.SD$learner))],
+        tab = merge(tab, rdata$learners[, list(learner_phash = .SD$learner_phash, learner_id = ids(.SD$learner))],
           by = "learner_phash", sort = FALSE)
-        tab = merge(tab, self$data$resamplings[, list(resampling_hash =.SD$resampling_hash, resampling_id = ids(.SD$resampling))],
+        tab = merge(tab, rdata$resamplings[, list(resampling_hash =.SD$resampling_hash, resampling_id = ids(.SD$resampling))],
           by = "resampling_hash", sort = FALSE)
       }
 
@@ -237,7 +243,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
       }
 
       if (params) {
-        tab = merge(tab, self$data$learner_components, by = "learner_hash", sort = FALSE)
+        tab = merge(tab, rdata$learner_components, by = "learner_hash", sort = FALSE)
         setnames(tab, "learner_param_vals", "params")
       }
 
@@ -252,7 +258,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
       }
       tab = insert_named(tab, scores)
 
-      cns = c("nr", "uhash", "resample_result", "task_id", "learner_id", "resampling_id", "iters",
+      cns = c("uhash", "nr", "resample_result", "task_id", "learner_id", "resampling_id", "iters",
           "warnings", "errors", "params", ids(measures))
       cns = intersect(cns, names(tab))
       tab[, cns, with = FALSE]
@@ -294,28 +300,28 @@ BenchmarkResult = R6Class("BenchmarkResult",
 
       if (!is.null(task_ids)) {
         task = task_phash = NULL
-        task_phashes = self$data$tasks[ids(task) %in% task_ids, task_phash]
+        task_phashes = self$data$data$tasks[ids(task) %in% task_ids, task_phash]
       }
 
       if (!is.null(learner_ids)) {
         learner = learner_phash = NULL
-        learner_phashes = self$data$learners[ids(learner) %in% learner_ids, learner_phash]
+        learner_phashes = self$data$data$learners[ids(learner) %in% learner_ids, learner_phash]
       }
 
       if (!is.null(resampling_ids)) {
         resampling = resampling_hash = NULL
-        resampling_hashes = union(resampling_hashes, self$data$resamplings[ids(resampling) %in% resampling_ids, resampling_hash])
+        resampling_hashes = union(resampling_hashes, self$data$data$resamplings[ids(resampling) %in% resampling_ids, resampling_hash])
       }
 
-      fact = self$data$fact
+      fact = self$data$data$fact
       fact = filter_if_not_null("task_hash", task_hashes)
       fact = filter_if_not_null("task_phash", task_phashes)
       fact = filter_if_not_null("learner_hash", learner_hashes)
       fact = filter_if_not_null("learner_phash", learner_phashes)
       fact = filter_if_not_null("resampling_hash", resampling_hashes)
 
-      self$data$fact = fact
-      self$data = rdata_sweep(self$data)
+      self$data$data$fact = fact
+      self$data$sweep()
 
       invisible(self)
     },
@@ -336,16 +342,15 @@ BenchmarkResult = R6Class("BenchmarkResult",
         stopf("Either `i` or `uhash` must be provided")
       }
 
-      uhashes = self$uhashes
+      uhashes = self$data$uhashes()
       if (is.null(i)) {
         needle = assert_choice(uhash, uhashes)
       } else {
         i = assert_int(i, lower = 1L, upper = length(uhashes), coerce = TRUE)
         needle = uhashes[i]
       }
-      rdata = rdata_copy(self$data, exclude = "fact")
-      rdata$fact = rdata$fact[list(needle), on = "uhash", nomatch = NULL]
-      ResampleResult$new(rdata_sweep(rdata))
+
+      ResampleResult$new(self$data, view = needle)
     }
   ),
 
@@ -357,10 +362,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #' This is `NA` for empty [BenchmarkResult]s.
     task_type = function(rhs) {
       assert_ro_binding(rhs)
-      if (nrow(self$data$fact) == 0L) {
-        return(NA_character_)
-      }
-      self$data$tasks$task[[1L]]$task_type
+      self$data$task_type
     },
 
     #' @field tasks ([data.table::data.table()])\cr
@@ -372,8 +374,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
     tasks = function(rhs) {
       assert_ro_binding(rhs)
 
-      tab = rdata_get_tasks(self$data)
-      set(tab, j = "task_phash", value = NULL)
+      tab = self$data$tasks()
       set(tab, j = "task_id", value = ids(tab$task))
       setcolorder(tab, c("task_hash", "task_id", "task"))[]
     },
@@ -391,8 +392,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
     learners = function(rhs) {
       assert_ro_binding(rhs)
 
-      tab = rdata_get_learners(self$data)
-      set(tab, j = "learner_phash", value = NULL)
+      tab = self$data$learners(states = FALSE)
       set(tab, j = "learner_id", value = ids(tab$learner))
       setcolorder(tab, c("learner_hash", "learner_id", "learner"))[]
     },
@@ -406,7 +406,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
     resamplings = function(rhs) {
       assert_ro_binding(rhs)
 
-      tab = rdata_get_resamplings(self$data)
+      tab = self$data$resamplings()
       set(tab, j = "resampling_id", value = ids(tab$resampling))
       setcolorder(tab, c("resampling_hash", "resampling_id", "resampling"))[]
     },
@@ -414,46 +414,46 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #' @field resample_results ([data.table::data.table()])\cr
     #' Returns a table with three columns:
     #' * `uhash` (`character()`).
-    #' * `iters` (`integer()`).
     #' * `resample_result` ([ResampleResult]).
     resample_results = function(rhs) {
       assert_ro_binding(rhs)
+      rdata = self$data$data
 
-      self$data$fact[, list(
-        iters = .N,
-        resample_result = list(ResampleResult$new(rdata_subset(.SD, self$data)))
-      ), by = "uhash", .SDcols = names(self$data$fact)]
+      create_rr = function(view) {
+        if (length(view)) ResampleResult$new(self$data, view = copy(view)) else list()
+      }
+      tab = rdata$fact[rdata$uhashes, list(
+        nr = .GRP,
+        resample_result = list(create_rr(.BY[[1L]]))
+      ), by = "uhash"]
     },
 
     #' @field n_resample_results (`integer(1)`)\cr
     #' Returns the total number of stored [ResampleResult]s.
     n_resample_results = function(rhs) {
       assert_ro_binding(rhs)
-      uniqueN(self$data$fact, by = "uhash")
+      length(self$data$uhashes())
     },
 
     #' @field uhashes (`character()`)\cr
     #' Set of (unique) hashes of all included [ResampleResult]s.
     uhashes = function(rhs) {
       assert_ro_binding(rhs)
-      unique(self$data$fact[, "uhash", with = FALSE], by = "uhash")[[1L]]
+      self$data$uhashes()
     }
   ),
 
   private = list(
     deep_clone = function(name, value) {
-      if (name %in% "data") {
-        rdata_copy(value)
-      } else {
-        value
-      }
+      if (name == "data") value$clone(deep = TRUE) else value
     }
   )
 )
 
 #' @export
 as.data.table.BenchmarkResult = function(x, ..., hashes = FALSE, predict_sets = "test") { # nolint
-  as.data.table(x$data, hashes = FALSE, predict_sets = predict_sets)
+  tab = x$data$as_data_table(predict_sets = predict_sets)
+  tab[, c("uhash", "task", "learner", "resampling", "iteration", "prediction"), with = FALSE]
 }
 
 #' @export

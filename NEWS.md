@@ -7,7 +7,8 @@
 * Fixed a bug where a broken heuristic disabled nested parallelization via
   package `future` (mlr3tuning#270).
 * `ResampleResult` and `BenchmarkResult` now share a common interface to store
-  the experiment results. The manual construction has been slightly changed.
+  the experiment results. Manual construction is still possible with helper
+  function `as_result_data()`
 
 # mlr3 0.6.0
 

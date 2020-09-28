@@ -1,6 +1,6 @@
 Package: mlr3
 Title: Machine Learning in R - Next Generation
-Version: 0.6.0-9000
+Version: 0.7.0
 Authors@R:
     c(person(given = "Michel",
              family = "Lang",
@@ -179,7 +179,6 @@ Collate:
     'deprecated.R'
     'fix_factor_levels.R'
     'helper.R'
-    'helper_R6.R'
     'mlr_coercions.R'
     'mlr_sugar.R'
     'predict.R'

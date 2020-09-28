@@ -1,3 +1,13 @@
+#' @title Get 'private' part of an R6 Instance
+#'
+#' @param x ([R6::R6Class]).
+#'
+#' @return (`environment()`).
+#' @noRd
+get_private = function(x) {
+  x[[".__enclos_env__"]][["private"]]
+}
+
 hashes = function(x) {
   map_chr(unname(x), "hash")
 }
