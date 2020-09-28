@@ -240,8 +240,8 @@ assert_ro_binding = function(rhs) {
 }
 
 #' @export
-#' @param train_task
-#' @param continue_task
+#' @param train_task ([Task]).
+#' @param continue_task ([Task]).
 #' @rdname mlr_assertions
 assert_continuable_task = function(train_task, continue_task) {
   continue_task = task_rm_data(continue_task$clone(deep = TRUE))
@@ -254,11 +254,18 @@ assert_continuable_task = function(train_task, continue_task) {
 }
 
 #' @export
-#' @param train_task
-#' @param continue_task
+#' @param train_learner ([Learner]),
+#' @param ccontinue_learner ([Learner])
 #' @rdname mlr_assertions
-assert_continuable_resampling = function(train_resampling, continue_resampling) {
-  if(train_resampling$id != continue_resampling$id || train_resampling$iters != continue_resampling$iters) {
-    stop("Supplied resampling does not allow to continue training.")
+assert_continuable_learner = function(train_learner, continue_learner) {
+  train_learner = train_learner$clone(deep = TRUE)
+  continue_learner = continue_learner$clone(deep = TRUE)
+  train_learner$state = NULL
+  continue_learner$state = NULL
+  train_learner$param_set$values = list()
+  continue_learner$param_set$values = list()
+
+  if(!isTRUE(all.equal(train_learner, continue_learner))) {
+    stop("Supplied learner does not allow to continue training.")
   }
 }

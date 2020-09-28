@@ -173,8 +173,8 @@ Must be an element of \verb{$predict_types}.}
 Set of hyperparameters.}
 
 \item{\code{encapsulate}}{(named \code{character()})\cr
-Controls how to execute the code in internal train and predict methods.
-Must be a named character vector with names \code{"train"} and \code{"predict"}.
+Controls how to execute the code in internal train, predict and continue methods.
+Must be a named character vector with names \code{"train"}, \code{"predict"} and \code{"continue"}.
 Possible values are \code{"none"}, \code{"evaluate"} (requires package \CRANpkg{evaluate}) and \code{"callr"} (requires package \CRANpkg{callr}).
 See \code{\link[mlr3misc:encapsulate]{mlr3misc::encapsulate()}} for more details.}
 }
@@ -331,7 +331,8 @@ the object in its previous state.
 \if{latex}{\out{\hypertarget{method-continue}{}}}
 \subsection{Method \code{continue()}}{
 Continue training of the model on the provided \code{task}.
-Mutates the learner by reference, i.e. stores the model alongside other information in field \verb{$state}.
+Mutates the learner by reference, i.e. stores the model alongside other
+information in field \verb{$state}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Learner$continue(task)}\if{html}{\out{</div>}}
 }
@@ -344,9 +345,9 @@ Mutates the learner by reference, i.e. stores the model alongside other informat
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-Returns the object itself, but modified \strong{by reference}.
-You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
-the object in its previous state.
+Returns the object itself, but modified \strong{by reference}. You need to
+explicitly \verb{$clone()} the object beforehand if you want to keeps the
+object in its previous state.
 }
 }
 \if{html}{\out{<hr>}}
