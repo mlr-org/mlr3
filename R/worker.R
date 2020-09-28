@@ -117,7 +117,6 @@ learner_train = function(learner, task, row_ids = NULL) {
 learner_continue = function(learner, task, row_ids = NULL) {
   assert_task(task)
   assert_learnable(task, learner)
-  assert_continuable_task(learner$state$train_task, task)
 
   # subset to train set w/o cloning
   if (!is.null(row_ids)) {
@@ -287,9 +286,16 @@ workhorse = function(iteration, task, learner, resampling, lgr_threshold = NULL,
 
 workhorse_continue = function(iteration, task, learner, resampling,
   lgr_threshold = NULL, store_models = FALSE, pb = NULL) {
+  if (!is.null(pb)) {
+    pb(sprintf("%s|%s|i:%i", task$id, learner$id, iteration))
+  }
+
   if (!is.null(lgr_threshold)) {
     lg$set_threshold(lgr_threshold)
   }
+
+  lg$info("Continue learner '%s' on task '%s' (iter %i/%i)",
+    learner$id, task$id, iteration, resampling$iters)
 
   sets = list(
     train = resampling$train_set(iteration),
