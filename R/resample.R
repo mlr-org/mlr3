@@ -88,20 +88,41 @@ resample = function(task, learner, resampling, store_models = FALSE) {
   ResampleResult$new(data = rdata)
 }
 
+#' @title Repeat a Resampling
+#'
+#' @description
+#' Repeats a resampling with continuable models. The models stored in
+#' `resample_result` ([ResampleResult]) are updated with the additional budget
+#' in `learner` [Learner], the training continues on the training
+#' sets and the performance is again evaluated on the test sets.
+#'
+#' @param learner ([Learner])\cr
+#'   Learner with increased budget hyperparameter.
+#' @param resample_result ([ResampleResult])\cr
+#'   Resample result with stored models.
+#' @param store_models (`logical(1)`)\cr
+#'   Keep the fitted model after the test set has been predicted?
+#'   Set to `TRUE` if you want to further analyse the models or want to
+#'   extract information like variable importance.
+#' @return [ResampleResult].
+#'
+#' @template section_parallelization
+#' @template section_progress_bars
+#' @template section_logging
+#'
+#' @note
+#' The fitted models are discarded after the predictions have been computed in
+#' order to reduce memory consumption. If you need access to the models for
+#' later analysis, set `store_models` to `TRUE`.
+#'
 #' @export
-resample_continue = function(task, learner, resampling, resample_result,
-  store_models = FALSE) {
-  task = assert_task(as_task(task, clone = TRUE))
-  resampling = assert_resampling(as_resampling(resampling))
-  assert_flag(store_models)
+resample_continue = function(learner, resample_result, store_models = FALSE) {
   learner = assert_learner(as_learner(learner, clone = TRUE))
+  resample_result = assert_resample_result(resample_result)
+  assert_continuable_learner(learner, resample_result$learners[[1]]) # One should be enough
+  assert_flag(store_models)
 
-  # Continue assertions
-  assert_continuable_task(task, resample_result$task)
-  assert_continuable_resampling(resampling, resample_result$resampling)
-  # FIXME: continuable learner assertion
-
-  # Copy new param_set to learners with stored model
+  # Set new parameter set in learners with stored model
   learners = map(resample_result$learners, function(rl) {
     rl$param_set$values = learner$param_set$values
     rl
@@ -125,10 +146,10 @@ resample_continue = function(task, learner, resampling, resample_result,
   rdata = rdata_from_table(data.table(
     task = list(task),
     learner = list(learners[[1]]),
-    learner_state = res[1,],
+    learner_state = res["learner_state", ],
     resampling = list(instance),
     iteration = seq_len(n),
-    prediction = res[2,],
+    prediction = res["prediction", ],
     uhash = UUIDgenerate()
   ))
 

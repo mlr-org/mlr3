@@ -129,46 +129,51 @@ benchmark = function(design, store_models = FALSE) {
   BenchmarkResult$new(rdata_from_table(grid))
 }
 
+#' @title Repeat a Benchmark
+#'
+#' @description
+#' Repeats a benchmark with continuable models. The models stored in
+#' `benchmark_result` ([BenchmarkResult]) are updated with the additional budget
+#' in `learners` (list of [Learner]), the training continues on the training
+#' sets and the performance is again evaluated on the test sets.
+#'
+#' @param learners (list of [Learner])\cr
+#'   Learners with increased budget hyperparameter.
+#' @param benchmark_result ([BenchmarkResult]).
+#'   Benchmark result with stored models.
+#' @param store_models (`logical(1)`)\cr
+#'   Keep the fitted model after the test set has been predicted?
+#'   Set to `TRUE` if you want to further analyse the models or want to
+#'   extract information like variable importance.
+#'
+#' @return [BenchmarkResult].
+#'
+#' @note
+#' The fitted models are discarded after the predictions have been scored in
+#' order to reduce memory consumption. If you need access to the models for
+#' later analysis, set `store_models` to `TRUE`.
+#'
+#' @template section_parallelization
+#' @template section_progress_bars
+#' @template section_logging
+#'
 #' @export
-benchmark_continue = function(design, store_models = FALSE) {
-  assert_data_frame(design, min.rows = 1L)
-  assert_names(names(design), permutation.of = c("task", "learner", "resampling", "resample_results"))
-  design$task = list(assert_tasks(as_tasks(design$task)))
-  design$resampling = list(assert_resamplings(as_resamplings(design$resampling), instantiated = TRUE))
+benchmark_continue = function(learners, benchmark_result, store_models = FALSE) {
+  learners = map(learners, function(l) assert_learner(l)$clone(deep = TRUE))
+  benchmark_result = assert_benchmark_result(benchmark_result)$clone(deep = TRUE)
   assert_flag(store_models)
 
-  # check for multiple task types
-  task_types = unique(map_chr(design$task, "task_type"))
-  if (length(task_types) > 1L) {
-    stopf("Multiple task types detected: %s", str_collapse(task_types))
-  }
-
-  learners = pmap(list(design$learner, design$resample_results), function(l, rr) {
-    map(rr$learners, function(learner) {
-      learner$param_set$values = l$param_set$values
-      learner
+  # Set new parameter set in learners with stored model
+  learners = pmap(list(seq(benchmark_result$n_resample_results), learners), function(i, l) {
+    map(benchmark_result$resample_result(i)$learners, function(rl) {
+      rl$param_set$values = l$param_set$values
+      rl
     })
   })
 
-  # clone inputs
-  setDT(design)
-  task = resampling = NULL
-  design[, "task" := list(list(task[[1L]]$clone())), by = list(hashes(task))]
-  design[, "resampling" := list(list(resampling[[1L]]$clone())), by = list(hashes(resampling))]
-  design$resample_results = NULL
-
-  # expand the design: add rows for each resampling iteration
-  grid = pmap_dtr(design, function(task, learners, resampling) {
-    # we do not need to clone the learner here because we clone it before training
-    #learner = assert_learner(as_learner(learner))
-    #assert_learnable(task, learner)
-    data.table(
-      task = list(task), learner = list(learners),  resampling = list(resampling),
-      iteration = seq_len(resampling$iters), uhash = UUIDgenerate()
-    )
-  })
-  # Replace with learners with model
+  grid = as.data.table(bmr)[, c("task", "learner", "resampling", "iteration")]
   grid$learner = unlist(learners)
+  grid[, "uhash" := UUIDgenerate(), by = seq(nrow(grid))]
 
   n = nrow(grid)
 
