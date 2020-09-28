@@ -128,10 +128,8 @@ resample_continue = function(learner, resample_result, store_models = FALSE) {
     rl
   })
 
-  instance = resampling$clone(deep = TRUE)
-  if (!instance$is_instantiated) {
-    instance = instance$instantiate(task)
-  }
+  instance = resample_result$resampling$clone(deep = TRUE)
+  task = resample_result$task
   n = instance$iters
   pb = get_progressor(n)
 
@@ -145,7 +143,7 @@ resample_continue = function(learner, resample_result, store_models = FALSE) {
 
   rdata = rdata_from_table(data.table(
     task = list(task),
-    learner = list(learners[[1]]),
+    learner = list(learner),
     learner_state = res["learner_state", ],
     resampling = list(instance),
     iteration = seq_len(n),
