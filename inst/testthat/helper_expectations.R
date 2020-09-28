@@ -90,7 +90,7 @@ expect_backend = function(b) {
 
   # rows are duplicated
   x = b$data(rows = rep(rn1, 2L), cols = b$colnames, data_format = "data.table")
-  checkmate::expect_data_table(x, nrows = 2L*length(rn1), ncols = p)
+  checkmate::expect_data_table(x, nrows = 2L * length(rn1), ncols = p)
 
   # cols are returned in the right order
   j = rev(cn)
@@ -106,7 +106,7 @@ expect_backend = function(b) {
   testthat::expect_error(b$data(rows = rn1, cols = rep(cn[1L], 2L), data_format = "data.table"), "unique")
 
   # $head()
-  checkmate::expect_data_table(b$head(9999L), nrows = n, ncols = p)
+  checkmate::expect_data_table(b$head(.Machine$integer.max), nrows = n, ncols = p)
   checkmate::expect_data_table(b$head(0L), nrows = 0, ncols = p)
   checkmate::expect_data_table(b$head(2L), nrows = min(2L, b$nrow), ncols = p)
 
@@ -132,11 +132,11 @@ expect_backend = function(b) {
 
   # $missings()
   x = b$missings(b$rownames, b$colnames)
-  checkmate::expect_integer(x, lower = 0L, upper = b$nrow, any.missing = FALSE)
+  checkmate::expect_integerish(x, lower = 0L, upper = b$nrow, any.missing = FALSE)
   checkmate::expect_names(names(x), permutation.of = b$colnames)
-  checkmate::expect_integer(b$missings(b$rownames, "_not_existing_"), len = 0L, names = "named")
-  checkmate::expect_integer(b$missings(b$rownames[0L], b$colnames), len = b$ncol, names = "unique")
-  checkmate::expect_integer(b$missings(b$rownames[0L], "_not_existing_"), len = 0L, names = "unique")
+  checkmate::expect_integerish(b$missings(b$rownames, "_not_existing_"), len = 0L, names = "named")
+  checkmate::expect_integerish(b$missings(b$rownames[0L], b$colnames), len = b$ncol, names = "unique")
+  checkmate::expect_integerish(b$missings(b$rownames[0L], "_not_existing_"), len = 0L, names = "unique")
 
   # $hash
  checkmate::expect_string(b$hash)
