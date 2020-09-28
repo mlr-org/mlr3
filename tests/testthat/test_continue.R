@@ -15,7 +15,6 @@ test_that("continue method works", {
 
   learner = lrn("classif.xgboost", nrounds = 10)
   learner$train(task)
-  learner$continue(task)
 
   expect_error(learner$continue(task),
     regexp = "No additional boosting iterations provided")
