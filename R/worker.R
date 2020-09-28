@@ -28,6 +28,8 @@ continue_wrapper = function(learner, task) {
     stopf("Learner '%s' on task '%s' returned NULL during internal continue()",
       learner$id, task$id)
   }
+
+  model
 }
 
 # This wrapper calls learner$predict, and additionally performs some basic
@@ -114,7 +116,8 @@ learner_train = function(learner, task, row_ids = NULL) {
 
 learner_continue = function(learner, task, row_ids = NULL) {
   assert_task(task)
-  # FIXME: Assert that train task and continue task are compatible
+  assert_learnable(task, learner)
+  assert_continuable_task(learner$state$train_task, task)
 
   # subset to train set w/o cloning
   if (!is.null(row_ids)) {
@@ -133,8 +136,8 @@ learner_continue = function(learner, task, row_ids = NULL) {
   lg$debug("Calling continue method of Learner '%s' on task '%s' with %i observations",
     learner$id, task$id, task$nrow, learner = learner$clone())
 
-  # call train_wrapper with encapsulation
-  result = encapsulate("none", # FIXME: encapsulate continue
+  # call continue_wrapper with encapsulation
+  result = encapsulate(learner$encapsulate["continue"],
     .f = continue_wrapper,
     .args = list(learner = learner, task = task),
     .pkgs = learner$packages,
@@ -147,6 +150,7 @@ learner_continue = function(learner, task, row_ids = NULL) {
   } else {
     lg$debug("Learner '%s' on task '%s' succeeded to continue the model",
       learner$id, task$id, learner = learner$clone(), result = result$result, messages = result$log$msg)
+
 
     # Write new model to state
     learner$state = insert_named(learner$state, list(
