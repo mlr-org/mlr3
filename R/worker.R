@@ -17,13 +17,18 @@ train_wrapper = function(learner, task) {
   model
 }
 
-# This wrapper calls learner$.continue
+# This wrapper calls learner$.continue, and additionally performs some basic
+# checks that the training was successful.
 # Exceptions here are possibly encapsulated, so that they get captured
 # and turned into log messages.
 continue_wrapper = function(learner, task) {
   model = get_private(learner)$.continue(task)
-}
 
+  if (is.null(model)) {
+    stopf("Learner '%s' on task '%s' returned NULL during internal continue()",
+      learner$id, task$id)
+  }
+}
 
 # This wrapper calls learner$predict, and additionally performs some basic
 # checks that the prediction was successful.
