@@ -1,47 +1,52 @@
-library(mlr3learners)
-
 test_that("continue method works", {
-  task = tsk("iris")
-  learner = lrn("classif.xgboost", nrounds = 10)
-  learner$train(task)
-  m1 = learner$model
+    task = tsk("iris")
+    learner = mlr3learners::LearnerClassifXgboost$new()
+    learner$param_set$values$nrounds = 10
 
-  learner$param_set$values$nrounds = 20
-  learner$continue(task)
-  m2 = learner$model
+    learner$train(task)
+    m1 = learner$model
 
-  expect_equal(learner$param_set$values$nrounds, learner$model$niter)
-  expect_false(identical(m1, m2))
+    learner$param_set$values$nrounds = 20
+    learner$continue(task)
+    m2 = learner$model
 
-  learner = lrn("classif.xgboost", nrounds = 10)
-  learner$train(task)
+    expect_equal(learner$param_set$values$nrounds, learner$model$niter)
+    expect_false(identical(m1, m2))
 
-  expect_error(learner$continue(task),
-    regexp = "No additional boosting iterations provided")
+    learner = mlr3learners::LearnerClassifXgboost$new()
+    learner$param_set$values$nrounds = 10
+    learner$train(task)
 
-  learner = lrn("classif.xgboost", nrounds = 10)
+    expect_error(learner$continue(task),
+                 regexp = "No additional boosting iterations provided")
 
-  expect_error(learner$continue(task),
-    regexp = "Learner does not contain a model")
+    learner = mlr3learners::LearnerClassifXgboost$new()
+    learner$param_set$values$nrounds = 10
 
-  learner = lrn("classif.rpart")
-  learner$train(task)
+    expect_error(learner$continue(task),
+                 regexp = "Learner does not contain a model")
 
-  expect_error(learner$continue(task),
-    regexp = "Learner 'classif.rpart' does not support continue")
+    learner = lrn("classif.rpart")
+    learner$train(task)
 
-  task = tsk("iris")
-  learner = lrn("classif.xgboost", nrounds = 10)
-  learner$train(task)
-  task$select("Petal.Length")
+    expect_error(learner$continue(task),
+                 regexp = "Learner 'classif.rpart' does not support continue")
 
-  expect_error(learner$continue(task),
-    regexp = "Supplied task does not allow to continue training")
+    task = tsk("iris")
+    learner = mlr3learners::LearnerClassifXgboost$new()
+    learner$param_set$values$nrounds = 10
+    learner$train(task)
+    task$select("Petal.Length")
+
+    expect_error(learner$continue(task),
+                 regexp = "Supplied task does not allow to continue training")
 })
 
 test_that("resample_continue works", {
+
   task = tsk("iris")
-  learner = lrn("classif.xgboost", nrounds = 10)
+  learner = mlr3learners::LearnerClassifXgboost$new()
+  learner$param_set$values$nrounds = 10
   resampling = rsmp("cv", folds = 3)
   rr = resample(task, learner, resampling, store_models = TRUE)
 
@@ -57,14 +62,20 @@ test_that("resample_continue works", {
   expect_false(identical(rr2$learners[[1]]$model$raw, rr2$learners[[2]]$model$raw))
   expect_false(identical(rr2$learners[[1]]$model$raw, rr2$learners[[3]]$model$raw))
   expect_false(identical(rr2$learners[[2]]$model$raw, rr2$learners[[3]]$model$raw))
+
 })
 
 test_that("benchmark_continue works", {
   task = tsk("iris")
-  learner1 = lrn("classif.xgboost", nrounds = 10, eta = 0.1)
+  learner1 = mlr3learners::LearnerClassifXgboost$new()
+  learner1$param_set$values$nrounds = 10
+  learner1$param_set$values$eta = 0.1
   learner1$id = "classif.xgboost_1"
-  learner2 = lrn("classif.xgboost", nrounds = 10, eta = 0.5)
-  learner2$id = "classif.xgboost_2"
+
+  learner2 = mlr3learners::LearnerClassifXgboost$new()
+  learner2$param_set$values$nrounds = 10
+  learner2$param_set$values$eta = 0.5
+  learner2$id = "classif.xgboost_1"
   learners = list(learner1, learner2)
   resampling = rsmp("cv", folds = 3)
 
