@@ -246,8 +246,6 @@ assert_ro_binding = function(rhs) {
 assert_continuable_task = function(train_task, continue_task) {
   continue_task = task_rm_data(continue_task$clone(deep = TRUE))
   train_task = task_rm_data(train_task$clone(deep = TRUE))
-  # FIXME: Could print reason why continue training is not possible
-  # e.g. different number of features
   if(!isTRUE(all.equal(train_task, continue_task))) {
     stop("Supplied task does not allow to continue training.")
   }
