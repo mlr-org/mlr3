@@ -272,7 +272,7 @@ ResampleResult = R6Class("ResampleResult",
 
 #' @export
 as.data.table.ResampleResult = function(x, ..., predict_sets = "test") { # nolint
-  tab = x$data$as_data_table(predict_sets = predict_sets)
+  tab = x$data$as_data_table(view = x$view, predict_sets = predict_sets)
   tab[, c("task", "learner", "resampling", "iteration", "prediction"), with = FALSE]
 }
 
@@ -300,5 +300,10 @@ as_resample_result = function(x, ...) {
 #' @rdname as_benchmark_result
 #' @export
 as_benchmark_result.ResampleResult = function(x, ...) { # nolint
-  BenchmarkResult$new(x$data$clone(deep = TRUE))
+  rdata = x$data$clone(deep = TRUE)
+  if (!is.null(x$view)) {
+    rdata$data$fact = rdata$data$fact[list(x$view), on = "uhash", nomatch = NULL]
+    rdata$sweep()
+  }
+  BenchmarkResult$new(rdata)
 }

@@ -268,3 +268,22 @@ test_that("parallelization works", {
 test_that("friedman.test", {
   expect_is(friedman.test(bmr), "htest")
 })
+
+test_that("aggregated performance values are calculated correctly (#555)", {
+  task = tsk("spam")
+  learner1 = lrn("classif.featureless")
+  learner2 = lrn("classif.rpart")
+  resampling = rsmp("subsampling", repeats = 2)
+
+  design = benchmark_grid(task, list(learner1, learner2), resampling)
+  bmr = benchmark(design = design, store_models = TRUE)
+
+  y = bmr$aggregate()$classif.ce
+  expect_gt(y[1], y[2])
+
+  y = c(
+    bmr$resample_result(1)$aggregate(msr("classif.ce")),
+    bmr$resample_result(2)$aggregate(msr("classif.ce"))
+  )
+  expect_gt(y[1], y[2])
+})
