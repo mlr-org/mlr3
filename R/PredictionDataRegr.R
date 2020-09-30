@@ -86,7 +86,7 @@ c.PredictionDataRegr = function(..., keep_duplicates = TRUE) { # nolint
     result$distr = do.call(c, map(dots, "distr"))
   }
 
-  result$impact = impact
+  result$impact = if(length(impact) == 0L) NULL else impact
 
   new_prediction_data(result, "regr")
 }

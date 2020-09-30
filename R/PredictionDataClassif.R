@@ -94,6 +94,6 @@ c.PredictionDataClassif = function(..., keep_duplicates = TRUE) {
 
   result = as.list(tab)
   result$prob = prob
-  result$impact = impact
+  result$impact = if(length(impact) == 0L) NULL else impact
   new_prediction_data(result, "classif")
 }
