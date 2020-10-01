@@ -54,6 +54,12 @@
 #' * `oob_error(...)`: Returns the out-of-bag error of the model as `numeric(1)`.
 #'   The learner must be tagged with property `"oob_error"`.
 #'
+#' @section Continue training:
+#'
+#' Specific learners can implement the private method `.$continue()` to
+#' continue the training of the model.
+#'
+#'
 #'
 #' @section Setting Hyperparameters:
 #'
