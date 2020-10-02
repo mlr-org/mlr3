@@ -42,7 +42,10 @@ lrn("regr.rpart")
 }
 
 \references{
-\cite{mlr3}{breiman_1984}
+Breiman L, Friedman JH, Olshen RA, Stone CJ (1984).
+\emph{Classification And Regression Trees}.
+Routledge.
+\doi{10.1201/9781315139470}.
 }
 \seealso{
 \link[mlr3misc:Dictionary]{Dictionary} of \link[=Learner]{Learners}: \link{mlr_learners}

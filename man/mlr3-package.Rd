@@ -35,7 +35,10 @@ Efficient, object-oriented programming on the
 }
 
 \references{
-\cite{mlr3}{pkg::citation}
+Lang M, Binder M, Richter J, Schratz P, Pfisterer F, Coors S, Au Q, Casalicchio G, Kotthoff L, Bischl B (2019).
+\dQuote{mlr3: A modern object-oriented machine learning framework in R.}
+\emph{Journal of Open Source Software}.
+\doi{10.21105/joss.01903}, \url{https://joss.theoj.org/papers/10.21105/joss.01903}.
 }
 \seealso{
 Useful links:

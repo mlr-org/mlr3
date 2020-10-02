@@ -31,7 +31,7 @@
 #' Columns have been renamed. Preprocessed data taken from the \CRANpkg{kernlab} package.
 #'
 #' @references
-#' \cite{mlr3}{dua_2017}
+#' `r tools::toRd(bibentries["dua_2017"])`
 #'
 #' @template seealso_task
 NULL
