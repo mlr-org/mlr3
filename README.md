@@ -12,14 +12,10 @@ learning. Successor of [mlr](https://github.com/mlr-org/mlr).
 
 [![tic](https://github.com/mlr-org/mlr3/workflows/tic/badge.svg?branch=master)](https://github.com/mlr-org/mlr3/actions)
 [![DOI](https://joss.theoj.org/papers/10.21105/joss.01903/status.svg)](https://doi.org/10.21105/joss.01903)
-[![CRAN Status
-Badge](https://www.r-pkg.org/badges/version-ago/mlr3)](https://cran.r-project.org/package=mlr3)
-[![Cran
-Checks](https://cranchecks.info/badges/worst/mlr3)](https://cran.r-project.org/web/checks/check_results_mlr3.html)
+[![CRAN
+Status](https://www.r-pkg.org/badges/version-ago/mlr3)](https://cran.r-project.org/package=mlr3)
 [![StackOverflow](https://img.shields.io/badge/stackoverflow-mlr3-orange.svg)](https://stackoverflow.com/questions/tagged/mlr3)
 [![Mattermost](https://img.shields.io/badge/chat-mattermost-orange.svg)](https://lmmisld-lmu-stats-slds.srv.mwn.de/mlr_invite/)
-[![Dependencies](https://tinyverse.netlify.com/badge/mlr3)](https://cran.r-project.org/package=mlr3)
-
 <!-- badges: end -->
 
 Resources (for users and developers)
