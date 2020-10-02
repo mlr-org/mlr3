@@ -14,7 +14,7 @@
 #'   Number of folds.
 #'
 #' @references
-#' \cite{mlr3}{bischl_2012}
+#' `r tools::toRd(bibentries["bischl_2012"])`
 #'
 #' @template seealso_resampling
 #' @export

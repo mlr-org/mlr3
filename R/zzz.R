@@ -21,7 +21,7 @@
 #' * Parallelization framework: \CRANpkg{future}
 #' * Progress bars: \CRANpkg{progressr}
 #' @references
-#' \cite{mlr3}{pkg::citation}
+#' `r tools::toRd(citation("mlr3"))`
 "_PACKAGE"
 
 dummy_import = function() {

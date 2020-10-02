@@ -37,7 +37,9 @@ tsk("wine")
 }
 
 \references{
-\cite{mlr3}{dua_2017}
+Dua, Dheeru, Graff, Casey (2017).
+\dQuote{UCI Machine Learning Repository.}
+\url{http://archive.ics.uci.edu/ml/}.
 }
 \seealso{
 \link[mlr3misc:Dictionary]{Dictionary} of \link[=Task]{Tasks}: \link{mlr_tasks}

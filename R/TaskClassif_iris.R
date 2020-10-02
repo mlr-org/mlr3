@@ -19,7 +19,7 @@
 #' @source
 #' \url{https://en.wikipedia.org/wiki/Iris_flower_data_set}
 #'
-#' \cite{mlr3}{fisher_1936}
+#' `r tools::toRd(bibentries["fisher_1936"])`
 #'
 #' @template seealso_task
 NULL
