@@ -1,8 +1,8 @@
-#' @importFrom utils bibentry as.person
+#' @importFrom utils bibentry
 bibentries = c(
   bischl_2012 = bibentry("article",
     title = "Resampling Methods for Meta-Model Validation with Recommendations for Evolutionary Computation",
-    author       = as.person("Bernd Bischl and Olaf Mersmann and Heike Trautmann and Claus Weihs"),
+    author       = "Bernd Bischl and Olaf Mersmann and Heike Trautmann and Claus Weihs",
     year         = "2012",
     month        = "jun",
     journal      = "Evolutionary Computation",
@@ -31,7 +31,7 @@ bibentries = c(
 
   sasaki_2007 = bibentry("article",
     title        = "The truth of the F-measure",
-    author       = as.person("Sasaki, Yutaka"),
+    author       = "Sasaki, Yutaka",
     year         = "2007",
     journal      = "Teach Tutor mater",
     volume       = "1",
@@ -42,7 +42,7 @@ bibentries = c(
 
   gromping_2019 = bibentry("techreport",
     title        = "South German Credit Data: Correcting a Widely Used Data Set",
-    author       = as.person("Ulrike Grömping"),
+    author       = "Ulrike Grömping",
     year         = "2019",
     number       = "4",
     url          = "http://www1.beuth-hochschule.de/FB_II/reports/Report-2019-004.pdf",
