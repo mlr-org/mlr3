@@ -119,11 +119,6 @@ Required for \code{\link[=convert_task]{convert_task()}}.}
 \item{\code{hash}}{(\code{character(1)})\cr
 Hash (unique identifier) for this object.}
 
-\item{\code{phash}}{(\code{character(1)})\cr
-Hash (unique identifier) for this partial object, excluding some components
-which are varied  systematically during tuning (parameter values) or feature
-selection (feature names).}
-
 \item{\code{row_ids}}{(\code{integer()})\cr
 Returns the row ids of the \link{DataBackend} for observations with role "use".}
 

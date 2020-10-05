@@ -220,7 +220,6 @@ BenchmarkResult = R6Class("BenchmarkResult",
         nr = .GRP,
         iters = .N,
         task_hash = .SD$task_hash[1L],
-        task_phash = .SD$task_phash[1L],
         learner_hash = .SD$learner_hash[1L],
         learner_phash = .SD$learner_phash[1L],
         resampling_hash = .SD$resampling_hash[1L],
@@ -230,11 +229,11 @@ BenchmarkResult = R6Class("BenchmarkResult",
       ), by = "uhash", on = "uhash", nomatch = NULL]
 
       if (ids) {
-        tab = merge(tab, rdata$tasks[, list(task_phash = .SD$task_phash, task_id = ids(.SD$task))],
-          by = "task_phash", sort = FALSE)
+        tab = merge(tab, rdata$tasks[, list(task_hash = .SD$task_hash, task_id = ids(.SD$task))],
+          by = "task_hash", sort = FALSE)
         tab = merge(tab, rdata$learners[, list(learner_phash = .SD$learner_phash, learner_id = ids(.SD$learner))],
           by = "learner_phash", sort = FALSE)
-        tab = merge(tab, rdata$resamplings[, list(resampling_hash =.SD$resampling_hash, resampling_id = ids(.SD$resampling))],
+        tab = merge(tab, rdata$resamplings[, list(resampling_hash = .SD$resampling_hash, resampling_id = ids(.SD$resampling))],
           by = "resampling_hash", sort = FALSE)
       }
 
@@ -288,6 +287,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #' the object in its previous state.
     filter = function(task_ids = NULL, task_hashes = NULL, learner_ids = NULL, learner_hashes = NULL,
       resampling_ids = NULL, resampling_hashes = NULL) {
+      learner_phashes = NULL
 
       filter_if_not_null = function(column, hashes) {
         if (is.null(hashes))
@@ -296,11 +296,10 @@ BenchmarkResult = R6Class("BenchmarkResult",
           fact[unique(hashes), on = column, nomatch = NULL]
       }
 
-      task_phashes = learner_phashes = NULL
 
       if (!is.null(task_ids)) {
-        task = task_phash = NULL
-        task_phashes = self$data$data$tasks[ids(task) %in% task_ids, task_phash]
+        task = task_hash = NULL
+        task_hashes = union(task_hashes, self$data$data$tasks[ids(task) %in% task_ids, task_hash])
       }
 
       if (!is.null(learner_ids)) {
@@ -315,7 +314,6 @@ BenchmarkResult = R6Class("BenchmarkResult",
 
       fact = self$data$data$fact
       fact = filter_if_not_null("task_hash", task_hashes)
-      fact = filter_if_not_null("task_phash", task_phashes)
       fact = filter_if_not_null("learner_hash", learner_hashes)
       fact = filter_if_not_null("learner_phash", learner_phashes)
       fact = filter_if_not_null("resampling_hash", resampling_hashes)

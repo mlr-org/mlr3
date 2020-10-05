@@ -53,7 +53,6 @@ test_that("mlr3tuning use case", {
   expect_resultdata(rdata)
   expect_data_table(rdata$data$fact, nrows = 3L)
   expect_data_table(rdata$data$tasks, nrows = 1L)
-  expect_data_table(rdata$data$task_components, nrows = 1L)
   expect_data_table(rdata$data$learners, nrows = 1L)
   expect_data_table(rdata$data$learner_components, nrows = 3L)
   expect_data_table(rdata$data$resamplings, nrows = 1L)
@@ -72,40 +71,4 @@ test_that("mlr3tuning use case", {
   scores = bmr$score()
   expect_set_equal(map_dbl(scores$learner, get_params), 1:3 / 10)
   expect_true(all(map_lgl(scores$learner, has_state)))
-})
-
-
-
-test_that("mlr3fsselect use case", {
-  tasks = tsks(c("iris", "iris", "iris"))
-  learner = lrn("classif.featureless")
-  tasks[[1]]$col_roles$feature = names(iris)[1]
-  tasks[[2]]$col_roles$feature = names(iris)[2]
-  tasks[[3]]$col_roles$feature = names(iris)[3]
-  resampling = rsmp("holdout")
-
-  bmr = benchmark(benchmark_grid(tasks, learner, resampling))
-
-  rdata = bmr$data
-
-  expect_resultdata(rdata)
-  expect_data_table(rdata$data$fact, nrows = 3L)
-  expect_data_table(rdata$data$tasks, nrows = 1L)
-  expect_data_table(rdata$data$task_components, nrows = 3L)
-  expect_data_table(rdata$data$learners, nrows = 1L)
-  expect_data_table(rdata$data$learner_components, nrows = 1L)
-  expect_data_table(rdata$data$resamplings, nrows = 3L)
-
-  expect_set_equal(map_chr(bmr$tasks$task, function(t) t$feature_names), names(iris)[1:3])
-
-  get_feature_names = function(t) t$feature_names
-  expect_set_equal(map_chr(bmr$tasks$task, get_feature_names), names(iris)[1:3])
-
-  aggr = bmr$aggregate()
-  expect_set_equal(map_chr(map(aggr$resample_result, "task"), get_feature_names), names(iris)[1:3])
-
-  scores = bmr$score()
-  expect_set_equal(map_chr(scores$task, get_feature_names), names(iris)[1:3])
-
-  expect_set_equal(map_chr(as.data.table(bmr)$task, get_feature_names), names(iris)[1:3])
 })

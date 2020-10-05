@@ -485,7 +485,6 @@ Combines internal tables into a single flat \code{\link[=data.table]{data.table(
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{ResultData$as_data_table(
   view = NULL,
-  reassemble_tasks = TRUE,
   reassemble_learners = TRUE,
   convert_predictions = TRUE,
   predict_sets = "test"
@@ -521,9 +520,6 @@ Single \code{uhash} to restrict the results to.}
 
 \item{\code{view}}{\code{character(1)}\cr
 Single \code{uhash} to restrict the results to.}
-
-\item{\code{reassemble_tasks}}{(\code{logical(1)})\cr
-Reassemble the tasks?}
 
 \item{\code{reassemble_learners}}{(\code{logical(1)})\cr
 Reassemble the tasks?}

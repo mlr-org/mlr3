@@ -43,20 +43,17 @@ ResultData = R6Class("ResultData",
           fact = data[, c("uhash", "iteration", "learner_state", "prediction", "task", "learner", "resampling"),
             with = FALSE]
           set(fact, j = "task_hash", value = hashes(fact$task))
-          set(fact, j = "task_phash", value = phashes(fact$task))
           set(fact, j = "learner_hash", value = hashes(fact$learner))
           set(fact, j = "learner_phash", value = phashes(fact$learner))
           set(fact, j = "resampling_hash", value = hashes(fact$resampling))
 
           uhashes = data.table(uhash = unique(fact$uhash))
           tasks = fact[, list(task = .SD$task[1L]),
-            keyby = "task_phash"]
+            keyby = "task_hash"]
           learners = fact[, list(learner = list(.SD$learner[[1L]]$clone(deep = TRUE)$reset())),
             keyby = "learner_phash"]
           resamplings = fact[, list(resampling = .SD$resampling[1L]),
             keyby = "resampling_hash"]
-          task_components = fact[, list(task_feature_names = list(.SD$task[[1L]]$feature_names)),
-            keyby = "task_hash"]
           learner_components = fact[, list(learner_param_vals = list(.SD$learner[[1L]]$param_set$values)),
             keyby = "learner_hash"]
 
@@ -66,7 +63,7 @@ ResultData = R6Class("ResultData",
           setkeyv(fact, c("uhash", "iteration"))
 
           self$data = list(fact = fact, uhashes = uhashes, tasks = tasks, learners = learners,
-            resamplings = resamplings, task_components = task_components, learner_components = learner_components)
+            resamplings = resamplings, learner_components = learner_components)
         }
       }
     },
@@ -110,17 +107,8 @@ ResultData = R6Class("ResultData",
     #' @return `data.table()` with columns `"task_hash"` (`character()`) and `"task"` ([Task]).
     tasks = function(view = NULL, reassemble = TRUE) {
       ii = private$get_view_index(view)
-      tab = unique(self$data$fact[ii, c("task_hash", "task_phash"), with = FALSE], by = "task_hash")
-      tab = merge(tab, self$data$tasks, by = "task_phash", sort = FALSE)
-
-      if (reassemble) {
-        tab = merge(tab, self$data$task_components, by = "task_hash", sort = TRUE)
-        set(tab, j = "task", value = reassemble_tasks(tab$task, tab$task_feature_names))
-      } else {
-        setkeyv(tab, "task_hash")
-      }
-
-      tab[, c("task_hash", "task"), with = FALSE]
+      tab = unique(self$data$fact[ii, "task_hash", with = FALSE], by = "task_hash")
+      merge(tab, self$data$tasks, by = "task_hash", sort = TRUE)
     },
 
     #' @description
@@ -236,7 +224,7 @@ ResultData = R6Class("ResultData",
       uhashes = unique(self$data$fact[, "uhash", with = FALSE])
       self$data$uhashes = uhashes[self$data$uhashes, on = "uhash", nomatch = NULL]
 
-      for (nn in c("tasks", "task_components", "learners", "learner_components", "resamplings")) {
+      for (nn in c("tasks", "learners", "learner_components", "resamplings")) {
         tab = self$data[[nn]]
         if (nrow(tab)) {
           keycol = key(tab)
@@ -252,30 +240,21 @@ ResultData = R6Class("ResultData",
     #' Combines internal tables into a single flat [data.table()].
     #'
     #' @template param_view
-    #' @param reassemble_tasks (`logical(1)`)\cr
-    #'   Reassemble the tasks?
     #' @param reassemble_learners (`logical(1)`)\cr
     #'   Reassemble the tasks?
     #' @param convert_predictions (`logical(1)`)\cr
     #'   Convert [PredictionData] to [Prediction]?
     #' @template param_predict_sets
-    as_data_table = function(view = NULL, reassemble_tasks = TRUE, reassemble_learners = TRUE, convert_predictions = TRUE, predict_sets = "test") {
+    as_data_table = function(view = NULL, reassemble_learners = TRUE, convert_predictions = TRUE, predict_sets = "test") {
       ii = private$get_view_index(view)
 
       tab = self$data$fact[ii]
-      tab = merge(tab, self$data$tasks, by = "task_phash", sort = FALSE)
+      tab = merge(tab, self$data$tasks, by = "task_hash", sort = FALSE)
       tab = merge(tab, self$data$learners, by = "learner_phash", sort = FALSE)
       tab = merge(tab, self$data$resamplings, by = "resampling_hash", sort = FALSE)
-      tab = merge(tab, self$data$task_components, by = "task_hash", sort = FALSE)
       tab = merge(tab, self$data$learner_components, by = "learner_hash", sort = FALSE)
 
       if (nrow(tab)) {
-        # OPTIMIZATION: do this before the merge?
-        if (reassemble_tasks) {
-          tab[, "task" := list(reassemble_tasks(.SD$task[1L], .SD$task_feature_names[1L])),
-            by = "task_hash", .SDcols = c("task", "task_feature_names")]
-        }
-
         if (reassemble_learners) {
           set(tab, j = "learner", value = reassemble_learners(tab$learner, states = tab$learner_state, param_vals = tab$learner_param_vals))
         }
@@ -286,7 +265,7 @@ ResultData = R6Class("ResultData",
 
       }
 
-      cns = c("uhash", "task", "task_hash", "task_feature_names", "learner", "learner_hash", "learner_param_vals", "resampling",
+      cns = c("uhash", "task", "task_hash", "learner", "learner_hash", "learner_param_vals", "resampling",
         "resampling_hash", "iteration", "prediction")
       merge(self$data$uhashes, tab[, cns, with = FALSE], by = "uhash", sort = FALSE)
     },
@@ -346,7 +325,6 @@ star_init = function() {
     prediction = list(),
 
     task_hash = character(),
-    task_phash = character(),
     learner_hash = character(),
     learner_phash = character(),
     resampling_hash = character(),
@@ -359,9 +337,9 @@ star_init = function() {
   )
 
   tasks = data.table(
-    task_phash = character(),
+    task_hash = character(),
     task = list(),
-    key = "task_phash"
+    key = "task_hash"
   )
 
   learners = data.table(
@@ -376,20 +354,14 @@ star_init = function() {
     key = "resampling_hash"
   )
 
-  task_components = data.table(
-    task_hash = character(),
-    task_feature_names = list(),
-    key = "task_hash"
-  )
-
   learner_components = data.table(
     learner_hash = character(),
     learner_param_vals = list(),
     key = "learner_hash"
   )
 
-  list(fact = fact, uhashes = uhashes, tasks = tasks, learners = learners, resamplings = resamplings,
-    task_components = task_components, learner_components = learner_components)
+  list(fact = fact, uhashes = uhashes, tasks = tasks, learners = learners,
+    resamplings = resamplings, learner_components = learner_components)
 }
 
 #' @title Manually construct an object of type ResultData
@@ -452,23 +424,6 @@ as_result_data = function(task, learners, resampling, iterations, predictions, l
     prediction = predictions,
     uhash = uhash
   ))
-}
-
-
-
-#' @title Sets the Feature Names in a Task
-#'
-#' @param learner ([Learner]).
-#' @param feature_names (`list()`).
-#'
-#' @return list of ([Task]) with updated state.
-#' @noRd
-reassemble_tasks = function(tasks, feature_names) {
-  tasks = Map(function(t, fn) {
-    t = t$clone(deep = TRUE)
-    t$col_roles$feature = fn
-    t
-  }, t = tasks, fn = feature_names)
 }
 
 #' @title Sets the State and/or ParamSet values in a Learner
