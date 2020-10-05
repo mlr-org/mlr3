@@ -59,6 +59,20 @@ test_that("hashing", {
   }
 })
 
+test_that("cloning", {
+  task = tsk("iris")
+  keys = setdiff(mlr_resamplings$keys(), "custom")
+
+  for (key in keys) {
+    r = rsmp(key)$instantiate(task)
+
+    clone = r$clone(deep = TRUE)
+    expect_different_address(r$param_set, clone$param_set)
+    if (is.data.table(r$instance))
+      expect_different_address(r$instance, clone$instance)
+  }
+})
+
 test_that("integer grouping col (#396)", {
   df = data.frame(
     id = rep(1L:10L, each = 2),

@@ -9,6 +9,7 @@
 * `ResampleResult` and `BenchmarkResult` now share a common interface to store
   the experiment results. Manual construction is still possible with helper
   function `as_result_data()`
+* Fixed deep cloning of `ResamplingCV` and `ResamplingRepeatedCV`.
 
 # mlr3 0.6.0
 
