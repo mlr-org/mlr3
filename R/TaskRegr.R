@@ -8,6 +8,7 @@
 #' The `task_type` is set to `"regr"`.
 #'
 #' Predefined tasks are stored in the [dictionary][mlr3misc::Dictionary] [mlr_tasks].
+#' More example tasks can be found in this dictionary after loading \CRANpkg{mlr3data}.
 #'
 #' @template param_rows
 #' @template param_id

@@ -18,11 +18,8 @@ as_data_backend(data, primary_key = NULL, ...)
 Data to create a \link{DataBackend} from.
 For a \code{data.frame()} (this includes \code{tibble()} from \CRANpkg{tibble} and \code{\link[data.table:data.table]{data.table::data.table()}}),
 a \link{DataBackendDataTable} is created.
-See \code{methods("as_data_backend")} for possible input formats.
-
-Package \CRANpkg{mlr3db} extends this function with a method for lazy table objects
-implemented in \CRANpkg{dbplyr}.
-This allows to interface many different data base systems such as SQL servers.}
+For objects of type \code{Matrix} (from package \CRANpkg{Matrix}), a \link{DataBackendMatrix} is returned.
+See \code{methods("as_data_backend")} for all possible input formats.}
 
 \item{primary_key}{(\code{character(1)} | \code{integer()})\cr
 Name of the primary key column, or integer vector of row ids.}
@@ -44,6 +41,11 @@ Dense data.}
 }
 \description{
 Wraps a \link{DataBackend} around data.
+\CRANpkg{mlr3} ships with methods for \code{data.frame} (converted to a \link{DataBackendDataTable}
+and \code{Matrix} from package \CRANpkg{Matrix} (converted to a \link{DataBackendMatrix}).
+
+Additional methods are implemented in the package \CRANpkg{mlr3db}, e.g. to connect
+to real DBMS like PostgreSQL (via \CRANpkg{dbplyr}) or DuckDB (via \CRANpkg{DBI}/\CRANpkg{duckdb}).
 }
 \examples{
 # create a new backend using the iris data:

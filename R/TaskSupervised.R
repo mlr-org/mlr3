@@ -5,6 +5,8 @@
 #' @description
 #' This is the abstract base class for task objects like [TaskClassif] and [TaskRegr].
 #' It extends [Task] with methods to handle a target columns.
+#' Supervised tasks for probabilistic regression (including survival analysis) can be
+#' found in \CRANpkg{mlr3proba}.
 #'
 #' @template param_id
 #' @template param_task_type

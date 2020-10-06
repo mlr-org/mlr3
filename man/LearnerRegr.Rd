@@ -18,6 +18,7 @@ This Learner specializes \link{Learner} for regression problems:
 
 Predefined learners can be found in the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_learners}.
 Essential regression learners can be found in this dictionary after loading \CRANpkg{mlr3learners}.
+Additional learners are implement in the Github package \url{https://github.com/mlr-org/mlr3extralearners}.
 }
 \examples{
 # get all regression learners from mlr_learners:

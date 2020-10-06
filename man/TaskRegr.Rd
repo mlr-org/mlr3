@@ -9,6 +9,7 @@ The target column is assumed to be numeric.
 The \code{task_type} is set to \code{"regr"}.
 
 Predefined tasks are stored in the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_tasks}.
+More example tasks can be found in this dictionary after loading \CRANpkg{mlr3data}.
 }
 \examples{
 task = TaskRegr$new("iris", backend = iris, target = "Sepal.Length")

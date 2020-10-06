@@ -11,8 +11,6 @@
 #' * Creates a [Prediction] object by calling `learner$predict_newdata()`.
 #' * Returns (subset of) [Prediction].
 #'
-#'
-#'
 #' @param object ([Learner])\cr
 #'   Any [Learner].
 #' @param newdata ([data.frame()])\cr

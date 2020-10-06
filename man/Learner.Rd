@@ -20,9 +20,10 @@ e.g. \code{\link[=mlr_learners_classif.rpart]{classif.rpart}} or \code{\link[=ml
 
 More classification and regression learners are implemented in the add-on package \CRANpkg{mlr3learners}.
 Learners for survival analysis (or more general, for probabilistic regression) can be found in \CRANpkg{mlr3proba}.
+Unsupervised cluster algorithms are implemented in \CRANpkg{mlr3cluster}.
 The dictionary \link{mlr_learners} gets automatically populated with the new learners as soon as the respective packages are loaded.
 
-More (experimental) learners can be found on GitHub: \url{https://github.com/mlr3learners/}.
+More (experimental) learners can be found in the GitHub repository: \url{https://github.com/mlr-org/mlr3extralearners}.
 A guide on how to extend \CRANpkg{mlr3} with custom learners can be found in the \href{https://mlr3book.mlr-org.com}{mlr3book}.
 }
 \section{Optional Extractors}{

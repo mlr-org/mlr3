@@ -3,7 +3,10 @@
 #' @include mlr_reflections.R
 #'
 #' @description
-#' This is the abstract base class for task objects like [TaskClassif] and [TaskRegr].
+#' This is the abstract base class for [TaskSupervised] and [TaskUnsupervised].
+#' [TaskClassif] and [TaskRegr] inherit from [TaskSupervised].
+#' More supervised tasks are implemented in \CRANpkg{mlr3proba}, unsupervised cluster tasks
+#' in package \CRANpkg{mlr3cluster}.
 #'
 #' Tasks serve two purposes:
 #'
@@ -13,6 +16,7 @@
 #'
 #' Predefined (toy) tasks are stored in the [dictionary][mlr3misc::Dictionary] [mlr_tasks],
 #' e.g. [`iris`][mlr_tasks_iris] or [`boston_housing`][mlr_tasks_boston_housing].
+#' More toy tasks can be found in the dictionary after loading \CRANpkg{mlr3data}.
 #'
 #' @template param_id
 #' @template param_backend
