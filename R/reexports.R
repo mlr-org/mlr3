@@ -6,4 +6,4 @@
 #' @rdname as.data.table
 #' @keywords internal
 #' @export
-NULL
+data.table::as.data.table
