@@ -10,6 +10,8 @@
   the experiment results. Manual construction is still possible with helper
   function `as_result_data()`
 * Fixed deep cloning of `ResamplingCV` and `ResamplingRepeatedCV`.
+* New measure `classif.prauc` (area under precision-recall curve).
+* Removed dependency on orphaned package `bibtex`.
 
 # mlr3 0.6.0
 
