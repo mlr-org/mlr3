@@ -88,6 +88,10 @@ jobs:
         if: runner.os == 'Linux'
         run: sudo apt install libcurl4-openssl-dev
 
+      - name: "[Custom} [Stage] [Linux] Install pkgdown system lib req"
+        if: runner.os == 'Linux'
+        run: sudo apt install libharfbuzz-dev libfribidi-dev
+
       - name: "[Stage] Install"
         if: matrix.config.os != 'macOS-latest' || matrix.config.r != 'devel'
         run: Rscript -e "remotes::install_github('ropensci/tic')" -e "print(tic::dsl_load())" -e "tic::prepare_all_stages()" -e "tic::before_install()" -e "tic::install()"
