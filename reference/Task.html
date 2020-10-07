@@ -54,7 +54,10 @@
 
 
 <meta property="og:title" content="Task Class — Task" />
-<meta property="og:description" content="This is the abstract base class for task objects like TaskClassif and TaskRegr.
+<meta property="og:description" content="This is the abstract base class for TaskSupervised and TaskUnsupervised.
+TaskClassif and TaskRegr inherit from TaskSupervised.
+More supervised tasks are implemented in mlr3proba, unsupervised cluster tasks
+in package mlr3cluster.
 Tasks serve two purposes:
 Tasks wrap a DataBackend, an object to transparently interface different data storage types.
 Tasks store meta-information, such as the role of the individual columns in the DataBackend.
@@ -62,7 +65,8 @@ For example, for a classification task a single column must be marked as target 
 
 
 Predefined (toy) tasks are stored in the dictionary mlr_tasks,
-e.g. iris or boston_housing." />
+e.g. iris or boston_housing.
+More toy tasks can be found in the dictionary after loading mlr3data." />
 <meta property="og:image" content="https://mlr3.mlr-org.com/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
@@ -168,7 +172,10 @@ e.g. iris or boston_housing." />
     </div>
 
     <div class="ref-description">
-    <p>This is the abstract base class for task objects like <a href='TaskClassif.html'>TaskClassif</a> and <a href='TaskRegr.html'>TaskRegr</a>.</p>
+    <p>This is the abstract base class for <a href='TaskSupervised.html'>TaskSupervised</a> and <a href='TaskUnsupervised.html'>TaskUnsupervised</a>.
+<a href='TaskClassif.html'>TaskClassif</a> and <a href='TaskRegr.html'>TaskRegr</a> inherit from <a href='TaskSupervised.html'>TaskSupervised</a>.
+More supervised tasks are implemented in <a href='https://CRAN.R-project.org/package=mlr3proba'><span class="pkg">mlr3proba</span></a>, unsupervised cluster tasks
+in package <a href='https://CRAN.R-project.org/package=mlr3cluster'><span class="pkg">mlr3cluster</span></a>.</p>
 <p>Tasks serve two purposes:</p><ol>
 <li><p>Tasks wrap a <a href='DataBackend.html'>DataBackend</a>, an object to transparently interface different data storage types.</p></li>
 <li><p>Tasks store meta-information, such as the role of the individual columns in the <a href='DataBackend.html'>DataBackend</a>.
@@ -176,7 +183,8 @@ For example, for a classification task a single column must be marked as target 
 </ol>
 
 <p>Predefined (toy) tasks are stored in the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> <a href='mlr_tasks.html'>mlr_tasks</a>,
-e.g. <code><a href='mlr_tasks_iris.html'>iris</a></code> or <code><a href='mlr_tasks_boston_housing.html'>boston_housing</a></code>.</p>
+e.g. <code><a href='mlr_tasks_iris.html'>iris</a></code> or <code><a href='mlr_tasks_boston_housing.html'>boston_housing</a></code>.
+More toy tasks can be found in the dictionary after loading <a href='https://CRAN.R-project.org/package=mlr3data'><span class="pkg">mlr3data</span></a>.</p>
     </div>
 
 
@@ -186,7 +194,7 @@ e.g. <code><a href='mlr_tasks_iris.html'>iris</a></code> or <code><a href='mlr_t
     
 
 <ul>
-<li><p><code><a href='as.data.table.html'>as.data.table(t)</a></code><br />
+<li><p><code><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table(t)</a></code><br />
 Task -&gt; <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code><br />
 Returns the complete data as <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code>.</p></li>
 </ul>

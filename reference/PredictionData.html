@@ -61,7 +61,8 @@ Unlike most other mlr3 objects, PredictionData relies on the S3 class system.
 The following operations must be supported to extend mlr3 for new task types:
 as_prediction_data() converts objects to class PredictionData, e.g. objects of type Prediction.
 as_prediction() converts objects to class Prediction, e.g. objects of type PredictionData.
-check_prediction_data() is called on the return value of the predict method of a Learner to perform assertions and type conversions. Returns an update object of class PredictionData.
+check_prediction_data() is called on the return value of the predict method of a Learner to perform assertions and type conversions.
+Returns an update object of class PredictionData.
 is_missing_prediction_data() is used for the fallback learner (see Learner) to impute missing predictions. Returns vector with row ids which need imputation.
 
 " />
@@ -177,7 +178,8 @@ End-users typically do not need to worry about the details, package developers a
 The following operations must be supported to extend mlr3 for new task types:</p><ul>
 <li><p><code>as_prediction_data()</code> converts objects to class <code>PredictionData</code>, e.g. objects of type <a href='Prediction.html'>Prediction</a>.</p></li>
 <li><p><code>as_prediction()</code> converts objects to class <a href='Prediction.html'>Prediction</a>, e.g. objects of type <code>PredictionData</code>.</p></li>
-<li><p><code>check_prediction_data()</code> is called on the return value of the predict method of a <a href='Learner.html'>Learner</a> to perform assertions and type conversions. Returns an update object of class <code>PredictionData</code>.</p></li>
+<li><p><code>check_prediction_data()</code> is called on the return value of the predict method of a <a href='Learner.html'>Learner</a> to perform assertions and type conversions.
+Returns an update object of class <code>PredictionData</code>.</p></li>
 <li><p><code>is_missing_prediction_data()</code> is used for the fallback learner (see <a href='Learner.html'>Learner</a>) to impute missing predictions. Returns vector with row ids which need imputation.</p></li>
 </ul>
 

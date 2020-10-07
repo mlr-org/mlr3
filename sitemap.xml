@@ -73,9 +73,6 @@
     <loc>https://mlr3.mlr-org.com/reference/TaskUnsupervised.html</loc>
   </url>
   <url>
-    <loc>https://mlr3.mlr-org.com/reference/as.data.table.html</loc>
-  </url>
-  <url>
     <loc>https://mlr3.mlr-org.com/reference/as_benchmark_result.html</loc>
   </url>
   <url>
@@ -188,6 +185,9 @@
   </url>
   <url>
     <loc>https://mlr3.mlr-org.com/reference/mlr_measures_classif.ppv.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_classif.prauc.html</loc>
   </url>
   <url>
     <loc>https://mlr3.mlr-org.com/reference/mlr_measures_classif.precision.html</loc>
@@ -383,6 +383,9 @@
   </url>
   <url>
     <loc>https://mlr3.mlr-org.com/reference/predict.Learner.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/reexports.html</loc>
   </url>
   <url>
     <loc>https://mlr3.mlr-org.com/reference/resample.html</loc>
