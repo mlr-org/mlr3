@@ -116,7 +116,7 @@ ResampleResult = R6Class("ResampleResult",
     #' Additionally, a column with the individual (per resampling iteration) performance is added
     #' for each [Measure] in `measures`,
     #' named with the id of the respective measure id.
-    #' If `measures` is `NULL`, `measures` defaults to the return value of [default_measures()].
+    #' If `measures` is `NULL`, `measures` defaults to the measure with key `"[task.type].default"`.
     #'
     #' @param ids (`logical(1)`)\cr
     #'   If `ids` is `TRUE`, extra columns with the ids of objects (`"task_id"`, `"learner_id"`, `"resampling_id"`)
@@ -154,7 +154,7 @@ ResampleResult = R6Class("ResampleResult",
     #' @description
     #' Calculates and aggregates performance values for all provided measures, according to the
     #' respective aggregation function in [Measure].
-    #' If `measures` is `NULL`, `measures` defaults to the return value of [default_measures()].
+    #' If `measures` is `NULL`, `measures` defaults to the measure with key `"[task_type].default"`.
     #'
     #' @return Named `numeric()`.
     aggregate = function(measures = NULL) {

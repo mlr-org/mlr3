@@ -82,12 +82,16 @@ MeasureRegrSimple = R6Class("MeasureRegrSimple",
   )
 )
 
+### default measures
+mlr_measures$add("classif.default", MeasureClassifSimple, name = "ce")
+mlr_measures$add("regr.default", MeasureRegrSimple, name = "mse")
+
 ### binary classification measures
 
 #' @templateVar id auc
 #' @template measure_binary
 mlr_measures$add("classif.auc", MeasureBinarySimple, name = "auc")
-#'
+
 #' @templateVar id bbrier
 #' @template measure_binary
 mlr_measures$add("classif.bbrier", MeasureBinarySimple, name = "bbrier")

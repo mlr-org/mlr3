@@ -214,7 +214,7 @@ Returns a table with one row for each resampling iteration, including all involv
 Additionally, a column with the individual (per resampling iteration) performance is added
 for each \link{Measure} in \code{measures},
 named with the id of the respective measure id.
-If \code{measures} is \code{NULL}, \code{measures} defaults to the return value of \code{\link[=default_measures]{default_measures()}}.
+If \code{measures} is \code{NULL}, \code{measures} defaults to the measure with key \code{"[task.type].default"}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{ResampleResult$score(measures = NULL, ids = TRUE, predict_sets = "test")}\if{html}{\out{</div>}}
 }
@@ -246,7 +246,7 @@ Default is \code{"test"}.}
 \subsection{Method \code{aggregate()}}{
 Calculates and aggregates performance values for all provided measures, according to the
 respective aggregation function in \link{Measure}.
-If \code{measures} is \code{NULL}, \code{measures} defaults to the return value of \code{\link[=default_measures]{default_measures()}}.
+If \code{measures} is \code{NULL}, \code{measures} defaults to the measure with key \code{"[task_type].default"}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{ResampleResult$aggregate(measures = NULL)}\if{html}{\out{</div>}}
 }

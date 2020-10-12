@@ -45,8 +45,6 @@ List of lists of supported \link{Learner} predict_types, named by their task typ
 Vector of possible predict sets. Currently supported are \code{"train"} and \code{"test"}.
 \item \code{measure_properties} (list of \code{character()})\cr
 List of vectors of supported \link{Measure} properties, named by their task type.
-\item \code{default_measures} (list of \code{character()})\cr
-List of keys for the default \link{Measure}s, named by their task type.
 \item \code{rr_names} (\code{character()})\cr
 Names of the objects stored in a \link{ResampleResult}.
 \item \code{auto_converters} (\code{environment()})\cr

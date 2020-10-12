@@ -469,7 +469,7 @@ expect_resample_result = function(rr, allow_incomplete = FALSE) {
   }
 
   if (nr > 0L) {
-    m = mlr3::default_measures(rr$task$task_type)[[1L]]
+    m = mlr3::msr(sprintf("%s.default", rr$task_type))
     y = rr$score(m)
     aggr = rr$aggregate(m)
     checkmate::expect_numeric(y[[m$id]], lower = m$range[1], upper = m$range[2], any.missing = FALSE, label = sprintf("measure %s", m$id))
@@ -514,7 +514,7 @@ expect_benchmark_result = function(bmr) {
   expect_set_equal(bmr$resamplings$resampling_hash, bmr$data$data$resamplings$resampling_hash)
 
   if (nrow(bmr$data$data$fact) > 0L) {
-    measures = mlr3::default_measures(bmr$task_type)
+    measures = mlr3::msr(sprintf("%s.default", bmr$task_type))
   } else {
     measures = mlr3::msrs("time_both")
   }

@@ -47,9 +47,6 @@
 #' * `measure_properties` (list of `character()`)\cr
 #'   List of vectors of supported [Measure] properties, named by their task type.
 #'
-#' * `default_measures` (list of `character()`)\cr
-#'   List of keys for the default [Measure]s, named by their task type.
-#'
 #' * `rr_names` (`character()`)\cr
 #'   Names of the objects stored in a [ResampleResult].
 #'
@@ -120,11 +117,6 @@ local({
   mlr_reflections$measure_properties = list(
     classif = tmp,
     regr = tmp
-  )
-
-  mlr_reflections$default_measures = list(
-    classif = "classif.ce",
-    regr = "regr.mse"
   )
 
   ### ResampleResult

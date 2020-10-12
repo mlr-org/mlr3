@@ -79,8 +79,9 @@ If \code{TRUE}, ensures that the returned object is not the same as the input \c
 by cloning it or constructing it from a \link[mlr3misc:Dictionary]{dictionary} such as \link{mlr_learners}.}
 
 \item{task_type}{(\code{character(1)})\cr
-Used if \code{x} is \code{NULL} to construct a default measure for the respective task type.
-The default measures are stored in \code{\link[=mlr_reflections]{mlr_reflections$default_measures}}.}
+Used to construct a default measure if \code{x} is \code{NULL} .
+The default measures is stored in the dictionary \link{mlr_measures} with key
+\code{"{task_type}.default"}.}
 }
 \value{
 Coerced object. The default method will return the object as-is.

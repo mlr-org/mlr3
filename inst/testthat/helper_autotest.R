@@ -261,7 +261,7 @@ run_experiment = function(task, learner, seed = NULL) {
 
   stage = "score()"
   score = try(
-    prediction$score(mlr3::default_measures(learner$task_type),
+    prediction$score(mlr3::msr(sprintf("%s.default", learner$task_type)),
       task = task,
       learner = learner,
       train_set = task$row_ids

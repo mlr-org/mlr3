@@ -110,8 +110,9 @@ as_resamplings.Resampling = function(x, clone = FALSE) {
 
 #' @export
 #' @param task_type (`character(1)`)\cr
-#'   Used if `x` is `NULL` to construct a default measure for the respective task type.
-#'   The default measures are stored in [`mlr_reflections$default_measures`][mlr_reflections].
+#'   Used to construct a default measure if `x` is `NULL` .
+#'   The default measures is stored in the dictionary [mlr_measures] with key
+#'   `"{task_type}.default"`.
 #' @rdname mlr_coercions
 as_measure = function(x, task_type = NULL, clone = FALSE) {
   UseMethod("as_measure")
@@ -120,7 +121,7 @@ as_measure = function(x, task_type = NULL, clone = FALSE) {
 #' @export
 #' @rdname mlr_coercions
 as_measure.NULL = function(x, task_type = NULL, clone = FALSE) {
-  default_measures(task_type)[[1L]]
+  mlr_measures$get(sprintf("%s.default", task_type))
 }
 
 #' @export
@@ -138,7 +139,7 @@ as_measures = function(x, task_type = NULL, clone = FALSE) {
 #' @export
 #' @rdname mlr_coercions
 as_measures.NULL = function(x, task_type = NULL, clone = FALSE) {
-  default_measures(task_type)
+  mlr_measures$mget(sprintf("%s.default", task_type))
 }
 
 #' @export
