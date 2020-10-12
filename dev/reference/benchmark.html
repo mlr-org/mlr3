@@ -89,7 +89,7 @@
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.6.0-9000</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.7.0-9000</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -236,22 +236,22 @@ or <code>"trace"</code>:</p><pre><span class='fu'>lgr</span><span class='fu'>::<
 <span class='va'>design</span> <span class='op'>=</span> <span class='fu'><a href='benchmark_grid.html'>benchmark_grid</a></span><span class='op'>(</span><span class='va'>tasks</span>, <span class='va'>learners</span>, <span class='va'>resamplings</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>design</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;                 task                         learner         resampling
-#&gt; 1: &lt;TaskClassif[46]&gt; &lt;LearnerClassifFeatureless[33]&gt; &lt;ResamplingCV[19]&gt;
-#&gt; 2: &lt;TaskClassif[46]&gt;       &lt;LearnerClassifRpart[33]&gt; &lt;ResamplingCV[19]&gt;
-#&gt; 3: &lt;TaskClassif[46]&gt; &lt;LearnerClassifFeatureless[33]&gt; &lt;ResamplingCV[19]&gt;
-#&gt; 4: &lt;TaskClassif[46]&gt;       &lt;LearnerClassifRpart[33]&gt; &lt;ResamplingCV[19]&gt;</div><div class='input'>
+#&gt; 1: &lt;TaskClassif[45]&gt; &lt;LearnerClassifFeatureless[33]&gt; &lt;ResamplingCV[19]&gt;
+#&gt; 2: &lt;TaskClassif[45]&gt;       &lt;LearnerClassifRpart[33]&gt; &lt;ResamplingCV[19]&gt;
+#&gt; 3: &lt;TaskClassif[45]&gt; &lt;LearnerClassifFeatureless[33]&gt; &lt;ResamplingCV[19]&gt;
+#&gt; 4: &lt;TaskClassif[45]&gt;       &lt;LearnerClassifRpart[33]&gt; &lt;ResamplingCV[19]&gt;</div><div class='input'>
 <span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>123</span><span class='op'>)</span>
 <span class='va'>bmr</span> <span class='op'>=</span> <span class='fu'>benchmark</span><span class='op'>(</span><span class='va'>design</span><span class='op'>)</span>
 
 <span class='co'>## Data of all resamplings</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='as.data.table.html'>as.data.table</a></span><span class='op'>(</span><span class='va'>bmr</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table</a></span><span class='op'>(</span><span class='va'>bmr</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;                                   uhash              task
-#&gt; 1: 728cc46d-44c4-4b78-ada9-f42518de8f36 &lt;TaskClassif[46]&gt;
-#&gt; 2: 728cc46d-44c4-4b78-ada9-f42518de8f36 &lt;TaskClassif[46]&gt;
-#&gt; 3: 728cc46d-44c4-4b78-ada9-f42518de8f36 &lt;TaskClassif[46]&gt;
-#&gt; 4: 7bfd553c-ccd6-4785-864b-dfa1ac66b91d &lt;TaskClassif[46]&gt;
-#&gt; 5: 7bfd553c-ccd6-4785-864b-dfa1ac66b91d &lt;TaskClassif[46]&gt;
-#&gt; 6: 7bfd553c-ccd6-4785-864b-dfa1ac66b91d &lt;TaskClassif[46]&gt;
+#&gt; 1: 97660609-7b08-4c5e-a368-0838ba103610 &lt;TaskClassif[45]&gt;
+#&gt; 2: 97660609-7b08-4c5e-a368-0838ba103610 &lt;TaskClassif[45]&gt;
+#&gt; 3: 97660609-7b08-4c5e-a368-0838ba103610 &lt;TaskClassif[45]&gt;
+#&gt; 4: aa135b5c-ecb9-4674-a88f-14d62a1ffdea &lt;TaskClassif[45]&gt;
+#&gt; 5: aa135b5c-ecb9-4674-a88f-14d62a1ffdea &lt;TaskClassif[45]&gt;
+#&gt; 6: aa135b5c-ecb9-4674-a88f-14d62a1ffdea &lt;TaskClassif[45]&gt;
 #&gt;                            learner         resampling iteration
 #&gt; 1: &lt;LearnerClassifFeatureless[33]&gt; &lt;ResamplingCV[19]&gt;         1
 #&gt; 2: &lt;LearnerClassifFeatureless[33]&gt; &lt;ResamplingCV[19]&gt;         2
@@ -275,13 +275,13 @@ or <code>"trace"</code>:</p><pre><span class='fu'>lgr</span><span class='fu'>::<
 #&gt; 3:  3 &lt;ResampleResult[21]&gt;   sonar classif.featureless            cv     3
 #&gt; 4:  4 &lt;ResampleResult[21]&gt;   sonar       classif.rpart            cv     3
 #&gt;    classif.ce
-#&gt; 1:  0.4037716
-#&gt; 2:  0.4037716
-#&gt; 3:  0.4037716
-#&gt; 4:  0.4037716</div><div class='input'>
+#&gt; 1: 0.72000000
+#&gt; 2: 0.05333333
+#&gt; 3: 0.53878537
+#&gt; 4: 0.30296756</div><div class='input'>
 <span class='co'>## Extract predictions of first resampling result</span>
 <span class='va'>rr</span> <span class='op'>=</span> <span class='va'>aggr</span><span class='op'>$</span><span class='va'>resample_result</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>
-<span class='fu'><a href='as.data.table.html'>as.data.table</a></span><span class='op'>(</span><span class='va'>rr</span><span class='op'>$</span><span class='fu'>prediction</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table</a></span><span class='op'>(</span><span class='va'>rr</span><span class='op'>$</span><span class='fu'>prediction</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;      row_id     truth   response
 #&gt;   1:      1    setosa     setosa
 #&gt;   2:      2    setosa     setosa

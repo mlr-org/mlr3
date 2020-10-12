@@ -57,7 +57,8 @@
 <meta property="og:description" content="A simple mlr3misc::Dictionary storing objects of class Task.
 Each task has an associated help page, see mlr_tasks_[id].
 This dictionary can get populated with additional tasks by add-on packages,
-e.g. mlr3data.
+e.g. mlr3data, mlr3proba or mlr3cluster.
+mlr3oml allows to interact with OpenML.
 For a more convenient way to retrieve and construct tasks, see tsk()/tsks()." />
 <meta property="og:image" content="https://mlr3.mlr-org.com/logo.svg" />
 <meta name="twitter:card" content="summary" />
@@ -93,7 +94,7 @@ For a more convenient way to retrieve and construct tasks, see tsk()/tsks()." />
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.6.0-9000</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.7.0-9000</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -167,7 +168,8 @@ For a more convenient way to retrieve and construct tasks, see tsk()/tsks()." />
     <p>A simple <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>mlr3misc::Dictionary</a> storing objects of class <a href='Task.html'>Task</a>.
 Each task has an associated help page, see <code>mlr_tasks_[id]</code>.</p>
 <p>This dictionary can get populated with additional tasks by add-on packages,
-e.g. <a href='https://CRAN.R-project.org/package=mlr3data'><span class="pkg">mlr3data</span></a>.</p>
+e.g. <a href='https://CRAN.R-project.org/package=mlr3data'><span class="pkg">mlr3data</span></a>, <a href='https://CRAN.R-project.org/package=mlr3proba'><span class="pkg">mlr3proba</span></a> or <a href='https://CRAN.R-project.org/package=mlr3cluster'><span class="pkg">mlr3cluster</span></a>.
+<a href='https://CRAN.R-project.org/package=mlr3oml'><span class="pkg">mlr3oml</span></a> allows to interact with <a href='https://www.openml.org'>OpenML</a>.</p>
 <p>For a more convenient way to retrieve and construct tasks, see <code><a href='mlr_sugar.html'>tsk()</a></code>/<code><a href='mlr_sugar.html'>tsks()</a></code>.</p>
     </div>
 
@@ -186,7 +188,7 @@ e.g. <a href='https://CRAN.R-project.org/package=mlr3data'><span class="pkg">mlr
     
 
 <ul>
-<li><p><code><a href='as.data.table.html'>as.data.table(dict)</a></code><br />
+<li><p><code><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table(dict)</a></code><br />
 <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>mlr3misc::Dictionary</a> -&gt; <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code><br />
 Returns a <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code> with columns <code>"key"</code>, <code>"task_type"</code>, <code>"measures"</code>, <code>"nrow"</code>, <code>"ncol"</code> and
 the number of features of type <code>"lgl"</code>, <code>"int"</code>, <code>"dbl"</code>, <code>"chr"</code>, <code>"fct"</code> and <code>"ord"</code> as columns.</p></li>
@@ -219,7 +221,7 @@ the number of features of type <code>"lgl"</code>, <code>"int"</code>, <code>"db
 <code><a href='mlr_tasks_zoo.html'>mlr_tasks_zoo</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='as.data.table.html'>as.data.table</a></span><span class='op'>(</span><span class='va'>mlr_tasks</span><span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table</a></span><span class='op'>(</span><span class='va'>mlr_tasks</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;                key task_type nrow ncol lgl int dbl chr fct ord pxc
 #&gt;  1: boston_housing      regr  506   19   0   3  13   0   2   0   0
 #&gt;  2:  breast_cancer   classif  683   10   0   0   0   0   0   9   0

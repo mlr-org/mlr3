@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Relative Squared Error — mlr_measures_regr.rse • mlr3</title>
+<title>Area Under the Precision-Recall Curve — mlr_measures_classif.prauc • mlr3</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -53,11 +53,11 @@
 
 
 
-<meta property="og:title" content="Relative Squared Error — mlr_measures_regr.rse" />
-<meta property="og:description" content="Regression measure defined as $$
-  \frac{\sum_{i=1}^n \left( t_i - r_i \right)^2}{\sum_{i=1}^n \left( t_i - \bar{t} \right)^2}.
-$$
-Can be interpreted as squared error of the predictions relative to a naive model predicting the mean." />
+<meta property="og:title" content="Area Under the Precision-Recall Curve — mlr_measures_classif.prauc" />
+<meta property="og:description" content="Computes the area under the Precision-Recall curve (PRC).
+The PRC can be interpreted as the relationship between precision and recall (sensitivity),
+and is considered to be a more appropriate measure for unbalanced datasets than the ROC curve.
+The PRC is computed by integration of the piecewise function." />
 <meta property="og:image" content="https://mlr3.mlr-org.com/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
@@ -157,31 +157,31 @@ Can be interpreted as squared error of the predictions relative to a naive model
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Relative Squared Error</h1>
+    <h1>Area Under the Precision-Recall Curve</h1>
     <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/MeasureSimple.R'><code>R/MeasureSimple.R</code></a></small>
-    <div class="hidden name"><code>mlr_measures_regr.rse.Rd</code></div>
+    <div class="hidden name"><code>mlr_measures_classif.prauc.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Regression measure defined as $$
-  \frac{\sum_{i=1}^n \left( t_i - r_i \right)^2}{\sum_{i=1}^n \left( t_i - \bar{t} \right)^2}.
-$$
-Can be interpreted as squared error of the predictions relative to a naive model predicting the mean.</p>
+    <p>Computes the area under the Precision-Recall curve (PRC).
+The PRC can be interpreted as the relationship between precision and recall (sensitivity),
+and is considered to be a more appropriate measure for unbalanced datasets than the ROC curve.
+The PRC is computed by integration of the piecewise function.</p>
     </div>
 
 
 
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
-    <p>The score function calls <code><a href='https://mlr3measures.mlr-org.com/reference/rse.html'>mlr3measures::rse()</a></code> from package <a href='https://CRAN.R-project.org/package=mlr3measures'><span class="pkg">mlr3measures</span></a>.</p>
+    <p>The score function calls <code><a href='https://mlr3measures.mlr-org.com/reference/prauc.html'>mlr3measures::prauc()</a></code> from package <a href='https://CRAN.R-project.org/package=mlr3measures'><span class="pkg">mlr3measures</span></a>.</p>
 <p>If the measure is undefined for the input, <code>NaN</code> is returned.
 This can be customized by setting the field <code>na_value</code>.</p>
     <h2 class="hasAnchor" id="dictionary"><a class="anchor" href="#dictionary"></a>Dictionary</h2>
 
     
 
-<p>This <a href='Measure.html'>Measure</a> can be instantiated via the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> <a href='mlr_measures.html'>mlr_measures</a> or with the associated sugar function <code><a href='mlr_sugar.html'>msr()</a></code>:</p><pre><span class='va'>mlr_measures</span><span class='op'>$</span><span class='fu'>get</span><span class='op'>(</span><span class='st'>"rse"</span><span class='op'>)</span>
-<span class='fu'><a href='mlr_sugar.html'>msr</a></span><span class='op'>(</span><span class='st'>"rse"</span><span class='op'>)</span>
+<p>This <a href='Measure.html'>Measure</a> can be instantiated via the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> <a href='mlr_measures.html'>mlr_measures</a> or with the associated sugar function <code><a href='mlr_sugar.html'>msr()</a></code>:</p><pre><span class='va'>mlr_measures</span><span class='op'>$</span><span class='fu'>get</span><span class='op'>(</span><span class='st'>"prauc"</span><span class='op'>)</span>
+<span class='fu'><a href='mlr_sugar.html'>msr</a></span><span class='op'>(</span><span class='st'>"prauc"</span><span class='op'>)</span>
 </pre>
 
     <h2 class="hasAnchor" id="meta-information"><a class="anchor" href="#meta-information"></a>Meta Information</h2>
@@ -190,10 +190,10 @@ This can be customized by setting the field <code>na_value</code>.</p>
 
 
 <ul>
-<li><p>Type: <code>"regr"</code></p></li>
-<li><p>Range: \([0, \infty)\)</p></li>
-<li><p>Minimize: <code>TRUE</code></p></li>
-<li><p>Required prediction: <code>response</code></p></li>
+<li><p>Type: <code>"binary"</code></p></li>
+<li><p>Range: \([0, 1]\)</p></li>
+<li><p>Minimize: <code>FALSE</code></p></li>
+<li><p>Required prediction: <code>prob</code></p></li>
 </ul>
 
 
@@ -201,26 +201,56 @@ This can be customized by setting the field <code>na_value</code>.</p>
 
     <div class='dont-index'><p><a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>Dictionary</a> of <a href='Measure.html'>Measures</a>: <a href='mlr_measures.html'>mlr_measures</a></p>
 <p><code><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table(mlr_measures)</a></code> for a complete table of all (also dynamically created) <a href='Measure.html'>Measure</a> implementations.</p>
-<p>Other regression measures: 
-<code><a href='mlr_measures_regr.bias.html'>mlr_measures_regr.bias</a></code>,
-<code><a href='mlr_measures_regr.ktau.html'>mlr_measures_regr.ktau</a></code>,
-<code><a href='mlr_measures_regr.mae.html'>mlr_measures_regr.mae</a></code>,
-<code><a href='mlr_measures_regr.mape.html'>mlr_measures_regr.mape</a></code>,
-<code><a href='mlr_measures_regr.maxae.html'>mlr_measures_regr.maxae</a></code>,
-<code><a href='mlr_measures_regr.medae.html'>mlr_measures_regr.medae</a></code>,
-<code><a href='mlr_measures_regr.medse.html'>mlr_measures_regr.medse</a></code>,
-<code><a href='mlr_measures_regr.mse.html'>mlr_measures_regr.mse</a></code>,
-<code><a href='mlr_measures_regr.msle.html'>mlr_measures_regr.msle</a></code>,
-<code><a href='mlr_measures_regr.pbias.html'>mlr_measures_regr.pbias</a></code>,
-<code><a href='mlr_measures_regr.rae.html'>mlr_measures_regr.rae</a></code>,
-<code><a href='mlr_measures_regr.rmse.html'>mlr_measures_regr.rmse</a></code>,
-<code><a href='mlr_measures_regr.rmsle.html'>mlr_measures_regr.rmsle</a></code>,
-<code><a href='mlr_measures_regr.rrse.html'>mlr_measures_regr.rrse</a></code>,
-<code><a href='mlr_measures_regr.rsq.html'>mlr_measures_regr.rsq</a></code>,
-<code><a href='mlr_measures_regr.sae.html'>mlr_measures_regr.sae</a></code>,
-<code><a href='mlr_measures_regr.smape.html'>mlr_measures_regr.smape</a></code>,
-<code><a href='mlr_measures_regr.srho.html'>mlr_measures_regr.srho</a></code>,
-<code><a href='mlr_measures_regr.sse.html'>mlr_measures_regr.sse</a></code></p></div>
+<p>Other classification measures: 
+<code><a href='mlr_measures_classif.acc.html'>mlr_measures_classif.acc</a></code>,
+<code><a href='mlr_measures_classif.auc.html'>mlr_measures_classif.auc</a></code>,
+<code><a href='mlr_measures_classif.bacc.html'>mlr_measures_classif.bacc</a></code>,
+<code><a href='mlr_measures_classif.bbrier.html'>mlr_measures_classif.bbrier</a></code>,
+<code><a href='mlr_measures_classif.ce.html'>mlr_measures_classif.ce</a></code>,
+<code><a href='mlr_measures_classif.costs.html'>mlr_measures_classif.costs</a></code>,
+<code><a href='mlr_measures_classif.dor.html'>mlr_measures_classif.dor</a></code>,
+<code><a href='mlr_measures_classif.fbeta.html'>mlr_measures_classif.fbeta</a></code>,
+<code><a href='mlr_measures_classif.fdr.html'>mlr_measures_classif.fdr</a></code>,
+<code><a href='mlr_measures_classif.fnr.html'>mlr_measures_classif.fnr</a></code>,
+<code><a href='mlr_measures_classif.fn.html'>mlr_measures_classif.fn</a></code>,
+<code><a href='mlr_measures_classif.fomr.html'>mlr_measures_classif.fomr</a></code>,
+<code><a href='mlr_measures_classif.fpr.html'>mlr_measures_classif.fpr</a></code>,
+<code><a href='mlr_measures_classif.fp.html'>mlr_measures_classif.fp</a></code>,
+<code><a href='mlr_measures_classif.logloss.html'>mlr_measures_classif.logloss</a></code>,
+<code><a href='mlr_measures_classif.mbrier.html'>mlr_measures_classif.mbrier</a></code>,
+<code><a href='mlr_measures_classif.mcc.html'>mlr_measures_classif.mcc</a></code>,
+<code><a href='mlr_measures_classif.npv.html'>mlr_measures_classif.npv</a></code>,
+<code><a href='mlr_measures_classif.ppv.html'>mlr_measures_classif.ppv</a></code>,
+<code><a href='mlr_measures_classif.precision.html'>mlr_measures_classif.precision</a></code>,
+<code><a href='mlr_measures_classif.recall.html'>mlr_measures_classif.recall</a></code>,
+<code><a href='mlr_measures_classif.sensitivity.html'>mlr_measures_classif.sensitivity</a></code>,
+<code><a href='mlr_measures_classif.specificity.html'>mlr_measures_classif.specificity</a></code>,
+<code><a href='mlr_measures_classif.tnr.html'>mlr_measures_classif.tnr</a></code>,
+<code><a href='mlr_measures_classif.tn.html'>mlr_measures_classif.tn</a></code>,
+<code><a href='mlr_measures_classif.tpr.html'>mlr_measures_classif.tpr</a></code>,
+<code><a href='mlr_measures_classif.tp.html'>mlr_measures_classif.tp</a></code></p>
+<p>Other binary classification measures: 
+<code><a href='mlr_measures_classif.auc.html'>mlr_measures_classif.auc</a></code>,
+<code><a href='mlr_measures_classif.bbrier.html'>mlr_measures_classif.bbrier</a></code>,
+<code><a href='mlr_measures_classif.dor.html'>mlr_measures_classif.dor</a></code>,
+<code><a href='mlr_measures_classif.fbeta.html'>mlr_measures_classif.fbeta</a></code>,
+<code><a href='mlr_measures_classif.fdr.html'>mlr_measures_classif.fdr</a></code>,
+<code><a href='mlr_measures_classif.fnr.html'>mlr_measures_classif.fnr</a></code>,
+<code><a href='mlr_measures_classif.fn.html'>mlr_measures_classif.fn</a></code>,
+<code><a href='mlr_measures_classif.fomr.html'>mlr_measures_classif.fomr</a></code>,
+<code><a href='mlr_measures_classif.fpr.html'>mlr_measures_classif.fpr</a></code>,
+<code><a href='mlr_measures_classif.fp.html'>mlr_measures_classif.fp</a></code>,
+<code><a href='mlr_measures_classif.mcc.html'>mlr_measures_classif.mcc</a></code>,
+<code><a href='mlr_measures_classif.npv.html'>mlr_measures_classif.npv</a></code>,
+<code><a href='mlr_measures_classif.ppv.html'>mlr_measures_classif.ppv</a></code>,
+<code><a href='mlr_measures_classif.precision.html'>mlr_measures_classif.precision</a></code>,
+<code><a href='mlr_measures_classif.recall.html'>mlr_measures_classif.recall</a></code>,
+<code><a href='mlr_measures_classif.sensitivity.html'>mlr_measures_classif.sensitivity</a></code>,
+<code><a href='mlr_measures_classif.specificity.html'>mlr_measures_classif.specificity</a></code>,
+<code><a href='mlr_measures_classif.tnr.html'>mlr_measures_classif.tnr</a></code>,
+<code><a href='mlr_measures_classif.tn.html'>mlr_measures_classif.tn</a></code>,
+<code><a href='mlr_measures_classif.tpr.html'>mlr_measures_classif.tpr</a></code>,
+<code><a href='mlr_measures_classif.tp.html'>mlr_measures_classif.tp</a></code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

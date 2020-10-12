@@ -54,7 +54,11 @@
 
 
 <meta property="og:title" content="Create a Data Backend — as_data_backend.data.frame" />
-<meta property="og:description" content="Wraps a DataBackend around data." />
+<meta property="og:description" content="Wraps a DataBackend around data.
+mlr3 ships with methods for data.frame (converted to a DataBackendDataTable
+and Matrix from package Matrix (converted to a DataBackendMatrix).
+Additional methods are implemented in the package mlr3db, e.g. to connect
+to real DBMS like PostgreSQL (via dbplyr) or DuckDB (via DBI/duckdb)." />
 <meta property="og:image" content="https://mlr3.mlr-org.com/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
@@ -89,7 +93,7 @@
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.6.0-9000</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.7.0-9000</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -160,7 +164,11 @@
     </div>
 
     <div class="ref-description">
-    <p>Wraps a <a href='DataBackend.html'>DataBackend</a> around data.</p>
+    <p>Wraps a <a href='DataBackend.html'>DataBackend</a> around data.
+<a href='https://CRAN.R-project.org/package=mlr3'><span class="pkg">mlr3</span></a> ships with methods for <code>data.frame</code> (converted to a <a href='DataBackendDataTable.html'>DataBackendDataTable</a>
+and <code>Matrix</code> from package <a href='https://CRAN.R-project.org/package=Matrix'><span class="pkg">Matrix</span></a> (converted to a <a href='DataBackendMatrix.html'>DataBackendMatrix</a>).</p>
+<p>Additional methods are implemented in the package <a href='https://CRAN.R-project.org/package=mlr3db'><span class="pkg">mlr3db</span></a>, e.g. to connect
+to real DBMS like PostgreSQL (via <a href='https://CRAN.R-project.org/package=dbplyr'><span class="pkg">dbplyr</span></a>) or DuckDB (via <a href='https://CRAN.R-project.org/package=DBI'><span class="pkg">DBI</span></a>/<a href='https://CRAN.R-project.org/package=duckdb'><span class="pkg">duckdb</span></a>).</p>
     </div>
 
     <pre class="usage"><span class='co'># S3 method for data.frame</span>
@@ -180,10 +188,8 @@
 Data to create a <a href='DataBackend.html'>DataBackend</a> from.
 For a <code><a href='https://rdrr.io/r/base/data.frame.html'>data.frame()</a></code> (this includes <code>tibble()</code> from <a href='https://CRAN.R-project.org/package=tibble'><span class="pkg">tibble</span></a> and <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code>),
 a <a href='DataBackendDataTable.html'>DataBackendDataTable</a> is created.
-See <code><a href='https://rdrr.io/r/utils/methods.html'>methods("as_data_backend")</a></code> for possible input formats.</p>
-<p>Package <a href='https://CRAN.R-project.org/package=mlr3db'><span class="pkg">mlr3db</span></a> extends this function with a method for lazy table objects
-implemented in <a href='https://CRAN.R-project.org/package=dbplyr'><span class="pkg">dbplyr</span></a>.
-This allows to interface many different data base systems such as SQL servers.</p></td>
+For objects of type <code>Matrix</code> (from package <a href='https://CRAN.R-project.org/package=Matrix'><span class="pkg">Matrix</span></a>), a <a href='DataBackendMatrix.html'>DataBackendMatrix</a> is returned.
+See <code><a href='https://rdrr.io/r/utils/methods.html'>methods("as_data_backend")</a></code> for all possible input formats.</p></td>
     </tr>
     <tr>
       <th>primary_key</th>
