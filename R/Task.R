@@ -373,6 +373,30 @@ Task = R6Class("Task",
 
       self$col_info = ujoin(self$col_info, tab, key = "id")
       invisible(self)
+    },
+
+    #' @description
+    #' Calculates the order of rows (default: all rows with role `"use"`) according to
+    #' the columns with role `"order"`.
+    #'
+    #' @return
+    #' If the task has at least one column with designated role `"order"`, returns an integer vector
+    #' which can be used to reorder data (c.f. [base::order()]).
+    #' Returns `NULL` if there are is no order column defined.
+    order = function(rows = NULL) {
+      if (is.null(rows)) {
+        rows = private$.row_roles$use
+      } else {
+        rows = assert_row_ids(rows)
+      }
+
+      order_cols = private$.col_roles$order
+      if (length(order_cols) == 0L) {
+        return(NULL)
+      }
+
+      data = self$backend$data(rows, order_cols)
+      do.call(order, data)
     }
   ),
 
@@ -432,9 +456,10 @@ Task = R6Class("Task",
     #' Possible properties are are stored in [mlr_reflections$task_properties][mlr_reflections].
     #' The following properties are currently standardized and understood by tasks in \CRANpkg{mlr3}:
     #'
-    #' * `"strata"`: The task is resampled using one or more stratification variables (role `"stratum"`).
-    #' * `"groups"`: The task comes with grouping/blocking information (role `"group"`).
-    #' * `"weights"`: The task comes with observation weights (role `"weight"`).
+    #' * `"strata"`: The task is resampled using one or more stratification variables (column role `"stratum"`).
+    #' * `"groups"`: The task comes with grouping/blocking information (column role `"group"`).
+    #' * `"weights"`: The task comes with observation weights (column role `"weight"`).
+    #' * `"ordered"`: The task has columns which define the row order (column role `"order"`).
     #'
     #' Note that above listed properties are calculated from the `$col_roles` and may not be set explicitly.
     properties = function(rhs) {
@@ -444,7 +469,8 @@ Task = R6Class("Task",
           private$.properties,
           if (length(col_roles$group)) "groups" else NULL,
           if (length(col_roles$stratum)) "strata" else NULL,
-          if (length(col_roles$weight)) "weights" else NULL
+          if (length(col_roles$weight)) "weights" else NULL,
+          if (length(col_roles$order)) "ordered" else NULL
         )
       } else {
         private$.properties = assert_set(rhs, .var.name = "properties")
@@ -577,25 +603,6 @@ Task = R6Class("Task",
       }
       data = self$backend$data(private$.row_roles$use, c(self$backend$primary_key, group_cols))
       setnames(data, c("row_id", "group"))[]
-    },
-
-    #' @field order ([data.table::data.table()])\cr
-    #' If the task has at least one column with designated role `"order"`, a table with two columns:
-    #'
-    #' * `row_id` (`integer()`), and
-    #' * ordering vector `order` (`integer()`).
-    #'
-    #' Returns `NULL` if there are is no order column.
-    order = function(rhs) {
-      assert_ro_binding(rhs)
-
-      order_cols = private$.col_roles$order
-      if (length(order_cols) == 0L) {
-        return(NULL)
-      }
-
-      data = self$backend$data(private$.row_roles$use, order_cols)
-      data.table(row_id = private$.row_roles$use, order = do.call(order, data))
     },
 
     #' @field weights ([data.table::data.table()])\cr

@@ -149,9 +149,10 @@ Set of task properties.
 Possible properties are are stored in \link[=mlr_reflections]{mlr_reflections$task_properties}.
 The following properties are currently standardized and understood by tasks in \CRANpkg{mlr3}:
 \itemize{
-\item \code{"strata"}: The task is resampled using one or more stratification variables (role \code{"stratum"}).
-\item \code{"groups"}: The task comes with grouping/blocking information (role \code{"group"}).
-\item \code{"weights"}: The task comes with observation weights (role \code{"weight"}).
+\item \code{"strata"}: The task is resampled using one or more stratification variables (column role \code{"stratum"}).
+\item \code{"groups"}: The task comes with grouping/blocking information (column role \code{"group"}).
+\item \code{"weights"}: The task comes with observation weights (column role \code{"weight"}).
+\item \code{"ordered"}: The task has columns which define the row order (column role \code{"order"}).
 }
 
 Note that above listed properties are calculated from the \verb{$col_roles} and may not be set explicitly.}
@@ -217,15 +218,6 @@ If the task has a column with designated role \code{"group"}, a table with two c
 Returns \code{NULL} if there are is no grouping column.
 See \link{Resampling} for more information on grouping.}
 
-\item{\code{order}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
-If the task has at least one column with designated role \code{"order"}, a table with two columns:
-\itemize{
-\item \code{row_id} (\code{integer()}), and
-\item ordering vector \code{order} (\code{integer()}).
-}
-
-Returns \code{NULL} if there are is no order column.}
-
 \item{\code{weights}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
 If the task has a column with designated role \code{"weight"}, a table with two columns:
 \itemize{
@@ -257,6 +249,7 @@ Returns \code{NULL} if there are is no weight column.}
 \item \href{#method-set_row_role}{\code{Task$set_row_role()}}
 \item \href{#method-set_col_role}{\code{Task$set_col_role()}}
 \item \href{#method-droplevels}{\code{Task$droplevels()}}
+\item \href{#method-order}{\code{Task$order()}}
 \item \href{#method-clone}{\code{Task$clone()}}
 }
 }
@@ -678,6 +671,30 @@ Column names.}
 }
 \subsection{Returns}{
 Modified \code{self}.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-order"></a>}}
+\if{latex}{\out{\hypertarget{method-order}{}}}
+\subsection{Method \code{order()}}{
+Calculates the order of rows (default: all rows with role \code{"use"}) according to
+the columns with role \code{"order"}.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Task$order(rows = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{rows}}{\code{integer()}\cr
+Row indices.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+If the task has at least one column with designated role \code{"order"}, returns an integer vector
+which can be used to reorder data (c.f. \code{\link[base:order]{base::order()}}).
+Returns \code{NULL} if there are is no order column defined.
 }
 }
 \if{html}{\out{<hr>}}

@@ -131,6 +131,8 @@ Collate:
     'ResamplingHoldout.R'
     'ResamplingInsample.R'
     'ResamplingLOO.R'
+    'ResamplingOrderedCV.R'
+    'ResamplingOrderedHoldout.R'
     'ResamplingRepeatedCV.R'
     'ResamplingSubsampling.R'
     'ResultData.R'
