@@ -4,13 +4,13 @@ test_that("PredictionDataRegr", {
   p = learner$train(task)$predict(task)
   pdata = p$data
 
-  expect_is(pdata, "PredictionDataRegr")
+  expect_s3_class(pdata, "PredictionDataRegr")
   expect_integer(pdata$row_ids, any.missing = FALSE)
   expect_numeric(pdata$truth, any.missing = FALSE)
   expect_numeric(pdata$response, any.missing = FALSE)
   expect_numeric(pdata$se, any.missing = FALSE)
 
-  expect_is(c(pdata, pdata), "PredictionDataRegr")
+  expect_s3_class(c(pdata, pdata), "PredictionDataRegr")
   expect_prediction(as_prediction(pdata))
   expect_equal(as.data.table(p), as.data.table(as_prediction(pdata)))
 })

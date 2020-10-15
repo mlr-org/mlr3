@@ -114,5 +114,5 @@ test_that("learners can request sparse data format", {
   expect_learner(lrn)
 
   lrn$train(task)
-  expect_is(lrn$model, "Matrix")
+  expect_class(lrn$model, "Matrix")
 })
