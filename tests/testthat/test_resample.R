@@ -1,5 +1,3 @@
-context("resample")
-
 test_that("resample", {
   task = tsk("iris")
   learner = lrn("classif.featureless")

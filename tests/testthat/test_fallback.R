@@ -1,5 +1,3 @@
-context("fallback")
-
 test_that("train fails gracefully", {
   task = tsk("iris")
   learner = lrn("classif.debug", error_train = 1)

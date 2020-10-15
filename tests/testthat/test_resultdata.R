@@ -1,5 +1,3 @@
-context("ResultData")
-
 test_that("results are ordered", {
   grid = data.table(
     task = tsks(c("iris", "sonar")),

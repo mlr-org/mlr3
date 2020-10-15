@@ -1,5 +1,3 @@
-context("Resampling")
-
 test_that("re-instantiating", {
   t1 = tsk("iris")
   t2 = tsk("boston_housing")
@@ -40,7 +38,7 @@ test_that("param_vals", {
 
 test_that("hashing", {
   task = tsk("iris")
-  keys = setdiff(mlr_resamplings$keys(), "custom")
+  keys = setdiff(mlr_resamplings$keys(), c("custom", "ordered_holdout"))
 
   for (key in keys) {
     r = rsmp(key)
@@ -61,7 +59,7 @@ test_that("hashing", {
 
 test_that("cloning", {
   task = tsk("iris")
-  keys = setdiff(mlr_resamplings$keys(), "custom")
+  keys = setdiff(mlr_resamplings$keys(), c("custom", "ordered_holdout"))
 
   for (key in keys) {
     r = rsmp(key)$instantiate(task)

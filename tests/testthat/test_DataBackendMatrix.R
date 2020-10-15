@@ -1,5 +1,3 @@
-context("DataBackendMatrix")
-
 requireNamespace("Matrix")
 data = Matrix::Matrix(0, nrow = 10, ncol = 12, sparse = TRUE)
 colnames(data) = sprintf("cn%04i", seq_len(ncol(data)))

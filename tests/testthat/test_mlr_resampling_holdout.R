@@ -1,5 +1,3 @@
-context("mlr_resampling_holdout")
-
 test_that("holdout has no duplicated ids", {
   r = rsmp("holdout")
   expect_identical(r$duplicated_ids, FALSE)

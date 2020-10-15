@@ -1,5 +1,3 @@
-context("convert_task")
-
 test_that("convert_task - Regr -> Regr", {
   task = mlr_tasks$get("boston_housing")
   result = convert_task(task, target = "age", drop_original_target = TRUE)

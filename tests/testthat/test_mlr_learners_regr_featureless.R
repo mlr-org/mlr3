@@ -1,5 +1,3 @@
-context("mlr_learners_regr_featureless")
-
 test_that("autotest", {
   learner = lrn("regr.featureless")
   expect_learner(learner)

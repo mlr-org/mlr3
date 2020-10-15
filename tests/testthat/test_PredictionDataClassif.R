@@ -1,6 +1,3 @@
-context("PredictionDataClassif")
-
-
 test_that("PredictionDataClassif", {
   task = tsk("iris")
   learner = lrn("classif.featureless", predict_type = "prob")

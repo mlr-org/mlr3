@@ -1,5 +1,3 @@
-context("TaskSupervised")
-
 test_that("TaskSupervised Construction", {
   b = as_data_backend(iris)
   task = TaskSupervised$new(id = "foo", "classif", b, target = "Species")

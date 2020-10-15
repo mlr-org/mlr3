@@ -1,5 +1,3 @@
-context("benchmark")
-
 tmp = tsk("iris", id = "iris_small")$select("Sepal.Length")
 tasks = c(mlr_tasks$mget(c("iris", "sonar")), list(tmp))
 learners = mlr_learners$mget(c("classif.featureless", "classif.rpart"))

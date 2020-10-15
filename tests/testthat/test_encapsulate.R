@@ -1,5 +1,3 @@
-context("encapsulate")
-
 disable_encapsulation = function(learner) {
   learner$encapsulate = c(train = "none", predict = "none")
   learner

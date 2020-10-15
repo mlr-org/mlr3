@@ -1,5 +1,3 @@
-context("TaskClassif")
-
 test_that("Basic ops on iris task", {
   task = tsk("iris")
   expect_task(task)

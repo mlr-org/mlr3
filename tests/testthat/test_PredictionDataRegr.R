@@ -1,6 +1,3 @@
-context("PredictionDataRegr")
-
-
 test_that("PredictionDataRegr", {
   task = tsk("mtcars")
   learner = lrn("regr.featureless", predict_type = "se")

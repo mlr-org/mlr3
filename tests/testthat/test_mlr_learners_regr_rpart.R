@@ -1,5 +1,3 @@
-context("mlr_learners_regr_rpart")
-
 test_that("autotest", {
   learner = lrn("regr.rpart")
   expect_learner(learner)

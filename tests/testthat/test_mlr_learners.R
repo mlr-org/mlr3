@@ -1,5 +1,3 @@
-context("mlr_learners")
-
 test_that("mlr_learners", {
   expect_dictionary(mlr_learners, min_items = 1L)
   keys = mlr_learners$keys()
