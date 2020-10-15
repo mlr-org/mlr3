@@ -1,5 +1,3 @@
-context("mlr_resampling_bootstrap")
-
 test_that("bootstrap has duplicated ids", {
   r = rsmp("bootstrap")
   expect_identical(r$duplicated_ids, TRUE)

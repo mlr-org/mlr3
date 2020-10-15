@@ -1,5 +1,3 @@
-context("Task")
-
 test_that("Feature columns can be reordered", {
   bh = load_dataset("BostonHousing", "mlbench")
   task = tsk("boston_housing")

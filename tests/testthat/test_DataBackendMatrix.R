@@ -1,5 +1,3 @@
-context("DataBackendMatrix")
-
 requireNamespace("Matrix")
 data = Matrix::Matrix(0, nrow = 10, ncol = 12, sparse = TRUE)
 colnames(data) = sprintf("cn%04i", seq_len(ncol(data)))
@@ -116,5 +114,5 @@ test_that("learners can request sparse data format", {
   expect_learner(lrn)
 
   lrn$train(task)
-  expect_is(lrn$model, "Matrix")
+  expect_class(lrn$model, "Matrix")
 })

@@ -1,5 +1,3 @@
-context("mlr_measures_selected_features")
-
 test_that("selected_features", {
   task = tsk("sonar")
   lrn = lrn("classif.rpart")

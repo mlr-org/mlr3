@@ -1,5 +1,3 @@
-context("MeasureClassif")
-
 test_that("Classification measures", {
   keys = setdiff(mlr_measures$keys(), "oob_error")
   task = tsk("sonar")

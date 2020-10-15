@@ -1,5 +1,3 @@
-context("DataBackend")
-
 test_that("Nested backends", {
   data = as.data.table(iris)
   data$Petal.Length[91:120] = NA
