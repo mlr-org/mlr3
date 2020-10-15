@@ -6,7 +6,6 @@
 \title{Holdout Resampling for Ordered Data}
 \description{
 Splits data into a training set and a test set, according to columns with column role \code{order}.
-Parameter \code{ratio} determines the ratio of observation going into the training set (default: 2/3).
 }
 \section{Dictionary}{
 
@@ -20,9 +19,28 @@ rsmp("ordered_holdout")
 \itemize{
 \item \code{ratio} (\code{numeric(1)})\cr
 Ratio of observations to put into the training set.
+Mutually exclusive with parameter \code{n}.
+\item \code{n} (\code{integer(1)})\cr
+Number of observations to put into the training set.
+If negative, the absolute value determines the number of observations in the test set.
+Mutually exclusive with parameter \code{ratio}.
+\item \code{unit} (\code{character(1)})\cr
+Either \code{"rows"} (default) to split based on the row number, or, if there is a single order column
+of type \link{POSIXct}, one of \code{"secs"}, \code{"mins"}, \code{"hours"}, \code{"days"}, \code{"months"}, or \code{"years"}.
+For the latter, the ratio (\code{ratio}) or number of observations (\code{n}) correspond to the respective
+time unit.
 }
 }
 
+\examples{
+# task airpassengers is ordered by monthly column 'date'
+task = tsk("airpassengers")
+
+# predict on last 12 months
+r = rsmp("ordered_holdout", n = -12)$instantiate(task)
+r$train_set(1)
+r$test_set(1)
+}
 \seealso{
 \link[mlr3misc:Dictionary]{Dictionary} of \link[=Resampling]{Resamplings}: \link{mlr_resamplings}
 
@@ -36,7 +54,6 @@ Other Resampling:
 \code{\link{mlr_resamplings_holdout}},
 \code{\link{mlr_resamplings_insample}},
 \code{\link{mlr_resamplings_loo}},
-\code{\link{mlr_resamplings_ordered_cv}},
 \code{\link{mlr_resamplings_repeated_cv}},
 \code{\link{mlr_resamplings_subsampling}},
 \code{\link{mlr_resamplings}}

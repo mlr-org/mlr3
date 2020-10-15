@@ -41,7 +41,6 @@ Other Resampling:
 \code{\link{mlr_resamplings_cv}},
 \code{\link{mlr_resamplings_holdout}},
 \code{\link{mlr_resamplings_loo}},
-\code{\link{mlr_resamplings_ordered_cv}},
 \code{\link{mlr_resamplings_ordered_holdout}},
 \code{\link{mlr_resamplings_repeated_cv}},
 \code{\link{mlr_resamplings_subsampling}},
