@@ -70,3 +70,25 @@ test_that("mlr3tuning use case", {
   expect_set_equal(map_dbl(scores$learner, get_params), 1:3 / 10)
   expect_true(all(map_lgl(scores$learner, has_state)))
 })
+
+test_that("predict set selection", {
+  task = tsk("mtcars")
+  learner = lrn("regr.rpart", predict_sets = c("train", "test"))
+  resampling = rsmp("holdout")
+  rr = resample(task, learner, resampling)
+
+  p1 = rr$predictions("train")[[1]]
+  p2 = rr$predictions("test")[[1]]
+  expect_prediction(p1)
+  expect_prediction(p2)
+  expect_disjunct(p1$row_ids, p2$row_ids)
+
+  p1 = rr$prediction("train")
+  p2 = rr$prediction("test")
+  expect_prediction(p1)
+  expect_prediction(p2)
+  expect_disjunct(p1$row_ids, p2$row_ids)
+
+  bmr = benchmark(benchmark_grid(task, learner, resampling))
+  bmr$predictions
+})
