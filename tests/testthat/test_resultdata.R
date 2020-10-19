@@ -88,7 +88,4 @@ test_that("predict set selection", {
   expect_prediction(p1)
   expect_prediction(p2)
   expect_disjunct(p1$row_ids, p2$row_ids)
-
-  bmr = benchmark(benchmark_grid(task, learner, resampling))
-  bmr$predictions
 })
