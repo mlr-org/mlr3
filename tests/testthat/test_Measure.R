@@ -1,5 +1,3 @@
-context("Measure")
-
 test_that("print.Measure", {
   m = mlr_measures$get("classif.ce")
   expect_output(print(Measure))

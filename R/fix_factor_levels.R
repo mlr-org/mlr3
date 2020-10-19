@@ -3,7 +3,7 @@ fix_factor_levels = function(data, levels, ...) {
 }
 
 #' @export
-fix_factor_levels.data.table = function(data, levels, ...) {
+fix_factor_levels.data.table = function(data, levels, ...) { # nolint
   levels = levels[intersect(names(levels), names(data))]
   imap(levels, function(lvls, id) {
     x = data[[id]]

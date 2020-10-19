@@ -1,5 +1,3 @@
-context("error handling")
-
 test_that("no encapsulation", {
   task = tsk("iris")
   learner = lrn("classif.debug")

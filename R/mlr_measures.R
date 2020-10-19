@@ -8,6 +8,8 @@
 #' Each measure has an associated help page, see `mlr_measures_[id]`.
 #'
 #' This dictionary can get populated with additional measures by add-on packages.
+#' E.g., \CRANpkg{mlr3proba} adds survival measures and \CRANpkg{mlr3cluster} adds
+#' cluster analysis measures.
 #'
 #' For a more convenient way to retrieve and construct measures, see [msr()]/[msrs()].
 #'

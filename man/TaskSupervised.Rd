@@ -6,6 +6,8 @@
 \description{
 This is the abstract base class for task objects like \link{TaskClassif} and \link{TaskRegr}.
 It extends \link{Task} with methods to handle a target columns.
+Supervised tasks for probabilistic regression (including survival analysis) can be
+found in \CRANpkg{mlr3proba}.
 }
 \examples{
 TaskSupervised$new("iris", task_type = "classif", backend = iris, target = "Species")

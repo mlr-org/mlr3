@@ -18,7 +18,7 @@
 #' `r rd_info(lrn("regr.rpart")$param_set)`
 #'
 #' @references
-#' \cite{mlr3}{breiman_1984}
+#' `r tools::toRd(bibentries["breiman_1984"])`
 #'
 #' @template seealso_learner
 #' @export

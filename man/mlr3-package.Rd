@@ -21,12 +21,17 @@ Efficient, object-oriented programming on the
 \itemize{
 \item Book on mlr3: \url{https://mlr3book.mlr-org.com}
 \item Use cases and examples: \url{https://mlr3gallery.mlr-org.com}
+\item More classification and regression tasks: \CRANpkg{mlr3data}
+\item Connector to \href{https://www.openml.org}{OpenML}: \CRANpkg{mlr3oml}
 \item More classification and regression learners: \CRANpkg{mlr3learners}
+\item Even more learners: \url{https://github.com/mlr-org/mlr3extralearners}
 \item Preprocessing and machine learning pipelines: \CRANpkg{mlr3pipelines}
 \item Tuning of hyperparameters: \CRANpkg{mlr3tuning}
 \item Visualizations for many \pkg{mlr3} objects: \CRANpkg{mlr3viz}
 \item Survival analysis and probabilistic regression: \CRANpkg{mlr3proba}
+\item Cluster analysis: \CRANpkg{mlr3cluster}
 \item Feature selection filters: \CRANpkg{mlr3filters}
+\item Feature selection wrappers: \CRANpkg{mlr3fselect}
 \item Interface to real (out-of-memory) data bases: \CRANpkg{mlr3db}
 \item Performance measures as plain functions: \CRANpkg{mlr3measures}
 \item Parallelization framework: \CRANpkg{future}
@@ -35,7 +40,10 @@ Efficient, object-oriented programming on the
 }
 
 \references{
-\cite{mlr3}{pkg::citation}
+Lang M, Binder M, Richter J, Schratz P, Pfisterer F, Coors S, Au Q, Casalicchio G, Kotthoff L, Bischl B (2019).
+\dQuote{mlr3: A modern object-oriented machine learning framework in R.}
+\emph{Journal of Open Source Software}.
+\doi{10.21105/joss.01903}, \url{https://joss.theoj.org/papers/10.21105/joss.01903}.
 }
 \seealso{
 Useful links:

@@ -3,7 +3,7 @@
 #' @include Task.R
 #'
 #' @description
-#' This is the abstract base class for unsupervised tasks such as cluster tasks (not yet implemented).
+#' This is the abstract base class for unsupervised tasks such as cluster tasks in \CRANpkg{mlr3cluster}.
 #'
 #' @template param_id
 #' @template param_task_type

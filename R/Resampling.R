@@ -238,4 +238,3 @@ Resampling = R6Class("Resampling",
     }
   )
 )
-

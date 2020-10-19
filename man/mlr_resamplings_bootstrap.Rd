@@ -44,7 +44,10 @@ intersect(rb$train_set(1), rb$test_set(1))
 rb$instance$M # Matrix of counts
 }
 \references{
-\cite{mlr3}{bischl_2012}
+Bischl B, Mersmann O, Trautmann H, Weihs C (2012).
+\dQuote{Resampling Methods for Meta-Model Validation with Recommendations for Evolutionary Computation.}
+\emph{Evolutionary Computation}, \bold{20}(2), 249--275.
+\doi{10.1162/evco_a_00069}.
 }
 \seealso{
 \link[mlr3misc:Dictionary]{Dictionary} of \link[=Resampling]{Resamplings}: \link{mlr_resamplings}

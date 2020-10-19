@@ -1,5 +1,3 @@
-context("parallelization")
-
 test_that("parallel resample", {
   skip_if_not_installed("future.callr")
   skip_if_not_installed("progressr")

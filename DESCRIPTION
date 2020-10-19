@@ -1,6 +1,6 @@
 Package: mlr3
 Title: Machine Learning in R - Next Generation
-Version: 0.7.0
+Version: 0.7.0-9000
 Authors@R:
     c(person(given = "Michel",
              family = "Lang",
@@ -67,13 +67,12 @@ Imports:
     future.apply (>= 1.5.0),
     lgr (>= 0.3.4),
     mlbench,
-    mlr3measures (>= 0.1.3),
+    mlr3measures (>= 0.3.0),
     mlr3misc (>= 0.5.0),
     paradox (>= 0.4.0),
     uuid
 Suggests:
     Matrix,
-    bibtex,
     callr,
     datasets,
     distr6,
@@ -84,8 +83,6 @@ Suggests:
     progressr,
     rpart,
     testthat
-RdMacros:
-    mlr3misc
 Encoding: UTF-8
 LazyData: true
 NeedsCompilation: no
@@ -171,6 +168,7 @@ Collate:
     'auto_convert.R'
     'benchmark.R'
     'benchmark_grid.R'
+    'bibentries.R'
     'default_measures.R'
     'deprecated.R'
     'fix_factor_levels.R'

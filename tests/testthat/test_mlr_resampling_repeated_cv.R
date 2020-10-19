@@ -1,5 +1,3 @@
-context("mlr_resampling_repeated_cv")
-
 test_that("repeated cv has no duplicated ids", {
   r = rsmp("repeated_cv")
   expect_identical(r$duplicated_ids, FALSE)

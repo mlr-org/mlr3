@@ -136,6 +136,10 @@ mlr_measures$add("classif.npv", MeasureBinarySimple, name = "npv")
 #' @template measure_binary
 mlr_measures$add("classif.ppv", MeasureBinarySimple, name = "ppv")
 
+#' @templateVar id prauc
+#' @template measure_binary
+mlr_measures$add("classif.prauc", MeasureBinarySimple, name = "prauc")
+
 #' @templateVar id precision
 #' @template measure_binary
 mlr_measures$add("classif.precision", MeasureBinarySimple, name = "precision")

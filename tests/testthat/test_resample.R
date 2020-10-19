@@ -1,5 +1,3 @@
-context("resample")
-
 test_that("resample", {
   task = tsk("iris")
   learner = lrn("classif.featureless")
@@ -118,4 +116,20 @@ test_that("seeds work identical sequential/parallel", {
     as.data.table(rr1$prediction())$prob.M,
     as.data.table(rr2$prediction())$prob.M
   )
+})
+
+test_that("empty train/predict sets", {
+  task = tsk("mtcars")
+  learner = lrn("regr.rpart")
+
+  expect_error(learner$train(task, integer()))
+
+  learner$train(task)
+  expect_prediction(learner$predict(task, integer()))
+
+  resampling = rsmp("holdout", ratio = 0)
+  expect_error(resample(task, learner, resampling))
+
+  resampling = rsmp("holdout", ratio = 1)
+  expect_prediction(resample(task, learner, resampling)$predictions()[[1]])
 })

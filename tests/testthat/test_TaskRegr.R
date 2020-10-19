@@ -1,5 +1,3 @@
-context("TaskRegr")
-
 test_that("Basic ops on BostonHousing task", {
   task = tsk("boston_housing")
   expect_task(task)
