@@ -1,3 +1,11 @@
+# mlr3 0.8.0
+
+* `MeasureOOBError` now has set property `minimize` to `TRUE`.
+* New learner property `"featureless"` to tag learners which can operate on
+  featureless tasks.
+* Fixed [ResampleResult] ignoring argument `predict_sets` for returned
+  [Prediction] objects.
+
 # mlr3 0.7.0
 
 * Updated properties of featureless learners to apply it on all feature types
