@@ -5,6 +5,7 @@
   featureless tasks.
 * Fixed [ResampleResult] ignoring argument `predict_sets` for returned
   [Prediction] objects.
+* Compability with new version of `lgr`.
 
 # mlr3 0.7.0
 
