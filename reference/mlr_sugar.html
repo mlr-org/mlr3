@@ -102,7 +102,7 @@ msrs() for a list of Measures from mlr_measures.
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.7.0</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.8.0</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -174,7 +174,7 @@ msrs() for a list of Measures from mlr_measures.
 
     <div class="ref-description">
     <p>Functions to retrieve objects, set hyperparameters and assign to fields in one go.
-Relies on <code><a href='https://mlr3misc.mlr-org.com/reference/dictionary_sugar_get.html'>mlr3misc::dictionary_sugar_get()</a></code> to extract objects from the respective <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>mlr3misc::Dictionary</a>:</p><ul>
+Relies on <code><a href='https://rdrr.io/pkg/mlr3misc/man/dictionary_sugar_get.html'>mlr3misc::dictionary_sugar_get()</a></code> to extract objects from the respective <a href='https://rdrr.io/pkg/mlr3misc/man/Dictionary.html'>mlr3misc::Dictionary</a>:</p><ul>
 <li><p><code>tsk()</code> for a <a href='Task.html'>Task</a> from <a href='mlr_tasks.html'>mlr_tasks</a>.</p></li>
 <li><p><code>tsks()</code> for a list of <a href='Task.html'>Task</a>s from <a href='mlr_tasks.html'>mlr_tasks</a>.</p></li>
 <li><p><code>tgen()</code> for a <a href='TaskGenerator.html'>TaskGenerator</a> from <a href='mlr_task_generators.html'>mlr_task_generators</a>.</p></li>
@@ -215,18 +215,18 @@ Relies on <code><a href='https://mlr3misc.mlr-org.com/reference/dictionary_sugar
     <tr>
       <th>.key</th>
       <td><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
-Key passed to the respective <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> to retrieve the object.</p></td>
+Key passed to the respective <a href='https://rdrr.io/pkg/mlr3misc/man/Dictionary.html'>dictionary</a> to retrieve the object.</p></td>
     </tr>
     <tr>
       <th>...</th>
       <td><p>(named <code><a href='https://rdrr.io/r/base/list.html'>list()</a></code>)<br />
 Named arguments passed to the constructor, to be set as parameters in the <a href='https://paradox.mlr-org.com/reference/ParamSet.html'>paradox::ParamSet</a>, or to be set as public field.
-See <code><a href='https://mlr3misc.mlr-org.com/reference/dictionary_sugar_get.html'>mlr3misc::dictionary_sugar_get()</a></code> for more details.</p></td>
+See <code><a href='https://rdrr.io/pkg/mlr3misc/man/dictionary_sugar_get.html'>mlr3misc::dictionary_sugar_get()</a></code> for more details.</p></td>
     </tr>
     <tr>
       <th>.keys</th>
       <td><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
-Keys passed to the respective <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> to retrieve multiple objects.</p></td>
+Keys passed to the respective <a href='https://rdrr.io/pkg/mlr3misc/man/Dictionary.html'>dictionary</a> to retrieve multiple objects.</p></td>
     </tr>
     </table>
 
@@ -264,8 +264,8 @@ or a list of <a href='https://r6.r-lib.org/reference/R6Class.html'>R6::R6Class</
 #&gt; * Predict Type: prob
 #&gt; * Feature types: logical, integer, numeric, character, factor, ordered,
 #&gt;   POSIXct
-#&gt; * Properties: importance, missings, multiclass, selected_features,
-#&gt;   twoclass
+#&gt; * Properties: featureless, importance, missings, multiclass,
+#&gt;   selected_features, twoclass
 #&gt; 
 #&gt; [[2]]
 #&gt; &lt;LearnerClassifRpart:classif.rpart&gt;

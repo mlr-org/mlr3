@@ -94,7 +94,7 @@ For a more convenient way to retrieve and construct learners, see lrn()/lrns()."
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.7.0</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.8.0</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -165,7 +165,7 @@ For a more convenient way to retrieve and construct learners, see lrn()/lrns()."
     </div>
 
     <div class="ref-description">
-    <p>A simple <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>mlr3misc::Dictionary</a> storing objects of class <a href='Learner.html'>Learner</a>.
+    <p>A simple <a href='https://rdrr.io/pkg/mlr3misc/man/Dictionary.html'>mlr3misc::Dictionary</a> storing objects of class <a href='Learner.html'>Learner</a>.
 Each learner has an associated help page, see <code>mlr_learners_[id]</code>.</p>
 <p>This dictionary can get populated with additional learners by add-on packages.
 For more classification and regression learners, load the <a href='https://CRAN.R-project.org/package=mlr3learners'><span class="pkg">mlr3learners</span></a> package
@@ -177,19 +177,19 @@ and <a href='https://github.com/mlr-org/mlr3extralearners'>https://github.com/ml
 
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p><a href='https://r6.r-lib.org/reference/R6Class.html'>R6::R6Class</a> object inheriting from <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>mlr3misc::Dictionary</a>.</p>
+    <p><a href='https://r6.r-lib.org/reference/R6Class.html'>R6::R6Class</a> object inheriting from <a href='https://rdrr.io/pkg/mlr3misc/man/Dictionary.html'>mlr3misc::Dictionary</a>.</p>
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     
 
-<p>See <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>mlr3misc::Dictionary</a>.</p>
+<p>See <a href='https://rdrr.io/pkg/mlr3misc/man/Dictionary.html'>mlr3misc::Dictionary</a>.</p>
     <h2 class="hasAnchor" id="s-methods"><a class="anchor" href="#s-methods"></a>S3 methods</h2>
 
     
 
 <ul>
 <li><p><code><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table(dict)</a></code><br />
-<a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>mlr3misc::Dictionary</a> -&gt; <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code><br />
+<a href='https://rdrr.io/pkg/mlr3misc/man/Dictionary.html'>mlr3misc::Dictionary</a> -&gt; <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code><br />
 Returns a <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code> with fields "key", "feature_types", "packages",
 "properties" and "predict_types" as columns.</p></li>
 </ul>
@@ -221,12 +221,18 @@ Returns a <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.
 #&gt; 3:       classif.rpart               logical,integer,numeric,factor,ordered
 #&gt; 4:    regr.featureless logical,integer,numeric,character,factor,ordered,...
 #&gt; 5:          regr.rpart               logical,integer,numeric,factor,ordered
-#&gt;    packages                                                        properties
-#&gt; 1:                                               missings,multiclass,twoclass
-#&gt; 2:                  importance,missings,multiclass,selected_features,twoclass
-#&gt; 3:    rpart importance,missings,multiclass,selected_features,twoclass,weights
-#&gt; 4:    stats                             importance,missings,selected_features
-#&gt; 5:    rpart                     importance,missings,selected_features,weights
+#&gt;    packages
+#&gt; 1:         
+#&gt; 2:         
+#&gt; 3:    rpart
+#&gt; 4:    stats
+#&gt; 5:    rpart
+#&gt;                                                               properties
+#&gt; 1:                                          missings,multiclass,twoclass
+#&gt; 2: featureless,importance,missings,multiclass,selected_features,twoclass
+#&gt; 3:     importance,missings,multiclass,selected_features,twoclass,weights
+#&gt; 4:                     featureless,importance,missings,selected_features
+#&gt; 5:                         importance,missings,selected_features,weights
 #&gt;    predict_types
 #&gt; 1: response,prob
 #&gt; 2: response,prob
@@ -240,8 +246,8 @@ Returns a <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.
 #&gt; * Predict Type: response
 #&gt; * Feature types: logical, integer, numeric, character, factor, ordered,
 #&gt;   POSIXct
-#&gt; * Properties: importance, missings, multiclass, selected_features,
-#&gt;   twoclass</div><div class='input'><span class='fu'><a href='mlr_sugar.html'>lrn</a></span><span class='op'>(</span><span class='st'>"classif.rpart"</span><span class='op'>)</span>
+#&gt; * Properties: featureless, importance, missings, multiclass,
+#&gt;   selected_features, twoclass</div><div class='input'><span class='fu'><a href='mlr_sugar.html'>lrn</a></span><span class='op'>(</span><span class='st'>"classif.rpart"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; &lt;LearnerClassifRpart:classif.rpart&gt;
 #&gt; * Model: -
 #&gt; * Parameters: xval=0
