@@ -352,21 +352,21 @@ Single \code{uhash} to restrict the results to.}
 \item{\code{predict_sets}}{(\code{character()})\cr
 Prediction sets to operate on, used in \code{aggregate()} to extract the matching \code{predict_sets} from the \link{ResampleResult}.
 Multiple predict sets are calculated by the respective \link{Learner} during \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}.
-Must be a non-empty subset of \verb{\{"train", "test"\}}.
+Must be a non-empty subset of \verb{\{"train", "test", "holdout"\}}.
 If multiple sets are provided, these are first combined to a single prediction object.
 Default is \code{"test"}.}
 
 \item{\code{predict_sets}}{(\code{character()})\cr
 Prediction sets to operate on, used in \code{aggregate()} to extract the matching \code{predict_sets} from the \link{ResampleResult}.
 Multiple predict sets are calculated by the respective \link{Learner} during \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}.
-Must be a non-empty subset of \verb{\{"train", "test"\}}.
+Must be a non-empty subset of \verb{\{"train", "test", "holdout"\}}.
 If multiple sets are provided, these are first combined to a single prediction object.
 Default is \code{"test"}.}
 
 \item{\code{predict_sets}}{(\code{character()})\cr
 Prediction sets to operate on, used in \code{aggregate()} to extract the matching \code{predict_sets} from the \link{ResampleResult}.
 Multiple predict sets are calculated by the respective \link{Learner} during \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}.
-Must be a non-empty subset of \verb{\{"train", "test"\}}.
+Must be a non-empty subset of \verb{\{"train", "test", "holdout"\}}.
 If multiple sets are provided, these are first combined to a single prediction object.
 Default is \code{"test"}.}
 }
@@ -418,21 +418,21 @@ Single \code{uhash} to restrict the results to.}
 \item{\code{predict_sets}}{(\code{character()})\cr
 Prediction sets to operate on, used in \code{aggregate()} to extract the matching \code{predict_sets} from the \link{ResampleResult}.
 Multiple predict sets are calculated by the respective \link{Learner} during \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}.
-Must be a non-empty subset of \verb{\{"train", "test"\}}.
+Must be a non-empty subset of \verb{\{"train", "test", "holdout"\}}.
 If multiple sets are provided, these are first combined to a single prediction object.
 Default is \code{"test"}.}
 
 \item{\code{predict_sets}}{(\code{character()})\cr
 Prediction sets to operate on, used in \code{aggregate()} to extract the matching \code{predict_sets} from the \link{ResampleResult}.
 Multiple predict sets are calculated by the respective \link{Learner} during \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}.
-Must be a non-empty subset of \verb{\{"train", "test"\}}.
+Must be a non-empty subset of \verb{\{"train", "test", "holdout"\}}.
 If multiple sets are provided, these are first combined to a single prediction object.
 Default is \code{"test"}.}
 
 \item{\code{predict_sets}}{(\code{character()})\cr
 Prediction sets to operate on, used in \code{aggregate()} to extract the matching \code{predict_sets} from the \link{ResampleResult}.
 Multiple predict sets are calculated by the respective \link{Learner} during \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}.
-Must be a non-empty subset of \verb{\{"train", "test"\}}.
+Must be a non-empty subset of \verb{\{"train", "test", "holdout"\}}.
 If multiple sets are provided, these are first combined to a single prediction object.
 Default is \code{"test"}.}
 }
@@ -530,21 +530,21 @@ Convert \link{PredictionData} to \link{Prediction}?}
 \item{\code{predict_sets}}{(\code{character()})\cr
 Prediction sets to operate on, used in \code{aggregate()} to extract the matching \code{predict_sets} from the \link{ResampleResult}.
 Multiple predict sets are calculated by the respective \link{Learner} during \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}.
-Must be a non-empty subset of \verb{\{"train", "test"\}}.
+Must be a non-empty subset of \verb{\{"train", "test", "holdout"\}}.
 If multiple sets are provided, these are first combined to a single prediction object.
 Default is \code{"test"}.}
 
 \item{\code{predict_sets}}{(\code{character()})\cr
 Prediction sets to operate on, used in \code{aggregate()} to extract the matching \code{predict_sets} from the \link{ResampleResult}.
 Multiple predict sets are calculated by the respective \link{Learner} during \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}.
-Must be a non-empty subset of \verb{\{"train", "test"\}}.
+Must be a non-empty subset of \verb{\{"train", "test", "holdout"\}}.
 If multiple sets are provided, these are first combined to a single prediction object.
 Default is \code{"test"}.}
 
 \item{\code{predict_sets}}{(\code{character()})\cr
 Prediction sets to operate on, used in \code{aggregate()} to extract the matching \code{predict_sets} from the \link{ResampleResult}.
 Multiple predict sets are calculated by the respective \link{Learner} during \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}.
-Must be a non-empty subset of \verb{\{"train", "test"\}}.
+Must be a non-empty subset of \verb{\{"train", "test", "holdout"\}}.
 If multiple sets are provided, these are first combined to a single prediction object.
 Default is \code{"test"}.}
 }

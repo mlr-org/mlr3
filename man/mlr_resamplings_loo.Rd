@@ -6,7 +6,7 @@
 \title{Leave-One-Out Cross Validation}
 \description{
 Splits data using leave-one-observation-out.
-This is identical to cross validation with the number of folds set
+This is identical to cross-validation with the number of folds set
 to the number of observations.
 }
 \section{Dictionary}{

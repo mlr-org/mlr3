@@ -25,7 +25,9 @@ First, the observations are divided into subpopulations based one or multiple st
 
 Second, the sampling is performed in each of the \code{k} subpopulations separately.
 Each subgroup is divided into \code{iter} training sets and \code{iter} test sets by the derived \code{Resampling}.
-These sets are merged based on their iteration number: all training sets from all subpopulations with iteration 1 are combined, then all training sets with iteration 2, and so on.
+These sets are merged based on their iteration number:
+all training sets from all subpopulations with iteration 1 are combined, then all training sets with iteration 2,
+and so on.
 Same is done for all test sets.
 The merged sets can be accessed via \verb{$train_set(i)} and \verb{$test_set(i)}, respectively.
 }
@@ -129,7 +131,7 @@ The number of observations of the \link{Task} which was passed to \code{r$instan
 
 \item{\code{duplicated_ids}}{(\code{logical(1)})\cr
 If \code{TRUE}, duplicated rows can occur within a single training set or within a single test set.
-E.g., this is \code{TRUE} for Bootstrap, and \code{FALSE} for cross validation.
+E.g., this is \code{TRUE} for Bootstrap, and \code{FALSE} for cross-validation.
 Only used internally.}
 
 \item{\code{man}}{(\code{character(1)})\cr

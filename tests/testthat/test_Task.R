@@ -90,7 +90,7 @@ test_that("Task rbind", {
   # #423
   task = tsk("iris")
   task$row_roles$use = 1:10
-  task$row_roles$validation = 11:150
+  task$row_roles$holdout = 11:150
 
   task$rbind(iris[sample(nrow(iris), 5), ])
   expect_set_equal(task$row_ids, c(1:10, 151:155))

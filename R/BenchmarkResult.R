@@ -151,9 +151,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #'   Adds object ids (`"task_id"`, `"learner_id"`, `"resampling_id"`) as
     #'   extra character columns for convenient subsetting.
     #'
-    #' @param predict_sets (`character()`)\cr
-    #'   Vector of predict sets (`{"train", "test"}`) to construct the [Prediction] objects from.
-    #'   Default is `"test"`.
+    #' @template param_predict_sets
     #'
     #' @return [data.table::data.table()].
     score = function(measures = NULL, ids = TRUE, predict_sets = "test") {

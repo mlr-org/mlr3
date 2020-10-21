@@ -202,7 +202,8 @@ workhorse = function(iteration, task, learner, resampling, lgr_threshold = NULL,
 
   sets = list(
     train = resampling$train_set(iteration),
-    test = resampling$test_set(iteration)
+    test = resampling$test_set(iteration),
+    holdout = task$row_roles$holdout
   )
 
   # train model

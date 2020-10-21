@@ -115,7 +115,7 @@ Task = R6Class("Task",
 
       cn = self$col_info$id # note: this sorts the columns!
       rn = self$backend$rownames
-      private$.row_roles = list(use = rn, validation = integer())
+      private$.row_roles = list(use = rn, holdout = integer())
       private$.col_roles = named_list(mlr_reflections$task_col_roles[[task_type]], character())
       private$.col_roles$feature = setdiff(cn, self$backend$primary_key)
       self$extra_args = assert_list(extra_args, names = "unique")
@@ -455,8 +455,8 @@ Task = R6Class("Task",
     #' Each row (observation) can have an arbitrary number of roles in the learning task:
     #'
     #' - `"use"`: Use in train / predict / resampling.
-    #' - `"validation"`: Hold the observations back unless explicitly requested.
-    #'   Validation sets are not yet completely integrated into the package.
+    #' - `"holdout"`: Hold the observations back unless explicitly requested.
+    #'   Can be used as a guaranteed independent test set.
     #'
     #' `row_roles` keeps track of the roles with a named list, elements are named by row role and each element is a `integer()` vector of row ids.
     #' To alter the roles, just modify the list, e.g. with  \R's set functions ([intersect()], [setdiff()], [union()], \ldots).
@@ -739,7 +739,7 @@ as.data.table.Task = function(x, ...) {
 task_rm_data = function(task) {
   no_row = task$row_roles$use[0L]
   task$backend = as_data_backend(task$head(0L))
-  task$row_roles = list(use = no_row, validation = no_row)
+  task$row_roles = list(use = no_row, holdout = no_row)
   task
 }
 

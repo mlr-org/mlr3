@@ -126,6 +126,7 @@ Opens the corresponding help page referenced by field \verb{$man}.
 Calculates the performance for all provided measures
 \link{Task} and \link{Learner} may be \code{NULL} for most measures, but some measures need to extract information
 from these objects.
+Note that the \code{predict_sets} of the \code{measures} are ignored for this calculation.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Prediction$score(
   measures = NULL,

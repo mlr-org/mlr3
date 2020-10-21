@@ -52,7 +52,7 @@ Required predict type of the \link{Learner}.}
 \item{\code{predict_sets}}{(\code{character()})\cr
 During \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}, a \link{Learner} can predict on multiple sets.
 Per default, a learner only predicts observations in the test set (\code{predict_sets == "test"}).
-To change this behaviour, set \code{predict_sets} to a non-empty subset of \verb{\{"train", "test"\}}.
+To change this behaviour, set \code{predict_sets} to a non-empty subset of \verb{\{"train", "test", "holdout"\}}.
 Each set yields a separate \link{Prediction} object.
 Those be combined via getters in \link{ResampleResult}/\link{BenchmarkResult}, or \link{Measure}s can be altered
 to operate on specific subsets of the calculated prediction sets.}
@@ -187,7 +187,7 @@ Possible values are stored in \link[=mlr_reflections]{mlr_reflections$learner_pr
 \item{\code{predict_sets}}{(\code{character()})\cr
 Prediction sets to operate on, used in \code{aggregate()} to extract the matching \code{predict_sets} from the \link{ResampleResult}.
 Multiple predict sets are calculated by the respective \link{Learner} during \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}.
-Must be a non-empty subset of \verb{\{"train", "test"\}}.
+Must be a non-empty subset of \verb{\{"train", "test", "holdout"\}}.
 If multiple sets are provided, these are first combined to a single prediction object.
 Default is \code{"test"}.}
 

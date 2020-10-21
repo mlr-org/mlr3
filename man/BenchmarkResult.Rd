@@ -246,7 +246,10 @@ Adds object ids (\code{"task_id"}, \code{"learner_id"}, \code{"resampling_id"}) 
 extra character columns for convenient subsetting.}
 
 \item{\code{predict_sets}}{(\code{character()})\cr
-Vector of predict sets (\verb{\{"train", "test"\}}) to construct the \link{Prediction} objects from.
+Prediction sets to operate on, used in \code{aggregate()} to extract the matching \code{predict_sets} from the \link{ResampleResult}.
+Multiple predict sets are calculated by the respective \link{Learner} during \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}.
+Must be a non-empty subset of \verb{\{"train", "test", "holdout"\}}.
+If multiple sets are provided, these are first combined to a single prediction object.
 Default is \code{"test"}.}
 }
 \if{html}{\out{</div>}}
