@@ -286,12 +286,8 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #' You need to explicitly `$clone()` the object beforehand if you want to keeps
     #' the object in its previous state.
     filter = function(task_ids = NULL, task_hashes = NULL, learner_ids = NULL, learner_hashes = NULL,
-<<<<<<< HEAD
-      resampling_ids = NULL, resampling_hashes = NULL, uhashes = NULL) {
-=======
       resampling_ids = NULL, resampling_hashes = NULL) {
       learner_phashes = NULL
->>>>>>> master
 
       filter_if_not_null = function(column, hashes) {
         if (is.null(hashes))
