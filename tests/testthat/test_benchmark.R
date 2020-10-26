@@ -1,5 +1,3 @@
-context("benchmark")
-
 tmp = tsk("iris", id = "iris_small")$select("Sepal.Length")
 tasks = c(mlr_tasks$mget(c("iris", "sonar")), list(tmp))
 learners = mlr_learners$mget(c("classif.featureless", "classif.rpart"))
@@ -54,7 +52,7 @@ test_that("ResampleResult / hash", {
   for (i in nr) {
     rr = aggr$resample_result[[i]]
     expect_resample_result(rr)
-    expect_equivalent(rr$aggregate(m), aggr[["classif.ce"]][i])
+    expect_equal(unname(rr$aggregate(m)), aggr[["classif.ce"]][i])
     expect_equal(bmr$uhashes[i], rr$uhash)
   }
 })
@@ -266,7 +264,7 @@ test_that("parallelization works", {
 })
 
 test_that("friedman.test", {
-  expect_is(friedman.test(bmr), "htest")
+  expect_s3_class(friedman.test(bmr), "htest")
 })
 
 test_that("aggregated performance values are calculated correctly (#555)", {

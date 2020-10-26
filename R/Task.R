@@ -3,7 +3,10 @@
 #' @include mlr_reflections.R
 #'
 #' @description
-#' This is the abstract base class for task objects like [TaskClassif] and [TaskRegr].
+#' This is the abstract base class for [TaskSupervised] and [TaskUnsupervised].
+#' [TaskClassif] and [TaskRegr] inherit from [TaskSupervised].
+#' More supervised tasks are implemented in \CRANpkg{mlr3proba}, unsupervised cluster tasks
+#' in package \CRANpkg{mlr3cluster}.
 #'
 #' Tasks serve two purposes:
 #'
@@ -13,6 +16,7 @@
 #'
 #' Predefined (toy) tasks are stored in the [dictionary][mlr3misc::Dictionary] [mlr_tasks],
 #' e.g. [`iris`][mlr_tasks_iris] or [`boston_housing`][mlr_tasks_boston_housing].
+#' More toy tasks can be found in the dictionary after loading \CRANpkg{mlr3data}.
 #'
 #' @template param_id
 #' @template param_backend
@@ -382,15 +386,6 @@ Task = R6Class("Task",
       )
     },
 
-    #' @template field_phash
-    phash = function(rhs) {
-      assert_ro_binding(rhs)
-      hash(
-        class(self), self$id, self$backend$hash, self$col_info,
-        private$.row_roles, private$.properties
-      )
-    },
-
     #' @field row_ids (`integer()`)\cr
     #' Returns the row ids of the [DataBackend] for observations with role "use".
     row_ids = function(rhs) {
@@ -498,7 +493,7 @@ Task = R6Class("Task",
       }
 
       qassertr(rhs, "S[1,]", .var.name = "col_roles")
-      assert_names(names(rhs), "unique", permutation.of = mlr_reflections$task_col_roles[[self$task_type]], .var.name = "names of col_roles")
+      assert_names(names(rhs), "unique", must.include = mlr_reflections$task_col_roles[[self$task_type]], .var.name = "names of col_roles")
       assert_subset(unlist(rhs, use.names = FALSE), setdiff(self$col_info$id, self$backend$primary_key), .var.name = "elements of col_roles")
 
       for (role in c("group", "weight", "name")) {

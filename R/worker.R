@@ -1,21 +1,21 @@
-# This wrapper calls learner$train, and additionally performs some basic
-# checks that the training was successful.
-# Exceptions here are possibly encapsulated, so that they get captured
-# and turned into log messages.
-train_wrapper = function(learner, task) {
-  if (exists("train_internal", envir = learner, inherits = FALSE)) {
-    .Deprecated(msg = "Use private method '.train()' instead of public method 'train_internal()'")
-    model = learner$train_internal(task)
-  } else {
+learner_train = function(learner, task, row_ids = NULL) {
+  # This wrapper calls learner$train, and additionally performs some basic
+  # checks that the training was successful.
+  # Exceptions here are possibly encapsulated, so that they get captured
+  # and turned into log messages.
+  train_wrapper = function(learner, task) {
+    if (task$nrow == 0L) {
+      stopf("Cannot fit Learner '%s' on task '%s': No observations", learner$id, task$id)
+    }
+
     model = get_private(learner)$.train(task)
-  }
 
-  if (is.null(model)) {
-    stopf("Learner '%s' on task '%s' returned NULL during internal train()", learner$id, task$id)
-  }
+    if (is.null(model)) {
+      stopf("Learner '%s' on task '%s' returned NULL during internal train()", learner$id, task$id)
+    }
 
-  model
-}
+    model
+  }
 
 # This wrapper calls learner$.continue, and additionally performs some basic
 # checks that the training was successful.
@@ -32,27 +32,9 @@ continue_wrapper = function(learner, task) {
   model
 }
 
-# This wrapper calls learner$predict, and additionally performs some basic
-# checks that the prediction was successful.
-# Exceptions here are possibly encapsulated, so that they get captured and turned into log messages.
-predict_wrapper = function(task, learner) {
-  if (is.null(learner$state$model)) {
-    stopf("No trained model available for learner '%s' on task '%s'", learner$id, task$id)
-  }
 
-  if (exists("predict_internal", envir = learner, inherits = FALSE)) {
-    .Deprecated(msg = "Use private method '.predict()' instead of public method 'predict_internal()'")
-    result = learner$predict_internal(task)
-  } else {
-    result = get_private(learner)$.predict(task)
-  }
-
-  as_prediction_data(result, task = task, check = TRUE)
-}
-
-
-learner_train = function(learner, task, row_ids = NULL) {
   assert_task(task)
+  assert_learner(learner)
   assert_learnable(task, learner)
 
   # subset to train set w/o cloning
@@ -163,7 +145,27 @@ learner_continue = function(learner, task, row_ids = NULL) {
 }
 
 learner_predict = function(learner, task, row_ids = NULL) {
+  # This wrapper calls learner$predict, and additionally performs some basic
+  # checks that the prediction was successful.
+  # Exceptions here are possibly encapsulated, so that they get captured and turned into log messages.
+  predict_wrapper = function(task, learner) {
+    if (is.null(learner$state$model)) {
+      stopf("No trained model available for learner '%s' on task '%s'", learner$id, task$id)
+    }
+
+    if (exists("predict_internal", envir = learner, inherits = FALSE)) {
+      .Deprecated(msg = "Use private method '.predict()' instead of public method 'predict_internal()'")
+      result = learner$predict_internal(task)
+    } else {
+      result = get_private(learner)$.predict(task)
+    }
+
+    as_prediction_data(result, task = task, check = TRUE)
+  }
+
   assert_task(task)
+  assert_learner(learner)
+  assert_learnable(task, learner)
 
   # subset to test set w/o cloning
   if (!is.null(row_ids)) {

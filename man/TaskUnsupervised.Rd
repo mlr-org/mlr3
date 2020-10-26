@@ -4,7 +4,7 @@
 \alias{TaskUnsupervised}
 \title{Unsupervised Task}
 \description{
-This is the abstract base class for unsupervised tasks such as cluster tasks (not yet implemented).
+This is the abstract base class for unsupervised tasks such as cluster tasks in \CRANpkg{mlr3cluster}.
 }
 \examples{
 TaskUnsupervised$new("iris", task_type = "regr", backend = iris)

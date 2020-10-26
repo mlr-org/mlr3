@@ -83,7 +83,8 @@ The following operations must be supported to extend mlr3 for new task types:
 \itemize{
 \item \code{as_prediction_data()} converts objects to class \code{PredictionData}, e.g. objects of type \link{Prediction}.
 \item \code{as_prediction()} converts objects to class \link{Prediction}, e.g. objects of type \code{PredictionData}.
-\item \code{check_prediction_data()} is called on the return value of the predict method of a \link{Learner} to perform assertions and type conversions. Returns an update object of class \code{PredictionData}.
+\item \code{check_prediction_data()} is called on the return value of the predict method of a \link{Learner} to perform assertions and type conversions.
+Returns an update object of class \code{PredictionData}.
 \item \code{is_missing_prediction_data()} is used for the fallback learner (see \link{Learner}) to impute missing predictions. Returns vector with row ids which need imputation.
 }
 }

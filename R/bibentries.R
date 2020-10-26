@@ -42,7 +42,7 @@ bibentries = c(
 
   gromping_2019 = bibentry("techreport",
     title        = "South German Credit Data: Correcting a Widely Used Data Set",
-    author       = "Ulrike Grömping",
+    author       = "Ulrike Gr\u00f6mping",
     year         = "2019",
     number       = "4",
     url          = "http://www1.beuth-hochschule.de/FB_II/reports/Report-2019-004.pdf",

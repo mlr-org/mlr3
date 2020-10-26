@@ -1,5 +1,3 @@
-context("auto_convert")
-
 test_that("logical", {
   x = c(TRUE, NA, FALSE)
 

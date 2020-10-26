@@ -1,5 +1,3 @@
-context("mlr_task_generators")
-
 test_that("mlr_task_generators", {
   expect_dictionary(mlr_task_generators, min_items = 1L, contains = "TaskGenerator")
   keys = mlr_task_generators$keys()

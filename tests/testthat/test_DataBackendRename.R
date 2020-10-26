@@ -1,5 +1,3 @@
-context("DataBackendRename")
-
 test_that("DataBackendRename", {
   old = names(iris)
   new = paste0("xx_", old)

@@ -1,5 +1,3 @@
-context("MeasureRegr")
-
 test_that("Regression measures", {
   keys = setdiff(mlr_measures$keys(), "oob_error")
   task = tsk("boston_housing")

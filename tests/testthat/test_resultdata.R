@@ -1,5 +1,3 @@
-context("ResultData")
-
 test_that("results are ordered", {
   grid = data.table(
     task = tsks(c("iris", "sonar")),
@@ -53,7 +51,6 @@ test_that("mlr3tuning use case", {
   expect_resultdata(rdata)
   expect_data_table(rdata$data$fact, nrows = 3L)
   expect_data_table(rdata$data$tasks, nrows = 1L)
-  expect_data_table(rdata$data$task_components, nrows = 1L)
   expect_data_table(rdata$data$learners, nrows = 1L)
   expect_data_table(rdata$data$learner_components, nrows = 3L)
   expect_data_table(rdata$data$resamplings, nrows = 1L)
@@ -74,38 +71,21 @@ test_that("mlr3tuning use case", {
   expect_true(all(map_lgl(scores$learner, has_state)))
 })
 
-
-
-test_that("mlr3fsselect use case", {
-  tasks = tsks(c("iris", "iris", "iris"))
-  learner = lrn("classif.featureless")
-  tasks[[1]]$col_roles$feature = names(iris)[1]
-  tasks[[2]]$col_roles$feature = names(iris)[2]
-  tasks[[3]]$col_roles$feature = names(iris)[3]
+test_that("predict set selection", {
+  task = tsk("mtcars")
+  learner = lrn("regr.rpart", predict_sets = c("train", "test"))
   resampling = rsmp("holdout")
+  rr = resample(task, learner, resampling)
 
-  bmr = benchmark(benchmark_grid(tasks, learner, resampling))
+  p1 = rr$predictions("train")[[1]]
+  p2 = rr$predictions("test")[[1]]
+  expect_prediction(p1)
+  expect_prediction(p2)
+  expect_disjunct(p1$row_ids, p2$row_ids)
 
-  rdata = bmr$data
-
-  expect_resultdata(rdata)
-  expect_data_table(rdata$data$fact, nrows = 3L)
-  expect_data_table(rdata$data$tasks, nrows = 1L)
-  expect_data_table(rdata$data$task_components, nrows = 3L)
-  expect_data_table(rdata$data$learners, nrows = 1L)
-  expect_data_table(rdata$data$learner_components, nrows = 1L)
-  expect_data_table(rdata$data$resamplings, nrows = 3L)
-
-  expect_set_equal(map_chr(bmr$tasks$task, function(t) t$feature_names), names(iris)[1:3])
-
-  get_feature_names = function(t) t$feature_names
-  expect_set_equal(map_chr(bmr$tasks$task, get_feature_names), names(iris)[1:3])
-
-  aggr = bmr$aggregate()
-  expect_set_equal(map_chr(map(aggr$resample_result, "task"), get_feature_names), names(iris)[1:3])
-
-  scores = bmr$score()
-  expect_set_equal(map_chr(scores$task, get_feature_names), names(iris)[1:3])
-
-  expect_set_equal(map_chr(as.data.table(bmr)$task, get_feature_names), names(iris)[1:3])
+  p1 = rr$prediction("train")
+  p2 = rr$prediction("test")
+  expect_prediction(p1)
+  expect_prediction(p2)
+  expect_disjunct(p1$row_ids, p2$row_ids)
 })

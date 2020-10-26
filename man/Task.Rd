@@ -4,7 +4,10 @@
 \alias{Task}
 \title{Task Class}
 \description{
-This is the abstract base class for task objects like \link{TaskClassif} and \link{TaskRegr}.
+This is the abstract base class for \link{TaskSupervised} and \link{TaskUnsupervised}.
+\link{TaskClassif} and \link{TaskRegr} inherit from \link{TaskSupervised}.
+More supervised tasks are implemented in \CRANpkg{mlr3proba}, unsupervised cluster tasks
+in package \CRANpkg{mlr3cluster}.
 
 Tasks serve two purposes:
 \enumerate{
@@ -15,6 +18,7 @@ For example, for a classification task a single column must be marked as target 
 
 Predefined (toy) tasks are stored in the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_tasks},
 e.g. \code{\link[=mlr_tasks_iris]{iris}} or \code{\link[=mlr_tasks_boston_housing]{boston_housing}}.
+More toy tasks can be found in the dictionary after loading \CRANpkg{mlr3data}.
 }
 \section{S3 methods}{
 
@@ -118,11 +122,6 @@ Required for \code{\link[=convert_task]{convert_task()}}.}
 \describe{
 \item{\code{hash}}{(\code{character(1)})\cr
 Hash (unique identifier) for this object.}
-
-\item{\code{phash}}{(\code{character(1)})\cr
-Hash (unique identifier) for this partial object, excluding some components
-which are varied  systematically during tuning (parameter values) or feature
-selection (feature names).}
 
 \item{\code{row_ids}}{(\code{integer()})\cr
 Returns the row ids of the \link{DataBackend} for observations with role "use".}

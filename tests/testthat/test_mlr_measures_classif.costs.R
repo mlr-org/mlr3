@@ -1,5 +1,3 @@
-context("mlr_measures_classif.costs")
-
 test_that("binary task", {
   task = tsk("sonar")
   costs = matrix(c(0, 5, 10, 0), nrow = 2)

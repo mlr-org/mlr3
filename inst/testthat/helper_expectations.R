@@ -495,7 +495,7 @@ expect_benchmark_result = function(bmr) {
   expect_hash(tab$task_hash)
   expect_id(tab$task_id)
   checkmate::expect_list(tab$task, "Task")
-  expect_set_equal(bmr$tasks$task_hash, bmr$data$data$task_components$task_hash)
+  expect_set_equal(bmr$tasks$task_hash, bmr$data$data$tasks$task_hash)
 
   tab = bmr$learners
   checkmate::expect_data_table(tab, ncols = 3L)
@@ -574,8 +574,7 @@ expect_resultdata = function(rdata, consistency = TRUE) {
 
   if (consistency) {
     expect_fsetequal(data$fact, data$uhashes, "uhash")
-    expect_fsetequal(data$fact, data$tasks, "task_phash")
-    expect_fsetequal(data$fact, data$task_components, "task_hash")
+    expect_fsetequal(data$fact, data$tasks, "task_hash")
     expect_fsetequal(data$fact, data$learners, "learner_phash")
     expect_fsetequal(data$fact, data$learner_components, "learner_hash")
     expect_fsetequal(data$fact, data$resamplings, "resampling_hash")

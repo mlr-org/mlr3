@@ -15,6 +15,7 @@ Additional task properties include:
 }
 
 Predefined tasks are stored in the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_tasks}.
+More example tasks can be found in this dictionary after loading \CRANpkg{mlr3data}.
 }
 \examples{
 data("Sonar", package = "mlbench")

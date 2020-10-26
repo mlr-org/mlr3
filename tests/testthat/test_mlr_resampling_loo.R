@@ -1,5 +1,3 @@
-context("mlr_resampling_loo")
-
 test_that("loo has no duplicated ids", {
   r = rsmp("loo")
   expect_identical(r$duplicated_ids, FALSE)

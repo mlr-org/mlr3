@@ -1,5 +1,3 @@
-context("DataBackendDataTable")
-
 test_that("DataBackendDataTable construction", {
   b = as_data_backend(iris)
   expect_backend(b)

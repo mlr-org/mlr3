@@ -1,5 +1,3 @@
-context("Dictionary")
-
 test_that("Dictionary: clone works", {
   t1 = tsk("iris")
   expect_task(t1)
