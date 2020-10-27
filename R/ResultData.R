@@ -168,7 +168,7 @@ ResultData = R6Class("ResultData",
     #' @return `list()` of [Prediction].
     predictions = function(view = NULL, predict_sets = "test") {
       ii = private$get_view_index(view)
-      as_predictions(self$data$fact[ii, "prediction", with = FALSE][[1L]])
+      as_predictions(self$data$fact[ii, "prediction", with = FALSE][[1L]], predict_sets = predict_sets)
     },
 
     #' @description

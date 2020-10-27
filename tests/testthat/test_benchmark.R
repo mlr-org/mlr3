@@ -52,7 +52,7 @@ test_that("ResampleResult / hash", {
   for (i in nr) {
     rr = aggr$resample_result[[i]]
     expect_resample_result(rr)
-    expect_equivalent(rr$aggregate(m), aggr[["classif.ce"]][i])
+    expect_equal(unname(rr$aggregate(m)), aggr[["classif.ce"]][i])
     expect_equal(bmr$uhashes[i], rr$uhash)
   }
 })
