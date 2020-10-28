@@ -25,7 +25,7 @@ lrn("classif.featureless")
 \itemize{
 \item Task type: \dQuote{classif}
 \item Predict Types: \dQuote{response}, \dQuote{prob}
-\item Feature Types: \dQuote{logical}, \dQuote{integer}, \dQuote{numeric}, \dQuote{character}, \dQuote{factor}, \dQuote{ordered}, \dQuote{POSIXct}
+\item Feature Types: \dQuote{logical}, \dQuote{integer}, \dQuote{numeric}, \dQuote{character}, \dQuote{factor}, \dQuote{ordered}, \dQuote{POSIXct}, \dQuote{imagepath}
 \item Required Packages: -
 }
 }
@@ -33,7 +33,7 @@ lrn("classif.featureless")
 \section{Parameters}{
 \tabular{lllll}{
    Id \tab Type \tab Default \tab Range \tab Levels \cr
-   method \tab character \tab mode \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \tab mode           , sample         , weighted.sample \cr
+   method \tab character \tab mode \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \tab mode, sample, weighted.sample \cr
 }
 }
 
