@@ -83,8 +83,7 @@ Suggests:
     mlr3learners,
     progressr,
     rpart,
-    testthat,
-    xgboost
+    testthat
 Remotes:
     mlr-org/mlr3learners@continue
 Encoding: UTF-8
