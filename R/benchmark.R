@@ -173,6 +173,7 @@ benchmark_continue = function(learners, benchmark_result, store_models = FALSE) 
 
   grid = as.data.table(benchmark_result)[, c("task", "learner", "resampling", "iteration", "uhash")]
   grid$learner = unlist(learners)
+  uhash = NULL
   grid[, "uhash" := UUIDgenerate(), by = uhash]
 
   n = nrow(grid)

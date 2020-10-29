@@ -343,6 +343,9 @@ Ids of \link{Resampling}s to keep.}
 
 \item{\code{resampling_hashes}}{(\code{character()})\cr
 Hashes of \link{Resampling}s to keep.}
+
+\item{\code{uhashes}}{(\code{character()})\cr
+Hashes of \link{ResampleResult}s to keep.}
 }
 \if{html}{\out{</div>}}
 }

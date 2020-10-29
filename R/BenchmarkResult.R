@@ -280,6 +280,8 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #'   Ids of [Resampling]s to keep.
     #' @param resampling_hashes (`character()`)\cr
     #'   Hashes of [Resampling]s to keep.
+    #' @param uhashes (`character()`)\cr
+    #'   Hashes of [ResampleResult]s to keep.
     #'
     #' @return
     #' Returns the object itself, but modified **by reference**.
