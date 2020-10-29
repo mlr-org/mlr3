@@ -345,3 +345,35 @@ test_that("Task$row_names", {
   expect_integer(tab$row_id, unique = TRUE)
   expect_character(tab$row_name)
 })
+
+test_that("Task$set_row_roles", {
+  task = tsk("pima")
+
+  task$set_row_roles(1:10, remove_from = "use")
+  expect_true(all(1:10 %nin% task$row_ids))
+
+  task$set_row_roles(1:10, add_to = "use")
+  expect_true(all(1:10 %in% task$row_ids))
+
+  task$set_row_roles(1:10, roles = "validation")
+  expect_true(all(1:10 %nin% task$row_ids))
+})
+
+
+test_that("Task$set_col_roles", {
+  task = tsk("pima")
+
+  task$set_col_roles("mass", remove_from = "feature")
+  expect_true("mass" %nin% task$feature_names)
+
+  task$set_col_roles("mass", add_to = "feature")
+  expect_true("mass" %in% task$feature_names)
+
+  task$set_col_roles("age", roles = "weight")
+  expect_true("age" %nin% task$feature_names)
+  expect_data_table(task$weights)
+
+  task$set_col_roles("age", add_to = "feature", remove_from = "weight")
+  expect_true("age" %in% task$feature_names)
+  expect_null(task$weights)
+})
