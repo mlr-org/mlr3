@@ -47,6 +47,13 @@ The learner must be tagged with property \code{"oob_error"}.
 }
 }
 
+\section{Continue training}{
+
+
+Specific learners can implement the private method \code{.$continue()} to
+continue the training of the model.
+}
+
 \section{Setting Hyperparameters}{
 
 

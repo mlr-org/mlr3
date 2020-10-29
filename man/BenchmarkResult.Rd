@@ -318,7 +318,8 @@ Same procedure for \code{learner_ids} and \code{resampling_ids}.
   learner_ids = NULL,
   learner_hashes = NULL,
   resampling_ids = NULL,
-  resampling_hashes = NULL
+  resampling_hashes = NULL,
+  uhashes = NULL
 )}\if{html}{\out{</div>}}
 }
 
