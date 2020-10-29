@@ -84,8 +84,6 @@ Suggests:
     progressr,
     rpart,
     testthat
-Remotes:
-    mlr-org/mlr3learners@continue
 Encoding: UTF-8
 LazyData: true
 NeedsCompilation: no

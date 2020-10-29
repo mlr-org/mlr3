@@ -197,6 +197,7 @@ See \code{\link[mlr3misc:encapsulate]{mlr3misc::encapsulate()}} for more details
 \item \href{#method-help}{\code{Learner$help()}}
 \item \href{#method-train}{\code{Learner$train()}}
 \item \href{#method-continue}{\code{Learner$continue()}}
+\item \href{#method-update}{\code{Learner$update()}}
 \item \href{#method-predict}{\code{Learner$predict()}}
 \item \href{#method-predict_newdata}{\code{Learner$predict_newdata()}}
 \item \href{#method-reset}{\code{Learner$reset()}}
@@ -349,6 +350,31 @@ information in field \verb{$state}.
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{task}}{(\link{Task}).}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Returns the object itself, but modified \strong{by reference}. You need to
+explicitly \verb{$clone()} the object beforehand if you want to keeps the
+object in its previous state.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-update"></a>}}
+\if{latex}{\out{\hypertarget{method-update}{}}}
+\subsection{Method \code{update()}}{
+Updates model with new observations
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Learner$update(task, row_ids = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{task}}{(\link{Task}).}
+
+\item{\code{row_ids}}{(\code{integer()})\cr
+Vector of training indices.}
 }
 \if{html}{\out{</div>}}
 }

@@ -1,66 +1,3 @@
-learner_continue = function(learner, task, row_ids = NULL) {
-  # This wrapper calls learner$.continue, and additionally performs some basic
-  # checks that the training was successful.
-  # Exceptions here are possibly encapsulated, so that they get captured
-  # and turned into log messages.
-  continue_wrapper = function(learner, task) {
-    model = get_private(learner)$.continue(task)
-
-    if (is.null(model)) {
-      stopf("Learner '%s' on task '%s' returned NULL during internal continue()",
-        learner$id, task$id)
-    }
-
-    model
-  }
-
-  assert_task(task)
-  assert_learnable(task, learner)
-
-  # subset to train set w/o cloning
-  if (!is.null(row_ids)) {
-    lg$debug("Subsetting task '%s' to %i rows",
-             task$id, length(row_ids), task = task$clone(), row_ids = row_ids)
-
-    prev_use = task$row_roles$use
-    on.exit({
-      task$row_roles$use = prev_use
-    }, add = TRUE)
-    task$row_roles$use = row_ids
-  } else {
-    lg$debug("Skip subsetting of task '%s'", task$id)
-  }
-
-  lg$debug("Calling continue method of Learner '%s' on task '%s' with %i observations",
-    learner$id, task$id, task$nrow, learner = learner$clone())
-
-  # call continue_wrapper with encapsulation
-  result = encapsulate(learner$encapsulate["continue"],
-    .f = continue_wrapper,
-    .args = list(learner = learner, task = task),
-    .pkgs = learner$packages,
-    .seed = NA_integer_
-  )
-
-  if (is.null(result$result)) {
-    lg$debug("Learner '%s' on task '%s' failed to continue the model",
-      learner$id, task$id, learner = learner$clone(), messages = result$log$msg)
-  } else {
-    lg$debug("Learner '%s' on task '%s' succeeded to continue the model",
-      learner$id, task$id, learner = learner$clone(), result = result$result, messages = result$log$msg)
-
-    # Write new model to state
-    learner$state = insert_named(learner$state, list(
-      model = result$result,
-      log = rbindlist(list(learner$state$log,
-        append_log(NULL, "train", result$log$class, result$log$msg))),
-      train_time = learner$state$train_time + result$elapsed
-    ))
-  }
-
-  learner
-}
-
 learner_train = function(learner, task, row_ids = NULL) {
   # This wrapper calls learner$train, and additionally performs some basic
   # checks that the training was successful.
@@ -143,7 +80,131 @@ learner_train = function(learner, task, row_ids = NULL) {
   learner
 }
 
+learner_continue = function(learner, task, row_ids = NULL) {
+  # This wrapper calls learner$.continue, and additionally performs some basic
+  # checks that the training was successful.
+  # Exceptions here are possibly encapsulated, so that they get captured
+  # and turned into log messages.
+  continue_wrapper = function(learner, task) {
+    model = get_private(learner)$.continue(task)
 
+    if (is.null(model)) {
+      stopf("Learner '%s' on task '%s' returned NULL during internal continue()",
+        learner$id, task$id)
+    }
+
+    model
+  }
+
+  assert_task(task)
+  assert_learnable(task, learner)
+
+  # subset to train set w/o cloning
+  if (!is.null(row_ids)) {
+    lg$debug("Subsetting task '%s' to %i rows",
+             task$id, length(row_ids), task = task$clone(), row_ids = row_ids)
+
+    prev_use = task$row_roles$use
+    on.exit({
+      task$row_roles$use = prev_use
+    }, add = TRUE)
+    task$row_roles$use = row_ids
+  } else {
+    lg$debug("Skip subsetting of task '%s'", task$id)
+  }
+
+  lg$debug("Calling continue method of Learner '%s' on task '%s' with %i observations",
+    learner$id, task$id, task$nrow, learner = learner$clone())
+
+  # call continue_wrapper with encapsulation
+  result = encapsulate(learner$encapsulate["continue"],
+    .f = continue_wrapper,
+    .args = list(learner = learner, task = task),
+    .pkgs = learner$packages,
+    .seed = NA_integer_
+  )
+
+  if (is.null(result$result)) {
+    lg$debug("Learner '%s' on task '%s' failed to continue the model",
+      learner$id, task$id, learner = learner$clone(), messages = result$log$msg)
+  } else {
+    lg$debug("Learner '%s' on task '%s' succeeded to continue the model",
+      learner$id, task$id, learner = learner$clone(), result = result$result, messages = result$log$msg)
+
+    # Write new model to state
+    learner$state = insert_named(learner$state, list(
+      model = result$result,
+      log = rbindlist(list(learner$state$log,
+        append_log(NULL, "train", result$log$class, result$log$msg))),
+      train_time = learner$state$train_time + result$elapsed
+    ))
+  }
+
+  learner
+}
+
+learner_update = function(learner, task, row_ids = NULL) {
+  # This wrapper calls learner$.update, and additionally performs some basic
+  # checks that the training was successful.
+  # Exceptions here are possibly encapsulated, so that they get captured
+  # and turned into log messages.
+  update_wrapper = function(learner, task) {
+    model = get_private(learner)$.update(task)
+
+    if (is.null(model)) {
+      stopf("Learner '%s' on task '%s' returned NULL during internal update()",
+        learner$id, task$id)
+    }
+
+    model
+  }
+
+  assert_task(task)
+  assert_learnable(task, learner)
+
+  # subset to train set w/o cloning
+  if (!is.null(row_ids)) {
+    lg$debug("Subsetting task '%s' to %i rows",
+             task$id, length(row_ids), task = task$clone(), row_ids = row_ids)
+
+    prev_use = task$row_roles$use
+    on.exit({
+      task$row_roles$use = prev_use
+    }, add = TRUE)
+    task$row_roles$use = row_ids
+  } else {
+    lg$debug("Skip subsetting of task '%s'", task$id)
+  }
+
+  lg$debug("Calling update method of Learner '%s' on task '%s' with %i observations",
+    learner$id, task$id, task$nrow, learner = learner$clone())
+
+  # call update_wrapper with encapsulation
+  result = encapsulate(learner$encapsulate["update"],
+    .f = update_wrapper,
+    .args = list(learner = learner, task = task),
+    .pkgs = learner$packages,
+    .seed = NA_integer_
+  )
+
+  if (is.null(result$result)) {
+    lg$debug("Learner '%s' on task '%s' failed to update the model",
+      learner$id, task$id, learner = learner$clone(), messages = result$log$msg)
+  } else {
+    lg$debug("Learner '%s' on task '%s' succeeded to update the model",
+      learner$id, task$id, learner = learner$clone(), result = result$result, messages = result$log$msg)
+
+    # Write new model to state
+    learner$state = insert_named(learner$state, list(
+      model = result$result,
+      log = rbindlist(list(learner$state$log,
+        append_log(NULL, "train", result$log$class, result$log$msg))),
+      train_time = learner$state$train_time + result$elapsed
+    ))
+  }
+
+  learner
+}
 
 learner_predict = function(learner, task, row_ids = NULL) {
   # This wrapper calls learner$predict, and additionally performs some basic
