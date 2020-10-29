@@ -105,7 +105,7 @@ A guide on how to extend mlr3 with custom learners can be found in the mlr3book.
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.7.0-9000</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.8.0-9000</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -185,7 +185,7 @@ or private methods <code>$.train()</code>/<code>$.predict()</code>).</p></li>
 <li><p>The fitted model stored in field <code>$model</code>, available after calling <code>$train()</code>.</p></li>
 </ul>
 
-<p>Predefined learners are stored in the <a href='https://rdrr.io/pkg/mlr3misc/man/Dictionary.html'>dictionary</a> <a href='mlr_learners.html'>mlr_learners</a>,
+<p>Predefined learners are stored in the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> <a href='mlr_learners.html'>mlr_learners</a>,
 e.g. <code><a href='mlr_learners_classif.rpart.html'>classif.rpart</a></code> or <code><a href='mlr_learners_regr.rpart.html'>regr.rpart</a></code>.</p>
 <p>More classification and regression learners are implemented in the add-on package <a href='https://CRAN.R-project.org/package=mlr3learners'><span class="pkg">mlr3learners</span></a>.
 Learners for survival analysis (or more general, for probabilistic regression) can be found in <a href='https://CRAN.R-project.org/package=mlr3proba'><span class="pkg">mlr3proba</span></a>.
@@ -230,7 +230,7 @@ To set hyperparameters, assign a named list to the subslot <code>values</code>:<
 </pre>
 
 <p>Note that this operation replaces all previously set hyperparameter values.
-If you only intend to change one specific hyperparameter value and leave the others as-is, you can use the helper function <code><a href='https://rdrr.io/pkg/mlr3misc/man/insert_named.html'>mlr3misc::insert_named()</a></code>:</p><pre><span class='va'>lrn</span><span class='op'>$</span><span class='va'>param_set</span><span class='op'>$</span><span class='va'>values</span> <span class='op'>=</span> <span class='fu'>mlr3misc</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/mlr3misc/man/insert_named.html'>insert_named</a></span><span class='op'>(</span><span class='va'>lrn</span><span class='op'>$</span><span class='va'>param_set</span><span class='op'>$</span><span class='va'>values</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>cp <span class='op'>=</span> <span class='fl'>0.001</span><span class='op'>)</span><span class='op'>)</span>
+If you only intend to change one specific hyperparameter value and leave the others as-is, you can use the helper function <code><a href='https://mlr3misc.mlr-org.com/reference/insert_named.html'>mlr3misc::insert_named()</a></code>:</p><pre><span class='va'>lrn</span><span class='op'>$</span><span class='va'>param_set</span><span class='op'>$</span><span class='va'>values</span> <span class='op'>=</span> <span class='fu'>mlr3misc</span><span class='fu'>::</span><span class='fu'><a href='https://mlr3misc.mlr-org.com/reference/insert_named.html'>insert_named</a></span><span class='op'>(</span><span class='va'>lrn</span><span class='op'>$</span><span class='va'>param_set</span><span class='op'>$</span><span class='va'>values</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>cp <span class='op'>=</span> <span class='fl'>0.001</span><span class='op'>)</span><span class='op'>)</span>
 </pre>
 
 <p>If the learner has additional hyperparameters which are not encoded in the <a href='https://paradox.mlr-org.com/reference/ParamSet.html'>ParamSet</a>, you can easily extend the learner.
@@ -309,7 +309,7 @@ The fitted model. Only available after <code>$train()</code> has been called.</p
 
 <dt><code>timings</code></dt><dd><p>(named <code><a href='https://rdrr.io/r/base/numeric.html'>numeric(2)</a></code>)<br />
 Elapsed time in seconds for the steps <code>"train"</code> and <code>"predict"</code>.
-Measured via <code><a href='https://rdrr.io/pkg/mlr3misc/man/encapsulate.html'>mlr3misc::encapsulate()</a></code>.</p></dd>
+Measured via <code><a href='https://mlr3misc.mlr-org.com/reference/encapsulate.html'>mlr3misc::encapsulate()</a></code>.</p></dd>
 
 <dt><code>log</code></dt><dd><p>(<code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code>)<br />
 Returns the output (including warning and errors) as table with columns
@@ -344,7 +344,7 @@ Set of hyperparameters.</p></dd>
 Controls how to execute the code in internal train and predict methods.
 Must be a named character vector with names <code>"train"</code> and <code>"predict"</code>.
 Possible values are <code>"none"</code>, <code>"evaluate"</code> (requires package <a href='https://CRAN.R-project.org/package=evaluate'><span class="pkg">evaluate</span></a>) and <code>"callr"</code> (requires package <a href='https://CRAN.R-project.org/package=callr'><span class="pkg">callr</span></a>).
-See <code><a href='https://rdrr.io/pkg/mlr3misc/man/encapsulate.html'>mlr3misc::encapsulate()</a></code> for more details.</p></dd>
+See <code><a href='https://mlr3misc.mlr-org.com/reference/encapsulate.html'>mlr3misc::encapsulate()</a></code> for more details.</p></dd>
 
 </dl><p></div></p>
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>

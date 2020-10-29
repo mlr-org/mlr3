@@ -93,7 +93,7 @@ Do not modify any object without cloning it first." />
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.7.0-9000</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.8.0-9000</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -367,7 +367,7 @@ column <code>"uhash"</code>.</p></dd>
 
 <dt><code>params</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
 Adds the hyperparameter values as extra list column <code>"params"</code>. You
-can unnest them with <code><a href='https://rdrr.io/pkg/mlr3misc/man/unnest.html'>mlr3misc::unnest()</a></code>.</p></dd>
+can unnest them with <code><a href='https://mlr3misc.mlr-org.com/reference/unnest.html'>mlr3misc::unnest()</a></code>.</p></dd>
 
 <dt><code>conditions</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
 Adds the number of resampling iterations with at least one warning as
@@ -482,11 +482,11 @@ The <code>ushash</code> value to filter for.</p></dd>
 <span class='co'># first 5 resampling iterations</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table</a></span><span class='op'>(</span><span class='va'>bmr</span>, measures <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"classif.acc"</span>, <span class='st'>"classif.auc"</span><span class='op'>)</span><span class='op'>)</span>, <span class='fl'>5</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;                                   uhash              task
-#&gt; 1: dda21070-039c-4fe7-acbd-8ad8b243b488 &lt;TaskClassif[45]&gt;
-#&gt; 2: dda21070-039c-4fe7-acbd-8ad8b243b488 &lt;TaskClassif[45]&gt;
-#&gt; 3: dda21070-039c-4fe7-acbd-8ad8b243b488 &lt;TaskClassif[45]&gt;
-#&gt; 4: 525b8784-6490-4ab9-980b-70ea2c1a0dcc &lt;TaskClassif[45]&gt;
-#&gt; 5: 525b8784-6490-4ab9-980b-70ea2c1a0dcc &lt;TaskClassif[45]&gt;
+#&gt; 1: 8f20dcc2-1a35-4a16-ae1d-ae6712a8cf19 &lt;TaskClassif[45]&gt;
+#&gt; 2: 8f20dcc2-1a35-4a16-ae1d-ae6712a8cf19 &lt;TaskClassif[45]&gt;
+#&gt; 3: 8f20dcc2-1a35-4a16-ae1d-ae6712a8cf19 &lt;TaskClassif[45]&gt;
+#&gt; 4: ef861bd6-01b5-430a-b058-23b44c4f8c84 &lt;TaskClassif[45]&gt;
+#&gt; 5: ef861bd6-01b5-430a-b058-23b44c4f8c84 &lt;TaskClassif[45]&gt;
 #&gt;                            learner         resampling iteration
 #&gt; 1: &lt;LearnerClassifFeatureless[33]&gt; &lt;ResamplingCV[19]&gt;         1
 #&gt; 2: &lt;LearnerClassifFeatureless[33]&gt; &lt;ResamplingCV[19]&gt;         2
@@ -512,7 +512,7 @@ The <code>ushash</code> value to filter for.</p></dd>
 #&gt; 3:  0.3940399
 #&gt; 4:  0.1086721</div><div class='input'>
 <span class='co'># aggregate results with hyperparameters as separate columns</span>
-<span class='fu'>mlr3misc</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/mlr3misc/man/unnest.html'>unnest</a></span><span class='op'>(</span><span class='va'>bmr</span><span class='op'>$</span><span class='fu'>aggregate</span><span class='op'>(</span>params <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>, <span class='st'>"params"</span><span class='op'>)</span>
+<span class='fu'>mlr3misc</span><span class='fu'>::</span><span class='fu'><a href='https://mlr3misc.mlr-org.com/reference/unnest.html'>unnest</a></span><span class='op'>(</span><span class='va'>bmr</span><span class='op'>$</span><span class='fu'>aggregate</span><span class='op'>(</span>params <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>, <span class='st'>"params"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;    nr      resample_result task_id          learner_id resampling_id iters
 #&gt; 1:  1 &lt;ResampleResult[21]&gt;   sonar classif.featureless            cv     3
 #&gt; 2:  2 &lt;ResampleResult[21]&gt;   sonar       classif.rpart            cv     3
