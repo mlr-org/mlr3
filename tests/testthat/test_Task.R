@@ -223,7 +223,7 @@ test_that("stratify works", {
 test_that("groups/weights work", {
   b = as_data_backend(data.table(x = runif(20), y = runif(20), w = runif(20), g = sample(letters[1:2], 20, replace = TRUE)))
   task = TaskRegr$new("test", b, target = "y")
-  task$set_row_role(16:20, character())
+  task$set_row_roles(16:20, character())
 
   expect_false("groups" %in% task$properties)
   expect_false("weights" %in% task$properties)
