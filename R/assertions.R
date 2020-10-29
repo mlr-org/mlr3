@@ -140,8 +140,8 @@ assert_measure = function(measure, task = NULL, learner = NULL, .var.name = vnam
 
     miss = setdiff(measure$predict_sets, learner$predict_sets)
     if (length(miss)) {
-      stopf("Measure '%s' needs predict set '%s', but learner '%s' only predicted on sets '%s'",
-        measure$id, str_collapse(miss), learner$id, str_collapse(learner$predict_sets))
+      stopf("Measure '%s' needs predict set %s, but learner '%s' only predicted on sets %s",
+        measure$id, str_collapse(miss, quote = "'"), learner$id, str_collapse(learner$predict_sets, quote = "'"))
     }
   }
 
