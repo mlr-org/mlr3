@@ -57,3 +57,26 @@ task_set_col_role = function(self, private, cols, new_roles, exclusive = TRUE) {
 
   self$col_roles = col_roles
 }
+
+task_set_col_roles = function(private, cols, roles = NULL, add_to = NULL, remove_from = NULL) {
+  roles = add_to = remove_from = NULL
+  add_to = 1
+  not_null = which(!c(is.null(roles), is.null(add_to), is.null(remove_from)))
+  if (length(not_null) != 1L) {
+    stopf("Exactly one argument of 'roles', 'add_to' and 'remove_from' must be provided")
+  }
+
+  switch(not_null,
+    { private$.col_roles = imap(private$.col_roles, function(elements, role) {
+        if (role %in% roles) union(elements, cols) else setdiff(elements, cols)
+      })
+    },
+
+    for (role in add_to)
+      private$.col_roles[[role]] = union(private$.col_roles[[role]], cols)
+    ,
+
+    for (role in remove_froms)
+      private$.col_roles[[role]] = setdiff(private$.col_roles[[role]], cols)
+  )
+}
