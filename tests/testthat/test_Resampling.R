@@ -78,7 +78,7 @@ test_that("integer grouping col (#396)", {
   )
 
   tsk = TaskRegr$new(id = "task", backend = df, target = "x")
-  tsk$set_col_role("id", "group")
+  tsk$set_col_roles("id", "group")
 
   bs = rsmp("bootstrap", repeats = 10L, ratio = 1)
   bs$instantiate(tsk)
