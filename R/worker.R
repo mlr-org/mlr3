@@ -1,4 +1,19 @@
 learner_continue = function(learner, task, row_ids = NULL) {
+  # This wrapper calls learner$.continue, and additionally performs some basic
+  # checks that the training was successful.
+  # Exceptions here are possibly encapsulated, so that they get captured
+  # and turned into log messages.
+  continue_wrapper = function(learner, task) {
+    model = get_private(learner)$.continue(task)
+
+    if (is.null(model)) {
+      stopf("Learner '%s' on task '%s' returned NULL during internal continue()",
+        learner$id, task$id)
+    }
+
+    model
+  }
+
   assert_task(task)
   assert_learnable(task, learner)
 
@@ -45,23 +60,6 @@ learner_continue = function(learner, task, row_ids = NULL) {
 
   learner
 }
-
-# This wrapper calls learner$.continue, and additionally performs some basic
-# checks that the training was successful.
-# Exceptions here are possibly encapsulated, so that they get captured
-# and turned into log messages.
-continue_wrapper = function(learner, task) {
-  model = get_private(learner)$.continue(task)
-
-  if (is.null(model)) {
-    stopf("Learner '%s' on task '%s' returned NULL during internal continue()",
-      learner$id, task$id)
-  }
-
-  model
-}
-
-
 
 learner_train = function(learner, task, row_ids = NULL) {
   # This wrapper calls learner$train, and additionally performs some basic
