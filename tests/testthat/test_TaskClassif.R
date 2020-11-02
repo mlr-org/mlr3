@@ -13,7 +13,7 @@ test_that("Basic ops on iris task", {
 
 test_that("$class_names consider also inactive rows", {
   task = tsk("iris")
-  task$set_row_role(1:100, character())
+  task$set_row_roles(1:100, remove_from = "use")
 
   expect_set_equal(task$class_names, levels(iris$Species))
 })

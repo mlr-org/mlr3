@@ -315,40 +315,55 @@ Task = R6Class("Task",
     },
 
     #' @description
-    #' Adds the roles `new_roles` to rows referred to by row ids `rows`.
-    #' If `exclusive` is `TRUE`, the referenced rows will be removed from all other roles.
+    #' Modifies the roles in `$row_roles` **in-place**.
     #'
-    #' This function is deprecated and will be removed in the next version in favor of directly modifying `$row_roles`.
+    #' @param rows (`integer()`)\cr
+    #'   Row ids for which to change the roles for.
+    #' @param roles (`character()`)\cr
+    #'   Exclusively set rows to the specified `roles` (remove from other roles).
+    #' @param add_to (`character()`)\cr
+    #'   Add rows with row ids `rows` to roles specified in `add_to`.
+    #' @param remove_from (`character()`)\cr
+    #'   Remove rows with row ids `rows` from roles specified in `remove_from`.
     #'
-    #' @param new_roles (`character()`).
-    #'
-    #' @param exclusive (`logical(1)`).
+    #' @details
+    #' Roles are first set exclusively (argument `roles`), then added (argument `add_to`) and finally
+    #' removed (argument `remove_from`) from different roles.
     #'
     #' @return
     #' Returns the object itself, but modified **by reference**.
     #' You need to explicitly `$clone()` the object beforehand if you want to keeps
     #' the object in its previous state.
-    set_row_role = function(rows, new_roles, exclusive = TRUE) {
-      task_set_row_role(self, private, rows, new_roles, exclusive)
+    set_row_roles = function(rows, roles = NULL, add_to = NULL, remove_from = NULL) {
+      assert_subset(rows, self$backend$rownames)
+      private$.row_roles = task_set_roles(private$.row_roles, rows, roles, add_to, remove_from)
       invisible(self)
     },
 
     #' @description
-    #' Adds the roles `new_roles` to columns referred to by column names `cols`.
-    #' If `exclusive` is `TRUE`, the referenced columns will be removed from all other roles.
+    #' Modifies the roles in `$col_roles` **in-place**.
     #'
-    #' This function is deprecated and will be removed in the next version in favor of directly modifying `$col_roles`.
+    #' @param cols (`character()`)\cr
+    #'   Column names for which to change the roles for.
+    #' @param roles (`character()`)\cr
+    #'   Exclusively set columns to the specified `roles` (remove from other roles).
+    #' @param add_to (`character()`)\cr
+    #'   Add columns with column names `cols` to roles specified in `add_to`.
+    #' @param remove_from (`character()`)\cr
+    #'   Remove columns with columns names `cols` from roles specified in `remove_from`.
     #'
-    #' @param new_roles (`character()`).
-    #'
-    #' @param exclusive (`logical(1)`).
+    #' @details
+    #' Roles are first set exclusively (argument `roles`), then added (argument `add_to`) and finally
+    #' removed (argument `remove_from`) from different roles.
     #'
     #' @return
     #' Returns the object itself, but modified **by reference**.
     #' You need to explicitly `$clone()` the object beforehand if you want to keeps
     #' the object in its previous state.
-    set_col_role = function(cols, new_roles, exclusive = TRUE) {
-      task_set_col_role(self, private, cols, new_roles, exclusive)
+    set_col_roles = function(cols, roles = NULL, add_to = NULL, remove_from = NULL) {
+      assert_subset(cols, self$backend$colnames)
+      new_roles = task_set_roles(private$.col_roles, cols, roles, add_to, remove_from)
+      private$.col_roles = task_check_col_roles(self, new_roles)
       invisible(self)
     },
 
@@ -496,17 +511,7 @@ Task = R6Class("Task",
       assert_names(names(rhs), "unique", must.include = mlr_reflections$task_col_roles[[self$task_type]], .var.name = "names of col_roles")
       assert_subset(unlist(rhs, use.names = FALSE), setdiff(self$col_info$id, self$backend$primary_key), .var.name = "elements of col_roles")
 
-      for (role in c("group", "weight", "name")) {
-        if (length(rhs[[role]]) > 1L) {
-          stopf("There may only be up to one column with role '%s'", role)
-        }
-      }
-
-      if (inherits(self, "TaskSupervised") && length(rhs$target) == 0L) {
-        stopf("Supervised tasks need at least one target column")
-      }
-
-      private$.col_roles = rhs
+      private$.col_roles = task_check_col_roles(self, rhs)
     },
 
     #' @field nrow (`integer(1)`)\cr
@@ -707,6 +712,54 @@ task_print = function(self) {
   if ("weights" %in% self$properties) {
     catf(str_indent("* Weights:", roles$weight))
   }
+}
+
+task_set_roles = function(li, cols, roles = NULL, add_to = NULL, remove_from = NULL) {
+  if (!is.null(roles)) {
+    assert_subset(roles, names(li))
+    for (role in roles) {
+      li[[role]] = union(li[[role]], cols)
+    }
+    for (role in setdiff(names(li), roles)) {
+      li[[role]] = setdiff(li[[role]], cols)
+    }
+  }
+
+  if (!is.null(add_to)) {
+    assert_subset(add_to, names(li))
+    for (role in add_to) {
+      li[[role]] = union(li[[role]], cols)
+    }
+  }
+
+  if (!is.null(remove_from)) {
+    assert_subset(remove_from, names(li))
+    for (role in remove_from) {
+      li[[role]] = setdiff(li[[role]], cols)
+    }
+  }
+
+  li
+}
+
+task_check_col_roles = function(self, new_roles) {
+  for (role in c("group", "weight", "name")) {
+    if (length(new_roles[[role]]) > 1L) {
+      stopf("There may only be up to one column with role '%s'", role)
+    }
+  }
+
+  if (inherits(self, "TaskSupervised")) {
+    if (length(new_roles$target) == 0L) {
+      stopf("Supervised tasks need at least one target column")
+    }
+  } else if (inherits(self, "TaskUnsupervised")) {
+    if (length(new_roles$target) != 0L) {
+      stopf("Unsupervised tasks may not have a target column")
+    }
+  }
+
+  new_roles
 }
 
 # collect column information of a backend.

@@ -254,8 +254,8 @@ Returns \code{NULL} if there are is no weight column.}
 \item \href{#method-rbind}{\code{Task$rbind()}}
 \item \href{#method-cbind}{\code{Task$cbind()}}
 \item \href{#method-rename}{\code{Task$rename()}}
-\item \href{#method-set_row_role}{\code{Task$set_row_role()}}
-\item \href{#method-set_col_role}{\code{Task$set_col_role()}}
+\item \href{#method-set_row_roles}{\code{Task$set_row_roles()}}
+\item \href{#method-set_col_roles}{\code{Task$set_col_roles()}}
 \item \href{#method-droplevels}{\code{Task$droplevels()}}
 \item \href{#method-clone}{\code{Task$clone()}}
 }
@@ -599,29 +599,36 @@ the object in its previous state.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-set_row_role"></a>}}
-\if{latex}{\out{\hypertarget{method-set_row_role}{}}}
-\subsection{Method \code{set_row_role()}}{
-Adds the roles \code{new_roles} to rows referred to by row ids \code{rows}.
-If \code{exclusive} is \code{TRUE}, the referenced rows will be removed from all other roles.
-
-This function is deprecated and will be removed in the next version in favor of directly modifying \verb{$row_roles}.
+\if{html}{\out{<a id="method-set_row_roles"></a>}}
+\if{latex}{\out{\hypertarget{method-set_row_roles}{}}}
+\subsection{Method \code{set_row_roles()}}{
+Modifies the roles in \verb{$row_roles} \strong{in-place}.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Task$set_row_role(rows, new_roles, exclusive = TRUE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Task$set_row_roles(rows, roles = NULL, add_to = NULL, remove_from = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{rows}}{\code{integer()}\cr
-Row indices.}
+\item{\code{rows}}{(\code{integer()})\cr
+Row ids for which to change the roles for.}
 
-\item{\code{new_roles}}{(\code{character()}).}
+\item{\code{roles}}{(\code{character()})\cr
+Exclusively set rows to the specified \code{roles} (remove from other roles).}
 
-\item{\code{exclusive}}{(\code{logical(1)}).}
+\item{\code{add_to}}{(\code{character()})\cr
+Add rows with row ids \code{rows} to roles specified in \code{add_to}.}
+
+\item{\code{remove_from}}{(\code{character()})\cr
+Remove rows with row ids \code{rows} from roles specified in \code{remove_from}.}
 }
 \if{html}{\out{</div>}}
 }
+\subsection{Details}{
+Roles are first set exclusively (argument \code{roles}), then added (argument \code{add_to}) and finally
+removed (argument \code{remove_from}) from different roles.
+}
+
 \subsection{Returns}{
 Returns the object itself, but modified \strong{by reference}.
 You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
@@ -629,29 +636,36 @@ the object in its previous state.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-set_col_role"></a>}}
-\if{latex}{\out{\hypertarget{method-set_col_role}{}}}
-\subsection{Method \code{set_col_role()}}{
-Adds the roles \code{new_roles} to columns referred to by column names \code{cols}.
-If \code{exclusive} is \code{TRUE}, the referenced columns will be removed from all other roles.
-
-This function is deprecated and will be removed in the next version in favor of directly modifying \verb{$col_roles}.
+\if{html}{\out{<a id="method-set_col_roles"></a>}}
+\if{latex}{\out{\hypertarget{method-set_col_roles}{}}}
+\subsection{Method \code{set_col_roles()}}{
+Modifies the roles in \verb{$col_roles} \strong{in-place}.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Task$set_col_role(cols, new_roles, exclusive = TRUE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Task$set_col_roles(cols, roles = NULL, add_to = NULL, remove_from = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{cols}}{\code{character()}\cr
-Column names.}
+\item{\code{cols}}{(\code{character()})\cr
+Column names for which to change the roles for.}
 
-\item{\code{new_roles}}{(\code{character()}).}
+\item{\code{roles}}{(\code{character()})\cr
+Exclusively set columns to the specified \code{roles} (remove from other roles).}
 
-\item{\code{exclusive}}{(\code{logical(1)}).}
+\item{\code{add_to}}{(\code{character()})\cr
+Add columns with column names \code{cols} to roles specified in \code{add_to}.}
+
+\item{\code{remove_from}}{(\code{character()})\cr
+Remove columns with columns names \code{cols} from roles specified in \code{remove_from}.}
 }
 \if{html}{\out{</div>}}
 }
+\subsection{Details}{
+Roles are first set exclusively (argument \code{roles}), then added (argument \code{add_to}) and finally
+removed (argument \code{remove_from}) from different roles.
+}
+
 \subsection{Returns}{
 Returns the object itself, but modified \strong{by reference}.
 You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
