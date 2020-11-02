@@ -183,10 +183,10 @@ benchmark_continue = function(learners, benchmark_result, store_models = FALSE) 
 
   lg$debug("Running benchmark() asynchronously with %i iterations", n)
 
-  res = future.apply::future_mapply(workhorse_continue,
+  res = future.apply::future_mapply(workhorse,
     task = grid$task, learner = grid$learner, resampling = grid$resampling,
     iteration = grid$iteration,
-    MoreArgs = list(store_models = store_models, lgr_threshold = lg$threshold, pb = pb),
+    MoreArgs = list(store_models = store_models, lgr_threshold = lg$threshold, pb = pb, mode = "continue"),
     SIMPLIFY = FALSE, USE.NAMES = FALSE,
     future.globals = FALSE, future.scheduling = structure(TRUE, ordering = "random"),
     future.packages = "mlr3", future.seed = TRUE

@@ -181,8 +181,8 @@ Must be an element of \verb{$predict_types}.}
 Set of hyperparameters.}
 
 \item{\code{encapsulate}}{(named \code{character()})\cr
-Controls how to execute the code in internal train, predict and continue methods.
-Must be a named character vector with names \code{"train"}, \code{"predict"} and \code{"continue"}.
+Controls how to execute the code in internal train, predict, continue and update methods.
+Must be a named character vector with names \code{"train"}, \code{"predict"}, \code{"continue"} and \code{"update"}.
 Possible values are \code{"none"}, \code{"evaluate"} (requires package \CRANpkg{evaluate}) and \code{"callr"} (requires package \CRANpkg{callr}).
 See \code{\link[mlr3misc:encapsulate]{mlr3misc::encapsulate()}} for more details.}
 }

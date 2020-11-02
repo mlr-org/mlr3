@@ -135,8 +135,8 @@ resample_continue = function(learner, resample_result, store_models = FALSE) {
 
   lg$debug("Running resample_continue() via future with %i iterations", n)
 
-  res = future.apply::future_mapply(workhorse_continue, iteration = seq_len(n), learner = learners,
-    MoreArgs = list(task = task, resampling = instance, store_models = store_models, lgr_threshold = lg$threshold, pb = pb),
+  res = future.apply::future_mapply(workhorse, iteration = seq_len(n), learner = learners,
+    MoreArgs = list(task = task, resampling = instance, store_models = store_models, lgr_threshold = lg$threshold, pb = pb, mode = "continue"),
     future.globals = FALSE, future.scheduling = structure(TRUE, ordering = "random"),
     future.packages = "mlr3", future.seed = TRUE
   )
