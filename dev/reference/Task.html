@@ -204,8 +204,9 @@ Returns the complete data as <code><a href='https://Rdatatable.gitlab.io/data.ta
     
 
 <p>The following methods change the task in-place:</p><ul>
-<li><p>Any modification to <code>$col_roles</code> and <code>$row_roles</code>.
+<li><p>Any modification of the lists <code>$col_roles</code> or <code>$row_roles</code>.
 This provides a different "view" on the data without altering the data itself.</p></li>
+<li><p>Modification of column or row roles via <code>$set_col_roles()</code> or <code>$set_row_roles()</code>, respectively.</p></li>
 <li><p><code>$filter()</code> and <code>$select()</code> subset the set of active rows or features in <code>$row_roles</code> or <code>$col_roles</code>, respectively.
 This provides a different "view" on the data without altering the data itself.</p></li>
 <li><p><code><a href='https://rdrr.io/r/base/cbind.html'>rbind()</a></code> and <code><a href='https://rdrr.io/r/base/cbind.html'>cbind()</a></code> change the task in-place by binding rows or columns to the data, but without modifying the original <a href='DataBackend.html'>DataBackend</a>.
@@ -305,7 +306,7 @@ Each row (observation) can have an arbitrary number of roles in the learning tas
 <li><p><code>"use"</code>: Use in train / predict / resampling.</p></li>
 <li><p><code>"validation"</code>: Hold the observations back unless explicitly requested.
 Validation sets are not yet completely integrated into the package.</p></li>
-</ul><code>row_roles</code> keeps track of the roles with a named list, elements are named by row role and each element is a <code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code> vector of row ids.
+</ul><code>row_roles</code> is a named list whose elements are named by row role and each element is an <code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code> vector of row ids.
 To alter the roles, just modify the list, e.g. with  <span style="R">R</span>'s set functions (<code><a href='https://rdrr.io/r/base/sets.html'>intersect()</a></code>, <code><a href='https://rdrr.io/r/base/sets.html'>setdiff()</a></code>, <code><a href='https://rdrr.io/r/base/sets.html'>union()</a></code>, ...).</p></dd>
 
 <dt><code>col_roles</code></dt><dd><p>(named <code><a href='https://rdrr.io/r/base/list.html'>list()</a></code>)<br />
@@ -316,11 +317,11 @@ Each column (feature) can have an arbitrary number of the following roles:
 <li><p><code>"name"</code>: Row names / observation labels. To be used in plots. Can be queried with <code>$row_names</code>.</p></li>
 <li><p><code>"order"</code>: Data returned by <code>$data()</code> is ordered by this column (or these columns).</p></li>
 <li><p><code>"group"</code>: During resampling, observations with the same value of the variable with role "group" are marked as "belonging together".
-They will be exclusively assigned to be either in the training set or in the test set for each resampling iteration.
-Only up to one column may have this role.</p></li>
+For each resampling iteration, observations of the same group will be exclusively assigned to be either in the training set or in the test set.
+Note that only up to one column may have this role.</p></li>
 <li><p><code>"stratum"</code>: Stratification variables. Multiple discrete columns may have this role.</p></li>
 <li><p><code>"weight"</code>: Observation weights. Only up to one column (assumed to be discrete) may have this role.</p></li>
-</ul><code>col_roles</code> keeps track of the roles with a named list, the elements are named by column role and each element is a character vector of column names.
+</ul><code>col_roles</code> is a named list whose elements are named by column role and each element is a <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code> vector of column names.
 To alter the roles, just modify the list, e.g. with <span style="R">R</span>'s set functions (<code><a href='https://rdrr.io/r/base/sets.html'>intersect()</a></code>, <code><a href='https://rdrr.io/r/base/sets.html'>setdiff()</a></code>, <code><a href='https://rdrr.io/r/base/sets.html'>union()</a></code>, ...).</p></dd>
 
 <dt><code>nrow</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>)<br />
@@ -633,10 +634,12 @@ Row ids for which to change the roles for.</p></dd>
 Exclusively set rows to the specified <code>roles</code> (remove from other roles).</p></dd>
 
 <dt><code>add_to</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
-Add rows with row ids <code>rows</code> to roles specified in <code>add_to</code>.</p></dd>
+Add rows with row ids <code>rows</code> to roles specified in <code>add_to</code>.
+Rows keep their previous roles.</p></dd>
 
 <dt><code>remove_from</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
-Remove rows with row ids <code>rows</code> from roles specified in <code>remove_from</code>.</p></dd>
+Remove rows with row ids <code>rows</code> from roles specified in <code>remove_from</code>.
+Other row roles are preserved.</p></dd>
 
 </dl><p></div></p>
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Details</h4>
@@ -661,10 +664,12 @@ Column names for which to change the roles for.</p></dd>
 Exclusively set columns to the specified <code>roles</code> (remove from other roles).</p></dd>
 
 <dt><code>add_to</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
-Add columns with column names <code>cols</code> to roles specified in <code>add_to</code>.</p></dd>
+Add columns with column names <code>cols</code> to roles specified in <code>add_to</code>.
+Columns keep their previous roles.</p></dd>
 
 <dt><code>remove_from</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
-Remove columns with columns names <code>cols</code> from roles specified in <code>remove_from</code>.</p></dd>
+Remove columns with columns names <code>cols</code> from roles specified in <code>remove_from</code>.
+Other column roles are preserved.</p></dd>
 
 </dl><p></div></p>
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Details</h4>
