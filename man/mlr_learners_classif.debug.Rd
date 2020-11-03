@@ -55,6 +55,7 @@ lrn("classif.featureless")
    predict_missing \tab numeric \tab 0 \tab \eqn{[0, 1]}{[0, 1]} \tab - \cr
    save_tasks \tab logical \tab FALSE \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \tab TRUE, FALSE \cr
    x \tab numeric \tab - \tab \eqn{[0, 1]}{[0, 1]} \tab - \cr
+   iter \tab integer \tab 1 \tab \eqn{[1, \infty)}{[1, Inf)} \tab - \cr
 }
 }
 
