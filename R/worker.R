@@ -60,7 +60,7 @@ learner_train = function(learner, task, row_ids = NULL, mode = "train") {
     log = append_log(NULL, "train", result$log$class, result$log$msg)
     train_time = result$elapsed
   } else {
-    rbindlist(list(learner$state$log,
+    log = rbindlist(list(learner$state$log,
       append_log(NULL, "train", result$log$class, result$log$msg)))
     train_time = learner$state$train_time + result$elapsed
   }
