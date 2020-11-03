@@ -33,8 +33,9 @@
 #'
 #' @section Task mutators:
 #' The following methods change the task in-place:
-#' * Any modification to `$col_roles` and `$row_roles`.
+#' * Any modification of the lists `$col_roles` or `$row_roles`.
 #'   This provides a different "view" on the data without altering the data itself.
+#' * Modification of column or row roles via `$set_col_roles()` or `$set_row_roles()`, respectively.
 #' * `$filter()` and `$select()` subset the set of active rows or features in `$row_roles` or `$col_roles`, respectively.
 #'   This provides a different "view" on the data without altering the data itself.
 #' * `rbind()` and `cbind()` change the task in-place by binding rows or columns to the data, but without modifying the original [DataBackend].
@@ -323,8 +324,10 @@ Task = R6Class("Task",
     #'   Exclusively set rows to the specified `roles` (remove from other roles).
     #' @param add_to (`character()`)\cr
     #'   Add rows with row ids `rows` to roles specified in `add_to`.
+    #'   Rows keep their previous roles.
     #' @param remove_from (`character()`)\cr
     #'   Remove rows with row ids `rows` from roles specified in `remove_from`.
+    #'   Other row roles are preserved.
     #'
     #' @details
     #' Roles are first set exclusively (argument `roles`), then added (argument `add_to`) and finally
@@ -349,8 +352,10 @@ Task = R6Class("Task",
     #'   Exclusively set columns to the specified `roles` (remove from other roles).
     #' @param add_to (`character()`)\cr
     #'   Add columns with column names `cols` to roles specified in `add_to`.
+    #'   Columns keep their previous roles.
     #' @param remove_from (`character()`)\cr
     #'   Remove columns with columns names `cols` from roles specified in `remove_from`.
+    #'   Other column roles are preserved.
     #'
     #' @details
     #' Roles are first set exclusively (argument `roles`), then added (argument `add_to`) and finally
@@ -473,7 +478,7 @@ Task = R6Class("Task",
     #' - `"validation"`: Hold the observations back unless explicitly requested.
     #'   Validation sets are not yet completely integrated into the package.
     #'
-    #' `row_roles` keeps track of the roles with a named list, elements are named by row role and each element is a `integer()` vector of row ids.
+    #' `row_roles` is a named list whose elements are named by row role and each element is an `integer()` vector of row ids.
     #' To alter the roles, just modify the list, e.g. with  \R's set functions ([intersect()], [setdiff()], [union()], \ldots).
     row_roles = function(rhs) {
       if (missing(rhs)) {
@@ -495,12 +500,12 @@ Task = R6Class("Task",
     #' * `"name"`: Row names / observation labels. To be used in plots. Can be queried with `$row_names`.
     #' * `"order"`: Data returned by `$data()` is ordered by this column (or these columns).
     #' * `"group"`: During resampling, observations with the same value of the variable with role "group" are marked as "belonging together".
-    #'   They will be exclusively assigned to be either in the training set or in the test set for each resampling iteration.
-    #'   Only up to one column may have this role.
+    #'   For each resampling iteration, observations of the same group will be exclusively assigned to be either in the training set or in the test set.
+    #'   Note that only up to one column may have this role.
     #' * `"stratum"`: Stratification variables. Multiple discrete columns may have this role.
     #' * `"weight"`: Observation weights. Only up to one column (assumed to be discrete) may have this role.
     #'
-    #' `col_roles` keeps track of the roles with a named list, the elements are named by column role and each element is a character vector of column names.
+    #' `col_roles` is a named list whose elements are named by column role and each element is a `character()` vector of column names.
     #'   To alter the roles, just modify the list, e.g. with \R's set functions ([intersect()], [setdiff()], [union()], \ldots).
     col_roles = function(rhs) {
       if (missing(rhs)) {
@@ -770,14 +775,16 @@ col_info = function(x, ...) {
   UseMethod("col_info")
 }
 
-col_info.data.table = function(x, primary_key = character(), ...) {
+#' @export
+col_info.data.table = function(x, primary_key = character(), ...) { # nolint
   types = map_chr(x, function(x) class(x)[1L])
   discrete = setdiff(names(types)[types %in% c("factor", "ordered")], primary_key)
   levels = insert_named(named_list(names(types)), lapply(x[, discrete, with = FALSE], distinct_values, drop = FALSE))
   data.table(id = names(types), type = unname(types), levels = levels, key = "id")
 }
 
-col_info.DataBackend = function(x, ...) {
+#' @export
+col_info.DataBackend = function(x, ...) { # nolint
   types = map_chr(x$head(1L), function(x) class(x)[1L])
   discrete = setdiff(names(types)[types %in% c("factor", "ordered")], x$primary_key)
   levels = insert_named(named_list(names(types)), x$distinct(rows = NULL, cols = discrete))
@@ -785,7 +792,7 @@ col_info.DataBackend = function(x, ...) {
 }
 
 #' @export
-as.data.table.Task = function(x, ...) {
+as.data.table.Task = function(x, ...) { # nolint
   x$head(x$nrow)
 }
 
@@ -798,7 +805,7 @@ task_rm_data = function(task) {
 
 
 #' @export
-rd_info.Task = function(obj, section) {
+rd_info.Task = function(obj, section) { # nolint
   c("",
     sprintf("* Task type: %s", rd_format_string(obj$task_type)),
     sprintf("* Dimensions: %ix%i", obj$nrow, obj$ncol),
