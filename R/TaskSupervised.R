@@ -39,6 +39,16 @@ TaskSupervised = R6Class("TaskSupervised", inherit = Task,
     #' Defaults to all rows with role "use".
     truth = function(rows = NULL) {
       self$data(rows, cols = self$target_names)
+    },
+
+    #' @description
+    #' Constructs a [formula()], e.g. `[target] ~ [feature_1] + [feature_2] + ... + [feature_k]`,
+    #' using the features provided in argument `rhs` (defaults to all columns with role `"feature"`, symbolized by `"."`).
+    #' @param rhs (`character(1)`)\cr
+    #'   Right hand side of the formula. Defaults to `"."` (all features of the task).
+    #' @return [formula()].
+    formula = function(rhs = ".") {
+      formulate(self$target_names, rhs)
     }
   )
 )

@@ -163,16 +163,6 @@ Task = R6Class("Task",
     },
 
     #' @description
-    #' Constructs a [formula()], e.g. `[target] ~ [feature_1] + [feature_2] + ... + [feature_k]`,
-    #' using the features provided in argument `rhs` (defaults to all columns with role `"feature"`, symbolized by `"."`).
-    #' @param rhs (`character(1)`)\cr
-    #'   Right hand side of the formula. Defaults to `"."` (all features of the task).
-    #' @return [formula()].
-    formula = function(rhs = ".") {
-      formulate(self$target_names, rhs)
-    },
-
-    #' @description
     #' Get the first `n` observations with role `"use"` of all columns with role `"target"` or `"feature"`.
     #'
     #' @param n (`integer(1)`).
