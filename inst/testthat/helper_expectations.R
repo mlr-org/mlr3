@@ -255,6 +255,14 @@ expect_task_supervised = function(task) {
   expect_hash(task$hash, 1L)
 }
 
+expect_task_unsupervised = function(task) {
+  checkmate::expect_r6(task, "TaskUnsupervised", cloneable = TRUE)
+  checkmate::check_null(task$target_names)
+
+  checkmate::expect_subset(task$feature_names, colnames(task$head()))
+  expect_hash(task$hash, 1L)
+}
+
 expect_task_classif = function(task) {
   checkmate::expect_r6(task, "TaskClassif")
   y = task$truth()
