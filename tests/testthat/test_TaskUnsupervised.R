@@ -4,5 +4,5 @@ test_that("TaskUnsupervised Construction", {
   b = task$backend
   expect_backend(b)
   expect_task(task)
-  expect_task_supervised(task)
+  expect_task_unsupervised(task)
 })
