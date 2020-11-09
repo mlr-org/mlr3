@@ -380,9 +380,10 @@ BenchmarkResult = R6Class("BenchmarkResult",
       assert_flag(store_models)
 
       # Set new parameter set in learners with stored model
+      budget_id = self$resample_result(1)$learners[[1]]$param_set$ids(tags = "budget")
       learners = map(seq(self$n_resample_results), function(i) {
         map(self$resample_result(i)$learners, function(l) {
-          l$param_set$values = insert_named(l$param_set$values, as.list(budget))
+          l$param_set$values[budget_id] = budget
           l
         })
       })
