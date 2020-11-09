@@ -292,12 +292,12 @@ BenchmarkResult = R6Class("BenchmarkResult",
       learner_phashes = NULL
 
       filter_if_not_null = function(column, hashes) {
-        if (is.null(hashes))
+        if (is.null(hashes)) {
           fact
-        else
+        } else {
           fact[unique(hashes), on = column, nomatch = NULL]
+        }
       }
-
 
       if (!is.null(task_ids)) {
         task = task_hash = NULL
@@ -352,6 +352,71 @@ BenchmarkResult = R6Class("BenchmarkResult",
       }
 
       ResampleResult$new(self$data, view = needle)
+    },
+
+
+    #' @description
+    #' Repeats the benchmark with continuable models. The models are updated
+    #' with the additional budget, the training continues on the training sets
+    #' and the performance is again evaluated on the test sets.
+    #'
+    #' @param budget (`any`)\cr
+    #'   Increased budget hyperparameter.
+    #' @param store_models (`logical(1)`)\cr
+    #'   Keep the fitted model after the test set has been predicted?
+    #'   Set to `TRUE` if you want to further analyse the models or want to
+    #'   extract information like variable importance.
+    #'
+    #' @return
+    #' Returns the object itself, but modified **by reference**.
+    #' You need to explicitly `$clone()` the object beforehand if you want to keeps
+    #' the object in its previous state.
+    #'
+    #' @note
+    #' The fitted models are discarded after the predictions have been computed in
+    #' order to reduce memory consumption. If you need access to the models for
+    #' later analysis, set `store_models` to `TRUE`.
+    continue = function(budget, store_models) {
+      assert_flag(store_models)
+
+      # Set new parameter set in learners with stored model
+      learners = map(seq(self$n_resample_results), function(i) {
+        map(self$resample_result(i)$learners, function(l) {
+          l$param_set$values = insert_named(l$param_set$values, as.list(budget))
+          l
+        })
+      })
+
+      grid = as.data.table(self)[, c("task", "learner", "resampling", "iteration", "uhash")]
+      grid$learner = unlist(learners)
+      uhash = NULL
+      grid[, "uhash" := UUIDgenerate(), by = uhash]
+
+      n = nrow(grid)
+
+      lg$info("Benchmark with %i resampling iterations", n)
+      pb = get_progressor(n)
+
+      lg$debug("Running benchmark() asynchronously with %i iterations", n)
+
+      res = future.apply::future_mapply(workhorse,
+        task = grid$task, learner = grid$learner, resampling = grid$resampling,
+        iteration = grid$iteration,
+        MoreArgs = list(store_models = store_models, lgr_threshold = lg$threshold, pb = pb, mode = "continue"),
+        SIMPLIFY = FALSE, USE.NAMES = FALSE,
+        future.globals = FALSE, future.scheduling = structure(TRUE, ordering = "random"),
+        future.packages = "mlr3", future.seed = TRUE
+      )
+
+      grid = insert_named(grid, list(
+        learner_state = map(res, "learner_state"),
+        prediction = map(res, "prediction")
+      ))
+
+      lg$info("Finished benchmark")
+
+      self$data = ResultData$new(data)
+      invisible(self)
     }
   ),
 

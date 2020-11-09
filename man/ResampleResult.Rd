@@ -9,6 +9,11 @@ This is the result container object returned by \code{\link[=resample]{resample(
 Note that all stored objects are accessed by reference.
 Do not modify any object without cloning it first.
 }
+\note{
+The fitted models are discarded after the predictions have been computed in
+order to reduce memory consumption. If you need access to the models for
+later analysis, set \code{store_models} to \code{TRUE}.
+}
 \section{S3 Methods}{
 
 \itemize{
@@ -95,6 +100,7 @@ Note that there can be multiple rows per resampling iteration if multiple errors
 \item \href{#method-score}{\code{ResampleResult$score()}}
 \item \href{#method-aggregate}{\code{ResampleResult$aggregate()}}
 \item \href{#method-filter}{\code{ResampleResult$filter()}}
+\item \href{#method-continue}{\code{ResampleResult$continue()}}
 \item \href{#method-clone}{\code{ResampleResult$clone()}}
 }
 }
@@ -277,6 +283,36 @@ Subsets the \link{ResampleResult}, reducing it to only keep the iterations speci
 \describe{
 \item{\code{iters}}{(\code{integer()})\cr
 Resampling iterations to keep.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Returns the object itself, but modified \strong{by reference}.
+You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
+the object in its previous state.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-continue"></a>}}
+\if{latex}{\out{\hypertarget{method-continue}{}}}
+\subsection{Method \code{continue()}}{
+Repeats the resampling with continuable models. The models are updated
+with the additional budget, the training continues on the training sets
+and the performance is again evaluated on the test sets.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$continue(budget, store_models = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{budget}}{(\code{any})\cr
+Increased budget hyperparameter.}
+
+\item{\code{store_models}}{(\code{logical(1)})\cr
+Keep the fitted model after the test set has been predicted?
+Set to \code{TRUE} if you want to further analyse the models or want to
+extract information like variable importance.}
 }
 \if{html}{\out{</div>}}
 }
