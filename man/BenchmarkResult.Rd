@@ -394,7 +394,7 @@ Repeats the benchmark with continuable models. The models are updated
 with the additional budget, the training continues on the training sets
 and the performance is again evaluated on the test sets.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{BenchmarkResult$continue(budget, store_models)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{BenchmarkResult$continue(budget, store_models = FALSE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{

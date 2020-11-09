@@ -376,7 +376,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #' The fitted models are discarded after the predictions have been computed in
     #' order to reduce memory consumption. If you need access to the models for
     #' later analysis, set `store_models` to `TRUE`.
-    continue = function(budget, store_models) {
+    continue = function(budget, store_models = FALSE) {
       assert_flag(store_models)
 
       # Set new parameter set in learners with stored model
@@ -416,7 +416,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
 
       lg$info("Finished benchmark")
 
-      self$data = ResultData$new(data)
+      self$data = ResultData$new(grid)
       invisible(self)
     }
   ),

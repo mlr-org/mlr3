@@ -46,11 +46,10 @@ test_that("resample_continue works", {
   resampling = rsmp("cv", folds = 3)
   rr = resample(task, learner, resampling, store_models = TRUE)
 
-  learner$param_set$values$iter = 10
-  rr2 = resample_continue(learner, rr, store_models = TRUE)
+  rr$continue(10, store_models = TRUE)
 
   expect_equal(length(rr$learners), 3)
-  map(rr2$learners, function(l) {
+  map(rr$learners, function(l) {
     expect_equal(l$param_set$values$iter, 10)
     expect_class(l$model, "classif.debug_model")
     expect_equal(l$model$iter, 10)
@@ -75,14 +74,11 @@ test_that("benchmark_continue works", {
   design = benchmark_grid(task, learners, resampling)
   bmr = benchmark(design, store_models = TRUE)
 
-  learners[[1]]$param_set$values$iter = 10
-  learners[[2]]$param_set$values$iter = 10
-
-  bmr2 = benchmark_continue(learners, bmr, store_models = TRUE)
+  bmr$continue(10, store_models = TRUE)
 
   x = c(0.3, 0.4)
-  map(seq(bmr2$n_resample_results), function(i) {
-    learners = bmr2$resample_result(i)$learners
+  map(seq(bmr$n_resample_results), function(i) {
+    learners = bmr$resample_result(i)$learners
     expect_equal(length(learners), 3)
     map(learners, function(l) {
       expect_equal(l$param_set$values$iter, 10)

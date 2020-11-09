@@ -63,7 +63,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
             ParamDbl$new("predict_missing", lower = 0, upper = 1, default = 0, tags = "predict"),
             ParamLgl$new("save_tasks", default = FALSE, tags = c("train", "predict")),
             ParamDbl$new("x", lower = 0, upper = 1, tags = "train"),
-            ParamInt$new("iter", default = 1, lower = 1, tags = "train")
+            ParamInt$new("iter", default = 1, lower = 1, tags = c("train", "budget"))
           )
         )
       ps$values$iter = 1
