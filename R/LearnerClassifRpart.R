@@ -18,7 +18,7 @@
 #' `r rd_info(lrn("classif.rpart")$param_set)`
 #'
 #' @references
-#' `r tools::toRd(bibentries["breiman_1984"])`
+#' `r format_bib("breiman_1984")`
 #'
 #' @template seealso_learner
 #' @export

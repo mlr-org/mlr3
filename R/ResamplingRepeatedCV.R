@@ -22,7 +22,7 @@
 #'   Number of folds.
 #'
 #' @references
-#' `r tools::toRd(bibentries["bischl_2012"])`
+#' `r format_bib("bischl_2012")`
 #'
 #' @template seealso_resampling
 #' @export

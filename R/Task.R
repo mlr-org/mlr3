@@ -33,8 +33,9 @@
 #'
 #' @section Task mutators:
 #' The following methods change the task in-place:
-#' * Any modification to `$col_roles` and `$row_roles`.
+#' * Any modification of the lists `$col_roles` or `$row_roles`.
 #'   This provides a different "view" on the data without altering the data itself.
+#' * Modification of column or row roles via `$set_col_roles()` or `$set_row_roles()`, respectively.
 #' * `$filter()` and `$select()` subset the set of active rows or features in `$row_roles` or `$col_roles`, respectively.
 #'   This provides a different "view" on the data without altering the data itself.
 #' * `rbind()` and `cbind()` change the task in-place by binding rows or columns to the data, but without modifying the original [DataBackend].
@@ -315,40 +316,59 @@ Task = R6Class("Task",
     },
 
     #' @description
-    #' Adds the roles `new_roles` to rows referred to by row ids `rows`.
-    #' If `exclusive` is `TRUE`, the referenced rows will be removed from all other roles.
+    #' Modifies the roles in `$row_roles` **in-place**.
     #'
-    #' This function is deprecated and will be removed in the next version in favor of directly modifying `$row_roles`.
+    #' @param rows (`integer()`)\cr
+    #'   Row ids for which to change the roles for.
+    #' @param roles (`character()`)\cr
+    #'   Exclusively set rows to the specified `roles` (remove from other roles).
+    #' @param add_to (`character()`)\cr
+    #'   Add rows with row ids `rows` to roles specified in `add_to`.
+    #'   Rows keep their previous roles.
+    #' @param remove_from (`character()`)\cr
+    #'   Remove rows with row ids `rows` from roles specified in `remove_from`.
+    #'   Other row roles are preserved.
     #'
-    #' @param new_roles (`character()`).
-    #'
-    #' @param exclusive (`logical(1)`).
+    #' @details
+    #' Roles are first set exclusively (argument `roles`), then added (argument `add_to`) and finally
+    #' removed (argument `remove_from`) from different roles.
     #'
     #' @return
     #' Returns the object itself, but modified **by reference**.
     #' You need to explicitly `$clone()` the object beforehand if you want to keeps
     #' the object in its previous state.
-    set_row_role = function(rows, new_roles, exclusive = TRUE) {
-      task_set_row_role(self, private, rows, new_roles, exclusive)
+    set_row_roles = function(rows, roles = NULL, add_to = NULL, remove_from = NULL) {
+      assert_subset(rows, self$backend$rownames)
+      private$.row_roles = task_set_roles(private$.row_roles, rows, roles, add_to, remove_from)
       invisible(self)
     },
 
     #' @description
-    #' Adds the roles `new_roles` to columns referred to by column names `cols`.
-    #' If `exclusive` is `TRUE`, the referenced columns will be removed from all other roles.
+    #' Modifies the roles in `$col_roles` **in-place**.
     #'
-    #' This function is deprecated and will be removed in the next version in favor of directly modifying `$col_roles`.
+    #' @param cols (`character()`)\cr
+    #'   Column names for which to change the roles for.
+    #' @param roles (`character()`)\cr
+    #'   Exclusively set columns to the specified `roles` (remove from other roles).
+    #' @param add_to (`character()`)\cr
+    #'   Add columns with column names `cols` to roles specified in `add_to`.
+    #'   Columns keep their previous roles.
+    #' @param remove_from (`character()`)\cr
+    #'   Remove columns with columns names `cols` from roles specified in `remove_from`.
+    #'   Other column roles are preserved.
     #'
-    #' @param new_roles (`character()`).
-    #'
-    #' @param exclusive (`logical(1)`).
+    #' @details
+    #' Roles are first set exclusively (argument `roles`), then added (argument `add_to`) and finally
+    #' removed (argument `remove_from`) from different roles.
     #'
     #' @return
     #' Returns the object itself, but modified **by reference**.
     #' You need to explicitly `$clone()` the object beforehand if you want to keeps
     #' the object in its previous state.
-    set_col_role = function(cols, new_roles, exclusive = TRUE) {
-      task_set_col_role(self, private, cols, new_roles, exclusive)
+    set_col_roles = function(cols, roles = NULL, add_to = NULL, remove_from = NULL) {
+      assert_subset(cols, self$backend$colnames)
+      new_roles = task_set_roles(private$.col_roles, cols, roles, add_to, remove_from)
+      private$.col_roles = task_check_col_roles(self, new_roles)
       invisible(self)
     },
 
@@ -458,7 +478,7 @@ Task = R6Class("Task",
     #' - `"validation"`: Hold the observations back unless explicitly requested.
     #'   Validation sets are not yet completely integrated into the package.
     #'
-    #' `row_roles` keeps track of the roles with a named list, elements are named by row role and each element is a `integer()` vector of row ids.
+    #' `row_roles` is a named list whose elements are named by row role and each element is an `integer()` vector of row ids.
     #' To alter the roles, just modify the list, e.g. with  \R's set functions ([intersect()], [setdiff()], [union()], \ldots).
     row_roles = function(rhs) {
       if (missing(rhs)) {
@@ -480,12 +500,12 @@ Task = R6Class("Task",
     #' * `"name"`: Row names / observation labels. To be used in plots. Can be queried with `$row_names`.
     #' * `"order"`: Data returned by `$data()` is ordered by this column (or these columns).
     #' * `"group"`: During resampling, observations with the same value of the variable with role "group" are marked as "belonging together".
-    #'   They will be exclusively assigned to be either in the training set or in the test set for each resampling iteration.
-    #'   Only up to one column may have this role.
+    #'   For each resampling iteration, observations of the same group will be exclusively assigned to be either in the training set or in the test set.
+    #'   Note that only up to one column may have this role.
     #' * `"stratum"`: Stratification variables. Multiple discrete columns may have this role.
     #' * `"weight"`: Observation weights. Only up to one column (assumed to be discrete) may have this role.
     #'
-    #' `col_roles` keeps track of the roles with a named list, the elements are named by column role and each element is a character vector of column names.
+    #' `col_roles` is a named list whose elements are named by column role and each element is a `character()` vector of column names.
     #'   To alter the roles, just modify the list, e.g. with \R's set functions ([intersect()], [setdiff()], [union()], \ldots).
     col_roles = function(rhs) {
       if (missing(rhs)) {
@@ -496,17 +516,7 @@ Task = R6Class("Task",
       assert_names(names(rhs), "unique", must.include = mlr_reflections$task_col_roles[[self$task_type]], .var.name = "names of col_roles")
       assert_subset(unlist(rhs, use.names = FALSE), setdiff(self$col_info$id, self$backend$primary_key), .var.name = "elements of col_roles")
 
-      for (role in c("group", "weight", "name")) {
-        if (length(rhs[[role]]) > 1L) {
-          stopf("There may only be up to one column with role '%s'", role)
-        }
-      }
-
-      if (inherits(self, "TaskSupervised") && length(rhs$target) == 0L) {
-        stopf("Supervised tasks need at least one target column")
-      }
-
-      private$.col_roles = rhs
+      private$.col_roles = task_check_col_roles(self, rhs)
     },
 
     #' @field nrow (`integer(1)`)\cr
@@ -709,6 +719,54 @@ task_print = function(self) {
   }
 }
 
+task_set_roles = function(li, cols, roles = NULL, add_to = NULL, remove_from = NULL) {
+  if (!is.null(roles)) {
+    assert_subset(roles, names(li))
+    for (role in roles) {
+      li[[role]] = union(li[[role]], cols)
+    }
+    for (role in setdiff(names(li), roles)) {
+      li[[role]] = setdiff(li[[role]], cols)
+    }
+  }
+
+  if (!is.null(add_to)) {
+    assert_subset(add_to, names(li))
+    for (role in add_to) {
+      li[[role]] = union(li[[role]], cols)
+    }
+  }
+
+  if (!is.null(remove_from)) {
+    assert_subset(remove_from, names(li))
+    for (role in remove_from) {
+      li[[role]] = setdiff(li[[role]], cols)
+    }
+  }
+
+  li
+}
+
+task_check_col_roles = function(self, new_roles) {
+  for (role in c("group", "weight", "name")) {
+    if (length(new_roles[[role]]) > 1L) {
+      stopf("There may only be up to one column with role '%s'", role)
+    }
+  }
+
+  if (inherits(self, "TaskSupervised")) {
+    if (length(new_roles$target) == 0L) {
+      stopf("Supervised tasks need at least one target column")
+    }
+  } else if (inherits(self, "TaskUnsupervised")) {
+    if (length(new_roles$target) != 0L) {
+      stopf("Unsupervised tasks may not have a target column")
+    }
+  }
+
+  new_roles
+}
+
 # collect column information of a backend.
 # This currently includes:
 # * storage type
@@ -717,14 +775,16 @@ col_info = function(x, ...) {
   UseMethod("col_info")
 }
 
-col_info.data.table = function(x, primary_key = character(), ...) {
+#' @export
+col_info.data.table = function(x, primary_key = character(), ...) { # nolint
   types = map_chr(x, function(x) class(x)[1L])
   discrete = setdiff(names(types)[types %in% c("factor", "ordered")], primary_key)
   levels = insert_named(named_list(names(types)), lapply(x[, discrete, with = FALSE], distinct_values, drop = FALSE))
   data.table(id = names(types), type = unname(types), levels = levels, key = "id")
 }
 
-col_info.DataBackend = function(x, ...) {
+#' @export
+col_info.DataBackend = function(x, ...) { # nolint
   types = map_chr(x$head(1L), function(x) class(x)[1L])
   discrete = setdiff(names(types)[types %in% c("factor", "ordered")], x$primary_key)
   levels = insert_named(named_list(names(types)), x$distinct(rows = NULL, cols = discrete))
@@ -732,7 +792,7 @@ col_info.DataBackend = function(x, ...) {
 }
 
 #' @export
-as.data.table.Task = function(x, ...) {
+as.data.table.Task = function(x, ...) { # nolint
   x$head(x$nrow)
 }
 
@@ -745,7 +805,7 @@ task_rm_data = function(task) {
 
 
 #' @export
-rd_info.Task = function(obj, section) {
+rd_info.Task = function(obj, section) { # nolint
   c("",
     sprintf("* Task type: %s", rd_format_string(obj$task_type)),
     sprintf("* Dimensions: %ix%i", obj$nrow, obj$ncol),
