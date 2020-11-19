@@ -124,6 +124,12 @@ Each set yields a separate \link{Prediction} object.
 Those be combined via getters in \link{ResampleResult}/\link{BenchmarkResult}, or \link{Measure}s can be altered
 to operate on specific subsets of the calculated prediction sets.}
 
+\item{\code{timeout}}{(named \code{numeric(2)})\cr
+Timeout for the learner's train and predict steps, in seconds.
+This works differently for different encapsulation methods, see
+\code{\link[mlr3misc:encapsulate]{mlr3misc::encapsulate()}}.
+Default is \code{c(train = Inf, predict = Inf)}.}
+
 \item{\code{fallback}}{(\link{Learner})\cr
 Learner which is fitted to impute predictions in case that either the model fitting or the prediction of the top learner is not successful.
 Requires you to enable encapsulation, otherwise errors are not caught and the execution is terminated before the fallback learner kicks in.}

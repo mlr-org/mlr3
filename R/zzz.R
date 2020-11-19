@@ -13,8 +13,9 @@
 #' * Use cases and examples gallery: \url{https://mlr3gallery.mlr-org.com}
 #' * Cheat Sheets: \url{https://cheatsheets.mlr-org.com}
 #'
-#' @section Extend mlr3:
+#' @section mlr3 extensions:
 #' * Preprocessing and machine learning pipelines: \CRANpkg{mlr3pipelines}
+#' * Analysis of benchmark experiments: \CRANpkg{mlr3benchmark}
 #' * More classification and regression tasks: \CRANpkg{mlr3data}
 #' * Connector to [OpenML](https://www.openml.org): \CRANpkg{mlr3oml}
 #' * Solid selection of good classification and regression learners: \CRANpkg{mlr3learners}
