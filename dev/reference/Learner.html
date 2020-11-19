@@ -292,6 +292,12 @@ Each set yields a separate <a href='Prediction.html'>Prediction</a> object.
 Those be combined via getters in <a href='ResampleResult.html'>ResampleResult</a>/<a href='BenchmarkResult.html'>BenchmarkResult</a>, or <a href='Measure.html'>Measure</a>s can be altered
 to operate on specific subsets of the calculated prediction sets.</p></dd>
 
+<dt><code>timeout</code></dt><dd><p>(named <code><a href='https://rdrr.io/r/base/numeric.html'>numeric(2)</a></code>)<br />
+Timeout for the learner's train and predict steps, in seconds.
+This works differently for different encapsulation methods, see
+<code><a href='https://mlr3misc.mlr-org.com/reference/encapsulate.html'>mlr3misc::encapsulate()</a></code>.
+Default is <code><a href='https://rdrr.io/r/base/c.html'>c(train = Inf, predict = Inf)</a></code>.</p></dd>
+
 <dt><code>fallback</code></dt><dd><p>(Learner)<br />
 Learner which is fitted to impute predictions in case that either the model fitting or the prediction of the top learner is not successful.
 Requires you to enable encapsulation, otherwise errors are not caught and the execution is terminated before the fallback learner kicks in.</p></dd>

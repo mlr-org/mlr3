@@ -57,8 +57,8 @@
 <meta property="og:description" content="This is the result container object returned by benchmark().
 A BenchmarkResult consists of the data row-binded data of multiple
 ResampleResults, which can easily be re-constructed.
-Note that all stored objects are accessed by reference.
-Do not modify any object without cloning it first." />
+BenchmarkResults can be visualized via mlr3viz's autoplot() function.
+For statistical analysis of benchmark results and more advanced plots, see mlr3benchmark." />
 <meta property="og:image" content="https://mlr3.mlr-org.com/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
@@ -167,12 +167,16 @@ Do not modify any object without cloning it first." />
     <p>This is the result container object returned by <code><a href='benchmark.html'>benchmark()</a></code>.
 A BenchmarkResult consists of the data row-binded data of multiple
 <a href='ResampleResult.html'>ResampleResult</a>s, which can easily be re-constructed.</p>
-<p>Note that all stored objects are accessed by reference.
-Do not modify any object without cloning it first.</p>
+<p>BenchmarkResults can be visualized via <a href='https://CRAN.R-project.org/package=mlr3viz'><span class="pkg">mlr3viz</span></a>'s <code>autoplot()</code> function.</p>
+<p>For statistical analysis of benchmark results and more advanced plots, see <a href='https://CRAN.R-project.org/package=mlr3benchmark'><span class="pkg">mlr3benchmark</span></a>.</p>
     </div>
 
 
 
+    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
+
+    <p>All stored objects are accessed by reference.
+Do not modify any extracted object without cloning it first.</p>
     <h2 class="hasAnchor" id="s-methods"><a class="anchor" href="#s-methods"></a>S3 Methods</h2>
 
     
@@ -184,10 +188,6 @@ Returns a tabular view of the internal data.</p></li>
 <li><p><code><a href='https://rdrr.io/r/base/c.html'>c(...)</a></code><br />
 (BenchmarkResult, ...) -&gt; BenchmarkResult<br />
 Combines multiple objects convertible to BenchmarkResult into a new BenchmarkResult.</p></li>
-<li><p><code><a href='https://rdrr.io/r/stats/friedman.test.html'>friedman.test(y, ...)</a></code><br />
-BenchmarkResult -&gt; <code>"htest"</code><br />
-Applies <code><a href='https://rdrr.io/r/stats/friedman.test.html'>friedman.test()</a></code> on the benchmark result, returning an
-object of class <code>"htest"</code>.</p></li>
 </ul>
 
     <h2 class="hasAnchor" id="public-fields"><a class="anchor" href="#public-fields"></a>Public fields</h2>
@@ -482,11 +482,11 @@ The <code>ushash</code> value to filter for.</p></dd>
 <span class='co'># first 5 resampling iterations</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table</a></span><span class='op'>(</span><span class='va'>bmr</span>, measures <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"classif.acc"</span>, <span class='st'>"classif.auc"</span><span class='op'>)</span><span class='op'>)</span>, <span class='fl'>5</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;                                   uhash              task
-#&gt; 1: 87efde30-c575-44c2-bc5e-4e0fa9b7b122 &lt;TaskClassif[45]&gt;
-#&gt; 2: 87efde30-c575-44c2-bc5e-4e0fa9b7b122 &lt;TaskClassif[45]&gt;
-#&gt; 3: 87efde30-c575-44c2-bc5e-4e0fa9b7b122 &lt;TaskClassif[45]&gt;
-#&gt; 4: 520a4710-b2c4-4b5b-ba11-58c64416ca28 &lt;TaskClassif[45]&gt;
-#&gt; 5: 520a4710-b2c4-4b5b-ba11-58c64416ca28 &lt;TaskClassif[45]&gt;
+#&gt; 1: 307f2d20-49da-4bcd-aa33-0f86e5e1e6f5 &lt;TaskClassif[45]&gt;
+#&gt; 2: 307f2d20-49da-4bcd-aa33-0f86e5e1e6f5 &lt;TaskClassif[45]&gt;
+#&gt; 3: 307f2d20-49da-4bcd-aa33-0f86e5e1e6f5 &lt;TaskClassif[45]&gt;
+#&gt; 4: 0b465cc0-7bc9-47c4-abcf-d1139bcc0912 &lt;TaskClassif[45]&gt;
+#&gt; 5: 0b465cc0-7bc9-47c4-abcf-d1139bcc0912 &lt;TaskClassif[45]&gt;
 #&gt;                            learner         resampling iteration
 #&gt; 1: &lt;LearnerClassifFeatureless[34]&gt; &lt;ResamplingCV[19]&gt;         1
 #&gt; 2: &lt;LearnerClassifFeatureless[34]&gt; &lt;ResamplingCV[19]&gt;         2
