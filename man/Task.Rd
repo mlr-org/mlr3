@@ -33,8 +33,9 @@ Returns the complete data as \code{\link[data.table:data.table]{data.table::data
 
 The following methods change the task in-place:
 \itemize{
-\item Any modification to \verb{$col_roles} and \verb{$row_roles}.
+\item Any modification of the lists \verb{$col_roles} or \verb{$row_roles}.
 This provides a different "view" on the data without altering the data itself.
+\item Modification of column or row roles via \verb{$set_col_roles()} or \verb{$set_row_roles()}, respectively.
 \item \verb{$filter()} and \verb{$select()} subset the set of active rows or features in \verb{$row_roles} or \verb{$col_roles}, respectively.
 This provides a different "view" on the data without altering the data itself.
 \item \code{rbind()} and \code{cbind()} change the task in-place by binding rows or columns to the data, but without modifying the original \link{DataBackend}.
@@ -164,7 +165,7 @@ Each row (observation) can have an arbitrary number of roles in the learning tas
 Validation sets are not yet completely integrated into the package.
 }
 
-\code{row_roles} keeps track of the roles with a named list, elements are named by row role and each element is a \code{integer()} vector of row ids.
+\code{row_roles} is a named list whose elements are named by row role and each element is an \code{integer()} vector of row ids.
 To alter the roles, just modify the list, e.g. with  \R's set functions (\code{\link[=intersect]{intersect()}}, \code{\link[=setdiff]{setdiff()}}, \code{\link[=union]{union()}}, \ldots).}
 
 \item{\code{col_roles}}{(named \code{list()})\cr
@@ -175,13 +176,13 @@ Each column (feature) can have an arbitrary number of the following roles:
 \item \code{"name"}: Row names / observation labels. To be used in plots. Can be queried with \verb{$row_names}.
 \item \code{"order"}: Data returned by \verb{$data()} is ordered by this column (or these columns).
 \item \code{"group"}: During resampling, observations with the same value of the variable with role "group" are marked as "belonging together".
-They will be exclusively assigned to be either in the training set or in the test set for each resampling iteration.
-Only up to one column may have this role.
+For each resampling iteration, observations of the same group will be exclusively assigned to be either in the training set or in the test set.
+Note that only up to one column may have this role.
 \item \code{"stratum"}: Stratification variables. Multiple discrete columns may have this role.
 \item \code{"weight"}: Observation weights. Only up to one column (assumed to be discrete) may have this role.
 }
 
-\code{col_roles} keeps track of the roles with a named list, the elements are named by column role and each element is a character vector of column names.
+\code{col_roles} is a named list whose elements are named by column role and each element is a \code{character()} vector of column names.
 To alter the roles, just modify the list, e.g. with \R's set functions (\code{\link[=intersect]{intersect()}}, \code{\link[=setdiff]{setdiff()}}, \code{\link[=union]{union()}}, \ldots).}
 
 \item{\code{nrow}}{(\code{integer(1)})\cr
@@ -617,10 +618,12 @@ Row ids for which to change the roles for.}
 Exclusively set rows to the specified \code{roles} (remove from other roles).}
 
 \item{\code{add_to}}{(\code{character()})\cr
-Add rows with row ids \code{rows} to roles specified in \code{add_to}.}
+Add rows with row ids \code{rows} to roles specified in \code{add_to}.
+Rows keep their previous roles.}
 
 \item{\code{remove_from}}{(\code{character()})\cr
-Remove rows with row ids \code{rows} from roles specified in \code{remove_from}.}
+Remove rows with row ids \code{rows} from roles specified in \code{remove_from}.
+Other row roles are preserved.}
 }
 \if{html}{\out{</div>}}
 }
@@ -654,10 +657,12 @@ Column names for which to change the roles for.}
 Exclusively set columns to the specified \code{roles} (remove from other roles).}
 
 \item{\code{add_to}}{(\code{character()})\cr
-Add columns with column names \code{cols} to roles specified in \code{add_to}.}
+Add columns with column names \code{cols} to roles specified in \code{add_to}.
+Columns keep their previous roles.}
 
 \item{\code{remove_from}}{(\code{character()})\cr
-Remove columns with columns names \code{cols} from roles specified in \code{remove_from}.}
+Remove columns with columns names \code{cols} from roles specified in \code{remove_from}.
+Other column roles are preserved.}
 }
 \if{html}{\out{</div>}}
 }

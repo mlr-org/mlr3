@@ -2,6 +2,9 @@
 
 * New methods for `Task`: `$set_col_roles` and `$set_row_roles` as a replacement
   for the deprecated and less flexible `$set_col_role` and `$set_row_role`.
+* Learners can now have a timeout (#556).
+* Removed S3 method `friedman.test.BenchmarkResult()` in favor of the new
+  `mlr3benchmark` package.
 
 # mlr3 0.8.0
 
