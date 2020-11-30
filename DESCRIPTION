@@ -84,7 +84,7 @@ Suggests:
     rpart,
     testthat
 Remotes:
-    mlr-org/paradox@tune_token
+    mlr-org/paradox
 Encoding: UTF-8
 LazyData: true
 NeedsCompilation: no
