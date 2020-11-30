@@ -208,3 +208,11 @@ test_that("fallback learner is deep cloned (#511)", {
   l$fallback = lrn("classif.featureless")
   expect_different_address(l$fallback, l$clone(deep = TRUE)$fallback)
 })
+
+test_that("learner cannot be trained with TuneToken present", {
+  task = tsk("boston_housing")
+  learner = lrn("regr.rpart", cp = paradox::to_tune(0.1, 0.3))
+  expect_error(learner$train(task),
+    regexp = "<LearnerRegrRpart:regr.rpart> cannot be trained with TuneToken present in hyperparameter: cp",
+    fixed = TRUE)
+})
