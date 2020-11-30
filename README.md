@@ -1,6 +1,5 @@
 
-mlr3 <img src="man/figures/logo.png" align="right" width = "120" />
-===================================================================
+# mlr3 <img src="man/figures/logo.png" align="right" width = "120" />
 
 Package website: [release](https://mlr3.mlr-org.com/) \|
 [dev](https://mlr3.mlr-org.com/dev/)
@@ -18,8 +17,7 @@ Status](https://www.r-pkg.org/badges/version-ago/mlr3)](https://cran.r-project.o
 [![Mattermost](https://img.shields.io/badge/chat-mattermost-orange.svg)](https://lmmisld-lmu-stats-slds.srv.mwn.de/mlr_invite/)
 <!-- badges: end -->
 
-Resources (for users and developers)
-------------------------------------
+## Resources (for users and developers)
 
 -   We *started* writing a [book](https://mlr3book.mlr-org.com/). This
     should be the central entry point to the package.
@@ -62,27 +60,31 @@ Resources (for users and developers)
 -   [Wiki](https://github.com/mlr-org/mlr3/wiki): Contains mainly
     information for developers.
 
-Installation
-------------
+## Installation
 
 Install the last release from CRAN:
 
-    install.packages("mlr3")
+``` r
+install.packages("mlr3")
+```
 
 Install the development version from GitHub:
 
-    remotes::install_github("mlr-org/mlr3")
+``` r
+remotes::install_github("mlr-org/mlr3")
+```
 
-Example
--------
+## Example
 
 ### Constructing Learners and Tasks
 
-    library(mlr3)
+``` r
+library(mlr3)
 
-    # create learning task
-    task_iris <- TaskClassif$new(id = "iris", backend = iris, target = "Species")
-    task_iris
+# create learning task
+task_iris <- TaskClassif$new(id = "iris", backend = iris, target = "Species")
+task_iris
+```
 
     ## <TaskClassif:iris> (150 x 5)
     ## * Target: Species
@@ -90,23 +92,27 @@ Example
     ## * Features (4):
     ##   - dbl (4): Petal.Length, Petal.Width, Sepal.Length, Sepal.Width
 
-    # load learner and set hyperparameter
-    learner <- lrn("classif.rpart", cp = .01)
+``` r
+# load learner and set hyperparameter
+learner <- lrn("classif.rpart", cp = .01)
+```
 
 ### Basic train + predict
 
-    # train/test split
-    train_set <- sample(task_iris$nrow, 0.8 * task_iris$nrow)
-    test_set <- setdiff(seq_len(task_iris$nrow), train_set)
+``` r
+# train/test split
+train_set <- sample(task_iris$nrow, 0.8 * task_iris$nrow)
+test_set <- setdiff(seq_len(task_iris$nrow), train_set)
 
-    # train the model
-    learner$train(task_iris, row_ids = train_set)
+# train the model
+learner$train(task_iris, row_ids = train_set)
 
-    # predict data
-    prediction <- learner$predict(task_iris, row_ids = test_set)
+# predict data
+prediction <- learner$predict(task_iris, row_ids = test_set)
 
-    # calculate performance
-    prediction$confusion
+# calculate performance
+prediction$confusion
+```
 
     ##             truth
     ## response     setosa versicolor virginica
@@ -114,39 +120,40 @@ Example
     ##   versicolor      0         12         1
     ##   virginica       0          0         6
 
-    measure <- msr("classif.acc")
-    prediction$score(measure)
+``` r
+measure <- msr("classif.acc")
+prediction$score(measure)
+```
 
     ## classif.acc 
     ##   0.9666667
 
 ### Resample
 
-    # automatic resampling
-    resampling <- rsmp("cv", folds = 3L)
-    rr <- resample(task_iris, learner, resampling)
-    rr$score(measure)
+``` r
+# automatic resampling
+resampling <- rsmp("cv", folds = 3L)
+rr <- resample(task_iris, learner, resampling)
+rr$score(measure)
+```
 
-    ##                 task task_id                   learner    learner_id
-    ## 1: <TaskClassif[46]>    iris <LearnerClassifRpart[33]> classif.rpart
-    ## 2: <TaskClassif[46]>    iris <LearnerClassifRpart[33]> classif.rpart
-    ## 3: <TaskClassif[46]>    iris <LearnerClassifRpart[33]> classif.rpart
-    ##            resampling resampling_id iteration              prediction
-    ## 1: <ResamplingCV[19]>            cv         1 <PredictionClassif[19]>
-    ## 2: <ResamplingCV[19]>            cv         2 <PredictionClassif[19]>
-    ## 3: <ResamplingCV[19]>            cv         3 <PredictionClassif[19]>
-    ##    classif.acc
-    ## 1:        0.92
-    ## 2:        0.92
-    ## 3:        0.94
+    ##                 task task_id                   learner    learner_id         resampling resampling_id iteration
+    ## 1: <TaskClassif[45]>    iris <LearnerClassifRpart[34]> classif.rpart <ResamplingCV[19]>            cv         1
+    ## 2: <TaskClassif[45]>    iris <LearnerClassifRpart[34]> classif.rpart <ResamplingCV[19]>            cv         2
+    ## 3: <TaskClassif[45]>    iris <LearnerClassifRpart[34]> classif.rpart <ResamplingCV[19]>            cv         3
+    ##                 prediction classif.acc
+    ## 1: <PredictionClassif[19]>        0.92
+    ## 2: <PredictionClassif[19]>        0.92
+    ## 3: <PredictionClassif[19]>        0.94
 
-    rr$aggregate(measure)
+``` r
+rr$aggregate(measure)
+```
 
     ## classif.acc 
     ##   0.9266667
 
-Why a rewrite?
---------------
+## Why a rewrite?
 
 [mlr](https://github.com/mlr-org/mlr) was first released to
 [CRAN](https://cran.r-project.org/package=mlr) in 2013. Its core design
@@ -160,8 +167,7 @@ the outside. Also, many helpful R libraries did not exist at the time
 [mlr](https://github.com/mlr-org/mlr) was created, and their inclusion
 would result in non-trivial API changes.
 
-Design principles
------------------
+## Design principles
 
 -   Only the basic building blocks for machine learning are implemented
     in this package.
@@ -224,8 +230,7 @@ Design principles
         [`evaluate`](https://cran.r-project.org/package=evaluate) and
         [`callr`](https://cran.r-project.org/package=callr) can be used.
 
-Extension Packages
-------------------
+## Extension Packages
 
 <a href="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/mlr3verse.svg?sanitize=true"><img src="man/figures/mlr3verse.svg" /></a>
 
@@ -233,8 +238,7 @@ Consult the
 [wiki](https://github.com/mlr-org/mlr3/wiki/Extension-Packages) for
 short descriptions and links to the respective repositories.
 
-Contributing to mlr3
---------------------
+## Contributing to mlr3
 
 This R package is licensed under the
 [LGPL-3](https://www.gnu.org/licenses/lgpl-3.0.en.html). If you
@@ -250,8 +254,7 @@ Please consult the [wiki](https://github.com/mlr-org/mlr3/wiki/) for a
 a [pull request
 guide](https://github.com/mlr-org/mlr3/wiki/PR-Guidelines).
 
-Citing mlr3
------------
+## Citing mlr3
 
 If you use mlr3, please cite our [JOSS
 article](https://doi.org/10.21105/joss.01903):
