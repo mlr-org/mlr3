@@ -105,7 +105,7 @@ A guide on how to extend mlr3 with custom learners can be found in the mlr3book.
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.8.0</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.9.0</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -291,6 +291,12 @@ To change this behaviour, set <code>predict_sets</code> to a non-empty subset of
 Each set yields a separate <a href='Prediction.html'>Prediction</a> object.
 Those be combined via getters in <a href='ResampleResult.html'>ResampleResult</a>/<a href='BenchmarkResult.html'>BenchmarkResult</a>, or <a href='Measure.html'>Measure</a>s can be altered
 to operate on specific subsets of the calculated prediction sets.</p></dd>
+
+<dt><code>timeout</code></dt><dd><p>(named <code><a href='https://rdrr.io/r/base/numeric.html'>numeric(2)</a></code>)<br />
+Timeout for the learner's train and predict steps, in seconds.
+This works differently for different encapsulation methods, see
+<code><a href='https://mlr3misc.mlr-org.com/reference/encapsulate.html'>mlr3misc::encapsulate()</a></code>.
+Default is <code><a href='https://rdrr.io/r/base/c.html'>c(train = Inf, predict = Inf)</a></code>.</p></dd>
 
 <dt><code>fallback</code></dt><dd><p>(Learner)<br />
 Learner which is fitted to impute predictions in case that either the model fitting or the prediction of the top learner is not successful.
