@@ -60,6 +60,7 @@ Other classification measures:
 \code{\link{mlr_measures_classif.mcc}},
 \code{\link{mlr_measures_classif.npv}},
 \code{\link{mlr_measures_classif.ppv}},
+\code{\link{mlr_measures_classif.prauc}},
 \code{\link{mlr_measures_classif.precision}},
 \code{\link{mlr_measures_classif.recall}},
 \code{\link{mlr_measures_classif.sensitivity}},

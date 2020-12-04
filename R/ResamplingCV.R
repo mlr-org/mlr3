@@ -14,7 +14,7 @@
 #'   Number of folds.
 #'
 #' @references
-#' \cite{mlr3}{bischl_2012}
+#' `r format_bib("bischl_2012")`
 #'
 #' @template seealso_resampling
 #' @export
@@ -78,7 +78,11 @@ ResamplingCV = R6Class("ResamplingCV", inherit = Resampling,
     },
 
     deep_clone = function(name, value) {
-      if (name == "instance") copy(value) else value
+      switch(name,
+        "instance" = copy(value),
+        "param_set" = value$clone(deep = TRUE),
+        value
+      )
     }
   )
 )

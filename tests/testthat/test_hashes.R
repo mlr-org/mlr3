@@ -1,5 +1,3 @@
-context("hashes")
-
 expect_hash_changes = function(x) {
   id_before = x$id
   hash_before = x$hash

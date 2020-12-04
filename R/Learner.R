@@ -18,9 +18,10 @@
 #'
 #' More classification and regression learners are implemented in the add-on package \CRANpkg{mlr3learners}.
 #' Learners for survival analysis (or more general, for probabilistic regression) can be found in \CRANpkg{mlr3proba}.
+#' Unsupervised cluster algorithms are implemented in \CRANpkg{mlr3cluster}.
 #' The dictionary [mlr_learners] gets automatically populated with the new learners as soon as the respective packages are loaded.
 #'
-#' More (experimental) learners can be found on GitHub: \url{https://github.com/mlr3learners/}.
+#' More (experimental) learners can be found in the GitHub repository: \url{https://github.com/mlr-org/mlr3extralearners}.
 #' A guide on how to extend \CRANpkg{mlr3} with custom learners can be found in the [mlr3book](https://mlr3book.mlr-org.com).
 #'
 #' @template param_id
@@ -118,6 +119,13 @@ Learner = R6Class("Learner",
 
     #' @template field_predict_sets
     predict_sets = "test",
+
+    #' @field timeout (named `numeric(2)`)\cr
+    #' Timeout for the learner's train and predict steps, in seconds.
+    #' This works differently for different encapsulation methods, see
+    #' [mlr3misc::encapsulate()].
+    #' Default is `c(train = Inf, predict = Inf)`.
+    timeout = c(train = Inf, predict = Inf),
 
     #' @field fallback ([Learner])\cr
     #' Learner which is fitted to impute predictions in case that either the model fitting or the prediction of the top learner is not successful.
@@ -332,7 +340,10 @@ Learner = R6Class("Learner",
       hash(class(self), self$id, self$param_set$values, private$.predict_type, self$fallback$hash)
     },
 
-    #' @template field_phash
+    #' @field phash (`character(1)`)\cr
+    #' Hash (unique identifier) for this partial object, excluding some components
+    #' which are varied  systematically during tuning (parameter values) or feature
+    #' selection (feature names).
     phash = function(rhs) {
       assert_ro_binding(rhs)
       hash(class(self), self$id, private$.predict_type, self$fallback$hash)

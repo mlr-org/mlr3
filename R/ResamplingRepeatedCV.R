@@ -12,7 +12,7 @@
 #'
 #' Iteration numbers can be translated into folds or repeats with provided methods.
 #'
-#' @templateVar id holdout
+#' @templateVar id repeated_cv
 #' @template section_dictionary_resampling
 #'
 #' @section Parameters:
@@ -22,7 +22,7 @@
 #'   Number of folds.
 #'
 #' @references
-#' \cite{mlr3}{bischl_2012}
+#' `r format_bib("bischl_2012")`
 #'
 #' @template seealso_resampling
 #' @export
@@ -118,6 +118,14 @@ ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
 
     .combine = function(instances) {
       rbindlist(instances, use.names = TRUE)
+    },
+
+    deep_clone = function(name, value) {
+      switch(name,
+        "instance" = copy(value),
+        "param_set" = value$clone(deep = TRUE),
+        value
+      )
     }
   )
 )

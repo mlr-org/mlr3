@@ -1,5 +1,3 @@
-context("DataBackendRbind")
-
 test_that("DataBackendRbind", {
   data = as.data.table(iris)
   data$Petal.Length[91:120] = NA

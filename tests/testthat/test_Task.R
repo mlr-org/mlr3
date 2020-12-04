@@ -1,5 +1,3 @@
-context("Task")
-
 test_that("Feature columns can be reordered", {
   bh = load_dataset("BostonHousing", "mlbench")
   task = tsk("boston_housing")
@@ -40,11 +38,6 @@ test_that("Rows return ordered", {
 
   x = task$data(rows = sample(nrow(data), 50))
   expect_integer(x$t, sorted = TRUE, any.missing = FALSE)
-
-  tab = task$order
-  expect_data_table(tab, ncols = 2, nrows = task$nrow)
-  expect_set_equal(names(tab), c("row_id", "order"))
-  expect_integer(rev(tab$order), sorted = TRUE)
 })
 
 test_that("Rows return ordered with multiple order cols", {
@@ -230,7 +223,7 @@ test_that("stratify works", {
 test_that("groups/weights work", {
   b = as_data_backend(data.table(x = runif(20), y = runif(20), w = runif(20), g = sample(letters[1:2], 20, replace = TRUE)))
   task = TaskRegr$new("test", b, target = "y")
-  task$set_row_role(16:20, character())
+  task$set_row_roles(16:20, character())
 
   expect_false("groups" %in% task$properties)
   expect_false("weights" %in% task$properties)
@@ -332,7 +325,9 @@ test_that("col roles getters/setters", {
   task = tsk("iris")
 
   expect_error({ task$col_roles$feature = "foo" })
-  expect_error({ task$col_roles$foo = "Species" })
+
+  # additional roles allowed (#558)
+  task$col_roles$foo = "Species"
 
   task$col_roles$feature = setdiff(task$col_roles$feature, "Sepal.Length")
   expect_false("Sepal.Length" %in% task$feature_names)
@@ -349,4 +344,36 @@ test_that("Task$row_names", {
   expect_data_table(tab, any.missing = FALSE, ncols = 2, nrows = task$nrow)
   expect_integer(tab$row_id, unique = TRUE)
   expect_character(tab$row_name)
+})
+
+test_that("Task$set_row_roles", {
+  task = tsk("pima")
+
+  task$set_row_roles(1:10, remove_from = "use")
+  expect_true(all(1:10 %nin% task$row_ids))
+
+  task$set_row_roles(1:10, add_to = "use")
+  expect_true(all(1:10 %in% task$row_ids))
+
+  task$set_row_roles(1:10, roles = "validation")
+  expect_true(all(1:10 %nin% task$row_ids))
+})
+
+
+test_that("Task$set_col_roles", {
+  task = tsk("pima")
+
+  task$set_col_roles("mass", remove_from = "feature")
+  expect_true("mass" %nin% task$feature_names)
+
+  task$set_col_roles("mass", add_to = "feature")
+  expect_true("mass" %in% task$feature_names)
+
+  task$set_col_roles("age", roles = "weight")
+  expect_true("age" %nin% task$feature_names)
+  expect_data_table(task$weights)
+
+  task$set_col_roles("age", add_to = "feature", remove_from = "weight")
+  expect_true("age" %in% task$feature_names)
+  expect_null(task$weights)
 })

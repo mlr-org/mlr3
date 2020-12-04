@@ -20,9 +20,10 @@ e.g. \code{\link[=mlr_learners_classif.rpart]{classif.rpart}} or \code{\link[=ml
 
 More classification and regression learners are implemented in the add-on package \CRANpkg{mlr3learners}.
 Learners for survival analysis (or more general, for probabilistic regression) can be found in \CRANpkg{mlr3proba}.
+Unsupervised cluster algorithms are implemented in \CRANpkg{mlr3cluster}.
 The dictionary \link{mlr_learners} gets automatically populated with the new learners as soon as the respective packages are loaded.
 
-More (experimental) learners can be found on GitHub: \url{https://github.com/mlr3learners/}.
+More (experimental) learners can be found in the GitHub repository: \url{https://github.com/mlr-org/mlr3extralearners}.
 A guide on how to extend \CRANpkg{mlr3} with custom learners can be found in the \href{https://mlr3book.mlr-org.com}{mlr3book}.
 }
 \section{Optional Extractors}{
@@ -122,6 +123,12 @@ To change this behaviour, set \code{predict_sets} to a non-empty subset of \verb
 Each set yields a separate \link{Prediction} object.
 Those be combined via getters in \link{ResampleResult}/\link{BenchmarkResult}, or \link{Measure}s can be altered
 to operate on specific subsets of the calculated prediction sets.}
+
+\item{\code{timeout}}{(named \code{numeric(2)})\cr
+Timeout for the learner's train and predict steps, in seconds.
+This works differently for different encapsulation methods, see
+\code{\link[mlr3misc:encapsulate]{mlr3misc::encapsulate()}}.
+Default is \code{c(train = Inf, predict = Inf)}.}
 
 \item{\code{fallback}}{(\link{Learner})\cr
 Learner which is fitted to impute predictions in case that either the model fitting or the prediction of the top learner is not successful.

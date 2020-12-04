@@ -15,6 +15,7 @@ Additional task properties include:
 }
 
 Predefined tasks are stored in the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_tasks}.
+More example tasks can be found in this dictionary after loading \CRANpkg{mlr3data}.
 }
 \examples{
 data("Sonar", package = "mlbench")
@@ -91,8 +92,8 @@ Stores the negative class for binary classification tasks, and \code{NA} for mul
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="rbind">}\href{../../mlr3/html/Task.html#method-rbind}{\code{mlr3::Task$rbind()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="rename">}\href{../../mlr3/html/Task.html#method-rename}{\code{mlr3::Task$rename()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="select">}\href{../../mlr3/html/Task.html#method-select}{\code{mlr3::Task$select()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="set_col_role">}\href{../../mlr3/html/Task.html#method-set_col_role}{\code{mlr3::Task$set_col_role()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="set_row_role">}\href{../../mlr3/html/Task.html#method-set_row_role}{\code{mlr3::Task$set_row_role()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="set_col_roles">}\href{../../mlr3/html/Task.html#method-set_col_roles}{\code{mlr3::Task$set_col_roles()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="set_row_roles">}\href{../../mlr3/html/Task.html#method-set_row_roles}{\code{mlr3::Task$set_row_roles()}}\out{</span>}
 }
 \out{</details>}
 }

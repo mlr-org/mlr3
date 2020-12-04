@@ -1,5 +1,3 @@
-context("predict")
-
 test_that("predict method works", {
   task = tsk("sonar")
   lrn = lrn("classif.featureless")$train(task)

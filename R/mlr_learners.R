@@ -8,8 +8,8 @@
 #' Each learner has an associated help page, see `mlr_learners_[id]`.
 #'
 #' This dictionary can get populated with additional learners by add-on packages.
-#' For more classification and regression learners, load the \CRANpkg{mlr3learners} package
-#' and \url{https://github.com/mlr3learners}.
+#' For an opinionated set of solid classification and regression learners, install and load the \CRANpkg{mlr3learners} package.
+#' More learners are connected via \url{https://github.com/mlr-org/mlr3extralearners}.
 #'
 #' For a more convenient way to retrieve and construct learners, see [lrn()]/[lrns()].
 #'

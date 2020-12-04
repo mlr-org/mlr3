@@ -1,5 +1,3 @@
-context("sugar functions")
-
 test_that("singular sugar functions", {
   expect_task(tsk("iris"))
   expect_learner(lrn("classif.featureless"))

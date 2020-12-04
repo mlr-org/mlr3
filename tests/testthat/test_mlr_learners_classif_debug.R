@@ -1,5 +1,3 @@
-context("mlr_learners_classif.debug")
-
 test_that("Simple training/predict", {
   task = tsk("iris")
   learner = lrn("classif.debug")

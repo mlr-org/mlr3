@@ -1,3 +1,20 @@
+# mlr3 0.9.0
+
+* New methods for `Task`: `$set_col_roles` and `$set_row_roles` as a replacement
+  for the deprecated and less flexible `$set_col_role` and `$set_row_role`.
+* Learners can now have a timeout (#556).
+* Removed S3 method `friedman.test.BenchmarkResult()` in favor of the new
+  `mlr3benchmark` package.
+
+# mlr3 0.8.0
+
+* `MeasureOOBError` now has set property `minimize` to `TRUE`.
+* New learner property `"featureless"` to tag learners which can operate on
+  featureless tasks.
+* Fixed [ResampleResult] ignoring argument `predict_sets` for returned
+  [Prediction] objects.
+* Compability with new version of `lgr`.
+
 # mlr3 0.7.0
 
 * Updated properties of featureless learners to apply it on all feature types
@@ -9,6 +26,9 @@
 * `ResampleResult` and `BenchmarkResult` now share a common interface to store
   the experiment results. Manual construction is still possible with helper
   function `as_result_data()`
+* Fixed deep cloning of `ResamplingCV` and `ResamplingRepeatedCV`.
+* New measure `classif.prauc` (area under precision-recall curve).
+* Removed dependency on orphaned package `bibtex`.
 
 # mlr3 0.6.0
 

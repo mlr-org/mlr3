@@ -35,7 +35,7 @@
 #' 2000 Hamburg 13
 #'
 #' @references
-#' \cite{mlr3}{gromping_2019}
+#' `r format_bib("gromping_2019")`
 #'
 #' @template seealso_task
 #' @examples
