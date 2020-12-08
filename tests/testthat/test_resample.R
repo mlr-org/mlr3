@@ -110,7 +110,7 @@ test_that("seeds work identical sequential/parallel", {
   measure = msr("classif.auc")
 
   rr1 = with_seed(123, with_future(future::plan("sequential"), resample(task, learner, resampling)))
-  rr2 = with_seed(123, with_future(future::plan("multiprocess"), resample(task, learner, resampling)))
+  rr2 = with_seed(123, with_future(future::plan("multisession"), resample(task, learner, resampling)))
 
   expect_equal(
     as.data.table(rr1$prediction())$prob.M,

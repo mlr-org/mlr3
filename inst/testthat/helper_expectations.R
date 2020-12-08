@@ -555,7 +555,7 @@ expect_benchmark_result = function(bmr) {
 }
 
 expect_resultdata = function(rdata, consistency = TRUE) {
-  expect_is(rdata, "ResultData")
+  expect_class(rdata, "ResultData")
   data = rdata$data
 
   proto = mlr3:::star_init()
