@@ -55,7 +55,7 @@ dummy_import = function() {
   lg = lgr::get_logger(pkgname)
   assign("lg", lg, envir = parent.env(environment()))
   f = function(event) {
-    event$msg = paste("[mlr3]", event$msg)
+    event$msg = paste0("[mlr3]  ", event$msg)
     TRUE
   }
   lg$add_filter(f)
