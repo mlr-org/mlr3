@@ -74,6 +74,14 @@ Install the development version from GitHub:
 remotes::install_github("mlr-org/mlr3")
 ```
 
+If you want to get started with `mlr3`, we recommend installing the
+[mlr3verse](https://mlr3verse.mlr-org.com/) meta-package which installs
+`mlr3` and some of the most important extension packages:
+
+``` r
+install.packages("mlr3verse")
+```
+
 ## Example
 
 ### Constructing Learners and Tasks
@@ -137,14 +145,18 @@ rr <- resample(task_iris, learner, resampling)
 rr$score(measure)
 ```
 
-    ##                 task task_id                   learner    learner_id         resampling resampling_id iteration
-    ## 1: <TaskClassif[45]>    iris <LearnerClassifRpart[34]> classif.rpart <ResamplingCV[19]>            cv         1
-    ## 2: <TaskClassif[45]>    iris <LearnerClassifRpart[34]> classif.rpart <ResamplingCV[19]>            cv         2
-    ## 3: <TaskClassif[45]>    iris <LearnerClassifRpart[34]> classif.rpart <ResamplingCV[19]>            cv         3
-    ##                 prediction classif.acc
-    ## 1: <PredictionClassif[19]>        0.92
-    ## 2: <PredictionClassif[19]>        0.92
-    ## 3: <PredictionClassif[19]>        0.94
+    ##                 task task_id                   learner    learner_id
+    ## 1: <TaskClassif[45]>    iris <LearnerClassifRpart[34]> classif.rpart
+    ## 2: <TaskClassif[45]>    iris <LearnerClassifRpart[34]> classif.rpart
+    ## 3: <TaskClassif[45]>    iris <LearnerClassifRpart[34]> classif.rpart
+    ##            resampling resampling_id iteration              prediction
+    ## 1: <ResamplingCV[19]>            cv         1 <PredictionClassif[19]>
+    ## 2: <ResamplingCV[19]>            cv         2 <PredictionClassif[19]>
+    ## 3: <ResamplingCV[19]>            cv         3 <PredictionClassif[19]>
+    ##    classif.acc
+    ## 1:        0.92
+    ## 2:        0.92
+    ## 3:        0.94
 
 ``` r
 rr$aggregate(measure)
@@ -152,6 +164,18 @@ rr$aggregate(measure)
 
     ## classif.acc 
     ##   0.9266667
+
+## Extension Packages
+
+<a href="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/mlr3verse.svg?sanitize=true"><img src="man/figures/mlr3verse.svg" /></a>
+
+Consult the
+[wiki](https://github.com/mlr-org/mlr3/wiki/Extension-Packages) for
+short descriptions and links to the respective repositories.
+
+For beginners, we strongly recommend to install and load the
+[mlr3verse](https://mlr3verse.mlr-org.com/) package for a better user
+experience.
 
 ## Why a rewrite?
 
@@ -229,14 +253,6 @@ would result in non-trivial API changes.
     -   To capture output, warnings and exceptions,
         [`evaluate`](https://cran.r-project.org/package=evaluate) and
         [`callr`](https://cran.r-project.org/package=callr) can be used.
-
-## Extension Packages
-
-<a href="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/mlr3verse.svg?sanitize=true"><img src="man/figures/mlr3verse.svg" /></a>
-
-Consult the
-[wiki](https://github.com/mlr-org/mlr3/wiki/Extension-Packages) for
-short descriptions and links to the respective repositories.
 
 ## Contributing to mlr3
 
