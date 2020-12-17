@@ -1,3 +1,7 @@
+# mlr3 0.10.0
+
+* `as.data.table.DictionaryTasks` now returns an additional column `properties`.
+
 # mlr3 0.9.0
 
 * New methods for `Task`: `$set_col_roles` and `$set_row_roles` as a replacement
