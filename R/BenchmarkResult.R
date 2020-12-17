@@ -150,16 +150,21 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #'
     #' @param ids (`logical(1)`)\cr
     #'   Adds object ids (`"task_id"`, `"learner_id"`, `"resampling_id"`) as
-    #'   extra character columns for convenient subsetting.
+    #'   extra character columns to the returned table.
+    #'
+    #' @param conditions (`logical(1)`)\cr
+    #'   Adds condition messages (`"warnings"`, `"errors"`) as extra
+    #'   list columns of character vectors to the returned table
     #'
     #' @param predict_sets (`character()`)\cr
     #'   Vector of predict sets (`{"train", "test"}`) to construct the [Prediction] objects from.
     #'   Default is `"test"`.
     #'
     #' @return [data.table::data.table()].
-    score = function(measures = NULL, ids = TRUE, predict_sets = "test") {
+    score = function(measures = NULL, ids = TRUE, conditions = FALSE, predict_sets = "test") {
       measures = assert_measures(as_measures(measures, task_type = self$task_type))
       assert_flag(ids)
+      assert_flag(conditions)
 
       tab = score_measures(self, measures, view = NULL)
       tab = merge(self$data$data$uhashes, tab, by = "uhash", sort = FALSE)
@@ -171,10 +176,15 @@ BenchmarkResult = R6Class("BenchmarkResult",
         set(tab, j = "resampling_id", value = ids(tab$resampling))
       }
 
+      if (conditions) {
+        set(tab, j = "warnings", value = map(tab$learner, "warnings"))
+        set(tab, j = "errors", value = map(tab$learner, "errors"))
+      }
+
       set(tab, j = "prediction", value = as_predictions(tab$prediction, predict_sets))
 
       cns = c("uhash", "nr", "task", "task_id", "learner", "learner_id", "resampling", "resampling_id",
-        "iteration", "prediction", ids(measures))
+        "iteration", "prediction", "warnings", "errors", ids(measures))
       cns = intersect(cns, names(tab))
       tab[, cns, with = FALSE]
     },

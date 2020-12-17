@@ -210,6 +210,8 @@ test_that("extract params", {
   bmr = benchmark(benchmark_grid(tsk("wine"), lrns, rsmp("cv", folds = 3)))
   aggr = bmr$aggregate(params = TRUE)
   expect_list(aggr$params[[1]], names = "unique", len = 0L)
+
+  expect_true(all(c("warnings", "errors") %in% names(bmr$score(conditions = TRUE))))
 })
 
 test_that("benchmark_grid", {

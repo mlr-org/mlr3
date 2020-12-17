@@ -1,6 +1,9 @@
 # mlr3 0.10.0
 
 * `as.data.table.DictionaryTasks` now returns an additional column `properties`.
+* Added flag `conditions` to `ResampleResult$score()` and
+  `BenchmarkResult$score()` to allow to work with failing learners more
+  conveniently.
 
 # mlr3 0.9.0
 
