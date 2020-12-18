@@ -272,7 +272,74 @@ Task = R6Class("Task",
     #' You need to explicitly `$clone()` the object beforehand if you want to keeps
     #' the object in its previous state.
     rbind = function(data) {
-      task_rbind(data, self)
+      pk = self$backend$primary_key
+      rn = self$backend$rownames
+      pk_in_backend = TRUE
+      type_check = TRUE
+
+      if (is.data.frame(data)) {
+        pk_in_backend = pk %in% names(data)
+        type_check = FALSE # done by auto-converter
+
+        keep_cols = intersect(names(data), self$backend$colnames)
+        if (length(keep_cols) == pk_in_backend || nrow(data) == 0L) {
+          return(invisible(self))
+        }
+
+        if (!pk_in_backend) {
+          start = if (length(rn)) max(rn) + 1L else 1L
+          pk = seq(from = start, to = start + nrow(data) - 1L)
+        }
+
+        ci = self$col_info[list(keep_cols), on = "id"]
+        data = do.call(data.table, Map(auto_convert,
+            value = as.list(data)[ci$id],
+            id = ci$id, type = ci$type, levels = ci$levels))
+
+        data = as_data_backend(data, primary_key = pk)
+      } else {
+        assert_backend(data)
+        if (data$ncol <= 1L || data$nrow == 0L) {
+          return(invisible(self))
+        }
+      }
+
+      if (pk_in_backend && any(data$rownames %in% self$backend$rownames)) {
+        stopf("Cannot rbind data to task '%s', duplicated row ids", self$id)
+      }
+
+      # columns with these roles must be present in data
+      mandatory_roles = c("target", "feature", "weight")
+      mandatory_cols = unlist(self$col_roles[mandatory_roles], use.names = FALSE)
+      missing_cols = setdiff(mandatory_cols, data$colnames)
+      if (length(missing_cols)) {
+        stopf("Cannot rbind data to task '%s', missing the following mandatory columns: %s", self$id, str_collapse(missing_cols))
+      }
+
+      # merge col infos
+      tab = merge(self$col_info, col_info(data), by = "id",
+        all.x = TRUE, all.y = FALSE, suffixes = c("", "_y"), sort = TRUE)
+      levels = levels_y = type = type_y = NULL
+
+      # type check
+      if (type_check) {
+        ii = head(tab[type != type_y, which = TRUE], 1L)
+        if (length(ii)) {
+          stopf("Cannot rbind to task: Types do not match for column: %s (%s != %s)", tab$id[ii], tab$type[ii], tab$type_y[ii])
+        }
+      }
+
+      # merge factor levels
+      vunion = function(x, y) Map(union, x, y)
+      tab[type %in% c("factor", "ordered"), levels := list(vunion(levels, levels_y))]
+      tab[, c("type_y", "levels_y") := list(NULL, NULL)]
+
+      # everything looks good, modify task
+      self$backend = DataBackendRbind$new(self$backend, data)
+      self$col_info = tab
+      self$row_roles$use = c(self$row_roles$use, data$rownames)
+
+      invisible(self)
     },
 
     #' @description
@@ -288,7 +355,38 @@ Task = R6Class("Task",
     #' See the section on task mutators for more information.
     #' @param data (`data.frame()`).
     cbind = function(data) {
-      task_cbind(data, self)
+      pk = self$backend$primary_key
+
+      if (is.data.frame(data)) {
+        # binding data with 0 rows is explicitly allowed
+        if (ncol(data) == 0L) {
+          return(invisible(self))
+        }
+
+        row_ids = if (pk %in% names(data)) pk else self$row_ids
+        data = as_data_backend(data, primary_key = row_ids)
+      } else {
+        assert_backend(data)
+        if (data$ncol <= 1L) {
+          return(invisible(self))
+        }
+      }
+
+      assert_set_equal(self$row_ids, data$rownames)
+      ci = col_info(data)
+
+      # update col info
+      self$col_info = ujoin(self$col_info, ci, key = "id")
+      self$col_info = rbind(self$col_info, ci[!list(self$col_info), on = "id"])
+      setkeyv(self$col_info, "id")
+
+      # add new features
+      self$col_roles$feature = union(self$col_roles$feature, setdiff(data$colnames, c(pk, self$col_roles$target)))
+
+      # update backend
+      self$backend = DataBackendCbind$new(self$backend, data)
+
+      invisible(self)
     },
 
 

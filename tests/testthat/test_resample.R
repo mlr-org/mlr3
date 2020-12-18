@@ -14,7 +14,7 @@ test_that("resample", {
   expect_different_address(learners[[1L]], learners[[2L]])
   expect_equal(uniqueN(hashes(learners)), 1L)
 
-  rr$filter(2:3)
+  rr = rr$clone(TRUE)$filter(2:3)
   tab = as.data.table(rr)
   expect_data_table(tab, nrows = 2L)
   expect_data_table(tab, nrows = 2L)
