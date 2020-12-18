@@ -497,7 +497,7 @@ in the <a href='ResampleResult.html'>ResampleResult</a> or <a href='BenchmarkRes
 <p><div class="arguments"></p><dl>
 <dt><code>newdata</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/data.frame.html'>data.frame()</a></code>)<br />
 New data to predict on.
-Row ids are automatically created via auto-incrementing.</p></dd>
+Row ids are automatically set to <code>1:nrow(newdata)</code>.</p></dd>
 
 <dt><code>task</code></dt><dd><p>(<a href='Task.html'>Task</a>).</p></dd>
 

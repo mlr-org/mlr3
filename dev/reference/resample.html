@@ -169,7 +169,13 @@ then use the trained model to predict observations of a test set.
 Training and test sets are defined by the <a href='Resampling.html'>Resampling</a> <code>resampling</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>resample</span><span class='op'>(</span><span class='va'>task</span>, <span class='va'>learner</span>, <span class='va'>resampling</span>, store_models <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>resample</span><span class='op'>(</span>
+  <span class='va'>task</span>,
+  <span class='va'>learner</span>,
+  <span class='va'>resampling</span>,
+  store_models <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  store_backends <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -192,6 +198,13 @@ Training and test sets are defined by the <a href='Resampling.html'>Resampling</
 Keep the fitted model after the test set has been predicted?
 Set to <code>TRUE</code> if you want to further analyse the models or want to
 extract information like variable importance.</p></td>
+    </tr>
+    <tr>
+      <th>store_backends</th>
+      <td><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
+Keep the <a href='DataBackend.html'>DataBackend</a> of the <a href='Task.html'>Task</a> in the <a href='ResampleResult.html'>ResampleResult</a>?
+Set to <code>TRUE</code> if your performance measures require a <a href='Task.html'>Task</a>,
+or to analyse results more conveniently.</p></td>
     </tr>
     </table>
 

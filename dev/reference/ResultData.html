@@ -217,12 +217,16 @@ Returns <code>NULL</code> if the ResultData is empty.</p></dd>
 <a id="method-new"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>new()</code></h3>
 <p>Creates a new instance of this <a href='https://r6.r-lib.org/reference/R6Class.html'>R6</a> class.
 An alternative construction method is provided by <code><a href='as_result_data.html'>as_result_data()</a></code>.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='va'>ResultData</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>data <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ResultData</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>data <span class='op'>=</span> <span class='cn'>NULL</span>, store_backends <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
 <dt><code>data</code></dt><dd><p>(<code>data.table()</code> | <code>NULL</code>)<br />
 Do not initialize this object yourself, use <code><a href='as_result_data.html'>as_result_data()</a></code> instead.</p></dd>
+
+<dt><code>store_backends</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
+If set to <code>FALSE</code>, the backends of the <a href='Task.html'>Task</a>s provided in <code>data</code> are
+removed.</p></dd>
 
 </dl><p></div></p>
 <p><hr>
@@ -302,7 +306,7 @@ Single <code>uhash</code> to restrict the results to.</p></dd>
 <p><hr>
 <a id="method-tasks"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>tasks()</code></h3>
 <p>Returns a table of included <a href='Task.html'>Task</a>s.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='va'>ResultData</span><span class='op'>$</span><span class='fu'>tasks</span><span class='op'>(</span>view <span class='op'>=</span> <span class='cn'>NULL</span>, reassemble <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ResultData</span><span class='op'>$</span><span class='fu'>tasks</span><span class='op'>(</span>view <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -332,10 +336,6 @@ Single <code>uhash</code> to restrict the results to.</p></dd>
 
 <dt><code>view</code></dt><dd><p><code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code><br />
 Single <code>uhash</code> to restrict the results to.</p></dd>
-
-<dt><code>reassemble</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
-Reassemble the tasks, i.e. re-set the <code>feature_names</code> which are stored separately before
-returning the tasks.</p></dd>
 
 </dl><p></div></p>
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>

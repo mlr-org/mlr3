@@ -177,7 +177,8 @@ and multiple <a href='BenchmarkResult.html'>BenchmarkResult</a>s can be combined
   <span class='va'>resampling</span>,
   <span class='va'>iterations</span>,
   <span class='va'>predictions</span>,
-  learner_states <span class='op'>=</span> <span class='cn'>NULL</span>
+  learner_states <span class='op'>=</span> <span class='cn'>NULL</span>,
+  store_backends <span class='op'>=</span> <span class='cn'>TRUE</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -207,6 +208,12 @@ and multiple <a href='BenchmarkResult.html'>BenchmarkResult</a>s can be combined
       <th>learner_states</th>
       <td><p>(<code><a href='https://rdrr.io/r/base/list.html'>list()</a></code>)<br />
 Learner states. If not provided, the states of <code>learners</code> are automatically extracted.</p></td>
+    </tr>
+    <tr>
+      <th>store_backends</th>
+      <td><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
+If set to <code>FALSE</code>, the backends of the <a href='Task.html'>Task</a>s provided in <code>data</code> are
+removed.</p></td>
     </tr>
     </table>
 

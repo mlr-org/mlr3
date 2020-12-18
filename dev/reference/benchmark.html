@@ -163,7 +163,7 @@
     <p>Runs a benchmark on arbitrary combinations of tasks (<a href='Task.html'>Task</a>), learners (<a href='Learner.html'>Learner</a>), and resampling strategies (<a href='Resampling.html'>Resampling</a>), possibly in parallel.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>benchmark</span><span class='op'>(</span><span class='va'>design</span>, store_models <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>benchmark</span><span class='op'>(</span><span class='va'>design</span>, store_models <span class='op'>=</span> <span class='cn'>FALSE</span>, store_backends <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -179,9 +179,16 @@ instantiate the <a href='Resampling.html'>Resampling</a>s per <a href='Task.html
     <tr>
       <th>store_models</th>
       <td><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
-Keep the fitted model after the test set has been predicted?
+Store the fitted model in the resulting <a href='BenchmarkResult.html'>BenchmarkResult</a>?
 Set to <code>TRUE</code> if you want to further analyse the models or want to
 extract information like variable importance.</p></td>
+    </tr>
+    <tr>
+      <th>store_backends</th>
+      <td><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
+Keep the <a href='DataBackend.html'>DataBackend</a> of the <a href='Task.html'>Task</a> in the <a href='BenchmarkResult.html'>BenchmarkResult</a>?
+Set to <code>TRUE</code> if your performance measures require a <a href='Task.html'>Task</a>,
+or to analyse results more conveniently.</p></td>
     </tr>
     </table>
 
@@ -246,12 +253,12 @@ or <code>"trace"</code>:</p><pre><span class='fu'>lgr</span><span class='fu'>::<
 <span class='co'>## Data of all resamplings</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table</a></span><span class='op'>(</span><span class='va'>bmr</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;                                   uhash              task
-#&gt; 1: 2a0ea92b-1d80-4066-af0b-321aca67150e &lt;TaskClassif[45]&gt;
-#&gt; 2: 2a0ea92b-1d80-4066-af0b-321aca67150e &lt;TaskClassif[45]&gt;
-#&gt; 3: 2a0ea92b-1d80-4066-af0b-321aca67150e &lt;TaskClassif[45]&gt;
-#&gt; 4: 162ef731-5238-46fd-8bfb-f7f02f94cc1f &lt;TaskClassif[45]&gt;
-#&gt; 5: 162ef731-5238-46fd-8bfb-f7f02f94cc1f &lt;TaskClassif[45]&gt;
-#&gt; 6: 162ef731-5238-46fd-8bfb-f7f02f94cc1f &lt;TaskClassif[45]&gt;
+#&gt; 1: a40890fd-8e21-4c2a-865b-a0445e657cc3 &lt;TaskClassif[45]&gt;
+#&gt; 2: a40890fd-8e21-4c2a-865b-a0445e657cc3 &lt;TaskClassif[45]&gt;
+#&gt; 3: a40890fd-8e21-4c2a-865b-a0445e657cc3 &lt;TaskClassif[45]&gt;
+#&gt; 4: 03404710-c1aa-4576-8221-1d23185e4abf &lt;TaskClassif[45]&gt;
+#&gt; 5: 03404710-c1aa-4576-8221-1d23185e4abf &lt;TaskClassif[45]&gt;
+#&gt; 6: 03404710-c1aa-4576-8221-1d23185e4abf &lt;TaskClassif[45]&gt;
 #&gt;                            learner         resampling iteration
 #&gt; 1: &lt;LearnerClassifFeatureless[34]&gt; &lt;ResamplingCV[19]&gt;         1
 #&gt; 2: &lt;LearnerClassifFeatureless[34]&gt; &lt;ResamplingCV[19]&gt;         2
