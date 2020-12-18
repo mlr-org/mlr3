@@ -211,7 +211,7 @@ Learner = R6Class("Learner",
       learner_train(self, task, row_ids)
 
       # store the task w/o the data
-      self$state$train_task = task_rm_data(task$clone(deep = TRUE))
+      self$state$train_task = task_rm_backend(task$clone(deep = TRUE))
 
       invisible(self)
     },
@@ -252,7 +252,7 @@ Learner = R6Class("Learner",
     #'
     #' @param newdata (`data.frame()`)\cr
     #'   New data to predict on.
-    #'   Row ids are automatically created via auto-incrementing.
+    #'   Row ids are automatically set to `1:nrow(newdata)`.
     #'
     #' @param task ([Task]).
     #'
@@ -267,15 +267,19 @@ Learner = R6Class("Learner",
       } else {
         task = assert_task(as_task(task, clone = TRUE))
         assert_learnable(task, self)
-        task = task_rm_data(task)
+        task = task_rm_backend(task)
       }
+
+      assert_names(names(newdata), must.include = task$feature_names)
 
       # the following columns are automatically set to NA if missing
       impute = unlist(task$col_roles[c("target", "name", "order", "stratum", "group")])
-      impute = setdiff(impute, c(task$feature_names, colnames(newdata)))
+      impute = setdiff(impute, colnames(newdata))
       newdata = insert_named(newdata, named_list(nn = impute, init = NA))
 
-      self$predict(task$rbind(newdata))
+      task$backend = as_data_backend(newdata)
+      task$row_roles$use = task$backend$rownames
+      self$predict(task)
     },
 
     #' @description

@@ -4,7 +4,7 @@
 \alias{benchmark}
 \title{Benchmark Multiple Learners on Multiple Tasks}
 \usage{
-benchmark(design, store_models = FALSE)
+benchmark(design, store_models = FALSE, store_backends = FALSE)
 }
 \arguments{
 \item{design}{(\code{\link[=data.frame]{data.frame()}})\cr
@@ -14,9 +14,14 @@ The helper function \code{\link[=benchmark_grid]{benchmark_grid()}} can assist i
 instantiate the \link{Resampling}s per \link{Task}.}
 
 \item{store_models}{(\code{logical(1)})\cr
-Keep the fitted model after the test set has been predicted?
+Store the fitted model in the resulting \link{BenchmarkResult}?
 Set to \code{TRUE} if you want to further analyse the models or want to
 extract information like variable importance.}
+
+\item{store_backends}{(\code{logical(1)})\cr
+Keep the \link{DataBackend} of the \link{Task} in the \link{BenchmarkResult}?
+Set to \code{TRUE} if your performance measures require a \link{Task},
+or to analyse results more conveniently.}
 }
 \value{
 \link{BenchmarkResult}.

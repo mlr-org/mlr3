@@ -8,11 +8,14 @@
 #'   Each row defines a resampling by providing a [Task], [Learner] and an instantiated [Resampling] strategy.
 #'   The helper function [benchmark_grid()] can assist in generating an exhaustive design (see examples) and
 #'   instantiate the [Resampling]s per [Task].
-#'
 #' @param store_models (`logical(1)`)\cr
-#'   Keep the fitted model after the test set has been predicted?
+#'   Store the fitted model in the resulting [BenchmarkResult]?
 #'   Set to `TRUE` if you want to further analyse the models or want to
 #'   extract information like variable importance.
+#' @param store_backends (`logical(1)`)\cr
+#'   Keep the [DataBackend] of the [Task] in the [BenchmarkResult]?
+#'   Set to `TRUE` if your performance measures require a [Task],
+#'   or to analyse results more conveniently.
 #'
 #' @return [BenchmarkResult].
 #'
@@ -74,10 +77,11 @@
 #' ## Get the training set of the 2nd iteration of the featureless learner on iris
 #' rr = bmr$aggregate()[learner_id == "classif.featureless"]$resample_result[[1]]
 #' rr$resampling$train_set(2)
-benchmark = function(design, store_models = FALSE) {
+benchmark = function(design, store_models = FALSE, store_backends = FALSE) {
   assert_data_frame(design, min.rows = 1L)
   assert_names(names(design), permutation.of = c("task", "learner", "resampling"))
   design$task = list(assert_tasks(as_tasks(design$task)))
+  design$learner = list(assert_learners(as_learners(design$learner)))
   design$resampling = list(assert_resamplings(as_resamplings(design$resampling), instantiated = TRUE))
   assert_flag(store_models)
 
@@ -91,12 +95,12 @@ benchmark = function(design, store_models = FALSE) {
   setDT(design)
   task = resampling = NULL
   design[, "task" := list(list(task[[1L]]$clone())), by = list(hashes(task))]
+  design[, "learner" := list(list(learner[[1L]]$clone())), by = list(hashes(learner))]
   design[, "resampling" := list(list(resampling[[1L]]$clone())), by = list(hashes(resampling))]
 
   # expand the design: add rows for each resampling iteration
   grid = pmap_dtr(design, function(task, learner, resampling) {
-    # we do not need to clone the learner here because we clone it before training
-    learner = assert_learner(as_learner(learner))
+    # learner = assert_learner(as_learner(learner, clone = TRUE))
     assert_learnable(task, learner)
     data.table(
       task = list(task), learner = list(learner), resampling = list(resampling),
@@ -126,5 +130,5 @@ benchmark = function(design, store_models = FALSE) {
 
   lg$info("Finished benchmark")
 
-  BenchmarkResult$new(grid)
+  BenchmarkResult$new(ResultData$new(grid, store_backends = store_backends))
 }
