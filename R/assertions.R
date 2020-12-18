@@ -243,3 +243,9 @@ assert_ro_binding = function(rhs) {
     stopf("Field/Binding is read-only")
   }
 }
+
+assert_has_backend = function(task) {
+  if (is.null(task$backend)) {
+    stopf("The backend of Task '%s' has been removed. Set `store_backends` to `TRUE` during model fitting to conserve it.", task$id)
+  }
+}

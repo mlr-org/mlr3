@@ -375,7 +375,7 @@ in the \link{ResampleResult} or \link{BenchmarkResult}, respectively.
 \describe{
 \item{\code{newdata}}{(\code{data.frame()})\cr
 New data to predict on.
-Row ids are automatically created via auto-incrementing.}
+Row ids are automatically set to \code{1:nrow(newdata)}.}
 
 \item{\code{task}}{(\link{Task}).}
 }

@@ -13,6 +13,10 @@
 #'   Keep the fitted model after the test set has been predicted?
 #'   Set to `TRUE` if you want to further analyse the models or want to
 #'   extract information like variable importance.
+#' @param store_backends (`logical(1)`)\cr
+#'   Keep the [DataBackend] of the [Task] in the [ResampleResult]?
+#'   Set to `TRUE` if your performance measures require a [Task],
+#'   or to analyse results more conveniently.
 #' @return [ResampleResult].
 #'
 #'
@@ -52,11 +56,12 @@
 #' bmr1 = as_benchmark_result(rr)
 #' bmr2 = as_benchmark_result(rr_featureless)
 #' print(bmr1$combine(bmr2))
-resample = function(task, learner, resampling, store_models = FALSE) {
+resample = function(task, learner, resampling, store_models = FALSE, store_backends = FALSE) {
   task = assert_task(as_task(task, clone = TRUE))
   learner = assert_learner(as_learner(learner, clone = TRUE))
   resampling = assert_resampling(as_resampling(resampling))
   assert_flag(store_models)
+  assert_flag(store_backends)
   assert_learnable(task, learner)
 
   instance = resampling$clone(deep = TRUE)
@@ -85,5 +90,5 @@ resample = function(task, learner, resampling, store_models = FALSE) {
     uhash = UUIDgenerate()
   )
 
-  ResampleResult$new(ResultData$new(data))
+  ResampleResult$new(ResultData$new(data, store_backends = store_backends))
 }

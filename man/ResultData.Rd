@@ -61,7 +61,7 @@ Returns \code{NULL} if the \link{ResultData} is empty.}
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 An alternative construction method is provided by \code{\link[=as_result_data]{as_result_data()}}.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResultData$new(data = NULL)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{ResultData$new(data = NULL, store_backends = TRUE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -69,6 +69,10 @@ An alternative construction method is provided by \code{\link[=as_result_data]{a
 \describe{
 \item{\code{data}}{(\code{\link[=data.table]{data.table()}} | \code{NULL})\cr
 Do not initialize this object yourself, use \code{\link[=as_result_data]{as_result_data()}} instead.}
+
+\item{\code{store_backends}}{(\code{logical(1)})\cr
+If set to \code{FALSE}, the backends of the \link{Task}s provided in \code{data} are
+removed.}
 }
 \if{html}{\out{</div>}}
 }

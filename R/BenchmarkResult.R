@@ -80,10 +80,10 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #'   An object of type `ResultData`, either extracted from another [ResampleResult], another
     #'   [BenchmarkResult], or manually constructed with [as_result_data()].
     initialize = function(data = NULL) {
-      if (inherits(data, "ResultData")) {
-        self$data = data
+      if (is.null(data)) {
+        self$data = ResultData$new()
       } else {
-        self$data = ResultData$new(data)
+        self$data = assert_class(data, "ResultData")
       }
     },
 
