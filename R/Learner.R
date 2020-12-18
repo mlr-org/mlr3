@@ -211,7 +211,7 @@ Learner = R6Class("Learner",
       learner_train(self, task, row_ids)
 
       # store the task w/o the data
-      self$state$train_task = task_rm_data(task$clone(deep = TRUE))
+      self$state$train_task = task_rm_backend(task$clone(deep = TRUE))
 
       invisible(self)
     },
@@ -267,7 +267,7 @@ Learner = R6Class("Learner",
       } else {
         task = assert_task(as_task(task, clone = TRUE))
         assert_learnable(task, self)
-        task = task_rm_data(task)
+        task = task_rm_backend(task)
       }
 
       assert_names(names(newdata), must.include = task$feature_names)

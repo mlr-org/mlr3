@@ -54,7 +54,7 @@ ResultData = R6Class("ResultData",
           uhashes = data.table(uhash = unique(fact$uhash))
           tasks = fact[, list(task = .SD$task[1L]),
             keyby = "task_hash"]
-          learners = fact[, list(learner = list(.SD$learner[[1L]]$clone(deep = TRUE)$reset())),
+          learners = fact[, list(learner = list(.SD$learner[[1L]]$reset())),
             keyby = "learner_phash"]
           resamplings = fact[, list(resampling = .SD$resampling[1L]),
             keyby = "resampling_hash"]
@@ -67,7 +67,7 @@ ResultData = R6Class("ResultData",
           setkeyv(fact, c("uhash", "iteration"))
 
           if (!store_backends) {
-            set(tasks, j = "task", value = lapply(tasks$task, task_rm_data))
+            set(tasks, j = "task", value = lapply(tasks$task, task_rm_backend))
           }
 
           self$data = list(fact = fact, uhashes = uhashes, tasks = tasks, learners = learners,
@@ -108,12 +108,9 @@ ResultData = R6Class("ResultData",
     #' Returns a table of included [Task]s.
     #'
     #' @template param_view
-    #' @param reassemble (`logical(1)`)\cr
-    #'   Reassemble the tasks, i.e. re-set the `feature_names` which are stored separately before
-    #'   returning the tasks.
     #'
     #' @return `data.table()` with columns `"task_hash"` (`character()`) and `"task"` ([Task]).
-    tasks = function(view = NULL, reassemble = TRUE) {
+    tasks = function(view = NULL) {
       ii = private$get_view_index(view)
       tab = unique(self$data$fact[ii, "task_hash", with = FALSE], by = "task_hash")
       merge(tab, self$data$tasks, by = "task_hash", sort = TRUE)

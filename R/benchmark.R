@@ -81,6 +81,7 @@ benchmark = function(design, store_models = FALSE, store_backends = FALSE) {
   assert_data_frame(design, min.rows = 1L)
   assert_names(names(design), permutation.of = c("task", "learner", "resampling"))
   design$task = list(assert_tasks(as_tasks(design$task)))
+  design$learner = list(assert_learners(as_learners(design$learner)))
   design$resampling = list(assert_resamplings(as_resamplings(design$resampling), instantiated = TRUE))
   assert_flag(store_models)
 
@@ -94,12 +95,12 @@ benchmark = function(design, store_models = FALSE, store_backends = FALSE) {
   setDT(design)
   task = resampling = NULL
   design[, "task" := list(list(task[[1L]]$clone())), by = list(hashes(task))]
+  design[, "learner" := list(list(learner[[1L]]$clone())), by = list(hashes(learner))]
   design[, "resampling" := list(list(resampling[[1L]]$clone())), by = list(hashes(resampling))]
 
   # expand the design: add rows for each resampling iteration
   grid = pmap_dtr(design, function(task, learner, resampling) {
-    # we do not need to clone the learner here because we clone it before training
-    learner = assert_learner(as_learner(learner))
+    # learner = assert_learner(as_learner(learner, clone = TRUE))
     assert_learnable(task, learner)
     data.table(
       task = list(task), learner = list(learner), resampling = list(resampling),

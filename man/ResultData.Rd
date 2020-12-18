@@ -173,7 +173,7 @@ Single \code{uhash} to restrict the results to.}
 \subsection{Method \code{tasks()}}{
 Returns a table of included \link{Task}s.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResultData$tasks(view = NULL, reassemble = TRUE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{ResultData$tasks(view = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -205,10 +205,6 @@ Single \code{uhash} to restrict the results to.}
 
 \item{\code{view}}{\code{character(1)}\cr
 Single \code{uhash} to restrict the results to.}
-
-\item{\code{reassemble}}{(\code{logical(1)})\cr
-Reassemble the tasks, i.e. re-set the \code{feature_names} which are stored separately before
-returning the tasks.}
 }
 \if{html}{\out{</div>}}
 }

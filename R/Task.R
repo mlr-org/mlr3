@@ -914,7 +914,7 @@ as.data.table.Task = function(x, ...) { # nolint
   x$head(x$nrow)
 }
 
-task_rm_data = function(task) {
+task_rm_backend = function(task) {
   # fix task hash
   ee = get_private(task)
   ee$.hash = force(task$hash)
