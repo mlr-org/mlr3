@@ -386,7 +386,10 @@ test_that("$add_strata", {
   expect_set_equal(task$col_roles$stratum, "..stratum_mpg")
   expect_data_table(task$strata, nrows = 5)
 
-  r = rsmp("holdout", ratio = 0.5)$instantiate(task)
-  expect_equal(as.integer(table(r$train_set(1) <= 10L)), c(5L, 5L))
-  expect_equal(as.integer(table(r$test_set(1) > 10L)), c(5L, 5L))
+  task$add_strata("am", bins = 3)
+  expect_set_equal(task$col_roles$stratum, c("..stratum_mpg", "..stratum_am"))
+
+  task = tsk("mtcars")
+  task$add_strata(c("mpg", "am"), bins = c(2, 5))
+  expect_set_equal(task$col_roles$stratum, c("..stratum_mpg", "..stratum_am"))
 })
