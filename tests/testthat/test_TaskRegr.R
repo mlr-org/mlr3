@@ -31,12 +31,12 @@ test_that("TaskRegr: 0 feature task", {
   expect_prediction(p)
 })
 
-test_that("$add_stratum", {
+test_that("$add_strata", {
   tab = data.table(y = rep(c(1, 10), times = c(10, 10)), x = 1)
   task = TaskRegr$new("strata", tab, "y")
   expect_equal(task$col_roles$stratum, character())
 
-  task$add_strata(task$target_names, 5)
+  task$add_strata(task$target_names, 2)
   expect_equal(task$col_roles$stratum, "..stratum_y")
   expect_equal(lengths(task$strata$row_id), c(10L, 10L))
 
