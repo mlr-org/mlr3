@@ -709,7 +709,7 @@ Cuts numeric variables into new factors columns which are added to the task with
 This ensures that all training and test splits contain observations from all bins.
 The columns are named \code{"..stratum_[col_name]"}.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Task$add_strata(cols, method = "cut", bins = 3L)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Task$add_strata(cols, bins = 3L)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -717,11 +717,6 @@ The columns are named \code{"..stratum_[col_name]"}.
 \describe{
 \item{\code{cols}}{(\code{character()})\cr
 Names of columns to operate on.}
-
-\item{\code{method}}{(\code{character(1)})\cr
-Method to cut the columns into bins.
-Default is \code{"cut"} which calls \code{\link[=cut]{cut()}} with \code{bins} breaks.
-If set to \code{"quantile"}, equal-sized bins are created.}
 
 \item{\code{bins}}{(\code{integer()})\cr
 Number of bins to cut into (passed to \code{\link[=cut]{cut()}} as \code{breaks}).

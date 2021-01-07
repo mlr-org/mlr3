@@ -46,16 +46,6 @@ test_that("$add_strata", {
 
   tab = data.table(y = rep(c(1, 10), times = c(50, 10)), x = 1)
   task = TaskRegr$new("strata", tab, "y")
-  task$add_strata(task$target_names, method = "cut", bins = 2)
+  task$add_strata(task$target_names, bins = 2)
   expect_identical(task$strata$N, c(50L, 10L))
-
-  task = TaskRegr$new("strata", tab, "y")
-  task$add_strata(task$target_names, method = "quantile", bins = 10)
-
-
-  quantile(tab$y)
-  task$strata
-
-  expect_identical(task$strata$N, c(50L, 10L))
-
 })
