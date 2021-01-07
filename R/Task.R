@@ -503,6 +503,36 @@ Task = R6Class("Task",
 
       self$col_info = ujoin(self$col_info, tab, key = "id")
       invisible(self)
+    },
+
+    #' @description
+    #' Applies [cut()] to numeric variables and adds the returned factors as new columns
+    #' with role `"stratum"` to the task.
+    #' The columns are named `"..stratum_[col_name]"`.
+    #'
+    #' @param cols (`character()`)\cr
+    #'   Names of columns to operate on.
+    #' @param bins (`integer()`)\cr
+    #'   Number of bins to cut into (passed to [cut()] as `breaks`).
+    #'   Replicated to have the same length as `cols`.
+    #' @return self (invisibly).
+    add_strata = function(cols, bins = 5L) {
+      assert_names(cols, "unique", subset.of = self$backend$colnames)
+
+      col_types = fget(self$col_info, i = cols, j = "type", key = "id")
+      ii = wf(col_types %nin% c("integer", "numeric"))
+      if (length(ii)) {
+        stopf("For `add_strata`, all columns must be numeric, but '%s' is not", cols[ii])
+      }
+
+      bins = assert_integerish(bins, any.missing = FALSE, coerce = TRUE)
+      bins = rep_len(bins, length(cols))
+
+      tab = self$data(cols = cols)
+      strata = setnames(pmap_dtc(list(tab, bins), cut), sprintf("..stratum_%s", cols))
+      self$cbind(strata)
+      self$set_col_roles(names(strata), role = "stratum")
+      invisible(self)
     }
   ),
 
