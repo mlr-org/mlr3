@@ -506,18 +506,25 @@ Task = R6Class("Task",
     },
 
     #' @description
-    #' Applies [cut()] to numeric variables and adds the returned factors as new columns
-    #' with role `"stratum"` to the task.
+    #' Cuts numeric variables into new factors columns which are added to the task with role
+    #' `"stratum"`.
+    #' This ensures that all training and test splits contain observations from all bins.
     #' The columns are named `"..stratum_[col_name]"`.
     #'
     #' @param cols (`character()`)\cr
     #'   Names of columns to operate on.
+    #' @param method (`character(1)`)\cr
+    #'   Method to cut the columns into bins.
+    #'   Default is `"cut"` which calls [cut()] with `bins` breaks.
+    #'   If set to `"quantile"`, equal-sized bins are created.
     #' @param bins (`integer()`)\cr
     #'   Number of bins to cut into (passed to [cut()] as `breaks`).
     #'   Replicated to have the same length as `cols`.
     #' @return self (invisibly).
-    add_strata = function(cols, bins = 5L) {
+    add_strata = function(cols, method = "cut", bins = 3L) {
       assert_names(cols, "unique", subset.of = self$backend$colnames)
+      assert_choice(method, c("cut", "quantile"))
+      bins = assert_integerish(bins, any.missing = FALSE, coerce = TRUE)
 
       col_types = fget(self$col_info, i = cols, j = "type", key = "id")
       ii = wf(col_types %nin% c("integer", "numeric"))
@@ -525,11 +532,16 @@ Task = R6Class("Task",
         stopf("For `add_strata`, all columns must be numeric, but '%s' is not", cols[ii])
       }
 
-      bins = assert_integerish(bins, any.missing = FALSE, coerce = TRUE)
-      bins = rep_len(bins, length(cols))
-
-      tab = self$data(cols = cols)
-      strata = setnames(pmap_dtc(list(tab, bins), cut), sprintf("..stratum_%s", cols))
+      if (method == "cut") {
+        mycut = cut
+      } else {
+        mycut = function(x, breaks, ...) {
+          breaks = unname(quantile(x, seq(from = 0, to = 1, length.out = breaks + 1L)))
+          cut(x, unique(breaks), ...)
+        }
+      }
+      strata = pmap_dtc(list(self$data(cols = cols), bins), mycut, include.lowest = TRUE)
+      setnames(strata, sprintf("..stratum_%s", cols))
       self$cbind(strata)
       self$set_col_roles(names(strata), role = "stratum")
       invisible(self)

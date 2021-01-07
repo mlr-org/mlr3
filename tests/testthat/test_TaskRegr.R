@@ -36,11 +36,26 @@ test_that("$add_strata", {
   task = TaskRegr$new("strata", tab, "y")
   expect_equal(task$col_roles$stratum, character())
 
-  task$add_strata(task$target_names, 2)
+  task$add_strata(task$target_names, bins = 2)
   expect_equal(task$col_roles$stratum, "..stratum_y")
   expect_equal(lengths(task$strata$row_id), c(10L, 10L))
 
   r = rsmp("holdout", ratio = 0.5)$instantiate(task)
   expect_equal(as.integer(table(r$train_set(1) <= 10L)), c(5L, 5L))
   expect_equal(as.integer(table(r$test_set(1) > 10L)), c(5L, 5L))
+
+  tab = data.table(y = rep(c(1, 10), times = c(50, 10)), x = 1)
+  task = TaskRegr$new("strata", tab, "y")
+  task$add_strata(task$target_names, method = "cut", bins = 2)
+  expect_identical(task$strata$N, c(50L, 10L))
+
+  task = TaskRegr$new("strata", tab, "y")
+  task$add_strata(task$target_names, method = "quantile", bins = 10)
+
+
+  quantile(tab$y)
+  task$strata
+
+  expect_identical(task$strata$N, c(50L, 10L))
+
 })

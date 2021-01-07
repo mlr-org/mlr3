@@ -174,6 +174,7 @@ Collate:
     'helper.R'
     'mlr_coercions.R'
     'mlr_sugar.R'
+    'partition.R'
     'predict.R'
     'reexports.R'
     'resample.R'
