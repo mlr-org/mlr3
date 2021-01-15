@@ -2,7 +2,7 @@
 #'   Vector of (relative) image paths
 #' @export
 as.imagepath = function(x) {
-  assert_character(x, pattern = "([a-z_\\-\\s0-9\\.~]+)\\.([A-Za-z0-9_-])+$")
+  assert_character(x)
   structure(x, class = "imagepath")
 }
 
@@ -11,5 +11,5 @@ as.imagepath = function(x) {
 #' @rdname mlr_assertions
 #' @export
 assert_imagepath = function(x) {
-  assert_character(x, pattern = "([a-z_\\-\\s0-9\\.~]+)\\.([A-Za-z0-9_-])+$")
+  assert_character(x)
 }
