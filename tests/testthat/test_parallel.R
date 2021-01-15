@@ -35,7 +35,7 @@ test_that("real parallel resample", {
   skip_if_not_installed("progressr")
   skip_on_os("windows") # currently buggy
 
-  with_future(future::multiprocess, {
+  with_future(future::multisession, {
     task = tsk("iris")
     learner = lrn("classif.rpart")
 

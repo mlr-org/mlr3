@@ -46,7 +46,8 @@ learner_train = function(learner, task, row_ids = NULL) {
     .f = train_wrapper,
     .args = list(learner = learner, task = task),
     .pkgs = learner$packages,
-    .seed = NA_integer_
+    .seed = NA_integer_,
+    .timeout = learner$timeout["train"]
   )
 
   learner$state = insert_named(learner$state, list(
@@ -142,7 +143,8 @@ learner_predict = function(learner, task, row_ids = NULL) {
       .f = predict_wrapper,
       .args = list(task = task, learner = learner),
       .pkgs = learner$packages,
-      .seed = NA_integer_
+      .seed = NA_integer_,
+      .timeout = learner$timeout["predict"]
     )
 
     prediction = result$result

@@ -12,7 +12,7 @@
 #'
 #' Iteration numbers can be translated into folds or repeats with provided methods.
 #'
-#' @templateVar id holdout
+#' @templateVar id repeated_cv
 #' @template section_dictionary_resampling
 #'
 #' @section Parameters:
@@ -22,7 +22,7 @@
 #'   Number of folds.
 #'
 #' @references
-#' `r tools::toRd(bibentries["bischl_2012"])`
+#' `r format_bib("bischl_2012")`
 #'
 #' @template seealso_resampling
 #' @export

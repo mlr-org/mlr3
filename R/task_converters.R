@@ -36,11 +36,11 @@ convert_task = function(intask, target = NULL, new_type = NULL, drop_original_ta
   newtask$row_roles = intask$row_roles
   props = intersect(mlr_reflections$task_col_roles[[intask$task_type]], mlr_reflections$task_col_roles[[new_type]])
   newtask$col_roles[props] = intask$col_roles[props]
-  newtask$set_col_role(target, "target")
+  newtask$set_col_roles(target, "target")
 
   # Add the original target(s) as features, only keeping 'new_target'.
   if (!all(intask$target_names == target)) {
-    newtask$set_col_role(setdiff(intask$col_roles$target, target),  "feature")
+    newtask$set_col_roles(setdiff(intask$col_roles$target, target),  "feature")
   }
 
   # during prediction, when target is NA, we do not call droplevels

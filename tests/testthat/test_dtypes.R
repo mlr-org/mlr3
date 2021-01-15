@@ -6,10 +6,6 @@ test_that("data.type: imagepath", {
   imp = as.imagepath(x)
   expect_is(imp, "imagepath")
   expect_identical(as.character(x), x)
-
-  expect_error(as.imagepath("foo?bar"))
-  expect_error(as.imagepath("foo/bar"))
-  expect_error(as.imagepath("foobar"))
 })
 
 test_that("data.type: imagepath in task", {

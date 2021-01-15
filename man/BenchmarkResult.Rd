@@ -8,8 +8,13 @@ This is the result container object returned by \code{\link[=benchmark]{benchmar
 A \link{BenchmarkResult} consists of the data row-binded data of multiple
 \link{ResampleResult}s, which can easily be re-constructed.
 
-Note that all stored objects are accessed by reference.
-Do not modify any object without cloning it first.
+\link{BenchmarkResult}s can be visualized via \CRANpkg{mlr3viz}'s \code{autoplot()} function.
+
+For statistical analysis of benchmark results and more advanced plots, see \CRANpkg{mlr3benchmark}.
+}
+\note{
+All stored objects are accessed by reference.
+Do not modify any extracted object without cloning it first.
 }
 \section{S3 Methods}{
 
@@ -20,10 +25,6 @@ Returns a tabular view of the internal data.
 \item \code{c(...)}\cr
 (\link{BenchmarkResult}, ...) -> \link{BenchmarkResult}\cr
 Combines multiple objects convertible to \link{BenchmarkResult} into a new \link{BenchmarkResult}.
-\item \code{friedman.test(y, ...)}\cr
-\link{BenchmarkResult} -> \code{"htest"}\cr
-Applies \code{\link[=friedman.test]{friedman.test()}} on the benchmark result, returning an
-object of class \code{"htest"}.
 }
 }
 
@@ -232,7 +233,12 @@ Additionally calculates the provided performance measures and binds the
 performance scores as extra columns. These columns are named using the id of
 the respective \link{Measure}.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{BenchmarkResult$score(measures = NULL, ids = TRUE, predict_sets = "test")}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{BenchmarkResult$score(
+  measures = NULL,
+  ids = TRUE,
+  conditions = FALSE,
+  predict_sets = "test"
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -243,7 +249,11 @@ Measure(s) to calculate.}
 
 \item{\code{ids}}{(\code{logical(1)})\cr
 Adds object ids (\code{"task_id"}, \code{"learner_id"}, \code{"resampling_id"}) as
-extra character columns for convenient subsetting.}
+extra character columns to the returned table.}
+
+\item{\code{conditions}}{(\code{logical(1)})\cr
+Adds condition messages (\code{"warnings"}, \code{"errors"}) as extra
+list columns of character vectors to the returned table}
 
 \item{\code{predict_sets}}{(\code{character()})\cr
 Vector of predict sets (\verb{\{"train", "test"\}}) to construct the \link{Prediction} objects from.

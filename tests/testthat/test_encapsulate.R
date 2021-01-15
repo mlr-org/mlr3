@@ -46,7 +46,7 @@ test_that("evaluate / single step", {
 test_that("evaluate / resample", {
   resampling = rsmp("cv", folds = 3)
 
-  rr = expect_warning(resample(task, disable_encapsulation(learner), resampling))
+  rr = suppressWarnings(expect_warning(resample(task, disable_encapsulation(learner), resampling)))
   expect_true(all(map(rr$data$data$fact$learner_state, function(x) nrow(x$log)) == 0L))
 
   rr = expect_silent(resample(task, enable_encapsulation(learner), resampling))

@@ -7,15 +7,21 @@
 #' @importFrom graphics plot
 #' @importFrom stats predict rnorm runif sd contr.treatment
 #' @importFrom uuid UUIDgenerate
-#' @section Additional resources:
+#'
+#' @section Learn mlr3:
 #' * Book on mlr3: \url{https://mlr3book.mlr-org.com}
-#' * Use cases and examples: \url{https://mlr3gallery.mlr-org.com}
+#' * Use cases and examples gallery: \url{https://mlr3gallery.mlr-org.com}
+#' * Cheat Sheets: \url{https://cheatsheets.mlr-org.com}
+#'
+#' @section mlr3 extensions:
+#' * Preprocessing and machine learning pipelines: \CRANpkg{mlr3pipelines}
+#' * Analysis of benchmark experiments: \CRANpkg{mlr3benchmark}
 #' * More classification and regression tasks: \CRANpkg{mlr3data}
 #' * Connector to [OpenML](https://www.openml.org): \CRANpkg{mlr3oml}
-#' * More classification and regression learners: \CRANpkg{mlr3learners}
+#' * Solid selection of good classification and regression learners: \CRANpkg{mlr3learners}
 #' * Even more learners: \url{https://github.com/mlr-org/mlr3extralearners}
-#' * Preprocessing and machine learning pipelines: \CRANpkg{mlr3pipelines}
 #' * Tuning of hyperparameters: \CRANpkg{mlr3tuning}
+#' * Hyperband tuner: \CRANpkg{mlr3hyperband}
 #' * Visualizations for many \pkg{mlr3} objects: \CRANpkg{mlr3viz}
 #' * Survival analysis and probabilistic regression: \CRANpkg{mlr3proba}
 #' * Cluster analysis: \CRANpkg{mlr3cluster}
@@ -23,8 +29,12 @@
 #' * Feature selection wrappers: \CRANpkg{mlr3fselect}
 #' * Interface to real (out-of-memory) data bases: \CRANpkg{mlr3db}
 #' * Performance measures as plain functions: \CRANpkg{mlr3measures}
+#'
+#' @section Suggested packages:
 #' * Parallelization framework: \CRANpkg{future}
 #' * Progress bars: \CRANpkg{progressr}
+#' * Encapsulated evaluation: \CRANpkg{evaluate}, \CRANpkg{callr} (external process)
+#'
 #' @references
 #' `r tools::toRd(citation("mlr3"))`
 "_PACKAGE"
@@ -42,7 +52,13 @@ dummy_import = function() {
   backports::import(pkgname)
 
   # setup logger
-  assign("lg", lgr::get_logger(pkgname), envir = parent.env(environment()))
+  lg = lgr::get_logger(pkgname)
+  assign("lg", lg, envir = parent.env(environment()))
+  f = function(event) {
+    event$msg = paste0("[mlr3]  ", event$msg)
+    TRUE
+  }
+  lg$add_filter(f)
   if (Sys.getenv("IN_PKGDOWN") == "true") {
     lg$set_threshold("warn")
   }

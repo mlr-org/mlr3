@@ -96,6 +96,11 @@ assert_learners = function(learners, task = NULL, properties = character(), .var
 #' @export
 #' @rdname mlr_assertions
 assert_learnable = function(task, learner) {
+  pars = learner$param_set$get_values(type = "only_token")
+  if(length(pars) > 0) {
+    stopf("%s cannot be trained with TuneToken present in hyperparameter: %s", learner$format(), str_collapse(names(pars)))
+  }
+
   if (task$task_type != learner$task_type) {
     stopf("Type '%s' of %s does not match type '%s' of %s",
       task$task_type, task$format(), learner$task_type, learner$format())
@@ -140,8 +145,8 @@ assert_measure = function(measure, task = NULL, learner = NULL, .var.name = vnam
 
     miss = setdiff(measure$predict_sets, learner$predict_sets)
     if (length(miss)) {
-      stopf("Measure '%s' needs predict set '%s', but learner '%s' only predicted on sets '%s'",
-        measure$id, str_collapse(miss), learner$id, str_collapse(learner$predict_sets))
+      stopf("Measure '%s' needs predict set %s, but learner '%s' only predicted on sets %s",
+        measure$id, str_collapse(miss, quote = "'"), learner$id, str_collapse(learner$predict_sets, quote = "'"))
     }
   }
 
@@ -236,5 +241,11 @@ assert_row_ids = function(row_ids, null.ok = FALSE, .var.name = vname(row_ids)) 
 assert_ro_binding = function(rhs) {
   if (!missing(rhs)) {
     stopf("Field/Binding is read-only")
+  }
+}
+
+assert_has_backend = function(task) {
+  if (is.null(task$backend)) {
+    stopf("The backend of Task '%s' has been removed. Set `store_backends` to `TRUE` during model fitting to conserve it.", task$id)
   }
 }

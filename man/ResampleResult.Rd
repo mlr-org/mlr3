@@ -216,7 +216,12 @@ for each \link{Measure} in \code{measures},
 named with the id of the respective measure id.
 If \code{measures} is \code{NULL}, \code{measures} defaults to the return value of \code{\link[=default_measures]{default_measures()}}.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$score(measures = NULL, ids = TRUE, predict_sets = "test")}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$score(
+  measures = NULL,
+  ids = TRUE,
+  conditions = FALSE,
+  predict_sets = "test"
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -229,6 +234,10 @@ Measure(s) to calculate.}
 If \code{ids} is \code{TRUE}, extra columns with the ids of objects (\code{"task_id"}, \code{"learner_id"}, \code{"resampling_id"})
 are added to the returned table.
 These allow to subset more conveniently.}
+
+\item{\code{conditions}}{(\code{logical(1)})\cr
+Adds condition messages (\code{"warnings"}, \code{"errors"}) as extra
+list columns of character vectors to the returned table}
 
 \item{\code{predict_sets}}{(\code{character()})\cr
 Vector of predict sets (\verb{\{"train", "test"\}}) to construct the \link{Prediction} objects from.

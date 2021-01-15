@@ -189,16 +189,30 @@ expect_iris_backend = function(b, n_missing = 0L) {
   testthat::expect_equal(sum(x), n_missing)
 }
 
-expect_task = function(task) {
+expect_task = function(task, null_backend_ok = FALSE) {
   checkmate::expect_r6(task, "Task", cloneable = TRUE, public = c("id", "backend", "task_type", "row_roles", "col_roles", "col_info", "head", "row_ids", "feature_names", "target_names", "formula", "nrow", "ncol", "feature_types"))
   testthat::expect_output(print(task), "Task")
   expect_id(task$id)
   expect_man_exists(task$man)
   checkmate::expect_count(task$nrow)
   checkmate::expect_count(task$ncol)
-  checkmate::expect_data_table(task$data(data_format = "data.table"))
-  if (task$nrow > 0L)
+
+  null_backend = is.null(task$backend)
+  if (null_backend) {
+      expect_true(null_backend_ok)
+  } else {
+    expect_r6(task$backend)
+  }
+
+  if (null_backend) {
+    expect_equal(task$data_formats, character())
+  } else {
+    checkmate::expect_data_table(task$data(data_format = "data.table"))
+  }
+
+  if (task$nrow > 0L && !null_backend) {
     checkmate::expect_data_table(task$head(1), nrows = 1L)
+  }
 
   cols = c("id", "type", "levels")
   checkmate::expect_data_table(task$col_info, key = "id", ncols  = length(cols))
@@ -228,18 +242,20 @@ expect_task = function(task) {
   checkmate::expect_list(levels, names = "unique")
   checkmate::qassertr(levels, c("0", "S+"))
 
-  missings = task$missings()
-  checkmate::expect_integer(missings, names = "unique", any.missing = FALSE, lower = 0L, upper = task$nrow)
-
   expect_hash(task$hash, 1L)
 
-  # query zero columns
-  data = task$data(cols = character(), data_format = "data.table")
-  checkmate::expect_data_table(data, ncols  = 0L)
+  if (!null_backend) {
+    missings = task$missings()
+    checkmate::expect_integer(missings, names = "unique", any.missing = FALSE, lower = 0L, upper = task$nrow)
 
-  # query zero rows
-  data = task$data(rows = task$row_ids[0L], data_format = "data.table")
-  checkmate::expect_data_table(data, nrows  = 0L)
+    # query zero columns
+    data = task$data(cols = character(), data_format = "data.table")
+    checkmate::expect_data_table(data, ncols  = 0L)
+
+    # query zero rows
+    data = task$data(rows = task$row_ids[0L], data_format = "data.table")
+    checkmate::expect_data_table(data, nrows  = 0L)
+  }
 }
 
 expect_task_supervised = function(task) {
@@ -370,7 +386,7 @@ expect_resampling = function(r, task = NULL) {
   testthat::expect_true(checkmate::qtestr(r$param_set$values, "V1"))
 
   # check re-instantiation with provided task
-  if (!is.null(task) && !inherits(r, "ResamplingCustom")) {
+  if (!is.null(task) && !is.null(task$backend) && !inherits(r, "ResamplingCustom")) {
     r = r$clone()$instantiate(task)
     expect_subset(r$train_set(1), task$row_ids)
     expect_subset(r$test_set(1), task$row_ids)
@@ -451,7 +467,7 @@ expect_resample_result = function(rr, allow_incomplete = FALSE) {
   nr = rr$data$iterations()
 
   if (nr > 0L) {
-    expect_task(rr$task)
+    expect_task(rr$task, null_backend_ok = is.null(rr$task$backend))
     expect_learner(rr$learner)
     lapply(rr$learners, expect_learner, task = rr$task)
     expect_resampling(rr$resampling, task = rr$task)
@@ -555,7 +571,7 @@ expect_benchmark_result = function(bmr) {
 }
 
 expect_resultdata = function(rdata, consistency = TRUE) {
-  expect_is(rdata, "ResultData")
+  expect_class(rdata, "ResultData")
   data = rdata$data
 
   proto = mlr3:::star_init()

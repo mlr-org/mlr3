@@ -1,3 +1,4 @@
+#' Convert a file path to an image path
 #' @param x (`character`) \cr
 #'   Vector of (relative) image paths
 #' @export

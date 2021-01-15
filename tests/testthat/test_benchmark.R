@@ -210,6 +210,8 @@ test_that("extract params", {
   bmr = benchmark(benchmark_grid(tsk("wine"), lrns, rsmp("cv", folds = 3)))
   aggr = bmr$aggregate(params = TRUE)
   expect_list(aggr$params[[1]], names = "unique", len = 0L)
+
+  expect_true(all(c("warnings", "errors") %in% names(bmr$score(conditions = TRUE))))
 })
 
 test_that("benchmark_grid", {
@@ -261,10 +263,6 @@ test_that("parallelization works", {
   expect_benchmark_result(bmr)
   pids = map_int(as.data.table(bmr)$learner, function(x) x$model$pid)
   expect_equal(length(unique(pids)), njobs)
-})
-
-test_that("friedman.test", {
-  expect_s3_class(friedman.test(bmr), "htest")
 })
 
 test_that("aggregated performance values are calculated correctly (#555)", {
