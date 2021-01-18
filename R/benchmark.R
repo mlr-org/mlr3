@@ -97,7 +97,7 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE) {
 
   # clone inputs
   setDT(design)
-  task = resampling = NULL
+  task = learner = resampling = NULL
   design[, "task" := list(list(task[[1L]]$clone())), by = list(hashes(task))]
   design[, "learner" := list(list(learner[[1L]]$clone())), by = list(hashes(learner))]
   design[, "resampling" := list(list(resampling[[1L]]$clone())), by = list(hashes(resampling))]
