@@ -13,4 +13,5 @@ as.imagepath = function(x) {
 #' @export
 assert_imagepath = function(x) {
   assert_character(x)
+  assert_class(x, "imagepath")
 }

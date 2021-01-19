@@ -1,10 +1,7 @@
-context("Additional data types")
-
 test_that("data.type: imagepath", {
-  x = c("foo/bar/1.jpg", "/foo/bar/1.jpg", "~/bar/1.jpg", "1.jpg",
-    "//foo.png", "a-b_c.png")
+  x = c("foo/bar/1.jpg", "/foo/bar/1.jpg", "~/bar/1.jpg", "1.jpg", "//foo.png", "a-b_c.png")
   imp = as.imagepath(x)
-  expect_is(imp, "imagepath")
+  expect_class(imp, "imagepath")
   expect_identical(as.character(x), x)
 })
 
