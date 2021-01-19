@@ -29,6 +29,7 @@ test_that("param_vals", {
 
   expect_error({
     r$param_set$values = list(repeats = 10L)
+    r$param_set$get_values()
   }, "ratio")
 
   expect_error({
