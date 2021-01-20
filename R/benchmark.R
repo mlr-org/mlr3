@@ -16,6 +16,10 @@
 #'   Keep the [DataBackend] of the [Task] in the [BenchmarkResult]?
 #'   Set to `TRUE` if your performance measures require a [Task],
 #'   or to analyse results more conveniently.
+#'   Set to `FALSE` to reduce the file size and memory footprint
+#'   after serialization.
+#'   The current default is `TRUE`, but this eventually will be changed
+#'   in a future release.
 #'
 #' @return [BenchmarkResult].
 #'
@@ -77,7 +81,7 @@
 #' ## Get the training set of the 2nd iteration of the featureless learner on iris
 #' rr = bmr$aggregate()[learner_id == "classif.featureless"]$resample_result[[1]]
 #' rr$resampling$train_set(2)
-benchmark = function(design, store_models = FALSE, store_backends = FALSE) {
+benchmark = function(design, store_models = FALSE, store_backends = TRUE) {
   assert_data_frame(design, min.rows = 1L)
   assert_names(names(design), permutation.of = c("task", "learner", "resampling"))
   design$task = list(assert_tasks(as_tasks(design$task)))
@@ -93,7 +97,7 @@ benchmark = function(design, store_models = FALSE, store_backends = FALSE) {
 
   # clone inputs
   setDT(design)
-  task = resampling = NULL
+  task = learner = resampling = NULL
   design[, "task" := list(list(task[[1L]]$clone())), by = list(hashes(task))]
   design[, "learner" := list(list(learner[[1L]]$clone())), by = list(hashes(learner))]
   design[, "resampling" := list(list(resampling[[1L]]$clone())), by = list(hashes(resampling))]

@@ -4,7 +4,7 @@
 \alias{benchmark}
 \title{Benchmark Multiple Learners on Multiple Tasks}
 \usage{
-benchmark(design, store_models = FALSE, store_backends = FALSE)
+benchmark(design, store_models = FALSE, store_backends = TRUE)
 }
 \arguments{
 \item{design}{(\code{\link[=data.frame]{data.frame()}})\cr
@@ -21,7 +21,11 @@ extract information like variable importance.}
 \item{store_backends}{(\code{logical(1)})\cr
 Keep the \link{DataBackend} of the \link{Task} in the \link{BenchmarkResult}?
 Set to \code{TRUE} if your performance measures require a \link{Task},
-or to analyse results more conveniently.}
+or to analyse results more conveniently.
+Set to \code{FALSE} to reduce the file size and memory footprint
+after serialization.
+The current default is \code{TRUE}, but this eventually will be changed
+in a future release.}
 }
 \value{
 \link{BenchmarkResult}.
