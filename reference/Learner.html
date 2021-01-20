@@ -105,7 +105,7 @@ A guide on how to extend mlr3 with custom learners can be found in the mlr3book.
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.9.0</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.10.0</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -129,7 +129,7 @@ A guide on how to extend mlr3 with custom learners can be found in the mlr3book.
 </li>
         <li>
   <a href="https://github.com/mlr-org/mlr3/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -141,13 +141,13 @@ A guide on how to extend mlr3 with custom learners can be found in the mlr3book.
 </li>
 <li>
   <a href="https://stackoverflow.com/questions/tagged/mlr3">
-    <span class="fab fa fab fa-stack-overflow"></span>
+    <span class="fab fa-stack-overflow"></span>
      
   </a>
 </li>
 <li>
   <a href="https://mlr-org.com/">
-    <span class="fa fa-rss"></span>
+    <span class="fas fa-rss"></span>
      
   </a>
 </li>
@@ -497,7 +497,7 @@ in the <a href='ResampleResult.html'>ResampleResult</a> or <a href='BenchmarkRes
 <p><div class="arguments"></p><dl>
 <dt><code>newdata</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/data.frame.html'>data.frame()</a></code>)<br />
 New data to predict on.
-Row ids are automatically created via auto-incrementing.</p></dd>
+Row ids are automatically set to <code>1:nrow(newdata)</code>.</p></dd>
 
 <dt><code>task</code></dt><dd><p>(<a href='Task.html'>Task</a>).</p></dd>
 

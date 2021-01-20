@@ -90,7 +90,7 @@ Parameter ratio determines the ratio of observation going into the training set 
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.9.0</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.10.0</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -114,7 +114,7 @@ Parameter ratio determines the ratio of observation going into the training set 
 </li>
         <li>
   <a href="https://github.com/mlr-org/mlr3/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -126,13 +126,13 @@ Parameter ratio determines the ratio of observation going into the training set 
 </li>
 <li>
   <a href="https://stackoverflow.com/questions/tagged/mlr3">
-    <span class="fab fa fab fa-stack-overflow"></span>
+    <span class="fab fa-stack-overflow"></span>
      
   </a>
 </li>
 <li>
   <a href="https://mlr-org.com/">
-    <span class="fa fa-rss"></span>
+    <span class="fas fa-rss"></span>
      
   </a>
 </li>
@@ -264,13 +264,13 @@ Returns the number of resampling iterations, depending on the values stored in t
 
 <span class='co'># Individual sets:</span>
 <span class='va'>rho</span><span class='op'>$</span><span class='fu'>train_set</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1]  7  9  8 10  4</div><div class='input'><span class='va'>rho</span><span class='op'>$</span><span class='fu'>test_set</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1]  4  7  8  9 10</div><div class='input'><span class='va'>rho</span><span class='op'>$</span><span class='fu'>test_set</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] 1 2 3 5 6</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/sets.html'>intersect</a></span><span class='op'>(</span><span class='va'>rho</span><span class='op'>$</span><span class='fu'>train_set</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>, <span class='va'>rho</span><span class='op'>$</span><span class='fu'>test_set</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; integer(0)</div><div class='input'>
 <span class='co'># Internal storage:</span>
 <span class='va'>rho</span><span class='op'>$</span><span class='va'>instance</span> <span class='co'># simple list</span>
 </div><div class='output co'>#&gt; $train
-#&gt; [1]  7  9  8 10  4
+#&gt; [1]  4  7  8  9 10
 #&gt; 
 #&gt; $test
 #&gt; [1] 1 2 3 5 6

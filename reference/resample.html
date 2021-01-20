@@ -92,7 +92,7 @@ Training and test sets are defined by the Resampling resampling." />
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.9.0</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.10.0</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -116,7 +116,7 @@ Training and test sets are defined by the Resampling resampling." />
 </li>
         <li>
   <a href="https://github.com/mlr-org/mlr3/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -128,13 +128,13 @@ Training and test sets are defined by the Resampling resampling." />
 </li>
 <li>
   <a href="https://stackoverflow.com/questions/tagged/mlr3">
-    <span class="fab fa fab fa-stack-overflow"></span>
+    <span class="fab fa-stack-overflow"></span>
      
   </a>
 </li>
 <li>
   <a href="https://mlr-org.com/">
-    <span class="fa fa-rss"></span>
+    <span class="fas fa-rss"></span>
      
   </a>
 </li>
@@ -169,7 +169,13 @@ then use the trained model to predict observations of a test set.
 Training and test sets are defined by the <a href='Resampling.html'>Resampling</a> <code>resampling</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>resample</span><span class='op'>(</span><span class='va'>task</span>, <span class='va'>learner</span>, <span class='va'>resampling</span>, store_models <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>resample</span><span class='op'>(</span>
+  <span class='va'>task</span>,
+  <span class='va'>learner</span>,
+  <span class='va'>resampling</span>,
+  store_models <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  store_backends <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -192,6 +198,17 @@ Training and test sets are defined by the <a href='Resampling.html'>Resampling</
 Keep the fitted model after the test set has been predicted?
 Set to <code>TRUE</code> if you want to further analyse the models or want to
 extract information like variable importance.</p></td>
+    </tr>
+    <tr>
+      <th>store_backends</th>
+      <td><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
+Keep the <a href='DataBackend.html'>DataBackend</a> of the <a href='Task.html'>Task</a> in the <a href='ResampleResult.html'>ResampleResult</a>?
+Set to <code>TRUE</code> if your performance measures require a <a href='Task.html'>Task</a>,
+or to analyse results more conveniently.
+Set to <code>FALSE</code> to reduce the file size and memory footprint
+after serialization.
+The current default is <code>TRUE</code>, but this eventually will be changed
+in a future release.</p></td>
     </tr>
     </table>
 
