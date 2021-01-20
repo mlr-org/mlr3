@@ -14,6 +14,8 @@ ee[["logical___factor"]] =
   function(value, type, levels) { factor(value, levels = union(levels, value), ordered = FALSE) }
 ee[["logical___ordered"]] =
   function(value, type, levels) { if (all(value %in% c(NA_character_, levels))) factor(value, levels = levels, ordered = TRUE) else NULL }
+ee[["logical___POSIXct"]] =
+  function(value, type, levels) { if (allMissing(value)) .POSIXct(value, tz = "") else value }
 
 ## from: integer
 ee[["integer___logical"]] =
@@ -26,6 +28,8 @@ ee[["integer___factor"]] =
   ee[["logical___factor"]]
 ee[["integer___ordered"]] =
   ee[["logical___ordered"]]
+ee[["integer___POSIXct"]] =
+  ee[["logical___POSIXct"]]
 
 ## from: numeric
 ee[["numeric___logical"]] =
@@ -38,6 +42,8 @@ ee[["numeric___factor"]] =
   ee[["logical___factor"]]
 ee[["numeric___ordered"]] =
   ee[["logical___ordered"]]
+ee[["numeric___POSIXct"]] =
+  ee[["logical___POSIXct"]]
 
 ## from: character
 ee[["character___logical"]] =
@@ -50,6 +56,8 @@ ee[["character___factor"]] =
   ee[["logical___factor"]]
 ee[["character___ordered"]] =
   ee[["logical___ordered"]]
+ee[["character___POSIXct"]] =
+  function(value, type, levels) { x = try(as.POSIXct(value), silent = TRUE); if (inherits(x, "try-error")) value else x }
 
 ## from: factor
 ee[["factor___logical"]] =
@@ -60,6 +68,8 @@ ee[["factor___factor"]] =
   function(value, type, levels) { factor(value, levels = union(levels, levels(value)), ordered = FALSE) }
 ee[["factor___ordered"]] =
   function(value, type, levels) { if (all(levels(value) %in% levels)) factor(value, levels = levels, ordered = TRUE) else NULL }
+ee[["factor___POSIXct"]] =
+  ee[["character___POSIXct"]]
 
 ## from: ordered
 ee[["ordered___character"]] =
@@ -68,6 +78,8 @@ ee[["ordered___factor"]] =
   ee[["factor___factor"]]
 ee[["ordered___ordered"]] =
   ee[["ordered___ordered"]]
+ee[["ordered___POSIXct"]] =
+  ee[["character___POSIXct"]]
 
 rm(ee)
 # nolint end
