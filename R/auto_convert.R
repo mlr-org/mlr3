@@ -1,3 +1,5 @@
+# nolint start
+
 #' @include mlr_reflections.R
 mlr_reflections$auto_converters = ee = new.env(parent = emptyenv())
 
@@ -68,7 +70,7 @@ ee[["ordered___ordered"]] =
   ee[["ordered___ordered"]]
 
 rm(ee)
-
+# nolint end
 
 #' @title Column Auto-Converter
 #'
