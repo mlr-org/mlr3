@@ -1,3 +1,7 @@
+# mlr3 0.10.0-9000
+
+* Added `as.data.table.Resampling` method.
+
 # mlr3 0.10.0
 
 * Result containers `ResampleResult` and `BenchmarkResult` now optionally remove
