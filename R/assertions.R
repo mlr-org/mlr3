@@ -270,6 +270,9 @@ assert_continuable_learner = function(train_learner, continue_learner) {
 
   if(!isTRUE(all.equal(train_learner, continue_learner))) {
     stop("Supplied learner does not allow to continue training.")
+  }
+}
+
 assert_has_backend = function(task) {
   if (is.null(task$backend)) {
     stopf("The backend of Task '%s' has been removed. Set `store_backends` to `TRUE` during model fitting to conserve it.", task$id)
