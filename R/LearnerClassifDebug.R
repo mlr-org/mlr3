@@ -50,11 +50,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
-      super$initialize(
-        id = "classif.debug",
-        feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
-        predict_types = c("response", "prob"),
-        param_set = ParamSet$new(
+      ps = ParamSet$new(
           params = list(
             ParamDbl$new("message_train", lower = 0, upper = 1, default = 0, tags = "train"),
             ParamDbl$new("message_predict", lower = 0, upper = 1, default = 0, tags = "predict"),
@@ -66,9 +62,17 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
             ParamDbl$new("segfault_predict", lower = 0, upper = 1, default = 0, tags = "predict"),
             ParamDbl$new("predict_missing", lower = 0, upper = 1, default = 0, tags = "predict"),
             ParamLgl$new("save_tasks", default = FALSE, tags = c("train", "predict")),
-            ParamDbl$new("x", lower = 0, upper = 1, tags = "train")
+            ParamDbl$new("x", lower = 0, upper = 1, tags = "train"),
+            ParamInt$new("iter", default = 1, lower = 1, tags = c("train", "budget"))
           )
-        ),
+        )
+      ps$values$iter = 1
+
+      super$initialize(
+        id = "classif.debug",
+        feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
+        predict_types = c("response", "prob"),
+        param_set = ps,
         properties = c("twoclass", "multiclass", "missings"),
         man = "mlr3::mlr_learners_classif.debug"
       )
@@ -95,7 +99,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
         get("attach")(structure(list(), class = "UserDefinedDatabase"))
       }
 
-      model = list(response = as.character(sample(task$truth(), 1L)), pid = Sys.getpid())
+      model = list(response = as.character(sample(task$truth(), 1L)), pid = Sys.getpid(), iter = pv$iter)
       if (isTRUE(pv$save_tasks)) {
         model$task_train = task$clone(deep = TRUE)
       }
@@ -149,6 +153,30 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
       }
 
       list(response = response, prob = prob)
+    },
+
+    .continue = function(task) {
+      model = self$model
+      pars = self$param_set$get_values(tags = "train")
+
+      if(model$iter >= pars$iter) {
+        stop("No additional iterations provided.")
+      }
+
+      model = list(response = as.character(sample(task$truth(), 1L)), pid = Sys.getpid(), iter = pars$iter)
+      set_class(model, "classif.debug_model")
+    },
+
+    .update = function(task) {
+      model = self$model
+      pars = self$param_set$get_values(tags = "train")
+
+      if(model$iter >= pars$iter) {
+        stop("No additional iterations provided.")
+      }
+
+      model = list(response = as.character(sample(task$truth(), 1L)), pid = Sys.getpid(), iter = pars$iter)
+      set_class(model, "classif.debug_model")
     }
   )
 )

@@ -207,10 +207,11 @@ test_that("extract params", {
 
   # no params
   lrns = mlr_learners$mget("classif.debug")
+  lrns$classif.debug$param_set$values = list()
   bmr = benchmark(benchmark_grid(tsk("wine"), lrns, rsmp("cv", folds = 3)))
   aggr = bmr$aggregate(params = TRUE)
   expect_list(aggr$params[[1]], names = "unique", len = 0L)
-})
+ })
 
 test_that("benchmark_grid", {
   learner = lrn("classif.rpart")

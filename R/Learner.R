@@ -241,7 +241,7 @@ Learner = R6Class("Learner",
       task = assert_task(as_task(task))
       assert_continuable_task(self$state$train_task, task)
 
-      learner_continue(self, task)
+      learner_train(self, task, mode = "continue")
 
       invisible(self)
     },
@@ -264,7 +264,7 @@ Learner = R6Class("Learner",
       }
       task = assert_task(as_task(task))
 
-      learner_update(self, task, row_ids)
+      learner_train(self, task, row_ids, mode = "update")
 
       invisible(self)
     },

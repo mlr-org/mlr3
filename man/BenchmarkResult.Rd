@@ -16,6 +16,11 @@ For statistical analysis of benchmark results and more advanced plots, see \CRAN
 All stored objects are accessed by reference.
 Do not modify any extracted object without cloning it first.
 }
+\note{
+The fitted models are discarded after the predictions have been computed in
+order to reduce memory consumption. If you need access to the models for
+later analysis, set \code{store_models} to \code{TRUE}.
+}
 \section{S3 Methods}{
 
 \itemize{
@@ -142,6 +147,7 @@ Set of (unique) hashes of all included \link{ResampleResult}s.}
 \item \href{#method-aggregate}{\code{BenchmarkResult$aggregate()}}
 \item \href{#method-filter}{\code{BenchmarkResult$filter()}}
 \item \href{#method-resample_result}{\code{BenchmarkResult$resample_result()}}
+\item \href{#method-continue}{\code{BenchmarkResult$continue()}}
 \item \href{#method-clone}{\code{BenchmarkResult$clone()}}
 }
 }
@@ -379,6 +385,36 @@ The \code{ushash} value to filter for.}
 }
 \subsection{Returns}{
 \link{ResampleResult}.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-continue"></a>}}
+\if{latex}{\out{\hypertarget{method-continue}{}}}
+\subsection{Method \code{continue()}}{
+Repeats the benchmark with continuable models. The models are updated
+with the additional budget, the training continues on the training sets
+and the performance is again evaluated on the test sets.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{BenchmarkResult$continue(budget, store_models = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{budget}}{(\code{any})\cr
+Increased budget hyperparameter.}
+
+\item{\code{store_models}}{(\code{logical(1)})\cr
+Keep the fitted model after the test set has been predicted?
+Set to \code{TRUE} if you want to further analyse the models or want to
+extract information like variable importance.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Returns the object itself, but modified \strong{by reference}.
+You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
+the object in its previous state.
 }
 }
 \if{html}{\out{<hr>}}
