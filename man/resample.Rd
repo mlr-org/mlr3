@@ -4,7 +4,13 @@
 \alias{resample}
 \title{Resample a Learner on a Task}
 \usage{
-resample(task, learner, resampling, store_models = FALSE)
+resample(
+  task,
+  learner,
+  resampling,
+  store_models = FALSE,
+  store_backends = TRUE
+)
 }
 \arguments{
 \item{task}{(\link{Task}).}
@@ -17,6 +23,15 @@ resample(task, learner, resampling, store_models = FALSE)
 Keep the fitted model after the test set has been predicted?
 Set to \code{TRUE} if you want to further analyse the models or want to
 extract information like variable importance.}
+
+\item{store_backends}{(\code{logical(1)})\cr
+Keep the \link{DataBackend} of the \link{Task} in the \link{ResampleResult}?
+Set to \code{TRUE} if your performance measures require a \link{Task},
+or to analyse results more conveniently.
+Set to \code{FALSE} to reduce the file size and memory footprint
+after serialization.
+The current default is \code{TRUE}, but this eventually will be changed
+in a future release.}
 }
 \value{
 \link{ResampleResult}.

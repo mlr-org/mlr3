@@ -29,6 +29,7 @@ test_that("param_vals", {
 
   expect_error({
     r$param_set$values = list(repeats = 10L)
+    r$param_set$get_values()
   }, "ratio")
 
   expect_error({
@@ -90,4 +91,16 @@ test_that("integer grouping col (#396)", {
   set = bs$test_set(1)
   expect_integer(set)
   expect_true(all(map_lgl(split(seq_row(df), f = df$id), function(x) all(x %in% set) || all(x %nin% set))))
+})
+
+test_that("as.data.table.Resampling", {
+  r = rsmp("bootstrap")
+  r$instantiate(tsk("mtcars"))
+
+  tab = as.data.table(r)
+  expect_data_table(tab, ncols = 3)
+  expect_names(names(tab), permutation.of = c("set", "iteration", "row_id"))
+  expect_integer(tab$iteration, any.missing = FALSE)
+  expect_factor(tab$set, levels = c("train", "test"), any.missing = FALSE)
+  expect_integer(tab$row_id, any.missing = FALSE)
 })

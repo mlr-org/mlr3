@@ -68,7 +68,7 @@ test_that("predict on newdata works / classif", {
   learner = lrn("classif.featureless")
   expect_error(learner$predict(task), "trained")
   learner$train(task)
-  expect_task(learner$state$train_task)
+  expect_task(learner$state$train_task, null_backend_ok = TRUE)
   newdata = tsk("iris")$filter(121:150)$data()
 
   # passing the task

@@ -52,7 +52,13 @@ dummy_import = function() {
   backports::import(pkgname)
 
   # setup logger
-  assign("lg", lgr::get_logger(pkgname), envir = parent.env(environment()))
+  lg = lgr::get_logger(pkgname)
+  assign("lg", lg, envir = parent.env(environment()))
+  f = function(event) {
+    event$msg = paste0("[mlr3]  ", event$msg)
+    TRUE
+  }
+  lg$add_filter(f)
   if (Sys.getenv("IN_PKGDOWN") == "true") {
     lg$set_threshold("warn")
   }

@@ -178,6 +178,7 @@ Task = R6Class("Task",
     #' @param n (`integer(1)`).
     #' @return [data.table::data.table()] with `n` rows.
     head = function(n = 6L) {
+      assert_has_backend(self)
       assert_count(n)
       ids = head(private$.row_roles$use, n)
       cols = c(private$.col_roles$target, private$.col_roles$feature)
@@ -210,6 +211,8 @@ Task = R6Class("Task",
     #'
     #' @return Named `integer()`.
     missings = function(cols = NULL) {
+      assert_has_backend(self)
+
       if (is.null(cols)) {
         cols = unlist(private$.col_roles[c("target", "feature")], use.names = FALSE)
       } else {
@@ -230,6 +233,7 @@ Task = R6Class("Task",
     #' You need to explicitly `$clone()` the object beforehand if you want to keeps
     #' the object in its previous state.
     filter = function(rows) {
+      assert_has_backend(self)
       rows = assert_row_ids(rows)
       private$.row_roles$use = intersect(private$.row_roles$use, rows)
       invisible(self)
@@ -247,6 +251,7 @@ Task = R6Class("Task",
     #' You need to explicitly `$clone()` the object beforehand if you want to keeps
     #' the object in its previous state.
     select = function(cols) {
+      assert_has_backend(self)
       assert_subset(cols, private$.col_roles$feature)
       private$.col_roles$feature = intersect(private$.col_roles$feature, cols)
       invisible(self)
@@ -272,7 +277,76 @@ Task = R6Class("Task",
     #' You need to explicitly `$clone()` the object beforehand if you want to keeps
     #' the object in its previous state.
     rbind = function(data) {
-      task_rbind(data, self)
+      assert_has_backend(self)
+
+      pk = self$backend$primary_key
+      rn = self$backend$rownames
+      pk_in_backend = TRUE
+      type_check = TRUE
+
+      if (is.data.frame(data)) {
+        pk_in_backend = pk %in% names(data)
+        type_check = FALSE # done by auto-converter
+
+        keep_cols = intersect(names(data), self$backend$colnames)
+        if (length(keep_cols) == pk_in_backend || nrow(data) == 0L) {
+          return(invisible(self))
+        }
+
+        if (!pk_in_backend) {
+          start = if (length(rn)) max(rn) + 1L else 1L
+          pk = seq(from = start, to = start + nrow(data) - 1L)
+        }
+
+        ci = self$col_info[list(keep_cols), on = "id"]
+        data = do.call(data.table, Map(auto_convert,
+            value = as.list(data)[ci$id],
+            id = ci$id, type = ci$type, levels = ci$levels))
+
+        data = as_data_backend(data, primary_key = pk)
+      } else {
+        assert_backend(data)
+        if (data$ncol <= 1L || data$nrow == 0L) {
+          return(invisible(self))
+        }
+      }
+
+      if (pk_in_backend && any(data$rownames %in% self$backend$rownames)) {
+        stopf("Cannot rbind data to task '%s', duplicated row ids", self$id)
+      }
+
+      # columns with these roles must be present in data
+      mandatory_roles = c("target", "feature", "weight")
+      mandatory_cols = unlist(self$col_roles[mandatory_roles], use.names = FALSE)
+      missing_cols = setdiff(mandatory_cols, data$colnames)
+      if (length(missing_cols)) {
+        stopf("Cannot rbind data to task '%s', missing the following mandatory columns: %s", self$id, str_collapse(missing_cols))
+      }
+
+      # merge col infos
+      tab = merge(self$col_info, col_info(data), by = "id",
+        all.x = TRUE, all.y = FALSE, suffixes = c("", "_y"), sort = TRUE)
+      levels = levels_y = type = type_y = NULL
+
+      # type check
+      if (type_check) {
+        ii = head(tab[type != type_y, which = TRUE], 1L)
+        if (length(ii)) {
+          stopf("Cannot rbind to task: Types do not match for column: %s (%s != %s)", tab$id[ii], tab$type[ii], tab$type_y[ii])
+        }
+      }
+
+      # merge factor levels
+      vunion = function(x, y) Map(union, x, y)
+      tab[type %in% c("factor", "ordered"), levels := list(vunion(levels, levels_y))]
+      tab[, c("type_y", "levels_y") := list(NULL, NULL)]
+
+      # everything looks good, modify task
+      self$backend = DataBackendRbind$new(self$backend, data)
+      self$col_info = tab
+      self$row_roles$use = c(self$row_roles$use, data$rownames)
+
+      invisible(self)
     },
 
     #' @description
@@ -288,7 +362,39 @@ Task = R6Class("Task",
     #' See the section on task mutators for more information.
     #' @param data (`data.frame()`).
     cbind = function(data) {
-      task_cbind(data, self)
+      assert_has_backend(self)
+      pk = self$backend$primary_key
+
+      if (is.data.frame(data)) {
+        # binding data with 0 rows is explicitly allowed
+        if (ncol(data) == 0L) {
+          return(invisible(self))
+        }
+
+        row_ids = if (pk %in% names(data)) pk else self$row_ids
+        data = as_data_backend(data, primary_key = row_ids)
+      } else {
+        assert_backend(data)
+        if (data$ncol <= 1L) {
+          return(invisible(self))
+        }
+      }
+
+      assert_set_equal(self$row_ids, data$rownames)
+      ci = col_info(data)
+
+      # update col info
+      self$col_info = ujoin(self$col_info, ci, key = "id")
+      self$col_info = rbind(self$col_info, ci[!list(self$col_info), on = "id"])
+      setkeyv(self$col_info, "id")
+
+      # add new features
+      self$col_roles$feature = union(self$col_roles$feature, setdiff(data$colnames, c(pk, self$col_roles$target)))
+
+      # update backend
+      self$backend = DataBackendCbind$new(self$backend, data)
+
+      invisible(self)
     },
 
 
@@ -309,6 +415,7 @@ Task = R6Class("Task",
     #' You need to explicitly `$clone()` the object beforehand if you want to keeps
     #' the object in its previous state.
     rename = function(old, new) {
+      assert_has_backend(self)
       self$backend = DataBackendRename$new(self$backend, old, new)
       setkeyv(self$col_info[old, ("id") := new, on = "id"], "id")
       self$col_roles = map(self$col_roles, map_values, old = old, new = new)
@@ -338,6 +445,7 @@ Task = R6Class("Task",
     #' You need to explicitly `$clone()` the object beforehand if you want to keeps
     #' the object in its previous state.
     set_row_roles = function(rows, roles = NULL, add_to = NULL, remove_from = NULL) {
+      assert_has_backend(self)
       assert_subset(rows, self$backend$rownames)
       private$.row_roles = task_set_roles(private$.row_roles, rows, roles, add_to, remove_from)
       invisible(self)
@@ -366,6 +474,7 @@ Task = R6Class("Task",
     #' You need to explicitly `$clone()` the object beforehand if you want to keeps
     #' the object in its previous state.
     set_col_roles = function(cols, roles = NULL, add_to = NULL, remove_from = NULL) {
+      assert_has_backend(self)
       assert_subset(cols, self$backend$colnames)
       new_roles = task_set_roles(private$.col_roles, cols, roles, add_to, remove_from)
       private$.col_roles = task_check_col_roles(self, new_roles)
@@ -377,6 +486,7 @@ Task = R6Class("Task",
     #' `cols` defaults to all columns with storage type "factor" or "ordered".
     #' @return Modified `self`.
     droplevels = function(cols = NULL) {
+      assert_has_backend(self)
       tab = self$col_info[get("type") %in% c("factor", "ordered"), c("id", "levels"), with = FALSE]
       if (!is.null(cols)) {
         tab = tab[list(cols), on = "id", nomatch = NULL]
@@ -399,8 +509,7 @@ Task = R6Class("Task",
   active = list(
     #' @template field_hash
     hash = function(rhs) {
-      assert_ro_binding(rhs)
-      hash(
+      private$.hash %??% hash(
         class(self), self$id, self$backend$hash, self$col_info,
         private$.row_roles, private$.col_roles, private$.properties
       )
@@ -485,6 +594,7 @@ Task = R6Class("Task",
         return(private$.row_roles)
       }
 
+      assert_has_backend(self)
       assert_list(rhs, .var.name = "row_roles")
       assert_names(names(rhs), "unique", permutation.of = mlr_reflections$task_row_roles, .var.name = "names of row_roles")
       rhs = map(rhs, assert_row_ids, .var.name = "elements of row_roles")
@@ -512,6 +622,7 @@ Task = R6Class("Task",
         return(private$.col_roles)
       }
 
+      assert_has_backend(self)
       qassertr(rhs, "S[1,]", .var.name = "col_roles")
       assert_names(names(rhs), "unique", must.include = mlr_reflections$task_col_roles[[self$task_type]], .var.name = "names of col_roles")
       assert_subset(unlist(rhs, use.names = FALSE), setdiff(self$col_info$id, self$backend$primary_key), .var.name = "elements of col_roles")
@@ -546,7 +657,7 @@ Task = R6Class("Task",
     #'   A specific format can be chosen in the `$data()` method.
     data_formats = function(rhs) {
       assert_ro_binding(rhs)
-      self$backend$data_formats
+      self$backend$data_formats %??% character()
     },
 
     #' @field strata ([data.table::data.table()])\cr
@@ -557,6 +668,7 @@ Task = R6Class("Task",
     #' Returns `NULL` if there are is no stratification variable.
     #' See [Resampling] for more information on stratification.
     strata = function(rhs) {
+      assert_has_backend(self)
       assert_ro_binding(rhs)
       cols = private$.col_roles$stratum
       if (length(cols) == 0L) {
@@ -564,7 +676,7 @@ Task = R6Class("Task",
       }
 
       row_ids = self$row_ids
-      tab = self$data(rows = row_ids, cols = cols)
+      tab = self$backend$data(rows = row_ids, cols = cols)
       tab$..row_id = row_ids
       tab = tab[, list(..N = .N, ..row_id = list(.SD$..row_id)), by = cols, .SDcols = "..row_id"][, (cols) := NULL]
       setnames(tab, c("..N", "..row_id"), c("N", "row_id"))[]
@@ -580,6 +692,7 @@ Task = R6Class("Task",
     #' Returns `NULL` if there are is no grouping column.
     #' See [Resampling] for more information on grouping.
     groups = function(rhs) {
+      assert_has_backend(self)
       assert_ro_binding(rhs)
       group_cols = private$.col_roles$group
       if (length(group_cols) == 0L) {
@@ -597,6 +710,7 @@ Task = R6Class("Task",
     #'
     #' Returns `NULL` if there are is no order column.
     order = function(rhs) {
+      assert_has_backend(self)
       assert_ro_binding(rhs)
 
       order_cols = private$.col_roles$order
@@ -616,6 +730,7 @@ Task = R6Class("Task",
     #'
     #' Returns `NULL` if there are is no weight column.
     weights = function(rhs) {
+      assert_has_backend(self)
       assert_ro_binding(rhs)
       weight_cols = private$.col_roles$weight
       if (length(weight_cols) == 0L) {
@@ -630,6 +745,7 @@ Task = R6Class("Task",
     .properties = NULL,
     .col_roles = NULL,
     .row_roles = NULL,
+    .hash = NULL,
 
     deep_clone = function(name, value) {
       # NB: DataBackends are never copied!
@@ -640,7 +756,9 @@ Task = R6Class("Task",
 )
 
 task_data = function(self, rows = NULL, cols = NULL, data_format = "data.table", ordered = TRUE, subset_active = c("rows", "cols")) {
-  assert_choice(data_format, self$backend$data_formats)
+  assert_has_backend(self)
+  assert_choice(data_format, self$data_formats)
+
   row_roles = self$row_roles
   col_roles = self$col_roles
 
@@ -796,10 +914,14 @@ as.data.table.Task = function(x, ...) { # nolint
   x$head(x$nrow)
 }
 
-task_rm_data = function(task) {
-  no_row = task$row_roles$use[0L]
-  task$backend = as_data_backend(task$head(0L))
-  task$row_roles = list(use = no_row, validation = no_row)
+task_rm_backend = function(task) {
+  # fix task hash
+  ee = get_private(task)
+  ee$.hash = force(task$hash)
+
+  # NULL backend
+  task$backend = NULL
+
   task
 }
 

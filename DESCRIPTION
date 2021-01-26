@@ -1,6 +1,6 @@
 Package: mlr3
 Title: Machine Learning in R - Next Generation
-Version: 0.9.0-9000
+Version: 0.10.0-9000
 Authors@R:
     c(person(given = "Michel",
              family = "Lang",
@@ -68,7 +68,7 @@ Imports:
     lgr (>= 0.3.4),
     mlbench,
     mlr3measures (>= 0.3.0),
-    mlr3misc (>= 0.6.0),
+    mlr3misc (>= 0.7.0),
     paradox (>= 0.6.0),
     uuid
 Suggests:
@@ -164,8 +164,6 @@ Collate:
     'TaskRegr_boston_housing.R'
     'TaskRegr_mtcars.R'
     'TaskUnsupervised.R'
-    'Task_cbind.R'
-    'Task_rbind.R'
     'as_data_backend.R'
     'assertions.R'
     'auto_convert.R'

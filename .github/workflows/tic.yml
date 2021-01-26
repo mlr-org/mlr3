@@ -1,11 +1,11 @@
 ## tic GitHub Actions template: linux-macos-windows-deploy
-## revision date: 2020-11-14
+## revision date: 2020-12-11
 # [Custom header]
 on:
   workflow_dispatch:
   push:
     branches:
-      - master
+      - main
   pull_request:
   # for now, CRON jobs only run on the default branch of the repo (i.e. usually on master)
   schedule:
@@ -84,9 +84,13 @@ jobs:
           Rscript -e "if (!requireNamespace('remotes')) install.packages('remotes', type = 'source')"
           Rscript -e "if (getRversion() < '3.2' && !requireNamespace('curl')) install.packages('curl', type = 'source')"
 
-      - name: "[Stage] [Linux] Install curl"
+      - name: "[Stage] [Linux] Install curl and libgit2"
         if: runner.os == 'Linux'
-        run: sudo apt install libcurl4-openssl-dev
+        run: sudo apt install libcurl4-openssl-dev libgit2-dev
+
+      - name: "[Stage] [macOS] Install libgit2"
+        if: runner.os == 'macOS'
+        run: brew install libgit2
 
       - name: "[Stage] [macOS] Install system libs for pkgdown"
         if: runner.os == 'macOS' && matrix.config.pkgdown != ''

@@ -9,7 +9,7 @@ learning. Successor of [mlr](https://github.com/mlr-org/mlr).
 
 <!-- badges: start -->
 
-[![tic](https://github.com/mlr-org/mlr3/workflows/tic/badge.svg?branch=master)](https://github.com/mlr-org/mlr3/actions)
+[![tic](https://github.com/mlr-org/mlr3/workflows/tic/badge.svg?branch=main)](https://github.com/mlr-org/mlr3/actions)
 [![DOI](https://joss.theoj.org/papers/10.21105/joss.01903/status.svg)](https://doi.org/10.21105/joss.01903)
 [![CRAN
 Status](https://www.r-pkg.org/badges/version-ago/mlr3)](https://cran.r-project.org/package=mlr3)
@@ -167,7 +167,7 @@ rr$aggregate(measure)
 
 ## Extension Packages
 
-<a href="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/mlr3verse.svg?sanitize=true"><img src="man/figures/mlr3verse.svg" /></a>
+<a href="https://raw.githubusercontent.com/mlr-org/mlr3/main/man/figures/mlr3verse.svg?sanitize=true"><img src="man/figures/mlr3verse.svg" /></a>
 
 Consult the
 [wiki](https://github.com/mlr-org/mlr3/wiki/Extension-Packages) for

@@ -123,15 +123,20 @@ ResampleResult = R6Class("ResampleResult",
     #'   are added to the returned table.
     #'   These allow to subset more conveniently.
     #'
+    #' @param conditions (`logical(1)`)\cr
+    #'   Adds condition messages (`"warnings"`, `"errors"`) as extra
+    #'   list columns of character vectors to the returned table
+    #'
     #' @param predict_sets (`character()`)\cr
     #'   Vector of predict sets (`{"train", "test"}`) to construct the [Prediction] objects from.
     #'   Default is `"test"`.
     #'
     #' @return [data.table::data.table()].
-    score = function(measures = NULL, ids = TRUE, predict_sets = "test") {
+    score = function(measures = NULL, ids = TRUE, conditions = FALSE, predict_sets = "test") {
       measures = as_measures(measures, task_type = self$data$task_type)
       assert_measures(measures, task = self$task, learner = self$learner)
       assert_flag(ids)
+      assert_flag(conditions)
       assert_subset(predict_sets, mlr_reflections$predict_sets)
 
       tab = score_measures(self, measures, view = self$view)
@@ -144,9 +149,14 @@ ResampleResult = R6Class("ResampleResult",
             "iteration", "prediction"))
       }
 
+      if (conditions) {
+        set(tab, j = "warnings", value = map(tab$learner, "warnings"))
+        set(tab, j = "errors", value = map(tab$learner, "errors"))
+      }
+
       set(tab, j = "prediction", value = as_predictions(tab$prediction, predict_sets))
       cns = c("task", "task_id", "learner", "learner_id", "resampling", "resampling_id", "iteration",
-        "prediction", ids(measures))
+        "prediction", "warnings", "errors", ids(measures))
       cns = intersect(cns, names(tab))
       tab[, cns, with = FALSE]
     },

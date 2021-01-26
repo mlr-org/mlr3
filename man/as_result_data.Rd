@@ -10,7 +10,8 @@ as_result_data(
   resampling,
   iterations,
   predictions,
-  learner_states = NULL
+  learner_states = NULL,
+  store_backends = TRUE
 )
 }
 \arguments{
@@ -26,6 +27,10 @@ as_result_data(
 
 \item{learner_states}{(\code{list()})\cr
 Learner states. If not provided, the states of \code{learners} are automatically extracted.}
+
+\item{store_backends}{(\code{logical(1)})\cr
+If set to \code{FALSE}, the backends of the \link{Task}s provided in \code{data} are
+removed.}
 }
 \value{
 \code{ResultData} object which can be passed to the constructor of \link{ResampleResult}.
