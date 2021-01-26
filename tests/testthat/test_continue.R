@@ -1,5 +1,3 @@
-context("continue")
-
 test_that("continue method works", {
   task = tsk("iris")
   learner = LearnerClassifDebug$new()
