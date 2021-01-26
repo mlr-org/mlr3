@@ -1,6 +1,6 @@
 Package: mlr3
 Title: Machine Learning in R - Next Generation
-Version: 0.8.0
+Version: 0.9.0-9000
 Authors@R:
     c(person(given = "Michel",
              family = "Lang",
@@ -68,8 +68,8 @@ Imports:
     lgr (>= 0.3.4),
     mlbench,
     mlr3measures (>= 0.3.0),
-    mlr3misc (>= 0.5.0),
-    paradox (>= 0.4.0),
+    mlr3misc (>= 0.6.0),
+    paradox (>= 0.6.0),
     uuid
 Suggests:
     Matrix,
@@ -83,9 +83,11 @@ Suggests:
     mlr3learners,
     progressr,
     rpart,
-    testthat
+    testthat (>= 3.0.0)
 Encoding: UTF-8
 LazyData: true
+Config/testthat/edition: 3
+Config/testthat/parallel: true
 NeedsCompilation: no
 Roxygen: list(markdown = TRUE, r6 = TRUE)
 RoxygenNote: 7.1.1
@@ -171,7 +173,6 @@ Collate:
     'benchmark_grid.R'
     'bibentries.R'
     'default_measures.R'
-    'deprecated.R'
     'fix_factor_levels.R'
     'helper.R'
     'mlr_coercions.R'

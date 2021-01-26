@@ -65,6 +65,11 @@ Install the development version from GitHub:
 remotes::install_github("mlr-org/mlr3")
 ```
 
+If you want to get started with `mlr3`, we recommend installing the [mlr3verse](https://mlr3verse.mlr-org.com/) meta-package which installs `mlr3` and some of the most important extension packages:
+```{r eval = FALSE}
+install.packages("mlr3verse")
+```
+
 ## Example
 
 ### Constructing Learners and Tasks
@@ -108,6 +113,14 @@ rr <- resample(task_iris, learner, resampling)
 rr$score(measure)
 rr$aggregate(measure)
 ```
+
+## Extension Packages
+
+<a href="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/mlr3verse.svg?sanitize=true"><img src="man/figures/mlr3verse.svg" /></a>
+
+Consult the [wiki](https://github.com/mlr-org/mlr3/wiki/Extension-Packages) for short descriptions and links to the respective repositories.
+
+For beginners, we strongly recommend to install and load the [mlr3verse](https://mlr3verse.mlr-org.com/) package for a better user experience.
 
 ## Why a rewrite?
 
@@ -168,12 +181,6 @@ Also, many helpful R libraries did not exist at the time [mlr](https://github.co
 * [Reflections](https://en.wikipedia.org/wiki/Reflection_%28computer_programming%29): Objects are queryable for properties and capabilities, allowing you to program on them.
 * Additional functionality that comes with extra dependencies:
     - To capture output, warnings and exceptions, [`evaluate`](https://cran.r-project.org/package=evaluate) and [`callr`](https://cran.r-project.org/package=callr) can be used.
-
-## Extension Packages
-
-<a href="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/mlr3verse.svg?sanitize=true"><img src="man/figures/mlr3verse.svg" /></a>
-
-Consult the [wiki](https://github.com/mlr-org/mlr3/wiki/Extension-Packages) for short descriptions and links to the respective repositories.
 
 ## Contributing to mlr3
 

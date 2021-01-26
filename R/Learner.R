@@ -126,6 +126,13 @@ Learner = R6Class("Learner",
     #' @template field_predict_sets
     predict_sets = "test",
 
+    #' @field timeout (named `numeric(2)`)\cr
+    #' Timeout for the learner's train and predict steps, in seconds.
+    #' This works differently for different encapsulation methods, see
+    #' [mlr3misc::encapsulate()].
+    #' Default is `c(train = Inf, predict = Inf)`.
+    timeout = c(train = Inf, predict = Inf),
+
     #' @field fallback ([Learner])\cr
     #' Learner which is fitted to impute predictions in case that either the model fitting or the prediction of the top learner is not successful.
     #' Requires you to enable encapsulation, otherwise errors are not caught and the execution is terminated before the fallback learner kicks in.

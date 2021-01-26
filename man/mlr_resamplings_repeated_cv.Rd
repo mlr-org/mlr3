@@ -15,8 +15,8 @@ Iteration numbers can be translated into folds or repeats with provided methods.
 }
 \section{Dictionary}{
 
-This \link{Resampling} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_resamplings} or with the associated sugar function \code{\link[=rsmp]{rsmp()}}:\preformatted{mlr_resamplings$get("holdout")
-rsmp("holdout")
+This \link{Resampling} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_resamplings} or with the associated sugar function \code{\link[=rsmp]{rsmp()}}:\preformatted{mlr_resamplings$get("repeated_cv")
+rsmp("repeated_cv")
 }
 }
 

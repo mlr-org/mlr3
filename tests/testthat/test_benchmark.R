@@ -263,10 +263,6 @@ test_that("parallelization works", {
   expect_equal(length(unique(pids)), njobs)
 })
 
-test_that("friedman.test", {
-  expect_s3_class(friedman.test(bmr), "htest")
-})
-
 test_that("aggregated performance values are calculated correctly (#555)", {
   task = tsk("spam")
   learner1 = lrn("classif.featureless")

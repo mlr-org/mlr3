@@ -26,7 +26,7 @@
 #' Stefan Aeberhard, email: stefan@coral.cs.jcu.edu.au
 #'
 #' @references
-#' `r tools::toRd(bibentries["dua_2017"])`
+#' `r format_bib("dua_2017")`
 #'
 #' @template seealso_task
 NULL
