@@ -73,7 +73,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
         predict_types = c("response", "prob"),
         param_set = ps,
-        properties = c("twoclass", "multiclass", "missings"),
+        properties = c("twoclass", "multiclass", "missings", "continue"),
         man = "mlr3::mlr_learners_classif.debug"
       )
     }
@@ -99,7 +99,8 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
         get("attach")(structure(list(), class = "UserDefinedDatabase"))
       }
 
-      model = list(response = as.character(sample(task$truth(), 1L)), pid = Sys.getpid(), iter = pv$iter)
+      model = list(response = as.character(sample(task$truth(), 1L)), pid = Sys.getpid(), iter = pv$iter,
+        continue_id = UUIDgenerate())
       if (isTRUE(pv$save_tasks)) {
         model$task_train = task$clone(deep = TRUE)
       }
@@ -158,12 +159,14 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
     .continue = function(task) {
       model = self$model
       pars = self$param_set$get_values(tags = "train")
+      continue_id = self$model$continue_id
 
       if(model$iter >= pars$iter) {
         stop("No additional iterations provided.")
       }
 
-      model = list(response = as.character(sample(task$truth(), 1L)), pid = Sys.getpid(), iter = pars$iter)
+      model = list(response = as.character(sample(task$truth(), 1L)), pid = Sys.getpid(), iter = pars$iter,
+        continue_id = continue_id)
       set_class(model, "classif.debug_model")
     },
 
