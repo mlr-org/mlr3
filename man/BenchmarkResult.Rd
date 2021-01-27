@@ -15,8 +15,7 @@ For statistical analysis of benchmark results and more advanced plots, see \CRAN
 \note{
 All stored objects are accessed by reference.
 Do not modify any extracted object without cloning it first.
-}
-\note{
+
 The fitted models are discarded after the predictions have been computed in
 order to reduce memory consumption. If you need access to the models for
 later analysis, set \code{store_models} to \code{TRUE}.
