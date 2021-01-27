@@ -143,9 +143,10 @@ Task = R6Class("Task",
 
     #' @description
     #' Returns a slice of the data from the [DataBackend] in the data format specified by `data_format`.
-    #' Rows are additionally subsetted to only contain observations with role `"use"`, and
-    #' columns are filtered to only contain features with roles `"target"` and `"feature"`.
-    #' If invalid `rows` or `cols` are specified, an exception is raised.
+    #' Rows default to observations with role `"use"`, and
+    #' columns default to features with roles `"target"` or `"feature"`.
+    #' If `rows` or `cols` are specified which do not exist in the [DataBackend],
+    #' an exception is raised.
     #'
     #' Rows and columns are returned in the order specified via the arguments `rows` and `cols`.
     #' If `rows` is `NULL`, rows are returned in the order of `task$row_ids`.
@@ -159,7 +160,53 @@ Task = R6Class("Task",
     #'
     #' @return Depending on the [DataBackend], but usually a [data.table::data.table()].
     data = function(rows = NULL, cols = NULL, data_format = "data.table", ordered = TRUE) {
-      task_data(self, rows, cols, data_format, ordered)
+      assert_has_backend(self)
+      assert_choice(data_format, self$data_formats)
+      assert_flag(ordered)
+
+      row_roles = self$row_roles
+      col_roles = self$col_roles
+
+      if (is.null(rows)) {
+        rows = row_roles$use
+      } else {
+        assert_subset(rows, self$backend$rownames)
+        if (is.double(rows)) {
+          rows = as.integer(rows)
+        }
+      }
+
+      if (is.null(cols)) {
+        query_cols = cols = c(col_roles$target, col_roles$feature)
+      } else {
+        assert_subset(cols, self$backend$colnames)
+        query_cols = cols
+      }
+
+      reorder_rows = length(col_roles$order) > 0L && ordered
+      if (reorder_rows) {
+        if (data_format != "data.table") {
+          stopf("Ordering only supported for data_format 'data.table'")
+        }
+        query_cols = union(query_cols, col_roles$order)
+      }
+
+      data = self$backend$data(rows = rows, cols = query_cols, data_format = data_format)
+
+      if (length(query_cols) && nrow(data) != length(rows)) {
+        stopf("DataBackend did not return the queried rows correctly: %i requested, %i received", length(rows), nrow(data))
+      }
+
+      if (length(rows) && ncol(data) != length(query_cols)) {
+        stopf("DataBackend did not return the queried cols correctly: %i requested, %i received", length(cols), ncol(data))
+      }
+
+      if (reorder_rows) {
+        setorderv(data, col_roles$order)[]
+        data = remove_named(data, setdiff(col_roles$order, cols))
+      }
+
+      return(data)
     },
 
     #' @description
@@ -584,8 +631,8 @@ Task = R6Class("Task",
     #' Each row (observation) can have an arbitrary number of roles in the learning task:
     #'
     #' - `"use"`: Use in train / predict / resampling.
-    #' - `"validation"`: Hold the observations back unless explicitly requested.
-    #'   Validation sets are not yet completely integrated into the package.
+    #' - `"validation"`: Observations are hold back unless explicitly requested.
+    #'   Can be used as truly independent test set.
     #'
     #' `row_roles` is a named list whose elements are named by row role and each element is an `integer()` vector of row ids.
     #' To alter the roles, just modify the list, e.g. with  \R's set functions ([intersect()], [setdiff()], [union()], \ldots).
@@ -614,6 +661,7 @@ Task = R6Class("Task",
     #'   Note that only up to one column may have this role.
     #' * `"stratum"`: Stratification variables. Multiple discrete columns may have this role.
     #' * `"weight"`: Observation weights. Only up to one column (assumed to be discrete) may have this role.
+    #' * `"uri"`: URI pointing to an external resource, e.g., images on the file system.
     #'
     #' `col_roles` is a named list whose elements are named by column role and each element is a `character()` vector of column names.
     #'   To alter the roles, just modify the list, e.g. with \R's set functions ([intersect()], [setdiff()], [union()], \ldots).
@@ -738,6 +786,24 @@ Task = R6Class("Task",
       }
       data = self$backend$data(private$.row_roles$use, c(self$backend$primary_key, weight_cols))
       setnames(data, c("row_id", "weight"))[]
+    },
+
+    #' @field uris ([data.table::data.table()])\cr
+    #' If the task has a column with designated role `"uri"`, a table with two columns:
+    #'
+    #' * `row_id` (`integer()`), and
+    #' * `uri` (`character()`).
+    #'
+    #' Returns `NULL` if there are is no uri column.
+    uris = function(rhs) {
+      assert_has_backend(self)
+      assert_ro_binding(rhs)
+      uri_col = private$.col_roles$uri
+      if (length(uri_col) == 0L) {
+        return(NULL)
+      }
+      data = self$backend$data(private$.row_roles$use, c(self$backend$primary_key, uri_col))
+      setnames(data, c("row_id", "uri"))[]
     }
   ),
 
@@ -755,57 +821,7 @@ Task = R6Class("Task",
   )
 )
 
-task_data = function(self, rows = NULL, cols = NULL, data_format = "data.table", ordered = TRUE, subset_active = c("rows", "cols")) {
-  assert_has_backend(self)
-  assert_choice(data_format, self$data_formats)
-
-  row_roles = self$row_roles
-  col_roles = self$col_roles
-
-  if (is.null(rows)) {
-    rows = row_roles$use
-  } else {
-    if ("rows" %in% subset_active) {
-      assert_subset(rows, row_roles$use)
-    }
-    if (is.double(rows)) {
-      rows = as.integer(rows)
-    }
-  }
-
-  if (is.null(cols)) {
-    query_cols = cols = c(col_roles$target, col_roles$feature)
-  } else {
-    if ("cols" %in% subset_active) {
-      assert_subset(cols, c(col_roles$target, col_roles$feature))
-    }
-    query_cols = cols
-  }
-
-  reorder_rows = length(col_roles$order) > 0L && isTRUE(ordered)
-  if (reorder_rows) {
-    if (data_format != "data.table") {
-      stopf("Ordering only supported for data_format 'data.table'")
-    }
-    query_cols = union(query_cols, col_roles$order)
-  }
-
-  data = self$backend$data(rows = rows, cols = query_cols, data_format = data_format)
-
-  if (length(query_cols) && nrow(data) != length(rows)) {
-    stopf("DataBackend did not return the queried rows correctly: %i requested, %i received", length(rows), nrow(data))
-  }
-
-  if (length(rows) && ncol(data) != length(query_cols)) {
-    stopf("DataBackend did not return the queried cols correctly: %i requested, %i received", length(cols), ncol(data))
-  }
-
-  if (reorder_rows) {
-    setorderv(data, col_roles$order)[]
-    data = remove_named(data, setdiff(col_roles$order, cols))
-  }
-
-  return(data)
+task_data = function(self, rows = NULL, cols = NULL, data_format = "data.table", ordered = TRUE) {
 }
 
 task_print = function(self) {

@@ -161,8 +161,8 @@ Note that above listed properties are calculated from the \verb{$col_roles} and 
 Each row (observation) can have an arbitrary number of roles in the learning task:
 \itemize{
 \item \code{"use"}: Use in train / predict / resampling.
-\item \code{"validation"}: Hold the observations back unless explicitly requested.
-Validation sets are not yet completely integrated into the package.
+\item \code{"validation"}: Observations are hold back unless explicitly requested.
+Can be used as truly independent test set.
 }
 
 \code{row_roles} is a named list whose elements are named by row role and each element is an \code{integer()} vector of row ids.
@@ -180,6 +180,7 @@ For each resampling iteration, observations of the same group will be exclusivel
 Note that only up to one column may have this role.
 \item \code{"stratum"}: Stratification variables. Multiple discrete columns may have this role.
 \item \code{"weight"}: Observation weights. Only up to one column (assumed to be discrete) may have this role.
+\item \code{"uri"}: URI pointing to an external resource, e.g., images on the file system.
 }
 
 \code{col_roles} is a named list whose elements are named by column role and each element is a \code{character()} vector of column names.
@@ -235,6 +236,15 @@ If the task has a column with designated role \code{"weight"}, a table with two 
 }
 
 Returns \code{NULL} if there are is no weight column.}
+
+\item{\code{uris}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
+If the task has a column with designated role \code{"uri"}, a table with two columns:
+\itemize{
+\item \code{row_id} (\code{integer()}), and
+\item \code{uri} (\code{character()}).
+}
+
+Returns \code{NULL} if there are is no uri column.}
 }
 \if{html}{\out{</div>}}
 }
@@ -335,9 +345,10 @@ Printer.
 \if{latex}{\out{\hypertarget{method-data}{}}}
 \subsection{Method \code{data()}}{
 Returns a slice of the data from the \link{DataBackend} in the data format specified by \code{data_format}.
-Rows are additionally subsetted to only contain observations with role \code{"use"}, and
-columns are filtered to only contain features with roles \code{"target"} and \code{"feature"}.
-If invalid \code{rows} or \code{cols} are specified, an exception is raised.
+Rows default to observations with role \code{"use"}, and
+columns default to features with roles \code{"target"} or \code{"feature"}.
+If \code{rows} or \code{cols} are specified which do not exist in the \link{DataBackend},
+an exception is raised.
 
 Rows and columns are returned in the order specified via the arguments \code{rows} and \code{cols}.
 If \code{rows} is \code{NULL}, rows are returned in the order of \code{task$row_ids}.

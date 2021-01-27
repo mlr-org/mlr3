@@ -1,6 +1,12 @@
-# mlr3 0.10.0-9000
+# mlr3 0.11.0
 
 * Added `as.data.table.Resampling` method.
+* `Task$data()` defaults to return only active rows and columns, instead of
+  asserting to only return rows and columns. As a result, the `$data()` method
+  can now also be used to query inactive rows and cols from the `DataBackend`.
+* New column role `uri` which is intended to point to external resources, e.g.
+  images on the file system.
+
 
 # mlr3 0.10.0
 
@@ -205,7 +211,7 @@
   training and test set.
   Learners can be instructed to predict on multiple sets by setting
   `predict_sets` (default: `"test"`). Measures operate on all sets specified in
-  their field `predict_sets` (default: `"test"`.
+  their field `predict_sets` (default: `"test"`).
 
 * `ResampleResult$prediction` and `ResampleResult$predictions()` are now methods
   instead of fields, and allow to extract predictions for different predict

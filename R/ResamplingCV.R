@@ -1,4 +1,4 @@
-#' @title Cross Validation Resampling
+#' @title Cross-Validation Resampling
 #'
 #' @name mlr_resamplings_cv
 #' @include Resampling.R

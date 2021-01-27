@@ -78,6 +78,8 @@ Prediction = R6Class("Prediction",
     #' Calculates the performance for all provided measures
     #' [Task] and [Learner] may be `NULL` for most measures, but some measures need to extract information
     #' from these objects.
+    #' Note that the `predict_sets` of the `measures` are ignored by this method,
+    #' instead all predictions are used.
     #'
     #' @param task ([Task]).
     #'
