@@ -3,10 +3,10 @@
 \name{mlr_resamplings_loo}
 \alias{mlr_resamplings_loo}
 \alias{ResamplingLOO}
-\title{Leave-One-Out Cross Validation}
+\title{Leave-One-Out Cross-Validation}
 \description{
 Splits data using leave-one-observation-out.
-This is identical to cross validation with the number of folds set
+This is identical to cross-validation with the number of folds set
 to the number of observations.
 }
 \section{Dictionary}{

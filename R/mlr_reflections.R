@@ -112,7 +112,7 @@ local({
   )
 
   ### Prediction
-  mlr_reflections$predict_sets = c("train", "test")
+  mlr_reflections$predict_sets = c("train", "test", "validation")
 
 
   ### Measures

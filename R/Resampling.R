@@ -27,7 +27,8 @@
 #'
 #' Second, the sampling is performed in each of the `k` subpopulations separately.
 #' Each subgroup is divided into `iter` training sets and `iter` test sets by the derived `Resampling`.
-#' These sets are merged based on their iteration number: all training sets from all subpopulations with iteration 1 are combined, then all training sets with iteration 2, and so on.
+#' These sets are merged based on their iteration number:
+#' all training sets from all subpopulations with iteration 1 are combined, then all training sets with iteration 2, and so on.
 #' Same is done for all test sets.
 #' The merged sets can be accessed via `$train_set(i)` and `$test_set(i)`, respectively.
 #'
@@ -106,7 +107,7 @@ Resampling = R6Class("Resampling",
 
     #' @field duplicated_ids (`logical(1)`)\cr
     #'   If `TRUE`, duplicated rows can occur within a single training set or within a single test set.
-    #'   E.g., this is `TRUE` for Bootstrap, and `FALSE` for cross validation.
+    #'   E.g., this is `TRUE` for Bootstrap, and `FALSE` for cross-validation.
     #'   Only used internally.
     duplicated_ids = NULL,
 

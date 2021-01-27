@@ -631,8 +631,8 @@ Task = R6Class("Task",
     #' Each row (observation) can have an arbitrary number of roles in the learning task:
     #'
     #' - `"use"`: Use in train / predict / resampling.
-    #' - `"validation"`: Hold the observations back unless explicitly requested.
-    #'   Validation sets are not yet completely integrated into the package.
+    #' - `"validation"`: Observations are hold back unless explicitly requested.
+    #'   Can be used as truly independent test set.
     #'
     #' `row_roles` is a named list whose elements are named by row role and each element is an `integer()` vector of row ids.
     #' To alter the roles, just modify the list, e.g. with  \R's set functions ([intersect()], [setdiff()], [union()], \ldots).

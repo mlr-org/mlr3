@@ -3,7 +3,7 @@
 \name{mlr_resamplings_cv}
 \alias{mlr_resamplings_cv}
 \alias{ResamplingCV}
-\title{Cross Validation Resampling}
+\title{Cross-Validation Resampling}
 \description{
 Splits data using a \code{folds}-folds (default: 10 folds) cross-validation.
 }

@@ -211,7 +211,7 @@
   training and test set.
   Learners can be instructed to predict on multiple sets by setting
   `predict_sets` (default: `"test"`). Measures operate on all sets specified in
-  their field `predict_sets` (default: `"test"`.
+  their field `predict_sets` (default: `"test"`).
 
 * `ResampleResult$prediction` and `ResampleResult$predictions()` are now methods
   instead of fields, and allow to extract predictions for different predict

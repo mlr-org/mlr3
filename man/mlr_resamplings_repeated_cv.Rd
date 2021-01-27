@@ -3,7 +3,7 @@
 \name{mlr_resamplings_repeated_cv}
 \alias{mlr_resamplings_repeated_cv}
 \alias{ResamplingRepeatedCV}
-\title{Repeated Cross Validation Resampling}
+\title{Repeated Cross-Validation Resampling}
 \description{
 Splits data \code{repeats} (default: 10) times using a \code{folds}-fold (default: 10) cross-validation.
 
