@@ -187,7 +187,8 @@ In case of multiple stratification variables, each combination of the values of 
 <p>First, the observations are divided into subpopulations based one or multiple stratification variables (assumed to be discrete), c.f. <code>task$strata</code>.</p>
 <p>Second, the sampling is performed in each of the <code>k</code> subpopulations separately.
 Each subgroup is divided into <code>iter</code> training sets and <code>iter</code> test sets by the derived <code>Resampling</code>.
-These sets are merged based on their iteration number: all training sets from all subpopulations with iteration 1 are combined, then all training sets with iteration 2, and so on.
+These sets are merged based on their iteration number:
+all training sets from all subpopulations with iteration 1 are combined, then all training sets with iteration 2, and so on.
 Same is done for all test sets.
 The merged sets can be accessed via <code>$train_set(i)</code> and <code>$test_set(i)</code>, respectively.</p>
     <h2 class="hasAnchor" id="grouping-blocking"><a class="anchor" href="#grouping-blocking"></a>Grouping / Blocking</h2>
@@ -249,7 +250,7 @@ The number of observations of the <a href='Task.html'>Task</a> which was passed 
 
 <dt><code>duplicated_ids</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
 If <code>TRUE</code>, duplicated rows can occur within a single training set or within a single test set.
-E.g., this is <code>TRUE</code> for Bootstrap, and <code>FALSE</code> for cross validation.
+E.g., this is <code>TRUE</code> for Bootstrap, and <code>FALSE</code> for cross-validation.
 Only used internally.</p></dd>
 
 <dt><code>man</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
