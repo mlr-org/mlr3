@@ -1,6 +1,12 @@
-# mlr3 0.10.0-9000
+# mlr3 0.11.0
 
 * Added `as.data.table.Resampling` method.
+* `Task$data()` defaults to return only active rows and columns, instead of
+  asserting to only return rows and columns. As a result, the `$data()` method
+  can now also be used to query inactive rows and cols from the `DataBackend`.
+* New column role `uri` which is intended to point to external resources, e.g.
+  images on the file system.
+
 
 # mlr3 0.10.0
 

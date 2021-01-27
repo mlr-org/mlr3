@@ -87,7 +87,7 @@ local({
     "use", "validation"
   )
 
-  tmp = c("feature", "target", "name", "order", "stratum", "group", "weight")
+  tmp = c("feature", "target", "name", "order", "stratum", "group", "weight", "uri")
   mlr_reflections$task_col_roles = list(
     regr = tmp,
     classif = tmp

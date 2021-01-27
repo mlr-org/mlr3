@@ -335,9 +335,10 @@ Printer.
 \if{latex}{\out{\hypertarget{method-data}{}}}
 \subsection{Method \code{data()}}{
 Returns a slice of the data from the \link{DataBackend} in the data format specified by \code{data_format}.
-Rows are additionally subsetted to only contain observations with role \code{"use"}, and
-columns are filtered to only contain features with roles \code{"target"} and \code{"feature"}.
-If invalid \code{rows} or \code{cols} are specified, an exception is raised.
+Rows default to observations with role \code{"use"}, and
+columns default to features with roles \code{"target"} or \code{"feature"}.
+If \code{rows} or \code{cols} are specified which do not exist in the \link{DataBackend},
+an exception is raised.
 
 Rows and columns are returned in the order specified via the arguments \code{rows} and \code{cols}.
 If \code{rows} is \code{NULL}, rows are returned in the order of \code{task$row_ids}.
