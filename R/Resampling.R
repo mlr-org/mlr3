@@ -239,3 +239,17 @@ Resampling = R6Class("Resampling",
     }
   )
 )
+
+
+#' @export
+as.data.table.Resampling = function(x, ...) { # nolint
+  assert_resampling(x, instantiated = TRUE)
+  iterations = seq_len(x$iters)
+
+  tab = rbindlist(list(
+    map_dtr(iterations, function(i) list(row_id = x$train_set(i)), .idcol = "iteration"),
+    map_dtr(iterations, function(i) list(row_id = x$test_set(i)), .idcol = "iteration")
+  ), idcol = "set")
+  set(tab, j = "set", value = factor(c("train", "test")[tab$set], levels = c("train", "test")))
+  setkeyv(tab, c("set", "iteration"))[]
+}

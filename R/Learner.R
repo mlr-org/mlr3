@@ -275,7 +275,13 @@ Learner = R6Class("Learner",
       # the following columns are automatically set to NA if missing
       impute = unlist(task$col_roles[c("target", "name", "order", "stratum", "group")])
       impute = setdiff(impute, colnames(newdata))
-      newdata = insert_named(newdata, named_list(nn = impute, init = NA))
+      if (length(impute)) {
+        # create list with correct NA types and insert it into the table newdata
+        tab = task$col_info[list(impute), on = "id"]
+        set(tab, j = "value", value = NA)
+        nas = set_names(pmap(tab, auto_convert), tab$id)
+        newdata = insert_named(newdata, nas)
+      }
 
       task$backend = as_data_backend(newdata)
       task$row_roles$use = task$backend$rownames
