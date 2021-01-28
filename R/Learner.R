@@ -283,6 +283,8 @@ Learner = R6Class("Learner",
         newdata = insert_named(newdata, nas)
       }
 
+      # do some type conversions if necessary
+
       task$backend = as_data_backend(newdata)
       task$row_roles$use = task$backend$rownames
       self$predict(task)

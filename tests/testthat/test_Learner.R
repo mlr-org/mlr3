@@ -216,3 +216,14 @@ test_that("learner cannot be trained with TuneToken present", {
     regexp = "<LearnerRegrRpart:regr.rpart> cannot be trained with TuneToken present in hyperparameter: cp",
     fixed = TRUE)
 })
+
+test_that("integer<->numeric conversion in newdata (#533)", {
+  data = data.table(y = runif(10), x = 1:10)
+  newdata = data.table(y = runif(10), x = 1:10 + 0.1)
+
+  task = TaskRegr$new("test", data, "y")
+  learner = lrn("regr.featureless")
+  learner$train(task)
+  expect_prediction(learner$predict_newdata(data))
+  expect_prediction(learner$predict_newdata(newdata))
+})
