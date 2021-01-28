@@ -251,7 +251,7 @@ assert_ro_binding = function(rhs) {
 assert_continuable_task = function(train_task, continue_task) {
   continue_task = task_rm_backend(continue_task$clone(deep = TRUE))
   train_task = task_rm_backend(train_task$clone(deep = TRUE))
-  if(!isTRUE(all.equal(train_task, continue_task))) {
+  if(!isTRUE(all.equal(train_task, continue_task, check.environment = FALSE))) {
     stop("Supplied task does not allow to continue training.")
   }
 }
