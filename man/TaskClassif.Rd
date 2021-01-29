@@ -46,7 +46,8 @@ Other Task:
 \code{\link{mlr_tasks_spam}},
 \code{\link{mlr_tasks_wine}},
 \code{\link{mlr_tasks_zoo}},
-\code{\link{mlr_tasks}}
+\code{\link{mlr_tasks}},
+\code{\link{penguins}}
 }
 \concept{Task}
 \section{Super classes}{

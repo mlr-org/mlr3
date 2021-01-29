@@ -80,7 +80,8 @@ Other Task:
 \code{\link{mlr_tasks_sonar}},
 \code{\link{mlr_tasks_spam}},
 \code{\link{mlr_tasks_wine}},
-\code{\link{mlr_tasks_zoo}}
+\code{\link{mlr_tasks_zoo}},
+\code{\link{penguins}}
 }
 \concept{Dictionary}
 \concept{Task}
