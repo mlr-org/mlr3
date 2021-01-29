@@ -90,7 +90,7 @@ install.packages("mlr3verse")
 library(mlr3)
 
 # create learning task
-task_penguins <- TaskClassif$new(id = "penguins", backend = palmerpenguins::penguins, target = "species")
+task_penguins <- TaskClassif$new(id = "penguins", backend = penguins, target = "species")
 task_penguins
 ```
 
