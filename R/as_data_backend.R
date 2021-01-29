@@ -24,8 +24,8 @@
 #' @family DataBackend
 #' @export
 #' @examples
-#' # create a new backend using the penguins data:
-#' as_data_backend(palmerpenguins::penguins)
+#' # create a new backend using the iris data:
+#' as_data_backend(iris)
 as_data_backend = function(data, primary_key = NULL, ...) {
   UseMethod("as_data_backend")
 }
