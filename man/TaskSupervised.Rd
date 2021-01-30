@@ -10,7 +10,8 @@ Supervised tasks for probabilistic regression (including survival analysis) can 
 found in \CRANpkg{mlr3proba}.
 }
 \examples{
-TaskSupervised$new("iris", task_type = "classif", backend = iris, target = "Species")
+TaskSupervised$new("penguins", task_type = "classif", backend = palmerpenguins::penguins,
+    target = "species")
 }
 \seealso{
 Other Task: 

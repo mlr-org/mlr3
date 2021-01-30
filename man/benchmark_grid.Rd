@@ -24,7 +24,7 @@ Resampling strategies are not allowed to be instantiated when passing the argume
 The only exception to this rule applies if all tasks have exactly the same number of rows, and the resamplings are all instantiated for such tasks.
 }
 \examples{
-tasks = list(tsk("iris"), tsk("sonar"))
+tasks = list(tsk("penguins"), tsk("sonar"))
 learners = list(lrn("classif.featureless"), lrn("classif.rpart"))
 resamplings = list(rsmp("cv"), rsmp("subsampling"))
 benchmark_grid(tasks, learners, resamplings)

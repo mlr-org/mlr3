@@ -392,7 +392,7 @@ star_init = function() {
 #' @return `ResultData` object which can be passed to the constructor of [ResampleResult].
 #' @export
 #' @examples
-#' task = tsk("iris")
+#' task = tsk("penguins")
 #' learner = lrn("classif.rpart")
 #' resampling = rsmp("cv", folds = 2)$instantiate(task)
 #' iterations = seq_len(resampling$iters)

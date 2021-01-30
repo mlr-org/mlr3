@@ -18,7 +18,8 @@
 #' @keywords internal
 #' @export
 #' @examples
-#' TaskSupervised$new("iris", task_type = "classif", backend = iris, target = "Species")
+#' TaskSupervised$new("penguins", task_type = "classif", backend = palmerpenguins::penguins,
+#'     target = "species")
 TaskSupervised = R6Class("TaskSupervised", inherit = Task,
   public = list(
 

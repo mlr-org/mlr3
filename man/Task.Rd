@@ -17,7 +17,7 @@ For example, for a classification task a single column must be marked as target 
 }
 
 Predefined (toy) tasks are stored in the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_tasks},
-e.g. \code{\link[=mlr_tasks_iris]{iris}} or \code{\link[=mlr_tasks_boston_housing]{boston_housing}}.
+e.g. \code{\link[=mlr_tasks_penguins]{penguins}} or \code{\link[=mlr_tasks_boston_housing]{boston_housing}}.
 More toy tasks can be found in the dictionary after loading \CRANpkg{mlr3data}.
 }
 \section{S3 methods}{
@@ -48,20 +48,20 @@ merge both backends into an abstract \link{DataBackend} which merges the results
 \examples{
 # we use the inherited class TaskClassif here,
 # Class Task is not intended for direct use
-task = TaskClassif$new("iris", iris, target = "Species")
+task = TaskClassif$new("penguings", palmerpenguins::penguins, target = "species")
 
 task$nrow
 task$ncol
 task$feature_names
 task$formula()
 
-# de-select "Petal.Width"
-task$select(setdiff(task$feature_names, "Petal.Width"))
+# de-select "year"
+task$select(setdiff(task$feature_names, "year"))
 
 task$feature_names
 
 # Add new column "foo"
-task$cbind(data.frame(foo = 1:150))
+task$cbind(data.frame(foo = 1:344))
 task$head()
 }
 \seealso{

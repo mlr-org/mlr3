@@ -15,7 +15,7 @@
 #'    For example, for a classification task a single column must be marked as target column, and others as features.
 #'
 #' Predefined (toy) tasks are stored in the [dictionary][mlr3misc::Dictionary] [mlr_tasks],
-#' e.g. [`iris`][mlr_tasks_iris] or [`boston_housing`][mlr_tasks_boston_housing].
+#' e.g. [`penguins`][mlr_tasks_penguins] or [`boston_housing`][mlr_tasks_boston_housing].
 #' More toy tasks can be found in the dictionary after loading \CRANpkg{mlr3data}.
 #'
 #' @template param_id
@@ -48,20 +48,20 @@
 #' @examples
 #' # we use the inherited class TaskClassif here,
 #' # Class Task is not intended for direct use
-#' task = TaskClassif$new("iris", iris, target = "Species")
+#' task = TaskClassif$new("penguings", palmerpenguins::penguins, target = "species")
 #'
 #' task$nrow
 #' task$ncol
 #' task$feature_names
 #' task$formula()
 #'
-#' # de-select "Petal.Width"
-#' task$select(setdiff(task$feature_names, "Petal.Width"))
+#' # de-select "year"
+#' task$select(setdiff(task$feature_names, "year"))
 #'
 #' task$feature_names
 #'
 #' # Add new column "foo"
-#' task$cbind(data.frame(foo = 1:150))
+#' task$cbind(data.frame(foo = 1:344))
 #' task$head()
 Task = R6Class("Task",
   public = list(

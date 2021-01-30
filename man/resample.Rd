@@ -82,7 +82,7 @@ To log to a file or a data base, see the documentation of \link[lgr:lgr-package]
 }
 
 \examples{
-task = tsk("iris")
+task = tsk("penguins")
 learner = lrn("classif.rpart")
 resampling = rsmp("cv")
 

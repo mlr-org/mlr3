@@ -49,7 +49,7 @@ to real DBMS like PostgreSQL (via \CRANpkg{dbplyr}) or DuckDB (via \CRANpkg{DBI}
 }
 \examples{
 # create a new backend using the penguins data:
-as_data_backend(penguins)
+as_data_backend(palmerpenguins::penguins)
 }
 \seealso{
 Other DataBackend: 

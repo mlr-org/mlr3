@@ -27,8 +27,8 @@
 #' @return [R6::R6Class] object of the respective type,
 #'   or a list of [R6::R6Class] objects for the plural versions.
 #' @examples
-#' # iris task with new id
-#' tsk("iris", id = "iris2")
+#' # penguins task with new id
+#' tsk("penguins", id = "penguins2")
 #'
 #' # classification tree with different hyperparameters
 #' # and predict type set to predict probabilities

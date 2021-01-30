@@ -20,7 +20,7 @@
 #'
 #' @export
 #' @examples
-#' task = tsk("iris")
+#' task = tsk("penguins")
 #' learner = lrn("classif.rpart")
 #' resampling = rsmp("cv", folds = 3)
 #' rr = resample(task, learner, resampling)

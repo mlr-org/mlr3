@@ -34,7 +34,7 @@
 #'
 #' @export
 #' @examples
-#' task = tsk("iris")
+#' task = tsk("penguins")
 #' learner = lrn("classif.rpart")
 #' resampling = rsmp("cv")
 #'

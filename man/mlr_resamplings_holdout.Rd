@@ -25,7 +25,7 @@ Ratio of observations to put into the training set.
 
 \examples{
 # Create a task with 10 observations
-task = tsk("iris")
+task = tsk("penguins")
 task$filter(1:10)
 
 # Instantiate Resampling

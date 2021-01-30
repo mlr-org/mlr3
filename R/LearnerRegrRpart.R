@@ -81,6 +81,7 @@ LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
       if ("weights" %in% task$properties) {
         pv = insert_named(pv, list(weights = task$weights$weight))
       }
+
       invoke(rpart::rpart, formula = task$formula(), data = task$data(), .args = pv, .opts = allow_partial_matching)
     },
 

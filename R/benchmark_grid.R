@@ -14,7 +14,7 @@
 #' @return ([data.table::data.table()]) with the cross product of the input vectors.
 #' @export
 #' @examples
-#' tasks = list(tsk("iris"), tsk("sonar"))
+#' tasks = list(tsk("penguins"), tsk("sonar"))
 #' learners = list(lrn("classif.featureless"), lrn("classif.rpart"))
 #' resamplings = list(rsmp("cv"), rsmp("subsampling"))
 #' benchmark_grid(tasks, learners, resamplings)

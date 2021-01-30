@@ -18,7 +18,7 @@ rsmp("loo")
 
 \examples{
 # Create a task with 10 observations
-task = tsk("iris")
+task = tsk("penguins")
 task$filter(1:10)
 
 # Instantiate Resampling
