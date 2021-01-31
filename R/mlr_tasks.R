@@ -30,25 +30,25 @@
 #' @export
 #' @examples
 #' as.data.table(mlr_tasks)
-#' task = mlr_tasks$get("iris") # same as tsk("iris")
+#' task = mlr_tasks$get("penguins") # same as tsk("penguins")
 #' head(task$data())
 #'
-#' # Add a new task, based on a subset of iris:
-#' data = iris
-#' data$Species = factor(ifelse(data$Species == "setosa", "1", "0"))
-#' task = TaskClassif$new("iris.binary", data, target = "Species", positive = "1")
+#' # Add a new task, based on a subset of penguins:
+#' data = palmerpenguins::penguins
+#' data$species = factor(ifelse(data$species == "Adelie", "1", "0"))
+#' task = TaskClassif$new("penguins.binary", data, target = "species", positive = "1")
 #'
 #' # add to dictionary
-#' mlr_tasks$add("iris.binary", task)
+#' mlr_tasks$add("penguins.binary", task)
 #'
 #' # list available tasks
 #' mlr_tasks$keys()
 #'
 #' # retrieve from dictionary
-#' mlr_tasks$get("iris.binary")
+#' mlr_tasks$get("penguins.binary")
 #'
 #' # remove task again
-#' mlr_tasks$remove("iris.binary")
+#' mlr_tasks$remove("penguins.binary")
 mlr_tasks = R6Class("DictionaryTask",
   inherit = Dictionary,
   cloneable = FALSE

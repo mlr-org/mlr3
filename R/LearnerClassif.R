@@ -39,11 +39,11 @@
 #' print(lrn)
 #'
 #' # train the learner:
-#' task = tsk("iris")
-#' lrn$train(task, 1:120)
+#' task = tsk("penguins")
+#' lrn$train(task, 1:200)
 #'
 #' # predict on new observations:
-#' lrn$predict(task, 121:150)$confusion
+#' lrn$predict(task, 201:344)$confusion
 LearnerClassif = R6Class("LearnerClassif", inherit = Learner,
   public = list(
     #' @description

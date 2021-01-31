@@ -17,7 +17,7 @@
 #' @family Task
 #' @export
 #' @examples
-#' task = TaskRegr$new("iris", backend = iris, target = "Sepal.Length")
+#' task = TaskRegr$new("penguins", backend = palmerpenguins::penguins, target = "bill_length_mm")
 #' task$task_type
 #' task$formula()
 #' task$truth()

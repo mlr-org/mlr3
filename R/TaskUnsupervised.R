@@ -14,5 +14,5 @@
 #' @keywords internal
 #' @export
 #' @examples
-#' TaskUnsupervised$new("iris", task_type = "regr", backend = iris)
+#' TaskUnsupervised$new("penguins", task_type = "regr", backend = palmerpenguins::penguins)
 TaskUnsupervised = R6Class("TaskUnsupervised", inherit = Task)

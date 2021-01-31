@@ -42,7 +42,7 @@
 #' @family Prediction
 #' @export
 #' @examples
-#' task = tsk("iris")
+#' task = tsk("penguins")
 #' learner = lrn("classif.rpart", predict_type = "prob")
 #' learner$train(task)
 #' p = learner$predict(task)

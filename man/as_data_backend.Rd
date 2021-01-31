@@ -48,8 +48,8 @@ Additional methods are implemented in the package \CRANpkg{mlr3db}, e.g. to conn
 to real DBMS like PostgreSQL (via \CRANpkg{dbplyr}) or DuckDB (via \CRANpkg{DBI}/\CRANpkg{duckdb}).
 }
 \examples{
-# create a new backend using the iris data:
-as_data_backend(iris)
+# create a new backend using the penguins data:
+as_data_backend(palmerpenguins::penguins)
 }
 \seealso{
 Other DataBackend: 

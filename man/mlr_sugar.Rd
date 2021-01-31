@@ -66,8 +66,8 @@ Relies on \code{\link[mlr3misc:dictionary_sugar_get]{mlr3misc::dictionary_sugar_
 }
 }
 \examples{
-# iris task with new id
-tsk("iris", id = "iris2")
+# penguins task with new id
+tsk("penguins", id = "penguins2")
 
 # classification tree with different hyperparameters
 # and predict type set to predict probabilities

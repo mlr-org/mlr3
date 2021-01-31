@@ -12,7 +12,7 @@ Predefined tasks are stored in the \link[mlr3misc:Dictionary]{dictionary} \link{
 More example tasks can be found in this dictionary after loading \CRANpkg{mlr3data}.
 }
 \examples{
-task = TaskRegr$new("iris", backend = iris, target = "Sepal.Length")
+task = TaskRegr$new("penguins", backend = palmerpenguins::penguins, target = "bill_length_mm")
 task$task_type
 task$formula()
 task$truth()

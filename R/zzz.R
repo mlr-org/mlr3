@@ -2,6 +2,7 @@
 #' @import checkmate
 #' @import paradox
 #' @import mlr3misc
+#' @import palmerpenguins
 #' @importFrom R6 R6Class is.R6
 #' @importFrom utils data head tail getFromNamespace
 #' @importFrom graphics plot

@@ -12,12 +12,12 @@
 #' @family DataBackend
 #' @export
 #' @examples
-#' data = as.data.table(iris)
-#' data$id = seq_len(nrow(iris))
+#' data = as.data.table(palmerpenguins::penguins)
+#' data$id = seq_len(nrow(palmerpenguins::penguins))
 #' b = DataBackendDataTable$new(data = data, primary_key = "id")
 #' print(b)
 #' b$head()
-#' b$data(rows = 100:101, cols = "Species")
+#' b$data(rows = 100:101, cols = "species")
 #'
 #' b$nrow
 #' head(b$rownames)
@@ -26,7 +26,7 @@
 #' b$colnames
 #'
 #' # alternative construction
-#' as_data_backend(iris)
+#' as_data_backend(palmerpenguins::penguins)
 DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
   cloneable = FALSE,
   public = list(

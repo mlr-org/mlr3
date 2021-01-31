@@ -90,15 +90,17 @@ install.packages("mlr3verse")
 library(mlr3)
 
 # create learning task
-task_iris <- TaskClassif$new(id = "iris", backend = iris, target = "Species")
-task_iris
+task_penguins <- TaskClassif$new(id = "penguins", backend = palmerpenguins::penguins, target = "species")
+task_penguins
 ```
 
-    ## <TaskClassif:iris> (150 x 5)
-    ## * Target: Species
+    ## <TaskClassif:penguins> (344 x 8)
+    ## * Target: species
     ## * Properties: multiclass
-    ## * Features (4):
-    ##   - dbl (4): Petal.Length, Petal.Width, Sepal.Length, Sepal.Width
+    ## * Features (7):
+    ##   - int (3): body_mass_g, flipper_length_mm, year
+    ##   - dbl (2): bill_depth_mm, bill_length_mm
+    ##   - fct (2): island, sex
 
 ``` r
 # load learner and set hyperparameter
@@ -109,24 +111,24 @@ learner <- lrn("classif.rpart", cp = .01)
 
 ``` r
 # train/test split
-train_set <- sample(task_iris$nrow, 0.8 * task_iris$nrow)
-test_set <- setdiff(seq_len(task_iris$nrow), train_set)
+train_set <- sample(task_penguins$nrow, 0.8 * task_penguins$nrow)
+test_set <- setdiff(seq_len(task_penguins$nrow), train_set)
 
 # train the model
-learner$train(task_iris, row_ids = train_set)
+learner$train(task_penguins, row_ids = train_set)
 
 # predict data
-prediction <- learner$predict(task_iris, row_ids = test_set)
+prediction <- learner$predict(task_penguins, row_ids = test_set)
 
 # calculate performance
 prediction$confusion
 ```
 
-    ##             truth
-    ## response     setosa versicolor virginica
-    ##   setosa         11          0         0
-    ##   versicolor      0         12         1
-    ##   virginica       0          0         6
+    ##            truth
+    ## response    Adelie Chinstrap Gentoo
+    ##   Adelie        32         2      0
+    ##   Chinstrap      1         8      0
+    ##   Gentoo         0         3     23
 
 ``` r
 measure <- msr("classif.acc")
@@ -134,36 +136,36 @@ prediction$score(measure)
 ```
 
     ## classif.acc 
-    ##   0.9666667
+    ##   0.9130435
 
 ### Resample
 
 ``` r
 # automatic resampling
 resampling <- rsmp("cv", folds = 3L)
-rr <- resample(task_iris, learner, resampling)
+rr <- resample(task_penguins, learner, resampling)
 rr$score(measure)
 ```
 
-    ##                 task task_id                   learner    learner_id
-    ## 1: <TaskClassif[45]>    iris <LearnerClassifRpart[34]> classif.rpart
-    ## 2: <TaskClassif[45]>    iris <LearnerClassifRpart[34]> classif.rpart
-    ## 3: <TaskClassif[45]>    iris <LearnerClassifRpart[34]> classif.rpart
+    ##                 task  task_id                   learner    learner_id
+    ## 1: <TaskClassif[45]> penguins <LearnerClassifRpart[34]> classif.rpart
+    ## 2: <TaskClassif[45]> penguins <LearnerClassifRpart[34]> classif.rpart
+    ## 3: <TaskClassif[45]> penguins <LearnerClassifRpart[34]> classif.rpart
     ##            resampling resampling_id iteration              prediction
     ## 1: <ResamplingCV[19]>            cv         1 <PredictionClassif[19]>
     ## 2: <ResamplingCV[19]>            cv         2 <PredictionClassif[19]>
     ## 3: <ResamplingCV[19]>            cv         3 <PredictionClassif[19]>
     ##    classif.acc
-    ## 1:        0.92
-    ## 2:        0.92
-    ## 3:        0.94
+    ## 1:   0.8956522
+    ## 2:   0.9130435
+    ## 3:   0.9473684
 
 ``` r
 rr$aggregate(measure)
 ```
 
     ## classif.acc 
-    ##   0.9266667
+    ##    0.918688
 
 ## Extension Packages
 

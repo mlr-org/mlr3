@@ -58,8 +58,8 @@
 #' r$param_set$values = list(ratio = 0.1, repeats = 3)
 #' r$param_set$values
 #'
-#' # Instantiate on iris task
-#' task = tsk("iris")
+#' # Instantiate on penguins task
+#' task = tsk("penguins")
 #' r$instantiate(task)
 #'
 #' # Extract train/test sets
