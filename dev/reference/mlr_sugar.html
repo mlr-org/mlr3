@@ -236,13 +236,15 @@ Keys passed to the respective <a href='https://mlr3misc.mlr-org.com/reference/Di
 or a list of <a href='https://r6.r-lib.org/reference/R6Class.html'>R6::R6Class</a> objects for the plural versions.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># iris task with new id</span>
-<span class='fu'>tsk</span><span class='op'>(</span><span class='st'>"iris"</span>, id <span class='op'>=</span> <span class='st'>"iris2"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; &lt;TaskClassif:iris2&gt; (150 x 5)
-#&gt; * Target: Species
+    <pre class="examples"><div class='input'><span class='co'># penguins task with new id</span>
+<span class='fu'>tsk</span><span class='op'>(</span><span class='st'>"penguins"</span>, id <span class='op'>=</span> <span class='st'>"penguins2"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; &lt;TaskClassif:penguins2&gt; (344 x 8)
+#&gt; * Target: species
 #&gt; * Properties: multiclass
-#&gt; * Features (4):
-#&gt;   - dbl (4): Petal.Length, Petal.Width, Sepal.Length, Sepal.Width</div><div class='input'>
+#&gt; * Features (7):
+#&gt;   - int (3): body_mass, flipper_length, year
+#&gt;   - dbl (2): bill_depth, bill_length
+#&gt;   - fct (2): island, sex</div><div class='input'>
 <span class='co'># classification tree with different hyperparameters</span>
 <span class='co'># and predict type set to predict probabilities</span>
 <span class='fu'>lrn</span><span class='op'>(</span><span class='st'>"classif.rpart"</span>, cp <span class='op'>=</span> <span class='fl'>0.1</span>, predict_type <span class='op'>=</span> <span class='st'>"prob"</span><span class='op'>)</span>

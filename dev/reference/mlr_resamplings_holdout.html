@@ -255,7 +255,7 @@ Returns the number of resampling iterations, depending on the values stored in t
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Create a task with 10 observations</span>
-<span class='va'>task</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span><span class='op'>(</span><span class='st'>"iris"</span><span class='op'>)</span>
+<span class='va'>task</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span><span class='op'>(</span><span class='st'>"penguins"</span><span class='op'>)</span>
 <span class='va'>task</span><span class='op'>$</span><span class='fu'>filter</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span><span class='op'>)</span>
 
 <span class='co'># Instantiate Resampling</span>
@@ -264,16 +264,16 @@ Returns the number of resampling iterations, depending on the values stored in t
 
 <span class='co'># Individual sets:</span>
 <span class='va'>rho</span><span class='op'>$</span><span class='fu'>train_set</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1]  4  7  8  9 10</div><div class='input'><span class='va'>rho</span><span class='op'>$</span><span class='fu'>test_set</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 1 2 3 5 6</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/sets.html'>intersect</a></span><span class='op'>(</span><span class='va'>rho</span><span class='op'>$</span><span class='fu'>train_set</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>, <span class='va'>rho</span><span class='op'>$</span><span class='fu'>test_set</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 2 5 6 8 9</div><div class='input'><span class='va'>rho</span><span class='op'>$</span><span class='fu'>test_set</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1]  1  3  4  7 10</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/sets.html'>intersect</a></span><span class='op'>(</span><span class='va'>rho</span><span class='op'>$</span><span class='fu'>train_set</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>, <span class='va'>rho</span><span class='op'>$</span><span class='fu'>test_set</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; integer(0)</div><div class='input'>
 <span class='co'># Internal storage:</span>
 <span class='va'>rho</span><span class='op'>$</span><span class='va'>instance</span> <span class='co'># simple list</span>
 </div><div class='output co'>#&gt; $train
-#&gt; [1]  4  7  8  9 10
+#&gt; [1] 2 5 6 8 9
 #&gt; 
 #&gt; $test
-#&gt; [1] 1 2 3 5 6
+#&gt; [1]  1  3  4  7 10
 #&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

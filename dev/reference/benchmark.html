@@ -240,7 +240,7 @@ or <code>"trace"</code>:</p><pre><span class='fu'>lgr</span><span class='fu'>::<
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># benchmarking with benchmark_grid()</span>
-<span class='va'>tasks</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"iris"</span>, <span class='st'>"sonar"</span><span class='op'>)</span>, <span class='va'>tsk</span><span class='op'>)</span>
+<span class='va'>tasks</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"penguins"</span>, <span class='st'>"sonar"</span><span class='op'>)</span>, <span class='va'>tsk</span><span class='op'>)</span>
 <span class='va'>learners</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"classif.featureless"</span>, <span class='st'>"classif.rpart"</span><span class='op'>)</span>, <span class='va'>lrn</span><span class='op'>)</span>
 <span class='va'>resamplings</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span><span class='op'>(</span><span class='st'>"cv"</span>, folds <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
 
@@ -257,12 +257,12 @@ or <code>"trace"</code>:</p><pre><span class='fu'>lgr</span><span class='fu'>::<
 <span class='co'>## Data of all resamplings</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table</a></span><span class='op'>(</span><span class='va'>bmr</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;                                   uhash              task
-#&gt; 1: adb2e90c-424e-4fd5-ad58-6c7f4a5739da &lt;TaskClassif[46]&gt;
-#&gt; 2: adb2e90c-424e-4fd5-ad58-6c7f4a5739da &lt;TaskClassif[46]&gt;
-#&gt; 3: adb2e90c-424e-4fd5-ad58-6c7f4a5739da &lt;TaskClassif[46]&gt;
-#&gt; 4: 23a67c67-9efa-4592-9f8f-6f35d58a099a &lt;TaskClassif[46]&gt;
-#&gt; 5: 23a67c67-9efa-4592-9f8f-6f35d58a099a &lt;TaskClassif[46]&gt;
-#&gt; 6: 23a67c67-9efa-4592-9f8f-6f35d58a099a &lt;TaskClassif[46]&gt;
+#&gt; 1: 25095d9b-f118-4baa-8a12-59d0a8c4eee9 &lt;TaskClassif[46]&gt;
+#&gt; 2: 25095d9b-f118-4baa-8a12-59d0a8c4eee9 &lt;TaskClassif[46]&gt;
+#&gt; 3: 25095d9b-f118-4baa-8a12-59d0a8c4eee9 &lt;TaskClassif[46]&gt;
+#&gt; 4: d74d8b25-82fc-470a-9585-9e56091373c3 &lt;TaskClassif[46]&gt;
+#&gt; 5: d74d8b25-82fc-470a-9585-9e56091373c3 &lt;TaskClassif[46]&gt;
+#&gt; 6: d74d8b25-82fc-470a-9585-9e56091373c3 &lt;TaskClassif[46]&gt;
 #&gt;                            learner         resampling iteration
 #&gt; 1: &lt;LearnerClassifFeatureless[34]&gt; &lt;ResamplingCV[19]&gt;         1
 #&gt; 2: &lt;LearnerClassifFeatureless[34]&gt; &lt;ResamplingCV[19]&gt;         2
@@ -280,35 +280,35 @@ or <code>"trace"</code>:</p><pre><span class='fu'>lgr</span><span class='fu'>::<
 <span class='co'>## Aggregated performance values</span>
 <span class='va'>aggr</span> <span class='op'>=</span> <span class='va'>bmr</span><span class='op'>$</span><span class='fu'>aggregate</span><span class='op'>(</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>aggr</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;    nr      resample_result task_id          learner_id resampling_id iters
-#&gt; 1:  1 &lt;ResampleResult[21]&gt;    iris classif.featureless            cv     3
-#&gt; 2:  2 &lt;ResampleResult[21]&gt;    iris       classif.rpart            cv     3
-#&gt; 3:  3 &lt;ResampleResult[21]&gt;   sonar classif.featureless            cv     3
-#&gt; 4:  4 &lt;ResampleResult[21]&gt;   sonar       classif.rpart            cv     3
+</div><div class='output co'>#&gt;    nr      resample_result  task_id          learner_id resampling_id iters
+#&gt; 1:  1 &lt;ResampleResult[21]&gt; penguins classif.featureless            cv     3
+#&gt; 2:  2 &lt;ResampleResult[21]&gt; penguins       classif.rpart            cv     3
+#&gt; 3:  3 &lt;ResampleResult[21]&gt;    sonar classif.featureless            cv     3
+#&gt; 4:  4 &lt;ResampleResult[21]&gt;    sonar       classif.rpart            cv     3
 #&gt;    classif.ce
-#&gt; 1: 0.72000000
-#&gt; 2: 0.05333333
-#&gt; 3: 0.53878537
-#&gt; 4: 0.30296756</div><div class='input'>
+#&gt; 1: 0.55814900
+#&gt; 2: 0.06392067
+#&gt; 3: 0.46645963
+#&gt; 4: 0.28819876</div><div class='input'>
 <span class='co'>## Extract predictions of first resampling result</span>
 <span class='va'>rr</span> <span class='op'>=</span> <span class='va'>aggr</span><span class='op'>$</span><span class='va'>resample_result</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>
 <span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table</a></span><span class='op'>(</span><span class='va'>rr</span><span class='op'>$</span><span class='fu'>prediction</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;      row_id     truth   response
-#&gt;   1:      1    setosa     setosa
-#&gt;   2:      2    setosa     setosa
-#&gt;   3:      3    setosa     setosa
-#&gt;   4:     17    setosa     setosa
-#&gt;   5:     24    setosa     setosa
-#&gt;  ---                            
-#&gt; 146:    132 virginica versicolor
-#&gt; 147:    144 virginica versicolor
-#&gt; 148:    145 virginica versicolor
-#&gt; 149:    146 virginica versicolor
-#&gt; 150:    148 virginica versicolor</div><div class='input'>
+</div><div class='output co'>#&gt;      row_id     truth response
+#&gt;   1:      5    Adelie   Adelie
+#&gt;   2:      6    Adelie   Adelie
+#&gt;   3:      7    Adelie   Adelie
+#&gt;   4:     10    Adelie   Adelie
+#&gt;   5:     11    Adelie   Adelie
+#&gt;  ---                          
+#&gt; 340:    333 Chinstrap   Adelie
+#&gt; 341:    334 Chinstrap   Adelie
+#&gt; 342:    337 Chinstrap   Adelie
+#&gt; 343:    338 Chinstrap   Adelie
+#&gt; 344:    344 Chinstrap   Adelie</div><div class='input'>
 <span class='co'># Benchmarking with a custom design:</span>
-<span class='co'># - fit classif.featureless on iris with a 3-fold CV</span>
+<span class='co'># - fit classif.featureless on penguins with a 3-fold CV</span>
 <span class='co'># - fit classif.rpart on sonar using a holdout</span>
-<span class='va'>tasks</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'><a href='mlr_sugar.html'>tsk</a></span><span class='op'>(</span><span class='st'>"iris"</span><span class='op'>)</span>, <span class='fu'><a href='mlr_sugar.html'>tsk</a></span><span class='op'>(</span><span class='st'>"sonar"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>tasks</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'><a href='mlr_sugar.html'>tsk</a></span><span class='op'>(</span><span class='st'>"penguins"</span><span class='op'>)</span>, <span class='fu'><a href='mlr_sugar.html'>tsk</a></span><span class='op'>(</span><span class='st'>"sonar"</span><span class='op'>)</span><span class='op'>)</span>
 <span class='va'>learners</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'><a href='mlr_sugar.html'>lrn</a></span><span class='op'>(</span><span class='st'>"classif.featureless"</span><span class='op'>)</span>, <span class='fu'><a href='mlr_sugar.html'>lrn</a></span><span class='op'>(</span><span class='st'>"classif.rpart"</span><span class='op'>)</span><span class='op'>)</span>
 <span class='va'>resamplings</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'><a href='mlr_sugar.html'>rsmp</a></span><span class='op'>(</span><span class='st'>"cv"</span>, folds <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>, <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span><span class='op'>(</span><span class='st'>"holdout"</span><span class='op'>)</span><span class='op'>)</span>
 
@@ -328,18 +328,25 @@ or <code>"trace"</code>:</p><pre><span class='fu'>lgr</span><span class='fu'>::<
 <span class='va'>bmr</span> <span class='op'>=</span> <span class='fu'>benchmark</span><span class='op'>(</span><span class='va'>design</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>bmr</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; &lt;BenchmarkResult&gt; of 4 rows with 2 resampling runs
-#&gt;  nr task_id          learner_id resampling_id iters warnings errors
-#&gt;   1    iris classif.featureless            cv     3        0      0
-#&gt;   2   sonar       classif.rpart       holdout     1        0      0</div><div class='input'>
-<span class='co'>## Get the training set of the 2nd iteration of the featureless learner on iris</span>
+#&gt;  nr  task_id          learner_id resampling_id iters warnings errors
+#&gt;   1 penguins classif.featureless            cv     3        0      0
+#&gt;   2    sonar       classif.rpart       holdout     1        0      0</div><div class='input'>
+<span class='co'>## Get the training set of the 2nd iteration of the featureless learner on penguins</span>
 <span class='va'>rr</span> <span class='op'>=</span> <span class='va'>bmr</span><span class='op'>$</span><span class='fu'>aggregate</span><span class='op'>(</span><span class='op'>)</span><span class='op'>[</span><span class='va'>learner_id</span> <span class='op'>==</span> <span class='st'>"classif.featureless"</span><span class='op'>]</span><span class='op'>$</span><span class='va'>resample_result</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>
 <span class='va'>rr</span><span class='op'>$</span><span class='va'>resampling</span><span class='op'>$</span><span class='fu'>train_set</span><span class='op'>(</span><span class='fl'>2</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;   [1]   3   4   6   8  15  19  21  23  24  25  35  39  43  45  46  47  48  49
-#&gt;  [19]  52  53  57  59  63  66  67  71  72  76  79  81  83  85  88  89  92  94
-#&gt;  [37]  95  97 107 108 119 120 121 127 131 137 138 140 143 149   5   7  12  13
-#&gt;  [55]  16  17  18  20  26  30  31  33  36  40  41  42  44  50  51  55  56  58
-#&gt;  [73]  61  62  70  73  74  77  78  80  87  90  99 100 101 104 105 111 114 118
-#&gt;  [91] 124 126 128 129 133 135 144 145 146 150</div></pre>
+</div><div class='output co'>#&gt;   [1]   5   7   8   9  12  13  17  19  22  25  28  35  36  40  46  48  49  50
+#&gt;  [19]  52  53  54  60  61  62  63  67  69  72  73  74  75  76  78  81  84  85
+#&gt;  [37]  88  92  97 101 103 104 109 110 114 119 122 127 129 130 131 136 145 147
+#&gt;  [55] 156 160 162 163 166 170 172 173 177 179 180 184 185 188 190 191 193 194
+#&gt;  [73] 205 212 213 217 218 221 228 229 233 234 238 239 245 250 252 255 256 258
+#&gt;  [91] 259 263 264 267 271 278 281 282 287 291 295 296 297 300 302 307 309 317
+#&gt; [109] 319 321 325 327 331 337 341   3   4  10  11  15  23  24  31  32  38  39
+#&gt; [127]  41  42  43  45  56  57  58  64  68  77  79  87  93  99 100 102 111 112
+#&gt; [145] 113 115 118 120 124 126 128 132 133 134 135 137 142 143 146 148 149 151
+#&gt; [163] 153 154 155 159 161 164 169 171 174 182 186 189 195 196 197 199 200 203
+#&gt; [181] 204 207 210 215 219 220 223 224 226 227 230 240 242 243 246 247 251 253
+#&gt; [199] 261 266 269 273 274 275 276 277 279 284 286 288 289 290 292 293 301 306
+#&gt; [217] 308 313 314 315 316 318 323 330 335 336 338 343 344</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

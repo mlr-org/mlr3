@@ -231,13 +231,14 @@
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>TaskUnsupervised</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='st'>"iris"</span>, task_type <span class='op'>=</span> <span class='st'>"regr"</span>, backend <span class='op'>=</span> <span class='va'>iris</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; &lt;TaskUnsupervised:iris&gt; (150 x 5)
+    <pre class="examples"><div class='input'><span class='va'>TaskUnsupervised</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='st'>"penguins"</span>, task_type <span class='op'>=</span> <span class='st'>"regr"</span>, backend <span class='op'>=</span> <span class='fu'>palmerpenguins</span><span class='fu'>::</span><span class='va'><a href='https://allisonhorst.github.io/palmerpenguins/reference/penguins.html'>penguins</a></span><span class='op'>)</span>
+</div><div class='output co'>#&gt; &lt;TaskUnsupervised:penguins&gt; (344 x 8)
 #&gt; * Target: -
 #&gt; * Properties: -
-#&gt; * Features (5):
-#&gt;   - dbl (4): Petal.Length, Petal.Width, Sepal.Length, Sepal.Width
-#&gt;   - fct (1): Species</div></pre>
+#&gt; * Features (8):
+#&gt;   - int (3): body_mass_g, flipper_length_mm, year
+#&gt;   - fct (3): island, sex, species
+#&gt;   - dbl (2): bill_depth_mm, bill_length_mm</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -314,16 +314,16 @@ The referenced help package can be opened via method <code>$help()</code>.</p></
 #&gt; * Properties: importance, missings, multiclass, selected_features,
 #&gt;   twoclass, weights</div><div class='input'>
 <span class='co'># train the learner:</span>
-<span class='va'>task</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span><span class='op'>(</span><span class='st'>"iris"</span><span class='op'>)</span>
-<span class='va'>lrn</span><span class='op'>$</span><span class='fu'>train</span><span class='op'>(</span><span class='va'>task</span>, <span class='fl'>1</span><span class='op'>:</span><span class='fl'>120</span><span class='op'>)</span>
+<span class='va'>task</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span><span class='op'>(</span><span class='st'>"penguins"</span><span class='op'>)</span>
+<span class='va'>lrn</span><span class='op'>$</span><span class='fu'>train</span><span class='op'>(</span><span class='va'>task</span>, <span class='fl'>1</span><span class='op'>:</span><span class='fl'>200</span><span class='op'>)</span>
 
 <span class='co'># predict on new observations:</span>
-<span class='va'>lrn</span><span class='op'>$</span><span class='fu'>predict</span><span class='op'>(</span><span class='va'>task</span>, <span class='fl'>121</span><span class='op'>:</span><span class='fl'>150</span><span class='op'>)</span><span class='op'>$</span><span class='va'>confusion</span>
-</div><div class='output co'>#&gt;             truth
-#&gt; response     setosa versicolor virginica
-#&gt;   setosa          0          0         0
-#&gt;   versicolor      0          0         5
-#&gt;   virginica       0          0        25</div></pre>
+<span class='va'>lrn</span><span class='op'>$</span><span class='fu'>predict</span><span class='op'>(</span><span class='va'>task</span>, <span class='fl'>201</span><span class='op'>:</span><span class='fl'>344</span><span class='op'>)</span><span class='op'>$</span><span class='va'>confusion</span>
+</div><div class='output co'>#&gt;            truth
+#&gt; response    Adelie Chinstrap Gentoo
+#&gt;   Adelie         0        62      1
+#&gt;   Chinstrap      0         0      0
+#&gt;   Gentoo         0         6     75</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

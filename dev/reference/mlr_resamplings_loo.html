@@ -249,7 +249,7 @@ provided to instantiate. Is <code>NA</code> if the resampling has not been insta
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Create a task with 10 observations</span>
-<span class='va'>task</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span><span class='op'>(</span><span class='st'>"iris"</span><span class='op'>)</span>
+<span class='va'>task</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span><span class='op'>(</span><span class='st'>"penguins"</span><span class='op'>)</span>
 <span class='va'>task</span><span class='op'>$</span><span class='fu'>filter</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span><span class='op'>)</span>
 
 <span class='co'># Instantiate Resampling</span>
@@ -258,12 +258,12 @@ provided to instantiate. Is <code>NA</code> if the resampling has not been insta
 
 <span class='co'># Individual sets:</span>
 <span class='va'>rcv</span><span class='op'>$</span><span class='fu'>train_set</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 10  4  9  8  2  1  5  3  7</div><div class='input'><span class='va'>rcv</span><span class='op'>$</span><span class='fu'>test_set</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 6</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/sets.html'>intersect</a></span><span class='op'>(</span><span class='va'>rcv</span><span class='op'>$</span><span class='fu'>train_set</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>, <span class='va'>rcv</span><span class='op'>$</span><span class='fu'>test_set</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 1 8 9 5 2 6 7 4 3</div><div class='input'><span class='va'>rcv</span><span class='op'>$</span><span class='fu'>test_set</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 10</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/sets.html'>intersect</a></span><span class='op'>(</span><span class='va'>rcv</span><span class='op'>$</span><span class='fu'>train_set</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>, <span class='va'>rcv</span><span class='op'>$</span><span class='fu'>test_set</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; integer(0)</div><div class='input'>
 <span class='co'># Internal storage:</span>
 <span class='va'>rcv</span><span class='op'>$</span><span class='va'>instance</span> <span class='co'># vector</span>
-</div><div class='output co'>#&gt;  [1]  6 10  4  9  8  2  1  5  3  7</div></pre>
+</div><div class='output co'>#&gt;  [1] 10  1  8  9  5  2  6  7  4  3</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
