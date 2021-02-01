@@ -112,3 +112,11 @@ test_that("empty train/predict sets", {
 test_that("conditions are returned", {
   expect_true(all(c("warnings", "errors") %in% names(rr$score(conditions = TRUE))))
 })
+
+test_that("save/load roundtrip", {
+  path = tempfile()
+  saveRDS(rr, file = path)
+
+  rr2 = readRDS(path)
+  expect_resample_result(rr2)
+})
