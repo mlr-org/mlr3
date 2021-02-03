@@ -55,7 +55,7 @@
 
 <meta property="og:title" content="Benchmark Multiple Learners on Multiple Tasks — benchmark" />
 <meta property="og:description" content="Runs a benchmark on arbitrary combinations of tasks (Task), learners (Learner), and resampling strategies (Resampling), possibly in parallel." />
-<meta property="og:image" content="https://mlr3.mlr-org.com/logo.svg" />
+<meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -257,12 +257,12 @@ or <code>"trace"</code>:</p><pre><span class='fu'>lgr</span><span class='fu'>::<
 <span class='co'>## Data of all resamplings</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table</a></span><span class='op'>(</span><span class='va'>bmr</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;                                   uhash              task
-#&gt; 1: 283006cc-a5ca-4609-b775-00a8582c8f6b &lt;TaskClassif[46]&gt;
-#&gt; 2: 283006cc-a5ca-4609-b775-00a8582c8f6b &lt;TaskClassif[46]&gt;
-#&gt; 3: 283006cc-a5ca-4609-b775-00a8582c8f6b &lt;TaskClassif[46]&gt;
-#&gt; 4: da0f80da-7f15-4b48-8783-546a4ed4fc21 &lt;TaskClassif[46]&gt;
-#&gt; 5: da0f80da-7f15-4b48-8783-546a4ed4fc21 &lt;TaskClassif[46]&gt;
-#&gt; 6: da0f80da-7f15-4b48-8783-546a4ed4fc21 &lt;TaskClassif[46]&gt;
+#&gt; 1: 5ae1681b-4cb0-4f09-974a-39a408b106d3 &lt;TaskClassif[46]&gt;
+#&gt; 2: 5ae1681b-4cb0-4f09-974a-39a408b106d3 &lt;TaskClassif[46]&gt;
+#&gt; 3: 5ae1681b-4cb0-4f09-974a-39a408b106d3 &lt;TaskClassif[46]&gt;
+#&gt; 4: 4282e8b7-239d-43ea-81ee-5a05cc3eb535 &lt;TaskClassif[46]&gt;
+#&gt; 5: 4282e8b7-239d-43ea-81ee-5a05cc3eb535 &lt;TaskClassif[46]&gt;
+#&gt; 6: 4282e8b7-239d-43ea-81ee-5a05cc3eb535 &lt;TaskClassif[46]&gt;
 #&gt;                            learner         resampling iteration
 #&gt; 1: &lt;LearnerClassifFeatureless[34]&gt; &lt;ResamplingCV[19]&gt;         1
 #&gt; 2: &lt;LearnerClassifFeatureless[34]&gt; &lt;ResamplingCV[19]&gt;         2
