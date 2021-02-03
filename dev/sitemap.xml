@@ -385,6 +385,12 @@
     <loc>https://mlr3.mlr-org.com/reference/mlr_tasks_zoo.html</loc>
   </url>
   <url>
+    <loc>https://mlr3.mlr-org.com/reference/new_task_classif.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/new_task_regr.html</loc>
+  </url>
+  <url>
     <loc>https://mlr3.mlr-org.com/reference/predict.Learner.html</loc>
   </url>
   <url>
