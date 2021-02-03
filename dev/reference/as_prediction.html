@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>PredictionData — PredictionData • mlr3</title>
+<title>Convert to a Prediction — as_prediction • mlr3</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -53,19 +53,8 @@
 
 
 
-<meta property="og:title" content="PredictionData — PredictionData" />
-<meta property="og:description" content="Objects of type PredictionData serve as a intermediate representation for objects of type Prediction.
-It is an internal data structure, implemented to optimize runtime and solve some issues emerging while serializing R6 objects.
-End-users typically do not need to worry about the details, package developers are advised to continue reading for some technical information.
-Unlike most other mlr3 objects, PredictionData relies on the S3 class system.
-The following operations must be supported to extend mlr3 for new task types:
-as_prediction_data() converts objects to class PredictionData, e.g. objects of type Prediction.
-as_prediction() converts objects to class Prediction, e.g. objects of type PredictionData.
-check_prediction_data() is called on the return value of the predict method of a Learner to perform assertions and type conversions.
-Returns an update object of class PredictionData.
-is_missing_prediction_data() is used for the fallback learner (see Learner) to impute missing predictions. Returns vector with row ids which need imputation.
-
-" />
+<meta property="og:title" content="Convert to a Prediction — as_prediction" />
+<meta property="og:description" content="Convert object to a Prediction or a list of Prediction." />
 <meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
@@ -165,68 +154,63 @@ is_missing_prediction_data() is used for the fallback learner (see Learner) to i
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>PredictionData</h1>
-    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/PredictionData.R'><code>R/PredictionData.R</code></a>, <a href='https://github.com/mlr-org/mlr3/blob/master/R/PredictionDataClassif.R'><code>R/PredictionDataClassif.R</code></a>, <a href='https://github.com/mlr-org/mlr3/blob/master/R/PredictionDataRegr.R'><code>R/PredictionDataRegr.R</code></a></small>
-    <div class="hidden name"><code>PredictionData.Rd</code></div>
+    <h1>Convert to a Prediction</h1>
+    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/as_prediction.R'><code>R/as_prediction.R</code></a></small>
+    <div class="hidden name"><code>as_prediction.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Objects of type <code>PredictionData</code> serve as a intermediate representation for objects of type <a href='Prediction.html'>Prediction</a>.
-It is an internal data structure, implemented to optimize runtime and solve some issues emerging while serializing R6 objects.
-End-users typically do not need to worry about the details, package developers are advised to continue reading for some technical information.</p>
-<p>Unlike most other <a href='https://CRAN.R-project.org/package=mlr3'><span class="pkg">mlr3</span></a> objects, <code>PredictionData</code> relies on the S3 class system.
-The following operations must be supported to extend mlr3 for new task types:</p><ul>
-<li><p><code><a href='as_prediction_data.html'>as_prediction_data()</a></code> converts objects to class <code>PredictionData</code>, e.g. objects of type <a href='Prediction.html'>Prediction</a>.</p></li>
-<li><p><code><a href='as_prediction.html'>as_prediction()</a></code> converts objects to class <a href='Prediction.html'>Prediction</a>, e.g. objects of type <code>PredictionData</code>.</p></li>
-<li><p><code>check_prediction_data()</code> is called on the return value of the predict method of a <a href='Learner.html'>Learner</a> to perform assertions and type conversions.
-Returns an update object of class <code>PredictionData</code>.</p></li>
-<li><p><code>is_missing_prediction_data()</code> is used for the fallback learner (see <a href='Learner.html'>Learner</a>) to impute missing predictions. Returns vector with row ids which need imputation.</p></li>
-</ul>
-
+    <p>Convert object to a <a href='Prediction.html'>Prediction</a> or a list of <a href='Prediction.html'>Prediction</a>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>check_prediction_data</span><span class='op'>(</span><span class='va'>pdata</span><span class='op'>)</span>
+    <pre class="usage"><span class='fu'>as_prediction</span><span class='op'>(</span><span class='va'>x</span>, check <span class='op'>=</span> <span class='cn'>TRUE</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>is_missing_prediction_data</span><span class='op'>(</span><span class='va'>pdata</span><span class='op'>)</span>
-
-<span class='co'># S3 method for PredictionDataClassif</span>
-<span class='fu'>check_prediction_data</span><span class='op'>(</span><span class='va'>pdata</span><span class='op'>)</span>
+<span class='co'># S3 method for Prediction</span>
+<span class='fu'>as_prediction</span><span class='op'>(</span><span class='va'>x</span>, check <span class='op'>=</span> <span class='cn'>TRUE</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for PredictionDataClassif</span>
-<span class='fu'>is_missing_prediction_data</span><span class='op'>(</span><span class='va'>pdata</span><span class='op'>)</span>
-
-<span class='co'># S3 method for PredictionDataClassif</span>
-<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>...</span>, keep_duplicates <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='fu'>as_prediction</span><span class='op'>(</span><span class='va'>x</span>, check <span class='op'>=</span> <span class='cn'>TRUE</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for PredictionDataRegr</span>
-<span class='fu'>check_prediction_data</span><span class='op'>(</span><span class='va'>pdata</span><span class='op'>)</span>
+<span class='fu'>as_prediction</span><span class='op'>(</span><span class='va'>x</span>, check <span class='op'>=</span> <span class='cn'>TRUE</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='co'># S3 method for PredictionDataRegr</span>
-<span class='fu'>is_missing_prediction_data</span><span class='op'>(</span><span class='va'>pdata</span><span class='op'>)</span>
+<span class='fu'>as_predictions</span><span class='op'>(</span><span class='va'>x</span>, predict_sets <span class='op'>=</span> <span class='st'>"test"</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='co'># S3 method for PredictionDataRegr</span>
-<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>...</span>, keep_duplicates <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
+<span class='co'># S3 method for list</span>
+<span class='fu'>as_predictions</span><span class='op'>(</span><span class='va'>x</span>, predict_sets <span class='op'>=</span> <span class='st'>"test"</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>pdata</th>
-      <td><p>(PredictionData)<br />
-Named list inheriting from <code>"PredictionData"</code>.</p></td>
+      <th>x</th>
+      <td><p>(<code>any</code>)<br />
+Object to convert.</p></td>
+    </tr>
+    <tr>
+      <th>check</th>
+      <td><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
+Perform argument checks and type conversions?</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>(one or more PredictionData objects).</p></td>
+      <td><p>(<code>any</code>)<br />
+Additional arguments.</p></td>
     </tr>
     <tr>
-      <th>keep_duplicates</th>
-      <td><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)
-If <code>TRUE</code>, the combined PredictionData object is filtered for duplicated
-row ids (starting from last).</p></td>
+      <th>predict_sets</th>
+      <td><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
+Prediction sets to operate on, used in <code><a href='https://rdrr.io/r/stats/aggregate.html'>aggregate()</a></code> to extract the matching <code>predict_sets</code> from the <a href='ResampleResult.html'>ResampleResult</a>.
+Multiple predict sets are calculated by the respective <a href='Learner.html'>Learner</a> during <code><a href='resample.html'>resample()</a></code>/<code><a href='benchmark.html'>benchmark()</a></code>.
+Must be a non-empty subset of <code>{"train", "test", "validation"}</code>.
+If multiple sets are provided, these are first combined to a single prediction object.
+Default is <code>"test"</code>.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p><a href='Prediction.html'>Prediction</a>.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
