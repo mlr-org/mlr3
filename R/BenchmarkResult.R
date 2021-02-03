@@ -469,24 +469,3 @@ c.BenchmarkResult = function(...) { # nolint
   init = BenchmarkResult$new()
   Reduce(function(lhs, rhs) lhs$combine(rhs), bmrs, init = init)
 }
-
-#' @title Convert to BenchmarkResult
-#'
-#' @description
-#' Simple S3 method to convert objects to a [BenchmarkResult].
-#'
-#' @param x (`any`)\cr
-#'  Object to dispatch on, e.g. a [ResampleResult].
-#' @param ... (`any`)\cr
-#'  Currently not used.
-#'
-#' @return ([BenchmarkResult]).
-#' @export
-as_benchmark_result = function(x, ...) {
-  UseMethod("as_benchmark_result")
-}
-
-#' @export
-as_benchmark_result.BenchmarkResult = function(x, ...) { # nolint
-  x
-}

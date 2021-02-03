@@ -290,30 +290,3 @@ as.data.table.ResampleResult = function(x, ..., predict_sets = "test") { # nolin
 c.ResampleResult = function(...) {
   do.call(c, lapply(list(...), as_benchmark_result))
 }
-
-#' @title Convert to ResampleResult
-#'
-#' @description
-#' Simple S3 method to convert objects to a [ResampleResult].
-#'
-#' @param x (`any`)\cr
-#'  Object to dispatch on, e.g. a [ResampleResult].
-#' @param ... (`any`)\cr
-#'  Currently not used.
-#'
-#' @return ([ResampleResult]).
-#' @export
-as_resample_result = function(x, ...) {
-  UseMethod("as_resample_result")
-}
-
-#' @rdname as_benchmark_result
-#' @export
-as_benchmark_result.ResampleResult = function(x, ...) { # nolint
-  rdata = x$data$clone(deep = TRUE)
-  if (!is.null(x$view)) {
-    rdata$data$fact = rdata$data$fact[list(x$view), on = "uhash", nomatch = NULL]
-    rdata$sweep()
-  }
-  BenchmarkResult$new(rdata)
-}
