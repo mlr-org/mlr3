@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Convert to ResampleResult — as_resample_result • mlr3</title>
+<title>Convert to a Measure — as_measure • mlr3</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -53,8 +53,8 @@
 
 
 
-<meta property="og:title" content="Convert to ResampleResult — as_resample_result" />
-<meta property="og:description" content="Convert object to a ResampleResult." />
+<meta property="og:title" content="Convert to a Measure — as_measure" />
+<meta property="og:description" content="Convert object to a Measure or a list of Measure." />
 <meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
@@ -154,19 +154,33 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Convert to ResampleResult</h1>
-    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/as_resample_result.R'><code>R/as_resample_result.R</code></a></small>
-    <div class="hidden name"><code>as_resample_result.Rd</code></div>
+    <h1>Convert to a Measure</h1>
+    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/as_measure.R'><code>R/as_measure.R</code></a></small>
+    <div class="hidden name"><code>as_measure.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Convert object to a <a href='ResampleResult.html'>ResampleResult</a>.</p>
+    <p>Convert object to a <a href='Measure.html'>Measure</a> or a list of <a href='Measure.html'>Measure</a>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>as_resample_result</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
+    <pre class="usage"><span class='fu'>as_measure</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='co'># S3 method for ResampleResult</span>
-<span class='fu'>as_resample_result</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+<span class='co'># S3 method for `NULL`</span>
+<span class='fu'>as_measure</span><span class='op'>(</span><span class='va'>x</span>, task_type <span class='op'>=</span> <span class='cn'>NULL</span>, clone <span class='op'>=</span> <span class='cn'>FALSE</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='co'># S3 method for Measure</span>
+<span class='fu'>as_measure</span><span class='op'>(</span><span class='va'>x</span>, clone <span class='op'>=</span> <span class='cn'>FALSE</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='fu'>as_measures</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='co'># S3 method for `NULL`</span>
+<span class='fu'>as_measures</span><span class='op'>(</span><span class='va'>x</span>, task_type <span class='op'>=</span> <span class='cn'>NULL</span>, clone <span class='op'>=</span> <span class='cn'>FALSE</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='co'># S3 method for list</span>
+<span class='fu'>as_measures</span><span class='op'>(</span><span class='va'>x</span>, clone <span class='op'>=</span> <span class='cn'>FALSE</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='co'># S3 method for Measure</span>
+<span class='fu'>as_measures</span><span class='op'>(</span><span class='va'>x</span>, clone <span class='op'>=</span> <span class='cn'>FALSE</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -179,13 +193,24 @@ Object to convert.</p></td>
     <tr>
       <th>...</th>
       <td><p>(<code>any</code>)<br />
-Currently not used.</p></td>
+Additional arguments.</p></td>
+    </tr>
+    <tr>
+      <th>task_type</th>
+      <td><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+Used if <code>x</code> is <code>NULL</code> to construct a default measure for the respective task type.
+The default measures are stored in <code><a href='mlr_reflections.html'>mlr_reflections$default_measures</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>clone</th>
+      <td><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
+If <code>TRUE</code>, ensures that the returned object is not the same as the input <code>x</code>.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>(<a href='ResampleResult.html'>ResampleResult</a>).</p>
+    <p><a href='Measure.html'>Measure</a>.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

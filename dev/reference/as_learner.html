@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Object Coercion — mlr_coercions • mlr3</title>
+<title>Convert to a Learner — as_learner • mlr3</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -53,8 +53,8 @@
 
 
 
-<meta property="og:title" content="Object Coercion — mlr_coercions" />
-<meta property="og:description" content="S3 generics and methods to coerce to (lists of) Task, Learner, Resampling, Measure and Prediction." />
+<meta property="og:title" content="Convert to a Learner — as_learner" />
+<meta property="og:description" content="Convert object to a Learner or a list of Learner." />
 <meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
@@ -154,29 +154,16 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Object Coercion</h1>
-    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/mlr_coercions.R'><code>R/mlr_coercions.R</code></a></small>
-    <div class="hidden name"><code>mlr_coercions.Rd</code></div>
+    <h1>Convert to a Learner</h1>
+    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/as_learner.R'><code>R/as_learner.R</code></a></small>
+    <div class="hidden name"><code>as_learner.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>S3 generics and methods to coerce to (lists of) <a href='Task.html'>Task</a>, <a href='Learner.html'>Learner</a>, <a href='Resampling.html'>Resampling</a>, <a href='Measure.html'>Measure</a> and <a href='Prediction.html'>Prediction</a>.</p>
+    <p>Convert object to a <a href='Learner.html'>Learner</a> or a list of <a href='Learner.html'>Learner</a>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>as_task</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
-
-<span class='co'># S3 method for Task</span>
-<span class='fu'>as_task</span><span class='op'>(</span><span class='va'>x</span>, clone <span class='op'>=</span> <span class='cn'>FALSE</span>, <span class='va'>...</span><span class='op'>)</span>
-
-<span class='fu'>as_tasks</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
-
-<span class='co'># S3 method for list</span>
-<span class='fu'>as_tasks</span><span class='op'>(</span><span class='va'>x</span>, clone <span class='op'>=</span> <span class='cn'>FALSE</span>, <span class='va'>...</span><span class='op'>)</span>
-
-<span class='co'># S3 method for Task</span>
-<span class='fu'>as_tasks</span><span class='op'>(</span><span class='va'>x</span>, clone <span class='op'>=</span> <span class='cn'>FALSE</span>, <span class='va'>...</span><span class='op'>)</span>
-
-<span class='fu'>as_learner</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
+    <pre class="usage"><span class='fu'>as_learner</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for Learner</span>
 <span class='fu'>as_learner</span><span class='op'>(</span><span class='va'>x</span>, clone <span class='op'>=</span> <span class='cn'>FALSE</span>, <span class='va'>...</span><span class='op'>)</span>
@@ -187,39 +174,7 @@
 <span class='fu'>as_learners</span><span class='op'>(</span><span class='va'>x</span>, clone <span class='op'>=</span> <span class='cn'>FALSE</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for Learner</span>
-<span class='fu'>as_learners</span><span class='op'>(</span><span class='va'>x</span>, clone <span class='op'>=</span> <span class='cn'>FALSE</span>, <span class='va'>...</span><span class='op'>)</span>
-
-<span class='fu'>as_resampling</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
-
-<span class='co'># S3 method for Resampling</span>
-<span class='fu'>as_resampling</span><span class='op'>(</span><span class='va'>x</span>, clone <span class='op'>=</span> <span class='cn'>FALSE</span>, <span class='va'>...</span><span class='op'>)</span>
-
-<span class='fu'>as_resamplings</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
-
-<span class='co'># S3 method for list</span>
-<span class='fu'>as_resamplings</span><span class='op'>(</span><span class='va'>x</span>, clone <span class='op'>=</span> <span class='cn'>FALSE</span>, <span class='va'>...</span><span class='op'>)</span>
-
-<span class='co'># S3 method for Resampling</span>
-<span class='fu'>as_resamplings</span><span class='op'>(</span><span class='va'>x</span>, clone <span class='op'>=</span> <span class='cn'>FALSE</span>, <span class='va'>...</span><span class='op'>)</span>
-
-<span class='fu'>as_measure</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
-
-<span class='co'># S3 method for `NULL`</span>
-<span class='fu'>as_measure</span><span class='op'>(</span><span class='va'>x</span>, task_type <span class='op'>=</span> <span class='cn'>NULL</span>, clone <span class='op'>=</span> <span class='cn'>FALSE</span>, <span class='va'>...</span><span class='op'>)</span>
-
-<span class='co'># S3 method for Measure</span>
-<span class='fu'>as_measure</span><span class='op'>(</span><span class='va'>x</span>, clone <span class='op'>=</span> <span class='cn'>FALSE</span>, <span class='va'>...</span><span class='op'>)</span>
-
-<span class='fu'>as_measures</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
-
-<span class='co'># S3 method for `NULL`</span>
-<span class='fu'>as_measures</span><span class='op'>(</span><span class='va'>x</span>, task_type <span class='op'>=</span> <span class='cn'>NULL</span>, clone <span class='op'>=</span> <span class='cn'>FALSE</span>, <span class='va'>...</span><span class='op'>)</span>
-
-<span class='co'># S3 method for list</span>
-<span class='fu'>as_measures</span><span class='op'>(</span><span class='va'>x</span>, clone <span class='op'>=</span> <span class='cn'>FALSE</span>, <span class='va'>...</span><span class='op'>)</span>
-
-<span class='co'># S3 method for Measure</span>
-<span class='fu'>as_measures</span><span class='op'>(</span><span class='va'>x</span>, clone <span class='op'>=</span> <span class='cn'>FALSE</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+<span class='fu'>as_learners</span><span class='op'>(</span><span class='va'>x</span>, clone <span class='op'>=</span> <span class='cn'>FALSE</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -227,44 +182,24 @@
     <tr>
       <th>x</th>
       <td><p>(<code>any</code>)<br />
-Object to coerce.</p></td>
+Object to convert.</p></td>
     </tr>
     <tr>
       <th>...</th>
       <td><p>(<code>any</code>)<br />
-Additional arguments, currently ignored.</p></td>
+Additional arguments.</p></td>
     </tr>
     <tr>
       <th>clone</th>
       <td><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
-If <code>TRUE</code>, ensures that the returned object is not the same as the input <code>x</code>, e.g.
-by cloning it or constructing it from a <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> such as <a href='mlr_learners.html'>mlr_learners</a>.</p></td>
-    </tr>
-    <tr>
-      <th>task_type</th>
-      <td><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
-Used if <code>x</code> is <code>NULL</code> to construct a default measure for the respective task type.
-The default measures are stored in <code><a href='mlr_reflections.html'>mlr_reflections$default_measures</a></code>.</p></td>
+If <code>TRUE</code>, ensures that the returned object is not the same as the input <code>x</code>.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Coerced object. The default method will return the object as-is.
-Failed coercions have to be handled by on of the assertions in <a href='mlr_assertions.html'>mlr_assertions</a>.</p>
+    <p><a href='Learner.html'>Learner</a>.</p>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># convert single measure to list of measures</span>
-<span class='va'>measure</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>msr</a></span><span class='op'>(</span><span class='st'>"classif.ce"</span><span class='op'>)</span>
-<span class='fu'>as_measures</span><span class='op'>(</span><span class='va'>measure</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [[1]]
-#&gt; &lt;MeasureClassifSimple:classif.ce&gt;
-#&gt; * Packages: mlr3measures
-#&gt; * Range: [0, 1]
-#&gt; * Minimize: TRUE
-#&gt; * Properties: -
-#&gt; * Predict type: response
-#&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

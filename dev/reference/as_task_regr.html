@@ -155,7 +155,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Convert to a Regression Task</h1>
-    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/TaskRegr.R'><code>R/TaskRegr.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/as_task_regr.R'><code>R/as_task_regr.R</code></a></small>
     <div class="hidden name"><code>as_task_regr.Rd</code></div>
     </div>
 
@@ -180,7 +180,7 @@
     <tr>
       <th>x</th>
       <td><p>(<code>any</code>)<br />
-Object to convert, e.g. a <code><a href='https://rdrr.io/r/base/data.frame.html'>data.frame()</a></code>.</p></td>
+Object to convert.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -190,8 +190,7 @@ Additional arguments.</p></td>
     <tr>
       <th>clone</th>
       <td><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
-If <code>TRUE</code>, ensures that the returned object is not the same as the input <code>x</code>, e.g.
-by cloning it or constructing it from a <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> such as <a href='mlr_learners.html'>mlr_learners</a>.</p></td>
+If <code>TRUE</code>, ensures that the returned object is not the same as the input <code>x</code>.</p></td>
     </tr>
     <tr>
       <th>target</th>
@@ -207,6 +206,13 @@ Defaults to the (deparsed and substituted) name of <code>x</code>.</p></td>
     </table>
 
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'>as_task_regr</span><span class='op'>(</span><span class='fu'>datasets</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/r/datasets/mtcars.html'>mtcars</a></span>, target <span class='op'>=</span> <span class='st'>"mpg"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; &lt;TaskRegr:datasets::mtcars&gt; (32 x 11)
+#&gt; * Target: mpg
+#&gt; * Properties: -
+#&gt; * Features (10):
+#&gt;   - dbl (10): am, carb, cyl, disp, drat, gear, hp, qsec, vs, wt</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

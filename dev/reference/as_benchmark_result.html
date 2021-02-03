@@ -54,7 +54,7 @@
 
 
 <meta property="og:title" content="Convert to BenchmarkResult — as_benchmark_result" />
-<meta property="og:description" content="Simple S3 method to convert objects to a BenchmarkResult." />
+<meta property="og:description" content="Convert object to a BenchmarkResult." />
 <meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
@@ -155,15 +155,18 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Convert to BenchmarkResult</h1>
-    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/BenchmarkResult.R'><code>R/BenchmarkResult.R</code></a>, <a href='https://github.com/mlr-org/mlr3/blob/master/R/ResampleResult.R'><code>R/ResampleResult.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/as_benchmark_result.R'><code>R/as_benchmark_result.R</code></a></small>
     <div class="hidden name"><code>as_benchmark_result.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Simple S3 method to convert objects to a <a href='BenchmarkResult.html'>BenchmarkResult</a>.</p>
+    <p>Convert object to a <a href='BenchmarkResult.html'>BenchmarkResult</a>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>as_benchmark_result</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='co'># S3 method for BenchmarkResult</span>
+<span class='fu'>as_benchmark_result</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for ResampleResult</span>
 <span class='fu'>as_benchmark_result</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span></pre>
@@ -174,7 +177,7 @@
     <tr>
       <th>x</th>
       <td><p>(<code>any</code>)<br />
-Object to dispatch on, e.g. a <a href='ResampleResult.html'>ResampleResult</a>.</p></td>
+Object to convert on, e.g. a <a href='ResampleResult.html'>ResampleResult</a>.</p></td>
     </tr>
     <tr>
       <th>...</th>
