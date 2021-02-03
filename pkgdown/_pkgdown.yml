@@ -1,4 +1,4 @@
-url: https://mlr3.mlr-org.com
+krl: https://mlr3.mlr-org.com
 
 template:
   package: mlr3pkgdowntemplate
@@ -55,12 +55,14 @@ reference:
       - as_data_backend
   - title: Classification
     contents:
+      - new_task_classif
       - TaskClassif
       - LearnerClassif
       - MeasureClassif
       - PredictionClassif
   - title: Regression
     contents:
+      - new_task_regr
       - TaskRegr
       - LearnerRegr
       - MeasureRegr
