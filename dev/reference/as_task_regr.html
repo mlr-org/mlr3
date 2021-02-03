@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create a New Classification Task — new_task_classif • mlr3</title>
+<title>Convert to a Regression Task — as_task_regr • mlr3</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -53,8 +53,8 @@
 
 
 
-<meta property="og:title" content="Create a New Classification Task — new_task_classif" />
-<meta property="og:description" content="A wrapper around the constructor of TaskClassif." />
+<meta property="og:title" content="Convert to a Regression Task — as_task_regr" />
+<meta property="og:description" content="Convert object to a regression task (TaskRegr)." />
 <meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
@@ -154,25 +154,44 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Create a New Classification Task</h1>
-    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/TaskClassif.R'><code>R/TaskClassif.R</code></a></small>
-    <div class="hidden name"><code>new_task_classif.Rd</code></div>
+    <h1>Convert to a Regression Task</h1>
+    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/TaskRegr.R'><code>R/TaskRegr.R</code></a></small>
+    <div class="hidden name"><code>as_task_regr.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>A wrapper around the constructor of <a href='TaskClassif.html'>TaskClassif</a>.</p>
+    <p>Convert object to a regression task (<a href='TaskRegr.html'>TaskRegr</a>).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>new_task_classif</span><span class='op'>(</span><span class='va'>backend</span>, <span class='va'>target</span>, id <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/deparse.html'>deparse</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/substitute.html'>substitute</a></span><span class='op'>(</span><span class='va'>backend</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>as_task_regr</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='co'># S3 method for TaskRegr</span>
+<span class='fu'>as_task_regr</span><span class='op'>(</span><span class='va'>x</span>, clone <span class='op'>=</span> <span class='cn'>FALSE</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='co'># S3 method for data.frame</span>
+<span class='fu'>as_task_regr</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>target</span>, id <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/deparse.html'>deparse</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/substitute.html'>substitute</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>)</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='co'># S3 method for DataBackend</span>
+<span class='fu'>as_task_regr</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>target</span>, id <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/deparse.html'>deparse</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/substitute.html'>substitute</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>)</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>backend</th>
-      <td><p>(<a href='DataBackend.html'>DataBackend</a>)<br />
-Either a <a href='DataBackend.html'>DataBackend</a>, or any object which is convertible to a <a href='DataBackend.html'>DataBackend</a> with <code><a href='as_data_backend.data.frame.html'>as_data_backend()</a></code>.
-E.g., a <code><a href='https://rdrr.io/r/base/data.frame.html'>data.frame()</a></code> will be converted to a <a href='DataBackendDataTable.html'>DataBackendDataTable</a>.</p></td>
+      <th>x</th>
+      <td><p>(<code>any</code>)<br />
+Object to convert, e.g. a <code><a href='https://rdrr.io/r/base/data.frame.html'>data.frame()</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>(<code>any</code>)<br />
+Additional arguments.</p></td>
+    </tr>
+    <tr>
+      <th>clone</th>
+      <td><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
+If <code>TRUE</code>, ensures that the returned object is not the same as the input <code>x</code>, e.g.
+by cloning it or constructing it from a <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> such as <a href='mlr_learners.html'>mlr_learners</a>.</p></td>
     </tr>
     <tr>
       <th>target</th>
@@ -182,15 +201,12 @@ Name of the target column.</p></td>
     <tr>
       <th>id</th>
       <td><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
-Identifier for the new task.
-Defaults to the (deparsed and substituted) name of <code>backend</code>.</p></td>
+Id for the new task.
+Defaults to the (deparsed and substituted) name of <code>x</code>.</p></td>
     </tr>
     </table>
 
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>task</span> <span class='op'>=</span> <span class='fu'>new_task_classif</span><span class='op'>(</span><span class='fu'>palmerpenguins</span><span class='fu'>::</span><span class='va'><a href='https://allisonhorst.github.io/palmerpenguins/reference/penguins.html'>penguins</a></span>, target <span class='op'>=</span> <span class='st'>"species"</span><span class='op'>)</span>
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

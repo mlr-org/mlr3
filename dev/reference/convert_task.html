@@ -171,43 +171,21 @@
   drop_levels <span class='op'>=</span> <span class='cn'>TRUE</span>
 <span class='op'>)</span>
 
-<span class='fu'>as_task_classif</span><span class='op'>(</span><span class='va'>x</span>, target <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span>
-
 <span class='co'># S3 method for TaskRegr</span>
-<span class='fu'>as_task_classif</span><span class='op'>(</span>
+<span class='fu'><a href='as_task_classif.html'>as_task_classif</a></span><span class='op'>(</span>
   <span class='va'>x</span>,
   target <span class='op'>=</span> <span class='cn'>NULL</span>,
   drop_original_target <span class='op'>=</span> <span class='cn'>FALSE</span>,
   drop_levels <span class='op'>=</span> <span class='cn'>TRUE</span>,
   <span class='va'>...</span>
 <span class='op'>)</span>
-
-<span class='co'># S3 method for data.frame</span>
-<span class='fu'>as_task_classif</span><span class='op'>(</span>
-  <span class='va'>x</span>,
-  target <span class='op'>=</span> <span class='cn'>NULL</span>,
-  id <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/deparse.html'>deparse</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/substitute.html'>substitute</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>)</span>,
-  positive <span class='op'>=</span> <span class='cn'>NULL</span>,
-  <span class='va'>...</span>
-<span class='op'>)</span>
-
-<span class='fu'>as_task_regr</span><span class='op'>(</span><span class='va'>x</span>, target <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for TaskClassif</span>
-<span class='fu'>as_task_regr</span><span class='op'>(</span>
+<span class='fu'><a href='as_task_regr.html'>as_task_regr</a></span><span class='op'>(</span>
   <span class='va'>x</span>,
   target <span class='op'>=</span> <span class='cn'>NULL</span>,
   drop_original_target <span class='op'>=</span> <span class='cn'>FALSE</span>,
   drop_levels <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  <span class='va'>...</span>
-<span class='op'>)</span>
-
-<span class='co'># S3 method for data.frame</span>
-<span class='fu'>as_task_regr</span><span class='op'>(</span>
-  <span class='va'>x</span>,
-  target <span class='op'>=</span> <span class='cn'>NULL</span>,
-  id <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/deparse.html'>deparse</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/substitute.html'>substitute</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>)</span>,
-  positive <span class='op'>=</span> <span class='cn'>NULL</span>,
   <span class='va'>...</span>
 <span class='op'>)</span></pre>
 
@@ -250,17 +228,7 @@ Object to convert.</p></td>
     <tr>
       <th>...</th>
       <td><p>(<code>any</code>)<br />
-Additional arguments, currently ignored.</p></td>
-    </tr>
-    <tr>
-      <th>id</th>
-      <td><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
-Id for the new task.</p></td>
-    </tr>
-    <tr>
-      <th>positive</th>
-      <td><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
-Level of the positive class. See <a href='TaskClassif.html'>TaskClassif</a>.</p></td>
+Additional arguments</p></td>
     </tr>
     </table>
 
