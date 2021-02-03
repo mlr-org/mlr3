@@ -664,7 +664,8 @@ Task = R6Class("Task",
     #' * `"uri"`: URI pointing to an external resource, e.g., images on the file system.
     #'
     #' `col_roles` is a named list whose elements are named by column role and each element is a `character()` vector of column names.
-    #'   To alter the roles, just modify the list, e.g. with \R's set functions ([intersect()], [setdiff()], [union()], \ldots).
+    #' To alter the roles, just modify the list, e.g. with \R's set functions ([intersect()], [setdiff()], [union()], \ldots).
+    #' The method `$set_col_roles` provides a convenient alternative to assign columns to roles.
     col_roles = function(rhs) {
       if (missing(rhs)) {
         return(private$.col_roles)

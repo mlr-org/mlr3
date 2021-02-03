@@ -185,7 +185,8 @@ Note that only up to one column may have this role.
 }
 
 \code{col_roles} is a named list whose elements are named by column role and each element is a \code{character()} vector of column names.
-To alter the roles, just modify the list, e.g. with \R's set functions (\code{\link[=intersect]{intersect()}}, \code{\link[=setdiff]{setdiff()}}, \code{\link[=union]{union()}}, \ldots).}
+To alter the roles, just modify the list, e.g. with \R's set functions (\code{\link[=intersect]{intersect()}}, \code{\link[=setdiff]{setdiff()}}, \code{\link[=union]{union()}}, \ldots).
+The method \verb{$set_col_roles} provides a convenient alternative to assign columns to roles.}
 
 \item{\code{nrow}}{(\code{integer(1)})\cr
 Returns the total number of rows with role "use".}

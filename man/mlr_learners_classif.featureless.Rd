@@ -10,7 +10,7 @@ Hyperparameter \code{method} determines the mode of operation during prediction:
 \describe{
 \item{mode:}{Predicts the most frequent label. If there are two or more labels tied, randomly selects one per prediction.}
 \item{sample:}{Randomly predict a label uniformly.}
-\item{weighed.sample:}{Randomly predict a label, with probability estimated from the training distribution.}
+\item{weighted.sample:}{Randomly predict a label, with probability estimated from the training distribution.}
 }
 }
 \section{Dictionary}{

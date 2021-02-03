@@ -227,3 +227,18 @@ test_that("integer<->numeric conversion in newdata (#533)", {
   expect_prediction(learner$predict_newdata(data))
   expect_prediction(learner$predict_newdata(newdata))
 })
+
+test_that("weights", {
+  data = cbind(iris, w = rep(c(1, 100, 1), each = 50))
+  task = TaskClassif$new("weighted_task", data, "Species")
+  task$set_col_roles("w", "weight")
+
+  learner = lrn("classif.rpart")
+  learner$train(task)
+
+  conf = learner$predict(task)$confusion
+  expect_equal(unname(conf[, 2]), c(0, 50, 0)) # no errors in class with weight 100
+
+  expect_prediction(learner$predict_newdata(data[1:3, ]))
+  expect_prediction(learner$predict_newdata(iris[1:3, ]))
+})
