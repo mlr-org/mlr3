@@ -54,7 +54,13 @@
 
 
 <meta property="og:title" content="Convert to a Regression Task — as_task_regr" />
-<meta property="og:description" content="Convert object to a regression task (TaskRegr)." />
+<meta property="og:description" content="Convert object to a TaskRegr.
+This is a S3 generic, specialized for at least the following objects:
+TaskRegr: ensure the identity
+data.frame() and DataBackend: provides an alternative to the constructor of TaskRegr.
+TaskClassif: Calls convert_task().
+
+" />
 <meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
@@ -160,7 +166,13 @@
     </div>
 
     <div class="ref-description">
-    <p>Convert object to a regression task (<a href='TaskRegr.html'>TaskRegr</a>).</p>
+    <p>Convert object to a <a href='TaskRegr.html'>TaskRegr</a>.
+This is a S3 generic, specialized for at least the following objects:</p><ol>
+<li><p><a href='TaskRegr.html'>TaskRegr</a>: ensure the identity</p></li>
+<li><p><code><a href='https://rdrr.io/r/base/data.frame.html'>data.frame()</a></code> and <a href='DataBackend.html'>DataBackend</a>: provides an alternative to the constructor of <a href='TaskRegr.html'>TaskRegr</a>.</p></li>
+<li><p><a href='TaskClassif.html'>TaskClassif</a>: Calls <code><a href='convert_task.html'>convert_task()</a></code>.</p></li>
+</ol>
+
     </div>
 
     <pre class="usage"><span class='fu'>as_task_regr</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
@@ -172,7 +184,16 @@
 <span class='fu'>as_task_regr</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>target</span>, id <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/deparse.html'>deparse</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/substitute.html'>substitute</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>)</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for DataBackend</span>
-<span class='fu'>as_task_regr</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>target</span>, id <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/deparse.html'>deparse</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/substitute.html'>substitute</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>)</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+<span class='fu'>as_task_regr</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>target</span>, id <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/deparse.html'>deparse</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/substitute.html'>substitute</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>)</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='co'># S3 method for TaskClassif</span>
+<span class='fu'>as_task_regr</span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  target <span class='op'>=</span> <span class='cn'>NULL</span>,
+  drop_original_target <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  drop_levels <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -203,8 +224,22 @@ Name of the target column.</p></td>
 Id for the new task.
 Defaults to the (deparsed and substituted) name of <code>x</code>.</p></td>
     </tr>
+    <tr>
+      <th>drop_original_target</th>
+      <td><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
+If <code>FALSE</code> (default), the original target is added as a feature.
+Otherwise the original target is dropped.</p></td>
+    </tr>
+    <tr>
+      <th>drop_levels</th>
+      <td><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
+If <code>TRUE</code> (default), unused levels of the new target variable are dropped.</p></td>
+    </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p><a href='TaskRegr.html'>TaskRegr</a>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>as_task_regr</span><span class='op'>(</span><span class='fu'>datasets</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/r/datasets/mtcars.html'>mtcars</a></span>, target <span class='op'>=</span> <span class='st'>"mpg"</span><span class='op'>)</span>

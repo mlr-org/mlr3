@@ -417,21 +417,15 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="convert_task.html">convert_task()</a></code> <code><a href="convert_task.html">as_task_classif(<i>&lt;TaskRegr&gt;</i>)</a></code> <code><a href="convert_task.html">as_task_regr(<i>&lt;TaskClassif&gt;</i>)</a></code> </p>
+          <p><code><a href="as_task.html">as_task()</a></code> <code><a href="as_task.html">as_tasks()</a></code> </p>
+        </td>
+        <td><p>Convert to a Task</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="convert_task.html">convert_task()</a></code> </p>
         </td>
         <td><p>Convert a Task from One Type to Another</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="as_task_classif.html">as_task_classif()</a></code> </p>
-        </td>
-        <td><p>Convert to a Classification Task</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="as_task_regr.html">as_task_regr()</a></code> </p>
-        </td>
-        <td><p>Convert to a Regression Task</p></td>
       </tr>
     </tbody><tbody>
       <tr>
@@ -560,6 +554,12 @@
           <p><code><a href="mlr_learners_regr.rpart.html">mlr_learners_regr.rpart</a></code> </p>
         </td>
         <td><p>Regression Tree Learner</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="as_learner.html">as_learner()</a></code> <code><a href="as_learner.html">as_learners()</a></code> </p>
+        </td>
+        <td><p>Convert to a Learner</p></td>
       </tr>
     </tbody><tbody>
       <tr>
@@ -897,6 +897,12 @@
           <p><code><a href="default_measures.html">default_measures()</a></code> </p>
         </td>
         <td><p>Get a Default Measure</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="as_measure.html">as_measure()</a></code> <code><a href="as_measure.html">as_measures()</a></code> </p>
+        </td>
+        <td><p>Convert to a Measure</p></td>
       </tr>
     </tbody><tbody>
       <tr>
@@ -964,6 +970,12 @@
           <p><code><a href="mlr_resamplings_subsampling.html">mlr_resamplings_subsampling</a></code> </p>
         </td>
         <td><p>Subsampling Resampling</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="as_resampling.html">as_resampling()</a></code> <code><a href="as_resampling.html">as_resamplings()</a></code> </p>
+        </td>
+        <td><p>Convert to a Resampling</p></td>
       </tr>
     </tbody><tbody>
       <tr>
@@ -992,15 +1004,15 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="as_resample_result.html">as_resample_result()</a></code> </p>
-        </td>
-        <td><p>Convert to ResampleResult</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="as_result_data.html">as_result_data()</a></code> </p>
         </td>
         <td><p>Convert to ResultData</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="as_resample_result.html">as_resample_result()</a></code> </p>
+        </td>
+        <td><p>Convert to ResampleResult</p></td>
       </tr>
     </tbody><tbody>
       <tr>
@@ -1035,15 +1047,40 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="as_benchmark_result.html">as_benchmark_result()</a></code> </p>
-        </td>
-        <td><p>Convert to BenchmarkResult</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="as_result_data.html">as_result_data()</a></code> </p>
         </td>
         <td><p>Convert to ResultData</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="as_benchmark_result.html">as_benchmark_result()</a></code> </p>
+        </td>
+        <td><p>Convert to BenchmarkResult</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-internal-objects-and-functions" class="hasAnchor"><a href="#section-internal-objects-and-functions" class="anchor"></a>Internal Objects and Functions</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="ResultData.html">ResultData</a></code> </p>
+        </td>
+        <td><p>ResultData</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="PredictionData.html">check_prediction_data()</a></code> <code><a href="PredictionData.html">is_missing_prediction_data()</a></code> <code><a href="PredictionData.html">c(<i>&lt;PredictionDataClassif&gt;</i>)</a></code> <code><a href="PredictionData.html">c(<i>&lt;PredictionDataRegr&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Convert to PredictionData</p></td>
       </tr>
     </tbody><tbody>
       <tr>
@@ -1129,12 +1166,6 @@
           <p><code><a href="as_task_regr.html">as_task_regr()</a></code> </p>
         </td>
         <td><p>Convert to a Regression Task</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="convert_task.html">convert_task()</a></code> <code><a href="convert_task.html">as_task_classif(<i>&lt;TaskRegr&gt;</i>)</a></code> <code><a href="convert_task.html">as_task_regr(<i>&lt;TaskClassif&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>Convert a Task from One Type to Another</p></td>
       </tr>
     </tbody><tbody>
       <tr>
@@ -1172,18 +1203,6 @@
           <p><code><a href="predict.Learner.html">predict(<i>&lt;Learner&gt;</i>)</a></code> </p>
         </td>
         <td><p>Predict Method for Learners</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="ResultData.html">ResultData</a></code> </p>
-        </td>
-        <td><p>ResultData</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="PredictionData.html">check_prediction_data()</a></code> <code><a href="PredictionData.html">is_missing_prediction_data()</a></code> <code><a href="PredictionData.html">c(<i>&lt;PredictionDataClassif&gt;</i>)</a></code> <code><a href="PredictionData.html">c(<i>&lt;PredictionDataRegr&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>PredictionData</p></td>
       </tr>
     </tbody>
     </table>

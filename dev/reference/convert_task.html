@@ -169,24 +169,6 @@
   new_type <span class='op'>=</span> <span class='cn'>NULL</span>,
   drop_original_target <span class='op'>=</span> <span class='cn'>FALSE</span>,
   drop_levels <span class='op'>=</span> <span class='cn'>TRUE</span>
-<span class='op'>)</span>
-
-<span class='co'># S3 method for TaskRegr</span>
-<span class='fu'><a href='as_task_classif.html'>as_task_classif</a></span><span class='op'>(</span>
-  <span class='va'>x</span>,
-  target <span class='op'>=</span> <span class='cn'>NULL</span>,
-  drop_original_target <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  drop_levels <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  <span class='va'>...</span>
-<span class='op'>)</span>
-
-<span class='co'># S3 method for TaskClassif</span>
-<span class='fu'><a href='as_task_regr.html'>as_task_regr</a></span><span class='op'>(</span>
-  <span class='va'>x</span>,
-  target <span class='op'>=</span> <span class='cn'>NULL</span>,
-  drop_original_target <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  drop_levels <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  <span class='va'>...</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -219,16 +201,6 @@ Otherwise the original target is dropped.</p></td>
       <th>drop_levels</th>
       <td><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
 If <code>TRUE</code> (default), unused levels of the new target variable are dropped.</p></td>
-    </tr>
-    <tr>
-      <th>x</th>
-      <td><p>(<code>any</code>)<br />
-Object to convert.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>(<code>any</code>)<br />
-Additional arguments</p></td>
     </tr>
     </table>
 
