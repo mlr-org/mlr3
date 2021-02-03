@@ -48,6 +48,12 @@ Otherwise the original target is dropped.}
 
 \item{drop_levels}{(\code{logical(1)})\cr
 If \code{TRUE} (default), unused levels of the new target variable are dropped.}
+
+\item{x}{(\code{any})\cr
+Object to convert.}
+
+\item{...}{(\code{any})\cr
+Additional arguments}
 }
 \value{
 \link{Task} of requested type.

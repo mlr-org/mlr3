@@ -26,53 +26,56 @@
 \alias{as_measures.Measure}
 \title{Object Coercion}
 \usage{
-as_task(x, clone = FALSE)
+as_task(x, ...)
 
-\method{as_task}{Task}(x, clone = FALSE)
+\method{as_task}{Task}(x, clone = FALSE, ...)
 
-as_tasks(x, clone = FALSE)
+as_tasks(x, ...)
 
-\method{as_tasks}{list}(x, clone = FALSE)
+\method{as_tasks}{list}(x, clone = FALSE, ...)
 
-\method{as_tasks}{Task}(x, clone = FALSE)
+\method{as_tasks}{Task}(x, clone = FALSE, ...)
 
-as_learner(x, clone = FALSE)
+as_learner(x, ...)
 
-\method{as_learner}{Learner}(x, clone = FALSE)
+\method{as_learner}{Learner}(x, clone = FALSE, ...)
 
-as_learners(x, clone = FALSE)
+as_learners(x, clone = FALSE, ...)
 
-\method{as_learners}{list}(x, clone = FALSE)
+\method{as_learners}{list}(x, clone = FALSE, ...)
 
-\method{as_learners}{Learner}(x, clone = FALSE)
+\method{as_learners}{Learner}(x, clone = FALSE, ...)
 
-as_resampling(x, clone = FALSE)
+as_resampling(x, ...)
 
-\method{as_resampling}{Resampling}(x, clone = FALSE)
+\method{as_resampling}{Resampling}(x, clone = FALSE, ...)
 
-as_resamplings(x, clone = FALSE)
+as_resamplings(x, ...)
 
-\method{as_resamplings}{list}(x, clone = FALSE)
+\method{as_resamplings}{list}(x, clone = FALSE, ...)
 
-\method{as_resamplings}{Resampling}(x, clone = FALSE)
+\method{as_resamplings}{Resampling}(x, clone = FALSE, ...)
 
-as_measure(x, task_type = NULL, clone = FALSE)
+as_measure(x, ...)
 
-\method{as_measure}{`NULL`}(x, task_type = NULL, clone = FALSE)
+\method{as_measure}{`NULL`}(x, task_type = NULL, clone = FALSE, ...)
 
-\method{as_measure}{Measure}(x, task_type = NULL, clone = FALSE)
+\method{as_measure}{Measure}(x, clone = FALSE, ...)
 
-as_measures(x, task_type = NULL, clone = FALSE)
+as_measures(x, ...)
 
-\method{as_measures}{`NULL`}(x, task_type = NULL, clone = FALSE)
+\method{as_measures}{`NULL`}(x, task_type = NULL, clone = FALSE, ...)
 
-\method{as_measures}{list}(x, task_type = NULL, clone = FALSE)
+\method{as_measures}{list}(x, clone = FALSE, ...)
 
-\method{as_measures}{Measure}(x, task_type = NULL, clone = FALSE)
+\method{as_measures}{Measure}(x, clone = FALSE, ...)
 }
 \arguments{
 \item{x}{(\code{any})\cr
 Object to coerce.}
+
+\item{...}{(\code{any})\cr
+Additional arguments, currently ignored.}
 
 \item{clone}{(\code{logical(1)})\cr
 If \code{TRUE}, ensures that the returned object is not the same as the input \code{x}, e.g.

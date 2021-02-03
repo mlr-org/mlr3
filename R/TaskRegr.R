@@ -88,6 +88,7 @@ as_task_regr.data.frame = function(x, target, id = deparse(substitute(x)), ...) 
   TaskRegr$new(id = id, backend = x, target = target)
 }
 
+
 #' @rdname as_task_regr
 #' @export
 as_task_regr.DataBackend = function(x, target, id = deparse(substitute(x)), ...) { # nolint
