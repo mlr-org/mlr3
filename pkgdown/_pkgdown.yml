@@ -99,12 +99,14 @@ reference:
       - BenchmarkResult
       - as_benchmark_result
       - as_result_data
+  - title: Converters
+    contents:
+      - starts_with("as_")
   - title: Extending mlr3
     contents:
-      - ResultData
       - mlr_assertions
-      - mlr_coercions
       - mlr_reflections
       - mlr_sugar
       - predict.Learner
+      - ResultData
       - PredictionData
