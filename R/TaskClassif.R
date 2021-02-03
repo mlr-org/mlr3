@@ -39,9 +39,9 @@ TaskClassif = R6Class("TaskClassif",
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
+    #' The function [new_task_classif()] wraps this constructor.
     #'
-    #' @param target (`character(1)`)\cr
-    #'   Name of the target column.
+    #' @template param_target
     #'
     #' @param positive (`character(1)`)\cr
     #'   Only for binary classification: Name of the positive class.
@@ -150,3 +150,21 @@ TaskClassif = R6Class("TaskClassif",
     }
   )
 )
+
+
+#' @title Create a New Classification Task
+#'
+#' @description
+#' A wrapper around the constructor of [TaskClassif].
+#'
+#' @template param_backend
+#' @template param_target
+#' @param id (`character(1)`)\cr
+#'   Identifier for the new task.
+#'   Defaults to the (deparsed and substituted) name of `backend`.
+#' @export
+#' @examples
+#' task = new_task_classif(palmerpenguins::penguins, target = "species")
+new_task_classif = function(backend, target, id = deparse(substitute(backend))) {
+  TaskClassif$new(id = id, backend = backend, target = target)
+}

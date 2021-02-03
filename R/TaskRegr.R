@@ -29,9 +29,9 @@ TaskRegr = R6Class("TaskRegr",
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
+    #' The function [new_task_regr()] wraps this constructor.
     #'
-    #' @param target (`character(1)`)\cr
-    #'   Name of the target column.
+    #' @template param_target
     #' @template param_extra_args
     initialize = function(id, backend, target, extra_args = list()) {
       assert_string(target)
@@ -54,3 +54,20 @@ TaskRegr = R6Class("TaskRegr",
     }
   )
 )
+
+#' @title Create a New Regression Task
+#'
+#' @description
+#' A wrapper around the constructor of [TaskRegr].
+#'
+#' @template param_backend
+#' @template param_target
+#' @param id (`character(1)`)\cr
+#'   Identifier for the new task.
+#'   Defaults to the (deparsed and substituted) name of `backend`.
+#' @export
+#' @examples
+#' task = new_task_regr(mtcars, target = "mpg")
+new_task_regr = function(backend, target, id = deparse(substitute(backend))) {
+  TaskRegr$new(id = id, backend = backend, target = target)
+}
