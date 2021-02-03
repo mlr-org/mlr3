@@ -9,10 +9,10 @@
 \source{
 \url{https://en.wikipedia.org/wiki/Iris_flower_data_set}
 
-Fisher RA (1936).
-\dQuote{The Use of Multiple Measurements in Taxonomic Problems.}
-\emph{Annals of Eugenics}, \bold{7}(2), 179--188.
-\doi{10.1111/j.1469-1809.1936.tb02137.x}.
+Anderson E (1936).
+\dQuote{The Species Problem in Iris.}
+\emph{Annals of the Missouri Botanical Garden}, \bold{23}(3), 457.
+\doi{10.2307/2394164}, \url{https://doi.org/10.2307/2394164}.
 }
 \description{
 A classification task for the popular \link[datasets:iris]{datasets::iris} data set.

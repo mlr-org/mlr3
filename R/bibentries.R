@@ -1,5 +1,19 @@
 #' @importFrom utils bibentry
 bibentries = c(
+  anderson_1936 = bibentry("article",
+    doi       = "10.2307/2394164",
+    url       = "https://doi.org/10.2307/2394164",
+    year      = "1936",
+    month     = "9",
+    publisher = "JSTOR",
+    volume    = "23",
+    number    = "3",
+    pages     = "457",
+    author    = "Edgar Anderson",
+    title     = "The Species Problem in Iris",
+    journal   = "Annals of the Missouri Botanical Garden"
+  ),
+
   bischl_2012 = bibentry("article",
     title = "Resampling Methods for Meta-Model Validation with Recommendations for Evolutionary Computation",
     author       = "Bernd Bischl and Olaf Mersmann and Heike Trautmann and Claus Weihs",
@@ -27,19 +41,6 @@ bibentries = c(
     year         = "2017",
     url          = "http://archive.ics.uci.edu/ml/",
     institution  = "University of California, Irvine, School of Information and Computer Sciences"
-  ),
-
-  fisher_1936 = bibentry("article",
-    title        = "The Use of Multiple Measurements in Taxonomic Problems",
-    author       = "R. A. Fisher",
-    year         = "1936",
-    month        = "sep",
-    journal      = "Annals of Eugenics",
-    publisher    = "Wiley",
-    volume       = "7",
-    number       = "2",
-    pages        = "179--188",
-    doi          = "10.1111/j.1469-1809.1936.tb02137.x"
   ),
 
   gorman2014 = bibentry("article",
