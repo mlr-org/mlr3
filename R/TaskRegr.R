@@ -58,6 +58,10 @@ TaskRegr = R6Class("TaskRegr",
 
 
 #' @title Convert to a Regression Task
+#'
+#' @description
+#' Convert object to a regression task ([TaskRegr]).
+#'
 #' @param x (`any`)\cr
 #'   Object to convert, e.g. a `data.frame()`.
 #' @param ... (`any`)\cr

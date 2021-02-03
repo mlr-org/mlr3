@@ -103,7 +103,7 @@ Stores the negative class for binary classification tasks, and \code{NA} for mul
 \if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
-The function \code{\link[=as_task_regr]{as_task_regr()}} provides an alternative way to construct classification tasks.
+The function \code{\link[=as_task_classif]{as_task_classif()}} provides an alternative way to construct classification tasks.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{TaskClassif$new(id, backend, target, positive = NULL, extra_args = list())}\if{html}{\out{</div>}}
 }

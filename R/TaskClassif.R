@@ -39,7 +39,7 @@ TaskClassif = R6Class("TaskClassif",
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    #' The function [as_task_regr()] provides an alternative way to construct classification tasks.
+    #' The function [as_task_classif()] provides an alternative way to construct classification tasks.
     #'
     #' @template param_target
     #'
@@ -152,6 +152,10 @@ TaskClassif = R6Class("TaskClassif",
 )
 
 #' @title Convert to a Classification Task
+#'
+#' @description
+#' Convert object to a classification task ([TaskClassif]).
+#'
 #' @param x (`any`)\cr
 #'   Object to convert, e.g. a `data.frame()`.
 #' @param ... (`any`)\cr
