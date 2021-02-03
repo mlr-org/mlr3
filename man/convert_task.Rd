@@ -2,8 +2,6 @@
 % Please edit documentation in R/task_converters.R
 \name{convert_task}
 \alias{convert_task}
-\alias{as_task_classif.TaskRegr}
-\alias{as_task_regr.TaskClassif}
 \title{Convert a Task from One Type to Another}
 \usage{
 convert_task(
@@ -12,22 +10,6 @@ convert_task(
   new_type = NULL,
   drop_original_target = FALSE,
   drop_levels = TRUE
-)
-
-\method{as_task_classif}{TaskRegr}(
-  x,
-  target = NULL,
-  drop_original_target = FALSE,
-  drop_levels = TRUE,
-  ...
-)
-
-\method{as_task_regr}{TaskClassif}(
-  x,
-  target = NULL,
-  drop_original_target = FALSE,
-  drop_levels = TRUE,
-  ...
 )
 }
 \arguments{
@@ -48,12 +30,6 @@ Otherwise the original target is dropped.}
 
 \item{drop_levels}{(\code{logical(1)})\cr
 If \code{TRUE} (default), unused levels of the new target variable are dropped.}
-
-\item{x}{(\code{any})\cr
-Object to convert.}
-
-\item{...}{(\code{any})\cr
-Additional arguments}
 }
 \value{
 \link{Task} of requested type.

@@ -11,7 +11,7 @@
 \alias{check_prediction_data.PredictionDataRegr}
 \alias{is_missing_prediction_data.PredictionDataRegr}
 \alias{c.PredictionDataRegr}
-\title{PredictionData}
+\title{Convert to PredictionData}
 \usage{
 check_prediction_data(pdata)
 

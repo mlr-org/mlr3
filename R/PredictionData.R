@@ -1,4 +1,4 @@
-#' @title PredictionData
+#' @title Convert to PredictionData
 #'
 #' @name PredictionData
 #' @rdname PredictionData

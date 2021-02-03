@@ -55,21 +55,3 @@ convert_task = function(intask, target = NULL, new_type = NULL, drop_original_ta
 
   newtask
 }
-
-
-#' @rdname convert_task
-#' @param x (`any`)\cr
-#'   Object to convert.
-#' @param ... (`any`)\cr
-#'   Additional arguments
-#' @export
-as_task_classif.TaskRegr = function(x, target = NULL, drop_original_target = FALSE, drop_levels = TRUE, ...) { # nolint
-  convert_task(intask = x, target = target, new_type = "classif", drop_original_target = FALSE, drop_levels = TRUE)
-}
-
-
-#' @export
-#' @rdname convert_task
-as_task_regr.TaskClassif = function(x, target = NULL, drop_original_target = FALSE, drop_levels = TRUE, ...) { # nolint
-  convert_task(intask = x, target = target, new_type = "regr", drop_original_target = FALSE, drop_levels = TRUE)
-}
