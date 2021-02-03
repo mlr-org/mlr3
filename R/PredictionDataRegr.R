@@ -1,11 +1,5 @@
 #' @rdname PredictionData
 #' @export
-as_prediction.PredictionDataRegr = function(x, check = TRUE) { # nolint
-  invoke(PredictionRegr$new, check = check, .args = x)
-}
-
-#' @rdname PredictionData
-#' @export
 check_prediction_data.PredictionDataRegr = function(pdata) { # nolint
   pdata$row_ids = assert_row_ids(pdata$row_ids)
   n = length(pdata$row_ids)

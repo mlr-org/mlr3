@@ -2,7 +2,7 @@
 % Please edit documentation in R/as_result_data.R
 \name{as_result_data}
 \alias{as_result_data}
-\title{Manually construct an object of type ResultData}
+\title{Convert to ResultData}
 \usage{
 as_result_data(
   task,
@@ -36,11 +36,12 @@ removed.}
 \code{ResultData} object which can be passed to the constructor of \link{ResampleResult}.
 }
 \description{
-This function allows to manually construct a \link{ResampleResult} or \link{BenchmarkResult} by combining
-the individual components to an object of class \link{ResultData}, mlr3's internal container object for results.
-A \link{ResampleResult} or \link{BenchmarkResult} can then be initialized with the returned object.
+This function allows to construct or convert to a \link{ResultData} object, the
+result container used by \link{ResampleResult} and \link{BenchmarkResult}.
+A \link{ResampleResult} or \link{BenchmarkResult} can be initialized with the returned object.
 Note that \link{ResampleResult}s can be converted to a \link{BenchmarkResult} with \code{\link[=as_benchmark_result]{as_benchmark_result()}}
-and multiple \link{BenchmarkResult}s can be combined to a larger \link{BenchmarkResult}.
+and multiple \link{BenchmarkResult}s can be combined to a larger \link{BenchmarkResult} with the
+\verb{$combine()} method of \link{BenchmarkResult}.
 }
 \examples{
 task = tsk("penguins")

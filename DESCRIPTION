@@ -169,6 +169,8 @@ Collate:
     'as_data_backend.R'
     'as_learner.R'
     'as_measure.R'
+    'as_prediction.R'
+    'as_prediction_data.R'
     'as_resample_result.R'
     'as_resampling.R'
     'as_result_data.R'

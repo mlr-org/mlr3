@@ -1,11 +1,12 @@
-#' @title Manually construct an object of type ResultData
+#' @title Convert to ResultData
 #'
 #' @description
-#' This function allows to manually construct a [ResampleResult] or [BenchmarkResult] by combining
-#' the individual components to an object of class [ResultData], mlr3's internal container object for results.
-#' A [ResampleResult] or [BenchmarkResult] can then be initialized with the returned object.
+#' This function allows to construct or convert to a [ResultData] object, the
+#' result container used by [ResampleResult] and [BenchmarkResult].
+#' A [ResampleResult] or [BenchmarkResult] can be initialized with the returned object.
 #' Note that [ResampleResult]s can be converted to a [BenchmarkResult] with [as_benchmark_result()]
-#' and multiple [BenchmarkResult]s can be combined to a larger [BenchmarkResult].
+#' and multiple [BenchmarkResult]s can be combined to a larger [BenchmarkResult] with the
+#' `$combine()` method of [BenchmarkResult].
 #'
 #' @param task ([Task]).
 #' @param learners (list of trained [Learner]s).
