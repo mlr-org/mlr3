@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create a Data Backend — as_data_backend.data.frame • mlr3</title>
+<title>Create a Data Backend — as_data_backend.Matrix • mlr3</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -53,7 +53,7 @@
 
 
 
-<meta property="og:title" content="Create a Data Backend — as_data_backend.data.frame" />
+<meta property="og:title" content="Create a Data Backend — as_data_backend.Matrix" />
 <meta property="og:description" content="Wraps a DataBackend around data.
 mlr3 ships with methods for data.frame (converted to a DataBackendDataTable
 and Matrix from package Matrix (converted to a DataBackendMatrix).
@@ -159,7 +159,7 @@ to real DBMS like PostgreSQL (via dbplyr) or DuckDB (via DBI/duckdb)." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Create a Data Backend</h1>
-    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/DataBackendDataTable.R'><code>R/DataBackendDataTable.R</code></a>, <a href='https://github.com/mlr-org/mlr3/blob/master/R/DataBackendMatrix.R'><code>R/DataBackendMatrix.R</code></a>, <a href='https://github.com/mlr-org/mlr3/blob/master/R/as_data_backend.R'><code>R/as_data_backend.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/DataBackendMatrix.R'><code>R/DataBackendMatrix.R</code></a>, <a href='https://github.com/mlr-org/mlr3/blob/master/R/as_data_backend.R'><code>R/as_data_backend.R</code></a></small>
     <div class="hidden name"><code>as_data_backend.Rd</code></div>
     </div>
 
@@ -171,30 +171,37 @@ and <code>Matrix</code> from package <a href='https://CRAN.R-project.org/package
 to real DBMS like PostgreSQL (via <a href='https://CRAN.R-project.org/package=dbplyr'><span class="pkg">dbplyr</span></a>) or DuckDB (via <a href='https://CRAN.R-project.org/package=DBI'><span class="pkg">DBI</span></a>/<a href='https://CRAN.R-project.org/package=duckdb'><span class="pkg">duckdb</span></a>).</p>
     </div>
 
-    <pre class="usage"><span class='co'># S3 method for data.frame</span>
-<span class='fu'>as_data_backend</span><span class='op'>(</span><span class='va'>data</span>, primary_key <span class='op'>=</span> <span class='cn'>NULL</span>, keep_rownames <span class='op'>=</span> <span class='cn'>FALSE</span>, <span class='va'>...</span><span class='op'>)</span>
-
-<span class='co'># S3 method for Matrix</span>
+    <pre class="usage"><span class='co'># S3 method for Matrix</span>
 <span class='fu'>as_data_backend</span><span class='op'>(</span><span class='va'>data</span>, primary_key <span class='op'>=</span> <span class='cn'>NULL</span>, dense <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>as_data_backend</span><span class='op'>(</span><span class='va'>data</span>, primary_key <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+<span class='fu'>as_data_backend</span><span class='op'>(</span><span class='va'>data</span>, primary_key <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='co'># S3 method for data.frame</span>
+<span class='fu'>as_data_backend</span><span class='op'>(</span><span class='va'>data</span>, primary_key <span class='op'>=</span> <span class='cn'>NULL</span>, keep_rownames <span class='op'>=</span> <span class='cn'>FALSE</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>data</th>
-      <td><p><code>any</code><br />
-Data to create a <a href='DataBackend.html'>DataBackend</a> from.
-For a <code><a href='https://rdrr.io/r/base/data.frame.html'>data.frame()</a></code> (this includes <code>tibble()</code> from <a href='https://CRAN.R-project.org/package=tibble'><span class="pkg">tibble</span></a> and <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code>),
-a <a href='DataBackendDataTable.html'>DataBackendDataTable</a> is created.
-For objects of type <code>Matrix</code> (from package <a href='https://CRAN.R-project.org/package=Matrix'><span class="pkg">Matrix</span></a>), a <a href='DataBackendMatrix.html'>DataBackendMatrix</a> is returned.
-See <code><a href='https://rdrr.io/r/utils/methods.html'>methods("as_data_backend")</a></code> for all possible input formats.</p></td>
+      <td><p>(<code><a href='https://rdrr.io/r/base/data.frame.html'>data.frame()</a></code>)<br />
+The input <code><a href='https://rdrr.io/r/base/data.frame.html'>data.frame()</a></code>.
+Converted to a <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code> automatically.</p></td>
     </tr>
     <tr>
       <th>primary_key</th>
       <td><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code> | <code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code>)<br />
 Name of the primary key column, or integer vector of row ids.</p></td>
+    </tr>
+    <tr>
+      <th>dense</th>
+      <td><p>(<code><a href='https://rdrr.io/r/base/data.frame.html'>data.frame()</a></code>).
+Dense data.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>(<code>any</code>)<br />
+Additional arguments passed to the respective <a href='DataBackend.html'>DataBackend</a> method.</p></td>
     </tr>
     <tr>
       <th>keep_rownames</th>
@@ -203,16 +210,6 @@ If <code>TRUE</code> or a single string, keeps the row names of <code>data</code
 The column is named like the provided string, defaulting to <code>"..rownames"</code> for <code>keep_rownames == TRUE</code>.
 Note that the created column will be used as a regular feature by the task unless you manually change the column role.
 Also see <code><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>data.table::as.data.table()</a></code>.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>(<code>any</code>)<br />
-Additional arguments passed to the respective <a href='DataBackend.html'>DataBackend</a> method.</p></td>
-    </tr>
-    <tr>
-      <th>dense</th>
-      <td><p>(<code><a href='https://rdrr.io/r/base/data.frame.html'>data.frame()</a></code>).
-Dense data.</p></td>
     </tr>
     </table>
 

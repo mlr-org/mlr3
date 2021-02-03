@@ -170,7 +170,7 @@
     <div class='dont-index'><p>Other DataBackend: 
 <code><a href='DataBackendMatrix.html'>DataBackendMatrix</a></code>,
 <code><a href='DataBackend.html'>DataBackend</a></code>,
-<code><a href='as_data_backend.data.frame.html'>as_data_backend.data.frame</a>()</code></p></div>
+<code><a href='as_data_backend.Matrix.html'>as_data_backend.Matrix</a>()</code></p></div>
     <h2 class="hasAnchor" id="super-class"><a class="anchor" href="#super-class"></a>Super class</h2>
 
     <p><code><a href='DataBackend.html'>mlr3::DataBackend</a></code> -&gt; <code>DataBackendDataTable</code></p>
@@ -220,8 +220,8 @@ Number of columns (variables), including the primary key column.</p></dd>
 <hr>
 <a id="method-new"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>new()</code></h3>
 <p>Creates a new instance of this <a href='https://r6.r-lib.org/reference/R6Class.html'>R6</a> class.</p>
-<p>Note that <code>DataBackendDataTable</code> does not copy the input data, while <code><a href='as_data_backend.data.frame.html'>as_data_backend()</a></code> calls <code><a href='https://Rdatatable.gitlab.io/data.table/reference/copy.html'>data.table::copy()</a></code>.
-<code><a href='as_data_backend.data.frame.html'>as_data_backend()</a></code> also takes care about casting to a <code>data.table()</code> and adds a primary key column if necessary.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p>Note that <code>DataBackendDataTable</code> does not copy the input data, while <code><a href='as_data_backend.Matrix.html'>as_data_backend()</a></code> calls <code><a href='https://Rdatatable.gitlab.io/data.table/reference/copy.html'>data.table::copy()</a></code>.
+<code><a href='as_data_backend.Matrix.html'>as_data_backend()</a></code> also takes care about casting to a <code>data.table()</code> and adds a primary key column if necessary.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
 <p><div class="r"></p><pre><span class='va'>DataBackendDataTable</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='va'>data</span>, <span class='va'>primary_key</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
@@ -357,7 +357,7 @@ Column names.</p></dd>
 #&gt; [4] "bill_depth_mm"     "flipper_length_mm" "body_mass_g"      
 #&gt; [7] "sex"               "year"              "id"               </div><div class='input'>
 <span class='co'># alternative construction</span>
-<span class='fu'><a href='as_data_backend.data.frame.html'>as_data_backend</a></span><span class='op'>(</span><span class='fu'>palmerpenguins</span><span class='fu'>::</span><span class='va'><a href='https://allisonhorst.github.io/palmerpenguins/reference/penguins.html'>penguins</a></span><span class='op'>)</span>
+<span class='fu'><a href='as_data_backend.Matrix.html'>as_data_backend</a></span><span class='op'>(</span><span class='fu'>palmerpenguins</span><span class='fu'>::</span><span class='va'><a href='https://allisonhorst.github.io/palmerpenguins/reference/penguins.html'>penguins</a></span><span class='op'>)</span>
 </div><div class='output co'>#&gt; &lt;DataBackendDataTable&gt; (344x9)
 #&gt;  species    island bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
 #&gt;   Adelie Torgersen           39.1          18.7               181        3750
