@@ -154,15 +154,26 @@ TaskClassif = R6Class("TaskClassif",
 #' @title Convert to a Classification Task
 #' @param x (`any`)\cr
 #'   Object to convert, e.g. a `data.frame()`.
-#' @template param_target
 #' @param ... (`any`)\cr
 #'   Additional arguments.
 #' @export
-as_task_classif = function(x, target = NULL, ...) {
+as_task_classif = function(x, ...) {
   UseMethod("as_task_classif")
 }
 
+
 #' @rdname as_task_classif
+#' @param clone (`logical(1)`)\cr
+#'   If `TRUE`, ensures that the returned object is not the same as the input `x`, e.g.
+#'   by cloning it or constructing it from a [dictionary][mlr3misc::Dictionary] such as [mlr_learners].
+#' @export
+as_task_classif.TaskClassif = function(x, clone = FALSE, ...) { # nolint
+  if (clone) x$clone() else x
+}
+
+
+#' @rdname as_task_classif
+#' @template param_target
 #' @param id (`character(1)`)\cr
 #'   Id for the new task.
 #'   Defaults to the (deparsed and substituted) name of `x`.
