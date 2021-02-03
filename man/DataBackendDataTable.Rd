@@ -27,7 +27,7 @@ as_data_backend(palmerpenguins::penguins)
 Other DataBackend: 
 \code{\link{DataBackendMatrix}},
 \code{\link{DataBackend}},
-\code{\link{as_data_backend.data.frame}()}
+\code{\link{as_data_backend.Matrix}()}
 }
 \concept{DataBackend}
 \section{Super class}{

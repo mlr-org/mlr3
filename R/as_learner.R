@@ -4,6 +4,7 @@
 #' Convert object to a [Learner] or a list of [Learner].
 #'
 #' @inheritParams as_task
+#'
 #' @return [Learner].
 #' @export
 as_learner = function(x, ...) { # nolint

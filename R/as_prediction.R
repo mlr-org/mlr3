@@ -8,9 +8,6 @@
 #' @return [Prediction].
 #' @export
 as_prediction = function(x, check = TRUE, ...) {
-  if (is.null(x)) {
-    return(NULL)
-  }
   UseMethod("as_prediction")
 }
 
@@ -46,8 +43,12 @@ as_predictions = function(x, predict_sets = "test", ...) {
 #' @export
 as_predictions.list = function(x, predict_sets = "test", ...) { # nolint
   assert_subset(predict_sets, mlr_reflections$predict_sets)
-  map(x, function(li) {
+
+  result = vector("list", length(x))
+  ii = lengths(x) > 0L
+  result[ii] = map(x[ii], function(li) {
     assert_list(li, "PredictionData")
     as_prediction(do.call(c, discard(li[predict_sets], is.null)), check = FALSE)
   })
+  result
 }

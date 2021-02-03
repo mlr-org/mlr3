@@ -14,10 +14,10 @@ as_benchmark_result(x, ...)
 }
 \arguments{
 \item{x}{(\code{any})\cr
-Object to convert on, e.g. a \link{ResampleResult}.}
+Object to convert.}
 
 \item{...}{(\code{any})\cr
-Currently not used.}
+Additional arguments.}
 }
 \value{
 (\link{BenchmarkResult}).

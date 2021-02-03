@@ -40,7 +40,7 @@ Extension Packages: \CRANpkg{mlr3db}
 Other DataBackend: 
 \code{\link{DataBackendDataTable}},
 \code{\link{DataBackendMatrix}},
-\code{\link{as_data_backend.data.frame}()}
+\code{\link{as_data_backend.Matrix}()}
 }
 \concept{DataBackend}
 \section{Public fields}{

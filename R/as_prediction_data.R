@@ -4,11 +4,11 @@
 #' Convert object to a [PredictionData] or a list of [PredictionData].
 #'
 #' @inheritParams as_task
-#'
 #' @param task ([Task]).
 #' @param row_ids (`integer()`).
 #' @param check (`logical(1)`)\cr
 #'   Perform argument checks and type conversions?
+#'
 #' @return [PredictionData].
 #' @export
 as_prediction_data = function(x, task, row_ids = task$row_ids, check = TRUE, ...) {

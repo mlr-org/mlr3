@@ -3,10 +3,7 @@
 #' @description
 #' Convert object to a [BenchmarkResult].
 #'
-#' @param x (`any`)\cr
-#'  Object to convert on, e.g. a [ResampleResult].
-#' @param ... (`any`)\cr
-#'  Currently not used.
+#' @inheritParams as_task
 #'
 #' @return ([BenchmarkResult]).
 #' @export
