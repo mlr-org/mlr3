@@ -55,15 +55,15 @@ reference:
       - as_data_backend
   - title: Classification
     contents:
-      - new_task_classif
       - TaskClassif
+      - as_task_classif
       - LearnerClassif
       - MeasureClassif
       - PredictionClassif
   - title: Regression
     contents:
-      - new_task_regr
       - TaskRegr
+      - as_task_regr
       - LearnerRegr
       - MeasureRegr
       - PredictionRegr

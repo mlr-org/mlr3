@@ -12,7 +12,7 @@
 Anderson E (1936).
 \dQuote{The Species Problem in Iris.}
 \emph{Annals of the Missouri Botanical Garden}, \bold{23}(3), 457.
-\doi{10.2307/2394164}, \url{https://doi.org/10.2307/2394164}.
+\doi{10.2307/2394164}.
 }
 \description{
 A classification task for the popular \link[datasets:iris]{datasets::iris} data set.

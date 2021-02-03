@@ -29,7 +29,7 @@ TaskRegr = R6Class("TaskRegr",
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    #' The function [new_task_regr()] wraps this constructor.
+    #' The function [as_task_regr()] provides an alternative way to construct regression tasks.
     #'
     #' @template param_target
     #' @template param_extra_args
@@ -55,19 +55,30 @@ TaskRegr = R6Class("TaskRegr",
   )
 )
 
-#' @title Create a New Regression Task
-#'
-#' @description
-#' A wrapper around the constructor of [TaskRegr].
-#'
-#' @template param_backend
+
+
+#' @title Convert to a Regression Task
+#' @param x (`any`)\cr
+#'   Object to convert, e.g. a `data.frame()`.
 #' @template param_target
-#' @param id (`character(1)`)\cr
-#'   Identifier for the new task.
-#'   Defaults to the (deparsed and substituted) name of `backend`.
+#' @param ... (`any`)\cr
+#'   Additional arguments.
 #' @export
-#' @examples
-#' task = new_task_regr(mtcars, target = "mpg")
-new_task_regr = function(backend, target, id = deparse(substitute(backend))) {
-  TaskRegr$new(id = id, backend = backend, target = target)
+as_task_regr = function(x, target = NULL, ...) {
+  UseMethod("as_task_regr")
+}
+
+#' @rdname as_task_regr
+#' @param id (`character(1)`)\cr
+#'   Id for the new task.
+#'   Defaults to the (deparsed and substituted) name of `x`.
+#' @export
+as_task_regr.data.frame = function(x, target = NULL, id = deparse(substitute(x)), ...) { # nolint
+  TaskRegr$new(id = id, backend = x, target = target)
+}
+
+#' @rdname as_task_regr
+#' @export
+as_task_regr.DataBackend = function(x, target = NULL, id = deparse(substitute(x)), ...) { # nolint
+  TaskRegr$new(id = id, backend = x, target = target)
 }

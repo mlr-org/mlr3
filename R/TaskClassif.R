@@ -39,7 +39,7 @@ TaskClassif = R6Class("TaskClassif",
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    #' The function [new_task_classif()] wraps this constructor.
+    #' The function [as_task_regr()] provides an alternative way to construct classification tasks.
     #'
     #' @template param_target
     #'
@@ -151,20 +151,30 @@ TaskClassif = R6Class("TaskClassif",
   )
 )
 
-
-#' @title Create a New Classification Task
-#'
-#' @description
-#' A wrapper around the constructor of [TaskClassif].
-#'
-#' @template param_backend
+#' @title Convert to a Classification Task
+#' @param x (`any`)\cr
+#'   Object to convert, e.g. a `data.frame()`.
 #' @template param_target
-#' @param id (`character(1)`)\cr
-#'   Identifier for the new task.
-#'   Defaults to the (deparsed and substituted) name of `backend`.
+#' @param ... (`any`)\cr
+#'   Additional arguments.
 #' @export
-#' @examples
-#' task = new_task_classif(palmerpenguins::penguins, target = "species")
-new_task_classif = function(backend, target, id = deparse(substitute(backend))) {
-  TaskClassif$new(id = id, backend = backend, target = target)
+as_task_classif = function(x, target = NULL, ...) {
+  UseMethod("as_task_classif")
+}
+
+#' @rdname as_task_classif
+#' @param id (`character(1)`)\cr
+#'   Id for the new task.
+#'   Defaults to the (deparsed and substituted) name of `x`.
+#' @param positive (`character(1)`)\cr
+#'   Level of the positive class. See [TaskClassif].
+#' @export
+as_task_classif.data.frame = function(x, target = NULL, id = deparse(substitute(x)), positive = NULL, ...) { # nolint
+  TaskClassif$new(id = id, backend = x, target = target, positive = positive)
+}
+
+#' @rdname as_task_classif
+#' @export
+as_task_classif.DataBackend = function(x, target = NULL, id = deparse(substitute(x)), positive = NULL, ...) { # nolint
+  TaskClassif$new(id = id, backend = x, target = target, positive = positive)
 }

@@ -2,12 +2,8 @@
 % Please edit documentation in R/task_converters.R
 \name{convert_task}
 \alias{convert_task}
-\alias{as_task_classif}
 \alias{as_task_classif.TaskRegr}
-\alias{as_task_classif.data.frame}
-\alias{as_task_regr}
 \alias{as_task_regr.TaskClassif}
-\alias{as_task_regr.data.frame}
 \title{Convert a Task from One Type to Another}
 \usage{
 convert_task(
@@ -18,8 +14,6 @@ convert_task(
   drop_levels = TRUE
 )
 
-as_task_classif(x, target = NULL, ...)
-
 \method{as_task_classif}{TaskRegr}(
   x,
   target = NULL,
@@ -28,29 +22,11 @@ as_task_classif(x, target = NULL, ...)
   ...
 )
 
-\method{as_task_classif}{data.frame}(
-  x,
-  target = NULL,
-  id = deparse(substitute(x)),
-  positive = NULL,
-  ...
-)
-
-as_task_regr(x, target = NULL, ...)
-
 \method{as_task_regr}{TaskClassif}(
   x,
   target = NULL,
   drop_original_target = FALSE,
   drop_levels = TRUE,
-  ...
-)
-
-\method{as_task_regr}{data.frame}(
-  x,
-  target = NULL,
-  id = deparse(substitute(x)),
-  positive = NULL,
   ...
 )
 }
@@ -72,18 +48,6 @@ Otherwise the original target is dropped.}
 
 \item{drop_levels}{(\code{logical(1)})\cr
 If \code{TRUE} (default), unused levels of the new target variable are dropped.}
-
-\item{x}{(\code{any})\cr
-Object to convert.}
-
-\item{...}{(\code{any})\cr
-Additional arguments, currently ignored.}
-
-\item{id}{(\code{character(1)})\cr
-Id for the new task.}
-
-\item{positive}{(\code{character(1)})\cr
-Level of the positive class. See \link{TaskClassif}.}
 }
 \value{
 \link{Task} of requested type.
