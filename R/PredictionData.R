@@ -1,4 +1,4 @@
-#' @title PredictionData
+#' @title Convert to PredictionData
 #'
 #' @name PredictionData
 #' @rdname PredictionData
@@ -11,8 +11,8 @@
 #' Unlike most other \CRANpkg{mlr3} objects, `PredictionData` relies on the S3 class system.
 #' The following operations must be supported to extend mlr3 for new task types:
 #'
-#' * `as_prediction_data()` converts objects to class `PredictionData`, e.g. objects of type [Prediction].
-#' * `as_prediction()` converts objects to class [Prediction], e.g. objects of type `PredictionData`.
+#' * [as_prediction_data()] converts objects to class `PredictionData`, e.g. objects of type [Prediction].
+#' * [as_prediction()] converts objects to class [Prediction], e.g. objects of type `PredictionData`.
 #' * `check_prediction_data()` is called on the return value of the predict method of a [Learner] to perform assertions and type conversions.
 #'   Returns an update object of class `PredictionData`.
 #' * `is_missing_prediction_data()` is used for the fallback learner (see [Learner]) to impute missing predictions. Returns vector with row ids which need imputation.
@@ -48,72 +48,4 @@ check_prediction_data = function(pdata) {
 #' @export
 is_missing_prediction_data = function(pdata) {
   UseMethod("is_missing_prediction_data")
-}
-
-
-#' @rdname PredictionData
-#' @param x (any)\cr
-#'   Object to convert.
-#' @param task ([Task]).
-#' @param row_ids (`integer()`).
-#' @param check (`logical(1)`)\cr
-#'   Perform argument checks and conversions?
-#' @export
-as_prediction_data = function(x, task, row_ids = task$row_ids, check = TRUE) {
-  UseMethod("as_prediction_data")
-}
-
-#' @export
-#' @rdname PredictionData
-as_prediction_data.Prediction = function(x, task, row_ids = task$row_ids, check = TRUE) { # nolint
-  x$data
-}
-
-#' @rdname PredictionData
-#' @export
-as_prediction_data.PredictionData = function(x, task, row_ids = task$row_ids, check = TRUE) { # nolint
-  x
-}
-
-#' @rdname PredictionData
-#' @export
-as_prediction_data.list = function(x, task, row_ids = task$row_ids, check = TRUE) { # nolint
-  assert_list(x, names = "unique")
-  predict_types = names(mlr_reflections$learner_predict_types[[task$task_type]])
-  assert_names(names(x), subset.of = predict_types)
-
-  x$row_ids = row_ids
-  if (inherits(task, "TaskSupervised"))
-    x$truth = task$truth(row_ids)
-
-  pdata = new_prediction_data(x, task_type = task$task_type)
-  if (check) {
-    pdata = check_prediction_data(pdata)
-  }
-
-  pdata
-}
-
-
-#' @export
-#' @rdname PredictionData
-as_prediction = function(x, check = TRUE) {
-  if (is.null(x)) {
-    return(NULL)
-  }
-  UseMethod("as_prediction")
-}
-
-#' @export
-#' @rdname PredictionData
-as_prediction.Prediction = function(x, check = TRUE) { # nolint
-  x
-}
-
-as_predictions = function(x, predict_sets = "test") { # nolint
-  assert_subset(predict_sets, mlr_reflections$predict_sets)
-  map(x, function(li) {
-    assert_list(li, "PredictionData")
-    as_prediction(do.call(c, discard(li[predict_sets], is.null)), check = FALSE)
-  })
 }

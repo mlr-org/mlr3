@@ -1,9 +1,3 @@
-#' @export
-#' @rdname PredictionData
-as_prediction.PredictionDataClassif = function(x, check = TRUE) { # nolint
-  invoke(PredictionClassif$new, check = check, .args = x)
-}
-
 #' @rdname PredictionData
 #' @export
 check_prediction_data.PredictionDataClassif = function(pdata) { # nolint

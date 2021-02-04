@@ -284,3 +284,11 @@ test_that("aggregated performance values are calculated correctly (#555)", {
   )
   expect_gt(y[1], y[2])
 })
+
+test_that("save/load roundtrip", {
+  path = tempfile()
+  saveRDS(bmr, file = path)
+
+  bmr2 = readRDS(path)
+  expect_benchmark_result(bmr2)
+})

@@ -39,9 +39,9 @@ TaskClassif = R6Class("TaskClassif",
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
+    #' The function [as_task_classif()] provides an alternative way to construct classification tasks.
     #'
-    #' @param target (`character(1)`)\cr
-    #'   Name of the target column.
+    #' @template param_target
     #'
     #' @param positive (`character(1)`)\cr
     #'   Only for binary classification: Name of the positive class.

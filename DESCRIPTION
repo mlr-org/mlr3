@@ -62,13 +62,14 @@ Imports:
     R6 (>= 2.4.1),
     backports,
     checkmate (>= 2.0.0),
-    data.table (>= 1.12.8),
+    data.table (>= 1.13.6),
     digest,
     future.apply (>= 1.5.0),
     lgr (>= 0.3.4),
     mlbench,
     mlr3measures (>= 0.3.0),
     mlr3misc (>= 0.7.0),
+    palmerpenguins,
     paradox (>= 0.6.0),
     uuid
 Suggests:
@@ -143,6 +144,7 @@ Collate:
     'TaskClassif_breast_cancer.R'
     'TaskClassif_german_credit.R'
     'TaskClassif_iris.R'
+    'TaskClassif_penguins.R'
     'TaskClassif_pima.R'
     'TaskClassif_sonar.R'
     'TaskClassif_spam.R'
@@ -163,7 +165,18 @@ Collate:
     'TaskRegr_boston_housing.R'
     'TaskRegr_mtcars.R'
     'TaskUnsupervised.R'
+    'as_benchmark_result.R'
     'as_data_backend.R'
+    'as_learner.R'
+    'as_measure.R'
+    'as_prediction.R'
+    'as_prediction_data.R'
+    'as_resample_result.R'
+    'as_resampling.R'
+    'as_result_data.R'
+    'as_task.R'
+    'as_task_classif.R'
+    'as_task_regr.R'
     'assertions.R'
     'auto_convert.R'
     'benchmark.R'
@@ -172,7 +185,6 @@ Collate:
     'default_measures.R'
     'fix_factor_levels.R'
     'helper.R'
-    'mlr_coercions.R'
     'mlr_sugar.R'
     'predict.R'
     'reexports.R'
