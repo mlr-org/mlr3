@@ -80,7 +80,6 @@ Suggests:
     future,
     future.callr,
     mlr3data,
-    mlr3learners,
     progressr,
     rpart,
     testthat (>= 3.0.0)
