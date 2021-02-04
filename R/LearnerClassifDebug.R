@@ -173,12 +173,14 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
     .update = function(task) {
       model = self$model
       pars = self$param_set$get_values(tags = "train")
+      continue_id = self$model$continue_id
 
       if(model$iter >= pars$iter) {
         stop("No additional iterations provided.")
       }
 
-      model = list(response = as.character(sample(task$truth(), 1L)), pid = Sys.getpid(), iter = pars$iter)
+      model = list(response = as.character(sample(task$truth(), 1L)), pid = Sys.getpid(), iter = pars$iter,
+        continue_id = continue_id)
       set_class(model, "classif.debug_model")
     }
   )

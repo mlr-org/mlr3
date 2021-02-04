@@ -60,8 +60,6 @@
 #' Specific learners can implement the private method `.$continue()` to
 #' continue the training of the model.
 #'
-#'
-#'
 #' @section Setting Hyperparameters:
 #'
 #' All information about hyperparameters is stored in the slot `param_set` which is a [paradox::ParamSet].
