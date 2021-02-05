@@ -1,6 +1,11 @@
 # mlr3 0.11.0
 
 * Added `as.data.table.Resampling` method.
+* Renamed column `"row_id"` to `"row_ids"` in the `as.data.table()` methods
+  for `PredictionClassif` and `PredictionRegr` (#547).
+* Added converters `as_prediction_classif()` and `as_prediction_regr()` to
+  reverse the operation of `as.data.table.PredictionClassif()` and
+  `as.data.table.PredictionRegr()`.
 * Specifying a weight column during `learner$predict_newdata()` is not mandatory
   anymore (#563).
 * `Task$data()` defaults to return only active rows and columns, instead of
