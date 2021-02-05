@@ -21,7 +21,7 @@ Object to set threads for, e.g. a \link{Learner}.
 This object is modified in-place.}
 
 \item{n}{(\code{integer(1)})\cr
-Object to set threads for, e.g. a \link{Learner}.}
+Number of threads to use.}
 }
 \value{
 Same object as input \code{x} (changed in-place),
@@ -35,8 +35,8 @@ via \CRANpkg{mlr3learners}) supports threading via OpenMP.
 The number of threads to use can be set via hyperparameter \code{num.threads}, and
 defaults to 1. By calling \code{set_threads(x, 4)} with \code{x} being a ranger learner, the
 hyperparameter is changed so that 4 cores are used.
-If the object \code{x} does not support threading, \code{x} is returned as-is.
 
+If the object \code{x} does not support threading, \code{x} is returned as-is.
 If applied to a list, recurses through all list elements.
 
 Note that threading is incompatible with other parallelization techniques such as forking
