@@ -67,6 +67,7 @@ segfault_train:Probability to provokes a segfault during train.
 segfault_predict:Probability to provokes a segfault during predict.
 predict_missingRatio of predictions which will be NA.
 save_tasks:Saves input task in model slot during training and prediction.
+threads:Number of threads to use. Has no effect.
 x:Numeric tuning parameter. Has no effect.
 
 Note that segfaults may not be triggered on your operating system.
@@ -189,6 +190,7 @@ The following hyperparameters trigger the following actions:</p><dl>
 <dt>segfault_predict:</dt><dd><p>Probability to provokes a segfault during predict.</p></dd>
 <dt>predict_missing</dt><dd><p>Ratio of predictions which will be NA.</p></dd>
 <dt>save_tasks:</dt><dd><p>Saves input task in <code>model</code> slot during training and prediction.</p></dd>
+<dt>threads:</dt><dd><p>Number of threads to use. Has no effect.</p></dd>
 <dt>x:</dt><dd><p>Numeric tuning parameter. Has no effect.</p></dd>
 
 </dl><p>Note that segfaults may not be triggered on your operating system.
@@ -231,6 +233,7 @@ Also note that if they work, they will tear down your R session immediately!</p>
 <tr><td>segfault_predict</td><td>numeric</td><td>0</td><td>\([0, 1]\)</td><td>-</td></tr>
 <tr><td>predict_missing</td><td>numeric</td><td>0</td><td>\([0, 1]\)</td><td>-</td></tr>
 <tr><td>save_tasks</td><td>logical</td><td>FALSE</td><td>\((-\infty, \infty)\)</td><td>TRUE, FALSE</td></tr>
+<tr><td>threads</td><td>integer</td><td>-</td><td>\([1, \infty)\)</td><td>-</td></tr>
 <tr><td>x</td><td>numeric</td><td>-</td><td>\([0, 1]\)</td><td>-</td></tr>
 </table>
 

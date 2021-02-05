@@ -240,9 +240,9 @@
 <span class="va">rr</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/resample.html">resample</a></span><span class="op">(</span><span class="va">task_penguins</span>, <span class="va">learner</span>, <span class="va">resampling</span><span class="op">)</span>
 <span class="va">rr</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="va">measure</span><span class="op">)</span></code></pre></div>
 <div class="sourceCode" id="cb12"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="co">##                 task  task_id                   learner    learner_id</span></span>
-<span id="cb12-2"><a href="#cb12-2"></a><span class="co">## 1: &lt;TaskClassif[45]&gt; penguins &lt;LearnerClassifRpart[34]&gt; classif.rpart</span></span>
-<span id="cb12-3"><a href="#cb12-3"></a><span class="co">## 2: &lt;TaskClassif[45]&gt; penguins &lt;LearnerClassifRpart[34]&gt; classif.rpart</span></span>
-<span id="cb12-4"><a href="#cb12-4"></a><span class="co">## 3: &lt;TaskClassif[45]&gt; penguins &lt;LearnerClassifRpart[34]&gt; classif.rpart</span></span>
+<span id="cb12-2"><a href="#cb12-2"></a><span class="co">## 1: &lt;TaskClassif[46]&gt; penguins &lt;LearnerClassifRpart[34]&gt; classif.rpart</span></span>
+<span id="cb12-3"><a href="#cb12-3"></a><span class="co">## 2: &lt;TaskClassif[46]&gt; penguins &lt;LearnerClassifRpart[34]&gt; classif.rpart</span></span>
+<span id="cb12-4"><a href="#cb12-4"></a><span class="co">## 3: &lt;TaskClassif[46]&gt; penguins &lt;LearnerClassifRpart[34]&gt; classif.rpart</span></span>
 <span id="cb12-5"><a href="#cb12-5"></a><span class="co">##            resampling resampling_id iteration              prediction</span></span>
 <span id="cb12-6"><a href="#cb12-6"></a><span class="co">## 1: &lt;ResamplingCV[19]&gt;            cv         1 &lt;PredictionClassif[19]&gt;</span></span>
 <span id="cb12-7"><a href="#cb12-7"></a><span class="co">## 2: &lt;ResamplingCV[19]&gt;            cv         2 &lt;PredictionClassif[19]&gt;</span></span>
@@ -283,6 +283,8 @@
 <li>Be light on dependencies. <code>mlr3</code> requires the following packages at runtime:
 <ul>
 <li>
+<a href="https://cran.r-project.org/package=parallelly"><code>parallelly</code></a>: Helper functions for parallelization. No extra recursive dependencies.</li>
+<li>
 <a href="https://cran.r-project.org/package=future.apply"><code>future.apply</code></a>: Resampling and benchmarking is parallelized with the <a href="https://cran.r-project.org/package=future"><code>future</code></a> abstraction interfacing many parallel backends.</li>
 <li>
 <a href="https://cran.r-project.org/package=backports"><code>backports</code></a>: Ensures backward compatibility with older R releases. Developed by members of the <code>mlr</code> team. No recursive dependencies.</li>
@@ -306,6 +308,8 @@
 <a href="https://cran.r-project.org/package=mlr3measures"><code>mlr3measures</code></a>: Performance measures. No extra recursive dependencies.</li>
 <li>
 <a href="https://cran.r-project.org/package=mlbench"><code>mlbench</code></a>: A collection of machine learning data sets. No dependencies.</li>
+<li>
+<a href="https://cran.r-project.org/package=palmerpenguins"><code>palmerpenguins</code></a>: A classification data set about penguins, used on examples and provided as a toy task. No dependencies.</li>
 </ul>
 </li>
 <li>
