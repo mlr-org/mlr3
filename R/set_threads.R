@@ -26,7 +26,6 @@
 #'   with possibly updated parameter values.
 #' @export
 set_threads = function(x, n = parallelly::availableCores()) {
-  assert_count(n, positive = TRUE)
   UseMethod("set_threads")
 }
 
