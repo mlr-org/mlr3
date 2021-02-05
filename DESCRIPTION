@@ -69,6 +69,7 @@ Imports:
     mlbench,
     mlr3measures (>= 0.3.0),
     mlr3misc (>= 0.7.0),
+    parallelly,
     palmerpenguins,
     paradox (>= 0.6.0),
     uuid
@@ -189,6 +190,7 @@ Collate:
     'predict.R'
     'reexports.R'
     'resample.R'
+    'set_threads.R'
     'task_converters.R'
     'worker.R'
     'zzz.R'
