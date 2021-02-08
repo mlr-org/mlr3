@@ -1,9 +1,9 @@
 #' @title Convert to a Regression Prediction
 #'
 #' @description
-#' Convert object to a [PredictionRegr] or list of [PredictionRegr].
+#' Convert object to a [PredictionRegr].
 #'
-#' @inheritParams as_prediction_data
+#' @inheritParams as_prediction
 #'
 #' @return [PredictionRegr].
 #' @export
@@ -24,7 +24,7 @@
 #' tabs = split(tab, cut(tab$truth, 3))
 #'
 #' # convert back to list of predictions
-#' preds = as_prediction_regr(tabs)
+#' preds = lapply(tabs, as_prediction_regr)
 #'
 #' # calculate performance in each group
 #' sapply(preds, function(p) p$score())
@@ -32,16 +32,18 @@ as_prediction_regr = function(x, ...) {
   UseMethod("as_prediction_regr")
 }
 
+
+#' @rdname as_prediction_regr
+#' @export
+as_prediction_regr.PredictionRegr = function(x, ...) { # nolint
+  x
+}
+
+
 #' @rdname as_prediction_regr
 #' @export
 as_prediction_regr.data.frame = function(x, ...) { # nolint
   assert_names(names(x), must.include = c("row_ids", "truth", "response"))
   assert_names(names(x), subset.of = c("row_ids", "truth", "response", "se"))
   invoke(PredictionRegr$new, .args = x)
-}
-
-#' @rdname as_prediction_regr
-#' @export
-as_prediction_regr.list = function(x, ...) { # nolint
-  lapply(x, as_prediction_regr, ...)
 }

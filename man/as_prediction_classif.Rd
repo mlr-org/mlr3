@@ -2,15 +2,15 @@
 % Please edit documentation in R/as_prediction_classif.R
 \name{as_prediction_classif}
 \alias{as_prediction_classif}
+\alias{as_prediction_classif.PredictionClassif}
 \alias{as_prediction_classif.data.frame}
-\alias{as_prediction_classif.list}
 \title{Convert to a Classification Prediction}
 \usage{
 as_prediction_classif(x, ...)
 
-\method{as_prediction_classif}{data.frame}(x, ...)
+\method{as_prediction_classif}{PredictionClassif}(x, ...)
 
-\method{as_prediction_classif}{list}(x, ...)
+\method{as_prediction_classif}{data.frame}(x, ...)
 }
 \arguments{
 \item{x}{(\code{any})\cr
@@ -23,7 +23,7 @@ Additional arguments.}
 \link{PredictionClassif}.
 }
 \description{
-Convert object to a \link{PredictionClassif} or list of \link{PredictionClassif}.
+Convert object to a \link{PredictionClassif}.
 }
 \examples{
 # create a prediction object
@@ -42,7 +42,7 @@ as_prediction_classif(tab)
 tabs = split(tab, tab$truth)
 
 # convert back to list of predictions
-preds = as_prediction_classif(tabs)
+preds = lapply(tabs, as_prediction_classif)
 
 # calculate performance in each group
 sapply(preds, function(p) p$score())

@@ -1,9 +1,9 @@
 #' @title Convert to a Classification Prediction
 #'
 #' @description
-#' Convert object to a [PredictionClassif] or list of [PredictionClassif].
+#' Convert object to a [PredictionClassif].
 #'
-#' @inheritParams as_prediction_data
+#' @inheritParams as_prediction
 #'
 #' @return [PredictionClassif].
 #' @export
@@ -24,13 +24,21 @@
 #' tabs = split(tab, tab$truth)
 #'
 #' # convert back to list of predictions
-#' preds = as_prediction_classif(tabs)
+#' preds = lapply(tabs, as_prediction_classif)
 #'
 #' # calculate performance in each group
 #' sapply(preds, function(p) p$score())
 as_prediction_classif = function(x, ...) {
   UseMethod("as_prediction_classif")
 }
+
+
+#' @rdname as_prediction_classif
+#' @export
+as_prediction_classif.PredictionClassif = function(x, ...) { # nolint
+  x
+}
+
 
 #' @rdname as_prediction_classif
 #' @export
@@ -49,10 +57,4 @@ as_prediction_classif.data.frame = function(x, ...) { # nolint
   }
 
   invoke(PredictionClassif$new, prob = prob, .args = x[, -prob_cols, with = FALSE])
-}
-
-#' @rdname as_prediction_classif
-#' @export
-as_prediction_classif.list = function(x, ...) { # nolint
-  lapply(x, as_prediction_classif, ...)
 }

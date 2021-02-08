@@ -2,15 +2,15 @@
 % Please edit documentation in R/as_prediction_regr.R
 \name{as_prediction_regr}
 \alias{as_prediction_regr}
+\alias{as_prediction_regr.PredictionRegr}
 \alias{as_prediction_regr.data.frame}
-\alias{as_prediction_regr.list}
 \title{Convert to a Regression Prediction}
 \usage{
 as_prediction_regr(x, ...)
 
-\method{as_prediction_regr}{data.frame}(x, ...)
+\method{as_prediction_regr}{PredictionRegr}(x, ...)
 
-\method{as_prediction_regr}{list}(x, ...)
+\method{as_prediction_regr}{data.frame}(x, ...)
 }
 \arguments{
 \item{x}{(\code{any})\cr
@@ -23,7 +23,7 @@ Additional arguments.}
 \link{PredictionRegr}.
 }
 \description{
-Convert object to a \link{PredictionRegr} or list of \link{PredictionRegr}.
+Convert object to a \link{PredictionRegr}.
 }
 \examples{
 # create a prediction object
@@ -42,7 +42,7 @@ as_prediction_regr(tab)
 tabs = split(tab, cut(tab$truth, 3))
 
 # convert back to list of predictions
-preds = as_prediction_regr(tabs)
+preds = lapply(tabs, as_prediction_regr)
 
 # calculate performance in each group
 sapply(preds, function(p) p$score())
