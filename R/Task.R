@@ -36,6 +36,7 @@
 #' * Any modification of the lists `$col_roles` or `$row_roles`.
 #'   This provides a different "view" on the data without altering the data itself.
 #' * Modification of column or row roles via `$set_col_roles()` or `$set_row_roles()`, respectively.
+#' * Modification of the row roles via `$split_validation()`.
 #' * `$filter()` and `$select()` subset the set of active rows or features in `$row_roles` or `$col_roles`, respectively.
 #'   This provides a different "view" on the data without altering the data itself.
 #' * `rbind()` and `cbind()` change the task in-place by binding rows or columns to the data, but without modifying the original [DataBackend].
@@ -550,6 +551,27 @@ Task = R6Class("Task",
 
       self$col_info = ujoin(self$col_info, tab, key = "id")
       invisible(self)
+    },
+
+    #' @description
+    #' Moves `prob` percent of the active observations (row role `"use"`) to the
+    #' validation set (row role `"validation"`).
+    #'
+    #' If you need more fine-grained control over which rows to put into the validation
+    #' data set, use `$set_row_roles(row_ids, "validation")` instead.
+    #'
+    #' @param prob (`numeric(1)`)\cr
+    #'   Proportion of the rows to move to the validation set.
+    #'
+    #' @return Modified `self`.
+    split_validation = function(prob = 0.67) {
+      assert_number(prob, lower = 0, upper = 1)
+      n = length(self$row_roles$validation)
+      if (n > 0L) {
+        stopf("%i rows already in the validation set", n)
+      }
+      row_ids = self$row_ids
+      self$set_row_roles(sample(row_ids, length(row_ids) * prob), "validation")
     }
   ),
 
@@ -639,6 +661,9 @@ Task = R6Class("Task",
     #'
     #' `row_roles` is a named list whose elements are named by row role and each element is an `integer()` vector of row ids.
     #' To alter the roles, just modify the list, e.g. with  \R's set functions ([intersect()], [setdiff()], [union()], \ldots).
+    #' The method `$set_row_roles()` provides a convenient alternative to assign rows to roles.
+    #' Additionally, `$split_validation()` is a quick way to assign a random subset of the
+    #' observations to the validation set.
     row_roles = function(rhs) {
       if (missing(rhs)) {
         return(private$.row_roles)
@@ -668,7 +693,7 @@ Task = R6Class("Task",
     #'
     #' `col_roles` is a named list whose elements are named by column role and each element is a `character()` vector of column names.
     #' To alter the roles, just modify the list, e.g. with \R's set functions ([intersect()], [setdiff()], [union()], \ldots).
-    #' The method `$set_col_roles` provides a convenient alternative to assign columns to roles.
+    #' The method `$set_col_roles()` provides a convenient alternative to assign columns to roles.
     col_roles = function(rhs) {
       if (missing(rhs)) {
         return(private$.col_roles)

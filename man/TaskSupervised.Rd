@@ -64,6 +64,7 @@ Other Task:
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="select">}\href{../../mlr3/html/Task.html#method-select}{\code{mlr3::Task$select()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="set_col_roles">}\href{../../mlr3/html/Task.html#method-set_col_roles}{\code{mlr3::Task$set_col_roles()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="set_row_roles">}\href{../../mlr3/html/Task.html#method-set_row_roles}{\code{mlr3::Task$set_row_roles()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="split_validation">}\href{../../mlr3/html/Task.html#method-split_validation}{\code{mlr3::Task$split_validation()}}\out{</span>}
 }
 \out{</details>}
 }

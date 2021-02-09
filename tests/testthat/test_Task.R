@@ -388,3 +388,12 @@ test_that("Task$set_col_roles", {
   expect_true("age" %in% task$feature_names)
   expect_null(task$weights)
 })
+
+test_that("split_validation", {
+  task = tsk("mtcars")
+  task$split_validation(0.5)
+  expect_true("validation" %in% task$properties)
+  expect_equal(task$nrow, 16L)
+  expect_integer(task$row_roles$validation, len = 16L)
+  expect_error(task$split_validation(), "already in the validation set")
+})

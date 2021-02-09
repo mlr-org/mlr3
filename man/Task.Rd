@@ -36,6 +36,7 @@ The following methods change the task in-place:
 \item Any modification of the lists \verb{$col_roles} or \verb{$row_roles}.
 This provides a different "view" on the data without altering the data itself.
 \item Modification of column or row roles via \verb{$set_col_roles()} or \verb{$set_row_roles()}, respectively.
+\item Modification of the row roles via \verb{$split_validation()}.
 \item \verb{$filter()} and \verb{$select()} subset the set of active rows or features in \verb{$row_roles} or \verb{$col_roles}, respectively.
 This provides a different "view" on the data without altering the data itself.
 \item \code{rbind()} and \code{cbind()} change the task in-place by binding rows or columns to the data, but without modifying the original \link{DataBackend}.
@@ -168,7 +169,10 @@ Can be used as truly independent test set.
 }
 
 \code{row_roles} is a named list whose elements are named by row role and each element is an \code{integer()} vector of row ids.
-To alter the roles, just modify the list, e.g. with  \R's set functions (\code{\link[=intersect]{intersect()}}, \code{\link[=setdiff]{setdiff()}}, \code{\link[=union]{union()}}, \ldots).}
+To alter the roles, just modify the list, e.g. with  \R's set functions (\code{\link[=intersect]{intersect()}}, \code{\link[=setdiff]{setdiff()}}, \code{\link[=union]{union()}}, \ldots).
+The method \verb{$set_row_roles()} provides a convenient alternative to assign rows to roles.
+Additionally, \verb{$split_validation()} is a quick way to assign a random subset of the
+observations to the validation set.}
 
 \item{\code{col_roles}}{(named \code{list()})\cr
 Each column (feature) can have an arbitrary number of the following roles:
@@ -187,7 +191,7 @@ Note that only up to one column may have this role.
 
 \code{col_roles} is a named list whose elements are named by column role and each element is a \code{character()} vector of column names.
 To alter the roles, just modify the list, e.g. with \R's set functions (\code{\link[=intersect]{intersect()}}, \code{\link[=setdiff]{setdiff()}}, \code{\link[=union]{union()}}, \ldots).
-The method \verb{$set_col_roles} provides a convenient alternative to assign columns to roles.}
+The method \verb{$set_col_roles()} provides a convenient alternative to assign columns to roles.}
 
 \item{\code{nrow}}{(\code{integer(1)})\cr
 Returns the total number of rows with role "use".}
@@ -271,6 +275,7 @@ Returns \code{NULL} if there are is no uri column.}
 \item \href{#method-set_row_roles}{\code{Task$set_row_roles()}}
 \item \href{#method-set_col_roles}{\code{Task$set_col_roles()}}
 \item \href{#method-droplevels}{\code{Task$droplevels()}}
+\item \href{#method-split_validation}{\code{Task$split_validation()}}
 \item \href{#method-clone}{\code{Task$clone()}}
 }
 }
@@ -706,6 +711,31 @@ Updates the cache of stored factor levels, removing all levels not present in th
 \describe{
 \item{\code{cols}}{\code{character()}\cr
 Column names.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Modified \code{self}.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-split_validation"></a>}}
+\if{latex}{\out{\hypertarget{method-split_validation}{}}}
+\subsection{Method \code{split_validation()}}{
+Moves \code{prob} percent of the active observations (row role \code{"use"}) to the
+validation set (row role \code{"validation"}).
+
+If you need more fine-grained control over which rows to put into the validation
+data set, use \verb{$set_row_roles(row_ids, "validation")} instead.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Task$split_validation(prob = 0.67)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{prob}}{(\code{numeric(1)})\cr
+Proportion of the rows to move to the validation set.}
 }
 \if{html}{\out{</div>}}
 }
