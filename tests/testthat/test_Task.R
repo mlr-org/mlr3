@@ -398,7 +398,7 @@ test_that("split_validation", {
   expect_error(task$split_validation(), "already in the validation set")
 
   # validation workflow
-  learner = lrn("regr.featureless")
+  learner = lrn("regr.featureless", predict_sets = c("test", "validation"))
   learner$train(task)
   p = learner$predict(task, row_ids = task$row_roles$validation)
   expect_data_table(as.data.table(p), nrows = 8)

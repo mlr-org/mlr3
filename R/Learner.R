@@ -118,7 +118,7 @@ Learner = R6Class("Learner",
     packages = NULL,
 
     #' @template field_predict_sets
-    predict_sets = c("test", "validation"),
+    predict_sets = "test",
 
     #' @field timeout (named `numeric(2)`)\cr
     #' Timeout for the learner's train and predict steps, in seconds.

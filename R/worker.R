@@ -213,7 +213,6 @@ workhorse = function(iteration, task, learner, resampling, lgr_threshold = NULL,
 
   # predict for each set
   sets = sets[learner$predict_sets]
-  sets = sets[lengths(sets) > 0L]
   pdatas = Map(function(set, row_ids) {
     lg$debug("Creating Prediction for predict set '%s'", set)
     learner_predict(learner, task, row_ids)
