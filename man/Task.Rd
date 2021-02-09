@@ -151,9 +151,10 @@ Set of task properties.
 Possible properties are are stored in \link[=mlr_reflections]{mlr_reflections$task_properties}.
 The following properties are currently standardized and understood by tasks in \CRANpkg{mlr3}:
 \itemize{
-\item \code{"strata"}: The task is resampled using one or more stratification variables (role \code{"stratum"}).
-\item \code{"groups"}: The task comes with grouping/blocking information (role \code{"group"}).
-\item \code{"weights"}: The task comes with observation weights (role \code{"weight"}).
+\item \code{"strata"}: The task is resampled using one or more stratification variables (column role \code{"stratum"}).
+\item \code{"groups"}: The task comes with grouping/blocking information (column role \code{"group"}).
+\item \code{"validation"}: The task holds observations for validation (row role \code{"validation"}).
+\item \code{"weights"}: The task comes with observation weights (column role \code{"weight"}).
 }
 
 Note that above listed properties are calculated from the \verb{$col_roles} and may not be set explicitly.}

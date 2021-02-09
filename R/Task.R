@@ -608,18 +608,21 @@ Task = R6Class("Task",
     #' Possible properties are are stored in [mlr_reflections$task_properties][mlr_reflections].
     #' The following properties are currently standardized and understood by tasks in \CRANpkg{mlr3}:
     #'
-    #' * `"strata"`: The task is resampled using one or more stratification variables (role `"stratum"`).
-    #' * `"groups"`: The task comes with grouping/blocking information (role `"group"`).
-    #' * `"weights"`: The task comes with observation weights (role `"weight"`).
+    #' * `"strata"`: The task is resampled using one or more stratification variables (column role `"stratum"`).
+    #' * `"groups"`: The task comes with grouping/blocking information (column role `"group"`).
+    #' * `"validation"`: The task holds observations for validation (row role `"validation"`).
+    #' * `"weights"`: The task comes with observation weights (column role `"weight"`).
     #'
     #' Note that above listed properties are calculated from the `$col_roles` and may not be set explicitly.
     properties = function(rhs) {
       if (missing(rhs)) {
         col_roles = private$.col_roles
+        row_roles = private$.row_roles
         c(character(),
           private$.properties,
           if (length(col_roles$group)) "groups" else NULL,
           if (length(col_roles$stratum)) "strata" else NULL,
+          if (length(row_roles$validation)) "validation" else NULL,
           if (length(col_roles$weight)) "weights" else NULL
         )
       } else {
