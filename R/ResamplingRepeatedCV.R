@@ -1,4 +1,4 @@
-#' @title Repeated Cross Validation Resampling
+#' @title Repeated Cross-Validation Resampling
 #'
 #' @name mlr_resamplings_repeated_cv
 #' @include Resampling.R
@@ -28,7 +28,7 @@
 #' @export
 #' @examples
 #' # Create a task with 10 observations
-#' task = tsk("iris")
+#' task = tsk("penguins")
 #' task$filter(1:10)
 #'
 #' # Instantiate Resampling

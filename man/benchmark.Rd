@@ -4,7 +4,7 @@
 \alias{benchmark}
 \title{Benchmark Multiple Learners on Multiple Tasks}
 \usage{
-benchmark(design, store_models = FALSE, store_backends = FALSE)
+benchmark(design, store_models = FALSE, store_backends = TRUE)
 }
 \arguments{
 \item{design}{(\code{\link[=data.frame]{data.frame()}})\cr
@@ -21,7 +21,11 @@ extract information like variable importance.}
 \item{store_backends}{(\code{logical(1)})\cr
 Keep the \link{DataBackend} of the \link{Task} in the \link{BenchmarkResult}?
 Set to \code{TRUE} if your performance measures require a \link{Task},
-or to analyse results more conveniently.}
+or to analyse results more conveniently.
+Set to \code{FALSE} to reduce the file size and memory footprint
+after serialization.
+The current default is \code{TRUE}, but this eventually will be changed
+in a future release.}
 }
 \value{
 \link{BenchmarkResult}.
@@ -70,7 +74,7 @@ To log to a file or a data base, see the documentation of \link[lgr:lgr-package]
 
 \examples{
 # benchmarking with benchmark_grid()
-tasks = lapply(c("iris", "sonar"), tsk)
+tasks = lapply(c("penguins", "sonar"), tsk)
 learners = lapply(c("classif.featureless", "classif.rpart"), lrn)
 resamplings = rsmp("cv", folds = 3)
 
@@ -92,9 +96,9 @@ rr = aggr$resample_result[[1]]
 as.data.table(rr$prediction())
 
 # Benchmarking with a custom design:
-# - fit classif.featureless on iris with a 3-fold CV
+# - fit classif.featureless on penguins with a 3-fold CV
 # - fit classif.rpart on sonar using a holdout
-tasks = list(tsk("iris"), tsk("sonar"))
+tasks = list(tsk("penguins"), tsk("sonar"))
 learners = list(lrn("classif.featureless"), lrn("classif.rpart"))
 resamplings = list(rsmp("cv", folds = 3), rsmp("holdout"))
 
@@ -114,7 +118,7 @@ design$resampling = Map(
 bmr = benchmark(design)
 print(bmr)
 
-## Get the training set of the 2nd iteration of the featureless learner on iris
+## Get the training set of the 2nd iteration of the featureless learner on penguins
 rr = bmr$aggregate()[learner_id == "classif.featureless"]$resample_result[[1]]
 rr$resampling$train_set(2)
 }

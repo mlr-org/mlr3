@@ -46,7 +46,7 @@ These are simply replaced by \code{0} and thus will never get selected.
 }
 
 \examples{
-task = tsk("iris")
+task = tsk("penguins")
 learner = lrn("classif.rpart", predict_type = "prob")
 learner$train(task)
 p = learner$predict(task)

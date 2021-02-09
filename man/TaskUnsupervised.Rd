@@ -7,7 +7,7 @@
 This is the abstract base class for unsupervised tasks such as cluster tasks in \CRANpkg{mlr3cluster}.
 }
 \examples{
-TaskUnsupervised$new("iris", task_type = "regr", backend = iris)
+TaskUnsupervised$new("penguins", task_type = "regr", backend = palmerpenguins::penguins)
 }
 \seealso{
 Other Task: 
@@ -20,6 +20,7 @@ Other Task:
 \code{\link{mlr_tasks_german_credit}},
 \code{\link{mlr_tasks_iris}},
 \code{\link{mlr_tasks_mtcars}},
+\code{\link{mlr_tasks_penguins}},
 \code{\link{mlr_tasks_pima}},
 \code{\link{mlr_tasks_sonar}},
 \code{\link{mlr_tasks_spam}},

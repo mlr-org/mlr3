@@ -39,9 +39,9 @@ TaskClassif = R6Class("TaskClassif",
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
+    #' The function [as_task_classif()] provides an alternative way to construct classification tasks.
     #'
-    #' @param target (`character(1)`)\cr
-    #'   Name of the target column.
+    #' @template param_target
     #'
     #' @param positive (`character(1)`)\cr
     #'   Only for binary classification: Name of the positive class.
@@ -71,7 +71,7 @@ TaskClassif = R6Class("TaskClassif",
     #'
     #' @return Depending on the [DataBackend], but usually a [data.table::data.table()].
     data = function(rows = NULL, cols = NULL, data_format = "data.table", ordered = TRUE) {
-      data = task_data(self, rows, cols, data_format, ordered)
+      data = super$data(rows, cols, data_format, ordered)
       fix_factor_levels(data, set_names(list(self$class_names), self$target_names))
     },
 

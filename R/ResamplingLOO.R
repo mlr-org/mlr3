@@ -1,11 +1,11 @@
-#' @title Leave-One-Out Cross Validation
+#' @title Leave-One-Out Cross-Validation
 #'
 #' @name mlr_resamplings_loo
 #' @include Resampling.R
 #'
 #' @description
 #' Splits data using leave-one-observation-out.
-#' This is identical to cross validation with the number of folds set
+#' This is identical to cross-validation with the number of folds set
 #' to the number of observations.
 #'
 #' @templateVar id loo
@@ -18,7 +18,7 @@
 #' @export
 #' @examples
 #' # Create a task with 10 observations
-#' task = tsk("iris")
+#' task = tsk("penguins")
 #' task$filter(1:10)
 #'
 #' # Instantiate Resampling

@@ -19,6 +19,7 @@ The following hyperparameters trigger the following actions:
 \item{segfault_predict:}{Probability to provokes a segfault during predict.}
 \item{predict_missing}{Ratio of predictions which will be NA.}
 \item{save_tasks:}{Saves input task in \code{model} slot during training and prediction.}
+\item{threads:}{Number of threads to use. Has no effect.}
 \item{x:}{Numeric tuning parameter. Has no effect.}
 }
 Note that segfaults may not be triggered on your operating system.
@@ -54,6 +55,7 @@ lrn("classif.featureless")
    segfault_predict \tab numeric \tab 0 \tab \eqn{[0, 1]}{[0, 1]} \tab - \cr
    predict_missing \tab numeric \tab 0 \tab \eqn{[0, 1]}{[0, 1]} \tab - \cr
    save_tasks \tab logical \tab FALSE \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \tab TRUE, FALSE \cr
+   threads \tab integer \tab - \tab \eqn{[1, \infty)}{[1, Inf)} \tab - \cr
    x \tab numeric \tab - \tab \eqn{[0, 1]}{[0, 1]} \tab - \cr
 }
 }
@@ -63,7 +65,7 @@ learner = lrn("classif.debug")
 learner$param_set$values = list(message_train = 1, save_tasks = TRUE)
 
 # this should signal a message
-task = tsk("iris")
+task = tsk("penguins")
 learner$train(task)
 learner$predict(task)
 

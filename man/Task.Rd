@@ -17,7 +17,7 @@ For example, for a classification task a single column must be marked as target 
 }
 
 Predefined (toy) tasks are stored in the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_tasks},
-e.g. \code{\link[=mlr_tasks_iris]{iris}} or \code{\link[=mlr_tasks_boston_housing]{boston_housing}}.
+e.g. \code{\link[=mlr_tasks_penguins]{penguins}} or \code{\link[=mlr_tasks_boston_housing]{boston_housing}}.
 More toy tasks can be found in the dictionary after loading \CRANpkg{mlr3data}.
 }
 \section{S3 methods}{
@@ -48,20 +48,20 @@ merge both backends into an abstract \link{DataBackend} which merges the results
 \examples{
 # we use the inherited class TaskClassif here,
 # Class Task is not intended for direct use
-task = TaskClassif$new("iris", iris, target = "Species")
+task = TaskClassif$new("penguings", palmerpenguins::penguins, target = "species")
 
 task$nrow
 task$ncol
 task$feature_names
 task$formula()
 
-# de-select "Petal.Width"
-task$select(setdiff(task$feature_names, "Petal.Width"))
+# de-select "year"
+task$select(setdiff(task$feature_names, "year"))
 
 task$feature_names
 
 # Add new column "foo"
-task$cbind(data.frame(foo = 1:150))
+task$cbind(data.frame(foo = 1:344))
 task$head()
 }
 \seealso{
@@ -75,6 +75,7 @@ Other Task:
 \code{\link{mlr_tasks_german_credit}},
 \code{\link{mlr_tasks_iris}},
 \code{\link{mlr_tasks_mtcars}},
+\code{\link{mlr_tasks_penguins}},
 \code{\link{mlr_tasks_pima}},
 \code{\link{mlr_tasks_sonar}},
 \code{\link{mlr_tasks_spam}},
@@ -161,8 +162,8 @@ Note that above listed properties are calculated from the \verb{$col_roles} and 
 Each row (observation) can have an arbitrary number of roles in the learning task:
 \itemize{
 \item \code{"use"}: Use in train / predict / resampling.
-\item \code{"validation"}: Hold the observations back unless explicitly requested.
-Validation sets are not yet completely integrated into the package.
+\item \code{"validation"}: Observations are hold back unless explicitly requested.
+Can be used as truly independent test set.
 }
 
 \code{row_roles} is a named list whose elements are named by row role and each element is an \code{integer()} vector of row ids.
@@ -180,10 +181,12 @@ For each resampling iteration, observations of the same group will be exclusivel
 Note that only up to one column may have this role.
 \item \code{"stratum"}: Stratification variables. Multiple discrete columns may have this role.
 \item \code{"weight"}: Observation weights. Only up to one column (assumed to be discrete) may have this role.
+\item \code{"uri"}: URI pointing to an external resource, e.g., images on the file system.
 }
 
 \code{col_roles} is a named list whose elements are named by column role and each element is a \code{character()} vector of column names.
-To alter the roles, just modify the list, e.g. with \R's set functions (\code{\link[=intersect]{intersect()}}, \code{\link[=setdiff]{setdiff()}}, \code{\link[=union]{union()}}, \ldots).}
+To alter the roles, just modify the list, e.g. with \R's set functions (\code{\link[=intersect]{intersect()}}, \code{\link[=setdiff]{setdiff()}}, \code{\link[=union]{union()}}, \ldots).
+The method \verb{$set_col_roles} provides a convenient alternative to assign columns to roles.}
 
 \item{\code{nrow}}{(\code{integer(1)})\cr
 Returns the total number of rows with role "use".}
@@ -235,6 +238,15 @@ If the task has a column with designated role \code{"weight"}, a table with two 
 }
 
 Returns \code{NULL} if there are is no weight column.}
+
+\item{\code{uris}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
+If the task has a column with designated role \code{"uri"}, a table with two columns:
+\itemize{
+\item \code{row_id} (\code{integer()}), and
+\item \code{uri} (\code{character()}).
+}
+
+Returns \code{NULL} if there are is no uri column.}
 }
 \if{html}{\out{</div>}}
 }
@@ -336,9 +348,10 @@ Printer.
 \if{latex}{\out{\hypertarget{method-data}{}}}
 \subsection{Method \code{data()}}{
 Returns a slice of the data from the \link{DataBackend} in the data format specified by \code{data_format}.
-Rows are additionally subsetted to only contain observations with role \code{"use"}, and
-columns are filtered to only contain features with roles \code{"target"} and \code{"feature"}.
-If invalid \code{rows} or \code{cols} are specified, an exception is raised.
+Rows default to observations with role \code{"use"}, and
+columns default to features with roles \code{"target"} or \code{"feature"}.
+If \code{rows} or \code{cols} are specified which do not exist in the \link{DataBackend},
+an exception is raised.
 
 Rows and columns are returned in the order specified via the arguments \code{rows} and \code{cols}.
 If \code{rows} is \code{NULL}, rows are returned in the order of \code{task$row_ids}.

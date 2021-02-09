@@ -92,3 +92,29 @@ test_that("integer grouping col (#396)", {
   expect_integer(set)
   expect_true(all(map_lgl(split(seq_row(df), f = df$id), function(x) all(x %in% set) || all(x %nin% set))))
 })
+
+test_that("as.data.table.Resampling", {
+  r = rsmp("bootstrap")
+  r$instantiate(tsk("mtcars"))
+
+  tab = as.data.table(r)
+  expect_data_table(tab, ncols = 3)
+  expect_names(names(tab), permutation.of = c("set", "iteration", "row_id"))
+  expect_integer(tab$iteration, any.missing = FALSE)
+  expect_factor(tab$set, levels = c("train", "test"), any.missing = FALSE)
+  expect_integer(tab$row_id, any.missing = FALSE)
+})
+
+test_that("Evaluation on validation set", {
+  task = tsk("sonar")
+  rids = task$row_ids
+  task$row_roles$validation = tail(rids, 10)
+  task$row_roles$use = head(rids, -10)
+  learner = lrn("classif.rpart", predict_sets = c("test", "validation"))
+  rr = resample(task, learner, rsmp("holdout"))
+
+  m1 = msr("classif.acc", id = "acc.test", predict_sets = "test")
+  m2 = msr("classif.acc", id = "acc.holdout", predict_sets = "validation")
+
+  expect_equal(rr$aggregate(list(m1, m2)), c(rr$prediction("test")$score(m1), rr$prediction("validation")$score(m2)))
+})

@@ -29,7 +29,7 @@ b$data(1:3, b$colnames, data_format = "data.table")
 Other DataBackend: 
 \code{\link{DataBackendDataTable}},
 \code{\link{DataBackend}},
-\code{\link{as_data_backend.data.frame}()}
+\code{\link{as_data_backend.Matrix}()}
 }
 \concept{DataBackend}
 \section{Super class}{

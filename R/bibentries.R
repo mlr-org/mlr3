@@ -1,5 +1,18 @@
 #' @importFrom utils bibentry
 bibentries = c(
+  anderson_1936 = bibentry("article",
+    doi       = "10.2307/2394164",
+    year      = "1936",
+    month     = "9",
+    publisher = "JSTOR",
+    volume    = "23",
+    number    = "3",
+    pages     = "457",
+    author    = "Edgar Anderson",
+    title     = "The Species Problem in Iris",
+    journal   = "Annals of the Missouri Botanical Garden"
+  ),
+
   bischl_2012 = bibentry("article",
     title = "Resampling Methods for Meta-Model Validation with Recommendations for Evolutionary Computation",
     author       = "Bernd Bischl and Olaf Mersmann and Heike Trautmann and Claus Weihs",
@@ -29,15 +42,18 @@ bibentries = c(
     institution  = "University of California, Irvine, School of Information and Computer Sciences"
   ),
 
-  sasaki_2007 = bibentry("article",
-    title        = "The truth of the F-measure",
-    author       = "Sasaki, Yutaka",
-    year         = "2007",
-    journal      = "Teach Tutor mater",
-    volume       = "1",
-    number       = "5",
-    pages        = "1--5",
-    url          = "https://www.cs.odu.edu/~mukka/cs795sum10dm/Lecturenotes/Day3/F-measure-YS-26Oct07.pdf"
+  gorman2014 = bibentry("article",
+    doi       = "10.1371/journal.pone.0090081",
+    year      = "2014",
+    month     = "mar",
+    publisher = "Public Library of Science ({PLoS})",
+    volume    = "9",
+    number    = "3",
+    pages     = "e90081",
+    author    = "Kristen B. Gorman and Tony D. Williams and William R. Fraser",
+    editor    = "Andr\u00e8 Chiaradia",
+    title     = "Ecological Sexual Dimorphism and Environmental Variability within a Community of Antarctic Penguins (Genus Pygoscelis)",
+    journal   = "{PLoS} {ONE}"
   ),
 
   gromping_2019 = bibentry("techreport",
@@ -50,16 +66,14 @@ bibentries = c(
     institution  = "Department II, Beuth University of Applied Sciences Berlin"
   ),
 
-  fisher_1936 = bibentry("article",
-    title        = "The Use of Multiple Measurements in Taxonomic Problems",
-    author       = "R. A. Fisher",
-    year         = "1936",
-    month        = "sep",
-    journal      = "Annals of Eugenics",
-    publisher    = "Wiley",
-    volume       = "7",
-    number       = "2",
-    pages        = "179--188",
-    doi          = "10.1111/j.1469-1809.1936.tb02137.x"
+  sasaki_2007 = bibentry("article",
+    title        = "The truth of the F-measure",
+    author       = "Sasaki, Yutaka",
+    year         = "2007",
+    journal      = "Teach Tutor mater",
+    volume       = "1",
+    number       = "5",
+    pages        = "1--5",
+    url          = "https://www.cs.odu.edu/~mukka/cs795sum10dm/Lecturenotes/Day3/F-measure-YS-26Oct07.pdf"
   )
 )

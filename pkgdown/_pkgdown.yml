@@ -1,4 +1,4 @@
-url: https://mlr3.mlr-org.com
+krl: https://mlr3.mlr-org.com
 
 template:
   package: mlr3pkgdowntemplate
@@ -56,20 +56,22 @@ reference:
   - title: Classification
     contents:
       - TaskClassif
+      - as_task_classif
       - LearnerClassif
       - MeasureClassif
       - PredictionClassif
   - title: Regression
     contents:
       - TaskRegr
+      - as_task_regr
       - LearnerRegr
       - MeasureRegr
       - PredictionRegr
   - title: Tasks
     contents:
       - starts_with("mlr_tasks")
+      - as_task
       - convert_task
-      - starts_with("as_task_")
   - title: Task Generators
     contents:
       - TaskGenerator
@@ -77,32 +79,39 @@ reference:
   - title: Learners
     contents:
       - starts_with("mlr_learners")
+      - as_learner
   - title: Measures
     contents:
       - starts_with("mlr_measures")
       - default_measures
+      - as_measure
   - title: Resampling Strategies
     contents:
       - starts_with("mlr_resamplings")
+      - as_resampling
   - title: Resample
     contents:
       - resample
       - ResampleResult
-      - as_resample_result
       - as_result_data
+      - as_resample_result
   - title: Benchmarking
     contents:
       - benchmark
       - benchmark_grid
       - BenchmarkResult
-      - as_benchmark_result
       - as_result_data
-  - title: Extending mlr3
+      - as_benchmark_result
+  - title: Internal Objects and Functions
     contents:
       - ResultData
+      - PredictionData
+  - title: Converters
+    contents:
+      - starts_with("as_")
+  - title: Extending mlr3
+    contents:
       - mlr_assertions
-      - mlr_coercions
       - mlr_reflections
       - mlr_sugar
       - predict.Learner
-      - PredictionData

@@ -216,3 +216,29 @@ test_that("learner cannot be trained with TuneToken present", {
     regexp = "<LearnerRegrRpart:regr.rpart> cannot be trained with TuneToken present in hyperparameter: cp",
     fixed = TRUE)
 })
+
+test_that("integer<->numeric conversion in newdata (#533)", {
+  data = data.table(y = runif(10), x = 1:10)
+  newdata = data.table(y = runif(10), x = 1:10 + 0.1)
+
+  task = TaskRegr$new("test", data, "y")
+  learner = lrn("regr.featureless")
+  learner$train(task)
+  expect_prediction(learner$predict_newdata(data))
+  expect_prediction(learner$predict_newdata(newdata))
+})
+
+test_that("weights", {
+  data = cbind(iris, w = rep(c(1, 100, 1), each = 50))
+  task = TaskClassif$new("weighted_task", data, "Species")
+  task$set_col_roles("w", "weight")
+
+  learner = lrn("classif.rpart")
+  learner$train(task)
+
+  conf = learner$predict(task)$confusion
+  expect_equal(unname(conf[, 2]), c(0, 50, 0)) # no errors in class with weight 100
+
+  expect_prediction(learner$predict_newdata(data[1:3, ]))
+  expect_prediction(learner$predict_newdata(iris[1:3, ]))
+})

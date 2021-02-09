@@ -12,7 +12,7 @@ Predefined tasks are stored in the \link[mlr3misc:Dictionary]{dictionary} \link{
 More example tasks can be found in this dictionary after loading \CRANpkg{mlr3data}.
 }
 \examples{
-task = TaskRegr$new("iris", backend = iris, target = "Sepal.Length")
+task = TaskRegr$new("penguins", backend = palmerpenguins::penguins, target = "bill_length_mm")
 task$task_type
 task$formula()
 task$truth()
@@ -31,6 +31,7 @@ Other Task:
 \code{\link{mlr_tasks_german_credit}},
 \code{\link{mlr_tasks_iris}},
 \code{\link{mlr_tasks_mtcars}},
+\code{\link{mlr_tasks_penguins}},
 \code{\link{mlr_tasks_pima}},
 \code{\link{mlr_tasks_sonar}},
 \code{\link{mlr_tasks_spam}},
@@ -78,6 +79,7 @@ Other Task:
 \if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
+The function \code{\link[=as_task_regr]{as_task_regr()}} provides an alternative way to construct regression tasks.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{TaskRegr$new(id, backend, target, extra_args = list())}\if{html}{\out{</div>}}
 }

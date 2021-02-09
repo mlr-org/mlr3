@@ -156,9 +156,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #'   Adds condition messages (`"warnings"`, `"errors"`) as extra
     #'   list columns of character vectors to the returned table
     #'
-    #' @param predict_sets (`character()`)\cr
-    #'   Vector of predict sets (`{"train", "test"}`) to construct the [Prediction] objects from.
-    #'   Default is `"test"`.
+    #' @template param_predict_sets
     #'
     #' @return [data.table::data.table()].
     score = function(measures = NULL, ids = TRUE, conditions = FALSE, predict_sets = "test") {
@@ -470,25 +468,4 @@ c.BenchmarkResult = function(...) { # nolint
   bmrs = lapply(list(...), as_benchmark_result)
   init = BenchmarkResult$new()
   Reduce(function(lhs, rhs) lhs$combine(rhs), bmrs, init = init)
-}
-
-#' @title Convert to BenchmarkResult
-#'
-#' @description
-#' Simple S3 method to convert objects to a [BenchmarkResult].
-#'
-#' @param x (`any`)\cr
-#'  Object to dispatch on, e.g. a [ResampleResult].
-#' @param ... (`any`)\cr
-#'  Currently not used.
-#'
-#' @return ([BenchmarkResult]).
-#' @export
-as_benchmark_result = function(x, ...) {
-  UseMethod("as_benchmark_result")
-}
-
-#' @export
-as_benchmark_result.BenchmarkResult = function(x, ...) { # nolint
-  x
 }

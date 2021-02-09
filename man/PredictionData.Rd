@@ -5,47 +5,23 @@
 \alias{PredictionData}
 \alias{check_prediction_data}
 \alias{is_missing_prediction_data}
-\alias{as_prediction_data}
-\alias{as_prediction_data.Prediction}
-\alias{as_prediction_data.PredictionData}
-\alias{as_prediction_data.list}
-\alias{as_prediction}
-\alias{as_prediction.Prediction}
-\alias{as_prediction.PredictionDataClassif}
 \alias{check_prediction_data.PredictionDataClassif}
 \alias{is_missing_prediction_data.PredictionDataClassif}
 \alias{c.PredictionDataClassif}
-\alias{as_prediction.PredictionDataRegr}
 \alias{check_prediction_data.PredictionDataRegr}
 \alias{is_missing_prediction_data.PredictionDataRegr}
 \alias{c.PredictionDataRegr}
-\title{PredictionData}
+\title{Convert to PredictionData}
 \usage{
 check_prediction_data(pdata)
 
 is_missing_prediction_data(pdata)
-
-as_prediction_data(x, task, row_ids = task$row_ids, check = TRUE)
-
-\method{as_prediction_data}{Prediction}(x, task, row_ids = task$row_ids, check = TRUE)
-
-\method{as_prediction_data}{PredictionData}(x, task, row_ids = task$row_ids, check = TRUE)
-
-\method{as_prediction_data}{list}(x, task, row_ids = task$row_ids, check = TRUE)
-
-as_prediction(x, check = TRUE)
-
-\method{as_prediction}{Prediction}(x, check = TRUE)
-
-\method{as_prediction}{PredictionDataClassif}(x, check = TRUE)
 
 \method{check_prediction_data}{PredictionDataClassif}(pdata)
 
 \method{is_missing_prediction_data}{PredictionDataClassif}(pdata)
 
 \method{c}{PredictionDataClassif}(..., keep_duplicates = TRUE)
-
-\method{as_prediction}{PredictionDataRegr}(x, check = TRUE)
 
 \method{check_prediction_data}{PredictionDataRegr}(pdata)
 
@@ -56,16 +32,6 @@ as_prediction(x, check = TRUE)
 \arguments{
 \item{pdata}{(\link{PredictionData})\cr
 Named list inheriting from \code{"PredictionData"}.}
-
-\item{x}{(any)\cr
-Object to convert.}
-
-\item{task}{(\link{Task}).}
-
-\item{row_ids}{(\code{integer()}).}
-
-\item{check}{(\code{logical(1)})\cr
-Perform argument checks and conversions?}
 
 \item{...}{(one or more \link{PredictionData} objects).}
 
@@ -81,8 +47,8 @@ End-users typically do not need to worry about the details, package developers a
 Unlike most other \CRANpkg{mlr3} objects, \code{PredictionData} relies on the S3 class system.
 The following operations must be supported to extend mlr3 for new task types:
 \itemize{
-\item \code{as_prediction_data()} converts objects to class \code{PredictionData}, e.g. objects of type \link{Prediction}.
-\item \code{as_prediction()} converts objects to class \link{Prediction}, e.g. objects of type \code{PredictionData}.
+\item \code{\link[=as_prediction_data]{as_prediction_data()}} converts objects to class \code{PredictionData}, e.g. objects of type \link{Prediction}.
+\item \code{\link[=as_prediction]{as_prediction()}} converts objects to class \link{Prediction}, e.g. objects of type \code{PredictionData}.
 \item \code{check_prediction_data()} is called on the return value of the predict method of a \link{Learner} to perform assertions and type conversions.
 Returns an update object of class \code{PredictionData}.
 \item \code{is_missing_prediction_data()} is used for the fallback learner (see \link{Learner}) to impute missing predictions. Returns vector with row ids which need imputation.

@@ -9,7 +9,7 @@ resample(
   learner,
   resampling,
   store_models = FALSE,
-  store_backends = FALSE
+  store_backends = TRUE
 )
 }
 \arguments{
@@ -27,7 +27,11 @@ extract information like variable importance.}
 \item{store_backends}{(\code{logical(1)})\cr
 Keep the \link{DataBackend} of the \link{Task} in the \link{ResampleResult}?
 Set to \code{TRUE} if your performance measures require a \link{Task},
-or to analyse results more conveniently.}
+or to analyse results more conveniently.
+Set to \code{FALSE} to reduce the file size and memory footprint
+after serialization.
+The current default is \code{TRUE}, but this eventually will be changed
+in a future release.}
 }
 \value{
 \link{ResampleResult}.
@@ -78,7 +82,7 @@ To log to a file or a data base, see the documentation of \link[lgr:lgr-package]
 }
 
 \examples{
-task = tsk("iris")
+task = tsk("penguins")
 learner = lrn("classif.rpart")
 resampling = rsmp("cv")
 

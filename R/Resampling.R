@@ -27,7 +27,8 @@
 #'
 #' Second, the sampling is performed in each of the `k` subpopulations separately.
 #' Each subgroup is divided into `iter` training sets and `iter` test sets by the derived `Resampling`.
-#' These sets are merged based on their iteration number: all training sets from all subpopulations with iteration 1 are combined, then all training sets with iteration 2, and so on.
+#' These sets are merged based on their iteration number:
+#' all training sets from all subpopulations with iteration 1 are combined, then all training sets with iteration 2, and so on.
 #' Same is done for all test sets.
 #' The merged sets can be accessed via `$train_set(i)` and `$test_set(i)`, respectively.
 #'
@@ -57,8 +58,8 @@
 #' r$param_set$values = list(ratio = 0.1, repeats = 3)
 #' r$param_set$values
 #'
-#' # Instantiate on iris task
-#' task = tsk("iris")
+#' # Instantiate on penguins task
+#' task = tsk("penguins")
 #' r$instantiate(task)
 #'
 #' # Extract train/test sets
@@ -106,7 +107,7 @@ Resampling = R6Class("Resampling",
 
     #' @field duplicated_ids (`logical(1)`)\cr
     #'   If `TRUE`, duplicated rows can occur within a single training set or within a single test set.
-    #'   E.g., this is `TRUE` for Bootstrap, and `FALSE` for cross validation.
+    #'   E.g., this is `TRUE` for Bootstrap, and `FALSE` for cross-validation.
     #'   Only used internally.
     duplicated_ids = NULL,
 
@@ -239,3 +240,17 @@ Resampling = R6Class("Resampling",
     }
   )
 )
+
+
+#' @export
+as.data.table.Resampling = function(x, ...) { # nolint
+  assert_resampling(x, instantiated = TRUE)
+  iterations = seq_len(x$iters)
+
+  tab = rbindlist(list(
+    map_dtr(iterations, function(i) list(row_id = x$train_set(i)), .idcol = "iteration"),
+    map_dtr(iterations, function(i) list(row_id = x$test_set(i)), .idcol = "iteration")
+  ), idcol = "set")
+  set(tab, j = "set", value = factor(c("train", "test")[tab$set], levels = c("train", "test")))
+  setkeyv(tab, c("set", "iteration"))[]
+}

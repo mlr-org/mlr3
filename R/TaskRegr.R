@@ -17,7 +17,7 @@
 #' @family Task
 #' @export
 #' @examples
-#' task = TaskRegr$new("iris", backend = iris, target = "Sepal.Length")
+#' task = TaskRegr$new("penguins", backend = palmerpenguins::penguins, target = "bill_length_mm")
 #' task$task_type
 #' task$formula()
 #' task$truth()
@@ -29,9 +29,9 @@ TaskRegr = R6Class("TaskRegr",
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
+    #' The function [as_task_regr()] provides an alternative way to construct regression tasks.
     #'
-    #' @param target (`character(1)`)\cr
-    #'   Name of the target column.
+    #' @template param_target
     #' @template param_extra_args
     initialize = function(id, backend, target, extra_args = list()) {
       assert_string(target)

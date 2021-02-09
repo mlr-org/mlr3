@@ -189,7 +189,7 @@ expect_iris_backend = function(b, n_missing = 0L) {
   testthat::expect_equal(sum(x), n_missing)
 }
 
-expect_task = function(task, null_backend_ok = FALSE) {
+expect_task = function(task, null_backend_ok = TRUE) {
   checkmate::expect_r6(task, "Task", cloneable = TRUE, public = c("id", "backend", "task_type", "row_roles", "col_roles", "col_info", "head", "row_ids", "feature_names", "target_names", "formula", "nrow", "ncol", "feature_types"))
   testthat::expect_output(print(task), "Task")
   expect_id(task$id)
@@ -198,10 +198,8 @@ expect_task = function(task, null_backend_ok = FALSE) {
   checkmate::expect_count(task$ncol)
 
   null_backend = is.null(task$backend)
-  if (null_backend) {
-      expect_true(null_backend_ok)
-  } else {
-    expect_r6(task$backend)
+  if (!null_backend_ok) {
+    expect_false(is.null(task$backend))
   }
 
   if (null_backend) {
@@ -316,6 +314,7 @@ expect_learner = function(lrn, task = NULL) {
   checkmate::expect_choice(lrn$task_type, mlr3::mlr_reflections$task_types$type)
   checkmate::expect_character(lrn$packages, any.missing = FALSE, min.chars = 1L, unique = TRUE)
   checkmate::expect_class(lrn$param_set, "ParamSet")
+  testthat::expect_lte(length(lrn$param_set$ids(tags = "threads")), 1L)
   checkmate::expect_character(lrn$properties, any.missing = FALSE, min.chars = 1L, unique = TRUE)
   if (is.null(private(lrn)$.train)) {
     checkmate::expect_function(lrn$train_internal, args = "task", nargs = 1L)

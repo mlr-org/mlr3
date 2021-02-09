@@ -18,6 +18,7 @@
 #'    \item{segfault_predict:}{Probability to provokes a segfault during predict.}
 #'    \item{predict_missing}{Ratio of predictions which will be NA.}
 #'    \item{save_tasks:}{Saves input task in `model` slot during training and prediction.}
+#'    \item{threads:}{Number of threads to use. Has no effect.}
 #'    \item{x:}{Numeric tuning parameter. Has no effect.}
 #' }
 #' Note that segfaults may not be triggered on your operating system.
@@ -39,7 +40,7 @@
 #' learner$param_set$values = list(message_train = 1, save_tasks = TRUE)
 #'
 #' # this should signal a message
-#' task = tsk("iris")
+#' task = tsk("penguins")
 #' learner$train(task)
 #' learner$predict(task)
 #'
@@ -66,6 +67,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
             ParamDbl$new("segfault_predict", lower = 0, upper = 1, default = 0, tags = "predict"),
             ParamDbl$new("predict_missing", lower = 0, upper = 1, default = 0, tags = "predict"),
             ParamLgl$new("save_tasks", default = FALSE, tags = c("train", "predict")),
+            ParamInt$new("threads", lower = 1, tags = c("train", "threads")),
             ParamDbl$new("x", lower = 0, upper = 1, tags = "train")
           )
         ),

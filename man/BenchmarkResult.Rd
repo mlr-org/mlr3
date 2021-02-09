@@ -256,7 +256,10 @@ Adds condition messages (\code{"warnings"}, \code{"errors"}) as extra
 list columns of character vectors to the returned table}
 
 \item{\code{predict_sets}}{(\code{character()})\cr
-Vector of predict sets (\verb{\{"train", "test"\}}) to construct the \link{Prediction} objects from.
+Prediction sets to operate on, used in \code{aggregate()} to extract the matching \code{predict_sets} from the \link{ResampleResult}.
+Multiple predict sets are calculated by the respective \link{Learner} during \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}.
+Must be a non-empty subset of \verb{\{"train", "test", "validation"\}}.
+If multiple sets are provided, these are first combined to a single prediction object.
 Default is \code{"test"}.}
 }
 \if{html}{\out{</div>}}
