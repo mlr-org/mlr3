@@ -554,24 +554,28 @@ Task = R6Class("Task",
     },
 
     #' @description
-    #' Moves `prob` percent of the active observations (row role `"use"`) to the
-    #' validation set (row role `"validation"`).
+    #' Keeps `ratio` percent of the active observations (row role `"use"`) and moves the
+    #' other `(1 - ratio)` percent to the validation set (row role `"validation"`).
+    #' Internally, [ResamplingHoldout] is called to support the column roles `"strata"` and
+    #' `"groups"`.
+    #'
     #'
     #' If you need more fine-grained control over which rows to put into the validation
     #' data set, use `$set_row_roles(row_ids, "validation")` instead.
     #'
-    #' @param prob (`numeric(1)`)\cr
-    #'   Proportion of the rows to move to the validation set.
+    #' @param ratio (`numeric(1)`)\cr
+    #'   Proportion of the rows to keep for training.
     #'
     #' @return Modified `self`.
-    split_validation = function(prob = 0.67) {
-      assert_number(prob, lower = 0, upper = 1)
+    split_validation = function(ratio = 0.67) {
+      assert_number(ratio, lower = 0, upper = 1)
       n = length(self$row_roles$validation)
       if (n > 0L) {
         stopf("%i rows already in the validation set", n)
       }
-      row_ids = self$row_ids
-      self$set_row_roles(sample(row_ids, length(row_ids) * prob), "validation")
+
+      r = rsmp("holdout", ratio = ratio)$instantiate(self)
+      self$set_row_roles(r$test_set(1L), "validation")
     }
   ),
 

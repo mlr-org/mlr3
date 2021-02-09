@@ -391,9 +391,24 @@ test_that("Task$set_col_roles", {
 
 test_that("split_validation", {
   task = tsk("mtcars")
-  task$split_validation(0.5)
+  task$split_validation(0.75)
   expect_true("validation" %in% task$properties)
-  expect_equal(task$nrow, 16L)
-  expect_integer(task$row_roles$validation, len = 16L)
+  expect_equal(task$nrow, 24L)
+  expect_integer(task$row_roles$validation, len = 8L)
   expect_error(task$split_validation(), "already in the validation set")
+
+  # validation workflow
+  learner = lrn("regr.featureless")
+  learner$train(task)
+  p = learner$predict(task, row_ids = task$row_roles$validation)
+  expect_data_table(as.data.table(p), nrows = 8)
+
+  rr = resample(task, learner, rsmp("cv", folds = 3))
+  measures = list(
+    msr("regr.mae", id = "mae_test"),
+    msr("regr.mae", id = "mae_validation", predict_sets = "validation")
+  )
+  aggr = rr$aggregate(measures)
+  expect_numeric(aggr, len = 2L, any.missing = FALSE)
+  expect_true(aggr[1] != aggr[2])
 })

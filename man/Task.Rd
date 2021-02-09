@@ -722,20 +722,22 @@ Modified \code{self}.
 \if{html}{\out{<a id="method-split_validation"></a>}}
 \if{latex}{\out{\hypertarget{method-split_validation}{}}}
 \subsection{Method \code{split_validation()}}{
-Moves \code{prob} percent of the active observations (row role \code{"use"}) to the
-validation set (row role \code{"validation"}).
+Keeps \code{ratio} percent of the active observations (row role \code{"use"}) and moves the
+other \code{(1 - ratio)} percent to the validation set (row role \code{"validation"}).
+Internally, \link{ResamplingHoldout} is called to support the column roles \code{"strata"} and
+\code{"groups"}.
 
 If you need more fine-grained control over which rows to put into the validation
 data set, use \verb{$set_row_roles(row_ids, "validation")} instead.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Task$split_validation(prob = 0.67)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Task$split_validation(ratio = 0.67)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{prob}}{(\code{numeric(1)})\cr
-Proportion of the rows to move to the validation set.}
+\item{\code{ratio}}{(\code{numeric(1)})\cr
+Proportion of the rows to keep for training.}
 }
 \if{html}{\out{</div>}}
 }
