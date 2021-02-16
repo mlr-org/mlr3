@@ -163,6 +163,8 @@
 </h1>
 <ul>
 <li>Added <code>as.data.table.Resampling</code> method.</li>
+<li>Renamed column <code>"row_id"</code> to <code>"row_ids"</code> in the <code><a href="https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html">as.data.table()</a></code> methods for <code>PredictionClassif</code> and <code>PredictionRegr</code> (<a href='https://github.com/mlr-org/mlr3/issues/547'>#547</a>).</li>
+<li>Added converters <code><a href="../reference/as_prediction_classif.html">as_prediction_classif()</a></code> and <code><a href="../reference/as_prediction_regr.html">as_prediction_regr()</a></code> to reverse the operation of <code>as.data.table.PredictionClassif()</code> and <code>as.data.table.PredictionRegr()</code>.</li>
 <li>Specifying a weight column during <code>learner$predict_newdata()</code> is not mandatory anymore (<a href='https://github.com/mlr-org/mlr3/issues/563'>#563</a>).</li>
 <li>
 <code>Task$data()</code> defaults to return only active rows and columns, instead of asserting to only return rows and columns. As a result, the <code>$data()</code> method can now also be used to query inactive rows and cols from the <code>DataBackend</code>.</li>

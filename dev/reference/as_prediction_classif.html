@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Set the Number of Threads — set_threads • mlr3</title>
+<title>Convert to a Classification Prediction — as_prediction_classif • mlr3</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -53,18 +53,8 @@
 
 
 
-<meta property="og:title" content="Set the Number of Threads — set_threads" />
-<meta property="og:description" content="Control the parallelism via threading while calling external packages from mlr3.
-For example, the random forest implementation in package ranger (connected
-via mlr3learners) supports threading via OpenMP.
-The number of threads to use can be set via hyperparameter num.threads, and
-defaults to 1. By calling set_threads(x, 4) with x being a ranger learner, the
-hyperparameter is changed so that 4 cores are used.
-If the object x does not support threading, x is returned as-is.
-If applied to a list, recurses through all list elements.
-Note that threading is incompatible with other parallelization techniques such as forking
-via the future::plan future::multicore. For this reason all learners connected to mlr3
-have threading disabled in their defaults." />
+<meta property="og:title" content="Convert to a Classification Prediction — as_prediction_classif" />
+<meta property="og:description" content="Convert object to a PredictionClassif." />
 <meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
@@ -164,35 +154,22 @@ have threading disabled in their defaults." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Set the Number of Threads</h1>
-    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/set_threads.R'><code>R/set_threads.R</code></a></small>
-    <div class="hidden name"><code>set_threads.Rd</code></div>
+    <h1>Convert to a Classification Prediction</h1>
+    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/as_prediction_classif.R'><code>R/as_prediction_classif.R</code></a></small>
+    <div class="hidden name"><code>as_prediction_classif.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Control the parallelism via threading while calling external packages from <a href='https://CRAN.R-project.org/package=mlr3'><span class="pkg">mlr3</span></a>.</p>
-<p>For example, the random forest implementation in package <a href='https://CRAN.R-project.org/package=ranger'><span class="pkg">ranger</span></a> (connected
-via <a href='https://CRAN.R-project.org/package=mlr3learners'><span class="pkg">mlr3learners</span></a>) supports threading via OpenMP.
-The number of threads to use can be set via hyperparameter <code>num.threads</code>, and
-defaults to 1. By calling <code>set_threads(x, 4)</code> with <code>x</code> being a ranger learner, the
-hyperparameter is changed so that 4 cores are used.</p>
-<p>If the object <code>x</code> does not support threading, <code>x</code> is returned as-is.
-If applied to a list, recurses through all list elements.</p>
-<p>Note that threading is incompatible with other parallelization techniques such as forking
-via the <a href='https://rdrr.io/pkg/future/man/plan.html'>future::plan</a> <a href='https://rdrr.io/pkg/future/man/multicore.html'>future::multicore</a>. For this reason all learners connected to <a href='https://CRAN.R-project.org/package=mlr3'><span class="pkg">mlr3</span></a>
-have threading disabled in their defaults.</p>
+    <p>Convert object to a <a href='PredictionClassif.html'>PredictionClassif</a>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>set_threads</span><span class='op'>(</span><span class='va'>x</span>, n <span class='op'>=</span> <span class='fu'>parallelly</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/parallelly/man/availableCores.html'>availableCores</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+    <pre class="usage"><span class='fu'>as_prediction_classif</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='co'># S3 method for default</span>
-<span class='fu'>set_threads</span><span class='op'>(</span><span class='va'>x</span>, n <span class='op'>=</span> <span class='fu'>parallelly</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/parallelly/man/availableCores.html'>availableCores</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+<span class='co'># S3 method for PredictionClassif</span>
+<span class='fu'>as_prediction_classif</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='co'># S3 method for Learner</span>
-<span class='fu'>set_threads</span><span class='op'>(</span><span class='va'>x</span>, n <span class='op'>=</span> <span class='fu'>parallelly</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/parallelly/man/availableCores.html'>availableCores</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='co'># S3 method for list</span>
-<span class='fu'>set_threads</span><span class='op'>(</span><span class='va'>x</span>, n <span class='op'>=</span> <span class='fu'>parallelly</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/parallelly/man/availableCores.html'>availableCores</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></pre>
+<span class='co'># S3 method for data.frame</span>
+<span class='fu'>as_prediction_classif</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -200,21 +177,50 @@ have threading disabled in their defaults.</p>
     <tr>
       <th>x</th>
       <td><p>(<code>any</code>)<br />
-Object to set threads for, e.g. a <a href='Learner.html'>Learner</a>.
-This object is modified in-place.</p></td>
+Object to convert.</p></td>
     </tr>
     <tr>
-      <th>n</th>
-      <td><p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>)<br />
-Number of threads to use.</p></td>
+      <th>...</th>
+      <td><p>(<code>any</code>)<br />
+Additional arguments.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Same object as input <code>x</code> (changed in-place),
-with possibly updated parameter values.</p>
+    <p><a href='PredictionClassif.html'>PredictionClassif</a>.</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'># create a prediction object</span>
+<span class='va'>task</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span><span class='op'>(</span><span class='st'>"penguins"</span><span class='op'>)</span>
+<span class='va'>learner</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>lrn</a></span><span class='op'>(</span><span class='st'>"classif.rpart"</span>, predict_type <span class='op'>=</span> <span class='st'>"prob"</span><span class='op'>)</span>
+<span class='va'>learner</span><span class='op'>$</span><span class='fu'>train</span><span class='op'>(</span><span class='va'>task</span><span class='op'>)</span>
+<span class='va'>p</span> <span class='op'>=</span> <span class='va'>learner</span><span class='op'>$</span><span class='fu'>predict</span><span class='op'>(</span><span class='va'>task</span><span class='op'>)</span>
+
+<span class='co'># convert to a data.table</span>
+<span class='va'>tab</span> <span class='op'>=</span> <span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table</a></span><span class='op'>(</span><span class='va'>p</span><span class='op'>)</span>
+
+<span class='co'># convert back to a Prediction</span>
+<span class='fu'>as_prediction_classif</span><span class='op'>(</span><span class='va'>tab</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; &lt;PredictionClassif&gt; for 344 observations:
+#&gt;     row_ids     truth  response prob.Adelie prob.Chinstrap prob.Gentoo
+#&gt;           1    Adelie    Adelie  0.96688742     0.03311258  0.00000000
+#&gt;           2    Adelie    Adelie  0.96688742     0.03311258  0.00000000
+#&gt;           3    Adelie    Adelie  0.96688742     0.03311258  0.00000000
+#&gt; ---                                                                   
+#&gt;         342 Chinstrap Chinstrap  0.06349206     0.92063492  0.01587302
+#&gt;         343 Chinstrap Chinstrap  0.28571429     0.71428571  0.00000000
+#&gt;         344 Chinstrap Chinstrap  0.06349206     0.92063492  0.01587302</div><div class='input'>
+<span class='co'># split data.table into a list of data.tables</span>
+<span class='va'>tabs</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/split.html'>split</a></span><span class='op'>(</span><span class='va'>tab</span>, <span class='va'>tab</span><span class='op'>$</span><span class='va'>truth</span><span class='op'>)</span>
+
+<span class='co'># convert back to list of predictions</span>
+<span class='va'>preds</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span><span class='op'>(</span><span class='va'>tabs</span>, <span class='va'>as_prediction_classif</span><span class='op'>)</span>
+
+<span class='co'># calculate performance in each group</span>
+<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span><span class='op'>(</span><span class='va'>preds</span>, <span class='kw'>function</span><span class='op'>(</span><span class='va'>p</span><span class='op'>)</span> <span class='va'>p</span><span class='op'>$</span><span class='fu'>score</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;    Adelie.classif.ce Chinstrap.classif.ce    Gentoo.classif.ce 
+#&gt;          0.039473684          0.073529412          0.008064516 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
