@@ -2,14 +2,14 @@
 % Please edit documentation in R/set_threads.R
 \name{set_threads}
 \alias{set_threads}
-\alias{set.threads.default}
+\alias{set_threads.default}
 \alias{set_threads.Learner}
 \alias{set_threads.list}
 \title{Set the Number of Threads}
 \usage{
 set_threads(x, n = parallelly::availableCores())
 
-set.threads.default(x, n = parallelly::availableCores())
+\method{set_threads}{default}(x, n = parallelly::availableCores())
 
 \method{set_threads}{Learner}(x, n = parallelly::availableCores())
 
