@@ -215,7 +215,7 @@ test_that("POSIXct", {
 
   expect_identical(
     auto_convert(NA_integer_, "x", "POSIXct", character()),
-    .POSIXct(NA, "")
+    .POSIXct(NA_integer_, "")
   )
 
   expect_identical(
@@ -224,13 +224,18 @@ test_that("POSIXct", {
   )
 
   expect_identical(
+    auto_convert(NA_character_, "x", "POSIXct", character()),
+    as.POSIXct(NA_character_)
+  )
+
+  expect_identical(
     auto_convert(factor(NA_character_, levels = "a"), "x", "POSIXct", "a"),
-    .POSIXct(NA, "")
+    as.POSIXct(NA_character_)
   )
 
   expect_identical(
     auto_convert(ordered(NA_character_, levels = "a"), "x", "POSIXct", "a"),
-    .POSIXct(NA, "")
+    as.POSIXct(NA_character_)
   )
 
   expect_identical(
