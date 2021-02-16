@@ -74,3 +74,14 @@ test_that("distr", {
   expect_numeric(p$se, len = task$nrow, any.missing = FALSE, lower = 0)
   expect_integer(p$missing, len = 0)
 })
+
+test_that("as_prediction_regr", {
+  task = tsk("mtcars")
+  learner = lrn("regr.featureless")
+  p = learner$train(task)$predict(task)
+
+  tab = as.data.table(p)
+  p2 = as_prediction_regr(tab)
+
+  expect_equal(tab, as.data.table(p2))
+})

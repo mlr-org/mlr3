@@ -31,7 +31,7 @@ set_threads = function(x, n = parallelly::availableCores()) {
 
 #' @rdname set_threads
 #' @export
-set.threads.default = function(x, n = parallelly::availableCores()) { # nolint
+set_threads.default = function(x, n = parallelly::availableCores()) { # nolint
   x
 }
 
