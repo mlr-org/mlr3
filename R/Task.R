@@ -105,7 +105,8 @@ Task = R6Class("Task",
       }
 
       self$col_info = col_info(self$backend)
-      assert_names(self$col_info$id, "strict", .var.name = "feature names")
+      assert_names(self$col_info$id, if (allow_utf8_names()) "unique" else "strict",
+        .var.name = "feature names")
       assert_subset(self$col_info$type, mlr_reflections$task_feature_types, .var.name = "feature types")
       pmap(self$col_info[, c("id", "levels")],
         function(id, levels) {
