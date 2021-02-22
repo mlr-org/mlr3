@@ -66,7 +66,7 @@ Predefined measures are stored in the dictionary mlr_measures,
 e.g. classif.auc or time_train.
 Many of the measures in mlr3 are implemented in mlr3measures as ordinary functions.
 A guide on how to extend mlr3 with custom measures can be found in the mlr3book." />
-<meta property="og:image" content="https://mlr3.mlr-org.com/logo.svg" />
+<meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -100,7 +100,7 @@ A guide on how to extend mlr3 with custom measures can be found in the mlr3book.
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.10.0</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.11.0</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -215,7 +215,7 @@ Required predict type of the <a href='Learner.html'>Learner</a>.</p></dd>
 <dt><code>predict_sets</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
 During <code><a href='resample.html'>resample()</a></code>/<code><a href='benchmark.html'>benchmark()</a></code>, a <a href='Learner.html'>Learner</a> can predict on multiple sets.
 Per default, a learner only predicts observations in the test set (<code>predict_sets == "test"</code>).
-To change this behaviour, set <code>predict_sets</code> to a non-empty subset of <code>{"train", "test"}</code>.
+To change this behaviour, set <code>predict_sets</code> to a non-empty subset of <code>{"train", "test", "validation"}</code>.
 Each set yields a separate <a href='Prediction.html'>Prediction</a> object.
 Those be combined via getters in <a href='ResampleResult.html'>ResampleResult</a>/<a href='BenchmarkResult.html'>BenchmarkResult</a>, or Measures can be altered
 to operate on specific subsets of the calculated prediction sets.</p></dd>
@@ -340,7 +340,7 @@ Possible values are stored in <a href='mlr_reflections.html'>mlr_reflections$lea
 <dt><code>predict_sets</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
 Prediction sets to operate on, used in <code><a href='https://rdrr.io/r/stats/aggregate.html'>aggregate()</a></code> to extract the matching <code>predict_sets</code> from the <a href='ResampleResult.html'>ResampleResult</a>.
 Multiple predict sets are calculated by the respective <a href='Learner.html'>Learner</a> during <code><a href='resample.html'>resample()</a></code>/<code><a href='benchmark.html'>benchmark()</a></code>.
-Must be a non-empty subset of <code>{"train", "test"}</code>.
+Must be a non-empty subset of <code>{"train", "test", "validation"}</code>.
 If multiple sets are provided, these are first combined to a single prediction object.
 Default is <code>"test"</code>.</p></dd>
 

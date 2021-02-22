@@ -55,7 +55,7 @@
 
 <meta property="og:title" content="Insample Resampling — mlr_resamplings_insample" />
 <meta property="og:description" content="Uses all observations as training and as test set." />
-<meta property="og:image" content="https://mlr3.mlr-org.com/logo.svg" />
+<meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -89,7 +89,7 @@
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.10.0</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.11.0</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -237,7 +237,7 @@ Returns the number of resampling iterations, depending on the values stored in t
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Create a task with 10 observations</span>
-<span class='va'>task</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span><span class='op'>(</span><span class='st'>"iris"</span><span class='op'>)</span>
+<span class='va'>task</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span><span class='op'>(</span><span class='st'>"penguins"</span><span class='op'>)</span>
 <span class='va'>task</span><span class='op'>$</span><span class='fu'>filter</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span><span class='op'>)</span>
 
 <span class='co'># Instantiate Resampling</span>

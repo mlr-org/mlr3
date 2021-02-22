@@ -64,7 +64,7 @@ E.g., the class probabilities for classification or the estimated standard error
 
 
 Note that this object is usually constructed via a derived classes, e.g. PredictionClassif or PredictionRegr." />
-<meta property="og:image" content="https://mlr3.mlr-org.com/logo.svg" />
+<meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -98,7 +98,7 @@ Note that this object is usually constructed via a derived classes, e.g. Predict
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.10.0</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.11.0</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -272,7 +272,9 @@ Returns <code>row_ids</code> for which the predictions are missing or incomplete
 <a id="method-score"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>score()</code></h3>
 <p>Calculates the performance for all provided measures
 <a href='Task.html'>Task</a> and <a href='Learner.html'>Learner</a> may be <code>NULL</code> for most measures, but some measures need to extract information
-from these objects.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+from these objects.
+Note that the <code>predict_sets</code> of the <code>measures</code> are ignored by this method,
+instead all predictions are used.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
 <p><div class="r"></p><pre><span class='va'>Prediction</span><span class='op'>$</span><span class='fu'>score</span><span class='op'>(</span>
   measures <span class='op'>=</span> <span class='cn'>NULL</span>,
   task <span class='op'>=</span> <span class='cn'>NULL</span>,

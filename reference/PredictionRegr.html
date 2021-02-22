@@ -57,7 +57,7 @@
 <meta property="og:description" content="This object wraps the predictions returned by a learner of class LearnerRegr, i.e.
 the predicted response and standard error.
 Additionally, probability distributions implemented in distr6 are supported." />
-<meta property="og:image" content="https://mlr3.mlr-org.com/logo.svg" />
+<meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -91,7 +91,7 @@ Additionally, probability distributions implemented in distr6 are supported." />
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.10.0</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.11.0</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -258,13 +258,13 @@ If <code>TRUE</code>, performs some argument checks and predict type conversions
 <span class='va'>p</span> <span class='op'>=</span> <span class='va'>learner</span><span class='op'>$</span><span class='fu'>train</span><span class='op'>(</span><span class='va'>task</span><span class='op'>)</span><span class='op'>$</span><span class='fu'>predict</span><span class='op'>(</span><span class='va'>task</span><span class='op'>)</span>
 <span class='va'>p</span><span class='op'>$</span><span class='va'>predict_types</span>
 </div><div class='output co'>#&gt; [1] "response" "se"      </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table</a></span><span class='op'>(</span><span class='va'>p</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;    row_id truth response       se
-#&gt; 1:      1  24.0 22.53281 9.197104
-#&gt; 2:      2  21.6 22.53281 9.197104
-#&gt; 3:      3  34.7 22.53281 9.197104
-#&gt; 4:      4  33.4 22.53281 9.197104
-#&gt; 5:      5  36.2 22.53281 9.197104
-#&gt; 6:      6  28.7 22.53281 9.197104</div></pre>
+</div><div class='output co'>#&gt;    row_ids truth response       se
+#&gt; 1:       1  24.0 22.53281 9.197104
+#&gt; 2:       2  21.6 22.53281 9.197104
+#&gt; 3:       3  34.7 22.53281 9.197104
+#&gt; 4:       4  33.4 22.53281 9.197104
+#&gt; 5:       5  36.2 22.53281 9.197104
+#&gt; 6:       6  28.7 22.53281 9.197104</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -61,7 +61,7 @@ Resampling objects can be instantiated on a Task, which applies the strategy on 
 fixed partition of row_ids of the Task.
 Predefined resamplings are stored in the dictionary mlr_resamplings,
 e.g. cv or bootstrap." />
-<meta property="og:image" content="https://mlr3.mlr-org.com/logo.svg" />
+<meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -95,7 +95,7 @@ e.g. cv or bootstrap." />
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.10.0</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.11.0</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -187,7 +187,8 @@ In case of multiple stratification variables, each combination of the values of 
 <p>First, the observations are divided into subpopulations based one or multiple stratification variables (assumed to be discrete), c.f. <code>task$strata</code>.</p>
 <p>Second, the sampling is performed in each of the <code>k</code> subpopulations separately.
 Each subgroup is divided into <code>iter</code> training sets and <code>iter</code> test sets by the derived <code>Resampling</code>.
-These sets are merged based on their iteration number: all training sets from all subpopulations with iteration 1 are combined, then all training sets with iteration 2, and so on.
+These sets are merged based on their iteration number:
+all training sets from all subpopulations with iteration 1 are combined, then all training sets with iteration 2, and so on.
 Same is done for all test sets.
 The merged sets can be accessed via <code>$train_set(i)</code> and <code>$test_set(i)</code>, respectively.</p>
     <h2 class="hasAnchor" id="grouping-blocking"><a class="anchor" href="#grouping-blocking"></a>Grouping / Blocking</h2>
@@ -249,7 +250,7 @@ The number of observations of the <a href='Task.html'>Task</a> which was passed 
 
 <dt><code>duplicated_ids</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
 If <code>TRUE</code>, duplicated rows can occur within a single training set or within a single test set.
-E.g., this is <code>TRUE</code> for Bootstrap, and <code>FALSE</code> for cross validation.
+E.g., this is <code>TRUE</code> for Bootstrap, and <code>FALSE</code> for cross-validation.
 Only used internally.</p></dd>
 
 <dt><code>man</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
@@ -403,26 +404,37 @@ Iteration.</p></dd>
 #&gt; $repeats
 #&gt; [1] 3
 #&gt; </div><div class='input'>
-<span class='co'># Instantiate on iris task</span>
-<span class='va'>task</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span><span class='op'>(</span><span class='st'>"iris"</span><span class='op'>)</span>
+<span class='co'># Instantiate on penguins task</span>
+<span class='va'>task</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span><span class='op'>(</span><span class='st'>"penguins"</span><span class='op'>)</span>
 <span class='va'>r</span><span class='op'>$</span><span class='fu'>instantiate</span><span class='op'>(</span><span class='va'>task</span><span class='op'>)</span>
 
 <span class='co'># Extract train/test sets</span>
 <span class='va'>train_set</span> <span class='op'>=</span> <span class='va'>r</span><span class='op'>$</span><span class='fu'>train_set</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>train_set</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  [1]  88 150 122  40 133  89 118 112 119  13  94  83 103  77  14</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/sets.html'>intersect</a></span><span class='op'>(</span><span class='va'>train_set</span>, <span class='va'>r</span><span class='op'>$</span><span class='fu'>test_set</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;  [1] 147  67  44 161 258 302 263 209 109 344  97 261   2 314 295 337 237 308 189
+#&gt; [20] 123 319  64 290  68  72 169 200 330  40  53 243  88 185 139</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/sets.html'>intersect</a></span><span class='op'>(</span><span class='va'>train_set</span>, <span class='va'>r</span><span class='op'>$</span><span class='fu'>test_set</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; integer(0)</div><div class='input'>
 <span class='co'># Another example: 10-fold CV</span>
 <span class='va'>r</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span><span class='op'>(</span><span class='st'>"cv"</span><span class='op'>)</span><span class='op'>$</span><span class='fu'>instantiate</span><span class='op'>(</span><span class='va'>task</span><span class='op'>)</span>
 <span class='va'>r</span><span class='op'>$</span><span class='fu'>train_set</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;   [1]  11  24  40  41  61  62  73  75  76  82  91 109 119 131 142  18  19  64
-#&gt;  [19]  71  79  84  95 105 116 124 126 127 130 146 148   6   9  10  12  33  38
-#&gt;  [37]  55  59  87  89 115 123 134 136 144  23  47  52  56  66  80  86  96 100
-#&gt;  [55] 106 112 122 129 133 150   3   8  17  34  44  45  63  65  70 102 110 135
-#&gt;  [73] 138 139 145   4  15  25  26  31  50  57  58  85  94 101 111 114 125 128
-#&gt;  [91]  28  37  42  51  72  77  81  92 104 107 117 118 120 137 143   1  14  16
-#&gt; [109]  30  36  39  43  53  54  67  69  90  97 141 147   7  13  21  27  35  46
-#&gt; [127]  49  74  83 108 113 121 132 140 149</div><div class='input'>
+</div><div class='output co'>#&gt;   [1]  15  17  25  30  43  47  58  72  73  88  92 101 108 121 132 145 152 154
+#&gt;  [19] 175 178 192 205 210 213 229 241 261 275 279 283 291 312 314 322 334  18
+#&gt;  [37]  32  49  51  59  79  81  98  99 104 109 111 116 120 123 136 170 171 191
+#&gt;  [55] 196 198 207 214 215 222 249 260 266 278 281 282 285 289 296 320   7  16
+#&gt;  [73]  24  29  33  40  41  44  66  75  85 100 103 107 126 139 150 157 160 163
+#&gt;  [91] 184 186 190 242 251 252 294 297 299 309 315 318 321 328 333  13  19  21
+#&gt; [109]  26  35  38  46  60  61  87  89 113 134 140 155 173 177 179 185 200 234
+#&gt; [127] 238 250 253 256 262 271 286 290 305 325 330 335 344  14  36  39  42  52
+#&gt; [145]  53  67  69  74  82 102 127 128 129 138 143 144 148 149 194 195 223 227
+#&gt; [163] 248 255 264 273 280 287 298 307 337 338 340   1   4  31  68  71  90  97
+#&gt; [181] 105 115 125 130 135 147 151 161 164 165 167 202 206 208 225 232 240 244
+#&gt; [199] 259 277 292 310 311 329 331 332 342   5  12  27  48  78  80  84 112 114
+#&gt; [217] 119 124 162 174 181 183 204 216 226 230 236 246 254 263 267 268 269 274
+#&gt; [235] 276 303 304 308 319 327 341   6  10  45  50  76  77  91  95 110 117 118
+#&gt; [253] 131 133 142 146 159 197 199 201 203 211 220 224 239 243 245 247 257 284
+#&gt; [271] 295 300 306 316 317   8  11  20  23  28  37  54  57  62  63  65  70  94
+#&gt; [289]  96 137 153 169 176 182 188 193 209 212 217 218 219 221 231 235 258 270
+#&gt; [307] 288 301 339</div><div class='input'>
 <span class='co'># Stratification</span>
 <span class='va'>task</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span><span class='op'>(</span><span class='st'>"pima"</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/base/proportions.html'>prop.table</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='va'>task</span><span class='op'>$</span><span class='fu'>truth</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='co'># moderately unbalanced</span>

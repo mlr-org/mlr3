@@ -58,7 +58,7 @@
 Repeatedly apply Learner learner on a training set of Task task to train a model,
 then use the trained model to predict observations of a test set.
 Training and test sets are defined by the Resampling resampling." />
-<meta property="og:image" content="https://mlr3.mlr-org.com/logo.svg" />
+<meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -92,7 +92,7 @@ Training and test sets are defined by the Resampling resampling." />
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.10.0</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.11.0</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -255,7 +255,7 @@ or <code>"trace"</code>:</p><pre><span class='fu'>lgr</span><span class='fu'>::<
 <p>To log to a file or a data base, see the documentation of <a href='https://s-fleck.github.io/lgr/reference/lgr-package.html'>lgr::lgr-package</a>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>task</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span><span class='op'>(</span><span class='st'>"iris"</span><span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='va'>task</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span><span class='op'>(</span><span class='st'>"penguins"</span><span class='op'>)</span>
 <span class='va'>learner</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>lrn</a></span><span class='op'>(</span><span class='st'>"classif.rpart"</span><span class='op'>)</span>
 <span class='va'>resampling</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span><span class='op'>(</span><span class='st'>"cv"</span><span class='op'>)</span>
 
@@ -266,23 +266,23 @@ or <code>"trace"</code>:</p><pre><span class='fu'>lgr</span><span class='fu'>::<
 <span class='va'>rr</span> <span class='op'>=</span> <span class='fu'>resample</span><span class='op'>(</span><span class='va'>task</span>, <span class='va'>learner</span>, <span class='va'>resampling</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>rr</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; &lt;ResampleResult&gt; of 10 iterations
-#&gt; * Task: iris
+#&gt; * Task: penguins
 #&gt; * Learner: classif.rpart
 #&gt; * Warnings: 0 in 0 iterations
 #&gt; * Errors: 0 in 0 iterations</div><div class='input'>
 <span class='co'># Retrieve performance</span>
 <span class='va'>rr</span><span class='op'>$</span><span class='fu'>score</span><span class='op'>(</span><span class='fu'><a href='mlr_sugar.html'>msr</a></span><span class='op'>(</span><span class='st'>"classif.ce"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;                  task task_id                   learner    learner_id
-#&gt;  1: &lt;TaskClassif[45]&gt;    iris &lt;LearnerClassifRpart[34]&gt; classif.rpart
-#&gt;  2: &lt;TaskClassif[45]&gt;    iris &lt;LearnerClassifRpart[34]&gt; classif.rpart
-#&gt;  3: &lt;TaskClassif[45]&gt;    iris &lt;LearnerClassifRpart[34]&gt; classif.rpart
-#&gt;  4: &lt;TaskClassif[45]&gt;    iris &lt;LearnerClassifRpart[34]&gt; classif.rpart
-#&gt;  5: &lt;TaskClassif[45]&gt;    iris &lt;LearnerClassifRpart[34]&gt; classif.rpart
-#&gt;  6: &lt;TaskClassif[45]&gt;    iris &lt;LearnerClassifRpart[34]&gt; classif.rpart
-#&gt;  7: &lt;TaskClassif[45]&gt;    iris &lt;LearnerClassifRpart[34]&gt; classif.rpart
-#&gt;  8: &lt;TaskClassif[45]&gt;    iris &lt;LearnerClassifRpart[34]&gt; classif.rpart
-#&gt;  9: &lt;TaskClassif[45]&gt;    iris &lt;LearnerClassifRpart[34]&gt; classif.rpart
-#&gt; 10: &lt;TaskClassif[45]&gt;    iris &lt;LearnerClassifRpart[34]&gt; classif.rpart
+</div><div class='output co'>#&gt;                  task  task_id                   learner    learner_id
+#&gt;  1: &lt;TaskClassif[46]&gt; penguins &lt;LearnerClassifRpart[34]&gt; classif.rpart
+#&gt;  2: &lt;TaskClassif[46]&gt; penguins &lt;LearnerClassifRpart[34]&gt; classif.rpart
+#&gt;  3: &lt;TaskClassif[46]&gt; penguins &lt;LearnerClassifRpart[34]&gt; classif.rpart
+#&gt;  4: &lt;TaskClassif[46]&gt; penguins &lt;LearnerClassifRpart[34]&gt; classif.rpart
+#&gt;  5: &lt;TaskClassif[46]&gt; penguins &lt;LearnerClassifRpart[34]&gt; classif.rpart
+#&gt;  6: &lt;TaskClassif[46]&gt; penguins &lt;LearnerClassifRpart[34]&gt; classif.rpart
+#&gt;  7: &lt;TaskClassif[46]&gt; penguins &lt;LearnerClassifRpart[34]&gt; classif.rpart
+#&gt;  8: &lt;TaskClassif[46]&gt; penguins &lt;LearnerClassifRpart[34]&gt; classif.rpart
+#&gt;  9: &lt;TaskClassif[46]&gt; penguins &lt;LearnerClassifRpart[34]&gt; classif.rpart
+#&gt; 10: &lt;TaskClassif[46]&gt; penguins &lt;LearnerClassifRpart[34]&gt; classif.rpart
 #&gt;             resampling resampling_id iteration              prediction
 #&gt;  1: &lt;ResamplingCV[19]&gt;            cv         1 &lt;PredictionClassif[19]&gt;
 #&gt;  2: &lt;ResamplingCV[19]&gt;            cv         2 &lt;PredictionClassif[19]&gt;
@@ -296,25 +296,25 @@ or <code>"trace"</code>:</p><pre><span class='fu'>lgr</span><span class='fu'>::<
 #&gt; 10: &lt;ResamplingCV[19]&gt;            cv        10 &lt;PredictionClassif[19]&gt;
 #&gt;     classif.ce
 #&gt;  1: 0.00000000
-#&gt;  2: 0.20000000
-#&gt;  3: 0.20000000
-#&gt;  4: 0.06666667
-#&gt;  5: 0.06666667
-#&gt;  6: 0.00000000
-#&gt;  7: 0.00000000
-#&gt;  8: 0.00000000
-#&gt;  9: 0.06666667
-#&gt; 10: 0.00000000</div><div class='input'><span class='va'>rr</span><span class='op'>$</span><span class='fu'>aggregate</span><span class='op'>(</span><span class='fu'><a href='mlr_sugar.html'>msr</a></span><span class='op'>(</span><span class='st'>"classif.ce"</span><span class='op'>)</span><span class='op'>)</span>
+#&gt;  2: 0.00000000
+#&gt;  3: 0.02857143
+#&gt;  4: 0.00000000
+#&gt;  5: 0.17647059
+#&gt;  6: 0.05882353
+#&gt;  7: 0.05882353
+#&gt;  8: 0.02941176
+#&gt;  9: 0.11764706
+#&gt; 10: 0.05882353</div><div class='input'><span class='va'>rr</span><span class='op'>$</span><span class='fu'>aggregate</span><span class='op'>(</span><span class='fu'><a href='mlr_sugar.html'>msr</a></span><span class='op'>(</span><span class='st'>"classif.ce"</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; classif.ce 
-#&gt;       0.06 </div><div class='input'>
+#&gt; 0.05285714 </div><div class='input'>
 <span class='co'># merged prediction objects of all resampling iterations</span>
 <span class='va'>pred</span> <span class='op'>=</span> <span class='va'>rr</span><span class='op'>$</span><span class='fu'>prediction</span><span class='op'>(</span><span class='op'>)</span>
 <span class='va'>pred</span><span class='op'>$</span><span class='va'>confusion</span>
-</div><div class='output co'>#&gt;             truth
-#&gt; response     setosa versicolor virginica
-#&gt;   setosa         50          0         0
-#&gt;   versicolor      0         46         5
-#&gt;   virginica       0          4        45</div><div class='input'>
+</div><div class='output co'>#&gt;            truth
+#&gt; response    Adelie Chinstrap Gentoo
+#&gt;   Adelie       145         6      0
+#&gt;   Chinstrap      7        59      2
+#&gt;   Gentoo         0         3    122</div><div class='input'>
 <span class='co'># Repeat resampling with featureless learner</span>
 <span class='va'>rr_featureless</span> <span class='op'>=</span> <span class='fu'>resample</span><span class='op'>(</span><span class='va'>task</span>, <span class='fu'><a href='mlr_sugar.html'>lrn</a></span><span class='op'>(</span><span class='st'>"classif.featureless"</span><span class='op'>)</span>, <span class='va'>resampling</span><span class='op'>)</span>
 
@@ -323,9 +323,9 @@ or <code>"trace"</code>:</p><pre><span class='fu'>lgr</span><span class='fu'>::<
 <span class='va'>bmr2</span> <span class='op'>=</span> <span class='fu'><a href='as_benchmark_result.html'>as_benchmark_result</a></span><span class='op'>(</span><span class='va'>rr_featureless</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>bmr1</span><span class='op'>$</span><span class='fu'>combine</span><span class='op'>(</span><span class='va'>bmr2</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; &lt;BenchmarkResult&gt; of 20 rows with 2 resampling runs
-#&gt;  nr task_id          learner_id resampling_id iters warnings errors
-#&gt;   1    iris       classif.rpart            cv    10        0      0
-#&gt;   2    iris classif.featureless            cv    10        0      0</div></pre>
+#&gt;  nr  task_id          learner_id resampling_id iters warnings errors
+#&gt;   1 penguins       classif.rpart            cv    10        0      0
+#&gt;   2 penguins classif.featureless            cv    10        0      0</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

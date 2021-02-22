@@ -54,7 +54,7 @@
 
 
 <meta property="og:title" content="Changelog" />
-<meta property="og:image" content="https://mlr3.mlr-org.com/logo.svg" />
+<meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -88,7 +88,7 @@
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.10.0</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.11.0</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -157,9 +157,24 @@
       <small>Source: <a href='https://github.com/mlr-org/mlr3/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="mlr3-0110" class="section level1">
+<h1 class="page-header" data-toc-text="0.11.0">
+<a href="#mlr3-0110" class="anchor"></a>mlr3 0.11.0<small> Unreleased </small>
+</h1>
+<ul>
+<li>Added a <code>as.data.table.Resampling</code> method.</li>
+<li>Renamed column <code>"row_id"</code> to <code>"row_ids"</code> in the <code><a href="https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html">as.data.table()</a></code> methods for <code>PredictionClassif</code> and <code>PredictionRegr</code> (<a href='https://github.com/mlr-org/mlr3/issues/547'>#547</a>).</li>
+<li>Added converters <code><a href="../reference/as_prediction_classif.html">as_prediction_classif()</a></code> and <code><a href="../reference/as_prediction_regr.html">as_prediction_regr()</a></code> to reverse the operation of <code>as.data.table.PredictionClassif()</code> and <code>as.data.table.PredictionRegr()</code>.</li>
+<li>Specifying a weight column during <code>learner$predict_newdata()</code> is not mandatory anymore (<a href='https://github.com/mlr-org/mlr3/issues/563'>#563</a>).</li>
+<li>
+<code>Task$data()</code> defaults to return only active rows and columns, instead of asserting to only return rows and columns. As a result, the <code>$data()</code> method can now also be used to query inactive rows and cols from the <code>DataBackend</code>.</li>
+<li>New column role <code>uri</code> which is intended to point to external resources, e.g. images on the file system.</li>
+<li>New helper <code><a href="../reference/set_threads.html">set_threads()</a></code> to control the number of threads during calls to external packages. All objects will be migrated to have threading disabled in their defaults to avoid conflicting parallelization techniques (<a href='https://github.com/mlr-org/mlr3/issues/605'>#605</a>).</li>
+</ul>
+</div>
     <div id="mlr3-0100" class="section level1">
 <h1 class="page-header" data-toc-text="0.10.0">
-<a href="#mlr3-0100" class="anchor"></a>mlr3 0.10.0<small> Unreleased </small>
+<a href="#mlr3-0100" class="anchor"></a>mlr3 0.10.0<small> 2021-01-21 </small>
 </h1>
 <ul>
 <li>Result containers <code>ResampleResult</code> and <code>BenchmarkResult</code> now optionally remove the DataBackend of the Tasks in order to reduce file size and memory footprint after serialization. To remove the backends from the containers, set <code>store_backends</code> to <code>FALSE</code> in <code><a href="../reference/resample.html">resample()</a></code> or <code><a href="../reference/benchmark.html">benchmark()</a></code>, respectively. Note that this behaviour will eventually will be the default for future releases.</li>
@@ -345,7 +360,7 @@
 <a href="#mlr3-013" class="anchor"></a>mlr3 0.1.3<small> 2019-09-18 </small>
 </h1>
 <ul>
-<li><p>It is now possible to predict and score results on the training set or on both training and test set. Learners can be instructed to predict on multiple sets by setting <code>predict_sets</code> (default: <code>"test"</code>). Measures operate on all sets specified in their field <code>predict_sets</code> (default: <code>"test"</code>.</p></li>
+<li><p>It is now possible to predict and score results on the training set or on both training and test set. Learners can be instructed to predict on multiple sets by setting <code>predict_sets</code> (default: <code>"test"</code>). Measures operate on all sets specified in their field <code>predict_sets</code> (default: <code>"test"</code>).</p></li>
 <li><p><code>ResampleResult$prediction</code> and <code>ResampleResult$predictions()</code> are now methods instead of fields, and allow to extract predictions for different predict sets.</p></li>
 <li><p><code>ResampleResult$performance()</code> has been renamed to <code>ResampleResult$score()</code> for consistency.</p></li>
 <li><p><code>BenchmarkResult$performance()</code> has been renamed to <code>BenchmarkResult$score()</code> for consistency.</p></li>

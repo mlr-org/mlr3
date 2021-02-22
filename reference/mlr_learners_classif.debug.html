@@ -67,11 +67,12 @@ segfault_train:Probability to provokes a segfault during train.
 segfault_predict:Probability to provokes a segfault during predict.
 predict_missingRatio of predictions which will be NA.
 save_tasks:Saves input task in model slot during training and prediction.
+threads:Number of threads to use. Has no effect.
 x:Numeric tuning parameter. Has no effect.
 
 Note that segfaults may not be triggered on your operating system.
 Also note that if they work, they will tear down your R session immediately!" />
-<meta property="og:image" content="https://mlr3.mlr-org.com/logo.svg" />
+<meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -105,7 +106,7 @@ Also note that if they work, they will tear down your R session immediately!" />
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.10.0</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.11.0</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -189,6 +190,7 @@ The following hyperparameters trigger the following actions:</p><dl>
 <dt>segfault_predict:</dt><dd><p>Probability to provokes a segfault during predict.</p></dd>
 <dt>predict_missing</dt><dd><p>Ratio of predictions which will be NA.</p></dd>
 <dt>save_tasks:</dt><dd><p>Saves input task in <code>model</code> slot during training and prediction.</p></dd>
+<dt>threads:</dt><dd><p>Number of threads to use. Has no effect.</p></dd>
 <dt>x:</dt><dd><p>Numeric tuning parameter. Has no effect.</p></dd>
 
 </dl><p>Note that segfaults may not be triggered on your operating system.
@@ -231,6 +233,7 @@ Also note that if they work, they will tear down your R session immediately!</p>
 <tr><td>segfault_predict</td><td>numeric</td><td>0</td><td>\([0, 1]\)</td><td>-</td></tr>
 <tr><td>predict_missing</td><td>numeric</td><td>0</td><td>\([0, 1]\)</td><td>-</td></tr>
 <tr><td>save_tasks</td><td>logical</td><td>FALSE</td><td>\((-\infty, \infty)\)</td><td>TRUE, FALSE</td></tr>
+<tr><td>threads</td><td>integer</td><td>-</td><td>\([1, \infty)\)</td><td>-</td></tr>
 <tr><td>x</td><td>numeric</td><td>-</td><td>\([0, 1]\)</td><td>-</td></tr>
 </table>
 
@@ -295,18 +298,18 @@ Also note that if they work, they will tear down your R session immediately!</p>
 <span class='va'>learner</span><span class='op'>$</span><span class='va'>param_set</span><span class='op'>$</span><span class='va'>values</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>message_train <span class='op'>=</span> <span class='fl'>1</span>, save_tasks <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
 <span class='co'># this should signal a message</span>
-<span class='va'>task</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span><span class='op'>(</span><span class='st'>"iris"</span><span class='op'>)</span>
+<span class='va'>task</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span><span class='op'>(</span><span class='st'>"penguins"</span><span class='op'>)</span>
 <span class='va'>learner</span><span class='op'>$</span><span class='fu'>train</span><span class='op'>(</span><span class='va'>task</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>Message from classif.debug-&gt;train()</span></div><div class='input'><span class='va'>learner</span><span class='op'>$</span><span class='fu'>predict</span><span class='op'>(</span><span class='va'>task</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; &lt;PredictionClassif&gt; for 150 observations:
-#&gt;     row_id     truth   response
-#&gt;          1    setosa versicolor
-#&gt;          2    setosa versicolor
-#&gt;          3    setosa versicolor
-#&gt; ---                            
-#&gt;        148 virginica versicolor
-#&gt;        149 virginica versicolor
-#&gt;        150 virginica versicolor</div><div class='input'>
+</div><div class='output co'>#&gt; &lt;PredictionClassif&gt; for 344 observations:
+#&gt;     row_ids     truth response
+#&gt;           1    Adelie   Adelie
+#&gt;           2    Adelie   Adelie
+#&gt;           3    Adelie   Adelie
+#&gt; ---                           
+#&gt;         342 Chinstrap   Adelie
+#&gt;         343 Chinstrap   Adelie
+#&gt;         344 Chinstrap   Adelie</div><div class='input'>
 <span class='co'># task_train and task_predict are the input tasks for train() and predict()</span>
 <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>learner</span><span class='op'>$</span><span class='va'>model</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] "response"     "pid"          "task_train"   "task_predict"</div></pre>

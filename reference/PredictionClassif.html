@@ -59,7 +59,7 @@ the predicted response and class probabilities.
 If the response is not provided during construction, but class probabilities are,
 the response is calculated from the probabilities: the class label with the highest
 probability is chosen. In case of ties, a label is selected randomly." />
-<meta property="og:image" content="https://mlr3.mlr-org.com/logo.svg" />
+<meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -93,7 +93,7 @@ probability is chosen. In case of ties, a label is selected randomly." />
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.10.0</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.11.0</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -308,57 +308,70 @@ the object in its previous state.</p>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>task</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span><span class='op'>(</span><span class='st'>"iris"</span><span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='va'>task</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span><span class='op'>(</span><span class='st'>"penguins"</span><span class='op'>)</span>
 <span class='va'>learner</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>lrn</a></span><span class='op'>(</span><span class='st'>"classif.rpart"</span>, predict_type <span class='op'>=</span> <span class='st'>"prob"</span><span class='op'>)</span>
 <span class='va'>learner</span><span class='op'>$</span><span class='fu'>train</span><span class='op'>(</span><span class='va'>task</span><span class='op'>)</span>
 <span class='va'>p</span> <span class='op'>=</span> <span class='va'>learner</span><span class='op'>$</span><span class='fu'>predict</span><span class='op'>(</span><span class='va'>task</span><span class='op'>)</span>
 <span class='va'>p</span><span class='op'>$</span><span class='va'>predict_types</span>
 </div><div class='output co'>#&gt; [1] "response" "prob"    </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table</a></span><span class='op'>(</span><span class='va'>p</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;    row_id  truth response prob.setosa prob.versicolor prob.virginica
-#&gt; 1:      1 setosa   setosa           1               0              0
-#&gt; 2:      2 setosa   setosa           1               0              0
-#&gt; 3:      3 setosa   setosa           1               0              0
-#&gt; 4:      4 setosa   setosa           1               0              0
-#&gt; 5:      5 setosa   setosa           1               0              0
-#&gt; 6:      6 setosa   setosa           1               0              0</div><div class='input'>
+</div><div class='output co'>#&gt;    row_ids  truth response prob.Adelie prob.Chinstrap prob.Gentoo
+#&gt; 1:       1 Adelie   Adelie   0.9668874     0.03311258           0
+#&gt; 2:       2 Adelie   Adelie   0.9668874     0.03311258           0
+#&gt; 3:       3 Adelie   Adelie   0.9668874     0.03311258           0
+#&gt; 4:       4 Adelie   Adelie   0.9668874     0.03311258           0
+#&gt; 5:       5 Adelie   Adelie   0.9668874     0.03311258           0
+#&gt; 6:       6 Adelie   Adelie   0.9668874     0.03311258           0</div><div class='input'>
 <span class='co'># confusion matrix</span>
 <span class='va'>p</span><span class='op'>$</span><span class='va'>confusion</span>
-</div><div class='output co'>#&gt;             truth
-#&gt; response     setosa versicolor virginica
-#&gt;   setosa         50          0         0
-#&gt;   versicolor      0         49         5
-#&gt;   virginica       0          1        45</div><div class='input'>
+</div><div class='output co'>#&gt;            truth
+#&gt; response    Adelie Chinstrap Gentoo
+#&gt;   Adelie       146         5      0
+#&gt;   Chinstrap      6        63      1
+#&gt;   Gentoo         0         0    123</div><div class='input'>
 <span class='co'># change threshold</span>
 <span class='va'>th</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.05</span>, <span class='fl'>0.9</span>, <span class='fl'>0.05</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>th</span><span class='op'>)</span> <span class='op'>=</span> <span class='va'>task</span><span class='op'>$</span><span class='va'>class_names</span>
 
 <span class='co'># new predictions</span>
 <span class='va'>p</span><span class='op'>$</span><span class='fu'>set_threshold</span><span class='op'>(</span><span class='va'>th</span><span class='op'>)</span><span class='op'>$</span><span class='va'>response</span>
-</div><div class='output co'>#&gt;   [1] setosa    setosa    setosa    setosa    setosa    setosa    setosa   
-#&gt;   [8] setosa    setosa    setosa    setosa    setosa    setosa    setosa   
-#&gt;  [15] setosa    setosa    setosa    setosa    setosa    setosa    setosa   
-#&gt;  [22] setosa    setosa    setosa    setosa    setosa    setosa    setosa   
-#&gt;  [29] setosa    setosa    setosa    setosa    setosa    setosa    setosa   
-#&gt;  [36] setosa    setosa    setosa    setosa    setosa    setosa    setosa   
-#&gt;  [43] setosa    setosa    setosa    setosa    setosa    setosa    setosa   
-#&gt;  [50] setosa    virginica virginica virginica virginica virginica virginica
-#&gt;  [57] virginica virginica virginica virginica virginica virginica virginica
-#&gt;  [64] virginica virginica virginica virginica virginica virginica virginica
-#&gt;  [71] virginica virginica virginica virginica virginica virginica virginica
-#&gt;  [78] virginica virginica virginica virginica virginica virginica virginica
-#&gt;  [85] virginica virginica virginica virginica virginica virginica virginica
-#&gt;  [92] virginica virginica virginica virginica virginica virginica virginica
-#&gt;  [99] virginica virginica virginica virginica virginica virginica virginica
-#&gt; [106] virginica virginica virginica virginica virginica virginica virginica
-#&gt; [113] virginica virginica virginica virginica virginica virginica virginica
-#&gt; [120] virginica virginica virginica virginica virginica virginica virginica
-#&gt; [127] virginica virginica virginica virginica virginica virginica virginica
-#&gt; [134] virginica virginica virginica virginica virginica virginica virginica
-#&gt; [141] virginica virginica virginica virginica virginica virginica virginica
-#&gt; [148] virginica virginica virginica
-#&gt; Levels: setosa versicolor virginica</div><div class='input'><span class='va'>p</span><span class='op'>$</span><span class='fu'>score</span><span class='op'>(</span>measures <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>msr</a></span><span class='op'>(</span><span class='st'>"classif.ce"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;   [1] Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie
+#&gt;  [11] Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie
+#&gt;  [21] Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie
+#&gt;  [31] Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie
+#&gt;  [41] Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie
+#&gt;  [51] Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie
+#&gt;  [61] Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie
+#&gt;  [71] Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie
+#&gt;  [81] Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie
+#&gt;  [91] Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie
+#&gt; [101] Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie
+#&gt; [111] Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie
+#&gt; [121] Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie
+#&gt; [131] Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie
+#&gt; [141] Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie
+#&gt; [151] Adelie Adelie Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo
+#&gt; [161] Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo
+#&gt; [171] Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo
+#&gt; [181] Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo
+#&gt; [191] Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo
+#&gt; [201] Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo
+#&gt; [211] Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo
+#&gt; [221] Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo
+#&gt; [231] Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo
+#&gt; [241] Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo
+#&gt; [251] Adelie Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo
+#&gt; [261] Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo
+#&gt; [271] Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Adelie Adelie Adelie Adelie
+#&gt; [281] Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie
+#&gt; [291] Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie
+#&gt; [301] Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie
+#&gt; [311] Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie
+#&gt; [321] Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie
+#&gt; [331] Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie
+#&gt; [341] Adelie Adelie Adelie Adelie
+#&gt; Levels: Adelie Chinstrap Gentoo</div><div class='input'><span class='va'>p</span><span class='op'>$</span><span class='fu'>score</span><span class='op'>(</span>measures <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>msr</a></span><span class='op'>(</span><span class='st'>"classif.ce"</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; classif.ce 
-#&gt;  0.3333333 </div></pre>
+#&gt;  0.2005814 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

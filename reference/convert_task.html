@@ -55,7 +55,7 @@
 
 <meta property="og:title" content="Convert a Task from One Type to Another — convert_task" />
 <meta property="og:description" content="The task's target is replaced by a different column from the data." />
-<meta property="og:image" content="https://mlr3.mlr-org.com/logo.svg" />
+<meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -89,7 +89,7 @@
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.10.0</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.11.0</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -169,46 +169,6 @@
   new_type <span class='op'>=</span> <span class='cn'>NULL</span>,
   drop_original_target <span class='op'>=</span> <span class='cn'>FALSE</span>,
   drop_levels <span class='op'>=</span> <span class='cn'>TRUE</span>
-<span class='op'>)</span>
-
-<span class='fu'>as_task_classif</span><span class='op'>(</span><span class='va'>x</span>, target <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span>
-
-<span class='co'># S3 method for TaskRegr</span>
-<span class='fu'>as_task_classif</span><span class='op'>(</span>
-  <span class='va'>x</span>,
-  target <span class='op'>=</span> <span class='cn'>NULL</span>,
-  drop_original_target <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  drop_levels <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  <span class='va'>...</span>
-<span class='op'>)</span>
-
-<span class='co'># S3 method for data.frame</span>
-<span class='fu'>as_task_classif</span><span class='op'>(</span>
-  <span class='va'>x</span>,
-  target <span class='op'>=</span> <span class='cn'>NULL</span>,
-  id <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/deparse.html'>deparse</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/substitute.html'>substitute</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>)</span>,
-  positive <span class='op'>=</span> <span class='cn'>NULL</span>,
-  <span class='va'>...</span>
-<span class='op'>)</span>
-
-<span class='fu'>as_task_regr</span><span class='op'>(</span><span class='va'>x</span>, target <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span>
-
-<span class='co'># S3 method for TaskClassif</span>
-<span class='fu'>as_task_regr</span><span class='op'>(</span>
-  <span class='va'>x</span>,
-  target <span class='op'>=</span> <span class='cn'>NULL</span>,
-  drop_original_target <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  drop_levels <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  <span class='va'>...</span>
-<span class='op'>)</span>
-
-<span class='co'># S3 method for data.frame</span>
-<span class='fu'>as_task_regr</span><span class='op'>(</span>
-  <span class='va'>x</span>,
-  target <span class='op'>=</span> <span class='cn'>NULL</span>,
-  id <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/deparse.html'>deparse</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/substitute.html'>substitute</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>)</span>,
-  positive <span class='op'>=</span> <span class='cn'>NULL</span>,
-  <span class='va'>...</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -241,26 +201,6 @@ Otherwise the original target is dropped.</p></td>
       <th>drop_levels</th>
       <td><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
 If <code>TRUE</code> (default), unused levels of the new target variable are dropped.</p></td>
-    </tr>
-    <tr>
-      <th>x</th>
-      <td><p>(<code>any</code>)<br />
-Object to convert.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>(<code>any</code>)<br />
-Additional arguments, currently ignored.</p></td>
-    </tr>
-    <tr>
-      <th>id</th>
-      <td><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
-Id for the new task.</p></td>
-    </tr>
-    <tr>
-      <th>positive</th>
-      <td><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
-Level of the positive class. See <a href='TaskClassif.html'>TaskClassif</a>.</p></td>
     </tr>
     </table>
 

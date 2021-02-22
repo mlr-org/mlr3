@@ -64,7 +64,7 @@ Creates a Prediction object by calling learner$predict_newdata().
 Returns (subset of) Prediction.
 
 " />
-<meta property="og:image" content="https://mlr3.mlr-org.com/logo.svg" />
+<meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -98,7 +98,7 @@ Returns (subset of) Prediction.
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.10.0</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.11.0</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -226,10 +226,10 @@ Hyperparameters to pass down to the <a href='Learner.html'>Learner</a>.</p></td>
 #&gt; [2,] 0.9339623 0.06603774
 #&gt; [3,] 0.9339623 0.06603774</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>learner</span>, <span class='va'>task</span><span class='op'>$</span><span class='fu'>data</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span><span class='op'>)</span>, predict_type <span class='op'>=</span> <span class='st'>"&lt;Prediction&gt;"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; &lt;PredictionClassif&gt; for 3 observations:
-#&gt;  row_id truth response prob.spam prob.nonspam
-#&gt;       1  spam     spam 0.8513514   0.14864865
-#&gt;       2  spam     spam 0.9339623   0.06603774
-#&gt;       3  spam     spam 0.9339623   0.06603774</div></pre>
+#&gt;  row_ids truth response prob.spam prob.nonspam
+#&gt;        1  spam     spam 0.8513514   0.14864865
+#&gt;        2  spam     spam 0.9339623   0.06603774
+#&gt;        3  spam     spam 0.9339623   0.06603774</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
