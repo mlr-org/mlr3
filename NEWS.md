@@ -1,6 +1,6 @@
 # mlr3 0.11.0
 
-* Added `as.data.table.Resampling` method.
+* Added a `as.data.table.Resampling` method.
 * Renamed column `"row_id"` to `"row_ids"` in the `as.data.table()` methods
   for `PredictionClassif` and `PredictionRegr` (#547).
 * Added converters `as_prediction_classif()` and `as_prediction_regr()` to
