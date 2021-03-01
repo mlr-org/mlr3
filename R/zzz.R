@@ -36,6 +36,14 @@
 #' * Progress bars: \CRANpkg{progressr}
 #' * Encapsulated evaluation: \CRANpkg{evaluate}, \CRANpkg{callr} (external process)
 #'
+#' @section Package Options:
+#' * `"mlr3.debug"`: If set to `TRUE`, parallelization via \CRANpkg{future} is disabled to simplify
+#'   debugging and provide more concise tracebacks.
+#' * `"mlr3.allow_utf8_names"`: If set to `TRUE`, checks on the feature names are relaxed, allowing
+#'   non-ascii characters in column names. This is an experimental and temporal option to
+#'   pave the way for text analysis, and will likely be removed in a future version of the package.
+#'   analysis.
+#'
 #' @references
 #' `r tools::toRd(citation("mlr3"))`
 "_PACKAGE"

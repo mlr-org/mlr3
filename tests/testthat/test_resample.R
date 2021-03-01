@@ -120,3 +120,11 @@ test_that("save/load roundtrip", {
   rr2 = readRDS(path)
   expect_resample_result(rr2)
 })
+
+test_that("debug branch", {
+  task = tsk("iris")
+  learner = lrn("classif.featureless")
+  resampling = rsmp("cv", folds = 2)
+  rr = invoke(resample, task = task, learner = learner, resampling = resampling, .opts = list(mlr3.debug = TRUE))
+  expect_resample_result(rr)
+})
