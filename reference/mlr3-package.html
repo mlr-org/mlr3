@@ -221,6 +221,20 @@ Efficient, object-oriented programming on the
 <li><p>Encapsulated evaluation: <a href='https://CRAN.R-project.org/package=evaluate'><span class="pkg">evaluate</span></a>, <a href='https://CRAN.R-project.org/package=callr'><span class="pkg">callr</span></a> (external process)</p></li>
 </ul>
 
+    <h2 class="hasAnchor" id="package-options"><a class="anchor" href="#package-options"></a>Package Options</h2>
+
+    
+
+<ul>
+<li><p><code>"mlr3.debug"</code>: If set to <code>TRUE</code>, parallelization via <a href='https://CRAN.R-project.org/package=future'><span class="pkg">future</span></a> is disabled to simplify
+debugging and provide more concise tracebacks.
+Note that results computed with debug mode enabled use a different seeding mechanism and are not reproducible.</p></li>
+<li><p><code>"mlr3.allow_utf8_names"</code>: If set to <code>TRUE</code>, checks on the feature names are relaxed, allowing
+non-ascii characters in column names. This is an experimental and temporal option to
+pave the way for text analysis, and will likely be removed in a future version of the package.
+analysis.</p></li>
+</ul>
+
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Lang M, Binder M, Richter J, Schratz P, Pfisterer F, Coors S, Au Q, Casalicchio G, Kotthoff L, Bischl B (2019).
