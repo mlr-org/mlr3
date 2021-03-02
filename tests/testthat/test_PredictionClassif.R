@@ -139,3 +139,14 @@ test_that("c", {
   expect_factor(p3$response, len = length(p1$response), any.missing = FALSE)
   expect_matrix(p3$prob, nrows = nrow(p1$prob), ncols = ncol(p1$prob))
 })
+
+test_that("as_prediction_classif", {
+  task = tsk("penguins")
+  learner = lrn("classif.featureless", method = "weighted.sample")
+  p = learner$train(task)$predict(task)
+
+  tab = as.data.table(p)
+  p2 = as_prediction_classif(tab)
+
+  expect_equal(tab, as.data.table(p2))
+})

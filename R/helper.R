@@ -74,3 +74,7 @@ get_progressor = function(n, label = NA_character_) {
 
   progressr::progressor(steps = n, label = label)
 }
+
+allow_utf8_names = function() {
+  isTRUE(getOption("mlr3.allow_utf8_names"))
+}

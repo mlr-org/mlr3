@@ -1,6 +1,6 @@
 Package: mlr3
 Title: Machine Learning in R - Next Generation
-Version: 0.10.0-9000
+Version: 0.11.0
 Authors@R:
     c(person(given = "Michel",
              family = "Lang",
@@ -69,6 +69,7 @@ Imports:
     mlbench,
     mlr3measures (>= 0.3.0),
     mlr3misc (>= 0.7.0),
+    parallelly,
     palmerpenguins,
     paradox (>= 0.6.0),
     uuid
@@ -170,7 +171,9 @@ Collate:
     'as_learner.R'
     'as_measure.R'
     'as_prediction.R'
+    'as_prediction_classif.R'
     'as_prediction_data.R'
+    'as_prediction_regr.R'
     'as_resample_result.R'
     'as_resampling.R'
     'as_result_data.R'
@@ -189,6 +192,7 @@ Collate:
     'predict.R'
     'reexports.R'
     'resample.R'
+    'set_threads.R'
     'task_converters.R'
     'worker.R'
     'zzz.R'

@@ -148,9 +148,9 @@ rr$score(measure)
 ```
 
     ##                 task  task_id                   learner    learner_id
-    ## 1: <TaskClassif[45]> penguins <LearnerClassifRpart[34]> classif.rpart
-    ## 2: <TaskClassif[45]> penguins <LearnerClassifRpart[34]> classif.rpart
-    ## 3: <TaskClassif[45]> penguins <LearnerClassifRpart[34]> classif.rpart
+    ## 1: <TaskClassif[46]> penguins <LearnerClassifRpart[34]> classif.rpart
+    ## 2: <TaskClassif[46]> penguins <LearnerClassifRpart[34]> classif.rpart
+    ## 3: <TaskClassif[46]> penguins <LearnerClassifRpart[34]> classif.rpart
     ##            resampling resampling_id iteration              prediction
     ## 1: <ResamplingCV[19]>            cv         1 <PredictionClassif[19]>
     ## 2: <ResamplingCV[19]>            cv         2 <PredictionClassif[19]>
@@ -217,6 +217,9 @@ would result in non-trivial API changes.
     argument in `[.data.frame`) are avoided.
 -   Be light on dependencies. `mlr3` requires the following packages at
     runtime:
+    -   [`parallelly`](https://cran.r-project.org/package=parallelly):
+        Helper functions for parallelization. No extra recursive
+        dependencies.
     -   [`future.apply`](https://cran.r-project.org/package=future.apply):
         Resampling and benchmarking is parallelized with the
         [`future`](https://cran.r-project.org/package=future)
@@ -248,6 +251,9 @@ would result in non-trivial API changes.
         Performance measures. No extra recursive dependencies.
     -   [`mlbench`](https://cran.r-project.org/package=mlbench): A
         collection of machine learning data sets. No dependencies.
+    -   [`palmerpenguins`](https://cran.r-project.org/package=palmerpenguins):
+        A classification data set about penguins, used on examples and
+        provided as a toy task. No dependencies.
 -   [Reflections](https://en.wikipedia.org/wiki/Reflection_%28computer_programming%29):
     Objects are queryable for properties and capabilities, allowing you
     to program on them.

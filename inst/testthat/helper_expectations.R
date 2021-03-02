@@ -314,6 +314,7 @@ expect_learner = function(lrn, task = NULL) {
   checkmate::expect_choice(lrn$task_type, mlr3::mlr_reflections$task_types$type)
   checkmate::expect_character(lrn$packages, any.missing = FALSE, min.chars = 1L, unique = TRUE)
   checkmate::expect_class(lrn$param_set, "ParamSet")
+  testthat::expect_lte(length(lrn$param_set$ids(tags = "threads")), 1L)
   checkmate::expect_character(lrn$properties, any.missing = FALSE, min.chars = 1L, unique = TRUE)
   if (is.null(private(lrn)$.train)) {
     checkmate::expect_function(lrn$train_internal, args = "task", nargs = 1L)
