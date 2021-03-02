@@ -399,8 +399,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
 
       grid = as.data.table(self)[, c("task", "learner", "resampling", "iteration", "uhash")]
       grid$learner = unlist(learners)
-      uhash = NULL
-      grid[, "uhash" := UUIDgenerate(), by = uhash]
+      grid[, "uhash" := UUIDgenerate(), by = "uhash"]
 
       n = nrow(grid)
 
