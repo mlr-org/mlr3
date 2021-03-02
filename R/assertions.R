@@ -245,18 +245,6 @@ assert_ro_binding = function(rhs) {
 }
 
 #' @export
-#' @param train_task ([Task]).
-#' @param continue_task ([Task]).
-#' @rdname mlr_assertions
-assert_continuable_task = function(train_task, continue_task) {
-  continue_task = task_rm_backend(continue_task$clone(deep = TRUE))
-  train_task = task_rm_backend(train_task$clone(deep = TRUE))
-  if(!isTRUE(all.equal(train_task, continue_task, check.environment = FALSE))) {
-    stop("Supplied task does not allow to continue training.")
-  }
-}
-
-#' @export
 #' @param train_learner ([Learner]),
 #' @param ccontinue_learner ([Learner])
 #' @rdname mlr_assertions

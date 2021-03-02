@@ -34,7 +34,8 @@ test_that("continue method works", {
   task$select("Petal.Length")
 
   expect_error(learner$continue(task),
-    regexp = "Supplied task does not allow to continue training")
+    regexp = "Assertion on 'task$feature_names' failed: Must be a permutation of set {Petal.Length,Petal.Width,Sepal.Length,Sepal.Width}.",
+    fixed = TRUE)
 })
 
 test_that("resample_continue works", {

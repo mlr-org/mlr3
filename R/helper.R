@@ -74,37 +74,3 @@ get_progressor = function(n, label = NA_character_) {
 
   progressr::progressor(steps = n, label = label)
 }
-
-# the following is a necessary workaround for the new R misbehaving when comparing R6 objects.
-# See https://github.com/r-lib/R6/issues/208
-# This is quite sloppy right now.
-r6_to_list = function(x) {
-  actives = c(".__enclos_env__", names(x[[".__enclos_env__"]][[".__active__"]]))
-  ll = sapply(setdiff(names(x), actives), get, x, simplify = FALSE)
-  ll[[".__enclos_env__"]] = list(`.__active__` = x[[".__enclos_env__"]][[".__active__"]], private = x[[".__enclos_env__"]][["private"]])
-  if (!is.null(x[[".__enclos_env__"]][["super"]])) {
-    ll[[".__enclos_env__"]][["super"]] = r6_to_list(x[[".__enclos_env__"]][["super"]])
-  }
-  ln = names(ll)
-  attributes(ll) = attributes(x)
-  names(ll) = ln
-  ll[sort(names(ll))]
-}
-
-all.equal.R6 = function(target, current, ...) {
-  if (!is.environment(target)) NextMethod()
-  if (!is.environment(current)) NextMethod()
-  if (!inherits(current, "R6")) return("'current' is not an R6 class")
-  # avoid cycles
-  r6_seen = dynGet("__r6_seen__", NULL)
-  if (is.null(r6_seen)) {
-    r6_seen = "__r6_seen__" = new.env(parent = emptyenv())
-  }
-  tca = sprintf("%s__%s", data.table::address(target), data.table::address(current))
-  if (!is.null(r6_seen[[tca]])) return(TRUE)
-  r6_seen[[tca]] = TRUE
-  # call all.equal.list directly because objects still have R6 class
-  base:::all.equal.list(r6_to_list(target), r6_to_list(current),  ...)
-}
-
-registerS3method("all.equal", "R6", all.equal.R6)

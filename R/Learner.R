@@ -237,7 +237,8 @@ Learner = R6Class("Learner",
       }
 
       task = assert_task(as_task(task))
-      assert_continuable_task(self$state$train_task, task)
+      assert_names(task$feature_names, permutation.of = self$state$train_task$feature_names)
+      assert_names(task$target_names, permutation.of = self$state$train_task$target_names)
 
       learner_train(self, task, mode = "continue")
 
@@ -261,6 +262,8 @@ Learner = R6Class("Learner",
         stop("Learner does not contain a model.")
       }
       task = assert_task(as_task(task))
+      assert_names(task$feature_names, permutation.of = self$state$train_task$feature_names)
+      assert_names(task$target_names, permutation.of = self$state$train_task$target_names)
 
       learner_train(self, task, row_ids, mode = "update")
 

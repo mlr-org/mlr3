@@ -16,7 +16,6 @@
 \alias{assert_resample_result}
 \alias{assert_benchmark_result}
 \alias{assert_row_ids}
-\alias{assert_continuable_task}
 \alias{assert_continuable_learner}
 \title{Assertion for mlr3 Objects}
 \usage{
@@ -88,8 +87,6 @@ assert_benchmark_result(bmr, .var.name = vname(bmr))
 
 assert_row_ids(row_ids, null.ok = FALSE, .var.name = vname(row_ids))
 
-assert_continuable_task(train_task, continue_task)
-
 assert_continuable_learner(train_learner, continue_learner)
 }
 \arguments{
@@ -122,10 +119,6 @@ Set of required task properties.}
 \item{bmr}{(\link{BenchmarkResult}).}
 
 \item{row_ids}{(\code{numeric()}).}
-
-\item{train_task}{(\link{Task}).}
-
-\item{continue_task}{(\link{Task}).}
 
 \item{train_learner}{(\link{Learner}),}
 
