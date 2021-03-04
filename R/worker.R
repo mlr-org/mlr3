@@ -10,8 +10,8 @@ learner_train = function(learner, task, row_ids = NULL, mode = "train") {
 
     model = if (mode == "train") {
         get_private(learner)$.train(task)
-      } else if (mode == "continue") {
-        get_private(learner)$.continue(task)
+      } else if (mode == "retrain") {
+        get_private(learner)$.retrain(task)
       } else if(mode == "update") {
         get_private(learner)$.update(task)
       }
@@ -24,7 +24,7 @@ learner_train = function(learner, task, row_ids = NULL, mode = "train") {
     model
   }
 
-  assert_choice(mode, c("train", "continue", "update"))
+  assert_choice(mode, c("train", "retrain", "update"))
   assert_task(task)
   assert_learner(learner)
   assert_learnable(task, learner)
@@ -69,7 +69,8 @@ learner_train = function(learner, task, row_ids = NULL, mode = "train") {
   learner$state = insert_named(learner$state, list(
       model = result$result,
       log = log,
-      train_time = train_time
+      train_time = train_time,
+      param_vals = learner$param_set$get_values()
     ))
 
   if (is.null(result$result)) {
@@ -205,7 +206,8 @@ learner_predict = function(learner, task, row_ids = NULL) {
 }
 
 
-workhorse = function(iteration, task, learner, resampling, lgr_threshold = NULL, store_models = FALSE, pb = NULL, mode = "train") {
+workhorse = function(iteration, task, learner, resampling, lgr_threshold = NULL, store_models = FALSE, pb = NULL, 
+  mode = "train") {
   if (!is.null(pb)) {
     pb(sprintf("%s|%s|i:%i", task$id, learner$id, iteration))
   }
@@ -215,7 +217,7 @@ workhorse = function(iteration, task, learner, resampling, lgr_threshold = NULL,
   }
 
   lg$info("%s learner '%s' on task '%s' (iter %i/%i)",
-    ifelse(mode == "train", "Applying", "Continuing"), learner$id, task$id, iteration, resampling$iters)
+    ifelse(mode == "train", "Applying", "Retraining"), learner$id, task$id, iteration, resampling$iters)
 
   sets = list(
     train = resampling$train_set(iteration),

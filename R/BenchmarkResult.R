@@ -365,12 +365,12 @@ BenchmarkResult = R6Class("BenchmarkResult",
 
 
     #' @description
-    #' Repeats the benchmark with continuable models. The models are updated
+    #' Repeats the benchmark with retrainable models. The models are updated
     #' with the additional budget, the training continues on the training sets
     #' and the performance is again evaluated on the test sets.
     #'
-    #' @param budget (`any`)\cr
-    #'   Increased budget hyperparameter.
+    #' @param param_vals (`list()`)\cr
+    #'   Increased budget hyperparameter(s).
     #' @param store_models (`logical(1)`)\cr
     #'   Keep the fitted model after the test set has been predicted?
     #'   Set to `TRUE` if you want to further analyse the models or want to
@@ -385,14 +385,13 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #' The fitted models are discarded after the predictions have been computed in
     #' order to reduce memory consumption. If you need access to the models for
     #' later analysis, set `store_models` to `TRUE`.
-    continue = function(budget, store_models = FALSE) {
+    retrain = function(param_vals, store_models = FALSE) {
       assert_flag(store_models)
 
       # Set new parameter set in learners with stored model
-      budget_id = self$resample_result(1)$learners[[1]]$param_set$ids(tags = "budget")
       learners = map(seq(self$n_resample_results), function(i) {
         map(self$resample_result(i)$learners, function(l) {
-          l$param_set$values[budget_id] = budget
+          l$param_set$values = insert_named(l$param_set$values, param_vals)
           l
         })
       })
@@ -400,7 +399,6 @@ BenchmarkResult = R6Class("BenchmarkResult",
       grid = as.data.table(self)[, c("task", "learner", "resampling", "iteration", "uhash")]
       grid$learner = unlist(learners)
       grid[, "uhash" := UUIDgenerate(), by = "uhash"]
-
       n = nrow(grid)
 
       lg$info("Benchmark with %i resampling iterations", n)
@@ -409,9 +407,9 @@ BenchmarkResult = R6Class("BenchmarkResult",
       lg$debug("Running benchmark() asynchronously with %i iterations", n)
 
       res = future.apply::future_mapply(workhorse,
-        task = grid$task, learner = grid$learner, resampling = grid$resampling,
-        iteration = grid$iteration,
-        MoreArgs = list(store_models = store_models, lgr_threshold = lg$threshold, pb = pb, mode = "continue"),
+        task = grid$task, learner = grid$learner, resampling = grid$resampling, iteration = grid$iteration,
+        mode = ifelse(self$is_retrainable(param_vals), "retrain", "train"),
+        MoreArgs = list(store_models = store_models, lgr_threshold = lg$threshold, pb = pb),
         SIMPLIFY = FALSE, USE.NAMES = FALSE,
         future.globals = FALSE, future.scheduling = structure(TRUE, ordering = "random"),
         future.packages = "mlr3", future.seed = TRUE
@@ -426,6 +424,12 @@ BenchmarkResult = R6Class("BenchmarkResult",
 
       self$data = ResultData$new(grid)
       invisible(self)
+    },
+
+    #' @description
+    #' ...
+    is_retrainable = function(param_vals) {
+      map_lgl(seq(self$n_resample_results), function(i) self$resample_result(i)$is_retrainable(param_vals))
     }
   ),
 

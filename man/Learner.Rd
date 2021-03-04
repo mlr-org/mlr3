@@ -47,11 +47,11 @@ The learner must be tagged with property \code{"oob_error"}.
 }
 }
 
-\section{Continue training}{
+\section{Retrain}{
 
 
-Specific learners can implement the private method \code{.$continue()} to
-continue the training of the model.
+Specific learners can implement the private method \code{.$retrain()} to
+retrain the model.
 }
 
 \section{Setting Hyperparameters}{
@@ -187,8 +187,8 @@ Must be an element of \verb{$predict_types}.}
 Set of hyperparameters.}
 
 \item{\code{encapsulate}}{(named \code{character()})\cr
-Controls how to execute the code in internal train, predict, continue and update methods.
-Must be a named character vector with names \code{"train"}, \code{"predict"}, \code{"continue"} and \code{"update"}.
+Controls how to execute the code in internal train, predict, retrain and update methods.
+Must be a named character vector with names \code{"train"}, \code{"predict"}, \code{"retrain"} and \code{"update"}.
 Possible values are \code{"none"}, \code{"evaluate"} (requires package \CRANpkg{evaluate}) and \code{"callr"} (requires package \CRANpkg{callr}).
 See \code{\link[mlr3misc:encapsulate]{mlr3misc::encapsulate()}} for more details.}
 }
@@ -202,7 +202,8 @@ See \code{\link[mlr3misc:encapsulate]{mlr3misc::encapsulate()}} for more details
 \item \href{#method-print}{\code{Learner$print()}}
 \item \href{#method-help}{\code{Learner$help()}}
 \item \href{#method-train}{\code{Learner$train()}}
-\item \href{#method-continue}{\code{Learner$continue()}}
+\item \href{#method-retrain}{\code{Learner$retrain()}}
+\item \href{#method-is_retrainable}{\code{Learner$is_retrainable()}}
 \item \href{#method-update}{\code{Learner$update()}}
 \item \href{#method-predict}{\code{Learner$predict()}}
 \item \href{#method-predict_newdata}{\code{Learner$predict_newdata()}}
@@ -342,20 +343,24 @@ the object in its previous state.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-continue"></a>}}
-\if{latex}{\out{\hypertarget{method-continue}{}}}
-\subsection{Method \code{continue()}}{
-Continue training of the model on the provided \code{task}.
+\if{html}{\out{<a id="method-retrain"></a>}}
+\if{latex}{\out{\hypertarget{method-retrain}{}}}
+\subsection{Method \code{retrain()}}{
+Retrain the model on the provided \code{task}.
 Mutates the learner by reference, i.e. stores the model alongside other
 information in field \verb{$state}.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Learner$continue(task)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Learner$retrain(task, param_vals, allow_train = TRUE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{task}}{(\link{Task}).}
+
+\item{\code{param_vals}}{(\code{list()}).}
+
+\item{\code{allow_train}}{(\code{logical(1)})\cr}
 }
 \if{html}{\out{</div>}}
 }
@@ -364,6 +369,15 @@ Returns the object itself, but modified \strong{by reference}. You need to
 explicitly \verb{$clone()} the object beforehand if you want to keeps the
 object in its previous state.
 }
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-is_retrainable"></a>}}
+\if{latex}{\out{\hypertarget{method-is_retrainable}{}}}
+\subsection{Method \code{is_retrainable()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Learner$is_retrainable(param_vals)}\if{html}{\out{</div>}}
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-update"></a>}}

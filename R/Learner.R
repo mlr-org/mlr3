@@ -55,10 +55,10 @@
 #' * `oob_error(...)`: Returns the out-of-bag error of the model as `numeric(1)`.
 #'   The learner must be tagged with property `"oob_error"`.
 #'
-#' @section Continue training:
+#' @section Retrain:
 #'
-#' Specific learners can implement the private method `.$continue()` to
-#' continue the training of the model.
+#' Specific learners can implement the private method `.$retrain()` to
+#' retrain the model.
 #'
 #' @section Setting Hyperparameters:
 #'
@@ -149,7 +149,7 @@ Learner = R6Class("Learner",
       self$id = assert_string(id, min.chars = 1L)
       self$task_type = assert_choice(task_type, mlr_reflections$task_types$type)
       private$.param_set = assert_param_set(param_set)
-      private$.encapsulate = c(train = "none", predict = "none", continue = "none", update = "none")
+      private$.encapsulate = c(train = "none", predict = "none", retrain = "none", update = "none")
       self$feature_types = assert_subset(feature_types, mlr_reflections$task_feature_types)
       self$predict_types = assert_subset(predict_types, names(mlr_reflections$learner_predict_types[[task_type]]), empty.ok = FALSE)
       private$.predict_type = predict_types[1L]
@@ -221,28 +221,43 @@ Learner = R6Class("Learner",
     },
 
     #' @description
-    #' Continue training of the model on the provided `task`.
+    #' Retrain the model on the provided `task`.
     #' Mutates the learner by reference, i.e. stores the model alongside other
     #' information in field `$state`.
     #'
     #' @param task ([Task]).
+    #' @param param_vals (`list()`).
+    #' @param allow_train (`logical(1)`)\cr
+    #' 
     #'
     #' @return
     #' Returns the object itself, but modified **by reference**. You need to
     #' explicitly `$clone()` the object beforehand if you want to keeps the
     #' object in its previous state.
-    continue = function(task) {
-      if(is.null(self$model)) {
-        stop("Learner does not contain a model.")
-      }
-
+    retrain = function(task, param_vals, allow_train = TRUE) {
       task = assert_task(as_task(task))
+      assert_flag(allow_train)
+
       assert_names(task$feature_names, permutation.of = self$state$train_task$feature_names)
       assert_names(task$target_names, permutation.of = self$state$train_task$target_names)
+      retrainable = self$is_retrainable(param_vals)
 
-      learner_train(self, task, mode = "continue")
+      if (!retrainable & !allow_train) {
+        stopf("%s is not retrainable.", format(self))
+      } else {
+        self$param_set$values = insert_named(self$param_set$values, param_vals)
+        learner_train(self, task, mode = ifelse(retrainable, "retrain", "train"))
+      }
 
+      # store the task w/o the data
+      self$state$train_task = task_rm_backend(task$clone(deep = TRUE))
       invisible(self)
+    },
+
+    is_retrainable = function(param_vals) {
+      self$param_set$assert(param_vals)
+      if (is.null(self$model)) return(FALSE)
+      private$.is_retrainable(param_vals[self$param_set$ids(tags = "retrain")])
     },
 
     #' @description
@@ -437,8 +452,8 @@ Learner = R6Class("Learner",
     },
 
     #' @field encapsulate (named `character()`)\cr
-    #' Controls how to execute the code in internal train, predict, continue and update methods.
-    #' Must be a named character vector with names `"train"`, `"predict"`, `"continue"` and `"update"`.
+    #' Controls how to execute the code in internal train, predict, retrain and update methods.
+    #' Must be a named character vector with names `"train"`, `"predict"`, `"retrain"` and `"update"`.
     #' Possible values are `"none"`, `"evaluate"` (requires package \CRANpkg{evaluate}) and `"callr"` (requires package \CRANpkg{callr}).
     #' See [mlr3misc::encapsulate()] for more details.
     encapsulate = function(rhs) {
@@ -446,8 +461,8 @@ Learner = R6Class("Learner",
         return(private$.encapsulate)
       }
       assert_character(rhs)
-      assert_names(names(rhs), subset.of = c("train", "predict", "continue", "update"))
-      private$.encapsulate = insert_named(c(train = "none", predict = "none", continue = "none", update = "none"), rhs)
+      assert_names(names(rhs), subset.of = c("train", "predict", "retrain", "update"))
+      private$.encapsulate = insert_named(c(train = "none", predict = "none", retrain = "none", update = "none"), rhs)
     }
   ),
 
@@ -456,8 +471,8 @@ Learner = R6Class("Learner",
     .predict_type = NULL,
     .param_set = NULL,
 
-    .continue = function(task) {
-      stopf("Learner '%s' does not support continue.", self$id)
+    .retrain = function(task) {
+      stopf("Learner '%s' does not support retrain.", self$id)
     },
 
     .update = function(task) {

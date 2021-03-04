@@ -65,7 +65,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
             ParamLgl$new("save_tasks", default = FALSE, tags = c("train", "predict")),
             ParamInt$new("threads", lower = 1, tags = c("train", "threads")),
             ParamDbl$new("x", lower = 0, upper = 1, tags = "train"),
-            ParamInt$new("iter", default = 1, lower = 1, tags = c("train", "budget"))
+            ParamInt$new("iter", default = 1, lower = 1, tags = c("train", "retrain"))
           )
         )
       ps$values$iter = 1
@@ -75,7 +75,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
         predict_types = c("response", "prob"),
         param_set = ps,
-        properties = c("twoclass", "multiclass", "missings", "continue"),
+        properties = c("twoclass", "multiclass", "missings", "retrain"),
         man = "mlr3::mlr_learners_classif.debug",
         data_formats = c("data.table", "Matrix")
       )
@@ -103,7 +103,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
       }
 
       model = list(response = as.character(sample(task$truth(), 1L)), pid = Sys.getpid(), iter = pv$iter,
-        continue_id = UUIDgenerate())
+        retrain_id = UUIDgenerate())
       if (isTRUE(pv$save_tasks)) {
         model$task_train = task$clone(deep = TRUE)
       }
@@ -159,31 +159,32 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
       list(response = response, prob = prob)
     },
 
-    .continue = function(task) {
+    .retrain = function(task) {
       model = self$model
       pars = self$param_set$get_values(tags = "train")
-      continue_id = self$model$continue_id
-
-      if(model$iter >= pars$iter) {
-        stop("No additional iterations provided.")
-      }
+      retrain_id = self$model$retrain_id
 
       model = list(response = as.character(sample(task$truth(), 1L)), pid = Sys.getpid(), iter = pars$iter,
-        continue_id = continue_id)
+        retrain_id = retrain_id)
       set_class(model, "classif.debug_model")
+    },
+
+    .is_retrainable = function(param_vals) {
+      if(is.null(param_vals)) return(TRUE)
+      param_vals$iter > self$state$param_vals$iter
     },
 
     .update = function(task) {
       model = self$model
       pars = self$param_set$get_values(tags = "train")
-      continue_id = self$model$continue_id
+      retrain_id = self$model$retrain_id
 
       if(model$iter >= pars$iter) {
         stop("No additional iterations provided.")
       }
 
       model = list(response = as.character(sample(task$truth(), 1L)), pid = Sys.getpid(), iter = pars$iter,
-        continue_id = continue_id)
+        retrain_id = retrain_id)
       set_class(model, "classif.debug_model")
     }
   )

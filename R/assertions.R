@@ -244,23 +244,6 @@ assert_ro_binding = function(rhs) {
   }
 }
 
-#' @export
-#' @param train_learner ([Learner]),
-#' @param ccontinue_learner ([Learner])
-#' @rdname mlr_assertions
-assert_continuable_learner = function(train_learner, continue_learner) {
-  train_learner = train_learner$clone(deep = TRUE)
-  continue_learner = continue_learner$clone(deep = TRUE)
-  train_learner$state = NULL
-  continue_learner$state = NULL
-  train_learner$param_set$values = list()
-  continue_learner$param_set$values = list()
-
-  if(!isTRUE(all.equal(train_learner, continue_learner))) {
-    stop("Supplied learner does not allow to continue training.")
-  }
-}
-
 assert_has_backend = function(task) {
   if (is.null(task$backend)) {
     stopf("The backend of Task '%s' has been removed. Set `store_backends` to `TRUE` during model fitting to conserve it.", task$id)

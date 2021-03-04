@@ -16,7 +16,6 @@
 \alias{assert_resample_result}
 \alias{assert_benchmark_result}
 \alias{assert_row_ids}
-\alias{assert_continuable_learner}
 \title{Assertion for mlr3 Objects}
 \usage{
 assert_backend(b, .var.name = vname(b))
@@ -86,8 +85,6 @@ assert_resample_result(rr, .var.name = vname(rr))
 assert_benchmark_result(bmr, .var.name = vname(bmr))
 
 assert_row_ids(row_ids, null.ok = FALSE, .var.name = vname(row_ids))
-
-assert_continuable_learner(train_learner, continue_learner)
 }
 \arguments{
 \item{b}{(\link{DataBackend}).}
@@ -120,11 +117,7 @@ Set of required task properties.}
 
 \item{row_ids}{(\code{numeric()}).}
 
-\item{train_learner}{(\link{Learner}),}
-
 \item{resample_result}{(\link{ResampleResult}).}
-
-\item{ccontinue_learner}{(\link{Learner})}
 }
 \description{
 Functions intended to be used in packages extending \pkg{mlr3}.

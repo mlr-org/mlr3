@@ -199,12 +199,12 @@ ResampleResult = R6Class("ResampleResult",
     },
 
     #' @description
-    #' Repeats the resampling with continuable models. The models are updated
+    #' Repeats the resampling with retrainable models. The models are updated
     #' with the additional budget, the training continues on the training sets
     #' and the performance is again evaluated on the test sets.
     #'
-    #' @param budget (`any`)\cr
-    #'   Increased budget hyperparameter.
+    #' @param param_vals (`list()`)\cr
+    #'   Increased budget hyperparameter(s).
     #' @param store_models (`logical(1)`)\cr
     #'   Keep the fitted model after the test set has been predicted?
     #'   Set to `TRUE` if you want to further analyse the models or want to
@@ -218,12 +218,12 @@ ResampleResult = R6Class("ResampleResult",
     #' The fitted models are discarded after the predictions have been computed in
     #' order to reduce memory consumption. If you need access to the models for
     #' later analysis, set `store_models` to `TRUE`.
-    continue = function(budget, store_models = FALSE) {
+    retrain = function(param_vals, store_models = FALSE) {
       assert_flag(store_models)
-
-      budget_id = self$learners[[1]]$param_set$ids(tags = "budget")
+      
+      # Set new parameter set in learners with stored model
       learners = map(self$learners, function(l) {
-        l$param_set$values[budget_id] = budget
+        l$param_set$values = insert_named(l$param_set$values, param_vals)
         l
       })
 
@@ -232,11 +232,11 @@ ResampleResult = R6Class("ResampleResult",
       n = instance$iters
       pb = get_progressor(n)
 
-      lg$debug("Running resample_continue() via future with %i iterations", n)
+      lg$debug("Retrain via future with %i iterations", n)
 
       res = future.apply::future_mapply(workhorse, iteration = seq_len(n), learner = learners,
         MoreArgs = list(task = task, resampling = instance, store_models = store_models,
-          lgr_threshold = lg$threshold, pb = pb, mode = "continue"),
+          lgr_threshold = lg$threshold, pb = pb, mode = ifelse(self$is_retrainable(param_vals), "retrain", "train")),
         future.globals = FALSE, future.scheduling = structure(TRUE, ordering = "random"),
         future.packages = "mlr3", future.seed = TRUE
       )
@@ -253,6 +253,10 @@ ResampleResult = R6Class("ResampleResult",
 
       self$data = ResultData$new(data)
       invisible(self)
+    },
+
+    is_retrainable = function(param_vals) {
+      all(map_lgl(self$learners, function(l) l$is_retrainable(param_vals)))
     }
   ),
 

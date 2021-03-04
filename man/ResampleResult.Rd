@@ -100,7 +100,8 @@ Note that there can be multiple rows per resampling iteration if multiple errors
 \item \href{#method-score}{\code{ResampleResult$score()}}
 \item \href{#method-aggregate}{\code{ResampleResult$aggregate()}}
 \item \href{#method-filter}{\code{ResampleResult$filter()}}
-\item \href{#method-continue}{\code{ResampleResult$continue()}}
+\item \href{#method-retrain}{\code{ResampleResult$retrain()}}
+\item \href{#method-is_retrainable}{\code{ResampleResult$is_retrainable()}}
 \item \href{#method-clone}{\code{ResampleResult$clone()}}
 }
 }
@@ -302,21 +303,21 @@ the object in its previous state.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-continue"></a>}}
-\if{latex}{\out{\hypertarget{method-continue}{}}}
-\subsection{Method \code{continue()}}{
-Repeats the resampling with continuable models. The models are updated
+\if{html}{\out{<a id="method-retrain"></a>}}
+\if{latex}{\out{\hypertarget{method-retrain}{}}}
+\subsection{Method \code{retrain()}}{
+Repeats the resampling with retrainable models. The models are updated
 with the additional budget, the training continues on the training sets
 and the performance is again evaluated on the test sets.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$continue(budget, store_models = FALSE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$retrain(param_vals, store_models = FALSE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{budget}}{(\code{any})\cr
-Increased budget hyperparameter.}
+\item{\code{param_vals}}{(\code{list()})\cr
+Increased budget hyperparameter(s).}
 
 \item{\code{store_models}}{(\code{logical(1)})\cr
 Keep the fitted model after the test set has been predicted?
@@ -330,6 +331,15 @@ Returns the object itself, but modified \strong{by reference}.
 You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
 the object in its previous state.
 }
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-is_retrainable"></a>}}
+\if{latex}{\out{\hypertarget{method-is_retrainable}{}}}
+\subsection{Method \code{is_retrainable()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$is_retrainable(param_vals)}\if{html}{\out{</div>}}
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}
