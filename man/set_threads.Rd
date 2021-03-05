@@ -7,13 +7,13 @@
 \alias{set_threads.list}
 \title{Set the Number of Threads}
 \usage{
-set_threads(x, n = parallelly::availableCores())
+set_threads(x, n = availableCores())
 
-\method{set_threads}{default}(x, n = parallelly::availableCores())
+\method{set_threads}{default}(x, n = availableCores())
 
-\method{set_threads}{Learner}(x, n = parallelly::availableCores())
+\method{set_threads}{Learner}(x, n = availableCores())
 
-\method{set_threads}{list}(x, n = parallelly::availableCores())
+\method{set_threads}{list}(x, n = availableCores())
 }
 \arguments{
 \item{x}{(\code{any})\cr
@@ -21,7 +21,7 @@ Object to set threads for, e.g. a \link{Learner}.
 This object is modified in-place.}
 
 \item{n}{(\code{integer(1)})\cr
-Number of threads to use.}
+Number of threads to use. Defaults to \code{\link[parallelly:availableCores]{parallelly::availableCores()}}.}
 }
 \value{
 Same object as input \code{x} (changed in-place),
