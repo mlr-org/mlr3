@@ -11,11 +11,15 @@
 * `Task$data()` defaults to return only active rows and columns, instead of
   asserting to only return rows and columns. As a result, the `$data()` method
   can now also be used to query inactive rows and cols from the `DataBackend`.
-* New column role `uri` which is intended to point to external resources, e.g.
-  images on the file system.
+* New (experimental) column role `uri` which is intended to point to external
+  resources, e.g.  images on the file system.
 * New helper `set_threads()` to control the number of threads during calls to
   external packages. All objects will be migrated to have threading disabled in
   their defaults to avoid conflicting parallelization techniques (#605).
+* New option `mlr3.debug`: avoid calls to `future` in `resample()` and
+  `benchmark()` to improve the readability of tracebacks.
+* New experimental option `mlr3.allow_utf8_names`: allow non-ascii characters in
+  column names in tasks.
 
 
 # mlr3 0.10.0
