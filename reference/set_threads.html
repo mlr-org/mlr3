@@ -183,16 +183,16 @@ via the <a href='https://rdrr.io/pkg/future/man/plan.html'>future::plan</a> <a h
 have threading disabled in their defaults.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>set_threads</span><span class='op'>(</span><span class='va'>x</span>, n <span class='op'>=</span> <span class='fu'>parallelly</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/parallelly/man/availableCores.html'>availableCores</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+    <pre class="usage"><span class='fu'>set_threads</span><span class='op'>(</span><span class='va'>x</span>, n <span class='op'>=</span> <span class='fu'>availableCores</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'># S3 method for default</span>
-<span class='fu'>set_threads</span><span class='op'>(</span><span class='va'>x</span>, n <span class='op'>=</span> <span class='fu'>parallelly</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/parallelly/man/availableCores.html'>availableCores</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>set_threads</span><span class='op'>(</span><span class='va'>x</span>, n <span class='op'>=</span> <span class='fu'>availableCores</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'># S3 method for Learner</span>
-<span class='fu'>set_threads</span><span class='op'>(</span><span class='va'>x</span>, n <span class='op'>=</span> <span class='fu'>parallelly</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/parallelly/man/availableCores.html'>availableCores</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>set_threads</span><span class='op'>(</span><span class='va'>x</span>, n <span class='op'>=</span> <span class='fu'>availableCores</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'># S3 method for list</span>
-<span class='fu'>set_threads</span><span class='op'>(</span><span class='va'>x</span>, n <span class='op'>=</span> <span class='fu'>parallelly</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/parallelly/man/availableCores.html'>availableCores</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></pre>
+<span class='fu'>set_threads</span><span class='op'>(</span><span class='va'>x</span>, n <span class='op'>=</span> <span class='fu'>availableCores</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -206,7 +206,7 @@ This object is modified in-place.</p></td>
     <tr>
       <th>n</th>
       <td><p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>)<br />
-Number of threads to use.</p></td>
+Number of threads to use. Defaults to <code><a href='https://rdrr.io/pkg/parallelly/man/availableCores.html'>parallelly::availableCores()</a></code>.</p></td>
     </tr>
     </table>
 
