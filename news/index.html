@@ -168,8 +168,10 @@
 <li>Specifying a weight column during <code>learner$predict_newdata()</code> is not mandatory anymore (<a href='https://github.com/mlr-org/mlr3/issues/563'>#563</a>).</li>
 <li>
 <code>Task$data()</code> defaults to return only active rows and columns, instead of asserting to only return rows and columns. As a result, the <code>$data()</code> method can now also be used to query inactive rows and cols from the <code>DataBackend</code>.</li>
-<li>New column role <code>uri</code> which is intended to point to external resources, e.g. images on the file system.</li>
+<li>New (experimental) column role <code>uri</code> which is intended to point to external resources, e.g. images on the file system.</li>
 <li>New helper <code><a href="../reference/set_threads.html">set_threads()</a></code> to control the number of threads during calls to external packages. All objects will be migrated to have threading disabled in their defaults to avoid conflicting parallelization techniques (<a href='https://github.com/mlr-org/mlr3/issues/605'>#605</a>).</li>
+<li>New option <code>mlr3.debug</code>: avoid calls to <code>future</code> in <code><a href="../reference/resample.html">resample()</a></code> and <code><a href="../reference/benchmark.html">benchmark()</a></code> to improve the readability of tracebacks.</li>
+<li>New experimental option <code>mlr3.allow_utf8_names</code>: allow non-ascii characters in column names in tasks.</li>
 </ul>
 </div>
     <div id="mlr3-0100" class="section level1">
