@@ -3,7 +3,7 @@
 \name{set_threads}
 \alias{set_threads}
 \alias{set_threads.default}
-\alias{set_threads.Learner}
+\alias{set_threads.R6}
 \alias{set_threads.list}
 \title{Set the Number of Threads}
 \usage{
@@ -11,7 +11,7 @@ set_threads(x, n = availableCores())
 
 \method{set_threads}{default}(x, n = availableCores())
 
-\method{set_threads}{Learner}(x, n = availableCores())
+\method{set_threads}{R6}(x, n = availableCores())
 
 \method{set_threads}{list}(x, n = availableCores())
 }
