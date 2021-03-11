@@ -433,11 +433,22 @@ the object in its previous state.
 \if{html}{\out{<a id="method-is_retrainable"></a>}}
 \if{latex}{\out{\hypertarget{method-is_retrainable}{}}}
 \subsection{Method \code{is_retrainable()}}{
-...
+Returns logical vector which is \code{TRUE} if the model is retrainable with parameter values in \code{param_vals}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{BenchmarkResult$is_retrainable(param_vals)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{param_vals}}{(\code{list()})\cr
+List of hyperparameter values.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\code{logical()}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}

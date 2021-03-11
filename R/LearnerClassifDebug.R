@@ -170,7 +170,6 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
     },
 
     .is_retrainable = function(param_vals) {
-      if(is.null(param_vals)) return(TRUE)
       param_vals$iter > self$state$param_vals$iter
     },
 

@@ -204,7 +204,7 @@ ResampleResult = R6Class("ResampleResult",
     #' and the performance is again evaluated on the test sets.
     #'
     #' @param param_vals (`list()`)\cr
-    #'   Increased budget hyperparameter(s).
+    #'   List of hyperparameter values.
     #' @param store_models (`logical(1)`)\cr
     #'   Keep the fitted model after the test set has been predicted?
     #'   Set to `TRUE` if you want to further analyse the models or want to
@@ -255,6 +255,13 @@ ResampleResult = R6Class("ResampleResult",
       invisible(self)
     },
 
+    #' @description
+    #' Returns `TRUE` if model is retrainable with parameter values in `param_vals`.
+    #' 
+    #' @param param_vals (`list()`)\cr
+    #'   List of hyperparameter values.
+    #'
+    #' @return `logical(1)`
     is_retrainable = function(param_vals) {
       all(map_lgl(self$learners, function(l) l$is_retrainable(param_vals)))
     }

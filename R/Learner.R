@@ -221,15 +221,18 @@ Learner = R6Class("Learner",
     },
 
     #' @description
-    #' Retrain the model on the provided `task`.
+    #' Retrain the model on the provided `task` with hyperparameter values in
+    #' `param_vals`.
     #' Mutates the learner by reference, i.e. stores the model alongside other
     #' information in field `$state`.
     #'
-    #' @param task ([Task]).
-    #' @param param_vals (`list()`).
+    #' @param task ([Task])\cr
+    #'   The task used for training the learner.
+    #' @param param_vals (`list()`)\cr
+    #'   List of hyperparameter values.
     #' @param allow_train (`logical(1)`)\cr
+    #'   Determines if `$train()` is called if model is not retrainable.
     #' 
-    #'
     #' @return
     #' Returns the object itself, but modified **by reference**. You need to
     #' explicitly `$clone()` the object beforehand if you want to keeps the
@@ -254,10 +257,24 @@ Learner = R6Class("Learner",
       invisible(self)
     },
 
+    #' @description
+    #' Returns `TRUE` if model is retrainable with parameter values in `param_vals`.
+    #' 
+    #' @param param_vals (`list()`)\cr
+    #'   List of hyperparameter values.
+    #'
+    #' @return `logical(1)`
     is_retrainable = function(param_vals) {
       self$param_set$assert(param_vals)
       if (is.null(self$model)) return(FALSE)
-      private$.is_retrainable(param_vals[self$param_set$ids(tags = "retrain")])
+
+      retrain_ids = self$param_set$ids(tags = "retrain")
+      train_ids = setdiff(self$param_set$ids(tags = "train"), retrain_ids)
+      retrain_vals = param_vals[names(param_vals) %in% retrain_ids]
+      train_vals = param_vals[names(param_vals) %in% train_ids]
+      
+      if (!all(imap_lgl(train_vals, function(vals, id) isTRUE(vals == self$state$param_vals[[id]])))) return(FALSE)
+      if (length(retrain_vals) > 0) private$.is_retrainable(retrain_vals) else FALSE
     },
 
     #' @description
@@ -452,7 +469,7 @@ Learner = R6Class("Learner",
     },
 
     #' @field encapsulate (named `character()`)\cr
-    #' Controls how to execute the code in internal train, predict, retrain and update methods.
+    #' Controls how to execute the code in internal train, predict, retrain and update methods.retr
     #' Must be a named character vector with names `"train"`, `"predict"`, `"retrain"` and `"update"`.
     #' Possible values are `"none"`, `"evaluate"` (requires package \CRANpkg{evaluate}) and `"callr"` (requires package \CRANpkg{callr}).
     #' See [mlr3misc::encapsulate()] for more details.

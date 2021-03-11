@@ -427,7 +427,12 @@ BenchmarkResult = R6Class("BenchmarkResult",
     },
 
     #' @description
-    #' ...
+    #' Returns logical vector which is `TRUE` if the model is retrainable with parameter values in `param_vals`.
+    #' 
+    #' @param param_vals (`list()`)\cr
+    #'   List of hyperparameter values.
+    #'
+    #' @return `logical()`
     is_retrainable = function(param_vals) {
       map_lgl(seq(self$n_resample_results), function(i) self$resample_result(i)$is_retrainable(param_vals))
     }

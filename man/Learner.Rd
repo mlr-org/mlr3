@@ -187,7 +187,7 @@ Must be an element of \verb{$predict_types}.}
 Set of hyperparameters.}
 
 \item{\code{encapsulate}}{(named \code{character()})\cr
-Controls how to execute the code in internal train, predict, retrain and update methods.
+Controls how to execute the code in internal train, predict, retrain and update methods.retr
 Must be a named character vector with names \code{"train"}, \code{"predict"}, \code{"retrain"} and \code{"update"}.
 Possible values are \code{"none"}, \code{"evaluate"} (requires package \CRANpkg{evaluate}) and \code{"callr"} (requires package \CRANpkg{callr}).
 See \code{\link[mlr3misc:encapsulate]{mlr3misc::encapsulate()}} for more details.}
@@ -346,7 +346,8 @@ the object in its previous state.
 \if{html}{\out{<a id="method-retrain"></a>}}
 \if{latex}{\out{\hypertarget{method-retrain}{}}}
 \subsection{Method \code{retrain()}}{
-Retrain the model on the provided \code{task}.
+Retrain the model on the provided \code{task} with hyperparameter values in
+\code{param_vals}.
 Mutates the learner by reference, i.e. stores the model alongside other
 information in field \verb{$state}.
 \subsection{Usage}{
@@ -356,11 +357,14 @@ information in field \verb{$state}.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{task}}{(\link{Task}).}
+\item{\code{task}}{(\link{Task})\cr
+The task used for training the learner.}
 
-\item{\code{param_vals}}{(\code{list()}).}
+\item{\code{param_vals}}{(\code{list()})\cr
+List of hyperparameter values.}
 
-\item{\code{allow_train}}{(\code{logical(1)})\cr}
+\item{\code{allow_train}}{(\code{logical(1)})\cr
+Determines if \verb{$train()} is called if model is not retrainable.}
 }
 \if{html}{\out{</div>}}
 }
@@ -374,10 +378,22 @@ object in its previous state.
 \if{html}{\out{<a id="method-is_retrainable"></a>}}
 \if{latex}{\out{\hypertarget{method-is_retrainable}{}}}
 \subsection{Method \code{is_retrainable()}}{
+Returns \code{TRUE} if model is retrainable with parameter values in \code{param_vals}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Learner$is_retrainable(param_vals)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{param_vals}}{(\code{list()})\cr
+List of hyperparameter values.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\code{logical(1)}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-update"></a>}}

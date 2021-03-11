@@ -317,7 +317,7 @@ and the performance is again evaluated on the test sets.
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{param_vals}}{(\code{list()})\cr
-Increased budget hyperparameter(s).}
+List of hyperparameter values.}
 
 \item{\code{store_models}}{(\code{logical(1)})\cr
 Keep the fitted model after the test set has been predicted?
@@ -336,10 +336,22 @@ the object in its previous state.
 \if{html}{\out{<a id="method-is_retrainable"></a>}}
 \if{latex}{\out{\hypertarget{method-is_retrainable}{}}}
 \subsection{Method \code{is_retrainable()}}{
+Returns \code{TRUE} if model is retrainable with parameter values in \code{param_vals}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{ResampleResult$is_retrainable(param_vals)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{param_vals}}{(\code{list()})\cr
+List of hyperparameter values.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\code{logical(1)}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}
