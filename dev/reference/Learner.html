@@ -70,7 +70,9 @@ Learners for survival analysis (or more general, for probabilistic regression) c
 Unsupervised cluster algorithms are implemented in mlr3cluster.
 The dictionary mlr_learners gets automatically populated with the new learners as soon as the respective packages are loaded.
 More (experimental) learners can be found in the GitHub repository: https://github.com/mlr-org/mlr3extralearners.
-A guide on how to extend mlr3 with custom learners can be found in the mlr3book." />
+A guide on how to extend mlr3 with custom learners can be found in the mlr3book.
+To combine the learner with preprocessing operations like factor encoding, mlr3pipelines is recommended.
+Hyperparameters stored in the param_set can be tuned with mlr3tuning." />
 <meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
@@ -193,6 +195,8 @@ Unsupervised cluster algorithms are implemented in <a href='https://CRAN.R-proje
 The dictionary <a href='mlr_learners.html'>mlr_learners</a> gets automatically populated with the new learners as soon as the respective packages are loaded.</p>
 <p>More (experimental) learners can be found in the GitHub repository: <a href='https://github.com/mlr-org/mlr3extralearners'>https://github.com/mlr-org/mlr3extralearners</a>.
 A guide on how to extend <a href='https://CRAN.R-project.org/package=mlr3'><span class="pkg">mlr3</span></a> with custom learners can be found in the <a href='https://mlr3book.mlr-org.com'>mlr3book</a>.</p>
+<p>To combine the learner with preprocessing operations like factor encoding, <a href='https://CRAN.R-project.org/package=mlr3pipelines'><span class="pkg">mlr3pipelines</span></a> is recommended.
+Hyperparameters stored in the <code>param_set</code> can be tuned with <a href='https://CRAN.R-project.org/package=mlr3tuning'><span class="pkg">mlr3tuning</span></a>.</p>
     </div>
 
 
@@ -239,7 +243,21 @@ Here, we add a factor hyperparameter with id <code>"foo"</code> and possible lev
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other Learner: 
+    <div class='dont-index'>
+<ul>
+<li><p>Chapter in the <a href='https://mlr3book.mlr-org.com/'>mlr3book</a>:
+<a href='https://mlr3book.mlr-org.com/learners.html'>https://mlr3book.mlr-org.com/learners.html</a></p></li>
+<li><p>Package <a href='https://CRAN.R-project.org/package=mlr3learners'><span class="pkg">mlr3learners</span></a> for a solid collection of essential learners.</p></li>
+<li><p>Package <a href='https://github.com/mlr-org/mlr3extralearners'>mlr3extralearners</a> for more learners.</p></li>
+<li><p><a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>Dictionary</a> of Learners: <a href='mlr_learners.html'>mlr_learners</a></p></li>
+<li><p><code><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table(mlr_learners)</a></code> for a table of available Learners in the running session (depending on the loaded packages).</p></li>
+<li><p>Extension packages for additional task types:</p><ul>
+<li><p><a href='https://CRAN.R-project.org/package=mlr3proba'><span class="pkg">mlr3proba</span></a> for probabilistic supervised regression and survival analysis.</p></li>
+<li><p><a href='https://CRAN.R-project.org/package=mlr3cluster'><span class="pkg">mlr3cluster</span></a> for unsupervised clustering.</p></li>
+</ul></li>
+</ul>
+
+<p>Other Learner: 
 <code><a href='LearnerClassif.html'>LearnerClassif</a></code>,
 <code><a href='LearnerRegr.html'>LearnerRegr</a></code>,
 <code><a href='mlr_learners_classif.debug.html'>mlr_learners_classif.debug</a></code>,

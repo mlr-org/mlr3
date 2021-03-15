@@ -57,8 +57,7 @@
 <meta property="og:description" content="This task specializes Task and TaskSupervised for regression problems.
 The target column is assumed to be numeric.
 The task_type is set to &quot;regr&quot;.
-Predefined tasks are stored in the dictionary mlr_tasks.
-More example tasks can be found in this dictionary after loading mlr3data." />
+Predefined tasks are stored in the dictionary mlr_tasks." />
 <meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
@@ -167,15 +166,29 @@ More example tasks can be found in this dictionary after loading mlr3data." />
     <p>This task specializes <a href='Task.html'>Task</a> and <a href='TaskSupervised.html'>TaskSupervised</a> for regression problems.
 The target column is assumed to be numeric.
 The <code>task_type</code> is set to <code>"regr"</code>.</p>
-<p>Predefined tasks are stored in the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> <a href='mlr_tasks.html'>mlr_tasks</a>.
-More example tasks can be found in this dictionary after loading <a href='https://CRAN.R-project.org/package=mlr3data'><span class="pkg">mlr3data</span></a>.</p>
+<p>Predefined tasks are stored in the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> <a href='mlr_tasks.html'>mlr_tasks</a>.</p>
     </div>
 
 
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other Task: 
+    <div class='dont-index'>
+<ul>
+<li><p>Chapter in the <a href='https://mlr3book.mlr-org.com/'>mlr3book</a>:
+<a href='https://mlr3book.mlr-org.com/tasks.html'>https://mlr3book.mlr-org.com/tasks.html</a></p></li>
+<li><p>Package <a href='https://CRAN.R-project.org/package=mlr3data'><span class="pkg">mlr3data</span></a> for more toy tasks.</p></li>
+<li><p>Package <a href='https://CRAN.R-project.org/package=mlr3oml'><span class="pkg">mlr3oml</span></a> for downloading tasks from <a href='https://openml.org'>https://openml.org</a>.</p></li>
+<li><p>Package <a href='https://CRAN.R-project.org/package=mlr3viz'><span class="pkg">mlr3viz</span></a> for some generic visualizations.</p></li>
+<li><p><a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>Dictionary</a> of <a href='Task.html'>Tasks</a>: <a href='mlr_tasks.html'>mlr_tasks</a></p></li>
+<li><p><code><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table(mlr_tasks)</a></code> for a table of available <a href='Task.html'>Tasks</a> in the running session (depending on the loaded packages).</p></li>
+<li><p>Extension packages for additional task types:</p><ul>
+<li><p><a href='https://CRAN.R-project.org/package=mlr3proba'><span class="pkg">mlr3proba</span></a> for probabilistic supervised regression and survival analysis.</p></li>
+<li><p><a href='https://CRAN.R-project.org/package=mlr3cluster'><span class="pkg">mlr3cluster</span></a> for unsupervised clustering.</p></li>
+</ul></li>
+</ul>
+
+<p>Other Task: 
 <code><a href='TaskClassif.html'>TaskClassif</a></code>,
 <code><a href='TaskSupervised.html'>TaskSupervised</a></code>,
 <code><a href='TaskUnsupervised.html'>TaskUnsupervised</a></code>,
@@ -277,7 +290,7 @@ Row indices.</p></dd>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>task</span> <span class='op'>=</span> <span class='va'>TaskRegr</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='st'>"penguins"</span>, backend <span class='op'>=</span> <span class='fu'>palmerpenguins</span><span class='fu'>::</span><span class='va'><a href='https://allisonhorst.github.io/palmerpenguins/reference/penguins.html'>penguins</a></span>, target <span class='op'>=</span> <span class='st'>"bill_length_mm"</span><span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='va'>task</span> <span class='op'>=</span> <span class='fu'><a href='as_task_regr.html'>as_task_regr</a></span><span class='op'>(</span><span class='fu'>palmerpenguins</span><span class='fu'>::</span><span class='va'><a href='https://allisonhorst.github.io/palmerpenguins/reference/penguins.html'>penguins</a></span>, target <span class='op'>=</span> <span class='st'>"bill_length_mm"</span><span class='op'>)</span>
 <span class='va'>task</span><span class='op'>$</span><span class='va'>task_type</span>
 </div><div class='output co'>#&gt; [1] "regr"</div><div class='input'><span class='va'>task</span><span class='op'>$</span><span class='fu'>formula</span><span class='op'>(</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; bill_length_mm ~ .
@@ -304,10 +317,11 @@ Row indices.</p></dd>
 #&gt; [286] 51.3 46.6 51.7 47.0 52.0 45.9 50.5 50.3 58.0 46.4 49.2 42.4 48.5 43.2 50.6
 #&gt; [301] 46.7 52.0 50.5 49.5 46.4 52.8 40.9 54.2 42.5 51.0 49.7 47.5 47.6 52.0 46.9
 #&gt; [316] 53.5 49.0 46.2 50.9 45.5 50.9 50.8 50.1 49.0 51.5 49.8 48.1 51.4 45.7 50.7
-#&gt; [331] 42.5 52.2 45.2 49.3 50.2 45.6 51.9 46.8 45.7 55.8 43.5 49.6 50.8 50.2</div><div class='input'>
-<span class='co'># possible properties:</span>
-<span class='va'>mlr_reflections</span><span class='op'>$</span><span class='va'>task_properties</span><span class='op'>$</span><span class='va'>regr</span>
-</div><div class='output co'>#&gt; [1] "strata"  "groups"  "weights"</div></pre>
+#&gt; [331] 42.5 52.2 45.2 49.3 50.2 45.6 51.9 46.8 45.7 55.8 43.5 49.6 50.8 50.2</div><div class='input'><span class='va'>task</span><span class='op'>$</span><span class='fu'>data</span><span class='op'>(</span>rows <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>, cols <span class='op'>=</span> <span class='va'>task</span><span class='op'>$</span><span class='va'>feature_names</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;    bill_depth_mm body_mass_g
+#&gt; 1:          18.7        3750
+#&gt; 2:          17.4        3800
+#&gt; 3:          18.0        3250</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
