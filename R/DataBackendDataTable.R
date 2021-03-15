@@ -9,7 +9,7 @@
 #' @template param_primary_key
 #' @template param_na_rm
 #'
-#' @family DataBackend
+#' @template seealso_databackend
 #' @export
 #' @examples
 #' data = as.data.table(palmerpenguins::penguins)

@@ -27,7 +27,7 @@
 #' @template param_packages
 #' @template param_man
 #'
-#' @family Learner
+#' @template seealso_learner
 #' @export
 #' @examples
 #' # get all classification learners from mlr_learners:

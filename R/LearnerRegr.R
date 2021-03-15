@@ -25,7 +25,7 @@
 #' @template param_packages
 #' @template param_man
 #'
-#' @family Learner
+#' @template seealso_learner
 #' @export
 #' @examples
 #' # get all regression learners from mlr_learners:

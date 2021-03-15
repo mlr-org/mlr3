@@ -43,7 +43,8 @@
 #'   merge both backends into an abstract [DataBackend] which merges the results on-demand.
 #' * `rename()` wraps the [DataBackend] of the Task in an additional [DataBackend] which deals with the renaming. Also updates `$col_roles` and `$col_info`.
 #'
-#' @family Task
+#' @template seealso_task
+#' @concept Task
 #' @export
 #' @examples
 #' # we use the inherited class TaskClassif here,

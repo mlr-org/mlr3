@@ -8,6 +8,8 @@ This is the result container object returned by \code{\link[=resample]{resample(
 
 Note that all stored objects are accessed by reference.
 Do not modify any object without cloning it first.
+
+\link{ResampleResult}s can be visualized via \CRANpkg{mlr3viz}'s \code{autoplot()} function.
 }
 \section{S3 Methods}{
 
@@ -34,6 +36,14 @@ rr$prediction()$confusion
 rr$warnings
 rr$errors
 }
+\seealso{
+Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
+\url{https://mlr3book.mlr-org.com/resampling.html}
+
+Other resample: 
+\code{\link{resample}()}
+}
+\concept{resample}
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{

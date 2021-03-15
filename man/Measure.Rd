@@ -22,6 +22,19 @@ Many of the measures in \pkg{mlr3} are implemented in \CRANpkg{mlr3measures} as 
 A guide on how to extend \CRANpkg{mlr3} with custom measures can be found in the \href{https://mlr3book.mlr-org.com}{mlr3book}.
 }
 \seealso{
+\itemize{
+\item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
+\url{https://mlr3book.mlr-org.com/train-predict.html}
+\item Package \CRANpkg{mlr3measures} for the scoring functions.
+\link[mlr3misc:Dictionary]{Dictionary} of \link[=Measure]{Measures}: \link{mlr_measures}
+\code{as.data.table(mlr_measures)} for a table of available \link[=Measure]{Measures} in the running session (depending on the loaded packages).
+\item Extension packages for additional task types:
+\itemize{
+\item \CRANpkg{mlr3proba} for probabilistic supervised regression and survival analysis.
+\item \CRANpkg{mlr3cluster} for unsupervised clustering.
+}
+}
+
 Other Measure: 
 \code{\link{MeasureClassif}},
 \code{\link{MeasureRegr}},

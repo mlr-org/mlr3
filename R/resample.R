@@ -32,6 +32,7 @@
 #' The fitted models are discarded after the predictions have been computed in order to reduce memory consumption.
 #' If you need access to the models for later analysis, set `store_models` to `TRUE`.
 #'
+#' @template seealso_resample
 #' @export
 #' @examples
 #' task = tsk("penguins")

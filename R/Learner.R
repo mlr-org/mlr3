@@ -24,6 +24,9 @@
 #' More (experimental) learners can be found in the GitHub repository: \url{https://github.com/mlr-org/mlr3extralearners}.
 #' A guide on how to extend \CRANpkg{mlr3} with custom learners can be found in the [mlr3book](https://mlr3book.mlr-org.com).
 #'
+#' To combine the learner with preprocessing operations like factor encoding, \CRANpkg{mlr3pipelines} is recommended.
+#' Hyperparameters stored in the `param_set` can be tuned with \CRANpkg{mlr3tuning}.
+#'
 #' @template param_id
 #' @template param_task_type
 #' @template param_param_set
@@ -77,7 +80,7 @@
 #' lrn$param_set$add(paradox::ParamFct$new("foo", levels = c("a", "b")))
 #' ```
 #'
-#' @family Learner
+#' @template seealso_learner
 #' @export
 Learner = R6Class("Learner",
   public = list(

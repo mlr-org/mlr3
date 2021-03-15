@@ -25,6 +25,9 @@ The dictionary \link{mlr_learners} gets automatically populated with the new lea
 
 More (experimental) learners can be found in the GitHub repository: \url{https://github.com/mlr-org/mlr3extralearners}.
 A guide on how to extend \CRANpkg{mlr3} with custom learners can be found in the \href{https://mlr3book.mlr-org.com}{mlr3book}.
+
+To combine the learner with preprocessing operations like factor encoding, \CRANpkg{mlr3pipelines} is recommended.
+Hyperparameters stored in the \code{param_set} can be tuned with \CRANpkg{mlr3tuning}.
 }
 \section{Optional Extractors}{
 
@@ -67,6 +70,20 @@ Here, we add a factor hyperparameter with id \code{"foo"} and possible levels \c
 }
 
 \seealso{
+\itemize{
+\item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
+\url{https://mlr3book.mlr-org.com/learners.html}
+\item Package \CRANpkg{mlr3learners} for a solid collection of essential learners.
+\item Package \href{https://github.com/mlr-org/mlr3extralearners}{mlr3extralearners} for more learners.
+\item \link[mlr3misc:Dictionary]{Dictionary} of \link[=Learner]{Learners}: \link{mlr_learners}
+\item \code{as.data.table(mlr_learners)} for a table of available \link[=Learner]{Learners} in the running session (depending on the loaded packages).
+\item Extension packages for additional task types:
+\itemize{
+\item \CRANpkg{mlr3proba} for probabilistic supervised regression and survival analysis.
+\item \CRANpkg{mlr3cluster} for unsupervised clustering.
+}
+}
+
 Other Learner: 
 \code{\link{LearnerClassif}},
 \code{\link{LearnerRegr}},

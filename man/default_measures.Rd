@@ -2,7 +2,7 @@
 % Please edit documentation in R/default_measures.R
 \name{default_measures}
 \alias{default_measures}
-\title{Get a Default Measure}
+\title{Get the Default Measure}
 \usage{
 default_measures(task_type)
 }

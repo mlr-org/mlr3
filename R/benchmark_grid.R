@@ -12,12 +12,19 @@
 #' @param resamplings (list of [Resampling]).
 #'
 #' @return ([data.table::data.table()]) with the cross product of the input vectors.
+#'
+#' @template seealso_benchmark
 #' @export
 #' @examples
 #' tasks = list(tsk("penguins"), tsk("sonar"))
 #' learners = list(lrn("classif.featureless"), lrn("classif.rpart"))
 #' resamplings = list(rsmp("cv"), rsmp("subsampling"))
-#' benchmark_grid(tasks, learners, resamplings)
+#' grid = benchmark_grid(tasks, learners, resamplings)
+#' print(grid)
+#'
+#' \dontrun{
+#' benchmark(grid)
+#' }
 benchmark_grid = function(tasks, learners, resamplings) {
   tasks = assert_tasks(as_tasks(tasks))
   learners = assert_learners(as_learners(learners))

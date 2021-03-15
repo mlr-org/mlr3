@@ -27,5 +27,19 @@ The only exception to this rule applies if all tasks have exactly the same numbe
 tasks = list(tsk("penguins"), tsk("sonar"))
 learners = list(lrn("classif.featureless"), lrn("classif.rpart"))
 resamplings = list(rsmp("cv"), rsmp("subsampling"))
-benchmark_grid(tasks, learners, resamplings)
+grid = benchmark_grid(tasks, learners, resamplings)
+print(grid)
+
+\dontrun{
+benchmark(grid)
 }
+}
+\seealso{
+Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
+\url{https://mlr3book.mlr-org.com/benchmarking.html}
+
+Other benchmark: 
+\code{\link{BenchmarkResult}},
+\code{\link{benchmark}()}
+}
+\concept{benchmark}

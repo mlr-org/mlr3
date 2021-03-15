@@ -13,7 +13,7 @@
 #' @template param_packages
 #' @template param_man
 #'
-#' @family TaskGenerator
+#' @template seealso_task_generator
 #' @export
 TaskGenerator = R6Class("TaskGenerator",
   public = list(

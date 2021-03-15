@@ -21,7 +21,8 @@
 #'   Additional arguments passed to the respective [DataBackend] method.
 #'
 #' @return [DataBackend].
-#' @family DataBackend
+#'
+#' @template seealso_databackend
 #' @export
 #' @examples
 #' # create a new backend using the penguins data:

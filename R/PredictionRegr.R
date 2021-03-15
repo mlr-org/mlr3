@@ -7,7 +7,7 @@
 #' the predicted response and standard error.
 #' Additionally, probability distributions implemented in \CRANpkg{distr6} are supported.
 #'
-#' @family Prediction
+#' @template seealso_prediction
 #' @export
 #' @examples
 #' task = tsk("boston_housing")
