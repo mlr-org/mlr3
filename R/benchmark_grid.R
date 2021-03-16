@@ -19,8 +19,21 @@
 #' tasks = list(tsk("penguins"), tsk("sonar"))
 #' learners = list(lrn("classif.featureless"), lrn("classif.rpart"))
 #' resamplings = list(rsmp("cv"), rsmp("subsampling"))
+#'
 #' grid = benchmark_grid(tasks, learners, resamplings)
 #' print(grid)
+#' \dontrun{
+#' benchmark(grid)
+#' }
+#'
+#' # manual construction of the grid with data.table::CJ()
+#' grid = CJ(task = tasks, learner = learners, resampling = resamplings,
+#'   sorted = FALSE)
+#'
+#' # manual instantiation (not suited for a fair comparison of learners!)
+#' Map(function(task, resampling) {
+#'    resampling$instantiate(task)
+#' }, task = grid$task, resampling = grid$resampling)
 #'
 #' \dontrun{
 #' benchmark(grid)
