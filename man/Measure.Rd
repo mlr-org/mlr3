@@ -38,6 +38,8 @@ A guide on how to extend \CRANpkg{mlr3} with custom measures can be found in the
 Other Measure: 
 \code{\link{MeasureClassif}},
 \code{\link{MeasureRegr}},
+\code{\link{mlr_measures_aic}},
+\code{\link{mlr_measures_bic}},
 \code{\link{mlr_measures_classif.costs}},
 \code{\link{mlr_measures_debug}},
 \code{\link{mlr_measures_elapsed_time}},

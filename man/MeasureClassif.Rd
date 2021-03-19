@@ -30,6 +30,8 @@ The default measure for classification is \code{\link[=mlr_measures_classif.ce]{
 Other Measure: 
 \code{\link{MeasureRegr}},
 \code{\link{Measure}},
+\code{\link{mlr_measures_aic}},
+\code{\link{mlr_measures_bic}},
 \code{\link{mlr_measures_classif.costs}},
 \code{\link{mlr_measures_debug}},
 \code{\link{mlr_measures_elapsed_time}},
