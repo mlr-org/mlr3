@@ -11,15 +11,26 @@ check_prediction_data.PredictionDataClassif = function(pdata) { # nolint
   }
 
   if (!is.null(pdata$prob)) {
-    prob = assert_matrix(pdata$prob, nrows = n, ncols = length(lvls))
+    prob = assert_matrix(pdata$prob, nrows = n)
     assert_numeric(prob, lower = 0, upper = 1)
+
     if (!identical(colnames(prob), lvls)) {
-      assert_names(colnames(prob), permutation.of = lvls)
-      prob = prob[, match(colnames(prob), lvls), drop = FALSE]
+      assert_subset(colnames(prob), lvls)
+
+      # add missing columns with prob == 0
+      miss = setdiff(lvls, colnames(prob))
+      if (length(miss)) {
+        prob = cbind(prob, matrix(0, nrow = n, ncol = length(miss), dimnames = list(NULL, miss)))
+      }
+
+      # reorder columns to match the level order of `truth`
+      prob = prob[, match(lvls, colnames(prob)), drop = FALSE]
     }
+
     if (!is.null(rownames(prob))) {
       rownames(prob) = NULL
     }
+
     pdata$prob = prob
 
     if (is.null(pdata$response)) {
