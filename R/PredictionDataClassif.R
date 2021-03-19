@@ -24,7 +24,7 @@ check_prediction_data.PredictionDataClassif = function(pdata) { # nolint
       }
 
       # reorder columns to match the level order of `truth`
-      prob = prob[, match(lvls, colnames(prob)), drop = FALSE]
+      prob = prob[, reorder_vector(colnames(prob), lvls), drop = FALSE]
     }
 
     if (!is.null(rownames(prob))) {

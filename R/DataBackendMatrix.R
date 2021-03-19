@@ -85,7 +85,7 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
           dummies = imap(dense[, factors, with = FALSE], function(x, nn) {
             if (nlevels(x) > 1L) {
               contrasts = contr.treatment(levels(x), sparse = TRUE)
-              X = contrasts[match(x, rownames(contrasts)),, drop = FALSE]
+              X = contrasts[reorder(rownames(contrasts), x), , drop = FALSE]
               colnames(X) = sprintf("%s_%s", nn, colnames(contrasts))
             } else {
               X = matrix(rep(1, nrow(dense)), ncol = 1L)
@@ -93,6 +93,12 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
             }
             X
           })
+
+          replace_with = function(x, needle, replacement) {
+            ii = (x == needle)
+            x = rep(x, 1L + (length(replacement) - 1L) * ii)
+            replace(x, ii, replacement)
+          }
 
           # update the column vector with new dummy names (this preserves the order)
           cols = Reduce(function(cols, name) replace_with(cols, name, colnames(dummies[[name]])),
@@ -138,7 +144,7 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
         lapply(private$.data$dense[rows, cols_dense, with = FALSE], distinct_values, na_rm = na_rm)
       )
 
-      res[match(cols, names(res), nomatch = 0L)]
+      res[reorder_vector(names(res), cols)]
     },
 
     #' @description
@@ -156,7 +162,7 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
         private$.data$dense[, map_int(.SD, function(x) sum(is.na(x))), .SDcols = cols_dense]
       )
 
-      res[match(cols, names(res), nomatch = 0L)]
+      res[reorder_vector(names(res), cols)]
     }
   ),
 
