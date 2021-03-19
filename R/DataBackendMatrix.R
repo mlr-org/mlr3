@@ -85,7 +85,7 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
           dummies = imap(dense[, factors, with = FALSE], function(x, nn) {
             if (nlevels(x) > 1L) {
               contrasts = contr.treatment(levels(x), sparse = TRUE)
-              X = contrasts[reorder_vector(rownames(contrasts), x), , drop = FALSE]
+              X = contrasts[match(x, rownames(contrasts), nomatch = 0L), , drop = FALSE]
               colnames(X) = sprintf("%s_%s", nn, colnames(contrasts))
             } else {
               X = matrix(rep(1, nrow(dense)), ncol = 1L)
