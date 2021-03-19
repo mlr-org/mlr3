@@ -315,13 +315,13 @@ Also note that if they work, they will tear down your R session immediately!</p>
 </div><div class='output co'>#&gt; <span class='message'>Message from classif.debug-&gt;train()</span></div><div class='input'><span class='va'>learner</span><span class='op'>$</span><span class='fu'>predict</span><span class='op'>(</span><span class='va'>task</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; &lt;PredictionClassif&gt; for 344 observations:
 #&gt;     row_ids     truth response
-#&gt;           1    Adelie   Adelie
-#&gt;           2    Adelie   Adelie
-#&gt;           3    Adelie   Adelie
+#&gt;           1    Adelie   Gentoo
+#&gt;           2    Adelie   Gentoo
+#&gt;           3    Adelie   Gentoo
 #&gt; ---                           
-#&gt;         342 Chinstrap   Adelie
-#&gt;         343 Chinstrap   Adelie
-#&gt;         344 Chinstrap   Adelie</div><div class='input'>
+#&gt;         342 Chinstrap   Gentoo
+#&gt;         343 Chinstrap   Gentoo
+#&gt;         344 Chinstrap   Gentoo</div><div class='input'>
 <span class='co'># task_train and task_predict are the input tasks for train() and predict()</span>
 <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>learner</span><span class='op'>$</span><span class='va'>model</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] "response"     "pid"          "task_train"   "task_predict"</div></pre>

@@ -265,12 +265,12 @@ provided to instantiate. Is <code>NA</code> if the resampling has not been insta
 
 <span class='co'># Individual sets:</span>
 <span class='va'>rcv</span><span class='op'>$</span><span class='fu'>train_set</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 1 8 9 5 2 6 7 4 3</div><div class='input'><span class='va'>rcv</span><span class='op'>$</span><span class='fu'>test_set</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 10</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/sets.html'>intersect</a></span><span class='op'>(</span><span class='va'>rcv</span><span class='op'>$</span><span class='fu'>train_set</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>, <span class='va'>rcv</span><span class='op'>$</span><span class='fu'>test_set</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1]  1  7  4  3 10  2  5  9  6</div><div class='input'><span class='va'>rcv</span><span class='op'>$</span><span class='fu'>test_set</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 8</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/sets.html'>intersect</a></span><span class='op'>(</span><span class='va'>rcv</span><span class='op'>$</span><span class='fu'>train_set</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>, <span class='va'>rcv</span><span class='op'>$</span><span class='fu'>test_set</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; integer(0)</div><div class='input'>
 <span class='co'># Internal storage:</span>
 <span class='va'>rcv</span><span class='op'>$</span><span class='va'>instance</span> <span class='co'># vector</span>
-</div><div class='output co'>#&gt;  [1] 10  1  8  9  5  2  6  7  4  3</div></pre>
+</div><div class='output co'>#&gt;  [1]  8  1  7  4  3 10  2  5  9  6</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
