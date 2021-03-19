@@ -27,8 +27,8 @@
 #' }
 #'
 #' # manual construction of the grid with data.table::CJ()
-#' grid = CJ(task = tasks, learner = learners, resampling = resamplings,
-#'   sorted = FALSE)
+#' grid = data.table::CJ(task = tasks, learner = learners,
+#'   resampling = resamplings, sorted = FALSE)
 #'
 #' # manual instantiation (not suited for a fair comparison of learners!)
 #' Map(function(task, resampling) {
