@@ -42,7 +42,7 @@
 #'   List of lists of supported [Learner] predict_types, named by their task type.
 #'
 #' * `predict_sets` (`character()`)\cr
-#'   Vector of possible predict sets. Currently supported are `"train"` and `"test"`.
+#'   Vector of possible predict sets. Currently supported are `"train"`, `"test"` and `"validation"`.
 #'
 #' * `measure_properties` (list of `character()`)\cr
 #'   List of vectors of supported [Measure] properties, named by their task type.

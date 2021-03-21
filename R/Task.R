@@ -36,6 +36,7 @@
 #' * Any modification of the lists `$col_roles` or `$row_roles`.
 #'   This provides a different "view" on the data without altering the data itself.
 #' * Modification of column or row roles via `$set_col_roles()` or `$set_row_roles()`, respectively.
+#' * Modification of the row roles via `$split_validation()`.
 #' * `$filter()` and `$select()` subset the set of active rows or features in `$row_roles` or `$col_roles`, respectively.
 #'   This provides a different "view" on the data without altering the data itself.
 #' * `rbind()` and `cbind()` change the task in-place by binding rows or columns to the data, but without modifying the original [DataBackend].
@@ -552,6 +553,31 @@ Task = R6Class("Task",
 
       self$col_info = ujoin(self$col_info, tab, key = "id")
       invisible(self)
+    },
+
+    #' @description
+    #' Keeps `ratio` percent of the active observations (row role `"use"`) and moves the
+    #' other `(1 - ratio)` percent to the validation set (row role `"validation"`).
+    #' Internally, [ResamplingHoldout] is called to support the column roles `"strata"` and
+    #' `"groups"`.
+    #'
+    #'
+    #' If you need more fine-grained control over which rows to put into the validation
+    #' data set, use `$set_row_roles(row_ids, "validation")` instead.
+    #'
+    #' @param ratio (`numeric(1)`)\cr
+    #'   Proportion of the rows to keep for training.
+    #'
+    #' @return Modified `self`.
+    split_validation = function(ratio = 0.67) {
+      assert_number(ratio, lower = 0, upper = 1)
+      n = length(self$row_roles$validation)
+      if (n > 0L) {
+        stopf("%i rows already in the validation set", n)
+      }
+
+      r = rsmp("holdout", ratio = ratio)$instantiate(self)
+      self$set_row_roles(r$test_set(1L), "validation")
     }
   ),
 
@@ -610,18 +636,21 @@ Task = R6Class("Task",
     #' Possible properties are are stored in [mlr_reflections$task_properties][mlr_reflections].
     #' The following properties are currently standardized and understood by tasks in \CRANpkg{mlr3}:
     #'
-    #' * `"strata"`: The task is resampled using one or more stratification variables (role `"stratum"`).
-    #' * `"groups"`: The task comes with grouping/blocking information (role `"group"`).
-    #' * `"weights"`: The task comes with observation weights (role `"weight"`).
+    #' * `"strata"`: The task is resampled using one or more stratification variables (column role `"stratum"`).
+    #' * `"groups"`: The task comes with grouping/blocking information (column role `"group"`).
+    #' * `"validation"`: The task holds observations for validation (row role `"validation"`).
+    #' * `"weights"`: The task comes with observation weights (column role `"weight"`).
     #'
     #' Note that above listed properties are calculated from the `$col_roles` and may not be set explicitly.
     properties = function(rhs) {
       if (missing(rhs)) {
         col_roles = private$.col_roles
+        row_roles = private$.row_roles
         c(character(),
           private$.properties,
           if (length(col_roles$group)) "groups" else NULL,
           if (length(col_roles$stratum)) "strata" else NULL,
+          if (length(row_roles$validation)) "validation" else NULL,
           if (length(col_roles$weight)) "weights" else NULL
         )
       } else {
@@ -638,6 +667,9 @@ Task = R6Class("Task",
     #'
     #' `row_roles` is a named list whose elements are named by row role and each element is an `integer()` vector of row ids.
     #' To alter the roles, just modify the list, e.g. with  \R's set functions ([intersect()], [setdiff()], [union()], \ldots).
+    #' The method `$set_row_roles()` provides a convenient alternative to assign rows to roles.
+    #' Additionally, `$split_validation()` is a quick way to assign a random subset of the
+    #' observations to the validation set.
     row_roles = function(rhs) {
       if (missing(rhs)) {
         return(private$.row_roles)
@@ -667,7 +699,7 @@ Task = R6Class("Task",
     #'
     #' `col_roles` is a named list whose elements are named by column role and each element is a `character()` vector of column names.
     #' To alter the roles, just modify the list, e.g. with \R's set functions ([intersect()], [setdiff()], [union()], \ldots).
-    #' The method `$set_col_roles` provides a convenient alternative to assign columns to roles.
+    #' The method `$set_col_roles()` provides a convenient alternative to assign columns to roles.
     col_roles = function(rhs) {
       if (missing(rhs)) {
         return(private$.col_roles)

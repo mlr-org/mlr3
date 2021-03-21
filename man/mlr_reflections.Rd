@@ -42,7 +42,7 @@ predict type \code{"prob"} for a \link{LearnerClassif} provides the probabilitie
 \item \code{learner_predict_types} (list of list of \code{character()})\cr
 List of lists of supported \link{Learner} predict_types, named by their task type.
 \item \code{predict_sets} (\code{character()})\cr
-Vector of possible predict sets. Currently supported are \code{"train"} and \code{"test"}.
+Vector of possible predict sets. Currently supported are \code{"train"}, \code{"test"} and \code{"validation"}.
 \item \code{measure_properties} (list of \code{character()})\cr
 List of vectors of supported \link{Measure} properties, named by their task type.
 \item \code{default_measures} (list of \code{character()})\cr
