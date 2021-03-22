@@ -51,7 +51,7 @@ benchmark(grid)
 Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
 \url{https://mlr3book.mlr-org.com/benchmarking.html}
 
-Other benchmark:
+Other benchmark: 
 \code{\link{BenchmarkResult}},
 \code{\link{benchmark}()}
 }
