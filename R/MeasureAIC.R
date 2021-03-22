@@ -16,7 +16,7 @@
 #'
 #' @section Meta Information:
 #' * Type: `NA`
-#' * Range: \eqn{[0, \infty)}{[0, Inf)}
+#' * Range: \eqn{(-\infty, \infty)}{(-Inf, Inf)}
 #' * Minimize: `TRUE`
 #' * Required prediction: 'response'
 #' * Learner Property: `loglik`
@@ -34,7 +34,6 @@ MeasureAIC = R6Class("MeasureAIC",
         task_type = NA_character_,
         properties = c("na_score", "requires_learner", "requires_model"),
         predict_type = "response",
-        range = c(0, Inf),
         minimize = TRUE,
         man = "mlr3::mlr_measures_aic"
       )

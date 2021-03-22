@@ -23,7 +23,7 @@ msr("aic")
 
 \itemize{
 \item Type: \code{NA}
-\item Range: \eqn{[0, \infty)}{[0, Inf)}
+\item Range: \eqn{(-\infty, \infty)}{(-Inf, Inf)}
 \item Minimize: \code{TRUE}
 \item Required prediction: 'response'
 \item Learner Property: \code{loglik}
