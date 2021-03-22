@@ -13,7 +13,6 @@
 #'
 #' @templateVar id bic
 #' @template section_dictionary_measure
-#' @template
 #' @section Meta Information:
 #' * Type: `NA`
 #' * Range: \eqn{[0, \infty)}{[0, Inf)}
