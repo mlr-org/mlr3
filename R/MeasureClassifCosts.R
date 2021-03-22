@@ -92,8 +92,8 @@ MeasureClassifCosts = R6Class("MeasureClassifCosts",
       confusion = table(response = prediction$response, truth = prediction$truth, useNA = "ifany")
 
       # reorder rows / cols if necessary
-      ii = match(rownames(confusion), rownames(costs))
-      jj = match(colnames(confusion), colnames(costs))
+      ii = reorder_vector(rownames(confusion), rownames(costs))
+      jj = reorder_vector(colnames(confusion), colnames(costs))
       if (is.unsorted(ii) || is.unsorted(jj)) {
         confusion = confusion[ii, jj]
       }

@@ -35,8 +35,8 @@ benchmark(grid)
 }
 
 # manual construction of the grid with data.table::CJ()
-grid = CJ(task = tasks, learner = learners, resampling = resamplings,
-  sorted = FALSE)
+grid = data.table::CJ(task = tasks, learner = learners,
+  resampling = resamplings, sorted = FALSE)
 
 # manual instantiation (not suited for a fair comparison of learners!)
 Map(function(task, resampling) {
@@ -51,7 +51,7 @@ benchmark(grid)
 Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
 \url{https://mlr3book.mlr-org.com/benchmarking.html}
 
-Other benchmark: 
+Other benchmark:
 \code{\link{BenchmarkResult}},
 \code{\link{benchmark}()}
 }
