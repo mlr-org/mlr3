@@ -290,9 +290,7 @@ Learner = R6Class("Learner",
     #' explicitly `$clone()` the object beforehand if you want to keeps the
     #' object in its previous state.
     update = function(task, row_ids = NULL) {
-      if(is.null(self$model)) {
-        stop("Learner does not contain a model.")
-      }
+      if(is.null(self$model)) stop("Learner does not contain a model.")
       task = assert_task(as_task(task))
       assert_names(task$feature_names, permutation.of = self$state$train_task$feature_names)
       assert_names(task$target_names, permutation.of = self$state$train_task$target_names)
