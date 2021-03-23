@@ -58,6 +58,9 @@
 #' * `oob_error(...)`: Returns the out-of-bag error of the model as `numeric(1)`.
 #'   The learner must be tagged with property `"oob_error"`.
 #'
+#' * `loglik(...)`: Extracts the log-likelihood (c.f. [stats::logLik()]).
+#'   This can be used in measures like [mlr_measures_aic] or [mlr_measures_bic].
+#'
 #'
 #' @section Setting Hyperparameters:
 #'

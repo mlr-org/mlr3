@@ -70,6 +70,8 @@ Other Measure:
 \code{\link{MeasureClassif}},
 \code{\link{MeasureRegr}},
 \code{\link{Measure}},
+\code{\link{mlr_measures_aic}},
+\code{\link{mlr_measures_bic}},
 \code{\link{mlr_measures_debug}},
 \code{\link{mlr_measures_elapsed_time}},
 \code{\link{mlr_measures_oob_error}},

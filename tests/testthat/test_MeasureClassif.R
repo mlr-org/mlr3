@@ -1,5 +1,5 @@
 test_that("Classification measures", {
-  keys = setdiff(mlr_measures$keys(), "oob_error")
+  keys = setdiff(mlr_measures$keys(), c("oob_error", "aic", "bic"))
   task = tsk("sonar")
   learner = lrn("classif.rpart", predict_type = "prob")
   learner$train(task)
