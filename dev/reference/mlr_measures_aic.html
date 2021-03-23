@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Out-of-bag Error Measure — mlr_measures_oob_error • mlr3</title>
+<title>Akaike Information Criterion Measure — mlr_measures_aic • mlr3</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -53,10 +53,13 @@
 
 
 
-<meta property="og:title" content="Out-of-bag Error Measure — mlr_measures_oob_error" />
-<meta property="og:description" content="Returns the out-of-bag error of the Learner for learners that support it
-(learners with property &quot;oob_error&quot;).
-Returns NA for unsupported learners." />
+<meta property="og:title" content="Akaike Information Criterion Measure — mlr_measures_aic" />
+<meta property="og:description" content="Calculates the Akaike Information Criterion (AIC) which is a
+trade-off between goodness of fit (measured in terms of
+log-likelihood) and model complexity (measured in terms of number
+of included features).
+Internally, stats::AIC() is called.
+Requires the learner property &quot;loglik&quot;, NA is returned for unsupported learners." />
 <meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
@@ -156,15 +159,18 @@ Returns NA for unsupported learners." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Out-of-bag Error Measure</h1>
-    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/MeasureOOBError.R'><code>R/MeasureOOBError.R</code></a></small>
-    <div class="hidden name"><code>mlr_measures_oob_error.Rd</code></div>
+    <h1>Akaike Information Criterion Measure</h1>
+    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/MeasureAIC.R'><code>R/MeasureAIC.R</code></a></small>
+    <div class="hidden name"><code>mlr_measures_aic.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Returns the out-of-bag error of the <a href='Learner.html'>Learner</a> for learners that support it
-(learners with property <code>"oob_error"</code>).
-Returns <code>NA</code> for unsupported learners.</p>
+    <p>Calculates the Akaike Information Criterion (AIC) which is a
+trade-off between goodness of fit (measured in terms of
+log-likelihood) and model complexity (measured in terms of number
+of included features).
+Internally, <code><a href='https://rdrr.io/r/stats/AIC.html'>stats::AIC()</a></code> is called.
+Requires the learner property <code>"loglik"</code>, <code>NA</code> is returned for unsupported learners.</p>
     </div>
 
 
@@ -173,8 +179,8 @@ Returns <code>NA</code> for unsupported learners.</p>
 
     
 
-<p>This <a href='Measure.html'>Measure</a> can be instantiated via the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> <a href='mlr_measures.html'>mlr_measures</a> or with the associated sugar function <code><a href='mlr_sugar.html'>msr()</a></code>:</p><pre><span class='va'>mlr_measures</span><span class='op'>$</span><span class='fu'>get</span><span class='op'>(</span><span class='st'>"oob_error"</span><span class='op'>)</span>
-<span class='fu'><a href='mlr_sugar.html'>msr</a></span><span class='op'>(</span><span class='st'>"oob_error"</span><span class='op'>)</span>
+<p>This <a href='Measure.html'>Measure</a> can be instantiated via the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> <a href='mlr_measures.html'>mlr_measures</a> or with the associated sugar function <code><a href='mlr_sugar.html'>msr()</a></code>:</p><pre><span class='va'>mlr_measures</span><span class='op'>$</span><span class='fu'>get</span><span class='op'>(</span><span class='st'>"aic"</span><span class='op'>)</span>
+<span class='fu'><a href='mlr_sugar.html'>msr</a></span><span class='op'>(</span><span class='st'>"aic"</span><span class='op'>)</span>
 </pre>
 
     <h2 class="hasAnchor" id="meta-information"><a class="anchor" href="#meta-information"></a>Meta Information</h2>
@@ -184,8 +190,9 @@ Returns <code>NA</code> for unsupported learners.</p>
 <ul>
 <li><p>Type: <code>NA</code></p></li>
 <li><p>Range: \((-\infty, \infty)\)</p></li>
-<li><p>Minimize: <code>NA</code></p></li>
+<li><p>Minimize: <code>TRUE</code></p></li>
 <li><p>Required prediction: 'response'</p></li>
+<li><p>Learner Property: <code>loglik</code></p></li>
 </ul>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
@@ -207,24 +214,31 @@ Returns <code>NA</code> for unsupported learners.</p>
 <code><a href='MeasureClassif.html'>MeasureClassif</a></code>,
 <code><a href='MeasureRegr.html'>MeasureRegr</a></code>,
 <code><a href='Measure.html'>Measure</a></code>,
-<code><a href='mlr_measures_aic.html'>mlr_measures_aic</a></code>,
 <code><a href='mlr_measures_bic.html'>mlr_measures_bic</a></code>,
 <code><a href='mlr_measures_classif.costs.html'>mlr_measures_classif.costs</a></code>,
 <code><a href='mlr_measures_debug.html'>mlr_measures_debug</a></code>,
 <code><a href='mlr_measures_elapsed_time.html'>mlr_measures_elapsed_time</a></code>,
+<code><a href='mlr_measures_oob_error.html'>mlr_measures_oob_error</a></code>,
 <code><a href='mlr_measures_selected_features.html'>mlr_measures_selected_features</a></code>,
 <code><a href='mlr_measures.html'>mlr_measures</a></code></p></div>
     <h2 class="hasAnchor" id="super-class"><a class="anchor" href="#super-class"></a>Super class</h2>
 
-    <p><code><a href='Measure.html'>mlr3::Measure</a></code> -&gt; <code>MeasureOOBError</code></p>
+    <p><code><a href='Measure.html'>mlr3::Measure</a></code> -&gt; <code>MeasureAIC</code></p>
+    <h2 class="hasAnchor" id="public-fields"><a class="anchor" href="#public-fields"></a>Public fields</h2>
+
+    <p><div class="r6-fields"></p><dl>
+<dt><code>k</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>):<br />
+Penalty to use. See <code><a href='https://rdrr.io/r/stats/AIC.html'>stats::AIC()</a></code>.</p></dd>
+
+</dl><p></div></p>
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     
 <h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Public methods</h3>
 
 <ul>
-<li><p><a href='#method-new'><code>MeasureOOBError$new()</code></a></p></li>
-<li><p><a href='#method-clone'><code>MeasureOOBError$clone()</code></a></p></li>
+<li><p><a href='#method-new'><code>MeasureAIC$new()</code></a></p></li>
+<li><p><a href='#method-clone'><code>MeasureAIC$clone()</code></a></p></li>
 </ul>
 <p><details open ><summary>Inherited methods</summary>
 <ul>
@@ -239,12 +253,12 @@ Returns <code>NA</code> for unsupported learners.</p>
 <hr>
 <a id="method-new"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>new()</code></h3>
 <p>Creates a new instance of this <a href='https://r6.r-lib.org/reference/R6Class.html'>R6</a> class.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='va'>MeasureOOBError</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>MeasureAIC</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
 
 <p><hr>
 <a id="method-clone"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>clone()</code></h3>
 <p>The objects of this class are cloneable with this method.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='va'>MeasureOOBError</span><span class='op'>$</span><span class='fu'>clone</span><span class='op'>(</span>deep <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>MeasureAIC</span><span class='op'>$</span><span class='fu'>clone</span><span class='op'>(</span>deep <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>

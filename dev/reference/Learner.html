@@ -219,6 +219,8 @@ To filter variables using the importance scores, see package <a href='https://CR
 The learner must be tagged with property <code>"selected_features"</code>.</p></li>
 <li><p><code>oob_error(...)</code>: Returns the out-of-bag error of the model as <code><a href='https://rdrr.io/r/base/numeric.html'>numeric(1)</a></code>.
 The learner must be tagged with property <code>"oob_error"</code>.</p></li>
+<li><p><code>loglik(...)</code>: Extracts the log-likelihood (c.f. <code><a href='https://rdrr.io/r/stats/logLik.html'>stats::logLik()</a></code>).
+This can be used in measures like <a href='mlr_measures_aic.html'>mlr_measures_aic</a> or <a href='mlr_measures_bic.html'>mlr_measures_bic</a>.</p></li>
 </ul>
 
     <h2 class="hasAnchor" id="setting-hyperparameters"><a class="anchor" href="#setting-hyperparameters"></a>Setting Hyperparameters</h2>
