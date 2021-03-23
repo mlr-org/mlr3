@@ -147,7 +147,7 @@ Learner = R6Class("Learner",
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #'
     #' Note that this object is typically constructed via a derived classes, e.g. [LearnerClassif] or [LearnerRegr].
-    initialize = function(id, task_type, param_set = ParamSet$new(), predict_types = character(), feature_types = character(),
+    initialize = function(id, task_type, param_set = ps(), predict_types = character(), feature_types = character(),
       properties = character(), data_formats = "data.table", packages = character(), man = NA_character_) {
 
       self$id = assert_string(id, min.chars = 1L)

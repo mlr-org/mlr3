@@ -43,9 +43,9 @@ ResamplingBootstrap = R6Class("ResamplingBootstrap", inherit = Resampling,
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
-      ps = ParamSet$new(list(
-        ParamInt$new("repeats", lower = 1L, tags = "required"),
-        ParamDbl$new("ratio", lower = 0, upper = 1, tags = "required"))
+      ps = ps(
+        repeats = p_int(lower = 1L, tags = "required"),
+        ratio = p_dbl(lower = 0, upper = 1, tags = "required")
       )
       ps$values = list(ratio = 1, repeats = 30L)
 

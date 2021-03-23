@@ -26,9 +26,9 @@ LearnerRegrFeatureless = R6Class("LearnerRegrFeatureless", inherit = LearnerRegr
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
-      ps = ParamSet$new(list(
-        ParamLgl$new("robust", default = TRUE, tags = "train")
-      ))
+      ps = ps(
+        robust = p_lgl(default = TRUE, tags = "train")
+      )
       ps$values = list(robust = FALSE)
 
       super$initialize(

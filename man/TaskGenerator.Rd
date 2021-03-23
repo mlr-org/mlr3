@@ -78,7 +78,7 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
   id,
   task_type,
   packages = character(),
-  param_set = ParamSet$new(),
+  param_set = ps(),
   man = NA_character_
 )}\if{html}{\out{</div>}}
 }

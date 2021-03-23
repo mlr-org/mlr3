@@ -164,7 +164,7 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Resampling$new(
   id,
-  param_set = ParamSet$new(),
+  param_set = ps(),
   duplicated_ids = FALSE,
   man = NA_character_
 )}\if{html}{\out{</div>}}

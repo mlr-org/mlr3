@@ -26,12 +26,12 @@ TaskGeneratorSimplex = R6Class("TaskGeneratorSimplex",
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
-      ps = ParamSet$new(list(
-        ParamInt$new("d", lower = 1L, default = 3L),
-        ParamInt$new("sides", lower = 1L, default = 1L),
-        ParamDbl$new("sd", lower = 0, default = 0.1),
-        ParamLgl$new("center", default = TRUE)
-      ))
+      ps = ps(
+        d = p_int(lower = 1L, default = 3L),
+        sides = p_int(lower = 1L, default = 1L),
+        sd = p_dbl(lower = 0, default = 0.1),
+        center = p_lgl(default = TRUE)
+      )
 
       super$initialize(id = "simplex", "classif", "mlbench", ps, man = "mlr3::mlr_task_generators_simplex")
     },

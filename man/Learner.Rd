@@ -233,7 +233,7 @@ Note that this object is typically constructed via a derived classes, e.g. \link
 \if{html}{\out{<div class="r">}}\preformatted{Learner$new(
   id,
   task_type,
-  param_set = ParamSet$new(),
+  param_set = ps(),
   predict_types = character(),
   feature_types = character(),
   properties = character(),

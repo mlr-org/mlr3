@@ -23,11 +23,11 @@ TaskGenerator2DNormals = R6Class("TaskGenerator2DNormals",
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
-      ps = ParamSet$new(list(
-        ParamInt$new("cl", lower = 2L),
-        ParamDbl$new("r", lower = 1L),
-        ParamDbl$new("sd", lower = 0L)
-      ))
+      ps = ps(
+        cl = p_int(lower = 2L),
+        r = p_dbl(lower = 1L),
+        sd = p_dbl(lower = 0L)
+      )
 
       super$initialize(id = "2dnormals", "classif", "mlbench", ps, man = "mlr3::mlr_task_generators_2dnormals")
     },
