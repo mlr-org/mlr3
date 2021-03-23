@@ -379,6 +379,14 @@ object in its previous state.
 \if{latex}{\out{\hypertarget{method-is_retrainable}{}}}
 \subsection{Method \code{is_retrainable()}}{
 Returns \code{TRUE} if model is retrainable with parameter values in \code{param_vals}.
+In general, a learner is retrainable if
+\itemize{
+\item the learner was trained before
+\item at least one parameter value tagged with \code{"retrain"} is supplied
+\item the parameter values solely tagged with \code{"train"} are unchanged
+}
+
+Additionally, a learner can add more checks e.g. if a \code{"retrain"} parameter value increased.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Learner$is_retrainable(param_vals)}\if{html}{\out{</div>}}
 }

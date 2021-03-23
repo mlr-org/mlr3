@@ -37,6 +37,19 @@ test_that("retrain method works", {
   expect_equal(learner$param_set$values$iter, 5)
   expect_equal(learner$model$iter, 5)
 
+  # added retrain parameter
+  learner = LearnerClassifDebug$new()
+  learner$param_set$values$x = 0
+  learner$train(task)
+  learner$state$param_vals$iter = NULL # iter set by default. Assume it is not.
+
+  expect_false(learner$is_retrainable(list(iter = 5)))
+  learner$retrain(task, list(iter = 5))
+  expect_true(retrain_id != learner$model$retrain_id)
+  expect_equal(learner$param_set$values$x, 0)
+  expect_equal(learner$param_set$values$iter, 5)
+  expect_equal(learner$model$iter, 5)
+
   # increased retrain and added non-retrain parameter
   learner = LearnerClassifDebug$new()
   learner$param_set$values$iter = 5
@@ -132,7 +145,7 @@ test_that("ResampleResult$retrain() works", {
   expect_false(rr$is_retrainable(list(iter = 10)))
 })
 
-test_that("benchmark_continue works", {
+test_that("BenchmarkResult$retrain() works", {
   task = tsk("iris")
   learner1 = LearnerClassifDebug$new()
   learner1$param_set$values$iter = 5

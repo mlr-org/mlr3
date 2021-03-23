@@ -80,7 +80,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
         data_formats = c("data.table", "Matrix")
       )
     }
-  ),        
+  ),
 
   private = list(
     .train = function(task) {

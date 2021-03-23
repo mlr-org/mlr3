@@ -259,7 +259,14 @@ Learner = R6Class("Learner",
 
     #' @description
     #' Returns `TRUE` if model is retrainable with parameter values in `param_vals`.
-    #' 
+    #' In general, a learner is retrainable if 
+    #' * the learner was trained before
+    #' * the parameter values solely tagged with `"train"` are unchanged
+    #' * at least one parameter value tagged with `"retrain"` is supplied
+    #' * the supplied parameter tagged with `"retrain"` was already set when the learner was trained
+    #'
+    #' Additionally, a learner can add more checks e.g. if a `"retrain"` parameter value increased.
+    #'
     #' @param param_vals (`list()`)\cr
     #'   List of hyperparameter values.
     #'
@@ -274,7 +281,8 @@ Learner = R6Class("Learner",
       train_vals = param_vals[names(param_vals) %in% train_ids]
       
       if (!all(imap_lgl(train_vals, function(vals, id) isTRUE(vals == self$state$param_vals[[id]])))) return(FALSE)
-      if (length(retrain_vals) > 0) private$.is_retrainable(retrain_vals) else FALSE
+      if (!test_subset(names(retrain_vals), names(self$state$param_vals), empty.ok = FALSE)) return(FALSE)
+      private$.is_retrainable(retrain_vals)
     },
 
     #' @description
@@ -487,8 +495,10 @@ Learner = R6Class("Learner",
     .param_set = NULL,
 
     .retrain = function(task) {
-      stopf("Learner '%s' does not support retrain.", self$id)
+      self$train(task)
     },
+
+    .is_retrainable = function(param_vals) FALSE,
 
     .update = function(task) {
       stopf("Learner '%s' does not support update.", self$id)
