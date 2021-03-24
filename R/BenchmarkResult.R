@@ -364,7 +364,6 @@ BenchmarkResult = R6Class("BenchmarkResult",
       ResampleResult$new(self$data, view = needle)
     },
 
-
     #' @description
     #' Repeats the benchmark with retrainable models. The models are updated
     #' with the additional budget, the training continues on the training sets

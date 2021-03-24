@@ -1,4 +1,4 @@
-test_that("retrain method works", {
+test_that("Learner$retrain() method works", {
   task = tsk("iris")
 
   # increased retrain parameter

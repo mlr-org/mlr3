@@ -55,8 +55,12 @@ This can be used in measures like \link{mlr_measures_aic} or \link{mlr_measures_
 \section{Retrain}{
 
 
-Specific learners can implement the private method \code{.$retrain()} to
-retrain the model.
+Some learners allow to retrain a model with specific hyperparameter values.
+These hyperparameters are tagged with \code{"retrain"} in the \link[paradox:ParamSet]{paradox::ParamSet}.
+The \verb{$retrain()} method calls the learner specific private \verb{$.retrain()} method.
+If the learner does not support retraining or no retraining is possible with the provided hyperparameter values,
+\verb{$train()} is called by \verb{$retrain()}.
+The \verb{$is_retrainable()} method can be used to check if a learner is retrainable with a set of hyperparameter values.
 }
 
 \section{Setting Hyperparameters}{
@@ -226,6 +230,7 @@ See \code{\link[mlr3misc:encapsulate]{mlr3misc::encapsulate()}} for more details
 \item \href{#method-retrain}{\code{Learner$retrain()}}
 \item \href{#method-is_retrainable}{\code{Learner$is_retrainable()}}
 \item \href{#method-update}{\code{Learner$update()}}
+\item \href{#method-is_updatable}{\code{Learner$is_updatable()}}
 \item \href{#method-predict}{\code{Learner$predict()}}
 \item \href{#method-predict_newdata}{\code{Learner$predict_newdata()}}
 \item \href{#method-reset}{\code{Learner$reset()}}
@@ -367,10 +372,8 @@ the object in its previous state.
 \if{html}{\out{<a id="method-retrain"></a>}}
 \if{latex}{\out{\hypertarget{method-retrain}{}}}
 \subsection{Method \code{retrain()}}{
-Retrain the model on the provided \code{task} with hyperparameter values in
-\code{param_vals}.
-Mutates the learner by reference, i.e. stores the model alongside other
-information in field \verb{$state}.
+Retrain the learner with hyperparameter values in \code{param_vals} on the provided \code{task} .
+Mutates the learner by reference, i.e. stores the model alongside other information in field \verb{$state}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Learner$retrain(task, param_vals, allow_train = TRUE)}\if{html}{\out{</div>}}
 }
@@ -385,7 +388,7 @@ The task used for training the learner.}
 List of hyperparameter values.}
 
 \item{\code{allow_train}}{(\code{logical(1)})\cr
-Determines if \verb{$train()} is called if model is not retrainable.}
+Determines if \verb{$train()} is called if the learner is not retrainable.}
 }
 \if{html}{\out{</div>}}
 }
@@ -399,7 +402,7 @@ object in its previous state.
 \if{html}{\out{<a id="method-is_retrainable"></a>}}
 \if{latex}{\out{\hypertarget{method-is_retrainable}{}}}
 \subsection{Method \code{is_retrainable()}}{
-Returns \code{TRUE} if model is retrainable with parameter values in \code{param_vals}.
+Returns \code{TRUE} if the learner is retrainable with hyperparameter values in \code{param_vals}.
 In general, a learner is retrainable if
 \itemize{
 \item the learner was trained before
@@ -408,7 +411,7 @@ In general, a learner is retrainable if
 \item the supplied parameter tagged with \code{"retrain"} was already set when the learner was trained
 }
 
-Additionally, a learner can add more checks e.g. if a \code{"retrain"} parameter value increased.
+Usually, a learner adds additional checks e.g. if a \code{"retrain"} parameter value increased.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Learner$is_retrainable(param_vals)}\if{html}{\out{</div>}}
 }
@@ -429,18 +432,25 @@ List of hyperparameter values.}
 \if{html}{\out{<a id="method-update"></a>}}
 \if{latex}{\out{\hypertarget{method-update}{}}}
 \subsection{Method \code{update()}}{
-Updates model with new observations
+Updates model with new observations of the provided \code{task}.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Learner$update(task, row_ids = NULL)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Learner$update(task, row_ids = NULL, param_vals = NULL, allow_train = TRUE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{task}}{(\link{Task}).}
+\item{\code{task}}{(\link{Task})\cr
+Task with new observations.}
 
 \item{\code{row_ids}}{(\code{integer()})\cr
 Vector of training indices.}
+
+\item{\code{param_vals}}{(\code{list()})\cr
+List of hyperparameter values.}
+
+\item{\code{allow_train}}{(\code{logical(1)})\cr
+Determines if \verb{$train()} is called if the learner is not updatable.}
 }
 \if{html}{\out{</div>}}
 }
@@ -448,6 +458,34 @@ Vector of training indices.}
 Returns the object itself, but modified \strong{by reference}. You need to
 explicitly \verb{$clone()} the object beforehand if you want to keeps the
 object in its previous state.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-is_updatable"></a>}}
+\if{latex}{\out{\hypertarget{method-is_updatable}{}}}
+\subsection{Method \code{is_updatable()}}{
+Returns \code{TRUE} if the learner is updatable with the new observations in \code{task}
+and the provided hyperparameter values in \code{param_vals}.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Learner$is_updatable(task, row_ids = NULL, param_vals = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{task}}{(\link{Task})\cr
+Task with new observations.}
+
+\item{\code{row_ids}}{(\code{integer()})\cr
+Vector of training indices.}
+
+\item{\code{param_vals}}{(\code{list()})\cr
+List of hyperparameter values.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\code{logical(1)}
 }
 }
 \if{html}{\out{<hr>}}

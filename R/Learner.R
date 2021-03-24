@@ -57,14 +57,18 @@
 #'
 #' * `oob_error(...)`: Returns the out-of-bag error of the model as `numeric(1)`.
 #'   The learner must be tagged with property `"oob_error"`.
-#' 
+#'
 #' * `loglik(...)`: Extracts the log-likelihood (c.f. [stats::logLik()]).
 #'   This can be used in measures like [mlr_measures_aic] or [mlr_measures_bic].
 #'
 #' @section Retrain:
 #'
-#' Specific learners can implement the private method `.$retrain()` to
-#' retrain the model.
+#' Some learners allow to retrain a model with specific hyperparameter values. 
+#' These hyperparameters are tagged with `"retrain"` in the [paradox::ParamSet].
+#' The `$retrain()` method calls the learner specific private `$.retrain()` method.
+#' If the learner does not support retraining or no retraining is possible with the provided hyperparameter values,
+#' `$train()` is called by `$retrain()`.
+#' The `$is_retrainable()` method can be used to check if a learner is retrainable with a set of hyperparameter values.
 #'
 #' @section Setting Hyperparameters:
 #'
@@ -229,17 +233,15 @@ Learner = R6Class("Learner",
     },
 
     #' @description
-    #' Retrain the model on the provided `task` with hyperparameter values in
-    #' `param_vals`.
-    #' Mutates the learner by reference, i.e. stores the model alongside other
-    #' information in field `$state`.
+    #' Retrain the learner with hyperparameter values in `param_vals` on the provided `task` .
+    #' Mutates the learner by reference, i.e. stores the model alongside other information in field `$state`.
     #'
     #' @param task ([Task])\cr
     #'   The task used for training the learner.
     #' @param param_vals (`list()`)\cr
     #'   List of hyperparameter values.
     #' @param allow_train (`logical(1)`)\cr
-    #'   Determines if `$train()` is called if model is not retrainable.
+    #'   Determines if `$train()` is called if the learner is not retrainable.
     #' 
     #' @return
     #' Returns the object itself, but modified **by reference**. You need to
@@ -266,14 +268,14 @@ Learner = R6Class("Learner",
     },
 
     #' @description
-    #' Returns `TRUE` if model is retrainable with parameter values in `param_vals`.
+    #' Returns `TRUE` if the learner is retrainable with hyperparameter values in `param_vals`.
     #' In general, a learner is retrainable if 
     #' * the learner was trained before
     #' * the parameter values solely tagged with `"train"` are unchanged
     #' * at least one parameter value tagged with `"retrain"` is supplied
     #' * the supplied parameter tagged with `"retrain"` was already set when the learner was trained
     #'
-    #' Additionally, a learner can add more checks e.g. if a `"retrain"` parameter value increased.
+    #' Usually, a learner adds additional checks e.g. if a `"retrain"` parameter value increased.
     #'
     #' @param param_vals (`list()`)\cr
     #'   List of hyperparameter values.
@@ -294,26 +296,55 @@ Learner = R6Class("Learner",
     },
 
     #' @description
-    #' Updates model with new observations
+    #' Updates model with new observations of the provided `task`.
     #' 
-    #' @param task ([Task]).
-    #'
+    #' @param task ([Task])\cr
+    #'   Task with new observations.
     #' @param row_ids (`integer()`)\cr
     #'   Vector of training indices.
+    #' @param param_vals (`list()`)\cr
+    #'   List of hyperparameter values.
+    #' @param allow_train (`logical(1)`)\cr
+    #'   Determines if `$train()` is called if the learner is not updatable.
     #'
     #' @return
     #' Returns the object itself, but modified **by reference**. You need to
     #' explicitly `$clone()` the object beforehand if you want to keeps the
     #' object in its previous state.
-    update = function(task, row_ids = NULL) {
-      if(is.null(self$model)) stop("Learner does not contain a model.")
+    update = function(task, row_ids = NULL, param_vals = NULL, allow_train = TRUE) {
       task = assert_task(as_task(task))
       assert_names(task$feature_names, permutation.of = self$state$train_task$feature_names)
       assert_names(task$target_names, permutation.of = self$state$train_task$target_names)
+      updatable = self$is_updatable(task, row_ids, param_vals)
 
-      learner_train(self, task, row_ids, mode = "update")
+      if (!updatable & !allow_train) {
+        stopf("%s is not updatable.", format(self))
+      } else {
+        self$param_set$values = insert_named(self$param_set$values, param_vals)
+        learner_train(self, task, row_ids, mode = ifelse(updatable, "update", "train"))
+      }
 
+      # store the task w/o the data 
+      self$state$train_task = task_rm_backend(task$clone(deep = TRUE))
       invisible(self)
+    },
+
+    #' @description
+    #' Returns `TRUE` if the learner is updatable with the new observations in `task` 
+    #' and the provided hyperparameter values in `param_vals`. 
+    #'
+    #' @param task ([Task])\cr
+    #'   Task with new observations.
+    #' @param row_ids (`integer()`)\cr
+    #'   Vector of training indices.
+    #' @param param_vals (`list()`)\cr
+    #'   List of hyperparameter values.
+    #'
+    #' @return `logical(1)`
+    is_updatable = function(task, row_ids = NULL, param_vals = NULL) {
+      if (!is.null(param_vals)) self$param_set$assert(param_vals)
+      if (is.null(self$model)) return(FALSE)
+      private$.is_updatable(task, row_ids, param_vals)
     },
 
     #' @description
@@ -502,15 +533,9 @@ Learner = R6Class("Learner",
     .predict_type = NULL,
     .param_set = NULL,
 
-    .retrain = function(task) {
-      self$train(task)
-    },
-
     .is_retrainable = function(param_vals) FALSE,
 
-    .update = function(task) {
-      stopf("Learner '%s' does not support update.", self$id)
-    },
+    .is_updatable = function(task, row_ids = NULL, param_vals = NULL) FALSE,
 
     deep_clone = function(name, value) {
       switch(name,
