@@ -28,7 +28,9 @@ LearnerClassifFeatureless = R6Class("LearnerClassifFeatureless", inherit = Learn
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
-      ps = ParamSet$new(list(ParamFct$new("method", levels = c("mode", "sample", "weighted.sample"), default = "mode", tags = "predict")))
+      ps = ps(
+        method = p_fct(levels = c("mode", "sample", "weighted.sample"), default = "mode", tags = "predict")
+      )
       ps$values = list(method = "mode")
       super$initialize(
         id = "classif.featureless",
