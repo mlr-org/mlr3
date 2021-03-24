@@ -34,7 +34,7 @@ test_that("Learner$update() method works", {
   learner = LearnerClassifRpart$new()
   learner$train(task, 1:100)
   
-  expect_error(learner$update(task, 101:150 allow_train = FALSE),
+  expect_error(learner$update(task, 101:150, allow_train = FALSE),
     regexp = "is not updatable")
 
   # different task
