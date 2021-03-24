@@ -102,16 +102,17 @@ reference:
       - BenchmarkResult
       - as_result_data
       - as_benchmark_result
-  - title: Internal Objects and Functions
-    contents:
-      - ResultData
-      - PredictionData
   - title: Converters
     contents:
       - starts_with("as_")
-  - title: Extending mlr3
+  - title: Syntactic Sugar and Reflections
+    contents:
+      - mlr_sugar
+      - mlr_reflections
+      - set_threads
+  - title: Internal Objects and Functions
     contents:
       - mlr_assertions
-      - mlr_reflections
-      - mlr_sugar
+      - ResultData
+      - PredictionData
       - predict.Learner

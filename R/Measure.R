@@ -32,7 +32,7 @@
 #' @template param_packages
 #' @template param_man
 #'
-#' @family Measure
+#' @template seealso_measure
 #' @export
 Measure = R6Class("Measure",
   cloneable = FALSE,

@@ -9,6 +9,7 @@
 #' * Possible values for `predict_type` are `"response"` and `"prob"`.
 #'
 #' Predefined measures can be found in the [dictionary][mlr3misc::Dictionary] [mlr_measures].
+#' The default measure for classification is [`classif.ce`][mlr_measures_classif.ce].
 #'
 #' @template param_id
 #' @template param_range
@@ -22,9 +23,7 @@
 #' @template param_packages
 #' @template param_man
 #'
-#' @family Measure
-#' @seealso
-#' Default classification measures: [`classif.ce`][mlr_measures_classif.ce]
+#' @template seealso_measure
 #' @export
 MeasureClassif = R6Class("MeasureClassif", inherit = Measure, cloneable = FALSE,
   public = list(

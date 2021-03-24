@@ -8,6 +8,8 @@
 #' Note that all stored objects are accessed by reference.
 #' Do not modify any object without cloning it first.
 #'
+#' [ResampleResult]s can be visualized via \CRANpkg{mlr3viz}'s `autoplot()` function.
+#'
 #' @template param_measures
 #'
 #' @section S3 Methods:
@@ -18,6 +20,7 @@
 #'   ([ResampleResult], ...) -> [BenchmarkResult]\cr
 #'   Combines multiple objects convertible to [BenchmarkResult] into a new [BenchmarkResult].
 #'
+#' @template seealso_resample
 #' @export
 #' @examples
 #' task = tsk("penguins")

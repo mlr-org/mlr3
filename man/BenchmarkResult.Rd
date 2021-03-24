@@ -72,6 +72,15 @@ rr$predictions()[[1]]$confusion
 bmr$filter(task_ids = "sonar")
 print(bmr)
 }
+\seealso{
+Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
+\url{https://mlr3book.mlr-org.com/benchmarking.html}
+
+Other benchmark: 
+\code{\link{benchmark_grid}()},
+\code{\link{benchmark}()}
+}
+\concept{benchmark}
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{

@@ -45,7 +45,6 @@
 #' The sets can be accessed via `$train_set(i)` and `$test_set(i)`, respectively.
 #'
 #'
-#' @family Resampling
 #' @template seealso_resampling
 #' @export
 #' @examples

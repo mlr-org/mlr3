@@ -12,7 +12,6 @@
 #' * `"multiclass"`: The task is a multiclass classification problem.
 #'
 #' Predefined tasks are stored in the [dictionary][mlr3misc::Dictionary] [mlr_tasks].
-#' More example tasks can be found in this dictionary after loading \CRANpkg{mlr3data}.
 #'
 #' @template param_id
 #' @template param_backend
@@ -20,20 +19,18 @@
 #' @template param_cols
 #' @template param_data_format
 #'
-#' @family Task
+#' @template seealso_task
 #' @export
 #' @examples
 #' data("Sonar", package = "mlbench")
-#' task = TaskClassif$new("sonar", backend = Sonar, target = "Class", positive = "M")
+#' task = as_task_classif(Sonar, target = "Class", positive = "M")
 #'
 #' task$task_type
 #' task$formula()
 #' task$truth()
 #' task$class_names
 #' task$positive
-#'
-#' # possible properties:
-#' mlr_reflections$task_properties$classif
+#' task$data(rows = 1:3, cols = task$feature_names[1:2])
 TaskClassif = R6Class("TaskClassif",
   inherit = TaskSupervised,
   public = list(

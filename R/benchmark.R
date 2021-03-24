@@ -31,6 +31,7 @@
 #' @template section_progress_bars
 #' @template section_logging
 #'
+#' @template seealso_benchmark
 #' @export
 #' @examples
 #' # benchmarking with benchmark_grid()

@@ -22,10 +22,8 @@
 #' [DataBackendMatrix] for exemplary implementations of the interface).
 #'
 #' @template param_data_formats
+#' @template seealso_databackend
 #'
-#' @family DataBackend
-#' @seealso
-#' Extension Packages: \CRANpkg{mlr3db}
 #' @export
 #' @examples
 #' data = data.table::data.table(id = 1:5, x = runif(5),

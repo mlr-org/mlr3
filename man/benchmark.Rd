@@ -122,3 +122,12 @@ print(bmr)
 rr = bmr$aggregate()[learner_id == "classif.featureless"]$resample_result[[1]]
 rr$resampling$train_set(2)
 }
+\seealso{
+Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
+\url{https://mlr3book.mlr-org.com/benchmarking.html}
+
+Other benchmark: 
+\code{\link{BenchmarkResult}},
+\code{\link{benchmark_grid}()}
+}
+\concept{benchmark}

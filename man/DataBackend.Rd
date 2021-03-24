@@ -35,7 +35,11 @@ b$distinct(rows = b$rownames, "y")
 b$missings(rows = b$rownames, cols = names(data))
 }
 \seealso{
-Extension Packages: \CRANpkg{mlr3db}
+\itemize{
+\item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
+\url{https://mlr3book.mlr-org.com/backends.html}
+\item Package \CRANpkg{mlr3db} to store data out-of-memory.
+}
 
 Other DataBackend: 
 \code{\link{DataBackendDataTable}},

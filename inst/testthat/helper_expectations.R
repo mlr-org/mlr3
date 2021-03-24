@@ -446,6 +446,8 @@ expect_prediction_classif = function(p, task = NULL) {
   lvls = if (is.null(task)) levels(p$truth) else task$class_names
   checkmate::expect_factor(p$truth, len = n, levels = lvls, null.ok = TRUE)
   checkmate::expect_factor(p$response, len = n, levels = lvls, null.ok = TRUE)
+  testthat::expect_identical(levels(p$truth), lvls)
+  testthat::expect_identical(levels(p$response), lvls)
   if ("prob" %in% p$predict_types) {
     checkmate::expect_matrix(p$prob, "numeric", any.missing = FALSE, ncols = nlevels(p$response), nrows = n)
     testthat::expect_identical(colnames(p$prob), lvls)

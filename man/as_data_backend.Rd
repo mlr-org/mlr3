@@ -48,6 +48,12 @@ to real DBMS like PostgreSQL (via \CRANpkg{dbplyr}) or DuckDB (via \CRANpkg{DBI}
 as_data_backend(palmerpenguins::penguins)
 }
 \seealso{
+\itemize{
+\item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
+\url{https://mlr3book.mlr-org.com/backends.html}
+\item Package \CRANpkg{mlr3db} to store data out-of-memory.
+}
+
 Other DataBackend: 
 \code{\link{DataBackendDataTable}},
 \code{\link{DataBackendMatrix}},

@@ -15,22 +15,34 @@ Additional task properties include:
 }
 
 Predefined tasks are stored in the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_tasks}.
-More example tasks can be found in this dictionary after loading \CRANpkg{mlr3data}.
 }
 \examples{
 data("Sonar", package = "mlbench")
-task = TaskClassif$new("sonar", backend = Sonar, target = "Class", positive = "M")
+task = as_task_classif(Sonar, target = "Class", positive = "M")
 
 task$task_type
 task$formula()
 task$truth()
 task$class_names
 task$positive
-
-# possible properties:
-mlr_reflections$task_properties$classif
+task$data(rows = 1:3, cols = task$feature_names[1:2])
 }
 \seealso{
+\itemize{
+\item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
+\url{https://mlr3book.mlr-org.com/tasks.html}
+\item Package \CRANpkg{mlr3data} for more toy tasks.
+\item Package \CRANpkg{mlr3oml} for downloading tasks from \url{https://openml.org}.
+\item Package \CRANpkg{mlr3viz} for some generic visualizations.
+\item \link[mlr3misc:Dictionary]{Dictionary} of \link[=Task]{Tasks}: \link{mlr_tasks}
+\item \code{as.data.table(mlr_tasks)} for a table of available \link[=Task]{Tasks} in the running session (depending on the loaded packages).
+\item Extension packages for additional task types:
+\itemize{
+\item \CRANpkg{mlr3proba} for probabilistic supervised regression and survival analysis.
+\item \CRANpkg{mlr3cluster} for unsupervised clustering.
+}
+}
+
 Other Task: 
 \code{\link{TaskRegr}},
 \code{\link{TaskSupervised}},

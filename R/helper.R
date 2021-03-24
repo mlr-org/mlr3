@@ -46,12 +46,6 @@ allow_partial_matching = list(
 )
 
 
-replace_with = function(x, needle, replacement) {
-  ii = (x == needle)
-  x = rep(x, 1L + (length(replacement) - 1L) * ii)
-  replace(x, ii, replacement)
-}
-
 # extract values from a single column of a data table
 # tries to avoid the overhead of data.table for small tables
 fget = function(tab, i, j, key = key(tab)) {
@@ -77,4 +71,9 @@ get_progressor = function(n, label = NA_character_) {
 
 allow_utf8_names = function() {
   isTRUE(getOption("mlr3.allow_utf8_names"))
+}
+
+
+reorder_vector = function(x, y, na_last = NA) {
+  order(match(x, y), na.last = na_last)
 }
