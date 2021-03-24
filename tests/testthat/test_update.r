@@ -18,10 +18,9 @@ test_that("Learner$update() method works", {
 
   # no model and disallow train
   learner = LearnerClassifDebug$new()
-  
-  expect_error(learner$update(task, 101:150, allow_train = FALSE),
-    regexp = "Error: <LearnerClassifDebug:classif.debug> is not updatable.",
-    fixed = TRUE)
+
+  expect_error(learner$update(task, 1:100, allow_train = FALSE),
+    regexp = "is not updatable")
 
   # non-updatable learner
   learner = LearnerClassifRpart$new()
@@ -35,9 +34,8 @@ test_that("Learner$update() method works", {
   learner = LearnerClassifRpart$new()
   learner$train(task, 1:100)
   
-  expect_error(learner$update(task, 101:150, allow_train = FALSE),
-    regexp = "Error: <LearnerClassifDebug:classif.debug> is not updatable.",
-    fixed = TRUE)
+  expect_error(learner$update(task, 101:150 allow_train = FALSE),
+    regexp = "is not updatable")
 
   # different task
   task = tsk("iris")
