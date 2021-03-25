@@ -29,7 +29,7 @@ LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
     initialize = function() {
       ps = ps(
         cp             = p_dbl(0, 1, default = 0.01, tags = "train"),
-        keep_model     = p_lgl(default = FALSE, tags = "train")
+        keep_model     = p_lgl(default = FALSE, tags = "train"),
         maxcompete     = p_int(0L, default = 4L, tags = "train"),
         maxdepth       = p_int(1L, 30L, default = 30L, tags = "train"),
         maxsurrogate   = p_int(0L, default = 5L, tags = "train"),
@@ -37,7 +37,7 @@ LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
         minsplit       = p_int(1L, default = 20L, tags = "train"),
         surrogatestyle = p_int(0L, 1L, default = 0L, tags = "train"),
         usesurrogate   = p_int(0L, 2L, default = 2L, tags = "train"),
-        xval           = p_int(0L, default = 10L, tags = "train"),
+        xval           = p_int(0L, default = 10L, tags = "train")
       )
       ps$values = list(xval = 0L)
 
