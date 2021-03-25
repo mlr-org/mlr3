@@ -25,7 +25,7 @@ TaskGeneratorMoons = R6Class("TaskGeneratorMoons",
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       ps = ps(
-        sigma = p_dbl(lower = 0, default = 1, tags = "required")
+        sigma = p_dbl(0, default = 1, tags = "required")
       )
       ps$values = list(sigma = 1)
 

@@ -25,7 +25,7 @@ TaskGeneratorCircle = R6Class("TaskGeneratorCircle",
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       ps = ps(
-        d = p_int(lower = 2L, default = 2L)
+        d = p_int(2L, default = 2L)
       )
 
       super$initialize(id = "circle", "classif", "mlbench", ps, man = "mlr3::mlr_task_generators_circle")

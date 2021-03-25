@@ -24,8 +24,8 @@ TaskGeneratorSpirals = R6Class("TaskGeneratorSpirals",
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       ps = ps(
-        cycles = p_int(lower = 1L, default = 1L),
-        sd = p_dbl(lower = 0, default = 0)
+        cycles = p_int(1L, default = 1L),
+        sd     = p_dbl(0, default = 0)
       )
 
       super$initialize(id = "spirals", "classif", "mlbench", ps, man = "mlr3::mlr_task_generators_spirals")

@@ -51,8 +51,8 @@ ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       ps = ps(
-        repeats = p_int(lower = 1),
-        folds = p_int(lower = 2L, tags = "required")
+        folds   = p_int(2L, tags = "required")
+        repeats = p_int(1L),
       )
       ps$values = list(repeats = 10L, folds = 10L)
       super$initialize(id = "repeated_cv", param_set = ps, man = "mlr3::mlr_resamplings_repeated_cv")
