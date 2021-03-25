@@ -212,8 +212,8 @@ Must be an element of \verb{$predict_types}.}
 Set of hyperparameters.}
 
 \item{\code{encapsulate}}{(named \code{character()})\cr
-Controls how to execute the code in internal train, predict, retrain and update methods.retr
-Must be a named character vector with names \code{"train"}, \code{"predict"}, \code{"retrain"} and \code{"update"}.
+Controls how to execute the code in internal train, predict and retrain methods.
+Must be a named character vector with names \code{"train"}, \code{"predict"} and \code{"retrain"}.
 Possible values are \code{"none"}, \code{"evaluate"} (requires package \CRANpkg{evaluate}) and \code{"callr"} (requires package \CRANpkg{callr}).
 See \code{\link[mlr3misc:encapsulate]{mlr3misc::encapsulate()}} for more details.}
 }
@@ -229,8 +229,6 @@ See \code{\link[mlr3misc:encapsulate]{mlr3misc::encapsulate()}} for more details
 \item \href{#method-train}{\code{Learner$train()}}
 \item \href{#method-retrain}{\code{Learner$retrain()}}
 \item \href{#method-is_retrainable}{\code{Learner$is_retrainable()}}
-\item \href{#method-update}{\code{Learner$update()}}
-\item \href{#method-is_updatable}{\code{Learner$is_updatable()}}
 \item \href{#method-predict}{\code{Learner$predict()}}
 \item \href{#method-predict_newdata}{\code{Learner$predict_newdata()}}
 \item \href{#method-reset}{\code{Learner$reset()}}
@@ -419,66 +417,6 @@ Usually, a learner adds additional checks e.g. if a \code{"retrain"} parameter v
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{param_vals}}{(\code{list()})\cr
-List of hyperparameter values.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-\code{logical(1)}
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-update"></a>}}
-\if{latex}{\out{\hypertarget{method-update}{}}}
-\subsection{Method \code{update()}}{
-Updates model with new observations of the provided \code{task}.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Learner$update(task, row_ids = NULL, param_vals = NULL, allow_train = TRUE)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{task}}{(\link{Task})\cr
-Task with new observations.}
-
-\item{\code{row_ids}}{(\code{integer()})\cr
-Vector of training indices.}
-
-\item{\code{param_vals}}{(\code{list()})\cr
-List of hyperparameter values.}
-
-\item{\code{allow_train}}{(\code{logical(1)})\cr
-Determines if \verb{$train()} is called if the learner is not updatable.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-Returns the object itself, but modified \strong{by reference}. You need to
-explicitly \verb{$clone()} the object beforehand if you want to keeps the
-object in its previous state.
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-is_updatable"></a>}}
-\if{latex}{\out{\hypertarget{method-is_updatable}{}}}
-\subsection{Method \code{is_updatable()}}{
-Returns \code{TRUE} if the learner is updatable with the new observations in \code{task}
-and the provided hyperparameter values in \code{param_vals}.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Learner$is_updatable(task, row_ids = NULL, param_vals = NULL)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{task}}{(\link{Task})\cr
-Task with new observations.}
-
-\item{\code{row_ids}}{(\code{integer()})\cr
-Vector of training indices.}
-
 \item{\code{param_vals}}{(\code{list()})\cr
 List of hyperparameter values.}
 }

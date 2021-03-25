@@ -12,10 +12,7 @@ learner_train = function(learner, task, row_ids = NULL, mode = "train") {
         get_private(learner)$.train(task)
       } else if (mode == "retrain") {
         get_private(learner)$.retrain(task)
-      } else if(mode == "update") {
-        get_private(learner)$.update(task)
       }
-
 
     if (is.null(model)) {
       stopf("Learner '%s' on task '%s' returned NULL during internal %s()", learner$id, task$id, mode)
@@ -24,7 +21,7 @@ learner_train = function(learner, task, row_ids = NULL, mode = "train") {
     model
   }
 
-  assert_choice(mode, c("train", "retrain", "update"))
+  assert_choice(mode, c("train", "retrain"))
   assert_task(task)
   assert_learner(learner)
   assert_learnable(task, learner)

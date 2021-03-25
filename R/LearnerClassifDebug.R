@@ -70,7 +70,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
           x = p_dbl(lower = 0, upper = 1, tags = "train"),
           iter = p_int(lower = 1, default = 1, tags = c("train", "retrain"))
         ),
-        properties = c("twoclass", "multiclass", "missings", "retrain", "update"),
+        properties = c("twoclass", "multiclass", "missings", "retrain"),
         man = "mlr3::mlr_learners_classif.debug",
         data_formats = c("data.table", "Matrix")
       )
@@ -166,19 +166,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
 
     .is_retrainable = function(param_vals) {
       param_vals$iter > self$state$param_vals$iter
-    },
-
-    .update = function(task) {
-      model = self$model
-      pars = self$param_set$get_values(tags = "train")
-      retrain_id = self$model$retrain_id
-
-      model = list(response = as.character(sample(task$truth(), 1L)), pid = Sys.getpid(), iter = pars$iter,
-        retrain_id = retrain_id, update_rows = task$nrow)
-      set_class(model, "classif.debug_model")
-    },
-
-    .is_updatable = function(task, row_ids = NULL, param_vals = NULL) TRUE
+    }
   )
 )
 
