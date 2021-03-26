@@ -86,7 +86,6 @@ Suggests:
     rpart,
     testthat (>= 3.0.0)
 Encoding: UTF-8
-LazyData: true
 Config/testthat/edition: 3
 Config/testthat/parallel: true
 NeedsCompilation: no
