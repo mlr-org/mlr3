@@ -532,7 +532,6 @@ get_log_condition = function(state, condition) {
 #' For a [Learner] that can only retrain forwards.
 #'
 #' @export
-#' @noRd
 retrain_max_default = function(retrain_value, xss) {
   xss = unlist(xss)
   values = xss[xss < retrain_value]
@@ -549,7 +548,6 @@ retrain_max_default = function(retrain_value, xss) {
 #' For a [Learner] that can retrain backwards.
 #'
 #' @export
-#' @noRd
 retrain_min_default = function(retrain_value, xss) {
   xss = unlist(xss)
   values = xss[xss > retrain_value]
