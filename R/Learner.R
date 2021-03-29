@@ -523,7 +523,16 @@ get_log_condition = function(state, condition) {
   }
 }
 
+#' @title Default Forward Which Retrain Function
+#' 
+#' @description
+#' The list `xss` contains multiple "`retrain`" hyperparameter values. 
+#' This function determines which one allows to retrain to a learner
+#' with the hyperparameter configuration `retrain_value` most efficiently. 
+#' For a [Learner] that can only retrain forwards.
+#'
 #' @export
+#' @noRd
 retrain_max_default = function(retrain_value, xss) {
   xss = unlist(xss)
   values = xss[xss < retrain_value]
@@ -531,7 +540,16 @@ retrain_max_default = function(retrain_value, xss) {
   unname(which(xss == max(values)))
 }
 
+#' @title Default Backward Which Retrain Function
+#' 
+#' @description
+#' The list `xss` contains multiple "`retrain`" hyperparameter values. 
+#' This function determines which one allows to retrain to a learner
+#' with the hyperparameter configuration `retrain_value` most efficiently. 
+#' For a [Learner] that can retrain backwards.
+#'
 #' @export
+#' @noRd
 retrain_min_default = function(retrain_value, xss) {
   xss = unlist(xss)
   values = xss[xss > retrain_value]

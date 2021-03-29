@@ -254,8 +254,6 @@ ResampleResult = R6Class("ResampleResult",
         uhash = UUIDgenerate()
       )
 
-      self$view = data$uhash
-
       self$data = ResultData$new(data)
       invisible(self)
     },
