@@ -22,7 +22,7 @@ TaskGeneratorFriedman1 = R6Class("TaskGeneratorFriedman1",
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       ps = ps(
-        sd = p_dbl(lower = 0L, default = 1)
+        sd = p_dbl(0L, default = 1)
       )
 
       super$initialize(id = "friedman1", "regr", "mlbench", ps, man = "mlr3::mlr_task_generators_friedman1")

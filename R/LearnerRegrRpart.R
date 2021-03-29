@@ -28,16 +28,16 @@ LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       ps = ps(
-        minsplit = p_int(default = 20L, lower = 1L, tags = "train"),
-        minbucket = p_int(lower = 1L, tags = "train"),
-        cp = p_dbl(default = 0.01, lower = 0, upper = 1, tags = "train"),
-        maxcompete = p_int(default = 4L, lower = 0L, tags = "train"),
-        maxsurrogate = p_int(default = 5L, lower = 0L, tags = "train"),
-        maxdepth = p_int(default = 30L, lower = 1L, upper = 30L, tags = "train"),
-        usesurrogate = p_int(default = 2L, lower = 0L, upper = 2L, tags = "train"),
-        surrogatestyle = p_int(default = 0L, lower = 0L, upper = 1L, tags = "train"),
-        xval = p_int(default = 10L, lower = 0L, tags = "train"),
-        keep_model = p_lgl(default = FALSE, tags = "train")
+        cp             = p_dbl(0, 1, default = 0.01, tags = "train"),
+        keep_model     = p_lgl(default = FALSE, tags = "train"),
+        maxcompete     = p_int(0L, default = 4L, tags = "train"),
+        maxdepth       = p_int(1L, 30L, default = 30L, tags = "train"),
+        maxsurrogate   = p_int(0L, default = 5L, tags = "train"),
+        minbucket      = p_int(1L, tags = "train"),
+        minsplit       = p_int(1L, default = 20L, tags = "train"),
+        surrogatestyle = p_int(0L, 1L, default = 0L, tags = "train"),
+        usesurrogate   = p_int(0L, 2L, default = 2L, tags = "train"),
+        xval           = p_int(0L, default = 10L, tags = "train")
       )
       ps$values = list(xval = 0L)
 

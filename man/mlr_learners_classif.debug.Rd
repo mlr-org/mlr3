@@ -45,17 +45,17 @@ lrn("classif.featureless")
 \section{Parameters}{
 \tabular{lllll}{
    Id \tab Type \tab Default \tab Range \tab Levels \cr
-   message_train \tab numeric \tab 0 \tab \eqn{[0, 1]}{[0, 1]} \tab - \cr
-   message_predict \tab numeric \tab 0 \tab \eqn{[0, 1]}{[0, 1]} \tab - \cr
-   warning_train \tab numeric \tab 0 \tab \eqn{[0, 1]}{[0, 1]} \tab - \cr
-   warning_predict \tab numeric \tab 0 \tab \eqn{[0, 1]}{[0, 1]} \tab - \cr
-   error_train \tab numeric \tab 0 \tab \eqn{[0, 1]}{[0, 1]} \tab - \cr
    error_predict \tab numeric \tab 0 \tab \eqn{[0, 1]}{[0, 1]} \tab - \cr
-   segfault_train \tab numeric \tab 0 \tab \eqn{[0, 1]}{[0, 1]} \tab - \cr
-   segfault_predict \tab numeric \tab 0 \tab \eqn{[0, 1]}{[0, 1]} \tab - \cr
+   error_train \tab numeric \tab 0 \tab \eqn{[0, 1]}{[0, 1]} \tab - \cr
+   message_predict \tab numeric \tab 0 \tab \eqn{[0, 1]}{[0, 1]} \tab - \cr
+   message_train \tab numeric \tab 0 \tab \eqn{[0, 1]}{[0, 1]} \tab - \cr
    predict_missing \tab numeric \tab 0 \tab \eqn{[0, 1]}{[0, 1]} \tab - \cr
    save_tasks \tab logical \tab FALSE \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \tab TRUE, FALSE \cr
+   segfault_predict \tab numeric \tab 0 \tab \eqn{[0, 1]}{[0, 1]} \tab - \cr
+   segfault_train \tab numeric \tab 0 \tab \eqn{[0, 1]}{[0, 1]} \tab - \cr
    threads \tab integer \tab - \tab \eqn{[1, \infty)}{[1, Inf)} \tab - \cr
+   warning_predict \tab numeric \tab 0 \tab \eqn{[0, 1]}{[0, 1]} \tab - \cr
+   warning_train \tab numeric \tab 0 \tab \eqn{[0, 1]}{[0, 1]} \tab - \cr
    x \tab numeric \tab - \tab \eqn{[0, 1]}{[0, 1]} \tab - \cr
    iter \tab integer \tab 1 \tab \eqn{[1, \infty)}{[1, Inf)} \tab - \cr
 }
