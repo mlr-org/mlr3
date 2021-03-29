@@ -452,18 +452,6 @@ Learner = R6Class("Learner",
       hash(class(self), self$id, private$.predict_type, self$fallback$hash)
     },
 
-    #' @field rhash (`character(1)`)\cr
-    #' Hash (unique identifier) for this partial object, excluding parameter values
-    #' which are tagged with `"retrain"`.
-    rhash = function(rhs) {
-      assert_ro_binding(rhs)
-      pps = self$param_set
-      pars = pps$get_values(tags = "train")
-      id_train = setdiff(pps$ids(tags = "train"), pps$ids(tags = "retrain"))
-      pars = pars[names(pars) %in% id_train]
-      hash(class(self), self$id, pars, private$.predict_type, self$fallback$hash)
-    },
-
     #' @field predict_type (`character(1)`)\cr
     #' Stores the currently active predict type, e.g. `"response"`.
     #' Must be an element of `$predict_types`.

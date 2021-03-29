@@ -204,10 +204,6 @@ Hash (unique identifier) for this partial object, excluding some components
 which are varied  systematically during tuning (parameter values) or feature
 selection (feature names).}
 
-\item{\code{rhash}}{(\code{character(1)})\cr
-Hash (unique identifier) for this partial object, excluding parameter values
-which are tagged with \code{"retrain"}.}
-
 \item{\code{predict_type}}{(\code{character(1)})\cr
 Stores the currently active predict type, e.g. \code{"response"}.
 Must be an element of \verb{$predict_types}.}
