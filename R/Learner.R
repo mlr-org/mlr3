@@ -61,6 +61,14 @@
 #' * `loglik(...)`: Extracts the log-likelihood (c.f. [stats::logLik()]).
 #'   This can be used in measures like [mlr_measures_aic] or [mlr_measures_bic].
 #'
+#' @section Retrain:
+#'
+#' Some learners allow to retrain a model with specific hyperparameter values. 
+#' These hyperparameters are tagged with `"retrain"` in the [paradox::ParamSet].
+#' The `$retrain()` method calls the learner specific private `$.retrain()` method.
+#' If the learner does not support retraining or no retraining is possible with the provided hyperparameter values,
+#' `$train()` is called by `$retrain()`.
+#' The `$is_retrainable()` method can be used to check if a learner is retrainable with a set of hyperparameter values.
 #'
 #' @section Setting Hyperparameters:
 #'
@@ -153,7 +161,7 @@ Learner = R6Class("Learner",
       self$id = assert_string(id, min.chars = 1L)
       self$task_type = assert_choice(task_type, mlr_reflections$task_types$type)
       private$.param_set = assert_param_set(param_set)
-      private$.encapsulate = c(train = "none", predict = "none")
+      private$.encapsulate = c(train = "none", predict = "none", retrain = "none")
       self$feature_types = assert_subset(feature_types, mlr_reflections$task_feature_types)
       self$predict_types = assert_subset(predict_types, names(mlr_reflections$learner_predict_types[[task_type]]), empty.ok = FALSE)
       private$.predict_type = predict_types[1L]
@@ -222,6 +230,81 @@ Learner = R6Class("Learner",
       self$state$train_task = task_rm_backend(task$clone(deep = TRUE))
 
       invisible(self)
+    },
+
+    #' @description
+    #' Retrain the learner with hyperparameter values in `param_vals` on the provided `task` .
+    #' Mutates the learner by reference, i.e. stores the model alongside other information in field `$state`.
+    #'
+    #' @param task ([Task])\cr
+    #'   The task used for training the learner.
+    #' @param param_vals (`list()`)\cr
+    #'   List of hyperparameter values.
+    #' @param allow_train (`logical(1)`)\cr
+    #'   Determines if `$train()` is called if the learner is not retrainable.
+    #' 
+    #' @return
+    #' Returns the object itself, but modified **by reference**. You need to
+    #' explicitly `$clone()` the object beforehand if you want to keeps the
+    #' object in its previous state.
+    retrain = function(task, param_vals, allow_train = TRUE) {
+      task = assert_task(as_task(task))
+      assert_flag(allow_train)
+
+      assert_names(task$feature_names, permutation.of = self$state$train_task$feature_names)
+      assert_names(task$target_names, permutation.of = self$state$train_task$target_names)
+      retrainable = self$is_retrainable(param_vals)
+
+      if (!retrainable & !allow_train) {
+        stopf("%s is not retrainable.", format(self))
+      } else {
+        self$param_set$values = insert_named(self$param_set$values, param_vals)
+        learner_train(self, task, mode = ifelse(retrainable, "retrain", "train"))
+      }
+
+      # store the task w/o the data
+      self$state$train_task = task_rm_backend(task$clone(deep = TRUE))
+      invisible(self)
+    },
+
+    #' @description
+    #' Returns `TRUE` if the learner is retrainable with hyperparameter values in `param_vals`.
+    #' In general, a learner is retrainable if 
+    #' * the learner was trained before
+    #' * the parameter values solely tagged with `"train"` are unchanged
+    #' * at least one parameter value tagged with `"retrain"` is supplied
+    #' * the supplied parameter tagged with `"retrain"` was already set when the learner was trained
+    #'
+    #' Usually, a learner adds additional checks e.g. if a `"retrain"` parameter value increased.
+    #'
+    #' @param param_vals (`list()`)\cr
+    #'   List of hyperparameter values.
+    #'
+    #' @return `logical(1)`
+    is_retrainable = function(param_vals) {
+      self$param_set$assert(param_vals)
+      if (is.null(self$model)) return(FALSE)
+
+      retrain_ids = self$param_set$ids(tags = "retrain")
+      train_ids = setdiff(self$param_set$ids(tags = "train"), retrain_ids)
+      retrain_vals = param_vals[names(param_vals) %in% retrain_ids]
+      train_vals = param_vals[names(param_vals) %in% train_ids]
+      
+      if (!all(imap_lgl(train_vals, function(vals, id) isTRUE(vals == self$state$param_vals[[id]])))) return(FALSE)
+      if (!test_subset(names(retrain_vals), names(self$state$param_vals), empty.ok = FALSE)) return(FALSE)
+      private$.is_retrainable(retrain_vals)
+    },
+
+    #' @description
+    #' Returns index of `xss` which contains the most efficiently retrainable hyperparameter configuration.
+    #'
+    #' @param xss (`list()`)\cr
+    #'   A list of lists that contain hyperparameter configurations.
+    #'
+    #' @return `integer(1)`
+    which_retrain = function(xss) {
+      retrain_values = self$param_set$get_values(tags = "retrain")
+      private$.which_retrain(retrain_values, xss)
     },
 
     #' @description
@@ -391,8 +474,8 @@ Learner = R6Class("Learner",
     },
 
     #' @field encapsulate (named `character()`)\cr
-    #' Controls how to execute the code in internal train and predict methods.
-    #' Must be a named character vector with names `"train"` and `"predict"`.
+    #' Controls how to execute the code in internal train, predict and retrain methods.
+    #' Must be a named character vector with names `"train"`, `"predict"` and `"retrain"`.
     #' Possible values are `"none"`, `"evaluate"` (requires package \CRANpkg{evaluate}) and `"callr"` (requires package \CRANpkg{callr}).
     #' See [mlr3misc::encapsulate()] for more details.
     encapsulate = function(rhs) {
@@ -400,8 +483,8 @@ Learner = R6Class("Learner",
         return(private$.encapsulate)
       }
       assert_character(rhs)
-      assert_names(names(rhs), subset.of = c("train", "predict"))
-      private$.encapsulate = insert_named(c(train = "none", predict = "none"), rhs)
+      assert_names(names(rhs), subset.of = c("train", "predict", "retrain"))
+      private$.encapsulate = insert_named(c(train = "none", predict = "none", retrain = "none"), rhs)
     }
   ),
 
@@ -438,4 +521,38 @@ get_log_condition = function(state, condition) {
   } else {
     fget(state$log, i = condition, j = "msg", key = "class")
   }
+}
+
+#' @title Default Forward Which Retrain Function
+#' 
+#' @description
+#' The list `xss` contains multiple "`retrain`" hyperparameter values. 
+#' This function determines which one allows to retrain to a learner
+#' with the "`retrain`" hyperparameter value in `retrain_value` most efficiently. 
+#' For a [Learner] that can only retrain forwards.
+#'
+#' @export
+#' @noRd
+retrain_max_default = function(retrain_value, xss) {
+  xss = unlist(xss)
+  values = xss[xss < retrain_value]
+  if (length(values) == 0) return(integer())
+  unname(which(xss == max(values)))
+}
+
+#' @title Default Backward Which Retrain Function
+#' 
+#' @description
+#' The list `xss` contains multiple "`retrain`" hyperparameter values. 
+#' This function determines which one allows to retrain to a learner
+#' with the "`retrain`" hyperparameter value in `retrain_value` most efficiently. 
+#' For a [Learner] that can retrain backwards.
+#'
+#' @export
+#' @noRd
+retrain_min_default = function(retrain_value, xss) {
+  xss = unlist(xss)
+  values = xss[xss > retrain_value]
+  if (length(values) == 0) return(integer())
+  unname(which(xss == min(values)))
 }

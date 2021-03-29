@@ -67,9 +67,10 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
           threads          = p_int(1L, tags = c("train", "threads")),
           warning_predict  = p_dbl(0, 1, default = 0, tags = "predict"),
           warning_train    = p_dbl(0, 1, default = 0, tags = "train"),
-          x                = p_dbl(0, 1, tags = "train")
+          x                = p_dbl(0, 1, tags = "train"),
+          iter = p_int(lower = 1, default = 1, tags = c("train", "retrain"))
         ),
-        properties = c("twoclass", "multiclass", "missings"),
+        properties = c("twoclass", "multiclass", "missings", "retrain"),
         man = "mlr3::mlr_learners_classif.debug",
         data_formats = c("data.table", "Matrix")
       )
@@ -96,7 +97,8 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
         get("attach")(structure(list(), class = "UserDefinedDatabase"))
       }
 
-      model = list(response = as.character(sample(task$truth(), 1L)), pid = Sys.getpid())
+      model = list(response = as.character(sample(task$truth(), 1L)), pid = Sys.getpid(), iter = pv$iter,
+        retrain_id = UUIDgenerate())
       if (isTRUE(pv$save_tasks)) {
         model$task_train = task$clone(deep = TRUE)
       }
@@ -150,6 +152,24 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
       }
 
       list(response = response, prob = prob)
+    },
+
+    .retrain = function(task) {
+      model = self$model
+      pars = self$param_set$get_values(tags = "train")
+      retrain_id = self$model$retrain_id
+
+      model = list(response = as.character(sample(task$truth(), 1L)), pid = Sys.getpid(), iter = pars$iter,
+        retrain_id = retrain_id)
+      set_class(model, "classif.debug_model")
+    },
+
+    .is_retrainable = function(param_vals) {
+      param_vals$iter > self$state$param_vals$iter
+    },
+
+    .which_retrain = function(retrain_values, xss) {
+      retrain_max_default(retrain_values, xss)
     }
   )
 )

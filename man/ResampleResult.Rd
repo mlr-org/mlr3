@@ -11,6 +11,11 @@ Do not modify any object without cloning it first.
 
 \link{ResampleResult}s can be visualized via \CRANpkg{mlr3viz}'s \code{autoplot()} function.
 }
+\note{
+The fitted models are discarded after the predictions have been computed in
+order to reduce memory consumption. If you need access to the models for
+later analysis, set \code{store_models} to \code{TRUE}.
+}
 \section{S3 Methods}{
 
 \itemize{
@@ -105,6 +110,8 @@ Note that there can be multiple rows per resampling iteration if multiple errors
 \item \href{#method-score}{\code{ResampleResult$score()}}
 \item \href{#method-aggregate}{\code{ResampleResult$aggregate()}}
 \item \href{#method-filter}{\code{ResampleResult$filter()}}
+\item \href{#method-retrain}{\code{ResampleResult$retrain()}}
+\item \href{#method-is_retrainable}{\code{ResampleResult$is_retrainable()}}
 \item \href{#method-clone}{\code{ResampleResult$clone()}}
 }
 }
@@ -303,6 +310,57 @@ Resampling iterations to keep.}
 Returns the object itself, but modified \strong{by reference}.
 You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
 the object in its previous state.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-retrain"></a>}}
+\if{latex}{\out{\hypertarget{method-retrain}{}}}
+\subsection{Method \code{retrain()}}{
+Repeats the resampling with retrainable models. The models are updated
+with the additional budget, the training continues on the training sets
+and the performance is again evaluated on the test sets.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$retrain(param_vals, store_models = TRUE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{param_vals}}{(\code{list()})\cr
+List of hyperparameter values.}
+
+\item{\code{store_models}}{(\code{logical(1)})\cr
+Keep the fitted model after the test set has been predicted?
+Set to \code{TRUE} if you want to further analyse the models or want to
+extract information like variable importance.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Returns the object itself, but modified \strong{by reference}.
+You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
+the object in its previous state.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-is_retrainable"></a>}}
+\if{latex}{\out{\hypertarget{method-is_retrainable}{}}}
+\subsection{Method \code{is_retrainable()}}{
+Returns \code{TRUE} if the learner is retrainable with parameter values in \code{param_vals}.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$is_retrainable(param_vals)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{param_vals}}{(\code{list()})\cr
+List of hyperparameter values.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\code{logical(1)}
 }
 }
 \if{html}{\out{<hr>}}

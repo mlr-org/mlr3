@@ -199,6 +199,74 @@ ResampleResult = R6Class("ResampleResult",
       self$data$data$fact = fact[list(iters), on = "iteration", nomatch = NULL]
 
       invisible(self)
+    },
+
+    #' @description
+    #' Repeats the resampling with retrainable models. The models are updated
+    #' with the additional budget, the training continues on the training sets
+    #' and the performance is again evaluated on the test sets.
+    #'
+    #' @param param_vals (`list()`)\cr
+    #'   List of hyperparameter values.
+    #' @param store_models (`logical(1)`)\cr
+    #'   Keep the fitted model after the test set has been predicted?
+    #'   Set to `TRUE` if you want to further analyse the models or want to
+    #'   extract information like variable importance.
+    #' @return
+    #' Returns the object itself, but modified **by reference**.
+    #' You need to explicitly `$clone()` the object beforehand if you want to keeps
+    #' the object in its previous state.
+    #'
+    #' @note
+    #' The fitted models are discarded after the predictions have been computed in
+    #' order to reduce memory consumption. If you need access to the models for
+    #' later analysis, set `store_models` to `TRUE`.
+    retrain = function(param_vals, store_models = TRUE) {
+      assert_flag(store_models)
+      
+      # Set new parameter set in learners with stored model
+      learners = map(self$learners, function(l) {
+        l$param_set$values = insert_named(l$param_set$values, param_vals)
+        l
+      })
+
+      instance = self$resampling
+      task = self$task
+      n = instance$iters
+      pb = get_progressor(n)
+
+      lg$debug("Retrain via future with %i iterations", n)
+
+      res = future.apply::future_mapply(workhorse, iteration = seq_len(n), learner = learners,
+        MoreArgs = list(task = task, resampling = instance, store_models = store_models,
+          lgr_threshold = lg$threshold, pb = pb, mode = ifelse(self$is_retrainable(param_vals), "retrain", "train")),
+        future.globals = FALSE, future.scheduling = structure(TRUE, ordering = "random"),
+        future.packages = "mlr3", future.seed = TRUE
+      )
+
+      data = data.table(
+        task = list(task),
+        learner = learners,
+        learner_state = res["learner_state", ],
+        resampling = list(instance),
+        iteration = seq_len(n),
+        prediction = res["prediction", ],
+        uhash = UUIDgenerate()
+      )
+
+      self$data = ResultData$new(data)
+      invisible(self)
+    },
+
+    #' @description
+    #' Returns `TRUE` if the learner is retrainable with parameter values in `param_vals`.
+    #'
+    #' @param param_vals (`list()`)\cr
+    #'   List of hyperparameter values.
+    #'
+    #' @return `logical(1)`
+    is_retrainable = function(param_vals) {
+      self$learners[[1]]$is_retrainable(param_vals)
     }
   ),
 

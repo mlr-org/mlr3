@@ -27,7 +27,7 @@ test_that("updating model works / resample", {
   learner = lrn("classif.debug", save_tasks = TRUE)
   rr = resample(tsk("iris"), learner, rsmp("holdout"), store_models = TRUE)
   new_learner = rr$learners[[1]]
-  expect_list(new_learner$model, len = 4)
+  expect_list(new_learner$model, len = 6)
 })
 
 test_that("NA predictions", {
