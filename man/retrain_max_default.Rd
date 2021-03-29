@@ -6,6 +6,11 @@
 \usage{
 retrain_max_default(retrain_value, xss)
 }
+\arguments{
+\item{retrain_value}{(\code{numeric(1)}).}
+
+\item{xss}{(\code{list()}).}
+}
 \description{
 The list \code{xss} contains multiple "\code{retrain}" hyperparameter values.
 This function determines which one allows to retrain to a learner

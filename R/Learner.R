@@ -530,6 +530,9 @@ get_log_condition = function(state, condition) {
 #' This function determines which one allows to retrain to a learner
 #' with the "`retrain`" hyperparameter value in `retrain_value` most efficiently. 
 #' For a [Learner] that can only retrain forwards.
+#' 
+#' @param retrain_value (`numeric(1)`).
+#' @param xss (`list()`).
 #'
 #' @export
 retrain_max_default = function(retrain_value, xss) {
@@ -546,6 +549,9 @@ retrain_max_default = function(retrain_value, xss) {
 #' This function determines which one allows to retrain to a learner
 #' with the "`retrain`" hyperparameter value in `retrain_value` most efficiently. 
 #' For a [Learner] that can retrain backwards.
+#' 
+#' @param retrain_value (`numeric(1)`).
+#' @param xss (`list()`).
 #'
 #' @export
 retrain_min_default = function(retrain_value, xss) {
