@@ -306,6 +306,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
           fact[unique(hashes), on = column, nomatch = NULL]
       }
 
+
       if (!is.null(task_ids)) {
         task = task_hash = NULL
         task_hashes = union(task_hashes, self$data$data$tasks[ids(task) %in% task_ids, task_hash])
