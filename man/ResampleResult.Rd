@@ -320,7 +320,7 @@ Repeats the resampling with retrainable models. The models are updated
 with the additional budget, the training continues on the training sets
 and the performance is again evaluated on the test sets.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$retrain(param_vals, store_models = FALSE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$retrain(param_vals, store_models = TRUE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -346,7 +346,7 @@ the object in its previous state.
 \if{html}{\out{<a id="method-is_retrainable"></a>}}
 \if{latex}{\out{\hypertarget{method-is_retrainable}{}}}
 \subsection{Method \code{is_retrainable()}}{
-Returns \code{TRUE} if model is retrainable with parameter values in \code{param_vals}.
+Returns \code{TRUE} if the learner is retrainable with parameter values in \code{param_vals}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{ResampleResult$is_retrainable(param_vals)}\if{html}{\out{</div>}}
 }

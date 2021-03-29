@@ -166,6 +166,10 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
 
     .is_retrainable = function(param_vals) {
       param_vals$iter > self$state$param_vals$iter
+    },
+
+    .which_retrain = function(retrain_values, xss) {
+      retrain_max_default(retrain_values, xss)
     }
   )
 )

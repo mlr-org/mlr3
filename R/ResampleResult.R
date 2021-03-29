@@ -221,7 +221,7 @@ ResampleResult = R6Class("ResampleResult",
     #' The fitted models are discarded after the predictions have been computed in
     #' order to reduce memory consumption. If you need access to the models for
     #' later analysis, set `store_models` to `TRUE`.
-    retrain = function(param_vals, store_models = FALSE) {
+    retrain = function(param_vals, store_models = TRUE) {
       assert_flag(store_models)
       
       # Set new parameter set in learners with stored model
@@ -254,19 +254,21 @@ ResampleResult = R6Class("ResampleResult",
         uhash = UUIDgenerate()
       )
 
+      self$view = data$uhash
+
       self$data = ResultData$new(data)
       invisible(self)
     },
 
     #' @description
-    #' Returns `TRUE` if model is retrainable with parameter values in `param_vals`.
-    #' 
+    #' Returns `TRUE` if the learner is retrainable with parameter values in `param_vals`.
+    #'
     #' @param param_vals (`list()`)\cr
     #'   List of hyperparameter values.
     #'
     #' @return `logical(1)`
     is_retrainable = function(param_vals) {
-      all(map_lgl(self$learners, function(l) l$is_retrainable(param_vals)))
+      self$learners[[1]]$is_retrainable(param_vals)
     }
   ),
 

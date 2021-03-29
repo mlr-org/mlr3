@@ -25,7 +25,6 @@
 #'   ([BenchmarkResult], ...) -> [BenchmarkResult]\cr
 #'   Combines multiple objects convertible to [BenchmarkResult] into a new [BenchmarkResult].
 #'
-#' @template seealso_benchmark
 #' @export
 #' @examples
 #' set.seed(123)
@@ -298,7 +297,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #' You need to explicitly `$clone()` the object beforehand if you want to keeps
     #' the object in its previous state.
     filter = function(task_ids = NULL, task_hashes = NULL, learner_ids = NULL, learner_hashes = NULL,
-      resampling_ids = NULL, resampling_hashes = NULL, uhashes = NULL) {
+      resampling_ids = NULL, resampling_hashes = NULL) {
       learner_phashes = NULL
 
       filter_if_not_null = function(column, hashes) {
@@ -329,7 +328,6 @@ BenchmarkResult = R6Class("BenchmarkResult",
       fact = filter_if_not_null("learner_hash", learner_hashes)
       fact = filter_if_not_null("learner_phash", learner_phashes)
       fact = filter_if_not_null("resampling_hash", resampling_hashes)
-      fact = filter_if_not_null("uhash", uhashes)
 
       self$data$data$fact = fact
       self$data$sweep()
@@ -362,79 +360,6 @@ BenchmarkResult = R6Class("BenchmarkResult",
       }
 
       ResampleResult$new(self$data, view = needle)
-    },
-
-    #' @description
-    #' Repeats the benchmark with retrainable models. The models are updated
-    #' with the additional budget, the training continues on the training sets
-    #' and the performance is again evaluated on the test sets.
-    #'
-    #' @param param_vals (`list()`)\cr
-    #'   Increased budget hyperparameter(s).
-    #' @param store_models (`logical(1)`)\cr
-    #'   Keep the fitted model after the test set has been predicted?
-    #'   Set to `TRUE` if you want to further analyse the models or want to
-    #'   extract information like variable importance.
-    #'
-    #' @return
-    #' Returns the object itself, but modified **by reference**.
-    #' You need to explicitly `$clone()` the object beforehand if you want to keeps
-    #' the object in its previous state.
-    #'
-    #' @note
-    #' The fitted models are discarded after the predictions have been computed in
-    #' order to reduce memory consumption. If you need access to the models for
-    #' later analysis, set `store_models` to `TRUE`.
-    retrain = function(param_vals, store_models = FALSE) {
-      assert_flag(store_models)
-
-      # Set new parameter set in learners with stored model
-      learners = map(seq(self$n_resample_results), function(i) {
-        map(self$resample_result(i)$learners, function(l) {
-          l$param_set$values = insert_named(l$param_set$values, param_vals)
-          l
-        })
-      })
-
-      grid = as.data.table(self)[, c("task", "learner", "resampling", "iteration", "uhash")]
-      grid$learner = unlist(learners)
-      grid[, "uhash" := UUIDgenerate(), by = "uhash"]
-      n = nrow(grid)
-
-      lg$info("Benchmark with %i resampling iterations", n)
-      pb = get_progressor(n)
-
-      lg$debug("Running benchmark() asynchronously with %i iterations", n)
-
-      res = future.apply::future_mapply(workhorse,
-        task = grid$task, learner = grid$learner, resampling = grid$resampling, iteration = grid$iteration,
-        mode = ifelse(self$is_retrainable(param_vals), "retrain", "train"),
-        MoreArgs = list(store_models = store_models, lgr_threshold = lg$threshold, pb = pb),
-        SIMPLIFY = FALSE, USE.NAMES = FALSE,
-        future.globals = FALSE, future.scheduling = structure(TRUE, ordering = "random"),
-        future.packages = "mlr3", future.seed = TRUE
-      )
-
-      grid = insert_named(grid, list(
-        learner_state = map(res, "learner_state"),
-        prediction = map(res, "prediction")
-      ))
-
-      lg$info("Finished benchmark")
-
-      self$data = ResultData$new(grid)
-      invisible(self)
-    },
-
-    #' @description
-    #' Returns logical vector which is `TRUE` if the model is retrainable with parameter values in `param_vals`.
-    #' 
-    #' @param param_vals (`list()`)\cr
-    #'   List of hyperparameter values.
-    #'
-    #' @return `logical()`
-    is_retrainable = function(param_vals) {
-      map_lgl(seq(self$n_resample_results), function(i) self$resample_result(i)$is_retrainable(param_vals))
     }
   ),
 

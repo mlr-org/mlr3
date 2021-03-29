@@ -296,6 +296,18 @@ Learner = R6Class("Learner",
     },
 
     #' @description
+    #' Returns index of `xss` which contains the most efficiently retrainable hyperparameter configuration.
+    #'
+    #' @param xss (`list()`)\cr
+    #'   A list of lists that contain hyperparameter configurations.
+    #'
+    #' @return `integer(1)`
+    which_retrain = function(xss) {
+      retrain_values = self$param_set$get_values(tags = "retrain")
+      private$.which_retrain(retrain_values, xss)
+    },
+
+    #' @description
     #' Uses the information stored during `$train()` in `$state` to create a new [Prediction]
     #' for a set of observations of the provided `task`.
     #'
@@ -440,6 +452,18 @@ Learner = R6Class("Learner",
       hash(class(self), self$id, private$.predict_type, self$fallback$hash)
     },
 
+    #' @field rhash (`character(1)`)\cr
+    #' Hash (unique identifier) for this partial object, excluding parameter values
+    #' which are tagged with `"retrain"`.
+    rhash = function(rhs) {
+      assert_ro_binding(rhs)
+      pps = self$param_set
+      pars = pps$get_values(tags = "train")
+      id_train = setdiff(pps$ids(tags = "train"), pps$ids(tags = "retrain"))
+      pars = pars[names(pars) %in% id_train]
+      hash(class(self), self$id, pars, private$.predict_type, self$fallback$hash)
+    },
+
     #' @field predict_type (`character(1)`)\cr
     #' Stores the currently active predict type, e.g. `"response"`.
     #' Must be an element of `$predict_types`.
@@ -481,8 +505,6 @@ Learner = R6Class("Learner",
     .predict_type = NULL,
     .param_set = NULL,
 
-    .is_retrainable = function(param_vals) FALSE,
-
     deep_clone = function(name, value) {
       switch(name,
         .param_set = value$clone(deep = TRUE),
@@ -511,4 +533,20 @@ get_log_condition = function(state, condition) {
   } else {
     fget(state$log, i = condition, j = "msg", key = "class")
   }
+}
+
+#' @export
+retrain_max_default = function(retrain_value, xss) {
+  xss = unlist(xss)
+  values = xss[xss < retrain_value]
+  if (length(values) == 0) return(integer())
+  unname(which(xss == max(values)))
+}
+
+#' @export
+retrain_min_default = function(retrain_value, xss) {
+  xss = unlist(xss)
+  values = xss[xss > retrain_value]
+  if (length(values) == 0) return(integer())
+  unname(which(xss == min(values)))
 }

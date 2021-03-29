@@ -204,6 +204,10 @@ Hash (unique identifier) for this partial object, excluding some components
 which are varied  systematically during tuning (parameter values) or feature
 selection (feature names).}
 
+\item{\code{rhash}}{(\code{character(1)})\cr
+Hash (unique identifier) for this partial object, excluding parameter values
+which are tagged with \code{"retrain"}.}
+
 \item{\code{predict_type}}{(\code{character(1)})\cr
 Stores the currently active predict type, e.g. \code{"response"}.
 Must be an element of \verb{$predict_types}.}
@@ -229,6 +233,7 @@ See \code{\link[mlr3misc:encapsulate]{mlr3misc::encapsulate()}} for more details
 \item \href{#method-train}{\code{Learner$train()}}
 \item \href{#method-retrain}{\code{Learner$retrain()}}
 \item \href{#method-is_retrainable}{\code{Learner$is_retrainable()}}
+\item \href{#method-which_retrain}{\code{Learner$which_retrain()}}
 \item \href{#method-predict}{\code{Learner$predict()}}
 \item \href{#method-predict_newdata}{\code{Learner$predict_newdata()}}
 \item \href{#method-reset}{\code{Learner$reset()}}
@@ -424,6 +429,27 @@ List of hyperparameter values.}
 }
 \subsection{Returns}{
 \code{logical(1)}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-which_retrain"></a>}}
+\if{latex}{\out{\hypertarget{method-which_retrain}{}}}
+\subsection{Method \code{which_retrain()}}{
+Returns index of \code{xss} which contains the most efficiently retrainable hyperparameter configuration.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Learner$which_retrain(xss)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{xss}}{(\code{list()})\cr
+A list of lists that contain hyperparameter configurations.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\code{integer(1)}
 }
 }
 \if{html}{\out{<hr>}}

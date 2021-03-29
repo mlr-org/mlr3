@@ -15,10 +15,6 @@ For statistical analysis of benchmark results and more advanced plots, see \CRAN
 \note{
 All stored objects are accessed by reference.
 Do not modify any extracted object without cloning it first.
-
-The fitted models are discarded after the predictions have been computed in
-order to reduce memory consumption. If you need access to the models for
-later analysis, set \code{store_models} to \code{TRUE}.
 }
 \section{S3 Methods}{
 
@@ -72,15 +68,6 @@ rr$predictions()[[1]]$confusion
 bmr$filter(task_ids = "sonar")
 print(bmr)
 }
-\seealso{
-Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
-\url{https://mlr3book.mlr-org.com/benchmarking.html}
-
-Other benchmark: 
-\code{\link{benchmark_grid}()},
-\code{\link{benchmark}()}
-}
-\concept{benchmark}
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
@@ -155,8 +142,6 @@ Set of (unique) hashes of all included \link{ResampleResult}s.}
 \item \href{#method-aggregate}{\code{BenchmarkResult$aggregate()}}
 \item \href{#method-filter}{\code{BenchmarkResult$filter()}}
 \item \href{#method-resample_result}{\code{BenchmarkResult$resample_result()}}
-\item \href{#method-retrain}{\code{BenchmarkResult$retrain()}}
-\item \href{#method-is_retrainable}{\code{BenchmarkResult$is_retrainable()}}
 \item \href{#method-clone}{\code{BenchmarkResult$clone()}}
 }
 }
@@ -346,8 +331,7 @@ Same procedure for \code{learner_ids} and \code{resampling_ids}.
   learner_ids = NULL,
   learner_hashes = NULL,
   resampling_ids = NULL,
-  resampling_hashes = NULL,
-  uhashes = NULL
+  resampling_hashes = NULL
 )}\if{html}{\out{</div>}}
 }
 
@@ -406,57 +390,6 @@ The \code{ushash} value to filter for.}
 }
 \subsection{Returns}{
 \link{ResampleResult}.
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-retrain"></a>}}
-\if{latex}{\out{\hypertarget{method-retrain}{}}}
-\subsection{Method \code{retrain()}}{
-Repeats the benchmark with retrainable models. The models are updated
-with the additional budget, the training continues on the training sets
-and the performance is again evaluated on the test sets.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{BenchmarkResult$retrain(param_vals, store_models = FALSE)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{param_vals}}{(\code{list()})\cr
-Increased budget hyperparameter(s).}
-
-\item{\code{store_models}}{(\code{logical(1)})\cr
-Keep the fitted model after the test set has been predicted?
-Set to \code{TRUE} if you want to further analyse the models or want to
-extract information like variable importance.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-Returns the object itself, but modified \strong{by reference}.
-You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
-the object in its previous state.
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-is_retrainable"></a>}}
-\if{latex}{\out{\hypertarget{method-is_retrainable}{}}}
-\subsection{Method \code{is_retrainable()}}{
-Returns logical vector which is \code{TRUE} if the model is retrainable with parameter values in \code{param_vals}.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{BenchmarkResult$is_retrainable(param_vals)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{param_vals}}{(\code{list()})\cr
-List of hyperparameter values.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-\code{logical()}
 }
 }
 \if{html}{\out{<hr>}}

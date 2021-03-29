@@ -1,4 +1,4 @@
-test_that("Learner$retrain() method works", {
+test_that("Learner$retrain() and Learner$is_retrainable() method work", {
   task = tsk("iris")
 
   # increased retrain parameter
@@ -126,6 +126,26 @@ test_that("Learner$retrain() method works", {
     fixed = TRUE)
 })
 
+test_that("Learner$which_retrain() method works", {
+  task = tsk("iris")
+
+  learner = LearnerClassifDebug$new()
+  learner$param_set$values$iter = 4
+  learner$train(task)
+
+  xss = list(list(iter = 1), list(iter = 2))
+  expect_equal(learner$which_retrain(xss), 2)
+
+  xss = list(list(iter = 2), list(iter = 6))
+  expect_equal(learner$which_retrain(xss), 1)
+
+  xss = list(list(iter = 6), list(iter = 8))
+  expect_equal(learner$which_retrain(xss), integer())
+
+  xss = list(list(iter = 2), list(iter = 4))
+  expect_equal(learner$which_retrain(xss), 1)
+})
+
 test_that("ResampleResult$retrain() works", {
   task = tsk("iris")
   learner = LearnerClassifDebug$new()
@@ -143,63 +163,4 @@ test_that("ResampleResult$retrain() works", {
   })
 
   expect_false(rr$is_retrainable(list(iter = 10)))
-})
-
-test_that("BenchmarkResult$retrain() works", {
-  task = tsk("iris")
-  learner1 = LearnerClassifDebug$new()
-  learner1$param_set$values$iter = 5
-  learner1$param_set$values$x = 0.3
-  learner1$id = "classif.debug_model_1"
-
-  learner2 = LearnerClassifDebug$new()
-  learner2$param_set$values$iter = 5
-  learner2$param_set$values$x = 0.4
-  learner2$id = "classif.debug_model_2"
-  learners = list(learner1, learner2)
-  resampling = rsmp("cv", folds = 3)
-
-  design = benchmark_grid(task, learners, resampling)
-  bmr = benchmark(design, store_models = TRUE)
-
-  bmr$retrain(list(iter = 10), store_models = TRUE)
-
-  x = c(0.3, 0.4)
-  map(seq(bmr$n_resample_results), function(i) {
-    learners = bmr$resample_result(i)$learners
-    expect_equal(length(learners), 3)
-    map(learners, function(l) {
-      expect_equal(l$param_set$values$iter, 10)
-      expect_class(l$model, "classif.debug_model")
-      expect_equal(l$model$iter, 10)
-      expect_equal(l$param_set$values$x, x[i])
-    })
-  })
-
-  expect_true(all(!bmr$is_retrainable(list(iter = 10))))
-
-  # retrain and train mixed
-  task = tsk("iris")
-  learner1 = LearnerClassifDebug$new()
-  learner1$param_set$values$iter = 5
-  learner1$param_set$values$x = 0.3
-  learner1$id = "classif.debug_model_1"
-
-  learner2 = LearnerClassifDebug$new()
-  learner2$param_set$values$iter = 10
-  learner2$param_set$values$x = 0.4
-  learner2$id = "classif.debug_model_2"
-  learners = list(learner1, learner2)
-  resampling = rsmp("cv", folds = 3)
-
-  design = benchmark_grid(task, learners, resampling)
-  bmr = benchmark(design, store_models = TRUE)
-  retrain_id_1 = bmr$resample_result(1)$learners[[1]]$model$retrain_id 
-  retrain_id_2 = bmr$resample_result(2)$learners[[1]]$model$retrain_id 
-
-  expect_equal(bmr$is_retrainable(list(iter = 10)), c(TRUE, FALSE))
-  bmr$retrain(list(iter = 10), store_models = TRUE)
-  
-  expect_equal(retrain_id_1, bmr$resample_result(1)$learners[[1]]$model$retrain_id)
-  expect_true(retrain_id_2 != bmr$resample_result(2)$learners[[1]]$model$retrain_id)
 })
