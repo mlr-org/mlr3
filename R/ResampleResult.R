@@ -255,6 +255,7 @@ ResampleResult = R6Class("ResampleResult",
       )
 
       self$data = ResultData$new(data)
+      self$view = data$uhash[1]
       invisible(self)
     },
 
