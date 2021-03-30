@@ -535,7 +535,7 @@ get_log_condition = function(state, condition) {
 #' @param xss (`list()`).
 #'
 #' @export
-retrain_max_default = function(retrain_value, xss) {
+retrain_forward_default = function(retrain_value, xss) {
   xss = unlist(xss)
   values = xss[xss < retrain_value]
   if (length(values) == 0) return(integer())
@@ -554,7 +554,7 @@ retrain_max_default = function(retrain_value, xss) {
 #' @param xss (`list()`).
 #'
 #' @export
-retrain_min_default = function(retrain_value, xss) {
+retrain_backward_default = function(retrain_value, xss) {
   xss = unlist(xss)
   values = xss[xss > retrain_value]
   if (length(values) == 0) return(integer())

@@ -169,7 +169,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
     },
 
     .which_retrain = function(retrain_values, xss) {
-      retrain_max_default(retrain_values, xss)
+      retrain_forward_default(retrain_values, xss)
     }
   )
 )
