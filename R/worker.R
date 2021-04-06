@@ -175,7 +175,7 @@ learner_predict = function(learner, task, row_ids = NULL) {
     } else {
       miss_ids = is_missing_prediction_data(prediction)
 
-      lg$debug("Imputing %i%i predictions using fallback '%s'",
+      lg$debug("Imputing %i/%i predictions using fallback '%s'",
         length(miss_ids), length(prediction$row_ids), fb$id,  learner = fb$clone())
 
       if (length(miss_ids)) {
