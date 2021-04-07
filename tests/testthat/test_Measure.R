@@ -28,3 +28,26 @@ test_that("average with micro/macro", {
   expect_equal(aggr[[2]], micro$score(rr$prediction("test")))
   expect_equal(aggr[[2]], macro$score(rr$prediction("test")))
 })
+
+test_that("k is hashed in AIC", {
+  m1 = msr("aic", k = 2)
+  m2 = msr("aic", k = 3)
+
+  expect_true(m1$hash != m2$hash)
+})
+
+test_that("can set beta for fbeta during construction", {
+  # https://stackoverflow.com/questions/66883242/how-to-change-beta-value-when-using-classif-fbeta-as-a-performance-measure-in
+
+  task = tsk("sonar")
+  l = lrn("classif.rpart")
+  l$train(task)
+  p = l$predict(task)
+
+  m1 = msr("classif.fbeta", beta = 1)
+  m2 = msr("classif.fbeta", beta = 10)
+  expect_equal(m1$param_set$values$beta, 1)
+  expect_equal(m2$param_set$values$beta, 10)
+
+  expect_gt(abs(m1$score(p) - m2$score(p)), 0.0001)
+})

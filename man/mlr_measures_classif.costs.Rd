@@ -10,7 +10,7 @@ True labels must be arranged in columns, predicted labels must be arranged  in r
 The cost matrix is stored as slot \verb{$costs}.
 
 For calculation of the score, the confusion matrix is multiplied element-wise with the cost matrix.
-The costs are then summed up (and potentially divided by the number of observations if \code{normalize} is set to \code{TRUE}).
+The costs are then summed up (and potentially divided by the number of observations if \code{normalize} is set to \code{TRUE} (default)).
 
 This measure requires the \link{Task} during scoring to ensure that the rows and columns of the cost matrix are in the same order as in the confusion matrix.
 }
@@ -18,6 +18,13 @@ This measure requires the \link{Task} during scoring to ensure that the rows and
 
 This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("classif.costs")
 msr("classif.costs")
+}
+}
+
+\section{Parameters}{
+\tabular{lllll}{
+   Id \tab Type \tab Default \tab Range \tab Levels \cr
+   normalize \tab logical \tab TRUE \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \tab TRUE, FALSE \cr
 }
 }
 
@@ -44,10 +51,10 @@ print(costs)
 # mlr3 needs truth in columns, predictions in rows
 costs = t(costs)
 
-# create measure which calculates the absolute costs
+# create a cost measure which calculates the absolute costs
 m = msr("classif.costs", id = "german_credit_costs", costs = costs, normalize = FALSE)
 
-# fit models and calculate costs
+# fit models and evaluate with the cost measure
 learner = lrn("classif.rpart")
 rr = resample(task, learner, rsmp("cv", folds = 3))
 rr$aggregate(m)
@@ -119,14 +126,6 @@ Other multiclass classification measures:
 \concept{multiclass classification measures}
 \section{Super classes}{
 \code{\link[mlr3:Measure]{mlr3::Measure}} -> \code{\link[mlr3:MeasureClassif]{mlr3::MeasureClassif}} -> \code{MeasureClassifCosts}
-}
-\section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{normalize}}{(\code{logical(1)})\cr
-Normalize the costs?}
-}
-\if{html}{\out{</div>}}
 }
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}

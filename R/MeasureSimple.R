@@ -1,13 +1,22 @@
 #' @include MeasureClassif.R
-MeasureBinarySimple = R6Class("MeasureBinaryimple",
+MeasureBinarySimple = R6Class("MeasureBinarySimple",
   inherit = MeasureClassif,
   public = list(
     fun = NULL,
     na_value = NaN,
-    initialize = function(name) {
+    initialize = function(name, param_set = NULL) {
+      if (is.null(param_set)) {
+        param_set = ps()
+      } else {
+        # cloning required because the param set lives in the
+        # dictionary mlr_measures
+        param_set = param_set$clone()
+      }
+
       info = mlr3measures::measures[[name]]
       super$initialize(
         id = paste0("classif.", name),
+        param_set = param_set$clone(),
         range = c(info$lower, info$upper),
         minimize = info$minimize,
         predict_type = info$predict_type,
@@ -23,8 +32,13 @@ MeasureBinarySimple = R6Class("MeasureBinaryimple",
     .score = function(prediction, ...) {
       truth = prediction$truth
       positive = levels(truth)[1L]
-      self$fun(truth = truth, response = prediction$response, prob = prediction$prob[, positive], positive = positive, na_value = self$na_value)
-    }
+      invoke(self$fun, .args = self$param_set$get_values(),
+        truth = truth, response = prediction$response, prob = prediction$prob[, positive],
+        positive = positive, na_value = self$na_value
+      )
+    },
+
+    .extra_hash = c("fun", "na_value")
   )
 )
 
@@ -51,7 +65,9 @@ MeasureClassifSimple = R6Class("MeasureClassifSimple",
   private = list(
     .score = function(prediction, ...) {
       self$fun(truth = prediction$truth, response = prediction$response, prob = prediction$prob, na_value = self$na_value)
-    }
+    },
+
+    .extra_hash = c("fun", "na_value")
   )
 )
 
@@ -78,7 +94,9 @@ MeasureRegrSimple = R6Class("MeasureRegrSimple",
   private = list(
     .score = function(prediction, ...) {
       self$fun(truth = prediction$truth, response = prediction$response, se = prediction$se, na_value = self$na_value)
-    }
+    },
+
+    .extra_hash = c("fun", "na_value")
   )
 )
 
@@ -98,7 +116,8 @@ mlr_measures$add("classif.dor", MeasureBinarySimple, name = "dor")
 
 #' @templateVar id fbeta
 #' @template measure_binary
-mlr_measures$add("classif.fbeta", MeasureBinarySimple, name = "fbeta")
+mlr_measures$add("classif.fbeta", MeasureBinarySimple, name = "fbeta",
+  param_set = ps(beta = p_int(lower = 0)))
 
 #' @templateVar id fdr
 #' @template measure_binary
