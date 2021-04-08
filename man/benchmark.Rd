@@ -36,6 +36,11 @@ Runs a benchmark on arbitrary combinations of tasks (\link{Task}), learners (\li
 \note{
 The fitted models are discarded after the predictions have been scored in order to reduce memory consumption.
 If you need access to the models for later analysis, set \code{store_models} to \code{TRUE}.
+Optionally, a "retrain" column can be added to the design which contains lists of retrainable \link{Learner}s.
+The hyperparameter values of the \link{Learner} in the "learner" column are applied to the already trained \link{Learner}s.
+Then the \link{Learner}s are retrained instead of trained during the resampling.
+An empty \code{list} executes the resampling with \verb{$train()} instead of \verb{$retrain()}.
+This allows to mix resamplings with \verb{$train()} and \verb{$retrain()}.
 }
 \section{Parallelization}{
 

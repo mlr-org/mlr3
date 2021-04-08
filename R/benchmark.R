@@ -26,6 +26,11 @@
 #' @note
 #' The fitted models are discarded after the predictions have been scored in order to reduce memory consumption.
 #' If you need access to the models for later analysis, set `store_models` to `TRUE`.
+#' Optionally, a "retrain" column can be added to the design which contains lists of retrainable [Learner]s.
+#' The hyperparameter values of the [Learner] in the "learner" column are applied to the already trained [Learner]s.
+#' Then the [Learner]s are retrained instead of trained during the resampling.
+#' An empty `list` executes the resampling with `$train()` instead of `$retrain()`.
+#' This allows to mix resamplings with `$train()` and `$retrain()`.
 #'
 #' @template section_parallelization
 #' @template section_progress_bars
@@ -84,11 +89,12 @@
 #' rr$resampling$train_set(2)
 benchmark = function(design, store_models = FALSE, store_backends = TRUE) {
   assert_data_frame(design, min.rows = 1L)
-  assert_names(names(design), permutation.of = c("task", "learner", "resampling"))
+  assert_names(names(design), must.include = c("task", "learner", "resampling"), subset.of = c("task", "learner", "resampling", "retrain"))
   design$task = list(assert_tasks(as_tasks(design$task)))
   design$learner = list(assert_learners(as_learners(design$learner)))
   design$resampling = list(assert_resamplings(as_resamplings(design$resampling), instantiated = TRUE))
   assert_flag(store_models)
+  if (is.null(design$retrain)) set(design, j = "retrain", value = list(list()))
 
   # check for multiple task types
   task_types = unique(map_chr(design$task, "task_type"))
@@ -103,13 +109,24 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE) {
   design[, "learner" := list(list(learner[[1L]]$clone())), by = list(hashes(learner))]
   design[, "resampling" := list(list(resampling[[1L]]$clone())), by = list(hashes(resampling))]
 
+  # clone retrain learners and set hyperparameter values
+  rls = pmap(list(design$learner, design$retrain), function(learner, rls) map(rls, function(rl) {
+    rlc = rl$clone()
+    rlc$param_set$values = insert_named(rlc$param_set$values, learner$param_set$values)
+    rlc
+  }))
+  set(design, j = "retrain", value = rls)
+
   # expand the design: add rows for each resampling iteration
-  grid = pmap_dtr(design, function(task, learner, resampling) {
+  grid = pmap_dtr(design, function(task, learner, resampling, retrain) {
     # learner = assert_learner(as_learner(learner, clone = TRUE))
     assert_learnable(task, learner)
+    learner = if (length(retrain) > 0) retrain else list(learner)
+    mode = if (length(retrain) > 0) "retrain" else "train"
+
     data.table(
-      task = list(task), learner = list(learner), resampling = list(resampling),
-      iteration = seq_len(resampling$iters), uhash = UUIDgenerate()
+      task = list(task), learner = learner, resampling = list(resampling),
+      iteration = seq_len(resampling$iters), mode = mode, uhash = UUIDgenerate()
     )
   })
   n = nrow(grid)
@@ -122,7 +139,7 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE) {
 
     res = mapply(workhorse,
       task = grid$task, learner = grid$learner, resampling = grid$resampling,
-      iteration = grid$iteration,
+      iteration = grid$iteration, mode = grid$mode,
       MoreArgs = list(store_models = store_models, lgr_threshold = lg$threshold, pb = pb),
       SIMPLIFY = FALSE, USE.NAMES = FALSE
     )
@@ -131,7 +148,7 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE) {
 
     res = future.apply::future_mapply(workhorse,
       task = grid$task, learner = grid$learner, resampling = grid$resampling,
-      iteration = grid$iteration,
+      iteration = grid$iteration, mode = grid$mode,
       MoreArgs = list(store_models = store_models, lgr_threshold = lg$threshold, pb = pb),
       SIMPLIFY = FALSE, USE.NAMES = FALSE,
       future.globals = FALSE, future.scheduling = structure(TRUE, ordering = "random"),
@@ -143,6 +160,7 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE) {
     learner_state = map(res, "learner_state"),
     prediction = map(res, "prediction")
   ))
+  grid$mode = NULL
 
   lg$info("Finished benchmark")
 

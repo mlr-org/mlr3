@@ -164,3 +164,53 @@ test_that("ResampleResult$retrain() works", {
 
   expect_false(rr$is_retrainable(list(iter = 10)))
 })
+
+test_that("benchmark with retrain works", {
+  task = tsk("iris")
+  learner = LearnerClassifDebug$new()
+  learner$param_set$values$iter = 5
+  resampling = rsmp("cv", folds = 3)
+  design = benchmark_grid(task, learner, resampling)
+  bmr = benchmark(design, store_models = TRUE)
+
+  # only retrain
+  learner$param_set$values$iter = 10
+  resampling$instantiate(task)
+  design = data.table(task = list(task),
+    learner = list(learner),
+    resampling = list(resampling),
+    retrain = list(bmr$resample_result(1)$learners))
+  bmr_2 = benchmark(design, store_models = TRUE)
+
+  expect_equal(bmr_2$n_resample_results, 1)
+  expect_equal(length(bmr_2$resample_result(1)$learners), 3)
+  map(bmr_2$resample_result(1)$learners, function(l) {
+    expect_equal(l$param_set$values$iter, 10)
+    expect_class(l$model, "classif.debug_model")
+    expect_equal(l$model$iter, 10)
+  })
+
+  # train and retrain mixed
+  learner = LearnerClassifDebug$new()
+  learner$param_set$values$iter = 5
+  resampling = rsmp("cv", folds = 3)
+
+  design = benchmark_grid(task, list(learner, learner), resampling)
+  bmr = benchmark(design, store_models = TRUE)
+  retrain_id_1_1 = map(bmr$resample_result(1)$learners, function(l) l$model$retrain_id)
+  retrain_id_1_2 = map(bmr$resample_result(2)$learners, function(l) l$model$retrain_id)
+
+  learner$param_set$values$iter = 10
+  resampling$instantiate(task)
+  design = data.table(task = list(task),
+    learner = list(learner),
+    resampling = list(resampling),
+    retrain = list(list(), bmr$resample_result(2)$learners))
+  bmr_2 = benchmark(design, store_models = TRUE)
+
+  retrain_id_2_1 = map(bmr_2$resample_result(1)$learners, function(l) l$model$retrain_id)
+  retrain_id_2_2 = map(bmr_2$resample_result(2)$learners, function(l) l$model$retrain_id)
+
+  expect_equal(retrain_id_1_2, retrain_id_2_2)
+  expect_true(all(unlist(retrain_id_1_1) != unlist(retrain_id_2_1)))
+})
