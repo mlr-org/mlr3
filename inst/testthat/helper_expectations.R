@@ -329,7 +329,7 @@ expect_learner = function(lrn, task = NULL) {
   expect_hash(lrn$hash, 1L)
 
   tags = lrn$param_set$tags
-  tags = Filter(function(tags) !any(c("train", "predict") %in% tags), tags)
+  tags = Filter(function(tags) !any(c("train", "predict", "retrain") %in% tags), tags)
   testthat::expect_true(length(tags) == 0L,
     info = sprintf("All hyperparameters of learner %s must be tagged with 'train' or 'predict'. Missing tags for: %s", lrn$id, paste0(names(tags), collapse = ", "))
   )

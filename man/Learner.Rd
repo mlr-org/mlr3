@@ -52,6 +52,17 @@ This can be used in measures like \link{mlr_measures_aic} or \link{mlr_measures_
 }
 }
 
+\section{Retrain}{
+
+
+Some learners allow to retrain a model with specific hyperparameter values.
+These hyperparameters are tagged with \code{"retrain"} in the \link[paradox:ParamSet]{paradox::ParamSet}.
+The \verb{$retrain()} method calls the learner specific private \verb{$.retrain()} method.
+If the learner does not support retraining or no retraining is possible with the provided hyperparameter values,
+\verb{$train()} is called by \verb{$retrain()}.
+The \verb{$is_retrainable()} method can be used to check if a learner is retrainable with a set of hyperparameter values.
+}
+
 \section{Setting Hyperparameters}{
 
 
@@ -201,8 +212,8 @@ Must be an element of \verb{$predict_types}.}
 Set of hyperparameters.}
 
 \item{\code{encapsulate}}{(named \code{character()})\cr
-Controls how to execute the code in internal train and predict methods.
-Must be a named character vector with names \code{"train"} and \code{"predict"}.
+Controls how to execute the code in internal train, predict and retrain methods.
+Must be a named character vector with names \code{"train"}, \code{"predict"} and \code{"retrain"}.
 Possible values are \code{"none"}, \code{"evaluate"} (requires package \CRANpkg{evaluate}) and \code{"callr"} (requires package \CRANpkg{callr}).
 See \code{\link[mlr3misc:encapsulate]{mlr3misc::encapsulate()}} for more details.}
 }
@@ -216,6 +227,9 @@ See \code{\link[mlr3misc:encapsulate]{mlr3misc::encapsulate()}} for more details
 \item \href{#method-print}{\code{Learner$print()}}
 \item \href{#method-help}{\code{Learner$help()}}
 \item \href{#method-train}{\code{Learner$train()}}
+\item \href{#method-retrain}{\code{Learner$retrain()}}
+\item \href{#method-is_retrainable}{\code{Learner$is_retrainable()}}
+\item \href{#method-which_retrain}{\code{Learner$which_retrain()}}
 \item \href{#method-predict}{\code{Learner$predict()}}
 \item \href{#method-predict_newdata}{\code{Learner$predict_newdata()}}
 \item \href{#method-reset}{\code{Learner$reset()}}
@@ -351,6 +365,87 @@ Vector of training indices.}
 Returns the object itself, but modified \strong{by reference}.
 You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
 the object in its previous state.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-retrain"></a>}}
+\if{latex}{\out{\hypertarget{method-retrain}{}}}
+\subsection{Method \code{retrain()}}{
+Retrain the learner with hyperparameter values in \code{param_vals} on the provided \code{task} .
+Mutates the learner by reference, i.e. stores the model alongside other information in field \verb{$state}.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Learner$retrain(task, param_vals, allow_train = TRUE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{task}}{(\link{Task})\cr
+The task used for training the learner.}
+
+\item{\code{param_vals}}{(\code{list()})\cr
+List of hyperparameter values.}
+
+\item{\code{allow_train}}{(\code{logical(1)})\cr
+Determines if \verb{$train()} is called if the learner is not retrainable.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Returns the object itself, but modified \strong{by reference}. You need to
+explicitly \verb{$clone()} the object beforehand if you want to keeps the
+object in its previous state.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-is_retrainable"></a>}}
+\if{latex}{\out{\hypertarget{method-is_retrainable}{}}}
+\subsection{Method \code{is_retrainable()}}{
+Returns \code{TRUE} if the learner is retrainable with hyperparameter values in \code{param_vals}.
+In general, a learner is retrainable if
+\itemize{
+\item the learner was trained before
+\item the parameter values solely tagged with \code{"train"} are unchanged
+\item at least one parameter value tagged with \code{"retrain"} is supplied
+\item the supplied parameter tagged with \code{"retrain"} was already set when the learner was trained
+}
+
+Usually, a learner adds additional checks e.g. if a \code{"retrain"} parameter value increased.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Learner$is_retrainable(param_vals)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{param_vals}}{(\code{list()})\cr
+List of hyperparameter values.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\code{logical(1)}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-which_retrain"></a>}}
+\if{latex}{\out{\hypertarget{method-which_retrain}{}}}
+\subsection{Method \code{which_retrain()}}{
+Returns index of \code{xss} which contains the most efficiently retrainable hyperparameter configuration.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Learner$which_retrain(xss)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{xss}}{(\code{list()})\cr
+A list of lists that contain hyperparameter configurations.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\code{integer(1)}
 }
 }
 \if{html}{\out{<hr>}}
