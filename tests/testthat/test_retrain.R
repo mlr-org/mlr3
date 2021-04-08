@@ -213,4 +213,20 @@ test_that("benchmark with retrain works", {
 
   expect_equal(retrain_id_1_2, retrain_id_2_2)
   expect_true(all(unlist(retrain_id_1_1) != unlist(retrain_id_2_1)))
+
+  # not retrainable
+  learner = LearnerClassifDebug$new()
+  learner$param_set$values$iter = 5
+  resampling = rsmp("cv", folds = 3)
+  design = benchmark_grid(task, learner, resampling)
+  bmr = benchmark(design, store_models = TRUE)
+
+  resampling$instantiate(task)
+  design = data.table(task = list(task),
+    learner = list(lrn("classif.rpart")),
+    resampling = list(resampling),
+    retrain = list(bmr$resample_result(1)$learners))
+
+  expect_error(benchmark(design, store_models = TRUE),
+    regexp = "Assertion on 'param_vals' failed")
 })

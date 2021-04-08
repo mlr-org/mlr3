@@ -111,6 +111,7 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE) {
 
   # clone retrain learners and set hyperparameter values
   rls = pmap(list(design$learner, design$retrain), function(learner, rls) map(rls, function(rl) {
+    rl$is_retrainable(learner$param_set$values)
     rlc = rl$clone()
     rlc$param_set$values = insert_named(rlc$param_set$values, learner$param_set$values)
     rlc
