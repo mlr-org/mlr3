@@ -14,3 +14,20 @@ test_that("predict method works", {
 
   expect_true(uniqueN(predict(lrn, newdata, method = "mode")) == 1L)
 })
+
+test_that("missing predictions are handled gracefully", {
+  task = tsk("sonar")
+  learner = lrn("classif.debug", predict_missing = 1, predict_missing_type = "na", predict_type = "prob")
+
+  learner$train(task)
+  p = learner$predict(task)
+  expect_factor(p$response, levels = task$class_names)
+  expect_true(all(is.na(p$response)))
+
+  expect_true(all(is.na(p$prob)))
+
+
+  learner = lrn("classif.debug", predict_missing = 0.5, predict_missing_type = "omit", predict_type = "prob")
+  learner$train(task)
+  expect_error(learner$predict(task), "observations")
+})

@@ -17,12 +17,13 @@
 #'    \item{segfault_train:}{Probability to provokes a segfault during train.}
 #'    \item{segfault_predict:}{Probability to provokes a segfault during predict.}
 #'    \item{predict_missing}{Ratio of predictions which will be NA.}
+#'    \item{predict_missing_type}{To to encode missingness. \dQuote{na} will insert NA values, \dQuote{omit} will just return fewer predictions than requested.}
 #'    \item{save_tasks:}{Saves input task in `model` slot during training and prediction.}
 #'    \item{threads:}{Number of threads to use. Has no effect.}
 #'    \item{x:}{Numeric tuning parameter. Has no effect.}
 #' }
 #' Note that segfaults may not be triggered on your operating system.
-#' Also note that if they work, they will tear down your R session immediately!
+#' Also note that if they work as intended, they will tear down your R session immediately!
 #'
 #' @templateVar id classif.featureless
 #' @template section_dictionary_learner
@@ -56,18 +57,19 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
         predict_types = c("response", "prob"),
         param_set = ps(
-          error_predict    = p_dbl(0, 1, default = 0, tags = "predict"),
-          error_train      = p_dbl(0, 1, default = 0, tags = "train"),
-          message_predict  = p_dbl(0, 1, default = 0, tags = "predict"),
-          message_train    = p_dbl(0, 1, default = 0, tags = "train"),
-          predict_missing  = p_dbl(0, 1, default = 0, tags = "predict"),
-          save_tasks       = p_lgl(default = FALSE, tags = c("train", "predict")),
-          segfault_predict = p_dbl(0, 1, default = 0, tags = "predict"),
-          segfault_train   = p_dbl(0, 1, default = 0, tags = "train"),
-          threads          = p_int(1L, tags = c("train", "threads")),
-          warning_predict  = p_dbl(0, 1, default = 0, tags = "predict"),
-          warning_train    = p_dbl(0, 1, default = 0, tags = "train"),
-          x                = p_dbl(0, 1, tags = "train")
+          error_predict        = p_dbl(0, 1, default = 0, tags = "predict"),
+          error_train          = p_dbl(0, 1, default = 0, tags = "train"),
+          message_predict      = p_dbl(0, 1, default = 0, tags = "predict"),
+          message_train        = p_dbl(0, 1, default = 0, tags = "train"),
+          predict_missing      = p_dbl(0, 1, default = 0, tags = "predict"),
+          predict_missing_type = p_fct(c("na", "omit"), default = "na", tags = "predict"),
+          save_tasks           = p_lgl(default = FALSE, tags = c("train", "predict")),
+          segfault_predict     = p_dbl(0, 1, default = 0, tags = "predict"),
+          segfault_train       = p_dbl(0, 1, default = 0, tags = "train"),
+          threads              = p_int(1L, tags = c("train", "threads")),
+          warning_predict      = p_dbl(0, 1, default = 0, tags = "predict"),
+          warning_train        = p_dbl(0, 1, default = 0, tags = "train"),
+          x                    = p_dbl(0, 1, tags = "train")
         ),
         properties = c("twoclass", "multiclass", "missings"),
         man = "mlr3::mlr_learners_classif.debug",
@@ -128,12 +130,16 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
       }
 
       response = prob = NULL
+      missing_type = pv$predict_missing_type %??% "na"
 
       if ("response" %in% self$predict_type) {
         response = rep.int(unclass(self$model$response), n)
         if (!is.null(pv$predict_missing)) {
           ii = sample.int(n, n * pv$predict_missing)
-          response = replace(response, ii, NA)
+          response = switch(missing_type,
+            "na" = replace(response, ii, NA),
+            "omit" = response[ii]
+          )
         }
       }
 
@@ -145,7 +151,10 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
 
         if (!is.null(pv$predict_missing)) {
           ii = sample.int(n, n * pv$predict_missing)
-          prob[ii, 1L] = NA_real_
+          prob = switch(missing_type,
+            "na" = { prob[ii, ] = NA_real_; prob },
+            "omit" = { prob[ii,, drop = FALSE] }
+          )
         }
       }
 

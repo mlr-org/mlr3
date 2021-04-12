@@ -7,12 +7,15 @@ check_prediction_data.PredictionDataClassif = function(pdata) { # nolint
   lvls = levels(pdata$truth)
 
   if (!is.null(pdata$response)) {
-    pdata$response = assert_factor(as_factor(pdata$response, levels = lvls), len = n)
+    pdata$response = assert_factor(as_factor(pdata$response, levels = lvls))
+    assert_prediction_count(length(pdata$response), n, "response")
   }
 
   if (!is.null(pdata$prob)) {
-    prob = assert_matrix(pdata$prob, nrows = n)
+    prob = assert_matrix(pdata$prob)
+    assert_prediction_count(nrow(pdata$prob), n, "prob")
     assert_numeric(prob, lower = 0, upper = 1)
+    assert_row_sums(prob)
 
     if (!identical(colnames(prob), lvls)) {
       assert_subset(colnames(prob), lvls)

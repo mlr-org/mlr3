@@ -249,3 +249,32 @@ assert_has_backend = function(task) {
     stopf("The backend of Task '%s' has been removed. Set `store_backends` to `TRUE` during model fitting to conserve it.", task$id)
   }
 }
+
+# assertion to ensure a helpful error message
+assert_prediction_count = function(actual, expected, type) {
+  if (actual != expected) {
+    if (actual < expected) {
+      stopf("Predicted %s not complete, %s for %i observations is missing",
+        type, type, expected - actual)
+    } else {
+      stopf("Predicted %s contains %i additional predictions without matching rows",
+        type, actual - expected)
+    }
+  }
+}
+
+assert_row_sums = function(prob) {
+  for (i in seq_row(prob)) {
+    x = prob[i,, drop = TRUE]
+    if (anyMissing(x)) {
+      if (!allMissing(x)) {
+        stopf("Probabilities for observation %i are partly missing", i)
+      }
+    } else {
+      s = sum(x)
+      if (abs(s - 1) > sqrt(.Machine$double.eps)) {
+        stopf("Probabilities for observation %i do sum up to %f != 1", i, s)
+      }
+    }
+  }
+}

@@ -18,12 +18,13 @@ The following hyperparameters trigger the following actions:
 \item{segfault_train:}{Probability to provokes a segfault during train.}
 \item{segfault_predict:}{Probability to provokes a segfault during predict.}
 \item{predict_missing}{Ratio of predictions which will be NA.}
+\item{predict_missing_type}{To to encode missingness. \dQuote{na} will insert NA values, \dQuote{omit} will just return fewer predictions than requested.}
 \item{save_tasks:}{Saves input task in \code{model} slot during training and prediction.}
 \item{threads:}{Number of threads to use. Has no effect.}
 \item{x:}{Numeric tuning parameter. Has no effect.}
 }
 Note that segfaults may not be triggered on your operating system.
-Also note that if they work, they will tear down your R session immediately!
+Also note that if they work as intended, they will tear down your R session immediately!
 }
 \section{Dictionary}{
 
@@ -50,6 +51,7 @@ lrn("classif.featureless")
    message_predict \tab numeric \tab 0 \tab \eqn{[0, 1]}{[0, 1]} \tab - \cr
    message_train \tab numeric \tab 0 \tab \eqn{[0, 1]}{[0, 1]} \tab - \cr
    predict_missing \tab numeric \tab 0 \tab \eqn{[0, 1]}{[0, 1]} \tab - \cr
+   predict_missing_type \tab character \tab na \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \tab na, omit \cr
    save_tasks \tab logical \tab FALSE \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \tab TRUE, FALSE \cr
    segfault_predict \tab numeric \tab 0 \tab \eqn{[0, 1]}{[0, 1]} \tab - \cr
    segfault_train \tab numeric \tab 0 \tab \eqn{[0, 1]}{[0, 1]} \tab - \cr
