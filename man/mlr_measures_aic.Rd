@@ -19,6 +19,16 @@ msr("aic")
 }
 }
 
+\section{Parameters}{
+\tabular{lllll}{
+   Id \tab Type \tab Default \tab Range \tab Levels \cr
+   k \tab integer \tab - \tab \eqn{[0, \infty)}{[0, Inf)} \tab - \cr
+}
+
+
+\code{k} is the penalty to be used in \code{\link[stats:AIC]{stats::AIC()}} (defaulting to 2).
+}
+
 \section{Meta Information}{
 
 \itemize{
@@ -59,14 +69,6 @@ Other Measure:
 \concept{Measure}
 \section{Super class}{
 \code{\link[mlr3:Measure]{mlr3::Measure}} -> \code{MeasureAIC}
-}
-\section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{k}}{(\code{integer(1)}):\cr
-Penalty to use. See \code{\link[stats:AIC]{stats::AIC()}}.}
-}
-\if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{

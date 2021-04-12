@@ -61,7 +61,8 @@ Other Measure:
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
 \item{\code{stages}}{(\code{character()})\cr
-Which stages of the learner to measure?}
+Which stages of the learner to measure?
+Usually set during construction.}
 }
 \if{html}{\out{</div>}}
 }
