@@ -55,7 +55,9 @@
 
 <meta property="og:title" content="Debug Measure — mlr_measures_debug" />
 <meta property="og:description" content="This measure returns the number of observations in the Prediction object.
-Its main purpose is debugging." />
+Its main purpose is debugging.
+The parameter na_ratio (numeric(1)) controls the ratio of scores which randomly
+are set to NA, between 0 (default) and 1." />
 <meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
@@ -162,7 +164,9 @@ Its main purpose is debugging." />
 
     <div class="ref-description">
     <p>This measure returns the number of observations in the <a href='Prediction.html'>Prediction</a> object.
-Its main purpose is debugging.</p>
+Its main purpose is debugging.
+The parameter <code>na_ratio</code> (<code><a href='https://rdrr.io/r/base/numeric.html'>numeric(1)</a></code>) controls the ratio of scores which randomly
+are set to <code>NA</code>, between 0 (default) and 1.</p>
     </div>
 
 
@@ -174,6 +178,15 @@ Its main purpose is debugging.</p>
 <p>This <a href='Measure.html'>Measure</a> can be instantiated via the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> <a href='mlr_measures.html'>mlr_measures</a> or with the associated sugar function <code><a href='mlr_sugar.html'>msr()</a></code>:</p><pre><span class='va'>mlr_measures</span><span class='op'>$</span><span class='fu'>get</span><span class='op'>(</span><span class='st'>"debug"</span><span class='op'>)</span>
 <span class='fu'><a href='mlr_sugar.html'>msr</a></span><span class='op'>(</span><span class='st'>"debug"</span><span class='op'>)</span>
 </pre>
+
+    <h2 class="hasAnchor" id="parameters"><a class="anchor" href="#parameters"></a>Parameters</h2>
+
+    
+<table class='table'>
+<tr><td>Id</td><td>Type</td><td>Default</td><td>Range</td><td>Levels</td></tr>
+<tr><td>normalize</td><td>logical</td><td>TRUE</td><td>\((-\infty, \infty)\)</td><td>TRUE, FALSE</td></tr>
+</table>
+
 
     <h2 class="hasAnchor" id="meta-information"><a class="anchor" href="#meta-information"></a>Meta Information</h2>
 
@@ -215,14 +228,6 @@ Its main purpose is debugging.</p>
     <h2 class="hasAnchor" id="super-class"><a class="anchor" href="#super-class"></a>Super class</h2>
 
     <p><code><a href='Measure.html'>mlr3::Measure</a></code> -&gt; <code>MeasureDebug</code></p>
-    <h2 class="hasAnchor" id="public-fields"><a class="anchor" href="#public-fields"></a>Public fields</h2>
-
-    <p><div class="r6-fields"></p><dl>
-<dt><code>na_ratio</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/numeric.html'>numeric(1)</a></code>)<br />
-Ratio of scores which randomly should be <code>NA</code>, between 0 (default) and 1.
-Default is 0.</p></dd>
-
-</dl><p></div></p>
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     
@@ -263,21 +268,27 @@ Default is 0.</p></dd>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>task</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span><span class='op'>(</span><span class='st'>"wine"</span><span class='op'>)</span>
 <span class='va'>learner</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>lrn</a></span><span class='op'>(</span><span class='st'>"classif.featureless"</span><span class='op'>)</span>
-<span class='va'>measure</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>msr</a></span><span class='op'>(</span><span class='st'>"debug"</span><span class='op'>)</span>
-<span class='va'>rr</span> <span class='op'>=</span> <span class='fu'><a href='resample.html'>resample</a></span><span class='op'>(</span><span class='va'>task</span>, <span class='va'>learner</span>, <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span><span class='op'>(</span><span class='st'>"cv"</span>, folds <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>measure</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>msr</a></span><span class='op'>(</span><span class='st'>"debug"</span>, na_ratio <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>)</span>
+<span class='va'>rr</span> <span class='op'>=</span> <span class='fu'><a href='resample.html'>resample</a></span><span class='op'>(</span><span class='va'>task</span>, <span class='va'>learner</span>, <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span><span class='op'>(</span><span class='st'>"cv"</span>, folds <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span>
 <span class='va'>rr</span><span class='op'>$</span><span class='fu'>score</span><span class='op'>(</span><span class='va'>measure</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;                 task task_id                         learner
 #&gt; 1: &lt;TaskClassif[46]&gt;    wine &lt;LearnerClassifFeatureless[34]&gt;
 #&gt; 2: &lt;TaskClassif[46]&gt;    wine &lt;LearnerClassifFeatureless[34]&gt;
 #&gt; 3: &lt;TaskClassif[46]&gt;    wine &lt;LearnerClassifFeatureless[34]&gt;
+#&gt; 4: &lt;TaskClassif[46]&gt;    wine &lt;LearnerClassifFeatureless[34]&gt;
+#&gt; 5: &lt;TaskClassif[46]&gt;    wine &lt;LearnerClassifFeatureless[34]&gt;
 #&gt;             learner_id         resampling resampling_id iteration
 #&gt; 1: classif.featureless &lt;ResamplingCV[19]&gt;            cv         1
 #&gt; 2: classif.featureless &lt;ResamplingCV[19]&gt;            cv         2
 #&gt; 3: classif.featureless &lt;ResamplingCV[19]&gt;            cv         3
+#&gt; 4: classif.featureless &lt;ResamplingCV[19]&gt;            cv         4
+#&gt; 5: classif.featureless &lt;ResamplingCV[19]&gt;            cv         5
 #&gt;                 prediction debug
-#&gt; 1: &lt;PredictionClassif[19]&gt;    60
-#&gt; 2: &lt;PredictionClassif[19]&gt;    59
-#&gt; 3: &lt;PredictionClassif[19]&gt;    59</div></pre>
+#&gt; 1: &lt;PredictionClassif[19]&gt;    NA
+#&gt; 2: &lt;PredictionClassif[19]&gt;    36
+#&gt; 3: &lt;PredictionClassif[19]&gt;    NA
+#&gt; 4: &lt;PredictionClassif[19]&gt;    35
+#&gt; 5: &lt;PredictionClassif[19]&gt;    NA</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

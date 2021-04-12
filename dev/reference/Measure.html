@@ -55,7 +55,7 @@
 
 <meta property="og:title" content="Measure Class — Measure" />
 <meta property="og:description" content="This is the abstract base class for measures like MeasureClassif and MeasureRegr.
-Measures are classes around tailored around two functions:
+Measures are classes tailored around two functions:
 A function $score() which quantifies the performance by comparing true and predicted response.
 A function $aggregator() which combines multiple performance scores returned by
 calculate to a single numeric value.
@@ -172,7 +172,7 @@ A guide on how to extend mlr3 with custom measures can be found in the mlr3book.
 
     <div class="ref-description">
     <p>This is the abstract base class for measures like <a href='MeasureClassif.html'>MeasureClassif</a> and <a href='MeasureRegr.html'>MeasureRegr</a>.</p>
-<p>Measures are classes around tailored around two functions:</p><ol>
+<p>Measures are classes tailored around two functions:</p><ol>
 <li><p>A function <code>$score()</code> which quantifies the performance by comparing true and predicted response.</p></li>
 <li><p>A function <code>$aggregator()</code> which combines multiple performance scores returned by
 <code>calculate</code> to a single numeric value.</p></li>
@@ -223,6 +223,9 @@ Used in tables, plot and text output.</p></dd>
 <dt><code>task_type</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
 Task type, e.g. <code>"classif"</code> or <code>"regr"</code>.For a complete list of possible task types (depending on the loaded packages),
 see <code><a href='mlr_reflections.html'>mlr_reflections$task_types$type</a></code>.</p></dd>
+
+<dt><code>param_set</code></dt><dd><p>(<a href='https://paradox.mlr-org.com/reference/ParamSet.html'>paradox::ParamSet</a>)<br />
+Set of hyperparameters.</p></dd>
 
 <dt><code>predict_type</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
 Required predict type of the <a href='Learner.html'>Learner</a>.</p></dd>
@@ -298,6 +301,7 @@ Hash (unique identifier) for this object.</p></dd>
 <p><div class="r"></p><pre><span class='va'>Measure</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>
   <span class='va'>id</span>,
   task_type <span class='op'>=</span> <span class='cn'>NA</span>,
+  param_set <span class='op'>=</span> <span class='fu'>ps</span><span class='op'>(</span><span class='op'>)</span>,
   range <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='cn'>Inf</span>, <span class='cn'>Inf</span><span class='op'>)</span>,
   minimize <span class='op'>=</span> <span class='cn'>NA</span>,
   average <span class='op'>=</span> <span class='st'>"macro"</span>,
@@ -318,6 +322,9 @@ Identifier for the new instance.</p></dd>
 <dt><code>task_type</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
 Type of task, e.g. <code>"regr"</code> or <code>"classif"</code>.
 Must be an element of <a href='mlr_reflections.html'>mlr_reflections$task_types$type</a>.</p></dd>
+
+<dt><code>param_set</code></dt><dd><p>(<a href='https://paradox.mlr-org.com/reference/ParamSet.html'>paradox::ParamSet</a>)<br />
+Set of hyperparameters.</p></dd>
 
 <dt><code>range</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/numeric.html'>numeric(2)</a></code>)<br />
 Feasible range for this measure as <code><a href='https://rdrr.io/r/base/c.html'>c(lower_bound, upper_bound)</a></code>.

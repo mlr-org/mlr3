@@ -183,6 +183,17 @@ Requires the learner property <code>"loglik"</code>, <code>NA</code> is returned
 <span class='fu'><a href='mlr_sugar.html'>msr</a></span><span class='op'>(</span><span class='st'>"aic"</span><span class='op'>)</span>
 </pre>
 
+    <h2 class="hasAnchor" id="parameters"><a class="anchor" href="#parameters"></a>Parameters</h2>
+
+    
+<table class='table'>
+<tr><td>Id</td><td>Type</td><td>Default</td><td>Range</td><td>Levels</td></tr>
+<tr><td>k</td><td>integer</td><td>-</td><td>\([0, \infty)\)</td><td>-</td></tr>
+</table>
+
+
+
+<p><code>k</code> is the penalty to be used in <code><a href='https://rdrr.io/r/stats/AIC.html'>stats::AIC()</a></code> (defaulting to 2).</p>
     <h2 class="hasAnchor" id="meta-information"><a class="anchor" href="#meta-information"></a>Meta Information</h2>
 
     
@@ -224,13 +235,6 @@ Requires the learner property <code>"loglik"</code>, <code>NA</code> is returned
     <h2 class="hasAnchor" id="super-class"><a class="anchor" href="#super-class"></a>Super class</h2>
 
     <p><code><a href='Measure.html'>mlr3::Measure</a></code> -&gt; <code>MeasureAIC</code></p>
-    <h2 class="hasAnchor" id="public-fields"><a class="anchor" href="#public-fields"></a>Public fields</h2>
-
-    <p><div class="r6-fields"></p><dl>
-<dt><code>k</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>):<br />
-Penalty to use. See <code><a href='https://rdrr.io/r/stats/AIC.html'>stats::AIC()</a></code>.</p></dd>
-
-</dl><p></div></p>
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     
