@@ -71,10 +71,6 @@ assert_tasks = function(tasks, task_type = NULL, feature_types = NULL, task_prop
 assert_learner = function(learner, task = NULL, properties = character(), .var.name = vname(learner)) {
   assert_class(learner, "Learner", .var.name = .var.name)
 
-  if (!is.null(task)) {
-    assert_learnable(task, learner)
-  }
-
   if (length(properties)) {
     miss = setdiff(properties, learner$properties)
     if (length(miss)) {
@@ -97,7 +93,7 @@ assert_learners = function(learners, task = NULL, properties = character(), .var
 #' @rdname mlr_assertions
 assert_learnable = function(task, learner) {
   pars = learner$param_set$get_values(type = "only_token")
-  if(length(pars) > 0) {
+  if (length(pars) > 0) {
     stopf("%s cannot be trained with TuneToken present in hyperparameter: %s", learner$format(), str_collapse(names(pars)))
   }
 
@@ -109,6 +105,14 @@ assert_learnable = function(task, learner) {
   tmp = setdiff(task$feature_types$type, learner$feature_types)
   if (length(tmp)) {
     stopf("%s has the following unsupported feature types: %s", task$format(), str_collapse(tmp))
+  }
+
+  if ("missings" %nin% learner$properties) {
+    miss = task$missings() > 0L
+    if (any(miss)) {
+      stopf("Task '%s' has missing values in column(s) %s, but learner '%s' does not support this",
+        task$id, str_collapse(names(miss)[miss], quote = "'"), learner$id)
+    }
   }
 }
 
