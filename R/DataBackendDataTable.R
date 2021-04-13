@@ -46,7 +46,11 @@ DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
     initialize = function(data, primary_key) {
       assert_data_table(data, col.names = "unique")
       super$initialize(setkeyv(data, primary_key), primary_key, data_formats = "data.table")
-      assert_choice(primary_key, names(data))
+      ii = match(primary_key, names(data))
+      if (is.na(ii)) {
+        stopf("Primary key '%s' not in 'data'", primary_key)
+      }
+      private$.cache = set_names(replace(rep(NA, ncol(data)), ii, FALSE), names(data))
     },
 
     #' @description
@@ -105,8 +109,23 @@ DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
     #'
     #' @return Total of missing values per column (named `numeric()`).
     missings = function(rows, cols) {
-      data = self$data(rows, cols)
-      map_int(data, function(x) sum(is.na(x)))
+      missind = private$.cache
+      missind = missind[reorder_vector(names(missind), cols)]
+
+      # update cache
+      ii = which(is.na(missind))
+      if (length(ii)) {
+        missind[ii] = map_lgl(private$.data[, names(missind[ii]), with = FALSE], anyMissing)
+        private$.cache = insert_named(private$.cache, missind[ii])
+      }
+
+      # query required columns
+      query_cols = which(missind)
+      insert_named(
+        named_vector(names(missind), 0L),
+        map_int(self$data(rows, names(query_cols)), count_missing)
+      )
+
     }
   ),
 
@@ -139,6 +158,8 @@ DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
   private = list(
     .calculate_hash = function() {
       hash(self$compact_seq, private$.data)
-    }
+    },
+
+    .cache = NULL
   )
 )
