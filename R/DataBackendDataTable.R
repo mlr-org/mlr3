@@ -50,10 +50,7 @@ DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
       if (is.na(ii)) {
         stopf("Primary key '%s' not in 'data'", primary_key)
       }
-      private$.cache = data.table(
-        id = colnames(data),
-        has_missings = replace(rep(NA, ncol(data)), ii, FALSE)
-      )
+      private$.cache = set_names(replace(rep(NA, ncol(data)), ii, FALSE), names(data))
     },
 
     #' @description
@@ -112,21 +109,23 @@ DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
     #'
     #' @return Total of missing values per column (named `numeric()`).
     missings = function(rows, cols) {
-      tab = private$.cache[list(cols), on = "id", nomatch = NULL]
+      missind = private$.cache
+      missind = missind[reorder_vector(names(missind), cols)]
 
       # update cache
-      ii = tab[is.na(has_missings), which = TRUE]
+      ii = which(is.na(missind))
       if (length(ii)) {
-        tab[ii, has_missings := map_lgl(private$.data[, id, with = FALSE], anyMissing)]
-        private$.cache = ujoin(private$.cache, tab[ii], key = "id")
+        missind[ii] = map_lgl(private$.data[, names(missind[ii]), with = FALSE], anyMissing)
+        private$.cache = insert_named(private$.cache, missind[ii])
       }
 
       # query required columns
-      query_cols = tab[has_missings == TRUE, id]
+      query_cols = which(missind)
       insert_named(
-        named_vector(tab$id, 0L),
-        map_int(self$data(rows = rows, cols = query_cols), count_missing)
+        named_vector(names(missind), 0L),
+        map_int(self$data(rows, names(query_cols)), count_missing)
       )
+
     }
   ),
 
