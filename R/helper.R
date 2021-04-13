@@ -72,8 +72,3 @@ get_progressor = function(n, label = NA_character_) {
 allow_utf8_names = function() {
   isTRUE(getOption("mlr3.allow_utf8_names"))
 }
-
-
-reorder_vector = function(x, y, na_last = NA) {
-  order(match(x, y), na.last = na_last)
-}

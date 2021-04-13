@@ -125,7 +125,7 @@ DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
       query_cols = tab[has_missings == TRUE, id]
       insert_named(
         named_vector(tab$id, 0L),
-        map_int(self$data(rows = rows, cols = query_cols), function(x) sum(is.na(x)))
+        map_int(self$data(rows = rows, cols = query_cols), count_missing)
       )
     }
   ),
