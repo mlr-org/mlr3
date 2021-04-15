@@ -105,7 +105,7 @@ MeasureRegrSimple = R6Class("MeasureRegrSimple",
 #' @templateVar id auc
 #' @template measure_binary
 mlr_measures$add("classif.auc", MeasureBinarySimple, name = "auc")
-#'
+
 #' @templateVar id bbrier
 #' @template measure_binary
 mlr_measures$add("classif.bbrier", MeasureBinarySimple, name = "bbrier")
