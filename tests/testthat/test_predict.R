@@ -31,3 +31,17 @@ test_that("missing predictions are handled gracefully", {
   learner$train(task)
   expect_error(learner$predict(task), "observations")
 })
+
+test_that("predict_newdata with weights (#519)", {
+  task = tsk("boston_housing")
+  task$set_col_roles("nox", "weight")
+  learner = lrn("regr.featureless")
+  learner$train(task)
+  expect_prediction(learner$predict(task))
+
+  # w/o weights
+  expect_prediction(learner$predict_newdata(task$data()))
+
+  # w weights
+  expect_prediction(learner$predict_newdata(task$data(cols = c(task$target_names, task$feature_names, "nox"))))
+})
