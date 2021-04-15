@@ -220,17 +220,6 @@ test_that("stratify works", {
   expect_list(tab$row_id, "integer")
 })
 
-test_that("$uris works", {
-  data = cbind(iris, uri = as.character(1:150))
-  task = TaskClassif$new("uri_test", data, target = "Species")
-  expect_null(task$uris)
-
-  task$set_col_roles("uri", "uri")
-  tab = task$uris
-  expect_data_table(tab, ncols = 2, nrows = 150)
-  expect_names(names(tab), permutation.of = c("row_id", "uri"))
-})
-
 test_that("groups/weights work", {
   b = as_data_backend(data.table(x = runif(20), y = runif(20), w = runif(20), g = sample(letters[1:2], 20, replace = TRUE)))
   task = TaskRegr$new("test", b, target = "y")

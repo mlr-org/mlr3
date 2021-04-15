@@ -663,7 +663,6 @@ Task = R6Class("Task",
     #'   Note that only up to one column may have this role.
     #' * `"stratum"`: Stratification variables. Multiple discrete columns may have this role.
     #' * `"weight"`: Observation weights. Only up to one column (assumed to be discrete) may have this role.
-    #' * `"uri"`: URI pointing to an external resource, e.g., images on the file system.
     #'
     #' `col_roles` is a named list whose elements are named by column role and each element is a `character()` vector of column names.
     #' To alter the roles, just modify the list, e.g. with \R's set functions ([intersect()], [setdiff()], [union()], \ldots).
@@ -789,24 +788,6 @@ Task = R6Class("Task",
       }
       data = self$backend$data(private$.row_roles$use, c(self$backend$primary_key, weight_cols))
       setnames(data, c("row_id", "weight"))[]
-    },
-
-    #' @field uris ([data.table::data.table()])\cr
-    #' If the task has a column with designated role `"uri"`, a table with two columns:
-    #'
-    #' * `row_id` (`integer()`), and
-    #' * `uri` (`character()`).
-    #'
-    #' Returns `NULL` if there are is no uri column.
-    uris = function(rhs) {
-      assert_has_backend(self)
-      assert_ro_binding(rhs)
-      uri_col = private$.col_roles$uri
-      if (length(uri_col) == 0L) {
-        return(NULL)
-      }
-      data = self$backend$data(private$.row_roles$use, c(self$backend$primary_key, uri_col))
-      setnames(data, c("row_id", "uri"))[]
     }
   ),
 
