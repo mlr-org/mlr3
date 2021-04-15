@@ -264,12 +264,13 @@ see <code><a href='mlr_reflections.html'>mlr_reflections$task_types$type</a></co
 Abstract interface to the data of the task.</p></dd>
 
 <dt><code>col_info</code></dt><dd><p>(<code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code>)<br />
-Table with with 3 columns:
+Table with with 4 columns:
 <ul>
 <li><p><code>"id"</code> (<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>) stores the name of the column.</p></li>
 <li><p><code>"type"</code> (<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>) holds the storage type of the variable, e.g. <code>integer</code>, <code>numeric</code> or <code>character</code>.
 See <a href='mlr_reflections.html'>mlr_reflections$task_feature_types</a> for a complete list of allowed types.</p></li>
 <li><p><code>"levels"</code> stores a vector of distinct values (levels) for ordered and unordered factor variables.</p></li>
+<li><p><code>"label"</code> stores a character vector of prettier, formated column names.</p></li>
 </ul></p></dd>
 
 <dt><code>man</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
@@ -410,6 +411,7 @@ If the task has a column with designated role <code>"weight"</code>, a table wit
 <li><p><a href='#method-set_row_roles'><code>Task$set_row_roles()</code></a></p></li>
 <li><p><a href='#method-set_col_roles'><code>Task$set_col_roles()</code></a></p></li>
 <li><p><a href='#method-droplevels'><code>Task$droplevels()</code></a></p></li>
+<li><p><a href='#method-label'><code>Task$label()</code></a></p></li>
 <li><p><a href='#method-clone'><code>Task$clone()</code></a></p></li>
 </ul>
 <p><hr>
@@ -708,6 +710,24 @@ the object in its previous state.</p>
 <p><div class="arguments"></p><dl>
 <dt><code>cols</code></dt><dd><p><code><a href='https://rdrr.io/r/base/character.html'>character()</a></code><br />
 Column names.</p></dd>
+
+</dl><p></div></p>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
+<p>Modified <code>self</code>.</p>
+<p><hr>
+<a id="method-label"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>label()</code></h3>
+<p>Assigns <code>labels</code> (prettier formated names) to columns <code>cols</code>.
+Internally updates the column <code>label</code> of the table in field <code>col_info</code> by reference.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>Task</span><span class='op'>$</span><span class='fu'>label</span><span class='op'>(</span><span class='va'>cols</span>, <span class='va'>labels</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>cols</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
+Column identifiers to label.</p></dd>
+
+<dt><code>labels</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
+New labels. Will be repeated to match the length of <code>cols</code>.
+Set to <code>NA</code> to remove a label.</p></dd>
 
 </dl><p></div></p>
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
