@@ -77,11 +77,12 @@ Task = R6Class("Task",
     backend = NULL,
 
     #' @field col_info ([data.table::data.table()])\cr
-    #' Table with with 3 columns:
+    #' Table with with 4 columns:
     #' - `"id"` (`character()`) stores the name of the column.
     #' - `"type"` (`character()`) holds the storage type of the variable, e.g. `integer`, `numeric` or `character`.
     #'   See [mlr_reflections$task_feature_types][mlr_reflections] for a complete list of allowed types.
     #' - `"levels"` stores a vector of distinct values (levels) for ordered and unordered factor variables.
+    #' - `"label"` stores a character vector of prettier, formated column names.
     col_info = NULL,
 
     #' @template field_man
@@ -106,6 +107,7 @@ Task = R6Class("Task",
       }
 
       self$col_info = col_info(self$backend)
+      self$col_info$label = NA_character_
       assert_names(self$col_info$id, if (allow_utf8_names()) "unique" else "strict",
         .var.name = "feature names")
       assert_subset(self$col_info$type, mlr_reflections$task_feature_types, .var.name = "feature types")
@@ -181,7 +183,7 @@ Task = R6Class("Task",
       if (is.null(cols)) {
         query_cols = cols = c(col_roles$target, col_roles$feature)
       } else {
-        assert_subset(cols, self$backend$colnames)
+        assert_subset(cols, self$col_info$id)
         query_cols = cols
       }
 
@@ -337,7 +339,7 @@ Task = R6Class("Task",
         pk_in_backend = pk %in% names(data)
         type_check = FALSE # done by auto-converter
 
-        keep_cols = intersect(names(data), self$backend$colnames)
+        keep_cols = intersect(names(data), self$col_info$id)
         if (length(keep_cols) == pk_in_backend || nrow(data) == 0L) {
           return(invisible(self))
         }
@@ -392,7 +394,7 @@ Task = R6Class("Task",
 
       # everything looks good, modify task
       self$backend = DataBackendRbind$new(self$backend, data)
-      self$col_info = tab
+      self$col_info = tab[]
       self$row_roles$use = c(self$row_roles$use, data$rownames)
 
       invisible(self)
@@ -427,14 +429,14 @@ Task = R6Class("Task",
         if (data$ncol <= 1L) {
           return(invisible(self))
         }
+        assert_set_equal(self$row_ids, data$rownames)
       }
 
-      assert_set_equal(self$row_ids, data$rownames)
       ci = col_info(data)
 
       # update col info
       self$col_info = ujoin(self$col_info, ci, key = "id")
-      self$col_info = rbind(self$col_info, ci[!list(self$col_info), on = "id"])
+      self$col_info = rbindlist(list(self$col_info, ci[!list(self$col_info), on = "id"]), use.names = TRUE, fill = TRUE)
       setkeyv(self$col_info, "id")
 
       # add new features
@@ -524,7 +526,7 @@ Task = R6Class("Task",
     #' the object in its previous state.
     set_col_roles = function(cols, roles = NULL, add_to = NULL, remove_from = NULL) {
       assert_has_backend(self)
-      assert_subset(cols, self$backend$colnames)
+      assert_subset(cols, self$col_info$id)
       new_roles = task_set_roles(private$.col_roles, cols, roles, add_to, remove_from)
       private$.col_roles = task_check_col_roles(self, new_roles)
       invisible(self)
@@ -551,6 +553,28 @@ Task = R6Class("Task",
         x = tab$levels, y = new_levels)
 
       self$col_info = ujoin(self$col_info, tab, key = "id")
+      invisible(self)
+    },
+
+    #' @description
+    #' Assigns `labels` (prettier formated names) to columns `cols`.
+    #' Internally updates the column `label` of the table in field `col_info` by reference.
+    #'
+    #' @param cols (`character()`)\cr
+    #'   Column identifiers to label.
+    #' @param labels (`character()`)\cr
+    #'   New labels. Will be repeated to match the length of `cols`.
+    #'   Set to `NA` to remove a label.
+    #'
+    #' @return Modified `self`.
+    label = function(cols, labels) {
+      assert_character(cols, any.missing = FALSE, unique = TRUE)
+      assert_character(labels)
+      assert_subset(cols, self$col_info$id)
+      labels = rep_len(as.character(labels), length(cols))
+
+      self$col_info[list(cols), "label" := labels, on = "id"]
+
       invisible(self)
     }
   ),

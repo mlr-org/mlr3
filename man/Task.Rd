@@ -116,12 +116,13 @@ see \code{\link[=mlr_reflections]{mlr_reflections$task_types$type}}.}
 Abstract interface to the data of the task.}
 
 \item{\code{col_info}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
-Table with with 3 columns:
+Table with with 4 columns:
 \itemize{
 \item \code{"id"} (\code{character()}) stores the name of the column.
 \item \code{"type"} (\code{character()}) holds the storage type of the variable, e.g. \code{integer}, \code{numeric} or \code{character}.
 See \link[=mlr_reflections]{mlr_reflections$task_feature_types} for a complete list of allowed types.
 \item \code{"levels"} stores a vector of distinct values (levels) for ordered and unordered factor variables.
+\item \code{"label"} stores a character vector of prettier, formated column names.
 }}
 
 \item{\code{man}}{(\code{character(1)})\cr
@@ -275,6 +276,7 @@ Returns \code{NULL} if there are is no weight column.}
 \item \href{#method-set_row_roles}{\code{Task$set_row_roles()}}
 \item \href{#method-set_col_roles}{\code{Task$set_col_roles()}}
 \item \href{#method-droplevels}{\code{Task$droplevels()}}
+\item \href{#method-label}{\code{Task$label()}}
 \item \href{#method-clone}{\code{Task$clone()}}
 }
 }
@@ -710,6 +712,32 @@ Updates the cache of stored factor levels, removing all levels not present in th
 \describe{
 \item{\code{cols}}{\code{character()}\cr
 Column names.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Modified \code{self}.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-label"></a>}}
+\if{latex}{\out{\hypertarget{method-label}{}}}
+\subsection{Method \code{label()}}{
+Assigns \code{labels} (prettier formated names) to columns \code{cols}.
+Internally updates the column \code{label} of the table in field \code{col_info} by reference.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Task$label(cols, labels)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{cols}}{(\code{character()})\cr
+Column identifiers to label.}
+
+\item{\code{labels}}{(\code{character()})\cr
+New labels. Will be repeated to match the length of \code{cols}.
+Set to \code{NA} to remove a label.}
 }
 \if{html}{\out{</div>}}
 }

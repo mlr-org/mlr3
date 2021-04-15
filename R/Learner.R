@@ -287,7 +287,7 @@ Learner = R6Class("Learner",
         # create list with correct NA types and insert it into the table newdata
         tab = task$col_info[list(impute), on = "id"]
         set(tab, j = "value", value = NA)
-        nas = set_names(pmap(tab, auto_convert), tab$id)
+        nas = set_names(pmap(tab[, !"label"], auto_convert), tab$id)
         newdata = insert_named(newdata, nas)
       }
 
