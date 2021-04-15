@@ -6,6 +6,8 @@
 * Measures now have formal hyperparameters. A popular example where this is
   required is the F1 score, now implemented with customizable `beta`.
 * Fixed hashing of some measures.
+* Removed experimental column role `uri`. This role be split up into multiple
+  roles by the `mlr3keras` package.
 
 
 # mlr3 0.11.0

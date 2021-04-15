@@ -196,7 +196,6 @@ For each resampling iteration, observations of the same group will be exclusivel
 Note that only up to one column may have this role.
 \item \code{"stratum"}: Stratification variables. Multiple discrete columns may have this role.
 \item \code{"weight"}: Observation weights. Only up to one column (assumed to be discrete) may have this role.
-\item \code{"uri"}: URI pointing to an external resource, e.g., images on the file system.
 }
 
 \code{col_roles} is a named list whose elements are named by column role and each element is a \code{character()} vector of column names.
@@ -253,15 +252,6 @@ If the task has a column with designated role \code{"weight"}, a table with two 
 }
 
 Returns \code{NULL} if there are is no weight column.}
-
-\item{\code{uris}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
-If the task has a column with designated role \code{"uri"}, a table with two columns:
-\itemize{
-\item \code{row_id} (\code{integer()}), and
-\item \code{uri} (\code{character()}).
-}
-
-Returns \code{NULL} if there are is no uri column.}
 }
 \if{html}{\out{</div>}}
 }
