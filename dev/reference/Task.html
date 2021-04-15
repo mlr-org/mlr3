@@ -337,7 +337,6 @@ For each resampling iteration, observations of the same group will be exclusivel
 Note that only up to one column may have this role.</p></li>
 <li><p><code>"stratum"</code>: Stratification variables. Multiple discrete columns may have this role.</p></li>
 <li><p><code>"weight"</code>: Observation weights. Only up to one column (assumed to be discrete) may have this role.</p></li>
-<li><p><code>"uri"</code>: URI pointing to an external resource, e.g., images on the file system.</p></li>
 </ul><code>col_roles</code> is a named list whose elements are named by column role and each element is a <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code> vector of column names.
 To alter the roles, just modify the list, e.g. with <span style="R">R</span>'s set functions (<code><a href='https://rdrr.io/r/base/sets.html'>intersect()</a></code>, <code><a href='https://rdrr.io/r/base/sets.html'>setdiff()</a></code>, <code><a href='https://rdrr.io/r/base/sets.html'>union()</a></code>, ...).
 The method <code>$set_col_roles</code> provides a convenient alternative to assign columns to roles.</p></dd>
@@ -386,13 +385,6 @@ If the task has a column with designated role <code>"weight"</code>, a table wit
 <li><p><code>row_id</code> (<code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code>), and</p></li>
 <li><p>observation weights <code>weight</code> (<code><a href='https://rdrr.io/r/base/numeric.html'>numeric()</a></code>).</p></li>
 </ul>Returns <code>NULL</code> if there are is no weight column.</p></dd>
-
-<dt><code>uris</code></dt><dd><p>(<code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code>)<br />
-If the task has a column with designated role <code>"uri"</code>, a table with two columns:
-<ul>
-<li><p><code>row_id</code> (<code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code>), and</p></li>
-<li><p><code>uri</code> (<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>).</p></li>
-</ul>Returns <code>NULL</code> if there are is no uri column.</p></dd>
 
 </dl><p></div></p>
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
