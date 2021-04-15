@@ -497,7 +497,7 @@ Task = R6Class("Task",
     #' the object in its previous state.
     set_row_roles = function(rows, roles = NULL, add_to = NULL, remove_from = NULL) {
       assert_has_backend(self)
-      assert_subset(rows, self$col_info$id)
+      assert_subset(rows, self$backend$rownames)
       private$.row_roles = task_set_roles(private$.row_roles, rows, roles, add_to, remove_from)
       invisible(self)
     },
