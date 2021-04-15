@@ -1,5 +1,6 @@
 # mlr3 0.11.0-9000
 
+* New option to label columns in `Task` via method `label()`.
 * New standardized getter `loglik()` for class `Learner`.
 * New measures `"aic"` and `"bic"` to compute the Akaike Information Criterion
   or the Bayesian Information Criterion, respectively.

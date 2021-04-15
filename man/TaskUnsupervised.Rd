@@ -66,6 +66,7 @@ Other Task:
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="head">}\href{../../mlr3/html/Task.html#method-head}{\code{mlr3::Task$head()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="help">}\href{../../mlr3/html/Task.html#method-help}{\code{mlr3::Task$help()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="initialize">}\href{../../mlr3/html/Task.html#method-initialize}{\code{mlr3::Task$initialize()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="label">}\href{../../mlr3/html/Task.html#method-label}{\code{mlr3::Task$label()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="levels">}\href{../../mlr3/html/Task.html#method-levels}{\code{mlr3::Task$levels()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="missings">}\href{../../mlr3/html/Task.html#method-missings}{\code{mlr3::Task$missings()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="print">}\href{../../mlr3/html/Task.html#method-print}{\code{mlr3::Task$print()}}\out{</span>}

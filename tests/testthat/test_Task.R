@@ -377,3 +377,30 @@ test_that("Task$set_col_roles", {
   expect_true("age" %in% task$feature_names)
   expect_null(task$weights)
 })
+
+test_that("column labels", {
+  task = tsk("iris")
+  expect_character(task$col_info$label)
+
+  labels = c("pl", "pw", "sl", "sw", "species")
+  task$col_info$label = c(NA, labels)
+
+  task$rbind(iris[1,, drop = FALSE])
+  expect_names(na.omit(task$col_info$label), permutation.of = labels)
+
+  task$cbind(data.frame(foo = 1:151))
+  task$col_info
+  expect_names(na.omit(task$col_info$label), permutation.of = labels)
+
+
+  task = tsk("iris")
+  task$label("Petal.Length", "pl")
+  expect_equal(task$col_info["Petal.Length", label], "pl")
+
+  task$label(c("Sepal.Length", "Sepal.Width"), c("sl", "sw"))
+  expect_equal(task$col_info["Sepal.Length", label], "sl")
+  expect_equal(task$col_info["Sepal.Width", label], "sw")
+
+  task$label("Petal.Length", NA)
+  expect_equal(task$col_info["Petal.Length", label], NA_character_)
+})
