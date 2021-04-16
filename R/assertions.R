@@ -89,9 +89,7 @@ assert_learners = function(learners, task = NULL, properties = character(), .var
   invisible(lapply(learners, assert_learner, task = task, properties = properties, .var.name = .var.name))
 }
 
-#' @export
-#' @rdname mlr_assertions
-assert_learnable = function(task, learner) {
+assert_task_learner = function(task, learner, cols = NULL) {
   pars = learner$param_set$get_values(type = "only_token")
   if (length(pars) > 0) {
     stopf("%s cannot be trained with TuneToken present in hyperparameter: %s", learner$format(), str_collapse(names(pars)))
@@ -103,18 +101,32 @@ assert_learnable = function(task, learner) {
   }
 
   tmp = setdiff(task$feature_types$type, learner$feature_types)
-  if (length(tmp)) {
+  if (length(tmp) > 0) {
     stopf("%s has the following unsupported feature types: %s", task$format(), str_collapse(tmp))
   }
 
   if ("missings" %nin% learner$properties) {
-    miss = task$missings() > 0L
+    miss = task$missings(cols = cols) > 0L
     if (any(miss)) {
       stopf("Task '%s' has missing values in column(s) %s, but learner '%s' does not support this",
         task$id, str_collapse(names(miss)[miss], quote = "'"), learner$id)
     }
   }
 }
+
+#' @export
+#' @rdname mlr_assertions
+assert_learnable = function(task, learner) {
+  assert_task_learner(task, learner)
+}
+
+#' @export
+#' @rdname mlr_assertions
+assert_predictable = function(task, learner) {
+  assert_task_learner(task, learner, cols = task$feature_names)
+}
+
+
 
 #' @export
 #' @param measure ([Measure]).
@@ -129,7 +141,7 @@ assert_measure = function(measure, task = NULL, learner = NULL, .var.name = vnam
     }
 
     miss = setdiff(measure$task_properties, task$properties)
-    if (length(miss)) {
+    if (length(miss) > 0) {
       stopf("Measure '%s' needs task properties: %s", measure$id, str_collapse(miss))
     }
   }
@@ -148,7 +160,7 @@ assert_measure = function(measure, task = NULL, learner = NULL, .var.name = vnam
     }
 
     miss = setdiff(measure$predict_sets, learner$predict_sets)
-    if (length(miss)) {
+    if (length(miss) > 0) {
       stopf("Measure '%s' needs predict set %s, but learner '%s' only predicted on sets %s",
         measure$id, str_collapse(miss, quote = "'"), learner$id, str_collapse(learner$predict_sets, quote = "'"))
     }
