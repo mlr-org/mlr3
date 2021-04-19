@@ -20,33 +20,35 @@
 #'   Object to set threads for, e.g. a [Learner].
 #'   This object is modified in-place.
 #' @param n (`integer(1)`)\cr
-#'   Number of threads to use.
+#'   Number of threads to use. Defaults to [parallelly::availableCores()].
 #'
 #' @return Same object as input `x` (changed in-place),
 #'   with possibly updated parameter values.
 #' @export
-set_threads = function(x, n = parallelly::availableCores()) {
+set_threads = function(x, n = availableCores()) {
   UseMethod("set_threads")
 }
 
 #' @rdname set_threads
 #' @export
-set.threads.default = function(x, n = parallelly::availableCores()) { # nolint
+set_threads.default = function(x, n = availableCores()) { # nolint
   x
 }
 
 #' @rdname set_threads
 #' @export
-set_threads.Learner = function(x, n = parallelly::availableCores()) { # nolint
-  id = x$param_set$ids(tags = "threads")
-  if (length(id)) {
-    x$param_set$values = insert_named(x$param_set$values, named_list(id, n))
+set_threads.R6 = function(x, n = availableCores()) { # nolint
+  if (exists("param_set", envir = x)) {
+    id = x$param_set$ids(tags = "threads")
+    if (length(id)) {
+      x$param_set$values = insert_named(x$param_set$values, named_list(id, n))
+    }
   }
   x
 }
 
 #' @rdname set_threads
 #' @export
-set_threads.list = function(x, n = parallelly::availableCores()) { # nolint
+set_threads.list = function(x, n = availableCores()) { # nolint
   lapply(x, set_threads, n = n)
 }

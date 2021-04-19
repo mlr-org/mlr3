@@ -9,12 +9,15 @@
 #' The cost matrix is stored as slot `$costs`.
 #'
 #' For calculation of the score, the confusion matrix is multiplied element-wise with the cost matrix.
-#' The costs are then summed up (and potentially divided by the number of observations if `normalize` is set to `TRUE`).
+#' The costs are then summed up (and potentially divided by the number of observations if `normalize` is set to `TRUE` (default)).
 #'
 #' This measure requires the [Task] during scoring to ensure that the rows and columns of the cost matrix are in the same order as in the confusion matrix.
 #'
 #' @templateVar id classif.costs
 #' @template section_dictionary_measure
+#'
+#' @section Parameters:
+#' `r rd_info(msr("classif.costs")$param_set)`
 #'
 #' @section Meta Information:
 #' * Type: `"classif"`
@@ -39,25 +42,25 @@
 #' # mlr3 needs truth in columns, predictions in rows
 #' costs = t(costs)
 #'
-#' # create measure which calculates the absolute costs
+#' # create a cost measure which calculates the absolute costs
 #' m = msr("classif.costs", id = "german_credit_costs", costs = costs, normalize = FALSE)
 #'
-#' # fit models and calculate costs
+#' # fit models and evaluate with the cost measure
 #' learner = lrn("classif.rpart")
 #' rr = resample(task, learner, rsmp("cv", folds = 3))
 #' rr$aggregate(m)
 MeasureClassifCosts = R6Class("MeasureClassifCosts",
   inherit = MeasureClassif,
   public = list(
-    #' @field normalize (`logical(1)`)\cr
-    #'   Normalize the costs?
-    normalize = TRUE,
-
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
+      param_set = ps(normalize = p_lgl(default = TRUE, tags = "required"))
+      param_set$values = list(normalize = TRUE)
+
       super$initialize(
         id = "classif.costs",
+        param_set = param_set,
         properties = "requires_task",
         range = c(-Inf, Inf),
         minimize = TRUE,
@@ -92,18 +95,20 @@ MeasureClassifCosts = R6Class("MeasureClassifCosts",
       confusion = table(response = prediction$response, truth = prediction$truth, useNA = "ifany")
 
       # reorder rows / cols if necessary
-      ii = match(rownames(confusion), rownames(costs))
-      jj = match(colnames(confusion), colnames(costs))
+      ii = reorder_vector(rownames(confusion), rownames(costs))
+      jj = reorder_vector(colnames(confusion), colnames(costs))
       if (is.unsorted(ii) || is.unsorted(jj)) {
         confusion = confusion[ii, jj]
       }
 
       perf = sum(confusion * costs)
-      if (self$normalize) {
+      if (self$param_set$values$normalize) {
         perf = perf / sum(confusion)
       }
       perf
-    }
+    },
+
+    .extra_hash = "costs"
   )
 )
 

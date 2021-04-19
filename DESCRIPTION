@@ -1,6 +1,6 @@
 Package: mlr3
 Title: Machine Learning in R - Next Generation
-Version: 0.10.0-9000
+Version: 0.11.0-9000
 Authors@R:
     c(person(given = "Michel",
              family = "Lang",
@@ -68,7 +68,7 @@ Imports:
     lgr (>= 0.3.4),
     mlbench,
     mlr3measures (>= 0.3.0),
-    mlr3misc (>= 0.7.0),
+    mlr3misc (>= 0.9.0),
     parallelly,
     palmerpenguins,
     paradox (>= 0.6.0),
@@ -86,7 +86,6 @@ Suggests:
     rpart,
     testthat (>= 3.0.0)
 Encoding: UTF-8
-LazyData: true
 Config/testthat/edition: 3
 Config/testthat/parallel: true
 NeedsCompilation: no
@@ -111,8 +110,10 @@ Collate:
     'LearnerRegrFeatureless.R'
     'LearnerRegrRpart.R'
     'Measure.R'
-    'MeasureClassif.R'
     'mlr_measures.R'
+    'MeasureAIC.R'
+    'MeasureBIC.R'
+    'MeasureClassif.R'
     'MeasureClassifCosts.R'
     'MeasureDebug.R'
     'MeasureElapsedTime.R'
@@ -171,7 +172,9 @@ Collate:
     'as_learner.R'
     'as_measure.R'
     'as_prediction.R'
+    'as_prediction_classif.R'
     'as_prediction_data.R'
+    'as_prediction_regr.R'
     'as_resample_result.R'
     'as_resampling.R'
     'as_result_data.R'

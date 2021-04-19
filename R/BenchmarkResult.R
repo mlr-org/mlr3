@@ -25,6 +25,7 @@
 #'   ([BenchmarkResult], ...) -> [BenchmarkResult]\cr
 #'   Combines multiple objects convertible to [BenchmarkResult] into a new [BenchmarkResult].
 #'
+#' @template seealso_benchmark
 #' @export
 #' @examples
 #' set.seed(123)

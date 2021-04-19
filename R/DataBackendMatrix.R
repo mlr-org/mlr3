@@ -13,7 +13,7 @@
 #' @template param_primary_key
 #' @template param_na_rm
 #'
-#' @family DataBackend
+#' @template seealso_databackend
 #' @export
 #' @examples
 #' requireNamespace("Matrix")
@@ -83,11 +83,22 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
         if (length(factors)) {
           # create list of dummy matrices
           dummies = imap(dense[, factors, with = FALSE], function(x, nn) {
-            contrasts = contr.treatment(levels(x), sparse = TRUE)
-            X = contrasts[match(x, rownames(contrasts)),, drop = FALSE]
-            colnames(X) = sprintf("%s_%s", nn, colnames(contrasts))
+            if (nlevels(x) > 1L) {
+              contrasts = contr.treatment(levels(x), sparse = TRUE)
+              X = contrasts[match(x, rownames(contrasts), nomatch = 0L), , drop = FALSE]
+              colnames(X) = sprintf("%s_%s", nn, colnames(contrasts))
+            } else {
+              X = matrix(rep(1, nrow(dense)), ncol = 1L)
+              colnames(X) = sprintf("%s_%s", nn, levels(x))
+            }
             X
           })
+
+          replace_with = function(x, needle, replacement) {
+            ii = (x == needle)
+            x = rep(x, 1L + (length(replacement) - 1L) * ii)
+            replace(x, ii, replacement)
+          }
 
           # update the column vector with new dummy names (this preserves the order)
           cols = Reduce(function(cols, name) replace_with(cols, name, colnames(dummies[[name]])),
@@ -133,7 +144,7 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
         lapply(private$.data$dense[rows, cols_dense, with = FALSE], distinct_values, na_rm = na_rm)
       )
 
-      res[match(cols, names(res), nomatch = 0L)]
+      res[reorder_vector(names(res), cols)]
     },
 
     #' @description
@@ -147,11 +158,11 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
       cols_dense = intersect(cols, colnames(private$.data$dense))
 
       res = c(
-        apply(private$.data$sparse[rows, cols_sparse, drop = FALSE], 2L, function(x) sum(is.na(x))),
-        private$.data$dense[, map_int(.SD, function(x) sum(is.na(x))), .SDcols = cols_dense]
+        apply(private$.data$sparse[rows, cols_sparse, drop = FALSE], 2L, count_missing),
+        private$.data$dense[, map_int(.SD, count_missing), .SDcols = cols_dense]
       )
 
-      res[match(cols, names(res), nomatch = 0L)]
+      res[reorder_vector(names(res), cols)]
     }
   ),
 

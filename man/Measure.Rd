@@ -6,7 +6,7 @@
 \description{
 This is the abstract base class for measures like \link{MeasureClassif} and \link{MeasureRegr}.
 
-Measures are classes around tailored around two functions:
+Measures are classes tailored around two functions:
 \enumerate{
 \item A function \verb{$score()} which quantifies the performance by comparing true and predicted response.
 \item A function \verb{$aggregator()} which combines multiple performance scores returned by
@@ -22,9 +22,24 @@ Many of the measures in \pkg{mlr3} are implemented in \CRANpkg{mlr3measures} as 
 A guide on how to extend \CRANpkg{mlr3} with custom measures can be found in the \href{https://mlr3book.mlr-org.com}{mlr3book}.
 }
 \seealso{
+\itemize{
+\item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
+\url{https://mlr3book.mlr-org.com/train-predict.html}
+\item Package \CRANpkg{mlr3measures} for the scoring functions.
+\link[mlr3misc:Dictionary]{Dictionary} of \link[=Measure]{Measures}: \link{mlr_measures}
+\code{as.data.table(mlr_measures)} for a table of available \link[=Measure]{Measures} in the running session (depending on the loaded packages).
+\item Extension packages for additional task types:
+\itemize{
+\item \CRANpkg{mlr3proba} for probabilistic supervised regression and survival analysis.
+\item \CRANpkg{mlr3cluster} for unsupervised clustering.
+}
+}
+
 Other Measure: 
 \code{\link{MeasureClassif}},
 \code{\link{MeasureRegr}},
+\code{\link{mlr_measures_aic}},
+\code{\link{mlr_measures_bic}},
 \code{\link{mlr_measures_classif.costs}},
 \code{\link{mlr_measures_debug}},
 \code{\link{mlr_measures_elapsed_time}},
@@ -45,6 +60,9 @@ Task type, e.g. \code{"classif"} or \code{"regr"}.
 
 For a complete list of possible task types (depending on the loaded packages),
 see \code{\link[=mlr_reflections]{mlr_reflections$task_types$type}}.}
+
+\item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
+Set of hyperparameters.}
 
 \item{\code{predict_type}}{(\code{character(1)})\cr
 Required predict type of the \link{Learner}.}
@@ -124,6 +142,7 @@ Note that this object is typically constructed via a derived classes, e.g. \link
 \if{html}{\out{<div class="r">}}\preformatted{Measure$new(
   id,
   task_type = NA,
+  param_set = ps(),
   range = c(-Inf, Inf),
   minimize = NA,
   average = "macro",
@@ -146,6 +165,9 @@ Identifier for the new instance.}
 \item{\code{task_type}}{(\code{character(1)})\cr
 Type of task, e.g. \code{"regr"} or \code{"classif"}.
 Must be an element of \link[=mlr_reflections]{mlr_reflections$task_types$type}.}
+
+\item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
+Set of hyperparameters.}
 
 \item{\code{range}}{(\code{numeric(2)})\cr
 Feasible range for this measure as \code{c(lower_bound, upper_bound)}.

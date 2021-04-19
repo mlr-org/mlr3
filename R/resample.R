@@ -32,6 +32,7 @@
 #' The fitted models are discarded after the predictions have been computed in order to reduce memory consumption.
 #' If you need access to the models for later analysis, set `store_models` to `TRUE`.
 #'
+#' @template seealso_resample
 #' @export
 #' @examples
 #' task = tsk("penguins")
@@ -75,14 +76,24 @@ resample = function(task, learner, resampling, store_models = FALSE, store_backe
   n = instance$iters
   pb = get_progressor(n)
 
-  lg$debug("Running resample() via future with %i iterations", n)
 
-  res = future.apply::future_lapply(seq_len(n), workhorse,
-    task = task, learner = learner, resampling = instance,
-    store_models = store_models, lgr_threshold = lg$threshold, pb = pb,
-    future.globals = FALSE, future.scheduling = structure(TRUE, ordering = "random"),
-    future.packages = "mlr3", future.seed = TRUE
-  )
+  if (getOption("mlr3.debug", FALSE)) {
+    lg$info("Running resample() sequentially in debug mode with %i iterations", n)
+
+    res = lapply(seq_len(n), workhorse,
+      task = task, learner = learner, resampling = instance,
+      store_models = store_models, lgr_threshold = lg$threshold, pb = pb
+    )
+  } else {
+    lg$debug("Running resample() via future with %i iterations", n)
+
+    res = future.apply::future_lapply(seq_len(n), workhorse,
+      task = task, learner = learner, resampling = instance,
+      store_models = store_models, lgr_threshold = lg$threshold, pb = pb,
+      future.globals = FALSE, future.scheduling = structure(TRUE, ordering = "random"),
+      future.packages = "mlr3", future.seed = TRUE
+    )
+  }
 
   data = data.table(
     task = list(task),

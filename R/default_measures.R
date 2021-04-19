@@ -1,4 +1,4 @@
-#' @title Get a Default Measure
+#' @title Get the Default Measure
 #'
 #' @description
 #' Gets the default measures using the information in [mlr_reflections$default_measures][mlr_reflections]:

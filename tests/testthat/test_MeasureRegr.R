@@ -1,5 +1,5 @@
 test_that("Regression measures", {
-  keys = setdiff(mlr_measures$keys(), "oob_error")
+  keys = setdiff(mlr_measures$keys(), c("oob_error", "aic", "bic"))
   task = tsk("boston_housing")
   learner = lrn("regr.rpart")
   learner$train(task)

@@ -23,9 +23,9 @@ TaskGeneratorXor = R6Class("TaskGeneratorXor",
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
-      ps = ParamSet$new(list(
-        ParamInt$new("d", lower = 1L, default = 1L)
-      ))
+      ps = ps(
+        d = p_int(1L, default = 1L)
+      )
 
       super$initialize(id = "xor", "classif", "mlbench", ps, man = "mlr3::mlr_task_generators_xor")
     },

@@ -39,9 +39,9 @@ ResamplingCV = R6Class("ResamplingCV", inherit = Resampling,
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
-      ps = ParamSet$new(list(
-        ParamInt$new("folds", lower = 2L, tags = "required")
-      ))
+      ps = ps(
+        folds = p_int(2L, tags = "required")
+      )
       ps$values = list(folds = 10L)
 
       super$initialize(id = "cv", param_set = ps, man = "mlr3::mlr_resamplings_cv")

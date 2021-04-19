@@ -7,7 +7,7 @@
 #' the predicted response and standard error.
 #' Additionally, probability distributions implemented in \CRANpkg{distr6} are supported.
 #'
-#' @family Prediction
+#' @template seealso_prediction
 #' @export
 #' @examples
 #' task = tsk("boston_housing")
@@ -92,7 +92,6 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
 #' @export
 as.data.table.PredictionRegr = function(x, ...) { # nolint
   tab = as.data.table(x$data[c("row_ids", "truth", "response", "se")])
-  setnames(tab, "row_ids", "row_id")
 
   if ("distr" %in% x$predict_types) {
     require_namespaces("distr6")

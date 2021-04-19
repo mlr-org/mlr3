@@ -17,10 +17,8 @@ learner_train = function(learner, task, row_ids = NULL) {
     model
   }
 
-
   assert_task(task)
   assert_learner(learner)
-  assert_learnable(task, learner)
 
   # subset to train set w/o cloning
   if (!is.null(row_ids)) {
@@ -104,7 +102,6 @@ learner_predict = function(learner, task, row_ids = NULL) {
 
   assert_task(task)
   assert_learner(learner)
-  assert_learnable(task, learner)
 
   # subset to test set w/o cloning
   if (!is.null(row_ids)) {
@@ -175,7 +172,7 @@ learner_predict = function(learner, task, row_ids = NULL) {
     } else {
       miss_ids = is_missing_prediction_data(prediction)
 
-      lg$debug("Imputing %i%i predictions using fallback '%s'",
+      lg$debug("Imputing %i/%i predictions using fallback '%s'",
         length(miss_ids), length(prediction$row_ids), fb$id,  learner = fb$clone())
 
       if (length(miss_ids)) {

@@ -19,13 +19,13 @@ generate_generic_tasks = function(learner, proto) {
     # individual tasks with each supported feature type
     for (ftype in learner$feature_types) {
       sel = proto$feature_types[ftype, "id", on = "type", with = FALSE][[1L]]
-      tasks[[sprintf("feat_single_%s", ftype)]] = proto$clone()$select(sel)
+      tasks[[sprintf("feat_single_%s", ftype)]] = proto$clone(deep = TRUE)$select(sel)
     }
   }
 
   # task with all supported features types
   sel = proto$feature_types[list(learner$feature_types), "id", on = "type", with = FALSE][[1L]]
-  tasks$feat_all = proto$clone()$select(sel)
+  tasks$feat_all = proto$clone(deep = TRUE)$select(sel)
 
   # task with missing values
   if ("missings" %in% learner$properties) {
@@ -35,23 +35,30 @@ generate_generic_tasks = function(learner, proto) {
     data = proto$data(cols = features)
     for (j in seq_along(features))
       data.table::set(data, rows[j], features[j], NA)
-    tasks$missings = proto$clone()$select(character())$cbind(data)
+    tasks$missings = proto$clone(deep = TRUE)$select(character())$cbind(data)
 
     # no row with no missing -> complete.cases() won't help
     features = sample(features, proto$nrow, replace = TRUE)
     data = proto$data(cols = proto$feature_names)
     for (i in seq_along(features))
       data.table::set(data, i = i, j = features[i], NA)
-    tasks$missings_each_row = proto$clone()$select(character())$cbind(data)
+    tasks$missings_each_row = proto$clone(deep = TRUE)$select(character())$cbind(data)
   }
 
   # task with weights
   if ("weights" %in% learner$properties) {
-    tmp = proto$clone()$cbind(data.frame(weights = runif(proto$nrow)))
+    tmp = proto$clone(deep = TRUE)$cbind(data.frame(weights = runif(proto$nrow)))
     tmp$col_roles$weight = "weights"
     tmp$col_roles$features = setdiff(tmp$col_roles$features, "weights")
     tasks$weights = tmp
   }
+
+  # task with non-ascii feature names
+  # sel = proto$feature_types[list(learner$feature_types), "id", on = "type", with = FALSE][[1L]]
+  # tasks$utf8_feature_names = proto$clone(deep = TRUE)$select(sel)
+  # old = sel[1L]
+  # new = "äü + öß"
+  # tasks$utf8_feature_names$rename(old, new)
 
   # make sure that task ids match list names
   mlr3misc::imap(tasks, function(x, n) {
@@ -208,7 +215,6 @@ run_experiment = function(task, learner, seed = NULL) {
 
   task = mlr3::assert_task(mlr3::as_task(task))
   learner = mlr3::assert_learner(mlr3::as_learner(learner, clone = TRUE))
-  mlr3::assert_learnable(task, learner)
   prediction = NULL
   score = NULL
   learner$encapsulate = c(train = "evaluate", predict = "evaluate")

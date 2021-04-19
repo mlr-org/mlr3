@@ -212,12 +212,13 @@ expect_task = function(task, null_backend_ok = TRUE) {
     checkmate::expect_data_table(task$head(1), nrows = 1L)
   }
 
-  cols = c("id", "type", "levels")
+  cols = c("id", "type", "levels", "label")
   checkmate::expect_data_table(task$col_info, key = "id", ncols  = length(cols))
   checkmate::expect_names(names(task$col_info), permutation.of = cols)
   expect_id(task$col_info$id)
   checkmate::expect_subset(task$col_info$type, mlr3::mlr_reflections$task_feature_types)
   checkmate::expect_list(task$col_info$levels)
+  checkmate::expect_character(task$col_info$label)
 
   checkmate::expect_list(task$col_roles, names = "unique", any.missing = FALSE)
   checkmate::expect_names(names(task$col_roles), permutation.of = mlr3::mlr_reflections$task_col_roles[[task$task_type]])
@@ -446,6 +447,8 @@ expect_prediction_classif = function(p, task = NULL) {
   lvls = if (is.null(task)) levels(p$truth) else task$class_names
   checkmate::expect_factor(p$truth, len = n, levels = lvls, null.ok = TRUE)
   checkmate::expect_factor(p$response, len = n, levels = lvls, null.ok = TRUE)
+  testthat::expect_identical(levels(p$truth), lvls)
+  testthat::expect_identical(levels(p$response), lvls)
   if ("prob" %in% p$predict_types) {
     checkmate::expect_matrix(p$prob, "numeric", any.missing = FALSE, ncols = nlevels(p$response), nrows = n)
     testthat::expect_identical(colnames(p$prob), lvls)

@@ -40,9 +40,9 @@ ResamplingHoldout = R6Class("ResamplingHoldout", inherit = Resampling,
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
-      ps = ParamSet$new(list(
-        ParamDbl$new("ratio", lower = 0, upper = 1, tags = "required")
-      ))
+      ps = ps(
+        ratio = p_dbl(0, 1, tags = "required")
+      )
       ps$values = list(ratio = 2 / 3)
 
       super$initialize(id = "holdout", param_set = ps, man = "mlr3::mlr_resamplings_holdout")

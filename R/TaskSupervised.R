@@ -14,7 +14,7 @@
 #' @template param_rows
 #' @template param_extra_args
 #'
-#' @family Task
+#' @template seealso_task
 #' @keywords internal
 #' @export
 #' @examples

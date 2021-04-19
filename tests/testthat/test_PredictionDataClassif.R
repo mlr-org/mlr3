@@ -14,3 +14,9 @@ test_that("PredictionDataClassif", {
   expect_prediction(as_prediction(pdata))
   expect_equal(as.data.table(p), as.data.table(as_prediction(pdata)))
 })
+
+test_that("row sums of prob sums up to 1 ", {
+  pdata = new_prediction_data(list(row_ids = 1:2, truth = factor(c("a", "b")),
+      response = c("a", "b"), prob = matrix(c(0.5, 0.5, 0.5, 1), 2)), "classif")
+  expect_error(check_prediction_data(pdata), "sum up")
+})

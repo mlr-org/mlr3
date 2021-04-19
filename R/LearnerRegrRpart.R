@@ -27,18 +27,18 @@ LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
-      ps = ParamSet$new(list(
-        ParamInt$new(id = "minsplit", default = 20L, lower = 1L, tags = "train"),
-        ParamInt$new(id = "minbucket", lower = 1L, tags = "train"),
-        ParamDbl$new(id = "cp", default = 0.01, lower = 0, upper = 1, tags = "train"),
-        ParamInt$new(id = "maxcompete", default = 4L, lower = 0L, tags = "train"),
-        ParamInt$new(id = "maxsurrogate", default = 5L, lower = 0L, tags = "train"),
-        ParamInt$new(id = "maxdepth", default = 30L, lower = 1L, upper = 30L, tags = "train"),
-        ParamInt$new(id = "usesurrogate", default = 2L, lower = 0L, upper = 2L, tags = "train"),
-        ParamInt$new(id = "surrogatestyle", default = 0L, lower = 0L, upper = 1L, tags = "train"),
-        ParamInt$new(id = "xval", default = 10L, lower = 0L, tags = "train"),
-        ParamLgl$new(id = "keep_model", default = FALSE, tags = "train")
-      ))
+      ps = ps(
+        cp             = p_dbl(0, 1, default = 0.01, tags = "train"),
+        keep_model     = p_lgl(default = FALSE, tags = "train"),
+        maxcompete     = p_int(0L, default = 4L, tags = "train"),
+        maxdepth       = p_int(1L, 30L, default = 30L, tags = "train"),
+        maxsurrogate   = p_int(0L, default = 5L, tags = "train"),
+        minbucket      = p_int(1L, tags = "train"),
+        minsplit       = p_int(1L, default = 20L, tags = "train"),
+        surrogatestyle = p_int(0L, 1L, default = 0L, tags = "train"),
+        usesurrogate   = p_int(0L, 2L, default = 2L, tags = "train"),
+        xval           = p_int(0L, default = 10L, tags = "train")
+      )
       ps$values = list(xval = 0L)
 
       super$initialize(

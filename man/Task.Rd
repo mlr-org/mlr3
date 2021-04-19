@@ -65,6 +65,21 @@ task$cbind(data.frame(foo = 1:344))
 task$head()
 }
 \seealso{
+\itemize{
+\item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
+\url{https://mlr3book.mlr-org.com/tasks.html}
+\item Package \CRANpkg{mlr3data} for more toy tasks.
+\item Package \CRANpkg{mlr3oml} for downloading tasks from \url{https://openml.org}.
+\item Package \CRANpkg{mlr3viz} for some generic visualizations.
+\item \link[mlr3misc:Dictionary]{Dictionary} of \link[=Task]{Tasks}: \link{mlr_tasks}
+\item \code{as.data.table(mlr_tasks)} for a table of available \link[=Task]{Tasks} in the running session (depending on the loaded packages).
+\item Extension packages for additional task types:
+\itemize{
+\item \CRANpkg{mlr3proba} for probabilistic supervised regression and survival analysis.
+\item \CRANpkg{mlr3cluster} for unsupervised clustering.
+}
+}
+
 Other Task: 
 \code{\link{TaskClassif}},
 \code{\link{TaskRegr}},
@@ -101,12 +116,13 @@ see \code{\link[=mlr_reflections]{mlr_reflections$task_types$type}}.}
 Abstract interface to the data of the task.}
 
 \item{\code{col_info}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
-Table with with 3 columns:
+Table with with 4 columns:
 \itemize{
 \item \code{"id"} (\code{character()}) stores the name of the column.
 \item \code{"type"} (\code{character()}) holds the storage type of the variable, e.g. \code{integer}, \code{numeric} or \code{character}.
 See \link[=mlr_reflections]{mlr_reflections$task_feature_types} for a complete list of allowed types.
 \item \code{"levels"} stores a vector of distinct values (levels) for ordered and unordered factor variables.
+\item \code{"label"} stores a character vector of prettier, formated column names.
 }}
 
 \item{\code{man}}{(\code{character(1)})\cr
@@ -181,7 +197,6 @@ For each resampling iteration, observations of the same group will be exclusivel
 Note that only up to one column may have this role.
 \item \code{"stratum"}: Stratification variables. Multiple discrete columns may have this role.
 \item \code{"weight"}: Observation weights. Only up to one column (assumed to be discrete) may have this role.
-\item \code{"uri"}: URI pointing to an external resource, e.g., images on the file system.
 }
 
 \code{col_roles} is a named list whose elements are named by column role and each element is a \code{character()} vector of column names.
@@ -238,15 +253,6 @@ If the task has a column with designated role \code{"weight"}, a table with two 
 }
 
 Returns \code{NULL} if there are is no weight column.}
-
-\item{\code{uris}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
-If the task has a column with designated role \code{"uri"}, a table with two columns:
-\itemize{
-\item \code{row_id} (\code{integer()}), and
-\item \code{uri} (\code{character()}).
-}
-
-Returns \code{NULL} if there are is no uri column.}
 }
 \if{html}{\out{</div>}}
 }
@@ -271,6 +277,7 @@ Returns \code{NULL} if there are is no uri column.}
 \item \href{#method-set_col_roles}{\code{Task$set_col_roles()}}
 \item \href{#method-droplevels}{\code{Task$droplevels()}}
 \item \href{#method-add_strata}{\code{Task$add_strata()}}
+\item \href{#method-label}{\code{Task$label()}}
 \item \href{#method-clone}{\code{Task$clone()}}
 }
 }
@@ -739,6 +746,32 @@ Replicated to have the same length as \code{cols}.}
 }
 \subsection{Returns}{
 self (invisibly).
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-label"></a>}}
+\if{latex}{\out{\hypertarget{method-label}{}}}
+\subsection{Method \code{label()}}{
+Assigns \code{labels} (prettier formated names) to columns \code{cols}.
+Internally updates the column \code{label} of the table in field \code{col_info} by reference.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Task$label(cols, labels)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{cols}}{(\code{character()})\cr
+Column identifiers to label.}
+
+\item{\code{labels}}{(\code{character()})\cr
+New labels. Will be repeated to match the length of \code{cols}.
+Set to \code{NA} to remove a label.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Modified \code{self}.
 }
 }
 \if{html}{\out{<hr>}}

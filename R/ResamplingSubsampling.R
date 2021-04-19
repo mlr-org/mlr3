@@ -42,10 +42,10 @@ ResamplingSubsampling = R6Class("ResamplingSubsampling", inherit = Resampling,
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
-      ps = ParamSet$new(list(
-        ParamInt$new("repeats", lower = 1, tags = "required"),
-        ParamDbl$new("ratio", lower = 0, upper = 1, tags = "required")
-      ))
+      ps = ps(
+        ratio   = p_dbl(0, 1, tags = "required"),
+        repeats = p_int(1, tags = "required")
+      )
       ps$values = list(repeats = 30L, ratio = 2 / 3)
 
       super$initialize(id = "subsampling", param_set = ps, man = "mlr3::mlr_resamplings_subsampling")

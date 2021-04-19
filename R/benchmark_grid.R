@@ -12,12 +12,32 @@
 #' @param resamplings (list of [Resampling]).
 #'
 #' @return ([data.table::data.table()]) with the cross product of the input vectors.
+#'
+#' @template seealso_benchmark
 #' @export
 #' @examples
 #' tasks = list(tsk("penguins"), tsk("sonar"))
 #' learners = list(lrn("classif.featureless"), lrn("classif.rpart"))
 #' resamplings = list(rsmp("cv"), rsmp("subsampling"))
-#' benchmark_grid(tasks, learners, resamplings)
+#'
+#' grid = benchmark_grid(tasks, learners, resamplings)
+#' print(grid)
+#' \dontrun{
+#' benchmark(grid)
+#' }
+#'
+#' # manual construction of the grid with data.table::CJ()
+#' grid = data.table::CJ(task = tasks, learner = learners,
+#'   resampling = resamplings, sorted = FALSE)
+#'
+#' # manual instantiation (not suited for a fair comparison of learners!)
+#' Map(function(task, resampling) {
+#'    resampling$instantiate(task)
+#' }, task = grid$task, resampling = grid$resampling)
+#'
+#' \dontrun{
+#' benchmark(grid)
+#' }
 benchmark_grid = function(tasks, learners, resamplings) {
   tasks = assert_tasks(as_tasks(tasks))
   learners = assert_learners(as_learners(learners))

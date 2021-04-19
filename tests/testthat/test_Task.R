@@ -220,17 +220,6 @@ test_that("stratify works", {
   expect_list(tab$row_id, "integer")
 })
 
-test_that("$uris works", {
-  data = cbind(iris, uri = as.character(1:150))
-  task = TaskClassif$new("uri_test", data, target = "Species")
-  expect_null(task$uris)
-
-  task$set_col_roles("uri", "uri")
-  tab = task$uris
-  expect_data_table(tab, ncols = 2, nrows = 150)
-  expect_names(names(tab), permutation.of = c("row_id", "uri"))
-})
-
 test_that("groups/weights work", {
   b = as_data_backend(data.table(x = runif(20), y = runif(20), w = runif(20), g = sample(letters[1:2], 20, replace = TRUE)))
   task = TaskRegr$new("test", b, target = "y")
@@ -305,7 +294,7 @@ test_that("task$droplevels works", {
 test_that("task$missings() works", {
   task = tsk("pima")
   x = task$missings()
-  y = map_int(task$data(), function(x) sum(is.na(x)))
+  y = map_int(task$data(), count_missing)
   expect_equal(x, y[match(names(x), names(y))])
 })
 
@@ -403,4 +392,31 @@ test_that("$add_strata", {
   task = tsk("mtcars")
   task$add_strata(c("mpg", "am"), bins = c(2, 5))
   expect_set_equal(task$col_roles$stratum, c("..stratum_mpg", "..stratum_am"))
+})
+
+test_that("column labels", {
+  task = tsk("iris")
+  expect_character(task$col_info$label)
+
+  labels = c("pl", "pw", "sl", "sw", "species")
+  task$col_info$label = c(NA, labels)
+
+  task$rbind(iris[1,, drop = FALSE])
+  expect_names(na.omit(task$col_info$label), permutation.of = labels)
+
+  task$cbind(data.frame(foo = 1:151))
+  task$col_info
+  expect_names(na.omit(task$col_info$label), permutation.of = labels)
+
+
+  task = tsk("iris")
+  task$label("Petal.Length", "pl")
+  expect_equal(task$col_info["Petal.Length", label], "pl")
+
+  task$label(c("Sepal.Length", "Sepal.Width"), c("sl", "sw"))
+  expect_equal(task$col_info["Sepal.Length", label], "sl")
+  expect_equal(task$col_info["Sepal.Width", label], "sw")
+
+  task$label("Petal.Length", NA)
+  expect_equal(task$col_info["Petal.Length", label], NA_character_)
 })

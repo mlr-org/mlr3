@@ -9,7 +9,7 @@ DataBackendRename = R6Class("DataBackendRename", inherit = DataBackend, cloneabl
       assert_character(old, any.missing = FALSE, unique = TRUE)
       assert_subset(old, b$colnames)
       assert_character(new, any.missing = FALSE, len = length(old))
-      assert_names(new, "strict")
+      assert_names(new, if (allow_utf8_names()) "unique" else "strict")
 
       ii = old != new
       self$old = old[ii]

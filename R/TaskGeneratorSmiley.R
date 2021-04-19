@@ -23,10 +23,10 @@ TaskGeneratorSmiley = R6Class("TaskGeneratorSmiley",
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
-      ps = ParamSet$new(list(
-        ParamDbl$new("sd1", lower = 0L),
-        ParamDbl$new("sd2", lower = 0L)
-      ))
+      ps = ps(
+        sd1 = p_dbl(0L),
+        sd2 = p_dbl(0L)
+      )
 
       super$initialize(id = "smiley", "classif", "mlbench", ps, man = "mlr3::mlr_task_generators_smiley")
     },

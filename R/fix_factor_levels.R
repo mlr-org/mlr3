@@ -13,3 +13,12 @@ fix_factor_levels.data.table = function(data, levels, ...) { # nolint
   })
   data[]
 }
+
+#' @export
+fix_factor_levels.Matrix = function(data, levels, ...) { # nolint
+  levels = levels[intersect(names(levels), names(data))]
+  if (length(levels)) {
+    stop("Factor handling in Matrix data is not supported")
+  }
+  data
+}

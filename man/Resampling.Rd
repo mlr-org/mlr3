@@ -77,20 +77,13 @@ r$instantiate(task)
 prop.table(table(task$truth(r$train_set(1)))) # roughly same proportion
 }
 \seealso{
-\link[mlr3misc:Dictionary]{Dictionary} of \link[=Resampling]{Resamplings}: \link{mlr_resamplings}
-
-\code{as.data.table(mlr_resamplings)} for a complete table of all (also dynamically created) \link{Resampling} implementations.
-
-Other Resampling: 
-\code{\link{mlr_resamplings_bootstrap}},
-\code{\link{mlr_resamplings_custom}},
-\code{\link{mlr_resamplings_cv}},
-\code{\link{mlr_resamplings_holdout}},
-\code{\link{mlr_resamplings_insample}},
-\code{\link{mlr_resamplings_loo}},
-\code{\link{mlr_resamplings_repeated_cv}},
-\code{\link{mlr_resamplings_subsampling}},
-\code{\link{mlr_resamplings}}
+\itemize{
+\item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
+\url{https://mlr3book.mlr-org.com/resampling.html}
+\item Package \CRANpkg{mlr3spatiotempcv} for spatio-temporal resamplings.
+\item \link[mlr3misc:Dictionary]{Dictionary} of \link[=Resampling]{Resamplings}: \link{mlr_resamplings}
+\item \code{as.data.table(mlr_resamplings)} for a table of available \link[=Resampling]{Resamplings} in the running session (depending on the loaded packages).
+}
 
 Other Resampling: 
 \code{\link{mlr_resamplings_bootstrap}},
@@ -171,7 +164,7 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Resampling$new(
   id,
-  param_set = ParamSet$new(),
+  param_set = ps(),
   duplicated_ids = FALSE,
   man = NA_character_
 )}\if{html}{\out{</div>}}

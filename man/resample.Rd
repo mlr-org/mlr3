@@ -109,3 +109,11 @@ bmr1 = as_benchmark_result(rr)
 bmr2 = as_benchmark_result(rr_featureless)
 print(bmr1$combine(bmr2))
 }
+\seealso{
+Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
+\url{https://mlr3book.mlr-org.com/resampling.html}
+
+Other resample: 
+\code{\link{ResampleResult}}
+}
+\concept{resample}

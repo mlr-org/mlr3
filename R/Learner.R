@@ -24,6 +24,9 @@
 #' More (experimental) learners can be found in the GitHub repository: \url{https://github.com/mlr-org/mlr3extralearners}.
 #' A guide on how to extend \CRANpkg{mlr3} with custom learners can be found in the [mlr3book](https://mlr3book.mlr-org.com).
 #'
+#' To combine the learner with preprocessing operations like factor encoding, \CRANpkg{mlr3pipelines} is recommended.
+#' Hyperparameters stored in the `param_set` can be tuned with \CRANpkg{mlr3tuning}.
+#'
 #' @template param_id
 #' @template param_task_type
 #' @template param_param_set
@@ -55,6 +58,9 @@
 #' * `oob_error(...)`: Returns the out-of-bag error of the model as `numeric(1)`.
 #'   The learner must be tagged with property `"oob_error"`.
 #'
+#' * `loglik(...)`: Extracts the log-likelihood (c.f. [stats::logLik()]).
+#'   This can be used in measures like [mlr_measures_aic] or [mlr_measures_bic].
+#'
 #'
 #' @section Setting Hyperparameters:
 #'
@@ -77,7 +83,7 @@
 #' lrn$param_set$add(paradox::ParamFct$new("foo", levels = c("a", "b")))
 #' ```
 #'
-#' @family Learner
+#' @template seealso_learner
 #' @export
 Learner = R6Class("Learner",
   public = list(
@@ -125,11 +131,13 @@ Learner = R6Class("Learner",
     #' This works differently for different encapsulation methods, see
     #' [mlr3misc::encapsulate()].
     #' Default is `c(train = Inf, predict = Inf)`.
+    #' Also see the section on error handling the mlr3book: \url{https://mlr3book.mlr-org.com/error-handling.html}
     timeout = c(train = Inf, predict = Inf),
 
     #' @field fallback ([Learner])\cr
     #' Learner which is fitted to impute predictions in case that either the model fitting or the prediction of the top learner is not successful.
     #' Requires you to enable encapsulation, otherwise errors are not caught and the execution is terminated before the fallback learner kicks in.
+    #' Also see the section on error handling the mlr3book: \url{https://mlr3book.mlr-org.com/error-handling.html}
     fallback = NULL,
 
     #' @template field_man
@@ -139,7 +147,7 @@ Learner = R6Class("Learner",
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #'
     #' Note that this object is typically constructed via a derived classes, e.g. [LearnerClassif] or [LearnerRegr].
-    initialize = function(id, task_type, param_set = ParamSet$new(), predict_types = character(), feature_types = character(),
+    initialize = function(id, task_type, param_set = ps(), predict_types = character(), feature_types = character(),
       properties = character(), data_formats = "data.table", packages = character(), man = NA_character_) {
 
       self$id = assert_string(id, min.chars = 1L)
@@ -228,7 +236,7 @@ Learner = R6Class("Learner",
     #' @return [Prediction].
     predict = function(task, row_ids = NULL) {
       task = assert_task(as_task(task))
-      assert_learnable(task, self)
+      assert_predictable(task, self)
       row_ids = assert_row_ids(row_ids, null.ok = TRUE)
 
       if (is.null(self$state$model) && is.null(self$state$fallback_state$model)) {
@@ -279,7 +287,7 @@ Learner = R6Class("Learner",
         # create list with correct NA types and insert it into the table newdata
         tab = task$col_info[list(impute), on = "id"]
         set(tab, j = "value", value = NA)
-        nas = set_names(pmap(tab, auto_convert), tab$id)
+        nas = set_names(pmap(tab[, !"label"], auto_convert), tab$id)
         newdata = insert_named(newdata, nas)
       }
 
