@@ -39,7 +39,7 @@ partition = function(task, ratio = 0.67, stratify = TRUE, ...) {
 
 
 #' @param bins (`integer(1)`)\cr
-#'   Number of bins to cut the target variable into.
+#'   Number of bins to cut the target variable into for stratification.
 #' @export
 #' @rdname partition
 partition.TaskRegr = function(task, ratio = 0.67, stratify = TRUE, bins = 3L, ...) { # nolint

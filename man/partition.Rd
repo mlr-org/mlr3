@@ -28,7 +28,7 @@ See \code{Task$add_strata()}.}
 Additional arguments, currently not used.}
 
 \item{bins}{(\code{integer(1)})\cr
-Number of bins to cut the target variable into.}
+Number of bins to cut the target variable into for stratification.}
 }
 \description{
 Creates a split of the row ids of a \link{Task} into a training set and a test set while

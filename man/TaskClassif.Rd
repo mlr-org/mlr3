@@ -5,7 +5,7 @@
 \title{Classification Task}
 \description{
 This task specializes \link{Task} and \link{TaskSupervised} for classification problems.
-The target column is assumed to be a factor.
+The target column is assumed to be a factor or ordered factor.
 The \code{task_type} is set to \code{"classif"}.
 
 Additional task properties include:
