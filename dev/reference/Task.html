@@ -411,6 +411,7 @@ If the task has a column with designated role <code>"weight"</code>, a table wit
 <li><p><a href='#method-set_row_roles'><code>Task$set_row_roles()</code></a></p></li>
 <li><p><a href='#method-set_col_roles'><code>Task$set_col_roles()</code></a></p></li>
 <li><p><a href='#method-droplevels'><code>Task$droplevels()</code></a></p></li>
+<li><p><a href='#method-add_strata'><code>Task$add_strata()</code></a></p></li>
 <li><p><a href='#method-label'><code>Task$label()</code></a></p></li>
 <li><p><a href='#method-clone'><code>Task$clone()</code></a></p></li>
 </ul>
@@ -714,6 +715,26 @@ Column names.</p></dd>
 </dl><p></div></p>
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
 <p>Modified <code>self</code>.</p>
+<p><hr>
+<a id="method-add_strata"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>add_strata()</code></h3>
+<p>Cuts numeric variables into new factors columns which are added to the task with role
+<code>"stratum"</code>.
+This ensures that all training and test splits contain observations from all bins.
+The columns are named <code>"..stratum_[col_name]"</code>.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>Task</span><span class='op'>$</span><span class='fu'>add_strata</span><span class='op'>(</span><span class='va'>cols</span>, bins <span class='op'>=</span> <span class='fl'>3L</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>cols</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
+Names of columns to operate on.</p></dd>
+
+<dt><code>bins</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code>)<br />
+Number of bins to cut into (passed to <code><a href='https://rdrr.io/r/base/cut.html'>cut()</a></code> as <code>breaks</code>).
+Replicated to have the same length as <code>cols</code>.</p></dd>
+
+</dl><p></div></p>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
+<p>self (invisibly).</p>
 <p><hr>
 <a id="method-label"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>label()</code></h3>
 <p>Assigns <code>labels</code> (prettier formated names) to columns <code>cols</code>.
