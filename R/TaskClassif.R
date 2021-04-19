@@ -4,7 +4,7 @@
 #'
 #' @description
 #' This task specializes [Task] and [TaskSupervised] for classification problems.
-#' The target column is assumed to be a factor.
+#' The target column is assumed to be a factor or ordered factor.
 #' The `task_type` is set to `"classif"`.
 #'
 #' Additional task properties include:
@@ -137,9 +137,14 @@ TaskClassif = R6Class("TaskClassif",
 
   private = list(
     .update_class_property = function() {
+      tn = self$target_names
+      if (fget(self$col_info, tn, "type", key = "id") %nin% c("factor", "ordered")) {
+        stopf("Target column '%s' must be a factor or ordered factor", tn)
+      }
+
       nlvls = length(self$class_names)
       if (nlvls < 2L) {
-        stopf("Target column '%s' must have at least two levels", self$target_names)
+        stopf("Target column '%s' must have at least two levels", tn)
       }
 
       private$.properties = setdiff(private$.properties, c("twoclass", "multiclass"))
