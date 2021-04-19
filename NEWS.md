@@ -1,6 +1,9 @@
 # mlr3 0.11.0-9000
 
-* New option to label columns in `Task` via method `label()`.
+* New method to label columns in tasks: `Task$label()`.
+* New method to add stratification variables: `Task$add_strata()`.
+* New helper function `partition()` to split a task into a training and test
+  set.
 * New standardized getter `loglik()` for class `Learner`.
 * New measures `"aic"` and `"bic"` to compute the Akaike Information Criterion
   or the Bayesian Information Criterion, respectively.
