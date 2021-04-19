@@ -556,6 +556,36 @@ Task = R6Class("Task",
       invisible(self)
     },
 
+
+    #' @description
+    #' Cuts numeric variables into new factors columns which are added to the task with role
+    #' `"stratum"`.
+    #' This ensures that all training and test splits contain observations from all bins.
+    #' The columns are named `"..stratum_[col_name]"`.
+    #'
+    #' @param cols (`character()`)\cr
+    #'   Names of columns to operate on.
+    #' @param bins (`integer()`)\cr
+    #'   Number of bins to cut into (passed to [cut()] as `breaks`).
+    #'   Replicated to have the same length as `cols`.
+    #' @return self (invisibly).
+    add_strata = function(cols, bins = 3L) {
+      assert_names(cols, "unique", subset.of = self$backend$colnames)
+      bins = assert_integerish(bins, any.missing = FALSE, coerce = TRUE)
+
+      col_types = fget(self$col_info, i = cols, j = "type", key = "id")
+      ii = wf(col_types %nin% c("integer", "numeric"))
+      if (length(ii)) {
+        stopf("For `add_strata`, all columns must be numeric, but '%s' is not", cols[ii])
+      }
+
+      strata = pmap_dtc(list(self$data(cols = cols), bins), cut, include.lowest = TRUE)
+      setnames(strata, sprintf("..stratum_%s", cols))
+      self$cbind(strata)
+      self$set_col_roles(names(strata), role = "stratum")
+    },
+
+
     #' @description
     #' Assigns `labels` (prettier formated names) to columns `cols`.
     #' Internally updates the column `label` of the table in field `col_info` by reference.

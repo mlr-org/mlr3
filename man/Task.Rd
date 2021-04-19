@@ -276,6 +276,7 @@ Returns \code{NULL} if there are is no weight column.}
 \item \href{#method-set_row_roles}{\code{Task$set_row_roles()}}
 \item \href{#method-set_col_roles}{\code{Task$set_col_roles()}}
 \item \href{#method-droplevels}{\code{Task$droplevels()}}
+\item \href{#method-add_strata}{\code{Task$add_strata()}}
 \item \href{#method-label}{\code{Task$label()}}
 \item \href{#method-clone}{\code{Task$clone()}}
 }
@@ -717,6 +718,34 @@ Column names.}
 }
 \subsection{Returns}{
 Modified \code{self}.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-add_strata"></a>}}
+\if{latex}{\out{\hypertarget{method-add_strata}{}}}
+\subsection{Method \code{add_strata()}}{
+Cuts numeric variables into new factors columns which are added to the task with role
+\code{"stratum"}.
+This ensures that all training and test splits contain observations from all bins.
+The columns are named \code{"..stratum_[col_name]"}.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Task$add_strata(cols, bins = 3L)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{cols}}{(\code{character()})\cr
+Names of columns to operate on.}
+
+\item{\code{bins}}{(\code{integer()})\cr
+Number of bins to cut into (passed to \code{\link[=cut]{cut()}} as \code{breaks}).
+Replicated to have the same length as \code{cols}.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+self (invisibly).
 }
 }
 \if{html}{\out{<hr>}}

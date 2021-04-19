@@ -8,6 +8,7 @@
 \alias{assert_learner}
 \alias{assert_learners}
 \alias{assert_learnable}
+\alias{assert_predictable}
 \alias{assert_measure}
 \alias{assert_measures}
 \alias{assert_resampling}
@@ -51,6 +52,8 @@ assert_learners(
 )
 
 assert_learnable(task, learner)
+
+assert_predictable(task, learner)
 
 assert_measure(
   measure,

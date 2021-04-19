@@ -190,6 +190,7 @@ Collate:
     'fix_factor_levels.R'
     'helper.R'
     'mlr_sugar.R'
+    'partition.R'
     'predict.R'
     'reexports.R'
     'resample.R'

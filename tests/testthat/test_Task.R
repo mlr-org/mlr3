@@ -378,6 +378,22 @@ test_that("Task$set_col_roles", {
   expect_null(task$weights)
 })
 
+test_that("$add_strata", {
+  task = tsk("mtcars")
+  expect_equal(task$col_roles$stratum, character())
+
+  task$add_strata("mpg", bins = 5)
+  expect_set_equal(task$col_roles$stratum, "..stratum_mpg")
+  expect_data_table(task$strata, nrows = 5)
+
+  task$add_strata("am", bins = 3)
+  expect_set_equal(task$col_roles$stratum, c("..stratum_mpg", "..stratum_am"))
+
+  task = tsk("mtcars")
+  task$add_strata(c("mpg", "am"), bins = c(2, 5))
+  expect_set_equal(task$col_roles$stratum, c("..stratum_mpg", "..stratum_am"))
+})
+
 test_that("column labels", {
   task = tsk("iris")
   expect_character(task$col_info$label)
