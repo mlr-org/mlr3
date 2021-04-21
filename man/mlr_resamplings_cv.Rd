@@ -28,16 +28,18 @@ task = tsk("penguins")
 task$filter(1:10)
 
 # Instantiate Resampling
-rcv = rsmp("cv", folds = 3)
-rcv$instantiate(task)
+cv = rsmp("cv", folds = 3)
+cv$instantiate(task)
 
 # Individual sets:
-rcv$train_set(1)
-rcv$test_set(1)
-intersect(rcv$train_set(1), rcv$test_set(1))
+cv$train_set(1)
+cv$test_set(1)
+
+# Disjunct sets:
+intersect(cv$train_set(1), cv$test_set(1))
 
 # Internal storage:
-rcv$instance # table
+cv$instance # table
 }
 \references{
 Bischl B, Mersmann O, Trautmann H, Weihs C (2012).
@@ -57,6 +59,7 @@ Bischl B, Mersmann O, Trautmann H, Weihs C (2012).
 Other Resampling: 
 \code{\link{Resampling}},
 \code{\link{mlr_resamplings_bootstrap}},
+\code{\link{mlr_resamplings_custom_cv}},
 \code{\link{mlr_resamplings_custom}},
 \code{\link{mlr_resamplings_holdout}},
 \code{\link{mlr_resamplings_insample}},

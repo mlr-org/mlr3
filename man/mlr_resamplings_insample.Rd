@@ -20,14 +20,14 @@ task = tsk("penguins")
 task$filter(1:10)
 
 # Instantiate Resampling
-rins = rsmp("insample")
-rins$instantiate(task)
+insample = rsmp("insample")
+insample$instantiate(task)
 
-rins$train_set(1)
-rins$test_set(1)
+# Train set equal to test set:
+setequal(insample$train_set(1), insample$test_set(1))
 
 # Internal storage:
-rins$instance # just row ids
+insample$instance # just row ids
 }
 \seealso{
 \itemize{
@@ -41,6 +41,7 @@ rins$instance # just row ids
 Other Resampling: 
 \code{\link{Resampling}},
 \code{\link{mlr_resamplings_bootstrap}},
+\code{\link{mlr_resamplings_custom_cv}},
 \code{\link{mlr_resamplings_custom}},
 \code{\link{mlr_resamplings_cv}},
 \code{\link{mlr_resamplings_holdout}},

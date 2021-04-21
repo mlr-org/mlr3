@@ -24,16 +24,18 @@
 #' task$filter(1:10)
 #'
 #' # Instantiate Resampling
-#' rcv = rsmp("cv", folds = 3)
-#' rcv$instantiate(task)
+#' cv = rsmp("cv", folds = 3)
+#' cv$instantiate(task)
 #'
 #' # Individual sets:
-#' rcv$train_set(1)
-#' rcv$test_set(1)
-#' intersect(rcv$train_set(1), rcv$test_set(1))
+#' cv$train_set(1)
+#' cv$test_set(1)
+#'
+#' # Disjunct sets:
+#' intersect(cv$train_set(1), cv$test_set(1))
 #'
 #' # Internal storage:
-#' rcv$instance # table
+#' cv$instance # table
 ResamplingCV = R6Class("ResamplingCV", inherit = Resampling,
   public = list(
     #' @description

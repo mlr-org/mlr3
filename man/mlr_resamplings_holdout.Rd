@@ -29,16 +29,18 @@ task = tsk("penguins")
 task$filter(1:10)
 
 # Instantiate Resampling
-rho = rsmp("holdout", ratio = 0.5)
-rho$instantiate(task)
+holdout = rsmp("holdout", ratio = 0.5)
+holdout$instantiate(task)
 
 # Individual sets:
-rho$train_set(1)
-rho$test_set(1)
-intersect(rho$train_set(1), rho$test_set(1))
+holdout$train_set(1)
+holdout$test_set(1)
+
+# Disjunct sets:
+intersect(holdout$train_set(1), holdout$test_set(1))
 
 # Internal storage:
-rho$instance # simple list
+holdout$instance # simple list
 }
 \references{
 Bischl B, Mersmann O, Trautmann H, Weihs C (2012).
@@ -58,6 +60,7 @@ Bischl B, Mersmann O, Trautmann H, Weihs C (2012).
 Other Resampling: 
 \code{\link{Resampling}},
 \code{\link{mlr_resamplings_bootstrap}},
+\code{\link{mlr_resamplings_custom_cv}},
 \code{\link{mlr_resamplings_custom}},
 \code{\link{mlr_resamplings_cv}},
 \code{\link{mlr_resamplings_insample}},

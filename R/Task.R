@@ -47,8 +47,8 @@
 #' @concept Task
 #' @export
 #' @examples
-#' # we use the inherited class TaskClassif here,
-#' # Class Task is not intended for direct use
+#' # We use the inherited class TaskClassif here,
+#' # because the base class `Task` is not intended for direct use
 #' task = TaskClassif$new("penguings", palmerpenguins::penguins, target = "species")
 #'
 #' task$nrow
@@ -582,7 +582,7 @@ Task = R6Class("Task",
       strata = pmap_dtc(list(self$data(cols = cols), bins), cut, include.lowest = TRUE)
       setnames(strata, sprintf("..stratum_%s", cols))
       self$cbind(strata)
-      self$set_col_roles(names(strata), role = "stratum")
+      self$set_col_roles(names(strata), roles = "stratum")
     },
 
 

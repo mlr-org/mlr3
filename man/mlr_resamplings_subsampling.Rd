@@ -31,16 +31,18 @@ task = tsk("penguins")
 task$filter(1:10)
 
 # Instantiate Resampling
-rss = rsmp("subsampling", repeats = 2, ratio = 0.5)
-rss$instantiate(task)
+subsampling = rsmp("subsampling", repeats = 2, ratio = 0.5)
+subsampling$instantiate(task)
 
 # Individual sets:
-rss$train_set(1)
-rss$test_set(1)
-intersect(rss$train_set(1), rss$test_set(1))
+subsampling$train_set(1)
+subsampling$test_set(1)
+
+# Disjunct sets:
+intersect(subsampling$train_set(1), subsampling$test_set(1))
 
 # Internal storage:
-rss$instance$train # list of index vectors
+subsampling$instance$train # list of index vectors
 }
 \references{
 Bischl B, Mersmann O, Trautmann H, Weihs C (2012).
@@ -60,6 +62,7 @@ Bischl B, Mersmann O, Trautmann H, Weihs C (2012).
 Other Resampling: 
 \code{\link{Resampling}},
 \code{\link{mlr_resamplings_bootstrap}},
+\code{\link{mlr_resamplings_custom_cv}},
 \code{\link{mlr_resamplings_custom}},
 \code{\link{mlr_resamplings_cv}},
 \code{\link{mlr_resamplings_holdout}},

@@ -32,16 +32,18 @@ task = tsk("penguins")
 task$filter(1:10)
 
 # Instantiate Resampling
-rb = rsmp("bootstrap", repeats = 2, ratio = 1)
-rb$instantiate(task)
+bootstrap = rsmp("bootstrap", repeats = 2, ratio = 1)
+bootstrap$instantiate(task)
 
 # Individual sets:
-rb$train_set(1)
-rb$test_set(1)
-intersect(rb$train_set(1), rb$test_set(1))
+bootstrap$train_set(1)
+bootstrap$test_set(1)
+
+# Disjunct sets:
+intersect(bootstrap$train_set(1), bootstrap$test_set(1))
 
 # Internal storage:
-rb$instance$M # Matrix of counts
+bootstrap$instance$M # Matrix of counts
 }
 \references{
 Bischl B, Mersmann O, Trautmann H, Weihs C (2012).
@@ -60,6 +62,7 @@ Bischl B, Mersmann O, Trautmann H, Weihs C (2012).
 
 Other Resampling: 
 \code{\link{Resampling}},
+\code{\link{mlr_resamplings_custom_cv}},
 \code{\link{mlr_resamplings_custom}},
 \code{\link{mlr_resamplings_cv}},
 \code{\link{mlr_resamplings_holdout}},

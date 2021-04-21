@@ -8,6 +8,10 @@
 #' This is identical to cross-validation with the number of folds set
 #' to the number of observations.
 #'
+#' If this resampling is combined with the grouping features of tasks,
+#' it is possible to create custom splits based on an arbitrary factor variable,
+#' see the examples.
+#'
 #' @templateVar id loo
 #' @template section_dictionary_resampling
 #'
@@ -22,16 +26,24 @@
 #' task$filter(1:10)
 #'
 #' # Instantiate Resampling
-#' rcv = rsmp("loo")
-#' rcv$instantiate(task)
+#' loo = rsmp("loo")
+#' loo$instantiate(task)
 #'
 #' # Individual sets:
-#' rcv$train_set(1)
-#' rcv$test_set(1)
-#' intersect(rcv$train_set(1), rcv$test_set(1))
+#' loo$train_set(1)
+#' loo$test_set(1)
+#'
+#' # Disjunct sets:
+#' intersect(loo$train_set(1), loo$test_set(1))
 #'
 #' # Internal storage:
-#' rcv$instance # vector
+#' loo$instance # vector
+#'
+#' # Combine with group feature of tasks:
+#' task = tsk("penguins")
+#' task$set_col_roles("island", add_to = "group")
+#' loo$instantiate(task)
+#' loo$iters # one fold for each level of "island"
 ResamplingLOO = R6Class("ResamplingLOO", inherit = Resampling,
   public = list(
     #' @description

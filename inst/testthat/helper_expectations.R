@@ -3,7 +3,7 @@ expect_man_exists = function(man) {
   if (!is.na(man)) {
     parts = strsplit(man, "::", fixed = TRUE)[[1L]]
     matches = help.search(parts[2L], package = parts[1L], ignore.case = FALSE)
-    checkmate::expect_data_frame(matches$matches, min.rows = 1L)
+    checkmate::expect_data_frame(matches$matches, min.rows = 1L, info = "man page lookup")
   }
 }
 expect_same_address = function(x, y) {
@@ -354,8 +354,10 @@ expect_resampling = function(r, task = NULL) {
     testthat::expect_error(r$train_set(1L), "instantiated")
     testthat::expect_error(r$test_set(1L), "instantiated")
     # testthat::expect_identical(r$hash, NA_character_)
-    if (!(r$id %in% c("custom", "loo")))
-      checkmate::expect_count(r$iters, positive = TRUE)
+    if (r$id %in% c("custom", "custom_cv", "loo")) {
+      checkmate::expect_count(r$iters, na.ok = TRUE)
+      testthat::expect_true(is.na(r$iters))
+    }
     testthat::expect_identical(r$task_hash, NA_character_)
   } else {
     testthat::expect_true(r$is_instantiated)
@@ -386,7 +388,7 @@ expect_resampling = function(r, task = NULL) {
   testthat::expect_true(checkmate::qtestr(r$param_set$values, "V1"))
 
   # check re-instantiation with provided task
-  if (!is.null(task) && !is.null(task$backend) && !inherits(r, "ResamplingCustom")) {
+  if (!is.null(task) && !is.null(task$backend) && !inherits(r, "ResamplingCustom") && !inherits(r, "ResamplingCustomCV")) {
     r = r$clone()$instantiate(task)
     expect_subset(r$train_set(1), task$row_ids)
     expect_subset(r$test_set(1), task$row_ids)

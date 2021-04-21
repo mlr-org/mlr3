@@ -87,6 +87,7 @@ prop.table(table(task$truth(r$train_set(1)))) # roughly same proportion
 
 Other Resampling: 
 \code{\link{mlr_resamplings_bootstrap}},
+\code{\link{mlr_resamplings_custom_cv}},
 \code{\link{mlr_resamplings_custom}},
 \code{\link{mlr_resamplings_cv}},
 \code{\link{mlr_resamplings_holdout}},

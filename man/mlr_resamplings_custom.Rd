@@ -20,13 +20,13 @@ task = tsk("penguins")
 task$filter(1:10)
 
 # Instantiate Resampling
-rc = rsmp("custom")
+custom = rsmp("custom")
 train_sets = list(1:5, 5:10)
 test_sets = list(5:10, 1:5)
-rc$instantiate(task, train_sets, test_sets)
+custom$instantiate(task, train_sets, test_sets)
 
-rc$train_set(1)
-rc$test_set(1)
+custom$train_set(1)
+custom$test_set(1)
 }
 \seealso{
 \itemize{
@@ -40,6 +40,7 @@ rc$test_set(1)
 Other Resampling: 
 \code{\link{Resampling}},
 \code{\link{mlr_resamplings_bootstrap}},
+\code{\link{mlr_resamplings_custom_cv}},
 \code{\link{mlr_resamplings_cv}},
 \code{\link{mlr_resamplings_holdout}},
 \code{\link{mlr_resamplings_insample}},
@@ -57,9 +58,6 @@ Other Resampling:
 \describe{
 \item{\code{iters}}{(\code{integer(1)})\cr
 Returns the number of resampling iterations, depending on the values stored in the \code{param_set}.}
-
-\item{\code{hash}}{(\code{character(1)})\cr
-Hash (unique identifier) for this object.}
 }
 \if{html}{\out{</div>}}
 }

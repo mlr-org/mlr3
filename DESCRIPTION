@@ -133,6 +133,7 @@ Collate:
     'ResamplingBootstrap.R'
     'ResamplingCV.R'
     'ResamplingCustom.R'
+    'ResamplingCustomCV.R'
     'ResamplingHoldout.R'
     'ResamplingInsample.R'
     'ResamplingLOO.R'

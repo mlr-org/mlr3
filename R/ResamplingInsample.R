@@ -17,14 +17,14 @@
 #' task$filter(1:10)
 #'
 #' # Instantiate Resampling
-#' rins = rsmp("insample")
-#' rins$instantiate(task)
+#' insample = rsmp("insample")
+#' insample$instantiate(task)
 #'
-#' rins$train_set(1)
-#' rins$test_set(1)
+#' # Train set equal to test set:
+#' setequal(insample$train_set(1), insample$test_set(1))
 #'
 #' # Internal storage:
-#' rins$instance # just row ids
+#' insample$instance # just row ids
 ResamplingInsample = R6Class("ResamplingInsample", inherit = Resampling,
   public = list(
     #' @description

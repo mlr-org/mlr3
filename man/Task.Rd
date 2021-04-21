@@ -46,8 +46,8 @@ merge both backends into an abstract \link{DataBackend} which merges the results
 }
 
 \examples{
-# we use the inherited class TaskClassif here,
-# Class Task is not intended for direct use
+# We use the inherited class TaskClassif here,
+# because the base class `Task` is not intended for direct use
 task = TaskClassif$new("penguings", palmerpenguins::penguins, target = "species")
 
 task$nrow

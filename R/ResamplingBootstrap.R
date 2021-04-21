@@ -28,16 +28,18 @@
 #' task$filter(1:10)
 #'
 #' # Instantiate Resampling
-#' rb = rsmp("bootstrap", repeats = 2, ratio = 1)
-#' rb$instantiate(task)
+#' bootstrap = rsmp("bootstrap", repeats = 2, ratio = 1)
+#' bootstrap$instantiate(task)
 #'
 #' # Individual sets:
-#' rb$train_set(1)
-#' rb$test_set(1)
-#' intersect(rb$train_set(1), rb$test_set(1))
+#' bootstrap$train_set(1)
+#' bootstrap$test_set(1)
+#'
+#' # Disjunct sets:
+#' intersect(bootstrap$train_set(1), bootstrap$test_set(1))
 #'
 #' # Internal storage:
-#' rb$instance$M # Matrix of counts
+#' bootstrap$instance$M # Matrix of counts
 ResamplingBootstrap = R6Class("ResamplingBootstrap", inherit = Resampling,
   public = list(
     #' @description
