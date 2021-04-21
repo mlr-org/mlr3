@@ -200,6 +200,7 @@ Returns a <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.
 <p>Other Resampling: 
 <code><a href='Resampling.html'>Resampling</a></code>,
 <code><a href='mlr_resamplings_bootstrap.html'>mlr_resamplings_bootstrap</a></code>,
+<code><a href='mlr_resamplings_custom_cv.html'>mlr_resamplings_custom_cv</a></code>,
 <code><a href='mlr_resamplings_custom.html'>mlr_resamplings_custom</a></code>,
 <code><a href='mlr_resamplings_cv.html'>mlr_resamplings_cv</a></code>,
 <code><a href='mlr_resamplings_holdout.html'>mlr_resamplings_holdout</a></code>,
@@ -212,13 +213,14 @@ Returns a <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.
     <pre class="examples"><div class='input'><span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table</a></span><span class='op'>(</span><span class='va'>mlr_resamplings</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;            key        params iters
 #&gt; 1:   bootstrap ratio,repeats    30
-#&gt; 2:      custom                   0
-#&gt; 3:          cv         folds    10
-#&gt; 4:     holdout         ratio     1
-#&gt; 5:    insample                   1
-#&gt; 6:         loo                  NA
-#&gt; 7: repeated_cv folds,repeats   100
-#&gt; 8: subsampling ratio,repeats    30</div><div class='input'><span class='va'>mlr_resamplings</span><span class='op'>$</span><span class='fu'>get</span><span class='op'>(</span><span class='st'>"cv"</span><span class='op'>)</span>
+#&gt; 2:      custom                  NA
+#&gt; 3:   custom_cv                  NA
+#&gt; 4:          cv         folds    10
+#&gt; 5:     holdout         ratio     1
+#&gt; 6:    insample                   1
+#&gt; 7:         loo                  NA
+#&gt; 8: repeated_cv folds,repeats   100
+#&gt; 9: subsampling ratio,repeats    30</div><div class='input'><span class='va'>mlr_resamplings</span><span class='op'>$</span><span class='fu'>get</span><span class='op'>(</span><span class='st'>"cv"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; &lt;ResamplingCV&gt; with 10 iterations
 #&gt; * Instantiated: FALSE
 #&gt; * Parameters: folds=10</div><div class='input'><span class='fu'><a href='mlr_sugar.html'>rsmp</a></span><span class='op'>(</span><span class='st'>"subsampling"</span><span class='op'>)</span>
