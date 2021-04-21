@@ -193,8 +193,16 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #' [ResampleResult]s. A column with the aggregated performance score is
     #' added for each [Measure], named with the id of the respective measure.
     #'
+    #' Note that the aggregated performances just give a quick impression which
+    #' approaches work well and which approaches are probably underperforming.
+    #' However, the aggregates do not account for variance and cannot replace
+    #' a statistical test.
+    #' See \CRANpkg{mlr3viz} to get a better impression via boxplots or
+    #' \CRANpkg{mlr3benchmark} for critical difference plots and
+    #' significance tests.
+    #'
     #' For convenience, different flags can be set to extract more
-    #' information from the returned [ResampleResult]:
+    #' information from the returned [ResampleResult].
     #'
     #' @param uhashes (`logical(1)`)\cr
     #'   Adds the uhash values of the [ResampleResult] as extra character

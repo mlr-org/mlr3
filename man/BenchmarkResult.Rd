@@ -285,8 +285,16 @@ Returns a result table where resampling iterations are combined into
 \link{ResampleResult}s. A column with the aggregated performance score is
 added for each \link{Measure}, named with the id of the respective measure.
 
+Note that the aggregated performances just give a quick impression which
+approaches work well and which approaches are probably underperforming.
+However, the aggregates do not account for variance and cannot replace
+a statistical test.
+See \CRANpkg{mlr3viz} to get a better impression via boxplots or
+\CRANpkg{mlr3benchmark} for critical difference plots and
+significance tests.
+
 For convenience, different flags can be set to extract more
-information from the returned \link{ResampleResult}:
+information from the returned \link{ResampleResult}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{BenchmarkResult$aggregate(
   measures = NULL,
