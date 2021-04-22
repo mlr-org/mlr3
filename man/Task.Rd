@@ -367,7 +367,12 @@ If \code{cols} is \code{NULL}, the column order defaults to
 Note that it is recommended to \strong{not} rely on the order of columns, and instead always
 address columns with their respective column name.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Task$data(rows = NULL, cols = NULL, data_format = "data.table", ordered = TRUE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Task$data(
+  rows = NULL,
+  cols = NULL,
+  data_format = "data.table",
+  ordered = FALSE
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -383,7 +388,7 @@ Column names.}
 Desired data format, e.g. \code{"data.table"} or \code{"Matrix"}.}
 
 \item{\code{ordered}}{(\code{logical(1)})\cr
-If \code{TRUE} (default), data is ordered according to the columns with column role \code{"order"}.}
+If \code{TRUE}, data is ordered according to the columns with column role \code{"order"}.}
 }
 \if{html}{\out{</div>}}
 }

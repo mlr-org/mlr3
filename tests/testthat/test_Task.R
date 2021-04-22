@@ -30,13 +30,13 @@ test_that("Rows return ordered", {
   expect_true(is.unsorted(x$t))
 
   task$col_roles$order = "t"
-  x = task$data()
+  x = task$data(ordered = TRUE)
   expect_integer(x$t, sorted = TRUE, any.missing = FALSE)
 
   x = task$data(ordered = FALSE)
   expect_true(is.unsorted(x$t))
 
-  x = task$data(rows = sample(nrow(data), 50))
+  x = task$data(rows = sample(nrow(data), 50), ordered = TRUE)
   expect_integer(x$t, sorted = TRUE, any.missing = FALSE)
 })
 

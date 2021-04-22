@@ -160,10 +160,10 @@ Task = R6Class("Task",
     #' address columns with their respective column name.
     #'
     #' @param ordered (`logical(1)`)\cr
-    #'   If `TRUE` (default), data is ordered according to the columns with column role `"order"`.
+    #'   If `TRUE`, data is ordered according to the columns with column role `"order"`.
     #'
     #' @return Depending on the [DataBackend], but usually a [data.table::data.table()].
-    data = function(rows = NULL, cols = NULL, data_format = "data.table", ordered = TRUE) {
+    data = function(rows = NULL, cols = NULL, data_format = "data.table", ordered = FALSE) {
       assert_has_backend(self)
       assert_choice(data_format, self$data_formats)
       assert_flag(ordered)
