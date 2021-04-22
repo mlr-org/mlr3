@@ -38,7 +38,7 @@ test_that("order with posix", {
   task$col_roles$order = "y"
   expect_posixct(task$data()$y, sorted = TRUE)
 
-  r = rsmp("ordered_holdout")$instantiate(task)
+  r = rsmp("ordered_holdout", ratio = 2/3)$instantiate(task)
   expect_lt(max(task$data(r$train_set(1))$y), min(task$data(r$test_set(1))$y))
 })
 
