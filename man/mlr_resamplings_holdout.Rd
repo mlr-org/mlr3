@@ -25,20 +25,22 @@ Ratio of observations to put into the training set.
 
 \examples{
 # Create a task with 10 observations
-task = tsk("iris")
+task = tsk("penguins")
 task$filter(1:10)
 
 # Instantiate Resampling
-rho = rsmp("holdout", ratio = 0.5)
-rho$instantiate(task)
+holdout = rsmp("holdout", ratio = 0.5)
+holdout$instantiate(task)
 
 # Individual sets:
-rho$train_set(1)
-rho$test_set(1)
-intersect(rho$train_set(1), rho$test_set(1))
+holdout$train_set(1)
+holdout$test_set(1)
+
+# Disjunct sets:
+intersect(holdout$train_set(1), holdout$test_set(1))
 
 # Internal storage:
-rho$instance # simple list
+holdout$instance # simple list
 }
 \references{
 Bischl B, Mersmann O, Trautmann H, Weihs C (2012).
@@ -47,13 +49,18 @@ Bischl B, Mersmann O, Trautmann H, Weihs C (2012).
 \doi{10.1162/evco_a_00069}.
 }
 \seealso{
-\link[mlr3misc:Dictionary]{Dictionary} of \link[=Resampling]{Resamplings}: \link{mlr_resamplings}
-
-\code{as.data.table(mlr_resamplings)} for a complete table of all (also dynamically created) \link{Resampling} implementations.
+\itemize{
+\item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
+\url{https://mlr3book.mlr-org.com/resampling.html}
+\item Package \CRANpkg{mlr3spatiotempcv} for spatio-temporal resamplings.
+\item \link[mlr3misc:Dictionary]{Dictionary} of \link[=Resampling]{Resamplings}: \link{mlr_resamplings}
+\item \code{as.data.table(mlr_resamplings)} for a table of available \link[=Resampling]{Resamplings} in the running session (depending on the loaded packages).
+}
 
 Other Resampling: 
 \code{\link{Resampling}},
 \code{\link{mlr_resamplings_bootstrap}},
+\code{\link{mlr_resamplings_custom_cv}},
 \code{\link{mlr_resamplings_custom}},
 \code{\link{mlr_resamplings_cv}},
 \code{\link{mlr_resamplings_insample}},

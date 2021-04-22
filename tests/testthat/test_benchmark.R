@@ -210,6 +210,8 @@ test_that("extract params", {
   bmr = benchmark(benchmark_grid(tsk("wine"), lrns, rsmp("cv", folds = 3)))
   aggr = bmr$aggregate(params = TRUE)
   expect_list(aggr$params[[1]], names = "unique", len = 0L)
+
+  expect_true(all(c("warnings", "errors") %in% names(bmr$score(conditions = TRUE))))
 })
 
 test_that("benchmark_grid", {
@@ -263,10 +265,6 @@ test_that("parallelization works", {
   expect_equal(length(unique(pids)), njobs)
 })
 
-test_that("friedman.test", {
-  expect_s3_class(friedman.test(bmr), "htest")
-})
-
 test_that("aggregated performance values are calculated correctly (#555)", {
   task = tsk("spam")
   learner1 = lrn("classif.featureless")
@@ -284,4 +282,22 @@ test_that("aggregated performance values are calculated correctly (#555)", {
     bmr$resample_result(2)$aggregate(msr("classif.ce"))
   )
   expect_gt(y[1], y[2])
+})
+
+test_that("save/load roundtrip", {
+  path = tempfile()
+  saveRDS(bmr, file = path)
+
+  bmr2 = readRDS(path)
+  expect_benchmark_result(bmr2)
+})
+
+test_that("debug branch", {
+  tmp = tsk("iris", id = "iris_small")$select("Sepal.Length")
+  tasks = c(mlr_tasks$mget(c("iris", "sonar")), list(tmp))
+  learners = mlr_learners$mget(c("classif.featureless", "classif.rpart"))
+  resamplings = rsmp("cv", folds = 2)
+  design = benchmark_grid(tasks, learners, resamplings)
+  bmr = invoke(benchmark, design, .opts = list(mlr3.debug = TRUE))
+  expect_benchmark_result(bmr)
 })

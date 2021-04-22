@@ -24,7 +24,7 @@ NULL
 load_task_airpassengers = function(id = "airpassengers") {
   ts = load_dataset("AirPassengers", "datasets")
   dates = unclass(stats::time(ts))
-  dates = as.Date(paste((time_x + 0.001) %/% 1, stats::cycle(ts), 1, sep = "-"))
+  dates = as.Date(paste((dates + 0.001) %/% 1, stats::cycle(ts), 1, sep = "-"))
 
   tab = cbind(data.frame(date = dates), passengers = as.matrix(ts))
   b = as_data_backend(tab)

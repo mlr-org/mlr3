@@ -68,26 +68,26 @@ test_that("predict on newdata works / classif", {
   learner = lrn("classif.featureless")
   expect_error(learner$predict(task), "trained")
   learner$train(task)
-  expect_task(learner$state$train_task)
+  expect_task(learner$state$train_task, null_backend_ok = TRUE)
   newdata = tsk("iris")$filter(121:150)$data()
 
   # passing the task
   p = learner$predict_newdata(newdata = newdata, task = task)
   expect_data_table(as.data.table(p), nrows = 30)
-  expect_set_equal(as.data.table(p)$row_id, 1:30)
+  expect_set_equal(as.data.table(p)$row_ids, 1:30)
   expect_factor(p$truth, any.missing = FALSE, levels = task$class_names)
 
   # rely on internally stored task representation
   p = learner$predict_newdata(newdata = newdata, task = NULL)
   expect_data_table(as.data.table(p), nrows = 30)
-  expect_set_equal(as.data.table(p)$row_id, 1:30)
+  expect_set_equal(as.data.table(p)$row_ids, 1:30)
   expect_factor(p$truth, any.missing = FALSE, levels = task$class_names)
 
   # with missing target column
   newdata$Species = NULL
   p = learner$predict_newdata(newdata = newdata, task = task)
   expect_data_table(as.data.table(p), nrows = 30)
-  expect_set_equal(as.data.table(p)$row_id, 1:30)
+  expect_set_equal(as.data.table(p)$row_ids, 1:30)
   expect_factor(p$truth, levels = task$class_names)
   expect_true(allMissing(p$truth))
 })
@@ -112,7 +112,7 @@ test_that("predict on newdata works / regr", {
   p = learner$predict_newdata(newdata)
 
   expect_data_table(as.data.table(p), nrows = length(test))
-  expect_set_equal(as.data.table(p)$row_id, seq_along(test))
+  expect_set_equal(as.data.table(p)$row_ids, seq_along(test))
 })
 
 
@@ -128,7 +128,15 @@ test_that("predict on newdata works / no target column", {
   p = learner$predict_newdata(newdata = newdata)
 
   expect_data_table(as.data.table(p), nrows = length(test))
-  expect_set_equal(as.data.table(p)$row_id, seq_along(test))
+  expect_set_equal(as.data.table(p)$row_ids, seq_along(test))
+
+  # newdata with 1 col and learner that does not support missings
+  xdt = data.table(x = 1, y = 1)
+  task = as_task_regr(xdt, target = "y")
+  learner = lrn("regr.featureless")
+  learner$properties = setdiff(learner$properties, "missings")
+  learner$train(task)
+  learner$predict_newdata(xdt[,1])
 })
 
 
@@ -207,4 +215,38 @@ test_that("fallback learner is deep cloned (#511)", {
   l = lrn("classif.rpart")
   l$fallback = lrn("classif.featureless")
   expect_different_address(l$fallback, l$clone(deep = TRUE)$fallback)
+})
+
+test_that("learner cannot be trained with TuneToken present", {
+  task = tsk("boston_housing")
+  learner = lrn("regr.rpart", cp = paradox::to_tune(0.1, 0.3))
+  expect_error(learner$train(task),
+    regexp = "<LearnerRegrRpart:regr.rpart> cannot be trained with TuneToken present in hyperparameter: cp",
+    fixed = TRUE)
+})
+
+test_that("integer<->numeric conversion in newdata (#533)", {
+  data = data.table(y = runif(10), x = 1:10)
+  newdata = data.table(y = runif(10), x = 1:10 + 0.1)
+
+  task = TaskRegr$new("test", data, "y")
+  learner = lrn("regr.featureless")
+  learner$train(task)
+  expect_prediction(learner$predict_newdata(data))
+  expect_prediction(learner$predict_newdata(newdata))
+})
+
+test_that("weights", {
+  data = cbind(iris, w = rep(c(1, 100, 1), each = 50))
+  task = TaskClassif$new("weighted_task", data, "Species")
+  task$set_col_roles("w", "weight")
+
+  learner = lrn("classif.rpart")
+  learner$train(task)
+
+  conf = learner$predict(task)$confusion
+  expect_equal(unname(conf[, 2]), c(0, 50, 0)) # no errors in class with weight 100
+
+  expect_prediction(learner$predict_newdata(data[1:3, ]))
+  expect_prediction(learner$predict_newdata(iris[1:3, ]))
 })

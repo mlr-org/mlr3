@@ -15,34 +15,36 @@
 #'   Ratio of observations to put into the training set.
 #'
 #' @references
-#' `r tools::toRd(bibentries["bischl_2012"])`
+#' `r format_bib("bischl_2012")`
 #'
 #' @template seealso_resampling
 #' @export
 #' @examples
 #' # Create a task with 10 observations
-#' task = tsk("iris")
+#' task = tsk("penguins")
 #' task$filter(1:10)
 #'
 #' # Instantiate Resampling
-#' rho = rsmp("holdout", ratio = 0.5)
-#' rho$instantiate(task)
+#' holdout = rsmp("holdout", ratio = 0.5)
+#' holdout$instantiate(task)
 #'
 #' # Individual sets:
-#' rho$train_set(1)
-#' rho$test_set(1)
-#' intersect(rho$train_set(1), rho$test_set(1))
+#' holdout$train_set(1)
+#' holdout$test_set(1)
+#'
+#' # Disjunct sets:
+#' intersect(holdout$train_set(1), holdout$test_set(1))
 #'
 #' # Internal storage:
-#' rho$instance # simple list
+#' holdout$instance # simple list
 ResamplingHoldout = R6Class("ResamplingHoldout", inherit = Resampling,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
-      ps = ParamSet$new(list(
-        ParamDbl$new("ratio", lower = 0, upper = 1, tags = "required")
-      ))
+      ps = ps(
+        ratio = p_dbl(0, 1, tags = "required")
+      )
       ps$values = list(ratio = 2 / 3)
 
       super$initialize(id = "holdout", param_set = ps, man = "mlr3::mlr_resamplings_holdout")
@@ -54,9 +56,10 @@ ResamplingHoldout = R6Class("ResamplingHoldout", inherit = Resampling,
 
   private = list(
     .sample = function(ids, ...) {
-      nr = round(length(ids) * self$param_set$values$ratio)
-      ii = shuffle(ids, nr)
-      list(train = ii, test = setdiff(ids, ii))
+      n = length(ids)
+      in_train = logical(n)
+      in_train[sample.int(n, round(n * self$param_set$values$ratio))] = TRUE
+      list(train = ids[in_train], test = ids[!in_train])
     },
 
     .get_train = function(i) {

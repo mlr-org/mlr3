@@ -8,6 +8,8 @@
 #' Note that all stored objects are accessed by reference.
 #' Do not modify any object without cloning it first.
 #'
+#' [ResampleResult]s can be visualized via \CRANpkg{mlr3viz}'s `autoplot()` function.
+#'
 #' @template param_measures
 #'
 #' @section S3 Methods:
@@ -18,9 +20,10 @@
 #'   ([ResampleResult], ...) -> [BenchmarkResult]\cr
 #'   Combines multiple objects convertible to [BenchmarkResult] into a new [BenchmarkResult].
 #'
+#' @template seealso_resample
 #' @export
 #' @examples
-#' task = tsk("iris")
+#' task = tsk("penguins")
 #' learner = lrn("classif.rpart")
 #' resampling = rsmp("cv", folds = 3)
 #' rr = resample(task, learner, resampling)
@@ -123,15 +126,20 @@ ResampleResult = R6Class("ResampleResult",
     #'   are added to the returned table.
     #'   These allow to subset more conveniently.
     #'
+    #' @param conditions (`logical(1)`)\cr
+    #'   Adds condition messages (`"warnings"`, `"errors"`) as extra
+    #'   list columns of character vectors to the returned table
+    #'
     #' @param predict_sets (`character()`)\cr
     #'   Vector of predict sets (`{"train", "test"}`) to construct the [Prediction] objects from.
     #'   Default is `"test"`.
     #'
     #' @return [data.table::data.table()].
-    score = function(measures = NULL, ids = TRUE, predict_sets = "test") {
+    score = function(measures = NULL, ids = TRUE, conditions = FALSE, predict_sets = "test") {
       measures = as_measures(measures, task_type = self$data$task_type)
       assert_measures(measures, task = self$task, learner = self$learner)
       assert_flag(ids)
+      assert_flag(conditions)
       assert_subset(predict_sets, mlr_reflections$predict_sets)
 
       tab = score_measures(self, measures, view = self$view)
@@ -144,9 +152,14 @@ ResampleResult = R6Class("ResampleResult",
             "iteration", "prediction"))
       }
 
+      if (conditions) {
+        set(tab, j = "warnings", value = map(tab$learner, "warnings"))
+        set(tab, j = "errors", value = map(tab$learner, "errors"))
+      }
+
       set(tab, j = "prediction", value = as_predictions(tab$prediction, predict_sets))
       cns = c("task", "task_id", "learner", "learner_id", "resampling", "resampling_id", "iteration",
-        "prediction", ids(measures))
+        "prediction", "warnings", "errors", ids(measures))
       cns = intersect(cns, names(tab))
       tab[, cns, with = FALSE]
     },
@@ -279,31 +292,4 @@ as.data.table.ResampleResult = function(x, ..., predict_sets = "test") { # nolin
 #' @export
 c.ResampleResult = function(...) {
   do.call(c, lapply(list(...), as_benchmark_result))
-}
-
-#' @title Convert to ResampleResult
-#'
-#' @description
-#' Simple S3 method to convert objects to a [ResampleResult].
-#'
-#' @param x (`any`)\cr
-#'  Object to dispatch on, e.g. a [ResampleResult].
-#' @param ... (`any`)\cr
-#'  Currently not used.
-#'
-#' @return ([ResampleResult]).
-#' @export
-as_resample_result = function(x, ...) {
-  UseMethod("as_resample_result")
-}
-
-#' @rdname as_benchmark_result
-#' @export
-as_benchmark_result.ResampleResult = function(x, ...) { # nolint
-  rdata = x$data$clone(deep = TRUE)
-  if (!is.null(x$view)) {
-    rdata$data$fact = rdata$data$fact[list(x$view), on = "uhash", nomatch = NULL]
-    rdata$sweep()
-  }
-  BenchmarkResult$new(rdata)
 }

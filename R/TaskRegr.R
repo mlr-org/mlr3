@@ -8,30 +8,27 @@
 #' The `task_type` is set to `"regr"`.
 #'
 #' Predefined tasks are stored in the [dictionary][mlr3misc::Dictionary] [mlr_tasks].
-#' More example tasks can be found in this dictionary after loading \CRANpkg{mlr3data}.
 #'
 #' @template param_rows
 #' @template param_id
 #' @template param_backend
 #'
-#' @family Task
+#' @template seealso_task
 #' @export
 #' @examples
-#' task = TaskRegr$new("iris", backend = iris, target = "Sepal.Length")
+#' task = as_task_regr(palmerpenguins::penguins, target = "bill_length_mm")
 #' task$task_type
 #' task$formula()
 #' task$truth()
-#'
-#' # possible properties:
-#' mlr_reflections$task_properties$regr
+#' task$data(rows = 1:3, cols = task$feature_names[1:2])
 TaskRegr = R6Class("TaskRegr",
   inherit = TaskSupervised,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
+    #' The function [as_task_regr()] provides an alternative way to construct regression tasks.
     #'
-    #' @param target (`character(1)`)\cr
-    #'   Name of the target column.
+    #' @template param_target
     #' @template param_extra_args
     initialize = function(id, backend, target, extra_args = list()) {
       assert_string(target)

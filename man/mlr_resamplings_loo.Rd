@@ -3,11 +3,15 @@
 \name{mlr_resamplings_loo}
 \alias{mlr_resamplings_loo}
 \alias{ResamplingLOO}
-\title{Leave-One-Out Cross Validation}
+\title{Leave-One-Out Cross-Validation}
 \description{
 Splits data using leave-one-observation-out.
-This is identical to cross validation with the number of folds set
+This is identical to cross-validation with the number of folds set
 to the number of observations.
+
+If this resampling is combined with the grouping features of tasks,
+it is possible to create custom splits based on an arbitrary factor variable,
+see the examples.
 }
 \section{Dictionary}{
 
@@ -18,20 +22,28 @@ rsmp("loo")
 
 \examples{
 # Create a task with 10 observations
-task = tsk("iris")
+task = tsk("penguins")
 task$filter(1:10)
 
 # Instantiate Resampling
-rcv = rsmp("loo")
-rcv$instantiate(task)
+loo = rsmp("loo")
+loo$instantiate(task)
 
 # Individual sets:
-rcv$train_set(1)
-rcv$test_set(1)
-intersect(rcv$train_set(1), rcv$test_set(1))
+loo$train_set(1)
+loo$test_set(1)
+
+# Disjunct sets:
+intersect(loo$train_set(1), loo$test_set(1))
 
 # Internal storage:
-rcv$instance # vector
+loo$instance # vector
+
+# Combine with group feature of tasks:
+task = tsk("penguins")
+task$set_col_roles("island", add_to = "group")
+loo$instantiate(task)
+loo$iters # one fold for each level of "island"
 }
 \references{
 Bischl B, Mersmann O, Trautmann H, Weihs C (2012).
@@ -40,13 +52,18 @@ Bischl B, Mersmann O, Trautmann H, Weihs C (2012).
 \doi{10.1162/evco_a_00069}.
 }
 \seealso{
-\link[mlr3misc:Dictionary]{Dictionary} of \link[=Resampling]{Resamplings}: \link{mlr_resamplings}
-
-\code{as.data.table(mlr_resamplings)} for a complete table of all (also dynamically created) \link{Resampling} implementations.
+\itemize{
+\item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
+\url{https://mlr3book.mlr-org.com/resampling.html}
+\item Package \CRANpkg{mlr3spatiotempcv} for spatio-temporal resamplings.
+\item \link[mlr3misc:Dictionary]{Dictionary} of \link[=Resampling]{Resamplings}: \link{mlr_resamplings}
+\item \code{as.data.table(mlr_resamplings)} for a table of available \link[=Resampling]{Resamplings} in the running session (depending on the loaded packages).
+}
 
 Other Resampling: 
 \code{\link{Resampling}},
 \code{\link{mlr_resamplings_bootstrap}},
+\code{\link{mlr_resamplings_custom_cv}},
 \code{\link{mlr_resamplings_custom}},
 \code{\link{mlr_resamplings_cv}},
 \code{\link{mlr_resamplings_holdout}},

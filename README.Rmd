@@ -16,7 +16,7 @@ Efficient, object-oriented programming on the building blocks of machine learnin
 Successor of [mlr](https://github.com/mlr-org/mlr).
 
 <!-- badges: start -->
-[![tic](https://github.com/mlr-org/mlr3/workflows/tic/badge.svg?branch=master)](https://github.com/mlr-org/mlr3/actions)
+[![tic](https://github.com/mlr-org/mlr3/workflows/tic/badge.svg?branch=main)](https://github.com/mlr-org/mlr3/actions)
 [![DOI](https://joss.theoj.org/papers/10.21105/joss.01903/status.svg)](https://doi.org/10.21105/joss.01903)
 [![CRAN Status](https://www.r-pkg.org/badges/version-ago/mlr3)](https://cran.r-project.org/package=mlr3)
 [![StackOverflow](https://img.shields.io/badge/stackoverflow-mlr3-orange.svg)](https://stackoverflow.com/questions/tagged/mlr3)
@@ -65,6 +65,11 @@ Install the development version from GitHub:
 remotes::install_github("mlr-org/mlr3")
 ```
 
+If you want to get started with `mlr3`, we recommend installing the [mlr3verse](https://mlr3verse.mlr-org.com/) meta-package which installs `mlr3` and some of the most important extension packages:
+```{r eval = FALSE}
+install.packages("mlr3verse")
+```
+
 ## Example
 
 ### Constructing Learners and Tasks
@@ -73,8 +78,8 @@ remotes::install_github("mlr-org/mlr3")
 library(mlr3)
 
 # create learning task
-task_iris <- TaskClassif$new(id = "iris", backend = iris, target = "Species")
-task_iris
+task_penguins <- TaskClassif$new(id = "penguins", backend = palmerpenguins::penguins, target = "species")
+task_penguins
 
 # load learner and set hyperparameter
 learner <- lrn("classif.rpart", cp = .01)
@@ -84,14 +89,14 @@ learner <- lrn("classif.rpart", cp = .01)
 
 ```{r}
 # train/test split
-train_set <- sample(task_iris$nrow, 0.8 * task_iris$nrow)
-test_set <- setdiff(seq_len(task_iris$nrow), train_set)
+train_set <- sample(task_penguins$nrow, 0.8 * task_penguins$nrow)
+test_set <- setdiff(seq_len(task_penguins$nrow), train_set)
 
 # train the model
-learner$train(task_iris, row_ids = train_set)
+learner$train(task_penguins, row_ids = train_set)
 
 # predict data
-prediction <- learner$predict(task_iris, row_ids = test_set)
+prediction <- learner$predict(task_penguins, row_ids = test_set)
 
 # calculate performance
 prediction$confusion
@@ -104,10 +109,18 @@ prediction$score(measure)
 ```{r}
 # automatic resampling
 resampling <- rsmp("cv", folds = 3L)
-rr <- resample(task_iris, learner, resampling)
+rr <- resample(task_penguins, learner, resampling)
 rr$score(measure)
 rr$aggregate(measure)
 ```
+
+## Extension Packages
+
+<a href="https://raw.githubusercontent.com/mlr-org/mlr3/main/man/figures/mlr3verse.svg?sanitize=true"><img src="man/figures/mlr3verse.svg" /></a>
+
+Consult the [wiki](https://github.com/mlr-org/mlr3/wiki/Extension-Packages) for short descriptions and links to the respective repositories.
+
+For beginners, we strongly recommend to install and load the [mlr3verse](https://mlr3verse.mlr-org.com/) package for a better user experience.
 
 ## Why a rewrite?
 
@@ -129,6 +142,9 @@ Also, many helpful R libraries did not exist at the time [mlr](https://github.co
   All user input is checked with [`checkmate`](https://cran.r-project.org/package=checkmate).
   Return types are documented, and mechanisms popular in base R which "simplify" the result unpredictably (e.g., `sapply()` or `drop` argument in `[.data.frame`) are avoided.
 * Be light on dependencies. `mlr3` requires the following packages at runtime:
+    - [`parallelly`](https://cran.r-project.org/package=parallelly):
+      Helper functions for parallelization.
+      No extra recursive dependencies.
     - [`future.apply`](https://cran.r-project.org/package=future.apply):
       Resampling and benchmarking is parallelized with the [`future`](https://cran.r-project.org/package=future) abstraction interfacing many parallel backends.
     - [`backports`](https://cran.r-project.org/package=backports):
@@ -165,15 +181,12 @@ Also, many helpful R libraries did not exist at the time [mlr](https://github.co
     - [`mlbench`](https://cran.r-project.org/package=mlbench):
       A collection of machine learning data sets.
       No dependencies.
+    - [`palmerpenguins`](https://cran.r-project.org/package=palmerpenguins):
+      A classification data set about penguins, used on examples and provided as a
+      toy task.  No dependencies.
 * [Reflections](https://en.wikipedia.org/wiki/Reflection_%28computer_programming%29): Objects are queryable for properties and capabilities, allowing you to program on them.
 * Additional functionality that comes with extra dependencies:
     - To capture output, warnings and exceptions, [`evaluate`](https://cran.r-project.org/package=evaluate) and [`callr`](https://cran.r-project.org/package=callr) can be used.
-
-## Extension Packages
-
-<a href="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/mlr3verse.svg?sanitize=true"><img src="man/figures/mlr3verse.svg" /></a>
-
-Consult the [wiki](https://github.com/mlr-org/mlr3/wiki/Extension-Packages) for short descriptions and links to the respective repositories.
 
 ## Contributing to mlr3
 

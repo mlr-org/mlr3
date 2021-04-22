@@ -10,9 +10,9 @@
 #' @template param_backend
 #' @template param_rows
 #'
-#' @family Task
+#' @template seealso_task
 #' @keywords internal
 #' @export
 #' @examples
-#' TaskUnsupervised$new("iris", task_type = "regr", backend = iris)
+#' TaskUnsupervised$new("penguins", task_type = "regr", backend = palmerpenguins::penguins)
 TaskUnsupervised = R6Class("TaskUnsupervised", inherit = Task)

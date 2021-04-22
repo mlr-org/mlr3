@@ -35,11 +35,11 @@ test_that("NA predictions", {
   learner = lrn("classif.debug", predict_missing = 0.5, predict_type = "response")
   learner$train(task)
   p = learner$predict(task)
-  expect_equal(sum(is.na(p$response)), 75L)
+  expect_equal(count_missing(p$response), 75L)
 
   learner = lrn("classif.debug", predict_missing = 0.5, predict_type = "prob")
   learner$train(task)
   p = learner$predict(task)
-  expect_equal(sum(is.na(p$response)), 75L)
+  expect_equal(count_missing(p$response), 75L)
   expect_equal(is.na(p$response), apply(p$prob, 1, anyMissing))
 })

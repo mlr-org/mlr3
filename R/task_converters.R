@@ -36,11 +36,11 @@ convert_task = function(intask, target = NULL, new_type = NULL, drop_original_ta
   newtask$row_roles = intask$row_roles
   props = intersect(mlr_reflections$task_col_roles[[intask$task_type]], mlr_reflections$task_col_roles[[new_type]])
   newtask$col_roles[props] = intask$col_roles[props]
-  newtask$set_col_role(target, "target")
+  newtask$set_col_roles(target, "target")
 
   # Add the original target(s) as features, only keeping 'new_target'.
   if (!all(intask$target_names == target)) {
-    newtask$set_col_role(setdiff(intask$col_roles$target, target),  "feature")
+    newtask$set_col_roles(setdiff(intask$col_roles$target, target),  "feature")
   }
 
   # during prediction, when target is NA, we do not call droplevels
@@ -54,48 +54,4 @@ convert_task = function(intask, target = NULL, new_type = NULL, drop_original_ta
   }
 
   newtask
-}
-
-#' @rdname convert_task
-#' @param x (`any`)\cr
-#'   Object to convert.
-#' @param ... (`any`)\cr
-#'   Additional arguments, currently ignored.
-#' @export
-as_task_classif = function(x, target = NULL, ...) {
-  UseMethod("as_task_classif")
-}
-
-#' @rdname convert_task
-#' @export
-as_task_classif.TaskRegr = function(x, target = NULL, drop_original_target = FALSE, drop_levels = TRUE, ...) {
-  convert_task(intask = x, target = target, new_type = "classif", drop_original_target = FALSE, drop_levels = TRUE)
-}
-
-#' @rdname convert_task
-#' @param id (`character(1)`)\cr
-#'   Id for the new task.
-#' @param positive (`character(1)`)\cr
-#'   Level of the positive class. See [TaskClassif].
-#' @export
-as_task_classif.data.frame = function(x, target = NULL, id = deparse(substitute(x)), positive = NULL, ...) {
-  TaskClassif$new(id = id, backend = x, target = target, positive = positive)
-}
-
-#' @rdname convert_task
-#' @export
-as_task_regr = function(x, target = NULL, ...) {
-  UseMethod("as_task_regr")
-}
-
-#' @export
-#' @rdname convert_task
-as_task_regr.TaskClassif = function(x, target = NULL, drop_original_target = FALSE, drop_levels = TRUE, ...) {
-  convert_task(intask = x, target = target, new_type = "regr", drop_original_target = FALSE, drop_levels = TRUE)
-}
-
-#' @export
-#' @rdname convert_task
-as_task_regr.data.frame = function(x, target = NULL, id = deparse(substitute(x)), positive = NULL, ...) {
-  TaskRegr$new(id = id, backend = x, target = target)
 }

@@ -17,10 +17,8 @@ learner_train = function(learner, task, row_ids = NULL) {
     model
   }
 
-
   assert_task(task)
   assert_learner(learner)
-  assert_learnable(task, learner)
 
   # subset to train set w/o cloning
   if (!is.null(row_ids)) {
@@ -46,7 +44,8 @@ learner_train = function(learner, task, row_ids = NULL) {
     .f = train_wrapper,
     .args = list(learner = learner, task = task),
     .pkgs = learner$packages,
-    .seed = NA_integer_
+    .seed = NA_integer_,
+    .timeout = learner$timeout["train"]
   )
 
   learner$state = insert_named(learner$state, list(
@@ -103,7 +102,6 @@ learner_predict = function(learner, task, row_ids = NULL) {
 
   assert_task(task)
   assert_learner(learner)
-  assert_learnable(task, learner)
 
   # subset to test set w/o cloning
   if (!is.null(row_ids)) {
@@ -142,7 +140,8 @@ learner_predict = function(learner, task, row_ids = NULL) {
       .f = predict_wrapper,
       .args = list(task = task, learner = learner),
       .pkgs = learner$packages,
-      .seed = NA_integer_
+      .seed = NA_integer_,
+      .timeout = learner$timeout["predict"]
     )
 
     prediction = result$result
@@ -173,7 +172,7 @@ learner_predict = function(learner, task, row_ids = NULL) {
     } else {
       miss_ids = is_missing_prediction_data(prediction)
 
-      lg$debug("Imputing %i%i predictions using fallback '%s'",
+      lg$debug("Imputing %i/%i predictions using fallback '%s'",
         length(miss_ids), length(prediction$row_ids), fb$id,  learner = fb$clone())
 
       if (length(miss_ids)) {
@@ -202,7 +201,8 @@ workhorse = function(iteration, task, learner, resampling, lgr_threshold = NULL,
 
   sets = list(
     train = resampling$train_set(iteration),
-    test = resampling$test_set(iteration)
+    test = resampling$test_set(iteration),
+    validation = task$row_roles$validation
   )
 
   # train model

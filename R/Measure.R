@@ -5,7 +5,7 @@
 #' @description
 #' This is the abstract base class for measures like [MeasureClassif] and [MeasureRegr].
 #'
-#' Measures are classes around tailored around two functions:
+#' Measures are classes tailored around two functions:
 #'
 #' 1. A function `$score()` which quantifies the performance by comparing true and predicted response.
 #' 2. A function `$aggregator()` which combines multiple performance scores returned by
@@ -20,6 +20,7 @@
 #' A guide on how to extend \CRANpkg{mlr3} with custom measures can be found in the [mlr3book](https://mlr3book.mlr-org.com).
 #'
 #' @template param_id
+#' @template param_param_set
 #' @template param_range
 #' @template param_minimize
 #' @template param_average
@@ -32,7 +33,7 @@
 #' @template param_packages
 #' @template param_man
 #'
-#' @family Measure
+#' @template seealso_measure
 #' @export
 Measure = R6Class("Measure",
   cloneable = FALSE,
@@ -42,6 +43,9 @@ Measure = R6Class("Measure",
 
     #' @template field_task_type
     task_type = NULL,
+
+    #' @template field_param_set
+    param_set = NULL,
 
     #' @field predict_type (`character(1)`)\cr
     #' Required predict type of the [Learner].
@@ -93,11 +97,13 @@ Measure = R6Class("Measure",
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #'
     #' Note that this object is typically constructed via a derived classes, e.g. [MeasureClassif] or [MeasureRegr].
-    initialize = function(id, task_type = NA, range = c(-Inf, Inf), minimize = NA, average = "macro", aggregator = NULL, properties = character(), predict_type = "response",
+    initialize = function(id, task_type = NA, param_set = ps(), range = c(-Inf, Inf), minimize = NA, average = "macro",
+      aggregator = NULL, properties = character(), predict_type = "response",
       predict_sets = "test", task_properties = character(), packages = character(), man = NA_character_) {
 
       self$id = assert_string(id, min.chars = 1L)
       self$task_type = task_type
+      self$param_set = assert_param_set(param_set)
       self$range = assert_range(range)
       self$minimize = assert_flag(minimize, na.ok = TRUE)
       self$average = assert_choice(average, c("macro", "micro"))
@@ -132,6 +138,7 @@ Measure = R6Class("Measure",
       catf(str_indent("* Packages:", self$packages))
       catf(str_indent("* Range:", sprintf("[%g, %g]", self$range[1L], self$range[2L])))
       catf(str_indent("* Minimize:", self$minimize))
+      catf(str_indent("* Parameters:", as_short_string(self$param_set$values, 1000L)))
       catf(str_indent("* Properties:", self$properties))
       catf(str_indent("* Predict type:", self$predict_type))
     },
@@ -198,6 +205,11 @@ Measure = R6Class("Measure",
     #' @return `numeric(1)`.
     aggregate = function(rr) {
       if (self$average == "macro") {
+        learner = rr$data$learners(view = rr$view, states = FALSE, reassemble = FALSE)$learner[[1L]]
+        predict_sets = learner$predict_sets
+        if (any(self$predict_sets %nin% predict_sets)) {
+          stopf("Measure '%s' requires predict sets %s", self$id, str_collapse(self$predict_type, quote = "'"))
+        }
         aggregator = self$aggregator %??% mean
         tab = score_measures(rr, list(self), reassemble = FALSE, view = rr$view)
         set_names(aggregator(tab[[self$id]]), self$id)
@@ -211,9 +223,14 @@ Measure = R6Class("Measure",
     #' @template field_hash
     hash = function(rhs) {
       assert_ro_binding(rhs)
-      fun = if (exists("score_internal", envir = self, inherits = FALSE)) self$score_internal else private$.score
-      hash(class(self), self$id, self$predict_sets, fun, self$aggregator)
+      hash(class(self), self$id, self$param_set$values, private$.score,
+        self$average, self$predict_sets, self$aggregator,
+        mget(private$.extra_hash, envir = self))
     }
+  ),
+
+  private = list(
+    .extra_hash = character()
   )
 )
 

@@ -25,8 +25,8 @@
 #'   If `keep_duplicates` is `FALSE` and there are duplicated row ids,
 #'   the data of the former passed objects get overwritten by the data of the later passed objects.
 #'
+#' @template seealso_prediction
 #' @export
-#' @family Prediction
 Prediction = R6Class("Prediction",
   public = list(
     #' @field data (named `list()`)\cr
@@ -78,6 +78,8 @@ Prediction = R6Class("Prediction",
     #' Calculates the performance for all provided measures
     #' [Task] and [Learner] may be `NULL` for most measures, but some measures need to extract information
     #' from these objects.
+    #' Note that the `predict_sets` of the `measures` are ignored by this method,
+    #' instead all predictions are used.
     #'
     #' @param task ([Task]).
     #'

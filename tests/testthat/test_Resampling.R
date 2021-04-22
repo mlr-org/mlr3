@@ -29,6 +29,7 @@ test_that("param_vals", {
 
   expect_error({
     r$param_set$values = list(repeats = 10L)
+    r$param_set$get_values()
   }, "ratio")
 
   expect_error({
@@ -38,7 +39,7 @@ test_that("param_vals", {
 
 test_that("hashing", {
   task = tsk("iris")
-  keys = setdiff(mlr_resamplings$keys(), c("custom", "ordered_holdout"))
+  keys = setdiff(mlr_resamplings$keys(), c("custom", "custom_cv", "ordered_holdout"))
 
   for (key in keys) {
     r = rsmp(key)
@@ -59,7 +60,7 @@ test_that("hashing", {
 
 test_that("cloning", {
   task = tsk("iris")
-  keys = setdiff(mlr_resamplings$keys(), c("custom", "ordered_holdout"))
+  keys = setdiff(mlr_resamplings$keys(), c("custom", "custom_cv", "ordered_holdout"))
 
   for (key in keys) {
     r = rsmp(key)$instantiate(task)
@@ -78,7 +79,7 @@ test_that("integer grouping col (#396)", {
   )
 
   tsk = TaskRegr$new(id = "task", backend = df, target = "x")
-  tsk$set_col_role("id", "group")
+  tsk$set_col_roles("id", "group")
 
   bs = rsmp("bootstrap", repeats = 10L, ratio = 1)
   bs$instantiate(tsk)
@@ -90,4 +91,68 @@ test_that("integer grouping col (#396)", {
   set = bs$test_set(1)
   expect_integer(set)
   expect_true(all(map_lgl(split(seq_row(df), f = df$id), function(x) all(x %in% set) || all(x %nin% set))))
+})
+
+test_that("as.data.table.Resampling", {
+  r = rsmp("bootstrap")
+  r$instantiate(tsk("mtcars"))
+
+  tab = as.data.table(r)
+  expect_data_table(tab, ncols = 3)
+  expect_names(names(tab), permutation.of = c("set", "iteration", "row_id"))
+  expect_integer(tab$iteration, any.missing = FALSE)
+  expect_factor(tab$set, levels = c("train", "test"), any.missing = FALSE)
+  expect_integer(tab$row_id, any.missing = FALSE)
+})
+
+test_that("Evaluation on validation set", {
+  task = tsk("sonar")
+  rids = task$row_ids
+  task$row_roles$validation = tail(rids, 10)
+  task$row_roles$use = head(rids, -10)
+  learner = lrn("classif.rpart", predict_sets = c("test", "validation"))
+  rr = resample(task, learner, rsmp("holdout"))
+
+  m1 = msr("classif.acc", id = "acc.test", predict_sets = "test")
+  m2 = msr("classif.acc", id = "acc.holdout", predict_sets = "validation")
+
+  expect_equal(rr$aggregate(list(m1, m2)), c(rr$prediction("test")$score(m1), rr$prediction("validation")$score(m2)))
+})
+
+test_that("custom_cv", {
+  task = tsk("penguins")
+  r = rsmp("custom_cv")
+  f = task$data(cols = "island")[[1L]]
+  r$instantiate(task, f)
+  expect_resampling(r, task = task)
+
+  expect_equal(r$iters, 3L)
+  expect_list(r$instance, "integer", len = 3)
+  expect_names(names(r$instance), permutation.of = levels(f))
+
+
+  task = tsk("penguins")
+  task$filter(1:10)
+  r = rsmp("custom_cv")
+  f = factor(rep(letters[1:3], each = 3))
+  expect_error(r$instantiate(task, f), "length")
+
+  f[10] = NA
+  r$instantiate(task, f)
+  expect_data_table(as.data.table(r), nrows = 3L * 9L)
+
+  f[] = NA
+  expect_error(r$instantiate(task, f), "only missing")
+})
+
+test_that("loo with groups", {
+  task = tsk("penguins")
+  task$set_col_roles("island", add_to = "group")
+  loo = rsmp("loo")
+  loo$instantiate(task)
+  expect_equal(loo$iters, 3L)
+
+  islands = cbind(row_id = task$row_ids, task$data(cols = "island"))
+  tab = merge(as.data.table(loo), islands, by = "row_id")
+  expect_true(all(tab[, .(n_islands = uniqueN(island)), by = row_id]$n_islands == 1L))
 })

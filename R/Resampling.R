@@ -27,7 +27,8 @@
 #'
 #' Second, the sampling is performed in each of the `k` subpopulations separately.
 #' Each subgroup is divided into `iter` training sets and `iter` test sets by the derived `Resampling`.
-#' These sets are merged based on their iteration number: all training sets from all subpopulations with iteration 1 are combined, then all training sets with iteration 2, and so on.
+#' These sets are merged based on their iteration number:
+#' all training sets from all subpopulations with iteration 1 are combined, then all training sets with iteration 2, and so on.
 #' Same is done for all test sets.
 #' The merged sets can be accessed via `$train_set(i)` and `$test_set(i)`, respectively.
 #'
@@ -44,7 +45,6 @@
 #' The sets can be accessed via `$train_set(i)` and `$test_set(i)`, respectively.
 #'
 #'
-#' @family Resampling
 #' @template seealso_resampling
 #' @export
 #' @examples
@@ -57,8 +57,8 @@
 #' r$param_set$values = list(ratio = 0.1, repeats = 3)
 #' r$param_set$values
 #'
-#' # Instantiate on iris task
-#' task = tsk("iris")
+#' # Instantiate on penguins task
+#' task = tsk("penguins")
 #' r$instantiate(task)
 #'
 #' # Extract train/test sets
@@ -106,7 +106,7 @@ Resampling = R6Class("Resampling",
 
     #' @field duplicated_ids (`logical(1)`)\cr
     #'   If `TRUE`, duplicated rows can occur within a single training set or within a single test set.
-    #'   E.g., this is `TRUE` for Bootstrap, and `FALSE` for cross validation.
+    #'   E.g., this is `TRUE` for Bootstrap, and `FALSE` for cross-validation.
     #'   Only used internally.
     duplicated_ids = NULL,
 
@@ -120,7 +120,7 @@ Resampling = R6Class("Resampling",
     #'   Set to `TRUE` if this resampling strategy may have duplicated row ids in a single training set or test set.
     #'
     #' Note that this object is typically constructed via a derived classes, e.g. [ResamplingCV] or [ResamplingHoldout].
-    initialize = function(id, param_set = ParamSet$new(), duplicated_ids = FALSE, man = NA_character_) {
+    initialize = function(id, param_set = ps(), duplicated_ids = FALSE, man = NA_character_) {
       self$id = assert_string(id, min.chars = 1L)
       self$param_set = assert_param_set(param_set)
       self$duplicated_ids = assert_flag(duplicated_ids)
@@ -218,6 +218,9 @@ Resampling = R6Class("Resampling",
     #' @template field_hash
     hash = function(rhs) {
       assert_ro_binding(rhs)
+      if (!self$is_instantiated) {
+        return(NA_character_)
+      }
       hash(list(class(self), self$id, self$param_set$values, self$instance))
     }
   ),
@@ -232,10 +235,25 @@ Resampling = R6Class("Resampling",
       i = assert_int(i, lower = 1L, upper = self$iters, coerce = TRUE)
       ids = getter(i)
 
-      if (is.null(private$.groups))
+      if (is.null(private$.groups)) {
         return(ids)
+      }
 
       private$.groups[list(ids), on = "group", allow.cartesian = TRUE][[1L]]
     }
   )
 )
+
+
+#' @export
+as.data.table.Resampling = function(x, ...) { # nolint
+  assert_resampling(x, instantiated = TRUE)
+  iterations = seq_len(x$iters)
+
+  tab = rbindlist(list(
+    map_dtr(iterations, function(i) list(row_id = x$train_set(i)), .idcol = "iteration"),
+    map_dtr(iterations, function(i) list(row_id = x$test_set(i)), .idcol = "iteration")
+  ), idcol = "set")
+  set(tab, j = "set", value = factor(c("train", "test")[tab$set], levels = c("train", "test")))
+  setkeyv(tab, c("set", "iteration"))[]
+}

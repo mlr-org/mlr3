@@ -25,7 +25,8 @@ First, the observations are divided into subpopulations based one or multiple st
 
 Second, the sampling is performed in each of the \code{k} subpopulations separately.
 Each subgroup is divided into \code{iter} training sets and \code{iter} test sets by the derived \code{Resampling}.
-These sets are merged based on their iteration number: all training sets from all subpopulations with iteration 1 are combined, then all training sets with iteration 2, and so on.
+These sets are merged based on their iteration number:
+all training sets from all subpopulations with iteration 1 are combined, then all training sets with iteration 2, and so on.
 Same is done for all test sets.
 The merged sets can be accessed via \verb{$train_set(i)} and \verb{$test_set(i)}, respectively.
 }
@@ -53,8 +54,8 @@ r$param_set$values
 r$param_set$values = list(ratio = 0.1, repeats = 3)
 r$param_set$values
 
-# Instantiate on iris task
-task = tsk("iris")
+# Instantiate on penguins task
+task = tsk("penguins")
 r$instantiate(task)
 
 # Extract train/test sets
@@ -76,24 +77,17 @@ r$instantiate(task)
 prop.table(table(task$truth(r$train_set(1)))) # roughly same proportion
 }
 \seealso{
-\link[mlr3misc:Dictionary]{Dictionary} of \link[=Resampling]{Resamplings}: \link{mlr_resamplings}
-
-\code{as.data.table(mlr_resamplings)} for a complete table of all (also dynamically created) \link{Resampling} implementations.
-
-Other Resampling: 
-\code{\link{mlr_resamplings_bootstrap}},
-\code{\link{mlr_resamplings_custom}},
-\code{\link{mlr_resamplings_cv}},
-\code{\link{mlr_resamplings_holdout}},
-\code{\link{mlr_resamplings_insample}},
-\code{\link{mlr_resamplings_loo}},
-\code{\link{mlr_resamplings_ordered_holdout}},
-\code{\link{mlr_resamplings_repeated_cv}},
-\code{\link{mlr_resamplings_subsampling}},
-\code{\link{mlr_resamplings}}
+\itemize{
+\item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
+\url{https://mlr3book.mlr-org.com/resampling.html}
+\item Package \CRANpkg{mlr3spatiotempcv} for spatio-temporal resamplings.
+\item \link[mlr3misc:Dictionary]{Dictionary} of \link[=Resampling]{Resamplings}: \link{mlr_resamplings}
+\item \code{as.data.table(mlr_resamplings)} for a table of available \link[=Resampling]{Resamplings} in the running session (depending on the loaded packages).
+}
 
 Other Resampling: 
 \code{\link{mlr_resamplings_bootstrap}},
+\code{\link{mlr_resamplings_custom_cv}},
 \code{\link{mlr_resamplings_custom}},
 \code{\link{mlr_resamplings_cv}},
 \code{\link{mlr_resamplings_holdout}},
@@ -131,7 +125,7 @@ The number of observations of the \link{Task} which was passed to \code{r$instan
 
 \item{\code{duplicated_ids}}{(\code{logical(1)})\cr
 If \code{TRUE}, duplicated rows can occur within a single training set or within a single test set.
-E.g., this is \code{TRUE} for Bootstrap, and \code{FALSE} for cross validation.
+E.g., this is \code{TRUE} for Bootstrap, and \code{FALSE} for cross-validation.
 Only used internally.}
 
 \item{\code{man}}{(\code{character(1)})\cr
@@ -172,7 +166,7 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Resampling$new(
   id,
-  param_set = ParamSet$new(),
+  param_set = ps(),
   duplicated_ids = FALSE,
   man = NA_character_
 )}\if{html}{\out{</div>}}

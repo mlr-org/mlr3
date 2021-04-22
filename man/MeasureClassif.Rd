@@ -11,13 +11,27 @@ This measure specializes \link{Measure} for classification problems:
 }
 
 Predefined measures can be found in the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures}.
+The default measure for classification is \code{\link[=mlr_measures_classif.ce]{classif.ce}}.
 }
 \seealso{
-Default classification measures: \code{\link[=mlr_measures_classif.ce]{classif.ce}}
+\itemize{
+\item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
+\url{https://mlr3book.mlr-org.com/train-predict.html}
+\item Package \CRANpkg{mlr3measures} for the scoring functions.
+\link[mlr3misc:Dictionary]{Dictionary} of \link[=Measure]{Measures}: \link{mlr_measures}
+\code{as.data.table(mlr_measures)} for a table of available \link[=Measure]{Measures} in the running session (depending on the loaded packages).
+\item Extension packages for additional task types:
+\itemize{
+\item \CRANpkg{mlr3proba} for probabilistic supervised regression and survival analysis.
+\item \CRANpkg{mlr3cluster} for unsupervised clustering.
+}
+}
 
 Other Measure: 
 \code{\link{MeasureRegr}},
 \code{\link{Measure}},
+\code{\link{mlr_measures_aic}},
+\code{\link{mlr_measures_bic}},
 \code{\link{mlr_measures_classif.costs}},
 \code{\link{mlr_measures_debug}},
 \code{\link{mlr_measures_elapsed_time}},
@@ -54,6 +68,7 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{MeasureClassif$new(
   id,
+  param_set = ps(),
   range,
   minimize = NA,
   average = "macro",
@@ -72,6 +87,9 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 \describe{
 \item{\code{id}}{(\code{character(1)})\cr
 Identifier for the new instance.}
+
+\item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
+Set of hyperparameters.}
 
 \item{\code{range}}{(\code{numeric(2)})\cr
 Feasible range for this measure as \code{c(lower_bound, upper_bound)}.
@@ -113,7 +131,7 @@ Possible values are stored in \link[=mlr_reflections]{mlr_reflections$learner_pr
 \item{\code{predict_sets}}{(\code{character()})\cr
 Prediction sets to operate on, used in \code{aggregate()} to extract the matching \code{predict_sets} from the \link{ResampleResult}.
 Multiple predict sets are calculated by the respective \link{Learner} during \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}.
-Must be a non-empty subset of \verb{\{"train", "test"\}}.
+Must be a non-empty subset of \verb{\{"train", "test", "validation"\}}.
 If multiple sets are provided, these are first combined to a single prediction object.
 Default is \code{"test"}.}
 

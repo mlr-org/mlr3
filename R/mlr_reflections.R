@@ -100,7 +100,7 @@ local({
   )
 
   ### Learner
-  tmp = c("featureless", "missings", "weights", "importance", "selected_features", "oob_error")
+  tmp = c("featureless", "missings", "weights", "importance", "selected_features", "oob_error", "loglik")
   mlr_reflections$learner_properties = list(
     classif = c(tmp, "twoclass", "multiclass"),
     regr = tmp
@@ -112,7 +112,7 @@ local({
   )
 
   ### Prediction
-  mlr_reflections$predict_sets = c("train", "test")
+  mlr_reflections$predict_sets = c("train", "test", "validation")
 
 
   ### Measures

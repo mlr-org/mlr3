@@ -1,4 +1,4 @@
-#' @title Cross Validation Resampling
+#' @title Cross-Validation Resampling
 #'
 #' @name mlr_resamplings_cv
 #' @include Resampling.R
@@ -14,34 +14,36 @@
 #'   Number of folds.
 #'
 #' @references
-#' `r tools::toRd(bibentries["bischl_2012"])`
+#' `r format_bib("bischl_2012")`
 #'
 #' @template seealso_resampling
 #' @export
 #' @examples
 #' # Create a task with 10 observations
-#' task = tsk("iris")
+#' task = tsk("penguins")
 #' task$filter(1:10)
 #'
 #' # Instantiate Resampling
-#' rcv = rsmp("cv", folds = 3)
-#' rcv$instantiate(task)
+#' cv = rsmp("cv", folds = 3)
+#' cv$instantiate(task)
 #'
 #' # Individual sets:
-#' rcv$train_set(1)
-#' rcv$test_set(1)
-#' intersect(rcv$train_set(1), rcv$test_set(1))
+#' cv$train_set(1)
+#' cv$test_set(1)
+#'
+#' # Disjunct sets:
+#' intersect(cv$train_set(1), cv$test_set(1))
 #'
 #' # Internal storage:
-#' rcv$instance # table
+#' cv$instance # table
 ResamplingCV = R6Class("ResamplingCV", inherit = Resampling,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
-      ps = ParamSet$new(list(
-        ParamInt$new("folds", lower = 2L, tags = "required")
-      ))
+      ps = ps(
+        folds = p_int(2L, tags = "required")
+      )
       ps$values = list(folds = 10L)
 
       super$initialize(id = "cv", param_set = ps, man = "mlr3::mlr_resamplings_cv")

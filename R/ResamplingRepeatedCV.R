@@ -1,4 +1,4 @@
-#' @title Repeated Cross Validation Resampling
+#' @title Repeated Cross-Validation Resampling
 #'
 #' @name mlr_resamplings_repeated_cv
 #' @include Resampling.R
@@ -12,7 +12,7 @@
 #'
 #' Iteration numbers can be translated into folds or repeats with provided methods.
 #'
-#' @templateVar id holdout
+#' @templateVar id repeated_cv
 #' @template section_dictionary_resampling
 #'
 #' @section Parameters:
@@ -22,38 +22,40 @@
 #'   Number of folds.
 #'
 #' @references
-#' `r tools::toRd(bibentries["bischl_2012"])`
+#' `r format_bib("bischl_2012")`
 #'
 #' @template seealso_resampling
 #' @export
 #' @examples
 #' # Create a task with 10 observations
-#' task = tsk("iris")
+#' task = tsk("penguins")
 #' task$filter(1:10)
 #'
 #' # Instantiate Resampling
-#' rrcv = rsmp("repeated_cv", repeats = 2, folds = 3)
-#' rrcv$instantiate(task)
-#' rrcv$iters
-#' rrcv$folds(1:6)
-#' rrcv$repeats(1:6)
+#' repeated_cv = rsmp("repeated_cv", repeats = 2, folds = 3)
+#' repeated_cv$instantiate(task)
+#' repeated_cv$iters
+#' repeated_cv$folds(1:6)
+#' repeated_cv$repeats(1:6)
 #'
 #' # Individual sets:
-#' rrcv$train_set(1)
-#' rrcv$test_set(1)
-#' intersect(rrcv$train_set(1), rrcv$test_set(1))
+#' repeated_cv$train_set(1)
+#' repeated_cv$test_set(1)
+#'
+#' # Disjunct sets:
+#' intersect(repeated_cv$train_set(1), repeated_cv$test_set(1))
 #'
 #' # Internal storage:
-#' rrcv$instance # table
+#' repeated_cv$instance # table
 ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
-      ps = ParamSet$new(list(
-        ParamInt$new("repeats", lower = 1),
-        ParamInt$new("folds", lower = 2L, tags = "required")
-      ))
+      ps = ps(
+        folds   = p_int(2L, tags = "required"),
+        repeats = p_int(1L)
+      )
       ps$values = list(repeats = 10L, folds = 10L)
       super$initialize(id = "repeated_cv", param_set = ps, man = "mlr3::mlr_resamplings_repeated_cv")
     },

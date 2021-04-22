@@ -13,6 +13,14 @@
 #'   Keep the fitted model after the test set has been predicted?
 #'   Set to `TRUE` if you want to further analyse the models or want to
 #'   extract information like variable importance.
+#' @param store_backends (`logical(1)`)\cr
+#'   Keep the [DataBackend] of the [Task] in the [ResampleResult]?
+#'   Set to `TRUE` if your performance measures require a [Task],
+#'   or to analyse results more conveniently.
+#'   Set to `FALSE` to reduce the file size and memory footprint
+#'   after serialization.
+#'   The current default is `TRUE`, but this eventually will be changed
+#'   in a future release.
 #' @return [ResampleResult].
 #'
 #'
@@ -24,9 +32,10 @@
 #' The fitted models are discarded after the predictions have been computed in order to reduce memory consumption.
 #' If you need access to the models for later analysis, set `store_models` to `TRUE`.
 #'
+#' @template seealso_resample
 #' @export
 #' @examples
-#' task = tsk("iris")
+#' task = tsk("penguins")
 #' learner = lrn("classif.rpart")
 #' resampling = rsmp("cv")
 #'
@@ -52,11 +61,12 @@
 #' bmr1 = as_benchmark_result(rr)
 #' bmr2 = as_benchmark_result(rr_featureless)
 #' print(bmr1$combine(bmr2))
-resample = function(task, learner, resampling, store_models = FALSE) {
+resample = function(task, learner, resampling, store_models = FALSE, store_backends = TRUE) {
   task = assert_task(as_task(task, clone = TRUE))
   learner = assert_learner(as_learner(learner, clone = TRUE))
   resampling = assert_resampling(as_resampling(resampling))
   assert_flag(store_models)
+  assert_flag(store_backends)
   assert_learnable(task, learner)
 
   instance = resampling$clone(deep = TRUE)
@@ -66,14 +76,24 @@ resample = function(task, learner, resampling, store_models = FALSE) {
   n = instance$iters
   pb = get_progressor(n)
 
-  lg$debug("Running resample() via future with %i iterations", n)
 
-  res = future.apply::future_lapply(seq_len(n), workhorse,
-    task = task, learner = learner, resampling = instance,
-    store_models = store_models, lgr_threshold = lg$threshold, pb = pb,
-    future.globals = FALSE, future.scheduling = structure(TRUE, ordering = "random"),
-    future.packages = "mlr3", future.seed = TRUE
-  )
+  if (getOption("mlr3.debug", FALSE)) {
+    lg$info("Running resample() sequentially in debug mode with %i iterations", n)
+
+    res = lapply(seq_len(n), workhorse,
+      task = task, learner = learner, resampling = instance,
+      store_models = store_models, lgr_threshold = lg$threshold, pb = pb
+    )
+  } else {
+    lg$debug("Running resample() via future with %i iterations", n)
+
+    res = future.apply::future_lapply(seq_len(n), workhorse,
+      task = task, learner = learner, resampling = instance,
+      store_models = store_models, lgr_threshold = lg$threshold, pb = pb,
+      future.globals = FALSE, future.scheduling = structure(TRUE, ordering = "random"),
+      future.packages = "mlr3", future.seed = TRUE
+    )
+  }
 
   data = data.table(
     task = list(task),
@@ -85,5 +105,5 @@ resample = function(task, learner, resampling, store_models = FALSE) {
     uhash = UUIDgenerate()
   )
 
-  ResampleResult$new(ResultData$new(data))
+  ResampleResult$new(ResultData$new(data, store_backends = store_backends))
 }

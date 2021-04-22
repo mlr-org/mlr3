@@ -3,7 +3,7 @@
 \name{mlr_resamplings_cv}
 \alias{mlr_resamplings_cv}
 \alias{ResamplingCV}
-\title{Cross Validation Resampling}
+\title{Cross-Validation Resampling}
 \description{
 Splits data using a \code{folds}-folds (default: 10 folds) cross-validation.
 }
@@ -24,20 +24,22 @@ Number of folds.
 
 \examples{
 # Create a task with 10 observations
-task = tsk("iris")
+task = tsk("penguins")
 task$filter(1:10)
 
 # Instantiate Resampling
-rcv = rsmp("cv", folds = 3)
-rcv$instantiate(task)
+cv = rsmp("cv", folds = 3)
+cv$instantiate(task)
 
 # Individual sets:
-rcv$train_set(1)
-rcv$test_set(1)
-intersect(rcv$train_set(1), rcv$test_set(1))
+cv$train_set(1)
+cv$test_set(1)
+
+# Disjunct sets:
+intersect(cv$train_set(1), cv$test_set(1))
 
 # Internal storage:
-rcv$instance # table
+cv$instance # table
 }
 \references{
 Bischl B, Mersmann O, Trautmann H, Weihs C (2012).
@@ -46,13 +48,18 @@ Bischl B, Mersmann O, Trautmann H, Weihs C (2012).
 \doi{10.1162/evco_a_00069}.
 }
 \seealso{
-\link[mlr3misc:Dictionary]{Dictionary} of \link[=Resampling]{Resamplings}: \link{mlr_resamplings}
-
-\code{as.data.table(mlr_resamplings)} for a complete table of all (also dynamically created) \link{Resampling} implementations.
+\itemize{
+\item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
+\url{https://mlr3book.mlr-org.com/resampling.html}
+\item Package \CRANpkg{mlr3spatiotempcv} for spatio-temporal resamplings.
+\item \link[mlr3misc:Dictionary]{Dictionary} of \link[=Resampling]{Resamplings}: \link{mlr_resamplings}
+\item \code{as.data.table(mlr_resamplings)} for a table of available \link[=Resampling]{Resamplings} in the running session (depending on the loaded packages).
+}
 
 Other Resampling: 
 \code{\link{Resampling}},
 \code{\link{mlr_resamplings_bootstrap}},
+\code{\link{mlr_resamplings_custom_cv}},
 \code{\link{mlr_resamplings_custom}},
 \code{\link{mlr_resamplings_holdout}},
 \code{\link{mlr_resamplings_insample}},

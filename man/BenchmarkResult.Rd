@@ -8,8 +8,13 @@ This is the result container object returned by \code{\link[=benchmark]{benchmar
 A \link{BenchmarkResult} consists of the data row-binded data of multiple
 \link{ResampleResult}s, which can easily be re-constructed.
 
-Note that all stored objects are accessed by reference.
-Do not modify any object without cloning it first.
+\link{BenchmarkResult}s can be visualized via \CRANpkg{mlr3viz}'s \code{autoplot()} function.
+
+For statistical analysis of benchmark results and more advanced plots, see \CRANpkg{mlr3benchmark}.
+}
+\note{
+All stored objects are accessed by reference.
+Do not modify any extracted object without cloning it first.
 }
 \section{S3 Methods}{
 
@@ -20,10 +25,6 @@ Returns a tabular view of the internal data.
 \item \code{c(...)}\cr
 (\link{BenchmarkResult}, ...) -> \link{BenchmarkResult}\cr
 Combines multiple objects convertible to \link{BenchmarkResult} into a new \link{BenchmarkResult}.
-\item \code{friedman.test(y, ...)}\cr
-\link{BenchmarkResult} -> \code{"htest"}\cr
-Applies \code{\link[=friedman.test]{friedman.test()}} on the benchmark result, returning an
-object of class \code{"htest"}.
 }
 }
 
@@ -67,6 +68,15 @@ rr$predictions()[[1]]$confusion
 bmr$filter(task_ids = "sonar")
 print(bmr)
 }
+\seealso{
+Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
+\url{https://mlr3book.mlr-org.com/benchmarking.html}
+
+Other benchmark: 
+\code{\link{benchmark_grid}()},
+\code{\link{benchmark}()}
+}
+\concept{benchmark}
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
@@ -232,7 +242,12 @@ Additionally calculates the provided performance measures and binds the
 performance scores as extra columns. These columns are named using the id of
 the respective \link{Measure}.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{BenchmarkResult$score(measures = NULL, ids = TRUE, predict_sets = "test")}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{BenchmarkResult$score(
+  measures = NULL,
+  ids = TRUE,
+  conditions = FALSE,
+  predict_sets = "test"
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -243,10 +258,17 @@ Measure(s) to calculate.}
 
 \item{\code{ids}}{(\code{logical(1)})\cr
 Adds object ids (\code{"task_id"}, \code{"learner_id"}, \code{"resampling_id"}) as
-extra character columns for convenient subsetting.}
+extra character columns to the returned table.}
+
+\item{\code{conditions}}{(\code{logical(1)})\cr
+Adds condition messages (\code{"warnings"}, \code{"errors"}) as extra
+list columns of character vectors to the returned table}
 
 \item{\code{predict_sets}}{(\code{character()})\cr
-Vector of predict sets (\verb{\{"train", "test"\}}) to construct the \link{Prediction} objects from.
+Prediction sets to operate on, used in \code{aggregate()} to extract the matching \code{predict_sets} from the \link{ResampleResult}.
+Multiple predict sets are calculated by the respective \link{Learner} during \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}.
+Must be a non-empty subset of \verb{\{"train", "test", "validation"\}}.
+If multiple sets are provided, these are first combined to a single prediction object.
 Default is \code{"test"}.}
 }
 \if{html}{\out{</div>}}
@@ -263,8 +285,16 @@ Returns a result table where resampling iterations are combined into
 \link{ResampleResult}s. A column with the aggregated performance score is
 added for each \link{Measure}, named with the id of the respective measure.
 
+Note that the aggregated performances just give a quick impression which
+approaches work well and which approaches are probably underperforming.
+However, the aggregates do not account for variance and cannot replace
+a statistical test.
+See \CRANpkg{mlr3viz} to get a better impression via boxplots or
+\CRANpkg{mlr3benchmark} for critical difference plots and
+significance tests.
+
 For convenience, different flags can be set to extract more
-information from the returned \link{ResampleResult}:
+information from the returned \link{ResampleResult}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{BenchmarkResult$aggregate(
   measures = NULL,

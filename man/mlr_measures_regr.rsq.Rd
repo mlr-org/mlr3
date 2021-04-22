@@ -10,7 +10,8 @@ Regression measure defined as \deqn{
   1 - sum((t - r)^2) / sum((t - mean(t))^2).
 }
 Also known as coefficient of determination or explained variation.
-Substracts the \code{\link[mlr3measures:rse]{rse()}} from 1, hence it compares the squared error of the predictions relative to a naive model predicting  the mean.
+Subtracts the \code{\link[mlr3measures:rse]{rse()}} from 1, hence it compares the squared error of
+the predictions relative to a naive model predicting the mean.
 }
 \note{
 The score function calls \code{\link[mlr3measures:rsq]{mlr3measures::rsq()}} from package \CRANpkg{mlr3measures}.

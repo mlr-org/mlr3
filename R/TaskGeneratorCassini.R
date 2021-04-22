@@ -23,11 +23,11 @@ TaskGeneratorCassini = R6Class("TaskGeneratorCassini",
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
-      ps = ParamSet$new(list(
-        ParamInt$new("relsize1", lower = 1L, default = 2L),
-        ParamInt$new("relsize2", lower = 1L, default = 2L),
-        ParamInt$new("relsize3", lower = 1L, default = 1L)
-      ))
+      ps = ps(
+        relsize1 = p_int(1L, default = 2L),
+        relsize2 = p_int(1L, default = 2L),
+        relsize3 = p_int(1L, default = 1L)
+      )
 
       super$initialize(id = "cassini", "classif", "mlbench", ps, man = "mlr3::mlr_task_generators_cassini")
     },

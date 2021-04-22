@@ -13,17 +13,17 @@
 #' @export
 #' @examples
 #' # Create a task with 10 observations
-#' task = tsk("iris")
+#' task = tsk("penguins")
 #' task$filter(1:10)
 #'
 #' # Instantiate Resampling
-#' rc = rsmp("custom")
+#' custom = rsmp("custom")
 #' train_sets = list(1:5, 5:10)
 #' test_sets = list(5:10, 1:5)
-#' rc$instantiate(task, train_sets, test_sets)
+#' custom$instantiate(task, train_sets, test_sets)
 #'
-#' rc$train_set(1)
-#' rc$test_set(1)
+#' custom$train_set(1)
+#' custom$test_set(1)
 ResamplingCustom = R6Class("ResamplingCustom", inherit = Resampling,
   public = list(
     #' @description
@@ -62,16 +62,7 @@ ResamplingCustom = R6Class("ResamplingCustom", inherit = Resampling,
     #' @template field_iters
     iters = function(rhs) {
       assert_ro_binding(rhs)
-      length(self$instance$train)
-    },
-
-    #' @template field_hash
-    hash = function(rhs) {
-      assert_ro_binding(rhs)
-      if (is.null(self$instance$test)) {
-        return(NA_character_)
-      }
-      hash(class(self), self$id, self$param_set$values, self$instance)
+      if (self$is_instantiated) length(self$instance$train) else NA_integer_
     }
   ),
 

@@ -32,6 +32,17 @@ the data of the former passed objects get overwritten by the data of the later p
 }
 
 \seealso{
+\itemize{
+\item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
+\url{https://mlr3book.mlr-org.com/train-predict.html}
+\item Package \CRANpkg{mlr3viz} for some generic visualizations.
+\item Extension packages for additional task types:
+\itemize{
+\item \CRANpkg{mlr3proba} for probabilistic supervised regression and survival analysis.
+\item \CRANpkg{mlr3cluster} for unsupervised clustering.
+}
+}
+
 Other Prediction: 
 \code{\link{PredictionClassif}},
 \code{\link{PredictionRegr}}
@@ -126,6 +137,8 @@ Opens the corresponding help page referenced by field \verb{$man}.
 Calculates the performance for all provided measures
 \link{Task} and \link{Learner} may be \code{NULL} for most measures, but some measures need to extract information
 from these objects.
+Note that the \code{predict_sets} of the \code{measures} are ignored by this method,
+instead all predictions are used.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Prediction$score(
   measures = NULL,

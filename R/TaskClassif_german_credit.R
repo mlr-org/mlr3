@@ -35,7 +35,7 @@
 #' 2000 Hamburg 13
 #'
 #' @references
-#' `r tools::toRd(bibentries["gromping_2019"])`
+#' `r format_bib("gromping_2019")`
 #'
 #' @template seealso_task
 #' @examples

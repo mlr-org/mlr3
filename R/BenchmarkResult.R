@@ -7,8 +7,13 @@
 #' A [BenchmarkResult] consists of the data row-binded data of multiple
 #' [ResampleResult]s, which can easily be re-constructed.
 #'
-#' Note that all stored objects are accessed by reference.
-#' Do not modify any object without cloning it first.
+#' [BenchmarkResult]s can be visualized via \CRANpkg{mlr3viz}'s `autoplot()` function.
+#'
+#' For statistical analysis of benchmark results and more advanced plots, see \CRANpkg{mlr3benchmark}.
+#'
+#' @note
+#' All stored objects are accessed by reference.
+#' Do not modify any extracted object without cloning it first.
 #'
 #' @template param_measures
 #'
@@ -19,11 +24,8 @@
 #' * `c(...)`\cr
 #'   ([BenchmarkResult], ...) -> [BenchmarkResult]\cr
 #'   Combines multiple objects convertible to [BenchmarkResult] into a new [BenchmarkResult].
-#' * `friedman.test(y, ...)`\cr
-#'   [BenchmarkResult] -> `"htest"`\cr
-#'   Applies [friedman.test()] on the benchmark result, returning an
-#'   object of class `"htest"`.
 #'
+#' @template seealso_benchmark
 #' @export
 #' @examples
 #' set.seed(123)
@@ -79,10 +81,10 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #'   An object of type `ResultData`, either extracted from another [ResampleResult], another
     #'   [BenchmarkResult], or manually constructed with [as_result_data()].
     initialize = function(data = NULL) {
-      if (inherits(data, "ResultData")) {
-        self$data = data
+      if (is.null(data)) {
+        self$data = ResultData$new()
       } else {
-        self$data = ResultData$new(data)
+        self$data = assert_class(data, "ResultData")
       }
     },
 
@@ -149,16 +151,19 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #'
     #' @param ids (`logical(1)`)\cr
     #'   Adds object ids (`"task_id"`, `"learner_id"`, `"resampling_id"`) as
-    #'   extra character columns for convenient subsetting.
+    #'   extra character columns to the returned table.
     #'
-    #' @param predict_sets (`character()`)\cr
-    #'   Vector of predict sets (`{"train", "test"}`) to construct the [Prediction] objects from.
-    #'   Default is `"test"`.
+    #' @param conditions (`logical(1)`)\cr
+    #'   Adds condition messages (`"warnings"`, `"errors"`) as extra
+    #'   list columns of character vectors to the returned table
+    #'
+    #' @template param_predict_sets
     #'
     #' @return [data.table::data.table()].
-    score = function(measures = NULL, ids = TRUE, predict_sets = "test") {
+    score = function(measures = NULL, ids = TRUE, conditions = FALSE, predict_sets = "test") {
       measures = assert_measures(as_measures(measures, task_type = self$task_type))
       assert_flag(ids)
+      assert_flag(conditions)
 
       tab = score_measures(self, measures, view = NULL)
       tab = merge(self$data$data$uhashes, tab, by = "uhash", sort = FALSE)
@@ -170,10 +175,15 @@ BenchmarkResult = R6Class("BenchmarkResult",
         set(tab, j = "resampling_id", value = ids(tab$resampling))
       }
 
+      if (conditions) {
+        set(tab, j = "warnings", value = map(tab$learner, "warnings"))
+        set(tab, j = "errors", value = map(tab$learner, "errors"))
+      }
+
       set(tab, j = "prediction", value = as_predictions(tab$prediction, predict_sets))
 
       cns = c("uhash", "nr", "task", "task_id", "learner", "learner_id", "resampling", "resampling_id",
-        "iteration", "prediction", ids(measures))
+        "iteration", "prediction", "warnings", "errors", ids(measures))
       cns = intersect(cns, names(tab))
       tab[, cns, with = FALSE]
     },
@@ -183,8 +193,16 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #' [ResampleResult]s. A column with the aggregated performance score is
     #' added for each [Measure], named with the id of the respective measure.
     #'
+    #' Note that the aggregated performances just give a quick impression which
+    #' approaches work well and which approaches are probably underperforming.
+    #' However, the aggregates do not account for variance and cannot replace
+    #' a statistical test.
+    #' See \CRANpkg{mlr3viz} to get a better impression via boxplots or
+    #' \CRANpkg{mlr3benchmark} for critical difference plots and
+    #' significance tests.
+    #'
     #' For convenience, different flags can be set to extract more
-    #' information from the returned [ResampleResult]:
+    #' information from the returned [ResampleResult].
     #'
     #' @param uhashes (`logical(1)`)\cr
     #'   Adds the uhash values of the [ResampleResult] as extra character
@@ -459,34 +477,4 @@ c.BenchmarkResult = function(...) { # nolint
   bmrs = lapply(list(...), as_benchmark_result)
   init = BenchmarkResult$new()
   Reduce(function(lhs, rhs) lhs$combine(rhs), bmrs, init = init)
-}
-
-#' @importFrom stats friedman.test
-#' @export
-friedman.test.BenchmarkResult = function(y, measure = NULL, ...) { # nolint
-  # FIXME: this must be documented somewhere else
-  measure = assert_measure(as_measure(measure, task_type = y$task_type))
-  aggr = y$aggregate(measure)
-  friedman.test(aggr[[measure$id]], aggr$learner_id, aggr$task_id)
-}
-
-#' @title Convert to BenchmarkResult
-#'
-#' @description
-#' Simple S3 method to convert objects to a [BenchmarkResult].
-#'
-#' @param x (`any`)\cr
-#'  Object to dispatch on, e.g. a [ResampleResult].
-#' @param ... (`any`)\cr
-#'  Currently not used.
-#'
-#' @return ([BenchmarkResult]).
-#' @export
-as_benchmark_result = function(x, ...) {
-  UseMethod("as_benchmark_result")
-}
-
-#' @export
-as_benchmark_result.BenchmarkResult = function(x, ...) { # nolint
-  x
 }

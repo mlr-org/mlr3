@@ -4,7 +4,8 @@ expect_hash_changes = function(x) {
 
   x$id = "foo"
   expect_false(identical(x$id, id_before))
-  expect_false(identical(x$hash, hash_before))
+  if (!is.na(hash_before))
+    expect_false(identical(x$hash, hash_before))
   x$id = id_before
   expect_true(identical(x$id, id_before))
   expect_true(identical(x$hash, hash_before))
@@ -27,5 +28,5 @@ test_that("measure$hash", {
 
 test_that("resampling$hash", {
   x = rsmp("cv")
-  expect_hash_changes(x)
+    expect_hash_changes(x)
 })

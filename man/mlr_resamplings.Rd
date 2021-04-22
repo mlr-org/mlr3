@@ -46,6 +46,7 @@ Other Dictionary:
 Other Resampling: 
 \code{\link{Resampling}},
 \code{\link{mlr_resamplings_bootstrap}},
+\code{\link{mlr_resamplings_custom_cv}},
 \code{\link{mlr_resamplings_custom}},
 \code{\link{mlr_resamplings_cv}},
 \code{\link{mlr_resamplings_holdout}},

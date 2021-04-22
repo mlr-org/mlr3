@@ -9,6 +9,16 @@ Predefined task generators are stored in the \link[mlr3misc:Dictionary]{dictiona
 e.g. \code{\link[=mlr_task_generators_xor]{xor}}.
 }
 \seealso{
+\itemize{
+\item \link[mlr3misc:Dictionary]{Dictionary} of \link[=TaskGenerator]{TaskGenerators}: \link{mlr_task_generators}
+\item \code{as.data.table(mlr_task_generators)}  for a table of available \link[=TaskGenerator]{TaskGenerators} in the running session (depending on the loaded packages).
+\item Extension packages for additional task types:
+\itemize{
+\item \CRANpkg{mlr3proba} for probabilistic supervised regression and survival analysis.
+\item \CRANpkg{mlr3cluster} for unsupervised clustering.
+}
+}
+
 Other TaskGenerator: 
 \code{\link{mlr_task_generators_2dnormals}},
 \code{\link{mlr_task_generators_cassini}},
@@ -68,7 +78,7 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
   id,
   task_type,
   packages = character(),
-  param_set = ParamSet$new(),
+  param_set = ps(),
   man = NA_character_
 )}\if{html}{\out{</div>}}
 }

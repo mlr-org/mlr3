@@ -17,35 +17,37 @@
 #'   Ratio of observations to put into the training set.
 #'
 #' @references
-#' `r tools::toRd(bibentries["bischl_2012"])`
+#' `r format_bib("bischl_2012")`
 #'
 #' @template seealso_resampling
 #' @export
 #' @examples
 #' # Create a task with 10 observations
-#' task = tsk("iris")
+#' task = tsk("penguins")
 #' task$filter(1:10)
 #'
 #' # Instantiate Resampling
-#' rss = rsmp("subsampling", repeats = 2, ratio = 0.5)
-#' rss$instantiate(task)
+#' subsampling = rsmp("subsampling", repeats = 2, ratio = 0.5)
+#' subsampling$instantiate(task)
 #'
 #' # Individual sets:
-#' rss$train_set(1)
-#' rss$test_set(1)
-#' intersect(rss$train_set(1), rss$test_set(1))
+#' subsampling$train_set(1)
+#' subsampling$test_set(1)
+#'
+#' # Disjunct sets:
+#' intersect(subsampling$train_set(1), subsampling$test_set(1))
 #'
 #' # Internal storage:
-#' rss$instance$train # list of index vectors
+#' subsampling$instance$train # list of index vectors
 ResamplingSubsampling = R6Class("ResamplingSubsampling", inherit = Resampling,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
-      ps = ParamSet$new(list(
-        ParamInt$new("repeats", lower = 1, tags = "required"),
-        ParamDbl$new("ratio", lower = 0, upper = 1, tags = "required")
-      ))
+      ps = ps(
+        ratio   = p_dbl(0, 1, tags = "required"),
+        repeats = p_int(1, tags = "required")
+      )
       ps$values = list(repeats = 30L, ratio = 2 / 3)
 
       super$initialize(id = "subsampling", param_set = ps, man = "mlr3::mlr_resamplings_subsampling")

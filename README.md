@@ -1,6 +1,5 @@
 
-mlr3 <img src="man/figures/logo.png" align="right" width = "120" />
-===================================================================
+# mlr3 <img src="man/figures/logo.png" align="right" width = "120" />
 
 Package website: [release](https://mlr3.mlr-org.com/) \|
 [dev](https://mlr3.mlr-org.com/dev/)
@@ -10,7 +9,7 @@ learning. Successor of [mlr](https://github.com/mlr-org/mlr).
 
 <!-- badges: start -->
 
-[![tic](https://github.com/mlr-org/mlr3/workflows/tic/badge.svg?branch=master)](https://github.com/mlr-org/mlr3/actions)
+[![tic](https://github.com/mlr-org/mlr3/workflows/tic/badge.svg?branch=main)](https://github.com/mlr-org/mlr3/actions)
 [![DOI](https://joss.theoj.org/papers/10.21105/joss.01903/status.svg)](https://doi.org/10.21105/joss.01903)
 [![CRAN
 Status](https://www.r-pkg.org/badges/version-ago/mlr3)](https://cran.r-project.org/package=mlr3)
@@ -18,8 +17,7 @@ Status](https://www.r-pkg.org/badges/version-ago/mlr3)](https://cran.r-project.o
 [![Mattermost](https://img.shields.io/badge/chat-mattermost-orange.svg)](https://lmmisld-lmu-stats-slds.srv.mwn.de/mlr_invite/)
 <!-- badges: end -->
 
-Resources (for users and developers)
-------------------------------------
+## Resources (for users and developers)
 
 -   We *started* writing a [book](https://mlr3book.mlr-org.com/). This
     should be the central entry point to the package.
@@ -62,91 +60,126 @@ Resources (for users and developers)
 -   [Wiki](https://github.com/mlr-org/mlr3/wiki): Contains mainly
     information for developers.
 
-Installation
-------------
+## Installation
 
 Install the last release from CRAN:
 
-    install.packages("mlr3")
+``` r
+install.packages("mlr3")
+```
 
 Install the development version from GitHub:
 
-    remotes::install_github("mlr-org/mlr3")
+``` r
+remotes::install_github("mlr-org/mlr3")
+```
 
-Example
--------
+If you want to get started with `mlr3`, we recommend installing the
+[mlr3verse](https://mlr3verse.mlr-org.com/) meta-package which installs
+`mlr3` and some of the most important extension packages:
+
+``` r
+install.packages("mlr3verse")
+```
+
+## Example
 
 ### Constructing Learners and Tasks
 
-    library(mlr3)
+``` r
+library(mlr3)
 
-    # create learning task
-    task_iris <- TaskClassif$new(id = "iris", backend = iris, target = "Species")
-    task_iris
+# create learning task
+task_penguins <- TaskClassif$new(id = "penguins", backend = palmerpenguins::penguins, target = "species")
+task_penguins
+```
 
-    ## <TaskClassif:iris> (150 x 5)
-    ## * Target: Species
+    ## <TaskClassif:penguins> (344 x 8)
+    ## * Target: species
     ## * Properties: multiclass
-    ## * Features (4):
-    ##   - dbl (4): Petal.Length, Petal.Width, Sepal.Length, Sepal.Width
+    ## * Features (7):
+    ##   - int (3): body_mass_g, flipper_length_mm, year
+    ##   - dbl (2): bill_depth_mm, bill_length_mm
+    ##   - fct (2): island, sex
 
-    # load learner and set hyperparameter
-    learner <- lrn("classif.rpart", cp = .01)
+``` r
+# load learner and set hyperparameter
+learner <- lrn("classif.rpart", cp = .01)
+```
 
 ### Basic train + predict
 
-    # train/test split
-    train_set <- sample(task_iris$nrow, 0.8 * task_iris$nrow)
-    test_set <- setdiff(seq_len(task_iris$nrow), train_set)
+``` r
+# train/test split
+train_set <- sample(task_penguins$nrow, 0.8 * task_penguins$nrow)
+test_set <- setdiff(seq_len(task_penguins$nrow), train_set)
 
-    # train the model
-    learner$train(task_iris, row_ids = train_set)
+# train the model
+learner$train(task_penguins, row_ids = train_set)
 
-    # predict data
-    prediction <- learner$predict(task_iris, row_ids = test_set)
+# predict data
+prediction <- learner$predict(task_penguins, row_ids = test_set)
 
-    # calculate performance
-    prediction$confusion
+# calculate performance
+prediction$confusion
+```
 
-    ##             truth
-    ## response     setosa versicolor virginica
-    ##   setosa         11          0         0
-    ##   versicolor      0         12         1
-    ##   virginica       0          0         6
+    ##            truth
+    ## response    Adelie Chinstrap Gentoo
+    ##   Adelie        32         2      0
+    ##   Chinstrap      1         8      0
+    ##   Gentoo         0         3     23
 
-    measure <- msr("classif.acc")
-    prediction$score(measure)
+``` r
+measure <- msr("classif.acc")
+prediction$score(measure)
+```
 
     ## classif.acc 
-    ##   0.9666667
+    ##   0.9130435
 
 ### Resample
 
-    # automatic resampling
-    resampling <- rsmp("cv", folds = 3L)
-    rr <- resample(task_iris, learner, resampling)
-    rr$score(measure)
+``` r
+# automatic resampling
+resampling <- rsmp("cv", folds = 3L)
+rr <- resample(task_penguins, learner, resampling)
+rr$score(measure)
+```
 
-    ##                 task task_id                   learner    learner_id
-    ## 1: <TaskClassif[46]>    iris <LearnerClassifRpart[33]> classif.rpart
-    ## 2: <TaskClassif[46]>    iris <LearnerClassifRpart[33]> classif.rpart
-    ## 3: <TaskClassif[46]>    iris <LearnerClassifRpart[33]> classif.rpart
+    ##                 task  task_id                   learner    learner_id
+    ## 1: <TaskClassif[46]> penguins <LearnerClassifRpart[34]> classif.rpart
+    ## 2: <TaskClassif[46]> penguins <LearnerClassifRpart[34]> classif.rpart
+    ## 3: <TaskClassif[46]> penguins <LearnerClassifRpart[34]> classif.rpart
     ##            resampling resampling_id iteration              prediction
     ## 1: <ResamplingCV[19]>            cv         1 <PredictionClassif[19]>
     ## 2: <ResamplingCV[19]>            cv         2 <PredictionClassif[19]>
     ## 3: <ResamplingCV[19]>            cv         3 <PredictionClassif[19]>
     ##    classif.acc
-    ## 1:        0.92
-    ## 2:        0.92
-    ## 3:        0.94
+    ## 1:   0.8956522
+    ## 2:   0.9130435
+    ## 3:   0.9473684
 
-    rr$aggregate(measure)
+``` r
+rr$aggregate(measure)
+```
 
     ## classif.acc 
-    ##   0.9266667
+    ##    0.918688
 
-Why a rewrite?
---------------
+## Extension Packages
+
+<a href="https://raw.githubusercontent.com/mlr-org/mlr3/main/man/figures/mlr3verse.svg?sanitize=true"><img src="man/figures/mlr3verse.svg" /></a>
+
+Consult the
+[wiki](https://github.com/mlr-org/mlr3/wiki/Extension-Packages) for
+short descriptions and links to the respective repositories.
+
+For beginners, we strongly recommend to install and load the
+[mlr3verse](https://mlr3verse.mlr-org.com/) package for a better user
+experience.
+
+## Why a rewrite?
 
 [mlr](https://github.com/mlr-org/mlr) was first released to
 [CRAN](https://cran.r-project.org/package=mlr) in 2013. Its core design
@@ -160,8 +193,7 @@ the outside. Also, many helpful R libraries did not exist at the time
 [mlr](https://github.com/mlr-org/mlr) was created, and their inclusion
 would result in non-trivial API changes.
 
-Design principles
------------------
+## Design principles
 
 -   Only the basic building blocks for machine learning are implemented
     in this package.
@@ -185,6 +217,9 @@ Design principles
     argument in `[.data.frame`) are avoided.
 -   Be light on dependencies. `mlr3` requires the following packages at
     runtime:
+    -   [`parallelly`](https://cran.r-project.org/package=parallelly):
+        Helper functions for parallelization. No extra recursive
+        dependencies.
     -   [`future.apply`](https://cran.r-project.org/package=future.apply):
         Resampling and benchmarking is parallelized with the
         [`future`](https://cran.r-project.org/package=future)
@@ -216,6 +251,9 @@ Design principles
         Performance measures. No extra recursive dependencies.
     -   [`mlbench`](https://cran.r-project.org/package=mlbench): A
         collection of machine learning data sets. No dependencies.
+    -   [`palmerpenguins`](https://cran.r-project.org/package=palmerpenguins):
+        A classification data set about penguins, used on examples and
+        provided as a toy task. No dependencies.
 -   [Reflections](https://en.wikipedia.org/wiki/Reflection_%28computer_programming%29):
     Objects are queryable for properties and capabilities, allowing you
     to program on them.
@@ -224,17 +262,7 @@ Design principles
         [`evaluate`](https://cran.r-project.org/package=evaluate) and
         [`callr`](https://cran.r-project.org/package=callr) can be used.
 
-Extension Packages
-------------------
-
-<a href="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/mlr3verse.svg?sanitize=true"><img src="man/figures/mlr3verse.svg" /></a>
-
-Consult the
-[wiki](https://github.com/mlr-org/mlr3/wiki/Extension-Packages) for
-short descriptions and links to the respective repositories.
-
-Contributing to mlr3
---------------------
+## Contributing to mlr3
 
 This R package is licensed under the
 [LGPL-3](https://www.gnu.org/licenses/lgpl-3.0.en.html). If you
@@ -250,8 +278,7 @@ Please consult the [wiki](https://github.com/mlr-org/mlr3/wiki/) for a
 a [pull request
 guide](https://github.com/mlr-org/mlr3/wiki/PR-Guidelines).
 
-Citing mlr3
------------
+## Citing mlr3
 
 If you use mlr3, please cite our [JOSS
 article](https://doi.org/10.21105/joss.01903):

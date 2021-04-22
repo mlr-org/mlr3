@@ -13,7 +13,7 @@
 #' @template param_packages
 #' @template param_man
 #'
-#' @family TaskGenerator
+#' @template seealso_task_generator
 #' @export
 TaskGenerator = R6Class("TaskGenerator",
   public = list(
@@ -34,7 +34,7 @@ TaskGenerator = R6Class("TaskGenerator",
 
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    initialize = function(id, task_type, packages = character(), param_set = ParamSet$new(), man = NA_character_) {
+    initialize = function(id, task_type, packages = character(), param_set = ps(), man = NA_character_) {
       self$id = assert_string(id, min.chars = 1L)
       self$param_set = assert_param_set(param_set)
       self$packages = assert_set(packages)

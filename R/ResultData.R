@@ -29,7 +29,12 @@ ResultData = R6Class("ResultData",
     #'
     #' @param data ([data.table()] | `NULL`)\cr
     #'   Do not initialize this object yourself, use [as_result_data()] instead.
-    initialize = function(data = NULL) {
+    #' @param store_backends (`logical(1)`)\cr
+    #'   If set to `FALSE`, the backends of the [Task]s provided in `data` are
+    #'   removed.
+    initialize = function(data = NULL, store_backends = TRUE) {
+      assert_flag(store_backends)
+
       if (is.null(data)) {
         self$data = star_init()
       } else {
@@ -39,7 +44,6 @@ ResultData = R6Class("ResultData",
         if (nrow(data) == 0L) {
           self$data = star_init()
         } else {
-
           fact = data[, c("uhash", "iteration", "learner_state", "prediction", "task", "learner", "resampling"),
             with = FALSE]
           set(fact, j = "task_hash", value = hashes(fact$task))
@@ -50,7 +54,7 @@ ResultData = R6Class("ResultData",
           uhashes = data.table(uhash = unique(fact$uhash))
           tasks = fact[, list(task = .SD$task[1L]),
             keyby = "task_hash"]
-          learners = fact[, list(learner = list(.SD$learner[[1L]]$clone(deep = TRUE)$reset())),
+          learners = fact[, list(learner = list(.SD$learner[[1L]]$reset())),
             keyby = "learner_phash"]
           resamplings = fact[, list(resampling = .SD$resampling[1L]),
             keyby = "resampling_hash"]
@@ -61,6 +65,10 @@ ResultData = R6Class("ResultData",
           set(fact, j = "learner", value = NULL)
           set(fact, j = "resampling", value = NULL)
           setkeyv(fact, c("uhash", "iteration"))
+
+          if (!store_backends) {
+            set(tasks, j = "task", value = lapply(tasks$task, task_rm_backend))
+          }
 
           self$data = list(fact = fact, uhashes = uhashes, tasks = tasks, learners = learners,
             resamplings = resamplings, learner_components = learner_components)
@@ -100,12 +108,9 @@ ResultData = R6Class("ResultData",
     #' Returns a table of included [Task]s.
     #'
     #' @template param_view
-    #' @param reassemble (`logical(1)`)\cr
-    #'   Reassemble the tasks, i.e. re-set the `feature_names` which are stored separately before
-    #'   returning the tasks.
     #'
     #' @return `data.table()` with columns `"task_hash"` (`character()`) and `"task"` ([Task]).
-    tasks = function(view = NULL, reassemble = TRUE) {
+    tasks = function(view = NULL) {
       ii = private$get_view_index(view)
       tab = unique(self$data$fact[ii, "task_hash", with = FALSE], by = "task_hash")
       merge(tab, self$data$tasks, by = "task_hash", sort = TRUE)
@@ -364,67 +369,6 @@ star_init = function() {
     resamplings = resamplings, learner_components = learner_components)
 }
 
-#' @title Manually construct an object of type ResultData
-#'
-#' @description
-#' This function allows to manually construct a [ResampleResult] or [BenchmarkResult] by combining
-#' the individual components to an object of class [ResultData], mlr3's internal container object.
-#' A [ResampleResult] or [BenchmarkResult] can then be initialized with the returned object.
-#' Note that [ResampleResult]s can be converted to a [BenchmarkResult] with [as_benchmark_result()]
-#' and multiple [BenchmarkResult]s can be combined to a larger [BenchmarkResult].
-#'
-#' @param task ([Task]).
-#' @param learners (list of trained [Learner]s).
-#' @param resampling ([Resampling]).
-#' @param iterations (`integer()`).
-#' @param predictions (list of [Prediction]s).
-#' @param learner_states (`list()`)\cr
-#'   Learner states. If not provided, the states of `learners` are automatically extracted.
-#'
-#' @return `ResultData` object which can be passed to the constructor of [ResampleResult].
-#' @export
-#' @examples
-#' task = tsk("iris")
-#' learner = lrn("classif.rpart")
-#' resampling = rsmp("cv", folds = 2)$instantiate(task)
-#' iterations = seq_len(resampling$iters)
-#'
-#' # manually train two learners.
-#' # store learners and predictions
-#' learners = list()
-#' predictions = list()
-#' for (i in iterations) {
-#'   l = learner$clone(deep = TRUE)
-#'   learners[[i]] = l$train(task, row_ids = resampling$train_set(i))
-#'   predictions[[i]] = l$predict(task, row_ids = resampling$test_set(i))
-#' }
-#'
-#' rdata = as_result_data(task, learners, resampling, iterations, predictions)
-#' ResampleResult$new(rdata)
-as_result_data = function(task, learners, resampling, iterations, predictions, learner_states = NULL) {
-  assert_integer(iterations, any.missing = FALSE, lower = 1L, upper = resampling$iters, unique = TRUE)
-  n = length(iterations)
-
-  assert_task(task)
-  assert_learners(learners, task = task)
-  assert_resampling(resampling, instantiated = TRUE)
-  predictions = lapply(predictions, as_prediction_data)
-  uhash = UUIDgenerate()
-
-  if (is.null(learner_states)) {
-    learner_states = map(learners, "state")
-  }
-
-  ResultData$new(data.table(
-    task = list(task),
-    learner = learners,
-    learner_state = learner_states,
-    resampling = list(resampling),
-    iteration = iterations,
-    prediction = predictions,
-    uhash = uhash
-  ))
-}
 
 #' @title Sets the State and/or ParamSet values in a Learner
 #'

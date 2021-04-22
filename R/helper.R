@@ -18,10 +18,10 @@ phashes = function(x) {
 
 hash = function(...) {
   dots = list(...)
-  is_fun = map_lgl(dots, is.function)
-  dots[is_fun] = map(dots[is_fun], function(fun) {
-    list(formals = formals(fun), body = as.character(body(fun)))
+  dots = map_if(dots, is.function, function(fun) {
+    list(formals(fun), as.character(body(fun)))
   })
+  dots = map_if(dots, is.data.table, as.list)
   digest::digest(dots, algo = "xxhash64")
 }
 
@@ -46,15 +46,9 @@ allow_partial_matching = list(
 )
 
 
-replace_with = function(x, needle, replacement) {
-  ii = (x == needle)
-  x = rep(x, 1L + (length(replacement) - 1L) * ii)
-  replace(x, ii, replacement)
-}
-
 # extract values from a single column of a data table
 # tries to avoid the overhead of data.table for small tables
-fget = function(tab, i, j, key = key(tab)) {
+fget = function(tab, i, j, key) {
   if (nrow(tab) > 1000L) {
     tab[list(i), j, on = key, with = FALSE][[1L]]
   } else {
@@ -73,4 +67,8 @@ get_progressor = function(n, label = NA_character_) {
   }
 
   progressr::progressor(steps = n, label = label)
+}
+
+allow_utf8_names = function() {
+  isTRUE(getOption("mlr3.allow_utf8_names"))
 }

@@ -4,7 +4,7 @@
 #'
 #' @description
 #' This task specializes [Task] and [TaskSupervised] for classification problems.
-#' The target column is assumed to be a factor.
+#' The target column is assumed to be a factor or ordered factor.
 #' The `task_type` is set to `"classif"`.
 #'
 #' Additional task properties include:
@@ -12,7 +12,6 @@
 #' * `"multiclass"`: The task is a multiclass classification problem.
 #'
 #' Predefined tasks are stored in the [dictionary][mlr3misc::Dictionary] [mlr_tasks].
-#' More example tasks can be found in this dictionary after loading \CRANpkg{mlr3data}.
 #'
 #' @template param_id
 #' @template param_backend
@@ -20,28 +19,26 @@
 #' @template param_cols
 #' @template param_data_format
 #'
-#' @family Task
+#' @template seealso_task
 #' @export
 #' @examples
 #' data("Sonar", package = "mlbench")
-#' task = TaskClassif$new("sonar", backend = Sonar, target = "Class", positive = "M")
+#' task = as_task_classif(Sonar, target = "Class", positive = "M")
 #'
 #' task$task_type
 #' task$formula()
 #' task$truth()
 #' task$class_names
 #' task$positive
-#'
-#' # possible properties:
-#' mlr_reflections$task_properties$classif
+#' task$data(rows = 1:3, cols = task$feature_names[1:2])
 TaskClassif = R6Class("TaskClassif",
   inherit = TaskSupervised,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
+    #' The function [as_task_classif()] provides an alternative way to construct classification tasks.
     #'
-    #' @param target (`character(1)`)\cr
-    #'   Name of the target column.
+    #' @template param_target
     #'
     #' @param positive (`character(1)`)\cr
     #'   Only for binary classification: Name of the positive class.
@@ -71,7 +68,7 @@ TaskClassif = R6Class("TaskClassif",
     #'
     #' @return Depending on the [DataBackend], but usually a [data.table::data.table()].
     data = function(rows = NULL, cols = NULL, data_format = "data.table", ordered = TRUE) {
-      data = task_data(self, rows, cols, data_format, ordered)
+      data = super$data(rows, cols, data_format, ordered)
       fix_factor_levels(data, set_names(list(self$class_names), self$target_names))
     },
 
@@ -140,9 +137,14 @@ TaskClassif = R6Class("TaskClassif",
 
   private = list(
     .update_class_property = function() {
+      tn = self$target_names
+      if (fget(self$col_info, tn, "type", key = "id") %nin% c("factor", "ordered")) {
+        stopf("Target column '%s' must be a factor or ordered factor", tn)
+      }
+
       nlvls = length(self$class_names)
       if (nlvls < 2L) {
-        stopf("Target column '%s' must have at least two levels", self$target_names)
+        stopf("Target column '%s' must have at least two levels", tn)
       }
 
       private$.properties = setdiff(private$.properties, c("twoclass", "multiclass"))

@@ -10,7 +10,7 @@ Hyperparameter \code{method} determines the mode of operation during prediction:
 \describe{
 \item{mode:}{Predicts the most frequent label. If there are two or more labels tied, randomly selects one per prediction.}
 \item{sample:}{Randomly predict a label uniformly.}
-\item{weighed.sample:}{Randomly predict a label, with probability estimated from the training distribution.}
+\item{weighted.sample:}{Randomly predict a label, with probability estimated from the training distribution.}
 }
 }
 \section{Dictionary}{
@@ -33,14 +33,24 @@ lrn("classif.featureless")
 \section{Parameters}{
 \tabular{lllll}{
    Id \tab Type \tab Default \tab Range \tab Levels \cr
-   method \tab character \tab mode \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \tab mode           , sample         , weighted.sample \cr
+   method \tab character \tab mode \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \tab mode, sample, weighted.sample \cr
 }
 }
 
 \seealso{
-\link[mlr3misc:Dictionary]{Dictionary} of \link[=Learner]{Learners}: \link{mlr_learners}
-
-\code{as.data.table(mlr_learners)} for a complete table of all (also dynamically created) \link{Learner} implementations.
+\itemize{
+\item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
+\url{https://mlr3book.mlr-org.com/learners.html}
+\item Package \CRANpkg{mlr3learners} for a solid collection of essential learners.
+\item Package \href{https://github.com/mlr-org/mlr3extralearners}{mlr3extralearners} for more learners.
+\item \link[mlr3misc:Dictionary]{Dictionary} of \link[=Learner]{Learners}: \link{mlr_learners}
+\item \code{as.data.table(mlr_learners)} for a table of available \link[=Learner]{Learners} in the running session (depending on the loaded packages).
+\item Extension packages for additional task types:
+\itemize{
+\item \CRANpkg{mlr3proba} for probabilistic supervised regression and survival analysis.
+\item \CRANpkg{mlr3cluster} for unsupervised clustering.
+}
+}
 
 Other Learner: 
 \code{\link{LearnerClassif}},

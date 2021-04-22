@@ -17,7 +17,7 @@ For example, for a classification task a single column must be marked as target 
 }
 
 Predefined (toy) tasks are stored in the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_tasks},
-e.g. \code{\link[=mlr_tasks_iris]{iris}} or \code{\link[=mlr_tasks_boston_housing]{boston_housing}}.
+e.g. \code{\link[=mlr_tasks_penguins]{penguins}} or \code{\link[=mlr_tasks_boston_housing]{boston_housing}}.
 More toy tasks can be found in the dictionary after loading \CRANpkg{mlr3data}.
 }
 \section{S3 methods}{
@@ -33,8 +33,9 @@ Returns the complete data as \code{\link[data.table:data.table]{data.table::data
 
 The following methods change the task in-place:
 \itemize{
-\item Any modification to \verb{$col_roles} and \verb{$row_roles}.
+\item Any modification of the lists \verb{$col_roles} or \verb{$row_roles}.
 This provides a different "view" on the data without altering the data itself.
+\item Modification of column or row roles via \verb{$set_col_roles()} or \verb{$set_row_roles()}, respectively.
 \item \verb{$filter()} and \verb{$select()} subset the set of active rows or features in \verb{$row_roles} or \verb{$col_roles}, respectively.
 This provides a different "view" on the data without altering the data itself.
 \item \code{rbind()} and \code{cbind()} change the task in-place by binding rows or columns to the data, but without modifying the original \link{DataBackend}.
@@ -45,25 +46,40 @@ merge both backends into an abstract \link{DataBackend} which merges the results
 }
 
 \examples{
-# we use the inherited class TaskClassif here,
-# Class Task is not intended for direct use
-task = TaskClassif$new("iris", iris, target = "Species")
+# We use the inherited class TaskClassif here,
+# because the base class `Task` is not intended for direct use
+task = TaskClassif$new("penguings", palmerpenguins::penguins, target = "species")
 
 task$nrow
 task$ncol
 task$feature_names
 task$formula()
 
-# de-select "Petal.Width"
-task$select(setdiff(task$feature_names, "Petal.Width"))
+# de-select "year"
+task$select(setdiff(task$feature_names, "year"))
 
 task$feature_names
 
 # Add new column "foo"
-task$cbind(data.frame(foo = 1:150))
+task$cbind(data.frame(foo = 1:344))
 task$head()
 }
 \seealso{
+\itemize{
+\item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
+\url{https://mlr3book.mlr-org.com/tasks.html}
+\item Package \CRANpkg{mlr3data} for more toy tasks.
+\item Package \CRANpkg{mlr3oml} for downloading tasks from \url{https://openml.org}.
+\item Package \CRANpkg{mlr3viz} for some generic visualizations.
+\item \link[mlr3misc:Dictionary]{Dictionary} of \link[=Task]{Tasks}: \link{mlr_tasks}
+\item \code{as.data.table(mlr_tasks)} for a table of available \link[=Task]{Tasks} in the running session (depending on the loaded packages).
+\item Extension packages for additional task types:
+\itemize{
+\item \CRANpkg{mlr3proba} for probabilistic supervised regression and survival analysis.
+\item \CRANpkg{mlr3cluster} for unsupervised clustering.
+}
+}
+
 Other Task: 
 \code{\link{TaskClassif}},
 \code{\link{TaskRegr}},
@@ -75,6 +91,7 @@ Other Task:
 \code{\link{mlr_tasks_german_credit}},
 \code{\link{mlr_tasks_iris}},
 \code{\link{mlr_tasks_mtcars}},
+\code{\link{mlr_tasks_penguins}},
 \code{\link{mlr_tasks_pima}},
 \code{\link{mlr_tasks_sonar}},
 \code{\link{mlr_tasks_spam}},
@@ -100,12 +117,13 @@ see \code{\link[=mlr_reflections]{mlr_reflections$task_types$type}}.}
 Abstract interface to the data of the task.}
 
 \item{\code{col_info}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
-Table with with 3 columns:
+Table with with 4 columns:
 \itemize{
 \item \code{"id"} (\code{character()}) stores the name of the column.
 \item \code{"type"} (\code{character()}) holds the storage type of the variable, e.g. \code{integer}, \code{numeric} or \code{character}.
 See \link[=mlr_reflections]{mlr_reflections$task_feature_types} for a complete list of allowed types.
 \item \code{"levels"} stores a vector of distinct values (levels) for ordered and unordered factor variables.
+\item \code{"label"} stores a character vector of prettier, formated column names.
 }}
 
 \item{\code{man}}{(\code{character(1)})\cr
@@ -162,11 +180,11 @@ Note that above listed properties are calculated from the \verb{$col_roles} and 
 Each row (observation) can have an arbitrary number of roles in the learning task:
 \itemize{
 \item \code{"use"}: Use in train / predict / resampling.
-\item \code{"validation"}: Hold the observations back unless explicitly requested.
-Validation sets are not yet completely integrated into the package.
+\item \code{"validation"}: Observations are hold back unless explicitly requested.
+Can be used as truly independent test set.
 }
 
-\code{row_roles} keeps track of the roles with a named list, elements are named by row role and each element is a \code{integer()} vector of row ids.
+\code{row_roles} is a named list whose elements are named by row role and each element is an \code{integer()} vector of row ids.
 To alter the roles, just modify the list, e.g. with  \R's set functions (\code{\link[=intersect]{intersect()}}, \code{\link[=setdiff]{setdiff()}}, \code{\link[=union]{union()}}, \ldots).}
 
 \item{\code{col_roles}}{(named \code{list()})\cr
@@ -177,14 +195,15 @@ Each column (feature) can have an arbitrary number of the following roles:
 \item \code{"name"}: Row names / observation labels. To be used in plots. Can be queried with \verb{$row_names}.
 \item \code{"order"}: Data returned by \verb{$data()} is ordered by this column (or these columns).
 \item \code{"group"}: During resampling, observations with the same value of the variable with role "group" are marked as "belonging together".
-They will be exclusively assigned to be either in the training set or in the test set for each resampling iteration.
-Only up to one column may have this role.
+For each resampling iteration, observations of the same group will be exclusively assigned to be either in the training set or in the test set.
+Note that only up to one column may have this role.
 \item \code{"stratum"}: Stratification variables. Multiple discrete columns may have this role.
 \item \code{"weight"}: Observation weights. Only up to one column (assumed to be discrete) may have this role.
 }
 
-\code{col_roles} keeps track of the roles with a named list, the elements are named by column role and each element is a character vector of column names.
-To alter the roles, just modify the list, e.g. with \R's set functions (\code{\link[=intersect]{intersect()}}, \code{\link[=setdiff]{setdiff()}}, \code{\link[=union]{union()}}, \ldots).}
+\code{col_roles} is a named list whose elements are named by column role and each element is a \code{character()} vector of column names.
+To alter the roles, just modify the list, e.g. with \R's set functions (\code{\link[=intersect]{intersect()}}, \code{\link[=setdiff]{setdiff()}}, \code{\link[=union]{union()}}, \ldots).
+The method \verb{$set_col_roles} provides a convenient alternative to assign columns to roles.}
 
 \item{\code{nrow}}{(\code{integer(1)})\cr
 Returns the total number of rows with role "use".}
@@ -247,10 +266,12 @@ Returns \code{NULL} if there are is no weight column.}
 \item \href{#method-rbind}{\code{Task$rbind()}}
 \item \href{#method-cbind}{\code{Task$cbind()}}
 \item \href{#method-rename}{\code{Task$rename()}}
-\item \href{#method-set_row_role}{\code{Task$set_row_role()}}
-\item \href{#method-set_col_role}{\code{Task$set_col_role()}}
+\item \href{#method-set_row_roles}{\code{Task$set_row_roles()}}
+\item \href{#method-set_col_roles}{\code{Task$set_col_roles()}}
 \item \href{#method-droplevels}{\code{Task$droplevels()}}
 \item \href{#method-order}{\code{Task$order()}}
+\item \href{#method-add_strata}{\code{Task$add_strata()}}
+\item \href{#method-label}{\code{Task$label()}}
 \item \href{#method-clone}{\code{Task$clone()}}
 }
 }
@@ -328,9 +349,10 @@ Printer.
 \if{latex}{\out{\hypertarget{method-data}{}}}
 \subsection{Method \code{data()}}{
 Returns a slice of the data from the \link{DataBackend} in the data format specified by \code{data_format}.
-Rows are additionally subsetted to only contain observations with role \code{"use"}, and
-columns are filtered to only contain features with roles \code{"target"} and \code{"feature"}.
-If invalid \code{rows} or \code{cols} are specified, an exception is raised.
+Rows default to observations with role \code{"use"}, and
+columns default to features with roles \code{"target"} or \code{"feature"}.
+If \code{rows} or \code{cols} are specified which do not exist in the \link{DataBackend},
+an exception is raised.
 
 Rows and columns are returned in the order specified via the arguments \code{rows} and \code{cols}.
 If \code{rows} is \code{NULL}, rows are returned in the order of \code{task$row_ids}.
@@ -339,7 +361,12 @@ If \code{cols} is \code{NULL}, the column order defaults to
 Note that it is recommended to \strong{not} rely on the order of columns, and instead always
 address columns with their respective column name.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Task$data(rows = NULL, cols = NULL, data_format = "data.table", ordered = TRUE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Task$data(
+  rows = NULL,
+  cols = NULL,
+  data_format = "data.table",
+  ordered = FALSE
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -355,7 +382,7 @@ Column names.}
 Desired data format, e.g. \code{"data.table"} or \code{"Matrix"}.}
 
 \item{\code{ordered}}{(\code{logical(1)})\cr
-If \code{TRUE} (default), data is ordered according to the columns with column role \code{"order"}.}
+If \code{TRUE}, data is ordered according to the columns with column role \code{"order"}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -593,29 +620,38 @@ the object in its previous state.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-set_row_role"></a>}}
-\if{latex}{\out{\hypertarget{method-set_row_role}{}}}
-\subsection{Method \code{set_row_role()}}{
-Adds the roles \code{new_roles} to rows referred to by row ids \code{rows}.
-If \code{exclusive} is \code{TRUE}, the referenced rows will be removed from all other roles.
-
-This function is deprecated and will be removed in the next version in favor of directly modifying \verb{$row_roles}.
+\if{html}{\out{<a id="method-set_row_roles"></a>}}
+\if{latex}{\out{\hypertarget{method-set_row_roles}{}}}
+\subsection{Method \code{set_row_roles()}}{
+Modifies the roles in \verb{$row_roles} \strong{in-place}.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Task$set_row_role(rows, new_roles, exclusive = TRUE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Task$set_row_roles(rows, roles = NULL, add_to = NULL, remove_from = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{rows}}{\code{integer()}\cr
-Row indices.}
+\item{\code{rows}}{(\code{integer()})\cr
+Row ids for which to change the roles for.}
 
-\item{\code{new_roles}}{(\code{character()}).}
+\item{\code{roles}}{(\code{character()})\cr
+Exclusively set rows to the specified \code{roles} (remove from other roles).}
 
-\item{\code{exclusive}}{(\code{logical(1)}).}
+\item{\code{add_to}}{(\code{character()})\cr
+Add rows with row ids \code{rows} to roles specified in \code{add_to}.
+Rows keep their previous roles.}
+
+\item{\code{remove_from}}{(\code{character()})\cr
+Remove rows with row ids \code{rows} from roles specified in \code{remove_from}.
+Other row roles are preserved.}
 }
 \if{html}{\out{</div>}}
 }
+\subsection{Details}{
+Roles are first set exclusively (argument \code{roles}), then added (argument \code{add_to}) and finally
+removed (argument \code{remove_from}) from different roles.
+}
+
 \subsection{Returns}{
 Returns the object itself, but modified \strong{by reference}.
 You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
@@ -623,29 +659,38 @@ the object in its previous state.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-set_col_role"></a>}}
-\if{latex}{\out{\hypertarget{method-set_col_role}{}}}
-\subsection{Method \code{set_col_role()}}{
-Adds the roles \code{new_roles} to columns referred to by column names \code{cols}.
-If \code{exclusive} is \code{TRUE}, the referenced columns will be removed from all other roles.
-
-This function is deprecated and will be removed in the next version in favor of directly modifying \verb{$col_roles}.
+\if{html}{\out{<a id="method-set_col_roles"></a>}}
+\if{latex}{\out{\hypertarget{method-set_col_roles}{}}}
+\subsection{Method \code{set_col_roles()}}{
+Modifies the roles in \verb{$col_roles} \strong{in-place}.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Task$set_col_role(cols, new_roles, exclusive = TRUE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Task$set_col_roles(cols, roles = NULL, add_to = NULL, remove_from = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{cols}}{\code{character()}\cr
-Column names.}
+\item{\code{cols}}{(\code{character()})\cr
+Column names for which to change the roles for.}
 
-\item{\code{new_roles}}{(\code{character()}).}
+\item{\code{roles}}{(\code{character()})\cr
+Exclusively set columns to the specified \code{roles} (remove from other roles).}
 
-\item{\code{exclusive}}{(\code{logical(1)}).}
+\item{\code{add_to}}{(\code{character()})\cr
+Add columns with column names \code{cols} to roles specified in \code{add_to}.
+Columns keep their previous roles.}
+
+\item{\code{remove_from}}{(\code{character()})\cr
+Remove columns with columns names \code{cols} from roles specified in \code{remove_from}.
+Other column roles are preserved.}
 }
 \if{html}{\out{</div>}}
 }
+\subsection{Details}{
+Roles are first set exclusively (argument \code{roles}), then added (argument \code{add_to}) and finally
+removed (argument \code{remove_from}) from different roles.
+}
+
 \subsection{Returns}{
 Returns the object itself, but modified \strong{by reference}.
 You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
@@ -696,6 +741,60 @@ Row indices.}
 If the task has at least one column with designated role \code{"order"}, returns an integer vector
 which can be used to reorder data (c.f. \code{\link[base:order]{base::order()}}).
 Returns \code{NULL} if there are is no order column defined.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-add_strata"></a>}}
+\if{latex}{\out{\hypertarget{method-add_strata}{}}}
+\subsection{Method \code{add_strata()}}{
+Cuts numeric variables into new factors columns which are added to the task with role
+\code{"stratum"}.
+This ensures that all training and test splits contain observations from all bins.
+The columns are named \code{"..stratum_[col_name]"}.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Task$add_strata(cols, bins = 3L)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{cols}}{(\code{character()})\cr
+Names of columns to operate on.}
+
+\item{\code{bins}}{(\code{integer()})\cr
+Number of bins to cut into (passed to \code{\link[=cut]{cut()}} as \code{breaks}).
+Replicated to have the same length as \code{cols}.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+self (invisibly).
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-label"></a>}}
+\if{latex}{\out{\hypertarget{method-label}{}}}
+\subsection{Method \code{label()}}{
+Assigns \code{labels} (prettier formated names) to columns \code{cols}.
+Internally updates the column \code{label} of the table in field \code{col_info} by reference.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Task$label(cols, labels)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{cols}}{(\code{character()})\cr
+Column identifiers to label.}
+
+\item{\code{labels}}{(\code{character()})\cr
+New labels. Will be repeated to match the length of \code{cols}.
+Set to \code{NA} to remove a label.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Modified \code{self}.
 }
 }
 \if{html}{\out{<hr>}}

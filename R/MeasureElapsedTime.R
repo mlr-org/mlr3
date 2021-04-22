@@ -29,6 +29,7 @@ MeasureElapsedTime = R6Class("MeasureElapsedTime",
 
     #' @field stages (`character()`)\cr
     #' Which stages of the learner to measure?
+    #' Usually set during construction.
     stages = NULL,
 
     #' @description
@@ -53,7 +54,9 @@ MeasureElapsedTime = R6Class("MeasureElapsedTime",
   private = list(
     .score = function(prediction, learner, ...) {
       sum(unlist(learner$state[sprintf("%s_time", self$stages)]))
-    }
+    },
+
+    .extra_hash = "stages"
   )
 )
 

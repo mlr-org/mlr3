@@ -31,13 +31,13 @@ test_that("Rows return ordered", {
 
   task$col_roles$order = "t"
   expect_subset("ordered", task$properties)
-  x = task$data()
+  x = task$data(ordered = TRUE)
   expect_integer(x$t, sorted = TRUE, any.missing = FALSE)
 
   x = task$data(ordered = FALSE)
   expect_true(is.unsorted(x$t))
 
-  x = task$data(rows = sample(nrow(data), 50))
+  x = task$data(rows = sample(nrow(data), 50), ordered = TRUE)
   expect_integer(x$t, sorted = TRUE, any.missing = FALSE)
 
   ii = task$order()
@@ -227,7 +227,7 @@ test_that("stratify works", {
 test_that("groups/weights work", {
   b = as_data_backend(data.table(x = runif(20), y = runif(20), w = runif(20), g = sample(letters[1:2], 20, replace = TRUE)))
   task = TaskRegr$new("test", b, target = "y")
-  task$set_row_role(16:20, character())
+  task$set_row_roles(16:20, character())
 
   expect_false("groups" %in% task$properties)
   expect_false("weights" %in% task$properties)
@@ -298,7 +298,7 @@ test_that("task$droplevels works", {
 test_that("task$missings() works", {
   task = tsk("pima")
   x = task$missings()
-  y = map_int(task$data(), function(x) sum(is.na(x)))
+  y = map_int(task$data(), count_missing)
   expect_equal(x, y[match(names(x), names(y))])
 })
 
@@ -348,4 +348,79 @@ test_that("Task$row_names", {
   expect_data_table(tab, any.missing = FALSE, ncols = 2, nrows = task$nrow)
   expect_integer(tab$row_id, unique = TRUE)
   expect_character(tab$row_name)
+})
+
+test_that("Task$set_row_roles", {
+  task = tsk("pima")
+
+  task$set_row_roles(1:10, remove_from = "use")
+  expect_true(all(1:10 %nin% task$row_ids))
+
+  task$set_row_roles(1:10, add_to = "use")
+  expect_true(all(1:10 %in% task$row_ids))
+
+  task$set_row_roles(1:10, roles = "validation")
+  expect_true(all(1:10 %nin% task$row_ids))
+})
+
+
+test_that("Task$set_col_roles", {
+  task = tsk("pima")
+
+  task$set_col_roles("mass", remove_from = "feature")
+  expect_true("mass" %nin% task$feature_names)
+
+  task$set_col_roles("mass", add_to = "feature")
+  expect_true("mass" %in% task$feature_names)
+
+  task$set_col_roles("age", roles = "weight")
+  expect_true("age" %nin% task$feature_names)
+  expect_data_table(task$weights)
+
+  task$set_col_roles("age", add_to = "feature", remove_from = "weight")
+  expect_true("age" %in% task$feature_names)
+  expect_null(task$weights)
+})
+
+test_that("$add_strata", {
+  task = tsk("mtcars")
+  expect_equal(task$col_roles$stratum, character())
+
+  task$add_strata("mpg", bins = 5)
+  expect_set_equal(task$col_roles$stratum, "..stratum_mpg")
+  expect_data_table(task$strata, nrows = 5)
+
+  task$add_strata("am", bins = 3)
+  expect_set_equal(task$col_roles$stratum, c("..stratum_mpg", "..stratum_am"))
+
+  task = tsk("mtcars")
+  task$add_strata(c("mpg", "am"), bins = c(2, 5))
+  expect_set_equal(task$col_roles$stratum, c("..stratum_mpg", "..stratum_am"))
+})
+
+test_that("column labels", {
+  task = tsk("iris")
+  expect_character(task$col_info$label)
+
+  labels = c("pl", "pw", "sl", "sw", "species")
+  task$col_info$label = c(NA, labels)
+
+  task$rbind(iris[1,, drop = FALSE])
+  expect_names(na.omit(task$col_info$label), permutation.of = labels)
+
+  task$cbind(data.frame(foo = 1:151))
+  task$col_info
+  expect_names(na.omit(task$col_info$label), permutation.of = labels)
+
+
+  task = tsk("iris")
+  task$label("Petal.Length", "pl")
+  expect_equal(task$col_info["Petal.Length", label], "pl")
+
+  task$label(c("Sepal.Length", "Sepal.Width"), c("sl", "sw"))
+  expect_equal(task$col_info["Sepal.Length", label], "sl")
+  expect_equal(task$col_info["Sepal.Width", label], "sw")
+
+  task$label("Petal.Length", NA)
+  expect_equal(task$col_info["Petal.Length", label], NA_character_)
 })

@@ -13,7 +13,7 @@ test_that("Basic ops on iris task", {
 
 test_that("$class_names consider also inactive rows", {
   task = tsk("iris")
-  task$set_row_role(1:100, character())
+  task$set_row_roles(1:100, remove_from = "use")
 
   expect_set_equal(task$class_names, levels(iris$Species))
 })
@@ -103,4 +103,12 @@ test_that("droplevels keeps level order", {
   task$filter(c(101:150, 1:50)) # remove versicolor
   task$droplevels()
   expect_equal(task$class_names, c("virginica", "setosa"))
+})
+
+test_that("target is encoded as factor (#629)", {
+  dt = data.table(a = c(1, 2, 3, 4), target = c(1, 1, 0, 1))
+  expect_error(TaskClassif$new(id="XX", backend = dt, target = "target"), "factor")
+
+  dt$target = ordered(dt$target)
+  TaskClassif$new(id="XX", backend = dt, target = "target")
 })

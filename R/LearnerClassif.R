@@ -27,7 +27,7 @@
 #' @template param_packages
 #' @template param_man
 #'
-#' @family Learner
+#' @template seealso_learner
 #' @export
 #' @examples
 #' # get all classification learners from mlr_learners:
@@ -39,16 +39,16 @@
 #' print(lrn)
 #'
 #' # train the learner:
-#' task = tsk("iris")
-#' lrn$train(task, 1:120)
+#' task = tsk("penguins")
+#' lrn$train(task, 1:200)
 #'
 #' # predict on new observations:
-#' lrn$predict(task, 121:150)$confusion
+#' lrn$predict(task, 201:344)$confusion
 LearnerClassif = R6Class("LearnerClassif", inherit = Learner,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    initialize = function(id, param_set = ParamSet$new(), predict_types = "response", feature_types = character(), properties = character(), data_formats = "data.table", packages = character(), man = NA_character_) {
+    initialize = function(id, param_set = ps(), predict_types = "response", feature_types = character(), properties = character(), data_formats = "data.table", packages = character(), man = NA_character_) {
       super$initialize(id = id, task_type = "classif", param_set = param_set, predict_types = predict_types,
         feature_types = feature_types, properties = properties, data_formats = data_formats, packages = packages, man = man)
     }

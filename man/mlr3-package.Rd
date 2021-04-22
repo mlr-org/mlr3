@@ -16,17 +16,26 @@ Efficient, object-oriented programming on the
     the core computational operations, add-on packages provide additional
     functionality.
 }
-\section{Additional resources}{
+\section{Learn mlr3}{
 
 \itemize{
 \item Book on mlr3: \url{https://mlr3book.mlr-org.com}
-\item Use cases and examples: \url{https://mlr3gallery.mlr-org.com}
+\item Use cases and examples gallery: \url{https://mlr3gallery.mlr-org.com}
+\item Cheat Sheets: \url{https://cheatsheets.mlr-org.com}
+}
+}
+
+\section{mlr3 extensions}{
+
+\itemize{
+\item Preprocessing and machine learning pipelines: \CRANpkg{mlr3pipelines}
+\item Analysis of benchmark experiments: \CRANpkg{mlr3benchmark}
 \item More classification and regression tasks: \CRANpkg{mlr3data}
 \item Connector to \href{https://www.openml.org}{OpenML}: \CRANpkg{mlr3oml}
-\item More classification and regression learners: \CRANpkg{mlr3learners}
+\item Solid selection of good classification and regression learners: \CRANpkg{mlr3learners}
 \item Even more learners: \url{https://github.com/mlr-org/mlr3extralearners}
-\item Preprocessing and machine learning pipelines: \CRANpkg{mlr3pipelines}
 \item Tuning of hyperparameters: \CRANpkg{mlr3tuning}
+\item Hyperband tuner: \CRANpkg{mlr3hyperband}
 \item Visualizations for many \pkg{mlr3} objects: \CRANpkg{mlr3viz}
 \item Survival analysis and probabilistic regression: \CRANpkg{mlr3proba}
 \item Cluster analysis: \CRANpkg{mlr3cluster}
@@ -34,8 +43,28 @@ Efficient, object-oriented programming on the
 \item Feature selection wrappers: \CRANpkg{mlr3fselect}
 \item Interface to real (out-of-memory) data bases: \CRANpkg{mlr3db}
 \item Performance measures as plain functions: \CRANpkg{mlr3measures}
+}
+}
+
+\section{Suggested packages}{
+
+\itemize{
 \item Parallelization framework: \CRANpkg{future}
 \item Progress bars: \CRANpkg{progressr}
+\item Encapsulated evaluation: \CRANpkg{evaluate}, \CRANpkg{callr} (external process)
+}
+}
+
+\section{Package Options}{
+
+\itemize{
+\item \code{"mlr3.debug"}: If set to \code{TRUE}, parallelization via \CRANpkg{future} is disabled to simplify
+debugging and provide more concise tracebacks.
+Note that results computed with debug mode enabled use a different seeding mechanism and are not reproducible.
+\item \code{"mlr3.allow_utf8_names"}: If set to \code{TRUE}, checks on the feature names are relaxed, allowing
+non-ascii characters in column names. This is an experimental and temporal option to
+pave the way for text analysis, and will likely be removed in a future version of the package.
+analysis.
 }
 }
 
