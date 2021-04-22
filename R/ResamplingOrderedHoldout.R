@@ -38,11 +38,11 @@ ResamplingOrderedHoldout = R6Class("ResamplingOrderedHoldout", inherit = Resampl
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
-      ps = ParamSet$new(list(
-        ParamDbl$new("ratio", lower = 0, upper = 1, default = 2 / 3),
-        ParamInt$new("n"),
-        ParamFct$new("unit", levels = c("rows", "secs", "mins", "hours", "days", "months", "years"), default = "rows", tags = "required")
-      ))
+      ps = ps(
+        ratio = p_dbl(0, 1),
+        n = p_int(),
+        unit = p_fct(levels = c("rows", "secs", "mins", "hours", "days", "months", "years"), default = "rows", tags = "required")
+      )
       ps$values = list(unit = "rows")
 
       super$initialize(id = "ordered_holdout", param_set = ps, man = "mlr3::mlr_resamplings_ordered_holdout")
@@ -55,7 +55,7 @@ ResamplingOrderedHoldout = R6Class("ResamplingOrderedHoldout", inherit = Resampl
   private = list(
     .sample = function(ids, task, ...) {
       if ("ordered" %nin% task$properties) {
-        stopf("%s requires an ordered task, but Task '%s' has no order", self$id, task$id)
+        stopf("Resampling '%s' requires an ordered task, but Task '%s' has no order", self$id, task$id)
       }
       pv = self$param_set$values
 

@@ -11,9 +11,20 @@ test_that("order", {
   backend = as_data_backend(tab, primary_key = "row_id")
   task = TaskRegr$new("ap", backend, target = "Y")
   task$col_roles$order = "date"
-  r = rsmp("ordered_holdout")
-  r$instantiate(task)
 
+  r = rsmp("ordered_holdout", ratio = 0.5)$instantiate(task)
+  expect_integer(r$train_set(1), len = task$nrow / 2)
+  expect_integer(r$test_set(1), len = task$nrow / 2)
+  expect_lt(max(task$data(r$train_set(1))$date), min(task$data(r$test_set(1))$date))
+
+  r = rsmp("ordered_holdout", n = 10)$instantiate(task)
+  expect_integer(r$train_set(1), len = 10)
+  expect_integer(r$test_set(1), len = task$nrow - 10)
+  expect_lt(max(task$data(r$train_set(1))$date), min(task$data(r$test_set(1))$date))
+
+  r = rsmp("ordered_holdout", n = -10)$instantiate(task)
+  expect_integer(r$train_set(1), len = task$nrow - 10)
+  expect_integer(r$test_set(1), len = 10)
   expect_lt(max(task$data(r$train_set(1))$date), min(task$data(r$test_set(1))$date))
 })
 
@@ -53,8 +64,6 @@ test_that("order with posix and time unit", {
   length(r$test_set(1))
 
   expect_lt(max(task$data(r$train_set(1))$y), min(task$data(r$test_set(1))$y))
-
-
 
 
   r = rsmp("ordered_holdout", unit = "hours", n = 5)$instantiate(task)

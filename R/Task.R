@@ -576,7 +576,7 @@ Task = R6Class("Task",
         return(NULL)
       }
 
-      data = self$backend$data(rows, order_cols)
+      data = self$backend$data(rows, order_cols, data_format = "data.table")
       do.call(order, data)
     },
 
