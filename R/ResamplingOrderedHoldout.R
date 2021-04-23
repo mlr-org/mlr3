@@ -57,7 +57,7 @@ ResamplingOrderedHoldout = R6Class("ResamplingOrderedHoldout", inherit = Resampl
       if ("ordered" %nin% task$properties) {
         stopf("Resampling '%s' requires an ordered task, but Task '%s' has no order", self$id, task$id)
       }
-      pv = self$param_set$values
+      pv = self$param_set$get_values()
 
       get_training_size = function(n_obs) {
         if (!xor(is.null(pv$ratio), is.null(pv$n))) {
@@ -81,8 +81,8 @@ ResamplingOrderedHoldout = R6Class("ResamplingOrderedHoldout", inherit = Resampl
         list(train = head(ids, n), test = tail(ids, -n))
       } else {
         order_cols = task$col_roles$order
-        if (length(order_cols) != 1L || fget(task$col_info, order_cols, "type", "id") != "POSIXct") {
-          stopf("For 'unit' != \"rows\", the task must be ordered by a single POSIXct column")
+        if (length(order_cols) != 1L || fget(task$col_info, order_cols, "type", "id") %nin% c("POSIXct", "Date")) {
+          stopf("For 'unit' != \"rows\", the task must be ordered by a single POSIXct or Date column")
         }
 
         t = row_id = NULL
@@ -90,7 +90,7 @@ ResamplingOrderedHoldout = R6Class("ResamplingOrderedHoldout", inherit = Resampl
         tab = tab[
           order(t),
           list(row_id = list(row_id)),
-          by = as.POSIXct(trunc(t, units = pv$unit))]
+          by = as.POSIXct(trunc(t, units = pv$unit))] # FIXME: test with date?
         n = get_training_size(nrow(tab))
         list(train = unlist(head(tab$row_id, n), use.names = FALSE), test = unlist(tail(tab$row_id, -n), use.names = FALSE))
       }

@@ -139,6 +139,7 @@ Collate:
     'ResamplingLOO.R'
     'ResamplingOrderedHoldout.R'
     'ResamplingRepeatedCV.R'
+    'ResamplingRollingForecast.R'
     'ResamplingSubsampling.R'
     'ResultData.R'
     'Task.R'
