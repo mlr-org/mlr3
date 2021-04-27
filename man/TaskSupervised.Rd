@@ -34,6 +34,7 @@ Other Task:
 \code{\link{TaskRegr}},
 \code{\link{TaskUnsupervised}},
 \code{\link{Task}},
+\code{\link{mlr_tasks_airpassengers}},
 \code{\link{mlr_tasks_boston_housing}},
 \code{\link{mlr_tasks_breast_cancer}},
 \code{\link{mlr_tasks_german_credit}},
@@ -75,6 +76,7 @@ Other Task:
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="label">}\href{../../mlr3/html/Task.html#method-label}{\code{mlr3::Task$label()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="levels">}\href{../../mlr3/html/Task.html#method-levels}{\code{mlr3::Task$levels()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="missings">}\href{../../mlr3/html/Task.html#method-missings}{\code{mlr3::Task$missings()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="order">}\href{../../mlr3/html/Task.html#method-order}{\code{mlr3::Task$order()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="print">}\href{../../mlr3/html/Task.html#method-print}{\code{mlr3::Task$print()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="rbind">}\href{../../mlr3/html/Task.html#method-rbind}{\code{mlr3::Task$rbind()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="rename">}\href{../../mlr3/html/Task.html#method-rename}{\code{mlr3::Task$rename()}}\out{</span>}
