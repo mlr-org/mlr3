@@ -504,7 +504,7 @@ expect_resample_result = function(rr, allow_incomplete = FALSE) {
 }
 
 expect_benchmark_result = function(bmr) {
-  checkmate::expect_r6(bmr, "BenchmarkResult", public = "data")
+  checkmate::expect_r6(bmr, "BenchmarkResult", private = ".data")
   expect_resultdata(private(bmr)$.data, TRUE)
   testthat::expect_output(print(bmr), "BenchmarkResult")
 
