@@ -42,7 +42,7 @@ test_that("as_benchmark_result.ResampleResult", {
   measures = list(msr("classif.ce"), msr("classif.acc"))
   bmr = as_benchmark_result(rr)
   expect_benchmark_result(bmr)
-  expect_equal(nrow(bmr$data), nrow(rr$data))
+  expect_equal(nrow(get_private(bmr)$.data), nrow(rr$data))
   expect_set_equal(bmr$uhashes, rr$uhash)
   aggr = bmr$aggregate()
   expect_data_table(aggr, nrows = 1)

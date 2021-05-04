@@ -6,6 +6,7 @@ expect_man_exists = function(man) {
     checkmate::expect_data_frame(matches$matches, min.rows = 1L, info = "man page lookup")
   }
 }
+
 expect_same_address = function(x, y) {
   requireNamespace("data.table")
   testthat::expect_identical(data.table::address(x), data.table::address(y))
@@ -504,7 +505,7 @@ expect_resample_result = function(rr, allow_incomplete = FALSE) {
 
 expect_benchmark_result = function(bmr) {
   checkmate::expect_r6(bmr, "BenchmarkResult", public = "data")
-  expect_resultdata(bmr$data, TRUE)
+  expect_resultdata(private(bmr)$.data, TRUE)
   testthat::expect_output(print(bmr), "BenchmarkResult")
 
   checkmate::expect_names(names(as.data.table(bmr)), permutation.of = c(mlr3::mlr_reflections$rr_names, "uhash"))
@@ -515,7 +516,7 @@ expect_benchmark_result = function(bmr) {
   expect_hash(tab$task_hash)
   expect_id(tab$task_id)
   checkmate::expect_list(tab$task, "Task")
-  expect_set_equal(bmr$tasks$task_hash, bmr$data$data$tasks$task_hash)
+  expect_set_equal(bmr$tasks$task_hash, private(bmr)$.data$data$tasks$task_hash)
 
   tab = bmr$learners
   checkmate::expect_data_table(tab, ncols = 3L)
@@ -523,7 +524,7 @@ expect_benchmark_result = function(bmr) {
   expect_hash(tab$learner_hash)
   expect_id(tab$learner_id)
   checkmate::expect_list(tab$learner, "Learner")
-  expect_set_equal(bmr$learners$learner_hash, bmr$data$data$learner_components$learner_hash)
+  expect_set_equal(bmr$learners$learner_hash, private(bmr)$.data$data$learner_components$learner_hash)
 
   tab = bmr$resamplings
   checkmate::expect_data_table(tab, ncols = 3L)
@@ -531,9 +532,9 @@ expect_benchmark_result = function(bmr) {
   expect_hash(tab$resampling_hash)
   expect_id(tab$resampling_id)
   checkmate::expect_list(tab$resampling, "Resampling")
-  expect_set_equal(bmr$resamplings$resampling_hash, bmr$data$data$resamplings$resampling_hash)
+  expect_set_equal(bmr$resamplings$resampling_hash, private(bmr)$.data$data$resamplings$resampling_hash)
 
-  if (nrow(bmr$data$data$fact) > 0L) {
+  if (nrow(private(bmr)$.data$data$fact) > 0L) {
     measures = mlr3::default_measures(bmr$task_type)
   } else {
     measures = mlr3::msrs("time_both")
@@ -555,8 +556,8 @@ expect_benchmark_result = function(bmr) {
   checkmate::assert_list(tab$params)
 
   uhashes = bmr$uhashes
-  expect_uhash(uhashes, len = length(bmr$data$uhashes()))
-  checkmate::expect_set_equal(uhashes, unique(bmr$data$uhashes()))
+  expect_uhash(uhashes, len = length(private(bmr)$.data$uhashes()))
+  checkmate::expect_set_equal(uhashes, unique(private(bmr)$.data$uhashes()))
   testthat::expect_equal(bmr$n_resample_results, length(uhashes))
 
   tab = bmr$resample_results
@@ -566,7 +567,7 @@ expect_benchmark_result = function(bmr) {
   # expect_integer(tab$iters, any.missing = FALSE, lower = 1L)
   expect_list(tab$resample_result, types = "ResampleResult")
 
-  ni = bmr$data$iterations()
+  ni = private(bmr)$.data$iterations()
   if (ni) {
     checkmate::expect_choice(bmr$task_type, mlr3::mlr_reflections$task_types$type, null.ok = ni == 0L)
   } else {

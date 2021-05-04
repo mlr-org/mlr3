@@ -77,16 +77,6 @@ Other benchmark:
 \code{\link{benchmark}()}
 }
 \concept{benchmark}
-\section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{data}}{(\code{ResultData})\cr
-Internal data storage object of type \code{ResultData}.
-We discourage users to directly work with this field.
-Use \code{as.table.table(BenchmarkResult)} instead.}
-}
-\if{html}{\out{</div>}}
-}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{

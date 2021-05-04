@@ -36,17 +36,6 @@
 #' rr$errors
 ResampleResult = R6Class("ResampleResult",
   public = list(
-    #' @field data (`ResultData`)\cr
-    #' Internal data storage object of type `ResultData`.
-    #' We discourage users to directly work with this field.
-    #' Use `as.table.table(ResampleResult)` instead.
-    data = NULL,
-
-    #' @field view (`character(1)`)\cr
-    #' Subset of uhashes in the [ResultData] object to operate on.
-    #' This field is for internal optimizations, i.e. to avoid unnecessary cloning.
-    view = NULL,
-
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #' An alternative construction method is provided by [as_resample_result()].
@@ -58,8 +47,8 @@ ResampleResult = R6Class("ResampleResult",
     #'   Single `uhash` of the [ResultData] to operate on.
     #'   Used internally for optimizations.
     initialize = function(data = ResultData$new(), view = NULL) {
-      self$data = assert_class(data, "ResultData")
-      self$view = assert_string(view, null.ok = TRUE)
+      private$.data = assert_class(data, "ResultData")
+      private$.view = assert_string(view, null.ok = TRUE)
     },
 
     #' @description
@@ -72,7 +61,7 @@ ResampleResult = R6Class("ResampleResult",
     #' Printer.
     #' @param ... (ignored).
     print = function() {
-      catf("%s of %i iterations", format(self), self$data$iterations(self$view))
+      catf("%s of %i iterations", format(self), private$.data$iterations(private$.view))
       catf(str_indent("* Task:", self$task$id))
       catf(str_indent("* Learner:", self$learner$id))
 
@@ -99,7 +88,7 @@ ResampleResult = R6Class("ResampleResult",
     #' @return [Prediction].
     #'   Subset of `{"train", "test"}`.
     prediction = function(predict_sets = "test") {
-      self$data$prediction(self$view, predict_sets)
+      private$.data$prediction(private$.view, predict_sets)
     },
 
     #' @description
@@ -110,7 +99,7 @@ ResampleResult = R6Class("ResampleResult",
     #'   Subset of `{"train", "test"}`.
     #' @return List of [Prediction] objects, one per element in `predict_sets`.
     predictions = function(predict_sets = "test") {
-      self$data$predictions(self$view, predict_sets)
+      private$.data$predictions(private$.view, predict_sets)
     },
 
     #' @description
@@ -136,13 +125,13 @@ ResampleResult = R6Class("ResampleResult",
     #'
     #' @return [data.table::data.table()].
     score = function(measures = NULL, ids = TRUE, conditions = FALSE, predict_sets = "test") {
-      measures = as_measures(measures, task_type = self$data$task_type)
+      measures = as_measures(measures, task_type = private$.data$task_type)
       assert_measures(measures, task = self$task, learner = self$learner)
       assert_flag(ids)
       assert_flag(conditions)
       assert_subset(predict_sets, mlr_reflections$predict_sets)
 
-      tab = score_measures(self, measures, view = self$view)
+      tab = score_measures(self, measures, view = private$.view)
 
       if (ids) {
         set(tab, j = "task_id", value = ids(tab[["task"]]))
@@ -171,7 +160,7 @@ ResampleResult = R6Class("ResampleResult",
     #'
     #' @return Named `numeric()`.
     aggregate = function(measures = NULL) {
-      measures = as_measures(measures, task_type = self$data$task_type)
+      measures = as_measures(measures, task_type = private$.data$task_type)
       assert_measures(measures, task = self$task, learner = self$learner)
       set_names(map_dbl(measures, function(m) m$aggregate(self)), ids(measures))
     },
@@ -190,13 +179,13 @@ ResampleResult = R6Class("ResampleResult",
       iters = assert_integerish(iters, lower = 1L, upper = self$resampling$iters,
         any.missing = FALSE, unique = TRUE, coerce = TRUE)
 
-      self$data = self$data$clone(deep = TRUE)
-      fact = self$data$data$fact
-      if (!is.null(self$view)) {
-        fact = fact[list(self$view), on = "uhash", nomatch = NULL]
+      private$.data = private$.data$clone(deep = TRUE)
+      fact = private$.data$data$fact
+      if (!is.null(private$.view)) {
+        fact = fact[list(private$.view), on = "uhash", nomatch = NULL]
       }
 
-      self$data$data$fact = fact[list(iters), on = "iteration", nomatch = NULL]
+      private$.data$data$fact = fact[list(iters), on = "iteration", nomatch = NULL]
 
       invisible(self)
     }
@@ -208,14 +197,14 @@ ResampleResult = R6Class("ResampleResult",
     #' This is `NA` for empty [ResampleResult]s.
     task_type = function(rhs) {
       assert_ro_binding(rhs)
-      self$data$task_type
+      private$.data$task_type
     },
 
     #' @field uhash (`character(1)`)\cr
     #' Unique hash for this object.
     uhash = function(rhs) {
       assert_ro_binding(rhs)
-      uhash = self$data$uhashes(self$view)
+      uhash = private$.data$uhashes(private$.view)
       if (length(uhash) == 0L) NA_character_ else uhash
     },
 
@@ -223,7 +212,7 @@ ResampleResult = R6Class("ResampleResult",
     #' The task [resample()] operated on.
     task = function(rhs) {
       assert_ro_binding(rhs)
-      tab = self$data$tasks(self$view)
+      tab = private$.data$tasks(private$.view)
       if (nrow(tab) == 0L)
         return(NULL)
       tab$task[[1L]]
@@ -234,7 +223,7 @@ ResampleResult = R6Class("ResampleResult",
     #' For a list of **trained** learners, see methods `$learners()`.
     learner = function(rhs) {
       assert_ro_binding(rhs)
-      tab = self$data$learners(self$view, states = FALSE)
+      tab = private$.data$learners(private$.view, states = FALSE)
       if (nrow(tab) == 0L)
         return(NULL)
       tab$learner[[1L]]
@@ -244,7 +233,7 @@ ResampleResult = R6Class("ResampleResult",
     #' Instantiated [Resampling] object which stores the splits into training and test.
     resampling = function(rhs) {
       assert_ro_binding(rhs)
-      tab = self$data$resamplings(self$view)
+      tab = private$.data$resamplings(private$.view)
       if (nrow(tab) == 0L)
         return(NULL)
       tab$resampling[[1L]]
@@ -254,7 +243,7 @@ ResampleResult = R6Class("ResampleResult",
     #' List of trained learners, sorted by resampling iteration.
     learners = function(rhs) {
       assert_ro_binding(rhs)
-      self$data$learners(self$view)$learner
+      private$.data$learners(private$.view)$learner
     },
 
     #' @field warnings ([data.table::data.table()])\cr
@@ -263,7 +252,7 @@ ResampleResult = R6Class("ResampleResult",
     #' Note that there can be multiple rows per resampling iteration if multiple warnings have been recorded.
     warnings = function(rhs) {
       assert_ro_binding(rhs)
-      self$data$logs(self$view, "warning")
+      private$.data$logs(private$.view, "warning")
     },
 
     #' @field errors ([data.table::data.table()])\cr
@@ -272,20 +261,29 @@ ResampleResult = R6Class("ResampleResult",
     #' Note that there can be multiple rows per resampling iteration if multiple errors have been recorded.
     errors = function(rhs) {
       assert_ro_binding(rhs)
-      self$data$logs(self$view, "error")
+      private$.data$logs(private$.view, "error")
     }
   ),
 
   private = list(
+    # @field data (`ResultData`)\cr
+    # Internal data storage object of type `ResultData`.
+    .data = NULL,
+
+    # @field view (`character(1)`)\cr
+    # Subset of uhashes in the [ResultData] object to operate on.
+    .view = NULL,
+
     deep_clone = function(name, value) {
-      if (name == "data") value$clone(deep = TRUE) else value
+      if (name == ".data") value$clone(deep = TRUE) else value
     }
   )
 )
 
 #' @export
 as.data.table.ResampleResult = function(x, ..., predict_sets = "test") { # nolint
-  tab = x$data$as_data_table(view = x$view, predict_sets = predict_sets)
+  private = get_private(x)
+  tab = private$.data$as_data_table(view = private$.view, predict_sets = predict_sets)
   tab[, c("task", "learner", "resampling", "iteration", "prediction"), with = FALSE]
 }
 

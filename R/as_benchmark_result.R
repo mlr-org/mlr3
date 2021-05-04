@@ -21,9 +21,10 @@ as_benchmark_result.BenchmarkResult = function(x, ...) { # nolint
 #' @rdname as_benchmark_result
 #' @export
 as_benchmark_result.ResampleResult = function(x, ...) { # nolint
-  rdata = x$data$clone(deep = TRUE)
-  if (!is.null(x$view)) {
-    rdata$data$fact = rdata$data$fact[list(x$view), on = "uhash", nomatch = NULL]
+  private = get_private(x)
+  rdata = private$.data$clone(deep = TRUE)
+  if (!is.null(private$.view)) {
+    rdata$data$fact = rdata$data$fact[list(private$.view), on = "uhash", nomatch = NULL]
     rdata$sweep()
   }
   BenchmarkResult$new(rdata)
