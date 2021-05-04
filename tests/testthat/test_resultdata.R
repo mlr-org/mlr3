@@ -7,7 +7,7 @@ test_that("results are ordered", {
   grid$resampling = pmap(grid, function(task, resampling, ...) resampling$clone(deep = TRUE)$instantiate(task))
 
   bmr = benchmark(grid)
-  rdata = bmr$data
+  rdata = get_private(bmr)$.data
 
   tab = rdata$as_data_table()
   expect_equal(rdata$uhashes(), rdata$data$uhashes$uhash)
@@ -23,7 +23,7 @@ test_that("results are ordered", {
   expect_equal(unique(hashes(tab$resampling)), rev(hashes(grid$resampling)))
 
   rr = resample(tsk("pima"), lrn("classif.rpart"), rsmp("holdout"))
-  rdata$combine(rr$data)
+  rdata$combine(private(rr)$.data)
   expect_resultdata(rdata)
   expect_equal(rdata$uhashes()[3], rr$uhash)
 
@@ -46,7 +46,7 @@ test_that("mlr3tuning use case", {
 
   bmr = benchmark(benchmark_grid(task, learners, resampling))
 
-  rdata = bmr$data
+  rdata = get_private(bmr)$.data
 
   expect_resultdata(rdata)
   expect_data_table(rdata$data$fact, nrows = 3L)

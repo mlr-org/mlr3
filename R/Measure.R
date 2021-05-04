@@ -205,13 +205,13 @@ Measure = R6Class("Measure",
     #' @return `numeric(1)`.
     aggregate = function(rr) {
       if (self$average == "macro") {
-        learner = rr$data$learners(view = rr$view, states = FALSE, reassemble = FALSE)$learner[[1L]]
+        learner = get_private(rr)$.data$learners(view = get_private(rr)$.view, states = FALSE, reassemble = FALSE)$learner[[1L]]
         predict_sets = learner$predict_sets
         if (any(self$predict_sets %nin% predict_sets)) {
           stopf("Measure '%s' requires predict sets %s", self$id, str_collapse(self$predict_type, quote = "'"))
         }
         aggregator = self$aggregator %??% mean
-        tab = score_measures(rr, list(self), reassemble = FALSE, view = rr$view)
+        tab = score_measures(rr, list(self), reassemble = FALSE, view = get_private(rr)$.view)
         set_names(aggregator(tab[[self$id]]), self$id)
       } else { # "micro"
         self$score(rr$prediction(self$predict_sets))
@@ -289,7 +289,7 @@ score_single_measure = function(measure, task, learner, train_set, prediction) {
 score_measures = function(obj, measures, reassemble = TRUE, view = NULL) {
   reassemble_learners = reassemble ||
     some(measures, function(m) any(c("requires_learner", "requires_model") %in% m$properties))
-  tab = obj$data$as_data_table(view = view, reassemble_learners = reassemble_learners, convert_predictions = FALSE)
+  tab = get_private(obj)$.data$as_data_table(view = view, reassemble_learners = reassemble_learners, convert_predictions = FALSE)
 
   for (measure in measures) {
     score = pmap_dbl(tab[, c("task", "learner", "resampling", "iteration", "prediction"), with = FALSE],

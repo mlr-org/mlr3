@@ -42,7 +42,7 @@ test_that("as_benchmark_result.ResampleResult", {
   measures = list(msr("classif.ce"), msr("classif.acc"))
   bmr = as_benchmark_result(rr)
   expect_benchmark_result(bmr)
-  expect_equal(nrow(bmr$data), nrow(rr$data))
+  expect_equal(nrow(get_private(bmr)$.data), nrow(private(rr)$.data))
   expect_set_equal(bmr$uhashes, rr$uhash)
   aggr = bmr$aggregate()
   expect_data_table(aggr, nrows = 1)
@@ -55,15 +55,15 @@ test_that("discarding model", {
 })
 
 test_that("inputs are cloned", {
-  expect_different_address(task, rr$data$data$tasks$task[[1]])
-  expect_different_address(learner, rr$data$data$learners$learner[[1]])
-  expect_different_address(resampling, rr$data$data$resamplings$resampling[[1]])
+  expect_different_address(task, private(rr)$.data$data$tasks$task[[1]])
+  expect_different_address(learner, private(rr)$.data$data$learners$learner[[1]])
+  expect_different_address(resampling, private(rr)$.data$data$resamplings$resampling[[1]])
 })
 
 test_that("memory footprint", {
-  expect_equal(nrow(rr$data$data$learners), 1L)
-  expect_equal(nrow(rr$data$data$tasks), 1L)
-  expect_equal(nrow(rr$data$data$resamplings), 1L)
+  expect_equal(nrow(private(rr)$.data$data$learners), 1L)
+  expect_equal(nrow(private(rr)$.data$data$tasks), 1L)
+  expect_equal(nrow(private(rr)$.data$data$resamplings), 1L)
 })
 
 test_that("predict_type is checked", {

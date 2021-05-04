@@ -16,3 +16,7 @@ with_future = function(backend, expr, ...) {
   on.exit(future::plan(oplan))
   force(expr)
 }
+
+private = function(x) {
+  x[[".__enclos_env__"]][["private"]]
+}

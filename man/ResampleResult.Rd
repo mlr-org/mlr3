@@ -44,20 +44,6 @@ Other resample:
 \code{\link{resample}()}
 }
 \concept{resample}
-\section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{data}}{(\code{ResultData})\cr
-Internal data storage object of type \code{ResultData}.
-We discourage users to directly work with this field.
-Use \code{as.table.table(ResampleResult)} instead.}
-
-\item{\code{view}}{(\code{character(1)})\cr
-Subset of uhashes in the \link{ResultData} object to operate on.
-This field is for internal optimizations, i.e. to avoid unnecessary cloning.}
-}
-\if{html}{\out{</div>}}
-}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
