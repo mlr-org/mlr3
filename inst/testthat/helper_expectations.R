@@ -467,9 +467,9 @@ expect_prediction_classif = function(p, task = NULL) {
 
 expect_resample_result = function(rr, allow_incomplete = FALSE) {
   checkmate::expect_r6(rr, "ResampleResult")
-  expect_resultdata(rr$data, FALSE)
+  expect_resultdata(private(rr)$.data, FALSE)
   testthat::expect_output(print(rr), "ResampleResult")
-  nr = rr$data$iterations()
+  nr = private(rr)$.data$iterations()
 
   if (nr > 0L) {
     expect_task(rr$task, null_backend_ok = is.null(rr$task$backend))
