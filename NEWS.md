@@ -8,6 +8,9 @@
 * New measures `"aic"` and `"bic"` to compute the Akaike Information Criterion
   or the Bayesian Information Criterion, respectively.
 * New Resampling method: `ResamplingCustomCV`.
+* Removed public (but documented as internal) field `$data` from
+  `ResampleResult` and `BenchmarkResult` to simplify the API and avoid
+  confusion. The converter `as.data.table()` can be used instead.
 * Measures now have formal hyperparameters. A popular example where this is
   required is the F1 score, now implemented with customizable `beta`.
 * Changed default of argument `ordered` in `Task$data()` from `TRUE` to `FALSE`.
