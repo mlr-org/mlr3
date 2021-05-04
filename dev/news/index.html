@@ -168,6 +168,7 @@
 <li>New standardized getter <code>loglik()</code> for class <code>Learner</code>.</li>
 <li>New measures <code>"aic"</code> and <code>"bic"</code> to compute the Akaike Information Criterion or the Bayesian Information Criterion, respectively.</li>
 <li>New Resampling method: <code>ResamplingCustomCV</code>.</li>
+<li>Removed public (but documented as internal) field <code>$data</code> from <code>ResampleResult</code> and <code>BenchmarkResult</code> to simplify the API and avoid confusion. The converter <code><a href="https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html">as.data.table()</a></code> can be used instead.</li>
 <li>Measures now have formal hyperparameters. A popular example where this is required is the F1 score, now implemented with customizable <code>beta</code>.</li>
 <li>Changed default of argument <code>ordered</code> in <code>Task$data()</code> from <code>TRUE</code> to <code>FALSE</code>.</li>
 <li>Fixed hashing of some measures.</li>
