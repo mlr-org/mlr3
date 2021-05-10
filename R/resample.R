@@ -9,18 +9,9 @@
 #' @param task ([Task]).
 #' @param learner ([Learner]).
 #' @param resampling ([Resampling]).
-#' @param store_models (`logical(1)`)\cr
-#'   Keep the fitted model after the test set has been predicted?
-#'   Set to `TRUE` if you want to further analyse the models or want to
-#'   extract information like variable importance.
-#' @param store_backends (`logical(1)`)\cr
-#'   Keep the [DataBackend] of the [Task] in the [ResampleResult]?
-#'   Set to `TRUE` if your performance measures require a [Task],
-#'   or to analyse results more conveniently.
-#'   Set to `FALSE` to reduce the file size and memory footprint
-#'   after serialization.
-#'   The current default is `TRUE`, but this eventually will be changed
-#'   in a future release.
+#' @template param_store_models
+#' @template param_store_backends
+#' @template param_encapsulate
 #' @return [ResampleResult].
 #'
 #'
@@ -43,7 +34,7 @@
 #' set.seed(123)
 #' resampling$instantiate(task)
 #'
-#' rr = resample(task, learner, resampling)
+#' rr = resample(task, learner, resampling, encapsulate = "callr")
 #' print(rr)
 #'
 #' # Retrieve performance
@@ -61,13 +52,17 @@
 #' bmr1 = as_benchmark_result(rr)
 #' bmr2 = as_benchmark_result(rr_featureless)
 #' print(bmr1$combine(bmr2))
-resample = function(task, learner, resampling, store_models = FALSE, store_backends = TRUE) {
+resample = function(task, learner, resampling, store_models = FALSE, store_backends = TRUE, encapsulate = NA_character_) {
   task = assert_task(as_task(task, clone = TRUE))
   learner = assert_learner(as_learner(learner, clone = TRUE))
   resampling = assert_resampling(as_resampling(resampling))
   assert_flag(store_models)
   assert_flag(store_backends)
   assert_learnable(task, learner)
+  assert_choice(encapsulate, c(NA_character_, "none", "evaluate", "callr"))
+  if (!is.na(encapsulate)) {
+    learner$encapsulate = c(train = encapsulate, predict = encapsulate)
+  }
 
   instance = resampling$clone(deep = TRUE)
   if (!instance$is_instantiated) {
