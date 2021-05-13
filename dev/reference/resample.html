@@ -220,7 +220,10 @@ If not <code>NA</code>, enables encapsulation by setting the field
 <code>"evaluate"</code> (execute via <a href='https://CRAN.R-project.org/package=evaluate'><span class="pkg">evaluate</span></a>) and
 <code>"callr"</code> (start in external session via <a href='https://CRAN.R-project.org/package=callr'><span class="pkg">callr</span></a>).
 If <code>NA</code>, encapsulation is not changed, i.e. the settings of the
-individual learner are active.</p></td>
+individual learner are active.
+Additionally, if encapsulation is set to <code>"evaluate"</code> or <code>"callr"</code>,
+the fallback learner is set to the featureless learner if the learner
+does not already have a fallback configured.</p></td>
     </tr>
     </table>
 
