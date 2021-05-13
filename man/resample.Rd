@@ -9,7 +9,8 @@ resample(
   learner,
   resampling,
   store_models = FALSE,
-  store_backends = TRUE
+  store_backends = TRUE,
+  encapsulate = NA_character_
 )
 }
 \arguments{
@@ -20,7 +21,7 @@ resample(
 \item{resampling}{(\link{Resampling}).}
 
 \item{store_models}{(\code{logical(1)})\cr
-Keep the fitted model after the test set has been predicted?
+Store the fitted model in the resulting object=
 Set to \code{TRUE} if you want to further analyse the models or want to
 extract information like variable importance.}
 
@@ -32,6 +33,15 @@ Set to \code{FALSE} to reduce the file size and memory footprint
 after serialization.
 The current default is \code{TRUE}, but this eventually will be changed
 in a future release.}
+
+\item{encapsulate}{(\code{character(1)})\cr
+If not \code{NA}, enables encapsulation by setting the field
+\code{Learner$encapsulate} to one of the supported values:
+\code{"none"} (disable encapsulation),
+\code{"evaluate"} (execute via \CRANpkg{evaluate}) and
+\code{"callr"} (start in external session via \CRANpkg{callr}).
+If \code{NA}, encapsulation is not changed, i.e. the settings of the
+individual learner are active.}
 }
 \value{
 \link{ResampleResult}.
@@ -90,7 +100,7 @@ resampling = rsmp("cv")
 set.seed(123)
 resampling$instantiate(task)
 
-rr = resample(task, learner, resampling)
+rr = resample(task, learner, resampling, encapsulate = "callr")
 print(rr)
 
 # Retrieve performance
