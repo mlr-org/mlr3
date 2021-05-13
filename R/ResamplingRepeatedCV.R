@@ -66,8 +66,8 @@ ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
     #'   Iteration number.
     #' @return `integer()` of fold numbers.
     folds = function(iters) {
-      iters = assert_integerish(iters, any.missing = FALSE, coerce = TRUE)
-      ((iters - 1L) %% as.integer(self$param_set$values$repeats)) + 1L
+      iters = assert_integerish(iters, lower = 1L, upper = self$iters, any.missing = FALSE, coerce = TRUE)
+      ((iters - 1L) %% as.integer(self$param_set$values$folds)) + 1L
     },
 
     #' @description
@@ -76,7 +76,7 @@ ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
     #'   Iteration number.
     #' @return `integer()` of repetition numbers.
     repeats = function(iters) {
-      iters = assert_integerish(iters, any.missing = FALSE, coerce = TRUE)
+      iters = assert_integerish(iters, lower = 1L, upper = self$iters, any.missing = FALSE, coerce = TRUE)
       ((iters - 1L) %/% as.integer(self$param_set$values$folds)) + 1L
     }
   ),
