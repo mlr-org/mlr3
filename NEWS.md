@@ -14,6 +14,7 @@
 * Measures now have formal hyperparameters. A popular example where this is
   required is the F1 score, now implemented with customizable `beta`.
 * Changed default of argument `ordered` in `Task$data()` from `TRUE` to `FALSE`.
+* Fixed getter `ResamplingRepeatedCV$folds()` (#643).
 * Fixed hashing of some measures.
 * Removed experimental column role `uri`. This role be split up into multiple
   roles by the `mlr3keras` package.
