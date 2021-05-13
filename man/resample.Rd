@@ -41,7 +41,10 @@ If not \code{NA}, enables encapsulation by setting the field
 \code{"evaluate"} (execute via \CRANpkg{evaluate}) and
 \code{"callr"} (start in external session via \CRANpkg{callr}).
 If \code{NA}, encapsulation is not changed, i.e. the settings of the
-individual learner are active.}
+individual learner are active.
+Additionally, if encapsulation is set to \code{"evaluate"} or \code{"callr"},
+the fallback learner is set to the featureless learner if the learner
+does not already have a fallback configured.}
 }
 \value{
 \link{ResampleResult}.

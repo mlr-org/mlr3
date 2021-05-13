@@ -8,6 +8,11 @@
 * New measures `"aic"` and `"bic"` to compute the Akaike Information Criterion
   or the Bayesian Information Criterion, respectively.
 * New Resampling method: `ResamplingCustomCV`.
+* New argument `encapsulate` for `resample()` and `benchmark()` to conveniently
+  enable encapsulation and also set the fallback learner to the respective
+  featureless learner. This is simply for convenience, configuring each learner
+  individually is still possible and allows a more fine-grained control (#634,
+  #642).
 * Removed public (but documented as internal) field `$data` from
   `ResampleResult` and `BenchmarkResult` to simplify the API and avoid
   confusion. The converter `as.data.table()` can be used instead.
@@ -74,7 +79,7 @@
   featureless tasks.
 * Fixed [ResampleResult] ignoring argument `predict_sets` for returned
   [Prediction] objects.
-* Compability with new version of `lgr`.
+* Compatibility with new version of `lgr`.
 
 # mlr3 0.7.0
 

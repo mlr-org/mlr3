@@ -294,3 +294,10 @@ assert_row_sums = function(prob) {
     }
   }
 }
+
+assert_same_task_type = function(objs) {
+  task_types = unique(map_chr(objs, "task_type"))
+  if (length(task_types) > 1L) {
+    stopf("Multiple task types detected, but mixing types is not supported: %s", str_collapse(task_types))
+  }
+}

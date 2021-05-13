@@ -128,3 +128,17 @@ test_that("debug branch", {
   rr = invoke(resample, task = task, learner = learner, resampling = resampling, .opts = list(mlr3.debug = TRUE))
   expect_resample_result(rr)
 })
+
+test_that("encapsulation", {
+  task = tsk("iris")
+  learner = lrn("classif.debug", error_train = 1)
+  resampling = rsmp("holdout")
+
+  expect_error(resample(task, learner, resampling), "classif.debug->train()")
+
+  rr = resample(task, learner, resampling, encapsulate = "evaluate")
+  expect_data_table(rr$errors, nrows = 1L)
+  expect_class(rr$learner$fallback, "LearnerClassifFeatureless")
+  expect_equal(rr$learner$encapsulate[["train"]], "evaluate")
+  expect_equal(rr$learner$encapsulate[["predict"]], "evaluate")
+})

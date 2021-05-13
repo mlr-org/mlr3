@@ -301,3 +301,20 @@ test_that("debug branch", {
   bmr = invoke(benchmark, design, .opts = list(mlr3.debug = TRUE))
   expect_benchmark_result(bmr)
 })
+
+test_that("encapsulatiion", {
+  learners = list(lrn("classif.debug", error_train = 1), lrn("classif.rpart"))
+  grid = benchmark_grid(tasks, learners, resamplings)
+
+  expect_error(benchmark(grid), "classif.debug->train()")
+  bmr = benchmark(grid, encapsulate = "evaluate")
+  aggr = bmr$aggregate(conditions = TRUE)
+  expect_true(all(aggr[learner_id == "classif.debug", errors] == 3L))
+  expect_true(all(aggr[learner_id != "classif.debug", errors] == 0L))
+
+  for (learner in bmr$learners$learner) {
+    expect_class(learner$fallback, "LearnerClassifFeatureless")
+    expect_equal(learner$encapsulate[["train"]], "evaluate")
+    expect_equal(learner$encapsulate[["predict"]], "evaluate")
+  }
+})

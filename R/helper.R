@@ -72,3 +72,31 @@ get_progressor = function(n, label = NA_character_) {
 allow_utf8_names = function() {
   isTRUE(getOption("mlr3.allow_utf8_names"))
 }
+
+get_featureless_learner = function(task_type) {
+  if (!is.na(task_type)) {
+    id = paste0(task_type, ".featureless")
+    if (mlr_learners$has(id)) {
+      return(mlr_learners$get(id))
+    }
+  }
+
+  return(NULL)
+}
+
+set_encapsulation = function(learners, encapsulate) {
+  assert_choice(encapsulate, c(NA_character_, "none", "evaluate", "callr"))
+
+  if (!is.na(encapsulate)) {
+    lapply(learners, function(learner) learner$encapsulate = c(train = encapsulate, predict = encapsulate))
+    if (encapsulate %in% c("evaluate", "callr")) {
+      task_type = unique(map_chr(learners, "task_type"))
+      stopifnot(length(task_type) == 1L) # this should not be possible for benchmarks
+      fb = get_featureless_learner(task_type)
+      if (!is.null(fb)) {
+        lapply(learners, function(learner) if (is.null(learner$fallback)) learner$fallback = fb$clone(TRUE))
+      }
+    }
+  }
+  learners
+}

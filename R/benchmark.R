@@ -80,13 +80,10 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
   design$learner = list(assert_learners(as_learners(design$learner)))
   design$resampling = list(assert_resamplings(as_resamplings(design$resampling), instantiated = TRUE))
   assert_flag(store_models)
-  assert_choice(encapsulate, c(NA_character_, "none", "evaluate", "callr"))
+  assert_flag(store_backends)
 
   # check for multiple task types
-  task_types = unique(map_chr(design$task, "task_type"))
-  if (length(task_types) > 1L) {
-    stopf("Multiple task types detected: %s", str_collapse(task_types))
-  }
+  assert_same_task_type(c(design$task, design$learner))
 
   # clone inputs
   setDT(design)
@@ -95,11 +92,8 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
   design[, "learner" := list(list(learner[[1L]]$clone())), by = list(hashes(learner))]
   design[, "resampling" := list(list(resampling[[1L]]$clone())), by = list(hashes(resampling))]
 
-  if (!is.na(encapsulate)) {
-    lapply(design$learner, function(learner) {
-      learner$encapsulate = c(train = encapsulate, predict = encapsulate)
-    })
-  }
+  # set encapsulation + fallback
+  set_encapsulation(design$learner, encapsulate)
 
   # expand the design: add rows for each resampling iteration
   grid = pmap_dtr(design, function(task, learner, resampling) {

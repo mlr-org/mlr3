@@ -14,7 +14,6 @@
 #' @template param_encapsulate
 #' @return [ResampleResult].
 #'
-#'
 #' @template section_parallelization
 #' @template section_progress_bars
 #' @template section_logging
@@ -59,18 +58,14 @@ resample = function(task, learner, resampling, store_models = FALSE, store_backe
   assert_flag(store_models)
   assert_flag(store_backends)
   assert_learnable(task, learner)
-  assert_choice(encapsulate, c(NA_character_, "none", "evaluate", "callr"))
-  if (!is.na(encapsulate)) {
-    learner$encapsulate = c(train = encapsulate, predict = encapsulate)
-  }
 
+  set_encapsulation(list(learner), encapsulate)
   instance = resampling$clone(deep = TRUE)
   if (!instance$is_instantiated) {
     instance = instance$instantiate(task)
   }
   n = instance$iters
   pb = get_progressor(n)
-
 
   if (getOption("mlr3.debug", FALSE)) {
     lg$info("Running resample() sequentially in debug mode with %i iterations", n)

@@ -6,3 +6,6 @@
 #'  `"callr"` (start in external session via \CRANpkg{callr}).
 #'  If `NA`, encapsulation is not changed, i.e. the settings of the
 #'  individual learner are active.
+#'  Additionally, if encapsulation is set to `"evaluate"` or `"callr"`,
+#'  the fallback learner is set to the featureless learner if the learner
+#'  does not already have a fallback configured.
