@@ -8,9 +8,10 @@ test_that("folds first, then repetitions", {
   rrcv = rsmp("repeated_cv", repeats = 2, folds = 3)
   rrcv$instantiate(task)
 
+  expect_set_equal(c(rrcv$train_set(1), rrcv$test_set(1)), task$row_ids)
   expect_integer(intersect(intersect(rrcv$test_set(1), rrcv$test_set(2)), rrcv$test_set(3)), len = 0L)
 
-  expect_equal(rrcv$folds(seq_len(rrcv$iters)), rep(1:2, 3))
+  expect_equal(rrcv$folds(seq_len(rrcv$iters)), rep(1:3, 2))
   expect_equal(rrcv$repeats(seq_len(rrcv$iters)), rep(1:2, each = 3))
 })
 
