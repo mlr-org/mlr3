@@ -33,7 +33,7 @@
 #' set.seed(123)
 #' resampling$instantiate(task)
 #'
-#' rr = resample(task, learner, resampling, encapsulate = "callr")
+#' rr = resample(task, learner, resampling)
 #' print(rr)
 #'
 #' # Retrieve performance
