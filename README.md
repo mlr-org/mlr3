@@ -26,6 +26,8 @@ Status](https://www.r-pkg.org/badges/version-ago/mlr3)](https://cran.r-project.o
     solved. It is still in early days so stay tuned for more to come.
 -   [Reference manual](https://mlr3.mlr-org.com/reference/)
 -   [FAQ](https://github.com/mlr-org/mlr3/wiki/FAQ)
+-   [Stackoverflow](https://stackoverflow.com/questions/tagged/mlr3)
+-   [Mattermost group chat](https://lmmisld-lmu-stats-slds.srv.mwn.de/mlr_invite/)
 -   **Cheatsheets**
     -   [Overview of cheatsheets](https://cheatsheets.mlr-org.com)
     -   [mlr3](https://cheatsheets.mlr-org.com/mlr3.pdf)
