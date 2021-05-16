@@ -25,7 +25,7 @@ test_that("setting threshold binaryclass", {
   expect_equal(as.character(p$response), colnames(p$prob)[max.col(p$prob)])
 
   response_before = p$response
-  expect_false(withVisible(p$set_threshold(0.5))$visible) #356
+  expect_false(withVisible(p$set_threshold(0.5))$visible) # 356
   expect_factor(p$response, levels = task$class_names, any.missing = FALSE)
   expect_equal(p$response, response_before)
   expect_lt(p$score(msr("classif.ce")), 0.25)

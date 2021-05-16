@@ -351,8 +351,8 @@ Task = R6Class("Task",
 
         ci = self$col_info[list(keep_cols), on = "id"]
         data = do.call(data.table, Map(auto_convert,
-            value = as.list(data)[ci$id],
-            id = ci$id, type = ci$type, levels = ci$levels))
+          value = as.list(data)[ci$id],
+          id = ci$id, type = ci$type, levels = ci$levels))
 
         data = as_data_backend(data, primary_key = pk)
       } else {

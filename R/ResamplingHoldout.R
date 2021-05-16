@@ -72,7 +72,8 @@ ResamplingHoldout = R6Class("ResamplingHoldout", inherit = Resampling,
 
     .combine = function(instances) {
       list(train = do.call(c, map(instances, "train")), test = do.call(c, map(instances, "test")))
-    })
+    }
+  )
 )
 
 #' @include mlr_resamplings.R

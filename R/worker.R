@@ -173,7 +173,7 @@ learner_predict = function(learner, task, row_ids = NULL) {
       miss_ids = is_missing_prediction_data(prediction)
 
       lg$debug("Imputing %i/%i predictions using fallback '%s'",
-        length(miss_ids), length(prediction$row_ids), fb$id,  learner = fb$clone())
+        length(miss_ids), length(prediction$row_ids), fb$id, learner = fb$clone())
 
       if (length(miss_ids)) {
         learner$state$log = append_log(learner$state$log, "predict", "output", "Using fallback learner to impute predictions")

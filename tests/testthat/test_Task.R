@@ -246,7 +246,9 @@ test_that("groups/weights work", {
   task$col_roles$group = character()
   expect_true("groups" %nin% task$properties)
 
-  expect_error({task$col_roles$weight = c("w", "g")}, "up to one")
+  expect_error({
+    task$col_roles$weight = c("w", "g")
+  }, "up to one")
 })
 
 test_that("ordered factors (#95)", {
@@ -314,8 +316,12 @@ test_that("switch columns on and off (#301)", {
 test_that("row roles setters", {
   task = tsk("iris")
 
-  expect_error({ task$row_roles$use = "foo" })
-  expect_error({ task$row_roles$foo = 1L })
+  expect_error({
+    task$row_roles$use = "foo"
+  })
+  expect_error({
+    task$row_roles$foo = 1L
+  })
 
   task$row_roles$use = 1:20
   expect_equal(task$nrow, 20L)
@@ -324,7 +330,9 @@ test_that("row roles setters", {
 test_that("col roles getters/setters", {
   task = tsk("iris")
 
-  expect_error({ task$col_roles$feature = "foo" })
+  expect_error({
+    task$col_roles$feature = "foo"
+  })
 
   # additional roles allowed (#558)
   task$col_roles$foo = "Species"
@@ -401,7 +409,7 @@ test_that("column labels", {
   labels = c("pl", "pw", "sl", "sw", "species")
   task$col_info$label = c(NA, labels)
 
-  task$rbind(iris[1,, drop = FALSE])
+  task$rbind(iris[1, , drop = FALSE])
   expect_names(na.omit(task$col_info$label), permutation.of = labels)
 
   task$cbind(data.frame(foo = 1:151))

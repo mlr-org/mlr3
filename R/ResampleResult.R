@@ -138,7 +138,7 @@ ResampleResult = R6Class("ResampleResult",
         set(tab, j = "learner_id", value = ids(tab[["learner"]]))
         set(tab, j = "resampling_id", value = ids(tab[["resampling"]]))
         setcolorder(tab, c("task", "task_id", "learner", "learner_id", "resampling", "resampling_id",
-            "iteration", "prediction"))
+          "iteration", "prediction"))
       }
 
       if (conditions) {
@@ -213,8 +213,9 @@ ResampleResult = R6Class("ResampleResult",
     task = function(rhs) {
       assert_ro_binding(rhs)
       tab = private$.data$tasks(private$.view)
-      if (nrow(tab) == 0L)
+      if (nrow(tab) == 0L) {
         return(NULL)
+      }
       tab$task[[1L]]
     },
 
@@ -224,8 +225,9 @@ ResampleResult = R6Class("ResampleResult",
     learner = function(rhs) {
       assert_ro_binding(rhs)
       tab = private$.data$learners(private$.view, states = FALSE)
-      if (nrow(tab) == 0L)
+      if (nrow(tab) == 0L) {
         return(NULL)
+      }
       tab$learner[[1L]]
     },
 
@@ -234,8 +236,9 @@ ResampleResult = R6Class("ResampleResult",
     resampling = function(rhs) {
       assert_ro_binding(rhs)
       tab = private$.data$resamplings(private$.view)
-      if (nrow(tab) == 0L)
+      if (nrow(tab) == 0L) {
         return(NULL)
+      }
       tab$resampling[[1L]]
     },
 

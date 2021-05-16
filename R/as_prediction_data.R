@@ -35,8 +35,9 @@ as_prediction_data.list = function(x, task, row_ids = task$row_ids, check = TRUE
   assert_names(names(x), subset.of = predict_types)
 
   x$row_ids = row_ids
-  if (inherits(task, "TaskSupervised"))
+  if (inherits(task, "TaskSupervised")) {
     x$truth = task$truth(row_ids)
+  }
 
   pdata = new_prediction_data(x, task_type = task$task_type)
   if (check) {

@@ -175,8 +175,9 @@ assert_measure = function(measure, task = NULL, learner = NULL, .var.name = vnam
 #' @rdname mlr_assertions
 assert_measures = function(measures, task = NULL, learner = NULL, .var.name = vname(measures)) {
   lapply(measures, assert_measure, task = task, learner = learner, .var.name = .var.name)
-  if (anyDuplicated(ids(measures)))
+  if (anyDuplicated(ids(measures))) {
     stopf("Measures need to have unique IDs")
+  }
   invisible(measures)
 }
 
@@ -281,7 +282,7 @@ assert_prediction_count = function(actual, expected, type) {
 
 assert_row_sums = function(prob) {
   for (i in seq_row(prob)) {
-    x = prob[i,, drop = TRUE]
+    x = prob[i, , drop = TRUE]
     if (anyMissing(x)) {
       if (!allMissing(x)) {
         stopf("Probabilities for observation %i are partly missing", i)

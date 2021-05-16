@@ -17,8 +17,9 @@
 #' default_measures("classif")
 #' default_measures("regr")
 default_measures = function(task_type) {
-  if (is.null(task_type))
+  if (is.null(task_type)) {
     return(list())
+  }
   assert_choice(task_type, names(mlr_reflections$default_measures))
   keys = mlr_reflections$default_measures[[task_type]]
   mlr_measures$mget(keys)
