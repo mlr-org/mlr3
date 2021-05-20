@@ -26,7 +26,6 @@ test_that("missing predictions are handled gracefully", {
 
   expect_true(all(is.na(p$prob)))
 
-
   learner = lrn("classif.debug", predict_missing = 0.5, predict_missing_type = "omit", predict_type = "prob")
   learner$train(task)
   expect_error(learner$predict(task), "observations")

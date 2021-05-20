@@ -284,13 +284,15 @@ assert_row_sums = function(prob) {
   for (i in seq_row(prob)) {
     x = prob[i, , drop = TRUE]
     n_missing = count_missing(x)
-    if (n_missing > 0L && n_missing < length(x)) {
-      stopf("Probabilities for observation %i are partly missing", i)
-    }
-
-    s = sum(x)
-    if (abs(s - 1) > 0.001) {
-      stopf("Probabilities for observation %i do sum up to %f != 1", i, s)
+    if (n_missing > 0L) {
+      if (n_missing < length(x)) {
+        stopf("Probabilities for observation %i are partly missing", i)
+      }
+    } else {
+      s = sum(x)
+      if (abs(s - 1) > 0.001) {
+        stopf("Probabilities for observation %i do sum up to %f != 1", i, s)
+      }
     }
   }
 }
