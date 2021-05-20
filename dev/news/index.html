@@ -170,7 +170,7 @@
 <li>New Resampling method: <code>ResamplingCustomCV</code>.</li>
 <li>New argument <code>encapsulate</code> for <code><a href="../reference/resample.html">resample()</a></code> and <code><a href="../reference/benchmark.html">benchmark()</a></code> to conveniently enable encapsulation and also set the fallback learner to the respective featureless learner. This is simply for convenience, configuring each learner individually is still possible and allows a more fine-grained control (<a href='https://github.com/mlr-org/mlr3/issues/634'>#634</a>,
 <a href='https://github.com/mlr-org/mlr3/issues/642'>#642</a>).</li>
-<li>Removed public (but documented as internal) field <code>$data</code> from <code>ResampleResult</code> and <code>BenchmarkResult</code> to simplify the API and avoid confusion. The converter <code><a href="https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html">as.data.table()</a></code> can be used instead.</li>
+<li>Deprecated public (and already documented as internal) field <code>$data</code> in <code>ResampleResult</code> and <code>BenchmarkResult</code> to simplify the API and avoid confusion. The converter <code><a href="https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html">as.data.table()</a></code> can be used instead.</li>
 <li>Measures now have formal hyperparameters. A popular example where this is required is the F1 score, now implemented with customizable <code>beta</code>.</li>
 <li>Changed default of argument <code>ordered</code> in <code>Task$data()</code> from <code>TRUE</code> to <code>FALSE</code>.</li>
 <li>Fixed getter <code>ResamplingRepeatedCV$folds()</code> (<a href='https://github.com/mlr-org/mlr3/issues/643'>#643</a>).</li>
