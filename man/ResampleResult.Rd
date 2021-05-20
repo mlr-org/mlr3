@@ -47,6 +47,11 @@ Other resample:
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
+\item{\code{data}}{(\code{ResultData})\cr
+Internal data storage object of type \code{ResultData}.
+This field is deprecated and will be removed in the next release.
+Use \code{as.table.table(BenchmarkResult)} instead.}
+
 \item{\code{task_type}}{(\code{character(1)})\cr
 Task type of objects in the \code{ResampleResult}, e.g. \code{"classif"} or \code{"regr"}.
 This is \code{NA} for empty \link{ResampleResult}s.}

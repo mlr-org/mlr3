@@ -11,7 +11,7 @@ found in \CRANpkg{mlr3proba}.
 }
 \examples{
 TaskSupervised$new("penguins", task_type = "classif", backend = palmerpenguins::penguins,
-    target = "species")
+  target = "species")
 }
 \seealso{
 \itemize{

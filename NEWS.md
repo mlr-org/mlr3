@@ -13,7 +13,7 @@
   featureless learner. This is simply for convenience, configuring each learner
   individually is still possible and allows a more fine-grained control (#634,
   #642).
-* Removed public (but documented as internal) field `$data` from
+* Deprecated public (and already documented as internal) field `$data` in
   `ResampleResult` and `BenchmarkResult` to simplify the API and avoid
   confusion. The converter `as.data.table()` can be used instead.
 * Measures now have formal hyperparameters. A popular example where this is

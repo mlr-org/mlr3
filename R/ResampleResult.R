@@ -192,6 +192,16 @@ ResampleResult = R6Class("ResampleResult",
   ),
 
   active = list(
+    #' @field data (`ResultData`)\cr
+    #' Internal data storage object of type `ResultData`.
+    #' This field is deprecated and will be removed in the next release.
+    #' Use `as.table.table(BenchmarkResult)` instead.
+    data = function(rhs) {
+      assert_ro_binding(rhs)
+      .Deprecated("as.data.table(resample_result)")
+      private$.data
+    },
+
     #' @field task_type (`character(1)`)\cr
     #' Task type of objects in the `ResampleResult`, e.g. `"classif"` or `"regr"`.
     #' This is `NA` for empty [ResampleResult]s.
