@@ -152,8 +152,13 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
         if (!is.null(pv$predict_missing)) {
           ii = sample.int(n, n * pv$predict_missing)
           prob = switch(missing_type,
-            "na" = { prob[ii, ] = NA_real_; prob },
-            "omit" = { prob[ii,, drop = FALSE] }
+            "na" = {
+              prob[ii, ] = NA_real_
+              prob
+            },
+            "omit" = {
+              prob[ii, , drop = FALSE]
+            }
           )
         }
       }

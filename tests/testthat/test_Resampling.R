@@ -67,8 +67,9 @@ test_that("cloning", {
 
     clone = r$clone(deep = TRUE)
     expect_different_address(r$param_set, clone$param_set)
-    if (is.data.table(r$instance))
+    if (is.data.table(r$instance)) {
       expect_different_address(r$instance, clone$instance)
+    }
   }
 })
 

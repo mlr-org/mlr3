@@ -256,7 +256,7 @@ test_that("parallelization works", {
 
   grid = benchmark_grid(list(tsk("wine"), tsk("sonar")), replicate(2, lrn("classif.debug")), rsmp("cv", folds = 2))
   njobs = 3L
-  bmr = with_future(future::multisession,  {
+  bmr = with_future(future::multisession, {
     benchmark(grid, store_models = TRUE)
   }, workers = njobs)
 

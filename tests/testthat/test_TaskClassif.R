@@ -107,8 +107,8 @@ test_that("droplevels keeps level order", {
 
 test_that("target is encoded as factor (#629)", {
   dt = data.table(a = c(1, 2, 3, 4), target = c(1, 1, 0, 1))
-  expect_error(TaskClassif$new(id="XX", backend = dt, target = "target"), "factor")
+  expect_error(TaskClassif$new(id = "XX", backend = dt, target = "target"), "factor")
 
   dt$target = ordered(dt$target)
-  TaskClassif$new(id="XX", backend = dt, target = "target")
+  TaskClassif$new(id = "XX", backend = dt, target = "target")
 })

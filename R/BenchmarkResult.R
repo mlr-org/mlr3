@@ -270,7 +270,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
       tab = insert_named(tab, scores)
 
       cns = c("uhash", "nr", "resample_result", "task_id", "learner_id", "resampling_id", "iters",
-          "warnings", "errors", "params", ids(measures))
+        "warnings", "errors", "params", ids(measures))
       cns = intersect(cns, names(tab))
       tab[, cns, with = FALSE]
     },
@@ -302,10 +302,11 @@ BenchmarkResult = R6Class("BenchmarkResult",
       learner_phashes = NULL
 
       filter_if_not_null = function(column, hashes) {
-        if (is.null(hashes))
+        if (is.null(hashes)) {
           fact
-        else
+        } else {
           fact[unique(hashes), on = column, nomatch = NULL]
+        }
       }
 
 

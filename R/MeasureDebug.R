@@ -51,8 +51,9 @@ MeasureDebug = R6Class("MeasureDebug",
   private = list(
     .score = function(prediction, ...) {
       na_ratio = self$param_set$get_values()$na_ratio
-      if (na_ratio > runif(1L))
+      if (na_ratio > runif(1L)) {
         return(NA_integer_)
+      }
       length(prediction$row_ids)
     }
   )

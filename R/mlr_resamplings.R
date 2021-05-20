@@ -39,8 +39,9 @@ as.data.table.DictionaryResampling = function(x, ...) { # nolint
   setkeyv(map_dtr(x$keys(), function(key) {
     r = tryCatch(x$get(key),
       missingDefaultError = function(e) NULL)
-    if (is.null(r))
+    if (is.null(r)) {
       return(list(key = key))
+    }
 
     list(key = key, params = list(r$param_set$ids()), iters = r$iters)
   }, .fill = TRUE), "key")[]

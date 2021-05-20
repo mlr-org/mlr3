@@ -136,7 +136,7 @@ test_that("predict on newdata works / no target column", {
   learner = lrn("regr.featureless")
   learner$properties = setdiff(learner$properties, "missings")
   learner$train(task)
-  learner$predict_newdata(xdt[,1])
+  learner$predict_newdata(xdt[, 1])
 })
 
 
@@ -181,7 +181,7 @@ test_that("predict train + test set", {
 })
 
 test_that("assertions work (#357)", {
-  measures = lapply(c("classif.auc","classif.acc"), msr)
+  measures = lapply(c("classif.auc", "classif.acc"), msr)
   task = tsk("iris")
   lrn = lrn("classif.featureless")
   p = lrn$train(task)$predict(task)

@@ -90,7 +90,7 @@ c.PredictionDataClassif = function(..., keep_duplicates = TRUE) {
   if (!keep_duplicates) {
     keep = !duplicated(tab, by = "row_ids", fromLast = TRUE)
     tab = tab[keep]
-    prob = prob[keep,, drop = FALSE]
+    prob = prob[keep, , drop = FALSE]
   }
 
   result = as.list(tab)

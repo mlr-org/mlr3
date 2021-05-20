@@ -35,7 +35,7 @@ load_task_penguins = function() {
   penguins = as.data.table(palmerpenguins::penguins)
   setnames(penguins,
     old = c("bill_length_mm", "bill_depth_mm", "flipper_length_mm", "body_mass_g"),
-    new = c("bill_length",    "bill_depth",    "flipper_length",    "body_mass")
+    new = c("bill_length", "bill_depth", "flipper_length", "body_mass")
   )
 
   b = as_data_backend(penguins)
