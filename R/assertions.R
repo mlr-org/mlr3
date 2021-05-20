@@ -282,7 +282,7 @@ assert_prediction_count = function(actual, expected, type) {
 
 assert_row_sums = function(prob) {
   for (i in seq_row(prob)) {
-    x = prob[i,, drop = TRUE]
+    x = prob[i, , drop = TRUE]
     n_missing = count_missing(x)
     if (n_missing > 0L && n_missing < length(x)) {
       stopf("Probabilities for observation %i are partly missing", i)
