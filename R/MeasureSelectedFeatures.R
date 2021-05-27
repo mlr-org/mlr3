@@ -58,14 +58,17 @@ MeasureSelectedFeatures = R6Class("MeasureSelectedFeatures",
 
   private = list(
     .score = function(prediction, task, learner, ...) {
+      learner = get_base_learner(learner)
       if ("selected_features" %nin% learner$properties) {
         return(NA_integer_)
       }
+
       n = length(learner$selected_features())
       if (self$param_set$get_values()$normalize) {
         n = n / length(task$feature_names)
       }
-      n
+
+      return(n)
     }
   )
 )

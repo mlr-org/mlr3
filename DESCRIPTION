@@ -189,6 +189,7 @@ Collate:
     'bibentries.R'
     'default_measures.R'
     'fix_factor_levels.R'
+    'get_base_learner.R'
     'helper.R'
     'mlr_sugar.R'
     'partition.R'
