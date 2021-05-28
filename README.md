@@ -53,6 +53,10 @@ Status](https://www.r-pkg.org/badges/version-ago/mlr3)](https://cran.r-project.o
         Shows how to use mlr3 with
         [drake](https://docs.ropensci.org/drake/) for reproducible ML
         workflow automation.
+-   **Extension Learners**
+    -   [mlr3learners for recommended learners](https://github.com/mlr-org/mlr3learners)
+    -   [mlr3extralearners for many more](https://github.com/mlr-org/mlr3extralearners)
+    -   [Overview of extension learners](https://mlr3extralearners.mlr-org.com/articles/learners/list_learners.html)
 -   [List of extension
     packages](https://github.com/mlr-org/mlr3/wiki/Extension-Packages)
 -   [mlr-outreach](https://github.com/mlr-org/mlr-outreach) contains
