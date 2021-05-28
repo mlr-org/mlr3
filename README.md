@@ -28,6 +28,15 @@ Status](https://www.r-pkg.org/badges/version-ago/mlr3)](https://cran.r-project.o
 -   [FAQ](https://github.com/mlr-org/mlr3/wiki/FAQ)
 -   [Stackoverflow](https://stackoverflow.com/questions/tagged/mlr3)
 -   [Mattermost team chat](https://lmmisld-lmu-stats-slds.srv.mwn.de/mlr_invite/)
+-   **Extension Learners**
+    - Recommended core regression, classification, and survival learners are in [mlr3learners](https://github.com/mlr-org/mlr3learners)
+    - All others are in [mlr3extralearners](https://github.com/mlr-org/mlr3extralearners)
+    - Use the [learner search](https://mlr3extralearners.mlr-org.com/articles/learners/list_learners.html) to get a simple overview
+    - Use the [learner status](https://mlr3extralearners.mlr-org.com/articles/learners/learner_status.html) to see their build status
+-   **Extension Learners**
+    -   [mlr3learners for recommended learners](https://github.com/mlr-org/mlr3learners)
+    -   [mlr3extralearners for many more](https://github.com/mlr-org/mlr3extralearners)
+    -   [Overview of extension learners](https://mlr3extralearners.mlr-org.com/articles/learners/list_learners.html)
 -   **Cheatsheets**
     -   [Overview of cheatsheets](https://cheatsheets.mlr-org.com)
     -   [mlr3](https://cheatsheets.mlr-org.com/mlr3.pdf)
@@ -53,10 +62,6 @@ Status](https://www.r-pkg.org/badges/version-ago/mlr3)](https://cran.r-project.o
         Shows how to use mlr3 with
         [drake](https://docs.ropensci.org/drake/) for reproducible ML
         workflow automation.
--   **Extension Learners**
-    -   [mlr3learners for recommended learners](https://github.com/mlr-org/mlr3learners)
-    -   [mlr3extralearners for many more](https://github.com/mlr-org/mlr3extralearners)
-    -   [Overview of extension learners](https://mlr3extralearners.mlr-org.com/articles/learners/list_learners.html)
 -   [List of extension
     packages](https://github.com/mlr-org/mlr3/wiki/Extension-Packages)
 -   [mlr-outreach](https://github.com/mlr-org/mlr-outreach) contains
