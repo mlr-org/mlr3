@@ -26,13 +26,20 @@ Status](https://www.r-pkg.org/badges/version-ago/mlr3)](https://cran.r-project.o
     solved. It is still in early days so stay tuned for more to come.
 -   [Reference manual](https://mlr3.mlr-org.com/reference/)
 -   [FAQ](https://github.com/mlr-org/mlr3/wiki/FAQ)
--   [Stackoverflow](https://stackoverflow.com/questions/tagged/mlr3)
--   [Mattermost team chat](https://lmmisld-lmu-stats-slds.srv.mwn.de/mlr_invite/)
+-   Ask questions on [Stackoverflow (tag
+    \#mlr3)](https://stackoverflow.com/questions/tagged/mlr3)
 -   **Extension Learners**
-    - Recommended core regression, classification, and survival learners are in [mlr3learners](https://github.com/mlr-org/mlr3learners)
-    - All others are in [mlr3extralearners](https://github.com/mlr-org/mlr3extralearners)
-    - Use the [learner search](https://mlr3extralearners.mlr-org.com/articles/learners/list_learners.html) to get a simple overview
-    - Use the [learner status](https://mlr3extralearners.mlr-org.com/articles/learners/learner_status.html) to see their build status
+    -   Recommended core regression, classification, and survival
+        learners are in
+        [mlr3learners](https://github.com/mlr-org/mlr3learners)
+    -   All others are in
+        [mlr3extralearners](https://github.com/mlr-org/mlr3extralearners)
+    -   Use the [learner
+        search](https://mlr3extralearners.mlr-org.com/articles/learners/list_learners.html)
+        to get a simple overview
+    -   Use the [learner
+        status](https://mlr3extralearners.mlr-org.com/articles/learners/learner_status.html)
+        to see their build status
 -   **Cheatsheets**
     -   [Overview of cheatsheets](https://cheatsheets.mlr-org.com)
     -   [mlr3](https://cheatsheets.mlr-org.com/mlr3.pdf)
@@ -155,9 +162,9 @@ rr$score(measure)
 ```
 
     ##                 task  task_id                   learner    learner_id
-    ## 1: <TaskClassif[46]> penguins <LearnerClassifRpart[34]> classif.rpart
-    ## 2: <TaskClassif[46]> penguins <LearnerClassifRpart[34]> classif.rpart
-    ## 3: <TaskClassif[46]> penguins <LearnerClassifRpart[34]> classif.rpart
+    ## 1: <TaskClassif[47]> penguins <LearnerClassifRpart[34]> classif.rpart
+    ## 2: <TaskClassif[47]> penguins <LearnerClassifRpart[34]> classif.rpart
+    ## 3: <TaskClassif[47]> penguins <LearnerClassifRpart[34]> classif.rpart
     ##            resampling resampling_id iteration              prediction
     ## 1: <ResamplingCV[19]>            cv         1 <PredictionClassif[19]>
     ## 2: <ResamplingCV[19]>            cv         2 <PredictionClassif[19]>
