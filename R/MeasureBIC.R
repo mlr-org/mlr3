@@ -41,7 +41,7 @@ MeasureBIC = R6Class("MeasureBIC",
 
   private = list(
     .score = function(prediction, learner, ...) {
-      learner = get_base_learner(learner)
+      learner = learner$base_learner()
       if ("loglik" %nin% learner$properties) {
         return(NA_real_)
       }

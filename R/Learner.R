@@ -310,6 +310,20 @@ Learner = R6Class("Learner",
     reset = function() {
       self$state = NULL
       invisible(self)
+    },
+
+    #' @description
+    #' Extracts the base learner from nested learner objects like
+    #' `GraphLearner` in \CRANpkg{mlr3pipelines} or `AutoTuner` in
+    #' \CRANpkg{mlr3tuning}.
+    #' Returns the [Learner] itself for regular learners.
+    #'
+    #' @param recursive (`integer(1)`)\cr
+    #'   Depth of recursion for multiple nested objects.
+    #'
+    #' @return [Learner].
+    base_learner = function(recursive = Inf) {
+      self
     }
   ),
 
