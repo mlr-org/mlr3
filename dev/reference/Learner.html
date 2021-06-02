@@ -389,6 +389,7 @@ See <code><a href='https://mlr3misc.mlr-org.com/reference/encapsulate.html'>mlr3
 <li><p><a href='#method-predict'><code>Learner$predict()</code></a></p></li>
 <li><p><a href='#method-predict_newdata'><code>Learner$predict_newdata()</code></a></p></li>
 <li><p><a href='#method-reset'><code>Learner$reset()</code></a></p></li>
+<li><p><a href='#method-base_learner'><code>Learner$base_learner()</code></a></p></li>
 <li><p><a href='#method-clone'><code>Learner$clone()</code></a></p></li>
 </ul>
 <p><hr>
@@ -535,6 +536,22 @@ Row ids are automatically set to <code>1:nrow(newdata)</code>.</p></dd>
 <p>Returns the object itself, but modified <strong>by reference</strong>.
 You need to explicitly <code>$clone()</code> the object beforehand if you want to keeps
 the object in its previous state.</p>
+<p><hr>
+<a id="method-base_learner"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>base_learner()</code></h3>
+<p>Extracts the base learner from nested learner objects like
+<code>GraphLearner</code> in <a href='https://CRAN.R-project.org/package=mlr3pipelines'><span class="pkg">mlr3pipelines</span></a> or <code>AutoTuner</code> in
+<a href='https://CRAN.R-project.org/package=mlr3tuning'><span class="pkg">mlr3tuning</span></a>.
+Returns the Learner itself for regular learners.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>Learner</span><span class='op'>$</span><span class='fu'>base_learner</span><span class='op'>(</span>recursive <span class='op'>=</span> <span class='cn'>Inf</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>recursive</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>)<br />
+Depth of recursion for multiple nested objects.</p></dd>
+
+</dl><p></div></p>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
+<p>Learner.</p>
 <p><hr>
 <a id="method-clone"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>clone()</code></h3>
 <p>The objects of this class are cloneable with this method.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
