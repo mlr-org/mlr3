@@ -248,8 +248,10 @@ To select a parallel backend, use <code><a href='https://rdrr.io/pkg/future/man/
     
 
 <p>This function supports progress bars via the package <a href='https://CRAN.R-project.org/package=progressr'><span class="pkg">progressr</span></a>.
-Simply wrap the function in <code><a href='https://rdrr.io/pkg/progressr/man/with_progress.html'>progressr::with_progress()</a></code> to enable them.
-We recommend to use package <a href='https://CRAN.R-project.org/package=progress'><span class="pkg">progress</span></a> as backend; enable with
+Simply wrap the function call in <code><a href='https://rdrr.io/pkg/progressr/man/with_progress.html'>progressr::with_progress()</a></code> to enable them.
+Alternatively, call <code><a href='https://rdrr.io/pkg/progressr/man/handlers.html'>progressr::handlers()</a></code> with <code>global = TRUE</code> to enable progress bars
+globally.
+We recommend the <a href='https://CRAN.R-project.org/package=progress'><span class="pkg">progress</span></a> package as backend which can be enabled with
 <code><a href='https://rdrr.io/pkg/progressr/man/handlers.html'>progressr::handlers("progress")</a></code>.</p>
     <h2 class="hasAnchor" id="logging"><a class="anchor" href="#logging"></a>Logging</h2>
 
