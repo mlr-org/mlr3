@@ -49,11 +49,13 @@ MeasureAIC = R6Class("MeasureAIC",
 
   private = list(
     .score = function(prediction, learner, ...) {
+      learner = learner$base_learner()
       if ("loglik" %nin% learner$properties) {
         return(NA_real_)
       }
+
       k = self$param_set$values$k %??% 2
-      stats::AIC(learner$loglik(), k = k)
+      return(stats::AIC(learner$loglik(), k = k))
     }
   )
 )

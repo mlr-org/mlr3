@@ -219,6 +219,7 @@ See \code{\link[mlr3misc:encapsulate]{mlr3misc::encapsulate()}} for more details
 \item \href{#method-predict}{\code{Learner$predict()}}
 \item \href{#method-predict_newdata}{\code{Learner$predict_newdata()}}
 \item \href{#method-reset}{\code{Learner$reset()}}
+\item \href{#method-base_learner}{\code{Learner$base_learner()}}
 \item \href{#method-clone}{\code{Learner$clone()}}
 }
 }
@@ -419,6 +420,30 @@ Reset the learner, i.e. un-train by resetting the \code{state}.
 Returns the object itself, but modified \strong{by reference}.
 You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
 the object in its previous state.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-base_learner"></a>}}
+\if{latex}{\out{\hypertarget{method-base_learner}{}}}
+\subsection{Method \code{base_learner()}}{
+Extracts the base learner from nested learner objects like
+\code{GraphLearner} in \CRANpkg{mlr3pipelines} or \code{AutoTuner} in
+\CRANpkg{mlr3tuning}.
+Returns the \link{Learner} itself for regular learners.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Learner$base_learner(recursive = Inf)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{recursive}}{(\code{integer(1)})\cr
+Depth of recursion for multiple nested objects.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\link{Learner}.
 }
 }
 \if{html}{\out{<hr>}}

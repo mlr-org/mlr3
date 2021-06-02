@@ -39,10 +39,12 @@ MeasureOOBError = R6Class("MeasureOOBError",
 
   private = list(
     .score = function(prediction, learner, ...) {
+      learner = learner$base_learner()
       if ("oob_error" %nin% learner$properties) {
         return(NA_real_)
       }
-      learner$oob_error()
+
+      return(learner$oob_error())
     }
   )
 )

@@ -341,6 +341,8 @@ expect_learner = function(lrn, task = NULL) {
     checkmate::expect_subset(lrn$properties, mlr3::mlr_reflections$learner_properties[[task$task_type]])
     testthat::expect_identical(lrn$task_type, task$task_type)
   }
+
+  expect_class(lrn$base_learner(), "Learner")
 }
 
 expect_resampling = function(r, task = NULL) {
