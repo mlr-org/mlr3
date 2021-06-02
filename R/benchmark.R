@@ -107,7 +107,12 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
   n = nrow(grid)
 
   lg$info("Running benchmark with %i resampling iterations", n)
-  pb = get_progressor(n)
+  pb = if (isNamespaceLoaded("progressr")) {
+    # NB: the progress bar needs to be created in this env
+    pb = progressr::progressor(steps = n)
+  } else {
+    NULL
+  }
 
   if (getOption("mlr3.debug", FALSE)) {
     lg$info("Running benchmark() sequentially in debug mode with %i iterations", n)

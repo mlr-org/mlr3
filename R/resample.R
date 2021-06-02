@@ -65,7 +65,12 @@ resample = function(task, learner, resampling, store_models = FALSE, store_backe
     instance = instance$instantiate(task)
   }
   n = instance$iters
-  pb = get_progressor(n)
+  pb = if (isNamespaceLoaded("progressr")) {
+    # NB: the progress bar needs to be created in this env
+    pb = progressr::progressor(steps = n)
+  } else {
+    NULL
+  }
 
   if (getOption("mlr3.debug", FALSE)) {
     lg$info("Running resample() sequentially in debug mode with %i iterations", n)

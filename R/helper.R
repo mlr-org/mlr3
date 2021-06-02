@@ -61,14 +61,6 @@ fget = function(tab, i, j, key) {
   }
 }
 
-get_progressor = function(n, label = NA_character_) {
-  if (!isNamespaceLoaded("progressr")) {
-    return(NULL)
-  }
-
-  progressr::progressor(steps = n, label = label)
-}
-
 allow_utf8_names = function() {
   isTRUE(getOption("mlr3.allow_utf8_names"))
 }

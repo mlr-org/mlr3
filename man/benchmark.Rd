@@ -66,8 +66,10 @@ To select a parallel backend, use \code{\link[future:plan]{future::plan()}}.
 \section{Progress Bars}{
 
 This function supports progress bars via the package \CRANpkg{progressr}.
-Simply wrap the function in \code{\link[progressr:with_progress]{progressr::with_progress()}} to enable them.
-We recommend to use package \CRANpkg{progress} as backend; enable with
+Simply wrap the function call in \code{\link[progressr:with_progress]{progressr::with_progress()}} to enable them.
+Alternatively, call \code{\link[progressr:handlers]{progressr::handlers()}} with \code{global = TRUE} to enable progress bars
+globally.
+We recommend the \CRANpkg{progress} package as backend which can be enabled with
 \code{progressr::handlers("progress")}.
 }
 
