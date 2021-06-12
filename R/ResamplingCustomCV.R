@@ -22,8 +22,8 @@
 #'
 #' # Instantiate Resampling:
 #' custom_cv = rsmp("custom_cv")
-#' f = factor(c(rep(letters[1:3], each = 3), NA))
-#' custom_cv$instantiate(task, f)
+#' split_f = factor(c(rep(letters[1:3], each = 3), NA))
+#' custom_cv$instantiate(task, split = split_f)
 #' custom_cv$iters # 3 folds
 #'
 #' # Individual sets:
@@ -46,14 +46,21 @@ ResamplingCustomCV = R6Class("ResamplingCustomCV", inherit = Resampling,
     #' @param task [Task]\cr
     #'   Used to extract row ids.
     #'
-    #' @param f (`factor()`)\cr
+    #' @param split (`factor()`)\cr
     #'   Row ids are split on this factor, each factor level results in a fold.
     #'   Empty factor levels are dropped and row ids corresponding to missing values are removed,
     #'   c.f. [split()].
-    instantiate = function(task, f) {
+    instantiate = function(task, split) {
       task = assert_task(as_task(task))
-      assert_factor(f, len = task$nrow, all.missing = FALSE)
-      self$instance = split(task$row_ids, f, drop = TRUE)
+      if (is.factor(split)) {
+        assert_factor(split, empty.levels.ok = FALSE, len = task$nrow, all.missing = FALSE)
+      } else if (is.character(split)) {
+        # suppress "no visible binding for global variable" note
+        type = NULL
+        assert_subset(split, task$feature_types[`type` == "factor" | `type` == "character", ]$id)
+        split = as.factor(task$data()[[split]])
+      }
+      self$instance = split(task$row_ids, split, drop = TRUE)
       self$task_hash = task$hash
       self$task_nrow = task$nrow
       invisible(self)

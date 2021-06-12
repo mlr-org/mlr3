@@ -25,8 +25,8 @@ task$filter(1:10)
 
 # Instantiate Resampling:
 custom_cv = rsmp("custom_cv")
-f = factor(c(rep(letters[1:3], each = 3), NA))
-custom_cv$instantiate(task, f)
+split_f = factor(c(rep(letters[1:3], each = 3), NA))
+custom_cv$instantiate(task, split = split_f)
 custom_cv$iters # 3 folds
 
 # Individual sets:
@@ -104,7 +104,7 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Method \code{instantiate()}}{
 Instantiate this \link{Resampling} as cross validation with custom splits.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResamplingCustomCV$instantiate(task, f)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{ResamplingCustomCV$instantiate(task, split)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -113,7 +113,7 @@ Instantiate this \link{Resampling} as cross validation with custom splits.
 \item{\code{task}}{\link{Task}\cr
 Used to extract row ids.}
 
-\item{\code{f}}{(\code{factor()})\cr
+\item{\code{split}}{(\code{factor()})\cr
 Row ids are split on this factor, each factor level results in a fold.
 Empty factor levels are dropped and row ids corresponding to missing values are removed,
 c.f. \code{\link[=split]{split()}}.}
