@@ -2,5 +2,5 @@ pandoc: 2.7.3
 pkgdown: 1.6.1
 pkgdown_sha: ~
 articles: {}
-last_built: 2021-06-27T09:42Z
+last_built: 2021-06-27T10:00Z
 
