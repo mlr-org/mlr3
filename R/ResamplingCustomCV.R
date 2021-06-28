@@ -50,25 +50,23 @@ ResamplingCustomCV = R6Class("ResamplingCustomCV", inherit = Resampling,
     #' @param task [Task]\cr
     #'   Used to extract row ids.
     #'
-    #' @param split (`factor()`)\cr
-    #'    Either an external factor vector with the same length as
-    #'   `task$nrow` or a character vector specifying a feature within the task which will be
+    #' @param split (`factor()` | `character(1)`)\cr
+    #'   Either an external factor vector with the same length as
+    #'   `task$nrow`, or a single column of the task which will be
     #'   used for splitting.
     #'   Row ids are split on this factor, each factor level results in a fold.
     #'   Empty factor levels are dropped and row ids corresponding to missing values are removed,
     #'   c.f. [split()].
     instantiate = function(task, split) {
       task = assert_task(as_task(task))
-      if (is.factor(split)) {
-        assert_factor(split, empty.levels.ok = FALSE, len = task$nrow, all.missing = FALSE)
-      } else if (is.character(split)) {
-        # suppress "no visible binding for global variable" note
-        type = NULL
-        assert_character(split, len = 1)
-        assert_subset(split, task$feature_types[`type` == "factor" | `type` == "character", ]$id)
-        browser()
-        split = as.factor(task$data(cols = split)[[split]])
+
+      if (test_string(split)) {
+        cols = fget(task$col_info, c("character", "factor", "ordered"), "id", "type")
+        assert_choice(split, cols)
+        split = task$data(cols = split)[[1L]]
       }
+      assert_factor(split, empty.levels.ok = FALSE, len = task$nrow, all.missing = FALSE)
+
       self$instance = split(task$row_ids, split, drop = TRUE)
       self$task_hash = task$hash
       self$task_nrow = task$nrow

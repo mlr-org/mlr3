@@ -21,12 +21,15 @@ test_that("custom_cv accepts external factor", {
 test_that("custom_cv accepts task feature", {
   task = tsk("german_credit")
   r = rsmp("custom_cv")
-  r$instantiate(task, split = "job")
+  expect_identical(r$duplicated_ids, FALSE)
 
+  r$instantiate(task, split = task$data(cols = "job")[[1L]])
   expect_class(r$instance, "list")
   expect_length(r$instance, 4)
   expect_length(r$train_set(3), 370)
 
-  expect_identical(r$duplicated_ids, FALSE)
-
+  r$instantiate(task, split = "job")
+  expect_class(r$instance, "list")
+  expect_length(r$instance, 4)
+  expect_length(r$train_set(3), 370)
 })

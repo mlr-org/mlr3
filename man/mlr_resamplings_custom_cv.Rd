@@ -117,9 +117,9 @@ Instantiate this \link{Resampling} as cross validation with custom splits.
 \item{\code{task}}{\link{Task}\cr
 Used to extract row ids.}
 
-\item{\code{split}}{(\code{factor()})\cr
+\item{\code{split}}{(\code{factor()} | \code{character(1)})\cr
 Either an external factor vector with the same length as
-\code{task$nrow} or a character vector specifying a feature within the task which will be
+\code{task$nrow}, or a single column of the task which will be
 used for splitting.
 Row ids are split on this factor, each factor level results in a fold.
 Empty factor levels are dropped and row ids corresponding to missing values are removed,

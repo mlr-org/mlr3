@@ -49,14 +49,14 @@ allow_partial_matching = list(
 # extract values from a single column of a data table
 # tries to avoid the overhead of data.table for small tables
 fget = function(tab, i, j, key) {
-  if (nrow(tab) > 1000L) {
+  if (task$nrow < 1000L) {
     tab[list(i), j, on = key, with = FALSE][[1L]]
   } else {
-    table = tab[[key]]
-    if (is.character(table)) {
-      tab[[j]][chmatch(i, table, nomatch = 0L)]
+    x = tab[[key]]
+    if (is.character(x) && is.character(i)) {
+      tab[[j]][x %chin% i]
     } else {
-      tab[[j]][match(i, table, nomatch = 0L)]
+      tab[[j]][x %in% i]
     }
   }
 }
