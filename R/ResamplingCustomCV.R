@@ -66,7 +66,8 @@ ResamplingCustomCV = R6Class("ResamplingCustomCV", inherit = Resampling,
         type = NULL
         assert_character(split, len = 1)
         assert_subset(split, task$feature_types[`type` == "factor" | `type` == "character", ]$id)
-        split = as.factor(task$data(cols = split))
+        browser()
+        split = as.factor(task$data(cols = split)[[split]])
       }
       self$instance = split(task$row_ids, split, drop = TRUE)
       self$task_hash = task$hash
