@@ -6,7 +6,11 @@
 \title{Custom Cross Validation}
 \description{
 Splits data into training and test sets in a cross-validation fashion.
-Splits are defined by the factor \code{f} provided during instantiation.
+Splits are defined by argument \code{split} provided during instantiation.
+
+\code{split} can either be an external factor vector with the same length as
+\code{task$nrow} or a character vector specifying a feature within the task which will be
+used for splitting.
 
 An alternative approach using leave-one-out is showcased in the examples of
 \link{mlr_resamplings_loo}.
@@ -114,6 +118,9 @@ Instantiate this \link{Resampling} as cross validation with custom splits.
 Used to extract row ids.}
 
 \item{\code{split}}{(\code{factor()})\cr
+Either an external factor vector with the same length as
+\code{task$nrow} or a character vector specifying a feature within the task which will be
+used for splitting.
 Row ids are split on this factor, each factor level results in a fold.
 Empty factor levels are dropped and row ids corresponding to missing values are removed,
 c.f. \code{\link[=split]{split()}}.}

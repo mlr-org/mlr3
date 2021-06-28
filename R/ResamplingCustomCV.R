@@ -5,7 +5,11 @@
 #'
 #' @description
 #' Splits data into training and test sets in a cross-validation fashion.
-#' Splits are defined by the factor `f` provided during instantiation.
+#' Splits are defined by argument `split` provided during instantiation.
+#'
+#' `split` can either be an external factor vector with the same length as
+#' `task$nrow` or a character vector specifying a feature within the task which will be
+#' used for splitting.
 #'
 #' An alternative approach using leave-one-out is showcased in the examples of
 #' [mlr_resamplings_loo].
@@ -47,6 +51,9 @@ ResamplingCustomCV = R6Class("ResamplingCustomCV", inherit = Resampling,
     #'   Used to extract row ids.
     #'
     #' @param split (`factor()`)\cr
+    #'    Either an external factor vector with the same length as
+    #'   `task$nrow` or a character vector specifying a feature within the task which will be
+    #'   used for splitting.
     #'   Row ids are split on this factor, each factor level results in a fold.
     #'   Empty factor levels are dropped and row ids corresponding to missing values are removed,
     #'   c.f. [split()].
@@ -57,6 +64,7 @@ ResamplingCustomCV = R6Class("ResamplingCustomCV", inherit = Resampling,
       } else if (is.character(split)) {
         # suppress "no visible binding for global variable" note
         type = NULL
+        assert_character(split, len = 1)
         assert_subset(split, task$feature_types[`type` == "factor" | `type` == "character", ]$id)
         split = as.factor(task$data()[[split]])
       }
