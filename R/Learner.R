@@ -235,6 +235,10 @@ Learner = R6Class("Learner",
     #'
     #' @return [Prediction].
     predict = function(task, row_ids = NULL) {
+      # improve error message for the common mistake of passing a data.frame here
+      if (is.data.frame(task)) {
+        stopf("To predict on data.frames, use the method `$predict_newdata()` instead of `$predict()`")
+      }
       task = assert_task(as_task(task))
       assert_predictable(task, self)
       row_ids = assert_row_ids(row_ids, null.ok = TRUE)
