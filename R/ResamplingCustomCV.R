@@ -26,8 +26,8 @@
 #'
 #' # Instantiate Resampling:
 #' custom_cv = rsmp("custom_cv")
-#' split_f = factor(c(rep(letters[1:3], each = 3), NA))
-#' custom_cv$instantiate(task, split = split_f)
+#' f = factor(c(rep(letters[1:3], each = 3), NA))
+#' custom_cv$instantiate(task, f = split_f)
 #' custom_cv$iters # 3 folds
 #'
 #' # Individual sets:
