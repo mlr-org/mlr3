@@ -55,7 +55,10 @@
 
 <meta property="og:title" content="Custom Cross Validation — mlr_resamplings_custom_cv" />
 <meta property="og:description" content="Splits data into training and test sets in a cross-validation fashion.
-Splits are defined by the factor f provided during instantiation.
+Splits are defined by argument split provided during instantiation.
+split can either be an external factor vector with the same length as
+task$nrow or a character vector specifying a feature within the task which will be
+used for splitting.
 An alternative approach using leave-one-out is showcased in the examples of
 mlr_resamplings_loo." />
 <meta property="og:image" content="/logo.svg" />
@@ -164,7 +167,10 @@ mlr_resamplings_loo." />
 
     <div class="ref-description">
     <p>Splits data into training and test sets in a cross-validation fashion.
-Splits are defined by the factor <code>f</code> provided during instantiation.</p>
+Splits are defined by argument <code>split</code> provided during instantiation.</p>
+<p><code>split</code> can either be an external factor vector with the same length as
+<code>task$nrow</code> or a character vector specifying a feature within the task which will be
+used for splitting.</p>
 <p>An alternative approach using leave-one-out is showcased in the examples of
 <a href='mlr_resamplings_loo.html'>mlr_resamplings_loo</a>.</p>
     </div>
@@ -239,17 +245,23 @@ Returns the number of resampling iterations, depending on the values stored in t
 <p><hr>
 <a id="method-instantiate"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>instantiate()</code></h3>
 <p>Instantiate this <a href='Resampling.html'>Resampling</a> as cross validation with custom splits.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='va'>ResamplingCustomCV</span><span class='op'>$</span><span class='fu'>instantiate</span><span class='op'>(</span><span class='va'>task</span>, <span class='va'>f</span><span class='op'>)</span></pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ResamplingCustomCV</span><span class='op'>$</span><span class='fu'>instantiate</span><span class='op'>(</span><span class='va'>task</span>, f <span class='op'>=</span> <span class='cn'>NULL</span>, col <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
 <dt><code>task</code></dt><dd><p><a href='Task.html'>Task</a><br />
 Used to extract row ids.</p></dd>
 
-<dt><code>f</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/factor.html'>factor()</a></code>)<br />
-Row ids are split on this factor, each factor level results in a fold.
+<dt><code>f</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/factor.html'>factor()</a></code> | <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
+Vector of type factor or character with the same length as <code>task$nrow</code>.
+Row ids are split on this vector, each distinct value results in a fold.
 Empty factor levels are dropped and row ids corresponding to missing values are removed,
 c.f. <code><a href='https://rdrr.io/r/base/split.html'>split()</a></code>.</p></dd>
+
+<dt><code>col</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+Name of the task column to use for splitting.
+Alternative and mutually exclusive to providing the factor levels as a vector via
+parameter <code>f</code>.</p></dd>
 
 </dl><p></div></p>
 <p><hr>
@@ -273,7 +285,7 @@ c.f. <code><a href='https://rdrr.io/r/base/split.html'>split()</a></code>.</p></
 <span class='co'># Instantiate Resampling:</span>
 <span class='va'>custom_cv</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span><span class='op'>(</span><span class='st'>"custom_cv"</span><span class='op'>)</span>
 <span class='va'>f</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='va'>letters</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span><span class='op'>]</span>, each <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>, <span class='cn'>NA</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>custom_cv</span><span class='op'>$</span><span class='fu'>instantiate</span><span class='op'>(</span><span class='va'>task</span>, <span class='va'>f</span><span class='op'>)</span>
+<span class='va'>custom_cv</span><span class='op'>$</span><span class='fu'>instantiate</span><span class='op'>(</span><span class='va'>task</span>, f <span class='op'>=</span> <span class='va'>f</span><span class='op'>)</span>
 <span class='va'>custom_cv</span><span class='op'>$</span><span class='va'>iters</span> <span class='co'># 3 folds</span>
 </div><div class='output co'>#&gt; [1] 3</div><div class='input'>
 <span class='co'># Individual sets:</span>
