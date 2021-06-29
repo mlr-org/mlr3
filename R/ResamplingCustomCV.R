@@ -50,24 +50,30 @@ ResamplingCustomCV = R6Class("ResamplingCustomCV", inherit = Resampling,
     #' @param task [Task]\cr
     #'   Used to extract row ids.
     #'
-    #' @param split (`factor()` | `character(1)`)\cr
-    #'   Either an external factor vector with the same length as
-    #'   `task$nrow`, or a single column of the task which will be
-    #'   used for splitting.
-    #'   Row ids are split on this factor, each factor level results in a fold.
+    #' @param f (`factor()` | `character()`)\cr
+    #'   Vector of type factor or character with the same length as `task$nrow`.
+    #'   Row ids are split on this vector, each distinct value results in a fold.
     #'   Empty factor levels are dropped and row ids corresponding to missing values are removed,
     #'   c.f. [split()].
-    instantiate = function(task, split) {
+    #' @param col (`character(1)`)\cr
+    #'   Name of the task column to use for splitting.
+    #'   Alternative and mutually exclusive to providing the factor levels as a vector via
+    #'   parameter `f`.
+    instantiate = function(task, f = NULL, col = NULL) {
       task = assert_task(as_task(task))
-
-      if (test_string(split)) {
-        cols = fget(task$col_info, c("character", "factor", "ordered"), "id", "type")
-        assert_choice(split, cols)
-        split = task$data(cols = split)[[1L]]
+      if (!xor(is.null(f), is.null(col))) {
+        stopf("Either `f` or `col` must be provided")
       }
-      assert_factor(split, empty.levels.ok = FALSE, len = task$nrow, all.missing = FALSE)
 
-      self$instance = split(task$row_ids, split, drop = TRUE)
+      if (!is.null(col)) {
+        assert_choice(col, task$col_info$id)
+        f = task$data(cols = col)[[1L]]
+        assert_atomic_vector(f, all.missing = FALSE)
+      } else {
+        assert_factor(f, len = task$nrow, all.missing = FALSE)
+      }
+
+      self$instance = split(task$row_ids, f, drop = TRUE)
       self$task_hash = task$hash
       self$task_nrow = task$nrow
       invisible(self)

@@ -108,7 +108,7 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Method \code{instantiate()}}{
 Instantiate this \link{Resampling} as cross validation with custom splits.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResamplingCustomCV$instantiate(task, split)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{ResamplingCustomCV$instantiate(task, f = NULL, col = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -117,13 +117,16 @@ Instantiate this \link{Resampling} as cross validation with custom splits.
 \item{\code{task}}{\link{Task}\cr
 Used to extract row ids.}
 
-\item{\code{split}}{(\code{factor()} | \code{character(1)})\cr
-Either an external factor vector with the same length as
-\code{task$nrow}, or a single column of the task which will be
-used for splitting.
-Row ids are split on this factor, each factor level results in a fold.
+\item{\code{f}}{(\code{factor()} | \code{character()})\cr
+Vector of type factor or character with the same length as \code{task$nrow}.
+Row ids are split on this vector, each distinct value results in a fold.
 Empty factor levels are dropped and row ids corresponding to missing values are removed,
 c.f. \code{\link[=split]{split()}}.}
+
+\item{\code{col}}{(\code{character(1)})\cr
+Name of the task column to use for splitting.
+Alternative and mutually exclusive to providing the factor levels as a vector via
+parameter \code{f}.}
 }
 \if{html}{\out{</div>}}
 }

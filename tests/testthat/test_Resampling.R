@@ -122,28 +122,31 @@ test_that("Evaluation on validation set", {
 
 test_that("custom_cv", {
   task = tsk("penguins")
-  r = rsmp("custom_cv")
+  ccv = rsmp("custom_cv")
+
   f = task$data(cols = "island")[[1L]]
-  r$instantiate(task, f)
-  expect_resampling(r, task = task)
+  ccv$instantiate(task, f = f)
+  expect_resampling(ccv, task = task)
+  expect_equal(ccv$iters, 3L)
+  expect_list(ccv$instance, "integer", len = 3)
+  expect_names(names(ccv$instance), permutation.of = levels(f))
 
-  expect_equal(r$iters, 3L)
-  expect_list(r$instance, "integer", len = 3)
-  expect_names(names(r$instance), permutation.of = levels(f))
+  ccv$instantiate(task, col = "island")
+  expect_resampling(ccv, task = task)
+  expect_equal(ccv$iters, 3L)
+  expect_list(ccv$instance, "integer", len = 3)
+  names(ccv$instance)
+  expect_names(names(ccv$instance), permutation.of = levels(f))
 
-
-  task = tsk("penguins")
-  task$filter(1:10)
-  r = rsmp("custom_cv")
+  task = task$clone(TRUE)$filter(1:10)
   f = factor(rep(letters[1:3], each = 3))
-  expect_error(r$instantiate(task, f), "length")
-
+  expect_error(ccv$instantiate(task, f), "length")
   f[10] = NA
-  r$instantiate(task, f)
-  expect_data_table(as.data.table(r), nrows = 3L * 9L)
+  ccv$instantiate(task, f)
+  expect_data_table(as.data.table(ccv), nrows = 3L * 9L)
 
   f[] = NA
-  expect_error(r$instantiate(task, f), "only missing")
+  expect_error(ccv$instantiate(task, f), "only missing")
 })
 
 test_that("loo with groups", {
