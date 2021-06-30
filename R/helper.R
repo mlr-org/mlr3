@@ -50,13 +50,13 @@ allow_partial_matching = list(
 # tries to avoid the overhead of data.table for small tables
 fget = function(tab, i, j, key) {
   if (nrow(tab) > 1000L) {
-    tab[list(i), j, on = key, with = FALSE][[1L]]
+    tab[list(i), j, on = key, with = FALSE, nomatch = NULL][[1L]]
   } else {
-    table = tab[[key]]
-    if (is.character(table)) {
-      tab[[j]][chmatch(i, table, nomatch = 0L)]
+    x = tab[[key]]
+    if (is.character(x) && is.character(i)) {
+      tab[[j]][x %chin% i]
     } else {
-      tab[[j]][match(i, table, nomatch = 0L)]
+      tab[[j]][x %in% i]
     }
   }
 }

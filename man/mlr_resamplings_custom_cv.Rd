@@ -5,11 +5,14 @@
 \alias{ResamplingCustomCV}
 \title{Custom Cross Validation}
 \description{
-Splits data into training and test sets in a cross-validation fashion.
-Splits are defined by the factor \code{f} provided during instantiation.
+Splits data into training and test sets in a cross-validation fashion based
+on a user-provided categorical vector.
+This vector can be passed during instantiation either via an arbitrary factor \code{f}
+with the same length as \code{task$nrow}, or via a single string \code{col} referring to a
+column in the task.
 
-An alternative approach using leave-one-out is showcased in the examples of
-\link{mlr_resamplings_loo}.
+An alternative but equivalent approach using leave-one-out resampling is
+showcased in the examples of \link{mlr_resamplings_loo}.
 }
 \section{Dictionary}{
 
@@ -26,7 +29,7 @@ task$filter(1:10)
 # Instantiate Resampling:
 custom_cv = rsmp("custom_cv")
 f = factor(c(rep(letters[1:3], each = 3), NA))
-custom_cv$instantiate(task, f)
+custom_cv$instantiate(task, f = f)
 custom_cv$iters # 3 folds
 
 # Individual sets:
@@ -104,7 +107,7 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Method \code{instantiate()}}{
 Instantiate this \link{Resampling} as cross validation with custom splits.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResamplingCustomCV$instantiate(task, f)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{ResamplingCustomCV$instantiate(task, f = NULL, col = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -113,10 +116,16 @@ Instantiate this \link{Resampling} as cross validation with custom splits.
 \item{\code{task}}{\link{Task}\cr
 Used to extract row ids.}
 
-\item{\code{f}}{(\code{factor()})\cr
-Row ids are split on this factor, each factor level results in a fold.
+\item{\code{f}}{(\code{factor()} | \code{character()})\cr
+Vector of type factor or character with the same length as \code{task$nrow}.
+Row ids are split on this vector, each distinct value results in a fold.
 Empty factor levels are dropped and row ids corresponding to missing values are removed,
 c.f. \code{\link[=split]{split()}}.}
+
+\item{\code{col}}{(\code{character(1)})\cr
+Name of the task column to use for splitting.
+Alternative and mutually exclusive to providing the factor levels as a vector via
+parameter \code{f}.}
 }
 \if{html}{\out{</div>}}
 }
