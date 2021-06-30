@@ -4,15 +4,14 @@
 #' @include Resampling.R
 #'
 #' @description
-#' Splits data into training and test sets in a cross-validation fashion.
-#' Splits are defined by argument `split` provided during instantiation.
+#' Splits data into training and test sets in a cross-validation fashion based
+#' on a user-provided categorical vector.
+#' This vector can be passed during instantiation either via an arbitrary factor `f`
+#' with the same length as `task$nrow`, or via a single string `col` referring to a
+#' column in the task.
 #'
-#' `split` can either be an external factor vector with the same length as
-#' `task$nrow` or a character vector specifying a feature within the task which will be
-#' used for splitting.
-#'
-#' An alternative approach using leave-one-out is showcased in the examples of
-#' [mlr_resamplings_loo].
+#' An alternative but equivalent approach using leave-one-out resampling is
+#' showcased in the examples of [mlr_resamplings_loo].
 #'
 #' @templateVar id custom_cv
 #' @template section_dictionary_resampling

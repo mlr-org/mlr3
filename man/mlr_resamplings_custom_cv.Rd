@@ -5,15 +5,14 @@
 \alias{ResamplingCustomCV}
 \title{Custom Cross Validation}
 \description{
-Splits data into training and test sets in a cross-validation fashion.
-Splits are defined by argument \code{split} provided during instantiation.
+Splits data into training and test sets in a cross-validation fashion based
+on a user-provided categorical vector.
+This vector can be passed during instantiation either via an arbitrary factor \code{f}
+with the same length as \code{task$nrow}, or via a single string \code{col} referring to a
+column in the task.
 
-\code{split} can either be an external factor vector with the same length as
-\code{task$nrow} or a character vector specifying a feature within the task which will be
-used for splitting.
-
-An alternative approach using leave-one-out is showcased in the examples of
-\link{mlr_resamplings_loo}.
+An alternative but equivalent approach using leave-one-out resampling is
+showcased in the examples of \link{mlr_resamplings_loo}.
 }
 \section{Dictionary}{
 
