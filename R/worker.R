@@ -128,7 +128,7 @@ learner_predict = function(learner, task, row_ids = NULL) {
     lg$debug("Learner '%s' has no model stored",
       learner$id, learner = learner$clone())
 
-    prediction = NULL
+    pdata = NULL
     learner$state$predict_time = NA_real_
   } else {
     # call predict with encapsulation
@@ -144,12 +144,12 @@ learner_predict = function(learner, task, row_ids = NULL) {
       .timeout = learner$timeout["predict"]
     )
 
-    prediction = result$result
+    pdata = result$result
     learner$state$log = append_log(learner$state$log, "predict", result$log$class, result$log$msg)
     learner$state$predict_time = result$elapsed
 
     lg$debug("Learner '%s' returned an object of class '%s'",
-      learner$id, class(prediction)[1L], learner = learner$clone(), prediction = prediction, messages = result$log$msg)
+      learner$id, class(pdata)[1L], learner = learner$clone(), prediction_data = pdata, messages = result$log$msg)
   }
 
 
@@ -163,27 +163,27 @@ learner_predict = function(learner, task, row_ids = NULL) {
     }
 
 
-    if (is.null(prediction)) {
+    if (is.null(pdata)) {
       lg$debug("Creating new Prediction using fallback '%s'",
         fb$id, learner = fb$clone())
 
       learner$state$log = append_log(learner$state$log, "predict", "output", "Using fallback learner for predictions")
-      prediction = predict_fb(task$row_ids)
+      pdata = predict_fb(task$row_ids)
     } else {
-      miss_ids = is_missing_prediction_data(prediction)
+      miss_ids = is_missing_prediction_data(pdata)
 
       lg$debug("Imputing %i/%i predictions using fallback '%s'",
-        length(miss_ids), length(prediction$row_ids), fb$id, learner = fb$clone())
+        length(miss_ids), length(pdata$row_ids), fb$id, learner = fb$clone())
 
       if (length(miss_ids)) {
         learner$state$log = append_log(learner$state$log, "predict", "output", "Using fallback learner to impute predictions")
 
-        prediction = c(prediction, predict_fb(miss_ids), keep_duplicates = FALSE)
+        pdata = c(pdata, predict_fb(miss_ids), keep_duplicates = FALSE)
       }
     }
   }
 
-  return(prediction)
+  return(pdata)
 }
 
 
