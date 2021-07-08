@@ -396,13 +396,28 @@ run_paramtest = function(learner, fun, exclude = character()) {
 
   missing = setdiff(par_package, par_learner)
   missing = setdiff(missing, c(exclude, "..."))
+  
+  extra = setdiff(par_learner, par_package)
+  extra = setdiff(extra, c(exclude, "..."))
 
-  if (length(missing) == 0L)
+  if (length(c(missing, extra)) == 0L)
     return(TRUE)
+  
+  merror = eerror = character(0)
 
-  error = sprintf("Missing parameters for learner '%s': %s",
-    learner$id, paste0(missing, collapse = ", "))
-  list(ok = FALSE, error = error, missing = missing)
+  if (length(missing) > 0) {
+    merror = sprintf("Missing parameters for learner '%s': %s",
+      learner$id, paste0(missing, collapse = ", "))
+  }
+  
+  if (length(extra) > 0) {
+    eerror = sprintf("Extra parameters for learner '%s': %s",
+      learner$id, paste0(extra, collapse = ", "))
+  }
+    
+  error = paste(merror, eerror, sep = "\n")
+  
+  list(ok = FALSE, error = error, missing = missing, extra = extra)
 }
 
 # Helper function to convert a vector of probabilities to a matrix
