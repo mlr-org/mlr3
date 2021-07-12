@@ -76,6 +76,7 @@ Imports:
 Suggests:
     Matrix,
     callr,
+    codetools,
     datasets,
     distr6,
     evaluate,
