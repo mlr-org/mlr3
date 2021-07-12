@@ -482,7 +482,6 @@ expect_resample_result = function(rr, allow_incomplete = FALSE) {
 
   expected_iters = if (allow_incomplete || nr == 0L) nr else rr$resampling$iters
 
-  data = data.table::as.data.table(rr)
   checkmate::expect_data_table(rr$score(), nrows = expected_iters, min.cols = length(mlr3::mlr_reflections$rr_names), any.missing = FALSE)
   checkmate::expect_names(names(rr$score()), must.include = mlr3::mlr_reflections$rr_names)
   if (nr > 0L) {
