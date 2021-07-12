@@ -563,7 +563,7 @@ expect_benchmark_result = function(bmr) {
   testthat::expect_equal(bmr$n_resample_results, length(uhashes))
 
   tab = bmr$resample_results
-  expect_data_table(tab, ncols = 3L, nrows = bmr$n_resample_results, any.missing = FALSE)
+  checkmate::expect_data_table(tab, ncols = 3L, nrows = bmr$n_resample_results, any.missing = FALSE)
   checkmate::expect_character(tab$uhash, any.missing = FALSE)
   checkmate::expect_integer(tab$nr, sorted = TRUE, any.missing = FALSE, lower = 1L)
   # expect_integer(tab$iters, any.missing = FALSE, lower = 1L)
