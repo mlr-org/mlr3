@@ -5,8 +5,17 @@ test_that("autotest", {
   expect_true(result, info = result$error)
 
   exclude = c("formula", "data", "weights", "subset", "na.action", "method", "model",
-    "x", "y", "parms", "control", "cost")
-  result = run_paramtest(learner, rpart::rpart, exclude)
+    "x", "y", "parms", "control", "cost", "keep_model")
+  result = run_paramtest(learner, list(rpart::rpart, rpart::rpart.control), exclude, tag = "train")
+  expect_true(result, info = result$error)
+
+  exclude = c(
+    "object", # handled internally
+    "newdata", # handled internally
+    "type", # handled internally
+    "na.action" # handled internally
+  )
+  result = run_paramtest(learner, rpart:::predict.rpart, exclude, tag = "predict")
   expect_true(result, info = result$error)
 })
 
