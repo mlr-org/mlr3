@@ -223,7 +223,7 @@ Measure = R6Class("Measure",
     #' @template field_hash
     hash = function(rhs) {
       assert_ro_binding(rhs)
-      hash(class(self), self$id, self$param_set$values, private$.score,
+      calculate_hash(class(self), self$id, self$param_set$values, private$.score,
         self$average, self$predict_sets, self$aggregator,
         mget(private$.extra_hash, envir = self))
     }
