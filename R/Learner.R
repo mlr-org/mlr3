@@ -377,7 +377,7 @@ Learner = R6Class("Learner",
     #' @template field_hash
     hash = function(rhs) {
       assert_ro_binding(rhs)
-      hash(class(self), self$id, self$param_set$values, private$.predict_type, self$fallback$hash)
+      calculate_hash(class(self), self$id, self$param_set$values, private$.predict_type, self$fallback$hash)
     },
 
     #' @field phash (`character(1)`)\cr
@@ -386,7 +386,7 @@ Learner = R6Class("Learner",
     #' selection (feature names).
     phash = function(rhs) {
       assert_ro_binding(rhs)
-      hash(class(self), self$id, private$.predict_type, self$fallback$hash)
+      calculate_hash(class(self), self$id, private$.predict_type, self$fallback$hash)
     },
 
     #' @field predict_type (`character(1)`)\cr

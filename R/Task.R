@@ -612,7 +612,7 @@ Task = R6Class("Task",
   active = list(
     #' @template field_hash
     hash = function(rhs) {
-      private$.hash %??% hash(
+      private$.hash %??% calculate_hash(
         class(self), self$id, self$backend$hash, self$col_info,
         private$.row_roles, private$.col_roles, private$.properties
       )
