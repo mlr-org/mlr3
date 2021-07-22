@@ -313,7 +313,12 @@ Those be combined via getters in <a href='ResampleResult.html'>ResampleResult</a
 to operate on specific subsets of the calculated prediction sets.</p></dd>
 
 <dt><code>parallel_predict</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
-If set to <code>TRUE</code>, use <a href='https://CRAN.R-project.org/package=future'><span class="pkg">future</span></a> to create predictions in parallel.</p></dd>
+If set to <code>TRUE</code>, use <a href='https://CRAN.R-project.org/package=future'><span class="pkg">future</span></a> to calculate predictions in parallel (default: <code>FALSE</code>).
+The row ids of the <code>task</code> will be split into <code><a href='https://rdrr.io/pkg/future/man/nbrOfWorkers.html'>future::nbrOfWorkers()</a></code> chunks,
+and predictions are evaluated according to the active <code><a href='https://rdrr.io/pkg/future/man/plan.html'>future::plan()</a></code>.
+This currently only works for methods <code>Learner$predict()</code> and <code>Learner$predict_newdata()</code>,
+and has no effect during <code><a href='resample.html'>resample()</a></code> or <code><a href='benchmark.html'>benchmark()</a></code> where you have other means
+to parallelize.</p></dd>
 
 <dt><code>timeout</code></dt><dd><p>(named <code><a href='https://rdrr.io/r/base/numeric.html'>numeric(2)</a></code>)<br />
 Timeout for the learner's train and predict steps, in seconds.
