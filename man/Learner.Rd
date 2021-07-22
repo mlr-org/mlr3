@@ -143,6 +143,9 @@ Each set yields a separate \link{Prediction} object.
 Those be combined via getters in \link{ResampleResult}/\link{BenchmarkResult}, or \link{Measure}s can be altered
 to operate on specific subsets of the calculated prediction sets.}
 
+\item{\code{parallel_predict}}{(\code{logical(1)})\cr
+If set to \code{TRUE}, use \CRANpkg{future} to create predictions in parallel.}
+
 \item{\code{timeout}}{(named \code{numeric(2)})\cr
 Timeout for the learner's train and predict steps, in seconds.
 This works differently for different encapsulation methods, see
