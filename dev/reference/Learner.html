@@ -312,6 +312,9 @@ Each set yields a separate <a href='Prediction.html'>Prediction</a> object.
 Those be combined via getters in <a href='ResampleResult.html'>ResampleResult</a>/<a href='BenchmarkResult.html'>BenchmarkResult</a>, or <a href='Measure.html'>Measure</a>s can be altered
 to operate on specific subsets of the calculated prediction sets.</p></dd>
 
+<dt><code>parallel_predict</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
+If set to <code>TRUE</code>, use <a href='https://CRAN.R-project.org/package=future'><span class="pkg">future</span></a> to create predictions in parallel.</p></dd>
+
 <dt><code>timeout</code></dt><dd><p>(named <code><a href='https://rdrr.io/r/base/numeric.html'>numeric(2)</a></code>)<br />
 Timeout for the learner's train and predict steps, in seconds.
 This works differently for different encapsulation methods, see
