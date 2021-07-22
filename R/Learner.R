@@ -126,7 +126,12 @@ Learner = R6Class("Learner",
     predict_sets = "test",
 
     #' @field parallel_predict (`logical(1)`)\cr
-    #' If set to `TRUE`, use \CRANpkg{future} to create predictions in parallel.
+    #' If set to `TRUE`, use \CRANpkg{future} to calculate predictions in parallel (default: `FALSE`).
+    #' The row ids of the `task` will be split into [future::nbrOfWorkers()] chunks,
+    #' and predictions are evaluated according to the active [future::plan()].
+    #' This currently only works for methods `Learner$predict()` and `Learner$predict_newdata()`,
+    #' and has no effect during [resample()] or [benchmark()] where you have other means
+    #' to parallelize.
     parallel_predict = FALSE,
 
     #' @field timeout (named `numeric(2)`)\cr

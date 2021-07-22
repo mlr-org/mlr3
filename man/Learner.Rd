@@ -144,7 +144,12 @@ Those be combined via getters in \link{ResampleResult}/\link{BenchmarkResult}, o
 to operate on specific subsets of the calculated prediction sets.}
 
 \item{\code{parallel_predict}}{(\code{logical(1)})\cr
-If set to \code{TRUE}, use \CRANpkg{future} to create predictions in parallel.}
+If set to \code{TRUE}, use \CRANpkg{future} to calculate predictions in parallel (default: \code{FALSE}).
+The row ids of the \code{task} will be split into \code{\link[future:nbrOfWorkers]{future::nbrOfWorkers()}} chunks,
+and predictions are evaluated according to the active \code{\link[future:plan]{future::plan()}}.
+This currently only works for methods \code{Learner$predict()} and \code{Learner$predict_newdata()},
+and has no effect during \code{\link[=resample]{resample()}} or \code{\link[=benchmark]{benchmark()}} where you have other means
+to parallelize.}
 
 \item{\code{timeout}}{(named \code{numeric(2)})\cr
 Timeout for the learner's train and predict steps, in seconds.
