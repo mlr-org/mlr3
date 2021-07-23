@@ -255,53 +255,9 @@ Learner = R6Class("Learner",
       as_prediction(check_prediction_data(pdata))
     },
 
-    #' @description
-    #' Uses the model fitted during `$train()` to create a new [Prediction] based on the new data in `newdata`.
-    #' Object `task` is the task used during `$train()` and required for conversion of `newdata`.
-    #' If the learner's `$train()` method has been called, there is a (size reduced) version
-    #' of the training task stored in the learner.
-    #' If the learner has been fitted via [resample()] or [benchmark()], you need to pass the corresponding task stored
-    #' in the [ResampleResult] or [BenchmarkResult], respectively.
-    #'
-    #' @param newdata (`data.frame()`)\cr
-    #'   New data to predict on.
-    #'   Row ids are automatically set to `1:nrow(newdata)`.
-    #'
-    #' @param task ([Task]).
-    #'
-    #' @return [Prediction].
-    predict_newdata = function(newdata, task = NULL) {
-      newdata = as.data.table(assert_data_frame(newdata, min.rows = 1L))
-
-      if (is.null(task)) {
-        if (is.null(self$state$train_task)) {
-          stopf("No task stored, and no task provided")
-        }
-        task = self$state$train_task$clone()
-      } else {
-        task = assert_task(as_task(task, clone = TRUE))
-        assert_learnable(task, self)
-        task = task_rm_backend(task)
-      }
-
-      assert_names(names(newdata), must.include = task$feature_names)
-
-      # the following columns are automatically set to NA if missing
-      impute = unlist(task$col_roles[c("target", "name", "order", "stratum", "group", "weight")])
-      impute = setdiff(impute, colnames(newdata))
-      if (length(impute)) {
-        # create list with correct NA types and insert it into the table newdata
-        tab = task$col_info[list(impute), on = "id"]
-        set(tab, j = "value", value = NA)
-        nas = set_names(pmap(tab[, !"label"], auto_convert), tab$id)
-        newdata = insert_named(newdata, nas)
-      }
-
-      # do some type conversions if necessary
-
-      task$backend = as_data_backend(newdata)
-      task$row_roles$use = task$backend$rownames
-      self$predict(task)
+    predict_newdata = function(newdata, task = NULL, ...) {
+      # FIXME: not sure if this is the bet way to do this?
+      predict_newdata_s3(x = newdata, task = task, self = self, ...)
     },
 
     #' @description
@@ -461,4 +417,179 @@ get_log_condition = function(state, condition) {
   } else {
     fget(state$log, i = condition, j = "msg", key = "class")
   }
+}
+
+
+#' @description
+#' Uses the model fitted during `$train()` to create a new [Prediction] based on the new data in `newdata`.
+#' Object `task` is the task used during `$train()` and required for conversion of `newdata`.
+#' If the learner's `$train()` method has been called, there is a (size reduced) version
+#' of the training task stored in the learner.
+#' If the learner has been fitted via [resample()] or [benchmark()], you need to pass the corresponding task stored
+#' in the [ResampleResult] or [BenchmarkResult], respectively.
+#'
+#' @param x (`data.frame()`)\cr
+#'   New data to predict on.
+#'   Row ids are automatically set to `1:nrow(newdata)`.
+#' @param ... (`any`)\cr
+#'   Additional arguments.
+#'
+#' @param task ([Task]).
+#'
+#' @return [Prediction].
+#' @export
+# predict_newdata = function(x, ...) {
+#   browser()
+#   UseMethod("predict_newdata")
+# }
+
+#' @description
+#' Uses the model fitted during `$train()` to create a new [Prediction] based on the new data in `newdata`.
+#' Object `task` is the task used during `$train()` and required for conversion of `newdata`.
+#' If the learner's `$train()` method has been called, there is a (size reduced) version
+#' of the training task stored in the learner.
+#' If the learner has been fitted via [resample()] or [benchmark()], you need to pass the corresponding task stored
+#' in the [ResampleResult] or [BenchmarkResult], respectively.
+#'
+#' @inheritParams predict_newdata
+#'
+#' @return [Prediction].
+#' @export
+predict_newdata_s3 = function(x, ...) {
+  UseMethod("predict_newdata_s3")
+}
+
+predict_newdata_s3.data.frame = function(x, task = NULL, self = NULL) {
+  x = as.data.table(assert_data_frame(x, min.rows = 1L))
+
+  if (is.null(task)) {
+    if (is.null(self$state$train_task)) {
+      stopf("No task stored, and no task provided")
+    }
+    task = self$state$train_task$clone()
+  } else {
+    task = assert_task(as_task(task, clone = TRUE))
+    assert_learnable(task, self)
+    task = task_rm_backend(task)
+  }
+
+  assert_names(names(x), must.include = task$feature_names)
+
+  # the following columns are automatically set to NA if missing
+  impute = unlist(task$col_roles[c("target", "name", "order", "stratum", "group", "weight")])
+  impute = setdiff(impute, colnames(x))
+  if (length(impute)) {
+    # create list with correct NA types and insert it into the table x
+    tab = task$col_info[list(impute), on = "id"]
+    set(tab, j = "value", value = NA)
+    nas = set_names(pmap(tab[, !"label"], auto_convert), tab$id)
+    x = insert_named(x, nas)
+  }
+
+  # do some type conversions if necessary
+
+  task$backend = as_data_backend(x)
+  task$row_roles$use = task$backend$rownames
+  self$predict(task)
+}
+
+# FIXME: this would live in mlr3spatial
+predict_newdata_s3.SpatRaster = function(x, task = NULL, self = NULL,
+  chunksize = 100, filename = tempfile(fileext = ".grd")) {
+  assert_int(chunksize, lower = 1)
+
+  mlr3::assert_learner(learner)
+  checkmate::assert_names(learner$state$train_task$feature_names, identical.to = names(x))
+  checkmate::assert_path_for_output(filename, overwrite = TRUE)
+
+  # FIXME: can we use pkg cli for such things?
+  start_time = Sys.time()
+
+  tr = block_size(x, chunksize)
+  template_raster = terra::rast(ext(x), res = res(x), crs = crs(x))
+
+  # open files for reading and writing
+  terra::writeStart(template_raster, filename = filename, overwrite = TRUE)
+  terra::readStart(x)
+
+  lg$info("Start raster prediction")
+  lg$info("Prediction is executed in %i MB chunks", chunksize)
+
+  for (i in 1:tr$n) {
+    # read chunk of raster values
+    new_data = as.data.table(terra::readValues(x, row = tr$row[i],
+      nrows = tr$nrows[i], dataframe = TRUE))
+
+    # predict chunk
+    # FIXME: optional / off-topic - remove?
+    pred = if ("parallel_predict" %in% learner$properties) {
+      learner$predict_newdata_parallel(new_data)
+    } else {
+      learner$predict_newdata(new_data)
+    }
+
+    # FIXME: classif.svm learner directly returns a vector?
+    if (inherits(pred, "Prediction")) {
+      pred = pred$response
+    }
+
+    # reclassify predictions to integer values
+    if (learner$state$train_task$task_type == "classif") {
+      reclassify_table = data.table(task = task$class_names,
+        raster = seq_along(task$class_names))
+      pred = reclassify_table$raster[match(pred, reclassify_table$task)]
+    }
+
+    terra::writeValues(template_raster, pred, tr$row[i], tr$nrows[i])
+
+    lg$info("Chunk %i of %i finished", i, tr$n)
+  }
+
+  terra::writeStop(template_raster)
+  terra::readStop(x)
+  lg$info("Finished raster prediction in %i seconds",
+    as.integer(difftime(start_time, Sys.time(), units = "auto") * (-1))
+  )
+}
+
+# helper function to estimate the block size for processing
+block_size = function(raster, chunksize) {
+  assert_class(raster, "SpatRaster")
+  chunksize = assert_numeric(chunksize) * 1e+06
+
+  n = nlyr(raster)
+  blockrows = 1
+  nr = nrow(raster)
+
+  size = min(nr, max(1, floor(chunksize / (ncol(raster) * n * 8))))
+  nb = ceiling(nr / size)
+  row = (0:(nb - 1)) * size + 1
+  nrows = rep(size, length(row))
+  dif = nb * size - nr
+  nrows[length(nrows)] = nrows[length(nrows)] - dif
+
+  return(list(row = row, nrows = nrows, n = nb))
+}
+
+# just for the reprex - TBD how this should be handled in the future
+demo_stack = function(size = 500, layers = 5) {
+  checkmate::assert_int(size, lower = 1)
+  checkmate::assert_int(layers, lower = 1)
+
+  # we assume that one raster cell requires 8 Bytes
+  dimension = floor(sqrt(size / layers * 1e+06 / 8))
+  raster_features = replicate(layers - 1, demo_raster(dimension))
+  raster_response = terra::rast(matrix(c(rep(0, floor(dimension^2 / 2)),
+    rep(1, ceiling(dimension^2 / 2))), nrow = dimension))
+
+  raster = terra::rast(c(raster_features, list(raster_response)))
+  names(raster) = c(paste0("x_", 1:(layers - 1)), "y")
+  raster
+}
+
+demo_raster = function(dimension) {
+  checkmate::assert_int(dimension, lower = 2)
+  data = matrix(c(stats::rnorm(floor(dimension^2 / 2), 0, 10),
+    stats::rnorm(ceiling(dimension^2 / 2), 1, 1)), nrow = dimension, byrow = TRUE)
+  terra::rast(data)
 }
