@@ -63,7 +63,7 @@ DataBackendRename = R6Class("DataBackendRename", inherit = DataBackend, cloneabl
 
   private = list(
     .calculate_hash = function() {
-      hash(self$old, self$new, private$.data$hash)
+      calculate_hash(self$old, self$new, private$.data$hash)
     }
   )
 )
