@@ -21,7 +21,7 @@ Efficient, object-oriented programming on the
 \itemize{
 \item Book on mlr3: \url{https://mlr3book.mlr-org.com}
 \item Use cases and examples gallery: \url{https://mlr3gallery.mlr-org.com}
-\item Cheat Sheets: \url{https://cheatsheets.mlr-org.com}
+\item Cheat Sheets: \url{https://github.com/mlr-org/mlr3cheatsheets}
 }
 }
 
