@@ -345,7 +345,11 @@ Learner = R6Class("Learner",
     #'
     #' @return [Learner].
     base_learner = function(recursive = Inf) {
-      self
+      if (exists(".base_learner", envir = private, inherits = FALSE)) {
+        private$.base_learner(recursive)
+      } else {
+        self
+      }
     }
   ),
 
