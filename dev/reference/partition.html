@@ -90,7 +90,7 @@ optionally stratifying on the target column." />
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.11.0-9000</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.12.0-9000</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -210,11 +210,15 @@ Number of bins to cut the target variable into for stratification.</p></td>
     <pre class="examples"><div class='input'><span class='co'># regression task</span>
 <span class='va'>task</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span><span class='op'>(</span><span class='st'>"boston_housing"</span><span class='op'>)</span>
 
-<span class='co'># roughly equal size split with stratification</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span><span class='op'>(</span><span class='fu'>partition</span><span class='op'>(</span><span class='va'>task</span>, ratio <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; List of 2
-#&gt;  $ train: int [1:254] 4 6 7 8 14 19 30 39 53 57 ...
-#&gt;  $ test : int [1:252] 1 2 3 13 17 38 40 41 42 43 ...</div><div class='input'>
+<span class='co'># roughly equal size split while stratifying on the binned response</span>
+<span class='va'>split</span> <span class='op'>=</span> <span class='fu'>partition</span><span class='op'>(</span><span class='va'>task</span>, ratio <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>)</span>
+<span class='va'>data</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>
+  y <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>task</span><span class='op'>$</span><span class='fu'>truth</span><span class='op'>(</span><span class='va'>split</span><span class='op'>$</span><span class='va'>train</span><span class='op'>)</span>, <span class='va'>task</span><span class='op'>$</span><span class='fu'>truth</span><span class='op'>(</span><span class='va'>split</span><span class='op'>$</span><span class='va'>test</span><span class='op'>)</span><span class='op'>)</span>,
+  split <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"train"</span>, <span class='st'>"predict"</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/lengths.html'>lengths</a></span><span class='op'>(</span><span class='va'>split</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/boxplot.html'>boxplot</a></span><span class='op'>(</span><span class='va'>y</span> <span class='op'>~</span> <span class='va'>split</span>, data <span class='op'>=</span> <span class='va'>data</span><span class='op'>)</span>
+</div><div class='img'><img src='partition-1.png' alt='' width='700' height='433' /></div><div class='input'>
+
 <span class='co'># classification task</span>
 <span class='va'>task</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span><span class='op'>(</span><span class='st'>"pima"</span><span class='op'>)</span>
 <span class='va'>split</span> <span class='op'>=</span> <span class='fu'>partition</span><span class='op'>(</span><span class='va'>task</span><span class='op'>)</span>

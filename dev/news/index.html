@@ -88,7 +88,7 @@
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.11.0-9000</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.12.0-9000</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -157,20 +157,26 @@
       <small>Source: <a href='https://github.com/mlr-org/mlr3/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="mlr3-0110-9000" class="section level1">
-<h1 class="page-header" data-toc-text="0.11.0-9000">
-<a href="#mlr3-0110-9000" class="anchor"></a>mlr3 0.11.0-9000<small> Unreleased </small>
+    <div id="mlr3-0120-9000" class="section level1">
+<h1 class="page-header" data-toc-text="0.12.0-9000">
+<a href="#mlr3-0120-9000" class="anchor"></a>mlr3 0.12.0-9000<small> Unreleased </small>
+</h1>
+</div>
+    <div id="mlr3-0120" class="section level1">
+<h1 class="page-header" data-toc-text="0.12.0">
+<a href="#mlr3-0120" class="anchor"></a>mlr3 0.12.0<small> Unreleased </small>
 </h1>
 <ul>
-<li>New method to label columns in tasks: <code>Task$label()</code>.</li>
+<li>New method to assign labels to columns in tasks: <code>Task$label()</code>. These will be used in visualizations in the future.</li>
 <li>New method to add stratification variables: <code>Task$add_strata()</code>.</li>
 <li>New helper function <code><a href="../reference/partition.html">partition()</a></code> to split a task into a training and test set.</li>
 <li>New standardized getter <code>loglik()</code> for class <code>Learner</code>.</li>
 <li>New measures <code>"aic"</code> and <code>"bic"</code> to compute the Akaike Information Criterion or the Bayesian Information Criterion, respectively.</li>
-<li>New Resampling method: <code>ResamplingCustomCV</code>.</li>
-<li>New argument <code>encapsulate</code> for <code><a href="../reference/resample.html">resample()</a></code> and <code><a href="../reference/benchmark.html">benchmark()</a></code> to conveniently enable encapsulation and also set the fallback learner to the respective featureless learner. This is simply for convenience, configuring each learner individually is still possible and allows a more fine-grained control (<a href='https://github.com/mlr-org/mlr3/issues/634'>#634</a>,
+<li>New Resampling method: <code>ResamplingCustomCV</code>. Creates a custom resampling split based on the levels of a user-provided factor variable.</li>
+<li>New argument <code>encapsulate</code> for <code><a href="../reference/resample.html">resample()</a></code> and <code><a href="../reference/benchmark.html">benchmark()</a></code> to conveniently enable encapsulation and also set the fallback learner to the featureless learner. This is simply for convenience, configuring each learner individually is still possible and allows a more fine-grained control (<a href='https://github.com/mlr-org/mlr3/issues/634'>#634</a>,
 <a href='https://github.com/mlr-org/mlr3/issues/642'>#642</a>).</li>
-<li>Deprecated public (and already documented as internal) field <code>$data</code> in <code>ResampleResult</code> and <code>BenchmarkResult</code> to simplify the API and avoid confusion. The converter <code><a href="https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html">as.data.table()</a></code> can be used instead.</li>
+<li>New field <code>parallel_predict</code> for <code>Learner</code> to enable parallel predictions via the future backend. This currently is only enabled while calling the <code>$predict()</code> or <code>$predict_newdata</code> methods and is disabled during <code><a href="../reference/resample.html">resample()</a></code> and <code><a href="../reference/benchmark.html">benchmark()</a></code> where you have other means to parallelize.</li>
+<li>Deprecated public (and already documented as internal) field <code>$data</code> in <code>ResampleResult</code> and <code>BenchmarkResult</code> to simplify the API and avoid confusion. The converter <code><a href="https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html">as.data.table()</a></code> can be used instead to access the internal data.</li>
 <li>Measures now have formal hyperparameters. A popular example where this is required is the F1 score, now implemented with customizable <code>beta</code>.</li>
 <li>Changed default of argument <code>ordered</code> in <code>Task$data()</code> from <code>TRUE</code> to <code>FALSE</code>.</li>
 <li>Fixed getter <code>ResamplingRepeatedCV$folds()</code> (<a href='https://github.com/mlr-org/mlr3/issues/643'>#643</a>).</li>
