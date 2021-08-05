@@ -91,14 +91,14 @@ Parameter model has been renamed to keep_model." />
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.11.0</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.12.0</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="../reference/index.html">
-    <span class="fa fa fa fa-file-alt"></span>
+    <span class="fa fa-file-alt"></span>
      
     Reference
   </a>
@@ -108,7 +108,7 @@ Parameter model has been renamed to keep_model." />
 </li>
 <li>
   <a href="https://mlr3book.mlr-org.com">
-    <span class="fa fa fa fa-link"></span>
+    <span class="fa fa-link"></span>
      
     mlr3book
   </a>
@@ -121,7 +121,7 @@ Parameter model has been renamed to keep_model." />
 </li>
 <li>
   <a href="https://lmmisld-lmu-stats-slds.srv.mwn.de/mlr_invite/">
-    <span class="fa fa fa fa-comments"></span>
+    <span class="fa fa-comments"></span>
      
   </a>
 </li>
@@ -133,7 +133,7 @@ Parameter model has been renamed to keep_model." />
 </li>
 <li>
   <a href="https://mlr-org.com/">
-    <span class="fas fa-rss"></span>
+    <span class="fa fa-rss"></span>
      
   </a>
 </li>
@@ -193,16 +193,16 @@ Parameter <code>model</code> has been renamed to <code>keep_model</code>.</p>
     
 <table class='table'>
 <tr><td>Id</td><td>Type</td><td>Default</td><td>Range</td><td>Levels</td></tr>
-<tr><td>minsplit</td><td>integer</td><td>20</td><td>\([1, \infty)\)</td><td>-</td></tr>
-<tr><td>minbucket</td><td>integer</td><td>-</td><td>\([1, \infty)\)</td><td>-</td></tr>
 <tr><td>cp</td><td>numeric</td><td>0.01</td><td>\([0, 1]\)</td><td>-</td></tr>
-<tr><td>maxcompete</td><td>integer</td><td>4</td><td>\([0, \infty)\)</td><td>-</td></tr>
-<tr><td>maxsurrogate</td><td>integer</td><td>5</td><td>\([0, \infty)\)</td><td>-</td></tr>
-<tr><td>maxdepth</td><td>integer</td><td>30</td><td>\([1, 30]\)</td><td>-</td></tr>
-<tr><td>usesurrogate</td><td>integer</td><td>2</td><td>\([0, 2]\)</td><td>-</td></tr>
-<tr><td>surrogatestyle</td><td>integer</td><td>0</td><td>\([0, 1]\)</td><td>-</td></tr>
-<tr><td>xval</td><td>integer</td><td>10</td><td>\([0, \infty)\)</td><td>-</td></tr>
 <tr><td>keep_model</td><td>logical</td><td>FALSE</td><td>\((-\infty, \infty)\)</td><td>TRUE, FALSE</td></tr>
+<tr><td>maxcompete</td><td>integer</td><td>4</td><td>\([0, \infty)\)</td><td>-</td></tr>
+<tr><td>maxdepth</td><td>integer</td><td>30</td><td>\([1, 30]\)</td><td>-</td></tr>
+<tr><td>maxsurrogate</td><td>integer</td><td>5</td><td>\([0, \infty)\)</td><td>-</td></tr>
+<tr><td>minbucket</td><td>integer</td><td>-</td><td>\([1, \infty)\)</td><td>-</td></tr>
+<tr><td>minsplit</td><td>integer</td><td>20</td><td>\([1, \infty)\)</td><td>-</td></tr>
+<tr><td>surrogatestyle</td><td>integer</td><td>0</td><td>\([0, 1]\)</td><td>-</td></tr>
+<tr><td>usesurrogate</td><td>integer</td><td>2</td><td>\([0, 2]\)</td><td>-</td></tr>
+<tr><td>xval</td><td>integer</td><td>10</td><td>\([0, \infty)\)</td><td>-</td></tr>
 </table>
 
 
@@ -215,8 +215,20 @@ doi: <a href='https://doi.org/10.1201/9781315139470'>10.1201/9781315139470</a>
 .</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>Dictionary</a> of <a href='Learner.html'>Learners</a>: <a href='mlr_learners.html'>mlr_learners</a></p>
-<p><code><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table(mlr_learners)</a></code> for a complete table of all (also dynamically created) <a href='Learner.html'>Learner</a> implementations.</p>
+    <div class='dont-index'>
+<ul>
+<li><p>Chapter in the <a href='https://mlr3book.mlr-org.com/'>mlr3book</a>:
+<a href='https://mlr3book.mlr-org.com/learners.html'>https://mlr3book.mlr-org.com/learners.html</a></p></li>
+<li><p>Package <a href='https://CRAN.R-project.org/package=mlr3learners'><span class="pkg">mlr3learners</span></a> for a solid collection of essential learners.</p></li>
+<li><p>Package <a href='https://github.com/mlr-org/mlr3extralearners'>mlr3extralearners</a> for more learners.</p></li>
+<li><p><a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>Dictionary</a> of <a href='Learner.html'>Learners</a>: <a href='mlr_learners.html'>mlr_learners</a></p></li>
+<li><p><code><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table(mlr_learners)</a></code> for a table of available <a href='Learner.html'>Learners</a> in the running session (depending on the loaded packages).</p></li>
+<li><p>Extension packages for additional task types:</p><ul>
+<li><p><a href='https://CRAN.R-project.org/package=mlr3proba'><span class="pkg">mlr3proba</span></a> for probabilistic supervised regression and survival analysis.</p></li>
+<li><p><a href='https://CRAN.R-project.org/package=mlr3cluster'><span class="pkg">mlr3cluster</span></a> for unsupervised clustering.</p></li>
+</ul></li>
+</ul>
+
 <p>Other Learner: 
 <code><a href='LearnerClassif.html'>LearnerClassif</a></code>,
 <code><a href='LearnerRegr.html'>LearnerRegr</a></code>,
@@ -242,6 +254,7 @@ doi: <a href='https://doi.org/10.1201/9781315139470'>10.1201/9781315139470</a>
 </ul>
 <p><details ><summary>Inherited methods</summary>
 <ul>
+<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="base_learner"><a href='../../mlr3/html/Learner.html#method-base_learner'><code>mlr3::Learner$base_learner()</code></a></span></p></li>
 <li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="format"><a href='../../mlr3/html/Learner.html#method-format'><code>mlr3::Learner$format()</code></a></span></p></li>
 <li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="help"><a href='../../mlr3/html/Learner.html#method-help'><code>mlr3::Learner$help()</code></a></span></p></li>
 <li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="predict"><a href='../../mlr3/html/Learner.html#method-predict'><code>mlr3::Learner$predict()</code></a></span></p></li>

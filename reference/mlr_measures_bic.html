@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Spiral Classification Task Generator — mlr_task_generators_spirals • mlr3</title>
+<title>Bayesian Information Criterion Measure — mlr_measures_bic • mlr3</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -53,8 +53,13 @@
 
 
 
-<meta property="og:title" content="Spiral Classification Task Generator — mlr_task_generators_spirals" />
-<meta property="og:description" content="A TaskGenerator for the spirals task in mlbench::mlbench.spirals()." />
+<meta property="og:title" content="Bayesian Information Criterion Measure — mlr_measures_bic" />
+<meta property="og:description" content="Calculates the Bayesian Information Criterion (BIC) which is a
+trade-off between goodness of fit (measured in terms of
+log-likelihood) and model complexity (measured in terms of number
+of included features).
+Internally, stats::BIC() is called.
+Requires the learner property &quot;loglik&quot;, NA is returned for unsupported learners." />
 <meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
@@ -154,13 +159,18 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Spiral Classification Task Generator</h1>
-    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/TaskGeneratorSpirals.R'><code>R/TaskGeneratorSpirals.R</code></a></small>
-    <div class="hidden name"><code>mlr_task_generators_spirals.Rd</code></div>
+    <h1>Bayesian Information Criterion Measure</h1>
+    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/MeasureBIC.R'><code>R/MeasureBIC.R</code></a></small>
+    <div class="hidden name"><code>mlr_measures_bic.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>A <a href='TaskGenerator.html'>TaskGenerator</a> for the spirals task in <code><a href='https://rdrr.io/pkg/mlbench/man/mlbench.spirals.html'>mlbench::mlbench.spirals()</a></code>.</p>
+    <p>Calculates the Bayesian Information Criterion (BIC) which is a
+trade-off between goodness of fit (measured in terms of
+log-likelihood) and model complexity (measured in terms of number
+of included features).
+Internally, <code><a href='https://rdrr.io/r/stats/AIC.html'>stats::BIC()</a></code> is called.
+Requires the learner property <code>"loglik"</code>, <code>NA</code> is returned for unsupported learners.</p>
     </div>
 
 
@@ -169,80 +179,79 @@
 
     
 
-<p>This <a href='TaskGenerator.html'>TaskGenerator</a> can be instantiated via the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> <a href='mlr_task_generators.html'>mlr_task_generators</a> or with the associated sugar function <code><a href='mlr_sugar.html'>tgen()</a></code>:</p><pre><span class='va'>mlr_task_generators</span><span class='op'>$</span><span class='fu'>get</span><span class='op'>(</span><span class='st'>"spirals"</span><span class='op'>)</span>
-<span class='fu'><a href='mlr_sugar.html'>tgen</a></span><span class='op'>(</span><span class='st'>"spirals"</span><span class='op'>)</span>
+<p>This <a href='Measure.html'>Measure</a> can be instantiated via the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> <a href='mlr_measures.html'>mlr_measures</a> or with the associated sugar function <code><a href='mlr_sugar.html'>msr()</a></code>:</p><pre><span class='va'>mlr_measures</span><span class='op'>$</span><span class='fu'>get</span><span class='op'>(</span><span class='st'>"bic"</span><span class='op'>)</span>
+<span class='fu'><a href='mlr_sugar.html'>msr</a></span><span class='op'>(</span><span class='st'>"bic"</span><span class='op'>)</span>
 </pre>
+
+    <h2 class="hasAnchor" id="meta-information"><a class="anchor" href="#meta-information"></a>Meta Information</h2>
+
+    
+
+<ul>
+<li><p>Type: <code>NA</code></p></li>
+<li><p>Range: \((-\infty, \infty)\)</p></li>
+<li><p>Minimize: <code>TRUE</code></p></li>
+<li><p>Required prediction: 'response'</p></li>
+<li><p>Learner Property: <code>loglik</code></p></li>
+</ul>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'>
 <ul>
-<li><p><a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>Dictionary</a> of <a href='TaskGenerator.html'>TaskGenerators</a>: <a href='mlr_task_generators.html'>mlr_task_generators</a></p></li>
-<li><p><code><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table(mlr_task_generators)</a></code>  for a table of available <a href='TaskGenerator.html'>TaskGenerators</a> in the running session (depending on the loaded packages).</p></li>
+<li><p>Chapter in the <a href='https://mlr3book.mlr-org.com/'>mlr3book</a>:
+<a href='https://mlr3book.mlr-org.com/train-predict.html'>https://mlr3book.mlr-org.com/train-predict.html</a></p></li>
+<li><p>Package <a href='https://CRAN.R-project.org/package=mlr3measures'><span class="pkg">mlr3measures</span></a> for the scoring functions.
+<a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>Dictionary</a> of <a href='Measure.html'>Measures</a>: <a href='mlr_measures.html'>mlr_measures</a>
+<code><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table(mlr_measures)</a></code> for a table of available <a href='Measure.html'>Measures</a> in the running session (depending on the loaded packages).</p></li>
 <li><p>Extension packages for additional task types:</p><ul>
 <li><p><a href='https://CRAN.R-project.org/package=mlr3proba'><span class="pkg">mlr3proba</span></a> for probabilistic supervised regression and survival analysis.</p></li>
 <li><p><a href='https://CRAN.R-project.org/package=mlr3cluster'><span class="pkg">mlr3cluster</span></a> for unsupervised clustering.</p></li>
 </ul></li>
 </ul>
 
-<p>Other TaskGenerator: 
-<code><a href='TaskGenerator.html'>TaskGenerator</a></code>,
-<code><a href='mlr_task_generators_2dnormals.html'>mlr_task_generators_2dnormals</a></code>,
-<code><a href='mlr_task_generators_cassini.html'>mlr_task_generators_cassini</a></code>,
-<code><a href='mlr_task_generators_circle.html'>mlr_task_generators_circle</a></code>,
-<code><a href='mlr_task_generators_friedman1.html'>mlr_task_generators_friedman1</a></code>,
-<code><a href='mlr_task_generators_moons.html'>mlr_task_generators_moons</a></code>,
-<code><a href='mlr_task_generators_simplex.html'>mlr_task_generators_simplex</a></code>,
-<code><a href='mlr_task_generators_smiley.html'>mlr_task_generators_smiley</a></code>,
-<code><a href='mlr_task_generators_xor.html'>mlr_task_generators_xor</a></code>,
-<code><a href='mlr_task_generators.html'>mlr_task_generators</a></code></p></div>
+<p>Other Measure: 
+<code><a href='MeasureClassif.html'>MeasureClassif</a></code>,
+<code><a href='MeasureRegr.html'>MeasureRegr</a></code>,
+<code><a href='Measure.html'>Measure</a></code>,
+<code><a href='mlr_measures_aic.html'>mlr_measures_aic</a></code>,
+<code><a href='mlr_measures_classif.costs.html'>mlr_measures_classif.costs</a></code>,
+<code><a href='mlr_measures_debug.html'>mlr_measures_debug</a></code>,
+<code><a href='mlr_measures_elapsed_time.html'>mlr_measures_elapsed_time</a></code>,
+<code><a href='mlr_measures_oob_error.html'>mlr_measures_oob_error</a></code>,
+<code><a href='mlr_measures_selected_features.html'>mlr_measures_selected_features</a></code>,
+<code><a href='mlr_measures.html'>mlr_measures</a></code></p></div>
     <h2 class="hasAnchor" id="super-class"><a class="anchor" href="#super-class"></a>Super class</h2>
 
-    <p><code><a href='TaskGenerator.html'>mlr3::TaskGenerator</a></code> -&gt; <code>TaskGeneratorSpirals</code></p>
+    <p><code><a href='Measure.html'>mlr3::Measure</a></code> -&gt; <code>MeasureBIC</code></p>
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     
 <h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Public methods</h3>
 
 <ul>
-<li><p><a href='#method-new'><code>TaskGeneratorSpirals$new()</code></a></p></li>
-<li><p><a href='#method-plot'><code>TaskGeneratorSpirals$plot()</code></a></p></li>
-<li><p><a href='#method-clone'><code>TaskGeneratorSpirals$clone()</code></a></p></li>
+<li><p><a href='#method-new'><code>MeasureBIC$new()</code></a></p></li>
+<li><p><a href='#method-clone'><code>MeasureBIC$clone()</code></a></p></li>
 </ul>
 <p><details open ><summary>Inherited methods</summary>
 <ul>
-<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="TaskGenerator" data-id="format"><a href='../../mlr3/html/TaskGenerator.html#method-format'><code>mlr3::TaskGenerator$format()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="TaskGenerator" data-id="generate"><a href='../../mlr3/html/TaskGenerator.html#method-generate'><code>mlr3::TaskGenerator$generate()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="TaskGenerator" data-id="print"><a href='../../mlr3/html/TaskGenerator.html#method-print'><code>mlr3::TaskGenerator$print()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="aggregate"><a href='../../mlr3/html/Measure.html#method-aggregate'><code>mlr3::Measure$aggregate()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="format"><a href='../../mlr3/html/Measure.html#method-format'><code>mlr3::Measure$format()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="help"><a href='../../mlr3/html/Measure.html#method-help'><code>mlr3::Measure$help()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="print"><a href='../../mlr3/html/Measure.html#method-print'><code>mlr3::Measure$print()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="score"><a href='../../mlr3/html/Measure.html#method-score'><code>mlr3::Measure$score()</code></a></span></p></li>
 </ul>
 </details>
 
 <hr>
 <a id="method-new"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>new()</code></h3>
 <p>Creates a new instance of this <a href='https://r6.r-lib.org/reference/R6Class.html'>R6</a> class.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='va'>TaskGeneratorSpirals</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>MeasureBIC</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
 
-<p><hr>
-<a id="method-plot"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/graphics/plot.default.html'>plot()</a></code></h3>
-<p>Creates a simple plot of generated data.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='va'>TaskGeneratorSpirals</span><span class='op'>$</span><span class='fu'>plot</span><span class='op'>(</span>n <span class='op'>=</span> <span class='fl'>200L</span>, pch <span class='op'>=</span> <span class='fl'>19L</span>, <span class='va'>...</span><span class='op'>)</span></pre><p></div></p>
-
-<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
-<p><div class="arguments"></p><dl>
-<dt><code>n</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>)<br />
-Number of samples to draw for the plot. Default is 200.</p></dd>
-
-<dt><code>pch</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>)<br />
-Point char. Passed to <code><a href='https://rdrr.io/r/graphics/plot.default.html'>plot()</a></code>.</p></dd>
-
-<dt><code>...</code></dt><dd><p>(any)<br />
-Additional arguments passed to <code><a href='https://rdrr.io/r/graphics/plot.default.html'>plot()</a></code>.</p></dd>
-
-</dl><p></div></p>
 <p><hr>
 <a id="method-clone"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>clone()</code></h3>
 <p>The objects of this class are cloneable with this method.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='va'>TaskGeneratorSpirals</span><span class='op'>$</span><span class='fu'>clone</span><span class='op'>(</span>deep <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>MeasureBIC</span><span class='op'>$</span><span class='fu'>clone</span><span class='op'>(</span>deep <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -252,17 +261,6 @@ Additional arguments passed to <code><a href='https://rdrr.io/r/graphics/plot.de
 
 
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>generator</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tgen</a></span><span class='op'>(</span><span class='st'>"spirals"</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>generator</span>, n <span class='op'>=</span> <span class='fl'>200</span><span class='op'>)</span>
-</div><div class='img'><img src='mlr_task_generators_spirals-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='va'>task</span> <span class='op'>=</span> <span class='va'>generator</span><span class='op'>$</span><span class='fu'>generate</span><span class='op'>(</span><span class='fl'>200</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span><span class='op'>(</span><span class='va'>task</span><span class='op'>$</span><span class='fu'>data</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Classes ‘data.table’ and 'data.frame':	200 obs. of  3 variables:
-#&gt;  $ y : Factor w/ 2 levels "A","B": 1 2 1 1 2 1 1 1 2 2 ...
-#&gt;  $ x1: num  0.333 -0.375 0.339 0.344 0.659 ...
-#&gt;  $ x2: num  0 0.7962 0.0213 0.0434 -0.0414 ...
-#&gt;  - attr(*, ".internal.selfref")=&lt;externalptr&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -58,7 +58,7 @@
 True labels must be arranged in columns, predicted labels must be arranged  in rows.
 The cost matrix is stored as slot $costs.
 For calculation of the score, the confusion matrix is multiplied element-wise with the cost matrix.
-The costs are then summed up (and potentially divided by the number of observations if normalize is set to TRUE).
+The costs are then summed up (and potentially divided by the number of observations if normalize is set to TRUE (default)).
 This measure requires the Task during scoring to ensure that the rows and columns of the cost matrix are in the same order as in the confusion matrix." />
 <meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
@@ -94,14 +94,14 @@ This measure requires the Task during scoring to ensure that the rows and column
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.11.0</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.12.0</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="../reference/index.html">
-    <span class="fa fa fa fa-file-alt"></span>
+    <span class="fa fa-file-alt"></span>
      
     Reference
   </a>
@@ -111,7 +111,7 @@ This measure requires the Task during scoring to ensure that the rows and column
 </li>
 <li>
   <a href="https://mlr3book.mlr-org.com">
-    <span class="fa fa fa fa-link"></span>
+    <span class="fa fa-link"></span>
      
     mlr3book
   </a>
@@ -124,7 +124,7 @@ This measure requires the Task during scoring to ensure that the rows and column
 </li>
 <li>
   <a href="https://lmmisld-lmu-stats-slds.srv.mwn.de/mlr_invite/">
-    <span class="fa fa fa fa-comments"></span>
+    <span class="fa fa-comments"></span>
      
   </a>
 </li>
@@ -136,7 +136,7 @@ This measure requires the Task during scoring to ensure that the rows and column
 </li>
 <li>
   <a href="https://mlr-org.com/">
-    <span class="fas fa-rss"></span>
+    <span class="fa fa-rss"></span>
      
   </a>
 </li>
@@ -169,7 +169,7 @@ This measure requires the Task during scoring to ensure that the rows and column
 True labels must be arranged in columns, predicted labels must be arranged  in rows.
 The cost matrix is stored as slot <code>$costs</code>.</p>
 <p>For calculation of the score, the confusion matrix is multiplied element-wise with the cost matrix.
-The costs are then summed up (and potentially divided by the number of observations if <code>normalize</code> is set to <code>TRUE</code>).</p>
+The costs are then summed up (and potentially divided by the number of observations if <code>normalize</code> is set to <code>TRUE</code> (default)).</p>
 <p>This measure requires the <a href='Task.html'>Task</a> during scoring to ensure that the rows and columns of the cost matrix are in the same order as in the confusion matrix.</p>
     </div>
 
@@ -182,6 +182,15 @@ The costs are then summed up (and potentially divided by the number of observati
 <p>This <a href='Measure.html'>Measure</a> can be instantiated via the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> <a href='mlr_measures.html'>mlr_measures</a> or with the associated sugar function <code><a href='mlr_sugar.html'>msr()</a></code>:</p><pre><span class='va'>mlr_measures</span><span class='op'>$</span><span class='fu'>get</span><span class='op'>(</span><span class='st'>"classif.costs"</span><span class='op'>)</span>
 <span class='fu'><a href='mlr_sugar.html'>msr</a></span><span class='op'>(</span><span class='st'>"classif.costs"</span><span class='op'>)</span>
 </pre>
+
+    <h2 class="hasAnchor" id="parameters"><a class="anchor" href="#parameters"></a>Parameters</h2>
+
+    
+<table class='table'>
+<tr><td>Id</td><td>Type</td><td>Default</td><td>Range</td><td>Levels</td></tr>
+<tr><td>normalize</td><td>logical</td><td>TRUE</td><td>\((-\infty, \infty)\)</td><td>TRUE, FALSE</td></tr>
+</table>
+
 
     <h2 class="hasAnchor" id="meta-information"><a class="anchor" href="#meta-information"></a>Meta Information</h2>
 
@@ -196,12 +205,25 @@ The costs are then summed up (and potentially divided by the number of observati
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>Dictionary</a> of <a href='Measure.html'>Measures</a>: <a href='mlr_measures.html'>mlr_measures</a></p>
-<p><code><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table(mlr_measures)</a></code> for a complete table of all (also dynamically created) <a href='Measure.html'>Measure</a> implementations.</p>
+    <div class='dont-index'>
+<ul>
+<li><p>Chapter in the <a href='https://mlr3book.mlr-org.com/'>mlr3book</a>:
+<a href='https://mlr3book.mlr-org.com/train-predict.html'>https://mlr3book.mlr-org.com/train-predict.html</a></p></li>
+<li><p>Package <a href='https://CRAN.R-project.org/package=mlr3measures'><span class="pkg">mlr3measures</span></a> for the scoring functions.
+<a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>Dictionary</a> of <a href='Measure.html'>Measures</a>: <a href='mlr_measures.html'>mlr_measures</a>
+<code><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table(mlr_measures)</a></code> for a table of available <a href='Measure.html'>Measures</a> in the running session (depending on the loaded packages).</p></li>
+<li><p>Extension packages for additional task types:</p><ul>
+<li><p><a href='https://CRAN.R-project.org/package=mlr3proba'><span class="pkg">mlr3proba</span></a> for probabilistic supervised regression and survival analysis.</p></li>
+<li><p><a href='https://CRAN.R-project.org/package=mlr3cluster'><span class="pkg">mlr3cluster</span></a> for unsupervised clustering.</p></li>
+</ul></li>
+</ul>
+
 <p>Other Measure: 
 <code><a href='MeasureClassif.html'>MeasureClassif</a></code>,
 <code><a href='MeasureRegr.html'>MeasureRegr</a></code>,
 <code><a href='Measure.html'>Measure</a></code>,
+<code><a href='mlr_measures_aic.html'>mlr_measures_aic</a></code>,
+<code><a href='mlr_measures_bic.html'>mlr_measures_bic</a></code>,
 <code><a href='mlr_measures_debug.html'>mlr_measures_debug</a></code>,
 <code><a href='mlr_measures_elapsed_time.html'>mlr_measures_elapsed_time</a></code>,
 <code><a href='mlr_measures_oob_error.html'>mlr_measures_oob_error</a></code>,
@@ -244,13 +266,6 @@ The costs are then summed up (and potentially divided by the number of observati
     <h2 class="hasAnchor" id="super-classes"><a class="anchor" href="#super-classes"></a>Super classes</h2>
 
     <p><code><a href='Measure.html'>mlr3::Measure</a></code> -&gt; <code><a href='MeasureClassif.html'>mlr3::MeasureClassif</a></code> -&gt; <code>MeasureClassifCosts</code></p>
-    <h2 class="hasAnchor" id="public-fields"><a class="anchor" href="#public-fields"></a>Public fields</h2>
-
-    <p><div class="r6-fields"></p><dl>
-<dt><code>normalize</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
-Normalize the costs?</p></dd>
-
-</dl><p></div></p>
     <h2 class="hasAnchor" id="active-bindings"><a class="anchor" href="#active-bindings"></a>Active bindings</h2>
 
     <p><div class="r6-active-bindings"></p><dl>
@@ -311,15 +326,15 @@ Matrix of costs (truth in columns, predicted response in rows).</p></dd>
 <span class='co'># mlr3 needs truth in columns, predictions in rows</span>
 <span class='va'>costs</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/t.html'>t</a></span><span class='op'>(</span><span class='va'>costs</span><span class='op'>)</span>
 
-<span class='co'># create measure which calculates the absolute costs</span>
+<span class='co'># create a cost measure which calculates the absolute costs</span>
 <span class='va'>m</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>msr</a></span><span class='op'>(</span><span class='st'>"classif.costs"</span>, id <span class='op'>=</span> <span class='st'>"german_credit_costs"</span>, costs <span class='op'>=</span> <span class='va'>costs</span>, normalize <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 
-<span class='co'># fit models and calculate costs</span>
+<span class='co'># fit models and evaluate with the cost measure</span>
 <span class='va'>learner</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>lrn</a></span><span class='op'>(</span><span class='st'>"classif.rpart"</span><span class='op'>)</span>
 <span class='va'>rr</span> <span class='op'>=</span> <span class='fu'><a href='resample.html'>resample</a></span><span class='op'>(</span><span class='va'>task</span>, <span class='va'>learner</span>, <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span><span class='op'>(</span><span class='st'>"cv"</span>, folds <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span><span class='op'>)</span>
 <span class='va'>rr</span><span class='op'>$</span><span class='fu'>aggregate</span><span class='op'>(</span><span class='va'>m</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; german_credit_costs 
-#&gt;                 327 </div></pre>
+#&gt;            346.3333 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

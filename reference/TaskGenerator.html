@@ -91,14 +91,14 @@ e.g. xor." />
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.11.0</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.12.0</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="../reference/index.html">
-    <span class="fa fa fa fa-file-alt"></span>
+    <span class="fa fa-file-alt"></span>
      
     Reference
   </a>
@@ -108,7 +108,7 @@ e.g. xor." />
 </li>
 <li>
   <a href="https://mlr3book.mlr-org.com">
-    <span class="fa fa fa fa-link"></span>
+    <span class="fa fa-link"></span>
      
     mlr3book
   </a>
@@ -121,7 +121,7 @@ e.g. xor." />
 </li>
 <li>
   <a href="https://lmmisld-lmu-stats-slds.srv.mwn.de/mlr_invite/">
-    <span class="fa fa fa fa-comments"></span>
+    <span class="fa fa-comments"></span>
      
   </a>
 </li>
@@ -133,7 +133,7 @@ e.g. xor." />
 </li>
 <li>
   <a href="https://mlr-org.com/">
-    <span class="fas fa-rss"></span>
+    <span class="fa fa-rss"></span>
      
   </a>
 </li>
@@ -171,7 +171,17 @@ e.g. <code><a href='mlr_task_generators_xor.html'>xor</a></code>.</p>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other TaskGenerator: 
+    <div class='dont-index'>
+<ul>
+<li><p><a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>Dictionary</a> of TaskGenerators: <a href='mlr_task_generators.html'>mlr_task_generators</a></p></li>
+<li><p><code><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table(mlr_task_generators)</a></code>  for a table of available TaskGenerators in the running session (depending on the loaded packages).</p></li>
+<li><p>Extension packages for additional task types:</p><ul>
+<li><p><a href='https://CRAN.R-project.org/package=mlr3proba'><span class="pkg">mlr3proba</span></a> for probabilistic supervised regression and survival analysis.</p></li>
+<li><p><a href='https://CRAN.R-project.org/package=mlr3cluster'><span class="pkg">mlr3cluster</span></a> for unsupervised clustering.</p></li>
+</ul></li>
+</ul>
+
+<p>Other TaskGenerator: 
 <code><a href='mlr_task_generators_2dnormals.html'>mlr_task_generators_2dnormals</a></code>,
 <code><a href='mlr_task_generators_cassini.html'>mlr_task_generators_cassini</a></code>,
 <code><a href='mlr_task_generators_circle.html'>mlr_task_generators_circle</a></code>,
@@ -224,7 +234,7 @@ Defaults to <code>NA</code>, but can be set by child classes.</p></dd>
   <span class='va'>id</span>,
   <span class='va'>task_type</span>,
   packages <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span><span class='op'>(</span><span class='op'>)</span>,
-  param_set <span class='op'>=</span> <span class='va'>ParamSet</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='op'>)</span>,
+  param_set <span class='op'>=</span> <span class='fu'>ps</span><span class='op'>(</span><span class='op'>)</span>,
   man <span class='op'>=</span> <span class='cn'>NA_character_</span>
 <span class='op'>)</span></pre><p></div></p>
 

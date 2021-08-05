@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Convert to PredictionData — PredictionData • mlr3</title>
+<title>Manually Partition into Training and Test Set — partition • mlr3</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -53,19 +53,9 @@
 
 
 
-<meta property="og:title" content="Convert to PredictionData — PredictionData" />
-<meta property="og:description" content="Objects of type PredictionData serve as a intermediate representation for objects of type Prediction.
-It is an internal data structure, implemented to optimize runtime and solve some issues emerging while serializing R6 objects.
-End-users typically do not need to worry about the details, package developers are advised to continue reading for some technical information.
-Unlike most other mlr3 objects, PredictionData relies on the S3 class system.
-The following operations must be supported to extend mlr3 for new task types:
-as_prediction_data() converts objects to class PredictionData, e.g. objects of type Prediction.
-as_prediction() converts objects to class Prediction, e.g. objects of type PredictionData.
-check_prediction_data() is called on the return value of the predict method of a Learner to perform assertions and type conversions.
-Returns an update object of class PredictionData.
-is_missing_prediction_data() is used for the fallback learner (see Learner) to impute missing predictions. Returns vector with row ids which need imputation.
-
-" />
+<meta property="og:title" content="Manually Partition into Training and Test Set — partition" />
+<meta property="og:description" content="Creates a split of the row ids of a Task into a training set and a test set while
+optionally stratifying on the target column." />
 <meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
@@ -165,69 +155,82 @@ is_missing_prediction_data() is used for the fallback learner (see Learner) to i
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Convert to PredictionData</h1>
-    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/PredictionData.R'><code>R/PredictionData.R</code></a>, <a href='https://github.com/mlr-org/mlr3/blob/master/R/PredictionDataClassif.R'><code>R/PredictionDataClassif.R</code></a>, <a href='https://github.com/mlr-org/mlr3/blob/master/R/PredictionDataRegr.R'><code>R/PredictionDataRegr.R</code></a></small>
-    <div class="hidden name"><code>PredictionData.Rd</code></div>
+    <h1>Manually Partition into Training and Test Set</h1>
+    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/partition.R'><code>R/partition.R</code></a></small>
+    <div class="hidden name"><code>partition.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Objects of type <code>PredictionData</code> serve as a intermediate representation for objects of type <a href='Prediction.html'>Prediction</a>.
-It is an internal data structure, implemented to optimize runtime and solve some issues emerging while serializing R6 objects.
-End-users typically do not need to worry about the details, package developers are advised to continue reading for some technical information.</p>
-<p>Unlike most other <a href='https://CRAN.R-project.org/package=mlr3'><span class="pkg">mlr3</span></a> objects, <code>PredictionData</code> relies on the S3 class system.
-The following operations must be supported to extend mlr3 for new task types:</p><ul>
-<li><p><code><a href='as_prediction_data.html'>as_prediction_data()</a></code> converts objects to class <code>PredictionData</code>, e.g. objects of type <a href='Prediction.html'>Prediction</a>.</p></li>
-<li><p><code><a href='as_prediction.html'>as_prediction()</a></code> converts objects to class <a href='Prediction.html'>Prediction</a>, e.g. objects of type <code>PredictionData</code>.</p></li>
-<li><p><code>check_prediction_data()</code> is called on the return value of the predict method of a <a href='Learner.html'>Learner</a> to perform assertions and type conversions.
-Returns an update object of class <code>PredictionData</code>.</p></li>
-<li><p><code>is_missing_prediction_data()</code> is used for the fallback learner (see <a href='Learner.html'>Learner</a>) to impute missing predictions. Returns vector with row ids which need imputation.</p></li>
-</ul>
-
+    <p>Creates a split of the row ids of a <a href='Task.html'>Task</a> into a training set and a test set while
+optionally stratifying on the target column.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>check_prediction_data</span><span class='op'>(</span><span class='va'>pdata</span><span class='op'>)</span>
+    <pre class="usage"><span class='fu'>partition</span><span class='op'>(</span><span class='va'>task</span>, ratio <span class='op'>=</span> <span class='fl'>0.67</span>, stratify <span class='op'>=</span> <span class='cn'>TRUE</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>is_missing_prediction_data</span><span class='op'>(</span><span class='va'>pdata</span><span class='op'>)</span>
+<span class='co'># S3 method for TaskRegr</span>
+<span class='fu'>partition</span><span class='op'>(</span><span class='va'>task</span>, ratio <span class='op'>=</span> <span class='fl'>0.67</span>, stratify <span class='op'>=</span> <span class='cn'>TRUE</span>, bins <span class='op'>=</span> <span class='fl'>3L</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='co'># S3 method for PredictionDataClassif</span>
-<span class='fu'>check_prediction_data</span><span class='op'>(</span><span class='va'>pdata</span><span class='op'>)</span>
-
-<span class='co'># S3 method for PredictionDataClassif</span>
-<span class='fu'>is_missing_prediction_data</span><span class='op'>(</span><span class='va'>pdata</span><span class='op'>)</span>
-
-<span class='co'># S3 method for PredictionDataClassif</span>
-<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>...</span>, keep_duplicates <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-
-<span class='co'># S3 method for PredictionDataRegr</span>
-<span class='fu'>check_prediction_data</span><span class='op'>(</span><span class='va'>pdata</span><span class='op'>)</span>
-
-<span class='co'># S3 method for PredictionDataRegr</span>
-<span class='fu'>is_missing_prediction_data</span><span class='op'>(</span><span class='va'>pdata</span><span class='op'>)</span>
-
-<span class='co'># S3 method for PredictionDataRegr</span>
-<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>...</span>, keep_duplicates <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
+<span class='co'># S3 method for TaskClassif</span>
+<span class='fu'>partition</span><span class='op'>(</span><span class='va'>task</span>, ratio <span class='op'>=</span> <span class='fl'>0.67</span>, stratify <span class='op'>=</span> <span class='cn'>TRUE</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>pdata</th>
-      <td><p>(PredictionData)<br />
-Named list inheriting from <code>"PredictionData"</code>.</p></td>
+      <th>task</th>
+      <td><p>(<a href='Task.html'>Task</a>)<br />
+Task to operate on.</p></td>
+    </tr>
+    <tr>
+      <th>ratio</th>
+      <td><p>(<code><a href='https://rdrr.io/r/base/numeric.html'>numeric(1)</a></code>)<br />
+Ratio of observations to put into the training set.</p></td>
+    </tr>
+    <tr>
+      <th>stratify</th>
+      <td><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
+If <code>TRUE</code>, stratify on the target variable.
+For regression tasks, the target variable is first cut into <code>bins</code> bins.
+See <code>Task$add_strata()</code>.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>(one or more PredictionData objects).</p></td>
+      <td><p>(any)<br />
+Additional arguments, currently not used.</p></td>
     </tr>
     <tr>
-      <th>keep_duplicates</th>
-      <td><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)
-If <code>TRUE</code>, the combined PredictionData object is filtered for duplicated
-row ids (starting from last).</p></td>
+      <th>bins</th>
+      <td><p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>)<br />
+Number of bins to cut the target variable into for stratification.</p></td>
     </tr>
     </table>
 
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'># regression task</span>
+<span class='va'>task</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span><span class='op'>(</span><span class='st'>"boston_housing"</span><span class='op'>)</span>
+
+<span class='co'># roughly equal size split while stratifying on the binned response</span>
+<span class='va'>split</span> <span class='op'>=</span> <span class='fu'>partition</span><span class='op'>(</span><span class='va'>task</span>, ratio <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>)</span>
+<span class='va'>data</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>
+  y <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>task</span><span class='op'>$</span><span class='fu'>truth</span><span class='op'>(</span><span class='va'>split</span><span class='op'>$</span><span class='va'>train</span><span class='op'>)</span>, <span class='va'>task</span><span class='op'>$</span><span class='fu'>truth</span><span class='op'>(</span><span class='va'>split</span><span class='op'>$</span><span class='va'>test</span><span class='op'>)</span><span class='op'>)</span>,
+  split <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"train"</span>, <span class='st'>"predict"</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/lengths.html'>lengths</a></span><span class='op'>(</span><span class='va'>split</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/boxplot.html'>boxplot</a></span><span class='op'>(</span><span class='va'>y</span> <span class='op'>~</span> <span class='va'>split</span>, data <span class='op'>=</span> <span class='va'>data</span><span class='op'>)</span>
+</div><div class='img'><img src='partition-1.png' alt='' width='700' height='433' /></div><div class='input'>
+
+<span class='co'># classification task</span>
+<span class='va'>task</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span><span class='op'>(</span><span class='st'>"pima"</span><span class='op'>)</span>
+<span class='va'>split</span> <span class='op'>=</span> <span class='fu'>partition</span><span class='op'>(</span><span class='va'>task</span><span class='op'>)</span>
+
+<span class='co'># roughly same distribution of the target label</span>
+<span class='fu'><a href='https://rdrr.io/r/base/proportions.html'>prop.table</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='va'>task</span><span class='op'>$</span><span class='fu'>truth</span><span class='op'>(</span><span class='va'>split</span><span class='op'>$</span><span class='va'>train</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
+#&gt;       pos       neg 
+#&gt; 0.3495146 0.6504854 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/proportions.html'>prop.table</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='va'>task</span><span class='op'>$</span><span class='fu'>truth</span><span class='op'>(</span><span class='va'>split</span><span class='op'>$</span><span class='va'>test</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
+#&gt;       pos       neg 
+#&gt; 0.3478261 0.6521739 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

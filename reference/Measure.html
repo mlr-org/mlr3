@@ -55,7 +55,7 @@
 
 <meta property="og:title" content="Measure Class — Measure" />
 <meta property="og:description" content="This is the abstract base class for measures like MeasureClassif and MeasureRegr.
-Measures are classes around tailored around two functions:
+Measures are classes tailored around two functions:
 A function $score() which quantifies the performance by comparing true and predicted response.
 A function $aggregator() which combines multiple performance scores returned by
 calculate to a single numeric value.
@@ -100,14 +100,14 @@ A guide on how to extend mlr3 with custom measures can be found in the mlr3book.
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.11.0</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.12.0</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="../reference/index.html">
-    <span class="fa fa fa fa-file-alt"></span>
+    <span class="fa fa-file-alt"></span>
      
     Reference
   </a>
@@ -117,7 +117,7 @@ A guide on how to extend mlr3 with custom measures can be found in the mlr3book.
 </li>
 <li>
   <a href="https://mlr3book.mlr-org.com">
-    <span class="fa fa fa fa-link"></span>
+    <span class="fa fa-link"></span>
      
     mlr3book
   </a>
@@ -130,7 +130,7 @@ A guide on how to extend mlr3 with custom measures can be found in the mlr3book.
 </li>
 <li>
   <a href="https://lmmisld-lmu-stats-slds.srv.mwn.de/mlr_invite/">
-    <span class="fa fa fa fa-comments"></span>
+    <span class="fa fa-comments"></span>
      
   </a>
 </li>
@@ -142,7 +142,7 @@ A guide on how to extend mlr3 with custom measures can be found in the mlr3book.
 </li>
 <li>
   <a href="https://mlr-org.com/">
-    <span class="fas fa-rss"></span>
+    <span class="fa fa-rss"></span>
      
   </a>
 </li>
@@ -172,7 +172,7 @@ A guide on how to extend mlr3 with custom measures can be found in the mlr3book.
 
     <div class="ref-description">
     <p>This is the abstract base class for measures like <a href='MeasureClassif.html'>MeasureClassif</a> and <a href='MeasureRegr.html'>MeasureRegr</a>.</p>
-<p>Measures are classes around tailored around two functions:</p><ol>
+<p>Measures are classes tailored around two functions:</p><ol>
 <li><p>A function <code>$score()</code> which quantifies the performance by comparing true and predicted response.</p></li>
 <li><p>A function <code>$aggregator()</code> which combines multiple performance scores returned by
 <code>calculate</code> to a single numeric value.</p></li>
@@ -189,9 +189,24 @@ Many of the measures in <span class="pkg">mlr3</span> are implemented in <a href
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other Measure: 
+    <div class='dont-index'>
+<ul>
+<li><p>Chapter in the <a href='https://mlr3book.mlr-org.com/'>mlr3book</a>:
+<a href='https://mlr3book.mlr-org.com/train-predict.html'>https://mlr3book.mlr-org.com/train-predict.html</a></p></li>
+<li><p>Package <a href='https://CRAN.R-project.org/package=mlr3measures'><span class="pkg">mlr3measures</span></a> for the scoring functions.
+<a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>Dictionary</a> of Measures: <a href='mlr_measures.html'>mlr_measures</a>
+<code><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table(mlr_measures)</a></code> for a table of available Measures in the running session (depending on the loaded packages).</p></li>
+<li><p>Extension packages for additional task types:</p><ul>
+<li><p><a href='https://CRAN.R-project.org/package=mlr3proba'><span class="pkg">mlr3proba</span></a> for probabilistic supervised regression and survival analysis.</p></li>
+<li><p><a href='https://CRAN.R-project.org/package=mlr3cluster'><span class="pkg">mlr3cluster</span></a> for unsupervised clustering.</p></li>
+</ul></li>
+</ul>
+
+<p>Other Measure: 
 <code><a href='MeasureClassif.html'>MeasureClassif</a></code>,
 <code><a href='MeasureRegr.html'>MeasureRegr</a></code>,
+<code><a href='mlr_measures_aic.html'>mlr_measures_aic</a></code>,
+<code><a href='mlr_measures_bic.html'>mlr_measures_bic</a></code>,
 <code><a href='mlr_measures_classif.costs.html'>mlr_measures_classif.costs</a></code>,
 <code><a href='mlr_measures_debug.html'>mlr_measures_debug</a></code>,
 <code><a href='mlr_measures_elapsed_time.html'>mlr_measures_elapsed_time</a></code>,
@@ -208,6 +223,9 @@ Used in tables, plot and text output.</p></dd>
 <dt><code>task_type</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
 Task type, e.g. <code>"classif"</code> or <code>"regr"</code>.For a complete list of possible task types (depending on the loaded packages),
 see <code><a href='mlr_reflections.html'>mlr_reflections$task_types$type</a></code>.</p></dd>
+
+<dt><code>param_set</code></dt><dd><p>(<a href='https://paradox.mlr-org.com/reference/ParamSet.html'>paradox::ParamSet</a>)<br />
+Set of hyperparameters.</p></dd>
 
 <dt><code>predict_type</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
 Required predict type of the <a href='Learner.html'>Learner</a>.</p></dd>
@@ -283,6 +301,7 @@ Hash (unique identifier) for this object.</p></dd>
 <p><div class="r"></p><pre><span class='va'>Measure</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>
   <span class='va'>id</span>,
   task_type <span class='op'>=</span> <span class='cn'>NA</span>,
+  param_set <span class='op'>=</span> <span class='fu'>ps</span><span class='op'>(</span><span class='op'>)</span>,
   range <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='cn'>Inf</span>, <span class='cn'>Inf</span><span class='op'>)</span>,
   minimize <span class='op'>=</span> <span class='cn'>NA</span>,
   average <span class='op'>=</span> <span class='st'>"macro"</span>,
@@ -303,6 +322,9 @@ Identifier for the new instance.</p></dd>
 <dt><code>task_type</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
 Type of task, e.g. <code>"regr"</code> or <code>"classif"</code>.
 Must be an element of <a href='mlr_reflections.html'>mlr_reflections$task_types$type</a>.</p></dd>
+
+<dt><code>param_set</code></dt><dd><p>(<a href='https://paradox.mlr-org.com/reference/ParamSet.html'>paradox::ParamSet</a>)<br />
+Set of hyperparameters.</p></dd>
 
 <dt><code>range</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/numeric.html'>numeric(2)</a></code>)<br />
 Feasible range for this measure as <code><a href='https://rdrr.io/r/base/c.html'>c(lower_bound, upper_bound)</a></code>.

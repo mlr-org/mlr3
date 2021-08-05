@@ -94,14 +94,14 @@ For a more convenient way to retrieve and construct measures, see msr()/msrs()."
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.11.0</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.12.0</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="../reference/index.html">
-    <span class="fa fa fa fa-file-alt"></span>
+    <span class="fa fa-file-alt"></span>
      
     Reference
   </a>
@@ -111,7 +111,7 @@ For a more convenient way to retrieve and construct measures, see msr()/msrs()."
 </li>
 <li>
   <a href="https://mlr3book.mlr-org.com">
-    <span class="fa fa fa fa-link"></span>
+    <span class="fa fa-link"></span>
      
     mlr3book
   </a>
@@ -124,7 +124,7 @@ For a more convenient way to retrieve and construct measures, see msr()/msrs()."
 </li>
 <li>
   <a href="https://lmmisld-lmu-stats-slds.srv.mwn.de/mlr_invite/">
-    <span class="fa fa fa fa-comments"></span>
+    <span class="fa fa-comments"></span>
      
   </a>
 </li>
@@ -136,7 +136,7 @@ For a more convenient way to retrieve and construct measures, see msr()/msrs()."
 </li>
 <li>
   <a href="https://mlr-org.com/">
-    <span class="fas fa-rss"></span>
+    <span class="fa fa-rss"></span>
      
   </a>
 </li>
@@ -207,6 +207,8 @@ and "packages" as columns.</p></li>
 <code><a href='MeasureClassif.html'>MeasureClassif</a></code>,
 <code><a href='MeasureRegr.html'>MeasureRegr</a></code>,
 <code><a href='Measure.html'>Measure</a></code>,
+<code><a href='mlr_measures_aic.html'>mlr_measures_aic</a></code>,
+<code><a href='mlr_measures_bic.html'>mlr_measures_bic</a></code>,
 <code><a href='mlr_measures_classif.costs.html'>mlr_measures_classif.costs</a></code>,
 <code><a href='mlr_measures_debug.html'>mlr_measures_debug</a></code>,
 <code><a href='mlr_measures_elapsed_time.html'>mlr_measures_elapsed_time</a></code>,
@@ -216,71 +218,75 @@ and "packages" as columns.</p></li>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table</a></span><span class='op'>(</span><span class='va'>mlr_measures</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;                     key task_type     packages predict_type task_properties
-#&gt;  1:         classif.acc   classif mlr3measures     response                
-#&gt;  2:         classif.auc   classif mlr3measures         prob        twoclass
-#&gt;  3:        classif.bacc   classif mlr3measures     response                
-#&gt;  4:      classif.bbrier   classif mlr3measures         prob        twoclass
-#&gt;  5:          classif.ce   classif mlr3measures     response                
-#&gt;  6:       classif.costs   classif                  response                
-#&gt;  7:         classif.dor   classif mlr3measures     response        twoclass
-#&gt;  8:       classif.fbeta   classif mlr3measures     response        twoclass
-#&gt;  9:         classif.fdr   classif mlr3measures     response        twoclass
-#&gt; 10:          classif.fn   classif mlr3measures     response        twoclass
-#&gt; 11:         classif.fnr   classif mlr3measures     response        twoclass
-#&gt; 12:        classif.fomr   classif mlr3measures     response        twoclass
-#&gt; 13:          classif.fp   classif mlr3measures     response        twoclass
-#&gt; 14:         classif.fpr   classif mlr3measures     response        twoclass
-#&gt; 15:     classif.logloss   classif mlr3measures         prob                
-#&gt; 16:      classif.mbrier   classif mlr3measures         prob                
-#&gt; 17:         classif.mcc   classif mlr3measures     response        twoclass
-#&gt; 18:         classif.npv   classif mlr3measures     response        twoclass
-#&gt; 19:         classif.ppv   classif mlr3measures     response        twoclass
-#&gt; 20:       classif.prauc   classif mlr3measures         prob        twoclass
-#&gt; 21:   classif.precision   classif mlr3measures     response        twoclass
-#&gt; 22:      classif.recall   classif mlr3measures     response        twoclass
-#&gt; 23: classif.sensitivity   classif mlr3measures     response        twoclass
-#&gt; 24: classif.specificity   classif mlr3measures     response        twoclass
-#&gt; 25:          classif.tn   classif mlr3measures     response        twoclass
-#&gt; 26:         classif.tnr   classif mlr3measures     response        twoclass
-#&gt; 27:          classif.tp   classif mlr3measures     response        twoclass
-#&gt; 28:         classif.tpr   classif mlr3measures     response        twoclass
-#&gt; 29:               debug      &lt;NA&gt;                  response                
-#&gt; 30:           oob_error      &lt;NA&gt;                  response                
-#&gt; 31:           regr.bias      regr mlr3measures     response                
-#&gt; 32:           regr.ktau      regr mlr3measures     response                
-#&gt; 33:            regr.mae      regr mlr3measures     response                
-#&gt; 34:           regr.mape      regr mlr3measures     response                
-#&gt; 35:          regr.maxae      regr mlr3measures     response                
-#&gt; 36:          regr.medae      regr mlr3measures     response                
-#&gt; 37:          regr.medse      regr mlr3measures     response                
-#&gt; 38:            regr.mse      regr mlr3measures     response                
-#&gt; 39:           regr.msle      regr mlr3measures     response                
-#&gt; 40:          regr.pbias      regr mlr3measures     response                
-#&gt; 41:            regr.rae      regr mlr3measures     response                
-#&gt; 42:           regr.rmse      regr mlr3measures     response                
-#&gt; 43:          regr.rmsle      regr mlr3measures     response                
-#&gt; 44:           regr.rrse      regr mlr3measures     response                
-#&gt; 45:            regr.rse      regr mlr3measures     response                
-#&gt; 46:            regr.rsq      regr mlr3measures     response                
-#&gt; 47:            regr.sae      regr mlr3measures     response                
-#&gt; 48:          regr.smape      regr mlr3measures     response                
-#&gt; 49:           regr.srho      regr mlr3measures     response                
-#&gt; 50:            regr.sse      regr mlr3measures     response                
-#&gt; 51:   selected_features      &lt;NA&gt;                  response                
-#&gt; 52:           time_both      &lt;NA&gt;                  response                
-#&gt; 53:        time_predict      &lt;NA&gt;                  response                
-#&gt; 54:          time_train      &lt;NA&gt;                  response                
+#&gt;  1:                 aic      &lt;NA&gt;                  response                
+#&gt;  2:                 bic      &lt;NA&gt;                  response                
+#&gt;  3:         classif.acc   classif mlr3measures     response                
+#&gt;  4:         classif.auc   classif mlr3measures         prob        twoclass
+#&gt;  5:        classif.bacc   classif mlr3measures     response                
+#&gt;  6:      classif.bbrier   classif mlr3measures         prob        twoclass
+#&gt;  7:          classif.ce   classif mlr3measures     response                
+#&gt;  8:       classif.costs   classif                  response                
+#&gt;  9:         classif.dor   classif mlr3measures     response        twoclass
+#&gt; 10:       classif.fbeta   classif mlr3measures     response        twoclass
+#&gt; 11:         classif.fdr   classif mlr3measures     response        twoclass
+#&gt; 12:          classif.fn   classif mlr3measures     response        twoclass
+#&gt; 13:         classif.fnr   classif mlr3measures     response        twoclass
+#&gt; 14:        classif.fomr   classif mlr3measures     response        twoclass
+#&gt; 15:          classif.fp   classif mlr3measures     response        twoclass
+#&gt; 16:         classif.fpr   classif mlr3measures     response        twoclass
+#&gt; 17:     classif.logloss   classif mlr3measures         prob                
+#&gt; 18:      classif.mbrier   classif mlr3measures         prob                
+#&gt; 19:         classif.mcc   classif mlr3measures     response        twoclass
+#&gt; 20:         classif.npv   classif mlr3measures     response        twoclass
+#&gt; 21:         classif.ppv   classif mlr3measures     response        twoclass
+#&gt; 22:       classif.prauc   classif mlr3measures         prob        twoclass
+#&gt; 23:   classif.precision   classif mlr3measures     response        twoclass
+#&gt; 24:      classif.recall   classif mlr3measures     response        twoclass
+#&gt; 25: classif.sensitivity   classif mlr3measures     response        twoclass
+#&gt; 26: classif.specificity   classif mlr3measures     response        twoclass
+#&gt; 27:          classif.tn   classif mlr3measures     response        twoclass
+#&gt; 28:         classif.tnr   classif mlr3measures     response        twoclass
+#&gt; 29:          classif.tp   classif mlr3measures     response        twoclass
+#&gt; 30:         classif.tpr   classif mlr3measures     response        twoclass
+#&gt; 31:               debug      &lt;NA&gt;                  response                
+#&gt; 32:           oob_error      &lt;NA&gt;                  response                
+#&gt; 33:           regr.bias      regr mlr3measures     response                
+#&gt; 34:           regr.ktau      regr mlr3measures     response                
+#&gt; 35:            regr.mae      regr mlr3measures     response                
+#&gt; 36:           regr.mape      regr mlr3measures     response                
+#&gt; 37:          regr.maxae      regr mlr3measures     response                
+#&gt; 38:          regr.medae      regr mlr3measures     response                
+#&gt; 39:          regr.medse      regr mlr3measures     response                
+#&gt; 40:            regr.mse      regr mlr3measures     response                
+#&gt; 41:           regr.msle      regr mlr3measures     response                
+#&gt; 42:          regr.pbias      regr mlr3measures     response                
+#&gt; 43:            regr.rae      regr mlr3measures     response                
+#&gt; 44:           regr.rmse      regr mlr3measures     response                
+#&gt; 45:          regr.rmsle      regr mlr3measures     response                
+#&gt; 46:           regr.rrse      regr mlr3measures     response                
+#&gt; 47:            regr.rse      regr mlr3measures     response                
+#&gt; 48:            regr.rsq      regr mlr3measures     response                
+#&gt; 49:            regr.sae      regr mlr3measures     response                
+#&gt; 50:          regr.smape      regr mlr3measures     response                
+#&gt; 51:           regr.srho      regr mlr3measures     response                
+#&gt; 52:            regr.sse      regr mlr3measures     response                
+#&gt; 53:   selected_features      &lt;NA&gt;                  response                
+#&gt; 54:           time_both      &lt;NA&gt;                  response                
+#&gt; 55:        time_predict      &lt;NA&gt;                  response                
+#&gt; 56:          time_train      &lt;NA&gt;                  response                
 #&gt;                     key task_type     packages predict_type task_properties</div><div class='input'><span class='va'>mlr_measures</span><span class='op'>$</span><span class='fu'>get</span><span class='op'>(</span><span class='st'>"classif.ce"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; &lt;MeasureClassifSimple:classif.ce&gt;
 #&gt; * Packages: mlr3measures
 #&gt; * Range: [0, 1]
 #&gt; * Minimize: TRUE
+#&gt; * Parameters: list()
 #&gt; * Properties: -
 #&gt; * Predict type: response</div><div class='input'><span class='fu'><a href='mlr_sugar.html'>msr</a></span><span class='op'>(</span><span class='st'>"regr.mse"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; &lt;MeasureRegrSimple:regr.mse&gt;
 #&gt; * Packages: mlr3measures
 #&gt; * Range: [0, Inf]
 #&gt; * Minimize: TRUE
+#&gt; * Parameters: list()
 #&gt; * Properties: -
 #&gt; * Predict type: response</div></pre>
   </div>

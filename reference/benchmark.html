@@ -89,14 +89,14 @@
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.11.0</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.12.0</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="../reference/index.html">
-    <span class="fa fa fa fa-file-alt"></span>
+    <span class="fa fa-file-alt"></span>
      
     Reference
   </a>
@@ -106,7 +106,7 @@
 </li>
 <li>
   <a href="https://mlr3book.mlr-org.com">
-    <span class="fa fa fa fa-link"></span>
+    <span class="fa fa-link"></span>
      
     mlr3book
   </a>
@@ -119,7 +119,7 @@
 </li>
 <li>
   <a href="https://lmmisld-lmu-stats-slds.srv.mwn.de/mlr_invite/">
-    <span class="fa fa fa fa-comments"></span>
+    <span class="fa fa-comments"></span>
      
   </a>
 </li>
@@ -131,7 +131,7 @@
 </li>
 <li>
   <a href="https://mlr-org.com/">
-    <span class="fas fa-rss"></span>
+    <span class="fa fa-rss"></span>
      
   </a>
 </li>
@@ -163,7 +163,12 @@
     <p>Runs a benchmark on arbitrary combinations of tasks (<a href='Task.html'>Task</a>), learners (<a href='Learner.html'>Learner</a>), and resampling strategies (<a href='Resampling.html'>Resampling</a>), possibly in parallel.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>benchmark</span><span class='op'>(</span><span class='va'>design</span>, store_models <span class='op'>=</span> <span class='cn'>FALSE</span>, store_backends <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>benchmark</span><span class='op'>(</span>
+  <span class='va'>design</span>,
+  store_models <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  store_backends <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  encapsulate <span class='op'>=</span> <span class='cn'>NA_character_</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -179,20 +184,34 @@ instantiate the <a href='Resampling.html'>Resampling</a>s per <a href='Task.html
     <tr>
       <th>store_models</th>
       <td><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
-Store the fitted model in the resulting <a href='BenchmarkResult.html'>BenchmarkResult</a>?
+Store the fitted model in the resulting object=
 Set to <code>TRUE</code> if you want to further analyse the models or want to
 extract information like variable importance.</p></td>
     </tr>
     <tr>
       <th>store_backends</th>
       <td><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
-Keep the <a href='DataBackend.html'>DataBackend</a> of the <a href='Task.html'>Task</a> in the <a href='BenchmarkResult.html'>BenchmarkResult</a>?
+Keep the <a href='DataBackend.html'>DataBackend</a> of the <a href='Task.html'>Task</a> in the <a href='ResampleResult.html'>ResampleResult</a>?
 Set to <code>TRUE</code> if your performance measures require a <a href='Task.html'>Task</a>,
 or to analyse results more conveniently.
 Set to <code>FALSE</code> to reduce the file size and memory footprint
 after serialization.
 The current default is <code>TRUE</code>, but this eventually will be changed
 in a future release.</p></td>
+    </tr>
+    <tr>
+      <th>encapsulate</th>
+      <td><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+If not <code>NA</code>, enables encapsulation by setting the field
+<code>Learner$encapsulate</code> to one of the supported values:
+<code>"none"</code> (disable encapsulation),
+<code>"evaluate"</code> (execute via <a href='https://CRAN.R-project.org/package=evaluate'><span class="pkg">evaluate</span></a>) and
+<code>"callr"</code> (start in external session via <a href='https://CRAN.R-project.org/package=callr'><span class="pkg">callr</span></a>).
+If <code>NA</code>, encapsulation is not changed, i.e. the settings of the
+individual learner are active.
+Additionally, if encapsulation is set to <code>"evaluate"</code> or <code>"callr"</code>,
+the fallback learner is set to the featureless learner if the learner
+does not already have a fallback configured.</p></td>
     </tr>
     </table>
 
@@ -217,9 +236,11 @@ To select a parallel backend, use <code><a href='https://rdrr.io/pkg/future/man/
     
 
 <p>This function supports progress bars via the package <a href='https://CRAN.R-project.org/package=progressr'><span class="pkg">progressr</span></a>.
-Simply wrap the function in <code><a href='https://rdrr.io/pkg/progressr/man/with_progress.html'>progressr::with_progress()</a></code> to enable them.
-We recommend to use package <a href='https://CRAN.R-project.org/package=progress'><span class="pkg">progress</span></a> as backend; enable with
-<code><a href='https://rdrr.io/pkg/progressr/man/handlers.html'>progressr::handlers("progress")</a></code>.</p>
+Simply wrap the function call in <code><a href='https://progressr.futureverse.org/reference/with_progress.html'>progressr::with_progress()</a></code> to enable them.
+Alternatively, call <code><a href='https://progressr.futureverse.org/reference/handlers.html'>progressr::handlers()</a></code> with <code>global = TRUE</code> to enable progress bars
+globally.
+We recommend the <a href='https://CRAN.R-project.org/package=progress'><span class="pkg">progress</span></a> package as backend which can be enabled with
+<code><a href='https://progressr.futureverse.org/reference/handlers.html'>progressr::handlers("progress")</a></code>.</p>
     <h2 class="hasAnchor" id="logging"><a class="anchor" href="#logging"></a>Logging</h2>
 
     
@@ -237,6 +258,13 @@ or <code>"trace"</code>:</p><pre><span class='fu'>lgr</span><span class='fu'>::<
 </pre>
 
 <p>To log to a file or a data base, see the documentation of <a href='https://s-fleck.github.io/lgr/reference/lgr-package.html'>lgr::lgr-package</a>.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>Chapter in the <a href='https://mlr3book.mlr-org.com/'>mlr3book</a>:
+<a href='https://mlr3book.mlr-org.com/benchmarking.html'>https://mlr3book.mlr-org.com/benchmarking.html</a></p>
+<p>Other benchmark: 
+<code><a href='BenchmarkResult.html'>BenchmarkResult</a></code>,
+<code><a href='benchmark_grid.html'>benchmark_grid</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># benchmarking with benchmark_grid()</span>
@@ -247,29 +275,29 @@ or <code>"trace"</code>:</p><pre><span class='fu'>lgr</span><span class='fu'>::<
 <span class='va'>design</span> <span class='op'>=</span> <span class='fu'><a href='benchmark_grid.html'>benchmark_grid</a></span><span class='op'>(</span><span class='va'>tasks</span>, <span class='va'>learners</span>, <span class='va'>resamplings</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>design</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;                 task                         learner         resampling
-#&gt; 1: &lt;TaskClassif[46]&gt; &lt;LearnerClassifFeatureless[34]&gt; &lt;ResamplingCV[19]&gt;
-#&gt; 2: &lt;TaskClassif[46]&gt;       &lt;LearnerClassifRpart[34]&gt; &lt;ResamplingCV[19]&gt;
-#&gt; 3: &lt;TaskClassif[46]&gt; &lt;LearnerClassifFeatureless[34]&gt; &lt;ResamplingCV[19]&gt;
-#&gt; 4: &lt;TaskClassif[46]&gt;       &lt;LearnerClassifRpart[34]&gt; &lt;ResamplingCV[19]&gt;</div><div class='input'>
+#&gt; 1: &lt;TaskClassif[47]&gt; &lt;LearnerClassifFeatureless[36]&gt; &lt;ResamplingCV[19]&gt;
+#&gt; 2: &lt;TaskClassif[47]&gt;       &lt;LearnerClassifRpart[36]&gt; &lt;ResamplingCV[19]&gt;
+#&gt; 3: &lt;TaskClassif[47]&gt; &lt;LearnerClassifFeatureless[36]&gt; &lt;ResamplingCV[19]&gt;
+#&gt; 4: &lt;TaskClassif[47]&gt;       &lt;LearnerClassifRpart[36]&gt; &lt;ResamplingCV[19]&gt;</div><div class='input'>
 <span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>123</span><span class='op'>)</span>
 <span class='va'>bmr</span> <span class='op'>=</span> <span class='fu'>benchmark</span><span class='op'>(</span><span class='va'>design</span><span class='op'>)</span>
 
 <span class='co'>## Data of all resamplings</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table</a></span><span class='op'>(</span><span class='va'>bmr</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;                                   uhash              task
-#&gt; 1: 5e6c78b0-5421-466b-a61f-aa0628d0097c &lt;TaskClassif[46]&gt;
-#&gt; 2: 5e6c78b0-5421-466b-a61f-aa0628d0097c &lt;TaskClassif[46]&gt;
-#&gt; 3: 5e6c78b0-5421-466b-a61f-aa0628d0097c &lt;TaskClassif[46]&gt;
-#&gt; 4: 37cee3d1-ceec-4cae-84f2-fd9a6daffc80 &lt;TaskClassif[46]&gt;
-#&gt; 5: 37cee3d1-ceec-4cae-84f2-fd9a6daffc80 &lt;TaskClassif[46]&gt;
-#&gt; 6: 37cee3d1-ceec-4cae-84f2-fd9a6daffc80 &lt;TaskClassif[46]&gt;
+#&gt; 1: dd4d5ebb-a466-4b44-9587-1f30fae44b15 &lt;TaskClassif[47]&gt;
+#&gt; 2: dd4d5ebb-a466-4b44-9587-1f30fae44b15 &lt;TaskClassif[47]&gt;
+#&gt; 3: dd4d5ebb-a466-4b44-9587-1f30fae44b15 &lt;TaskClassif[47]&gt;
+#&gt; 4: a4768070-5158-4aca-b5a7-bbe05cbe4a96 &lt;TaskClassif[47]&gt;
+#&gt; 5: a4768070-5158-4aca-b5a7-bbe05cbe4a96 &lt;TaskClassif[47]&gt;
+#&gt; 6: a4768070-5158-4aca-b5a7-bbe05cbe4a96 &lt;TaskClassif[47]&gt;
 #&gt;                            learner         resampling iteration
-#&gt; 1: &lt;LearnerClassifFeatureless[34]&gt; &lt;ResamplingCV[19]&gt;         1
-#&gt; 2: &lt;LearnerClassifFeatureless[34]&gt; &lt;ResamplingCV[19]&gt;         2
-#&gt; 3: &lt;LearnerClassifFeatureless[34]&gt; &lt;ResamplingCV[19]&gt;         3
-#&gt; 4:       &lt;LearnerClassifRpart[34]&gt; &lt;ResamplingCV[19]&gt;         1
-#&gt; 5:       &lt;LearnerClassifRpart[34]&gt; &lt;ResamplingCV[19]&gt;         2
-#&gt; 6:       &lt;LearnerClassifRpart[34]&gt; &lt;ResamplingCV[19]&gt;         3
+#&gt; 1: &lt;LearnerClassifFeatureless[36]&gt; &lt;ResamplingCV[19]&gt;         1
+#&gt; 2: &lt;LearnerClassifFeatureless[36]&gt; &lt;ResamplingCV[19]&gt;         2
+#&gt; 3: &lt;LearnerClassifFeatureless[36]&gt; &lt;ResamplingCV[19]&gt;         3
+#&gt; 4:       &lt;LearnerClassifRpart[36]&gt; &lt;ResamplingCV[19]&gt;         1
+#&gt; 5:       &lt;LearnerClassifRpart[36]&gt; &lt;ResamplingCV[19]&gt;         2
+#&gt; 6:       &lt;LearnerClassifRpart[36]&gt; &lt;ResamplingCV[19]&gt;         3
 #&gt;                 prediction
 #&gt; 1: &lt;PredictionClassif[19]&gt;
 #&gt; 2: &lt;PredictionClassif[19]&gt;
@@ -281,10 +309,10 @@ or <code>"trace"</code>:</p><pre><span class='fu'>lgr</span><span class='fu'>::<
 <span class='va'>aggr</span> <span class='op'>=</span> <span class='va'>bmr</span><span class='op'>$</span><span class='fu'>aggregate</span><span class='op'>(</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>aggr</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;    nr      resample_result  task_id          learner_id resampling_id iters
-#&gt; 1:  1 &lt;ResampleResult[21]&gt; penguins classif.featureless            cv     3
-#&gt; 2:  2 &lt;ResampleResult[21]&gt; penguins       classif.rpart            cv     3
-#&gt; 3:  3 &lt;ResampleResult[21]&gt;    sonar classif.featureless            cv     3
-#&gt; 4:  4 &lt;ResampleResult[21]&gt;    sonar       classif.rpart            cv     3
+#&gt; 1:  1 &lt;ResampleResult[20]&gt; penguins classif.featureless            cv     3
+#&gt; 2:  2 &lt;ResampleResult[20]&gt; penguins       classif.rpart            cv     3
+#&gt; 3:  3 &lt;ResampleResult[20]&gt;    sonar classif.featureless            cv     3
+#&gt; 4:  4 &lt;ResampleResult[20]&gt;    sonar       classif.rpart            cv     3
 #&gt;    classif.ce
 #&gt; 1: 0.55807272
 #&gt; 2: 0.07561658

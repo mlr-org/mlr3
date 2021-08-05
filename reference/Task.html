@@ -101,14 +101,14 @@ More toy tasks can be found in the dictionary after loading mlr3data." />
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.11.0</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.12.0</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="../reference/index.html">
-    <span class="fa fa fa fa-file-alt"></span>
+    <span class="fa fa-file-alt"></span>
      
     Reference
   </a>
@@ -118,7 +118,7 @@ More toy tasks can be found in the dictionary after loading mlr3data." />
 </li>
 <li>
   <a href="https://mlr3book.mlr-org.com">
-    <span class="fa fa fa fa-link"></span>
+    <span class="fa fa-link"></span>
      
     mlr3book
   </a>
@@ -131,7 +131,7 @@ More toy tasks can be found in the dictionary after loading mlr3data." />
 </li>
 <li>
   <a href="https://lmmisld-lmu-stats-slds.srv.mwn.de/mlr_invite/">
-    <span class="fa fa fa fa-comments"></span>
+    <span class="fa fa-comments"></span>
      
   </a>
 </li>
@@ -143,7 +143,7 @@ More toy tasks can be found in the dictionary after loading mlr3data." />
 </li>
 <li>
   <a href="https://mlr-org.com/">
-    <span class="fas fa-rss"></span>
+    <span class="fa fa-rss"></span>
      
   </a>
 </li>
@@ -217,7 +217,22 @@ merge both backends into an abstract <a href='DataBackend.html'>DataBackend</a> 
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other Task: 
+    <div class='dont-index'>
+<ul>
+<li><p>Chapter in the <a href='https://mlr3book.mlr-org.com/'>mlr3book</a>:
+<a href='https://mlr3book.mlr-org.com/tasks.html'>https://mlr3book.mlr-org.com/tasks.html</a></p></li>
+<li><p>Package <a href='https://CRAN.R-project.org/package=mlr3data'><span class="pkg">mlr3data</span></a> for more toy tasks.</p></li>
+<li><p>Package <a href='https://CRAN.R-project.org/package=mlr3oml'><span class="pkg">mlr3oml</span></a> for downloading tasks from <a href='https://openml.org'>https://openml.org</a>.</p></li>
+<li><p>Package <a href='https://CRAN.R-project.org/package=mlr3viz'><span class="pkg">mlr3viz</span></a> for some generic visualizations.</p></li>
+<li><p><a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>Dictionary</a> of Tasks: <a href='mlr_tasks.html'>mlr_tasks</a></p></li>
+<li><p><code><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table(mlr_tasks)</a></code> for a table of available Tasks in the running session (depending on the loaded packages).</p></li>
+<li><p>Extension packages for additional task types:</p><ul>
+<li><p><a href='https://CRAN.R-project.org/package=mlr3proba'><span class="pkg">mlr3proba</span></a> for probabilistic supervised regression and survival analysis.</p></li>
+<li><p><a href='https://CRAN.R-project.org/package=mlr3cluster'><span class="pkg">mlr3cluster</span></a> for unsupervised clustering.</p></li>
+</ul></li>
+</ul>
+
+<p>Other Task: 
 <code><a href='TaskClassif.html'>TaskClassif</a></code>,
 <code><a href='TaskRegr.html'>TaskRegr</a></code>,
 <code><a href='TaskSupervised.html'>TaskSupervised</a></code>,
@@ -249,12 +264,13 @@ see <code><a href='mlr_reflections.html'>mlr_reflections$task_types$type</a></co
 Abstract interface to the data of the task.</p></dd>
 
 <dt><code>col_info</code></dt><dd><p>(<code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code>)<br />
-Table with with 3 columns:
+Table with with 4 columns:
 <ul>
 <li><p><code>"id"</code> (<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>) stores the name of the column.</p></li>
 <li><p><code>"type"</code> (<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>) holds the storage type of the variable, e.g. <code>integer</code>, <code>numeric</code> or <code>character</code>.
 See <a href='mlr_reflections.html'>mlr_reflections$task_feature_types</a> for a complete list of allowed types.</p></li>
 <li><p><code>"levels"</code> stores a vector of distinct values (levels) for ordered and unordered factor variables.</p></li>
+<li><p><code>"label"</code> stores a character vector of prettier, formated column names.</p></li>
 </ul></p></dd>
 
 <dt><code>man</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
@@ -322,7 +338,6 @@ For each resampling iteration, observations of the same group will be exclusivel
 Note that only up to one column may have this role.</p></li>
 <li><p><code>"stratum"</code>: Stratification variables. Multiple discrete columns may have this role.</p></li>
 <li><p><code>"weight"</code>: Observation weights. Only up to one column (assumed to be discrete) may have this role.</p></li>
-<li><p><code>"uri"</code>: URI pointing to an external resource, e.g., images on the file system.</p></li>
 </ul><code>col_roles</code> is a named list whose elements are named by column role and each element is a <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code> vector of column names.
 To alter the roles, just modify the list, e.g. with <span style="R">R</span>'s set functions (<code><a href='https://rdrr.io/r/base/sets.html'>intersect()</a></code>, <code><a href='https://rdrr.io/r/base/sets.html'>setdiff()</a></code>, <code><a href='https://rdrr.io/r/base/sets.html'>union()</a></code>, ...).
 The method <code>$set_col_roles</code> provides a convenient alternative to assign columns to roles.</p></dd>
@@ -372,12 +387,14 @@ If the task has a column with designated role <code>"weight"</code>, a table wit
 <li><p>observation weights <code>weight</code> (<code><a href='https://rdrr.io/r/base/numeric.html'>numeric()</a></code>).</p></li>
 </ul>Returns <code>NULL</code> if there are is no weight column.</p></dd>
 
-<dt><code>uris</code></dt><dd><p>(<code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code>)<br />
-If the task has a column with designated role <code>"uri"</code>, a table with two columns:
-<ul>
-<li><p><code>row_id</code> (<code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code>), and</p></li>
-<li><p><code>uri</code> (<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>).</p></li>
-</ul>Returns <code>NULL</code> if there are is no uri column.</p></dd>
+<dt><code>labels</code></dt><dd><p>(named <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
+Retrieve <code>labels</code> (prettier formated names) from columns.
+Internally queries the column <code>label</code> of the table in field <code>col_info</code>.
+Columns ids referenced by the name of the vector, the labels are the actual string values.Assigning to this column update the task by reference.
+You have to provide a character vector of labels, named with column ids.
+To remove a label, set it to <code>NA</code>.
+Alternatively, you can provide a <code><a href='https://rdrr.io/r/base/data.frame.html'>data.frame()</a></code> with the two columns
+<code>"id"</code> and <code>"label"</code>.</p></dd>
 
 </dl><p></div></p>
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
@@ -403,6 +420,7 @@ If the task has a column with designated role <code>"uri"</code>, a table with t
 <li><p><a href='#method-set_row_roles'><code>Task$set_row_roles()</code></a></p></li>
 <li><p><a href='#method-set_col_roles'><code>Task$set_col_roles()</code></a></p></li>
 <li><p><a href='#method-droplevels'><code>Task$droplevels()</code></a></p></li>
+<li><p><a href='#method-add_strata'><code>Task$add_strata()</code></a></p></li>
 <li><p><a href='#method-clone'><code>Task$clone()</code></a></p></li>
 </ul>
 <p><hr>
@@ -462,7 +480,12 @@ If <code>cols</code> is <code>NULL</code>, the column order defaults to
 <code><a href='https://rdrr.io/r/base/c.html'>c(task$target_names, task$feature_names)</a></code>.
 Note that it is recommended to <strong>not</strong> rely on the order of columns, and instead always
 address columns with their respective column name.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='va'>Task</span><span class='op'>$</span><span class='fu'>data</span><span class='op'>(</span>rows <span class='op'>=</span> <span class='cn'>NULL</span>, cols <span class='op'>=</span> <span class='cn'>NULL</span>, data_format <span class='op'>=</span> <span class='st'>"data.table"</span>, ordered <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>Task</span><span class='op'>$</span><span class='fu'>data</span><span class='op'>(</span>
+  rows <span class='op'>=</span> <span class='cn'>NULL</span>,
+  cols <span class='op'>=</span> <span class='cn'>NULL</span>,
+  data_format <span class='op'>=</span> <span class='st'>"data.table"</span>,
+  ordered <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -476,7 +499,7 @@ Column names.</p></dd>
 Desired data format, e.g. <code>"data.table"</code> or <code>"Matrix"</code>.</p></dd>
 
 <dt><code>ordered</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
-If <code>TRUE</code> (default), data is ordered according to the columns with column role <code>"order"</code>.</p></dd>
+If <code>TRUE</code>, data is ordered according to the columns with column role <code>"order"</code>.</p></dd>
 
 </dl><p></div></p>
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
@@ -706,6 +729,26 @@ Column names.</p></dd>
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
 <p>Modified <code>self</code>.</p>
 <p><hr>
+<a id="method-add_strata"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>add_strata()</code></h3>
+<p>Cuts numeric variables into new factors columns which are added to the task with role
+<code>"stratum"</code>.
+This ensures that all training and test splits contain observations from all bins.
+The columns are named <code>"..stratum_[col_name]"</code>.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>Task</span><span class='op'>$</span><span class='fu'>add_strata</span><span class='op'>(</span><span class='va'>cols</span>, bins <span class='op'>=</span> <span class='fl'>3L</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>cols</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
+Names of columns to operate on.</p></dd>
+
+<dt><code>bins</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code>)<br />
+Number of bins to cut into (passed to <code><a href='https://rdrr.io/r/base/cut.html'>cut()</a></code> as <code>breaks</code>).
+Replicated to have the same length as <code>cols</code>.</p></dd>
+
+</dl><p></div></p>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
+<p>self (invisibly).</p>
+<p><hr>
 <a id="method-clone"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>clone()</code></h3>
 <p>The objects of this class are cloneable with this method.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
 <p><div class="r"></p><pre><span class='va'>Task</span><span class='op'>$</span><span class='fu'>clone</span><span class='op'>(</span>deep <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre><p></div></p>
@@ -719,8 +762,8 @@ Column names.</p></dd>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># we use the inherited class TaskClassif here,</span>
-<span class='co'># Class Task is not intended for direct use</span>
+    <pre class="examples"><div class='input'><span class='co'># We use the inherited class TaskClassif here,</span>
+<span class='co'># because the base class `Task` is not intended for direct use</span>
 <span class='va'>task</span> <span class='op'>=</span> <span class='va'><a href='TaskClassif.html'>TaskClassif</a></span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='st'>"penguings"</span>, <span class='fu'>palmerpenguins</span><span class='fu'>::</span><span class='va'><a href='https://allisonhorst.github.io/palmerpenguins/reference/penguins.html'>penguins</a></span>, target <span class='op'>=</span> <span class='st'>"species"</span><span class='op'>)</span>
 
 <span class='va'>task</span><span class='op'>$</span><span class='va'>nrow</span>

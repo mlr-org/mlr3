@@ -101,14 +101,14 @@ Additional learners are implement in the Github package https://github.com/mlr-o
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.11.0</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.12.0</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="../reference/index.html">
-    <span class="fa fa fa fa-file-alt"></span>
+    <span class="fa fa-file-alt"></span>
      
     Reference
   </a>
@@ -118,7 +118,7 @@ Additional learners are implement in the Github package https://github.com/mlr-o
 </li>
 <li>
   <a href="https://mlr3book.mlr-org.com">
-    <span class="fa fa fa fa-link"></span>
+    <span class="fa fa-link"></span>
      
     mlr3book
   </a>
@@ -131,7 +131,7 @@ Additional learners are implement in the Github package https://github.com/mlr-o
 </li>
 <li>
   <a href="https://lmmisld-lmu-stats-slds.srv.mwn.de/mlr_invite/">
-    <span class="fa fa fa fa-comments"></span>
+    <span class="fa fa-comments"></span>
      
   </a>
 </li>
@@ -143,7 +143,7 @@ Additional learners are implement in the Github package https://github.com/mlr-o
 </li>
 <li>
   <a href="https://mlr-org.com/">
-    <span class="fas fa-rss"></span>
+    <span class="fa fa-rss"></span>
      
   </a>
 </li>
@@ -191,7 +191,21 @@ Additional learners are implement in the Github package <a href='https://github.
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other Learner: 
+    <div class='dont-index'>
+<ul>
+<li><p>Chapter in the <a href='https://mlr3book.mlr-org.com/'>mlr3book</a>:
+<a href='https://mlr3book.mlr-org.com/learners.html'>https://mlr3book.mlr-org.com/learners.html</a></p></li>
+<li><p>Package <a href='https://CRAN.R-project.org/package=mlr3learners'><span class="pkg">mlr3learners</span></a> for a solid collection of essential learners.</p></li>
+<li><p>Package <a href='https://github.com/mlr-org/mlr3extralearners'>mlr3extralearners</a> for more learners.</p></li>
+<li><p><a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>Dictionary</a> of <a href='Learner.html'>Learners</a>: <a href='mlr_learners.html'>mlr_learners</a></p></li>
+<li><p><code><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table(mlr_learners)</a></code> for a table of available <a href='Learner.html'>Learners</a> in the running session (depending on the loaded packages).</p></li>
+<li><p>Extension packages for additional task types:</p><ul>
+<li><p><a href='https://CRAN.R-project.org/package=mlr3proba'><span class="pkg">mlr3proba</span></a> for probabilistic supervised regression and survival analysis.</p></li>
+<li><p><a href='https://CRAN.R-project.org/package=mlr3cluster'><span class="pkg">mlr3cluster</span></a> for unsupervised clustering.</p></li>
+</ul></li>
+</ul>
+
+<p>Other Learner: 
 <code><a href='LearnerClassif.html'>LearnerClassif</a></code>,
 <code><a href='Learner.html'>Learner</a></code>,
 <code><a href='mlr_learners_classif.debug.html'>mlr_learners_classif.debug</a></code>,
@@ -214,6 +228,7 @@ Additional learners are implement in the Github package <a href='https://github.
 </ul>
 <p><details ><summary>Inherited methods</summary>
 <ul>
+<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="base_learner"><a href='../../mlr3/html/Learner.html#method-base_learner'><code>mlr3::Learner$base_learner()</code></a></span></p></li>
 <li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="format"><a href='../../mlr3/html/Learner.html#method-format'><code>mlr3::Learner$format()</code></a></span></p></li>
 <li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="help"><a href='../../mlr3/html/Learner.html#method-help'><code>mlr3::Learner$help()</code></a></span></p></li>
 <li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="predict"><a href='../../mlr3/html/Learner.html#method-predict'><code>mlr3::Learner$predict()</code></a></span></p></li>
@@ -229,7 +244,7 @@ Additional learners are implement in the Github package <a href='https://github.
 <p>Creates a new instance of this <a href='https://r6.r-lib.org/reference/R6Class.html'>R6</a> class.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
 <p><div class="r"></p><pre><span class='va'>LearnerRegr</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>
   <span class='va'>id</span>,
-  param_set <span class='op'>=</span> <span class='va'>ParamSet</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='op'>)</span>,
+  param_set <span class='op'>=</span> <span class='fu'>ps</span><span class='op'>(</span><span class='op'>)</span>,
   predict_types <span class='op'>=</span> <span class='st'>"response"</span>,
   feature_types <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span><span class='op'>(</span><span class='op'>)</span>,
   properties <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span><span class='op'>(</span><span class='op'>)</span>,

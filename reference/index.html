@@ -88,14 +88,14 @@
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.11.0</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.12.0</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="../reference/index.html">
-    <span class="fa fa fa fa-file-alt"></span>
+    <span class="fa fa-file-alt"></span>
      
     Reference
   </a>
@@ -105,7 +105,7 @@
 </li>
 <li>
   <a href="https://mlr3book.mlr-org.com">
-    <span class="fa fa fa fa-link"></span>
+    <span class="fa fa-link"></span>
      
     mlr3book
   </a>
@@ -118,7 +118,7 @@
 </li>
 <li>
   <a href="https://lmmisld-lmu-stats-slds.srv.mwn.de/mlr_invite/">
-    <span class="fa fa fa fa-comments"></span>
+    <span class="fa fa-comments"></span>
      
   </a>
 </li>
@@ -130,7 +130,7 @@
 </li>
 <li>
   <a href="https://mlr-org.com/">
-    <span class="fas fa-rss"></span>
+    <span class="fa fa-rss"></span>
      
   </a>
 </li>
@@ -582,6 +582,18 @@
       </tr><tr>
         
         <td>
+          <p><code><a href="mlr_measures_aic.html">mlr_measures_aic</a></code> </p>
+        </td>
+        <td><p>Akaike Information Criterion Measure</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mlr_measures_bic.html">mlr_measures_bic</a></code> </p>
+        </td>
+        <td><p>Bayesian Information Criterion Measure</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="mlr_measures_classif.acc.html">mlr_measures_classif.acc</a></code> </p>
         </td>
         <td><p>Classification Accuracy</p></td>
@@ -896,7 +908,7 @@
         <td>
           <p><code><a href="default_measures.html">default_measures()</a></code> </p>
         </td>
-        <td><p>Get a Default Measure</p></td>
+        <td><p>Get the Default Measure</p></td>
       </tr><tr>
         
         <td>
@@ -934,6 +946,12 @@
           <p><code><a href="mlr_resamplings_custom.html">mlr_resamplings_custom</a></code> </p>
         </td>
         <td><p>Custom Resampling</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mlr_resamplings_custom_cv.html">mlr_resamplings_custom_cv</a></code> </p>
+        </td>
+        <td><p>Custom Cross Validation</p></td>
       </tr><tr>
         
         <td>
@@ -1060,31 +1078,6 @@
     </tbody><tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-internal-objects-and-functions" class="hasAnchor"><a href="#section-internal-objects-and-functions" class="anchor"></a>Internal Objects and Functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="ResultData.html">ResultData</a></code> </p>
-        </td>
-        <td><p>ResultData</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="PredictionData.html">check_prediction_data()</a></code> <code><a href="PredictionData.html">is_missing_prediction_data()</a></code> <code><a href="PredictionData.html">c(<i>&lt;PredictionDataClassif&gt;</i>)</a></code> <code><a href="PredictionData.html">c(<i>&lt;PredictionDataRegr&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>Convert to PredictionData</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
           <h2 id="section-converters" class="hasAnchor"><a href="#section-converters" class="anchor"></a>Converters</h2>
           <p class="section-desc"></p>
         </th>
@@ -1182,7 +1175,7 @@
     </tbody><tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-extending-mlr-" class="hasAnchor"><a href="#section-extending-mlr-" class="anchor"></a>Extending mlr3</h2>
+          <h2 id="section-syntactic-sugar-and-reflections" class="hasAnchor"><a href="#section-syntactic-sugar-and-reflections" class="anchor"></a>Syntactic Sugar and Reflections</h2>
           <p class="section-desc"></p>
         </th>
       </tr>
@@ -1194,9 +1187,9 @@
       <tr>
         
         <td>
-          <p><code><a href="mlr_assertions.html">assert_backend()</a></code> <code><a href="mlr_assertions.html">assert_task()</a></code> <code><a href="mlr_assertions.html">assert_tasks()</a></code> <code><a href="mlr_assertions.html">assert_learner()</a></code> <code><a href="mlr_assertions.html">assert_learners()</a></code> <code><a href="mlr_assertions.html">assert_learnable()</a></code> <code><a href="mlr_assertions.html">assert_measure()</a></code> <code><a href="mlr_assertions.html">assert_measures()</a></code> <code><a href="mlr_assertions.html">assert_resampling()</a></code> <code><a href="mlr_assertions.html">assert_resamplings()</a></code> <code><a href="mlr_assertions.html">assert_prediction()</a></code> <code><a href="mlr_assertions.html">assert_resample_result()</a></code> <code><a href="mlr_assertions.html">assert_benchmark_result()</a></code> <code><a href="mlr_assertions.html">assert_row_ids()</a></code> </p>
+          <p><code><a href="mlr_sugar.html">tsk()</a></code> <code><a href="mlr_sugar.html">tsks()</a></code> <code><a href="mlr_sugar.html">tgen()</a></code> <code><a href="mlr_sugar.html">tgens()</a></code> <code><a href="mlr_sugar.html">lrn()</a></code> <code><a href="mlr_sugar.html">lrns()</a></code> <code><a href="mlr_sugar.html">rsmp()</a></code> <code><a href="mlr_sugar.html">rsmps()</a></code> <code><a href="mlr_sugar.html">msr()</a></code> <code><a href="mlr_sugar.html">msrs()</a></code> </p>
         </td>
-        <td><p>Assertion for mlr3 Objects</p></td>
+        <td><p>Syntactic Sugar for Object Construction</p></td>
       </tr><tr>
         
         <td>
@@ -1206,9 +1199,40 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="mlr_sugar.html">tsk()</a></code> <code><a href="mlr_sugar.html">tsks()</a></code> <code><a href="mlr_sugar.html">tgen()</a></code> <code><a href="mlr_sugar.html">tgens()</a></code> <code><a href="mlr_sugar.html">lrn()</a></code> <code><a href="mlr_sugar.html">lrns()</a></code> <code><a href="mlr_sugar.html">rsmp()</a></code> <code><a href="mlr_sugar.html">rsmps()</a></code> <code><a href="mlr_sugar.html">msr()</a></code> <code><a href="mlr_sugar.html">msrs()</a></code> </p>
+          <p><code><a href="set_threads.html">set_threads()</a></code> </p>
         </td>
-        <td><p>Syntactic Sugar for Object Construction</p></td>
+        <td><p>Set the Number of Threads</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-internal-objects-and-functions" class="hasAnchor"><a href="#section-internal-objects-and-functions" class="anchor"></a>Internal Objects and Functions</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="mlr_assertions.html">assert_backend()</a></code> <code><a href="mlr_assertions.html">assert_task()</a></code> <code><a href="mlr_assertions.html">assert_tasks()</a></code> <code><a href="mlr_assertions.html">assert_learner()</a></code> <code><a href="mlr_assertions.html">assert_learners()</a></code> <code><a href="mlr_assertions.html">assert_learnable()</a></code> <code><a href="mlr_assertions.html">assert_predictable()</a></code> <code><a href="mlr_assertions.html">assert_measure()</a></code> <code><a href="mlr_assertions.html">assert_measures()</a></code> <code><a href="mlr_assertions.html">assert_resampling()</a></code> <code><a href="mlr_assertions.html">assert_resamplings()</a></code> <code><a href="mlr_assertions.html">assert_prediction()</a></code> <code><a href="mlr_assertions.html">assert_resample_result()</a></code> <code><a href="mlr_assertions.html">assert_benchmark_result()</a></code> <code><a href="mlr_assertions.html">assert_row_ids()</a></code> </p>
+        </td>
+        <td><p>Assertion for mlr3 Objects</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="ResultData.html">ResultData</a></code> </p>
+        </td>
+        <td><p>ResultData</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="PredictionData.html">check_prediction_data()</a></code> <code><a href="PredictionData.html">is_missing_prediction_data()</a></code> <code><a href="PredictionData.html">c(<i>&lt;PredictionDataClassif&gt;</i>)</a></code> <code><a href="PredictionData.html">c(<i>&lt;PredictionDataRegr&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Convert to PredictionData</p></td>
       </tr><tr>
         
         <td>
