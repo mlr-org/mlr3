@@ -978,7 +978,7 @@ as.data.table.Task = function(x, ...) { # nolint
 }
 
 #' @export
-format_list_item.Task = function(x, ...) {
+format_list_item.Task = function(x, ...) { # nolint
   sprintf("<tsk:%s>", x$id)
 }
 
