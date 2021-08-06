@@ -271,24 +271,18 @@ are set to <code>NA</code>, between 0 (default) and 1.</p>
 <span class='va'>measure</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>msr</a></span><span class='op'>(</span><span class='st'>"debug"</span>, na_ratio <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>)</span>
 <span class='va'>rr</span> <span class='op'>=</span> <span class='fu'><a href='resample.html'>resample</a></span><span class='op'>(</span><span class='va'>task</span>, <span class='va'>learner</span>, <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span><span class='op'>(</span><span class='st'>"cv"</span>, folds <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span>
 <span class='va'>rr</span><span class='op'>$</span><span class='fu'>score</span><span class='op'>(</span><span class='va'>measure</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;                 task task_id                         learner
-#&gt; 1: &lt;TaskClassif[47]&gt;    wine &lt;LearnerClassifFeatureless[36]&gt;
-#&gt; 2: &lt;TaskClassif[47]&gt;    wine &lt;LearnerClassifFeatureless[36]&gt;
-#&gt; 3: &lt;TaskClassif[47]&gt;    wine &lt;LearnerClassifFeatureless[36]&gt;
-#&gt; 4: &lt;TaskClassif[47]&gt;    wine &lt;LearnerClassifFeatureless[36]&gt;
-#&gt; 5: &lt;TaskClassif[47]&gt;    wine &lt;LearnerClassifFeatureless[36]&gt;
-#&gt;             learner_id         resampling resampling_id iteration
-#&gt; 1: classif.featureless &lt;ResamplingCV[19]&gt;            cv         1
-#&gt; 2: classif.featureless &lt;ResamplingCV[19]&gt;            cv         2
-#&gt; 3: classif.featureless &lt;ResamplingCV[19]&gt;            cv         3
-#&gt; 4: classif.featureless &lt;ResamplingCV[19]&gt;            cv         4
-#&gt; 5: classif.featureless &lt;ResamplingCV[19]&gt;            cv         5
-#&gt;                 prediction debug
-#&gt; 1: &lt;PredictionClassif[19]&gt;    NA
-#&gt; 2: &lt;PredictionClassif[19]&gt;    36
-#&gt; 3: &lt;PredictionClassif[19]&gt;    NA
-#&gt; 4: &lt;PredictionClassif[19]&gt;    35
-#&gt; 5: &lt;PredictionClassif[19]&gt;    NA</div></pre>
+</div><div class='output co'>#&gt;        task task_id                 learner          learner_id resampling
+#&gt; 1: tsk:wine    wine lrn:classif.featureless classif.featureless rsmp:cv[5]
+#&gt; 2: tsk:wine    wine lrn:classif.featureless classif.featureless rsmp:cv[5]
+#&gt; 3: tsk:wine    wine lrn:classif.featureless classif.featureless rsmp:cv[5]
+#&gt; 4: tsk:wine    wine lrn:classif.featureless classif.featureless rsmp:cv[5]
+#&gt; 5: tsk:wine    wine lrn:classif.featureless classif.featureless rsmp:cv[5]
+#&gt;    resampling_id iteration prediction debug
+#&gt; 1:            cv         1    prd[36]    NA
+#&gt; 2:            cv         2    prd[36]    36
+#&gt; 3:            cv         3    prd[36]    NA
+#&gt; 4:            cv         4    prd[35]    35
+#&gt; 5:            cv         5    prd[35]    NA</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

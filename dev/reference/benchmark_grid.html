@@ -206,24 +206,15 @@ The only exception to this rule applies if all tasks have exactly the same numbe
 
 <span class='va'>grid</span> <span class='op'>=</span> <span class='fu'>benchmark_grid</span><span class='op'>(</span><span class='va'>tasks</span>, <span class='va'>learners</span>, <span class='va'>resamplings</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>grid</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;                 task                         learner
-#&gt; 1: &lt;TaskClassif[47]&gt; &lt;LearnerClassifFeatureless[36]&gt;
-#&gt; 2: &lt;TaskClassif[47]&gt; &lt;LearnerClassifFeatureless[36]&gt;
-#&gt; 3: &lt;TaskClassif[47]&gt;       &lt;LearnerClassifRpart[36]&gt;
-#&gt; 4: &lt;TaskClassif[47]&gt;       &lt;LearnerClassifRpart[36]&gt;
-#&gt; 5: &lt;TaskClassif[47]&gt; &lt;LearnerClassifFeatureless[36]&gt;
-#&gt; 6: &lt;TaskClassif[47]&gt; &lt;LearnerClassifFeatureless[36]&gt;
-#&gt; 7: &lt;TaskClassif[47]&gt;       &lt;LearnerClassifRpart[36]&gt;
-#&gt; 8: &lt;TaskClassif[47]&gt;       &lt;LearnerClassifRpart[36]&gt;
-#&gt;                     resampling
-#&gt; 1:          &lt;ResamplingCV[19]&gt;
-#&gt; 2: &lt;ResamplingSubsampling[19]&gt;
-#&gt; 3:          &lt;ResamplingCV[19]&gt;
-#&gt; 4: &lt;ResamplingSubsampling[19]&gt;
-#&gt; 5:          &lt;ResamplingCV[19]&gt;
-#&gt; 6: &lt;ResamplingSubsampling[19]&gt;
-#&gt; 7:          &lt;ResamplingCV[19]&gt;
-#&gt; 8: &lt;ResamplingSubsampling[19]&gt;</div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+</div><div class='output co'>#&gt;            task                 learner           resampling
+#&gt; 1: tsk:penguins lrn:classif.featureless          rsmp:cv[10]
+#&gt; 2: tsk:penguins lrn:classif.featureless rsmp:subsampling[30]
+#&gt; 3: tsk:penguins       lrn:classif.rpart          rsmp:cv[10]
+#&gt; 4: tsk:penguins       lrn:classif.rpart rsmp:subsampling[30]
+#&gt; 5:    tsk:sonar lrn:classif.featureless          rsmp:cv[10]
+#&gt; 6:    tsk:sonar lrn:classif.featureless rsmp:subsampling[30]
+#&gt; 7:    tsk:sonar       lrn:classif.rpart          rsmp:cv[10]
+#&gt; 8:    tsk:sonar       lrn:classif.rpart rsmp:subsampling[30]</div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='fu'><a href='benchmark.html'>benchmark</a></span><span class='op'>(</span><span class='va'>grid</span><span class='op'>)</span>
 <span class='op'>}</span>
 
