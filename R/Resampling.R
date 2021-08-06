@@ -256,3 +256,8 @@ as.data.table.Resampling = function(x, ...) { # nolint
   set(tab, j = "set", value = factor(c("train", "test")[tab$set], levels = c("train", "test")))
   setkeyv(tab, c("set", "iteration"))[]
 }
+
+#' @export
+format_list_item.Resampling = function(x, ...) {
+  sprintf("rsmp:%s[%i]", x$id, x$iters)
+}

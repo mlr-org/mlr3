@@ -977,6 +977,11 @@ as.data.table.Task = function(x, ...) { # nolint
   x$head(x$nrow)
 }
 
+#' @export
+format_list_item.Task = function(x, ...) {
+  sprintf("tsk:%s", x$id)
+}
+
 task_rm_backend = function(task) {
   # fix task hash
   ee = get_private(task)
