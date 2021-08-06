@@ -259,5 +259,5 @@ as.data.table.Resampling = function(x, ...) { # nolint
 
 #' @export
 format_list_item.Resampling = function(x, ...) {
-  sprintf("rsmp:%s[%i]", x$id, x$iters)
+  sprintf("<rsmp:%s[%i]>", x$id, x$iters)
 }

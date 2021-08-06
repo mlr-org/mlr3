@@ -61,7 +61,7 @@ ResampleResult = R6Class("ResampleResult",
     #' Printer.
     #' @param ... (ignored).
     print = function() {
-      catf("%s of %i iterations", format(self), private$.data$iterations(private$.view))
+      catf("%s of %i iterations", format(self), self$iters)
       catf(str_indent("* Task:", self$task$id))
       catf(str_indent("* Learner:", self$learner$id))
 
@@ -218,6 +218,12 @@ ResampleResult = R6Class("ResampleResult",
       if (length(uhash) == 0L) NA_character_ else uhash
     },
 
+    #' @field iters (`integer(1)`)\cr
+    #' Number of resampling iterations stored in the `ResampleResult`.
+    iters = function(rhs) {
+      private$.data$iterations(private$.view)
+    },
+
     #' @field task ([Task])\cr
     #' The task [resample()] operated on.
     task = function(rhs) {
@@ -298,6 +304,11 @@ as.data.table.ResampleResult = function(x, ..., predict_sets = "test") { # nolin
   private = get_private(x)
   tab = private$.data$as_data_table(view = private$.view, predict_sets = predict_sets)
   tab[, c("task", "learner", "resampling", "iteration", "prediction"), with = FALSE]
+}
+
+#' @export
+format_list_item.ResampleResult = function(x, ...) {
+  sprintf("<rr[%i]>", x$iters)
 }
 
 #' @export

@@ -488,5 +488,5 @@ get_log_condition = function(state, condition) {
 
 #' @export
 format_list_item.Learner = function(x, ...) {
-  sprintf("lrn:%s", x$id)
+  sprintf("<lrn:%s>", x$id)
 }

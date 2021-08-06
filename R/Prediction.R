@@ -138,6 +138,6 @@ c.Prediction = function(..., keep_duplicates = TRUE) { # nolint
 
 #' @export
 format_list_item.Prediction = function(x, ...) {
-  sprintf("prd[%i]", length(x$row_ids))
+  sprintf("<prd[%i]>", length(x$row_ids))
 }
 
