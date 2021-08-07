@@ -295,28 +295,39 @@ or <code>"trace"</code>:</p><pre><span class='fu'>lgr</span><span class='fu'>::<
 #&gt; * Errors: 0 in 0 iterations</div><div class='input'>
 <span class='co'># Retrieve performance</span>
 <span class='va'>rr</span><span class='op'>$</span><span class='fu'>score</span><span class='op'>(</span><span class='fu'><a href='mlr_sugar.html'>msr</a></span><span class='op'>(</span><span class='st'>"classif.ce"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;               task  task_id             learner    learner_id    resampling
-#&gt;  1: &lt;tsk:penguins&gt; penguins &lt;lrn:classif.rpart&gt; classif.rpart &lt;rsmp:cv[10]&gt;
-#&gt;  2: &lt;tsk:penguins&gt; penguins &lt;lrn:classif.rpart&gt; classif.rpart &lt;rsmp:cv[10]&gt;
-#&gt;  3: &lt;tsk:penguins&gt; penguins &lt;lrn:classif.rpart&gt; classif.rpart &lt;rsmp:cv[10]&gt;
-#&gt;  4: &lt;tsk:penguins&gt; penguins &lt;lrn:classif.rpart&gt; classif.rpart &lt;rsmp:cv[10]&gt;
-#&gt;  5: &lt;tsk:penguins&gt; penguins &lt;lrn:classif.rpart&gt; classif.rpart &lt;rsmp:cv[10]&gt;
-#&gt;  6: &lt;tsk:penguins&gt; penguins &lt;lrn:classif.rpart&gt; classif.rpart &lt;rsmp:cv[10]&gt;
-#&gt;  7: &lt;tsk:penguins&gt; penguins &lt;lrn:classif.rpart&gt; classif.rpart &lt;rsmp:cv[10]&gt;
-#&gt;  8: &lt;tsk:penguins&gt; penguins &lt;lrn:classif.rpart&gt; classif.rpart &lt;rsmp:cv[10]&gt;
-#&gt;  9: &lt;tsk:penguins&gt; penguins &lt;lrn:classif.rpart&gt; classif.rpart &lt;rsmp:cv[10]&gt;
-#&gt; 10: &lt;tsk:penguins&gt; penguins &lt;lrn:classif.rpart&gt; classif.rpart &lt;rsmp:cv[10]&gt;
-#&gt;     resampling_id iteration prediction classif.ce
-#&gt;  1:            cv         1  &lt;prd[35]&gt; 0.00000000
-#&gt;  2:            cv         2  &lt;prd[35]&gt; 0.00000000
-#&gt;  3:            cv         3  &lt;prd[35]&gt; 0.02857143
-#&gt;  4:            cv         4  &lt;prd[35]&gt; 0.00000000
-#&gt;  5:            cv         5  &lt;prd[34]&gt; 0.17647059
-#&gt;  6:            cv         6  &lt;prd[34]&gt; 0.05882353
-#&gt;  7:            cv         7  &lt;prd[34]&gt; 0.05882353
-#&gt;  8:            cv         8  &lt;prd[34]&gt; 0.02941176
-#&gt;  9:            cv         9  &lt;prd[34]&gt; 0.11764706
-#&gt; 10:            cv        10  &lt;prd[34]&gt; 0.05882353</div><div class='input'><span class='va'>rr</span><span class='op'>$</span><span class='fu'>aggregate</span><span class='op'>(</span><span class='fu'><a href='mlr_sugar.html'>msr</a></span><span class='op'>(</span><span class='st'>"classif.ce"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;                  task  task_id                   learner    learner_id
+#&gt;  1: &lt;TaskClassif[47]&gt; penguins &lt;LearnerClassifRpart[36]&gt; classif.rpart
+#&gt;  2: &lt;TaskClassif[47]&gt; penguins &lt;LearnerClassifRpart[36]&gt; classif.rpart
+#&gt;  3: &lt;TaskClassif[47]&gt; penguins &lt;LearnerClassifRpart[36]&gt; classif.rpart
+#&gt;  4: &lt;TaskClassif[47]&gt; penguins &lt;LearnerClassifRpart[36]&gt; classif.rpart
+#&gt;  5: &lt;TaskClassif[47]&gt; penguins &lt;LearnerClassifRpart[36]&gt; classif.rpart
+#&gt;  6: &lt;TaskClassif[47]&gt; penguins &lt;LearnerClassifRpart[36]&gt; classif.rpart
+#&gt;  7: &lt;TaskClassif[47]&gt; penguins &lt;LearnerClassifRpart[36]&gt; classif.rpart
+#&gt;  8: &lt;TaskClassif[47]&gt; penguins &lt;LearnerClassifRpart[36]&gt; classif.rpart
+#&gt;  9: &lt;TaskClassif[47]&gt; penguins &lt;LearnerClassifRpart[36]&gt; classif.rpart
+#&gt; 10: &lt;TaskClassif[47]&gt; penguins &lt;LearnerClassifRpart[36]&gt; classif.rpart
+#&gt;             resampling resampling_id iteration              prediction
+#&gt;  1: &lt;ResamplingCV[19]&gt;            cv         1 &lt;PredictionClassif[19]&gt;
+#&gt;  2: &lt;ResamplingCV[19]&gt;            cv         2 &lt;PredictionClassif[19]&gt;
+#&gt;  3: &lt;ResamplingCV[19]&gt;            cv         3 &lt;PredictionClassif[19]&gt;
+#&gt;  4: &lt;ResamplingCV[19]&gt;            cv         4 &lt;PredictionClassif[19]&gt;
+#&gt;  5: &lt;ResamplingCV[19]&gt;            cv         5 &lt;PredictionClassif[19]&gt;
+#&gt;  6: &lt;ResamplingCV[19]&gt;            cv         6 &lt;PredictionClassif[19]&gt;
+#&gt;  7: &lt;ResamplingCV[19]&gt;            cv         7 &lt;PredictionClassif[19]&gt;
+#&gt;  8: &lt;ResamplingCV[19]&gt;            cv         8 &lt;PredictionClassif[19]&gt;
+#&gt;  9: &lt;ResamplingCV[19]&gt;            cv         9 &lt;PredictionClassif[19]&gt;
+#&gt; 10: &lt;ResamplingCV[19]&gt;            cv        10 &lt;PredictionClassif[19]&gt;
+#&gt;     classif.ce
+#&gt;  1: 0.00000000
+#&gt;  2: 0.00000000
+#&gt;  3: 0.02857143
+#&gt;  4: 0.00000000
+#&gt;  5: 0.17647059
+#&gt;  6: 0.05882353
+#&gt;  7: 0.05882353
+#&gt;  8: 0.02941176
+#&gt;  9: 0.11764706
+#&gt; 10: 0.05882353</div><div class='input'><span class='va'>rr</span><span class='op'>$</span><span class='fu'>aggregate</span><span class='op'>(</span><span class='fu'><a href='mlr_sugar.html'>msr</a></span><span class='op'>(</span><span class='st'>"classif.ce"</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; classif.ce 
 #&gt; 0.05285714 </div><div class='input'>
 <span class='co'># merged prediction objects of all resampling iterations</span>
