@@ -36,7 +36,7 @@ authors:
     orcid: "0000-0002-8115-0400"
 cff-version: 1.2.0
 message: If you use this software, please cite our article.
-title: mlr3: A modern object-oriented machine learning framework in R
+title: "mlr3: A modern object-oriented machine learning framework in R"
 preferred-citation:
   authors:
     - family-names: Lang
@@ -77,7 +77,7 @@ preferred-citation:
       given-names: Bernd
       email: "bernd_bischl@gmx.net"
       orcid: "0000-0001-6002-6980"
-  title: mlr3: A modern object-oriented machine learning framework in R
+  title: "mlr3: A modern object-oriented machine learning framework in R"
   journal: Journal of Open Source Software
   doi: 10.21105/joss.01903
   year: 2019
