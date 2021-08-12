@@ -1,12 +1,14 @@
+cff-version: 1.2.0
+message: If you use this software, please cite our article.
+title: "mlr3: A modern object-oriented machine learning framework in R"
 authors:
   - family-names: Lang
     given-names: Michel
     email: "michellang@gmail.com"
     orcid: "0000-0001-9754-0393"
-  - family-names: Bischl
-    given-names: Bernd
-    email: "bernd_bischl@gmx.net"
-    orcid: "0000-0001-6002-6980"
+  - family-names: Binder
+    given-names: Martin
+    email: "mlr.developer@mb706.com"
   - family-names: Richter
     given-names: Jakob
     email: "jakob1richter@gmail.com"
@@ -15,10 +17,10 @@ authors:
     given-names: Patrick
     email: "patrick.schratz@gmail.com"
     orcid: "0000-0003-0748-6624"
-  - family-names: Casalicchio
-    given-names: Giuseppe
-    email: "giuseppe.casalicchio@stat.uni-muenchen.de"
-    orcid: "0000-0001-5324-5966"
+  - family-names: Pfisterer
+    given-names: Florian
+    email: "pfistererf@googlemail.com"
+    orcid: "0000-0001-8867-762X"
   - family-names: Coors
     given-names: Stefan
     email: "mail@stefancoors.de"
@@ -27,59 +29,20 @@ authors:
     given-names: Quay
     email: "quayau@gmail.com"
     orcid: "0000-0002-5252-8902"
-  - family-names: Binder
-    given-names: Martin
-    email: "mlr.developer@mb706.com"
-  - family-names: Becker
-    given-names: Marc
-    email: "marcbecker@posteo.de"
-    orcid: "0000-0002-8115-0400"
-cff-version: 1.2.0
-message: If you use this software, please cite our article.
+  - family-names: Casalicchio
+    given-names: Giuseppe
+    email: "giuseppe.casalicchio@stat.uni-muenchen.de"
+    orcid: "0000-0001-5324-5966"
+  - family-names: Kotthoff
+    given-names: Lars
+    email: "larsko@uwyo.edu"
+  - family-names: Bischl
+    given-names: Bernd
+    email: "bernd_bischl@gmx.net"
+    orcid: "0000-0001-6002-6980"
 title: "mlr3: A modern object-oriented machine learning framework in R"
-preferred-citation:
-  authors:
-    - family-names: Lang
-      given-names: Michel
-      email: "michellang@gmail.com"
-      orcid: "0000-0001-9754-0393"
-    - family-names: Binder
-      given-names: Martin
-      email: "mlr.developer@mb706.com"
-    - family-names: Richter
-      given-names: Jakob
-      email: "jakob1richter@gmail.com"
-      orcid: "0000-0003-4481-5554"
-    - family-names: Schratz
-      given-names: Patrick
-      email: "patrick.schratz@gmail.com"
-      orcid: "0000-0003-0748-6624"
-    - family-names: Pfisterer
-      given-names: Florian
-      email: "pfistererf@googlemail.com"
-      orcid: "0000-0001-8867-762X"
-    - family-names: Coors
-      given-names: Stefan
-      email: "mail@stefancoors.de"
-      orcid: "0000-0002-7465-2146"
-    - family-names: Au
-      given-names: Quay
-      email: "quayau@gmail.com"
-      orcid: "0000-0002-5252-8902"
-    - family-names: Casalicchio
-      given-names: Giuseppe
-      email: "giuseppe.casalicchio@stat.uni-muenchen.de"
-      orcid: "0000-0001-5324-5966"
-    - family-names: Kotthoff
-      given-names: Lars
-      email: "larsko@uwyo.edu"
-    - family-names: Bischl
-      given-names: Bernd
-      email: "bernd_bischl@gmx.net"
-      orcid: "0000-0001-6002-6980"
-  title: "mlr3: A modern object-oriented machine learning framework in R"
-  journal: Journal of Open Source Software
-  doi: 10.21105/joss.01903
-  year: 2019
-  month: 12
-  type: article
+journal: Journal of Open Source Software
+doi: 10.21105/joss.01903
+year: 2019
+month: 12
+type: article
