@@ -216,6 +216,10 @@ Task = R6Class("Task",
     #' @description
     #' Constructs a [formula()], e.g. `[target] ~ [feature_1] + [feature_2] + ... + [feature_k]`,
     #' using the features provided in argument `rhs` (defaults to all columns with role `"feature"`, symbolized by `"."`).
+    #'
+    #' Note that it is currently not possible to change the formula.
+    #' However, \CRANpkg{mlr3pipelines} provides a pipe operator interfacing [stats::model.matrix()] for this purpose: `"modelmatrix"`.
+    #'
     #' @param rhs (`character(1)`)\cr
     #'   Right hand side of the formula. Defaults to `"."` (all features of the task).
     #' @return [formula()].
