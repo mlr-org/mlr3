@@ -412,6 +412,9 @@ Depending on the \link{DataBackend}, but usually a \code{\link[data.table:data.t
 \subsection{Method \code{formula()}}{
 Constructs a \code{\link[=formula]{formula()}}, e.g. \verb{[target] ~ [feature_1] + [feature_2] + ... + [feature_k]},
 using the features provided in argument \code{rhs} (defaults to all columns with role \code{"feature"}, symbolized by \code{"."}).
+
+Note that it is currently not possible to change the formula.
+However, \CRANpkg{mlr3pipelines} provides a pipe operator interfacing \code{\link[stats:model.matrix]{stats::model.matrix()}} for this purpose: \code{"modelmatrix"}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Task$formula(rhs = ".")}\if{html}{\out{</div>}}
 }
