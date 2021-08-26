@@ -5,22 +5,23 @@
 \alias{predict_newdata_s3.data.frame}
 \title{Predict model on new datasets}
 \usage{
-predict_newdata_s3(x, ...)
+predict_newdata_s3(x, task = NULL, self = NULL, ...)
 
-\method{predict_newdata_s3}{data.frame}(x, task = NULL, self = NULL)
+\method{predict_newdata_s3}{data.frame}(x, task = NULL, self = NULL, ...)
 }
 \arguments{
 \item{x}{(\code{data.frame()})\cr
 New data to predict on.
 Row ids are automatically set to \code{1:nrow(newdata)}.}
 
-\item{...}{Passed down to the respective predict method.}
-
 \item{task}{(\link{Task}).}
+
+\item{self}{(\code{any})\cr
+For internal use only.}
+
+\item{...}{Passed down to the respective predict method.}
 }
 \value{
-\link{Prediction}.
-
 \link{Prediction}.
 }
 \description{

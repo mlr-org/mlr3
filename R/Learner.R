@@ -494,16 +494,18 @@ get_log_condition = function(state, condition) {
 #' @param x (`data.frame()`)\cr
 #'   New data to predict on.
 #'   Row ids are automatically set to `1:nrow(newdata)`.
+#' @param self (`any`)\cr
+#'   For internal use only.
 #' @param ... Passed down to the respective predict method.
 #'
 #' @export
-predict_newdata_s3 = function(x, ...) {
+predict_newdata_s3 = function(x, task = NULL, self = NULL, ...) {
   UseMethod("predict_newdata_s3")
 }
 
 #' @export
 #' @rdname predict_newdata_s3
-predict_newdata_s3.data.frame = function(x, task = NULL, self = NULL) {
+predict_newdata_s3.data.frame = function(x, task = NULL, self = NULL, ...) {
   x = as.data.table(assert_data_frame(x, min.rows = 1L))
 
   if (is.null(task)) {
