@@ -230,7 +230,7 @@ If you need access to the models for later analysis, set <code>store_models</cod
 <p>This function can be parallelized with the <a href='https://CRAN.R-project.org/package=future'><span class="pkg">future</span></a> package.
 One job is one resampling iteration, and all jobs are send to an apply function
 from <a href='https://CRAN.R-project.org/package=future.apply'><span class="pkg">future.apply</span></a> in a single batch.
-To select a parallel backend, use <code><a href='https://rdrr.io/pkg/future/man/plan.html'>future::plan()</a></code>.</p>
+To select a parallel backend, use <code><a href='https://future.futureverse.org/reference/plan.html'>future::plan()</a></code>.</p>
     <h2 class="hasAnchor" id="progress-bars"><a class="anchor" href="#progress-bars"></a>Progress Bars</h2>
 
     
@@ -285,12 +285,12 @@ or <code>"trace"</code>:</p><pre><span class='fu'>lgr</span><span class='fu'>::<
 <span class='co'>## Data of all resamplings</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table</a></span><span class='op'>(</span><span class='va'>bmr</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;                                   uhash              task
-#&gt; 1: 7920c680-ea70-4e32-9c82-6ee618c5c68d &lt;TaskClassif[47]&gt;
-#&gt; 2: 7920c680-ea70-4e32-9c82-6ee618c5c68d &lt;TaskClassif[47]&gt;
-#&gt; 3: 7920c680-ea70-4e32-9c82-6ee618c5c68d &lt;TaskClassif[47]&gt;
-#&gt; 4: 02591515-4a36-48b0-9a13-928ef0c1dffe &lt;TaskClassif[47]&gt;
-#&gt; 5: 02591515-4a36-48b0-9a13-928ef0c1dffe &lt;TaskClassif[47]&gt;
-#&gt; 6: 02591515-4a36-48b0-9a13-928ef0c1dffe &lt;TaskClassif[47]&gt;
+#&gt; 1: 3e85ceed-8d3f-4276-bcee-a780bcf6cc1b &lt;TaskClassif[47]&gt;
+#&gt; 2: 3e85ceed-8d3f-4276-bcee-a780bcf6cc1b &lt;TaskClassif[47]&gt;
+#&gt; 3: 3e85ceed-8d3f-4276-bcee-a780bcf6cc1b &lt;TaskClassif[47]&gt;
+#&gt; 4: 2ff39e76-12c4-45f4-a70d-8484ce33dccc &lt;TaskClassif[47]&gt;
+#&gt; 5: 2ff39e76-12c4-45f4-a70d-8484ce33dccc &lt;TaskClassif[47]&gt;
+#&gt; 6: 2ff39e76-12c4-45f4-a70d-8484ce33dccc &lt;TaskClassif[47]&gt;
 #&gt;                            learner         resampling iteration
 #&gt; 1: &lt;LearnerClassifFeatureless[36]&gt; &lt;ResamplingCV[19]&gt;         1
 #&gt; 2: &lt;LearnerClassifFeatureless[36]&gt; &lt;ResamplingCV[19]&gt;         2
