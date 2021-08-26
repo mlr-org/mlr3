@@ -2,9 +2,12 @@
 % Please edit documentation in R/Learner.R
 \name{predict_newdata_s3}
 \alias{predict_newdata_s3}
+\alias{predict_newdata_s3.data.frame}
 \title{Predict model on new datasets}
 \usage{
 predict_newdata_s3(x, ...)
+
+\method{predict_newdata_s3}{data.frame}(x, task = NULL, self = NULL)
 }
 \arguments{
 \item{x}{(\code{data.frame()})\cr
@@ -35,4 +38,3 @@ of the training task stored in the learner.
 If the learner has been fitted via \code{\link[=resample]{resample()}} or \code{\link[=benchmark]{benchmark()}}, you need to pass the corresponding task stored
 in the \link{ResampleResult} or \link{BenchmarkResult}, respectively.
 }
-\keyword{internal}
