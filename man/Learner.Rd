@@ -397,7 +397,7 @@ of the training task stored in the learner.
 If the learner has been fitted via \code{\link[=resample]{resample()}} or \code{\link[=benchmark]{benchmark()}}, you need to pass the corresponding task stored
 in the \link{ResampleResult} or \link{BenchmarkResult}, respectively.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Learner$predict_newdata(newdata, task = NULL)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Learner$predict_newdata(newdata, task = NULL, ...)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -408,6 +408,8 @@ New data to predict on.
 Row ids are automatically set to \code{1:nrow(newdata)}.}
 
 \item{\code{task}}{(\link{Task}).}
+
+\item{\code{...}}{Passed down to the respective predict method.}
 }
 \if{html}{\out{</div>}}
 }
