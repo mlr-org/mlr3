@@ -115,7 +115,6 @@ Learner = R6Class("Learner",
     #' A complete list of candidate properties, grouped by task type, is stored in [`mlr_reflections$learner_properties`][mlr_reflections].
     properties = NULL,
 
-
     #' @field data_formats (`character()`)\cr
     #' Supported data format, e.g. `"data.table"` or `"Matrix"`.
     data_formats = NULL,
@@ -125,6 +124,15 @@ Learner = R6Class("Learner",
 
     #' @template field_predict_sets
     predict_sets = "test",
+
+    #' @field parallel_predict (`logical(1)`)\cr
+    #' If set to `TRUE`, use \CRANpkg{future} to calculate predictions in parallel (default: `FALSE`).
+    #' The row ids of the `task` will be split into [future::nbrOfWorkers()] chunks,
+    #' and predictions are evaluated according to the active [future::plan()].
+    #' This currently only works for methods `Learner$predict()` and `Learner$predict_newdata()`,
+    #' and has no effect during [resample()] or [benchmark()] where you have other means
+    #' to parallelize.
+    parallel_predict = FALSE,
 
     #' @field timeout (named `numeric(2)`)\cr
     #' Timeout for the learner's train and predict steps, in seconds.
@@ -247,12 +255,22 @@ Learner = R6Class("Learner",
         stopf("Cannot predict, Learner '%s' has not been trained yet", self$id)
       }
 
-      pdata = learner_predict(self, task, row_ids)
-      if (is.null(pdata)) {
-        return(NULL)
+      if (isTRUE(self$parallel_predict) && nbrOfWorkers() > 1L) {
+        row_ids = row_ids %??% task$row_ids
+        chunked = chunk_vector(row_ids, n_chunks = nbrOfWorkers(), shuffle = FALSE)
+        pdata = future.apply::future_lapply(chunked,
+          learner_predict, learner = self, task = task,
+          future.globals = FALSE, future.seed = TRUE)
+        pdata = do.call(c, pdata)
+      } else {
+        pdata = learner_predict(self, task, row_ids)
       }
 
-      as_prediction(check_prediction_data(pdata))
+      if (is.null(pdata)) {
+        return(NULL)
+      } else {
+        as_prediction(check_prediction_data(pdata))
+      }
     },
 
     predict_newdata = function(newdata, task = NULL, ...) {
@@ -283,7 +301,11 @@ Learner = R6Class("Learner",
     #'
     #' @return [Learner].
     base_learner = function(recursive = Inf) {
-      self
+      if (exists(".base_learner", envir = private, inherits = FALSE)) {
+        private$.base_learner(recursive)
+      } else {
+        self
+      }
     }
   ),
 
@@ -333,7 +355,8 @@ Learner = R6Class("Learner",
     #' @template field_hash
     hash = function(rhs) {
       assert_ro_binding(rhs)
-      calculate_hash(class(self), self$id, self$param_set$values, private$.predict_type, self$fallback$hash)
+      calculate_hash(class(self), self$id, self$param_set$values, private$.predict_type,
+        self$fallback$hash, self$parallel_predict)
     },
 
     #' @field phash (`character(1)`)\cr

@@ -250,3 +250,14 @@ test_that("weights", {
   expect_prediction(learner$predict_newdata(data[1:3, ]))
   expect_prediction(learner$predict_newdata(iris[1:3, ]))
 })
+
+test_that("mandatory properties",  {
+  task = tsk("iris")
+  learner = lrn("classif.rpart")
+  learner$properties = setdiff(learner$properties, "multiclass")
+  resample = rsmp("holdout")
+
+  expect_error(learner$train(task), "multiclass")
+  expect_error(resample(task, learner, resample), "multiclass")
+  expect_error(benchmark(benchmark_grid(task, learner, resample)), "multiclass")
+})

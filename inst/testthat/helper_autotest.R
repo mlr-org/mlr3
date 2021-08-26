@@ -319,8 +319,16 @@ run_autotest = function(learner, N = 30L, exclude = NULL, predict_types = learne
   learner = learner$clone(deep = TRUE)
   id = learner$id
   tasks = generate_tasks(learner, N = N)
-  if (!is.null(exclude))
+  if (!is.null(exclude)) {
     tasks = tasks[!grepl(exclude, names(tasks))]
+  }
+
+  sanity_runs = list()
+  make_err = function(msg, ...) {
+    run$ok = FALSE
+    run$error = sprintf(msg, ...)
+    run
+  }
 
   for (task in tasks) {
     for (predict_type in predict_types) {
@@ -341,13 +349,23 @@ run_autotest = function(learner, N = 30L, exclude = NULL, predict_types = learne
         }
 
         if (check_replicable && !isTRUE(all.equal(as.data.table(run$prediction), as.data.table(repeated_run$prediction)))) {
-          run$ok = FALSE
-          run$error = sprintf("Different results for replicated runs using fixed seed %i", run$seed)
-          return(run)
+          return(make_err("Different results for replicated runs using fixed seed %i", run$seed))
         }
+      }
+
+      if (task$task_type == "classif" && task$id == "sanity") {
+        sanity_runs[[predict_type]] = run
       }
     }
   }
+
+  if (task$task_type == "classif" && length(sanity_runs) > 1L) {
+    responses = lapply(sanity_runs, function(r) r$prediction$response)
+    if (!Reduce(all.equal, responses)) {
+      return(make_err("Response is different for different predict types"))
+    }
+  }
+
 
   return(TRUE)
 }

@@ -44,3 +44,19 @@ test_that("predict_newdata with weights (#519)", {
   # w weights
   expect_prediction(learner$predict_newdata(task$data(cols = c(task$target_names, task$feature_names, "nox"))))
 })
+
+test_that("parallel predict works", {
+  skip_if_not_installed("future")
+  task = tsk("sonar")
+  lrn = lrn("classif.featureless")$train(task)
+
+  lrn$parallel_predict = FALSE
+  p1 = lrn$predict(task, row_ids = 20:1)
+
+  lrn$parallel_predict = TRUE
+  p2 = with_future(future::multisession,
+    lrn$predict(task, row_ids = 20:1)
+  )
+
+  expect_equal(as.data.table(p1), as.data.table(p2))
+})
