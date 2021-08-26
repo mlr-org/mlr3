@@ -185,7 +185,10 @@ If the learner has been fitted via <code><a href='resample.html'>resample()</a><
 in the <a href='ResampleResult.html'>ResampleResult</a> or <a href='BenchmarkResult.html'>BenchmarkResult</a>, respectively.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>predict_newdata_s3</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>predict_newdata_s3</span><span class='op'>(</span><span class='va'>x</span>, task <span class='op'>=</span> <span class='cn'>NULL</span>, self <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='co'># S3 method for data.frame</span>
+<span class='fu'>predict_newdata_s3</span><span class='op'>(</span><span class='va'>x</span>, task <span class='op'>=</span> <span class='cn'>NULL</span>, self <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -197,19 +200,23 @@ New data to predict on.
 Row ids are automatically set to <code>1:nrow(newdata)</code>.</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>Passed down to the respective predict method.</p></td>
-    </tr>
-    <tr>
       <th>task</th>
       <td><p>(<a href='Task.html'>Task</a>).</p></td>
+    </tr>
+    <tr>
+      <th>self</th>
+      <td><p>(<code>any</code>)<br />
+For internal use only.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Passed down to the respective predict method.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p><a href='Prediction.html'>Prediction</a>.</p>
-<p><a href='Prediction.html'>Prediction</a>.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
