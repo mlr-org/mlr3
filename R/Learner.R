@@ -419,7 +419,10 @@ Learner = R6Class("Learner",
       if (missing(rhs)) {
         return(private$.predict_type)
       }
+
+      assert_string(rhs, .var.name = "predict_type")
       if (rhs %nin% self$predict_types) {
+
         stopf("Learner '%s' does not support predict type '%s'", self$id, rhs)
       }
       private$.predict_type = rhs

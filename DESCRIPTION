@@ -107,6 +107,7 @@ Collate:
     'LearnerClassifFeatureless.R'
     'LearnerClassifRpart.R'
     'LearnerRegr.R'
+    'LearnerRegrDebug.R'
     'LearnerRegrFeatureless.R'
     'LearnerRegrRpart.R'
     'Measure.R'
