@@ -45,16 +45,13 @@ lrn("regr.debug")
 }
 
 \examples{
-learner = lrn("regr.debug")
-learner$param_set$values = list(message_train = 1, save_tasks = TRUE)
+task = tsk("mtcars")
+learner = lrn("regr.debug", save_tasks = TRUE)
+learner$train(task, row_ids = 1:20)
+prediction = learner$predict(task, row_ids = 21:32)
 
-# this should signal a message
-task = tsk("penguins")
-learner$train(task)
-learner$predict(task)
-
-# task_train and task_predict are the input tasks for train() and predict()
-names(learner$model)
+learner$model$task_train
+learner$model$task_predict
 }
 \seealso{
 \itemize{
