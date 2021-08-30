@@ -57,21 +57,21 @@
 <meta property="og:description" content="A simple LearnerClassif used primarily in the unit tests and for debugging purposes.
 If no hyperparameter is set, it simply constantly predicts a randomly selected label.
 The following hyperparameters trigger the following actions:
-message_train:Probability to output a message during train.
-message_predict:Probability to output a message during predict.
-warning_train:Probability to signal a warning during train.
-warning_predict:Probability to signal a warning during predict.
-error_train:Probability to raises an exception during train.
 error_predict:Probability to raise an exception during predict.
-segfault_train:Probability to provokes a segfault during train.
-segfault_predict:Probability to provokes a segfault during predict.
-predict_missingRatio of predictions which will be NA.
-predict_missing_typeTo to encode missingness. &amp;#8220;na&amp;#8221; will insert NA values, &amp;#8220;omit&amp;#8221; will just return fewer predictions than requested.
+error_train:Probability to raises an exception during train.
+message_predict:Probability to output a message during predict.
+message_train:Probability to output a message during train.
+predict_missing:Ratio of predictions which will be NA.
+predict_missing_type:To to encode missingness. &amp;#8220;na&amp;#8221; will insert NA values, &amp;#8220;omit&amp;#8221; will just return fewer predictions than requested.
 save_tasks:Saves input task in model slot during training and prediction.
+segfault_predict:Probability to provokes a segfault during predict.
+segfault_train:Probability to provokes a segfault during train.
 threads:Number of threads to use. Has no effect.
+warning_predict:Probability to signal a warning during predict.
+warning_train:Probability to signal a warning during train.
 x:Numeric tuning parameter. Has no effect.
 
-Note that segfaults may not be triggered on your operating system.
+Note that segfaults may not be triggered reliably on your operating system.
 Also note that if they work as intended, they will tear down your R session immediately!" />
 <meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
@@ -181,21 +181,21 @@ Also note that if they work as intended, they will tear down your R session imme
     <p>A simple <a href='LearnerClassif.html'>LearnerClassif</a> used primarily in the unit tests and for debugging purposes.
 If no hyperparameter is set, it simply constantly predicts a randomly selected label.
 The following hyperparameters trigger the following actions:</p><dl>
-<dt>message_train:</dt><dd><p>Probability to output a message during train.</p></dd>
-<dt>message_predict:</dt><dd><p>Probability to output a message during predict.</p></dd>
-<dt>warning_train:</dt><dd><p>Probability to signal a warning during train.</p></dd>
-<dt>warning_predict:</dt><dd><p>Probability to signal a warning during predict.</p></dd>
-<dt>error_train:</dt><dd><p>Probability to raises an exception during train.</p></dd>
 <dt>error_predict:</dt><dd><p>Probability to raise an exception during predict.</p></dd>
-<dt>segfault_train:</dt><dd><p>Probability to provokes a segfault during train.</p></dd>
-<dt>segfault_predict:</dt><dd><p>Probability to provokes a segfault during predict.</p></dd>
-<dt>predict_missing</dt><dd><p>Ratio of predictions which will be NA.</p></dd>
-<dt>predict_missing_type</dt><dd><p>To to encode missingness. &#8220;na&#8221; will insert NA values, &#8220;omit&#8221; will just return fewer predictions than requested.</p></dd>
+<dt>error_train:</dt><dd><p>Probability to raises an exception during train.</p></dd>
+<dt>message_predict:</dt><dd><p>Probability to output a message during predict.</p></dd>
+<dt>message_train:</dt><dd><p>Probability to output a message during train.</p></dd>
+<dt>predict_missing:</dt><dd><p>Ratio of predictions which will be NA.</p></dd>
+<dt>predict_missing_type:</dt><dd><p>To to encode missingness. &#8220;na&#8221; will insert NA values, &#8220;omit&#8221; will just return fewer predictions than requested.</p></dd>
 <dt>save_tasks:</dt><dd><p>Saves input task in <code>model</code> slot during training and prediction.</p></dd>
+<dt>segfault_predict:</dt><dd><p>Probability to provokes a segfault during predict.</p></dd>
+<dt>segfault_train:</dt><dd><p>Probability to provokes a segfault during train.</p></dd>
 <dt>threads:</dt><dd><p>Number of threads to use. Has no effect.</p></dd>
+<dt>warning_predict:</dt><dd><p>Probability to signal a warning during predict.</p></dd>
+<dt>warning_train:</dt><dd><p>Probability to signal a warning during train.</p></dd>
 <dt>x:</dt><dd><p>Numeric tuning parameter. Has no effect.</p></dd>
 
-</dl><p>Note that segfaults may not be triggered on your operating system.
+</dl><p>Note that segfaults may not be triggered reliably on your operating system.
 Also note that if they work as intended, they will tear down your R session immediately!</p>
     </div>
 
@@ -205,8 +205,8 @@ Also note that if they work as intended, they will tear down your R session imme
 
     
 
-<p>This <a href='Learner.html'>Learner</a> can be instantiated via the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> <a href='mlr_learners.html'>mlr_learners</a> or with the associated sugar function <code><a href='mlr_sugar.html'>lrn()</a></code>:</p><pre><span class='va'>mlr_learners</span><span class='op'>$</span><span class='fu'>get</span><span class='op'>(</span><span class='st'>"classif.featureless"</span><span class='op'>)</span>
-<span class='fu'><a href='mlr_sugar.html'>lrn</a></span><span class='op'>(</span><span class='st'>"classif.featureless"</span><span class='op'>)</span>
+<p>This <a href='Learner.html'>Learner</a> can be instantiated via the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> <a href='mlr_learners.html'>mlr_learners</a> or with the associated sugar function <code><a href='mlr_sugar.html'>lrn()</a></code>:</p><pre><span class='va'>mlr_learners</span><span class='op'>$</span><span class='fu'>get</span><span class='op'>(</span><span class='st'>"classif.debug"</span><span class='op'>)</span>
+<span class='fu'><a href='mlr_sugar.html'>lrn</a></span><span class='op'>(</span><span class='st'>"classif.debug"</span><span class='op'>)</span>
 </pre>
 
     <h2 class="hasAnchor" id="meta-information"><a class="anchor" href="#meta-information"></a>Meta Information</h2>
@@ -263,6 +263,7 @@ Also note that if they work as intended, they will tear down your R session imme
 <code><a href='Learner.html'>Learner</a></code>,
 <code><a href='mlr_learners_classif.featureless.html'>mlr_learners_classif.featureless</a></code>,
 <code><a href='mlr_learners_classif.rpart.html'>mlr_learners_classif.rpart</a></code>,
+<code><a href='mlr_learners_regr.debug.html'>mlr_learners_regr.debug</a></code>,
 <code><a href='mlr_learners_regr.featureless.html'>mlr_learners_regr.featureless</a></code>,
 <code><a href='mlr_learners_regr.rpart.html'>mlr_learners_regr.rpart</a></code>,
 <code><a href='mlr_learners.html'>mlr_learners</a></code></p></div>

@@ -210,6 +210,7 @@ Returns a <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.
 <code><a href='mlr_learners_classif.debug.html'>mlr_learners_classif.debug</a></code>,
 <code><a href='mlr_learners_classif.featureless.html'>mlr_learners_classif.featureless</a></code>,
 <code><a href='mlr_learners_classif.rpart.html'>mlr_learners_classif.rpart</a></code>,
+<code><a href='mlr_learners_regr.debug.html'>mlr_learners_regr.debug</a></code>,
 <code><a href='mlr_learners_regr.featureless.html'>mlr_learners_regr.featureless</a></code>,
 <code><a href='mlr_learners_regr.rpart.html'>mlr_learners_regr.rpart</a></code></p></div>
 
@@ -219,26 +220,30 @@ Returns a <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.
 #&gt; 1:       classif.debug     logical,integer,numeric,character,factor,ordered
 #&gt; 2: classif.featureless logical,integer,numeric,character,factor,ordered,...
 #&gt; 3:       classif.rpart               logical,integer,numeric,factor,ordered
-#&gt; 4:    regr.featureless logical,integer,numeric,character,factor,ordered,...
-#&gt; 5:          regr.rpart               logical,integer,numeric,factor,ordered
+#&gt; 4:          regr.debug     logical,integer,numeric,character,factor,ordered
+#&gt; 5:    regr.featureless logical,integer,numeric,character,factor,ordered,...
+#&gt; 6:          regr.rpart               logical,integer,numeric,factor,ordered
 #&gt;    packages
 #&gt; 1:         
 #&gt; 2:         
 #&gt; 3:    rpart
-#&gt; 4:    stats
-#&gt; 5:    rpart
+#&gt; 4:         
+#&gt; 5:    stats
+#&gt; 6:    rpart
 #&gt;                                                               properties
 #&gt; 1:                                          missings,multiclass,twoclass
 #&gt; 2: featureless,importance,missings,multiclass,selected_features,twoclass
 #&gt; 3:     importance,missings,multiclass,selected_features,twoclass,weights
-#&gt; 4:                     featureless,importance,missings,selected_features
-#&gt; 5:                         importance,missings,selected_features,weights
+#&gt; 4:                                                              missings
+#&gt; 5:                     featureless,importance,missings,selected_features
+#&gt; 6:                         importance,missings,selected_features,weights
 #&gt;    predict_types
 #&gt; 1: response,prob
 #&gt; 2: response,prob
 #&gt; 3: response,prob
 #&gt; 4:   response,se
-#&gt; 5:      response</div><div class='input'><span class='va'>mlr_learners</span><span class='op'>$</span><span class='fu'>get</span><span class='op'>(</span><span class='st'>"classif.featureless"</span><span class='op'>)</span>
+#&gt; 5:   response,se
+#&gt; 6:      response</div><div class='input'><span class='va'>mlr_learners</span><span class='op'>$</span><span class='fu'>get</span><span class='op'>(</span><span class='st'>"classif.featureless"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; &lt;LearnerClassifFeatureless:classif.featureless&gt;
 #&gt; * Model: -
 #&gt; * Parameters: method=mode
