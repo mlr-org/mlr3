@@ -38,8 +38,14 @@ optionally stratifying on the target column.
 # regression task
 task = tsk("boston_housing")
 
-# roughly equal size split with stratification
-str(partition(task, ratio = 0.5))
+# roughly equal size split while stratifying on the binned response
+split = partition(task, ratio = 0.5)
+data = data.frame(
+  y = c(task$truth(split$train), task$truth(split$test)),
+  split = rep(c("train", "predict"), lengths(split))
+)
+boxplot(y ~ split, data = data)
+
 
 # classification task
 task = tsk("pima")

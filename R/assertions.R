@@ -112,6 +112,15 @@ assert_task_learner = function(task, learner, cols = NULL) {
         task$id, str_collapse(names(miss)[miss], quote = "'"), learner$id)
     }
   }
+
+  tmp = mlr_reflections$task_mandatory_properties[[task$task_type]]
+  if (length(tmp)) {
+    tmp = setdiff(intersect(task$properties, tmp), learner$properties)
+    if (length(tmp)) {
+      stopf("Task '%s' has property '%s', but learner '%s' does not support that",
+        task$id, tmp[1L], learner$id)
+    }
+  }
 }
 
 #' @export

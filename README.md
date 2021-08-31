@@ -41,10 +41,11 @@ Status](https://www.r-pkg.org/badges/version-ago/mlr3)](https://cran.r-project.o
         status](https://mlr3extralearners.mlr-org.com/articles/learners/learner_status.html)
         to see their build status
 -   **Cheatsheets**
-    -   [Overview of cheatsheets](https://cheatsheets.mlr-org.com)
+    -   [Overview of cheatsheets](https://github.com/mlr-org/mlr3cheatsheets)
     -   [mlr3](https://cheatsheets.mlr-org.com/mlr3.pdf)
     -   [mlr3tuning](https://cheatsheets.mlr-org.com/mlr3tuning.pdf)
     -   [mlr3pipelines](https://cheatsheets.mlr-org.com/mlr3pipelines.pdf)
+    -   [mlr3fselect](https://cheatsheets.mlr-org.com/mlr3fselect.pdf)
 -   **Videos**:
     -   [useR2019 talk on
         mlr3](https://www.youtube.com/watch?v=wsP2hiFnDQs)
@@ -149,7 +150,7 @@ measure <- msr("classif.acc")
 prediction$score(measure)
 ```
 
-    ## classif.acc 
+    ## classif.acc
     ##   0.9130435
 
 ### Resample
@@ -178,7 +179,7 @@ rr$score(measure)
 rr$aggregate(measure)
 ```
 
-    ## classif.acc 
+    ## classif.acc
     ##    0.918688
 
 ## Extension Packages

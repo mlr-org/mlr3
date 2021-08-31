@@ -345,7 +345,11 @@ Learner = R6Class("Learner",
     #'
     #' @return [Learner].
     base_learner = function(recursive = Inf) {
-      self
+      if (exists(".base_learner", envir = private, inherits = FALSE)) {
+        private$.base_learner(recursive)
+      } else {
+        self
+      }
     }
   ),
 
@@ -395,7 +399,8 @@ Learner = R6Class("Learner",
     #' @template field_hash
     hash = function(rhs) {
       assert_ro_binding(rhs)
-      calculate_hash(class(self), self$id, self$param_set$values, private$.predict_type, self$fallback$hash)
+      calculate_hash(class(self), self$id, self$param_set$values, private$.predict_type,
+        self$fallback$hash, self$parallel_predict)
     },
 
     #' @field phash (`character(1)`)\cr
@@ -414,7 +419,10 @@ Learner = R6Class("Learner",
       if (missing(rhs)) {
         return(private$.predict_type)
       }
+
+      assert_string(rhs, .var.name = "predict_type")
       if (rhs %nin% self$predict_types) {
+
         stopf("Learner '%s' does not support predict type '%s'", self$id, rhs)
       }
       private$.predict_type = rhs

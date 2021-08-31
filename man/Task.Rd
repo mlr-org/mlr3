@@ -253,6 +253,17 @@ If the task has a column with designated role \code{"weight"}, a table with two 
 }
 
 Returns \code{NULL} if there are is no weight column.}
+
+\item{\code{labels}}{(named \code{character()})\cr
+Retrieve \code{labels} (prettier formated names) from columns.
+Internally queries the column \code{label} of the table in field \code{col_info}.
+Columns ids referenced by the name of the vector, the labels are the actual string values.
+
+Assigning to this column update the task by reference.
+You have to provide a character vector of labels, named with column ids.
+To remove a label, set it to \code{NA}.
+Alternatively, you can provide a \code{\link[=data.frame]{data.frame()}} with the two columns
+\code{"id"} and \code{"label"}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -277,7 +288,6 @@ Returns \code{NULL} if there are is no weight column.}
 \item \href{#method-set_col_roles}{\code{Task$set_col_roles()}}
 \item \href{#method-droplevels}{\code{Task$droplevels()}}
 \item \href{#method-add_strata}{\code{Task$add_strata()}}
-\item \href{#method-label}{\code{Task$label()}}
 \item \href{#method-clone}{\code{Task$clone()}}
 }
 }
@@ -402,6 +412,9 @@ Depending on the \link{DataBackend}, but usually a \code{\link[data.table:data.t
 \subsection{Method \code{formula()}}{
 Constructs a \code{\link[=formula]{formula()}}, e.g. \verb{[target] ~ [feature_1] + [feature_2] + ... + [feature_k]},
 using the features provided in argument \code{rhs} (defaults to all columns with role \code{"feature"}, symbolized by \code{"."}).
+
+Note that it is currently not possible to change the formula.
+However, \CRANpkg{mlr3pipelines} provides a pipe operator interfacing \code{\link[stats:model.matrix]{stats::model.matrix()}} for this purpose: \code{"modelmatrix"}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Task$formula(rhs = ".")}\if{html}{\out{</div>}}
 }
@@ -751,32 +764,6 @@ Replicated to have the same length as \code{cols}.}
 }
 \subsection{Returns}{
 self (invisibly).
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-label"></a>}}
-\if{latex}{\out{\hypertarget{method-label}{}}}
-\subsection{Method \code{label()}}{
-Assigns \code{labels} (prettier formated names) to columns \code{cols}.
-Internally updates the column \code{label} of the table in field \code{col_info} by reference.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Task$label(cols, labels)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{cols}}{(\code{character()})\cr
-Column identifiers to label.}
-
-\item{\code{labels}}{(\code{character()})\cr
-New labels. Will be repeated to match the length of \code{cols}.
-Set to \code{NA} to remove a label.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-Modified \code{self}.
 }
 }
 \if{html}{\out{<hr>}}
