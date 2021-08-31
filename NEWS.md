@@ -32,6 +32,7 @@
 * Fixed hashing of some measures.
 * Removed experimental column role `uri`. This role be split up into multiple
   roles by the `mlr3keras` package.
+* Update paramtest to error on extra parameters
 
 
 # mlr3 0.11.0
