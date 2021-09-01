@@ -308,7 +308,7 @@ These packages are loaded, but not attached.</p></dd>
 <dt><code>predict_sets</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
 During <code><a href='resample.html'>resample()</a></code>/<code><a href='benchmark.html'>benchmark()</a></code>, a Learner can predict on multiple sets.
 Per default, a learner only predicts observations in the test set (<code>predict_sets == "test"</code>).
-To change this behaviour, set <code>predict_sets</code> to a non-empty subset of <code>{"train", "test", "validation"}</code>.
+To change this behavior, set <code>predict_sets</code> to a non-empty subset of <code>{"train", "test", "validation"}</code>.
 Each set yields a separate <a href='Prediction.html'>Prediction</a> object.
 Those be combined via getters in <a href='ResampleResult.html'>ResampleResult</a>/<a href='BenchmarkResult.html'>BenchmarkResult</a>, or <a href='Measure.html'>Measure</a>s can be altered
 to operate on specific subsets of the calculated prediction sets.</p></dd>
