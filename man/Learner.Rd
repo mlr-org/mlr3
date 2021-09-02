@@ -404,9 +404,12 @@ in the \link{ResampleResult} or \link{BenchmarkResult}, respectively.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{newdata}}{(\code{data.frame()})\cr
+\item{\code{newdata}}{(any object supported by \code{\link[=as_data_backend]{as_data_backend()}})\cr
 New data to predict on.
-Row ids are automatically set to \code{1:nrow(newdata)}.}
+All data formats convertible by \code{\link[=as_data_backend]{as_data_backend()}} are supported, e.g.
+\code{data.frame()} or \link{DataBackend}.
+If a \link{DataBackend} is provided as \code{newdata}, the row ids are preserved,
+otherwise they are set to to the sequence \code{1:nrow(newdata)}.}
 
 \item{\code{task}}{(\link{Task}).}
 }
