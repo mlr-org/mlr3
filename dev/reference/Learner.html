@@ -527,12 +527,9 @@ in the <a href='ResampleResult.html'>ResampleResult</a> or <a href='BenchmarkRes
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
-<dt><code>newdata</code></dt><dd><p>(any object supported by <code><a href='as_data_backend.Matrix.html'>as_data_backend()</a></code>)<br />
+<dt><code>newdata</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/data.frame.html'>data.frame()</a></code>)<br />
 New data to predict on.
-All data formats convertible by <code><a href='as_data_backend.Matrix.html'>as_data_backend()</a></code> are supported, e.g.
-<code><a href='https://rdrr.io/r/base/data.frame.html'>data.frame()</a></code> or <a href='DataBackend.html'>DataBackend</a>.
-If a <a href='DataBackend.html'>DataBackend</a> is provided as <code>newdata</code>, the row ids are preserved,
-otherwise they are set to to the sequence <code>1:nrow(newdata)</code>.</p></dd>
+Row ids are automatically set to <code>1:nrow(newdata)</code>.</p></dd>
 
 <dt><code>task</code></dt><dd><p>(<a href='Task.html'>Task</a>).</p></dd>
 
