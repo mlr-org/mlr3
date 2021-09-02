@@ -7,7 +7,7 @@ check_prediction_data.PredictionDataClassif = function(pdata) { # nolint
   lvls = levels(pdata$truth)
 
   if (!is.null(pdata$response)) {
-    pdata$response = assert_factor(as_factor(pdata$response, levels = lvls))
+    pdata$response = assert_factor(as_factor(unname(pdata$response), levels = lvls))
     assert_prediction_count(length(pdata$response), n, "response")
   }
 
