@@ -49,7 +49,7 @@ test_that("Rows return ordered with multiple order cols", {
   task$col_roles$order = c("Petal.Length", "Petal.Width")
   expect_equal(task$col_roles$order, c("Petal.Length", "Petal.Width"))
 
-  x = task$data()
+  x = task$data(ordered = TRUE)
   expect_numeric(x$Petal.Length, sorted = TRUE, any.missing = FALSE)
 
   expect_true(x[, is.unsorted(Petal.Width)])
@@ -104,6 +104,14 @@ test_that("Task rbind", {
   learner = lrn("classif.rpart")
   learner$train(task)
   expect_prediction(predict(learner, iris, predict_type = "<Prediction>"))
+
+  # merge factor levels
+  task = tsk("penguins")
+  data = task$data(1)
+  data$sex = factor("unsure", levels = c("male", "female", "unsure"))
+  task$rbind(data)
+  expect_equal(task$levels("sex")[[1]], c("female", "male", "unsure"))
+  expect_equal(task$col_info[list("sex"), fix_factor_levels], TRUE)
 })
 
 test_that("Task cbind", {

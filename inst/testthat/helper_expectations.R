@@ -213,13 +213,14 @@ expect_task = function(task, null_backend_ok = TRUE) {
     checkmate::expect_data_table(task$head(1), nrows = 1L)
   }
 
-  cols = c("id", "type", "levels", "label")
+  cols = c("id", "type", "levels", "label", "fix_factor_levels")
   checkmate::expect_data_table(task$col_info, key = "id", ncols  = length(cols))
   checkmate::expect_names(names(task$col_info), permutation.of = cols)
   expect_id(task$col_info$id)
   checkmate::expect_subset(task$col_info$type, mlr3::mlr_reflections$task_feature_types)
   checkmate::expect_list(task$col_info$levels)
   checkmate::expect_character(task$col_info$label)
+  checkmate::expect_logical(task$col_info$fix_factor_levels)
 
   checkmate::expect_list(task$col_roles, names = "unique", any.missing = FALSE)
   checkmate::expect_names(names(task$col_roles), permutation.of = mlr3::mlr_reflections$task_col_roles[[task$task_type]])

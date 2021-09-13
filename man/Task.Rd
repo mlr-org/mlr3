@@ -121,8 +121,10 @@ Table with with 4 columns:
 \item \code{"id"} (\code{character()}) stores the name of the column.
 \item \code{"type"} (\code{character()}) holds the storage type of the variable, e.g. \code{integer}, \code{numeric} or \code{character}.
 See \link[=mlr_reflections]{mlr_reflections$task_feature_types} for a complete list of allowed types.
-\item \code{"levels"} stores a vector of distinct values (levels) for ordered and unordered factor variables.
-\item \code{"label"} stores a character vector of prettier, formated column names.
+\item \code{"levels"} (\code{list()}) stores a vector of distinct values (levels) for ordered and unordered factor variables.
+\item \code{"label"} (\code{character()}) stores a vector of prettier, formated column names.
+\item \code{"fix_factor_levels"} (\code{logical()}) stores flags which determine if the levels of the respective variable
+need to be repaired or updated.
 }}
 
 \item{\code{man}}{(\code{character(1)})\cr
