@@ -435,3 +435,17 @@ test_that("column labels", {
     tolower(c(task$target_names, task$feature_names))
   )
 })
+
+test_that("set_levels", {
+  task = tsk("penguins")
+
+  new_lvls = c("male", "female", "missing")
+  task$set_levels(list(sex = new_lvls))
+
+  tab = task$col_info[list("sex")]
+  expect_equal(tab$levels[[1]], new_lvls)
+  expect_equal(tab$fix_factor_levels[[1]], TRUE)
+
+  expect_equal(levels(task$data(1)$sex), new_lvls)
+  expect_equal(levels(task$head()$sex), new_lvls)
+})

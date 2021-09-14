@@ -84,7 +84,7 @@ Task = R6Class("Task",
     #' - `"levels"` (`list()`) stores a vector of distinct values (levels) for ordered and unordered factor variables.
     #' - `"label"` (`character()`) stores a vector of prettier, formated column names.
     #' - `"fix_factor_levels"` (`logical()`) stores flags which determine if the levels of the respective variable
-    #'   need to be repaired or updated.
+    #'   need to be reordered after querying the data from the [DataBackend].
     col_info = NULL,
 
     #' @template field_man
@@ -551,6 +551,25 @@ Task = R6Class("Task",
       private$.col_roles = task_check_col_roles(self, new_roles)
       invisible(self)
     },
+
+    #' @description
+    #' Set levels for columns of type `factor` and `ordered`.
+    #'
+    #' @param levels (named `list()` of `character()`)\cr
+    #'   List of character vectors of new levels, named by column names.
+    #'
+    #' @return Modified `self`.
+    set_levels = function(levels) {
+      assert_list(levels, types = "character", names = "unique", any.missing = FALSE)
+      assert_subset(names(levels), self$col_info$id)
+
+      tab = enframe(lapply(levels, unname), name = "id", value = "levels")
+      tab$fix_factor_levels = TRUE
+      self$col_info = ujoin(self$col_info, tab, key = "id")
+
+      invisible(self)
+    },
+
 
     #' @description
     #' Updates the cache of stored factor levels, removing all levels not present in the current set of active rows.

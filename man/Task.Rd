@@ -124,7 +124,7 @@ See \link[=mlr_reflections]{mlr_reflections$task_feature_types} for a complete l
 \item \code{"levels"} (\code{list()}) stores a vector of distinct values (levels) for ordered and unordered factor variables.
 \item \code{"label"} (\code{character()}) stores a vector of prettier, formated column names.
 \item \code{"fix_factor_levels"} (\code{logical()}) stores flags which determine if the levels of the respective variable
-need to be repaired or updated.
+need to be reordered after querying the data from the \link{DataBackend}.
 }}
 
 \item{\code{man}}{(\code{character(1)})\cr
@@ -288,6 +288,7 @@ Alternatively, you can provide a \code{\link[=data.frame]{data.frame()}} with th
 \item \href{#method-rename}{\code{Task$rename()}}
 \item \href{#method-set_row_roles}{\code{Task$set_row_roles()}}
 \item \href{#method-set_col_roles}{\code{Task$set_col_roles()}}
+\item \href{#method-set_levels}{\code{Task$set_levels()}}
 \item \href{#method-droplevels}{\code{Task$droplevels()}}
 \item \href{#method-add_strata}{\code{Task$add_strata()}}
 \item \href{#method-clone}{\code{Task$clone()}}
@@ -716,6 +717,27 @@ removed (argument \code{remove_from}) from different roles.
 Returns the object itself, but modified \strong{by reference}.
 You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
 the object in its previous state.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-set_levels"></a>}}
+\if{latex}{\out{\hypertarget{method-set_levels}{}}}
+\subsection{Method \code{set_levels()}}{
+Set levels for columns of type \code{factor} and \code{ordered}.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Task$set_levels(levels)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{levels}}{(named \code{list()} of \code{character()})\cr
+List of character vectors of new levels, named by column names.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Modified \code{self}.
 }
 }
 \if{html}{\out{<hr>}}
