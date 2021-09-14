@@ -269,8 +269,10 @@ Table with with 4 columns:
 <li><p><code>"id"</code> (<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>) stores the name of the column.</p></li>
 <li><p><code>"type"</code> (<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>) holds the storage type of the variable, e.g. <code>integer</code>, <code>numeric</code> or <code>character</code>.
 See <a href='mlr_reflections.html'>mlr_reflections$task_feature_types</a> for a complete list of allowed types.</p></li>
-<li><p><code>"levels"</code> stores a vector of distinct values (levels) for ordered and unordered factor variables.</p></li>
-<li><p><code>"label"</code> stores a character vector of prettier, formated column names.</p></li>
+<li><p><code>"levels"</code> (<code><a href='https://rdrr.io/r/base/list.html'>list()</a></code>) stores a vector of distinct values (levels) for ordered and unordered factor variables.</p></li>
+<li><p><code>"label"</code> (<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>) stores a vector of prettier, formated column names.</p></li>
+<li><p><code>"fix_factor_levels"</code> (<code><a href='https://rdrr.io/r/base/logical.html'>logical()</a></code>) stores flags which determine if the levels of the respective variable
+need to be repaired or updated.</p></li>
 </ul></p></dd>
 
 <dt><code>man</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
