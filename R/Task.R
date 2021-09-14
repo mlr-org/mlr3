@@ -209,9 +209,12 @@ Task = R6Class("Task",
         stopf("DataBackend did not return the queried cols correctly: %i requested, %i received", length(cols), ncol(data))
       }
 
-      fix_factors = self$col_info[list(names(data))][list(TRUE), c("id", "levels"), on = "fix_factor_levels", nomatch = NULL, with = FALSE]
-      if (nrow(fix_factors)) {
-        data = fix_factor_levels(data, levels = set_names(fix_factors$levels, fix_factors$id))
+      ii = self$col_info[["fix_factor_levels"]]
+      if (any(ii)) {
+        fix_factors = self$col_info[ii, c("id", "levels"), with = FALSE][list(names(data)), on = "id", nomatch = NULL]
+        if (nrow(fix_factors)) {
+          data = fix_factor_levels(data, levels = set_names(fix_factors$levels, fix_factors$id))
+        }
       }
 
       if (reorder_rows) {
@@ -553,7 +556,13 @@ Task = R6Class("Task",
     },
 
     #' @description
-    #' Set levels for columns of type `factor` and `ordered`.
+    #' Set levels for columns of type `factor` and `ordered` in field `col_info`.
+    #' You can add, remove or reorder the levels, affecting the data returned by
+    #' `$data()`, `$head()` and `$levels()`.
+    #' If you just want to remove unused levels, use `$droplevels()` instead.
+    #'
+    #' Note that factor levels which are present in the data but not listed in the task as
+    #' valid levels are converted to missing values.
     #'
     #' @param levels (named `list()` of `character()`)\cr
     #'   List of character vectors of new levels, named by column names.

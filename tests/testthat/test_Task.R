@@ -445,7 +445,18 @@ test_that("set_levels", {
   tab = task$col_info[list("sex")]
   expect_equal(tab$levels[[1]], new_lvls)
   expect_equal(tab$fix_factor_levels[[1]], TRUE)
-
   expect_equal(levels(task$data(1)$sex), new_lvls)
   expect_equal(levels(task$head()$sex), new_lvls)
+
+
+  new_lvls = c("female", "nothing")
+  task$set_levels(list(sex = new_lvls))
+
+  tab = task$col_info[list("sex")]
+  expect_equal(tab$levels[[1]], new_lvls)
+  expect_equal(tab$fix_factor_levels[[1]], TRUE)
+  expect_equal(as.integer(task$data(1)$sex), NA_integer_)
+  expect_equal(as.integer(task$head(1)$sex), NA_integer_)
+  expect_equal(levels(task$data(1)$sex), new_lvls)
+  expect_equal(levels(task$head(1)$sex), new_lvls)
 })

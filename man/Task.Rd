@@ -723,7 +723,13 @@ the object in its previous state.
 \if{html}{\out{<a id="method-set_levels"></a>}}
 \if{latex}{\out{\hypertarget{method-set_levels}{}}}
 \subsection{Method \code{set_levels()}}{
-Set levels for columns of type \code{factor} and \code{ordered}.
+Set levels for columns of type \code{factor} and \code{ordered} in field \code{col_info}.
+You can add, remove or reorder the levels, affecting the data returned by
+\verb{$data()}, \verb{$head()} and \verb{$levels()}.
+If you just want to remove unused levels, use \verb{$droplevels()} instead.
+
+Note that factor levels which are present in the data but not listed in the task as
+valid levels are converted to missing values.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Task$set_levels(levels)}\if{html}{\out{</div>}}
 }
