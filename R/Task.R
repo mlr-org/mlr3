@@ -456,6 +456,8 @@ Task = R6Class("Task",
       }
 
       ci = col_info(data)
+      ci$label = NA_character_
+      ci$fix_factor_levels = FALSE
 
       # update col info
       self$col_info = ujoin(self$col_info, ci, key = "id")
