@@ -139,13 +139,13 @@ Learner = R6Class("Learner",
     #' This works differently for different encapsulation methods, see
     #' [mlr3misc::encapsulate()].
     #' Default is `c(train = Inf, predict = Inf)`.
-    #' Also see the section on error handling the mlr3book: \url{https://mlr3book.mlr-org.com/error-handling.html}
+    #' Also see the section on error handling the mlr3book: \url{https://mlr3book.mlr-org.com/technical.html#error-handling}
     timeout = c(train = Inf, predict = Inf),
 
     #' @field fallback ([Learner])\cr
     #' Learner which is fitted to impute predictions in case that either the model fitting or the prediction of the top learner is not successful.
     #' Requires you to enable encapsulation, otherwise errors are not caught and the execution is terminated before the fallback learner kicks in.
-    #' Also see the section on error handling the mlr3book: \url{https://mlr3book.mlr-org.com/error-handling.html}
+    #' Also see the section on error handling the mlr3book: \url{https://mlr3book.mlr-org.com/technical.html#error-handling}
     fallback = NULL,
 
     #' @template field_man

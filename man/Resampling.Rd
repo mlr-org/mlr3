@@ -79,7 +79,7 @@ prop.table(table(task$truth(r$train_set(1)))) # roughly same proportion
 \seealso{
 \itemize{
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
-\url{https://mlr3book.mlr-org.com/resampling.html}
+\url{https://mlr3book.mlr-org.com/basics.html#resampling}
 \item Package \CRANpkg{mlr3spatiotempcv} for spatio-temporal resamplings.
 \item \link[mlr3misc:Dictionary]{Dictionary} of \link[=Resampling]{Resamplings}: \link{mlr_resamplings}
 \item \code{as.data.table(mlr_resamplings)} for a table of available \link[=Resampling]{Resamplings} in the running session (depending on the loaded packages).

@@ -38,7 +38,7 @@ tsk("iris")
 \seealso{
 \itemize{
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
-\url{https://mlr3book.mlr-org.com/tasks.html}
+\url{https://mlr3book.mlr-org.com/basics.html#tasks}
 \item Package \CRANpkg{mlr3data} for more toy tasks.
 \item Package \CRANpkg{mlr3oml} for downloading tasks from \url{https://openml.org}.
 \item Package \CRANpkg{mlr3viz} for some generic visualizations.
