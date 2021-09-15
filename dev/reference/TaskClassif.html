@@ -186,7 +186,7 @@ The <code>task_type</code> is set to <code>"classif"</code>.</p>
     <div class='dont-index'>
 <ul>
 <li><p>Chapter in the <a href='https://mlr3book.mlr-org.com/'>mlr3book</a>:
-<a href='https://mlr3book.mlr-org.com/tasks.html'>https://mlr3book.mlr-org.com/tasks.html</a></p></li>
+<a href='https://mlr3book.mlr-org.com/basics.html#tasks'>https://mlr3book.mlr-org.com/basics.html#tasks</a></p></li>
 <li><p>Package <a href='https://CRAN.R-project.org/package=mlr3data'><span class="pkg">mlr3data</span></a> for more toy tasks.</p></li>
 <li><p>Package <a href='https://CRAN.R-project.org/package=mlr3oml'><span class="pkg">mlr3oml</span></a> for downloading tasks from <a href='https://openml.org'>https://openml.org</a>.</p></li>
 <li><p>Package <a href='https://CRAN.R-project.org/package=mlr3viz'><span class="pkg">mlr3viz</span></a> for some generic visualizations.</p></li>
@@ -239,6 +239,7 @@ Stores the negative class for binary classification tasks, and <code>NA</code> f
 
 <ul>
 <li><p><a href='#method-new'><code>TaskClassif$new()</code></a></p></li>
+<li><p><a href='#method-data'><code>TaskClassif$data()</code></a></p></li>
 <li><p><a href='#method-truth'><code>TaskClassif$truth()</code></a></p></li>
 <li><p><a href='#method-droplevels'><code>TaskClassif$droplevels()</code></a></p></li>
 <li><p><a href='#method-clone'><code>TaskClassif$clone()</code></a></p></li>
@@ -247,7 +248,6 @@ Stores the negative class for binary classification tasks, and <code>NA</code> f
 <ul>
 <li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="add_strata"><a href='../../mlr3/html/Task.html#method-add_strata'><code>mlr3::Task$add_strata()</code></a></span></p></li>
 <li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="cbind"><a href='../../mlr3/html/Task.html#method-cbind'><code>mlr3::Task$cbind()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="data"><a href='../../mlr3/html/Task.html#method-data'><code>mlr3::Task$data()</code></a></span></p></li>
 <li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="filter"><a href='../../mlr3/html/Task.html#method-filter'><code>mlr3::Task$filter()</code></a></span></p></li>
 <li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="format"><a href='../../mlr3/html/Task.html#method-format'><code>mlr3::Task$format()</code></a></span></p></li>
 <li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="formula"><a href='../../mlr3/html/Task.html#method-formula'><code>mlr3::Task$formula()</code></a></span></p></li>
@@ -260,7 +260,6 @@ Stores the negative class for binary classification tasks, and <code>NA</code> f
 <li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="rename"><a href='../../mlr3/html/Task.html#method-rename'><code>mlr3::Task$rename()</code></a></span></p></li>
 <li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="select"><a href='../../mlr3/html/Task.html#method-select'><code>mlr3::Task$select()</code></a></span></p></li>
 <li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="set_col_roles"><a href='../../mlr3/html/Task.html#method-set_col_roles'><code>mlr3::Task$set_col_roles()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="set_levels"><a href='../../mlr3/html/Task.html#method-set_levels'><code>mlr3::Task$set_levels()</code></a></span></p></li>
 <li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="set_row_roles"><a href='../../mlr3/html/Task.html#method-set_row_roles'><code>mlr3::Task$set_row_roles()</code></a></span></p></li>
 </ul>
 </details>
@@ -293,6 +292,34 @@ Named list of constructor arguments, required for converting task types
 via <code><a href='convert_task.html'>convert_task()</a></code>.</p></dd>
 
 </dl><p></div></p>
+<p><hr>
+<a id="method-data"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/utils/data.html'>data()</a></code></h3>
+<p>Calls <code>$data</code> from parent class <a href='Task.html'>Task</a> and ensures that levels of the target column
+are in the right order.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>TaskClassif</span><span class='op'>$</span><span class='fu'>data</span><span class='op'>(</span>
+  rows <span class='op'>=</span> <span class='cn'>NULL</span>,
+  cols <span class='op'>=</span> <span class='cn'>NULL</span>,
+  data_format <span class='op'>=</span> <span class='st'>"data.table"</span>,
+  ordered <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>rows</code></dt><dd><p><code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code><br />
+Row indices.</p></dd>
+
+<dt><code>cols</code></dt><dd><p><code><a href='https://rdrr.io/r/base/character.html'>character()</a></code><br />
+Column names.</p></dd>
+
+<dt><code>data_format</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+Desired data format, e.g. <code>"data.table"</code> or <code>"Matrix"</code>.</p></dd>
+
+<dt><code>ordered</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
+If <code>TRUE</code> (default), data is ordered according to the columns with column role <code>"order"</code>.</p></dd>
+
+</dl><p></div></p>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
+<p>Depending on the <a href='DataBackend.html'>DataBackend</a>, but usually a <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code>.</p>
 <p><hr>
 <a id="method-truth"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>truth()</code></h3>
 <p>True response for specified <code>row_ids</code>. Format depends on the task type.
