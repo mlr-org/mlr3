@@ -353,7 +353,8 @@ Mutates the learner by reference, i.e. stores the model alongside other informat
 \item{\code{task}}{(\link{Task}).}
 
 \item{\code{row_ids}}{(\code{integer()})\cr
-Vector of training indices.}
+Vector of training indices as subset of \code{task$row_ids}.
+For a simple split into training and test set, see \code{\link[=partition]{partition()}}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -379,7 +380,8 @@ for a set of observations of the provided \code{task}.
 \item{\code{task}}{(\link{Task}).}
 
 \item{\code{row_ids}}{(\code{integer()})\cr
-Vector of test indices.}
+Vector of test indices as subset of \code{task$row_ids}.
+For a simple split into training and test set, see \code{\link[=partition]{partition()}}.}
 }
 \if{html}{\out{</div>}}
 }

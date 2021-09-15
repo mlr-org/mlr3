@@ -213,7 +213,8 @@ Learner = R6Class("Learner",
     #' @param task ([Task]).
     #'
     #' @param row_ids (`integer()`)\cr
-    #'   Vector of training indices.
+    #'   Vector of training indices as subset of `task$row_ids`.
+    #'   For a simple split into training and test set, see [partition()].
     #'
     #' @return
     #' Returns the object itself, but modified **by reference**.
@@ -239,7 +240,8 @@ Learner = R6Class("Learner",
     #' @param task ([Task]).
     #'
     #' @param row_ids (`integer()`)\cr
-    #'   Vector of test indices.
+    #'   Vector of test indices as subset of `task$row_ids`.
+    #'   For a simple split into training and test set, see [partition()].
     #'
     #' @return [Prediction].
     predict = function(task, row_ids = NULL) {

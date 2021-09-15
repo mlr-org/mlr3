@@ -42,6 +42,7 @@ This provides a different "view" on the data without altering the data itself.
 Instead, the methods first create a new \link{DataBackendDataTable} from the provided new data, and then
 merge both backends into an abstract \link{DataBackend} which merges the results on-demand.
 \item \code{rename()} wraps the \link{DataBackend} of the Task in an additional \link{DataBackend} which deals with the renaming. Also updates \verb{$col_roles} and \verb{$col_info}.
+\item \code{set_levels()} updates the field \code{col_info()}.
 }
 }
 

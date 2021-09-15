@@ -42,6 +42,7 @@
 #'   Instead, the methods first create a new [DataBackendDataTable] from the provided new data, and then
 #'   merge both backends into an abstract [DataBackend] which merges the results on-demand.
 #' * `rename()` wraps the [DataBackend] of the Task in an additional [DataBackend] which deals with the renaming. Also updates `$col_roles` and `$col_info`.
+#' * `set_levels()` updates the field `col_info()`.
 #'
 #' @template seealso_task
 #' @concept Task
