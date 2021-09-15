@@ -1,4 +1,9 @@
-# mlr3 0.12.0-9000
+# mlr3 0.13.0
+
+* New learner `regr.debug` for debugging.
+* New task method `task$set_levels()` to control how data with factor columns
+  is returned, independent of the used `DataBackend`.
+* `predict_newdata()` now also supports `DataBackend` as input.
 
 # mlr3 0.12.0
 
