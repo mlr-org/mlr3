@@ -311,7 +311,7 @@ Learner = R6Class("Learner",
       impute = setdiff(impute, newdata$colnames)
       if (length(impute)) {
         # create list with correct NA types and cbind it to the backend
-        ci = insert_named(task$col_info[list(impute), !"label", on = "id"], list(value = NA))
+        ci = insert_named(task$col_info[list(impute), c("id", "type", "levels"), on = "id", with = FALSE], list(value = NA))
         na_cols = set_names(pmap(ci, function(..., nrow) rep(auto_convert(...), nrow), nrow = newdata$nrow), ci$id)
         tab = invoke(data.table, .args = insert_named(na_cols, set_names(list(newdata$rownames), newdata$primary_key)))
         newdata = DataBackendCbind$new(newdata, DataBackendDataTable$new(tab, primary_key = newdata$primary_key))

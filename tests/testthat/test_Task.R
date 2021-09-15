@@ -49,7 +49,7 @@ test_that("Rows return ordered with multiple order cols", {
   task$col_roles$order = c("Petal.Length", "Petal.Width")
   expect_equal(task$col_roles$order, c("Petal.Length", "Petal.Width"))
 
-  x = task$data()
+  x = task$data(ordered = TRUE)
   expect_numeric(x$Petal.Length, sorted = TRUE, any.missing = FALSE)
 
   expect_true(x[, is.unsorted(Petal.Width)])
@@ -104,6 +104,14 @@ test_that("Task rbind", {
   learner = lrn("classif.rpart")
   learner$train(task)
   expect_prediction(predict(learner, iris, predict_type = "<Prediction>"))
+
+  # merge factor levels
+  task = tsk("penguins")
+  data = task$data(1)
+  data$sex = factor("unsure", levels = c("male", "female", "unsure"))
+  task$rbind(data)
+  expect_equal(task$levels("sex")[[1]], c("female", "male", "unsure"))
+  expect_equal(task$col_info[list("sex"), fix_factor_levels], TRUE)
 })
 
 test_that("Task cbind", {
@@ -426,4 +434,29 @@ test_that("column labels", {
     unname(task$labels),
     tolower(c(task$target_names, task$feature_names))
   )
+})
+
+test_that("set_levels", {
+  task = tsk("penguins")
+
+  new_lvls = c("male", "female", "missing")
+  task$set_levels(list(sex = new_lvls))
+
+  tab = task$col_info[list("sex")]
+  expect_equal(tab$levels[[1]], new_lvls)
+  expect_equal(tab$fix_factor_levels[[1]], TRUE)
+  expect_equal(levels(task$data(1)$sex), new_lvls)
+  expect_equal(levels(task$head()$sex), new_lvls)
+
+
+  new_lvls = c("female", "nothing")
+  task$set_levels(list(sex = new_lvls))
+
+  tab = task$col_info[list("sex")]
+  expect_equal(tab$levels[[1]], new_lvls)
+  expect_equal(tab$fix_factor_levels[[1]], TRUE)
+  expect_equal(as.integer(task$data(1)$sex), NA_integer_)
+  expect_equal(as.integer(task$head(1)$sex), NA_integer_)
+  expect_equal(levels(task$data(1)$sex), new_lvls)
+  expect_equal(levels(task$head(1)$sex), new_lvls)
 })

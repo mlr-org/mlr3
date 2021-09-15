@@ -60,25 +60,11 @@ TaskClassif = R6Class("TaskClassif",
     },
 
     #' @description
-    #' Calls `$data` from parent class [Task] and ensures that levels of the target column
-    #' are in the right order.
-    #'
-    #' @param ordered (`logical(1)`)\cr
-    #'   If `TRUE` (default), data is ordered according to the columns with column role `"order"`.
-    #'
-    #' @return Depending on the [DataBackend], but usually a [data.table::data.table()].
-    data = function(rows = NULL, cols = NULL, data_format = "data.table", ordered = TRUE) {
-      data = super$data(rows, cols, data_format, ordered)
-      fix_factor_levels(data, set_names(list(self$class_names), self$target_names))
-    },
-
-    #' @description
     #' True response for specified `row_ids`. Format depends on the task type.
     #' Defaults to all rows with role `"use"`.
     #' @return `factor()`.
     truth = function(rows = NULL) {
-      truth = super$truth(rows)[[1L]]
-      as_factor(truth, levels = self$class_names)
+      super$truth(rows)[[1L]]
     },
 
     #' @description
@@ -120,7 +106,12 @@ TaskClassif = R6Class("TaskClassif",
       positive = assert_choice(rhs, lvls)
       negative = setdiff(lvls, rhs)
       self$extra_args$positive = positive
-      self$col_info[list(self$target_names), levels := list(list(c(positive, negative))), on = "id"][]
+      lvls = c(positive, negative)
+      ii = self$col_info[list(self$target_names), on = "id", which = TRUE]
+      set(self$col_info, i = ii, j = "levels", value = list(lvls))
+      set(self$col_info, i = ii, j = "fix_factor_levels", value = TRUE)
+
+      lvls
     },
 
     #' @field negative (`character(1)`)\cr

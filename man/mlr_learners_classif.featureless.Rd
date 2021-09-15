@@ -31,9 +31,9 @@ lrn("classif.featureless")
 }
 
 \section{Parameters}{
-\tabular{lllll}{
-   Id \tab Type \tab Default \tab Range \tab Levels \cr
-   method \tab character \tab mode \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \tab mode, sample, weighted.sample \cr
+\tabular{llll}{
+   Id \tab Type \tab Default \tab Levels \cr
+   method \tab character \tab mode \tab mode, sample, weighted.sample \cr
 }
 }
 
