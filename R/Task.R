@@ -456,13 +456,15 @@ Task = R6Class("Task",
         assert_set_equal(self$row_ids, data$rownames)
       }
 
+      # update col_info for existing columns
       ci = col_info(data)
-      ci$label = NA_character_
-      ci$fix_factor_levels = FALSE
-
-      # update col info
       self$col_info = ujoin(self$col_info, ci, key = "id")
-      self$col_info = rbindlist(list(self$col_info, ci[!list(self$col_info), on = "id"]), use.names = TRUE, fill = TRUE)
+
+      # add rows to col_info for new columns
+      self$col_info = rbindlist(list(
+        self$col_info,
+        insert_named(ci[!list(self$col_info), on = "id"], list(label = NA_character_, fix_factor_levels = FALSE))
+      ), use.names = TRUE)
       setkeyv(self$col_info, "id")
 
       # add new features
