@@ -405,26 +405,25 @@ test_that("$add_strata", {
 test_that("column labels", {
   task = tsk("iris")
   expect_character(task$col_info$label)
+  expect_true(allMissing(task$col_info$label))
+  expect_true(allMissing(task$labels))
 
-  labels = c("pl", "pw", "sl", "sw", "species")
-  task$col_info$label = c(NA, labels)
+  task$labels = c(Species = "sp")
+  expect_equal(task$labels[["Species"]], "sp")
+  expect_equal(count_missing(task$labels), 4L)
 
-  task$rbind(iris[1, , drop = FALSE])
-  expect_names(na.omit(task$col_info$label), permutation.of = labels)
+  fn = task$feature_names
+  task$labels = set_names(toupper(fn), fn)
+  expect_equal(unname(task$labels), c("sp", toupper(fn)))
 
-  task$cbind(data.frame(foo = 1:151))
-  task$col_info
-  expect_names(na.omit(task$col_info$label), permutation.of = labels)
+  expect_error({ task$labels = c(foo = "as") }, "names")
 
+  dt = data.table(id = c(task$target_names, task$feature_names))
+  dt$label = tolower(dt$id)
 
-  task = tsk("iris")
-  task$label("Petal.Length", "pl")
-  expect_equal(task$col_info["Petal.Length", label], "pl")
-
-  task$label(c("Sepal.Length", "Sepal.Width"), c("sl", "sw"))
-  expect_equal(task$col_info["Sepal.Length", label], "sl")
-  expect_equal(task$col_info["Sepal.Width", label], "sw")
-
-  task$label("Petal.Length", NA)
-  expect_equal(task$col_info["Petal.Length", label], NA_character_)
+  task$labels = dt
+  expect_equal(
+    unname(task$labels),
+    tolower(c(task$target_names, task$feature_names))
+  )
 })

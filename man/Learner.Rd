@@ -92,6 +92,7 @@ Other Learner:
 \code{\link{mlr_learners_classif.debug}},
 \code{\link{mlr_learners_classif.featureless}},
 \code{\link{mlr_learners_classif.rpart}},
+\code{\link{mlr_learners_regr.debug}},
 \code{\link{mlr_learners_regr.featureless}},
 \code{\link{mlr_learners_regr.rpart}},
 \code{\link{mlr_learners}}
@@ -138,10 +139,18 @@ These packages are loaded, but not attached.}
 \item{\code{predict_sets}}{(\code{character()})\cr
 During \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}, a \link{Learner} can predict on multiple sets.
 Per default, a learner only predicts observations in the test set (\code{predict_sets == "test"}).
-To change this behaviour, set \code{predict_sets} to a non-empty subset of \verb{\{"train", "test", "validation"\}}.
+To change this behavior, set \code{predict_sets} to a non-empty subset of \verb{\{"train", "test", "validation"\}}.
 Each set yields a separate \link{Prediction} object.
 Those be combined via getters in \link{ResampleResult}/\link{BenchmarkResult}, or \link{Measure}s can be altered
 to operate on specific subsets of the calculated prediction sets.}
+
+\item{\code{parallel_predict}}{(\code{logical(1)})\cr
+If set to \code{TRUE}, use \CRANpkg{future} to calculate predictions in parallel (default: \code{FALSE}).
+The row ids of the \code{task} will be split into \code{\link[future:nbrOfWorkers]{future::nbrOfWorkers()}} chunks,
+and predictions are evaluated according to the active \code{\link[future:plan]{future::plan()}}.
+This currently only works for methods \code{Learner$predict()} and \code{Learner$predict_newdata()},
+and has no effect during \code{\link[=resample]{resample()}} or \code{\link[=benchmark]{benchmark()}} where you have other means
+to parallelize.}
 
 \item{\code{timeout}}{(named \code{numeric(2)})\cr
 Timeout for the learner's train and predict steps, in seconds.
@@ -395,9 +404,12 @@ in the \link{ResampleResult} or \link{BenchmarkResult}, respectively.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{newdata}}{(\code{data.frame()})\cr
+\item{\code{newdata}}{(any object supported by \code{\link[=as_data_backend]{as_data_backend()}})\cr
 New data to predict on.
-Row ids are automatically set to \code{1:nrow(newdata)}.}
+All data formats convertible by \code{\link[=as_data_backend]{as_data_backend()}} are supported, e.g.
+\code{data.frame()} or \link{DataBackend}.
+If a \link{DataBackend} is provided as \code{newdata}, the row ids are preserved,
+otherwise they are set to to the sequence \code{1:nrow(newdata)}.}
 
 \item{\code{task}}{(\link{Task}).}
 }

@@ -16,15 +16,6 @@ phashes = function(x) {
   map_chr(unname(x), "phash")
 }
 
-hash = function(...) {
-  dots = list(...)
-  dots = map_if(dots, is.function, function(fun) {
-    list(formals(fun), as.character(body(fun)))
-  })
-  dots = map_if(dots, is.data.table, as.list)
-  digest::digest(dots, algo = "xxhash64")
-}
-
 # updating join:
 # replaces values in x with values in y
 ujoin = function(x, y, key) {

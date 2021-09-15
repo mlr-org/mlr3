@@ -7,8 +7,8 @@ DataBackendRbind = R6Class("DataBackendRbind", inherit = DataBackend, cloneable 
       pk = b1$primary_key
 
       data_formats = intersect(b1$data_formats, b2$data_formats)
-      if (length(data_formats) == 0L) {
-        stopf("There is no common data format for the backends to rbind")
+      if ("data.table" %nin% data_formats) {
+        stopf("There is supported data format for the backends to cbind (supported: 'data.table')")
       }
 
       if (pk != b2$primary_key) {
@@ -18,7 +18,7 @@ DataBackendRbind = R6Class("DataBackendRbind", inherit = DataBackend, cloneable 
       super$initialize(list(b1 = b1, b2 = b2), pk, "data.table")
     },
 
-    data = function(rows, cols, data_format = self$data_formats[1L]) {
+    data = function(rows, cols, data_format = "data.table") {
       pk = self$primary_key
       qrows = unique(assert_numeric(rows))
       qcols = union(assert_names(cols, type = "unique"), pk)
@@ -76,7 +76,7 @@ DataBackendRbind = R6Class("DataBackendRbind", inherit = DataBackend, cloneable 
   private = list(
     .calculate_hash = function() {
       data = private$.data
-      hash(data$b1$hash, data$b2$hash)
+      calculate_hash(data$b1$hash, data$b2$hash)
     }
   )
 )

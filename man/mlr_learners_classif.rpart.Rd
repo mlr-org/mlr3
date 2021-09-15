@@ -69,6 +69,7 @@ Other Learner:
 \code{\link{Learner}},
 \code{\link{mlr_learners_classif.debug}},
 \code{\link{mlr_learners_classif.featureless}},
+\code{\link{mlr_learners_regr.debug}},
 \code{\link{mlr_learners_regr.featureless}},
 \code{\link{mlr_learners_regr.rpart}},
 \code{\link{mlr_learners}}

@@ -2,7 +2,7 @@
 #'
 #' @description
 #' Functions intended to be used in packages extending \pkg{mlr3}.
-#' Most assertion functions ensure the right class attrbiture, and optionally additional properties.
+#' Most assertion functions ensure the right class attribute, and optionally additional properties.
 #' Additionally, the following compound assertions are implemented:
 #'
 #' * `assert_learnable(task, learner)`\cr
@@ -110,6 +110,15 @@ assert_task_learner = function(task, learner, cols = NULL) {
     if (any(miss)) {
       stopf("Task '%s' has missing values in column(s) %s, but learner '%s' does not support this",
         task$id, str_collapse(names(miss)[miss], quote = "'"), learner$id)
+    }
+  }
+
+  tmp = mlr_reflections$task_mandatory_properties[[task$task_type]]
+  if (length(tmp)) {
+    tmp = setdiff(intersect(task$properties, tmp), learner$properties)
+    if (length(tmp)) {
+      stopf("Task '%s' has property '%s', but learner '%s' does not support that",
+        task$id, tmp[1L], learner$id)
     }
   }
 }
@@ -253,12 +262,6 @@ assert_range = function(range, .var.name = vname(range)) {
 #' @rdname mlr_assertions
 assert_row_ids = function(row_ids, null.ok = FALSE, .var.name = vname(row_ids)) {
   assert_integerish(row_ids, coerce = TRUE, null.ok = null.ok)
-}
-
-assert_ro_binding = function(rhs) {
-  if (!missing(rhs)) {
-    stopf("Field/Binding is read-only")
-  }
 }
 
 assert_has_backend = function(task) {

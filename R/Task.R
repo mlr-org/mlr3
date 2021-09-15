@@ -216,6 +216,10 @@ Task = R6Class("Task",
     #' @description
     #' Constructs a [formula()], e.g. `[target] ~ [feature_1] + [feature_2] + ... + [feature_k]`,
     #' using the features provided in argument `rhs` (defaults to all columns with role `"feature"`, symbolized by `"."`).
+    #'
+    #' Note that it is currently not possible to change the formula.
+    #' However, \CRANpkg{mlr3pipelines} provides a pipe operator interfacing [stats::model.matrix()] for this purpose: `"modelmatrix"`.
+    #'
     #' @param rhs (`character(1)`)\cr
     #'   Right hand side of the formula. Defaults to `"."` (all features of the task).
     #' @return [formula()].
@@ -583,36 +587,13 @@ Task = R6Class("Task",
       setnames(strata, sprintf("..stratum_%s", cols))
       self$cbind(strata)
       self$set_col_roles(names(strata), roles = "stratum")
-    },
-
-
-    #' @description
-    #' Assigns `labels` (prettier formated names) to columns `cols`.
-    #' Internally updates the column `label` of the table in field `col_info` by reference.
-    #'
-    #' @param cols (`character()`)\cr
-    #'   Column identifiers to label.
-    #' @param labels (`character()`)\cr
-    #'   New labels. Will be repeated to match the length of `cols`.
-    #'   Set to `NA` to remove a label.
-    #'
-    #' @return Modified `self`.
-    label = function(cols, labels) {
-      assert_character(cols, any.missing = FALSE, unique = TRUE)
-      assert_character(labels)
-      assert_subset(cols, self$col_info$id)
-      labels = rep_len(as.character(labels), length(cols))
-
-      self$col_info[list(cols), "label" := labels, on = "id"]
-
-      invisible(self)
     }
   ),
 
   active = list(
     #' @template field_hash
     hash = function(rhs) {
-      private$.hash %??% hash(
+      private$.hash %??% calculate_hash(
         class(self), self$id, self$backend$hash, self$col_info,
         private$.row_roles, private$.col_roles, private$.properties
       )
@@ -842,6 +823,38 @@ Task = R6Class("Task",
       }
       data = self$backend$data(private$.row_roles$use, c(self$backend$primary_key, weight_cols))
       setnames(data, c("row_id", "weight"))[]
+    },
+
+
+    #' @field labels (named `character()`)\cr
+    #'   Retrieve `labels` (prettier formated names) from columns.
+    #'   Internally queries the column `label` of the table in field `col_info`.
+    #'   Columns ids referenced by the name of the vector, the labels are the actual string values.
+    #'
+    #'   Assigning to this column update the task by reference.
+    #'   You have to provide a character vector of labels, named with column ids.
+    #'   To remove a label, set it to `NA`.
+    #'   Alternatively, you can provide a [data.frame()] with the two columns
+    #'   `"id"` and `"label"`.
+    labels = function(rhs) {
+      active = union(self$target_names, self$feature_names)
+
+      if (missing(rhs)) {
+        tab = self$col_info[list(active), c("id", "label"), on = "id", nomatch = NULL, with = FALSE]
+        return(set_names(tab[["label"]], tab[["id"]]))
+      }
+
+      if (is.data.frame(rhs)) { # convert to named character
+        assert_data_frame(rhs, ncols = 2L)
+        assert_names(names(rhs), permutation.of = c("id", "label"))
+        rhs = set_names(rhs[["label"]], rhs[["id"]])
+      }
+
+      assert_names(names(rhs), type = "unique")
+      assert_subset(names(rhs), active)
+      self$col_info[list(names(rhs)), "label" := rhs, on = "id"]
+
+      invisible(self)
     }
   ),
 

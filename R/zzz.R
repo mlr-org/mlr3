@@ -9,11 +9,12 @@
 #' @importFrom stats predict rnorm runif sd contr.treatment
 #' @importFrom uuid UUIDgenerate
 #' @importFrom parallelly availableCores
+#' @importFrom future nbrOfWorkers
 #'
 #' @section Learn mlr3:
 #' * Book on mlr3: \url{https://mlr3book.mlr-org.com}
 #' * Use cases and examples gallery: \url{https://mlr3gallery.mlr-org.com}
-#' * Cheat Sheets: \url{https://cheatsheets.mlr-org.com}
+#' * Cheat Sheets: \url{https://github.com/mlr-org/mlr3cheatsheets}
 #'
 #' @section mlr3 extensions:
 #' * Preprocessing and machine learning pipelines: \CRANpkg{mlr3pipelines}
