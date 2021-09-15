@@ -90,7 +90,7 @@ assert_learners = function(learners, task = NULL, properties = character(), .var
 }
 
 assert_task_learner = function(task, learner, cols = NULL) {
-  pars = learner$param_set$get_values(type = "only_token")
+  pars = learner$param_set$get_values(type = "only_token", check_required = FALSE)
   if (length(pars) > 0) {
     stopf("%s cannot be trained with TuneToken present in hyperparameter: %s", learner$format(), str_collapse(names(pars)))
   }
