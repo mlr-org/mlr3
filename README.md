@@ -149,7 +149,7 @@ measure <- msr("classif.acc")
 prediction$score(measure)
 ```
 
-    ## classif.acc 
+    ## classif.acc
     ##   0.9130435
 
 ### Resample
@@ -178,7 +178,7 @@ rr$score(measure)
 rr$aggregate(measure)
 ```
 
-    ## classif.acc 
+    ## classif.acc
     ##    0.918688
 
 ## Extension Packages
