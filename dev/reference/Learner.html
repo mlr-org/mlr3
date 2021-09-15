@@ -492,7 +492,8 @@ Mutates the learner by reference, i.e. stores the model alongside other informat
 <dt><code>task</code></dt><dd><p>(<a href='Task.html'>Task</a>).</p></dd>
 
 <dt><code>row_ids</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code>)<br />
-Vector of training indices.</p></dd>
+Vector of training indices as subset of <code>task$row_ids</code>.
+For a simple split into training and test set, see <code><a href='partition.html'>partition()</a></code>.</p></dd>
 
 </dl><p></div></p>
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
@@ -510,7 +511,8 @@ for a set of observations of the provided <code>task</code>.</p><h4 class='hasAn
 <dt><code>task</code></dt><dd><p>(<a href='Task.html'>Task</a>).</p></dd>
 
 <dt><code>row_ids</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code>)<br />
-Vector of test indices.</p></dd>
+Vector of test indices as subset of <code>task$row_ids</code>.
+For a simple split into training and test set, see <code><a href='partition.html'>partition()</a></code>.</p></dd>
 
 </dl><p></div></p>
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
