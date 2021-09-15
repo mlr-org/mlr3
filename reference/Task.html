@@ -101,7 +101,7 @@ More toy tasks can be found in the dictionary after loading mlr3data." />
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.12.0</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.13.0</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -213,6 +213,7 @@ This provides a different "view" on the data without altering the data itself.</
 Instead, the methods first create a new <a href='DataBackendDataTable.html'>DataBackendDataTable</a> from the provided new data, and then
 merge both backends into an abstract <a href='DataBackend.html'>DataBackend</a> which merges the results on-demand.</p></li>
 <li><p><code>rename()</code> wraps the <a href='DataBackend.html'>DataBackend</a> of the Task in an additional <a href='DataBackend.html'>DataBackend</a> which deals with the renaming. Also updates <code>$col_roles</code> and <code>$col_info</code>.</p></li>
+<li><p><code>set_levels()</code> updates the field <code>col_info()</code>.</p></li>
 </ul>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
@@ -220,7 +221,7 @@ merge both backends into an abstract <a href='DataBackend.html'>DataBackend</a> 
     <div class='dont-index'>
 <ul>
 <li><p>Chapter in the <a href='https://mlr3book.mlr-org.com/'>mlr3book</a>:
-<a href='https://mlr3book.mlr-org.com/tasks.html'>https://mlr3book.mlr-org.com/tasks.html</a></p></li>
+<a href='https://mlr3book.mlr-org.com/basics.html#tasks'>https://mlr3book.mlr-org.com/basics.html#tasks</a></p></li>
 <li><p>Package <a href='https://CRAN.R-project.org/package=mlr3data'><span class="pkg">mlr3data</span></a> for more toy tasks.</p></li>
 <li><p>Package <a href='https://CRAN.R-project.org/package=mlr3oml'><span class="pkg">mlr3oml</span></a> for downloading tasks from <a href='https://openml.org'>https://openml.org</a>.</p></li>
 <li><p>Package <a href='https://CRAN.R-project.org/package=mlr3viz'><span class="pkg">mlr3viz</span></a> for some generic visualizations.</p></li>
@@ -269,8 +270,10 @@ Table with with 4 columns:
 <li><p><code>"id"</code> (<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>) stores the name of the column.</p></li>
 <li><p><code>"type"</code> (<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>) holds the storage type of the variable, e.g. <code>integer</code>, <code>numeric</code> or <code>character</code>.
 See <a href='mlr_reflections.html'>mlr_reflections$task_feature_types</a> for a complete list of allowed types.</p></li>
-<li><p><code>"levels"</code> stores a vector of distinct values (levels) for ordered and unordered factor variables.</p></li>
-<li><p><code>"label"</code> stores a character vector of prettier, formated column names.</p></li>
+<li><p><code>"levels"</code> (<code><a href='https://rdrr.io/r/base/list.html'>list()</a></code>) stores a vector of distinct values (levels) for ordered and unordered factor variables.</p></li>
+<li><p><code>"label"</code> (<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>) stores a vector of prettier, formated column names.</p></li>
+<li><p><code>"fix_factor_levels"</code> (<code><a href='https://rdrr.io/r/base/logical.html'>logical()</a></code>) stores flags which determine if the levels of the respective variable
+need to be reordered after querying the data from the <a href='DataBackend.html'>DataBackend</a>.</p></li>
 </ul></p></dd>
 
 <dt><code>man</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
@@ -419,6 +422,7 @@ Alternatively, you can provide a <code><a href='https://rdrr.io/r/base/data.fram
 <li><p><a href='#method-rename'><code>Task$rename()</code></a></p></li>
 <li><p><a href='#method-set_row_roles'><code>Task$set_row_roles()</code></a></p></li>
 <li><p><a href='#method-set_col_roles'><code>Task$set_col_roles()</code></a></p></li>
+<li><p><a href='#method-set_levels'><code>Task$set_levels()</code></a></p></li>
 <li><p><a href='#method-droplevels'><code>Task$droplevels()</code></a></p></li>
 <li><p><a href='#method-add_strata'><code>Task$add_strata()</code></a></p></li>
 <li><p><a href='#method-clone'><code>Task$clone()</code></a></p></li>
@@ -507,7 +511,9 @@ If <code>TRUE</code>, data is ordered according to the columns with column role 
 <p><hr>
 <a id="method-formula"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/stats/formula.html'>formula()</a></code></h3>
 <p>Constructs a <code><a href='https://rdrr.io/r/stats/formula.html'>formula()</a></code>, e.g. <code>[target] ~ [feature_1] + [feature_2] + ... + [feature_k]</code>,
-using the features provided in argument <code>rhs</code> (defaults to all columns with role <code>"feature"</code>, symbolized by <code>"."</code>).</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+using the features provided in argument <code>rhs</code> (defaults to all columns with role <code>"feature"</code>, symbolized by <code>"."</code>).</p>
+<p>Note that it is currently not possible to change the formula.
+However, <a href='https://CRAN.R-project.org/package=mlr3pipelines'><span class="pkg">mlr3pipelines</span></a> provides a pipe operator interfacing <code><a href='https://rdrr.io/r/stats/model.matrix.html'>stats::model.matrix()</a></code> for this purpose: <code>"modelmatrix"</code>.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
 <p><div class="r"></p><pre><span class='va'>Task</span><span class='op'>$</span><span class='fu'>formula</span><span class='op'>(</span>rhs <span class='op'>=</span> <span class='st'>"."</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
@@ -714,6 +720,24 @@ removed (argument <code>remove_from</code>) from different roles.</p>
 <p>Returns the object itself, but modified <strong>by reference</strong>.
 You need to explicitly <code>$clone()</code> the object beforehand if you want to keeps
 the object in its previous state.</p>
+<p><hr>
+<a id="method-set_levels"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>set_levels()</code></h3>
+<p>Set levels for columns of type <code>factor</code> and <code>ordered</code> in field <code>col_info</code>.
+You can add, remove or reorder the levels, affecting the data returned by
+<code>$data()</code>, <code>$head()</code> and <code>$levels()</code>.
+If you just want to remove unused levels, use <code>$droplevels()</code> instead.</p>
+<p>Note that factor levels which are present in the data but not listed in the task as
+valid levels are converted to missing values.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>Task</span><span class='op'>$</span><span class='fu'>set_levels</span><span class='op'>(</span><span class='va'>levels</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>levels</code></dt><dd><p>(named <code><a href='https://rdrr.io/r/base/list.html'>list()</a></code> of <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
+List of character vectors of new levels, named by column names.</p></dd>
+
+</dl><p></div></p>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
+<p>Modified <code>self</code>.</p>
 <p><hr>
 <a id="method-droplevels"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/base/droplevels.html'>droplevels()</a></code></h3>
 <p>Updates the cache of stored factor levels, removing all levels not present in the current set of active rows.

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Classification Learner — LearnerClassif • mlr3</title>
+<title>Regression Learner for Debugging — mlr_learners_regr.debug • mlr3</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -53,23 +53,18 @@
 
 
 
-<meta property="og:title" content="Classification Learner — LearnerClassif" />
-<meta property="og:description" content="This Learner specializes Learner for classification problems:
-task_type is set to &quot;classif&quot;.
-Creates Predictions of class PredictionClassif.
-Possible values for predict_types are:
-&quot;response&quot;: Predicts a class label for each observation in the test set.
-&quot;prob&quot;: Predicts the posterior probability for each class for each observation in the test set.
-
-Additional learner properties include:
-&quot;twoclass&quot;: The learner works on binary classification problems.
-&quot;multiclass&quot;: The learner works on multiclass classification problems.
+<meta property="og:title" content="Regression Learner for Debugging — mlr_learners_regr.debug" />
+<meta property="og:description" content="A simple LearnerRegr used primarily in the unit tests and for debugging purposes.
+If no hyperparameter is set, it simply constantly predicts the mean value of the training data.
+The following hyperparameters trigger the following actions:
+predict_missing:Ratio of predictions which will be NA.
+predict_missing_type:To to encode missingness. &amp;#8220;na&amp;#8221; will insert NA values, &amp;#8220;omit&amp;#8221; will just return fewer predictions than requested.
+save_tasks:Saves input task in model slot during training and prediction.
+threads:Number of threads to use. Has no effect.
+x:Numeric tuning parameter. Has no effect.
 
 
-
-Predefined learners can be found in the dictionary mlr_learners.
-Essential classification learners can be found in this dictionary after loading mlr3learners.
-Additional learners are implement in the Github package https://github.com/mlr-org/mlr3extralearners." />
+" />
 <meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
@@ -169,30 +164,57 @@ Additional learners are implement in the Github package https://github.com/mlr-o
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Classification Learner</h1>
-    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/LearnerClassif.R'><code>R/LearnerClassif.R</code></a></small>
-    <div class="hidden name"><code>LearnerClassif.Rd</code></div>
+    <h1>Regression Learner for Debugging</h1>
+    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/LearnerRegrDebug.R'><code>R/LearnerRegrDebug.R</code></a></small>
+    <div class="hidden name"><code>mlr_learners_regr.debug.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This Learner specializes <a href='Learner.html'>Learner</a> for classification problems:</p><ul>
-<li><p><code>task_type</code> is set to <code>"classif"</code>.</p></li>
-<li><p>Creates <a href='Prediction.html'>Prediction</a>s of class <a href='PredictionClassif.html'>PredictionClassif</a>.</p></li>
-<li><p>Possible values for <code>predict_types</code> are:</p><ul>
-<li><p><code>"response"</code>: Predicts a class label for each observation in the test set.</p></li>
-<li><p><code>"prob"</code>: Predicts the posterior probability for each class for each observation in the test set.</p></li>
-</ul></li>
-<li><p>Additional learner properties include:</p><ul>
-<li><p><code>"twoclass"</code>: The learner works on binary classification problems.</p></li>
-<li><p><code>"multiclass"</code>: The learner works on multiclass classification problems.</p></li>
-</ul></li>
-</ul>
+    <p>A simple <a href='LearnerRegr.html'>LearnerRegr</a> used primarily in the unit tests and for debugging purposes.
+If no hyperparameter is set, it simply constantly predicts the mean value of the training data.
+The following hyperparameters trigger the following actions:</p><dl>
+<dt>predict_missing:</dt><dd><p>Ratio of predictions which will be NA.</p></dd>
+<dt>predict_missing_type:</dt><dd><p>To to encode missingness. &#8220;na&#8221; will insert NA values, &#8220;omit&#8221; will just return fewer predictions than requested.</p></dd>
+<dt>save_tasks:</dt><dd><p>Saves input task in <code>model</code> slot during training and prediction.</p></dd>
+<dt>threads:</dt><dd><p>Number of threads to use. Has no effect.</p></dd>
+<dt>x:</dt><dd><p>Numeric tuning parameter. Has no effect.</p></dd>
 
-<p>Predefined learners can be found in the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> <a href='mlr_learners.html'>mlr_learners</a>.
-Essential classification learners can be found in this dictionary after loading <a href='https://CRAN.R-project.org/package=mlr3learners'><span class="pkg">mlr3learners</span></a>.
-Additional learners are implement in the Github package <a href='https://github.com/mlr-org/mlr3extralearners'>https://github.com/mlr-org/mlr3extralearners</a>.</p>
+</dl>
+
     </div>
 
+
+
+    <h2 class="hasAnchor" id="dictionary"><a class="anchor" href="#dictionary"></a>Dictionary</h2>
+
+    
+
+<p>This <a href='Learner.html'>Learner</a> can be instantiated via the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> <a href='mlr_learners.html'>mlr_learners</a> or with the associated sugar function <code><a href='mlr_sugar.html'>lrn()</a></code>:</p><pre><span class='va'>mlr_learners</span><span class='op'>$</span><span class='fu'>get</span><span class='op'>(</span><span class='st'>"regr.debug"</span><span class='op'>)</span>
+<span class='fu'><a href='mlr_sugar.html'>lrn</a></span><span class='op'>(</span><span class='st'>"regr.debug"</span><span class='op'>)</span>
+</pre>
+
+    <h2 class="hasAnchor" id="meta-information"><a class="anchor" href="#meta-information"></a>Meta Information</h2>
+
+    
+
+<ul>
+<li><p>Task type: &#8220;regr&#8221;</p></li>
+<li><p>Predict Types: &#8220;response&#8221;, &#8220;se&#8221;</p></li>
+<li><p>Feature Types: &#8220;logical&#8221;, &#8220;integer&#8221;, &#8220;numeric&#8221;, &#8220;character&#8221;, &#8220;factor&#8221;, &#8220;ordered&#8221;</p></li>
+<li><p>Required Packages: -</p></li>
+</ul>
+
+    <h2 class="hasAnchor" id="parameters"><a class="anchor" href="#parameters"></a>Parameters</h2>
+
+    
+<table class='table'>
+<tr><td>Id</td><td>Type</td><td>Default</td><td>Range</td><td>Levels</td></tr>
+<tr><td>predict_missing</td><td>numeric</td><td>0</td><td>\([0, 1]\)</td><td>-</td></tr>
+<tr><td>predict_missing_type</td><td>character</td><td>na</td><td>\((-\infty, \infty)\)</td><td>na, omit</td></tr>
+<tr><td>save_tasks</td><td>logical</td><td>FALSE</td><td>\((-\infty, \infty)\)</td><td>TRUE, FALSE</td></tr>
+<tr><td>threads</td><td>integer</td><td>-</td><td>\([1, \infty)\)</td><td>-</td></tr>
+<tr><td>x</td><td>numeric</td><td>-</td><td>\([0, 1]\)</td><td>-</td></tr>
+</table>
 
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
@@ -212,26 +234,26 @@ Additional learners are implement in the Github package <a href='https://github.
 </ul>
 
 <p>Other Learner: 
+<code><a href='LearnerClassif.html'>LearnerClassif</a></code>,
 <code><a href='LearnerRegr.html'>LearnerRegr</a></code>,
 <code><a href='Learner.html'>Learner</a></code>,
 <code><a href='mlr_learners_classif.debug.html'>mlr_learners_classif.debug</a></code>,
 <code><a href='mlr_learners_classif.featureless.html'>mlr_learners_classif.featureless</a></code>,
 <code><a href='mlr_learners_classif.rpart.html'>mlr_learners_classif.rpart</a></code>,
-<code><a href='mlr_learners_regr.debug.html'>mlr_learners_regr.debug</a></code>,
 <code><a href='mlr_learners_regr.featureless.html'>mlr_learners_regr.featureless</a></code>,
 <code><a href='mlr_learners_regr.rpart.html'>mlr_learners_regr.rpart</a></code>,
 <code><a href='mlr_learners.html'>mlr_learners</a></code></p></div>
-    <h2 class="hasAnchor" id="super-class"><a class="anchor" href="#super-class"></a>Super class</h2>
+    <h2 class="hasAnchor" id="super-classes"><a class="anchor" href="#super-classes"></a>Super classes</h2>
 
-    <p><code><a href='Learner.html'>mlr3::Learner</a></code> -&gt; <code>LearnerClassif</code></p>
+    <p><code><a href='Learner.html'>mlr3::Learner</a></code> -&gt; <code><a href='LearnerRegr.html'>mlr3::LearnerRegr</a></code> -&gt; <code>LearnerRegrDebug</code></p>
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     
 <h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Public methods</h3>
 
 <ul>
-<li><p><a href='#method-new'><code>LearnerClassif$new()</code></a></p></li>
-<li><p><a href='#method-clone'><code>LearnerClassif$clone()</code></a></p></li>
+<li><p><a href='#method-new'><code>LearnerRegrDebug$new()</code></a></p></li>
+<li><p><a href='#method-clone'><code>LearnerRegrDebug$clone()</code></a></p></li>
 </ul>
 <p><details ><summary>Inherited methods</summary>
 <ul>
@@ -249,61 +271,12 @@ Additional learners are implement in the Github package <a href='https://github.
 <hr>
 <a id="method-new"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>new()</code></h3>
 <p>Creates a new instance of this <a href='https://r6.r-lib.org/reference/R6Class.html'>R6</a> class.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='va'>LearnerClassif</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>
-  <span class='va'>id</span>,
-  param_set <span class='op'>=</span> <span class='fu'>ps</span><span class='op'>(</span><span class='op'>)</span>,
-  predict_types <span class='op'>=</span> <span class='st'>"response"</span>,
-  feature_types <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span><span class='op'>(</span><span class='op'>)</span>,
-  properties <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span><span class='op'>(</span><span class='op'>)</span>,
-  data_formats <span class='op'>=</span> <span class='st'>"data.table"</span>,
-  packages <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span><span class='op'>(</span><span class='op'>)</span>,
-  man <span class='op'>=</span> <span class='cn'>NA_character_</span>
-<span class='op'>)</span></pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>LearnerRegrDebug</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
 
-<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
-<p><div class="arguments"></p><dl>
-<dt><code>id</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
-Identifier for the new instance.</p></dd>
-
-<dt><code>param_set</code></dt><dd><p>(<a href='https://paradox.mlr-org.com/reference/ParamSet.html'>paradox::ParamSet</a>)<br />
-Set of hyperparameters.</p></dd>
-
-<dt><code>predict_types</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
-Supported predict types. Must be a subset of <code><a href='mlr_reflections.html'>mlr_reflections$learner_predict_types</a></code>.</p></dd>
-
-<dt><code>feature_types</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
-Feature types the learner operates on. Must be a subset of <code><a href='mlr_reflections.html'>mlr_reflections$task_feature_types</a></code>.</p></dd>
-
-<dt><code>properties</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
-Set of properties of the <a href='Learner.html'>Learner</a>.
-Must be a subset of <code><a href='mlr_reflections.html'>mlr_reflections$learner_properties</a></code>.
-The following properties are currently standardized and understood by learners in <a href='https://CRAN.R-project.org/package=mlr3'><span class="pkg">mlr3</span></a>:
-<ul>
-<li><p><code>"missings"</code>: The learner can handle missing values in the data.</p></li>
-<li><p><code>"weights"</code>: The learner supports observation weights.</p></li>
-<li><p><code>"importance"</code>: The learner supports extraction of importance scores, i.e. comes with an <code>$importance()</code> extractor function (see section on optional extractors in <a href='Learner.html'>Learner</a>).</p></li>
-<li><p><code>"selected_features"</code>: The learner supports extraction of the set of selected features, i.e. comes with a <code>$selected_features()</code> extractor function (see section on optional extractors in <a href='Learner.html'>Learner</a>).</p></li>
-<li><p><code>"oob_error"</code>: The learner supports extraction of estimated out of bag error, i.e. comes with a <code>oob_error()</code> extractor function (see section on optional extractors in <a href='Learner.html'>Learner</a>).</p></li>
-</ul></p></dd>
-
-<dt><code>data_formats</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
-Set of supported data formats which can be processed during <code>$train()</code> and <code>$predict()</code>,
-e.g. <code>"data.table"</code>.</p></dd>
-
-<dt><code>packages</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
-Set of required packages.
-A warning is signaled by the constructor if at least one of the packages is not installed,
-but loaded (not attached) later on-demand via <code><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace()</a></code>.</p></dd>
-
-<dt><code>man</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
-String in the format <code>[pkg]::[topic]</code> pointing to a manual page for this object.
-The referenced help package can be opened via method <code>$help()</code>.</p></dd>
-
-</dl><p></div></p>
 <p><hr>
 <a id="method-clone"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>clone()</code></h3>
 <p>The objects of this class are cloneable with this method.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='va'>LearnerClassif</span><span class='op'>$</span><span class='fu'>clone</span><span class='op'>(</span>deep <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>LearnerRegrDebug</span><span class='op'>$</span><span class='fu'>clone</span><span class='op'>(</span>deep <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -314,32 +287,22 @@ The referenced help package can be opened via method <code>$help()</code>.</p></
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># get all classification learners from mlr_learners:</span>
-<span class='va'>lrns</span> <span class='op'>=</span> <span class='va'>mlr_learners</span><span class='op'>$</span><span class='fu'>mget</span><span class='op'>(</span><span class='va'>mlr_learners</span><span class='op'>$</span><span class='fu'>keys</span><span class='op'>(</span><span class='st'>"^classif"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>lrns</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "classif.debug"       "classif.featureless" "classif.rpart"      </div><div class='input'>
-<span class='co'># get a specific learner from mlr_learners:</span>
-<span class='va'>lrn</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>lrn</a></span><span class='op'>(</span><span class='st'>"classif.rpart"</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>lrn</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; &lt;LearnerClassifRpart:classif.rpart&gt;
-#&gt; * Model: -
-#&gt; * Parameters: xval=0
-#&gt; * Packages: rpart
-#&gt; * Predict Type: response
-#&gt; * Feature types: logical, integer, numeric, factor, ordered
-#&gt; * Properties: importance, missings, multiclass, selected_features,
-#&gt;   twoclass, weights</div><div class='input'>
-<span class='co'># train the learner:</span>
-<span class='va'>task</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span><span class='op'>(</span><span class='st'>"penguins"</span><span class='op'>)</span>
-<span class='va'>lrn</span><span class='op'>$</span><span class='fu'>train</span><span class='op'>(</span><span class='va'>task</span>, <span class='fl'>1</span><span class='op'>:</span><span class='fl'>200</span><span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='va'>task</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span><span class='op'>(</span><span class='st'>"mtcars"</span><span class='op'>)</span>
+<span class='va'>learner</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>lrn</a></span><span class='op'>(</span><span class='st'>"regr.debug"</span>, save_tasks <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='va'>learner</span><span class='op'>$</span><span class='fu'>train</span><span class='op'>(</span><span class='va'>task</span>, row_ids <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>20</span><span class='op'>)</span>
+<span class='va'>prediction</span> <span class='op'>=</span> <span class='va'>learner</span><span class='op'>$</span><span class='fu'>predict</span><span class='op'>(</span><span class='va'>task</span>, row_ids <span class='op'>=</span> <span class='fl'>21</span><span class='op'>:</span><span class='fl'>32</span><span class='op'>)</span>
 
-<span class='co'># predict on new observations:</span>
-<span class='va'>lrn</span><span class='op'>$</span><span class='fu'>predict</span><span class='op'>(</span><span class='va'>task</span>, <span class='fl'>201</span><span class='op'>:</span><span class='fl'>344</span><span class='op'>)</span><span class='op'>$</span><span class='va'>confusion</span>
-</div><div class='output co'>#&gt;            truth
-#&gt; response    Adelie Chinstrap Gentoo
-#&gt;   Adelie         0        62      1
-#&gt;   Chinstrap      0         0      0
-#&gt;   Gentoo         0         6     75</div></pre>
+<span class='va'>learner</span><span class='op'>$</span><span class='va'>model</span><span class='op'>$</span><span class='va'>task_train</span>
+</div><div class='output co'>#&gt; &lt;TaskRegr:mtcars&gt; (20 x 11)
+#&gt; * Target: mpg
+#&gt; * Properties: -
+#&gt; * Features (10):
+#&gt;   - dbl (10): am, carb, cyl, disp, drat, gear, hp, qsec, vs, wt</div><div class='input'><span class='va'>learner</span><span class='op'>$</span><span class='va'>model</span><span class='op'>$</span><span class='va'>task_predict</span>
+</div><div class='output co'>#&gt; &lt;TaskRegr:mtcars&gt; (12 x 11)
+#&gt; * Target: mpg
+#&gt; * Properties: -
+#&gt; * Features (10):
+#&gt;   - dbl (10): am, carb, cyl, disp, drat, gear, hp, qsec, vs, wt</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

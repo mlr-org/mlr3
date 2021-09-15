@@ -101,7 +101,7 @@ Additional learners are implement in the Github package https://github.com/mlr-o
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.12.0</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.13.0</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -194,7 +194,7 @@ Additional learners are implement in the Github package <a href='https://github.
     <div class='dont-index'>
 <ul>
 <li><p>Chapter in the <a href='https://mlr3book.mlr-org.com/'>mlr3book</a>:
-<a href='https://mlr3book.mlr-org.com/learners.html'>https://mlr3book.mlr-org.com/learners.html</a></p></li>
+<a href='https://mlr3book.mlr-org.com/basics.html#learners'>https://mlr3book.mlr-org.com/basics.html#learners</a></p></li>
 <li><p>Package <a href='https://CRAN.R-project.org/package=mlr3learners'><span class="pkg">mlr3learners</span></a> for a solid collection of essential learners.</p></li>
 <li><p>Package <a href='https://github.com/mlr-org/mlr3extralearners'>mlr3extralearners</a> for more learners.</p></li>
 <li><p><a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>Dictionary</a> of <a href='Learner.html'>Learners</a>: <a href='mlr_learners.html'>mlr_learners</a></p></li>
@@ -211,6 +211,7 @@ Additional learners are implement in the Github package <a href='https://github.
 <code><a href='mlr_learners_classif.debug.html'>mlr_learners_classif.debug</a></code>,
 <code><a href='mlr_learners_classif.featureless.html'>mlr_learners_classif.featureless</a></code>,
 <code><a href='mlr_learners_classif.rpart.html'>mlr_learners_classif.rpart</a></code>,
+<code><a href='mlr_learners_regr.debug.html'>mlr_learners_regr.debug</a></code>,
 <code><a href='mlr_learners_regr.featureless.html'>mlr_learners_regr.featureless</a></code>,
 <code><a href='mlr_learners_regr.rpart.html'>mlr_learners_regr.rpart</a></code>,
 <code><a href='mlr_learners.html'>mlr_learners</a></code></p></div>
@@ -310,7 +311,7 @@ The referenced help package can be opened via method <code>$help()</code>.</p></
     <pre class="examples"><div class='input'><span class='co'># get all regression learners from mlr_learners:</span>
 <span class='va'>lrns</span> <span class='op'>=</span> <span class='va'>mlr_learners</span><span class='op'>$</span><span class='fu'>mget</span><span class='op'>(</span><span class='va'>mlr_learners</span><span class='op'>$</span><span class='fu'>keys</span><span class='op'>(</span><span class='st'>"^regr"</span><span class='op'>)</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>lrns</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "regr.featureless" "regr.rpart"      </div><div class='input'>
+</div><div class='output co'>#&gt; [1] "regr.debug"       "regr.featureless" "regr.rpart"      </div><div class='input'>
 <span class='co'># get a specific learner from mlr_learners:</span>
 <span class='va'>mlr_learners</span><span class='op'>$</span><span class='fu'>get</span><span class='op'>(</span><span class='st'>"regr.rpart"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; &lt;LearnerRegrRpart:regr.rpart&gt;
