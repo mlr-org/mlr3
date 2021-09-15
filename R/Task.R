@@ -595,6 +595,7 @@ Task = R6Class("Task",
 
       # update levels
       # note that we assume that new_levels is a subset of levels!
+      new_levels = NULL
       tab$new_levels = self$backend$distinct(rows = self$row_ids, cols = tab$id)
       tab = tab[lengths(levels) > lengths(new_levels)]
       tab[, c("levels", "fix_factor_levels") := list(Map(intersect, levels, new_levels), TRUE)]
