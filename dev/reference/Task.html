@@ -269,10 +269,8 @@ Table with with 4 columns:
 <li><p><code>"id"</code> (<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>) stores the name of the column.</p></li>
 <li><p><code>"type"</code> (<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>) holds the storage type of the variable, e.g. <code>integer</code>, <code>numeric</code> or <code>character</code>.
 See <a href='mlr_reflections.html'>mlr_reflections$task_feature_types</a> for a complete list of allowed types.</p></li>
-<li><p><code>"levels"</code> (<code><a href='https://rdrr.io/r/base/list.html'>list()</a></code>) stores a vector of distinct values (levels) for ordered and unordered factor variables.</p></li>
-<li><p><code>"label"</code> (<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>) stores a vector of prettier, formated column names.</p></li>
-<li><p><code>"fix_factor_levels"</code> (<code><a href='https://rdrr.io/r/base/logical.html'>logical()</a></code>) stores flags which determine if the levels of the respective variable
-need to be reordered after querying the data from the <a href='DataBackend.html'>DataBackend</a>.</p></li>
+<li><p><code>"levels"</code> stores a vector of distinct values (levels) for ordered and unordered factor variables.</p></li>
+<li><p><code>"label"</code> stores a character vector of prettier, formated column names.</p></li>
 </ul></p></dd>
 
 <dt><code>man</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
@@ -421,7 +419,6 @@ Alternatively, you can provide a <code><a href='https://rdrr.io/r/base/data.fram
 <li><p><a href='#method-rename'><code>Task$rename()</code></a></p></li>
 <li><p><a href='#method-set_row_roles'><code>Task$set_row_roles()</code></a></p></li>
 <li><p><a href='#method-set_col_roles'><code>Task$set_col_roles()</code></a></p></li>
-<li><p><a href='#method-set_levels'><code>Task$set_levels()</code></a></p></li>
 <li><p><a href='#method-droplevels'><code>Task$droplevels()</code></a></p></li>
 <li><p><a href='#method-add_strata'><code>Task$add_strata()</code></a></p></li>
 <li><p><a href='#method-clone'><code>Task$clone()</code></a></p></li>
@@ -719,19 +716,6 @@ removed (argument <code>remove_from</code>) from different roles.</p>
 <p>Returns the object itself, but modified <strong>by reference</strong>.
 You need to explicitly <code>$clone()</code> the object beforehand if you want to keeps
 the object in its previous state.</p>
-<p><hr>
-<a id="method-set_levels"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>set_levels()</code></h3>
-<p>Set levels for columns of type <code>factor</code> and <code>ordered</code>.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='va'>Task</span><span class='op'>$</span><span class='fu'>set_levels</span><span class='op'>(</span><span class='va'>levels</span><span class='op'>)</span></pre><p></div></p>
-
-<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
-<p><div class="arguments"></p><dl>
-<dt><code>levels</code></dt><dd><p>(named <code><a href='https://rdrr.io/r/base/list.html'>list()</a></code> of <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
-List of character vectors of new levels, named by column names.</p></dd>
-
-</dl><p></div></p>
-<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
-<p>Modified <code>self</code>.</p>
 <p><hr>
 <a id="method-droplevels"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/base/droplevels.html'>droplevels()</a></code></h3>
 <p>Updates the cache of stored factor levels, removing all levels not present in the current set of active rows.
