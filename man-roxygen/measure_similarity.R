@@ -1,4 +1,4 @@
-#' @name mlr_measures_classif.<%= id %>
+#' @name mlr_measures_similarity.<%= id %>
 #' @include mlr_measures.R
 #'
 #' @inherit mlr3measures::<%= id %> title description details
@@ -17,8 +17,7 @@
 #' If the measure is undefined for the input, `NaN` is returned.
 #' This can be customized by setting the field `na_value`.
 #'
-#' @family classification measures
-#' @family binary classification measures
+#' @family similarity measures
 #'
 #' @seealso
 #' [Dictionary][mlr3misc::Dictionary] of [Measures][Measure]: [mlr_measures]

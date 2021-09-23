@@ -10,6 +10,9 @@ Binary classification measure defined as \deqn{
    (TP/FP) / (FN/TN).
 }
 }
+\details{
+This measure is undefined if FP = 0 or FN = 0.
+}
 \note{
 The score function calls \code{\link[mlr3measures:dor]{mlr3measures::dor()}} from package \CRANpkg{mlr3measures}.
 

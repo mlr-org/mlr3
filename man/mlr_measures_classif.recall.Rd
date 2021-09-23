@@ -11,6 +11,9 @@ Binary classification measure defined as \deqn{
 }
 Also know as "recall" or "sensitivity".
 }
+\details{
+This measure is undefined if TP + FN = 0.
+}
 \note{
 The score function calls \code{\link[mlr3measures:tpr]{mlr3measures::recall()}} from package \CRANpkg{mlr3measures}.
 

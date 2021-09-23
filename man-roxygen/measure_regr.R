@@ -1,7 +1,7 @@
 #' @name mlr_measures_regr.<%= id %>
 #' @include mlr_measures.R
 #'
-#' @inherit mlr3measures::<%= id %> title description
+#' @inherit mlr3measures::<%= id %> title description details
 #' @inheritSection mlr3measures::<%= id %> Meta Information
 #'
 #' @section Dictionary:

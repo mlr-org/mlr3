@@ -14,6 +14,13 @@ It measures the effectiveness of retrieval with respect to a user who attaches \
 as much importance to recall as precision.
 For \eqn{\beta = 1}{beta = 1}, this measure is called "F1" score.
 }
+\details{
+This measure is undefined if
+\itemize{
+\item TP = 0
+\item \link[mlr3measures]{precision} or \link[mlr3measures]{recall} is undefined, i.e. TP + FP = 0 or TP + FN = 0.
+}
+}
 \note{
 The score function calls \code{\link[mlr3measures:fbeta]{mlr3measures::fbeta()}} from package \CRANpkg{mlr3measures}.
 

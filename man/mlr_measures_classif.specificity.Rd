@@ -11,6 +11,9 @@ Binary classification measure defined as \deqn{
 }
 Also know as "specificity".
 }
+\details{
+This measure is undefined if FP + TN = 0.
+}
 \note{
 The score function calls \code{\link[mlr3measures:tnr]{mlr3measures::specificity()}} from package \CRANpkg{mlr3measures}.
 

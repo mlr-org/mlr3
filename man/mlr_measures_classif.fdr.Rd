@@ -10,6 +10,9 @@ Binary classification measure defined as \deqn{
    FP / (TP + FP).
 }
 }
+\details{
+This measure is undefined if TP + FP = 0.
+}
 \note{
 The score function calls \code{\link[mlr3measures:fdr]{mlr3measures::fdr()}} from package \CRANpkg{mlr3measures}.
 

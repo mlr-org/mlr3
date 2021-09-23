@@ -22,9 +22,9 @@ msr("classif.costs")
 }
 
 \section{Parameters}{
-\tabular{lllll}{
-   Id \tab Type \tab Default \tab Range \tab Levels \cr
-   normalize \tab logical \tab TRUE \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \tab TRUE, FALSE \cr
+\tabular{llll}{
+   Id \tab Type \tab Default \tab Levels \cr
+   normalize \tab logical \tab TRUE \tab TRUE, FALSE \cr
 }
 }
 
@@ -76,6 +76,7 @@ rr$aggregate(m)
 Other Measure: 
 \code{\link{MeasureClassif}},
 \code{\link{MeasureRegr}},
+\code{\link{MeasureSimilarity}},
 \code{\link{Measure}},
 \code{\link{mlr_measures_aic}},
 \code{\link{mlr_measures_bic}},

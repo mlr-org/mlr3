@@ -10,6 +10,9 @@ Regression measure defined as \deqn{
   2 * mean(abs(t - r) / (abs(t) + abs(r))).
 }
 }
+\details{
+This measure is undefined if if any \eqn{|t| + |r|} is \eqn{0}.
+}
 \note{
 The score function calls \code{\link[mlr3measures:smape]{mlr3measures::smape()}} from package \CRANpkg{mlr3measures}.
 

@@ -11,6 +11,9 @@ Binary classification measure defined as \deqn{
 }
 Also know as "precision".
 }
+\details{
+This measure is undefined if TP + FP = 0.
+}
 \note{
 The score function calls \code{\link[mlr3measures:ppv]{mlr3measures::ppv()}} from package \CRANpkg{mlr3measures}.
 

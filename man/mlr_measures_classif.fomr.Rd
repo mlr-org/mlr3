@@ -10,6 +10,9 @@ Binary classification measure defined as \deqn{
    FN / (FN + TN).
 }
 }
+\details{
+This measure is undefined if FN + TN = 0.
+}
 \note{
 The score function calls \code{\link[mlr3measures:fomr]{mlr3measures::fomr()}} from package \CRANpkg{mlr3measures}.
 

@@ -5,9 +5,9 @@
 \title{Log Loss}
 \description{
 Classification measure defined as \deqn{
-  -\frac{1}{n} \sum_{i=1}^n \log \left(  p_i \right )
+  -\frac{1}{n} \sum_{i=1}^n w_i \log \left(  p_i \right )
 }{
-  -mean(log(p))
+  -weighted.mean(log(p), w)
 }
 where \eqn{p_i}{p} is the probability for the true class of observation \eqn{i}.
 }
