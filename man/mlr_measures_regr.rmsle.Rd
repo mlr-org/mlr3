@@ -5,9 +5,9 @@
 \title{Root Mean Squared Log Error}
 \description{
 Regression measure defined as \deqn{
-  \sqrt{\frac{1}{n} \sum_{i=1}^n \left( \ln (1 + t_i) - \ln (1 + r_i) \right)^2}.
+  \sqrt{\frac{1}{n} \sum_{i=1}^n w_i \left( \ln (1 + t_i) - \ln (1 + r_i) \right)^2}.
 }{
-  sqrt(mean(log(1 + t) - log(1 + r))^2).
+  sqrt(weighted.mean((log(1 + t) - log(1 + r))^2, w)).
 }
 }
 \note{
