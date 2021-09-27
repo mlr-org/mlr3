@@ -162,7 +162,6 @@ Also, many helpful R libraries did not exist at the time [mlr](https://github.co
     - [`mlr3misc`](https://cran.r-project.org/package=mlr3misc):
       Miscellaneous functions used in multiple mlr3 [extension packages](https://github.com/mlr-org/mlr3/wiki/Extension-Packages).
       Developed by the `mlr` team.
-      No extra recursive dependencies.
     - [`paradox`](https://cran.r-project.org/package=paradox):
       Descriptions for parameters and parameter sets. Developed by the `mlr` team.
       No extra recursive dependencies.
@@ -172,7 +171,7 @@ Also, many helpful R libraries did not exist at the time [mlr](https://github.co
     - [`data.table`](https://cran.r-project.org/package=data.table):
       Extension of R's `data.frame`.
       No recursive dependencies.
-    - [`digest`](https://cran.r-project.org/package=digest):
+    - [`digest`](https://cran.r-project.org/package=digest) (via `mlr3misc`):
       Hash digests.
       No recursive dependencies.
     - [`uuid`](https://cran.r-project.org/package=uuid):
@@ -197,7 +196,7 @@ Also, many helpful R libraries did not exist at the time [mlr](https://github.co
 ## Contributing to mlr3
 
 This R package is licensed under the [LGPL-3](https://www.gnu.org/licenses/lgpl-3.0.en.html).
-If you encounter problems using this software (lack of documentation, misleading or wrong documentation, unexpected behaviour, bugs, ...) or just want to suggest features, please open an issue in the [issue tracker](https://github.com/mlr-org/mlr3/issues).
+If you encounter problems using this software (lack of documentation, misleading or wrong documentation, unexpected behavior, bugs, ...) or just want to suggest features, please open an issue in the [issue tracker](https://github.com/mlr-org/mlr3/issues).
 Pull requests are welcome and will be included at the discretion of the maintainers.
 
 Please consult the [wiki](https://github.com/mlr-org/mlr3/wiki/) for a [style guide](https://github.com/mlr-org/mlr3/wiki/Style-Guide), a [roxygen guide](https://github.com/mlr-org/mlr3/wiki/Roxygen-Guide) and a [pull request guide](https://github.com/mlr-org/mlr3/wiki/PR-Guidelines).

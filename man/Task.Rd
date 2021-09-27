@@ -42,6 +42,7 @@ This provides a different "view" on the data without altering the data itself.
 Instead, the methods first create a new \link{DataBackendDataTable} from the provided new data, and then
 merge both backends into an abstract \link{DataBackend} which merges the results on-demand.
 \item \code{rename()} wraps the \link{DataBackend} of the Task in an additional \link{DataBackend} which deals with the renaming. Also updates \verb{$col_roles} and \verb{$col_info}.
+\item \code{set_levels()} updates the field \code{col_info()}.
 }
 }
 
@@ -67,7 +68,7 @@ task$head()
 \seealso{
 \itemize{
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
-\url{https://mlr3book.mlr-org.com/tasks.html}
+\url{https://mlr3book.mlr-org.com/basics.html#tasks}
 \item Package \CRANpkg{mlr3data} for more toy tasks.
 \item Package \CRANpkg{mlr3oml} for downloading tasks from \url{https://openml.org}.
 \item Package \CRANpkg{mlr3viz} for some generic visualizations.
@@ -121,8 +122,10 @@ Table with with 4 columns:
 \item \code{"id"} (\code{character()}) stores the name of the column.
 \item \code{"type"} (\code{character()}) holds the storage type of the variable, e.g. \code{integer}, \code{numeric} or \code{character}.
 See \link[=mlr_reflections]{mlr_reflections$task_feature_types} for a complete list of allowed types.
-\item \code{"levels"} stores a vector of distinct values (levels) for ordered and unordered factor variables.
-\item \code{"label"} stores a character vector of prettier, formated column names.
+\item \code{"levels"} (\code{list()}) stores a vector of distinct values (levels) for ordered and unordered factor variables.
+\item \code{"label"} (\code{character()}) stores a vector of prettier, formated column names.
+\item \code{"fix_factor_levels"} (\code{logical()}) stores flags which determine if the levels of the respective variable
+need to be reordered after querying the data from the \link{DataBackend}.
 }}
 
 \item{\code{man}}{(\code{character(1)})\cr
@@ -253,6 +256,17 @@ If the task has a column with designated role \code{"weight"}, a table with two 
 }
 
 Returns \code{NULL} if there are is no weight column.}
+
+\item{\code{labels}}{(named \code{character()})\cr
+Retrieve \code{labels} (prettier formated names) from columns.
+Internally queries the column \code{label} of the table in field \code{col_info}.
+Columns ids referenced by the name of the vector, the labels are the actual string values.
+
+Assigning to this column update the task by reference.
+You have to provide a character vector of labels, named with column ids.
+To remove a label, set it to \code{NA}.
+Alternatively, you can provide a \code{\link[=data.frame]{data.frame()}} with the two columns
+\code{"id"} and \code{"label"}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -275,9 +289,9 @@ Returns \code{NULL} if there are is no weight column.}
 \item \href{#method-rename}{\code{Task$rename()}}
 \item \href{#method-set_row_roles}{\code{Task$set_row_roles()}}
 \item \href{#method-set_col_roles}{\code{Task$set_col_roles()}}
+\item \href{#method-set_levels}{\code{Task$set_levels()}}
 \item \href{#method-droplevels}{\code{Task$droplevels()}}
 \item \href{#method-add_strata}{\code{Task$add_strata()}}
-\item \href{#method-label}{\code{Task$label()}}
 \item \href{#method-clone}{\code{Task$clone()}}
 }
 }
@@ -402,6 +416,9 @@ Depending on the \link{DataBackend}, but usually a \code{\link[data.table:data.t
 \subsection{Method \code{formula()}}{
 Constructs a \code{\link[=formula]{formula()}}, e.g. \verb{[target] ~ [feature_1] + [feature_2] + ... + [feature_k]},
 using the features provided in argument \code{rhs} (defaults to all columns with role \code{"feature"}, symbolized by \code{"."}).
+
+Note that it is currently not possible to change the formula.
+However, \CRANpkg{mlr3pipelines} provides a pipe operator interfacing \code{\link[stats:model.matrix]{stats::model.matrix()}} for this purpose: \code{"modelmatrix"}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Task$formula(rhs = ".")}\if{html}{\out{</div>}}
 }
@@ -704,6 +721,33 @@ the object in its previous state.
 }
 }
 \if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-set_levels"></a>}}
+\if{latex}{\out{\hypertarget{method-set_levels}{}}}
+\subsection{Method \code{set_levels()}}{
+Set levels for columns of type \code{factor} and \code{ordered} in field \code{col_info}.
+You can add, remove or reorder the levels, affecting the data returned by
+\verb{$data()}, \verb{$head()} and \verb{$levels()}.
+If you just want to remove unused levels, use \verb{$droplevels()} instead.
+
+Note that factor levels which are present in the data but not listed in the task as
+valid levels are converted to missing values.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Task$set_levels(levels)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{levels}}{(named \code{list()} of \code{character()})\cr
+List of character vectors of new levels, named by column names.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Modified \code{self}.
+}
+}
+\if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-droplevels"></a>}}
 \if{latex}{\out{\hypertarget{method-droplevels}{}}}
 \subsection{Method \code{droplevels()}}{
@@ -751,32 +795,6 @@ Replicated to have the same length as \code{cols}.}
 }
 \subsection{Returns}{
 self (invisibly).
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-label"></a>}}
-\if{latex}{\out{\hypertarget{method-label}{}}}
-\subsection{Method \code{label()}}{
-Assigns \code{labels} (prettier formated names) to columns \code{cols}.
-Internally updates the column \code{label} of the table in field \code{col_info} by reference.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Task$label(cols, labels)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{cols}}{(\code{character()})\cr
-Column identifiers to label.}
-
-\item{\code{labels}}{(\code{character()})\cr
-New labels. Will be repeated to match the length of \code{cols}.
-Set to \code{NA} to remove a label.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-Modified \code{self}.
 }
 }
 \if{html}{\out{<hr>}}

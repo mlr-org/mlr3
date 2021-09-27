@@ -198,7 +198,7 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
 
   private = list(
     .calculate_hash = function() {
-      hash(private$.data)
+      calculate_hash(private$.data)
     },
 
     .translate_rows = function(rows) {

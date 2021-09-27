@@ -24,7 +24,7 @@ A guide on how to extend \CRANpkg{mlr3} with custom measures can be found in the
 \seealso{
 \itemize{
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
-\url{https://mlr3book.mlr-org.com/train-predict.html}
+\url{https://mlr3book.mlr-org.com/basics.html#train-predict}
 \item Package \CRANpkg{mlr3measures} for the scoring functions.
 \link[mlr3misc:Dictionary]{Dictionary} of \link[=Measure]{Measures}: \link{mlr_measures}
 \code{as.data.table(mlr_measures)} for a table of available \link[=Measure]{Measures} in the running session (depending on the loaded packages).
@@ -70,7 +70,7 @@ Required predict type of the \link{Learner}.}
 \item{\code{predict_sets}}{(\code{character()})\cr
 During \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}, a \link{Learner} can predict on multiple sets.
 Per default, a learner only predicts observations in the test set (\code{predict_sets == "test"}).
-To change this behaviour, set \code{predict_sets} to a non-empty subset of \verb{\{"train", "test", "validation"\}}.
+To change this behavior, set \code{predict_sets} to a non-empty subset of \verb{\{"train", "test", "validation"\}}.
 Each set yields a separate \link{Prediction} object.
 Those be combined via getters in \link{ResampleResult}/\link{BenchmarkResult}, or \link{Measure}s can be altered
 to operate on specific subsets of the calculated prediction sets.}

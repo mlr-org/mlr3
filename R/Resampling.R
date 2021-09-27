@@ -220,7 +220,7 @@ Resampling = R6Class("Resampling",
       if (!self$is_instantiated) {
         return(NA_character_)
       }
-      hash(list(class(self), self$id, self$param_set$values, self$instance))
+      calculate_hash(list(class(self), self$id, self$param_set$values, self$instance))
     }
   ),
 

@@ -5,9 +5,9 @@
 \title{Bias}
 \description{
 Regression measure defined as \deqn{
-  \frac{1}{n} \sum_{i=1}^n \left( t_i - r_i \right).
+  \frac{1}{n} \sum_{i=1}^n w_i \left( t_i - r_i \right).
 }{
-  mean(t - r).
+  weighted.mean(t - r, w).
 }
 Good predictions score close to 0.
 }

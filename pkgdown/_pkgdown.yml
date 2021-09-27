@@ -92,6 +92,7 @@ reference:
   - title: Resample
     contents:
       - resample
+      - partition
       - ResampleResult
       - as_result_data
       - as_resample_result
@@ -113,7 +114,6 @@ reference:
   - title: Internal Objects and Functions
     contents:
       - mlr_assertions
-      - get_base_learner
       - ResultData
       - PredictionData
       - predict.Learner

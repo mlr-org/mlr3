@@ -70,7 +70,7 @@ print(bmr)
 }
 \seealso{
 Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
-\url{https://mlr3book.mlr-org.com/benchmarking.html}
+\url{https://mlr3book.mlr-org.com/basics.html#benchmarking}
 
 Other benchmark: 
 \code{\link{benchmark_grid}()},
@@ -108,7 +108,7 @@ Table of included \link{Learner}s with three columns:
 }
 
 Note that it is not feasible to access learned models via this field, as the training task would be ambiguous.
-For this reason the returned learner are reseted before they are returned.
+For this reason the returned learner are reset before they are returned.
 Instead, select a row from the table returned by \verb{$score()}.}
 
 \item{\code{resamplings}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr

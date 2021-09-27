@@ -31,16 +31,16 @@ lrn("classif.featureless")
 }
 
 \section{Parameters}{
-\tabular{lllll}{
-   Id \tab Type \tab Default \tab Range \tab Levels \cr
-   method \tab character \tab mode \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \tab mode, sample, weighted.sample \cr
+\tabular{llll}{
+   Id \tab Type \tab Default \tab Levels \cr
+   method \tab character \tab mode \tab mode, sample, weighted.sample \cr
 }
 }
 
 \seealso{
 \itemize{
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
-\url{https://mlr3book.mlr-org.com/learners.html}
+\url{https://mlr3book.mlr-org.com/basics.html#learners}
 \item Package \CRANpkg{mlr3learners} for a solid collection of essential learners.
 \item Package \href{https://github.com/mlr-org/mlr3extralearners}{mlr3extralearners} for more learners.
 \item \link[mlr3misc:Dictionary]{Dictionary} of \link[=Learner]{Learners}: \link{mlr_learners}
@@ -58,6 +58,7 @@ Other Learner:
 \code{\link{Learner}},
 \code{\link{mlr_learners_classif.debug}},
 \code{\link{mlr_learners_classif.rpart}},
+\code{\link{mlr_learners_regr.debug}},
 \code{\link{mlr_learners_regr.featureless}},
 \code{\link{mlr_learners_regr.rpart}},
 \code{\link{mlr_learners}}

@@ -8,24 +8,26 @@
 #' If no hyperparameter is set, it simply constantly predicts a randomly selected label.
 #' The following hyperparameters trigger the following actions:
 #' \describe{
-#'    \item{message_train:}{Probability to output a message during train.}
-#'    \item{message_predict:}{Probability to output a message during predict.}
-#'    \item{warning_train:}{Probability to signal a warning during train.}
-#'    \item{warning_predict:}{Probability to signal a warning during predict.}
-#'    \item{error_train:}{Probability to raises an exception during train.}
 #'    \item{error_predict:}{Probability to raise an exception during predict.}
-#'    \item{segfault_train:}{Probability to provokes a segfault during train.}
-#'    \item{segfault_predict:}{Probability to provokes a segfault during predict.}
-#'    \item{predict_missing}{Ratio of predictions which will be NA.}
-#'    \item{predict_missing_type}{To to encode missingness. \dQuote{na} will insert NA values, \dQuote{omit} will just return fewer predictions than requested.}
+#'    \item{error_train:}{Probability to raises an exception during train.}
+#'    \item{message_predict:}{Probability to output a message during predict.}
+#'    \item{message_train:}{Probability to output a message during train.}
+#'    \item{predict_missing:}{Ratio of predictions which will be NA.}
+#'    \item{predict_missing_type:}{To to encode missingness. \dQuote{na} will insert NA values, \dQuote{omit} will just return fewer predictions than requested.}
 #'    \item{save_tasks:}{Saves input task in `model` slot during training and prediction.}
+#'    \item{segfault_predict:}{Probability to provokes a segfault during predict.}
+#'    \item{segfault_train:}{Probability to provokes a segfault during train.}
+#'    \item{sleep_train:}{Function returning a single number determining how many seconds to sleep during `$train()`.}
+#'    \item{sleep_predict:}{Function returning a single number determining how many seconds to sleep during `$predict()`.}
 #'    \item{threads:}{Number of threads to use. Has no effect.}
+#'    \item{warning_predict:}{Probability to signal a warning during predict.}
+#'    \item{warning_train:}{Probability to signal a warning during train.}
 #'    \item{x:}{Numeric tuning parameter. Has no effect.}
 #' }
-#' Note that segfaults may not be triggered on your operating system.
+#' Note that segfaults may not be triggered reliably on your operating system.
 #' Also note that if they work as intended, they will tear down your R session immediately!
 #'
-#' @templateVar id classif.featureless
+#' @templateVar id classif.debug
 #' @template section_dictionary_learner
 #'
 #' @section Meta Information:
@@ -66,6 +68,8 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
           save_tasks           = p_lgl(default = FALSE, tags = c("train", "predict")),
           segfault_predict     = p_dbl(0, 1, default = 0, tags = "predict"),
           segfault_train       = p_dbl(0, 1, default = 0, tags = "train"),
+          sleep_train          = p_uty(tags = "train"),
+          sleep_predict        = p_uty(tags = "train"),
           threads              = p_int(1L, tags = c("train", "threads")),
           warning_predict      = p_dbl(0, 1, default = 0, tags = "predict"),
           warning_train        = p_dbl(0, 1, default = 0, tags = "train"),
@@ -85,6 +89,11 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
         name %in% names(pv) && pv[[name]] > runif(1L)
       }
 
+      if (!is.null(pv$sleep_train)) {
+        secs = assert_number(pv$sleep_train())
+        Sys.sleep(max(0, secs))
+      }
+
       if (roll("message_train")) {
         message("Message from classif.debug->train()")
       }
@@ -102,26 +111,32 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
       if (isTRUE(pv$save_tasks)) {
         model$task_train = task$clone(deep = TRUE)
       }
+
       set_class(model, "classif.debug_model")
     },
 
     .predict = function(task) {
       n = task$nrow
       pv = self$param_set$get_values(tags = "predict")
-      lookup = function(name) {
+      roll = function(name) {
         name %in% names(pv) && pv[[name]] > runif(1L)
       }
 
-      if (lookup("message_predict")) {
+      if (!is.null(pv$sleep_predict)) {
+        secs = assert_number(pv$sleep_predict())
+        Sys.sleep(max(0, secs))
+      }
+
+      if (roll("message_predict")) {
         message("Message from classif.debug->predict()")
       }
-      if (lookup("warning_predict")) {
+      if (roll("warning_predict")) {
         warning("Warning from classif.debug->predict()")
       }
-      if (lookup("error_predict")) {
+      if (roll("error_predict")) {
         stop("Error from classif.debug->predict()")
       }
-      if (lookup("segfault_predict")) {
+      if (roll("segfault_predict")) {
         get("attach")(structure(list(), class = "UserDefinedDatabase"))
       }
 

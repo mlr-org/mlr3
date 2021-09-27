@@ -38,7 +38,7 @@ rr$errors
 }
 \seealso{
 Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
-\url{https://mlr3book.mlr-org.com/resampling.html}
+\url{https://mlr3book.mlr-org.com/basics.html#resampling}
 
 Other resample: 
 \code{\link{resample}()}
