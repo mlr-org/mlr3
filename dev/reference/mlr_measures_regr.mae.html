@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Mean Absolute Errors — mlr_measures_regr.mae • mlr3</title>
+<title>Mean Absolute Error — mlr_measures_regr.mae • mlr3</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -53,9 +53,9 @@
 
 
 
-<meta property="og:title" content="Mean Absolute Errors — mlr_measures_regr.mae" />
+<meta property="og:title" content="Mean Absolute Error — mlr_measures_regr.mae" />
 <meta property="og:description" content="Regression measure defined as $$
-  \frac{1}{n} \sum_{i=1}^n \left| t_i - r_i \right|.
+  \frac{1}{n} \sum_{i=1}^n w_i \left| t_i - r_i \right|.
 $$" />
 <meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
@@ -156,14 +156,14 @@ $$" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Mean Absolute Errors</h1>
+    <h1>Mean Absolute Error</h1>
     <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/MeasureSimple.R'><code>R/MeasureSimple.R</code></a></small>
     <div class="hidden name"><code>mlr_measures_regr.mae.Rd</code></div>
     </div>
 
     <div class="ref-description">
     <p>Regression measure defined as $$
-  \frac{1}{n} \sum_{i=1}^n \left| t_i - r_i \right|.
+  \frac{1}{n} \sum_{i=1}^n w_i \left| t_i - r_i \right|.
 $$</p>
     </div>
 

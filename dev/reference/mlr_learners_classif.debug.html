@@ -66,6 +66,8 @@ predict_missing_type:To to encode missingness. &amp;#8220;na&amp;#8221; will ins
 save_tasks:Saves input task in model slot during training and prediction.
 segfault_predict:Probability to provokes a segfault during predict.
 segfault_train:Probability to provokes a segfault during train.
+sleep_train:Function returning a single number determining how many seconds to sleep during $train().
+sleep_predict:Function returning a single number determining how many seconds to sleep during $predict().
 threads:Number of threads to use. Has no effect.
 warning_predict:Probability to signal a warning during predict.
 warning_train:Probability to signal a warning during train.
@@ -190,6 +192,8 @@ The following hyperparameters trigger the following actions:</p><dl>
 <dt>save_tasks:</dt><dd><p>Saves input task in <code>model</code> slot during training and prediction.</p></dd>
 <dt>segfault_predict:</dt><dd><p>Probability to provokes a segfault during predict.</p></dd>
 <dt>segfault_train:</dt><dd><p>Probability to provokes a segfault during train.</p></dd>
+<dt>sleep_train:</dt><dd><p>Function returning a single number determining how many seconds to sleep during <code>$train()</code>.</p></dd>
+<dt>sleep_predict:</dt><dd><p>Function returning a single number determining how many seconds to sleep during <code>$predict()</code>.</p></dd>
 <dt>threads:</dt><dd><p>Number of threads to use. Has no effect.</p></dd>
 <dt>warning_predict:</dt><dd><p>Probability to signal a warning during predict.</p></dd>
 <dt>warning_train:</dt><dd><p>Probability to signal a warning during train.</p></dd>
@@ -224,20 +228,22 @@ Also note that if they work as intended, they will tear down your R session imme
 
     
 <table class='table'>
-<tr><td>Id</td><td>Type</td><td>Default</td><td>Range</td><td>Levels</td></tr>
-<tr><td>error_predict</td><td>numeric</td><td>0</td><td>\([0, 1]\)</td><td>-</td></tr>
-<tr><td>error_train</td><td>numeric</td><td>0</td><td>\([0, 1]\)</td><td>-</td></tr>
-<tr><td>message_predict</td><td>numeric</td><td>0</td><td>\([0, 1]\)</td><td>-</td></tr>
-<tr><td>message_train</td><td>numeric</td><td>0</td><td>\([0, 1]\)</td><td>-</td></tr>
-<tr><td>predict_missing</td><td>numeric</td><td>0</td><td>\([0, 1]\)</td><td>-</td></tr>
-<tr><td>predict_missing_type</td><td>character</td><td>na</td><td>\((-\infty, \infty)\)</td><td>na, omit</td></tr>
-<tr><td>save_tasks</td><td>logical</td><td>FALSE</td><td>\((-\infty, \infty)\)</td><td>TRUE, FALSE</td></tr>
-<tr><td>segfault_predict</td><td>numeric</td><td>0</td><td>\([0, 1]\)</td><td>-</td></tr>
-<tr><td>segfault_train</td><td>numeric</td><td>0</td><td>\([0, 1]\)</td><td>-</td></tr>
-<tr><td>threads</td><td>integer</td><td>-</td><td>\([1, \infty)\)</td><td>-</td></tr>
-<tr><td>warning_predict</td><td>numeric</td><td>0</td><td>\([0, 1]\)</td><td>-</td></tr>
-<tr><td>warning_train</td><td>numeric</td><td>0</td><td>\([0, 1]\)</td><td>-</td></tr>
-<tr><td>x</td><td>numeric</td><td>-</td><td>\([0, 1]\)</td><td>-</td></tr>
+<tr><td>Id</td><td>Type</td><td>Default</td><td>Levels</td><td>Range</td></tr>
+<tr><td>error_predict</td><td>numeric</td><td>0</td><td></td><td>\([0, 1]\)</td></tr>
+<tr><td>error_train</td><td>numeric</td><td>0</td><td></td><td>\([0, 1]\)</td></tr>
+<tr><td>message_predict</td><td>numeric</td><td>0</td><td></td><td>\([0, 1]\)</td></tr>
+<tr><td>message_train</td><td>numeric</td><td>0</td><td></td><td>\([0, 1]\)</td></tr>
+<tr><td>predict_missing</td><td>numeric</td><td>0</td><td></td><td>\([0, 1]\)</td></tr>
+<tr><td>predict_missing_type</td><td>character</td><td>na</td><td>na, omit</td><td>\((-\infty, \infty)\)</td></tr>
+<tr><td>save_tasks</td><td>logical</td><td>FALSE</td><td>TRUE, FALSE</td><td>\((-\infty, \infty)\)</td></tr>
+<tr><td>segfault_predict</td><td>numeric</td><td>0</td><td></td><td>\([0, 1]\)</td></tr>
+<tr><td>segfault_train</td><td>numeric</td><td>0</td><td></td><td>\([0, 1]\)</td></tr>
+<tr><td>sleep_train</td><td>list</td><td>-</td><td></td><td>\((-\infty, \infty)\)</td></tr>
+<tr><td>sleep_predict</td><td>list</td><td>-</td><td></td><td>\((-\infty, \infty)\)</td></tr>
+<tr><td>threads</td><td>integer</td><td>-</td><td></td><td>\([1, \infty)\)</td></tr>
+<tr><td>warning_predict</td><td>numeric</td><td>0</td><td></td><td>\([0, 1]\)</td></tr>
+<tr><td>warning_train</td><td>numeric</td><td>0</td><td></td><td>\([0, 1]\)</td></tr>
+<tr><td>x</td><td>numeric</td><td>-</td><td></td><td>\([0, 1]\)</td></tr>
 </table>
 
 
