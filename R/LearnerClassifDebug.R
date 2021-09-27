@@ -17,6 +17,8 @@
 #'    \item{save_tasks:}{Saves input task in `model` slot during training and prediction.}
 #'    \item{segfault_predict:}{Probability to provokes a segfault during predict.}
 #'    \item{segfault_train:}{Probability to provokes a segfault during train.}
+#'    \item{sleep_train:}{Function returning a single number determining how many seconds to sleep during `$train()`.}
+#'    \item{sleep_predict:}{Function returning a single number determining how many seconds to sleep during `$predict()`.}
 #'    \item{threads:}{Number of threads to use. Has no effect.}
 #'    \item{warning_predict:}{Probability to signal a warning during predict.}
 #'    \item{warning_train:}{Probability to signal a warning during train.}
@@ -66,6 +68,8 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
           save_tasks           = p_lgl(default = FALSE, tags = c("train", "predict")),
           segfault_predict     = p_dbl(0, 1, default = 0, tags = "predict"),
           segfault_train       = p_dbl(0, 1, default = 0, tags = "train"),
+          sleep_train          = p_uty(tags = "train"),
+          sleep_predict        = p_uty(tags = "train"),
           threads              = p_int(1L, tags = c("train", "threads")),
           warning_predict      = p_dbl(0, 1, default = 0, tags = "predict"),
           warning_train        = p_dbl(0, 1, default = 0, tags = "train"),
@@ -85,6 +89,11 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
         name %in% names(pv) && pv[[name]] > runif(1L)
       }
 
+      if (!is.null(pv$sleep_train)) {
+        secs = assert_number(pv$sleep_train())
+        Sys.sleep(max(0, secs))
+      }
+
       if (roll("message_train")) {
         message("Message from classif.debug->train()")
       }
@@ -102,6 +111,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
       if (isTRUE(pv$save_tasks)) {
         model$task_train = task$clone(deep = TRUE)
       }
+
       set_class(model, "classif.debug_model")
     },
 
@@ -110,6 +120,11 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
       pv = self$param_set$get_values(tags = "predict")
       roll = function(name) {
         name %in% names(pv) && pv[[name]] > runif(1L)
+      }
+
+      if (!is.null(pv$sleep_predict)) {
+        secs = assert_number(pv$sleep_predict())
+        Sys.sleep(max(0, secs))
       }
 
       if (roll("message_predict")) {

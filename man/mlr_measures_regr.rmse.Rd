@@ -5,9 +5,9 @@
 \title{Root Mean Squared Error}
 \description{
 Regression measure defined as \deqn{
-  \sqrt{\frac{1}{n} \sum_{i=1}^n \left( t_i - r_i \right)^2}.
+  \sqrt{\frac{1}{n} \sum_{i=1}^n w_i \left( t_i - r_i \right)^2}.
 }{
-  sqrt(mean((t - r)^2)).
+  sqrt(weighted.mean((t - r)^2, w)).
 }
 }
 \note{
