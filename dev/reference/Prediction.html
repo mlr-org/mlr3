@@ -257,6 +257,7 @@ Returns <code>row_ids</code> for which the predictions are missing or incomplete
 <li><p><a href='#method-print'><code>Prediction$print()</code></a></p></li>
 <li><p><a href='#method-help'><code>Prediction$help()</code></a></p></li>
 <li><p><a href='#method-score'><code>Prediction$score()</code></a></p></li>
+<li><p><a href='#method-filter'><code>Prediction$filter()</code></a></p></li>
 <li><p><a href='#method-clone'><code>Prediction$clone()</code></a></p></li>
 </ul>
 <p><hr>
@@ -307,6 +308,21 @@ Measure(s) to calculate.</p></dd>
 </dl><p></div></p>
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
 <p>Prediction.</p>
+<p><hr>
+<a id="method-filter"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/stats/filter.html'>filter()</a></code></h3>
+<p>Filters the Prediction, keeping only predictions for the provided row_ids.
+This changes the object in-place, you need to create a clone to preserve
+the original Prediction.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>Prediction</span><span class='op'>$</span><span class='fu'>filter</span><span class='op'>(</span><span class='va'>row_ids</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>row_ids</code></dt><dd><p><code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code><br />
+Row indices.</p></dd>
+
+</dl><p></div></p>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
+<p><code>self</code>, modified.</p>
 <p><hr>
 <a id="method-clone"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>clone()</code></h3>
 <p>The objects of this class are cloneable with this method.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>

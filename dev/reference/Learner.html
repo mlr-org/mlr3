@@ -223,17 +223,6 @@ The learner must be tagged with property <code>"oob_error"</code>.</p></li>
 This can be used in measures like <a href='mlr_measures_aic.html'>mlr_measures_aic</a> or <a href='mlr_measures_bic.html'>mlr_measures_bic</a>.</p></li>
 </ul>
 
-    <h2 class="hasAnchor" id="retrain"><a class="anchor" href="#retrain"></a>Retrain</h2>
-
-    
-
-
-<p>Some learners allow to retrain a model with specific hyperparameter values.
-These hyperparameters are tagged with <code>"retrain"</code> in the <a href='https://paradox.mlr-org.com/reference/ParamSet.html'>paradox::ParamSet</a>.
-The <code>$retrain()</code> method calls the learner specific private <code>$.retrain()</code> method.
-If the learner does not support retraining or no retraining is possible with the provided hyperparameter values,
-<code>$train()</code> is called by <code>$retrain()</code>.
-The <code>$is_retrainable()</code> method can be used to check if a learner is retrainable with a set of hyperparameter values.</p>
     <h2 class="hasAnchor" id="setting-hyperparameters"><a class="anchor" href="#setting-hyperparameters"></a>Setting Hyperparameters</h2>
 
     
@@ -389,8 +378,8 @@ Must be an element of <code>$predict_types</code>.</p></dd>
 Set of hyperparameters.</p></dd>
 
 <dt><code>encapsulate</code></dt><dd><p>(named <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
-Controls how to execute the code in internal train, predict and retrain methods.
-Must be a named character vector with names <code>"train"</code>, <code>"predict"</code> and <code>"retrain"</code>.
+Controls how to execute the code in internal train and predict methods.
+Must be a named character vector with names <code>"train"</code> and <code>"predict"</code>.
 Possible values are <code>"none"</code>, <code>"evaluate"</code> (requires package <a href='https://CRAN.R-project.org/package=evaluate'><span class="pkg">evaluate</span></a>) and <code>"callr"</code> (requires package <a href='https://CRAN.R-project.org/package=callr'><span class="pkg">callr</span></a>).
 See <code><a href='https://mlr3misc.mlr-org.com/reference/encapsulate.html'>mlr3misc::encapsulate()</a></code> for more details.</p></dd>
 
@@ -406,9 +395,6 @@ See <code><a href='https://mlr3misc.mlr-org.com/reference/encapsulate.html'>mlr3
 <li><p><a href='#method-print'><code>Learner$print()</code></a></p></li>
 <li><p><a href='#method-help'><code>Learner$help()</code></a></p></li>
 <li><p><a href='#method-train'><code>Learner$train()</code></a></p></li>
-<li><p><a href='#method-retrain'><code>Learner$retrain()</code></a></p></li>
-<li><p><a href='#method-is_retrainable'><code>Learner$is_retrainable()</code></a></p></li>
-<li><p><a href='#method-which_retrain'><code>Learner$which_retrain()</code></a></p></li>
 <li><p><a href='#method-predict'><code>Learner$predict()</code></a></p></li>
 <li><p><a href='#method-predict_newdata'><code>Learner$predict_newdata()</code></a></p></li>
 <li><p><a href='#method-reset'><code>Learner$reset()</code></a></p></li>
@@ -514,62 +500,6 @@ For a simple split into training and test set, see <code><a href='partition.html
 <p>Returns the object itself, but modified <strong>by reference</strong>.
 You need to explicitly <code>$clone()</code> the object beforehand if you want to keeps
 the object in its previous state.</p>
-<p><hr>
-<a id="method-retrain"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>retrain()</code></h3>
-<p>Retrain the learner with hyperparameter values in <code>param_vals</code> on the provided <code>task</code> .
-Mutates the learner by reference, i.e. stores the model alongside other information in field <code>$state</code>.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='va'>Learner</span><span class='op'>$</span><span class='fu'>retrain</span><span class='op'>(</span><span class='va'>task</span>, <span class='va'>param_vals</span>, allow_train <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre><p></div></p>
-
-<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
-<p><div class="arguments"></p><dl>
-<dt><code>task</code></dt><dd><p>(<a href='Task.html'>Task</a>)<br />
-The task used for training the learner.</p></dd>
-
-<dt><code>param_vals</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/list.html'>list()</a></code>)<br />
-List of hyperparameter values.</p></dd>
-
-<dt><code>allow_train</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
-Determines if <code>$train()</code> is called if the learner is not retrainable.</p></dd>
-
-</dl><p></div></p>
-<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
-<p>Returns the object itself, but modified <strong>by reference</strong>. You need to
-explicitly <code>$clone()</code> the object beforehand if you want to keeps the
-object in its previous state.</p>
-<p><hr>
-<a id="method-is_retrainable"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>is_retrainable()</code></h3>
-<p>Returns <code>TRUE</code> if the learner is retrainable with hyperparameter values in <code>param_vals</code>.
-In general, a learner is retrainable if</p><ul>
-<li><p>the learner was trained before</p></li>
-<li><p>the parameter values solely tagged with <code>"train"</code> are unchanged</p></li>
-<li><p>at least one parameter value tagged with <code>"retrain"</code> is supplied</p></li>
-<li><p>the supplied parameter tagged with <code>"retrain"</code> was already set when the learner was trained</p></li>
-</ul>
-
-<p>Usually, a learner adds additional checks e.g. if a <code>"retrain"</code> parameter value increased.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='va'>Learner</span><span class='op'>$</span><span class='fu'>is_retrainable</span><span class='op'>(</span><span class='va'>param_vals</span><span class='op'>)</span></pre><p></div></p>
-
-<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
-<p><div class="arguments"></p><dl>
-<dt><code>param_vals</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/list.html'>list()</a></code>)<br />
-List of hyperparameter values.</p></dd>
-
-</dl><p></div></p>
-<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
-<p><code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code></p>
-<p><hr>
-<a id="method-which_retrain"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>which_retrain()</code></h3>
-<p>Returns index of <code>xss</code> which contains the most efficiently retrainable hyperparameter configuration.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='va'>Learner</span><span class='op'>$</span><span class='fu'>which_retrain</span><span class='op'>(</span><span class='va'>xss</span><span class='op'>)</span></pre><p></div></p>
-
-<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
-<p><div class="arguments"></p><dl>
-<dt><code>xss</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/list.html'>list()</a></code>)<br />
-A list of lists that contain hyperparameter configurations.</p></dd>
-
-</dl><p></div></p>
-<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
-<p><code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code></p>
 <p><hr>
 <a id="method-predict"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/stats/predict.html'>predict()</a></code></h3>
 <p>Uses the information stored during <code>$train()</code> in <code>$state</code> to create a new <a href='Prediction.html'>Prediction</a>
