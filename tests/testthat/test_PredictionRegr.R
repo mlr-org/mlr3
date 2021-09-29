@@ -85,3 +85,13 @@ test_that("as_prediction_regr", {
 
   expect_equal(tab, as.data.table(p2))
 })
+
+test_that("filtering", {
+  task = tsk("mtcars")
+  p = PredictionRegr$new(row_ids = task$row_ids, truth = task$truth(), response = task$truth())
+
+  p2 = p$clone()$filter(1:3)
+  expect_set_equal(p$row_ids, 1:32)
+  expect_set_equal(p2$row_ids, 1:3)
+  expect_prediction(as_prediction_regr(as.data.table(p2)))
+})

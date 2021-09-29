@@ -79,3 +79,20 @@ c.PredictionDataRegr = function(..., keep_duplicates = TRUE) { # nolint
 
   new_prediction_data(result, "regr")
 }
+
+#' @export
+filter_prediction_data.PredictionDataRegr = function(pdata, row_ids) {
+  keep = pdata$row_ids %in% row_ids
+  pdata$row_ids = pdata$row_ids[keep]
+  pdata$truth = pdata$truth[keep]
+
+  if (!is.null(pdata$response)) {
+    pdata$response = pdata$response[keep]
+  }
+
+  if (!is.null(pdata$se)) {
+    pdata$se = pdata$se[keep]
+  }
+
+  pdata
+}
