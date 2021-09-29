@@ -150,3 +150,13 @@ test_that("as_prediction_classif", {
 
   expect_equal(tab, as.data.table(p2))
 })
+
+test_that("#615", {
+  task = tsk("iris")
+  training <- task$clone()$filter(1:100)
+  testing <- task$clone()$filter(101:150)
+
+  l = lrn("classif.rpart")
+  l$train(training)
+  expect_equal(l$predict(testing)$score(), 1)
+})
