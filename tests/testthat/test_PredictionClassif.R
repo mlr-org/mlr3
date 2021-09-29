@@ -158,5 +158,5 @@ test_that("#615", {
 
   l = lrn("classif.rpart")
   l$train(training)
-  expect_equal(l$predict(testing)$score(), 1)
+  expect_equal(unname(l$predict(testing)$score()), 1)
 })
