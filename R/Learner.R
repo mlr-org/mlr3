@@ -613,5 +613,10 @@ retrain_backward_default = function(retrain_value, xss) {
   xss = unlist(xss)
   values = xss[xss > retrain_value]
   if (length(values) == 0) return(integer())
-  unname(which(xss == min(values)))
+  unname(which(xss == min(values)))#
+}
+
+#' @export
+format_list_item.Learner = function(x, ...) { # nolint
+  sprintf("<lrn:%s>", x$id)
 }

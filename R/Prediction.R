@@ -135,3 +135,9 @@ c.Prediction = function(..., keep_duplicates = TRUE) { # nolint
   pdata = invoke(c, .args = c(map(dots, "data"), list(keep_duplicates = keep_duplicates)))
   as_prediction(pdata, check = FALSE)
 }
+
+#' @export
+format_list_item.Prediction = function(x, ...) { # nolint
+  sprintf("<prd[%i]>", length(x$row_ids))
+}
+

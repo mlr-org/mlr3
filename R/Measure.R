@@ -302,3 +302,8 @@ score_measures = function(obj, measures, reassemble = TRUE, view = NULL) {
 
   tab[]
 }
+
+
+format_list_item.Measure = function(x, ...) { # nolint
+  sprintf("<msr:%s>", x$id)
+}
