@@ -21,7 +21,8 @@ Object to convert.}
 
 \item{task}{(\link{Task}).}
 
-\item{row_ids}{(\code{integer()}).}
+\item{row_ids}{\code{integer()}\cr
+Row indices.}
 
 \item{check}{(\code{logical(1)})\cr
 Perform argument checks and type conversions?}
