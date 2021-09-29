@@ -83,3 +83,11 @@ set_encapsulation = function(learners, encapsulate) {
   }
   learners
 }
+
+future_stdout = function() {
+  if (inherits(plan(), "sequential")) {
+    NA
+  } else {
+    TRUE
+  }
+}

@@ -464,6 +464,9 @@ Learner = R6Class("Learner",
         .param_set = value$clone(deep = TRUE),
         fallback = if (is.null(value)) NULL else value$clone(deep = TRUE),
         state = {
+          if (!is.null(value$train_task)) {
+            value$train_task = value$train_task$clone(deep = TRUE)
+          }
           value$log = copy(value$log)
           value
         },
