@@ -183,8 +183,8 @@ are set to <code>NA</code>, between 0 (default) and 1.</p>
 
     
 <table class='table'>
-<tr><td>Id</td><td>Type</td><td>Default</td><td>Levels</td></tr>
-<tr><td>normalize</td><td>logical</td><td>TRUE</td><td>TRUE, FALSE</td></tr>
+<tr><td>Id</td><td>Type</td><td>Default</td><td>Range</td><td>Levels</td></tr>
+<tr><td>normalize</td><td>logical</td><td>TRUE</td><td>\((-\infty, \infty)\)</td><td>TRUE, FALSE</td></tr>
 </table>
 
 
@@ -271,18 +271,24 @@ are set to <code>NA</code>, between 0 (default) and 1.</p>
 <span class='va'>measure</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>msr</a></span><span class='op'>(</span><span class='st'>"debug"</span>, na_ratio <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>)</span>
 <span class='va'>rr</span> <span class='op'>=</span> <span class='fu'><a href='resample.html'>resample</a></span><span class='op'>(</span><span class='va'>task</span>, <span class='va'>learner</span>, <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span><span class='op'>(</span><span class='st'>"cv"</span>, folds <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span>
 <span class='va'>rr</span><span class='op'>$</span><span class='fu'>score</span><span class='op'>(</span><span class='va'>measure</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;          task task_id                   learner          learner_id
-#&gt; 1: &lt;tsk:wine&gt;    wine &lt;lrn:classif.featureless&gt; classif.featureless
-#&gt; 2: &lt;tsk:wine&gt;    wine &lt;lrn:classif.featureless&gt; classif.featureless
-#&gt; 3: &lt;tsk:wine&gt;    wine &lt;lrn:classif.featureless&gt; classif.featureless
-#&gt; 4: &lt;tsk:wine&gt;    wine &lt;lrn:classif.featureless&gt; classif.featureless
-#&gt; 5: &lt;tsk:wine&gt;    wine &lt;lrn:classif.featureless&gt; classif.featureless
-#&gt;      resampling resampling_id iteration prediction debug
-#&gt; 1: &lt;rsmp:cv[5]&gt;            cv         1  &lt;prd[36]&gt;    NA
-#&gt; 2: &lt;rsmp:cv[5]&gt;            cv         2  &lt;prd[36]&gt;    36
-#&gt; 3: &lt;rsmp:cv[5]&gt;            cv         3  &lt;prd[36]&gt;    NA
-#&gt; 4: &lt;rsmp:cv[5]&gt;            cv         4  &lt;prd[35]&gt;    35
-#&gt; 5: &lt;rsmp:cv[5]&gt;            cv         5  &lt;prd[35]&gt;    NA</div></pre>
+</div><div class='output co'>#&gt;                 task task_id                         learner
+#&gt; 1: &lt;TaskClassif[48]&gt;    wine &lt;LearnerClassifFeatureless[36]&gt;
+#&gt; 2: &lt;TaskClassif[48]&gt;    wine &lt;LearnerClassifFeatureless[36]&gt;
+#&gt; 3: &lt;TaskClassif[48]&gt;    wine &lt;LearnerClassifFeatureless[36]&gt;
+#&gt; 4: &lt;TaskClassif[48]&gt;    wine &lt;LearnerClassifFeatureless[36]&gt;
+#&gt; 5: &lt;TaskClassif[48]&gt;    wine &lt;LearnerClassifFeatureless[36]&gt;
+#&gt;             learner_id         resampling resampling_id iteration
+#&gt; 1: classif.featureless &lt;ResamplingCV[19]&gt;            cv         1
+#&gt; 2: classif.featureless &lt;ResamplingCV[19]&gt;            cv         2
+#&gt; 3: classif.featureless &lt;ResamplingCV[19]&gt;            cv         3
+#&gt; 4: classif.featureless &lt;ResamplingCV[19]&gt;            cv         4
+#&gt; 5: classif.featureless &lt;ResamplingCV[19]&gt;            cv         5
+#&gt;                 prediction debug
+#&gt; 1: &lt;PredictionClassif[19]&gt;    NA
+#&gt; 2: &lt;PredictionClassif[19]&gt;    36
+#&gt; 3: &lt;PredictionClassif[19]&gt;    NA
+#&gt; 4: &lt;PredictionClassif[19]&gt;    35
+#&gt; 5: &lt;PredictionClassif[19]&gt;    NA</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
