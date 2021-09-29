@@ -62,7 +62,7 @@ Imports:
     R6 (>= 2.4.1),
     backports,
     checkmate (>= 2.0.0),
-    data.table (>= 1.14.1),
+    data.table (>= 1.14.2),
     future,
     future.apply (>= 1.5.0),
     lgr (>= 0.3.4),
