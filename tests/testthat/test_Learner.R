@@ -298,3 +298,10 @@ test_that("train task is cloned (#382)", {
   lrc = lr$clone(deep = TRUE)
   expect_different_address(lr$state$train_task, lrc$state$train_task)
 })
+
+test_that("Error on missing data (#413)", {
+  task = tsk("pima")
+  learner = lrn("classif.rpart")
+  learner$properties = setdiff(learner$properties, "missings")
+  expect_error(learner$train(task), "missing values")
+})
