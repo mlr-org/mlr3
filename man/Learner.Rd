@@ -74,7 +74,7 @@ Here, we add a factor hyperparameter with id \code{"foo"} and possible levels \c
 \seealso{
 \itemize{
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
-\url{https://mlr3book.mlr-org.com/learners.html}
+\url{https://mlr3book.mlr-org.com/basics.html#learners}
 \item Package \CRANpkg{mlr3learners} for a solid collection of essential learners.
 \item Package \href{https://github.com/mlr-org/mlr3extralearners}{mlr3extralearners} for more learners.
 \item \link[mlr3misc:Dictionary]{Dictionary} of \link[=Learner]{Learners}: \link{mlr_learners}
@@ -92,6 +92,7 @@ Other Learner:
 \code{\link{mlr_learners_classif.debug}},
 \code{\link{mlr_learners_classif.featureless}},
 \code{\link{mlr_learners_classif.rpart}},
+\code{\link{mlr_learners_regr.debug}},
 \code{\link{mlr_learners_regr.featureless}},
 \code{\link{mlr_learners_regr.rpart}},
 \code{\link{mlr_learners}}
@@ -138,7 +139,7 @@ These packages are loaded, but not attached.}
 \item{\code{predict_sets}}{(\code{character()})\cr
 During \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}, a \link{Learner} can predict on multiple sets.
 Per default, a learner only predicts observations in the test set (\code{predict_sets == "test"}).
-To change this behaviour, set \code{predict_sets} to a non-empty subset of \verb{\{"train", "test", "validation"\}}.
+To change this behavior, set \code{predict_sets} to a non-empty subset of \verb{\{"train", "test", "validation"\}}.
 Each set yields a separate \link{Prediction} object.
 Those be combined via getters in \link{ResampleResult}/\link{BenchmarkResult}, or \link{Measure}s can be altered
 to operate on specific subsets of the calculated prediction sets.}
@@ -156,12 +157,12 @@ Timeout for the learner's train and predict steps, in seconds.
 This works differently for different encapsulation methods, see
 \code{\link[mlr3misc:encapsulate]{mlr3misc::encapsulate()}}.
 Default is \code{c(train = Inf, predict = Inf)}.
-Also see the section on error handling the mlr3book: \url{https://mlr3book.mlr-org.com/error-handling.html}}
+Also see the section on error handling the mlr3book: \url{https://mlr3book.mlr-org.com/technical.html#error-handling}}
 
 \item{\code{fallback}}{(\link{Learner})\cr
 Learner which is fitted to impute predictions in case that either the model fitting or the prediction of the top learner is not successful.
 Requires you to enable encapsulation, otherwise errors are not caught and the execution is terminated before the fallback learner kicks in.
-Also see the section on error handling the mlr3book: \url{https://mlr3book.mlr-org.com/error-handling.html}}
+Also see the section on error handling the mlr3book: \url{https://mlr3book.mlr-org.com/technical.html#error-handling}}
 
 \item{\code{man}}{(\code{character(1)})\cr
 String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
@@ -352,7 +353,8 @@ Mutates the learner by reference, i.e. stores the model alongside other informat
 \item{\code{task}}{(\link{Task}).}
 
 \item{\code{row_ids}}{(\code{integer()})\cr
-Vector of training indices.}
+Vector of training indices as subset of \code{task$row_ids}.
+For a simple split into training and test set, see \code{\link[=partition]{partition()}}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -378,7 +380,8 @@ for a set of observations of the provided \code{task}.
 \item{\code{task}}{(\link{Task}).}
 
 \item{\code{row_ids}}{(\code{integer()})\cr
-Vector of test indices.}
+Vector of test indices as subset of \code{task$row_ids}.
+For a simple split into training and test set, see \code{\link[=partition]{partition()}}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -403,9 +406,12 @@ in the \link{ResampleResult} or \link{BenchmarkResult}, respectively.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{newdata}}{(\code{data.frame()})\cr
+\item{\code{newdata}}{(any object supported by \code{\link[=as_data_backend]{as_data_backend()}})\cr
 New data to predict on.
-Row ids are automatically set to \code{1:nrow(newdata)}.}
+All data formats convertible by \code{\link[=as_data_backend]{as_data_backend()}} are supported, e.g.
+\code{data.frame()} or \link{DataBackend}.
+If a \link{DataBackend} is provided as \code{newdata}, the row ids are preserved,
+otherwise they are set to to the sequence \code{1:nrow(newdata)}.}
 
 \item{\code{task}}{(\link{Task}).}
 }

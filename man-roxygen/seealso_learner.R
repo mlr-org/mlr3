@@ -1,7 +1,7 @@
 #' @seealso
 #'
 #' * Chapter in the [mlr3book](https://mlr3book.mlr-org.com/):
-#'   \url{https://mlr3book.mlr-org.com/learners.html}
+#'   \url{https://mlr3book.mlr-org.com/basics.html#learners}
 #' * Package \CRANpkg{mlr3learners} for a solid collection of essential learners.
 #' * Package [mlr3extralearners](https://github.com/mlr-org/mlr3extralearners) for more learners.
 #' * [Dictionary][mlr3misc::Dictionary] of [Learners][Learner]: [mlr_learners]

@@ -15,21 +15,39 @@ test_that("predict method works", {
   expect_true(uniqueN(predict(lrn, newdata, method = "mode")) == 1L)
 })
 
-test_that("missing predictions are handled gracefully", {
+test_that("missing predictions are handled gracefully / classif", {
   task = tsk("sonar")
   learner = lrn("classif.debug", predict_missing = 1, predict_missing_type = "na", predict_type = "prob")
-
   learner$train(task)
+
   p = learner$predict(task)
   expect_factor(p$response, levels = task$class_names)
   expect_true(all(is.na(p$response)))
-
   expect_true(all(is.na(p$prob)))
+  expect_error(p$score(), "missing")
 
   learner = lrn("classif.debug", predict_missing = 0.5, predict_missing_type = "omit", predict_type = "prob")
   learner$train(task)
   expect_error(learner$predict(task), "observations")
 })
+
+test_that("missing predictions are handled gracefully / regr", {
+  task = tsk("mtcars")
+  learner = lrn("regr.debug", predict_missing = 1, predict_missing_type = "na", predict_type = "se")
+  learner$train(task)
+
+  p = learner$predict(task)
+  expect_numeric(p$response)
+  expect_numeric(p$se)
+  expect_true(all(is.na(p$response)))
+  expect_true(all(is.na(p$se)))
+  expect_error(p$score(), "missing")
+
+  learner = lrn("regr.debug", predict_missing = 0.5, predict_missing_type = "omit", predict_type = "se")
+  learner$train(task)
+  expect_error(learner$predict(task), "observations")
+})
+
 
 test_that("predict_newdata with weights (#519)", {
   task = tsk("boston_housing")

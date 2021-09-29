@@ -139,13 +139,13 @@ Learner = R6Class("Learner",
     #' This works differently for different encapsulation methods, see
     #' [mlr3misc::encapsulate()].
     #' Default is `c(train = Inf, predict = Inf)`.
-    #' Also see the section on error handling the mlr3book: \url{https://mlr3book.mlr-org.com/error-handling.html}
+    #' Also see the section on error handling the mlr3book: \url{https://mlr3book.mlr-org.com/technical.html#error-handling}
     timeout = c(train = Inf, predict = Inf),
 
     #' @field fallback ([Learner])\cr
     #' Learner which is fitted to impute predictions in case that either the model fitting or the prediction of the top learner is not successful.
     #' Requires you to enable encapsulation, otherwise errors are not caught and the execution is terminated before the fallback learner kicks in.
-    #' Also see the section on error handling the mlr3book: \url{https://mlr3book.mlr-org.com/error-handling.html}
+    #' Also see the section on error handling the mlr3book: \url{https://mlr3book.mlr-org.com/technical.html#error-handling}
     fallback = NULL,
 
     #' @template field_man
@@ -213,7 +213,8 @@ Learner = R6Class("Learner",
     #' @param task ([Task]).
     #'
     #' @param row_ids (`integer()`)\cr
-    #'   Vector of training indices.
+    #'   Vector of training indices as subset of `task$row_ids`.
+    #'   For a simple split into training and test set, see [partition()].
     #'
     #' @return
     #' Returns the object itself, but modified **by reference**.
@@ -239,7 +240,8 @@ Learner = R6Class("Learner",
     #' @param task ([Task]).
     #'
     #' @param row_ids (`integer()`)\cr
-    #'   Vector of test indices.
+    #'   Vector of test indices as subset of `task$row_ids`.
+    #'   For a simple split into training and test set, see [partition()].
     #'
     #' @return [Prediction].
     predict = function(task, row_ids = NULL) {
@@ -281,16 +283,17 @@ Learner = R6Class("Learner",
     #' If the learner has been fitted via [resample()] or [benchmark()], you need to pass the corresponding task stored
     #' in the [ResampleResult] or [BenchmarkResult], respectively.
     #'
-    #' @param newdata (`data.frame()`)\cr
+    #' @param newdata (any object supported by [as_data_backend()])\cr
     #'   New data to predict on.
-    #'   Row ids are automatically set to `1:nrow(newdata)`.
+    #'   All data formats convertible by [as_data_backend()] are supported, e.g.
+    #'   `data.frame()` or [DataBackend].
+    #'   If a [DataBackend] is provided as `newdata`, the row ids are preserved,
+    #'   otherwise they are set to to the sequence `1:nrow(newdata)`.
     #'
     #' @param task ([Task]).
     #'
     #' @return [Prediction].
     predict_newdata = function(newdata, task = NULL) {
-      newdata = as.data.table(assert_data_frame(newdata, min.rows = 1L))
-
       if (is.null(task)) {
         if (is.null(self$state$train_task)) {
           stopf("No task stored, and no task provided")
@@ -302,22 +305,22 @@ Learner = R6Class("Learner",
         task = task_rm_backend(task)
       }
 
-      assert_names(names(newdata), must.include = task$feature_names)
+      newdata = as_data_backend(newdata)
+      assert_names(newdata$colnames, must.include = task$feature_names)
 
       # the following columns are automatically set to NA if missing
-      impute = unlist(task$col_roles[c("target", "name", "order", "stratum", "group", "weight")])
-      impute = setdiff(impute, colnames(newdata))
+      impute = unlist(task$col_roles[c("target", "name", "order", "stratum", "group", "weight")], use.names = FALSE)
+      impute = setdiff(impute, newdata$colnames)
       if (length(impute)) {
-        # create list with correct NA types and insert it into the table newdata
-        tab = task$col_info[list(impute), on = "id"]
-        set(tab, j = "value", value = NA)
-        nas = set_names(pmap(tab[, !"label"], auto_convert), tab$id)
-        newdata = insert_named(newdata, nas)
+        # create list with correct NA types and cbind it to the backend
+        ci = insert_named(task$col_info[list(impute), c("id", "type", "levels"), on = "id", with = FALSE], list(value = NA))
+        na_cols = set_names(pmap(ci, function(..., nrow) rep(auto_convert(...), nrow), nrow = newdata$nrow), ci$id)
+        tab = invoke(data.table, .args = insert_named(na_cols, set_names(list(newdata$rownames), newdata$primary_key)))
+        newdata = DataBackendCbind$new(newdata, DataBackendDataTable$new(tab, primary_key = newdata$primary_key))
       }
 
       # do some type conversions if necessary
-
-      task$backend = as_data_backend(newdata)
+      task$backend = newdata
       task$row_roles$use = task$backend$rownames
       self$predict(task)
     },
@@ -419,7 +422,10 @@ Learner = R6Class("Learner",
       if (missing(rhs)) {
         return(private$.predict_type)
       }
+
+      assert_string(rhs, .var.name = "predict_type")
       if (rhs %nin% self$predict_types) {
+
         stopf("Learner '%s' does not support predict type '%s'", self$id, rhs)
       }
       private$.predict_type = rhs

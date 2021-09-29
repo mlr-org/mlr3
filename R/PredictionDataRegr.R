@@ -5,12 +5,12 @@ check_prediction_data.PredictionDataRegr = function(pdata) { # nolint
   n = length(pdata$row_ids)
 
   if (!is.null(pdata$response)) {
-    assert_numeric(pdata$response, any.missing = FALSE)
+    pdata$response = assert_numeric(unname(pdata$response))
     assert_prediction_count(length(pdata$response), n, "response")
   }
 
   if (!is.null(pdata$se)) {
-    assert_numeric(pdata$se, lower = 0, any.missing = FALSE)
+    pdata$se = assert_numeric(unname(pdata$se), lower = 0)
     assert_prediction_count(length(pdata$se), n, "se")
   }
 

@@ -139,6 +139,34 @@ test_that("predict on newdata works / no target column", {
   learner$predict_newdata(xdt[, 1])
 })
 
+test_that("predict on newdata works / empty data frame", {
+  task = tsk("mtcars")
+  splits = partition(task)
+  learner = lrn("regr.featureless")
+  learner$train(task$clone()$filter(splits$train))
+
+  newdata = as_data_backend(task$data(rows = integer()))
+  p = learner$predict_newdata(newdata = newdata)
+
+  expect_data_table(as.data.table(p), nrows = 0)
+  expect_set_equal(as.data.table(p)$row_ids, integer())
+})
+
+test_that("predict on newdata works / data backend input", {
+  task = tsk("mtcars")
+  splits = partition(task)
+  learner = lrn("regr.featureless")
+  learner$train(task$clone()$filter(splits$train))
+
+  newdata = task$data(rows = splits$test)
+  newdata$new_row_id = sample(1e4, nrow(newdata))
+  backend = as_data_backend(newdata, primary_key = "new_row_id")
+  p = learner$predict_newdata(newdata = backend)
+
+  expect_data_table(as.data.table(p), nrows = backend$nrow)
+  expect_set_equal(as.data.table(p)$row_ids, backend$rownames)
+})
+
 
 test_that("predict on newdata works / titanic use case", {
   skip_if_not_installed("mlr3data")
@@ -249,4 +277,15 @@ test_that("weights", {
 
   expect_prediction(learner$predict_newdata(data[1:3, ]))
   expect_prediction(learner$predict_newdata(iris[1:3, ]))
+})
+
+test_that("mandatory properties",  {
+  task = tsk("iris")
+  learner = lrn("classif.rpart")
+  learner$properties = setdiff(learner$properties, "multiclass")
+  resample = rsmp("holdout")
+
+  expect_error(learner$train(task), "multiclass")
+  expect_error(resample(task, learner, resample), "multiclass")
+  expect_error(benchmark(benchmark_grid(task, learner, resample)), "multiclass")
 })

@@ -67,7 +67,7 @@ Imports:
     future.apply (>= 1.5.0),
     lgr (>= 0.3.4),
     mlbench,
-    mlr3measures (>= 0.3.0),
+    mlr3measures (>= 0.4.0),
     mlr3misc (>= 0.9.3),
     parallelly,
     palmerpenguins,
@@ -91,7 +91,7 @@ Config/testthat/edition: 3
 Config/testthat/parallel: false
 NeedsCompilation: no
 Roxygen: list(markdown = TRUE, r6 = TRUE)
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Collate:
     'mlr_reflections.R'
     'BenchmarkResult.R'
@@ -108,6 +108,7 @@ Collate:
     'LearnerClassifFeatureless.R'
     'LearnerClassifRpart.R'
     'LearnerRegr.R'
+    'LearnerRegrDebug.R'
     'LearnerRegrFeatureless.R'
     'LearnerRegrRpart.R'
     'Measure.R'
