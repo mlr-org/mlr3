@@ -494,3 +494,8 @@ get_log_condition = function(state, condition) {
     fget(state$log, i = condition, j = "msg", key = "class")
   }
 }
+
+#' @export
+format_list_item.Learner = function(x, ...) { # nolint
+  sprintf("<lrn:%s>", x$id)
+}

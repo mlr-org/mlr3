@@ -62,7 +62,7 @@ Imports:
     R6 (>= 2.4.1),
     backports,
     checkmate (>= 2.0.0),
-    data.table (>= 1.13.6),
+    data.table (>= 1.14.2),
     future,
     future.apply (>= 1.5.0),
     lgr (>= 0.3.4),
@@ -85,6 +85,7 @@ Suggests:
     progressr,
     rpart,
     testthat (>= 3.0.0)
+Remotes: Rdatatable/data.table
 Encoding: UTF-8
 Config/testthat/edition: 3
 Config/testthat/parallel: false
