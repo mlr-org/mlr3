@@ -171,6 +171,11 @@ Do not modify any object without cloning it first.</p>
 
 
 
+    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
+
+    <p>The fitted models are discarded after the predictions have been computed in
+order to reduce memory consumption. If you need access to the models for
+later analysis, set <code>store_models</code> to <code>TRUE</code>.</p>
     <h2 class="hasAnchor" id="s-methods"><a class="anchor" href="#s-methods"></a>S3 Methods</h2>
 
     
@@ -247,6 +252,8 @@ Note that there can be multiple rows per resampling iteration if multiple errors
 <li><p><a href='#method-score'><code>ResampleResult$score()</code></a></p></li>
 <li><p><a href='#method-aggregate'><code>ResampleResult$aggregate()</code></a></p></li>
 <li><p><a href='#method-filter'><code>ResampleResult$filter()</code></a></p></li>
+<li><p><a href='#method-retrain'><code>ResampleResult$retrain()</code></a></p></li>
+<li><p><a href='#method-is_retrainable'><code>ResampleResult$is_retrainable()</code></a></p></li>
 <li><p><a href='#method-clone'><code>ResampleResult$clone()</code></a></p></li>
 </ul>
 <p><hr>
@@ -382,6 +389,41 @@ Resampling iterations to keep.</p></dd>
 <p>Returns the object itself, but modified <strong>by reference</strong>.
 You need to explicitly <code>$clone()</code> the object beforehand if you want to keeps
 the object in its previous state.</p>
+<p><hr>
+<a id="method-retrain"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>retrain()</code></h3>
+<p>Repeats the resampling with retrainable models. The models are updated
+with the additional budget, the training continues on the training sets
+and the performance is again evaluated on the test sets.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>ResampleResult</span><span class='op'>$</span><span class='fu'>retrain</span><span class='op'>(</span><span class='va'>param_vals</span>, store_models <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>param_vals</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/list.html'>list()</a></code>)<br />
+List of hyperparameter values.</p></dd>
+
+<dt><code>store_models</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
+Keep the fitted model after the test set has been predicted?
+Set to <code>TRUE</code> if you want to further analyse the models or want to
+extract information like variable importance.</p></dd>
+
+</dl><p></div></p>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
+<p>Returns the object itself, but modified <strong>by reference</strong>.
+You need to explicitly <code>$clone()</code> the object beforehand if you want to keeps
+the object in its previous state.</p>
+<p><hr>
+<a id="method-is_retrainable"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>is_retrainable()</code></h3>
+<p>Returns <code>TRUE</code> if the learner is retrainable with parameter values in <code>param_vals</code>.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>ResampleResult</span><span class='op'>$</span><span class='fu'>is_retrainable</span><span class='op'>(</span><span class='va'>param_vals</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>param_vals</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/list.html'>list()</a></code>)<br />
+List of hyperparameter values.</p></dd>
+
+</dl><p></div></p>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
+<p><code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code></p>
 <p><hr>
 <a id="method-clone"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>clone()</code></h3>
 <p>The objects of this class are cloneable with this method.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>

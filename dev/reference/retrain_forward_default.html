@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Dictionary of Learners — mlr_learners • mlr3</title>
+<title>Default Forward Which Retrain Function — retrain_forward_default • mlr3</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -53,13 +53,11 @@
 
 
 
-<meta property="og:title" content="Dictionary of Learners — mlr_learners" />
-<meta property="og:description" content="A simple mlr3misc::Dictionary storing objects of class Learner.
-Each learner has an associated help page, see mlr_learners_[id].
-This dictionary can get populated with additional learners by add-on packages.
-For an opinionated set of solid classification and regression learners, install and load the mlr3learners package.
-More learners are connected via https://github.com/mlr-org/mlr3extralearners.
-For a more convenient way to retrieve and construct learners, see lrn()/lrns()." />
+<meta property="og:title" content="Default Forward Which Retrain Function — retrain_forward_default" />
+<meta property="og:description" content="The list xss contains multiple &quot;retrain&quot; hyperparameter values.
+This function determines which one allows to retrain to a learner
+with the &quot;retrain&quot; hyperparameter value in retrain_value most efficiently.
+For a Learner that can only retrain forwards." />
 <meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
@@ -159,108 +157,34 @@ For a more convenient way to retrieve and construct learners, see lrn()/lrns()."
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Dictionary of Learners</h1>
-    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/mlr_learners.R'><code>R/mlr_learners.R</code></a></small>
-    <div class="hidden name"><code>mlr_learners.Rd</code></div>
+    <h1>Default Forward Which Retrain Function</h1>
+    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/Learner.R'><code>R/Learner.R</code></a></small>
+    <div class="hidden name"><code>retrain_forward_default.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>A simple <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>mlr3misc::Dictionary</a> storing objects of class <a href='Learner.html'>Learner</a>.
-Each learner has an associated help page, see <code>mlr_learners_[id]</code>.</p>
-<p>This dictionary can get populated with additional learners by add-on packages.
-For an opinionated set of solid classification and regression learners, install and load the <a href='https://CRAN.R-project.org/package=mlr3learners'><span class="pkg">mlr3learners</span></a> package.
-More learners are connected via <a href='https://github.com/mlr-org/mlr3extralearners'>https://github.com/mlr-org/mlr3extralearners</a>.</p>
-<p>For a more convenient way to retrieve and construct learners, see <code><a href='mlr_sugar.html'>lrn()</a></code>/<code><a href='mlr_sugar.html'>lrns()</a></code>.</p>
+    <p>The list <code>xss</code> contains multiple "<code>retrain</code>" hyperparameter values.
+This function determines which one allows to retrain to a learner
+with the "<code>retrain</code>" hyperparameter value in <code>retrain_value</code> most efficiently.
+For a <a href='Learner.html'>Learner</a> that can only retrain forwards.</p>
     </div>
 
+    <pre class="usage"><span class='fu'>retrain_forward_default</span><span class='op'>(</span><span class='va'>retrain_value</span>, <span class='va'>xss</span><span class='op'>)</span></pre>
+
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>retrain_value</th>
+      <td><p>(<code><a href='https://rdrr.io/r/base/numeric.html'>numeric(1)</a></code>).</p></td>
+    </tr>
+    <tr>
+      <th>xss</th>
+      <td><p>(<code><a href='https://rdrr.io/r/base/list.html'>list()</a></code>).</p></td>
+    </tr>
+    </table>
 
 
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
-
-    <p><a href='https://r6.r-lib.org/reference/R6Class.html'>R6::R6Class</a> object inheriting from <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>mlr3misc::Dictionary</a>.</p>
-    <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
-
-    
-
-<p>See <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>mlr3misc::Dictionary</a>.</p>
-    <h2 class="hasAnchor" id="s-methods"><a class="anchor" href="#s-methods"></a>S3 methods</h2>
-
-    
-
-<ul>
-<li><p><code><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table(dict)</a></code><br />
-<a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>mlr3misc::Dictionary</a> -&gt; <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code><br />
-Returns a <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code> with fields "key", "feature_types", "packages",
-"properties" and "predict_types" as columns.</p></li>
-</ul>
-
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p>Sugar functions: <code><a href='mlr_sugar.html'>lrn()</a></code>, <code><a href='mlr_sugar.html'>lrns()</a></code></p>
-<p>Extension Packages: <a href='https://CRAN.R-project.org/package=mlr3learners'><span class="pkg">mlr3learners</span></a></p>
-<p>Other Dictionary: 
-<code><a href='mlr_measures.html'>mlr_measures</a></code>,
-<code><a href='mlr_resamplings.html'>mlr_resamplings</a></code>,
-<code><a href='mlr_task_generators.html'>mlr_task_generators</a></code>,
-<code><a href='mlr_tasks.html'>mlr_tasks</a></code></p>
-<p>Other Learner: 
-<code><a href='LearnerClassif.html'>LearnerClassif</a></code>,
-<code><a href='LearnerRegr.html'>LearnerRegr</a></code>,
-<code><a href='Learner.html'>Learner</a></code>,
-<code><a href='mlr_learners_classif.debug.html'>mlr_learners_classif.debug</a></code>,
-<code><a href='mlr_learners_classif.featureless.html'>mlr_learners_classif.featureless</a></code>,
-<code><a href='mlr_learners_classif.rpart.html'>mlr_learners_classif.rpart</a></code>,
-<code><a href='mlr_learners_regr.debug.html'>mlr_learners_regr.debug</a></code>,
-<code><a href='mlr_learners_regr.featureless.html'>mlr_learners_regr.featureless</a></code>,
-<code><a href='mlr_learners_regr.rpart.html'>mlr_learners_regr.rpart</a></code></p></div>
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table</a></span><span class='op'>(</span><span class='va'>mlr_learners</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;                    key                                        feature_types
-#&gt; 1:       classif.debug     logical,integer,numeric,character,factor,ordered
-#&gt; 2: classif.featureless logical,integer,numeric,character,factor,ordered,...
-#&gt; 3:       classif.rpart               logical,integer,numeric,factor,ordered
-#&gt; 4:          regr.debug     logical,integer,numeric,character,factor,ordered
-#&gt; 5:    regr.featureless logical,integer,numeric,character,factor,ordered,...
-#&gt; 6:          regr.rpart               logical,integer,numeric,factor,ordered
-#&gt;    packages
-#&gt; 1:         
-#&gt; 2:         
-#&gt; 3:    rpart
-#&gt; 4:         
-#&gt; 5:    stats
-#&gt; 6:    rpart
-#&gt;                                                               properties
-#&gt; 1:                                  missings,multiclass,retrain,twoclass
-#&gt; 2: featureless,importance,missings,multiclass,selected_features,twoclass
-#&gt; 3:     importance,missings,multiclass,selected_features,twoclass,weights
-#&gt; 4:                                                              missings
-#&gt; 5:                     featureless,importance,missings,selected_features
-#&gt; 6:                         importance,missings,selected_features,weights
-#&gt;    predict_types
-#&gt; 1: response,prob
-#&gt; 2: response,prob
-#&gt; 3: response,prob
-#&gt; 4:   response,se
-#&gt; 5:   response,se
-#&gt; 6:      response</div><div class='input'><span class='va'>mlr_learners</span><span class='op'>$</span><span class='fu'>get</span><span class='op'>(</span><span class='st'>"classif.featureless"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; &lt;LearnerClassifFeatureless:classif.featureless&gt;
-#&gt; * Model: -
-#&gt; * Parameters: method=mode
-#&gt; * Packages: -
-#&gt; * Predict Type: response
-#&gt; * Feature types: logical, integer, numeric, character, factor, ordered,
-#&gt;   POSIXct
-#&gt; * Properties: featureless, importance, missings, multiclass,
-#&gt;   selected_features, twoclass</div><div class='input'><span class='fu'><a href='mlr_sugar.html'>lrn</a></span><span class='op'>(</span><span class='st'>"classif.rpart"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; &lt;LearnerClassifRpart:classif.rpart&gt;
-#&gt; * Model: -
-#&gt; * Parameters: xval=0
-#&gt; * Packages: rpart
-#&gt; * Predict Type: response
-#&gt; * Feature types: logical, integer, numeric, factor, ordered
-#&gt; * Properties: importance, missings, multiclass, selected_features,
-#&gt;   twoclass, weights</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
