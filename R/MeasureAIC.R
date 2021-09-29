@@ -14,6 +14,11 @@
 #' @templateVar id aic
 #' @template section_dictionary_measure
 #'
+#' @section Parameters:
+#' `r rd_info(msr("aic")$param_set)`
+#'
+#' `k` is the penalty to be used in [stats::AIC()] (defaulting to 2).
+#'
 #' @section Meta Information:
 #' * Type: `NA`
 #' * Range: \eqn{(-\infty, \infty)}{(-Inf, Inf)}
@@ -29,27 +34,28 @@ MeasureAIC = R6Class("MeasureAIC",
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
+      param_set = ps(k = p_int(lower = 0))
       super$initialize(
         id = "aic",
         task_type = NA_character_,
+        param_set = param_set,
         properties = c("na_score", "requires_learner", "requires_model"),
         predict_type = "response",
         minimize = TRUE,
         man = "mlr3::mlr_measures_aic"
       )
-    },
-
-    #' @field k (`integer(1)`):\cr
-    #' Penalty to use. See [stats::AIC()].
-    k = 2L
+    }
   ),
 
   private = list(
     .score = function(prediction, learner, ...) {
+      learner = learner$base_learner()
       if ("loglik" %nin% learner$properties) {
         return(NA_real_)
       }
-      stats::AIC(learner$loglik(), k = self$k)
+
+      k = self$param_set$values$k %??% 2
+      return(stats::AIC(learner$loglik(), k = k))
     }
   )
 )

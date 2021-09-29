@@ -7,11 +7,20 @@
 \description{
 This measure returns the number of observations in the \link{Prediction} object.
 Its main purpose is debugging.
+The parameter \code{na_ratio} (\code{numeric(1)}) controls the ratio of scores which randomly
+are set to \code{NA}, between 0 (default) and 1.
 }
 \section{Dictionary}{
 
 This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("debug")
 msr("debug")
+}
+}
+
+\section{Parameters}{
+\tabular{lllll}{
+   Id \tab Type \tab Default \tab Range \tab Levels \cr
+   normalize \tab logical \tab TRUE \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \tab TRUE, FALSE \cr
 }
 }
 
@@ -28,14 +37,14 @@ msr("debug")
 \examples{
 task = tsk("wine")
 learner = lrn("classif.featureless")
-measure = msr("debug")
-rr = resample(task, learner, rsmp("cv", folds = 3))
+measure = msr("debug", na_ratio = 0.5)
+rr = resample(task, learner, rsmp("cv", folds = 5))
 rr$score(measure)
 }
 \seealso{
 \itemize{
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
-\url{https://mlr3book.mlr-org.com/train-predict.html}
+\url{https://mlr3book.mlr-org.com/basics.html#train-predict}
 \item Package \CRANpkg{mlr3measures} for the scoring functions.
 \link[mlr3misc:Dictionary]{Dictionary} of \link[=Measure]{Measures}: \link{mlr_measures}
 \code{as.data.table(mlr_measures)} for a table of available \link[=Measure]{Measures} in the running session (depending on the loaded packages).
@@ -61,15 +70,6 @@ Other Measure:
 \concept{Measure}
 \section{Super class}{
 \code{\link[mlr3:Measure]{mlr3::Measure}} -> \code{MeasureDebug}
-}
-\section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{na_ratio}}{(\code{numeric(1)})\cr
-Ratio of scores which randomly should be \code{NA}, between 0 (default) and 1.
-Default is 0.}
-}
-\if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{

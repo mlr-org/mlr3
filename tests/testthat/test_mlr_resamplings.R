@@ -9,6 +9,8 @@ test_that("mlr_resamplings", {
     expect_false(r$is_instantiated)
     if (key == "custom") {
       ret = r$instantiate(task, list(1:3), list(5:9))
+    } else if (key == "custom_cv") {
+      ret = r$instantiate(task, iris$Species)
     } else {
       ret = r$instantiate(task)
     }

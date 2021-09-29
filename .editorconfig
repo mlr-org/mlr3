@@ -19,3 +19,6 @@ indent_size = 4
 
 [{NEWS.md,DESCRIPTION,LICENSE}]
 max_line_length = 80
+
+[CITATION.cff]
+indent_size = 2

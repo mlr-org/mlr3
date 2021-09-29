@@ -8,20 +8,14 @@
 \description{
 \if{html}{\figure{logo.png}{options: align='right' alt='logo' width='120'}}
 
-Efficient, object-oriented programming on the
-    building blocks of machine learning. Provides 'R6' objects for tasks,
-    learners, resamplings, and measures. The package is geared towards
-    scalability and larger datasets by supporting parallelization and
-    out-of-memory data-backends like databases. While 'mlr3' focuses on
-    the core computational operations, add-on packages provide additional
-    functionality.
+Efficient, object-oriented programming on the building blocks of machine learning. Provides 'R6' objects for tasks, learners, resamplings, and measures. The package is geared towards scalability and larger datasets by supporting parallelization and out-of-memory data-backends like databases. While 'mlr3' focuses on the core computational operations, add-on packages provide additional functionality.
 }
 \section{Learn mlr3}{
 
 \itemize{
 \item Book on mlr3: \url{https://mlr3book.mlr-org.com}
 \item Use cases and examples gallery: \url{https://mlr3gallery.mlr-org.com}
-\item Cheat Sheets: \url{https://cheatsheets.mlr-org.com}
+\item Cheat Sheets: \url{https://github.com/mlr-org/mlr3cheatsheets}
 }
 }
 

@@ -8,6 +8,7 @@
 \alias{assert_learner}
 \alias{assert_learners}
 \alias{assert_learnable}
+\alias{assert_predictable}
 \alias{assert_measure}
 \alias{assert_measures}
 \alias{assert_resampling}
@@ -51,6 +52,8 @@ assert_learners(
 )
 
 assert_learnable(task, learner)
+
+assert_predictable(task, learner)
 
 assert_measure(
   measure,
@@ -121,7 +124,7 @@ Set of required task properties.}
 }
 \description{
 Functions intended to be used in packages extending \pkg{mlr3}.
-Most assertion functions ensure the right class attrbiture, and optionally additional properties.
+Most assertion functions ensure the right class attribute, and optionally additional properties.
 Additionally, the following compound assertions are implemented:
 \itemize{
 \item \code{assert_learnable(task, learner)}\cr

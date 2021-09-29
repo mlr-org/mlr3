@@ -6,9 +6,14 @@
 #' @description
 #' This measure returns the number of observations in the [Prediction] object.
 #' Its main purpose is debugging.
+#' The parameter `na_ratio` (`numeric(1)`) controls the ratio of scores which randomly
+#' are set to `NA`, between 0 (default) and 1.
 #'
 #' @templateVar id debug
 #' @template section_dictionary_measure
+#'
+#' @section Parameters:
+#' `r rd_info(msr("classif.costs")$param_set)`
 #'
 #' @section Meta Information:
 #' * Type: `NA`
@@ -21,22 +26,20 @@
 #' @examples
 #' task = tsk("wine")
 #' learner = lrn("classif.featureless")
-#' measure = msr("debug")
-#' rr = resample(task, learner, rsmp("cv", folds = 3))
+#' measure = msr("debug", na_ratio = 0.5)
+#' rr = resample(task, learner, rsmp("cv", folds = 5))
 #' rr$score(measure)
 MeasureDebug = R6Class("MeasureDebug",
   inherit = Measure,
   public = list(
-    #' @field na_ratio (`numeric(1)`)\cr
-    #' Ratio of scores which randomly should be `NA`, between 0 (default) and 1.
-    #' Default is 0.
-    na_ratio = 0,
-
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
+      param_set = ps(na_ratio = p_dbl(0, 1, tags = "required"))
+      param_set$values = list(na_ratio = 0)
       super$initialize(
         id = "debug",
+        param_set = param_set,
         predict_type = "response",
         range = c(0, Inf),
         properties = "na_score",
@@ -47,9 +50,10 @@ MeasureDebug = R6Class("MeasureDebug",
 
   private = list(
     .score = function(prediction, ...) {
-      na_ratio = assert_number(self$na_ratio, lower = 0, upper = 1)
-      if (self$na_ratio > runif(1L))
+      na_ratio = self$param_set$get_values()$na_ratio
+      if (na_ratio > runif(1L)) {
         return(NA_integer_)
+      }
       length(prediction$row_ids)
     }
   )

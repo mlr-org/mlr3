@@ -42,12 +42,13 @@ This provides a different "view" on the data without altering the data itself.
 Instead, the methods first create a new \link{DataBackendDataTable} from the provided new data, and then
 merge both backends into an abstract \link{DataBackend} which merges the results on-demand.
 \item \code{rename()} wraps the \link{DataBackend} of the Task in an additional \link{DataBackend} which deals with the renaming. Also updates \verb{$col_roles} and \verb{$col_info}.
+\item \code{set_levels()} updates the field \code{col_info()}.
 }
 }
 
 \examples{
-# we use the inherited class TaskClassif here,
-# Class Task is not intended for direct use
+# We use the inherited class TaskClassif here,
+# because the base class `Task` is not intended for direct use
 task = TaskClassif$new("penguings", palmerpenguins::penguins, target = "species")
 
 task$nrow
@@ -67,7 +68,7 @@ task$head()
 \seealso{
 \itemize{
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
-\url{https://mlr3book.mlr-org.com/tasks.html}
+\url{https://mlr3book.mlr-org.com/basics.html#tasks}
 \item Package \CRANpkg{mlr3data} for more toy tasks.
 \item Package \CRANpkg{mlr3oml} for downloading tasks from \url{https://openml.org}.
 \item Package \CRANpkg{mlr3viz} for some generic visualizations.
@@ -116,12 +117,15 @@ see \code{\link[=mlr_reflections]{mlr_reflections$task_types$type}}.}
 Abstract interface to the data of the task.}
 
 \item{\code{col_info}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
-Table with with 3 columns:
+Table with with 4 columns:
 \itemize{
 \item \code{"id"} (\code{character()}) stores the name of the column.
 \item \code{"type"} (\code{character()}) holds the storage type of the variable, e.g. \code{integer}, \code{numeric} or \code{character}.
 See \link[=mlr_reflections]{mlr_reflections$task_feature_types} for a complete list of allowed types.
-\item \code{"levels"} stores a vector of distinct values (levels) for ordered and unordered factor variables.
+\item \code{"levels"} (\code{list()}) stores a vector of distinct values (levels) for ordered and unordered factor variables.
+\item \code{"label"} (\code{character()}) stores a vector of prettier, formated column names.
+\item \code{"fix_factor_levels"} (\code{logical()}) stores flags which determine if the levels of the respective variable
+need to be reordered after querying the data from the \link{DataBackend}.
 }}
 
 \item{\code{man}}{(\code{character(1)})\cr
@@ -196,7 +200,6 @@ For each resampling iteration, observations of the same group will be exclusivel
 Note that only up to one column may have this role.
 \item \code{"stratum"}: Stratification variables. Multiple discrete columns may have this role.
 \item \code{"weight"}: Observation weights. Only up to one column (assumed to be discrete) may have this role.
-\item \code{"uri"}: URI pointing to an external resource, e.g., images on the file system.
 }
 
 \code{col_roles} is a named list whose elements are named by column role and each element is a \code{character()} vector of column names.
@@ -254,14 +257,16 @@ If the task has a column with designated role \code{"weight"}, a table with two 
 
 Returns \code{NULL} if there are is no weight column.}
 
-\item{\code{uris}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
-If the task has a column with designated role \code{"uri"}, a table with two columns:
-\itemize{
-\item \code{row_id} (\code{integer()}), and
-\item \code{uri} (\code{character()}).
-}
+\item{\code{labels}}{(named \code{character()})\cr
+Retrieve \code{labels} (prettier formated names) from columns.
+Internally queries the column \code{label} of the table in field \code{col_info}.
+Columns ids referenced by the name of the vector, the labels are the actual string values.
 
-Returns \code{NULL} if there are is no uri column.}
+Assigning to this column update the task by reference.
+You have to provide a character vector of labels, named with column ids.
+To remove a label, set it to \code{NA}.
+Alternatively, you can provide a \code{\link[=data.frame]{data.frame()}} with the two columns
+\code{"id"} and \code{"label"}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -284,7 +289,9 @@ Returns \code{NULL} if there are is no uri column.}
 \item \href{#method-rename}{\code{Task$rename()}}
 \item \href{#method-set_row_roles}{\code{Task$set_row_roles()}}
 \item \href{#method-set_col_roles}{\code{Task$set_col_roles()}}
+\item \href{#method-set_levels}{\code{Task$set_levels()}}
 \item \href{#method-droplevels}{\code{Task$droplevels()}}
+\item \href{#method-add_strata}{\code{Task$add_strata()}}
 \item \href{#method-clone}{\code{Task$clone()}}
 }
 }
@@ -374,7 +381,12 @@ If \code{cols} is \code{NULL}, the column order defaults to
 Note that it is recommended to \strong{not} rely on the order of columns, and instead always
 address columns with their respective column name.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Task$data(rows = NULL, cols = NULL, data_format = "data.table", ordered = TRUE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Task$data(
+  rows = NULL,
+  cols = NULL,
+  data_format = "data.table",
+  ordered = FALSE
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -390,7 +402,7 @@ Column names.}
 Desired data format, e.g. \code{"data.table"} or \code{"Matrix"}.}
 
 \item{\code{ordered}}{(\code{logical(1)})\cr
-If \code{TRUE} (default), data is ordered according to the columns with column role \code{"order"}.}
+If \code{TRUE}, data is ordered according to the columns with column role \code{"order"}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -404,6 +416,9 @@ Depending on the \link{DataBackend}, but usually a \code{\link[data.table:data.t
 \subsection{Method \code{formula()}}{
 Constructs a \code{\link[=formula]{formula()}}, e.g. \verb{[target] ~ [feature_1] + [feature_2] + ... + [feature_k]},
 using the features provided in argument \code{rhs} (defaults to all columns with role \code{"feature"}, symbolized by \code{"."}).
+
+Note that it is currently not possible to change the formula.
+However, \CRANpkg{mlr3pipelines} provides a pipe operator interfacing \code{\link[stats:model.matrix]{stats::model.matrix()}} for this purpose: \code{"modelmatrix"}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Task$formula(rhs = ".")}\if{html}{\out{</div>}}
 }
@@ -706,6 +721,33 @@ the object in its previous state.
 }
 }
 \if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-set_levels"></a>}}
+\if{latex}{\out{\hypertarget{method-set_levels}{}}}
+\subsection{Method \code{set_levels()}}{
+Set levels for columns of type \code{factor} and \code{ordered} in field \code{col_info}.
+You can add, remove or reorder the levels, affecting the data returned by
+\verb{$data()}, \verb{$head()} and \verb{$levels()}.
+If you just want to remove unused levels, use \verb{$droplevels()} instead.
+
+Note that factor levels which are present in the data but not listed in the task as
+valid levels are converted to missing values.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Task$set_levels(levels)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{levels}}{(named \code{list()} of \code{character()})\cr
+List of character vectors of new levels, named by column names.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Modified \code{self}.
+}
+}
+\if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-droplevels"></a>}}
 \if{latex}{\out{\hypertarget{method-droplevels}{}}}
 \subsection{Method \code{droplevels()}}{
@@ -725,6 +767,34 @@ Column names.}
 }
 \subsection{Returns}{
 Modified \code{self}.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-add_strata"></a>}}
+\if{latex}{\out{\hypertarget{method-add_strata}{}}}
+\subsection{Method \code{add_strata()}}{
+Cuts numeric variables into new factors columns which are added to the task with role
+\code{"stratum"}.
+This ensures that all training and test splits contain observations from all bins.
+The columns are named \code{"..stratum_[col_name]"}.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Task$add_strata(cols, bins = 3L)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{cols}}{(\code{character()})\cr
+Names of columns to operate on.}
+
+\item{\code{bins}}{(\code{integer()})\cr
+Number of bins to cut into (passed to \code{\link[=cut]{cut()}} as \code{breaks}).
+Replicated to have the same length as \code{cols}.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+self (invisibly).
 }
 }
 \if{html}{\out{<hr>}}

@@ -25,16 +25,18 @@
 #' task$filter(1:10)
 #'
 #' # Instantiate Resampling
-#' rho = rsmp("holdout", ratio = 0.5)
-#' rho$instantiate(task)
+#' holdout = rsmp("holdout", ratio = 0.5)
+#' holdout$instantiate(task)
 #'
 #' # Individual sets:
-#' rho$train_set(1)
-#' rho$test_set(1)
-#' intersect(rho$train_set(1), rho$test_set(1))
+#' holdout$train_set(1)
+#' holdout$test_set(1)
+#'
+#' # Disjunct sets:
+#' intersect(holdout$train_set(1), holdout$test_set(1))
 #'
 #' # Internal storage:
-#' rho$instance # simple list
+#' holdout$instance # simple list
 ResamplingHoldout = R6Class("ResamplingHoldout", inherit = Resampling,
   public = list(
     #' @description
@@ -70,7 +72,8 @@ ResamplingHoldout = R6Class("ResamplingHoldout", inherit = Resampling,
 
     .combine = function(instances) {
       list(train = do.call(c, map(instances, "train")), test = do.call(c, map(instances, "test")))
-    })
+    }
+  )
 )
 
 #' @include mlr_resamplings.R

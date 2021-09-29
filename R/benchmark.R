@@ -8,18 +8,9 @@
 #'   Each row defines a resampling by providing a [Task], [Learner] and an instantiated [Resampling] strategy.
 #'   The helper function [benchmark_grid()] can assist in generating an exhaustive design (see examples) and
 #'   instantiate the [Resampling]s per [Task].
-#' @param store_models (`logical(1)`)\cr
-#'   Store the fitted model in the resulting [BenchmarkResult]?
-#'   Set to `TRUE` if you want to further analyse the models or want to
-#'   extract information like variable importance.
-#' @param store_backends (`logical(1)`)\cr
-#'   Keep the [DataBackend] of the [Task] in the [BenchmarkResult]?
-#'   Set to `TRUE` if your performance measures require a [Task],
-#'   or to analyse results more conveniently.
-#'   Set to `FALSE` to reduce the file size and memory footprint
-#'   after serialization.
-#'   The current default is `TRUE`, but this eventually will be changed
-#'   in a future release.
+#' @template param_store_models
+#' @template param_store_backends
+#' @template param_encapsulate
 #'
 #' @return [BenchmarkResult].
 #'
@@ -87,20 +78,18 @@
 #' ## Get the training set of the 2nd iteration of the featureless learner on penguins
 #' rr = bmr$aggregate()[learner_id == "classif.featureless"]$resample_result[[1]]
 #' rr$resampling$train_set(2)
-benchmark = function(design, store_models = FALSE, store_backends = TRUE) {
+benchmark = function(design, store_models = FALSE, store_backends = TRUE, encapsulate = NA_character_) {
   assert_data_frame(design, min.rows = 1L)
   assert_names(names(design), must.include = c("task", "learner", "resampling"), subset.of = c("task", "learner", "resampling", "retrain"))
   design$task = list(assert_tasks(as_tasks(design$task)))
   design$learner = list(assert_learners(as_learners(design$learner)))
   design$resampling = list(assert_resamplings(as_resamplings(design$resampling), instantiated = TRUE))
   assert_flag(store_models)
+  assert_flag(store_backends)
   if (is.null(design$retrain)) set(design, j = "retrain", value = list(list()))
 
   # check for multiple task types
-  task_types = unique(map_chr(design$task, "task_type"))
-  if (length(task_types) > 1L) {
-    stopf("Multiple task types detected: %s", str_collapse(task_types))
-  }
+  assert_same_task_type(c(design$task, design$learner))
 
   # clone inputs
   setDT(design)
@@ -118,6 +107,9 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE) {
   }))
   set(design, j = "retrain", value = rls)
 
+  # set encapsulation + fallback
+  set_encapsulation(design$learner, encapsulate)
+
   # expand the design: add rows for each resampling iteration
   grid = pmap_dtr(design, function(task, learner, resampling, retrain) {
     # learner = assert_learner(as_learner(learner, clone = TRUE))
@@ -133,7 +125,12 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE) {
   n = nrow(grid)
 
   lg$info("Running benchmark with %i resampling iterations", n)
-  pb = get_progressor(n)
+  pb = if (isNamespaceLoaded("progressr")) {
+    # NB: the progress bar needs to be created in this env
+    pb = progressr::progressor(steps = n)
+  } else {
+    NULL
+  }
 
   if (getOption("mlr3.debug", FALSE)) {
     lg$info("Running benchmark() sequentially in debug mode with %i iterations", n)
@@ -153,7 +150,7 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE) {
       MoreArgs = list(store_models = store_models, lgr_threshold = lg$threshold, pb = pb),
       SIMPLIFY = FALSE, USE.NAMES = FALSE,
       future.globals = FALSE, future.scheduling = structure(TRUE, ordering = "random"),
-      future.packages = "mlr3", future.seed = TRUE
+      future.packages = "mlr3", future.seed = TRUE, future.stdout = future_stdout()
     )
   }
 

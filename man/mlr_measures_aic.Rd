@@ -19,6 +19,16 @@ msr("aic")
 }
 }
 
+\section{Parameters}{
+\tabular{lllll}{
+   Id \tab Type \tab Default \tab Range \tab Levels \cr
+   k \tab integer \tab - \tab \eqn{[0, \infty)}{[0, Inf)} \tab - \cr
+}
+
+
+\code{k} is the penalty to be used in \code{\link[stats:AIC]{stats::AIC()}} (defaulting to 2).
+}
+
 \section{Meta Information}{
 
 \itemize{
@@ -33,7 +43,7 @@ msr("aic")
 \seealso{
 \itemize{
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
-\url{https://mlr3book.mlr-org.com/train-predict.html}
+\url{https://mlr3book.mlr-org.com/basics.html#train-predict}
 \item Package \CRANpkg{mlr3measures} for the scoring functions.
 \link[mlr3misc:Dictionary]{Dictionary} of \link[=Measure]{Measures}: \link{mlr_measures}
 \code{as.data.table(mlr_measures)} for a table of available \link[=Measure]{Measures} in the running session (depending on the loaded packages).
@@ -59,14 +69,6 @@ Other Measure:
 \concept{Measure}
 \section{Super class}{
 \code{\link[mlr3:Measure]{mlr3::Measure}} -> \code{MeasureAIC}
-}
-\section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{k}}{(\code{integer(1)}):\cr
-Penalty to use. See \code{\link[stats:AIC]{stats::AIC()}}.}
-}
-\if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{

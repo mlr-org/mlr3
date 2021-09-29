@@ -39,7 +39,7 @@ test_that("param_vals", {
 
 test_that("hashing", {
   task = tsk("iris")
-  keys = setdiff(mlr_resamplings$keys(), c("custom", "ordered_holdout"))
+  keys = setdiff(mlr_resamplings$keys(), c("custom", "custom_cv", "ordered_holdout"))
 
   for (key in keys) {
     r = rsmp(key)
@@ -60,15 +60,16 @@ test_that("hashing", {
 
 test_that("cloning", {
   task = tsk("iris")
-  keys = setdiff(mlr_resamplings$keys(), c("custom", "ordered_holdout"))
+  keys = setdiff(mlr_resamplings$keys(), c("custom", "custom_cv", "ordered_holdout"))
 
   for (key in keys) {
     r = rsmp(key)$instantiate(task)
 
     clone = r$clone(deep = TRUE)
     expect_different_address(r$param_set, clone$param_set)
-    if (is.data.table(r$instance))
+    if (is.data.table(r$instance)) {
       expect_different_address(r$instance, clone$instance)
+    }
   }
 })
 
@@ -117,4 +118,45 @@ test_that("Evaluation on validation set", {
   m2 = msr("classif.acc", id = "acc.holdout", predict_sets = "validation")
 
   expect_equal(rr$aggregate(list(m1, m2)), c(rr$prediction("test")$score(m1), rr$prediction("validation")$score(m2)))
+})
+
+test_that("custom_cv", {
+  task = tsk("penguins")
+  ccv = rsmp("custom_cv")
+
+  f = task$data(cols = "island")[[1L]]
+  ccv$instantiate(task, f = f)
+  expect_resampling(ccv, task = task)
+  expect_equal(ccv$iters, 3L)
+  expect_list(ccv$instance, "integer", len = 3)
+  expect_names(names(ccv$instance), permutation.of = levels(f))
+
+  ccv$instantiate(task, col = "island")
+  expect_resampling(ccv, task = task)
+  expect_equal(ccv$iters, 3L)
+  expect_list(ccv$instance, "integer", len = 3)
+  names(ccv$instance)
+  expect_names(names(ccv$instance), permutation.of = levels(f))
+
+  task = task$clone(TRUE)$filter(1:10)
+  f = factor(rep(letters[1:3], each = 3))
+  expect_error(ccv$instantiate(task, f), "length")
+  f[10] = NA
+  ccv$instantiate(task, f)
+  expect_data_table(as.data.table(ccv), nrows = 3L * 9L)
+
+  f[] = NA
+  expect_error(ccv$instantiate(task, f), "only missing")
+})
+
+test_that("loo with groups", {
+  task = tsk("penguins")
+  task$set_col_roles("island", add_to = "group")
+  loo = rsmp("loo")
+  loo$instantiate(task)
+  expect_equal(loo$iters, 3L)
+
+  islands = cbind(row_id = task$row_ids, task$data(cols = "island"))
+  tab = merge(as.data.table(loo), islands, by = "row_id")
+  expect_true(all(tab[, .(n_islands = uniqueN(island)), by = row_id]$n_islands == 1L))
 })

@@ -2,7 +2,7 @@
 #'
 #' @description
 #' Functions intended to be used in packages extending \pkg{mlr3}.
-#' Most assertion functions ensure the right class attrbiture, and optionally additional properties.
+#' Most assertion functions ensure the right class attribute, and optionally additional properties.
 #' Additionally, the following compound assertions are implemented:
 #'
 #' * `assert_learnable(task, learner)`\cr
@@ -71,10 +71,6 @@ assert_tasks = function(tasks, task_type = NULL, feature_types = NULL, task_prop
 assert_learner = function(learner, task = NULL, properties = character(), .var.name = vname(learner)) {
   assert_class(learner, "Learner", .var.name = .var.name)
 
-  if (!is.null(task)) {
-    assert_learnable(task, learner)
-  }
-
   if (length(properties)) {
     miss = setdiff(properties, learner$properties)
     if (length(miss)) {
@@ -93,11 +89,9 @@ assert_learners = function(learners, task = NULL, properties = character(), .var
   invisible(lapply(learners, assert_learner, task = task, properties = properties, .var.name = .var.name))
 }
 
-#' @export
-#' @rdname mlr_assertions
-assert_learnable = function(task, learner) {
-  pars = learner$param_set$get_values(type = "only_token")
-  if(length(pars) > 0) {
+assert_task_learner = function(task, learner, cols = NULL) {
+  pars = learner$param_set$get_values(type = "only_token", check_required = FALSE)
+  if (length(pars) > 0) {
     stopf("%s cannot be trained with TuneToken present in hyperparameter: %s", learner$format(), str_collapse(names(pars)))
   }
 
@@ -107,10 +101,41 @@ assert_learnable = function(task, learner) {
   }
 
   tmp = setdiff(task$feature_types$type, learner$feature_types)
-  if (length(tmp)) {
+  if (length(tmp) > 0) {
     stopf("%s has the following unsupported feature types: %s", task$format(), str_collapse(tmp))
   }
+
+  if ("missings" %nin% learner$properties) {
+    miss = task$missings(cols = cols) > 0L
+    if (any(miss)) {
+      stopf("Task '%s' has missing values in column(s) %s, but learner '%s' does not support this",
+        task$id, str_collapse(names(miss)[miss], quote = "'"), learner$id)
+    }
+  }
+
+  tmp = mlr_reflections$task_mandatory_properties[[task$task_type]]
+  if (length(tmp)) {
+    tmp = setdiff(intersect(task$properties, tmp), learner$properties)
+    if (length(tmp)) {
+      stopf("Task '%s' has property '%s', but learner '%s' does not support that",
+        task$id, tmp[1L], learner$id)
+    }
+  }
 }
+
+#' @export
+#' @rdname mlr_assertions
+assert_learnable = function(task, learner) {
+  assert_task_learner(task, learner)
+}
+
+#' @export
+#' @rdname mlr_assertions
+assert_predictable = function(task, learner) {
+  assert_task_learner(task, learner, cols = task$feature_names)
+}
+
+
 
 #' @export
 #' @param measure ([Measure]).
@@ -125,7 +150,7 @@ assert_measure = function(measure, task = NULL, learner = NULL, .var.name = vnam
     }
 
     miss = setdiff(measure$task_properties, task$properties)
-    if (length(miss)) {
+    if (length(miss) > 0) {
       stopf("Measure '%s' needs task properties: %s", measure$id, str_collapse(miss))
     }
   }
@@ -144,7 +169,7 @@ assert_measure = function(measure, task = NULL, learner = NULL, .var.name = vnam
     }
 
     miss = setdiff(measure$predict_sets, learner$predict_sets)
-    if (length(miss)) {
+    if (length(miss) > 0) {
       stopf("Measure '%s' needs predict set %s, but learner '%s' only predicted on sets %s",
         measure$id, str_collapse(miss, quote = "'"), learner$id, str_collapse(learner$predict_sets, quote = "'"))
     }
@@ -159,8 +184,9 @@ assert_measure = function(measure, task = NULL, learner = NULL, .var.name = vnam
 #' @rdname mlr_assertions
 assert_measures = function(measures, task = NULL, learner = NULL, .var.name = vname(measures)) {
   lapply(measures, assert_measure, task = task, learner = learner, .var.name = .var.name)
-  if (anyDuplicated(ids(measures)))
+  if (anyDuplicated(ids(measures))) {
     stopf("Measures need to have unique IDs")
+  }
   invisible(measures)
 }
 
@@ -238,14 +264,45 @@ assert_row_ids = function(row_ids, null.ok = FALSE, .var.name = vname(row_ids)) 
   assert_integerish(row_ids, coerce = TRUE, null.ok = null.ok)
 }
 
-assert_ro_binding = function(rhs) {
-  if (!missing(rhs)) {
-    stopf("Field/Binding is read-only")
-  }
-}
-
 assert_has_backend = function(task) {
   if (is.null(task$backend)) {
     stopf("The backend of Task '%s' has been removed. Set `store_backends` to `TRUE` during model fitting to conserve it.", task$id)
+  }
+}
+
+# assertion to ensure a helpful error message
+assert_prediction_count = function(actual, expected, type) {
+  if (actual != expected) {
+    if (actual < expected) {
+      stopf("Predicted %s not complete, %s for %i observations is missing",
+        type, type, expected - actual)
+    } else {
+      stopf("Predicted %s contains %i additional predictions without matching rows",
+        type, actual - expected)
+    }
+  }
+}
+
+assert_row_sums = function(prob) {
+  for (i in seq_row(prob)) {
+    x = prob[i, , drop = TRUE]
+    n_missing = count_missing(x)
+    if (n_missing > 0L) {
+      if (n_missing < length(x)) {
+        stopf("Probabilities for observation %i are partly missing", i)
+      }
+    } else {
+      s = sum(x)
+      if (abs(s - 1) > 0.001) {
+        stopf("Probabilities for observation %i do sum up to %f != 1", i, s)
+      }
+    }
+  }
+}
+
+assert_same_task_type = function(objs) {
+  task_types = unique(map_chr(objs, "task_type"))
+  if (length(task_types) > 1L) {
+    stopf("Multiple task types detected, but mixing types is not supported: %s", str_collapse(task_types))
   }
 }

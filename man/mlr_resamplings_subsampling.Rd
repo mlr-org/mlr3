@@ -31,16 +31,18 @@ task = tsk("penguins")
 task$filter(1:10)
 
 # Instantiate Resampling
-rss = rsmp("subsampling", repeats = 2, ratio = 0.5)
-rss$instantiate(task)
+subsampling = rsmp("subsampling", repeats = 2, ratio = 0.5)
+subsampling$instantiate(task)
 
 # Individual sets:
-rss$train_set(1)
-rss$test_set(1)
-intersect(rss$train_set(1), rss$test_set(1))
+subsampling$train_set(1)
+subsampling$test_set(1)
+
+# Disjunct sets:
+intersect(subsampling$train_set(1), subsampling$test_set(1))
 
 # Internal storage:
-rss$instance$train # list of index vectors
+subsampling$instance$train # list of index vectors
 }
 \references{
 Bischl B, Mersmann O, Trautmann H, Weihs C (2012).
@@ -51,7 +53,7 @@ Bischl B, Mersmann O, Trautmann H, Weihs C (2012).
 \seealso{
 \itemize{
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
-\url{https://mlr3book.mlr-org.com/resampling.html}
+\url{https://mlr3book.mlr-org.com/basics.html#resampling}
 \item Package \CRANpkg{mlr3spatiotempcv} for spatio-temporal resamplings.
 \item \link[mlr3misc:Dictionary]{Dictionary} of \link[=Resampling]{Resamplings}: \link{mlr_resamplings}
 \item \code{as.data.table(mlr_resamplings)} for a table of available \link[=Resampling]{Resamplings} in the running session (depending on the loaded packages).
@@ -60,6 +62,7 @@ Bischl B, Mersmann O, Trautmann H, Weihs C (2012).
 Other Resampling: 
 \code{\link{Resampling}},
 \code{\link{mlr_resamplings_bootstrap}},
+\code{\link{mlr_resamplings_custom_cv}},
 \code{\link{mlr_resamplings_custom}},
 \code{\link{mlr_resamplings_cv}},
 \code{\link{mlr_resamplings_holdout}},

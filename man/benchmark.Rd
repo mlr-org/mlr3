@@ -4,7 +4,12 @@
 \alias{benchmark}
 \title{Benchmark Multiple Learners on Multiple Tasks}
 \usage{
-benchmark(design, store_models = FALSE, store_backends = TRUE)
+benchmark(
+  design,
+  store_models = FALSE,
+  store_backends = TRUE,
+  encapsulate = NA_character_
+)
 }
 \arguments{
 \item{design}{(\code{\link[=data.frame]{data.frame()}})\cr
@@ -14,18 +19,30 @@ The helper function \code{\link[=benchmark_grid]{benchmark_grid()}} can assist i
 instantiate the \link{Resampling}s per \link{Task}.}
 
 \item{store_models}{(\code{logical(1)})\cr
-Store the fitted model in the resulting \link{BenchmarkResult}?
+Store the fitted model in the resulting object=
 Set to \code{TRUE} if you want to further analyse the models or want to
 extract information like variable importance.}
 
 \item{store_backends}{(\code{logical(1)})\cr
-Keep the \link{DataBackend} of the \link{Task} in the \link{BenchmarkResult}?
+Keep the \link{DataBackend} of the \link{Task} in the \link{ResampleResult}?
 Set to \code{TRUE} if your performance measures require a \link{Task},
 or to analyse results more conveniently.
 Set to \code{FALSE} to reduce the file size and memory footprint
 after serialization.
 The current default is \code{TRUE}, but this eventually will be changed
 in a future release.}
+
+\item{encapsulate}{(\code{character(1)})\cr
+If not \code{NA}, enables encapsulation by setting the field
+\code{Learner$encapsulate} to one of the supported values:
+\code{"none"} (disable encapsulation),
+\code{"evaluate"} (execute via \CRANpkg{evaluate}) and
+\code{"callr"} (start in external session via \CRANpkg{callr}).
+If \code{NA}, encapsulation is not changed, i.e. the settings of the
+individual learner are active.
+Additionally, if encapsulation is set to \code{"evaluate"} or \code{"callr"},
+the fallback learner is set to the featureless learner if the learner
+does not already have a fallback configured.}
 }
 \value{
 \link{BenchmarkResult}.
@@ -54,8 +71,10 @@ To select a parallel backend, use \code{\link[future:plan]{future::plan()}}.
 \section{Progress Bars}{
 
 This function supports progress bars via the package \CRANpkg{progressr}.
-Simply wrap the function in \code{\link[progressr:with_progress]{progressr::with_progress()}} to enable them.
-We recommend to use package \CRANpkg{progress} as backend; enable with
+Simply wrap the function call in \code{\link[progressr:with_progress]{progressr::with_progress()}} to enable them.
+Alternatively, call \code{\link[progressr:handlers]{progressr::handlers()}} with \code{global = TRUE} to enable progress bars
+globally.
+We recommend the \CRANpkg{progress} package as backend which can be enabled with
 \code{progressr::handlers("progress")}.
 }
 
@@ -129,7 +148,7 @@ rr$resampling$train_set(2)
 }
 \seealso{
 Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
-\url{https://mlr3book.mlr-org.com/benchmarking.html}
+\url{https://mlr3book.mlr-org.com/basics.html#benchmarking}
 
 Other benchmark: 
 \code{\link{BenchmarkResult}},

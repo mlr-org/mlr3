@@ -92,6 +92,7 @@ reference:
   - title: Resample
     contents:
       - resample
+      - partition
       - ResampleResult
       - as_result_data
       - as_resample_result

@@ -2,7 +2,7 @@
 % Please edit documentation in R/MeasureSimple.R
 \name{mlr_measures_regr.medae}
 \alias{mlr_measures_regr.medae}
-\title{Median Absolute Errors}
+\title{Median Absolute Error}
 \description{
 Regression measure defined as \deqn{
   \mathop{\mathrm{median}}_i \left| t_i - r_i \right|.

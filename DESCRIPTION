@@ -1,6 +1,6 @@
 Package: mlr3
 Title: Machine Learning in R - Next Generation
-Version: 0.11.0-9000
+Version: 0.12.0-9000
 Authors@R:
     c(person(given = "Michel",
              family = "Lang",
@@ -63,12 +63,12 @@ Imports:
     backports,
     checkmate (>= 2.0.0),
     data.table (>= 1.13.6),
-    digest,
+    future,
     future.apply (>= 1.5.0),
     lgr (>= 0.3.4),
     mlbench,
-    mlr3measures (>= 0.3.0),
-    mlr3misc (>= 0.7.0),
+    mlr3measures (>= 0.4.0),
+    mlr3misc (>= 0.9.3),
     parallelly,
     palmerpenguins,
     paradox (>= 0.6.0),
@@ -76,10 +76,10 @@ Imports:
 Suggests:
     Matrix,
     callr,
+    codetools,
     datasets,
     distr6,
     evaluate,
-    future,
     future.callr,
     mlr3data,
     progressr,
@@ -87,10 +87,10 @@ Suggests:
     testthat (>= 3.0.0)
 Encoding: UTF-8
 Config/testthat/edition: 3
-Config/testthat/parallel: true
+Config/testthat/parallel: false
 NeedsCompilation: no
 Roxygen: list(markdown = TRUE, r6 = TRUE)
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Collate:
     'mlr_reflections.R'
     'BenchmarkResult.R'
@@ -107,6 +107,7 @@ Collate:
     'LearnerClassifFeatureless.R'
     'LearnerClassifRpart.R'
     'LearnerRegr.R'
+    'LearnerRegrDebug.R'
     'LearnerRegrFeatureless.R'
     'LearnerRegrRpart.R'
     'Measure.R'
@@ -133,6 +134,7 @@ Collate:
     'ResamplingBootstrap.R'
     'ResamplingCV.R'
     'ResamplingCustom.R'
+    'ResamplingCustomCV.R'
     'ResamplingHoldout.R'
     'ResamplingInsample.R'
     'ResamplingLOO.R'
@@ -190,6 +192,7 @@ Collate:
     'fix_factor_levels.R'
     'helper.R'
     'mlr_sugar.R'
+    'partition.R'
     'predict.R'
     'reexports.R'
     'resample.R'

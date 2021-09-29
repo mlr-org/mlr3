@@ -6,7 +6,10 @@
 \title{Selected Features Measure}
 \description{
 Measures the number of selected features by extracting it from learners with property \code{"selected_features"}.
-If the learner does not support this, \code{NA} is returned.
+If parameter \code{normalize} is set to \code{TRUE}, the relative number of features instead of the absolute
+number of features is returned.
+Note that the models must be stored to be able to extract this information.
+If the learner does not support the extraction of used features, \code{NA} is returned.
 
 This measure requires the \link{Task} and the \link{Learner} for scoring.
 }
@@ -14,6 +17,13 @@ This measure requires the \link{Task} and the \link{Learner} for scoring.
 
 This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("selected_features")
 msr("selected_features")
+}
+}
+
+\section{Parameters}{
+\tabular{lllll}{
+   Id \tab Type \tab Default \tab Range \tab Levels \cr
+   normalize \tab logical \tab TRUE \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \tab TRUE, FALSE \cr
 }
 }
 
@@ -27,10 +37,18 @@ msr("selected_features")
 }
 }
 
+\examples{
+task = tsk("german_credit")
+learner = lrn("classif.rpart")
+rr = resample(task, learner, rsmp("cv", folds = 3), store_models = TRUE)
+
+scores = rr$score(msr("selected_features"))
+scores[, c("iteration", "selected_features")]
+}
 \seealso{
 \itemize{
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
-\url{https://mlr3book.mlr-org.com/train-predict.html}
+\url{https://mlr3book.mlr-org.com/basics.html#train-predict}
 \item Package \CRANpkg{mlr3measures} for the scoring functions.
 \link[mlr3misc:Dictionary]{Dictionary} of \link[=Measure]{Measures}: \link{mlr_measures}
 \code{as.data.table(mlr_measures)} for a table of available \link[=Measure]{Measures} in the running session (depending on the loaded packages).
@@ -57,14 +75,6 @@ Other Measure:
 \section{Super class}{
 \code{\link[mlr3:Measure]{mlr3::Measure}} -> \code{MeasureSelectedFeatures}
 }
-\section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{normalize}}{(\code{logical(1)})\cr
-If set to \code{TRUE}, divides the number of features by the total number of features.}
-}
-\if{html}{\out{</div>}}
-}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
@@ -89,17 +99,9 @@ If set to \code{TRUE}, divides the number of features by the total number of fea
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MeasureSelectedFeatures$new(normalize = FALSE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{MeasureSelectedFeatures$new()}\if{html}{\out{</div>}}
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{normalize}}{(\code{logical(1)})\cr
-If set to \code{TRUE}, divides the number of features by the total number of features.}
-}
-\if{html}{\out{</div>}}
-}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}

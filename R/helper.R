@@ -16,15 +16,6 @@ phashes = function(x) {
   map_chr(unname(x), "phash")
 }
 
-hash = function(...) {
-  dots = list(...)
-  dots = map_if(dots, is.function, function(fun) {
-    list(formals(fun), as.character(body(fun)))
-  })
-  dots = map_if(dots, is.data.table, as.list)
-  digest::digest(dots, algo = "xxhash64")
-}
-
 # updating join:
 # replaces values in x with values in y
 ujoin = function(x, y, key) {
@@ -48,32 +39,55 @@ allow_partial_matching = list(
 
 # extract values from a single column of a data table
 # tries to avoid the overhead of data.table for small tables
-fget = function(tab, i, j, key = key(tab)) {
+fget = function(tab, i, j, key) {
   if (nrow(tab) > 1000L) {
-    tab[list(i), j, on = key, with = FALSE][[1L]]
+    tab[list(i), j, on = key, with = FALSE, nomatch = NULL][[1L]]
   } else {
-    table = tab[[key]]
-    if (is.character(table)) {
-      tab[[j]][chmatch(i, table, nomatch = 0L)]
+    x = tab[[key]]
+    if (is.character(x) && is.character(i)) {
+      tab[[j]][x %chin% i]
     } else {
-      tab[[j]][match(i, table, nomatch = 0L)]
+      tab[[j]][x %in% i]
     }
   }
-}
-
-get_progressor = function(n, label = NA_character_) {
-  if (!isNamespaceLoaded("progressr")) {
-    return(NULL)
-  }
-
-  progressr::progressor(steps = n, label = label)
 }
 
 allow_utf8_names = function() {
   isTRUE(getOption("mlr3.allow_utf8_names"))
 }
 
+get_featureless_learner = function(task_type) {
+  if (!is.na(task_type)) {
+    id = paste0(task_type, ".featureless")
+    if (mlr_learners$has(id)) {
+      return(mlr_learners$get(id))
+    }
+  }
 
-reorder_vector = function(x, y, na_last = NA) {
-  order(match(x, y), na.last = na_last)
+  return(NULL)
+}
+
+set_encapsulation = function(learners, encapsulate) {
+  assert_choice(encapsulate, c(NA_character_, "none", "evaluate", "callr"))
+
+  if (!is.na(encapsulate)) {
+    lapply(learners, function(learner) learner$encapsulate = c(train = encapsulate, predict = encapsulate))
+    if (encapsulate %in% c("evaluate", "callr")) {
+      task_type = unique(map_chr(learners, "task_type"))
+      stopifnot(length(task_type) == 1L) # this should not be possible for benchmarks
+      fb = get_featureless_learner(task_type)
+      if (!is.null(fb)) {
+        lapply(learners, function(learner) if (is.null(learner$fallback)) learner$fallback = fb$clone(TRUE))
+      }
+    }
+  }
+  learners
+}
+
+future_stdout = function() {
+  if (inherits(plan(), "sequential")) {
+    NA
+  } else {
+    TRUE
+  }
 }

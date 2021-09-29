@@ -19,7 +19,7 @@
 #' @export
 #' @examples
 #' TaskSupervised$new("penguins", task_type = "classif", backend = palmerpenguins::penguins,
-#'     target = "species")
+#'   target = "species")
 TaskSupervised = R6Class("TaskSupervised", inherit = Task,
   public = list(
 

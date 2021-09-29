@@ -9,20 +9,10 @@
 #' @param task ([Task]).
 #' @param learner ([Learner]).
 #' @param resampling ([Resampling]).
-#' @param store_models (`logical(1)`)\cr
-#'   Keep the fitted model after the test set has been predicted?
-#'   Set to `TRUE` if you want to further analyse the models or want to
-#'   extract information like variable importance.
-#' @param store_backends (`logical(1)`)\cr
-#'   Keep the [DataBackend] of the [Task] in the [ResampleResult]?
-#'   Set to `TRUE` if your performance measures require a [Task],
-#'   or to analyse results more conveniently.
-#'   Set to `FALSE` to reduce the file size and memory footprint
-#'   after serialization.
-#'   The current default is `TRUE`, but this eventually will be changed
-#'   in a future release.
+#' @template param_store_models
+#' @template param_store_backends
+#' @template param_encapsulate
 #' @return [ResampleResult].
-#'
 #'
 #' @template section_parallelization
 #' @template section_progress_bars
@@ -61,7 +51,7 @@
 #' bmr1 = as_benchmark_result(rr)
 #' bmr2 = as_benchmark_result(rr_featureless)
 #' print(bmr1$combine(bmr2))
-resample = function(task, learner, resampling, store_models = FALSE, store_backends = TRUE) {
+resample = function(task, learner, resampling, store_models = FALSE, store_backends = TRUE, encapsulate = NA_character_) {
   task = assert_task(as_task(task, clone = TRUE))
   learner = assert_learner(as_learner(learner, clone = TRUE))
   resampling = assert_resampling(as_resampling(resampling))
@@ -69,13 +59,18 @@ resample = function(task, learner, resampling, store_models = FALSE, store_backe
   assert_flag(store_backends)
   assert_learnable(task, learner)
 
+  set_encapsulation(list(learner), encapsulate)
   instance = resampling$clone(deep = TRUE)
   if (!instance$is_instantiated) {
     instance = instance$instantiate(task)
   }
   n = instance$iters
-  pb = get_progressor(n)
-
+  pb = if (isNamespaceLoaded("progressr")) {
+    # NB: the progress bar needs to be created in this env
+    pb = progressr::progressor(steps = n)
+  } else {
+    NULL
+  }
 
   if (getOption("mlr3.debug", FALSE)) {
     lg$info("Running resample() sequentially in debug mode with %i iterations", n)
@@ -91,7 +86,7 @@ resample = function(task, learner, resampling, store_models = FALSE, store_backe
       task = task, learner = learner, resampling = instance,
       store_models = store_models, lgr_threshold = lg$threshold, pb = pb,
       future.globals = FALSE, future.scheduling = structure(TRUE, ordering = "random"),
-      future.packages = "mlr3", future.seed = TRUE
+      future.packages = "mlr3", future.seed = TRUE, future.stdout = future_stdout()
     )
   }
 

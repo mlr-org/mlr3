@@ -21,11 +21,6 @@
 NULL
 
 new_prediction_data = function(li, task_type = NULL) {
-  capitalize = function(str) {
-    substr(str, 1L, 1L) = toupper(substr(str, 1L, 1L))
-    str
-  }
-
   li = discard(li, is.null)
   class(li) = sprintf("PredictionData%s", c(capitalize(task_type), ""))
   li

@@ -43,29 +43,20 @@ rr$errors
 }
 \seealso{
 Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
-\url{https://mlr3book.mlr-org.com/resampling.html}
+\url{https://mlr3book.mlr-org.com/basics.html#resampling}
 
 Other resample: 
 \code{\link{resample}()}
 }
 \concept{resample}
-\section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{data}}{(\code{ResultData})\cr
-Internal data storage object of type \code{ResultData}.
-We discourage users to directly work with this field.
-Use \code{as.table.table(ResampleResult)} instead.}
-
-\item{\code{view}}{(\code{character(1)})\cr
-Subset of uhashes in the \link{ResultData} object to operate on.
-This field is for internal optimizations, i.e. to avoid unnecessary cloning.}
-}
-\if{html}{\out{</div>}}
-}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
+\item{\code{data}}{(\code{ResultData})\cr
+Internal data storage object of type \code{ResultData}.
+This field is deprecated and will be removed in the next release.
+Use \code{as.table.table(BenchmarkResult)} instead.}
+
 \item{\code{task_type}}{(\code{character(1)})\cr
 Task type of objects in the \code{ResampleResult}, e.g. \code{"classif"} or \code{"regr"}.
 This is \code{NA} for empty \link{ResampleResult}s.}

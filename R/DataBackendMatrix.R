@@ -158,8 +158,8 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
       cols_dense = intersect(cols, colnames(private$.data$dense))
 
       res = c(
-        apply(private$.data$sparse[rows, cols_sparse, drop = FALSE], 2L, function(x) sum(is.na(x))),
-        private$.data$dense[, map_int(.SD, function(x) sum(is.na(x))), .SDcols = cols_dense]
+        apply(private$.data$sparse[rows, cols_sparse, drop = FALSE], 2L, count_missing),
+        private$.data$dense[, map_int(.SD, count_missing), .SDcols = cols_dense]
       )
 
       res[reorder_vector(names(res), cols)]
@@ -198,7 +198,7 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
 
   private = list(
     .calculate_hash = function() {
-      hash(private$.data)
+      calculate_hash(private$.data)
     },
 
     .translate_rows = function(rows) {

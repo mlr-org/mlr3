@@ -30,6 +30,11 @@
 #' * `task_properties` (list of `character()`)\cr
 #'   List of vectors of supported [Task] properties, named by their task type.
 #'
+#' * `task_mandatory_properties` (list of `character()`)\cr
+#'   List of vectors of [Task] properties which necessarily must be supported by the [Learner].
+#'   I.e., if the task property is not found in the set of the learner properties, an exception
+#'   is raised.
+#'
 #' * `learner_properties` (list of `character()`)\cr
 #'   List of vectors of supported [Learner] properties, named by their task type.
 #'
@@ -87,7 +92,7 @@ local({
     "use", "validation"
   )
 
-  tmp = c("feature", "target", "name", "order", "stratum", "group", "weight", "uri")
+  tmp = c("feature", "target", "name", "order", "stratum", "group", "weight")
   mlr_reflections$task_col_roles = list(
     regr = tmp,
     classif = tmp
@@ -98,6 +103,11 @@ local({
     classif = c(tmp, "twoclass", "multiclass"),
     regr = tmp
   )
+
+  mlr_reflections$task_mandatory_properties = list(
+    classif = c("twoclass", "multiclass")
+  )
+
 
   ### Learner
   tmp = c("featureless", "missings", "weights", "importance", "selected_features", "oob_error", "loglik", "retrain")

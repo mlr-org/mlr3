@@ -217,7 +217,10 @@ Resampling = R6Class("Resampling",
     #' @template field_hash
     hash = function(rhs) {
       assert_ro_binding(rhs)
-      hash(list(class(self), self$id, self$param_set$values, self$instance))
+      if (!self$is_instantiated) {
+        return(NA_character_)
+      }
+      calculate_hash(list(class(self), self$id, self$param_set$values, self$instance))
     }
   ),
 

@@ -25,7 +25,7 @@ test_that("setting threshold binaryclass", {
   expect_equal(as.character(p$response), colnames(p$prob)[max.col(p$prob)])
 
   response_before = p$response
-  expect_false(withVisible(p$set_threshold(0.5))$visible) #356
+  expect_false(withVisible(p$set_threshold(0.5))$visible) # 356
   expect_factor(p$response, levels = task$class_names, any.missing = FALSE)
   expect_equal(p$response, response_before)
   expect_lt(p$score(msr("classif.ce")), 0.25)
@@ -131,8 +131,8 @@ test_that("c", {
   expect_equal(conf, Reduce("+", map(rr$predictions(), "confusion")))
 
   # duplicates are detected?
-  p1 = rr$data$data$fact$prediction[[1]]$test
-  p2 = rr$data$data$fact$prediction[[1]]$test
+  p1 = private(rr)$.data$data$fact$prediction[[1]]$test
+  p2 = private(rr)$.data$data$fact$prediction[[1]]$test
   p3 = c(p1, p2, keep_duplicates = FALSE)
   expect_equal(sort(p1$data$row_ids), sort(p2$data$row_ids))
   expect_equal(sort(p1$data$row_ids), sort(p3$data$row_ids))
@@ -149,4 +149,14 @@ test_that("as_prediction_classif", {
   p2 = as_prediction_classif(tab)
 
   expect_equal(tab, as.data.table(p2))
+})
+
+test_that("#615", {
+  task = tsk("iris")
+  training <- task$clone()$filter(1:100)
+  testing <- task$clone()$filter(101:150)
+
+  l = lrn("classif.rpart")
+  l$train(training)
+  expect_equal(unname(l$predict(testing)$score()), 1)
 })

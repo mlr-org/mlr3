@@ -32,19 +32,21 @@
 #' task$filter(1:10)
 #'
 #' # Instantiate Resampling
-#' rrcv = rsmp("repeated_cv", repeats = 2, folds = 3)
-#' rrcv$instantiate(task)
-#' rrcv$iters
-#' rrcv$folds(1:6)
-#' rrcv$repeats(1:6)
+#' repeated_cv = rsmp("repeated_cv", repeats = 2, folds = 3)
+#' repeated_cv$instantiate(task)
+#' repeated_cv$iters
+#' repeated_cv$folds(1:6)
+#' repeated_cv$repeats(1:6)
 #'
 #' # Individual sets:
-#' rrcv$train_set(1)
-#' rrcv$test_set(1)
-#' intersect(rrcv$train_set(1), rrcv$test_set(1))
+#' repeated_cv$train_set(1)
+#' repeated_cv$test_set(1)
+#'
+#' # Disjunct sets:
+#' intersect(repeated_cv$train_set(1), repeated_cv$test_set(1))
 #'
 #' # Internal storage:
-#' rrcv$instance # table
+#' repeated_cv$instance # table
 ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
   public = list(
     #' @description
@@ -64,8 +66,8 @@ ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
     #'   Iteration number.
     #' @return `integer()` of fold numbers.
     folds = function(iters) {
-      iters = assert_integerish(iters, any.missing = FALSE, coerce = TRUE)
-      ((iters - 1L) %% as.integer(self$param_set$values$repeats)) + 1L
+      iters = assert_integerish(iters, lower = 1L, upper = self$iters, any.missing = FALSE, coerce = TRUE)
+      ((iters - 1L) %% as.integer(self$param_set$values$folds)) + 1L
     },
 
     #' @description
@@ -74,7 +76,7 @@ ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
     #'   Iteration number.
     #' @return `integer()` of repetition numbers.
     repeats = function(iters) {
-      iters = assert_integerish(iters, any.missing = FALSE, coerce = TRUE)
+      iters = assert_integerish(iters, lower = 1L, upper = self$iters, any.missing = FALSE, coerce = TRUE)
       ((iters - 1L) %/% as.integer(self$param_set$values$folds)) + 1L
     }
   ),

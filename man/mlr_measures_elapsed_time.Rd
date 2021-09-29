@@ -30,7 +30,7 @@ msr("time_train")
 \seealso{
 \itemize{
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
-\url{https://mlr3book.mlr-org.com/train-predict.html}
+\url{https://mlr3book.mlr-org.com/basics.html#train-predict}
 \item Package \CRANpkg{mlr3measures} for the scoring functions.
 \link[mlr3misc:Dictionary]{Dictionary} of \link[=Measure]{Measures}: \link{mlr_measures}
 \code{as.data.table(mlr_measures)} for a table of available \link[=Measure]{Measures} in the running session (depending on the loaded packages).
@@ -61,7 +61,8 @@ Other Measure:
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
 \item{\code{stages}}{(\code{character()})\cr
-Which stages of the learner to measure?}
+Which stages of the learner to measure?
+Usually set during construction.}
 }
 \if{html}{\out{</div>}}
 }

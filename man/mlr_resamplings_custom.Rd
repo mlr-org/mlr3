@@ -20,18 +20,18 @@ task = tsk("penguins")
 task$filter(1:10)
 
 # Instantiate Resampling
-rc = rsmp("custom")
+custom = rsmp("custom")
 train_sets = list(1:5, 5:10)
 test_sets = list(5:10, 1:5)
-rc$instantiate(task, train_sets, test_sets)
+custom$instantiate(task, train_sets, test_sets)
 
-rc$train_set(1)
-rc$test_set(1)
+custom$train_set(1)
+custom$test_set(1)
 }
 \seealso{
 \itemize{
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
-\url{https://mlr3book.mlr-org.com/resampling.html}
+\url{https://mlr3book.mlr-org.com/basics.html#resampling}
 \item Package \CRANpkg{mlr3spatiotempcv} for spatio-temporal resamplings.
 \item \link[mlr3misc:Dictionary]{Dictionary} of \link[=Resampling]{Resamplings}: \link{mlr_resamplings}
 \item \code{as.data.table(mlr_resamplings)} for a table of available \link[=Resampling]{Resamplings} in the running session (depending on the loaded packages).
@@ -40,6 +40,7 @@ rc$test_set(1)
 Other Resampling: 
 \code{\link{Resampling}},
 \code{\link{mlr_resamplings_bootstrap}},
+\code{\link{mlr_resamplings_custom_cv}},
 \code{\link{mlr_resamplings_cv}},
 \code{\link{mlr_resamplings_holdout}},
 \code{\link{mlr_resamplings_insample}},
@@ -57,9 +58,6 @@ Other Resampling:
 \describe{
 \item{\code{iters}}{(\code{integer(1)})\cr
 Returns the number of resampling iterations, depending on the values stored in the \code{param_set}.}
-
-\item{\code{hash}}{(\code{character(1)})\cr
-Hash (unique identifier) for this object.}
 }
 \if{html}{\out{</div>}}
 }
