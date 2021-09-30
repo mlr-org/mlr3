@@ -216,7 +216,7 @@ Measure = R6Class("Measure",
         tab = score_measures(rr, list(self), reassemble = FALSE, view = get_private(rr)$.view)
         set_names(aggregator(tab[[self$id]]), self$id)
       } else { # "micro"
-        self$score(rr$prediction(self$predict_sets))
+        self$score(rr$prediction(self$predict_sets), task = rr$task, learner = rr$learner)
       }
     }
   ),
@@ -261,6 +261,7 @@ score_single_measure = function(measure, task, learner, train_set, prediction) {
   if (is.list(prediction)) {
     ii = match(measure$predict_sets, names(prediction))
     if (anyMissing(ii)) {
+      # TODO lgr$debug()
       return(NaN)
     }
     prediction = do.call(c, prediction[ii])
@@ -269,7 +270,13 @@ score_single_measure = function(measure, task, learner, train_set, prediction) {
   # convert pdata to regular prediction
   prediction = as_prediction(prediction, check = FALSE)
 
-  if (measure$predict_type %nin% prediction$predict_types || any(measure$task_properties %nin% task$properties)) {
+  if (measure$predict_type %nin% prediction$predict_types) {
+    # TODO lgr$debug()
+    return(NaN)
+  }
+
+  if (!is.null(task) && any(measure$task_properties %nin% task$properties)) {
+    # TODO lgr$debug()
     return(NaN)
   }
 

@@ -58,8 +58,8 @@ test_that("check_prerequisites / task_properties", {
   p = learner$train(task)$predict(task)
   m = msr("classif.auc")
 
-  expect_identical(unname(m$score(p)), NaN)
-  expect_identical(unname(p$score(m)), NaN)
+  expect_error(unname(m$score(p)), "exactly")
+  expect_error(unname(p$score(m)), "exactly")
   expect_warning(m$score(p, task = task), "properties", fixed = TRUE)
   expect_warning(p$score(m, task = task), "properties", fixed = TRUE)
 
