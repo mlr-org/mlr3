@@ -126,7 +126,6 @@ ResampleResult = R6Class("ResampleResult",
     #' @return [data.table::data.table()].
     score = function(measures = NULL, ids = TRUE, conditions = FALSE, predict_sets = "test") {
       measures = as_measures(measures, task_type = private$.data$task_type)
-      assert_measures(measures, task = self$task, learner = self$learner)
       assert_flag(ids)
       assert_flag(conditions)
       assert_subset(predict_sets, mlr_reflections$predict_sets)
@@ -161,8 +160,7 @@ ResampleResult = R6Class("ResampleResult",
     #' @return Named `numeric()`.
     aggregate = function(measures = NULL) {
       measures = as_measures(measures, task_type = private$.data$task_type)
-      assert_measures(measures, task = self$task, learner = self$learner)
-      set_names(map_dbl(measures, function(m) m$aggregate(self)), ids(measures))
+      resample_result_aggregate(self, measures)
     },
 
     #' @description
@@ -314,4 +312,9 @@ format_list_item.ResampleResult = function(x, ...) { # nolint
 #' @export
 c.ResampleResult = function(...) {
   do.call(c, lapply(list(...), as_benchmark_result))
+}
+
+
+resample_result_aggregate = function(rr, measures) {
+  set_names(map_dbl(measures, function(m) m$aggregate(rr)), ids(measures))
 }

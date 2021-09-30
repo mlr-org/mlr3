@@ -155,7 +155,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #'
     #' @return [data.table::data.table()].
     score = function(measures = NULL, ids = TRUE, conditions = FALSE, predict_sets = "test") {
-      measures = assert_measures(as_measures(measures, task_type = self$task_type))
+      measures = as_measures(measures, task_type = self$task_type)
       assert_flag(ids)
       assert_flag(conditions)
 
@@ -263,7 +263,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
       }
 
       if (nrow(tab) > 0L) {
-        scores = map_dtr(tab$resample_result, function(rr) as.list(rr$aggregate(measures)))
+        scores = map_dtr(tab$resample_result, function(rr) as.list(resample_result_aggregate(rr, measures)))
       } else {
         scores = setDT(named_list(ids(measures), double()))
       }
