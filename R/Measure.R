@@ -54,6 +54,16 @@ Measure = R6Class("Measure",
     #' @template field_predict_sets
     predict_sets = NULL,
 
+    #' @field check_prerequisites (`character(1)`)\cr
+    #' How to proceed if one of the following prerequisites is not met:
+    #'
+    #' * wrong predict type (e.g., probabilities required, but only labels available).
+    #' * wrong predict set (e.g., learner predicted on training set, but predictions of test set required).
+    #' * task properties not satisfied (e.g., binary classification measure on multiclass task).
+    #'
+    #' Possible values are `"ignore"` (just return `NaN`) and `"warn"` (raise a warning before returning `NaN`).
+    check_prerequisites = "warn",
+
     #' @field average (`character(1)`)\cr
     #' Method for aggregation:
     #'
@@ -167,6 +177,7 @@ Measure = R6Class("Measure",
     #'
     #' @return `numeric(1)`.
     score = function(prediction, task = NULL, learner = NULL, train_set = NULL) {
+      assert_measure(self, task = task, learner = learner)
       assert_prediction(prediction)
 
       if ("requires_task" %in% self$properties && is.null(task)) {
@@ -187,10 +198,6 @@ Measure = R6Class("Measure",
 
       if (!is_scalar_na(self$task_type) && self$task_type != prediction$task_type) {
         stopf("Measure '%s' incompatible with task type '%s'", self$id, prediction$task_type)
-      }
-
-      if (self$predict_type %nin% prediction$predict_types) {
-        stopf("Measure '%s' requires predict type '%s'", self$id, self$predict_type)
       }
 
       score_single_measure(self, task, learner, train_set, prediction)
@@ -255,21 +262,24 @@ score_single_measure = function(measure, task, learner, train_set, prediction) {
     return(NaN)
   }
 
+  # merge multiple predictions (on different predict sets) to a single one
   if (is.list(prediction)) {
     ii = match(measure$predict_sets, names(prediction))
     if (anyMissing(ii)) {
-      lg$debug("Predict sets not available for measure, returning NaN", measure = measure, predict_sets = names(prediction))
       return(NaN)
     }
     prediction = do.call(c, prediction[ii])
   }
 
-  if (exists("score_internal", envir = measure, inherits = FALSE)) {
-    .Deprecated(msg = "Use private method '.score()' instead of public method 'score_internal()'")
-    measure$score_internal(prediction = as_prediction(prediction, check = FALSE), task = task, learner = learner, train_set = train_set)
-  } else {
-    get_private(measure)$.score(prediction = as_prediction(prediction, check = FALSE), task = task, learner = learner, train_set = train_set)
+  # convert pdata to regular prediction
+  prediction = as_prediction(prediction, check = FALSE)
+
+  if (measure$predict_type %nin% prediction$predict_types || any(measure$task_properties %nin% task$properties)) {
+    return(NaN)
   }
+
+
+  get_private(measure)$.score(prediction = prediction, task = task, learner = learner, train_set = train_set)
 }
 
 #' @title Workhorse function to calculate multiple scores
