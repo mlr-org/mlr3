@@ -938,7 +938,10 @@ task_print = function(self) {
     catf("* Features (%i):", nrow(types))
     types = types[, list(N = .N, feats = str_collapse(id, n = 100L)), by = "type"][, "type" := translate_types(type)]
     setorderv(types, "N", order = -1L)
-    pmap(types, function(type, N, feats) catf(str_indent(sprintf("  - %s (%i):", type, N), feats, exdent = 4L)))
+    pmap(types, function(type, N, feats) {
+      str = str_indent(sprintf("  - %s (%i):", type, N), feats, exdent = 4L)
+      cat(paste0(str, collapse = "\n"), "\n")
+    })
   }
 
   roles = self$col_roles
