@@ -238,6 +238,14 @@ Each set yields a separate <a href='Prediction.html'>Prediction</a> object.
 Those be combined via getters in <a href='ResampleResult.html'>ResampleResult</a>/<a href='BenchmarkResult.html'>BenchmarkResult</a>, or Measures can be altered
 to operate on specific subsets of the calculated prediction sets.</p></dd>
 
+<dt><code>check_prerequisites</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+How to proceed if one of the following prerequisites is not met:
+<ul>
+<li><p>wrong predict type (e.g., probabilities required, but only labels available).</p></li>
+<li><p>wrong predict set (e.g., learner predicted on training set, but predictions of test set required).</p></li>
+<li><p>task properties not satisfied (e.g., binary classification measure on multiclass task).</p></li>
+</ul>Possible values are <code>"ignore"</code> (just return <code>NaN</code>) and <code>"warn"</code> (default, raise a warning before returning <code>NaN</code>).</p></dd>
+
 <dt><code>average</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
 Method for aggregation:
 <ul>
