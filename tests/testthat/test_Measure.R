@@ -51,3 +51,69 @@ test_that("can set beta for fbeta during construction", {
 
   expect_gt(abs(m1$score(p) - m2$score(p)), 0.0001)
 })
+
+test_that("check_prerequisites / task_properties", {
+  task = tsk("penguins")
+  learner = lrn("classif.featureless", predict_type = "prob")
+  p = learner$train(task)$predict(task)
+  m = msr("classif.auc")
+
+  expect_error(unname(m$score(p)), "exactly")
+  expect_error(unname(p$score(m)), "exactly")
+  expect_warning(m$score(p, task = task), "properties", fixed = TRUE)
+  expect_warning(p$score(m, task = task), "properties", fixed = TRUE)
+
+  rr = resample(task, learner, rsmp("holdout"))
+  res = expect_warning(rr$score(m), "properties", fixed = TRUE)
+  expect_identical(res$classif.auc, NaN)
+  res = expect_warning(rr$aggregate(m), "properties", fixed = TRUE)
+  expect_identical(unname(res), NaN)
+
+  bmr = as_benchmark_result(rr)
+  res = expect_warning(bmr$score(m), "properties", fixed = TRUE)
+  expect_identical(res$classif.auc, NaN)
+  res = expect_warning(bmr$aggregate(m), "properties", fixed = TRUE)
+  expect_identical(res$classif.auc, NaN)
+})
+
+test_that("check_prerequisites / predict_type", {
+  task = tsk("sonar")
+  learner = lrn("classif.featureless")
+  p = learner$train(task)$predict(task)
+  m = msr("classif.auc")
+
+  expect_identical(unname(m$score(p)), NaN)
+  expect_identical(unname(p$score(m)), NaN)
+  expect_warning(m$score(p, learner = learner), "predict type", fixed = TRUE)
+  expect_warning(p$score(m, learner = learner), "predict type", fixed = TRUE)
+
+  rr = resample(task, learner, rsmp("holdout"))
+  res = expect_warning(rr$score(m), "predict type", fixed = TRUE)
+  expect_identical(res$classif.auc, NaN)
+  res = expect_warning(rr$aggregate(m), "predict type", fixed = TRUE)
+  expect_identical(unname(res), NaN)
+
+  bmr = as_benchmark_result(rr)
+  res = expect_warning(bmr$score(m), "predict type", fixed = TRUE)
+  expect_identical(res$classif.auc, NaN)
+  res = expect_warning(bmr$aggregate(m), "predict type", fixed = TRUE)
+  expect_identical(res$classif.auc, NaN)
+})
+
+test_that("check_prerequisites / predict_sets", {
+  task = tsk("sonar")
+  learner = lrn("classif.featureless", predict_sets = "train")
+  rr = resample(task, learner, rsmp("holdout"))
+  m = msr("classif.ce")
+
+  res = expect_warning(rr$score(m), "predict sets", fixed = TRUE)
+  expect_identical(res$classif.ce, NaN)
+  res = expect_warning(rr$aggregate(m), "predict sets", fixed = TRUE)
+  expect_identical(unname(res), NaN)
+
+  bmr = as_benchmark_result(rr)
+  res = expect_warning(bmr$score(m), "predict sets", fixed = TRUE)
+  expect_identical(res$classif.ce, NaN)
+  res = expect_warning(bmr$aggregate(m), "predict set", fixed = TRUE)
+  expect_identical(res$classif.ce, NaN)
+})
