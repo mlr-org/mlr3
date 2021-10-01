@@ -92,6 +92,19 @@ Prediction = R6Class("Prediction",
       measures = assert_measures(as_measures(measures, task_type = self$task_type), task = task, learner = learner)
       scores = map_dbl(measures, function(m) m$score(prediction = self, task = task, learner = learner, train_set = train_set))
       set_names(scores, ids(measures))
+    },
+
+    #' @description
+    #' Filters the [Prediction], keeping only predictions for the provided row_ids.
+    #' This changes the object in-place, you need to create a clone to preserve
+    #' the original [Prediction].
+    #'
+    #' @template param_row_ids
+    #' @return `self`, modified.
+    filter = function(row_ids) {
+      row_ids = assert_row_ids(row_ids)
+      self$data = filter_prediction_data(self$data, row_ids)
+      invisible(self)
     }
   ),
 
@@ -135,3 +148,9 @@ c.Prediction = function(..., keep_duplicates = TRUE) { # nolint
   pdata = invoke(c, .args = c(map(dots, "data"), list(keep_duplicates = keep_duplicates)))
   as_prediction(pdata, check = FALSE)
 }
+
+#' @export
+format_list_item.Prediction = function(x, ...) { # nolint
+  sprintf("<prd[%i]>", length(x$row_ids))
+}
+

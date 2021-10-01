@@ -118,7 +118,8 @@ Set of required task properties.}
 
 \item{bmr}{(\link{BenchmarkResult}).}
 
-\item{row_ids}{(\code{numeric()}).}
+\item{row_ids}{\code{integer()}\cr
+Row indices.}
 
 \item{resample_result}{(\link{ResampleResult}).}
 }

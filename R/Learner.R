@@ -464,6 +464,9 @@ Learner = R6Class("Learner",
         .param_set = value$clone(deep = TRUE),
         fallback = if (is.null(value)) NULL else value$clone(deep = TRUE),
         state = {
+          if (!is.null(value$train_task)) {
+            value$train_task = value$train_task$clone(deep = TRUE)
+          }
           value$log = copy(value$log)
           value
         },
@@ -490,4 +493,9 @@ get_log_condition = function(state, condition) {
   } else {
     fget(state$log, i = condition, j = "msg", key = "class")
   }
+}
+
+#' @export
+format_list_item.Learner = function(x, ...) { # nolint
+  sprintf("<lrn:%s>", x$id)
 }

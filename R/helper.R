@@ -83,3 +83,16 @@ set_encapsulation = function(learners, encapsulate) {
   }
   learners
 }
+
+future_stdout = function() {
+  if (inherits(plan(), "sequential")) {
+    NA
+  } else {
+    TRUE
+  }
+}
+
+
+format_list_item = function(x, ...) {
+  UseMethod("format_list_item")
+}

@@ -21,9 +21,9 @@ msr("selected_features")
 }
 
 \section{Parameters}{
-\tabular{llll}{
-   Id \tab Type \tab Default \tab Levels \cr
-   normalize \tab logical \tab TRUE \tab TRUE, FALSE \cr
+\tabular{lllll}{
+   Id \tab Type \tab Default \tab Range \tab Levels \cr
+   normalize \tab logical \tab TRUE \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \tab TRUE, FALSE \cr
 }
 }
 

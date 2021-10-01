@@ -9,7 +9,7 @@
 #' @importFrom stats predict rnorm runif sd contr.treatment
 #' @importFrom uuid UUIDgenerate
 #' @importFrom parallelly availableCores
-#' @importFrom future nbrOfWorkers
+#' @importFrom future nbrOfWorkers plan
 #'
 #' @section Learn mlr3:
 #' * Book on mlr3: \url{https://mlr3book.mlr-org.com}

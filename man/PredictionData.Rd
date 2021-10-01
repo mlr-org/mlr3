@@ -5,6 +5,7 @@
 \alias{PredictionData}
 \alias{check_prediction_data}
 \alias{is_missing_prediction_data}
+\alias{filter_prediction_data}
 \alias{check_prediction_data.PredictionDataClassif}
 \alias{is_missing_prediction_data.PredictionDataClassif}
 \alias{c.PredictionDataClassif}
@@ -16,6 +17,8 @@
 check_prediction_data(pdata)
 
 is_missing_prediction_data(pdata)
+
+filter_prediction_data(pdata, row_ids)
 
 \method{check_prediction_data}{PredictionDataClassif}(pdata)
 
@@ -32,6 +35,9 @@ is_missing_prediction_data(pdata)
 \arguments{
 \item{pdata}{(\link{PredictionData})\cr
 Named list inheriting from \code{"PredictionData"}.}
+
+\item{row_ids}{\code{integer()}\cr
+Row indices.}
 
 \item{...}{(one or more \link{PredictionData} objects).}
 
