@@ -460,3 +460,19 @@ test_that("set_levels", {
   expect_equal(levels(task$data(1)$sex), new_lvls)
   expect_equal(levels(task$head(1)$sex), new_lvls)
 })
+
+test_that("special chars in feature names (#697)", {
+  prev = options(mlr3.allow_utf8_names = FALSE)
+  on.exit(options(prev))
+
+  expect_error(
+    TaskRegr$new("test", data.table(`%^` = 1:3, t = 3:1), target = "t"),
+    "comply"
+  )
+  options(mlr3.allow_utf8_names = TRUE)
+
+  expect_error(
+    TaskRegr$new("test", data.table(`%^` = 1:3, t = 3:1), target = "t"),
+    "special character"
+  )
+})
