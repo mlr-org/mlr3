@@ -6,6 +6,7 @@
 #' * Package [mlr3extralearners](https://github.com/mlr-org/mlr3extralearners) for more learners.
 #' * [Dictionary][mlr3misc::Dictionary] of [Learners][Learner]: [mlr_learners]
 #' * `as.data.table(mlr_learners)` for a table of available [Learners][Learner] in the running session (depending on the loaded packages).
+#' * \CRANpkg{mlr3pipelines} to combine learners with pre- and postprocessing steps.
 #' * Extension packages for additional task types:
 #'    * \CRANpkg{mlr3proba} for probabilistic supervised regression and survival analysis.
 #'    * \CRANpkg{mlr3cluster} for unsupervised clustering.
