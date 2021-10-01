@@ -143,15 +143,19 @@ assert_predictable = function(task, learner) {
 assert_measure = function(measure, task = NULL, learner = NULL, .var.name = vname(measure)) {
   assert_class(measure, "Measure", .var.name = .var.name)
 
+
   if (!is.null(task)) {
     if (!is_scalar_na(measure$task_type) && measure$task_type != task$task_type) {
       stopf("Measure '%s' is not compatible with type '%s' of task '%s'",
         measure$id, task$task_type, task$id)
     }
 
-    miss = setdiff(measure$task_properties, task$properties)
-    if (length(miss) > 0) {
-      stopf("Measure '%s' needs task properties: %s", measure$id, str_collapse(miss))
+    if (measure$check_prerequisites != "ignore") {
+      miss = setdiff(measure$task_properties, task$properties)
+      if (length(miss) > 0) {
+        warningf("Measure '%s' is missing properties %s of task '%s'",
+          measure$id, str_collapse(miss, quote = "'"), task$id)
+      }
     }
   }
 
@@ -161,17 +165,20 @@ assert_measure = function(measure, task = NULL, learner = NULL, .var.name = vnam
         measure$id, learner$task_type, learner$id)
     }
 
-    if (!is_scalar_na(measure$predict_type)) {
+    if (!is_scalar_na(measure$predict_type) && measure$check_prerequisites != "ignore") {
       predict_types = mlr_reflections$learner_predict_types[[learner$task_type]][[learner$predict_type]]
       if (measure$predict_type %nin% predict_types) {
-        stopf("Measure '%s' needs predict_type '%s'", measure$id, measure$predict_type)
+        warningf("Measure '%s' is missing predict type '%s' of learner '%s'", measure$id, measure$predict_type, learner$id)
       }
     }
 
-    miss = setdiff(measure$predict_sets, learner$predict_sets)
-    if (length(miss) > 0) {
-      stopf("Measure '%s' needs predict set %s, but learner '%s' only predicted on sets %s",
-        measure$id, str_collapse(miss, quote = "'"), learner$id, str_collapse(learner$predict_sets, quote = "'"))
+    if (measure$check_prerequisites != "ignore") {
+      miss = setdiff(measure$predict_sets, learner$predict_sets)
+      if (length(miss) > 0) {
+
+        warningf("Measure '%s' needs predict sets %s, but learner '%s' only predicted on sets %s",
+          measure$id, str_collapse(miss, quote = "'"), learner$id, str_collapse(learner$predict_sets, quote = "'"))
+      }
     }
   }
 

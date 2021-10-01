@@ -76,6 +76,16 @@ Each set yields a separate \link{Prediction} object.
 Those be combined via getters in \link{ResampleResult}/\link{BenchmarkResult}, or \link{Measure}s can be altered
 to operate on specific subsets of the calculated prediction sets.}
 
+\item{\code{check_prerequisites}}{(\code{character(1)})\cr
+How to proceed if one of the following prerequisites is not met:
+\itemize{
+\item wrong predict type (e.g., probabilities required, but only labels available).
+\item wrong predict set (e.g., learner predicted on training set, but predictions of test set required).
+\item task properties not satisfied (e.g., binary classification measure on multiclass task).
+}
+
+Possible values are \code{"ignore"} (just return \code{NaN}) and \code{"warn"} (default, raise a warning before returning \code{NaN}).}
+
 \item{\code{average}}{(\code{character(1)})\cr
 Method for aggregation:
 \itemize{
