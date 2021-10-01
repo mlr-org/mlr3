@@ -258,7 +258,7 @@ assert_range = function(range, .var.name = vname(range)) {
 
 
 #' @export
-#' @param row_ids (`numeric()`).
+#' @template param_row_ids
 #' @rdname mlr_assertions
 assert_row_ids = function(row_ids, null.ok = FALSE, .var.name = vname(row_ids)) {
   assert_integerish(row_ids, coerce = TRUE, null.ok = null.ok)

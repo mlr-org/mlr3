@@ -13,6 +13,12 @@ test_that("PredictionDataClassif", {
   expect_s3_class(c(pdata, pdata), "PredictionDataClassif")
   expect_prediction(as_prediction(pdata))
   expect_equal(as.data.table(p), as.data.table(as_prediction(pdata)))
+
+  pdata = filter_prediction_data(pdata, row_ids = 1:3)
+  expect_set_equal(pdata$row_ids, 1:3)
+  expect_factor(pdata$truth, len = 3)
+  expect_factor(pdata$response, len = 3)
+  expect_matrix(pdata$prob, nrows = 3)
 })
 
 test_that("row sums of prob sums up to 1 ", {

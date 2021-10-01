@@ -59,6 +59,9 @@ This is \code{NA} for empty \link{ResampleResult}s.}
 \item{\code{uhash}}{(\code{character(1)})\cr
 Unique hash for this object.}
 
+\item{\code{iters}}{(\code{integer(1)})\cr
+Number of resampling iterations stored in the \code{ResampleResult}.}
+
 \item{\code{task}}{(\link{Task})\cr
 The task \code{\link[=resample]{resample()}} operated on.}
 

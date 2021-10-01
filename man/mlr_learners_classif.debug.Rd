@@ -18,6 +18,8 @@ The following hyperparameters trigger the following actions:
 \item{save_tasks:}{Saves input task in \code{model} slot during training and prediction.}
 \item{segfault_predict:}{Probability to provokes a segfault during predict.}
 \item{segfault_train:}{Probability to provokes a segfault during train.}
+\item{sleep_train:}{Function returning a single number determining how many seconds to sleep during \verb{$train()}.}
+\item{sleep_predict:}{Function returning a single number determining how many seconds to sleep during \verb{$predict()}.}
 \item{threads:}{Number of threads to use. Has no effect.}
 \item{warning_predict:}{Probability to signal a warning during predict.}
 \item{warning_train:}{Probability to signal a warning during train.}
@@ -55,6 +57,8 @@ lrn("classif.debug")
    save_tasks \tab logical \tab FALSE \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \tab TRUE, FALSE \cr
    segfault_predict \tab numeric \tab 0 \tab \eqn{[0, 1]}{[0, 1]} \tab - \cr
    segfault_train \tab numeric \tab 0 \tab \eqn{[0, 1]}{[0, 1]} \tab - \cr
+   sleep_train \tab list \tab - \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \tab - \cr
+   sleep_predict \tab list \tab - \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \tab - \cr
    threads \tab integer \tab - \tab \eqn{[1, \infty)}{[1, Inf)} \tab - \cr
    warning_predict \tab numeric \tab 0 \tab \eqn{[0, 1]}{[0, 1]} \tab - \cr
    warning_train \tab numeric \tab 0 \tab \eqn{[0, 1]}{[0, 1]} \tab - \cr

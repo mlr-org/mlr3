@@ -86,7 +86,7 @@ resample = function(task, learner, resampling, store_models = FALSE, store_backe
       task = task, learner = learner, resampling = instance,
       store_models = store_models, lgr_threshold = lg$threshold, pb = pb,
       future.globals = FALSE, future.scheduling = structure(TRUE, ordering = "random"),
-      future.packages = "mlr3", future.seed = TRUE
+      future.packages = "mlr3", future.seed = TRUE, future.stdout = future_stdout()
     )
   }
 

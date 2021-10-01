@@ -5,7 +5,7 @@
 #'
 #' @inheritParams as_task
 #' @param task ([Task]).
-#' @param row_ids (`integer()`).
+#' @template param_row_ids
 #' @param check (`logical(1)`)\cr
 #'   Perform argument checks and type conversions?
 #'

@@ -289,3 +289,19 @@ test_that("mandatory properties",  {
   expect_error(resample(task, learner, resample), "multiclass")
   expect_error(benchmark(benchmark_grid(task, learner, resample)), "multiclass")
 })
+
+test_that("train task is cloned (#382)", {
+  train_task = tsk("iris")
+  lr = lrn("classif.rpart")$train(train_task)
+  expect_different_address(lr$state$train_task, train_task)
+
+  lrc = lr$clone(deep = TRUE)
+  expect_different_address(lr$state$train_task, lrc$state$train_task)
+})
+
+test_that("Error on missing data (#413)", {
+  task = tsk("pima")
+  learner = lrn("classif.rpart")
+  learner$properties = setdiff(learner$properties, "missings")
+  expect_error(learner$train(task), "missing values")
+})

@@ -80,3 +80,8 @@ convert_mlbench = function(obj) {
   X = set_col_names(obj$x, sprintf("x%i", seq_col(obj$x)))
   insert_named(as.data.table(X), list(y = y))
 }
+
+#' @export
+format_list_item.TaskGenerator = function(x, ...) { # nolint
+  sprintf("<tgen:%s>", x$id)
+}
