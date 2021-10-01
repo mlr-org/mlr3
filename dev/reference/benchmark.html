@@ -260,8 +260,14 @@ or <code>"trace"</code>:</p><pre><span class='fu'>lgr</span><span class='fu'>::<
 <p>To log to a file or a data base, see the documentation of <a href='https://s-fleck.github.io/lgr/reference/lgr-package.html'>lgr::lgr-package</a>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Chapter in the <a href='https://mlr3book.mlr-org.com/'>mlr3book</a>:
-<a href='https://mlr3book.mlr-org.com/basics.html#benchmarking'>https://mlr3book.mlr-org.com/basics.html#benchmarking</a></p>
+    <div class='dont-index'>
+<ul>
+<li><p>Chapter in the <a href='https://mlr3book.mlr-org.com/'>mlr3book</a>:
+<a href='https://mlr3book.mlr-org.com/basics.html#benchmarking'>https://mlr3book.mlr-org.com/basics.html#benchmarking</a></p></li>
+<li><p>Package <a href='https://CRAN.R-project.org/package=mlr3viz'><span class="pkg">mlr3viz</span></a> for some generic visualizations.</p></li>
+<li><p><a href='https://CRAN.R-project.org/package=mlr3benchmark'><span class="pkg">mlr3benchmark</span></a> for post-hoc analysis of benchmark results.</p></li>
+</ul>
+
 <p>Other benchmark: 
 <code><a href='BenchmarkResult.html'>BenchmarkResult</a></code>,
 <code><a href='benchmark_grid.html'>benchmark_grid</a>()</code></p></div>
@@ -285,12 +291,12 @@ or <code>"trace"</code>:</p><pre><span class='fu'>lgr</span><span class='fu'>::<
 <span class='co'>## Data of all resamplings</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table</a></span><span class='op'>(</span><span class='va'>bmr</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;                                   uhash              task
-#&gt; 1: 0fc201d5-a168-4b4e-a822-ee5d8be150d3 &lt;TaskClassif[48]&gt;
-#&gt; 2: 0fc201d5-a168-4b4e-a822-ee5d8be150d3 &lt;TaskClassif[48]&gt;
-#&gt; 3: 0fc201d5-a168-4b4e-a822-ee5d8be150d3 &lt;TaskClassif[48]&gt;
-#&gt; 4: 19c6b89c-2e5a-49b2-a352-d1b3c9669935 &lt;TaskClassif[48]&gt;
-#&gt; 5: 19c6b89c-2e5a-49b2-a352-d1b3c9669935 &lt;TaskClassif[48]&gt;
-#&gt; 6: 19c6b89c-2e5a-49b2-a352-d1b3c9669935 &lt;TaskClassif[48]&gt;
+#&gt; 1: 1323b191-f43c-40a6-a999-b10d5c7c3919 &lt;TaskClassif[48]&gt;
+#&gt; 2: 1323b191-f43c-40a6-a999-b10d5c7c3919 &lt;TaskClassif[48]&gt;
+#&gt; 3: 1323b191-f43c-40a6-a999-b10d5c7c3919 &lt;TaskClassif[48]&gt;
+#&gt; 4: f5560605-0ed0-4deb-a8bb-6bf476439537 &lt;TaskClassif[48]&gt;
+#&gt; 5: f5560605-0ed0-4deb-a8bb-6bf476439537 &lt;TaskClassif[48]&gt;
+#&gt; 6: f5560605-0ed0-4deb-a8bb-6bf476439537 &lt;TaskClassif[48]&gt;
 #&gt;                            learner         resampling iteration
 #&gt; 1: &lt;LearnerClassifFeatureless[36]&gt; &lt;ResamplingCV[19]&gt;         1
 #&gt; 2: &lt;LearnerClassifFeatureless[36]&gt; &lt;ResamplingCV[19]&gt;         2
