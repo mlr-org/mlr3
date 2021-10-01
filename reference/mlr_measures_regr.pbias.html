@@ -55,7 +55,7 @@
 
 <meta property="og:title" content="Percent Bias — mlr_measures_regr.pbias" />
 <meta property="og:description" content="Regression measure defined as $$
-  \frac{1}{n} \sum_{i=1}^n \frac{\left( t_i - r_i \right)}{\left| t_i \right|}.
+  \frac{1}{n} \sum_{i=1}^n w_i \frac{\left( t_i - r_i \right)}{\left| t_i \right|}.
 $$
 Good predictions score close to 0." />
 <meta property="og:image" content="/logo.svg" />
@@ -164,7 +164,7 @@ Good predictions score close to 0." />
 
     <div class="ref-description">
     <p>Regression measure defined as $$
-  \frac{1}{n} \sum_{i=1}^n \frac{\left( t_i - r_i \right)}{\left| t_i \right|}.
+  \frac{1}{n} \sum_{i=1}^n w_i \frac{\left( t_i - r_i \right)}{\left| t_i \right|}.
 $$
 Good predictions score close to 0.</p>
     </div>
