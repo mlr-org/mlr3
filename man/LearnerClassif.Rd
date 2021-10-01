@@ -53,6 +53,8 @@ lrn$predict(task, 201:344)$confusion
 \item \CRANpkg{mlr3proba} for probabilistic supervised regression and survival analysis.
 \item \CRANpkg{mlr3cluster} for unsupervised clustering.
 }
+\item \CRANpkg{mlr3tuning} for tuning of hyperparameters, \CRANpkg{mlr3tuningspaces}
+for established default tuning spaces.
 }
 
 Other Learner: 
