@@ -61,7 +61,7 @@ Measure = R6Class("Measure",
     #' * wrong predict set (e.g., learner predicted on training set, but predictions of test set required).
     #' * task properties not satisfied (e.g., binary classification measure on multiclass task).
     #'
-    #' Possible values are `"ignore"` (just return `NaN`) and `"warn"` (raise a warning before returning `NaN`).
+    #' Possible values are `"ignore"` (just return `NaN`) and `"warn"` (default, raise a warning before returning `NaN`).
     check_prerequisites = "warn",
 
     #' @field average (`character(1)`)\cr

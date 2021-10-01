@@ -83,7 +83,7 @@ How to proceed if one of the following prerequisites is not met:
 \item task properties not satisfied (e.g., binary classification measure on multiclass task).
 }
 
-Possible values are \code{"ignore"} (just return \code{NaN}) and \code{"warn"} (raise a warning before returning \code{NaN}).}
+Possible values are \code{"ignore"} (just return \code{NaN}) and \code{"warn"} (default, raise a warning before returning \code{NaN}).}
 
 \item{\code{average}}{(\code{character(1)})\cr
 Method for aggregation:
