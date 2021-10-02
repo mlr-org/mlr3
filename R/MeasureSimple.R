@@ -332,8 +332,8 @@ mlr_measures$add("regr.sse", MeasureRegrSimple, name = "sse")
 
 #' @templateVar id jaccard
 #' @template measure_similarity
-mlr_measures$add("similarity.jaccard", MeasureSimilaritySimple, name = "jaccard")
+mlr_measures$add("sim.jaccard", MeasureSimilaritySimple, name = "jaccard")
 
 #' @templateVar id phi
 #' @template measure_similarity
-mlr_measures$add("similarity.phi", MeasureSimilaritySimple, name = "phi")
+mlr_measures$add("sim.phi", MeasureSimilaritySimple, name = "phi")

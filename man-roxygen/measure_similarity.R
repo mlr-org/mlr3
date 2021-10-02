@@ -1,4 +1,4 @@
-#' @name mlr_measures_similarity.<%= id %>
+#' @name mlr_measures_sim.<%= id %>
 #' @include mlr_measures.R
 #'
 #' @inherit mlr3measures::<%= id %> title description details
@@ -7,8 +7,8 @@
 #' @section Dictionary:
 #' This [Measure] can be instantiated via the [dictionary][mlr3misc::Dictionary] [mlr_measures] or with the associated sugar function [msr()]:
 #' ```
-#' mlr_measures$get("<%= id %>")
-#' msr("<%= id %>")
+#' mlr_measures$get("sim.<%= id %>")
+#' msr("sim.<%= id %>")
 #' ```
 #'
 #' @note
