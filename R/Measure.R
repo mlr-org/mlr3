@@ -219,9 +219,7 @@ Measure = R6Class("Measure",
           tab = score_measures(rr, list(self), reassemble = FALSE, view = get_private(rr)$.view)
           set_names(aggregator(tab[[self$id]]), self$id)
         },
-        
-             "micro" = self$score(rr$prediction(self$predict_sets), task = rr$task, learner = rr$learner)
-,
+        "micro" = self$score(rr$prediction(self$predict_sets), task = rr$task, learner = rr$learner)
         "custom" = private$.aggregate(rr)
       )
     }
