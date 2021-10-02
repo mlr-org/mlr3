@@ -22,6 +22,7 @@ TaskSupervised$new("penguins", task_type = "classif", backend = palmerpenguins::
 \item Package \CRANpkg{mlr3viz} for some generic visualizations.
 \item \link[mlr3misc:Dictionary]{Dictionary} of \link[=Task]{Tasks}: \link{mlr_tasks}
 \item \code{as.data.table(mlr_tasks)} for a table of available \link[=Task]{Tasks} in the running session (depending on the loaded packages).
+\item \CRANpkg{mlr3fselect} and \CRANpkg{mlr3filters} for feature selection and feature filtering.
 \item Extension packages for additional task types:
 \itemize{
 \item \CRANpkg{mlr3proba} for probabilistic supervised regression and survival analysis.
