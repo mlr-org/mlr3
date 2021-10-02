@@ -171,6 +171,9 @@ Also know as "recall" or "sensitivity".</p>
 
 
 
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>This measure is undefined if TP + FN = 0.</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>The score function calls <code><a href='https://mlr3measures.mlr-org.com/reference/tpr.html'>mlr3measures::sensitivity()</a></code> from package <a href='https://CRAN.R-project.org/package=mlr3measures'><span class="pkg">mlr3measures</span></a>.</p>
@@ -180,8 +183,8 @@ This can be customized by setting the field <code>na_value</code>.</p>
 
     
 
-<p>This <a href='Measure.html'>Measure</a> can be instantiated via the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> <a href='mlr_measures.html'>mlr_measures</a> or with the associated sugar function <code><a href='mlr_sugar.html'>msr()</a></code>:</p><pre><span class='va'>mlr_measures</span><span class='op'>$</span><span class='fu'>get</span><span class='op'>(</span><span class='st'>"sensitivity"</span><span class='op'>)</span>
-<span class='fu'><a href='mlr_sugar.html'>msr</a></span><span class='op'>(</span><span class='st'>"sensitivity"</span><span class='op'>)</span>
+<p>This <a href='Measure.html'>Measure</a> can be instantiated via the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> <a href='mlr_measures.html'>mlr_measures</a> or with the associated sugar function <code><a href='mlr_sugar.html'>msr()</a></code>:</p><pre><span class='va'>mlr_measures</span><span class='op'>$</span><span class='fu'>get</span><span class='op'>(</span><span class='st'>"classif.sensitivity"</span><span class='op'>)</span>
+<span class='fu'><a href='mlr_sugar.html'>msr</a></span><span class='op'>(</span><span class='st'>"classif.sensitivity"</span><span class='op'>)</span>
 </pre>
 
     <h2 class="hasAnchor" id="meta-information"><a class="anchor" href="#meta-information"></a>Meta Information</h2>

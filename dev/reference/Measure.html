@@ -205,6 +205,7 @@ Many of the measures in <span class="pkg">mlr3</span> are implemented in <a href
 <p>Other Measure: 
 <code><a href='MeasureClassif.html'>MeasureClassif</a></code>,
 <code><a href='MeasureRegr.html'>MeasureRegr</a></code>,
+<code><a href='MeasureSimilarity.html'>MeasureSimilarity</a></code>,
 <code><a href='mlr_measures_aic.html'>mlr_measures_aic</a></code>,
 <code><a href='mlr_measures_bic.html'>mlr_measures_bic</a></code>,
 <code><a href='mlr_measures_classif.costs.html'>mlr_measures_classif.costs</a></code>,
@@ -256,6 +257,8 @@ Next, the scoring function of the measure is applied on this combined object, yi
 The scoring function is applied on the <a href='Prediction.html'>Prediction</a> object of each resampling iterations,
 each yielding a single numeric score.
 Next, the scores are combined with the <code>aggregator</code> function to a single numerical score.</p></li>
+<li><p><code>"custom"</code>:
+The measure implements a custom aggregation method.</p></li>
 </ul></p></dd>
 
 <dt><code>aggregator</code></dt><dd><p>(<code>function()</code>)<br />

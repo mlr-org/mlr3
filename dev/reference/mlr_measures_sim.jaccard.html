@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Multiclass Brier Score — mlr_measures_classif.mbrier • mlr3</title>
+<title>Jaccard Similarity Index — mlr_measures_sim.jaccard • mlr3</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -53,13 +53,14 @@
 
 
 
-<meta property="og:title" content="Multiclass Brier Score — mlr_measures_classif.mbrier" />
-<meta property="og:description" content="Brier score for multi-class classification problems with \(r\) labels defined as $$
-   \frac{1}{n} \sum_{i=1}^n \sum_{j=1}^r (I_{ij} - p_{ij})^2.
+<meta property="og:title" content="Jaccard Similarity Index — mlr_measures_sim.jaccard" />
+<meta property="og:description" content="Measure to compare two or more sets w.r.t. their similarity.
+For two sets \(A\) and \(B\), it is defined as
 $$
-\(I_{ij}\) is 1 if observation \(i\) has true label \(j\), and 0 otherwise.
-Note that there also is the more common definition of the Brier score for binary
-classification problems in bbrier()." />
+  J(A, B) = \frac{|A \cap B|}{|A \cup B|}.
+$$
+If more than two sets are provided, the mean of all pairwise scores
+is calculated." />
 <meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
@@ -159,33 +160,37 @@ classification problems in bbrier()." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Multiclass Brier Score</h1>
+    <h1>Jaccard Similarity Index</h1>
     <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/MeasureSimple.R'><code>R/MeasureSimple.R</code></a></small>
-    <div class="hidden name"><code>mlr_measures_classif.mbrier.Rd</code></div>
+    <div class="hidden name"><code>mlr_measures_sim.jaccard.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Brier score for multi-class classification problems with \(r\) labels defined as $$
-   \frac{1}{n} \sum_{i=1}^n \sum_{j=1}^r (I_{ij} - p_{ij})^2.
+    <p>Measure to compare two or more sets w.r.t. their similarity.
+For two sets \(A\) and \(B\), it is defined as
 $$
-\(I_{ij}\) is 1 if observation \(i\) has true label \(j\), and 0 otherwise.</p>
-<p>Note that there also is the more common definition of the Brier score for binary
-classification problems in <code><a href='https://mlr3measures.mlr-org.com/reference/bbrier.html'>bbrier()</a></code>.</p>
+  J(A, B) = \frac{|A \cap B|}{|A \cup B|}.
+$$
+If more than two sets are provided, the mean of all pairwise scores
+is calculated.</p>
     </div>
 
 
 
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>This measure is undefined if two or more sets are empty.</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
-    <p>The score function calls <code><a href='https://mlr3measures.mlr-org.com/reference/mbrier.html'>mlr3measures::mbrier()</a></code> from package <a href='https://CRAN.R-project.org/package=mlr3measures'><span class="pkg">mlr3measures</span></a>.</p>
+    <p>The score function calls <code><a href='https://mlr3measures.mlr-org.com/reference/jaccard.html'>mlr3measures::jaccard()</a></code> from package <a href='https://CRAN.R-project.org/package=mlr3measures'><span class="pkg">mlr3measures</span></a>.</p>
 <p>If the measure is undefined for the input, <code>NaN</code> is returned.
 This can be customized by setting the field <code>na_value</code>.</p>
     <h2 class="hasAnchor" id="dictionary"><a class="anchor" href="#dictionary"></a>Dictionary</h2>
 
     
 
-<p>This <a href='Measure.html'>Measure</a> can be instantiated via the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> <a href='mlr_measures.html'>mlr_measures</a> or with the associated sugar function <code><a href='mlr_sugar.html'>msr()</a></code>:</p><pre><span class='va'>mlr_measures</span><span class='op'>$</span><span class='fu'>get</span><span class='op'>(</span><span class='st'>"classif.mbrier"</span><span class='op'>)</span>
-<span class='fu'><a href='mlr_sugar.html'>msr</a></span><span class='op'>(</span><span class='st'>"classif.mbrier"</span><span class='op'>)</span>
+<p>This <a href='Measure.html'>Measure</a> can be instantiated via the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> <a href='mlr_measures.html'>mlr_measures</a> or with the associated sugar function <code><a href='mlr_sugar.html'>msr()</a></code>:</p><pre><span class='va'>mlr_measures</span><span class='op'>$</span><span class='fu'>get</span><span class='op'>(</span><span class='st'>"sim.jaccard"</span><span class='op'>)</span>
+<span class='fu'><a href='mlr_sugar.html'>msr</a></span><span class='op'>(</span><span class='st'>"sim.jaccard"</span><span class='op'>)</span>
 </pre>
 
     <h2 class="hasAnchor" id="meta-information"><a class="anchor" href="#meta-information"></a>Meta Information</h2>
@@ -194,10 +199,9 @@ This can be customized by setting the field <code>na_value</code>.</p>
 
 
 <ul>
-<li><p>Type: <code>"classif"</code></p></li>
-<li><p>Range: \([0, 2]\)</p></li>
-<li><p>Minimize: <code>TRUE</code></p></li>
-<li><p>Required prediction: <code>prob</code></p></li>
+<li><p>Type: <code>"similarity"</code></p></li>
+<li><p>Range: \([0, 1]\)</p></li>
+<li><p>Minimize: <code>FALSE</code></p></li>
 </ul>
 
 
@@ -205,40 +209,8 @@ This can be customized by setting the field <code>na_value</code>.</p>
 
     <div class='dont-index'><p><a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>Dictionary</a> of <a href='Measure.html'>Measures</a>: <a href='mlr_measures.html'>mlr_measures</a></p>
 <p><code><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table(mlr_measures)</a></code> for a complete table of all (also dynamically created) <a href='Measure.html'>Measure</a> implementations.</p>
-<p>Other classification measures: 
-<code><a href='mlr_measures_classif.acc.html'>mlr_measures_classif.acc</a></code>,
-<code><a href='mlr_measures_classif.auc.html'>mlr_measures_classif.auc</a></code>,
-<code><a href='mlr_measures_classif.bacc.html'>mlr_measures_classif.bacc</a></code>,
-<code><a href='mlr_measures_classif.bbrier.html'>mlr_measures_classif.bbrier</a></code>,
-<code><a href='mlr_measures_classif.ce.html'>mlr_measures_classif.ce</a></code>,
-<code><a href='mlr_measures_classif.costs.html'>mlr_measures_classif.costs</a></code>,
-<code><a href='mlr_measures_classif.dor.html'>mlr_measures_classif.dor</a></code>,
-<code><a href='mlr_measures_classif.fbeta.html'>mlr_measures_classif.fbeta</a></code>,
-<code><a href='mlr_measures_classif.fdr.html'>mlr_measures_classif.fdr</a></code>,
-<code><a href='mlr_measures_classif.fnr.html'>mlr_measures_classif.fnr</a></code>,
-<code><a href='mlr_measures_classif.fn.html'>mlr_measures_classif.fn</a></code>,
-<code><a href='mlr_measures_classif.fomr.html'>mlr_measures_classif.fomr</a></code>,
-<code><a href='mlr_measures_classif.fpr.html'>mlr_measures_classif.fpr</a></code>,
-<code><a href='mlr_measures_classif.fp.html'>mlr_measures_classif.fp</a></code>,
-<code><a href='mlr_measures_classif.logloss.html'>mlr_measures_classif.logloss</a></code>,
-<code><a href='mlr_measures_classif.mcc.html'>mlr_measures_classif.mcc</a></code>,
-<code><a href='mlr_measures_classif.npv.html'>mlr_measures_classif.npv</a></code>,
-<code><a href='mlr_measures_classif.ppv.html'>mlr_measures_classif.ppv</a></code>,
-<code><a href='mlr_measures_classif.prauc.html'>mlr_measures_classif.prauc</a></code>,
-<code><a href='mlr_measures_classif.precision.html'>mlr_measures_classif.precision</a></code>,
-<code><a href='mlr_measures_classif.recall.html'>mlr_measures_classif.recall</a></code>,
-<code><a href='mlr_measures_classif.sensitivity.html'>mlr_measures_classif.sensitivity</a></code>,
-<code><a href='mlr_measures_classif.specificity.html'>mlr_measures_classif.specificity</a></code>,
-<code><a href='mlr_measures_classif.tnr.html'>mlr_measures_classif.tnr</a></code>,
-<code><a href='mlr_measures_classif.tn.html'>mlr_measures_classif.tn</a></code>,
-<code><a href='mlr_measures_classif.tpr.html'>mlr_measures_classif.tpr</a></code>,
-<code><a href='mlr_measures_classif.tp.html'>mlr_measures_classif.tp</a></code></p>
-<p>Other multiclass classification measures: 
-<code><a href='mlr_measures_classif.acc.html'>mlr_measures_classif.acc</a></code>,
-<code><a href='mlr_measures_classif.bacc.html'>mlr_measures_classif.bacc</a></code>,
-<code><a href='mlr_measures_classif.ce.html'>mlr_measures_classif.ce</a></code>,
-<code><a href='mlr_measures_classif.costs.html'>mlr_measures_classif.costs</a></code>,
-<code><a href='mlr_measures_classif.logloss.html'>mlr_measures_classif.logloss</a></code></p></div>
+<p>Other similarity measures: 
+<code><a href='mlr_measures_sim.phi.html'>mlr_measures_sim.phi</a></code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

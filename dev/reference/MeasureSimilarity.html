@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Akaike Information Criterion Measure — mlr_measures_aic • mlr3</title>
+<title>Similarity Measure — MeasureSimilarity • mlr3</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -53,13 +53,15 @@
 
 
 
-<meta property="og:title" content="Akaike Information Criterion Measure — mlr_measures_aic" />
-<meta property="og:description" content="Calculates the Akaike Information Criterion (AIC) which is a
-trade-off between goodness of fit (measured in terms of
-log-likelihood) and model complexity (measured in terms of number
-of included features).
-Internally, stats::AIC() is called.
-Requires the learner property &quot;loglik&quot;, NA is returned for unsupported learners." />
+<meta property="og:title" content="Similarity Measure — MeasureSimilarity" />
+<meta property="og:description" content="This measure specializes Measure for measures quantifying the similarity of
+sets of selected features.
+task_type is set to NA_character_.
+average is set to &quot;custom&quot;.
+
+
+Predefined measures can be found in the dictionary mlr_measures.
+The default measure for regression is regr.mse." />
 <meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
@@ -159,52 +161,23 @@ Requires the learner property &quot;loglik&quot;, NA is returned for unsupported
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Akaike Information Criterion Measure</h1>
-    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/MeasureAIC.R'><code>R/MeasureAIC.R</code></a></small>
-    <div class="hidden name"><code>mlr_measures_aic.Rd</code></div>
+    <h1>Similarity Measure</h1>
+    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/MeasureSimilarity.R'><code>R/MeasureSimilarity.R</code></a></small>
+    <div class="hidden name"><code>MeasureSimilarity.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Calculates the Akaike Information Criterion (AIC) which is a
-trade-off between goodness of fit (measured in terms of
-log-likelihood) and model complexity (measured in terms of number
-of included features).
-Internally, <code><a href='https://rdrr.io/r/stats/AIC.html'>stats::AIC()</a></code> is called.
-Requires the learner property <code>"loglik"</code>, <code>NA</code> is returned for unsupported learners.</p>
+    <p>This measure specializes <a href='Measure.html'>Measure</a> for measures quantifying the similarity of
+sets of selected features.</p><ul>
+<li><p><code>task_type</code> is set to <code>NA_character_</code>.</p></li>
+<li><p><code>average</code> is set to <code>"custom"</code>.</p></li>
+</ul>
+
+<p>Predefined measures can be found in the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> <a href='mlr_measures.html'>mlr_measures</a>.
+The default measure for regression is <code><a href='mlr_measures_regr.mse.html'>regr.mse</a></code>.</p>
     </div>
 
 
-
-    <h2 class="hasAnchor" id="dictionary"><a class="anchor" href="#dictionary"></a>Dictionary</h2>
-
-    
-
-<p>This <a href='Measure.html'>Measure</a> can be instantiated via the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> <a href='mlr_measures.html'>mlr_measures</a> or with the associated sugar function <code><a href='mlr_sugar.html'>msr()</a></code>:</p><pre><span class='va'>mlr_measures</span><span class='op'>$</span><span class='fu'>get</span><span class='op'>(</span><span class='st'>"aic"</span><span class='op'>)</span>
-<span class='fu'><a href='mlr_sugar.html'>msr</a></span><span class='op'>(</span><span class='st'>"aic"</span><span class='op'>)</span>
-</pre>
-
-    <h2 class="hasAnchor" id="parameters"><a class="anchor" href="#parameters"></a>Parameters</h2>
-
-    
-<table class='table'>
-<tr><td>Id</td><td>Type</td><td>Default</td><td>Range</td><td>Levels</td></tr>
-<tr><td>k</td><td>integer</td><td>-</td><td>\([0, \infty)\)</td><td>-</td></tr>
-</table>
-
-
-
-<p><code>k</code> is the penalty to be used in <code><a href='https://rdrr.io/r/stats/AIC.html'>stats::AIC()</a></code> (defaulting to 2).</p>
-    <h2 class="hasAnchor" id="meta-information"><a class="anchor" href="#meta-information"></a>Meta Information</h2>
-
-    
-
-<ul>
-<li><p>Type: <code>NA</code></p></li>
-<li><p>Range: \((-\infty, \infty)\)</p></li>
-<li><p>Minimize: <code>TRUE</code></p></li>
-<li><p>Required prediction: 'response'</p></li>
-<li><p>Learner Property: <code>loglik</code></p></li>
-</ul>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -224,8 +197,8 @@ Requires the learner property <code>"loglik"</code>, <code>NA</code> is returned
 <p>Other Measure: 
 <code><a href='MeasureClassif.html'>MeasureClassif</a></code>,
 <code><a href='MeasureRegr.html'>MeasureRegr</a></code>,
-<code><a href='MeasureSimilarity.html'>MeasureSimilarity</a></code>,
 <code><a href='Measure.html'>Measure</a></code>,
+<code><a href='mlr_measures_aic.html'>mlr_measures_aic</a></code>,
 <code><a href='mlr_measures_bic.html'>mlr_measures_bic</a></code>,
 <code><a href='mlr_measures_classif.costs.html'>mlr_measures_classif.costs</a></code>,
 <code><a href='mlr_measures_debug.html'>mlr_measures_debug</a></code>,
@@ -235,15 +208,14 @@ Requires the learner property <code>"loglik"</code>, <code>NA</code> is returned
 <code><a href='mlr_measures.html'>mlr_measures</a></code></p></div>
     <h2 class="hasAnchor" id="super-class"><a class="anchor" href="#super-class"></a>Super class</h2>
 
-    <p><code><a href='Measure.html'>mlr3::Measure</a></code> -&gt; <code>MeasureAIC</code></p>
+    <p><code><a href='Measure.html'>mlr3::Measure</a></code> -&gt; <code>MeasureSimilarity</code></p>
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     
 <h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Public methods</h3>
 
 <ul>
-<li><p><a href='#method-new'><code>MeasureAIC$new()</code></a></p></li>
-<li><p><a href='#method-clone'><code>MeasureAIC$clone()</code></a></p></li>
+<li><p><a href='#method-new'><code>MeasureSimilarity$new()</code></a></p></li>
 </ul>
 <p><details open ><summary>Inherited methods</summary>
 <ul>
@@ -258,16 +230,80 @@ Requires the learner property <code>"loglik"</code>, <code>NA</code> is returned
 <hr>
 <a id="method-new"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>new()</code></h3>
 <p>Creates a new instance of this <a href='https://r6.r-lib.org/reference/R6Class.html'>R6</a> class.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='va'>MeasureAIC</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
-
-<p><hr>
-<a id="method-clone"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>clone()</code></h3>
-<p>The objects of this class are cloneable with this method.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='va'>MeasureAIC</span><span class='op'>$</span><span class='fu'>clone</span><span class='op'>(</span>deep <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>MeasureSimilarity</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>
+  <span class='va'>id</span>,
+  param_set <span class='op'>=</span> <span class='fu'>ps</span><span class='op'>(</span><span class='op'>)</span>,
+  <span class='va'>range</span>,
+  minimize <span class='op'>=</span> <span class='cn'>NA</span>,
+  average <span class='op'>=</span> <span class='st'>"macro"</span>,
+  aggregator <span class='op'>=</span> <span class='cn'>NULL</span>,
+  properties <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span><span class='op'>(</span><span class='op'>)</span>,
+  predict_type <span class='op'>=</span> <span class='st'>"response"</span>,
+  predict_sets <span class='op'>=</span> <span class='st'>"test"</span>,
+  task_properties <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span><span class='op'>(</span><span class='op'>)</span>,
+  packages <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span><span class='op'>(</span><span class='op'>)</span>,
+  man <span class='op'>=</span> <span class='cn'>NA_character_</span>
+<span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
-<dt><code>deep</code></dt><dd><p>Whether to make a deep clone.</p></dd>
+<dt><code>id</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+Identifier for the new instance.</p></dd>
+
+<dt><code>param_set</code></dt><dd><p>(<a href='https://paradox.mlr-org.com/reference/ParamSet.html'>paradox::ParamSet</a>)<br />
+Set of hyperparameters.</p></dd>
+
+<dt><code>range</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/numeric.html'>numeric(2)</a></code>)<br />
+Feasible range for this measure as <code><a href='https://rdrr.io/r/base/c.html'>c(lower_bound, upper_bound)</a></code>.
+Both bounds may be infinite.</p></dd>
+
+<dt><code>minimize</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
+Set to <code>TRUE</code> if good predictions correspond to small values,
+and to <code>FALSE</code> if good predictions correspond to large values.
+If set to <code>NA</code> (default), tuning this measure is not possible.</p></dd>
+
+<dt><code>average</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+How to average multiple <a href='Prediction.html'>Prediction</a>s from a <a href='ResampleResult.html'>ResampleResult</a>.The default, <code>"macro"</code>, calculates the individual performances scores for each <a href='Prediction.html'>Prediction</a> and then uses the
+function defined in <code>$aggregator</code> to average them to a single number.If set to <code>"micro"</code>, the individual <a href='Prediction.html'>Prediction</a> objects are first combined into a single new <a href='Prediction.html'>Prediction</a> object which is then used to assess the performance.
+The function in <code>$aggregator</code> is not used in this case.</p></dd>
+
+<dt><code>aggregator</code></dt><dd><p>(<code>function(x)</code>)<br />
+Function to aggregate individual performance scores <code>x</code> where <code>x</code> is a numeric vector.
+If <code>NULL</code>, defaults to <code><a href='https://rdrr.io/r/base/mean.html'>mean()</a></code>.</p></dd>
+
+<dt><code>properties</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
+Properties of the measure.
+Must be a subset of <a href='mlr_reflections.html'>mlr_reflections$measure_properties</a>.
+Supported by <code>mlr3</code>:
+<ul>
+<li><p><code>"requires_task"</code> (requires the complete <a href='Task.html'>Task</a>),</p></li>
+<li><p><code>"requires_learner"</code> (requires the trained <a href='Learner.html'>Learner</a>),</p></li>
+<li><p><code>"requires_train_set"</code> (requires the training indices from the <a href='Resampling.html'>Resampling</a>), and</p></li>
+<li><p><code>"na_score"</code> (the measure is expected to occasionally return <code>NA</code> or <code>NaN</code>).</p></li>
+</ul></p></dd>
+
+<dt><code>predict_type</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+Required predict type of the <a href='Learner.html'>Learner</a>.
+Possible values are stored in <a href='mlr_reflections.html'>mlr_reflections$learner_predict_types</a>.</p></dd>
+
+<dt><code>predict_sets</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
+Prediction sets to operate on, used in <code><a href='https://rdrr.io/r/stats/aggregate.html'>aggregate()</a></code> to extract the matching <code>predict_sets</code> from the <a href='ResampleResult.html'>ResampleResult</a>.
+Multiple predict sets are calculated by the respective <a href='Learner.html'>Learner</a> during <code><a href='resample.html'>resample()</a></code>/<code><a href='benchmark.html'>benchmark()</a></code>.
+Must be a non-empty subset of <code>{"train", "test", "validation"}</code>.
+If multiple sets are provided, these are first combined to a single prediction object.
+Default is <code>"test"</code>.</p></dd>
+
+<dt><code>task_properties</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
+Required task properties, see <a href='Task.html'>Task</a>.</p></dd>
+
+<dt><code>packages</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
+Set of required packages.
+A warning is signaled by the constructor if at least one of the packages is not installed,
+but loaded (not attached) later on-demand via <code><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace()</a></code>.</p></dd>
+
+<dt><code>man</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+String in the format <code>[pkg]::[topic]</code> pointing to a manual page for this object.
+The referenced help package can be opened via method <code>$help()</code>.</p></dd>
 
 </dl><p></div></p>
 
