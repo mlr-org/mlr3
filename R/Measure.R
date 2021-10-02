@@ -70,11 +70,12 @@ Measure = R6Class("Measure",
     #' * `"micro"`:
     #'   All predictions from multiple resampling iterations are first combined into a single [Prediction] object.
     #'   Next, the scoring function of the measure is applied on this combined object, yielding a single numeric score.
-    #'
     #' * `"macro"`:
     #'   The scoring function is applied on the [Prediction] object of each resampling iterations,
     #'   each yielding a single numeric score.
     #'   Next, the scores are combined with the `aggregator` function to a single numerical score.
+    #' * `"custom"`:
+    #'   The measure implements a custom aggregation method.
     average = NULL,
 
     #' @field aggregator (`function()`)\cr
@@ -116,7 +117,7 @@ Measure = R6Class("Measure",
       self$param_set = assert_param_set(param_set)
       self$range = assert_range(range)
       self$minimize = assert_flag(minimize, na.ok = TRUE)
-      self$average = assert_choice(average, c("macro", "micro"))
+      self$average = assert_choice(average, c("macro", "micro", "custom"))
       self$aggregator = assert_function(aggregator, null.ok = TRUE)
 
       if (!is_scalar_na(task_type)) {
@@ -211,13 +212,16 @@ Measure = R6Class("Measure",
     #'
     #' @return `numeric(1)`.
     aggregate = function(rr) {
-      if (self$average == "macro") {
-        aggregator = self$aggregator %??% mean
-        tab = score_measures(rr, list(self), reassemble = FALSE, view = get_private(rr)$.view)
-        set_names(aggregator(tab[[self$id]]), self$id)
-      } else { # "micro"
-        self$score(rr$prediction(self$predict_sets), task = rr$task, learner = rr$learner)
-      }
+
+      switch(self$average,
+        "macro" = {
+          aggregator = self$aggregator %??% mean
+          tab = score_measures(rr, list(self), reassemble = FALSE, view = get_private(rr)$.view)
+          set_names(aggregator(tab[[self$id]]), self$id)
+        },
+        "micro" = self$score(rr$prediction(self$predict_sets), task = rr$task, learner = rr$learner)
+        "custom" = private$.aggregate(rr)
+      )
     }
   ),
 
@@ -225,8 +229,8 @@ Measure = R6Class("Measure",
     #' @template field_hash
     hash = function(rhs) {
       assert_ro_binding(rhs)
-      calculate_hash(class(self), self$id, self$param_set$values, private$.score,
-        self$average, self$predict_sets, self$aggregator,
+      calculate_hash(class(self), self$id, self$param_set$values, private$average, private$.score,
+        private$.aggregate, self$predict_sets, self$aggregator,
         mget(private$.extra_hash, envir = self))
     }
   ),

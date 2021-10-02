@@ -8,6 +8,10 @@ Computes the area under the Receiver Operator Characteristic (ROC) curve.
 The AUC can be interpreted as the probability that a randomly chosen positive observation
 has a higher predicted probability than a randomly chosen negative observation.
 }
+\details{
+This measure is undefined if the true values are either all positive or
+all negative.
+}
 \note{
 The score function calls \code{\link[mlr3measures:auc]{mlr3measures::auc()}} from package \CRANpkg{mlr3measures}.
 
@@ -16,8 +20,8 @@ This can be customized by setting the field \code{na_value}.
 }
 \section{Dictionary}{
 
-This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("auc")
-msr("auc")
+This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("classif.auc")
+msr("classif.auc")
 }
 }
 

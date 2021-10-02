@@ -122,6 +122,7 @@ Collate:
     'MeasureOOBError.R'
     'MeasureRegr.R'
     'MeasureSelectedFeatures.R'
+    'MeasureSimilarity.R'
     'MeasureSimple.R'
     'Prediction.R'
     'PredictionClassif.R'

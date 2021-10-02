@@ -11,6 +11,9 @@ Regression measure defined as \deqn{
 }
 Can be interpreted as root of the squared error of the predictions relative to a naive model predicting the mean.
 }
+\details{
+This measure is undefined for constant \eqn{t}.
+}
 \note{
 The score function calls \code{\link[mlr3measures:rrse]{mlr3measures::rrse()}} from package \CRANpkg{mlr3measures}.
 
@@ -19,8 +22,8 @@ This can be customized by setting the field \code{na_value}.
 }
 \section{Dictionary}{
 
-This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("rrse")
-msr("rrse")
+This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("regr.rrse")
+msr("regr.rrse")
 }
 }
 

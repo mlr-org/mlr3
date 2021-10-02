@@ -13,6 +13,9 @@ Also known as coefficient of determination or explained variation.
 Subtracts the \code{\link[mlr3measures:rse]{rse()}} from 1, hence it compares the squared error of
 the predictions relative to a naive model predicting the mean.
 }
+\details{
+This measure is undefined for constant \eqn{t}.
+}
 \note{
 The score function calls \code{\link[mlr3measures:rsq]{mlr3measures::rsq()}} from package \CRANpkg{mlr3measures}.
 
@@ -21,8 +24,8 @@ This can be customized by setting the field \code{na_value}.
 }
 \section{Dictionary}{
 
-This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("rsq")
-msr("rsq")
+This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("regr.rsq")
+msr("regr.rsq")
 }
 }
 

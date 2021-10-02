@@ -1,14 +1,14 @@
 #' @name mlr_measures_classif.<%= id %>
 #' @include mlr_measures.R
 #'
-#' @inherit mlr3measures::<%= id %> title description
+#' @inherit mlr3measures::<%= id %> title description details
 #' @inheritSection mlr3measures::<%= id %> Meta Information
 #'
 #' @section Dictionary:
 #' This [Measure] can be instantiated via the [dictionary][mlr3misc::Dictionary] [mlr_measures] or with the associated sugar function [msr()]:
 #' ```
-#' mlr_measures$get("<%= id %>")
-#' msr("<%= id %>")
+#' mlr_measures$get("classif.<%= id %>")
+#' msr("classif.<%= id %>")
 #' ```
 #'
 #' @note

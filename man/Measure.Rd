@@ -38,6 +38,7 @@ A guide on how to extend \CRANpkg{mlr3} with custom measures can be found in the
 Other Measure: 
 \code{\link{MeasureClassif}},
 \code{\link{MeasureRegr}},
+\code{\link{MeasureSimilarity}},
 \code{\link{mlr_measures_aic}},
 \code{\link{mlr_measures_bic}},
 \code{\link{mlr_measures_classif.costs}},
@@ -95,6 +96,8 @@ Next, the scoring function of the measure is applied on this combined object, yi
 The scoring function is applied on the \link{Prediction} object of each resampling iterations,
 each yielding a single numeric score.
 Next, the scores are combined with the \code{aggregator} function to a single numerical score.
+\item \code{"custom"}:
+The measure implements a custom aggregation method.
 }}
 
 \item{\code{aggregator}}{(\verb{function()})\cr
