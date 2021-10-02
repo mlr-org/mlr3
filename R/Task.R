@@ -907,6 +907,11 @@ Task = R6Class("Task",
       self$col_info[list(names(rhs)), "label" := rhs, on = "id"]
 
       invisible(self)
+    },
+
+    #' @template field_col_hashes
+    col_hashes = function() {
+      self$backend$col_hashes[setdiff(unlist(self$col_roles), self$backend$primary_key)]
     }
   ),
 

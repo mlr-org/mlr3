@@ -58,6 +58,12 @@ DataBackendRename = R6Class("DataBackendRename", inherit = DataBackend, cloneabl
 
     ncol = function() {
       private$.data$ncol
+    },
+
+    col_hashes = function() {
+      res = private$.data$col_hashes
+      names(res) = map_values(names(res), self$old, self$new)
+      res
     }
   ),
 
