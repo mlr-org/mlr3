@@ -3,7 +3,7 @@ learner = lrn("classif.rpart")
 rr = resample(task, learner, rsmp("cv", folds = 3), store_models = TRUE)
 
 test_that("similarity measures", {
-  measures = mlr_measures$keys("^similarity")
+  measures = mlr_measures$keys("^sim\\.")
 
   for (m in msrs(measures)) {
     expect_number(m$aggregate(rr))

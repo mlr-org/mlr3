@@ -109,12 +109,12 @@ MeasureSimilaritySimple = R6Class("MeasureSimilaritySimple",
     initialize = function(name) {
       info = mlr3measures::measures[[name]]
       super$initialize(
-        id = paste0("similarity.", name),
+        id = paste0("sim.", name),
         range = c(info$lower, info$upper),
         minimize = info$minimize,
         predict_type = "response",
         packages = "mlr3measures",
-        man = paste0("mlr3::mlr_measures_similarity.", name),
+        man = paste0("mlr3::mlr_measures_sim.", name),
       )
       self$fun = get(name, envir = asNamespace("mlr3measures"), mode = "function")
     }
