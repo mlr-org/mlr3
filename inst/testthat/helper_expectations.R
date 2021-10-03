@@ -149,7 +149,7 @@ expect_backend = function(b) {
 
   # if multiple cols have the same hash, check that they actually contain the same data.
   realhashes = sapply(b$data(rows = b$rownames, cols = setdiff(b$colnames, b$primary_key)), mlr3misc::calculate_hash)
-  expect_equal(unname(sapply(split(realhashes, col_hashes), uniqueN)), rep(1, uniqueN(col_hashes)))
+  expect_equal(unname(sapply(split(realhashes, col_hashes), data.table::uniqueN)), rep(1, data.table::uniqueN(col_hashes)))
 
 }
 
