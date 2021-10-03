@@ -61,15 +61,15 @@ ResampleResult = R6Class("ResampleResult",
     #' Printer.
     #' @param ... (ignored).
     print = function() {
-      catf("%s of %i iterations", format(self), self$iters)
-      catf(str_indent("* Task:", self$task$id))
-      catf(str_indent("* Learner:", self$learner$id))
+      catn("%s of %i iterations", format(self), self$iters)
+      catn(str_indent("* Task:", self$task$id))
+      catn(str_indent("* Learner:", self$learner$id))
 
       warnings = self$warnings
-      catf(str_indent("* Warnings:", sprintf("%i in %i iterations", nrow(warnings), uniqueN(warnings, by = "iteration"))))
+      catn(str_indent("* Warnings:", sprintf("%i in %i iterations", nrow(warnings), uniqueN(warnings, by = "iteration"))))
 
       errors = self$errors
-      catf(str_indent("* Errors:", sprintf("%i in %i iterations", nrow(errors), uniqueN(errors, by = "iteration"))))
+      catn(str_indent("* Errors:", sprintf("%i in %i iterations", nrow(errors), uniqueN(errors, by = "iteration"))))
     },
 
     #' @description
