@@ -183,20 +183,20 @@ Learner = R6Class("Learner",
     #' Printer.
     #' @param ... (ignored).
     print = function() {
-      catf(format(self))
-      catf(str_indent("* Model:", if (is.null(self$model)) "-" else class(self$model)[1L]))
-      catf(str_indent("* Parameters:", as_short_string(self$param_set$values, 1000L)))
-      catf(str_indent("* Packages:", self$packages))
-      catf(str_indent("* Predict Type:", self$predict_type))
-      catf(str_indent("* Feature types:", self$feature_types))
-      catf(str_indent("* Properties:", self$properties))
+      catn(format(self))
+      catn(str_indent("* Model:", if (is.null(self$model)) "-" else class(self$model)[1L]))
+      catn(str_indent("* Parameters:", as_short_string(self$param_set$values, 1000L)))
+      catn(str_indent("* Packages:", self$packages))
+      catn(str_indent("* Predict Type:", self$predict_type))
+      catn(str_indent("* Feature types:", self$feature_types))
+      catn(str_indent("* Properties:", self$properties))
       w = self$warnings
       e = self$errors
       if (length(w)) {
-        catf(str_indent("* Warnings:", w))
+        catn(str_indent("* Warnings:", w))
       }
       if (length(e)) {
-        catf(str_indent("* Errors:", e))
+        catn(str_indent("* Errors:", e))
       }
     },
 

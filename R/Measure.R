@@ -145,13 +145,13 @@ Measure = R6Class("Measure",
     #' Printer.
     #' @param ... (ignored).
     print = function() {
-      catf(format(self))
-      catf(str_indent("* Packages:", self$packages))
-      catf(str_indent("* Range:", sprintf("[%g, %g]", self$range[1L], self$range[2L])))
-      catf(str_indent("* Minimize:", self$minimize))
-      catf(str_indent("* Parameters:", as_short_string(self$param_set$values, 1000L)))
-      catf(str_indent("* Properties:", self$properties))
-      catf(str_indent("* Predict type:", self$predict_type))
+      catn(format(self))
+      catn(str_indent("* Packages:", self$packages))
+      catn(str_indent("* Range:", sprintf("[%g, %g]", self$range[1L], self$range[2L])))
+      catn(str_indent("* Minimize:", self$minimize))
+      catn(str_indent("* Parameters:", as_short_string(self$param_set$values, 1000L)))
+      catn(str_indent("* Properties:", self$properties))
+      catn(str_indent("* Predict type:", self$predict_type))
     },
 
     #' @description

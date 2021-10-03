@@ -939,23 +939,22 @@ task_print = function(self) {
     types = types[, list(N = .N, feats = str_collapse(id, n = 100L)), by = "type"][, "type" := translate_types(type)]
     setorderv(types, "N", order = -1L)
     pmap(types, function(type, N, feats) {
-      str = str_indent(sprintf("  - %s (%i):", type, N), feats, exdent = 4L)
-      cat(paste0(str, collapse = "\n"), "\n")
+      catn(str_indent(sprintf("  - %s (%i):", type, N), feats, exdent = 4L))
     })
   }
 
   roles = self$col_roles
   if (length(roles$order)) {
-    catf(str_indent("* Order by:", roles$order))
+    catn(str_indent("* Order by:", roles$order))
   }
   if ("strata" %in% self$properties) {
-    catf(str_indent("* Strata:", roles$stratum))
+    catn(str_indent("* Strata:", roles$stratum))
   }
   if ("groups" %in% self$properties) {
-    catf(str_indent("* Groups:", roles$group))
+    catn(str_indent("* Groups:", roles$group))
   }
   if ("weights" %in% self$properties) {
-    catf(str_indent("* Weights:", roles$weight))
+    catn(str_indent("* Weights:", roles$weight))
   }
 }
 
