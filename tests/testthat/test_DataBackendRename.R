@@ -39,3 +39,8 @@ test_that("nested backends", {
   expect_set_equal(b$rownames, 1:150)
   expect_set_equal(b$colnames, c(b1$colnames, b2$colnames))
 })
+
+test_that("rename does not yield duplicated columns (#701)", {
+  db = DataBackendDataTable$new(data.table(id = 1L, a = 1, b = 2), primary_key = "id")
+  expect_error(DataBackendRename$new(db, "a", "b"), "duplicated", ignore.case = TRUE)
+})
