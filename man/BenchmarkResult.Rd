@@ -414,7 +414,7 @@ Shrinks the \link{BenchmarkResult} by discarding parts of the internally stored 
 Note that certain operations might stop work, e.g. extracting
 importance values from learners or calculating measures requiring the task's data.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{BenchmarkResult$discard(backends = TRUE, models = TRUE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{BenchmarkResult$discard(backends = FALSE, models = FALSE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{

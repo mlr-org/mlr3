@@ -312,7 +312,7 @@ Shrinks the \link{ResampleResult} by discarding parts of the internally stored d
 Note that certain operations might stop work, e.g. extracting
 importance values from learners or calculating measures requiring the task's data.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$discard(backends = TRUE, models = TRUE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$discard(backends = FALSE, models = FALSE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
