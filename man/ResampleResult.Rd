@@ -103,6 +103,7 @@ Note that there can be multiple rows per resampling iteration if multiple errors
 \item \href{#method-score}{\code{ResampleResult$score()}}
 \item \href{#method-aggregate}{\code{ResampleResult$aggregate()}}
 \item \href{#method-filter}{\code{ResampleResult$filter()}}
+\item \href{#method-discard}{\code{ResampleResult$discard()}}
 \item \href{#method-clone}{\code{ResampleResult$clone()}}
 }
 }
@@ -294,6 +295,34 @@ Subsets the \link{ResampleResult}, reducing it to only keep the iterations speci
 \describe{
 \item{\code{iters}}{(\code{integer()})\cr
 Resampling iterations to keep.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Returns the object itself, but modified \strong{by reference}.
+You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
+the object in its previous state.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-discard"></a>}}
+\if{latex}{\out{\hypertarget{method-discard}{}}}
+\subsection{Method \code{discard()}}{
+Shrinks the \link{ResampleResult} by discarding parts of the internally stored data.
+Note that certain operations might stop work, e.g. extracting
+importance values from learners or calculating measures requiring the task.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$discard(tasks = TRUE, models = TRUE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{tasks}}{(\code{logical(1)})\cr
+If \code{TRUE}, the \link{DataBackend} is removed from all stored \link{Task}s.}
+
+\item{\code{models}}{(\code{logical(1)})\cr
+If \code{TRUE}, the stored model is removed from all \link{Learner}s.}
 }
 \if{html}{\out{</div>}}
 }

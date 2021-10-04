@@ -6,7 +6,7 @@ test_that("results are ordered", {
   )
   grid$resampling = pmap(grid, function(task, resampling, ...) resampling$clone(deep = TRUE)$instantiate(task))
 
-  bmr = benchmark(grid)
+  bmr = benchmark(grid, store_models = TRUE)
   rdata = get_private(bmr)$.data
 
   tab = rdata$as_data_table()
@@ -34,6 +34,16 @@ test_that("results are ordered", {
   expect_resultdata(rdata, TRUE)
 
   expect_equal(rdata$uhashes(), uhashes[c(1, 3)])
+
+  # test discard
+  expect_true(!every(map(rdata$data$fact$learner_state, "model"), is.null))
+  expect_true(!some(map(rdata$data$tasks$task, "backend"), is.null))
+
+  rdata$discard(models = TRUE)
+  expect_true(every(map(rdata$data$fact$learner_state, "model"), is.null))
+
+  rdata$discard(tasks = TRUE)
+  expect_true(every(map(rdata$data$tasks$task, "backend"), is.null))
 })
 
 test_that("mlr3tuning use case", {

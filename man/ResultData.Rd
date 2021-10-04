@@ -49,6 +49,7 @@ Returns \code{NULL} if the \link{ResultData} is empty.}
 \item \href{#method-prediction}{\code{ResultData$prediction()}}
 \item \href{#method-combine}{\code{ResultData$combine()}}
 \item \href{#method-sweep}{\code{ResultData$sweep()}}
+\item \href{#method-discard}{\code{ResultData$discard()}}
 \item \href{#method-as_data_table}{\code{ResultData$as_data_table()}}
 \item \href{#method-logs}{\code{ResultData$logs()}}
 \item \href{#method-clone}{\code{ResultData$clone()}}
@@ -474,7 +475,33 @@ E.g., can be called after filtering/subsetting the fact table.
 }
 
 \subsection{Returns}{
-\code{self} (invisibly).
+Modified \code{self} (invisibly).
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-discard"></a>}}
+\if{latex}{\out{\hypertarget{method-discard}{}}}
+\subsection{Method \code{discard()}}{
+Shrinks the object by discarding parts of the data.
+Note that certain operations might stop work, e.g. extracting
+importance values from learners or calculating measures requiring the task.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ResultData$discard(tasks = FALSE, models = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{tasks}}{(\code{logical(1)})\cr
+If \code{TRUE}, the \link{DataBackend} is removed from all stored \link{Task}s.}
+
+\item{\code{models}}{(\code{logical(1)})\cr
+If \code{TRUE}, the stored model is removed from all \link{Learner}s.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Modified \code{self} (invisibly).
 }
 }
 \if{html}{\out{<hr>}}
@@ -594,6 +621,9 @@ Single \code{uhash} to restrict the results to.}
 The condition to extract. One of \code{"message"}, \code{"warning"} or \code{"error"}.}
 }
 \if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\code{\link[=data.table]{data.table()}}.
 }
 }
 \if{html}{\out{<hr>}}
