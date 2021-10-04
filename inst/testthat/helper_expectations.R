@@ -270,7 +270,7 @@ expect_task = function(task, null_backend_ok = TRUE) {
 
   # col_hashes
   col_hashes = task$col_hashes
-  checkmate::expect_character(col_hashes, unique = TRUE)
+  checkmate::expect_character(col_hashes, any.missing = FALSE)
   checkmate::expect_names(names(col_hashes), permutation.of = setdiff(unlist(task$col_roles), task$backend$primary_key))
 
   # if multiple cols have the same hash, check that they actually contain the same data.
