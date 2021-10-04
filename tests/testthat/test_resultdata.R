@@ -42,7 +42,7 @@ test_that("results are ordered", {
   rdata$discard(models = TRUE)
   expect_true(every(map(rdata$data$fact$learner_state, "model"), is.null))
 
-  rdata$discard(tasks = TRUE)
+  rdata$discard(backends = TRUE)
   expect_true(every(map(rdata$data$tasks$task, "backend"), is.null))
 })
 

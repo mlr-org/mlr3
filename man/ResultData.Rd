@@ -482,17 +482,15 @@ Modified \code{self} (invisibly).
 \if{html}{\out{<a id="method-discard"></a>}}
 \if{latex}{\out{\hypertarget{method-discard}{}}}
 \subsection{Method \code{discard()}}{
-Shrinks the object by discarding parts of the data.
-Note that certain operations might stop work, e.g. extracting
-importance values from learners or calculating measures requiring the task.
+Shrinks the object by discarding parts of the stored data.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResultData$discard(tasks = FALSE, models = FALSE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{ResultData$discard(backends = FALSE, models = FALSE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{tasks}}{(\code{logical(1)})\cr
+\item{\code{backends}}{(\code{logical(1)})\cr
 If \code{TRUE}, the \link{DataBackend} is removed from all stored \link{Task}s.}
 
 \item{\code{models}}{(\code{logical(1)})\cr

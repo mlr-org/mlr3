@@ -367,9 +367,9 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #' @description
     #' Shrinks the [BenchmarkResult] by discarding parts of the internally stored data.
     #' Note that certain operations might stop work, e.g. extracting
-    #' importance values from learners or calculating measures requiring the task.
+    #' importance values from learners or calculating measures requiring the task's data.
     #'
-    #' @param tasks (`logical(1)`)\cr
+    #' @param backends (`logical(1)`)\cr
     #'   If `TRUE`, the [DataBackend] is removed from all stored [Task]s.
     #' @param models (`logical(1)`)\cr
     #'   If `TRUE`, the stored model is removed from all [Learner]s.
@@ -378,8 +378,8 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #' Returns the object itself, but modified **by reference**.
     #' You need to explicitly `$clone()` the object beforehand if you want to keeps
     #' the object in its previous state.
-    discard = function(tasks = TRUE, models = TRUE) {
-      self$data$discard(tasks = tasks, models = models)
+    discard = function(backends = TRUE, models = TRUE) {
+      self$data$discard(backends = backends, models = models)
     }
   ),
 

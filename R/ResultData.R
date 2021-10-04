@@ -242,18 +242,16 @@ ResultData = R6Class("ResultData",
     },
 
     #' @description
-    #' Shrinks the object by discarding parts of the data.
-    #' Note that certain operations might stop work, e.g. extracting
-    #' importance values from learners or calculating measures requiring the task.
+    #' Shrinks the object by discarding parts of the stored data.
     #'
-    #' @param tasks (`logical(1)`)\cr
+    #' @param backends (`logical(1)`)\cr
     #'   If `TRUE`, the [DataBackend] is removed from all stored [Task]s.
     #' @param models (`logical(1)`)\cr
     #'   If `TRUE`, the stored model is removed from all [Learner]s.
     #'
     #' @return Modified `self` (invisibly).
-    discard = function(tasks = FALSE, models = FALSE) {
-      if (assert_flag(tasks)) {
+    discard = function(backends = FALSE, models = FALSE) {
+      if (assert_flag(backends)) {
         tab = self$data$tasks
         set(tab, j = "task", value = lapply(tab$task, task_rm_backend))
       }

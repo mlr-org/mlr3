@@ -412,15 +412,15 @@ The \code{ushash} value to filter for.}
 \subsection{Method \code{discard()}}{
 Shrinks the \link{BenchmarkResult} by discarding parts of the internally stored data.
 Note that certain operations might stop work, e.g. extracting
-importance values from learners or calculating measures requiring the task.
+importance values from learners or calculating measures requiring the task's data.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{BenchmarkResult$discard(tasks = TRUE, models = TRUE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{BenchmarkResult$discard(backends = TRUE, models = TRUE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{tasks}}{(\code{logical(1)})\cr
+\item{\code{backends}}{(\code{logical(1)})\cr
 If \code{TRUE}, the \link{DataBackend} is removed from all stored \link{Task}s.}
 
 \item{\code{models}}{(\code{logical(1)})\cr
