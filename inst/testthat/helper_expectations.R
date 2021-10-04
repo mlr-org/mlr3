@@ -274,8 +274,10 @@ expect_task = function(task, null_backend_ok = TRUE) {
   checkmate::expect_names(names(col_hashes), permutation.of = setdiff(unlist(task$col_roles), task$backend$primary_key))
 
   # if multiple cols have the same hash, check that they actually contain the same data.
-  realhashes = sapply(task$data(cols = names(col_hashes)), mlr3misc::calculate_hash)
-  expect_equal(unname(sapply(split(realhashes, col_hashes), data.table::uniqueN)), rep(1, data.table::uniqueN(col_hashes)))
+  if (!null_backend) {
+    realhashes = sapply(task$data(cols = names(col_hashes)), mlr3misc::calculate_hash)
+    expect_equal(unname(sapply(split(realhashes, col_hashes), data.table::uniqueN)), rep(1, data.table::uniqueN(col_hashes)))
+  }
 
 }
 

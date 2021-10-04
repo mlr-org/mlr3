@@ -911,7 +911,7 @@ Task = R6Class("Task",
 
     #' @template field_col_hashes
     col_hashes = function() {
-      self$backend$col_hashes[setdiff(unlist(self$col_roles), self$backend$primary_key)]
+      private$.col_hashes %??% self$backend$col_hashes[setdiff(unlist(self$col_roles), self$backend$primary_key)]
     }
   ),
 
@@ -920,6 +920,7 @@ Task = R6Class("Task",
     .col_roles = NULL,
     .row_roles = NULL,
     .hash = NULL,
+    .col_hashes = NULL,
 
     deep_clone = function(name, value) {
       # NB: DataBackends are never copied!
@@ -1049,6 +1050,7 @@ task_rm_backend = function(task) {
   # fix task hash
   ee = get_private(task)
   ee$.hash = force(task$hash)
+  ee$.col_hashes = force(task$col_hashes)
 
   # NULL backend
   task$backend = NULL
