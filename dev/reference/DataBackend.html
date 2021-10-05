@@ -221,6 +221,11 @@ Set of supported formats, e.g. <code>"data.table"</code> or <code>"Matrix"</code
 <dt><code>hash</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
 Hash (unique identifier) for this object.</p></dd>
 
+<dt><code>col_hashes</code></dt><dd><p>(named <code>character</code>)<br />
+Hash (unique identifier) for all columns except the <code>primary_key</code>: A <code>character</code> vector, named by the columns that each element refers to.<br />
+Columns of different <code><a href='Task.html'>Task</a></code>s or <code>DataBackend</code>s that have agreeing <code>col_hashes</code> always represent the same data, given that the same <code>row</code>s are selected.
+The reverse is not necessarily true: There can be columns with the same content that have different <code>col_hashes</code>.</p></dd>
+
 </dl><p></div></p>
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
