@@ -101,6 +101,7 @@ Collate:
     'DataBackendMatrix.R'
     'DataBackendRbind.R'
     'DataBackendRename.R'
+    'HotstartStack.R'
     'Learner.R'
     'LearnerClassif.R'
     'mlr_learners.R'

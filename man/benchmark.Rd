@@ -8,7 +8,8 @@ benchmark(
   design,
   store_models = FALSE,
   store_backends = TRUE,
-  encapsulate = NA_character_
+  encapsulate = NA_character_,
+  allow_train_adapt = FALSE
 )
 }
 \arguments{

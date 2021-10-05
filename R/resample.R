@@ -51,7 +51,7 @@
 #' bmr1 = as_benchmark_result(rr)
 #' bmr2 = as_benchmark_result(rr_featureless)
 #' print(bmr1$combine(bmr2))
-resample = function(task, learner, resampling, store_models = FALSE, store_backends = TRUE, encapsulate = NA_character_) {
+resample = function(task, learner, resampling, store_models = FALSE, store_backends = TRUE, encapsulate = NA_character_, allow_train_adapt = FALSE) {
   task = assert_task(as_task(task, clone = TRUE))
   learner = assert_learner(as_learner(learner, clone = TRUE))
   resampling = assert_resampling(as_resampling(resampling))
@@ -72,20 +72,44 @@ resample = function(task, learner, resampling, store_models = FALSE, store_backe
     NULL
   }
 
+  grid = if (allow_train_adapt) {
+    map_dtr(seq_len(n), function(iteration) {
+      if (!is.null(learner$hotstart_stack)) {
+        # search for hotstart learner
+        task_hashes = task_hashes(task, resampling)
+        hotstart_learner = learner$hotstart_stack$adaption_learner(learner, task_hashes[iteration])
+      }
+      if (is.null(learner$hotstart_stack) || is.null(hotstart_learner)) {
+        # no hotstart learners stored or no adaptable model found
+        mode = "train"
+      } else {
+        # hotstart learner found
+        hotstart_learner$param_set$values = insert_named(hotstart_learner$param_set$values, learner$param_set$values)
+        learner = hotstart_learner
+        mode = "train_adapt"
+      }
+      data.table(learner = list(learner), mode = mode)
+    })
+  } else {
+    data.table(learner = replicate(n, learner), mode = rep("train", n))
+  }
+
   if (getOption("mlr3.debug", FALSE)) {
     lg$info("Running resample() sequentially in debug mode with %i iterations", n)
 
-    res = lapply(seq_len(n), workhorse,
-      task = task, learner = learner, resampling = instance,
-      store_models = store_models, lgr_threshold = lg$threshold, pb = pb
+    res = mapply(workhorse, 
+      iteration = seq_len(n), learner = grid$learner, mode = grid$mode,
+      MoreArgs = list(task = task, learner = learner, resampling = instance, store_models = store_models,
+      lgr_threshold = lg$threshold, pb = pb)
     )
   } else {
     lg$debug("Running resample() via future with %i iterations", n)
 
-    res = future.apply::future_lapply(seq_len(n), workhorse,
-      task = task, learner = learner, resampling = instance,
-      store_models = store_models, lgr_threshold = lg$threshold, pb = pb,
-      future.globals = FALSE, future.scheduling = structure(TRUE, ordering = "random"),
+    res = future.apply::future_mapply(workhorse,
+      iteration = seq_len(n), learner = grid$learner, mode = grid$mode,
+      MoreArgs = list(task = task, resampling = instance, store_models = store_models, lgr_threshold = lg$threshold,
+      pb = pb),
+      SIMPLIFY = FALSE, future.globals = FALSE, future.scheduling = structure(TRUE, ordering = "random"),
       future.packages = "mlr3", future.seed = TRUE, future.stdout = future_stdout()
     )
   }

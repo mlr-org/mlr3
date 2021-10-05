@@ -110,7 +110,7 @@ local({
 
 
   ### Learner
-  tmp = c("featureless", "missings", "weights", "importance", "selected_features", "oob_error", "loglik")
+  tmp = c("featureless", "missings", "weights", "importance", "selected_features", "oob_error", "loglik", "adapt_forward", "adapt_backward")
   mlr_reflections$learner_properties = list(
     classif = c(tmp, "twoclass", "multiclass"),
     regr = tmp

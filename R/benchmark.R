@@ -73,7 +73,7 @@
 #' ## Get the training set of the 2nd iteration of the featureless learner on penguins
 #' rr = bmr$aggregate()[learner_id == "classif.featureless"]$resample_result[[1]]
 #' rr$resampling$train_set(2)
-benchmark = function(design, store_models = FALSE, store_backends = TRUE, encapsulate = NA_character_) {
+benchmark = function(design, store_models = FALSE, store_backends = TRUE, encapsulate = NA_character_, allow_train_adapt = FALSE) {
   assert_data_frame(design, min.rows = 1L)
   assert_names(names(design), permutation.of = c("task", "learner", "resampling"))
   design$task = list(assert_tasks(as_tasks(design$task)))
@@ -106,6 +106,9 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
   })
   n = nrow(grid)
 
+  # set default mode
+  set(grid, j = "mode", value = rep("train", n))
+
   lg$info("Running benchmark with %i resampling iterations", n)
   pb = if (isNamespaceLoaded("progressr")) {
     # NB: the progress bar needs to be created in this env
@@ -114,12 +117,35 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
     NULL
   }
 
+  # train adapt learner
+  if (allow_train_adapt) {
+    train_adapt_grid = pmap_dtr(grid, function(task, learner, resampling, iteration, ...) {
+      if (!is.null(learner$hotstart_stack)) {
+        # search for hotstart learner
+        task_hashes = task_hashes(task, resampling)
+        hotstart_learner = learner$hotstart_stack$adaption_learner(learner, task_hashes[iteration])
+      }
+      if (is.null(learner$hotstart_stack) || is.null(hotstart_learner)) {
+        # no hotstart learners stored or no adaptable model found
+        mode = "train"
+      } else {
+        # hotstart learner found
+        hotstart_learner$param_set$values = insert_named(hotstart_learner$param_set$values, learner$param_set$values)
+        learner = hotstart_learner
+        mode = "train_adapt"
+      }
+      data.table(learner = list(learner), mode = mode)
+    })
+    set(grid, j = "learner", value = train_adapt_grid$learner)
+    set(grid, j = "mode", value = train_adapt_grid$mode)
+  }
+
   if (getOption("mlr3.debug", FALSE)) {
     lg$info("Running benchmark() sequentially in debug mode with %i iterations", n)
 
     res = mapply(workhorse,
-      task = grid$task, learner = grid$learner, resampling = grid$resampling,
-      iteration = grid$iteration,
+      task = grid$task, learner = grid$learner, resampling = grid$resampling, iteration = grid$iteration,
+      mode = grid$mode,
       MoreArgs = list(store_models = store_models, lgr_threshold = lg$threshold, pb = pb),
       SIMPLIFY = FALSE, USE.NAMES = FALSE
     )
@@ -127,12 +153,12 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
     lg$debug("Running benchmark() via future with %i iterations", n)
 
     res = future.apply::future_mapply(workhorse,
-      task = grid$task, learner = grid$learner, resampling = grid$resampling,
-      iteration = grid$iteration,
+      task = grid$task, learner = grid$learner, resampling = grid$resampling, iteration = grid$iteration,
+      mode = grid$mode,
       MoreArgs = list(store_models = store_models, lgr_threshold = lg$threshold, pb = pb),
-      SIMPLIFY = FALSE, USE.NAMES = FALSE,
-      future.globals = FALSE, future.scheduling = structure(TRUE, ordering = "random"),
-      future.packages = "mlr3", future.seed = TRUE, future.stdout = future_stdout()
+      SIMPLIFY = FALSE, USE.NAMES = FALSE, future.globals = FALSE, 
+      future.scheduling = structure(TRUE, ordering = "random"), future.packages = "mlr3", future.seed = TRUE, 
+      future.stdout = future_stdout()
     )
   }
 
@@ -143,5 +169,6 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
 
   lg$info("Finished benchmark")
 
+  grid$mode = NULL
   BenchmarkResult$new(ResultData$new(grid, store_backends = store_backends))
 }

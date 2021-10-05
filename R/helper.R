@@ -96,3 +96,20 @@ future_stdout = function() {
 format_list_item = function(x, ...) {
   UseMethod("format_list_item")
 }
+
+#' @title Calculate task hashes of resampling iterations
+#'
+#' @param task ([Task]).
+#' @param resampling ([Resampling]).
+#'
+#' @return (`character()`).
+#' @noRd
+task_hashes = function(task, resampling) {
+  row_roles = get_private(task)$.row_roles
+  map_chr(seq_len(resampling$iters), function(i) {
+    train_set = resampling$train_set(i)
+    row_roles$use = train_set
+    calculate_hash(class(task), task$id, task$backend$hash, task$col_info, row_roles, get_private(task)$.col_roles, 
+      get_private(task)$.properties)
+  })
+}

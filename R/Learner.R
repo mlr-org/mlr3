@@ -61,7 +61,6 @@
 #' * `loglik(...)`: Extracts the log-likelihood (c.f. [stats::logLik()]).
 #'   This can be used in measures like [mlr_measures_aic] or [mlr_measures_bic].
 #'
-#'
 #' @section Setting Hyperparameters:
 #'
 #' All information about hyperparameters is stored in the slot `param_set` which is a [paradox::ParamSet].
@@ -161,7 +160,7 @@ Learner = R6Class("Learner",
       self$id = assert_string(id, min.chars = 1L)
       self$task_type = assert_choice(task_type, mlr_reflections$task_types$type)
       private$.param_set = assert_param_set(param_set)
-      private$.encapsulate = c(train = "none", predict = "none")
+      private$.encapsulate = c(train = "none", predict = "none", train_adapt = "none")
       self$feature_types = assert_subset(feature_types, mlr_reflections$task_feature_types)
       self$predict_types = assert_subset(predict_types, names(mlr_reflections$learner_predict_types[[task_type]]), empty.ok = FALSE)
       private$.predict_type = predict_types[1L]
@@ -225,7 +224,22 @@ Learner = R6Class("Learner",
       assert_learnable(task, self)
       row_ids = assert_row_ids(row_ids, null.ok = TRUE)
 
-      learner_train(self, task, row_ids)
+
+      learner = if (!is.null(self$hotstart_stack)) {
+        # search for hotstart learner
+        hotstart_learner = self$hotstart_stack$adaption_learner(learner, task$hash)
+      }
+      if (is.null(self$hotstart_stack) || is.null(hotstart_learner)) {
+         # no hotstart learners stored or no adaptable model found
+        learner = self
+        mode = "train"
+      } else {
+        self$state = hotstart_learner$state
+        learner = self
+        mode = "train_adapt"
+      }
+
+      learner_train(learner, task, row_ids, mode)
 
       # store the task w/o the data
       self$state$train_task = task_rm_backend(task$clone(deep = TRUE))
@@ -440,8 +454,8 @@ Learner = R6Class("Learner",
     },
 
     #' @field encapsulate (named `character()`)\cr
-    #' Controls how to execute the code in internal train and predict methods.
-    #' Must be a named character vector with names `"train"` and `"predict"`.
+    #' Controls how to execute the code in internal train, predict and train_adapt methods.
+    #' Must be a named character vector with names `"train"`, `"predict"` and `"train_adapt"`.
     #' Possible values are `"none"`, `"evaluate"` (requires package \CRANpkg{evaluate}) and `"callr"` (requires package \CRANpkg{callr}).
     #' See [mlr3misc::encapsulate()] for more details.
     encapsulate = function(rhs) {
@@ -449,8 +463,17 @@ Learner = R6Class("Learner",
         return(private$.encapsulate)
       }
       assert_character(rhs)
-      assert_names(names(rhs), subset.of = c("train", "predict"))
-      private$.encapsulate = insert_named(c(train = "none", predict = "none"), rhs)
+      assert_names(names(rhs), subset.of = c("train", "predict", "train_adapt"))
+      private$.encapsulate = insert_named(c(train = "none", predict = "none", train_adapt = "none"), rhs)
+    },
+
+    #' @field hotstart_stack ([HotstartStack]).
+    hotstart_stack = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.hotstart_stack)
+      }
+      assert_r6(rhs, "HotstartStack")
+      private$.hotstart_stack = rhs
     }
   ),
 
@@ -458,6 +481,7 @@ Learner = R6Class("Learner",
     .encapsulate = NULL,
     .predict_type = NULL,
     .param_set = NULL,
+    .hotstart_stack = NULL,
 
     deep_clone = function(name, value) {
       switch(name,
