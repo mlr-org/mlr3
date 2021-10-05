@@ -223,7 +223,7 @@ ResultData = R6Class("ResultData",
     #' by the fact table anymore.
     #' E.g., can be called after filtering/subsetting the fact table.
     #'
-    #' @return `self` (invisibly).
+    #' @return Modified `self` (invisibly).
     sweep = function() {
       fact = self$data$fact
       uhashes = unique(self$data$fact[, "uhash", with = FALSE])
@@ -236,6 +236,29 @@ ResultData = R6Class("ResultData",
           y = unique(fact[, keycol, with = FALSE], by = keycol)
           self$data[[nn]] = merge(tab, y, by = keycol, sort = TRUE)
         }
+      }
+
+      invisible(self)
+    },
+
+    #' @description
+    #' Shrinks the object by discarding parts of the stored data.
+    #'
+    #' @param backends (`logical(1)`)\cr
+    #'   If `TRUE`, the [DataBackend] is removed from all stored [Task]s.
+    #' @param models (`logical(1)`)\cr
+    #'   If `TRUE`, the stored model is removed from all [Learner]s.
+    #'
+    #' @return Modified `self` (invisibly).
+    discard = function(backends = FALSE, models = FALSE) {
+      if (assert_flag(backends)) {
+        tab = self$data$tasks
+        set(tab, j = "task", value = lapply(tab$task, task_rm_backend))
+      }
+
+      if (assert_flag(models)) {
+        tab = self$data$fact
+        set(tab, j = "learner_state", value = lapply(tab$learner_state, remove_named, "model"))
       }
 
       invisible(self)
@@ -281,6 +304,8 @@ ResultData = R6Class("ResultData",
     #' @template param_view
     #' @param condition (`character(1)`)
     #'   The condition to extract. One of `"message"`, `"warning"` or `"error"`.
+    #'
+    #' @return [data.table()].
     logs = function(view = NULL, condition) {
       ii = private$get_view_index(view)
       learner_state = NULL

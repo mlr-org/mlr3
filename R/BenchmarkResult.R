@@ -362,6 +362,24 @@ BenchmarkResult = R6Class("BenchmarkResult",
       }
 
       ResampleResult$new(private$.data, view = needle)
+    },
+
+    #' @description
+    #' Shrinks the [BenchmarkResult] by discarding parts of the internally stored data.
+    #' Note that certain operations might stop work, e.g. extracting
+    #' importance values from learners or calculating measures requiring the task's data.
+    #'
+    #' @param backends (`logical(1)`)\cr
+    #'   If `TRUE`, the [DataBackend] is removed from all stored [Task]s.
+    #' @param models (`logical(1)`)\cr
+    #'   If `TRUE`, the stored model is removed from all [Learner]s.
+    #'
+    #' @return
+    #' Returns the object itself, but modified **by reference**.
+    #' You need to explicitly `$clone()` the object beforehand if you want to keeps
+    #' the object in its previous state.
+    discard = function(backends = FALSE, models = FALSE) {
+      self$data$discard(backends = backends, models = models)
     }
   ),
 
