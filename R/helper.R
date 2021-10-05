@@ -97,7 +97,8 @@ format_list_item = function(x, ...) {
   UseMethod("format_list_item")
 }
 
-#' @title Calculate task hashes of resampling iterations
+#' @description 
+#' Calculate task hashes of resampling iterations.
 #'
 #' @param task ([Task]).
 #' @param resampling ([Resampling]).
@@ -109,7 +110,24 @@ task_hashes = function(task, resampling) {
   map_chr(seq_len(resampling$iters), function(i) {
     train_set = resampling$train_set(i)
     row_roles$use = train_set
-    calculate_hash(class(task), task$id, task$backend$hash, task$col_info, row_roles, get_private(task)$.col_roles, 
+    calculate_hash(class(task), task$id, task$backend$hash, task$col_info, row_roles, get_private(task)$.col_roles,
       get_private(task)$.properties)
   })
+}
+
+#' @description
+#' Hash (unique identifier) for learner object, excluding parameter values
+#' tagged with `train_adapt`.
+#'
+#' @param learner [Learner].
+#'
+#' @return `character(1)`.
+#' @noRd
+learner_train_adapt_hash = function(learner) {
+  param_vals = learner$param_set$values
+  train_adapt_id = learner$param_set$ids(tags = "train_adapt")
+  train_ids = setdiff(learner$param_set$ids(tags = "train"), train_adapt_id)
+  train_vals = param_vals[names(param_vals) %in% train_ids]
+
+  calculate_hash(class(learner), learner$id, learner$predict_type, learner$fallback$hash, train_vals)
 }

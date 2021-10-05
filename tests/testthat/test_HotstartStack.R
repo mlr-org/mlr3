@@ -1,4 +1,4 @@
-test_that("HotstartStack adapt forward works", {
+test_that("HotStartStack adapt forward works", {
   task = tsk("pima")
 
   # default
@@ -8,7 +8,7 @@ test_that("HotstartStack adapt forward works", {
   learner_2$train(task)
 
   learner = lrn("classif.debug", iter = 3)
-  hot = HotstartStack$new(list(learner_1, learner_2))
+  hot = HotStartStack$new(list(learner_1, learner_2))
 
   expect_equal(hot$adaption_cost(learner, task$hash), c(2, 1))
   expect_equal(hot$adaption_learner(learner, task$hash), learner_2)
@@ -18,7 +18,7 @@ test_that("HotstartStack adapt forward works", {
   learner_1$train(task)
 
   learner = lrn("classif.debug", iter = 3)
-  hot = HotstartStack$new(list(learner_1))
+  hot = HotStartStack$new(list(learner_1))
 
   expect_equal(hot$adaption_cost(learner, task$hash), NA_real_)
   expect_null(hot$adaption_learner(learner, task$hash))
@@ -30,7 +30,7 @@ test_that("HotstartStack adapt forward works", {
   learner_2$train(task)
 
   learner = lrn("classif.debug", iter = 3)
-  hot = HotstartStack$new(list(learner_1, learner_2))
+  hot = HotStartStack$new(list(learner_1, learner_2))
 
   expect_equal(hot$adaption_cost(learner, task$hash), c(1, 1))
   expect_equal(hot$adaption_learner(learner, task$hash), learner_1)
@@ -42,7 +42,7 @@ test_that("HotstartStack adapt forward works", {
   learner_2$train(task)
 
   learner = lrn("classif.debug", iter = 2)
-  hot = HotstartStack$new(list(learner_1, learner_2))
+  hot = HotStartStack$new(list(learner_1, learner_2))
 
   expect_equal(hot$adaption_cost(learner, task$hash), c(1, NA_real_))
   expect_equal(hot$adaption_learner(learner, task$hash), learner_1)
@@ -52,7 +52,7 @@ test_that("HotstartStack adapt forward works", {
   learner_1$train(task)
 
   learner = lrn("classif.debug", iter = 1)
-  hot = HotstartStack$new(list(learner_1))  
+  hot = HotStartStack$new(list(learner_1))  
 
   expect_equal(hot$adaption_cost(learner, task$hash), NA_real_)
   expect_null(hot$adaption_learner(learner, task$hash))
@@ -64,13 +64,13 @@ test_that("HotstartStack adapt forward works", {
   learner_2$train(task)
 
   learner = lrn("classif.debug", iter = 1)
-  hot = HotstartStack$new(list(learner_1, learner_2))
+  hot = HotStartStack$new(list(learner_1, learner_2))
 
   expect_equal(hot$adaption_cost(learner, task$hash), c(NA_real_, NA_real_))
   expect_null(hot$adaption_learner(learner, task$hash))
 })
 
-test_that("HotstartStack adapt backwards works", {
+test_that("HotStartStack adapt backwards works", {
   task = tsk("pima")
 
   # default
@@ -81,7 +81,7 @@ test_that("HotstartStack adapt backwards works", {
 
   learner = lrn("classif.debug", iter = 1)
   learner$properties[learner$properties %in% "adapt_forward"] = "adapt_backward"
-  hot = HotstartStack$new(list(learner_1, learner_2))
+  hot = HotStartStack$new(list(learner_1, learner_2))
 
   expect_equal(hot$adaption_cost(learner, task$hash), c(0, 0))
   expect_equal(hot$adaption_learner(learner, task$hash), learner_1)
@@ -92,13 +92,13 @@ test_that("HotstartStack adapt backwards works", {
 
   learner = lrn("classif.debug", iter = 2)
   learner$properties[learner$properties %in% "adapt_forward"] = "adapt_backward"
-  hot = HotstartStack$new(list(learner_1))
+  hot = HotStartStack$new(list(learner_1))
 
   expect_equal(hot$adaption_cost(learner, task$hash), NA_real_)
   expect_null(hot$adaption_learner(learner, task$hash))
 })
 
-test_that("HotstartStack adapt forward and backwards works", {
+test_that("HotStartStack adapt forward and backwards works", {
   task = tsk("pima")
 
   # default
@@ -109,27 +109,27 @@ test_that("HotstartStack adapt forward and backwards works", {
 
   learner = lrn("classif.debug", iter = 2)
   learner$properties =  c(learner$properties, "adapt_backward")
-  hot = HotstartStack$new(list(learner_1, learner_2))
+  hot = HotStartStack$new(list(learner_1, learner_2))
 
   expect_equal(hot$adaption_cost(learner, task$hash), c(1, 0))
   expect_equal(hot$adaption_learner(learner, task$hash), learner_2)
 })
 
-test_that("HotstartStack add method works", {
+test_that("HotStartStack add method works", {
   learner_1 = lrn("classif.debug", iter = 1)
   learner_1$train(task)
-  hot = HotstartStack$new(list(learner_1))
+  hot = HotStartStack$new(list(learner_1))
   
   learner_2 = lrn("classif.debug", iter = 2)
   learner_2$train(task)
   hot$add(list(learner_2))
 
   expect_data_table(hot$stack, nrows = 2, ncols = 3)
-  expect_equal(hot$stack$hotstart_learners[[1]], learner_1)
-  expect_equal(hot$stack$hotstart_learners[[2]], learner_2)
+  expect_equal(hot$stack$start_learner[[1]], learner_1)
+  expect_equal(hot$stack$start_learner[[2]], learner_2)
 })
 
-test_that("HotstartStack with many learners works", {
+test_that("HotStartStack with many learners works", {
   learner_1 = lrn("classif.debug", iter = 1)
   learner_1$train(task)
   learner_2 = lrn("classif.debug", iter = 3)
@@ -144,7 +144,7 @@ test_that("HotstartStack with many learners works", {
   )
 
   learner = lrn("classif.debug", iter = 2)
-  hot = HotstartStack$new(learners)
+  hot = HotStartStack$new(learners)
 
   expect_numeric(hot$adaption_cost(learner, task$hash), len = 9000)
   expect_equal(hot$adaption_learner(learner, task$hash), learner_1))

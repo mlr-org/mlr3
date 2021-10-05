@@ -11,6 +11,7 @@
 #' @template param_store_models
 #' @template param_store_backends
 #' @template param_encapsulate
+#' @template param_allow_train_adapt
 #'
 #' @return [BenchmarkResult].
 #'
@@ -120,18 +121,18 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
   # train adapt learner
   if (allow_train_adapt) {
     train_adapt_grid = pmap_dtr(grid, function(task, learner, resampling, iteration, ...) {
-      if (!is.null(learner$hotstart_stack)) {
+      if (!is.null(learner$hot_start_stack)) {
         # search for hotstart learner
         task_hashes = task_hashes(task, resampling)
-        hotstart_learner = learner$hotstart_stack$adaption_learner(learner, task_hashes[iteration])
+        start_learner = learner$hot_start_stack$adaption_learner(learner, task_hashes[iteration])
       }
-      if (is.null(learner$hotstart_stack) || is.null(hotstart_learner)) {
+      if (is.null(learner$hot_start_stack) || is.null(start_learner)) {
         # no hotstart learners stored or no adaptable model found
         mode = "train"
       } else {
         # hotstart learner found
-        hotstart_learner$param_set$values = insert_named(hotstart_learner$param_set$values, learner$param_set$values)
-        learner = hotstart_learner
+        start_learner$param_set$values = insert_named(start_learner$param_set$values, learner$param_set$values)
+        learner = start_learner
         mode = "train_adapt"
       }
       data.table(learner = list(learner), mode = mode)

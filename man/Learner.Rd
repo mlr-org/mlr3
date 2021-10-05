@@ -215,7 +215,7 @@ Must be a named character vector with names \code{"train"}, \code{"predict"} and
 Possible values are \code{"none"}, \code{"evaluate"} (requires package \CRANpkg{evaluate}) and \code{"callr"} (requires package \CRANpkg{callr}).
 See \code{\link[mlr3misc:encapsulate]{mlr3misc::encapsulate()}} for more details.}
 
-\item{\code{hotstart_stack}}{(\link{HotstartStack}).}
+\item{\code{hotstart_stack}}{(\link{HotStartStack}).}
 }
 \if{html}{\out{</div>}}
 }

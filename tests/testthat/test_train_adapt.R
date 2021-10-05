@@ -7,8 +7,8 @@ test_that("learner train adapt works", {
   train_adapt_id = learner_1$model$train_adapt_id
 
   learner = lrn("classif.debug", iter = 2)
-  hot = HotstartStack$new(list(learner_1))
-  learner$hotstart_stack = hot
+  hot = HotStartStack$new(list(learner_1))
+  learner$hot_start_stack = hot
   learner$train(task)
 
   expect_equal(learner$model$train_adapt_id, train_adapt_id)
@@ -21,8 +21,8 @@ test_that("learner train adapt works", {
   train_adapt_id = learner_1$model$train_adapt_id
 
   learner = lrn("classif.debug", iter = 1)
-  hot = HotstartStack$new(list(learner_1))
-  learner$hotstart_stack = hot
+  hot = HotStartStack$new(list(learner_1))
+  learner$hot_start_stack = hot
   learner$train(task)
 
   expect_true(learner$model$train_adapt_id != train_adapt_id)
@@ -33,8 +33,8 @@ test_that("learner train adapt works", {
   train_adapt_id = learner_1$model$train_adapt_id
 
   learner = lrn("classif.debug", iter = 2, x = 1)
-  hot = HotstartStack$new(list(learner_1))
-  learner$hotstart_stack = hot
+  hot = HotStartStack$new(list(learner_1))
+  learner$hot_start_stack = hot
   learner$train(task)
 
   expect_true(learner$model$train_adapt_id != train_adapt_id)
@@ -49,8 +49,8 @@ test_that("learner train adapt works", {
   train_adapt_id = learner_1$model$train_adapt_id
 
   learner = lrn("classif.debug", iter = 5)
-  hot = HotstartStack$new(list(learner_1))
-  learner$hotstart_stack = hot
+  hot = HotStartStack$new(list(learner_1))
+  learner$hot_start_stack = hot
   learner$train(task)
 
   expect_true(learner$model$train_adapt_id != train_adapt_id)
@@ -61,8 +61,8 @@ test_that("learner train adapt works", {
   train_adapt_id = learner_1$model$train_adapt_id
 
   learner = lrn("classif.debug", iter = 2, x = 1)
-  hot = HotstartStack$new(list(learner_1))
-  learner$hotstart_stack = hot
+  hot = HotStartStack$new(list(learner_1))
+  learner$hot_start_stack = hot
   learner$train(task)
 
   expect_true(learner$model$train_adapt_id != train_adapt_id)
@@ -73,8 +73,8 @@ test_that("learner train adapt works", {
   train_adapt_id = learner_1$model$train_adapt_id
 
   learner = lrn("classif.debug", iter = 1, x = 1)
-  hot = HotstartStack$new(list(learner_1))
-  learner$hotstart_stack = hot
+  hot = HotStartStack$new(list(learner_1))
+  learner$hot_start_stack = hot
   learner$train(task)
 
   expect_true(learner$model$train_adapt_id != train_adapt_id)
@@ -85,8 +85,8 @@ test_that("learner train adapt works", {
   train_adapt_id = learner_1$model$train_adapt_id
 
   learner = lrn("classif.debug", iter = 2, x = 0)
-  hot = HotstartStack$new(list(learner_1))
-  learner$hotstart_stack = hot
+  hot = HotStartStack$new(list(learner_1))
+  learner$hot_start_stack = hot
   learner$train(task)
 
   expect_equal(learner$model$train_adapt_id, train_adapt_id)
@@ -97,8 +97,8 @@ test_that("learner train adapt works", {
   train_adapt_id = learner_1$model$train_adapt_id
 
   learner = lrn("classif.debug", iter = 2)
-  hot = HotstartStack$new(list(learner_1))
-  learner$hotstart_stack = hot
+  hot = HotStartStack$new(list(learner_1))
+  learner$hot_start_stack = hot
   learner$train(tsk("iris"))
 
   expect_true(learner$model$train_adapt_id != train_adapt_id)
@@ -113,8 +113,8 @@ test_that("resample train adapt works", {
   rr = resample(task, learner_1, resampling, store_models = TRUE)
 
   learner = lrn("classif.debug", iter = 2)
-  hot = HotstartStack$new(rr$learners)
-  learner$hotstart_stack = hot
+  hot = HotStartStack$new(rr$learners)
+  learner$hot_start_stack = hot
 
   rr_2 = resample(task, learner, resampling, store_models = TRUE, allow_train_adapt = TRUE)
   pmap(list(rr$learners, rr_2$learners), function(l1, l2) {
@@ -136,12 +136,12 @@ test_that("benchmark train adapt works", {
   bmr = benchmark(design, store_models = TRUE)
 
   learners = unlist(map(seq_len(bmr$n_resample_results), function(i) bmr$resample_result(i)$learners))
-  hot = HotstartStack$new(learners)
+  hot = HotStartStack$new(learners)
   train_adapt_ids = map_chr(learners, function(l) l$model$train_adapt_id)
 
   # only train adapt
   learner = lrn("classif.debug", iter = 3)
-  learner$hotstart_stack = hot
+  learner$hot_start_stack = hot
 
   design = benchmark_grid(task, learner, resampling)
   bmr_2 = benchmark(design, store_models = TRUE, allow_train_adapt = TRUE)
@@ -155,9 +155,9 @@ test_that("benchmark train adapt works", {
 
   # train and train adapt mixed
   learner_3 = lrn("classif.debug", iter = 2)
-  learner_3$hotstart_stack = hot
+  learner_3$hot_start_stack = hot
   learner_4 = lrn("classif.rpart")
-  learner_4$hotstart_stack = hot
+  learner_4$hot_start_stack = hot
 
   design = benchmark_grid(task, list(learner_3, learner_4), resampling)
   bmr_2 = benchmark(design, store_models = TRUE, allow_train_adapt = TRUE)
