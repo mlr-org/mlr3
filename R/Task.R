@@ -216,9 +216,9 @@ Task = R6Class("Task",
         stopf("DataBackend did not return the queried cols correctly: %i requested, %i received", length(cols), ncol(data))
       }
 
-      ii = self$col_info[["fix_factor_levels"]]
-      if (any(ii)) {
-        fix_factors = self$col_info[ii, c("id", "levels"), with = FALSE][list(names(data)), on = "id", nomatch = NULL]
+      .__i__ = self$col_info[["fix_factor_levels"]]
+      if (any(.__i__)) {
+        fix_factors = self$col_info[.__i__, c("id", "levels"), with = FALSE][list(names(data)), on = "id", nomatch = NULL]
         if (nrow(fix_factors)) {
           data = fix_factor_levels(data, levels = set_names(fix_factors$levels, fix_factors$id))
         }
@@ -275,7 +275,10 @@ Task = R6Class("Task",
         assert_subset(cols, self$col_info$id)
       }
 
-      set_names(self$col_info[list(cols), "levels", on = "id", with = FALSE][[1L]], cols)
+      set_names(
+        fget(self$col_info, cols, "levels", "id"),
+        cols
+      )
     },
 
     #' @description
@@ -895,7 +898,7 @@ Task = R6Class("Task",
       active = union(self$target_names, self$feature_names)
 
       if (missing(rhs)) {
-        tab = self$col_info[list(active), c("id", "label"), on = "id", nomatch = NULL, with = FALSE]
+        tab = ijoin(self$col_info, active, c("id", "label"), "id")
         return(set_names(tab[["label"]], tab[["id"]]))
       }
 

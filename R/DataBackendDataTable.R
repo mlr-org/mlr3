@@ -68,12 +68,11 @@ DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
 
       if (self$compact_seq) {
         # https://github.com/Rdatatable/data.table/issues/3109
-        rows = keep_in_bounds(rows, 1L, nrow(private$.data))
-        data = private$.data[rows, cols, with = FALSE]
+        .__i__ = keep_in_bounds(rows, 1L, nrow(private$.data))
+        private$.data[.__i__, cols, with = FALSE]
       } else {
-        data = private$.data[list(rows), cols, with = FALSE, nomatch = NULL, on = self$primary_key]
+        ijoin(private$.data, rows, cols, self$primary_key)
       }
-      return(data)
     },
 
     #' @description

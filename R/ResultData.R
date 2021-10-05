@@ -111,8 +111,8 @@ ResultData = R6Class("ResultData",
     #'
     #' @return `data.table()` with columns `"task_hash"` (`character()`) and `"task"` ([Task]).
     tasks = function(view = NULL) {
-      ii = private$get_view_index(view)
-      tab = unique(self$data$fact[ii, "task_hash", with = FALSE], by = "task_hash")
+      .__ii__ = private$get_view_index(view)
+      tab = unique(self$data$fact[.__ii__, "task_hash", with = FALSE], by = "task_hash")
       merge(tab, self$data$tasks, by = "task_hash", sort = TRUE)
     },
 
@@ -129,16 +129,16 @@ ResultData = R6Class("ResultData",
     #'
     #' @return `data.table()` with columns `"learner_hash"` (`character()`) and `"learner"` ([Learner]).
     learners = function(view = NULL, states = TRUE, reassemble = TRUE) {
-      ii = private$get_view_index(view)
+      .__ii__ = private$get_view_index(view)
 
       if (states) {
-        tab = self$data$fact[ii, c("learner_hash", "learner_phash", "learner_state"), with = FALSE]
+        tab = self$data$fact[.__ii__, c("learner_hash", "learner_phash", "learner_state"), with = FALSE]
         tab = merge(tab, self$data$learners, by = "learner_phash", sort = FALSE)
         tab = merge(tab, self$data$learner_components, by = "learner_hash", sort = TRUE)
         set(tab, j = "learner",
           value = reassemble_learners(tab$learner, states = tab$learner_state, param_vals = tab$learner_param_vals))
       } else {
-        tab = unique(self$data$fact[ii, c("learner_hash", "learner_phash"), with = FALSE], by = "learner_hash")
+        tab = unique(self$data$fact[.__ii__, c("learner_hash", "learner_phash"), with = FALSE], by = "learner_hash")
         tab = merge(tab, self$data$learners, by = "learner_phash", sort = FALSE)
 
         if (reassemble) {
@@ -159,8 +159,8 @@ ResultData = R6Class("ResultData",
     #'
     #' @return `data.table()` with columns `"resampling_hash"` (`character()`) and `"resampling"` ([Resampling]).
     resamplings = function(view = NULL) {
-      ii = private$get_view_index(view)
-      tab = unique(self$data$fact[ii, "resampling_hash", with = FALSE], by = "resampling_hash")
+      .__ii__ = private$get_view_index(view)
+      tab = unique(self$data$fact[.__ii__, "resampling_hash", with = FALSE], by = "resampling_hash")
       merge(tab, self$data$resamplings, by = "resampling_hash", sort = TRUE)
     },
 
@@ -172,8 +172,8 @@ ResultData = R6Class("ResultData",
     #'
     #' @return `list()` of [Prediction].
     predictions = function(view = NULL, predict_sets = "test") {
-      ii = private$get_view_index(view)
-      as_predictions(self$data$fact[ii, "prediction", with = FALSE][[1L]], predict_sets = predict_sets)
+      .__ii__ = private$get_view_index(view)
+      as_predictions(self$data$fact[.__ii__, "prediction", with = FALSE][[1L]], predict_sets = predict_sets)
     },
 
     #' @description
@@ -274,9 +274,9 @@ ResultData = R6Class("ResultData",
     #'   Convert [PredictionData] to [Prediction]?
     #' @template param_predict_sets
     as_data_table = function(view = NULL, reassemble_learners = TRUE, convert_predictions = TRUE, predict_sets = "test") {
-      ii = private$get_view_index(view)
+      .__ii__ = private$get_view_index(view)
 
-      tab = self$data$fact[ii]
+      tab = self$data$fact[.__ii__]
       tab = merge(tab, self$data$tasks, by = "task_hash", sort = FALSE)
       tab = merge(tab, self$data$learners, by = "learner_phash", sort = FALSE)
       tab = merge(tab, self$data$resamplings, by = "resampling_hash", sort = FALSE)
@@ -307,9 +307,9 @@ ResultData = R6Class("ResultData",
     #'
     #' @return [data.table()].
     logs = function(view = NULL, condition) {
-      ii = private$get_view_index(view)
+      .__ii__ = private$get_view_index(view)
       learner_state = NULL
-      logs = map(self$data$fact[ii, learner_state], function(s) list(msg = get_log_condition(s, condition)))
+      logs = map(self$data$fact[.__ii__, learner_state], function(s) list(msg = get_log_condition(s, condition)))
       rbindlist(logs, idcol = "iteration", use.names = TRUE)
     }
   ),
