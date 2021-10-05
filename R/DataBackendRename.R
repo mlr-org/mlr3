@@ -12,14 +12,22 @@ DataBackendRename = R6Class("DataBackendRename", inherit = DataBackend, cloneabl
       assert_names(new, if (allow_utf8_names()) "unique" else "strict")
 
       ii = old != new
-      resulting_names = map_values(b$colnames, old[ii], new[ii])
+      old = old[ii]
+      new = new[ii]
+
+      if (self$primary_key %in% old) {
+        stopf("Renaming the primary key is not supported")
+      }
+
+
+      resulting_names = map_values(b$colnames, old, new)
       dup = anyDuplicated(resulting_names)
       if (dup > 0L) {
         stopf("Duplicated column name after rename: %s", resulting_names[dup])
       }
 
-      self$old = old[ii]
-      self$new = new[ii]
+      self$old = old
+      self$new = new
     },
 
     data = function(rows, cols, data_format = self$data_formats[1L]) {
