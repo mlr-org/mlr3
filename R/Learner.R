@@ -61,6 +61,7 @@
 #' * `loglik(...)`: Extracts the log-likelihood (c.f. [stats::logLik()]).
 #'   This can be used in measures like [mlr_measures_aic] or [mlr_measures_bic].
 #'
+#' 
 #' @section Setting Hyperparameters:
 #'
 #' All information about hyperparameters is stored in the slot `param_set` which is a [paradox::ParamSet].

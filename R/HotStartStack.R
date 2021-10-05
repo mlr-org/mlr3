@@ -58,7 +58,7 @@ HotStartStack = R6Class("HotStartStack",
       train_adapt_id = learner$param_set$ids(tags = "train_adapt")
 
       cost = if (is.null(stack)) {
-        # calculation of cost on complete set 
+        # calculation of cost on complete stack
         pmap_dbl(self$stack, function(start_learner, learner_hash, task_hash) {
           if (learner_hash == .learner_hash && task_hash == .task_hash) {
             cost = learner$param_set$values[[train_adapt_id]] - start_learner$param_set$values[[train_adapt_id]]

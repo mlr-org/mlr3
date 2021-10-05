@@ -117,8 +117,8 @@ task_hashes = function(task, resampling) {
   map_chr(seq_len(resampling$iters), function(i) {
     train_set = resampling$train_set(i)
     row_roles$use = train_set
-    calculate_hash(class(task), task$id, task$backend$hash, task$col_info, row_roles, get_private(task)$.col_roles,
-      get_private(task)$.properties)
+    calculate_hash(class(task), task$id, task$backend$hash, task$col_info, row_roles, task$col_roles,
+      task$properties)
   })
 }
 
