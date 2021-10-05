@@ -216,9 +216,9 @@ Task = R6Class("Task",
         stopf("DataBackend did not return the queried cols correctly: %i requested, %i received", length(cols), ncol(data))
       }
 
-      ii = self$col_info[["fix_factor_levels"]]
-      if (any(ii)) {
-        fix_factors = self$col_info[ii, c("id", "levels"), with = FALSE][list(names(data)), on = "id", nomatch = NULL]
+      .__i__ = self$col_info[["fix_factor_levels"]]
+      if (any(.__i__)) {
+        fix_factors = self$col_info[.__i__, c("id", "levels"), with = FALSE][list(names(data)), on = "id", nomatch = NULL]
         if (nrow(fix_factors)) {
           data = fix_factor_levels(data, levels = set_names(fix_factors$levels, fix_factors$id))
         }
@@ -275,7 +275,10 @@ Task = R6Class("Task",
         assert_subset(cols, self$col_info$id)
       }
 
-      set_names(self$col_info[list(cols), "levels", on = "id", with = FALSE][[1L]], cols)
+      set_names(
+        fget(self$col_info, cols, "levels", "id"),
+        cols
+      )
     },
 
     #' @description
@@ -338,7 +341,8 @@ Task = R6Class("Task",
     #' In case of name clashes of row ids, rows in `data` have higher precedence
     #' and virtually overwrite the rows in the [DataBackend].
     #'
-    #' All columns with the roles `"target"`, `"feature"`, `"weight"`, `"group"`, `"stratum"`, and `"order"` must be present in `data`.
+    #' All columns with the roles `"target"`, `"feature"`, `"weight"`, `"group"`, `"stratum"`,
+    #' and `"order"` must be present in `data`.
     #' Columns only present in `data` but not in the [DataBackend] of `task` will be discarded.
     #'
     #' This operation mutates the task in-place.
@@ -390,7 +394,7 @@ Task = R6Class("Task",
       }
 
       # columns with these roles must be present in data
-      mandatory_roles = c("target", "feature", "weight")
+      mandatory_roles = c("target", "feature", "weight", "group", "stratum", "order")
       mandatory_cols = unlist(self$col_roles[mandatory_roles], use.names = FALSE)
       missing_cols = setdiff(mandatory_cols, data$colnames)
       if (length(missing_cols)) {
@@ -739,17 +743,19 @@ Task = R6Class("Task",
     },
 
     #' @field col_roles (named `list()`)\cr
-    #' Each column (feature) can have an arbitrary number of the following roles:
+    #' Each column can be in one or more of the following groups to fulfill different roles:
     #'
     #' * `"feature"`: Regular feature used in the model fitting process.
-    #' * `"target"`: Target variable.
+    #' * `"target"`: Target variable. Most tasks only accept a single target column.
     #' * `"name"`: Row names / observation labels. To be used in plots. Can be queried with `$row_names`.
+    #'   Not more than a single column can be associated with this role.
     #' * `"order"`: Data returned by `$data()` is ordered by this column (or these columns).
+    #'   Columns must be sortable with [order()].
     #' * `"group"`: During resampling, observations with the same value of the variable with role "group" are marked as "belonging together".
     #'   For each resampling iteration, observations of the same group will be exclusively assigned to be either in the training set or in the test set.
-    #'   Note that only up to one column may have this role.
+    #'   Not more than a single column can be associated with this role.
     #' * `"stratum"`: Stratification variables. Multiple discrete columns may have this role.
-    #' * `"weight"`: Observation weights. Only up to one column (assumed to be discrete) may have this role.
+    #' * `"weight"`: Observation weights. Not more than one numeric column may have this role.
     #'
     #' `col_roles` is a named list whose elements are named by column role and each element is a `character()` vector of column names.
     #' To alter the roles, just modify the list, e.g. with \R's set functions ([intersect()], [setdiff()], [union()], \ldots).
@@ -892,7 +898,7 @@ Task = R6Class("Task",
       active = union(self$target_names, self$feature_names)
 
       if (missing(rhs)) {
-        tab = self$col_info[list(active), c("id", "label"), on = "id", nomatch = NULL, with = FALSE]
+        tab = ijoin(self$col_info, active, c("id", "label"), "id")
         return(set_names(tab[["label"]], tab[["id"]]))
       }
 

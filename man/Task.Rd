@@ -190,17 +190,19 @@ Can be used as truly independent test set.
 To alter the roles, just modify the list, e.g. with  \R's set functions (\code{\link[=intersect]{intersect()}}, \code{\link[=setdiff]{setdiff()}}, \code{\link[=union]{union()}}, \ldots).}
 
 \item{\code{col_roles}}{(named \code{list()})\cr
-Each column (feature) can have an arbitrary number of the following roles:
+Each column can be in one or more of the following groups to fulfill different roles:
 \itemize{
 \item \code{"feature"}: Regular feature used in the model fitting process.
-\item \code{"target"}: Target variable.
+\item \code{"target"}: Target variable. Most tasks only accept a single target column.
 \item \code{"name"}: Row names / observation labels. To be used in plots. Can be queried with \verb{$row_names}.
+Not more than a single column can be associated with this role.
 \item \code{"order"}: Data returned by \verb{$data()} is ordered by this column (or these columns).
+Columns must be sortable with \code{\link[=order]{order()}}.
 \item \code{"group"}: During resampling, observations with the same value of the variable with role "group" are marked as "belonging together".
 For each resampling iteration, observations of the same group will be exclusively assigned to be either in the training set or in the test set.
-Note that only up to one column may have this role.
+Not more than a single column can be associated with this role.
 \item \code{"stratum"}: Stratification variables. Multiple discrete columns may have this role.
-\item \code{"weight"}: Observation weights. Only up to one column (assumed to be discrete) may have this role.
+\item \code{"weight"}: Observation weights. Not more than one numeric column may have this role.
 }
 
 \code{col_roles} is a named list whose elements are named by column role and each element is a \code{character()} vector of column names.
@@ -572,7 +574,8 @@ the primary key of the \link{DataBackend} (\code{task$backend$primary_key}).
 In case of name clashes of row ids, rows in \code{data} have higher precedence
 and virtually overwrite the rows in the \link{DataBackend}.
 
-All columns with the roles \code{"target"}, \code{"feature"}, \code{"weight"}, \code{"group"}, \code{"stratum"}, and \code{"order"} must be present in \code{data}.
+All columns with the roles \code{"target"}, \code{"feature"}, \code{"weight"}, \code{"group"}, \code{"stratum"},
+and \code{"order"} must be present in \code{data}.
 Columns only present in \code{data} but not in the \link{DataBackend} of \code{task} will be discarded.
 
 This operation mutates the task in-place.

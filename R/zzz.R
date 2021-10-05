@@ -74,6 +74,7 @@ dummy_import = function() {
   if (Sys.getenv("IN_PKGDOWN") == "true") {
     lg$set_threshold("warn")
   }
+
 } # nocov end
 
 leanify_package()
