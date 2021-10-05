@@ -46,6 +46,10 @@ individual learner are active.
 Additionally, if encapsulation is set to \code{"evaluate"} or \code{"callr"},
 the fallback learner is set to the featureless learner if the learner
 does not already have a fallback configured.}
+
+\item{allow_train_adapt}{(\code{logical(1)})\cr
+Determines if learner(s) are hot started with already trained models in
+\verb{$hotstart_stack}.}
 }
 \value{
 \link{ResampleResult}.

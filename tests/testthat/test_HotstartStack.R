@@ -116,6 +116,8 @@ test_that("HotStartStack adapt forward and backwards works", {
 })
 
 test_that("HotStartStack add method works", {
+  task = tsk("pima")
+
   learner_1 = lrn("classif.debug", iter = 1)
   learner_1$train(task)
   hot = HotStartStack$new(list(learner_1))
@@ -130,6 +132,8 @@ test_that("HotStartStack add method works", {
 })
 
 test_that("HotStartStack with many learners works", {
+  task = tsk("pima")
+
   learner_1 = lrn("classif.debug", iter = 1)
   learner_1$train(task)
   learner_2 = lrn("classif.debug", iter = 3)
@@ -147,5 +151,5 @@ test_that("HotStartStack with many learners works", {
   hot = HotStartStack$new(learners)
 
   expect_numeric(hot$adaption_cost(learner, task$hash), len = 9000)
-  expect_equal(hot$adaption_learner(learner, task$hash), learner_1))
+  expect_equal(hot$adaption_learner(learner, task$hash), learner_1)
 })

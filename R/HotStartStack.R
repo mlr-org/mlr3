@@ -106,7 +106,7 @@ HotStartStack = R6Class("HotStartStack",
       cost = self$adaption_cost(learner, task_hash, stack)
       if (all(is.na(cost))) return(NULL)
       
-      stack[which.min(cost), start_learner][[1]]
+      stack[which.min(cost), get("start_learner")][[1]]
     }
   )
 )

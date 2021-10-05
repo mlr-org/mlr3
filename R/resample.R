@@ -100,8 +100,8 @@ resample = function(task, learner, resampling, store_models = FALSE, store_backe
 
     res = mapply(workhorse, 
       iteration = seq_len(n), learner = grid$learner, mode = grid$mode,
-      MoreArgs = list(task = task, learner = learner, resampling = instance, store_models = store_models,
-      lgr_threshold = lg$threshold, pb = pb)
+      MoreArgs = list(task = task, resampling = instance, store_models = store_models, lgr_threshold = lg$threshold,
+        pb = pb)
     )
   } else {
     lg$debug("Running resample() via future with %i iterations", n)
