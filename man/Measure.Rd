@@ -38,6 +38,7 @@ A guide on how to extend \CRANpkg{mlr3} with custom measures can be found in the
 Other Measure: 
 \code{\link{MeasureClassif}},
 \code{\link{MeasureRegr}},
+\code{\link{MeasureSimilarity}},
 \code{\link{mlr_measures_aic}},
 \code{\link{mlr_measures_bic}},
 \code{\link{mlr_measures_classif.costs}},
@@ -75,6 +76,16 @@ Each set yields a separate \link{Prediction} object.
 Those be combined via getters in \link{ResampleResult}/\link{BenchmarkResult}, or \link{Measure}s can be altered
 to operate on specific subsets of the calculated prediction sets.}
 
+\item{\code{check_prerequisites}}{(\code{character(1)})\cr
+How to proceed if one of the following prerequisites is not met:
+\itemize{
+\item wrong predict type (e.g., probabilities required, but only labels available).
+\item wrong predict set (e.g., learner predicted on training set, but predictions of test set required).
+\item task properties not satisfied (e.g., binary classification measure on multiclass task).
+}
+
+Possible values are \code{"ignore"} (just return \code{NaN}) and \code{"warn"} (default, raise a warning before returning \code{NaN}).}
+
 \item{\code{average}}{(\code{character(1)})\cr
 Method for aggregation:
 \itemize{
@@ -85,6 +96,8 @@ Next, the scoring function of the measure is applied on this combined object, yi
 The scoring function is applied on the \link{Prediction} object of each resampling iterations,
 each yielding a single numeric score.
 Next, the scores are combined with the \code{aggregator} function to a single numerical score.
+\item \code{"custom"}:
+The measure implements a custom aggregation method.
 }}
 
 \item{\code{aggregator}}{(\verb{function()})\cr

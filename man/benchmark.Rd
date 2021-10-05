@@ -147,8 +147,12 @@ rr = bmr$aggregate()[learner_id == "classif.featureless"]$resample_result[[1]]
 rr$resampling$train_set(2)
 }
 \seealso{
-Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
+\itemize{
+\item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
 \url{https://mlr3book.mlr-org.com/basics.html#benchmarking}
+\item Package \CRANpkg{mlr3viz} for some generic visualizations.
+\item \CRANpkg{mlr3benchmark} for post-hoc analysis of benchmark results.
+}
 
 Other benchmark: 
 \code{\link{BenchmarkResult}},

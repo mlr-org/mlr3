@@ -100,6 +100,37 @@ MeasureRegrSimple = R6Class("MeasureRegrSimple",
   )
 )
 
+#' @include MeasureSimilarity.R
+MeasureSimilaritySimple = R6Class("MeasureSimilaritySimple",
+  inherit = MeasureSimilarity,
+  public = list(
+    fun = NULL,
+    na_value = NaN,
+    initialize = function(name) {
+      info = mlr3measures::measures[[name]]
+      super$initialize(
+        id = paste0("sim.", name),
+        range = c(info$lower, info$upper),
+        minimize = info$minimize,
+        predict_type = "response",
+        packages = "mlr3measures",
+        man = paste0("mlr3::mlr_measures_sim.", name),
+      )
+      self$fun = get(name, envir = asNamespace("mlr3measures"), mode = "function")
+    }
+  ),
+
+  private = list(
+    .aggregate = function(rr) {
+      sets = map(rr$learners, function(l) l$selected_features())
+      self$fun(sets, p = length(rr$task$feature_names))
+    },
+
+    .extra_hash = c("fun", "na_value")
+  )
+)
+
+
 ### binary classification measures
 
 #' @templateVar id auc
@@ -295,3 +326,14 @@ mlr_measures$add("regr.srho", MeasureRegrSimple, name = "srho")
 #' @templateVar id sse
 #' @template measure_regr
 mlr_measures$add("regr.sse", MeasureRegrSimple, name = "sse")
+
+
+### similarity measures
+
+#' @templateVar id jaccard
+#' @template measure_similarity
+mlr_measures$add("sim.jaccard", MeasureSimilaritySimple, name = "jaccard")
+
+#' @templateVar id phi
+#' @template measure_similarity
+mlr_measures$add("sim.phi", MeasureSimilaritySimple, name = "phi")

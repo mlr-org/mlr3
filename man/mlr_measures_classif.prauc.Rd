@@ -9,6 +9,10 @@ The PRC can be interpreted as the relationship between precision and recall (sen
 and is considered to be a more appropriate measure for unbalanced datasets than the ROC curve.
 The PRC is computed by integration of the piecewise function.
 }
+\details{
+This measure is undefined if the true values are either all positive or
+all negative.
+}
 \note{
 The score function calls \code{\link[mlr3measures:prauc]{mlr3measures::prauc()}} from package \CRANpkg{mlr3measures}.
 
@@ -17,8 +21,8 @@ This can be customized by setting the field \code{na_value}.
 }
 \section{Dictionary}{
 
-This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("prauc")
-msr("prauc")
+This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("classif.prauc")
+msr("classif.prauc")
 }
 }
 

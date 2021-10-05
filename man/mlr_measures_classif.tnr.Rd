@@ -11,6 +11,9 @@ Binary classification measure defined as \deqn{
 }
 Also know as "specificity".
 }
+\details{
+This measure is undefined if FP + TN = 0.
+}
 \note{
 The score function calls \code{\link[mlr3measures:tnr]{mlr3measures::tnr()}} from package \CRANpkg{mlr3measures}.
 
@@ -19,8 +22,8 @@ This can be customized by setting the field \code{na_value}.
 }
 \section{Dictionary}{
 
-This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("tnr")
-msr("tnr")
+This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("classif.tnr")
+msr("classif.tnr")
 }
 }
 

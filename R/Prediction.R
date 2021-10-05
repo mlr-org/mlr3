@@ -89,9 +89,22 @@ Prediction = R6Class("Prediction",
     #'
     #' @return [Prediction].
     score = function(measures = NULL, task = NULL, learner = NULL, train_set = NULL) {
-      measures = assert_measures(as_measures(measures, task_type = self$task_type), task = task, learner = learner)
+      measures = as_measures(measures, task_type = self$task_type)
       scores = map_dbl(measures, function(m) m$score(prediction = self, task = task, learner = learner, train_set = train_set))
       set_names(scores, ids(measures))
+    },
+
+    #' @description
+    #' Filters the [Prediction], keeping only predictions for the provided row_ids.
+    #' This changes the object in-place, you need to create a clone to preserve
+    #' the original [Prediction].
+    #'
+    #' @template param_row_ids
+    #' @return `self`, modified.
+    filter = function(row_ids) {
+      row_ids = assert_row_ids(row_ids)
+      self$data = filter_prediction_data(self$data, row_ids)
+      invisible(self)
     }
   ),
 

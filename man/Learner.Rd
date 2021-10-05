@@ -79,11 +79,15 @@ Here, we add a factor hyperparameter with id \code{"foo"} and possible levels \c
 \item Package \href{https://github.com/mlr-org/mlr3extralearners}{mlr3extralearners} for more learners.
 \item \link[mlr3misc:Dictionary]{Dictionary} of \link[=Learner]{Learners}: \link{mlr_learners}
 \item \code{as.data.table(mlr_learners)} for a table of available \link[=Learner]{Learners} in the running session (depending on the loaded packages).
+\item \CRANpkg{mlr3pipelines} to combine learners with pre- and postprocessing steps.
+\item Package \CRANpkg{mlr3viz} for some generic visualizations.
 \item Extension packages for additional task types:
 \itemize{
 \item \CRANpkg{mlr3proba} for probabilistic supervised regression and survival analysis.
 \item \CRANpkg{mlr3cluster} for unsupervised clustering.
 }
+\item \CRANpkg{mlr3tuning} for tuning of hyperparameters, \CRANpkg{mlr3tuningspaces}
+for established default tuning spaces.
 }
 
 Other Learner: 
@@ -199,7 +203,7 @@ Hash (unique identifier) for this object.}
 
 \item{\code{phash}}{(\code{character(1)})\cr
 Hash (unique identifier) for this partial object, excluding some components
-which are varied  systematically during tuning (parameter values) or feature
+which are varied systematically during tuning (parameter values) or feature
 selection (feature names).}
 
 \item{\code{predict_type}}{(\code{character(1)})\cr

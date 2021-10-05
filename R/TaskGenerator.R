@@ -54,11 +54,11 @@ TaskGenerator = R6Class("TaskGenerator",
     #' Printer.
     #' @param ... (ignored).
     print = function(...) {
-      catf(format(self))
-      catf(str_indent("* Task type:", self$task_type))
-      catf(str_indent("* Packages:", self$packages))
-      catf(str_indent("* Parameters:", as_short_string(self$param_set$values, 1000L)))
-      catf(str_indent("* Manual:", sprintf("?%s", self$man)))
+      catn(format(self))
+      catn(str_indent("* Task type:", self$task_type))
+      catn(str_indent("* Packages:", self$packages))
+      catn(str_indent("* Parameters:", as_short_string(self$param_set$values, 1000L)))
+      catn(str_indent("* Manual:", sprintf("?%s", self$man)))
     },
 
     #' @description

@@ -109,6 +109,7 @@ Truth is in columns, predicted response is in rows.}
 \if{html}{
 \out{<details open ><summary>Inherited methods</summary>}
 \itemize{
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="filter">}\href{../../mlr3/html/Prediction.html#method-filter}{\code{mlr3::Prediction$filter()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="format">}\href{../../mlr3/html/Prediction.html#method-format}{\code{mlr3::Prediction$format()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="help">}\href{../../mlr3/html/Prediction.html#method-help}{\code{mlr3::Prediction$help()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="print">}\href{../../mlr3/html/Prediction.html#method-print}{\code{mlr3::Prediction$print()}}\out{</span>}

@@ -10,6 +10,10 @@ Binary classification measure defined as \deqn{
    (TP * TN - FP * FN) / sqrt((TP + FP) * (TP + FN) * (TN + FP) * (TN + FN)).
 }
 }
+\details{
+This above formula is undefined if any of the four sums in the denominator is 0.
+The denominator is then set to 1.
+}
 \note{
 The score function calls \code{\link[mlr3measures:mcc]{mlr3measures::mcc()}} from package \CRANpkg{mlr3measures}.
 
@@ -18,8 +22,8 @@ This can be customized by setting the field \code{na_value}.
 }
 \section{Dictionary}{
 
-This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("mcc")
-msr("mcc")
+This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("classif.mcc")
+msr("classif.mcc")
 }
 }
 

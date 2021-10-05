@@ -47,6 +47,7 @@ msr("bic")
 Other Measure: 
 \code{\link{MeasureClassif}},
 \code{\link{MeasureRegr}},
+\code{\link{MeasureSimilarity}},
 \code{\link{Measure}},
 \code{\link{mlr_measures_aic}},
 \code{\link{mlr_measures_classif.costs}},

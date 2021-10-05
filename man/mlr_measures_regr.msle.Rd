@@ -10,6 +10,9 @@ Regression measure defined as \deqn{
   weighted.mean((log(1 + t) - log(1 + r))^2, weights).
 }
 }
+\details{
+This measure is undefined if any element of \eqn{t} or \eqn{r} is less than or equal to \eqn{-1}.
+}
 \note{
 The score function calls \code{\link[mlr3measures:msle]{mlr3measures::msle()}} from package \CRANpkg{mlr3measures}.
 
@@ -18,8 +21,8 @@ This can be customized by setting the field \code{na_value}.
 }
 \section{Dictionary}{
 
-This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("msle")
-msr("msle")
+This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("regr.msle")
+msr("regr.msle")
 }
 }
 

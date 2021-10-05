@@ -30,7 +30,7 @@ b$data(1:3, b$colnames, data_format = "data.table")
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
 \url{https://mlr3book.mlr-org.com/technical.html#backends}
 \item Package \CRANpkg{mlr3db} to interface out-of-memory data,
-e.g. SQL servers.
+e.g. SQL servers or \CRANpkg{duckdb}.
 }
 
 Other DataBackend: 

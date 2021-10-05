@@ -73,8 +73,8 @@ test_that("predict_type is checked", {
   measure = msr("classif.auc")
   rr = resample(task, learner, resampling)
 
-  expect_error(rr$score(measure), "predict_type")
-  expect_error(rr$aggregate(measure), "predict_type")
+  expect_warning(rr$score(measure), "predict type", fixed = TRUE)
+  expect_warning(rr$aggregate(measure), "predict type", fixed = TRUE)
 })
 
 test_that("empty train/predict sets", {
