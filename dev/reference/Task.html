@@ -402,11 +402,6 @@ To remove a label, set it to <code>NA</code>.
 Alternatively, you can provide a <code><a href='https://rdrr.io/r/base/data.frame.html'>data.frame()</a></code> with the two columns
 <code>"id"</code> and <code>"label"</code>.</p></dd>
 
-<dt><code>col_hashes</code></dt><dd><p>(named <code>character</code>)<br />
-Hash (unique identifier) for all columns except the <code>primary_key</code>: A <code>character</code> vector, named by the columns that each element refers to.<br />
-Columns of different <code>Task</code>s or <code><a href='DataBackend.html'>DataBackend</a></code>s that have agreeing <code>col_hashes</code> always represent the same data, given that the same <code>row</code>s are selected.
-The reverse is not necessarily true: There can be columns with the same content that have different <code>col_hashes</code>.</p></dd>
-
 </dl><p></div></p>
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
