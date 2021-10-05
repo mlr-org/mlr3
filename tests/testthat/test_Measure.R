@@ -64,15 +64,15 @@ test_that("check_prerequisites / task_properties", {
   expect_warning(p$score(m, task = task), "properties", fixed = TRUE)
 
   rr = resample(task, learner, rsmp("holdout"))
-  res = expect_warning(rr$score(m), "properties", fixed = TRUE)
+  expect_warning(res <- rr$score(m), "properties", fixed = TRUE)
   expect_identical(res$classif.auc, NaN)
-  res = expect_warning(rr$aggregate(m), "properties", fixed = TRUE)
+  expect_warning(res <- rr$aggregate(m), "properties", fixed = TRUE)
   expect_identical(unname(res), NaN)
 
   bmr = as_benchmark_result(rr)
-  res = expect_warning(bmr$score(m), "properties", fixed = TRUE)
+  expect_warning(res <- bmr$score(m), "properties", fixed = TRUE)
   expect_identical(res$classif.auc, NaN)
-  res = expect_warning(bmr$aggregate(m), "properties", fixed = TRUE)
+  expect_warning(res <- bmr$aggregate(m), "properties", fixed = TRUE)
   expect_identical(res$classif.auc, NaN)
 })
 
@@ -88,15 +88,15 @@ test_that("check_prerequisites / predict_type", {
   expect_warning(p$score(m, learner = learner), "predict type", fixed = TRUE)
 
   rr = resample(task, learner, rsmp("holdout"))
-  res = expect_warning(rr$score(m), "predict type", fixed = TRUE)
+  expect_warning(res <- rr$score(m), "predict type", fixed = TRUE)
   expect_identical(res$classif.auc, NaN)
-  res = expect_warning(rr$aggregate(m), "predict type", fixed = TRUE)
+  expect_warning(res <- rr$aggregate(m), "predict type", fixed = TRUE)
   expect_identical(unname(res), NaN)
 
   bmr = as_benchmark_result(rr)
-  res = expect_warning(bmr$score(m), "predict type", fixed = TRUE)
+  expect_warning(res <- bmr$score(m), "predict type", fixed = TRUE)
   expect_identical(res$classif.auc, NaN)
-  res = expect_warning(bmr$aggregate(m), "predict type", fixed = TRUE)
+  expect_warning(res <- bmr$aggregate(m), "predict type", fixed = TRUE)
   expect_identical(res$classif.auc, NaN)
 })
 
@@ -106,14 +106,14 @@ test_that("check_prerequisites / predict_sets", {
   rr = resample(task, learner, rsmp("holdout"))
   m = msr("classif.ce")
 
-  res = expect_warning(rr$score(m), "predict sets", fixed = TRUE)
+  expect_warning(res <- rr$score(m), "predict sets", fixed = TRUE)
   expect_identical(res$classif.ce, NaN)
-  res = expect_warning(rr$aggregate(m), "predict sets", fixed = TRUE)
+  expect_warning(res <- rr$aggregate(m), "predict sets", fixed = TRUE)
   expect_identical(unname(res), NaN)
 
   bmr = as_benchmark_result(rr)
-  res = expect_warning(bmr$score(m), "predict sets", fixed = TRUE)
+  expect_warning(res <- bmr$score(m), "predict sets", fixed = TRUE)
   expect_identical(res$classif.ce, NaN)
-  res = expect_warning(bmr$aggregate(m), "predict set", fixed = TRUE)
+  expect_warning(res <- bmr$aggregate(m), "predict set", fixed = TRUE)
   expect_identical(res$classif.ce, NaN)
 })
