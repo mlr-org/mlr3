@@ -209,6 +209,7 @@ Returns <code>NULL</code> if the ResultData is empty.</p></dd>
 <li><p><a href='#method-prediction'><code>ResultData$prediction()</code></a></p></li>
 <li><p><a href='#method-combine'><code>ResultData$combine()</code></a></p></li>
 <li><p><a href='#method-sweep'><code>ResultData$sweep()</code></a></p></li>
+<li><p><a href='#method-discard'><code>ResultData$discard()</code></a></p></li>
 <li><p><a href='#method-as_data_table'><code>ResultData$as_data_table()</code></a></p></li>
 <li><p><a href='#method-logs'><code>ResultData$logs()</code></a></p></li>
 <li><p><a href='#method-clone'><code>ResultData$clone()</code></a></p></li>
@@ -558,7 +559,23 @@ E.g., can be called after filtering/subsetting the fact table.</p><h4 class='has
 <p><div class="r"></p><pre><span class='va'>ResultData</span><span class='op'>$</span><span class='fu'>sweep</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
-<p><code>self</code> (invisibly).</p>
+<p>Modified <code>self</code> (invisibly).</p>
+<p><hr>
+<a id="method-discard"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>discard()</code></h3>
+<p>Shrinks the object by discarding parts of the stored data.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>ResultData</span><span class='op'>$</span><span class='fu'>discard</span><span class='op'>(</span>backends <span class='op'>=</span> <span class='cn'>FALSE</span>, models <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>backends</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
+If <code>TRUE</code>, the <a href='DataBackend.html'>DataBackend</a> is removed from all stored <a href='Task.html'>Task</a>s.</p></dd>
+
+<dt><code>models</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
+If <code>TRUE</code>, the stored model is removed from all <a href='Learner.html'>Learner</a>s.</p></dd>
+
+</dl><p></div></p>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
+<p>Modified <code>self</code> (invisibly).</p>
 <p><hr>
 <a id="method-as_data_table"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>as_data_table()</code></h3>
 <p>Combines internal tables into a single flat <code>data.table()</code>.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
@@ -664,6 +681,8 @@ Single <code>uhash</code> to restrict the results to.</p></dd>
 The condition to extract. One of <code>"message"</code>, <code>"warning"</code> or <code>"error"</code>.</p></dd>
 
 </dl><p></div></p>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
+<p><code>data.table()</code>.</p>
 <p><hr>
 <a id="method-clone"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>clone()</code></h3>
 <p>The objects of this class are cloneable with this method.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>

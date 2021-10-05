@@ -291,12 +291,12 @@ or <code>"trace"</code>:</p><pre><span class='fu'>lgr</span><span class='fu'>::<
 <span class='co'>## Data of all resamplings</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table</a></span><span class='op'>(</span><span class='va'>bmr</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;                                   uhash              task
-#&gt; 1: b3ec336b-8c5c-4353-9da2-c90d10b31dbc &lt;TaskClassif[48]&gt;
-#&gt; 2: b3ec336b-8c5c-4353-9da2-c90d10b31dbc &lt;TaskClassif[48]&gt;
-#&gt; 3: b3ec336b-8c5c-4353-9da2-c90d10b31dbc &lt;TaskClassif[48]&gt;
-#&gt; 4: 2efa1d03-fef1-4bfa-af1b-349ce1fdd39f &lt;TaskClassif[48]&gt;
-#&gt; 5: 2efa1d03-fef1-4bfa-af1b-349ce1fdd39f &lt;TaskClassif[48]&gt;
-#&gt; 6: 2efa1d03-fef1-4bfa-af1b-349ce1fdd39f &lt;TaskClassif[48]&gt;
+#&gt; 1: 07a6a333-9f54-4526-945d-0bacbc25e7b1 &lt;TaskClassif[48]&gt;
+#&gt; 2: 07a6a333-9f54-4526-945d-0bacbc25e7b1 &lt;TaskClassif[48]&gt;
+#&gt; 3: 07a6a333-9f54-4526-945d-0bacbc25e7b1 &lt;TaskClassif[48]&gt;
+#&gt; 4: 321a4b7d-cf9c-462d-a178-1e3d38743f15 &lt;TaskClassif[48]&gt;
+#&gt; 5: 321a4b7d-cf9c-462d-a178-1e3d38743f15 &lt;TaskClassif[48]&gt;
+#&gt; 6: 321a4b7d-cf9c-462d-a178-1e3d38743f15 &lt;TaskClassif[48]&gt;
 #&gt;                            learner         resampling iteration
 #&gt; 1: &lt;LearnerClassifFeatureless[36]&gt; &lt;ResamplingCV[19]&gt;         1
 #&gt; 2: &lt;LearnerClassifFeatureless[36]&gt; &lt;ResamplingCV[19]&gt;         2
@@ -315,10 +315,10 @@ or <code>"trace"</code>:</p><pre><span class='fu'>lgr</span><span class='fu'>::<
 <span class='va'>aggr</span> <span class='op'>=</span> <span class='va'>bmr</span><span class='op'>$</span><span class='fu'>aggregate</span><span class='op'>(</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>aggr</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;    nr      resample_result  task_id          learner_id resampling_id iters
-#&gt; 1:  1 &lt;ResampleResult[21]&gt; penguins classif.featureless            cv     3
-#&gt; 2:  2 &lt;ResampleResult[21]&gt; penguins       classif.rpart            cv     3
-#&gt; 3:  3 &lt;ResampleResult[21]&gt;    sonar classif.featureless            cv     3
-#&gt; 4:  4 &lt;ResampleResult[21]&gt;    sonar       classif.rpart            cv     3
+#&gt; 1:  1 &lt;ResampleResult[22]&gt; penguins classif.featureless            cv     3
+#&gt; 2:  2 &lt;ResampleResult[22]&gt; penguins       classif.rpart            cv     3
+#&gt; 3:  3 &lt;ResampleResult[22]&gt;    sonar classif.featureless            cv     3
+#&gt; 4:  4 &lt;ResampleResult[22]&gt;    sonar       classif.rpart            cv     3
 #&gt;    classif.ce
 #&gt; 1: 0.55807272
 #&gt; 2: 0.07561658

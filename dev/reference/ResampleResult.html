@@ -253,6 +253,7 @@ Note that there can be multiple rows per resampling iteration if multiple errors
 <li><p><a href='#method-score'><code>ResampleResult$score()</code></a></p></li>
 <li><p><a href='#method-aggregate'><code>ResampleResult$aggregate()</code></a></p></li>
 <li><p><a href='#method-filter'><code>ResampleResult$filter()</code></a></p></li>
+<li><p><a href='#method-discard'><code>ResampleResult$discard()</code></a></p></li>
 <li><p><a href='#method-clone'><code>ResampleResult$clone()</code></a></p></li>
 </ul>
 <p><hr>
@@ -382,6 +383,26 @@ Measure(s) to calculate.</p></dd>
 <p><div class="arguments"></p><dl>
 <dt><code>iters</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code>)<br />
 Resampling iterations to keep.</p></dd>
+
+</dl><p></div></p>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
+<p>Returns the object itself, but modified <strong>by reference</strong>.
+You need to explicitly <code>$clone()</code> the object beforehand if you want to keeps
+the object in its previous state.</p>
+<p><hr>
+<a id="method-discard"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>discard()</code></h3>
+<p>Shrinks the ResampleResult by discarding parts of the internally stored data.
+Note that certain operations might stop work, e.g. extracting
+importance values from learners or calculating measures requiring the task's data.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>ResampleResult</span><span class='op'>$</span><span class='fu'>discard</span><span class='op'>(</span>backends <span class='op'>=</span> <span class='cn'>FALSE</span>, models <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>backends</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
+If <code>TRUE</code>, the <a href='DataBackend.html'>DataBackend</a> is removed from all stored <a href='Task.html'>Task</a>s.</p></dd>
+
+<dt><code>models</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
+If <code>TRUE</code>, the stored model is removed from all <a href='Learner.html'>Learner</a>s.</p></dd>
 
 </dl><p></div></p>
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
