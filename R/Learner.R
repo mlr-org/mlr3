@@ -226,7 +226,7 @@ Learner = R6Class("Learner",
 
       if (!is.null(self$hot_start_stack)) {
         # search for hotstart learner
-        start_learner = self$hot_start_stack$adaption_learner(learner, task$hash)
+        start_learner = self$hot_start_stack$adaption_learner(self, task$hash)
       }
       if (is.null(self$hot_start_stack) || is.null(start_learner)) {
          # no hotstart learners stored or no adaptable model found
