@@ -281,22 +281,22 @@ or <code>"trace"</code>:</p><pre><span class='fu'>lgr</span><span class='fu'>::<
 <span class='va'>design</span> <span class='op'>=</span> <span class='fu'><a href='benchmark_grid.html'>benchmark_grid</a></span><span class='op'>(</span><span class='va'>tasks</span>, <span class='va'>learners</span>, <span class='va'>resamplings</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>design</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;                 task                         learner         resampling
-#&gt; 1: &lt;TaskClassif[48]&gt; &lt;LearnerClassifFeatureless[36]&gt; &lt;ResamplingCV[19]&gt;
-#&gt; 2: &lt;TaskClassif[48]&gt;       &lt;LearnerClassifRpart[36]&gt; &lt;ResamplingCV[19]&gt;
-#&gt; 3: &lt;TaskClassif[48]&gt; &lt;LearnerClassifFeatureless[36]&gt; &lt;ResamplingCV[19]&gt;
-#&gt; 4: &lt;TaskClassif[48]&gt;       &lt;LearnerClassifRpart[36]&gt; &lt;ResamplingCV[19]&gt;</div><div class='input'>
+#&gt; 1: &lt;TaskClassif[49]&gt; &lt;LearnerClassifFeatureless[36]&gt; &lt;ResamplingCV[19]&gt;
+#&gt; 2: &lt;TaskClassif[49]&gt;       &lt;LearnerClassifRpart[36]&gt; &lt;ResamplingCV[19]&gt;
+#&gt; 3: &lt;TaskClassif[49]&gt; &lt;LearnerClassifFeatureless[36]&gt; &lt;ResamplingCV[19]&gt;
+#&gt; 4: &lt;TaskClassif[49]&gt;       &lt;LearnerClassifRpart[36]&gt; &lt;ResamplingCV[19]&gt;</div><div class='input'>
 <span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>123</span><span class='op'>)</span>
 <span class='va'>bmr</span> <span class='op'>=</span> <span class='fu'>benchmark</span><span class='op'>(</span><span class='va'>design</span><span class='op'>)</span>
 
 <span class='co'>## Data of all resamplings</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table</a></span><span class='op'>(</span><span class='va'>bmr</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;                                   uhash              task
-#&gt; 1: 54f35665-76a0-40b5-ab72-7608780ddb3a &lt;TaskClassif[48]&gt;
-#&gt; 2: 54f35665-76a0-40b5-ab72-7608780ddb3a &lt;TaskClassif[48]&gt;
-#&gt; 3: 54f35665-76a0-40b5-ab72-7608780ddb3a &lt;TaskClassif[48]&gt;
-#&gt; 4: 38acb178-893f-49b0-b229-d847a0ef6e4b &lt;TaskClassif[48]&gt;
-#&gt; 5: 38acb178-893f-49b0-b229-d847a0ef6e4b &lt;TaskClassif[48]&gt;
-#&gt; 6: 38acb178-893f-49b0-b229-d847a0ef6e4b &lt;TaskClassif[48]&gt;
+#&gt; 1: 1e063eb3-5751-4bcd-a46f-2a02f56683bc &lt;TaskClassif[49]&gt;
+#&gt; 2: 1e063eb3-5751-4bcd-a46f-2a02f56683bc &lt;TaskClassif[49]&gt;
+#&gt; 3: 1e063eb3-5751-4bcd-a46f-2a02f56683bc &lt;TaskClassif[49]&gt;
+#&gt; 4: f455fe07-7f3f-4d43-ae44-b4f9718ef9f6 &lt;TaskClassif[49]&gt;
+#&gt; 5: f455fe07-7f3f-4d43-ae44-b4f9718ef9f6 &lt;TaskClassif[49]&gt;
+#&gt; 6: f455fe07-7f3f-4d43-ae44-b4f9718ef9f6 &lt;TaskClassif[49]&gt;
 #&gt;                            learner         resampling iteration
 #&gt; 1: &lt;LearnerClassifFeatureless[36]&gt; &lt;ResamplingCV[19]&gt;         1
 #&gt; 2: &lt;LearnerClassifFeatureless[36]&gt; &lt;ResamplingCV[19]&gt;         2
