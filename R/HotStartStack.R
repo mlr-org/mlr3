@@ -90,7 +90,7 @@ HotStartStack = R6Class("HotStartStack",
 
     #' @description
     #' Returns learner with the lowest cost of hot starting `learner`. If no
-    #' learner is found, returns `NULL`. 
+    #' learner is found, returns `NULL`. The returned learner is deep cloned.
     #'
     #' @param learner [Learner].
     #' @param task_hash [Task].
@@ -99,14 +99,15 @@ HotStartStack = R6Class("HotStartStack",
     adaption_learner = function(learner, task_hash) {
       .learner_hash = learner_train_adapt_hash(assert_learner(learner))
       .task_hash = assert_character(task_hash, len = 1)
-
       stack = self$stack[list(.task_hash,  .learner_hash), on = c("task_hash", "learner_hash")]
       if (is.null(stack$start_learner[[1]])) return(NULL)
 
       cost = self$adaption_cost(learner, task_hash, stack)
       if (all(is.na(cost))) return(NULL)
-      
-      stack[which.min(cost), get("start_learner")][[1]]
+
+      start_learner = stack[which.min(cost), get("start_learner")][[1]]
+      learner$state = start_learner$state
+      learner
     }
   )
 )

@@ -68,6 +68,21 @@ test_that("HotStartStack adapt forward works", {
 
   expect_equal(hot$adaption_cost(learner, task$hash), c(NA_real_, NA_real_))
   expect_null(hot$adaption_learner(learner, task$hash))
+
+  # cloning
+  task = tsk("pima")
+  learner_1 = lrn("classif.debug", iter = 1)
+  learner_1$train(task)
+
+  learner_2 = lrn("classif.debug", iter = 2)
+  hot = HotStartStack$new(learner_1)
+  learner_2$hot_start_stack = hot
+
+  start_learner = learner_2$hot_start_stack$adaption_learner(learner_2, task$hash)
+  start_learner$param_set$values$iter = 2
+
+  expect_equal(learner_1$param_set$values$iter, 1)
+  expect_equal(start_learner$param_set$values$iter, 2)
 })
 
 test_that("HotStartStack adapt backwards works", {
