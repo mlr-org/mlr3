@@ -11,7 +11,7 @@
 #' @template param_store_models
 #' @template param_store_backends
 #' @template param_encapsulate
-#' @template param_allow_train_adapt
+#' @template param_allow_hotstart
 #'
 #' @return [BenchmarkResult].
 #'
@@ -74,7 +74,7 @@
 #' ## Get the training set of the 2nd iteration of the featureless learner on penguins
 #' rr = bmr$aggregate()[learner_id == "classif.featureless"]$resample_result[[1]]
 #' rr$resampling$train_set(2)
-benchmark = function(design, store_models = FALSE, store_backends = TRUE, encapsulate = NA_character_, allow_train_adapt = FALSE) {
+benchmark = function(design, store_models = FALSE, store_backends = TRUE, encapsulate = NA_character_, allow_hotstart = FALSE) {
   assert_data_frame(design, min.rows = 1L)
   assert_names(names(design), permutation.of = c("task", "learner", "resampling"))
   design$task = list(assert_tasks(as_tasks(design$task)))
@@ -108,7 +108,7 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
   n = nrow(grid)
 
   # set default mode
-  set(grid, j = "mode", value = rep("train", n))
+  set(grid, j = "mode", value = "train")
 
   lg$info("Running benchmark with %i resampling iterations", n)
   pb = if (isNamespaceLoaded("progressr")) {
@@ -119,26 +119,26 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
   }
 
   # train adapt learner
-  if (allow_train_adapt) {
-    train_adapt_grid = pmap_dtr(grid, function(task, learner, resampling, iteration, ...) {
-      if (!is.null(learner$hot_start_stack)) {
+  if (allow_hotstart) {
+    hotstart_grid = pmap_dtr(grid, function(task, learner, resampling, iteration, ...) {
+      if (!is.null(learner$hotstart_stack)) {
         # search for hotstart learner
         task_hashes = task_hashes(task, resampling)
-        start_learner = learner$hot_start_stack$adaption_learner(learner, task_hashes[iteration])
+        start_learner = get_private(learner$hotstart_stack)$.start_learner(learner, task_hashes[iteration])
       }
-      if (is.null(learner$hot_start_stack) || is.null(start_learner)) {
+      if (is.null(learner$hotstart_stack) || is.null(start_learner)) {
         # no hotstart learners stored or no adaptable model found
         mode = "train"
       } else {
         # hotstart learner found
         start_learner$param_set$values = insert_named(start_learner$param_set$values, learner$param_set$values)
         learner = start_learner
-        mode = "train_adapt"
+        mode = "hotstart"
       }
       data.table(learner = list(learner), mode = mode)
     })
-    set(grid, j = "learner", value = train_adapt_grid$learner)
-    set(grid, j = "mode", value = train_adapt_grid$mode)
+    set(grid, j = "learner", value = hotstart_grid$learner)
+    set(grid, j = "mode", value = hotstart_grid$mode)
   }
 
   if (getOption("mlr3.debug", FALSE)) {

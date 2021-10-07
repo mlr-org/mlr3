@@ -10,8 +10,8 @@ learner_train = function(learner, task, row_ids = NULL, mode = "train") {
 
     model = if (mode == "train") {
         get_private(learner)$.train(task)
-      } else if (mode == "train_adapt") {
-        get_private(learner)$.train_adapt(task)
+      } else if (mode == "hotstart") {
+        get_private(learner)$.hotstart(task)
       }
 
     if (is.null(model)) {
@@ -21,7 +21,7 @@ learner_train = function(learner, task, row_ids = NULL, mode = "train") {
     model
   }
 
-  assert_choice(mode, c("train", "train_adapt"))
+  assert_choice(mode, c("train", "hotstart"))
   assert_task(task)
   assert_learner(learner)
 
@@ -43,7 +43,7 @@ learner_train = function(learner, task, row_ids = NULL, mode = "train") {
     mode, learner$id, task$id, task$nrow, learner = learner$clone())
 
   # call train_wrapper with encapsulation
-  result = encapsulate(learner$encapsulate[mode],
+  result = encapsulate(learner$encapsulate["train"],
     .f = train_wrapper,
     .args = list(learner = learner, task = task),
     .pkgs = learner$packages,
@@ -211,7 +211,7 @@ workhorse = function(iteration, task, learner, resampling, lgr_threshold = NULL,
   }
 
   lg$info("%s learner '%s' on task '%s' (iter %i/%i)",
-    ifelse(mode == "train", "Applying", "Adapting"), learner$id, task$id, iteration, resampling$iters)
+    if (mode == "train") "Applying" else "Hotstarting", learner$id, task$id, iteration, resampling$iters)
 
   sets = list(
     train = resampling$train_set(iteration),

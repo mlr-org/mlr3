@@ -124,16 +124,16 @@ task_hashes = function(task, resampling) {
 
 #' @description
 #' Hash (unique identifier) for learner object, excluding parameter values
-#' tagged with `train_adapt`.
+#' tagged with `hotstart`.
 #'
 #' @param learner [Learner].
 #'
 #' @return `character(1)`.
 #' @noRd
-learner_train_adapt_hash = function(learner) {
+learner_hotstart_hash = function(learner) {
   param_vals = learner$param_set$values
-  train_adapt_id = learner$param_set$ids(tags = "train_adapt")
-  train_ids = setdiff(learner$param_set$ids(tags = "train"), train_adapt_id)
+  hotstart_id = learner$param_set$ids(tags = "hotstart")
+  train_ids = setdiff(learner$param_set$ids(tags = "train"), hotstart_id)
   train_vals = param_vals[names(param_vals) %in% train_ids]
 
   calculate_hash(class(learner), learner$id, learner$predict_type, learner$fallback$hash, train_vals)

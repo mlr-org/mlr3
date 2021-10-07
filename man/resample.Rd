@@ -11,7 +11,7 @@ resample(
   store_models = FALSE,
   store_backends = TRUE,
   encapsulate = NA_character_,
-  allow_train_adapt = FALSE
+  allow_hotstart = FALSE
 )
 }
 \arguments{
@@ -47,9 +47,9 @@ Additionally, if encapsulation is set to \code{"evaluate"} or \code{"callr"},
 the fallback learner is set to the featureless learner if the learner
 does not already have a fallback configured.}
 
-\item{allow_train_adapt}{(\code{logical(1)})\cr
-Determines if learner(s) are hot started with already trained models in
-\verb{$hotstart_stack}.}
+\item{allow_hotstart}{(\code{logical(1)})\cr
+Determines if learner(s) are hot started with trained models in
+\verb{$hotstart_stack}. See also \link{HotStartStack}.}
 }
 \value{
 \link{ResampleResult}.

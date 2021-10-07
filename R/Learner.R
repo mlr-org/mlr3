@@ -161,7 +161,7 @@ Learner = R6Class("Learner",
       self$id = assert_string(id, min.chars = 1L)
       self$task_type = assert_choice(task_type, mlr_reflections$task_types$type)
       private$.param_set = assert_param_set(param_set)
-      private$.encapsulate = c(train = "none", predict = "none", train_adapt = "none")
+      private$.encapsulate = c(train = "none", predict = "none")
       self$feature_types = assert_subset(feature_types, mlr_reflections$task_feature_types)
       self$predict_types = assert_subset(predict_types, names(mlr_reflections$learner_predict_types[[task_type]]), empty.ok = FALSE)
       private$.predict_type = predict_types[1L]
@@ -225,18 +225,18 @@ Learner = R6Class("Learner",
       assert_learnable(task, self)
       row_ids = assert_row_ids(row_ids, null.ok = TRUE)
 
-      if (!is.null(self$hot_start_stack)) {
+      if (!is.null(self$hotstart_stack)) {
         # search for hotstart learner
-        start_learner = self$hot_start_stack$adaption_learner(self, task$hash)
+        start_learner = get_private(self$hotstart_stack)$.start_learner(self, task$hash)
       }
-      if (is.null(self$hot_start_stack) || is.null(start_learner)) {
+      if (is.null(self$hotstart_stack) || is.null(start_learner)) {
          # no hotstart learners stored or no adaptable model found
         learner = self
         mode = "train"
       } else {
         self$state = start_learner$clone()$state
         learner = self
-        mode = "train_adapt"
+        mode = "hotstart"
       }
 
       learner_train(learner, task, row_ids, mode)
@@ -455,8 +455,8 @@ Learner = R6Class("Learner",
     },
 
     #' @field encapsulate (named `character()`)\cr
-    #' Controls how to execute the code in internal train, predict and train_adapt methods.
-    #' Must be a named character vector with names `"train"`, `"predict"` and `"train_adapt"`.
+    #' Controls how to execute the code in internal train and predict methods.
+    #' Must be a named character vector with names `"train"` and `"predict"`.
     #' Possible values are `"none"`, `"evaluate"` (requires package \CRANpkg{evaluate}) and `"callr"` (requires package \CRANpkg{callr}).
     #' See [mlr3misc::encapsulate()] for more details.
     encapsulate = function(rhs) {
@@ -464,17 +464,18 @@ Learner = R6Class("Learner",
         return(private$.encapsulate)
       }
       assert_character(rhs)
-      assert_names(names(rhs), subset.of = c("train", "predict", "train_adapt"))
-      private$.encapsulate = insert_named(c(train = "none", predict = "none", train_adapt = "none"), rhs)
+      assert_names(names(rhs), subset.of = c("train", "predict"))
+      private$.encapsulate = insert_named(c(train = "none", predict = "none"), rhs)
     },
 
-    #' @field hot_start_stack ([HotStartStack]).
-    hot_start_stack = function(rhs) {
+    #' @field hotstart_stack ([HotstartStack])\cr.
+    #' Stores `HotstartStack`.
+    hotstart_stack = function(rhs) {
       if (missing(rhs)) {
-        return(private$.hot_start_stack)
+        return(private$.hotstart_stack)
       }
-      assert_r6(rhs, "HotStartStack")
-      private$.hot_start_stack = rhs
+      assert_r6(rhs, "HotstartStack")
+      private$.hotstart_stack = rhs
     }
   ),
 
@@ -482,7 +483,7 @@ Learner = R6Class("Learner",
     .encapsulate = NULL,
     .predict_type = NULL,
     .param_set = NULL,
-    .hot_start_stack = NULL,
+    .hotstart_stack = NULL,
 
     deep_clone = function(name, value) {
       switch(name,
