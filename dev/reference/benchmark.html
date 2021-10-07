@@ -167,7 +167,8 @@
   <span class='va'>design</span>,
   store_models <span class='op'>=</span> <span class='cn'>FALSE</span>,
   store_backends <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  encapsulate <span class='op'>=</span> <span class='cn'>NA_character_</span>
+  encapsulate <span class='op'>=</span> <span class='cn'>NA_character_</span>,
+  allow_hotstart <span class='op'>=</span> <span class='cn'>FALSE</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -212,6 +213,12 @@ individual learner are active.
 Additionally, if encapsulation is set to <code>"evaluate"</code> or <code>"callr"</code>,
 the fallback learner is set to the featureless learner if the learner
 does not already have a fallback configured.</p></td>
+    </tr>
+    <tr>
+      <th>allow_hotstart</th>
+      <td><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
+Determines if learner(s) are hot started with trained models in
+<code>$hotstart_stack</code>. See also <a href='HotstartStack.html'>HotstartStack</a>.</p></td>
     </tr>
     </table>
 
@@ -281,29 +288,29 @@ or <code>"trace"</code>:</p><pre><span class='fu'>lgr</span><span class='fu'>::<
 <span class='va'>design</span> <span class='op'>=</span> <span class='fu'><a href='benchmark_grid.html'>benchmark_grid</a></span><span class='op'>(</span><span class='va'>tasks</span>, <span class='va'>learners</span>, <span class='va'>resamplings</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>design</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;                 task                         learner         resampling
-#&gt; 1: &lt;TaskClassif[49]&gt; &lt;LearnerClassifFeatureless[36]&gt; &lt;ResamplingCV[19]&gt;
-#&gt; 2: &lt;TaskClassif[49]&gt;       &lt;LearnerClassifRpart[36]&gt; &lt;ResamplingCV[19]&gt;
-#&gt; 3: &lt;TaskClassif[49]&gt; &lt;LearnerClassifFeatureless[36]&gt; &lt;ResamplingCV[19]&gt;
-#&gt; 4: &lt;TaskClassif[49]&gt;       &lt;LearnerClassifRpart[36]&gt; &lt;ResamplingCV[19]&gt;</div><div class='input'>
+#&gt; 1: &lt;TaskClassif[49]&gt; &lt;LearnerClassifFeatureless[37]&gt; &lt;ResamplingCV[19]&gt;
+#&gt; 2: &lt;TaskClassif[49]&gt;       &lt;LearnerClassifRpart[37]&gt; &lt;ResamplingCV[19]&gt;
+#&gt; 3: &lt;TaskClassif[49]&gt; &lt;LearnerClassifFeatureless[37]&gt; &lt;ResamplingCV[19]&gt;
+#&gt; 4: &lt;TaskClassif[49]&gt;       &lt;LearnerClassifRpart[37]&gt; &lt;ResamplingCV[19]&gt;</div><div class='input'>
 <span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>123</span><span class='op'>)</span>
 <span class='va'>bmr</span> <span class='op'>=</span> <span class='fu'>benchmark</span><span class='op'>(</span><span class='va'>design</span><span class='op'>)</span>
 
 <span class='co'>## Data of all resamplings</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table</a></span><span class='op'>(</span><span class='va'>bmr</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;                                   uhash              task
-#&gt; 1: b80b35bb-6d10-4cbe-8276-eabea7ce0351 &lt;TaskClassif[49]&gt;
-#&gt; 2: b80b35bb-6d10-4cbe-8276-eabea7ce0351 &lt;TaskClassif[49]&gt;
-#&gt; 3: b80b35bb-6d10-4cbe-8276-eabea7ce0351 &lt;TaskClassif[49]&gt;
-#&gt; 4: 0f788b52-ea89-487c-8f0a-e6fe27d3b2d5 &lt;TaskClassif[49]&gt;
-#&gt; 5: 0f788b52-ea89-487c-8f0a-e6fe27d3b2d5 &lt;TaskClassif[49]&gt;
-#&gt; 6: 0f788b52-ea89-487c-8f0a-e6fe27d3b2d5 &lt;TaskClassif[49]&gt;
+#&gt; 1: eef0b87f-bea3-42a7-8cba-d661d20ce432 &lt;TaskClassif[49]&gt;
+#&gt; 2: eef0b87f-bea3-42a7-8cba-d661d20ce432 &lt;TaskClassif[49]&gt;
+#&gt; 3: eef0b87f-bea3-42a7-8cba-d661d20ce432 &lt;TaskClassif[49]&gt;
+#&gt; 4: 3593eef8-e462-4169-a2f6-b08d97c6749e &lt;TaskClassif[49]&gt;
+#&gt; 5: 3593eef8-e462-4169-a2f6-b08d97c6749e &lt;TaskClassif[49]&gt;
+#&gt; 6: 3593eef8-e462-4169-a2f6-b08d97c6749e &lt;TaskClassif[49]&gt;
 #&gt;                            learner         resampling iteration
-#&gt; 1: &lt;LearnerClassifFeatureless[36]&gt; &lt;ResamplingCV[19]&gt;         1
-#&gt; 2: &lt;LearnerClassifFeatureless[36]&gt; &lt;ResamplingCV[19]&gt;         2
-#&gt; 3: &lt;LearnerClassifFeatureless[36]&gt; &lt;ResamplingCV[19]&gt;         3
-#&gt; 4:       &lt;LearnerClassifRpart[36]&gt; &lt;ResamplingCV[19]&gt;         1
-#&gt; 5:       &lt;LearnerClassifRpart[36]&gt; &lt;ResamplingCV[19]&gt;         2
-#&gt; 6:       &lt;LearnerClassifRpart[36]&gt; &lt;ResamplingCV[19]&gt;         3
+#&gt; 1: &lt;LearnerClassifFeatureless[37]&gt; &lt;ResamplingCV[19]&gt;         1
+#&gt; 2: &lt;LearnerClassifFeatureless[37]&gt; &lt;ResamplingCV[19]&gt;         2
+#&gt; 3: &lt;LearnerClassifFeatureless[37]&gt; &lt;ResamplingCV[19]&gt;         3
+#&gt; 4:       &lt;LearnerClassifRpart[37]&gt; &lt;ResamplingCV[19]&gt;         1
+#&gt; 5:       &lt;LearnerClassifRpart[37]&gt; &lt;ResamplingCV[19]&gt;         2
+#&gt; 6:       &lt;LearnerClassifRpart[37]&gt; &lt;ResamplingCV[19]&gt;         3
 #&gt;                 prediction
 #&gt; 1: &lt;PredictionClassif[20]&gt;
 #&gt; 2: &lt;PredictionClassif[20]&gt;
