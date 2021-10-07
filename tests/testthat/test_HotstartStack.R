@@ -1,4 +1,4 @@
-test_that("HotstartStack adapt forward works", {
+test_that("HotstartStack hotstart forward works", {
   task = tsk("pima")
 
   # default
@@ -84,7 +84,7 @@ test_that("HotstartStack adapt forward works", {
   expect_equal(hot$start_cost(learner, task$hash), c(1, -1, NA_real_, NA_real_))
 })
 
-test_that("HotstartStack adapt backwards works", {
+test_that("HotstartStack hotstart backwards works", {
   task = tsk("pima")
 
   # default
@@ -162,7 +162,7 @@ test_that("HotstartStack adapt backwards works", {
   expect_equal(hot$start_cost(learner, task$hash), c(NA_real_, -1, 0, NA_real_))
 })
 
-test_that("HotstartStack adapt forward and backwards works", {
+test_that("HotstartStack hotstart forward and backwards works", {
   task = tsk("pima")
 
   # default

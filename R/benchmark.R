@@ -118,7 +118,7 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
     NULL
   }
 
-  # train adapt learner
+  # add hot start learners
   if (allow_hotstart) {
     hotstart_grid = pmap_dtr(grid, function(task, learner, resampling, iteration, ...) {
       if (!is.null(learner$hotstart_stack)) {

@@ -1,4 +1,4 @@
-test_that("learner train adapt works", {
+test_that("learner hotstart works", {
   task = tsk("pima")
 
   # increased hotstart parameter
@@ -104,7 +104,7 @@ test_that("learner train adapt works", {
   expect_true(learner$model$id != id)
 })
 
-test_that("resample train adapt works", {
+test_that("resample train hotstart works", {
   task = tsk("pima")
   learner_1 = lrn("classif.debug", iter = 1)
   resampling = rsmp("cv", folds = 3)
@@ -125,7 +125,7 @@ test_that("resample train adapt works", {
   })
 })
 
-test_that("benchmark train adapt works", {
+test_that("benchmark train hostart works", {
   task = tsk("pima")
   learner_1 = lrn("classif.debug", iter = 1)
   learner_2 = lrn("classif.debug", iter = 2)
@@ -139,7 +139,7 @@ test_that("benchmark train adapt works", {
   hot = HotstartStack$new(learners)
   ids = map_chr(learners, function(l) l$model$id)
 
-  # only train adapt
+  # only train hotstart
   learner = lrn("classif.debug", iter = 3)
   learner$hotstart_stack = hot
 
@@ -153,7 +153,7 @@ test_that("benchmark train adapt works", {
     expect_true(l1$model$id %in% ids)
   })
 
-  # train and train adapt mixed
+  # train and hotstart mixed
   learner_3 = lrn("classif.debug", iter = 2)
   learner_3$hotstart_stack = hot
   learner_4 = lrn("classif.rpart")
