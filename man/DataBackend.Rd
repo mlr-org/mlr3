@@ -64,6 +64,11 @@ Set of supported formats, e.g. \code{"data.table"} or \code{"Matrix"}.}
 \describe{
 \item{\code{hash}}{(\code{character(1)})\cr
 Hash (unique identifier) for this object.}
+
+\item{\code{col_hashes}}{(named \code{character})\cr
+Hash (unique identifier) for all columns except the \code{primary_key}: A \code{character} vector, named by the columns that each element refers to.\cr
+Columns of different \code{\link{Task}}s or \code{\link{DataBackend}}s that have agreeing \code{col_hashes} always represent the same data, given that the same \code{row}s are selected.
+The reverse is not necessarily true: There can be columns with the same content that have different \code{col_hashes}.}
 }
 \if{html}{\out{</div>}}
 }

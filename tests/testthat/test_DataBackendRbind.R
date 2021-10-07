@@ -16,6 +16,13 @@ test_that("DataBackendRbind", {
 
   x = b$missings(b$rownames, c("Petal.Width", "Petal.Length"))
   expect_equal(x, set_names(c(0L, 30L), c("Petal.Width", "Petal.Length")))
+
+
+  # all col-hashes are mutually disjoint
+  expect_true(length(intersect(b1$col_hashes, b2$col_hashes)) == 0)
+  expect_true(length(intersect(b$col_hashes, b1$col_hashes)) == 0)
+  expect_true(length(intersect(b$col_hashes, b2$col_hashes)) == 0)
+
 })
 
 test_that("Backends with different cols", {
