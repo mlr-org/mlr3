@@ -27,6 +27,11 @@ msr("classif.specificity")
 }
 }
 
+\section{Parameters}{
+
+Empty ParamSet
+}
+
 \section{Meta Information}{
 
 

@@ -10,7 +10,7 @@
 #' fewer samples than requested.
 #'
 #' @templateVar id simplex
-#' @template section_dictionary_task_generator
+#' @template task_generator
 #'
 #' @template seealso_task_generator
 #' @export

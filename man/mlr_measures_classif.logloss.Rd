@@ -24,6 +24,11 @@ msr("classif.logloss")
 }
 }
 
+\section{Parameters}{
+
+Empty ParamSet
+}
+
 \section{Meta Information}{
 
 

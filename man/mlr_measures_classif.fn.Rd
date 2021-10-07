@@ -21,6 +21,11 @@ msr("classif.fn")
 }
 }
 
+\section{Parameters}{
+
+Empty ParamSet
+}
+
 \section{Meta Information}{
 
 

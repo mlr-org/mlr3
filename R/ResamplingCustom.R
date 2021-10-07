@@ -7,7 +7,7 @@
 #' Splits data into training and test sets using manually provided indices.
 #'
 #' @templateVar id custom
-#' @template section_dictionary_resampling
+#' @template resampling
 #'
 #' @template seealso_resampling
 #' @export

@@ -26,6 +26,11 @@ msr("classif.mbrier")
 }
 }
 
+\section{Parameters}{
+
+Empty ParamSet
+}
+
 \section{Meta Information}{
 
 

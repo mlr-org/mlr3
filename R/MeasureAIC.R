@@ -8,23 +8,11 @@
 #' trade-off between goodness of fit (measured in terms of
 #' log-likelihood) and model complexity (measured in terms of number
 #' of included features).
-#' Internally, [stats::AIC()] is called.
+#' Internally, [stats::AIC()] is called with parameter `k` (defaulting to 2).
 #' Requires the learner property `"loglik"`, `NA` is returned for unsupported learners.
 #'
 #' @templateVar id aic
-#' @template section_dictionary_measure
-#'
-#' @section Parameters:
-#' `r rd_info(msr("aic")$param_set)`
-#'
-#' `k` is the penalty to be used in [stats::AIC()] (defaulting to 2).
-#'
-#' @section Meta Information:
-#' * Type: `NA`
-#' * Range: \eqn{(-\infty, \infty)}{(-Inf, Inf)}
-#' * Minimize: `TRUE`
-#' * Required prediction: 'response'
-#' * Learner Property: `loglik`
+#' @template measure
 #'
 #' @template seealso_measure
 #' @export

@@ -327,3 +327,16 @@ score_measures = function(obj, measures, reassemble = TRUE, view = NULL) {
 format_list_item.Measure = function(x, ...) { # nolint
   sprintf("<msr:%s>", x$id)
 }
+
+
+#' @export
+rd_info.Measure = function(obj) {
+  c("",
+    sprintf("* Task type: %s", rd_format_string(obj$task_type)),
+    sprintf("* Range: %s", rd_format_range(obj$range[1L], obj$range[2L])),
+    sprintf("* Minimize: %s", obj$minimize),
+    sprintf("* Required Prediction: %s", rd_format_string(obj$predict_type)),
+    sprintf("* Required Packages: %s", rd_format_packages(obj$packages))
+  )
+}
+

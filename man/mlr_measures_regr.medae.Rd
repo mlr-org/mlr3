@@ -23,6 +23,11 @@ msr("regr.medae")
 }
 }
 
+\section{Parameters}{
+
+Empty ParamSet
+}
+
 \section{Meta Information}{
 
 

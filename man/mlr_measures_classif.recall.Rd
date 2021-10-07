@@ -27,6 +27,11 @@ msr("classif.recall")
 }
 }
 
+\section{Parameters}{
+
+Empty ParamSet
+}
+
 \section{Meta Information}{
 
 

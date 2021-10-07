@@ -23,6 +23,11 @@ msr("classif.acc")
 }
 }
 
+\section{Parameters}{
+
+Empty ParamSet
+}
+
 \section{Meta Information}{
 
 

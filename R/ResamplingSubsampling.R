@@ -8,7 +8,7 @@
 #' with a ratio of `ratio` (default: 2/3) observations going into the training set.
 #'
 #' @templateVar id holdout
-#' @template section_dictionary_resampling
+#' @template resampling
 #'
 #' @section Parameters:
 #' * `repeats` (`integer(1)`)\cr

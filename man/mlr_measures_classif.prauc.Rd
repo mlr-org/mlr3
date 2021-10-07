@@ -26,6 +26,11 @@ msr("classif.prauc")
 }
 }
 
+\section{Parameters}{
+
+Empty ParamSet
+}
+
 \section{Meta Information}{
 
 

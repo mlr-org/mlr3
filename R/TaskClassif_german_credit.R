@@ -11,14 +11,8 @@
 #'
 #' See example for the creation of a [MeasureClassifCosts] as described misclassification costs.
 #'
-#' @section Construction:
-#' ```
-#' mlr_tasks$get("german_credit")
-#' tsk("german_credit")
-#' ```
-#'
-#' @section Meta Information:
-#' `r rd_info(tsk("german_credit"))`
+#' @templateVar id german_credit
+#' @template task
 #'
 #' @source
 #' Data set originally published on [UCI](https://archive.ics.uci.edu/ml/datasets/statlog+(german+credit+data)).

@@ -14,16 +14,7 @@
 #' This measure requires the [Task] during scoring to ensure that the rows and columns of the cost matrix are in the same order as in the confusion matrix.
 #'
 #' @templateVar id classif.costs
-#' @template section_dictionary_measure
-#'
-#' @section Parameters:
-#' `r rd_info(msr("classif.costs")$param_set)`
-#'
-#' @section Meta Information:
-#' * Type: `"classif"`
-#' * Range: \eqn{[0, \infty)}{[0, Inf)}
-#' * Minimize: `TRUE`
-#' * Required prediction: 'response'
+#' @template measure
 #'
 #' @template seealso_measure
 #' @family classification measures

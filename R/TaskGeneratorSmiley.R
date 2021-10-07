@@ -7,7 +7,7 @@
 #' A [TaskGenerator] for the smiley task in [mlbench::mlbench.smiley()].
 #'
 #' @templateVar id smiley
-#' @template section_dictionary_task_generator
+#' @template task_generator
 #'
 #' @template seealso_task_generator
 #' @export

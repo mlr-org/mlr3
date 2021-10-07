@@ -18,8 +18,9 @@ Stefan Aeberhard, email: stefan@coral.cs.jcu.edu.au
 Wine data set from the UCI machine learning repository (\url{https://archive.ics.uci.edu/ml/datasets/wine}).
 Results of a chemical analysis of three types of wines grown in the same region in Italy but derived from three different cultivars.
 }
-\section{Construction}{
-\preformatted{mlr_tasks$get("wine")
+\section{Dictionary}{
+
+This \link{Task} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_tasks} or with the associated sugar function \code{\link[=tsk]{tsk()}}:\preformatted{mlr_tasks$get("wine")
 tsk("wine")
 }
 }
