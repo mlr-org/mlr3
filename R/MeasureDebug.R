@@ -10,16 +10,7 @@
 #' are set to `NA`, between 0 (default) and 1.
 #'
 #' @templateVar id debug
-#' @template section_dictionary_measure
-#'
-#' @section Parameters:
-#' `r rd_info(msr("classif.costs")$param_set)`
-#'
-#' @section Meta Information:
-#' * Type: `NA`
-#' * Range: \eqn{[0, \infty)}{[0, Inf)}
-#' * Minimize: `NA`
-#' * Required prediction: 'response'
+#' @template measure
 #'
 #' @template seealso_measure
 #' @export

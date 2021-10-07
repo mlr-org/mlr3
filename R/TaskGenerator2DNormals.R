@@ -7,7 +7,7 @@
 #' A [TaskGenerator] for the 2d normals task in [mlbench::mlbench.2dnormals()].
 #'
 #' @templateVar id 2dnormals
-#' @template section_dictionary_task_generator
+#' @template task_generator
 #'
 #' @template seealso_task_generator
 #' @export

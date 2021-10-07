@@ -9,7 +9,7 @@
 #' and the ratio of observations to draw per iteration (`ratio`, default: 1) for the training set.
 #'
 #' @templateVar id bootstrap
-#' @template section_dictionary_resampling
+#' @template resampling
 #'
 #' @section Parameters:
 #' * `repeats` (`integer(1)`)\cr

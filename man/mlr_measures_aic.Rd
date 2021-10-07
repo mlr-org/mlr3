@@ -9,7 +9,7 @@ Calculates the Akaike Information Criterion (AIC) which is a
 trade-off between goodness of fit (measured in terms of
 log-likelihood) and model complexity (measured in terms of number
 of included features).
-Internally, \code{\link[stats:AIC]{stats::AIC()}} is called.
+Internally, \code{\link[stats:AIC]{stats::AIC()}} is called with parameter \code{k} (defaulting to 2).
 Requires the learner property \code{"loglik"}, \code{NA} is returned for unsupported learners.
 }
 \section{Dictionary}{
@@ -19,24 +19,21 @@ msr("aic")
 }
 }
 
+\section{Meta Information}{
+
+\itemize{
+\item Task type: \dQuote{NA}
+\item Range: \eqn{(-\infty, \infty)}{(-Inf, Inf)}
+\item Minimize: TRUE
+\item Required Prediction: \dQuote{response}
+\item Required Packages: -
+}
+}
+
 \section{Parameters}{
 \tabular{llll}{
    Id \tab Type \tab Default \tab Range \cr
    k \tab integer \tab - \tab \eqn{[0, \infty)}{[0, Inf)} \cr
-}
-
-
-\code{k} is the penalty to be used in \code{\link[stats:AIC]{stats::AIC()}} (defaulting to 2).
-}
-
-\section{Meta Information}{
-
-\itemize{
-\item Type: \code{NA}
-\item Range: \eqn{(-\infty, \infty)}{(-Inf, Inf)}
-\item Minimize: \code{TRUE}
-\item Required prediction: 'response'
-\item Learner Property: \code{loglik}
 }
 }
 

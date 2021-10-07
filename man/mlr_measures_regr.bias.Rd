@@ -24,6 +24,11 @@ msr("regr.bias")
 }
 }
 
+\section{Parameters}{
+
+Empty ParamSet
+}
+
 \section{Meta Information}{
 
 

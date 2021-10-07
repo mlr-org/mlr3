@@ -7,7 +7,7 @@
 #' Uses all observations as training and as test set.
 #'
 #' @templateVar id insample
-#' @template section_dictionary_resampling
+#' @template resampling
 #'
 #' @template seealso_resampling
 #' @export

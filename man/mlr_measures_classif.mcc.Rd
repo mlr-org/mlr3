@@ -27,6 +27,11 @@ msr("classif.mcc")
 }
 }
 
+\section{Parameters}{
+
+Empty ParamSet
+}
+
 \section{Meta Information}{
 
 

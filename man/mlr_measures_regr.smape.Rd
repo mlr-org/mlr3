@@ -26,6 +26,11 @@ msr("regr.smape")
 }
 }
 
+\section{Parameters}{
+
+Empty ParamSet
+}
+
 \section{Meta Information}{
 
 

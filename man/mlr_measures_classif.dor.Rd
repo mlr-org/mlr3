@@ -26,6 +26,11 @@ msr("classif.dor")
 }
 }
 
+\section{Parameters}{
+
+Empty ParamSet
+}
+
 \section{Meta Information}{
 
 

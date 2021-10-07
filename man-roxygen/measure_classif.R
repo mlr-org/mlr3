@@ -2,7 +2,6 @@
 #' @include mlr_measures.R
 #'
 #' @inherit mlr3measures::<%= id %> title description details
-#' @inheritSection mlr3measures::<%= id %> Meta Information
 #'
 #' @section Dictionary:
 #' This [Measure] can be instantiated via the [dictionary][mlr3misc::Dictionary] [mlr_measures] or with the associated sugar function [msr()]:
@@ -10,6 +9,12 @@
 #' mlr_measures$get("classif.<%= id %>")
 #' msr("classif.<%= id %>")
 #' ```
+#'
+#' @inheritSection mlr3measures::<%= id %> Meta Information
+#'
+#' @section Parameters:
+#' `r mlr3misc::rd_info(mlr3::msr("classif.<%= id %>")$param_set)`
+#' @md
 #'
 #' @note
 #' The score function calls [mlr3measures::<%= id %>()] from package \CRANpkg{mlr3measures}.

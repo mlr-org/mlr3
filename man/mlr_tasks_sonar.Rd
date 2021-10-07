@@ -10,8 +10,9 @@
 A classification task for the \link[mlbench:Sonar]{mlbench::Sonar} data set.
 Positive class is set to "M" (Mine).
 }
-\section{Construction}{
-\preformatted{mlr_tasks$get("sonar")
+\section{Dictionary}{
+
+This \link{Task} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_tasks} or with the associated sugar function \code{\link[=tsk]{tsk()}}:\preformatted{mlr_tasks$get("sonar")
 tsk("sonar")
 }
 }

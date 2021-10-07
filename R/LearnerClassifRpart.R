@@ -9,13 +9,7 @@
 #' Parameter `model` has been renamed to `keep_model`.
 #'
 #' @templateVar id classif.rpart
-#' @template section_dictionary_learner
-#'
-#' @section Meta Information:
-#' `r rd_info(lrn("classif.rpart"))`
-#'
-#' @section Parameters:
-#' `r rd_info(lrn("classif.rpart")$param_set)`
+#' @template learner
 #'
 #' @references
 #' `r format_bib("breiman_1984")`

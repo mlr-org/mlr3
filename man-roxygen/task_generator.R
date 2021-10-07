@@ -4,3 +4,7 @@
 #' mlr_task_generators$get("<%= id %>")
 #' tgen("<%= id %>")
 #' ```
+#'
+#' @section Parameters:
+#' `r mlr3misc::rd_info(mlr3::tgen("<%= id %>")$param_set)`
+#' @md

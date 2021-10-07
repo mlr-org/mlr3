@@ -14,7 +14,7 @@
 #' showcased in the examples of [mlr_resamplings_loo].
 #'
 #' @templateVar id custom_cv
-#' @template section_dictionary_resampling
+#' @template resampling
 #'
 #' @template seealso_resampling
 #' @export

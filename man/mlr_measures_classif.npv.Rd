@@ -26,6 +26,11 @@ msr("classif.npv")
 }
 }
 
+\section{Parameters}{
+
+Empty ParamSet
+}
+
 \section{Meta Information}{
 
 

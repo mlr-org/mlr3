@@ -26,6 +26,11 @@ msr("classif.fomr")
 }
 }
 
+\section{Parameters}{
+
+Empty ParamSet
+}
+
 \section{Meta Information}{
 
 

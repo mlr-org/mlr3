@@ -13,8 +13,9 @@
 Classification data to predict the species of penguins from the \CRANpkg{palmerpenguins} package, see \link[palmerpenguins:penguins]{palmerpenguins::penguins}.
 A better alternative to the \link[=iris]{iris data set}.
 }
-\section{Construction}{
-\preformatted{mlr_tasks$get("penguins")
+\section{Dictionary}{
+
+This \link{Task} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_tasks} or with the associated sugar function \code{\link[=tsk]{tsk()}}:\preformatted{mlr_tasks$get("penguins")
 tsk("penguins")
 }
 }

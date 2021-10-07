@@ -33,6 +33,11 @@ msr("classif.bacc")
 }
 }
 
+\section{Parameters}{
+
+Empty ParamSet
+}
+
 \section{Meta Information}{
 
 

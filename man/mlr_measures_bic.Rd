@@ -22,12 +22,17 @@ msr("bic")
 \section{Meta Information}{
 
 \itemize{
-\item Type: \code{NA}
+\item Task type: \dQuote{NA}
 \item Range: \eqn{(-\infty, \infty)}{(-Inf, Inf)}
-\item Minimize: \code{TRUE}
-\item Required prediction: 'response'
-\item Learner Property: \code{loglik}
+\item Minimize: TRUE
+\item Required Prediction: \dQuote{response}
+\item Required Packages: -
 }
+}
+
+\section{Parameters}{
+
+Empty ParamSet
 }
 
 \seealso{
