@@ -13,7 +13,7 @@
 #' Iteration numbers can be translated into folds or repeats with provided methods.
 #'
 #' @templateVar id repeated_cv
-#' @template section_dictionary_resampling
+#' @template resampling
 #'
 #' @section Parameters:
 #' * `repeats` (`integer(1)`)\cr

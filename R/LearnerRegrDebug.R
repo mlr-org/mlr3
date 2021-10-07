@@ -16,13 +16,7 @@
 #' }
 #'
 #' @templateVar id regr.debug
-#' @template section_dictionary_learner
-#'
-#' @section Meta Information:
-#' `r rd_info(lrn("regr.debug"))`
-#'
-#' @section Parameters:
-#' `r rd_info(lrn("regr.debug")$param_set)`
+#' @template learner
 #'
 #' @template seealso_learner
 #' @export

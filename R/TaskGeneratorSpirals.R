@@ -7,7 +7,7 @@
 #' A [TaskGenerator] for the spirals task in [mlbench::mlbench.spirals()].
 #'
 #' @templateVar id spirals
-#' @template section_dictionary_task_generator
+#' @template task_generator
 #'
 #' @template seealso_task_generator
 #' @export

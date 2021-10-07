@@ -8,7 +8,7 @@
 #' Parameter `ratio` determines the ratio of observation going into the training set (default: 2/3).
 #'
 #' @templateVar id holdout
-#' @template section_dictionary_resampling
+#' @template resampling
 #'
 #' @section Parameters:
 #' * `ratio` (`numeric(1)`)\cr

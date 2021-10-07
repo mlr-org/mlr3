@@ -27,6 +27,11 @@ msr("classif.precision")
 }
 }
 
+\section{Parameters}{
+
+Empty ParamSet
+}
+
 \section{Meta Information}{
 
 

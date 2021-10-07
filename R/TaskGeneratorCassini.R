@@ -7,7 +7,7 @@
 #' A [TaskGenerator] for the cassini task in [mlbench::mlbench.cassini()].
 #'
 #' @templateVar id cassini
-#' @template section_dictionary_task_generator
+#' @template task_generator
 #'
 #' @template seealso_task_generator
 #' @export

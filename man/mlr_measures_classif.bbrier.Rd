@@ -30,6 +30,11 @@ msr("classif.bbrier")
 }
 }
 
+\section{Parameters}{
+
+Empty ParamSet
+}
+
 \section{Meta Information}{
 
 

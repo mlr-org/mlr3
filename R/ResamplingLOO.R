@@ -13,7 +13,7 @@
 #' see the examples.
 #'
 #' @templateVar id loo
-#' @template section_dictionary_resampling
+#' @template resampling
 #'
 #' @references
 #' `r format_bib("bischl_2012")`

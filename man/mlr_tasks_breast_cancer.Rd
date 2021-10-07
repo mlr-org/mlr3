@@ -16,8 +16,9 @@ A classification task for the \link[mlbench:BreastCancer]{mlbench::BreastCancer}
 \item All factor features have been converted to ordered factors.
 }
 }
-\section{Construction}{
-\preformatted{mlr_tasks$get("breast_cancer")
+\section{Dictionary}{
+
+This \link{Task} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_tasks} or with the associated sugar function \code{\link[=tsk]{tsk()}}:\preformatted{mlr_tasks$get("breast_cancer")
 tsk("breast_cancer")
 }
 }

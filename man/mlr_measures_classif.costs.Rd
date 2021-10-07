@@ -21,20 +21,21 @@ msr("classif.costs")
 }
 }
 
+\section{Meta Information}{
+
+\itemize{
+\item Task type: \dQuote{classif}
+\item Range: \eqn{(-\infty, \infty)}{(-Inf, Inf)}
+\item Minimize: TRUE
+\item Required Prediction: \dQuote{response}
+\item Required Packages: -
+}
+}
+
 \section{Parameters}{
 \tabular{llll}{
    Id \tab Type \tab Default \tab Levels \cr
    normalize \tab logical \tab TRUE \tab TRUE, FALSE \cr
-}
-}
-
-\section{Meta Information}{
-
-\itemize{
-\item Type: \code{"classif"}
-\item Range: \eqn{[0, \infty)}{[0, Inf)}
-\item Minimize: \code{TRUE}
-\item Required prediction: 'response'
 }
 }
 

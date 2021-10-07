@@ -8,14 +8,8 @@
 #' A classification task for the [mlbench::Zoo] data set.
 #' Rownames are stored as variable `"..rownames"` with column role `"name"`.
 #'
-#' @section Construction:
-#' ```
-#' mlr_tasks$get("zoo")
-#' tsk("zoo")
-#' ```
-#'
-#' @section Meta Information:
-#' `r rd_info(tsk("zoo"))`
+#' @templateVar id zoo
+#' @template task
 #'
 #' @template seealso_task
 NULL

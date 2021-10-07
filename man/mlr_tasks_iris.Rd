@@ -17,8 +17,9 @@ Anderson E (1936).
 \description{
 A classification task for the popular \link[datasets:iris]{datasets::iris} data set.
 }
-\section{Construction}{
-\preformatted{mlr_tasks$get("iris")
+\section{Dictionary}{
+
+This \link{Task} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_tasks} or with the associated sugar function \code{\link[=tsk]{tsk()}}:\preformatted{mlr_tasks$get("iris")
 tsk("iris")
 }
 }
