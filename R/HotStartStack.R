@@ -119,10 +119,10 @@ HotstartStack = R6Class("HotstartStack",
       }
 
       constant = cost == 0
-      cost = if ("adapt_backward" %in% learner$properties && "adapt_forward" %in% learner$properties) {
+      cost = if ("hotstart_backward" %in% learner$properties && "hotstart_forward" %in% learner$properties) {
         cost = pmax(cost, 0)
         ifelse(is.infinite(cost), NA_real_, cost)
-      } else if ("adapt_backward" %in% learner$properties) {
+      } else if ("hotstart_backward" %in% learner$properties) {
         ifelse(cost > 0, NA_real_, 0)
       } else {
         ifelse(cost < 0 | is.infinite(cost), NA_real_, cost)

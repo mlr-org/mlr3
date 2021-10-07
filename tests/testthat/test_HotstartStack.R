@@ -92,7 +92,7 @@ test_that("HotstartStack hotstart backwards works", {
   learner_1$train(task)
 
   learner = lrn("classif.debug", iter = 1)
-  learner$properties[learner$properties %in% "adapt_forward"] = "adapt_backward"
+  learner$properties[learner$properties %in% "hotstart_forward"] = "hotstart_backward"
   hot = HotstartStack$new(list(learner_1))
 
   expect_equal(hot$start_cost(learner, task$hash), 0)
@@ -105,7 +105,7 @@ test_that("HotstartStack hotstart backwards works", {
   learner_2$train(task)
 
   learner = lrn("classif.debug", iter = 3)
-  learner$properties[learner$properties %in% "adapt_forward"] = "adapt_backward"
+  learner$properties[learner$properties %in% "hotstart_forward"] = "hotstart_backward"
   hot = HotstartStack$new(list(learner_1, learner_2))
 
   expect_equal(hot$start_cost(learner, task$hash), c(0, 0))
@@ -117,7 +117,7 @@ test_that("HotstartStack hotstart backwards works", {
   learner_2$train(task)
 
   learner = lrn("classif.debug", iter = 2)
-  learner$properties[learner$properties %in% "adapt_forward"] = "adapt_backward"
+  learner$properties[learner$properties %in% "hotstart_forward"] = "hotstart_backward"
   hot = HotstartStack$new(list(learner_1, learner_2))
 
   expect_equal(hot$start_cost(learner, task$hash), c(0, NA_real_))
@@ -128,7 +128,7 @@ test_that("HotstartStack hotstart backwards works", {
   learner_1$train(task)
 
   learner = lrn("classif.debug", iter = 1)
-  learner$properties[learner$properties %in% "adapt_forward"] = "adapt_backward"
+  learner$properties[learner$properties %in% "hotstart_forward"] = "hotstart_backward"
   hot = HotstartStack$new(list(learner_1))  
 
   expect_equal(hot$start_cost(learner, task$hash), -1)
@@ -139,7 +139,7 @@ test_that("HotstartStack hotstart backwards works", {
   learner_1$train(task)
 
   learner = lrn("classif.debug", iter = 2)
-  learner$properties[learner$properties %in% "adapt_forward"] = "adapt_backward"
+  learner$properties[learner$properties %in% "hotstart_forward"] = "hotstart_backward"
   hot = HotstartStack$new(list(learner_1))
 
   expect_equal(hot$start_cost(learner, task$hash), NA_real_)
@@ -156,7 +156,7 @@ test_that("HotstartStack hotstart backwards works", {
   learner_4$train(task)
 
   learner = lrn("classif.debug", iter = 2)
-  learner$properties[learner$properties %in% "adapt_forward"] = "adapt_backward"
+  learner$properties[learner$properties %in% "hotstart_forward"] = "hotstart_backward"
   hot = HotstartStack$new(list(learner_1, learner_2, learner_3, learner_4))
 
   expect_equal(hot$start_cost(learner, task$hash), c(NA_real_, -1, 0, NA_real_))
@@ -172,7 +172,7 @@ test_that("HotstartStack hotstart forward and backwards works", {
   learner_2$train(task)
 
   learner = lrn("classif.debug", iter = 2)
-  learner$properties =  c(learner$properties, "adapt_backward")
+  learner$properties =  c(learner$properties, "hotstart_backward")
   hot = HotstartStack$new(list(learner_1, learner_2))
 
   expect_equal(hot$start_cost(learner, task$hash), c(1, 0))
@@ -185,7 +185,7 @@ test_that("HotstartStack hotstart forward and backwards works", {
   learner_2$train(task)
 
   learner = lrn("classif.debug", iter = 3)
-  learner$properties =  c(learner$properties, "adapt_backward")
+  learner$properties =  c(learner$properties, "hotstart_backward")
   hot = HotstartStack$new(list(learner_1, learner_2))
 
   expect_equal(hot$start_cost(learner, task$hash), c(1, 1))
@@ -197,7 +197,7 @@ test_that("HotstartStack hotstart forward and backwards works", {
   learner_2$train(task)
 
   learner = lrn("classif.debug", iter = 2)
-  learner$properties =  c(learner$properties, "adapt_backward")
+  learner$properties =  c(learner$properties, "hotstart_backward")
   hot = HotstartStack$new(list(learner_1, learner_2))
 
   expect_equal(hot$start_cost(learner, task$hash), c(1, 0))
@@ -208,7 +208,7 @@ test_that("HotstartStack hotstart forward and backwards works", {
   learner_1$train(task)
 
   learner = lrn("classif.debug", iter = 1)
-  learner$properties =  c(learner$properties, "adapt_backward")
+  learner$properties =  c(learner$properties, "hotstart_backward")
   hot = HotstartStack$new(list(learner_1))  
 
   expect_equal(hot$start_cost(learner, task$hash), -1)
@@ -221,7 +221,7 @@ test_that("HotstartStack hotstart forward and backwards works", {
   learner_2$train(task)
 
   learner = lrn("classif.debug", iter = 1)
-  learner$properties =  c(learner$properties, "adapt_backward")
+  learner$properties =  c(learner$properties, "hotstart_backward")
   hot = HotstartStack$new(list(learner_1, learner_2))
 
   expect_equal(hot$start_cost(learner, task$hash), c(0, 0))
@@ -231,7 +231,7 @@ test_that("HotstartStack hotstart forward and backwards works", {
   learner_1$train(task)
 
   learner = lrn("classif.debug", iter = 2)
-  learner$properties =  c(learner$properties, "adapt_backward")
+  learner$properties =  c(learner$properties, "hotstart_backward")
   hot = HotstartStack$new(list(learner_1))
 
   expect_equal(hot$start_cost(learner, task$hash), 1)
@@ -248,7 +248,7 @@ test_that("HotstartStack hotstart forward and backwards works", {
   learner_4$train(task)
 
   learner = lrn("classif.debug", iter = 2)
-  learner$properties =  c(learner$properties, "adapt_backward")
+  learner$properties =  c(learner$properties, "hotstart_backward")
   hot = HotstartStack$new(list(learner_1, learner_2, learner_3, learner_4))
 
   expect_equal(hot$start_cost(learner, task$hash), c(1, -1, 0, NA_real_))

@@ -76,7 +76,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
           x                    = p_dbl(0, 1, tags = "train"),
           iter                 = p_int(1, default = 1, tags = c("train", "hotstart"))
         ),
-        properties = c("twoclass", "multiclass", "missings", "adapt_forward"),
+        properties = c("twoclass", "multiclass", "missings", "hotstart_forward"),
         man = "mlr3::mlr_learners_classif.debug",
         data_formats = c("data.table", "Matrix")
       )
