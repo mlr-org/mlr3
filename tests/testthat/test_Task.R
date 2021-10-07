@@ -116,12 +116,17 @@ test_that("Task rbind", {
 
 test_that("Task cbind", {
   task = tsk("iris")
+
+  iris_col_hashes = task$col_hashes
+
   # expect_error(task$cbind(task), "data.frame")
   data = cbind(data.frame(foo = 150:1), data.frame(..row_id = task$row_ids))
   task$cbind(data)
   expect_task(task)
   expect_equal(task$ncol, 6L)
   expect_names(task$feature_names, must.include = "foo")
+
+  expect_equal(iris_col_hashes, task$col_hashes[names(iris_col_hashes)])
 
   data = data.frame(bar = runif(150))
   task$cbind(data)
@@ -149,10 +154,13 @@ test_that("Task cbind", {
   backend = data.table(x = runif(120))
   task$cbind(backend)
 
+  expect_equal(iris_col_hashes, task$col_hashes[names(iris_col_hashes)])
+
   # cbind 0-row data (#461)
   task = tsk("iris")$filter(integer())
   task$cbind(data.frame(x = integer()))
   expect_set_equal(c(task$target_names, task$feature_names), c(names(iris), "x"))
+
 })
 
 test_that("cbind/rbind works", {

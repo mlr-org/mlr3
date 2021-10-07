@@ -70,6 +70,10 @@ DataBackendCbind = R6Class("DataBackendCbind", inherit = DataBackend, cloneable 
 
     ncol = function() {
       uniqueN(c(private$.data$b1$colnames, private$.data$b2$colnames))
+    },
+
+    col_hashes = function() {
+      insert_named(private$.data$b1$col_hashes, private$.data$b2$col_hashes)
     }
   ),
 
