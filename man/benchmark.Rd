@@ -47,7 +47,7 @@ does not already have a fallback configured.}
 
 \item{allow_hotstart}{(\code{logical(1)})\cr
 Determines if learner(s) are hot started with trained models in
-\verb{$hotstart_stack}. See also \link{HotStartStack}.}
+\verb{$hotstart_stack}. See also \link{HotstartStack}.}
 }
 \value{
 \link{BenchmarkResult}.
