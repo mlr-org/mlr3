@@ -52,7 +52,7 @@ learner_train = function(learner, task, row_ids = NULL, mode = "train") {
   )
 
   if (mode == "train") {
-    learner$state = list()
+    if (is.null(learner$state)) learner$state = list()
     log = append_log(NULL, "train", result$log$class, result$log$msg)
     train_time = result$elapsed
   } else {
