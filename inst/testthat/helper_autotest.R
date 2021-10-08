@@ -413,7 +413,6 @@ run_paramtest = function(learner, fun, exclude = character(), tag = NULL) {
   if (checkmate::test_list(fun)) {
     # for xgboost we pass a character vector with info scraped from the web
     if (any(mlr3misc::map_lgl(fun, function(x) class(x) == "character"))) {
-      browser()
       which = which(mlr3misc::map_lgl(fun, function(x) class(x) == "character"))
       par_package = fun[[which]]
       fun[[which]] = NULL
