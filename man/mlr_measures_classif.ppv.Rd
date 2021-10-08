@@ -27,6 +27,11 @@ msr("classif.ppv")
 }
 }
 
+\section{Parameters}{
+
+Empty ParamSet
+}
+
 \section{Meta Information}{
 
 

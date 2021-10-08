@@ -12,13 +12,7 @@
 #' Requires the learner property `"loglik"`, `NA` is returned for unsupported learners.
 #'
 #' @templateVar id bic
-#' @template section_dictionary_measure
-#' @section Meta Information:
-#' * Type: `NA`
-#' * Range: \eqn{(-\infty, \infty)}{(-Inf, Inf)}
-#' * Minimize: `TRUE`
-#' * Required prediction: 'response'
-#' * Learner Property: `loglik`
+#' @template measure
 #'
 #' @template seealso_measure
 #' @export

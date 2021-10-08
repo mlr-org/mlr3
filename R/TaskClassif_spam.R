@@ -10,14 +10,8 @@
 #' 57 variables indicate the frequency of certain words and characters in the e-mail.
 #' The positive class is set to "spam".
 #'
-#' @section Construction:
-#' ```
-#' mlr_tasks$get("spam")
-#' tsk("spam")
-#' ```
-#'
-#' @section Meta Information:
-#' `r rd_info(tsk("spam"))`
+#' @templateVar id spam
+#' @template task
 #'
 #' @source
 #' Creators:

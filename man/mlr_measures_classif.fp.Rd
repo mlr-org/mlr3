@@ -20,6 +20,11 @@ msr("classif.fp")
 }
 }
 
+\section{Parameters}{
+
+Empty ParamSet
+}
+
 \section{Meta Information}{
 
 

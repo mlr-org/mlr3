@@ -7,7 +7,7 @@
 #' A [TaskGenerator] for the xor task in [mlbench::mlbench.xor()].
 #'
 #' @templateVar id xor
-#' @template section_dictionary_task_generator
+#' @template task_generator
 #'
 #' @template seealso_task_generator
 #' @export

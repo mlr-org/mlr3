@@ -7,7 +7,7 @@
 #' Splits data using a `folds`-folds (default: 10 folds) cross-validation.
 #'
 #' @templateVar id cv
-#' @template section_dictionary_resampling
+#' @template resampling
 #'
 #' @section Parameters:
 #' * `folds` (`integer(1)`)\cr

@@ -8,7 +8,7 @@
 #' binary classification problem.
 #'
 #' @templateVar id moons
-#' @template section_dictionary_task_generator
+#' @template task_generator
 #'
 #' @template seealso_task_generator
 #' @export

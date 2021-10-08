@@ -17,20 +17,21 @@ msr("debug")
 }
 }
 
-\section{Parameters}{
-\tabular{llll}{
-   Id \tab Type \tab Default \tab Levels \cr
-   normalize \tab logical \tab TRUE \tab TRUE, FALSE \cr
-}
-}
-
 \section{Meta Information}{
 
 \itemize{
-\item Type: \code{NA}
+\item Task type: \dQuote{NA}
 \item Range: \eqn{[0, \infty)}{[0, Inf)}
-\item Minimize: \code{NA}
-\item Required prediction: 'response'
+\item Minimize: NA
+\item Required Prediction: \dQuote{response}
+\item Required Packages: -
+}
+}
+
+\section{Parameters}{
+\tabular{llll}{
+   Id \tab Type \tab Default \tab Range \cr
+   na_ratio \tab numeric \tab - \tab \eqn{[0, 1]}{[0, 1]} \cr
 }
 }
 

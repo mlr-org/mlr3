@@ -13,17 +13,7 @@
 #' This measure requires the [Task] and the [Learner] for scoring.
 #'
 #' @templateVar id selected_features
-#' @template section_dictionary_measure
-#'
-#' @section Parameters:
-#' `r rd_info(msr("classif.costs")$param_set)`
-#'
-#'
-#' @section Meta Information:
-#' * Type: `NA`
-#' * Range: \eqn{[0, \infty)}{[0, Inf)}
-#' * Minimize: `TRUE`
-#' * Required prediction: 'response'
+#' @template measure
 #'
 #' @template seealso_measure
 #' @export

@@ -34,6 +34,13 @@ msr("classif.fbeta")
 }
 }
 
+\section{Parameters}{
+\tabular{llll}{
+   Id \tab Type \tab Default \tab Range \cr
+   beta \tab integer \tab - \tab \eqn{[0, \infty)}{[0, Inf)} \cr
+}
+}
+
 \section{Meta Information}{
 
 

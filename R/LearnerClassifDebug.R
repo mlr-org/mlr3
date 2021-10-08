@@ -28,13 +28,7 @@
 #' Also note that if they work as intended, they will tear down your R session immediately!
 #'
 #' @templateVar id classif.debug
-#' @template section_dictionary_learner
-#'
-#' @section Meta Information:
-#' `r rd_info(lrn("classif.debug"))`
-#'
-#' @section Parameters:
-#' `r rd_info(lrn("classif.debug")$param_set)`
+#' @template learner
 #'
 #' @template seealso_learner
 #' @export

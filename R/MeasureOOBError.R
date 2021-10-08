@@ -9,13 +9,7 @@
 #' Returns `NA` for unsupported learners.
 #'
 #' @templateVar id oob_error
-#' @template section_dictionary_measure
-#'
-#' @section Meta Information:
-#' * Type: `NA`
-#' * Range: \eqn{(-\infty, \infty)}{(-Inf, Inf)}
-#' * Minimize: `NA`
-#' * Required prediction: 'response'
+#' @template measure
 #'
 #' @template seealso_measure
 #' @export

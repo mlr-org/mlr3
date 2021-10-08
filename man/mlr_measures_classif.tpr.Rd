@@ -27,6 +27,11 @@ msr("classif.tpr")
 }
 }
 
+\section{Parameters}{
+
+Empty ParamSet
+}
+
 \section{Meta Information}{
 
 

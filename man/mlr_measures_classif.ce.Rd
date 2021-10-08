@@ -23,6 +23,11 @@ msr("classif.ce")
 }
 }
 
+\section{Parameters}{
+
+Empty ParamSet
+}
+
 \section{Meta Information}{
 
 

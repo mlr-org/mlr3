@@ -27,6 +27,11 @@ msr("classif.sensitivity")
 }
 }
 
+\section{Parameters}{
+
+Empty ParamSet
+}
+
 \section{Meta Information}{
 
 
