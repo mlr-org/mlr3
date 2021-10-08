@@ -69,13 +69,13 @@ generate_generic_tasks = function(learner, proto) {
 generate_data = function(learner, N) {
   generate_feature = function(type) {
     switch(type,
-           logical = sample(rep_len(c(TRUE, FALSE), N)),
-           integer = sample(rep_len(1:3, N)),
-           numeric = runif(N),
-           character = sample(rep_len(letters[1:2], N)),
-           factor = sample(factor(rep_len(c("f1", "f2"), N), levels = c("f1", "f2"))),
-           ordered = sample(ordered(rep_len(c("o1", "o2"), N), levels = c("o1", "o2"))),
-           POSIXct = Sys.time() - runif(N, min = 0, max = 10 * 365 * 24 * 60 * 60)
+      logical = sample(rep_len(c(TRUE, FALSE), N)),
+      integer = sample(rep_len(1:3, N)),
+      numeric = runif(N),
+      character = sample(rep_len(letters[1:2], N)),
+      factor = sample(factor(rep_len(c("f1", "f2"), N), levels = c("f1", "f2"))),
+      ordered = sample(ordered(rep_len(c("o1", "o2"), N), levels = c("o1", "o2"))),
+      POSIXct = Sys.time() - runif(N, min = 0, max = 10 * 365 * 24 * 60 * 60)
     )
   }
   types = unique(learner$feature_types)
@@ -196,7 +196,7 @@ run_experiment = function(task, learner, seed = NULL) {
       ok = FALSE, seed = seed,
       task = task, learner = learner, prediction = prediction, score = score,
       error = sprintf("[%s] learner '%s' on task '%s' failed: %s",
-                      stage, learner$id, task$id, info)
+        stage, learner$id, task$id, info)
     )
   }
 
@@ -268,10 +268,10 @@ run_experiment = function(task, learner, seed = NULL) {
   stage = "score()"
   score = try(
     prediction$score(mlr3::default_measures(learner$task_type),
-                     task = task,
-                     learner = learner,
-                     train_set = task$row_ids
-    ), silent = TRUE)
+      task = task,
+      learner = learner,
+      train_set = task$row_ids
+  ), silent = TRUE)
   if (inherits(score, "try-error"))
     return(err(as.character(score)))
   msg = checkmate::check_numeric(score, any.missing = FALSE)
@@ -280,7 +280,7 @@ run_experiment = function(task, learner, seed = NULL) {
 
   # run sanity check on sanity task
   if (startsWith(task$id, "sanity") && !
-      sanity_check(prediction, task = task, learner = learner, train_set = task$row_ids)) {
+    sanity_check(prediction, task = task, learner = learner, train_set = task$row_ids)) {
     return(err("sanity check failed"))
   }
 
@@ -439,12 +439,12 @@ run_paramtest = function(learner, fun, exclude = character(), tag = NULL) {
 
   if (length(missing) > 0) {
     merror = sprintf("Missing parameters for learner '%s': %s",
-                     learner$id, paste0(missing, collapse = ", "))
+      learner$id, paste0(missing, collapse = ", "))
   }
 
   if (length(extra) > 0) {
     eerror = sprintf("Extra parameters for learner '%s': %s",
-                     learner$id, paste0(extra, collapse = ", "))
+      learner$id, paste0(extra, collapse = ", "))
   }
 
   error = paste(merror, eerror, sep = "\n")
