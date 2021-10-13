@@ -1,6 +1,6 @@
 #' @title Stack for Hot Start Learners
-#' 
-#' @description 
+#'
+#' @description
 #' This class stores learners for hot starting. When fitting a learner
 #' repeatedly on the same task but with a different fidelity, hot starting
 #' accelerates model fitting. The learner reuses a previously fitted model while
@@ -23,19 +23,19 @@
 #' task = tsk("pima")
 #' learner = lrn("classif.debug", iter = 1)
 #' learner$train(task)
-#' 
+#'
 #' # initialize stack with previously fitted learner
 #' hot = HotstartStack$new(list(learner))
-#' 
+#'
 #' # retrieve learner with increased fidelity parameter
 #' learner = lrn("classif.debug", iter = 2)
-#' 
+#'
 #' # calculate cost of hot starting
 #' hot$start_cost(learner, task$hash)
-#' 
-#' # add stack with hot start learner 
+#'
+#' # add stack with hot start learner
 #' learner$hotstart_stack = hot
-#' 
+#'
 #' # train automatically uses hot start learner while fitting the model
 #' learner$train(task)
 HotstartStack = R6Class("HotstartStack",
@@ -73,82 +73,69 @@ HotstartStack = R6Class("HotstartStack",
         learner_hash = map_chr(learners, learner_hotstart_hash))
 
       self$stack = rbindlist(list(self$stack, rows))
-      # self$stack = unique(stack, by = c("task_hash", "learner_hash"))
       setkeyv(self$stack, c("task_hash", "learner_hash"))
       invisible(self)
     },
 
     #' @description
     #' Calculates the cost for each learner of the stack to hot start `learner`.
-    #' 
-    #' The following special cost values can be returned:
+    #'
+    #' The following cost values can be returned:
+    #'
     #' * `NA_real_`: Learner is unsuitable to hot start `learner`.
-    #' * `-1`: Learner in the stack and `learner` are identical. 
-    #' * `0` The costs for hot starting backwards are always 0.
+    #' * `-1`: Learner in the stack and `learner` are identical.
+    #' * `0` Cost for hot starting backwards are always 0.
+    #' * `> 0` Cost for hot starting forward.
     #'
     #' @param learner [Learner].
     #' @param task_hash [Task].
-    #' @param stack [data.table::data.table()]\cr
-    #'   Optionally, prefiltered stack. Must only contain learners of the same
-    #'   type as `learner`. Quickens calculation of costs.
     #'
     # @return `numeric()`.
-    start_cost = function(learner, task_hash, stack = data.table()) {
+    start_cost = function(learner, task_hash) {
       .learner_hash = learner_hotstart_hash(assert_learner(learner))
       .task_hash = assert_string(task_hash)
       hotstart_id = learner$param_set$ids(tags = "hotstart")
 
-      cost = if (nrow(stack) == 0L) {
-        # calculation of cost on complete stack
-        pmap_dbl(self$stack, function(start_learner, learner_hash, task_hash) {
-          if (learner_hash == .learner_hash && task_hash == .task_hash) {
-            learner$param_set$values[[hotstart_id]] - start_learner$param_set$values[[hotstart_id]]
-          } else {
-            # no hot start learner found
-            Inf
-          }
-        })
-      } else {
-        # calculation of cost on prefiltered stack
-        assert_data_table(stack, min.rows = 1)
-        assert_names(names(stack), permutation.of = c("start_learner", "learner_hash", "task_hash"))
-
-        map_dbl(stack$start_learner, function(l) {
-          learner$param_set$values[[hotstart_id]] - l$param_set$values[[hotstart_id]]
-        })
-      }
-
-      constant = cost == 0
-      cost = if ("hotstart_backward" %in% learner$properties && "hotstart_forward" %in% learner$properties) {
-        cost = pmax(cost, 0)
-        ifelse(is.infinite(cost), NA_real_, cost)
-      } else if ("hotstart_backward" %in% learner$properties) {
-        ifelse(cost > 0, NA_real_, 0)
-      } else {
-        ifelse(cost < 0 | is.infinite(cost), NA_real_, cost)
-      }
-      cost[constant] = -1
-      cost
+      set(self$stack, j = "cost", value = NA_real_)
+      self$stack[list(.task_hash, .learner_hash), cost := map_dbl(start_learner, function(l) calculate_cost(l, learner, hotstart_id)) , on = c("task_hash", "learner_hash")
+        ][, cost]
     }
   ),
 
   private = list(
-    
-    # Internally used to query the stack for the learner with the lowest cost of
-    # hot starting `learner`. The state of the learner is copied to `learner` and
-    # `learner` is returned.
+
+    # Queries the stack for the start learner with the lowest cost of hot
+    # starting `learner`. The start learner's state is copied to `learner` and
+    # `learner` is returned. This method is internally used by `Learner$train()`
+    # `resample()` and `benchmark()` which call `learner_train(learner, task,
+    # row_ids, mode = 'retrain')` with the returned learner.
     .start_learner = function(learner, task_hash) {
       .learner_hash = learner_hotstart_hash(assert_learner(learner))
       .task_hash = assert_character(task_hash, len = 1)
-      stack = self$stack[list( .task_hash, .learner_hash), nomatch = NULL]
-      if (nrow(stack) == 0L) return(NULL)
+      hotstart_id = learner$param_set$ids(tags = "hotstart")
 
-      cost = self$start_cost(learner, task_hash, stack)
-      if (allMissing(cost)) return(NULL)
+      start_learner = self$stack[list(.task_hash, .learner_hash), on = c("task_hash", "learner_hash"), nomatch = NULL
+        ][, cost := map_dbl(start_learner, function(l) calculate_cost(l, learner, hotstart_id))
+        ][which_min(cost, na_rm = TRUE), start_learner]
 
-      start_learner = stack[which_min(cost, na_rm = TRUE), get("start_learner")][[1]]
-      learner$state = start_learner$state
+      if (!length(start_learner)) return(NULL)
+      learner$state = start_learner[[1]]$state
       learner
     }
   )
 )
+
+calculate_cost = function(start_learner, learner, hotstart_id) {
+  if (is.null(start_learner)) return(NA_real_)
+
+  cost = learner$param_set$values[[hotstart_id]] - start_learner$param_set$values[[hotstart_id]]
+  if (cost == 0) return(-1)
+
+  if ("hotstart_backward" %in% learner$properties && "hotstart_forward" %in% learner$properties) {
+    if (cost < 0) 0 else cost
+  } else if ("hotstart_backward" %in% learner$properties) {
+    if (cost < 0) 0 else NA_real_
+  } else {
+    if (cost > 0) cost else NA_real_
+  }
+}

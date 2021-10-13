@@ -35,7 +35,7 @@ learner = lrn("classif.debug", iter = 2)
 # calculate cost of hot starting
 hot$start_cost(learner, task$hash)
 
-# add stack with hot start learner 
+# add stack with hot start learner
 learner$hotstart_stack = hot
 
 # train automatically uses hot start learner while fitting the model
@@ -101,14 +101,15 @@ self (invisibly).
 \subsection{Method \code{start_cost()}}{
 Calculates the cost for each learner of the stack to hot start \code{learner}.
 
-The following special cost values can be returned:
+The following cost values can be returned:
 \itemize{
 \item \code{NA_real_}: Learner is unsuitable to hot start \code{learner}.
 \item \code{-1}: Learner in the stack and \code{learner} are identical.
-\item \code{0} The costs for hot starting backwards are always 0.
+\item \code{0} Cost for hot starting backwards are always 0.
+\item \verb{> 0} Cost for hot starting forward.
 }
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{HotstartStack$start_cost(learner, task_hash, stack = data.table())}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{HotstartStack$start_cost(learner, task_hash)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -117,10 +118,6 @@ The following special cost values can be returned:
 \item{\code{learner}}{\link{Learner}.}
 
 \item{\code{task_hash}}{\link{Task}.}
-
-\item{\code{stack}}{\code{\link[data.table:data.table]{data.table::data.table()}}\cr
-Optionally, prefiltered stack. Must only contain learners of the same
-type as \code{learner}. Quickens calculation of costs.}
 }
 \if{html}{\out{</div>}}
 }
