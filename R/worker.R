@@ -39,6 +39,8 @@ learner_train = function(learner, task, row_ids = NULL, mode = "train") {
     lg$debug("Skip subsetting of task '%s'", task$id)
   }
 
+  if (mode == "train") learner$state = list()
+
   lg$debug("Calling %s method of Learner '%s' on task '%s' with %i observations",
     mode, learner$id, task$id, task$nrow, learner = learner$clone())
 
@@ -52,7 +54,6 @@ learner_train = function(learner, task, row_ids = NULL, mode = "train") {
   )
 
   if (mode == "train") {
-    if (is.null(learner$state)) learner$state = list()
     log = append_log(NULL, "train", result$log$class, result$log$msg)
     train_time = result$elapsed
   } else {
