@@ -435,21 +435,21 @@ the object in its previous state.</p>
 #&gt; * Errors: 0 in 0 iterations</div><div class='input'>
 <span class='va'>rr</span><span class='op'>$</span><span class='fu'>aggregate</span><span class='op'>(</span><span class='fu'><a href='mlr_sugar.html'>msr</a></span><span class='op'>(</span><span class='st'>"classif.acc"</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; classif.acc 
-#&gt;   0.9360031 </div><div class='input'><span class='va'>rr</span><span class='op'>$</span><span class='fu'>prediction</span><span class='op'>(</span><span class='op'>)</span>
+#&gt;   0.9476735 </div><div class='input'><span class='va'>rr</span><span class='op'>$</span><span class='fu'>prediction</span><span class='op'>(</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; &lt;PredictionClassif&gt; for 344 observations:
 #&gt;     row_ids     truth  response
-#&gt;           2    Adelie    Adelie
+#&gt;           1    Adelie    Adelie
 #&gt;           3    Adelie    Adelie
 #&gt;           5    Adelie    Adelie
 #&gt; ---                            
-#&gt;         336 Chinstrap Chinstrap
-#&gt;         337 Chinstrap Chinstrap
-#&gt;         341 Chinstrap    Adelie</div><div class='input'><span class='va'>rr</span><span class='op'>$</span><span class='fu'>prediction</span><span class='op'>(</span><span class='op'>)</span><span class='op'>$</span><span class='va'>confusion</span>
+#&gt;         341 Chinstrap    Adelie
+#&gt;         342 Chinstrap Chinstrap
+#&gt;         344 Chinstrap Chinstrap</div><div class='input'><span class='va'>rr</span><span class='op'>$</span><span class='fu'>prediction</span><span class='op'>(</span><span class='op'>)</span><span class='op'>$</span><span class='va'>confusion</span>
 </div><div class='output co'>#&gt;            truth
 #&gt; response    Adelie Chinstrap Gentoo
-#&gt;   Adelie       143         6      0
-#&gt;   Chinstrap      7        57      2
-#&gt;   Gentoo         2         5    122</div><div class='input'><span class='va'>rr</span><span class='op'>$</span><span class='va'>warnings</span>
+#&gt;   Adelie       147         6      0
+#&gt;   Chinstrap      4        57      2
+#&gt;   Gentoo         1         5    122</div><div class='input'><span class='va'>rr</span><span class='op'>$</span><span class='va'>warnings</span>
 </div><div class='output co'>#&gt; Empty data.table (0 rows and 2 cols): iteration,msg</div><div class='input'><span class='va'>rr</span><span class='op'>$</span><span class='va'>errors</span>
 </div><div class='output co'>#&gt; Empty data.table (0 rows and 2 cols): iteration,msg</div></pre>
   </div>
