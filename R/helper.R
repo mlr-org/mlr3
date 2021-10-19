@@ -104,6 +104,41 @@ format_list_item = function(x, ...) {
   UseMethod("format_list_item")
 }
 
+#' @description 
+#' Calculate task hashes of resampling iterations.
+#'
+#' @param task ([Task]).
+#' @param resampling ([Resampling]).
+#'
+#' @return (`character()`).
+#' @noRd
+task_hashes = function(task, resampling) {
+  row_roles = get_private(task)$.row_roles
+  map_chr(seq_len(resampling$iters), function(i) {
+    train_set = resampling$train_set(i)
+    row_roles$use = train_set
+    calculate_hash(class(task), task$id, task$backend$hash, task$col_info, row_roles, task$col_roles,
+      task$properties)
+  })
+}
+
+#' @description
+#' Hash (unique identifier) for learner object, excluding parameter values
+#' tagged with `hotstart`.
+#'
+#' @param learner [Learner].
+#'
+#' @return `character(1)`.
+#' @noRd
+learner_hotstart_hash = function(learner) {
+  param_vals = learner$param_set$values
+  hotstart_id = learner$param_set$ids(tags = "hotstart")
+  train_ids = setdiff(learner$param_set$ids(tags = "train"), hotstart_id)
+  train_vals = param_vals[names(param_vals) %in% train_ids]
+
+  calculate_hash(class(learner), learner$id, learner$predict_type, learner$fallback$hash, train_vals)
+}
+
 catn = function(..., file = "") {
   cat(paste0(..., collapse = "\n"), "\n", sep = "", file = file)
 }

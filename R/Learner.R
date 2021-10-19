@@ -225,7 +225,21 @@ Learner = R6Class("Learner",
       assert_learnable(task, self)
       row_ids = assert_row_ids(row_ids, null.ok = TRUE)
 
-      learner_train(self, task, row_ids)
+      if (!is.null(self$hotstart_stack)) {
+        # search for hotstart learner
+        start_learner = get_private(self$hotstart_stack)$.start_learner(self, task$hash)
+      }
+      if (is.null(self$hotstart_stack) || is.null(start_learner)) {
+         # no hotstart learners stored or no adaptable model found
+        learner = self
+        mode = "train"
+      } else {
+        self$state = start_learner$clone()$state
+        learner = self
+        mode = "hotstart"
+      }
+
+      learner_train(learner, task, row_ids, mode)
 
       # store the task w/o the data
       self$state$train_task = task_rm_backend(task$clone(deep = TRUE))
@@ -452,6 +466,16 @@ Learner = R6Class("Learner",
       assert_character(rhs)
       assert_names(names(rhs), subset.of = c("train", "predict"))
       private$.encapsulate = insert_named(c(train = "none", predict = "none"), rhs)
+    },
+
+    #' @field hotstart_stack ([HotstartStack])\cr.
+    #' Stores `HotstartStack`.
+    hotstart_stack = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.hotstart_stack)
+      }
+      assert_r6(rhs, "HotstartStack")
+      private$.hotstart_stack = rhs
     }
   ),
 
@@ -459,6 +483,7 @@ Learner = R6Class("Learner",
     .encapsulate = NULL,
     .predict_type = NULL,
     .param_set = NULL,
+    .hotstart_stack = NULL,
 
     deep_clone = function(name, value) {
       switch(name,

@@ -10,7 +10,8 @@ resample(
   resampling,
   store_models = FALSE,
   store_backends = TRUE,
-  encapsulate = NA_character_
+  encapsulate = NA_character_,
+  allow_hotstart = FALSE
 )
 }
 \arguments{
@@ -45,6 +46,10 @@ individual learner are active.
 Additionally, if encapsulation is set to \code{"evaluate"} or \code{"callr"},
 the fallback learner is set to the featureless learner if the learner
 does not already have a fallback configured.}
+
+\item{allow_hotstart}{(\code{logical(1)})\cr
+Determines if learner(s) are hot started with trained models in
+\verb{$hotstart_stack}. See also \link{HotstartStack}.}
 }
 \value{
 \link{ResampleResult}.

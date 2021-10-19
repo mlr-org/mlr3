@@ -218,6 +218,9 @@ Controls how to execute the code in internal train and predict methods.
 Must be a named character vector with names \code{"train"} and \code{"predict"}.
 Possible values are \code{"none"}, \code{"evaluate"} (requires package \CRANpkg{evaluate}) and \code{"callr"} (requires package \CRANpkg{callr}).
 See \code{\link[mlr3misc:encapsulate]{mlr3misc::encapsulate()}} for more details.}
+
+\item{\code{hotstart_stack}}{(\link{HotstartStack})\cr.
+Stores \code{HotstartStack}.}
 }
 \if{html}{\out{</div>}}
 }
