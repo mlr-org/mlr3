@@ -244,6 +244,7 @@ Also note that if they work as intended, they will tear down your R session imme
 <tr><td>warning_predict</td><td>numeric</td><td>0</td><td></td><td>\([0, 1]\)</td></tr>
 <tr><td>warning_train</td><td>numeric</td><td>0</td><td></td><td>\([0, 1]\)</td></tr>
 <tr><td>x</td><td>numeric</td><td>-</td><td></td><td>\([0, 1]\)</td></tr>
+<tr><td>iter</td><td>integer</td><td>1</td><td></td><td>\([1, \infty)\)</td></tr>
 </table>
 
 
@@ -339,7 +340,8 @@ for established default tuning spaces.</p></li>
 #&gt;         344 Chinstrap   Gentoo</div><div class='input'>
 <span class='co'># task_train and task_predict are the input tasks for train() and predict()</span>
 <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>learner</span><span class='op'>$</span><span class='va'>model</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "response"     "pid"          "task_train"   "task_predict"</div></pre>
+</div><div class='output co'>#&gt; [1] "response"     "pid"          "iter"         "id"           "task_train"  
+#&gt; [6] "task_predict"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
