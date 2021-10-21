@@ -97,7 +97,7 @@ resample = function(task, learner, resampling, store_models = FALSE, store_backe
 
   if (getOption("mlr3.debug", FALSE)) {
     lg$info("Running resample() sequentially in debug mode with %i iterations", n)
-    res = mapply(workhorse, 
+    res = mapply(workhorse,
       iteration = seq_len(n), learner = grid$learner, mode = grid$mode,
       MoreArgs = list(task = task, resampling = instance, store_models = store_models, lgr_threshold = lg$threshold,
         pb = pb), SIMPLIFY = FALSE

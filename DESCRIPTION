@@ -84,6 +84,7 @@ Suggests:
     mlr3data,
     progressr,
     rpart,
+    RSQLite,
     testthat (>= 3.1.0)
 Remotes: Rdatatable/data.table
 Encoding: UTF-8
@@ -102,6 +103,7 @@ Collate:
     'DataBackendRbind.R'
     'DataBackendRename.R'
     'HotstartStack.R'
+    'HotstartStackDB.R'
     'Learner.R'
     'LearnerClassif.R'
     'mlr_learners.R'

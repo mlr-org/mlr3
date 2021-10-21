@@ -8,17 +8,17 @@ test_that("HotstartStack hotstart forward works", {
   learner_2$train(task)
 
   learner = lrn("classif.debug", iter = 3)
-  hot = HotstartStack$new(list(learner_1, learner_2))
+  hot = HotstartStackDB$new(list(learner_1, learner_2))
 
   expect_equal(hot$start_cost(learner, task$hash), c(2, 1))
-  expect_equal(get_private(hot)$.start_learner(learner, task$hash)$state, learner_2$state)
+  expect_equal(get_private(hot)$.start_learner(learner, task$hash)$state$model, learner_2$state$model)
 
    # no adaptable learner
   learner_1 = lrn("classif.rpart")
   learner_1$train(task)
 
   learner = lrn("classif.debug", iter = 3)
-  hot = HotstartStack$new(list(learner_1))
+  hot = HotstartStackDB$new(list(learner_1))
 
   expect_equal(hot$start_cost(learner, task$hash), NA_real_)
   expect_null(get_private(hot)$.start_learner(learner, task$hash))
@@ -30,7 +30,7 @@ test_that("HotstartStack hotstart forward works", {
   learner_2$train(task)
 
   learner = lrn("classif.debug", iter = 3)
-  hot = HotstartStack$new(list(learner_1, learner_2))
+  hot = HotstartStackDB$new(list(learner_1, learner_2))
 
   expect_equal(hot$start_cost(learner, task$hash), c(1, 1))
 
@@ -41,20 +41,20 @@ test_that("HotstartStack hotstart forward works", {
   learner_2$train(task)
 
   learner = lrn("classif.debug", iter = 2)
-  hot = HotstartStack$new(list(learner_1, learner_2))
+  hot = HotstartStackDB$new(list(learner_1, learner_2))
 
   expect_equal(hot$start_cost(learner, task$hash), c(1, NA_real_))
-  expect_equal(get_private(hot)$.start_learner(learner, task$hash)$state, learner_1$state)
+  expect_equal(get_private(hot)$.start_learner(learner, task$hash)$state$model, learner_1$state$model)
 
   # equal learner
   learner_1 = lrn("classif.debug", iter = 1)
   learner_1$train(task)
 
   learner = lrn("classif.debug", iter = 1)
-  hot = HotstartStack$new(list(learner_1))
+  hot = HotstartStackDB$new(list(learner_1))
 
   expect_equal(hot$start_cost(learner, task$hash), -1)
-  expect_equal(get_private(hot)$.start_learner(learner, task$hash)$state, learner_1$state)
+  expect_equal(get_private(hot)$.start_learner(learner, task$hash)$state$model, learner_1$state$model)
 
   # only higher
   learner_1 = lrn("classif.debug", iter = 2)
@@ -63,7 +63,7 @@ test_that("HotstartStack hotstart forward works", {
   learner_2$train(task)
 
   learner = lrn("classif.debug", iter = 1)
-  hot = HotstartStack$new(list(learner_1, learner_2))
+  hot = HotstartStackDB$new(list(learner_1, learner_2))
 
   expect_equal(hot$start_cost(learner, task$hash), c(NA_real_, NA_real_))
   expect_null(get_private(hot)$.start_learner(learner, task$hash))
@@ -79,7 +79,7 @@ test_that("HotstartStack hotstart forward works", {
   learner_4$train(task)
 
   learner = lrn("classif.debug", iter = 2)
-  hot = HotstartStack$new(list(learner_1, learner_2, learner_3, learner_4))
+  hot = HotstartStackDB$new(list(learner_1, learner_2, learner_3, learner_4))
 
   expect_equal(hot$start_cost(learner, task$hash), c(1, -1, NA_real_, NA_real_))
 
@@ -90,7 +90,7 @@ test_that("HotstartStack hotstart forward works", {
   learner_2$train(task)
 
   learner = lrn("classif.rpart")
-  hot = HotstartStack$new(list(learner_1, learner_2))
+  hot = HotstartStackDB$new(list(learner_1, learner_2))
 
   expect_equal(hot$start_cost(learner, task$hash), c(NA_real_, NA_real_))
   expect_null(get_private(hot)$.start_learner(learner, task$hash))
@@ -105,10 +105,10 @@ test_that("HotstartStack hotstart backwards works", {
 
   learner = lrn("classif.debug", iter = 1)
   learner$properties[learner$properties %in% "hotstart_forward"] = "hotstart_backward"
-  hot = HotstartStack$new(list(learner_1))
+  hot = HotstartStackDB$new(list(learner_1))
 
   expect_equal(hot$start_cost(learner, task$hash), 0)
-  expect_equal(get_private(hot)$.start_learner(learner, task$hash)$state, learner_1$state)
+  expect_equal(get_private(hot)$.start_learner(learner, task$hash)$state$model, learner_1$state$model)
 
   # equal cost
   learner_1 = lrn("classif.debug", iter = 4)
@@ -118,7 +118,7 @@ test_that("HotstartStack hotstart backwards works", {
 
   learner = lrn("classif.debug", iter = 3)
   learner$properties[learner$properties %in% "hotstart_forward"] = "hotstart_backward"
-  hot = HotstartStack$new(list(learner_1, learner_2))
+  hot = HotstartStackDB$new(list(learner_1, learner_2))
 
   expect_equal(hot$start_cost(learner, task$hash), c(0, 0))
 
@@ -130,10 +130,10 @@ test_that("HotstartStack hotstart backwards works", {
 
   learner = lrn("classif.debug", iter = 2)
   learner$properties[learner$properties %in% "hotstart_forward"] = "hotstart_backward"
-  hot = HotstartStack$new(list(learner_1, learner_2))
+  hot = HotstartStackDB$new(list(learner_1, learner_2))
 
   expect_equal(hot$start_cost(learner, task$hash), c(0, NA_real_))
-  expect_equal(get_private(hot)$.start_learner(learner, task$hash)$state, learner_1$state)
+  expect_equal(get_private(hot)$.start_learner(learner, task$hash)$state$model, learner_1$state$model)
 
   # equal learner
   learner_1 = lrn("classif.debug", iter = 1)
@@ -141,10 +141,10 @@ test_that("HotstartStack hotstart backwards works", {
 
   learner = lrn("classif.debug", iter = 1)
   learner$properties[learner$properties %in% "hotstart_forward"] = "hotstart_backward"
-  hot = HotstartStack$new(list(learner_1))
+  hot = HotstartStackDB$new(list(learner_1))
 
   expect_equal(hot$start_cost(learner, task$hash), -1)
-  expect_equal(get_private(hot)$.start_learner(learner, task$hash)$state, learner_1$state)
+  expect_equal(get_private(hot)$.start_learner(learner, task$hash)$state$model, learner_1$state$model)
 
   # only lower
   learner_1 = lrn("classif.debug", iter = 1)
@@ -152,7 +152,7 @@ test_that("HotstartStack hotstart backwards works", {
 
   learner = lrn("classif.debug", iter = 2)
   learner$properties[learner$properties %in% "hotstart_forward"] = "hotstart_backward"
-  hot = HotstartStack$new(list(learner_1))
+  hot = HotstartStackDB$new(list(learner_1))
 
   expect_equal(hot$start_cost(learner, task$hash), NA_real_)
   expect_null(get_private(hot)$.start_learner(learner, task$hash))
@@ -169,7 +169,7 @@ test_that("HotstartStack hotstart backwards works", {
 
   learner = lrn("classif.debug", iter = 2)
   learner$properties[learner$properties %in% "hotstart_forward"] = "hotstart_backward"
-  hot = HotstartStack$new(list(learner_1, learner_2, learner_3, learner_4))
+  hot = HotstartStackDB$new(list(learner_1, learner_2, learner_3, learner_4))
 
   expect_equal(hot$start_cost(learner, task$hash), c(NA_real_, -1, 0, NA_real_))
 })
@@ -185,10 +185,10 @@ test_that("HotstartStack hotstart forward and backwards works", {
 
   learner = lrn("classif.debug", iter = 2)
   learner$properties =  c(learner$properties, "hotstart_backward")
-  hot = HotstartStack$new(list(learner_1, learner_2))
+  hot = HotstartStackDB$new(list(learner_1, learner_2))
 
   expect_equal(hot$start_cost(learner, task$hash), c(1, 0))
-  expect_equal(get_private(hot)$.start_learner(learner, task$hash)$state, learner_2$state)
+  expect_equal(get_private(hot)$.start_learner(learner, task$hash)$state$model, learner_2$state$model)
 
   # equal cost
   learner_1 = lrn("classif.debug", iter = 2)
@@ -198,7 +198,7 @@ test_that("HotstartStack hotstart forward and backwards works", {
 
   learner = lrn("classif.debug", iter = 3)
   learner$properties =  c(learner$properties, "hotstart_backward")
-  hot = HotstartStack$new(list(learner_1, learner_2))
+  hot = HotstartStackDB$new(list(learner_1, learner_2))
 
   expect_equal(hot$start_cost(learner, task$hash), c(1, 1))
 
@@ -210,10 +210,10 @@ test_that("HotstartStack hotstart forward and backwards works", {
 
   learner = lrn("classif.debug", iter = 2)
   learner$properties =  c(learner$properties, "hotstart_backward")
-  hot = HotstartStack$new(list(learner_1, learner_2))
+  hot = HotstartStackDB$new(list(learner_1, learner_2))
 
   expect_equal(hot$start_cost(learner, task$hash), c(1, 0))
-  expect_equal(get_private(hot)$.start_learner(learner, task$hash)$state, learner_2$state)
+  expect_equal(get_private(hot)$.start_learner(learner, task$hash)$state$model, learner_2$state$model)
 
   # equal learner
   learner_1 = lrn("classif.debug", iter = 1)
@@ -221,10 +221,10 @@ test_that("HotstartStack hotstart forward and backwards works", {
 
   learner = lrn("classif.debug", iter = 1)
   learner$properties =  c(learner$properties, "hotstart_backward")
-  hot = HotstartStack$new(list(learner_1))
+  hot = HotstartStackDB$new(list(learner_1))
 
   expect_equal(hot$start_cost(learner, task$hash), -1)
-  expect_equal(get_private(hot)$.start_learner(learner, task$hash)$state, learner_1$state)
+  expect_equal(get_private(hot)$.start_learner(learner, task$hash)$state$model, learner_1$state$model)
 
   # only higher
   learner_1 = lrn("classif.debug", iter = 2)
@@ -234,7 +234,7 @@ test_that("HotstartStack hotstart forward and backwards works", {
 
   learner = lrn("classif.debug", iter = 1)
   learner$properties =  c(learner$properties, "hotstart_backward")
-  hot = HotstartStack$new(list(learner_1, learner_2))
+  hot = HotstartStackDB$new(list(learner_1, learner_2))
 
   expect_equal(hot$start_cost(learner, task$hash), c(0, 0))
 
@@ -244,10 +244,10 @@ test_that("HotstartStack hotstart forward and backwards works", {
 
   learner = lrn("classif.debug", iter = 2)
   learner$properties =  c(learner$properties, "hotstart_backward")
-  hot = HotstartStack$new(list(learner_1))
+  hot = HotstartStackDB$new(list(learner_1))
 
   expect_equal(hot$start_cost(learner, task$hash), 1)
-  expect_equal(get_private(hot)$.start_learner(learner, task$hash)$state, learner_1$state)
+  expect_equal(get_private(hot)$.start_learner(learner, task$hash)$state$model, learner_1$state$model)
 
   # mixed
   learner_1 = lrn("classif.debug", iter = 1) # lower
@@ -261,32 +261,36 @@ test_that("HotstartStack hotstart forward and backwards works", {
 
   learner = lrn("classif.debug", iter = 2)
   learner$properties =  c(learner$properties, "hotstart_backward")
-  hot = HotstartStack$new(list(learner_1, learner_2, learner_3, learner_4))
+  hot = HotstartStackDB$new(list(learner_1, learner_2, learner_3, learner_4))
 
   expect_equal(hot$start_cost(learner, task$hash), c(1, -1, 0, NA_real_))
 })
 
-test_that("HotstartStack add method works", {
+test_that("HotstartStackDB add method works", {
   task = tsk("pima")
 
   learner_1 = lrn("classif.debug", iter = 1)
   learner_1$train(task)
-  hot = HotstartStack$new(list(learner_1))
+  hot = HotstartStackDB$new(list(learner_1))
 
   learner_2 = lrn("classif.debug", iter = 2)
   learner_2$train(task)
   hot$add(list(learner_2))
 
-  expect_data_table(hot$stack, nrows = 2, ncols = 3)
-  expect_equal(hot$stack$start_learner[[1]], learner_1)
-  expect_equal(hot$stack$start_learner[[2]], learner_2)
+  stack = DBI::dbGetQuery(hot$stack, "SELECT * FROM stack")
+
+  expect_data_frame(stack, nrows = 2, ncols = 4)
+  expect_equal(stack$hotstart_value[[1]], 1)
+  expect_equal(stack$hotstart_value[[2]], 2)
 
   # no hotstart value
   learner_1 = lrn("classif.debug", x = 0.5)
   learner_1$train(task)
   learner_1$state$param_vals$iter = NULL # iter set by default. Assume it is not.
-  hot = HotstartStack$new(list(learner_1))
-  expect_equal(hot$stack$start_learner[[1]], learner_1)
+  hot = HotstartStackDB$new(list(learner_1))
+  stack = DBI::dbGetQuery(hot$stack, "SELECT * FROM stack")
+
+  expect_equal(stack$hotstart_value[[1]], NA_real_)
 })
 
 test_that("copy state works", {
@@ -295,7 +299,7 @@ test_that("copy state works", {
   learner_1$train(task)
 
   learner_2 = lrn("classif.debug", iter = 2)
-  hot = HotstartStack$new(learner_1)
+  hot = HotstartStackDB$new(learner_1)
   learner_2$hotstart_stack = hot
 
   start_learner = get_private(learner_2$hotstart_stack)$.start_learner(learner_2, task$hash)

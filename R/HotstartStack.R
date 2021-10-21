@@ -99,6 +99,21 @@ HotstartStack = R6Class("HotstartStack",
       set(self$stack, j = "cost", value = NA_real_)
       self$stack[list(.task_hash, .learner_hash), cost := map_dbl(start_learner, function(l) calculate_cost(l, learner, hotstart_id)) , on = c("task_hash", "learner_hash")
         ][, cost]
+    },
+
+    #' @description
+    #' Helper for print outputs.
+    format = function() {
+      sprintf("<%s>", class(self)[1L])
+    },
+
+    #' @description
+    #' Printer.
+    #'
+    #' @param ... (ignored).
+    print = function() {
+      catf(format(self))
+      print(self$stack, digits = 2)
     }
   ),
 
