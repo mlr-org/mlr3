@@ -126,7 +126,7 @@ HotstartStackDB = R6Class("HotstartStackDB",
       }
       hotstart_value = learner$param_set$values[[hotstart_id]]
 
-      cost = dbGetQuery(self$stack,
+      cost = DBI::dbGetQuery(self$stack,
         sprintf("SELECT s2.cost FROM stack AS s1 LEFT JOIN (SELECT rowid, %f - hotstart_value as cost FROM stack WHERE task_hash = '%s' AND learner_hash = '%s') AS s2 ON s1.rowid = s2.rowid",
           hotstart_value, task_hash, learner_hash))$cost
 
