@@ -97,8 +97,10 @@ HotstartStack = R6Class("HotstartStack",
       hotstart_id = learner$param_set$ids(tags = "hotstart")
 
       set(self$stack, j = "cost", value = NA_real_)
-      self$stack[list(.task_hash, .learner_hash), cost := map_dbl(start_learner, function(l) calculate_cost(l, learner, hotstart_id)) , on = c("task_hash", "learner_hash")
-        ][, cost]
+      cost = self$stack[list(.task_hash, .learner_hash), "cost" := map_dbl(get("start_learner"), function(l) calculate_cost(l, learner, hotstart_id)) , on = c("task_hash", "learner_hash")
+        ][, get("cost")]
+      self$stack[, "cost" := NULL]
+      cost
     }
   ),
 
@@ -115,8 +117,8 @@ HotstartStack = R6Class("HotstartStack",
       hotstart_id = learner$param_set$ids(tags = "hotstart")
 
       start_learner = self$stack[list(.task_hash, .learner_hash), on = c("task_hash", "learner_hash"), nomatch = NULL
-        ][, cost := map_dbl(start_learner, function(l) calculate_cost(l, learner, hotstart_id))
-        ][which_min(cost, na_rm = TRUE), start_learner]
+        ][, "cost" := map_dbl(start_learner, function(l) calculate_cost(l, learner, hotstart_id))
+        ][which_min(get("cost"), na_rm = TRUE), start_learner]
 
       if (!length(start_learner)) return(NULL)
       learner$state = start_learner[[1]]$state
