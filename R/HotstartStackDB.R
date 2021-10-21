@@ -122,7 +122,7 @@ HotstartStackDB = R6Class("HotstartStackDB",
 
       # target learner is not able to hotstart
       if (!length(hotstart_id)) {
-        return(rep(NA_real_, dbGetQuery(self$stack, "SELECT COUNT(*) as count FROM stack")$count))
+        return(rep(NA_real_, DBI::dbGetQuery(self$stack, "SELECT COUNT(*) as count FROM stack")$count))
       }
       hotstart_value = learner$param_set$values[[hotstart_id]]
 
