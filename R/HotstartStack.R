@@ -99,6 +99,21 @@ HotstartStack = R6Class("HotstartStack",
         ][, get("cost")]
       self$stack[, "cost" := NULL]
       cost
+    },
+
+    #' @description
+    #' Helper for print outputs.
+    format = function() {
+      sprintf("<%s>", class(self)[1L])
+    },
+
+    #' @description
+    #' Printer.
+    #'
+    #' @param ... (ignored).
+    print = function() {
+      catf(format(self))
+      print(self$stack, digits = 2)
     }
   ),
 
