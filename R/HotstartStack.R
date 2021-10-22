@@ -49,13 +49,11 @@ HotstartStack = R6Class("HotstartStack",
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #'
     #' @param learners (List of [Learner]s).
-    initialize = function(learners) {
-      learners = assert_learners(as_learners(learners))
-      self$stack = data.table(
-        start_learner = learners,
-        task_hash = map_chr(learners, function(l) l$state$task_hash),
-        learner_hash = map_chr(learners, learner_hotstart_hash),
-        key = c("task_hash", "learner_hash"))
+    initialize = function(learners = NULL) {
+      self$stack = data.table()
+
+      # add learners to stack
+      if (!is.null(learners)) self$add(learners)
     },
 
     #' @description
@@ -67,13 +65,13 @@ HotstartStack = R6Class("HotstartStack",
     add = function(learners) {
       learners = assert_learners(as_learners(learners))
 
-      rows = data.table(
-        start_learner = learners,
-        task_hash = map_chr(learners, function(l) l$state$task_hash),
-        learner_hash = map_chr(learners, learner_hotstart_hash))
+      # hashes
+      task_hash = map_chr(learners, function(learner) learner$state$task_hash)
+      learner_hash = map_chr(learners, learner_hotstart_hash)
 
-      self$stack = rbindlist(list(self$stack, rows))
+      self$stack = rbindlist(list(self$stack, data.table(start_learner = learners, task_hash, learner_hash)))
       setkeyv(self$stack, c("task_hash", "learner_hash"))
+
       invisible(self)
     },
 
