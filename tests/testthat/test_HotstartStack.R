@@ -94,6 +94,18 @@ test_that("HotstartStack hotstart forward works", {
   expect_equal(hot$start_cost(learner, task$hash), c(1, -1, NA_real_, NA_real_))
   expect_data_table(hot$stack, ncols = 3)
 
+  # target learner is not able to hotstart
+  learner_1 = lrn("classif.debug", iter = 1)
+  learner_1$train(task)
+  learner_2 = lrn("classif.debug", iter = 2)
+  learner_2$train(task)
+
+  learner = lrn("classif.rpart")
+  hot = HotstartStack$new(list(learner_1, learner_2))
+
+  expect_equal(hot$start_cost(learner, task$hash), c(NA_real_, NA_real_))
+  expect_null(get_private(hot)$.start_learner(learner, task$hash))
+
   # empty stack
   learner = lrn("classif.debug", iter = 2)
   hot = HotstartStack$new()
