@@ -59,9 +59,9 @@ HotstartStackDB = R6Class("HotstartStackDB",
       requireNamespace("RSQLite")
 
       # create table on disk in temp
-      self$stack = DBI::dbConnect(RSQLite::SQLite(), tempfile(fileext = ".db"))
-
-      DBI::dbCreateTable(self$stack, "stack",
+      self$stack = tempfile(fileext = ".db")
+      con = self$connection
+      DBI::dbCreateTable(con, "stack",
         c(task_hash = "VARCHAR", learner_hash = "VARCHAR", hotstart_value = "DECIMAL", state = "BLOB"))
 
       if (!is.null(learners)) {
@@ -69,7 +69,7 @@ HotstartStackDB = R6Class("HotstartStackDB",
         self$add(learners)
 
         # set index for fast subsetting
-        DBI::dbExecute(self$stack, "CREATE INDEX task_learner_index ON stack (task_hash, learner_hash)")
+        DBI::dbExecute(con, "CREATE INDEX task_learner_index ON stack (task_hash, learner_hash)")
       }
     },
 
@@ -81,6 +81,7 @@ HotstartStackDB = R6Class("HotstartStackDB",
     #' @return self (invisibly).
     add = function(learners) {
       learners = assert_learners(as_learners(learners))
+      con = self$connection
 
       # record value of hotstart parameter
       hotstart_value = map_dbl(learners, function(learner) {
@@ -96,7 +97,7 @@ HotstartStackDB = R6Class("HotstartStackDB",
       learner_hash = map_chr(learners, learner_hotstart_hash)
 
       stack = data.table(task_hash, learner_hash, hotstart_value, state)
-      DBI::dbAppendTable(self$stack, "stack", stack)
+      DBI::dbAppendTable(con, "stack", stack)
 
       invisible(self)
     },
@@ -119,14 +120,15 @@ HotstartStackDB = R6Class("HotstartStackDB",
       learner_hash = learner_hotstart_hash(assert_learner(learner))
       task_hash = assert_string(task_hash)
       hotstart_id = learner$param_set$ids(tags = "hotstart")
+      con = self$connection
 
       # target learner is not able to hotstart
       if (!length(hotstart_id)) {
-        return(rep(NA_real_, DBI::dbGetQuery(self$stack, "SELECT COUNT(*) as count FROM stack")$count))
+        return(rep(NA_real_, DBI::dbGetQuery(con, "SELECT COUNT(*) as count FROM stack")$count))
       }
       hotstart_value = learner$param_set$values[[hotstart_id]]
 
-      cost = DBI::dbGetQuery(self$stack,
+      cost = DBI::dbGetQuery(con,
         sprintf("SELECT s2.cost FROM stack AS s1 LEFT JOIN (SELECT rowid, %f - hotstart_value as cost FROM stack WHERE task_hash = '%s' AND learner_hash = '%s') AS s2 ON s1.rowid = s2.rowid",
           hotstart_value, task_hash, learner_hash))$cost
 
@@ -138,7 +140,7 @@ HotstartStackDB = R6Class("HotstartStackDB",
     #' This is called during garbage collection of the instance.
     #' @return `logical(1)`, the return value of [DBI::dbDisconnect()].
     finalize = function() {
-      DBI::dbDisconnect(self$stack, shutdown = TRUE)
+      DBI::dbDisconnect(self$connection, shutdown = TRUE)
     },
 
     #' @description
@@ -153,7 +155,7 @@ HotstartStackDB = R6Class("HotstartStackDB",
     #' @param ... (ignored).
     print = function() {
       catf(format(self))
-      print(DBI::dbGetQuery(self$stack, "SELECT * FROM stack LIMIT 10"),  digits = 2)
+      print(DBI::dbGetQuery(self$connection, "SELECT * FROM stack LIMIT 10"),  digits = 2)
       cat("(First 10 rows only.)")
     }
   ),
@@ -171,9 +173,10 @@ HotstartStackDB = R6Class("HotstartStackDB",
       hotstart_id = learner$param_set$ids(tags = "hotstart")
       if (!length(hotstart_id)) return(NULL)
       hotstart_value = learner$param_set$values[[hotstart_id]]
+      con = self$connection
 
       # filtered stack contains multiple versions of the same learner with different fidelity levels
-      stack = DBI::dbGetQuery(self$stack,
+      stack = DBI::dbGetQuery(con,
         sprintf("SELECT state, %f - hotstart_value as cost FROM stack WHERE task_hash = '%s' AND learner_hash = '%s'",
           hotstart_value, task_hash, learner_hash))
       if (!nrow(stack)) return(NULL)
@@ -185,6 +188,12 @@ HotstartStackDB = R6Class("HotstartStackDB",
 
       learner$state = state
       learner
+    }
+  ),
+
+  active = list(
+    connection = function() {
+      DBI::dbConnect(RSQLite::SQLite(), self$stack)
     }
   )
 )
