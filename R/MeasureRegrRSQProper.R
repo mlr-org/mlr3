@@ -33,7 +33,7 @@ MeasureRegrRSQProper = R6Class("MeasureRSQProper",
   private = list(
     .score = function(prediction, truth, task, train_set, ...) {
       mu = mean(task$truth(train_set))
-      1 - sum((truth - prediction$response)^2) / sum((truth - m)^2)
+      1 - sum((truth - prediction$response)^2) / sum((truth - mu)^2)
 
     }
   )
