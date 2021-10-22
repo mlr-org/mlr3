@@ -105,6 +105,13 @@ test_that("HotstartStack hotstart forward works", {
 
   expect_equal(hot$start_cost(learner, task$hash), c(NA_real_, NA_real_))
   expect_null(get_private(hot)$.start_learner(learner, task$hash))
+
+  # empty stack
+  learner = lrn("classif.debug", iter = 2)
+  hot = HotstartStack$new()
+
+  expect_equal(hot$start_cost(learner, task$hash), numeric(0))
+  expect_null(get_private(hot)$.start_learner(learner, task$hash))
 })
 
 test_that("HotstartStack hotstart backwards works", {

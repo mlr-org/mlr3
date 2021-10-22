@@ -102,6 +102,13 @@ test_that("learner hotstart works", {
   learner$train(tsk("iris"))
 
   expect_true(learner$model$id != id)
+
+  # empty stack
+  learner = lrn("classif.debug", iter = 2)
+  learner$hotstart_stack = HotstartStack$new()
+  learner$train(tsk("iris"))
+
+  expect_class(learner$model, "classif.debug_model")
 })
 
 test_that("resample train hotstart works", {
