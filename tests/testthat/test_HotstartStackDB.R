@@ -277,7 +277,7 @@ test_that("HotstartStackDB add method works", {
   learner_2$train(task)
   hot$add(list(learner_2))
 
-  stack = DBI::dbGetQuery(hot$stack, "SELECT * FROM stack")
+  stack = DBI::dbGetQuery(hot$connection, "SELECT * FROM stack")
 
   expect_data_frame(stack, nrows = 2, ncols = 4)
   expect_equal(stack$hotstart_value[[1]], 1)
@@ -288,7 +288,7 @@ test_that("HotstartStackDB add method works", {
   learner_1$train(task)
   learner_1$state$param_vals$iter = NULL # iter set by default. Assume it is not.
   hot = HotstartStackDB$new(list(learner_1))
-  stack = DBI::dbGetQuery(hot$stack, "SELECT * FROM stack")
+  stack = DBI::dbGetQuery(hot$connection, "SELECT * FROM stack")
 
   expect_equal(stack$hotstart_value[[1]], NA_real_)
 })
