@@ -102,6 +102,13 @@ test_that("learner hotstart works", {
   learner$train(tsk("iris"))
 
   expect_true(learner$model$id != id)
+
+  # empty stack
+  learner = lrn("classif.debug", iter = 2)
+  learner$hotstart_stack = HotstartStack$new()
+  learner$train(tsk("iris"))
+
+  expect_class(learner$model, "classif.debug_model")
 })
 
 test_that("resample train hotstart works", {
@@ -131,7 +138,7 @@ test_that("benchmark train hostart works", {
   learner_2 = lrn("classif.debug", iter = 2)
   resampling = rsmp("cv", folds = 3)
   resampling$instantiate(task)
-  
+
   design = benchmark_grid(task, list(learner_1, learner_2), resampling)
   bmr = benchmark(design, store_models = TRUE)
 
@@ -182,7 +189,7 @@ test_that("benchmark train hostart works", {
   expect_equal(bmr$resample_result(1)$learners[[1]]$model$iter, 2)
   expect_equal(hot$stack$start_learner[[1]]$param_set$values$iter, 1)
   expect_equal(hot$stack$start_learner[[1]]$model$iter, 1)
-  expect_equal(bmr$resample_result(1)$learners[[1]]$model$id, 
+  expect_equal(bmr$resample_result(1)$learners[[1]]$model$id,
     hot$stack$start_learner[[1]]$model$id)
 
 })
