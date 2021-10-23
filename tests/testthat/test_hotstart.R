@@ -376,7 +376,7 @@ test_that("benchmark train with HotstartDB  works", {
   expect_equal(bmr$resample_result(1)$learners[[1]]$param_set$values$iter, 2)
   expect_equal(bmr$resample_result(1)$learners[[1]]$model$iter, 2)
 
-  stack = DBI::dbGetQuery(hot$stack, "SELECT * FROM stack")
+  stack = DBI::dbGetQuery(hot$connection, "SELECT * FROM stack")
   expect_equal(stack$hotstart_value, 1)
   expect_equal(unserialize(stack$state[[1]])$model$iter, 1)
   expect_equal(bmr$resample_result(1)$learners[[1]]$model$id, unserialize(stack$state[[1]])$model$id)
