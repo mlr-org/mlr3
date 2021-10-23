@@ -27,6 +27,8 @@ revdep
 /README.html
 docs/
 
+.Rprofile
+
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json

@@ -74,7 +74,7 @@ resample = function(task, learner, resampling, store_models = FALSE, store_backe
   }
 
   grid = if (allow_hotstart) {
-    map_dtr(seq_len(n), function(iteration) {
+    grid = map_dtr(seq_len(n), function(iteration) {
       if (!is.null(learner$hotstart_stack)) {
         # search for hotstart learner
         task_hashes = task_hashes(task, resampling)
@@ -89,8 +89,14 @@ resample = function(task, learner, resampling, store_models = FALSE, store_backe
         learner = start_learner
         mode = "hotstart"
       }
+      learner$hotstart_stack = NULL
       data.table(learner = list(learner), mode = mode)
     })
+    remove_stack = function(learner) {
+      learner$hotstart_stack = NULL
+      learner
+    }
+    grid[, "learner" := map(get("learner"), remove_stack)]
   } else {
     data.table(learner = replicate(n, learner), mode = "train")
   }

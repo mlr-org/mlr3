@@ -137,7 +137,6 @@ HotstartStack = R6Class("HotstartStack",
 
       if (!length(start_learner)) return(NULL)
       learner$state = start_learner[[1]]$state
-      learner$hotstart_stack = NULL
       learner
     }
   )
