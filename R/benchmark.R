@@ -137,13 +137,13 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
       }
       data.table(learner = list(learner), mode = mode)
     })
-    set(grid, j = "learner", value = hotstart_grid$learner)
-    set(grid, j = "mode", value = hotstart_grid$mode)
-    remove_stack = function(learner) {
+    # null hotstart stack to reduce overhead in parallelization
+    map(hotstart_grid$learner, function(learner) {
       learner$hotstart_stack = NULL
       learner
-    }
-    grid[, "learner" := map(get("learner"), remove_stack)]
+    })
+    set(grid, j = "learner", value = hotstart_grid$learner)
+    set(grid, j = "mode", value = hotstart_grid$mode)
   }
 
   if (getOption("mlr3.debug", FALSE)) {

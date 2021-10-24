@@ -1,7 +1,5 @@
-test_that("learner hotstart works", {
+test_that("learner is hotstarted when the hotstart parameter is increased", {
   task = tsk("pima")
-
-  # increased hotstart parameter
   learner_1 = lrn("classif.debug", iter = 1)
   learner_1$train(task)
   id = learner_1$model$id
@@ -14,8 +12,10 @@ test_that("learner hotstart works", {
   expect_equal(learner$model$id, id)
   expect_equal(learner$model$iter, 2)
   expect_equal(learner$param_set$values$iter, 2)
+})
 
-  # equal retrain parameter
+test_that("learner is directly returned when hotstart and target learner are equal", {
+  task = tsk("pima")
   learner_1 = lrn("classif.debug", iter = 1)
   learner_1$train(task)
   id = learner_1$model$id
@@ -26,8 +26,10 @@ test_that("learner hotstart works", {
   learner$train(task)
 
   expect_equal(learner$model$id, id)
+})
 
-  # added non-hotstart parameter
+test_that("learner is trained when target learner has an additional non-hotstart parameter", {
+  task = tsk("pima")
   learner_1 = lrn("classif.debug", iter = 1)
   learner_1$train(task)
   id = learner_1$model$id
@@ -41,8 +43,10 @@ test_that("learner hotstart works", {
   expect_equal(learner$param_set$values$x, 1)
   expect_equal(learner$param_set$values$iter, 2)
   expect_equal(learner$model$iter, 2)
+})
 
-  # added hotstart parameter
+test_that("learner is trained when target learner has an additional hotstart parameter", {
+  task = tsk("pima")
   learner_1 = lrn("classif.debug", x = 0)
   learner_1$train(task)
   learner_1$state$param_vals$iter = NULL # iter set by default. Assume it is not.
@@ -54,8 +58,10 @@ test_that("learner hotstart works", {
   learner$train(task)
 
   expect_true(learner$model$id != id)
+})
 
-  # increased retrain and added non-retrain parameter
+test_that("learner is trained when target learner has an increased hotstart parameter and additional non-hotstart parameter", {
+  task = tsk("pima")
   learner_1 = lrn("classif.debug", iter = 1)
   learner_1$train(task)
   id = learner_1$model$id
@@ -66,8 +72,10 @@ test_that("learner hotstart works", {
   learner$train(task)
 
   expect_true(learner$model$id != id)
+})
 
-  # equal retrain and changed non-retrain parameter
+test_that("learner is trained when the hotstart parameter of the target and hotstart learner are equal but the non-hotstart parameter is changed", {
+  task = tsk("pima")
   learner_1 = lrn("classif.debug", iter = 1, x = 0)
   learner_1$train(task)
   id = learner_1$model$id
@@ -78,8 +86,10 @@ test_that("learner hotstart works", {
   learner$train(task)
 
   expect_true(learner$model$id != id)
+})
 
-  # increased retrain and equal non-retrain parameter
+test_that("learner is hotstarted when the non-hotstart parameter of the target and hotstart learner are equal but the hotstart parameter is increased", {
+  task = tsk("pima")
   learner_1 = lrn("classif.debug", iter = 1, x = 0)
   learner_1$train(task)
   id = learner_1$model$id
@@ -90,8 +100,10 @@ test_that("learner hotstart works", {
   learner$train(task)
 
   expect_equal(learner$model$id, id)
+})
 
-  # different task
+test_that("learner is trained when the task is different", {
+  task = tsk("pima")
   learner_1 = lrn("classif.debug", iter = 1)
   learner_1$train(task)
   id = learner_1$model$id
@@ -102,8 +114,10 @@ test_that("learner hotstart works", {
   learner$train(tsk("iris"))
 
   expect_true(learner$model$id != id)
+})
 
-  # empty stack
+test_that("learner is trained when the stack is empty", {
+  task = tsk("pima")
   learner = lrn("classif.debug", iter = 2)
   learner$hotstart_stack = HotstartStack$new()
   learner$train(tsk("iris"))
@@ -111,7 +125,7 @@ test_that("learner hotstart works", {
   expect_class(learner$model, "classif.debug_model")
 })
 
-test_that("resample train hotstart works", {
+test_that("learners are hotstarted when resample is used", {
   task = tsk("pima")
   learner_1 = lrn("classif.debug", iter = 1)
   resampling = rsmp("cv", folds = 3)
@@ -129,10 +143,11 @@ test_that("resample train hotstart works", {
     expect_class(l2$model, "classif.debug_model")
     expect_equal(l2$model$iter, 2)
     expect_equal(l1$model$id, l2$model$id)
+    expect_null(l2$hotstart_stack)
   })
 })
 
-test_that("benchmark train hostart works", {
+test_that("learners are hotstarted when benchmark is called", {
   task = tsk("pima")
   learner_1 = lrn("classif.debug", iter = 1)
   learner_2 = lrn("classif.debug", iter = 2)
@@ -146,7 +161,6 @@ test_that("benchmark train hostart works", {
   hot = HotstartStack$new(learners)
   ids = map_chr(learners, function(l) l$model$id)
 
-  # only train hotstart
   learner = lrn("classif.debug", iter = 3)
   learner$hotstart_stack = hot
 
@@ -158,10 +172,25 @@ test_that("benchmark train hostart works", {
     expect_class(l1$model, "classif.debug_model")
     expect_equal(l1$model$iter, 3)
     expect_true(l1$model$id %in% ids)
+    expect_null(l1$hotstart_stack)
   })
+})
 
-  # train and hotstart mixed
-  learner_3 = lrn("classif.debug", iter = 2)
+test_that("learners are trained and hotstarted when benchmark is called", {
+  task = tsk("pima")
+  learner_1 = lrn("classif.debug", iter = 1)
+  learner_2 = lrn("classif.debug", iter = 2)
+  resampling = rsmp("cv", folds = 3)
+  resampling$instantiate(task)
+
+  design = benchmark_grid(task, list(learner_1, learner_2), resampling)
+  bmr = benchmark(design, store_models = TRUE)
+
+  learners = unlist(map(seq_len(bmr$n_resample_results), function(i) bmr$resample_result(i)$learners))
+  hot = HotstartStack$new(learners)
+  ids = map_chr(learners, function(l) l$model$id)
+
+  learner_3 = lrn("classif.debug", iter = 4)
   learner_3$hotstart_stack = hot
   learner_4 = lrn("classif.rpart")
   learner_4$hotstart_stack = hot
@@ -169,7 +198,21 @@ test_that("benchmark train hostart works", {
   design = benchmark_grid(task, list(learner_3, learner_4), resampling)
   bmr_2 = benchmark(design, store_models = TRUE, allow_hotstart = TRUE)
 
-  # cloning
+  map(bmr_2$resample_result(1)$learners, function(l1) {
+    expect_equal(l1$param_set$values$iter, 4)
+    expect_class(l1$model, "classif.debug_model")
+    expect_equal(l1$model$iter, 4)
+    expect_true(l1$model$id %in% ids[4:6])
+    expect_null(l1$hotstart_stack)
+  })
+
+  map(bmr_2$resample_result(2)$learners, function(l1) {
+    expect_class(l1$model, "rpart")
+    expect_null(l1$hotstart_stack)
+  })
+})
+
+test_that("learners are cloned when hotstarting is applied", {
   task = tsk("pima")
   learner_1 = lrn("classif.debug", iter = 1)
   resampling = rsmp("holdout")
@@ -193,113 +236,7 @@ test_that("benchmark train hostart works", {
     hot$stack$start_learner[[1]]$model$id)
 })
 
-test_that("learner with HotstartDB works", {
-  task = tsk("pima")
-
-  # increased hotstart parameter
-  learner_1 = lrn("classif.debug", iter = 1)
-  learner_1$train(task)
-  id = learner_1$model$id
-
-  learner = lrn("classif.debug", iter = 2)
-  hot = HotstartStackDB$new(list(learner_1))
-  learner$hotstart_stack = hot
-  learner$train(task)
-
-  expect_equal(learner$model$id, id)
-  expect_equal(learner$model$iter, 2)
-  expect_equal(learner$param_set$values$iter, 2)
-
-  # equal retrain parameter
-  learner_1 = lrn("classif.debug", iter = 1)
-  learner_1$train(task)
-  id = learner_1$model$id
-
-  learner = lrn("classif.debug", iter = 1)
-  hot = HotstartStackDB$new(list(learner_1))
-  learner$hotstart_stack = hot
-  learner$train(task)
-
-  expect_equal(learner$model$id, id)
-
-  # added non-hotstart parameter
-  learner_1 = lrn("classif.debug", iter = 1)
-  learner_1$train(task)
-  id = learner_1$model$id
-
-  learner = lrn("classif.debug", iter = 2, x = 1)
-  hot = HotstartStackDB$new(list(learner_1))
-  learner$hotstart_stack = hot
-  learner$train(task)
-
-  expect_true(learner$model$id != id)
-  expect_equal(learner$param_set$values$x, 1)
-  expect_equal(learner$param_set$values$iter, 2)
-  expect_equal(learner$model$iter, 2)
-
-  # added hotstart parameter
-  learner_1 = lrn("classif.debug", x = 0)
-  learner_1$train(task)
-  learner_1$state$param_vals$iter = NULL # iter set by default. Assume it is not.
-  id = learner_1$model$id
-
-  learner = lrn("classif.debug", iter = 5)
-  hot = HotstartStackDB$new(list(learner_1))
-  learner$hotstart_stack = hot
-  learner$train(task)
-
-  expect_true(learner$model$id != id)
-
-  # increased retrain and added non-retrain parameter
-  learner_1 = lrn("classif.debug", iter = 1)
-  learner_1$train(task)
-  id = learner_1$model$id
-
-  learner = lrn("classif.debug", iter = 2, x = 1)
-  hot = HotstartStackDB$new(list(learner_1))
-  learner$hotstart_stack = hot
-  learner$train(task)
-
-  expect_true(learner$model$id != id)
-
-  # equal retrain and changed non-retrain parameter
-  learner_1 = lrn("classif.debug", iter = 1, x = 0)
-  learner_1$train(task)
-  id = learner_1$model$id
-
-  learner = lrn("classif.debug", iter = 1, x = 1)
-  hot = HotstartStackDB$new(list(learner_1))
-  learner$hotstart_stack = hot
-  learner$train(task)
-
-  expect_true(learner$model$id != id)
-
-  # increased retrain and equal non-retrain parameter
-  learner_1 = lrn("classif.debug", iter = 1, x = 0)
-  learner_1$train(task)
-  id = learner_1$model$id
-
-  learner = lrn("classif.debug", iter = 2, x = 0)
-  hot = HotstartStackDB$new(list(learner_1))
-  learner$hotstart_stack = hot
-  learner$train(task)
-
-  expect_equal(learner$model$id, id)
-
-  # different task
-  learner_1 = lrn("classif.debug", iter = 1)
-  learner_1$train(task)
-  id = learner_1$model$id
-
-  learner = lrn("classif.debug", iter = 2)
-  hot = HotstartStackDB$new(list(learner_1))
-  learner$hotstart_stack = hot
-  learner$train(tsk("iris"))
-
-  expect_true(learner$model$id != id)
-})
-
-test_that("resample train with HotstartDB works", {
+test_that("learners are hotstarted from data base when resample is used", {
   task = tsk("pima")
   learner_1 = lrn("classif.debug", iter = 1)
   resampling = rsmp("cv", folds = 3)
@@ -320,7 +257,7 @@ test_that("resample train with HotstartDB works", {
   })
 })
 
-test_that("benchmark train with HotstartDB  works", {
+test_that("learners are hotstarted from data base when benchmark is used", {
   task = tsk("pima")
   learner_1 = lrn("classif.debug", iter = 1)
   learner_2 = lrn("classif.debug", iter = 2)
@@ -334,7 +271,6 @@ test_that("benchmark train with HotstartDB  works", {
   hot = HotstartStackDB$new(learners)
   ids = map_chr(learners, function(l) l$model$id)
 
-  # only train hotstart
   learner = lrn("classif.debug", iter = 3)
   learner$hotstart_stack = hot
 
@@ -346,10 +282,25 @@ test_that("benchmark train with HotstartDB  works", {
     expect_class(l1$model, "classif.debug_model")
     expect_equal(l1$model$iter, 3)
     expect_true(l1$model$id %in% ids)
+    expect_null(l1$hotstart_stack)
   })
+})
 
-  # train and hotstart mixed
-  learner_3 = lrn("classif.debug", iter = 2)
+test_that("learners are trained and hotstarted from data base when benchmark is called", {
+  task = tsk("pima")
+  learner_1 = lrn("classif.debug", iter = 1)
+  learner_2 = lrn("classif.debug", iter = 2)
+  resampling = rsmp("cv", folds = 3)
+  resampling$instantiate(task)
+
+  design = benchmark_grid(task, list(learner_1, learner_2), resampling)
+  bmr = benchmark(design, store_models = TRUE)
+
+  learners = unlist(map(seq_len(bmr$n_resample_results), function(i) bmr$resample_result(i)$learners))
+  hot = HotstartStackDB$new(learners)
+  ids = map_chr(learners, function(l) l$model$id)
+
+  learner_3 = lrn("classif.debug", iter = 4)
   learner_3$hotstart_stack = hot
   learner_4 = lrn("classif.rpart")
   learner_4$hotstart_stack = hot
@@ -357,7 +308,21 @@ test_that("benchmark train with HotstartDB  works", {
   design = benchmark_grid(task, list(learner_3, learner_4), resampling)
   bmr_2 = benchmark(design, store_models = TRUE, allow_hotstart = TRUE)
 
-  # cloning
+  map(bmr_2$resample_result(1)$learners, function(l1) {
+    expect_equal(l1$param_set$values$iter, 4)
+    expect_class(l1$model, "classif.debug_model")
+    expect_equal(l1$model$iter, 4)
+    expect_true(l1$model$id %in% ids[4:6])
+    expect_null(l1$hotstart_stack)
+  })
+
+  map(bmr_2$resample_result(2)$learners, function(l1) {
+    expect_class(l1$model, "rpart")
+    expect_null(l1$hotstart_stack)
+  })
+})
+
+test_that("learners are cloned when hotstarting from data base is applied", {
   task = tsk("pima")
   learner_1 = lrn("classif.debug", iter = 1)
   resampling = rsmp("holdout")

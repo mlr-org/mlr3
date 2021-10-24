@@ -474,7 +474,7 @@ Learner = R6Class("Learner",
       if (missing(rhs)) {
         return(private$.hotstart_stack)
       }
-      #assert_multi_class(rhs, c("HotstartStack", "HotstartStackDB"))
+      assert_multi_class(rhs, c("HotstartStack", "HotstartStackDB"), null.ok = TRUE)
       private$.hotstart_stack = rhs
     }
   ),
