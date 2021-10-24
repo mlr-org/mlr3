@@ -160,20 +160,6 @@ test_that("learners are hotstarted when benchmark is called", {
   learners = unlist(map(seq_len(bmr$n_resample_results), function(i) bmr$resample_result(i)$learners))
   hot = HotstartStack$new(learners)
   ids = map_chr(learners, function(l) l$model$id)
-})
-
-test_that("learners are trained when benchmark is called but no hotstartable models are found", {
-  task = tsk("pima")
-  learner_1 = lrn("classif.debug", iter = 1)
-  learner_2 = lrn("classif.debug", iter = 2)
-  resampling = rsmp("cv", folds = 3)
-  resampling$instantiate(task)
-
-  design = benchmark_grid(task, list(learner_1, learner_2), resampling)
-  bmr = benchmark(design, store_models = TRUE)
-
-  learners = unlist(map(seq_len(bmr$n_resample_results), function(i) bmr$resample_result(i)$learners))
-  hot = HotstartStack$new(learners)
 
   learner = lrn("classif.debug", iter = 3)
   learner$hotstart_stack = hot
@@ -202,14 +188,28 @@ test_that("learners are trained and hotstarted when benchmark is called", {
 
   learners = unlist(map(seq_len(bmr$n_resample_results), function(i) bmr$resample_result(i)$learners))
   hot = HotstartStack$new(learners)
+  ids = map_chr(learners, function(l) l$model$id)
 
-  learner_3 = lrn("classif.debug", iter = 2)
+  learner_3 = lrn("classif.debug", iter = 4)
   learner_3$hotstart_stack = hot
   learner_4 = lrn("classif.rpart")
   learner_4$hotstart_stack = hot
 
   design = benchmark_grid(task, list(learner_3, learner_4), resampling)
   bmr_2 = benchmark(design, store_models = TRUE, allow_hotstart = TRUE)
+
+  map(bmr_2$resample_result(1)$learners, function(l1) {
+    expect_equal(l1$param_set$values$iter, 4)
+    expect_class(l1$model, "classif.debug_model")
+    expect_equal(l1$model$iter, 4)
+    expect_true(l1$model$id %in% ids[4:6])
+    expect_null(l1$hotstart_stack)
+  })
+
+  map(bmr_2$resample_result(2)$learners, function(l1) {
+    expect_class(l1$model, "rpart")
+    expect_null(l1$hotstart_stack)
+  })
 })
 
 test_that("learners are cloned when hotstarting is applied", {
