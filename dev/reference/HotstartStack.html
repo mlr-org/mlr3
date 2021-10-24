@@ -56,8 +56,8 @@
 <meta property="og:title" content="Stack for Hot Start Learners — HotstartStack" />
 <meta property="og:description" content="This class stores learners for hot starting. When fitting a learner
 repeatedly on the same task but with a different fidelity, hot starting
-accelerates model fitting. The learner reuses a previously fitted model while
-training e.g. adding trees to a random forest.
+accelerates model fitting by reusing previously fitted models. For example,
+add more trees to a fitted random forest model.
 The HotstartStack stores trained learners which can be potentially used to
 hot start a learner. Learner automatically hot start while training if a
 stack is attached to the $hotstart_stack field and the stack contains a
@@ -174,8 +174,8 @@ can go backwards by removing trees. The fidelity parameters are tagged with
     <div class="ref-description">
     <p>This class stores learners for hot starting. When fitting a learner
 repeatedly on the same task but with a different fidelity, hot starting
-accelerates model fitting. The learner reuses a previously fitted model while
-training e.g. adding trees to a random forest.</p>
+accelerates model fitting by reusing previously fitted models. For example,
+add more trees to a fitted random forest model.</p>
 <p>The <code>HotstartStack</code> stores trained learners which can be potentially used to
 hot start a learner. Learner automatically hot start while training if a
 stack is attached to the <code>$hotstart_stack</code> field and the stack contains a
@@ -205,16 +205,20 @@ Stores hot start learners.</p></dd>
 <li><p><a href='#method-new'><code>HotstartStack$new()</code></a></p></li>
 <li><p><a href='#method-add'><code>HotstartStack$add()</code></a></p></li>
 <li><p><a href='#method-start_cost'><code>HotstartStack$start_cost()</code></a></p></li>
+<li><p><a href='#method-format'><code>HotstartStack$format()</code></a></p></li>
+<li><p><a href='#method-print'><code>HotstartStack$print()</code></a></p></li>
 <li><p><a href='#method-clone'><code>HotstartStack$clone()</code></a></p></li>
 </ul>
 <p><hr>
 <a id="method-new"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>new()</code></h3>
 <p>Creates a new instance of this <a href='https://r6.r-lib.org/reference/R6Class.html'>R6</a> class.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='va'>HotstartStack</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='va'>learners</span><span class='op'>)</span></pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>HotstartStack</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>learners <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
-<dt><code>learners</code></dt><dd><p>(List of <a href='Learner.html'>Learner</a>s).</p></dd>
+<dt><code>learners</code></dt><dd><p>(List of <a href='Learner.html'>Learner</a>s)<br />
+Learners are added to the hotstart stack. If <code>NULL</code> (default), empty
+stack is created.</p></dd>
 
 </dl><p></div></p>
 <p><hr>
@@ -224,18 +228,20 @@ Stores hot start learners.</p></dd>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
-<dt><code>learners</code></dt><dd><p>(List of <a href='Learner.html'>Learner</a>s).</p></dd>
+<dt><code>learners</code></dt><dd><p>(List of <a href='Learner.html'>Learner</a>s).
+Learners are added to the hotstart stack.</p></dd>
 
 </dl><p></div></p>
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
 <p>self (invisibly).</p>
 <p><hr>
 <a id="method-start_cost"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>start_cost()</code></h3>
-<p>Calculates the cost for each learner of the stack to hot start <code>learner</code>.</p>
+<p>Calculates the cost for each learner of the stack to hot start the target
+<code>learner</code>.</p>
 <p>The following cost values can be returned:</p><ul>
-<li><p><code>NA_real_</code>: Learner is unsuitable to hot start <code>learner</code>.</p></li>
-<li><p><code>-1</code>: Learner in the stack and <code>learner</code> are identical.</p></li>
-<li><p><code>0</code> Cost for hot starting backwards are always 0.</p></li>
+<li><p><code>NA_real_</code>: Learner is unsuitable to hot start target <code>learner</code>.</p></li>
+<li><p><code>-1</code>: Hotstart learner in the stack and target <code>learner</code> are identical.</p></li>
+<li><p><code>0</code> Cost for hot starting backwards is always 0.</p></li>
 <li><p><code>&gt; 0</code> Cost for hot starting forward.</p></li>
 </ul>
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
@@ -243,9 +249,26 @@ Stores hot start learners.</p></dd>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
-<dt><code>learner</code></dt><dd><p><a href='Learner.html'>Learner</a>.</p></dd>
+<dt><code>learner</code></dt><dd><p><a href='Learner.html'>Learner</a><br />
+Target learner.</p></dd>
 
-<dt><code>task_hash</code></dt><dd><p><a href='Task.html'>Task</a>.</p></dd>
+<dt><code>task_hash</code></dt><dd><p><a href='Task.html'>Task</a><br />
+Hash of the task on which the target learner is trained.</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-format"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/base/format.html'>format()</a></code></h3>
+<p>Helper for print outputs.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>HotstartStack</span><span class='op'>$</span><span class='fu'>format</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
+
+<p><hr>
+<a id="method-print"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/base/print.html'>print()</a></code></h3>
+<p>Printer.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>HotstartStack</span><span class='op'>$</span><span class='fu'>print</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>...</code></dt><dd><p>(ignored).</p></dd>
 
 </dl><p></div></p>
 <p><hr>
