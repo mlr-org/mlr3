@@ -111,7 +111,7 @@ test_that("learner hotstart works", {
   expect_class(learner$model, "classif.debug_model")
 })
 
-test_that("resample train hotstart works", {
+test_that("resample works with hotstart", {
   task = tsk("pima")
   learner_1 = lrn("classif.debug", iter = 1)
   resampling = rsmp("cv", folds = 3)
@@ -129,6 +129,7 @@ test_that("resample train hotstart works", {
     expect_class(l2$model, "classif.debug_model")
     expect_equal(l2$model$iter, 2)
     expect_equal(l1$model$id, l2$model$id)
+    expect_null(l2$hotstart_stack)
   })
 })
 
@@ -158,6 +159,7 @@ test_that("benchmark train hostart works", {
     expect_class(l1$model, "classif.debug_model")
     expect_equal(l1$model$iter, 3)
     expect_true(l1$model$id %in% ids)
+    expect_null(l1$hotstart_stack)
   })
 
   # train and hotstart mixed
@@ -191,5 +193,4 @@ test_that("benchmark train hostart works", {
   expect_equal(hot$stack$start_learner[[1]]$model$iter, 1)
   expect_equal(bmr$resample_result(1)$learners[[1]]$model$id,
     hot$stack$start_learner[[1]]$model$id)
-
 })
