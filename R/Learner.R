@@ -474,7 +474,7 @@ Learner = R6Class("Learner",
       if (missing(rhs)) {
         return(private$.hotstart_stack)
       }
-      assert_r6(rhs, "HotstartStack")
+      assert_r6(rhs, "HotstartStack", null.ok = TRUE)
       private$.hotstart_stack = rhs
     }
   ),
