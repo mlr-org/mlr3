@@ -160,7 +160,6 @@ test_that("learners are hotstarted when benchmark is called", {
   learners = unlist(map(seq_len(bmr$n_resample_results), function(i) bmr$resample_result(i)$learners))
   hot = HotstartStack$new(learners)
   ids = map_chr(learners, function(l) l$model$id)
-<<<<<<< HEAD
 
   learner = lrn("classif.debug", iter = 3)
   learner$hotstart_stack = hot
@@ -271,8 +270,6 @@ test_that("learners are hotstarted from data base when benchmark is used", {
   learners = unlist(map(seq_len(bmr$n_resample_results), function(i) bmr$resample_result(i)$learners))
   hot = HotstartStackDB$new(learners)
   ids = map_chr(learners, function(l) l$model$id)
-=======
->>>>>>> hotstart_stack
 
   learner = lrn("classif.debug", iter = 3)
   learner$hotstart_stack = hot
@@ -300,11 +297,7 @@ test_that("learners are trained and hotstarted from data base when benchmark is 
   bmr = benchmark(design, store_models = TRUE)
 
   learners = unlist(map(seq_len(bmr$n_resample_results), function(i) bmr$resample_result(i)$learners))
-<<<<<<< HEAD
   hot = HotstartStackDB$new(learners)
-=======
-  hot = HotstartStack$new(learners)
->>>>>>> hotstart_stack
   ids = map_chr(learners, function(l) l$model$id)
 
   learner_3 = lrn("classif.debug", iter = 4)
@@ -353,4 +346,3 @@ test_that("learners are cloned when hotstarting from data base is applied", {
   expect_equal(unserialize(stack$state[[1]])$model$iter, 1)
   expect_equal(bmr$resample_result(1)$learners[[1]]$model$id, unserialize(stack$state[[1]])$model$id)
 })
-
