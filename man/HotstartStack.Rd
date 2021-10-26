@@ -6,8 +6,8 @@
 \description{
 This class stores learners for hot starting. When fitting a learner
 repeatedly on the same task but with a different fidelity, hot starting
-accelerates model fitting. The learner reuses a previously fitted model while
-training e.g. adding trees to a random forest.
+accelerates model fitting by reusing previously fitted models. For example,
+add more trees to a fitted random forest model.
 
 The \code{HotstartStack} stores trained learners which can be potentially used to
 hot start a learner. Learner automatically hot start while training if a
@@ -66,13 +66,15 @@ Stores hot start learners.}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{HotstartStack$new(learners)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{HotstartStack$new(learners = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{learners}}{(List of \link{Learner}s).}
+\item{\code{learners}}{(List of \link{Learner}s)\cr
+Learners are added to the hotstart stack. If \code{NULL} (default), empty
+stack is created.}
 }
 \if{html}{\out{</div>}}
 }
@@ -89,7 +91,8 @@ Add learners to hot start stack.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{learners}}{(List of \link{Learner}s).}
+\item{\code{learners}}{(List of \link{Learner}s).
+Learners are added to the hotstart stack.}
 }
 \if{html}{\out{</div>}}
 }
@@ -101,13 +104,14 @@ self (invisibly).
 \if{html}{\out{<a id="method-start_cost"></a>}}
 \if{latex}{\out{\hypertarget{method-start_cost}{}}}
 \subsection{Method \code{start_cost()}}{
-Calculates the cost for each learner of the stack to hot start \code{learner}.
+Calculates the cost for each learner of the stack to hot start the target
+\code{learner}.
 
 The following cost values can be returned:
 \itemize{
-\item \code{NA_real_}: Learner is unsuitable to hot start \code{learner}.
-\item \code{-1}: Learner in the stack and \code{learner} are identical.
-\item \code{0} Cost for hot starting backwards are always 0.
+\item \code{NA_real_}: Learner is unsuitable to hot start target \code{learner}.
+\item \code{-1}: Hotstart learner in the stack and target \code{learner} are identical.
+\item \code{0} Cost for hot starting backwards is always 0.
 \item \verb{> 0} Cost for hot starting forward.
 }
 \subsection{Usage}{
@@ -117,9 +121,38 @@ The following cost values can be returned:
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{learner}}{\link{Learner}.}
+\item{\code{learner}}{\link{Learner}\cr
+Target learner.}
 
-\item{\code{task_hash}}{\link{Task}.}
+\item{\code{task_hash}}{\link{Task}\cr
+Hash of the task on which the target learner is trained.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-format"></a>}}
+\if{latex}{\out{\hypertarget{method-format}{}}}
+\subsection{Method \code{format()}}{
+Helper for print outputs.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{HotstartStack$format()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-print"></a>}}
+\if{latex}{\out{\hypertarget{method-print}{}}}
+\subsection{Method \code{print()}}{
+Printer.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{HotstartStack$print()}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{...}}{(ignored).}
 }
 \if{html}{\out{</div>}}
 }

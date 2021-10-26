@@ -3,8 +3,8 @@
 #' @description
 #' This class stores learners for hot starting. When fitting a learner
 #' repeatedly on the same task but with a different fidelity, hot starting
-#' accelerates model fitting. The learner reuses a previously fitted model while
-#' training e.g. adding trees to a random forest.
+#' accelerates model fitting by reusing previously fitted models. For example,
+#' add more trees to a fitted random forest model.
 #'
 #' The `HotstartStack` stores trained learners which can be potentially used to
 #' hot start a learner. Learner automatically hot start while training if a
@@ -48,7 +48,9 @@ HotstartStack = R6Class("HotstartStack",
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #'
-    #' @param learners (List of [Learner]s).
+    #' @param learners (List of [Learner]s)\cr
+    #'   Learners are added to the hotstart stack. If `NULL` (default), empty
+    #'   stack is created.
     initialize = function(learners = NULL) {
       self$stack = data.table()
 
@@ -60,6 +62,7 @@ HotstartStack = R6Class("HotstartStack",
     #' Add learners to hot start stack.
     #'
     #' @param learners (List of [Learner]s).
+    #'   Learners are added to the hotstart stack.
     #'
     #' @return self (invisibly).
     add = function(learners) {
@@ -76,17 +79,20 @@ HotstartStack = R6Class("HotstartStack",
     },
 
     #' @description
-    #' Calculates the cost for each learner of the stack to hot start `learner`.
+    #' Calculates the cost for each learner of the stack to hot start the target
+    #' `learner`.
     #'
     #' The following cost values can be returned:
     #'
-    #' * `NA_real_`: Learner is unsuitable to hot start `learner`.
-    #' * `-1`: Learner in the stack and `learner` are identical.
-    #' * `0` Cost for hot starting backwards are always 0.
+    #' * `NA_real_`: Learner is unsuitable to hot start target `learner`.
+    #' * `-1`: Hotstart learner in the stack and target `learner` are identical.
+    #' * `0` Cost for hot starting backwards is always 0.
     #' * `> 0` Cost for hot starting forward.
     #'
-    #' @param learner [Learner].
-    #' @param task_hash [Task].
+    #' @param learner [Learner]\cr
+    #'   Target learner.
+    #' @param task_hash [Task]\cr
+    #'   Hash of the task on which the target learner is trained.
     #'
     # @return `numeric()`.
     start_cost = function(learner, task_hash) {
@@ -121,10 +127,11 @@ HotstartStack = R6Class("HotstartStack",
   private = list(
 
     # Queries the stack for the start learner with the lowest cost of hot
-    # starting `learner`. The start learner's state is copied to `learner` and
-    # `learner` is returned. This method is internally used by `Learner$train()`
-    # `resample()` and `benchmark()` which call `learner_train(learner, task,
-    # row_ids, mode = 'retrain')` with the returned learner.
+    # starting the target `learner`. The start learner's state is copied to
+    # `learner` and `learner` is returned. This method is internally used by
+    # `Learner$train()` `resample()` and `benchmark()` which call
+    # `learner_train(learner, task, row_ids, mode = 'retrain')` with the
+    # returned learner.
     .start_learner = function(learner, task_hash) {
       if(!nrow(self$stack)) return(NULL)
       .learner_hash = learner_hotstart_hash(assert_learner(learner))

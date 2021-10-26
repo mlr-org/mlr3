@@ -19,11 +19,11 @@ tgen("simplex")
 
 \section{Parameters}{
 \tabular{lllll}{
-   Id \tab Type \tab Default \tab Levels \tab Range \cr
-   center \tab logical \tab TRUE \tab TRUE, FALSE \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \cr
-   d \tab integer \tab 3 \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
-   sd \tab numeric \tab 0.1 \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
-   sides \tab integer \tab 1 \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
+   Id \tab Type \tab Default \tab Range \tab Levels \cr
+   center \tab logical \tab TRUE \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \tab TRUE, FALSE \cr
+   d \tab integer \tab 3 \tab \eqn{[1, \infty)}{[1, Inf)} \tab - \cr
+   sd \tab numeric \tab 0.1 \tab \eqn{[0, \infty)}{[0, Inf)} \tab - \cr
+   sides \tab integer \tab 1 \tab \eqn{[1, \infty)}{[1, Inf)} \tab - \cr
 }
 }
 
