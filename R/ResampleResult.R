@@ -62,14 +62,14 @@ ResampleResult = R6Class("ResampleResult",
     #' @param ... (ignored).
     print = function() {
       catf("%s of %i iterations", format(self), self$iters)
-      catf(str_indent("* Task:", self$task$id))
-      catf(str_indent("* Learner:", self$learner$id))
+      catn(str_indent("* Task:", self$task$id))
+      catn(str_indent("* Learner:", self$learner$id))
 
       warnings = self$warnings
-      catf(str_indent("* Warnings:", sprintf("%i in %i iterations", nrow(warnings), uniqueN(warnings, by = "iteration"))))
+      catn(str_indent("* Warnings:", sprintf("%i in %i iterations", nrow(warnings), uniqueN(warnings, by = "iteration"))))
 
       errors = self$errors
-      catf(str_indent("* Errors:", sprintf("%i in %i iterations", nrow(errors), uniqueN(errors, by = "iteration"))))
+      catn(str_indent("* Errors:", sprintf("%i in %i iterations", nrow(errors), uniqueN(errors, by = "iteration"))))
     },
 
     #' @description
@@ -126,7 +126,6 @@ ResampleResult = R6Class("ResampleResult",
     #' @return [data.table::data.table()].
     score = function(measures = NULL, ids = TRUE, conditions = FALSE, predict_sets = "test") {
       measures = as_measures(measures, task_type = private$.data$task_type)
-      assert_measures(measures, task = self$task, learner = self$learner)
       assert_flag(ids)
       assert_flag(conditions)
       assert_subset(predict_sets, mlr_reflections$predict_sets)
@@ -161,8 +160,7 @@ ResampleResult = R6Class("ResampleResult",
     #' @return Named `numeric()`.
     aggregate = function(measures = NULL) {
       measures = as_measures(measures, task_type = private$.data$task_type)
-      assert_measures(measures, task = self$task, learner = self$learner)
-      set_names(map_dbl(measures, function(m) m$aggregate(self)), ids(measures))
+      resample_result_aggregate(self, measures)
     },
 
     #' @description
@@ -188,6 +186,24 @@ ResampleResult = R6Class("ResampleResult",
       private$.data$data$fact = fact[list(iters), on = "iteration", nomatch = NULL]
 
       invisible(self)
+    },
+
+    #' @description
+    #' Shrinks the [ResampleResult] by discarding parts of the internally stored data.
+    #' Note that certain operations might stop work, e.g. extracting
+    #' importance values from learners or calculating measures requiring the task's data.
+    #'
+    #' @param backends (`logical(1)`)\cr
+    #'   If `TRUE`, the [DataBackend] is removed from all stored [Task]s.
+    #' @param models (`logical(1)`)\cr
+    #'   If `TRUE`, the stored model is removed from all [Learner]s.
+    #'
+    #' @return
+    #' Returns the object itself, but modified **by reference**.
+    #' You need to explicitly `$clone()` the object beforehand if you want to keeps
+    #' the object in its previous state.
+    discard = function(backends = FALSE, models = FALSE) {
+      self$data$discard(backends = backends, models = models)
     }
   ),
 
@@ -314,4 +330,9 @@ format_list_item.ResampleResult = function(x, ...) { # nolint
 #' @export
 c.ResampleResult = function(...) {
   do.call(c, lapply(list(...), as_benchmark_result))
+}
+
+
+resample_result_aggregate = function(rr, measures) {
+  set_names(map_dbl(measures, function(m) m$aggregate(rr)), ids(measures))
 }

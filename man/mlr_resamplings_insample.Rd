@@ -36,6 +36,8 @@ insample$instance # just row ids
 \item Package \CRANpkg{mlr3spatiotempcv} for spatio-temporal resamplings.
 \item \link[mlr3misc:Dictionary]{Dictionary} of \link[=Resampling]{Resamplings}: \link{mlr_resamplings}
 \item \code{as.data.table(mlr_resamplings)} for a table of available \link[=Resampling]{Resamplings} in the running session (depending on the loaded packages).
+\item \CRANpkg{mlr3spatiotempcv} for additional \link{Resampling}s for spatio-temporal
+tasks.
 }
 
 Other Resampling: 

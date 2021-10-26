@@ -183,20 +183,20 @@ Learner = R6Class("Learner",
     #' Printer.
     #' @param ... (ignored).
     print = function() {
-      catf(format(self))
-      catf(str_indent("* Model:", if (is.null(self$model)) "-" else class(self$model)[1L]))
-      catf(str_indent("* Parameters:", as_short_string(self$param_set$values, 1000L)))
-      catf(str_indent("* Packages:", self$packages))
-      catf(str_indent("* Predict Type:", self$predict_type))
-      catf(str_indent("* Feature types:", self$feature_types))
-      catf(str_indent("* Properties:", self$properties))
+      catn(format(self))
+      catn(str_indent("* Model:", if (is.null(self$model)) "-" else class(self$model)[1L]))
+      catn(str_indent("* Parameters:", as_short_string(self$param_set$values, 1000L)))
+      catn(str_indent("* Packages:", self$packages))
+      catn(str_indent("* Predict Type:", self$predict_type))
+      catn(str_indent("* Feature types:", self$feature_types))
+      catn(str_indent("* Properties:", self$properties))
       w = self$warnings
       e = self$errors
       if (length(w)) {
-        catf(str_indent("* Warnings:", w))
+        catn(str_indent("* Warnings:", w))
       }
       if (length(e)) {
-        catf(str_indent("* Errors:", e))
+        catn(str_indent("* Errors:", e))
       }
     },
 
@@ -225,7 +225,21 @@ Learner = R6Class("Learner",
       assert_learnable(task, self)
       row_ids = assert_row_ids(row_ids, null.ok = TRUE)
 
-      learner_train(self, task, row_ids)
+      if (!is.null(self$hotstart_stack)) {
+        # search for hotstart learner
+        start_learner = get_private(self$hotstart_stack)$.start_learner(self, task$hash)
+      }
+      if (is.null(self$hotstart_stack) || is.null(start_learner)) {
+         # no hotstart learners stored or no adaptable model found
+        learner = self
+        mode = "train"
+      } else {
+        self$state = start_learner$clone()$state
+        learner = self
+        mode = "hotstart"
+      }
+
+      learner_train(learner, task, row_ids, mode)
 
       # store the task w/o the data
       self$state$train_task = task_rm_backend(task$clone(deep = TRUE))
@@ -408,11 +422,12 @@ Learner = R6Class("Learner",
 
     #' @field phash (`character(1)`)\cr
     #' Hash (unique identifier) for this partial object, excluding some components
-    #' which are varied  systematically during tuning (parameter values) or feature
+    #' which are varied systematically during tuning (parameter values) or feature
     #' selection (feature names).
     phash = function(rhs) {
       assert_ro_binding(rhs)
-      calculate_hash(class(self), self$id, private$.predict_type, self$fallback$hash)
+      calculate_hash(class(self), self$id, private$.predict_type,
+        self$fallback$hash, self$parallel_predict)
     },
 
     #' @field predict_type (`character(1)`)\cr
@@ -451,6 +466,16 @@ Learner = R6Class("Learner",
       assert_character(rhs)
       assert_names(names(rhs), subset.of = c("train", "predict"))
       private$.encapsulate = insert_named(c(train = "none", predict = "none"), rhs)
+    },
+
+    #' @field hotstart_stack ([HotstartStack])\cr.
+    #' Stores `HotstartStack`.
+    hotstart_stack = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.hotstart_stack)
+      }
+      assert_r6(rhs, "HotstartStack", null.ok = TRUE)
+      private$.hotstart_stack = rhs
     }
   ),
 
@@ -458,6 +483,7 @@ Learner = R6Class("Learner",
     .encapsulate = NULL,
     .predict_type = NULL,
     .param_set = NULL,
+    .hotstart_stack = NULL,
 
     deep_clone = function(name, value) {
       switch(name,

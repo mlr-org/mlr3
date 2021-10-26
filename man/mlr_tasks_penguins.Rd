@@ -13,8 +13,9 @@
 Classification data to predict the species of penguins from the \CRANpkg{palmerpenguins} package, see \link[palmerpenguins:penguins]{palmerpenguins::penguins}.
 A better alternative to the \link[=iris]{iris data set}.
 }
-\section{Construction}{
-\preformatted{mlr_tasks$get("penguins")
+\section{Dictionary}{
+
+This \link{Task} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_tasks} or with the associated sugar function \code{\link[=tsk]{tsk()}}:\preformatted{mlr_tasks$get("penguins")
 tsk("penguins")
 }
 }
@@ -56,6 +57,7 @@ Gorman KB, Williams TD, Fraser WR (2014).
 \item Package \CRANpkg{mlr3viz} for some generic visualizations.
 \item \link[mlr3misc:Dictionary]{Dictionary} of \link[=Task]{Tasks}: \link{mlr_tasks}
 \item \code{as.data.table(mlr_tasks)} for a table of available \link[=Task]{Tasks} in the running session (depending on the loaded packages).
+\item \CRANpkg{mlr3fselect} and \CRANpkg{mlr3filters} for feature selection and feature filtering.
 \item Extension packages for additional task types:
 \itemize{
 \item \CRANpkg{mlr3proba} for probabilistic supervised regression and survival analysis.

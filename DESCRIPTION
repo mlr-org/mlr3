@@ -84,7 +84,7 @@ Suggests:
     mlr3data,
     progressr,
     rpart,
-    testthat (>= 3.0.0)
+    testthat (>= 3.1.0)
 Remotes: Rdatatable/data.table
 Encoding: UTF-8
 Config/testthat/edition: 3
@@ -101,6 +101,7 @@ Collate:
     'DataBackendMatrix.R'
     'DataBackendRbind.R'
     'DataBackendRename.R'
+    'HotstartStack.R'
     'Learner.R'
     'LearnerClassif.R'
     'mlr_learners.R'
@@ -122,6 +123,7 @@ Collate:
     'MeasureOOBError.R'
     'MeasureRegr.R'
     'MeasureSelectedFeatures.R'
+    'MeasureSimilarity.R'
     'MeasureSimple.R'
     'Prediction.R'
     'PredictionClassif.R'

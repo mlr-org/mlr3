@@ -32,7 +32,7 @@ DataBackendCbind = R6Class("DataBackendCbind", inherit = DataBackend, cloneable 
       }
 
       # duplicate rows / reorder columns
-      data[list(rows), intersect(cols, names(data)), on = pk, with = FALSE, nomatch = NULL]
+      ijoin(data, rows,  intersect(cols, names(data)), pk)
     },
 
     head = function(n = 6L) {
@@ -70,6 +70,10 @@ DataBackendCbind = R6Class("DataBackendCbind", inherit = DataBackend, cloneable 
 
     ncol = function() {
       uniqueN(c(private$.data$b1$colnames, private$.data$b2$colnames))
+    },
+
+    col_hashes = function() {
+      insert_named(private$.data$b1$col_hashes, private$.data$b2$col_hashes)
     }
   ),
 

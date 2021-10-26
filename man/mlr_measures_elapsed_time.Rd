@@ -20,11 +20,17 @@ msr("time_train")
 \section{Meta Information}{
 
 \itemize{
-\item Type: \code{NA}
+\item Task type: \dQuote{NA}
 \item Range: \eqn{[0, \infty)}{[0, Inf)}
-\item Minimize: \code{TRUE}
-\item Required prediction: 'response'
+\item Minimize: TRUE
+\item Required Prediction: \dQuote{response}
+\item Required Packages: -
 }
+}
+
+\section{Parameters}{
+
+Empty ParamSet
 }
 
 \seealso{
@@ -44,6 +50,7 @@ msr("time_train")
 Other Measure: 
 \code{\link{MeasureClassif}},
 \code{\link{MeasureRegr}},
+\code{\link{MeasureSimilarity}},
 \code{\link{Measure}},
 \code{\link{mlr_measures_aic}},
 \code{\link{mlr_measures_bic}},

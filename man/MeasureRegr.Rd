@@ -29,6 +29,7 @@ The default measure for regression is \code{\link[=mlr_measures_regr.mse]{regr.m
 
 Other Measure: 
 \code{\link{MeasureClassif}},
+\code{\link{MeasureSimilarity}},
 \code{\link{Measure}},
 \code{\link{mlr_measures_aic}},
 \code{\link{mlr_measures_bic}},

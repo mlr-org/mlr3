@@ -13,15 +13,8 @@
 #' * 16 incomplete cases have been removed from the data set.
 #' * All factor features have been converted to ordered factors.
 #'
-#' @section Construction:
-#' ```
-#' mlr_tasks$get("breast_cancer")
-#' tsk("breast_cancer")
-#' ```
-#'
-#' @section Meta Information:
-#' `r rd_info(tsk("breast_cancer"))`
-#'
+#' @templateVar id breast_cancer
+#' @template task
 #'
 #' @template seealso_task
 NULL

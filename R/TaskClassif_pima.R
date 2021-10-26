@@ -8,14 +8,8 @@
 #' A classification task for the [mlbench::PimaIndiansDiabetes2] data set.
 #' Positive class is set to `"pos"`.
 #'
-#' @section Construction:
-#' ```
-#' mlr_tasks$get("pima")
-#' tsk("pima")
-#' ```
-#'
-#' @section Meta Information:
-#' `r rd_info(tsk("pima"))`
+#' @templateVar id pima
+#' @template task
 #'
 #' @template seealso_task
 NULL

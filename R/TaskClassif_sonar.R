@@ -8,14 +8,8 @@
 #' A classification task for the [mlbench::Sonar] data set.
 #' Positive class is set to "M" (Mine).
 #'
-#' @section Construction:
-#' ```
-#' mlr_tasks$get("sonar")
-#' tsk("sonar")
-#' ```
-#'
-#' @section Meta Information:
-#' `r rd_info(tsk("sonar"))`
+#' @templateVar id sonar
+#' @template task
 #'
 #' @template seealso_task
 NULL

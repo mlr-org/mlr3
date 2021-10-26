@@ -20,20 +20,21 @@ msr("selected_features")
 }
 }
 
-\section{Parameters}{
-\tabular{lllll}{
-   Id \tab Type \tab Default \tab Range \tab Levels \cr
-   normalize \tab logical \tab TRUE \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \tab TRUE, FALSE \cr
-}
-}
-
 \section{Meta Information}{
 
 \itemize{
-\item Type: \code{NA}
+\item Task type: \dQuote{NA}
 \item Range: \eqn{[0, \infty)}{[0, Inf)}
-\item Minimize: \code{TRUE}
-\item Required prediction: 'response'
+\item Minimize: TRUE
+\item Required Prediction: \dQuote{response}
+\item Required Packages: -
+}
+}
+
+\section{Parameters}{
+\tabular{lllll}{
+   Id \tab Type \tab Default \tab Range \tab Levels \cr
+   normalize \tab logical \tab FALSE \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \tab TRUE, FALSE \cr
 }
 }
 
@@ -62,6 +63,7 @@ scores[, c("iteration", "selected_features")]
 Other Measure: 
 \code{\link{MeasureClassif}},
 \code{\link{MeasureRegr}},
+\code{\link{MeasureSimilarity}},
 \code{\link{Measure}},
 \code{\link{mlr_measures_aic}},
 \code{\link{mlr_measures_bic}},

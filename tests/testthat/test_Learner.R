@@ -195,11 +195,11 @@ test_that("predict train + test set", {
 
   learner = lrn("classif.rpart")
   rr = resample(task, learner, hout)
-  expect_error(rr$aggregate(measures = measures), "predict.set")
+  expect_warning(expect_warning(rr$aggregate(measures = measures), "predict sets", fixed = TRUE))
 
   learner = lrn("classif.rpart", predict_sets = "train")
   rr = resample(task, learner, hout)
-  expect_error(rr$aggregate(measures = measures), "predict.set")
+  expect_warning(expect_warning(rr$aggregate(measures = measures), "predict sets", fixed = TRUE))
 
   learner = lrn("classif.rpart", predict_sets = c("train", "test"))
   rr = resample(task, learner, hout)

@@ -19,11 +19,17 @@ msr("oob_error")
 \section{Meta Information}{
 
 \itemize{
-\item Type: \code{NA}
+\item Task type: \dQuote{NA}
 \item Range: \eqn{(-\infty, \infty)}{(-Inf, Inf)}
-\item Minimize: \code{NA}
-\item Required prediction: 'response'
+\item Minimize: TRUE
+\item Required Prediction: \dQuote{response}
+\item Required Packages: -
 }
+}
+
+\section{Parameters}{
+
+Empty ParamSet
 }
 
 \seealso{
@@ -43,6 +49,7 @@ msr("oob_error")
 Other Measure: 
 \code{\link{MeasureClassif}},
 \code{\link{MeasureRegr}},
+\code{\link{MeasureSimilarity}},
 \code{\link{Measure}},
 \code{\link{mlr_measures_aic}},
 \code{\link{mlr_measures_bic}},

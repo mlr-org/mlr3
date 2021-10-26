@@ -10,6 +10,9 @@ Binary classification measure defined as \deqn{
    FN / (FN + TN).
 }
 }
+\details{
+This measure is undefined if FN + TN = 0.
+}
 \note{
 The score function calls \code{\link[mlr3measures:fomr]{mlr3measures::fomr()}} from package \CRANpkg{mlr3measures}.
 
@@ -18,9 +21,14 @@ This can be customized by setting the field \code{na_value}.
 }
 \section{Dictionary}{
 
-This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("fomr")
-msr("fomr")
+This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("classif.fomr")
+msr("classif.fomr")
 }
+}
+
+\section{Parameters}{
+
+Empty ParamSet
 }
 
 \section{Meta Information}{

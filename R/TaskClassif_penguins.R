@@ -8,14 +8,8 @@
 #' Classification data to predict the species of penguins from the \CRANpkg{palmerpenguins} package, see [palmerpenguins::penguins].
 #' A better alternative to the [iris data set][iris].
 #'
-#' @section Construction:
-#' ```
-#' mlr_tasks$get("penguins")
-#' tsk("penguins")
-#' ```
-#'
-#' @section Meta Information:
-#' `r rd_info(tsk("penguins"))`
+#' @templateVar id penguins
+#' @template task
 #'
 #' @section Pre-processing:
 #' * The unit of measurement have been removed from the column names.

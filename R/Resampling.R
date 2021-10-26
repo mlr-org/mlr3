@@ -139,8 +139,8 @@ Resampling = R6Class("Resampling",
     print = function(...) {
       pv = self$param_set$values
       catf("%s with %i iterations", format(self), self$iters)
-      catf(str_indent("* Instantiated:", self$is_instantiated))
-      catf(str_indent("* Parameters:", as_short_string(pv, 1000L)))
+      catn(str_indent("* Instantiated:", self$is_instantiated))
+      catn(str_indent("* Parameters:", as_short_string(pv, 1000L)))
     },
 
     #' @description

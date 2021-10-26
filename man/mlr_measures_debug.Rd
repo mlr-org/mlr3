@@ -17,20 +17,21 @@ msr("debug")
 }
 }
 
-\section{Parameters}{
-\tabular{lllll}{
-   Id \tab Type \tab Default \tab Range \tab Levels \cr
-   normalize \tab logical \tab TRUE \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \tab TRUE, FALSE \cr
-}
-}
-
 \section{Meta Information}{
 
 \itemize{
-\item Type: \code{NA}
+\item Task type: \dQuote{NA}
 \item Range: \eqn{[0, \infty)}{[0, Inf)}
-\item Minimize: \code{NA}
-\item Required prediction: 'response'
+\item Minimize: NA
+\item Required Prediction: \dQuote{response}
+\item Required Packages: -
+}
+}
+
+\section{Parameters}{
+\tabular{lllll}{
+   Id \tab Type \tab Default \tab Range \tab Levels \cr
+   na_ratio \tab numeric \tab - \tab \eqn{[0, 1]}{[0, 1]} \tab - \cr
 }
 }
 
@@ -58,6 +59,7 @@ rr$score(measure)
 Other Measure: 
 \code{\link{MeasureClassif}},
 \code{\link{MeasureRegr}},
+\code{\link{MeasureSimilarity}},
 \code{\link{Measure}},
 \code{\link{mlr_measures_aic}},
 \code{\link{mlr_measures_bic}},

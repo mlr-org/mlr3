@@ -28,13 +28,7 @@
 #' Also note that if they work as intended, they will tear down your R session immediately!
 #'
 #' @templateVar id classif.debug
-#' @template section_dictionary_learner
-#'
-#' @section Meta Information:
-#' `r rd_info(lrn("classif.debug"))`
-#'
-#' @section Parameters:
-#' `r rd_info(lrn("classif.debug")$param_set)`
+#' @template learner
 #'
 #' @template seealso_learner
 #' @export
@@ -73,9 +67,10 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
           threads              = p_int(1L, tags = c("train", "threads")),
           warning_predict      = p_dbl(0, 1, default = 0, tags = "predict"),
           warning_train        = p_dbl(0, 1, default = 0, tags = "train"),
-          x                    = p_dbl(0, 1, tags = "train")
+          x                    = p_dbl(0, 1, tags = "train"),
+          iter                 = p_int(1, default = 1, tags = c("train", "hotstart"))
         ),
-        properties = c("twoclass", "multiclass", "missings"),
+        properties = c("twoclass", "multiclass", "missings", "hotstart_forward"),
         man = "mlr3::mlr_learners_classif.debug",
         data_formats = c("data.table", "Matrix")
       )
@@ -107,7 +102,8 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
         get("attach")(structure(list(), class = "UserDefinedDatabase"))
       }
 
-      model = list(response = as.character(sample(task$truth(), 1L)), pid = Sys.getpid())
+      model = list(response = as.character(sample(task$truth(), 1L)), pid = Sys.getpid(), iter = pv$iter,
+        id = UUIDgenerate())
       if (isTRUE(pv$save_tasks)) {
         model$task_train = task$clone(deep = TRUE)
       }
@@ -179,6 +175,16 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
       }
 
       list(response = response, prob = prob)
+    },
+
+    .hotstart = function(task) {
+      model = self$model
+      pars = self$param_set$get_values(tags = "train")
+      id = self$model$id
+
+      model = list(response = as.character(sample(task$truth(), 1L)), pid = Sys.getpid(), iter = pars$iter,
+        id = id)
+      set_class(model, "classif.debug_model")
     }
   )
 )

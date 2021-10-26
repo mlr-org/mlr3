@@ -21,20 +21,21 @@ msr("classif.costs")
 }
 }
 
+\section{Meta Information}{
+
+\itemize{
+\item Task type: \dQuote{classif}
+\item Range: \eqn{(-\infty, \infty)}{(-Inf, Inf)}
+\item Minimize: TRUE
+\item Required Prediction: \dQuote{response}
+\item Required Packages: -
+}
+}
+
 \section{Parameters}{
 \tabular{lllll}{
    Id \tab Type \tab Default \tab Range \tab Levels \cr
    normalize \tab logical \tab TRUE \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \tab TRUE, FALSE \cr
-}
-}
-
-\section{Meta Information}{
-
-\itemize{
-\item Type: \code{"classif"}
-\item Range: \eqn{[0, \infty)}{[0, Inf)}
-\item Minimize: \code{TRUE}
-\item Required prediction: 'response'
 }
 }
 
@@ -76,6 +77,7 @@ rr$aggregate(m)
 Other Measure: 
 \code{\link{MeasureClassif}},
 \code{\link{MeasureRegr}},
+\code{\link{MeasureSimilarity}},
 \code{\link{Measure}},
 \code{\link{mlr_measures_aic}},
 \code{\link{mlr_measures_bic}},
