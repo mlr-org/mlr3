@@ -211,6 +211,8 @@ The sets can be accessed via <code>$train_set(i)</code> and <code>$test_set(i)</
 <li><p>Package <a href='https://CRAN.R-project.org/package=mlr3spatiotempcv'><span class="pkg">mlr3spatiotempcv</span></a> for spatio-temporal resamplings.</p></li>
 <li><p><a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>Dictionary</a> of Resamplings: <a href='mlr_resamplings.html'>mlr_resamplings</a></p></li>
 <li><p><code><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table(mlr_resamplings)</a></code> for a table of available Resamplings in the running session (depending on the loaded packages).</p></li>
+<li><p><a href='https://CRAN.R-project.org/package=mlr3spatiotempcv'><span class="pkg">mlr3spatiotempcv</span></a> for additional Resamplings for spatio-temporal
+tasks.</p></li>
 </ul>
 
 <p>Other Resampling: 
@@ -409,30 +411,30 @@ Iteration.</p></dd>
 <span class='co'># Extract train/test sets</span>
 <span class='va'>train_set</span> <span class='op'>=</span> <span class='va'>r</span><span class='op'>$</span><span class='fu'>train_set</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>train_set</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  [1] 147  67  44 161 258 302 263 209 109 344  97 261   2 314 295 337 237 308 189
-#&gt; [20] 123 319  64 290  68  72 169 200 330  40  53 243  88 185 139</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/sets.html'>intersect</a></span><span class='op'>(</span><span class='va'>train_set</span>, <span class='va'>r</span><span class='op'>$</span><span class='fu'>test_set</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;  [1]  67  44 161 258 302 263 209 109 147  97 261   2 314 295 338 237 308 189 123
+#&gt; [20] 319  64 290  68  72 169 200 331  40  53 243  88 185 139 155</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/sets.html'>intersect</a></span><span class='op'>(</span><span class='va'>train_set</span>, <span class='va'>r</span><span class='op'>$</span><span class='fu'>test_set</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; integer(0)</div><div class='input'>
 <span class='co'># Another example: 10-fold CV</span>
 <span class='va'>r</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span><span class='op'>(</span><span class='st'>"cv"</span><span class='op'>)</span><span class='op'>$</span><span class='fu'>instantiate</span><span class='op'>(</span><span class='va'>task</span><span class='op'>)</span>
 <span class='va'>r</span><span class='op'>$</span><span class='fu'>train_set</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;   [1]  15  17  25  30  43  47  58  72  73  88  92 101 108 121 132 145 152 154
-#&gt;  [19] 175 178 192 205 210 213 229 241 261 275 279 283 291 312 314 322 334  18
-#&gt;  [37]  32  49  51  59  79  81  98  99 104 109 111 116 120 123 136 170 171 191
-#&gt;  [55] 196 198 207 214 215 222 249 260 266 278 281 282 285 289 296 320   7  16
-#&gt;  [73]  24  29  33  40  41  44  66  75  85 100 103 107 126 139 150 157 160 163
-#&gt;  [91] 184 186 190 242 251 252 294 297 299 309 315 318 321 328 333  13  19  21
-#&gt; [109]  26  35  38  46  60  61  87  89 113 134 140 155 173 177 179 185 200 234
-#&gt; [127] 238 250 253 256 262 271 286 290 305 325 330 335 344  14  36  39  42  52
-#&gt; [145]  53  67  69  74  82 102 127 128 129 138 143 144 148 149 194 195 223 227
-#&gt; [163] 248 255 264 273 280 287 298 307 337 338 340   1   4  31  68  71  90  97
-#&gt; [181] 105 115 125 130 135 147 151 161 164 165 167 202 206 208 225 232 240 244
-#&gt; [199] 259 277 292 310 311 329 331 332 342   5  12  27  48  78  80  84 112 114
-#&gt; [217] 119 124 162 174 181 183 204 216 226 230 236 246 254 263 267 268 269 274
-#&gt; [235] 276 303 304 308 319 327 341   6  10  45  50  76  77  91  95 110 117 118
-#&gt; [253] 131 133 142 146 159 197 199 201 203 211 220 224 239 243 245 247 257 284
-#&gt; [271] 295 300 306 316 317   8  11  20  23  28  37  54  57  62  63  65  70  94
-#&gt; [289]  96 137 153 169 176 182 188 193 209 212 217 218 219 221 231 235 258 270
-#&gt; [307] 288 301 339</div><div class='input'>
+</div><div class='output co'>#&gt;   [1]  16  24  29  46  55  57  71  72  85  91  92 100 121 131 146 151 153 167
+#&gt;  [19] 177 179 187 192 199 205 210 213 229 241 260 275 279 283 314 322 336  14
+#&gt;  [37]  17  31  42  48  50  58  78  80  83  98 103 107 115 119 122 135 144 174
+#&gt;  [55] 178 189 191 196 207 215 225 249 258 278 285 289 291 296 312 334   6  15
+#&gt;  [73]  23  28  40  43  65  74  84  87 105 106 110 125 138 149 159 169 170 184
+#&gt;  [91] 185 186 242 244 266 281 282 297 299 309 315 318 321 328 333  12  18  20
+#&gt; [109]  25  34  37  39  60  86  88  97  99 112 133 139 154 156 162 172 188 190
+#&gt; [127] 194 238 243 251 256 262 272 274 284 290 294 325 330  13  35  38  41  45
+#&gt; [145]  51  52  59  66  77  81 126 128 142 143 147 148 195 211 223 227 236 250
+#&gt; [163] 254 255 280 286 287 298 307 323 324 335 344   3  30  32  67  68  70  73
+#&gt; [181]  89 101 104 108 127 134 137 150 160 166 176 198 201 202 206 214 240 245
+#&gt; [199] 248 259 264 273 292 310 311 331 332   4  26  47  79  96 102 111 118 120
+#&gt; [217] 123 124 129 161 163 164 180 200 208 216 226 232 246 252 263 267 268 269
+#&gt; [235] 271 276 304 308 319 338 340   5   9  11  44  75  90  94 109 113 114 117
+#&gt; [253] 130 132 141 145 158 173 183 203 204 219 220 224 230 257 265 295 300 306
+#&gt; [271] 316 320 327 337 341   7  10  19  22  27  36  49  56  61  62  64  69  76
+#&gt; [289]  95 116 152 168 181 182 193 197 218 221 222 239 247 261 270 277 288 305
+#&gt; [307] 317 329 339</div><div class='input'>
 <span class='co'># Stratification</span>
 <span class='va'>task</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span><span class='op'>(</span><span class='st'>"pima"</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/base/proportions.html'>prop.table</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='va'>task</span><span class='op'>$</span><span class='fu'>truth</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='co'># moderately unbalanced</span>

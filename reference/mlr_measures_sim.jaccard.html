@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Palmer Penguins Data Set — mlr_tasks_penguins • mlr3</title>
+<title>Jaccard Similarity Index — mlr_measures_sim.jaccard • mlr3</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -53,9 +53,14 @@
 
 
 
-<meta property="og:title" content="Palmer Penguins Data Set — mlr_tasks_penguins" />
-<meta property="og:description" content="Classification data to predict the species of penguins from the palmerpenguins package, see palmerpenguins::penguins.
-A better alternative to the iris data set." />
+<meta property="og:title" content="Jaccard Similarity Index — mlr_measures_sim.jaccard" />
+<meta property="og:description" content="Measure to compare two or more sets w.r.t. their similarity.
+For two sets \(A\) and \(B\), it is defined as
+$$
+  J(A, B) = \frac{|A \cap B|}{|A \cup B|}.
+$$
+If more than two sets are provided, the mean of all pairwise scores
+is calculated." />
 <meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
@@ -155,97 +160,57 @@ A better alternative to the iris data set." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Palmer Penguins Data Set</h1>
-    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/TaskClassif_penguins.R'><code>R/TaskClassif_penguins.R</code></a></small>
-    <div class="hidden name"><code>mlr_tasks_penguins.Rd</code></div>
+    <h1>Jaccard Similarity Index</h1>
+    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/MeasureSimple.R'><code>R/MeasureSimple.R</code></a></small>
+    <div class="hidden name"><code>mlr_measures_sim.jaccard.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Classification data to predict the species of penguins from the <a href='https://CRAN.R-project.org/package=palmerpenguins'><span class="pkg">palmerpenguins</span></a> package, see <a href='https://allisonhorst.github.io/palmerpenguins/reference/penguins.html'>palmerpenguins::penguins</a>.
-A better alternative to the <a href='https://rdrr.io/r/datasets/iris.html'>iris data set</a>.</p>
+    <p>Measure to compare two or more sets w.r.t. their similarity.
+For two sets \(A\) and \(B\), it is defined as
+$$
+  J(A, B) = \frac{|A \cap B|}{|A \cup B|}.
+$$
+If more than two sets are provided, the mean of all pairwise scores
+is calculated.</p>
     </div>
 
 
 
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p><a href='https://r6.r-lib.org/reference/R6Class.html'>R6::R6Class</a> inheriting from <a href='TaskClassif.html'>TaskClassif</a>.</p>
-    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
+    <p>This measure is undefined if two or more sets are empty.</p>
+    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
-    <p><a href='https://CRAN.R-project.org/package=palmerpenguins'><span class="pkg">palmerpenguins</span></a></p>
+    <p>The score function calls <code><a href='https://mlr3measures.mlr-org.com/reference/jaccard.html'>mlr3measures::jaccard()</a></code> from package <a href='https://CRAN.R-project.org/package=mlr3measures'><span class="pkg">mlr3measures</span></a>.</p>
+<p>If the measure is undefined for the input, <code>NaN</code> is returned.
+This can be customized by setting the field <code>na_value</code>.</p>
     <h2 class="hasAnchor" id="dictionary"><a class="anchor" href="#dictionary"></a>Dictionary</h2>
 
     
 
-<p>This <a href='Task.html'>Task</a> can be instantiated via the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> <a href='mlr_tasks.html'>mlr_tasks</a> or with the associated sugar function <code><a href='mlr_sugar.html'>tsk()</a></code>:</p><pre><span class='va'>mlr_tasks</span><span class='op'>$</span><span class='fu'>get</span><span class='op'>(</span><span class='st'>"penguins"</span><span class='op'>)</span>
-<span class='fu'><a href='mlr_sugar.html'>tsk</a></span><span class='op'>(</span><span class='st'>"penguins"</span><span class='op'>)</span>
+<p>This <a href='Measure.html'>Measure</a> can be instantiated via the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> <a href='mlr_measures.html'>mlr_measures</a> or with the associated sugar function <code><a href='mlr_sugar.html'>msr()</a></code>:</p><pre><span class='va'>mlr_measures</span><span class='op'>$</span><span class='fu'>get</span><span class='op'>(</span><span class='st'>"sim.jaccard"</span><span class='op'>)</span>
+<span class='fu'><a href='mlr_sugar.html'>msr</a></span><span class='op'>(</span><span class='st'>"sim.jaccard"</span><span class='op'>)</span>
 </pre>
 
     <h2 class="hasAnchor" id="meta-information"><a class="anchor" href="#meta-information"></a>Meta Information</h2>
 
     
 
-<ul>
-<li><p>Task type: &#8220;classif&#8221;</p></li>
-<li><p>Dimensions: 344x8</p></li>
-<li><p>Properties: &#8220;multiclass&#8221;</p></li>
-<li><p>Has Missings: <code>TRUE</code></p></li>
-<li><p>Target: &#8220;species&#8221;</p></li>
-<li><p>Features: &#8220;bill_depth&#8221;, &#8220;bill_length&#8221;, &#8220;body_mass&#8221;, &#8220;flipper_length&#8221;, &#8220;island&#8221;, &#8220;sex&#8221;, &#8220;year&#8221;</p></li>
-</ul>
-
-    <h2 class="hasAnchor" id="pre-processing"><a class="anchor" href="#pre-processing"></a>Pre-processing</h2>
-
-    
 
 <ul>
-<li><p>The unit of measurement have been removed from the column names.
-Lengths are given in millimeters (mm), weight in gram (g).</p></li>
+<li><p>Type: <code>"similarity"</code></p></li>
+<li><p>Range: \([0, 1]\)</p></li>
+<li><p>Minimize: <code>FALSE</code></p></li>
 </ul>
 
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Gorman KB, Williams TD, Fraser WR (2014).
-&#8220;Ecological Sexual Dimorphism and Environmental Variability within a Community of Antarctic Penguins (Genus Pygoscelis).&#8221;
-<em>PLoS ONE</em>, <b>9</b>(3), e90081.
-doi: <a href='https://doi.org/10.1371/journal.pone.0090081'>10.1371/journal.pone.0090081</a>
-.</p>
-<p><a href='https://github.com/allisonhorst/palmerpenguins'>https://github.com/allisonhorst/palmerpenguins</a></p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'>
-<ul>
-<li><p>Chapter in the <a href='https://mlr3book.mlr-org.com/'>mlr3book</a>:
-<a href='https://mlr3book.mlr-org.com/basics.html#tasks'>https://mlr3book.mlr-org.com/basics.html#tasks</a></p></li>
-<li><p>Package <a href='https://CRAN.R-project.org/package=mlr3data'><span class="pkg">mlr3data</span></a> for more toy tasks.</p></li>
-<li><p>Package <a href='https://CRAN.R-project.org/package=mlr3oml'><span class="pkg">mlr3oml</span></a> for downloading tasks from <a href='https://openml.org'>https://openml.org</a>.</p></li>
-<li><p>Package <a href='https://CRAN.R-project.org/package=mlr3viz'><span class="pkg">mlr3viz</span></a> for some generic visualizations.</p></li>
-<li><p><a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>Dictionary</a> of <a href='Task.html'>Tasks</a>: <a href='mlr_tasks.html'>mlr_tasks</a></p></li>
-<li><p><code><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table(mlr_tasks)</a></code> for a table of available <a href='Task.html'>Tasks</a> in the running session (depending on the loaded packages).</p></li>
-<li><p><a href='https://CRAN.R-project.org/package=mlr3fselect'><span class="pkg">mlr3fselect</span></a> and <a href='https://CRAN.R-project.org/package=mlr3filters'><span class="pkg">mlr3filters</span></a> for feature selection and feature filtering.</p></li>
-<li><p>Extension packages for additional task types:</p><ul>
-<li><p><a href='https://CRAN.R-project.org/package=mlr3proba'><span class="pkg">mlr3proba</span></a> for probabilistic supervised regression and survival analysis.</p></li>
-<li><p><a href='https://CRAN.R-project.org/package=mlr3cluster'><span class="pkg">mlr3cluster</span></a> for unsupervised clustering.</p></li>
-</ul></li>
-</ul>
-
-<p>Other Task: 
-<code><a href='TaskClassif.html'>TaskClassif</a></code>,
-<code><a href='TaskRegr.html'>TaskRegr</a></code>,
-<code><a href='TaskSupervised.html'>TaskSupervised</a></code>,
-<code><a href='TaskUnsupervised.html'>TaskUnsupervised</a></code>,
-<code><a href='Task.html'>Task</a></code>,
-<code><a href='mlr_tasks_boston_housing.html'>mlr_tasks_boston_housing</a></code>,
-<code><a href='mlr_tasks_breast_cancer.html'>mlr_tasks_breast_cancer</a></code>,
-<code><a href='mlr_tasks_german_credit.html'>mlr_tasks_german_credit</a></code>,
-<code><a href='mlr_tasks_iris.html'>mlr_tasks_iris</a></code>,
-<code><a href='mlr_tasks_mtcars.html'>mlr_tasks_mtcars</a></code>,
-<code><a href='mlr_tasks_pima.html'>mlr_tasks_pima</a></code>,
-<code><a href='mlr_tasks_sonar.html'>mlr_tasks_sonar</a></code>,
-<code><a href='mlr_tasks_spam.html'>mlr_tasks_spam</a></code>,
-<code><a href='mlr_tasks_wine.html'>mlr_tasks_wine</a></code>,
-<code><a href='mlr_tasks_zoo.html'>mlr_tasks_zoo</a></code>,
-<code><a href='mlr_tasks.html'>mlr_tasks</a></code></p></div>
+    <div class='dont-index'><p><a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>Dictionary</a> of <a href='Measure.html'>Measures</a>: <a href='mlr_measures.html'>mlr_measures</a></p>
+<p><code><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table(mlr_measures)</a></code> for a complete table of all (also dynamically created) <a href='Measure.html'>Measure</a> implementations.</p>
+<p>Other similarity measures: 
+<code><a href='mlr_measures_sim.phi.html'>mlr_measures_sim.phi</a></code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

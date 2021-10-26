@@ -253,10 +253,14 @@ Here, we add a factor hyperparameter with id <code>"foo"</code> and possible lev
 <li><p>Package <a href='https://github.com/mlr-org/mlr3extralearners'>mlr3extralearners</a> for more learners.</p></li>
 <li><p><a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>Dictionary</a> of Learners: <a href='mlr_learners.html'>mlr_learners</a></p></li>
 <li><p><code><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table(mlr_learners)</a></code> for a table of available Learners in the running session (depending on the loaded packages).</p></li>
+<li><p><a href='https://CRAN.R-project.org/package=mlr3pipelines'><span class="pkg">mlr3pipelines</span></a> to combine learners with pre- and postprocessing steps.</p></li>
+<li><p>Package <a href='https://CRAN.R-project.org/package=mlr3viz'><span class="pkg">mlr3viz</span></a> for some generic visualizations.</p></li>
 <li><p>Extension packages for additional task types:</p><ul>
 <li><p><a href='https://CRAN.R-project.org/package=mlr3proba'><span class="pkg">mlr3proba</span></a> for probabilistic supervised regression and survival analysis.</p></li>
 <li><p><a href='https://CRAN.R-project.org/package=mlr3cluster'><span class="pkg">mlr3cluster</span></a> for unsupervised clustering.</p></li>
 </ul></li>
+<li><p><a href='https://CRAN.R-project.org/package=mlr3tuning'><span class="pkg">mlr3tuning</span></a> for tuning of hyperparameters, <a href='https://CRAN.R-project.org/package=mlr3tuningspaces'><span class="pkg">mlr3tuningspaces</span></a>
+for established default tuning spaces.</p></li>
 </ul>
 
 <p>Other Learner: 
@@ -367,7 +371,7 @@ Hash (unique identifier) for this object.</p></dd>
 
 <dt><code>phash</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
 Hash (unique identifier) for this partial object, excluding some components
-which are varied  systematically during tuning (parameter values) or feature
+which are varied systematically during tuning (parameter values) or feature
 selection (feature names).</p></dd>
 
 <dt><code>predict_type</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
@@ -382,6 +386,9 @@ Controls how to execute the code in internal train and predict methods.
 Must be a named character vector with names <code>"train"</code> and <code>"predict"</code>.
 Possible values are <code>"none"</code>, <code>"evaluate"</code> (requires package <a href='https://CRAN.R-project.org/package=evaluate'><span class="pkg">evaluate</span></a>) and <code>"callr"</code> (requires package <a href='https://CRAN.R-project.org/package=callr'><span class="pkg">callr</span></a>).
 See <code><a href='https://mlr3misc.mlr-org.com/reference/encapsulate.html'>mlr3misc::encapsulate()</a></code> for more details.</p></dd>
+
+<dt><code>hotstart_stack</code></dt><dd><p>(<a href='HotstartStack.html'>HotstartStack</a>)<br />.
+Stores <code>HotstartStack</code>.</p></dd>
 
 </dl><p></div></p>
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>

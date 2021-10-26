@@ -175,7 +175,8 @@ Training and test sets are defined by the <a href='Resampling.html'>Resampling</
   <span class='va'>resampling</span>,
   store_models <span class='op'>=</span> <span class='cn'>FALSE</span>,
   store_backends <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  encapsulate <span class='op'>=</span> <span class='cn'>NA_character_</span>
+  encapsulate <span class='op'>=</span> <span class='cn'>NA_character_</span>,
+  allow_hotstart <span class='op'>=</span> <span class='cn'>FALSE</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -225,6 +226,12 @@ Additionally, if encapsulation is set to <code>"evaluate"</code> or <code>"callr
 the fallback learner is set to the featureless learner if the learner
 does not already have a fallback configured.</p></td>
     </tr>
+    <tr>
+      <th>allow_hotstart</th>
+      <td><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
+Determines if learner(s) are hot started with trained models in
+<code>$hotstart_stack</code>. See also <a href='HotstartStack.html'>HotstartStack</a>.</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -272,8 +279,14 @@ or <code>"trace"</code>:</p><pre><span class='fu'>lgr</span><span class='fu'>::<
 <p>To log to a file or a data base, see the documentation of <a href='https://s-fleck.github.io/lgr/reference/lgr-package.html'>lgr::lgr-package</a>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Chapter in the <a href='https://mlr3book.mlr-org.com/'>mlr3book</a>:
-<a href='https://mlr3book.mlr-org.com/basics.html#resampling'>https://mlr3book.mlr-org.com/basics.html#resampling</a></p>
+    <div class='dont-index'>
+<ul>
+<li><p><code><a href='as_benchmark_result.html'>as_benchmark_result()</a></code> to convert to a <a href='BenchmarkResult.html'>BenchmarkResult</a>.</p></li>
+<li><p>Chapter in the <a href='https://mlr3book.mlr-org.com/'>mlr3book</a>:
+<a href='https://mlr3book.mlr-org.com/basics.html#resampling'>https://mlr3book.mlr-org.com/basics.html#resampling</a></p></li>
+<li><p>Package <a href='https://CRAN.R-project.org/package=mlr3viz'><span class="pkg">mlr3viz</span></a> for some generic visualizations.</p></li>
+</ul>
+
 <p>Other resample: 
 <code><a href='ResampleResult.html'>ResampleResult</a></code></p></div>
 
@@ -296,16 +309,16 @@ or <code>"trace"</code>:</p><pre><span class='fu'>lgr</span><span class='fu'>::<
 <span class='co'># Retrieve performance</span>
 <span class='va'>rr</span><span class='op'>$</span><span class='fu'>score</span><span class='op'>(</span><span class='fu'><a href='mlr_sugar.html'>msr</a></span><span class='op'>(</span><span class='st'>"classif.ce"</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;                  task  task_id                   learner    learner_id
-#&gt;  1: &lt;TaskClassif[48]&gt; penguins &lt;LearnerClassifRpart[36]&gt; classif.rpart
-#&gt;  2: &lt;TaskClassif[48]&gt; penguins &lt;LearnerClassifRpart[36]&gt; classif.rpart
-#&gt;  3: &lt;TaskClassif[48]&gt; penguins &lt;LearnerClassifRpart[36]&gt; classif.rpart
-#&gt;  4: &lt;TaskClassif[48]&gt; penguins &lt;LearnerClassifRpart[36]&gt; classif.rpart
-#&gt;  5: &lt;TaskClassif[48]&gt; penguins &lt;LearnerClassifRpart[36]&gt; classif.rpart
-#&gt;  6: &lt;TaskClassif[48]&gt; penguins &lt;LearnerClassifRpart[36]&gt; classif.rpart
-#&gt;  7: &lt;TaskClassif[48]&gt; penguins &lt;LearnerClassifRpart[36]&gt; classif.rpart
-#&gt;  8: &lt;TaskClassif[48]&gt; penguins &lt;LearnerClassifRpart[36]&gt; classif.rpart
-#&gt;  9: &lt;TaskClassif[48]&gt; penguins &lt;LearnerClassifRpart[36]&gt; classif.rpart
-#&gt; 10: &lt;TaskClassif[48]&gt; penguins &lt;LearnerClassifRpart[36]&gt; classif.rpart
+#&gt;  1: &lt;TaskClassif[49]&gt; penguins &lt;LearnerClassifRpart[37]&gt; classif.rpart
+#&gt;  2: &lt;TaskClassif[49]&gt; penguins &lt;LearnerClassifRpart[37]&gt; classif.rpart
+#&gt;  3: &lt;TaskClassif[49]&gt; penguins &lt;LearnerClassifRpart[37]&gt; classif.rpart
+#&gt;  4: &lt;TaskClassif[49]&gt; penguins &lt;LearnerClassifRpart[37]&gt; classif.rpart
+#&gt;  5: &lt;TaskClassif[49]&gt; penguins &lt;LearnerClassifRpart[37]&gt; classif.rpart
+#&gt;  6: &lt;TaskClassif[49]&gt; penguins &lt;LearnerClassifRpart[37]&gt; classif.rpart
+#&gt;  7: &lt;TaskClassif[49]&gt; penguins &lt;LearnerClassifRpart[37]&gt; classif.rpart
+#&gt;  8: &lt;TaskClassif[49]&gt; penguins &lt;LearnerClassifRpart[37]&gt; classif.rpart
+#&gt;  9: &lt;TaskClassif[49]&gt; penguins &lt;LearnerClassifRpart[37]&gt; classif.rpart
+#&gt; 10: &lt;TaskClassif[49]&gt; penguins &lt;LearnerClassifRpart[37]&gt; classif.rpart
 #&gt;             resampling resampling_id iteration              prediction
 #&gt;  1: &lt;ResamplingCV[19]&gt;            cv         1 &lt;PredictionClassif[20]&gt;
 #&gt;  2: &lt;ResamplingCV[19]&gt;            cv         2 &lt;PredictionClassif[20]&gt;

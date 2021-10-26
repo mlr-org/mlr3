@@ -186,8 +186,14 @@ Combines multiple objects convertible to <a href='BenchmarkResult.html'>Benchmar
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Chapter in the <a href='https://mlr3book.mlr-org.com/'>mlr3book</a>:
-<a href='https://mlr3book.mlr-org.com/basics.html#resampling'>https://mlr3book.mlr-org.com/basics.html#resampling</a></p>
+    <div class='dont-index'>
+<ul>
+<li><p><code><a href='as_benchmark_result.html'>as_benchmark_result()</a></code> to convert to a <a href='BenchmarkResult.html'>BenchmarkResult</a>.</p></li>
+<li><p>Chapter in the <a href='https://mlr3book.mlr-org.com/'>mlr3book</a>:
+<a href='https://mlr3book.mlr-org.com/basics.html#resampling'>https://mlr3book.mlr-org.com/basics.html#resampling</a></p></li>
+<li><p>Package <a href='https://CRAN.R-project.org/package=mlr3viz'><span class="pkg">mlr3viz</span></a> for some generic visualizations.</p></li>
+</ul>
+
 <p>Other resample: 
 <code><a href='resample.html'>resample</a>()</code></p></div>
     <h2 class="hasAnchor" id="active-bindings"><a class="anchor" href="#active-bindings"></a>Active bindings</h2>
@@ -247,6 +253,7 @@ Note that there can be multiple rows per resampling iteration if multiple errors
 <li><p><a href='#method-score'><code>ResampleResult$score()</code></a></p></li>
 <li><p><a href='#method-aggregate'><code>ResampleResult$aggregate()</code></a></p></li>
 <li><p><a href='#method-filter'><code>ResampleResult$filter()</code></a></p></li>
+<li><p><a href='#method-discard'><code>ResampleResult$discard()</code></a></p></li>
 <li><p><a href='#method-clone'><code>ResampleResult$clone()</code></a></p></li>
 </ul>
 <p><hr>
@@ -383,6 +390,26 @@ Resampling iterations to keep.</p></dd>
 You need to explicitly <code>$clone()</code> the object beforehand if you want to keeps
 the object in its previous state.</p>
 <p><hr>
+<a id="method-discard"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>discard()</code></h3>
+<p>Shrinks the ResampleResult by discarding parts of the internally stored data.
+Note that certain operations might stop work, e.g. extracting
+importance values from learners or calculating measures requiring the task's data.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>ResampleResult</span><span class='op'>$</span><span class='fu'>discard</span><span class='op'>(</span>backends <span class='op'>=</span> <span class='cn'>FALSE</span>, models <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>backends</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
+If <code>TRUE</code>, the <a href='DataBackend.html'>DataBackend</a> is removed from all stored <a href='Task.html'>Task</a>s.</p></dd>
+
+<dt><code>models</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
+If <code>TRUE</code>, the stored model is removed from all <a href='Learner.html'>Learner</a>s.</p></dd>
+
+</dl><p></div></p>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
+<p>Returns the object itself, but modified <strong>by reference</strong>.
+You need to explicitly <code>$clone()</code> the object beforehand if you want to keeps
+the object in its previous state.</p>
+<p><hr>
 <a id="method-clone"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>clone()</code></h3>
 <p>The objects of this class are cloneable with this method.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
 <p><div class="r"></p><pre><span class='va'>ResampleResult</span><span class='op'>$</span><span class='fu'>clone</span><span class='op'>(</span>deep <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre><p></div></p>
@@ -408,21 +435,21 @@ the object in its previous state.</p>
 #&gt; * Errors: 0 in 0 iterations</div><div class='input'>
 <span class='va'>rr</span><span class='op'>$</span><span class='fu'>aggregate</span><span class='op'>(</span><span class='fu'><a href='mlr_sugar.html'>msr</a></span><span class='op'>(</span><span class='st'>"classif.acc"</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; classif.acc 
-#&gt;   0.9476735 </div><div class='input'><span class='va'>rr</span><span class='op'>$</span><span class='fu'>prediction</span><span class='op'>(</span><span class='op'>)</span>
+#&gt;   0.9360031 </div><div class='input'><span class='va'>rr</span><span class='op'>$</span><span class='fu'>prediction</span><span class='op'>(</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; &lt;PredictionClassif&gt; for 344 observations:
 #&gt;     row_ids     truth  response
-#&gt;           1    Adelie    Adelie
+#&gt;           2    Adelie    Adelie
 #&gt;           3    Adelie    Adelie
 #&gt;           5    Adelie    Adelie
 #&gt; ---                            
-#&gt;         341 Chinstrap    Adelie
-#&gt;         342 Chinstrap Chinstrap
-#&gt;         344 Chinstrap Chinstrap</div><div class='input'><span class='va'>rr</span><span class='op'>$</span><span class='fu'>prediction</span><span class='op'>(</span><span class='op'>)</span><span class='op'>$</span><span class='va'>confusion</span>
+#&gt;         336 Chinstrap Chinstrap
+#&gt;         337 Chinstrap Chinstrap
+#&gt;         341 Chinstrap    Adelie</div><div class='input'><span class='va'>rr</span><span class='op'>$</span><span class='fu'>prediction</span><span class='op'>(</span><span class='op'>)</span><span class='op'>$</span><span class='va'>confusion</span>
 </div><div class='output co'>#&gt;            truth
 #&gt; response    Adelie Chinstrap Gentoo
-#&gt;   Adelie       147         6      0
-#&gt;   Chinstrap      4        57      2
-#&gt;   Gentoo         1         5    122</div><div class='input'><span class='va'>rr</span><span class='op'>$</span><span class='va'>warnings</span>
+#&gt;   Adelie       143         6      0
+#&gt;   Chinstrap      7        57      2
+#&gt;   Gentoo         2         5    122</div><div class='input'><span class='va'>rr</span><span class='op'>$</span><span class='va'>warnings</span>
 </div><div class='output co'>#&gt; Empty data.table (0 rows and 2 cols): iteration,msg</div><div class='input'><span class='va'>rr</span><span class='op'>$</span><span class='va'>errors</span>
 </div><div class='output co'>#&gt; Empty data.table (0 rows and 2 cols): iteration,msg</div></pre>
   </div>

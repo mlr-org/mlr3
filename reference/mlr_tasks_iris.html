@@ -176,10 +176,11 @@
 <em>Annals of the Missouri Botanical Garden</em>, <b>23</b>(3), 457.
 doi: <a href='https://doi.org/10.2307/2394164'>10.2307/2394164</a>
 .</p>
-    <h2 class="hasAnchor" id="construction"><a class="anchor" href="#construction"></a>Construction</h2>
+    <h2 class="hasAnchor" id="dictionary"><a class="anchor" href="#dictionary"></a>Dictionary</h2>
 
     
-<pre><span class='va'>mlr_tasks</span><span class='op'>$</span><span class='fu'>get</span><span class='op'>(</span><span class='st'>"iris"</span><span class='op'>)</span>
+
+<p>This <a href='Task.html'>Task</a> can be instantiated via the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> <a href='mlr_tasks.html'>mlr_tasks</a> or with the associated sugar function <code><a href='mlr_sugar.html'>tsk()</a></code>:</p><pre><span class='va'>mlr_tasks</span><span class='op'>$</span><span class='fu'>get</span><span class='op'>(</span><span class='st'>"iris"</span><span class='op'>)</span>
 <span class='fu'><a href='mlr_sugar.html'>tsk</a></span><span class='op'>(</span><span class='st'>"iris"</span><span class='op'>)</span>
 </pre>
 
@@ -207,6 +208,7 @@ doi: <a href='https://doi.org/10.2307/2394164'>10.2307/2394164</a>
 <li><p>Package <a href='https://CRAN.R-project.org/package=mlr3viz'><span class="pkg">mlr3viz</span></a> for some generic visualizations.</p></li>
 <li><p><a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>Dictionary</a> of <a href='Task.html'>Tasks</a>: <a href='mlr_tasks.html'>mlr_tasks</a></p></li>
 <li><p><code><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table(mlr_tasks)</a></code> for a table of available <a href='Task.html'>Tasks</a> in the running session (depending on the loaded packages).</p></li>
+<li><p><a href='https://CRAN.R-project.org/package=mlr3fselect'><span class="pkg">mlr3fselect</span></a> and <a href='https://CRAN.R-project.org/package=mlr3filters'><span class="pkg">mlr3filters</span></a> for feature selection and feature filtering.</p></li>
 <li><p>Extension packages for additional task types:</p><ul>
 <li><p><a href='https://CRAN.R-project.org/package=mlr3proba'><span class="pkg">mlr3proba</span></a> for probabilistic supervised regression and survival analysis.</p></li>
 <li><p><a href='https://CRAN.R-project.org/package=mlr3cluster'><span class="pkg">mlr3cluster</span></a> for unsupervised clustering.</p></li>

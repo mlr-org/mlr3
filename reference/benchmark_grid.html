@@ -193,8 +193,14 @@ The only exception to this rule applies if all tasks have exactly the same numbe
     <p>(<code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code>) with the cross product of the input vectors.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Chapter in the <a href='https://mlr3book.mlr-org.com/'>mlr3book</a>:
-<a href='https://mlr3book.mlr-org.com/basics.html#benchmarking'>https://mlr3book.mlr-org.com/basics.html#benchmarking</a></p>
+    <div class='dont-index'>
+<ul>
+<li><p>Chapter in the <a href='https://mlr3book.mlr-org.com/'>mlr3book</a>:
+<a href='https://mlr3book.mlr-org.com/basics.html#benchmarking'>https://mlr3book.mlr-org.com/basics.html#benchmarking</a></p></li>
+<li><p>Package <a href='https://CRAN.R-project.org/package=mlr3viz'><span class="pkg">mlr3viz</span></a> for some generic visualizations.</p></li>
+<li><p><a href='https://CRAN.R-project.org/package=mlr3benchmark'><span class="pkg">mlr3benchmark</span></a> for post-hoc analysis of benchmark results.</p></li>
+</ul>
+
 <p>Other benchmark: 
 <code><a href='BenchmarkResult.html'>BenchmarkResult</a></code>,
 <code><a href='benchmark.html'>benchmark</a>()</code></p></div>
@@ -207,14 +213,14 @@ The only exception to this rule applies if all tasks have exactly the same numbe
 <span class='va'>grid</span> <span class='op'>=</span> <span class='fu'>benchmark_grid</span><span class='op'>(</span><span class='va'>tasks</span>, <span class='va'>learners</span>, <span class='va'>resamplings</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>grid</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;                 task                         learner
-#&gt; 1: &lt;TaskClassif[48]&gt; &lt;LearnerClassifFeatureless[36]&gt;
-#&gt; 2: &lt;TaskClassif[48]&gt; &lt;LearnerClassifFeatureless[36]&gt;
-#&gt; 3: &lt;TaskClassif[48]&gt;       &lt;LearnerClassifRpart[36]&gt;
-#&gt; 4: &lt;TaskClassif[48]&gt;       &lt;LearnerClassifRpart[36]&gt;
-#&gt; 5: &lt;TaskClassif[48]&gt; &lt;LearnerClassifFeatureless[36]&gt;
-#&gt; 6: &lt;TaskClassif[48]&gt; &lt;LearnerClassifFeatureless[36]&gt;
-#&gt; 7: &lt;TaskClassif[48]&gt;       &lt;LearnerClassifRpart[36]&gt;
-#&gt; 8: &lt;TaskClassif[48]&gt;       &lt;LearnerClassifRpart[36]&gt;
+#&gt; 1: &lt;TaskClassif[49]&gt; &lt;LearnerClassifFeatureless[37]&gt;
+#&gt; 2: &lt;TaskClassif[49]&gt; &lt;LearnerClassifFeatureless[37]&gt;
+#&gt; 3: &lt;TaskClassif[49]&gt;       &lt;LearnerClassifRpart[37]&gt;
+#&gt; 4: &lt;TaskClassif[49]&gt;       &lt;LearnerClassifRpart[37]&gt;
+#&gt; 5: &lt;TaskClassif[49]&gt; &lt;LearnerClassifFeatureless[37]&gt;
+#&gt; 6: &lt;TaskClassif[49]&gt; &lt;LearnerClassifFeatureless[37]&gt;
+#&gt; 7: &lt;TaskClassif[49]&gt;       &lt;LearnerClassifRpart[37]&gt;
+#&gt; 8: &lt;TaskClassif[49]&gt;       &lt;LearnerClassifRpart[37]&gt;
 #&gt;                     resampling
 #&gt; 1:          &lt;ResamplingCV[19]&gt;
 #&gt; 2: &lt;ResamplingSubsampling[19]&gt;

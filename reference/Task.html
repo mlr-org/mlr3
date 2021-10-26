@@ -227,6 +227,7 @@ merge both backends into an abstract <a href='DataBackend.html'>DataBackend</a> 
 <li><p>Package <a href='https://CRAN.R-project.org/package=mlr3viz'><span class="pkg">mlr3viz</span></a> for some generic visualizations.</p></li>
 <li><p><a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>Dictionary</a> of Tasks: <a href='mlr_tasks.html'>mlr_tasks</a></p></li>
 <li><p><code><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table(mlr_tasks)</a></code> for a table of available Tasks in the running session (depending on the loaded packages).</p></li>
+<li><p><a href='https://CRAN.R-project.org/package=mlr3fselect'><span class="pkg">mlr3fselect</span></a> and <a href='https://CRAN.R-project.org/package=mlr3filters'><span class="pkg">mlr3filters</span></a> for feature selection and feature filtering.</p></li>
 <li><p>Extension packages for additional task types:</p><ul>
 <li><p><a href='https://CRAN.R-project.org/package=mlr3proba'><span class="pkg">mlr3proba</span></a> for probabilistic supervised regression and survival analysis.</p></li>
 <li><p><a href='https://CRAN.R-project.org/package=mlr3cluster'><span class="pkg">mlr3cluster</span></a> for unsupervised clustering.</p></li>
@@ -330,17 +331,19 @@ Can be used as truly independent test set.</p></li>
 To alter the roles, just modify the list, e.g. with  <span style="R">R</span>'s set functions (<code><a href='https://rdrr.io/r/base/sets.html'>intersect()</a></code>, <code><a href='https://rdrr.io/r/base/sets.html'>setdiff()</a></code>, <code><a href='https://rdrr.io/r/base/sets.html'>union()</a></code>, ...).</p></dd>
 
 <dt><code>col_roles</code></dt><dd><p>(named <code><a href='https://rdrr.io/r/base/list.html'>list()</a></code>)<br />
-Each column (feature) can have an arbitrary number of the following roles:
+Each column can be in one or more of the following groups to fulfill different roles:
 <ul>
 <li><p><code>"feature"</code>: Regular feature used in the model fitting process.</p></li>
-<li><p><code>"target"</code>: Target variable.</p></li>
-<li><p><code>"name"</code>: Row names / observation labels. To be used in plots. Can be queried with <code>$row_names</code>.</p></li>
-<li><p><code>"order"</code>: Data returned by <code>$data()</code> is ordered by this column (or these columns).</p></li>
+<li><p><code>"target"</code>: Target variable. Most tasks only accept a single target column.</p></li>
+<li><p><code>"name"</code>: Row names / observation labels. To be used in plots. Can be queried with <code>$row_names</code>.
+Not more than a single column can be associated with this role.</p></li>
+<li><p><code>"order"</code>: Data returned by <code>$data()</code> is ordered by this column (or these columns).
+Columns must be sortable with <code><a href='https://rdrr.io/r/base/order.html'>order()</a></code>.</p></li>
 <li><p><code>"group"</code>: During resampling, observations with the same value of the variable with role "group" are marked as "belonging together".
 For each resampling iteration, observations of the same group will be exclusively assigned to be either in the training set or in the test set.
-Note that only up to one column may have this role.</p></li>
+Not more than a single column can be associated with this role.</p></li>
 <li><p><code>"stratum"</code>: Stratification variables. Multiple discrete columns may have this role.</p></li>
-<li><p><code>"weight"</code>: Observation weights. Only up to one column (assumed to be discrete) may have this role.</p></li>
+<li><p><code>"weight"</code>: Observation weights. Not more than one numeric column may have this role.</p></li>
 </ul><code>col_roles</code> is a named list whose elements are named by column role and each element is a <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code> vector of column names.
 To alter the roles, just modify the list, e.g. with <span style="R">R</span>'s set functions (<code><a href='https://rdrr.io/r/base/sets.html'>intersect()</a></code>, <code><a href='https://rdrr.io/r/base/sets.html'>setdiff()</a></code>, <code><a href='https://rdrr.io/r/base/sets.html'>union()</a></code>, ...).
 The method <code>$set_col_roles</code> provides a convenient alternative to assign columns to roles.</p></dd>
@@ -398,6 +401,11 @@ You have to provide a character vector of labels, named with column ids.
 To remove a label, set it to <code>NA</code>.
 Alternatively, you can provide a <code><a href='https://rdrr.io/r/base/data.frame.html'>data.frame()</a></code> with the two columns
 <code>"id"</code> and <code>"label"</code>.</p></dd>
+
+<dt><code>col_hashes</code></dt><dd><p>(named <code>character</code>)<br />
+Hash (unique identifier) for all columns except the <code>primary_key</code>: A <code>character</code> vector, named by the columns that each element refers to.<br />
+Columns of different <code>Task</code>s or <code><a href='DataBackend.html'>DataBackend</a></code>s that have agreeing <code>col_hashes</code> always represent the same data, given that the same <code>row</code>s are selected.
+The reverse is not necessarily true: There can be columns with the same content that have different <code>col_hashes</code>.</p></dd>
 
 </dl><p></div></p>
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
@@ -609,7 +617,8 @@ New row ids are automatically created, unless <code>data</code> has a column who
 the primary key of the <a href='DataBackend.html'>DataBackend</a> (<code>task$backend$primary_key</code>).
 In case of name clashes of row ids, rows in <code>data</code> have higher precedence
 and virtually overwrite the rows in the <a href='DataBackend.html'>DataBackend</a>.</p>
-<p>All columns with the roles <code>"target"</code>, <code>"feature"</code>, <code>"weight"</code>, <code>"group"</code>, <code>"stratum"</code>, and <code>"order"</code> must be present in <code>data</code>.
+<p>All columns with the roles <code>"target"</code>, <code>"feature"</code>, <code>"weight"</code>, <code>"group"</code>, <code>"stratum"</code>,
+and <code>"order"</code> must be present in <code>data</code>.
 Columns only present in <code>data</code> but not in the <a href='DataBackend.html'>DataBackend</a> of <code>task</code> will be discarded.</p>
 <p>This operation mutates the task in-place.
 See the section on task mutators for more information.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>

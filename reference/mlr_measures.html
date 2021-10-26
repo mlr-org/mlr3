@@ -206,6 +206,7 @@ and "packages" as columns.</p></li>
 <p>Other Measure: 
 <code><a href='MeasureClassif.html'>MeasureClassif</a></code>,
 <code><a href='MeasureRegr.html'>MeasureRegr</a></code>,
+<code><a href='MeasureSimilarity.html'>MeasureSimilarity</a></code>,
 <code><a href='Measure.html'>Measure</a></code>,
 <code><a href='mlr_measures_aic.html'>mlr_measures_aic</a></code>,
 <code><a href='mlr_measures_bic.html'>mlr_measures_bic</a></code>,
@@ -271,9 +272,11 @@ and "packages" as columns.</p></li>
 #&gt; 51:           regr.srho      regr mlr3measures     response                
 #&gt; 52:            regr.sse      regr mlr3measures     response                
 #&gt; 53:   selected_features      &lt;NA&gt;                  response                
-#&gt; 54:           time_both      &lt;NA&gt;                  response                
-#&gt; 55:        time_predict      &lt;NA&gt;                  response                
-#&gt; 56:          time_train      &lt;NA&gt;                  response                
+#&gt; 54:         sim.jaccard      &lt;NA&gt; mlr3measures     response                
+#&gt; 55:             sim.phi      &lt;NA&gt; mlr3measures     response                
+#&gt; 56:           time_both      &lt;NA&gt;                  response                
+#&gt; 57:        time_predict      &lt;NA&gt;                  response                
+#&gt; 58:          time_train      &lt;NA&gt;                  response                
 #&gt;                     key task_type     packages predict_type task_properties</div><div class='input'><span class='va'>mlr_measures</span><span class='op'>$</span><span class='fu'>get</span><span class='op'>(</span><span class='st'>"classif.ce"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; &lt;MeasureClassifSimple:classif.ce&gt;
 #&gt; * Packages: mlr3measures

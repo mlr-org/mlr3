@@ -192,8 +192,14 @@ Combines multiple objects convertible to BenchmarkResult into a new BenchmarkRes
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Chapter in the <a href='https://mlr3book.mlr-org.com/'>mlr3book</a>:
-<a href='https://mlr3book.mlr-org.com/basics.html#benchmarking'>https://mlr3book.mlr-org.com/basics.html#benchmarking</a></p>
+    <div class='dont-index'>
+<ul>
+<li><p>Chapter in the <a href='https://mlr3book.mlr-org.com/'>mlr3book</a>:
+<a href='https://mlr3book.mlr-org.com/basics.html#benchmarking'>https://mlr3book.mlr-org.com/basics.html#benchmarking</a></p></li>
+<li><p>Package <a href='https://CRAN.R-project.org/package=mlr3viz'><span class="pkg">mlr3viz</span></a> for some generic visualizations.</p></li>
+<li><p><a href='https://CRAN.R-project.org/package=mlr3benchmark'><span class="pkg">mlr3benchmark</span></a> for post-hoc analysis of benchmark results.</p></li>
+</ul>
+
 <p>Other benchmark: 
 <code><a href='benchmark_grid.html'>benchmark_grid</a>()</code>,
 <code><a href='benchmark.html'>benchmark</a>()</code></p></div>
@@ -266,6 +272,7 @@ Set of (unique) hashes of all included <a href='ResampleResult.html'>ResampleRes
 <li><p><a href='#method-aggregate'><code>BenchmarkResult$aggregate()</code></a></p></li>
 <li><p><a href='#method-filter'><code>BenchmarkResult$filter()</code></a></p></li>
 <li><p><a href='#method-resample_result'><code>BenchmarkResult$resample_result()</code></a></p></li>
+<li><p><a href='#method-discard'><code>BenchmarkResult$discard()</code></a></p></li>
 <li><p><a href='#method-clone'><code>BenchmarkResult$clone()</code></a></p></li>
 </ul>
 <p><hr>
@@ -456,6 +463,26 @@ The <code>ushash</code> value to filter for.</p></dd>
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
 <p><a href='ResampleResult.html'>ResampleResult</a>.</p>
 <p><hr>
+<a id="method-discard"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>discard()</code></h3>
+<p>Shrinks the BenchmarkResult by discarding parts of the internally stored data.
+Note that certain operations might stop work, e.g. extracting
+importance values from learners or calculating measures requiring the task's data.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>BenchmarkResult</span><span class='op'>$</span><span class='fu'>discard</span><span class='op'>(</span>backends <span class='op'>=</span> <span class='cn'>FALSE</span>, models <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>backends</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
+If <code>TRUE</code>, the <a href='DataBackend.html'>DataBackend</a> is removed from all stored <a href='Task.html'>Task</a>s.</p></dd>
+
+<dt><code>models</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
+If <code>TRUE</code>, the stored model is removed from all <a href='Learner.html'>Learner</a>s.</p></dd>
+
+</dl><p></div></p>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
+<p>Returns the object itself, but modified <strong>by reference</strong>.
+You need to explicitly <code>$clone()</code> the object beforehand if you want to keeps
+the object in its previous state.</p>
+<p><hr>
 <a id="method-clone"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>clone()</code></h3>
 <p>The objects of this class are cloneable with this method.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
 <p><div class="r"></p><pre><span class='va'>BenchmarkResult</span><span class='op'>$</span><span class='fu'>clone</span><span class='op'>(</span>deep <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre><p></div></p>
@@ -482,10 +509,10 @@ The <code>ushash</code> value to filter for.</p></dd>
 <span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>design</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;                 task                         learner         resampling
-#&gt; 1: &lt;TaskClassif[48]&gt; &lt;LearnerClassifFeatureless[36]&gt; &lt;ResamplingCV[19]&gt;
-#&gt; 2: &lt;TaskClassif[48]&gt;       &lt;LearnerClassifRpart[36]&gt; &lt;ResamplingCV[19]&gt;
-#&gt; 3: &lt;TaskClassif[48]&gt; &lt;LearnerClassifFeatureless[36]&gt; &lt;ResamplingCV[19]&gt;
-#&gt; 4: &lt;TaskClassif[48]&gt;       &lt;LearnerClassifRpart[36]&gt; &lt;ResamplingCV[19]&gt;</div><div class='input'>
+#&gt; 1: &lt;TaskClassif[49]&gt; &lt;LearnerClassifFeatureless[37]&gt; &lt;ResamplingCV[19]&gt;
+#&gt; 2: &lt;TaskClassif[49]&gt;       &lt;LearnerClassifRpart[37]&gt; &lt;ResamplingCV[19]&gt;
+#&gt; 3: &lt;TaskClassif[49]&gt; &lt;LearnerClassifFeatureless[37]&gt; &lt;ResamplingCV[19]&gt;
+#&gt; 4: &lt;TaskClassif[49]&gt;       &lt;LearnerClassifRpart[37]&gt; &lt;ResamplingCV[19]&gt;</div><div class='input'>
 <span class='va'>bmr</span> <span class='op'>=</span> <span class='fu'><a href='benchmark.html'>benchmark</a></span><span class='op'>(</span><span class='va'>design</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>bmr</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; &lt;BenchmarkResult&gt; of 12 rows with 4 resampling runs
@@ -496,25 +523,25 @@ The <code>ushash</code> value to filter for.</p></dd>
 #&gt;   4    spam       classif.rpart            cv     3        0      0</div><div class='input'>
 <span class='va'>bmr</span><span class='op'>$</span><span class='va'>tasks</span>
 </div><div class='output co'>#&gt;           task_hash task_id              task
-#&gt; 1: 6665e07c46b00dff   sonar &lt;TaskClassif[48]&gt;
-#&gt; 2: b64aee247e758be8    spam &lt;TaskClassif[48]&gt;</div><div class='input'><span class='va'>bmr</span><span class='op'>$</span><span class='va'>learners</span>
+#&gt; 1: 6665e07c46b00dff   sonar &lt;TaskClassif[49]&gt;
+#&gt; 2: b64aee247e758be8    spam &lt;TaskClassif[49]&gt;</div><div class='input'><span class='va'>bmr</span><span class='op'>$</span><span class='va'>learners</span>
 </div><div class='output co'>#&gt;        learner_hash          learner_id                         learner
-#&gt; 1: 4a8ddb31f4547017       classif.rpart       &lt;LearnerClassifRpart[36]&gt;
-#&gt; 2: 54ecc16720ea1edf classif.featureless &lt;LearnerClassifFeatureless[36]&gt;</div><div class='input'>
+#&gt; 1: 4a8ddb31f4547017       classif.rpart       &lt;LearnerClassifRpart[37]&gt;
+#&gt; 2: 54ecc16720ea1edf classif.featureless &lt;LearnerClassifFeatureless[37]&gt;</div><div class='input'>
 <span class='co'># first 5 resampling iterations</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table</a></span><span class='op'>(</span><span class='va'>bmr</span>, measures <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"classif.acc"</span>, <span class='st'>"classif.auc"</span><span class='op'>)</span><span class='op'>)</span>, <span class='fl'>5</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;                                   uhash              task
-#&gt; 1: 680f961a-6c4f-465f-b5a8-d1adc723e173 &lt;TaskClassif[48]&gt;
-#&gt; 2: 680f961a-6c4f-465f-b5a8-d1adc723e173 &lt;TaskClassif[48]&gt;
-#&gt; 3: 680f961a-6c4f-465f-b5a8-d1adc723e173 &lt;TaskClassif[48]&gt;
-#&gt; 4: 0b597080-8339-4926-a6de-fc2f60814c31 &lt;TaskClassif[48]&gt;
-#&gt; 5: 0b597080-8339-4926-a6de-fc2f60814c31 &lt;TaskClassif[48]&gt;
+#&gt; 1: 85ccb009-df27-48d4-8c33-e7c74899c2ae &lt;TaskClassif[49]&gt;
+#&gt; 2: 85ccb009-df27-48d4-8c33-e7c74899c2ae &lt;TaskClassif[49]&gt;
+#&gt; 3: 85ccb009-df27-48d4-8c33-e7c74899c2ae &lt;TaskClassif[49]&gt;
+#&gt; 4: f3c89748-abf5-4ba9-9f6e-80c06925ee15 &lt;TaskClassif[49]&gt;
+#&gt; 5: f3c89748-abf5-4ba9-9f6e-80c06925ee15 &lt;TaskClassif[49]&gt;
 #&gt;                            learner         resampling iteration
-#&gt; 1: &lt;LearnerClassifFeatureless[36]&gt; &lt;ResamplingCV[19]&gt;         1
-#&gt; 2: &lt;LearnerClassifFeatureless[36]&gt; &lt;ResamplingCV[19]&gt;         2
-#&gt; 3: &lt;LearnerClassifFeatureless[36]&gt; &lt;ResamplingCV[19]&gt;         3
-#&gt; 4:       &lt;LearnerClassifRpart[36]&gt; &lt;ResamplingCV[19]&gt;         1
-#&gt; 5:       &lt;LearnerClassifRpart[36]&gt; &lt;ResamplingCV[19]&gt;         2
+#&gt; 1: &lt;LearnerClassifFeatureless[37]&gt; &lt;ResamplingCV[19]&gt;         1
+#&gt; 2: &lt;LearnerClassifFeatureless[37]&gt; &lt;ResamplingCV[19]&gt;         2
+#&gt; 3: &lt;LearnerClassifFeatureless[37]&gt; &lt;ResamplingCV[19]&gt;         3
+#&gt; 4:       &lt;LearnerClassifRpart[37]&gt; &lt;ResamplingCV[19]&gt;         1
+#&gt; 5:       &lt;LearnerClassifRpart[37]&gt; &lt;ResamplingCV[19]&gt;         2
 #&gt;                 prediction
 #&gt; 1: &lt;PredictionClassif[20]&gt;
 #&gt; 2: &lt;PredictionClassif[20]&gt;
@@ -524,10 +551,10 @@ The <code>ushash</code> value to filter for.</p></dd>
 <span class='co'># aggregate results</span>
 <span class='va'>bmr</span><span class='op'>$</span><span class='fu'>aggregate</span><span class='op'>(</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;    nr      resample_result task_id          learner_id resampling_id iters
-#&gt; 1:  1 &lt;ResampleResult[21]&gt;   sonar classif.featureless            cv     3
-#&gt; 2:  2 &lt;ResampleResult[21]&gt;   sonar       classif.rpart            cv     3
-#&gt; 3:  3 &lt;ResampleResult[21]&gt;    spam classif.featureless            cv     3
-#&gt; 4:  4 &lt;ResampleResult[21]&gt;    spam       classif.rpart            cv     3
+#&gt; 1:  1 &lt;ResampleResult[22]&gt;   sonar classif.featureless            cv     3
+#&gt; 2:  2 &lt;ResampleResult[22]&gt;   sonar       classif.rpart            cv     3
+#&gt; 3:  3 &lt;ResampleResult[22]&gt;    spam classif.featureless            cv     3
+#&gt; 4:  4 &lt;ResampleResult[22]&gt;    spam       classif.rpart            cv     3
 #&gt;    classif.ce
 #&gt; 1:  0.4660455
 #&gt; 2:  0.2739130
@@ -536,10 +563,10 @@ The <code>ushash</code> value to filter for.</p></dd>
 <span class='co'># aggregate results with hyperparameters as separate columns</span>
 <span class='fu'>mlr3misc</span><span class='fu'>::</span><span class='fu'><a href='https://mlr3misc.mlr-org.com/reference/unnest.html'>unnest</a></span><span class='op'>(</span><span class='va'>bmr</span><span class='op'>$</span><span class='fu'>aggregate</span><span class='op'>(</span>params <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>, <span class='st'>"params"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;    nr      resample_result task_id          learner_id resampling_id iters
-#&gt; 1:  1 &lt;ResampleResult[21]&gt;   sonar classif.featureless            cv     3
-#&gt; 2:  2 &lt;ResampleResult[21]&gt;   sonar       classif.rpart            cv     3
-#&gt; 3:  3 &lt;ResampleResult[21]&gt;    spam classif.featureless            cv     3
-#&gt; 4:  4 &lt;ResampleResult[21]&gt;    spam       classif.rpart            cv     3
+#&gt; 1:  1 &lt;ResampleResult[22]&gt;   sonar classif.featureless            cv     3
+#&gt; 2:  2 &lt;ResampleResult[22]&gt;   sonar       classif.rpart            cv     3
+#&gt; 3:  3 &lt;ResampleResult[22]&gt;    spam classif.featureless            cv     3
+#&gt; 4:  4 &lt;ResampleResult[22]&gt;    spam       classif.rpart            cv     3
 #&gt;    classif.ce method xval
 #&gt; 1:  0.4660455   mode   NA
 #&gt; 2:  0.2739130   &lt;NA&gt;    0
