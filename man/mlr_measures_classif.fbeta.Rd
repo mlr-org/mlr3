@@ -35,9 +35,9 @@ msr("classif.fbeta")
 }
 
 \section{Parameters}{
-\tabular{lllll}{
-   Id \tab Type \tab Default \tab Range \tab Levels \cr
-   beta \tab integer \tab - \tab \eqn{[0, \infty)}{[0, Inf)} \tab - \cr
+\tabular{llll}{
+   Id \tab Type \tab Default \tab Range \cr
+   beta \tab integer \tab - \tab \eqn{[0, \infty)}{[0, Inf)} \cr
 }
 }
 
