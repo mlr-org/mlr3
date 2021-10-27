@@ -55,10 +55,10 @@
 
 <meta property="og:title" content="Measure Class — Measure" />
 <meta property="og:description" content="This is the abstract base class for measures like MeasureClassif and MeasureRegr.
-Measures are classes tailored around two functions:
-A function $score() which quantifies the performance by comparing true and predicted response.
+Measures are classes tailored around two functions doing the work:
+A function $score() which quantifies the performance by comparing the truth and predictions.
 A function $aggregator() which combines multiple performance scores returned by
-calculate to a single numeric value.
+$score() to a single numeric value.
 
 
 In addition to these two functions, meta-information about the performance measure is stored.
@@ -172,10 +172,10 @@ A guide on how to extend mlr3 with custom measures can be found in the mlr3book.
 
     <div class="ref-description">
     <p>This is the abstract base class for measures like <a href='MeasureClassif.html'>MeasureClassif</a> and <a href='MeasureRegr.html'>MeasureRegr</a>.</p>
-<p>Measures are classes tailored around two functions:</p><ol>
-<li><p>A function <code>$score()</code> which quantifies the performance by comparing true and predicted response.</p></li>
+<p>Measures are classes tailored around two functions doing the work:</p><ol>
+<li><p>A function <code>$score()</code> which quantifies the performance by comparing the truth and predictions.</p></li>
 <li><p>A function <code>$aggregator()</code> which combines multiple performance scores returned by
-<code>calculate</code> to a single numeric value.</p></li>
+<code>$score()</code> to a single numeric value.</p></li>
 </ol>
 
 <p>In addition to these two functions, meta-information about the performance measure is stored.</p>
@@ -285,7 +285,7 @@ The scoring function is applied on the <a href='Prediction.html'>Prediction</a> 
 each yielding a single numeric score.
 Next, the scores are combined with the <code>aggregator</code> function to a single numerical score.</p></li>
 <li><p><code>"custom"</code>:
-The measure implements a custom aggregation method.</p></li>
+The measure comes with a custom aggregation method which directly operates on a <a href='ResampleResult.html'>ResampleResult</a>.</p></li>
 </ul></p></dd>
 
 <dt><code>aggregator</code></dt><dd><p>(<code>function()</code>)<br />
@@ -351,9 +351,17 @@ How to average multiple <a href='Prediction.html'>Prediction</a>s from a <a href
 function defined in <code>$aggregator</code> to average them to a single number.If set to <code>"micro"</code>, the individual <a href='Prediction.html'>Prediction</a> objects are first combined into a single new <a href='Prediction.html'>Prediction</a> object which is then used to assess the performance.
 The function in <code>$aggregator</code> is not used in this case.</p></dd>
 
-<dt><code>aggregator</code></dt><dd><p>(<code>function(x)</code>)<br />
-Function to aggregate individual performance scores <code>x</code> where <code>x</code> is a numeric vector.
-If <code>NULL</code>, defaults to <code><a href='https://rdrr.io/r/base/mean.html'>mean()</a></code>.</p></dd>
+<dt><code>aggregator</code></dt><dd><p>(<code>function()</code>)<br />
+Function to aggregate over multiple iterations. The role of this function depends on
+the value of field <code>"average"</code>:
+<ul>
+<li><p><code>"macro"</code>: A numeric vector of scores (one per iteration) is passed.
+The aggregate function defaults to <code><a href='https://rdrr.io/r/base/mean.html'>mean()</a></code> in this case.</p></li>
+<li><p><code>"micro"</code>: The <code>aggregator</code> function is not used.
+Instead, predictions from multiple iterations are first combined and then
+scored in one go.</p></li>
+<li><p><code>"custom"</code>: A <a href='ResampleResult.html'>ResampleResult</a> is passed to the aggregate function.</p></li>
+</ul></p></dd>
 
 <dt><code>properties</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
 Properties of the measure.
@@ -435,8 +443,8 @@ This is handled internally during <code><a href='resample.html'>resample()</a></
 <p><code><a href='https://rdrr.io/r/base/numeric.html'>numeric(1)</a></code>.</p>
 <p><hr>
 <a id="method-aggregate"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/stats/aggregate.html'>aggregate()</a></code></h3>
-<p>Aggregates multiple performance scores into a single score using the <code>aggregator</code> function of the measure.
-Operates on the <a href='Prediction.html'>Prediction</a>s of <a href='ResampleResult.html'>ResampleResult</a> with matching <code>predict_sets</code>.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p>Aggregates multiple performance scores into a single score, e.g. by using the <code>aggregator</code>
+function of the measure.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
 <p><div class="r"></p><pre><span class='va'>Measure</span><span class='op'>$</span><span class='fu'>aggregate</span><span class='op'>(</span><span class='va'>rr</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
