@@ -26,15 +26,16 @@ msr("selected_features")
 \item Task type: \dQuote{NA}
 \item Range: \eqn{[0, \infty)}{[0, Inf)}
 \item Minimize: TRUE
+\item Average: macro
 \item Required Prediction: \dQuote{response}
 \item Required Packages: -
 }
 }
 
 \section{Parameters}{
-\tabular{lllll}{
-   Id \tab Type \tab Default \tab Range \tab Levels \cr
-   normalize \tab logical \tab FALSE \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \tab TRUE, FALSE \cr
+\tabular{llll}{
+   Id \tab Type \tab Default \tab Levels \cr
+   normalize \tab logical \tab FALSE \tab TRUE, FALSE \cr
 }
 }
 

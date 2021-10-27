@@ -100,7 +100,7 @@ Measure = R6Class("Measure",
       self$range = assert_range(range)
       self$minimize = assert_flag(minimize, na.ok = TRUE)
       self$average = average
-      self$aggregator = aggregator
+      private$.aggregator = assert_function(aggregator, null.ok = TRUE)
 
       if (!is_scalar_na(task_type)) {
         assert_choice(task_type, mlr_reflections$task_types$type)
@@ -131,7 +131,7 @@ Measure = R6Class("Measure",
       catn(str_indent("* Packages:", self$packages))
       catn(str_indent("* Range:", sprintf("[%g, %g]", self$range[1L], self$range[2L])))
       catn(str_indent("* Minimize:", self$minimize))
-      catn(str_indent("* Average: %s", obj$average))
+      catn(str_indent("* Average:", self$average))
       catn(str_indent("* Parameters:", as_short_string(self$param_set$values, 1000L)))
       catn(str_indent("* Properties:", self$properties))
       catn(str_indent("* Predict type:", self$predict_type))
@@ -213,8 +213,7 @@ Measure = R6Class("Measure",
     hash = function(rhs) {
       assert_ro_binding(rhs)
       calculate_hash(class(self), self$id, self$param_set$values, private$.score, private$.average,
-        private$.aggregator, self$predict_sets, self$aggregator,
-        mget(private$.extra_hash, envir = self))
+        private$.aggregator, self$predict_sets, mget(private$.extra_hash, envir = self))
     },
 
     #' @field average (`character(1)`)\cr
@@ -228,7 +227,7 @@ Measure = R6Class("Measure",
     #'   each yielding a single numeric score.
     #'   Next, the scores are combined with the `aggregator` function to a single numerical score.
     #' * `"custom"`:
-    #'   The measure implements a custom aggregation method.
+    #'   The measure comes with a custom aggregation method which directly operates on a [ResampleResult].
     average = function(rhs) {
       if (!missing(rhs)) {
         private$.average = assert_choice(rhs, c("micro", "macro", "custom"))

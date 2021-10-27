@@ -86,23 +86,6 @@ How to proceed if one of the following prerequisites is not met:
 
 Possible values are \code{"ignore"} (just return \code{NaN}) and \code{"warn"} (default, raise a warning before returning \code{NaN}).}
 
-\item{\code{average}}{(\code{character(1)})\cr
-Method for aggregation:
-\itemize{
-\item \code{"micro"}:
-All predictions from multiple resampling iterations are first combined into a single \link{Prediction} object.
-Next, the scoring function of the measure is applied on this combined object, yielding a single numeric score.
-\item \code{"macro"}:
-The scoring function is applied on the \link{Prediction} object of each resampling iterations,
-each yielding a single numeric score.
-Next, the scores are combined with the \code{aggregator} function to a single numerical score.
-\item \code{"custom"}:
-The measure implements a custom aggregation method.
-}}
-
-\item{\code{aggregator}}{(\verb{function()})\cr
-Function to aggregate scores computed on different resampling iterations.}
-
 \item{\code{task_properties}}{(\code{character()})\cr
 Required properties of the \link{Task}.}
 
@@ -130,6 +113,23 @@ Defaults to \code{NA}, but can be set by child classes.}
 \describe{
 \item{\code{hash}}{(\code{character(1)})\cr
 Hash (unique identifier) for this object.}
+
+\item{\code{average}}{(\code{character(1)})\cr
+Method for aggregation:
+\itemize{
+\item \code{"micro"}:
+All predictions from multiple resampling iterations are first combined into a single \link{Prediction} object.
+Next, the scoring function of the measure is applied on this combined object, yielding a single numeric score.
+\item \code{"macro"}:
+The scoring function is applied on the \link{Prediction} object of each resampling iterations,
+each yielding a single numeric score.
+Next, the scores are combined with the \code{aggregator} function to a single numerical score.
+\item \code{"custom"}:
+The measure implements a custom aggregation method.
+}}
+
+\item{\code{aggregator}}{(\verb{function()})\cr
+Function to aggregate scores computed on different resampling iterations.}
 }
 \if{html}{\out{</div>}}
 }

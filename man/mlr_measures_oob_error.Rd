@@ -22,6 +22,7 @@ msr("oob_error")
 \item Task type: \dQuote{NA}
 \item Range: \eqn{(-\infty, \infty)}{(-Inf, Inf)}
 \item Minimize: TRUE
+\item Average: macro
 \item Required Prediction: \dQuote{response}
 \item Required Packages: -
 }
