@@ -247,23 +247,6 @@ How to proceed if one of the following prerequisites is not met:
 <li><p>task properties not satisfied (e.g., binary classification measure on multiclass task).</p></li>
 </ul>Possible values are <code>"ignore"</code> (just return <code>NaN</code>) and <code>"warn"</code> (default, raise a warning before returning <code>NaN</code>).</p></dd>
 
-<dt><code>average</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
-Method for aggregation:
-<ul>
-<li><p><code>"micro"</code>:
-All predictions from multiple resampling iterations are first combined into a single <a href='Prediction.html'>Prediction</a> object.
-Next, the scoring function of the measure is applied on this combined object, yielding a single numeric score.</p></li>
-<li><p><code>"macro"</code>:
-The scoring function is applied on the <a href='Prediction.html'>Prediction</a> object of each resampling iterations,
-each yielding a single numeric score.
-Next, the scores are combined with the <code>aggregator</code> function to a single numerical score.</p></li>
-<li><p><code>"custom"</code>:
-The measure implements a custom aggregation method.</p></li>
-</ul></p></dd>
-
-<dt><code>aggregator</code></dt><dd><p>(<code>function()</code>)<br />
-Function to aggregate scores computed on different resampling iterations.</p></dd>
-
 <dt><code>task_properties</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
 Required properties of the <a href='Task.html'>Task</a>.</p></dd>
 
@@ -290,6 +273,23 @@ Defaults to <code>NA</code>, but can be set by child classes.</p></dd>
     <p><div class="r6-active-bindings"></p><dl>
 <dt><code>hash</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
 Hash (unique identifier) for this object.</p></dd>
+
+<dt><code>average</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+Method for aggregation:
+<ul>
+<li><p><code>"micro"</code>:
+All predictions from multiple resampling iterations are first combined into a single <a href='Prediction.html'>Prediction</a> object.
+Next, the scoring function of the measure is applied on this combined object, yielding a single numeric score.</p></li>
+<li><p><code>"macro"</code>:
+The scoring function is applied on the <a href='Prediction.html'>Prediction</a> object of each resampling iterations,
+each yielding a single numeric score.
+Next, the scores are combined with the <code>aggregator</code> function to a single numerical score.</p></li>
+<li><p><code>"custom"</code>:
+The measure implements a custom aggregation method.</p></li>
+</ul></p></dd>
+
+<dt><code>aggregator</code></dt><dd><p>(<code>function()</code>)<br />
+Function to aggregate scores computed on different resampling iterations.</p></dd>
 
 </dl><p></div></p>
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
