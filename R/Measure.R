@@ -5,11 +5,11 @@
 #' @description
 #' This is the abstract base class for measures like [MeasureClassif] and [MeasureRegr].
 #'
-#' Measures are classes tailored around two functions:
+#' Measures are classes tailored around two functions doing the work:
 #'
-#' 1. A function `$score()` which quantifies the performance by comparing true and predicted response.
+#' 1. A function `$score()` which quantifies the performance by comparing the truth and predictions.
 #' 2. A function `$aggregator()` which combines multiple performance scores returned by
-#'    `calculate` to a single numeric value.
+#'    `$score()` to a single numeric value.
 #'
 #' In addition to these two functions, meta-information about the performance measure is stored.
 #'
@@ -188,8 +188,8 @@ Measure = R6Class("Measure",
     },
 
     #' @description
-    #' Aggregates multiple performance scores into a single score using the `aggregator` function of the measure.
-    #' Operates on the [Prediction]s of [ResampleResult] with matching `predict_sets`.
+    #' Aggregates multiple performance scores into a single score, e.g. by using the `aggregator`
+    #' function of the measure.
     #'
     #' @param rr [ResampleResult].
     #'

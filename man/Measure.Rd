@@ -6,11 +6,11 @@
 \description{
 This is the abstract base class for measures like \link{MeasureClassif} and \link{MeasureRegr}.
 
-Measures are classes tailored around two functions:
+Measures are classes tailored around two functions doing the work:
 \enumerate{
-\item A function \verb{$score()} which quantifies the performance by comparing true and predicted response.
+\item A function \verb{$score()} which quantifies the performance by comparing the truth and predictions.
 \item A function \verb{$aggregator()} which combines multiple performance scores returned by
-\code{calculate} to a single numeric value.
+\verb{$score()} to a single numeric value.
 }
 
 In addition to these two functions, meta-information about the performance measure is stored.
@@ -125,7 +125,7 @@ The scoring function is applied on the \link{Prediction} object of each resampli
 each yielding a single numeric score.
 Next, the scores are combined with the \code{aggregator} function to a single numerical score.
 \item \code{"custom"}:
-The measure implements a custom aggregation method.
+The measure comes with a custom aggregation method which directly operates on a \link{ResampleResult}.
 }}
 
 \item{\code{aggregator}}{(\verb{function()})\cr
@@ -200,9 +200,17 @@ function defined in \verb{$aggregator} to average them to a single number.
 If set to \code{"micro"}, the individual \link{Prediction} objects are first combined into a single new \link{Prediction} object which is then used to assess the performance.
 The function in \verb{$aggregator} is not used in this case.}
 
-\item{\code{aggregator}}{(\verb{function(x)})\cr
-Function to aggregate individual performance scores \code{x} where \code{x} is a numeric vector.
-If \code{NULL}, defaults to \code{\link[=mean]{mean()}}.}
+\item{\code{aggregator}}{(\verb{function()})\cr
+Function to aggregate over multiple iterations. The role of this function depends on
+the value of field \code{"average"}:
+\itemize{
+\item \code{"macro"}: A numeric vector of scores (one per iteration) is passed.
+The aggregate function defaults to \code{\link[=mean]{mean()}} in this case.
+\item \code{"micro"}: The \code{aggregator} function is not used.
+Instead, predictions from multiple iterations are first combined and then
+scored in one go.
+\item \code{"custom"}: A \link{ResampleResult} is passed to the aggregate function.
+}}
 
 \item{\code{properties}}{(\code{character()})\cr
 Properties of the measure.
@@ -313,8 +321,8 @@ This is handled internally during \code{\link[=resample]{resample()}}/\code{\lin
 \if{html}{\out{<a id="method-aggregate"></a>}}
 \if{latex}{\out{\hypertarget{method-aggregate}{}}}
 \subsection{Method \code{aggregate()}}{
-Aggregates multiple performance scores into a single score using the \code{aggregator} function of the measure.
-Operates on the \link{Prediction}s of \link{ResampleResult} with matching \code{predict_sets}.
+Aggregates multiple performance scores into a single score, e.g. by using the \code{aggregator}
+function of the measure.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Measure$aggregate(rr)}\if{html}{\out{</div>}}
 }
