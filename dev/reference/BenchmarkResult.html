@@ -277,7 +277,7 @@ Set of (unique) hashes of all included <a href='ResampleResult.html'>ResampleRes
 </ul>
 <p><hr>
 <a id="method-new"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>new()</code></h3>
-<p>Creates a new instance of this <a href='https://r6.r-lib.org/reference/R6Class.html'>R6</a> class.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p>Creates a new instance of this <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6</a> class.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
 <p><div class="r"></p><pre><span class='va'>BenchmarkResult</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>data <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
@@ -531,11 +531,11 @@ the object in its previous state.</p>
 <span class='co'># first 5 resampling iterations</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table</a></span><span class='op'>(</span><span class='va'>bmr</span>, measures <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"classif.acc"</span>, <span class='st'>"classif.auc"</span><span class='op'>)</span><span class='op'>)</span>, <span class='fl'>5</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;                                   uhash              task
-#&gt; 1: dfd87a25-2239-4501-b043-8825371a2d50 &lt;TaskClassif[49]&gt;
-#&gt; 2: dfd87a25-2239-4501-b043-8825371a2d50 &lt;TaskClassif[49]&gt;
-#&gt; 3: dfd87a25-2239-4501-b043-8825371a2d50 &lt;TaskClassif[49]&gt;
-#&gt; 4: 077b8c61-aed9-4205-8d93-d5ed38129ac6 &lt;TaskClassif[49]&gt;
-#&gt; 5: 077b8c61-aed9-4205-8d93-d5ed38129ac6 &lt;TaskClassif[49]&gt;
+#&gt; 1: 7cb670ea-91a0-498a-9be5-3aae7c1de499 &lt;TaskClassif[49]&gt;
+#&gt; 2: 7cb670ea-91a0-498a-9be5-3aae7c1de499 &lt;TaskClassif[49]&gt;
+#&gt; 3: 7cb670ea-91a0-498a-9be5-3aae7c1de499 &lt;TaskClassif[49]&gt;
+#&gt; 4: b71db528-95f0-45e5-8985-ef5dad181298 &lt;TaskClassif[49]&gt;
+#&gt; 5: b71db528-95f0-45e5-8985-ef5dad181298 &lt;TaskClassif[49]&gt;
 #&gt;                            learner         resampling iteration
 #&gt; 1: &lt;LearnerClassifFeatureless[37]&gt; &lt;ResamplingCV[19]&gt;         1
 #&gt; 2: &lt;LearnerClassifFeatureless[37]&gt; &lt;ResamplingCV[19]&gt;         2
