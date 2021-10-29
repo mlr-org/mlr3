@@ -5,11 +5,11 @@
 #' @description
 #' This is the abstract base class for measures like [MeasureClassif] and [MeasureRegr].
 #'
-#' Measures are classes tailored around two functions:
+#' Measures are classes tailored around two functions doing the work:
 #'
-#' 1. A function `$score()` which quantifies the performance by comparing true and predicted response.
+#' 1. A function `$score()` which quantifies the performance by comparing the truth and predictions.
 #' 2. A function `$aggregator()` which combines multiple performance scores returned by
-#'    `calculate` to a single numeric value.
+#'    `$score()` to a single numeric value.
 #'
 #' In addition to these two functions, meta-information about the performance measure is stored.
 #'
@@ -64,24 +64,6 @@ Measure = R6Class("Measure",
     #' Possible values are `"ignore"` (just return `NaN`) and `"warn"` (default, raise a warning before returning `NaN`).
     check_prerequisites = "warn",
 
-    #' @field average (`character(1)`)\cr
-    #' Method for aggregation:
-    #'
-    #' * `"micro"`:
-    #'   All predictions from multiple resampling iterations are first combined into a single [Prediction] object.
-    #'   Next, the scoring function of the measure is applied on this combined object, yielding a single numeric score.
-    #' * `"macro"`:
-    #'   The scoring function is applied on the [Prediction] object of each resampling iterations,
-    #'   each yielding a single numeric score.
-    #'   Next, the scores are combined with the `aggregator` function to a single numerical score.
-    #' * `"custom"`:
-    #'   The measure implements a custom aggregation method.
-    average = NULL,
-
-    #' @field aggregator (`function()`)\cr
-    #' Function to aggregate scores computed on different resampling iterations.
-    aggregator = NULL,
-
     #' @field task_properties (`character()`)\cr
     #' Required properties of the [Task].
     task_properties = NULL,
@@ -117,8 +99,8 @@ Measure = R6Class("Measure",
       self$param_set = assert_param_set(param_set)
       self$range = assert_range(range)
       self$minimize = assert_flag(minimize, na.ok = TRUE)
-      self$average = assert_choice(average, c("macro", "micro", "custom"))
-      self$aggregator = assert_function(aggregator, null.ok = TRUE)
+      self$average = average
+      private$.aggregator = assert_function(aggregator, null.ok = TRUE)
 
       if (!is_scalar_na(task_type)) {
         assert_choice(task_type, mlr_reflections$task_types$type)
@@ -149,6 +131,7 @@ Measure = R6Class("Measure",
       catn(str_indent("* Packages:", self$packages))
       catn(str_indent("* Range:", sprintf("[%g, %g]", self$range[1L], self$range[2L])))
       catn(str_indent("* Minimize:", self$minimize))
+      catn(str_indent("* Average:", self$average))
       catn(str_indent("* Parameters:", as_short_string(self$param_set$values, 1000L)))
       catn(str_indent("* Properties:", self$properties))
       catn(str_indent("* Predict type:", self$predict_type))
@@ -205,8 +188,8 @@ Measure = R6Class("Measure",
     },
 
     #' @description
-    #' Aggregates multiple performance scores into a single score using the `aggregator` function of the measure.
-    #' Operates on the [Prediction]s of [ResampleResult] with matching `predict_sets`.
+    #' Aggregates multiple performance scores into a single score, e.g. by using the `aggregator`
+    #' function of the measure.
     #'
     #' @param rr [ResampleResult].
     #'
@@ -220,7 +203,7 @@ Measure = R6Class("Measure",
           set_names(aggregator(tab[[self$id]]), self$id)
         },
         "micro" = self$score(rr$prediction(self$predict_sets), task = rr$task, learner = rr$learner),
-        "custom" = private$.aggregate(rr)
+        "custom" = private$.aggregator(rr)
       )
     }
   ),
@@ -229,14 +212,45 @@ Measure = R6Class("Measure",
     #' @template field_hash
     hash = function(rhs) {
       assert_ro_binding(rhs)
-      calculate_hash(class(self), self$id, self$param_set$values, private$average, private$.score,
-        private$.aggregate, self$predict_sets, self$aggregator,
-        mget(private$.extra_hash, envir = self))
+      calculate_hash(class(self), self$id, self$param_set$values, private$.score, private$.average,
+        private$.aggregator, self$predict_sets, mget(private$.extra_hash, envir = self))
+    },
+
+    #' @field average (`character(1)`)\cr
+    #' Method for aggregation:
+    #'
+    #' * `"micro"`:
+    #'   All predictions from multiple resampling iterations are first combined into a single [Prediction] object.
+    #'   Next, the scoring function of the measure is applied on this combined object, yielding a single numeric score.
+    #' * `"macro"`:
+    #'   The scoring function is applied on the [Prediction] object of each resampling iterations,
+    #'   each yielding a single numeric score.
+    #'   Next, the scores are combined with the `aggregator` function to a single numerical score.
+    #' * `"custom"`:
+    #'   The measure comes with a custom aggregation method which directly operates on a [ResampleResult].
+    average = function(rhs) {
+      if (!missing(rhs)) {
+        private$.average = assert_choice(rhs, c("micro", "macro", "custom"))
+      } else {
+        private$.average
+      }
+    },
+
+    #' @field aggregator (`function()`)\cr
+    #' Function to aggregate scores computed on different resampling iterations.
+    aggregator = function(rhs) {
+      if (!missing(rhs)) {
+        private$.aggregator = assert_function(rhs, null.ok = TRUE)
+      } else {
+        private$.aggregator
+      }
     }
   ),
 
   private = list(
-    .extra_hash = character()
+    .extra_hash = character(),
+    .average = NULL,
+    .aggregator = NULL
   )
 )
 
@@ -330,13 +344,13 @@ format_list_item.Measure = function(x, ...) { # nolint
 
 
 #' @export
-rd_info.Measure = function(obj) {
+rd_info.Measure = function(obj) { # nolint
   c("",
     sprintf("* Task type: %s", rd_format_string(obj$task_type)),
     sprintf("* Range: %s", rd_format_range(obj$range[1L], obj$range[2L])),
     sprintf("* Minimize: %s", obj$minimize),
+    sprintf("* Average: %s", obj$average),
     sprintf("* Required Prediction: %s", rd_format_string(obj$predict_type)),
     sprintf("* Required Packages: %s", rd_format_packages(obj$packages))
   )
 }
-

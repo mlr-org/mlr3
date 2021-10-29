@@ -23,15 +23,16 @@ msr("debug")
 \item Task type: \dQuote{NA}
 \item Range: \eqn{[0, \infty)}{[0, Inf)}
 \item Minimize: NA
+\item Average: macro
 \item Required Prediction: \dQuote{response}
 \item Required Packages: -
 }
 }
 
 \section{Parameters}{
-\tabular{lllll}{
-   Id \tab Type \tab Default \tab Range \tab Levels \cr
-   na_ratio \tab numeric \tab - \tab \eqn{[0, 1]}{[0, 1]} \tab - \cr
+\tabular{llll}{
+   Id \tab Type \tab Default \tab Range \cr
+   na_ratio \tab numeric \tab - \tab \eqn{[0, 1]}{[0, 1]} \cr
 }
 }
 
