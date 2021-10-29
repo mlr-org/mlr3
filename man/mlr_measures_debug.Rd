@@ -30,9 +30,9 @@ msr("debug")
 }
 
 \section{Parameters}{
-\tabular{llll}{
-   Id \tab Type \tab Default \tab Range \cr
-   na_ratio \tab numeric \tab - \tab \eqn{[0, 1]}{[0, 1]} \cr
+\tabular{lllll}{
+   Id \tab Type \tab Default \tab Range \tab Levels \cr
+   na_ratio \tab numeric \tab - \tab \eqn{[0, 1]}{[0, 1]} \tab - \cr
 }
 }
 
