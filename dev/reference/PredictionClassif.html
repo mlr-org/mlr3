@@ -293,7 +293,7 @@ Columns must be named with class labels, row names are automatically removed.
 If <code>prob</code> is provided, but <code>response</code> is not, the class labels are calculated from
 the probabilities using <code><a href='https://rdrr.io/r/base/maxCol.html'>max.col()</a></code> with <code>ties.method</code> set to <code>"random"</code>.</p></dd>
 
-<dt><code>check</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
+<dt><code>check</code></dt><dd><p>(<code>logical(1)</code>)<br />
 If <code>TRUE</code>, performs some argument checks and predict type conversions.</p></dd>
 
 </dl><p></div></p>
@@ -307,7 +307,7 @@ See the section on thresholding for more information.</p><h4 class='hasAnchor' i
 <p><div class="arguments"></p><dl>
 <dt><code>threshold</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/numeric.html'>numeric()</a></code>).</p></dd>
 
-<dt><code>ties_method</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+<dt><code>ties_method</code></dt><dd><p>(<code>character(1)</code>)<br />
 One of <code>"random"</code>, <code>"first"</code> or <code>"last"</code> (c.f. <code><a href='https://rdrr.io/r/base/maxCol.html'>max.col()</a></code>) to determine how to deal with
 tied probabilities.</p></dd>
 
@@ -320,70 +320,75 @@ the object in its previous state.</p>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>task</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span><span class='op'>(</span><span class='st'>"penguins"</span><span class='op'>)</span>
-<span class='va'>learner</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>lrn</a></span><span class='op'>(</span><span class='st'>"classif.rpart"</span>, predict_type <span class='op'>=</span> <span class='st'>"prob"</span><span class='op'>)</span>
-<span class='va'>learner</span><span class='op'>$</span><span class='fu'>train</span><span class='op'>(</span><span class='va'>task</span><span class='op'>)</span>
-<span class='va'>p</span> <span class='op'>=</span> <span class='va'>learner</span><span class='op'>$</span><span class='fu'>predict</span><span class='op'>(</span><span class='va'>task</span><span class='op'>)</span>
-<span class='va'>p</span><span class='op'>$</span><span class='va'>predict_types</span>
-</div><div class='output co'>#&gt; [1] "response" "prob"    </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table</a></span><span class='op'>(</span><span class='va'>p</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;    row_ids  truth response prob.Adelie prob.Chinstrap prob.Gentoo
-#&gt; 1:       1 Adelie   Adelie   0.9668874     0.03311258           0
-#&gt; 2:       2 Adelie   Adelie   0.9668874     0.03311258           0
-#&gt; 3:       3 Adelie   Adelie   0.9668874     0.03311258           0
-#&gt; 4:       4 Adelie   Adelie   0.9668874     0.03311258           0
-#&gt; 5:       5 Adelie   Adelie   0.9668874     0.03311258           0
-#&gt; 6:       6 Adelie   Adelie   0.9668874     0.03311258           0</div><div class='input'>
-<span class='co'># confusion matrix</span>
-<span class='va'>p</span><span class='op'>$</span><span class='va'>confusion</span>
-</div><div class='output co'>#&gt;            truth
-#&gt; response    Adelie Chinstrap Gentoo
-#&gt;   Adelie       146         5      0
-#&gt;   Chinstrap      6        63      1
-#&gt;   Gentoo         0         0    123</div><div class='input'>
-<span class='co'># change threshold</span>
-<span class='va'>th</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.05</span>, <span class='fl'>0.9</span>, <span class='fl'>0.05</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>th</span><span class='op'>)</span> <span class='op'>=</span> <span class='va'>task</span><span class='op'>$</span><span class='va'>class_names</span>
-
-<span class='co'># new predictions</span>
-<span class='va'>p</span><span class='op'>$</span><span class='fu'>set_threshold</span><span class='op'>(</span><span class='va'>th</span><span class='op'>)</span><span class='op'>$</span><span class='va'>response</span>
-</div><div class='output co'>#&gt;   [1] Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie
-#&gt;  [11] Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie
-#&gt;  [21] Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie
-#&gt;  [31] Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie
-#&gt;  [41] Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie
-#&gt;  [51] Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie
-#&gt;  [61] Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie
-#&gt;  [71] Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie
-#&gt;  [81] Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie
-#&gt;  [91] Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie
-#&gt; [101] Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie
-#&gt; [111] Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie
-#&gt; [121] Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie
-#&gt; [131] Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie
-#&gt; [141] Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie
-#&gt; [151] Adelie Adelie Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo
-#&gt; [161] Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo
-#&gt; [171] Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo
-#&gt; [181] Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo
-#&gt; [191] Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo
-#&gt; [201] Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo
-#&gt; [211] Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo
-#&gt; [221] Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo
-#&gt; [231] Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo
-#&gt; [241] Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo
-#&gt; [251] Adelie Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo
-#&gt; [261] Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo
-#&gt; [271] Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Adelie Adelie Adelie Adelie
-#&gt; [281] Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie
-#&gt; [291] Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie
-#&gt; [301] Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie
-#&gt; [311] Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie
-#&gt; [321] Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie
-#&gt; [331] Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie
-#&gt; [341] Adelie Adelie Adelie Adelie
-#&gt; Levels: Adelie Chinstrap Gentoo</div><div class='input'><span class='va'>p</span><span class='op'>$</span><span class='fu'>score</span><span class='op'>(</span>measures <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>msr</a></span><span class='op'>(</span><span class='st'>"classif.ce"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; classif.ce 
-#&gt;  0.2005814 </div></pre>
+    <pre class="examples"><span class='r-in'><span class='va'>task</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span><span class='op'>(</span><span class='st'>"penguins"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>learner</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>lrn</a></span><span class='op'>(</span><span class='st'>"classif.rpart"</span>, predict_type <span class='op'>=</span> <span class='st'>"prob"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>learner</span><span class='op'>$</span><span class='fu'>train</span><span class='op'>(</span><span class='va'>task</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>p</span> <span class='op'>=</span> <span class='va'>learner</span><span class='op'>$</span><span class='fu'>predict</span><span class='op'>(</span><span class='va'>task</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>p</span><span class='op'>$</span><span class='va'>predict_types</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "response" "prob"    </span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table</a></span><span class='op'>(</span><span class='va'>p</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    row_ids  truth response prob.Adelie prob.Chinstrap prob.Gentoo</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1:       1 Adelie   Adelie   0.9668874     0.03311258           0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2:       2 Adelie   Adelie   0.9668874     0.03311258           0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3:       3 Adelie   Adelie   0.9668874     0.03311258           0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4:       4 Adelie   Adelie   0.9668874     0.03311258           0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5:       5 Adelie   Adelie   0.9668874     0.03311258           0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6:       6 Adelie   Adelie   0.9668874     0.03311258           0</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># confusion matrix</span></span>
+<span class='r-in'><span class='va'>p</span><span class='op'>$</span><span class='va'>confusion</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>            truth</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> response    Adelie Chinstrap Gentoo</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   Adelie       146         5      0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   Chinstrap      6        63      1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   Gentoo         0         0    123</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># change threshold</span></span>
+<span class='r-in'><span class='va'>th</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.05</span>, <span class='fl'>0.9</span>, <span class='fl'>0.05</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>th</span><span class='op'>)</span> <span class='op'>=</span> <span class='va'>task</span><span class='op'>$</span><span class='va'>class_names</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># new predictions</span></span>
+<span class='r-in'><span class='va'>p</span><span class='op'>$</span><span class='fu'>set_threshold</span><span class='op'>(</span><span class='va'>th</span><span class='op'>)</span><span class='op'>$</span><span class='va'>response</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [1] Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [11] Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [21] Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [31] Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [41] Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [51] Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [61] Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [71] Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [81] Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [91] Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [101] Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [111] Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [121] Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [131] Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [141] Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [151] Adelie Adelie Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [161] Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [171] Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [181] Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [191] Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [201] Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [211] Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [221] Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [231] Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [241] Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [251] Adelie Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [261] Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [271] Gentoo Gentoo Gentoo Gentoo Gentoo Gentoo Adelie Adelie Adelie Adelie</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [281] Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [291] Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [301] Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [311] Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [321] Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [331] Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie Adelie</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [341] Adelie Adelie Adelie Adelie</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Levels: Adelie Chinstrap Gentoo</span>
+<span class='r-in'><span class='va'>p</span><span class='op'>$</span><span class='fu'>score</span><span class='op'>(</span>measures <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>msr</a></span><span class='op'>(</span><span class='st'>"classif.ce"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> classif.ce </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  0.2005814 </span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -174,7 +174,7 @@ e.g. <code><a href='mlr_task_generators_xor.html'>xor</a></code>.</p>
     <div class='dont-index'>
 <ul>
 <li><p><a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>Dictionary</a> of TaskGenerators: <a href='mlr_task_generators.html'>mlr_task_generators</a></p></li>
-<li><p><code><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table(mlr_task_generators)</a></code>  for a table of available TaskGenerators in the running session (depending on the loaded packages).</p></li>
+<li><p><code>as.data.table(mlr_task_generators)</code>  for a table of available TaskGenerators in the running session (depending on the loaded packages).</p></li>
 <li><p>Extension packages for additional task types:</p><ul>
 <li><p><a href='https://CRAN.R-project.org/package=mlr3proba'><span class="pkg">mlr3proba</span></a> for probabilistic supervised regression and survival analysis.</p></li>
 <li><p><a href='https://CRAN.R-project.org/package=mlr3cluster'><span class="pkg">mlr3cluster</span></a> for unsupervised clustering.</p></li>
@@ -195,22 +195,22 @@ e.g. <code><a href='mlr_task_generators_xor.html'>xor</a></code>.</p>
     <h2 class="hasAnchor" id="public-fields"><a class="anchor" href="#public-fields"></a>Public fields</h2>
 
     <p><div class="r6-fields"></p><dl>
-<dt><code>id</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+<dt><code>id</code></dt><dd><p>(<code>character(1)</code>)<br />
 Identifier of the object.
 Used in tables, plot and text output.</p></dd>
 
-<dt><code>task_type</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+<dt><code>task_type</code></dt><dd><p>(<code>character(1)</code>)<br />
 Task type, e.g. <code>"classif"</code> or <code>"regr"</code>.For a complete list of possible task types (depending on the loaded packages),
 see <code><a href='mlr_reflections.html'>mlr_reflections$task_types$type</a></code>.</p></dd>
 
 <dt><code>param_set</code></dt><dd><p>(<a href='https://paradox.mlr-org.com/reference/ParamSet.html'>paradox::ParamSet</a>)<br />
 Set of hyperparameters.</p></dd>
 
-<dt><code>packages</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+<dt><code>packages</code></dt><dd><p>(<code>character(1)</code>)<br />
 Set of required packages.
 These packages are loaded, but not attached.</p></dd>
 
-<dt><code>man</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+<dt><code>man</code></dt><dd><p>(<code>character(1)</code>)<br />
 String in the format <code>[pkg]::[topic]</code> pointing to a manual page for this object.
 Defaults to <code>NA</code>, but can be set by child classes.</p></dd>
 
@@ -240,10 +240,10 @@ Defaults to <code>NA</code>, but can be set by child classes.</p></dd>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
-<dt><code>id</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+<dt><code>id</code></dt><dd><p>(<code>character(1)</code>)<br />
 Identifier for the new instance.</p></dd>
 
-<dt><code>task_type</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+<dt><code>task_type</code></dt><dd><p>(<code>character(1)</code>)<br />
 Type of task, e.g. <code>"regr"</code> or <code>"classif"</code>.
 Must be an element of <a href='mlr_reflections.html'>mlr_reflections$task_types$type</a>.</p></dd>
 
@@ -255,7 +255,7 @@ but loaded (not attached) later on-demand via <code><a href='https://rdrr.io/r/b
 <dt><code>param_set</code></dt><dd><p>(<a href='https://paradox.mlr-org.com/reference/ParamSet.html'>paradox::ParamSet</a>)<br />
 Set of hyperparameters.</p></dd>
 
-<dt><code>man</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+<dt><code>man</code></dt><dd><p>(<code>character(1)</code>)<br />
 String in the format <code>[pkg]::[topic]</code> pointing to a manual page for this object.
 The referenced help package can be opened via method <code>$help()</code>.</p></dd>
 
@@ -282,7 +282,7 @@ The referenced help package can be opened via method <code>$help()</code>.</p></
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
-<dt><code>n</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>)<br />
+<dt><code>n</code></dt><dd><p>(<code>integer(1)</code>)<br />
 Number of rows to generate.</p></dd>
 
 </dl><p></div></p>

@@ -199,7 +199,7 @@ New data to predict on.</p></td>
     </tr>
     <tr>
       <th>predict_type</th>
-      <td><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+      <td><p>(<code>character(1)</code>)<br />
 The predict type to return.
 Set to <code>&lt;Prediction&gt;</code> to retrieve the complete <a href='Prediction.html'>Prediction</a> object.
 If set to <code>NULL</code> (default), the first predict type for the respective class of the <a href='Learner.html'>Learner</a>
@@ -214,22 +214,25 @@ Hyperparameters to pass down to the <a href='Learner.html'>Learner</a>.</p></td>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>task</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span><span class='op'>(</span><span class='st'>"spam"</span><span class='op'>)</span>
-
-<span class='va'>learner</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>lrn</a></span><span class='op'>(</span><span class='st'>"classif.rpart"</span>, predict_type <span class='op'>=</span> <span class='st'>"prob"</span><span class='op'>)</span>
-<span class='va'>learner</span><span class='op'>$</span><span class='fu'>train</span><span class='op'>(</span><span class='va'>task</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>learner</span>, <span class='va'>task</span><span class='op'>$</span><span class='fu'>data</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span><span class='op'>)</span>, predict_type <span class='op'>=</span> <span class='st'>"response"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] spam spam spam
-#&gt; Levels: spam nonspam</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>learner</span>, <span class='va'>task</span><span class='op'>$</span><span class='fu'>data</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span><span class='op'>)</span>, predict_type <span class='op'>=</span> <span class='st'>"prob"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;           spam    nonspam
-#&gt; [1,] 0.8513514 0.14864865
-#&gt; [2,] 0.9339623 0.06603774
-#&gt; [3,] 0.9339623 0.06603774</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>learner</span>, <span class='va'>task</span><span class='op'>$</span><span class='fu'>data</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span><span class='op'>)</span>, predict_type <span class='op'>=</span> <span class='st'>"&lt;Prediction&gt;"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; &lt;PredictionClassif&gt; for 3 observations:
-#&gt;  row_ids truth response prob.spam prob.nonspam
-#&gt;        1  spam     spam 0.8513514   0.14864865
-#&gt;        2  spam     spam 0.9339623   0.06603774
-#&gt;        3  spam     spam 0.9339623   0.06603774</div></pre>
+    <pre class="examples"><span class='r-in'><span class='va'>task</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span><span class='op'>(</span><span class='st'>"spam"</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>learner</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>lrn</a></span><span class='op'>(</span><span class='st'>"classif.rpart"</span>, predict_type <span class='op'>=</span> <span class='st'>"prob"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>learner</span><span class='op'>$</span><span class='fu'>train</span><span class='op'>(</span><span class='va'>task</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>learner</span>, <span class='va'>task</span><span class='op'>$</span><span class='fu'>data</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span><span class='op'>)</span>, predict_type <span class='op'>=</span> <span class='st'>"response"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] spam spam spam</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Levels: spam nonspam</span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>learner</span>, <span class='va'>task</span><span class='op'>$</span><span class='fu'>data</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span><span class='op'>)</span>, predict_type <span class='op'>=</span> <span class='st'>"prob"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>           spam    nonspam</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1,] 0.8513514 0.14864865</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [2,] 0.9339623 0.06603774</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [3,] 0.9339623 0.06603774</span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>learner</span>, <span class='va'>task</span><span class='op'>$</span><span class='fu'>data</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span><span class='op'>)</span>, predict_type <span class='op'>=</span> <span class='st'>"&lt;Prediction&gt;"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;PredictionClassif&gt; for 3 observations:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  row_ids truth response prob.spam prob.nonspam</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        1  spam     spam 0.8513514   0.14864865</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        2  spam     spam 0.9339623   0.06603774</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        3  spam     spam 0.9339623   0.06603774</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

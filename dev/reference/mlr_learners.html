@@ -188,7 +188,7 @@ More learners are connected via <a href='https://github.com/mlr-org/mlr3extralea
     
 
 <ul>
-<li><p><code><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table(dict)</a></code><br />
+<li><p><code>as.data.table(dict)</code><br />
 <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>mlr3misc::Dictionary</a> -&gt; <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code><br />
 Returns a <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code> with fields "key", "feature_types", "packages",
 "properties" and "predict_types" as columns.</p></li>
@@ -215,52 +215,55 @@ Returns a <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.
 <code><a href='mlr_learners_regr.rpart.html'>mlr_learners_regr.rpart</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table</a></span><span class='op'>(</span><span class='va'>mlr_learners</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;                    key                                        feature_types
-#&gt; 1:       classif.debug     logical,integer,numeric,character,factor,ordered
-#&gt; 2: classif.featureless logical,integer,numeric,character,factor,ordered,...
-#&gt; 3:       classif.rpart               logical,integer,numeric,factor,ordered
-#&gt; 4:          regr.debug     logical,integer,numeric,character,factor,ordered
-#&gt; 5:    regr.featureless logical,integer,numeric,character,factor,ordered,...
-#&gt; 6:          regr.rpart               logical,integer,numeric,factor,ordered
-#&gt;    packages
-#&gt; 1:         
-#&gt; 2:         
-#&gt; 3:    rpart
-#&gt; 4:         
-#&gt; 5:    stats
-#&gt; 6:    rpart
-#&gt;                                                               properties
-#&gt; 1:                         hotstart_forward,missings,multiclass,twoclass
-#&gt; 2: featureless,importance,missings,multiclass,selected_features,twoclass
-#&gt; 3:     importance,missings,multiclass,selected_features,twoclass,weights
-#&gt; 4:                                                              missings
-#&gt; 5:                     featureless,importance,missings,selected_features
-#&gt; 6:                         importance,missings,selected_features,weights
-#&gt;    predict_types
-#&gt; 1: response,prob
-#&gt; 2: response,prob
-#&gt; 3: response,prob
-#&gt; 4:   response,se
-#&gt; 5:   response,se
-#&gt; 6:      response</div><div class='input'><span class='va'>mlr_learners</span><span class='op'>$</span><span class='fu'>get</span><span class='op'>(</span><span class='st'>"classif.featureless"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; &lt;LearnerClassifFeatureless:classif.featureless&gt;
-#&gt; * Model: -
-#&gt; * Parameters: method=mode
-#&gt; * Packages: -
-#&gt; * Predict Type: response
-#&gt; * Feature types: logical, integer, numeric, character, factor, ordered,
-#&gt;   POSIXct
-#&gt; * Properties: featureless, importance, missings, multiclass,
-#&gt;   selected_features, twoclass</div><div class='input'><span class='fu'><a href='mlr_sugar.html'>lrn</a></span><span class='op'>(</span><span class='st'>"classif.rpart"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; &lt;LearnerClassifRpart:classif.rpart&gt;
-#&gt; * Model: -
-#&gt; * Parameters: xval=0
-#&gt; * Packages: rpart
-#&gt; * Predict Type: response
-#&gt; * Feature types: logical, integer, numeric, factor, ordered
-#&gt; * Properties: importance, missings, multiclass, selected_features,
-#&gt;   twoclass, weights</div></pre>
+    <pre class="examples"><span class='r-in'><span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table</a></span><span class='op'>(</span><span class='va'>mlr_learners</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                    key                                        feature_types</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1:       classif.debug     logical,integer,numeric,character,factor,ordered</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2: classif.featureless logical,integer,numeric,character,factor,ordered,...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3:       classif.rpart               logical,integer,numeric,factor,ordered</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4:          regr.debug     logical,integer,numeric,character,factor,ordered</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5:    regr.featureless logical,integer,numeric,character,factor,ordered,...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6:          regr.rpart               logical,integer,numeric,factor,ordered</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    packages</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1:         </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2:         </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3:    rpart</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4:         </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5:    stats</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6:    rpart</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                                               properties</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1:                         hotstart_forward,missings,multiclass,twoclass</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2: featureless,importance,missings,multiclass,selected_features,twoclass</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3:     importance,missings,multiclass,selected_features,twoclass,weights</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4:                                                              missings</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5:                     featureless,importance,missings,selected_features</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6:                         importance,missings,selected_features,weights</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    predict_types</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1: response,prob</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2: response,prob</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3: response,prob</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4:   response,se</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5:   response,se</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6:      response</span>
+<span class='r-in'><span class='va'>mlr_learners</span><span class='op'>$</span><span class='fu'>get</span><span class='op'>(</span><span class='st'>"classif.featureless"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;LearnerClassifFeatureless:classif.featureless&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> * Model: -</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> * Parameters: method=mode</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> * Packages: -</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> * Predict Type: response</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> * Feature types: logical, integer, numeric, character, factor, ordered,</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   POSIXct</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> * Properties: featureless, importance, missings, multiclass,</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   selected_features, twoclass</span>
+<span class='r-in'><span class='fu'><a href='mlr_sugar.html'>lrn</a></span><span class='op'>(</span><span class='st'>"classif.rpart"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;LearnerClassifRpart:classif.rpart&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> * Model: -</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> * Parameters: xval=0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> * Packages: rpart</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> * Predict Type: response</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> * Feature types: logical, integer, numeric, factor, ordered</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> * Properties: importance, missings, multiclass, selected_features,</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   twoclass, weights</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

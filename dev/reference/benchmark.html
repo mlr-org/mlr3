@@ -184,14 +184,14 @@ instantiate the <a href='Resampling.html'>Resampling</a>s per <a href='Task.html
     </tr>
     <tr>
       <th>store_models</th>
-      <td><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
+      <td><p>(<code>logical(1)</code>)<br />
 Store the fitted model in the resulting object=
 Set to <code>TRUE</code> if you want to further analyse the models or want to
 extract information like variable importance.</p></td>
     </tr>
     <tr>
       <th>store_backends</th>
-      <td><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
+      <td><p>(<code>logical(1)</code>)<br />
 Keep the <a href='DataBackend.html'>DataBackend</a> of the <a href='Task.html'>Task</a> in the <a href='ResampleResult.html'>ResampleResult</a>?
 Set to <code>TRUE</code> if your performance measures require a <a href='Task.html'>Task</a>,
 or to analyse results more conveniently.
@@ -202,7 +202,7 @@ in a future release.</p></td>
     </tr>
     <tr>
       <th>encapsulate</th>
-      <td><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+      <td><p>(<code>character(1)</code>)<br />
 If not <code>NA</code>, enables encapsulation by setting the field
 <code>Learner$encapsulate</code> to one of the supported values:
 <code>"none"</code> (disable encapsulation),
@@ -216,7 +216,7 @@ does not already have a fallback configured.</p></td>
     </tr>
     <tr>
       <th>allow_hotstart</th>
-      <td><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
+      <td><p>(<code>logical(1)</code>)<br />
 Determines if learner(s) are hot started with trained models in
 <code>$hotstart_stack</code>. See also <a href='HotstartStack.html'>HotstartStack</a>.</p></td>
     </tr>
@@ -247,7 +247,7 @@ Simply wrap the function call in <code><a href='https://progressr.futureverse.or
 Alternatively, call <code><a href='https://progressr.futureverse.org/reference/handlers.html'>progressr::handlers()</a></code> with <code>global = TRUE</code> to enable progress bars
 globally.
 We recommend the <a href='https://CRAN.R-project.org/package=progress'><span class="pkg">progress</span></a> package as backend which can be enabled with
-<code><a href='https://progressr.futureverse.org/reference/handlers.html'>progressr::handlers("progress")</a></code>.</p>
+<code>progressr::handlers("progress")</code>.</p>
     <h2 class="hasAnchor" id="logging"><a class="anchor" href="#logging"></a>Logging</h2>
 
     
@@ -255,7 +255,7 @@ We recommend the <a href='https://CRAN.R-project.org/package=progress'><span cla
 
 <p>The <a href='https://CRAN.R-project.org/package=mlr3'><span class="pkg">mlr3</span></a> uses the <a href='https://CRAN.R-project.org/package=lgr'><span class="pkg">lgr</span></a> package for logging.
 <a href='https://CRAN.R-project.org/package=lgr'><span class="pkg">lgr</span></a> supports multiple log levels which can be queried with
-<code><a href='https://rdrr.io/r/base/options.html'>getOption("lgr.log_levels")</a></code>.</p>
+<code>getOption("lgr.log_levels")</code>.</p>
 <p>To suppress output and reduce verbosity, you can lower the log from the
 default level <code>"info"</code> to <code>"warn"</code>:</p><pre><span class='fu'>lgr</span><span class='fu'>::</span><span class='fu'><a href='https://s-fleck.github.io/lgr/reference/get_logger.html'>get_logger</a></span><span class='op'>(</span><span class='st'>"mlr3"</span><span class='op'>)</span><span class='op'>$</span><span class='fu'>set_threshold</span><span class='op'>(</span><span class='st'>"warn"</span><span class='op'>)</span>
 </pre>
@@ -280,114 +280,120 @@ or <code>"trace"</code>:</p><pre><span class='fu'>lgr</span><span class='fu'>::<
 <code><a href='benchmark_grid.html'>benchmark_grid</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># benchmarking with benchmark_grid()</span>
-<span class='va'>tasks</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"penguins"</span>, <span class='st'>"sonar"</span><span class='op'>)</span>, <span class='va'>tsk</span><span class='op'>)</span>
-<span class='va'>learners</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"classif.featureless"</span>, <span class='st'>"classif.rpart"</span><span class='op'>)</span>, <span class='va'>lrn</span><span class='op'>)</span>
-<span class='va'>resamplings</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span><span class='op'>(</span><span class='st'>"cv"</span>, folds <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
-
-<span class='va'>design</span> <span class='op'>=</span> <span class='fu'><a href='benchmark_grid.html'>benchmark_grid</a></span><span class='op'>(</span><span class='va'>tasks</span>, <span class='va'>learners</span>, <span class='va'>resamplings</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>design</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;                 task                         learner         resampling
-#&gt; 1: &lt;TaskClassif[49]&gt; &lt;LearnerClassifFeatureless[37]&gt; &lt;ResamplingCV[19]&gt;
-#&gt; 2: &lt;TaskClassif[49]&gt;       &lt;LearnerClassifRpart[37]&gt; &lt;ResamplingCV[19]&gt;
-#&gt; 3: &lt;TaskClassif[49]&gt; &lt;LearnerClassifFeatureless[37]&gt; &lt;ResamplingCV[19]&gt;
-#&gt; 4: &lt;TaskClassif[49]&gt;       &lt;LearnerClassifRpart[37]&gt; &lt;ResamplingCV[19]&gt;</div><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>123</span><span class='op'>)</span>
-<span class='va'>bmr</span> <span class='op'>=</span> <span class='fu'>benchmark</span><span class='op'>(</span><span class='va'>design</span><span class='op'>)</span>
-
-<span class='co'>## Data of all resamplings</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table</a></span><span class='op'>(</span><span class='va'>bmr</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;                                   uhash              task
-#&gt; 1: 495ac9e9-45f6-4240-b02b-7d41dcdcbcb7 &lt;TaskClassif[49]&gt;
-#&gt; 2: 495ac9e9-45f6-4240-b02b-7d41dcdcbcb7 &lt;TaskClassif[49]&gt;
-#&gt; 3: 495ac9e9-45f6-4240-b02b-7d41dcdcbcb7 &lt;TaskClassif[49]&gt;
-#&gt; 4: 8c0fae54-3bf2-44ee-a014-a41c800a194c &lt;TaskClassif[49]&gt;
-#&gt; 5: 8c0fae54-3bf2-44ee-a014-a41c800a194c &lt;TaskClassif[49]&gt;
-#&gt; 6: 8c0fae54-3bf2-44ee-a014-a41c800a194c &lt;TaskClassif[49]&gt;
-#&gt;                            learner         resampling iteration
-#&gt; 1: &lt;LearnerClassifFeatureless[37]&gt; &lt;ResamplingCV[19]&gt;         1
-#&gt; 2: &lt;LearnerClassifFeatureless[37]&gt; &lt;ResamplingCV[19]&gt;         2
-#&gt; 3: &lt;LearnerClassifFeatureless[37]&gt; &lt;ResamplingCV[19]&gt;         3
-#&gt; 4:       &lt;LearnerClassifRpart[37]&gt; &lt;ResamplingCV[19]&gt;         1
-#&gt; 5:       &lt;LearnerClassifRpart[37]&gt; &lt;ResamplingCV[19]&gt;         2
-#&gt; 6:       &lt;LearnerClassifRpart[37]&gt; &lt;ResamplingCV[19]&gt;         3
-#&gt;                 prediction
-#&gt; 1: &lt;PredictionClassif[20]&gt;
-#&gt; 2: &lt;PredictionClassif[20]&gt;
-#&gt; 3: &lt;PredictionClassif[20]&gt;
-#&gt; 4: &lt;PredictionClassif[20]&gt;
-#&gt; 5: &lt;PredictionClassif[20]&gt;
-#&gt; 6: &lt;PredictionClassif[20]&gt;</div><div class='input'>
-<span class='co'>## Aggregated performance values</span>
-<span class='va'>aggr</span> <span class='op'>=</span> <span class='va'>bmr</span><span class='op'>$</span><span class='fu'>aggregate</span><span class='op'>(</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>aggr</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;    nr      resample_result  task_id          learner_id resampling_id iters
-#&gt; 1:  1 &lt;ResampleResult[22]&gt; penguins classif.featureless            cv     3
-#&gt; 2:  2 &lt;ResampleResult[22]&gt; penguins       classif.rpart            cv     3
-#&gt; 3:  3 &lt;ResampleResult[22]&gt;    sonar classif.featureless            cv     3
-#&gt; 4:  4 &lt;ResampleResult[22]&gt;    sonar       classif.rpart            cv     3
-#&gt;    classif.ce
-#&gt; 1: 0.55807272
-#&gt; 2: 0.07561658
-#&gt; 3: 0.46652864
-#&gt; 4: 0.28854382</div><div class='input'>
-<span class='co'>## Extract predictions of first resampling result</span>
-<span class='va'>rr</span> <span class='op'>=</span> <span class='va'>aggr</span><span class='op'>$</span><span class='va'>resample_result</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>
-<span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table</a></span><span class='op'>(</span><span class='va'>rr</span><span class='op'>$</span><span class='fu'>prediction</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;      row_ids     truth response
-#&gt;   1:       4    Adelie   Adelie
-#&gt;   2:       8    Adelie   Adelie
-#&gt;   3:      12    Adelie   Adelie
-#&gt;   4:      14    Adelie   Adelie
-#&gt;   5:      15    Adelie   Adelie
-#&gt;  ---                           
-#&gt; 340:     329 Chinstrap   Adelie
-#&gt; 341:     330 Chinstrap   Adelie
-#&gt; 342:     339 Chinstrap   Adelie
-#&gt; 343:     340 Chinstrap   Adelie
-#&gt; 344:     343 Chinstrap   Adelie</div><div class='input'>
-<span class='co'># Benchmarking with a custom design:</span>
-<span class='co'># - fit classif.featureless on penguins with a 3-fold CV</span>
-<span class='co'># - fit classif.rpart on sonar using a holdout</span>
-<span class='va'>tasks</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'><a href='mlr_sugar.html'>tsk</a></span><span class='op'>(</span><span class='st'>"penguins"</span><span class='op'>)</span>, <span class='fu'><a href='mlr_sugar.html'>tsk</a></span><span class='op'>(</span><span class='st'>"sonar"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>learners</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'><a href='mlr_sugar.html'>lrn</a></span><span class='op'>(</span><span class='st'>"classif.featureless"</span><span class='op'>)</span>, <span class='fu'><a href='mlr_sugar.html'>lrn</a></span><span class='op'>(</span><span class='st'>"classif.rpart"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>resamplings</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'><a href='mlr_sugar.html'>rsmp</a></span><span class='op'>(</span><span class='st'>"cv"</span>, folds <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>, <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span><span class='op'>(</span><span class='st'>"holdout"</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='va'>design</span> <span class='op'>=</span> <span class='fu'>data.table</span><span class='fu'>::</span><span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table</a></span><span class='op'>(</span>
-  task <span class='op'>=</span> <span class='va'>tasks</span>,
-  learner <span class='op'>=</span> <span class='va'>learners</span>,
-  resampling <span class='op'>=</span> <span class='va'>resamplings</span>
-<span class='op'>)</span>
-
-<span class='co'>## Instantiate resamplings</span>
-<span class='va'>design</span><span class='op'>$</span><span class='va'>resampling</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/funprog.html'>Map</a></span><span class='op'>(</span>
-  <span class='kw'>function</span><span class='op'>(</span><span class='va'>task</span>, <span class='va'>resampling</span><span class='op'>)</span> <span class='va'>resampling</span><span class='op'>$</span><span class='fu'>clone</span><span class='op'>(</span><span class='op'>)</span><span class='op'>$</span><span class='fu'>instantiate</span><span class='op'>(</span><span class='va'>task</span><span class='op'>)</span>,
-  task <span class='op'>=</span> <span class='va'>design</span><span class='op'>$</span><span class='va'>task</span>, resampling <span class='op'>=</span> <span class='va'>design</span><span class='op'>$</span><span class='va'>resampling</span>
-<span class='op'>)</span>
-
-<span class='co'>## Run benchmark</span>
-<span class='va'>bmr</span> <span class='op'>=</span> <span class='fu'>benchmark</span><span class='op'>(</span><span class='va'>design</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>bmr</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; &lt;BenchmarkResult&gt; of 4 rows with 2 resampling runs
-#&gt;  nr  task_id          learner_id resampling_id iters warnings errors
-#&gt;   1 penguins classif.featureless            cv     3        0      0
-#&gt;   2    sonar       classif.rpart       holdout     1        0      0</div><div class='input'>
-<span class='co'>## Get the training set of the 2nd iteration of the featureless learner on penguins</span>
-<span class='va'>rr</span> <span class='op'>=</span> <span class='va'>bmr</span><span class='op'>$</span><span class='fu'>aggregate</span><span class='op'>(</span><span class='op'>)</span><span class='op'>[</span><span class='va'>learner_id</span> <span class='op'>==</span> <span class='st'>"classif.featureless"</span><span class='op'>]</span><span class='op'>$</span><span class='va'>resample_result</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>
-<span class='va'>rr</span><span class='op'>$</span><span class='va'>resampling</span><span class='op'>$</span><span class='fu'>train_set</span><span class='op'>(</span><span class='fl'>2</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;   [1]   5   7   8   9  12  13  17  19  22  25  28  35  36  40  46  48  49  50
-#&gt;  [19]  52  53  54  60  61  62  63  67  69  72  73  74  75  76  78  81  84  85
-#&gt;  [37]  88  92  97 101 103 104 109 110 114 119 122 127 129 130 131 136 145 147
-#&gt;  [55] 156 160 162 163 166 170 172 173 177 179 180 184 185 188 190 191 193 194
-#&gt;  [73] 205 212 213 217 218 221 228 229 233 234 238 239 245 250 252 255 256 258
-#&gt;  [91] 259 263 264 267 271 278 281 282 287 291 295 296 297 300 302 307 309 317
-#&gt; [109] 319 321 325 327 331 337 341   3   4  10  11  15  23  24  31  32  38  39
-#&gt; [127]  41  42  43  45  56  57  58  64  68  77  79  87  93  99 100 102 111 112
-#&gt; [145] 113 115 118 120 124 126 128 132 133 134 135 137 142 143 146 148 149 151
-#&gt; [163] 153 154 155 159 161 164 169 171 174 182 186 189 195 196 197 199 200 203
-#&gt; [181] 204 207 210 215 219 220 223 224 226 227 230 240 242 243 246 247 251 253
-#&gt; [199] 261 266 269 273 274 275 276 277 279 284 286 288 289 290 292 293 301 306
-#&gt; [217] 308 313 314 315 316 318 323 330 335 336 338 343 344</div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># benchmarking with benchmark_grid()</span></span>
+<span class='r-in'><span class='va'>tasks</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"penguins"</span>, <span class='st'>"sonar"</span><span class='op'>)</span>, <span class='va'>tsk</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>learners</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"classif.featureless"</span>, <span class='st'>"classif.rpart"</span><span class='op'>)</span>, <span class='va'>lrn</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>resamplings</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span><span class='op'>(</span><span class='st'>"cv"</span>, folds <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>design</span> <span class='op'>=</span> <span class='fu'><a href='benchmark_grid.html'>benchmark_grid</a></span><span class='op'>(</span><span class='va'>tasks</span>, <span class='va'>learners</span>, <span class='va'>resamplings</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>design</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                 task                         learner         resampling</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1: &lt;TaskClassif[49]&gt; &lt;LearnerClassifFeatureless[37]&gt; &lt;ResamplingCV[19]&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2: &lt;TaskClassif[49]&gt;       &lt;LearnerClassifRpart[37]&gt; &lt;ResamplingCV[19]&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3: &lt;TaskClassif[49]&gt; &lt;LearnerClassifFeatureless[37]&gt; &lt;ResamplingCV[19]&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4: &lt;TaskClassif[49]&gt;       &lt;LearnerClassifRpart[37]&gt; &lt;ResamplingCV[19]&gt;</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>123</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>bmr</span> <span class='op'>=</span> <span class='fu'>benchmark</span><span class='op'>(</span><span class='va'>design</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Data of all resamplings</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table</a></span><span class='op'>(</span><span class='va'>bmr</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                   uhash              task</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1: f06cee7e-b71b-4ef7-9c96-013a05daa390 &lt;TaskClassif[49]&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2: f06cee7e-b71b-4ef7-9c96-013a05daa390 &lt;TaskClassif[49]&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3: f06cee7e-b71b-4ef7-9c96-013a05daa390 &lt;TaskClassif[49]&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4: dbc23b8f-bd33-467a-be20-dba1fff36501 &lt;TaskClassif[49]&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5: dbc23b8f-bd33-467a-be20-dba1fff36501 &lt;TaskClassif[49]&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6: dbc23b8f-bd33-467a-be20-dba1fff36501 &lt;TaskClassif[49]&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                            learner         resampling iteration</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1: &lt;LearnerClassifFeatureless[37]&gt; &lt;ResamplingCV[19]&gt;         1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2: &lt;LearnerClassifFeatureless[37]&gt; &lt;ResamplingCV[19]&gt;         2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3: &lt;LearnerClassifFeatureless[37]&gt; &lt;ResamplingCV[19]&gt;         3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4:       &lt;LearnerClassifRpart[37]&gt; &lt;ResamplingCV[19]&gt;         1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5:       &lt;LearnerClassifRpart[37]&gt; &lt;ResamplingCV[19]&gt;         2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6:       &lt;LearnerClassifRpart[37]&gt; &lt;ResamplingCV[19]&gt;         3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                 prediction</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1: &lt;PredictionClassif[20]&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2: &lt;PredictionClassif[20]&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3: &lt;PredictionClassif[20]&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4: &lt;PredictionClassif[20]&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5: &lt;PredictionClassif[20]&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6: &lt;PredictionClassif[20]&gt;</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Aggregated performance values</span></span>
+<span class='r-in'><span class='va'>aggr</span> <span class='op'>=</span> <span class='va'>bmr</span><span class='op'>$</span><span class='fu'>aggregate</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>aggr</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    nr      resample_result  task_id          learner_id resampling_id iters</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1:  1 &lt;ResampleResult[22]&gt; penguins classif.featureless            cv     3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2:  2 &lt;ResampleResult[22]&gt; penguins       classif.rpart            cv     3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3:  3 &lt;ResampleResult[22]&gt;    sonar classif.featureless            cv     3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4:  4 &lt;ResampleResult[22]&gt;    sonar       classif.rpart            cv     3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    classif.ce</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1: 0.55807272</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2: 0.07561658</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3: 0.46652864</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4: 0.28854382</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Extract predictions of first resampling result</span></span>
+<span class='r-in'><span class='va'>rr</span> <span class='op'>=</span> <span class='va'>aggr</span><span class='op'>$</span><span class='va'>resample_result</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span></span>
+<span class='r-in'><span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table</a></span><span class='op'>(</span><span class='va'>rr</span><span class='op'>$</span><span class='fu'>prediction</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      row_ids     truth response</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   1:       4    Adelie   Adelie</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   2:       8    Adelie   Adelie</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   3:      12    Adelie   Adelie</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   4:      14    Adelie   Adelie</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   5:      15    Adelie   Adelie</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  ---                           </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 340:     329 Chinstrap   Adelie</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 341:     330 Chinstrap   Adelie</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 342:     339 Chinstrap   Adelie</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 343:     340 Chinstrap   Adelie</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 344:     343 Chinstrap   Adelie</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Benchmarking with a custom design:</span></span>
+<span class='r-in'><span class='co'># - fit classif.featureless on penguins with a 3-fold CV</span></span>
+<span class='r-in'><span class='co'># - fit classif.rpart on sonar using a holdout</span></span>
+<span class='r-in'><span class='va'>tasks</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'><a href='mlr_sugar.html'>tsk</a></span><span class='op'>(</span><span class='st'>"penguins"</span><span class='op'>)</span>, <span class='fu'><a href='mlr_sugar.html'>tsk</a></span><span class='op'>(</span><span class='st'>"sonar"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>learners</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'><a href='mlr_sugar.html'>lrn</a></span><span class='op'>(</span><span class='st'>"classif.featureless"</span><span class='op'>)</span>, <span class='fu'><a href='mlr_sugar.html'>lrn</a></span><span class='op'>(</span><span class='st'>"classif.rpart"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>resamplings</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'><a href='mlr_sugar.html'>rsmp</a></span><span class='op'>(</span><span class='st'>"cv"</span>, folds <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>, <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span><span class='op'>(</span><span class='st'>"holdout"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>design</span> <span class='op'>=</span> <span class='fu'>data.table</span><span class='fu'>::</span><span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table</a></span><span class='op'>(</span></span>
+<span class='r-in'>  task <span class='op'>=</span> <span class='va'>tasks</span>,</span>
+<span class='r-in'>  learner <span class='op'>=</span> <span class='va'>learners</span>,</span>
+<span class='r-in'>  resampling <span class='op'>=</span> <span class='va'>resamplings</span></span>
+<span class='r-in'><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Instantiate resamplings</span></span>
+<span class='r-in'><span class='va'>design</span><span class='op'>$</span><span class='va'>resampling</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/funprog.html'>Map</a></span><span class='op'>(</span></span>
+<span class='r-in'>  <span class='kw'>function</span><span class='op'>(</span><span class='va'>task</span>, <span class='va'>resampling</span><span class='op'>)</span> <span class='va'>resampling</span><span class='op'>$</span><span class='fu'>clone</span><span class='op'>(</span><span class='op'>)</span><span class='op'>$</span><span class='fu'>instantiate</span><span class='op'>(</span><span class='va'>task</span><span class='op'>)</span>,</span>
+<span class='r-in'>  task <span class='op'>=</span> <span class='va'>design</span><span class='op'>$</span><span class='va'>task</span>, resampling <span class='op'>=</span> <span class='va'>design</span><span class='op'>$</span><span class='va'>resampling</span></span>
+<span class='r-in'><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Run benchmark</span></span>
+<span class='r-in'><span class='va'>bmr</span> <span class='op'>=</span> <span class='fu'>benchmark</span><span class='op'>(</span><span class='va'>design</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>bmr</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;BenchmarkResult&gt; of 4 rows with 2 resampling runs</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  nr  task_id          learner_id resampling_id iters warnings errors</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   1 penguins classif.featureless            cv     3        0      0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   2    sonar       classif.rpart       holdout     1        0      0</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Get the training set of the 2nd iteration of the featureless learner on penguins</span></span>
+<span class='r-in'><span class='va'>rr</span> <span class='op'>=</span> <span class='va'>bmr</span><span class='op'>$</span><span class='fu'>aggregate</span><span class='op'>(</span><span class='op'>)</span><span class='op'>[</span><span class='va'>learner_id</span> <span class='op'>==</span> <span class='st'>"classif.featureless"</span><span class='op'>]</span><span class='op'>$</span><span class='va'>resample_result</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span></span>
+<span class='r-in'><span class='va'>rr</span><span class='op'>$</span><span class='va'>resampling</span><span class='op'>$</span><span class='fu'>train_set</span><span class='op'>(</span><span class='fl'>2</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [1]   5   7   8   9  12  13  17  19  22  25  28  35  36  40  46  48  49  50</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [19]  52  53  54  60  61  62  63  67  69  72  73  74  75  76  78  81  84  85</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [37]  88  92  97 101 103 104 109 110 114 119 122 127 129 130 131 136 145 147</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [55] 156 160 162 163 166 170 172 173 177 179 180 184 185 188 190 191 193 194</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [73] 205 212 213 217 218 221 228 229 233 234 238 239 245 250 252 255 256 258</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [91] 259 263 264 267 271 278 281 282 287 291 295 296 297 300 302 307 309 317</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [109] 319 321 325 327 331 337 341   3   4  10  11  15  23  24  31  32  38  39</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [127]  41  42  43  45  56  57  58  64  68  77  79  87  93  99 100 102 111 112</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [145] 113 115 118 120 124 126 128 132 133 134 135 137 142 143 146 148 149 151</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [163] 153 154 155 159 161 164 169 171 174 182 186 189 195 196 197 199 200 203</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [181] 204 207 210 215 219 220 223 224 226 227 230 240 242 243 246 247 251 253</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [199] 261 266 269 273 274 275 276 277 279 284 286 288 289 290 292 293 301 306</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [217] 308 313 314 315 316 318 323 330 335 336 338 343 344</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

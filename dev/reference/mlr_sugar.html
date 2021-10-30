@@ -214,7 +214,7 @@ Relies on <code><a href='https://mlr3misc.mlr-org.com/reference/dictionary_sugar
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>.key</th>
-      <td><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+      <td><p>(<code>character(1)</code>)<br />
 Key passed to the respective <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> to retrieve the object.</p></td>
     </tr>
     <tr>
@@ -236,49 +236,52 @@ Keys passed to the respective <a href='https://mlr3misc.mlr-org.com/reference/Di
 or a list of <a href='https://r6.r-lib.org/reference/R6Class.html'>R6::R6Class</a> objects for the plural versions.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># penguins task with new id</span>
-<span class='fu'>tsk</span><span class='op'>(</span><span class='st'>"penguins"</span>, id <span class='op'>=</span> <span class='st'>"penguins2"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; &lt;TaskClassif:penguins2&gt; (344 x 8)
-#&gt; * Target: species
-#&gt; * Properties: multiclass
-#&gt; * Features (7):
-#&gt;   - int (3): body_mass, flipper_length, year
-#&gt;   - dbl (2): bill_depth, bill_length
-#&gt;   - fct (2): island, sex</div><div class='input'>
-<span class='co'># classification tree with different hyperparameters</span>
-<span class='co'># and predict type set to predict probabilities</span>
-<span class='fu'>lrn</span><span class='op'>(</span><span class='st'>"classif.rpart"</span>, cp <span class='op'>=</span> <span class='fl'>0.1</span>, predict_type <span class='op'>=</span> <span class='st'>"prob"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; &lt;LearnerClassifRpart:classif.rpart&gt;
-#&gt; * Model: -
-#&gt; * Parameters: xval=0, cp=0.1
-#&gt; * Packages: rpart
-#&gt; * Predict Type: prob
-#&gt; * Feature types: logical, integer, numeric, factor, ordered
-#&gt; * Properties: importance, missings, multiclass, selected_features,
-#&gt;   twoclass, weights</div><div class='input'>
-<span class='co'># multiple learners with predict type 'prob'</span>
-<span class='fu'>lrns</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"classif.featureless"</span>, <span class='st'>"classif.rpart"</span><span class='op'>)</span>, predict_type <span class='op'>=</span> <span class='st'>"prob"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [[1]]
-#&gt; &lt;LearnerClassifFeatureless:classif.featureless&gt;
-#&gt; * Model: -
-#&gt; * Parameters: method=mode
-#&gt; * Packages: -
-#&gt; * Predict Type: prob
-#&gt; * Feature types: logical, integer, numeric, character, factor, ordered,
-#&gt;   POSIXct
-#&gt; * Properties: featureless, importance, missings, multiclass,
-#&gt;   selected_features, twoclass
-#&gt; 
-#&gt; [[2]]
-#&gt; &lt;LearnerClassifRpart:classif.rpart&gt;
-#&gt; * Model: -
-#&gt; * Parameters: xval=0
-#&gt; * Packages: rpart
-#&gt; * Predict Type: prob
-#&gt; * Feature types: logical, integer, numeric, factor, ordered
-#&gt; * Properties: importance, missings, multiclass, selected_features,
-#&gt;   twoclass, weights
-#&gt; </div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># penguins task with new id</span></span>
+<span class='r-in'><span class='fu'>tsk</span><span class='op'>(</span><span class='st'>"penguins"</span>, id <span class='op'>=</span> <span class='st'>"penguins2"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;TaskClassif:penguins2&gt; (344 x 8)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> * Target: species</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> * Properties: multiclass</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> * Features (7):</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   - int (3): body_mass, flipper_length, year</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   - dbl (2): bill_depth, bill_length</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   - fct (2): island, sex</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># classification tree with different hyperparameters</span></span>
+<span class='r-in'><span class='co'># and predict type set to predict probabilities</span></span>
+<span class='r-in'><span class='fu'>lrn</span><span class='op'>(</span><span class='st'>"classif.rpart"</span>, cp <span class='op'>=</span> <span class='fl'>0.1</span>, predict_type <span class='op'>=</span> <span class='st'>"prob"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;LearnerClassifRpart:classif.rpart&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> * Model: -</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> * Parameters: xval=0, cp=0.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> * Packages: rpart</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> * Predict Type: prob</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> * Feature types: logical, integer, numeric, factor, ordered</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> * Properties: importance, missings, multiclass, selected_features,</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   twoclass, weights</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># multiple learners with predict type 'prob'</span></span>
+<span class='r-in'><span class='fu'>lrns</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"classif.featureless"</span>, <span class='st'>"classif.rpart"</span><span class='op'>)</span>, predict_type <span class='op'>=</span> <span class='st'>"prob"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [[1]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;LearnerClassifFeatureless:classif.featureless&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> * Model: -</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> * Parameters: method=mode</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> * Packages: -</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> * Predict Type: prob</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> * Feature types: logical, integer, numeric, character, factor, ordered,</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   POSIXct</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> * Properties: featureless, importance, missings, multiclass,</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   selected_features, twoclass</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [[2]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;LearnerClassifRpart:classif.rpart&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> * Model: -</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> * Parameters: xval=0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> * Packages: rpart</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> * Predict Type: prob</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> * Feature types: logical, integer, numeric, factor, ordered</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> * Properties: importance, missings, multiclass, selected_features,</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   twoclass, weights</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

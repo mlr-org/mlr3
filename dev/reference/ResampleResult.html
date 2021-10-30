@@ -176,10 +176,10 @@ Do not modify any object without cloning it first.</p>
     
 
 <ul>
-<li><p><code><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table(rr, reassemble_learners = TRUE, convert_predictions = TRUE, predict_sets = "test")</a></code><br />
+<li><p><code>as.data.table(rr, reassemble_learners = TRUE, convert_predictions = TRUE, predict_sets = "test")</code><br />
 ResampleResult -&gt; <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code><br />
 Returns a tabular view of the internal data.</p></li>
-<li><p><code><a href='https://rdrr.io/r/base/c.html'>c(...)</a></code><br />
+<li><p><code>c(...)</code><br />
 (ResampleResult, ...) -&gt; <a href='BenchmarkResult.html'>BenchmarkResult</a><br />
 Combines multiple objects convertible to <a href='BenchmarkResult.html'>BenchmarkResult</a> into a new <a href='BenchmarkResult.html'>BenchmarkResult</a>.</p></li>
 </ul>
@@ -204,14 +204,14 @@ Internal data storage object of type <code>ResultData</code>.
 This field is deprecated and will be removed in the next release.
 Use <code>as.table.table(BenchmarkResult)</code> instead.</p></dd>
 
-<dt><code>task_type</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+<dt><code>task_type</code></dt><dd><p>(<code>character(1)</code>)<br />
 Task type of objects in the <code>ResampleResult</code>, e.g. <code>"classif"</code> or <code>"regr"</code>.
 This is <code>NA</code> for empty ResampleResults.</p></dd>
 
-<dt><code>uhash</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+<dt><code>uhash</code></dt><dd><p>(<code>character(1)</code>)<br />
 Unique hash for this object.</p></dd>
 
-<dt><code>iters</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>)<br />
+<dt><code>iters</code></dt><dd><p>(<code>integer(1)</code>)<br />
 Number of resampling iterations stored in the <code>ResampleResult</code>.</p></dd>
 
 <dt><code>task</code></dt><dd><p>(<a href='Task.html'>Task</a>)<br />
@@ -326,7 +326,7 @@ Subset of <code>{"train", "test"}</code>.</p></dd>
 <p><hr>
 <a id="method-score"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>score()</code></h3>
 <p>Returns a table with one row for each resampling iteration, including all involved objects:
-<a href='Task.html'>Task</a>, <a href='Learner.html'>Learner</a>, <a href='Resampling.html'>Resampling</a>, iteration number (<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>), and <a href='Prediction.html'>Prediction</a>.
+<a href='Task.html'>Task</a>, <a href='Learner.html'>Learner</a>, <a href='Resampling.html'>Resampling</a>, iteration number (<code>integer(1)</code>), and <a href='Prediction.html'>Prediction</a>.
 Additionally, a column with the individual (per resampling iteration) performance is added
 for each <a href='Measure.html'>Measure</a> in <code>measures</code>,
 named with the id of the respective measure id.
@@ -343,12 +343,12 @@ If <code>measures</code> is <code>NULL</code>, <code>measures</code> defaults to
 <dt><code>measures</code></dt><dd><p>(<a href='Measure.html'>Measure</a> | list of <a href='Measure.html'>Measure</a>)<br />
 Measure(s) to calculate.</p></dd>
 
-<dt><code>ids</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
+<dt><code>ids</code></dt><dd><p>(<code>logical(1)</code>)<br />
 If <code>ids</code> is <code>TRUE</code>, extra columns with the ids of objects (<code>"task_id"</code>, <code>"learner_id"</code>, <code>"resampling_id"</code>)
 are added to the returned table.
 These allow to subset more conveniently.</p></dd>
 
-<dt><code>conditions</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
+<dt><code>conditions</code></dt><dd><p>(<code>logical(1)</code>)<br />
 Adds condition messages (<code>"warnings"</code>, <code>"errors"</code>) as extra
 list columns of character vectors to the returned table</p></dd>
 
@@ -398,10 +398,10 @@ importance values from learners or calculating measures requiring the task's dat
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
-<dt><code>backends</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
+<dt><code>backends</code></dt><dd><p>(<code>logical(1)</code>)<br />
 If <code>TRUE</code>, the <a href='DataBackend.html'>DataBackend</a> is removed from all stored <a href='Task.html'>Task</a>s.</p></dd>
 
-<dt><code>models</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
+<dt><code>models</code></dt><dd><p>(<code>logical(1)</code>)<br />
 If <code>TRUE</code>, the stored model is removed from all <a href='Learner.html'>Learner</a>s.</p></dd>
 
 </dl><p></div></p>
@@ -423,35 +423,41 @@ the object in its previous state.</p>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>task</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span><span class='op'>(</span><span class='st'>"penguins"</span><span class='op'>)</span>
-<span class='va'>learner</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>lrn</a></span><span class='op'>(</span><span class='st'>"classif.rpart"</span><span class='op'>)</span>
-<span class='va'>resampling</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span><span class='op'>(</span><span class='st'>"cv"</span>, folds <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
-<span class='va'>rr</span> <span class='op'>=</span> <span class='fu'><a href='resample.html'>resample</a></span><span class='op'>(</span><span class='va'>task</span>, <span class='va'>learner</span>, <span class='va'>resampling</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>rr</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; &lt;ResampleResult&gt; of 3 iterations
-#&gt; * Task: penguins
-#&gt; * Learner: classif.rpart
-#&gt; * Warnings: 0 in 0 iterations
-#&gt; * Errors: 0 in 0 iterations</div><div class='input'>
-<span class='va'>rr</span><span class='op'>$</span><span class='fu'>aggregate</span><span class='op'>(</span><span class='fu'><a href='mlr_sugar.html'>msr</a></span><span class='op'>(</span><span class='st'>"classif.acc"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; classif.acc 
-#&gt;   0.9360031 </div><div class='input'><span class='va'>rr</span><span class='op'>$</span><span class='fu'>prediction</span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; &lt;PredictionClassif&gt; for 344 observations:
-#&gt;     row_ids     truth  response
-#&gt;           2    Adelie    Adelie
-#&gt;           3    Adelie    Adelie
-#&gt;           5    Adelie    Adelie
-#&gt; ---                            
-#&gt;         336 Chinstrap Chinstrap
-#&gt;         337 Chinstrap Chinstrap
-#&gt;         341 Chinstrap    Adelie</div><div class='input'><span class='va'>rr</span><span class='op'>$</span><span class='fu'>prediction</span><span class='op'>(</span><span class='op'>)</span><span class='op'>$</span><span class='va'>confusion</span>
-</div><div class='output co'>#&gt;            truth
-#&gt; response    Adelie Chinstrap Gentoo
-#&gt;   Adelie       143         6      0
-#&gt;   Chinstrap      7        57      2
-#&gt;   Gentoo         2         5    122</div><div class='input'><span class='va'>rr</span><span class='op'>$</span><span class='va'>warnings</span>
-</div><div class='output co'>#&gt; Empty data.table (0 rows and 2 cols): iteration,msg</div><div class='input'><span class='va'>rr</span><span class='op'>$</span><span class='va'>errors</span>
-</div><div class='output co'>#&gt; Empty data.table (0 rows and 2 cols): iteration,msg</div></pre>
+    <pre class="examples"><span class='r-in'><span class='va'>task</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span><span class='op'>(</span><span class='st'>"penguins"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>learner</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>lrn</a></span><span class='op'>(</span><span class='st'>"classif.rpart"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>resampling</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span><span class='op'>(</span><span class='st'>"cv"</span>, folds <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>rr</span> <span class='op'>=</span> <span class='fu'><a href='resample.html'>resample</a></span><span class='op'>(</span><span class='va'>task</span>, <span class='va'>learner</span>, <span class='va'>resampling</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>rr</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;ResampleResult&gt; of 3 iterations</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> * Task: penguins</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> * Learner: classif.rpart</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> * Warnings: 0 in 0 iterations</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> * Errors: 0 in 0 iterations</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>rr</span><span class='op'>$</span><span class='fu'>aggregate</span><span class='op'>(</span><span class='fu'><a href='mlr_sugar.html'>msr</a></span><span class='op'>(</span><span class='st'>"classif.acc"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> classif.acc </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   0.9360031 </span>
+<span class='r-in'><span class='va'>rr</span><span class='op'>$</span><span class='fu'>prediction</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;PredictionClassif&gt; for 344 observations:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     row_ids     truth  response</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>           2    Adelie    Adelie</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>           3    Adelie    Adelie</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>           5    Adelie    Adelie</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ---                            </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         336 Chinstrap Chinstrap</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         337 Chinstrap Chinstrap</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         341 Chinstrap    Adelie</span>
+<span class='r-in'><span class='va'>rr</span><span class='op'>$</span><span class='fu'>prediction</span><span class='op'>(</span><span class='op'>)</span><span class='op'>$</span><span class='va'>confusion</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>            truth</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> response    Adelie Chinstrap Gentoo</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   Adelie       143         6      0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   Chinstrap      7        57      2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   Gentoo         2         5    122</span>
+<span class='r-in'><span class='va'>rr</span><span class='op'>$</span><span class='va'>warnings</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Empty data.table (0 rows and 2 cols): iteration,msg</span>
+<span class='r-in'><span class='va'>rr</span><span class='op'>$</span><span class='va'>errors</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Empty data.table (0 rows and 2 cols): iteration,msg</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

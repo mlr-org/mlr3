@@ -188,7 +188,7 @@ e.g. <a href='https://CRAN.R-project.org/package=mlr3data'><span class="pkg">mlr
     
 
 <ul>
-<li><p><code><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table(dict)</a></code><br />
+<li><p><code>as.data.table(dict)</code><br />
 <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>mlr3misc::Dictionary</a> -&gt; <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code><br />
 Returns a <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code> with columns <code>"key"</code>, <code>"task_type"</code>, <code>"measures"</code>, <code>"nrow"</code>, <code>"ncol"</code> and
 the number of features of type <code>"lgl"</code>, <code>"int"</code>, <code>"dbl"</code>, <code>"chr"</code>, <code>"fct"</code> and <code>"ord"</code> as columns.</p></li>
@@ -222,59 +222,63 @@ the number of features of type <code>"lgl"</code>, <code>"int"</code>, <code>"db
 <code><a href='mlr_tasks_zoo.html'>mlr_tasks_zoo</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table</a></span><span class='op'>(</span><span class='va'>mlr_tasks</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;                key task_type nrow ncol properties lgl int dbl chr fct ord pxc
-#&gt;  1: boston_housing      regr  506   19              0   3  13   0   2   0   0
-#&gt;  2:  breast_cancer   classif  683   10   twoclass   0   0   0   0   0   9   0
-#&gt;  3:  german_credit   classif 1000   21   twoclass   0   3   0   0  14   3   0
-#&gt;  4:           iris   classif  150    5 multiclass   0   0   4   0   0   0   0
-#&gt;  5:         mtcars      regr   32   11              0   0  10   0   0   0   0
-#&gt;  6:       penguins   classif  344    8 multiclass   0   3   2   0   2   0   0
-#&gt;  7:           pima   classif  768    9   twoclass   0   0   8   0   0   0   0
-#&gt;  8:          sonar   classif  208   61   twoclass   0   0  60   0   0   0   0
-#&gt;  9:           spam   classif 4601   58   twoclass   0   0  57   0   0   0   0
-#&gt; 10:           wine   classif  178   14 multiclass   0   2  11   0   0   0   0
-#&gt; 11:            zoo   classif  101   17 multiclass  15   1   0   0   0   0   0</div><div class='input'><span class='va'>task</span> <span class='op'>=</span> <span class='va'>mlr_tasks</span><span class='op'>$</span><span class='fu'>get</span><span class='op'>(</span><span class='st'>"penguins"</span><span class='op'>)</span> <span class='co'># same as tsk("penguins")</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>task</span><span class='op'>$</span><span class='fu'>data</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;    species bill_depth bill_length body_mass flipper_length    island    sex
-#&gt; 1:  Adelie       18.7        39.1      3750            181 Torgersen   male
-#&gt; 2:  Adelie       17.4        39.5      3800            186 Torgersen female
-#&gt; 3:  Adelie       18.0        40.3      3250            195 Torgersen female
-#&gt; 4:  Adelie         NA          NA        NA             NA Torgersen   &lt;NA&gt;
-#&gt; 5:  Adelie       19.3        36.7      3450            193 Torgersen female
-#&gt; 6:  Adelie       20.6        39.3      3650            190 Torgersen   male
-#&gt;    year
-#&gt; 1: 2007
-#&gt; 2: 2007
-#&gt; 3: 2007
-#&gt; 4: 2007
-#&gt; 5: 2007
-#&gt; 6: 2007</div><div class='input'>
-<span class='co'># Add a new task, based on a subset of penguins:</span>
-<span class='va'>data</span> <span class='op'>=</span> <span class='fu'>palmerpenguins</span><span class='fu'>::</span><span class='va'><a href='https://allisonhorst.github.io/palmerpenguins/reference/penguins.html'>penguins</a></span>
-<span class='va'>data</span><span class='op'>$</span><span class='va'>species</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>data</span><span class='op'>$</span><span class='va'>species</span> <span class='op'>==</span> <span class='st'>"Adelie"</span>, <span class='st'>"1"</span>, <span class='st'>"0"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>task</span> <span class='op'>=</span> <span class='va'><a href='TaskClassif.html'>TaskClassif</a></span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='st'>"penguins.binary"</span>, <span class='va'>data</span>, target <span class='op'>=</span> <span class='st'>"species"</span>, positive <span class='op'>=</span> <span class='st'>"1"</span><span class='op'>)</span>
-
-<span class='co'># add to dictionary</span>
-<span class='va'>mlr_tasks</span><span class='op'>$</span><span class='fu'>add</span><span class='op'>(</span><span class='st'>"penguins.binary"</span>, <span class='va'>task</span><span class='op'>)</span>
-
-<span class='co'># list available tasks</span>
-<span class='va'>mlr_tasks</span><span class='op'>$</span><span class='fu'>keys</span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  [1] "boston_housing"  "breast_cancer"   "german_credit"   "iris"           
-#&gt;  [5] "mtcars"          "penguins"        "penguins.binary" "pima"           
-#&gt;  [9] "sonar"           "spam"            "wine"            "zoo"            </div><div class='input'>
-<span class='co'># retrieve from dictionary</span>
-<span class='va'>mlr_tasks</span><span class='op'>$</span><span class='fu'>get</span><span class='op'>(</span><span class='st'>"penguins.binary"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; &lt;TaskClassif:penguins.binary&gt; (344 x 8)
-#&gt; * Target: species
-#&gt; * Properties: twoclass
-#&gt; * Features (7):
-#&gt;   - int (3): body_mass_g, flipper_length_mm, year
-#&gt;   - dbl (2): bill_depth_mm, bill_length_mm
-#&gt;   - fct (2): island, sex</div><div class='input'>
-<span class='co'># remove task again</span>
-<span class='va'>mlr_tasks</span><span class='op'>$</span><span class='fu'>remove</span><span class='op'>(</span><span class='st'>"penguins.binary"</span><span class='op'>)</span>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table</a></span><span class='op'>(</span><span class='va'>mlr_tasks</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                key task_type nrow ncol properties lgl int dbl chr fct ord pxc</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  1: boston_housing      regr  506   19              0   3  13   0   2   0   0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  2:  breast_cancer   classif  683   10   twoclass   0   0   0   0   0   9   0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  3:  german_credit   classif 1000   21   twoclass   0   3   0   0  14   3   0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  4:           iris   classif  150    5 multiclass   0   0   4   0   0   0   0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  5:         mtcars      regr   32   11              0   0  10   0   0   0   0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  6:       penguins   classif  344    8 multiclass   0   3   2   0   2   0   0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  7:           pima   classif  768    9   twoclass   0   0   8   0   0   0   0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  8:          sonar   classif  208   61   twoclass   0   0  60   0   0   0   0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  9:           spam   classif 4601   58   twoclass   0   0  57   0   0   0   0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 10:           wine   classif  178   14 multiclass   0   2  11   0   0   0   0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 11:            zoo   classif  101   17 multiclass  15   1   0   0   0   0   0</span>
+<span class='r-in'><span class='va'>task</span> <span class='op'>=</span> <span class='va'>mlr_tasks</span><span class='op'>$</span><span class='fu'>get</span><span class='op'>(</span><span class='st'>"penguins"</span><span class='op'>)</span> <span class='co'># same as tsk("penguins")</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>task</span><span class='op'>$</span><span class='fu'>data</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    species bill_depth bill_length body_mass flipper_length    island    sex</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1:  Adelie       18.7        39.1      3750            181 Torgersen   male</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2:  Adelie       17.4        39.5      3800            186 Torgersen female</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3:  Adelie       18.0        40.3      3250            195 Torgersen female</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4:  Adelie         NA          NA        NA             NA Torgersen   &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5:  Adelie       19.3        36.7      3450            193 Torgersen female</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6:  Adelie       20.6        39.3      3650            190 Torgersen   male</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    year</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1: 2007</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2: 2007</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3: 2007</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4: 2007</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5: 2007</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6: 2007</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Add a new task, based on a subset of penguins:</span></span>
+<span class='r-in'><span class='va'>data</span> <span class='op'>=</span> <span class='fu'>palmerpenguins</span><span class='fu'>::</span><span class='va'><a href='https://allisonhorst.github.io/palmerpenguins/reference/penguins.html'>penguins</a></span></span>
+<span class='r-in'><span class='va'>data</span><span class='op'>$</span><span class='va'>species</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>data</span><span class='op'>$</span><span class='va'>species</span> <span class='op'>==</span> <span class='st'>"Adelie"</span>, <span class='st'>"1"</span>, <span class='st'>"0"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>task</span> <span class='op'>=</span> <span class='va'><a href='TaskClassif.html'>TaskClassif</a></span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='st'>"penguins.binary"</span>, <span class='va'>data</span>, target <span class='op'>=</span> <span class='st'>"species"</span>, positive <span class='op'>=</span> <span class='st'>"1"</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># add to dictionary</span></span>
+<span class='r-in'><span class='va'>mlr_tasks</span><span class='op'>$</span><span class='fu'>add</span><span class='op'>(</span><span class='st'>"penguins.binary"</span>, <span class='va'>task</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># list available tasks</span></span>
+<span class='r-in'><span class='va'>mlr_tasks</span><span class='op'>$</span><span class='fu'>keys</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] "boston_housing"  "breast_cancer"   "german_credit"   "iris"           </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [5] "mtcars"          "penguins"        "penguins.binary" "pima"           </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [9] "sonar"           "spam"            "wine"            "zoo"            </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># retrieve from dictionary</span></span>
+<span class='r-in'><span class='va'>mlr_tasks</span><span class='op'>$</span><span class='fu'>get</span><span class='op'>(</span><span class='st'>"penguins.binary"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;TaskClassif:penguins.binary&gt; (344 x 8)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> * Target: species</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> * Properties: twoclass</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> * Features (7):</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   - int (3): body_mass_g, flipper_length_mm, year</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   - dbl (2): bill_depth_mm, bill_length_mm</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   - fct (2): island, sex</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># remove task again</span></span>
+<span class='r-in'><span class='va'>mlr_tasks</span><span class='op'>$</span><span class='fu'>remove</span><span class='op'>(</span><span class='st'>"penguins.binary"</span><span class='op'>)</span></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

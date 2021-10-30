@@ -190,7 +190,7 @@ Converted to a <code><a href='https://Rdatatable.gitlab.io/data.table/reference/
     </tr>
     <tr>
       <th>primary_key</th>
-      <td><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code> | <code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code>)<br />
+      <td><p>(<code>character(1)</code> | <code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code>)<br />
 Name of the primary key column, or integer vector of row ids.</p></td>
     </tr>
     <tr>
@@ -205,7 +205,7 @@ Additional arguments passed to the respective <a href='DataBackend.html'>DataBac
     </tr>
     <tr>
       <th>keep_rownames</th>
-      <td><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code> | <code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+      <td><p>(<code>logical(1)</code> | <code>character(1)</code>)<br />
 If <code>TRUE</code> or a single string, keeps the row names of <code>data</code> as a new column.
 The column is named like the provided string, defaulting to <code>"..rownames"</code> for <code>keep_rownames == TRUE</code>.
 Note that the created column will be used as a regular feature by the task unless you manually change the column role.
@@ -232,24 +232,25 @@ e.g. SQL servers or <a href='https://CRAN.R-project.org/package=duckdb'><span cl
 <code><a href='DataBackend.html'>DataBackend</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># create a new backend using the penguins data:</span>
-<span class='fu'>as_data_backend</span><span class='op'>(</span><span class='fu'>palmerpenguins</span><span class='fu'>::</span><span class='va'><a href='https://allisonhorst.github.io/palmerpenguins/reference/penguins.html'>penguins</a></span><span class='op'>)</span>
-</div><div class='output co'>#&gt; &lt;DataBackendDataTable&gt; (344x9)
-#&gt;  species    island bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
-#&gt;   Adelie Torgersen           39.1          18.7               181        3750
-#&gt;   Adelie Torgersen           39.5          17.4               186        3800
-#&gt;   Adelie Torgersen           40.3          18.0               195        3250
-#&gt;   Adelie Torgersen             NA            NA                NA          NA
-#&gt;   Adelie Torgersen           36.7          19.3               193        3450
-#&gt;   Adelie Torgersen           39.3          20.6               190        3650
-#&gt;     sex year ..row_id
-#&gt;    male 2007        1
-#&gt;  female 2007        2
-#&gt;  female 2007        3
-#&gt;    &lt;NA&gt; 2007        4
-#&gt;  female 2007        5
-#&gt;    male 2007        6
-#&gt; [...] (338 rows omitted)</div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># create a new backend using the penguins data:</span></span>
+<span class='r-in'><span class='fu'>as_data_backend</span><span class='op'>(</span><span class='fu'>palmerpenguins</span><span class='fu'>::</span><span class='va'><a href='https://allisonhorst.github.io/palmerpenguins/reference/penguins.html'>penguins</a></span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;DataBackendDataTable&gt; (344x9)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  species    island bill_length_mm bill_depth_mm flipper_length_mm body_mass_g</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   Adelie Torgersen           39.1          18.7               181        3750</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   Adelie Torgersen           39.5          17.4               186        3800</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   Adelie Torgersen           40.3          18.0               195        3250</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   Adelie Torgersen             NA            NA                NA          NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   Adelie Torgersen           36.7          19.3               193        3450</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   Adelie Torgersen           39.3          20.6               190        3650</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     sex year ..row_id</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    male 2007        1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  female 2007        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  female 2007        3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    &lt;NA&gt; 2007        4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  female 2007        5</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    male 2007        6</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [...] (338 rows omitted)</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

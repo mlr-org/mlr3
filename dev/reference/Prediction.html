@@ -188,10 +188,10 @@ E.g., the class probabilities for classification or the estimated standard error
     
 
 <ul>
-<li><p><code><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table(rr)</a></code><br />
+<li><p><code>as.data.table(rr)</code><br />
 Prediction -&gt; <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code><br />
 Converts the data to a <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code>.</p></li>
-<li><p><code><a href='https://rdrr.io/r/base/c.html'>c(..., keep_duplicates = TRUE)</a></code><br />
+<li><p><code>c(..., keep_duplicates = TRUE)</code><br />
 (Prediction, Prediction, ...) -&gt; Prediction<br />
 Combines multiple <code>Prediction</code>s to a single <code>Prediction</code>.
 If <code>keep_duplicates</code> is <code>FALSE</code> and there are duplicated row ids,
@@ -220,7 +220,7 @@ the data of the former passed objects get overwritten by the data of the later p
 <dt><code>data</code></dt><dd><p>(named <code><a href='https://rdrr.io/r/base/list.html'>list()</a></code>)<br />
 Internal data structure.</p></dd>
 
-<dt><code>task_type</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+<dt><code>task_type</code></dt><dd><p>(<code>character(1)</code>)<br />
 Required type of the <a href='Task.html'>Task</a>.</p></dd>
 
 <dt><code>task_properties</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
@@ -229,7 +229,7 @@ Required properties of the <a href='Task.html'>Task</a>.</p></dd>
 <dt><code>predict_types</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
 Set of predict types this object stores.</p></dd>
 
-<dt><code>man</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+<dt><code>man</code></dt><dd><p>(<code>character(1)</code>)<br />
 String in the format <code>[pkg]::[topic]</code> pointing to a manual page for this object.
 Defaults to <code>NA</code>, but can be set by child classes.</p></dd>
 

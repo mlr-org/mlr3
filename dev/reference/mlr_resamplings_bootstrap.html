@@ -182,9 +182,9 @@ and the ratio of observations to draw per iteration (<code>ratio</code>, default
     
 
 <ul>
-<li><p><code>repeats</code> (<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>)<br />
+<li><p><code>repeats</code> (<code>integer(1)</code>)<br />
 Number of repetitions.</p></li>
-<li><p><code>ratio</code> (<code><a href='https://rdrr.io/r/base/numeric.html'>numeric(1)</a></code>)<br />
+<li><p><code>ratio</code> (<code>numeric(1)</code>)<br />
 Ratio of observations to put into the training set.</p></li>
 </ul>
 
@@ -203,7 +203,7 @@ doi: <a href='https://doi.org/10.1162/evco_a_00069'>10.1162/evco_a_00069</a>
 <a href='https://mlr3book.mlr-org.com/basics.html#resampling'>https://mlr3book.mlr-org.com/basics.html#resampling</a></p></li>
 <li><p>Package <a href='https://CRAN.R-project.org/package=mlr3spatiotempcv'><span class="pkg">mlr3spatiotempcv</span></a> for spatio-temporal resamplings.</p></li>
 <li><p><a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>Dictionary</a> of <a href='Resampling.html'>Resamplings</a>: <a href='mlr_resamplings.html'>mlr_resamplings</a></p></li>
-<li><p><code><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table(mlr_resamplings)</a></code> for a table of available <a href='Resampling.html'>Resamplings</a> in the running session (depending on the loaded packages).</p></li>
+<li><p><code>as.data.table(mlr_resamplings)</code> for a table of available <a href='Resampling.html'>Resamplings</a> in the running session (depending on the loaded packages).</p></li>
 <li><p><a href='https://CRAN.R-project.org/package=mlr3spatiotempcv'><span class="pkg">mlr3spatiotempcv</span></a> for additional <a href='Resampling.html'>Resampling</a>s for spatio-temporal
 tasks.</p></li>
 </ul>
@@ -225,7 +225,7 @@ tasks.</p></li>
     <h2 class="hasAnchor" id="active-bindings"><a class="anchor" href="#active-bindings"></a>Active bindings</h2>
 
     <p><div class="r6-active-bindings"></p><dl>
-<dt><code>iters</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>)<br />
+<dt><code>iters</code></dt><dd><p>(<code>integer(1)</code>)<br />
 Returns the number of resampling iterations, depending on the values stored in the <code>param_set</code>.</p></dd>
 
 </dl><p></div></p>
@@ -268,35 +268,39 @@ Returns the number of resampling iterations, depending on the values stored in t
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Create a task with 10 observations</span>
-<span class='va'>task</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span><span class='op'>(</span><span class='st'>"penguins"</span><span class='op'>)</span>
-<span class='va'>task</span><span class='op'>$</span><span class='fu'>filter</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span><span class='op'>)</span>
-
-<span class='co'># Instantiate Resampling</span>
-<span class='va'>bootstrap</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span><span class='op'>(</span><span class='st'>"bootstrap"</span>, repeats <span class='op'>=</span> <span class='fl'>2</span>, ratio <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
-<span class='va'>bootstrap</span><span class='op'>$</span><span class='fu'>instantiate</span><span class='op'>(</span><span class='va'>task</span><span class='op'>)</span>
-
-<span class='co'># Individual sets:</span>
-<span class='va'>bootstrap</span><span class='op'>$</span><span class='fu'>train_set</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  [1]  2  3  4  5  7  7  8  9 10 10</div><div class='input'><span class='va'>bootstrap</span><span class='op'>$</span><span class='fu'>test_set</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 1 6</div><div class='input'>
-<span class='co'># Disjunct sets:</span>
-<span class='fu'><a href='https://rdrr.io/r/base/sets.html'>intersect</a></span><span class='op'>(</span><span class='va'>bootstrap</span><span class='op'>$</span><span class='fu'>train_set</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>, <span class='va'>bootstrap</span><span class='op'>$</span><span class='fu'>test_set</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; integer(0)</div><div class='input'>
-<span class='co'># Internal storage:</span>
-<span class='va'>bootstrap</span><span class='op'>$</span><span class='va'>instance</span><span class='op'>$</span><span class='va'>M</span> <span class='co'># Matrix of counts</span>
-</div><div class='output co'>#&gt;        
-#&gt;         [,1] [,2]
-#&gt;    [1,]    0    1
-#&gt;    [2,]    1    1
-#&gt;    [3,]    1    0
-#&gt;    [4,]    1    0
-#&gt;    [5,]    1    1
-#&gt;    [6,]    0    3
-#&gt;    [7,]    2    1
-#&gt;    [8,]    1    0
-#&gt;    [9,]    1    2
-#&gt;   [10,]    2    1</div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># Create a task with 10 observations</span></span>
+<span class='r-in'><span class='va'>task</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span><span class='op'>(</span><span class='st'>"penguins"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>task</span><span class='op'>$</span><span class='fu'>filter</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Instantiate Resampling</span></span>
+<span class='r-in'><span class='va'>bootstrap</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span><span class='op'>(</span><span class='st'>"bootstrap"</span>, repeats <span class='op'>=</span> <span class='fl'>2</span>, ratio <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>bootstrap</span><span class='op'>$</span><span class='fu'>instantiate</span><span class='op'>(</span><span class='va'>task</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Individual sets:</span></span>
+<span class='r-in'><span class='va'>bootstrap</span><span class='op'>$</span><span class='fu'>train_set</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1]  2  3  4  5  7  7  8  9 10 10</span>
+<span class='r-in'><span class='va'>bootstrap</span><span class='op'>$</span><span class='fu'>test_set</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 1 6</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Disjunct sets:</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/sets.html'>intersect</a></span><span class='op'>(</span><span class='va'>bootstrap</span><span class='op'>$</span><span class='fu'>train_set</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>, <span class='va'>bootstrap</span><span class='op'>$</span><span class='fu'>test_set</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> integer(0)</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Internal storage:</span></span>
+<span class='r-in'><span class='va'>bootstrap</span><span class='op'>$</span><span class='va'>instance</span><span class='op'>$</span><span class='va'>M</span> <span class='co'># Matrix of counts</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         [,1] [,2]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    [1,]    0    1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    [2,]    1    1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    [3,]    1    0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    [4,]    1    0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    [5,]    1    1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    [6,]    0    3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    [7,]    2    1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    [8,]    1    0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    [9,]    1    2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [10,]    2    1</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

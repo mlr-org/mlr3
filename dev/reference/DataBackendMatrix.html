@@ -199,10 +199,10 @@ Returns vector of all distinct row identifiers, i.e. the contents of the primary
 <dt><code>colnames</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
 Returns vector of all column names, including the primary key column.</p></dd>
 
-<dt><code>nrow</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>)<br />
+<dt><code>nrow</code></dt><dd><p>(<code>integer(1)</code>)<br />
 Number of rows (observations).</p></dd>
 
-<dt><code>ncol</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>)<br />
+<dt><code>ncol</code></dt><dd><p>(<code>integer(1)</code>)<br />
 Number of columns (variables), including the primary key column.</p></dd>
 
 </dl><p></div></p>
@@ -238,7 +238,7 @@ The input <code><a href='https://rdrr.io/pkg/Matrix/man/Matrix.html'>Matrix::Mat
 <dt><code>dense</code></dt><dd><p><code><a href='https://rdrr.io/r/base/data.frame.html'>data.frame()</a></code>.
 Dense data, converted to <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code>.</p></dd>
 
-<dt><code>primary_key</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code> | <code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code>)<br />
+<dt><code>primary_key</code></dt><dd><p>(<code>character(1)</code> | <code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code>)<br />
 Name of the primary key column, or integer vector of row ids.</p></dd>
 
 </dl><p></div></p>
@@ -260,7 +260,7 @@ Row indices.</p></dd>
 <dt><code>cols</code></dt><dd><p><code><a href='https://rdrr.io/r/base/character.html'>character()</a></code><br />
 Column names.</p></dd>
 
-<dt><code>data_format</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+<dt><code>data_format</code></dt><dd><p>(<code>character(1)</code>)<br />
 Desired data format, e.g. <code>"data.table"</code> or <code>"Matrix"</code>.</p></dd>
 
 </dl><p></div></p>
@@ -271,7 +271,7 @@ Desired data format, e.g. <code>"data.table"</code> or <code>"Matrix"</code>.</p
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
-<dt><code>n</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>)<br />
+<dt><code>n</code></dt><dd><p>(<code>integer(1)</code>)<br />
 Number of rows.</p></dd>
 
 </dl><p></div></p>
@@ -293,7 +293,7 @@ Row indices.</p></dd>
 <dt><code>cols</code></dt><dd><p><code><a href='https://rdrr.io/r/base/character.html'>character()</a></code><br />
 Column names.</p></dd>
 
-<dt><code>na_rm</code></dt><dd><p><code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code><br />
+<dt><code>na_rm</code></dt><dd><p><code>logical(1)</code><br />
 Whether to remove NAs or not.</p></dd>
 
 </dl><p></div></p>
@@ -320,33 +320,37 @@ Column names.</p></dd>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span><span class='op'>(</span><span class='st'>"Matrix"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Loading required namespace: Matrix</span></div><div class='input'><span class='va'>data</span> <span class='op'>=</span> <span class='fu'>Matrix</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/Matrix/man/Matrix.html'>Matrix</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>:</span><span class='fl'>1</span>, <span class='fl'>20</span>, replace <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>, ncol <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>data</span><span class='op'>)</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"x1"</span>, <span class='st'>"x2"</span><span class='op'>)</span>
-<span class='va'>dense</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>
-  ..row_id <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>,
-  num <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span><span class='op'>(</span><span class='fl'>10</span><span class='op'>)</span>,
-  fact <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"a"</span>, <span class='st'>"b"</span><span class='op'>)</span>, <span class='fl'>10</span>, replace <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>, levels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"a"</span>, <span class='st'>"b"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='op'>)</span>
-
-<span class='va'>b</span> <span class='op'>=</span> <span class='fu'><a href='as_data_backend.Matrix.html'>as_data_backend</a></span><span class='op'>(</span><span class='va'>data</span>, dense <span class='op'>=</span> <span class='va'>dense</span>, primary_key <span class='op'>=</span> <span class='st'>"..row_id"</span><span class='op'>)</span>
-<span class='va'>b</span><span class='op'>$</span><span class='fu'>head</span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;    ..row_id        num fact x1 x2
-#&gt; 1:        1 0.03092667    a  0  1
-#&gt; 2:        2 0.49381410    b  1  0
-#&gt; 3:        3 0.21081463    b  0  0
-#&gt; 4:        4 0.42955521    a  1  1
-#&gt; 5:        5 0.11537900    b  1  1
-#&gt; 6:        6 0.28180840    b  1  1</div><div class='input'><span class='va'>b</span><span class='op'>$</span><span class='fu'>data</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>, <span class='va'>b</span><span class='op'>$</span><span class='va'>colnames</span>, data_format <span class='op'>=</span> <span class='st'>"Matrix"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; 3 x 5 Matrix of class "dgeMatrix"
-#&gt;   x1 x2 ..row_id        num fact_b
-#&gt; a  0  1        1 0.03092667      0
-#&gt; b  1  0        2 0.49381410      1
-#&gt; b  0  0        3 0.21081463      1</div><div class='input'><span class='va'>b</span><span class='op'>$</span><span class='fu'>data</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>, <span class='va'>b</span><span class='op'>$</span><span class='va'>colnames</span>, data_format <span class='op'>=</span> <span class='st'>"data.table"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;    ..row_id        num fact x1 x2
-#&gt; 1:        1 0.03092667    a  0  1
-#&gt; 2:        2 0.49381410    b  1  0
-#&gt; 3:        3 0.21081463    b  0  0</div></pre>
+    <pre class="examples"><span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span><span class='op'>(</span><span class='st'>"Matrix"</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Loading required namespace: Matrix</span>
+<span class='r-in'><span class='va'>data</span> <span class='op'>=</span> <span class='fu'>Matrix</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/Matrix/man/Matrix.html'>Matrix</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>:</span><span class='fl'>1</span>, <span class='fl'>20</span>, replace <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>, ncol <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>data</span><span class='op'>)</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"x1"</span>, <span class='st'>"x2"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>dense</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span></span>
+<span class='r-in'>  ..row_id <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>,</span>
+<span class='r-in'>  num <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span><span class='op'>(</span><span class='fl'>10</span><span class='op'>)</span>,</span>
+<span class='r-in'>  fact <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"a"</span>, <span class='st'>"b"</span><span class='op'>)</span>, <span class='fl'>10</span>, replace <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>, levels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"a"</span>, <span class='st'>"b"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>b</span> <span class='op'>=</span> <span class='fu'><a href='as_data_backend.Matrix.html'>as_data_backend</a></span><span class='op'>(</span><span class='va'>data</span>, dense <span class='op'>=</span> <span class='va'>dense</span>, primary_key <span class='op'>=</span> <span class='st'>"..row_id"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>b</span><span class='op'>$</span><span class='fu'>head</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    ..row_id        num fact x1 x2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1:        1 0.03092667    a  0  1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2:        2 0.49381410    b  1  0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3:        3 0.21081463    b  0  0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4:        4 0.42955521    a  1  1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5:        5 0.11537900    b  1  1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6:        6 0.28180840    b  1  1</span>
+<span class='r-in'><span class='va'>b</span><span class='op'>$</span><span class='fu'>data</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>, <span class='va'>b</span><span class='op'>$</span><span class='va'>colnames</span>, data_format <span class='op'>=</span> <span class='st'>"Matrix"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3 x 5 Matrix of class "dgeMatrix"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   x1 x2 ..row_id        num fact_b</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> a  0  1        1 0.03092667      0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> b  1  0        2 0.49381410      1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> b  0  0        3 0.21081463      1</span>
+<span class='r-in'><span class='va'>b</span><span class='op'>$</span><span class='fu'>data</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>, <span class='va'>b</span><span class='op'>$</span><span class='va'>colnames</span>, data_format <span class='op'>=</span> <span class='st'>"data.table"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    ..row_id        num fact x1 x2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1:        1 0.03092667    a  0  1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2:        2 0.49381410    b  1  0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3:        3 0.21081463    b  0  0</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
