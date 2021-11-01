@@ -181,6 +181,7 @@
 <li><p>Task type: &#8220;NA&#8221;</p></li>
 <li><p>Range: \([0, \infty)\)</p></li>
 <li><p>Minimize: TRUE</p></li>
+<li><p>Average: macro</p></li>
 <li><p>Required Prediction: &#8220;response&#8221;</p></li>
 <li><p>Required Packages: -</p></li>
 </ul>
@@ -198,7 +199,7 @@
 <a href='https://mlr3book.mlr-org.com/basics.html#train-predict'>https://mlr3book.mlr-org.com/basics.html#train-predict</a></p></li>
 <li><p>Package <a href='https://CRAN.R-project.org/package=mlr3measures'><span class="pkg">mlr3measures</span></a> for the scoring functions.
 <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>Dictionary</a> of <a href='Measure.html'>Measures</a>: <a href='mlr_measures.html'>mlr_measures</a>
-<code><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table(mlr_measures)</a></code> for a table of available <a href='Measure.html'>Measures</a> in the running session (depending on the loaded packages).</p></li>
+<code>as.data.table(mlr_measures)</code> for a table of available <a href='Measure.html'>Measures</a> in the running session (depending on the loaded packages).</p></li>
 <li><p>Extension packages for additional task types:</p><ul>
 <li><p><a href='https://CRAN.R-project.org/package=mlr3proba'><span class="pkg">mlr3proba</span></a> for probabilistic supervised regression and survival analysis.</p></li>
 <li><p><a href='https://CRAN.R-project.org/package=mlr3cluster'><span class="pkg">mlr3cluster</span></a> for unsupervised clustering.</p></li>
@@ -254,7 +255,7 @@ Usually set during construction.</p></dd>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
-<dt><code>id</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+<dt><code>id</code></dt><dd><p>(<code>character(1)</code>)<br />
 Identifier for the new instance.</p></dd>
 
 <dt><code>stages</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />

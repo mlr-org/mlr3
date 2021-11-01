@@ -257,7 +257,7 @@ Also note that if they work as intended, they will tear down your R session imme
 <li><p>Package <a href='https://CRAN.R-project.org/package=mlr3learners'><span class="pkg">mlr3learners</span></a> for a solid collection of essential learners.</p></li>
 <li><p>Package <a href='https://github.com/mlr-org/mlr3extralearners'>mlr3extralearners</a> for more learners.</p></li>
 <li><p><a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>Dictionary</a> of <a href='Learner.html'>Learners</a>: <a href='mlr_learners.html'>mlr_learners</a></p></li>
-<li><p><code><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table(mlr_learners)</a></code> for a table of available <a href='Learner.html'>Learners</a> in the running session (depending on the loaded packages).</p></li>
+<li><p><code>as.data.table(mlr_learners)</code> for a table of available <a href='Learner.html'>Learners</a> in the running session (depending on the loaded packages).</p></li>
 <li><p><a href='https://CRAN.R-project.org/package=mlr3pipelines'><span class="pkg">mlr3pipelines</span></a> to combine learners with pre- and postprocessing steps.</p></li>
 <li><p>Package <a href='https://CRAN.R-project.org/package=mlr3viz'><span class="pkg">mlr3viz</span></a> for some generic visualizations.</p></li>
 <li><p>Extension packages for additional task types:</p><ul>
@@ -322,26 +322,29 @@ for established default tuning spaces.</p></li>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>learner</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>lrn</a></span><span class='op'>(</span><span class='st'>"classif.debug"</span><span class='op'>)</span>
-<span class='va'>learner</span><span class='op'>$</span><span class='va'>param_set</span><span class='op'>$</span><span class='va'>values</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>message_train <span class='op'>=</span> <span class='fl'>1</span>, save_tasks <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-
-<span class='co'># this should signal a message</span>
-<span class='va'>task</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span><span class='op'>(</span><span class='st'>"penguins"</span><span class='op'>)</span>
-<span class='va'>learner</span><span class='op'>$</span><span class='fu'>train</span><span class='op'>(</span><span class='va'>task</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Message from classif.debug-&gt;train()</span></div><div class='input'><span class='va'>learner</span><span class='op'>$</span><span class='fu'>predict</span><span class='op'>(</span><span class='va'>task</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; &lt;PredictionClassif&gt; for 344 observations:
-#&gt;     row_ids     truth response
-#&gt;           1    Adelie   Gentoo
-#&gt;           2    Adelie   Gentoo
-#&gt;           3    Adelie   Gentoo
-#&gt; ---                           
-#&gt;         342 Chinstrap   Gentoo
-#&gt;         343 Chinstrap   Gentoo
-#&gt;         344 Chinstrap   Gentoo</div><div class='input'>
-<span class='co'># task_train and task_predict are the input tasks for train() and predict()</span>
-<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>learner</span><span class='op'>$</span><span class='va'>model</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "response"     "pid"          "iter"         "id"           "task_train"  
-#&gt; [6] "task_predict"</div></pre>
+    <pre class="examples"><span class='r-in'><span class='va'>learner</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>lrn</a></span><span class='op'>(</span><span class='st'>"classif.debug"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>learner</span><span class='op'>$</span><span class='va'>param_set</span><span class='op'>$</span><span class='va'>values</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>message_train <span class='op'>=</span> <span class='fl'>1</span>, save_tasks <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># this should signal a message</span></span>
+<span class='r-in'><span class='va'>task</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span><span class='op'>(</span><span class='st'>"penguins"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>learner</span><span class='op'>$</span><span class='fu'>train</span><span class='op'>(</span><span class='va'>task</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Message from classif.debug-&gt;train()</span>
+<span class='r-in'><span class='va'>learner</span><span class='op'>$</span><span class='fu'>predict</span><span class='op'>(</span><span class='va'>task</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;PredictionClassif&gt; for 344 observations:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     row_ids     truth response</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>           1    Adelie   Gentoo</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>           2    Adelie   Gentoo</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>           3    Adelie   Gentoo</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ---                           </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         342 Chinstrap   Gentoo</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         343 Chinstrap   Gentoo</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         344 Chinstrap   Gentoo</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># task_train and task_predict are the input tasks for train() and predict()</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>learner</span><span class='op'>$</span><span class='va'>model</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "response"     "pid"          "iter"         "id"           "task_train"  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [6] "task_predict"</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

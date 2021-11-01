@@ -185,7 +185,7 @@ The default measure for regression is <code><a href='mlr_measures_regr.mse.html'
 <a href='https://mlr3book.mlr-org.com/basics.html#train-predict'>https://mlr3book.mlr-org.com/basics.html#train-predict</a></p></li>
 <li><p>Package <a href='https://CRAN.R-project.org/package=mlr3measures'><span class="pkg">mlr3measures</span></a> for the scoring functions.
 <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>Dictionary</a> of <a href='Measure.html'>Measures</a>: <a href='mlr_measures.html'>mlr_measures</a>
-<code><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table(mlr_measures)</a></code> for a table of available <a href='Measure.html'>Measures</a> in the running session (depending on the loaded packages).</p></li>
+<code>as.data.table(mlr_measures)</code> for a table of available <a href='Measure.html'>Measures</a> in the running session (depending on the loaded packages).</p></li>
 <li><p>Extension packages for additional task types:</p><ul>
 <li><p><a href='https://CRAN.R-project.org/package=mlr3proba'><span class="pkg">mlr3proba</span></a> for probabilistic supervised regression and survival analysis.</p></li>
 <li><p><a href='https://CRAN.R-project.org/package=mlr3cluster'><span class="pkg">mlr3cluster</span></a> for unsupervised clustering.</p></li>
@@ -245,29 +245,37 @@ The default measure for regression is <code><a href='mlr_measures_regr.mse.html'
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
-<dt><code>id</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+<dt><code>id</code></dt><dd><p>(<code>character(1)</code>)<br />
 Identifier for the new instance.</p></dd>
 
 <dt><code>param_set</code></dt><dd><p>(<a href='https://paradox.mlr-org.com/reference/ParamSet.html'>paradox::ParamSet</a>)<br />
 Set of hyperparameters.</p></dd>
 
-<dt><code>range</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/numeric.html'>numeric(2)</a></code>)<br />
-Feasible range for this measure as <code><a href='https://rdrr.io/r/base/c.html'>c(lower_bound, upper_bound)</a></code>.
+<dt><code>range</code></dt><dd><p>(<code>numeric(2)</code>)<br />
+Feasible range for this measure as <code>c(lower_bound, upper_bound)</code>.
 Both bounds may be infinite.</p></dd>
 
-<dt><code>minimize</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
+<dt><code>minimize</code></dt><dd><p>(<code>logical(1)</code>)<br />
 Set to <code>TRUE</code> if good predictions correspond to small values,
 and to <code>FALSE</code> if good predictions correspond to large values.
 If set to <code>NA</code> (default), tuning this measure is not possible.</p></dd>
 
-<dt><code>average</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+<dt><code>average</code></dt><dd><p>(<code>character(1)</code>)<br />
 How to average multiple <a href='Prediction.html'>Prediction</a>s from a <a href='ResampleResult.html'>ResampleResult</a>.The default, <code>"macro"</code>, calculates the individual performances scores for each <a href='Prediction.html'>Prediction</a> and then uses the
 function defined in <code>$aggregator</code> to average them to a single number.If set to <code>"micro"</code>, the individual <a href='Prediction.html'>Prediction</a> objects are first combined into a single new <a href='Prediction.html'>Prediction</a> object which is then used to assess the performance.
 The function in <code>$aggregator</code> is not used in this case.</p></dd>
 
-<dt><code>aggregator</code></dt><dd><p>(<code>function(x)</code>)<br />
-Function to aggregate individual performance scores <code>x</code> where <code>x</code> is a numeric vector.
-If <code>NULL</code>, defaults to <code><a href='https://rdrr.io/r/base/mean.html'>mean()</a></code>.</p></dd>
+<dt><code>aggregator</code></dt><dd><p>(<code>function()</code>)<br />
+Function to aggregate over multiple iterations. The role of this function depends on
+the value of field <code>"average"</code>:
+<ul>
+<li><p><code>"macro"</code>: A numeric vector of scores (one per iteration) is passed.
+The aggregate function defaults to <code><a href='https://rdrr.io/r/base/mean.html'>mean()</a></code> in this case.</p></li>
+<li><p><code>"micro"</code>: The <code>aggregator</code> function is not used.
+Instead, predictions from multiple iterations are first combined and then
+scored in one go.</p></li>
+<li><p><code>"custom"</code>: A <a href='ResampleResult.html'>ResampleResult</a> is passed to the aggregate function.</p></li>
+</ul></p></dd>
 
 <dt><code>properties</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
 Properties of the measure.
@@ -280,7 +288,7 @@ Supported by <code>mlr3</code>:
 <li><p><code>"na_score"</code> (the measure is expected to occasionally return <code>NA</code> or <code>NaN</code>).</p></li>
 </ul></p></dd>
 
-<dt><code>predict_type</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+<dt><code>predict_type</code></dt><dd><p>(<code>character(1)</code>)<br />
 Required predict type of the <a href='Learner.html'>Learner</a>.
 Possible values are stored in <a href='mlr_reflections.html'>mlr_reflections$learner_predict_types</a>.</p></dd>
 
@@ -299,7 +307,7 @@ Set of required packages.
 A warning is signaled by the constructor if at least one of the packages is not installed,
 but loaded (not attached) later on-demand via <code><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace()</a></code>.</p></dd>
 
-<dt><code>man</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+<dt><code>man</code></dt><dd><p>(<code>character(1)</code>)<br />
 String in the format <code>[pkg]::[topic]</code> pointing to a manual page for this object.
 The referenced help package can be opened via method <code>$help()</code>.</p></dd>
 

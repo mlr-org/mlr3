@@ -181,7 +181,7 @@ The <code>task_type</code> is set to <code>"regr"</code>.</p>
 <li><p>Package <a href='https://CRAN.R-project.org/package=mlr3oml'><span class="pkg">mlr3oml</span></a> for downloading tasks from <a href='https://openml.org'>https://openml.org</a>.</p></li>
 <li><p>Package <a href='https://CRAN.R-project.org/package=mlr3viz'><span class="pkg">mlr3viz</span></a> for some generic visualizations.</p></li>
 <li><p><a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>Dictionary</a> of <a href='Task.html'>Tasks</a>: <a href='mlr_tasks.html'>mlr_tasks</a></p></li>
-<li><p><code><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table(mlr_tasks)</a></code> for a table of available <a href='Task.html'>Tasks</a> in the running session (depending on the loaded packages).</p></li>
+<li><p><code>as.data.table(mlr_tasks)</code> for a table of available <a href='Task.html'>Tasks</a> in the running session (depending on the loaded packages).</p></li>
 <li><p><a href='https://CRAN.R-project.org/package=mlr3fselect'><span class="pkg">mlr3fselect</span></a> and <a href='https://CRAN.R-project.org/package=mlr3filters'><span class="pkg">mlr3filters</span></a> for feature selection and feature filtering.</p></li>
 <li><p>Extension packages for additional task types:</p><ul>
 <li><p><a href='https://CRAN.R-project.org/package=mlr3proba'><span class="pkg">mlr3proba</span></a> for probabilistic supervised regression and survival analysis.</p></li>
@@ -250,14 +250,14 @@ The function <code><a href='as_task_regr.html'>as_task_regr()</a></code> provide
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
-<dt><code>id</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+<dt><code>id</code></dt><dd><p>(<code>character(1)</code>)<br />
 Identifier for the new instance.</p></dd>
 
 <dt><code>backend</code></dt><dd><p>(<a href='DataBackend.html'>DataBackend</a>)<br />
 Either a <a href='DataBackend.html'>DataBackend</a>, or any object which is convertible to a <a href='DataBackend.html'>DataBackend</a> with <code><a href='as_data_backend.Matrix.html'>as_data_backend()</a></code>.
 E.g., a <code><a href='https://rdrr.io/r/base/data.frame.html'>data.frame()</a></code> will be converted to a <a href='DataBackendDataTable.html'>DataBackendDataTable</a>.</p></dd>
 
-<dt><code>target</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+<dt><code>target</code></dt><dd><p>(<code>character(1)</code>)<br />
 Name of the target column.</p></dd>
 
 <dt><code>extra_args</code></dt><dd><p>(named <code><a href='https://rdrr.io/r/base/list.html'>list()</a></code>)<br />
@@ -293,38 +293,42 @@ Row indices.</p></dd>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>task</span> <span class='op'>=</span> <span class='fu'><a href='as_task_regr.html'>as_task_regr</a></span><span class='op'>(</span><span class='fu'>palmerpenguins</span><span class='fu'>::</span><span class='va'><a href='https://allisonhorst.github.io/palmerpenguins/reference/penguins.html'>penguins</a></span>, target <span class='op'>=</span> <span class='st'>"bill_length_mm"</span><span class='op'>)</span>
-<span class='va'>task</span><span class='op'>$</span><span class='va'>task_type</span>
-</div><div class='output co'>#&gt; [1] "regr"</div><div class='input'><span class='va'>task</span><span class='op'>$</span><span class='fu'>formula</span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; bill_length_mm ~ .
-#&gt; NULL</div><div class='input'><span class='va'>task</span><span class='op'>$</span><span class='fu'>truth</span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;   [1] 39.1 39.5 40.3   NA 36.7 39.3 38.9 39.2 34.1 42.0 37.8 37.8 41.1 38.6 34.6
-#&gt;  [16] 36.6 38.7 42.5 34.4 46.0 37.8 37.7 35.9 38.2 38.8 35.3 40.6 40.5 37.9 40.5
-#&gt;  [31] 39.5 37.2 39.5 40.9 36.4 39.2 38.8 42.2 37.6 39.8 36.5 40.8 36.0 44.1 37.0
-#&gt;  [46] 39.6 41.1 37.5 36.0 42.3 39.6 40.1 35.0 42.0 34.5 41.4 39.0 40.6 36.5 37.6
-#&gt;  [61] 35.7 41.3 37.6 41.1 36.4 41.6 35.5 41.1 35.9 41.8 33.5 39.7 39.6 45.8 35.5
-#&gt;  [76] 42.8 40.9 37.2 36.2 42.1 34.6 42.9 36.7 35.1 37.3 41.3 36.3 36.9 38.3 38.9
-#&gt;  [91] 35.7 41.1 34.0 39.6 36.2 40.8 38.1 40.3 33.1 43.2 35.0 41.0 37.7 37.8 37.9
-#&gt; [106] 39.7 38.6 38.2 38.1 43.2 38.1 45.6 39.7 42.2 39.6 42.7 38.6 37.3 35.7 41.1
-#&gt; [121] 36.2 37.7 40.2 41.4 35.2 40.6 38.8 41.5 39.0 44.1 38.5 43.1 36.8 37.5 38.1
-#&gt; [136] 41.1 35.6 40.2 37.0 39.7 40.2 40.6 32.1 40.7 37.3 39.0 39.2 36.6 36.0 37.8
-#&gt; [151] 36.0 41.5 46.1 50.0 48.7 50.0 47.6 46.5 45.4 46.7 43.3 46.8 40.9 49.0 45.5
-#&gt; [166] 48.4 45.8 49.3 42.0 49.2 46.2 48.7 50.2 45.1 46.5 46.3 42.9 46.1 44.5 47.8
-#&gt; [181] 48.2 50.0 47.3 42.8 45.1 59.6 49.1 48.4 42.6 44.4 44.0 48.7 42.7 49.6 45.3
-#&gt; [196] 49.6 50.5 43.6 45.5 50.5 44.9 45.2 46.6 48.5 45.1 50.1 46.5 45.0 43.8 45.5
-#&gt; [211] 43.2 50.4 45.3 46.2 45.7 54.3 45.8 49.8 46.2 49.5 43.5 50.7 47.7 46.4 48.2
-#&gt; [226] 46.5 46.4 48.6 47.5 51.1 45.2 45.2 49.1 52.5 47.4 50.0 44.9 50.8 43.4 51.3
-#&gt; [241] 47.5 52.1 47.5 52.2 45.5 49.5 44.5 50.8 49.4 46.9 48.4 51.1 48.5 55.9 47.2
-#&gt; [256] 49.1 47.3 46.8 41.7 53.4 43.3 48.1 50.5 49.8 43.5 51.5 46.2 55.1 44.5 48.8
-#&gt; [271] 47.2   NA 46.8 50.4 45.2 49.9 46.5 50.0 51.3 45.4 52.7 45.2 46.1 51.3 46.0
-#&gt; [286] 51.3 46.6 51.7 47.0 52.0 45.9 50.5 50.3 58.0 46.4 49.2 42.4 48.5 43.2 50.6
-#&gt; [301] 46.7 52.0 50.5 49.5 46.4 52.8 40.9 54.2 42.5 51.0 49.7 47.5 47.6 52.0 46.9
-#&gt; [316] 53.5 49.0 46.2 50.9 45.5 50.9 50.8 50.1 49.0 51.5 49.8 48.1 51.4 45.7 50.7
-#&gt; [331] 42.5 52.2 45.2 49.3 50.2 45.6 51.9 46.8 45.7 55.8 43.5 49.6 50.8 50.2</div><div class='input'><span class='va'>task</span><span class='op'>$</span><span class='fu'>data</span><span class='op'>(</span>rows <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>, cols <span class='op'>=</span> <span class='va'>task</span><span class='op'>$</span><span class='va'>feature_names</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;    bill_depth_mm body_mass_g
-#&gt; 1:          18.7        3750
-#&gt; 2:          17.4        3800
-#&gt; 3:          18.0        3250</div></pre>
+    <pre class="examples"><span class='r-in'><span class='va'>task</span> <span class='op'>=</span> <span class='fu'><a href='as_task_regr.html'>as_task_regr</a></span><span class='op'>(</span><span class='fu'>palmerpenguins</span><span class='fu'>::</span><span class='va'><a href='https://allisonhorst.github.io/palmerpenguins/reference/penguins.html'>penguins</a></span>, target <span class='op'>=</span> <span class='st'>"bill_length_mm"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>task</span><span class='op'>$</span><span class='va'>task_type</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "regr"</span>
+<span class='r-in'><span class='va'>task</span><span class='op'>$</span><span class='fu'>formula</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> bill_length_mm ~ .</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> NULL</span>
+<span class='r-in'><span class='va'>task</span><span class='op'>$</span><span class='fu'>truth</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [1] 39.1 39.5 40.3   NA 36.7 39.3 38.9 39.2 34.1 42.0 37.8 37.8 41.1 38.6 34.6</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [16] 36.6 38.7 42.5 34.4 46.0 37.8 37.7 35.9 38.2 38.8 35.3 40.6 40.5 37.9 40.5</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [31] 39.5 37.2 39.5 40.9 36.4 39.2 38.8 42.2 37.6 39.8 36.5 40.8 36.0 44.1 37.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [46] 39.6 41.1 37.5 36.0 42.3 39.6 40.1 35.0 42.0 34.5 41.4 39.0 40.6 36.5 37.6</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [61] 35.7 41.3 37.6 41.1 36.4 41.6 35.5 41.1 35.9 41.8 33.5 39.7 39.6 45.8 35.5</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [76] 42.8 40.9 37.2 36.2 42.1 34.6 42.9 36.7 35.1 37.3 41.3 36.3 36.9 38.3 38.9</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [91] 35.7 41.1 34.0 39.6 36.2 40.8 38.1 40.3 33.1 43.2 35.0 41.0 37.7 37.8 37.9</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [106] 39.7 38.6 38.2 38.1 43.2 38.1 45.6 39.7 42.2 39.6 42.7 38.6 37.3 35.7 41.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [121] 36.2 37.7 40.2 41.4 35.2 40.6 38.8 41.5 39.0 44.1 38.5 43.1 36.8 37.5 38.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [136] 41.1 35.6 40.2 37.0 39.7 40.2 40.6 32.1 40.7 37.3 39.0 39.2 36.6 36.0 37.8</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [151] 36.0 41.5 46.1 50.0 48.7 50.0 47.6 46.5 45.4 46.7 43.3 46.8 40.9 49.0 45.5</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [166] 48.4 45.8 49.3 42.0 49.2 46.2 48.7 50.2 45.1 46.5 46.3 42.9 46.1 44.5 47.8</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [181] 48.2 50.0 47.3 42.8 45.1 59.6 49.1 48.4 42.6 44.4 44.0 48.7 42.7 49.6 45.3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [196] 49.6 50.5 43.6 45.5 50.5 44.9 45.2 46.6 48.5 45.1 50.1 46.5 45.0 43.8 45.5</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [211] 43.2 50.4 45.3 46.2 45.7 54.3 45.8 49.8 46.2 49.5 43.5 50.7 47.7 46.4 48.2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [226] 46.5 46.4 48.6 47.5 51.1 45.2 45.2 49.1 52.5 47.4 50.0 44.9 50.8 43.4 51.3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [241] 47.5 52.1 47.5 52.2 45.5 49.5 44.5 50.8 49.4 46.9 48.4 51.1 48.5 55.9 47.2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [256] 49.1 47.3 46.8 41.7 53.4 43.3 48.1 50.5 49.8 43.5 51.5 46.2 55.1 44.5 48.8</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [271] 47.2   NA 46.8 50.4 45.2 49.9 46.5 50.0 51.3 45.4 52.7 45.2 46.1 51.3 46.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [286] 51.3 46.6 51.7 47.0 52.0 45.9 50.5 50.3 58.0 46.4 49.2 42.4 48.5 43.2 50.6</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [301] 46.7 52.0 50.5 49.5 46.4 52.8 40.9 54.2 42.5 51.0 49.7 47.5 47.6 52.0 46.9</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [316] 53.5 49.0 46.2 50.9 45.5 50.9 50.8 50.1 49.0 51.5 49.8 48.1 51.4 45.7 50.7</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [331] 42.5 52.2 45.2 49.3 50.2 45.6 51.9 46.8 45.7 55.8 43.5 49.6 50.8 50.2</span>
+<span class='r-in'><span class='va'>task</span><span class='op'>$</span><span class='fu'>data</span><span class='op'>(</span>rows <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>, cols <span class='op'>=</span> <span class='va'>task</span><span class='op'>$</span><span class='va'>feature_names</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    bill_depth_mm body_mass_g</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1:          18.7        3750</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2:          17.4        3800</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3:          18.0        3250</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

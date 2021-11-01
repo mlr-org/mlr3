@@ -194,7 +194,7 @@ fewer samples than requested.</p>
     <div class='dont-index'>
 <ul>
 <li><p><a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>Dictionary</a> of <a href='TaskGenerator.html'>TaskGenerators</a>: <a href='mlr_task_generators.html'>mlr_task_generators</a></p></li>
-<li><p><code><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table(mlr_task_generators)</a></code>  for a table of available <a href='TaskGenerator.html'>TaskGenerators</a> in the running session (depending on the loaded packages).</p></li>
+<li><p><code>as.data.table(mlr_task_generators)</code>  for a table of available <a href='TaskGenerator.html'>TaskGenerators</a> in the running session (depending on the loaded packages).</p></li>
 <li><p>Extension packages for additional task types:</p><ul>
 <li><p><a href='https://CRAN.R-project.org/package=mlr3proba'><span class="pkg">mlr3proba</span></a> for probabilistic supervised regression and survival analysis.</p></li>
 <li><p><a href='https://CRAN.R-project.org/package=mlr3cluster'><span class="pkg">mlr3cluster</span></a> for unsupervised clustering.</p></li>
@@ -245,10 +245,10 @@ fewer samples than requested.</p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
-<dt><code>n</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>)<br />
+<dt><code>n</code></dt><dd><p>(<code>integer(1)</code>)<br />
 Number of samples to draw for the plot. Default is 200.</p></dd>
 
-<dt><code>pch</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>)<br />
+<dt><code>pch</code></dt><dd><p>(<code>integer(1)</code>)<br />
 Point char. Passed to <code><a href='https://rdrr.io/r/graphics/plot.default.html'>plot()</a></code>.</p></dd>
 
 <dt><code>...</code></dt><dd><p>(any)<br />
@@ -269,17 +269,19 @@ Additional arguments passed to <code><a href='https://rdrr.io/r/graphics/plot.de
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>generator</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tgen</a></span><span class='op'>(</span><span class='st'>"simplex"</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>generator</span>, n <span class='op'>=</span> <span class='fl'>200</span><span class='op'>)</span>
-</div><div class='img'><img src='mlr_task_generators_simplex-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='va'>task</span> <span class='op'>=</span> <span class='va'>generator</span><span class='op'>$</span><span class='fu'>generate</span><span class='op'>(</span><span class='fl'>200</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span><span class='op'>(</span><span class='va'>task</span><span class='op'>$</span><span class='fu'>data</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Classes ‘data.table’ and 'data.frame':	100 obs. of  4 variables:
-#&gt;  $ y : Factor w/ 4 levels "A","B","C","D": 1 1 1 1 1 1 1 1 1 1 ...
-#&gt;  $ x1: num  -0.419 -0.54 -0.32 -0.646 -0.687 ...
-#&gt;  $ x2: num  0.0159 -0.423 -0.2558 -0.2757 -0.3722 ...
-#&gt;  $ x3: num  -0.1183 -0.0417 -0.2003 -0.1438 -0.1975 ...
-#&gt;  - attr(*, ".internal.selfref")=&lt;externalptr&gt; </div></pre>
+    <pre class="examples"><span class='r-in'><span class='va'>generator</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tgen</a></span><span class='op'>(</span><span class='st'>"simplex"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>generator</span>, n <span class='op'>=</span> <span class='fl'>200</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='mlr_task_generators_simplex-1.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>task</span> <span class='op'>=</span> <span class='va'>generator</span><span class='op'>$</span><span class='fu'>generate</span><span class='op'>(</span><span class='fl'>200</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span><span class='op'>(</span><span class='va'>task</span><span class='op'>$</span><span class='fu'>data</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Classes ‘data.table’ and 'data.frame':	100 obs. of  4 variables:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ y : Factor w/ 4 levels "A","B","C","D": 1 1 1 1 1 1 1 1 1 1 ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ x1: num  -0.419 -0.54 -0.32 -0.646 -0.687 ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ x2: num  0.0159 -0.423 -0.2558 -0.2757 -0.3722 ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ x3: num  -0.1183 -0.0417 -0.2003 -0.1438 -0.1975 ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  - attr(*, ".internal.selfref")=&lt;externalptr&gt; </span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -226,7 +226,7 @@ The following hyperparameters trigger the following actions:</p><dl>
 <li><p>Package <a href='https://CRAN.R-project.org/package=mlr3learners'><span class="pkg">mlr3learners</span></a> for a solid collection of essential learners.</p></li>
 <li><p>Package <a href='https://github.com/mlr-org/mlr3extralearners'>mlr3extralearners</a> for more learners.</p></li>
 <li><p><a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>Dictionary</a> of <a href='Learner.html'>Learners</a>: <a href='mlr_learners.html'>mlr_learners</a></p></li>
-<li><p><code><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table(mlr_learners)</a></code> for a table of available <a href='Learner.html'>Learners</a> in the running session (depending on the loaded packages).</p></li>
+<li><p><code>as.data.table(mlr_learners)</code> for a table of available <a href='Learner.html'>Learners</a> in the running session (depending on the loaded packages).</p></li>
 <li><p><a href='https://CRAN.R-project.org/package=mlr3pipelines'><span class="pkg">mlr3pipelines</span></a> to combine learners with pre- and postprocessing steps.</p></li>
 <li><p>Package <a href='https://CRAN.R-project.org/package=mlr3viz'><span class="pkg">mlr3viz</span></a> for some generic visualizations.</p></li>
 <li><p>Extension packages for additional task types:</p><ul>
@@ -291,22 +291,24 @@ for established default tuning spaces.</p></li>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>task</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span><span class='op'>(</span><span class='st'>"mtcars"</span><span class='op'>)</span>
-<span class='va'>learner</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>lrn</a></span><span class='op'>(</span><span class='st'>"regr.debug"</span>, save_tasks <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-<span class='va'>learner</span><span class='op'>$</span><span class='fu'>train</span><span class='op'>(</span><span class='va'>task</span>, row_ids <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>20</span><span class='op'>)</span>
-<span class='va'>prediction</span> <span class='op'>=</span> <span class='va'>learner</span><span class='op'>$</span><span class='fu'>predict</span><span class='op'>(</span><span class='va'>task</span>, row_ids <span class='op'>=</span> <span class='fl'>21</span><span class='op'>:</span><span class='fl'>32</span><span class='op'>)</span>
-
-<span class='va'>learner</span><span class='op'>$</span><span class='va'>model</span><span class='op'>$</span><span class='va'>task_train</span>
-</div><div class='output co'>#&gt; &lt;TaskRegr:mtcars&gt; (20 x 11)
-#&gt; * Target: mpg
-#&gt; * Properties: -
-#&gt; * Features (10):
-#&gt;   - dbl (10): am, carb, cyl, disp, drat, gear, hp, qsec, vs, wt</div><div class='input'><span class='va'>learner</span><span class='op'>$</span><span class='va'>model</span><span class='op'>$</span><span class='va'>task_predict</span>
-</div><div class='output co'>#&gt; &lt;TaskRegr:mtcars&gt; (12 x 11)
-#&gt; * Target: mpg
-#&gt; * Properties: -
-#&gt; * Features (10):
-#&gt;   - dbl (10): am, carb, cyl, disp, drat, gear, hp, qsec, vs, wt</div></pre>
+    <pre class="examples"><span class='r-in'><span class='va'>task</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span><span class='op'>(</span><span class='st'>"mtcars"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>learner</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>lrn</a></span><span class='op'>(</span><span class='st'>"regr.debug"</span>, save_tasks <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>learner</span><span class='op'>$</span><span class='fu'>train</span><span class='op'>(</span><span class='va'>task</span>, row_ids <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>20</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>prediction</span> <span class='op'>=</span> <span class='va'>learner</span><span class='op'>$</span><span class='fu'>predict</span><span class='op'>(</span><span class='va'>task</span>, row_ids <span class='op'>=</span> <span class='fl'>21</span><span class='op'>:</span><span class='fl'>32</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>learner</span><span class='op'>$</span><span class='va'>model</span><span class='op'>$</span><span class='va'>task_train</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;TaskRegr:mtcars&gt; (20 x 11)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> * Target: mpg</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> * Properties: -</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> * Features (10):</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   - dbl (10): am, carb, cyl, disp, drat, gear, hp, qsec, vs, wt</span>
+<span class='r-in'><span class='va'>learner</span><span class='op'>$</span><span class='va'>model</span><span class='op'>$</span><span class='va'>task_predict</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;TaskRegr:mtcars&gt; (12 x 11)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> * Target: mpg</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> * Properties: -</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> * Features (10):</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   - dbl (10): am, carb, cyl, disp, drat, gear, hp, qsec, vs, wt</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

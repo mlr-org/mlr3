@@ -285,26 +285,27 @@ Hash of the task on which the target learner is trained.</p></dd>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># train learner on pima task</span>
-<span class='va'>task</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span><span class='op'>(</span><span class='st'>"pima"</span><span class='op'>)</span>
-<span class='va'>learner</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>lrn</a></span><span class='op'>(</span><span class='st'>"classif.debug"</span>, iter <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
-<span class='va'>learner</span><span class='op'>$</span><span class='fu'>train</span><span class='op'>(</span><span class='va'>task</span><span class='op'>)</span>
-
-<span class='co'># initialize stack with previously fitted learner</span>
-<span class='va'>hot</span> <span class='op'>=</span> <span class='va'>HotstartStack</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>learner</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='co'># retrieve learner with increased fidelity parameter</span>
-<span class='va'>learner</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>lrn</a></span><span class='op'>(</span><span class='st'>"classif.debug"</span>, iter <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
-
-<span class='co'># calculate cost of hot starting</span>
-<span class='va'>hot</span><span class='op'>$</span><span class='fu'>start_cost</span><span class='op'>(</span><span class='va'>learner</span>, <span class='va'>task</span><span class='op'>$</span><span class='va'>hash</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 1</div><div class='input'>
-<span class='co'># add stack with hot start learner</span>
-<span class='va'>learner</span><span class='op'>$</span><span class='va'>hotstart_stack</span> <span class='op'>=</span> <span class='va'>hot</span>
-
-<span class='co'># train automatically uses hot start learner while fitting the model</span>
-<span class='va'>learner</span><span class='op'>$</span><span class='fu'>train</span><span class='op'>(</span><span class='va'>task</span><span class='op'>)</span>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># train learner on pima task</span></span>
+<span class='r-in'><span class='va'>task</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span><span class='op'>(</span><span class='st'>"pima"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>learner</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>lrn</a></span><span class='op'>(</span><span class='st'>"classif.debug"</span>, iter <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>learner</span><span class='op'>$</span><span class='fu'>train</span><span class='op'>(</span><span class='va'>task</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># initialize stack with previously fitted learner</span></span>
+<span class='r-in'><span class='va'>hot</span> <span class='op'>=</span> <span class='va'>HotstartStack</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>learner</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># retrieve learner with increased fidelity parameter</span></span>
+<span class='r-in'><span class='va'>learner</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>lrn</a></span><span class='op'>(</span><span class='st'>"classif.debug"</span>, iter <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># calculate cost of hot starting</span></span>
+<span class='r-in'><span class='va'>hot</span><span class='op'>$</span><span class='fu'>start_cost</span><span class='op'>(</span><span class='va'>learner</span>, <span class='va'>task</span><span class='op'>$</span><span class='va'>hash</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 1</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># add stack with hot start learner</span></span>
+<span class='r-in'><span class='va'>learner</span><span class='op'>$</span><span class='va'>hotstart_stack</span> <span class='op'>=</span> <span class='va'>hot</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># train automatically uses hot start learner while fitting the model</span></span>
+<span class='r-in'><span class='va'>learner</span><span class='op'>$</span><span class='fu'>train</span><span class='op'>(</span><span class='va'>task</span><span class='op'>)</span></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

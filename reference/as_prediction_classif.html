@@ -191,36 +191,38 @@ Additional arguments.</p></td>
     <p><a href='PredictionClassif.html'>PredictionClassif</a>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># create a prediction object</span>
-<span class='va'>task</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span><span class='op'>(</span><span class='st'>"penguins"</span><span class='op'>)</span>
-<span class='va'>learner</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>lrn</a></span><span class='op'>(</span><span class='st'>"classif.rpart"</span>, predict_type <span class='op'>=</span> <span class='st'>"prob"</span><span class='op'>)</span>
-<span class='va'>learner</span><span class='op'>$</span><span class='fu'>train</span><span class='op'>(</span><span class='va'>task</span><span class='op'>)</span>
-<span class='va'>p</span> <span class='op'>=</span> <span class='va'>learner</span><span class='op'>$</span><span class='fu'>predict</span><span class='op'>(</span><span class='va'>task</span><span class='op'>)</span>
-
-<span class='co'># convert to a data.table</span>
-<span class='va'>tab</span> <span class='op'>=</span> <span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table</a></span><span class='op'>(</span><span class='va'>p</span><span class='op'>)</span>
-
-<span class='co'># convert back to a Prediction</span>
-<span class='fu'>as_prediction_classif</span><span class='op'>(</span><span class='va'>tab</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; &lt;PredictionClassif&gt; for 344 observations:
-#&gt;     row_ids     truth  response prob.Adelie prob.Chinstrap prob.Gentoo
-#&gt;           1    Adelie    Adelie  0.96688742     0.03311258  0.00000000
-#&gt;           2    Adelie    Adelie  0.96688742     0.03311258  0.00000000
-#&gt;           3    Adelie    Adelie  0.96688742     0.03311258  0.00000000
-#&gt; ---                                                                   
-#&gt;         342 Chinstrap Chinstrap  0.06349206     0.92063492  0.01587302
-#&gt;         343 Chinstrap Chinstrap  0.28571429     0.71428571  0.00000000
-#&gt;         344 Chinstrap Chinstrap  0.06349206     0.92063492  0.01587302</div><div class='input'>
-<span class='co'># split data.table into a list of data.tables</span>
-<span class='va'>tabs</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/split.html'>split</a></span><span class='op'>(</span><span class='va'>tab</span>, <span class='va'>tab</span><span class='op'>$</span><span class='va'>truth</span><span class='op'>)</span>
-
-<span class='co'># convert back to list of predictions</span>
-<span class='va'>preds</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span><span class='op'>(</span><span class='va'>tabs</span>, <span class='va'>as_prediction_classif</span><span class='op'>)</span>
-
-<span class='co'># calculate performance in each group</span>
-<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span><span class='op'>(</span><span class='va'>preds</span>, <span class='kw'>function</span><span class='op'>(</span><span class='va'>p</span><span class='op'>)</span> <span class='va'>p</span><span class='op'>$</span><span class='fu'>score</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;    Adelie.classif.ce Chinstrap.classif.ce    Gentoo.classif.ce 
-#&gt;          0.039473684          0.073529412          0.008064516 </div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># create a prediction object</span></span>
+<span class='r-in'><span class='va'>task</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span><span class='op'>(</span><span class='st'>"penguins"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>learner</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>lrn</a></span><span class='op'>(</span><span class='st'>"classif.rpart"</span>, predict_type <span class='op'>=</span> <span class='st'>"prob"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>learner</span><span class='op'>$</span><span class='fu'>train</span><span class='op'>(</span><span class='va'>task</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>p</span> <span class='op'>=</span> <span class='va'>learner</span><span class='op'>$</span><span class='fu'>predict</span><span class='op'>(</span><span class='va'>task</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># convert to a data.table</span></span>
+<span class='r-in'><span class='va'>tab</span> <span class='op'>=</span> <span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table</a></span><span class='op'>(</span><span class='va'>p</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># convert back to a Prediction</span></span>
+<span class='r-in'><span class='fu'>as_prediction_classif</span><span class='op'>(</span><span class='va'>tab</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;PredictionClassif&gt; for 344 observations:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     row_ids     truth  response prob.Adelie prob.Chinstrap prob.Gentoo</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>           1    Adelie    Adelie  0.96688742     0.03311258  0.00000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>           2    Adelie    Adelie  0.96688742     0.03311258  0.00000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>           3    Adelie    Adelie  0.96688742     0.03311258  0.00000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ---                                                                   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         342 Chinstrap Chinstrap  0.06349206     0.92063492  0.01587302</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         343 Chinstrap Chinstrap  0.28571429     0.71428571  0.00000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         344 Chinstrap Chinstrap  0.06349206     0.92063492  0.01587302</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># split data.table into a list of data.tables</span></span>
+<span class='r-in'><span class='va'>tabs</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/split.html'>split</a></span><span class='op'>(</span><span class='va'>tab</span>, <span class='va'>tab</span><span class='op'>$</span><span class='va'>truth</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># convert back to list of predictions</span></span>
+<span class='r-in'><span class='va'>preds</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span><span class='op'>(</span><span class='va'>tabs</span>, <span class='va'>as_prediction_classif</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># calculate performance in each group</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span><span class='op'>(</span><span class='va'>preds</span>, <span class='kw'>function</span><span class='op'>(</span><span class='va'>p</span><span class='op'>)</span> <span class='va'>p</span><span class='op'>$</span><span class='fu'>score</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    Adelie.classif.ce Chinstrap.classif.ce    Gentoo.classif.ce </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>          0.039473684          0.073529412          0.008064516 </span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

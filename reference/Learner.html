@@ -217,7 +217,7 @@ The learner must be tagged with property <code>"importance"</code>.
 To filter variables using the importance scores, see package <a href='https://CRAN.R-project.org/package=mlr3filters'><span class="pkg">mlr3filters</span></a>.</p></li>
 <li><p><code>selected_features(...)</code>: Returns a subset of selected features as <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>.
 The learner must be tagged with property <code>"selected_features"</code>.</p></li>
-<li><p><code>oob_error(...)</code>: Returns the out-of-bag error of the model as <code><a href='https://rdrr.io/r/base/numeric.html'>numeric(1)</a></code>.
+<li><p><code>oob_error(...)</code>: Returns the out-of-bag error of the model as <code>numeric(1)</code>.
 The learner must be tagged with property <code>"oob_error"</code>.</p></li>
 <li><p><code>loglik(...)</code>: Extracts the log-likelihood (c.f. <code><a href='https://rdrr.io/r/stats/logLik.html'>stats::logLik()</a></code>).
 This can be used in measures like <a href='mlr_measures_aic.html'>mlr_measures_aic</a> or <a href='mlr_measures_bic.html'>mlr_measures_bic</a>.</p></li>
@@ -252,7 +252,7 @@ Here, we add a factor hyperparameter with id <code>"foo"</code> and possible lev
 <li><p>Package <a href='https://CRAN.R-project.org/package=mlr3learners'><span class="pkg">mlr3learners</span></a> for a solid collection of essential learners.</p></li>
 <li><p>Package <a href='https://github.com/mlr-org/mlr3extralearners'>mlr3extralearners</a> for more learners.</p></li>
 <li><p><a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>Dictionary</a> of Learners: <a href='mlr_learners.html'>mlr_learners</a></p></li>
-<li><p><code><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table(mlr_learners)</a></code> for a table of available Learners in the running session (depending on the loaded packages).</p></li>
+<li><p><code>as.data.table(mlr_learners)</code> for a table of available Learners in the running session (depending on the loaded packages).</p></li>
 <li><p><a href='https://CRAN.R-project.org/package=mlr3pipelines'><span class="pkg">mlr3pipelines</span></a> to combine learners with pre- and postprocessing steps.</p></li>
 <li><p>Package <a href='https://CRAN.R-project.org/package=mlr3viz'><span class="pkg">mlr3viz</span></a> for some generic visualizations.</p></li>
 <li><p>Extension packages for additional task types:</p><ul>
@@ -276,7 +276,7 @@ for established default tuning spaces.</p></li>
     <h2 class="hasAnchor" id="public-fields"><a class="anchor" href="#public-fields"></a>Public fields</h2>
 
     <p><div class="r6-fields"></p><dl>
-<dt><code>id</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+<dt><code>id</code></dt><dd><p>(<code>character(1)</code>)<br />
 Identifier of the object.
 Used in tables, plot and text output.</p></dd>
 
@@ -286,7 +286,7 @@ Contains all information gathered during <code>train()</code> and <code><a href=
 It is not recommended to access elements from <code>state</code> directly.
 This is an internal data structure which may change in the future.</p></dd>
 
-<dt><code>task_type</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+<dt><code>task_type</code></dt><dd><p>(<code>character(1)</code>)<br />
 Task type, e.g. <code>"classif"</code> or <code>"regr"</code>.For a complete list of possible task types (depending on the loaded packages),
 see <code><a href='mlr_reflections.html'>mlr_reflections$task_types$type</a></code>.</p></dd>
 
@@ -305,7 +305,7 @@ A complete list of candidate properties, grouped by task type, is stored in <cod
 <dt><code>data_formats</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
 Supported data format, e.g. <code>"data.table"</code> or <code>"Matrix"</code>.</p></dd>
 
-<dt><code>packages</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+<dt><code>packages</code></dt><dd><p>(<code>character(1)</code>)<br />
 Set of required packages.
 These packages are loaded, but not attached.</p></dd>
 
@@ -317,7 +317,7 @@ Each set yields a separate <a href='Prediction.html'>Prediction</a> object.
 Those be combined via getters in <a href='ResampleResult.html'>ResampleResult</a>/<a href='BenchmarkResult.html'>BenchmarkResult</a>, or <a href='Measure.html'>Measure</a>s can be altered
 to operate on specific subsets of the calculated prediction sets.</p></dd>
 
-<dt><code>parallel_predict</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
+<dt><code>parallel_predict</code></dt><dd><p>(<code>logical(1)</code>)<br />
 If set to <code>TRUE</code>, use <a href='https://CRAN.R-project.org/package=future'><span class="pkg">future</span></a> to calculate predictions in parallel (default: <code>FALSE</code>).
 The row ids of the <code>task</code> will be split into <code><a href='https://future.futureverse.org/reference/nbrOfWorkers.html'>future::nbrOfWorkers()</a></code> chunks,
 and predictions are evaluated according to the active <code><a href='https://future.futureverse.org/reference/plan.html'>future::plan()</a></code>.
@@ -325,11 +325,11 @@ This currently only works for methods <code>Learner$predict()</code> and <code>L
 and has no effect during <code><a href='resample.html'>resample()</a></code> or <code><a href='benchmark.html'>benchmark()</a></code> where you have other means
 to parallelize.</p></dd>
 
-<dt><code>timeout</code></dt><dd><p>(named <code><a href='https://rdrr.io/r/base/numeric.html'>numeric(2)</a></code>)<br />
+<dt><code>timeout</code></dt><dd><p>(named <code>numeric(2)</code>)<br />
 Timeout for the learner's train and predict steps, in seconds.
 This works differently for different encapsulation methods, see
 <code><a href='https://mlr3misc.mlr-org.com/reference/encapsulate.html'>mlr3misc::encapsulate()</a></code>.
-Default is <code><a href='https://rdrr.io/r/base/c.html'>c(train = Inf, predict = Inf)</a></code>.
+Default is <code>c(train = Inf, predict = Inf)</code>.
 Also see the section on error handling the mlr3book: <a href='https://mlr3book.mlr-org.com/technical.html#error-handling'>https://mlr3book.mlr-org.com/technical.html#error-handling</a></p></dd>
 
 <dt><code>fallback</code></dt><dd><p>(Learner)<br />
@@ -337,7 +337,7 @@ Learner which is fitted to impute predictions in case that either the model fitt
 Requires you to enable encapsulation, otherwise errors are not caught and the execution is terminated before the fallback learner kicks in.
 Also see the section on error handling the mlr3book: <a href='https://mlr3book.mlr-org.com/technical.html#error-handling'>https://mlr3book.mlr-org.com/technical.html#error-handling</a></p></dd>
 
-<dt><code>man</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+<dt><code>man</code></dt><dd><p>(<code>character(1)</code>)<br />
 String in the format <code>[pkg]::[topic]</code> pointing to a manual page for this object.
 Defaults to <code>NA</code>, but can be set by child classes.</p></dd>
 
@@ -348,7 +348,7 @@ Defaults to <code>NA</code>, but can be set by child classes.</p></dd>
 <dt><code>model</code></dt><dd><p>(<code>any</code>)<br />
 The fitted model. Only available after <code>$train()</code> has been called.</p></dd>
 
-<dt><code>timings</code></dt><dd><p>(named <code><a href='https://rdrr.io/r/base/numeric.html'>numeric(2)</a></code>)<br />
+<dt><code>timings</code></dt><dd><p>(named <code>numeric(2)</code>)<br />
 Elapsed time in seconds for the steps <code>"train"</code> and <code>"predict"</code>.
 Measured via <code><a href='https://mlr3misc.mlr-org.com/reference/encapsulate.html'>mlr3misc::encapsulate()</a></code>.</p></dd>
 
@@ -366,15 +366,15 @@ Logged warnings as vector.</p></dd>
 <dt><code>errors</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
 Logged errors as vector.</p></dd>
 
-<dt><code>hash</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+<dt><code>hash</code></dt><dd><p>(<code>character(1)</code>)<br />
 Hash (unique identifier) for this object.</p></dd>
 
-<dt><code>phash</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+<dt><code>phash</code></dt><dd><p>(<code>character(1)</code>)<br />
 Hash (unique identifier) for this partial object, excluding some components
 which are varied systematically during tuning (parameter values) or feature
 selection (feature names).</p></dd>
 
-<dt><code>predict_type</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+<dt><code>predict_type</code></dt><dd><p>(<code>character(1)</code>)<br />
 Stores the currently active predict type, e.g. <code>"response"</code>.
 Must be an element of <code>$predict_types</code>.</p></dd>
 
@@ -426,10 +426,10 @@ Stores <code>HotstartStack</code>.</p></dd>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
-<dt><code>id</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+<dt><code>id</code></dt><dd><p>(<code>character(1)</code>)<br />
 Identifier for the new instance.</p></dd>
 
-<dt><code>task_type</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+<dt><code>task_type</code></dt><dd><p>(<code>character(1)</code>)<br />
 Type of task, e.g. <code>"regr"</code> or <code>"classif"</code>.
 Must be an element of <a href='mlr_reflections.html'>mlr_reflections$task_types$type</a>.</p></dd>
 
@@ -463,7 +463,7 @@ Set of required packages.
 A warning is signaled by the constructor if at least one of the packages is not installed,
 but loaded (not attached) later on-demand via <code><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace()</a></code>.</p></dd>
 
-<dt><code>man</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+<dt><code>man</code></dt><dd><p>(<code>character(1)</code>)<br />
 String in the format <code>[pkg]::[topic]</code> pointing to a manual page for this object.
 The referenced help package can be opened via method <code>$help()</code>.</p></dd>
 
@@ -567,7 +567,7 @@ Returns the Learner itself for regular learners.</p><h4 class='hasAnchor' id='ar
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
-<dt><code>recursive</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>)<br />
+<dt><code>recursive</code></dt><dd><p>(<code>integer(1)</code>)<br />
 Depth of recursion for multiple nested objects.</p></dd>
 
 </dl><p></div></p>

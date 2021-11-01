@@ -194,7 +194,7 @@ More toy tasks can be found in the dictionary after loading <a href='https://CRA
     
 
 <ul>
-<li><p><code><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table(t)</a></code><br />
+<li><p><code>as.data.table(t)</code><br />
 Task -&gt; <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code><br />
 Returns the complete data as <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code>.</p></li>
 </ul>
@@ -226,7 +226,7 @@ merge both backends into an abstract <a href='DataBackend.html'>DataBackend</a> 
 <li><p>Package <a href='https://CRAN.R-project.org/package=mlr3oml'><span class="pkg">mlr3oml</span></a> for downloading tasks from <a href='https://openml.org'>https://openml.org</a>.</p></li>
 <li><p>Package <a href='https://CRAN.R-project.org/package=mlr3viz'><span class="pkg">mlr3viz</span></a> for some generic visualizations.</p></li>
 <li><p><a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>Dictionary</a> of Tasks: <a href='mlr_tasks.html'>mlr_tasks</a></p></li>
-<li><p><code><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table(mlr_tasks)</a></code> for a table of available Tasks in the running session (depending on the loaded packages).</p></li>
+<li><p><code>as.data.table(mlr_tasks)</code> for a table of available Tasks in the running session (depending on the loaded packages).</p></li>
 <li><p><a href='https://CRAN.R-project.org/package=mlr3fselect'><span class="pkg">mlr3fselect</span></a> and <a href='https://CRAN.R-project.org/package=mlr3filters'><span class="pkg">mlr3filters</span></a> for feature selection and feature filtering.</p></li>
 <li><p>Extension packages for additional task types:</p><ul>
 <li><p><a href='https://CRAN.R-project.org/package=mlr3proba'><span class="pkg">mlr3proba</span></a> for probabilistic supervised regression and survival analysis.</p></li>
@@ -254,11 +254,11 @@ merge both backends into an abstract <a href='DataBackend.html'>DataBackend</a> 
     <h2 class="hasAnchor" id="public-fields"><a class="anchor" href="#public-fields"></a>Public fields</h2>
 
     <p><div class="r6-fields"></p><dl>
-<dt><code>id</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+<dt><code>id</code></dt><dd><p>(<code>character(1)</code>)<br />
 Identifier of the object.
 Used in tables, plot and text output.</p></dd>
 
-<dt><code>task_type</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+<dt><code>task_type</code></dt><dd><p>(<code>character(1)</code>)<br />
 Task type, e.g. <code>"classif"</code> or <code>"regr"</code>.For a complete list of possible task types (depending on the loaded packages),
 see <code><a href='mlr_reflections.html'>mlr_reflections$task_types$type</a></code>.</p></dd>
 
@@ -277,7 +277,7 @@ See <a href='mlr_reflections.html'>mlr_reflections$task_feature_types</a> for a 
 need to be reordered after querying the data from the <a href='DataBackend.html'>DataBackend</a>.</p></li>
 </ul></p></dd>
 
-<dt><code>man</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+<dt><code>man</code></dt><dd><p>(<code>character(1)</code>)<br />
 String in the format <code>[pkg]::[topic]</code> pointing to a manual page for this object.
 Defaults to <code>NA</code>, but can be set by child classes.</p></dd>
 
@@ -289,7 +289,7 @@ Required for <code><a href='convert_task.html'>convert_task()</a></code>.</p></d
     <h2 class="hasAnchor" id="active-bindings"><a class="anchor" href="#active-bindings"></a>Active bindings</h2>
 
     <p><div class="r6-active-bindings"></p><dl>
-<dt><code>hash</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+<dt><code>hash</code></dt><dd><p>(<code>character(1)</code>)<br />
 Hash (unique identifier) for this object.</p></dd>
 
 <dt><code>row_ids</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code>)<br />
@@ -348,10 +348,10 @@ Not more than a single column can be associated with this role.</p></li>
 To alter the roles, just modify the list, e.g. with <span style="R">R</span>'s set functions (<code><a href='https://rdrr.io/r/base/sets.html'>intersect()</a></code>, <code><a href='https://rdrr.io/r/base/sets.html'>setdiff()</a></code>, <code><a href='https://rdrr.io/r/base/sets.html'>union()</a></code>, ...).
 The method <code>$set_col_roles</code> provides a convenient alternative to assign columns to roles.</p></dd>
 
-<dt><code>nrow</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>)<br />
+<dt><code>nrow</code></dt><dd><p>(<code>integer(1)</code>)<br />
 Returns the total number of rows with role "use".</p></dd>
 
-<dt><code>ncol</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>)<br />
+<dt><code>ncol</code></dt><dd><p>(<code>integer(1)</code>)<br />
 Returns the total number of columns with role "target" or "feature".</p></dd>
 
 <dt><code>feature_types</code></dt><dd><p>(<code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code>)<br />
@@ -443,10 +443,10 @@ The reverse is not necessarily true: There can be columns with the same content 
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
-<dt><code>id</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+<dt><code>id</code></dt><dd><p>(<code>character(1)</code>)<br />
 Identifier for the new instance.</p></dd>
 
-<dt><code>task_type</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+<dt><code>task_type</code></dt><dd><p>(<code>character(1)</code>)<br />
 Type of task, e.g. <code>"regr"</code> or <code>"classif"</code>.
 Must be an element of <a href='mlr_reflections.html'>mlr_reflections$task_types$type</a>.</p></dd>
 
@@ -489,7 +489,7 @@ an exception is raised.</p>
 <p>Rows and columns are returned in the order specified via the arguments <code>rows</code> and <code>cols</code>.
 If <code>rows</code> is <code>NULL</code>, rows are returned in the order of <code>task$row_ids</code>.
 If <code>cols</code> is <code>NULL</code>, the column order defaults to
-<code><a href='https://rdrr.io/r/base/c.html'>c(task$target_names, task$feature_names)</a></code>.
+<code>c(task$target_names, task$feature_names)</code>.
 Note that it is recommended to <strong>not</strong> rely on the order of columns, and instead always
 address columns with their respective column name.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
 <p><div class="r"></p><pre><span class='va'>Task</span><span class='op'>$</span><span class='fu'>data</span><span class='op'>(</span>
@@ -507,10 +507,10 @@ Row indices.</p></dd>
 <dt><code>cols</code></dt><dd><p><code><a href='https://rdrr.io/r/base/character.html'>character()</a></code><br />
 Column names.</p></dd>
 
-<dt><code>data_format</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+<dt><code>data_format</code></dt><dd><p>(<code>character(1)</code>)<br />
 Desired data format, e.g. <code>"data.table"</code> or <code>"Matrix"</code>.</p></dd>
 
-<dt><code>ordered</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
+<dt><code>ordered</code></dt><dd><p>(<code>logical(1)</code>)<br />
 If <code>TRUE</code>, data is ordered according to the columns with column role <code>"order"</code>.</p></dd>
 
 </dl><p></div></p>
@@ -526,7 +526,7 @@ However, <a href='https://CRAN.R-project.org/package=mlr3pipelines'><span class=
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
-<dt><code>rhs</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+<dt><code>rhs</code></dt><dd><p>(<code>character(1)</code>)<br />
 Right hand side of the formula. Defaults to <code>"."</code> (all features of the task).</p></dd>
 
 </dl><p></div></p>
@@ -539,7 +539,7 @@ Right hand side of the formula. Defaults to <code>"."</code> (all features of th
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
-<dt><code>n</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>).</p></dd>
+<dt><code>n</code></dt><dd><p>(<code>integer(1)</code>).</p></dd>
 
 </dl><p></div></p>
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
@@ -795,41 +795,47 @@ Replicated to have the same length as <code>cols</code>.</p></dd>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># We use the inherited class TaskClassif here,</span>
-<span class='co'># because the base class `Task` is not intended for direct use</span>
-<span class='va'>task</span> <span class='op'>=</span> <span class='va'><a href='TaskClassif.html'>TaskClassif</a></span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='st'>"penguings"</span>, <span class='fu'>palmerpenguins</span><span class='fu'>::</span><span class='va'><a href='https://allisonhorst.github.io/palmerpenguins/reference/penguins.html'>penguins</a></span>, target <span class='op'>=</span> <span class='st'>"species"</span><span class='op'>)</span>
-
-<span class='va'>task</span><span class='op'>$</span><span class='va'>nrow</span>
-</div><div class='output co'>#&gt; [1] 344</div><div class='input'><span class='va'>task</span><span class='op'>$</span><span class='va'>ncol</span>
-</div><div class='output co'>#&gt; [1] 8</div><div class='input'><span class='va'>task</span><span class='op'>$</span><span class='va'>feature_names</span>
-</div><div class='output co'>#&gt; [1] "bill_depth_mm"     "bill_length_mm"    "body_mass_g"      
-#&gt; [4] "flipper_length_mm" "island"            "sex"              
-#&gt; [7] "year"             </div><div class='input'><span class='va'>task</span><span class='op'>$</span><span class='fu'>formula</span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; species ~ .
-#&gt; NULL</div><div class='input'>
-<span class='co'># de-select "year"</span>
-<span class='va'>task</span><span class='op'>$</span><span class='fu'>select</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/sets.html'>setdiff</a></span><span class='op'>(</span><span class='va'>task</span><span class='op'>$</span><span class='va'>feature_names</span>, <span class='st'>"year"</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='va'>task</span><span class='op'>$</span><span class='va'>feature_names</span>
-</div><div class='output co'>#&gt; [1] "bill_depth_mm"     "bill_length_mm"    "body_mass_g"      
-#&gt; [4] "flipper_length_mm" "island"            "sex"              </div><div class='input'>
-<span class='co'># Add new column "foo"</span>
-<span class='va'>task</span><span class='op'>$</span><span class='fu'>cbind</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>foo <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>344</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>task</span><span class='op'>$</span><span class='fu'>head</span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;    species bill_depth_mm bill_length_mm body_mass_g flipper_length_mm    island
-#&gt; 1:  Adelie          18.7           39.1        3750               181 Torgersen
-#&gt; 2:  Adelie          17.4           39.5        3800               186 Torgersen
-#&gt; 3:  Adelie          18.0           40.3        3250               195 Torgersen
-#&gt; 4:  Adelie            NA             NA          NA                NA Torgersen
-#&gt; 5:  Adelie          19.3           36.7        3450               193 Torgersen
-#&gt; 6:  Adelie          20.6           39.3        3650               190 Torgersen
-#&gt;       sex foo
-#&gt; 1:   male   1
-#&gt; 2: female   2
-#&gt; 3: female   3
-#&gt; 4:   &lt;NA&gt;   4
-#&gt; 5: female   5
-#&gt; 6:   male   6</div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># We use the inherited class TaskClassif here,</span></span>
+<span class='r-in'><span class='co'># because the base class `Task` is not intended for direct use</span></span>
+<span class='r-in'><span class='va'>task</span> <span class='op'>=</span> <span class='va'><a href='TaskClassif.html'>TaskClassif</a></span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='st'>"penguings"</span>, <span class='fu'>palmerpenguins</span><span class='fu'>::</span><span class='va'><a href='https://allisonhorst.github.io/palmerpenguins/reference/penguins.html'>penguins</a></span>, target <span class='op'>=</span> <span class='st'>"species"</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>task</span><span class='op'>$</span><span class='va'>nrow</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 344</span>
+<span class='r-in'><span class='va'>task</span><span class='op'>$</span><span class='va'>ncol</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 8</span>
+<span class='r-in'><span class='va'>task</span><span class='op'>$</span><span class='va'>feature_names</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "bill_depth_mm"     "bill_length_mm"    "body_mass_g"      </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [4] "flipper_length_mm" "island"            "sex"              </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [7] "year"             </span>
+<span class='r-in'><span class='va'>task</span><span class='op'>$</span><span class='fu'>formula</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> species ~ .</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> NULL</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># de-select "year"</span></span>
+<span class='r-in'><span class='va'>task</span><span class='op'>$</span><span class='fu'>select</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/sets.html'>setdiff</a></span><span class='op'>(</span><span class='va'>task</span><span class='op'>$</span><span class='va'>feature_names</span>, <span class='st'>"year"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>task</span><span class='op'>$</span><span class='va'>feature_names</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "bill_depth_mm"     "bill_length_mm"    "body_mass_g"      </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [4] "flipper_length_mm" "island"            "sex"              </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Add new column "foo"</span></span>
+<span class='r-in'><span class='va'>task</span><span class='op'>$</span><span class='fu'>cbind</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>foo <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>344</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>task</span><span class='op'>$</span><span class='fu'>head</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    species bill_depth_mm bill_length_mm body_mass_g flipper_length_mm    island</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1:  Adelie          18.7           39.1        3750               181 Torgersen</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2:  Adelie          17.4           39.5        3800               186 Torgersen</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3:  Adelie          18.0           40.3        3250               195 Torgersen</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4:  Adelie            NA             NA          NA                NA Torgersen</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5:  Adelie          19.3           36.7        3450               193 Torgersen</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6:  Adelie          20.6           39.3        3650               190 Torgersen</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       sex foo</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1:   male   1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2: female   2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3: female   3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4:   &lt;NA&gt;   4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5: female   5</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6:   male   6</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

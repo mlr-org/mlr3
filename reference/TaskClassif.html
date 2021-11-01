@@ -191,7 +191,7 @@ The <code>task_type</code> is set to <code>"classif"</code>.</p>
 <li><p>Package <a href='https://CRAN.R-project.org/package=mlr3oml'><span class="pkg">mlr3oml</span></a> for downloading tasks from <a href='https://openml.org'>https://openml.org</a>.</p></li>
 <li><p>Package <a href='https://CRAN.R-project.org/package=mlr3viz'><span class="pkg">mlr3viz</span></a> for some generic visualizations.</p></li>
 <li><p><a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>Dictionary</a> of <a href='Task.html'>Tasks</a>: <a href='mlr_tasks.html'>mlr_tasks</a></p></li>
-<li><p><code><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table(mlr_tasks)</a></code> for a table of available <a href='Task.html'>Tasks</a> in the running session (depending on the loaded packages).</p></li>
+<li><p><code>as.data.table(mlr_tasks)</code> for a table of available <a href='Task.html'>Tasks</a> in the running session (depending on the loaded packages).</p></li>
 <li><p><a href='https://CRAN.R-project.org/package=mlr3fselect'><span class="pkg">mlr3fselect</span></a> and <a href='https://CRAN.R-project.org/package=mlr3filters'><span class="pkg">mlr3filters</span></a> for feature selection and feature filtering.</p></li>
 <li><p>Extension packages for additional task types:</p><ul>
 <li><p><a href='https://CRAN.R-project.org/package=mlr3proba'><span class="pkg">mlr3proba</span></a> for probabilistic supervised regression and survival analysis.</p></li>
@@ -225,11 +225,11 @@ The <code>task_type</code> is set to <code>"classif"</code>.</p>
 <dt><code>class_names</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
 Returns all class labels of the target column.</p></dd>
 
-<dt><code>positive</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+<dt><code>positive</code></dt><dd><p>(<code>character(1)</code>)<br />
 Stores the positive class for binary classification tasks, and <code>NA</code> for multiclass tasks.
 To switch the positive class, assign a level to this field.</p></dd>
 
-<dt><code>negative</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+<dt><code>negative</code></dt><dd><p>(<code>character(1)</code>)<br />
 Stores the negative class for binary classification tasks, and <code>NA</code> for multiclass tasks.</p></dd>
 
 </dl><p></div></p>
@@ -274,17 +274,17 @@ The function <code><a href='as_task_classif.html'>as_task_classif()</a></code> p
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
-<dt><code>id</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+<dt><code>id</code></dt><dd><p>(<code>character(1)</code>)<br />
 Identifier for the new instance.</p></dd>
 
 <dt><code>backend</code></dt><dd><p>(<a href='DataBackend.html'>DataBackend</a>)<br />
 Either a <a href='DataBackend.html'>DataBackend</a>, or any object which is convertible to a <a href='DataBackend.html'>DataBackend</a> with <code><a href='as_data_backend.Matrix.html'>as_data_backend()</a></code>.
 E.g., a <code><a href='https://rdrr.io/r/base/data.frame.html'>data.frame()</a></code> will be converted to a <a href='DataBackendDataTable.html'>DataBackendDataTable</a>.</p></dd>
 
-<dt><code>target</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+<dt><code>target</code></dt><dd><p>(<code>character(1)</code>)<br />
 Name of the target column.</p></dd>
 
-<dt><code>positive</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+<dt><code>positive</code></dt><dd><p>(<code>character(1)</code>)<br />
 Only for binary classification: Name of the positive class.
 The levels of the target columns are reordered accordingly, so that the first element of <code>$class_names</code> is the
 positive class, and the second element is the negative class.</p></dd>
@@ -337,26 +337,32 @@ Column names.</p></dd>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"Sonar"</span>, package <span class='op'>=</span> <span class='st'>"mlbench"</span><span class='op'>)</span>
-<span class='va'>task</span> <span class='op'>=</span> <span class='fu'><a href='as_task_classif.html'>as_task_classif</a></span><span class='op'>(</span><span class='va'>Sonar</span>, target <span class='op'>=</span> <span class='st'>"Class"</span>, positive <span class='op'>=</span> <span class='st'>"M"</span><span class='op'>)</span>
-
-<span class='va'>task</span><span class='op'>$</span><span class='va'>task_type</span>
-</div><div class='output co'>#&gt; [1] "classif"</div><div class='input'><span class='va'>task</span><span class='op'>$</span><span class='fu'>formula</span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Class ~ .
-#&gt; NULL</div><div class='input'><span class='va'>task</span><span class='op'>$</span><span class='fu'>truth</span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;   [1] R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R
-#&gt;  [38] R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R
-#&gt;  [75] R R R R R R R R R R R R R R R R R R R R R R R M M M M M M M M M M M M M M
-#&gt; [112] M M M M M M M M M M M M M M M M M M M M M M M M M M M M M M M M M M M M M
-#&gt; [149] M M M M M M M M M M M M M M M M M M M M M M M M M M M M M M M M M M M M M
-#&gt; [186] M M M M M M M M M M M M M M M M M M M M M M M
-#&gt; Levels: M R</div><div class='input'><span class='va'>task</span><span class='op'>$</span><span class='va'>class_names</span>
-</div><div class='output co'>#&gt; [1] "M" "R"</div><div class='input'><span class='va'>task</span><span class='op'>$</span><span class='va'>positive</span>
-</div><div class='output co'>#&gt; [1] "M"</div><div class='input'><span class='va'>task</span><span class='op'>$</span><span class='fu'>data</span><span class='op'>(</span>rows <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>, cols <span class='op'>=</span> <span class='va'>task</span><span class='op'>$</span><span class='va'>feature_names</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;        V1    V10
-#&gt; 1: 0.0200 0.2111
-#&gt; 2: 0.0453 0.2872
-#&gt; 3: 0.0262 0.6194</div></pre>
+    <pre class="examples"><span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"Sonar"</span>, package <span class='op'>=</span> <span class='st'>"mlbench"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>task</span> <span class='op'>=</span> <span class='fu'><a href='as_task_classif.html'>as_task_classif</a></span><span class='op'>(</span><span class='va'>Sonar</span>, target <span class='op'>=</span> <span class='st'>"Class"</span>, positive <span class='op'>=</span> <span class='st'>"M"</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>task</span><span class='op'>$</span><span class='va'>task_type</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "classif"</span>
+<span class='r-in'><span class='va'>task</span><span class='op'>$</span><span class='fu'>formula</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Class ~ .</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> NULL</span>
+<span class='r-in'><span class='va'>task</span><span class='op'>$</span><span class='fu'>truth</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [1] R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [38] R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [75] R R R R R R R R R R R R R R R R R R R R R R R M M M M M M M M M M M M M M</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [112] M M M M M M M M M M M M M M M M M M M M M M M M M M M M M M M M M M M M M</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [149] M M M M M M M M M M M M M M M M M M M M M M M M M M M M M M M M M M M M M</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [186] M M M M M M M M M M M M M M M M M M M M M M M</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Levels: M R</span>
+<span class='r-in'><span class='va'>task</span><span class='op'>$</span><span class='va'>class_names</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "M" "R"</span>
+<span class='r-in'><span class='va'>task</span><span class='op'>$</span><span class='va'>positive</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "M"</span>
+<span class='r-in'><span class='va'>task</span><span class='op'>$</span><span class='fu'>data</span><span class='op'>(</span>rows <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>, cols <span class='op'>=</span> <span class='va'>task</span><span class='op'>$</span><span class='va'>feature_names</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        V1    V10</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1: 0.0200 0.2111</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2: 0.0453 0.2872</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3: 0.0262 0.6194</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
