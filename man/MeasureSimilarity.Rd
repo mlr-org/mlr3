@@ -111,9 +111,17 @@ function defined in \verb{$aggregator} to average them to a single number.
 If set to \code{"micro"}, the individual \link{Prediction} objects are first combined into a single new \link{Prediction} object which is then used to assess the performance.
 The function in \verb{$aggregator} is not used in this case.}
 
-\item{\code{aggregator}}{(\verb{function(x)})\cr
-Function to aggregate individual performance scores \code{x} where \code{x} is a numeric vector.
-If \code{NULL}, defaults to \code{\link[=mean]{mean()}}.}
+\item{\code{aggregator}}{(\verb{function()})\cr
+Function to aggregate over multiple iterations. The role of this function depends on
+the value of field \code{"average"}:
+\itemize{
+\item \code{"macro"}: A numeric vector of scores (one per iteration) is passed.
+The aggregate function defaults to \code{\link[=mean]{mean()}} in this case.
+\item \code{"micro"}: The \code{aggregator} function is not used.
+Instead, predictions from multiple iterations are first combined and then
+scored in one go.
+\item \code{"custom"}: A \link{ResampleResult} is passed to the aggregate function.
+}}
 
 \item{\code{properties}}{(\code{character()})\cr
 Properties of the measure.

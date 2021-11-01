@@ -27,6 +27,7 @@ msr("classif.costs")
 \item Task type: \dQuote{classif}
 \item Range: \eqn{(-\infty, \infty)}{(-Inf, Inf)}
 \item Minimize: TRUE
+\item Average: macro
 \item Required Prediction: \dQuote{response}
 \item Required Packages: -
 }

@@ -26,6 +26,7 @@ msr("selected_features")
 \item Task type: \dQuote{NA}
 \item Range: \eqn{[0, \infty)}{[0, Inf)}
 \item Minimize: TRUE
+\item Average: macro
 \item Required Prediction: \dQuote{response}
 \item Required Packages: -
 }

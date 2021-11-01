@@ -149,6 +149,14 @@ HotstartStack = R6Class("HotstartStack",
   )
 )
 
+#' @description
+#' Calculates cost to hotstart learner.
+#' @param start_learner ([Learner]).
+#' @param learner ([Learner]).
+#' @param hotstart_id (`character(1)`).
+#'
+#' @return `numeric(1)`.
+#' @noRd
 calculate_cost = function(start_learner, learner, hotstart_id) {
   if (is.null(start_learner)) return(NA_real_)
 
@@ -162,4 +170,21 @@ calculate_cost = function(start_learner, learner, hotstart_id) {
   } else {
     if (cost > 0) cost else NA_real_
   }
+}
+
+#' @description
+#' Hash (unique identifier) for learner object, excluding parameter values
+#' tagged with `hotstart`.
+#'
+#' @param learner [Learner].
+#'
+#' @return `character(1)`.
+#' @noRd
+learner_hotstart_hash = function(learner) {
+  param_vals = learner$param_set$values
+  hotstart_id = learner$param_set$ids(tags = "hotstart")
+  train_ids = setdiff(learner$param_set$ids(tags = "train"), hotstart_id)
+  train_vals = param_vals[names(param_vals) %in% train_ids]
+
+  calculate_hash(class(learner), learner$id, learner$predict_type, learner$fallback$hash, train_vals)
 }
