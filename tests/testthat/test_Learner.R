@@ -306,7 +306,7 @@ test_that("Error on missing data (#413)", {
   expect_error(learner$train(task), "missing values")
 })
 
-test_that("Task prototyp is stored in state", {
+test_that("Task prototype is stored in state", {
   task = tsk("boston_housing")
   learner = lrn("regr.rpart")
   learner$train(task)
