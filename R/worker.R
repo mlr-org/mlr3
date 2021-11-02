@@ -67,7 +67,7 @@ learner_train = function(learner, task, row_ids = NULL, mode = "train") {
     train_time = result$elapsed,
     param_vals = learner$param_set$get_values(),
     task_hash = task$hash,
-    task_prototype = copy(task$data()[0, ])
+    task_prototype = task$data()[0, ]
   ))
 
   if (is.null(result$result)) {
