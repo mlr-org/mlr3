@@ -203,7 +203,7 @@ ResampleResult = R6Class("ResampleResult",
     #' You need to explicitly `$clone()` the object beforehand if you want to keeps
     #' the object in its previous state.
     discard = function(backends = FALSE, models = FALSE) {
-      self$data$discard(backends = backends, models = models)
+      private$.data$discard(backends = backends, models = models)
     }
   ),
 
