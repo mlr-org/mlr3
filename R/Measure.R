@@ -111,7 +111,7 @@ Measure = R6Class("Measure",
       self$predict_type = predict_type
       self$predict_sets = assert_subset(predict_sets, mlr_reflections$predict_sets, empty.ok = FALSE)
       self$task_properties = assert_subset(task_properties, mlr_reflections$task_properties[[task_type]])
-      self$packages = assert_set(packages)
+      self$packages = union("mlr3", assert_character(packages, any.missing = FALSE, min.chars = 1L))
       self$man = assert_string(man, na.ok = TRUE)
 
       check_packages_installed(packages, msg = sprintf("Package '%%s' required but not installed for Measure '%s'", id))

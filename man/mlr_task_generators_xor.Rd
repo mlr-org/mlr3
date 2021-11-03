@@ -15,9 +15,9 @@ tgen("xor")
 }
 
 \section{Parameters}{
-\tabular{llrll}{
-   Id \tab Type \tab Default \tab Range \tab Levels \cr
-   d \tab integer \tab 1 \tab \eqn{[1, \infty)}{[1, Inf)} \tab - \cr
+\tabular{llll}{
+   Id \tab Type \tab Default \tab Range \cr
+   d \tab integer \tab 1 \tab \eqn{[1, \infty)}{[1, Inf)} \cr
 }
 }
 

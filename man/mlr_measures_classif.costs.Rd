@@ -29,14 +29,14 @@ msr("classif.costs")
 \item Minimize: TRUE
 \item Average: macro
 \item Required Prediction: \dQuote{response}
-\item Required Packages: -
+\item Required Packages: \CRANpkg{mlr3}
 }
 }
 
 \section{Parameters}{
-\tabular{lllll}{
-   Id \tab Type \tab Default \tab Range \tab Levels \cr
-   normalize \tab logical \tab TRUE \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \tab TRUE, FALSE \cr
+\tabular{llll}{
+   Id \tab Type \tab Default \tab Levels \cr
+   normalize \tab logical \tab TRUE \tab TRUE, FALSE \cr
 }
 }
 

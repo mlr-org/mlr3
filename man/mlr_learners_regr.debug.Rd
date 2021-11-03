@@ -29,18 +29,18 @@ lrn("regr.debug")
 \item Task type: \dQuote{regr}
 \item Predict Types: \dQuote{response}, \dQuote{se}
 \item Feature Types: \dQuote{logical}, \dQuote{integer}, \dQuote{numeric}, \dQuote{character}, \dQuote{factor}, \dQuote{ordered}
-\item Required Packages: -
+\item Required Packages: \CRANpkg{mlr3}
 }
 }
 
 \section{Parameters}{
 \tabular{lllll}{
-   Id \tab Type \tab Default \tab Range \tab Levels \cr
-   predict_missing \tab numeric \tab 0 \tab \eqn{[0, 1]}{[0, 1]} \tab - \cr
-   predict_missing_type \tab character \tab na \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \tab na, omit \cr
-   save_tasks \tab logical \tab FALSE \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \tab TRUE, FALSE \cr
-   threads \tab integer \tab - \tab \eqn{[1, \infty)}{[1, Inf)} \tab - \cr
-   x \tab numeric \tab - \tab \eqn{[0, 1]}{[0, 1]} \tab - \cr
+   Id \tab Type \tab Default \tab Levels \tab Range \cr
+   predict_missing \tab numeric \tab 0 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
+   predict_missing_type \tab character \tab na \tab na, omit \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \cr
+   save_tasks \tab logical \tab FALSE \tab TRUE, FALSE \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \cr
+   threads \tab integer \tab - \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
+   x \tab numeric \tab - \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
 }
 }
 

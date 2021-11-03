@@ -25,7 +25,7 @@ msr("time_train")
 \item Minimize: TRUE
 \item Average: macro
 \item Required Prediction: \dQuote{response}
-\item Required Packages: -
+\item Required Packages: \CRANpkg{mlr3}
 }
 }
 
