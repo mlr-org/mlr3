@@ -55,7 +55,8 @@
 
 <meta property="og:title" content="Manually Partition into Training and Test Set — partition" />
 <meta property="og:description" content="Creates a split of the row ids of a Task into a training set and a test set while
-optionally stratifying on the target column." />
+optionally stratifying on the target column.
+For more complex partitions, see the example." />
 <meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
@@ -163,6 +164,7 @@ optionally stratifying on the target column." />
     <div class="ref-description">
     <p>Creates a split of the row ids of a <a href='Task.html'>Task</a> into a training set and a test set while
 optionally stratifying on the target column.</p>
+<p>For more complex partitions, see the example.</p>
     </div>
 
     <pre class="usage"><span class='fu'>partition</span><span class='op'>(</span><span class='va'>task</span>, ratio <span class='op'>=</span> <span class='fl'>0.67</span>, stratify <span class='op'>=</span> <span class='cn'>TRUE</span>, <span class='va'>...</span><span class='op'>)</span>
@@ -225,6 +227,10 @@ Number of bins to cut the target variable into for stratification.</p></td>
 <span class='r-in'><span class='va'>split</span> <span class='op'>=</span> <span class='fu'>partition</span><span class='op'>(</span><span class='va'>task</span><span class='op'>)</span></span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># roughly same distribution of the target label</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/proportions.html'>prop.table</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='va'>task</span><span class='op'>$</span><span class='fu'>truth</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       pos       neg </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 0.3489583 0.6510417 </span>
 <span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/proportions.html'>prop.table</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='va'>task</span><span class='op'>$</span><span class='fu'>truth</span><span class='op'>(</span><span class='va'>split</span><span class='op'>$</span><span class='va'>train</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>       pos       neg </span>
@@ -233,6 +239,20 @@ Number of bins to cut the target variable into for stratification.</p></td>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>       pos       neg </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> 0.3478261 0.6521739 </span>
+<span class='r-in'></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># splitting into 3 disjunct sets, using ResamplingCV and stratification</span></span>
+<span class='r-in'><span class='va'>task</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span><span class='op'>(</span><span class='st'>"iris"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>task</span><span class='op'>$</span><span class='fu'>set_col_roles</span><span class='op'>(</span><span class='va'>task</span><span class='op'>$</span><span class='va'>target_names</span>, add_to <span class='op'>=</span> <span class='st'>"stratum"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>r</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span><span class='op'>(</span><span class='st'>"cv"</span>, folds <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span><span class='op'>$</span><span class='fu'>instantiate</span><span class='op'>(</span><span class='va'>task</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>sets</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>, <span class='va'>r</span><span class='op'>$</span><span class='va'>train_set</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/lengths.html'>lengths</a></span><span class='op'>(</span><span class='va'>sets</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1]  99  99 102</span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/proportions.html'>prop.table</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='va'>task</span><span class='op'>$</span><span class='fu'>truth</span><span class='op'>(</span><span class='va'>sets</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     setosa versicolor  virginica </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  0.3333333  0.3333333  0.3333333 </span>
 </pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

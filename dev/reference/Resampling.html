@@ -190,7 +190,9 @@ Each subgroup is divided into <code>iter</code> training sets and <code>iter</co
 These sets are merged based on their iteration number:
 all training sets from all subpopulations with iteration 1 are combined, then all training sets with iteration 2, and so on.
 Same is done for all test sets.
-The merged sets can be accessed via <code>$train_set(i)</code> and <code>$test_set(i)</code>, respectively.</p>
+The merged sets can be accessed via <code>$train_set(i)</code> and <code>$test_set(i)</code>, respectively.
+Note that this procedure can lead to set sizes that are slightly different from those
+without stratification.</p>
     <h2 class="hasAnchor" id="grouping-blocking"><a class="anchor" href="#grouping-blocking"></a>Grouping / Blocking</h2>
 
     
