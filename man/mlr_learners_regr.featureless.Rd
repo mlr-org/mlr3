@@ -24,14 +24,14 @@ lrn("regr.featureless")
 \item Task type: \dQuote{regr}
 \item Predict Types: \dQuote{response}, \dQuote{se}
 \item Feature Types: \dQuote{logical}, \dQuote{integer}, \dQuote{numeric}, \dQuote{character}, \dQuote{factor}, \dQuote{ordered}, \dQuote{POSIXct}
-\item Required Packages: 'stats'
+\item Required Packages: \CRANpkg{mlr3}, 'stats'
 }
 }
 
 \section{Parameters}{
-\tabular{lllll}{
-   Id \tab Type \tab Default \tab Range \tab Levels \cr
-   robust \tab logical \tab TRUE \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \tab TRUE, FALSE \cr
+\tabular{llll}{
+   Id \tab Type \tab Default \tab Levels \cr
+   robust \tab logical \tab TRUE \tab TRUE, FALSE \cr
 }
 }
 

@@ -167,7 +167,7 @@ Learner = R6Class("Learner",
       private$.predict_type = predict_types[1L]
       self$properties = sort(assert_subset(properties, mlr_reflections$learner_properties[[task_type]]))
       self$data_formats = assert_subset(data_formats, mlr_reflections$data_formats)
-      self$packages = assert_set(packages)
+      self$packages = union("mlr3", assert_character(packages, any.missing = FALSE, min.chars = 1L))
       self$man = assert_string(man, na.ok = TRUE)
 
       check_packages_installed(packages, msg = sprintf("Package '%%s' required but not installed for Learner '%s'", id))
