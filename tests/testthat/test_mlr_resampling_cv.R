@@ -3,6 +3,13 @@ test_that("cv has no duplicated ids", {
   expect_identical(r$duplicated_ids, FALSE)
 })
 
+test_that("split into evenly sized groups", {
+  task = tsk("iris")
+  r = rsmp("cv", folds = 3)
+  r$instantiate(task)
+  expect_equal(uniqueN(lengths(lapply(1:3, r$train_set))), 1L)
+})
+
 test_that("stratification", {
   data = data.table(y = factor(rep(letters[1:2], times = c(90, 10))), x1 = runif(100), x2 = rep(LETTERS[1:2], times = c(50, 50)))
   b = as_data_backend(data)
