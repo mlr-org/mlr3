@@ -83,6 +83,7 @@ Suggests:
     future.callr,
     mlr3data,
     progressr,
+    remotes,
     rpart,
     testthat (>= 3.1.0)
 Encoding: UTF-8

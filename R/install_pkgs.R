@@ -15,9 +15,10 @@
 #' @param force (`logical(1)`)\cr
 #'   Force installation, even if the package is already installed.
 #' @export
-install_pkgs = function(x, update = TRUE, force = FALSE, ...) { # nolint
+install_pkgs = function(x, update = TRUE, force = FALSE) { # nolint
   assert_flag(update)
   assert_flag(force)
+  require_namespaces("remotes")
 
   # build initial table
   tab = data.table(pkg = extract_pkgs(x))

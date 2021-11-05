@@ -6,7 +6,7 @@
 \alias{extract_pkgs.character}
 \title{Install (missing) packages}
 \usage{
-install_pkgs(x, update = TRUE, force = FALSE, ...)
+install_pkgs(x, update = TRUE, force = FALSE)
 
 extract_pkgs(x)
 
