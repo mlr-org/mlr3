@@ -193,6 +193,7 @@ Collate:
     'default_measures.R'
     'fix_factor_levels.R'
     'helper.R'
+    'install_pkgs.R'
     'mlr_sugar.R'
     'partition.R'
     'predict.R'
