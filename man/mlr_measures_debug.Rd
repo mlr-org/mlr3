@@ -25,14 +25,14 @@ msr("debug")
 \item Minimize: NA
 \item Average: macro
 \item Required Prediction: \dQuote{response}
-\item Required Packages: -
+\item Required Packages: \CRANpkg{mlr3}
 }
 }
 
 \section{Parameters}{
-\tabular{lllll}{
-   Id \tab Type \tab Default \tab Range \tab Levels \cr
-   na_ratio \tab numeric \tab - \tab \eqn{[0, 1]}{[0, 1]} \tab - \cr
+\tabular{llll}{
+   Id \tab Type \tab Default \tab Range \cr
+   na_ratio \tab numeric \tab - \tab \eqn{[0, 1]}{[0, 1]} \cr
 }
 }
 

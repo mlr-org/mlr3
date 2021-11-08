@@ -305,3 +305,13 @@ test_that("Error on missing data (#413)", {
   learner$properties = setdiff(learner$properties, "missings")
   expect_error(learner$train(task), "missing values")
 })
+
+test_that("Task prototype is stored in state", {
+  task = tsk("boston_housing")
+  learner = lrn("regr.rpart")
+  learner$train(task)
+
+  prototype = learner$state$task_prototype
+  expect_data_table(prototype, nrows = 0, ncols = 19)
+  expect_names(names(prototype), permutation.of = c(task$feature_names, task$target_names))
+})
