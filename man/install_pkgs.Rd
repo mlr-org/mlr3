@@ -33,15 +33,25 @@ Additional arguments passed down to \code{\link[remotes:install_cran]{remotes::i
 \code{\link[remotes:install_github]{remotes::install_github()}}.
 Arguments \code{force} and \code{upgrade} are often important in this context.}
 }
+\value{
+\code{extract_pkgs()} returns a \code{character()} of package strings,
+\code{install_pkgs()} returns the names of extracted packages invisibly.
+}
 \description{
-Extracts the package information from various objects, including
+\code{extract_pkgs()} extracts required package from various objects, including
 \link{TaskGenerator}, \link{Learner}, \link{Measure} and objects from
 extension packages such as \CRANpkg{mlr3pipelines} or \CRANpkg{mlr3filters}.
 If applied on a list, the function is called recursively on all elements.
+
+\code{install_pkgs()} calls \code{extract_pkgs()} internally and proceeds with the
+installation of extracted packages.
 }
 \details{
 If a package contains a forward slash ('/'), it is assumed to be a package hosted
 on GitHub in \code{"<user>/<repo>"} format, and the string will be passed to
 \code{\link[remotes:install_github]{remotes::install_github()}}.
 Otherwise, the package name will be passed to \code{\link[remotes:install_cran]{remotes::install_cran()}}.
+}
+\examples{
+extract_pkgs(lrns(c("regr.rpart", "regr.featureless")))
 }

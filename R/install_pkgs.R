@@ -1,10 +1,13 @@
 #' @title Install (Missing) Packages
 #'
 #' @description
-#' Extracts the package information from various objects, including
+#' `extract_pkgs()` extracts required package from various objects, including
 #' [TaskGenerator], [Learner], [Measure] and objects from
 #' extension packages such as \CRANpkg{mlr3pipelines} or \CRANpkg{mlr3filters}.
 #' If applied on a list, the function is called recursively on all elements.
+#'
+#' `install_pkgs()` calls `extract_pkgs()` internally and proceeds with the
+#' installation of extracted packages.
 #'
 #' @details
 #' If a package contains a forward slash ('/'), it is assumed to be a package hosted
@@ -18,7 +21,13 @@
 #'   Additional arguments passed down to [remotes::install_cran()] or
 #'   [remotes::install_github()].
 #'   Arguments `force` and `upgrade` are often important in this context.
+#'
+#' @return `extract_pkgs()` returns a `character()` of package strings,
+#'   `install_pkgs()` returns the names of extracted packages invisibly.
+#'
 #' @export
+#' @examples
+#' extract_pkgs(lrns(c("regr.rpart", "regr.featureless")))
 install_pkgs = function(x, ...) { # nolint
   require_namespaces("remotes")
   pkg = NULL
@@ -35,12 +44,15 @@ install_pkgs = function(x, ...) { # nolint
   # never update self
   tab = tab[get("name") != "mlr3"]
 
+  # install cran packages first
   pkgs = tab[list(FALSE), pkg, on = "github", nomatch = NULL]
   remotes::install_cran(pkgs, ...)
 
+  # install github packages
   pkgs = tab[list(TRUE), pkg, on = "github", nomatch = NULL]
   remotes::install_github(pkgs, ...)
 
+  # return names of extracted packages
   invisible(tab$name)
 }
 
