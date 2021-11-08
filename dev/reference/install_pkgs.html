@@ -54,10 +54,12 @@
 
 
 <meta property="og:title" content="Install (Missing) Packages — install_pkgs" />
-<meta property="og:description" content="Extracts the package information from various objects, including
+<meta property="og:description" content="extract_pkgs() extracts required package from various objects, including
 TaskGenerator, Learner, Measure and objects from
 extension packages such as mlr3pipelines or mlr3filters.
-If applied on a list, the function is called recursively on all elements." />
+If applied on a list, the function is called recursively on all elements.
+install_pkgs() calls extract_pkgs() internally and proceeds with the
+installation of extracted packages." />
 <meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
@@ -163,10 +165,12 @@ If applied on a list, the function is called recursively on all elements." />
     </div>
 
     <div class="ref-description">
-    <p>Extracts the package information from various objects, including
+    <p><code>extract_pkgs()</code> extracts required package from various objects, including
 <a href='TaskGenerator.html'>TaskGenerator</a>, <a href='Learner.html'>Learner</a>, <a href='Measure.html'>Measure</a> and objects from
 extension packages such as <a href='https://CRAN.R-project.org/package=mlr3pipelines'><span class="pkg">mlr3pipelines</span></a> or <a href='https://CRAN.R-project.org/package=mlr3filters'><span class="pkg">mlr3filters</span></a>.
 If applied on a list, the function is called recursively on all elements.</p>
+<p><code>install_pkgs()</code> calls <code>extract_pkgs()</code> internally and proceeds with the
+installation of extracted packages.</p>
     </div>
 
     <pre class="usage"><span class='fu'>install_pkgs</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
@@ -205,6 +209,10 @@ Arguments <code>force</code> and <code>upgrade</code> are often important in thi
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p><code>extract_pkgs()</code> returns a <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code> of package strings,
+<code>install_pkgs()</code> returns the names of extracted packages invisibly.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>If a package contains a forward slash ('/'), it is assumed to be a package hosted
@@ -212,6 +220,10 @@ on GitHub in <code>"&lt;user&gt;/&lt;repo&gt;"</code> format, and the string wil
 <code><a href='https://remotes.r-lib.org/reference/install_github.html'>remotes::install_github()</a></code>.
 Otherwise, the package name will be passed to <code><a href='https://remotes.r-lib.org/reference/install_cran.html'>remotes::install_cran()</a></code>.</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><span class='r-in'><span class='fu'>extract_pkgs</span><span class='op'>(</span><span class='fu'><a href='mlr_sugar.html'>lrns</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"regr.rpart"</span>, <span class='st'>"regr.featureless"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "mlr3"  "rpart" "stats"</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
