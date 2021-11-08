@@ -1,24 +1,27 @@
-#' @title Install (missing) packages
+#' @title Install (Missing) Packages
 #'
 #' @description
-#' Install required packages.
 #' Extracts the package information from various objects, including
 #' [TaskGenerator], [Learner], [Measure] and objects from
 #' extension packages such as \CRANpkg{mlr3pipelines} or \CRANpkg{mlr3filters}.
+#' If applied on a list, the function is called recursively on all elements.
 #'
-#' If provided a list, the function is called recursively on all elements.
+#' @details
+#' If a package contains a forward slash ('/'), it is assumed to be a package hosted
+#' on GitHub in `"<user>/<repo>"` format, and the string will be passed to
+#' [remotes::install_github()].
+#' Otherwise, the package name will be passed to [remotes::install_cran()].
 #'
 #' @param x (any)\cr
 #'   Object with package information (or a list of such objects).
-#' @param update (`logical(1)`)\cr
-#'   Update packages which are already installed?
-#' @param force (`logical(1)`)\cr
-#'   Force installation, even if the package is already installed.
+#' @param ... \cr
+#'   Additional arguments passed down to [remotes::install_cran()] or
+#'   [remotes::install_github()].
+#'   Arguments `force` and `upgrade` are often important in this context.
 #' @export
-install_pkgs = function(x, update = TRUE, force = FALSE) { # nolint
-  assert_flag(update)
-  assert_flag(force)
+install_pkgs = function(x, ...) { # nolint
   require_namespaces("remotes")
+  pkg = NULL
 
   # build initial table
   tab = data.table(pkg = extract_pkgs(x))
@@ -26,24 +29,17 @@ install_pkgs = function(x, update = TRUE, force = FALSE) { # nolint
 
   # filter duplicates, keep github versions
   set(tab, j = "github", value = grepl("/", tab$pkg, fixed = TRUE))
-  setorderv(tab, "github")
+  setkeyv(tab, c("github", "name"))
   tab = unique(tab, by = "name", fromLast = TRUE)
 
-  # remove installed packages if no update is required
-  if (!update) {
-    is_pkg_installed = function(pkg) {
-      length(find.package(pkg, quiet = TRUE)) > 0L
-    }
+  # never update self
+  tab = tab[get("name") != "mlr3"]
 
-    keep = !map_lgl(tab$name, is_pkg_installed)
-    tab = tab[keep]
-  }
+  pkgs = tab[list(FALSE), pkg, on = "github", nomatch = NULL]
+  remotes::install_cran(pkgs, ...)
 
-  pkgs = tab[get("github") == FALSE]$pkg
-  remotes::install_cran(pkgs, force = force)
-
-  pkgs = tab[get("github") == TRUE]$pkg
-  remotes::install_github(pkgs, force = force)
+  pkgs = tab[list(TRUE), pkg, on = "github", nomatch = NULL]
+  remotes::install_github(pkgs, ...)
 
   invisible(tab$name)
 }
@@ -60,21 +56,25 @@ extract_pkgs.character = function(x) {
   x
 }
 
+#' @rdname install_pkgs
 #' @export
 extract_pkgs.R6 = function(x) { # nolint
   get0("packages", envir = x, inherits = FALSE, ifnotfound = character())
 }
 
+#' @rdname install_pkgs
 #' @export
 extract_pkgs.list = function(x) { # nolint
   unique(unlist(lapply(x, extract_pkgs), recursive = FALSE, use.names = FALSE))
 }
 
+#' @rdname install_pkgs
 #' @export
 extract_pkgs.ResampleResult = function(x) { # nolint
   extract_pkgs(x$learner)
 }
 
+#' @rdname install_pkgs
 #' @export
 extract_pkgs.BenchmarkResult = function(x) { # nolint
   extract_pkgs(x$learners$learner)

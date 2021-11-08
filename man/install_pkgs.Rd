@@ -4,29 +4,44 @@
 \alias{install_pkgs}
 \alias{extract_pkgs}
 \alias{extract_pkgs.character}
-\title{Install (missing) packages}
+\alias{extract_pkgs.R6}
+\alias{extract_pkgs.list}
+\alias{extract_pkgs.ResampleResult}
+\alias{extract_pkgs.BenchmarkResult}
+\title{Install (Missing) Packages}
 \usage{
-install_pkgs(x, update = TRUE, force = FALSE)
+install_pkgs(x, ...)
 
 extract_pkgs(x)
 
 \method{extract_pkgs}{character}(x)
+
+\method{extract_pkgs}{R6}(x)
+
+\method{extract_pkgs}{list}(x)
+
+\method{extract_pkgs}{ResampleResult}(x)
+
+\method{extract_pkgs}{BenchmarkResult}(x)
 }
 \arguments{
 \item{x}{(any)\cr
 Object with package information (or a list of such objects).}
 
-\item{update}{(\code{logical(1)})\cr
-Update packages which are already installed?}
-
-\item{force}{(\code{logical(1)})\cr
-Force installation, even if the package is already installed.}
+\item{...}{\cr
+Additional arguments passed down to \code{\link[remotes:install_cran]{remotes::install_cran()}} or
+\code{\link[remotes:install_github]{remotes::install_github()}}.
+Arguments \code{force} and \code{upgrade} are often important in this context.}
 }
 \description{
-Install required packages.
 Extracts the package information from various objects, including
 \link{TaskGenerator}, \link{Learner}, \link{Measure} and objects from
 extension packages such as \CRANpkg{mlr3pipelines} or \CRANpkg{mlr3filters}.
-
-If provided a list, the function is called recursively on all elements.
+If applied on a list, the function is called recursively on all elements.
+}
+\details{
+If a package contains a forward slash ('/'), it is assumed to be a package hosted
+on GitHub in \code{"<user>/<repo>"} format, and the string will be passed to
+\code{\link[remotes:install_github]{remotes::install_github()}}.
+Otherwise, the package name will be passed to \code{\link[remotes:install_cran]{remotes::install_cran()}}.
 }
