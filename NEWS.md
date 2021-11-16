@@ -4,6 +4,9 @@
 * New task method `task$set_levels()` to control how data with factor columns
   is returned, independent of the used `DataBackend`.
 * `predict_newdata()` now also supports `DataBackend` as input.
+* New function `install_pkgs()` to install required packages. This generic works
+  for all objects with a `packages` field as well as `ResampleResult` and
+  `BenchmarkResult`.
 
 # mlr3 0.12.0
 
