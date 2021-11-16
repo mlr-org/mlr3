@@ -162,7 +162,7 @@
 <li>
 <strong>Courses/Lectures</strong>
 <ul>
-<li>The course <a href="https://compstat-lmu.github.io/lecture_i2ml/">Introduction to Machine learning (I2ML)</a> is a free and open flipped classroom course on the basics of machine learning. <code>mlr3</code> is used in the <a href="https://github.com/compstat-lmu/lecture_i2ml/tree/master/code-demos-pdf">demos</a> and <a href="https://github.com/compstat-lmu/lecture_i2ml/tree/master/exercises">exercises</a>.</li>
+<li>The course <a href="https://introduction-to-machine-learning.netlify.app/">Introduction to Machine learning (I2ML)</a> is a free and open flipped classroom course on the basics of machine learning. <code>mlr3</code> is used in the <a href="https://github.com/slds-lmu/lecture_i2ml/tree/master/code-demos-pdf">demos</a> and <a href="https://github.com/slds-lmu/lecture_i2ml/tree/master/exercises">exercises</a>.</li>
 </ul>
 </li>
 <li>
@@ -240,7 +240,7 @@
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">measure</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/mlr_sugar.html">msr</a></span><span class="op">(</span><span class="st">"classif.acc"</span><span class="op">)</span>
 <span class="va">prediction</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="va">measure</span><span class="op">)</span></code></pre></div>
-<div class="sourceCode" id="cb10"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="co">## classif.acc</span></span>
+<div class="sourceCode" id="cb10"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="co">## classif.acc </span></span>
 <span id="cb10-2"><a href="#cb10-2"></a><span class="co">##   0.9130435</span></span></code></pre></div>
 </div>
 <div id="resample" class="section level3">
@@ -252,20 +252,20 @@
 <span class="va">rr</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/resample.html">resample</a></span><span class="op">(</span><span class="va">task_penguins</span>, <span class="va">learner</span>, <span class="va">resampling</span><span class="op">)</span>
 <span class="va">rr</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="va">measure</span><span class="op">)</span></code></pre></div>
 <div class="sourceCode" id="cb12"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="co">##                 task  task_id                   learner    learner_id</span></span>
-<span id="cb12-2"><a href="#cb12-2"></a><span class="co">## 1: &lt;TaskClassif[47]&gt; penguins &lt;LearnerClassifRpart[36]&gt; classif.rpart</span></span>
-<span id="cb12-3"><a href="#cb12-3"></a><span class="co">## 2: &lt;TaskClassif[47]&gt; penguins &lt;LearnerClassifRpart[36]&gt; classif.rpart</span></span>
-<span id="cb12-4"><a href="#cb12-4"></a><span class="co">## 3: &lt;TaskClassif[47]&gt; penguins &lt;LearnerClassifRpart[36]&gt; classif.rpart</span></span>
+<span id="cb12-2"><a href="#cb12-2"></a><span class="co">## 1: &lt;TaskClassif[49]&gt; penguins &lt;LearnerClassifRpart[37]&gt; classif.rpart</span></span>
+<span id="cb12-3"><a href="#cb12-3"></a><span class="co">## 2: &lt;TaskClassif[49]&gt; penguins &lt;LearnerClassifRpart[37]&gt; classif.rpart</span></span>
+<span id="cb12-4"><a href="#cb12-4"></a><span class="co">## 3: &lt;TaskClassif[49]&gt; penguins &lt;LearnerClassifRpart[37]&gt; classif.rpart</span></span>
 <span id="cb12-5"><a href="#cb12-5"></a><span class="co">##            resampling resampling_id iteration              prediction</span></span>
-<span id="cb12-6"><a href="#cb12-6"></a><span class="co">## 1: &lt;ResamplingCV[19]&gt;            cv         1 &lt;PredictionClassif[19]&gt;</span></span>
-<span id="cb12-7"><a href="#cb12-7"></a><span class="co">## 2: &lt;ResamplingCV[19]&gt;            cv         2 &lt;PredictionClassif[19]&gt;</span></span>
-<span id="cb12-8"><a href="#cb12-8"></a><span class="co">## 3: &lt;ResamplingCV[19]&gt;            cv         3 &lt;PredictionClassif[19]&gt;</span></span>
+<span id="cb12-6"><a href="#cb12-6"></a><span class="co">## 1: &lt;ResamplingCV[19]&gt;            cv         1 &lt;PredictionClassif[20]&gt;</span></span>
+<span id="cb12-7"><a href="#cb12-7"></a><span class="co">## 2: &lt;ResamplingCV[19]&gt;            cv         2 &lt;PredictionClassif[20]&gt;</span></span>
+<span id="cb12-8"><a href="#cb12-8"></a><span class="co">## 3: &lt;ResamplingCV[19]&gt;            cv         3 &lt;PredictionClassif[20]&gt;</span></span>
 <span id="cb12-9"><a href="#cb12-9"></a><span class="co">##    classif.acc</span></span>
 <span id="cb12-10"><a href="#cb12-10"></a><span class="co">## 1:   0.8956522</span></span>
 <span id="cb12-11"><a href="#cb12-11"></a><span class="co">## 2:   0.9130435</span></span>
 <span id="cb12-12"><a href="#cb12-12"></a><span class="co">## 3:   0.9473684</span></span></code></pre></div>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">rr</span><span class="op">$</span><span class="fu">aggregate</span><span class="op">(</span><span class="va">measure</span><span class="op">)</span></code></pre></div>
-<div class="sourceCode" id="cb14"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="co">## classif.acc</span></span>
+<div class="sourceCode" id="cb14"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="co">## classif.acc </span></span>
 <span id="cb14-2"><a href="#cb14-2"></a><span class="co">##    0.918688</span></span></code></pre></div>
 </div>
 </div>
