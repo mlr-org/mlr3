@@ -1,4 +1,9 @@
-# mlr3 0.12.0-9000
+# mlr3 0.13.0
+
+* New function `install_pkgs()` to install required packages. This generic works
+  for all objects with a `packages` field as well as `ResampleResult` and
+  `BenchmarkResult`.
+
 
 # mlr3 0.12.0
 
