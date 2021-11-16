@@ -127,7 +127,7 @@ HotstartStack = R6Class("HotstartStack",
     #' Printer.
     #'
     #' @param ... (ignored).
-    print = function() {
+    print = function(...) {
       catf(format(self))
       print(self$stack, digits = 2)
     }

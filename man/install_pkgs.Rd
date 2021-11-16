@@ -28,7 +28,7 @@ extract_pkgs(x)
 \item{x}{(any)\cr
 Object with package information (or a list of such objects).}
 
-\item{...}{\cr
+\item{...}{(any)\cr
 Additional arguments passed down to \code{\link[remotes:install_cran]{remotes::install_cran()}} or
 \code{\link[remotes:install_github]{remotes::install_github()}}.
 Arguments \code{force} and \code{upgrade} are often important in this context.}

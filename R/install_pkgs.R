@@ -17,7 +17,7 @@
 #'
 #' @param x (any)\cr
 #'   Object with package information (or a list of such objects).
-#' @param ... \cr
+#' @param ... (any)\cr
 #'   Additional arguments passed down to [remotes::install_cran()] or
 #'   [remotes::install_github()].
 #'   Arguments `force` and `upgrade` are often important in this context.

@@ -60,7 +60,7 @@ ResampleResult = R6Class("ResampleResult",
     #' @description
     #' Printer.
     #' @param ... (ignored).
-    print = function() {
+    print = function(...) {
       catf("%s of %i iterations", format(self), self$iters)
       catn(str_indent("* Task:", self$task$id))
       catn(str_indent("* Learner:", self$learner$id))

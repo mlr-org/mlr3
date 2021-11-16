@@ -112,7 +112,7 @@ Used in tables, plot and text output.}
 \item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
 Set of hyperparameters.}
 
-\item{\code{instance}}{(\code{any})\cr
+\item{\code{instance}}{(any)\cr
 During \code{instantiate()}, the instance is stored in this slot in an arbitrary format.
 Note that if a grouping variable is present in the \link{Task}, a \link{Resampling} may operate on the
 group ids internally instead of the row ids (which may lead to confusion).
