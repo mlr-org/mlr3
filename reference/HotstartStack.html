@@ -54,19 +54,27 @@
 
 
 <meta property="og:title" content="Stack for Hot Start Learners — HotstartStack" />
-<meta property="og:description" content="This class stores learners for hot starting. When fitting a learner
-repeatedly on the same task but with a different fidelity, hot starting
-accelerates model fitting by reusing previously fitted models. For example,
-add more trees to a fitted random forest model.
+<meta property="og:description" content="This class stores learners for hot starting training, i.e. resuming or
+continuing from an already fitted model.
+We assume that hot starting is only possible if a single hyperparameter
+(also called the fidelity parameter, usually controlling the complexity or
+expensiveness) is altered and all other hyperparameters are identical.
 The HotstartStack stores trained learners which can be potentially used to
 hot start a learner. Learner automatically hot start while training if a
 stack is attached to the $hotstart_stack field and the stack contains a
-suitable learner (see examples).
+suitable learner.
+For example, if you want to train a random forest learner with 1000 trees but
+already have a random forest learner with 500 trees (hot start learner),
+you can add the hot start learner to the HotstartStack of the expensive learner
+with 1000 trees. If you now call the train() method (or resample() or
+benchmark()), a random forest with 500 trees will be fitted and combined
+with the 500 trees of the hotstart learner, effectively saving you to
+fit 500 trees.
 Hot starting is only supported by learners which have the property
 &quot;hotstart_forward&quot; or &quot;hotstart_backward&quot;. For example, an xgboost model
-can hot start forward by adding more boosting iterations and a random forest
-can go backwards by removing trees. The fidelity parameters are tagged with
-&quot;hotstart&quot; in learner's parameter set." />
+(in mlr3learners) can hot start forward by adding more boosting
+iterations, and a random forest can go backwards by removing trees.
+The fidelity parameters are tagged with &quot;hotstart&quot; in learner's parameter set." />
 <meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
@@ -172,19 +180,27 @@ can go backwards by removing trees. The fidelity parameters are tagged with
     </div>
 
     <div class="ref-description">
-    <p>This class stores learners for hot starting. When fitting a learner
-repeatedly on the same task but with a different fidelity, hot starting
-accelerates model fitting by reusing previously fitted models. For example,
-add more trees to a fitted random forest model.</p>
+    <p>This class stores learners for hot starting training, i.e. resuming or
+continuing from an already fitted model.
+We assume that hot starting is only possible if a single hyperparameter
+(also called the fidelity parameter, usually controlling the complexity or
+expensiveness) is altered and all other hyperparameters are identical.</p>
 <p>The <code>HotstartStack</code> stores trained learners which can be potentially used to
 hot start a learner. Learner automatically hot start while training if a
 stack is attached to the <code>$hotstart_stack</code> field and the stack contains a
-suitable learner (see examples).</p>
+suitable learner.</p>
+<p>For example, if you want to train a random forest learner with 1000 trees but
+already have a random forest learner with 500 trees (hot start learner),
+you can add the hot start learner to the <code>HotstartStack</code> of the expensive learner
+with 1000 trees. If you now call the <code>train()</code> method (or <code><a href='resample.html'>resample()</a></code> or
+<code><a href='benchmark.html'>benchmark()</a></code>), a random forest with 500 trees will be fitted and combined
+with the 500 trees of the hotstart learner, effectively saving you to
+fit 500 trees.</p>
 <p>Hot starting is only supported by learners which have the property
-<code>"hotstart_forward"</code> or <code>"hotstart_backward"</code>. For example, an xgboost model
-can hot start forward by adding more boosting iterations and a random forest
-can go backwards by removing trees. The fidelity parameters are tagged with
-<code>"hotstart"</code> in learner's parameter set.</p>
+<code>"hotstart_forward"</code> or <code>"hotstart_backward"</code>. For example, an <code>xgboost</code> model
+(in <a href='https://CRAN.R-project.org/package=mlr3learners'><span class="pkg">mlr3learners</span></a>) can hot start forward by adding more boosting
+iterations, and a random forest can go backwards by removing trees.
+The fidelity parameters are tagged with <code>"hotstart"</code> in learner's parameter set.</p>
     </div>
 
 

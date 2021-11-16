@@ -182,7 +182,9 @@ is calculated.</p>
     <p>This measure is undefined if two or more sets are empty.</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
-    <p>The score function calls <code><a href='https://mlr3measures.mlr-org.com/reference/jaccard.html'>mlr3measures::jaccard()</a></code> from package <a href='https://CRAN.R-project.org/package=mlr3measures'><span class="pkg">mlr3measures</span></a>.</p>
+    <p>This measure requires learners with property <code>"selected_features"</code>.
+The extracted feature sets are passed to <code><a href='https://mlr3measures.mlr-org.com/reference/jaccard.html'>mlr3measures::jaccard()</a></code> from
+package <a href='https://CRAN.R-project.org/package=mlr3measures'><span class="pkg">mlr3measures</span></a>.</p>
 <p>If the measure is undefined for the input, <code>NaN</code> is returned.
 This can be customized by setting the field <code>na_value</code>.</p>
     <h2 class="hasAnchor" id="dictionary"><a class="anchor" href="#dictionary"></a>Dictionary</h2>

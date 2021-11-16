@@ -56,12 +56,14 @@
 <meta property="og:title" content="Similarity Measure — MeasureSimilarity" />
 <meta property="og:description" content="This measure specializes Measure for measures quantifying the similarity of
 sets of selected features.
+To calculate similarity measures, the Learner must have the property
+&quot;selected_features&quot;.
 task_type is set to NA_character_.
 average is set to &quot;custom&quot;.
 
 
-Predefined measures can be found in the dictionary mlr_measures.
-The default measure for regression is regr.mse." />
+Predefined measures can be found in the dictionary
+mlr_measures, prefixed with &quot;sim.&quot;." />
 <meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
@@ -168,13 +170,15 @@ The default measure for regression is regr.mse." />
 
     <div class="ref-description">
     <p>This measure specializes <a href='Measure.html'>Measure</a> for measures quantifying the similarity of
-sets of selected features.</p><ul>
+sets of selected features.
+To calculate similarity measures, the <a href='Learner.html'>Learner</a> must have the property
+<code>"selected_features"</code>.</p><ul>
 <li><p><code>task_type</code> is set to <code>NA_character_</code>.</p></li>
 <li><p><code>average</code> is set to <code>"custom"</code>.</p></li>
 </ul>
 
-<p>Predefined measures can be found in the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> <a href='mlr_measures.html'>mlr_measures</a>.
-The default measure for regression is <code><a href='mlr_measures_regr.mse.html'>regr.mse</a></code>.</p>
+<p>Predefined measures can be found in the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a>
+<a href='mlr_measures.html'>mlr_measures</a>, prefixed with <code>"sim."</code>.</p>
     </div>
 
 
@@ -286,6 +290,8 @@ Supported by <code>mlr3</code>:
 <ul>
 <li><p><code>"requires_task"</code> (requires the complete <a href='Task.html'>Task</a>),</p></li>
 <li><p><code>"requires_learner"</code> (requires the trained <a href='Learner.html'>Learner</a>),</p></li>
+<li><p><code>"requires_model"</code> (requires the trained <a href='Learner.html'>Learner</a>, including the fitted
+model),</p></li>
 <li><p><code>"requires_train_set"</code> (requires the training indices from the <a href='Resampling.html'>Resampling</a>), and</p></li>
 <li><p><code>"na_score"</code> (the measure is expected to occasionally return <code>NA</code> or <code>NaN</code>).</p></li>
 </ul></p></dd>
@@ -317,6 +323,23 @@ The referenced help package can be opened via method <code>$help()</code>.</p></
 
 
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><span class='r-in'><span class='va'>task</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span><span class='op'>(</span><span class='st'>"penguins"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>learners</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span></span>
+<span class='r-in'>  <span class='fu'><a href='mlr_sugar.html'>lrn</a></span><span class='op'>(</span><span class='st'>"classif.rpart"</span>, maxdepth <span class='op'>=</span> <span class='fl'>1</span>, id <span class='op'>=</span> <span class='st'>"r1"</span><span class='op'>)</span>,</span>
+<span class='r-in'>  <span class='fu'><a href='mlr_sugar.html'>lrn</a></span><span class='op'>(</span><span class='st'>"classif.rpart"</span>, maxdepth <span class='op'>=</span> <span class='fl'>2</span>, id <span class='op'>=</span> <span class='st'>"r2"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>resampling</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span><span class='op'>(</span><span class='st'>"cv"</span>, folds <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>grid</span> <span class='op'>=</span> <span class='fu'><a href='benchmark_grid.html'>benchmark_grid</a></span><span class='op'>(</span><span class='va'>task</span>, <span class='va'>learners</span>, <span class='va'>resampling</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>bmr</span> <span class='op'>=</span> <span class='fu'><a href='benchmark.html'>benchmark</a></span><span class='op'>(</span><span class='va'>grid</span>, store_models <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>bmr</span><span class='op'>$</span><span class='fu'>aggregate</span><span class='op'>(</span><span class='fu'><a href='mlr_sugar.html'>msrs</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"classif.ce"</span>, <span class='st'>"sim.jaccard"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    nr      resample_result  task_id learner_id resampling_id iters classif.ce</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1:  1 &lt;ResampleResult[22]&gt; penguins         r1            cv     3 0.20943300</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2:  2 &lt;ResampleResult[22]&gt; penguins         r2            cv     3 0.05522502</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    sim.jaccard</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1:   1.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2:   0.7777778</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

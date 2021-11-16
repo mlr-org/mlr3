@@ -162,11 +162,15 @@
 <a href="#mlr3-0130" class="anchor"></a>mlr3 0.13.0<small> Unreleased </small>
 </h1>
 <ul>
-<li>New learner <code>regr.debug</code> for debugging.</li>
-<li>New task method <code>task$set_levels()</code> to control how data with factor columns is returned, independent of the used <code>DataBackend</code>.</li>
+<li>Learners which are capable of resuming/continuing (e.g., learner <code>(classif|regr|surv).xgboost</code> with hyperparameter <code>nrounds</code> updated) can now optionally store a stack of trained learners to be used to hotstart their training. Note that this feature is still somewhat experimental. See <code>HotstartStack</code> and <a href='https://github.com/mlr-org/mlr3/issues/719'>#719</a>.</li>
+<li>New measures to score similarity of selected feature sets: <code>sim.jaccard</code> (Jaccard Index) and <code>sim.phi</code> (Phi coefficient) (<a href='https://github.com/mlr-org/mlr3/issues/690'>#690</a>).</li>
 <li>
 <code>predict_newdata()</code> now also supports <code>DataBackend</code> as input.</li>
-<li>New function <code><a href="../reference/install_pkgs.html">install_pkgs()</a></code> to install required packages. This generic works for all objects with a <code>packages</code> field as well as <code>ResampleResult</code> and <code>BenchmarkResult</code>.</li>
+<li>New function <code><a href="../reference/install_pkgs.html">install_pkgs()</a></code> to install required packages. This generic works for all objects with a <code>packages</code> field as well as <code>ResampleResult</code> and <code>BenchmarkResult</code> (<a href='https://github.com/mlr-org/mlr3/issues/728'>#728</a>).</li>
+<li>New learner <code>regr.debug</code> for debugging.</li>
+<li>New <code>Task</code> method <code>$set_levels()</code> to control how data with factor columns is returned, independent of the used <code>DataBackend</code>.</li>
+<li>Measures now return <code>NA</code> if prerequisite are not met (<a href='https://github.com/mlr-org/mlr3/issues/699'>#699</a>). This allows to conveniently score your experiments with multiple measures having different requirements.</li>
+<li>Feature names may no longer contain the special character <code>%</code>.</li>
 </ul>
 </div>
     <div id="mlr3-0120" class="section level1">

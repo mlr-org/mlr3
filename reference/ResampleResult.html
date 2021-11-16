@@ -436,23 +436,23 @@ the object in its previous state.</p>
 <span class='r-in'></span>
 <span class='r-in'><span class='va'>rr</span><span class='op'>$</span><span class='fu'>aggregate</span><span class='op'>(</span><span class='fu'><a href='mlr_sugar.html'>msr</a></span><span class='op'>(</span><span class='st'>"classif.acc"</span><span class='op'>)</span><span class='op'>)</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> classif.acc </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   0.9360031 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   0.9243834 </span>
 <span class='r-in'><span class='va'>rr</span><span class='op'>$</span><span class='fu'>prediction</span><span class='op'>(</span><span class='op'>)</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;PredictionClassif&gt; for 344 observations:</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>     row_ids     truth  response</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>           1    Adelie    Adelie</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>           2    Adelie    Adelie</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>           3    Adelie    Adelie</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>           5    Adelie    Adelie</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>           6    Adelie    Adelie</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> ---                            </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         336 Chinstrap Chinstrap</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         337 Chinstrap Chinstrap</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         341 Chinstrap    Adelie</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         333 Chinstrap Chinstrap</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         335 Chinstrap Chinstrap</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         338 Chinstrap Chinstrap</span>
 <span class='r-in'><span class='va'>rr</span><span class='op'>$</span><span class='fu'>prediction</span><span class='op'>(</span><span class='op'>)</span><span class='op'>$</span><span class='va'>confusion</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>            truth</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> response    Adelie Chinstrap Gentoo</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   Adelie       143         6      0</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   Chinstrap      7        57      2</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   Gentoo         2         5    122</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   Adelie       144         6      5</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   Chinstrap      7        56      1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   Gentoo         1         6    118</span>
 <span class='r-in'><span class='va'>rr</span><span class='op'>$</span><span class='va'>warnings</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> Empty data.table (0 rows and 2 cols): iteration,msg</span>
 <span class='r-in'><span class='va'>rr</span><span class='op'>$</span><span class='va'>errors</span></span>
