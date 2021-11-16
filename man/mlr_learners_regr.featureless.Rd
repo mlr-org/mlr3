@@ -31,7 +31,7 @@ lrn("regr.featureless")
 \section{Parameters}{
 \tabular{lllll}{
    Id \tab Type \tab Default \tab Range \tab Levels \cr
-   robust \tab logical \tab TRUE \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \tab TRUE, FALSE \cr
+   robust \tab logical \tab TRUE \tab - \tab TRUE, FALSE \cr
 }
 }
 

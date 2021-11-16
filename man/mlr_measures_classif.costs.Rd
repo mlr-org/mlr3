@@ -36,7 +36,7 @@ msr("classif.costs")
 \section{Parameters}{
 \tabular{lllll}{
    Id \tab Type \tab Default \tab Range \tab Levels \cr
-   normalize \tab logical \tab TRUE \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \tab TRUE, FALSE \cr
+   normalize \tab logical \tab TRUE \tab - \tab TRUE, FALSE \cr
 }
 }
 

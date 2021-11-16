@@ -29,7 +29,7 @@ lrn("regr.rpart")
 \tabular{lllll}{
    Id \tab Type \tab Default \tab Range \tab Levels \cr
    cp \tab numeric \tab 0.01 \tab \eqn{[0, 1]}{[0, 1]} \tab - \cr
-   keep_model \tab logical \tab FALSE \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \tab TRUE, FALSE \cr
+   keep_model \tab logical \tab FALSE \tab - \tab TRUE, FALSE \cr
    maxcompete \tab integer \tab 4 \tab \eqn{[0, \infty)}{[0, Inf)} \tab - \cr
    maxdepth \tab integer \tab 30 \tab \eqn{[1, 30]}{[1, 30]} \tab - \cr
    maxsurrogate \tab integer \tab 5 \tab \eqn{[0, \infty)}{[0, Inf)} \tab - \cr
