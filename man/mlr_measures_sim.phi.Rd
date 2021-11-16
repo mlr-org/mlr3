@@ -18,7 +18,9 @@ is calculated.
 This measure is undefined if one set contains none or all possible elements.
 }
 \note{
-The score function calls \code{\link[mlr3measures:phi]{mlr3measures::phi()}} from package \CRANpkg{mlr3measures}.
+This measure requires learners with property \code{"selected_features"}.
+The extracted feature sets are passed to \code{\link[mlr3measures:phi]{mlr3measures::phi()}} from
+package \CRANpkg{mlr3measures}.
 
 If the measure is undefined for the input, \code{NaN} is returned.
 This can be customized by setting the field \code{na_value}.
