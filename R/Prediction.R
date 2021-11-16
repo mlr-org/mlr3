@@ -116,7 +116,7 @@ Prediction = R6Class("Prediction",
       self$data$row_ids
     },
 
-    #' @field truth (`any`)\cr
+    #' @field truth (any)\cr
     #'   True (observed) outcome.
     truth = function(rhs) {
       assert_ro_binding(rhs)

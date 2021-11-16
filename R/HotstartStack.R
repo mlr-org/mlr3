@@ -1,21 +1,30 @@
 #' @title Stack for Hot Start Learners
 #'
 #' @description
-#' This class stores learners for hot starting. When fitting a learner
-#' repeatedly on the same task but with a different fidelity, hot starting
-#' accelerates model fitting by reusing previously fitted models. For example,
-#' add more trees to a fitted random forest model.
+#' This class stores learners for hot starting training, i.e. resuming or
+#' continuing from an already fitted model.
+#' We assume that hot starting is only possible if a single hyperparameter
+#' (also called the fidelity parameter, usually controlling the complexity or
+#' expensiveness) is altered and all other hyperparameters are identical.
 #'
 #' The `HotstartStack` stores trained learners which can be potentially used to
 #' hot start a learner. Learner automatically hot start while training if a
 #' stack is attached to the `$hotstart_stack` field and the stack contains a
-#' suitable learner (see examples).
+#' suitable learner.
+#'
+#' For example, if you want to train a random forest learner with 1000 trees but
+#' already have a random forest learner with 500 trees (hot start learner),
+#' you can add the hot start learner to the `HotstartStack` of the expensive learner
+#' with 1000 trees. If you now call the `train()` method (or [resample()] or
+#' [benchmark()]), a random forest with 500 trees will be fitted and combined
+#' with the 500 trees of the hotstart learner, effectively saving you to
+#' fit 500 trees.
 #'
 #' Hot starting is only supported by learners which have the property
-#' `"hotstart_forward"` or `"hotstart_backward"`. For example, an xgboost model
-#' can hot start forward by adding more boosting iterations and a random forest
-#' can go backwards by removing trees. The fidelity parameters are tagged with
-#' `"hotstart"` in learner's parameter set.
+#' `"hotstart_forward"` or `"hotstart_backward"`. For example, an `xgboost` model
+#' (in \CRANpkg{mlr3learners}) can hot start forward by adding more boosting
+#' iterations, and a random forest can go backwards by removing trees.
+#' The fidelity parameters are tagged with `"hotstart"` in learner's parameter set.
 #'
 #' @export
 #' @examples
@@ -118,7 +127,7 @@ HotstartStack = R6Class("HotstartStack",
     #' Printer.
     #'
     #' @param ... (ignored).
-    print = function() {
+    print = function(...) {
       catf(format(self))
       print(self$stack, digits = 2)
     }

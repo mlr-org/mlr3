@@ -37,10 +37,10 @@ as_task_classif(x, ...)
 )
 }
 \arguments{
-\item{x}{(\code{any})\cr
+\item{x}{(any)\cr
 Object to convert.}
 
-\item{...}{(\code{any})\cr
+\item{...}{(any)\cr
 Additional arguments.}
 
 \item{clone}{(\code{logical(1)})\cr

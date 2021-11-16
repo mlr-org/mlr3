@@ -23,7 +23,7 @@ Name of the primary key column, or integer vector of row ids.}
 \item{dense}{(\code{\link[=data.frame]{data.frame()}}).
 Dense data.}
 
-\item{...}{(\code{any})\cr
+\item{...}{(any)\cr
 Additional arguments passed to the respective \link{DataBackend} method.}
 
 \item{keep_rownames}{(\code{logical(1)} | \code{character(1)})\cr

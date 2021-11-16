@@ -54,12 +54,12 @@ Status](https://www.r-pkg.org/badges/version-ago/mlr3)](https://cran.r-project.o
         mlr3pipelines](https://www.youtube.com/watch?v=T43hO2o_nZw)
 -   **Courses/Lectures**
     -   The course [Introduction to Machine learning
-        (I2ML)](https://compstat-lmu.github.io/lecture_i2ml/) is a free
-        and open flipped classroom course on the basics of machine
-        learning. `mlr3` is used in the
-        [demos](https://github.com/compstat-lmu/lecture_i2ml/tree/master/code-demos-pdf)
+        (I2ML)](https://introduction-to-machine-learning.netlify.app/)
+        is a free and open flipped classroom course on the basics of
+        machine learning. `mlr3` is used in the
+        [demos](https://github.com/slds-lmu/lecture_i2ml/tree/master/code-demos-pdf)
         and
-        [exercises](https://github.com/compstat-lmu/lecture_i2ml/tree/master/exercises).
+        [exercises](https://github.com/slds-lmu/lecture_i2ml/tree/master/exercises).
 -   **Templates/Tutorials**
     -   [mlr3-learndrake](https://github.com/mlr-org/mlr3-learndrake):
         Shows how to use mlr3 with
@@ -149,7 +149,7 @@ measure <- msr("classif.acc")
 prediction$score(measure)
 ```
 
-    ## classif.acc
+    ## classif.acc 
     ##   0.9130435
 
 ### Resample
@@ -162,13 +162,13 @@ rr$score(measure)
 ```
 
     ##                 task  task_id                   learner    learner_id
-    ## 1: <TaskClassif[47]> penguins <LearnerClassifRpart[36]> classif.rpart
-    ## 2: <TaskClassif[47]> penguins <LearnerClassifRpart[36]> classif.rpart
-    ## 3: <TaskClassif[47]> penguins <LearnerClassifRpart[36]> classif.rpart
+    ## 1: <TaskClassif[49]> penguins <LearnerClassifRpart[37]> classif.rpart
+    ## 2: <TaskClassif[49]> penguins <LearnerClassifRpart[37]> classif.rpart
+    ## 3: <TaskClassif[49]> penguins <LearnerClassifRpart[37]> classif.rpart
     ##            resampling resampling_id iteration              prediction
-    ## 1: <ResamplingCV[19]>            cv         1 <PredictionClassif[19]>
-    ## 2: <ResamplingCV[19]>            cv         2 <PredictionClassif[19]>
-    ## 3: <ResamplingCV[19]>            cv         3 <PredictionClassif[19]>
+    ## 1: <ResamplingCV[19]>            cv         1 <PredictionClassif[20]>
+    ## 2: <ResamplingCV[19]>            cv         2 <PredictionClassif[20]>
+    ## 3: <ResamplingCV[19]>            cv         3 <PredictionClassif[20]>
     ##    classif.acc
     ## 1:   0.8956522
     ## 2:   0.9130435
@@ -178,7 +178,7 @@ rr$score(measure)
 rr$aggregate(measure)
 ```
 
-    ## classif.acc
+    ## classif.acc 
     ##    0.918688
 
 ## Extension Packages

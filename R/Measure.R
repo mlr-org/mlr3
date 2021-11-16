@@ -104,13 +104,16 @@ Measure = R6Class("Measure",
 
       if (!is_scalar_na(task_type)) {
         assert_choice(task_type, mlr_reflections$task_types$type)
+        assert_subset(properties, mlr_reflections$measure_properties[[task_type]])
         assert_choice(predict_type, names(mlr_reflections$learner_predict_types[[task_type]]))
         assert_subset(properties, mlr_reflections$measure_properties[[task_type]])
+        assert_subset(task_properties, mlr_reflections$task_properties[[task_type]])
       }
-      self$properties = properties
+
+      self$properties = unique(properties)
       self$predict_type = predict_type
       self$predict_sets = assert_subset(predict_sets, mlr_reflections$predict_sets, empty.ok = FALSE)
-      self$task_properties = assert_subset(task_properties, mlr_reflections$task_properties[[task_type]])
+      self$task_properties = task_properties
       self$packages = union("mlr3", assert_character(packages, any.missing = FALSE, min.chars = 1L))
       self$man = assert_string(man, na.ok = TRUE)
 
@@ -126,7 +129,7 @@ Measure = R6Class("Measure",
     #' @description
     #' Printer.
     #' @param ... (ignored).
-    print = function() {
+    print = function(...) {
       catn(format(self))
       catn(str_indent("* Packages:", self$packages))
       catn(str_indent("* Range:", sprintf("[%g, %g]", self$range[1L], self$range[2L])))

@@ -32,9 +32,9 @@ msr("aic")
 }
 
 \section{Parameters}{
-\tabular{llll}{
-   Id \tab Type \tab Default \tab Range \cr
-   k \tab integer \tab - \tab \eqn{[0, \infty)}{[0, Inf)} \cr
+\tabular{lllll}{
+   Id \tab Type \tab Default \tab Range \tab Levels \cr
+   k \tab integer \tab - \tab \eqn{[0, \infty)}{[0, Inf)} \tab - \cr
 }
 }
 

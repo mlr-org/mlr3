@@ -5,12 +5,14 @@
 #' @description
 #' This measure specializes [Measure] for measures quantifying the similarity of
 #' sets of selected features.
+#' To calculate similarity measures, the [Learner] must have the property
+#' `"selected_features"`.
 #'
 #' * `task_type` is set to `NA_character_`.
 #' * `average` is set to `"custom"`.
 #'
-#' Predefined measures can be found in the [dictionary][mlr3misc::Dictionary] [mlr_measures].
-#' The default measure for regression is [`regr.mse`][mlr_measures_regr.mse].
+#' Predefined measures can be found in the [dictionary][mlr3misc::Dictionary]
+#' [mlr_measures], prefixed with `"sim."`.
 #'
 #' @template param_id
 #' @template param_param_set
@@ -27,6 +29,16 @@
 #'
 #' @template seealso_measure
 #' @export
+#' @examples
+#' task = tsk("penguins")
+#' learners = list(
+#'   lrn("classif.rpart", maxdepth = 1, id = "r1"),
+#'   lrn("classif.rpart", maxdepth = 2, id = "r2")
+#' )
+#' resampling = rsmp("cv", folds = 3)
+#' grid = benchmark_grid(task, learners, resampling)
+#' bmr = benchmark(grid, store_models = TRUE)
+#' bmr$aggregate(msrs(c("classif.ce", "sim.jaccard")))
 MeasureSimilarity = R6Class("MeasureSimilarity", inherit = Measure, cloneable = FALSE,
   public = list(
     #' @description
@@ -34,7 +46,7 @@ MeasureSimilarity = R6Class("MeasureSimilarity", inherit = Measure, cloneable = 
     initialize = function(id, param_set = ps(), range, minimize = NA, average = "macro", aggregator = NULL, properties = character(), predict_type = "response",
       predict_sets = "test", task_properties = character(), packages = character(), man = NA_character_) {
       super$initialize(id, task_type = NA_character_, param_set = param_set, range = range, minimize = minimize, average = "custom", aggregator = aggregator,
-        properties = properties, predict_type = predict_type, predict_sets = predict_sets,
+        properties = c("requires_model", properties), predict_type = predict_type, predict_sets = predict_sets,
         task_properties = task_properties, packages = packages, man = man)
     }
   ),

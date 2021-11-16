@@ -1,9 +1,23 @@
 # mlr3 0.13.0
 
+* Learners which are capable of resuming/continuing (e.g.,
+  learner `(classif|regr|surv).xgboost` with hyperparameter `nrounds` updated)
+  can now optionally store a stack of trained learners to be used to hotstart
+  their training. Note that this feature is still somewhat experimental.
+  See `HotstartStack` and #719.
+* New measures to score similarity of selected feature sets:
+  `sim.jaccard` (Jaccard Index) and `sim.phi` (Phi coefficient) (#690).
+* `predict_newdata()` now also supports `DataBackend` as input.
 * New function `install_pkgs()` to install required packages. This generic works
   for all objects with a `packages` field as well as `ResampleResult` and
-  `BenchmarkResult`.
-
+  `BenchmarkResult` (#728).
+* New learner `regr.debug` for debugging.
+* New `Task` method `$set_levels()` to control how data with factor columns
+  is returned, independent of the used `DataBackend`.
+* Measures now return `NA` if prerequisite are not met (#699).
+  This allows to conveniently score your experiments with  multiple measures
+  having different requirements.
+* Feature names may no longer contain the special character `%`.
 
 # mlr3 0.12.0
 

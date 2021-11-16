@@ -87,7 +87,7 @@ Resampling = R6Class("Resampling",
     #' @template field_param_set
     param_set = NULL,
 
-    #' @field instance (`any`)\cr
+    #' @field instance (any)\cr
     #'   During `instantiate()`, the instance is stored in this slot in an arbitrary format.
     #'   Note that if a grouping variable is present in the [Task], a [Resampling] may operate on the
     #'   group ids internally instead of the row ids (which may lead to confusion).
