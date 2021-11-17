@@ -26,14 +26,14 @@ lrn("classif.featureless")
 \item Task type: \dQuote{classif}
 \item Predict Types: \dQuote{response}, \dQuote{prob}
 \item Feature Types: \dQuote{logical}, \dQuote{integer}, \dQuote{numeric}, \dQuote{character}, \dQuote{factor}, \dQuote{ordered}, \dQuote{POSIXct}
-\item Required Packages: -
+\item Required Packages: \CRANpkg{mlr3}
 }
 }
 
 \section{Parameters}{
-\tabular{llll}{
-   Id \tab Type \tab Default \tab Levels \cr
-   method \tab character \tab mode \tab mode, sample, weighted.sample \cr
+\tabular{lllll}{
+   Id \tab Type \tab Default \tab Range \tab Levels \cr
+   method \tab character \tab mode \tab - \tab mode, sample, weighted.sample \cr
 }
 }
 

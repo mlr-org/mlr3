@@ -60,7 +60,7 @@ ResampleResult = R6Class("ResampleResult",
     #' @description
     #' Printer.
     #' @param ... (ignored).
-    print = function() {
+    print = function(...) {
       catf("%s of %i iterations", format(self), self$iters)
       catn(str_indent("* Task:", self$task$id))
       catn(str_indent("* Learner:", self$learner$id))
@@ -203,7 +203,7 @@ ResampleResult = R6Class("ResampleResult",
     #' You need to explicitly `$clone()` the object beforehand if you want to keeps
     #' the object in its previous state.
     discard = function(backends = FALSE, models = FALSE) {
-      self$data$discard(backends = backends, models = models)
+      private$.data$discard(backends = backends, models = models)
     }
   ),
 

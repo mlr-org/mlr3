@@ -22,13 +22,13 @@ as_predictions(x, predict_sets = "test", ...)
 \method{as_predictions}{list}(x, predict_sets = "test", ...)
 }
 \arguments{
-\item{x}{(\code{any})\cr
+\item{x}{(any)\cr
 Object to convert.}
 
 \item{check}{(\code{logical(1)})\cr
 Perform argument checks and type conversions?}
 
-\item{...}{(\code{any})\cr
+\item{...}{(any)\cr
 Additional arguments.}
 
 \item{predict_sets}{(\code{character()})\cr

@@ -29,6 +29,8 @@ These sets are merged based on their iteration number:
 all training sets from all subpopulations with iteration 1 are combined, then all training sets with iteration 2, and so on.
 Same is done for all test sets.
 The merged sets can be accessed via \verb{$train_set(i)} and \verb{$test_set(i)}, respectively.
+Note that this procedure can lead to set sizes that are slightly different from those
+without stratification.
 }
 
 \section{Grouping / Blocking}{
@@ -110,7 +112,7 @@ Used in tables, plot and text output.}
 \item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
 Set of hyperparameters.}
 
-\item{\code{instance}}{(\code{any})\cr
+\item{\code{instance}}{(any)\cr
 During \code{instantiate()}, the instance is stored in this slot in an arbitrary format.
 Note that if a grouping variable is present in the \link{Task}, a \link{Resampling} may operate on the
 group ids internally instead of the row ids (which may lead to confusion).

@@ -16,7 +16,7 @@ set_threads(x, n = availableCores())
 \method{set_threads}{list}(x, n = availableCores())
 }
 \arguments{
-\item{x}{(\code{any})\cr
+\item{x}{(any)\cr
 Object to set threads for, e.g. a \link{Learner}.
 This object is modified in-place.}
 

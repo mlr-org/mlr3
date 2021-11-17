@@ -96,7 +96,7 @@ Note: This object is typically constructed via a derived classes, e.g.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{data}}{(\code{any})\cr
+\item{\code{data}}{(any)\cr
 The format of the input data depends on the specialization. E.g.,
 \link{DataBackendDataTable} expects a \code{\link[data.table:data.table]{data.table::data.table()}} and
 \link{DataBackendMatrix} expects a \code{\link[Matrix:Matrix]{Matrix::Matrix()}} from \CRANpkg{Matrix}.}

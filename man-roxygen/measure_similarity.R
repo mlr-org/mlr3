@@ -12,7 +12,9 @@
 #' ```
 #'
 #' @note
-#' The score function calls [mlr3measures::<%= id %>()] from package \CRANpkg{mlr3measures}.
+#' This measure requires learners with property `"selected_features"`.
+#' The extracted feature sets are passed to [mlr3measures::<%= id %>()] from
+#' package \CRANpkg{mlr3measures}.
 #'
 #' If the measure is undefined for the input, `NaN` is returned.
 #' This can be customized by setting the field `na_value`.

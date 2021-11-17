@@ -52,7 +52,7 @@ DataBackend = R6Class("DataBackend", cloneable = FALSE,
     #' [DataBackendDataTable] or [DataBackendMatrix], or via the S3 method
     #' [as_data_backend()].
     #'
-    #' @param data (`any`)\cr
+    #' @param data (any)\cr
     #'   The format of the input data depends on the specialization. E.g.,
     #'   [DataBackendDataTable] expects a [data.table::data.table()] and
     #'   [DataBackendMatrix] expects a [Matrix::Matrix()] from \CRANpkg{Matrix}.

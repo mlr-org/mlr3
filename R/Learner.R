@@ -167,7 +167,7 @@ Learner = R6Class("Learner",
       private$.predict_type = predict_types[1L]
       self$properties = sort(assert_subset(properties, mlr_reflections$learner_properties[[task_type]]))
       self$data_formats = assert_subset(data_formats, mlr_reflections$data_formats)
-      self$packages = assert_set(packages)
+      self$packages = union("mlr3", assert_character(packages, any.missing = FALSE, min.chars = 1L))
       self$man = assert_string(man, na.ok = TRUE)
 
       check_packages_installed(packages, msg = sprintf("Package '%%s' required but not installed for Learner '%s'", id))
@@ -182,7 +182,7 @@ Learner = R6Class("Learner",
     #' @description
     #' Printer.
     #' @param ... (ignored).
-    print = function() {
+    print = function(...) {
       catn(format(self))
       catn(str_indent("* Model:", if (is.null(self$model)) "-" else class(self$model)[1L]))
       catn(str_indent("* Parameters:", as_short_string(self$param_set$values, 1000L)))
@@ -371,7 +371,7 @@ Learner = R6Class("Learner",
   ),
 
   active = list(
-    #' @field model (`any`)\cr
+    #' @field model (any)\cr
     #' The fitted model. Only available after `$train()` has been called.
     model = function(rhs) {
       assert_ro_binding(rhs)
@@ -474,7 +474,7 @@ Learner = R6Class("Learner",
       if (missing(rhs)) {
         return(private$.hotstart_stack)
       }
-      assert_r6(rhs, "HotstartStack")
+      assert_r6(rhs, "HotstartStack", null.ok = TRUE)
       private$.hotstart_stack = rhs
     }
   ),

@@ -75,7 +75,7 @@ Defaults to \code{NA}, but can be set by child classes.}
 \item{\code{row_ids}}{(\code{integer()})\cr
 Vector of row ids for which predictions are stored.}
 
-\item{\code{truth}}{(\code{any})\cr
+\item{\code{truth}}{(any)\cr
 True (observed) outcome.}
 
 \item{\code{missing}}{(\code{integer()})\cr

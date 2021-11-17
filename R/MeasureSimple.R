@@ -108,24 +108,27 @@ MeasureSimilaritySimple = R6Class("MeasureSimilaritySimple",
     na_value = NaN,
     initialize = function(name) {
       info = mlr3measures::measures[[name]]
+      self$fun = get(name, envir = asNamespace("mlr3measures"), mode = "function")
+
+      agg = function(rr) {
+        sets = map(rr$learners, function(l) l$selected_features())
+        self$fun(sets, p = length(rr$task$feature_names))
+      }
+
       super$initialize(
         id = paste0("sim.", name),
         range = c(info$lower, info$upper),
         minimize = info$minimize,
+        average = "custom",
+        aggregator = agg,
         predict_type = "response",
         packages = "mlr3measures",
         man = paste0("mlr3::mlr_measures_sim.", name),
       )
-      self$fun = get(name, envir = asNamespace("mlr3measures"), mode = "function")
     }
   ),
 
   private = list(
-    .aggregate = function(rr) {
-      sets = map(rr$learners, function(l) l$selected_features())
-      self$fun(sets, p = length(rr$task$feature_names))
-    },
-
     .extra_hash = c("fun", "na_value")
   )
 )

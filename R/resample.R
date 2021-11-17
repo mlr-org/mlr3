@@ -74,7 +74,7 @@ resample = function(task, learner, resampling, store_models = FALSE, store_backe
   }
 
   grid = if (allow_hotstart) {
-    map_dtr(seq_len(n), function(iteration) {
+   hotstart_grid = map_dtr(seq_len(n), function(iteration) {
       if (!is.null(learner$hotstart_stack)) {
         # search for hotstart learner
         task_hashes = task_hashes(task, resampling)
@@ -91,13 +91,19 @@ resample = function(task, learner, resampling, store_models = FALSE, store_backe
       }
       data.table(learner = list(learner), mode = mode)
     })
+    # null hotstart stack to reduce overhead in parallelization
+    map(hotstart_grid$learner, function(learner) {
+      learner$hotstart_stack = NULL
+      learner
+    })
+    hotstart_grid
   } else {
     data.table(learner = replicate(n, learner), mode = "train")
   }
 
   if (getOption("mlr3.debug", FALSE)) {
     lg$info("Running resample() sequentially in debug mode with %i iterations", n)
-    res = mapply(workhorse, 
+    res = mapply(workhorse,
       iteration = seq_len(n), learner = grid$learner, mode = grid$mode,
       MoreArgs = list(task = task, resampling = instance, store_models = store_models, lgr_threshold = lg$threshold,
         pb = pb), SIMPLIFY = FALSE
@@ -116,7 +122,7 @@ resample = function(task, learner, resampling, store_models = FALSE, store_backe
 
   data = data.table(
     task = list(task),
-    learner = list(learner),
+    learner = grid$learner,
     learner_state = map(res, "learner_state"),
     resampling = list(instance),
     iteration = seq_len(n),

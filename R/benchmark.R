@@ -137,6 +137,11 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
       }
       data.table(learner = list(learner), mode = mode)
     })
+    # null hotstart stack to reduce overhead in parallelization
+    map(hotstart_grid$learner, function(learner) {
+      learner$hotstart_stack = NULL
+      learner
+    })
     set(grid, j = "learner", value = hotstart_grid$learner)
     set(grid, j = "mode", value = hotstart_grid$mode)
   }
@@ -157,8 +162,8 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
       task = grid$task, learner = grid$learner, resampling = grid$resampling, iteration = grid$iteration,
       mode = grid$mode,
       MoreArgs = list(store_models = store_models, lgr_threshold = lg$threshold, pb = pb),
-      SIMPLIFY = FALSE, USE.NAMES = FALSE, future.globals = FALSE, 
-      future.scheduling = structure(TRUE, ordering = "random"), future.packages = "mlr3", future.seed = TRUE, 
+      SIMPLIFY = FALSE, USE.NAMES = FALSE, future.globals = FALSE,
+      future.scheduling = structure(TRUE, ordering = "random"), future.packages = "mlr3", future.seed = TRUE,
       future.stdout = future_stdout()
     )
   }

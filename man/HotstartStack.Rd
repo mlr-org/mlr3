@@ -4,21 +4,30 @@
 \alias{HotstartStack}
 \title{Stack for Hot Start Learners}
 \description{
-This class stores learners for hot starting. When fitting a learner
-repeatedly on the same task but with a different fidelity, hot starting
-accelerates model fitting. The learner reuses a previously fitted model while
-training e.g. adding trees to a random forest.
+This class stores learners for hot starting training, i.e. resuming or
+continuing from an already fitted model.
+We assume that hot starting is only possible if a single hyperparameter
+(also called the fidelity parameter, usually controlling the complexity or
+expensiveness) is altered and all other hyperparameters are identical.
 
 The \code{HotstartStack} stores trained learners which can be potentially used to
 hot start a learner. Learner automatically hot start while training if a
 stack is attached to the \verb{$hotstart_stack} field and the stack contains a
-suitable learner (see examples).
+suitable learner.
+
+For example, if you want to train a random forest learner with 1000 trees but
+already have a random forest learner with 500 trees (hot start learner),
+you can add the hot start learner to the \code{HotstartStack} of the expensive learner
+with 1000 trees. If you now call the \code{train()} method (or \code{\link[=resample]{resample()}} or
+\code{\link[=benchmark]{benchmark()}}), a random forest with 500 trees will be fitted and combined
+with the 500 trees of the hotstart learner, effectively saving you to
+fit 500 trees.
 
 Hot starting is only supported by learners which have the property
-\code{"hotstart_forward"} or \code{"hotstart_backward"}. For example, an xgboost model
-can hot start forward by adding more boosting iterations and a random forest
-can go backwards by removing trees. The fidelity parameters are tagged with
-\code{"hotstart"} in learner's parameter set.
+\code{"hotstart_forward"} or \code{"hotstart_backward"}. For example, an \code{xgboost} model
+(in \CRANpkg{mlr3learners}) can hot start forward by adding more boosting
+iterations, and a random forest can go backwards by removing trees.
+The fidelity parameters are tagged with \code{"hotstart"} in learner's parameter set.
 }
 \examples{
 # train learner on pima task
@@ -55,6 +64,8 @@ Stores hot start learners.}
 \item \href{#method-new}{\code{HotstartStack$new()}}
 \item \href{#method-add}{\code{HotstartStack$add()}}
 \item \href{#method-start_cost}{\code{HotstartStack$start_cost()}}
+\item \href{#method-format}{\code{HotstartStack$format()}}
+\item \href{#method-print}{\code{HotstartStack$print()}}
 \item \href{#method-clone}{\code{HotstartStack$clone()}}
 }
 }
@@ -64,13 +75,15 @@ Stores hot start learners.}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{HotstartStack$new(learners)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{HotstartStack$new(learners = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{learners}}{(List of \link{Learner}s).}
+\item{\code{learners}}{(List of \link{Learner}s)\cr
+Learners are added to the hotstart stack. If \code{NULL} (default), empty
+stack is created.}
 }
 \if{html}{\out{</div>}}
 }
@@ -87,7 +100,8 @@ Add learners to hot start stack.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{learners}}{(List of \link{Learner}s).}
+\item{\code{learners}}{(List of \link{Learner}s).
+Learners are added to the hotstart stack.}
 }
 \if{html}{\out{</div>}}
 }
@@ -99,13 +113,14 @@ self (invisibly).
 \if{html}{\out{<a id="method-start_cost"></a>}}
 \if{latex}{\out{\hypertarget{method-start_cost}{}}}
 \subsection{Method \code{start_cost()}}{
-Calculates the cost for each learner of the stack to hot start \code{learner}.
+Calculates the cost for each learner of the stack to hot start the target
+\code{learner}.
 
 The following cost values can be returned:
 \itemize{
-\item \code{NA_real_}: Learner is unsuitable to hot start \code{learner}.
-\item \code{-1}: Learner in the stack and \code{learner} are identical.
-\item \code{0} Cost for hot starting backwards are always 0.
+\item \code{NA_real_}: Learner is unsuitable to hot start target \code{learner}.
+\item \code{-1}: Hotstart learner in the stack and target \code{learner} are identical.
+\item \code{0} Cost for hot starting backwards is always 0.
 \item \verb{> 0} Cost for hot starting forward.
 }
 \subsection{Usage}{
@@ -115,9 +130,38 @@ The following cost values can be returned:
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{learner}}{\link{Learner}.}
+\item{\code{learner}}{\link{Learner}\cr
+Target learner.}
 
-\item{\code{task_hash}}{\link{Task}.}
+\item{\code{task_hash}}{\link{Task}\cr
+Hash of the task on which the target learner is trained.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-format"></a>}}
+\if{latex}{\out{\hypertarget{method-format}{}}}
+\subsection{Method \code{format()}}{
+Helper for print outputs.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{HotstartStack$format()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-print"></a>}}
+\if{latex}{\out{\hypertarget{method-print}{}}}
+\subsection{Method \code{print()}}{
+Printer.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{HotstartStack$print(...)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{...}}{(ignored).}
 }
 \if{html}{\out{</div>}}
 }

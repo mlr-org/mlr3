@@ -27,15 +27,16 @@ msr("classif.costs")
 \item Task type: \dQuote{classif}
 \item Range: \eqn{(-\infty, \infty)}{(-Inf, Inf)}
 \item Minimize: TRUE
+\item Average: macro
 \item Required Prediction: \dQuote{response}
-\item Required Packages: -
+\item Required Packages: \CRANpkg{mlr3}
 }
 }
 
 \section{Parameters}{
-\tabular{llll}{
-   Id \tab Type \tab Default \tab Levels \cr
-   normalize \tab logical \tab TRUE \tab TRUE, FALSE \cr
+\tabular{lllll}{
+   Id \tab Type \tab Default \tab Range \tab Levels \cr
+   normalize \tab logical \tab TRUE \tab - \tab TRUE, FALSE \cr
 }
 }
 
