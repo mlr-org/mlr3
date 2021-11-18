@@ -96,7 +96,7 @@ is calculated." />
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.12.0-9000</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.13.0-9000</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -184,7 +184,9 @@ is calculated.</p>
     <p>This measure is undefined if one set contains none or all possible elements.</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
-    <p>The score function calls <code><a href='https://mlr3measures.mlr-org.com/reference/phi.html'>mlr3measures::phi()</a></code> from package <a href='https://CRAN.R-project.org/package=mlr3measures'><span class="pkg">mlr3measures</span></a>.</p>
+    <p>This measure requires learners with property <code>"selected_features"</code>.
+The extracted feature sets are passed to <code><a href='https://mlr3measures.mlr-org.com/reference/phi.html'>mlr3measures::phi()</a></code> from
+package <a href='https://CRAN.R-project.org/package=mlr3measures'><span class="pkg">mlr3measures</span></a>.</p>
 <p>If the measure is undefined for the input, <code>NaN</code> is returned.
 This can be customized by setting the field <code>na_value</code>.</p>
     <h2 class="hasAnchor" id="dictionary"><a class="anchor" href="#dictionary"></a>Dictionary</h2>

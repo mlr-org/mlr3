@@ -100,7 +100,7 @@ A guide on how to extend mlr3 with custom measures can be found in the mlr3book.
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.12.0-9000</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.13.0-9000</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -370,6 +370,8 @@ Supported by <code>mlr3</code>:
 <ul>
 <li><p><code>"requires_task"</code> (requires the complete <a href='Task.html'>Task</a>),</p></li>
 <li><p><code>"requires_learner"</code> (requires the trained <a href='Learner.html'>Learner</a>),</p></li>
+<li><p><code>"requires_model"</code> (requires the trained <a href='Learner.html'>Learner</a>, including the fitted
+model),</p></li>
 <li><p><code>"requires_train_set"</code> (requires the training indices from the <a href='Resampling.html'>Resampling</a>), and</p></li>
 <li><p><code>"na_score"</code> (the measure is expected to occasionally return <code>NA</code> or <code>NaN</code>).</p></li>
 </ul></p></dd>
@@ -406,7 +408,7 @@ The referenced help package can be opened via method <code>$help()</code>.</p></
 <p><hr>
 <a id="method-print"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/base/print.html'>print()</a></code></h3>
 <p>Printer.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='va'>Measure</span><span class='op'>$</span><span class='fu'>print</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>Measure</span><span class='op'>$</span><span class='fu'>print</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>

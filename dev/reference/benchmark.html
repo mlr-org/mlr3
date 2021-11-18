@@ -89,7 +89,7 @@
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.12.0-9000</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.13.0-9000</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -299,12 +299,12 @@ or <code>"trace"</code>:</p><pre><span class='fu'>lgr</span><span class='fu'>::<
 <span class='r-in'><span class='co'>## Data of all resamplings</span></span>
 <span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table</a></span><span class='op'>(</span><span class='va'>bmr</span><span class='op'>)</span><span class='op'>)</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>                                   uhash              task</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 1: f4494198-8228-47d8-aba3-e71413354cbf &lt;TaskClassif[49]&gt;</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 2: f4494198-8228-47d8-aba3-e71413354cbf &lt;TaskClassif[49]&gt;</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 3: f4494198-8228-47d8-aba3-e71413354cbf &lt;TaskClassif[49]&gt;</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 4: 1b4d9220-77f5-4526-9ff7-01a053d19381 &lt;TaskClassif[49]&gt;</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 5: 1b4d9220-77f5-4526-9ff7-01a053d19381 &lt;TaskClassif[49]&gt;</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 6: 1b4d9220-77f5-4526-9ff7-01a053d19381 &lt;TaskClassif[49]&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1: a98d5ce4-4879-4ac4-ab9d-94f245f52122 &lt;TaskClassif[49]&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2: a98d5ce4-4879-4ac4-ab9d-94f245f52122 &lt;TaskClassif[49]&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3: a98d5ce4-4879-4ac4-ab9d-94f245f52122 &lt;TaskClassif[49]&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4: 99dabbba-f6f4-4e6b-9064-7763a41b56b0 &lt;TaskClassif[49]&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5: 99dabbba-f6f4-4e6b-9064-7763a41b56b0 &lt;TaskClassif[49]&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6: 99dabbba-f6f4-4e6b-9064-7763a41b56b0 &lt;TaskClassif[49]&gt;</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>                            learner         resampling iteration</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> 1: &lt;LearnerClassifFeatureless[37]&gt; &lt;ResamplingCV[19]&gt;         1</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> 2: &lt;LearnerClassifFeatureless[37]&gt; &lt;ResamplingCV[19]&gt;         2</span>
@@ -329,26 +329,26 @@ or <code>"trace"</code>:</p><pre><span class='fu'>lgr</span><span class='fu'>::<
 <span class='r-out co'><span class='r-pr'>#&gt;</span> 3:  3 &lt;ResampleResult[22]&gt;    sonar classif.featureless            cv     3</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> 4:  4 &lt;ResampleResult[22]&gt;    sonar       classif.rpart            cv     3</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>    classif.ce</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 1: 0.55807272</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 2: 0.07561658</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 3: 0.46652864</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 4: 0.28854382</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1: 0.55822527</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2: 0.06112382</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3: 0.46611456</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4: 0.25458937</span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'>## Extract predictions of first resampling result</span></span>
 <span class='r-in'><span class='va'>rr</span> <span class='op'>=</span> <span class='va'>aggr</span><span class='op'>$</span><span class='va'>resample_result</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span></span>
 <span class='r-in'><span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table</a></span><span class='op'>(</span><span class='va'>rr</span><span class='op'>$</span><span class='fu'>prediction</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>      row_ids     truth response</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   1:       4    Adelie   Adelie</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   2:       8    Adelie   Adelie</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   3:      12    Adelie   Adelie</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   4:      14    Adelie   Adelie</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   5:      15    Adelie   Adelie</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   1:       1    Adelie   Adelie</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   2:       2    Adelie   Adelie</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   3:       6    Adelie   Adelie</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   4:      11    Adelie   Adelie</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   5:      17    Adelie   Adelie</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>  ---                           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 340:     329 Chinstrap   Adelie</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 341:     330 Chinstrap   Adelie</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 342:     339 Chinstrap   Adelie</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 343:     340 Chinstrap   Adelie</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 344:     343 Chinstrap   Adelie</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 340:     328 Chinstrap   Adelie</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 341:     331 Chinstrap   Adelie</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 342:     333 Chinstrap   Adelie</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 343:     336 Chinstrap   Adelie</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 344:     344 Chinstrap   Adelie</span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># Benchmarking with a custom design:</span></span>
 <span class='r-in'><span class='co'># - fit classif.featureless on penguins with a 3-fold CV</span></span>
