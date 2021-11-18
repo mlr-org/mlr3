@@ -153,7 +153,34 @@ Task = R6Class("Task",
     #' Printer.
     #' @param ... (ignored).
     print = function(...) {
-      task_print(self)
+      catf("%s (%i x %i)", format(self), self$nrow, self$ncol)
+      catf(str_indent("* Target:", self$target_names))
+      catf(str_indent("* Properties:", self$properties))
+
+      types = self$feature_types
+      if (nrow(types)) {
+        id = type = NULL
+        catf("* Features (%i):", nrow(types))
+        types = types[, list(N = .N, feats = str_collapse(id, n = 100L)), by = "type"][, "type" := translate_types(type)]
+        setorderv(types, "N", order = -1L)
+        pmap(types, function(type, N, feats) {
+          catn(str_indent(sprintf("  - %s (%i):", type, N), feats, exdent = 4L))
+      })
+      }
+
+      roles = self$col_roles
+      if (length(roles$order)) {
+        catn(str_indent("* Order by:", roles$order))
+      }
+      if ("strata" %in% self$properties) {
+        catn(str_indent("* Strata:", roles$stratum))
+      }
+      if ("groups" %in% self$properties) {
+        catn(str_indent("* Groups:", roles$group))
+      }
+      if ("weights" %in% self$properties) {
+        catn(str_indent("* Weights:", roles$weight))
+      }
     },
 
     #' @description
@@ -937,40 +964,6 @@ Task = R6Class("Task",
     }
   )
 )
-
-task_data = function(self, rows = NULL, cols = NULL, data_format = "data.table", ordered = TRUE) {
-}
-
-task_print = function(self) {
-  catf("%s (%i x %i)", format(self), self$nrow, self$ncol)
-  catf(str_indent("* Target:", self$target_names))
-  catf(str_indent("* Properties:", self$properties))
-
-  types = self$feature_types
-  if (nrow(types)) {
-    id = type = NULL
-    catf("* Features (%i):", nrow(types))
-    types = types[, list(N = .N, feats = str_collapse(id, n = 100L)), by = "type"][, "type" := translate_types(type)]
-    setorderv(types, "N", order = -1L)
-    pmap(types, function(type, N, feats) {
-      catn(str_indent(sprintf("  - %s (%i):", type, N), feats, exdent = 4L))
-    })
-  }
-
-  roles = self$col_roles
-  if (length(roles$order)) {
-    catn(str_indent("* Order by:", roles$order))
-  }
-  if ("strata" %in% self$properties) {
-    catn(str_indent("* Strata:", roles$stratum))
-  }
-  if ("groups" %in% self$properties) {
-    catn(str_indent("* Groups:", roles$group))
-  }
-  if ("weights" %in% self$properties) {
-    catn(str_indent("* Weights:", roles$weight))
-  }
-}
 
 task_set_roles = function(li, cols, roles = NULL, add_to = NULL, remove_from = NULL) {
   if (!is.null(roles)) {
