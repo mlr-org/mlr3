@@ -15,6 +15,13 @@ tgen("circle")
 }
 }
 
+\section{Parameters}{
+\tabular{llrll}{
+   Id \tab Type \tab Default \tab Range \tab Levels \cr
+   d \tab integer \tab 2 \tab \eqn{[2, \infty)}{[2, Inf)} \tab - \cr
+}
+}
+
 \examples{
 generator = tgen("circle")
 plot(generator, n = 200)

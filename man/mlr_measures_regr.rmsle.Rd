@@ -5,10 +5,13 @@
 \title{Root Mean Squared Log Error}
 \description{
 Regression measure defined as \deqn{
-  \sqrt{\frac{1}{n} \sum_{i=1}^n \left( \ln (1 + t_i) - \ln (1 + r_i) \right)^2}.
+  \sqrt{\frac{1}{n} \sum_{i=1}^n w_i \left( \ln (1 + t_i) - \ln (1 + r_i) \right)^2}.
 }{
-  sqrt(mean(log(1 + t) - log(1 + r))^2).
+  sqrt(weighted.mean((log(1 + t) - log(1 + r))^2, w)).
 }
+}
+\details{
+This measure is undefined if any element of \eqn{t} or \eqn{r} is less than or equal to \eqn{-1}.
 }
 \note{
 The score function calls \code{\link[mlr3measures:rmsle]{mlr3measures::rmsle()}} from package \CRANpkg{mlr3measures}.
@@ -18,9 +21,14 @@ This can be customized by setting the field \code{na_value}.
 }
 \section{Dictionary}{
 
-This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("rmsle")
-msr("rmsle")
+This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("regr.rmsle")
+msr("regr.rmsle")
 }
+}
+
+\section{Parameters}{
+
+Empty ParamSet
 }
 
 \section{Meta Information}{

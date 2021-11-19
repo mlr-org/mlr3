@@ -14,6 +14,13 @@ tgen("xor")
 }
 }
 
+\section{Parameters}{
+\tabular{llrll}{
+   Id \tab Type \tab Default \tab Range \tab Levels \cr
+   d \tab integer \tab 1 \tab \eqn{[1, \infty)}{[1, Inf)} \tab - \cr
+}
+}
+
 \examples{
 generator = tgen("xor")
 plot(generator, n = 200)

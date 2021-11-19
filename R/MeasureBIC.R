@@ -12,13 +12,7 @@
 #' Requires the learner property `"loglik"`, `NA` is returned for unsupported learners.
 #'
 #' @templateVar id bic
-#' @template section_dictionary_measure
-#' @section Meta Information:
-#' * Type: `NA`
-#' * Range: \eqn{(-\infty, \infty)}{(-Inf, Inf)}
-#' * Minimize: `TRUE`
-#' * Required prediction: 'response'
-#' * Learner Property: `loglik`
+#' @template measure
 #'
 #' @template seealso_measure
 #' @export
@@ -41,10 +35,12 @@ MeasureBIC = R6Class("MeasureBIC",
 
   private = list(
     .score = function(prediction, learner, ...) {
+      learner = learner$base_learner()
       if ("loglik" %nin% learner$properties) {
         return(NA_real_)
       }
-      stats::BIC(learner$loglik())
+
+      return(stats::BIC(learner$loglik()))
     }
   )
 )

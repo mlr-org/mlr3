@@ -12,14 +12,7 @@
 #'
 #' @template param_id
 #' @templateVar id time_train
-#' @template section_dictionary_measure
-#'
-#'
-#' @section Meta Information:
-#' * Type: `NA`
-#' * Range: \eqn{[0, \infty)}{[0, Inf)}
-#' * Minimize: `TRUE`
-#' * Required prediction: 'response'
+#' @template measure
 #'
 #' @template seealso_measure
 #' @export

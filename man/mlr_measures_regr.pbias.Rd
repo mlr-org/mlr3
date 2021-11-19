@@ -5,9 +5,9 @@
 \title{Percent Bias}
 \description{
 Regression measure defined as \deqn{
-  \frac{1}{n} \sum_{i=1}^n \frac{\left( t_i - r_i \right)}{\left| t_i \right|}.
+  \frac{1}{n} \sum_{i=1}^n w_i \frac{\left( t_i - r_i \right)}{\left| t_i \right|}.
 }{
-  mean((t - r) / abs(t)).
+  weighted.mean((t - r) / abs(t), w).
 }
 Good predictions score close to 0.
 }
@@ -19,9 +19,14 @@ This can be customized by setting the field \code{na_value}.
 }
 \section{Dictionary}{
 
-This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("pbias")
-msr("pbias")
+This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("regr.pbias")
+msr("regr.pbias")
 }
+}
+
+\section{Parameters}{
+
+Empty ParamSet
 }
 
 \section{Meta Information}{

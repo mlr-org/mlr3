@@ -118,13 +118,14 @@ Set of required task properties.}
 
 \item{bmr}{(\link{BenchmarkResult}).}
 
-\item{row_ids}{(\code{numeric()}).}
+\item{row_ids}{\code{integer()}\cr
+Row indices.}
 
 \item{resample_result}{(\link{ResampleResult}).}
 }
 \description{
 Functions intended to be used in packages extending \pkg{mlr3}.
-Most assertion functions ensure the right class attrbiture, and optionally additional properties.
+Most assertion functions ensure the right class attribute, and optionally additional properties.
 Additionally, the following compound assertions are implemented:
 \itemize{
 \item \code{assert_learnable(task, learner)}\cr

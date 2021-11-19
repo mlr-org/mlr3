@@ -207,6 +207,7 @@ test_that("extract params", {
 
   # no params
   lrns = mlr_learners$mget("classif.debug")
+  lrns$classif.debug$param_set$values = list()
   bmr = benchmark(benchmark_grid(tsk("wine"), lrns, rsmp("cv", folds = 3)))
   aggr = bmr$aggregate(params = TRUE)
   expect_list(aggr$params[[1]], names = "unique", len = 0L)
@@ -249,20 +250,6 @@ test_that("filter", {
   expect_resultdata(get_private(bmr)$.data, TRUE)
 
   expect_benchmark_result(bmr)
-})
-
-test_that("parallelization works", {
-  skip_on_os("windows") # currently buggy
-
-  grid = benchmark_grid(list(tsk("wine"), tsk("sonar")), replicate(2, lrn("classif.debug")), rsmp("cv", folds = 2))
-  njobs = 3L
-  bmr = with_future(future::multisession, {
-    benchmark(grid, store_models = TRUE)
-  }, workers = njobs)
-
-  expect_benchmark_result(bmr)
-  pids = map_int(as.data.table(bmr)$learner, function(x) x$model$pid)
-  expect_equal(length(unique(pids)), njobs)
 })
 
 test_that("aggregated performance values are calculated correctly (#555)", {

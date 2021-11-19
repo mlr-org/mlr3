@@ -29,6 +29,8 @@ These sets are merged based on their iteration number:
 all training sets from all subpopulations with iteration 1 are combined, then all training sets with iteration 2, and so on.
 Same is done for all test sets.
 The merged sets can be accessed via \verb{$train_set(i)} and \verb{$test_set(i)}, respectively.
+Note that this procedure can lead to set sizes that are slightly different from those
+without stratification.
 }
 
 \section{Grouping / Blocking}{
@@ -79,10 +81,12 @@ prop.table(table(task$truth(r$train_set(1)))) # roughly same proportion
 \seealso{
 \itemize{
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
-\url{https://mlr3book.mlr-org.com/resampling.html}
+\url{https://mlr3book.mlr-org.com/basics.html#resampling}
 \item Package \CRANpkg{mlr3spatiotempcv} for spatio-temporal resamplings.
 \item \link[mlr3misc:Dictionary]{Dictionary} of \link[=Resampling]{Resamplings}: \link{mlr_resamplings}
 \item \code{as.data.table(mlr_resamplings)} for a table of available \link[=Resampling]{Resamplings} in the running session (depending on the loaded packages).
+\item \CRANpkg{mlr3spatiotempcv} for additional \link{Resampling}s for spatio-temporal
+tasks.
 }
 
 Other Resampling: 
@@ -108,7 +112,7 @@ Used in tables, plot and text output.}
 \item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
 Set of hyperparameters.}
 
-\item{\code{instance}}{(\code{any})\cr
+\item{\code{instance}}{(any)\cr
 During \code{instantiate()}, the instance is stored in this slot in an arbitrary format.
 Note that if a grouping variable is present in the \link{Task}, a \link{Resampling} may operate on the
 group ids internally instead of the row ids (which may lead to confusion).

@@ -34,7 +34,7 @@ test_that("evaluate / single step", {
   expect_data_table(log)
   expect_equal(nrow(log), 0)
 
-  enable_encapsulation(learner)$predict(task, row_ids = 101:150)
+  p = enable_encapsulation(learner)$predict(task, row_ids = 101:150)
   log = learner$log[stage == "predict"]
   expect_data_table(log)
   expect_data_table(log, nrows = 2L, ncols = 3L, any.missing = FALSE)
@@ -46,9 +46,9 @@ test_that("evaluate / single step", {
 test_that("evaluate / resample", {
   resampling = rsmp("cv", folds = 3)
 
-  rr = suppressWarnings(expect_warning(resample(task, disable_encapsulation(learner), resampling)))
+  rr = suppressMessages(suppressWarnings(resample(task, disable_encapsulation(learner), resampling)))
   expect_true(all(map(private(rr)$.data$data$fact$learner_state, function(x) nrow(x$log)) == 0L))
 
-  rr = expect_silent(resample(task, enable_encapsulation(learner), resampling))
+  expect_silent(rr <- resample(task, enable_encapsulation(learner), resampling))
   expect_true(all(map_lgl(private(rr)$.data$data$fact$learner_state, function(x) all(table(x$log$stage) == 2))))
 })

@@ -73,24 +73,8 @@ test_that("predict_type is checked", {
   measure = msr("classif.auc")
   rr = resample(task, learner, resampling)
 
-  expect_error(rr$score(measure), "predict_type")
-  expect_error(rr$aggregate(measure), "predict_type")
-})
-
-test_that("seeds work identical sequential/parallel", {
-  skip_if_not_installed("future")
-  task = tsk("sonar")
-  learner = lrn("classif.debug", predict_type = "prob")
-  resampling = rsmp("cv", folds = 3L)
-  measure = msr("classif.auc")
-
-  rr1 = with_seed(123, with_future(future::plan("sequential"), resample(task, learner, resampling)))
-  rr2 = with_seed(123, with_future(future::plan("multisession"), resample(task, learner, resampling)))
-
-  expect_equal(
-    as.data.table(rr1$prediction())$prob.M,
-    as.data.table(rr2$prediction())$prob.M
-  )
+  expect_warning(rr$score(measure), "predict type", fixed = TRUE)
+  expect_warning(rr$aggregate(measure), "predict type", fixed = TRUE)
 })
 
 test_that("empty train/predict sets", {

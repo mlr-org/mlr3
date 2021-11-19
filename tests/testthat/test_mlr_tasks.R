@@ -18,3 +18,12 @@ test_that("load_x", {
     expect_task_supervised(fun())
   }
 })
+
+test_that("tasks are cloned", {
+  if (packageVersion("mlr3misc") >= "0.9.2") {
+    task = tsk("iris")
+    mlr_tasks$add("foo", task)
+    expect_different_address(task, tsk("foo"))
+    mlr_tasks$remove("foo")
+  }
+})

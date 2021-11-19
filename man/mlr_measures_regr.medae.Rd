@@ -2,7 +2,7 @@
 % Please edit documentation in R/MeasureSimple.R
 \name{mlr_measures_regr.medae}
 \alias{mlr_measures_regr.medae}
-\title{Median Absolute Errors}
+\title{Median Absolute Error}
 \description{
 Regression measure defined as \deqn{
   \mathop{\mathrm{median}}_i \left| t_i - r_i \right|.
@@ -18,9 +18,14 @@ This can be customized by setting the field \code{na_value}.
 }
 \section{Dictionary}{
 
-This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("medae")
-msr("medae")
+This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("regr.medae")
+msr("regr.medae")
 }
+}
+
+\section{Parameters}{
+
+Empty ParamSet
 }
 
 \section{Meta Information}{

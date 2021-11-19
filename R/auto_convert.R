@@ -122,7 +122,7 @@ rm(ee)
 #'
 #' All rules are stored as functions in [mlr_reflections$auto_converters][mlr_reflections].
 #'
-#' @param value (`any`)\cr
+#' @param value (any)\cr
 #'   New values to convert in order to match `type`.
 #' @param id (`character(1)`)\cr
 #'   Name of the column, used in error messages.

@@ -1,6 +1,6 @@
 Package: mlr3
 Title: Machine Learning in R - Next Generation
-Version: 0.11.0-9000
+Version: 0.13.0-9000
 Authors@R:
     c(person(given = "Michel",
              family = "Lang",
@@ -62,13 +62,13 @@ Imports:
     R6 (>= 2.4.1),
     backports,
     checkmate (>= 2.0.0),
-    data.table (>= 1.13.6),
-    digest,
+    data.table (>= 1.14.2),
+    future,
     future.apply (>= 1.5.0),
     lgr (>= 0.3.4),
     mlbench,
-    mlr3measures (>= 0.3.0),
-    mlr3misc (>= 0.9.0),
+    mlr3measures (>= 0.4.0),
+    mlr3misc (>= 0.9.3),
     parallelly,
     palmerpenguins,
     paradox (>= 0.6.0),
@@ -76,21 +76,22 @@ Imports:
 Suggests:
     Matrix,
     callr,
+    codetools,
     datasets,
     distr6,
     evaluate,
-    future,
     future.callr,
     mlr3data,
     progressr,
+    remotes,
     rpart,
-    testthat (>= 3.0.0)
+    testthat (>= 3.1.0)
 Encoding: UTF-8
 Config/testthat/edition: 3
-Config/testthat/parallel: true
+Config/testthat/parallel: false
 NeedsCompilation: no
 Roxygen: list(markdown = TRUE, r6 = TRUE)
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Collate:
     'mlr_reflections.R'
     'BenchmarkResult.R'
@@ -100,6 +101,7 @@ Collate:
     'DataBackendMatrix.R'
     'DataBackendRbind.R'
     'DataBackendRename.R'
+    'HotstartStack.R'
     'Learner.R'
     'LearnerClassif.R'
     'mlr_learners.R'
@@ -107,6 +109,7 @@ Collate:
     'LearnerClassifFeatureless.R'
     'LearnerClassifRpart.R'
     'LearnerRegr.R'
+    'LearnerRegrDebug.R'
     'LearnerRegrFeatureless.R'
     'LearnerRegrRpart.R'
     'Measure.R'
@@ -120,6 +123,7 @@ Collate:
     'MeasureOOBError.R'
     'MeasureRegr.R'
     'MeasureSelectedFeatures.R'
+    'MeasureSimilarity.R'
     'MeasureSimple.R'
     'Prediction.R'
     'PredictionClassif.R'
@@ -190,6 +194,7 @@ Collate:
     'default_measures.R'
     'fix_factor_levels.R'
     'helper.R'
+    'install_pkgs.R'
     'mlr_sugar.R'
     'partition.R'
     'predict.R'

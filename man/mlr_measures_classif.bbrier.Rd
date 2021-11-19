@@ -5,11 +5,14 @@
 \title{Binary Brier Score}
 \description{
 Brier score for binary classification problems defined as \deqn{
-   \frac{1}{n} \sum_{i=1}^n (I_i - p_i)^2.
+   \frac{1}{n} \sum_{i=1}^n w_i (I_i - p_i)^2.
 }{
-   1/n * sum(((t == positive) - p)^2).
+   weighted.mean(((t == positive) - p)^2, w).
 }
+\if{latex}{
+\eqn{w_i} are the sample weights,
 \eqn{I_{i}}{I_i} is 1 if observation \eqn{i} belongs to the positive class, and 0 otherwise.
+}
 
 Note that this (more common) definition of the Brier score is equivalent to the
 original definition of the multi-class Brier score (see \code{\link[mlr3measures:mbrier]{mbrier()}}) divided by 2.
@@ -22,9 +25,14 @@ This can be customized by setting the field \code{na_value}.
 }
 \section{Dictionary}{
 
-This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("bbrier")
-msr("bbrier")
+This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("classif.bbrier")
+msr("classif.bbrier")
 }
+}
+
+\section{Parameters}{
+
+Empty ParamSet
 }
 
 \section{Meta Information}{

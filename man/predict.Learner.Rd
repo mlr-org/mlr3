@@ -19,7 +19,7 @@ Set to \verb{<Prediction>} to retrieve the complete \link{Prediction} object.
 If set to \code{NULL} (default), the first predict type for the respective class of the \link{Learner}
 as stored in \link{mlr_reflections} is used.}
 
-\item{...}{(\code{any})\cr
+\item{...}{(any)\cr
 Hyperparameters to pass down to the \link{Learner}.}
 }
 \description{

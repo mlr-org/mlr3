@@ -17,6 +17,16 @@ tgen("simplex")
 }
 }
 
+\section{Parameters}{
+\tabular{lllll}{
+   Id \tab Type \tab Default \tab Range \tab Levels \cr
+   center \tab logical \tab TRUE \tab - \tab TRUE, FALSE \cr
+   d \tab integer \tab 3 \tab \eqn{[1, \infty)}{[1, Inf)} \tab - \cr
+   sd \tab numeric \tab 0.1 \tab \eqn{[0, \infty)}{[0, Inf)} \tab - \cr
+   sides \tab integer \tab 1 \tab \eqn{[1, \infty)}{[1, Inf)} \tab - \cr
+}
+}
+
 \examples{
 generator = tgen("simplex")
 plot(generator, n = 200)

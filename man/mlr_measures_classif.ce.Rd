@@ -5,9 +5,9 @@
 \title{Classification Error}
 \description{
 Classification measure defined as \deqn{
-  \frac{1}{n} \sum_{i=1}^n \left( t_i \neq r_i \right).
+  \frac{1}{n} \sum_{i=1}^n w_i \left( t_i \neq r_i \right).
 }{
-  mean(t != r).
+  weighted.mean(t != r, w).
 }
 }
 \note{
@@ -18,9 +18,14 @@ This can be customized by setting the field \code{na_value}.
 }
 \section{Dictionary}{
 
-This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("ce")
-msr("ce")
+This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("classif.ce")
+msr("classif.ce")
 }
+}
+
+\section{Parameters}{
+
+Empty ParamSet
 }
 
 \section{Meta Information}{

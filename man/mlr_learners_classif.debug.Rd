@@ -9,27 +9,29 @@ A simple \link{LearnerClassif} used primarily in the unit tests and for debuggin
 If no hyperparameter is set, it simply constantly predicts a randomly selected label.
 The following hyperparameters trigger the following actions:
 \describe{
-\item{message_train:}{Probability to output a message during train.}
-\item{message_predict:}{Probability to output a message during predict.}
-\item{warning_train:}{Probability to signal a warning during train.}
-\item{warning_predict:}{Probability to signal a warning during predict.}
-\item{error_train:}{Probability to raises an exception during train.}
 \item{error_predict:}{Probability to raise an exception during predict.}
-\item{segfault_train:}{Probability to provokes a segfault during train.}
-\item{segfault_predict:}{Probability to provokes a segfault during predict.}
-\item{predict_missing}{Ratio of predictions which will be NA.}
-\item{predict_missing_type}{To to encode missingness. \dQuote{na} will insert NA values, \dQuote{omit} will just return fewer predictions than requested.}
+\item{error_train:}{Probability to raises an exception during train.}
+\item{message_predict:}{Probability to output a message during predict.}
+\item{message_train:}{Probability to output a message during train.}
+\item{predict_missing:}{Ratio of predictions which will be NA.}
+\item{predict_missing_type:}{To to encode missingness. \dQuote{na} will insert NA values, \dQuote{omit} will just return fewer predictions than requested.}
 \item{save_tasks:}{Saves input task in \code{model} slot during training and prediction.}
+\item{segfault_predict:}{Probability to provokes a segfault during predict.}
+\item{segfault_train:}{Probability to provokes a segfault during train.}
+\item{sleep_train:}{Function returning a single number determining how many seconds to sleep during \verb{$train()}.}
+\item{sleep_predict:}{Function returning a single number determining how many seconds to sleep during \verb{$predict()}.}
 \item{threads:}{Number of threads to use. Has no effect.}
+\item{warning_predict:}{Probability to signal a warning during predict.}
+\item{warning_train:}{Probability to signal a warning during train.}
 \item{x:}{Numeric tuning parameter. Has no effect.}
 }
-Note that segfaults may not be triggered on your operating system.
+Note that segfaults may not be triggered reliably on your operating system.
 Also note that if they work as intended, they will tear down your R session immediately!
 }
 \section{Dictionary}{
 
-This \link{Learner} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_learners} or with the associated sugar function \code{\link[=lrn]{lrn()}}:\preformatted{mlr_learners$get("classif.featureless")
-lrn("classif.featureless")
+This \link{Learner} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_learners} or with the associated sugar function \code{\link[=lrn]{lrn()}}:\preformatted{mlr_learners$get("classif.debug")
+lrn("classif.debug")
 }
 }
 
@@ -39,7 +41,7 @@ lrn("classif.featureless")
 \item Task type: \dQuote{classif}
 \item Predict Types: \dQuote{response}, \dQuote{prob}
 \item Feature Types: \dQuote{logical}, \dQuote{integer}, \dQuote{numeric}, \dQuote{character}, \dQuote{factor}, \dQuote{ordered}
-\item Required Packages: -
+\item Required Packages: \CRANpkg{mlr3}
 }
 }
 
@@ -51,14 +53,17 @@ lrn("classif.featureless")
    message_predict \tab numeric \tab 0 \tab \eqn{[0, 1]}{[0, 1]} \tab - \cr
    message_train \tab numeric \tab 0 \tab \eqn{[0, 1]}{[0, 1]} \tab - \cr
    predict_missing \tab numeric \tab 0 \tab \eqn{[0, 1]}{[0, 1]} \tab - \cr
-   predict_missing_type \tab character \tab na \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \tab na, omit \cr
-   save_tasks \tab logical \tab FALSE \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \tab TRUE, FALSE \cr
+   predict_missing_type \tab character \tab na \tab - \tab na, omit \cr
+   save_tasks \tab logical \tab FALSE \tab - \tab TRUE, FALSE \cr
    segfault_predict \tab numeric \tab 0 \tab \eqn{[0, 1]}{[0, 1]} \tab - \cr
    segfault_train \tab numeric \tab 0 \tab \eqn{[0, 1]}{[0, 1]} \tab - \cr
+   sleep_train \tab list \tab - \tab - \tab - \cr
+   sleep_predict \tab list \tab - \tab - \tab - \cr
    threads \tab integer \tab - \tab \eqn{[1, \infty)}{[1, Inf)} \tab - \cr
    warning_predict \tab numeric \tab 0 \tab \eqn{[0, 1]}{[0, 1]} \tab - \cr
    warning_train \tab numeric \tab 0 \tab \eqn{[0, 1]}{[0, 1]} \tab - \cr
    x \tab numeric \tab - \tab \eqn{[0, 1]}{[0, 1]} \tab - \cr
+   iter \tab integer \tab 1 \tab \eqn{[1, \infty)}{[1, Inf)} \tab - \cr
 }
 }
 
@@ -77,16 +82,20 @@ names(learner$model)
 \seealso{
 \itemize{
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
-\url{https://mlr3book.mlr-org.com/learners.html}
+\url{https://mlr3book.mlr-org.com/basics.html#learners}
 \item Package \CRANpkg{mlr3learners} for a solid collection of essential learners.
 \item Package \href{https://github.com/mlr-org/mlr3extralearners}{mlr3extralearners} for more learners.
 \item \link[mlr3misc:Dictionary]{Dictionary} of \link[=Learner]{Learners}: \link{mlr_learners}
 \item \code{as.data.table(mlr_learners)} for a table of available \link[=Learner]{Learners} in the running session (depending on the loaded packages).
+\item \CRANpkg{mlr3pipelines} to combine learners with pre- and postprocessing steps.
+\item Package \CRANpkg{mlr3viz} for some generic visualizations.
 \item Extension packages for additional task types:
 \itemize{
 \item \CRANpkg{mlr3proba} for probabilistic supervised regression and survival analysis.
 \item \CRANpkg{mlr3cluster} for unsupervised clustering.
 }
+\item \CRANpkg{mlr3tuning} for tuning of hyperparameters, \CRANpkg{mlr3tuningspaces}
+for established default tuning spaces.
 }
 
 Other Learner: 
@@ -95,6 +104,7 @@ Other Learner:
 \code{\link{Learner}},
 \code{\link{mlr_learners_classif.featureless}},
 \code{\link{mlr_learners_classif.rpart}},
+\code{\link{mlr_learners_regr.debug}},
 \code{\link{mlr_learners_regr.featureless}},
 \code{\link{mlr_learners_regr.rpart}},
 \code{\link{mlr_learners}}
@@ -113,6 +123,7 @@ Other Learner:
 \if{html}{
 \out{<details ><summary>Inherited methods</summary>}
 \itemize{
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="base_learner">}\href{../../mlr3/html/Learner.html#method-base_learner}{\code{mlr3::Learner$base_learner()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="format">}\href{../../mlr3/html/Learner.html#method-format}{\code{mlr3::Learner$format()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="help">}\href{../../mlr3/html/Learner.html#method-help}{\code{mlr3::Learner$help()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="predict">}\href{../../mlr3/html/Learner.html#method-predict}{\code{mlr3::Learner$predict()}}\out{</span>}

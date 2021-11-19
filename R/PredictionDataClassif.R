@@ -7,7 +7,7 @@ check_prediction_data.PredictionDataClassif = function(pdata) { # nolint
   lvls = levels(pdata$truth)
 
   if (!is.null(pdata$response)) {
-    pdata$response = assert_factor(as_factor(pdata$response, levels = lvls))
+    pdata$response = assert_factor(as_factor(unname(pdata$response), levels = lvls))
     assert_prediction_count(length(pdata$response), n, "response")
   }
 
@@ -96,4 +96,21 @@ c.PredictionDataClassif = function(..., keep_duplicates = TRUE) {
   result = as.list(tab)
   result$prob = prob
   new_prediction_data(result, "classif")
+}
+
+#' @export
+filter_prediction_data.PredictionDataClassif = function(pdata, row_ids) {
+  keep = pdata$row_ids %in% row_ids
+  pdata$row_ids = pdata$row_ids[keep]
+  pdata$truth = pdata$truth[keep]
+
+  if (!is.null(pdata$response)) {
+    pdata$response = pdata$response[keep]
+  }
+
+  if (!is.null(pdata$prob)) {
+    pdata$prob = pdata$prob[keep,, drop = FALSE]
+  }
+
+  pdata
 }

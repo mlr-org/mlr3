@@ -10,6 +10,9 @@ Regression measure defined as \deqn{
   2 * mean(abs(t - r) / (abs(t) + abs(r))).
 }
 }
+\details{
+This measure is undefined if if any \eqn{|t| + |r|} is \eqn{0}.
+}
 \note{
 The score function calls \code{\link[mlr3measures:smape]{mlr3measures::smape()}} from package \CRANpkg{mlr3measures}.
 
@@ -18,9 +21,14 @@ This can be customized by setting the field \code{na_value}.
 }
 \section{Dictionary}{
 
-This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("smape")
-msr("smape")
+This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("regr.smape")
+msr("regr.smape")
 }
+}
+
+\section{Parameters}{
+
+Empty ParamSet
 }
 
 \section{Meta Information}{

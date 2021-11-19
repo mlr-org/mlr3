@@ -1,22 +1,27 @@
-learner_train = function(learner, task, row_ids = NULL) {
+learner_train = function(learner, task, row_ids = NULL, mode = "train") {
   # This wrapper calls learner$train, and additionally performs some basic
   # checks that the training was successful.
   # Exceptions here are possibly encapsulated, so that they get captured
   # and turned into log messages.
   train_wrapper = function(learner, task) {
     if (task$nrow == 0L) {
-      stopf("Cannot fit Learner '%s' on task '%s': No observations", learner$id, task$id)
+      stopf("Cannot %s Learner '%s' on task '%s': No observations", mode, learner$id, task$id)
     }
 
-    model = get_private(learner)$.train(task)
+    model = if (mode == "train") {
+        get_private(learner)$.train(task)
+      } else if (mode == "hotstart") {
+        get_private(learner)$.hotstart(task)
+      }
 
     if (is.null(model)) {
-      stopf("Learner '%s' on task '%s' returned NULL during internal train()", learner$id, task$id)
+      stopf("Learner '%s' on task '%s' returned NULL during internal %s()", learner$id, task$id, mode)
     }
 
     model
   }
 
+  assert_choice(mode, c("train", "hotstart"))
   assert_task(task)
   assert_learner(learner)
 
@@ -34,10 +39,10 @@ learner_train = function(learner, task, row_ids = NULL) {
     lg$debug("Skip subsetting of task '%s'", task$id)
   }
 
-  learner$state = list()
+  if (mode == "train") learner$state = list()
 
-  lg$debug("Calling train method of Learner '%s' on task '%s' with %i observations",
-    learner$id, task$id, task$nrow, learner = learner$clone())
+  lg$debug("Calling %s method of Learner '%s' on task '%s' with %i observations",
+    mode, learner$id, task$id, task$nrow, learner = learner$clone())
 
   # call train_wrapper with encapsulation
   result = encapsulate(learner$encapsulate["train"],
@@ -48,18 +53,29 @@ learner_train = function(learner, task, row_ids = NULL) {
     .timeout = learner$timeout["train"]
   )
 
+  if (mode == "train") {
+    log = append_log(NULL, "train", result$log$class, result$log$msg)
+    train_time = result$elapsed
+  } else {
+    log = rbindlist(list(learner$state$log, append_log(NULL, "train", result$log$class, result$log$msg)))
+    train_time = learner$state$train_time + result$elapsed
+  }
+
   learner$state = insert_named(learner$state, list(
     model = result$result,
-    log = append_log(NULL, "train", result$log$class, result$log$msg),
-    train_time = result$elapsed
+    log = log,
+    train_time = result$elapsed,
+    param_vals = learner$param_set$values,
+    task_hash = task$hash,
+    task_prototype = task$data()[0, ]
   ))
 
   if (is.null(result$result)) {
-    lg$debug("Learner '%s' on task '%s' failed to fit a model",
-      learner$id, task$id, learner = learner$clone(), messages = result$log$msg)
+    lg$debug("Learner '%s' on task '%s' failed to %s a model",
+      learner$id, task$id, mode, learner = learner$clone(), messages = result$log$msg)
   } else {
-    lg$debug("Learner '%s' on task '%s' succeeded to fit a model",
-      learner$id, task$id, learner = learner$clone(), result = result$result, messages = result$log$msg)
+    lg$debug("Learner '%s' on task '%s' succeeded to %s a model",
+      learner$id, task$id, mode, learner = learner$clone(), result = result$result, messages = result$log$msg)
   }
 
   # fit fallback learner
@@ -79,7 +95,6 @@ learner_train = function(learner, task, row_ids = NULL) {
 
   learner
 }
-
 
 learner_predict = function(learner, task, row_ids = NULL) {
   # This wrapper calls learner$predict, and additionally performs some basic
@@ -128,7 +143,7 @@ learner_predict = function(learner, task, row_ids = NULL) {
     lg$debug("Learner '%s' has no model stored",
       learner$id, learner = learner$clone())
 
-    prediction = NULL
+    pdata = NULL
     learner$state$predict_time = NA_real_
   } else {
     # call predict with encapsulation
@@ -144,12 +159,12 @@ learner_predict = function(learner, task, row_ids = NULL) {
       .timeout = learner$timeout["predict"]
     )
 
-    prediction = result$result
+    pdata = result$result
     learner$state$log = append_log(learner$state$log, "predict", result$log$class, result$log$msg)
     learner$state$predict_time = result$elapsed
 
     lg$debug("Learner '%s' returned an object of class '%s'",
-      learner$id, class(prediction)[1L], learner = learner$clone(), prediction = prediction, messages = result$log$msg)
+      learner$id, class(pdata)[1L], learner = learner$clone(), prediction_data = pdata, messages = result$log$msg)
   }
 
 
@@ -163,31 +178,32 @@ learner_predict = function(learner, task, row_ids = NULL) {
     }
 
 
-    if (is.null(prediction)) {
+    if (is.null(pdata)) {
       lg$debug("Creating new Prediction using fallback '%s'",
         fb$id, learner = fb$clone())
 
       learner$state$log = append_log(learner$state$log, "predict", "output", "Using fallback learner for predictions")
-      prediction = predict_fb(task$row_ids)
+      pdata = predict_fb(task$row_ids)
     } else {
-      miss_ids = is_missing_prediction_data(prediction)
+      miss_ids = is_missing_prediction_data(pdata)
 
       lg$debug("Imputing %i/%i predictions using fallback '%s'",
-        length(miss_ids), length(prediction$row_ids), fb$id, learner = fb$clone())
+        length(miss_ids), length(pdata$row_ids), fb$id, learner = fb$clone())
 
       if (length(miss_ids)) {
         learner$state$log = append_log(learner$state$log, "predict", "output", "Using fallback learner to impute predictions")
 
-        prediction = c(prediction, predict_fb(miss_ids), keep_duplicates = FALSE)
+        pdata = c(pdata, predict_fb(miss_ids), keep_duplicates = FALSE)
       }
     }
   }
 
-  return(prediction)
+  return(pdata)
 }
 
 
-workhorse = function(iteration, task, learner, resampling, lgr_threshold = NULL, store_models = FALSE, pb = NULL) {
+workhorse = function(iteration, task, learner, resampling, lgr_threshold = NULL, store_models = FALSE, pb = NULL,
+  mode = "train") {
   if (!is.null(pb)) {
     pb(sprintf("%s|%s|i:%i", task$id, learner$id, iteration))
   }
@@ -196,8 +212,8 @@ workhorse = function(iteration, task, learner, resampling, lgr_threshold = NULL,
     lg$set_threshold(lgr_threshold)
   }
 
-  lg$info("Applying learner '%s' on task '%s' (iter %i/%i)",
-    learner$id, task$id, iteration, resampling$iters)
+  lg$info("%s learner '%s' on task '%s' (iter %i/%i)",
+    if (mode == "train") "Applying" else "Hotstarting", learner$id, task$id, iteration, resampling$iters)
 
   sets = list(
     train = resampling$train_set(iteration),
@@ -206,7 +222,7 @@ workhorse = function(iteration, task, learner, resampling, lgr_threshold = NULL,
   )
 
   # train model
-  learner = learner_train(learner$clone(), task, sets[["train"]])
+  learner = learner_train(learner$clone(), task, sets[["train"]], mode = mode)
 
   # predict for each set
   sets = sets[learner$predict_sets]

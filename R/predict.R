@@ -20,7 +20,7 @@
 #'   Set to `<Prediction>` to retrieve the complete [Prediction] object.
 #'   If set to `NULL` (default), the first predict type for the respective class of the [Learner]
 #'   as stored in [mlr_reflections] is used.
-#' @param ... (`any`)\cr
+#' @param ... (any)\cr
 #'   Hyperparameters to pass down to the [Learner].
 #'
 #' @export

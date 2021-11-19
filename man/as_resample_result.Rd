@@ -10,10 +10,10 @@ as_resample_result(x, ...)
 \method{as_resample_result}{ResampleResult}(x, ...)
 }
 \arguments{
-\item{x}{(\code{any})\cr
+\item{x}{(any)\cr
 Object to convert.}
 
-\item{...}{(\code{any})\cr
+\item{...}{(any)\cr
 Currently not used.}
 }
 \value{

@@ -14,6 +14,15 @@ tgen("2dnormals")
 }
 }
 
+\section{Parameters}{
+\tabular{lllll}{
+   Id \tab Type \tab Default \tab Range \tab Levels \cr
+   cl \tab integer \tab - \tab \eqn{[2, \infty)}{[2, Inf)} \tab - \cr
+   r \tab numeric \tab - \tab \eqn{[1, \infty)}{[1, Inf)} \tab - \cr
+   sd \tab numeric \tab - \tab \eqn{[0, \infty)}{[0, Inf)} \tab - \cr
+}
+}
+
 \examples{
 generator = tgen("2dnormals")
 plot(generator, n = 200)

@@ -5,10 +5,13 @@
 \title{Mean Absolute Percent Error}
 \description{
 Regression measure defined as \deqn{
-  \frac{1}{n} \sum_{i=1}^n \left| \frac{ t_i - r_i}{t_i} \right|.
+  \frac{1}{n} \sum_{i=1}^n w_i \left| \frac{ t_i - r_i}{t_i} \right|.
  }{
-   mean(abs((t - r) / t)).
+   weighted.mean(abs((t - r) / t), w).
  }
+}
+\details{
+This measure is undefined if any element of \eqn{t} is \eqn{0}.
 }
 \note{
 The score function calls \code{\link[mlr3measures:mape]{mlr3measures::mape()}} from package \CRANpkg{mlr3measures}.
@@ -18,9 +21,14 @@ This can be customized by setting the field \code{na_value}.
 }
 \section{Dictionary}{
 
-This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("mape")
-msr("mape")
+This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("regr.mape")
+msr("regr.mape")
 }
+}
+
+\section{Parameters}{
+
+Empty ParamSet
 }
 
 \section{Meta Information}{

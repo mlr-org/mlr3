@@ -8,7 +8,7 @@
 #' Creates a large circle containing a smaller circle.
 #'
 #' @templateVar id circle
-#' @template section_dictionary_task_generator
+#' @template task_generator
 #'
 #' @template seealso_task_generator
 #' @export

@@ -74,16 +74,20 @@ Here, we add a factor hyperparameter with id \code{"foo"} and possible levels \c
 \seealso{
 \itemize{
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
-\url{https://mlr3book.mlr-org.com/learners.html}
+\url{https://mlr3book.mlr-org.com/basics.html#learners}
 \item Package \CRANpkg{mlr3learners} for a solid collection of essential learners.
 \item Package \href{https://github.com/mlr-org/mlr3extralearners}{mlr3extralearners} for more learners.
 \item \link[mlr3misc:Dictionary]{Dictionary} of \link[=Learner]{Learners}: \link{mlr_learners}
 \item \code{as.data.table(mlr_learners)} for a table of available \link[=Learner]{Learners} in the running session (depending on the loaded packages).
+\item \CRANpkg{mlr3pipelines} to combine learners with pre- and postprocessing steps.
+\item Package \CRANpkg{mlr3viz} for some generic visualizations.
 \item Extension packages for additional task types:
 \itemize{
 \item \CRANpkg{mlr3proba} for probabilistic supervised regression and survival analysis.
 \item \CRANpkg{mlr3cluster} for unsupervised clustering.
 }
+\item \CRANpkg{mlr3tuning} for tuning of hyperparameters, \CRANpkg{mlr3tuningspaces}
+for established default tuning spaces.
 }
 
 Other Learner: 
@@ -92,6 +96,7 @@ Other Learner:
 \code{\link{mlr_learners_classif.debug}},
 \code{\link{mlr_learners_classif.featureless}},
 \code{\link{mlr_learners_classif.rpart}},
+\code{\link{mlr_learners_regr.debug}},
 \code{\link{mlr_learners_regr.featureless}},
 \code{\link{mlr_learners_regr.rpart}},
 \code{\link{mlr_learners}}
@@ -138,22 +143,30 @@ These packages are loaded, but not attached.}
 \item{\code{predict_sets}}{(\code{character()})\cr
 During \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}, a \link{Learner} can predict on multiple sets.
 Per default, a learner only predicts observations in the test set (\code{predict_sets == "test"}).
-To change this behaviour, set \code{predict_sets} to a non-empty subset of \verb{\{"train", "test", "validation"\}}.
+To change this behavior, set \code{predict_sets} to a non-empty subset of \verb{\{"train", "test", "validation"\}}.
 Each set yields a separate \link{Prediction} object.
 Those be combined via getters in \link{ResampleResult}/\link{BenchmarkResult}, or \link{Measure}s can be altered
 to operate on specific subsets of the calculated prediction sets.}
+
+\item{\code{parallel_predict}}{(\code{logical(1)})\cr
+If set to \code{TRUE}, use \CRANpkg{future} to calculate predictions in parallel (default: \code{FALSE}).
+The row ids of the \code{task} will be split into \code{\link[future:nbrOfWorkers]{future::nbrOfWorkers()}} chunks,
+and predictions are evaluated according to the active \code{\link[future:plan]{future::plan()}}.
+This currently only works for methods \code{Learner$predict()} and \code{Learner$predict_newdata()},
+and has no effect during \code{\link[=resample]{resample()}} or \code{\link[=benchmark]{benchmark()}} where you have other means
+to parallelize.}
 
 \item{\code{timeout}}{(named \code{numeric(2)})\cr
 Timeout for the learner's train and predict steps, in seconds.
 This works differently for different encapsulation methods, see
 \code{\link[mlr3misc:encapsulate]{mlr3misc::encapsulate()}}.
 Default is \code{c(train = Inf, predict = Inf)}.
-Also see the section on error handling the mlr3book: \url{https://mlr3book.mlr-org.com/error-handling.html}}
+Also see the section on error handling the mlr3book: \url{https://mlr3book.mlr-org.com/technical.html#error-handling}}
 
 \item{\code{fallback}}{(\link{Learner})\cr
 Learner which is fitted to impute predictions in case that either the model fitting or the prediction of the top learner is not successful.
 Requires you to enable encapsulation, otherwise errors are not caught and the execution is terminated before the fallback learner kicks in.
-Also see the section on error handling the mlr3book: \url{https://mlr3book.mlr-org.com/error-handling.html}}
+Also see the section on error handling the mlr3book: \url{https://mlr3book.mlr-org.com/technical.html#error-handling}}
 
 \item{\code{man}}{(\code{character(1)})\cr
 String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
@@ -164,7 +177,7 @@ Defaults to \code{NA}, but can be set by child classes.}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{model}}{(\code{any})\cr
+\item{\code{model}}{(any)\cr
 The fitted model. Only available after \verb{$train()} has been called.}
 
 \item{\code{timings}}{(named \code{numeric(2)})\cr
@@ -190,7 +203,7 @@ Hash (unique identifier) for this object.}
 
 \item{\code{phash}}{(\code{character(1)})\cr
 Hash (unique identifier) for this partial object, excluding some components
-which are varied  systematically during tuning (parameter values) or feature
+which are varied systematically during tuning (parameter values) or feature
 selection (feature names).}
 
 \item{\code{predict_type}}{(\code{character(1)})\cr
@@ -205,6 +218,9 @@ Controls how to execute the code in internal train and predict methods.
 Must be a named character vector with names \code{"train"} and \code{"predict"}.
 Possible values are \code{"none"}, \code{"evaluate"} (requires package \CRANpkg{evaluate}) and \code{"callr"} (requires package \CRANpkg{callr}).
 See \code{\link[mlr3misc:encapsulate]{mlr3misc::encapsulate()}} for more details.}
+
+\item{\code{hotstart_stack}}{(\link{HotstartStack})\cr.
+Stores \code{HotstartStack}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -219,6 +235,7 @@ See \code{\link[mlr3misc:encapsulate]{mlr3misc::encapsulate()}} for more details
 \item \href{#method-predict}{\code{Learner$predict()}}
 \item \href{#method-predict_newdata}{\code{Learner$predict_newdata()}}
 \item \href{#method-reset}{\code{Learner$reset()}}
+\item \href{#method-base_learner}{\code{Learner$base_learner()}}
 \item \href{#method-clone}{\code{Learner$clone()}}
 }
 }
@@ -306,7 +323,7 @@ Helper for print outputs.
 \subsection{Method \code{print()}}{
 Printer.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Learner$print()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Learner$print(...)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -343,7 +360,8 @@ Mutates the learner by reference, i.e. stores the model alongside other informat
 \item{\code{task}}{(\link{Task}).}
 
 \item{\code{row_ids}}{(\code{integer()})\cr
-Vector of training indices.}
+Vector of training indices as subset of \code{task$row_ids}.
+For a simple split into training and test set, see \code{\link[=partition]{partition()}}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -369,7 +387,8 @@ for a set of observations of the provided \code{task}.
 \item{\code{task}}{(\link{Task}).}
 
 \item{\code{row_ids}}{(\code{integer()})\cr
-Vector of test indices.}
+Vector of test indices as subset of \code{task$row_ids}.
+For a simple split into training and test set, see \code{\link[=partition]{partition()}}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -394,9 +413,12 @@ in the \link{ResampleResult} or \link{BenchmarkResult}, respectively.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{newdata}}{(\code{data.frame()})\cr
+\item{\code{newdata}}{(any object supported by \code{\link[=as_data_backend]{as_data_backend()}})\cr
 New data to predict on.
-Row ids are automatically set to \code{1:nrow(newdata)}.}
+All data formats convertible by \code{\link[=as_data_backend]{as_data_backend()}} are supported, e.g.
+\code{data.frame()} or \link{DataBackend}.
+If a \link{DataBackend} is provided as \code{newdata}, the row ids are preserved,
+otherwise they are set to to the sequence \code{1:nrow(newdata)}.}
 
 \item{\code{task}}{(\link{Task}).}
 }
@@ -419,6 +441,30 @@ Reset the learner, i.e. un-train by resetting the \code{state}.
 Returns the object itself, but modified \strong{by reference}.
 You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
 the object in its previous state.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-base_learner"></a>}}
+\if{latex}{\out{\hypertarget{method-base_learner}{}}}
+\subsection{Method \code{base_learner()}}{
+Extracts the base learner from nested learner objects like
+\code{GraphLearner} in \CRANpkg{mlr3pipelines} or \code{AutoTuner} in
+\CRANpkg{mlr3tuning}.
+Returns the \link{Learner} itself for regular learners.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Learner$base_learner(recursive = Inf)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{recursive}}{(\code{integer(1)})\cr
+Depth of recursion for multiple nested objects.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\link{Learner}.
 }
 }
 \if{html}{\out{<hr>}}

@@ -13,4 +13,9 @@ test_that("PredictionDataRegr", {
   expect_s3_class(c(pdata, pdata), "PredictionDataRegr")
   expect_prediction(as_prediction(pdata))
   expect_equal(as.data.table(p), as.data.table(as_prediction(pdata)))
+
+  pdata = filter_prediction_data(pdata, row_ids = 1:3)
+  expect_set_equal(pdata$row_ids, 1:3)
+  expect_numeric(pdata$truth, len = 3)
+  expect_numeric(pdata$response, len = 3)
 })

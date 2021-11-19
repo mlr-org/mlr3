@@ -12,8 +12,8 @@ with_seed = function(seed, expr) {
 
 with_future = function(backend, expr, ...) {
   requireNamespace("future")
-  oplan = future::plan(backend, ...)
-  on.exit(future::plan(oplan))
+  oplan = force(future::plan(backend, ...))
+  on.exit(future::plan(oplan), add = TRUE)
   force(expr)
 }
 

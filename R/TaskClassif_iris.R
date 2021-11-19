@@ -7,14 +7,8 @@
 #' @description
 #' A classification task for the popular [datasets::iris] data set.
 #'
-#' @section Construction:
-#' ```
-#' mlr_tasks$get("iris")
-#' tsk("iris")
-#' ```
-#'
-#' @section Meta Information:
-#' `r rd_info(tsk("iris"))`
+#' @templateVar id iris
+#' @template task
 #'
 #' @source
 #' \url{https://en.wikipedia.org/wiki/Iris_flower_data_set}

@@ -9,13 +9,7 @@
 #' Returns `NA` for unsupported learners.
 #'
 #' @templateVar id oob_error
-#' @template section_dictionary_measure
-#'
-#' @section Meta Information:
-#' * Type: `NA`
-#' * Range: \eqn{(-\infty, \infty)}{(-Inf, Inf)}
-#' * Minimize: `NA`
-#' * Required prediction: 'response'
+#' @template measure
 #'
 #' @template seealso_measure
 #' @export
@@ -39,10 +33,12 @@ MeasureOOBError = R6Class("MeasureOOBError",
 
   private = list(
     .score = function(prediction, learner, ...) {
+      learner = learner$base_learner()
       if ("oob_error" %nin% learner$properties) {
         return(NA_real_)
       }
-      learner$oob_error()
+
+      return(learner$oob_error())
     }
   )
 )

@@ -31,10 +31,12 @@ custom$test_set(1)
 \seealso{
 \itemize{
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
-\url{https://mlr3book.mlr-org.com/resampling.html}
+\url{https://mlr3book.mlr-org.com/basics.html#resampling}
 \item Package \CRANpkg{mlr3spatiotempcv} for spatio-temporal resamplings.
 \item \link[mlr3misc:Dictionary]{Dictionary} of \link[=Resampling]{Resamplings}: \link{mlr_resamplings}
 \item \code{as.data.table(mlr_resamplings)} for a table of available \link[=Resampling]{Resamplings} in the running session (depending on the loaded packages).
+\item \CRANpkg{mlr3spatiotempcv} for additional \link{Resampling}s for spatio-temporal
+tasks.
 }
 
 Other Resampling: 

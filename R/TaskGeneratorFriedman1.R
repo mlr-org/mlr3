@@ -7,7 +7,7 @@
 #' A [TaskGenerator] for the friedman1 task in [mlbench::mlbench.friedman1()].
 #'
 #' @templateVar id friedman1
-#' @template section_dictionary_task_generator
+#' @template task_generator
 #'
 #' @template seealso_task_generator
 #' @export

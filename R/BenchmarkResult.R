@@ -155,7 +155,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #'
     #' @return [data.table::data.table()].
     score = function(measures = NULL, ids = TRUE, conditions = FALSE, predict_sets = "test") {
-      measures = assert_measures(as_measures(measures, task_type = self$task_type))
+      measures = as_measures(measures, task_type = self$task_type)
       assert_flag(ids)
       assert_flag(conditions)
 
@@ -263,7 +263,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
       }
 
       if (nrow(tab) > 0L) {
-        scores = map_dtr(tab$resample_result, function(rr) as.list(rr$aggregate(measures)))
+        scores = map_dtr(tab$resample_result, function(rr) as.list(resample_result_aggregate(rr, measures)))
       } else {
         scores = setDT(named_list(ids(measures), double()))
       }
@@ -362,6 +362,24 @@ BenchmarkResult = R6Class("BenchmarkResult",
       }
 
       ResampleResult$new(private$.data, view = needle)
+    },
+
+    #' @description
+    #' Shrinks the [BenchmarkResult] by discarding parts of the internally stored data.
+    #' Note that certain operations might stop work, e.g. extracting
+    #' importance values from learners or calculating measures requiring the task's data.
+    #'
+    #' @param backends (`logical(1)`)\cr
+    #'   If `TRUE`, the [DataBackend] is removed from all stored [Task]s.
+    #' @param models (`logical(1)`)\cr
+    #'   If `TRUE`, the stored model is removed from all [Learner]s.
+    #'
+    #' @return
+    #' Returns the object itself, but modified **by reference**.
+    #' You need to explicitly `$clone()` the object beforehand if you want to keeps
+    #' the object in its previous state.
+    discard = function(backends = FALSE, models = FALSE) {
+      private$.data$discard(backends = backends, models = models)
     }
   ),
 
@@ -408,7 +426,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #' * `"learner"` ([Learner]).
     #'
     #' Note that it is not feasible to access learned models via this field, as the training task would be ambiguous.
-    #' For this reason the returned learner are reseted before they are returned.
+    #' For this reason the returned learner are reset before they are returned.
     #' Instead, select a row from the table returned by `$score()`.
     learners = function(rhs) {
       assert_ro_binding(rhs)

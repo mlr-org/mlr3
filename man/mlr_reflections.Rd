@@ -33,6 +33,10 @@ Vector of supported row roles for a \link{Task}.
 List of vectors of supported column roles for a \link{Task}, named by their task type.
 \item \code{task_properties} (list of \code{character()})\cr
 List of vectors of supported \link{Task} properties, named by their task type.
+\item \code{task_mandatory_properties} (list of \code{character()})\cr
+List of vectors of \link{Task} properties which necessarily must be supported by the \link{Learner}.
+I.e., if the task property is not found in the set of the learner properties, an exception
+is raised.
 \item \code{learner_properties} (list of \code{character()})\cr
 List of vectors of supported \link{Learner} properties, named by their task type.
 \item \code{learner_predict_types} (list of list of \code{character()})\cr

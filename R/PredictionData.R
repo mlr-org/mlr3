@@ -21,11 +21,6 @@
 NULL
 
 new_prediction_data = function(li, task_type = NULL) {
-  capitalize = function(str) {
-    substr(str, 1L, 1L) = toupper(substr(str, 1L, 1L))
-    str
-  }
-
   li = discard(li, is.null)
   class(li) = sprintf("PredictionData%s", c(capitalize(task_type), ""))
   li
@@ -48,4 +43,11 @@ check_prediction_data = function(pdata) {
 #' @export
 is_missing_prediction_data = function(pdata) {
   UseMethod("is_missing_prediction_data")
+}
+
+#' @rdname PredictionData
+#' @template param_row_ids
+#' @export
+filter_prediction_data = function(pdata, row_ids) {
+  UseMethod("filter_prediction_data")
 }

@@ -14,6 +14,15 @@ tgen("cassini")
 }
 }
 
+\section{Parameters}{
+\tabular{lllll}{
+   Id \tab Type \tab Default \tab Range \tab Levels \cr
+   relsize1 \tab integer \tab 2 \tab \eqn{[1, \infty)}{[1, Inf)} \tab - \cr
+   relsize2 \tab integer \tab 2 \tab \eqn{[1, \infty)}{[1, Inf)} \tab - \cr
+   relsize3 \tab integer \tab 1 \tab \eqn{[1, \infty)}{[1, Inf)} \tab - \cr
+}
+}
+
 \examples{
 generator = tgen("cassini")
 plot(generator, n = 200)

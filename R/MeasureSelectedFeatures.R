@@ -13,17 +13,7 @@
 #' This measure requires the [Task] and the [Learner] for scoring.
 #'
 #' @templateVar id selected_features
-#' @template section_dictionary_measure
-#'
-#' @section Parameters:
-#' `r rd_info(msr("classif.costs")$param_set)`
-#'
-#'
-#' @section Meta Information:
-#' * Type: `NA`
-#' * Range: \eqn{[0, \infty)}{[0, Inf)}
-#' * Minimize: `TRUE`
-#' * Required prediction: 'response'
+#' @template measure
 #'
 #' @template seealso_measure
 #' @export
@@ -58,14 +48,17 @@ MeasureSelectedFeatures = R6Class("MeasureSelectedFeatures",
 
   private = list(
     .score = function(prediction, task, learner, ...) {
+      learner = learner$base_learner()
       if ("selected_features" %nin% learner$properties) {
         return(NA_integer_)
       }
+
       n = length(learner$selected_features())
       if (self$param_set$get_values()$normalize) {
         n = n / length(task$feature_names)
       }
-      n
+
+      return(n)
     }
   )
 )

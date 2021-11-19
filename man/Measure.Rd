@@ -6,11 +6,11 @@
 \description{
 This is the abstract base class for measures like \link{MeasureClassif} and \link{MeasureRegr}.
 
-Measures are classes tailored around two functions:
+Measures are classes tailored around two functions doing the work:
 \enumerate{
-\item A function \verb{$score()} which quantifies the performance by comparing true and predicted response.
+\item A function \verb{$score()} which quantifies the performance by comparing the truth and predictions.
 \item A function \verb{$aggregator()} which combines multiple performance scores returned by
-\code{calculate} to a single numeric value.
+\verb{$score()} to a single numeric value.
 }
 
 In addition to these two functions, meta-information about the performance measure is stored.
@@ -24,7 +24,7 @@ A guide on how to extend \CRANpkg{mlr3} with custom measures can be found in the
 \seealso{
 \itemize{
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
-\url{https://mlr3book.mlr-org.com/train-predict.html}
+\url{https://mlr3book.mlr-org.com/basics.html#train-predict}
 \item Package \CRANpkg{mlr3measures} for the scoring functions.
 \link[mlr3misc:Dictionary]{Dictionary} of \link[=Measure]{Measures}: \link{mlr_measures}
 \code{as.data.table(mlr_measures)} for a table of available \link[=Measure]{Measures} in the running session (depending on the loaded packages).
@@ -38,6 +38,7 @@ A guide on how to extend \CRANpkg{mlr3} with custom measures can be found in the
 Other Measure: 
 \code{\link{MeasureClassif}},
 \code{\link{MeasureRegr}},
+\code{\link{MeasureSimilarity}},
 \code{\link{mlr_measures_aic}},
 \code{\link{mlr_measures_bic}},
 \code{\link{mlr_measures_classif.costs}},
@@ -70,25 +71,20 @@ Required predict type of the \link{Learner}.}
 \item{\code{predict_sets}}{(\code{character()})\cr
 During \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}, a \link{Learner} can predict on multiple sets.
 Per default, a learner only predicts observations in the test set (\code{predict_sets == "test"}).
-To change this behaviour, set \code{predict_sets} to a non-empty subset of \verb{\{"train", "test", "validation"\}}.
+To change this behavior, set \code{predict_sets} to a non-empty subset of \verb{\{"train", "test", "validation"\}}.
 Each set yields a separate \link{Prediction} object.
 Those be combined via getters in \link{ResampleResult}/\link{BenchmarkResult}, or \link{Measure}s can be altered
 to operate on specific subsets of the calculated prediction sets.}
 
-\item{\code{average}}{(\code{character(1)})\cr
-Method for aggregation:
+\item{\code{check_prerequisites}}{(\code{character(1)})\cr
+How to proceed if one of the following prerequisites is not met:
 \itemize{
-\item \code{"micro"}:
-All predictions from multiple resampling iterations are first combined into a single \link{Prediction} object.
-Next, the scoring function of the measure is applied on this combined object, yielding a single numeric score.
-\item \code{"macro"}:
-The scoring function is applied on the \link{Prediction} object of each resampling iterations,
-each yielding a single numeric score.
-Next, the scores are combined with the \code{aggregator} function to a single numerical score.
-}}
+\item wrong predict type (e.g., probabilities required, but only labels available).
+\item wrong predict set (e.g., learner predicted on training set, but predictions of test set required).
+\item task properties not satisfied (e.g., binary classification measure on multiclass task).
+}
 
-\item{\code{aggregator}}{(\verb{function()})\cr
-Function to aggregate scores computed on different resampling iterations.}
+Possible values are \code{"ignore"} (just return \code{NaN}) and \code{"warn"} (default, raise a warning before returning \code{NaN}).}
 
 \item{\code{task_properties}}{(\code{character()})\cr
 Required properties of the \link{Task}.}
@@ -117,6 +113,23 @@ Defaults to \code{NA}, but can be set by child classes.}
 \describe{
 \item{\code{hash}}{(\code{character(1)})\cr
 Hash (unique identifier) for this object.}
+
+\item{\code{average}}{(\code{character(1)})\cr
+Method for aggregation:
+\itemize{
+\item \code{"micro"}:
+All predictions from multiple resampling iterations are first combined into a single \link{Prediction} object.
+Next, the scoring function of the measure is applied on this combined object, yielding a single numeric score.
+\item \code{"macro"}:
+The scoring function is applied on the \link{Prediction} object of each resampling iterations,
+each yielding a single numeric score.
+Next, the scores are combined with the \code{aggregator} function to a single numerical score.
+\item \code{"custom"}:
+The measure comes with a custom aggregation method which directly operates on a \link{ResampleResult}.
+}}
+
+\item{\code{aggregator}}{(\verb{function()})\cr
+Function to aggregate scores computed on different resampling iterations.}
 }
 \if{html}{\out{</div>}}
 }
@@ -187,9 +200,17 @@ function defined in \verb{$aggregator} to average them to a single number.
 If set to \code{"micro"}, the individual \link{Prediction} objects are first combined into a single new \link{Prediction} object which is then used to assess the performance.
 The function in \verb{$aggregator} is not used in this case.}
 
-\item{\code{aggregator}}{(\verb{function(x)})\cr
-Function to aggregate individual performance scores \code{x} where \code{x} is a numeric vector.
-If \code{NULL}, defaults to \code{\link[=mean]{mean()}}.}
+\item{\code{aggregator}}{(\verb{function()})\cr
+Function to aggregate over multiple iterations. The role of this function depends on
+the value of field \code{"average"}:
+\itemize{
+\item \code{"macro"}: A numeric vector of scores (one per iteration) is passed.
+The aggregate function defaults to \code{\link[=mean]{mean()}} in this case.
+\item \code{"micro"}: The \code{aggregator} function is not used.
+Instead, predictions from multiple iterations are first combined and then
+scored in one go.
+\item \code{"custom"}: A \link{ResampleResult} is passed to the aggregate function.
+}}
 
 \item{\code{properties}}{(\code{character()})\cr
 Properties of the measure.
@@ -198,6 +219,8 @@ Supported by \code{mlr3}:
 \itemize{
 \item \code{"requires_task"} (requires the complete \link{Task}),
 \item \code{"requires_learner"} (requires the trained \link{Learner}),
+\item \code{"requires_model"} (requires the trained \link{Learner}, including the fitted
+model),
 \item \code{"requires_train_set"} (requires the training indices from the \link{Resampling}), and
 \item \code{"na_score"} (the measure is expected to occasionally return \code{NA} or \code{NaN}).
 }}
@@ -244,7 +267,7 @@ Helper for print outputs.
 \subsection{Method \code{print()}}{
 Printer.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Measure$print()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Measure$print(...)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -300,8 +323,8 @@ This is handled internally during \code{\link[=resample]{resample()}}/\code{\lin
 \if{html}{\out{<a id="method-aggregate"></a>}}
 \if{latex}{\out{\hypertarget{method-aggregate}{}}}
 \subsection{Method \code{aggregate()}}{
-Aggregates multiple performance scores into a single score using the \code{aggregator} function of the measure.
-Operates on the \link{Prediction}s of \link{ResampleResult} with matching \code{predict_sets}.
+Aggregates multiple performance scores into a single score, e.g. by using the \code{aggregator}
+function of the measure.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Measure$aggregate(rr)}\if{html}{\out{</div>}}
 }

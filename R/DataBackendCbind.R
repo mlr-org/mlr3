@@ -1,3 +1,4 @@
+#' @include DataBackend.R
 DataBackendCbind = R6Class("DataBackendCbind", inherit = DataBackend, cloneable = FALSE,
   public = list(
     initialize = function(b1, b2) {
@@ -6,8 +7,8 @@ DataBackendCbind = R6Class("DataBackendCbind", inherit = DataBackend, cloneable 
       pk = b1$primary_key
 
       data_formats = intersect(b1$data_formats, b2$data_formats)
-      if (length(data_formats) == 0L) {
-        stopf("There is no common data format for the backends to cbind")
+      if ("data.table" %nin% data_formats) {
+        stopf("There is supported data format for the backends to cbind (supported: 'data.table')")
       }
 
       if (pk != b2$primary_key) {
@@ -17,8 +18,7 @@ DataBackendCbind = R6Class("DataBackendCbind", inherit = DataBackend, cloneable 
       super$initialize(list(b1 = b1, b2 = b2), pk, "data.table")
     },
 
-    data = function(rows, cols, data_format = self$data_formats[1L]) {
-
+    data = function(rows, cols, data_format = "data.table") {
       pk = self$primary_key
       qrows = unique(assert_numeric(rows))
       qcols = union(assert_names(cols, type = "unique"), pk)
@@ -32,7 +32,7 @@ DataBackendCbind = R6Class("DataBackendCbind", inherit = DataBackend, cloneable 
       }
 
       # duplicate rows / reorder columns
-      data[list(rows), intersect(cols, names(data)), on = pk, with = FALSE, nomatch = NULL]
+      ijoin(data, rows,  intersect(cols, names(data)), pk)
     },
 
     head = function(n = 6L) {
@@ -70,13 +70,17 @@ DataBackendCbind = R6Class("DataBackendCbind", inherit = DataBackend, cloneable 
 
     ncol = function() {
       uniqueN(c(private$.data$b1$colnames, private$.data$b2$colnames))
+    },
+
+    col_hashes = function() {
+      insert_named(private$.data$b1$col_hashes, private$.data$b2$col_hashes)
     }
   ),
 
   private = list(
     .calculate_hash = function() {
       data = private$.data
-      hash(data$b1$hash, data$b2$hash)
+      calculate_hash(data$b1$hash, data$b2$hash)
     }
   )
 )
