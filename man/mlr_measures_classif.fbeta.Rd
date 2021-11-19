@@ -14,6 +14,13 @@ It measures the effectiveness of retrieval with respect to a user who attaches \
 as much importance to recall as precision.
 For \eqn{\beta = 1}{beta = 1}, this measure is called "F1" score.
 }
+\details{
+This measure is undefined if
+\itemize{
+\item TP = 0
+\item \link[mlr3measures]{precision} or \link[mlr3measures]{recall} is undefined, i.e. TP + FP = 0 or TP + FN = 0.
+}
+}
 \note{
 The score function calls \code{\link[mlr3measures:fbeta]{mlr3measures::fbeta()}} from package \CRANpkg{mlr3measures}.
 
@@ -22,8 +29,15 @@ This can be customized by setting the field \code{na_value}.
 }
 \section{Dictionary}{
 
-This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("fbeta")
-msr("fbeta")
+This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("classif.fbeta")
+msr("classif.fbeta")
+}
+}
+
+\section{Parameters}{
+\tabular{lllll}{
+   Id \tab Type \tab Default \tab Range \tab Levels \cr
+   beta \tab integer \tab - \tab \eqn{[0, \infty)}{[0, Inf)} \tab - \cr
 }
 }
 

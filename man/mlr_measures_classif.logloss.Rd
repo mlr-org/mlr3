@@ -5,9 +5,9 @@
 \title{Log Loss}
 \description{
 Classification measure defined as \deqn{
-  -\frac{1}{n} \sum_{i=1}^n \log \left(  p_i \right )
+  -\frac{1}{n} \sum_{i=1}^n w_i \log \left(  p_i \right )
 }{
-  -mean(log(p))
+  -weighted.mean(log(p), w)
 }
 where \eqn{p_i}{p} is the probability for the true class of observation \eqn{i}.
 }
@@ -19,9 +19,14 @@ This can be customized by setting the field \code{na_value}.
 }
 \section{Dictionary}{
 
-This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("logloss")
-msr("logloss")
+This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("classif.logloss")
+msr("classif.logloss")
 }
+}
+
+\section{Parameters}{
+
+Empty ParamSet
 }
 
 \section{Meta Information}{

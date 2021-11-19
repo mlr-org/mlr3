@@ -14,6 +14,14 @@ tgen("smiley")
 }
 }
 
+\section{Parameters}{
+\tabular{lllll}{
+   Id \tab Type \tab Default \tab Range \tab Levels \cr
+   sd1 \tab numeric \tab - \tab \eqn{[0, \infty)}{[0, Inf)} \tab - \cr
+   sd2 \tab numeric \tab - \tab \eqn{[0, \infty)}{[0, Inf)} \tab - \cr
+}
+}
+
 \examples{
 generator = tgen("smiley")
 plot(generator, n = 200)

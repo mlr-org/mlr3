@@ -10,16 +10,7 @@
 #' are set to `NA`, between 0 (default) and 1.
 #'
 #' @templateVar id debug
-#' @template section_dictionary_measure
-#'
-#' @section Parameters:
-#' `r rd_info(msr("classif.costs")$param_set)`
-#'
-#' @section Meta Information:
-#' * Type: `NA`
-#' * Range: \eqn{[0, \infty)}{[0, Inf)}
-#' * Minimize: `NA`
-#' * Required prediction: 'response'
+#' @template measure
 #'
 #' @template seealso_measure
 #' @export
@@ -51,8 +42,9 @@ MeasureDebug = R6Class("MeasureDebug",
   private = list(
     .score = function(prediction, ...) {
       na_ratio = self$param_set$get_values()$na_ratio
-      if (na_ratio > runif(1L))
+      if (na_ratio > runif(1L)) {
         return(NA_integer_)
+      }
       length(prediction$row_ids)
     }
   )

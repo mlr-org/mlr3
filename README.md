@@ -26,6 +26,20 @@ Status](https://www.r-pkg.org/badges/version-ago/mlr3)](https://cran.r-project.o
     solved. It is still in early days so stay tuned for more to come.
 -   [Reference manual](https://mlr3.mlr-org.com/reference/)
 -   [FAQ](https://github.com/mlr-org/mlr3/wiki/FAQ)
+-   Ask questions on [Stackoverflow (tag
+    #mlr3)](https://stackoverflow.com/questions/tagged/mlr3)
+-   **Extension Learners**
+    -   Recommended core regression, classification, and survival
+        learners are in
+        [mlr3learners](https://github.com/mlr-org/mlr3learners)
+    -   All others are in
+        [mlr3extralearners](https://github.com/mlr-org/mlr3extralearners)
+    -   Use the [learner
+        search](https://mlr3extralearners.mlr-org.com/articles/learners/list_learners.html)
+        to get a simple overview
+    -   Use the [learner
+        status](https://mlr3extralearners.mlr-org.com/articles/learners/learner_status.html)
+        to see their build status
 -   **Cheatsheets**
     -   [Overview of cheatsheets](https://cheatsheets.mlr-org.com)
     -   [mlr3](https://cheatsheets.mlr-org.com/mlr3.pdf)
@@ -40,12 +54,12 @@ Status](https://www.r-pkg.org/badges/version-ago/mlr3)](https://cran.r-project.o
         mlr3pipelines](https://www.youtube.com/watch?v=T43hO2o_nZw)
 -   **Courses/Lectures**
     -   The course [Introduction to Machine learning
-        (I2ML)](https://compstat-lmu.github.io/lecture_i2ml/) is a free
-        and open flipped classroom course on the basics of machine
-        learning. `mlr3` is used in the
-        [demos](https://github.com/compstat-lmu/lecture_i2ml/tree/master/code-demos-pdf)
+        (I2ML)](https://introduction-to-machine-learning.netlify.app/)
+        is a free and open flipped classroom course on the basics of
+        machine learning. `mlr3` is used in the
+        [demos](https://github.com/slds-lmu/lecture_i2ml/tree/master/code-demos-pdf)
         and
-        [exercises](https://github.com/compstat-lmu/lecture_i2ml/tree/master/exercises).
+        [exercises](https://github.com/slds-lmu/lecture_i2ml/tree/master/exercises).
 -   **Templates/Tutorials**
     -   [mlr3-learndrake](https://github.com/mlr-org/mlr3-learndrake):
         Shows how to use mlr3 with
@@ -148,13 +162,13 @@ rr$score(measure)
 ```
 
     ##                 task  task_id                   learner    learner_id
-    ## 1: <TaskClassif[46]> penguins <LearnerClassifRpart[34]> classif.rpart
-    ## 2: <TaskClassif[46]> penguins <LearnerClassifRpart[34]> classif.rpart
-    ## 3: <TaskClassif[46]> penguins <LearnerClassifRpart[34]> classif.rpart
+    ## 1: <TaskClassif[49]> penguins <LearnerClassifRpart[37]> classif.rpart
+    ## 2: <TaskClassif[49]> penguins <LearnerClassifRpart[37]> classif.rpart
+    ## 3: <TaskClassif[49]> penguins <LearnerClassifRpart[37]> classif.rpart
     ##            resampling resampling_id iteration              prediction
-    ## 1: <ResamplingCV[19]>            cv         1 <PredictionClassif[19]>
-    ## 2: <ResamplingCV[19]>            cv         2 <PredictionClassif[19]>
-    ## 3: <ResamplingCV[19]>            cv         3 <PredictionClassif[19]>
+    ## 1: <ResamplingCV[19]>            cv         1 <PredictionClassif[20]>
+    ## 2: <ResamplingCV[19]>            cv         2 <PredictionClassif[20]>
+    ## 3: <ResamplingCV[19]>            cv         3 <PredictionClassif[20]>
     ##    classif.acc
     ## 1:   0.8956522
     ## 2:   0.9130435
@@ -233,7 +247,7 @@ would result in non-trivial API changes.
     -   [`mlr3misc`](https://cran.r-project.org/package=mlr3misc):
         Miscellaneous functions used in multiple mlr3 [extension
         packages](https://github.com/mlr-org/mlr3/wiki/Extension-Packages).
-        Developed by the `mlr` team. No extra recursive dependencies.
+        Developed by the `mlr` team.
     -   [`paradox`](https://cran.r-project.org/package=paradox):
         Descriptions for parameters and parameter sets. Developed by the
         `mlr` team. No extra recursive dependencies.
@@ -241,8 +255,8 @@ would result in non-trivial API changes.
         objects. No recursive dependencies.
     -   [`data.table`](https://cran.r-project.org/package=data.table):
         Extension of R’s `data.frame`. No recursive dependencies.
-    -   [`digest`](https://cran.r-project.org/package=digest): Hash
-        digests. No recursive dependencies.
+    -   [`digest`](https://cran.r-project.org/package=digest) (via
+        `mlr3misc`): Hash digests. No recursive dependencies.
     -   [`uuid`](https://cran.r-project.org/package=uuid): Create unique
         string identifiers. No recursive dependencies.
     -   [`lgr`](https://cran.r-project.org/package=lgr): Logging
@@ -267,8 +281,8 @@ would result in non-trivial API changes.
 This R package is licensed under the
 [LGPL-3](https://www.gnu.org/licenses/lgpl-3.0.en.html). If you
 encounter problems using this software (lack of documentation,
-misleading or wrong documentation, unexpected behaviour, bugs, …) or
-just want to suggest features, please open an issue in the [issue
+misleading or wrong documentation, unexpected behavior, bugs, …) or just
+want to suggest features, please open an issue in the [issue
 tracker](https://github.com/mlr-org/mlr3/issues). Pull requests are
 welcome and will be included at the discretion of the maintainers.
 

@@ -42,6 +42,7 @@ This provides a different "view" on the data without altering the data itself.
 Instead, the methods first create a new \link{DataBackendDataTable} from the provided new data, and then
 merge both backends into an abstract \link{DataBackend} which merges the results on-demand.
 \item \code{rename()} wraps the \link{DataBackend} of the Task in an additional \link{DataBackend} which deals with the renaming. Also updates \verb{$col_roles} and \verb{$col_info}.
+\item \code{set_levels()} updates the field \code{col_info()}.
 }
 }
 
@@ -67,12 +68,13 @@ task$head()
 \seealso{
 \itemize{
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
-\url{https://mlr3book.mlr-org.com/tasks.html}
+\url{https://mlr3book.mlr-org.com/basics.html#tasks}
 \item Package \CRANpkg{mlr3data} for more toy tasks.
 \item Package \CRANpkg{mlr3oml} for downloading tasks from \url{https://openml.org}.
 \item Package \CRANpkg{mlr3viz} for some generic visualizations.
 \item \link[mlr3misc:Dictionary]{Dictionary} of \link[=Task]{Tasks}: \link{mlr_tasks}
 \item \code{as.data.table(mlr_tasks)} for a table of available \link[=Task]{Tasks} in the running session (depending on the loaded packages).
+\item \CRANpkg{mlr3fselect} and \CRANpkg{mlr3filters} for feature selection and feature filtering.
 \item Extension packages for additional task types:
 \itemize{
 \item \CRANpkg{mlr3proba} for probabilistic supervised regression and survival analysis.
@@ -122,8 +124,10 @@ Table with with 4 columns:
 \item \code{"id"} (\code{character()}) stores the name of the column.
 \item \code{"type"} (\code{character()}) holds the storage type of the variable, e.g. \code{integer}, \code{numeric} or \code{character}.
 See \link[=mlr_reflections]{mlr_reflections$task_feature_types} for a complete list of allowed types.
-\item \code{"levels"} stores a vector of distinct values (levels) for ordered and unordered factor variables.
-\item \code{"label"} stores a character vector of prettier, formated column names.
+\item \code{"levels"} (\code{list()}) stores a vector of distinct values (levels) for ordered and unordered factor variables.
+\item \code{"label"} (\code{character()}) stores a vector of prettier, formated column names.
+\item \code{"fix_factor_levels"} (\code{logical()}) stores flags which determine if the levels of the respective variable
+need to be reordered after querying the data from the \link{DataBackend}.
 }}
 
 \item{\code{man}}{(\code{character(1)})\cr
@@ -188,17 +192,19 @@ Can be used as truly independent test set.
 To alter the roles, just modify the list, e.g. with  \R's set functions (\code{\link[=intersect]{intersect()}}, \code{\link[=setdiff]{setdiff()}}, \code{\link[=union]{union()}}, \ldots).}
 
 \item{\code{col_roles}}{(named \code{list()})\cr
-Each column (feature) can have an arbitrary number of the following roles:
+Each column can be in one or more of the following groups to fulfill different roles:
 \itemize{
 \item \code{"feature"}: Regular feature used in the model fitting process.
-\item \code{"target"}: Target variable.
+\item \code{"target"}: Target variable. Most tasks only accept a single target column.
 \item \code{"name"}: Row names / observation labels. To be used in plots. Can be queried with \verb{$row_names}.
+Not more than a single column can be associated with this role.
 \item \code{"order"}: Data returned by \verb{$data()} is ordered by this column (or these columns).
+Columns must be sortable with \code{\link[=order]{order()}}.
 \item \code{"group"}: During resampling, observations with the same value of the variable with role "group" are marked as "belonging together".
 For each resampling iteration, observations of the same group will be exclusively assigned to be either in the training set or in the test set.
-Note that only up to one column may have this role.
+Not more than a single column can be associated with this role.
 \item \code{"stratum"}: Stratification variables. Multiple discrete columns may have this role.
-\item \code{"weight"}: Observation weights. Only up to one column (assumed to be discrete) may have this role.
+\item \code{"weight"}: Observation weights. Not more than one numeric column may have this role.
 }
 
 \code{col_roles} is a named list whose elements are named by column role and each element is a \code{character()} vector of column names.
@@ -246,6 +252,22 @@ If the task has a column with designated role \code{"weight"}, a table with two 
 }
 
 Returns \code{NULL} if there are is no weight column.}
+
+\item{\code{labels}}{(named \code{character()})\cr
+Retrieve \code{labels} (prettier formated names) from columns.
+Internally queries the column \code{label} of the table in field \code{col_info}.
+Columns ids referenced by the name of the vector, the labels are the actual string values.
+
+Assigning to this column update the task by reference.
+You have to provide a character vector of labels, named with column ids.
+To remove a label, set it to \code{NA}.
+Alternatively, you can provide a \code{\link[=data.frame]{data.frame()}} with the two columns
+\code{"id"} and \code{"label"}.}
+
+\item{\code{col_hashes}}{(named \code{character})\cr
+Hash (unique identifier) for all columns except the \code{primary_key}: A \code{character} vector, named by the columns that each element refers to.\cr
+Columns of different \code{\link{Task}}s or \code{\link{DataBackend}}s that have agreeing \code{col_hashes} always represent the same data, given that the same \code{row}s are selected.
+The reverse is not necessarily true: There can be columns with the same content that have different \code{col_hashes}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -268,10 +290,10 @@ Returns \code{NULL} if there are is no weight column.}
 \item \href{#method-rename}{\code{Task$rename()}}
 \item \href{#method-set_row_roles}{\code{Task$set_row_roles()}}
 \item \href{#method-set_col_roles}{\code{Task$set_col_roles()}}
+\item \href{#method-set_levels}{\code{Task$set_levels()}}
 \item \href{#method-droplevels}{\code{Task$droplevels()}}
 \item \href{#method-order}{\code{Task$order()}}
 \item \href{#method-add_strata}{\code{Task$add_strata()}}
-\item \href{#method-label}{\code{Task$label()}}
 \item \href{#method-clone}{\code{Task$clone()}}
 }
 }
@@ -396,6 +418,9 @@ Depending on the \link{DataBackend}, but usually a \code{\link[data.table:data.t
 \subsection{Method \code{formula()}}{
 Constructs a \code{\link[=formula]{formula()}}, e.g. \verb{[target] ~ [feature_1] + [feature_2] + ... + [feature_k]},
 using the features provided in argument \code{rhs} (defaults to all columns with role \code{"feature"}, symbolized by \code{"."}).
+
+Note that it is currently not possible to change the formula.
+However, \CRANpkg{mlr3pipelines} provides a pipe operator interfacing \code{\link[stats:model.matrix]{stats::model.matrix()}} for this purpose: \code{"modelmatrix"}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Task$formula(rhs = ".")}\if{html}{\out{</div>}}
 }
@@ -543,7 +568,8 @@ the primary key of the \link{DataBackend} (\code{task$backend$primary_key}).
 In case of name clashes of row ids, rows in \code{data} have higher precedence
 and virtually overwrite the rows in the \link{DataBackend}.
 
-All columns with the roles \code{"target"}, \code{"feature"}, \code{"weight"}, \code{"group"}, \code{"stratum"}, and \code{"order"} must be present in \code{data}.
+All columns with the roles \code{"target"}, \code{"feature"}, \code{"weight"}, \code{"group"}, \code{"stratum"},
+and \code{"order"} must be present in \code{data}.
 Columns only present in \code{data} but not in the \link{DataBackend} of \code{task} will be discarded.
 
 This operation mutates the task in-place.
@@ -698,6 +724,33 @@ the object in its previous state.
 }
 }
 \if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-set_levels"></a>}}
+\if{latex}{\out{\hypertarget{method-set_levels}{}}}
+\subsection{Method \code{set_levels()}}{
+Set levels for columns of type \code{factor} and \code{ordered} in field \code{col_info}.
+You can add, remove or reorder the levels, affecting the data returned by
+\verb{$data()}, \verb{$head()} and \verb{$levels()}.
+If you just want to remove unused levels, use \verb{$droplevels()} instead.
+
+Note that factor levels which are present in the data but not listed in the task as
+valid levels are converted to missing values.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Task$set_levels(levels)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{levels}}{(named \code{list()} of \code{character()})\cr
+List of character vectors of new levels, named by column names.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Modified \code{self}.
+}
+}
+\if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-droplevels"></a>}}
 \if{latex}{\out{\hypertarget{method-droplevels}{}}}
 \subsection{Method \code{droplevels()}}{
@@ -769,32 +822,6 @@ Replicated to have the same length as \code{cols}.}
 }
 \subsection{Returns}{
 self (invisibly).
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-label"></a>}}
-\if{latex}{\out{\hypertarget{method-label}{}}}
-\subsection{Method \code{label()}}{
-Assigns \code{labels} (prettier formated names) to columns \code{cols}.
-Internally updates the column \code{label} of the table in field \code{col_info} by reference.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Task$label(cols, labels)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{cols}}{(\code{character()})\cr
-Column identifiers to label.}
-
-\item{\code{labels}}{(\code{character()})\cr
-New labels. Will be repeated to match the length of \code{cols}.
-Set to \code{NA} to remove a label.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-Modified \code{self}.
 }
 }
 \if{html}{\out{<hr>}}

@@ -69,27 +69,26 @@ bmr$filter(task_ids = "sonar")
 print(bmr)
 }
 \seealso{
-Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
-\url{https://mlr3book.mlr-org.com/benchmarking.html}
+\itemize{
+\item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
+\url{https://mlr3book.mlr-org.com/basics.html#benchmarking}
+\item Package \CRANpkg{mlr3viz} for some generic visualizations.
+\item \CRANpkg{mlr3benchmark} for post-hoc analysis of benchmark results.
+}
 
 Other benchmark: 
 \code{\link{benchmark_grid}()},
 \code{\link{benchmark}()}
 }
 \concept{benchmark}
-\section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{data}}{(\code{ResultData})\cr
-Internal data storage object of type \code{ResultData}.
-We discourage users to directly work with this field.
-Use \code{as.table.table(BenchmarkResult)} instead.}
-}
-\if{html}{\out{</div>}}
-}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
+\item{\code{data}}{(\code{ResultData})\cr
+Internal data storage object of type \code{ResultData}.
+This field is deprecated and will be removed in the next release.
+Use \code{as.table.table(BenchmarkResult)} instead.}
+
 \item{\code{task_type}}{(\code{character(1)})\cr
 Task type of objects in the \code{BenchmarkResult}.
 All stored objects (\link{Task}, \link{Learner}, \link{Prediction}) in a single \code{BenchmarkResult} are
@@ -113,7 +112,7 @@ Table of included \link{Learner}s with three columns:
 }
 
 Note that it is not feasible to access learned models via this field, as the training task would be ambiguous.
-For this reason the returned learner are reseted before they are returned.
+For this reason the returned learner are reset before they are returned.
 Instead, select a row from the table returned by \verb{$score()}.}
 
 \item{\code{resamplings}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
@@ -151,6 +150,7 @@ Set of (unique) hashes of all included \link{ResampleResult}s.}
 \item \href{#method-aggregate}{\code{BenchmarkResult$aggregate()}}
 \item \href{#method-filter}{\code{BenchmarkResult$filter()}}
 \item \href{#method-resample_result}{\code{BenchmarkResult$resample_result()}}
+\item \href{#method-discard}{\code{BenchmarkResult$discard()}}
 \item \href{#method-clone}{\code{BenchmarkResult$clone()}}
 }
 }
@@ -404,6 +404,34 @@ The \code{ushash} value to filter for.}
 }
 \subsection{Returns}{
 \link{ResampleResult}.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-discard"></a>}}
+\if{latex}{\out{\hypertarget{method-discard}{}}}
+\subsection{Method \code{discard()}}{
+Shrinks the \link{BenchmarkResult} by discarding parts of the internally stored data.
+Note that certain operations might stop work, e.g. extracting
+importance values from learners or calculating measures requiring the task's data.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{BenchmarkResult$discard(backends = FALSE, models = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{backends}}{(\code{logical(1)})\cr
+If \code{TRUE}, the \link{DataBackend} is removed from all stored \link{Task}s.}
+
+\item{\code{models}}{(\code{logical(1)})\cr
+If \code{TRUE}, the stored model is removed from all \link{Learner}s.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Returns the object itself, but modified \strong{by reference}.
+You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
+the object in its previous state.
 }
 }
 \if{html}{\out{<hr>}}

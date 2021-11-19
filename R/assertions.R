@@ -2,7 +2,7 @@
 #'
 #' @description
 #' Functions intended to be used in packages extending \pkg{mlr3}.
-#' Most assertion functions ensure the right class attrbiture, and optionally additional properties.
+#' Most assertion functions ensure the right class attribute, and optionally additional properties.
 #' Additionally, the following compound assertions are implemented:
 #'
 #' * `assert_learnable(task, learner)`\cr
@@ -90,7 +90,7 @@ assert_learners = function(learners, task = NULL, properties = character(), .var
 }
 
 assert_task_learner = function(task, learner, cols = NULL) {
-  pars = learner$param_set$get_values(type = "only_token")
+  pars = learner$param_set$get_values(type = "only_token", check_required = FALSE)
   if (length(pars) > 0) {
     stopf("%s cannot be trained with TuneToken present in hyperparameter: %s", learner$format(), str_collapse(names(pars)))
   }
@@ -110,6 +110,15 @@ assert_task_learner = function(task, learner, cols = NULL) {
     if (any(miss)) {
       stopf("Task '%s' has missing values in column(s) %s, but learner '%s' does not support this",
         task$id, str_collapse(names(miss)[miss], quote = "'"), learner$id)
+    }
+  }
+
+  tmp = mlr_reflections$task_mandatory_properties[[task$task_type]]
+  if (length(tmp)) {
+    tmp = setdiff(intersect(task$properties, tmp), learner$properties)
+    if (length(tmp)) {
+      stopf("Task '%s' has property '%s', but learner '%s' does not support that",
+        task$id, tmp[1L], learner$id)
     }
   }
 }
@@ -134,15 +143,19 @@ assert_predictable = function(task, learner) {
 assert_measure = function(measure, task = NULL, learner = NULL, .var.name = vname(measure)) {
   assert_class(measure, "Measure", .var.name = .var.name)
 
+
   if (!is.null(task)) {
     if (!is_scalar_na(measure$task_type) && measure$task_type != task$task_type) {
       stopf("Measure '%s' is not compatible with type '%s' of task '%s'",
         measure$id, task$task_type, task$id)
     }
 
-    miss = setdiff(measure$task_properties, task$properties)
-    if (length(miss) > 0) {
-      stopf("Measure '%s' needs task properties: %s", measure$id, str_collapse(miss))
+    if (measure$check_prerequisites != "ignore") {
+      miss = setdiff(measure$task_properties, task$properties)
+      if (length(miss) > 0) {
+        warningf("Measure '%s' is missing properties %s of task '%s'",
+          measure$id, str_collapse(miss, quote = "'"), task$id)
+      }
     }
   }
 
@@ -152,17 +165,20 @@ assert_measure = function(measure, task = NULL, learner = NULL, .var.name = vnam
         measure$id, learner$task_type, learner$id)
     }
 
-    if (!is_scalar_na(measure$predict_type)) {
+    if (!is_scalar_na(measure$predict_type) && measure$check_prerequisites != "ignore") {
       predict_types = mlr_reflections$learner_predict_types[[learner$task_type]][[learner$predict_type]]
       if (measure$predict_type %nin% predict_types) {
-        stopf("Measure '%s' needs predict_type '%s'", measure$id, measure$predict_type)
+        warningf("Measure '%s' is missing predict type '%s' of learner '%s'", measure$id, measure$predict_type, learner$id)
       }
     }
 
-    miss = setdiff(measure$predict_sets, learner$predict_sets)
-    if (length(miss) > 0) {
-      stopf("Measure '%s' needs predict set %s, but learner '%s' only predicted on sets %s",
-        measure$id, str_collapse(miss, quote = "'"), learner$id, str_collapse(learner$predict_sets, quote = "'"))
+    if (measure$check_prerequisites != "ignore") {
+      miss = setdiff(measure$predict_sets, learner$predict_sets)
+      if (length(miss) > 0) {
+
+        warningf("Measure '%s' needs predict sets %s, but learner '%s' only predicted on sets %s",
+          measure$id, str_collapse(miss, quote = "'"), learner$id, str_collapse(learner$predict_sets, quote = "'"))
+      }
     }
   }
 
@@ -175,8 +191,9 @@ assert_measure = function(measure, task = NULL, learner = NULL, .var.name = vnam
 #' @rdname mlr_assertions
 assert_measures = function(measures, task = NULL, learner = NULL, .var.name = vname(measures)) {
   lapply(measures, assert_measure, task = task, learner = learner, .var.name = .var.name)
-  if (anyDuplicated(ids(measures)))
+  if (anyDuplicated(ids(measures))) {
     stopf("Measures need to have unique IDs")
+  }
   invisible(measures)
 }
 
@@ -248,16 +265,10 @@ assert_range = function(range, .var.name = vname(range)) {
 
 
 #' @export
-#' @param row_ids (`numeric()`).
+#' @template param_row_ids
 #' @rdname mlr_assertions
 assert_row_ids = function(row_ids, null.ok = FALSE, .var.name = vname(row_ids)) {
   assert_integerish(row_ids, coerce = TRUE, null.ok = null.ok)
-}
-
-assert_ro_binding = function(rhs) {
-  if (!missing(rhs)) {
-    stopf("Field/Binding is read-only")
-  }
 }
 
 assert_has_backend = function(task) {
@@ -281,16 +292,24 @@ assert_prediction_count = function(actual, expected, type) {
 
 assert_row_sums = function(prob) {
   for (i in seq_row(prob)) {
-    x = prob[i,, drop = TRUE]
-    if (anyMissing(x)) {
-      if (!allMissing(x)) {
+    x = prob[i, , drop = TRUE]
+    n_missing = count_missing(x)
+    if (n_missing > 0L) {
+      if (n_missing < length(x)) {
         stopf("Probabilities for observation %i are partly missing", i)
       }
     } else {
       s = sum(x)
-      if (abs(s - 1) > sqrt(.Machine$double.eps)) {
+      if (abs(s - 1) > 0.001) {
         stopf("Probabilities for observation %i do sum up to %f != 1", i, s)
       }
     }
+  }
+}
+
+assert_same_task_type = function(objs) {
+  task_types = unique(map_chr(objs, "task_type"))
+  if (length(task_types) > 1L) {
+    stopf("Multiple task types detected, but mixing types is not supported: %s", str_collapse(task_types))
   }
 }

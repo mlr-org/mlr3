@@ -48,7 +48,12 @@ as_predictions.list = function(x, predict_sets = "test", ...) { # nolint
   ii = lengths(x) > 0L
   result[ii] = map(x[ii], function(li) {
     assert_list(li, "PredictionData")
-    as_prediction(do.call(c, discard(li[predict_sets], is.null)), check = FALSE)
+    combined = do.call(c, discard(li[predict_sets], is.null))
+    if (is.null(combined)) {
+      list()
+    } else {
+      as_prediction(combined, check = FALSE)
+    }
   })
   result
 }

@@ -37,36 +37,34 @@ rr$warnings
 rr$errors
 }
 \seealso{
-Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
-\url{https://mlr3book.mlr-org.com/resampling.html}
+\itemize{
+\item \code{\link[=as_benchmark_result]{as_benchmark_result()}} to convert to a \link{BenchmarkResult}.
+\item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
+\url{https://mlr3book.mlr-org.com/basics.html#resampling}
+\item Package \CRANpkg{mlr3viz} for some generic visualizations.
+}
 
 Other resample: 
 \code{\link{resample}()}
 }
 \concept{resample}
-\section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{data}}{(\code{ResultData})\cr
-Internal data storage object of type \code{ResultData}.
-We discourage users to directly work with this field.
-Use \code{as.table.table(ResampleResult)} instead.}
-
-\item{\code{view}}{(\code{character(1)})\cr
-Subset of uhashes in the \link{ResultData} object to operate on.
-This field is for internal optimizations, i.e. to avoid unnecessary cloning.}
-}
-\if{html}{\out{</div>}}
-}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
+\item{\code{data}}{(\code{ResultData})\cr
+Internal data storage object of type \code{ResultData}.
+This field is deprecated and will be removed in the next release.
+Use \code{as.table.table(BenchmarkResult)} instead.}
+
 \item{\code{task_type}}{(\code{character(1)})\cr
 Task type of objects in the \code{ResampleResult}, e.g. \code{"classif"} or \code{"regr"}.
 This is \code{NA} for empty \link{ResampleResult}s.}
 
 \item{\code{uhash}}{(\code{character(1)})\cr
 Unique hash for this object.}
+
+\item{\code{iters}}{(\code{integer(1)})\cr
+Number of resampling iterations stored in the \code{ResampleResult}.}
 
 \item{\code{task}}{(\link{Task})\cr
 The task \code{\link[=resample]{resample()}} operated on.}
@@ -105,6 +103,7 @@ Note that there can be multiple rows per resampling iteration if multiple errors
 \item \href{#method-score}{\code{ResampleResult$score()}}
 \item \href{#method-aggregate}{\code{ResampleResult$aggregate()}}
 \item \href{#method-filter}{\code{ResampleResult$filter()}}
+\item \href{#method-discard}{\code{ResampleResult$discard()}}
 \item \href{#method-clone}{\code{ResampleResult$clone()}}
 }
 }
@@ -148,7 +147,7 @@ Helper for print outputs.
 \subsection{Method \code{print()}}{
 Printer.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$print()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$print(...)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -296,6 +295,34 @@ Subsets the \link{ResampleResult}, reducing it to only keep the iterations speci
 \describe{
 \item{\code{iters}}{(\code{integer()})\cr
 Resampling iterations to keep.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Returns the object itself, but modified \strong{by reference}.
+You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
+the object in its previous state.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-discard"></a>}}
+\if{latex}{\out{\hypertarget{method-discard}{}}}
+\subsection{Method \code{discard()}}{
+Shrinks the \link{ResampleResult} by discarding parts of the internally stored data.
+Note that certain operations might stop work, e.g. extracting
+importance values from learners or calculating measures requiring the task's data.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$discard(backends = FALSE, models = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{backends}}{(\code{logical(1)})\cr
+If \code{TRUE}, the \link{DataBackend} is removed from all stored \link{Task}s.}
+
+\item{\code{models}}{(\code{logical(1)})\cr
+If \code{TRUE}, the stored model is removed from all \link{Learner}s.}
 }
 \if{html}{\out{</div>}}
 }

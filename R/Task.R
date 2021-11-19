@@ -42,6 +42,7 @@
 #'   Instead, the methods first create a new [DataBackendDataTable] from the provided new data, and then
 #'   merge both backends into an abstract [DataBackend] which merges the results on-demand.
 #' * `rename()` wraps the [DataBackend] of the Task in an additional [DataBackend] which deals with the renaming. Also updates `$col_roles` and `$col_info`.
+#' * `set_levels()` updates the field `col_info()`.
 #'
 #' @template seealso_task
 #' @concept Task
@@ -81,8 +82,10 @@ Task = R6Class("Task",
     #' - `"id"` (`character()`) stores the name of the column.
     #' - `"type"` (`character()`) holds the storage type of the variable, e.g. `integer`, `numeric` or `character`.
     #'   See [mlr_reflections$task_feature_types][mlr_reflections] for a complete list of allowed types.
-    #' - `"levels"` stores a vector of distinct values (levels) for ordered and unordered factor variables.
-    #' - `"label"` stores a character vector of prettier, formated column names.
+    #' - `"levels"` (`list()`) stores a vector of distinct values (levels) for ordered and unordered factor variables.
+    #' - `"label"` (`character()`) stores a vector of prettier, formated column names.
+    #' - `"fix_factor_levels"` (`logical()`) stores flags which determine if the levels of the respective variable
+    #'   need to be reordered after querying the data from the [DataBackend].
     col_info = NULL,
 
     #' @template field_man
@@ -108,8 +111,16 @@ Task = R6Class("Task",
 
       self$col_info = col_info(self$backend)
       self$col_info$label = NA_character_
-      assert_names(self$col_info$id, if (allow_utf8_names()) "unique" else "strict",
-        .var.name = "feature names")
+      self$col_info$fix_factor_levels = FALSE
+
+      if (allow_utf8_names()) {
+        assert_names(self$col_info$id, "unique", .var.name = "feature names")
+        if (any(grepl("%", self$col_info$id, fixed = TRUE))) {
+          stopf("Feature names may not contain special character '%%'")
+        }
+      } else {
+        assert_names(self$col_info$id, "strict", .var.name = "feature names")
+      }
       assert_subset(self$col_info$type, mlr_reflections$task_feature_types, .var.name = "feature types")
       pmap(self$col_info[, c("id", "levels")],
         function(id, levels) {
@@ -142,7 +153,34 @@ Task = R6Class("Task",
     #' Printer.
     #' @param ... (ignored).
     print = function(...) {
-      task_print(self)
+      catf("%s (%i x %i)", format(self), self$nrow, self$ncol)
+      catf(str_indent("* Target:", self$target_names))
+      catf(str_indent("* Properties:", self$properties))
+
+      types = self$feature_types
+      if (nrow(types)) {
+        id = type = NULL
+        catf("* Features (%i):", nrow(types))
+        types = types[, list(N = .N, feats = str_collapse(id, n = 100L)), by = "type"][, "type" := translate_types(type)]
+        setorderv(types, "N", order = -1L)
+        pmap(types, function(type, N, feats) {
+          catn(str_indent(sprintf("  - %s (%i):", type, N), feats, exdent = 4L))
+      })
+      }
+
+      roles = self$col_roles
+      if (length(roles$order)) {
+        catn(str_indent("* Order by:", roles$order))
+      }
+      if ("strata" %in% self$properties) {
+        catn(str_indent("* Strata:", roles$stratum))
+      }
+      if ("groups" %in% self$properties) {
+        catn(str_indent("* Groups:", roles$group))
+      }
+      if ("weights" %in% self$properties) {
+        catn(str_indent("* Weights:", roles$weight))
+      }
     },
 
     #' @description
@@ -205,6 +243,14 @@ Task = R6Class("Task",
         stopf("DataBackend did not return the queried cols correctly: %i requested, %i received", length(cols), ncol(data))
       }
 
+      .__i__ = self$col_info[["fix_factor_levels"]]
+      if (any(.__i__)) {
+        fix_factors = self$col_info[.__i__, c("id", "levels"), with = FALSE][list(names(data)), on = "id", nomatch = NULL]
+        if (nrow(fix_factors)) {
+          data = fix_factor_levels(data, levels = set_names(fix_factors$levels, fix_factors$id))
+        }
+      }
+
       if (reorder_rows) {
         setorderv(data, col_roles$order)[]
         data = remove_named(data, setdiff(col_roles$order, cols))
@@ -216,6 +262,10 @@ Task = R6Class("Task",
     #' @description
     #' Constructs a [formula()], e.g. `[target] ~ [feature_1] + [feature_2] + ... + [feature_k]`,
     #' using the features provided in argument `rhs` (defaults to all columns with role `"feature"`, symbolized by `"."`).
+    #'
+    #' Note that it is currently not possible to change the formula.
+    #' However, \CRANpkg{mlr3pipelines} provides a pipe operator interfacing [stats::model.matrix()] for this purpose: `"modelmatrix"`.
+    #'
     #' @param rhs (`character(1)`)\cr
     #'   Right hand side of the formula. Defaults to `"."` (all features of the task).
     #' @return [formula()].
@@ -252,7 +302,10 @@ Task = R6Class("Task",
         assert_subset(cols, self$col_info$id)
       }
 
-      set_names(self$col_info[list(cols), "levels", on = "id", with = FALSE][[1L]], cols)
+      set_names(
+        fget(self$col_info, cols, "levels", "id"),
+        cols
+      )
     },
 
     #' @description
@@ -315,7 +368,8 @@ Task = R6Class("Task",
     #' In case of name clashes of row ids, rows in `data` have higher precedence
     #' and virtually overwrite the rows in the [DataBackend].
     #'
-    #' All columns with the roles `"target"`, `"feature"`, `"weight"`, `"group"`, `"stratum"`, and `"order"` must be present in `data`.
+    #' All columns with the roles `"target"`, `"feature"`, `"weight"`, `"group"`, `"stratum"`,
+    #' and `"order"` must be present in `data`.
     #' Columns only present in `data` but not in the [DataBackend] of `task` will be discarded.
     #'
     #' This operation mutates the task in-place.
@@ -351,8 +405,8 @@ Task = R6Class("Task",
 
         ci = self$col_info[list(keep_cols), on = "id"]
         data = do.call(data.table, Map(auto_convert,
-            value = as.list(data)[ci$id],
-            id = ci$id, type = ci$type, levels = ci$levels))
+          value = as.list(data)[ci$id],
+          id = ci$id, type = ci$type, levels = ci$levels))
 
         data = as_data_backend(data, primary_key = pk)
       } else {
@@ -367,7 +421,7 @@ Task = R6Class("Task",
       }
 
       # columns with these roles must be present in data
-      mandatory_roles = c("target", "feature", "weight")
+      mandatory_roles = c("target", "feature", "weight", "group", "stratum", "order")
       mandatory_cols = unlist(self$col_roles[mandatory_roles], use.names = FALSE)
       missing_cols = setdiff(mandatory_cols, data$colnames)
       if (length(missing_cols)) {
@@ -377,10 +431,10 @@ Task = R6Class("Task",
       # merge col infos
       tab = merge(self$col_info, col_info(data), by = "id",
         all.x = TRUE, all.y = FALSE, suffixes = c("", "_y"), sort = TRUE)
-      levels = levels_y = type = type_y = NULL
 
       # type check
       if (type_check) {
+        type = type_y = NULL
         ii = head(tab[type != type_y, which = TRUE], 1L)
         if (length(ii)) {
           stopf("Cannot rbind to task: Types do not match for column: %s (%s != %s)", tab$id[ii], tab$type[ii], tab$type_y[ii])
@@ -388,8 +442,15 @@ Task = R6Class("Task",
       }
 
       # merge factor levels
-      vunion = function(x, y) Map(union, x, y)
-      tab[type %in% c("factor", "ordered"), levels := list(vunion(levels, levels_y))]
+      ii = tab[type %in% c("factor", "ordered"), which = TRUE]
+      for (i in ii) {
+        x = tab[["levels"]][[i]]
+        y = tab[["levels_y"]][[i]]
+        if (any(y %nin% x)) {
+          set(tab, i = i, j = "levels", value = list(union(x, y)))
+          set(tab, i = i, j = "fix_factor_levels", value = TRUE)
+        }
+      }
       tab[, c("type_y", "levels_y") := list(NULL, NULL)]
 
       # everything looks good, modify task
@@ -432,11 +493,15 @@ Task = R6Class("Task",
         assert_set_equal(self$row_ids, data$rownames)
       }
 
+      # update col_info for existing columns
       ci = col_info(data)
-
-      # update col info
       self$col_info = ujoin(self$col_info, ci, key = "id")
-      self$col_info = rbindlist(list(self$col_info, ci[!list(self$col_info), on = "id"]), use.names = TRUE, fill = TRUE)
+
+      # add rows to col_info for new columns
+      self$col_info = rbindlist(list(
+        self$col_info,
+        insert_named(ci[!list(self$col_info), on = "id"], list(label = NA_character_, fix_factor_levels = FALSE))
+      ), use.names = TRUE)
       setkeyv(self$col_info, "id")
 
       # add new features
@@ -533,26 +598,50 @@ Task = R6Class("Task",
     },
 
     #' @description
+    #' Set levels for columns of type `factor` and `ordered` in field `col_info`.
+    #' You can add, remove or reorder the levels, affecting the data returned by
+    #' `$data()`, `$head()` and `$levels()`.
+    #' If you just want to remove unused levels, use `$droplevels()` instead.
+    #'
+    #' Note that factor levels which are present in the data but not listed in the task as
+    #' valid levels are converted to missing values.
+    #'
+    #' @param levels (named `list()` of `character()`)\cr
+    #'   List of character vectors of new levels, named by column names.
+    #'
+    #' @return Modified `self`.
+    set_levels = function(levels) {
+      assert_list(levels, types = "character", names = "unique", any.missing = FALSE)
+      assert_subset(names(levels), self$col_info$id)
+
+      tab = enframe(lapply(levels, unname), name = "id", value = "levels")
+      tab$fix_factor_levels = TRUE
+      self$col_info = ujoin(self$col_info, tab, key = "id")
+
+      invisible(self)
+    },
+
+
+    #' @description
     #' Updates the cache of stored factor levels, removing all levels not present in the current set of active rows.
     #' `cols` defaults to all columns with storage type "factor" or "ordered".
     #' @return Modified `self`.
     droplevels = function(cols = NULL) {
       assert_has_backend(self)
-      tab = self$col_info[get("type") %in% c("factor", "ordered"), c("id", "levels"), with = FALSE]
+      tab = self$col_info[get("type") %in% c("factor", "ordered"), c("id", "levels", "fix_factor_levels"), with = FALSE]
       if (!is.null(cols)) {
         tab = tab[list(cols), on = "id", nomatch = NULL]
       }
 
-      # query new levels
-      new_levels = self$backend$distinct(rows = self$row_ids, cols = tab$id)
+      # update levels
+      # note that we assume that new_levels is a subset of levels!
+      new_levels = NULL
+      tab$new_levels = self$backend$distinct(rows = self$row_ids, cols = tab$id)
+      tab = tab[lengths(levels) > lengths(new_levels)]
+      tab[, c("levels", "fix_factor_levels") := list(Map(intersect, levels, new_levels), TRUE)]
 
-      # update levels column with new levels:
-      # * first "known" levels in the original order of levels,
-      # * then new levels order of occurrence in new_levels
-      tab$levels = Map(function(x, y) c(intersect(x, y), setdiff(y, x)),
-        x = tab$levels, y = new_levels)
+      self$col_info = ujoin(self$col_info, remove_named(tab, "new_levels"), key = "id")
 
-      self$col_info = ujoin(self$col_info, tab, key = "id")
       invisible(self)
     },
 
@@ -606,36 +695,13 @@ Task = R6Class("Task",
       setnames(strata, sprintf("..stratum_%s", cols))
       self$cbind(strata)
       self$set_col_roles(names(strata), roles = "stratum")
-    },
-
-
-    #' @description
-    #' Assigns `labels` (prettier formated names) to columns `cols`.
-    #' Internally updates the column `label` of the table in field `col_info` by reference.
-    #'
-    #' @param cols (`character()`)\cr
-    #'   Column identifiers to label.
-    #' @param labels (`character()`)\cr
-    #'   New labels. Will be repeated to match the length of `cols`.
-    #'   Set to `NA` to remove a label.
-    #'
-    #' @return Modified `self`.
-    label = function(cols, labels) {
-      assert_character(cols, any.missing = FALSE, unique = TRUE)
-      assert_character(labels)
-      assert_subset(cols, self$col_info$id)
-      labels = rep_len(as.character(labels), length(cols))
-
-      self$col_info[list(cols), "label" := labels, on = "id"]
-
-      invisible(self)
     }
   ),
 
   active = list(
     #' @template field_hash
     hash = function(rhs) {
-      private$.hash %??% hash(
+      private$.hash %??% calculate_hash(
         class(self), self$id, self$backend$hash, self$col_info,
         private$.row_roles, private$.col_roles, private$.properties
       )
@@ -731,17 +797,19 @@ Task = R6Class("Task",
     },
 
     #' @field col_roles (named `list()`)\cr
-    #' Each column (feature) can have an arbitrary number of the following roles:
+    #' Each column can be in one or more of the following groups to fulfill different roles:
     #'
     #' * `"feature"`: Regular feature used in the model fitting process.
-    #' * `"target"`: Target variable.
+    #' * `"target"`: Target variable. Most tasks only accept a single target column.
     #' * `"name"`: Row names / observation labels. To be used in plots. Can be queried with `$row_names`.
+    #'   Not more than a single column can be associated with this role.
     #' * `"order"`: Data returned by `$data()` is ordered by this column (or these columns).
+    #'   Columns must be sortable with [order()].
     #' * `"group"`: During resampling, observations with the same value of the variable with role "group" are marked as "belonging together".
     #'   For each resampling iteration, observations of the same group will be exclusively assigned to be either in the training set or in the test set.
-    #'   Note that only up to one column may have this role.
+    #'   Not more than a single column can be associated with this role.
     #' * `"stratum"`: Stratification variables. Multiple discrete columns may have this role.
-    #' * `"weight"`: Observation weights. Only up to one column (assumed to be discrete) may have this role.
+    #' * `"weight"`: Observation weights. Not more than one numeric column may have this role.
     #'
     #' `col_roles` is a named list whose elements are named by column role and each element is a `character()` vector of column names.
     #' To alter the roles, just modify the list, e.g. with \R's set functions ([intersect()], [setdiff()], [union()], \ldots).
@@ -847,6 +915,43 @@ Task = R6Class("Task",
       }
       data = self$backend$data(private$.row_roles$use, c(self$backend$primary_key, weight_cols))
       setnames(data, c("row_id", "weight"))[]
+    },
+
+
+    #' @field labels (named `character()`)\cr
+    #'   Retrieve `labels` (prettier formated names) from columns.
+    #'   Internally queries the column `label` of the table in field `col_info`.
+    #'   Columns ids referenced by the name of the vector, the labels are the actual string values.
+    #'
+    #'   Assigning to this column update the task by reference.
+    #'   You have to provide a character vector of labels, named with column ids.
+    #'   To remove a label, set it to `NA`.
+    #'   Alternatively, you can provide a [data.frame()] with the two columns
+    #'   `"id"` and `"label"`.
+    labels = function(rhs) {
+      active = union(self$target_names, self$feature_names)
+
+      if (missing(rhs)) {
+        tab = ijoin(self$col_info, active, c("id", "label"), "id")
+        return(set_names(tab[["label"]], tab[["id"]]))
+      }
+
+      if (is.data.frame(rhs)) { # convert to named character
+        assert_data_frame(rhs, ncols = 2L)
+        assert_names(names(rhs), permutation.of = c("id", "label"))
+        rhs = set_names(rhs[["label"]], rhs[["id"]])
+      }
+
+      assert_names(names(rhs), type = "unique")
+      assert_subset(names(rhs), active)
+      self$col_info[list(names(rhs)), "label" := rhs, on = "id"]
+
+      invisible(self)
+    },
+
+    #' @template field_col_hashes
+    col_hashes = function() {
+      private$.col_hashes %??% self$backend$col_hashes[setdiff(unlist(self$col_roles), self$backend$primary_key)]
     }
   ),
 
@@ -855,6 +960,7 @@ Task = R6Class("Task",
     .col_roles = NULL,
     .row_roles = NULL,
     .hash = NULL,
+    .col_hashes = NULL,
 
     deep_clone = function(name, value) {
       # NB: DataBackends are never copied!
@@ -863,38 +969,6 @@ Task = R6Class("Task",
     }
   )
 )
-
-task_data = function(self, rows = NULL, cols = NULL, data_format = "data.table", ordered = TRUE) {
-}
-
-task_print = function(self) {
-  catf("%s (%i x %i)", format(self), self$nrow, self$ncol)
-  catf(str_indent("* Target:", self$target_names))
-  catf(str_indent("* Properties:", self$properties))
-
-  types = self$feature_types
-  if (nrow(types)) {
-    id = type = NULL
-    catf("* Features (%i):", nrow(types))
-    types = types[, list(N = .N, feats = str_collapse(id, n = 100L)), by = "type"][, "type" := translate_types(type)]
-    setorderv(types, "N", order = -1L)
-    pmap(types, function(type, N, feats) catf(str_indent(sprintf("  - %s (%i):", type, N), feats, exdent = 4L)))
-  }
-
-  roles = self$col_roles
-  if (length(roles$order)) {
-    catf(str_indent("* Order by:", roles$order))
-  }
-  if ("strata" %in% self$properties) {
-    catf(str_indent("* Strata:", roles$stratum))
-  }
-  if ("groups" %in% self$properties) {
-    catf(str_indent("* Groups:", roles$group))
-  }
-  if ("weights" %in% self$properties) {
-    catf(str_indent("* Weights:", roles$weight))
-  }
-}
 
 task_set_roles = function(li, cols, roles = NULL, add_to = NULL, remove_from = NULL) {
   if (!is.null(roles)) {
@@ -973,10 +1047,16 @@ as.data.table.Task = function(x, ...) { # nolint
   x$head(x$nrow)
 }
 
+#' @export
+format_list_item.Task = function(x, ...) { # nolint
+  sprintf("<tsk:%s>", x$id)
+}
+
 task_rm_backend = function(task) {
   # fix task hash
   ee = get_private(task)
   ee$.hash = force(task$hash)
+  ee$.col_hashes = force(task$col_hashes)
 
   # NULL backend
   task$backend = NULL

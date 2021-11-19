@@ -52,7 +52,7 @@ DataBackend = R6Class("DataBackend", cloneable = FALSE,
     #' [DataBackendDataTable] or [DataBackendMatrix], or via the S3 method
     #' [as_data_backend()].
     #'
-    #' @param data (`any`)\cr
+    #' @param data (any)\cr
     #'   The format of the input data depends on the specialization. E.g.,
     #'   [DataBackendDataTable] expects a [data.table::data.table()] and
     #'   [DataBackendMatrix] expects a [Matrix::Matrix()] from \CRANpkg{Matrix}.
@@ -95,6 +95,11 @@ DataBackend = R6Class("DataBackend", cloneable = FALSE,
         return(private$.hash)
       }
       private$.hash = assert_string(rhs)
+    },
+    #' @template field_col_hashes
+    col_hashes = function() {
+      cn = setdiff(self$colnames, self$primary_key)
+      set_names(sprintf("%s.%s", self$hash, cn), cn)
     }
   ),
 

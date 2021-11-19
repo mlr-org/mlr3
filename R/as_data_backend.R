@@ -8,7 +8,7 @@
 #' Additional methods are implemented in the package \CRANpkg{mlr3db}, e.g. to connect
 #' to real DBMS like PostgreSQL (via \CRANpkg{dbplyr}) or DuckDB (via \CRANpkg{DBI}/\CRANpkg{duckdb}).
 #'
-#' @param data `any`\cr
+#' @param data (any)\cr
 #'   Data to create a [DataBackend] from.
 #'   For a `data.frame()` (this includes `tibble()` from \CRANpkg{tibble} and [data.table::data.table()]),
 #'   a [DataBackendDataTable] is created.
@@ -17,7 +17,7 @@
 #'
 #' @template param_primary_key
 #'
-#' @param ... (`any`)\cr
+#' @param ... (any)\cr
 #'   Additional arguments passed to the respective [DataBackend] method.
 #'
 #' @return [DataBackend].

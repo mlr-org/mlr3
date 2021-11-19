@@ -29,8 +29,8 @@ test_that("c", {
   expect_data_table(dt, nrows = task$nrow, ncols = 4L, any.missing = FALSE)
 
   # duplicates are detected?
-  p1 = rr$data$data$fact$prediction[[1L]]$test
-  p2 = rr$data$data$fact$prediction[[1L]]$test
+  p1 = private(rr)$.data$data$fact$prediction[[1L]]$test
+  p2 = private(rr)$.data$data$fact$prediction[[1L]]$test
   p3 = c(p1, p2, keep_duplicates = FALSE)
   expect_equal(sort(p1$data$row_ids), sort(p2$data$row_ids))
   expect_equal(sort(p1$data$row_ids), sort(p3$data$row_ids))
@@ -84,4 +84,14 @@ test_that("as_prediction_regr", {
   p2 = as_prediction_regr(tab)
 
   expect_equal(tab, as.data.table(p2))
+})
+
+test_that("filtering", {
+  task = tsk("mtcars")
+  p = PredictionRegr$new(row_ids = task$row_ids, truth = task$truth(), response = task$truth())
+
+  p2 = p$clone()$filter(1:3)
+  expect_set_equal(p$row_ids, 1:32)
+  expect_set_equal(p2$row_ids, 1:3)
+  expect_prediction(as_prediction_regr(as.data.table(p2)))
 })

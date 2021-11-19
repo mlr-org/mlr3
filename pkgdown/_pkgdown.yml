@@ -80,6 +80,7 @@ reference:
     contents:
       - starts_with("mlr_learners")
       - as_learner
+      - HotstartStack
   - title: Measures
     contents:
       - starts_with("mlr_measures")
@@ -92,6 +93,7 @@ reference:
   - title: Resample
     contents:
       - resample
+      - partition
       - ResampleResult
       - as_result_data
       - as_resample_result
@@ -107,11 +109,13 @@ reference:
       - starts_with("as_")
   - title: Syntactic Sugar and Reflections
     contents:
+      - install_pkgs
       - mlr_sugar
       - mlr_reflections
       - set_threads
   - title: Internal Objects and Functions
     contents:
+      - MeasureSimilarity
       - mlr_assertions
       - ResultData
       - PredictionData

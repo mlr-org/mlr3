@@ -15,15 +15,15 @@ bibentries = c(
 
   bischl_2012 = bibentry("article",
     title = "Resampling Methods for Meta-Model Validation with Recommendations for Evolutionary Computation",
-    author       = "Bernd Bischl and Olaf Mersmann and Heike Trautmann and Claus Weihs",
-    year         = "2012",
-    month        = "jun",
-    journal      = "Evolutionary Computation",
-    publisher    = "MIT Press - Journals",
-    volume       = "20",
-    number       = "2",
-    pages        = "249--275",
-    doi          = "10.1162/evco_a_00069"
+    author = "Bernd Bischl and Olaf Mersmann and Heike Trautmann and Claus Weihs",
+    year = "2012",
+    month = "jun",
+    journal = "Evolutionary Computation",
+    publisher = "MIT Press - Journals",
+    volume = "20",
+    number = "2",
+    pages = "249--275",
+    doi = "10.1162/evco_a_00069"
   ),
 
   breiman_1984 = bibentry("book",

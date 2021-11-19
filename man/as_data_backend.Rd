@@ -23,7 +23,7 @@ Name of the primary key column, or integer vector of row ids.}
 \item{dense}{(\code{\link[=data.frame]{data.frame()}}).
 Dense data.}
 
-\item{...}{(\code{any})\cr
+\item{...}{(any)\cr
 Additional arguments passed to the respective \link{DataBackend} method.}
 
 \item{keep_rownames}{(\code{logical(1)} | \code{character(1)})\cr
@@ -50,8 +50,9 @@ as_data_backend(palmerpenguins::penguins)
 \seealso{
 \itemize{
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
-\url{https://mlr3book.mlr-org.com/backends.html}
-\item Package \CRANpkg{mlr3db} to store data out-of-memory.
+\url{https://mlr3book.mlr-org.com/technical.html#backends}
+\item Package \CRANpkg{mlr3db} to interface out-of-memory data,
+e.g. SQL servers or \CRANpkg{duckdb}.
 }
 
 Other DataBackend: 

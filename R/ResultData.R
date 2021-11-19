@@ -111,8 +111,8 @@ ResultData = R6Class("ResultData",
     #'
     #' @return `data.table()` with columns `"task_hash"` (`character()`) and `"task"` ([Task]).
     tasks = function(view = NULL) {
-      ii = private$get_view_index(view)
-      tab = unique(self$data$fact[ii, "task_hash", with = FALSE], by = "task_hash")
+      .__ii__ = private$get_view_index(view)
+      tab = unique(self$data$fact[.__ii__, "task_hash", with = FALSE], by = "task_hash")
       merge(tab, self$data$tasks, by = "task_hash", sort = TRUE)
     },
 
@@ -129,16 +129,16 @@ ResultData = R6Class("ResultData",
     #'
     #' @return `data.table()` with columns `"learner_hash"` (`character()`) and `"learner"` ([Learner]).
     learners = function(view = NULL, states = TRUE, reassemble = TRUE) {
-      ii = private$get_view_index(view)
+      .__ii__ = private$get_view_index(view)
 
       if (states) {
-        tab = self$data$fact[ii, c("learner_hash", "learner_phash", "learner_state"), with = FALSE]
+        tab = self$data$fact[.__ii__, c("learner_hash", "learner_phash", "learner_state"), with = FALSE]
         tab = merge(tab, self$data$learners, by = "learner_phash", sort = FALSE)
         tab = merge(tab, self$data$learner_components, by = "learner_hash", sort = TRUE)
         set(tab, j = "learner",
           value = reassemble_learners(tab$learner, states = tab$learner_state, param_vals = tab$learner_param_vals))
       } else {
-        tab = unique(self$data$fact[ii, c("learner_hash", "learner_phash"), with = FALSE], by = "learner_hash")
+        tab = unique(self$data$fact[.__ii__, c("learner_hash", "learner_phash"), with = FALSE], by = "learner_hash")
         tab = merge(tab, self$data$learners, by = "learner_phash", sort = FALSE)
 
         if (reassemble) {
@@ -159,8 +159,8 @@ ResultData = R6Class("ResultData",
     #'
     #' @return `data.table()` with columns `"resampling_hash"` (`character()`) and `"resampling"` ([Resampling]).
     resamplings = function(view = NULL) {
-      ii = private$get_view_index(view)
-      tab = unique(self$data$fact[ii, "resampling_hash", with = FALSE], by = "resampling_hash")
+      .__ii__ = private$get_view_index(view)
+      tab = unique(self$data$fact[.__ii__, "resampling_hash", with = FALSE], by = "resampling_hash")
       merge(tab, self$data$resamplings, by = "resampling_hash", sort = TRUE)
     },
 
@@ -172,8 +172,8 @@ ResultData = R6Class("ResultData",
     #'
     #' @return `list()` of [Prediction].
     predictions = function(view = NULL, predict_sets = "test") {
-      ii = private$get_view_index(view)
-      as_predictions(self$data$fact[ii, "prediction", with = FALSE][[1L]], predict_sets = predict_sets)
+      .__ii__ = private$get_view_index(view)
+      as_predictions(self$data$fact[.__ii__, "prediction", with = FALSE][[1L]], predict_sets = predict_sets)
     },
 
     #' @description
@@ -223,7 +223,7 @@ ResultData = R6Class("ResultData",
     #' by the fact table anymore.
     #' E.g., can be called after filtering/subsetting the fact table.
     #'
-    #' @return `self` (invisibly).
+    #' @return Modified `self` (invisibly).
     sweep = function() {
       fact = self$data$fact
       uhashes = unique(self$data$fact[, "uhash", with = FALSE])
@@ -242,6 +242,29 @@ ResultData = R6Class("ResultData",
     },
 
     #' @description
+    #' Shrinks the object by discarding parts of the stored data.
+    #'
+    #' @param backends (`logical(1)`)\cr
+    #'   If `TRUE`, the [DataBackend] is removed from all stored [Task]s.
+    #' @param models (`logical(1)`)\cr
+    #'   If `TRUE`, the stored model is removed from all [Learner]s.
+    #'
+    #' @return Modified `self` (invisibly).
+    discard = function(backends = FALSE, models = FALSE) {
+      if (assert_flag(backends)) {
+        tab = self$data$tasks
+        set(tab, j = "task", value = lapply(tab$task, task_rm_backend))
+      }
+
+      if (assert_flag(models)) {
+        tab = self$data$fact
+        set(tab, j = "learner_state", value = lapply(tab$learner_state, remove_named, "model"))
+      }
+
+      invisible(self)
+    },
+
+    #' @description
     #' Combines internal tables into a single flat [data.table()].
     #'
     #' @template param_view
@@ -251,9 +274,9 @@ ResultData = R6Class("ResultData",
     #'   Convert [PredictionData] to [Prediction]?
     #' @template param_predict_sets
     as_data_table = function(view = NULL, reassemble_learners = TRUE, convert_predictions = TRUE, predict_sets = "test") {
-      ii = private$get_view_index(view)
+      .__ii__ = private$get_view_index(view)
 
-      tab = self$data$fact[ii]
+      tab = self$data$fact[.__ii__]
       tab = merge(tab, self$data$tasks, by = "task_hash", sort = FALSE)
       tab = merge(tab, self$data$learners, by = "learner_phash", sort = FALSE)
       tab = merge(tab, self$data$resamplings, by = "resampling_hash", sort = FALSE)
@@ -281,10 +304,12 @@ ResultData = R6Class("ResultData",
     #' @template param_view
     #' @param condition (`character(1)`)
     #'   The condition to extract. One of `"message"`, `"warning"` or `"error"`.
+    #'
+    #' @return [data.table()].
     logs = function(view = NULL, condition) {
-      ii = private$get_view_index(view)
+      .__ii__ = private$get_view_index(view)
       learner_state = NULL
-      logs = map(self$data$fact[ii, learner_state], function(s) list(msg = get_log_condition(s, condition)))
+      logs = map(self$data$fact[.__ii__, learner_state], function(s) list(msg = get_log_condition(s, condition)))
       rbindlist(logs, idcol = "iteration", use.names = TRUE)
     }
   ),
@@ -295,18 +320,20 @@ ResultData = R6Class("ResultData",
     #'   Returns `NULL` if the [ResultData] is empty.
     task_type = function() {
       tab = self$data$tasks
-      if (nrow(tab))
+      if (nrow(tab)) {
         tab$task[[1L]]$task_type
-      else
+      } else {
         NULL
+      }
     }
   ),
 
   private = list(
     get_view_index = function(view) {
-      if (is.null(view))
+      if (is.null(view)) {
         return(TRUE)
-       self$data$fact[list(view), on = "uhash", nomatch = NULL, which = TRUE]
+      }
+      self$data$fact[list(view), on = "uhash", nomatch = NULL, which = TRUE]
     },
 
     deep_clone = function(name, value) {
@@ -382,8 +409,8 @@ reassemble_learners = function(learners, states = NULL, param_vals = NULL) {
   learners = lapply(learners, function(l) l$clone(deep = TRUE))
 
   if (!is.null(states)) {
-     Map(function(l, s) {
-       l$state = s
+    Map(function(l, s) {
+      l$state = s
     }, l = learners, s = states)
   }
 

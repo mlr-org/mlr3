@@ -32,9 +32,8 @@
 #'
 #' # manual instantiation (not suited for a fair comparison of learners!)
 #' Map(function(task, resampling) {
-#'    resampling$instantiate(task)
+#'   resampling$instantiate(task)
 #' }, task = grid$task, resampling = grid$resampling)
-#'
 #' \dontrun{
 #' benchmark(grid)
 #' }

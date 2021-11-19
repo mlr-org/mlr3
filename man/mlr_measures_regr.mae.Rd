@@ -2,12 +2,12 @@
 % Please edit documentation in R/MeasureSimple.R
 \name{mlr_measures_regr.mae}
 \alias{mlr_measures_regr.mae}
-\title{Mean Absolute Errors}
+\title{Mean Absolute Error}
 \description{
 Regression measure defined as \deqn{
-  \frac{1}{n} \sum_{i=1}^n \left| t_i - r_i \right|.
+  \frac{1}{n} \sum_{i=1}^n w_i \left| t_i - r_i \right|.
 }{
-  mean(abs(t - r)).
+  weighted.mean(abs(t - r), w).
 }
 }
 \note{
@@ -18,9 +18,14 @@ This can be customized by setting the field \code{na_value}.
 }
 \section{Dictionary}{
 
-This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("mae")
-msr("mae")
+This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("regr.mae")
+msr("regr.mae")
 }
+}
+
+\section{Parameters}{
+
+Empty ParamSet
 }
 
 \section{Meta Information}{

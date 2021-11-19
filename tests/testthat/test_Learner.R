@@ -136,7 +136,35 @@ test_that("predict on newdata works / no target column", {
   learner = lrn("regr.featureless")
   learner$properties = setdiff(learner$properties, "missings")
   learner$train(task)
-  learner$predict_newdata(xdt[,1])
+  learner$predict_newdata(xdt[, 1])
+})
+
+test_that("predict on newdata works / empty data frame", {
+  task = tsk("mtcars")
+  splits = partition(task)
+  learner = lrn("regr.featureless")
+  learner$train(task$clone()$filter(splits$train))
+
+  newdata = as_data_backend(task$data(rows = integer()))
+  p = learner$predict_newdata(newdata = newdata)
+
+  expect_data_table(as.data.table(p), nrows = 0)
+  expect_set_equal(as.data.table(p)$row_ids, integer())
+})
+
+test_that("predict on newdata works / data backend input", {
+  task = tsk("mtcars")
+  splits = partition(task)
+  learner = lrn("regr.featureless")
+  learner$train(task$clone()$filter(splits$train))
+
+  newdata = task$data(rows = splits$test)
+  newdata$new_row_id = sample(1e4, nrow(newdata))
+  backend = as_data_backend(newdata, primary_key = "new_row_id")
+  p = learner$predict_newdata(newdata = backend)
+
+  expect_data_table(as.data.table(p), nrows = backend$nrow)
+  expect_set_equal(as.data.table(p)$row_ids, backend$rownames)
 })
 
 
@@ -167,11 +195,11 @@ test_that("predict train + test set", {
 
   learner = lrn("classif.rpart")
   rr = resample(task, learner, hout)
-  expect_error(rr$aggregate(measures = measures), "predict.set")
+  expect_warning(expect_warning(rr$aggregate(measures = measures), "predict sets", fixed = TRUE))
 
   learner = lrn("classif.rpart", predict_sets = "train")
   rr = resample(task, learner, hout)
-  expect_error(rr$aggregate(measures = measures), "predict.set")
+  expect_warning(expect_warning(rr$aggregate(measures = measures), "predict sets", fixed = TRUE))
 
   learner = lrn("classif.rpart", predict_sets = c("train", "test"))
   rr = resample(task, learner, hout)
@@ -181,7 +209,7 @@ test_that("predict train + test set", {
 })
 
 test_that("assertions work (#357)", {
-  measures = lapply(c("classif.auc","classif.acc"), msr)
+  measures = lapply(c("classif.auc", "classif.acc"), msr)
   task = tsk("iris")
   lrn = lrn("classif.featureless")
   p = lrn$train(task)$predict(task)
@@ -249,4 +277,41 @@ test_that("weights", {
 
   expect_prediction(learner$predict_newdata(data[1:3, ]))
   expect_prediction(learner$predict_newdata(iris[1:3, ]))
+})
+
+test_that("mandatory properties",  {
+  task = tsk("iris")
+  learner = lrn("classif.rpart")
+  learner$properties = setdiff(learner$properties, "multiclass")
+  resample = rsmp("holdout")
+
+  expect_error(learner$train(task), "multiclass")
+  expect_error(resample(task, learner, resample), "multiclass")
+  expect_error(benchmark(benchmark_grid(task, learner, resample)), "multiclass")
+})
+
+test_that("train task is cloned (#382)", {
+  train_task = tsk("iris")
+  lr = lrn("classif.rpart")$train(train_task)
+  expect_different_address(lr$state$train_task, train_task)
+
+  lrc = lr$clone(deep = TRUE)
+  expect_different_address(lr$state$train_task, lrc$state$train_task)
+})
+
+test_that("Error on missing data (#413)", {
+  task = tsk("pima")
+  learner = lrn("classif.rpart")
+  learner$properties = setdiff(learner$properties, "missings")
+  expect_error(learner$train(task), "missing values")
+})
+
+test_that("Task prototype is stored in state", {
+  task = tsk("boston_housing")
+  learner = lrn("regr.rpart")
+  learner$train(task)
+
+  prototype = learner$state$task_prototype
+  expect_data_table(prototype, nrows = 0, ncols = 19)
+  expect_names(names(prototype), permutation.of = c(task$feature_names, task$target_names))
 })

@@ -5,23 +5,39 @@ mlr_reflections$auto_converters = ee = new.env(parent = emptyenv())
 
 ## from: logical
 ee[["logical___integer"]] =
-  function(value, type, levels) { as.integer(value) }
+  function(value, type, levels) {
+    as.integer(value)
+  }
 ee[["logical___numeric"]] =
-  function(value, type, levels) { as.double(value) }
+  function(value, type, levels) {
+    as.double(value)
+  }
 ee[["logical___character"]] =
-  function(value, type, levels) { as.character(value) }
+  function(value, type, levels) {
+    as.character(value)
+  }
 ee[["logical___factor"]] =
-  function(value, type, levels) { factor(value, levels = union(levels, value), ordered = FALSE) }
+  function(value, type, levels) {
+    factor(value, levels = union(levels, value), ordered = FALSE)
+  }
 ee[["logical___ordered"]] =
-  function(value, type, levels) { if (all(value %in% c(NA_character_, levels))) factor(value, levels = levels, ordered = TRUE) else NULL }
+  function(value, type, levels) {
+    if (all(value %in% c(NA_character_, levels))) factor(value, levels = levels, ordered = TRUE) else NULL
+  }
 ee[["logical___POSIXct"]] =
-  function(value, type, levels) { if (allMissing(value)) .POSIXct(value, tz = "") else value }
+  function(value, type, levels) {
+    if (allMissing(value)) .POSIXct(value, tz = "") else value
+  }
 ee[["logical___Date"]] =
-  function(value, type, levels) { if (allMissing(value)) as.Date(value) else value }
+  function(value, type, levels) {
+    if (allMissing(value)) as.Date(value) else value
+  }
 
 ## from: integer
 ee[["integer___logical"]] =
-  function(value, type, levels) { if (test_integerish(value, lower = 0L, upper = 1L)) as.logical(value) else value }
+  function(value, type, levels) {
+    if (test_integerish(value, lower = 0L, upper = 1L)) as.logical(value) else value
+  }
 ee[["integer___numeric"]] =
   ee[["logical___numeric"]]
 ee[["integer___character"]] =
@@ -39,7 +55,9 @@ ee[["integer___Date"]] =
 ee[["numeric___logical"]] =
   ee[["integer___logical"]]
 ee[["numeric___integer"]] =
-  function(value, type, levels) { if (test_integerish(value)) as.integer(value) else value }
+  function(value, type, levels) {
+    if (test_integerish(value)) as.integer(value) else value
+  }
 ee[["numeric___character"]] =
   ee[["logical___character"]]
 ee[["numeric___factor"]] =
@@ -53,19 +71,30 @@ ee[["numeric___Date"]] =
 
 ## from: character
 ee[["character___logical"]] =
-  function(value, type, levels) { if (all(value %in% c(NA_character_, "TRUE", "FALSE", "true", "false", "T", "F"))) as.logical(value) else value }
+  function(value, type, levels) {
+    if (all(value %in% c(NA_character_, "TRUE", "FALSE", "true", "false", "T", "F"))) as.logical(value) else value
+  }
 ee[["character___integer"]] =
-  function(value, type, levels) { if (allMissing(value)) as.integer(value) else value }
+  function(value, type, levels) {
+    if (allMissing(value)) as.integer(value) else value
+  }
 ee[["character___numeric"]] =
-  function(value, type, levels) { if (allMissing(value)) as.double(value) else value }
+  function(value, type, levels) {
+    if (allMissing(value)) as.double(value) else value
+  }
 ee[["character___factor"]] =
   ee[["logical___factor"]]
 ee[["character___ordered"]] =
   ee[["logical___ordered"]]
 ee[["character___POSIXct"]] =
-  function(value, type, levels) { x = try(as.POSIXct(value, ""), silent = TRUE); if (inherits(x, "try-error")) value else x }
+  function(value, type, levels) {
+    x = try(as.POSIXct(value, ""), silent = TRUE)
+    if (inherits(x, "try-error")) value else x
+  }
 ee[["character___Date"]] =
-  function(value, type, levels) { x = try(as.Date(value), silent = TRUE); if (inherits(x, "try-error")) value else x }
+  function(value, type, levels) {
+    x = try(as.Date(value), silent = TRUE); if (inherits(x, "try-error")) value else x
+  }
 
 ## from: factor
 ee[["factor___logical"]] =
@@ -73,9 +102,13 @@ ee[["factor___logical"]] =
 ee[["factor___character"]] =
   ee[["logical___character"]]
 ee[["factor___factor"]] =
-  function(value, type, levels) { factor(value, levels = union(levels, levels(value)), ordered = FALSE) }
+  function(value, type, levels) {
+    factor(value, levels = union(levels, levels(value)), ordered = FALSE)
+  }
 ee[["factor___ordered"]] =
-  function(value, type, levels) { if (all(levels(value) %in% levels)) factor(value, levels = levels, ordered = TRUE) else NULL }
+  function(value, type, levels) {
+    if (all(levels(value) %in% levels)) factor(value, levels = levels, ordered = TRUE) else NULL
+  }
 ee[["factor___POSIXct"]] =
   ee[["character___POSIXct"]]
 ee[["factor___Date"]] =
@@ -95,11 +128,15 @@ ee[["ordered___Date"]] =
 
 ## from: POSIXct
 ee[["POSIXct___Date"]] =
-  function(value, type, levels) { as.Date(value) }
+  function(value, type, levels) {
+    as.Date(value)
+  }
 
 ## from: Date
 ee[["Date___POSIXct"]] =
-  function(value, type, levels) { as.POSIXct(value) }
+  function(value, type, levels) {
+    as.POSIXct(value)
+  }
 
 rm(ee)
 # nolint end
@@ -113,7 +150,7 @@ rm(ee)
 #'
 #' All rules are stored as functions in [mlr_reflections$auto_converters][mlr_reflections].
 #'
-#' @param value (`any`)\cr
+#' @param value (any)\cr
 #'   New values to convert in order to match `type`.
 #' @param id (`character(1)`)\cr
 #'   Name of the column, used in error messages.

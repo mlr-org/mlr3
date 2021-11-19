@@ -34,7 +34,7 @@ the data of the former passed objects get overwritten by the data of the later p
 \seealso{
 \itemize{
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
-\url{https://mlr3book.mlr-org.com/train-predict.html}
+\url{https://mlr3book.mlr-org.com/basics.html#train-predict}
 \item Package \CRANpkg{mlr3viz} for some generic visualizations.
 \item Extension packages for additional task types:
 \itemize{
@@ -75,7 +75,7 @@ Defaults to \code{NA}, but can be set by child classes.}
 \item{\code{row_ids}}{(\code{integer()})\cr
 Vector of row ids for which predictions are stored.}
 
-\item{\code{truth}}{(\code{any})\cr
+\item{\code{truth}}{(any)\cr
 True (observed) outcome.}
 
 \item{\code{missing}}{(\code{integer()})\cr
@@ -90,6 +90,7 @@ Returns \code{row_ids} for which the predictions are missing or incomplete.}
 \item \href{#method-print}{\code{Prediction$print()}}
 \item \href{#method-help}{\code{Prediction$help()}}
 \item \href{#method-score}{\code{Prediction$score()}}
+\item \href{#method-filter}{\code{Prediction$filter()}}
 \item \href{#method-clone}{\code{Prediction$clone()}}
 }
 }
@@ -164,6 +165,29 @@ Measure(s) to calculate.}
 }
 \subsection{Returns}{
 \link{Prediction}.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-filter"></a>}}
+\if{latex}{\out{\hypertarget{method-filter}{}}}
+\subsection{Method \code{filter()}}{
+Filters the \link{Prediction}, keeping only predictions for the provided row_ids.
+This changes the object in-place, you need to create a clone to preserve
+the original \link{Prediction}.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Prediction$filter(row_ids)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{row_ids}}{\code{integer()}\cr
+Row indices.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\code{self}, modified.
 }
 }
 \if{html}{\out{<hr>}}

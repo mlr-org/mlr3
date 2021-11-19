@@ -9,7 +9,9 @@ resample(
   learner,
   resampling,
   store_models = FALSE,
-  store_backends = TRUE
+  store_backends = TRUE,
+  encapsulate = NA_character_,
+  allow_hotstart = FALSE
 )
 }
 \arguments{
@@ -20,7 +22,7 @@ resample(
 \item{resampling}{(\link{Resampling}).}
 
 \item{store_models}{(\code{logical(1)})\cr
-Keep the fitted model after the test set has been predicted?
+Store the fitted model in the resulting object=
 Set to \code{TRUE} if you want to further analyse the models or want to
 extract information like variable importance.}
 
@@ -32,6 +34,22 @@ Set to \code{FALSE} to reduce the file size and memory footprint
 after serialization.
 The current default is \code{TRUE}, but this eventually will be changed
 in a future release.}
+
+\item{encapsulate}{(\code{character(1)})\cr
+If not \code{NA}, enables encapsulation by setting the field
+\code{Learner$encapsulate} to one of the supported values:
+\code{"none"} (disable encapsulation),
+\code{"evaluate"} (execute via \CRANpkg{evaluate}) and
+\code{"callr"} (start in external session via \CRANpkg{callr}).
+If \code{NA}, encapsulation is not changed, i.e. the settings of the
+individual learner are active.
+Additionally, if encapsulation is set to \code{"evaluate"} or \code{"callr"},
+the fallback learner is set to the featureless learner if the learner
+does not already have a fallback configured.}
+
+\item{allow_hotstart}{(\code{logical(1)})\cr
+Determines if learner(s) are hot started with trained models in
+\verb{$hotstart_stack}. See also \link{HotstartStack}.}
 }
 \value{
 \link{ResampleResult}.
@@ -58,8 +76,10 @@ To select a parallel backend, use \code{\link[future:plan]{future::plan()}}.
 \section{Progress Bars}{
 
 This function supports progress bars via the package \CRANpkg{progressr}.
-Simply wrap the function in \code{\link[progressr:with_progress]{progressr::with_progress()}} to enable them.
-We recommend to use package \CRANpkg{progress} as backend; enable with
+Simply wrap the function call in \code{\link[progressr:with_progress]{progressr::with_progress()}} to enable them.
+Alternatively, call \code{\link[progressr:handlers]{progressr::handlers()}} with \code{global = TRUE} to enable progress bars
+globally.
+We recommend the \CRANpkg{progress} package as backend which can be enabled with
 \code{progressr::handlers("progress")}.
 }
 
@@ -110,8 +130,12 @@ bmr2 = as_benchmark_result(rr_featureless)
 print(bmr1$combine(bmr2))
 }
 \seealso{
-Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
-\url{https://mlr3book.mlr-org.com/resampling.html}
+\itemize{
+\item \code{\link[=as_benchmark_result]{as_benchmark_result()}} to convert to a \link{BenchmarkResult}.
+\item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
+\url{https://mlr3book.mlr-org.com/basics.html#resampling}
+\item Package \CRANpkg{mlr3viz} for some generic visualizations.
+}
 
 Other resample: 
 \code{\link{ResampleResult}}

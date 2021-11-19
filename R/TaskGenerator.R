@@ -37,7 +37,7 @@ TaskGenerator = R6Class("TaskGenerator",
     initialize = function(id, task_type, packages = character(), param_set = ps(), man = NA_character_) {
       self$id = assert_string(id, min.chars = 1L)
       self$param_set = assert_param_set(param_set)
-      self$packages = assert_set(packages)
+      self$packages = union("mlr3", assert_character(packages, any.missing = FALSE, min.chars = 1L))
       self$task_type = assert_choice(task_type, mlr_reflections$task_types$type)
       self$man = assert_string(man, na.ok = TRUE)
 
@@ -54,11 +54,11 @@ TaskGenerator = R6Class("TaskGenerator",
     #' Printer.
     #' @param ... (ignored).
     print = function(...) {
-      catf(format(self))
-      catf(str_indent("* Task type:", self$task_type))
-      catf(str_indent("* Packages:", self$packages))
-      catf(str_indent("* Parameters:", as_short_string(self$param_set$values, 1000L)))
-      catf(str_indent("* Manual:", sprintf("?%s", self$man)))
+      catn(format(self))
+      catn(str_indent("* Task type:", self$task_type))
+      catn(str_indent("* Packages:", self$packages))
+      catn(str_indent("* Parameters:", as_short_string(self$param_set$values, 1000L)))
+      catn(str_indent("* Manual:", sprintf("?%s", self$man)))
     },
 
     #' @description
@@ -79,4 +79,9 @@ convert_mlbench = function(obj) {
   y = factor(LETTERS[as.integer(obj$classes)], levels = LETTERS[seq_len(uniqueN(obj$classes))])
   X = set_col_names(obj$x, sprintf("x%i", seq_col(obj$x)))
   insert_named(as.data.table(X), list(y = y))
+}
+
+#' @export
+format_list_item.TaskGenerator = function(x, ...) { # nolint
+  sprintf("<tgen:%s>", x$id)
 }

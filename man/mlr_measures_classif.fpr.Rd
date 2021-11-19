@@ -11,6 +11,9 @@ Binary classification measure defined as \deqn{
 }
 Also know as fall out or probability of false alarm.
 }
+\details{
+This measure is undefined if FP + TN = 0.
+}
 \note{
 The score function calls \code{\link[mlr3measures:fpr]{mlr3measures::fpr()}} from package \CRANpkg{mlr3measures}.
 
@@ -19,9 +22,14 @@ This can be customized by setting the field \code{na_value}.
 }
 \section{Dictionary}{
 
-This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("fpr")
-msr("fpr")
+This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("classif.fpr")
+msr("classif.fpr")
 }
+}
+
+\section{Parameters}{
+
+Empty ParamSet
 }
 
 \section{Meta Information}{

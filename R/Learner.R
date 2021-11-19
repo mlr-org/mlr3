@@ -115,7 +115,6 @@ Learner = R6Class("Learner",
     #' A complete list of candidate properties, grouped by task type, is stored in [`mlr_reflections$learner_properties`][mlr_reflections].
     properties = NULL,
 
-
     #' @field data_formats (`character()`)\cr
     #' Supported data format, e.g. `"data.table"` or `"Matrix"`.
     data_formats = NULL,
@@ -126,18 +125,27 @@ Learner = R6Class("Learner",
     #' @template field_predict_sets
     predict_sets = "test",
 
+    #' @field parallel_predict (`logical(1)`)\cr
+    #' If set to `TRUE`, use \CRANpkg{future} to calculate predictions in parallel (default: `FALSE`).
+    #' The row ids of the `task` will be split into [future::nbrOfWorkers()] chunks,
+    #' and predictions are evaluated according to the active [future::plan()].
+    #' This currently only works for methods `Learner$predict()` and `Learner$predict_newdata()`,
+    #' and has no effect during [resample()] or [benchmark()] where you have other means
+    #' to parallelize.
+    parallel_predict = FALSE,
+
     #' @field timeout (named `numeric(2)`)\cr
     #' Timeout for the learner's train and predict steps, in seconds.
     #' This works differently for different encapsulation methods, see
     #' [mlr3misc::encapsulate()].
     #' Default is `c(train = Inf, predict = Inf)`.
-    #' Also see the section on error handling the mlr3book: \url{https://mlr3book.mlr-org.com/error-handling.html}
+    #' Also see the section on error handling the mlr3book: \url{https://mlr3book.mlr-org.com/technical.html#error-handling}
     timeout = c(train = Inf, predict = Inf),
 
     #' @field fallback ([Learner])\cr
     #' Learner which is fitted to impute predictions in case that either the model fitting or the prediction of the top learner is not successful.
     #' Requires you to enable encapsulation, otherwise errors are not caught and the execution is terminated before the fallback learner kicks in.
-    #' Also see the section on error handling the mlr3book: \url{https://mlr3book.mlr-org.com/error-handling.html}
+    #' Also see the section on error handling the mlr3book: \url{https://mlr3book.mlr-org.com/technical.html#error-handling}
     fallback = NULL,
 
     #' @template field_man
@@ -159,7 +167,7 @@ Learner = R6Class("Learner",
       private$.predict_type = predict_types[1L]
       self$properties = sort(assert_subset(properties, mlr_reflections$learner_properties[[task_type]]))
       self$data_formats = assert_subset(data_formats, mlr_reflections$data_formats)
-      self$packages = assert_set(packages)
+      self$packages = union("mlr3", assert_character(packages, any.missing = FALSE, min.chars = 1L))
       self$man = assert_string(man, na.ok = TRUE)
 
       check_packages_installed(packages, msg = sprintf("Package '%%s' required but not installed for Learner '%s'", id))
@@ -174,21 +182,21 @@ Learner = R6Class("Learner",
     #' @description
     #' Printer.
     #' @param ... (ignored).
-    print = function() {
-      catf(format(self))
-      catf(str_indent("* Model:", if (is.null(self$model)) "-" else class(self$model)[1L]))
-      catf(str_indent("* Parameters:", as_short_string(self$param_set$values, 1000L)))
-      catf(str_indent("* Packages:", self$packages))
-      catf(str_indent("* Predict Type:", self$predict_type))
-      catf(str_indent("* Feature types:", self$feature_types))
-      catf(str_indent("* Properties:", self$properties))
+    print = function(...) {
+      catn(format(self))
+      catn(str_indent("* Model:", if (is.null(self$model)) "-" else class(self$model)[1L]))
+      catn(str_indent("* Parameters:", as_short_string(self$param_set$values, 1000L)))
+      catn(str_indent("* Packages:", self$packages))
+      catn(str_indent("* Predict Type:", self$predict_type))
+      catn(str_indent("* Feature types:", self$feature_types))
+      catn(str_indent("* Properties:", self$properties))
       w = self$warnings
       e = self$errors
       if (length(w)) {
-        catf(str_indent("* Warnings:", w))
+        catn(str_indent("* Warnings:", w))
       }
       if (length(e)) {
-        catf(str_indent("* Errors:", e))
+        catn(str_indent("* Errors:", e))
       }
     },
 
@@ -205,7 +213,8 @@ Learner = R6Class("Learner",
     #' @param task ([Task]).
     #'
     #' @param row_ids (`integer()`)\cr
-    #'   Vector of training indices.
+    #'   Vector of training indices as subset of `task$row_ids`.
+    #'   For a simple split into training and test set, see [partition()].
     #'
     #' @return
     #' Returns the object itself, but modified **by reference**.
@@ -216,7 +225,21 @@ Learner = R6Class("Learner",
       assert_learnable(task, self)
       row_ids = assert_row_ids(row_ids, null.ok = TRUE)
 
-      learner_train(self, task, row_ids)
+      if (!is.null(self$hotstart_stack)) {
+        # search for hotstart learner
+        start_learner = get_private(self$hotstart_stack)$.start_learner(self, task$hash)
+      }
+      if (is.null(self$hotstart_stack) || is.null(start_learner)) {
+         # no hotstart learners stored or no adaptable model found
+        learner = self
+        mode = "train"
+      } else {
+        self$state = start_learner$clone()$state
+        learner = self
+        mode = "hotstart"
+      }
+
+      learner_train(learner, task, row_ids, mode)
 
       # store the task w/o the data
       self$state$train_task = task_rm_backend(task$clone(deep = TRUE))
@@ -231,10 +254,15 @@ Learner = R6Class("Learner",
     #' @param task ([Task]).
     #'
     #' @param row_ids (`integer()`)\cr
-    #'   Vector of test indices.
+    #'   Vector of test indices as subset of `task$row_ids`.
+    #'   For a simple split into training and test set, see [partition()].
     #'
     #' @return [Prediction].
     predict = function(task, row_ids = NULL) {
+      # improve error message for the common mistake of passing a data.frame here
+      if (is.data.frame(task)) {
+        stopf("To predict on data.frames, use the method `$predict_newdata()` instead of `$predict()`")
+      }
       task = assert_task(as_task(task))
       assert_predictable(task, self)
       row_ids = assert_row_ids(row_ids, null.ok = TRUE)
@@ -243,11 +271,22 @@ Learner = R6Class("Learner",
         stopf("Cannot predict, Learner '%s' has not been trained yet", self$id)
       }
 
-      pdata = learner_predict(self, task, row_ids)
-      if (is.null(pdata))
-        return(NULL)
+      if (isTRUE(self$parallel_predict) && nbrOfWorkers() > 1L) {
+        row_ids = row_ids %??% task$row_ids
+        chunked = chunk_vector(row_ids, n_chunks = nbrOfWorkers(), shuffle = FALSE)
+        pdata = future.apply::future_lapply(chunked,
+          learner_predict, learner = self, task = task,
+          future.globals = FALSE, future.seed = TRUE)
+        pdata = do.call(c, pdata)
+      } else {
+        pdata = learner_predict(self, task, row_ids)
+      }
 
-      as_prediction(check_prediction_data(pdata))
+      if (is.null(pdata)) {
+        return(NULL)
+      } else {
+        as_prediction(check_prediction_data(pdata))
+      }
     },
 
     #' @description
@@ -258,19 +297,21 @@ Learner = R6Class("Learner",
     #' If the learner has been fitted via [resample()] or [benchmark()], you need to pass the corresponding task stored
     #' in the [ResampleResult] or [BenchmarkResult], respectively.
     #'
-    #' @param newdata (`data.frame()`)\cr
+    #' @param newdata (any object supported by [as_data_backend()])\cr
     #'   New data to predict on.
-    #'   Row ids are automatically set to `1:nrow(newdata)`.
+    #'   All data formats convertible by [as_data_backend()] are supported, e.g.
+    #'   `data.frame()` or [DataBackend].
+    #'   If a [DataBackend] is provided as `newdata`, the row ids are preserved,
+    #'   otherwise they are set to to the sequence `1:nrow(newdata)`.
     #'
     #' @param task ([Task]).
     #'
     #' @return [Prediction].
     predict_newdata = function(newdata, task = NULL) {
-      newdata = as.data.table(assert_data_frame(newdata, min.rows = 1L))
-
       if (is.null(task)) {
-        if (is.null(self$state$train_task))
+        if (is.null(self$state$train_task)) {
           stopf("No task stored, and no task provided")
+        }
         task = self$state$train_task$clone()
       } else {
         task = assert_task(as_task(task, clone = TRUE))
@@ -278,22 +319,22 @@ Learner = R6Class("Learner",
         task = task_rm_backend(task)
       }
 
-      assert_names(names(newdata), must.include = task$feature_names)
+      newdata = as_data_backend(newdata)
+      assert_names(newdata$colnames, must.include = task$feature_names)
 
       # the following columns are automatically set to NA if missing
-      impute = unlist(task$col_roles[c("target", "name", "order", "stratum", "group", "weight")])
-      impute = setdiff(impute, colnames(newdata))
+      impute = unlist(task$col_roles[c("target", "name", "order", "stratum", "group", "weight")], use.names = FALSE)
+      impute = setdiff(impute, newdata$colnames)
       if (length(impute)) {
-        # create list with correct NA types and insert it into the table newdata
-        tab = task$col_info[list(impute), on = "id"]
-        set(tab, j = "value", value = NA)
-        nas = set_names(pmap(tab[, !"label"], auto_convert), tab$id)
-        newdata = insert_named(newdata, nas)
+        # create list with correct NA types and cbind it to the backend
+        ci = insert_named(task$col_info[list(impute), c("id", "type", "levels"), on = "id", with = FALSE], list(value = NA))
+        na_cols = set_names(pmap(ci, function(..., nrow) rep(auto_convert(...), nrow), nrow = newdata$nrow), ci$id)
+        tab = invoke(data.table, .args = insert_named(na_cols, set_names(list(newdata$rownames), newdata$primary_key)))
+        newdata = DataBackendCbind$new(newdata, DataBackendDataTable$new(tab, primary_key = newdata$primary_key))
       }
 
       # do some type conversions if necessary
-
-      task$backend = as_data_backend(newdata)
+      task$backend = newdata
       task$row_roles$use = task$backend$rownames
       self$predict(task)
     },
@@ -308,11 +349,29 @@ Learner = R6Class("Learner",
     reset = function() {
       self$state = NULL
       invisible(self)
+    },
+
+    #' @description
+    #' Extracts the base learner from nested learner objects like
+    #' `GraphLearner` in \CRANpkg{mlr3pipelines} or `AutoTuner` in
+    #' \CRANpkg{mlr3tuning}.
+    #' Returns the [Learner] itself for regular learners.
+    #'
+    #' @param recursive (`integer(1)`)\cr
+    #'   Depth of recursion for multiple nested objects.
+    #'
+    #' @return [Learner].
+    base_learner = function(recursive = Inf) {
+      if (exists(".base_learner", envir = private, inherits = FALSE)) {
+        private$.base_learner(recursive)
+      } else {
+        self
+      }
     }
   ),
 
   active = list(
-    #' @field model (`any`)\cr
+    #' @field model (any)\cr
     #' The fitted model. Only available after `$train()` has been called.
     model = function(rhs) {
       assert_ro_binding(rhs)
@@ -357,16 +416,18 @@ Learner = R6Class("Learner",
     #' @template field_hash
     hash = function(rhs) {
       assert_ro_binding(rhs)
-      hash(class(self), self$id, self$param_set$values, private$.predict_type, self$fallback$hash)
+      calculate_hash(class(self), self$id, self$param_set$values, private$.predict_type,
+        self$fallback$hash, self$parallel_predict)
     },
 
     #' @field phash (`character(1)`)\cr
     #' Hash (unique identifier) for this partial object, excluding some components
-    #' which are varied  systematically during tuning (parameter values) or feature
+    #' which are varied systematically during tuning (parameter values) or feature
     #' selection (feature names).
     phash = function(rhs) {
       assert_ro_binding(rhs)
-      hash(class(self), self$id, private$.predict_type, self$fallback$hash)
+      calculate_hash(class(self), self$id, private$.predict_type,
+        self$fallback$hash, self$parallel_predict)
     },
 
     #' @field predict_type (`character(1)`)\cr
@@ -376,7 +437,10 @@ Learner = R6Class("Learner",
       if (missing(rhs)) {
         return(private$.predict_type)
       }
+
+      assert_string(rhs, .var.name = "predict_type")
       if (rhs %nin% self$predict_types) {
+
         stopf("Learner '%s' does not support predict type '%s'", self$id, rhs)
       }
       private$.predict_type = rhs
@@ -402,6 +466,16 @@ Learner = R6Class("Learner",
       assert_character(rhs)
       assert_names(names(rhs), subset.of = c("train", "predict"))
       private$.encapsulate = insert_named(c(train = "none", predict = "none"), rhs)
+    },
+
+    #' @field hotstart_stack ([HotstartStack])\cr.
+    #' Stores `HotstartStack`.
+    hotstart_stack = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.hotstart_stack)
+      }
+      assert_r6(rhs, "HotstartStack", null.ok = TRUE)
+      private$.hotstart_stack = rhs
     }
   ),
 
@@ -409,12 +483,19 @@ Learner = R6Class("Learner",
     .encapsulate = NULL,
     .predict_type = NULL,
     .param_set = NULL,
+    .hotstart_stack = NULL,
 
     deep_clone = function(name, value) {
       switch(name,
         .param_set = value$clone(deep = TRUE),
         fallback = if (is.null(value)) NULL else value$clone(deep = TRUE),
-        state = { value$log = copy(value$log); value },
+        state = {
+          if (!is.null(value$train_task)) {
+            value$train_task = value$train_task$clone(deep = TRUE)
+          }
+          value$log = copy(value$log)
+          value
+        },
         value
       )
     }
@@ -438,4 +519,9 @@ get_log_condition = function(state, condition) {
   } else {
     fget(state$log, i = condition, j = "msg", key = "class")
   }
+}
+
+#' @export
+format_list_item.Learner = function(x, ...) { # nolint
+  sprintf("<lrn:%s>", x$id)
 }

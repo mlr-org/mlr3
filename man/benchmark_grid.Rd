@@ -40,16 +40,19 @@ grid = data.table::CJ(task = tasks, learner = learners,
 
 # manual instantiation (not suited for a fair comparison of learners!)
 Map(function(task, resampling) {
-   resampling$instantiate(task)
+  resampling$instantiate(task)
 }, task = grid$task, resampling = grid$resampling)
-
 \dontrun{
 benchmark(grid)
 }
 }
 \seealso{
-Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
-\url{https://mlr3book.mlr-org.com/benchmarking.html}
+\itemize{
+\item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
+\url{https://mlr3book.mlr-org.com/basics.html#benchmarking}
+\item Package \CRANpkg{mlr3viz} for some generic visualizations.
+\item \CRANpkg{mlr3benchmark} for post-hoc analysis of benchmark results.
+}
 
 Other benchmark: 
 \code{\link{BenchmarkResult}},

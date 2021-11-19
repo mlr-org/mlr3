@@ -40,7 +40,7 @@ convert_task = function(intask, target = NULL, new_type = NULL, drop_original_ta
 
   # Add the original target(s) as features, only keeping 'new_target'.
   if (!all(intask$target_names == target)) {
-    newtask$set_col_roles(setdiff(intask$col_roles$target, target),  "feature")
+    newtask$set_col_roles(setdiff(intask$col_roles$target, target), "feature")
   }
 
   # during prediction, when target is NA, we do not call droplevels

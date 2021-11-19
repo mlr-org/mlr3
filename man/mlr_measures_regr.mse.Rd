@@ -5,9 +5,9 @@
 \title{Mean Squared Error}
 \description{
 Regression measure defined as \deqn{
-  \frac{1}{n} \sum_{i=1}^n \left( t_i - r_i \right)^2.
+  \frac{1}{n} w_i \sum_{i=1}^n \left( t_i - r_i \right)^2.
 }{
-  mean((t - r)^2).
+  weighted.mean((t - r)^2, w).
 }
 }
 \note{
@@ -18,9 +18,14 @@ This can be customized by setting the field \code{na_value}.
 }
 \section{Dictionary}{
 
-This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("mse")
-msr("mse")
+This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("regr.mse")
+msr("regr.mse")
 }
+}
+
+\section{Parameters}{
+
+Empty ParamSet
 }
 
 \section{Meta Information}{

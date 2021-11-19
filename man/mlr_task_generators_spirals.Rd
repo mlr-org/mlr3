@@ -14,6 +14,14 @@ tgen("spirals")
 }
 }
 
+\section{Parameters}{
+\tabular{lllll}{
+   Id \tab Type \tab Default \tab Range \tab Levels \cr
+   cycles \tab integer \tab 1 \tab \eqn{[1, \infty)}{[1, Inf)} \tab - \cr
+   sd \tab numeric \tab 0 \tab \eqn{[0, \infty)}{[0, Inf)} \tab - \cr
+}
+}
+
 \examples{
 generator = tgen("spirals")
 plot(generator, n = 200)

@@ -24,13 +24,14 @@
 #'
 #' First, the observations are divided into subpopulations based one or multiple stratification variables (assumed to be discrete), c.f. `task$strata`.
 #'
-#'
 #' Second, the sampling is performed in each of the `k` subpopulations separately.
 #' Each subgroup is divided into `iter` training sets and `iter` test sets by the derived `Resampling`.
 #' These sets are merged based on their iteration number:
 #' all training sets from all subpopulations with iteration 1 are combined, then all training sets with iteration 2, and so on.
 #' Same is done for all test sets.
 #' The merged sets can be accessed via `$train_set(i)` and `$test_set(i)`, respectively.
+#' Note that this procedure can lead to set sizes that are slightly different from those
+#' without stratification.
 #'
 #'
 #' @section Grouping / Blocking:
@@ -86,7 +87,7 @@ Resampling = R6Class("Resampling",
     #' @template field_param_set
     param_set = NULL,
 
-    #' @field instance (`any`)\cr
+    #' @field instance (any)\cr
     #'   During `instantiate()`, the instance is stored in this slot in an arbitrary format.
     #'   Note that if a grouping variable is present in the [Task], a [Resampling] may operate on the
     #'   group ids internally instead of the row ids (which may lead to confusion).
@@ -139,8 +140,8 @@ Resampling = R6Class("Resampling",
     print = function(...) {
       pv = self$param_set$values
       catf("%s with %i iterations", format(self), self$iters)
-      catf(str_indent("* Instantiated:", self$is_instantiated))
-      catf(str_indent("* Parameters:", as_short_string(pv, 1000L)))
+      catn(str_indent("* Instantiated:", self$is_instantiated))
+      catn(str_indent("* Parameters:", as_short_string(pv, 1000L)))
     },
 
     #' @description
@@ -221,7 +222,7 @@ Resampling = R6Class("Resampling",
       if (!self$is_instantiated) {
         return(NA_character_)
       }
-      hash(list(class(self), self$id, self$param_set$values, self$instance))
+      calculate_hash(list(class(self), self$id, self$param_set$values, self$instance))
     }
   ),
 
@@ -256,4 +257,9 @@ as.data.table.Resampling = function(x, ...) { # nolint
   ), idcol = "set")
   set(tab, j = "set", value = factor(c("train", "test")[tab$set], levels = c("train", "test")))
   setkeyv(tab, c("set", "iteration"))[]
+}
+
+#' @export
+format_list_item.Resampling = function(x, ...) { # nolint
+  sprintf("<rsmp:%s[%i]>", x$id, x$iters)
 }

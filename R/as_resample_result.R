@@ -3,9 +3,9 @@
 #' @description
 #' Convert object to a [ResampleResult].
 #'
-#' @param x (`any`)\cr
+#' @param x (any)\cr
 #'  Object to convert.
-#' @param ... (`any`)\cr
+#' @param ... (any)\cr
 #'  Currently not used.
 #'
 #' @return ([ResampleResult]).

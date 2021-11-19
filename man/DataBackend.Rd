@@ -37,8 +37,9 @@ b$missings(rows = b$rownames, cols = names(data))
 \seealso{
 \itemize{
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
-\url{https://mlr3book.mlr-org.com/backends.html}
-\item Package \CRANpkg{mlr3db} to store data out-of-memory.
+\url{https://mlr3book.mlr-org.com/technical.html#backends}
+\item Package \CRANpkg{mlr3db} to interface out-of-memory data,
+e.g. SQL servers or \CRANpkg{duckdb}.
 }
 
 Other DataBackend: 
@@ -63,6 +64,11 @@ Set of supported formats, e.g. \code{"data.table"} or \code{"Matrix"}.}
 \describe{
 \item{\code{hash}}{(\code{character(1)})\cr
 Hash (unique identifier) for this object.}
+
+\item{\code{col_hashes}}{(named \code{character})\cr
+Hash (unique identifier) for all columns except the \code{primary_key}: A \code{character} vector, named by the columns that each element refers to.\cr
+Columns of different \code{\link{Task}}s or \code{\link{DataBackend}}s that have agreeing \code{col_hashes} always represent the same data, given that the same \code{row}s are selected.
+The reverse is not necessarily true: There can be columns with the same content that have different \code{col_hashes}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -90,7 +96,7 @@ Note: This object is typically constructed via a derived classes, e.g.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{data}}{(\code{any})\cr
+\item{\code{data}}{(any)\cr
 The format of the input data depends on the specialization. E.g.,
 \link{DataBackendDataTable} expects a \code{\link[data.table:data.table]{data.table::data.table()}} and
 \link{DataBackendMatrix} expects a \code{\link[Matrix:Matrix]{Matrix::Matrix()}} from \CRANpkg{Matrix}.}

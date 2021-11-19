@@ -42,7 +42,7 @@ test_that("as_benchmark_result.ResampleResult", {
   measures = list(msr("classif.ce"), msr("classif.acc"))
   bmr = as_benchmark_result(rr)
   expect_benchmark_result(bmr)
-  expect_equal(nrow(bmr$data), nrow(rr$data))
+  expect_equal(nrow(get_private(bmr)$.data), nrow(private(rr)$.data))
   expect_set_equal(bmr$uhashes, rr$uhash)
   aggr = bmr$aggregate()
   expect_data_table(aggr, nrows = 1)
@@ -55,15 +55,15 @@ test_that("discarding model", {
 })
 
 test_that("inputs are cloned", {
-  expect_different_address(task, rr$data$data$tasks$task[[1]])
-  expect_different_address(learner, rr$data$data$learners$learner[[1]])
-  expect_different_address(resampling, rr$data$data$resamplings$resampling[[1]])
+  expect_different_address(task, private(rr)$.data$data$tasks$task[[1]])
+  expect_different_address(learner, private(rr)$.data$data$learners$learner[[1]])
+  expect_different_address(resampling, private(rr)$.data$data$resamplings$resampling[[1]])
 })
 
 test_that("memory footprint", {
-  expect_equal(nrow(rr$data$data$learners), 1L)
-  expect_equal(nrow(rr$data$data$tasks), 1L)
-  expect_equal(nrow(rr$data$data$resamplings), 1L)
+  expect_equal(nrow(private(rr)$.data$data$learners), 1L)
+  expect_equal(nrow(private(rr)$.data$data$tasks), 1L)
+  expect_equal(nrow(private(rr)$.data$data$resamplings), 1L)
 })
 
 test_that("predict_type is checked", {
@@ -73,24 +73,8 @@ test_that("predict_type is checked", {
   measure = msr("classif.auc")
   rr = resample(task, learner, resampling)
 
-  expect_error(rr$score(measure), "predict_type")
-  expect_error(rr$aggregate(measure), "predict_type")
-})
-
-test_that("seeds work identical sequential/parallel", {
-  skip_if_not_installed("future")
-  task = tsk("sonar")
-  learner = lrn("classif.debug", predict_type = "prob")
-  resampling = rsmp("cv", folds = 3L)
-  measure = msr("classif.auc")
-
-  rr1 = with_seed(123, with_future(future::plan("sequential"), resample(task, learner, resampling)))
-  rr2 = with_seed(123, with_future(future::plan("multisession"), resample(task, learner, resampling)))
-
-  expect_equal(
-    as.data.table(rr1$prediction())$prob.M,
-    as.data.table(rr2$prediction())$prob.M
-  )
+  expect_warning(rr$score(measure), "predict type", fixed = TRUE)
+  expect_warning(rr$aggregate(measure), "predict type", fixed = TRUE)
 })
 
 test_that("empty train/predict sets", {
@@ -127,4 +111,18 @@ test_that("debug branch", {
   resampling = rsmp("cv", folds = 2)
   rr = invoke(resample, task = task, learner = learner, resampling = resampling, .opts = list(mlr3.debug = TRUE))
   expect_resample_result(rr)
+})
+
+test_that("encapsulation", {
+  task = tsk("iris")
+  learner = lrn("classif.debug", error_train = 1)
+  resampling = rsmp("holdout")
+
+  expect_error(resample(task, learner, resampling), "classif.debug->train()")
+
+  rr = resample(task, learner, resampling, encapsulate = "evaluate")
+  expect_data_table(rr$errors, nrows = 1L)
+  expect_class(rr$learner$fallback, "LearnerClassifFeatureless")
+  expect_equal(rr$learner$encapsulate[["train"]], "evaluate")
+  expect_equal(rr$learner$encapsulate[["predict"]], "evaluate")
 })

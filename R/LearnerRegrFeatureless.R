@@ -11,13 +11,7 @@
 #' respectively.
 #'
 #' @templateVar id regr.featureless
-#' @template section_dictionary_learner
-#'
-#' @section Meta Information:
-#' `r rd_info(lrn("regr.featureless"))`
-#'
-#' @section Parameters:
-#' `r rd_info(lrn("regr.featureless")$param_set)`
+#' @template learner
 #'
 #' @template seealso_learner
 #' @export
