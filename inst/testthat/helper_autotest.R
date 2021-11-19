@@ -233,10 +233,6 @@ run_experiment = function(task, learner, seed = NULL) {
 
   stage = "predict()"
 
-  if (grepl("reordered", task$id)) {
-    task$col_roles$feature = rev(task$col_roles$feature)
-  }
-
   prediction = try(learner$predict(task), silent = TRUE)
   if (inherits(ok, "try-error"))
     return(err(as.character(ok)))
@@ -266,6 +262,17 @@ run_experiment = function(task, learner, seed = NULL) {
         return(err(msg))
     }
   }
+
+  if (grepl("reordered", task$id)) {
+    # compare prediction with reordered newdata
+    newdata = task$data(cols = rev(task$feature_names))
+    tmp = learner$predict_newdata(newdata)
+
+    if (!isTRUE(all.equal(prediction$response, tmp$response))) {
+      return(err("Task columns cannot be reordered"))
+    }
+  }
+
 
   stage = "score()"
   score = try(
