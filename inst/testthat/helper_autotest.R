@@ -54,11 +54,13 @@ generate_generic_tasks = function(learner, proto) {
   }
 
   # task with non-ascii feature names
-  # sel = proto$feature_types[list(learner$feature_types), "id", on = "type", with = FALSE][[1L]]
-  # tasks$utf8_feature_names = proto$clone(deep = TRUE)$select(sel)
-  # old = sel[1L]
-  # new = "äü + öß"
-  # tasks$utf8_feature_names$rename(old, new)
+  opts = options(mlr3.allow_utf8_names = TRUE)
+  on.exit(options(opts))
+  sel = proto$feature_types[list(learner$feature_types), "id", on = "type", with = FALSE][[1L]]
+  tasks$utf8_feature_names = proto$clone(deep = TRUE)$select(sel)
+  old = sel[1L]
+  new = "äü + öß"
+  tasks$utf8_feature_names$rename(old, new)
 
   # make sure that task ids match list names
   mlr3misc::imap(tasks, function(x, n) {
