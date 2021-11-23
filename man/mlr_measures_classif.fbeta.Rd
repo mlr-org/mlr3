@@ -4,8 +4,12 @@
 \alias{mlr_measures_classif.fbeta}
 \title{F-beta Score}
 \description{
-Binary classification measure defined with \eqn{P} as \code{\link[mlr3measures:ppv]{precision()}} and \eqn{R} as
-\code{\link[mlr3measures:tpr]{recall()}} as \deqn{
+Measure to compare true observed labels with predicted
+labels
+in binary classification tasks.
+}
+\details{
+With \eqn{P} as \code{\link[mlr3measures:ppv]{precision()}} and \eqn{R} as \code{\link[mlr3measures:tpr]{recall()}}, the F-beta Score is defined as \deqn{
    (1 + \beta^2) \frac{P \cdot R}{(\beta^2 P) + R}.
 }{
    (1 + beta^2) * (P*R) / ((beta^2 * P) + R).
@@ -13,13 +17,8 @@ Binary classification measure defined with \eqn{P} as \code{\link[mlr3measures:p
 It measures the effectiveness of retrieval with respect to a user who attaches \eqn{\beta}{beta} times
 as much importance to recall as precision.
 For \eqn{\beta = 1}{beta = 1}, this measure is called "F1" score.
-}
-\details{
-This measure is undefined if
-\itemize{
-\item TP = 0
-\item \link[mlr3measures]{precision} or \link[mlr3measures]{recall} is undefined, i.e. TP + FP = 0 or TP + FN = 0.
-}
+
+This measure is undefined if \link[mlr3measures]{precision} or \link[mlr3measures]{recall} is undefined, i.e. TP + FP = 0 or TP + FN = 0.
 }
 \note{
 The score function calls \code{\link[mlr3measures:fbeta]{mlr3measures::fbeta()}} from package \CRANpkg{mlr3measures}.
@@ -35,9 +34,9 @@ msr("classif.fbeta")
 }
 
 \section{Parameters}{
-\tabular{lllll}{
-   Id \tab Type \tab Default \tab Range \tab Levels \cr
-   beta \tab integer \tab - \tab \eqn{[0, \infty)}{[0, Inf)} \tab - \cr
+\tabular{llll}{
+   Id \tab Type \tab Default \tab Range \cr
+   beta \tab integer \tab - \tab \eqn{[0, \infty)}{[0, Inf)} \cr
 }
 }
 

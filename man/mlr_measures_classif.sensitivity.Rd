@@ -4,14 +4,18 @@
 \alias{mlr_measures_classif.sensitivity}
 \title{True Positive Rate}
 \description{
-Binary classification measure defined as \deqn{
+Measure to compare true observed labels with predicted
+labels
+in binary classification tasks.
+}
+\details{
+The True Positive Rate is defined as \deqn{
   \frac{\mathrm{TP}}{\mathrm{TP} + \mathrm{FN}}.
 }{
   TP / (TP + FN).
 }
 Also know as "recall" or "sensitivity".
-}
-\details{
+
 This measure is undefined if TP + FN = 0.
 }
 \note{

@@ -4,13 +4,17 @@
 \alias{mlr_measures_classif.npv}
 \title{Negative Predictive Value}
 \description{
-Binary classification measure defined as \deqn{
+Measure to compare true observed labels with predicted
+labels
+in binary classification tasks.
+}
+\details{
+The Negative Predictive Value is defined as \deqn{
    \frac{\mathrm{TN}}{\mathrm{FN} + \mathrm{TN}}.
 }{
    TN / (FN + TN).
 }
-}
-\details{
+
 This measure is undefined if FN + TN = 0.
 }
 \note{
