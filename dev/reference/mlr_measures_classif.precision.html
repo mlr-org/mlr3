@@ -54,10 +54,9 @@
 
 
 <meta property="og:title" content="Positive Predictive Value — mlr_measures_classif.precision" />
-<meta property="og:description" content="Binary classification measure defined as $$
-   \frac{\mathrm{TP}}{\mathrm{TP} + \mathrm{FP}}.
-$$
-Also know as &quot;precision&quot;." />
+<meta property="og:description" content="Measure to compare true observed labels with predicted
+labels
+in binary classification tasks." />
 <meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
@@ -163,17 +162,20 @@ Also know as &quot;precision&quot;." />
     </div>
 
     <div class="ref-description">
-    <p>Binary classification measure defined as $$
-   \frac{\mathrm{TP}}{\mathrm{TP} + \mathrm{FP}}.
-$$
-Also know as "precision".</p>
+    <p>Measure to compare true observed labels with predicted
+labels
+in binary classification tasks.</p>
     </div>
 
 
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This measure is undefined if TP + FP = 0.</p>
+    <p>The Positive Predictive Value is defined as $$
+   \frac{\mathrm{TP}}{\mathrm{TP} + \mathrm{FP}}.
+$$
+Also know as "precision".</p>
+<p>This measure is undefined if TP + FP = 0.</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>The score function calls <code><a href='https://mlr3measures.mlr-org.com/reference/ppv.html'>mlr3measures::precision()</a></code> from package <a href='https://CRAN.R-project.org/package=mlr3measures'><span class="pkg">mlr3measures</span></a>.</p>

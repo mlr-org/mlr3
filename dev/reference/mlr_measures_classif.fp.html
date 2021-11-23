@@ -54,8 +54,9 @@
 
 
 <meta property="og:title" content="False Positives — mlr_measures_classif.fp" />
-<meta property="og:description" content="Classification measure counting the false positives (type 1 error), i.e. the number of
-predictions indicating a positive class label while in fact it is negative." />
+<meta property="og:description" content="Measure to compare true observed labels with predicted
+labels
+in binary classification tasks." />
 <meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
@@ -161,12 +162,17 @@ predictions indicating a positive class label while in fact it is negative." />
     </div>
 
     <div class="ref-description">
-    <p>Classification measure counting the false positives (type 1 error), i.e. the number of
-predictions indicating a positive class label while in fact it is negative.</p>
+    <p>Measure to compare true observed labels with predicted
+labels
+in binary classification tasks.</p>
     </div>
 
 
 
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>This measure counts the false positives (type 1 error), i.e. the number of
+predictions indicating a positive class label while in fact it is negative.</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>The score function calls <code><a href='https://mlr3measures.mlr-org.com/reference/fp.html'>mlr3measures::fp()</a></code> from package <a href='https://CRAN.R-project.org/package=mlr3measures'><span class="pkg">mlr3measures</span></a>.</p>

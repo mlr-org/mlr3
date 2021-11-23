@@ -54,10 +54,9 @@
 
 
 <meta property="og:title" content="False Positive Rate — mlr_measures_classif.fpr" />
-<meta property="og:description" content="Binary classification measure defined as $$
-   \frac{\mathrm{FP}}{\mathrm{FP} + \mathrm{TN}}.
-$$
-Also know as fall out or probability of false alarm." />
+<meta property="og:description" content="Measure to compare true observed labels with predicted
+labels
+in binary classification tasks." />
 <meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
@@ -163,17 +162,20 @@ Also know as fall out or probability of false alarm." />
     </div>
 
     <div class="ref-description">
-    <p>Binary classification measure defined as $$
-   \frac{\mathrm{FP}}{\mathrm{FP} + \mathrm{TN}}.
-$$
-Also know as fall out or probability of false alarm.</p>
+    <p>Measure to compare true observed labels with predicted
+labels
+in binary classification tasks.</p>
     </div>
 
 
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This measure is undefined if FP + TN = 0.</p>
+    <p>The False Positive Rate is defined as $$
+   \frac{\mathrm{FP}}{\mathrm{FP} + \mathrm{TN}}.
+$$
+Also know as fall out or probability of false alarm.</p>
+<p>This measure is undefined if FP + TN = 0.</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>The score function calls <code><a href='https://mlr3measures.mlr-org.com/reference/fpr.html'>mlr3measures::fpr()</a></code> from package <a href='https://CRAN.R-project.org/package=mlr3measures'><span class="pkg">mlr3measures</span></a>.</p>

@@ -54,9 +54,9 @@
 
 
 <meta property="og:title" content="Area Under the ROC Curve — mlr_measures_classif.auc" />
-<meta property="og:description" content="Computes the area under the Receiver Operator Characteristic (ROC) curve.
-The AUC can be interpreted as the probability that a randomly chosen positive observation
-has a higher predicted probability than a randomly chosen negative observation." />
+<meta property="og:description" content="Measure to compare true observed labels with predicted
+probabilities
+in binary classification tasks." />
 <meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
@@ -162,16 +162,19 @@ has a higher predicted probability than a randomly chosen negative observation."
     </div>
 
     <div class="ref-description">
-    <p>Computes the area under the Receiver Operator Characteristic (ROC) curve.
-The AUC can be interpreted as the probability that a randomly chosen positive observation
-has a higher predicted probability than a randomly chosen negative observation.</p>
+    <p>Measure to compare true observed labels with predicted
+probabilities
+in binary classification tasks.</p>
     </div>
 
 
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This measure is undefined if the true values are either all positive or
+    <p>Computes the area under the Receiver Operator Characteristic (ROC) curve.
+The AUC can be interpreted as the probability that a randomly chosen positive observation
+has a higher predicted probability than a randomly chosen negative observation.</p>
+<p>This measure is undefined if the true values are either all positive or
 all negative.</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 

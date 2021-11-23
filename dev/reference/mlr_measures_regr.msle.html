@@ -54,9 +54,7 @@
 
 
 <meta property="og:title" content="Mean Squared Log Error — mlr_measures_regr.msle" />
-<meta property="og:description" content="Regression measure defined as $$
-  \frac{1}{n} \sum_{i=1}^n w_i \left( \ln (1 + t_i) - \ln (1 + r_i) \right)^2.
-$$" />
+<meta property="og:description" content="Measure to compare true observed response with predicted response in regression tasks." />
 <meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
@@ -162,16 +160,17 @@ $$" />
     </div>
 
     <div class="ref-description">
-    <p>Regression measure defined as $$
-  \frac{1}{n} \sum_{i=1}^n w_i \left( \ln (1 + t_i) - \ln (1 + r_i) \right)^2.
-$$</p>
+    <p>Measure to compare true observed response with predicted response in regression tasks.</p>
     </div>
 
 
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This measure is undefined if any element of \(t\) or \(r\) is less than or equal to \(-1\).</p>
+    <p>The Mean Squared Log Error is defined as $$
+  \frac{1}{n} \sum_{i=1}^n w_i \left( \ln (1 + t_i) - \ln (1 + r_i) \right)^2.
+$$</p>
+<p>This measure is undefined if any element of \(t\) or \(r\) is less than or equal to \(-1\).</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>The score function calls <code><a href='https://mlr3measures.mlr-org.com/reference/msle.html'>mlr3measures::msle()</a></code> from package <a href='https://CRAN.R-project.org/package=mlr3measures'><span class="pkg">mlr3measures</span></a>.</p>

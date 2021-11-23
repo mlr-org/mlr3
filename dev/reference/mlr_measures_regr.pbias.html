@@ -54,10 +54,7 @@
 
 
 <meta property="og:title" content="Percent Bias — mlr_measures_regr.pbias" />
-<meta property="og:description" content="Regression measure defined as $$
-  \frac{1}{n} \sum_{i=1}^n w_i \frac{\left( t_i - r_i \right)}{\left| t_i \right|}.
-$$
-Good predictions score close to 0." />
+<meta property="og:description" content="Measure to compare true observed response with predicted response in regression tasks." />
 <meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
@@ -163,14 +160,17 @@ Good predictions score close to 0." />
     </div>
 
     <div class="ref-description">
-    <p>Regression measure defined as $$
-  \frac{1}{n} \sum_{i=1}^n w_i \frac{\left( t_i - r_i \right)}{\left| t_i \right|}.
-$$
-Good predictions score close to 0.</p>
+    <p>Measure to compare true observed response with predicted response in regression tasks.</p>
     </div>
 
 
 
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The Percent Bias is defined as $$
+  \frac{1}{n} \sum_{i=1}^n w_i \frac{\left( t_i - r_i \right)}{\left| t_i \right|}.
+$$
+Good predictions score close to 0.</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>The score function calls <code><a href='https://mlr3measures.mlr-org.com/reference/pbias.html'>mlr3measures::pbias()</a></code> from package <a href='https://CRAN.R-project.org/package=mlr3measures'><span class="pkg">mlr3measures</span></a>.</p>

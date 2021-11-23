@@ -54,8 +54,7 @@
 
 
 <meta property="og:title" content="Kendall's tau — mlr_measures_regr.ktau" />
-<meta property="og:description" content="Regression measure defined as Kendall's rank correlation coefficient between truth and response.
-Calls stats::cor() with method set to &quot;kendall&quot;." />
+<meta property="og:description" content="Measure to compare true observed response with predicted response in regression tasks." />
 <meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
@@ -161,12 +160,15 @@ Calls stats::cor() with method set to &quot;kendall&quot;." />
     </div>
 
     <div class="ref-description">
-    <p>Regression measure defined as Kendall's rank correlation coefficient between truth and response.
-Calls <code><a href='https://rdrr.io/r/stats/cor.html'>stats::cor()</a></code> with <code>method</code> set to <code>"kendall"</code>.</p>
+    <p>Measure to compare true observed response with predicted response in regression tasks.</p>
     </div>
 
 
 
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Kendall's tau is defined as Kendall's rank correlation coefficient between truth and response.
+Calls <code><a href='https://rdrr.io/r/stats/cor.html'>stats::cor()</a></code> with <code>method</code> set to <code>"kendall"</code>.</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>The score function calls <code><a href='https://mlr3measures.mlr-org.com/reference/ktau.html'>mlr3measures::ktau()</a></code> from package <a href='https://CRAN.R-project.org/package=mlr3measures'><span class="pkg">mlr3measures</span></a>.</p>

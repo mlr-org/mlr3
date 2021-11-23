@@ -54,10 +54,7 @@
 
 
 <meta property="og:title" content="Root Relative Squared Error — mlr_measures_regr.rrse" />
-<meta property="og:description" content="Regression measure defined as $$
-  \sqrt{\frac{\sum_{i=1}^n \left( t_i - r_i \right)^2}{\sum_{i=1}^n \left( t_i - \bar{t} \right)^2}}.
-$$
-Can be interpreted as root of the squared error of the predictions relative to a naive model predicting the mean." />
+<meta property="og:description" content="Measure to compare true observed response with predicted response in regression tasks." />
 <meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
@@ -163,17 +160,18 @@ Can be interpreted as root of the squared error of the predictions relative to a
     </div>
 
     <div class="ref-description">
-    <p>Regression measure defined as $$
-  \sqrt{\frac{\sum_{i=1}^n \left( t_i - r_i \right)^2}{\sum_{i=1}^n \left( t_i - \bar{t} \right)^2}}.
-$$
-Can be interpreted as root of the squared error of the predictions relative to a naive model predicting the mean.</p>
+    <p>Measure to compare true observed response with predicted response in regression tasks.</p>
     </div>
 
 
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This measure is undefined for constant \(t\).</p>
+    <p>The Root Relative Squared Error is defined as $$
+  \sqrt{\frac{\sum_{i=1}^n \left( t_i - r_i \right)^2}{\sum_{i=1}^n \left( t_i - \bar{t} \right)^2}}.
+$$
+Can be interpreted as root of the squared error of the predictions relative to a naive model predicting the mean.</p>
+<p>This measure is undefined for constant \(t\).</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>The score function calls <code><a href='https://mlr3measures.mlr-org.com/reference/rrse.html'>mlr3measures::rrse()</a></code> from package <a href='https://CRAN.R-project.org/package=mlr3measures'><span class="pkg">mlr3measures</span></a>.</p>
