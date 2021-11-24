@@ -139,4 +139,7 @@ local({
 
   ### ResampleResult
   mlr_reflections$rr_names = c("task", "learner", "resampling", "iteration", "prediction")
+
+  ### Logger
+  mlr_reflections$loggers = list()
 })

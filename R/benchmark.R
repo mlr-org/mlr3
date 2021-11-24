@@ -106,6 +106,7 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
     )
   })
   n = nrow(grid)
+  lgr_threshold = map_int(mlr_reflections$loggers, "threshold")
 
   # set default mode
   set(grid, j = "mode", value = "train")
@@ -152,7 +153,7 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
     res = mapply(workhorse,
       task = grid$task, learner = grid$learner, resampling = grid$resampling, iteration = grid$iteration,
       mode = grid$mode,
-      MoreArgs = list(store_models = store_models, lgr_threshold = lg$threshold, pb = pb),
+      MoreArgs = list(store_models = store_models, lgr_threshold = lgr_threshold, pb = pb),
       SIMPLIFY = FALSE, USE.NAMES = FALSE
     )
   } else {
@@ -161,7 +162,7 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
     res = future.apply::future_mapply(workhorse,
       task = grid$task, learner = grid$learner, resampling = grid$resampling, iteration = grid$iteration,
       mode = grid$mode,
-      MoreArgs = list(store_models = store_models, lgr_threshold = lg$threshold, pb = pb),
+      MoreArgs = list(store_models = store_models, lgr_threshold = lgr_threshold, pb = pb),
       SIMPLIFY = FALSE, USE.NAMES = FALSE, future.globals = FALSE,
       future.scheduling = structure(TRUE, ordering = "random"), future.packages = "mlr3", future.seed = TRUE,
       future.stdout = future_stdout()
