@@ -13,10 +13,10 @@ as_benchmark_result(x, ...)
 \method{as_benchmark_result}{ResampleResult}(x, ...)
 }
 \arguments{
-\item{x}{(\code{any})\cr
+\item{x}{(any)\cr
 Object to convert.}
 
-\item{...}{(\code{any})\cr
+\item{...}{(any)\cr
 Additional arguments.}
 }
 \value{

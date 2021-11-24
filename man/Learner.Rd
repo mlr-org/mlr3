@@ -177,7 +177,7 @@ Defaults to \code{NA}, but can be set by child classes.}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{model}}{(\code{any})\cr
+\item{\code{model}}{(any)\cr
 The fitted model. Only available after \verb{$train()} has been called.}
 
 \item{\code{timings}}{(named \code{numeric(2)})\cr
@@ -323,7 +323,7 @@ Helper for print outputs.
 \subsection{Method \code{print()}}{
 Printer.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Learner$print()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Learner$print(...)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{

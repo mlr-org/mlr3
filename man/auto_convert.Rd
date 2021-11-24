@@ -7,7 +7,7 @@
 auto_convert(value, id, type, levels)
 }
 \arguments{
-\item{value}{(\code{any})\cr
+\item{value}{(any)\cr
 New values to convert in order to match \code{type}.}
 
 \item{id}{(\code{character(1)})\cr

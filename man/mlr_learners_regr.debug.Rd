@@ -37,8 +37,8 @@ lrn("regr.debug")
 \tabular{lllll}{
    Id \tab Type \tab Default \tab Levels \tab Range \cr
    predict_missing \tab numeric \tab 0 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
-   predict_missing_type \tab character \tab na \tab na, omit \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \cr
-   save_tasks \tab logical \tab FALSE \tab TRUE, FALSE \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \cr
+   predict_missing_type \tab character \tab na \tab na, omit \tab - \cr
+   save_tasks \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
    threads \tab integer \tab - \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
    x \tab numeric \tab - \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
 }

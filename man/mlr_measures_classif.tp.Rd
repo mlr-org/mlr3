@@ -4,7 +4,12 @@
 \alias{mlr_measures_classif.tp}
 \title{True Positives}
 \description{
-Binary classification measure counting the true positives, i.e. the number of
+Measure to compare true observed labels with predicted
+labels
+in binary classification tasks.
+}
+\details{
+This measure counts the true positives, i.e. the number of
 predictions correctly indicating a positive class label.
 }
 \note{

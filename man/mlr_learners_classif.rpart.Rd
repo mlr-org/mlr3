@@ -30,7 +30,7 @@ lrn("classif.rpart")
 \tabular{lllll}{
    Id \tab Type \tab Default \tab Levels \tab Range \cr
    cp \tab numeric \tab 0.01 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
-   keep_model \tab logical \tab FALSE \tab TRUE, FALSE \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \cr
+   keep_model \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
    maxcompete \tab integer \tab 4 \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
    maxdepth \tab integer \tab 30 \tab  \tab \eqn{[1, 30]}{[1, 30]} \cr
    maxsurrogate \tab integer \tab 5 \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr

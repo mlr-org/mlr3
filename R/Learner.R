@@ -182,7 +182,7 @@ Learner = R6Class("Learner",
     #' @description
     #' Printer.
     #' @param ... (ignored).
-    print = function() {
+    print = function(...) {
       catn(format(self))
       catn(str_indent("* Model:", if (is.null(self$model)) "-" else class(self$model)[1L]))
       catn(str_indent("* Parameters:", as_short_string(self$param_set$values, 1000L)))
@@ -371,7 +371,7 @@ Learner = R6Class("Learner",
   ),
 
   active = list(
-    #' @field model (`any`)\cr
+    #' @field model (any)\cr
     #' The fitted model. Only available after `$train()` has been called.
     model = function(rhs) {
       assert_ro_binding(rhs)

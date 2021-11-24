@@ -16,7 +16,7 @@ as_prediction_data(x, task, row_ids = task$row_ids, check = TRUE, ...)
 \method{as_prediction_data}{list}(x, task, row_ids = task$row_ids, check = TRUE, ...)
 }
 \arguments{
-\item{x}{(\code{any})\cr
+\item{x}{(any)\cr
 Object to convert.}
 
 \item{task}{(\link{Task}).}
@@ -27,7 +27,7 @@ Row indices.}
 \item{check}{(\code{logical(1)})\cr
 Perform argument checks and type conversions?}
 
-\item{...}{(\code{any})\cr
+\item{...}{(any)\cr
 Additional arguments.}
 }
 \value{

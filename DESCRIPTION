@@ -1,6 +1,6 @@
 Package: mlr3
 Title: Machine Learning in R - Next Generation
-Version: 0.12.0-9000
+Version: 0.13.0-9000
 Authors@R:
     c(person(given = "Michel",
              family = "Lang",
@@ -83,6 +83,7 @@ Suggests:
     future.callr,
     mlr3data,
     progressr,
+    remotes,
     rpart,
     testthat (>= 3.1.0)
 Encoding: UTF-8
@@ -193,6 +194,7 @@ Collate:
     'default_measures.R'
     'fix_factor_levels.R'
     'helper.R'
+    'install_pkgs.R'
     'mlr_sugar.R'
     'partition.R'
     'predict.R'

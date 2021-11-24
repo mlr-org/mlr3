@@ -5,7 +5,9 @@
 \title{Jaccard Similarity Index}
 \description{
 Measure to compare two or more sets w.r.t. their similarity.
-For two sets \eqn{A} and \eqn{B}, it is defined as
+}
+\details{
+For two sets \eqn{A} and \eqn{B}, the Jaccard Index is defined as
 \deqn{
   J(A, B) = \frac{|A \cap B|}{|A \cup B|}.
 }{
@@ -13,12 +15,13 @@ For two sets \eqn{A} and \eqn{B}, it is defined as
 }
 If more than two sets are provided, the mean of all pairwise scores
 is calculated.
-}
-\details{
+
 This measure is undefined if two or more sets are empty.
 }
 \note{
-The score function calls \code{\link[mlr3measures:jaccard]{mlr3measures::jaccard()}} from package \CRANpkg{mlr3measures}.
+This measure requires learners with property \code{"selected_features"}.
+The extracted feature sets are passed to \code{\link[mlr3measures:jaccard]{mlr3measures::jaccard()}} from
+package \CRANpkg{mlr3measures}.
 
 If the measure is undefined for the input, \code{NaN} is returned.
 This can be customized by setting the field \code{na_value}.

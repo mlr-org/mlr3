@@ -5,7 +5,9 @@
 \title{Phi Coefficient Similarity}
 \description{
 Measure to compare two or more sets w.r.t. their similarity.
-It is defined as the Pearson correlation between the binary
+}
+\details{
+The Phi Coefficient is defined as the Pearson correlation between the binary
 representation of two sets \eqn{A} and \eqn{B}.
 The binary representation for \eqn{A} is a logical vector of
 length \eqn{p} with the i-th element being 1 if the corresponding
@@ -13,12 +15,13 @@ element is in \eqn{A}, and 0 otherwise.
 
 If more than two sets are provided, the mean of all pairwise scores
 is calculated.
-}
-\details{
+
 This measure is undefined if one set contains none or all possible elements.
 }
 \note{
-The score function calls \code{\link[mlr3measures:phi]{mlr3measures::phi()}} from package \CRANpkg{mlr3measures}.
+This measure requires learners with property \code{"selected_features"}.
+The extracted feature sets are passed to \code{\link[mlr3measures:phi]{mlr3measures::phi()}} from
+package \CRANpkg{mlr3measures}.
 
 If the measure is undefined for the input, \code{NaN} is returned.
 This can be customized by setting the field \code{na_value}.

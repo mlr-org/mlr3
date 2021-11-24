@@ -12,3 +12,16 @@ test_that("similarity measures", {
     expect_true(allMissing(rr$score(m)[[m$id]]))
   }
 })
+
+test_that("similarity example", {
+  task = tsk("penguins")
+  learners = list(
+    lrn("classif.rpart", maxdepth = 1, id = "r1"),
+    lrn("classif.rpart", maxdepth = 2, id = "r2")
+  )
+  resampling = rsmp("cv", folds = 3)
+  grid = benchmark_grid(task, learners, resampling)
+  bmr = benchmark(grid, store_models = TRUE)
+  x = bmr$aggregate(msr("sim.jaccard"))
+  expect_numeric(x$sim.jaccard, any.missing = FALSE)
+})

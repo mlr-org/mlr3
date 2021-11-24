@@ -13,6 +13,7 @@
 #' @template param_primary_key
 #' @template param_na_rm
 #'
+#' @include DataBackend.R
 #' @template seealso_databackend
 #' @export
 #' @examples

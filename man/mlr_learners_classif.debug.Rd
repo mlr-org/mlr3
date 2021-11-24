@@ -53,12 +53,12 @@ lrn("classif.debug")
    message_predict \tab numeric \tab 0 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
    message_train \tab numeric \tab 0 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
    predict_missing \tab numeric \tab 0 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
-   predict_missing_type \tab character \tab na \tab na, omit \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \cr
-   save_tasks \tab logical \tab FALSE \tab TRUE, FALSE \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \cr
+   predict_missing_type \tab character \tab na \tab na, omit \tab - \cr
+   save_tasks \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
    segfault_predict \tab numeric \tab 0 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
    segfault_train \tab numeric \tab 0 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
-   sleep_train \tab list \tab - \tab  \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \cr
-   sleep_predict \tab list \tab - \tab  \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \cr
+   sleep_train \tab list \tab - \tab  \tab - \cr
+   sleep_predict \tab list \tab - \tab  \tab - \cr
    threads \tab integer \tab - \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
    warning_predict \tab numeric \tab 0 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
    warning_train \tab numeric \tab 0 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr

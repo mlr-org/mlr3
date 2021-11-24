@@ -219,6 +219,8 @@ Supported by \code{mlr3}:
 \itemize{
 \item \code{"requires_task"} (requires the complete \link{Task}),
 \item \code{"requires_learner"} (requires the trained \link{Learner}),
+\item \code{"requires_model"} (requires the trained \link{Learner}, including the fitted
+model),
 \item \code{"requires_train_set"} (requires the training indices from the \link{Resampling}), and
 \item \code{"na_score"} (the measure is expected to occasionally return \code{NA} or \code{NaN}).
 }}
@@ -265,7 +267,7 @@ Helper for print outputs.
 \subsection{Method \code{print()}}{
 Printer.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Measure$print()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Measure$print(...)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{

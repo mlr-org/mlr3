@@ -16,7 +16,7 @@
 #' via the [future::plan] [future::multicore]. For this reason all learners connected to \CRANpkg{mlr3}
 #' have threading disabled in their defaults.
 #'
-#' @param x (`any`)\cr
+#' @param x (any)\cr
 #'   Object to set threads for, e.g. a [Learner].
 #'   This object is modified in-place.
 #' @param n (`integer(1)`)\cr
