@@ -4,12 +4,7 @@
 \alias{mlr_measures_classif.fp}
 \title{False Positives}
 \description{
-Measure to compare true observed labels with predicted
-labels
-in binary classification tasks.
-}
-\details{
-This measure counts the false positives (type 1 error), i.e. the number of
+Classification measure counting the false positives (type 1 error), i.e. the number of
 predictions indicating a positive class label while in fact it is negative.
 }
 \note{

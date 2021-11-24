@@ -4,10 +4,7 @@
 \alias{mlr_measures_regr.medae}
 \title{Median Absolute Error}
 \description{
-Measure to compare true observed response with predicted response in regression tasks.
-}
-\details{
-The Median Absolute Error is defined as \deqn{
+Regression measure defined as \deqn{
   \mathop{\mathrm{median}}_i \left| t_i - r_i \right|.
 }{
   median(abs(t - r)).

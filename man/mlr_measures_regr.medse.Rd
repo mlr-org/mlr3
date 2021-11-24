@@ -4,10 +4,7 @@
 \alias{mlr_measures_regr.medse}
 \title{Median Squared Error}
 \description{
-Measure to compare true observed response with predicted response in regression tasks.
-}
-\details{
-The Median Squared Error is defined as \deqn{
+Regression measure defined as \deqn{
   \mathop{\mathrm{median}}_i \left[ \left( t_i - r_i \right)^2 \right].
 }{
   median((t - r)^2).

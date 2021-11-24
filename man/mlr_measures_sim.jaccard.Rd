@@ -5,9 +5,7 @@
 \title{Jaccard Similarity Index}
 \description{
 Measure to compare two or more sets w.r.t. their similarity.
-}
-\details{
-For two sets \eqn{A} and \eqn{B}, the Jaccard Index is defined as
+For two sets \eqn{A} and \eqn{B}, it is defined as
 \deqn{
   J(A, B) = \frac{|A \cap B|}{|A \cup B|}.
 }{
@@ -15,7 +13,8 @@ For two sets \eqn{A} and \eqn{B}, the Jaccard Index is defined as
 }
 If more than two sets are provided, the mean of all pairwise scores
 is calculated.
-
+}
+\details{
 This measure is undefined if two or more sets are empty.
 }
 \note{

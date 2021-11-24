@@ -4,10 +4,7 @@
 \alias{mlr_measures_regr.maxae}
 \title{Max Absolute Error}
 \description{
-Measure to compare true observed response with predicted response in regression tasks.
-}
-\details{
-The Max Absolute Error is defined as \deqn{
+Regression measure defined as \deqn{
   \max \left( \left| t_i - r_i \right| \right).
  }{
    max(abs(t - r)).

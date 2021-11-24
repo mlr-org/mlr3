@@ -4,12 +4,7 @@
 \alias{mlr_measures_classif.logloss}
 \title{Log Loss}
 \description{
-Measure to compare true observed labels with predicted
-probabilities
-in multiclass classification tasks.
-}
-\details{
-The Log Loss is defined as \deqn{
+Classification measure defined as \deqn{
   -\frac{1}{n} \sum_{i=1}^n w_i \log \left(  p_i \right )
 }{
   -weighted.mean(log(p), w)

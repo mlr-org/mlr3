@@ -4,18 +4,14 @@
 \alias{mlr_measures_classif.specificity}
 \title{True Negative Rate}
 \description{
-Measure to compare true observed labels with predicted
-labels
-in binary classification tasks.
-}
-\details{
-The True Negative Rate is defined as \deqn{
+Binary classification measure defined as \deqn{
    \frac{\mathrm{TN}}{\mathrm{FP} + \mathrm{TN}}.
 }{
    TN / (FP + TN).
 }
 Also know as "specificity".
-
+}
+\details{
 This measure is undefined if FP + TN = 0.
 }
 \note{

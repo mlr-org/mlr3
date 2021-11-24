@@ -16,9 +16,9 @@ tgen("circle")
 }
 
 \section{Parameters}{
-\tabular{llll}{
-   Id \tab Type \tab Default \tab Range \cr
-   d \tab integer \tab 2 \tab \eqn{[2, \infty)}{[2, Inf)} \cr
+\tabular{llrll}{
+   Id \tab Type \tab Default \tab Range \tab Levels \cr
+   d \tab integer \tab 2 \tab \eqn{[2, \infty)}{[2, Inf)} \tab - \cr
 }
 }
 
