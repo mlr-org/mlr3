@@ -54,9 +54,10 @@
 
 
 <meta property="og:title" content="Area Under the Precision-Recall Curve — mlr_measures_classif.prauc" />
-<meta property="og:description" content="Measure to compare true observed labels with predicted
-probabilities
-in binary classification tasks." />
+<meta property="og:description" content="Computes the area under the Precision-Recall curve (PRC).
+The PRC can be interpreted as the relationship between precision and recall (sensitivity),
+and is considered to be a more appropriate measure for unbalanced datasets than the ROC curve.
+The PRC is computed by integration of the piecewise function." />
 <meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
@@ -162,20 +163,17 @@ in binary classification tasks." />
     </div>
 
     <div class="ref-description">
-    <p>Measure to compare true observed labels with predicted
-probabilities
-in binary classification tasks.</p>
+    <p>Computes the area under the Precision-Recall curve (PRC).
+The PRC can be interpreted as the relationship between precision and recall (sensitivity),
+and is considered to be a more appropriate measure for unbalanced datasets than the ROC curve.
+The PRC is computed by integration of the piecewise function.</p>
     </div>
 
 
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Computes the area under the Precision-Recall curve (PRC).
-The PRC can be interpreted as the relationship between precision and recall (sensitivity),
-and is considered to be a more appropriate measure for unbalanced datasets than the ROC curve.
-The PRC is computed by integration of the piecewise function.</p>
-<p>This measure is undefined if the true values are either all positive or
+    <p>This measure is undefined if the true values are either all positive or
 all negative.</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 

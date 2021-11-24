@@ -54,7 +54,13 @@
 
 
 <meta property="og:title" content="Jaccard Similarity Index — mlr_measures_sim.jaccard" />
-<meta property="og:description" content="Measure to compare two or more sets w.r.t. their similarity." />
+<meta property="og:description" content="Measure to compare two or more sets w.r.t. their similarity.
+For two sets \(A\) and \(B\), it is defined as
+$$
+  J(A, B) = \frac{|A \cap B|}{|A \cup B|}.
+$$
+If more than two sets are provided, the mean of all pairwise scores
+is calculated." />
 <meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
@@ -160,20 +166,20 @@
     </div>
 
     <div class="ref-description">
-    <p>Measure to compare two or more sets w.r.t. their similarity.</p>
+    <p>Measure to compare two or more sets w.r.t. their similarity.
+For two sets \(A\) and \(B\), it is defined as
+$$
+  J(A, B) = \frac{|A \cap B|}{|A \cup B|}.
+$$
+If more than two sets are provided, the mean of all pairwise scores
+is calculated.</p>
     </div>
 
 
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>For two sets \(A\) and \(B\), the Jaccard Index is defined as
-$$
-  J(A, B) = \frac{|A \cap B|}{|A \cup B|}.
-$$
-If more than two sets are provided, the mean of all pairwise scores
-is calculated.</p>
-<p>This measure is undefined if two or more sets are empty.</p>
+    <p>This measure is undefined if two or more sets are empty.</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>This measure requires learners with property <code>"selected_features"</code>.

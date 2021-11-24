@@ -54,7 +54,9 @@
 
 
 <meta property="og:title" content="Median Absolute Error — mlr_measures_regr.medae" />
-<meta property="og:description" content="Measure to compare true observed response with predicted response in regression tasks." />
+<meta property="og:description" content="Regression measure defined as $$
+  \mathop{\mathrm{median}}_i \left| t_i - r_i \right|.
+$$" />
 <meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
@@ -160,16 +162,13 @@
     </div>
 
     <div class="ref-description">
-    <p>Measure to compare true observed response with predicted response in regression tasks.</p>
+    <p>Regression measure defined as $$
+  \mathop{\mathrm{median}}_i \left| t_i - r_i \right|.
+$$</p>
     </div>
 
 
 
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>The Median Absolute Error is defined as $$
-  \mathop{\mathrm{median}}_i \left| t_i - r_i \right|.
-$$</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>The score function calls <code><a href='https://mlr3measures.mlr-org.com/reference/medae.html'>mlr3measures::medae()</a></code> from package <a href='https://CRAN.R-project.org/package=mlr3measures'><span class="pkg">mlr3measures</span></a>.</p>

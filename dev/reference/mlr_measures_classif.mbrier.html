@@ -54,9 +54,12 @@
 
 
 <meta property="og:title" content="Multiclass Brier Score — mlr_measures_classif.mbrier" />
-<meta property="og:description" content="Measure to compare true observed labels with predicted
-probabilities
-in multiclass classification tasks." />
+<meta property="og:description" content="Brier score for multi-class classification problems with \(r\) labels defined as $$
+   \frac{1}{n} \sum_{i=1}^n \sum_{j=1}^r (I_{ij} - p_{ij})^2.
+$$
+\(I_{ij}\) is 1 if observation \(i\) has true label \(j\), and 0 otherwise.
+Note that there also is the more common definition of the Brier score for binary
+classification problems in bbrier()." />
 <meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
@@ -162,21 +165,16 @@ in multiclass classification tasks." />
     </div>
 
     <div class="ref-description">
-    <p>Measure to compare true observed labels with predicted
-probabilities
-in multiclass classification tasks.</p>
-    </div>
-
-
-
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
     <p>Brier score for multi-class classification problems with \(r\) labels defined as $$
    \frac{1}{n} \sum_{i=1}^n \sum_{j=1}^r (I_{ij} - p_{ij})^2.
 $$
 \(I_{ij}\) is 1 if observation \(i\) has true label \(j\), and 0 otherwise.</p>
 <p>Note that there also is the more common definition of the Brier score for binary
 classification problems in <code><a href='https://mlr3measures.mlr-org.com/reference/bbrier.html'>bbrier()</a></code>.</p>
+    </div>
+
+
+
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>The score function calls <code><a href='https://mlr3measures.mlr-org.com/reference/mbrier.html'>mlr3measures::mbrier()</a></code> from package <a href='https://CRAN.R-project.org/package=mlr3measures'><span class="pkg">mlr3measures</span></a>.</p>

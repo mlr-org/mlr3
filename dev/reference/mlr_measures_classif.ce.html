@@ -54,9 +54,9 @@
 
 
 <meta property="og:title" content="Classification Error — mlr_measures_classif.ce" />
-<meta property="og:description" content="Measure to compare true observed labels with predicted
-labels
-in multiclass classification tasks." />
+<meta property="og:description" content="Classification measure defined as $$
+  \frac{1}{n} \sum_{i=1}^n w_i \left( t_i \neq r_i \right).
+$$" />
 <meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
@@ -162,18 +162,13 @@ in multiclass classification tasks." />
     </div>
 
     <div class="ref-description">
-    <p>Measure to compare true observed labels with predicted
-labels
-in multiclass classification tasks.</p>
+    <p>Classification measure defined as $$
+  \frac{1}{n} \sum_{i=1}^n w_i \left( t_i \neq r_i \right).
+$$</p>
     </div>
 
 
 
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>The Classification Error is defined as $$
-  \frac{1}{n} \sum_{i=1}^n w_i \left( t_i \neq r_i \right).
-$$</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>The score function calls <code><a href='https://mlr3measures.mlr-org.com/reference/ce.html'>mlr3measures::ce()</a></code> from package <a href='https://CRAN.R-project.org/package=mlr3measures'><span class="pkg">mlr3measures</span></a>.</p>

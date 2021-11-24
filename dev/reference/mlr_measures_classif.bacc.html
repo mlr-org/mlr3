@@ -54,9 +54,16 @@
 
 
 <meta property="og:title" content="Balanced Accuracy — mlr_measures_classif.bacc" />
-<meta property="og:description" content="Measure to compare true observed labels with predicted
-labels
-in multiclass classification tasks." />
+<meta property="og:description" content="Computes the weighted balanced accuracy, suitable for imbalanced data sets.
+It is defined analogously to the definition in sklearn.
+First, the sample weights \(w\) are normalized per class:
+$$
+ \hat{w}_i = \frac{w_i}{\sum_j 1(y_j = y_i) w_i}.
+$$
+The balanced accuracy is calculated as
+$$
+ \frac{1}{\sum_i \hat{w}_i} \sum_i 1(r_i = t_i) \hat{w}_i.
+$$" />
 <meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
@@ -162,16 +169,7 @@ in multiclass classification tasks." />
     </div>
 
     <div class="ref-description">
-    <p>Measure to compare true observed labels with predicted
-labels
-in multiclass classification tasks.</p>
-    </div>
-
-
-
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>The Balanced Accuracy computes the weighted balanced accuracy, suitable for imbalanced data sets.
+    <p>Computes the weighted balanced accuracy, suitable for imbalanced data sets.
 It is defined analogously to the definition in <a href='https://scikit-learn.org/'>sklearn</a>.</p>
 <p>First, the sample weights \(w\) are normalized per class:
 $$
@@ -181,6 +179,10 @@ The balanced accuracy is calculated as
 $$
  \frac{1}{\sum_i \hat{w}_i} \sum_i 1(r_i = t_i) \hat{w}_i.
 $$</p>
+    </div>
+
+
+
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>The score function calls <code><a href='https://mlr3measures.mlr-org.com/reference/bacc.html'>mlr3measures::bacc()</a></code> from package <a href='https://CRAN.R-project.org/package=mlr3measures'><span class="pkg">mlr3measures</span></a>.</p>

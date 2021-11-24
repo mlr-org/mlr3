@@ -54,9 +54,10 @@
 
 
 <meta property="og:title" content="True Positive Rate — mlr_measures_classif.tpr" />
-<meta property="og:description" content="Measure to compare true observed labels with predicted
-labels
-in binary classification tasks." />
+<meta property="og:description" content="Binary classification measure defined as $$
+  \frac{\mathrm{TP}}{\mathrm{TP} + \mathrm{FN}}.
+$$
+Also know as &quot;recall&quot; or &quot;sensitivity&quot;." />
 <meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
@@ -162,20 +163,17 @@ in binary classification tasks." />
     </div>
 
     <div class="ref-description">
-    <p>Measure to compare true observed labels with predicted
-labels
-in binary classification tasks.</p>
+    <p>Binary classification measure defined as $$
+  \frac{\mathrm{TP}}{\mathrm{TP} + \mathrm{FN}}.
+$$
+Also know as "recall" or "sensitivity".</p>
     </div>
 
 
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The True Positive Rate is defined as $$
-  \frac{\mathrm{TP}}{\mathrm{TP} + \mathrm{FN}}.
-$$
-Also know as "recall" or "sensitivity".</p>
-<p>This measure is undefined if TP + FN = 0.</p>
+    <p>This measure is undefined if TP + FN = 0.</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>The score function calls <code><a href='https://mlr3measures.mlr-org.com/reference/tpr.html'>mlr3measures::tpr()</a></code> from package <a href='https://CRAN.R-project.org/package=mlr3measures'><span class="pkg">mlr3measures</span></a>.</p>

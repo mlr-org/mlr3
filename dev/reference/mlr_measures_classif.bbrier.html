@@ -54,9 +54,11 @@
 
 
 <meta property="og:title" content="Binary Brier Score — mlr_measures_classif.bbrier" />
-<meta property="og:description" content="Measure to compare true observed labels with predicted
-probabilities
-in binary classification tasks." />
+<meta property="og:description" content="Brier score for binary classification problems defined as $$
+   \frac{1}{n} \sum_{i=1}^n w_i (I_i - p_i)^2.
+$$
+Note that this (more common) definition of the Brier score is equivalent to the
+original definition of the multi-class Brier score (see mbrier()) divided by 2." />
 <meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
@@ -162,20 +164,15 @@ in binary classification tasks." />
     </div>
 
     <div class="ref-description">
-    <p>Measure to compare true observed labels with predicted
-probabilities
-in binary classification tasks.</p>
-    </div>
-
-
-
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>The Binary Brier Score is defined as $$
+    <p>Brier score for binary classification problems defined as $$
    \frac{1}{n} \sum_{i=1}^n w_i (I_i - p_i)^2.
 $$</p>
 <p>Note that this (more common) definition of the Brier score is equivalent to the
 original definition of the multi-class Brier score (see <code><a href='https://mlr3measures.mlr-org.com/reference/mbrier.html'>mbrier()</a></code>) divided by 2.</p>
+    </div>
+
+
+
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>The score function calls <code><a href='https://mlr3measures.mlr-org.com/reference/bbrier.html'>mlr3measures::bbrier()</a></code> from package <a href='https://CRAN.R-project.org/package=mlr3measures'><span class="pkg">mlr3measures</span></a>.</p>

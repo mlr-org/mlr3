@@ -54,7 +54,14 @@
 
 
 <meta property="og:title" content="Phi Coefficient Similarity — mlr_measures_sim.phi" />
-<meta property="og:description" content="Measure to compare two or more sets w.r.t. their similarity." />
+<meta property="og:description" content="Measure to compare two or more sets w.r.t. their similarity.
+It is defined as the Pearson correlation between the binary
+representation of two sets \(A\) and \(B\).
+The binary representation for \(A\) is a logical vector of
+length \(p\) with the i-th element being 1 if the corresponding
+element is in \(A\), and 0 otherwise.
+If more than two sets are provided, the mean of all pairwise scores
+is calculated." />
 <meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
@@ -160,21 +167,21 @@
     </div>
 
     <div class="ref-description">
-    <p>Measure to compare two or more sets w.r.t. their similarity.</p>
-    </div>
-
-
-
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>The Phi Coefficient is defined as the Pearson correlation between the binary
+    <p>Measure to compare two or more sets w.r.t. their similarity.
+It is defined as the Pearson correlation between the binary
 representation of two sets \(A\) and \(B\).
 The binary representation for \(A\) is a logical vector of
 length \(p\) with the i-th element being 1 if the corresponding
 element is in \(A\), and 0 otherwise.</p>
 <p>If more than two sets are provided, the mean of all pairwise scores
 is calculated.</p>
-<p>This measure is undefined if one set contains none or all possible elements.</p>
+    </div>
+
+
+
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>This measure is undefined if one set contains none or all possible elements.</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>This measure requires learners with property <code>"selected_features"</code>.

@@ -54,9 +54,13 @@
 
 
 <meta property="og:title" content="F-beta Score — mlr_measures_classif.fbeta" />
-<meta property="og:description" content="Measure to compare true observed labels with predicted
-labels
-in binary classification tasks." />
+<meta property="og:description" content="Binary classification measure defined with \(P\) as precision() and \(R\) as
+recall() as $$
+   (1 + \beta^2) \frac{P \cdot R}{(\beta^2 P) + R}.
+$$
+It measures the effectiveness of retrieval with respect to a user who attaches \(\beta\) times
+as much importance to recall as precision.
+For \(\beta = 1\), this measure is called &quot;F1&quot; score." />
 <meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
@@ -162,22 +166,24 @@ in binary classification tasks." />
     </div>
 
     <div class="ref-description">
-    <p>Measure to compare true observed labels with predicted
-labels
-in binary classification tasks.</p>
+    <p>Binary classification measure defined with \(P\) as <code><a href='https://mlr3measures.mlr-org.com/reference/ppv.html'>precision()</a></code> and \(R\) as
+<code><a href='https://mlr3measures.mlr-org.com/reference/tpr.html'>recall()</a></code> as $$
+   (1 + \beta^2) \frac{P \cdot R}{(\beta^2 P) + R}.
+$$
+It measures the effectiveness of retrieval with respect to a user who attaches \(\beta\) times
+as much importance to recall as precision.
+For \(\beta = 1\), this measure is called "F1" score.</p>
     </div>
 
 
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>With \(P\) as <code><a href='https://mlr3measures.mlr-org.com/reference/ppv.html'>precision()</a></code> and \(R\) as <code><a href='https://mlr3measures.mlr-org.com/reference/tpr.html'>recall()</a></code>, the F-beta Score is defined as $$
-   (1 + \beta^2) \frac{P \cdot R}{(\beta^2 P) + R}.
-$$
-It measures the effectiveness of retrieval with respect to a user who attaches \(\beta\) times
-as much importance to recall as precision.
-For \(\beta = 1\), this measure is called "F1" score.</p>
-<p>This measure is undefined if <a href='https://mlr3measures.mlr-org.com/reference/ppv.html'>precision</a> or <a href='https://mlr3measures.mlr-org.com/reference/tpr.html'>recall</a> is undefined, i.e. TP + FP = 0 or TP + FN = 0.</p>
+    <p>This measure is undefined if</p><ul>
+<li><p>TP = 0</p></li>
+<li><p><a href='https://mlr3measures.mlr-org.com/reference/ppv.html'>precision</a> or <a href='https://mlr3measures.mlr-org.com/reference/tpr.html'>recall</a> is undefined, i.e. TP + FP = 0 or TP + FN = 0.</p></li>
+</ul>
+
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>The score function calls <code><a href='https://mlr3measures.mlr-org.com/reference/fbeta.html'>mlr3measures::fbeta()</a></code> from package <a href='https://CRAN.R-project.org/package=mlr3measures'><span class="pkg">mlr3measures</span></a>.</p>
@@ -195,8 +201,8 @@ This can be customized by setting the field <code>na_value</code>.</p>
 
     
 <table class='table'>
-<tr><td>Id</td><td>Type</td><td>Default</td><td>Range</td></tr>
-<tr><td>beta</td><td>integer</td><td>-</td><td>\([0, \infty)\)</td></tr>
+<tr><td>Id</td><td>Type</td><td>Default</td><td>Range</td><td>Levels</td></tr>
+<tr><td>beta</td><td>integer</td><td>-</td><td>\([0, \infty)\)</td><td>-</td></tr>
 </table>
 
 

@@ -54,9 +54,10 @@
 
 
 <meta property="og:title" content="Log Loss — mlr_measures_classif.logloss" />
-<meta property="og:description" content="Measure to compare true observed labels with predicted
-probabilities
-in multiclass classification tasks." />
+<meta property="og:description" content="Classification measure defined as $$
+  -\frac{1}{n} \sum_{i=1}^n w_i \log \left(  p_i \right )
+$$
+where \(p_i\) is the probability for the true class of observation \(i\)." />
 <meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
@@ -162,19 +163,14 @@ in multiclass classification tasks." />
     </div>
 
     <div class="ref-description">
-    <p>Measure to compare true observed labels with predicted
-probabilities
-in multiclass classification tasks.</p>
+    <p>Classification measure defined as $$
+  -\frac{1}{n} \sum_{i=1}^n w_i \log \left(  p_i \right )
+$$
+where \(p_i\) is the probability for the true class of observation \(i\).</p>
     </div>
 
 
 
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>The Log Loss is defined as $$
-  -\frac{1}{n} \sum_{i=1}^n w_i \log \left(  p_i \right )
-$$
-where \(p_i\) is the probability for the true class of observation \(i\).</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>The score function calls <code><a href='https://mlr3measures.mlr-org.com/reference/logloss.html'>mlr3measures::logloss()</a></code> from package <a href='https://CRAN.R-project.org/package=mlr3measures'><span class="pkg">mlr3measures</span></a>.</p>

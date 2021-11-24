@@ -54,7 +54,10 @@
 
 
 <meta property="og:title" content="Relative Absolute Error — mlr_measures_regr.rae" />
-<meta property="og:description" content="Measure to compare true observed response with predicted response in regression tasks." />
+<meta property="og:description" content="Regression measure defined as $$
+  \frac{\sum_{i=1}^n \left| t_i - r_i \right|}{\sum_{i=1}^n \left| t_i - \bar{t} \right|}.
+$$
+Can be interpreted as absolute error of the predictions relative to a naive model predicting the mean." />
 <meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
@@ -160,18 +163,17 @@
     </div>
 
     <div class="ref-description">
-    <p>Measure to compare true observed response with predicted response in regression tasks.</p>
+    <p>Regression measure defined as $$
+  \frac{\sum_{i=1}^n \left| t_i - r_i \right|}{\sum_{i=1}^n \left| t_i - \bar{t} \right|}.
+$$
+Can be interpreted as absolute error of the predictions relative to a naive model predicting the mean.</p>
     </div>
 
 
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The Relative Absolute Error is defined as $$
-  \frac{\sum_{i=1}^n \left| t_i - r_i \right|}{\sum_{i=1}^n \left| t_i - \bar{t} \right|}.
-$$
-Can be interpreted as absolute error of the predictions relative to a naive model predicting the mean.</p>
-<p>This measure is undefined for constant \(t\).</p>
+    <p>This measure is undefined for constant \(t\).</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>The score function calls <code><a href='https://mlr3measures.mlr-org.com/reference/rae.html'>mlr3measures::rae()</a></code> from package <a href='https://CRAN.R-project.org/package=mlr3measures'><span class="pkg">mlr3measures</span></a>.</p>
