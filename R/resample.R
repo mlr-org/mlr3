@@ -72,6 +72,7 @@ resample = function(task, learner, resampling, store_models = FALSE, store_backe
   } else {
     NULL
   }
+  lgr_threshold = map_int(mlr_reflections$loggers, "threshold")
 
   grid = if (allow_hotstart) {
    hotstart_grid = map_dtr(seq_len(n), function(iteration) {
@@ -105,7 +106,7 @@ resample = function(task, learner, resampling, store_models = FALSE, store_backe
     lg$info("Running resample() sequentially in debug mode with %i iterations", n)
     res = mapply(workhorse,
       iteration = seq_len(n), learner = grid$learner, mode = grid$mode,
-      MoreArgs = list(task = task, resampling = instance, store_models = store_models, lgr_threshold = lg$threshold,
+      MoreArgs = list(task = task, resampling = instance, store_models = store_models, lgr_threshold = lgr_threshold,
         pb = pb), SIMPLIFY = FALSE
     )
   } else {
@@ -113,7 +114,7 @@ resample = function(task, learner, resampling, store_models = FALSE, store_backe
 
     res = future.apply::future_mapply(workhorse,
       iteration = seq_len(n), learner = grid$learner, mode = grid$mode,
-      MoreArgs = list(task = task, resampling = instance, store_models = store_models, lgr_threshold = lg$threshold,
+      MoreArgs = list(task = task, resampling = instance, store_models = store_models, lgr_threshold = lgr_threshold,
       pb = pb),
       SIMPLIFY = FALSE, future.globals = FALSE, future.scheduling = structure(TRUE, ordering = "random"),
       future.packages = "mlr3", future.seed = TRUE, future.stdout = future_stdout()
