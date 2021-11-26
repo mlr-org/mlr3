@@ -166,7 +166,11 @@ assert_measure = function(measure, task = NULL, learner = NULL, .var.name = vnam
     }
 
     if (!is_scalar_na(measure$predict_type) && measure$check_prerequisites != "ignore") {
-      predict_types = mlr_reflections$learner_predict_types[[learner$task_type]][[learner$predict_type]]
+      if (learner$task_type == 'surv') {
+       predict_types = mlr_reflections$learner_predict_types[[learner$task_type]][[1]]
+      } else {
+        predict_types = mlr_reflections$learner_predict_types[[learner$task_type]][[learner$predict_type]]
+      }
       if (measure$predict_type %nin% predict_types) {
         warningf("Measure '%s' is missing predict type '%s' of learner '%s'", measure$id, measure$predict_type, learner$id)
       }
