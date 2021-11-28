@@ -75,7 +75,7 @@ dummy_import = function() {
     lg$set_threshold("warn")
   }
 
-  mlr_reflections$loggers = c(mlr_reflections$loggers, list("mlr3" = lg))
+  mlr_reflections$loggers[["mlr3"]] = lg
 } # nocov end
 
 leanify_package()
