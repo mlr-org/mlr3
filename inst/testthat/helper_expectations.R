@@ -341,6 +341,15 @@ expect_learner = function(lrn, task = NULL) {
   checkmate::expect_class(lrn$param_set, "ParamSet")
   testthat::expect_lte(length(lrn$param_set$ids(tags = "threads")), 1L)
   checkmate::expect_character(lrn$properties, any.missing = FALSE, min.chars = 1L, unique = TRUE)
+
+  checkmate::expect_character(lrn$predict_types, any.missing = FALSE, min.chars = 1L, unique = TRUE)
+  checkmate::expect_choice(lrn$predict_type, lrn$predict_types)
+  checkmate::expect_subset(lrn$feature_types, mlr_reflections$task_feature_types, empty.ok = FALSE)
+  checkmate::expect_subset(lrn$data_formats, mlr_reflections$data_formats, empty.ok = FALSE)
+
+  expect_hash(lrn$hash)
+  expect_hash(lrn$phash)
+
   if (is.null(private(lrn)$.train)) {
     checkmate::expect_function(lrn$train_internal, args = "task", nargs = 1L)
   } else {
