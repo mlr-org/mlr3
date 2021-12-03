@@ -1,12 +1,12 @@
-krl: https://mlr3.mlr-org.com
+url: https://mlr3.mlr-org.com
 
 template:
   package: mlr3pkgdowntemplate
   params:
     bootswatch: journal
-    docsearch:
-      api_key: 9c3abd63d461245fb19ebd2d2645c5b0
-      index_name: mlr3
+    # docsearch:
+    #   api_key: 9c3abd63d461245fb19ebd2d2645c5b0
+    #   index_name: mlr3
   default_assets: false
 
 development:
@@ -120,3 +120,6 @@ reference:
       - ResultData
       - PredictionData
       - predict.Learner
+  - title: Package
+    contents:
+      - mlr3-package

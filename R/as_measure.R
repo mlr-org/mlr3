@@ -16,9 +16,9 @@ as_measure = function(x, ...) { # nolint
 
 #' @export
 #' @rdname as_measure
-as_measure.NULL = function(x, task_type = NULL, clone = FALSE, ...) { # nolint
-  default_measures(task_type)[[1L]]
-}
+# as_measure.NULL = function(x, task_type = NULL, clone = FALSE, ...) { # nolint
+#   default_measures(task_type)[[1L]]
+# }
 
 #' @export
 #' @rdname as_measure
@@ -34,9 +34,9 @@ as_measures = function(x, ...) { # nolint
 
 #' @export
 #' @rdname as_measure
-as_measures.NULL = function(x, task_type = NULL, clone = FALSE, ...) { # nolint
-  default_measures(task_type)
-}
+# as_measures.NULL = function(x, task_type = NULL, clone = FALSE, ...) { # nolint
+#   default_measures(task_type)
+# }
 
 #' @export
 #' @rdname as_measure

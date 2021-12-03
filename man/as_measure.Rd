@@ -2,23 +2,17 @@
 % Please edit documentation in R/as_measure.R
 \name{as_measure}
 \alias{as_measure}
-\alias{as_measure.NULL}
 \alias{as_measure.Measure}
 \alias{as_measures}
-\alias{as_measures.NULL}
 \alias{as_measures.list}
 \alias{as_measures.Measure}
 \title{Convert to a Measure}
 \usage{
 as_measure(x, ...)
 
-\method{as_measure}{`NULL`}(x, task_type = NULL, clone = FALSE, ...)
-
 \method{as_measure}{Measure}(x, clone = FALSE, ...)
 
 as_measures(x, ...)
-
-\method{as_measures}{`NULL`}(x, task_type = NULL, clone = FALSE, ...)
 
 \method{as_measures}{list}(x, clone = FALSE, ...)
 
@@ -31,12 +25,12 @@ Object to convert.}
 \item{...}{(any)\cr
 Additional arguments.}
 
+\item{clone}{(\code{logical(1)})\cr
+If \code{TRUE}, ensures that the returned object is not the same as the input \code{x}.}
+
 \item{task_type}{(\code{character(1)})\cr
 Used if \code{x} is \code{NULL} to construct a default measure for the respective task type.
 The default measures are stored in \code{\link[=mlr_reflections]{mlr_reflections$default_measures}}.}
-
-\item{clone}{(\code{logical(1)})\cr
-If \code{TRUE}, ensures that the returned object is not the same as the input \code{x}.}
 }
 \value{
 \link{Measure}.
