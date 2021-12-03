@@ -1,11 +1,13 @@
 # All available hooks: https://pre-commit.com/hooks.html
 repos:
 -   repo: https://github.com/lorenzwalthert/precommit
-    rev: v0.1.2
+    rev: v0.2.0
     hooks:
     # any R project
     -   id: style-files
         args: [--style_pkg=styler, --style_fun=mlr_style]
+        additional_dependencies:
+          - mlr-org/styler.mlr
     -   id: lintr
     -   id: parsable-R
     -   id: no-browser-statement
@@ -15,7 +17,7 @@ repos:
     -   id: use-tidy-description
     -   id: deps-in-desc
 -   repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v3.1.0
+    rev: v4.0.1
     hooks:
     -   id: check-added-large-files
         args: ['--maxkb=200']
