@@ -24,6 +24,7 @@ as_measure = function(x, ...) { # nolint
 #' @rdname as_measure
 as_measure.Measure = function(x, clone = FALSE, ...) { # nolint
   if (clone) x$clone() else x
+  print("foo")
 }
 
 #' @export

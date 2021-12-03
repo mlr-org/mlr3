@@ -8,12 +8,26 @@ repos:
         args: [--style_pkg=styler.mlr, --style_fun=mlr_style]
         additional_dependencies:
           - mlr-org/styler.mlr
-    -   id: lintr
     -   id: parsable-R
     -   id: no-browser-statement
     -   id: readme-rmd-rendered
     #  R package development
     -   id: roxygenize
+        additional_dependencies:
+        - tidyr
+        - dplyr
+        - checkmate
+        - data.table
+        - future
+        - future.apply
+        - lgr
+        - mlbench
+        - mlr3measures
+        - mlr3misc
+        - parallelly
+        - palmerpenguins
+        - paradox
+        - uuid
     -   id: use-tidy-description
     -   id: deps-in-desc
 -   repo: https://github.com/pre-commit/pre-commit-hooks
