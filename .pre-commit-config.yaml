@@ -1,37 +1,21 @@
 # All available hooks: https://pre-commit.com/hooks.html
 repos:
 -   repo: https://github.com/lorenzwalthert/precommit
-    rev: v0.2.0
+    rev: v0.1.2
     hooks:
     # any R project
     -   id: style-files
-        args: [--style_pkg=styler.mlr, --style_fun=mlr_style]
-        additional_dependencies:
-          - mlr-org/styler.mlr
+        args: [--style_pkg=styler, --style_fun=mlr_style]
+    -   id: lintr
     -   id: parsable-R
     -   id: no-browser-statement
     -   id: readme-rmd-rendered
     #  R package development
     -   id: roxygenize
-        additional_dependencies:
-        - tidyr
-        - dplyr
-        - checkmate
-        - data.table
-        - future
-        - future.apply
-        - lgr
-        - mlbench
-        - mlr3measures
-        - mlr3misc
-        - parallelly
-        - palmerpenguins
-        - paradox
-        - uuid
     -   id: use-tidy-description
     -   id: deps-in-desc
 -   repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.0.1
+    rev: v3.1.0
     hooks:
     -   id: check-added-large-files
         args: ['--maxkb=200']
