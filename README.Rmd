@@ -6,9 +6,6 @@ output: github_document
 lgr::get_logger("mlr3")$set_threshold("warn")
 set.seed(1)
 options(datatable.print.class = FALSE, datatable.print.keys = FALSE)
-knitr::opts_chunk$set(
-  fig.path = "man/figures/"
-)
 ```
 
 # mlr3 <img src="man/figures/logo.png" align="right" width = "120" />
@@ -125,9 +122,7 @@ rr$aggregate(measure)
 
 ## Extension Packages
 
-```{r, echo=FALSE}
-knitr::include_graphics("man/figures/mlr3verse.svg")
-```
+<a href="https://raw.githubusercontent.com/mlr-org/mlr3/main/man/figures/mlr3verse.svg?sanitize=true"><img src="man/figures/mlr3verse.svg" /></a>
 
 Consult the [wiki](https://github.com/mlr-org/mlr3/wiki/Extension-Packages) for short descriptions and links to the respective repositories.
 

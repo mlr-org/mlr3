@@ -183,7 +183,7 @@ rr$aggregate(measure)
 
 ## Extension Packages
 
-![](man/figures/mlr3verse.svg)<!-- -->
+<a href="https://raw.githubusercontent.com/mlr-org/mlr3/main/man/figures/mlr3verse.svg?sanitize=true"><img src="man/figures/mlr3verse.svg" /></a>
 
 Consult the
 [wiki](https://github.com/mlr-org/mlr3/wiki/Extension-Packages) for
