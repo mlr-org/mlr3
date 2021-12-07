@@ -16,7 +16,8 @@
 #' Predefined learners are stored in the [dictionary][mlr3misc::Dictionary] [mlr_learners],
 #' e.g. [`classif.rpart`][mlr_learners_classif.rpart] or [`regr.rpart`][mlr_learners_regr.rpart].
 #'
-#' More classification and regression learners are implemented in the add-on package \CRANpkg{mlr3learners}.
+#' More classification and regression learners are implemented in the add-on packages \CRANpkg{mlr3learners}
+#' and \pkg{mlr3extralearners}.
 #' Learners for survival analysis (or more general, for probabilistic regression) can be found in \CRANpkg{mlr3proba}.
 #' Unsupervised cluster algorithms are implemented in \CRANpkg{mlr3cluster}.
 #' The dictionary [mlr_learners] gets automatically populated with the new learners as soon as the respective packages are loaded.
