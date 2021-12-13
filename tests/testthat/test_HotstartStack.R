@@ -368,3 +368,16 @@ test_that("copying state of learner works", {
   expect_equal(learner_1$param_set$values$iter, 1)
   expect_equal(start_learner$param_set$values$iter, 2)
 })
+
+test_that("HotstartStack works without hotstart parameter", {
+  task = tsk("pima")
+  start_learner = lrn("classif.rpart")
+  start_learner$train(task)
+
+  target_learner = lrn("classif.rpart")
+  hot = HotstartStack$new(start_learner)
+  target_learner$hotstart_stack = hot
+
+  expect_equal(hot$start_cost(target_learner, task$hash), NA_real_)
+  expect_null(get_private(target_learner$hotstart_stack)$.start_learner(target_learner, task$hash))
+})
