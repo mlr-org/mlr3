@@ -124,6 +124,7 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
     hotstart_grid = pmap_dtr(grid, function(task, learner, resampling, iteration, ...) {
       if (!is.null(learner$hotstart_stack)) {
         # search for hotstart learner
+        learner = learner$clone()
         task_hashes = task_hashes(task, resampling)
         start_learner = get_private(learner$hotstart_stack)$.start_learner(learner, task_hashes[iteration])
       }
