@@ -14,6 +14,7 @@ Additional task properties include:
 \item \code{"multiclass"}: The task is a multiclass classification problem.
 }
 
+It is recommended to use \code{\link[=as_task_classif]{as_task_classif()}} for construction.
 Predefined tasks are stored in the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_tasks}.
 }
 \examples{

@@ -52,6 +52,7 @@ as_data_backend.DataBackend = function(data, primary_key = NULL, ...) { # nolint
 #' @export
 as_data_backend.data.frame = function(data, primary_key = NULL, keep_rownames = FALSE, ...) { # nolint
   assert_data_frame(data, min.cols = 1L, col.names = "unique")
+
   if (!isFALSE(keep_rownames)) {
     if (isTRUE(keep_rownames)) {
       keep_rownames = "..rownames"

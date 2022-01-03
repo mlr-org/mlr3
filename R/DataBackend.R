@@ -17,6 +17,7 @@
 #' To connect to out-of-memory database management systems such as SQL servers,
 #' see the extension package \CRANpkg{mlr3db}.
 #'
+#' @details
 #' The required set of fields and methods to implement a custom `DataBackend` is
 #' listed in the respective sections (see [DataBackendDataTable] or
 #' [DataBackendMatrix] for exemplary implementations of the interface).

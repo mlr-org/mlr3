@@ -18,7 +18,8 @@ This package comes with two implementations for backends:
 
 To connect to out-of-memory database management systems such as SQL servers,
 see the extension package \CRANpkg{mlr3db}.
-
+}
+\details{
 The required set of fields and methods to implement a custom \code{DataBackend} is
 listed in the respective sections (see \link{DataBackendDataTable} or
 \link{DataBackendMatrix} for exemplary implementations of the interface).

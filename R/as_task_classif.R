@@ -35,6 +35,11 @@ as_task_classif.TaskClassif = function(x, clone = FALSE, ...) { # nolint
 #'   Level of the positive class. See [TaskClassif].
 #' @export
 as_task_classif.data.frame = function(x, target = NULL, id = deparse(substitute(x)), positive = NULL, ...) { # nolint
+  ii = which(map_lgl(x[map_lgl(x, is.double)], anyInfinite))
+  if (length(ii)) {
+    warningf("Detected columns with unsupported Inf values in data: %s", str_collapse(names(ii)))
+  }
+
   TaskClassif$new(id = id, backend = x, target = target, positive = positive)
 }
 

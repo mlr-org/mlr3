@@ -7,6 +7,7 @@
 #' The target column is assumed to be numeric.
 #' The `task_type` is set to `"regr"`.
 #'
+#' It is recommended to use [as_task_regr()] for construction.
 #' Predefined tasks are stored in the [dictionary][mlr3misc::Dictionary] [mlr_tasks].
 #'
 #' @template param_rows

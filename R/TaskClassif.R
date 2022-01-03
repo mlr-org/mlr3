@@ -11,6 +11,7 @@
 #' * `"twoclass"`: The task is a binary classification problem.
 #' * `"multiclass"`: The task is a multiclass classification problem.
 #'
+#' It is recommended to use [as_task_classif()] for construction.
 #' Predefined tasks are stored in the [dictionary][mlr3misc::Dictionary] [mlr_tasks].
 #'
 #' @template param_id

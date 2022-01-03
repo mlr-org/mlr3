@@ -8,6 +8,7 @@ This task specializes \link{Task} and \link{TaskSupervised} for regression probl
 The target column is assumed to be numeric.
 The \code{task_type} is set to \code{"regr"}.
 
+It is recommended to use \code{\link[=as_task_regr]{as_task_regr()}} for construction.
 Predefined tasks are stored in the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_tasks}.
 }
 \examples{
