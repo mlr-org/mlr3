@@ -73,7 +73,7 @@ During \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}
 Per default, a learner only predicts observations in the test set (\code{predict_sets == "test"}).
 To change this behavior, set \code{predict_sets} to a non-empty subset of \verb{\{"train", "test", "validation"\}}.
 Each set yields a separate \link{Prediction} object.
-Those be combined via getters in \link{ResampleResult}/\link{BenchmarkResult}, or \link{Measure}s can be altered
+Those can be combined via getters in \link{ResampleResult}/\link{BenchmarkResult}, or \link{Measure}s can be configured
 to operate on specific subsets of the calculated prediction sets.}
 
 \item{\code{check_prerequisites}}{(\code{character(1)})\cr
