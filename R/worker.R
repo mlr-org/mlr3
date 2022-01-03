@@ -67,7 +67,8 @@ learner_train = function(learner, task, row_ids = NULL, mode = "train") {
     train_time = result$elapsed,
     param_vals = learner$param_set$values,
     task_hash = task$hash,
-    task_prototype = task$data(rows = integer())
+    task_prototype = task$data(rows = integer()),
+    mlr3_version = packageVersion("mlr3")
   ))
 
   if (is.null(result$result)) {
@@ -117,6 +118,16 @@ learner_predict = function(learner, task, row_ids = NULL) {
 
   assert_task(task)
   assert_learner(learner)
+
+  if (getOption("mlr3.warn_version_mismatch", TRUE)) {
+    v_train = learner$state$mlr3_version
+    v_predict = packageVersion("mlr3")
+
+    if (!is.null(v_train) && v_train != v_predict) {
+      warningf("Detected version mismatch: Learner '%s' has been trained with mlr3 version '%s', not matching currently installed version '%s'",
+        learner$id, v_train, v_predict)
+    }
+  }
 
   # subset to test set w/o cloning
   if (!is.null(row_ids)) {

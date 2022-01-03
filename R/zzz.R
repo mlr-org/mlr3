@@ -46,6 +46,8 @@
 #'   non-ascii characters in column names. This is an experimental and temporal option to
 #'   pave the way for text analysis, and will likely be removed in a future version of the package.
 #'   analysis.
+#' * `"mlr3.warn_version_mismatch"`: Set to `FALSE` to silence warnings raised during predict if a learner has been
+#'   trained with a different version version of mlr3.
 #'
 #' @references
 #' `r tools::toRd(citation("mlr3"))`
