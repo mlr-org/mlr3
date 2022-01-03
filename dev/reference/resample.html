@@ -149,6 +149,19 @@ Determines if learner(s) are hot started with trained models in
 If you need access to the models for later analysis, set <code>store_models</code> to <code>TRUE</code>.</p>
     </div>
     <div class="section level2">
+    <h2 id="predict-sets">Predict Sets<a class="anchor" aria-label="anchor" href="#predict-sets"></a></h2>
+    
+
+<p>If you want to compare the performance of a learner on the training with the performance
+on the test set, you have to configure the <a href="Learner.html">Learner</a> to predict on multiple sets by
+setting the field <code>predict_sets</code> to <code>c("train", "test")</code> (default is <code>"test"</code>).
+Each set yields a separate <a href="Prediction.html">Prediction</a> object during resampling.
+In the next step, you have to configure the measures to operate on the respective Prediction object:</p><div class="sourceCode"><pre><code><span class="va">m1</span> <span class="op">=</span> <span class="fu"><a href="../reference/mlr_sugar.html">msr</a></span><span class="op">(</span><span class="st">"classif.ce"</span>, id <span class="op">=</span> <span class="st">"ce.train"</span>, predict_sets <span class="op">=</span> <span class="st">"train"</span><span class="op">)</span>
+<span class="va">m2</span> <span class="op">=</span> <span class="fu"><a href="../reference/mlr_sugar.html">msr</a></span><span class="op">(</span><span class="st">"classif.ce"</span>, id <span class="op">=</span> <span class="st">"ce.test"</span>, predict_sets <span class="op">=</span> <span class="st">"test"</span><span class="op">)</span></code></pre></div>
+
+<p>The (list of) created measures can finally be passed to <code>$aggregate()</code> or <code>$score()</code>.</p>
+    </div>
+    <div class="section level2">
     <h2 id="parallelization">Parallelization<a class="anchor" aria-label="anchor" href="#parallelization"></a></h2>
     
 

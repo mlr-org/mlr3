@@ -138,6 +138,19 @@ Determines if learner(s) are hot started with trained models in
 If you need access to the models for later analysis, set <code>store_models</code> to <code>TRUE</code>.</p>
     </div>
     <div class="section level2">
+    <h2 id="predict-sets">Predict Sets<a class="anchor" aria-label="anchor" href="#predict-sets"></a></h2>
+    
+
+<p>If you want to compare the performance of a learner on the training with the performance
+on the test set, you have to configure the <a href="Learner.html">Learner</a> to predict on multiple sets by
+setting the field <code>predict_sets</code> to <code>c("train", "test")</code> (default is <code>"test"</code>).
+Each set yields a separate <a href="Prediction.html">Prediction</a> object during resampling.
+In the next step, you have to configure the measures to operate on the respective Prediction object:</p><div class="sourceCode"><pre><code><span class="va">m1</span> <span class="op">=</span> <span class="fu"><a href="../reference/mlr_sugar.html">msr</a></span><span class="op">(</span><span class="st">"classif.ce"</span>, id <span class="op">=</span> <span class="st">"ce.train"</span>, predict_sets <span class="op">=</span> <span class="st">"train"</span><span class="op">)</span>
+<span class="va">m2</span> <span class="op">=</span> <span class="fu"><a href="../reference/mlr_sugar.html">msr</a></span><span class="op">(</span><span class="st">"classif.ce"</span>, id <span class="op">=</span> <span class="st">"ce.test"</span>, predict_sets <span class="op">=</span> <span class="st">"test"</span><span class="op">)</span></code></pre></div>
+
+<p>The (list of) created measures can finally be passed to <code>$aggregate()</code> or <code>$score()</code>.</p>
+    </div>
+    <div class="section level2">
     <h2 id="parallelization">Parallelization<a class="anchor" aria-label="anchor" href="#parallelization"></a></h2>
     
 
@@ -207,12 +220,12 @@ or <code>"trace"</code>:</p><div class="sourceCode"><pre><code><span class="fu">
 <span class="r-in"><span class="co">## Data of all resamplings</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html" class="external-link">as.data.table</a></span><span class="op">(</span><span class="va">bmr</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                   uhash              task</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 2182322f-da16-4192-88b6-a55d596e4f82 &lt;TaskClassif[49]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 2182322f-da16-4192-88b6-a55d596e4f82 &lt;TaskClassif[49]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 2182322f-da16-4192-88b6-a55d596e4f82 &lt;TaskClassif[49]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4: e2c91a16-329e-4e18-a1af-fcc0871ca4c2 &lt;TaskClassif[49]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5: e2c91a16-329e-4e18-a1af-fcc0871ca4c2 &lt;TaskClassif[49]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6: e2c91a16-329e-4e18-a1af-fcc0871ca4c2 &lt;TaskClassif[49]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: d315ec3a-4ec9-4d6f-86f5-942808bd7f7a &lt;TaskClassif[49]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: d315ec3a-4ec9-4d6f-86f5-942808bd7f7a &lt;TaskClassif[49]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: d315ec3a-4ec9-4d6f-86f5-942808bd7f7a &lt;TaskClassif[49]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4: 9fea61b0-3328-4750-a691-4fd6bcb713d8 &lt;TaskClassif[49]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5: 9fea61b0-3328-4750-a691-4fd6bcb713d8 &lt;TaskClassif[49]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6: 9fea61b0-3328-4750-a691-4fd6bcb713d8 &lt;TaskClassif[49]&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                            learner         resampling iteration</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: &lt;LearnerClassifFeatureless[37]&gt; &lt;ResamplingCV[19]&gt;         1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2: &lt;LearnerClassifFeatureless[37]&gt; &lt;ResamplingCV[19]&gt;         2</span>
