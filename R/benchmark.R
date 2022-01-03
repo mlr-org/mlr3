@@ -19,6 +19,7 @@
 #' The fitted models are discarded after the predictions have been scored in order to reduce memory consumption.
 #' If you need access to the models for later analysis, set `store_models` to `TRUE`.
 #'
+#' @template section_predict_sets
 #' @template section_parallelization
 #' @template section_progress_bars
 #' @template section_logging

@@ -64,6 +64,19 @@ Training and test sets are defined by the \link{Resampling} \code{resampling}.
 The fitted models are discarded after the predictions have been computed in order to reduce memory consumption.
 If you need access to the models for later analysis, set \code{store_models} to \code{TRUE}.
 }
+\section{Predict Sets}{
+
+If you want to compare the performance of a learner on the training with the performance
+on the test set, you have to configure the \link{Learner} to predict on multiple sets by
+setting the field \code{predict_sets} to \code{c("train", "test")} (default is \code{"test"}).
+Each set yields a separate \link{Prediction} object during resampling.
+In the next step, you have to configure the measures to operate on the respective Prediction object:\preformatted{m1 = msr("classif.ce", id = "ce.train", predict_sets = "train")
+m2 = msr("classif.ce", id = "ce.test", predict_sets = "test")
+}
+
+The (list of) created measures can finally be passed to \verb{$aggregate()} or \verb{$score()}.
+}
+
 \section{Parallelization}{
 
 

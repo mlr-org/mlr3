@@ -15,6 +15,7 @@
 #' @template param_allow_hotstart
 #' @return [ResampleResult].
 #'
+#' @template section_predict_sets
 #' @template section_parallelization
 #' @template section_progress_bars
 #' @template section_logging
