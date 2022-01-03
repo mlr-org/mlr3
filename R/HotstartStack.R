@@ -167,7 +167,7 @@ HotstartStack = R6Class("HotstartStack",
 #' @return `numeric(1)`.
 #' @noRd
 calculate_cost = function(start_learner, learner, hotstart_id) {
-  if (is.null(start_learner)) return(NA_real_)
+  if (is.null(start_learner) || !length(hotstart_id)) return(NA_real_)
 
   cost = learner$param_set$values[[hotstart_id]] - start_learner$param_set$values[[hotstart_id]]
   if (cost == 0) return(-1)
