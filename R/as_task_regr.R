@@ -33,7 +33,7 @@ as_task_regr.TaskRegr = function(x, clone = FALSE, ...) { # nolint
 #'   Defaults to the (deparsed and substituted) name of `x`.
 #' @export
 as_task_regr.data.frame = function(x, target, id = deparse(substitute(x)), ...) { # nolint
-  ii = which(map_lgl(x[map_lgl(x, is.double)], anyInfinite))
+  ii = which(map_lgl(subset(x, select = map_lgl(x, is.double)), anyInfinite))
   if (length(ii)) {
     warningf("Detected columns with unsupported Inf values in data: %s", str_collapse(names(ii)))
   }
