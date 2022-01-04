@@ -67,7 +67,7 @@ learner_train = function(learner, task, row_ids = NULL, mode = "train") {
     train_time = result$elapsed,
     param_vals = learner$param_set$values,
     task_hash = task$hash,
-    task_prototype = task$data(rows = integer()),
+    data_prototype = task$data(rows = integer()),
     mlr3_version = packageVersion("mlr3")
   ))
 

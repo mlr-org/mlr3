@@ -311,7 +311,7 @@ test_that("Task prototype is stored in state", {
   learner = lrn("regr.rpart")
   learner$train(task)
 
-  prototype = learner$state$task_prototype
+  prototype = learner$state$data_prototype
   expect_data_table(prototype, nrows = 0, ncols = 19)
   expect_names(names(prototype), permutation.of = c(task$feature_names, task$target_names))
 })
