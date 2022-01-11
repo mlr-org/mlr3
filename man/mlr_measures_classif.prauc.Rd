@@ -4,12 +4,16 @@
 \alias{mlr_measures_classif.prauc}
 \title{Area Under the Precision-Recall Curve}
 \description{
+Measure to compare true observed labels with predicted
+probabilities
+in binary classification tasks.
+}
+\details{
 Computes the area under the Precision-Recall curve (PRC).
 The PRC can be interpreted as the relationship between precision and recall (sensitivity),
 and is considered to be a more appropriate measure for unbalanced datasets than the ROC curve.
 The PRC is computed by integration of the piecewise function.
-}
-\details{
+
 This measure is undefined if the true values are either all positive or
 all negative.
 }

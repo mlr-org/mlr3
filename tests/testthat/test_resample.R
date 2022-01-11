@@ -126,3 +126,7 @@ test_that("encapsulation", {
   expect_equal(rr$learner$encapsulate[["train"]], "evaluate")
   expect_equal(rr$learner$encapsulate[["predict"]], "evaluate")
 })
+
+test_that("disable cloning", {
+  task = tsk("iris")
+})

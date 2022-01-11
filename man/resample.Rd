@@ -11,7 +11,8 @@ resample(
   store_models = FALSE,
   store_backends = TRUE,
   encapsulate = NA_character_,
-  allow_hotstart = FALSE
+  allow_hotstart = FALSE,
+  clone = c("task", "learner", "resampling")
 )
 }
 \arguments{

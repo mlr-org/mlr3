@@ -4,14 +4,16 @@
 \alias{mlr_measures_regr.rrse}
 \title{Root Relative Squared Error}
 \description{
-Regression measure defined as \deqn{
+Measure to compare true observed response with predicted response in regression tasks.
+}
+\details{
+The Root Relative Squared Error is defined as \deqn{
   \sqrt{\frac{\sum_{i=1}^n \left( t_i - r_i \right)^2}{\sum_{i=1}^n \left( t_i - \bar{t} \right)^2}}.
 }{
   sqrt(sum((t - r)^2) / sum((t - mean(t))^2)).
 }
 Can be interpreted as root of the squared error of the predictions relative to a naive model predicting the mean.
-}
-\details{
+
 This measure is undefined for constant \eqn{t}.
 }
 \note{

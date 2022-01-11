@@ -23,4 +23,3 @@ task_hashes = function(task, resampling) {
       task$properties)
   })
 }
-

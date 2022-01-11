@@ -48,10 +48,10 @@ benchmark_grid = function(tasks, learners, resamplings) {
   if (any(is_instantiated)) {
     task_nrow = unique(map_int(tasks, "nrow"))
     if (length(task_nrow) != 1L) {
-      stopf("All resamplings must be uninstantiated, or must have the same number of rows")
+      stopf("All resamplings must be uninstantiated, or must operate on tasks with the same number of rows")
     }
     if (!identical(task_nrow, unique(map_int(resamplings, "task_nrow")))) {
-      stop("Resampling is instantiated for a task with a different number of observations")
+      stop("A Resampling is instantiated for a task with a different number of observations")
     }
     instances = pmap(grid, function(task, resampling) resamplings[[resampling]]$clone())
   } else {
