@@ -128,6 +128,7 @@ Returns <code>NULL</code> if the ResultData is empty.</p></dd>
 <li><p><a href="#method-iterations"><code>ResultData$iterations()</code></a></p></li>
 <li><p><a href="#method-tasks"><code>ResultData$tasks()</code></a></p></li>
 <li><p><a href="#method-learners"><code>ResultData$learners()</code></a></p></li>
+<li><p><a href="#method-learner_states"><code>ResultData$learner_states()</code></a></p></li>
 <li><p><a href="#method-resamplings"><code>ResultData$resamplings()</code></a></p></li>
 <li><p><a href="#method-predictions"><code>ResultData$predictions()</code></a></p></li>
 <li><p><a href="#method-prediction"><code>ResultData$prediction()</code></a></p></li>
@@ -257,15 +258,33 @@ returning the learners.</p></dd>
 <p><code>data.table()</code> with columns <code>"learner_hash"</code> (<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>) and <code>"learner"</code> (<a href="Learner.html">Learner</a>).</p>
 </div>
 
-</div><p></p><hr><a id="method-resamplings"></a><div class="section">
-<h3 id="method-resamplings-">Method <code>resamplings()</code><a class="anchor" aria-label="anchor" href="#method-resamplings-"></a></h3>
-<p>Returns a table of included <a href="Resampling.html">Resampling</a>s.</p><div class="section">
+</div><p></p><hr><a id="method-learner_states"></a><div class="section">
+<h3 id="method-learner-states-">Method <code>learner_states()</code><a class="anchor" aria-label="anchor" href="#method-learner-states-"></a></h3>
+<p>Returns a list of states of included <a href="Learner.html">Learner</a>s without reassembling the learners.</p>
+<p>@return list of <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code></p><div class="section">
 <h4 id="usage-5">Usage<a class="anchor" aria-label="anchor" href="#usage-5"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">ResultData</span><span class="op">$</span><span class="fu">resamplings</span><span class="op">(</span>view <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">ResultData</span><span class="op">$</span><span class="fu">learner_states</span><span class="op">(</span>view <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
 <h4 id="arguments-5">Arguments<a class="anchor" aria-label="anchor" href="#arguments-5"></a></h4>
+<p></p><div class="arguments"><dl><dt><code>view</code></dt>
+<dd><p><code>character(1)</code><br>
+Single <code>uhash</code> to restrict the results to.</p></dd>
+
+
+</dl><p></p></div>
+</div>
+
+</div><p></p><hr><a id="method-resamplings"></a><div class="section">
+<h3 id="method-resamplings-">Method <code>resamplings()</code><a class="anchor" aria-label="anchor" href="#method-resamplings-"></a></h3>
+<p>Returns a table of included <a href="Resampling.html">Resampling</a>s.</p><div class="section">
+<h4 id="usage-6">Usage<a class="anchor" aria-label="anchor" href="#usage-6"></a></h4>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">ResultData</span><span class="op">$</span><span class="fu">resamplings</span><span class="op">(</span>view <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div><p></p></div>
+</div>
+
+<div class="section">
+<h4 id="arguments-6">Arguments<a class="anchor" aria-label="anchor" href="#arguments-6"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>view</code></dt>
 <dd><p><code>character(1)</code><br>
 Single <code>uhash</code> to restrict the results to.</p></dd>
@@ -281,12 +300,12 @@ Single <code>uhash</code> to restrict the results to.</p></dd>
 </div><p></p><hr><a id="method-predictions"></a><div class="section">
 <h3 id="method-predictions-">Method <code>predictions()</code><a class="anchor" aria-label="anchor" href="#method-predictions-"></a></h3>
 <p>Returns a list of <a href="Prediction.html">Prediction</a> objects.</p><div class="section">
-<h4 id="usage-6">Usage<a class="anchor" aria-label="anchor" href="#usage-6"></a></h4>
+<h4 id="usage-7">Usage<a class="anchor" aria-label="anchor" href="#usage-7"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">ResultData</span><span class="op">$</span><span class="fu">predictions</span><span class="op">(</span>view <span class="op">=</span> <span class="cn">NULL</span>, predict_sets <span class="op">=</span> <span class="st">"test"</span><span class="op">)</span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
-<h4 id="arguments-6">Arguments<a class="anchor" aria-label="anchor" href="#arguments-6"></a></h4>
+<h4 id="arguments-7">Arguments<a class="anchor" aria-label="anchor" href="#arguments-7"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>view</code></dt>
 <dd><p><code>character(1)</code><br>
 Single <code>uhash</code> to restrict the results to.</p></dd>
@@ -329,12 +348,12 @@ Default is <code>"test"</code>.</p></dd>
 </div><p></p><hr><a id="method-prediction"></a><div class="section">
 <h3 id="method-prediction-">Method <code>prediction()</code><a class="anchor" aria-label="anchor" href="#method-prediction-"></a></h3>
 <p>Returns a combined <a href="Prediction.html">Prediction</a> objects.</p><div class="section">
-<h4 id="usage-7">Usage<a class="anchor" aria-label="anchor" href="#usage-7"></a></h4>
+<h4 id="usage-8">Usage<a class="anchor" aria-label="anchor" href="#usage-8"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">ResultData</span><span class="op">$</span><span class="fu">prediction</span><span class="op">(</span>view <span class="op">=</span> <span class="cn">NULL</span>, predict_sets <span class="op">=</span> <span class="st">"test"</span><span class="op">)</span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
-<h4 id="arguments-7">Arguments<a class="anchor" aria-label="anchor" href="#arguments-7"></a></h4>
+<h4 id="arguments-8">Arguments<a class="anchor" aria-label="anchor" href="#arguments-8"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>view</code></dt>
 <dd><p><code>character(1)</code><br>
 Single <code>uhash</code> to restrict the results to.</p></dd>
@@ -377,12 +396,12 @@ Default is <code>"test"</code>.</p></dd>
 </div><p></p><hr><a id="method-combine"></a><div class="section">
 <h3 id="method-combine-">Method <code>combine()</code><a class="anchor" aria-label="anchor" href="#method-combine-"></a></h3>
 <p>Combines multiple ResultData objects, modifying <code>self</code> in-place.</p><div class="section">
-<h4 id="usage-8">Usage<a class="anchor" aria-label="anchor" href="#usage-8"></a></h4>
+<h4 id="usage-9">Usage<a class="anchor" aria-label="anchor" href="#usage-9"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">ResultData</span><span class="op">$</span><span class="fu">combine</span><span class="op">(</span><span class="va">rdata</span><span class="op">)</span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
-<h4 id="arguments-8">Arguments<a class="anchor" aria-label="anchor" href="#arguments-8"></a></h4>
+<h4 id="arguments-9">Arguments<a class="anchor" aria-label="anchor" href="#arguments-9"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>rdata</code></dt>
 <dd><p>(ResultData).</p></dd>
 
@@ -399,7 +418,7 @@ Default is <code>"test"</code>.</p></dd>
 <p>Updates the ResultData object, removing rows from all tables which are not referenced
 by the fact table anymore.
 E.g., can be called after filtering/subsetting the fact table.</p><div class="section">
-<h4 id="usage-9">Usage<a class="anchor" aria-label="anchor" href="#usage-9"></a></h4>
+<h4 id="usage-10">Usage<a class="anchor" aria-label="anchor" href="#usage-10"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">ResultData</span><span class="op">$</span><span class="fu">sweep</span><span class="op">(</span><span class="op">)</span></code></pre></div><p></p></div>
 </div>
 
@@ -411,12 +430,12 @@ E.g., can be called after filtering/subsetting the fact table.</p><div class="se
 </div><p></p><hr><a id="method-discard"></a><div class="section">
 <h3 id="method-discard-">Method <code>discard()</code><a class="anchor" aria-label="anchor" href="#method-discard-"></a></h3>
 <p>Shrinks the object by discarding parts of the stored data.</p><div class="section">
-<h4 id="usage-10">Usage<a class="anchor" aria-label="anchor" href="#usage-10"></a></h4>
+<h4 id="usage-11">Usage<a class="anchor" aria-label="anchor" href="#usage-11"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">ResultData</span><span class="op">$</span><span class="fu">discard</span><span class="op">(</span>backends <span class="op">=</span> <span class="cn">FALSE</span>, models <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
-<h4 id="arguments-9">Arguments<a class="anchor" aria-label="anchor" href="#arguments-9"></a></h4>
+<h4 id="arguments-10">Arguments<a class="anchor" aria-label="anchor" href="#arguments-10"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>backends</code></dt>
 <dd><p>(<code>logical(1)</code>)<br>
 If <code>TRUE</code>, the <a href="DataBackend.html">DataBackend</a> is removed from all stored <a href="Task.html">Task</a>s.</p></dd>
@@ -437,7 +456,7 @@ If <code>TRUE</code>, the stored model is removed from all <a href="Learner.html
 </div><p></p><hr><a id="method-as_data_table"></a><div class="section">
 <h3 id="method-as-data-table-">Method <code>as_data_table()</code><a class="anchor" aria-label="anchor" href="#method-as-data-table-"></a></h3>
 <p>Combines internal tables into a single flat <code>data.table()</code>.</p><div class="section">
-<h4 id="usage-11">Usage<a class="anchor" aria-label="anchor" href="#usage-11"></a></h4>
+<h4 id="usage-12">Usage<a class="anchor" aria-label="anchor" href="#usage-12"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">ResultData</span><span class="op">$</span><span class="fu">as_data_table</span><span class="op">(</span>
   view <span class="op">=</span> <span class="cn">NULL</span>,
   reassemble_learners <span class="op">=</span> <span class="cn">TRUE</span>,
@@ -447,7 +466,7 @@ If <code>TRUE</code>, the stored model is removed from all <a href="Learner.html
 </div>
 
 <div class="section">
-<h4 id="arguments-10">Arguments<a class="anchor" aria-label="anchor" href="#arguments-10"></a></h4>
+<h4 id="arguments-11">Arguments<a class="anchor" aria-label="anchor" href="#arguments-11"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>view</code></dt>
 <dd><p><code>character(1)</code><br>
 Single <code>uhash</code> to restrict the results to.</p></dd>
@@ -496,12 +515,12 @@ Default is <code>"test"</code>.</p></dd>
 </div><p></p><hr><a id="method-logs"></a><div class="section">
 <h3 id="method-logs-">Method <code>logs()</code><a class="anchor" aria-label="anchor" href="#method-logs-"></a></h3>
 <p>Get a table of recorded learner logs.</p><div class="section">
-<h4 id="usage-12">Usage<a class="anchor" aria-label="anchor" href="#usage-12"></a></h4>
+<h4 id="usage-13">Usage<a class="anchor" aria-label="anchor" href="#usage-13"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">ResultData</span><span class="op">$</span><span class="fu">logs</span><span class="op">(</span>view <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">condition</span><span class="op">)</span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
-<h4 id="arguments-11">Arguments<a class="anchor" aria-label="anchor" href="#arguments-11"></a></h4>
+<h4 id="arguments-12">Arguments<a class="anchor" aria-label="anchor" href="#arguments-12"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>view</code></dt>
 <dd><p><code>character(1)</code><br>
 Single <code>uhash</code> to restrict the results to.</p></dd>
@@ -522,12 +541,12 @@ The condition to extract. One of <code>"message"</code>, <code>"warning"</code> 
 </div><p></p><hr><a id="method-clone"></a><div class="section">
 <h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
 <p>The objects of this class are cloneable with this method.</p><div class="section">
-<h4 id="usage-13">Usage<a class="anchor" aria-label="anchor" href="#usage-13"></a></h4>
+<h4 id="usage-14">Usage<a class="anchor" aria-label="anchor" href="#usage-14"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">ResultData</span><span class="op">$</span><span class="fu">clone</span><span class="op">(</span>deep <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
-<h4 id="arguments-12">Arguments<a class="anchor" aria-label="anchor" href="#arguments-12"></a></h4>
+<h4 id="arguments-13">Arguments<a class="anchor" aria-label="anchor" href="#arguments-13"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>deep</code></dt>
 <dd><p>Whether to make a deep clone.</p></dd>
 
