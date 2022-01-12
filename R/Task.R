@@ -165,7 +165,7 @@ Task = R6Class("Task",
         setorderv(types, "N", order = -1L)
         pmap(types, function(type, N, feats) {
           catn(str_indent(sprintf("  - %s (%i):", type, N), feats, exdent = 4L))
-      })
+        })
       }
 
       roles = self$col_roles

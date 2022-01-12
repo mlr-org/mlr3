@@ -167,7 +167,7 @@ test_that("learners are hotstarted when benchmark is called", {
   design = benchmark_grid(task, learner, resampling)
   bmr_2 = benchmark(design, store_models = TRUE, allow_hotstart = TRUE)
 
-  map(bmr_2$resample_result(1)$learners, function(l1) {
+  walk(bmr_2$resample_result(1)$learners, function(l1) {
     expect_equal(l1$param_set$values$iter, 3)
     expect_class(l1$model, "classif.debug_model")
     expect_equal(l1$model$iter, 3)
@@ -198,7 +198,7 @@ test_that("learners are trained and hotstarted when benchmark is called", {
   design = benchmark_grid(task, list(learner_3, learner_4), resampling)
   bmr_2 = benchmark(design, store_models = TRUE, allow_hotstart = TRUE)
 
-  map(bmr_2$resample_result(1)$learners, function(l1) {
+  walk(bmr_2$resample_result(1)$learners, function(l1) {
     expect_equal(l1$param_set$values$iter, 4)
     expect_class(l1$model, "classif.debug_model")
     expect_equal(l1$model$iter, 4)
@@ -206,7 +206,7 @@ test_that("learners are trained and hotstarted when benchmark is called", {
     expect_null(l1$hotstart_stack)
   })
 
-  map(bmr_2$resample_result(2)$learners, function(l1) {
+  walk(bmr_2$resample_result(2)$learners, function(l1) {
     expect_class(l1$model, "rpart")
     expect_null(l1$hotstart_stack)
   })

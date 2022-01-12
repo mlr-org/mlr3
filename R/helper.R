@@ -1,13 +1,3 @@
-#' @title Get 'private' part of an R6 Instance
-#'
-#' @param x ([R6::R6Class]).
-#'
-#' @return (`environment()`).
-#' @noRd
-get_private = function(x) {
-  x[[".__enclos_env__"]][["private"]]
-}
-
 translate_types = function(x) {
   r_types = mlr_reflections$task_feature_types
   p_types = names(mlr_reflections$task_feature_types)

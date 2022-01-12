@@ -13,9 +13,9 @@ test_that("convert_task - Regr -> Regr", {
     }
   ))))
   expect_true(
-    all(map_lgl(c("weights", "groups", "strata", "nrow"), function(x) {
+    every(c("weights", "groups", "strata", "nrow"), function(x) {
       all(result[[x]] == task[[x]])
-    })))
+    }))
 })
 
 test_that("convert_task - Regr -> Classif", {
@@ -33,9 +33,9 @@ test_that("convert_task - Regr -> Classif", {
     }
   ))))
   expect_true(
-    all(map_lgl(c("weights", "groups", "strata", "nrow"), function(x) {
+    every(c("weights", "groups", "strata", "nrow"), function(x) {
       all(result[[x]] == task[[x]])
-    })))
+    }))
 })
 
 test_that("convert_task - Classif -> Regr", {
@@ -53,9 +53,9 @@ test_that("convert_task - Classif -> Regr", {
     }
   ))))
   expect_true(
-    all(map_lgl(c("weights", "groups", "strata", "nrow"), function(x) {
+    every(c("weights", "groups", "strata", "nrow"), function(x) {
       all(result[[x]] == task[[x]])
-    })))
+    }))
 })
 
 test_that("convert_task - same target", {
@@ -77,13 +77,13 @@ test_that("convert_task - same target", {
       }
     ))))
     expect_true(
-      all(map_lgl(
+      every(
         c("weights", "groups", "strata", "nrow", "ncol", "feature_names", "target_names",
           "task_type"),
         function(x) {
           all(result[[x]] == task[[x]])
         }
-    )))
+    ))
   }
 })
 

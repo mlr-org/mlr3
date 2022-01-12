@@ -68,7 +68,7 @@ Imports:
     lgr (>= 0.3.4),
     mlbench,
     mlr3measures (>= 0.4.0),
-    mlr3misc (>= 0.9.3),
+    mlr3misc (>= 0.10.0),
     parallelly,
     palmerpenguins,
     paradox (>= 0.6.0),
