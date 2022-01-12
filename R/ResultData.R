@@ -147,6 +147,17 @@ ResultData = R6Class("ResultData",
     },
 
     #' @description
+    #' Returns a list of states of included [Learner]s without reassembling the learners.
+    #'
+    #'  @return list of `list()`
+    learner_states = function(view = NULL) {
+      .__ii__ = private$get_view_index(view)
+      tab = self$data$fact[.__ii__, c("learner_hash", "learner_state"), with = FALSE]
+      setkeyv(tab, "learner_hash")
+      tab[, "learner_state", with = FALSE][[1]]
+    },
+
+    #' @description
     #' Returns a table of included [Resampling]s.
     #'
     #' @return `data.table()` with columns `"resampling_hash"` (`character()`) and `"resampling"` ([Resampling]).
