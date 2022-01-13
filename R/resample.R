@@ -13,6 +13,7 @@
 #' @template param_store_backends
 #' @template param_encapsulate
 #' @template param_allow_hotstart
+#' @template param_clone
 #' @return [ResampleResult].
 #'
 #' @template section_predict_sets
@@ -66,7 +67,7 @@ resample = function(task, learner, resampling, store_models = FALSE, store_backe
   if (!resampling$is_instantiated) {
     resampling = resampling$instantiate(task)
   }
-  n = instance$iters
+  n = resampling$iters
   pb = if (isNamespaceLoaded("progressr")) {
     # NB: the progress bar needs to be created in this env
     pb = progressr::progressor(steps = n)

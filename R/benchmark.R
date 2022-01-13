@@ -12,6 +12,7 @@
 #' @template param_store_backends
 #' @template param_encapsulate
 #' @template param_allow_hotstart
+#' @template param_clone
 #'
 #' @return [BenchmarkResult].
 #'
@@ -91,12 +92,15 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
   # clone inputs
   setDT(design)
   task = learner = resampling = NULL
-  if ("task" %in% clone)
+  if ("task" %in% clone) {
     design[, "task" := list(list(task[[1L]]$clone())), by = list(hashes(task))]
-  if ("learner" %in% clone)
+  }
+  if ("learner" %in% clone) {
     design[, "learner" := list(list(learner[[1L]]$clone())), by = list(hashes(learner))]
-  if ("resampling" %in% clone)
+  }
+  if ("resampling" %in% clone) {
     design[, "resampling" := list(list(resampling[[1L]]$clone())), by = list(hashes(resampling))]
+  }
 
   # set encapsulation + fallback
   set_encapsulation(design$learner, encapsulate)
