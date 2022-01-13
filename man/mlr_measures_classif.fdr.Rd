@@ -4,17 +4,13 @@
 \alias{mlr_measures_classif.fdr}
 \title{False Discovery Rate}
 \description{
-Measure to compare true observed labels with predicted
-labels
-in binary classification tasks.
-}
-\details{
-The False Discovery Rate is defined as \deqn{
+Binary classification measure defined as \deqn{
    \frac{\mathrm{FP}}{\mathrm{TP} + \mathrm{FP}}.
 }{
    FP / (TP + FP).
 }
-
+}
+\details{
 This measure is undefined if TP + FP = 0.
 }
 \note{

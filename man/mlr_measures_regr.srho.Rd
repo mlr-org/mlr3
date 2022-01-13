@@ -4,10 +4,7 @@
 \alias{mlr_measures_regr.srho}
 \title{Spearman's rho}
 \description{
-Measure to compare true observed response with predicted response in regression tasks.
-}
-\details{
-Spearman's rho is defined as Spearman's rank correlation coefficient between truth and response.
+Regression measures defined as Spearman's rank correlation coefficient between truth and response.
 Calls \code{\link[stats:cor]{stats::cor()}} with \code{method} set to \code{"spearman"}.
 }
 \note{

@@ -4,12 +4,7 @@
 \alias{mlr_measures_classif.fn}
 \title{False Negatives}
 \description{
-Measure to compare true observed labels with predicted
-labels
-in binary classification tasks.
-}
-\details{
-This measure counts the false negatives (type 2 error), i.e. the number of
+Classification measure counting the false negatives (type 2 error), i.e. the number of
 predictions indicating a negative class label while in fact it is positive.
 This is sometimes also called a "false alarm".
 }

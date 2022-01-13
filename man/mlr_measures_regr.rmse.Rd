@@ -4,10 +4,7 @@
 \alias{mlr_measures_regr.rmse}
 \title{Root Mean Squared Error}
 \description{
-Measure to compare true observed response with predicted response in regression tasks.
-}
-\details{
-The Root Mean Squared Error is defined as \deqn{
+Regression measure defined as \deqn{
   \sqrt{\frac{1}{n} \sum_{i=1}^n w_i \left( t_i - r_i \right)^2}.
 }{
   sqrt(weighted.mean((t - r)^2, w)).

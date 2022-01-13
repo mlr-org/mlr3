@@ -4,11 +4,6 @@
 \alias{mlr_measures_classif.mbrier}
 \title{Multiclass Brier Score}
 \description{
-Measure to compare true observed labels with predicted
-probabilities
-in multiclass classification tasks.
-}
-\details{
 Brier score for multi-class classification problems with \eqn{r} labels defined as \deqn{
    \frac{1}{n} \sum_{i=1}^n \sum_{j=1}^r (I_{ij} - p_{ij})^2.
 }{

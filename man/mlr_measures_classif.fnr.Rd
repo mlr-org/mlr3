@@ -4,18 +4,14 @@
 \alias{mlr_measures_classif.fnr}
 \title{False Negative Rate}
 \description{
-Measure to compare true observed labels with predicted
-labels
-in binary classification tasks.
-}
-\details{
-The False Negative Rate is defined as \deqn{
+Binary classification measure defined as \deqn{
    \frac{\mathrm{FN}}{\mathrm{TP} + \mathrm{FN}}.
 }{
    FN / (TP + FN).
 }
 Also know as "miss rate".
-
+}
+\details{
 This measure is undefined if TP + FN = 0.
 }
 \note{

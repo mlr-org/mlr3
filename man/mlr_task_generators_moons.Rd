@@ -16,9 +16,9 @@ tgen("moons")
 }
 
 \section{Parameters}{
-\tabular{llll}{
-   Id \tab Type \tab Default \tab Range \cr
-   sigma \tab numeric \tab 1 \tab \eqn{[0, \infty)}{[0, Inf)} \cr
+\tabular{llrll}{
+   Id \tab Type \tab Default \tab Range \tab Levels \cr
+   sigma \tab numeric \tab 1 \tab \eqn{[0, \infty)}{[0, Inf)} \tab - \cr
 }
 }
 
