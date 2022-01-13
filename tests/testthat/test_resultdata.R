@@ -23,7 +23,7 @@ test_that("results are ordered", {
   expect_equal(unique(hashes(tab$resampling)), rev(hashes(grid$resampling)))
 
   rr = resample(tsk("pima"), lrn("classif.rpart"), rsmp("holdout"))
-  rdata$combine(private(rr)$.data)
+  rdata$combine(get_private(rr)$.data)
   expect_resultdata(rdata)
   expect_equal(rdata$uhashes()[3], rr$uhash)
 
@@ -78,7 +78,11 @@ test_that("mlr3tuning use case", {
 
   scores = bmr$score()
   expect_set_equal(map_dbl(scores$learner, get_params), 1:3 / 10)
-  expect_true(all(map_lgl(scores$learner, has_state)))
+  expect_true(every(scores$learner, has_state))
+
+  learner_states = rdata$learner_states()
+  expect_list(learner_states, any.missing = FALSE, len = 3)
+  expect_set_equal(map_dbl(learner_states, function(l) l$param_vals$cp), 1:3 / 10)
 })
 
 test_that("predict set selection", {

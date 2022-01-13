@@ -87,11 +87,11 @@ test_that("integer grouping col (#396)", {
 
   set = bs$train_set(1)
   expect_integer(set)
-  expect_true(all(map_lgl(split(seq_row(df), f = df$id), function(x) all(x %in% set) || all(x %nin% set))))
+  expect_true(every(split(seq_row(df), f = df$id), function(x) all(x %in% set) || all(x %nin% set)))
 
   set = bs$test_set(1)
   expect_integer(set)
-  expect_true(all(map_lgl(split(seq_row(df), f = df$id), function(x) all(x %in% set) || all(x %nin% set))))
+  expect_true(every(split(seq_row(df), f = df$id), function(x) all(x %in% set) || all(x %nin% set)))
 })
 
 test_that("as.data.table.Resampling", {

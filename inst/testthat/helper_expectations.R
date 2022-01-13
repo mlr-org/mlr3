@@ -350,15 +350,15 @@ expect_learner = function(lrn, task = NULL) {
   expect_hash(lrn$hash)
   expect_hash(lrn$phash)
 
-  if (is.null(private(lrn)$.train)) {
+  if (is.null(mlr3misc::get_private(lrn)$.train)) {
     checkmate::expect_function(lrn$train_internal, args = "task", nargs = 1L)
   } else {
-    checkmate::expect_function(private(lrn)$.train, args = "task", nargs = 1L)
+    checkmate::expect_function(mlr3misc::get_private(lrn)$.train, args = "task", nargs = 1L)
   }
-  if (is.null(private(lrn)$.predict)) {
+  if (is.null(mlr3misc::get_private(lrn)$.predict)) {
     checkmate::expect_function(lrn$predict_internal, args = "task", nargs = 1L)
   } else {
-    checkmate::expect_function(private(lrn)$.predict, args = "task", nargs = 1L)
+    checkmate::expect_function(mlr3misc::get_private(lrn)$.predict, args = "task", nargs = 1L)
   }
   expect_hash(lrn$hash, 1L)
 
@@ -449,10 +449,10 @@ expect_measure = function(m) {
   testthat::expect_lt(m$range[1], m$range[2])
   checkmate::expect_flag(m$minimize, na.ok = TRUE)
   checkmate::expect_character(m$packages, min.chars = 1L, any.missing = FALSE, unique = TRUE)
-  if (is.null(private(m)$.score)) {
+  if (is.null(mlr3misc::get_private(m)$.score)) {
     checkmate::expect_function(m$score_internal, args = c("prediction", "..."))
   } else {
-    checkmate::expect_function(private(m)$.score, args = c("prediction", "..."))
+    checkmate::expect_function(mlr3misc::get_private(m)$.score, args = c("prediction", "..."))
   }
   checkmate::expect_function(m$aggregate, args = "rr")
 }
@@ -501,9 +501,9 @@ expect_prediction_classif = function(p, task = NULL) {
 
 expect_resample_result = function(rr, allow_incomplete = FALSE) {
   checkmate::expect_r6(rr, "ResampleResult")
-  expect_resultdata(private(rr)$.data, FALSE)
+  expect_resultdata(mlr3misc::get_private(rr)$.data, FALSE)
   testthat::expect_output(print(rr), "ResampleResult")
-  nr = private(rr)$.data$iterations()
+  nr = mlr3misc::get_private(rr)$.data$iterations()
 
   if (nr > 0L) {
     expect_task(rr$task, null_backend_ok = is.null(rr$task$backend))
@@ -538,7 +538,7 @@ expect_resample_result = function(rr, allow_incomplete = FALSE) {
 
 expect_benchmark_result = function(bmr) {
   checkmate::expect_r6(bmr, "BenchmarkResult", private = ".data")
-  expect_resultdata(private(bmr)$.data, TRUE)
+  expect_resultdata(mlr3misc::get_private(bmr)$.data, TRUE)
   testthat::expect_output(print(bmr), "BenchmarkResult")
 
   checkmate::expect_names(names(as.data.table(bmr)), permutation.of = c(mlr3::mlr_reflections$rr_names, "uhash"))
@@ -549,7 +549,7 @@ expect_benchmark_result = function(bmr) {
   expect_hash(tab$task_hash)
   expect_id(tab$task_id)
   checkmate::expect_list(tab$task, "Task")
-  checkmate::expect_set_equal(bmr$tasks$task_hash, private(bmr)$.data$data$tasks$task_hash)
+  checkmate::expect_set_equal(bmr$tasks$task_hash, mlr3misc::get_private(bmr)$.data$data$tasks$task_hash)
 
   tab = bmr$learners
   checkmate::expect_data_table(tab, ncols = 3L)
@@ -557,7 +557,7 @@ expect_benchmark_result = function(bmr) {
   expect_hash(tab$learner_hash)
   expect_id(tab$learner_id)
   checkmate::expect_list(tab$learner, "Learner")
-  checkmate::expect_set_equal(bmr$learners$learner_hash, private(bmr)$.data$data$learner_components$learner_hash)
+  checkmate::expect_set_equal(bmr$learners$learner_hash, mlr3misc::get_private(bmr)$.data$data$learner_components$learner_hash)
 
   tab = bmr$resamplings
   checkmate::expect_data_table(tab, ncols = 3L)
@@ -565,9 +565,9 @@ expect_benchmark_result = function(bmr) {
   expect_hash(tab$resampling_hash)
   expect_id(tab$resampling_id)
   checkmate::expect_list(tab$resampling, "Resampling")
-  checkmate::expect_set_equal(bmr$resamplings$resampling_hash, private(bmr)$.data$data$resamplings$resampling_hash)
+  checkmate::expect_set_equal(bmr$resamplings$resampling_hash, mlr3misc::get_private(bmr)$.data$data$resamplings$resampling_hash)
 
-  if (nrow(private(bmr)$.data$data$fact) > 0L) {
+  if (nrow(mlr3misc::get_private(bmr)$.data$data$fact) > 0L) {
     measures = mlr3::default_measures(bmr$task_type)
   } else {
     measures = mlr3::msrs("time_both")
@@ -589,8 +589,8 @@ expect_benchmark_result = function(bmr) {
   checkmate::assert_list(tab$params)
 
   uhashes = bmr$uhashes
-  expect_uhash(uhashes, len = length(private(bmr)$.data$uhashes()))
-  checkmate::expect_set_equal(uhashes, unique(private(bmr)$.data$uhashes()))
+  expect_uhash(uhashes, len = length(mlr3misc::get_private(bmr)$.data$uhashes()))
+  checkmate::expect_set_equal(uhashes, unique(mlr3misc::get_private(bmr)$.data$uhashes()))
   testthat::expect_equal(bmr$n_resample_results, length(uhashes))
 
   tab = bmr$resample_results
@@ -600,7 +600,7 @@ expect_benchmark_result = function(bmr) {
   # expect_integer(tab$iters, any.missing = FALSE, lower = 1L)
   checkmate::expect_list(tab$resample_result, types = "ResampleResult")
 
-  ni = private(bmr)$.data$iterations()
+  ni = mlr3misc::get_private(bmr)$.data$iterations()
   if (ni) {
     checkmate::expect_choice(bmr$task_type, mlr3::mlr_reflections$task_types$type, null.ok = ni == 0L)
   } else {

@@ -148,8 +148,9 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
       }
       data.table(learner = list(learner), mode = mode)
     })
+
     # null hotstart stack to reduce overhead in parallelization
-    map(hotstart_grid$learner, function(learner) {
+    walk(hotstart_grid$learner, function(learner) {
       learner$hotstart_stack = NULL
       learner
     })

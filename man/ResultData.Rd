@@ -44,6 +44,7 @@ Returns \code{NULL} if the \link{ResultData} is empty.}
 \item \href{#method-iterations}{\code{ResultData$iterations()}}
 \item \href{#method-tasks}{\code{ResultData$tasks()}}
 \item \href{#method-learners}{\code{ResultData$learners()}}
+\item \href{#method-learner_states}{\code{ResultData$learner_states()}}
 \item \href{#method-resamplings}{\code{ResultData$resamplings()}}
 \item \href{#method-predictions}{\code{ResultData$predictions()}}
 \item \href{#method-prediction}{\code{ResultData$prediction()}}
@@ -168,6 +169,26 @@ returning the learners.}
 }
 \subsection{Returns}{
 \code{data.table()} with columns \code{"learner_hash"} (\code{character()}) and \code{"learner"} (\link{Learner}).
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-learner_states"></a>}}
+\if{latex}{\out{\hypertarget{method-learner_states}{}}}
+\subsection{Method \code{learner_states()}}{
+Returns a list of states of included \link{Learner}s without reassembling the learners.
+
+@return list of \code{list()}
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ResultData$learner_states(view = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{view}}{\code{character(1)}\cr
+Single \code{uhash} to restrict the results to.}
+}
+\if{html}{\out{</div>}}
 }
 }
 \if{html}{\out{<hr>}}
