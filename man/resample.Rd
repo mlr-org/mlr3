@@ -11,7 +11,8 @@ resample(
   store_models = FALSE,
   store_backends = TRUE,
   encapsulate = NA_character_,
-  allow_hotstart = FALSE
+  allow_hotstart = FALSE,
+  clone = c("task", "learner", "resampling")
 )
 }
 \arguments{
@@ -50,6 +51,12 @@ does not already have a fallback configured.}
 \item{allow_hotstart}{(\code{logical(1)})\cr
 Determines if learner(s) are hot started with trained models in
 \verb{$hotstart_stack}. See also \link{HotstartStack}.}
+
+\item{clone}{(\code{character()})\cr
+Select the input objects to be cloned before proceeding by
+providing a set with possible values \code{"task"}, \code{"learner"} and
+\code{"resampling"} for \link{Task}, \link{Learner} and \link{Resampling}, respectively.
+Per default, all input objects are cloned.}
 }
 \value{
 \link{ResampleResult}.

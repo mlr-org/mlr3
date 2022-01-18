@@ -12,6 +12,7 @@
 #' @template param_store_backends
 #' @template param_encapsulate
 #' @template param_allow_hotstart
+#' @template param_clone
 #'
 #' @return [BenchmarkResult].
 #'
@@ -75,7 +76,8 @@
 #' ## Get the training set of the 2nd iteration of the featureless learner on penguins
 #' rr = bmr$aggregate()[learner_id == "classif.featureless"]$resample_result[[1]]
 #' rr$resampling$train_set(2)
-benchmark = function(design, store_models = FALSE, store_backends = TRUE, encapsulate = NA_character_, allow_hotstart = FALSE) {
+benchmark = function(design, store_models = FALSE, store_backends = TRUE, encapsulate = NA_character_, allow_hotstart = FALSE, clone = c("task", "learner", "resampling")) {
+  assert_subset(clone, c("task", "learner", "resampling"))
   assert_data_frame(design, min.rows = 1L)
   assert_names(names(design), permutation.of = c("task", "learner", "resampling"))
   design$task = list(assert_tasks(as_tasks(design$task)))
@@ -90,9 +92,15 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
   # clone inputs
   setDT(design)
   task = learner = resampling = NULL
-  design[, "task" := list(list(task[[1L]]$clone())), by = list(hashes(task))]
-  design[, "learner" := list(list(learner[[1L]]$clone())), by = list(hashes(learner))]
-  design[, "resampling" := list(list(resampling[[1L]]$clone())), by = list(hashes(resampling))]
+  if ("task" %in% clone) {
+    design[, "task" := list(list(task[[1L]]$clone())), by = list(hashes(task))]
+  }
+  if ("learner" %in% clone) {
+    design[, "learner" := list(list(learner[[1L]]$clone())), by = list(hashes(learner))]
+  }
+  if ("resampling" %in% clone) {
+    design[, "resampling" := list(list(resampling[[1L]]$clone())), by = list(hashes(resampling))]
+  }
 
   # set encapsulation + fallback
   set_encapsulation(design$learner, encapsulate)

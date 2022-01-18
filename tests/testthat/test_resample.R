@@ -126,3 +126,20 @@ test_that("encapsulation", {
   expect_equal(rr$learner$encapsulate[["train"]], "evaluate")
   expect_equal(rr$learner$encapsulate[["predict"]], "evaluate")
 })
+
+test_that("disable cloning", {
+  task = tsk("iris")
+  learner = lrn("classif.featureless")
+  resampling = rsmp("holdout")
+
+  rr = resample(task, learner, resampling, clone = c())
+
+  expect_same_address(task, rr$task)
+  expect_same_address(learner, get_private(rr)$.data$data$learners$learner[[1]])
+  expect_same_address(resampling, rr$resampling)
+
+  expect_identical(task$hash, rr$task$hash)
+  expect_identical(learner$hash, rr$learner$hash)
+  expect_true(resampling$is_instantiated)
+  expect_identical(resampling$hash, rr$resampling$hash)
+})
