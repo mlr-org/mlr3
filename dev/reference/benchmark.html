@@ -85,7 +85,8 @@
   store_models <span class="op">=</span> <span class="cn">FALSE</span>,
   store_backends <span class="op">=</span> <span class="cn">TRUE</span>,
   encapsulate <span class="op">=</span> <span class="cn">NA_character_</span>,
-  allow_hotstart <span class="op">=</span> <span class="cn">FALSE</span>
+  allow_hotstart <span class="op">=</span> <span class="cn">FALSE</span>,
+  clone <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"task"</span>, <span class="st">"learner"</span>, <span class="st">"resampling"</span><span class="op">)</span>
 <span class="op">)</span></code></pre></div>
     </div>
 
@@ -127,6 +128,12 @@ does not already have a fallback configured.</p></dd>
 <dd><p>(<code>logical(1)</code>)<br>
 Determines if learner(s) are hot started with trained models in
 <code>$hotstart_stack</code>. See also <a href="HotstartStack.html">HotstartStack</a>.</p></dd>
+<dt>clone</dt>
+<dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
+Select the input objects to be cloned before proceeding by
+providing a set with possible values <code>"task"</code>, <code>"learner"</code> and
+<code>"resampling"</code> for <a href="Task.html">Task</a>, <a href="Learner.html">Learner</a> and <a href="Resampling.html">Resampling</a>, respectively.
+Per default, all input objects are cloned.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -220,12 +227,12 @@ or <code>"trace"</code>:</p><div class="sourceCode"><pre><code><span class="fu">
 <span class="r-in"><span class="co">## Data of all resamplings</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html" class="external-link">as.data.table</a></span><span class="op">(</span><span class="va">bmr</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                   uhash              task</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: df1c6140-fe88-4399-bde7-c18122ac7d28 &lt;TaskClassif[49]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: df1c6140-fe88-4399-bde7-c18122ac7d28 &lt;TaskClassif[49]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: df1c6140-fe88-4399-bde7-c18122ac7d28 &lt;TaskClassif[49]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4: b0ad777c-7d3c-4924-a982-a27807f8e559 &lt;TaskClassif[49]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5: b0ad777c-7d3c-4924-a982-a27807f8e559 &lt;TaskClassif[49]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6: b0ad777c-7d3c-4924-a982-a27807f8e559 &lt;TaskClassif[49]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: d1459249-c938-4fe9-9c69-2b580eb7aa60 &lt;TaskClassif[49]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: d1459249-c938-4fe9-9c69-2b580eb7aa60 &lt;TaskClassif[49]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: d1459249-c938-4fe9-9c69-2b580eb7aa60 &lt;TaskClassif[49]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4: ad25e836-894b-4cf4-8fdc-1b4ec66fa4f3 &lt;TaskClassif[49]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5: ad25e836-894b-4cf4-8fdc-1b4ec66fa4f3 &lt;TaskClassif[49]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6: ad25e836-894b-4cf4-8fdc-1b4ec66fa4f3 &lt;TaskClassif[49]&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                            learner         resampling iteration</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: &lt;LearnerClassifFeatureless[37]&gt; &lt;ResamplingCV[19]&gt;         1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2: &lt;LearnerClassifFeatureless[37]&gt; &lt;ResamplingCV[19]&gt;         2</span>

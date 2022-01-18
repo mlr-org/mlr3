@@ -96,7 +96,8 @@ Training and test sets are defined by the <a href="Resampling.html">Resampling</
   store_models <span class="op">=</span> <span class="cn">FALSE</span>,
   store_backends <span class="op">=</span> <span class="cn">TRUE</span>,
   encapsulate <span class="op">=</span> <span class="cn">NA_character_</span>,
-  allow_hotstart <span class="op">=</span> <span class="cn">FALSE</span>
+  allow_hotstart <span class="op">=</span> <span class="cn">FALSE</span>,
+  clone <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"task"</span>, <span class="st">"learner"</span>, <span class="st">"resampling"</span><span class="op">)</span>
 <span class="op">)</span></code></pre></div>
     </div>
 
@@ -138,6 +139,12 @@ does not already have a fallback configured.</p></dd>
 <dd><p>(<code>logical(1)</code>)<br>
 Determines if learner(s) are hot started with trained models in
 <code>$hotstart_stack</code>. See also <a href="HotstartStack.html">HotstartStack</a>.</p></dd>
+<dt>clone</dt>
+<dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
+Select the input objects to be cloned before proceeding by
+providing a set with possible values <code>"task"</code>, <code>"learner"</code> and
+<code>"resampling"</code> for <a href="Task.html">Task</a>, <a href="Learner.html">Learner</a> and <a href="Resampling.html">Resampling</a>, respectively.
+Per default, all input objects are cloned.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
