@@ -5,8 +5,8 @@
 \title{Container for Benchmarking Results}
 \description{
 This is the result container object returned by \code{\link[=benchmark]{benchmark()}}.
-A \link{BenchmarkResult} consists of the data row-binded data of multiple
-\link{ResampleResult}s, which can easily be re-constructed.
+A \link{BenchmarkResult} consists of the data of multiple
+\link{ResampleResult}s.
 
 \link{BenchmarkResult}s can be visualized via \CRANpkg{mlr3viz}'s \code{autoplot()} function.
 

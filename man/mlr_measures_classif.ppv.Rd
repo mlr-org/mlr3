@@ -4,14 +4,18 @@
 \alias{mlr_measures_classif.ppv}
 \title{Positive Predictive Value}
 \description{
-Binary classification measure defined as \deqn{
+Measure to compare true observed labels with predicted
+labels
+in binary classification tasks.
+}
+\details{
+The Positive Predictive Value is defined as \deqn{
    \frac{\mathrm{TP}}{\mathrm{TP} + \mathrm{FP}}.
 }{
    TP / (TP + FP).
 }
 Also know as "precision".
-}
-\details{
+
 This measure is undefined if TP + FP = 0.
 }
 \note{

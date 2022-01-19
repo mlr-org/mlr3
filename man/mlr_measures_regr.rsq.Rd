@@ -4,7 +4,10 @@
 \alias{mlr_measures_regr.rsq}
 \title{R Squared}
 \description{
-Regression measure defined as \deqn{
+Measure to compare true observed response with predicted response in regression tasks.
+}
+\details{
+R Squared is defined as \deqn{
   1 - \frac{\sum_{i=1}^n \left( t_i - r_i \right)^2}{\sum_{i=1}^n \left( t_i - \bar{t} \right)^2}.
 }{
   1 - sum((t - r)^2) / sum((t - mean(t))^2).
@@ -12,8 +15,7 @@ Regression measure defined as \deqn{
 Also known as coefficient of determination or explained variation.
 Subtracts the \code{\link[mlr3measures:rse]{rse()}} from 1, hence it compares the squared error of
 the predictions relative to a naive model predicting the mean.
-}
-\details{
+
 This measure is undefined for constant \eqn{t}.
 }
 \note{
