@@ -28,7 +28,7 @@
 #' @export
 #' @examples
 #' extract_pkgs(lrns(c("regr.rpart", "regr.featureless")))
-install_pkgs = function(x, ...) { # nolint
+install_pkgs = function(x, ...) {
   require_namespaces("remotes")
   pkg = NULL
 
