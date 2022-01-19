@@ -5,7 +5,7 @@
 \alias{LearnerClassifFeatureless}
 \title{Featureless Classification Learner}
 \description{
-A simple \link{LearnerClassif} which only analyses the labels during train, ignoring all features.
+A simple \link{LearnerClassif} which only analyzes the labels during train, ignoring all features.
 Hyperparameter \code{method} determines the mode of operation during prediction:
 \describe{
 \item{mode:}{Predicts the most frequent label. If there are two or more labels tied, randomly selects one per prediction.}
