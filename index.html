@@ -4,7 +4,14 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="Efficient, object-oriented programming on the
+    building blocks of machine learning. Provides R6 objects for tasks,
+    learners, resamplings, and measures. The package is geared towards
+    scalability and larger datasets by supporting parallelization and
+    out-of-memory data-backends like databases. While mlr3 focuses on
+    the core computational operations, add-on packages provide additional
+    functionality.">
 <title>Machine Learning in R - Next Generation • mlr3</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
@@ -12,15 +19,14 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="apple-touch-icon-120x120.png">
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="apple-touch-icon-60x60.png">
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
-<script src="bootstrap-toc.js"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/journal/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.1/css/all.min.css" integrity="sha256-PbSmjxuVAzJ6FPvNYsrXygfGhNJYyZ2GktDbkMBqQZg=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.1/css/v4-shims.min.css" integrity="sha256-A6jcAdwFD48VMjlI3GDxUd+eCQa7/KWy6G9oe/ovaPA=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<link href="extra.css" rel="stylesheet">
-<script src="pkgdown.js"></script><!-- docsearch --><script src="docsearch.js"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous">
-<link href="docsearch.css" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script><meta property="og:title" content="Machine Learning in R - Next Generation">
+<script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet">
+<script src="deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><link href="deps/_Roboto-0.4.0/font.css" rel="stylesheet">
+<link href="deps/_JetBrains%20Mono-0.4.0/font.css" rel="stylesheet">
+<link href="deps/_Roboto%20Slab-0.4.0/font.css" rel="stylesheet">
+<!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
+<!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Machine Learning in R - Next Generation">
 <meta property="og:description" content="Efficient, object-oriented programming on the
     building blocks of machine learning. Provides R6 objects for tasks,
     learners, resamplings, and measures. The package is geared towards
@@ -28,182 +34,175 @@
     out-of-memory data-backends like databases. While mlr3 focuses on
     the core computational operations, add-on packages provide additional
     functionality.">
-<meta property="og:image" content="/logo.svg">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="https://mlr3.mlr-org.com/logo.png">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
-<body data-spy="scroll" data-target="#toc">
-    <div class="container template-home">
-      <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
+<body>
+    <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
+    
 
-      <div class="navbar-brand-container">
-        <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org"></a>
-        <a class="navbar-brand" href="index.html">mlr3 <small>v0.13.0</small></a>
-      </div>
-    </div>
-    <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav navbar-right">
-<li>
-  <a href="reference/index.html">
-    <span class="fa fa-file-alt"></span>
+    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light"><div class="container">
+    
+    <a class="navbar-brand me-2" href="index.html">mlr3</a>
+
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.13.1</small>
+
+    
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbar" class="collapse navbar-collapse ms-3">
+      <ul class="navbar-nav me-auto">
+<li class="nav-item">
+  <a class="nav-link" href="reference/index.html">
+    <span class="fa fa fa fa-file-alt"></span>
      
     Reference
   </a>
 </li>
-<li>
-  <a href="news/index.html">Changelog</a>
+<li class="nav-item">
+  <a class="nav-link" href="news/index.html">Changelog</a>
 </li>
-<li>
-  <a href="https://mlr3book.mlr-org.com">
-    <span class="fa fa-link"></span>
+<li class="nav-item">
+  <a class="external-link nav-link" href="https://mlr3book.mlr-org.com">
+    <span class="fa fa fa fa-link"></span>
      
     mlr3book
   </a>
 </li>
-        <li>
-  <a href="https://github.com/mlr-org/mlr3/">
-    <span class="fab fa-github fa-lg"></span>
+      </ul>
+<form class="form-inline my-2 my-lg-0" role="search">
+        <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="search.json" id="search-input" placeholder="Search for" autocomplete="off">
+</form>
+
+      <ul class="navbar-nav">
+<li class="nav-item">
+  <a class="external-link nav-link" href="https://github.com/mlr-org/mlr3/" aria-label="github">
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
-<li>
-  <a href="https://lmmisld-lmu-stats-slds.srv.mwn.de/mlr_invite/">
-    <span class="fa fa-comments"></span>
+<li class="nav-item">
+  <a class="external-link nav-link" href="https://lmmisld-lmu-stats-slds.srv.mwn.de/mlr_invite/">
+    <span class="fa fa fa fa-comments"></span>
      
   </a>
 </li>
-<li>
-  <a href="https://stackoverflow.com/questions/tagged/mlr3">
-    <span class="fab fa-stack-overflow"></span>
+<li class="nav-item">
+  <a class="external-link nav-link" href="https://stackoverflow.com/questions/tagged/mlr3">
+    <span class="fab fa fab fa-stack-overflow"></span>
      
   </a>
 </li>
-<li>
-  <a href="https://mlr-org.com/">
+<li class="nav-item">
+  <a class="external-link nav-link" href="https://mlr-org.com/">
     <span class="fa fa-rss"></span>
      
   </a>
 </li>
       </ul>
-<form class="navbar-form navbar-right docsearch" role="search">
-        <div class="form-group">
-          <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off">
 </div>
-      </form>
-      
-    </div>
-<!--/.nav-collapse -->
+
+    
   </div>
-<!--/.container -->
+</nav><div class="container template-home">
+<div class="row">
+  <main id="main" class="col-md-9"><div class="section level1">
+<div class="page-header">
+<img src="logo.png" class="logo" alt=""><h1 id="mlr3-">mlr3 <a class="anchor" aria-label="anchor" href="#mlr3-"></a>
+</h1>
 </div>
-<!--/.navbar -->
-
-      
-
-      </header><div class="row">
-  <div class="contents col-md-9">
-<div id="mlr3-" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#mlr3-" class="anchor"></a>mlr3 <img src="reference/figures/logo.png" align="right" width="120">
-</h1></div>
 <p>Package website: <a href="https://mlr3.mlr-org.com/">release</a> | <a href="https://mlr3.mlr-org.com/dev/">dev</a></p>
-<p>Efficient, object-oriented programming on the building blocks of machine learning. Successor of <a href="https://github.com/mlr-org/mlr">mlr</a>.</p>
+<p>Efficient, object-oriented programming on the building blocks of machine learning. Successor of <a href="https://github.com/mlr-org/mlr" class="external-link">mlr</a>.</p>
 <!-- badges: start -->
-<p><a href="https://github.com/mlr-org/mlr3/actions"><img src="https://github.com/mlr-org/mlr3/workflows/tic/badge.svg?branch=main" alt="tic"></a> <a href="https://doi.org/10.21105/joss.01903"><img src="https://joss.theoj.org/papers/10.21105/joss.01903/status.svg" alt="DOI"></a> <a href="https://cran.r-project.org/package=mlr3"><img src="https://www.r-pkg.org/badges/version-ago/mlr3" alt="CRAN Status"></a> <a href="https://stackoverflow.com/questions/tagged/mlr3"><img src="https://img.shields.io/badge/stackoverflow-mlr3-orange.svg" alt="StackOverflow"></a> <a href="https://lmmisld-lmu-stats-slds.srv.mwn.de/mlr_invite/"><img src="https://img.shields.io/badge/chat-mattermost-orange.svg" alt="Mattermost"></a> <!-- badges: end --></p>
-<div id="resources-for-users-and-developers" class="section level2">
-<h2 class="hasAnchor">
-<a href="#resources-for-users-and-developers" class="anchor"></a>Resources (for users and developers)</h2>
+
+<div class="section level2">
+<h2 id="resources-for-users-and-developers">Resources (for users and developers)<a class="anchor" aria-label="anchor" href="#resources-for-users-and-developers"></a>
+</h2>
 <ul>
-<li>We <em>started</em> writing a <a href="https://mlr3book.mlr-org.com/">book</a>. This should be the central entry point to the package.</li>
-<li>The <a href="https://mlr3gallery.mlr-org.com">mlr3gallery</a> has some case studies and demonstrates how frequently occurring problems can be solved. It is still in early days so stay tuned for more to come.</li>
+<li>We <em>started</em> writing a <a href="https://mlr3book.mlr-org.com/" class="external-link">book</a>. This should be the central entry point to the package.</li>
+<li>The <a href="https://mlr3gallery.mlr-org.com" class="external-link">mlr3gallery</a> has some case studies and demonstrates how frequently occurring problems can be solved. It is still in early days so stay tuned for more to come.</li>
 <li><a href="https://mlr3.mlr-org.com/reference/">Reference manual</a></li>
-<li><a href="https://github.com/mlr-org/mlr3/wiki/FAQ">FAQ</a></li>
-<li>Ask questions on [Stackoverflow (tag
-#mlr3)](<a href="https://stackoverflow.com/questions/tagged/mlr3" class="uri">https://stackoverflow.com/questions/tagged/mlr3</a>)</li>
+<li><a href="https://github.com/mlr-org/mlr3/wiki/FAQ" class="external-link">FAQ</a></li>
+<li>Ask questions on <a href="https://stackoverflow.com/questions/tagged/mlr3" class="external-link">Stackoverflow (tag #mlr3)</a>
+</li>
 <li>
 <strong>Extension Learners</strong>
 <ul>
-<li>Recommended core regression, classification, and survival learners are in <a href="https://github.com/mlr-org/mlr3learners">mlr3learners</a>
+<li>Recommended core regression, classification, and survival learners are in <a href="https://github.com/mlr-org/mlr3learners" class="external-link">mlr3learners</a>
 </li>
-<li>All others are in <a href="https://github.com/mlr-org/mlr3extralearners">mlr3extralearners</a>
+<li>All others are in <a href="https://github.com/mlr-org/mlr3extralearners" class="external-link">mlr3extralearners</a>
 </li>
-<li>Use the <a href="https://mlr3extralearners.mlr-org.com/articles/learners/list_learners.html">learner search</a> to get a simple overview</li>
-<li>Use the <a href="https://mlr3extralearners.mlr-org.com/articles/learners/learner_status.html">learner status</a> to see their build status</li>
+<li>Use the <a href="https://mlr3extralearners.mlr-org.com/articles/learners/list_learners.html" class="external-link">learner search</a> to get a simple overview</li>
+<li>Use the <a href="https://mlr3extralearners.mlr-org.com/articles/learners/learner_status.html" class="external-link">learner status</a> to see their build status</li>
 </ul>
 </li>
 <li>
 <strong>Cheatsheets</strong>
 <ul>
-<li><a href="https://cheatsheets.mlr-org.com">Overview of cheatsheets</a></li>
-<li><a href="https://cheatsheets.mlr-org.com/mlr3.pdf">mlr3</a></li>
-<li><a href="https://cheatsheets.mlr-org.com/mlr3tuning.pdf">mlr3tuning</a></li>
-<li><a href="https://cheatsheets.mlr-org.com/mlr3pipelines.pdf">mlr3pipelines</a></li>
+<li><a href="https://cheatsheets.mlr-org.com" class="external-link">Overview of cheatsheets</a></li>
+<li><a href="https://cheatsheets.mlr-org.com/mlr3.pdf" class="external-link">mlr3</a></li>
+<li><a href="https://cheatsheets.mlr-org.com/mlr3tuning.pdf" class="external-link">mlr3tuning</a></li>
+<li><a href="https://cheatsheets.mlr-org.com/mlr3pipelines.pdf" class="external-link">mlr3pipelines</a></li>
 </ul>
 </li>
 <li>
 <strong>Videos</strong>:
 <ul>
-<li><a href="https://www.youtube.com/watch?v=wsP2hiFnDQs">useR2019 talk on mlr3</a></li>
-<li><a href="https://www.youtube.com/watch?v=gEW5RxkbQuQ">useR2019 talk on mlr3pipelines and mlr3tuning</a></li>
-<li><a href="https://www.youtube.com/watch?v=T43hO2o_nZw">useR2020 tutorial on mlr3, mlr3tuning and mlr3pipelines</a></li>
+<li><a href="https://www.youtube.com/watch?v=wsP2hiFnDQs" class="external-link">useR2019 talk on mlr3</a></li>
+<li><a href="https://www.youtube.com/watch?v=gEW5RxkbQuQ" class="external-link">useR2019 talk on mlr3pipelines and mlr3tuning</a></li>
+<li><a href="https://www.youtube.com/watch?v=T43hO2o_nZw" class="external-link">useR2020 tutorial on mlr3, mlr3tuning and mlr3pipelines</a></li>
 </ul>
 </li>
 <li>
 <strong>Courses/Lectures</strong>
 <ul>
-<li>The course <a href="https://introduction-to-machine-learning.netlify.app/">Introduction to Machine learning (I2ML)</a> is a free and open flipped classroom course on the basics of machine learning. <code>mlr3</code> is used in the <a href="https://github.com/slds-lmu/lecture_i2ml/tree/master/code-demos-pdf">demos</a> and <a href="https://github.com/slds-lmu/lecture_i2ml/tree/master/exercises">exercises</a>.</li>
+<li>The course <a href="https://introduction-to-machine-learning.netlify.app/" class="external-link">Introduction to Machine learning (I2ML)</a> is a free and open flipped classroom course on the basics of machine learning. <code>mlr3</code> is used in the <a href="https://github.com/slds-lmu/lecture_i2ml/tree/master/code-demos-pdf" class="external-link">demos</a> and <a href="https://github.com/slds-lmu/lecture_i2ml/tree/master/exercises" class="external-link">exercises</a>.</li>
 </ul>
 </li>
 <li>
 <strong>Templates/Tutorials</strong>
 <ul>
 <li>
-<a href="https://github.com/mlr-org/mlr3-learndrake">mlr3-learndrake</a>: Shows how to use mlr3 with <a href="https://docs.ropensci.org/drake/">drake</a> for reproducible ML workflow automation.</li>
+<a href="https://github.com/mlr-org/mlr3-learndrake" class="external-link">mlr3-learndrake</a>: Shows how to use mlr3 with <a href="https://docs.ropensci.org/drake/" class="external-link">drake</a> for reproducible ML workflow automation.</li>
 </ul>
 </li>
-<li><a href="https://github.com/mlr-org/mlr3/wiki/Extension-Packages">List of extension packages</a></li>
+<li><a href="https://github.com/mlr-org/mlr3/wiki/Extension-Packages" class="external-link">List of extension packages</a></li>
 <li>
-<a href="https://github.com/mlr-org/mlr-outreach">mlr-outreach</a> contains public talks and slides resources.</li>
-<li>Our <a href="https://mlr-org.com/">blog</a> about <em>mlr</em> and <em>mlr3</em>. (We are not the most frequent bloggers ;) )</li>
+<a href="https://github.com/mlr-org/mlr-outreach" class="external-link">mlr-outreach</a> contains public talks and slides resources.</li>
+<li>Our <a href="https://mlr-org.com/" class="external-link">blog</a> about <em>mlr</em> and <em>mlr3</em>. (We are not the most frequent bloggers ;) )</li>
 <li>
-<a href="https://github.com/mlr-org/mlr3/wiki">Wiki</a>: Contains mainly information for developers.</li>
+<a href="https://github.com/mlr-org/mlr3/wiki" class="external-link">Wiki</a>: Contains mainly information for developers.</li>
 </ul>
 </div>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
 <p>Install the last release from CRAN:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"mlr3"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"mlr3"</span><span class="op">)</span></code></pre></div>
 <p>Install the development version from GitHub:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"mlr-org/mlr3"</span><span class="op">)</span></code></pre></div>
-<p>If you want to get started with <code>mlr3</code>, we recommend installing the <a href="https://mlr3verse.mlr-org.com/">mlr3verse</a> meta-package which installs <code>mlr3</code> and some of the most important extension packages:</p>
+<code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"mlr-org/mlr3"</span><span class="op">)</span></code></pre></div>
+<p>If you want to get started with <code>mlr3</code>, we recommend installing the <a href="https://mlr3verse.mlr-org.com/" class="external-link">mlr3verse</a> meta-package which installs <code>mlr3</code> and some of the most important extension packages:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"mlr3verse"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"mlr3verse"</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="example" class="section level2">
-<h2 class="hasAnchor">
-<a href="#example" class="anchor"></a>Example</h2>
-<div id="constructing-learners-and-tasks" class="section level3">
-<h3 class="hasAnchor">
-<a href="#constructing-learners-and-tasks" class="anchor"></a>Constructing Learners and Tasks</h3>
+<div class="section level2">
+<h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
+</h2>
+<div class="section level3">
+<h3 id="constructing-learners-and-tasks">Constructing Learners and Tasks<a class="anchor" aria-label="anchor" href="#constructing-learners-and-tasks"></a>
+</h3>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://mlr3.mlr-org.com">mlr3</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mlr3.mlr-org.com">mlr3</a></span><span class="op">)</span>
 
 <span class="co"># create learning task</span>
-<span class="va">task_penguins</span> <span class="op">&lt;-</span> <span class="va"><a href="reference/TaskClassif.html">TaskClassif</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>id <span class="op">=</span> <span class="st">"penguins"</span>, backend <span class="op">=</span> <span class="fu">palmerpenguins</span><span class="fu">::</span><span class="va"><a href="https://allisonhorst.github.io/palmerpenguins/reference/penguins.html">penguins</a></span>, target <span class="op">=</span> <span class="st">"species"</span><span class="op">)</span>
+<span class="va">task_penguins</span> <span class="op">&lt;-</span> <span class="va"><a href="reference/TaskClassif.html">TaskClassif</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>id <span class="op">=</span> <span class="st">"penguins"</span>, backend <span class="op">=</span> <span class="fu">palmerpenguins</span><span class="fu">::</span><span class="va"><a href="https://allisonhorst.github.io/palmerpenguins/reference/penguins.html" class="external-link">penguins</a></span>, target <span class="op">=</span> <span class="st">"species"</span><span class="op">)</span>
 <span class="va">task_penguins</span></code></pre></div>
 <div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="co">## &lt;TaskClassif:penguins&gt; (344 x 8)</span></span>
 <span id="cb5-2"><a href="#cb5-2"></a><span class="co">## * Target: species</span></span>
@@ -216,13 +215,13 @@
 <code class="sourceCode R"><span class="co"># load learner and set hyperparameter</span>
 <span class="va">learner</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/mlr_sugar.html">lrn</a></span><span class="op">(</span><span class="st">"classif.rpart"</span>, cp <span class="op">=</span> <span class="fl">.01</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="basic-train--predict" class="section level3">
-<h3 class="hasAnchor">
-<a href="#basic-train--predict" class="anchor"></a>Basic train + predict</h3>
+<div class="section level3">
+<h3 id="basic-train--predict">Basic train + predict<a class="anchor" aria-label="anchor" href="#basic-train--predict"></a>
+</h3>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># train/test split</span>
-<span class="va">train_set</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="va">task_penguins</span><span class="op">$</span><span class="va">nrow</span>, <span class="fl">0.8</span> <span class="op">*</span> <span class="va">task_penguins</span><span class="op">$</span><span class="va">nrow</span><span class="op">)</span>
-<span class="va">test_set</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sets.html">setdiff</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq_len</a></span><span class="op">(</span><span class="va">task_penguins</span><span class="op">$</span><span class="va">nrow</span><span class="op">)</span>, <span class="va">train_set</span><span class="op">)</span>
+<span class="va">train_set</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="va">task_penguins</span><span class="op">$</span><span class="va">nrow</span>, <span class="fl">0.8</span> <span class="op">*</span> <span class="va">task_penguins</span><span class="op">$</span><span class="va">nrow</span><span class="op">)</span>
+<span class="va">test_set</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sets.html" class="external-link">setdiff</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="va">task_penguins</span><span class="op">$</span><span class="va">nrow</span><span class="op">)</span>, <span class="va">train_set</span><span class="op">)</span>
 
 <span class="co"># train the model</span>
 <span class="va">learner</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task_penguins</span>, row_ids <span class="op">=</span> <span class="va">train_set</span><span class="op">)</span>
@@ -243,9 +242,9 @@
 <div class="sourceCode" id="cb10"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="co">## classif.acc </span></span>
 <span id="cb10-2"><a href="#cb10-2"></a><span class="co">##   0.9130435</span></span></code></pre></div>
 </div>
-<div id="resample" class="section level3">
-<h3 class="hasAnchor">
-<a href="#resample" class="anchor"></a>Resample</h3>
+<div class="section level3">
+<h3 id="resample">Resample<a class="anchor" aria-label="anchor" href="#resample"></a>
+</h3>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># automatic resampling</span>
 <span class="va">resampling</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/mlr_sugar.html">rsmp</a></span><span class="op">(</span><span class="st">"cv"</span>, folds <span class="op">=</span> <span class="fl">3L</span><span class="op">)</span>
@@ -269,80 +268,80 @@
 <span id="cb14-2"><a href="#cb14-2"></a><span class="co">##    0.918688</span></span></code></pre></div>
 </div>
 </div>
-<div id="extension-packages" class="section level2">
-<h2 class="hasAnchor">
-<a href="#extension-packages" class="anchor"></a>Extension Packages</h2>
-<p><a href="https://raw.githubusercontent.com/mlr-org/mlr3/main/man/figures/mlr3verse.svg?sanitize=true"><img src="reference/figures/mlr3verse.svg"></a></p>
-<p>Consult the <a href="https://github.com/mlr-org/mlr3/wiki/Extension-Packages">wiki</a> for short descriptions and links to the respective repositories.</p>
-<p>For beginners, we strongly recommend to install and load the <a href="https://mlr3verse.mlr-org.com/">mlr3verse</a> package for a better user experience.</p>
+<div class="section level2">
+<h2 id="extension-packages">Extension Packages<a class="anchor" aria-label="anchor" href="#extension-packages"></a>
+</h2>
+<p><a href="https://raw.githubusercontent.com/mlr-org/mlr3/main/man/figures/mlr3verse.svg?sanitize=true" class="external-link"><img src="reference/figures/mlr3verse.svg"></a></p>
+<p>Consult the <a href="https://github.com/mlr-org/mlr3/wiki/Extension-Packages" class="external-link">wiki</a> for short descriptions and links to the respective repositories.</p>
+<p>For beginners, we strongly recommend to install and load the <a href="https://mlr3verse.mlr-org.com/" class="external-link">mlr3verse</a> package for a better user experience.</p>
 </div>
-<div id="why-a-rewrite" class="section level2">
-<h2 class="hasAnchor">
-<a href="#why-a-rewrite" class="anchor"></a>Why a rewrite?</h2>
-<p><a href="https://github.com/mlr-org/mlr">mlr</a> was first released to <a href="https://cran.r-project.org/package=mlr">CRAN</a> in 2013. Its core design and architecture date back even further. The addition of many features has led to a <a href="https://en.wikipedia.org/wiki/Feature_creep">feature creep</a> which makes <a href="https://github.com/mlr-org/mlr">mlr</a> hard to maintain and hard to extend. We also think that while mlr was nicely extensible in some parts (learners, measures, etc.), other parts were less easy to extend from the outside. Also, many helpful R libraries did not exist at the time <a href="https://github.com/mlr-org/mlr">mlr</a> was created, and their inclusion would result in non-trivial API changes.</p>
+<div class="section level2">
+<h2 id="why-a-rewrite">Why a rewrite?<a class="anchor" aria-label="anchor" href="#why-a-rewrite"></a>
+</h2>
+<p><a href="https://github.com/mlr-org/mlr" class="external-link">mlr</a> was first released to <a href="https://cran.r-project.org/package=mlr" class="external-link">CRAN</a> in 2013. Its core design and architecture date back even further. The addition of many features has led to a <a href="https://en.wikipedia.org/wiki/Feature_creep" class="external-link">feature creep</a> which makes <a href="https://github.com/mlr-org/mlr" class="external-link">mlr</a> hard to maintain and hard to extend. We also think that while mlr was nicely extensible in some parts (learners, measures, etc.), other parts were less easy to extend from the outside. Also, many helpful R libraries did not exist at the time <a href="https://github.com/mlr-org/mlr" class="external-link">mlr</a> was created, and their inclusion would result in non-trivial API changes.</p>
 </div>
-<div id="design-principles" class="section level2">
-<h2 class="hasAnchor">
-<a href="#design-principles" class="anchor"></a>Design principles</h2>
+<div class="section level2">
+<h2 id="design-principles">Design principles<a class="anchor" aria-label="anchor" href="#design-principles"></a>
+</h2>
 <ul>
 <li>Only the basic building blocks for machine learning are implemented in this package.</li>
 <li>Focus on computation here. No visualization or other stuff. That can go in extra packages.</li>
-<li>Overcome the limitations of R’s <a href="https://adv-r.hadley.nz/s3.html">S3 classes</a> with the help of <a href="https://cran.r-project.org/package=R6">R6</a>.</li>
-<li>Embrace <a href="https://cran.r-project.org/package=R6">R6</a> for a clean OO-design, object state-changes and reference semantics. This might be less “traditional R”, but seems to fit <code>mlr</code> nicely.</li>
-<li>Embrace <a href="https://cran.r-project.org/package=data.table"><code>data.table</code></a> for fast and convenient data frame computations.</li>
+<li>Overcome the limitations of R’s <a href="https://adv-r.hadley.nz/s3.html" class="external-link">S3 classes</a> with the help of <a href="https://cran.r-project.org/package=R6" class="external-link">R6</a>.</li>
+<li>Embrace <a href="https://cran.r-project.org/package=R6" class="external-link">R6</a> for a clean OO-design, object state-changes and reference semantics. This might be less “traditional R”, but seems to fit <code>mlr</code> nicely.</li>
+<li>Embrace <a href="https://cran.r-project.org/package=data.table" class="external-link"><code>data.table</code></a> for fast and convenient data frame computations.</li>
 <li>Combine <code>data.table</code> and <code>R6</code>, for this we will make heavy use of list columns in data.tables.</li>
-<li>Defensive programming and type safety. All user input is checked with <a href="https://cran.r-project.org/package=checkmate"><code>checkmate</code></a>. Return types are documented, and mechanisms popular in base R which “simplify” the result unpredictably (e.g., <code><a href="https://rdrr.io/r/base/lapply.html">sapply()</a></code> or <code>drop</code> argument in <code>[.data.frame</code>) are avoided.</li>
+<li>Defensive programming and type safety. All user input is checked with <a href="https://cran.r-project.org/package=checkmate" class="external-link"><code>checkmate</code></a>. Return types are documented, and mechanisms popular in base R which “simplify” the result unpredictably (e.g., <code><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply()</a></code> or <code>drop</code> argument in <code>[.data.frame</code>) are avoided.</li>
 <li>Be light on dependencies. <code>mlr3</code> requires the following packages at runtime:
 <ul>
 <li>
-<a href="https://cran.r-project.org/package=parallelly"><code>parallelly</code></a>: Helper functions for parallelization. No extra recursive dependencies.</li>
+<a href="https://cran.r-project.org/package=parallelly" class="external-link"><code>parallelly</code></a>: Helper functions for parallelization. No extra recursive dependencies.</li>
 <li>
-<a href="https://cran.r-project.org/package=future.apply"><code>future.apply</code></a>: Resampling and benchmarking is parallelized with the <a href="https://cran.r-project.org/package=future"><code>future</code></a> abstraction interfacing many parallel backends.</li>
+<a href="https://cran.r-project.org/package=future.apply" class="external-link"><code>future.apply</code></a>: Resampling and benchmarking is parallelized with the <a href="https://cran.r-project.org/package=future" class="external-link"><code>future</code></a> abstraction interfacing many parallel backends.</li>
 <li>
-<a href="https://cran.r-project.org/package=backports"><code>backports</code></a>: Ensures backward compatibility with older R releases. Developed by members of the <code>mlr</code> team. No recursive dependencies.</li>
+<a href="https://cran.r-project.org/package=backports" class="external-link"><code>backports</code></a>: Ensures backward compatibility with older R releases. Developed by members of the <code>mlr</code> team. No recursive dependencies.</li>
 <li>
-<a href="https://cran.r-project.org/package=checkmate"><code>checkmate</code></a>: Fast argument checks. Developed by members of the <code>mlr</code> team. No extra recursive dependencies.</li>
+<a href="https://cran.r-project.org/package=checkmate" class="external-link"><code>checkmate</code></a>: Fast argument checks. Developed by members of the <code>mlr</code> team. No extra recursive dependencies.</li>
 <li>
-<a href="https://cran.r-project.org/package=mlr3misc"><code>mlr3misc</code></a>: Miscellaneous functions used in multiple mlr3 <a href="https://github.com/mlr-org/mlr3/wiki/Extension-Packages">extension packages</a>. Developed by the <code>mlr</code> team.</li>
+<a href="https://cran.r-project.org/package=mlr3misc" class="external-link"><code>mlr3misc</code></a>: Miscellaneous functions used in multiple mlr3 <a href="https://github.com/mlr-org/mlr3/wiki/Extension-Packages" class="external-link">extension packages</a>. Developed by the <code>mlr</code> team.</li>
 <li>
-<a href="https://cran.r-project.org/package=paradox"><code>paradox</code></a>: Descriptions for parameters and parameter sets. Developed by the <code>mlr</code> team. No extra recursive dependencies.</li>
+<a href="https://cran.r-project.org/package=paradox" class="external-link"><code>paradox</code></a>: Descriptions for parameters and parameter sets. Developed by the <code>mlr</code> team. No extra recursive dependencies.</li>
 <li>
-<a href="https://cran.r-project.org/package=R6"><code>R6</code></a>: Reference class objects. No recursive dependencies.</li>
+<a href="https://cran.r-project.org/package=R6" class="external-link"><code>R6</code></a>: Reference class objects. No recursive dependencies.</li>
 <li>
-<a href="https://cran.r-project.org/package=data.table"><code>data.table</code></a>: Extension of R’s <code>data.frame</code>. No recursive dependencies.</li>
+<a href="https://cran.r-project.org/package=data.table" class="external-link"><code>data.table</code></a>: Extension of R’s <code>data.frame</code>. No recursive dependencies.</li>
 <li>
-<a href="https://cran.r-project.org/package=digest"><code>digest</code></a> (via <code>mlr3misc</code>): Hash digests. No recursive dependencies.</li>
+<a href="https://cran.r-project.org/package=digest" class="external-link"><code>digest</code></a> (via <code>mlr3misc</code>): Hash digests. No recursive dependencies.</li>
 <li>
-<a href="https://cran.r-project.org/package=uuid"><code>uuid</code></a>: Create unique string identifiers. No recursive dependencies.</li>
+<a href="https://cran.r-project.org/package=uuid" class="external-link"><code>uuid</code></a>: Create unique string identifiers. No recursive dependencies.</li>
 <li>
-<a href="https://cran.r-project.org/package=lgr"><code>lgr</code></a>: Logging facility. No extra recursive dependencies.</li>
+<a href="https://cran.r-project.org/package=lgr" class="external-link"><code>lgr</code></a>: Logging facility. No extra recursive dependencies.</li>
 <li>
-<a href="https://cran.r-project.org/package=mlr3measures"><code>mlr3measures</code></a>: Performance measures. No extra recursive dependencies.</li>
+<a href="https://cran.r-project.org/package=mlr3measures" class="external-link"><code>mlr3measures</code></a>: Performance measures. No extra recursive dependencies.</li>
 <li>
-<a href="https://cran.r-project.org/package=mlbench"><code>mlbench</code></a>: A collection of machine learning data sets. No dependencies.</li>
+<a href="https://cran.r-project.org/package=mlbench" class="external-link"><code>mlbench</code></a>: A collection of machine learning data sets. No dependencies.</li>
 <li>
-<a href="https://cran.r-project.org/package=palmerpenguins"><code>palmerpenguins</code></a>: A classification data set about penguins, used on examples and provided as a toy task. No dependencies.</li>
+<a href="https://cran.r-project.org/package=palmerpenguins" class="external-link"><code>palmerpenguins</code></a>: A classification data set about penguins, used on examples and provided as a toy task. No dependencies.</li>
 </ul>
 </li>
 <li>
-<a href="https://en.wikipedia.org/wiki/Reflection_%28computer_programming%29">Reflections</a>: Objects are queryable for properties and capabilities, allowing you to program on them.</li>
+<a href="https://en.wikipedia.org/wiki/Reflection_%28computer_programming%29" class="external-link">Reflections</a>: Objects are queryable for properties and capabilities, allowing you to program on them.</li>
 <li>Additional functionality that comes with extra dependencies:
 <ul>
-<li>To capture output, warnings and exceptions, <a href="https://cran.r-project.org/package=evaluate"><code>evaluate</code></a> and <a href="https://cran.r-project.org/package=callr"><code>callr</code></a> can be used.</li>
+<li>To capture output, warnings and exceptions, <a href="https://cran.r-project.org/package=evaluate" class="external-link"><code>evaluate</code></a> and <a href="https://cran.r-project.org/package=callr" class="external-link"><code>callr</code></a> can be used.</li>
 </ul>
 </li>
 </ul>
 </div>
-<div id="contributing-to-mlr3" class="section level2">
-<h2 class="hasAnchor">
-<a href="#contributing-to-mlr3" class="anchor"></a>Contributing to mlr3</h2>
-<p>This R package is licensed under the <a href="https://www.gnu.org/licenses/lgpl-3.0.en.html">LGPL-3</a>. If you encounter problems using this software (lack of documentation, misleading or wrong documentation, unexpected behavior, bugs, …) or just want to suggest features, please open an issue in the <a href="https://github.com/mlr-org/mlr3/issues">issue tracker</a>. Pull requests are welcome and will be included at the discretion of the maintainers.</p>
-<p>Please consult the <a href="https://github.com/mlr-org/mlr3/wiki/">wiki</a> for a <a href="https://github.com/mlr-org/mlr3/wiki/Style-Guide">style guide</a>, a <a href="https://github.com/mlr-org/mlr3/wiki/Roxygen-Guide">roxygen guide</a> and a <a href="https://github.com/mlr-org/mlr3/wiki/PR-Guidelines">pull request guide</a>.</p>
+<div class="section level2">
+<h2 id="contributing-to-mlr3">Contributing to mlr3<a class="anchor" aria-label="anchor" href="#contributing-to-mlr3"></a>
+</h2>
+<p>This R package is licensed under the <a href="https://www.gnu.org/licenses/lgpl-3.0.en.html" class="external-link">LGPL-3</a>. If you encounter problems using this software (lack of documentation, misleading or wrong documentation, unexpected behavior, bugs, …) or just want to suggest features, please open an issue in the <a href="https://github.com/mlr-org/mlr3/issues" class="external-link">issue tracker</a>. Pull requests are welcome and will be included at the discretion of the maintainers.</p>
+<p>Please consult the <a href="https://github.com/mlr-org/mlr3/wiki/" class="external-link">wiki</a> for a <a href="https://github.com/mlr-org/mlr3/wiki/Style-Guide" class="external-link">style guide</a>, a <a href="https://github.com/mlr-org/mlr3/wiki/Roxygen-Guide" class="external-link">roxygen guide</a> and a <a href="https://github.com/mlr-org/mlr3/wiki/PR-Guidelines" class="external-link">pull request guide</a>.</p>
 </div>
-<div id="citing-mlr3" class="section level2">
-<h2 class="hasAnchor">
-<a href="#citing-mlr3" class="anchor"></a>Citing mlr3</h2>
-<p>If you use mlr3, please cite our <a href="https://doi.org/10.21105/joss.01903">JOSS article</a>:</p>
+<div class="section level2">
+<h2 id="citing-mlr3">Citing mlr3<a class="anchor" aria-label="anchor" href="#citing-mlr3"></a>
+</h2>
+<p>If you use mlr3, please cite our <a href="https://doi.org/10.21105/joss.01903" class="external-link">JOSS article</a>:</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="op">@</span>Article{mlr3,</span>
 <span id="cb15-2"><a href="#cb15-2"></a>  title =<span class="st"> </span>{{mlr3}<span class="op">:</span><span class="st"> </span>A modern object<span class="op">-</span>oriented machine learning framework <span class="cf">in</span> {R}},</span>
 <span id="cb15-3"><a href="#cb15-3"></a>  author =<span class="st"> </span>{Michel Lang and Martin Binder and Jakob Richter and Patrick Schratz and Florian Pfisterer and Stefan Coors and Quay Au and Giuseppe Casalicchio and Lars Kotthoff and Bernd Bischl},</span>
@@ -354,74 +353,73 @@
 <span id="cb15-9"><a href="#cb15-9"></a>}</span></code></pre></div>
 </div>
 </div>
-  </div>
-
-  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-    <div class="links">
-<h2>Links</h2>
+  </main><aside class="col-md-3"><div class="links">
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=mlr3">https://​cloud.r-project.org/​package=mlr3</a>
-</li>
-<li>Browse source code at <br><a href="https://github.com/mlr-org/mlr3/">https://​github.com/​mlr-org/​mlr3/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/mlr-org/mlr3/issues">https://​github.com/​mlr-org/​mlr3/​issues</a>
-</li>
+<li><a href="https://cloud.r-project.org/package=mlr3" class="external-link">View on CRAN</a></li>
+<li><a href="https://github.com/mlr-org/mlr3/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/mlr-org/mlr3/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
+
 <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
-<li><a href="https://www.r-project.org/Licenses/LGPL-3">LGPL-3</a></li>
+<li><a href="https://www.r-project.org/Licenses/LGPL-3" class="external-link">LGPL-3</a></li>
 </ul>
 </div>
+
+
 <div class="citation">
-<h2>Citation</h2>
+<h2 data-toc-skip>Citation</h2>
 <ul class="list-unstyled">
-<li><a href="authors.html">Citing mlr3</a></li>
+<li><a href="authors.html#citation">Citing mlr3</a></li>
 </ul>
 </div>
+
 <div class="developers">
-<h2>Developers</h2>
+<h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li>Michel Lang <br><small class="roles"> Maintainer, author </small> <a href="https://orcid.org/0000-0001-9754-0393" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>Bernd Bischl <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0001-6002-6980" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>Jakob Richter <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0003-4481-5554" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>Patrick Schratz <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0003-0748-6624" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Michel Lang <br><small class="roles"> Maintainer, author </small> <a href="https://orcid.org/0000-0001-9754-0393" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Bernd Bischl <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0001-6002-6980" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Jakob Richter <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0003-4481-5554" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Patrick Schratz <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0003-0748-6624" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 <li>Martin Binder <br><small class="roles"> Author </small>  </li>
-<li><a href="authors.html">All authors...</a></li>
+<li><a href="authors.html">More about authors...</a></li>
 </ul>
 </div>
 
-  </div>
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://github.com/mlr-org/mlr3/actions" class="external-link"><img src="https://github.com/mlr-org/mlr3/workflows/tic/badge.svg?branch=main" alt="tic"></a></li>
+<li><a href="https://doi.org/10.21105/joss.01903" class="external-link"><img src="https://joss.theoj.org/papers/10.21105/joss.01903/status.svg" alt="DOI"></a></li>
+<li><a href="https://cran.r-project.org/package=mlr3" class="external-link"><img src="https://www.r-pkg.org/badges/version-ago/mlr3" alt="CRAN Status"></a></li>
+<li><a href="https://stackoverflow.com/questions/tagged/mlr3" class="external-link"><img src="https://img.shields.io/badge/stackoverflow-mlr3-orange.svg" alt="StackOverflow"></a></li>
+<li><a href="https://lmmisld-lmu-stats-slds.srv.mwn.de/mlr_invite/" class="external-link"><img src="https://img.shields.io/badge/chat-mattermost-orange.svg" alt="Mattermost"></a></li>
+</ul>
+</div>
+
+  </aside>
 </div>
 
 
-      <footer><div class="copyright">
-  <p>Developed by Michel Lang, Bernd Bischl, Jakob Richter, Patrick Schratz, Martin Binder.</p>
+    <footer><div class="pkgdown-footer-left">
+  <p></p>
+<p>Developed by Michel Lang, Bernd Bischl, Jakob Richter, Patrick Schratz, Martin Binder.</p>
 </div>
 
-<div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+<div class="pkgdown-footer-right">
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
-      </footer>
+    </footer>
 </div>
 
   
-<script src="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.js" integrity="sha256-GKvGqXDznoRYHCwKXGnuchvKSwmx9SRMrZOTh2g4Sb0=" crossorigin="anonymous"></script><script>
-  docsearch({
-    
-    
-    apiKey: '9c3abd63d461245fb19ebd2d2645c5b0',
-    indexName: 'mlr3',
-    inputSelector: 'input#search-input.form-control',
-    transformData: function(hits) {
-      return hits.map(function (hit) {
-        hit.url = updateHitURL(hit);
-        return hit;
-      });
-    }
-  });
-</script>
-</body>
+
+  
+
+  </body>
 </html>
