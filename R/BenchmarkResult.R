@@ -4,8 +4,8 @@
 #'
 #' @description
 #' This is the result container object returned by [benchmark()].
-#' A [BenchmarkResult] consists of the data row-binded data of multiple
-#' [ResampleResult]s, which can easily be re-constructed.
+#' A [BenchmarkResult] consists of the data of multiple
+#' [ResampleResult]s.
 #'
 #' [BenchmarkResult]s can be visualized via \CRANpkg{mlr3viz}'s `autoplot()` function.
 #'

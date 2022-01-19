@@ -4,7 +4,12 @@
 \alias{mlr_measures_classif.tn}
 \title{True Negatives}
 \description{
-Classification measure counting the true negatives, i.e. the number of
+Measure to compare true observed labels with predicted
+labels
+in binary classification tasks.
+}
+\details{
+This measure counts the true negatives, i.e. the number of
 predictions correctly indicating a negative class label.
 }
 \note{

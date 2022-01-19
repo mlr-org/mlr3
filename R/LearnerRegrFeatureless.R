@@ -4,7 +4,7 @@
 #' @include LearnerRegr.R
 #'
 #' @description
-#' A simple [LearnerRegr] which only analyses the response during train, ignoring all features.
+#' A simple [LearnerRegr] which only analyzes the response during train, ignoring all features.
 #' If hyperparameter `robust` is `FALSE` (default), constantly predicts `mean(y)` as response
 #' and `sd(y)` as standard error.
 #' If `robust` is `TRUE`, [median()] and [mad()] are used instead of [mean()] and [sd()],
