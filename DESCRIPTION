@@ -67,7 +67,7 @@ Imports:
     future.apply (>= 1.5.0),
     lgr (>= 0.3.4),
     mlbench,
-    mlr3measures (>= 0.4.0),
+    mlr3measures (>= 0.4.1),
     mlr3misc (>= 0.10.0),
     parallelly,
     palmerpenguins,
