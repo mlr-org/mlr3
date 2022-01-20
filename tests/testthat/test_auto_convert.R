@@ -243,4 +243,11 @@ test_that("POSIXct", {
     auto_convert("2020-01-20 10:00:00", "x", "POSIXct", character()),
     as.POSIXct("2020-01-20 10:00:00", "")
   )
+
+  expect_date(auto_convert(Sys.time(), "x", "Date", character()))
+})
+
+
+test_that("Date", {
+  expect_date(auto_convert("2021-04-21", "x", "Date", character()))
 })
