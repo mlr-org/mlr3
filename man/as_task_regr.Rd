@@ -6,6 +6,7 @@
 \alias{as_task_regr.data.frame}
 \alias{as_task_regr.DataBackend}
 \alias{as_task_regr.TaskClassif}
+\alias{as_task_regr.formula}
 \title{Convert to a Regression Task}
 \usage{
 as_task_regr(x, ...)
@@ -23,6 +24,8 @@ as_task_regr(x, ...)
   drop_levels = TRUE,
   ...
 )
+
+\method{as_task_regr}{formula}(x, data, id = NULL, ...)
 }
 \arguments{
 \item{x}{(any)\cr
@@ -39,7 +42,7 @@ Name of the target column.}
 
 \item{id}{(\code{character(1)})\cr
 Id for the new task.
-Defaults to the (deparsed and substituted) name of \code{x}.}
+Defaults to the (deparsed and substituted) name of \code{data}.}
 
 \item{drop_original_target}{(\code{logical(1)})\cr
 If \code{FALSE} (default), the original target is added as a feature.
@@ -47,6 +50,9 @@ Otherwise the original target is dropped.}
 
 \item{drop_levels}{(\code{logical(1)})\cr
 If \code{TRUE} (default), unused levels of the new target variable are dropped.}
+
+\item{data}{(\code{data.frame()})\cr
+The input \code{\link[=data.frame]{data.frame()}}.}
 }
 \value{
 \link{TaskRegr}.
@@ -56,7 +62,7 @@ Convert object to a \link{TaskRegr}.
 This is a S3 generic, specialized for at least the following objects:
 \enumerate{
 \item \link{TaskRegr}: ensure the identity
-\item \code{\link[=data.frame]{data.frame()}} and \link{DataBackend}: provides an alternative to the constructor of \link{TaskRegr}.
+\item \link{formula}, \code{\link[=data.frame]{data.frame()}} and \link{DataBackend}: provides an alternative to the constructor of \link{TaskRegr}.
 \item \link{TaskClassif}: Calls \code{\link[=convert_task]{convert_task()}}.
 }
 }
