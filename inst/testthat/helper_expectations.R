@@ -344,8 +344,8 @@ expect_learner = function(lrn, task = NULL) {
 
   checkmate::expect_character(lrn$predict_types, any.missing = FALSE, min.chars = 1L, unique = TRUE)
   checkmate::expect_choice(lrn$predict_type, lrn$predict_types)
-  checkmate::expect_subset(lrn$feature_types, mlr_reflections$task_feature_types, empty.ok = FALSE)
-  checkmate::expect_subset(lrn$data_formats, mlr_reflections$data_formats, empty.ok = FALSE)
+  checkmate::expect_subset(lrn$feature_types, mlr3::mlr_reflections$task_feature_types, empty.ok = FALSE)
+  checkmate::expect_subset(lrn$data_formats, mlr3::mlr_reflections$data_formats, empty.ok = FALSE)
 
   expect_hash(lrn$hash)
   expect_hash(lrn$phash)
