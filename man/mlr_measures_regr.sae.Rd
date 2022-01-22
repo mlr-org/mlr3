@@ -4,7 +4,10 @@
 \alias{mlr_measures_regr.sae}
 \title{Sum of Absolute Errors}
 \description{
-Regression measure defined as \deqn{
+Measure to compare true observed response with predicted response in regression tasks.
+}
+\details{
+The Sum of Absolute Errors is defined as \deqn{
   \sum_{i=1}^n \left| t_i - r_i \right|.
 }{
   sum(abs((t - r))).

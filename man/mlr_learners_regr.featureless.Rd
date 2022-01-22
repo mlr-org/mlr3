@@ -5,7 +5,7 @@
 \alias{LearnerRegrFeatureless}
 \title{Featureless Regression Learner}
 \description{
-A simple \link{LearnerRegr} which only analyses the response during train, ignoring all features.
+A simple \link{LearnerRegr} which only analyzes the response during train, ignoring all features.
 If hyperparameter \code{robust} is \code{FALSE} (default), constantly predicts \code{mean(y)} as response
 and \code{sd(y)} as standard error.
 If \code{robust} is \code{TRUE}, \code{\link[=median]{median()}} and \code{\link[=mad]{mad()}} are used instead of \code{\link[=mean]{mean()}} and \code{\link[=sd]{sd()}},

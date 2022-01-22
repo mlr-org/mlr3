@@ -4,7 +4,10 @@
 \alias{mlr_measures_regr.mse}
 \title{Mean Squared Error}
 \description{
-Regression measure defined as \deqn{
+Measure to compare true observed response with predicted response in regression tasks.
+}
+\details{
+The Mean Squared Error is defined as \deqn{
   \frac{1}{n} w_i \sum_{i=1}^n \left( t_i - r_i \right)^2.
 }{
   weighted.mean((t - r)^2, w).

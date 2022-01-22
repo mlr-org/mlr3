@@ -4,13 +4,17 @@
 \alias{mlr_measures_classif.fomr}
 \title{False Omission Rate}
 \description{
-Binary classification measure defined as \deqn{
+Measure to compare true observed labels with predicted
+labels
+in binary classification tasks.
+}
+\details{
+The False Omission Rate is defined as \deqn{
    \frac{\mathrm{FN}}{\mathrm{FN} + \mathrm{TN}}.
 }{
    FN / (FN + TN).
 }
-}
-\details{
+
 This measure is undefined if FN + TN = 0.
 }
 \note{
