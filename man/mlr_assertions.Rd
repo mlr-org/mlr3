@@ -40,6 +40,7 @@ assert_tasks(
 assert_learner(
   learner,
   task = NULL,
+  task_type = NULL,
   properties = character(),
   .var.name = vname(learner)
 )
@@ -47,6 +48,7 @@ assert_learner(
 assert_learners(
   learners,
   task = NULL,
+  task_type = NULL,
   properties = character(),
   .var.name = vname(learners)
 )
@@ -93,6 +95,8 @@ assert_row_ids(row_ids, null.ok = FALSE, .var.name = vname(row_ids))
 \item{b}{(\link{DataBackend}).}
 
 \item{task}{(\link{Task}).}
+
+\item{task_type}{(\code{character(1)}).}
 
 \item{feature_types}{(\code{character()})\cr
 Feature types the learner operates on. Must be a subset of \code{\link[=mlr_reflections]{mlr_reflections$task_feature_types}}.}
