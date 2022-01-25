@@ -155,7 +155,6 @@ Learner = R6Class("Learner",
       self$id = assert_string(id, min.chars = 1L)
       self$task_type = assert_choice(task_type, mlr_reflections$task_types$type)
       private$.param_set = assert_param_set(param_set)
-      private$.encapsulate = c(train = "none", predict = "none")
       self$feature_types = assert_subset(feature_types, mlr_reflections$task_feature_types)
       self$predict_types = assert_subset(predict_types, names(mlr_reflections$learner_predict_types[[task_type]]), empty.ok = FALSE)
       private$.predict_type = predict_types[1L]
@@ -454,12 +453,15 @@ Learner = R6Class("Learner",
     #' Possible values are `"none"`, `"evaluate"` (requires package \CRANpkg{evaluate}) and `"callr"` (requires package \CRANpkg{callr}).
     #' See [mlr3misc::encapsulate()] for more details.
     encapsulate = function(rhs) {
+      default = c(train = "none", predict = "none")
+
       if (missing(rhs)) {
-        return(private$.encapsulate)
+        return(insert_named(default, private$.encapsulate))
       }
+
       assert_character(rhs)
       assert_names(names(rhs), subset.of = c("train", "predict"))
-      private$.encapsulate = insert_named(c(train = "none", predict = "none"), rhs)
+      private$.encapsulate = insert_named(default, rhs)
     },
 
     #' @field fallback ([Learner])\cr
