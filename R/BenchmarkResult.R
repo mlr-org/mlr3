@@ -461,7 +461,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
       create_rr = function(view) {
         if (length(view)) ResampleResult$new(private$.data, view = copy(view)) else list()
       }
-      tab = rdata$fact[rdata$uhashes, list(
+      rdata$fact[rdata$uhashes, list(
         nr = .GRP,
         resample_result = list(create_rr(.BY[[1L]]))
       ), by = "uhash"]
