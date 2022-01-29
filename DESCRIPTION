@@ -192,6 +192,7 @@ Collate:
     'benchmark_grid.R'
     'bibentries.R'
     'default_measures.R'
+    'default_values.R'
     'fix_factor_levels.R'
     'helper.R'
     'helper_data_table.R'
