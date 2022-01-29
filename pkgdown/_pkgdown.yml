@@ -76,6 +76,7 @@ reference:
       - starts_with("mlr_learners")
       - as_learner
       - HotstartStack
+      - default_values
   - title: Measures
     contents:
       - starts_with("mlr_measures")
