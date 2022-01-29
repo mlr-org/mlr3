@@ -9,6 +9,8 @@
 #'   Learner hyperparameter values are subsetted to hyperparameters in search space.
 #' @param task ([Task])\cr
 #'   Task to train the learner on.
+#' @param ... (any)\cr
+#'   Additional arguments.
 #'
 #' @return `list()`.
 #' @export
