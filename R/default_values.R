@@ -5,7 +5,7 @@
 #'
 #' @param x ([Learner])\cr
 #'   Learner to extract hyperparameter default values from.
-#' @param search_search ([paradox::ParamSet])\cr
+#' @param search_space ([paradox::ParamSet])\cr
 #'   Learner hyperparameter values are subsetted to hyperparameters in search space.
 #' @param task ([Task])\cr
 #'   Task to train the learner on.

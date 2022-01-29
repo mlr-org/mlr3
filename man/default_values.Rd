@@ -16,11 +16,14 @@ default_values(x, search_space, task, ...)
 \item{x}{(\link{Learner})\cr
 Learner to extract hyperparameter default values from.}
 
+\item{search_space}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
+Learner hyperparameter values are subsetted to hyperparameters in search space.}
+
 \item{task}{(\link{Task})\cr
 Task to train the learner on.}
 
-\item{search_search}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
-Learner hyperparameter values are subsetted to hyperparameters in search space.}
+\item{...}{(any)\cr
+Additional arguments.}
 }
 \value{
 \code{list()}.
