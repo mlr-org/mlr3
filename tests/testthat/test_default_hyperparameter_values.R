@@ -12,7 +12,7 @@ test_that("default_values works with empty search space", {
   expect_list(default_values(learner, ps(), task), len = 0)
 })
 
-testthat("default_values on rpart", {
+test_that("default_values on rpart", {
   learner = lrn("classif.rpart")
   search_space = ps(
     minsplit = p_int(2, 128, logscale = TRUE),
