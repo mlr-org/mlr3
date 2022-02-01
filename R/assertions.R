@@ -67,9 +67,15 @@ assert_tasks = function(tasks, task_type = NULL, feature_types = NULL, task_prop
 
 #' @export
 #' @param learner ([Learner]).
+#' @param task_type (`character(1)`).
 #' @rdname mlr_assertions
-assert_learner = function(learner, task = NULL, properties = character(), .var.name = vname(learner)) {
+assert_learner = function(learner, task = NULL, task_type = NULL, properties = character(), .var.name = vname(learner)) {
   assert_class(learner, "Learner", .var.name = .var.name)
+
+  task_type = task_type %??% task$task_type
+  if (!is.null(task_type) && task_type != learner$task_type) {
+    stopf("Learner '%s' must have task type '%s'", learner$id, task_type)
+  }
 
   if (length(properties)) {
     miss = setdiff(properties, learner$properties)
@@ -85,8 +91,8 @@ assert_learner = function(learner, task = NULL, properties = character(), .var.n
 #' @export
 #' @param learners (list of [Learner]).
 #' @rdname mlr_assertions
-assert_learners = function(learners, task = NULL, properties = character(), .var.name = vname(learners)) {
-  invisible(lapply(learners, assert_learner, task = task, properties = properties, .var.name = .var.name))
+assert_learners = function(learners, task = NULL, task_type = NULL, properties = character(), .var.name = vname(learners)) {
+  invisible(lapply(learners, assert_learner, task = task, task_type = NULL, properties = properties, .var.name = .var.name))
 }
 
 assert_task_learner = function(task, learner, cols = NULL) {

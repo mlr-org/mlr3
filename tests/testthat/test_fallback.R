@@ -52,7 +52,8 @@ test_that("fail during resample", {
 
 test_that("incomplete predictions", {
   task = tsk("iris")
-  learner = lrn("classif.debug", predict_type = "prob", predict_missing = 0.5, fallback = lrn("classif.featureless"))
+  learner = lrn("classif.debug", predict_type = "prob", predict_missing = 0.5,
+    fallback = lrn("classif.featureless", predict_type = "prob"))
 
   learner$train(task)
   p = learner$predict(task)

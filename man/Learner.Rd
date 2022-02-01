@@ -163,11 +163,6 @@ This works differently for different encapsulation methods, see
 Default is \code{c(train = Inf, predict = Inf)}.
 Also see the section on error handling the mlr3book: \url{https://mlr3book.mlr-org.com/technical.html#error-handling}}
 
-\item{\code{fallback}}{(\link{Learner})\cr
-Learner which is fitted to impute predictions in case that either the model fitting or the prediction of the top learner is not successful.
-Requires you to enable encapsulation, otherwise errors are not caught and the execution is terminated before the fallback learner kicks in.
-Also see the section on error handling the mlr3book: \url{https://mlr3book.mlr-org.com/technical.html#error-handling}}
-
 \item{\code{man}}{(\code{character(1)})\cr
 String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
 Defaults to \code{NA}, but can be set by child classes.}
@@ -218,6 +213,13 @@ Controls how to execute the code in internal train and predict methods.
 Must be a named character vector with names \code{"train"} and \code{"predict"}.
 Possible values are \code{"none"}, \code{"evaluate"} (requires package \CRANpkg{evaluate}) and \code{"callr"} (requires package \CRANpkg{callr}).
 See \code{\link[mlr3misc:encapsulate]{mlr3misc::encapsulate()}} for more details.}
+
+\item{\code{fallback}}{(\link{Learner})\cr
+Learner which is fitted to impute predictions in case that either the model fitting or the prediction of the top learner is not successful.
+Requires encapsulation, otherwise errors are not caught and the execution is terminated before the fallback learner kicks in.
+If you have not set encapsulation manually before, setting the fallback learner automatically
+activates encapsulation using the \CRANpkg{evaluate} package.
+Also see the section on error handling the mlr3book: \url{https://mlr3book.mlr-org.com/technical.html#error-handling}}
 
 \item{\code{hotstart_stack}}{(\link{HotstartStack})\cr.
 Stores \code{HotstartStack}.}
