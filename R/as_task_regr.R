@@ -5,7 +5,7 @@
 #' This is a S3 generic, specialized for at least the following objects:
 #'
 #' 1. [TaskRegr]: ensure the identity
-#' 2. [data.frame()] and [DataBackend]: provides an alternative to the constructor of [TaskRegr].
+#' 2. [formula], [data.frame()] and [DataBackend]: provides an alternative to the constructor of [TaskRegr].
 #' 3. [TaskClassif]: Calls [convert_task()].
 #'
 #' @inheritParams as_task
@@ -54,4 +54,20 @@ as_task_regr.DataBackend = function(x, target, id = deparse(substitute(x)), ...)
 #' @export
 as_task_regr.TaskClassif = function(x, target = NULL, drop_original_target = FALSE, drop_levels = TRUE, ...) { # nolint
   convert_task(intask = x, target = target, new_type = "regr", drop_original_target = FALSE, drop_levels = TRUE)
+}
+
+#' @rdname as_task_regr
+#' @param data (`data.frame()`)\cr
+#'   The input [data.frame()].
+#' @param id (`character(1)`)\cr
+#'   Id for the new task.
+#'   Defaults to the (deparsed and substituted) name of `data`.
+#' @export
+as_task_regr.formula = function(x, data, id = NULL, ...) {
+    id = id %??% deparse(substitute(data))
+    assert_subset(all.vars(x), c(names(data), "."), .var.name = "formula")
+    if (!attributes(terms(x, data = data))$response) stopf("Formula %s is missing a response", format(x))
+    data = model.frame(x, data)
+
+    TaskRegr$new(id = id, backend = data, target = all.vars(x)[1])
 }

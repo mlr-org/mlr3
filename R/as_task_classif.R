@@ -5,7 +5,7 @@
 #' This is a S3 generic, specialized for at least the following objects:
 #'
 #' 1. [TaskClassif]: ensure the identity
-#' 2. [data.frame()] and [DataBackend]: provides an alternative to the constructor of [TaskClassif].
+#' 2. [`formula`], [data.frame()] and [DataBackend]: provides an alternative to the constructor of [TaskClassif].
 #' 3. [TaskRegr]: Calls [convert_task()].
 #'
 #' @inheritParams as_task
@@ -55,4 +55,22 @@ as_task_classif.DataBackend = function(x, target = NULL, id = deparse(substitute
 #' @export
 as_task_classif.TaskRegr = function(x, target = NULL, drop_original_target = FALSE, drop_levels = TRUE, ...) { # nolint
   convert_task(intask = x, target = target, new_type = "classif", drop_original_target = FALSE, drop_levels = TRUE)
+}
+
+#' @rdname as_task_classif
+#' @param data (`data.frame()`)\cr
+#'   The input [data.frame()].
+#' @param id (`character(1)`)\cr
+#'   Id for the new task.
+#'   Defaults to the (deparsed and substituted) name of `data`.
+#' @param positive (`character(1)`)\cr
+#'   Level of the positive class. See [TaskClassif].
+#' @export
+as_task_classif.formula = function(x, data, id = NULL, positive = NULL, ...) {
+    id = id %??% deparse(substitute(data))
+    assert_subset(all.vars(x), c(names(data), "."), .var.name = "formula")
+    if (!attributes(terms(x, data = data))$response) stopf("Formula %s is missing a response", format(x))
+    data = model.frame(x, data)
+
+    TaskClassif$new(id = id, backend = data, target = all.vars(x)[1], positive = positive)
 }
