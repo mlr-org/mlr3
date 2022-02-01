@@ -37,7 +37,7 @@ as_task_classif(x, ...)
   ...
 )
 
-\method{as_task_classif}{formula}(x, data, id = NULL, positive = NULL, ...)
+\method{as_task_classif}{formula}(x, data, id = deparse(substitute(data)), positive = NULL, ...)
 }
 \arguments{
 \item{x}{(any)\cr

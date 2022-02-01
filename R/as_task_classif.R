@@ -35,7 +35,7 @@ as_task_classif.TaskClassif = function(x, clone = FALSE, ...) { # nolint
 #'   Level of the positive class. See [TaskClassif].
 #' @export
 as_task_classif.data.frame = function(x, target = NULL, id = deparse(substitute(x)), positive = NULL, ...) { # nolint
-  ii = which(map_lgl(subset(x, select = map_lgl(x, is.double)), anyInfinite))
+  ii = which(map_lgl(keep(x, is.double), anyInfinite))
   if (length(ii)) {
     warningf("Detected columns with unsupported Inf values in data: %s", str_collapse(names(ii)))
   }
@@ -66,11 +66,13 @@ as_task_classif.TaskRegr = function(x, target = NULL, drop_original_target = FAL
 #' @param positive (`character(1)`)\cr
 #'   Level of the positive class. See [TaskClassif].
 #' @export
-as_task_classif.formula = function(x, data, id = NULL, positive = NULL, ...) {
-    id = id %??% deparse(substitute(data))
-    assert_subset(all.vars(x), c(names(data), "."), .var.name = "formula")
-    if (!attributes(terms(x, data = data))$response) stopf("Formula %s is missing a response", format(x))
-    data = model.frame(x, data)
+as_task_classif.formula = function(x, data, id = deparse(substitute(data)), positive = NULL, ...) { # nolint
+  assert_subset(all.vars(x), c(names(data), "."), .var.name = "formula")
+  if (!attributes(terms(x, data = data))$response) {
+    stopf("Formula %s is missing a response", format(x))
+  }
+  tab = model.frame(x, data)
+  target = all.vars(x)[1L]
 
-    TaskClassif$new(id = id, backend = data, target = all.vars(x)[1], positive = positive)
+  as_task_classif(tab, target = target, id = id, positive = positive, ...)
 }

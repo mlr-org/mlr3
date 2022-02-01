@@ -25,7 +25,7 @@ as_task_regr(x, ...)
   ...
 )
 
-\method{as_task_regr}{formula}(x, data, id = NULL, ...)
+\method{as_task_regr}{formula}(x, data, id = deparse(substitute(data)), ...)
 }
 \arguments{
 \item{x}{(any)\cr

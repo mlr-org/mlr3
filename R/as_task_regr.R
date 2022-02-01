@@ -33,7 +33,7 @@ as_task_regr.TaskRegr = function(x, clone = FALSE, ...) { # nolint
 #'   Defaults to the (deparsed and substituted) name of `x`.
 #' @export
 as_task_regr.data.frame = function(x, target, id = deparse(substitute(x)), ...) { # nolint
-  ii = which(map_lgl(subset(x, select = map_lgl(x, is.double)), anyInfinite))
+  ii = which(map_lgl(keep(x, is.double), anyInfinite))
   if (length(ii)) {
     warningf("Detected columns with unsupported Inf values in data: %s", str_collapse(names(ii)))
   }
@@ -63,11 +63,13 @@ as_task_regr.TaskClassif = function(x, target = NULL, drop_original_target = FAL
 #'   Id for the new task.
 #'   Defaults to the (deparsed and substituted) name of `data`.
 #' @export
-as_task_regr.formula = function(x, data, id = NULL, ...) {
-    id = id %??% deparse(substitute(data))
-    assert_subset(all.vars(x), c(names(data), "."), .var.name = "formula")
-    if (!attributes(terms(x, data = data))$response) stopf("Formula %s is missing a response", format(x))
-    data = model.frame(x, data)
+as_task_regr.formula = function(x, data, id = deparse(substitute(data)), ...) { # nolint
+  assert_subset(all.vars(x), c(names(data), "."), .var.name = "formula")
+  if (!attributes(terms(x, data = data))$response) {
+    stopf("Formula %s is missing a response", format(x))
+  }
+  tab = model.frame(x, data)
+  target = all.vars(x)[1L]
 
-    TaskRegr$new(id = id, backend = data, target = all.vars(x)[1])
+  as_task_regr(tab, target = target, id = id, ...)
 }
