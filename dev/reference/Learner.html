@@ -276,13 +276,6 @@ Default is <code>c(train = Inf, predict = Inf)</code>.
 Also see the section on error handling the mlr3book: <a href="https://mlr3book.mlr-org.com/technical.html#error-handling" class="external-link">https://mlr3book.mlr-org.com/technical.html#error-handling</a></p></dd>
 
 
-<dt><code>fallback</code></dt>
-<dd><p>(Learner)<br>
-Learner which is fitted to impute predictions in case that either the model fitting or the prediction of the top learner is not successful.
-Requires you to enable encapsulation, otherwise errors are not caught and the execution is terminated before the fallback learner kicks in.
-Also see the section on error handling the mlr3book: <a href="https://mlr3book.mlr-org.com/technical.html#error-handling" class="external-link">https://mlr3book.mlr-org.com/technical.html#error-handling</a></p></dd>
-
-
 <dt><code>man</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 String in the format <code>[pkg]::[topic]</code> pointing to a manual page for this object.
@@ -351,6 +344,15 @@ Controls how to execute the code in internal train and predict methods.
 Must be a named character vector with names <code>"train"</code> and <code>"predict"</code>.
 Possible values are <code>"none"</code>, <code>"evaluate"</code> (requires package <a href="https://CRAN.R-project.org/package=evaluate" class="external-link"><span class="pkg">evaluate</span></a>) and <code>"callr"</code> (requires package <a href="https://CRAN.R-project.org/package=callr" class="external-link"><span class="pkg">callr</span></a>).
 See <code><a href="https://mlr3misc.mlr-org.com/reference/encapsulate.html" class="external-link">mlr3misc::encapsulate()</a></code> for more details.</p></dd>
+
+
+<dt><code>fallback</code></dt>
+<dd><p>(Learner)<br>
+Learner which is fitted to impute predictions in case that either the model fitting or the prediction of the top learner is not successful.
+Requires encapsulation, otherwise errors are not caught and the execution is terminated before the fallback learner kicks in.
+If you have not set encapsulation manually before, setting the fallback learner automatically
+activates encapsulation using the <a href="https://CRAN.R-project.org/package=evaluate" class="external-link"><span class="pkg">evaluate</span></a> package.
+Also see the section on error handling the mlr3book: <a href="https://mlr3book.mlr-org.com/technical.html#error-handling" class="external-link">https://mlr3book.mlr-org.com/technical.html#error-handling</a></p></dd>
 
 
 <dt><code>hotstart_stack</code></dt>

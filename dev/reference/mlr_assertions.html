@@ -128,6 +128,7 @@ Otherwise, the input object is returned invisibly.</p>
 <span class="fu">assert_learner</span><span class="op">(</span>
   <span class="va">learner</span>,
   task <span class="op">=</span> <span class="cn">NULL</span>,
+  task_type <span class="op">=</span> <span class="cn">NULL</span>,
   properties <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="op">)</span>,
   .var.name <span class="op">=</span> <span class="fu">vname</span><span class="op">(</span><span class="va">learner</span><span class="op">)</span>
 <span class="op">)</span>
@@ -135,6 +136,7 @@ Otherwise, the input object is returned invisibly.</p>
 <span class="fu">assert_learners</span><span class="op">(</span>
   <span class="va">learners</span>,
   task <span class="op">=</span> <span class="cn">NULL</span>,
+  task_type <span class="op">=</span> <span class="cn">NULL</span>,
   properties <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="op">)</span>,
   .var.name <span class="op">=</span> <span class="fu">vname</span><span class="op">(</span><span class="va">learners</span><span class="op">)</span>
 <span class="op">)</span>
@@ -184,6 +186,8 @@ Otherwise, the input object is returned invisibly.</p>
 <dd><p>(<a href="DataBackend.html">DataBackend</a>).</p></dd>
 <dt>task</dt>
 <dd><p>(<a href="Task.html">Task</a>).</p></dd>
+<dt>task_type</dt>
+<dd><p>(<code>character(1)</code>).</p></dd>
 <dt>feature_types</dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 Feature types the learner operates on. Must be a subset of <code><a href="mlr_reflections.html">mlr_reflections$task_feature_types</a></code>.</p></dd>
