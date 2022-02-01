@@ -80,14 +80,17 @@ LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
     },
 
     .predict = function(task) {
+      pv = self$param_set$get_values(tags = "predict")
       newdata = task$data(cols = task$feature_names)
       response = prob = NULL
 
       if ("response" %in% self$predict_type) {
-        response = invoke(predict, self$model, newdata = newdata, type = "class", .opts = allow_partial_matching)
+        response = invoke(predict, self$model, newdata = newdata, type = "class",
+          .opts = allow_partial_matching, .args = pv)
         response = unname(response)
       } else if ("prob" %in% self$predict_type) {
-        prob = invoke(predict, self$model, newdata = newdata, type = "prob", .opts = allow_partial_matching)
+        prob = invoke(predict, self$model, newdata = newdata, type = "prob",
+          .opts = allow_partial_matching, .args = pv)
         rownames(prob) = NULL
       }
 

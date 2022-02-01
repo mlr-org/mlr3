@@ -80,8 +80,10 @@ LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
     },
 
     .predict = function(task) {
+      pv = self$param_set$get_values(tags = "predict")
       newdata = task$data(cols = task$feature_names)
-      response = invoke(predict, self$model, newdata = newdata, .opts = allow_partial_matching)
+      response = invoke(predict, self$model, newdata = newdata,
+        .opts = allow_partial_matching, .args = pv)
       list(response = unname(response))
     }
   )
