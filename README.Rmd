@@ -46,6 +46,7 @@ Successor of [mlr](https://github.com/mlr-org/mlr).
   - [useR2019 talk on mlr3](https://www.youtube.com/watch?v=wsP2hiFnDQs)
   - [useR2019 talk on mlr3pipelines and mlr3tuning](https://www.youtube.com/watch?v=gEW5RxkbQuQ)
   - [useR2020 tutorial on mlr3, mlr3tuning and mlr3pipelines](https://www.youtube.com/watch?v=T43hO2o_nZw)
+  - [Recorded talk about mlr3spatiotempcv and mlr3spatial at OpenDataScience Europe Conference 2021 in Wageningen, NL](https://av.tib.eu/media/55271)
 * **Courses/Lectures**
   - The course [Introduction to Machine learning (I2ML)](https://introduction-to-machine-learning.netlify.app/) is a free and open flipped classroom course on the basics of machine learning. `mlr3` is used in the [demos](https://github.com/slds-lmu/lecture_i2ml/tree/master/code-demos-pdf) and [exercises](https://github.com/slds-lmu/lecture_i2ml/tree/master/exercises).
 * **Templates/Tutorials**
