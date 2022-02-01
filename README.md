@@ -27,7 +27,7 @@ Status](https://www.r-pkg.org/badges/version-ago/mlr3)](https://cran.r-project.o
 -   [Reference manual](https://mlr3.mlr-org.com/reference/)
 -   [FAQ](https://github.com/mlr-org/mlr3/wiki/FAQ)
 -   Ask questions on [Stackoverflow (tag
-    #mlr3)](https://stackoverflow.com/questions/tagged/mlr3)
+    \#mlr3)](https://stackoverflow.com/questions/tagged/mlr3)
 -   **Extension Learners**
     -   Recommended core regression, classification, and survival
         learners are in
@@ -52,6 +52,9 @@ Status](https://www.r-pkg.org/badges/version-ago/mlr3)](https://cran.r-project.o
         mlr3tuning](https://www.youtube.com/watch?v=gEW5RxkbQuQ)
     -   [useR2020 tutorial on mlr3, mlr3tuning and
         mlr3pipelines](https://www.youtube.com/watch?v=T43hO2o_nZw)
+    -   [Recorded talk about mlr3spatiotempcv and mlr3spatial at
+        OpenDataScience Europe Conference 2021 in Wageningen,
+        NL](https://av.tib.eu/media/55271)
 -   **Courses/Lectures**
     -   The course [Introduction to Machine learning
         (I2ML)](https://introduction-to-machine-learning.netlify.app/)
