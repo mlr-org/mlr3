@@ -50,6 +50,9 @@ Otherwise the original target is dropped.}
 
 \item{drop_levels}{(\code{logical(1)})\cr
 If \code{TRUE} (default), unused levels of the new target variable are dropped.}
+
+\item{data}{(\code{data.frame()})\cr
+Data frame containing all columns specified in formula \code{x}.}
 }
 \value{
 \link{TaskRegr}.

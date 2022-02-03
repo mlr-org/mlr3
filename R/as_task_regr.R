@@ -57,8 +57,11 @@ as_task_regr.TaskClassif = function(x, target = NULL, drop_original_target = FAL
 }
 
 #' @rdname as_task_regr
+#' @param data (`data.frame()`)\cr
+#'   Data frame containing all columns specified in formula `x`.
 #' @export
 as_task_regr.formula = function(x, data, id = deparse(substitute(data)), ...) { # nolint
+  assert_data_frame(data)
   assert_subset(all.vars(x), c(names(data), "."), .var.name = "formula")
   if (!attributes(terms(x, data = data))$response) {
     stopf("Formula %s is missing a response", format(x))
