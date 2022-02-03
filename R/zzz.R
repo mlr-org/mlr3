@@ -77,6 +77,10 @@ dummy_import = function() {
     lg$set_threshold("warn")
   }
 
+  register_namespace_callback(pkgname, "mlr", function(...) {
+    warning("Packages 'mlr3' and 'mlr' are conflicting and should not be loaded in the same session")
+  })
+
   mlr_reflections$loggers[["mlr3"]] = lg
 } # nocov end
 
