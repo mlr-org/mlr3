@@ -5,6 +5,8 @@
 * `as_task_classif()` and `as_task_regr()` now support the construction of tasks
   using the formula interface, e.g. `as_task_regr(mpg ~ ., data = mtcars)`
   (#761).
+* Added `default_values()` function to extract parameter default values from
+  `Learner` objects.
 
 
 # mlr3 0.13.1
