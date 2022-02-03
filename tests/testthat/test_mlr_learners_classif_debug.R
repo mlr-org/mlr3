@@ -43,3 +43,17 @@ test_that("NA predictions", {
   expect_equal(count_missing(p$response), 75L)
   expect_equal(is.na(p$response), apply(p$prob, 1, anyMissing))
 })
+
+test_that("default_values", {
+  learner = lrn("classif.debug")
+  search_space = ps(iter = p_int(1, 10))
+  task = tsk("pima")
+
+  values = default_values(learner, search_space, task)
+  expect_names(names(values), identical.to = "iter")
+})
+
+test_that("default_values works with empty search space", {
+  learner = lrn("classif.debug")
+  expect_list(default_values(learner, ps(), task), len = 0)
+})
