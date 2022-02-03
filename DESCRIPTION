@@ -86,6 +86,8 @@ Suggests:
     remotes,
     rpart,
     testthat (>= 3.1.0)
+Remotes:
+    mlr-org/paradox@default_hyperparameter
 Encoding: UTF-8
 Config/testthat/edition: 3
 Config/testthat/parallel: false
