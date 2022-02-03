@@ -91,3 +91,12 @@ LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
 
 #' @include mlr_learners.R
 mlr_learners$add("regr.rpart", LearnerRegrRpart)
+
+#' @export
+default_values.LearnerRegrRpart = function(x, search_space, task, ...) { # nolint
+  special_defaults = list(
+    minbucket = 20 / 3
+  )
+  defaults = insert_named(default_values(x$param_set), special_defaults)
+  defaults[search_space$ids()]
+}

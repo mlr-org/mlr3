@@ -544,3 +544,8 @@ get_log_condition = function(state, condition) {
 format_list_item.Learner = function(x, ...) { # nolint
   sprintf("<lrn:%s>", x$id)
 }
+
+#' @export
+default_values.Learner = function(x, search_space, task, ...) { # nolint
+  default_values(x$param_set)[search_space$ids()]
+}
