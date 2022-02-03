@@ -142,12 +142,6 @@ Learner = R6Class("Learner",
     #' Also see the section on error handling the mlr3book: \url{https://mlr3book.mlr-org.com/technical.html#error-handling}
     timeout = c(train = Inf, predict = Inf),
 
-    #' @field fallback ([Learner])\cr
-    #' Learner which is fitted to impute predictions in case that either the model fitting or the prediction of the top learner is not successful.
-    #' Requires you to enable encapsulation, otherwise errors are not caught and the execution is terminated before the fallback learner kicks in.
-    #' Also see the section on error handling the mlr3book: \url{https://mlr3book.mlr-org.com/technical.html#error-handling}
-    fallback = NULL,
-
     #' @template field_man
     man = NULL,
 
@@ -161,7 +155,6 @@ Learner = R6Class("Learner",
       self$id = assert_string(id, min.chars = 1L)
       self$task_type = assert_choice(task_type, mlr_reflections$task_types$type)
       private$.param_set = assert_param_set(param_set)
-      private$.encapsulate = c(train = "none", predict = "none")
       self$feature_types = assert_subset(feature_types, mlr_reflections$task_feature_types)
       self$predict_types = assert_subset(predict_types, names(mlr_reflections$learner_predict_types[[task_type]]), empty.ok = FALSE)
       private$.predict_type = predict_types[1L]
@@ -460,12 +453,37 @@ Learner = R6Class("Learner",
     #' Possible values are `"none"`, `"evaluate"` (requires package \CRANpkg{evaluate}) and `"callr"` (requires package \CRANpkg{callr}).
     #' See [mlr3misc::encapsulate()] for more details.
     encapsulate = function(rhs) {
+      default = c(train = "none", predict = "none")
+
       if (missing(rhs)) {
-        return(private$.encapsulate)
+        return(insert_named(default, private$.encapsulate))
       }
+
       assert_character(rhs)
       assert_names(names(rhs), subset.of = c("train", "predict"))
-      private$.encapsulate = insert_named(c(train = "none", predict = "none"), rhs)
+      private$.encapsulate = insert_named(default, rhs)
+    },
+
+    #' @field fallback ([Learner])\cr
+    #' Learner which is fitted to impute predictions in case that either the model fitting or the prediction of the top learner is not successful.
+    #' Requires encapsulation, otherwise errors are not caught and the execution is terminated before the fallback learner kicks in.
+    #' If you have not set encapsulation manually before, setting the fallback learner automatically
+    #' activates encapsulation using the \CRANpkg{evaluate} package.
+    #' Also see the section on error handling the mlr3book: \url{https://mlr3book.mlr-org.com/technical.html#error-handling}
+    fallback = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.fallback)
+      }
+
+      assert_learner(rhs, task_type = self$task_type)
+      if (!identical(self$predict_type, rhs$predict_type)) {
+        warningf("The fallback learner '%s' and the base learner '%s' have different predict types",
+          rhs$predict_type, self$predict_type)
+      }
+      if (is.null(private$.encapsulate)) {
+        private$.encapsulate = c(train = "evaluate", predict = "evaluate")
+      }
+      private$.fallback = rhs
     },
 
     #' @field hotstart_stack ([HotstartStack])\cr.
@@ -481,6 +499,7 @@ Learner = R6Class("Learner",
 
   private = list(
     .encapsulate = NULL,
+    .fallback = NULL,
     .predict_type = NULL,
     .param_set = NULL,
     .hotstart_stack = NULL,
@@ -488,7 +507,7 @@ Learner = R6Class("Learner",
     deep_clone = function(name, value) {
       switch(name,
         .param_set = value$clone(deep = TRUE),
-        fallback = if (is.null(value)) NULL else value$clone(deep = TRUE),
+        .fallback = if (is.null(value)) NULL else value$clone(deep = TRUE),
         state = {
           if (!is.null(value$train_task)) {
             value$train_task = value$train_task$clone(deep = TRUE)

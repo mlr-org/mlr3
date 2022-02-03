@@ -42,7 +42,7 @@ Name of the target column.}
 
 \item{id}{(\code{character(1)})\cr
 Id for the new task.
-Defaults to the (deparsed and substituted) name of \code{data}.}
+Defaults to the (deparsed and substituted) name of the data argument.}
 
 \item{drop_original_target}{(\code{logical(1)})\cr
 If \code{FALSE} (default), the original target is added as a feature.
@@ -52,7 +52,7 @@ Otherwise the original target is dropped.}
 If \code{TRUE} (default), unused levels of the new target variable are dropped.}
 
 \item{data}{(\code{data.frame()})\cr
-The input \code{\link[=data.frame]{data.frame()}}.}
+Data frame containing all columns specified in formula \code{x}.}
 }
 \value{
 \link{TaskRegr}.

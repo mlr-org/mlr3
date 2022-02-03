@@ -30,7 +30,7 @@ as_task_classif.TaskClassif = function(x, clone = FALSE, ...) { # nolint
 #' @template param_target
 #' @param id (`character(1)`)\cr
 #'   Id for the new task.
-#'   Defaults to the (deparsed and substituted) name of `x`.
+#'   Defaults to the (deparsed and substituted) name of the data argument.
 #' @param positive (`character(1)`)\cr
 #'   Level of the positive class. See [TaskClassif].
 #' @export
@@ -59,14 +59,10 @@ as_task_classif.TaskRegr = function(x, target = NULL, drop_original_target = FAL
 
 #' @rdname as_task_classif
 #' @param data (`data.frame()`)\cr
-#'   The input [data.frame()].
-#' @param id (`character(1)`)\cr
-#'   Id for the new task.
-#'   Defaults to the (deparsed and substituted) name of `data`.
-#' @param positive (`character(1)`)\cr
-#'   Level of the positive class. See [TaskClassif].
+#'   Data frame containing all columns specified in formula `x`.
 #' @export
 as_task_classif.formula = function(x, data, id = deparse(substitute(data)), positive = NULL, ...) { # nolint
+  assert_data_frame(data)
   assert_subset(all.vars(x), c(names(data), "."), .var.name = "formula")
   if (!attributes(terms(x, data = data))$response) {
     stopf("Formula %s is missing a response", format(x))

@@ -30,7 +30,7 @@ as_task_regr.TaskRegr = function(x, clone = FALSE, ...) { # nolint
 #' @template param_target
 #' @param id (`character(1)`)\cr
 #'   Id for the new task.
-#'   Defaults to the (deparsed and substituted) name of `x`.
+#'   Defaults to the (deparsed and substituted) name of the data argument.
 #' @export
 as_task_regr.data.frame = function(x, target, id = deparse(substitute(x)), ...) { # nolint
   ii = which(map_lgl(keep(x, is.double), anyInfinite))
@@ -58,12 +58,10 @@ as_task_regr.TaskClassif = function(x, target = NULL, drop_original_target = FAL
 
 #' @rdname as_task_regr
 #' @param data (`data.frame()`)\cr
-#'   The input [data.frame()].
-#' @param id (`character(1)`)\cr
-#'   Id for the new task.
-#'   Defaults to the (deparsed and substituted) name of `data`.
+#'   Data frame containing all columns specified in formula `x`.
 #' @export
 as_task_regr.formula = function(x, data, id = deparse(substitute(data)), ...) { # nolint
+  assert_data_frame(data)
   assert_subset(all.vars(x), c(names(data), "."), .var.name = "formula")
   if (!attributes(terms(x, data = data))$response) {
     stopf("Formula %s is missing a response", format(x))
