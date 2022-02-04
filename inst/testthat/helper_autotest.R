@@ -59,7 +59,7 @@ generate_generic_tasks = function(learner, proto) {
   sel = proto$feature_types[list(learner$feature_types), "id", on = "type", with = FALSE][[1L]]
   tasks$utf8_feature_names = proto$clone(deep = TRUE)$select(sel)
   old = sel[1L]
-  new = "äü + öß"
+  new = "\u00e4 + \u1e9e"
   tasks$utf8_feature_names$rename(old, new)
 
   # make sure that task ids match list names
