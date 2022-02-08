@@ -634,3 +634,19 @@ expect_resultdata = function(rdata, consistency = TRUE) {
     expect_fsetequal(data$fact, data$resamplings, "resampling_hash")
   }
 }
+
+expect_no_extra_pkgs = function(expr, pkgs = character()) {
+  req_pkgs = function(expr, pkgs) {
+    library("mlr3")
+    for (pkg in pkgs) {
+      requireNamespace(pkg, quietly = TRUE)
+    }
+    snap = loadedNamespaces()
+    eval(expr)
+    setdiff(loadedNamespaces(), snap)
+  }
+
+  skip_if_not_installed("callr")
+  extra = callr::r(req_pkgs, args = list(substitute(expr), pkgs = pkgs))
+  expect_identical(extra, character(), info = "extra packages required for construction")
+}
