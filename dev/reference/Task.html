@@ -117,8 +117,8 @@ More toy tasks can be found in the dictionary after loading <a href="https://CRA
     
 
 <ul><li><p><code>as.data.table(t)</code><br>
-Task -&gt; <code><a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code><br>
-Returns the complete data as <code><a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code>.</p></li>
+Task -&gt; <code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code><br>
+Returns the complete data as <code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code>.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="task-mutators">Task mutators<a class="anchor" aria-label="anchor" href="#task-mutators"></a></h2>
@@ -188,7 +188,7 @@ Abstract interface to the data of the task.</p></dd>
 
 
 <dt><code>col_info</code></dt>
-<dd><p>(<code><a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
+<dd><p>(<code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
 Table with with 4 columns:</p><ul><li><p><code>"id"</code> (<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>) stores the name of the column.</p></li>
 <li><p><code>"type"</code> (<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>) holds the storage type of the variable, e.g. <code>integer</code>, <code>numeric</code> or <code>character</code>.
 See <a href="mlr_reflections.html">mlr_reflections$task_feature_types</a> for a complete list of allowed types.</p></li>
@@ -226,7 +226,7 @@ Returns the row ids of the <a href="DataBackend.html">DataBackend</a> for observ
 
 
 <dt><code>row_names</code></dt>
-<dd><p>(<code><a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
+<dd><p>(<code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
 Returns a table with two columns:</p><ul><li><p><code>"row_id"</code> (<code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>), and</p></li>
 <li><p><code>"row_name"</code> (<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>).</p></li>
 </ul></dd>
@@ -294,7 +294,7 @@ Returns the total number of columns with role "target" or "feature".</p></dd>
 
 
 <dt><code>feature_types</code></dt>
-<dd><p>(<code><a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
+<dd><p>(<code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
 Returns a table with columns <code>id</code> and <code>type</code> where <code>id</code> are the column names of "active"
 features of the task and <code>type</code> is the storage type.</p></dd>
 
@@ -306,7 +306,7 @@ A specific format can be chosen in the <code>$data()</code> method.</p></dd>
 
 
 <dt><code>strata</code></dt>
-<dd><p>(<code><a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
+<dd><p>(<code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
 If the task has columns designated with role <code>"stratum"</code>, returns a table with one subpopulation per row and two columns:</p><ul><li><p><code>N</code> (<code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>) with the number of observations in the subpopulation, and</p></li>
 <li><p><code>row_id</code> (list of <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>) as list column with the row ids in the respective subpopulation.
 Returns <code>NULL</code> if there are is no stratification variable.
@@ -315,7 +315,7 @@ See <a href="Resampling.html">Resampling</a> for more information on stratificat
 
 
 <dt><code>groups</code></dt>
-<dd><p>(<code><a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
+<dd><p>(<code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
 If the task has a column with designated role <code>"group"</code>, a table with two columns:</p><ul><li><p><code>row_id</code> (<code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>), and</p></li>
 <li><p>grouping variable <code>group</code> (<code><a href="https://rdrr.io/r/base/vector.html" class="external-link">vector()</a></code>).</p></li>
 </ul><p>Returns <code>NULL</code> if there are is no grouping column.
@@ -323,14 +323,14 @@ See <a href="Resampling.html">Resampling</a> for more information on grouping.</
 
 
 <dt><code>order</code></dt>
-<dd><p>(<code><a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
+<dd><p>(<code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
 If the task has at least one column with designated role <code>"order"</code>, a table with two columns:</p><ul><li><p><code>row_id</code> (<code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>), and</p></li>
 <li><p>ordering vector <code>order</code> (<code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>).</p></li>
 </ul><p>Returns <code>NULL</code> if there are is no order column.</p></dd>
 
 
 <dt><code>weights</code></dt>
-<dd><p>(<code><a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
+<dd><p>(<code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
 If the task has a column with designated role <code>"weight"</code>, a table with two columns:</p><ul><li><p><code>row_id</code> (<code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>), and</p></li>
 <li><p>observation weights <code>weight</code> (<code><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric()</a></code>).</p></li>
 </ul><p>Returns <code>NULL</code> if there are is no weight column.</p></dd>
@@ -499,7 +499,7 @@ If <code>TRUE</code>, data is ordered according to the columns with column role 
 </div>
 <div class="section">
 <h4 id="returns">Returns<a class="anchor" aria-label="anchor" href="#returns"></a></h4>
-<p>Depending on the <a href="DataBackend.html">DataBackend</a>, but usually a <code><a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code>.</p>
+<p>Depending on the <a href="DataBackend.html">DataBackend</a>, but usually a <code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code>.</p>
 </div>
 
 </div><p></p><hr><a id="method-formula"></a><div class="section">
@@ -543,7 +543,7 @@ Right hand side of the formula. Defaults to <code>"."</code> (all features of th
 </div>
 <div class="section">
 <h4 id="returns-2">Returns<a class="anchor" aria-label="anchor" href="#returns-2"></a></h4>
-<p><code><a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code> with <code>n</code> rows.</p>
+<p><code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code> with <code>n</code> rows.</p>
 </div>
 
 </div><p></p><hr><a id="method-levels"></a><div class="section">
