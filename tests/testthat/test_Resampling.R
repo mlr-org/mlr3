@@ -106,18 +106,18 @@ test_that("as.data.table.Resampling", {
   expect_integer(tab$row_id, any.missing = FALSE)
 })
 
-test_that("Evaluation on validation set", {
+test_that("Evaluation on holdout set", {
   task = tsk("sonar")
   rids = task$row_ids
-  task$row_roles$validation = tail(rids, 10)
+  task$row_roles$holdout = tail(rids, 10)
   task$row_roles$use = head(rids, -10)
-  learner = lrn("classif.rpart", predict_sets = c("test", "validation"))
+  learner = lrn("classif.rpart", predict_sets = c("test", "holdout"))
   rr = resample(task, learner, rsmp("holdout"))
 
   m1 = msr("classif.acc", id = "acc.test", predict_sets = "test")
-  m2 = msr("classif.acc", id = "acc.holdout", predict_sets = "validation")
+  m2 = msr("classif.acc", id = "acc.holdout", predict_sets = "holdout")
 
-  expect_equal(rr$aggregate(list(m1, m2)), c(rr$prediction("test")$score(m1), rr$prediction("validation")$score(m2)))
+  expect_equal(rr$aggregate(list(m1, m2)), c(rr$prediction("test")$score(m1), rr$prediction("holdout")$score(m2)))
 })
 
 test_that("custom_cv", {

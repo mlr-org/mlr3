@@ -1,4 +1,4 @@
-#' @title Custom Cross Validation
+#' @title Custom Cross-Validation
 #'
 #' @name mlr_resamplings_custom_cv
 #' @include Resampling.R
@@ -44,7 +44,7 @@ ResamplingCustomCV = R6Class("ResamplingCustomCV", inherit = Resampling,
     },
 
     #' @description
-    #' Instantiate this [Resampling] as cross validation with custom splits.
+    #' Instantiate this [Resampling] as cross-validation with custom splits.
     #'
     #' @param task [Task]\cr
     #'   Used to extract row ids.
