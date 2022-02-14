@@ -162,7 +162,7 @@ Required predict type of the <a href="Learner.html">Learner</a>.</p></dd>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 During <code><a href="resample.html">resample()</a></code>/<code><a href="benchmark.html">benchmark()</a></code>, a <a href="Learner.html">Learner</a> can predict on multiple sets.
 Per default, a learner only predicts observations in the test set (<code>predict_sets == "test"</code>).
-To change this behavior, set <code>predict_sets</code> to a non-empty subset of <code>{"train", "test", "validation"}</code>.
+To change this behavior, set <code>predict_sets</code> to a non-empty subset of <code>{"train", "test", "holdout"}</code>.
 Each set yields a separate <a href="Prediction.html">Prediction</a> object.
 Those can be combined via getters in <a href="ResampleResult.html">ResampleResult</a>/<a href="BenchmarkResult.html">BenchmarkResult</a>, or Measures can be configured
 to operate on specific subsets of the calculated prediction sets.</p></dd>
@@ -347,7 +347,7 @@ Possible values are stored in <a href="mlr_reflections.html">mlr_reflections$lea
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 Prediction sets to operate on, used in <code><a href="https://rdrr.io/r/stats/aggregate.html" class="external-link">aggregate()</a></code> to extract the matching <code>predict_sets</code> from the <a href="ResampleResult.html">ResampleResult</a>.
 Multiple predict sets are calculated by the respective <a href="Learner.html">Learner</a> during <code><a href="resample.html">resample()</a></code>/<code><a href="benchmark.html">benchmark()</a></code>.
-Must be a non-empty subset of <code>{"train", "test", "validation"}</code>.
+Must be a non-empty subset of <code>{"train", "test", "holdout"}</code>.
 If multiple sets are provided, these are first combined to a single prediction object.
 Default is <code>"test"</code>.</p></dd>
 
