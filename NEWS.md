@@ -1,4 +1,4 @@
-# mlr3 0.13.1-9000
+# mlr3 0.13.2
 
 * Setting a fallback learner for a learner with encapsulation in its default
   settings now automatically sets encapsulation to `"evaluate"` (#763).
