@@ -101,7 +101,7 @@ Do not modify any extracted object without cloning it first.</p>
     
 
 <ul><li><p><code>as.data.table(rr, ..., reassemble_learners = TRUE, convert_predictions = TRUE, predict_sets = "test")</code><br>
-BenchmarkResult -&gt; <code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code><br>
+BenchmarkResult -&gt; <code><a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code><br>
 Returns a tabular view of the internal data.</p></li>
 <li><p><code>c(...)</code><br>
 (BenchmarkResult, ...) -&gt; BenchmarkResult<br>
@@ -136,7 +136,7 @@ This is <code>NA</code> for empty BenchmarkResults.</p></dd>
 
 
 <dt><code>tasks</code></dt>
-<dd><p>(<code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
+<dd><p>(<code><a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
 Table of included <a href="Task.html">Task</a>s with three columns:</p><ul><li><p><code>"task_hash"</code> (<code>character(1)</code>),</p></li>
 <li><p><code>"task_id"</code> (<code>character(1)</code>), and</p></li>
 <li><p><code>"task"</code> (<a href="Task.html">Task</a>).</p></li>
@@ -144,7 +144,7 @@ Table of included <a href="Task.html">Task</a>s with three columns:</p><ul><li><
 
 
 <dt><code>learners</code></dt>
-<dd><p>(<code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
+<dd><p>(<code><a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
 Table of included <a href="Learner.html">Learner</a>s with three columns:</p><ul><li><p><code>"learner_hash"</code> (<code>character(1)</code>),</p></li>
 <li><p><code>"learner_id"</code> (<code>character(1)</code>), and</p></li>
 <li><p><code>"learner"</code> (<a href="Learner.html">Learner</a>).</p></li>
@@ -154,7 +154,7 @@ Instead, select a row from the table returned by <code>$score()</code>.</p></dd>
 
 
 <dt><code>resamplings</code></dt>
-<dd><p>(<code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
+<dd><p>(<code><a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
 Table of included <a href="Resampling.html">Resampling</a>s with three columns:</p><ul><li><p><code>"resampling_hash"</code> (<code>character(1)</code>),</p></li>
 <li><p><code>"resampling_id"</code> (<code>character(1)</code>), and</p></li>
 <li><p><code>"resampling"</code> (<a href="Resampling.html">Resampling</a>).</p></li>
@@ -162,7 +162,7 @@ Table of included <a href="Resampling.html">Resampling</a>s with three columns:<
 
 
 <dt><code>resample_results</code></dt>
-<dd><p>(<code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
+<dd><p>(<code><a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
 Returns a table with three columns:</p><ul><li><p><code>uhash</code> (<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>).</p></li>
 <li><p><code>resample_result</code> (<a href="ResampleResult.html">ResampleResult</a>).</p></li>
 </ul></dd>
@@ -315,7 +315,7 @@ Default is <code>"test"</code>.</p></dd>
 </div>
 <div class="section">
 <h4 id="returns-1">Returns<a class="anchor" aria-label="anchor" href="#returns-1"></a></h4>
-<p><code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code>.</p>
+<p><code><a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code>.</p>
 </div>
 
 </div><p></p><hr><a id="method-aggregate"></a><div class="section">
@@ -378,7 +378,7 @@ iterations with errors as extra integer column <code>"errors"</code>.</p></dd>
 </div>
 <div class="section">
 <h4 id="returns-2">Returns<a class="anchor" aria-label="anchor" href="#returns-2"></a></h4>
-<p><code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code>.</p>
+<p><code><a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code>.</p>
 </div>
 
 </div><p></p><hr><a id="method-filter"></a><div class="section">
@@ -554,13 +554,13 @@ the object in its previous state.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2: 54ecc16720ea1edf classif.featureless &lt;LearnerClassifFeatureless[37]&gt;</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># first 5 resampling iterations</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/data.table/man/as.data.table.html" class="external-link">as.data.table</a></span><span class="op">(</span><span class="va">bmr</span>, measures <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"classif.acc"</span>, <span class="st">"classif.auc"</span><span class="op">)</span><span class="op">)</span>, <span class="fl">5</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html" class="external-link">as.data.table</a></span><span class="op">(</span><span class="va">bmr</span>, measures <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"classif.acc"</span>, <span class="st">"classif.auc"</span><span class="op">)</span><span class="op">)</span>, <span class="fl">5</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                   uhash              task</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: c24ad366-00ea-4a49-a626-055c55dfd7f6 &lt;TaskClassif[49]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: c24ad366-00ea-4a49-a626-055c55dfd7f6 &lt;TaskClassif[49]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: c24ad366-00ea-4a49-a626-055c55dfd7f6 &lt;TaskClassif[49]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4: ecc63abe-c067-490e-82c2-d3295693b238 &lt;TaskClassif[49]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5: ecc63abe-c067-490e-82c2-d3295693b238 &lt;TaskClassif[49]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 491540c6-7540-4883-991f-57bca1abab36 &lt;TaskClassif[49]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 491540c6-7540-4883-991f-57bca1abab36 &lt;TaskClassif[49]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 491540c6-7540-4883-991f-57bca1abab36 &lt;TaskClassif[49]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4: c5d0a448-52e5-44fa-a95f-412a00a7e0b0 &lt;TaskClassif[49]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5: c5d0a448-52e5-44fa-a95f-412a00a7e0b0 &lt;TaskClassif[49]&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                            learner         resampling iteration</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: &lt;LearnerClassifFeatureless[37]&gt; &lt;ResamplingCV[19]&gt;         1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2: &lt;LearnerClassifFeatureless[37]&gt; &lt;ResamplingCV[19]&gt;         2</span>

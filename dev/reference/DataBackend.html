@@ -99,7 +99,7 @@ see the extension package mlr3db."><meta property="og:image" content="https://ml
 <p>Data backends provide a layer of abstraction for various data storage systems.
 It is not recommended to work directly with the DataBackend.
 Instead, all data access is handled transparently via the <a href="Task.html">Task</a>.</p>
-<p>This package comes with two implementations for backends:</p><ul><li><p><a href="DataBackendDataTable.html">DataBackendDataTable</a> which stores the data as <code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code>.</p></li>
+<p>This package comes with two implementations for backends:</p><ul><li><p><a href="DataBackendDataTable.html">DataBackendDataTable</a> which stores the data as <code><a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code>.</p></li>
 <li><p><a href="DataBackendMatrix.html">DataBackendMatrix</a> which stores the data as sparse <code><a href="https://rdrr.io/pkg/Matrix/man/sparseMatrix.html" class="external-link">Matrix::sparseMatrix()</a></code>.</p></li>
 </ul><p>To connect to out-of-memory database management systems such as SQL servers,
 see the extension package <a href="https://CRAN.R-project.org/package=mlr3db" class="external-link"><span class="pkg">mlr3db</span></a>.</p>
@@ -178,7 +178,7 @@ The reverse is not necessarily true: There can be columns with the same content 
 <p></p><div class="arguments"><dl><dt><code>data</code></dt>
 <dd><p>(any)<br>
 The format of the input data depends on the specialization. E.g.,
-<a href="DataBackendDataTable.html">DataBackendDataTable</a> expects a <code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code> and
+<a href="DataBackendDataTable.html">DataBackendDataTable</a> expects a <code><a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code> and
 <a href="DataBackendMatrix.html">DataBackendMatrix</a> expects a <code><a href="https://rdrr.io/pkg/Matrix/man/Matrix.html" class="external-link">Matrix::Matrix()</a></code> from <a href="https://CRAN.R-project.org/package=Matrix" class="external-link"><span class="pkg">Matrix</span></a>.</p></dd>
 
 
@@ -220,7 +220,7 @@ e.g. <code>"data.table"</code>.</p></dd>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">data</span> <span class="op">=</span> <span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table</a></span><span class="op">(</span>id <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span>,</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">data</span> <span class="op">=</span> <span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table</a></span><span class="op">(</span>id <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span>,</span>
 <span class="r-in">  y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span>, <span class="fl">5</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">b</span> <span class="op">=</span> <span class="va"><a href="DataBackendDataTable.html">DataBackendDataTable</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="va">data</span>, primary_key <span class="op">=</span> <span class="st">"id"</span><span class="op">)</span></span>
