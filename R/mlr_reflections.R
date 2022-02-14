@@ -89,7 +89,7 @@ local({
   )
 
   mlr_reflections$task_row_roles = c(
-    "use", "validation"
+    "use", "holdout"
   )
 
   tmp = c("feature", "target", "name", "order", "stratum", "group", "weight")
@@ -122,7 +122,7 @@ local({
   )
 
   ### Prediction
-  mlr_reflections$predict_sets = c("train", "test", "validation")
+  mlr_reflections$predict_sets = c("train", "test", "holdout")
 
 
   ### Measures

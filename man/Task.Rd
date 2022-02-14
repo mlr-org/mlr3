@@ -182,8 +182,8 @@ Note that above listed properties are calculated from the \verb{$col_roles} and 
 Each row (observation) can have an arbitrary number of roles in the learning task:
 \itemize{
 \item \code{"use"}: Use in train / predict / resampling.
-\item \code{"validation"}: Observations are hold back unless explicitly requested.
-Can be used as truly independent test set.
+\item \code{"holdout"}: Observations are hold back unless explicitly queried.
+Can be used, e.g., as truly independent validation set.
 }
 
 \code{row_roles} is a named list whose elements are named by row role and each element is an \code{integer()} vector of row ids.
