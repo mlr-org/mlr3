@@ -5,6 +5,10 @@
 * `as_task_classif()` and `as_task_regr()` now support the construction of tasks
   using the formula interface, e.g. `as_task_regr(mpg ~ ., data = mtcars)`
   (#761).
+* The row role `"validation"` has been renamed to `"holdout"`.
+  In the next release, `mlr3` will start switching to the now more common terms
+  `"train"`/`"validation"` instead of `"train"`/`"test"` for the sets created
+  during resampling.
 
 
 # mlr3 0.13.1
