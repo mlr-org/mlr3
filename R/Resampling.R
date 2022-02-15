@@ -65,7 +65,7 @@
 #' # Extract train/validation sets
 #' train_set = r$train_set(1)
 #' print(train_set)
-#' intersect(train_set, r$validation(1))
+#' intersect(train_set, r$validation_set(1))
 #'
 #' # Another example: 10-fold CV
 #' r = rsmp("cv")$instantiate(task)
