@@ -4,7 +4,7 @@
 #' @include Resampling.R
 #'
 #' @description
-#' Uses all observations as training and as test set.
+#' Uses all observations as training and as validation set.
 #'
 #' @templateVar id insample
 #' @template resampling
@@ -20,8 +20,8 @@
 #' insample = rsmp("insample")
 #' insample$instantiate(task)
 #'
-#' # Train set equal to test set:
-#' setequal(insample$train_set(1), insample$test_set(1))
+#' # Train set equal to validation set:
+#' setequal(insample$train_set(1), insample$validation_set(1))
 #'
 #' # Internal storage:
 #' insample$instance # just row ids
@@ -46,7 +46,7 @@ ResamplingInsample = R6Class("ResamplingInsample", inherit = Resampling,
       self$instance
     },
 
-    .get_test = function(i) {
+    .get_validation = function(i) {
       self$instance
     },
 

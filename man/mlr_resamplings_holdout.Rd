@@ -5,7 +5,7 @@
 \alias{ResamplingHoldout}
 \title{Holdout Resampling}
 \description{
-Splits data into a training set and a test set.
+Splits data into a training set and a validation set.
 Parameter \code{ratio} determines the ratio of observation going into the training set (default: 2/3).
 }
 \section{Dictionary}{
@@ -34,10 +34,10 @@ holdout$instantiate(task)
 
 # Individual sets:
 holdout$train_set(1)
-holdout$test_set(1)
+holdout$validation_set(1)
 
 # Disjunct sets:
-intersect(holdout$train_set(1), holdout$test_set(1))
+intersect(holdout$train_set(1), holdout$validation_set(1))
 
 # Internal storage:
 holdout$instance # simple list
@@ -99,6 +99,7 @@ Returns the number of resampling iterations, depending on the values stored in t
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="print">}\href{../../mlr3/html/Resampling.html#method-print}{\code{mlr3::Resampling$print()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="test_set">}\href{../../mlr3/html/Resampling.html#method-test_set}{\code{mlr3::Resampling$test_set()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="train_set">}\href{../../mlr3/html/Resampling.html#method-train_set}{\code{mlr3::Resampling$train_set()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="validation_set">}\href{../../mlr3/html/Resampling.html#method-validation_set}{\code{mlr3::Resampling$validation_set()}}\out{</span>}
 }
 \out{</details>}
 }

@@ -31,10 +31,10 @@
 #'
 #' # Individual sets:
 #' loo$train_set(1)
-#' loo$test_set(1)
+#' loo$validation_set(1)
 #'
 #' # Disjunct sets:
-#' intersect(loo$train_set(1), loo$test_set(1))
+#' intersect(loo$train_set(1), loo$validation_set(1))
 #'
 #' # Internal storage:
 #' loo$instance # vector

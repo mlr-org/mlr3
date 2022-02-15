@@ -5,7 +5,7 @@
 \alias{ResamplingSubsampling}
 \title{Subsampling Resampling}
 \description{
-Splits data \code{repeats} (default: 30) times into training and test set
+Splits data \code{repeats} (default: 30) times into training and validation set
 with a ratio of \code{ratio} (default: 2/3) observations going into the training set.
 }
 \section{Dictionary}{
@@ -36,10 +36,10 @@ subsampling$instantiate(task)
 
 # Individual sets:
 subsampling$train_set(1)
-subsampling$test_set(1)
+subsampling$validation_set(1)
 
 # Disjunct sets:
-intersect(subsampling$train_set(1), subsampling$test_set(1))
+intersect(subsampling$train_set(1), subsampling$validation_set(1))
 
 # Internal storage:
 subsampling$instance$train # list of index vectors
@@ -101,6 +101,7 @@ Returns the number of resampling iterations, depending on the values stored in t
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="print">}\href{../../mlr3/html/Resampling.html#method-print}{\code{mlr3::Resampling$print()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="test_set">}\href{../../mlr3/html/Resampling.html#method-test_set}{\code{mlr3::Resampling$test_set()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="train_set">}\href{../../mlr3/html/Resampling.html#method-train_set}{\code{mlr3::Resampling$train_set()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="validation_set">}\href{../../mlr3/html/Resampling.html#method-validation_set}{\code{mlr3::Resampling$validation_set()}}\out{</span>}
 }
 \out{</details>}
 }

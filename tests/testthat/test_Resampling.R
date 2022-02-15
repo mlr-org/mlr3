@@ -9,8 +9,8 @@ test_that("re-instantiating", {
   r = rsmp("custom")
   expect_error(r$instantiate(t1), "missing")
 
-  expect_resampling(r$instantiate(t1, train_sets = list(1), test_sets = list(1)), task = t1)
-  expect_resampling(r$instantiate(t2, train_sets = list(1), test_sets = list(2)), task = t2)
+  expect_resampling(r$instantiate(t1, train_sets = list(1), validation_sets = list(1)), task = t1)
+  expect_resampling(r$instantiate(t2, train_sets = list(1), validation_sets = list(2)), task = t2)
 })
 
 test_that("param_vals", {
@@ -89,7 +89,7 @@ test_that("integer grouping col (#396)", {
   expect_integer(set)
   expect_true(every(split(seq_row(df), f = df$id), function(x) all(x %in% set) || all(x %nin% set)))
 
-  set = bs$test_set(1)
+  set = bs$validation_set(1)
   expect_integer(set)
   expect_true(every(split(seq_row(df), f = df$id), function(x) all(x %in% set) || all(x %nin% set)))
 })
@@ -102,7 +102,7 @@ test_that("as.data.table.Resampling", {
   expect_data_table(tab, ncols = 3)
   expect_names(names(tab), permutation.of = c("set", "iteration", "row_id"))
   expect_integer(tab$iteration, any.missing = FALSE)
-  expect_factor(tab$set, levels = c("train", "test"), any.missing = FALSE)
+  expect_factor(tab$set, levels = c("train", "validation"), any.missing = FALSE)
   expect_integer(tab$row_id, any.missing = FALSE)
 })
 
@@ -111,13 +111,13 @@ test_that("Evaluation on holdout set", {
   rids = task$row_ids
   task$row_roles$holdout = tail(rids, 10)
   task$row_roles$use = head(rids, -10)
-  learner = lrn("classif.rpart", predict_sets = c("test", "holdout"))
+  learner = lrn("classif.rpart", predict_sets = c("validation", "holdout"))
   rr = resample(task, learner, rsmp("holdout"))
 
-  m1 = msr("classif.acc", id = "acc.test", predict_sets = "test")
+  m1 = msr("classif.acc", id = "acc.test", predict_sets = "validation")
   m2 = msr("classif.acc", id = "acc.holdout", predict_sets = "holdout")
 
-  expect_equal(rr$aggregate(list(m1, m2)), c(rr$prediction("test")$score(m1), rr$prediction("holdout")$score(m2)))
+  expect_equal(rr$aggregate(list(m1, m2)), c(rr$prediction("validation")$score(m1), rr$prediction("holdout")$score(m2)))
 })
 
 test_that("custom_cv", {
@@ -135,7 +135,6 @@ test_that("custom_cv", {
   expect_resampling(ccv, task = task)
   expect_equal(ccv$iters, 3L)
   expect_list(ccv$instance, "integer", len = 3)
-  names(ccv$instance)
   expect_names(names(ccv$instance), permutation.of = levels(f))
 
   task = task$clone(TRUE)$filter(1:10)

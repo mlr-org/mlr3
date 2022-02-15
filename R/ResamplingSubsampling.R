@@ -4,7 +4,7 @@
 #' @include Resampling.R
 #'
 #' @description
-#' Splits data `repeats` (default: 30) times into training and test set
+#' Splits data `repeats` (default: 30) times into training and validation set
 #' with a ratio of `ratio` (default: 2/3) observations going into the training set.
 #'
 #' @templateVar id holdout
@@ -32,10 +32,10 @@
 #'
 #' # Individual sets:
 #' subsampling$train_set(1)
-#' subsampling$test_set(1)
+#' subsampling$validation_set(1)
 #'
 #' # Disjunct sets:
-#' intersect(subsampling$train_set(1), subsampling$test_set(1))
+#' intersect(subsampling$train_set(1), subsampling$validation_set(1))
 #'
 #' # Internal storage:
 #' subsampling$instance$train # list of index vectors
@@ -76,7 +76,7 @@ ResamplingSubsampling = R6Class("ResamplingSubsampling", inherit = Resampling,
       self$instance$row_ids[self$instance$train[[i]]]
     },
 
-    .get_test = function(i) {
+    .get_validation = function(i) {
       self$instance$row_ids[-self$instance$train[[i]]]
     },
 

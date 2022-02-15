@@ -4,7 +4,7 @@
 #' @include Resampling.R
 #'
 #' @description
-#' Splits data into training and test sets in a cross-validation fashion based
+#' Splits data into training and validation sets in a cross-validation fashion based
 #' on a user-provided categorical vector.
 #' This vector can be passed during instantiation either via an arbitrary factor `f`
 #' with the same length as `task$nrow`, or via a single string `col` referring to a
@@ -31,10 +31,10 @@
 #'
 #' # Individual sets:
 #' custom_cv$train_set(1)
-#' custom_cv$test_set(1)
+#' custom_cv$validation_set(1)
 #'
 #' # Disjunct sets:
-#' intersect(custom_cv$train_set(1), custom_cv$test_set(1))
+#' intersect(custom_cv$train_set(1), custom_cv$validation_set(1))
 ResamplingCustomCV = R6Class("ResamplingCustomCV", inherit = Resampling,
   public = list(
     #' @description
@@ -92,7 +92,7 @@ ResamplingCustomCV = R6Class("ResamplingCustomCV", inherit = Resampling,
       unlist(self$instance[-i], use.names = FALSE) %??% integer()
     },
 
-    .get_test = function(i) {
+    .get_validation = function(i) {
       self$instance[[i]]
     }
   )

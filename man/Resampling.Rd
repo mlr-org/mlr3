@@ -24,11 +24,11 @@ In case of multiple stratification variables, each combination of the values of 
 First, the observations are divided into subpopulations based one or multiple stratification variables (assumed to be discrete), c.f. \code{task$strata}.
 
 Second, the sampling is performed in each of the \code{k} subpopulations separately.
-Each subgroup is divided into \code{iter} training sets and \code{iter} test sets by the derived \code{Resampling}.
+Each subgroup is divided into \code{iter} training sets and \code{iter} validation sets by the derived \code{Resampling}.
 These sets are merged based on their iteration number:
 all training sets from all subpopulations with iteration 1 are combined, then all training sets with iteration 2, and so on.
-Same is done for all test sets.
-The merged sets can be accessed via \verb{$train_set(i)} and \verb{$test_set(i)}, respectively.
+Same is done for all validation sets.
+The merged sets can be accessed via \verb{$train_set(i)} and \verb{$validation_set(i)}, respectively.
 Note that this procedure can lead to set sizes that are slightly different from those
 without stratification.
 }
@@ -39,11 +39,11 @@ All derived classes support grouping of observations.
 The grouping variable is assumed to be discrete and must be stored in the \link{Task} with column role \code{"group"}.
 
 Observations in the same group are treated like a "block" of observations which must be kept together.
-These observations either all go together into the training set or together into the test set.
+These observations either all go together into the training set or together into the validation set.
 
 The sampling is performed by the derived \link{Resampling} on the grouping variable.
-Next, the grouping information is replaced with the respective row ids to generate training and test sets.
-The sets can be accessed via \verb{$train_set(i)} and \verb{$test_set(i)}, respectively.
+Next, the grouping information is replaced with the respective row ids to generate training and validation sets.
+The sets can be accessed via \verb{$train_set(i)} and \verb{$validation_set(i)}, respectively.
 }
 
 \examples{
@@ -60,10 +60,10 @@ r$param_set$values
 task = tsk("penguins")
 r$instantiate(task)
 
-# Extract train/test sets
+# Extract train/validation sets
 train_set = r$train_set(1)
 print(train_set)
-intersect(train_set, r$test_set(1))
+intersect(train_set, r$validation(1))
 
 # Another example: 10-fold CV
 r = rsmp("cv")$instantiate(task)
@@ -118,7 +118,7 @@ Note that if a grouping variable is present in the \link{Task}, a \link{Resampli
 group ids internally instead of the row ids (which may lead to confusion).
 
 It is advised to not work directly with the \code{instance}, but instead only use the getters
-\verb{$train_set()} and \verb{$test_set()}.}
+\verb{$train_set()} and \verb{$validation_set()}.}
 
 \item{\code{task_hash}}{(\code{character(1)})\cr
 The hash of the \link{Task} which was passed to \code{r$instantiate()}.}
@@ -127,7 +127,7 @@ The hash of the \link{Task} which was passed to \code{r$instantiate()}.}
 The number of observations of the \link{Task} which was passed to \code{r$instantiate()}.}
 
 \item{\code{duplicated_ids}}{(\code{logical(1)})\cr
-If \code{TRUE}, duplicated rows can occur within a single training set or within a single test set.
+If \code{TRUE}, duplicated rows can occur within a single training set or within a single validation set.
 E.g., this is \code{TRUE} for Bootstrap, and \code{FALSE} for cross-validation.
 Only used internally.}
 
@@ -157,6 +157,7 @@ Hash (unique identifier) for this object.}
 \item \href{#method-help}{\code{Resampling$help()}}
 \item \href{#method-instantiate}{\code{Resampling$instantiate()}}
 \item \href{#method-train_set}{\code{Resampling$train_set()}}
+\item \href{#method-validation_set}{\code{Resampling$validation_set()}}
 \item \href{#method-test_set}{\code{Resampling$test_set()}}
 \item \href{#method-clone}{\code{Resampling$clone()}}
 }
@@ -185,7 +186,7 @@ Identifier for the new instance.}
 Set of hyperparameters.}
 
 \item{\code{duplicated_ids}}{(\code{logical(1)})\cr
-Set to \code{TRUE} if this resampling strategy may have duplicated row ids in a single training set or test set.
+Set to \code{TRUE} if this resampling strategy may have duplicated row ids in a single training set or validation set.
 
 Note that this object is typically constructed via a derived classes, e.g. \link{ResamplingCV} or \link{ResamplingHoldout}.}
 
@@ -237,7 +238,7 @@ Opens the corresponding help page referenced by field \verb{$man}.
 \if{html}{\out{<a id="method-instantiate"></a>}}
 \if{latex}{\out{\hypertarget{method-instantiate}{}}}
 \subsection{Method \code{instantiate()}}{
-Materializes fixed training and test splits for a given task and stores them in \code{r$instance}
+Materializes fixed training and validation splits for a given task and stores them in \code{r$instance}
 in an arbitrary format.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Resampling$instantiate(task)}\if{html}{\out{</div>}}
@@ -279,10 +280,31 @@ Iteration.}
 }
 }
 \if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-validation_set"></a>}}
+\if{latex}{\out{\hypertarget{method-validation_set}{}}}
+\subsection{Method \code{validation_set()}}{
+Returns the row ids of the i-th validation set.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Resampling$validation_set(i)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{i}}{(\code{integer(1)})\cr
+Iteration.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+(\code{integer()}) of row ids.
+}
+}
+\if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-test_set"></a>}}
 \if{latex}{\out{\hypertarget{method-test_set}{}}}
 \subsection{Method \code{test_set()}}{
-Returns the row ids of the i-th test set.
+Returns the row ids of the i-th validation set.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Resampling$test_set(i)}\if{html}{\out{</div>}}
 }

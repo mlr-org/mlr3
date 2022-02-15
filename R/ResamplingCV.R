@@ -29,10 +29,10 @@
 #'
 #' # Individual sets:
 #' cv$train_set(1)
-#' cv$test_set(1)
+#' cv$validation_set(1)
 #'
 #' # Disjunct sets:
-#' intersect(cv$train_set(1), cv$test_set(1))
+#' intersect(cv$train_set(1), cv$validation_set(1))
 #'
 #' # Internal storage:
 #' cv$instance # table
@@ -71,7 +71,7 @@ ResamplingCV = R6Class("ResamplingCV", inherit = Resampling,
       self$instance[!list(i), "row_id", on = "fold"][[1L]]
     },
 
-    .get_test = function(i) {
+    .get_validation = function(i) {
       self$instance[list(i), "row_id", on = "fold"][[1L]]
     },
 

@@ -33,10 +33,10 @@
 #'
 #' # Individual sets:
 #' bootstrap$train_set(1)
-#' bootstrap$test_set(1)
+#' bootstrap$validation_set(1)
 #'
 #' # Disjunct sets:
-#' intersect(bootstrap$train_set(1), bootstrap$test_set(1))
+#' intersect(bootstrap$train_set(1), bootstrap$validation_set(1))
 #'
 #' # Internal storage:
 #' bootstrap$instance$M # Matrix of counts
@@ -77,7 +77,7 @@ ResamplingBootstrap = R6Class("ResamplingBootstrap", inherit = Resampling,
       rep(self$instance$row_ids, times = self$instance$M[, i])
     },
 
-    .get_test = function(i) {
+    .get_validation = function(i) {
       self$instance$row_ids[self$instance$M[, i] == 0L]
     },
 

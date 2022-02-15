@@ -3,9 +3,9 @@
 \name{mlr_resamplings_custom_cv}
 \alias{mlr_resamplings_custom_cv}
 \alias{ResamplingCustomCV}
-\title{Custom Cross Validation}
+\title{Custom Cross-Validation}
 \description{
-Splits data into training and test sets in a cross-validation fashion based
+Splits data into training and validation sets in a cross-validation fashion based
 on a user-provided categorical vector.
 This vector can be passed during instantiation either via an arbitrary factor \code{f}
 with the same length as \code{task$nrow}, or via a single string \code{col} referring to a
@@ -34,10 +34,10 @@ custom_cv$iters # 3 folds
 
 # Individual sets:
 custom_cv$train_set(1)
-custom_cv$test_set(1)
+custom_cv$validation_set(1)
 
 # Disjunct sets:
-intersect(custom_cv$train_set(1), custom_cv$test_set(1))
+intersect(custom_cv$train_set(1), custom_cv$validation_set(1))
 }
 \seealso{
 \itemize{
@@ -83,13 +83,14 @@ Returns the number of resampling iterations, depending on the values stored in t
 }
 }
 \if{html}{
-\out{<details open ><summary>Inherited methods</summary>}
+\out{<details ><summary>Inherited methods</summary>}
 \itemize{
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="format">}\href{../../mlr3/html/Resampling.html#method-format}{\code{mlr3::Resampling$format()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="help">}\href{../../mlr3/html/Resampling.html#method-help}{\code{mlr3::Resampling$help()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="print">}\href{../../mlr3/html/Resampling.html#method-print}{\code{mlr3::Resampling$print()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="test_set">}\href{../../mlr3/html/Resampling.html#method-test_set}{\code{mlr3::Resampling$test_set()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="train_set">}\href{../../mlr3/html/Resampling.html#method-train_set}{\code{mlr3::Resampling$train_set()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="validation_set">}\href{../../mlr3/html/Resampling.html#method-validation_set}{\code{mlr3::Resampling$validation_set()}}\out{</span>}
 }
 \out{</details>}
 }
@@ -107,7 +108,7 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 \if{html}{\out{<a id="method-instantiate"></a>}}
 \if{latex}{\out{\hypertarget{method-instantiate}{}}}
 \subsection{Method \code{instantiate()}}{
-Instantiate this \link{Resampling} as cross validation with custom splits.
+Instantiate this \link{Resampling} as cross-validation with custom splits.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{ResamplingCustomCV$instantiate(task, f = NULL, col = NULL)}\if{html}{\out{</div>}}
 }

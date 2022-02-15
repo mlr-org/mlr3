@@ -25,11 +25,11 @@
 #' First, the observations are divided into subpopulations based one or multiple stratification variables (assumed to be discrete), c.f. `task$strata`.
 #'
 #' Second, the sampling is performed in each of the `k` subpopulations separately.
-#' Each subgroup is divided into `iter` training sets and `iter` test sets by the derived `Resampling`.
+#' Each subgroup is divided into `iter` training sets and `iter` validation sets by the derived `Resampling`.
 #' These sets are merged based on their iteration number:
 #' all training sets from all subpopulations with iteration 1 are combined, then all training sets with iteration 2, and so on.
-#' Same is done for all test sets.
-#' The merged sets can be accessed via `$train_set(i)` and `$test_set(i)`, respectively.
+#' Same is done for all validation sets.
+#' The merged sets can be accessed via `$train_set(i)` and `$validation_set(i)`, respectively.
 #' Note that this procedure can lead to set sizes that are slightly different from those
 #' without stratification.
 #'
@@ -39,11 +39,11 @@
 #' The grouping variable is assumed to be discrete and must be stored in the [Task] with column role `"group"`.
 #'
 #' Observations in the same group are treated like a "block" of observations which must be kept together.
-#' These observations either all go together into the training set or together into the test set.
+#' These observations either all go together into the training set or together into the validation set.
 #'
 #' The sampling is performed by the derived [Resampling] on the grouping variable.
-#' Next, the grouping information is replaced with the respective row ids to generate training and test sets.
-#' The sets can be accessed via `$train_set(i)` and `$test_set(i)`, respectively.
+#' Next, the grouping information is replaced with the respective row ids to generate training and validation sets.
+#' The sets can be accessed via `$train_set(i)` and `$validation_set(i)`, respectively.
 #'
 #'
 #' @template seealso_resampling
@@ -62,10 +62,10 @@
 #' task = tsk("penguins")
 #' r$instantiate(task)
 #'
-#' # Extract train/test sets
+#' # Extract train/validation sets
 #' train_set = r$train_set(1)
 #' print(train_set)
-#' intersect(train_set, r$test_set(1))
+#' intersect(train_set, r$validation(1))
 #'
 #' # Another example: 10-fold CV
 #' r = rsmp("cv")$instantiate(task)
@@ -93,7 +93,7 @@ Resampling = R6Class("Resampling",
     #'   group ids internally instead of the row ids (which may lead to confusion).
     #'
     #'   It is advised to not work directly with the `instance`, but instead only use the getters
-    #'   `$train_set()` and `$test_set()`.
+    #'   `$train_set()` and `$validation_set()`.
     instance = NULL,
 
     #' @field task_hash (`character(1)`)\cr
@@ -106,7 +106,7 @@ Resampling = R6Class("Resampling",
     task_nrow = NA_integer_,
 
     #' @field duplicated_ids (`logical(1)`)\cr
-    #'   If `TRUE`, duplicated rows can occur within a single training set or within a single test set.
+    #'   If `TRUE`, duplicated rows can occur within a single training set or within a single validation set.
     #'   E.g., this is `TRUE` for Bootstrap, and `FALSE` for cross-validation.
     #'   Only used internally.
     duplicated_ids = NULL,
@@ -118,7 +118,7 @@ Resampling = R6Class("Resampling",
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #'
     #' @param duplicated_ids (`logical(1)`)\cr
-    #'   Set to `TRUE` if this resampling strategy may have duplicated row ids in a single training set or test set.
+    #'   Set to `TRUE` if this resampling strategy may have duplicated row ids in a single training set or validation set.
     #'
     #' Note that this object is typically constructed via a derived classes, e.g. [ResamplingCV] or [ResamplingHoldout].
     initialize = function(id, param_set = ps(), duplicated_ids = FALSE, man = NA_character_) {
@@ -151,7 +151,7 @@ Resampling = R6Class("Resampling",
     },
 
     #' @description
-    #' Materializes fixed training and test splits for a given task and stores them in `r$instance`
+    #' Materializes fixed training and validation splits for a given task and stores them in `r$instance`
     #' in an arbitrary format.
     #'
     #' @param task ([Task])\cr
@@ -197,13 +197,25 @@ Resampling = R6Class("Resampling",
     },
 
     #' @description
-    #' Returns the row ids of the i-th test set.
+    #' Returns the row ids of the i-th validation set.
+    #'
+    #' @param i (`integer(1)`)\cr
+    #'   Iteration.
+    #' @return (`integer()`) of row ids.
+    validation_set = function(i) {
+      getter = if (exists(".get_validation", envir = private)) private$.get_validation else private$.get_test
+      private$.get_set(getter, i)
+    },
+
+    #' @description
+    #' Returns the row ids of the i-th validation set.
     #'
     #' @param i (`integer(1)`)\cr
     #'   Iteration.
     #' @return (`integer()`) of row ids.
     test_set = function(i) {
-      private$.get_set(private$.get_test, i)
+      .Deprecated(new = "validation_set", "The set 'test' has been renamed to 'validation'", package = "mlr3")
+      self$validation_set(i)
     }
   ),
 
@@ -252,9 +264,9 @@ as.data.table.Resampling = function(x, ...) { # nolint
 
   tab = rbindlist(list(
     map_dtr(iterations, function(i) list(row_id = x$train_set(i)), .idcol = "iteration"),
-    map_dtr(iterations, function(i) list(row_id = x$test_set(i)), .idcol = "iteration")
+    map_dtr(iterations, function(i) list(row_id = x$validation_set(i)), .idcol = "iteration")
   ), idcol = "set")
-  set(tab, j = "set", value = factor(c("train", "test")[tab$set], levels = c("train", "test")))
+  set(tab, j = "set", value = factor(c("train", "validation")[tab$set], levels = c("train", "validation")))
   setkeyv(tab, c("set", "iteration"))[]
 }
 

@@ -387,7 +387,7 @@ expect_resampling = function(r, task = NULL) {
   if (is.null(instance)) {
     testthat::expect_false(r$is_instantiated)
     testthat::expect_error(r$train_set(1L), "instantiated")
-    testthat::expect_error(r$test_set(1L), "instantiated")
+    testthat::expect_error(r$validation_set(1L), "instantiated")
     # testthat::expect_identical(r$hash, NA_character_)
     if (r$id %in% c("custom", "custom_cv", "loo")) {
       checkmate::expect_count(r$iters, na.ok = TRUE)
@@ -406,11 +406,11 @@ expect_resampling = function(r, task = NULL) {
 
     for (i in seq_len(r$iters)) {
       train = r$train_set(1L)
-      test = r$test_set(1L)
+      validation = r$validation_set(1L)
       checkmate::expect_integerish(train, any.missing = FALSE)
-      checkmate::expect_integerish(test, any.missing = FALSE)
+      checkmate::expect_integerish(validation, any.missing = FALSE)
       if (!inherits(r, "ResamplingCustom") && !inherits(r, "ResamplingInsample")) {
-        testthat::expect_length(intersect(train, test), 0L)
+        testthat::expect_length(intersect(train, validation), 0L)
       }
       if (!is.null(task)) {
         checkmate::expect_subset(train, ids)
@@ -426,14 +426,14 @@ expect_resampling = function(r, task = NULL) {
   if (!is.null(task) && !is.null(task$backend) && !inherits(r, "ResamplingCustom") && !inherits(r, "ResamplingCustomCV")) {
     r = r$clone()$instantiate(task)
     checkmate::expect_subset(r$train_set(1), task$row_ids)
-    checkmate::expect_subset(r$test_set(1), task$row_ids)
+    checkmate::expect_subset(r$validation_set(1), task$row_ids)
 
     # again with strata
     task = task$clone()
     task$col_roles$stratum = task$target_names
     r$instantiate(task)
     checkmate::expect_subset(r$train_set(1), task$row_ids)
-    checkmate::expect_subset(r$test_set(1), task$row_ids)
+    checkmate::expect_subset(r$validation_set(1), task$row_ids)
   }
 }
 

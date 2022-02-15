@@ -4,7 +4,7 @@
 #' @include Resampling.R
 #'
 #' @description
-#' Splits data into a training set and a test set.
+#' Splits data into a training set and a validation set.
 #' Parameter `ratio` determines the ratio of observation going into the training set (default: 2/3).
 #'
 #' @templateVar id holdout
@@ -30,10 +30,10 @@
 #'
 #' # Individual sets:
 #' holdout$train_set(1)
-#' holdout$test_set(1)
+#' holdout$validation_set(1)
 #'
 #' # Disjunct sets:
-#' intersect(holdout$train_set(1), holdout$test_set(1))
+#' intersect(holdout$train_set(1), holdout$validation_set(1))
 #'
 #' # Internal storage:
 #' holdout$instance # simple list
@@ -59,19 +59,19 @@ ResamplingHoldout = R6Class("ResamplingHoldout", inherit = Resampling,
       n = length(ids)
       in_train = logical(n)
       in_train[sample.int(n, round(n * self$param_set$values$ratio))] = TRUE
-      list(train = ids[in_train], test = ids[!in_train])
+      list(train = ids[in_train], validation = ids[!in_train])
     },
 
     .get_train = function(i) {
       self$instance$train
     },
 
-    .get_test = function(i) {
-      self$instance$test
+    .get_validation = function(i) {
+      self$instance$validation
     },
 
     .combine = function(instances) {
-      list(train = do.call(c, map(instances, "train")), test = do.call(c, map(instances, "test")))
+      list(train = do.call(c, map(instances, "train")), validation = do.call(c, map(instances, "validation")))
     }
   )
 )

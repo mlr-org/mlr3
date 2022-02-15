@@ -40,10 +40,10 @@
 #'
 #' # Individual sets:
 #' repeated_cv$train_set(1)
-#' repeated_cv$test_set(1)
+#' repeated_cv$validation_set(1)
 #'
 #' # Disjunct sets:
-#' intersect(repeated_cv$train_set(1), repeated_cv$test_set(1))
+#' intersect(repeated_cv$train_set(1), repeated_cv$validation_set(1))
 #'
 #' # Internal storage:
 #' repeated_cv$instance # table
@@ -109,7 +109,7 @@ ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
       self$instance[ii, "row_id", on = names(ii), nomatch = NULL][[1L]]
     },
 
-    .get_test = function(i) {
+    .get_validation = function(i) {
       i = as.integer(i) - 1L
       folds = as.integer(self$param_set$values$folds)
       rep = i %/% folds + 1L

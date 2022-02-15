@@ -5,7 +5,7 @@
 \alias{ResamplingCustom}
 \title{Custom Resampling}
 \description{
-Splits data into training and test sets using manually provided indices.
+Splits data into training and validation sets using manually provided indices.
 }
 \section{Dictionary}{
 
@@ -22,11 +22,11 @@ task$filter(1:10)
 # Instantiate Resampling
 custom = rsmp("custom")
 train_sets = list(1:5, 5:10)
-test_sets = list(5:10, 1:5)
-custom$instantiate(task, train_sets, test_sets)
+validation_sets = list(5:10, 1:5)
+custom$instantiate(task, train_sets, validation_sets)
 
 custom$train_set(1)
-custom$test_set(1)
+custom$validation_set(1)
 }
 \seealso{
 \itemize{
@@ -72,13 +72,14 @@ Returns the number of resampling iterations, depending on the values stored in t
 }
 }
 \if{html}{
-\out{<details open ><summary>Inherited methods</summary>}
+\out{<details ><summary>Inherited methods</summary>}
 \itemize{
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="format">}\href{../../mlr3/html/Resampling.html#method-format}{\code{mlr3::Resampling$format()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="help">}\href{../../mlr3/html/Resampling.html#method-help}{\code{mlr3::Resampling$help()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="print">}\href{../../mlr3/html/Resampling.html#method-print}{\code{mlr3::Resampling$print()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="test_set">}\href{../../mlr3/html/Resampling.html#method-test_set}{\code{mlr3::Resampling$test_set()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="train_set">}\href{../../mlr3/html/Resampling.html#method-train_set}{\code{mlr3::Resampling$train_set()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="validation_set">}\href{../../mlr3/html/Resampling.html#method-validation_set}{\code{mlr3::Resampling$validation_set()}}\out{</span>}
 }
 \out{</details>}
 }
@@ -96,24 +97,32 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 \if{html}{\out{<a id="method-instantiate"></a>}}
 \if{latex}{\out{\hypertarget{method-instantiate}{}}}
 \subsection{Method \code{instantiate()}}{
-Instantiate this \link{Resampling} with custom splits into training and test set.
+Instantiate this \link{Resampling} with custom splits into training and validation set.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResamplingCustom$instantiate(task, train_sets, test_sets)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{ResamplingCustom$instantiate(
+  task,
+  train_sets,
+  validation_sets = NULL,
+  test_sets = NULL
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{task}}{\link{Task}\cr
-Mainly used to check if \code{train_sets} and \code{test_sets} are feasible.}
+Mainly used to check if \code{train_sets} and \code{validation_sets} are feasible.}
 
 \item{\code{train_sets}}{(list of \code{integer()})\cr
 List with row ids for training, one list element per iteration.
-Must have the same length as \code{test_sets}.}
+Must have the same length as \code{validation_sets}.}
+
+\item{\code{validation_sets}}{(list of \code{integer()})\cr
+List with row ids for validation, one list element per iteration.
+Must have the same length as \code{train_sets}.}
 
 \item{\code{test_sets}}{(list of \code{integer()})\cr
-List with row ids for testing, one list element per iteration.
-Must have the same length as \code{train_sets}.}
+Deprecated, use \code{validation_sets} instead.}
 }
 \if{html}{\out{</div>}}
 }
