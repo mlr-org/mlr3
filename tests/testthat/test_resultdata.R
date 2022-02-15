@@ -87,18 +87,18 @@ test_that("mlr3tuning use case", {
 
 test_that("predict set selection", {
   task = tsk("mtcars")
-  learner = lrn("regr.rpart", predict_sets = c("train", "test"))
+  learner = lrn("regr.rpart", predict_sets = c("train", "validation"))
   resampling = rsmp("holdout")
   rr = resample(task, learner, resampling)
 
   p1 = rr$predictions("train")[[1]]
-  p2 = rr$predictions("test")[[1]]
+  p2 = rr$predictions("validation")[[1]]
   expect_prediction(p1)
   expect_prediction(p2)
   expect_disjunct(p1$row_ids, p2$row_ids)
 
   p1 = rr$prediction("train")
-  p2 = rr$prediction("test")
+  p2 = rr$prediction("validation")
   expect_prediction(p1)
   expect_prediction(p2)
   expect_disjunct(p1$row_ids, p2$row_ids)

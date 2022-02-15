@@ -8,8 +8,8 @@ test_that("folds first, then repetitions", {
   rrcv = rsmp("repeated_cv", repeats = 2, folds = 3)
   rrcv$instantiate(task)
 
-  expect_set_equal(c(rrcv$train_set(1), rrcv$test_set(1)), task$row_ids)
-  expect_integer(intersect(intersect(rrcv$test_set(1), rrcv$test_set(2)), rrcv$test_set(3)), len = 0L)
+  expect_set_equal(c(rrcv$train_set(1), rrcv$validation_set(1)), task$row_ids)
+  expect_integer(intersect(intersect(rrcv$validation_set(1), rrcv$validation_set(2)), rrcv$validation_set(3)), len = 0L)
 
   expect_equal(rrcv$folds(seq_len(rrcv$iters)), rep(1:3, 2))
   expect_equal(rrcv$repeats(seq_len(rrcv$iters)), rep(1:2, each = 3))
@@ -26,8 +26,8 @@ test_that("stratification", {
   for (i in seq_len(r$iters)) {
     expect_equal(task$data(r$train_set(i))[y == "a", .N], 72)
     expect_equal(task$data(r$train_set(i))[y == "b", .N], 8)
-    expect_equal(task$data(r$test_set(i))[y == "a", .N], 18)
-    expect_equal(task$data(r$test_set(i))[y == "b", .N], 2)
+    expect_equal(task$data(r$validation_set(i))[y == "a", .N], 18)
+    expect_equal(task$data(r$validation_set(i))[y == "b", .N], 2)
   }
 })
 

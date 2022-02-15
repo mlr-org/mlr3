@@ -14,7 +14,7 @@ Do not modify any object without cloning it first.
 \section{S3 Methods}{
 
 \itemize{
-\item \code{as.data.table(rr, reassemble_learners = TRUE, convert_predictions = TRUE, predict_sets = "test")}\cr
+\item \code{as.data.table(rr, reassemble_learners = TRUE, convert_predictions = TRUE, predict_sets = "validation")}\cr
 \link{ResampleResult} -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Returns a tabular view of the internal data.
 \item \code{c(...)}\cr
@@ -74,7 +74,7 @@ Learner prototype \code{\link[=resample]{resample()}} operated on.
 For a list of \strong{trained} learners, see methods \verb{$learners()}.}
 
 \item{\code{resampling}}{(\link{Resampling})\cr
-Instantiated \link{Resampling} object which stores the splits into training and test.}
+Instantiated \link{Resampling} object which stores the splits into training and validation.}
 
 \item{\code{learners}}{(list of \link{Learner})\cr
 List of trained learners, sorted by resampling iteration.}
@@ -177,7 +177,7 @@ Note that performance measures do not operate on this object,
 but instead on each prediction object separately and then combine the performance scores
 with the aggregate function of the respective \link{Measure}.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$prediction(predict_sets = "test")}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$prediction(predict_sets = "validation")}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -189,7 +189,7 @@ with the aggregate function of the respective \link{Measure}.
 }
 \subsection{Returns}{
 \link{Prediction}.
-Subset of \verb{\{"train", "test"\}}.
+Subset of \verb{\{"train", "validation"\}}.
 }
 }
 \if{html}{\out{<hr>}}
@@ -199,14 +199,14 @@ Subset of \verb{\{"train", "test"\}}.
 List of prediction objects, sorted by resampling iteration.
 If multiple sets are given, these are combined to a single one for each iteration.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$predictions(predict_sets = "test")}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$predictions(predict_sets = "validation")}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{predict_sets}}{(\code{character()})\cr
-Subset of \verb{\{"train", "test"\}}.}
+Subset of \verb{\{"train", "validation"\}}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -229,7 +229,7 @@ If \code{measures} is \code{NULL}, \code{measures} defaults to the return value 
   measures = NULL,
   ids = TRUE,
   conditions = FALSE,
-  predict_sets = "test"
+  predict_sets = "validation"
 )}\if{html}{\out{</div>}}
 }
 
@@ -249,8 +249,8 @@ Adds condition messages (\code{"warnings"}, \code{"errors"}) as extra
 list columns of character vectors to the returned table}
 
 \item{\code{predict_sets}}{(\code{character()})\cr
-Vector of predict sets (\verb{\{"train", "test"\}}) to construct the \link{Prediction} objects from.
-Default is \code{"test"}.}
+Vector of predict sets (\verb{\{"train", "validation"\}}) to construct the \link{Prediction} objects from.
+Default is \code{"validation"}.}
 }
 \if{html}{\out{</div>}}
 }

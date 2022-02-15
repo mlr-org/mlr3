@@ -18,7 +18,7 @@
 #' @template param_measures
 #'
 #' @section S3 Methods:
-#' * `as.data.table(rr, ..., reassemble_learners = TRUE, convert_predictions = TRUE, predict_sets = "test")`\cr
+#' * `as.data.table(rr, ..., reassemble_learners = TRUE, convert_predictions = TRUE, predict_sets = "validation")`\cr
 #'   [BenchmarkResult] -> [data.table::data.table()]\cr
 #'   Returns a tabular view of the internal data.
 #' * `c(...)`\cr
@@ -154,7 +154,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #' @template param_predict_sets
     #'
     #' @return [data.table::data.table()].
-    score = function(measures = NULL, ids = TRUE, conditions = FALSE, predict_sets = "test") {
+    score = function(measures = NULL, ids = TRUE, conditions = FALSE, predict_sets = "validation") {
       measures = as_measures(measures, task_type = self$task_type)
       assert_flag(ids)
       assert_flag(conditions)
@@ -494,7 +494,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
 )
 
 #' @export
-as.data.table.BenchmarkResult = function(x, ..., hashes = FALSE, predict_sets = "test") { # nolint
+as.data.table.BenchmarkResult = function(x, ..., hashes = FALSE, predict_sets = "validation") { # nolint
   tab = get_private(x)$.data$as_data_table(view = NULL, predict_sets = predict_sets)
   tab[, c("uhash", "task", "learner", "resampling", "iteration", "prediction"), with = FALSE]
 }

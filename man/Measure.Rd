@@ -68,19 +68,11 @@ Set of hyperparameters.}
 \item{\code{predict_type}}{(\code{character(1)})\cr
 Required predict type of the \link{Learner}.}
 
-\item{\code{predict_sets}}{(\code{character()})\cr
-During \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}, a \link{Learner} can predict on multiple sets.
-Per default, a learner only predicts observations in the test set (\code{predict_sets == "test"}).
-To change this behavior, set \code{predict_sets} to a non-empty subset of \verb{\{"train", "test", "holdout"\}}.
-Each set yields a separate \link{Prediction} object.
-Those can be combined via getters in \link{ResampleResult}/\link{BenchmarkResult}, or \link{Measure}s can be configured
-to operate on specific subsets of the calculated prediction sets.}
-
 \item{\code{check_prerequisites}}{(\code{character(1)})\cr
 How to proceed if one of the following prerequisites is not met:
 \itemize{
 \item wrong predict type (e.g., probabilities required, but only labels available).
-\item wrong predict set (e.g., learner predicted on training set, but predictions of test set required).
+\item wrong predict set (e.g., learner predicted on training set, but predictions of validation set required).
 \item task properties not satisfied (e.g., binary classification measure on multiclass task).
 }
 
@@ -130,6 +122,16 @@ The measure comes with a custom aggregation method which directly operates on a 
 
 \item{\code{aggregator}}{(\verb{function()})\cr
 Function to aggregate scores computed on different resampling iterations.}
+
+\item{\code{predict_sets}}{(\code{character()})\cr
+During \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}, a \link{Learner} can predict on multiple sets.
+Per default, a learner only predicts observations in the validation set (\code{predict_sets == "validation"}).
+To change this behavior, set \code{predict_sets} to a non-empty subset of \verb{\{"train", "validation", "holdout"\}}.
+Each set yields a separate \link{Prediction} object.
+Those can be combined via getters in \link{ResampleResult}/\link{BenchmarkResult}, or \link{Measure}s can be configured
+to operate on specific subsets of the calculated prediction sets.
+
+The set \code{"test"} is an deprecated alias name for the validation set.}
 }
 \if{html}{\out{</div>}}
 }
@@ -162,7 +164,7 @@ Note that this object is typically constructed via a derived classes, e.g. \link
   aggregator = NULL,
   properties = character(),
   predict_type = "response",
-  predict_sets = "test",
+  predict_sets = "validation",
   task_properties = character(),
   packages = character(),
   man = NA_character_
@@ -232,9 +234,11 @@ Possible values are stored in \link[=mlr_reflections]{mlr_reflections$learner_pr
 \item{\code{predict_sets}}{(\code{character()})\cr
 Prediction sets to operate on, used in \code{aggregate()} to extract the matching \code{predict_sets} from the \link{ResampleResult}.
 Multiple predict sets are calculated by the respective \link{Learner} during \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}.
-Must be a non-empty subset of \verb{\{"train", "test", "holdout"\}}.
+Must be a non-empty subset of \verb{\{"train", "validation", "holdout"\}}.
 If multiple sets are provided, these are first combined to a single prediction object.
-Default is \code{"test"}.}
+Default is \code{"validation"}.
+
+The set \code{"test"} is an deprecated alias name for the validation set.}
 
 \item{\code{task_properties}}{(\code{character()})\cr
 Required task properties, see \link{Task}.}

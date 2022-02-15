@@ -1,7 +1,7 @@
-#' @title Manually Partition into Training and Test Set
+#' @title Manually Partition into Training and Validation Set
 #'
 #' @description
-#' Creates a split of the row ids of a [Task] into a training set and a test set while
+#' Creates a split of the row ids of a [Task] into a training set and a validation set while
 #' optionally stratifying on the target column.
 #'
 #' For more complex partitions, see the example.
@@ -24,7 +24,7 @@
 #' # roughly equal size split while stratifying on the binned response
 #' split = partition(task, ratio = 0.5)
 #' data = data.frame(
-#'   y = c(task$truth(split$train), task$truth(split$test)),
+#'   y = c(task$truth(split$train), task$truth(split$validation)),
 #'   split = rep(c("train", "predict"), lengths(split))
 #' )
 #' boxplot(y ~ split, data = data)
@@ -37,7 +37,7 @@
 #' # roughly same distribution of the target label
 #' prop.table(table(task$truth()))
 #' prop.table(table(task$truth(split$train)))
-#' prop.table(table(task$truth(split$test)))
+#' prop.table(table(task$truth(split$validation)))
 #'
 #'
 #' # splitting into 3 disjunct sets, using ResamplingCV and stratification
@@ -84,5 +84,5 @@ partition.TaskClassif = function(task, ratio = 0.67, stratify = TRUE, ...) { # n
 #' @export
 partition.Task = function(task, ratio = 0.67, stratify = TRUE, ...) { # nolint
   r = rsmp("holdout", ratio = ratio)$instantiate(task)
-  list(train = r$train_set(1L), test = r$test_set(1L))
+  list(train = r$train_set(1L), validation = r$validation_set(1L))
 }

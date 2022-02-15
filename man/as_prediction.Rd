@@ -17,9 +17,9 @@ as_prediction(x, check = TRUE, ...)
 
 \method{as_prediction}{PredictionDataRegr}(x, check = TRUE, ...)
 
-as_predictions(x, predict_sets = "test", ...)
+as_predictions(x, predict_sets = "validation", ...)
 
-\method{as_predictions}{list}(x, predict_sets = "test", ...)
+\method{as_predictions}{list}(x, predict_sets = "validation", ...)
 }
 \arguments{
 \item{x}{(any)\cr
@@ -34,9 +34,11 @@ Additional arguments.}
 \item{predict_sets}{(\code{character()})\cr
 Prediction sets to operate on, used in \code{aggregate()} to extract the matching \code{predict_sets} from the \link{ResampleResult}.
 Multiple predict sets are calculated by the respective \link{Learner} during \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}.
-Must be a non-empty subset of \verb{\{"train", "test", "holdout"\}}.
+Must be a non-empty subset of \verb{\{"train", "validation", "holdout"\}}.
 If multiple sets are provided, these are first combined to a single prediction object.
-Default is \code{"test"}.}
+Default is \code{"validation"}.
+
+The set \code{"test"} is an deprecated alias name for the validation set.}
 }
 \value{
 \link{Prediction}.

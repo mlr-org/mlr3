@@ -158,7 +158,7 @@ test_that("predict on newdata works / data backend input", {
   learner = lrn("regr.featureless")
   learner$train(task$clone()$filter(splits$train))
 
-  newdata = task$data(rows = splits$test)
+  newdata = task$data(rows = splits$validation)
   newdata$new_row_id = sample(1e4, nrow(newdata))
   backend = as_data_backend(newdata, primary_key = "new_row_id")
   p = learner$predict_newdata(newdata = backend)
@@ -186,12 +186,12 @@ test_that("predict on newdata works / titanic use case", {
 test_that("predict train + test set", {
   task = tsk("iris")
   m1 = msr("debug", id = "tr", predict_sets = "train")
-  m2 = msr("debug", id = "te", predict_sets = "test")
-  m3 = msr("debug", id = "trte", predict_sets = c("train", "test"))
+  m2 = msr("debug", id = "te", predict_sets = "validation")
+  m3 = msr("debug", id = "trte", predict_sets = c("train", "validation"))
   measures = list(m1, m2, m3)
   hout = rsmp("holdout")$instantiate(task)
   n_train = length(hout$train_set(1))
-  n_test = length(hout$test_set(1))
+  n_vali = length(hout$validation_set(1))
 
   learner = lrn("classif.rpart")
   rr = resample(task, learner, hout)
@@ -201,11 +201,11 @@ test_that("predict train + test set", {
   rr = resample(task, learner, hout)
   expect_warning(expect_warning(rr$aggregate(measures = measures), "predict sets", fixed = TRUE))
 
-  learner = lrn("classif.rpart", predict_sets = c("train", "test"))
+  learner = lrn("classif.rpart", predict_sets = c("train", "validation"))
   rr = resample(task, learner, hout)
   aggr = rr$aggregate(measures = measures)
   expect_equal(unname(is.na(aggr)), c(FALSE, FALSE, FALSE))
-  expect_equal(unname(aggr), c(n_train, n_test, n_train + n_test))
+  expect_equal(unname(aggr), c(n_train, n_vali, n_train + n_vali))
 })
 
 test_that("assertions work (#357)", {
@@ -234,7 +234,7 @@ test_that("empty predict set (#421)", {
   resampling = rsmp("holdout", ratio = 1)
   hout = resampling$instantiate(task)
   learner$train(task, hout$train_set(1))
-  pred = learner$predict(task, hout$test_set(1))
+  pred = learner$predict(task, hout$validation_set(1))
   expect_prediction(pred)
   expect_true(any(grepl("No data to predict on", learner$log$msg)))
 })

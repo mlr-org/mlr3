@@ -13,7 +13,7 @@
 #' @template param_measures
 #'
 #' @section S3 Methods:
-#' * `as.data.table(rr, reassemble_learners = TRUE, convert_predictions = TRUE, predict_sets = "test")`\cr
+#' * `as.data.table(rr, reassemble_learners = TRUE, convert_predictions = TRUE, predict_sets = "validation")`\cr
 #'   [ResampleResult] -> [data.table::data.table()]\cr
 #'   Returns a tabular view of the internal data.
 #' * `c(...)`\cr
@@ -86,8 +86,8 @@ ResampleResult = R6Class("ResampleResult",
     #'
     #' @param predict_sets (`character()`)\cr
     #' @return [Prediction].
-    #'   Subset of `{"train", "test"}`.
-    prediction = function(predict_sets = "test") {
+    #'   Subset of `{"train", "validation"}`.
+    prediction = function(predict_sets = "validation") { # FIXME
       private$.data$prediction(private$.view, predict_sets)
     },
 
@@ -96,9 +96,9 @@ ResampleResult = R6Class("ResampleResult",
     #' If multiple sets are given, these are combined to a single one for each iteration.
     #'
     #' @param predict_sets (`character()`)\cr
-    #'   Subset of `{"train", "test"}`.
+    #'   Subset of `{"train", "validation"}`.
     #' @return List of [Prediction] objects, one per element in `predict_sets`.
-    predictions = function(predict_sets = "test") {
+    predictions = function(predict_sets = "validation") {
       private$.data$predictions(private$.view, predict_sets)
     },
 
@@ -120,11 +120,11 @@ ResampleResult = R6Class("ResampleResult",
     #'   list columns of character vectors to the returned table
     #'
     #' @param predict_sets (`character()`)\cr
-    #'   Vector of predict sets (`{"train", "test"}`) to construct the [Prediction] objects from.
-    #'   Default is `"test"`.
+    #'   Vector of predict sets (`{"train", "validation"}`) to construct the [Prediction] objects from.
+    #'   Default is `"validation"`.
     #'
     #' @return [data.table::data.table()].
-    score = function(measures = NULL, ids = TRUE, conditions = FALSE, predict_sets = "test") {
+    score = function(measures = NULL, ids = TRUE, conditions = FALSE, predict_sets = "validation") {
       measures = as_measures(measures, task_type = private$.data$task_type)
       assert_flag(ids)
       assert_flag(conditions)
@@ -264,7 +264,7 @@ ResampleResult = R6Class("ResampleResult",
     },
 
     #' @field resampling ([Resampling])\cr
-    #' Instantiated [Resampling] object which stores the splits into training and test.
+    #' Instantiated [Resampling] object which stores the splits into training and validation.
     resampling = function(rhs) {
       assert_ro_binding(rhs)
       tab = private$.data$resamplings(private$.view)
@@ -316,7 +316,7 @@ ResampleResult = R6Class("ResampleResult",
 )
 
 #' @export
-as.data.table.ResampleResult = function(x, ..., predict_sets = "test") { # nolint
+as.data.table.ResampleResult = function(x, ..., predict_sets = "validation") { # nolint
   private = get_private(x)
   tab = private$.data$as_data_table(view = private$.view, predict_sets = predict_sets)
   tab[, c("task", "learner", "resampling", "iteration", "prediction"), with = FALSE]

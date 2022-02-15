@@ -34,7 +34,7 @@
 #' for (i in iterations) {
 #'   l = learner$clone(deep = TRUE)
 #'   learners[[i]] = l$train(task, row_ids = resampling$train_set(i))
-#'   predictions[[i]] = l$predict(task, row_ids = resampling$test_set(i))
+#'   predictions[[i]] = l$predict(task, row_ids = resampling$validation_set(i))
 #' }
 #'
 #' rdata = as_result_data(task, learners, resampling, iterations, predictions)

@@ -140,14 +140,6 @@ Supported data format, e.g. \code{"data.table"} or \code{"Matrix"}.}
 Set of required packages.
 These packages are loaded, but not attached.}
 
-\item{\code{predict_sets}}{(\code{character()})\cr
-During \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}, a \link{Learner} can predict on multiple sets.
-Per default, a learner only predicts observations in the test set (\code{predict_sets == "test"}).
-To change this behavior, set \code{predict_sets} to a non-empty subset of \verb{\{"train", "test", "holdout"\}}.
-Each set yields a separate \link{Prediction} object.
-Those can be combined via getters in \link{ResampleResult}/\link{BenchmarkResult}, or \link{Measure}s can be configured
-to operate on specific subsets of the calculated prediction sets.}
-
 \item{\code{parallel_predict}}{(\code{logical(1)})\cr
 If set to \code{TRUE}, use \CRANpkg{future} to calculate predictions in parallel (default: \code{FALSE}).
 The row ids of the \code{task} will be split into \code{\link[future:nbrOfWorkers]{future::nbrOfWorkers()}} chunks,
@@ -195,6 +187,16 @@ Logged errors as vector.}
 
 \item{\code{hash}}{(\code{character(1)})\cr
 Hash (unique identifier) for this object.}
+
+\item{\code{predict_sets}}{(\code{character()})\cr
+During \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}, a \link{Learner} can predict on multiple sets.
+Per default, a learner only predicts observations in the validation set (\code{predict_sets == "validation"}).
+To change this behavior, set \code{predict_sets} to a non-empty subset of \verb{\{"train", "validation", "holdout"\}}.
+Each set yields a separate \link{Prediction} object.
+Those can be combined via getters in \link{ResampleResult}/\link{BenchmarkResult}, or \link{Measure}s can be configured
+to operate on specific subsets of the calculated prediction sets.
+
+The set \code{"test"} is an deprecated alias name for the validation set.}
 
 \item{\code{phash}}{(\code{character(1)})\cr
 Hash (unique identifier) for this partial object, excluding some components
@@ -363,7 +365,7 @@ Mutates the learner by reference, i.e. stores the model alongside other informat
 
 \item{\code{row_ids}}{(\code{integer()})\cr
 Vector of training indices as subset of \code{task$row_ids}.
-For a simple split into training and test set, see \code{\link[=partition]{partition()}}.}
+For a simple split into training and validation set, see \code{\link[=partition]{partition()}}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -389,8 +391,8 @@ for a set of observations of the provided \code{task}.
 \item{\code{task}}{(\link{Task}).}
 
 \item{\code{row_ids}}{(\code{integer()})\cr
-Vector of test indices as subset of \code{task$row_ids}.
-For a simple split into training and test set, see \code{\link[=partition]{partition()}}.}
+Vector of validation indices as subset of \code{task$row_ids}.
+For a simple split into training and validation set, see \code{\link[=partition]{partition()}}.}
 }
 \if{html}{\out{</div>}}
 }

@@ -35,13 +35,13 @@ as_prediction.PredictionDataRegr = function(x, check = TRUE, ...) { # nolint
 #' @rdname as_prediction
 #' @template param_predict_sets
 #' @export
-as_predictions = function(x, predict_sets = "test", ...) {
+as_predictions = function(x, predict_sets = "validation", ...) {
   UseMethod("as_predictions")
 }
 
 #' @rdname as_prediction
 #' @export
-as_predictions.list = function(x, predict_sets = "test", ...) { # nolint
+as_predictions.list = function(x, predict_sets = "validation", ...) { # nolint
   assert_subset(predict_sets, mlr_reflections$predict_sets)
 
   result = vector("list", length(x))

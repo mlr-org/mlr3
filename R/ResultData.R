@@ -172,7 +172,7 @@ ResultData = R6Class("ResultData",
     #' @template param_predict_sets
     #'
     #' @return `list()` of [Prediction].
-    predictions = function(view = NULL, predict_sets = "test") {
+    predictions = function(view = NULL, predict_sets = "validation") {
       .__ii__ = private$get_view_index(view)
       as_predictions(self$data$fact[.__ii__, "prediction", with = FALSE][[1L]], predict_sets = predict_sets)
     },
@@ -183,7 +183,7 @@ ResultData = R6Class("ResultData",
     #' @template param_predict_sets
     #'
     #' @return [Prediction].
-    prediction = function(view = NULL, predict_sets = "test") {
+    prediction = function(view = NULL, predict_sets = "validation") {
       self$predictions(view = view, predict_sets = predict_sets)
       do.call(c, self$predictions(view = view, predict_sets = predict_sets))
     },
@@ -272,7 +272,7 @@ ResultData = R6Class("ResultData",
     #' @param convert_predictions (`logical(1)`)\cr
     #'   Convert [PredictionData] to [Prediction]?
     #' @template param_predict_sets
-    as_data_table = function(view = NULL, reassemble_learners = TRUE, convert_predictions = TRUE, predict_sets = "test") {
+    as_data_table = function(view = NULL, reassemble_learners = TRUE, convert_predictions = TRUE, predict_sets = "validation") {
       .__ii__ = private$get_view_index(view)
 
       tab = self$data$fact[.__ii__]

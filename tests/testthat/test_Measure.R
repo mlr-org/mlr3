@@ -25,8 +25,8 @@ test_that("average with micro/macro", {
   expect_true(diff(aggr) > 0)
   expect_equal(aggr[[1]], mean(map_dbl(rr$predictions(), micro$score)))
   expect_equal(aggr[[1]], mean(map_dbl(rr$predictions(), macro$score)))
-  expect_equal(aggr[[2]], micro$score(rr$prediction("test")))
-  expect_equal(aggr[[2]], macro$score(rr$prediction("test")))
+  expect_equal(aggr[[2]], micro$score(rr$prediction("validation")))
+  expect_equal(aggr[[2]], macro$score(rr$prediction("validation")))
 })
 
 test_that("k is hashed in AIC", {

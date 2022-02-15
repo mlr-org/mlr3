@@ -166,8 +166,8 @@ test_that("custom resampling (#245)", {
 
   rdesc = rsmp("custom")
   train_sets = list((1:200), (1:300), (1:400))
-  test_sets = list((201:301), (301:401), (401:501))
-  rdesc$instantiate(task_boston, train_sets, test_sets)
+  validation_sets = list((201:301), (301:401), (401:501))
+  rdesc$instantiate(task_boston, train_sets, validation_sets)
 
   expect_resample_result(mlr3::resample(task_boston, lrn, rdesc))
 

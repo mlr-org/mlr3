@@ -14,7 +14,7 @@ test_that("stratification", {
 
   i = 1L
   expect_data_table(task$data(r$train_set(i)), nrows = 99)
-  expect_data_table(task$data(r$test_set(i)), nrows = 1)
+  expect_data_table(task$data(r$validation_set(i)), nrows = 1)
 })
 
 test_that("grouping", {

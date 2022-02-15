@@ -131,8 +131,8 @@ test_that("c", {
   expect_equal(conf, Reduce("+", map(rr$predictions(), "confusion")))
 
   # duplicates are detected?
-  p1 = get_private(rr)$.data$data$fact$prediction[[1]]$test
-  p2 = get_private(rr)$.data$data$fact$prediction[[1]]$test
+  p1 = get_private(rr)$.data$data$fact$prediction[[1]]$validation
+  p2 = get_private(rr)$.data$data$fact$prediction[[1]]$validation
   p3 = c(p1, p2, keep_duplicates = FALSE)
   expect_equal(sort(p1$data$row_ids), sort(p2$data$row_ids))
   expect_equal(sort(p1$data$row_ids), sort(p3$data$row_ids))

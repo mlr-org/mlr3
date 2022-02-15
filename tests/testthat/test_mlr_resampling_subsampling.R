@@ -15,8 +15,8 @@ test_that("stratification", {
   for (i in seq_len(r$iters)) {
     expect_equal(task$data(r$train_set(i))[y == "a", .N], 45)
     expect_equal(task$data(r$train_set(i))[y == "b", .N], 5)
-    expect_equal(task$data(r$test_set(i))[y == "a", .N], 45)
-    expect_equal(task$data(r$test_set(i))[y == "b", .N], 5)
+    expect_equal(task$data(r$validation_set(i))[y == "a", .N], 45)
+    expect_equal(task$data(r$validation_set(i))[y == "b", .N], 5)
   }
 })
 

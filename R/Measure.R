@@ -51,14 +51,11 @@ Measure = R6Class("Measure",
     #' Required predict type of the [Learner].
     predict_type = NULL,
 
-    #' @template field_predict_sets
-    predict_sets = NULL,
-
     #' @field check_prerequisites (`character(1)`)\cr
     #' How to proceed if one of the following prerequisites is not met:
     #'
     #' * wrong predict type (e.g., probabilities required, but only labels available).
-    #' * wrong predict set (e.g., learner predicted on training set, but predictions of test set required).
+    #' * wrong predict set (e.g., learner predicted on training set, but predictions of validation set required).
     #' * task properties not satisfied (e.g., binary classification measure on multiclass task).
     #'
     #' Possible values are `"ignore"` (just return `NaN`) and `"warn"` (default, raise a warning before returning `NaN`).
@@ -92,7 +89,7 @@ Measure = R6Class("Measure",
     #' Note that this object is typically constructed via a derived classes, e.g. [MeasureClassif] or [MeasureRegr].
     initialize = function(id, task_type = NA, param_set = ps(), range = c(-Inf, Inf), minimize = NA, average = "macro",
       aggregator = NULL, properties = character(), predict_type = "response",
-      predict_sets = "test", task_properties = character(), packages = character(), man = NA_character_) {
+      predict_sets = "validation", task_properties = character(), packages = character(), man = NA_character_) {
 
       self$id = assert_string(id, min.chars = 1L)
       self$task_type = task_type
@@ -112,7 +109,7 @@ Measure = R6Class("Measure",
 
       self$properties = unique(properties)
       self$predict_type = predict_type
-      self$predict_sets = assert_subset(predict_sets, mlr_reflections$predict_sets, empty.ok = FALSE)
+      self$predict_sets = predict_sets
       self$task_properties = task_properties
       self$packages = union("mlr3", assert_character(packages, any.missing = FALSE, min.chars = 1L))
       self$man = assert_string(man, na.ok = TRUE)
@@ -247,10 +244,29 @@ Measure = R6Class("Measure",
       } else {
         private$.aggregator
       }
+    },
+
+    #' @template field_predict_sets
+    predict_sets = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.predict_sets)
+      }
+
+      assert_subset(rhs, c(mlr_reflections$predict_sets, "test"), empty.ok = FALSE)
+      ii = which(rhs == "test")
+      if (length(ii)) {
+        .Deprecated(new = "predict_sets", "The set 'test' has been renamed to 'validation'", package = "mlr3")
+        rhs[ii] = "validation"
+      }
+      rhs = unique(rhs)
+      rhs = rhs[reorder_vector(rhs, mlr_reflections$predict_sets)]
+      private$.predict_sets = rhs
     }
   ),
 
+
   private = list(
+    .predict_sets = NULL,
     .extra_hash = character(),
     .average = NULL,
     .aggregator = NULL

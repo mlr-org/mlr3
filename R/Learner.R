@@ -122,9 +122,6 @@ Learner = R6Class("Learner",
     #' @template field_packages
     packages = NULL,
 
-    #' @template field_predict_sets
-    predict_sets = "test",
-
     #' @field parallel_predict (`logical(1)`)\cr
     #' If set to `TRUE`, use \CRANpkg{future} to calculate predictions in parallel (default: `FALSE`).
     #' The row ids of the `task` will be split into [future::nbrOfWorkers()] chunks,
@@ -207,7 +204,7 @@ Learner = R6Class("Learner",
     #'
     #' @param row_ids (`integer()`)\cr
     #'   Vector of training indices as subset of `task$row_ids`.
-    #'   For a simple split into training and test set, see [partition()].
+    #'   For a simple split into training and validation set, see [partition()].
     #'
     #' @return
     #' Returns the object itself, but modified **by reference**.
@@ -247,8 +244,8 @@ Learner = R6Class("Learner",
     #' @param task ([Task]).
     #'
     #' @param row_ids (`integer()`)\cr
-    #'   Vector of test indices as subset of `task$row_ids`.
-    #'   For a simple split into training and test set, see [partition()].
+    #'   Vector of validation indices as subset of `task$row_ids`.
+    #'   For a simple split into training and validation set, see [partition()].
     #'
     #' @return [Prediction].
     predict = function(task, row_ids = NULL) {
@@ -410,7 +407,24 @@ Learner = R6Class("Learner",
     hash = function(rhs) {
       assert_ro_binding(rhs)
       calculate_hash(class(self), self$id, self$param_set$values, private$.predict_type,
-        self$fallback$hash, self$parallel_predict)
+        private$.predict_sets, private$.fallback$hash, self$parallel_predict)
+    },
+
+    #' @template field_predict_sets
+    predict_sets = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.predict_sets)
+      }
+
+      assert_subset(rhs, c(mlr_reflections$predict_sets, "test"), empty.ok = FALSE)
+      ii = which(rhs == "test")
+      if (length(ii)) {
+        .Deprecated(new = "predict_sets", "The set 'test' has been renamed to 'validation'", package = "mlr3")
+        rhs[ii] = "validation"
+      }
+      rhs = unique(rhs)
+      rhs = rhs[reorder_vector(rhs, mlr_reflections$predict_sets)]
+      private$.predict_sets = rhs
     },
 
     #' @field phash (`character(1)`)\cr
@@ -505,6 +519,7 @@ Learner = R6Class("Learner",
     .predict_type = NULL,
     .param_set = NULL,
     .hotstart_stack = NULL,
+    .predict_sets = "validation",
 
     deep_clone = function(name, value) {
       switch(name,

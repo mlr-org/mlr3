@@ -76,8 +76,8 @@ resample = function(task, learner, resampling, store_models = FALSE, store_backe
   }
   lgr_threshold = map_int(mlr_reflections$loggers, "threshold")
 
-  grid = if (allow_hotstart) {
-   hotstart_grid = map_dtr(seq_len(n), function(iteration) {
+  if (allow_hotstart) {
+    grid = map_dtr(seq_len(n), function(iteration) {
       if (!is.null(learner$hotstart_stack)) {
         # search for hotstart learner
         task_hashes = task_hashes(task, resampling)
@@ -96,13 +96,12 @@ resample = function(task, learner, resampling, store_models = FALSE, store_backe
     })
 
     # null hotstart stack to reduce overhead in parallelization
-    walk(hotstart_grid$learner, function(learner) {
+    walk(grid$learner, function(learner) {
       learner$hotstart_stack = NULL
       learner
     })
-    hotstart_grid
   } else {
-    data.table(learner = replicate(n, learner), mode = "train")
+    grid = data.table(learner = replicate(n, learner), mode = "train")
   }
 
   if (getOption("mlr3.debug", FALSE)) {

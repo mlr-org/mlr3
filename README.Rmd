@@ -97,13 +97,13 @@ learner <- lrn("classif.rpart", cp = .01)
 ```{r}
 # train/test split
 train_set <- sample(task_penguins$nrow, 0.8 * task_penguins$nrow)
-test_set <- setdiff(seq_len(task_penguins$nrow), train_set)
+validation_set <- setdiff(seq_len(task_penguins$nrow), train_set)
 
 # train the model
 learner$train(task_penguins, row_ids = train_set)
 
 # predict data
-prediction <- learner$predict(task_penguins, row_ids = test_set)
+prediction <- learner$predict(task_penguins, row_ids = validation_set)
 
 # calculate performance
 prediction$confusion

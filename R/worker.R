@@ -131,7 +131,7 @@ learner_predict = function(learner, task, row_ids = NULL) {
     }
   }
 
-  # subset to test set w/o cloning
+  # subset to validation set w/o cloning
   if (!is.null(row_ids)) {
     lg$debug("Subsetting task '%s' to %i rows",
       task$id, length(row_ids), task = task$clone(), row_ids = row_ids)
@@ -233,7 +233,7 @@ workhorse = function(iteration, task, learner, resampling, lgr_threshold, store_
 
   sets = list(
     train = resampling$train_set(iteration),
-    test = resampling$test_set(iteration),
+    validation = resampling$validation_set(iteration),
     holdout = task$row_roles$holdout
   )
 

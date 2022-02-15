@@ -218,7 +218,7 @@ Single \code{uhash} to restrict the results to.}
 \subsection{Method \code{predictions()}}{
 Returns a list of \link{Prediction} objects.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResultData$predictions(view = NULL, predict_sets = "test")}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{ResultData$predictions(view = NULL, predict_sets = "validation")}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -230,23 +230,29 @@ Single \code{uhash} to restrict the results to.}
 \item{\code{predict_sets}}{(\code{character()})\cr
 Prediction sets to operate on, used in \code{aggregate()} to extract the matching \code{predict_sets} from the \link{ResampleResult}.
 Multiple predict sets are calculated by the respective \link{Learner} during \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}.
-Must be a non-empty subset of \verb{\{"train", "test", "holdout"\}}.
+Must be a non-empty subset of \verb{\{"train", "validation", "holdout"\}}.
 If multiple sets are provided, these are first combined to a single prediction object.
-Default is \code{"test"}.}
+Default is \code{"validation"}.
+
+The set \code{"test"} is an deprecated alias name for the validation set.}
 
 \item{\code{predict_sets}}{(\code{character()})\cr
 Prediction sets to operate on, used in \code{aggregate()} to extract the matching \code{predict_sets} from the \link{ResampleResult}.
 Multiple predict sets are calculated by the respective \link{Learner} during \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}.
-Must be a non-empty subset of \verb{\{"train", "test", "holdout"\}}.
+Must be a non-empty subset of \verb{\{"train", "validation", "holdout"\}}.
 If multiple sets are provided, these are first combined to a single prediction object.
-Default is \code{"test"}.}
+Default is \code{"validation"}.
+
+The set \code{"test"} is an deprecated alias name for the validation set.}
 
 \item{\code{predict_sets}}{(\code{character()})\cr
 Prediction sets to operate on, used in \code{aggregate()} to extract the matching \code{predict_sets} from the \link{ResampleResult}.
 Multiple predict sets are calculated by the respective \link{Learner} during \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}.
-Must be a non-empty subset of \verb{\{"train", "test", "holdout"\}}.
+Must be a non-empty subset of \verb{\{"train", "validation", "holdout"\}}.
 If multiple sets are provided, these are first combined to a single prediction object.
-Default is \code{"test"}.}
+Default is \code{"validation"}.
+
+The set \code{"test"} is an deprecated alias name for the validation set.}
 }
 \if{html}{\out{</div>}}
 }
@@ -260,7 +266,7 @@ Default is \code{"test"}.}
 \subsection{Method \code{prediction()}}{
 Returns a combined \link{Prediction} objects.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResultData$prediction(view = NULL, predict_sets = "test")}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{ResultData$prediction(view = NULL, predict_sets = "validation")}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -272,23 +278,29 @@ Single \code{uhash} to restrict the results to.}
 \item{\code{predict_sets}}{(\code{character()})\cr
 Prediction sets to operate on, used in \code{aggregate()} to extract the matching \code{predict_sets} from the \link{ResampleResult}.
 Multiple predict sets are calculated by the respective \link{Learner} during \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}.
-Must be a non-empty subset of \verb{\{"train", "test", "holdout"\}}.
+Must be a non-empty subset of \verb{\{"train", "validation", "holdout"\}}.
 If multiple sets are provided, these are first combined to a single prediction object.
-Default is \code{"test"}.}
+Default is \code{"validation"}.
+
+The set \code{"test"} is an deprecated alias name for the validation set.}
 
 \item{\code{predict_sets}}{(\code{character()})\cr
 Prediction sets to operate on, used in \code{aggregate()} to extract the matching \code{predict_sets} from the \link{ResampleResult}.
 Multiple predict sets are calculated by the respective \link{Learner} during \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}.
-Must be a non-empty subset of \verb{\{"train", "test", "holdout"\}}.
+Must be a non-empty subset of \verb{\{"train", "validation", "holdout"\}}.
 If multiple sets are provided, these are first combined to a single prediction object.
-Default is \code{"test"}.}
+Default is \code{"validation"}.
+
+The set \code{"test"} is an deprecated alias name for the validation set.}
 
 \item{\code{predict_sets}}{(\code{character()})\cr
 Prediction sets to operate on, used in \code{aggregate()} to extract the matching \code{predict_sets} from the \link{ResampleResult}.
 Multiple predict sets are calculated by the respective \link{Learner} during \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}.
-Must be a non-empty subset of \verb{\{"train", "test", "holdout"\}}.
+Must be a non-empty subset of \verb{\{"train", "validation", "holdout"\}}.
 If multiple sets are provided, these are first combined to a single prediction object.
-Default is \code{"test"}.}
+Default is \code{"validation"}.
+
+The set \code{"test"} is an deprecated alias name for the validation set.}
 }
 \if{html}{\out{</div>}}
 }
@@ -365,7 +377,7 @@ Combines internal tables into a single flat \code{\link[=data.table]{data.table(
   view = NULL,
   reassemble_learners = TRUE,
   convert_predictions = TRUE,
-  predict_sets = "test"
+  predict_sets = "validation"
 )}\if{html}{\out{</div>}}
 }
 
@@ -384,23 +396,29 @@ Convert \link{PredictionData} to \link{Prediction}?}
 \item{\code{predict_sets}}{(\code{character()})\cr
 Prediction sets to operate on, used in \code{aggregate()} to extract the matching \code{predict_sets} from the \link{ResampleResult}.
 Multiple predict sets are calculated by the respective \link{Learner} during \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}.
-Must be a non-empty subset of \verb{\{"train", "test", "holdout"\}}.
+Must be a non-empty subset of \verb{\{"train", "validation", "holdout"\}}.
 If multiple sets are provided, these are first combined to a single prediction object.
-Default is \code{"test"}.}
+Default is \code{"validation"}.
+
+The set \code{"test"} is an deprecated alias name for the validation set.}
 
 \item{\code{predict_sets}}{(\code{character()})\cr
 Prediction sets to operate on, used in \code{aggregate()} to extract the matching \code{predict_sets} from the \link{ResampleResult}.
 Multiple predict sets are calculated by the respective \link{Learner} during \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}.
-Must be a non-empty subset of \verb{\{"train", "test", "holdout"\}}.
+Must be a non-empty subset of \verb{\{"train", "validation", "holdout"\}}.
 If multiple sets are provided, these are first combined to a single prediction object.
-Default is \code{"test"}.}
+Default is \code{"validation"}.
+
+The set \code{"test"} is an deprecated alias name for the validation set.}
 
 \item{\code{predict_sets}}{(\code{character()})\cr
 Prediction sets to operate on, used in \code{aggregate()} to extract the matching \code{predict_sets} from the \link{ResampleResult}.
 Multiple predict sets are calculated by the respective \link{Learner} during \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}.
-Must be a non-empty subset of \verb{\{"train", "test", "holdout"\}}.
+Must be a non-empty subset of \verb{\{"train", "validation", "holdout"\}}.
 If multiple sets are provided, these are first combined to a single prediction object.
-Default is \code{"test"}.}
+Default is \code{"validation"}.
+
+The set \code{"test"} is an deprecated alias name for the validation set.}
 }
 \if{html}{\out{</div>}}
 }

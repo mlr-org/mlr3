@@ -19,7 +19,7 @@ Do not modify any extracted object without cloning it first.
 \section{S3 Methods}{
 
 \itemize{
-\item \code{as.data.table(rr, ..., reassemble_learners = TRUE, convert_predictions = TRUE, predict_sets = "test")}\cr
+\item \code{as.data.table(rr, ..., reassemble_learners = TRUE, convert_predictions = TRUE, predict_sets = "validation")}\cr
 \link{BenchmarkResult} -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Returns a tabular view of the internal data.
 \item \code{c(...)}\cr
@@ -246,7 +246,7 @@ the respective \link{Measure}.
   measures = NULL,
   ids = TRUE,
   conditions = FALSE,
-  predict_sets = "test"
+  predict_sets = "validation"
 )}\if{html}{\out{</div>}}
 }
 
@@ -267,9 +267,11 @@ list columns of character vectors to the returned table}
 \item{\code{predict_sets}}{(\code{character()})\cr
 Prediction sets to operate on, used in \code{aggregate()} to extract the matching \code{predict_sets} from the \link{ResampleResult}.
 Multiple predict sets are calculated by the respective \link{Learner} during \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}.
-Must be a non-empty subset of \verb{\{"train", "test", "holdout"\}}.
+Must be a non-empty subset of \verb{\{"train", "validation", "holdout"\}}.
 If multiple sets are provided, these are first combined to a single prediction object.
-Default is \code{"test"}.}
+Default is \code{"validation"}.
+
+The set \code{"test"} is an deprecated alias name for the validation set.}
 }
 \if{html}{\out{</div>}}
 }

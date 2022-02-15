@@ -74,14 +74,15 @@ If you need access to the models for later analysis, set \code{store_models} to 
 \section{Predict Sets}{
 
 If you want to compare the performance of a learner on the training with the performance
-on the test set, you have to configure the \link{Learner} to predict on multiple sets by
-setting the field \code{predict_sets} to \code{c("train", "test")} (default is \code{"test"}).
+on the validation set, you have to configure the \link{Learner} to predict on multiple sets by
+setting the field \code{predict_sets} to \code{c("train", "validation")} (default is \code{"validation"}).
 Each set yields a separate \link{Prediction} object during resampling.
 In the next step, you have to configure the measures to operate on the respective Prediction object:\preformatted{m1 = msr("classif.ce", id = "ce.train", predict_sets = "train")
-m2 = msr("classif.ce", id = "ce.test", predict_sets = "test")
+m2 = msr("classif.ce", id = "ce.validation", predict_sets = "validation")
 }
 
 The (list of) created measures can finally be passed to \verb{$aggregate()} or \verb{$score()}.
+The set \code{"test"} is an deprecated alias name for the validation set.
 }
 
 \section{Parallelization}{

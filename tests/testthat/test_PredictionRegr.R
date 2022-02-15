@@ -29,8 +29,8 @@ test_that("c", {
   expect_data_table(dt, nrows = task$nrow, ncols = 4L, any.missing = FALSE)
 
   # duplicates are detected?
-  p1 = get_private(rr)$.data$data$fact$prediction[[1L]]$test
-  p2 = get_private(rr)$.data$data$fact$prediction[[1L]]$test
+  p1 = get_private(rr)$.data$data$fact$prediction[[1L]]$validation
+  p2 = get_private(rr)$.data$data$fact$prediction[[1L]]$validation
   p3 = c(p1, p2, keep_duplicates = FALSE)
   expect_equal(sort(p1$data$row_ids), sort(p2$data$row_ids))
   expect_equal(sort(p1$data$row_ids), sort(p3$data$row_ids))

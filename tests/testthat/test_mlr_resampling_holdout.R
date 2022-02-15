@@ -15,8 +15,8 @@ test_that("stratification", {
   i = 1L
   expect_equal(task$data(r$train_set(i))[y == "a", .N], 45)
   expect_equal(task$data(r$train_set(i))[y == "b", .N], 5)
-  expect_equal(task$data(r$test_set(i))[y == "a", .N], 45)
-  expect_equal(task$data(r$test_set(i))[y == "b", .N], 5)
+  expect_equal(task$data(r$validation_set(i))[y == "a", .N], 45)
+  expect_equal(task$data(r$validation_set(i))[y == "b", .N], 5)
 })
 
 test_that("grouping", {
@@ -38,5 +38,5 @@ test_that("prediction does not drop dimension (#551)", {
 
   bmr = benchmark(design)
   expect_number(bmr$aggregate(msr("classif.ce"))[["classif.ce"]])
-  expect_equal(map(get_private(bmr)$.data$data$fact$prediction, names), list("test"))
+  expect_equal(map(get_private(bmr)$.data$data$fact$prediction, names), list("validation"))
 })

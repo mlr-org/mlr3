@@ -31,7 +31,7 @@ MeasureClassif = R6Class("MeasureClassif", inherit = Measure, cloneable = FALSE,
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function(id, param_set = ps(), range, minimize = NA, average = "macro", aggregator = NULL, properties = character(), predict_type = "response",
-      predict_sets = "test", task_properties = character(), packages = character(), man = NA_character_) {
+      predict_sets = "validation", task_properties = character(), packages = character(), man = NA_character_) {
       super$initialize(id, task_type = "classif", param_set = param_set, range = range, minimize = minimize, average = average, aggregator = aggregator,
         properties = properties, predict_type = predict_type, predict_sets = predict_sets,
         task_properties = task_properties, packages = packages, man = man)
