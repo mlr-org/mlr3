@@ -29,9 +29,17 @@
 #' rr = resample(task, learner, resampling)
 #' print(rr)
 #'
-#' rr$aggregate(msr("classif.acc"))
+#' # combined predictions and predictions for each fold separately
 #' rr$prediction()
-#' rr$prediction()$confusion
+#' rr$predictions()
+#'
+#' # folds scored separately, then aggregated (macro)
+#' rr$aggregate(msr("classif.acc"))
+#'
+#' # predictions first combined, then scored (micro)
+#' rr$prediction()$score(msr("classif.acc"))
+#'
+#' # check for warnings and errors
 #' rr$warnings
 #' rr$errors
 ResampleResult = R6Class("ResampleResult",
@@ -80,9 +88,11 @@ ResampleResult = R6Class("ResampleResult",
 
     #' @description
     #' Combined [Prediction] of all individual resampling iterations, and all provided predict sets.
-    #' Note that performance measures do not operate on this object,
-    #' but instead on each prediction object separately and then combine the performance scores
-    #' with the aggregate function of the respective [Measure].
+    #' Note that, per default, most performance measures do not operate on this object directly,
+    #' but instead on the prediction objects from the resampling iterations separately, and then combine
+    #' the performance scores with the aggregate function of the respective [Measure] (macro averaging).
+    #'
+    #' If you calculate the performance on this prediction object directly, this is called micro averaging.
     #'
     #' @param predict_sets (`character()`)\cr
     #' @return [Prediction].
@@ -94,6 +104,10 @@ ResampleResult = R6Class("ResampleResult",
     #' @description
     #' List of prediction objects, sorted by resampling iteration.
     #' If multiple sets are given, these are combined to a single one for each iteration.
+    #'
+    #' If you evaluate the performance on all of the returned prediction objects and then average them, this
+    #' is called macro averaging. For micro averaging, operate on the combined prediction object as returned by
+    #' `$prediction()`.
     #'
     #' @param predict_sets (`character()`)\cr
     #'   Subset of `{"train", "test"}`.

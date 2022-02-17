@@ -3,7 +3,7 @@
 \name{mlr_resamplings_custom_cv}
 \alias{mlr_resamplings_custom_cv}
 \alias{ResamplingCustomCV}
-\title{Custom Cross Validation}
+\title{Custom Cross-Validation}
 \description{
 Splits data into training and test sets in a cross-validation fashion based
 on a user-provided categorical vector.
@@ -107,7 +107,7 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 \if{html}{\out{<a id="method-instantiate"></a>}}
 \if{latex}{\out{\hypertarget{method-instantiate}{}}}
 \subsection{Method \code{instantiate()}}{
-Instantiate this \link{Resampling} as cross validation with custom splits.
+Instantiate this \link{Resampling} as cross-validation with custom splits.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{ResamplingCustomCV$instantiate(task, f = NULL, col = NULL)}\if{html}{\out{</div>}}
 }

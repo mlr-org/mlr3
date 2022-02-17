@@ -187,6 +187,10 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #' [ResampleResult]s. A column with the aggregated performance score is
     #' added for each [Measure], named with the id of the respective measure.
     #'
+    #' The method for aggregation is controlled by the [Measure], e.g. micro
+    #' aggregation, macro aggregation or custom aggregation. Most measures
+    #' default to macro aggregation.
+    #'
     #' Note that the aggregated performances just give a quick impression which
     #' approaches work well and which approaches are probably underperforming.
     #' However, the aggregates do not account for variance and cannot replace

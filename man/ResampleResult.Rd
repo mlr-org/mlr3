@@ -30,9 +30,17 @@ resampling = rsmp("cv", folds = 3)
 rr = resample(task, learner, resampling)
 print(rr)
 
-rr$aggregate(msr("classif.acc"))
+# combined predictions and predictions for each fold separately
 rr$prediction()
-rr$prediction()$confusion
+rr$predictions()
+
+# folds scored separately, then aggregated (macro)
+rr$aggregate(msr("classif.acc"))
+
+# predictions first combined, then scored (micro)
+rr$prediction()$score(msr("classif.acc"))
+
+# check for warnings and errors
 rr$warnings
 rr$errors
 }
@@ -173,9 +181,11 @@ Opens the corresponding help page referenced by field \verb{$man}.
 \if{latex}{\out{\hypertarget{method-prediction}{}}}
 \subsection{Method \code{prediction()}}{
 Combined \link{Prediction} of all individual resampling iterations, and all provided predict sets.
-Note that performance measures do not operate on this object,
-but instead on each prediction object separately and then combine the performance scores
-with the aggregate function of the respective \link{Measure}.
+Note that, per default, most performance measures do not operate on this object directly,
+but instead on the prediction objects from the resampling iterations separately, and then combine
+the performance scores with the aggregate function of the respective \link{Measure} (macro averaging).
+
+If you calculate the performance on this prediction object directly, this is called micro averaging.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{ResampleResult$prediction(predict_sets = "test")}\if{html}{\out{</div>}}
 }
@@ -198,6 +208,10 @@ Subset of \verb{\{"train", "test"\}}.
 \subsection{Method \code{predictions()}}{
 List of prediction objects, sorted by resampling iteration.
 If multiple sets are given, these are combined to a single one for each iteration.
+
+If you evaluate the performance on all of the returned prediction objects and then average them, this
+is called macro averaging. For micro averaging, operate on the combined prediction object as returned by
+\verb{$prediction()}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{ResampleResult$predictions(predict_sets = "test")}\if{html}{\out{</div>}}
 }
