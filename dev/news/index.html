@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.13.1-9000</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.13.2-9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -74,10 +74,11 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.13.1-9000" id="mlr3-0131-9000">mlr3 0.13.1-9000<a class="anchor" aria-label="anchor" href="#mlr3-0131-9000"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.13.2" id="mlr3-0132">mlr3 0.13.2<a class="anchor" aria-label="anchor" href="#mlr3-0132"></a></h2><p class="text-muted">CRAN release: 2022-02-14</p>
 <ul><li>Setting a fallback learner for a learner with encapsulation in its default settings now automatically sets encapsulation to <code>"evaluate"</code> (<a href="https://github.com/mlr-org/mlr3/issues/763" class="external-link">#763</a>).</li>
 <li>
 <code><a href="../reference/as_task_classif.html">as_task_classif()</a></code> and <code><a href="../reference/as_task_regr.html">as_task_regr()</a></code> now support the construction of tasks using the formula interface, e.g. <code>as_task_regr(mpg ~ ., data = mtcars)</code> (<a href="https://github.com/mlr-org/mlr3/issues/761" class="external-link">#761</a>).</li>
+<li>The row role <code>"validation"</code> has been renamed to <code>"holdout"</code>. In the next release, <code>mlr3</code> will start switching to the now more common terms <code>"train"</code>/<code>"validation"</code> instead of <code>"train"</code>/<code>"test"</code> for the sets created during resampling.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.13.1" id="mlr3-0131">mlr3 0.13.1<a class="anchor" aria-label="anchor" href="#mlr3-0131"></a></h2><p class="text-muted">CRAN release: 2022-01-19</p>

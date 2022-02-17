@@ -34,7 +34,7 @@ More toy tasks can be found in the dictionary after loading mlr3data."><meta pro
     
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.13.1-9000</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.13.2-9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -260,7 +260,7 @@ The following properties are currently standardized and understood by tasks in <
 <dd><p>(named <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>)<br>
 Each row (observation) can have an arbitrary number of roles in the learning task:</p><ul><li><p><code>"use"</code>: Use in train / predict / resampling.</p></li>
 <li><p><code>"holdout"</code>: Observations are hold back unless explicitly queried.
-Can be used, e.g., as truly independent validation set.</p></li>
+Can be used, e.g., as truly independent holdout set.</p></li>
 </ul><p><code>row_roles</code> is a named list whose elements are named by row role and each element is an <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code> vector of row ids.
 To alter the roles, just modify the list, e.g. with  <span style="R">R</span>'s set functions (<code><a href="https://rdrr.io/r/base/sets.html" class="external-link">intersect()</a></code>, <code><a href="https://rdrr.io/r/base/sets.html" class="external-link">setdiff()</a></code>, <code><a href="https://rdrr.io/r/base/sets.html" class="external-link">union()</a></code>, ...).</p></dd>
 
