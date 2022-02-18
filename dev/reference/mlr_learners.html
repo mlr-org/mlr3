@@ -136,20 +136,20 @@ Returns a <code><a href="https://Rdatatable.gitlab.io/data.table/reference/data.
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html" class="external-link">as.data.table</a></span><span class="op">(</span><span class="va">mlr_learners</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                    key                                        feature_types</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1:       classif.debug     logical,integer,numeric,character,factor,ordered</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: classif.featureless logical,integer,numeric,character,factor,ordered,...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3:       classif.rpart               logical,integer,numeric,factor,ordered</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4:          regr.debug     logical,integer,numeric,character,factor,ordered</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5:    regr.featureless logical,integer,numeric,character,factor,ordered,...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6:          regr.rpart               logical,integer,numeric,factor,ordered</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      packages</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1:       mlr3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2:       mlr3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: mlr3,rpart</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4:       mlr3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5: mlr3,stats</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6: mlr3,rpart</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                    key task_type</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:       classif.debug   classif</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: classif.featureless   classif</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:       classif.rpart   classif</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:          regr.debug      regr</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5:    regr.featureless      regr</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6:          regr.rpart      regr</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                           feature_types   packages</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:     logical,integer,numeric,character,factor,ordered       mlr3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: logical,integer,numeric,character,factor,ordered,...       mlr3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:               logical,integer,numeric,factor,ordered mlr3,rpart</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:     logical,integer,numeric,character,factor,ordered       mlr3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5: logical,integer,numeric,character,factor,ordered,... mlr3,stats</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6:               logical,integer,numeric,factor,ordered mlr3,rpart</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                               properties</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:                         hotstart_forward,missings,multiclass,twoclass</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2: featureless,importance,missings,multiclass,selected_features,twoclass</span>
