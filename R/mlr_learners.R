@@ -45,6 +45,7 @@ as.data.table.DictionaryLearner = function(x, ...) {
       packageNotFoundWarning = function(w) invokeRestart("muffleWarning"))
     list(
       key = key,
+      task_type = l$task_type,
       feature_types = list(l$feature_types),
       packages = list(l$packages),
       properties = list(l$properties),
