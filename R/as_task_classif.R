@@ -68,6 +68,7 @@ as_task_classif.formula = function(x, data, id = deparse(substitute(data)), posi
     stopf("Formula %s is missing a response", format(x))
   }
   tab = model.frame(x, data)
+  attr(tab, "terms") = attr(tab, "na.action") = NULL
   target = all.vars(x)[1L]
 
   as_task_classif(tab, target = target, id = id, positive = positive, ...)
