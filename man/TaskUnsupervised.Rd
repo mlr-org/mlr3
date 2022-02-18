@@ -4,8 +4,22 @@
 \alias{TaskUnsupervised}
 \title{Unsupervised Task}
 \description{
-This is the abstract base class for unsupervised tasks such as cluster tasks in \CRANpkg{mlr3cluster}.
+This class defines an unsupervised machine learning problem on which \link{Learner}s operate on.
 }
+\details{
+Supported unsupervised tasks in mlr3 include clustering (\link{TaskClust}) via the extension
+\CRANpkg{mlr3cluster} and density estimation via (\CRANpkg{mlr3proba}). When working with
+tasks use these subclasses.
+You can learn more about tasks in the chapters "Basics" and "Special Tasks" in the
+\href{https://mlr3book.mlr-org.com/basics.html}{mlr3 book}.
+}
+\section{Development}{
+
+This is the abstract base class for unsupervised tasks.
+You can learn more about tasks in the chapters "Basics" and "Special Tasks" in the
+\href{https://mlr3book.mlr-org.com/basics.html}{mlr3 book}.
+}
+
 \examples{
 TaskUnsupervised$new("penguins", task_type = "regr", backend = palmerpenguins::penguins)
 }

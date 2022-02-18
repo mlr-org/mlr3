@@ -15,6 +15,7 @@
 #' * Book on mlr3: \url{https://mlr3book.mlr-org.com}
 #' * Use cases and examples gallery: \url{https://mlr3gallery.mlr-org.com}
 #' * Cheat Sheets: \url{https://github.com/mlr-org/mlr3cheatsheets}
+#' * Website: \url{https://mlr-org.com/}
 #'
 #' @section mlr3 extensions:
 #' * Preprocessing and machine learning pipelines: \CRANpkg{mlr3pipelines}
@@ -24,6 +25,7 @@
 #' * Solid selection of good classification and regression learners: \CRANpkg{mlr3learners}
 #' * Even more learners: \url{https://github.com/mlr-org/mlr3extralearners}
 #' * Tuning of hyperparameters: \CRANpkg{mlr3tuning}
+#' * Search Spaces for Hyperparameter Tuning: \CRANpkg{mlr3tuningspaces}
 #' * Hyperband tuner: \CRANpkg{mlr3hyperband}
 #' * Visualizations for many \pkg{mlr3} objects: \CRANpkg{mlr3viz}
 #' * Survival analysis and probabilistic regression: \CRANpkg{mlr3proba}
@@ -32,11 +34,17 @@
 #' * Feature selection wrappers: \CRANpkg{mlr3fselect}
 #' * Interface to real (out-of-memory) data bases: \CRANpkg{mlr3db}
 #' * Performance measures as plain functions: \CRANpkg{mlr3measures}
+#' * Support for spatial objects: \CRANpkg{mlr3spatial}
+#' * Spatiotemporal resampling methods \CRANpkg{mlr3spatiotempcv}
 #'
 #' @section Suggested packages:
+#' * Matrix data backends: \CRANpkg{Matrix}
 #' * Parallelization framework: \CRANpkg{future}
 #' * Progress bars: \CRANpkg{progressr}
 #' * Encapsulated evaluation: \CRANpkg{evaluate}, \CRANpkg{callr} (external process)
+#' * Distribution predict types for regression: \CRANpkg{distr6}
+#' * Regression and partition trees: \CRANpkg{rpart}
+#' * More data: \CRANpkg{datasets}, \CRANpkg{mlr3data}
 #'
 #' @section Package Options:
 #' * `"mlr3.debug"`: If set to `TRUE`, parallelization via \CRANpkg{future} is disabled to simplify

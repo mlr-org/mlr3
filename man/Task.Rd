@@ -4,10 +4,34 @@
 \alias{Task}
 \title{Task Class}
 \description{
+This R6 class defines a machine learning problem on which \link{Learner}s operate on.
+}
+\details{
+A Task glues together a dataset with additional meta-information that
+defines a concrete machine learning problem. This differs from traditional R
+fitting functions, where information such as the model fitting formula, or subset definitions
+need to be specified when calling the fitting function (e.g. \code{lm()}).
+In mlr3, this meta information is stored together with the data in a task and is automatically
+extracted when calling the \verb{$train()} function of a \link{Learner} via \code{learner$train(task)}.
+
+The mlr3 package defines regression (\link{TaskRegr}) and classification (\link{TaskClassif}) tasks.
+Density estimation (\link{TaskDens}) and survival analysis (\link{TaskSurv}) are implemented in
+\CRANpkg{mlr3proba}, unsupervised cluster tasks (\link{TaskClust}) in the extension package
+\CRANpkg{mlr3cluster}. When working with tasks use these subclasses, as this class is not
+intended for direct use.
+
+You can learn more about tasks in the chapters "Basics" and "Special Tasks" in the
+\href{https://mlr3book.mlr-org.com/basics.html}{mlr3 book}.
+
+Predefined (toy) tasks are stored in the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_tasks},
+e.g. \code{\link[=mlr_tasks_penguins]{penguins}} or \code{\link[=mlr_tasks_boston_housing]{boston_housing}}.
+More toy tasks can be found in the dictionary after loading \CRANpkg{mlr3data}. A large
+collection of tasks defined on \href{https://openml.org}{OpenML} can be accessed via \CRANpkg{mlr3oml}.
+}
+\section{Development}{
+
 This is the abstract base class for \link{TaskSupervised} and \link{TaskUnsupervised}.
-\link{TaskClassif} and \link{TaskRegr} inherit from \link{TaskSupervised}.
-More supervised tasks are implemented in \CRANpkg{mlr3proba}, unsupervised cluster tasks
-in package \CRANpkg{mlr3cluster}.
+The classes \link{TaskClassif} and \link{TaskRegr} inherit from \link{TaskSupervised}.
 
 Tasks serve two purposes:
 \enumerate{
@@ -15,11 +39,8 @@ Tasks serve two purposes:
 \item Tasks store meta-information, such as the role of the individual columns in the \link{DataBackend}.
 For example, for a classification task a single column must be marked as target column, and others as features.
 }
-
-Predefined (toy) tasks are stored in the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_tasks},
-e.g. \code{\link[=mlr_tasks_penguins]{penguins}} or \code{\link[=mlr_tasks_boston_housing]{boston_housing}}.
-More toy tasks can be found in the dictionary after loading \CRANpkg{mlr3data}.
 }
+
 \section{S3 methods}{
 
 \itemize{
@@ -118,7 +139,7 @@ see \code{\link[=mlr_reflections]{mlr_reflections$task_types$type}}.}
 Abstract interface to the data of the task.}
 
 \item{\code{col_info}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
-Table with with 4 columns:
+Table with with 5 columns:
 \itemize{
 \item \code{"id"} (\code{character()}) stores the name of the column.
 \item \code{"type"} (\code{character()}) holds the storage type of the variable, e.g. \code{integer}, \code{numeric} or \code{character}.

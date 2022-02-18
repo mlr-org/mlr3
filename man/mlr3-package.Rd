@@ -16,6 +16,7 @@ Efficient, object-oriented programming on the building blocks of machine learnin
 \item Book on mlr3: \url{https://mlr3book.mlr-org.com}
 \item Use cases and examples gallery: \url{https://mlr3gallery.mlr-org.com}
 \item Cheat Sheets: \url{https://github.com/mlr-org/mlr3cheatsheets}
+\item Website: \url{https://mlr-org.com/}
 }
 }
 
@@ -29,6 +30,7 @@ Efficient, object-oriented programming on the building blocks of machine learnin
 \item Solid selection of good classification and regression learners: \CRANpkg{mlr3learners}
 \item Even more learners: \url{https://github.com/mlr-org/mlr3extralearners}
 \item Tuning of hyperparameters: \CRANpkg{mlr3tuning}
+\item Search Spaces for Hyperparameter Tuning: \CRANpkg{mlr3tuningspaces}
 \item Hyperband tuner: \CRANpkg{mlr3hyperband}
 \item Visualizations for many \pkg{mlr3} objects: \CRANpkg{mlr3viz}
 \item Survival analysis and probabilistic regression: \CRANpkg{mlr3proba}
@@ -37,15 +39,21 @@ Efficient, object-oriented programming on the building blocks of machine learnin
 \item Feature selection wrappers: \CRANpkg{mlr3fselect}
 \item Interface to real (out-of-memory) data bases: \CRANpkg{mlr3db}
 \item Performance measures as plain functions: \CRANpkg{mlr3measures}
+\item Support for spatial objects: \CRANpkg{mlr3spatial}
+\item Spatiotemporal resampling methods \CRANpkg{mlr3spatiotempcv}
 }
 }
 
 \section{Suggested packages}{
 
 \itemize{
+\item Matrix data backends: \CRANpkg{Matrix}
 \item Parallelization framework: \CRANpkg{future}
 \item Progress bars: \CRANpkg{progressr}
 \item Encapsulated evaluation: \CRANpkg{evaluate}, \CRANpkg{callr} (external process)
+\item Distribution predict types for regression: \CRANpkg{distr6}
+\item Regression and partition trees: \CRANpkg{rpart}
+\item More data: \CRANpkg{datasets}, \CRANpkg{mlr3data}
 }
 }
 

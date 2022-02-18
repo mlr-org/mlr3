@@ -3,6 +3,12 @@
 #' @include Task.R
 #'
 #' @description
+#' A TaskSupervised defines a supervised machine learning problem, meaning a learning problem
+#' with a target variable such as classification, regression, or Survival Analysis (\CRANpkg{mlr3proba}).
+#' You can learn more about tasks in the chapters "Basics" and "Special Tasks" in the
+#' [mlr3 book](https://mlr3book.mlr-org.com/basics.html).
+#'
+#' @details
 #' This is the abstract base class for task objects like [TaskClassif] and [TaskRegr].
 #' It extends [Task] with methods to handle a target columns.
 #' Supervised tasks for probabilistic regression (including survival analysis) can be

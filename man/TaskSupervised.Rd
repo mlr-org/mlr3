@@ -4,6 +4,12 @@
 \alias{TaskSupervised}
 \title{Supervised Task}
 \description{
+A TaskSupervised defines a supervised machine learning problem, meaning a learning problem
+with a target variable such as classification, regression, or Survival Analysis (\CRANpkg{mlr3proba}).
+You can learn more about tasks in the chapters "Basics" and "Special Tasks" in the
+\href{https://mlr3book.mlr-org.com/basics.html}{mlr3 book}.
+}
+\details{
 This is the abstract base class for task objects like \link{TaskClassif} and \link{TaskRegr}.
 It extends \link{Task} with methods to handle a target columns.
 Supervised tasks for probabilistic regression (including survival analysis) can be

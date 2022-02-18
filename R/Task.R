@@ -3,20 +3,40 @@
 #' @include mlr_reflections.R
 #'
 #' @description
+#' This R6 class defines a machine learning problem on which [Learner]s operate on.
+#'
+#' @details
+#' A Task glues together a dataset with additional meta-information that
+#' defines a concrete machine learning problem. This differs from traditional R
+#' fitting functions, where information such as the model fitting formula, or subset definitions
+#' need to be specified when calling the fitting function (e.g. `lm()`).
+#' In mlr3, this meta information is stored together with the data in a task and is automatically
+#' extracted when calling the `$train()` function of a [Learner] via `learner$train(task)`.
+#'
+#' The mlr3 package defines regression ([TaskRegr]) and classification ([TaskClassif]) tasks.
+#' Density estimation ([TaskDens]) and survival analysis ([TaskSurv]) are implemented in
+#' \CRANpkg{mlr3proba}, unsupervised cluster tasks ([TaskClust]) in the extension package
+#' \CRANpkg{mlr3cluster}. When working with tasks use these subclasses, as this class is not
+#' intended for direct use.
+#'
+#' You can learn more about tasks in the chapters "Basics" and "Special Tasks" in the
+#' [mlr3 book](https://mlr3book.mlr-org.com/basics.html).
+#'
+#'
+#' Predefined (toy) tasks are stored in the [dictionary][mlr3misc::Dictionary] [mlr_tasks],
+#' e.g. [`penguins`][mlr_tasks_penguins] or [`boston_housing`][mlr_tasks_boston_housing].
+#' More toy tasks can be found in the dictionary after loading \CRANpkg{mlr3data}. A large
+#' collection of tasks defined on [OpenML](https://openml.org) can be accessed via \CRANpkg{mlr3oml}.
+#'
+#' @section Development:
 #' This is the abstract base class for [TaskSupervised] and [TaskUnsupervised].
-#' [TaskClassif] and [TaskRegr] inherit from [TaskSupervised].
-#' More supervised tasks are implemented in \CRANpkg{mlr3proba}, unsupervised cluster tasks
-#' in package \CRANpkg{mlr3cluster}.
+#' The classes [TaskClassif] and [TaskRegr] inherit from [TaskSupervised].
 #'
 #' Tasks serve two purposes:
 #'
 #' 1. Tasks wrap a [DataBackend], an object to transparently interface different data storage types.
 #' 2. Tasks store meta-information, such as the role of the individual columns in the [DataBackend].
 #'    For example, for a classification task a single column must be marked as target column, and others as features.
-#'
-#' Predefined (toy) tasks are stored in the [dictionary][mlr3misc::Dictionary] [mlr_tasks],
-#' e.g. [`penguins`][mlr_tasks_penguins] or [`boston_housing`][mlr_tasks_boston_housing].
-#' More toy tasks can be found in the dictionary after loading \CRANpkg{mlr3data}.
 #'
 #' @template param_id
 #' @template param_backend
@@ -78,7 +98,7 @@ Task = R6Class("Task",
     backend = NULL,
 
     #' @field col_info ([data.table::data.table()])\cr
-    #' Table with with 4 columns:
+    #' Table with with 5 columns:
     #' - `"id"` (`character()`) stores the name of the column.
     #' - `"type"` (`character()`) holds the storage type of the variable, e.g. `integer`, `numeric` or `character`.
     #'   See [mlr_reflections$task_feature_types][mlr_reflections] for a complete list of allowed types.
