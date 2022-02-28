@@ -57,7 +57,8 @@ ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
         repeats = p_int(1L)
       )
       ps$values = list(repeats = 10L, folds = 10L)
-      super$initialize(id = "repeated_cv", param_set = ps, man = "mlr3::mlr_resamplings_repeated_cv")
+      super$initialize(id = "repeated_cv", param_set = ps,
+        label = "Repeated Cross-Validation", man = "mlr3::mlr_resamplings_repeated_cv")
     },
 
     #' @description

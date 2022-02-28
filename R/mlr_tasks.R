@@ -56,7 +56,9 @@ mlr_tasks = R6Class("DictionaryTask",
 
 
 #' @export
-as.data.table.DictionaryTask = function(x, ...) {
+as.data.table.DictionaryTask = function(x, extra_cols = character(), ...) {
+  assert_character(extra_cols, any.missing = FALSE)
+
   setkeyv(map_dtr(x$keys(), function(key) {
     t = tryCatch(x$get(key),
       missingDefaultError = function(e) NULL)
@@ -65,12 +67,10 @@ as.data.table.DictionaryTask = function(x, ...) {
     }
 
     feats = translate_types(t$feature_types$type)
-    insert_named(list(
-      key = key,
-      task_type = t$task_type,
-      nrow = t$nrow,
-      ncol = t$ncol,
-      properties = list(t$properties)
-    ), table(feats))
+    c(
+      list(key = key, task_type = t$task_type, nrow = t$nrow, ncol = t$ncol, properties = list(t$properties)),
+      table(feats),
+      mget(extra_cols, envir = t)
+    )
   }, .fill = TRUE), "key")[]
 }

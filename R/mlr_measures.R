@@ -39,16 +39,16 @@ mlr_measures = R6Class("DictionaryMeasure",
 )$new()
 
 #' @export
-as.data.table.DictionaryMeasure = function(x, ...) {
+as.data.table.DictionaryMeasure = function(x, extra_cols = character(), ...) {
+  assert_character(extra_cols, any.missing = FALSE)
+
   setkeyv(map_dtr(x$keys(), function(key) {
     m = withCallingHandlers(x$get(key),
       packageNotFoundWarning = function(w) invokeRestart("muffleWarning"))
-    list(
-      key = key,
-      task_type = m$task_type,
-      packages = list(m$packages),
-      predict_type = m$predict_type,
-      task_properties = list(m$task_properties)
+    c(
+      list(key = key, task_type = m$task_type, packages = list(m$packages), predict_type = m$predict_type,
+        task_properties = list(m$task_properties)),
+      mget(extra_cols, envir = m)
     )
   }), "key")[]
 }

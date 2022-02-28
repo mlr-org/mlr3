@@ -34,7 +34,8 @@ mlr_resamplings = R6Class("DictionaryResampling",
 )$new()
 
 #' @export
-as.data.table.DictionaryResampling = function(x, ...) { # nolint
+as.data.table.DictionaryResampling = function(x, extra_cols = character(), ...) { # nolint
+  assert_character(extra_cols, any.missing = FALSE)
 
   setkeyv(map_dtr(x$keys(), function(key) {
     r = tryCatch(x$get(key),
@@ -43,6 +44,9 @@ as.data.table.DictionaryResampling = function(x, ...) { # nolint
       return(list(key = key))
     }
 
-    list(key = key, params = list(r$param_set$ids()), iters = r$iters)
+    c(
+      list(key = key, params = list(r$param_set$ids()), iters = r$iters),
+      mget(extra_cols, envir = r)
+    )
   }, .fill = TRUE), "key")[]
 }
