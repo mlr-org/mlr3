@@ -41,6 +41,7 @@ MeasureSelectedFeatures = R6Class("MeasureSelectedFeatures",
         predict_type = "response",
         range = c(0, Inf),
         minimize = TRUE,
+        label = "Absolute or Relative Frequency of Selected Features",
         man = "mlr3::mlr_measures_selected_features"
       )
     }
