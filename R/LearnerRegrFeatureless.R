@@ -32,6 +32,7 @@ LearnerRegrFeatureless = R6Class("LearnerRegrFeatureless", inherit = LearnerRegr
         param_set = ps,
         properties = c("featureless", "missings", "importance", "selected_features"),
         packages = "stats",
+        label = "Featureless Regression Learner",
         man = "mlr3::mlr_learners_regr.featureless"
       )
     },

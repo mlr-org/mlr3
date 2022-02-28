@@ -46,7 +46,8 @@ LearnerRegrDebug = R6Class("LearnerRegrDebug", inherit = LearnerRegr,
         ),
         properties = "missings",
         man = "mlr3::mlr_learners_regr.debug",
-        data_formats = c("data.table", "Matrix")
+        data_formats = c("data.table", "Matrix"),
+        label = "Debug Learner for Regression"
       )
     }
   ),

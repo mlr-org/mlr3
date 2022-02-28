@@ -35,6 +35,7 @@
 #' @template param_learner_properties
 #' @template param_data_formats
 #' @template param_packages
+#' @template param_label
 #' @template param_man
 #'
 #'
@@ -89,6 +90,9 @@ Learner = R6Class("Learner",
   public = list(
     #' @template field_id
     id = NULL,
+
+    #' @template field_label
+    label = NA_character_,
 
     #' @field state (`NULL` | named `list()`)\cr
     #' Current (internal) state of the learner.
@@ -150,9 +154,10 @@ Learner = R6Class("Learner",
     #'
     #' Note that this object is typically constructed via a derived classes, e.g. [LearnerClassif] or [LearnerRegr].
     initialize = function(id, task_type, param_set = ps(), predict_types = character(), feature_types = character(),
-      properties = character(), data_formats = "data.table", packages = character(), man = NA_character_) {
+      properties = character(), data_formats = "data.table", packages = character(), label = NA_character_, man = NA_character_) {
 
       self$id = assert_string(id, min.chars = 1L)
+      self$label = assert_string(label, na.ok = TRUE)
       self$task_type = assert_choice(task_type, mlr_reflections$task_types$type)
       private$.param_set = assert_param_set(param_set)
       self$feature_types = assert_subset(feature_types, mlr_reflections$task_feature_types)
