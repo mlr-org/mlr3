@@ -18,6 +18,7 @@ as_task_classif(x, ...)
   target = NULL,
   id = deparse(substitute(x)),
   positive = NULL,
+  label = NA_character_,
   ...
 )
 
@@ -58,6 +59,9 @@ Defaults to the (deparsed and substituted) name of the data argument.}
 
 \item{positive}{(\code{character(1)})\cr
 Level of the positive class. See \link{TaskClassif}.}
+
+\item{label}{(\code{character(1)})\cr
+Label for the new instance.}
 
 \item{drop_original_target}{(\code{logical(1)})\cr
 If \code{FALSE} (default), the original target is added as a feature.
