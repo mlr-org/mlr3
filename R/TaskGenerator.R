@@ -12,6 +12,7 @@
 #' @template param_task_type
 #' @template param_packages
 #' @template param_man
+#' @template param_label
 #'
 #' @template seealso_task_generator
 #' @export
@@ -19,6 +20,9 @@ TaskGenerator = R6Class("TaskGenerator",
   public = list(
     #' @template field_id
     id = NULL,
+
+    #' @template field_label
+    label = NULL,
 
     #' @template field_task_type
     task_type = NULL,
@@ -34,11 +38,12 @@ TaskGenerator = R6Class("TaskGenerator",
 
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    initialize = function(id, task_type, packages = character(), param_set = ps(), man = NA_character_) {
+    initialize = function(id, task_type, packages = character(), param_set = ps(), label = NA_character_, man = NA_character_) {
       self$id = assert_string(id, min.chars = 1L)
       self$param_set = assert_param_set(param_set)
       self$packages = union("mlr3", assert_character(packages, any.missing = FALSE, min.chars = 1L))
       self$task_type = assert_choice(task_type, mlr_reflections$task_types$type)
+      self$label = assert_string(label, na.ok = TRUE)
       self$man = assert_string(man, na.ok = TRUE)
 
       check_packages_installed(packages, msg = sprintf("Package '%%s' required but not installed for TaskGenerator '%s'", id))
@@ -54,7 +59,7 @@ TaskGenerator = R6Class("TaskGenerator",
     #' Printer.
     #' @param ... (ignored).
     print = function(...) {
-      catn(format(self))
+      catn(format(self), if (is.na(self$label)) "" else paste0(": ", self$label))
       catn(str_indent("* Task type:", self$task_type))
       catn(str_indent("* Packages:", self$packages))
       catn(str_indent("* Parameters:", as_short_string(self$param_set$values, 1000L)))

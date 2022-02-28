@@ -27,7 +27,8 @@ TaskGeneratorXor = R6Class("TaskGeneratorXor",
         d = p_int(1L, default = 1L)
       )
 
-      super$initialize(id = "xor", "classif", "mlbench", ps, man = "mlr3::mlr_task_generators_xor")
+      super$initialize(id = "xor", "classif", "mlbench", ps,
+        label = "XOR Classification", man = "mlr3::mlr_task_generators_xor")
     },
 
     #' @description
