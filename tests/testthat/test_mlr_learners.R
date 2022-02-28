@@ -21,8 +21,8 @@ test_that("mlr_learners: sugar", {
   expect_equal(lrn$predict_type, "prob")
 })
 
-test_that("extra_cols", {
-  tab = as.data.table(mlr_learners, extract = function(x) list(hash = x$hash))
+test_that("as.data.table(..., objects = TRUE)", {
+  tab = as.data.table(mlr_learners, objects = TRUE)
   expect_data_table(tab)
-  expect_character(tab$hash, any.missing = FALSE)
+  expect_list(tab$object, "Learner", any.missing = FALSE)
 })

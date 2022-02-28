@@ -17,12 +17,11 @@
 #' See [mlr3misc::Dictionary].
 #'
 #' @section S3 methods:
-#' * `as.data.table(dict, ..., extract = NULL)`\cr
+#' * `as.data.table(dict, ..., objects = FALSE)`\cr
 #'   [mlr3misc::Dictionary] -> [data.table::data.table()]\cr
-#'   Returns a [data.table::data.table()] with fields "key", "task_type", "packages", "predict_type",
-#'   and "task_properties" as columns.
-#'   Additional columns can be extracted with function `extract` which has to return a named list which
-#'   is passed to [data.table::rbindlist()] to construct additional columns.
+#'   Returns a [data.table::data.table()] with fields "key", "label", "task_type", "packages",
+#'   "predict_type", and "task_properties" as columns.
+#'   If `objects` is set to `TRUE`, the constructed objects are returned in the list column named `object`.
 #'
 #' @family Dictionary
 #' @family Measure
@@ -41,20 +40,16 @@ mlr_measures = R6Class("DictionaryMeasure",
 )$new()
 
 #' @export
-as.data.table.DictionaryMeasure = function(x, ..., extract = NULL) {
-  if (is.null(extract)) {
-    extract = function(x) NULL
-  } else {
-    assert_function(extract)
-  }
+as.data.table.DictionaryMeasure = function(x, ..., objects = FALSE) {
+  assert_flag(objects)
 
   setkeyv(map_dtr(x$keys(), function(key) {
     m = withCallingHandlers(x$get(key),
       packageNotFoundWarning = function(w) invokeRestart("muffleWarning"))
     insert_named(
-      list(key = key, task_type = m$task_type, packages = list(m$packages), predict_type = m$predict_type,
+      list(key = key, label = m$label, task_type = m$task_type, packages = list(m$packages), predict_type = m$predict_type,
         task_properties = list(m$task_properties)),
-      extract(m)
+      if (objects) list(object = list(m))
     )
   }, .fill = TRUE), "key")[]
 }

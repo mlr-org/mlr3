@@ -28,8 +28,8 @@ test_that("tasks are cloned", {
   }
 })
 
-test_that("extra_cols", {
-  tab = as.data.table(mlr_tasks, extract = function(x) list(hash = x$hash))
+test_that("as.data.table(..., objects = TRUE)", {
+  tab = as.data.table(mlr_tasks, objects = TRUE)
   expect_data_table(tab)
-  expect_character(tab$hash, any.missing = FALSE)
+  expect_list(tab$object, "Task", any.missing = FALSE)
 })

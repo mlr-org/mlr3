@@ -26,9 +26,8 @@ test_that("mlr_resamplings: sugar", {
   expect_equal(r$param_set$values$folds, 3L)
 })
 
-test_that("extra_cols", {
-  tab = as.data.table(mlr_resamplings, extract = function(x) list(is_instantiated = x$is_instantiated))
+test_that("as.data.table(..., objects = TRUE)", {
+  tab = as.data.table(mlr_resamplings, objects = TRUE)
   expect_data_table(tab)
-  expect_logical(tab$is_instantiated)
-  expect_false(any(tab$is_instantiated))
+  expect_list(tab$object, "Resampling", any.missing = FALSE)
 })

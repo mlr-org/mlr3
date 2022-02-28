@@ -17,12 +17,11 @@
 #' See [mlr3misc::Dictionary].
 #'
 #' @section S3 methods:
-#' * `as.data.table(dict, ..., extract = NULL)`\cr
+#' * `as.data.table(dict, ..., objects = FALSE)`\cr
 #'   [mlr3misc::Dictionary] -> [data.table::data.table()]\cr
-#'   Returns a [data.table::data.table()] with fields "key", "task_type", "feature_types", "packages",
+#'   Returns a [data.table::data.table()] with fields "key", "label", "task_type", "feature_types", "packages",
 #'   "properties", and "predict_types" as columns.
-#'   Additional columns can be extracted with function `extract` which has to return a named list which
-#'   is passed to [data.table::rbindlist()] to construct additional columns.
+#'   If `objects` is set to `TRUE`, the constructed objects are returned in the list column named `object`.
 #'
 #'
 #' @family Dictionary
@@ -42,20 +41,16 @@ mlr_learners = R6Class("DictionaryLearner",
 )$new()
 
 #' @export
-as.data.table.DictionaryLearner = function(x, ..., extract = NULL) {
-  if (is.null(extract)) {
-    extract = function(x) NULL
-  } else {
-    assert_function(extract)
-  }
+as.data.table.DictionaryLearner = function(x, ..., objects = FALSE) {
+  assert_flag(objects)
 
   setkeyv(map_dtr(x$keys(), function(key) {
     l = withCallingHandlers(x$get(key),
       packageNotFoundWarning = function(w) invokeRestart("muffleWarning"))
     insert_named(
-      list(key = key, task_type = l$task_type, feature_types = list(l$feature_types), packages = list(l$packages), properties = list(l$properties),
-        predict_types = list(l$predict_types)),
-      extract(l)
+      list(key = key, label = l$label, task_type = l$task_type, feature_types = list(l$feature_types), packages = list(l$packages),
+        properties = list(l$properties), predict_types = list(l$predict_types)),
+      if (objects) list(object = list(l))
     )
   }, .fill = TRUE), "key")[]
 }

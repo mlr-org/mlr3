@@ -16,12 +16,11 @@
 #' See [mlr3misc::Dictionary].
 #'
 #' @section S3 methods:
-#' * `as.data.table(dict, ..., extract = NULL)`\cr
+#' * `as.data.table(dict, ..., objects = FALSE)`\cr
 #'   [mlr3misc::Dictionary] -> [data.table::data.table()]\cr
-#'   Returns a [data.table::data.table()] with columns "key", "task_type", "nrow", "ncol", "properties",
+#'   Returns a [data.table::data.table()] with columns "key", "label", "task_type", "nrow", "ncol", "properties",
 #'   and the number of features of type "lgl", "int", "dbl", "chr", "fct" and "ord", respectively.
-#'   Additional columns can be extracted with function `extract` which has to return a named list which
-#'   is passed to [data.table::rbindlist()] to construct additional columns.
+#'   If `objects` is set to `TRUE`, the constructed objects are returned in the list column named `object`.
 #'
 #' @family Dictionary
 #' @family Task
@@ -58,12 +57,8 @@ mlr_tasks = R6Class("DictionaryTask",
 
 
 #' @export
-as.data.table.DictionaryTask = function(x, ..., extract = NULL) {
-  if (is.null(extract)) {
-    extract = function(x) NULL
-  } else {
-    assert_function(extract)
-  }
+as.data.table.DictionaryTask = function(x, ..., objects = FALSE) {
+  assert_flag(objects)
 
   setkeyv(map_dtr(x$keys(), function(key) {
     t = tryCatch(x$get(key),
@@ -74,8 +69,8 @@ as.data.table.DictionaryTask = function(x, ..., extract = NULL) {
 
     feats = translate_types(t$feature_types$type)
     insert_named(
-      c(list(key = key, task_type = t$task_type, nrow = t$nrow, ncol = t$ncol, properties = list(t$properties)), table(feats)),
-      extract(t)
+      c(list(key = key, label = t$label, task_type = t$task_type, nrow = t$nrow, ncol = t$ncol, properties = list(t$properties)), table(feats)),
+      if (objects) list(object = list(t))
     )
   }, .fill = TRUE), "key")[]
 }

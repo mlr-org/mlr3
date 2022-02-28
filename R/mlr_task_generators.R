@@ -15,11 +15,10 @@
 #' See [mlr3misc::Dictionary].
 #'
 #' @section S3 methods:
-#' * `as.data.table(dict, ..., extract = NULL)`\cr
+#' * `as.data.table(dict, ..., objects = FALSE)`\cr
 #'   [mlr3misc::Dictionary] -> [data.table::data.table()]\cr
-#'   Returns a [data.table::data.table()] with fields "key", "task_type", "params", and "packages" as columns.
-#'   Additional columns can be extracted with function `extract` which has to return a named list which
-#'   is passed to [data.table::rbindlist()] to construct additional columns.
+#'   Returns a [data.table::data.table()] with fields "key", "label", "task_type", "params", and "packages" as columns.
+#'   If `objects` is set to `TRUE`, the constructed objects are returned in the list column named `object`.
 #'
 #' @family Dictionary
 #' @family TaskGenerator
@@ -35,19 +34,15 @@ mlr_task_generators = R6Class("DictionaryTaskGenerator",
 )$new()
 
 #' @export
-as.data.table.DictionaryTaskGenerator = function(x, ..., extract = NULL) {
-  if (is.null(extract)) {
-    extract = function(x) NULL
-  } else {
-    assert_function(extract)
-  }
+as.data.table.DictionaryTaskGenerator = function(x, ..., objects = FALSE) {
+  assert_flag(objects)
 
   setkeyv(map_dtr(x$keys(), function(key) {
     g = withCallingHandlers(x$get(key),
       packageNotFoundWarning = function(w) invokeRestart("muffleWarning"))
     insert_named(
-      list(key = key, task_type = g$task_type, params = list(g$param_set$ids()), packages = list(g$packages)),
-      extract(g)
+      list(key = key, label = g$label, task_type = g$task_type, params = list(g$param_set$ids()), packages = list(g$packages)),
+      if (objects) list(object = list(g))
     )
   }, .fill = TRUE), "key")[]
 }

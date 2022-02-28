@@ -23,11 +23,10 @@ See \link[mlr3misc:Dictionary]{mlr3misc::Dictionary}.
 \section{S3 methods}{
 
 \itemize{
-\item \code{as.data.table(dict, ..., extract = NULL)}\cr
+\item \code{as.data.table(dict, ..., objects = FALSE)}\cr
 \link[mlr3misc:Dictionary]{mlr3misc::Dictionary} -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
-Returns a \code{\link[data.table:data.table]{data.table::data.table()}} with fields "key", "task_type", "params", and "packages" as columns.
-Additional columns can be extracted with function \code{extract} which has to return a named list which
-is passed to \code{\link[data.table:rbindlist]{data.table::rbindlist()}} to construct additional columns.
+Returns a \code{\link[data.table:data.table]{data.table::data.table()}} with fields "key", "label", "task_type", "params", and "packages" as columns.
+If \code{objects} is set to \code{TRUE}, the constructed objects are returned in the list column named \code{object}.
 }
 }
 

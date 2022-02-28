@@ -27,8 +27,8 @@ test_that("sugar functions", {
   expect_list(tgens(c("xor", "smiley")), "TaskGenerator")
 })
 
-test_that("extra_cols", {
-  tab  = as.data.table(mlr_task_generators, extract = function(x) list(man = x$man))
+test_that("as.data.table(..., objects = TRUE)", {
+  tab  = as.data.table(mlr_task_generators, objects = TRUE)
   expect_data_table(tab)
-  expect_character(tab$man, any.missing = FALSE)
+  expect_list(tab$object, "TaskGenerator", any.missing = FALSE)
 })
