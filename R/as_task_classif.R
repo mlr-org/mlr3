@@ -41,7 +41,7 @@ as_task_classif.data.frame = function(x, target = NULL, id = deparse(substitute(
     warningf("Detected columns with unsupported Inf values in data: %s", str_collapse(names(ii)))
   }
 
-  TaskClassif$new(id = id, backend = x, target = target, positive = positive, label = Label)
+  TaskClassif$new(id = id, backend = x, target = target, positive = positive, label = label)
 }
 
 
