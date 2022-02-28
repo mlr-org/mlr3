@@ -27,3 +27,9 @@ test_that("tasks are cloned", {
     mlr_tasks$remove("foo")
   }
 })
+
+test_that("extra_cols", {
+  tab = as.data.table(mlr_tasks, extract = function(x) list(hash = x$hash))
+  expect_data_table(tab)
+  expect_character(tab$hash, any.missing = FALSE)
+})

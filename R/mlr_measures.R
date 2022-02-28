@@ -17,10 +17,12 @@
 #' See [mlr3misc::Dictionary].
 #'
 #' @section S3 methods:
-#' * `as.data.table(dict)`\cr
+#' * `as.data.table(dict, ..., extract = NULL)`\cr
 #'   [mlr3misc::Dictionary] -> [data.table::data.table()]\cr
-#'   Returns a [data.table::data.table()] with fields "key", "task_type", "predict_type",
-#'   and "packages" as columns.
+#'   Returns a [data.table::data.table()] with fields "key", "task_type", "packages", "predict_type",
+#'   and "task_properties" as columns.
+#'   Additional columns can be extracted with function `extract` which has to return a named list which
+#'   is passed to [data.table::rbindlist()] to construct additional columns.
 #'
 #' @family Dictionary
 #' @family Measure
@@ -39,16 +41,20 @@ mlr_measures = R6Class("DictionaryMeasure",
 )$new()
 
 #' @export
-as.data.table.DictionaryMeasure = function(x, extra_cols = character(), ...) {
-  assert_character(extra_cols, any.missing = FALSE)
+as.data.table.DictionaryMeasure = function(x, ..., extract = NULL) {
+  if (is.null(extract)) {
+    extract = function(x) NULL
+  } else {
+    assert_function(extract)
+  }
 
   setkeyv(map_dtr(x$keys(), function(key) {
     m = withCallingHandlers(x$get(key),
       packageNotFoundWarning = function(w) invokeRestart("muffleWarning"))
-    c(
+    insert_named(
       list(key = key, task_type = m$task_type, packages = list(m$packages), predict_type = m$predict_type,
         task_properties = list(m$task_properties)),
-      mget(extra_cols, envir = m)
+      extract(m)
     )
-  }), "key")[]
+  }, .fill = TRUE), "key")[]
 }

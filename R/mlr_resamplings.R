@@ -15,9 +15,11 @@
 #' See [mlr3misc::Dictionary].
 #'
 #' @section S3 methods:
-#' * `as.data.table(dict)`\cr
+#' * `as.data.table(dict, ..., extract = NULL)`\cr
 #'   [mlr3misc::Dictionary] -> [data.table::data.table()]\cr
-#'   Returns a [data.table::data.table()] with columns `"key"`, `"params"`, and `"iters"`.
+#'   Returns a [data.table::data.table()] with columns "key", "params", and "iters".
+#'   Additional columns can be extracted with function `extract` which has to return a named list which
+#'   is passed to [data.table::rbindlist()] to construct additional columns.
 #'
 #' @family Dictionary
 #' @family Resampling
@@ -34,8 +36,12 @@ mlr_resamplings = R6Class("DictionaryResampling",
 )$new()
 
 #' @export
-as.data.table.DictionaryResampling = function(x, extra_cols = character(), ...) { # nolint
-  assert_character(extra_cols, any.missing = FALSE)
+as.data.table.DictionaryResampling = function(x, ..., extract = NULL) { # nolint
+  if (is.null(extract)) {
+    extract = function(x) NULL
+  } else {
+    assert_function(extract)
+  }
 
   setkeyv(map_dtr(x$keys(), function(key) {
     r = tryCatch(x$get(key),
@@ -44,9 +50,9 @@ as.data.table.DictionaryResampling = function(x, extra_cols = character(), ...) 
       return(list(key = key))
     }
 
-    c(
+    insert_named(
       list(key = key, params = list(r$param_set$ids()), iters = r$iters),
-      mget(extra_cols, envir = r)
+      extract(r)
     )
   }, .fill = TRUE), "key")[]
 }

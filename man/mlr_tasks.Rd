@@ -25,10 +25,12 @@ See \link[mlr3misc:Dictionary]{mlr3misc::Dictionary}.
 \section{S3 methods}{
 
 \itemize{
-\item \code{as.data.table(dict)}\cr
+\item \code{as.data.table(dict, ..., extract = NULL)}\cr
 \link[mlr3misc:Dictionary]{mlr3misc::Dictionary} -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
-Returns a \code{\link[data.table:data.table]{data.table::data.table()}} with columns \code{"key"}, \code{"task_type"}, \code{"measures"}, \code{"nrow"}, \code{"ncol"} and
-the number of features of type \code{"lgl"}, \code{"int"}, \code{"dbl"}, \code{"chr"}, \code{"fct"} and \code{"ord"} as columns.
+Returns a \code{\link[data.table:data.table]{data.table::data.table()}} with columns "key", "task_type", "nrow", "ncol", "properties",
+and the number of features of type "lgl", "int", "dbl", "chr", "fct" and "ord", respectively.
+Additional columns can be extracted with function \code{extract} which has to return a named list which
+is passed to \code{\link[data.table:rbindlist]{data.table::rbindlist()}} to construct additional columns.
 }
 }
 

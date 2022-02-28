@@ -85,7 +85,7 @@ Resampling = R6Class("Resampling",
     #' @template field_id
     id = NULL,
 
-    #' @template field_label,
+    #' @template field_label
     label = NULL,
 
     #' @template field_param_set
@@ -125,7 +125,7 @@ Resampling = R6Class("Resampling",
     #'   Set to `TRUE` if this resampling strategy may have duplicated row ids in a single training set or test set.
     #'
     #' Note that this object is typically constructed via a derived classes, e.g. [ResamplingCV] or [ResamplingHoldout].
-    initialize = function(id, param_set = ps(), duplicated_ids = FALSE, label = NA_character, man = NA_character_) {
+    initialize = function(id, param_set = ps(), duplicated_ids = FALSE, label = NA_character_, man = NA_character_) {
       self$id = assert_string(id, min.chars = 1L)
       self$label = assert_string(label, na.ok = TRUE)
       self$param_set = assert_param_set(param_set)
