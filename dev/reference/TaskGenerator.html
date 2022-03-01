@@ -113,6 +113,12 @@ Identifier of the object.
 Used in tables, plot and text output.</p></dd>
 
 
+<dt><code>label</code></dt>
+<dd><p>(<code>character(1)</code>)<br>
+Label for this object.
+Can be used in tables, plot and text output instead of the ID.</p></dd>
+
+
 <dt><code>task_type</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 Task type, e.g. <code>"classif"</code> or <code>"regr"</code>.</p>
@@ -159,6 +165,7 @@ Defaults to <code>NA</code>, but can be set by child classes.</p></dd>
   <span class="va">task_type</span>,
   packages <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="op">)</span>,
   param_set <span class="op">=</span> <span class="fu">ps</span><span class="op">(</span><span class="op">)</span>,
+  label <span class="op">=</span> <span class="cn">NA_character_</span>,
   man <span class="op">=</span> <span class="cn">NA_character_</span>
 <span class="op">)</span></code></pre></div><p></p></div>
 </div>
@@ -186,6 +193,11 @@ but loaded (not attached) later on-demand via <code><a href="https://rdrr.io/r/b
 <dt><code>param_set</code></dt>
 <dd><p>(<a href="https://paradox.mlr-org.com/reference/ParamSet.html" class="external-link">paradox::ParamSet</a>)<br>
 Set of hyperparameters.</p></dd>
+
+
+<dt><code>label</code></dt>
+<dd><p>(<code>character(1)</code>)<br>
+Label for the new instance.</p></dd>
 
 
 <dt><code>man</code></dt>

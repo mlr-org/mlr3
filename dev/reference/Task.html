@@ -175,6 +175,12 @@ Identifier of the object.
 Used in tables, plot and text output.</p></dd>
 
 
+<dt><code>label</code></dt>
+<dd><p>(<code>character(1)</code>)<br>
+Label for this object.
+Can be used in tables, plot and text output instead of the ID.</p></dd>
+
+
 <dt><code>task_type</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 Task type, e.g. <code>"classif"</code> or <code>"regr"</code>.</p>
@@ -388,7 +394,7 @@ The reverse is not necessarily true: There can be columns with the same content 
 <p>Creates a new instance of this <a href="https://r6.r-lib.org/reference/R6Class.html" class="external-link">R6</a> class.</p>
 <p>Note that this object is typically constructed via a derived classes, e.g. <a href="TaskClassif.html">TaskClassif</a> or <a href="TaskRegr.html">TaskRegr</a>.</p><div class="section">
 <h4 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va"><a href="../reference/Task.html">Task</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="va">id</span>, <span class="va">task_type</span>, <span class="va">backend</span>, extra_args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va"><a href="../reference/Task.html">Task</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="va">id</span>, <span class="va">task_type</span>, <span class="va">backend</span>, label <span class="op">=</span> <span class="cn">NA_character_</span>, extra_args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -408,6 +414,11 @@ Must be an element of <a href="mlr_reflections.html">mlr_reflections$task_types$
 <dd><p>(<a href="DataBackend.html">DataBackend</a>)<br>
 Either a <a href="DataBackend.html">DataBackend</a>, or any object which is convertible to a <a href="DataBackend.html">DataBackend</a> with <code><a href="as_data_backend.html">as_data_backend()</a></code>.
 E.g., a <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code> will be converted to a <a href="DataBackendDataTable.html">DataBackendDataTable</a>.</p></dd>
+
+
+<dt><code>label</code></dt>
+<dd><p>(<code>character(1)</code>)<br>
+Label for the new instance.</p></dd>
 
 
 <dt><code>extra_args</code></dt>

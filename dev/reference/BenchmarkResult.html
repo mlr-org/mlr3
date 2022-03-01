@@ -533,10 +533,10 @@ the object in its previous state.</p>
 <span class="r-in"><span class="op">)</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">design</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 task                         learner         resampling</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: &lt;TaskClassif[49]&gt; &lt;LearnerClassifFeatureless[37]&gt; &lt;ResamplingCV[19]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: &lt;TaskClassif[49]&gt;       &lt;LearnerClassifRpart[37]&gt; &lt;ResamplingCV[19]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: &lt;TaskClassif[49]&gt; &lt;LearnerClassifFeatureless[37]&gt; &lt;ResamplingCV[19]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4: &lt;TaskClassif[49]&gt;       &lt;LearnerClassifRpart[37]&gt; &lt;ResamplingCV[19]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: &lt;TaskClassif[50]&gt; &lt;LearnerClassifFeatureless[38]&gt; &lt;ResamplingCV[20]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: &lt;TaskClassif[50]&gt;       &lt;LearnerClassifRpart[38]&gt; &lt;ResamplingCV[20]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: &lt;TaskClassif[50]&gt; &lt;LearnerClassifFeatureless[38]&gt; &lt;ResamplingCV[20]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4: &lt;TaskClassif[50]&gt;       &lt;LearnerClassifRpart[38]&gt; &lt;ResamplingCV[20]&gt;</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">bmr</span> <span class="op">=</span> <span class="fu"><a href="benchmark.html">benchmark</a></span><span class="op">(</span><span class="va">design</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">bmr</span><span class="op">)</span></span>
@@ -549,27 +549,27 @@ the object in its previous state.</p>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">bmr</span><span class="op">$</span><span class="va">tasks</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           task_hash task_id              task</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 76c4fc7a533d41b7   sonar &lt;TaskClassif[49]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: b9a72ba3625e9785    spam &lt;TaskClassif[49]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 76c4fc7a533d41b7   sonar &lt;TaskClassif[50]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: b9a72ba3625e9785    spam &lt;TaskClassif[50]&gt;</span>
 <span class="r-in"><span class="va">bmr</span><span class="op">$</span><span class="va">learners</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        learner_hash          learner_id                         learner</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 4a8ddb31f4547017       classif.rpart       &lt;LearnerClassifRpart[37]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 54ecc16720ea1edf classif.featureless &lt;LearnerClassifFeatureless[37]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 4a8ddb31f4547017       classif.rpart       &lt;LearnerClassifRpart[38]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 54ecc16720ea1edf classif.featureless &lt;LearnerClassifFeatureless[38]&gt;</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># first 5 resampling iterations</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html" class="external-link">as.data.table</a></span><span class="op">(</span><span class="va">bmr</span>, measures <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"classif.acc"</span>, <span class="st">"classif.auc"</span><span class="op">)</span><span class="op">)</span>, <span class="fl">5</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                   uhash              task</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 3d5a1732-1e0b-4a00-bb23-fa9998115398 &lt;TaskClassif[49]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 3d5a1732-1e0b-4a00-bb23-fa9998115398 &lt;TaskClassif[49]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 3d5a1732-1e0b-4a00-bb23-fa9998115398 &lt;TaskClassif[49]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4: ac84afd7-6a48-422a-8046-14189303035f &lt;TaskClassif[49]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5: ac84afd7-6a48-422a-8046-14189303035f &lt;TaskClassif[49]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 3198a80e-c924-45c6-a875-7b4e2ffa01b4 &lt;TaskClassif[50]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 3198a80e-c924-45c6-a875-7b4e2ffa01b4 &lt;TaskClassif[50]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 3198a80e-c924-45c6-a875-7b4e2ffa01b4 &lt;TaskClassif[50]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4: f88459aa-9dff-4b50-a29f-0f48e6d66405 &lt;TaskClassif[50]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5: f88459aa-9dff-4b50-a29f-0f48e6d66405 &lt;TaskClassif[50]&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                            learner         resampling iteration</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: &lt;LearnerClassifFeatureless[37]&gt; &lt;ResamplingCV[19]&gt;         1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: &lt;LearnerClassifFeatureless[37]&gt; &lt;ResamplingCV[19]&gt;         2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: &lt;LearnerClassifFeatureless[37]&gt; &lt;ResamplingCV[19]&gt;         3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4:       &lt;LearnerClassifRpart[37]&gt; &lt;ResamplingCV[19]&gt;         1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5:       &lt;LearnerClassifRpart[37]&gt; &lt;ResamplingCV[19]&gt;         2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: &lt;LearnerClassifFeatureless[38]&gt; &lt;ResamplingCV[20]&gt;         1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: &lt;LearnerClassifFeatureless[38]&gt; &lt;ResamplingCV[20]&gt;         2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: &lt;LearnerClassifFeatureless[38]&gt; &lt;ResamplingCV[20]&gt;         3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:       &lt;LearnerClassifRpart[38]&gt; &lt;ResamplingCV[20]&gt;         1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5:       &lt;LearnerClassifRpart[38]&gt; &lt;ResamplingCV[20]&gt;         2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 prediction</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: &lt;PredictionClassif[20]&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2: &lt;PredictionClassif[20]&gt;</span>

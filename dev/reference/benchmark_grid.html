@@ -126,23 +126,23 @@ The only exception to this rule applies if all tasks have exactly the same numbe
 <span class="r-in"><span class="va">grid</span> <span class="op">=</span> <span class="fu">benchmark_grid</span><span class="op">(</span><span class="va">tasks</span>, <span class="va">learners</span>, <span class="va">resamplings</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">grid</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 task                         learner</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: &lt;TaskClassif[49]&gt; &lt;LearnerClassifFeatureless[37]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: &lt;TaskClassif[49]&gt; &lt;LearnerClassifFeatureless[37]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: &lt;TaskClassif[49]&gt;       &lt;LearnerClassifRpart[37]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4: &lt;TaskClassif[49]&gt;       &lt;LearnerClassifRpart[37]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5: &lt;TaskClassif[49]&gt; &lt;LearnerClassifFeatureless[37]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6: &lt;TaskClassif[49]&gt; &lt;LearnerClassifFeatureless[37]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7: &lt;TaskClassif[49]&gt;       &lt;LearnerClassifRpart[37]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8: &lt;TaskClassif[49]&gt;       &lt;LearnerClassifRpart[37]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: &lt;TaskClassif[50]&gt; &lt;LearnerClassifFeatureless[38]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: &lt;TaskClassif[50]&gt; &lt;LearnerClassifFeatureless[38]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: &lt;TaskClassif[50]&gt;       &lt;LearnerClassifRpart[38]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4: &lt;TaskClassif[50]&gt;       &lt;LearnerClassifRpart[38]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5: &lt;TaskClassif[50]&gt; &lt;LearnerClassifFeatureless[38]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6: &lt;TaskClassif[50]&gt; &lt;LearnerClassifFeatureless[38]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7: &lt;TaskClassif[50]&gt;       &lt;LearnerClassifRpart[38]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8: &lt;TaskClassif[50]&gt;       &lt;LearnerClassifRpart[38]&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                     resampling</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1:          &lt;ResamplingCV[19]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: &lt;ResamplingSubsampling[19]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3:          &lt;ResamplingCV[19]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4: &lt;ResamplingSubsampling[19]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5:          &lt;ResamplingCV[19]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6: &lt;ResamplingSubsampling[19]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7:          &lt;ResamplingCV[19]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8: &lt;ResamplingSubsampling[19]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:          &lt;ResamplingCV[20]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: &lt;ResamplingSubsampling[20]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:          &lt;ResamplingCV[20]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4: &lt;ResamplingSubsampling[20]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5:          &lt;ResamplingCV[20]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6: &lt;ResamplingSubsampling[20]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7:          &lt;ResamplingCV[20]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8: &lt;ResamplingSubsampling[20]&gt;</span>
 <span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
 <span class="r-in"><span class="fu"><a href="benchmark.html">benchmark</a></span><span class="op">(</span><span class="va">grid</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">}</span></span>
@@ -156,42 +156,50 @@ The only exception to this rule applies if all tasks have exactly the same numbe
 <span class="r-in">  <span class="va">resampling</span><span class="op">$</span><span class="fu">instantiate</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">}</span>, task <span class="op">=</span> <span class="va">grid</span><span class="op">$</span><span class="va">task</span>, resampling <span class="op">=</span> <span class="va">grid</span><span class="op">$</span><span class="va">resampling</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;ResamplingCV&gt; with 10 iterations</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;ResamplingCV&gt;: Cross-Validation</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * Iterations: 10</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Instantiated: TRUE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Parameters: folds=10</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[2]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;ResamplingSubsampling&gt; with 30 iterations</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;ResamplingSubsampling&gt;: Subsampling</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * Iterations: 30</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Instantiated: TRUE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Parameters: repeats=30, ratio=0.6667</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[3]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;ResamplingCV&gt; with 10 iterations</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;ResamplingCV&gt;: Cross-Validation</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * Iterations: 10</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Instantiated: TRUE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Parameters: folds=10</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[4]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;ResamplingSubsampling&gt; with 30 iterations</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;ResamplingSubsampling&gt;: Subsampling</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * Iterations: 30</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Instantiated: TRUE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Parameters: repeats=30, ratio=0.6667</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[5]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;ResamplingCV&gt; with 10 iterations</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;ResamplingCV&gt;: Cross-Validation</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * Iterations: 10</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Instantiated: TRUE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Parameters: folds=10</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[6]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;ResamplingSubsampling&gt; with 30 iterations</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;ResamplingSubsampling&gt;: Subsampling</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * Iterations: 30</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Instantiated: TRUE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Parameters: repeats=30, ratio=0.6667</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[7]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;ResamplingCV&gt; with 10 iterations</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;ResamplingCV&gt;: Cross-Validation</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * Iterations: 10</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Instantiated: TRUE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Parameters: folds=10</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[8]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;ResamplingSubsampling&gt; with 30 iterations</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;ResamplingSubsampling&gt;: Subsampling</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * Iterations: 30</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Instantiated: TRUE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Parameters: repeats=30, ratio=0.6667</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>

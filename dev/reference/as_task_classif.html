@@ -106,6 +106,7 @@ This is a S3 generic, specialized for at least the following objects:</p><ol><li
   target <span class="op">=</span> <span class="cn">NULL</span>,
   id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/deparse.html" class="external-link">deparse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/substitute.html" class="external-link">substitute</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span>,
   positive <span class="op">=</span> <span class="cn">NULL</span>,
+  label <span class="op">=</span> <span class="cn">NA_character_</span>,
   <span class="va">...</span>
 <span class="op">)</span>
 
@@ -152,6 +153,9 @@ Defaults to the (deparsed and substituted) name of the data argument.</p></dd>
 <dt>positive</dt>
 <dd><p>(<code>character(1)</code>)<br>
 Level of the positive class. See <a href="TaskClassif.html">TaskClassif</a>.</p></dd>
+<dt>label</dt>
+<dd><p>(<code>character(1)</code>)<br>
+Label for the new instance.</p></dd>
 <dt>drop_original_target</dt>
 <dd><p>(<code>logical(1)</code>)<br>
 If <code>FALSE</code> (default), the original target is added as a feature.

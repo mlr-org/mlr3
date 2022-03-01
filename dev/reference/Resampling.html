@@ -156,6 +156,12 @@ Identifier of the object.
 Used in tables, plot and text output.</p></dd>
 
 
+<dt><code>label</code></dt>
+<dd><p>(<code>character(1)</code>)<br>
+Label for this object.
+Can be used in tables, plot and text output instead of the ID.</p></dd>
+
+
 <dt><code>param_set</code></dt>
 <dd><p>(<a href="https://paradox.mlr-org.com/reference/ParamSet.html" class="external-link">paradox::ParamSet</a>)<br>
 Set of hyperparameters.</p></dd>
@@ -231,6 +237,7 @@ Hash (unique identifier) for this object.</p></dd>
   <span class="va">id</span>,
   param_set <span class="op">=</span> <span class="fu">ps</span><span class="op">(</span><span class="op">)</span>,
   duplicated_ids <span class="op">=</span> <span class="cn">FALSE</span>,
+  label <span class="op">=</span> <span class="cn">NA_character_</span>,
   man <span class="op">=</span> <span class="cn">NA_character_</span>
 <span class="op">)</span></code></pre></div><p></p></div>
 </div>
@@ -251,6 +258,11 @@ Set of hyperparameters.</p></dd>
 <dd><p>(<code>logical(1)</code>)<br>
 Set to <code>TRUE</code> if this resampling strategy may have duplicated row ids in a single training set or test set.</p>
 <p>Note that this object is typically constructed via a derived classes, e.g. <a href="mlr_resamplings_cv.html">ResamplingCV</a> or <a href="mlr_resamplings_holdout.html">ResamplingHoldout</a>.</p></dd>
+
+
+<dt><code>label</code></dt>
+<dd><p>(<code>character(1)</code>)<br>
+Label for the new instance.</p></dd>
 
 
 <dt><code>man</code></dt>

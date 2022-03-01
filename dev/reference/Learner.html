@@ -203,6 +203,12 @@ Identifier of the object.
 Used in tables, plot and text output.</p></dd>
 
 
+<dt><code>label</code></dt>
+<dd><p>(<code>character(1)</code>)<br>
+Label for this object.
+Can be used in tables, plot and text output instead of the ID.</p></dd>
+
+
 <dt><code>state</code></dt>
 <dd><p>(<code>NULL</code> | named <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>)<br>
 Current (internal) state of the learner.
@@ -392,6 +398,7 @@ Stores <code>HotstartStack</code>.</p></dd>
   properties <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="op">)</span>,
   data_formats <span class="op">=</span> <span class="st">"data.table"</span>,
   packages <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="op">)</span>,
+  label <span class="op">=</span> <span class="cn">NA_character_</span>,
   man <span class="op">=</span> <span class="cn">NA_character_</span>
 <span class="op">)</span></code></pre></div><p></p></div>
 </div>
@@ -447,6 +454,11 @@ e.g. <code>"data.table"</code>.</p></dd>
 Set of required packages.
 A warning is signaled by the constructor if at least one of the packages is not installed,
 but loaded (not attached) later on-demand via <code><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace()</a></code>.</p></dd>
+
+
+<dt><code>label</code></dt>
+<dd><p>(<code>character(1)</code>)<br>
+Label for the new instance.</p></dd>
 
 
 <dt><code>man</code></dt>

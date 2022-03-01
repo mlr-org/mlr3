@@ -102,8 +102,9 @@ Each task generator has an associated help page, see <code>mlr_task_generators_[
     <h2 id="s-methods">S3 methods<a class="anchor" aria-label="anchor" href="#s-methods"></a></h2>
     
 
-<ul><li><p><code>as.data.table(dict)</code><br><a href="https://mlr3misc.mlr-org.com/reference/Dictionary.html" class="external-link">mlr3misc::Dictionary</a> -&gt; <code><a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code><br>
-Returns a <code><a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code> with fields <code>"key"</code> and <code>"packages"</code> as columns.</p></li>
+<ul><li><p><code>as.data.table(dict, ..., objects = FALSE)</code><br><a href="https://mlr3misc.mlr-org.com/reference/Dictionary.html" class="external-link">mlr3misc::Dictionary</a> -&gt; <code><a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code><br>
+Returns a <code><a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code> with fields "key", "label", "task_type", "params", and "packages" as columns.
+If <code>objects</code> is set to <code>TRUE</code>, the constructed objects are returned in the list column named <code>object</code>.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -129,13 +130,13 @@ Returns a <code><a href="https://Rdatatable.gitlab.io/data.table/reference/data.
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">mlr_task_generators</span><span class="op">$</span><span class="fu">get</span><span class="op">(</span><span class="st">"smiley"</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;TaskGeneratorSmiley:smiley&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;TaskGeneratorSmiley:smiley&gt;: Smiley Classification</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Task type: classif</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Packages: mlr3, mlbench</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Parameters: list()</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Manual: ?mlr3::mlr_task_generators_smiley</span>
 <span class="r-in"><span class="fu"><a href="mlr_sugar.html">tgen</a></span><span class="op">(</span><span class="st">"2dnormals"</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;TaskGenerator2DNormals:2dnormals&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;TaskGenerator2DNormals:2dnormals&gt;: 2D Normals Classification</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Task type: classif</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Packages: mlr3, mlbench</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Parameters: list()</span>
