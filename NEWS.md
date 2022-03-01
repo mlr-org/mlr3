@@ -4,6 +4,8 @@
   `TaskGenerator`, `Learner`, `Resampling`, and `Measure`.
 * `as.data.table()` methods for objects of class `Dictonary` have been extended
   with additional columns.
+* `as_task_classif.formula()` and `as_task_regr.formula()` now remove additional
+  atrributes attached to the data which caused some some learners to break.
 
 
 # mlr3 0.13.2
