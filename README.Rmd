@@ -36,7 +36,7 @@ Successor of [mlr](https://github.com/mlr-org/mlr).
   - Recommended core regression, classification, and survival learners are in [mlr3learners](https://github.com/mlr-org/mlr3learners)
   - All others are in [mlr3extralearners](https://github.com/mlr-org/mlr3extralearners)
   - Use the [learner search](https://mlr3extralearners.mlr-org.com/articles/learners/list_learners.html) to get a simple overview
-  - Use the [learner status](https://mlr3extralearners.mlr-org.com/articles/learners/learner_status.html) to see their build status
+  - Use the [learner status](https://mlr3extralearners.mlr-org.com/articles/learners/test_overview.html) to see their build status
 * **Cheatsheets**
   - [Overview of cheatsheets](https://cheatsheets.mlr-org.com)
   - [mlr3](https://cheatsheets.mlr-org.com/mlr3.pdf)
