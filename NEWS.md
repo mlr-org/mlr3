@@ -1,3 +1,11 @@
+# mlr3 0.13.3
+
+* Most objects now have a new (optional) field `label`, i.e. `Task`,
+  `TaskGenerator`, `Learner`, `Resampling`, and `Measure`.
+* `as.data.table()` methods for objects of class `Dictonary` have been extended
+  with additional columns.
+
+
 # mlr3 0.13.2
 
 * Setting a fallback learner for a learner with encapsulation in its default
