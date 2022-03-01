@@ -9,10 +9,10 @@ learner_train = function(learner, task, row_ids = NULL, mode = "train") {
     }
 
     model = if (mode == "train") {
-        get_private(learner)$.train(task)
-      } else if (mode == "hotstart") {
-        get_private(learner)$.hotstart(task)
-      }
+      get_private(learner)$.train(task)
+    } else if (mode == "hotstart") {
+      get_private(learner)$.hotstart(task)
+    }
 
     if (is.null(model)) {
       stopf("Learner '%s' on task '%s' returned NULL during internal %s()", learner$id, task$id, mode)
@@ -24,6 +24,9 @@ learner_train = function(learner, task, row_ids = NULL, mode = "train") {
   assert_choice(mode, c("train", "hotstart"))
   assert_task(task)
   assert_learner(learner)
+
+  # ensure that required packages are installed
+  require_namespaces(learner$packages)
 
   # subset to train set w/o cloning
   if (!is.null(row_ids)) {
@@ -121,6 +124,9 @@ learner_predict = function(learner, task, row_ids = NULL) {
   assert_task(task)
   assert_learner(learner)
 
+  # ensure that required packages are installed
+  require_namespaces(learner$packages)
+
   if (getOption("mlr3.warn_version_mismatch", TRUE)) {
     v_train = learner$state$mlr3_version
     v_predict = packageVersion("mlr3")
@@ -215,8 +221,7 @@ learner_predict = function(learner, task, row_ids = NULL) {
 }
 
 
-workhorse = function(iteration, task, learner, resampling, lgr_threshold, store_models = FALSE, pb = NULL,
-  mode = "train") {
+workhorse = function(iteration, task, learner, resampling, lgr_threshold, store_models = FALSE, pb = NULL, mode = "train") {
   if (!is.null(pb)) {
     pb(sprintf("%s|%s|i:%i", task$id, learner$id, iteration))
   }
