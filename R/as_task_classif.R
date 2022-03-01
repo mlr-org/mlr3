@@ -33,14 +33,15 @@ as_task_classif.TaskClassif = function(x, clone = FALSE, ...) { # nolint
 #'   Defaults to the (deparsed and substituted) name of the data argument.
 #' @param positive (`character(1)`)\cr
 #'   Level of the positive class. See [TaskClassif].
+#' @template param_label
 #' @export
-as_task_classif.data.frame = function(x, target = NULL, id = deparse(substitute(x)), positive = NULL, ...) { # nolint
+as_task_classif.data.frame = function(x, target = NULL, id = deparse(substitute(x)), positive = NULL, label = NA_character_, ...) { # nolint
   ii = which(map_lgl(keep(x, is.double), anyInfinite))
   if (length(ii)) {
     warningf("Detected columns with unsupported Inf values in data: %s", str_collapse(names(ii)))
   }
 
-  TaskClassif$new(id = id, backend = x, target = target, positive = positive)
+  TaskClassif$new(id = id, backend = x, target = target, positive = positive, label = label)
 }
 
 

@@ -13,7 +13,13 @@ as_task_regr(x, ...)
 
 \method{as_task_regr}{TaskRegr}(x, clone = FALSE, ...)
 
-\method{as_task_regr}{data.frame}(x, target, id = deparse(substitute(x)), ...)
+\method{as_task_regr}{data.frame}(
+  x,
+  target,
+  id = deparse(substitute(x)),
+  label = NA_character_,
+  ...
+)
 
 \method{as_task_regr}{DataBackend}(x, target, id = deparse(substitute(x)), ...)
 
@@ -43,6 +49,9 @@ Name of the target column.}
 \item{id}{(\code{character(1)})\cr
 Id for the new task.
 Defaults to the (deparsed and substituted) name of the data argument.}
+
+\item{label}{(\code{character(1)})\cr
+Label for the new instance.}
 
 \item{drop_original_target}{(\code{logical(1)})\cr
 If \code{FALSE} (default), the original target is added as a feature.

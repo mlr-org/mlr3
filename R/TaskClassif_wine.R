@@ -27,7 +27,8 @@ NULL
 
 load_task_wine = function(id = "wine") {
   b = as_data_backend(readRDS(system.file("extdata", "wine.rds", package = "mlr3")))
-  task = TaskClassif$new(id, b, target = "type")
+  task = TaskClassif$new(id, b, target = "type",
+    label = "Wine Regions")
   b$hash = task$man = "mlr3::mlr_tasks_wine"
   task
 }

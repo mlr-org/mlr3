@@ -31,6 +31,7 @@
 #' @template param_predict_sets
 #' @template param_task_properties
 #' @template param_packages
+#' @template param_label
 #' @template param_man
 #'
 #' @template seealso_measure
@@ -40,6 +41,9 @@ Measure = R6Class("Measure",
   public = list(
     #' @template field_id
     id = NULL,
+
+    #' @template field_label
+    label = NULL,
 
     #' @template field_task_type
     task_type = NULL,
@@ -92,9 +96,11 @@ Measure = R6Class("Measure",
     #' Note that this object is typically constructed via a derived classes, e.g. [MeasureClassif] or [MeasureRegr].
     initialize = function(id, task_type = NA, param_set = ps(), range = c(-Inf, Inf), minimize = NA, average = "macro",
       aggregator = NULL, properties = character(), predict_type = "response",
-      predict_sets = "test", task_properties = character(), packages = character(), man = NA_character_) {
+      predict_sets = "test", task_properties = character(), packages = character(),
+      label = NA_character_, man = NA_character_) {
 
       self$id = assert_string(id, min.chars = 1L)
+      self$label = assert_string(label, na.ok = TRUE)
       self$task_type = task_type
       self$param_set = assert_param_set(param_set)
       self$range = assert_range(range)
@@ -130,7 +136,7 @@ Measure = R6Class("Measure",
     #' Printer.
     #' @param ... (ignored).
     print = function(...) {
-      catn(format(self))
+      catn(format(self), if (is.na(self$label)) "" else paste0(": ", self$label))
       catn(str_indent("* Packages:", self$packages))
       catn(str_indent("* Range:", sprintf("[%g, %g]", self$range[1L], self$range[2L])))
       catn(str_indent("* Minimize:", self$minimize))

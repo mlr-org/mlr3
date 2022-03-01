@@ -40,7 +40,8 @@ ResamplingCustomCV = R6Class("ResamplingCustomCV", inherit = Resampling,
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
-      super$initialize(id = "custom_cv", duplicated_ids = FALSE, man = "mlr3::mlr_resamplings_custom_cv")
+      super$initialize(id = "custom_cv", duplicated_ids = FALSE,
+        label = "Custom Split Cross-Validation", man = "mlr3::mlr_resamplings_custom_cv")
     },
 
     #' @description

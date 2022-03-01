@@ -109,6 +109,10 @@ Other Resampling:
 Identifier of the object.
 Used in tables, plot and text output.}
 
+\item{\code{label}}{(\code{character(1)})\cr
+Label for this object.
+Can be used in tables, plot and text output instead of the ID.}
+
 \item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
 Set of hyperparameters.}
 
@@ -171,6 +175,7 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
   id,
   param_set = ps(),
   duplicated_ids = FALSE,
+  label = NA_character_,
   man = NA_character_
 )}\if{html}{\out{</div>}}
 }
@@ -188,6 +193,9 @@ Set of hyperparameters.}
 Set to \code{TRUE} if this resampling strategy may have duplicated row ids in a single training set or test set.
 
 Note that this object is typically constructed via a derived classes, e.g. \link{ResamplingCV} or \link{ResamplingHoldout}.}
+
+\item{\code{label}}{(\code{character(1)})\cr
+Label for the new instance.}
 
 \item{\code{man}}{(\code{character(1)})\cr
 String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.

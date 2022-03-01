@@ -15,7 +15,7 @@ as_data_backend(data, primary_key = NULL, ...)
 \arguments{
 \item{data}{(\code{\link[=data.frame]{data.frame()}})\cr
 The input \code{\link[=data.frame]{data.frame()}}.
-Converted to a \code{\link[data.table:data.table]{data.table::data.table()}} automatically.}
+Automatically converted to a \code{\link[data.table:data.table]{data.table::data.table()}}.}
 
 \item{primary_key}{(\code{character(1)} | \code{integer()})\cr
 Name of the primary key column, or integer vector of row ids.}

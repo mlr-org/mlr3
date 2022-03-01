@@ -33,3 +33,9 @@ test_that("custom aggregation", {
   aggr = rr$aggregate(measures)
   expect_equal(aggr[["max_ce"]], max(perf$classif.ce))
 })
+
+test_that("as.data.table(..., objects = TRUE)", {
+  tab = as.data.table(mlr_measures, objects = TRUE)
+  expect_data_table(tab)
+  expect_list(tab$object, "Measure", any.missing = FALSE)
+})

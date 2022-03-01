@@ -25,10 +25,11 @@ See \link[mlr3misc:Dictionary]{mlr3misc::Dictionary}.
 \section{S3 methods}{
 
 \itemize{
-\item \code{as.data.table(dict)}\cr
+\item \code{as.data.table(dict, ..., objects = FALSE)}\cr
 \link[mlr3misc:Dictionary]{mlr3misc::Dictionary} -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
-Returns a \code{\link[data.table:data.table]{data.table::data.table()}} with fields "key", "feature_types", "packages",
-"properties" and "predict_types" as columns.
+Returns a \code{\link[data.table:data.table]{data.table::data.table()}} with fields "key", "label", "task_type", "feature_types", "packages",
+"properties", and "predict_types" as columns.
+If \code{objects} is set to \code{TRUE}, the constructed objects are returned in the list column named \code{object}.
 }
 }
 

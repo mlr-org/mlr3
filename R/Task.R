@@ -24,6 +24,7 @@
 #' @template param_rows
 #' @template param_cols
 #' @template param_data_format
+#' @template param_label
 #' @template param_extra_args
 #'
 #' @section S3 methods:
@@ -70,6 +71,9 @@ Task = R6Class("Task",
     #' @template field_id
     id = NULL,
 
+    #' @template field_label
+    label = NA_character_,
+
     #' @template field_task_type
     task_type = NULL,
 
@@ -100,8 +104,9 @@ Task = R6Class("Task",
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #'
     #' Note that this object is typically constructed via a derived classes, e.g. [TaskClassif] or [TaskRegr].
-    initialize = function(id, task_type, backend, extra_args = list()) {
+    initialize = function(id, task_type, backend, label = NA_character_, extra_args = list()) {
       self$id = assert_string(id, min.chars = 1L)
+      self$label = assert_string(label, na.ok = TRUE)
       self$task_type = assert_choice(task_type, mlr_reflections$task_types$type)
       if (!inherits(backend, "DataBackend")) {
         self$backend = as_data_backend(backend)
@@ -153,7 +158,8 @@ Task = R6Class("Task",
     #' Printer.
     #' @param ... (ignored).
     print = function(...) {
-      catf("%s (%i x %i)", format(self), self$nrow, self$ncol)
+      catf("%s (%i x %i)%s", format(self), self$nrow, self$ncol,
+        if (is.na(self$label)) "" else paste0(": ", self$label))
       catf(str_indent("* Target:", self$target_names))
       catf(str_indent("* Properties:", self$properties))
 

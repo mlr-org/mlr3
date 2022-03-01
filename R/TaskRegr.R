@@ -30,12 +30,13 @@ TaskRegr = R6Class("TaskRegr",
     #' The function [as_task_regr()] provides an alternative way to construct regression tasks.
     #'
     #' @template param_target
+    #' @template param_label
     #' @template param_extra_args
-    initialize = function(id, backend, target, extra_args = list()) {
+    initialize = function(id, backend, target, label = NA_character_, extra_args = list()) {
       assert_string(target)
       super$initialize(
         id = id, task_type = "regr", backend = backend,
-        target = target, extra_args = extra_args)
+        target = target, label = label, extra_args = extra_args)
 
       type = self$col_info[id == target]$type
       if (type %nin% c("integer", "numeric")) {

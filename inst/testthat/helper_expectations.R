@@ -204,6 +204,7 @@ expect_task = function(task, null_backend_ok = TRUE) {
   checkmate::expect_r6(task, "Task", cloneable = TRUE, public = c("id", "backend", "task_type", "row_roles", "col_roles", "col_info", "head", "row_ids", "feature_names", "target_names", "formula", "nrow", "ncol", "feature_types"))
   testthat::expect_output(print(task), "Task")
   expect_id(task$id)
+  expect_string(task$label, na.ok = TRUE)
   expect_man_exists(task$man)
   checkmate::expect_count(task$nrow)
   checkmate::expect_count(task$ncol)
@@ -322,6 +323,7 @@ expect_task_regr = function(task) {
 expect_task_generator = function(gen) {
   checkmate::expect_r6(gen, "TaskGenerator", private = ".generate")
   expect_id(gen$id)
+  expect_string(gen$label, na.ok = TRUE)
   expect_man_exists(gen$man)
   checkmate::expect_choice(gen$task_type, mlr3::mlr_reflections$task_types$type)
   checkmate::expect_function(gen$generate, args = "n")
@@ -333,6 +335,7 @@ expect_task_generator = function(gen) {
 expect_learner = function(lrn, task = NULL) {
   checkmate::expect_r6(lrn, "Learner", cloneable = TRUE)
   expect_id(lrn$id)
+  expect_string(lrn$label, na.ok = TRUE)
   expect_man_exists(lrn$man)
   testthat::expect_output(print(lrn))
 
