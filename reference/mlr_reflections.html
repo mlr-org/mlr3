@@ -87,7 +87,7 @@ Environment of converter functions used for rbind-ing data to tasks.
 Functions are named using the pattern "[from_type]___[to_type]".
 Can be extended by third-party with additional converters.
 
-'><meta property="og:image" content="https://mlr3.mlr-org.com/logo.png"><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
+'><meta property="og:image" content="https://mlr3.mlr-org.com/logo.svg"><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]--></head><body>
@@ -98,7 +98,7 @@ Can be extended by third-party with additional converters.
     
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.13.1</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.13.3</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -157,7 +157,7 @@ Can be extended by third-party with additional converters.
 </nav><div class="container template-reference-topic">
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="../logo.png" class="logo" alt=""><h1>Reflections for mlr3</h1>
+      <img src="../logo.svg" class="logo" alt=""><h1>Reflections for mlr3</h1>
       <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3/blob/HEAD/R/mlr_reflections.R" class="external-link"><code>R/mlr_reflections.R</code></a></small>
       <div class="d-none name"><code>mlr_reflections.Rd</code></div>
     </div>
@@ -220,7 +220,7 @@ Can be extended by third-party with additional converters.</p></li>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/ls_str.html" class="external-link">ls.str</a></span><span class="op">(</span><span class="va">mlr_reflections</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> auto_converters : &lt;environment: 0x563d1c087a10&gt; </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> auto_converters : &lt;environment: 0x55cbfd75caf8&gt; </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> data_formats :  chr [1:2] "data.table" "Matrix"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> default_measures : List of 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ classif: chr "classif.ce"</span>
@@ -236,7 +236,7 @@ Can be extended by third-party with additional converters.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> measure_properties : List of 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ classif: chr [1:5] "na_score" "requires_task" "requires_learner" "requires_model" ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ regr   : chr [1:5] "na_score" "requires_task" "requires_learner" "requires_model" ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> predict_sets :  chr [1:3] "train" "test" "validation"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> predict_sets :  chr [1:3] "train" "test" "holdout"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> rr_names :  chr [1:5] "task" "learner" "resampling" "iteration" "prediction"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> task_col_roles : List of 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ regr   : chr [1:7] "feature" "target" "name" "order" ...</span>
@@ -247,7 +247,7 @@ Can be extended by third-party with additional converters.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> task_properties : List of 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ classif: chr [1:5] "strata" "groups" "weights" "twoclass" ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ regr   : chr [1:3] "strata" "groups" "weights"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> task_row_roles :  chr [1:2] "use" "validation"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> task_row_roles :  chr [1:2] "use" "holdout"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> task_types : Classes ‘data.table’ and 'data.frame':	2 obs. of  6 variables:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ type      : chr  "classif" "regr"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ package   : chr  "mlr3" "mlr3"</span>

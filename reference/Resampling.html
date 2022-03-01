@@ -11,7 +11,7 @@ using a set of hyperparameters such as the number of folds in cross-validation.
 Resampling objects can be instantiated on a Task, which applies the strategy on the task and manifests in a
 fixed partition of row_ids of the Task.
 Predefined resamplings are stored in the dictionary mlr_resamplings,
-e.g. cv or bootstrap."><meta property="og:image" content="https://mlr3.mlr-org.com/logo.png"><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
+e.g. cv or bootstrap."><meta property="og:image" content="https://mlr3.mlr-org.com/logo.svg"><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]--></head><body>
@@ -22,7 +22,7 @@ e.g. cv or bootstrap."><meta property="og:image" content="https://mlr3.mlr-org.c
     
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.13.1</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.13.3</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -81,7 +81,7 @@ e.g. cv or bootstrap."><meta property="og:image" content="https://mlr3.mlr-org.c
 </nav><div class="container template-reference-topic">
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="../logo.png" class="logo" alt=""><h1>Resampling Class</h1>
+      <img src="../logo.svg" class="logo" alt=""><h1>Resampling Class</h1>
       <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3/blob/HEAD/R/Resampling.R" class="external-link"><code>R/Resampling.R</code></a></small>
       <div class="d-none name"><code>Resampling.Rd</code></div>
     </div>
@@ -154,6 +154,12 @@ tasks.</p></li>
 <dd><p>(<code>character(1)</code>)<br>
 Identifier of the object.
 Used in tables, plot and text output.</p></dd>
+
+
+<dt><code>label</code></dt>
+<dd><p>(<code>character(1)</code>)<br>
+Label for this object.
+Can be used in tables, plot and text output instead of the ID.</p></dd>
 
 
 <dt><code>param_set</code></dt>
@@ -231,6 +237,7 @@ Hash (unique identifier) for this object.</p></dd>
   <span class="va">id</span>,
   param_set <span class="op">=</span> <span class="fu">ps</span><span class="op">(</span><span class="op">)</span>,
   duplicated_ids <span class="op">=</span> <span class="cn">FALSE</span>,
+  label <span class="op">=</span> <span class="cn">NA_character_</span>,
   man <span class="op">=</span> <span class="cn">NA_character_</span>
 <span class="op">)</span></code></pre></div><p></p></div>
 </div>
@@ -251,6 +258,11 @@ Set of hyperparameters.</p></dd>
 <dd><p>(<code>logical(1)</code>)<br>
 Set to <code>TRUE</code> if this resampling strategy may have duplicated row ids in a single training set or test set.</p>
 <p>Note that this object is typically constructed via a derived classes, e.g. <a href="mlr_resamplings_cv.html">ResamplingCV</a> or <a href="mlr_resamplings_holdout.html">ResamplingHoldout</a>.</p></dd>
+
+
+<dt><code>label</code></dt>
+<dd><p>(<code>character(1)</code>)<br>
+Label for the new instance.</p></dd>
 
 
 <dt><code>man</code></dt>

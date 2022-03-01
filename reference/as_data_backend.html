@@ -7,7 +7,7 @@ to real DBMS like PostgreSQL (via dbplyr) or DuckDB (via DBI/duckdb)."><title>Cr
 mlr3 ships with methods for data.frame (converted to a DataBackendDataTable
 and Matrix from package Matrix (converted to a DataBackendMatrix).
 Additional methods are implemented in the package mlr3db, e.g. to connect
-to real DBMS like PostgreSQL (via dbplyr) or DuckDB (via DBI/duckdb)."><meta property="og:image" content="https://mlr3.mlr-org.com/logo.png"><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
+to real DBMS like PostgreSQL (via dbplyr) or DuckDB (via DBI/duckdb)."><meta property="og:image" content="https://mlr3.mlr-org.com/logo.svg"><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]--></head><body>
@@ -18,7 +18,7 @@ to real DBMS like PostgreSQL (via dbplyr) or DuckDB (via DBI/duckdb)."><meta pro
     
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.13.1</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.13.3</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -77,7 +77,7 @@ to real DBMS like PostgreSQL (via dbplyr) or DuckDB (via DBI/duckdb)."><meta pro
 </nav><div class="container template-reference-topic">
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="../logo.png" class="logo" alt=""><h1>Create a Data Backend</h1>
+      <img src="../logo.svg" class="logo" alt=""><h1>Create a Data Backend</h1>
       <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3/blob/HEAD/R/DataBackendMatrix.R" class="external-link"><code>R/DataBackendMatrix.R</code></a>, <a href="https://github.com/mlr-org/mlr3/blob/HEAD/R/as_data_backend.R" class="external-link"><code>R/as_data_backend.R</code></a></small>
       <div class="d-none name"><code>as_data_backend.Rd</code></div>
     </div>
@@ -106,7 +106,7 @@ to real DBMS like PostgreSQL (via <a href="https://CRAN.R-project.org/package=db
     <dl><dt>data</dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code>)<br>
 The input <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code>.
-Converted to a <code><a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code> automatically.</p></dd>
+Automatically converted to a <code><a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code>.</p></dd>
 <dt>primary_key</dt>
 <dd><p>(<code>character(1)</code> | <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>)<br>
 Name of the primary key column, or integer vector of row ids.</p></dd>

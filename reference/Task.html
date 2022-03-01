@@ -23,7 +23,7 @@ For example, for a classification task a single column must be marked as target 
 
 Predefined (toy) tasks are stored in the dictionary mlr_tasks,
 e.g. penguins or boston_housing.
-More toy tasks can be found in the dictionary after loading mlr3data."><meta property="og:image" content="https://mlr3.mlr-org.com/logo.png"><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
+More toy tasks can be found in the dictionary after loading mlr3data."><meta property="og:image" content="https://mlr3.mlr-org.com/logo.svg"><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]--></head><body>
@@ -34,7 +34,7 @@ More toy tasks can be found in the dictionary after loading mlr3data."><meta pro
     
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.13.1</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.13.3</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -93,7 +93,7 @@ More toy tasks can be found in the dictionary after loading mlr3data."><meta pro
 </nav><div class="container template-reference-topic">
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="../logo.png" class="logo" alt=""><h1>Task Class</h1>
+      <img src="../logo.svg" class="logo" alt=""><h1>Task Class</h1>
       <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3/blob/HEAD/R/Task.R" class="external-link"><code>R/Task.R</code></a></small>
       <div class="d-none name"><code>Task.Rd</code></div>
     </div>
@@ -173,6 +173,12 @@ merge both backends into an abstract <a href="DataBackend.html">DataBackend</a> 
 <dd><p>(<code>character(1)</code>)<br>
 Identifier of the object.
 Used in tables, plot and text output.</p></dd>
+
+
+<dt><code>label</code></dt>
+<dd><p>(<code>character(1)</code>)<br>
+Label for this object.
+Can be used in tables, plot and text output instead of the ID.</p></dd>
 
 
 <dt><code>task_type</code></dt>
@@ -259,8 +265,8 @@ The following properties are currently standardized and understood by tasks in <
 <dt><code>row_roles</code></dt>
 <dd><p>(named <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>)<br>
 Each row (observation) can have an arbitrary number of roles in the learning task:</p><ul><li><p><code>"use"</code>: Use in train / predict / resampling.</p></li>
-<li><p><code>"validation"</code>: Observations are hold back unless explicitly requested.
-Can be used as truly independent test set.</p></li>
+<li><p><code>"holdout"</code>: Observations are hold back unless explicitly queried.
+Can be used, e.g., as truly independent holdout set.</p></li>
 </ul><p><code>row_roles</code> is a named list whose elements are named by row role and each element is an <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code> vector of row ids.
 To alter the roles, just modify the list, e.g. with  <span style="R">R</span>'s set functions (<code><a href="https://rdrr.io/r/base/sets.html" class="external-link">intersect()</a></code>, <code><a href="https://rdrr.io/r/base/sets.html" class="external-link">setdiff()</a></code>, <code><a href="https://rdrr.io/r/base/sets.html" class="external-link">union()</a></code>, ...).</p></dd>
 
@@ -388,7 +394,7 @@ The reverse is not necessarily true: There can be columns with the same content 
 <p>Creates a new instance of this <a href="https://r6.r-lib.org/reference/R6Class.html" class="external-link">R6</a> class.</p>
 <p>Note that this object is typically constructed via a derived classes, e.g. <a href="TaskClassif.html">TaskClassif</a> or <a href="TaskRegr.html">TaskRegr</a>.</p><div class="section">
 <h4 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va"><a href="../reference/Task.html">Task</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="va">id</span>, <span class="va">task_type</span>, <span class="va">backend</span>, extra_args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va"><a href="../reference/Task.html">Task</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="va">id</span>, <span class="va">task_type</span>, <span class="va">backend</span>, label <span class="op">=</span> <span class="cn">NA_character_</span>, extra_args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -408,6 +414,11 @@ Must be an element of <a href="mlr_reflections.html">mlr_reflections$task_types$
 <dd><p>(<a href="DataBackend.html">DataBackend</a>)<br>
 Either a <a href="DataBackend.html">DataBackend</a>, or any object which is convertible to a <a href="DataBackend.html">DataBackend</a> with <code><a href="as_data_backend.html">as_data_backend()</a></code>.
 E.g., a <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code> will be converted to a <a href="DataBackendDataTable.html">DataBackendDataTable</a>.</p></dd>
+
+
+<dt><code>label</code></dt>
+<dd><p>(<code>character(1)</code>)<br>
+Label for the new instance.</p></dd>
 
 
 <dt><code>extra_args</code></dt>

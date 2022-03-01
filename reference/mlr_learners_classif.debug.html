@@ -99,7 +99,7 @@ Numeric tuning parameter. Has no effect.
 
 
 Note that segfaults may not be triggered reliably on your operating system.
-Also note that if they work as intended, they will tear down your R session immediately!"><meta property="og:image" content="https://mlr3.mlr-org.com/logo.png"><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
+Also note that if they work as intended, they will tear down your R session immediately!"><meta property="og:image" content="https://mlr3.mlr-org.com/logo.svg"><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]--></head><body>
@@ -110,7 +110,7 @@ Also note that if they work as intended, they will tear down your R session imme
     
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.13.1</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.13.3</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -169,7 +169,7 @@ Also note that if they work as intended, they will tear down your R session imme
 </nav><div class="container template-reference-topic">
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="../logo.png" class="logo" alt=""><h1>Classification Learner for Debugging</h1>
+      <img src="../logo.svg" class="logo" alt=""><h1>Classification Learner for Debugging</h1>
       <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3/blob/HEAD/R/LearnerClassifDebug.R" class="external-link"><code>R/LearnerClassifDebug.R</code></a></small>
       <div class="d-none name"><code>mlr_learners_classif.debug.Rd</code></div>
     </div>
@@ -248,7 +248,7 @@ Also note that if they work as intended, they will tear down your R session imme
     <div class="section level2">
     <h2 id="parameters">Parameters<a class="anchor" aria-label="anchor" href="#parameters"></a></h2>
     
-<table class="table table"><tr><td>Id</td><td>Type</td><td>Default</td><td>Range</td><td>Levels</td></tr><tr><td>error_predict</td><td>numeric</td><td>0</td><td>\([0, 1]\)</td><td>-</td></tr><tr><td>error_train</td><td>numeric</td><td>0</td><td>\([0, 1]\)</td><td>-</td></tr><tr><td>message_predict</td><td>numeric</td><td>0</td><td>\([0, 1]\)</td><td>-</td></tr><tr><td>message_train</td><td>numeric</td><td>0</td><td>\([0, 1]\)</td><td>-</td></tr><tr><td>predict_missing</td><td>numeric</td><td>0</td><td>\([0, 1]\)</td><td>-</td></tr><tr><td>predict_missing_type</td><td>character</td><td>na</td><td>-</td><td>na, omit</td></tr><tr><td>save_tasks</td><td>logical</td><td>FALSE</td><td>-</td><td>TRUE, FALSE</td></tr><tr><td>segfault_predict</td><td>numeric</td><td>0</td><td>\([0, 1]\)</td><td>-</td></tr><tr><td>segfault_train</td><td>numeric</td><td>0</td><td>\([0, 1]\)</td><td>-</td></tr><tr><td>sleep_train</td><td>list</td><td>-</td><td>-</td><td>-</td></tr><tr><td>sleep_predict</td><td>list</td><td>-</td><td>-</td><td>-</td></tr><tr><td>threads</td><td>integer</td><td>-</td><td>\([1, \infty)\)</td><td>-</td></tr><tr><td>warning_predict</td><td>numeric</td><td>0</td><td>\([0, 1]\)</td><td>-</td></tr><tr><td>warning_train</td><td>numeric</td><td>0</td><td>\([0, 1]\)</td><td>-</td></tr><tr><td>x</td><td>numeric</td><td>-</td><td>\([0, 1]\)</td><td>-</td></tr><tr><td>iter</td><td>integer</td><td>1</td><td>\([1, \infty)\)</td><td>-</td></tr></table></div>
+<table class="table table"><tr><td>Id</td><td>Type</td><td>Default</td><td>Levels</td><td>Range</td></tr><tr><td>error_predict</td><td>numeric</td><td>0</td><td></td><td>\([0, 1]\)</td></tr><tr><td>error_train</td><td>numeric</td><td>0</td><td></td><td>\([0, 1]\)</td></tr><tr><td>message_predict</td><td>numeric</td><td>0</td><td></td><td>\([0, 1]\)</td></tr><tr><td>message_train</td><td>numeric</td><td>0</td><td></td><td>\([0, 1]\)</td></tr><tr><td>predict_missing</td><td>numeric</td><td>0</td><td></td><td>\([0, 1]\)</td></tr><tr><td>predict_missing_type</td><td>character</td><td>na</td><td>na, omit</td><td>-</td></tr><tr><td>save_tasks</td><td>logical</td><td>FALSE</td><td>TRUE, FALSE</td><td>-</td></tr><tr><td>segfault_predict</td><td>numeric</td><td>0</td><td></td><td>\([0, 1]\)</td></tr><tr><td>segfault_train</td><td>numeric</td><td>0</td><td></td><td>\([0, 1]\)</td></tr><tr><td>sleep_train</td><td>untyped</td><td>-</td><td></td><td>-</td></tr><tr><td>sleep_predict</td><td>untyped</td><td>-</td><td></td><td>-</td></tr><tr><td>threads</td><td>integer</td><td>-</td><td></td><td>\([1, \infty)\)</td></tr><tr><td>warning_predict</td><td>numeric</td><td>0</td><td></td><td>\([0, 1]\)</td></tr><tr><td>warning_train</td><td>numeric</td><td>0</td><td></td><td>\([0, 1]\)</td></tr><tr><td>x</td><td>numeric</td><td>-</td><td></td><td>\([0, 1]\)</td></tr><tr><td>iter</td><td>integer</td><td>1</td><td></td><td>\([1, \infty)\)</td></tr></table></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index">

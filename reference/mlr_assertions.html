@@ -19,7 +19,7 @@ This includes type checks on the type, the feature types, and properties.
 
 
 If an assertion fails, an exception is raised.
-Otherwise, the input object is returned invisibly."><meta property="og:image" content="https://mlr3.mlr-org.com/logo.png"><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
+Otherwise, the input object is returned invisibly."><meta property="og:image" content="https://mlr3.mlr-org.com/logo.svg"><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]--></head><body>
@@ -30,7 +30,7 @@ Otherwise, the input object is returned invisibly."><meta property="og:image" co
     
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.13.1</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.13.3</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -89,7 +89,7 @@ Otherwise, the input object is returned invisibly."><meta property="og:image" co
 </nav><div class="container template-reference-topic">
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="../logo.png" class="logo" alt=""><h1>Assertion for mlr3 Objects</h1>
+      <img src="../logo.svg" class="logo" alt=""><h1>Assertion for mlr3 Objects</h1>
       <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3/blob/HEAD/R/assertions.R" class="external-link"><code>R/assertions.R</code></a></small>
       <div class="d-none name"><code>mlr_assertions.Rd</code></div>
     </div>
@@ -128,6 +128,7 @@ Otherwise, the input object is returned invisibly.</p>
 <span class="fu">assert_learner</span><span class="op">(</span>
   <span class="va">learner</span>,
   task <span class="op">=</span> <span class="cn">NULL</span>,
+  task_type <span class="op">=</span> <span class="cn">NULL</span>,
   properties <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="op">)</span>,
   .var.name <span class="op">=</span> <span class="fu">vname</span><span class="op">(</span><span class="va">learner</span><span class="op">)</span>
 <span class="op">)</span>
@@ -135,6 +136,7 @@ Otherwise, the input object is returned invisibly.</p>
 <span class="fu">assert_learners</span><span class="op">(</span>
   <span class="va">learners</span>,
   task <span class="op">=</span> <span class="cn">NULL</span>,
+  task_type <span class="op">=</span> <span class="cn">NULL</span>,
   properties <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="op">)</span>,
   .var.name <span class="op">=</span> <span class="fu">vname</span><span class="op">(</span><span class="va">learners</span><span class="op">)</span>
 <span class="op">)</span>
@@ -184,6 +186,8 @@ Otherwise, the input object is returned invisibly.</p>
 <dd><p>(<a href="DataBackend.html">DataBackend</a>).</p></dd>
 <dt>task</dt>
 <dd><p>(<a href="Task.html">Task</a>).</p></dd>
+<dt>task_type</dt>
+<dd><p>(<code>character(1)</code>).</p></dd>
 <dt>feature_types</dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 Feature types the learner operates on. Must be a subset of <code><a href="mlr_reflections.html">mlr_reflections$task_feature_types</a></code>.</p></dd>

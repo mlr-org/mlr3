@@ -34,7 +34,7 @@
     out-of-memory data-backends like databases. While mlr3 focuses on
     the core computational operations, add-on packages provide additional
     functionality.">
-<meta property="og:image" content="https://mlr3.mlr-org.com/logo.png">
+<meta property="og:image" content="https://mlr3.mlr-org.com/logo.svg">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -48,7 +48,7 @@
     
     <a class="navbar-brand me-2" href="index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.13.1</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.13.3</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -113,7 +113,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
 <div class="page-header">
-<img src="logo.png" class="logo" alt=""><h1 id="mlr3-">mlr3 <a class="anchor" aria-label="anchor" href="#mlr3-"></a>
+<img src="logo.svg" class="logo" alt=""><h1 id="mlr3-">mlr3 <a class="anchor" aria-label="anchor" href="#mlr3-"></a>
 </h1>
 </div>
 <p>Package website: <a href="https://mlr3.mlr-org.com/">release</a> | <a href="https://mlr3.mlr-org.com/dev/">dev</a></p>
@@ -138,7 +138,7 @@
 <li>All others are in <a href="https://github.com/mlr-org/mlr3extralearners" class="external-link">mlr3extralearners</a>
 </li>
 <li>Use the <a href="https://mlr3extralearners.mlr-org.com/articles/learners/list_learners.html" class="external-link">learner search</a> to get a simple overview</li>
-<li>Use the <a href="https://mlr3extralearners.mlr-org.com/articles/learners/learner_status.html" class="external-link">learner status</a> to see their build status</li>
+<li>Use the <a href="https://mlr3extralearners.mlr-org.com/articles/learners/test_overview.html" class="external-link">learner status</a> to see their build status</li>
 </ul>
 </li>
 <li>
@@ -156,6 +156,7 @@
 <li><a href="https://www.youtube.com/watch?v=wsP2hiFnDQs" class="external-link">useR2019 talk on mlr3</a></li>
 <li><a href="https://www.youtube.com/watch?v=gEW5RxkbQuQ" class="external-link">useR2019 talk on mlr3pipelines and mlr3tuning</a></li>
 <li><a href="https://www.youtube.com/watch?v=T43hO2o_nZw" class="external-link">useR2020 tutorial on mlr3, mlr3tuning and mlr3pipelines</a></li>
+<li><a href="https://av.tib.eu/media/55271" class="external-link">Recorded talk about mlr3spatiotempcv and mlr3spatial at OpenDataScience Europe Conference 2021 in Wageningen, NL</a></li>
 </ul>
 </li>
 <li>
@@ -251,13 +252,13 @@
 <span class="va">rr</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/resample.html">resample</a></span><span class="op">(</span><span class="va">task_penguins</span>, <span class="va">learner</span>, <span class="va">resampling</span><span class="op">)</span>
 <span class="va">rr</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="va">measure</span><span class="op">)</span></code></pre></div>
 <div class="sourceCode" id="cb12"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="co">##                 task  task_id                   learner    learner_id</span></span>
-<span id="cb12-2"><a href="#cb12-2"></a><span class="co">## 1: &lt;TaskClassif[49]&gt; penguins &lt;LearnerClassifRpart[37]&gt; classif.rpart</span></span>
-<span id="cb12-3"><a href="#cb12-3"></a><span class="co">## 2: &lt;TaskClassif[49]&gt; penguins &lt;LearnerClassifRpart[37]&gt; classif.rpart</span></span>
-<span id="cb12-4"><a href="#cb12-4"></a><span class="co">## 3: &lt;TaskClassif[49]&gt; penguins &lt;LearnerClassifRpart[37]&gt; classif.rpart</span></span>
+<span id="cb12-2"><a href="#cb12-2"></a><span class="co">## 1: &lt;TaskClassif[50]&gt; penguins &lt;LearnerClassifRpart[38]&gt; classif.rpart</span></span>
+<span id="cb12-3"><a href="#cb12-3"></a><span class="co">## 2: &lt;TaskClassif[50]&gt; penguins &lt;LearnerClassifRpart[38]&gt; classif.rpart</span></span>
+<span id="cb12-4"><a href="#cb12-4"></a><span class="co">## 3: &lt;TaskClassif[50]&gt; penguins &lt;LearnerClassifRpart[38]&gt; classif.rpart</span></span>
 <span id="cb12-5"><a href="#cb12-5"></a><span class="co">##            resampling resampling_id iteration              prediction</span></span>
-<span id="cb12-6"><a href="#cb12-6"></a><span class="co">## 1: &lt;ResamplingCV[19]&gt;            cv         1 &lt;PredictionClassif[20]&gt;</span></span>
-<span id="cb12-7"><a href="#cb12-7"></a><span class="co">## 2: &lt;ResamplingCV[19]&gt;            cv         2 &lt;PredictionClassif[20]&gt;</span></span>
-<span id="cb12-8"><a href="#cb12-8"></a><span class="co">## 3: &lt;ResamplingCV[19]&gt;            cv         3 &lt;PredictionClassif[20]&gt;</span></span>
+<span id="cb12-6"><a href="#cb12-6"></a><span class="co">## 1: &lt;ResamplingCV[20]&gt;            cv         1 &lt;PredictionClassif[20]&gt;</span></span>
+<span id="cb12-7"><a href="#cb12-7"></a><span class="co">## 2: &lt;ResamplingCV[20]&gt;            cv         2 &lt;PredictionClassif[20]&gt;</span></span>
+<span id="cb12-8"><a href="#cb12-8"></a><span class="co">## 3: &lt;ResamplingCV[20]&gt;            cv         3 &lt;PredictionClassif[20]&gt;</span></span>
 <span id="cb12-9"><a href="#cb12-9"></a><span class="co">##    classif.acc</span></span>
 <span id="cb12-10"><a href="#cb12-10"></a><span class="co">## 1:   0.8956522</span></span>
 <span id="cb12-11"><a href="#cb12-11"></a><span class="co">## 2:   0.9130435</span></span>

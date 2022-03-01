@@ -25,7 +25,7 @@ rsmps() for a list of Resamplings from mlr_resamplings.
 msr() for a Measure from mlr_measures.
 msrs() for a list of Measures from mlr_measures.
 
-"><meta property="og:image" content="https://mlr3.mlr-org.com/logo.png"><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
+"><meta property="og:image" content="https://mlr3.mlr-org.com/logo.svg"><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]--></head><body>
@@ -36,7 +36,7 @@ msrs() for a list of Measures from mlr_measures.
     
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.13.1</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.13.3</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -95,7 +95,7 @@ msrs() for a list of Measures from mlr_measures.
 </nav><div class="container template-reference-topic">
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="../logo.png" class="logo" alt=""><h1>Syntactic Sugar for Object Construction</h1>
+      <img src="../logo.svg" class="logo" alt=""><h1>Syntactic Sugar for Object Construction</h1>
       <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3/blob/HEAD/R/mlr_sugar.R" class="external-link"><code>R/mlr_sugar.R</code></a></small>
       <div class="d-none name"><code>mlr_sugar.Rd</code></div>
     </div>
@@ -160,7 +160,7 @@ or a list of <a href="https://r6.r-lib.org/reference/R6Class.html" class="extern
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># penguins task with new id</span></span>
 <span class="r-in"><span class="fu">tsk</span><span class="op">(</span><span class="st">"penguins"</span>, id <span class="op">=</span> <span class="st">"penguins2"</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;TaskClassif:penguins2&gt; (344 x 8)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;TaskClassif:penguins2&gt; (344 x 8): Palmer Penguins</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Target: species</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Properties: multiclass</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Features (7):</span>
@@ -171,7 +171,7 @@ or a list of <a href="https://r6.r-lib.org/reference/R6Class.html" class="extern
 <span class="r-in"><span class="co"># classification tree with different hyperparameters</span></span>
 <span class="r-in"><span class="co"># and predict type set to predict probabilities</span></span>
 <span class="r-in"><span class="fu">lrn</span><span class="op">(</span><span class="st">"classif.rpart"</span>, cp <span class="op">=</span> <span class="fl">0.1</span>, predict_type <span class="op">=</span> <span class="st">"prob"</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;LearnerClassifRpart:classif.rpart&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;LearnerClassifRpart:classif.rpart&gt;: Classification Tree</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Model: -</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Parameters: xval=0, cp=0.1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Packages: mlr3, rpart</span>
@@ -183,7 +183,7 @@ or a list of <a href="https://r6.r-lib.org/reference/R6Class.html" class="extern
 <span class="r-in"><span class="co"># multiple learners with predict type 'prob'</span></span>
 <span class="r-in"><span class="fu">lrns</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"classif.featureless"</span>, <span class="st">"classif.rpart"</span><span class="op">)</span>, predict_type <span class="op">=</span> <span class="st">"prob"</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;LearnerClassifFeatureless:classif.featureless&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;LearnerClassifFeatureless:classif.featureless&gt;: Featureless Classification Learner</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Model: -</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Parameters: method=mode</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Packages: mlr3</span>
@@ -194,7 +194,7 @@ or a list of <a href="https://r6.r-lib.org/reference/R6Class.html" class="extern
 <span class="r-out co"><span class="r-pr">#&gt;</span>   selected_features, twoclass</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[2]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;LearnerClassifRpart:classif.rpart&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;LearnerClassifRpart:classif.rpart&gt;: Classification Tree</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Model: -</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Parameters: xval=0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Packages: mlr3, rpart</span>
