@@ -49,7 +49,7 @@
     
     <a class="navbar-brand me-2" href="index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.13.2-9000</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.13.3-9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -139,7 +139,7 @@
 <li>All others are in <a href="https://github.com/mlr-org/mlr3extralearners" class="external-link">mlr3extralearners</a>
 </li>
 <li>Use the <a href="https://mlr3extralearners.mlr-org.com/articles/learners/list_learners.html" class="external-link">learner search</a> to get a simple overview</li>
-<li>Use the <a href="https://mlr3extralearners.mlr-org.com/articles/learners/learner_status.html" class="external-link">learner status</a> to see their build status</li>
+<li>Use the <a href="https://mlr3extralearners.mlr-org.com/articles/learners/test_overview.html" class="external-link">learner status</a> to see their build status</li>
 </ul>
 </li>
 <li>
@@ -206,13 +206,13 @@
 <span class="co"># create learning task</span>
 <span class="va">task_penguins</span> <span class="op">&lt;-</span> <span class="va"><a href="reference/TaskClassif.html">TaskClassif</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>id <span class="op">=</span> <span class="st">"penguins"</span>, backend <span class="op">=</span> <span class="fu">palmerpenguins</span><span class="fu">::</span><span class="va"><a href="https://allisonhorst.github.io/palmerpenguins/reference/penguins.html" class="external-link">penguins</a></span>, target <span class="op">=</span> <span class="st">"species"</span><span class="op">)</span>
 <span class="va">task_penguins</span></code></pre></div>
-<div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="co">## &lt;TaskClassif:penguins&gt; (344 x 8)</span></span>
-<span id="cb5-2"><a href="#cb5-2"></a><span class="co">## * Target: species</span></span>
-<span id="cb5-3"><a href="#cb5-3"></a><span class="co">## * Properties: multiclass</span></span>
-<span id="cb5-4"><a href="#cb5-4"></a><span class="co">## * Features (7):</span></span>
-<span id="cb5-5"><a href="#cb5-5"></a><span class="co">##   - int (3): body_mass_g, flipper_length_mm, year</span></span>
-<span id="cb5-6"><a href="#cb5-6"></a><span class="co">##   - dbl (2): bill_depth_mm, bill_length_mm</span></span>
-<span id="cb5-7"><a href="#cb5-7"></a><span class="co">##   - fct (2): island, sex</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="do">## &lt;TaskClassif:penguins&gt; (344 x 8)</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="do">## * Target: species</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="do">## * Properties: multiclass</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="do">## * Features (7):</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="do">##   - int (3): body_mass_g, flipper_length_mm, year</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="do">##   - dbl (2): bill_depth_mm, bill_length_mm</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="do">##   - fct (2): island, sex</span></span></code></pre></div>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># load learner and set hyperparameter</span>
 <span class="va">learner</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/mlr_sugar.html">lrn</a></span><span class="op">(</span><span class="st">"classif.rpart"</span>, cp <span class="op">=</span> <span class="fl">.01</span><span class="op">)</span></code></pre></div>
@@ -233,16 +233,16 @@
 
 <span class="co"># calculate performance</span>
 <span class="va">prediction</span><span class="op">$</span><span class="va">confusion</span></code></pre></div>
-<div class="sourceCode" id="cb8"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="co">##            truth</span></span>
-<span id="cb8-2"><a href="#cb8-2"></a><span class="co">## response    Adelie Chinstrap Gentoo</span></span>
-<span id="cb8-3"><a href="#cb8-3"></a><span class="co">##   Adelie        32         2      0</span></span>
-<span id="cb8-4"><a href="#cb8-4"></a><span class="co">##   Chinstrap      1         8      0</span></span>
-<span id="cb8-5"><a href="#cb8-5"></a><span class="co">##   Gentoo         0         3     23</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="do">##            truth</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="do">## response    Adelie Chinstrap Gentoo</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="do">##   Adelie        32         2      0</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="do">##   Chinstrap      1         8      0</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="do">##   Gentoo         0         3     23</span></span></code></pre></div>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">measure</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/mlr_sugar.html">msr</a></span><span class="op">(</span><span class="st">"classif.acc"</span><span class="op">)</span>
 <span class="va">prediction</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="va">measure</span><span class="op">)</span></code></pre></div>
-<div class="sourceCode" id="cb10"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="co">## classif.acc </span></span>
-<span id="cb10-2"><a href="#cb10-2"></a><span class="co">##   0.9130435</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="do">## classif.acc </span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="do">##   0.9130435</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="resample">Resample<a class="anchor" aria-label="anchor" href="#resample"></a>
@@ -252,22 +252,22 @@
 <span class="va">resampling</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/mlr_sugar.html">rsmp</a></span><span class="op">(</span><span class="st">"cv"</span>, folds <span class="op">=</span> <span class="fl">3L</span><span class="op">)</span>
 <span class="va">rr</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/resample.html">resample</a></span><span class="op">(</span><span class="va">task_penguins</span>, <span class="va">learner</span>, <span class="va">resampling</span><span class="op">)</span>
 <span class="va">rr</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="va">measure</span><span class="op">)</span></code></pre></div>
-<div class="sourceCode" id="cb12"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="co">##                 task  task_id                   learner    learner_id</span></span>
-<span id="cb12-2"><a href="#cb12-2"></a><span class="co">## 1: &lt;TaskClassif[49]&gt; penguins &lt;LearnerClassifRpart[37]&gt; classif.rpart</span></span>
-<span id="cb12-3"><a href="#cb12-3"></a><span class="co">## 2: &lt;TaskClassif[49]&gt; penguins &lt;LearnerClassifRpart[37]&gt; classif.rpart</span></span>
-<span id="cb12-4"><a href="#cb12-4"></a><span class="co">## 3: &lt;TaskClassif[49]&gt; penguins &lt;LearnerClassifRpart[37]&gt; classif.rpart</span></span>
-<span id="cb12-5"><a href="#cb12-5"></a><span class="co">##            resampling resampling_id iteration              prediction</span></span>
-<span id="cb12-6"><a href="#cb12-6"></a><span class="co">## 1: &lt;ResamplingCV[19]&gt;            cv         1 &lt;PredictionClassif[20]&gt;</span></span>
-<span id="cb12-7"><a href="#cb12-7"></a><span class="co">## 2: &lt;ResamplingCV[19]&gt;            cv         2 &lt;PredictionClassif[20]&gt;</span></span>
-<span id="cb12-8"><a href="#cb12-8"></a><span class="co">## 3: &lt;ResamplingCV[19]&gt;            cv         3 &lt;PredictionClassif[20]&gt;</span></span>
-<span id="cb12-9"><a href="#cb12-9"></a><span class="co">##    classif.acc</span></span>
-<span id="cb12-10"><a href="#cb12-10"></a><span class="co">## 1:   0.8956522</span></span>
-<span id="cb12-11"><a href="#cb12-11"></a><span class="co">## 2:   0.9130435</span></span>
-<span id="cb12-12"><a href="#cb12-12"></a><span class="co">## 3:   0.9473684</span></span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="do">##                 task  task_id                   learner    learner_id</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="do">## 1: &lt;TaskClassif[50]&gt; penguins &lt;LearnerClassifRpart[38]&gt; classif.rpart</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="do">## 2: &lt;TaskClassif[50]&gt; penguins &lt;LearnerClassifRpart[38]&gt; classif.rpart</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="do">## 3: &lt;TaskClassif[50]&gt; penguins &lt;LearnerClassifRpart[38]&gt; classif.rpart</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="do">##            resampling resampling_id iteration              prediction</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="do">## 1: &lt;ResamplingCV[20]&gt;            cv         1 &lt;PredictionClassif[20]&gt;</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="do">## 2: &lt;ResamplingCV[20]&gt;            cv         2 &lt;PredictionClassif[20]&gt;</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="do">## 3: &lt;ResamplingCV[20]&gt;            cv         3 &lt;PredictionClassif[20]&gt;</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="do">##    classif.acc</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="do">## 1:   0.8956522</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="do">## 2:   0.9130435</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="do">## 3:   0.9473684</span></span></code></pre></div>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">rr</span><span class="op">$</span><span class="fu">aggregate</span><span class="op">(</span><span class="va">measure</span><span class="op">)</span></code></pre></div>
-<div class="sourceCode" id="cb14"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="co">## classif.acc </span></span>
-<span id="cb14-2"><a href="#cb14-2"></a><span class="co">##    0.918688</span></span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="do">## classif.acc </span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="do">##    0.918688</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -344,15 +344,15 @@
 <h2 id="citing-mlr3">Citing mlr3<a class="anchor" aria-label="anchor" href="#citing-mlr3"></a>
 </h2>
 <p>If you use mlr3, please cite our <a href="https://doi.org/10.21105/joss.01903" class="external-link">JOSS article</a>:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="op">@</span>Article{mlr3,</span>
-<span id="cb15-2"><a href="#cb15-2"></a>  title =<span class="st"> </span>{{mlr3}<span class="op">:</span><span class="st"> </span>A modern object<span class="op">-</span>oriented machine learning framework <span class="cf">in</span> {R}},</span>
-<span id="cb15-3"><a href="#cb15-3"></a>  author =<span class="st"> </span>{Michel Lang and Martin Binder and Jakob Richter and Patrick Schratz and Florian Pfisterer and Stefan Coors and Quay Au and Giuseppe Casalicchio and Lars Kotthoff and Bernd Bischl},</span>
-<span id="cb15-4"><a href="#cb15-4"></a>  journal =<span class="st"> </span>{Journal of Open Source Software},</span>
-<span id="cb15-5"><a href="#cb15-5"></a>  year =<span class="st"> </span>{<span class="dv">2019</span>},</span>
-<span id="cb15-6"><a href="#cb15-6"></a>  month =<span class="st"> </span>{dec},</span>
-<span id="cb15-7"><a href="#cb15-7"></a>  doi =<span class="st"> </span>{<span class="fl">10.21105</span><span class="op">/</span>joss<span class="fl">.01903</span>},</span>
-<span id="cb15-8"><a href="#cb15-8"></a>  url =<span class="st"> </span>{https<span class="op">:</span><span class="er">//</span>joss.theoj.org<span class="op">/</span>papers<span class="op">/</span><span class="fl">10.21105</span><span class="op">/</span>joss<span class="fl">.01903</span>},</span>
-<span id="cb15-9"><a href="#cb15-9"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="sc">@</span>Article{mlr3,</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  title <span class="ot">=</span> {{mlr3}<span class="sc">:</span> A modern object<span class="sc">-</span>oriented machine learning framework <span class="cf">in</span> {R}},</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  author <span class="ot">=</span> {Michel Lang and Martin Binder and Jakob Richter and Patrick Schratz and Florian Pfisterer and Stefan Coors and Quay Au and Giuseppe Casalicchio and Lars Kotthoff and Bernd Bischl},</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  journal <span class="ot">=</span> {Journal of Open Source Software},</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  year <span class="ot">=</span> {<span class="dv">2019</span>},</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  month <span class="ot">=</span> {dec},</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  doi <span class="ot">=</span> {<span class="fl">10.21105</span><span class="sc">/</span>joss<span class="fl">.01903</span>},</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  url <span class="ot">=</span> {https<span class="sc">:</span><span class="er">//</span>joss.theoj.org<span class="sc">/</span>papers<span class="sc">/</span><span class="fl">10.21105</span><span class="sc">/</span>joss<span class="fl">.01903</span>},</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">

@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.13.2-9000</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.13.3-9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -74,10 +74,13 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.13.3" id="mlr3-0133">mlr3 0.13.3<a class="anchor" aria-label="anchor" href="#mlr3-0133"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.13.3" id="mlr3-0133">mlr3 0.13.3<a class="anchor" aria-label="anchor" href="#mlr3-0133"></a></h2><p class="text-muted">CRAN release: 2022-03-01</p>
 <ul><li>Most objects now have a new (optional) field <code>label</code>, i.e. <code>Task</code>, <code>TaskGenerator</code>, <code>Learner</code>, <code>Resampling</code>, and <code>Measure</code>.</li>
 <li>
 <code><a href="https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html" class="external-link">as.data.table()</a></code> methods for objects of class <code>Dictonary</code> have been extended with additional columns.</li>
+<li>
+<code><a href="../reference/as_task_classif.html">as_task_classif.formula()</a></code> and <code><a href="../reference/as_task_regr.html">as_task_regr.formula()</a></code> now remove additional atrributes attached to the data which caused some some learners to break.</li>
+<li>Packages are now loaded prior to calling the <code>$train()</code> and <code>$predict()</code> methods of a <code>Learner</code>. This ensures that package loading errors are properly propagated and not affected by encapsulation (<a href="https://github.com/mlr-org/mlr3/issues/771" class="external-link">#771</a>).</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.13.2" id="mlr3-0132">mlr3 0.13.2<a class="anchor" aria-label="anchor" href="#mlr3-0132"></a></h2><p class="text-muted">CRAN release: 2022-02-14</p>
