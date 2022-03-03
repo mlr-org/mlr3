@@ -19,3 +19,8 @@ get_featureless_learner = function(task_type) {
 
   return(NULL)
 }
+
+assert_ordered_set = function(x, y, ...) {
+  assert_subset(x, y, ...)
+  x[reorder_vector(x, y)]
+}
