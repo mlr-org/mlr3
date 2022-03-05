@@ -32,7 +32,8 @@ LearnerClassifFeatureless = R6Class("LearnerClassifFeatureless", inherit = Learn
         predict_types = c("response", "prob"),
         param_set = ps,
         properties = c("featureless", "twoclass", "multiclass", "missings", "importance", "selected_features"),
-        man = "mlr3::mlr_learners_classif.featureless"
+        label = "Featureless Classification Learner",
+        man = "mlr3::mlr_learners_classif.featureless",
       )
     },
 

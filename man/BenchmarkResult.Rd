@@ -267,7 +267,7 @@ list columns of character vectors to the returned table}
 \item{\code{predict_sets}}{(\code{character()})\cr
 Prediction sets to operate on, used in \code{aggregate()} to extract the matching \code{predict_sets} from the \link{ResampleResult}.
 Multiple predict sets are calculated by the respective \link{Learner} during \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}.
-Must be a non-empty subset of \verb{\{"train", "test", "validation"\}}.
+Must be a non-empty subset of \verb{\{"train", "test", "holdout"\}}.
 If multiple sets are provided, these are first combined to a single prediction object.
 Default is \code{"test"}.}
 }
@@ -284,6 +284,10 @@ Default is \code{"test"}.}
 Returns a result table where resampling iterations are combined into
 \link{ResampleResult}s. A column with the aggregated performance score is
 added for each \link{Measure}, named with the id of the respective measure.
+
+The method for aggregation is controlled by the \link{Measure}, e.g. micro
+aggregation, macro aggregation or custom aggregation. Most measures
+default to macro aggregation.
 
 Note that the aggregated performances just give a quick impression which
 approaches work well and which approaches are probably underperforming.

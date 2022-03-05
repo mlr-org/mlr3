@@ -1,4 +1,12 @@
-# mlr3 0.13.1-9000
+# mlr3 0.13.3
+
+* Most objects now have a new (optional) field `label`, i.e. `Task`,
+  `TaskGenerator`, `Learner`, `Resampling`, and `Measure`.
+* `as.data.table()` methods for objects of class `Dictonary` have been extended
+  with additional columns.
+
+
+# mlr3 0.13.2
 
 * Setting a fallback learner for a learner with encapsulation in its default
   settings now automatically sets encapsulation to `"evaluate"` (#763).
@@ -7,6 +15,10 @@
   (#761).
 * Added `default_values()` function to extract parameter default values from
   `Learner` objects.
+* The row role `"validation"` has been renamed to `"holdout"`.
+  In the next release, `mlr3` will start switching to the now more common terms
+  `"train"`/`"validation"` instead of `"train"`/`"test"` for the sets created
+  during resampling.
 
 
 # mlr3 0.13.1

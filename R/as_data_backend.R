@@ -40,7 +40,7 @@ as_data_backend.DataBackend = function(data, primary_key = NULL, ...) { # nolint
 
 #' @param data ([data.frame()])\cr
 #'   The input [data.frame()].
-#'   Converted to a [data.table::data.table()] automatically.
+#'   Automatically converted to a [data.table::data.table()].
 #'
 #' @param keep_rownames (`logical(1)` | `character(1)`)\cr
 #'   If `TRUE` or a single string, keeps the row names of `data` as a new column.

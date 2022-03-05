@@ -51,7 +51,8 @@ ResamplingBootstrap = R6Class("ResamplingBootstrap", inherit = Resampling,
       )
       ps$values = list(ratio = 1, repeats = 30L)
 
-      super$initialize(id = "bootstrap", param_set = ps, duplicated_ids = TRUE, man = "mlr3::mlr_resamplings_bootstrap")
+      super$initialize(id = "bootstrap", param_set = ps, duplicated_ids = TRUE,
+        label = "Bootstrap", man = "mlr3::mlr_resamplings_bootstrap")
     }
   ),
 

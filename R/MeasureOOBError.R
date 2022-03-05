@@ -26,6 +26,7 @@ MeasureOOBError = R6Class("MeasureOOBError",
         predict_type = "response",
         range = c(-Inf, Inf),
         minimize = TRUE,
+        label = "Out-of-bag Error",
         man = "mlr3::mlr_measures_oob_error"
       )
     }

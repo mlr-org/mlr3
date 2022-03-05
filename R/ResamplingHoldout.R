@@ -47,7 +47,8 @@ ResamplingHoldout = R6Class("ResamplingHoldout", inherit = Resampling,
       )
       ps$values = list(ratio = 2 / 3)
 
-      super$initialize(id = "holdout", param_set = ps, man = "mlr3::mlr_resamplings_holdout")
+      super$initialize(id = "holdout", param_set = ps,
+        label = "Holdout", man = "mlr3::mlr_resamplings_holdout")
     },
 
     #' @template field_iters

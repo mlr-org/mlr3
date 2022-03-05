@@ -31,14 +31,15 @@ as_task_regr.TaskRegr = function(x, clone = FALSE, ...) { # nolint
 #' @param id (`character(1)`)\cr
 #'   Id for the new task.
 #'   Defaults to the (deparsed and substituted) name of the data argument.
+#' @template param_label
 #' @export
-as_task_regr.data.frame = function(x, target, id = deparse(substitute(x)), ...) { # nolint
+as_task_regr.data.frame = function(x, target, id = deparse(substitute(x)), label = NA_character_, ...) { # nolint
   ii = which(map_lgl(keep(x, is.double), anyInfinite))
   if (length(ii)) {
     warningf("Detected columns with unsupported Inf values in data: %s", str_collapse(names(ii)))
   }
 
-  TaskRegr$new(id = id, backend = x, target = target)
+  TaskRegr$new(id = id, backend = x, target = target, label = label)
 }
 
 
@@ -67,6 +68,7 @@ as_task_regr.formula = function(x, data, id = deparse(substitute(data)), ...) { 
     stopf("Formula %s is missing a response", format(x))
   }
   tab = model.frame(x, data)
+  attr(tab, "terms") = attr(tab, "na.action") = NULL
   target = all.vars(x)[1L]
 
   as_task_regr(tab, target = target, id = id, ...)

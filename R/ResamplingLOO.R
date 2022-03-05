@@ -49,7 +49,7 @@ ResamplingLOO = R6Class("ResamplingLOO", inherit = Resampling,
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
-      super$initialize(id = "loo", man = "mlr3::mlr_resamplings_loo")
+      super$initialize(id = "loo", label = "Leave-One-Out", man = "mlr3::mlr_resamplings_loo")
     }
   ),
 

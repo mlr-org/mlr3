@@ -22,6 +22,7 @@ MeasureBinarySimple = R6Class("MeasureBinarySimple",
         predict_type = info$predict_type,
         task_properties = "twoclass",
         packages = "mlr3measures",
+        label = info$title,
         man = paste0("mlr3::mlr_measures_classif.", name)
       )
       self$fun = get(name, envir = asNamespace("mlr3measures"), mode = "function")
@@ -56,6 +57,7 @@ MeasureClassifSimple = R6Class("MeasureClassifSimple",
         minimize = info$minimize,
         predict_type = info$predict_type,
         packages = "mlr3measures",
+        label = info$title,
         man = paste0("mlr3::mlr_measures_classif.", name)
       )
       self$fun = get(name, envir = asNamespace("mlr3measures"), mode = "function")
@@ -85,6 +87,7 @@ MeasureRegrSimple = R6Class("MeasureRegrSimple",
         minimize = info$minimize,
         predict_type = info$predict_type,
         packages = "mlr3measures",
+        label = info$title,
         man = paste0("mlr3::mlr_measures_regr.", name)
       )
       self$fun = get(name, envir = asNamespace("mlr3measures"), mode = "function")
@@ -123,6 +126,7 @@ MeasureSimilaritySimple = R6Class("MeasureSimilaritySimple",
         aggregator = agg,
         predict_type = "response",
         packages = "mlr3measures",
+        label = info$title,
         man = paste0("mlr3::mlr_measures_sim.", name),
       )
     }

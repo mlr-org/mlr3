@@ -121,7 +121,14 @@ Stores the negative class for binary classification tasks, and \code{NA} for mul
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 The function \code{\link[=as_task_classif]{as_task_classif()}} provides an alternative way to construct classification tasks.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TaskClassif$new(id, backend, target, positive = NULL, extra_args = list())}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{TaskClassif$new(
+  id,
+  backend,
+  target,
+  positive = NULL,
+  label = NA_character_,
+  extra_args = list()
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -141,6 +148,9 @@ Name of the target column.}
 Only for binary classification: Name of the positive class.
 The levels of the target columns are reordered accordingly, so that the first element of \verb{$class_names} is the
 positive class, and the second element is the negative class.}
+
+\item{\code{label}}{(\code{character(1)})\cr
+Label for the new instance.}
 
 \item{\code{extra_args}}{(named \code{list()})\cr
 Named list of constructor arguments, required for converting task types

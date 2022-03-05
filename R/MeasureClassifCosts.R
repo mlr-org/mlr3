@@ -55,6 +55,7 @@ MeasureClassifCosts = R6Class("MeasureClassifCosts",
         properties = "requires_task",
         range = c(-Inf, Inf),
         minimize = TRUE,
+        label = "Cost-sensitive Classification",
         man = "mlr3::mlr_measures_classif.costs"
       )
     }

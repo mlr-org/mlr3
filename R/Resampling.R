@@ -15,6 +15,7 @@
 #'
 #' @template param_id
 #' @template param_param_set
+#' @template param_label
 #' @template param_man
 #'
 #' @section Stratification:
@@ -84,6 +85,9 @@ Resampling = R6Class("Resampling",
     #' @template field_id
     id = NULL,
 
+    #' @template field_label
+    label = NULL,
+
     #' @template field_param_set
     param_set = NULL,
 
@@ -121,8 +125,9 @@ Resampling = R6Class("Resampling",
     #'   Set to `TRUE` if this resampling strategy may have duplicated row ids in a single training set or test set.
     #'
     #' Note that this object is typically constructed via a derived classes, e.g. [ResamplingCV] or [ResamplingHoldout].
-    initialize = function(id, param_set = ps(), duplicated_ids = FALSE, man = NA_character_) {
+    initialize = function(id, param_set = ps(), duplicated_ids = FALSE, label = NA_character_, man = NA_character_) {
       self$id = assert_string(id, min.chars = 1L)
+      self$label = assert_string(label, na.ok = TRUE)
       self$param_set = assert_param_set(param_set)
       self$duplicated_ids = assert_flag(duplicated_ids)
       self$man = assert_string(man, na.ok = TRUE)
@@ -138,10 +143,10 @@ Resampling = R6Class("Resampling",
     #' Printer.
     #' @param ... (ignored).
     print = function(...) {
-      pv = self$param_set$values
-      catf("%s with %i iterations", format(self), self$iters)
+      catn(format(self), if (is.na(self$label)) "" else paste0(": ", self$label))
+      catn(str_indent("* Iterations:", self$iters))
       catn(str_indent("* Instantiated:", self$is_instantiated))
-      catn(str_indent("* Parameters:", as_short_string(pv, 1000L)))
+      catn(str_indent("* Parameters:", as_short_string(self$param_set$values, 1000L)))
     },
 
     #' @description

@@ -38,6 +38,7 @@ MeasureElapsedTime = R6Class("MeasureElapsedTime",
         predict_type = "response",
         range = c(0, Inf),
         minimize = TRUE,
+        label = "Elapsed Time",
         man = "mlr3::mlr_measures_elapsed_time"
       )
       self$stages = assert_subset(stages, c("train", "predict"), empty.ok = FALSE)
