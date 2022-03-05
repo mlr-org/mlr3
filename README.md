@@ -27,7 +27,7 @@ Status](https://www.r-pkg.org/badges/version-ago/mlr3)](https://cran.r-project.o
 -   [Reference manual](https://mlr3.mlr-org.com/reference/)
 -   [FAQ](https://github.com/mlr-org/mlr3/wiki/FAQ)
 -   Ask questions on [Stackoverflow (tag
-    \#mlr3)](https://stackoverflow.com/questions/tagged/mlr3)
+    #mlr3)](https://stackoverflow.com/questions/tagged/mlr3)
 -   **Extension Learners**
     -   Recommended core regression, classification, and survival
         learners are in
@@ -38,7 +38,7 @@ Status](https://www.r-pkg.org/badges/version-ago/mlr3)](https://cran.r-project.o
         search](https://mlr3extralearners.mlr-org.com/articles/learners/list_learners.html)
         to get a simple overview
     -   Use the [learner
-        status](https://mlr3extralearners.mlr-org.com/articles/learners/learner_status.html)
+        status](https://mlr3extralearners.mlr-org.com/articles/learners/test_overview.html)
         to see their build status
 -   **Cheatsheets**
     -   [Overview of cheatsheets](https://cheatsheets.mlr-org.com)
@@ -165,13 +165,13 @@ rr$score(measure)
 ```
 
     ##                 task  task_id                   learner    learner_id
-    ## 1: <TaskClassif[49]> penguins <LearnerClassifRpart[37]> classif.rpart
-    ## 2: <TaskClassif[49]> penguins <LearnerClassifRpart[37]> classif.rpart
-    ## 3: <TaskClassif[49]> penguins <LearnerClassifRpart[37]> classif.rpart
+    ## 1: <TaskClassif[50]> penguins <LearnerClassifRpart[38]> classif.rpart
+    ## 2: <TaskClassif[50]> penguins <LearnerClassifRpart[38]> classif.rpart
+    ## 3: <TaskClassif[50]> penguins <LearnerClassifRpart[38]> classif.rpart
     ##            resampling resampling_id iteration              prediction
-    ## 1: <ResamplingCV[19]>            cv         1 <PredictionClassif[20]>
-    ## 2: <ResamplingCV[19]>            cv         2 <PredictionClassif[20]>
-    ## 3: <ResamplingCV[19]>            cv         3 <PredictionClassif[20]>
+    ## 1: <ResamplingCV[20]>            cv         1 <PredictionClassif[20]>
+    ## 2: <ResamplingCV[20]>            cv         2 <PredictionClassif[20]>
+    ## 3: <ResamplingCV[20]>            cv         3 <PredictionClassif[20]>
     ##    classif.acc
     ## 1:   0.8956522
     ## 2:   0.9130435
