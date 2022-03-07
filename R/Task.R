@@ -686,7 +686,7 @@ Task = R6Class("Task",
     hash = function(rhs) {
       private$.hash %??% calculate_hash(
         class(self), self$id, self$backend$hash, self$col_info,
-        private$.row_roles, private$.col_roles, private$.properties
+        remove_named(private$.row_roles, "test"), private$.col_roles, private$.properties
       )
     },
 
@@ -771,7 +771,8 @@ Task = R6Class("Task",
 
       assert_has_backend(self)
       assert_list(rhs, .var.name = "row_roles")
-      assert_names(names(rhs), "unique", permutation.of = mlr_reflections$task_row_roles, .var.name = "names of row_roles")
+      # allow test but hide in error message
+      assert_names(names(rhs)[names(rhs) != "test"], "unique", permutation.of = mlr_reflections$task_row_roles, .var.name = "names of row_roles")
       rhs = map(rhs, assert_row_ids, .var.name = "elements of row_roles")
 
       private$.row_roles = rhs

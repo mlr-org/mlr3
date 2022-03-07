@@ -43,3 +43,17 @@ test_that("NA predictions", {
   expect_equal(count_missing(p$response), 75L)
   expect_equal(is.na(p$response), apply(p$prob, 1, anyMissing))
 })
+
+test_that("test set is available in $.train method", {
+  task = tsk("iris")
+  learner = lrn("classif.debug", save_tasks = TRUE)
+  resampling = rsmp("cv", folds = 3)
+  resampling$instantiate(task)
+
+  rr = resample(task, learner, resampling, store_models = TRUE)
+
+  walk(seq(rr$iters), function(i) {
+    expect_equal(rr$learners[[i]]$model$task_train$row_roles$use, resampling$train_set(i))
+    expect_equal(rr$learners[[i]]$model$task_train$row_roles$test, resampling$test_set(i))
+  })
+})
