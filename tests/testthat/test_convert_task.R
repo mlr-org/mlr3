@@ -163,11 +163,14 @@ test_that("formula converters", {
   expect_set_equal(task$feature_names, c("am", "carb"))
   expect_equal(task$target_names, "mpg")
 
-  task = as_task_regr(mpg ~ ., mtcars)
+  my_mtcars = mtcars
+  my_mtcars$hp[5] = NA
+  task = as_task_regr(mpg ~ ., my_mtcars)
   expect_task_regr(task)
-  expect_equal(task$id, "mtcars")
-  expect_set_equal(task$feature_names, setdiff(names(mtcars), "mpg"))
+  expect_equal(task$id, "my_mtcars")
+  expect_set_equal(task$feature_names, setdiff(names(my_mtcars), "mpg"))
   expect_equal(task$target_names, "mpg")
+  expect_equal(task$nrow, nrow(my_mtcars))
 
   expect_error(as_task_regr(mpg ~ am + x, mtcars), "Assertion on 'formula' failed")
   expect_error(as_task_regr(~ am + carb, mtcars), "is missing a response")
@@ -179,11 +182,13 @@ test_that("formula converters", {
   expect_set_equal(task$feature_names, c("Sepal.Length", "Sepal.Width"))
   expect_equal(task$target_names, "Species")
 
-  task = as_task_classif(Species ~ ., iris)
+  data("penguins", package = "palmerpenguins")
+  task = as_task_classif(species ~ ., penguins)
   expect_task_classif(task)
-  expect_equal(task$id, "iris")
-  expect_set_equal(task$feature_names, setdiff(names(iris), "Species"))
-  expect_equal(task$target_names, "Species")
+  expect_equal(task$id, "penguins")
+  expect_set_equal(task$feature_names, setdiff(names(penguins), "species"))
+  expect_equal(task$target_names, "species")
+  expect_equal(task$nrow, nrow(penguins))
 
   expect_error(as_task_classif(Species ~ Sepal.Length + x, iris), "Assertion on 'formula' failed")
   expect_error(as_task_classif(~ Sepal.Length + Sepal.Width, iris), "is missing a response")
