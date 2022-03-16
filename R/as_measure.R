@@ -11,11 +11,13 @@
 #' @return [Measure].
 #' @export
 as_measure = function(x, ...) { # nolint
-  if (is.null(x)) {
-    return(default_measures(list(...)$task_type)[[1L]])
-  }
-
   UseMethod("as_measure")
+}
+
+#' @export
+#' @rdname as_measure
+as_measure.NULL = function(x, task_type = NULL, clone = FALSE, ...) { # nolint
+  default_measures(task_type)[[1L]]
 }
 
 #' @export
@@ -27,10 +29,13 @@ as_measure.Measure = function(x, clone = FALSE, ...) { # nolint
 #' @export
 #' @rdname as_measure
 as_measures = function(x, ...) { # nolint
-  if (is.null(x)) {
-    return(default_measures(list(...)$task_type)[[1L]])
-  }
   UseMethod("as_measures")
+}
+
+#' @export
+#' @rdname as_measure
+as_measures.NULL = function(x, task_type = NULL, clone = FALSE, ...) { # nolint
+  default_measures(task_type)
 }
 
 #' @export
