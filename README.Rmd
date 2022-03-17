@@ -85,39 +85,42 @@ install.packages("mlr3verse")
 library(mlr3)
 
 # create learning task
-task_penguins <- TaskClassif$new(id = "penguins", backend = palmerpenguins::penguins, target = "species")
+task_penguins = as_task_classif(species ~ ., data = palmerpenguins::penguins)
 task_penguins
 
 # load learner and set hyperparameter
-learner <- lrn("classif.rpart", cp = .01)
+learner = lrn("classif.rpart", cp = .01)
 ```
 
 ### Basic train + predict
 
 ```{r}
 # train/test split
-train_set <- sample(task_penguins$nrow, 0.8 * task_penguins$nrow)
-test_set <- setdiff(seq_len(task_penguins$nrow), train_set)
+split = partition(task_penguins, ratio = 0.67)
 
 # train the model
-learner$train(task_penguins, row_ids = train_set)
+learner$train(task_penguins, split$train_set)
 
 # predict data
-prediction <- learner$predict(task_penguins, row_ids = test_set)
+prediction = learner$predict(task_penguins, split$test_set)
 
 # calculate performance
 prediction$confusion
-measure <- msr("classif.acc")
+measure = msr("classif.acc")
 prediction$score(measure)
 ```
 
 ### Resample
 
 ```{r}
-# automatic resampling
-resampling <- rsmp("cv", folds = 3L)
-rr <- resample(task_penguins, learner, resampling)
-rr$score(measure)
+# 3-fold cross validation
+resampling = rsmp("cv", folds = 3L)
+
+# run experiments
+rr = resample(task_penguins, learner, resampling)
+
+# access results
+rr$score(measure)[, .(task_id, learner_id, iteration, classif.acc)]
 rr$aggregate(measure)
 ```
 
