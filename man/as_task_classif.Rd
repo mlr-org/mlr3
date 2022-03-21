@@ -71,7 +71,7 @@ Otherwise the original target is dropped.}
 If \code{TRUE} (default), unused levels of the new target variable are dropped.}
 
 \item{data}{(\code{data.frame()})\cr
-Data frame containing all columns specified in formula \code{x}.}
+Data frame containing all columns referenced in formula \code{x}.}
 }
 \value{
 \link{TaskClassif}.
