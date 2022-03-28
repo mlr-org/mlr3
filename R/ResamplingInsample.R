@@ -58,4 +58,4 @@ ResamplingInsample = R6Class("ResamplingInsample", inherit = Resampling,
 )
 
 #' @include mlr_resamplings.R
-mlr_resamplings$add("insample", ResamplingInsample)
+mlr_resamplings$add("insample", function() ResamplingInsample$new())

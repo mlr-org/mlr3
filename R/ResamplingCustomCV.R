@@ -100,4 +100,4 @@ ResamplingCustomCV = R6Class("ResamplingCustomCV", inherit = Resampling,
 )
 
 #' @include mlr_resamplings.R
-mlr_resamplings$add("custom_cv", ResamplingCustomCV)
+mlr_resamplings$add("custom_cv", function() ResamplingCustomCV$new())

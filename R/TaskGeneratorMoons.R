@@ -71,4 +71,4 @@ TaskGeneratorMoons = R6Class("TaskGeneratorMoons",
 )
 
 #' @include mlr_task_generators.R
-mlr_task_generators$add("moons", TaskGeneratorMoons)
+mlr_task_generators$add("moons", function() TaskGeneratorMoons$new())

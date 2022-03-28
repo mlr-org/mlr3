@@ -93,4 +93,4 @@ LearnerClassifFeatureless = R6Class("LearnerClassifFeatureless", inherit = Learn
 )
 
 #' @include mlr_learners.R
-mlr_learners$add("classif.featureless", LearnerClassifFeatureless)
+mlr_learners$add("classif.featureless", function() LearnerClassifFeatureless$new())

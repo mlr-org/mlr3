@@ -191,4 +191,4 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
 )
 
 #' @include mlr_learners.R
-mlr_learners$add("classif.debug", LearnerClassifDebug)
+mlr_learners$add("classif.debug", function() LearnerClassifDebug$new())
