@@ -78,4 +78,4 @@ ResamplingHoldout = R6Class("ResamplingHoldout", inherit = Resampling,
 )
 
 #' @include mlr_resamplings.R
-mlr_resamplings$add("holdout", ResamplingHoldout)
+mlr_resamplings$add("holdout", function() ResamplingHoldout$new())

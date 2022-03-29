@@ -83,4 +83,4 @@ ResamplingLOO = R6Class("ResamplingLOO", inherit = Resampling,
 )
 
 #' @include mlr_resamplings.R
-mlr_resamplings$add("loo", ResamplingLOO)
+mlr_resamplings$add("loo", function() ResamplingLOO$new())

@@ -50,4 +50,4 @@ MeasureAIC = R6Class("MeasureAIC",
 )
 
 #' @include mlr_measures.R
-mlr_measures$add("aic", MeasureAIC)
+mlr_measures$add("aic", function() MeasureAIC$new())

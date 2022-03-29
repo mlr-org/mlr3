@@ -142,205 +142,206 @@ MeasureSimilaritySimple = R6Class("MeasureSimilaritySimple",
 
 #' @templateVar id auc
 #' @template measure_binary
-mlr_measures$add("classif.auc", MeasureBinarySimple, name = "auc")
+mlr_measures$add("classif.auc", function() MeasureBinarySimple$new(name = "auc"))
 
 #' @templateVar id bbrier
 #' @template measure_binary
-mlr_measures$add("classif.bbrier", MeasureBinarySimple, name = "bbrier")
+mlr_measures$add("classif.bbrier", function() MeasureBinarySimple$new(name = "bbrier"))
 
 #' @templateVar id dor
 #' @template measure_binary
-mlr_measures$add("classif.dor", MeasureBinarySimple, name = "dor")
+mlr_measures$add("classif.dor", function() MeasureBinarySimple$new(name = "dor"))
 
 #' @templateVar id fbeta
 #' @template measure_binary
-mlr_measures$add("classif.fbeta", MeasureBinarySimple, name = "fbeta",
-  param_set = ps(beta = p_int(lower = 0)))
+mlr_measures$add("classif.fbeta", function() {
+  MeasureBinarySimple$new(name = "fbeta", param_set = ps(beta = p_int(lower = 0)))
+})
 
 #' @templateVar id fdr
 #' @template measure_binary
-mlr_measures$add("classif.fdr", MeasureBinarySimple, name = "fdr")
+mlr_measures$add("classif.fdr", function() MeasureBinarySimple$new(name = "fdr"))
 
 #' @templateVar id fn
 #' @template measure_binary
-mlr_measures$add("classif.fn", MeasureBinarySimple, name = "fn")
+mlr_measures$add("classif.fn", function() MeasureBinarySimple$new(name = "fn"))
 
 #' @templateVar id fnr
 #' @template measure_binary
-mlr_measures$add("classif.fnr", MeasureBinarySimple, name = "fnr")
+mlr_measures$add("classif.fnr", function() MeasureBinarySimple$new(name = "fnr"))
 
 #' @templateVar id fomr
 #' @template measure_binary
-mlr_measures$add("classif.fomr", MeasureBinarySimple, name = "fomr")
+mlr_measures$add("classif.fomr", function() MeasureBinarySimple$new(name = "fomr"))
 
 #' @templateVar id fp
 #' @template measure_binary
-mlr_measures$add("classif.fp", MeasureBinarySimple, name = "fp")
+mlr_measures$add("classif.fp", function() MeasureBinarySimple$new(name = "fp"))
 
 #' @templateVar id fpr
 #' @template measure_binary
-mlr_measures$add("classif.fpr", MeasureBinarySimple, name = "fpr")
+mlr_measures$add("classif.fpr", function() MeasureBinarySimple$new(name = "fpr"))
 
 #' @templateVar id mcc
 #' @template measure_binary
-mlr_measures$add("classif.mcc", MeasureBinarySimple, name = "mcc")
+mlr_measures$add("classif.mcc", function() MeasureBinarySimple$new(name = "mcc"))
 
 #' @templateVar id npv
 #' @template measure_binary
-mlr_measures$add("classif.npv", MeasureBinarySimple, name = "npv")
+mlr_measures$add("classif.npv", function() MeasureBinarySimple$new(name = "npv"))
 
 #' @templateVar id ppv
 #' @template measure_binary
-mlr_measures$add("classif.ppv", MeasureBinarySimple, name = "ppv")
+mlr_measures$add("classif.ppv", function() MeasureBinarySimple$new(name = "ppv"))
 
 #' @templateVar id prauc
 #' @template measure_binary
-mlr_measures$add("classif.prauc", MeasureBinarySimple, name = "prauc")
+mlr_measures$add("classif.prauc", function() MeasureBinarySimple$new(name = "prauc"))
 
 #' @templateVar id precision
 #' @template measure_binary
-mlr_measures$add("classif.precision", MeasureBinarySimple, name = "precision")
+mlr_measures$add("classif.precision", function() MeasureBinarySimple$new(name = "precision"))
 
 #' @templateVar id tn
 #' @template measure_binary
-mlr_measures$add("classif.tn", MeasureBinarySimple, name = "tn")
+mlr_measures$add("classif.tn", function() MeasureBinarySimple$new(name = "tn"))
 
 #' @templateVar id tnr
 #' @template measure_binary
-mlr_measures$add("classif.tnr", MeasureBinarySimple, name = "tnr")
+mlr_measures$add("classif.tnr", function() MeasureBinarySimple$new(name = "tnr"))
 
 #' @templateVar id specificity
 #' @template measure_binary
-mlr_measures$add("classif.specificity", MeasureBinarySimple, name = "specificity")
+mlr_measures$add("classif.specificity", function() MeasureBinarySimple$new(name = "specificity"))
 
 #' @templateVar id tp
 #' @template measure_binary
-mlr_measures$add("classif.tp", MeasureBinarySimple, name = "tp")
+mlr_measures$add("classif.tp", function() MeasureBinarySimple$new(name = "tp"))
 
 #' @templateVar id tpr
 #' @template measure_binary
-mlr_measures$add("classif.tpr", MeasureBinarySimple, name = "tpr")
+mlr_measures$add("classif.tpr", function() MeasureBinarySimple$new(name = "tpr"))
 
 #' @templateVar id recall
 #' @template measure_binary
-mlr_measures$add("classif.recall", MeasureBinarySimple, name = "recall")
+mlr_measures$add("classif.recall", function() MeasureBinarySimple$new(name = "recall"))
 
 #' @templateVar id sensitivity
 #' @template measure_binary
-mlr_measures$add("classif.sensitivity", MeasureBinarySimple, name = "sensitivity")
+mlr_measures$add("classif.sensitivity", function() MeasureBinarySimple$new(name = "sensitivity"))
 
 ### multiclass classification measures
 
 #' @templateVar id acc
 #' @template measure_classif
-mlr_measures$add("classif.acc", MeasureClassifSimple, name = "acc")
+mlr_measures$add("classif.acc", function() MeasureClassifSimple$new(name = "acc"))
 
 #' @templateVar id bacc
 #' @template measure_classif
-mlr_measures$add("classif.bacc", MeasureClassifSimple, name = "bacc")
+mlr_measures$add("classif.bacc", function() MeasureClassifSimple$new(name = "bacc"))
 
 #' @templateVar id mbrier
 #' @template measure_classif
-mlr_measures$add("classif.mbrier", MeasureClassifSimple, name = "mbrier")
+mlr_measures$add("classif.mbrier", function() MeasureClassifSimple$new(name = "mbrier"))
 
 #' @templateVar id ce
 #' @template measure_classif
-mlr_measures$add("classif.ce", MeasureClassifSimple, name = "ce")
+mlr_measures$add("classif.ce", function() MeasureClassifSimple$new(name = "ce"))
 
 #' @templateVar id logloss
 #' @template measure_classif
-mlr_measures$add("classif.logloss", MeasureClassifSimple, name = "logloss")
+mlr_measures$add("classif.logloss", function() MeasureClassifSimple$new(name = "logloss"))
 
 
 ### regression measures
 
 #' @templateVar id bias
 #' @template measure_regr
-mlr_measures$add("regr.bias", MeasureRegrSimple, name = "bias")
+mlr_measures$add("regr.bias", function() MeasureRegrSimple$new(name = "bias"))
 
 #' @templateVar id ktau
 #' @template measure_regr
-mlr_measures$add("regr.ktau", MeasureRegrSimple, name = "ktau")
+mlr_measures$add("regr.ktau", function() MeasureRegrSimple$new(name = "ktau"))
 
 #' @templateVar id mae
 #' @template measure_regr
-mlr_measures$add("regr.mae", MeasureRegrSimple, name = "mae")
+mlr_measures$add("regr.mae", function() MeasureRegrSimple$new(name = "mae"))
 
 #' @templateVar id mape
 #' @template measure_regr
-mlr_measures$add("regr.mape", MeasureRegrSimple, name = "mape")
+mlr_measures$add("regr.mape", function() MeasureRegrSimple$new(name = "mape"))
 
 #' @templateVar id maxae
 #' @template measure_regr
-mlr_measures$add("regr.maxae", MeasureRegrSimple, name = "maxae")
+mlr_measures$add("regr.maxae", function() MeasureRegrSimple$new(name = "maxae"))
 
 #' @templateVar id medae
 #' @template measure_regr
-mlr_measures$add("regr.medae", MeasureRegrSimple, name = "medae")
+mlr_measures$add("regr.medae", function() MeasureRegrSimple$new(name = "medae"))
 
 #' @templateVar id medse
 #' @template measure_regr
-mlr_measures$add("regr.medse", MeasureRegrSimple, name = "medse")
+mlr_measures$add("regr.medse", function() MeasureRegrSimple$new(name = "medse"))
 
 #' @templateVar id mse
 #' @template measure_regr
-mlr_measures$add("regr.mse", MeasureRegrSimple, name = "mse")
+mlr_measures$add("regr.mse", function() MeasureRegrSimple$new(name = "mse"))
 
 #' @templateVar id msle
 #' @template measure_regr
-mlr_measures$add("regr.msle", MeasureRegrSimple, name = "msle")
+mlr_measures$add("regr.msle", function() MeasureRegrSimple$new(name = "msle"))
 
 #' @templateVar id pbias
 #' @template measure_regr
-mlr_measures$add("regr.pbias", MeasureRegrSimple, name = "pbias")
+mlr_measures$add("regr.pbias", function() MeasureRegrSimple$new(name = "pbias"))
 
 #' @templateVar id rae
 #' @template measure_regr
-mlr_measures$add("regr.rae", MeasureRegrSimple, name = "rae")
+mlr_measures$add("regr.rae", function() MeasureRegrSimple$new(name = "rae"))
 
 #' @templateVar id rmse
 #' @template measure_regr
-mlr_measures$add("regr.rmse", MeasureRegrSimple, name = "rmse")
+mlr_measures$add("regr.rmse", function() MeasureRegrSimple$new(name = "rmse"))
 
 #' @templateVar id rmsle
 #' @template measure_regr
-mlr_measures$add("regr.rmsle", MeasureRegrSimple, name = "rmsle")
+mlr_measures$add("regr.rmsle", function() MeasureRegrSimple$new(name = "rmsle"))
 
 #' @templateVar id rrse
 #' @template measure_regr
-mlr_measures$add("regr.rrse", MeasureRegrSimple, name = "rrse")
+mlr_measures$add("regr.rrse", function() MeasureRegrSimple$new(name = "rrse"))
 
 #' @templateVar id rse
 #' @template measure_regr
-mlr_measures$add("regr.rse", MeasureRegrSimple, name = "rse")
+mlr_measures$add("regr.rse", function() MeasureRegrSimple$new(name = "rse"))
 
 #' @templateVar id rsq
 #' @template measure_regr
-mlr_measures$add("regr.rsq", MeasureRegrSimple, name = "rsq")
+mlr_measures$add("regr.rsq", function() MeasureRegrSimple$new(name = "rsq"))
 
 #' @templateVar id sae
 #' @template measure_regr
-mlr_measures$add("regr.sae", MeasureRegrSimple, name = "sae")
+mlr_measures$add("regr.sae", function() MeasureRegrSimple$new(name = "sae"))
 
 #' @templateVar id smape
 #' @template measure_regr
-mlr_measures$add("regr.smape", MeasureRegrSimple, name = "smape")
+mlr_measures$add("regr.smape", function() MeasureRegrSimple$new(name = "smape"))
 
 #' @templateVar id srho
 #' @template measure_regr
-mlr_measures$add("regr.srho", MeasureRegrSimple, name = "srho")
+mlr_measures$add("regr.srho", function() MeasureRegrSimple$new(name = "srho"))
 
 #' @templateVar id sse
 #' @template measure_regr
-mlr_measures$add("regr.sse", MeasureRegrSimple, name = "sse")
+mlr_measures$add("regr.sse", function() MeasureRegrSimple$new(name = "sse"))
 
 
 ### similarity measures
 
 #' @templateVar id jaccard
 #' @template measure_similarity
-mlr_measures$add("sim.jaccard", MeasureSimilaritySimple, name = "jaccard")
+mlr_measures$add("sim.jaccard", function() MeasureSimilaritySimple$new(name = "jaccard"))
 
 #' @templateVar id phi
 #' @template measure_similarity
-mlr_measures$add("sim.phi", MeasureSimilaritySimple, name = "phi")
+mlr_measures$add("sim.phi", function() MeasureSimilaritySimple$new(name = "phi"))

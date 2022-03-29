@@ -60,4 +60,4 @@ TaskGeneratorSmiley = R6Class("TaskGeneratorSmiley",
 )
 
 #' @include mlr_task_generators.R
-mlr_task_generators$add("smiley", TaskGeneratorSmiley)
+mlr_task_generators$add("smiley", function() TaskGeneratorSmiley$new())

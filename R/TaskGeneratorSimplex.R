@@ -63,4 +63,4 @@ TaskGeneratorSimplex = R6Class("TaskGeneratorSimplex",
 )
 
 #' @include mlr_task_generators.R
-mlr_task_generators$add("simplex", TaskGeneratorSimplex)
+mlr_task_generators$add("simplex", function() TaskGeneratorSimplex$new())

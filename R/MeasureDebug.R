@@ -52,4 +52,4 @@ MeasureDebug = R6Class("MeasureDebug",
 )
 
 #' @include mlr_measures.R
-mlr_measures$add("debug", MeasureDebug)
+mlr_measures$add("debug", function() MeasureDebug$new())

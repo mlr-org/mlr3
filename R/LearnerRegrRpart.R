@@ -91,4 +91,4 @@ LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
 )
 
 #' @include mlr_learners.R
-mlr_learners$add("regr.rpart", LearnerRegrRpart)
+mlr_learners$add("regr.rpart", function() LearnerRegrRpart$new())

@@ -55,6 +55,6 @@ MeasureElapsedTime = R6Class("MeasureElapsedTime",
 )
 
 #' @include mlr_measures.R
-mlr_measures$add("time_train", MeasureElapsedTime, id = "time_train", stages = "train")
-mlr_measures$add("time_predict", MeasureElapsedTime, id = "time_predict", stages = "predict")
-mlr_measures$add("time_both", MeasureElapsedTime, id = "time_both", stages = c("train", "predict"))
+mlr_measures$add("time_train", function() MeasureElapsedTime$new(id = "time_train", stages = "train"))
+mlr_measures$add("time_predict", function() MeasureElapsedTime$new(id = "time_predict", stages = "predict"))
+mlr_measures$add("time_both", function() MeasureElapsedTime$new(id = "time_both", stages = c("train", "predict")))

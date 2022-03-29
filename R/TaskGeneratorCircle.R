@@ -58,4 +58,4 @@ TaskGeneratorCircle = R6Class("TaskGeneratorCircle",
 )
 
 #' @include mlr_task_generators.R
-mlr_task_generators$add("circle", TaskGeneratorCircle)
+mlr_task_generators$add("circle", function() TaskGeneratorCircle$new())

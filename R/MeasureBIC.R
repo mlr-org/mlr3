@@ -47,4 +47,4 @@ MeasureBIC = R6Class("MeasureBIC",
 )
 
 #' @include mlr_measures.R
-mlr_measures$add("bic", MeasureBIC)
+mlr_measures$add("bic", function() MeasureBIC$new())

@@ -59,4 +59,4 @@ TaskGenerator2DNormals = R6Class("TaskGenerator2DNormals",
 )
 
 #' @include mlr_task_generators.R
-mlr_task_generators$add("2dnormals", TaskGenerator2DNormals)
+mlr_task_generators$add("2dnormals", function() TaskGenerator2DNormals$new())
