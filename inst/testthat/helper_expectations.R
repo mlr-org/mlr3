@@ -80,12 +80,12 @@ expect_backend = function(b) {
   checkmate::expect_data_table(x, nrows = 0L, ncols = 0L)
 
   # extra rows are ignored
-  query_rows = c(rn1, if (is.integer(rn)) -1L else "_not_existing_")
+  query_rows = c(rn1, if (is.numeric(rn)) -1L else "_not_existing_")
   x = b$data(query_rows, cols = cn[1L], data_format = "data.table")
   checkmate::expect_data_table(x, nrows = length(rn1), ncols = 1L)
 
   # zero rows matching
-  query_rows = if (is.integer(rn)) -1L else "_not_existing_"
+  query_rows = if (is.numeric(rn)) -1L else "_not_existing_"
   x = b$data(rows = query_rows, cols = cn[1L], data_format = "data.table")
   checkmate::expect_data_table(x, nrows = 0L, ncols = 1L)
 
@@ -150,7 +150,6 @@ expect_backend = function(b) {
   # if multiple cols have the same hash, check that they actually contain the same data.
   realhashes = sapply(b$data(rows = b$rownames, cols = setdiff(b$colnames, b$primary_key)), mlr3misc::calculate_hash)
   expect_equal(unname(sapply(split(realhashes, col_hashes), data.table::uniqueN)), rep(1, data.table::uniqueN(col_hashes)))
-
 }
 
 expect_iris_backend = function(b, n_missing = 0L) {
