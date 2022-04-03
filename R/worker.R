@@ -15,7 +15,7 @@ learner_train = function(learner, task, row_ids = NULL, valid_ids = NULL, mode =
       get_private(learner)$.train(task)
     } else if (mode == "hotstart" && use_validation) {
       get_private(learner)$.hotstart(task, valid_ids)
-    } else if (mode == "hotstart" && !use_valdation) {
+    } else if (mode == "hotstart" && !use_validation) {
       get_private(learner)$.hotstart(task)
     }
 

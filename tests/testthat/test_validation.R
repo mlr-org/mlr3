@@ -3,7 +3,6 @@ test_that("valid_ids are passed correctly to the .train method of the learner", 
   task = tsk("mtcars")
   task$filter(1:3)
   task$set_row_roles(1, "holdout")
-  debugonce(learner_train)
   l$train(task, valid_ids = 2)
   # 2 is validation id and 1 is holdout --> the mean should be the value of 3
   expect_equal(mean(task$truth(3)), l$model$location)
@@ -34,7 +33,6 @@ test_that("validation works in resample()", {
   task$set_row_roles(31:32, "holdout")
   resampling = rsmp("custom")
   resampling$instantiate(task, train_sets = list(1:20), test_sets = list(21:30))
-  debugonce(learner_train)
   rr = resample(task, l, resampling, store_models = TRUE)
   y_hat = mean(mtcars[["mpg"]][1:20])
   expect_equal(rr$learners[[1]]$model$location, y_hat)
