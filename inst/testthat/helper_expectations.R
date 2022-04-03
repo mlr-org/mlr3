@@ -159,7 +159,7 @@ expect_iris_backend = function(b, n_missing = 0L) {
   checkmate::expect_set_equal(b$rownames, seq_len(150L))
 
   x = b$head(2)
-  checkmate::expect_data_table(x, nrows  = 2L, ncols  = 6L, any.missing = FALSE)
+  checkmate::expect_data_table(x, nrows = 2L, ncols = 6L, any.missing = FALSE)
   checkmate::expect_set_equal(names(x), c(names(iris), b$primary_key))
 
   x = b$distinct(b$rownames, "Species")
@@ -167,7 +167,7 @@ expect_iris_backend = function(b, n_missing = 0L) {
   checkmate::expect_set_equal(x$Species, levels(iris$Species))
 
   x = b$data(rows = 2:10, cols = c(b$primary_key, "Species", "Sepal.Width"), data_format = "data.table")
-  checkmate::expect_data_table(x, nrows  = 9L, ncols  = 3L)
+  checkmate::expect_data_table(x, nrows = 9L, ncols = 3L)
   checkmate::expect_set_equal(names(x), c(b$primary_key, "Species", "Sepal.Width"))
   checkmate::expect_set_equal(x[[b$primary_key]], 2:10)
 
@@ -182,13 +182,13 @@ expect_iris_backend = function(b, n_missing = 0L) {
 
   # invalid row ids
   x = b$data(rows = 150:151, cols = c(b$primary_key, "Species"), data_format = "data.table")
-  checkmate::expect_data_table(x, nrows  = 1L, ncols  = 2L)
+  checkmate::expect_data_table(x, nrows = 1L, ncols = 2L)
   testthat::expect_equal(x[[b$primary_key]], 150L)
   testthat::expect_equal(as.character(x[["Species"]]), "virginica")
 
   # duplicated row ids
   x = b$data(rows = c(1L, 1L), cols = c(b$primary_key, "Species"), data_format = "data.table")
-  checkmate::expect_data_table(x, nrows  = 2L, ncols  = 2L)
+  checkmate::expect_data_table(x, nrows = 2L, ncols = 2L)
   testthat::expect_equal(x[[b$primary_key]], c(1L, 1L))
   testthat::expect_equal(as.character(x[["Species"]]), c("setosa", "setosa"))
 
@@ -224,7 +224,7 @@ expect_task = function(task, null_backend_ok = TRUE) {
   }
 
   cols = c("id", "type", "levels", "label", "fix_factor_levels")
-  checkmate::expect_data_table(task$col_info, key = "id", ncols  = length(cols))
+  checkmate::expect_data_table(task$col_info, key = "id", ncols = length(cols))
   checkmate::expect_names(names(task$col_info), permutation.of = cols)
   expect_id(task$col_info$id)
   checkmate::expect_subset(task$col_info$type, mlr3::mlr_reflections$task_feature_types)
@@ -242,7 +242,7 @@ expect_task = function(task, null_backend_ok = TRUE) {
   lapply(task$row_roles, checkmate::expect_integerish, any.missing = FALSE, unique = TRUE)
 
   types = task$feature_types
-  checkmate::expect_data_table(types, ncols  = 2, nrows  = length(task$feature_names), key = "id")
+  checkmate::expect_data_table(types, ncols = 2, nrows = length(task$feature_names), key = "id")
   checkmate::expect_set_equal(types$id, task$feature_names)
   checkmate::expect_subset(types$type, mlr3::mlr_reflections$task_feature_types)
 
@@ -261,11 +261,11 @@ expect_task = function(task, null_backend_ok = TRUE) {
 
     # query zero columns
     data = task$data(cols = character(), data_format = "data.table")
-    checkmate::expect_data_table(data, ncols  = 0L)
+    checkmate::expect_data_table(data, ncols = 0L)
 
     # query zero rows
     data = task$data(rows = task$row_ids[0L], data_format = "data.table")
-    checkmate::expect_data_table(data, nrows  = 0L)
+    checkmate::expect_data_table(data, nrows = 0L)
   }
 
   # col_hashes
@@ -355,7 +355,7 @@ expect_learner = function(lrn, task = NULL) {
   if (is.null(mlr3misc::get_private(lrn)$.train)) {
     checkmate::expect_function(lrn$train_internal, args = "task", nargs = 1L)
   } else {
-    checkmate::expect_function(mlr3misc::get_private(lrn)$.train, args = "task", nargs = 1L)
+    checkmate::expect_function(mlr3misc::get_private(lrn)$.train, args = c("task", "valid_ids"), nargs = 2L)
   }
   if (is.null(mlr3misc::get_private(lrn)$.predict)) {
     checkmate::expect_function(lrn$predict_internal, args = "task", nargs = 1L)
@@ -462,7 +462,7 @@ expect_measure = function(m) {
 expect_prediction = function(p) {
   checkmate::expect_r6(p, "Prediction", public = c("row_ids", "truth", "predict_types"))
   testthat::expect_output(print(p), "^<Prediction")
-  checkmate::expect_data_table(data.table::as.data.table(p), nrows  = length(p$row_ids))
+  checkmate::expect_data_table(data.table::as.data.table(p), nrows = length(p$row_ids))
   checkmate::expect_integerish(p$missing)
 }
 
