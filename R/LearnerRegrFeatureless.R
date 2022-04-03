@@ -21,7 +21,7 @@ LearnerRegrFeatureless = R6Class("LearnerRegrFeatureless", inherit = LearnerRegr
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       ps = ps(
-        robust = p_lgl(default = TRUE, tags = "train")
+        robust = p_lgl(default = FALSE, tags = "train")
       )
       ps$values = list(robust = FALSE)
 
@@ -30,7 +30,7 @@ LearnerRegrFeatureless = R6Class("LearnerRegrFeatureless", inherit = LearnerRegr
         feature_types = unname(mlr_reflections$task_feature_types),
         predict_types = c("response", "se"),
         param_set = ps,
-        properties = c("featureless", "missings", "importance", "selected_features"),
+        properties = c("featureless", "missings", "importance", "selected_features", "validation"),
         packages = "stats",
         label = "Featureless Regression Learner",
         man = "mlr3::mlr_learners_regr.featureless"
@@ -58,17 +58,27 @@ LearnerRegrFeatureless = R6Class("LearnerRegrFeatureless", inherit = LearnerRegr
   ),
 
   private = list(
-    .train = function(task) {
+    .train = function(task, valid_ids) {
       pv = self$param_set$get_values(tags = "train")
-      x = task$data(cols = task$target_names)[[1L]]
+      x_train = task$data(cols = task$target_names)[[1L]]
+      x_val = task$data(rows = valid_ids, cols = task$target_names)[[1L]]
       if (isFALSE(pv$robust)) {
-        location = mean(x)
-        dispersion = sd(x)
+        location = mean(x_train)
+        dispersion = sd(x_train)
+        valid_error = mean((x_val - location)^2)
       } else {
-        location = stats::median(x)
-        dispersion = stats::mad(x, center = location)
+        location = stats::median(x_train)
+        dispersion = stats::mad(x_train, center = location)
+        valid_error = stats::mad(x_val, center = location)
       }
-      set_class(list(location = location, dispersion = dispersion, features = task$feature_names), "regr.featureless_model")
+      set_class("regr.featureless_model",
+        x = list(
+          location = location,
+          dispersion = dispersion,
+          features = task$feature_names,
+          valid_error = valid_error
+        )
+      )
     },
 
     .predict = function(task) {

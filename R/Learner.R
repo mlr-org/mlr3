@@ -214,22 +214,28 @@ Learner = R6Class("Learner",
     #' @param row_ids (`integer()`)\cr
     #'   Vector of training indices as subset of `task$row_ids`.
     #'   For a simple split into training and test set, see [partition()].
-    #'
+    #' @param valid_ids (`integer()`)\cr
+    #'  Vector of validation ids. Should usually be a subset of row_ids.
+    #'  Only
     #' @return
     #' Returns the object itself, but modified **by reference**.
     #' You need to explicitly `$clone()` the object beforehand if you want to keeps
     #' the object in its previous state.
-    train = function(task, row_ids = NULL) {
+    train = function(task, row_ids = NULL, valid_ids = NULL) {
       task = assert_task(as_task(task))
       assert_learnable(task, self)
+      if ("validation" %nin% self$properties && !is.null(valid_ids)) {
+        stopf("Learner does not have property 'validation' but valid_ids is not NULL.")
+      }
       row_ids = assert_row_ids(row_ids, null.ok = TRUE)
+      assert_disjunct(row_ids, valid_ids)
 
       if (!is.null(self$hotstart_stack)) {
         # search for hotstart learner
         start_learner = get_private(self$hotstart_stack)$.start_learner(self, task$hash)
       }
       if (is.null(self$hotstart_stack) || is.null(start_learner)) {
-         # no hotstart learners stored or no adaptable model found
+        # no hotstart learners stored or no adaptable model found
         learner = self
         mode = "train"
       } else {
@@ -238,7 +244,7 @@ Learner = R6Class("Learner",
         mode = "hotstart"
       }
 
-      learner_train(learner, task, row_ids, mode)
+      learner_train(learner, task, row_ids, valid_ids, mode)
 
       # store the task w/o the data
       self$state$train_task = task_rm_backend(task$clone(deep = TRUE))

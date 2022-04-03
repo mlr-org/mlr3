@@ -1,16 +1,21 @@
-learner_train = function(learner, task, row_ids = NULL, mode = "train") {
+learner_train = function(learner, task, row_ids = NULL, valid_ids = NULL, mode = "train") {
   # This wrapper calls learner$train, and additionally performs some basic
   # checks that the training was successful.
   # Exceptions here are possibly encapsulated, so that they get captured
   # and turned into log messages.
-  train_wrapper = function(learner, task) {
+  use_validation = "validation" %in% learner$properties
+  train_wrapper = function(learner, task, valid_ids = NULL) {
     if (task$nrow == 0L) {
       stopf("Cannot %s Learner '%s' on task '%s': No observations", mode, learner$id, task$id)
     }
 
-    model = if (mode == "train") {
+    model = if (mode == "train" && use_validation) {
+      get_private(learner)$.train(task, valid_ids)
+    } else if (mode == "train" && !use_validation) {
       get_private(learner)$.train(task)
-    } else if (mode == "hotstart") {
+    } else if (mode == "hotstart" && use_validation) {
+      get_private(learner)$.hotstart(task, valid_ids)
+    } else if (mode == "hotstart" && !use_valdation) {
       get_private(learner)$.hotstart(task)
     }
 
@@ -29,7 +34,7 @@ learner_train = function(learner, task, row_ids = NULL, mode = "train") {
   require_namespaces(learner$packages)
 
   # subset to train set w/o cloning
-  if (!is.null(row_ids)) {
+  if (!is.null(row_ids) || !is.null(valid_ids)) {
     lg$debug("Subsetting task '%s' to %i rows",
       task$id, length(row_ids), task = task$clone(), row_ids = row_ids)
 
@@ -37,7 +42,11 @@ learner_train = function(learner, task, row_ids = NULL, mode = "train") {
     on.exit({
       task$row_roles$use = prev_use
     }, add = TRUE)
-    task$row_roles$use = row_ids
+    if (is.null(row_ids)) {
+      task$row_roles$use = setdiff(task$row_roles$use, valid_ids)
+    } else {
+      task$row_roles$use = row_ids
+    }
   } else {
     lg$debug("Skip subsetting of task '%s'", task$id)
   }
@@ -50,7 +59,7 @@ learner_train = function(learner, task, row_ids = NULL, mode = "train") {
   # call train_wrapper with encapsulation
   result = encapsulate(learner$encapsulate["train"],
     .f = train_wrapper,
-    .args = list(learner = learner, task = task),
+    .args = list(learner = learner, task = task, valid_ids = valid_ids),
     .pkgs = learner$packages,
     .seed = NA_integer_,
     .timeout = learner$timeout["train"]
@@ -92,7 +101,11 @@ learner_train = function(learner, task, row_ids = NULL, mode = "train") {
 
     fb = assert_learner(as_learner(fb))
     require_namespaces(fb$packages)
-    fb$train(task)
+    if ("validation" %in% fb$properties) {
+      fb$train(task, valid_ids)
+    } else {
+      fb$train(task)
+    }
     learner$state$fallback_state = fb$state
 
     lg$debug("Fitted fallback learner '%s'",
@@ -243,7 +256,7 @@ workhorse = function(iteration, task, learner, resampling, lgr_threshold, store_
   )
 
   # train model
-  learner = learner_train(learner$clone(), task, sets[["train"]], mode = mode)
+  learner = learner_train(learner$clone(), task, sets[["train"]], sets[["test"]], mode = mode)
 
   # predict for each set
   sets = sets[learner$predict_sets]
