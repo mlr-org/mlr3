@@ -220,7 +220,7 @@ Learner = R6Class("Learner",
         start_learner = get_private(self$hotstart_stack)$.start_learner(self, task$hash)
       }
       if (is.null(self$hotstart_stack) || is.null(start_learner)) {
-         # no hotstart learners stored or no adaptable model found
+        # no hotstart learners stored or no adaptable model found
         learner = self
         mode = "train"
       } else {
@@ -338,6 +338,22 @@ Learner = R6Class("Learner",
     #' the object in its previous state.
     reset = function() {
       self$state = NULL
+      invisible(self)
+    },
+
+
+    #' @description
+    #' Sets parameters of the learner. Existing parameters are overwritten if their values are
+    #' changed. Other parameters are left as is.
+    #' @return
+    #' Returns the object itself, but motified **by reference**.
+    set = function(...) {
+      new_pars = list(...)
+      assert_named(new_pars)
+      old_pars = self$param_set$values
+      old_pars = old_pars[names(old_pars) %nin% names(new_pars)]
+      pars = c(new_pars, old_pars)
+      self$param_set$values = pars
       invisible(self)
     },
 
