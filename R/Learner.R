@@ -341,22 +341,6 @@ Learner = R6Class("Learner",
       invisible(self)
     },
 
-
-    #' @description
-    #' Sets parameters of the learner. Existing parameters are overwritten if their values are
-    #' changed. Other parameters are left as is.
-    #' @return
-    #' Returns the object itself, but motified **by reference**.
-    set = function(...) {
-      new_pars = list(...)
-      assert_named(new_pars)
-      old_pars = self$param_set$values
-      old_pars = old_pars[names(old_pars) %nin% names(new_pars)]
-      pars = c(new_pars, old_pars)
-      self$param_set$values = pars
-      invisible(self)
-    },
-
     #' @description
     #' Extracts the base learner from nested learner objects like
     #' `GraphLearner` in \CRANpkg{mlr3pipelines} or `AutoTuner` in
