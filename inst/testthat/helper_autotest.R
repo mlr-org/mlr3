@@ -361,7 +361,7 @@ run_autotest = function(learner, N = 30L, exclude = NULL, predict_types = learne
   }
 
   param_tags = unique(unlist(learner$param_set$tags))
-  if (any(param_tags %nin% mlr_reflections$param_tags)) {
+  if (!test_subset(param_tags, mlr_reflections$param_tags)) {
     return(make_err("Invalid parameter tag(s), check `mlr_reflections$param_tags`."))
   }
 
