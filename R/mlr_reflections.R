@@ -147,5 +147,5 @@ local({
   mlr_reflections$loggers = list()
 
   # Allowed tags for parameters
-  mlr_reflections$param_tags = c("train", "predict", "hotstart", "importance", "threads")
+  mlr_reflections$param_tags = c("train", "predict", "hotstart", "importance", "threads", "required")
 })
