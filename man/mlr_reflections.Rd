@@ -57,6 +57,8 @@ Names of the objects stored in a \link{ResampleResult}.
 Environment of converter functions used for \code{rbind}-ing data to tasks.
 Functions are named using the pattern \code{"[from_type]___[to_type]"}.
 Can be extended by third-party with additional converters.
+\item \code{param_tags} (\code{character()})\cr
+Character vector of allowed 'tags' for the \link[paradox:Param]{paradox::Param}s of a \link{Learner}.
 }
 }
 \examples{

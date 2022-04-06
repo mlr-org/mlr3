@@ -63,6 +63,9 @@
 #'   Functions are named using the pattern `"[from_type]___[to_type]"`.
 #'   Can be extended by third-party with additional converters.
 #'
+#' * `param_tags` (`character()`)\cr
+#'   Character vector of allowed 'tags' for the [paradox::Param]s of a [Learner].
+#'
 #' @keywords internal
 #' @export
 #' @examples
@@ -142,4 +145,7 @@ local({
 
   ### Logger
   mlr_reflections$loggers = list()
+
+  # Allowed tags for parameters
+  mlr_reflections$param_tags = c("train", "predict", "hotstart", "importance", "threads")
 })
