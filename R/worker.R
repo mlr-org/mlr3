@@ -44,10 +44,10 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
 
   # pass test ids w/o cloning
   if (!is.null(test_row_ids)) {
+    prev_test = task$row_roles$test
     on.exit({
-      task$row_roles$test = NULL
+      task$row_roles$test = prev_test
     }, add = TRUE)
-
     task$row_roles$test = test_row_ids
   }
 

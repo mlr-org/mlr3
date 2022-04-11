@@ -136,7 +136,7 @@ Task = R6Class("Task",
 
       cn = self$col_info$id # note: this sorts the columns!
       rn = self$backend$rownames
-      private$.row_roles = list(use = rn, holdout = integer())
+      private$.row_roles = list(use = rn, test = integer(), holdout = integer())
       private$.col_roles = named_list(mlr_reflections$task_col_roles[[task_type]], character())
       private$.col_roles$feature = setdiff(cn, self$backend$primary_key)
       self$extra_args = assert_list(extra_args, names = "unique")
@@ -759,6 +759,8 @@ Task = R6Class("Task",
     #' Each row (observation) can have an arbitrary number of roles in the learning task:
     #'
     #' - `"use"`: Use in train / predict / resampling.
+    #' - `"test"`: Observations are hold back unless explicitly queried.
+    #'   Is available to the [Learner] as a separate test set.
     #' - `"holdout"`: Observations are hold back unless explicitly queried.
     #'   Can be used, e.g., as truly independent holdout set.
     #'
@@ -771,8 +773,7 @@ Task = R6Class("Task",
 
       assert_has_backend(self)
       assert_list(rhs, .var.name = "row_roles")
-      # allow test but hide in error message
-      assert_names(names(rhs)[names(rhs) != "test"], "unique", permutation.of = mlr_reflections$task_row_roles, .var.name = "names of row_roles")
+      assert_names(names(rhs), "unique", permutation.of = mlr_reflections$task_row_roles, .var.name = "names of row_roles")
       rhs = map(rhs, assert_row_ids, .var.name = "elements of row_roles")
 
       private$.row_roles = rhs

@@ -89,7 +89,7 @@ local({
   )
 
   mlr_reflections$task_row_roles = c(
-    "use", "holdout"
+    "use", "test", "holdout"
   )
 
   tmp = c("feature", "target", "name", "order", "stratum", "group", "weight")

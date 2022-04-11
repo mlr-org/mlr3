@@ -238,7 +238,10 @@ Learner = R6Class("Learner",
         mode = "hotstart"
       }
 
-      learner_train(learner, task, train_row_ids = row_ids, test_row_ids = NULL, mode = mode)
+      train_row_ids = if (!is.null(row_ids)) row_ids else task$row_roles$use
+      test_row_ids = task$row_roles$test
+
+      learner_train(learner, task, train_row_ids = row_ids, test_row_ids = test_row_ids, mode = mode)
 
       # store the task w/o the data
       self$state$train_task = task_rm_backend(task$clone(deep = TRUE))
