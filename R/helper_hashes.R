@@ -16,6 +16,8 @@ phashes = function(x) {
 #' @noRd
 task_hashes = function(task, resampling) {
   row_roles = get_private(task)$.row_roles
+  # test role is on the worker
+  row_roles = remove_named(row_roles, "test")
   map_chr(seq_len(resampling$iters), function(i) {
     train_set = resampling$train_set(i)
     row_roles$use = train_set
