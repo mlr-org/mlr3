@@ -188,6 +188,8 @@ Each row (observation) can have an arbitrary number of roles in the learning tas
 \item \code{"use"}: Use in train / predict / resampling.
 \item \code{"holdout"}: Observations are hold back unless explicitly queried.
 Can be used, e.g., as truly independent holdout set.
+\item \code{"early_stopping"}: Observations are hold back unless explicitly queried.
+Is available to the \link{Learner} as an early stopping set.
 }
 
 \code{row_roles} is a named list whose elements are named by row role and each element is an \code{integer()} vector of row ids.

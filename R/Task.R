@@ -136,7 +136,7 @@ Task = R6Class("Task",
 
       cn = self$col_info$id # note: this sorts the columns!
       rn = self$backend$rownames
-      private$.row_roles = list(use = rn, holdout = integer())
+      private$.row_roles = list(use = rn, holdout = integer(), early_stopping = integer())
       private$.col_roles = named_list(mlr_reflections$task_col_roles[[task_type]], character())
       private$.col_roles$feature = setdiff(cn, self$backend$primary_key)
       self$extra_args = assert_list(extra_args, names = "unique")
@@ -761,6 +761,8 @@ Task = R6Class("Task",
     #' - `"use"`: Use in train / predict / resampling.
     #' - `"holdout"`: Observations are hold back unless explicitly queried.
     #'   Can be used, e.g., as truly independent holdout set.
+    #' - `"early_stopping"`: Observations are hold back unless explicitly queried.
+    #'   Is available to the [Learner] as an early stopping set.
     #'
     #' `row_roles` is a named list whose elements are named by row role and each element is an `integer()` vector of row ids.
     #' To alter the roles, just modify the list, e.g. with  \R's set functions ([intersect()], [setdiff()], [union()], \ldots).
