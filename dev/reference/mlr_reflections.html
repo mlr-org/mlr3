@@ -31,7 +31,7 @@ predict type "prob" for a LearnerClassif provides the probabilities as well as t
 learner_predict_types (list of list of character())
 List of lists of supported Learner predict_types, named by their task type.
 predict_sets (character())
-Vector of possible predict sets. Currently supported are "train" and "test".
+Vector of possible predict sets. Currently supported are "train", "test" and "holdout".
 measure_properties (list of character())
 List of vectors of supported Measure properties, named by their task type.
 default_measures (list of character())
@@ -75,7 +75,7 @@ predict type "prob" for a LearnerClassif provides the probabilities as well as t
 learner_predict_types (list of list of character())
 List of lists of supported Learner predict_types, named by their task type.
 predict_sets (character())
-Vector of possible predict sets. Currently supported are "train" and "test".
+Vector of possible predict sets. Currently supported are "train", "test" and "holdout".
 measure_properties (list of character())
 List of vectors of supported Measure properties, named by their task type.
 default_measures (list of character())
@@ -194,7 +194,7 @@ predict type <code>"prob"</code> for a <a href="LearnerClassif.html">LearnerClas
 <li><p><code>learner_predict_types</code> (list of list of <code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 List of lists of supported <a href="Learner.html">Learner</a> predict_types, named by their task type.</p></li>
 <li><p><code>predict_sets</code> (<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
-Vector of possible predict sets. Currently supported are <code>"train"</code> and <code>"test"</code>.</p></li>
+Vector of possible predict sets. Currently supported are <code>"train"</code>, <code>"test"</code> and <code>"holdout"</code>.</p></li>
 <li><p><code>measure_properties</code> (list of <code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 List of vectors of supported <a href="Measure.html">Measure</a> properties, named by their task type.</p></li>
 <li><p><code>default_measures</code> (list of <code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
@@ -220,7 +220,7 @@ Can be extended by third-party with additional converters.</p></li>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/ls_str.html" class="external-link">ls.str</a></span><span class="op">(</span><span class="va">mlr_reflections</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> auto_converters : &lt;environment: 0x557b873a9bd0&gt; </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> auto_converters : &lt;environment: 0x55c657fb9060&gt; </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> data_formats :  chr [1:2] "data.table" "Matrix"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> default_measures : List of 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ classif: chr "classif.ce"</span>
