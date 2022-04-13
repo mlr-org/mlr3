@@ -549,8 +549,8 @@ the object in its previous state.</p>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">bmr</span><span class="op">$</span><span class="va">tasks</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           task_hash task_id              task</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 76c4fc7a533d41b7   sonar &lt;TaskClassif[50]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: b9a72ba3625e9785    spam &lt;TaskClassif[50]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: a7ab684ccac733b8    spam &lt;TaskClassif[50]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: f14a201721a14300   sonar &lt;TaskClassif[50]&gt;</span>
 <span class="r-in"><span class="va">bmr</span><span class="op">$</span><span class="va">learners</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        learner_hash          learner_id                         learner</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: 4a8ddb31f4547017       classif.rpart       &lt;LearnerClassifRpart[38]&gt;</span>
@@ -559,11 +559,11 @@ the object in its previous state.</p>
 <span class="r-in"><span class="co"># first 5 resampling iterations</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html" class="external-link">as.data.table</a></span><span class="op">(</span><span class="va">bmr</span>, measures <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"classif.acc"</span>, <span class="st">"classif.auc"</span><span class="op">)</span><span class="op">)</span>, <span class="fl">5</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                   uhash              task</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 84123c09-c116-4561-899b-8327e4fbc54c &lt;TaskClassif[50]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 84123c09-c116-4561-899b-8327e4fbc54c &lt;TaskClassif[50]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 84123c09-c116-4561-899b-8327e4fbc54c &lt;TaskClassif[50]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4: 62643646-b594-4bd1-aca8-3e4655aa79f4 &lt;TaskClassif[50]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5: 62643646-b594-4bd1-aca8-3e4655aa79f4 &lt;TaskClassif[50]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 5eeb820d-4454-44fc-a987-f491e59aab28 &lt;TaskClassif[50]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 5eeb820d-4454-44fc-a987-f491e59aab28 &lt;TaskClassif[50]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 5eeb820d-4454-44fc-a987-f491e59aab28 &lt;TaskClassif[50]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4: bb0dc80a-2b56-4874-8137-a7d60fc3ac25 &lt;TaskClassif[50]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5: bb0dc80a-2b56-4874-8137-a7d60fc3ac25 &lt;TaskClassif[50]&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                            learner         resampling iteration</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: &lt;LearnerClassifFeatureless[38]&gt; &lt;ResamplingCV[20]&gt;         1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2: &lt;LearnerClassifFeatureless[38]&gt; &lt;ResamplingCV[20]&gt;         2</span>

@@ -266,7 +266,12 @@ The following properties are currently standardized and understood by tasks in <
 <dd><p>(named <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>)<br>
 Each row (observation) can have an arbitrary number of roles in the learning task:</p><ul><li><p><code>"use"</code>: Use in train / predict / resampling.</p></li>
 <li><p><code>"holdout"</code>: Observations are hold back unless explicitly queried.
-Can be used, e.g., as truly independent holdout set.</p></li>
+Can be used, e.g., as truly independent holdout set:</p><ol><li><p>Add <code>"holdout"</code> to the <code>predict_sets</code> of a <a href="Learner.html">Learner</a>.</p></li>
+<li><p>Configure a <a href="Measure.html">Measure</a> to use the <code>"holdout"</code> set by updating its <code>predict_sets</code> field.</p></li>
+</ol></li>
+<li><p><code>"early_stopping"</code>: Observations are hold back unless explicitly queried.
+Can be queried by a <a href="Learner.html">Learner</a> to determine a good iteration to stop by evaluating the performance
+on external data, e.g. the XGboost learner in <a href="https://CRAN.R-project.org/package=mlr3learners" class="external-link"><span class="pkg">mlr3learners</span></a> for parameter <code>nrounds</code>.</p></li>
 </ul><p><code>row_roles</code> is a named list whose elements are named by row role and each element is an <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code> vector of row ids.
 To alter the roles, just modify the list, e.g. with  <span style="R">R</span>'s set functions (<code><a href="https://rdrr.io/r/base/sets.html" class="external-link">intersect()</a></code>, <code><a href="https://rdrr.io/r/base/sets.html" class="external-link">setdiff()</a></code>, <code><a href="https://rdrr.io/r/base/sets.html" class="external-link">union()</a></code>, ...).</p></dd>
 
