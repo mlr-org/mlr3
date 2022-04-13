@@ -187,7 +187,14 @@ Each row (observation) can have an arbitrary number of roles in the learning tas
 \itemize{
 \item \code{"use"}: Use in train / predict / resampling.
 \item \code{"holdout"}: Observations are hold back unless explicitly queried.
-Can be used, e.g., as truly independent holdout set.
+Can be used, e.g., as truly independent holdout set:
+\enumerate{
+\item Add \code{"holdout"} to the \code{predict_sets} of a \link{Learner}.
+\item Configure a \link{Measure} to use the \code{"holdout"} set by updating its \code{predict_sets} field.
+}
+\item \code{"early_stopping"}: Observations are hold back unless explicitly queried.
+Can be queried by a \link{Learner} to determine a good iteration to stop by evaluating the performance
+on external data, e.g. the XGboost learner in \CRANpkg{mlr3learners} for parameter \code{nrounds}.
 }
 
 \code{row_roles} is a named list whose elements are named by row role and each element is an \code{integer()} vector of row ids.

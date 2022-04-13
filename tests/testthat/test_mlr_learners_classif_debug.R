@@ -43,3 +43,20 @@ test_that("NA predictions", {
   expect_equal(count_missing(p$response), 75L)
   expect_equal(is.na(p$response), apply(p$prob, 1, anyMissing))
 })
+
+test_that("early_stopping set is available", {
+  task = tsk("iris")
+  task$set_row_roles(1:10, roles = "early_stopping")
+  learner = lrn("classif.debug", save_tasks = TRUE)
+  learner$train(task)
+
+  row_roles = learner$model$task_train$row_roles
+  expect_names(names(row_roles), permutation.of = c("use", "holdout", "early_stopping"))
+  expect_equal(row_roles$early_stopping, seq(10))
+
+  rr = resample(task, learner, rsmp("cv", folds = 3), store_models = TRUE)
+
+  walk(seq(rr$iters), function(i) {
+    expect_equal(rr$learners[[i]]$model$task_train$row_roles$early_stopping, seq(10))
+  })
+})
