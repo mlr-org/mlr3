@@ -760,9 +760,14 @@ Task = R6Class("Task",
     #'
     #' - `"use"`: Use in train / predict / resampling.
     #' - `"holdout"`: Observations are hold back unless explicitly queried.
-    #'   Can be used, e.g., as truly independent holdout set.
+    #'   Can be used, e.g., as truly independent holdout set:
+    #'
+    #'   1. Add `"holdout"` to the `predict_sets` of a [Learner].
+    #'   2. Configure a [Measure] to use the `"holdout"` set by updating its `predict_sets` field.
+    #'
     #' - `"early_stopping"`: Observations are hold back unless explicitly queried.
-    #'   Is available to the [Learner] as an early stopping set.
+    #'   Can be queried by a [Learner] to determine a good iteration to stop by evaluating the performance
+    #'   on external data, e.g. the XGboost learner in \CRANpkg{mlr3learners} for parameter `nrounds`.
     #'
     #' `row_roles` is a named list whose elements are named by row role and each element is an `integer()` vector of row ids.
     #' To alter the roles, just modify the list, e.g. with  \R's set functions ([intersect()], [setdiff()], [union()], \ldots).
