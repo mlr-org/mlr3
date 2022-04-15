@@ -839,7 +839,7 @@ the object in its previous state.</p>
 <h3 id="method-set-levels-">Method <code>set_levels()</code><a class="anchor" aria-label="anchor" href="#method-set-levels-"></a></h3>
 <p>Set levels for columns of type <code>factor</code> and <code>ordered</code> in field <code>col_info</code>.
 You can add, remove or reorder the levels, affecting the data returned by
-<code>$data()</code>, <code>$head()</code> and <code>$levels()</code>.
+<code>$data()</code> and <code>$levels()</code>.
 If you just want to remove unused levels, use <code>$droplevels()</code> instead.</p>
 <p>Note that factor levels which are present in the data but not listed in the task as
 valid levels are converted to missing values.</p><div class="section">
@@ -960,7 +960,7 @@ Replicated to have the same length as <code>cols</code>.</p></dd>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Add new column "foo"</span></span>
 <span class="r-in"><span class="va">task</span><span class="op">$</span><span class="fu">cbind</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>foo <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">344</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">task</span><span class="op">$</span><span class="fu">head</span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    species bill_depth_mm bill_length_mm body_mass_g flipper_length_mm    island</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:  Adelie          18.7           39.1        3750               181 Torgersen</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2:  Adelie          17.4           39.5        3800               186 Torgersen</span>
