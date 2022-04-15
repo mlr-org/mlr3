@@ -362,6 +362,7 @@ Task = R6Class("Task",
     #' the object in its previous state.
     select = function(cols) {
       assert_has_backend(self)
+      assert_character(cols)
       assert_subset(cols, private$.col_roles$feature)
       private$.col_roles$feature = intersect(private$.col_roles$feature, cols)
       invisible(self)
