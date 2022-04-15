@@ -65,7 +65,7 @@
 #'
 #' # Add new column "foo"
 #' task$cbind(data.frame(foo = 1:344))
-#' task$head()
+#' head(task)
 Task = R6Class("Task",
   public = list(
     #' @template field_id
@@ -285,11 +285,9 @@ Task = R6Class("Task",
     #' @param n (`integer(1)`).
     #' @return [data.table::data.table()] with `n` rows.
     head = function(n = 6L) {
-      assert_has_backend(self)
       assert_count(n)
       ids = head(private$.row_roles$use, n)
-      cols = c(private$.col_roles$target, private$.col_roles$feature)
-      self$data(rows = ids, cols = cols)
+      self$data(rows = ids)
     },
 
     #' @description
@@ -607,7 +605,7 @@ Task = R6Class("Task",
     #' @description
     #' Set levels for columns of type `factor` and `ordered` in field `col_info`.
     #' You can add, remove or reorder the levels, affecting the data returned by
-    #' `$data()`, `$head()` and `$levels()`.
+    #' `$data()` and `$levels()`.
     #' If you just want to remove unused levels, use `$droplevels()` instead.
     #'
     #' Note that factor levels which are present in the data but not listed in the task as
@@ -1053,7 +1051,19 @@ col_info.DataBackend = function(x, ...) { # nolint
 
 #' @export
 as.data.table.Task = function(x, ...) { # nolint
-  x$head(x$nrow)
+  x$data()
+}
+
+#' @export
+head.Task = function(x, n = 6L, ...) { # nolint
+  assert_count(n)
+  x$data(rows = head(x$row_ids, n))
+}
+
+#' @export
+tail.Task = function(x, n = 6L, ...) { # nolint
+  assert_count(n)
+  x$data(rows = tail(x$row_ids, n))
 }
 
 #' @export
