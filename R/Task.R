@@ -114,18 +114,22 @@ Task = R6Class("Task",
         self$backend = assert_backend(backend)
       }
 
+      cn = self$backend$colnames
+      rn = self$backend$rownames
+
+      if (allow_utf8_names()) {
+        assert_names(cn, "unique", .var.name = "column names")
+        if (any(grepl("%", cn, fixed = TRUE))) {
+          stopf("Column names may not contain special character '%%'")
+        }
+      } else {
+        assert_names(cn, "strict", .var.name = "column names")
+      }
+
       self$col_info = col_info(self$backend)
       self$col_info$label = NA_character_
       self$col_info$fix_factor_levels = FALSE
 
-      if (allow_utf8_names()) {
-        assert_names(self$col_info$id, "unique", .var.name = "feature names")
-        if (any(grepl("%", self$col_info$id, fixed = TRUE))) {
-          stopf("Feature names may not contain special character '%%'")
-        }
-      } else {
-        assert_names(self$col_info$id, "strict", .var.name = "feature names")
-      }
       assert_subset(self$col_info$type, mlr_reflections$task_feature_types, .var.name = "feature types")
       pmap(self$col_info[, c("id", "levels")],
         function(id, levels) {
@@ -135,7 +139,6 @@ Task = R6Class("Task",
       )
 
       cn = self$col_info$id # note: this sorts the columns!
-      rn = self$backend$rownames
       private$.row_roles = list(use = rn, holdout = integer(), early_stopping = integer())
       private$.col_roles = named_list(mlr_reflections$task_col_roles[[task_type]], character())
       private$.col_roles$feature = setdiff(cn, self$backend$primary_key)

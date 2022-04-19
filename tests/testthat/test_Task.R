@@ -481,7 +481,8 @@ test_that("special chars in feature names (#697)", {
   options(mlr3.allow_utf8_names = TRUE)
 
   expect_error(
-    TaskRegr$new("test", data.table(`%^` = 1:3, t = 3:1), target = "t"),
+    TaskRegr$new("test", data.table(`%asd` = 1:3, t = 3:1), target = "t")
+    ,
     "special character"
   )
 })
