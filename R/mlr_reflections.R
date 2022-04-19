@@ -46,6 +46,9 @@
 #' * `learner_predict_types` (list of list of `character()`)\cr
 #'   List of lists of supported [Learner] predict_types, named by their task type.
 #'
+#' * `learner_param_tags` (`character()`)\cr
+#'   Character vector of allowed 'tags' for the [paradox::Param]s of a [Learner].
+#'
 #' * `predict_sets` (`character()`)\cr
 #'   Vector of possible predict sets. Currently supported are `"train"` and `"test"`.
 #'
@@ -62,9 +65,6 @@
 #'   Environment of converter functions used for `rbind`-ing data to tasks.
 #'   Functions are named using the pattern `"[from_type]___[to_type]"`.
 #'   Can be extended by third-party with additional converters.
-#'
-#' * `param_tags` (`character()`)\cr
-#'   Character vector of allowed 'tags' for the [paradox::Param]s of a [Learner].
 #'
 #' @keywords internal
 #' @export
@@ -124,6 +124,9 @@ local({
     regr = list(response = "response", se = c("response", "se"), distr = c("response", "se", "distr"))
   )
 
+  # Allowed tags for parameters
+  mlr_reflections$learner_param_tags = c("train", "predict", "hotstart", "importance", "threads", "required")
+
   ### Prediction
   mlr_reflections$predict_sets = c("train", "test", "holdout")
 
@@ -145,7 +148,4 @@ local({
 
   ### Logger
   mlr_reflections$loggers = list()
-
-  # Allowed tags for parameters
-  mlr_reflections$param_tags = c("train", "predict", "hotstart", "importance", "threads", "required")
 })
