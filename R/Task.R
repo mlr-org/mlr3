@@ -65,7 +65,7 @@
 #'
 #' # Add new column "foo"
 #' task$cbind(data.frame(foo = 1:344))
-#' task$head()
+#' head(task)
 Task = R6Class("Task",
   public = list(
     #' @template field_id
@@ -136,7 +136,7 @@ Task = R6Class("Task",
 
       cn = self$col_info$id # note: this sorts the columns!
       rn = self$backend$rownames
-      private$.row_roles = list(use = rn, holdout = integer())
+      private$.row_roles = list(use = rn, holdout = integer(), early_stopping = integer())
       private$.col_roles = named_list(mlr_reflections$task_col_roles[[task_type]], character())
       private$.col_roles$feature = setdiff(cn, self$backend$primary_key)
       self$extra_args = assert_list(extra_args, names = "unique")
@@ -285,11 +285,9 @@ Task = R6Class("Task",
     #' @param n (`integer(1)`).
     #' @return [data.table::data.table()] with `n` rows.
     head = function(n = 6L) {
-      assert_has_backend(self)
       assert_count(n)
       ids = head(private$.row_roles$use, n)
-      cols = c(private$.col_roles$target, private$.col_roles$feature)
-      self$data(rows = ids, cols = cols)
+      self$data(rows = ids)
     },
 
     #' @description
@@ -362,6 +360,7 @@ Task = R6Class("Task",
     #' the object in its previous state.
     select = function(cols) {
       assert_has_backend(self)
+      assert_character(cols)
       assert_subset(cols, private$.col_roles$feature)
       private$.col_roles$feature = intersect(private$.col_roles$feature, cols)
       invisible(self)
@@ -606,7 +605,7 @@ Task = R6Class("Task",
     #' @description
     #' Set levels for columns of type `factor` and `ordered` in field `col_info`.
     #' You can add, remove or reorder the levels, affecting the data returned by
-    #' `$data()`, `$head()` and `$levels()`.
+    #' `$data()` and `$levels()`.
     #' If you just want to remove unused levels, use `$droplevels()` instead.
     #'
     #' Note that factor levels which are present in the data but not listed in the task as
@@ -760,7 +759,14 @@ Task = R6Class("Task",
     #'
     #' - `"use"`: Use in train / predict / resampling.
     #' - `"holdout"`: Observations are hold back unless explicitly queried.
-    #'   Can be used, e.g., as truly independent holdout set.
+    #'   Can be used, e.g., as truly independent holdout set:
+    #'
+    #'   1. Add `"holdout"` to the `predict_sets` of a [Learner].
+    #'   2. Configure a [Measure] to use the `"holdout"` set by updating its `predict_sets` field.
+    #'
+    #' - `"early_stopping"`: Observations are hold back unless explicitly queried.
+    #'   Can be queried by a [Learner] to determine a good iteration to stop by evaluating the performance
+    #'   on external data, e.g. the XGboost learner in \CRANpkg{mlr3learners} for parameter `nrounds`.
     #'
     #' `row_roles` is a named list whose elements are named by row role and each element is an `integer()` vector of row ids.
     #' To alter the roles, just modify the list, e.g. with  \R's set functions ([intersect()], [setdiff()], [union()], \ldots).
@@ -1045,7 +1051,19 @@ col_info.DataBackend = function(x, ...) { # nolint
 
 #' @export
 as.data.table.Task = function(x, ...) { # nolint
-  x$head(x$nrow)
+  x$data()
+}
+
+#' @export
+head.Task = function(x, n = 6L, ...) { # nolint
+  assert_count(n)
+  x$data(rows = head(x$row_ids, n))
+}
+
+#' @export
+tail.Task = function(x, n = 6L, ...) { # nolint
+  assert_count(n)
+  x$data(rows = tail(x$row_ids, n))
 }
 
 #' @export

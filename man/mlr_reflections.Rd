@@ -48,7 +48,7 @@ List of lists of supported \link{Learner} predict_types, named by their task typ
 \item \code{learner_param_tags} (\code{character()})\cr
 Character vector of allowed 'tags' for the \link[paradox:Param]{paradox::Param}s of a \link{Learner}.
 \item \code{predict_sets} (\code{character()})\cr
-Vector of possible predict sets. Currently supported are \code{"train"} and \code{"test"}.
+Vector of possible predict sets. Currently supported are \code{"train"}, \code{"test"} and \code{"holdout"}.
 \item \code{measure_properties} (list of \code{character()})\cr
 List of vectors of supported \link{Measure} properties, named by their task type.
 \item \code{default_measures} (list of \code{character()})\cr

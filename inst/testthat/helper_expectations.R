@@ -220,7 +220,7 @@ expect_task = function(task, null_backend_ok = TRUE) {
   }
 
   if (task$nrow > 0L && !null_backend) {
-    checkmate::expect_data_table(task$head(1), nrows = 1L)
+    checkmate::expect_data_table(head(task, 1), nrows = 1L)
   }
 
   cols = c("id", "type", "levels", "label", "fix_factor_levels")
@@ -290,7 +290,7 @@ expect_task_supervised = function(task) {
   # tf = terms(f)
   # checkmate::expect_set_equal(labels(tf), task$feature_names) # rhs
   # checkmate::expect_set_equal(setdiff(all.vars(tf), labels(tf)), task$target_names) # lhs
-  checkmate::expect_subset(task$feature_names, colnames(task$head()))
+  checkmate::expect_subset(task$feature_names, colnames(head(task)))
   expect_hash(task$hash, 1L)
 }
 

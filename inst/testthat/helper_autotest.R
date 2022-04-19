@@ -14,8 +14,10 @@
 
 generate_generic_tasks = function(learner, proto) {
   tasks = list()
+  n = proto$nrow
+  p = length(proto$feature_names)
 
-  if (length(proto$feature_names) > 1L) {
+  if (p > 0L) {
     # individual tasks with each supported feature type
     for (ftype in learner$feature_types) {
       sel = proto$feature_types[ftype, "id", on = "type", with = FALSE][[1L]]
@@ -24,45 +26,48 @@ generate_generic_tasks = function(learner, proto) {
   }
 
   # task with all supported features types
-  sel = proto$feature_types[list(learner$feature_types), "id", on = "type", with = FALSE][[1L]]
+  sel = proto$feature_types[list(learner$feature_types), "id", on = "type", with = FALSE, nomatch = NULL][[1L]]
   tasks$feat_all = proto$clone(deep = TRUE)$select(sel)
 
   # task with missing values
   if ("missings" %in% learner$properties) {
     # one missing val in each feature
     features = proto$feature_names
-    rows = sample(proto$nrow, length(features))
+    rows = sample(n, length(features))
     data = proto$data(cols = features)
     for (j in seq_along(features)) {
       data.table::set(data, rows[j], features[j], NA)
     }
     tasks$missings = proto$clone(deep = TRUE)$select(character())$cbind(data)
 
-    # no row with no missing -> complete.cases() won't help
-    features = sample(features, proto$nrow, replace = TRUE)
-    data = proto$data(cols = proto$feature_names)
-    for (i in seq_along(features)) {
-      data.table::set(data, i = i, j = features[i], NA)
+    if (length(features)) {
+      # no row with no missing -> complete.cases() won't help
+      features = sample(features, n, replace = TRUE)
+      data = proto$data(cols = proto$feature_names)
+      for (i in seq_along(features))
+        data.table::set(data, i = i, j = features[i], NA)
+      tasks$missings_each_row = proto$clone(deep = TRUE)$select(character())$cbind(data)
     }
-    tasks$missings_each_row = proto$clone(deep = TRUE)$select(character())$cbind(data)
   }
 
   # task with weights
   if ("weights" %in% learner$properties) {
-    tmp = proto$clone(deep = TRUE)$cbind(data.frame(weights = runif(proto$nrow)))
+    tmp = proto$clone(deep = TRUE)$cbind(data.frame(weights = runif(n)))
     tmp$col_roles$weight = "weights"
     tmp$col_roles$features = setdiff(tmp$col_roles$features, "weights")
     tasks$weights = tmp
   }
 
   # task with non-ascii feature names
-  opts = options(mlr3.allow_utf8_names = TRUE)
-  on.exit(options(opts))
-  sel = proto$feature_types[list(learner$feature_types), "id", on = "type", with = FALSE][[1L]]
-  tasks$utf8_feature_names = proto$clone(deep = TRUE)$select(sel)
-  old = sel[1L]
-  new = "\u00e4 + \u1e9e"
-  tasks$utf8_feature_names$rename(old, new)
+  if (p > 0L) {
+    opts = options(mlr3.allow_utf8_names = TRUE)
+    on.exit(options(opts))
+    sel = proto$feature_types[list(learner$feature_types), "id", on = "type", with = FALSE, nomatch = NULL][[1L]]
+    tasks$utf8_feature_names = proto$clone(deep = TRUE)$select(sel)
+    old = sel[1L]
+    new = "\u00e4 + \u1e9e"
+    tasks$utf8_feature_names$rename(old, new)
+  }
 
   # make sure that task ids match list names
   mlr3misc::imap(tasks, function(x, n) {

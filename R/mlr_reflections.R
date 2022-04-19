@@ -50,7 +50,7 @@
 #'   Character vector of allowed 'tags' for the [paradox::Param]s of a [Learner].
 #'
 #' * `predict_sets` (`character()`)\cr
-#'   Vector of possible predict sets. Currently supported are `"train"` and `"test"`.
+#'   Vector of possible predict sets. Currently supported are `"train"`, `"test"` and `"holdout"`.
 #'
 #' * `measure_properties` (list of `character()`)\cr
 #'   List of vectors of supported [Measure] properties, named by their task type.
@@ -92,7 +92,7 @@ local({
   )
 
   mlr_reflections$task_row_roles = c(
-    "use", "holdout"
+    "use", "holdout", "early_stopping"
   )
 
   tmp = c("feature", "target", "name", "order", "stratum", "group", "weight")
