@@ -88,6 +88,8 @@ Authors:
   \item Jakob Richter \email{jakob1richter@gmail.com} (\href{https://orcid.org/0000-0003-4481-5554}{ORCID})
   \item Patrick Schratz \email{patrick.schratz@gmail.com} (\href{https://orcid.org/0000-0003-0748-6624}{ORCID})
   \item Martin Binder \email{mlr.developer@mb706.com}
+  \item Florian Pfisterer \email{pfistererf@googlemail.com} (\href{https://orcid.org/0000-0001-8867-762X}{ORCID})
+  \item Marc Becker \email{marcbecker@posteo.de} (\href{https://orcid.org/0000-0002-8115-0400}{ORCID})
 }
 
 Other contributors:
@@ -95,7 +97,7 @@ Other contributors:
   \item Giuseppe Casalicchio \email{giuseppe.casalicchio@stat.uni-muenchen.de} (\href{https://orcid.org/0000-0001-5324-5966}{ORCID}) [contributor]
   \item Stefan Coors \email{mail@stefancoors.de} (\href{https://orcid.org/0000-0002-7465-2146}{ORCID}) [contributor]
   \item Quay Au \email{quayau@gmail.com} (\href{https://orcid.org/0000-0002-5252-8902}{ORCID}) [contributor]
-  \item Marc Becker \email{marcbecker@posteo.de} (\href{https://orcid.org/0000-0002-8115-0400}{ORCID}) [contributor]
+  \item Lennart Schneider \email{lennart.sch@web.de} (\href{https://orcid.org/0000-0003-4152-5308}{ORCID}) [contributor]
 }
 
 }

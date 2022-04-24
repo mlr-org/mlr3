@@ -1,57 +1,37 @@
 Package: mlr3
 Title: Machine Learning in R - Next Generation
 Version: 0.13.3-9000
-Authors@R:
-    c(person(given = "Michel",
-             family = "Lang",
-             role = c("cre", "aut"),
-             email = "michellang@gmail.com",
-             comment = c(ORCID = "0000-0001-9754-0393")),
-      person(given = "Bernd",
-             family = "Bischl",
-             role = "aut",
-             email = "bernd_bischl@gmx.net",
-             comment = c(ORCID = "0000-0001-6002-6980")),
-      person(given = "Jakob",
-             family = "Richter",
-             role = "aut",
-             email = "jakob1richter@gmail.com",
-             comment = c(ORCID = "0000-0003-4481-5554")),
-      person(given = "Patrick",
-             family = "Schratz",
-             role = "aut",
-             email = "patrick.schratz@gmail.com",
-             comment = c(ORCID = "0000-0003-0748-6624")),
-      person(given = "Giuseppe",
-             family = "Casalicchio",
-             role = "ctb",
-             email = "giuseppe.casalicchio@stat.uni-muenchen.de",
-             comment = c(ORCID = "0000-0001-5324-5966")),
-      person(given = "Stefan",
-             family = "Coors",
-             role = "ctb",
-             email = "mail@stefancoors.de",
-             comment = c(ORCID = "0000-0002-7465-2146")),
-      person(given = "Quay",
-             family = "Au",
-             role = "ctb",
-             email = "quayau@gmail.com",
-             comment = c(ORCID = "0000-0002-5252-8902")),
-      person(given = "Martin",
-             family = "Binder",
-             role = "aut",
-             email = "mlr.developer@mb706.com"),
-      person(given = "Marc",
-             family = "Becker",
-             role = "ctb",
-             email = "marcbecker@posteo.de",
-             comment = c(ORCID = "0000-0002-8115-0400")))
-Description: Efficient, object-oriented programming on the
-    building blocks of machine learning. Provides 'R6' objects for tasks,
-    learners, resamplings, and measures. The package is geared towards
-    scalability and larger datasets by supporting parallelization and
-    out-of-memory data-backends like databases. While 'mlr3' focuses on
-    the core computational operations, add-on packages provide additional
+Authors@R:c(
+    person("Michel", "Lang", , "michellang@gmail.com", role = c("cre", "aut"),
+           comment = c(ORCID = "0000-0001-9754-0393")),
+    person("Bernd", "Bischl", , "bernd_bischl@gmx.net", role = "aut",
+           comment = c(ORCID = "0000-0001-6002-6980")),
+    person("Jakob", "Richter", , "jakob1richter@gmail.com", role = "aut",
+           comment = c(ORCID = "0000-0003-4481-5554")),
+    person("Patrick", "Schratz", , "patrick.schratz@gmail.com", role = "aut",
+           comment = c(ORCID = "0000-0003-0748-6624")),
+    person("Giuseppe", "Casalicchio", , "giuseppe.casalicchio@stat.uni-muenchen.de", role = "ctb",
+           comment = c(ORCID = "0000-0001-5324-5966")),
+    person("Stefan", "Coors", , "mail@stefancoors.de", role = "ctb",
+           comment = c(ORCID = "0000-0002-7465-2146")),
+    person("Quay", "Au", , "quayau@gmail.com", role = "ctb",
+           comment = c(ORCID = "0000-0002-5252-8902")),
+    person("Martin", "Binder", , "mlr.developer@mb706.com", role = "aut"),
+    person("Florian", "Pfisterer", , "pfistererf@googlemail.com", role = "aut",
+           comment = c(ORCID = "0000-0001-8867-762X")),
+    person("Raphael", "Sonabend", , "raphaelsonabend@gmail.com", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0001-9225-4654")),
+    person("Lennart", "Schneider", , "lennart.sch@web.de", role = "ctb",
+           comment = c(ORCID = "0000-0003-4152-5308")),
+    person("Marc", "Becker", , "marcbecker@posteo.de", role = "aut",
+           comment = c(ORCID = "0000-0002-8115-0400"))
+  )
+Description: Efficient, object-oriented programming on the building blocks
+    of machine learning. Provides 'R6' objects for tasks, learners,
+    resamplings, and measures. The package is geared towards scalability
+    and larger datasets by supporting parallelization and out-of-memory
+    data-backends like databases. While 'mlr3' focuses on the core
+    computational operations, add-on packages provide additional
     functionality.
 License: LGPL-3
 URL: https://mlr3.mlr-org.com, https://github.com/mlr-org/mlr3
@@ -59,7 +39,6 @@ BugReports: https://github.com/mlr-org/mlr3/issues
 Depends:
     R (>= 3.1.0)
 Imports:
-    R6 (>= 2.4.1),
     backports,
     checkmate (>= 2.0.0),
     data.table (>= 1.14.2),
@@ -70,25 +49,26 @@ Imports:
     mlbench,
     mlr3measures (>= 0.4.1),
     mlr3misc (>= 0.10.0),
-    parallelly,
     palmerpenguins,
     paradox (>= 0.8.0),
+    parallelly,
+    R6 (>= 2.4.1),
     uuid
 Suggests:
-    Matrix,
     callr,
     codetools,
     datasets,
     distr6,
     future.callr,
+    Matrix,
     mlr3data,
     progressr,
     remotes,
     rpart,
     testthat (>= 3.1.0)
-Encoding: UTF-8
 Config/testthat/edition: 3
 Config/testthat/parallel: false
+Encoding: UTF-8
 NeedsCompilation: no
 Roxygen: list(markdown = TRUE, r6 = TRUE)
 RoxygenNote: 7.1.2
