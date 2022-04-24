@@ -1,7 +1,7 @@
 Package: mlr3
 Title: Machine Learning in R - Next Generation
 Version: 0.13.3-9000
-Authors@R:c(
+Authors@R: c(
     person("Michel", "Lang", , "michellang@gmail.com", role = c("cre", "aut"),
            comment = c(ORCID = "0000-0001-9754-0393")),
     person("Bernd", "Bischl", , "bernd_bischl@gmx.net", role = "aut",
@@ -19,7 +19,7 @@ Authors@R:c(
     person("Martin", "Binder", , "mlr.developer@mb706.com", role = "aut"),
     person("Florian", "Pfisterer", , "pfistererf@googlemail.com", role = "aut",
            comment = c(ORCID = "0000-0001-8867-762X")),
-    person("Raphael", "Sonabend", , "raphaelsonabend@gmail.com", role = c("aut", "cre"),
+    person("Raphael", "Sonabend", , "raphaelsonabend@gmail.com", role = "aut",
            comment = c(ORCID = "0000-0001-9225-4654")),
     person("Lennart", "Schneider", , "lennart.sch@web.de", role = "ctb",
            comment = c(ORCID = "0000-0003-4152-5308")),
