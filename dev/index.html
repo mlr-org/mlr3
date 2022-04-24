@@ -120,7 +120,6 @@
 <p>Package website: <a href="https://mlr3.mlr-org.com/">release</a> | <a href="https://mlr3.mlr-org.com/dev/">dev</a></p>
 <p>Efficient, object-oriented programming on the building blocks of machine learning. Successor of <a href="https://github.com/mlr-org/mlr" class="external-link">mlr</a>.</p>
 <!-- badges: start -->
-
 <div class="section level2">
 <h2 id="resources-for-users-and-developers">Resources (for users and developers)<a class="anchor" aria-label="anchor" href="#resources-for-users-and-developers"></a>
 </h2>
@@ -132,8 +131,7 @@
 <li>Ask questions on <a href="https://stackoverflow.com/questions/tagged/mlr3" class="external-link">Stackoverflow (tag #mlr3)</a>
 </li>
 <li>
-<strong>Extension Learners</strong>
-<ul>
+<strong>Extension Learners</strong><ul>
 <li>Recommended core regression, classification, and survival learners are in <a href="https://github.com/mlr-org/mlr3learners" class="external-link">mlr3learners</a>
 </li>
 <li>All others are in <a href="https://github.com/mlr-org/mlr3extralearners" class="external-link">mlr3extralearners</a>
@@ -143,8 +141,7 @@
 </ul>
 </li>
 <li>
-<strong>Cheatsheets</strong>
-<ul>
+<strong>Cheatsheets</strong><ul>
 <li><a href="https://cheatsheets.mlr-org.com" class="external-link">Overview of cheatsheets</a></li>
 <li><a href="https://cheatsheets.mlr-org.com/mlr3.pdf" class="external-link">mlr3</a></li>
 <li><a href="https://cheatsheets.mlr-org.com/mlr3tuning.pdf" class="external-link">mlr3tuning</a></li>
@@ -152,8 +149,7 @@
 </ul>
 </li>
 <li>
-<strong>Videos</strong>:
-<ul>
+<strong>Videos</strong>:<ul>
 <li><a href="https://www.youtube.com/watch?v=wsP2hiFnDQs" class="external-link">useR2019 talk on mlr3</a></li>
 <li><a href="https://www.youtube.com/watch?v=gEW5RxkbQuQ" class="external-link">useR2019 talk on mlr3pipelines and mlr3tuning</a></li>
 <li><a href="https://www.youtube.com/watch?v=T43hO2o_nZw" class="external-link">useR2020 tutorial on mlr3, mlr3tuning and mlr3pipelines</a></li>
@@ -161,17 +157,11 @@
 </ul>
 </li>
 <li>
-<strong>Courses/Lectures</strong>
-<ul>
-<li>The course <a href="https://introduction-to-machine-learning.netlify.app/" class="external-link">Introduction to Machine learning (I2ML)</a> is a free and open flipped classroom course on the basics of machine learning. <code>mlr3</code> is used in the <a href="https://github.com/slds-lmu/lecture_i2ml/tree/master/code-demos-pdf" class="external-link">demos</a> and <a href="https://github.com/slds-lmu/lecture_i2ml/tree/master/exercises" class="external-link">exercises</a>.</li>
-</ul>
+<strong>Courses/Lectures</strong><ul><li>The course <a href="https://introduction-to-machine-learning.netlify.app/" class="external-link">Introduction to Machine learning (I2ML)</a> is a free and open flipped classroom course on the basics of machine learning. <code>mlr3</code> is used in the <a href="https://github.com/slds-lmu/lecture_i2ml/tree/master/code-demos-pdf" class="external-link">demos</a> and <a href="https://github.com/slds-lmu/lecture_i2ml/tree/master/exercises" class="external-link">exercises</a>.</li></ul>
 </li>
 <li>
-<strong>Templates/Tutorials</strong>
-<ul>
-<li>
-<a href="https://github.com/mlr-org/mlr3-learndrake" class="external-link">mlr3-learndrake</a>: Shows how to use mlr3 with <a href="https://docs.ropensci.org/drake/" class="external-link">drake</a> for reproducible ML workflow automation.</li>
-</ul>
+<strong>Templates/Tutorials</strong><ul><li>
+<a href="https://github.com/mlr-org/mlr3-learndrake" class="external-link">mlr3-learndrake</a>: Shows how to use mlr3 with <a href="https://docs.ropensci.org/drake/" class="external-link">drake</a> for reproducible ML workflow automation.</li></ul>
 </li>
 <li><a href="https://github.com/mlr-org/mlr3/wiki/Extension-Packages" class="external-link">List of extension packages</a></li>
 <li>
@@ -288,8 +278,7 @@
 <li>Embrace <a href="https://cran.r-project.org/package=data.table" class="external-link"><code>data.table</code></a> for fast and convenient data frame computations.</li>
 <li>Combine <code>data.table</code> and <code>R6</code>, for this we will make heavy use of list columns in data.tables.</li>
 <li>Defensive programming and type safety. All user input is checked with <a href="https://cran.r-project.org/package=checkmate" class="external-link"><code>checkmate</code></a>. Return types are documented, and mechanisms popular in base R which “simplify” the result unpredictably (e.g., <code><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply()</a></code> or <code>drop</code> argument in <code>[.data.frame</code>) are avoided.</li>
-<li>Be light on dependencies. <code>mlr3</code> requires the following packages at runtime:
-<ul>
+<li>Be light on dependencies. <code>mlr3</code> requires the following packages at runtime:<ul>
 <li>
 <a href="https://cran.r-project.org/package=parallelly" class="external-link"><code>parallelly</code></a>: Helper functions for parallelization. No extra recursive dependencies.</li>
 <li>
@@ -322,10 +311,7 @@
 </li>
 <li>
 <a href="https://en.wikipedia.org/wiki/Reflection_%28computer_programming%29" class="external-link">Reflections</a>: Objects are queryable for properties and capabilities, allowing you to program on them.</li>
-<li>Additional functionality that comes with extra dependencies:
-<ul>
-<li>To capture output, warnings and exceptions, <a href="https://cran.r-project.org/package=evaluate" class="external-link"><code>evaluate</code></a> and <a href="https://cran.r-project.org/package=callr" class="external-link"><code>callr</code></a> can be used.</li>
-</ul>
+<li>Additional functionality that comes with extra dependencies:<ul><li>To capture output, warnings and exceptions, <a href="https://cran.r-project.org/package=evaluate" class="external-link"><code>evaluate</code></a> and <a href="https://cran.r-project.org/package=callr" class="external-link"><code>callr</code></a> can be used.</li></ul>
 </li>
 </ul>
 </div>
@@ -408,7 +394,7 @@
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
     </footer>
