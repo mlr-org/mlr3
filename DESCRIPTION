@@ -24,7 +24,9 @@ Authors@R: c(
     person("Lennart", "Schneider", , "lennart.sch@web.de", role = "ctb",
            comment = c(ORCID = "0000-0003-4152-5308")),
     person("Marc", "Becker", , "marcbecker@posteo.de", role = "aut",
-           comment = c(ORCID = "0000-0002-8115-0400"))
+           comment = c(ORCID = "0000-0002-8115-0400")),
+    person("Sebastian", "Fischer", , "sebf.fischer@gmail.com", role = "ctb",
+           comment = c(ORCID = "0000-0002-9609-3197"))
   )
 Description: Efficient, object-oriented programming on the building blocks
     of machine learning. Provides 'R6' objects for tasks, learners,
