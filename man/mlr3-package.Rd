@@ -37,6 +37,8 @@ Efficient, object-oriented programming on the building blocks of machine learnin
 \item Feature selection wrappers: \CRANpkg{mlr3fselect}
 \item Interface to real (out-of-memory) data bases: \CRANpkg{mlr3db}
 \item Performance measures as plain functions: \CRANpkg{mlr3measures}
+\item Resampling methods for spatiotemporal data: \CRANpkg{mlr3spatiotempcv}
+\item Data storage and prediction support for spatial objects: \CRANpkg{mlr3spatial}
 }
 }
 

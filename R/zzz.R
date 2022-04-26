@@ -32,6 +32,8 @@
 #' * Feature selection wrappers: \CRANpkg{mlr3fselect}
 #' * Interface to real (out-of-memory) data bases: \CRANpkg{mlr3db}
 #' * Performance measures as plain functions: \CRANpkg{mlr3measures}
+#' * Resampling methods for spatiotemporal data: \CRANpkg{mlr3spatiotempcv}
+#' * Data storage and prediction support for spatial objects: \CRANpkg{mlr3spatial}
 #'
 #' @section Suggested packages:
 #' * Parallelization framework: \CRANpkg{future}
