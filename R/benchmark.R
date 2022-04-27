@@ -158,27 +158,10 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
     set(grid, j = "mode", value = hotstart_grid$mode)
   }
 
-  if (getOption("mlr3.debug", FALSE)) {
-    lg$info("Running benchmark() sequentially in debug mode with %i iterations", n)
-
-    res = mapply(workhorse,
-      task = grid$task, learner = grid$learner, resampling = grid$resampling, iteration = grid$iteration,
-      mode = grid$mode,
-      MoreArgs = list(store_models = store_models, lgr_threshold = lgr_threshold, pb = pb),
-      SIMPLIFY = FALSE, USE.NAMES = FALSE
-    )
-  } else {
-    lg$debug("Running benchmark() via future with %i iterations", n)
-
-    res = future.apply::future_mapply(workhorse,
-      task = grid$task, learner = grid$learner, resampling = grid$resampling, iteration = grid$iteration,
-      mode = grid$mode,
-      MoreArgs = list(store_models = store_models, lgr_threshold = lgr_threshold, pb = pb),
-      SIMPLIFY = FALSE, USE.NAMES = FALSE, future.globals = FALSE,
-      future.scheduling = structure(TRUE, ordering = "random"), future.packages = "mlr3", future.seed = TRUE,
-      future.stdout = future_stdout()
-    )
-  }
+  res = future_map(n, workhorse,
+    task = grid$task, learner = grid$learner, resampling = grid$resampling, iteration = grid$iteration, mode = grid$mode,
+    MoreArgs = list(store_models = store_models, lgr_threshold = lgr_threshold, pb = pb)
+  )
 
   grid = insert_named(grid, list(
     learner_state = map(res, "learner_state"),
