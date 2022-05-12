@@ -33,7 +33,7 @@ LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
         usesurrogate   = p_int(0L, 2L, default = 2L, tags = "train"),
         xval           = p_int(0L, default = 10L, tags = "train")
       )
-      ps$values = list(xval = 0L)
+      default_params = list(xval = 0L)
 
       super$initialize(
         id = "classif.rpart",
@@ -43,7 +43,8 @@ LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
         param_set = ps,
         properties = c("twoclass", "multiclass", "weights", "missings", "importance", "selected_features"),
         label = "Classification Tree",
-        man = "mlr3::mlr_learners_classif.rpart"
+        man = "mlr3::mlr_learners_classif.rpart",
+        default_params = default_params
       )
     },
 

@@ -33,7 +33,7 @@ LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
         usesurrogate   = p_int(0L, 2L, default = 2L, tags = "train"),
         xval           = p_int(0L, default = 10L, tags = "train")
       )
-      ps$values = list(xval = 0L)
+      default_params = list(xval = 0L)
 
       super$initialize(
         id = "regr.rpart",
@@ -43,7 +43,8 @@ LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
         param_set = ps,
         properties = c("weights", "missings", "importance", "selected_features"),
         label = "Regression Tree",
-        man = "mlr3::mlr_learners_regr.rpart"
+        man = "mlr3::mlr_learners_regr.rpart",
+        default_params = default_params
       )
     },
 

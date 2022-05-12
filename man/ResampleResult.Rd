@@ -323,7 +323,7 @@ the object in its previous state.
 \if{latex}{\out{\hypertarget{method-discard}{}}}
 \subsection{Method \code{discard()}}{
 Shrinks the \link{ResampleResult} by discarding parts of the internally stored data.
-Note that certain operations might stop work, e.g. extracting
+Note that certain operations might stop working, e.g. extracting
 importance values from learners or calculating measures requiring the task's data.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{ResampleResult$discard(backends = FALSE, models = FALSE)}\if{html}{\out{</div>}}

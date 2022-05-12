@@ -27,6 +27,7 @@
 #' @template param_packages
 #' @template param_label
 #' @template param_man
+#' @template param_default_params
 #'
 #' @template seealso_learner
 #' @export
@@ -49,10 +50,10 @@ LearnerClassif = R6Class("LearnerClassif", inherit = Learner,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    initialize = function(id, param_set = ps(), predict_types = "response", feature_types = character(), properties = character(), data_formats = "data.table", packages = character(), label = NA_character_, man = NA_character_) {
+    initialize = function(id, param_set = ps(), predict_types = "response", feature_types = character(), properties = character(), data_formats = "data.table", packages = character(), label = NA_character_, man = NA_character_, default_params = list()) {
       super$initialize(id = id, task_type = "classif", param_set = param_set, predict_types = predict_types,
         feature_types = feature_types, properties = properties, data_formats = data_formats, packages = packages,
-        label = label, man = man)
+        label = label, man = man, default_params = default_params)
     }
   )
 )

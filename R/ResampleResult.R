@@ -204,7 +204,7 @@ ResampleResult = R6Class("ResampleResult",
 
     #' @description
     #' Shrinks the [ResampleResult] by discarding parts of the internally stored data.
-    #' Note that certain operations might stop work, e.g. extracting
+    #' Note that certain operations might stop working, e.g. extracting
     #' importance values from learners or calculating measures requiring the task's data.
     #'
     #' @param backends (`logical(1)`)\cr

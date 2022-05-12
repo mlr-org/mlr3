@@ -37,6 +37,7 @@
 #' @template param_packages
 #' @template param_label
 #' @template param_man
+#' @template param_default_params
 #'
 #'
 #' @section Optional Extractors:
@@ -154,7 +155,9 @@ Learner = R6Class("Learner",
     #'
     #' Note that this object is typically constructed via a derived classes, e.g. [LearnerClassif] or [LearnerRegr].
     initialize = function(id, task_type, param_set = ps(), predict_types = character(), feature_types = character(),
-      properties = character(), data_formats = "data.table", packages = character(), label = NA_character_, man = NA_character_) {
+      properties = character(), data_formats = "data.table", packages = character(), label = NA_character_, man = NA_character_,
+      default_params = list()
+      ) {
 
       self$id = assert_string(id, min.chars = 1L)
       self$label = assert_string(label, na.ok = TRUE)
@@ -168,6 +171,11 @@ Learner = R6Class("Learner",
       self$data_formats = assert_subset(data_formats, mlr_reflections$data_formats)
       self$packages = union("mlr3", assert_character(packages, any.missing = FALSE, min.chars = 1L))
       self$man = assert_string(man, na.ok = TRUE)
+      private$.default_params = default_params
+      if (length(param_set$values)) {
+        stopf("Use initialization argument 'default_params'.")
+      }
+      param_set$values = default_params
 
       check_packages_installed(packages, msg = sprintf("Package '%%s' required but not installed for Learner '%s'", id))
     },
@@ -502,6 +510,13 @@ Learner = R6Class("Learner",
       }
       assert_r6(rhs, "HotstartStack", null.ok = TRUE)
       private$.hotstart_stack = rhs
+    },
+
+    #' @field default_params (named `list()`)\cr.
+    #' The learner's default parameters.
+    default_params = function(rhs) {
+      assert_ro_binding(rhs)
+      private$.default_params
     }
   ),
 
@@ -511,6 +526,7 @@ Learner = R6Class("Learner",
     .predict_type = NULL,
     .param_set = NULL,
     .hotstart_stack = NULL,
+    .default_params = NULL,
 
     deep_clone = function(name, value) {
       switch(name,

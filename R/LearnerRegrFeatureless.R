@@ -23,7 +23,7 @@ LearnerRegrFeatureless = R6Class("LearnerRegrFeatureless", inherit = LearnerRegr
       ps = ps(
         robust = p_lgl(default = TRUE, tags = "train")
       )
-      ps$values = list(robust = FALSE)
+      default_params = list(robust = FALSE)
 
       super$initialize(
         id = "regr.featureless",
@@ -33,7 +33,8 @@ LearnerRegrFeatureless = R6Class("LearnerRegrFeatureless", inherit = LearnerRegr
         properties = c("featureless", "missings", "importance", "selected_features"),
         packages = "stats",
         label = "Featureless Regression Learner",
-        man = "mlr3::mlr_learners_regr.featureless"
+        man = "mlr3::mlr_learners_regr.featureless",
+        default_params = default_params
       )
     },
 

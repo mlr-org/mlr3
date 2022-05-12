@@ -227,6 +227,9 @@ Also see the section on error handling the mlr3book: \url{https://mlr3book.mlr-o
 
 \item{\code{hotstart_stack}}{(\link{HotstartStack})\cr.
 Stores \code{HotstartStack}.}
+
+\item{\code{default_params}}{(named \code{list()})\cr.
+The learner's default parameters.}
 }
 \if{html}{\out{</div>}}
 }
@@ -263,7 +266,8 @@ Note that this object is typically constructed via a derived classes, e.g. \link
   data_formats = "data.table",
   packages = character(),
   label = NA_character_,
-  man = NA_character_
+  man = NA_character_,
+  default_params = list()
 )}\if{html}{\out{</div>}}
 }
 
@@ -313,6 +317,9 @@ Label for the new instance.}
 \item{\code{man}}{(\code{character(1)})\cr
 String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
 The referenced help package can be opened via method \verb{$help()}.}
+
+\item{\code{default_params}}{(named \code{list()})\cr
+Default parameter values to be set.}
 }
 \if{html}{\out{</div>}}
 }

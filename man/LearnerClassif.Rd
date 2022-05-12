@@ -110,7 +110,8 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
   data_formats = "data.table",
   packages = character(),
   label = NA_character_,
-  man = NA_character_
+  man = NA_character_,
+  default_params = list()
 )}\if{html}{\out{</div>}}
 }
 
@@ -156,6 +157,9 @@ Label for the new instance.}
 \item{\code{man}}{(\code{character(1)})\cr
 String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
 The referenced help package can be opened via method \verb{$help()}.}
+
+\item{\code{default_params}}{(named \code{list()})\cr
+Default parameter values to be set.}
 }
 \if{html}{\out{</div>}}
 }
