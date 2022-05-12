@@ -79,7 +79,6 @@ Suggests:
     callr,
     codetools,
     datasets,
-    distr6,
     future.callr,
     mlr3data,
     progressr,

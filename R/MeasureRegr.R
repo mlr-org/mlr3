@@ -6,7 +6,7 @@
 #' This measure specializes [Measure] for regression problems:
 #'
 #' * `task_type` is set to `"regr"`.
-#' * Possible values for `predict_type` are `"response"`, `"se"` and `"distr"`.
+#' * Possible values for `predict_type` are `"response"` and `"se"`.
 #'
 #' Predefined measures can be found in the [dictionary][mlr3misc::Dictionary] [mlr_measures].
 #' The default measure for regression is [`regr.mse`][mlr_measures_regr.mse].
