@@ -162,7 +162,7 @@ Task = R6Class("Task",
     #' @param ... (ignored).
     print = function(...) {
       catf("%s (%i x %i)%s", format(self), self$nrow, self$ncol,
-        if (is.na(self$label)) "" else paste0(": ", self$label))
+        if (is.null(self$label) || is.na(self$label)) "" else paste0(": ", self$label))
       catf(str_indent("* Target:", self$target_names))
       catf(str_indent("* Properties:", self$properties))
 

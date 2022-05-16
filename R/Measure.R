@@ -136,7 +136,7 @@ Measure = R6Class("Measure",
     #' Printer.
     #' @param ... (ignored).
     print = function(...) {
-      catn(format(self), if (is.na(self$label)) "" else paste0(": ", self$label))
+      catn(format(self), if (is.null(self$label) || is.na(self$label)) "" else paste0(": ", self$label))
       catn(str_indent("* Packages:", self$packages))
       catn(str_indent("* Range:", sprintf("[%g, %g]", self$range[1L], self$range[2L])))
       catn(str_indent("* Minimize:", self$minimize))
