@@ -19,21 +19,16 @@ A classification task for the popular \link[datasets:iris]{datasets::iris} data 
 }
 \section{Dictionary}{
 
-This \link{Task} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_tasks} or with the associated sugar function \code{\link[=tsk]{tsk()}}:\preformatted{mlr_tasks$get("iris")
+This \link{Task} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_tasks} or with the associated sugar function \code{\link[=tsk]{tsk()}}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{mlr_tasks$get("iris")
 tsk("iris")
-}
+}\if{html}{\out{</div>}}
 }
 
 \section{Meta Information}{
 
-\itemize{
-\item Task type: \dQuote{classif}
-\item Dimensions: 150x5
-\item Properties: \dQuote{multiclass}
-\item Has Missings: \code{FALSE}
-\item Target: \dQuote{Species}
-\item Features: \dQuote{Petal.Length}, \dQuote{Petal.Width}, \dQuote{Sepal.Length}, \dQuote{Sepal.Width}
-}
+, * Task type: \dQuote{classif}, * Dimensions: 150x5, * Properties: \dQuote{multiclass}, * Has Missings: \code{FALSE}, * Target: \dQuote{Species}, * Features: \dQuote{Petal.Length}, \dQuote{Petal.Width}, \dQuote{Sepal.Length}, \dQuote{Sepal.Width}
 }
 
 \seealso{

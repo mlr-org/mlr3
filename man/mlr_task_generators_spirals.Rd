@@ -9,17 +9,16 @@ A \link{TaskGenerator} for the spirals task in \code{\link[mlbench:mlbench.spira
 }
 \section{Dictionary}{
 
-This \link{TaskGenerator} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_task_generators} or with the associated sugar function \code{\link[=tgen]{tgen()}}:\preformatted{mlr_task_generators$get("spirals")
+This \link{TaskGenerator} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_task_generators} or with the associated sugar function \code{\link[=tgen]{tgen()}}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{mlr_task_generators$get("spirals")
 tgen("spirals")
-}
+}\if{html}{\out{</div>}}
 }
 
 \section{Parameters}{
-\tabular{llll}{
-   Id \tab Type \tab Default \tab Range \cr
-   cycles \tab integer \tab 1 \tab \eqn{[1, \infty)}{[1, Inf)} \cr
-   sd \tab numeric \tab 0 \tab \eqn{[0, \infty)}{[0, Inf)} \cr
-}
+
+, |Id     |Type    |Default |Range                       |, |:------|:-------|:-------|:---------------------------|, |cycles |integer |1       |\eqn{[1, \infty)}{[1, Inf)} |, |sd     |numeric |0       |\eqn{[0, \infty)}{[0, Inf)} |
 }
 
 \examples{
@@ -59,23 +58,23 @@ Other TaskGenerator:
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{TaskGeneratorSpirals$new()}}
-\item \href{#method-plot}{\code{TaskGeneratorSpirals$plot()}}
-\item \href{#method-clone}{\code{TaskGeneratorSpirals$clone()}}
+\item \href{#method-TaskGeneratorSpirals-new}{\code{TaskGeneratorSpirals$new()}}
+\item \href{#method-TaskGeneratorSpirals-plot}{\code{TaskGeneratorSpirals$plot()}}
+\item \href{#method-TaskGeneratorSpirals-clone}{\code{TaskGeneratorSpirals$clone()}}
 }
 }
-\if{html}{
-\out{<details open ><summary>Inherited methods</summary>}
-\itemize{
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="TaskGenerator" data-id="format">}\href{../../mlr3/html/TaskGenerator.html#method-format}{\code{mlr3::TaskGenerator$format()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="TaskGenerator" data-id="generate">}\href{../../mlr3/html/TaskGenerator.html#method-generate}{\code{mlr3::TaskGenerator$generate()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="TaskGenerator" data-id="print">}\href{../../mlr3/html/TaskGenerator.html#method-print}{\code{mlr3::TaskGenerator$print()}}\out{</span>}
-}
-\out{</details>}
-}
+\if{html}{\out{
+<details open><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="TaskGenerator" data-id="format"><a href='../../mlr3/html/TaskGenerator.html#method-TaskGenerator-format'><code>mlr3::TaskGenerator$format()</code></a></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="TaskGenerator" data-id="generate"><a href='../../mlr3/html/TaskGenerator.html#method-TaskGenerator-generate'><code>mlr3::TaskGenerator$generate()</code></a></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="TaskGenerator" data-id="print"><a href='../../mlr3/html/TaskGenerator.html#method-TaskGenerator-print'><code>mlr3::TaskGenerator$print()</code></a></li>
+</ul>
+</details>
+}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-TaskGeneratorSpirals-new"></a>}}
+\if{latex}{\out{\hypertarget{method-TaskGeneratorSpirals-new}{}}}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
@@ -84,8 +83,8 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-plot"></a>}}
-\if{latex}{\out{\hypertarget{method-plot}{}}}
+\if{html}{\out{<a id="method-TaskGeneratorSpirals-plot"></a>}}
+\if{latex}{\out{\hypertarget{method-TaskGeneratorSpirals-plot}{}}}
 \subsection{Method \code{plot()}}{
 Creates a simple plot of generated data.
 \subsection{Usage}{
@@ -108,8 +107,8 @@ Additional arguments passed to \code{\link[=plot]{plot()}}.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-TaskGeneratorSpirals-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-TaskGeneratorSpirals-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

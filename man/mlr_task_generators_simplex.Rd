@@ -12,19 +12,16 @@ fewer samples than requested.
 }
 \section{Dictionary}{
 
-This \link{TaskGenerator} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_task_generators} or with the associated sugar function \code{\link[=tgen]{tgen()}}:\preformatted{mlr_task_generators$get("simplex")
+This \link{TaskGenerator} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_task_generators} or with the associated sugar function \code{\link[=tgen]{tgen()}}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{mlr_task_generators$get("simplex")
 tgen("simplex")
-}
+}\if{html}{\out{</div>}}
 }
 
 \section{Parameters}{
-\tabular{lllll}{
-   Id \tab Type \tab Default \tab Levels \tab Range \cr
-   center \tab logical \tab TRUE \tab TRUE, FALSE \tab - \cr
-   d \tab integer \tab 3 \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
-   sd \tab numeric \tab 0.1 \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
-   sides \tab integer \tab 1 \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
-}
+
+, |Id     |Type    |Default |Levels      |Range                       |, |:------|:-------|:-------|:-----------|:---------------------------|, |center |logical |TRUE    |TRUE, FALSE |-                           |, |d      |integer |3       |            |\eqn{[1, \infty)}{[1, Inf)} |, |sd     |numeric |0.1     |            |\eqn{[0, \infty)}{[0, Inf)} |, |sides  |integer |1       |            |\eqn{[1, \infty)}{[1, Inf)} |
 }
 
 \examples{
@@ -64,23 +61,23 @@ Other TaskGenerator:
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{TaskGeneratorSimplex$new()}}
-\item \href{#method-plot}{\code{TaskGeneratorSimplex$plot()}}
-\item \href{#method-clone}{\code{TaskGeneratorSimplex$clone()}}
+\item \href{#method-TaskGeneratorSimplex-new}{\code{TaskGeneratorSimplex$new()}}
+\item \href{#method-TaskGeneratorSimplex-plot}{\code{TaskGeneratorSimplex$plot()}}
+\item \href{#method-TaskGeneratorSimplex-clone}{\code{TaskGeneratorSimplex$clone()}}
 }
 }
-\if{html}{
-\out{<details open ><summary>Inherited methods</summary>}
-\itemize{
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="TaskGenerator" data-id="format">}\href{../../mlr3/html/TaskGenerator.html#method-format}{\code{mlr3::TaskGenerator$format()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="TaskGenerator" data-id="generate">}\href{../../mlr3/html/TaskGenerator.html#method-generate}{\code{mlr3::TaskGenerator$generate()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="TaskGenerator" data-id="print">}\href{../../mlr3/html/TaskGenerator.html#method-print}{\code{mlr3::TaskGenerator$print()}}\out{</span>}
-}
-\out{</details>}
-}
+\if{html}{\out{
+<details open><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="TaskGenerator" data-id="format"><a href='../../mlr3/html/TaskGenerator.html#method-TaskGenerator-format'><code>mlr3::TaskGenerator$format()</code></a></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="TaskGenerator" data-id="generate"><a href='../../mlr3/html/TaskGenerator.html#method-TaskGenerator-generate'><code>mlr3::TaskGenerator$generate()</code></a></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="TaskGenerator" data-id="print"><a href='../../mlr3/html/TaskGenerator.html#method-TaskGenerator-print'><code>mlr3::TaskGenerator$print()</code></a></li>
+</ul>
+</details>
+}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-TaskGeneratorSimplex-new"></a>}}
+\if{latex}{\out{\hypertarget{method-TaskGeneratorSimplex-new}{}}}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
@@ -89,8 +86,8 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-plot"></a>}}
-\if{latex}{\out{\hypertarget{method-plot}{}}}
+\if{html}{\out{<a id="method-TaskGeneratorSimplex-plot"></a>}}
+\if{latex}{\out{\hypertarget{method-TaskGeneratorSimplex-plot}{}}}
 \subsection{Method \code{plot()}}{
 Creates a simple plot of generated data.
 \subsection{Usage}{
@@ -113,8 +110,8 @@ Additional arguments passed to \code{\link[=plot]{plot()}}.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-TaskGeneratorSimplex-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-TaskGeneratorSimplex-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

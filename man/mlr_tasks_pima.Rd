@@ -12,21 +12,16 @@ Positive class is set to \code{"pos"}.
 }
 \section{Dictionary}{
 
-This \link{Task} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_tasks} or with the associated sugar function \code{\link[=tsk]{tsk()}}:\preformatted{mlr_tasks$get("pima")
+This \link{Task} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_tasks} or with the associated sugar function \code{\link[=tsk]{tsk()}}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{mlr_tasks$get("pima")
 tsk("pima")
-}
+}\if{html}{\out{</div>}}
 }
 
 \section{Meta Information}{
 
-\itemize{
-\item Task type: \dQuote{classif}
-\item Dimensions: 768x9
-\item Properties: \dQuote{twoclass}
-\item Has Missings: \code{TRUE}
-\item Target: \dQuote{diabetes}
-\item Features: \dQuote{age}, \dQuote{glucose}, \dQuote{insulin}, \dQuote{mass}, \dQuote{pedigree}, \dQuote{pregnant}, \dQuote{pressure}, \dQuote{triceps}
-}
+, * Task type: \dQuote{classif}, * Dimensions: 768x9, * Properties: \dQuote{twoclass}, * Has Missings: \code{TRUE}, * Target: \dQuote{diabetes}, * Features: \dQuote{age}, \dQuote{glucose}, \dQuote{insulin}, \dQuote{mass}, \dQuote{pedigree}, \dQuote{pregnant}, \dQuote{pressure}, \dQuote{triceps}
 }
 
 \seealso{

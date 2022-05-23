@@ -12,21 +12,16 @@ Rownames are stored as variable \code{"..rownames"} with column role \code{"name
 }
 \section{Dictionary}{
 
-This \link{Task} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_tasks} or with the associated sugar function \code{\link[=tsk]{tsk()}}:\preformatted{mlr_tasks$get("zoo")
+This \link{Task} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_tasks} or with the associated sugar function \code{\link[=tsk]{tsk()}}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{mlr_tasks$get("zoo")
 tsk("zoo")
-}
+}\if{html}{\out{</div>}}
 }
 
 \section{Meta Information}{
 
-\itemize{
-\item Task type: \dQuote{classif}
-\item Dimensions: 101x17
-\item Properties: \dQuote{multiclass}
-\item Has Missings: \code{FALSE}
-\item Target: \dQuote{type}
-\item Features: \dQuote{airborne}, \dQuote{aquatic}, \dQuote{backbone}, \dQuote{breathes}, \dQuote{catsize}, \dQuote{domestic}, \dQuote{eggs}, \dQuote{feathers}, \dQuote{fins}, \dQuote{hair}, \dQuote{legs}, \dQuote{milk}, \dQuote{predator}, \dQuote{tail}, \dQuote{toothed}, \dQuote{venomous}
-}
+, * Task type: \dQuote{classif}, * Dimensions: 101x17, * Properties: \dQuote{multiclass}, * Has Missings: \code{FALSE}, * Target: \dQuote{type}, * Features: \dQuote{airborne}, \dQuote{aquatic}, \dQuote{backbone}, \dQuote{breathes}, \dQuote{catsize}, \dQuote{domestic}, \dQuote{eggs}, \dQuote{feathers}, \dQuote{fins}, \dQuote{hair}, \dQuote{legs}, \dQuote{milk}, \dQuote{predator}, \dQuote{tail}, \dQuote{toothed}, \dQuote{venomous}
 }
 
 \seealso{

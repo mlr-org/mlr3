@@ -65,16 +65,16 @@ Defaults to \code{NA}, but can be set by child classes.}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{TaskGenerator$new()}}
-\item \href{#method-format}{\code{TaskGenerator$format()}}
-\item \href{#method-print}{\code{TaskGenerator$print()}}
-\item \href{#method-generate}{\code{TaskGenerator$generate()}}
-\item \href{#method-clone}{\code{TaskGenerator$clone()}}
+\item \href{#method-TaskGenerator-new}{\code{TaskGenerator$new()}}
+\item \href{#method-TaskGenerator-format}{\code{TaskGenerator$format()}}
+\item \href{#method-TaskGenerator-print}{\code{TaskGenerator$print()}}
+\item \href{#method-TaskGenerator-generate}{\code{TaskGenerator$generate()}}
+\item \href{#method-TaskGenerator-clone}{\code{TaskGenerator$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-TaskGenerator-new"></a>}}
+\if{latex}{\out{\hypertarget{method-TaskGenerator-new}{}}}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
@@ -117,8 +117,8 @@ The referenced help package can be opened via method \verb{$help()}.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-format"></a>}}
-\if{latex}{\out{\hypertarget{method-format}{}}}
+\if{html}{\out{<a id="method-TaskGenerator-format"></a>}}
+\if{latex}{\out{\hypertarget{method-TaskGenerator-format}{}}}
 \subsection{Method \code{format()}}{
 Helper for print outputs.
 \subsection{Usage}{
@@ -127,8 +127,8 @@ Helper for print outputs.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-print"></a>}}
-\if{latex}{\out{\hypertarget{method-print}{}}}
+\if{html}{\out{<a id="method-TaskGenerator-print"></a>}}
+\if{latex}{\out{\hypertarget{method-TaskGenerator-print}{}}}
 \subsection{Method \code{print()}}{
 Printer.
 \subsection{Usage}{
@@ -144,8 +144,8 @@ Printer.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-generate"></a>}}
-\if{latex}{\out{\hypertarget{method-generate}{}}}
+\if{html}{\out{<a id="method-TaskGenerator-generate"></a>}}
+\if{latex}{\out{\hypertarget{method-TaskGenerator-generate}{}}}
 \subsection{Method \code{generate()}}{
 Creates a task of type \code{task_type} with \code{n} observations, possibly using additional settings stored in \code{param_set}.
 \subsection{Usage}{
@@ -165,8 +165,8 @@ Number of rows to generate.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-TaskGenerator-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-TaskGenerator-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

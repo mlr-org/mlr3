@@ -29,21 +29,16 @@ See example for the creation of a \link{MeasureClassifCosts} as described miscla
 }
 \section{Dictionary}{
 
-This \link{Task} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_tasks} or with the associated sugar function \code{\link[=tsk]{tsk()}}:\preformatted{mlr_tasks$get("german_credit")
+This \link{Task} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_tasks} or with the associated sugar function \code{\link[=tsk]{tsk()}}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{mlr_tasks$get("german_credit")
 tsk("german_credit")
-}
+}\if{html}{\out{</div>}}
 }
 
 \section{Meta Information}{
 
-\itemize{
-\item Task type: \dQuote{classif}
-\item Dimensions: 1000x21
-\item Properties: \dQuote{twoclass}
-\item Has Missings: \code{FALSE}
-\item Target: \dQuote{credit_risk}
-\item Features: \dQuote{age}, \dQuote{amount}, \dQuote{credit_history}, \dQuote{duration}, \dQuote{employment_duration}, \dQuote{foreign_worker}, \dQuote{housing}, \dQuote{installment_rate}, \dQuote{job}, \dQuote{number_credits}, \dQuote{other_debtors}, \dQuote{other_installment_plans}, \dQuote{people_liable}, \dQuote{personal_status_sex}, \dQuote{present_residence}, \dQuote{property}, \dQuote{purpose}, \dQuote{savings}, \dQuote{status}, \dQuote{telephone}
-}
+, * Task type: \dQuote{classif}, * Dimensions: 1000x21, * Properties: \dQuote{twoclass}, * Has Missings: \code{FALSE}, * Target: \dQuote{credit_risk}, * Features: \dQuote{age}, \dQuote{amount}, \dQuote{credit_history}, \dQuote{duration}, \dQuote{employment_duration}, \dQuote{foreign_worker}, \dQuote{housing}, \dQuote{installment_rate}, \dQuote{job}, \dQuote{number_credits}, \dQuote{other_debtors}, \dQuote{other_installment_plans}, \dQuote{people_liable}, \dQuote{personal_status_sex}, \dQuote{present_residence}, \dQuote{property}, \dQuote{purpose}, \dQuote{savings}, \dQuote{status}, \dQuote{telephone}
 }
 
 \examples{

@@ -20,21 +20,16 @@ Results of a chemical analysis of three types of wines grown in the same region 
 }
 \section{Dictionary}{
 
-This \link{Task} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_tasks} or with the associated sugar function \code{\link[=tsk]{tsk()}}:\preformatted{mlr_tasks$get("wine")
+This \link{Task} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_tasks} or with the associated sugar function \code{\link[=tsk]{tsk()}}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{mlr_tasks$get("wine")
 tsk("wine")
-}
+}\if{html}{\out{</div>}}
 }
 
 \section{Meta Information}{
 
-\itemize{
-\item Task type: \dQuote{classif}
-\item Dimensions: 178x14
-\item Properties: \dQuote{multiclass}
-\item Has Missings: \code{FALSE}
-\item Target: \dQuote{type}
-\item Features: \dQuote{alcalinity}, \dQuote{alcohol}, \dQuote{ash}, \dQuote{color}, \dQuote{dilution}, \dQuote{flavanoids}, \dQuote{hue}, \dQuote{magnesium}, \dQuote{malic}, \dQuote{nonflavanoids}, \dQuote{phenols}, \dQuote{proanthocyanins}, \dQuote{proline}
-}
+, * Task type: \dQuote{classif}, * Dimensions: 178x14, * Properties: \dQuote{multiclass}, * Has Missings: \code{FALSE}, * Target: \dQuote{type}, * Features: \dQuote{alcalinity}, \dQuote{alcohol}, \dQuote{ash}, \dQuote{color}, \dQuote{dilution}, \dQuote{flavanoids}, \dQuote{hue}, \dQuote{magnesium}, \dQuote{malic}, \dQuote{nonflavanoids}, \dQuote{phenols}, \dQuote{proanthocyanins}, \dQuote{proline}
 }
 
 \references{

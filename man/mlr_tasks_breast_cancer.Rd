@@ -18,21 +18,16 @@ A classification task for the \link[mlbench:BreastCancer]{mlbench::BreastCancer}
 }
 \section{Dictionary}{
 
-This \link{Task} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_tasks} or with the associated sugar function \code{\link[=tsk]{tsk()}}:\preformatted{mlr_tasks$get("breast_cancer")
+This \link{Task} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_tasks} or with the associated sugar function \code{\link[=tsk]{tsk()}}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{mlr_tasks$get("breast_cancer")
 tsk("breast_cancer")
-}
+}\if{html}{\out{</div>}}
 }
 
 \section{Meta Information}{
 
-\itemize{
-\item Task type: \dQuote{classif}
-\item Dimensions: 683x10
-\item Properties: \dQuote{twoclass}
-\item Has Missings: \code{FALSE}
-\item Target: \dQuote{class}
-\item Features: \dQuote{bare_nuclei}, \dQuote{bl_cromatin}, \dQuote{cell_shape}, \dQuote{cell_size}, \dQuote{cl_thickness}, \dQuote{epith_c_size}, \dQuote{marg_adhesion}, \dQuote{mitoses}, \dQuote{normal_nucleoli}
-}
+, * Task type: \dQuote{classif}, * Dimensions: 683x10, * Properties: \dQuote{twoclass}, * Has Missings: \code{FALSE}, * Target: \dQuote{class}, * Features: \dQuote{bare_nuclei}, \dQuote{bl_cromatin}, \dQuote{cell_shape}, \dQuote{cell_size}, \dQuote{cl_thickness}, \dQuote{epith_c_size}, \dQuote{marg_adhesion}, \dQuote{mitoses}, \dQuote{normal_nucleoli}
 }
 
 \seealso{
