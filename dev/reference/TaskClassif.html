@@ -165,28 +165,28 @@ Stores the negative class for binary classification tasks, and <code>NA</code> f
 <div class="section">
 <h3 id="public-methods">Public methods<a class="anchor" aria-label="anchor" href="#public-methods"></a></h3>
 
-<ul><li><p><a href="#method-new"><code>TaskClassif$new()</code></a></p></li>
-<li><p><a href="#method-truth"><code>TaskClassif$truth()</code></a></p></li>
-<li><p><a href="#method-droplevels"><code>TaskClassif$droplevels()</code></a></p></li>
-<li><p><a href="#method-clone"><code>TaskClassif$clone()</code></a></p></li>
-</ul></div><p><details><summary>Inherited methods</summary><ul><li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="add_strata"><a href="Task.html#method-add_strata"><code>mlr3::Task$add_strata()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="cbind"><a href="Task.html#method-cbind"><code>mlr3::Task$cbind()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="data"><a href="Task.html#method-data"><code>mlr3::Task$data()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="filter"><a href="Task.html#method-filter"><code>mlr3::Task$filter()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="format"><a href="Task.html#method-format"><code>mlr3::Task$format()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="formula"><a href="Task.html#method-formula"><code>mlr3::Task$formula()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="head"><a href="Task.html#method-head"><code>mlr3::Task$head()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="help"><a href="Task.html#method-help"><code>mlr3::Task$help()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="levels"><a href="Task.html#method-levels"><code>mlr3::Task$levels()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="missings"><a href="Task.html#method-missings"><code>mlr3::Task$missings()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="print"><a href="Task.html#method-print"><code>mlr3::Task$print()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="rbind"><a href="Task.html#method-rbind"><code>mlr3::Task$rbind()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="rename"><a href="Task.html#method-rename"><code>mlr3::Task$rename()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="select"><a href="Task.html#method-select"><code>mlr3::Task$select()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="set_col_roles"><a href="Task.html#method-set_col_roles"><code>mlr3::Task$set_col_roles()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="set_levels"><a href="Task.html#method-set_levels"><code>mlr3::Task$set_levels()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="set_row_roles"><a href="Task.html#method-set_row_roles"><code>mlr3::Task$set_row_roles()</code></a></span></p></li>
-</ul></details></p><hr><a id="method-new"></a><div class="section">
+<ul><li><p><a href="#method-TaskClassif-new"><code>TaskClassif$new()</code></a></p></li>
+<li><p><a href="#method-TaskClassif-truth"><code>TaskClassif$truth()</code></a></p></li>
+<li><p><a href="#method-TaskClassif-droplevels"><code>TaskClassif$droplevels()</code></a></p></li>
+<li><p><a href="#method-TaskClassif-clone"><code>TaskClassif$clone()</code></a></p></li>
+</ul></div><p><details><summary>Inherited methods</summary><ul><li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="add_strata"><a href="Task.html#method-add_strata"><code>mlr3::Task$add_strata()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="cbind"><a href="Task.html#method-cbind"><code>mlr3::Task$cbind()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="data"><a href="Task.html#method-data"><code>mlr3::Task$data()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="filter"><a href="Task.html#method-filter"><code>mlr3::Task$filter()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="format"><a href="Task.html#method-format"><code>mlr3::Task$format()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="formula"><a href="Task.html#method-formula"><code>mlr3::Task$formula()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="head"><a href="Task.html#method-head"><code>mlr3::Task$head()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="help"><a href="Task.html#method-help"><code>mlr3::Task$help()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="levels"><a href="Task.html#method-levels"><code>mlr3::Task$levels()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="missings"><a href="Task.html#method-missings"><code>mlr3::Task$missings()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="print"><a href="Task.html#method-print"><code>mlr3::Task$print()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="rbind"><a href="Task.html#method-rbind"><code>mlr3::Task$rbind()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="rename"><a href="Task.html#method-rename"><code>mlr3::Task$rename()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="select"><a href="Task.html#method-select"><code>mlr3::Task$select()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="set_col_roles"><a href="Task.html#method-set_col_roles"><code>mlr3::Task$set_col_roles()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="set_levels"><a href="Task.html#method-set_levels"><code>mlr3::Task$set_levels()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="set_row_roles"><a href="Task.html#method-set_row_roles"><code>mlr3::Task$set_row_roles()</code></a></span></li>
+</ul></details></p><hr><a id="method-TaskClassif-new"></a><div class="section">
 <h3 id="method-new-">Method <code>new()</code><a class="anchor" aria-label="anchor" href="#method-new-"></a></h3>
 <p>Creates a new instance of this <a href="https://r6.r-lib.org/reference/R6Class.html" class="external-link">R6</a> class.
 The function <code><a href="as_task_classif.html">as_task_classif()</a></code> provides an alternative way to construct classification tasks.</p><div class="section">
@@ -240,7 +240,7 @@ via <code><a href="convert_task.html">convert_task()</a></code>.</p></dd>
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-truth"></a><div class="section">
+</div><p></p><hr><a id="method-TaskClassif-truth"></a><div class="section">
 <h3 id="method-truth-">Method <code>truth()</code><a class="anchor" aria-label="anchor" href="#method-truth-"></a></h3>
 <p>True response for specified <code>row_ids</code>. Format depends on the task type.
 Defaults to all rows with role <code>"use"</code>.</p><div class="section">
@@ -262,7 +262,7 @@ Row indices.</p></dd>
 <p><code><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor()</a></code>.</p>
 </div>
 
-</div><p></p><hr><a id="method-droplevels"></a><div class="section">
+</div><p></p><hr><a id="method-TaskClassif-droplevels"></a><div class="section">
 <h3 id="method-droplevels-">Method <code><a href="https://rdrr.io/r/base/droplevels.html" class="external-link">droplevels()</a></code><a class="anchor" aria-label="anchor" href="#method-droplevels-"></a></h3>
 <p>Updates the cache of stored factor levels, removing all levels not present in the current set of active rows.
 <code>cols</code> defaults to all columns with storage type "factor" or "ordered".
@@ -285,7 +285,7 @@ Column names.</p></dd>
 <p>Modified <code>self</code>.</p>
 </div>
 
-</div><p></p><hr><a id="method-clone"></a><div class="section">
+</div><p></p><hr><a id="method-TaskClassif-clone"></a><div class="section">
 <h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
 <p>The objects of this class are cloneable with this method.</p><div class="section">
 <h4 id="usage-3">Usage<a class="anchor" aria-label="anchor" href="#usage-3"></a></h4>

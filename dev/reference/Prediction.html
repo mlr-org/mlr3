@@ -184,13 +184,13 @@ Returns <code>row_ids</code> for which the predictions are missing or incomplete
 <div class="section">
 <h3 id="public-methods">Public methods<a class="anchor" aria-label="anchor" href="#public-methods"></a></h3>
 
-<ul><li><p><a href="#method-format"><code>Prediction$format()</code></a></p></li>
-<li><p><a href="#method-print"><code>Prediction$print()</code></a></p></li>
-<li><p><a href="#method-help"><code>Prediction$help()</code></a></p></li>
-<li><p><a href="#method-score"><code>Prediction$score()</code></a></p></li>
-<li><p><a href="#method-filter"><code>Prediction$filter()</code></a></p></li>
-<li><p><a href="#method-clone"><code>Prediction$clone()</code></a></p></li>
-</ul></div><p></p><hr><a id="method-format"></a><div class="section">
+<ul><li><p><a href="#method-Prediction-format"><code>Prediction$format()</code></a></p></li>
+<li><p><a href="#method-Prediction-print"><code>Prediction$print()</code></a></p></li>
+<li><p><a href="#method-Prediction-help"><code>Prediction$help()</code></a></p></li>
+<li><p><a href="#method-Prediction-score"><code>Prediction$score()</code></a></p></li>
+<li><p><a href="#method-Prediction-filter"><code>Prediction$filter()</code></a></p></li>
+<li><p><a href="#method-Prediction-clone"><code>Prediction$clone()</code></a></p></li>
+</ul></div><p></p><hr><a id="method-Prediction-format"></a><div class="section">
 <h3 id="method-format-">Method <code><a href="https://rdrr.io/r/base/format.html" class="external-link">format()</a></code><a class="anchor" aria-label="anchor" href="#method-format-"></a></h3>
 <p>Helper for print outputs.</p><div class="section">
 <h4 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a></h4>
@@ -198,7 +198,7 @@ Returns <code>row_ids</code> for which the predictions are missing or incomplete
 </div>
 
 
-</div><p></p><hr><a id="method-print"></a><div class="section">
+</div><p></p><hr><a id="method-Prediction-print"></a><div class="section">
 <h3 id="method-print-">Method <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code><a class="anchor" aria-label="anchor" href="#method-print-"></a></h3>
 <p>Printer.</p><div class="section">
 <h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
@@ -214,7 +214,7 @@ Returns <code>row_ids</code> for which the predictions are missing or incomplete
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-help"></a><div class="section">
+</div><p></p><hr><a id="method-Prediction-help"></a><div class="section">
 <h3 id="method-help-">Method <code>help()</code><a class="anchor" aria-label="anchor" href="#method-help-"></a></h3>
 <p>Opens the corresponding help page referenced by field <code>$man</code>.</p><div class="section">
 <h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
@@ -222,7 +222,7 @@ Returns <code>row_ids</code> for which the predictions are missing or incomplete
 </div>
 
 
-</div><p></p><hr><a id="method-score"></a><div class="section">
+</div><p></p><hr><a id="method-Prediction-score"></a><div class="section">
 <h3 id="method-score-">Method <code>score()</code><a class="anchor" aria-label="anchor" href="#method-score-"></a></h3>
 <p>Calculates the performance for all provided measures
 <a href="Task.html">Task</a> and <a href="Learner.html">Learner</a> may be <code>NULL</code> for most measures, but some measures need to extract information
@@ -264,7 +264,7 @@ Measure(s) to calculate.</p></dd>
 <p>Prediction.</p>
 </div>
 
-</div><p></p><hr><a id="method-filter"></a><div class="section">
+</div><p></p><hr><a id="method-Prediction-filter"></a><div class="section">
 <h3 id="method-filter-">Method <code><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter()</a></code><a class="anchor" aria-label="anchor" href="#method-filter-"></a></h3>
 <p>Filters the Prediction, keeping only predictions for the provided row_ids.
 This changes the object in-place, you need to create a clone to preserve
@@ -287,7 +287,7 @@ Row indices.</p></dd>
 <p><code>self</code>, modified.</p>
 </div>
 
-</div><p></p><hr><a id="method-clone"></a><div class="section">
+</div><p></p><hr><a id="method-Prediction-clone"></a><div class="section">
 <h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
 <p>The objects of this class are cloneable with this method.</p><div class="section">
 <h4 id="usage-5">Usage<a class="anchor" aria-label="anchor" href="#usage-5"></a></h4>

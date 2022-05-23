@@ -250,13 +250,13 @@ Function to aggregate scores computed on different resampling iterations.</p></d
 <div class="section">
 <h3 id="public-methods">Public methods<a class="anchor" aria-label="anchor" href="#public-methods"></a></h3>
 
-<ul><li><p><a href="#method-new"><code>Measure$new()</code></a></p></li>
-<li><p><a href="#method-format"><code>Measure$format()</code></a></p></li>
-<li><p><a href="#method-print"><code>Measure$print()</code></a></p></li>
-<li><p><a href="#method-help"><code>Measure$help()</code></a></p></li>
-<li><p><a href="#method-score"><code>Measure$score()</code></a></p></li>
-<li><p><a href="#method-aggregate"><code>Measure$aggregate()</code></a></p></li>
-</ul></div><p></p><hr><a id="method-new"></a><div class="section">
+<ul><li><p><a href="#method-Measure-new"><code>Measure$new()</code></a></p></li>
+<li><p><a href="#method-Measure-format"><code>Measure$format()</code></a></p></li>
+<li><p><a href="#method-Measure-print"><code>Measure$print()</code></a></p></li>
+<li><p><a href="#method-Measure-help"><code>Measure$help()</code></a></p></li>
+<li><p><a href="#method-Measure-score"><code>Measure$score()</code></a></p></li>
+<li><p><a href="#method-Measure-aggregate"><code>Measure$aggregate()</code></a></p></li>
+</ul></div><p></p><hr><a id="method-Measure-new"></a><div class="section">
 <h3 id="method-new-">Method <code>new()</code><a class="anchor" aria-label="anchor" href="#method-new-"></a></h3>
 <p>Creates a new instance of this <a href="https://r6.r-lib.org/reference/R6Class.html" class="external-link">R6</a> class.</p>
 <p>Note that this object is typically constructed via a derived classes, e.g. <a href="MeasureClassif.html">MeasureClassif</a> or <a href="MeasureRegr.html">MeasureRegr</a>.</p><div class="section">
@@ -385,7 +385,7 @@ The referenced help package can be opened via method <code>$help()</code>.</p></
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-format"></a><div class="section">
+</div><p></p><hr><a id="method-Measure-format"></a><div class="section">
 <h3 id="method-format-">Method <code><a href="https://rdrr.io/r/base/format.html" class="external-link">format()</a></code><a class="anchor" aria-label="anchor" href="#method-format-"></a></h3>
 <p>Helper for print outputs.</p><div class="section">
 <h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
@@ -393,7 +393,7 @@ The referenced help package can be opened via method <code>$help()</code>.</p></
 </div>
 
 
-</div><p></p><hr><a id="method-print"></a><div class="section">
+</div><p></p><hr><a id="method-Measure-print"></a><div class="section">
 <h3 id="method-print-">Method <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code><a class="anchor" aria-label="anchor" href="#method-print-"></a></h3>
 <p>Printer.</p><div class="section">
 <h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
@@ -409,7 +409,7 @@ The referenced help package can be opened via method <code>$help()</code>.</p></
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-help"></a><div class="section">
+</div><p></p><hr><a id="method-Measure-help"></a><div class="section">
 <h3 id="method-help-">Method <code>help()</code><a class="anchor" aria-label="anchor" href="#method-help-"></a></h3>
 <p>Opens the corresponding help page referenced by field <code>$man</code>.</p><div class="section">
 <h4 id="usage-3">Usage<a class="anchor" aria-label="anchor" href="#usage-3"></a></h4>
@@ -417,7 +417,7 @@ The referenced help package can be opened via method <code>$help()</code>.</p></
 </div>
 
 
-</div><p></p><hr><a id="method-score"></a><div class="section">
+</div><p></p><hr><a id="method-Measure-score"></a><div class="section">
 <h3 id="method-score-">Method <code>score()</code><a class="anchor" aria-label="anchor" href="#method-score-"></a></h3>
 <p>Takes a <a href="Prediction.html">Prediction</a> (or a list of <a href="Prediction.html">Prediction</a> objects named with valid <code>predict_sets</code>)
 and calculates a numeric score.
@@ -454,7 +454,7 @@ This is handled internally during <code><a href="resample.html">resample()</a></
 <p><code>numeric(1)</code>.</p>
 </div>
 
-</div><p></p><hr><a id="method-aggregate"></a><div class="section">
+</div><p></p><hr><a id="method-Measure-aggregate"></a><div class="section">
 <h3 id="method-aggregate-">Method <code><a href="https://rdrr.io/r/stats/aggregate.html" class="external-link">aggregate()</a></code><a class="anchor" aria-label="anchor" href="#method-aggregate-"></a></h3>
 <p>Aggregates multiple performance scores into a single score, e.g. by using the <code>aggregator</code>
 function of the measure.</p><div class="section">

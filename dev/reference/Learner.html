@@ -158,15 +158,14 @@ This can be used in measures like <a href="mlr_measures_aic.html">mlr_measures_a
 <p>All information about hyperparameters is stored in the slot <code>param_set</code> which is a <a href="https://paradox.mlr-org.com/reference/ParamSet.html" class="external-link">paradox::ParamSet</a>.
 The printer gives an overview about the ids of available hyperparameters, their storage type, lower and upper bounds,
 possible levels (for factors), default values and assigned values.
-To set hyperparameters, assign a named list to the subslot <code>values</code>:</p><div class="sourceCode"><pre><code><span class="va">lrn</span> <span class="op">=</span> <span class="fu"><a href="../reference/mlr_sugar.html">lrn</a></span><span class="op">(</span><span class="st">"classif.rpart"</span><span class="op">)</span>
-<span class="va">lrn</span><span class="op">$</span><span class="va">param_set</span><span class="op">$</span><span class="va">values</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>minsplit <span class="op">=</span> <span class="fl">3</span>, cp <span class="op">=</span> <span class="fl">0.01</span><span class="op">)</span></code></pre></div>
-
+To set hyperparameters, assign a named list to the subslot <code>values</code>:</p>
+<p></p><div class="sourceCode"><pre><code></code></pre><p></p></div>
 <p>Note that this operation replaces all previously set hyperparameter values.
-If you only intend to change one specific hyperparameter value and leave the others as-is, you can use the helper function <code><a href="https://mlr3misc.mlr-org.com/reference/insert_named.html" class="external-link">mlr3misc::insert_named()</a></code>:</p><div class="sourceCode"><pre><code><span class="va">lrn</span><span class="op">$</span><span class="va">param_set</span><span class="op">$</span><span class="va">values</span> <span class="op">=</span> <span class="fu">mlr3misc</span><span class="fu">::</span><span class="fu"><a href="https://mlr3misc.mlr-org.com/reference/insert_named.html" class="external-link">insert_named</a></span><span class="op">(</span><span class="va">lrn</span><span class="op">$</span><span class="va">param_set</span><span class="op">$</span><span class="va">values</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>cp <span class="op">=</span> <span class="fl">0.001</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-
+If you only intend to change one specific hyperparameter value and leave the others as-is, you can use the helper function <code><a href="https://mlr3misc.mlr-org.com/reference/insert_named.html" class="external-link">mlr3misc::insert_named()</a></code>:</p>
+<p></p><div class="sourceCode"><pre><code></code></pre><p></p></div>
 <p>If the learner has additional hyperparameters which are not encoded in the <a href="https://paradox.mlr-org.com/reference/ParamSet.html" class="external-link">ParamSet</a>, you can easily extend the learner.
-Here, we add a factor hyperparameter with id <code>"foo"</code> and possible levels <code>"a"</code> and <code>"b"</code>:</p><div class="sourceCode"><pre><code><span class="va">lrn</span><span class="op">$</span><span class="va">param_set</span><span class="op">$</span><span class="fu">add</span><span class="op">(</span><span class="fu">paradox</span><span class="fu">::</span><span class="va"><a href="https://paradox.mlr-org.com/reference/ParamFct.html" class="external-link">ParamFct</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="st">"foo"</span>, levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-
+Here, we add a factor hyperparameter with id <code>"foo"</code> and possible levels <code>"a"</code> and <code>"b"</code>:</p>
+<p></p><div class="sourceCode"><pre><code></code></pre><p></p></div>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -374,17 +373,17 @@ Stores <code>HotstartStack</code>.</p></dd>
 <div class="section">
 <h3 id="public-methods">Public methods<a class="anchor" aria-label="anchor" href="#public-methods"></a></h3>
 
-<ul><li><p><a href="#method-new"><code>Learner$new()</code></a></p></li>
-<li><p><a href="#method-format"><code>Learner$format()</code></a></p></li>
-<li><p><a href="#method-print"><code>Learner$print()</code></a></p></li>
-<li><p><a href="#method-help"><code>Learner$help()</code></a></p></li>
-<li><p><a href="#method-train"><code>Learner$train()</code></a></p></li>
-<li><p><a href="#method-predict"><code>Learner$predict()</code></a></p></li>
-<li><p><a href="#method-predict_newdata"><code>Learner$predict_newdata()</code></a></p></li>
-<li><p><a href="#method-reset"><code>Learner$reset()</code></a></p></li>
-<li><p><a href="#method-base_learner"><code>Learner$base_learner()</code></a></p></li>
-<li><p><a href="#method-clone"><code>Learner$clone()</code></a></p></li>
-</ul></div><p></p><hr><a id="method-new"></a><div class="section">
+<ul><li><p><a href="#method-Learner-new"><code>Learner$new()</code></a></p></li>
+<li><p><a href="#method-Learner-format"><code>Learner$format()</code></a></p></li>
+<li><p><a href="#method-Learner-print"><code>Learner$print()</code></a></p></li>
+<li><p><a href="#method-Learner-help"><code>Learner$help()</code></a></p></li>
+<li><p><a href="#method-Learner-train"><code>Learner$train()</code></a></p></li>
+<li><p><a href="#method-Learner-predict"><code>Learner$predict()</code></a></p></li>
+<li><p><a href="#method-Learner-predict_newdata"><code>Learner$predict_newdata()</code></a></p></li>
+<li><p><a href="#method-Learner-reset"><code>Learner$reset()</code></a></p></li>
+<li><p><a href="#method-Learner-base_learner"><code>Learner$base_learner()</code></a></p></li>
+<li><p><a href="#method-Learner-clone"><code>Learner$clone()</code></a></p></li>
+</ul></div><p></p><hr><a id="method-Learner-new"></a><div class="section">
 <h3 id="method-new-">Method <code>new()</code><a class="anchor" aria-label="anchor" href="#method-new-"></a></h3>
 <p>Creates a new instance of this <a href="https://r6.r-lib.org/reference/R6Class.html" class="external-link">R6</a> class.</p>
 <p>Note that this object is typically constructed via a derived classes, e.g. <a href="LearnerClassif.html">LearnerClassif</a> or <a href="LearnerRegr.html">LearnerRegr</a>.</p><div class="section">
@@ -470,7 +469,7 @@ The referenced help package can be opened via method <code>$help()</code>.</p></
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-format"></a><div class="section">
+</div><p></p><hr><a id="method-Learner-format"></a><div class="section">
 <h3 id="method-format-">Method <code><a href="https://rdrr.io/r/base/format.html" class="external-link">format()</a></code><a class="anchor" aria-label="anchor" href="#method-format-"></a></h3>
 <p>Helper for print outputs.</p><div class="section">
 <h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
@@ -478,7 +477,7 @@ The referenced help package can be opened via method <code>$help()</code>.</p></
 </div>
 
 
-</div><p></p><hr><a id="method-print"></a><div class="section">
+</div><p></p><hr><a id="method-Learner-print"></a><div class="section">
 <h3 id="method-print-">Method <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code><a class="anchor" aria-label="anchor" href="#method-print-"></a></h3>
 <p>Printer.</p><div class="section">
 <h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
@@ -494,7 +493,7 @@ The referenced help package can be opened via method <code>$help()</code>.</p></
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-help"></a><div class="section">
+</div><p></p><hr><a id="method-Learner-help"></a><div class="section">
 <h3 id="method-help-">Method <code>help()</code><a class="anchor" aria-label="anchor" href="#method-help-"></a></h3>
 <p>Opens the corresponding help page referenced by field <code>$man</code>.</p><div class="section">
 <h4 id="usage-3">Usage<a class="anchor" aria-label="anchor" href="#usage-3"></a></h4>
@@ -502,7 +501,7 @@ The referenced help package can be opened via method <code>$help()</code>.</p></
 </div>
 
 
-</div><p></p><hr><a id="method-train"></a><div class="section">
+</div><p></p><hr><a id="method-Learner-train"></a><div class="section">
 <h3 id="method-train-">Method <code>train()</code><a class="anchor" aria-label="anchor" href="#method-train-"></a></h3>
 <p>Train the learner on a set of observations of the provided <code>task</code>.
 Mutates the learner by reference, i.e. stores the model alongside other information in field <code>$state</code>.</p><div class="section">
@@ -531,7 +530,7 @@ You need to explicitly <code>$clone()</code> the object beforehand if you want t
 the object in its previous state.</p>
 </div>
 
-</div><p></p><hr><a id="method-predict"></a><div class="section">
+</div><p></p><hr><a id="method-Learner-predict"></a><div class="section">
 <h3 id="method-predict-">Method <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code><a class="anchor" aria-label="anchor" href="#method-predict-"></a></h3>
 <p>Uses the information stored during <code>$train()</code> in <code>$state</code> to create a new <a href="Prediction.html">Prediction</a>
 for a set of observations of the provided <code>task</code>.</p><div class="section">
@@ -558,7 +557,7 @@ For a simple split into training and test set, see <code><a href="partition.html
 <p><a href="Prediction.html">Prediction</a>.</p>
 </div>
 
-</div><p></p><hr><a id="method-predict_newdata"></a><div class="section">
+</div><p></p><hr><a id="method-Learner-predict_newdata"></a><div class="section">
 <h3 id="method-predict-newdata-">Method <code>predict_newdata()</code><a class="anchor" aria-label="anchor" href="#method-predict-newdata-"></a></h3>
 <p>Uses the model fitted during <code>$train()</code> to create a new <a href="Prediction.html">Prediction</a> based on the new data in <code>newdata</code>.
 Object <code>task</code> is the task used during <code>$train()</code> and required for conversion of <code>newdata</code>.
@@ -592,7 +591,7 @@ otherwise they are set to to the sequence <code>1:nrow(newdata)</code>.</p></dd>
 <p><a href="Prediction.html">Prediction</a>.</p>
 </div>
 
-</div><p></p><hr><a id="method-reset"></a><div class="section">
+</div><p></p><hr><a id="method-Learner-reset"></a><div class="section">
 <h3 id="method-reset-">Method <code>reset()</code><a class="anchor" aria-label="anchor" href="#method-reset-"></a></h3>
 <p>Reset the learner, i.e. un-train by resetting the <code>state</code>.</p><div class="section">
 <h4 id="usage-7">Usage<a class="anchor" aria-label="anchor" href="#usage-7"></a></h4>
@@ -606,7 +605,7 @@ You need to explicitly <code>$clone()</code> the object beforehand if you want t
 the object in its previous state.</p>
 </div>
 
-</div><p></p><hr><a id="method-base_learner"></a><div class="section">
+</div><p></p><hr><a id="method-Learner-base_learner"></a><div class="section">
 <h3 id="method-base-learner-">Method <code>base_learner()</code><a class="anchor" aria-label="anchor" href="#method-base-learner-"></a></h3>
 <p>Extracts the base learner from nested learner objects like
 <code>GraphLearner</code> in <a href="https://CRAN.R-project.org/package=mlr3pipelines" class="external-link"><span class="pkg">mlr3pipelines</span></a> or <code>AutoTuner</code> in
@@ -630,7 +629,7 @@ Depth of recursion for multiple nested objects.</p></dd>
 <p>Learner.</p>
 </div>
 
-</div><p></p><hr><a id="method-clone"></a><div class="section">
+</div><p></p><hr><a id="method-Learner-clone"></a><div class="section">
 <h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
 <p>The objects of this class are cloneable with this method.</p><div class="section">
 <h4 id="usage-9">Usage<a class="anchor" aria-label="anchor" href="#usage-9"></a></h4>

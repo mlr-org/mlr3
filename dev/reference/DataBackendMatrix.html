@@ -137,14 +137,14 @@ Number of columns (variables), including the primary key column.</p></dd>
 <div class="section">
 <h3 id="public-methods">Public methods<a class="anchor" aria-label="anchor" href="#public-methods"></a></h3>
 
-<ul><li><p><a href="#method-new"><code>DataBackendMatrix$new()</code></a></p></li>
-<li><p><a href="#method-data"><code>DataBackendMatrix$data()</code></a></p></li>
-<li><p><a href="#method-head"><code>DataBackendMatrix$head()</code></a></p></li>
-<li><p><a href="#method-distinct"><code>DataBackendMatrix$distinct()</code></a></p></li>
-<li><p><a href="#method-missings"><code>DataBackendMatrix$missings()</code></a></p></li>
-</ul></div><p><details open><summary>Inherited methods</summary><ul><li><p><span class="pkg-link" data-pkg="mlr3" data-topic="DataBackend" data-id="format"><a href="DataBackend.html#method-format"><code>mlr3::DataBackend$format()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="DataBackend" data-id="print"><a href="DataBackend.html#method-print"><code>mlr3::DataBackend$print()</code></a></span></p></li>
-</ul></details></p><hr><a id="method-new"></a><div class="section">
+<ul><li><p><a href="#method-DataBackendMatrix-new"><code>DataBackendMatrix$new()</code></a></p></li>
+<li><p><a href="#method-DataBackendMatrix-data"><code>DataBackendMatrix$data()</code></a></p></li>
+<li><p><a href="#method-DataBackendMatrix-head"><code>DataBackendMatrix$head()</code></a></p></li>
+<li><p><a href="#method-DataBackendMatrix-distinct"><code>DataBackendMatrix$distinct()</code></a></p></li>
+<li><p><a href="#method-DataBackendMatrix-missings"><code>DataBackendMatrix$missings()</code></a></p></li>
+</ul></div><p><details open><summary>Inherited methods</summary><ul><li><span class="pkg-link" data-pkg="mlr3" data-topic="DataBackend" data-id="format"><a href="DataBackend.html#method-format"><code>mlr3::DataBackend$format()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="DataBackend" data-id="print"><a href="DataBackend.html#method-print"><code>mlr3::DataBackend$print()</code></a></span></li>
+</ul></details></p><hr><a id="method-DataBackendMatrix-new"></a><div class="section">
 <h3 id="method-new-">Method <code>new()</code><a class="anchor" aria-label="anchor" href="#method-new-"></a></h3>
 <p>Creates a new instance of this <a href="https://r6.r-lib.org/reference/R6Class.html" class="external-link">R6</a> class.</p><div class="section">
 <h4 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a></h4>
@@ -171,7 +171,7 @@ Name of the primary key column, or integer vector of row ids.</p></dd>
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-data"></a><div class="section">
+</div><p></p><hr><a id="method-DataBackendMatrix-data"></a><div class="section">
 <h3 id="method-data-">Method <code><a href="https://rdrr.io/r/utils/data.html" class="external-link">data()</a></code><a class="anchor" aria-label="anchor" href="#method-data-"></a></h3>
 <p>Returns a slice of the data in the specified format.
 Currently, the only supported formats are <code>"data.table"</code> and <code>"Matrix"</code>.
@@ -203,7 +203,7 @@ Desired data format, e.g. <code>"data.table"</code> or <code>"Matrix"</code>.</p
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-head"></a><div class="section">
+</div><p></p><hr><a id="method-DataBackendMatrix-head"></a><div class="section">
 <h3 id="method-head-">Method <code><a href="https://rdrr.io/r/utils/head.html" class="external-link">head()</a></code><a class="anchor" aria-label="anchor" href="#method-head-"></a></h3>
 <p>Retrieve the first <code>n</code> rows.</p><div class="section">
 <h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
@@ -224,7 +224,7 @@ Number of rows.</p></dd>
 <p><code><a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code> of the first <code>n</code> rows.</p>
 </div>
 
-</div><p></p><hr><a id="method-distinct"></a><div class="section">
+</div><p></p><hr><a id="method-DataBackendMatrix-distinct"></a><div class="section">
 <h3 id="method-distinct-">Method <code>distinct()</code><a class="anchor" aria-label="anchor" href="#method-distinct-"></a></h3>
 <p>Returns a named list of vectors of distinct values for each column
 specified. If <code>na_rm</code> is <code>TRUE</code>, missing values are removed from the
@@ -258,7 +258,7 @@ Whether to remove NAs or not.</p></dd>
 <p>Named <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code> of distinct values.</p>
 </div>
 
-</div><p></p><hr><a id="method-missings"></a><div class="section">
+</div><p></p><hr><a id="method-DataBackendMatrix-missings"></a><div class="section">
 <h3 id="method-missings-">Method <code>missings()</code><a class="anchor" aria-label="anchor" href="#method-missings-"></a></h3>
 <p>Returns the number of missing values per column in the specified slice
 of data. Non-existing rows and columns are silently ignored.</p><div class="section">

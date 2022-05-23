@@ -163,9 +163,8 @@ If you need access to the models for later analysis, set <code>store_models</cod
 on the test set, you have to configure the <a href="Learner.html">Learner</a> to predict on multiple sets by
 setting the field <code>predict_sets</code> to <code>c("train", "test")</code> (default is <code>"test"</code>).
 Each set yields a separate <a href="Prediction.html">Prediction</a> object during resampling.
-In the next step, you have to configure the measures to operate on the respective Prediction object:</p><div class="sourceCode"><pre><code><span class="va">m1</span> <span class="op">=</span> <span class="fu"><a href="../reference/mlr_sugar.html">msr</a></span><span class="op">(</span><span class="st">"classif.ce"</span>, id <span class="op">=</span> <span class="st">"ce.train"</span>, predict_sets <span class="op">=</span> <span class="st">"train"</span><span class="op">)</span>
-<span class="va">m2</span> <span class="op">=</span> <span class="fu"><a href="../reference/mlr_sugar.html">msr</a></span><span class="op">(</span><span class="st">"classif.ce"</span>, id <span class="op">=</span> <span class="st">"ce.test"</span>, predict_sets <span class="op">=</span> <span class="st">"test"</span><span class="op">)</span></code></pre></div>
-
+In the next step, you have to configure the measures to operate on the respective Prediction object:</p>
+<p></p><div class="sourceCode"><pre><code></code></pre><p></p></div>
 <p>The (list of) created measures can finally be passed to <code>$aggregate()</code> or <code>$score()</code>.</p>
     </div>
     <div class="section level2">
@@ -198,11 +197,11 @@ We recommend the <a href="https://CRAN.R-project.org/package=progress" class="ex
 <a href="https://CRAN.R-project.org/package=lgr" class="external-link"><span class="pkg">lgr</span></a> supports multiple log levels which can be queried with
 <code>getOption("lgr.log_levels")</code>.</p>
 <p>To suppress output and reduce verbosity, you can lower the log from the
-default level <code>"info"</code> to <code>"warn"</code>:</p><div class="sourceCode"><pre><code><span class="fu">lgr</span><span class="fu">::</span><span class="fu"><a href="https://s-fleck.github.io/lgr/reference/get_logger.html" class="external-link">get_logger</a></span><span class="op">(</span><span class="st">"mlr3"</span><span class="op">)</span><span class="op">$</span><span class="fu">set_threshold</span><span class="op">(</span><span class="st">"warn"</span><span class="op">)</span></code></pre></div>
-
+default level <code>"info"</code> to <code>"warn"</code>:</p>
+<p></p><div class="sourceCode"><pre><code></code></pre><p></p></div>
 <p>To get additional log output for debugging, increase the log level to <code>"debug"</code>
-or <code>"trace"</code>:</p><div class="sourceCode"><pre><code><span class="fu">lgr</span><span class="fu">::</span><span class="fu"><a href="https://s-fleck.github.io/lgr/reference/get_logger.html" class="external-link">get_logger</a></span><span class="op">(</span><span class="st">"mlr3"</span><span class="op">)</span><span class="op">$</span><span class="fu">set_threshold</span><span class="op">(</span><span class="st">"debug"</span><span class="op">)</span></code></pre></div>
-
+or <code>"trace"</code>:</p>
+<p></p><div class="sourceCode"><pre><code></code></pre><p></p></div>
 <p>To log to a file or a data base, see the documentation of <a href="https://s-fleck.github.io/lgr/reference/lgr-package.html" class="external-link">lgr::lgr-package</a>.</p>
     </div>
     <div class="section level2">

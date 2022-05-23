@@ -86,23 +86,21 @@ Parameter <code>model</code> has been renamed to <code>keep_model</code>.</p>
     <h2 id="dictionary">Dictionary<a class="anchor" aria-label="anchor" href="#dictionary"></a></h2>
     
 
-<p>This <a href="Learner.html">Learner</a> can be instantiated via the <a href="https://mlr3misc.mlr-org.com/reference/Dictionary.html" class="external-link">dictionary</a> <a href="mlr_learners.html">mlr_learners</a> or with the associated sugar function <code><a href="mlr_sugar.html">lrn()</a></code>:</p><div class="sourceCode"><pre><code><span class="va">mlr_learners</span><span class="op">$</span><span class="fu">get</span><span class="op">(</span><span class="st">"regr.rpart"</span><span class="op">)</span>
-<span class="fu"><a href="../reference/mlr_sugar.html">lrn</a></span><span class="op">(</span><span class="st">"regr.rpart"</span><span class="op">)</span></code></pre></div>
-
+<p>This <a href="Learner.html">Learner</a> can be instantiated via the <a href="https://mlr3misc.mlr-org.com/reference/Dictionary.html" class="external-link">dictionary</a> <a href="mlr_learners.html">mlr_learners</a> or with the associated sugar function <code><a href="mlr_sugar.html">lrn()</a></code>:</p>
+<p></p><div class="sourceCode"><pre><code></code></pre><p></p></div>
     </div>
     <div class="section level2">
     <h2 id="meta-information">Meta Information<a class="anchor" aria-label="anchor" href="#meta-information"></a></h2>
     
 
-<ul><li><p>Task type: “regr”</p></li>
-<li><p>Predict Types: “response”</p></li>
-<li><p>Feature Types: “logical”, “integer”, “numeric”, “factor”, “ordered”</p></li>
-<li><p>Required Packages: <a href="https://CRAN.R-project.org/package=mlr3" class="external-link"><span class="pkg">mlr3</span></a>, <a href="https://CRAN.R-project.org/package=rpart" class="external-link"><span class="pkg">rpart</span></a></p></li>
-</ul></div>
+<p>, * Task type: “regr”, * Predict Types: “response”, * Feature Types: “logical”, “integer”, “numeric”, “factor”, “ordered”, * Required Packages: <a href="https://CRAN.R-project.org/package=mlr3" class="external-link"><span class="pkg">mlr3</span></a>, <a href="https://CRAN.R-project.org/package=rpart" class="external-link"><span class="pkg">rpart</span></a></p>
+    </div>
     <div class="section level2">
     <h2 id="parameters">Parameters<a class="anchor" aria-label="anchor" href="#parameters"></a></h2>
     
-<table class="table table"><tr><td>Id</td><td>Type</td><td>Default</td><td>Levels</td><td>Range</td></tr><tr><td>cp</td><td>numeric</td><td>0.01</td><td></td><td>\([0, 1]\)</td></tr><tr><td>keep_model</td><td>logical</td><td>FALSE</td><td>TRUE, FALSE</td><td>-</td></tr><tr><td>maxcompete</td><td>integer</td><td>4</td><td></td><td>\([0, \infty)\)</td></tr><tr><td>maxdepth</td><td>integer</td><td>30</td><td></td><td>\([1, 30]\)</td></tr><tr><td>maxsurrogate</td><td>integer</td><td>5</td><td></td><td>\([0, \infty)\)</td></tr><tr><td>minbucket</td><td>integer</td><td>-</td><td></td><td>\([1, \infty)\)</td></tr><tr><td>minsplit</td><td>integer</td><td>20</td><td></td><td>\([1, \infty)\)</td></tr><tr><td>surrogatestyle</td><td>integer</td><td>0</td><td></td><td>\([0, 1]\)</td></tr><tr><td>usesurrogate</td><td>integer</td><td>2</td><td></td><td>\([0, 2]\)</td></tr><tr><td>xval</td><td>integer</td><td>10</td><td></td><td>\([0, \infty)\)</td></tr></table></div>
+
+<p>, |Id             |Type    |Default |Levels      |Range                       |, |:--------------|:-------|:-------|:-----------|:---------------------------|, |cp             |numeric |0.01    |            |\([0, 1]\)        |, |keep_model     |logical |FALSE   |TRUE, FALSE |-                           |, |maxcompete     |integer |4       |            |\([0, \infty)\) |, |maxdepth       |integer |30      |            |\([1, 30]\)      |, |maxsurrogate   |integer |5       |            |\([0, \infty)\) |, |minbucket      |integer |-       |            |\([1, \infty)\) |, |minsplit       |integer |20      |            |\([1, \infty)\) |, |surrogatestyle |integer |0       |            |\([0, 1]\)        |, |usesurrogate   |integer |2       |            |\([0, 2]\)        |, |xval           |integer |10      |            |\([0, \infty)\) |</p>
+    </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
     <p>Breiman L, Friedman JH, Olshen RA, Stone CJ (1984).
@@ -148,19 +146,19 @@ for established default tuning spaces.</p></li>
 <div class="section">
 <h3 id="public-methods">Public methods<a class="anchor" aria-label="anchor" href="#public-methods"></a></h3>
 
-<ul><li><p><a href="#method-new"><code>LearnerRegrRpart$new()</code></a></p></li>
-<li><p><a href="#method-importance"><code>LearnerRegrRpart$importance()</code></a></p></li>
-<li><p><a href="#method-selected_features"><code>LearnerRegrRpart$selected_features()</code></a></p></li>
-<li><p><a href="#method-clone"><code>LearnerRegrRpart$clone()</code></a></p></li>
-</ul></div><p><details><summary>Inherited methods</summary><ul><li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="base_learner"><a href="Learner.html#method-base_learner"><code>mlr3::Learner$base_learner()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="format"><a href="Learner.html#method-format"><code>mlr3::Learner$format()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="help"><a href="Learner.html#method-help"><code>mlr3::Learner$help()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="predict"><a href="Learner.html#method-predict"><code>mlr3::Learner$predict()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="predict_newdata"><a href="Learner.html#method-predict_newdata"><code>mlr3::Learner$predict_newdata()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="print"><a href="Learner.html#method-print"><code>mlr3::Learner$print()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="reset"><a href="Learner.html#method-reset"><code>mlr3::Learner$reset()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="train"><a href="Learner.html#method-train"><code>mlr3::Learner$train()</code></a></span></p></li>
-</ul></details></p><hr><a id="method-new"></a><div class="section">
+<ul><li><p><a href="#method-LearnerRegrRpart-new"><code>LearnerRegrRpart$new()</code></a></p></li>
+<li><p><a href="#method-LearnerRegrRpart-importance"><code>LearnerRegrRpart$importance()</code></a></p></li>
+<li><p><a href="#method-LearnerRegrRpart-selected_features"><code>LearnerRegrRpart$selected_features()</code></a></p></li>
+<li><p><a href="#method-LearnerRegrRpart-clone"><code>LearnerRegrRpart$clone()</code></a></p></li>
+</ul></div><p><details><summary>Inherited methods</summary><ul><li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="base_learner"><a href="Learner.html#method-base_learner"><code>mlr3::Learner$base_learner()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="format"><a href="Learner.html#method-format"><code>mlr3::Learner$format()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="help"><a href="Learner.html#method-help"><code>mlr3::Learner$help()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="predict"><a href="Learner.html#method-predict"><code>mlr3::Learner$predict()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="predict_newdata"><a href="Learner.html#method-predict_newdata"><code>mlr3::Learner$predict_newdata()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="print"><a href="Learner.html#method-print"><code>mlr3::Learner$print()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="reset"><a href="Learner.html#method-reset"><code>mlr3::Learner$reset()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="train"><a href="Learner.html#method-train"><code>mlr3::Learner$train()</code></a></span></li>
+</ul></details></p><hr><a id="method-LearnerRegrRpart-new"></a><div class="section">
 <h3 id="method-new-">Method <code>new()</code><a class="anchor" aria-label="anchor" href="#method-new-"></a></h3>
 <p>Creates a new instance of this <a href="https://r6.r-lib.org/reference/R6Class.html" class="external-link">R6</a> class.</p><div class="section">
 <h4 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a></h4>
@@ -168,7 +166,7 @@ for established default tuning spaces.</p></li>
 </div>
 
 
-</div><p></p><hr><a id="method-importance"></a><div class="section">
+</div><p></p><hr><a id="method-LearnerRegrRpart-importance"></a><div class="section">
 <h3 id="method-importance-">Method <code>importance()</code><a class="anchor" aria-label="anchor" href="#method-importance-"></a></h3>
 <p>The importance scores are extracted from the model slot <code>variable.importance</code>.</p><div class="section">
 <h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
@@ -180,7 +178,7 @@ for established default tuning spaces.</p></li>
 <p>Named <code><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric()</a></code>.</p>
 </div>
 
-</div><p></p><hr><a id="method-selected_features"></a><div class="section">
+</div><p></p><hr><a id="method-LearnerRegrRpart-selected_features"></a><div class="section">
 <h3 id="method-selected-features-">Method <code>selected_features()</code><a class="anchor" aria-label="anchor" href="#method-selected-features-"></a></h3>
 <p>Selected features are extracted from the model slot <code>frame$var</code>.</p><div class="section">
 <h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
@@ -192,7 +190,7 @@ for established default tuning spaces.</p></li>
 <p><code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>.</p>
 </div>
 
-</div><p></p><hr><a id="method-clone"></a><div class="section">
+</div><p></p><hr><a id="method-LearnerRegrRpart-clone"></a><div class="section">
 <h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
 <p>The objects of this class are cloneable with this method.</p><div class="section">
 <h4 id="usage-3">Usage<a class="anchor" aria-label="anchor" href="#usage-3"></a></h4>

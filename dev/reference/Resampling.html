@@ -221,15 +221,15 @@ Hash (unique identifier) for this object.</p></dd>
 <div class="section">
 <h3 id="public-methods">Public methods<a class="anchor" aria-label="anchor" href="#public-methods"></a></h3>
 
-<ul><li><p><a href="#method-new"><code>Resampling$new()</code></a></p></li>
-<li><p><a href="#method-format"><code>Resampling$format()</code></a></p></li>
-<li><p><a href="#method-print"><code>Resampling$print()</code></a></p></li>
-<li><p><a href="#method-help"><code>Resampling$help()</code></a></p></li>
-<li><p><a href="#method-instantiate"><code>Resampling$instantiate()</code></a></p></li>
-<li><p><a href="#method-train_set"><code>Resampling$train_set()</code></a></p></li>
-<li><p><a href="#method-test_set"><code>Resampling$test_set()</code></a></p></li>
-<li><p><a href="#method-clone"><code>Resampling$clone()</code></a></p></li>
-</ul></div><p></p><hr><a id="method-new"></a><div class="section">
+<ul><li><p><a href="#method-Resampling-new"><code>Resampling$new()</code></a></p></li>
+<li><p><a href="#method-Resampling-format"><code>Resampling$format()</code></a></p></li>
+<li><p><a href="#method-Resampling-print"><code>Resampling$print()</code></a></p></li>
+<li><p><a href="#method-Resampling-help"><code>Resampling$help()</code></a></p></li>
+<li><p><a href="#method-Resampling-instantiate"><code>Resampling$instantiate()</code></a></p></li>
+<li><p><a href="#method-Resampling-train_set"><code>Resampling$train_set()</code></a></p></li>
+<li><p><a href="#method-Resampling-test_set"><code>Resampling$test_set()</code></a></p></li>
+<li><p><a href="#method-Resampling-clone"><code>Resampling$clone()</code></a></p></li>
+</ul></div><p></p><hr><a id="method-Resampling-new"></a><div class="section">
 <h3 id="method-new-">Method <code>new()</code><a class="anchor" aria-label="anchor" href="#method-new-"></a></h3>
 <p>Creates a new instance of this <a href="https://r6.r-lib.org/reference/R6Class.html" class="external-link">R6</a> class.</p><div class="section">
 <h4 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a></h4>
@@ -274,7 +274,7 @@ The referenced help package can be opened via method <code>$help()</code>.</p></
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-format"></a><div class="section">
+</div><p></p><hr><a id="method-Resampling-format"></a><div class="section">
 <h3 id="method-format-">Method <code><a href="https://rdrr.io/r/base/format.html" class="external-link">format()</a></code><a class="anchor" aria-label="anchor" href="#method-format-"></a></h3>
 <p>Helper for print outputs.</p><div class="section">
 <h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
@@ -282,7 +282,7 @@ The referenced help package can be opened via method <code>$help()</code>.</p></
 </div>
 
 
-</div><p></p><hr><a id="method-print"></a><div class="section">
+</div><p></p><hr><a id="method-Resampling-print"></a><div class="section">
 <h3 id="method-print-">Method <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code><a class="anchor" aria-label="anchor" href="#method-print-"></a></h3>
 <p>Printer.</p><div class="section">
 <h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
@@ -298,7 +298,7 @@ The referenced help package can be opened via method <code>$help()</code>.</p></
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-help"></a><div class="section">
+</div><p></p><hr><a id="method-Resampling-help"></a><div class="section">
 <h3 id="method-help-">Method <code>help()</code><a class="anchor" aria-label="anchor" href="#method-help-"></a></h3>
 <p>Opens the corresponding help page referenced by field <code>$man</code>.</p><div class="section">
 <h4 id="usage-3">Usage<a class="anchor" aria-label="anchor" href="#usage-3"></a></h4>
@@ -306,7 +306,7 @@ The referenced help package can be opened via method <code>$help()</code>.</p></
 </div>
 
 
-</div><p></p><hr><a id="method-instantiate"></a><div class="section">
+</div><p></p><hr><a id="method-Resampling-instantiate"></a><div class="section">
 <h3 id="method-instantiate-">Method <code>instantiate()</code><a class="anchor" aria-label="anchor" href="#method-instantiate-"></a></h3>
 <p>Materializes fixed training and test splits for a given task and stores them in <code>r$instance</code>
 in an arbitrary format.</p><div class="section">
@@ -330,7 +330,7 @@ You need to explicitly <code>$clone()</code> the object beforehand if you want t
 the object in its previous state.</p>
 </div>
 
-</div><p></p><hr><a id="method-train_set"></a><div class="section">
+</div><p></p><hr><a id="method-Resampling-train_set"></a><div class="section">
 <h3 id="method-train-set-">Method <code>train_set()</code><a class="anchor" aria-label="anchor" href="#method-train-set-"></a></h3>
 <p>Returns the row ids of the i-th training set.</p><div class="section">
 <h4 id="usage-5">Usage<a class="anchor" aria-label="anchor" href="#usage-5"></a></h4>
@@ -351,7 +351,7 @@ Iteration.</p></dd>
 <p>(<code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>) of row ids.</p>
 </div>
 
-</div><p></p><hr><a id="method-test_set"></a><div class="section">
+</div><p></p><hr><a id="method-Resampling-test_set"></a><div class="section">
 <h3 id="method-test-set-">Method <code>test_set()</code><a class="anchor" aria-label="anchor" href="#method-test-set-"></a></h3>
 <p>Returns the row ids of the i-th test set.</p><div class="section">
 <h4 id="usage-6">Usage<a class="anchor" aria-label="anchor" href="#usage-6"></a></h4>
@@ -372,7 +372,7 @@ Iteration.</p></dd>
 <p>(<code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>) of row ids.</p>
 </div>
 
-</div><p></p><hr><a id="method-clone"></a><div class="section">
+</div><p></p><hr><a id="method-Resampling-clone"></a><div class="section">
 <h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
 <p>The objects of this class are cloneable with this method.</p><div class="section">
 <h4 id="usage-7">Usage<a class="anchor" aria-label="anchor" href="#usage-7"></a></h4>

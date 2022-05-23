@@ -186,18 +186,18 @@ Set of (unique) hashes of all included <a href="ResampleResult.html">ResampleRes
 <div class="section">
 <h3 id="public-methods">Public methods<a class="anchor" aria-label="anchor" href="#public-methods"></a></h3>
 
-<ul><li><p><a href="#method-new"><code>BenchmarkResult$new()</code></a></p></li>
-<li><p><a href="#method-help"><code>BenchmarkResult$help()</code></a></p></li>
-<li><p><a href="#method-format"><code>BenchmarkResult$format()</code></a></p></li>
-<li><p><a href="#method-print"><code>BenchmarkResult$print()</code></a></p></li>
-<li><p><a href="#method-combine"><code>BenchmarkResult$combine()</code></a></p></li>
-<li><p><a href="#method-score"><code>BenchmarkResult$score()</code></a></p></li>
-<li><p><a href="#method-aggregate"><code>BenchmarkResult$aggregate()</code></a></p></li>
-<li><p><a href="#method-filter"><code>BenchmarkResult$filter()</code></a></p></li>
-<li><p><a href="#method-resample_result"><code>BenchmarkResult$resample_result()</code></a></p></li>
-<li><p><a href="#method-discard"><code>BenchmarkResult$discard()</code></a></p></li>
-<li><p><a href="#method-clone"><code>BenchmarkResult$clone()</code></a></p></li>
-</ul></div><p></p><hr><a id="method-new"></a><div class="section">
+<ul><li><p><a href="#method-BenchmarkResult-new"><code>BenchmarkResult$new()</code></a></p></li>
+<li><p><a href="#method-BenchmarkResult-help"><code>BenchmarkResult$help()</code></a></p></li>
+<li><p><a href="#method-BenchmarkResult-format"><code>BenchmarkResult$format()</code></a></p></li>
+<li><p><a href="#method-BenchmarkResult-print"><code>BenchmarkResult$print()</code></a></p></li>
+<li><p><a href="#method-BenchmarkResult-combine"><code>BenchmarkResult$combine()</code></a></p></li>
+<li><p><a href="#method-BenchmarkResult-score"><code>BenchmarkResult$score()</code></a></p></li>
+<li><p><a href="#method-BenchmarkResult-aggregate"><code>BenchmarkResult$aggregate()</code></a></p></li>
+<li><p><a href="#method-BenchmarkResult-filter"><code>BenchmarkResult$filter()</code></a></p></li>
+<li><p><a href="#method-BenchmarkResult-resample_result"><code>BenchmarkResult$resample_result()</code></a></p></li>
+<li><p><a href="#method-BenchmarkResult-discard"><code>BenchmarkResult$discard()</code></a></p></li>
+<li><p><a href="#method-BenchmarkResult-clone"><code>BenchmarkResult$clone()</code></a></p></li>
+</ul></div><p></p><hr><a id="method-BenchmarkResult-new"></a><div class="section">
 <h3 id="method-new-">Method <code>new()</code><a class="anchor" aria-label="anchor" href="#method-new-"></a></h3>
 <p>Creates a new instance of this <a href="https://r6.r-lib.org/reference/R6Class.html" class="external-link">R6</a> class.</p><div class="section">
 <h4 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a></h4>
@@ -215,7 +215,7 @@ BenchmarkResult, or manually constructed with <code><a href="as_result_data.html
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-help"></a><div class="section">
+</div><p></p><hr><a id="method-BenchmarkResult-help"></a><div class="section">
 <h3 id="method-help-">Method <code>help()</code><a class="anchor" aria-label="anchor" href="#method-help-"></a></h3>
 <p>Opens the help page for this object.</p><div class="section">
 <h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
@@ -223,7 +223,7 @@ BenchmarkResult, or manually constructed with <code><a href="as_result_data.html
 </div>
 
 
-</div><p></p><hr><a id="method-format"></a><div class="section">
+</div><p></p><hr><a id="method-BenchmarkResult-format"></a><div class="section">
 <h3 id="method-format-">Method <code><a href="https://rdrr.io/r/base/format.html" class="external-link">format()</a></code><a class="anchor" aria-label="anchor" href="#method-format-"></a></h3>
 <p>Helper for print outputs.</p><div class="section">
 <h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
@@ -231,7 +231,7 @@ BenchmarkResult, or manually constructed with <code><a href="as_result_data.html
 </div>
 
 
-</div><p></p><hr><a id="method-print"></a><div class="section">
+</div><p></p><hr><a id="method-BenchmarkResult-print"></a><div class="section">
 <h3 id="method-print-">Method <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code><a class="anchor" aria-label="anchor" href="#method-print-"></a></h3>
 <p>Printer.</p><div class="section">
 <h4 id="usage-3">Usage<a class="anchor" aria-label="anchor" href="#usage-3"></a></h4>
@@ -239,7 +239,7 @@ BenchmarkResult, or manually constructed with <code><a href="as_result_data.html
 </div>
 
 
-</div><p></p><hr><a id="method-combine"></a><div class="section">
+</div><p></p><hr><a id="method-BenchmarkResult-combine"></a><div class="section">
 <h3 id="method-combine-">Method <code>combine()</code><a class="anchor" aria-label="anchor" href="#method-combine-"></a></h3>
 <p>Fuses a second BenchmarkResult into itself, mutating the BenchmarkResult in-place.
 If the second BenchmarkResult <code>bmr</code> is <code>NULL</code>, simply returns <code>self</code>.
@@ -264,7 +264,7 @@ You need to explicitly <code>$clone()</code> the object beforehand if you want t
 the object in its previous state.</p>
 </div>
 
-</div><p></p><hr><a id="method-score"></a><div class="section">
+</div><p></p><hr><a id="method-BenchmarkResult-score"></a><div class="section">
 <h3 id="method-score-">Method <code>score()</code><a class="anchor" aria-label="anchor" href="#method-score-"></a></h3>
 <p>Returns a table with one row for each resampling iteration, including
 all involved objects: <a href="Task.html">Task</a>, <a href="Learner.html">Learner</a>, <a href="Resampling.html">Resampling</a>, iteration number
@@ -318,7 +318,7 @@ Default is <code>"test"</code>.</p></dd>
 <p><code><a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code>.</p>
 </div>
 
-</div><p></p><hr><a id="method-aggregate"></a><div class="section">
+</div><p></p><hr><a id="method-BenchmarkResult-aggregate"></a><div class="section">
 <h3 id="method-aggregate-">Method <code><a href="https://rdrr.io/r/stats/aggregate.html" class="external-link">aggregate()</a></code><a class="anchor" aria-label="anchor" href="#method-aggregate-"></a></h3>
 <p>Returns a result table where resampling iterations are combined into
 <a href="ResampleResult.html">ResampleResult</a>s. A column with the aggregated performance score is
@@ -384,7 +384,7 @@ iterations with errors as extra integer column <code>"errors"</code>.</p></dd>
 <p><code><a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code>.</p>
 </div>
 
-</div><p></p><hr><a id="method-filter"></a><div class="section">
+</div><p></p><hr><a id="method-BenchmarkResult-filter"></a><div class="section">
 <h3 id="method-filter-">Method <code><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter()</a></code><a class="anchor" aria-label="anchor" href="#method-filter-"></a></h3>
 <p>Subsets the benchmark result. If <code>task_ids</code> is not <code>NULL</code>, keeps all
 tasks with provided task ids and discards all others tasks.
@@ -441,7 +441,7 @@ You need to explicitly <code>$clone()</code> the object beforehand if you want t
 the object in its previous state.</p>
 </div>
 
-</div><p></p><hr><a id="method-resample_result"></a><div class="section">
+</div><p></p><hr><a id="method-BenchmarkResult-resample_result"></a><div class="section">
 <h3 id="method-resample-result-">Method <code>resample_result()</code><a class="anchor" aria-label="anchor" href="#method-resample-result-"></a></h3>
 <p>Retrieve the i-th <a href="ResampleResult.html">ResampleResult</a>, by position or by unique hash <code>uhash</code>.
 <code>i</code> and <code>uhash</code> are mutually exclusive.</p><div class="section">
@@ -468,7 +468,7 @@ The <code>ushash</code> value to filter for.</p></dd>
 <p><a href="ResampleResult.html">ResampleResult</a>.</p>
 </div>
 
-</div><p></p><hr><a id="method-discard"></a><div class="section">
+</div><p></p><hr><a id="method-BenchmarkResult-discard"></a><div class="section">
 <h3 id="method-discard-">Method <code>discard()</code><a class="anchor" aria-label="anchor" href="#method-discard-"></a></h3>
 <p>Shrinks the BenchmarkResult by discarding parts of the internally stored data.
 Note that certain operations might stop work, e.g. extracting
@@ -498,7 +498,7 @@ You need to explicitly <code>$clone()</code> the object beforehand if you want t
 the object in its previous state.</p>
 </div>
 
-</div><p></p><hr><a id="method-clone"></a><div class="section">
+</div><p></p><hr><a id="method-BenchmarkResult-clone"></a><div class="section">
 <h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
 <p>The objects of this class are cloneable with this method.</p><div class="section">
 <h4 id="usage-10">Usage<a class="anchor" aria-label="anchor" href="#usage-10"></a></h4>
@@ -559,11 +559,11 @@ the object in its previous state.</p>
 <span class="r-in"><span class="co"># first 5 resampling iterations</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html" class="external-link">as.data.table</a></span><span class="op">(</span><span class="va">bmr</span>, measures <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"classif.acc"</span>, <span class="st">"classif.auc"</span><span class="op">)</span><span class="op">)</span>, <span class="fl">5</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                   uhash              task</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 56ab1193-7af1-455e-b7e4-7976091c98b6 &lt;TaskClassif[50]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 56ab1193-7af1-455e-b7e4-7976091c98b6 &lt;TaskClassif[50]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 56ab1193-7af1-455e-b7e4-7976091c98b6 &lt;TaskClassif[50]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4: 27394ef8-be36-4866-910a-74a81d3743ba &lt;TaskClassif[50]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5: 27394ef8-be36-4866-910a-74a81d3743ba &lt;TaskClassif[50]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 975cbb04-8891-4c27-ba7c-77e0ffd423c9 &lt;TaskClassif[50]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 975cbb04-8891-4c27-ba7c-77e0ffd423c9 &lt;TaskClassif[50]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 975cbb04-8891-4c27-ba7c-77e0ffd423c9 &lt;TaskClassif[50]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4: 3b38c9eb-5a57-4667-99ed-6d408101e7fe &lt;TaskClassif[50]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5: 3b38c9eb-5a57-4667-99ed-6d408101e7fe &lt;TaskClassif[50]&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                            learner         resampling iteration</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: &lt;LearnerClassifFeatureless[38]&gt; &lt;ResamplingCV[20]&gt;         1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2: &lt;LearnerClassifFeatureless[38]&gt; &lt;ResamplingCV[20]&gt;         2</span>

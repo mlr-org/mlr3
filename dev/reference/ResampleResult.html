@@ -177,18 +177,18 @@ Note that there can be multiple rows per resampling iteration if multiple errors
 <div class="section">
 <h3 id="public-methods">Public methods<a class="anchor" aria-label="anchor" href="#public-methods"></a></h3>
 
-<ul><li><p><a href="#method-new"><code>ResampleResult$new()</code></a></p></li>
-<li><p><a href="#method-format"><code>ResampleResult$format()</code></a></p></li>
-<li><p><a href="#method-print"><code>ResampleResult$print()</code></a></p></li>
-<li><p><a href="#method-help"><code>ResampleResult$help()</code></a></p></li>
-<li><p><a href="#method-prediction"><code>ResampleResult$prediction()</code></a></p></li>
-<li><p><a href="#method-predictions"><code>ResampleResult$predictions()</code></a></p></li>
-<li><p><a href="#method-score"><code>ResampleResult$score()</code></a></p></li>
-<li><p><a href="#method-aggregate"><code>ResampleResult$aggregate()</code></a></p></li>
-<li><p><a href="#method-filter"><code>ResampleResult$filter()</code></a></p></li>
-<li><p><a href="#method-discard"><code>ResampleResult$discard()</code></a></p></li>
-<li><p><a href="#method-clone"><code>ResampleResult$clone()</code></a></p></li>
-</ul></div><p></p><hr><a id="method-new"></a><div class="section">
+<ul><li><p><a href="#method-ResampleResult-new"><code>ResampleResult$new()</code></a></p></li>
+<li><p><a href="#method-ResampleResult-format"><code>ResampleResult$format()</code></a></p></li>
+<li><p><a href="#method-ResampleResult-print"><code>ResampleResult$print()</code></a></p></li>
+<li><p><a href="#method-ResampleResult-help"><code>ResampleResult$help()</code></a></p></li>
+<li><p><a href="#method-ResampleResult-prediction"><code>ResampleResult$prediction()</code></a></p></li>
+<li><p><a href="#method-ResampleResult-predictions"><code>ResampleResult$predictions()</code></a></p></li>
+<li><p><a href="#method-ResampleResult-score"><code>ResampleResult$score()</code></a></p></li>
+<li><p><a href="#method-ResampleResult-aggregate"><code>ResampleResult$aggregate()</code></a></p></li>
+<li><p><a href="#method-ResampleResult-filter"><code>ResampleResult$filter()</code></a></p></li>
+<li><p><a href="#method-ResampleResult-discard"><code>ResampleResult$discard()</code></a></p></li>
+<li><p><a href="#method-ResampleResult-clone"><code>ResampleResult$clone()</code></a></p></li>
+</ul></div><p></p><hr><a id="method-ResampleResult-new"></a><div class="section">
 <h3 id="method-new-">Method <code>new()</code><a class="anchor" aria-label="anchor" href="#method-new-"></a></h3>
 <p>Creates a new instance of this <a href="https://r6.r-lib.org/reference/R6Class.html" class="external-link">R6</a> class.
 An alternative construction method is provided by <code><a href="as_resample_result.html">as_resample_result()</a></code>.</p><div class="section">
@@ -213,7 +213,7 @@ Used internally for optimizations.</p></dd>
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-format"></a><div class="section">
+</div><p></p><hr><a id="method-ResampleResult-format"></a><div class="section">
 <h3 id="method-format-">Method <code><a href="https://rdrr.io/r/base/format.html" class="external-link">format()</a></code><a class="anchor" aria-label="anchor" href="#method-format-"></a></h3>
 <p>Helper for print outputs.</p><div class="section">
 <h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
@@ -221,7 +221,7 @@ Used internally for optimizations.</p></dd>
 </div>
 
 
-</div><p></p><hr><a id="method-print"></a><div class="section">
+</div><p></p><hr><a id="method-ResampleResult-print"></a><div class="section">
 <h3 id="method-print-">Method <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code><a class="anchor" aria-label="anchor" href="#method-print-"></a></h3>
 <p>Printer.</p><div class="section">
 <h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
@@ -237,7 +237,7 @@ Used internally for optimizations.</p></dd>
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-help"></a><div class="section">
+</div><p></p><hr><a id="method-ResampleResult-help"></a><div class="section">
 <h3 id="method-help-">Method <code>help()</code><a class="anchor" aria-label="anchor" href="#method-help-"></a></h3>
 <p>Opens the corresponding help page referenced by field <code>$man</code>.</p><div class="section">
 <h4 id="usage-3">Usage<a class="anchor" aria-label="anchor" href="#usage-3"></a></h4>
@@ -245,7 +245,7 @@ Used internally for optimizations.</p></dd>
 </div>
 
 
-</div><p></p><hr><a id="method-prediction"></a><div class="section">
+</div><p></p><hr><a id="method-ResampleResult-prediction"></a><div class="section">
 <h3 id="method-prediction-">Method <code>prediction()</code><a class="anchor" aria-label="anchor" href="#method-prediction-"></a></h3>
 <p>Combined <a href="Prediction.html">Prediction</a> of all individual resampling iterations, and all provided predict sets.
 Note that, per default, most performance measures do not operate on this object directly,
@@ -270,7 +270,7 @@ the performance scores with the aggregate function of the respective <a href="Me
 Subset of <code>{"train", "test"}</code>.</p>
 </div>
 
-</div><p></p><hr><a id="method-predictions"></a><div class="section">
+</div><p></p><hr><a id="method-ResampleResult-predictions"></a><div class="section">
 <h3 id="method-predictions-">Method <code>predictions()</code><a class="anchor" aria-label="anchor" href="#method-predictions-"></a></h3>
 <p>List of prediction objects, sorted by resampling iteration.
 If multiple sets are given, these are combined to a single one for each iteration.</p>
@@ -295,7 +295,7 @@ Subset of <code>{"train", "test"}</code>.</p></dd>
 <p>List of <a href="Prediction.html">Prediction</a> objects, one per element in <code>predict_sets</code>.</p>
 </div>
 
-</div><p></p><hr><a id="method-score"></a><div class="section">
+</div><p></p><hr><a id="method-ResampleResult-score"></a><div class="section">
 <h3 id="method-score-">Method <code>score()</code><a class="anchor" aria-label="anchor" href="#method-score-"></a></h3>
 <p>Returns a table with one row for each resampling iteration, including all involved objects:
 <a href="Task.html">Task</a>, <a href="Learner.html">Learner</a>, <a href="Resampling.html">Resampling</a>, iteration number (<code>integer(1)</code>), and <a href="Prediction.html">Prediction</a>.
@@ -345,7 +345,7 @@ Default is <code>"test"</code>.</p></dd>
 <p><code><a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code>.</p>
 </div>
 
-</div><p></p><hr><a id="method-aggregate"></a><div class="section">
+</div><p></p><hr><a id="method-ResampleResult-aggregate"></a><div class="section">
 <h3 id="method-aggregate-">Method <code><a href="https://rdrr.io/r/stats/aggregate.html" class="external-link">aggregate()</a></code><a class="anchor" aria-label="anchor" href="#method-aggregate-"></a></h3>
 <p>Calculates and aggregates performance values for all provided measures, according to the
 respective aggregation function in <a href="Measure.html">Measure</a>.
@@ -368,7 +368,7 @@ Measure(s) to calculate.</p></dd>
 <p>Named <code><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric()</a></code>.</p>
 </div>
 
-</div><p></p><hr><a id="method-filter"></a><div class="section">
+</div><p></p><hr><a id="method-ResampleResult-filter"></a><div class="section">
 <h3 id="method-filter-">Method <code><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter()</a></code><a class="anchor" aria-label="anchor" href="#method-filter-"></a></h3>
 <p>Subsets the ResampleResult, reducing it to only keep the iterations specified in <code>iters</code>.</p><div class="section">
 <h4 id="usage-8">Usage<a class="anchor" aria-label="anchor" href="#usage-8"></a></h4>
@@ -391,7 +391,7 @@ You need to explicitly <code>$clone()</code> the object beforehand if you want t
 the object in its previous state.</p>
 </div>
 
-</div><p></p><hr><a id="method-discard"></a><div class="section">
+</div><p></p><hr><a id="method-ResampleResult-discard"></a><div class="section">
 <h3 id="method-discard-">Method <code>discard()</code><a class="anchor" aria-label="anchor" href="#method-discard-"></a></h3>
 <p>Shrinks the ResampleResult by discarding parts of the internally stored data.
 Note that certain operations might stop work, e.g. extracting
@@ -421,7 +421,7 @@ You need to explicitly <code>$clone()</code> the object beforehand if you want t
 the object in its previous state.</p>
 </div>
 
-</div><p></p><hr><a id="method-clone"></a><div class="section">
+</div><p></p><hr><a id="method-ResampleResult-clone"></a><div class="section">
 <h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
 <p>The objects of this class are cloneable with this method.</p><div class="section">
 <h4 id="usage-10">Usage<a class="anchor" aria-label="anchor" href="#usage-10"></a></h4>
