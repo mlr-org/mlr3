@@ -26,6 +26,10 @@ More toy tasks can be found in the dictionary after loading \CRANpkg{mlr3data}.
 \item \code{as.data.table(t)}\cr
 \link{Task} -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Returns the complete data as \code{\link[data.table:data.table]{data.table::data.table()}}.
+\item \code{head(t)}\cr
+Calls \code{\link[=head]{head()}} on the task's data.
+\item \code{summary(t)}\cr
+Calls \code{\link[=summary]{summary()}} on the task's data.
 }
 }
 
