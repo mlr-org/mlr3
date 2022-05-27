@@ -187,7 +187,7 @@ Learner = R6Class("Learner",
       catn(str_indent("* Parameters:", as_short_string(self$param_set$values, 1000L)))
       catn(str_indent("* Packages:", self$packages))
       catn(str_indent("* Predict Type:", self$predict_type))
-      catn(str_indent("* Feature types:", self$feature_types))
+      catn(str_indent("* Feature Types:", self$feature_types))
       catn(str_indent("* Properties:", self$properties))
       w = self$warnings
       e = self$errors
