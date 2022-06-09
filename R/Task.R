@@ -112,7 +112,7 @@ Task = R6Class("Task",
     initialize = function(id, task_type, backend, label = NA_character_, extra_args = list()) {
       self$id = assert_string(id, min.chars = 1L)
       self$label = assert_string(label, na.ok = TRUE)
-      self$task_type = assert_choice(task_type, c(mlr_reflections$task_types$type, NA_character_))
+      self$task_type = assert_choice(task_type, mlr_reflections$task_types$type)
       if (!inherits(backend, "DataBackend")) {
         self$backend = as_data_backend(backend)
       } else {
