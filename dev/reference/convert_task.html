@@ -94,25 +94,36 @@
     <dl><dt>intask</dt>
 <dd><p>(<a href="Task.html">Task</a>)<br>
 A <a href="Task.html">Task</a> to be converted.</p></dd>
+
+
 <dt>target</dt>
 <dd><p>(<code>character(1)</code>)<br>
 New target to be set, must be a column in the <code>intask</code> data.
 If <code>NULL</code>, no new target is set, and task is converted as-is.</p></dd>
+
+
 <dt>new_type</dt>
 <dd><p>(<code>character(1)</code>)<br>
 The new task type. Must be in <code><a href="mlr_reflections.html">mlr_reflections$task_types</a></code>].
 If <code>NULL</code> (default), a new task with the same task_type is created.</p></dd>
+
+
 <dt>drop_original_target</dt>
 <dd><p>(<code>logical(1)</code>)<br>
 If <code>FALSE</code> (default), the original target is added as a feature.
 Otherwise the original target is dropped.</p></dd>
+
+
 <dt>drop_levels</dt>
 <dd><p>(<code>logical(1)</code>)<br>
 If <code>TRUE</code> (default), unused levels of the new target variable are dropped.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p><a href="Task.html">Task</a> of requested type.</p>
+    
+
+<p><a href="Task.html">Task</a> of requested type.</p>
     </div>
 
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
@@ -124,7 +135,7 @@ If <code>TRUE</code> (default), unused levels of the new target variable are dro
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
     </footer></div>
