@@ -143,7 +143,7 @@ Resampling = R6Class("Resampling",
     #' Printer.
     #' @param ... (ignored).
     print = function(...) {
-      catn(format(self), if (is.na(self$label)) "" else paste0(": ", self$label))
+      catn(format(self), if (is.null(self$label) || is.na(self$label)) "" else paste0(": ", self$label))
       catn(str_indent("* Iterations:", self$iters))
       catn(str_indent("* Instantiated:", self$is_instantiated))
       catn(str_indent("* Parameters:", as_short_string(self$param_set$values, 1000L)))

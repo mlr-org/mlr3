@@ -12,21 +12,16 @@ Target variable is \code{mpg} (Miles/(US) gallon).
 Rownames are stored as variable \verb{"..rownames} with column role \code{"model"}.
 }
 \section{Construction}{
-\preformatted{mlr_tasks$get("mtcars")
+
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{mlr_tasks$get("mtcars")
 tsk("mtcars")
-}
+}\if{html}{\out{</div>}}
 }
 
 \section{Meta Information}{
 
-\itemize{
-\item Task type: \dQuote{regr}
-\item Dimensions: 32x11
-\item Properties: -
-\item Has Missings: \code{FALSE}
-\item Target: \dQuote{mpg}
-\item Features: \dQuote{am}, \dQuote{carb}, \dQuote{cyl}, \dQuote{disp}, \dQuote{drat}, \dQuote{gear}, \dQuote{hp}, \dQuote{qsec}, \dQuote{vs}, \dQuote{wt}
-}
+, * Task type: \dQuote{regr}, * Dimensions: 32x11, * Properties: -, * Has Missings: \code{FALSE}, * Target: \dQuote{mpg}, * Features: \dQuote{am}, \dQuote{carb}, \dQuote{cyl}, \dQuote{disp}, \dQuote{drat}, \dQuote{gear}, \dQuote{hp}, \dQuote{qsec}, \dQuote{vs}, \dQuote{wt}
 }
 
 \seealso{

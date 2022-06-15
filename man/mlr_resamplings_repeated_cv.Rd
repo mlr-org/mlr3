@@ -15,9 +15,11 @@ Iteration numbers can be translated into folds or repeats with provided methods.
 }
 \section{Dictionary}{
 
-This \link{Resampling} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_resamplings} or with the associated sugar function \code{\link[=rsmp]{rsmp()}}:\preformatted{mlr_resamplings$get("repeated_cv")
+This \link{Resampling} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_resamplings} or with the associated sugar function \code{\link[=rsmp]{rsmp()}}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{mlr_resamplings$get("repeated_cv")
 rsmp("repeated_cv")
-}
+}\if{html}{\out{</div>}}
 }
 
 \section{Parameters}{
@@ -96,27 +98,27 @@ Returns the number of resampling iterations, depending on the values stored in t
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{ResamplingRepeatedCV$new()}}
-\item \href{#method-folds}{\code{ResamplingRepeatedCV$folds()}}
-\item \href{#method-repeats}{\code{ResamplingRepeatedCV$repeats()}}
-\item \href{#method-clone}{\code{ResamplingRepeatedCV$clone()}}
+\item \href{#method-ResamplingRepeatedCV-new}{\code{ResamplingRepeatedCV$new()}}
+\item \href{#method-ResamplingRepeatedCV-folds}{\code{ResamplingRepeatedCV$folds()}}
+\item \href{#method-ResamplingRepeatedCV-repeats}{\code{ResamplingRepeatedCV$repeats()}}
+\item \href{#method-ResamplingRepeatedCV-clone}{\code{ResamplingRepeatedCV$clone()}}
 }
 }
-\if{html}{
-\out{<details ><summary>Inherited methods</summary>}
-\itemize{
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="format">}\href{../../mlr3/html/Resampling.html#method-format}{\code{mlr3::Resampling$format()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="help">}\href{../../mlr3/html/Resampling.html#method-help}{\code{mlr3::Resampling$help()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="instantiate">}\href{../../mlr3/html/Resampling.html#method-instantiate}{\code{mlr3::Resampling$instantiate()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="print">}\href{../../mlr3/html/Resampling.html#method-print}{\code{mlr3::Resampling$print()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="test_set">}\href{../../mlr3/html/Resampling.html#method-test_set}{\code{mlr3::Resampling$test_set()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="train_set">}\href{../../mlr3/html/Resampling.html#method-train_set}{\code{mlr3::Resampling$train_set()}}\out{</span>}
-}
-\out{</details>}
-}
+\if{html}{\out{
+<details><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="format"><a href='../../mlr3/html/Resampling.html#method-Resampling-format'><code>mlr3::Resampling$format()</code></a></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="help"><a href='../../mlr3/html/Resampling.html#method-Resampling-help'><code>mlr3::Resampling$help()</code></a></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="instantiate"><a href='../../mlr3/html/Resampling.html#method-Resampling-instantiate'><code>mlr3::Resampling$instantiate()</code></a></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="print"><a href='../../mlr3/html/Resampling.html#method-Resampling-print'><code>mlr3::Resampling$print()</code></a></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="test_set"><a href='../../mlr3/html/Resampling.html#method-Resampling-test_set'><code>mlr3::Resampling$test_set()</code></a></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="train_set"><a href='../../mlr3/html/Resampling.html#method-Resampling-train_set'><code>mlr3::Resampling$train_set()</code></a></li>
+</ul>
+</details>
+}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-ResamplingRepeatedCV-new"></a>}}
+\if{latex}{\out{\hypertarget{method-ResamplingRepeatedCV-new}{}}}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
@@ -125,8 +127,8 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-folds"></a>}}
-\if{latex}{\out{\hypertarget{method-folds}{}}}
+\if{html}{\out{<a id="method-ResamplingRepeatedCV-folds"></a>}}
+\if{latex}{\out{\hypertarget{method-ResamplingRepeatedCV-folds}{}}}
 \subsection{Method \code{folds()}}{
 Translates iteration numbers to fold numbers.
 \subsection{Usage}{
@@ -146,8 +148,8 @@ Iteration number.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-repeats"></a>}}
-\if{latex}{\out{\hypertarget{method-repeats}{}}}
+\if{html}{\out{<a id="method-ResamplingRepeatedCV-repeats"></a>}}
+\if{latex}{\out{\hypertarget{method-ResamplingRepeatedCV-repeats}{}}}
 \subsection{Method \code{repeats()}}{
 Translates iteration numbers to repetition numbers.
 \subsection{Usage}{
@@ -167,8 +169,8 @@ Iteration number.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-ResamplingRepeatedCV-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-ResamplingRepeatedCV-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

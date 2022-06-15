@@ -58,17 +58,23 @@ This can be used in measures like \link{mlr_measures_aic} or \link{mlr_measures_
 All information about hyperparameters is stored in the slot \code{param_set} which is a \link[paradox:ParamSet]{paradox::ParamSet}.
 The printer gives an overview about the ids of available hyperparameters, their storage type, lower and upper bounds,
 possible levels (for factors), default values and assigned values.
-To set hyperparameters, assign a named list to the subslot \code{values}:\preformatted{lrn = lrn("classif.rpart")
+To set hyperparameters, assign a named list to the subslot \code{values}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{lrn = lrn("classif.rpart")
 lrn$param_set$values = list(minsplit = 3, cp = 0.01)
-}
+}\if{html}{\out{</div>}}
 
 Note that this operation replaces all previously set hyperparameter values.
-If you only intend to change one specific hyperparameter value and leave the others as-is, you can use the helper function \code{\link[mlr3misc:insert_named]{mlr3misc::insert_named()}}:\preformatted{lrn$param_set$values = mlr3misc::insert_named(lrn$param_set$values, list(cp = 0.001))
-}
+If you only intend to change one specific hyperparameter value and leave the others as-is, you can use the helper function \code{\link[mlr3misc:insert_named]{mlr3misc::insert_named()}}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{lrn$param_set$values = mlr3misc::insert_named(lrn$param_set$values, list(cp = 0.001))
+}\if{html}{\out{</div>}}
 
 If the learner has additional hyperparameters which are not encoded in the \link[paradox:ParamSet]{ParamSet}, you can easily extend the learner.
-Here, we add a factor hyperparameter with id \code{"foo"} and possible levels \code{"a"} and \code{"b"}:\preformatted{lrn$param_set$add(paradox::ParamFct$new("foo", levels = c("a", "b")))
-}
+Here, we add a factor hyperparameter with id \code{"foo"} and possible levels \code{"a"} and \code{"b"}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{lrn$param_set$add(paradox::ParamFct$new("foo", levels = c("a", "b")))
+}\if{html}{\out{</div>}}
 }
 
 \seealso{
@@ -236,21 +242,21 @@ The learner's default parameters.}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{Learner$new()}}
-\item \href{#method-format}{\code{Learner$format()}}
-\item \href{#method-print}{\code{Learner$print()}}
-\item \href{#method-help}{\code{Learner$help()}}
-\item \href{#method-train}{\code{Learner$train()}}
-\item \href{#method-predict}{\code{Learner$predict()}}
-\item \href{#method-predict_newdata}{\code{Learner$predict_newdata()}}
-\item \href{#method-reset}{\code{Learner$reset()}}
-\item \href{#method-base_learner}{\code{Learner$base_learner()}}
-\item \href{#method-clone}{\code{Learner$clone()}}
+\item \href{#method-Learner-new}{\code{Learner$new()}}
+\item \href{#method-Learner-format}{\code{Learner$format()}}
+\item \href{#method-Learner-print}{\code{Learner$print()}}
+\item \href{#method-Learner-help}{\code{Learner$help()}}
+\item \href{#method-Learner-train}{\code{Learner$train()}}
+\item \href{#method-Learner-predict}{\code{Learner$predict()}}
+\item \href{#method-Learner-predict_newdata}{\code{Learner$predict_newdata()}}
+\item \href{#method-Learner-reset}{\code{Learner$reset()}}
+\item \href{#method-Learner-base_learner}{\code{Learner$base_learner()}}
+\item \href{#method-Learner-clone}{\code{Learner$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-Learner-new"></a>}}
+\if{latex}{\out{\hypertarget{method-Learner-new}{}}}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 
@@ -325,8 +331,8 @@ Default parameter values to be set.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-format"></a>}}
-\if{latex}{\out{\hypertarget{method-format}{}}}
+\if{html}{\out{<a id="method-Learner-format"></a>}}
+\if{latex}{\out{\hypertarget{method-Learner-format}{}}}
 \subsection{Method \code{format()}}{
 Helper for print outputs.
 \subsection{Usage}{
@@ -335,8 +341,8 @@ Helper for print outputs.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-print"></a>}}
-\if{latex}{\out{\hypertarget{method-print}{}}}
+\if{html}{\out{<a id="method-Learner-print"></a>}}
+\if{latex}{\out{\hypertarget{method-Learner-print}{}}}
 \subsection{Method \code{print()}}{
 Printer.
 \subsection{Usage}{
@@ -352,8 +358,8 @@ Printer.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-help"></a>}}
-\if{latex}{\out{\hypertarget{method-help}{}}}
+\if{html}{\out{<a id="method-Learner-help"></a>}}
+\if{latex}{\out{\hypertarget{method-Learner-help}{}}}
 \subsection{Method \code{help()}}{
 Opens the corresponding help page referenced by field \verb{$man}.
 \subsection{Usage}{
@@ -362,8 +368,8 @@ Opens the corresponding help page referenced by field \verb{$man}.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-train"></a>}}
-\if{latex}{\out{\hypertarget{method-train}{}}}
+\if{html}{\out{<a id="method-Learner-train"></a>}}
+\if{latex}{\out{\hypertarget{method-Learner-train}{}}}
 \subsection{Method \code{train()}}{
 Train the learner on a set of observations of the provided \code{task}.
 Mutates the learner by reference, i.e. stores the model alongside other information in field \verb{$state}.
@@ -389,8 +395,8 @@ the object in its previous state.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-predict"></a>}}
-\if{latex}{\out{\hypertarget{method-predict}{}}}
+\if{html}{\out{<a id="method-Learner-predict"></a>}}
+\if{latex}{\out{\hypertarget{method-Learner-predict}{}}}
 \subsection{Method \code{predict()}}{
 Uses the information stored during \verb{$train()} in \verb{$state} to create a new \link{Prediction}
 for a set of observations of the provided \code{task}.
@@ -414,8 +420,8 @@ For a simple split into training and test set, see \code{\link[=partition]{parti
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-predict_newdata"></a>}}
-\if{latex}{\out{\hypertarget{method-predict_newdata}{}}}
+\if{html}{\out{<a id="method-Learner-predict_newdata"></a>}}
+\if{latex}{\out{\hypertarget{method-Learner-predict_newdata}{}}}
 \subsection{Method \code{predict_newdata()}}{
 Uses the model fitted during \verb{$train()} to create a new \link{Prediction} based on the new data in \code{newdata}.
 Object \code{task} is the task used during \verb{$train()} and required for conversion of \code{newdata}.
@@ -446,8 +452,8 @@ otherwise they are set to to the sequence \code{1:nrow(newdata)}.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-reset"></a>}}
-\if{latex}{\out{\hypertarget{method-reset}{}}}
+\if{html}{\out{<a id="method-Learner-reset"></a>}}
+\if{latex}{\out{\hypertarget{method-Learner-reset}{}}}
 \subsection{Method \code{reset()}}{
 Reset the learner, i.e. un-train by resetting the \code{state}.
 \subsection{Usage}{
@@ -461,8 +467,8 @@ the object in its previous state.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-base_learner"></a>}}
-\if{latex}{\out{\hypertarget{method-base_learner}{}}}
+\if{html}{\out{<a id="method-Learner-base_learner"></a>}}
+\if{latex}{\out{\hypertarget{method-Learner-base_learner}{}}}
 \subsection{Method \code{base_learner()}}{
 Extracts the base learner from nested learner objects like
 \code{GraphLearner} in \CRANpkg{mlr3pipelines} or \code{AutoTuner} in
@@ -485,8 +491,8 @@ Depth of recursion for multiple nested objects.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-Learner-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-Learner-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

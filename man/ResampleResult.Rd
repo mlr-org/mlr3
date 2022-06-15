@@ -102,22 +102,22 @@ Note that there can be multiple rows per resampling iteration if multiple errors
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{ResampleResult$new()}}
-\item \href{#method-format}{\code{ResampleResult$format()}}
-\item \href{#method-print}{\code{ResampleResult$print()}}
-\item \href{#method-help}{\code{ResampleResult$help()}}
-\item \href{#method-prediction}{\code{ResampleResult$prediction()}}
-\item \href{#method-predictions}{\code{ResampleResult$predictions()}}
-\item \href{#method-score}{\code{ResampleResult$score()}}
-\item \href{#method-aggregate}{\code{ResampleResult$aggregate()}}
-\item \href{#method-filter}{\code{ResampleResult$filter()}}
-\item \href{#method-discard}{\code{ResampleResult$discard()}}
-\item \href{#method-clone}{\code{ResampleResult$clone()}}
+\item \href{#method-ResampleResult-new}{\code{ResampleResult$new()}}
+\item \href{#method-ResampleResult-format}{\code{ResampleResult$format()}}
+\item \href{#method-ResampleResult-print}{\code{ResampleResult$print()}}
+\item \href{#method-ResampleResult-help}{\code{ResampleResult$help()}}
+\item \href{#method-ResampleResult-prediction}{\code{ResampleResult$prediction()}}
+\item \href{#method-ResampleResult-predictions}{\code{ResampleResult$predictions()}}
+\item \href{#method-ResampleResult-score}{\code{ResampleResult$score()}}
+\item \href{#method-ResampleResult-aggregate}{\code{ResampleResult$aggregate()}}
+\item \href{#method-ResampleResult-filter}{\code{ResampleResult$filter()}}
+\item \href{#method-ResampleResult-discard}{\code{ResampleResult$discard()}}
+\item \href{#method-ResampleResult-clone}{\code{ResampleResult$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-ResampleResult-new"></a>}}
+\if{latex}{\out{\hypertarget{method-ResampleResult-new}{}}}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 An alternative construction method is provided by \code{\link[=as_resample_result]{as_resample_result()}}.
@@ -140,8 +140,8 @@ Used internally for optimizations.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-format"></a>}}
-\if{latex}{\out{\hypertarget{method-format}{}}}
+\if{html}{\out{<a id="method-ResampleResult-format"></a>}}
+\if{latex}{\out{\hypertarget{method-ResampleResult-format}{}}}
 \subsection{Method \code{format()}}{
 Helper for print outputs.
 \subsection{Usage}{
@@ -150,8 +150,8 @@ Helper for print outputs.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-print"></a>}}
-\if{latex}{\out{\hypertarget{method-print}{}}}
+\if{html}{\out{<a id="method-ResampleResult-print"></a>}}
+\if{latex}{\out{\hypertarget{method-ResampleResult-print}{}}}
 \subsection{Method \code{print()}}{
 Printer.
 \subsection{Usage}{
@@ -167,8 +167,8 @@ Printer.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-help"></a>}}
-\if{latex}{\out{\hypertarget{method-help}{}}}
+\if{html}{\out{<a id="method-ResampleResult-help"></a>}}
+\if{latex}{\out{\hypertarget{method-ResampleResult-help}{}}}
 \subsection{Method \code{help()}}{
 Opens the corresponding help page referenced by field \verb{$man}.
 \subsection{Usage}{
@@ -177,8 +177,8 @@ Opens the corresponding help page referenced by field \verb{$man}.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-prediction"></a>}}
-\if{latex}{\out{\hypertarget{method-prediction}{}}}
+\if{html}{\out{<a id="method-ResampleResult-prediction"></a>}}
+\if{latex}{\out{\hypertarget{method-ResampleResult-prediction}{}}}
 \subsection{Method \code{prediction()}}{
 Combined \link{Prediction} of all individual resampling iterations, and all provided predict sets.
 Note that, per default, most performance measures do not operate on this object directly,
@@ -203,8 +203,8 @@ Subset of \verb{\{"train", "test"\}}.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-predictions"></a>}}
-\if{latex}{\out{\hypertarget{method-predictions}{}}}
+\if{html}{\out{<a id="method-ResampleResult-predictions"></a>}}
+\if{latex}{\out{\hypertarget{method-ResampleResult-predictions}{}}}
 \subsection{Method \code{predictions()}}{
 List of prediction objects, sorted by resampling iteration.
 If multiple sets are given, these are combined to a single one for each iteration.
@@ -229,8 +229,8 @@ List of \link{Prediction} objects, one per element in \code{predict_sets}.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-score"></a>}}
-\if{latex}{\out{\hypertarget{method-score}{}}}
+\if{html}{\out{<a id="method-ResampleResult-score"></a>}}
+\if{latex}{\out{\hypertarget{method-ResampleResult-score}{}}}
 \subsection{Method \code{score()}}{
 Returns a table with one row for each resampling iteration, including all involved objects:
 \link{Task}, \link{Learner}, \link{Resampling}, iteration number (\code{integer(1)}), and \link{Prediction}.
@@ -273,8 +273,8 @@ Default is \code{"test"}.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-aggregate"></a>}}
-\if{latex}{\out{\hypertarget{method-aggregate}{}}}
+\if{html}{\out{<a id="method-ResampleResult-aggregate"></a>}}
+\if{latex}{\out{\hypertarget{method-ResampleResult-aggregate}{}}}
 \subsection{Method \code{aggregate()}}{
 Calculates and aggregates performance values for all provided measures, according to the
 respective aggregation function in \link{Measure}.
@@ -296,8 +296,8 @@ Named \code{numeric()}.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-filter"></a>}}
-\if{latex}{\out{\hypertarget{method-filter}{}}}
+\if{html}{\out{<a id="method-ResampleResult-filter"></a>}}
+\if{latex}{\out{\hypertarget{method-ResampleResult-filter}{}}}
 \subsection{Method \code{filter()}}{
 Subsets the \link{ResampleResult}, reducing it to only keep the iterations specified in \code{iters}.
 \subsection{Usage}{
@@ -319,8 +319,8 @@ the object in its previous state.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-discard"></a>}}
-\if{latex}{\out{\hypertarget{method-discard}{}}}
+\if{html}{\out{<a id="method-ResampleResult-discard"></a>}}
+\if{latex}{\out{\hypertarget{method-ResampleResult-discard}{}}}
 \subsection{Method \code{discard()}}{
 Shrinks the \link{ResampleResult} by discarding parts of the internally stored data.
 Note that certain operations might stop working, e.g. extracting
@@ -347,8 +347,8 @@ the object in its previous state.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-ResampleResult-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-ResampleResult-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

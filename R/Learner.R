@@ -190,12 +190,12 @@ Learner = R6Class("Learner",
     #' Printer.
     #' @param ... (ignored).
     print = function(...) {
-      catn(format(self), if (is.na(self$label)) "" else paste0(": ", self$label))
+      catn(format(self), if (is.null(self$label) || is.na(self$label)) "" else paste0(": ", self$label))
       catn(str_indent("* Model:", if (is.null(self$model)) "-" else class(self$model)[1L]))
       catn(str_indent("* Parameters:", as_short_string(self$param_set$values, 1000L)))
       catn(str_indent("* Packages:", self$packages))
       catn(str_indent("* Predict Type:", self$predict_type))
-      catn(str_indent("* Feature types:", self$feature_types))
+      catn(str_indent("* Feature Types:", self$feature_types))
       catn(str_indent("* Properties:", self$properties))
       w = self$warnings
       e = self$errors

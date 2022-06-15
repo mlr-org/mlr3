@@ -31,6 +31,11 @@
 #' * `as.data.table(t)`\cr
 #'   [Task] -> [data.table::data.table()]\cr
 #'   Returns the complete data as [data.table::data.table()].
+#' * `head(t)`\cr
+#'   Calls [head()] on the task's data.
+#' * `summary(t)`\cr
+#'   Calls [summary()] on the task's data.
+#'
 #'
 #' @section Task mutators:
 #' The following methods change the task in-place:
@@ -162,7 +167,7 @@ Task = R6Class("Task",
     #' @param ... (ignored).
     print = function(...) {
       catf("%s (%i x %i)%s", format(self), self$nrow, self$ncol,
-        if (is.na(self$label)) "" else paste0(": ", self$label))
+        if (is.null(self$label) || is.na(self$label)) "" else paste0(": ", self$label))
       catf(str_indent("* Target:", self$target_names))
       catf(str_indent("* Properties:", self$properties))
 
@@ -1097,4 +1102,9 @@ rd_info.Task = function(obj, section) { # nolint
     sprintf("* Target: %s", rd_format_string(obj$target_names)),
     sprintf("* Features: %s", rd_format_string(obj$feature_names))
   )
+}
+
+#' @export
+summary.Task = function(object, limit = object$nrow, ...) {
+  summary(head(object, limit))
 }

@@ -9,7 +9,7 @@ labels
 in binary classification tasks.
 }
 \details{
-With \eqn{P} as \code{\link[mlr3measures:ppv]{precision()}} and \eqn{R} as \code{\link[mlr3measures:tpr]{recall()}}, the F-beta Score is defined as \deqn{
+With \eqn{P} as \code{\link[mlr3measures:precision]{precision()}} and \eqn{R} as \code{\link[mlr3measures:recall]{recall()}}, the F-beta Score is defined as \deqn{
    (1 + \beta^2) \frac{P \cdot R}{(\beta^2 P) + R}.
 }{
    (1 + beta^2) * (P*R) / ((beta^2 * P) + R).
@@ -28,16 +28,16 @@ This can be customized by setting the field \code{na_value}.
 }
 \section{Dictionary}{
 
-This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("classif.fbeta")
+This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{mlr_measures$get("classif.fbeta")
 msr("classif.fbeta")
-}
+}\if{html}{\out{</div>}}
 }
 
 \section{Parameters}{
-\tabular{llll}{
-   Id \tab Type \tab Default \tab Range \cr
-   beta \tab integer \tab - \tab \eqn{[0, \infty)}{[0, Inf)} \cr
-}
+
+, |Id   |Type    |Default |Range                       |, |:----|:-------|:-------|:---------------------------|, |beta |integer |-       |\eqn{[0, \infty)}{[0, Inf)} |
 }
 
 \section{Meta Information}{

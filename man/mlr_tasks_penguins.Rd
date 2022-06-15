@@ -15,21 +15,16 @@ A better alternative to the \link[=iris]{iris data set}.
 }
 \section{Dictionary}{
 
-This \link{Task} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_tasks} or with the associated sugar function \code{\link[=tsk]{tsk()}}:\preformatted{mlr_tasks$get("penguins")
+This \link{Task} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_tasks} or with the associated sugar function \code{\link[=tsk]{tsk()}}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{mlr_tasks$get("penguins")
 tsk("penguins")
-}
+}\if{html}{\out{</div>}}
 }
 
 \section{Meta Information}{
 
-\itemize{
-\item Task type: \dQuote{classif}
-\item Dimensions: 344x8
-\item Properties: \dQuote{multiclass}
-\item Has Missings: \code{TRUE}
-\item Target: \dQuote{species}
-\item Features: \dQuote{bill_depth}, \dQuote{bill_length}, \dQuote{body_mass}, \dQuote{flipper_length}, \dQuote{island}, \dQuote{sex}, \dQuote{year}
-}
+, * Task type: \dQuote{classif}, * Dimensions: 344x8, * Properties: \dQuote{multiclass}, * Has Missings: \code{TRUE}, * Target: \dQuote{species}, * Features: \dQuote{bill_depth}, \dQuote{bill_length}, \dQuote{body_mass}, \dQuote{flipper_length}, \dQuote{island}, \dQuote{sex}, \dQuote{year}
 }
 
 \section{Pre-processing}{

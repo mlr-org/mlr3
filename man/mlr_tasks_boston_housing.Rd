@@ -10,21 +10,16 @@
 A regression task for the \link[mlbench:BostonHousing]{mlbench::BostonHousing2} data set.
 }
 \section{Construction}{
-\preformatted{mlr_tasks$get("boston_housing")
+
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{mlr_tasks$get("boston_housing")
 tsk("boston_housing")
-}
+}\if{html}{\out{</div>}}
 }
 
 \section{Meta Information}{
 
-\itemize{
-\item Task type: \dQuote{regr}
-\item Dimensions: 506x19
-\item Properties: -
-\item Has Missings: \code{FALSE}
-\item Target: \dQuote{medv}
-\item Features: \dQuote{age}, \dQuote{b}, \dQuote{chas}, \dQuote{cmedv}, \dQuote{crim}, \dQuote{dis}, \dQuote{indus}, \dQuote{lat}, \dQuote{lon}, \dQuote{lstat}, \dQuote{nox}, \dQuote{ptratio}, \dQuote{rad}, \dQuote{rm}, \dQuote{tax}, \dQuote{town}, \dQuote{tract}, \dQuote{zn}
-}
+, * Task type: \dQuote{regr}, * Dimensions: 506x19, * Properties: -, * Has Missings: \code{FALSE}, * Target: \dQuote{medv}, * Features: \dQuote{age}, \dQuote{b}, \dQuote{chas}, \dQuote{cmedv}, \dQuote{crim}, \dQuote{dis}, \dQuote{indus}, \dQuote{lat}, \dQuote{lon}, \dQuote{lstat}, \dQuote{nox}, \dQuote{ptratio}, \dQuote{rad}, \dQuote{rm}, \dQuote{tax}, \dQuote{town}, \dQuote{tract}, \dQuote{zn}
 }
 
 \seealso{
