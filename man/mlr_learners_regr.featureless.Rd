@@ -22,12 +22,19 @@ lrn("regr.featureless")
 
 \section{Meta Information}{
 
-, * Task type: \dQuote{regr}, * Predict Types: \dQuote{response}, \dQuote{se}, * Feature Types: \dQuote{logical}, \dQuote{integer}, \dQuote{numeric}, \dQuote{character}, \dQuote{factor}, \dQuote{ordered}, \dQuote{POSIXct}, * Required Packages: \CRANpkg{mlr3}, 'stats'
+\itemize{
+\item Task type: \dQuote{regr}
+\item Predict Types: \dQuote{response}, \dQuote{se}
+\item Feature Types: \dQuote{logical}, \dQuote{integer}, \dQuote{numeric}, \dQuote{character}, \dQuote{factor}, \dQuote{ordered}, \dQuote{POSIXct}
+\item Required Packages: \CRANpkg{mlr3}, 'stats'
+}
 }
 
 \section{Parameters}{
-
-, |Id     |Type    |Default |Levels      |, |:------|:-------|:-------|:-----------|, |robust |logical |TRUE    |TRUE, FALSE |
+\tabular{llll}{
+   Id \tab Type \tab Default \tab Levels \cr
+   robust \tab logical \tab TRUE \tab TRUE, FALSE \cr
+}
 }
 
 \seealso{

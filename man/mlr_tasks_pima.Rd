@@ -21,7 +21,14 @@ tsk("pima")
 
 \section{Meta Information}{
 
-, * Task type: \dQuote{classif}, * Dimensions: 768x9, * Properties: \dQuote{twoclass}, * Has Missings: \code{TRUE}, * Target: \dQuote{diabetes}, * Features: \dQuote{age}, \dQuote{glucose}, \dQuote{insulin}, \dQuote{mass}, \dQuote{pedigree}, \dQuote{pregnant}, \dQuote{pressure}, \dQuote{triceps}
+\itemize{
+\item Task type: \dQuote{classif}
+\item Dimensions: 768x9
+\item Properties: \dQuote{twoclass}
+\item Has Missings: \code{TRUE}
+\item Target: \dQuote{diabetes}
+\item Features: \dQuote{age}, \dQuote{glucose}, \dQuote{insulin}, \dQuote{mass}, \dQuote{pedigree}, \dQuote{pregnant}, \dQuote{pressure}, \dQuote{triceps}
+}
 }
 
 \seealso{

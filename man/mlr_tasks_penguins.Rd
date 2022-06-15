@@ -24,7 +24,14 @@ tsk("penguins")
 
 \section{Meta Information}{
 
-, * Task type: \dQuote{classif}, * Dimensions: 344x8, * Properties: \dQuote{multiclass}, * Has Missings: \code{TRUE}, * Target: \dQuote{species}, * Features: \dQuote{bill_depth}, \dQuote{bill_length}, \dQuote{body_mass}, \dQuote{flipper_length}, \dQuote{island}, \dQuote{sex}, \dQuote{year}
+\itemize{
+\item Task type: \dQuote{classif}
+\item Dimensions: 344x8
+\item Properties: \dQuote{multiclass}
+\item Has Missings: \code{TRUE}
+\item Target: \dQuote{species}
+\item Features: \dQuote{bill_depth}, \dQuote{bill_length}, \dQuote{body_mass}, \dQuote{flipper_length}, \dQuote{island}, \dQuote{sex}, \dQuote{year}
+}
 }
 
 \section{Pre-processing}{

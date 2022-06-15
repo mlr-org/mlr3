@@ -21,7 +21,14 @@ tsk("sonar")
 
 \section{Meta Information}{
 
-, * Task type: \dQuote{classif}, * Dimensions: 208x61, * Properties: \dQuote{twoclass}, * Has Missings: \code{FALSE}, * Target: \dQuote{Class}, * Features: \dQuote{V1}, \dQuote{V10}, \dQuote{V11}, \dQuote{V12}, \dQuote{V13}, \dQuote{V14}, \dQuote{V15}, \dQuote{V16}, \dQuote{V17}, \dQuote{V18}, \dQuote{V19}, \dQuote{V2}, \dQuote{V20}, \dQuote{V21}, \dQuote{V22}, \dQuote{V23}, \dQuote{V24}, \dQuote{V25}, \dQuote{V26}, \dQuote{V27}, \dQuote{V28}, \dQuote{V29}, \dQuote{V3}, \dQuote{V30}, \dQuote{V31}, \dQuote{V32}, \dQuote{V33}, \dQuote{V34}, \dQuote{V35}, \dQuote{V36}, \dQuote{V37}, \dQuote{V38}, \dQuote{V39}, \dQuote{V4}, \dQuote{V40}, \dQuote{V41}, \dQuote{V42}, \dQuote{V43}, \dQuote{V44}, \dQuote{V45}, \dQuote{V46}, \dQuote{V47}, \dQuote{V48}, \dQuote{V49}, \dQuote{V5}, \dQuote{V50}, \dQuote{V51}, \dQuote{V52}, \dQuote{V53}, \dQuote{V54}, \dQuote{V55}, \dQuote{V56}, \dQuote{V57}, \dQuote{V58}, \dQuote{V59}, \dQuote{V6}, \dQuote{V60}, \dQuote{V7}, \dQuote{V8}, \dQuote{V9}
+\itemize{
+\item Task type: \dQuote{classif}
+\item Dimensions: 208x61
+\item Properties: \dQuote{twoclass}
+\item Has Missings: \code{FALSE}
+\item Target: \dQuote{Class}
+\item Features: \dQuote{V1}, \dQuote{V10}, \dQuote{V11}, \dQuote{V12}, \dQuote{V13}, \dQuote{V14}, \dQuote{V15}, \dQuote{V16}, \dQuote{V17}, \dQuote{V18}, \dQuote{V19}, \dQuote{V2}, \dQuote{V20}, \dQuote{V21}, \dQuote{V22}, \dQuote{V23}, \dQuote{V24}, \dQuote{V25}, \dQuote{V26}, \dQuote{V27}, \dQuote{V28}, \dQuote{V29}, \dQuote{V3}, \dQuote{V30}, \dQuote{V31}, \dQuote{V32}, \dQuote{V33}, \dQuote{V34}, \dQuote{V35}, \dQuote{V36}, \dQuote{V37}, \dQuote{V38}, \dQuote{V39}, \dQuote{V4}, \dQuote{V40}, \dQuote{V41}, \dQuote{V42}, \dQuote{V43}, \dQuote{V44}, \dQuote{V45}, \dQuote{V46}, \dQuote{V47}, \dQuote{V48}, \dQuote{V49}, \dQuote{V5}, \dQuote{V50}, \dQuote{V51}, \dQuote{V52}, \dQuote{V53}, \dQuote{V54}, \dQuote{V55}, \dQuote{V56}, \dQuote{V57}, \dQuote{V58}, \dQuote{V59}, \dQuote{V6}, \dQuote{V60}, \dQuote{V7}, \dQuote{V8}, \dQuote{V9}
+}
 }
 
 \seealso{

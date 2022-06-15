@@ -354,7 +354,7 @@ format_list_item.Measure = function(x, ...) { # nolint
 
 #' @export
 rd_info.Measure = function(obj) { # nolint
-  c("",
+  x = c("",
     sprintf("* Task type: %s", rd_format_string(obj$task_type)),
     sprintf("* Range: %s", rd_format_range(obj$range[1L], obj$range[2L])),
     sprintf("* Minimize: %s", obj$minimize),
@@ -362,4 +362,5 @@ rd_info.Measure = function(obj) { # nolint
     sprintf("* Required Prediction: %s", rd_format_string(obj$predict_type)),
     sprintf("* Required Packages: %s", rd_format_packages(obj$packages))
   )
+  paste(x, collapse = "\n")
 }

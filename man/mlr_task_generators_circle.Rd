@@ -18,8 +18,10 @@ tgen("circle")
 }
 
 \section{Parameters}{
-
-, |Id |Type    |Default |Range                       |, |:--|:-------|:-------|:---------------------------|, |d  |integer |2       |\eqn{[2, \infty)}{[2, Inf)} |
+\tabular{llll}{
+   Id \tab Type \tab Default \tab Range \cr
+   d \tab integer \tab 2 \tab \eqn{[2, \infty)}{[2, Inf)} \cr
+}
 }
 
 \examples{

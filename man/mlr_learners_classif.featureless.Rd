@@ -24,12 +24,19 @@ lrn("classif.featureless")
 
 \section{Meta Information}{
 
-, * Task type: \dQuote{classif}, * Predict Types: \dQuote{response}, \dQuote{prob}, * Feature Types: \dQuote{logical}, \dQuote{integer}, \dQuote{numeric}, \dQuote{character}, \dQuote{factor}, \dQuote{ordered}, \dQuote{POSIXct}, * Required Packages: \CRANpkg{mlr3}
+\itemize{
+\item Task type: \dQuote{classif}
+\item Predict Types: \dQuote{response}, \dQuote{prob}
+\item Feature Types: \dQuote{logical}, \dQuote{integer}, \dQuote{numeric}, \dQuote{character}, \dQuote{factor}, \dQuote{ordered}, \dQuote{POSIXct}
+\item Required Packages: \CRANpkg{mlr3}
+}
 }
 
 \section{Parameters}{
-
-, |Id     |Type      |Default |Levels                        |, |:------|:---------|:-------|:-----------------------------|, |method |character |mode    |mode, sample, weighted.sample |
+\tabular{llll}{
+   Id \tab Type \tab Default \tab Levels \cr
+   method \tab character \tab mode \tab mode, sample, weighted.sample \cr
+}
 }
 
 \seealso{

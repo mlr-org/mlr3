@@ -24,12 +24,21 @@ msr("selected_features")
 
 \section{Meta Information}{
 
-, * Task type: \dQuote{NA}, * Range: \eqn{[0, \infty)}{[0, Inf)}, * Minimize: TRUE, * Average: macro, * Required Prediction: \dQuote{response}, * Required Packages: \CRANpkg{mlr3}
+\itemize{
+\item Task type: \dQuote{NA}
+\item Range: \eqn{[0, \infty)}{[0, Inf)}
+\item Minimize: TRUE
+\item Average: macro
+\item Required Prediction: \dQuote{response}
+\item Required Packages: \CRANpkg{mlr3}
+}
 }
 
 \section{Parameters}{
-
-, |Id        |Type    |Default |Levels      |, |:---------|:-------|:-------|:-----------|, |normalize |logical |FALSE   |TRUE, FALSE |
+\tabular{llll}{
+   Id \tab Type \tab Default \tab Levels \cr
+   normalize \tab logical \tab FALSE \tab TRUE, FALSE \cr
+}
 }
 
 \examples{
