@@ -13,10 +13,10 @@
 #' * `data_formats` (`character()`)\cr
 #'   Vectors of supported data formats, e.g. `"data.table"` or `"Matrix"`.
 #'
-#' * `task_types` (`data.table()`)\cr
+#' * `task_generators` (`data.table()`)\cr
 #'   Table with task type (`"type"`), the implementing package (`"pkg"`), and the names of the generators
 #'   of the corresponding [Task] (`"task"`), [Learner] (`"learner"`),
-#'   [Prediction] (`"prediction"`) and [Measure] (`"measure"`).
+#'   [Prediction] (`"prediction"`), [PredictionData] (`"prediction_data"`) and [Measure] (`"measure"`).
 #'
 #' * `task_feature_types` (named `character()`)\cr
 #'   Vector of base R types supported as [Task] features, named with a 3 letter abbreviation.
@@ -34,6 +34,9 @@
 #'   List of vectors of [Task] properties which necessarily must be supported by the [Learner].
 #'   I.e., if the task property is not found in the set of the learner properties, an exception
 #'   is raised.
+#'
+#' * `default_measures` (list of `character()`)\cr
+#'   List of keys for the default [Measure]s, named by their task type.
 #'
 #' * `learner_properties` (list of `character()`)\cr
 #'   List of vectors of supported [Learner] properties, named by their task type.
@@ -54,9 +57,6 @@
 #'
 #' * `measure_properties` (list of `character()`)\cr
 #'   List of vectors of supported [Measure] properties, named by their task type.
-#'
-#' * `default_measures` (list of `character()`)\cr
-#'   List of keys for the default [Measure]s, named by their task type.
 #'
 #' * `rr_names` (`character()`)\cr
 #'   Names of the objects stored in a [ResampleResult].
@@ -81,11 +81,11 @@ local({
 
   ### Task
   # task types + constructors
-  mlr_reflections$task_types = rowwise_table(.key = "type",
-    ~type,              ~package, ~task,         ~learner,         ~prediction,         ~measure,
-    "regr",             "mlr3",   "TaskRegr",    "LearnerRegr",    "PredictionRegr",    "MeasureRegr",
-    "classif",          "mlr3",   "TaskClassif", "LearnerClassif", "PredictionClassif", "MeasureClassif",
-    "unsupervised",     "mlr3",   "Task",        "Learner",        "Prediction",        "Measure"
+  mlr_reflections$task_generators = rowwise_table(.key = "type",
+    ~type,              ~package, ~task,         ~learner,         ~prediction,         ~prediction_data,        ~measure,
+    "regr",             "mlr3",   "TaskRegr",    "LearnerRegr",    "PredictionRegr",    "PredictionDataRegr",    "MeasureRegr",
+    "classif",          "mlr3",   "TaskClassif", "LearnerClassif", "PredictionClassif", "PredictionDataClassif", "MeasureClassif",
+    "unsupervised",     "mlr3",   "Task",        "Learner",        "Prediction",        "PredictionData",        "Measure"
   )
 
   mlr_reflections$task_feature_types = c(
@@ -100,21 +100,31 @@ local({
   mlr_reflections$task_col_roles = list(
     regr = tmp,
     classif = tmp,
-    unsupervised = tmp
+    unsupervised = setdiff(tmp, "target")
   )
 
   tmp = c("strata", "groups", "weights")
   mlr_reflections$task_properties = list(
     classif = c(tmp, "twoclass", "multiclass"),
-    regr = tmp
+    regr = tmp,
+    unsupervised = "unsupervised"
   )
 
   mlr_reflections$task_mandatory_properties = list(
     classif = c("twoclass", "multiclass")
   )
 
+  mlr_reflections$default_measures = list(
+    classif = "classif.ce",
+    regr = "regr.mse",
+    unsupervised = NA_character_
+  )
 
   ### Learner
+  mlr_reflections$learner_types = c(
+    "classif", "regr"
+  )
+
   tmp = c("featureless", "missings", "weights", "importance", "selected_features", "oob_error", "loglik", "hotstart_forward", "hotstart_backward")
   mlr_reflections$learner_properties = list(
     classif = c(tmp, "twoclass", "multiclass"),
@@ -132,17 +142,15 @@ local({
   ### Prediction
   mlr_reflections$predict_sets = c("train", "test", "holdout")
 
-
   ### Measures
+  mlr_reflections$measure_types = c(
+    "classif", "regr"
+  )
+
   tmp = c("na_score", "requires_task", "requires_learner", "requires_model", "requires_train_set")
   mlr_reflections$measure_properties = list(
     classif = tmp,
     regr = tmp
-  )
-
-  mlr_reflections$default_measures = list(
-    classif = "classif.ce",
-    regr = "regr.mse"
   )
 
   ### ResampleResult

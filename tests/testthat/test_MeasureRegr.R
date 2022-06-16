@@ -7,7 +7,7 @@ test_that("Regression measures", {
 
   for (key in keys) {
     m = mlr_measures$get(key)
-    if (is.na(m$task_type) || m$task_type == "regr") {
+    if (is.na(m$measure_type) || m$measure_type == "regr") {
       perf = m$score(prediction = p, task = task, learner = learner)
       expect_number(perf, na.ok = FALSE, lower = m$range[1], upper = m$range[2])
     }

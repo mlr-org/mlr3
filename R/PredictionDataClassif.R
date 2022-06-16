@@ -95,7 +95,7 @@ c.PredictionDataClassif = function(..., keep_duplicates = TRUE) {
 
   result = as.list(tab)
   result$prob = prob
-  new_prediction_data(result, "classif")
+  new_prediction_data(result, class = "PredictionDataClassif")
 }
 
 #' @export

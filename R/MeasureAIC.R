@@ -25,7 +25,7 @@ MeasureAIC = R6Class("MeasureAIC",
       param_set = ps(k = p_int(lower = 0))
       super$initialize(
         id = "aic",
-        task_type = NA_character_,
+        measure_type = NA_character_,
         param_set = param_set,
         properties = c("na_score", "requires_learner", "requires_model"),
         predict_type = "response",

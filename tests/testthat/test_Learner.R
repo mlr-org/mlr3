@@ -1,5 +1,5 @@
 test_that("construction", {
-  l = Learner$new("test-learner", task_type = "classif", predict_types = "prob")
+  l = Learner$new("test-learner", learner_type = "classif", predict_types = "prob")
   expect_class(l, "Learner")
 })
 
@@ -41,8 +41,8 @@ test_that("Extra data slots of learners are kept / reset", {
 
 test_that("task is checked in train() / predict()", {
   learner = lrn("regr.rpart")
-  expect_error(learner$train(tsk("pima")), "type")
-  expect_error(learner$predict(tsk("pima")), "type")
+  expect_error(learner$train(tsk("pima")), "Type")
+  expect_error(learner$predict(tsk("pima")), "Type")
 })
 
 test_that("learner timings", {

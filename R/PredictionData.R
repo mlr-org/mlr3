@@ -20,9 +20,9 @@
 #'
 NULL
 
-new_prediction_data = function(li, task_type = NULL) {
+new_prediction_data = function(li, class) {
   li = discard(li, is.null)
-  class(li) = sprintf("PredictionData%s", c(capitalize(task_type), ""))
+  class(li) = c(class, "PredictionData")
   li
 }
 

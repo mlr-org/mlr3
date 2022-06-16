@@ -34,7 +34,7 @@ MeasureElapsedTime = R6Class("MeasureElapsedTime",
     initialize = function(id = "elapsed_time", stages) {
       super$initialize(
         id = id,
-        task_type = NA_character_,
+        measure_type = NA_character_,
         predict_type = "response",
         range = c(0, Inf),
         minimize = TRUE,

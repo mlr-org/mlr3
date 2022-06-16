@@ -329,7 +329,7 @@ expect_task_generator = function(gen) {
   expect_id(gen$id)
   checkmate::expect_string(gen$label, na.ok = TRUE)
   expect_man_exists(gen$man)
-  checkmate::expect_choice(gen$task_type, mlr3::mlr_reflections$task_types$type)
+  checkmate::expect_choice(gen$task_type, mlr3::mlr_reflections$task_generators$type)
   checkmate::expect_function(gen$generate, args = "n")
   checkmate::expect_class(gen$param_set, "ParamSet")
   checkmate::expect_list(gen$param_set$values, names = "unique")
@@ -343,7 +343,7 @@ expect_learner = function(lrn, task = NULL) {
   expect_man_exists(lrn$man)
   testthat::expect_output(print(lrn))
 
-  checkmate::expect_choice(lrn$task_type, mlr3::mlr_reflections$task_types$type)
+  checkmate::expect_choice(lrn$learner_type, mlr3::mlr_reflections$learner_types)
   checkmate::expect_character(lrn$packages, any.missing = FALSE, min.chars = 1L, unique = TRUE)
   checkmate::expect_class(lrn$param_set, "ParamSet")
   testthat::expect_lte(length(lrn$param_set$ids(tags = "threads")), 1L)
@@ -378,7 +378,7 @@ expect_learner = function(lrn, task = NULL) {
   if (!is.null(task)) {
     checkmate::expect_class(task, "Task")
     checkmate::expect_subset(lrn$properties, mlr3::mlr_reflections$learner_properties[[task$task_type]])
-    testthat::expect_identical(lrn$task_type, task$task_type)
+    checkmate::expect_subset(fget(mlr_reflections$task_generators, task$task_type, "learner", "type"), class(lrn))
   }
 
   checkmate::expect_class(lrn$base_learner(), "Learner")
@@ -445,13 +445,13 @@ expect_resampling = function(r, task = NULL) {
 }
 
 expect_measure = function(m) {
-  checkmate::expect_r6(m, "Measure", public = c("aggregate", "score", "id", "minimize", "packages", "range", "task_type", "task_properties"))
+  checkmate::expect_r6(m, "Measure", public = c("aggregate", "score", "id", "minimize", "packages", "range", "measure_type", "task_properties"))
   expect_id(m$id)
   expect_man_exists(m$man)
   testthat::expect_output(print(m), "Measure")
 
   expect_id(m$id)
-  checkmate::expect_subset(m$task_type, c(NA_character_, mlr3::mlr_reflections$task_types$type), empty.ok = FALSE)
+  checkmate::expect_subset(m$measure_type, c(NA_character_, mlr3::mlr_reflections$measure_types), empty.ok = FALSE)
   checkmate::expect_numeric(m$range, len = 2, any.missing = FALSE)
   testthat::expect_lt(m$range[1], m$range[2])
   checkmate::expect_flag(m$minimize, na.ok = TRUE)
@@ -609,7 +609,7 @@ expect_benchmark_result = function(bmr) {
 
   ni = mlr3misc::get_private(bmr)$.data$iterations()
   if (ni) {
-    checkmate::expect_choice(bmr$task_type, mlr3::mlr_reflections$task_types$type, null.ok = ni == 0L)
+    checkmate::expect_choice(bmr$task_type, mlr3::mlr_reflections$task_generators$type, null.ok = ni == 0L)
   } else {
     testthat::expect_null(bmr$task_type)
   }

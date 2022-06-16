@@ -24,7 +24,7 @@ MeasureBIC = R6Class("MeasureBIC",
     initialize = function() {
       super$initialize(
         id = "bic",
-        task_type = NA_character_,
+        measure_type = NA_character_,
         properties = c("na_score", "requires_learner", "requires_model"),
         predict_type = "response",
         minimize = TRUE,

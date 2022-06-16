@@ -39,7 +39,7 @@ as_prediction_data.list = function(x, task, row_ids = task$row_ids, check = TRUE
     x$truth = task$truth(row_ids)
   }
 
-  pdata = new_prediction_data(x, task_type = task$task_type)
+  pdata = new_prediction_data(x, class = fget(mlr_reflections$task_generators, task$task_type, "prediction_data", "type"))
   if (check) {
     pdata = check_prediction_data(pdata)
   }

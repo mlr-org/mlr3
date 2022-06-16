@@ -42,7 +42,7 @@ TaskGenerator = R6Class("TaskGenerator",
       self$id = assert_string(id, min.chars = 1L)
       self$param_set = assert_param_set(param_set)
       self$packages = union("mlr3", assert_character(packages, any.missing = FALSE, min.chars = 1L))
-      self$task_type = assert_choice(task_type, mlr_reflections$task_types$type)
+      self$task_type = assert_choice(task_type, mlr_reflections$task_generators$type)
       self$label = assert_string(label, na.ok = TRUE)
       self$man = assert_string(man, na.ok = TRUE)
 

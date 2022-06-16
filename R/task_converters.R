@@ -22,11 +22,11 @@
 convert_task = function(intask, target = NULL, new_type = NULL, drop_original_target = FALSE, drop_levels = TRUE) {
   assert_task(intask)
   target = assert_subset(target, choices = intask$col_info$id) %??% intask$target_names
-  new_type = assert_choice(new_type, choices = mlr_reflections$task_types$type, null.ok = TRUE) %??% intask$task_type
+  new_type = assert_choice(new_type, choices = mlr_reflections$task_generators$type, null.ok = TRUE) %??% intask$task_type
   assert_logical(drop_original_target, any.missing = FALSE, len = 1L)
 
   # get task_type from mlr_reflections and call constructor
-  constructor = get(fget(mlr_reflections$task_types, new_type, "task", key = "type")[[1L]])
+  constructor = get(fget(mlr_reflections$task_generators, new_type, "task", key = "type")[[1L]])
   common_args = intersect(names(intask$extra_args), names(formals(constructor$public_methods$initialize)))
   newtask = invoke(constructor$new, id = intask$id, backend = intask$backend,
     target = target, label = intask$label, .args = intask$extra_args[common_args])

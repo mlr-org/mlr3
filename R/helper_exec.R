@@ -11,9 +11,9 @@ set_encapsulation = function(learners, encapsulate) {
   if (!is.na(encapsulate)) {
     lapply(learners, function(learner) learner$encapsulate = c(train = encapsulate, predict = encapsulate))
     if (encapsulate %in% c("evaluate", "callr")) {
-      task_type = unique(map_chr(learners, "task_type"))
-      stopifnot(length(task_type) == 1L) # this should not be possible for benchmarks
-      fb = get_featureless_learner(task_type)
+      learner_type = unique(map_chr(learners, "learner_type"))
+      stopifnot(length(learner_type) == 1L) # this should not be possible for benchmarks
+      fb = get_featureless_learner(learner_type)
       if (!is.null(fb)) {
         lapply(learners, function(learner) if (is.null(learner$fallback)) learner$fallback = fb$clone(TRUE))
       }

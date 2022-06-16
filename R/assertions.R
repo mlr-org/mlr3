@@ -69,11 +69,14 @@ assert_tasks = function(tasks, task_type = NULL, feature_types = NULL, task_prop
 #' @param learner ([Learner]).
 #' @param task_type (`character(1)`).
 #' @rdname mlr_assertions
-assert_learner = function(learner, task = NULL, task_type = NULL, properties = character(), .var.name = vname(learner)) {
+assert_learner = function(learner, task = NULL, learner_type = NULL, properties = character(), .var.name = vname(learner)) {
   assert_class(learner, "Learner", .var.name = .var.name)
 
-  task_type = task_type %??% task$task_type
-  if (!is.null(task_type) && task_type != learner$task_type) {
+  if (!is.null(task) && fget(mlr_reflections$task_generators, task$task_type, "learner", "type") %nin% class(learner)) {
+    stopf("Type '%s' of %s does not match %s", task$task_type, task$format(), learner$format())
+  }
+
+  if (!is.null(learner_type) && learner_type != learner$learner_type) {
     stopf("Learner '%s' must have task type '%s'", learner$id, task_type)
   }
 
@@ -91,8 +94,8 @@ assert_learner = function(learner, task = NULL, task_type = NULL, properties = c
 #' @export
 #' @param learners (list of [Learner]).
 #' @rdname mlr_assertions
-assert_learners = function(learners, task = NULL, task_type = NULL, properties = character(), .var.name = vname(learners)) {
-  invisible(lapply(learners, assert_learner, task = task, task_type = NULL, properties = properties, .var.name = .var.name))
+assert_learners = function(learners, task = NULL, learner_type = NULL, properties = character(), .var.name = vname(learners)) {
+  invisible(lapply(learners, assert_learner, task = task, learner_type = NULL, properties = properties, .var.name = .var.name))
 }
 
 assert_task_learner = function(task, learner, cols = NULL) {
@@ -101,9 +104,8 @@ assert_task_learner = function(task, learner, cols = NULL) {
     stopf("%s cannot be trained with TuneToken present in hyperparameter: %s", learner$format(), str_collapse(names(pars)))
   }
 
-  if (task$task_type != learner$task_type) {
-    stopf("Type '%s' of %s does not match type '%s' of %s",
-      task$task_type, task$format(), learner$task_type, learner$format())
+  if (fget(mlr_reflections$task_generators, task$task_type, "learner", "type") %nin% class(learner)) {
+    stopf("Type '%s' of %s does not match %s", task$task_type, task$format(), learner$format())
   }
 
   tmp = setdiff(task$feature_types$type, learner$feature_types)
@@ -149,9 +151,8 @@ assert_predictable = function(task, learner) {
 assert_measure = function(measure, task = NULL, learner = NULL, .var.name = vname(measure)) {
   assert_class(measure, "Measure", .var.name = .var.name)
 
-
   if (!is.null(task)) {
-    if (!is_scalar_na(measure$task_type) && measure$task_type != task$task_type) {
+    if (!is_scalar_na(measure$measure_type) && fget(mlr_reflections$task_generators, task$task_type, "measure", "type") %nin% class(measure)) {
       stopf("Measure '%s' is not compatible with type '%s' of task '%s'",
         measure$id, task$task_type, task$id)
     }
@@ -166,13 +167,13 @@ assert_measure = function(measure, task = NULL, learner = NULL, .var.name = vnam
   }
 
   if (!is.null(learner)) {
-    if (!is_scalar_na(measure$task_type) && measure$task_type != learner$task_type) {
+    if (!is_scalar_na(measure$measure_type) && measure$measure_type != learner$learner_type) {
       stopf("Measure '%s' is not compatible with type '%s' of learner '%s'",
-        measure$id, learner$task_type, learner$id)
+        measure$id, learner$learner_type, learner$id)
     }
 
     if (!is_scalar_na(measure$predict_type) && measure$check_prerequisites != "ignore") {
-      predict_types = mlr_reflections$learner_predict_types[[learner$task_type]][[learner$predict_type]]
+      predict_types = mlr_reflections$learner_predict_types[[learner$learner_type]][[learner$predict_type]]
       if (measure$predict_type %nin% predict_types) {
         warningf("Measure '%s' is missing predict type '%s' of learner '%s'", measure$id, measure$predict_type, learner$id)
       }
@@ -310,12 +311,5 @@ assert_row_sums = function(prob) {
         stopf("Probabilities for observation %i do sum up to %f != 1", i, s)
       }
     }
-  }
-}
-
-assert_same_task_type = function(objs) {
-  task_types = unique(map_chr(objs, "task_type"))
-  if (length(task_types) > 1L) {
-    stopf("Multiple task types detected, but mixing types is not supported: %s", str_collapse(task_types))
   }
 }

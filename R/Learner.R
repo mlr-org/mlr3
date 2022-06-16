@@ -101,8 +101,10 @@ Learner = R6Class("Learner",
     #' This is an internal data structure which may change in the future.
     state = NULL,
 
-    #' @template field_task_type
-    task_type = NULL,
+    #' @field learner_type (`character(1)`)\cr
+    #' Stores the type of the learner.
+    #' A complete list of candidate learner types is stored in [`mlr_reflections$learner_types`][mlr_reflections].
+    learner_type = NULL,
 
     #' @field predict_types (`character()`)\cr
     #' Stores the possible predict types the learner is capable of.
@@ -153,18 +155,18 @@ Learner = R6Class("Learner",
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #'
     #' Note that this object is typically constructed via a derived classes, e.g. [LearnerClassif] or [LearnerRegr].
-    initialize = function(id, task_type, param_set = ps(), predict_types = character(), feature_types = character(),
+    initialize = function(id, learner_type, param_set = ps(), predict_types = character(), feature_types = character(),
       properties = character(), data_formats = "data.table", packages = character(), label = NA_character_, man = NA_character_) {
 
       self$id = assert_string(id, min.chars = 1L)
       self$label = assert_string(label, na.ok = TRUE)
-      self$task_type = assert_choice(task_type, mlr_reflections$task_types$type)
+      self$learner_type = assert_choice(learner_type, mlr_reflections$learner_types)
       private$.param_set = assert_param_set(param_set)
       self$feature_types = assert_ordered_set(feature_types, mlr_reflections$task_feature_types, .var.name = "feature_types")
-      self$predict_types = assert_ordered_set(predict_types, names(mlr_reflections$learner_predict_types[[task_type]]),
+      self$predict_types = assert_ordered_set(predict_types, names(mlr_reflections$learner_predict_types[[learner_type]]),
         empty.ok = FALSE, .var.name = "predict_types")
       private$.predict_type = predict_types[1L]
-      self$properties = sort(assert_subset(properties, mlr_reflections$learner_properties[[task_type]]))
+      self$properties = sort(assert_subset(properties, mlr_reflections$learner_properties[[learner_type]]))
       self$data_formats = assert_subset(data_formats, mlr_reflections$data_formats)
       self$packages = union("mlr3", assert_character(packages, any.missing = FALSE, min.chars = 1L))
       self$man = assert_string(man, na.ok = TRUE)
@@ -482,7 +484,7 @@ Learner = R6Class("Learner",
       }
 
       if (!is.null(rhs)) {
-        assert_learner(rhs, task_type = self$task_type)
+        assert_learner(rhs, learner_type = self$learner_type)
         if (!identical(self$predict_type, rhs$predict_type)) {
           warningf("The fallback learner '%s' and the base learner '%s' have different predict types",
             rhs$predict_type, self$predict_type)

@@ -9,9 +9,9 @@ allow_utf8_names = function() {
   isTRUE(getOption("mlr3.allow_utf8_names"))
 }
 
-get_featureless_learner = function(task_type) {
-  if (!is.na(task_type)) {
-    id = paste0(task_type, ".featureless")
+get_featureless_learner = function(learner_type) {
+  if (!is.na(learner_type)) {
+    id = paste0(learner_type, ".featureless")
     if (mlr_learners$has(id)) {
       return(mlr_learners$get(id))
     }

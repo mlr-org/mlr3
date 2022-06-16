@@ -47,7 +47,7 @@ as.data.table.DictionaryMeasure = function(x, ..., objects = FALSE) {
     m = withCallingHandlers(x$get(key),
       packageNotFoundWarning = function(w) invokeRestart("muffleWarning"))
     insert_named(
-      list(key = key, label = m$label, task_type = m$task_type, packages = list(m$packages), predict_type = m$predict_type,
+      list(key = key, label = m$label, measure_type = m$measure_type, packages = list(m$packages), predict_type = m$predict_type,
         task_properties = list(m$task_properties)),
       if (objects) list(object = list(m))
     )

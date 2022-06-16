@@ -256,13 +256,13 @@ run_experiment = function(task, learner, seed = NULL) {
   if (!isTRUE(msg)) {
     return(err(msg))
   }
-  if (prediction$task_type != learner$task_type) {
-    return(err("learner and prediction have different task_type"))
+  if (fget(mlr_reflections$task_generators, prediction$task_type, "learner", "type") %nin% class(learner)) {
+    return(err("learner and prediction have different type"))
   }
 
   # catch for mlr3proba tasks, which all return every possible predict type
-  if (!(learner$task_type %in% c("dens", "surv"))) {
-    expected = mlr3::mlr_reflections$learner_predict_types[[learner$task_type]][[learner$predict_type]]
+  if (!(learner$learner_type %in% c("dens", "surv"))) {
+    expected = mlr3::mlr_reflections$learner_predict_types[[learner$learner_type]][[learner$predict_type]]
     msg = checkmate::check_subset(expected, prediction$predict_types, empty.ok = FALSE)
     if (!isTRUE(msg)) {
       return(err(msg))
@@ -294,7 +294,7 @@ run_experiment = function(task, learner, seed = NULL) {
 
   stage = "score()"
   score = try(
-    prediction$score(mlr3::default_measures(learner$task_type),
+    prediction$score(mlr3::default_measures(task$task_type),
       task = task,
       learner = learner,
       train_set = task$row_ids

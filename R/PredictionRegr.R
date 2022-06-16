@@ -48,7 +48,7 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
     initialize = function(task = NULL, row_ids = task$row_ids, truth = task$truth(), response = NULL, se = NULL, distr = NULL, check = TRUE) {
       pdata = new_prediction_data(
         list(row_ids = row_ids, truth = truth, response = response, se = se, distr = distr),
-        task_type = "regr"
+       class = "PredictionDataRegr"
       )
 
       if (check) {

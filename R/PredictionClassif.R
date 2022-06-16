@@ -92,7 +92,7 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
     initialize = function(task = NULL, row_ids = task$row_ids, truth = task$truth(), response = NULL, prob = NULL, check = TRUE) {
       pdata = new_prediction_data(
         list(row_ids = row_ids, truth = truth, response = response, prob = prob),
-        task_type = "classif"
+        class = "PredictionDataClassif"
       )
 
       if (check) {

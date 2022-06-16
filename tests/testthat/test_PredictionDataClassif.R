@@ -23,6 +23,6 @@ test_that("PredictionDataClassif", {
 
 test_that("row sums of prob sums up to 1 ", {
   pdata = new_prediction_data(list(row_ids = 1:2, truth = factor(c("a", "b")),
-    response = c("a", "b"), prob = matrix(c(0.5, 0.5, 0.5, 1), 2)), "classif")
+    response = c("a", "b"), prob = matrix(c(0.5, 0.5, 0.5, 1), 2)), "PredictionDataClassif")
   expect_error(check_prediction_data(pdata), "sum up")
 })

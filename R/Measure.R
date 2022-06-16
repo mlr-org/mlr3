@@ -45,8 +45,10 @@ Measure = R6Class("Measure",
     #' @template field_label
     label = NULL,
 
-    #' @template field_task_type
-    task_type = NULL,
+    #' @field measure_type (`character(1)`)\cr
+    #' Stores the type of the measure.
+    #' A complete list of candidate measure types is stored in [`mlr_reflections$measure_types`][mlr_reflections].
+    measure_type = NULL,
 
     #' @template field_param_set
     param_set = NULL,
@@ -94,26 +96,25 @@ Measure = R6Class("Measure",
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #'
     #' Note that this object is typically constructed via a derived classes, e.g. [MeasureClassif] or [MeasureRegr].
-    initialize = function(id, task_type = NA, param_set = ps(), range = c(-Inf, Inf), minimize = NA, average = "macro",
+    initialize = function(id, measure_type = NA, param_set = ps(), range = c(-Inf, Inf), minimize = NA, average = "macro",
       aggregator = NULL, properties = character(), predict_type = "response",
       predict_sets = "test", task_properties = character(), packages = character(),
       label = NA_character_, man = NA_character_) {
 
       self$id = assert_string(id, min.chars = 1L)
       self$label = assert_string(label, na.ok = TRUE)
-      self$task_type = task_type
+      self$measure_type = measure_type
       self$param_set = assert_param_set(param_set)
       self$range = assert_range(range)
       self$minimize = assert_flag(minimize, na.ok = TRUE)
       self$average = average
       private$.aggregator = assert_function(aggregator, null.ok = TRUE)
 
-      if (!is_scalar_na(task_type)) {
-        assert_choice(task_type, mlr_reflections$task_types$type)
-        assert_subset(properties, mlr_reflections$measure_properties[[task_type]])
-        assert_choice(predict_type, names(mlr_reflections$learner_predict_types[[task_type]]))
-        assert_subset(properties, mlr_reflections$measure_properties[[task_type]])
-        assert_subset(task_properties, mlr_reflections$task_properties[[task_type]])
+      if (!is_scalar_na(measure_type)) {
+        assert_choice(measure_type, mlr_reflections$measure_types)
+        assert_subset(properties, mlr_reflections$measure_properties[[measure_type]])
+        assert_choice(predict_type, names(mlr_reflections$learner_predict_types[[measure_type]]))
+        assert_subset(task_properties, mlr_reflections$task_properties[[measure_type]]) #???
       }
 
       self$properties = unique(properties)
@@ -189,7 +190,7 @@ Measure = R6Class("Measure",
         stopf("Measure '%s' requires the train_set", self$id)
       }
 
-      if (!is_scalar_na(self$task_type) && self$task_type != prediction$task_type) {
+      if (!is_scalar_na(self$measure_type) && fget(mlr_reflections$task_generators, prediction$task_type, "measure", "type") %nin% class(self)) {   #
         stopf("Measure '%s' incompatible with task type '%s'", self$id, prediction$task_type)
       }
 

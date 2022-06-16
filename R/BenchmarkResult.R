@@ -400,7 +400,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
 
     #' @field task_type (`character(1)`)\cr
     #' Task type of objects in the `BenchmarkResult`.
-    #' All stored objects ([Task], [Learner], [Prediction]) in a single `BenchmarkResult` are
+    #' [Task] and [Prediction] in a single `BenchmarkResult` are
     #' required to have the same task type, e.g., `"classif"` or `"regr"`.
     #' This is `NA` for empty [BenchmarkResult]s.
     task_type = function(rhs) {
