@@ -256,7 +256,8 @@ run_experiment = function(task, learner, seed = NULL) {
   if (!isTRUE(msg)) {
     return(err(msg))
   }
-  if (fget(mlr_reflections$task_generators, prediction$task_type, "learner", "type") %nin% class(learner)) {
+  task_type = prediction$task_type
+  if (!mlr_reflections$task_generators[task_type, "learner", on = "type", with = FALSE][[1]] %in% class(learner)) {
     return(err("learner and prediction have different type"))
   }
 

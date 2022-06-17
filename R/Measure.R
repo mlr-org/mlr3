@@ -25,7 +25,7 @@
 #' @template param_minimize
 #' @template param_average
 #' @template param_aggregator
-#' @template param_task_type
+#' @template param_measure_type
 #' @template param_predict_type
 #' @template param_measure_properties
 #' @template param_predict_sets

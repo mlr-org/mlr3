@@ -91,7 +91,7 @@ Use \code{as.table.table(BenchmarkResult)} instead.}
 
 \item{\code{task_type}}{(\code{character(1)})\cr
 Task type of objects in the \code{BenchmarkResult}.
-All stored objects (\link{Task}, \link{Learner}, \link{Prediction}) in a single \code{BenchmarkResult} are
+\link{Task} and \link{Prediction} in a single \code{BenchmarkResult} are
 required to have the same task type, e.g., \code{"classif"} or \code{"regr"}.
 This is \code{NA} for empty \link{BenchmarkResult}s.}
 

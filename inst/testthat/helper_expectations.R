@@ -378,7 +378,8 @@ expect_learner = function(lrn, task = NULL) {
   if (!is.null(task)) {
     checkmate::expect_class(task, "Task")
     checkmate::expect_subset(lrn$properties, mlr3::mlr_reflections$learner_properties[[task$task_type]])
-    checkmate::expect_subset(fget(mlr_reflections$task_generators, task$task_type, "learner", "type"), class(lrn))
+    task_type = task$task_type
+    checkmate::expect_subset(mlr_reflections$task_generators[task_type, "learner", on = "type", with = FALSE][[1]], class(lrn))
   }
 
   checkmate::expect_class(lrn$base_learner(), "Learner")

@@ -326,3 +326,11 @@ test_that("disable cloning", {
   expect_identical(learner$hash, bmr$learners$learner[[1]]$hash)
   expect_identical(resampling$hash, bmr$resamplings$resampling[[1]]$hash)
 })
+
+test_that("Mixing types", {
+  tasks = mlr_tasks$mget(c("iris", "sonar"))
+  learners = mlr_learners$mget(c("classif.featureless", "regr.rpart"))
+  resamplings = rsmp("cv", folds = 3)
+  design = benchmark_grid(tasks, learners, resamplings)
+  expect_error(benchmark(design), "Mixing types")
+})

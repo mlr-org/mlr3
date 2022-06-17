@@ -60,11 +60,9 @@ Used in tables, plot and text output.}
 Label for this object.
 Can be used in tables, plot and text output instead of the ID.}
 
-\item{\code{task_type}}{(\code{character(1)})\cr
-Task type, e.g. \code{"classif"} or \code{"regr"}.
-
-For a complete list of possible task types (depending on the loaded packages),
-see \code{\link[=mlr_reflections]{mlr_reflections$task_types$type}}.}
+\item{\code{measure_type}}{(\code{character(1)})\cr
+Stores the type of the measure.
+A complete list of candidate measure types is stored in \code{\link[=mlr_reflections]{mlr_reflections$measure_types}}.}
 
 \item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
 Set of hyperparameters.}
@@ -158,7 +156,7 @@ Note that this object is typically constructed via a derived classes, e.g. \link
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Measure$new(
   id,
-  task_type = NA,
+  measure_type = NA,
   param_set = ps(),
   range = c(-Inf, Inf),
   minimize = NA,
@@ -180,9 +178,9 @@ Note that this object is typically constructed via a derived classes, e.g. \link
 \item{\code{id}}{(\code{character(1)})\cr
 Identifier for the new instance.}
 
-\item{\code{task_type}}{(\code{character(1)})\cr
-Type of task, e.g. \code{"regr"} or \code{"classif"}.
-Must be an element of \link[=mlr_reflections]{mlr_reflections$task_types$type}.}
+\item{\code{measure_type}}{(\code{character(1)})\cr
+Type of measure, e.g. \code{"regr"} or \code{"classif"}.
+Must be an element of \link[=mlr_reflections]{mlr_reflections$measure_types}.}
 
 \item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
 Set of hyperparameters.}

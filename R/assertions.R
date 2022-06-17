@@ -73,11 +73,11 @@ assert_learner = function(learner, task = NULL, learner_type = NULL, properties 
   assert_class(learner, "Learner", .var.name = .var.name)
 
   if (!is.null(task) && fget(mlr_reflections$task_generators, task$task_type, "learner", "type") %nin% class(learner)) {
-    stopf("Type '%s' of %s does not match %s", task$task_type, task$format(), learner$format())
+    stopf("Learner %s is incompatible with %s of type '%s'", learner$format(), task$format(), task$task_type)
   }
 
   if (!is.null(learner_type) && learner_type != learner$learner_type) {
-    stopf("Learner '%s' must have task type '%s'", learner$id, task_type)
+    stopf("Learner '%s' must have learner type '%s'", learner$id, learner_type)
   }
 
   if (length(properties)) {

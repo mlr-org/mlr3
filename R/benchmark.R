@@ -89,9 +89,10 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
   # check for not matching types
   checked_types = pmap_lgl(list(design$task, design$learner), function(task, learner) fget(mlr_reflections$task_generators, task$task_type, "learner", "type") %nin% class(learner))
   if (any(checked_types)) {
-    task_types = unique(map_chr(tasks[checked_types], "task_type"))
-    learner_types = unique(map_chr(learners[checked_types], "learner_type"))
-    stopf("Mixing types is not supported. Learner types %s do not match task types %s", str_collapse(learner_types), str_collapse(task_types))
+    learner_str = unique(map_chr(design$learner[checked_types], format))
+    task_str = unique(map_chr(design$task[checked_types], format))
+    task_types = unique(map_chr(design$task[checked_types], "task_type"))
+    stopf("Mixing types is not supported. Learner %s is incompatible with %s of type '%s'", str_collapse(learner_str), str_collapse(task_str), str_collapse(task_types))
   }
 
   # clone inputs

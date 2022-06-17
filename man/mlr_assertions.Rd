@@ -40,7 +40,7 @@ assert_tasks(
 assert_learner(
   learner,
   task = NULL,
-  task_type = NULL,
+  learner_type = NULL,
   properties = character(),
   .var.name = vname(learner)
 )
@@ -48,7 +48,7 @@ assert_learner(
 assert_learners(
   learners,
   task = NULL,
-  task_type = NULL,
+  learner_type = NULL,
   properties = character(),
   .var.name = vname(learners)
 )

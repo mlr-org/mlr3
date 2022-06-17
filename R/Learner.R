@@ -28,7 +28,7 @@
 #' Hyperparameters stored in the `param_set` can be tuned with \CRANpkg{mlr3tuning}.
 #'
 #' @template param_id
-#' @template param_task_type
+#' @template param_learner_type
 #' @template param_param_set
 #' @template param_predict_types
 #' @template param_feature_types

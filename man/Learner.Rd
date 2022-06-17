@@ -125,11 +125,9 @@ Contains all information gathered during \code{train()} and \code{predict()}.
 It is not recommended to access elements from \code{state} directly.
 This is an internal data structure which may change in the future.}
 
-\item{\code{task_type}}{(\code{character(1)})\cr
-Task type, e.g. \code{"classif"} or \code{"regr"}.
-
-For a complete list of possible task types (depending on the loaded packages),
-see \code{\link[=mlr_reflections]{mlr_reflections$task_types$type}}.}
+\item{\code{learner_type}}{(\code{character(1)})\cr
+Stores the type of the learner.
+A complete list of candidate learner types is stored in \code{\link[=mlr_reflections]{mlr_reflections$learner_types}}.}
 
 \item{\code{predict_types}}{(\code{character()})\cr
 Stores the possible predict types the learner is capable of.
@@ -261,7 +259,7 @@ Note that this object is typically constructed via a derived classes, e.g. \link
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Learner$new(
   id,
-  task_type,
+  learner_type,
   param_set = ps(),
   predict_types = character(),
   feature_types = character(),
@@ -279,9 +277,9 @@ Note that this object is typically constructed via a derived classes, e.g. \link
 \item{\code{id}}{(\code{character(1)})\cr
 Identifier for the new instance.}
 
-\item{\code{task_type}}{(\code{character(1)})\cr
-Type of task, e.g. \code{"regr"} or \code{"classif"}.
-Must be an element of \link[=mlr_reflections]{mlr_reflections$task_types$type}.}
+\item{\code{learner_type}}{(\code{character(1)})\cr
+Type of learner, e.g. \code{"regr"} or \code{"classif"}.
+Must be an element of \link[=mlr_reflections]{mlr_reflections$learner_types}.}
 
 \item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
 Set of hyperparameters.}
