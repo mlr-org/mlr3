@@ -21,7 +21,7 @@ msr("debug")
 
 \section{Meta Information}{
 
-, * Task type: \dQuote{NA}, * Range: \eqn{[0, \infty)}{[0, Inf)}, * Minimize: NA, * Average: macro, * Required Prediction: \dQuote{response}, * Required Packages: \CRANpkg{mlr3}
+, * Measure type: \dQuote{NA}, * Range: \eqn{[0, \infty)}{[0, Inf)}, * Minimize: NA, * Average: macro, * Required Prediction: \dQuote{response}, * Required Packages: \CRANpkg{mlr3}
 }
 
 \section{Parameters}{

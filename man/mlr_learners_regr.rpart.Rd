@@ -19,7 +19,7 @@ lrn("regr.rpart")
 
 \section{Meta Information}{
 
-, * Task type: \dQuote{regr}, * Predict Types: \dQuote{response}, * Feature Types: \dQuote{logical}, \dQuote{integer}, \dQuote{numeric}, \dQuote{factor}, \dQuote{ordered}, * Required Packages: \CRANpkg{mlr3}, \CRANpkg{rpart}
+, * Learner type: \dQuote{regr}, * Predict Types: \dQuote{response}, * Feature Types: \dQuote{logical}, \dQuote{integer}, \dQuote{numeric}, \dQuote{factor}, \dQuote{ordered}, * Required Packages: \CRANpkg{mlr3}, \CRANpkg{rpart}
 }
 
 \section{Parameters}{

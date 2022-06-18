@@ -39,7 +39,7 @@ lrn("classif.debug")
 
 \section{Meta Information}{
 
-, * Task type: \dQuote{classif}, * Predict Types: \dQuote{response}, \dQuote{prob}, * Feature Types: \dQuote{logical}, \dQuote{integer}, \dQuote{numeric}, \dQuote{character}, \dQuote{factor}, \dQuote{ordered}, * Required Packages: \CRANpkg{mlr3}
+, * Learner type: \dQuote{classif}, * Predict Types: \dQuote{response}, \dQuote{prob}, * Feature Types: \dQuote{logical}, \dQuote{integer}, \dQuote{numeric}, \dQuote{character}, \dQuote{factor}, \dQuote{ordered}, * Required Packages: \CRANpkg{mlr3}
 }
 
 \section{Parameters}{

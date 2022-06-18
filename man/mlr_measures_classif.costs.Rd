@@ -25,7 +25,7 @@ msr("classif.costs")
 
 \section{Meta Information}{
 
-, * Task type: \dQuote{classif}, * Range: \eqn{(-\infty, \infty)}{(-Inf, Inf)}, * Minimize: TRUE, * Average: macro, * Required Prediction: \dQuote{response}, * Required Packages: \CRANpkg{mlr3}
+, * Measure type: \dQuote{classif}, * Range: \eqn{(-\infty, \infty)}{(-Inf, Inf)}, * Minimize: TRUE, * Average: macro, * Required Prediction: \dQuote{response}, * Required Packages: \CRANpkg{mlr3}
 }
 
 \section{Parameters}{

@@ -22,7 +22,7 @@ lrn("regr.featureless")
 
 \section{Meta Information}{
 
-, * Task type: \dQuote{regr}, * Predict Types: \dQuote{response}, \dQuote{se}, * Feature Types: \dQuote{logical}, \dQuote{integer}, \dQuote{numeric}, \dQuote{character}, \dQuote{factor}, \dQuote{ordered}, \dQuote{POSIXct}, * Required Packages: \CRANpkg{mlr3}, 'stats'
+, * Learner type: \dQuote{regr}, * Predict Types: \dQuote{response}, \dQuote{se}, * Feature Types: \dQuote{logical}, \dQuote{integer}, \dQuote{numeric}, \dQuote{character}, \dQuote{factor}, \dQuote{ordered}, \dQuote{POSIXct}, * Required Packages: \CRANpkg{mlr3}, 'stats'
 }
 
 \section{Parameters}{
