@@ -42,9 +42,10 @@ as_prediction_data.list = function(x, task, row_ids = task$row_ids, check = TRUE
   }
 
   if (task$task_type == "unsupervised") {
-    # add NA response and use prediction type of train task
+    # get target type from train task
     ci = train_task$col_info[train_task$target_names, c("id", "type", "levels"), on = "id", with = FALSE]
-    x$truth = auto_convert(rep(NA, length(x$row_ids)), ci$id, ci$type, ci$levels[[1]])
+    # store only a single NA value to optimize serialization time
+    x$truth = auto_convert(rep(NA, min(length(x$row_ids), 1)), ci$id, ci$type, ci$levels[[1]])
     task_type = train_task$task_type
   } else {
     task_type = task$task_type

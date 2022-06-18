@@ -6,7 +6,7 @@ test_that("regression task", {
 
   mtcars$mpg = NULL
   task_predict = as_task_unsupervised(mtcars, id = "Test")
-  expect_prediction_regr(learner$predict(task_predict))
+  expect_prediction(learner$predict(task_predict))
 })
 
 
@@ -18,7 +18,7 @@ test_that("classification task", {
 
   iris$Species = NULL
   task_predict = as_task_unsupervised(iris, id = "Test")
-  expect_prediction_classif(learner$predict(task_predict))
+  expect_prediction(learner$predict(task_predict))
 })
 
 test_that("empty task", {
@@ -30,7 +30,7 @@ test_that("empty task", {
   iris$Species = NULL
   iris = iris[NULL, ]
   task_predict = as_task_unsupervised(iris, id = "Test")
-  expect_prediction_classif(learner$predict(task_predict))
+  expect_prediction(learner$predict(task_predict))
 })
 
 test_that("fallback", {
@@ -43,5 +43,5 @@ test_that("fallback", {
 
   iris$Species = NULL
   task_predict = as_task_unsupervised(iris, id = "Test")
-  expect_prediction_classif(learner$predict(task_predict))
+  expect_prediction(learner$predict(task_predict))
 })
