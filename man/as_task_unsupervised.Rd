@@ -4,8 +4,10 @@
 \alias{as_task_unsupervised}
 \alias{as_task_unsupervised.Task}
 \alias{as_task_unsupervised.data.frame}
+\alias{as_task_unsupervised.DataBackend}
 \alias{as_tasks_unsupervised}
-\alias{as_task_unsupervised.list}
+\alias{as_tasks_unsupervised.list}
+\alias{as_tasks_unsupervised.Task}
 \title{Convert to an Unsupervised Task}
 \usage{
 as_task_unsupervised(x, ...)
@@ -19,11 +21,18 @@ as_task_unsupervised(x, ...)
   ...
 )
 
+\method{as_task_unsupervised}{DataBackend}(
+  x,
+  id = deparse(substitute(x)),
+  label = NA_character_,
+  ...
+)
+
 as_tasks_unsupervised(x, ...)
 
-\method{as_task_unsupervised}{list}(x, clone = FALSE, ...)
+\method{as_tasks_unsupervised}{list}(x, clone = FALSE, ...)
 
-\method{as_task_unsupervised}{Task}(x, clone = FALSE, ...)
+\method{as_tasks_unsupervised}{Task}(x, clone = FALSE, ...)
 }
 \arguments{
 \item{x}{(any)\cr

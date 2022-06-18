@@ -16,7 +16,6 @@ as_task_unsupervised.Task = function(x, clone = FALSE, ...) { # nolint
   if (clone) x$clone() else x
 }
 
-
 #' @rdname as_task_unsupervised
 #' @param id (`character(1)`)\cr
 #'   Id for the new task.
@@ -34,6 +33,12 @@ as_task_unsupervised.data.frame = function(x, id = deparse(substitute(x)), label
 
 #' @rdname as_task_unsupervised
 #' @export
+as_task_unsupervised.DataBackend = function(x, id = deparse(substitute(x)), label = NA_character_, ...) { # nolint
+  TaskUnsupervised$new(id = id, backend = x, label = label)
+}
+
+#' @rdname as_task_unsupervised
+#' @export
 as_tasks_unsupervised = function(x, ...) {
   UseMethod("as_tasks")
 }
@@ -42,12 +47,12 @@ as_tasks_unsupervised = function(x, ...) {
 #' @param clone (`logical(1)`)\cr
 #'   If `TRUE`, ensures that the returned object is not the same as the input `x`.
 #' @export
-as_task_unsupervised.list = function(x, clone = FALSE, ...) { # nolint
+as_tasks_unsupervised.list = function(x, clone = FALSE, ...) { # nolint
   lapply(x, as_task, clone = clone, ...)
 }
 
 #' @rdname as_task_unsupervised
 #' @export
-as_task_unsupervised.Task = function(x, clone = FALSE, ...) { # nolint
+as_tasks_unsupervised.Task = function(x, clone = FALSE, ...) { # nolint
   list(if (clone) x$clone() else x)
 }
