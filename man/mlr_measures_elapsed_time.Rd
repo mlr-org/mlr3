@@ -21,7 +21,7 @@ msr("time_train")
 
 \section{Meta Information}{
 
-, * Task type: \dQuote{NA}, * Range: \eqn{[0, \infty)}{[0, Inf)}, * Minimize: TRUE, * Average: macro, * Required Prediction: \dQuote{response}, * Required Packages: \CRANpkg{mlr3}
+, * Task type: \dQuote{NA}, * Range: \eqn{[0, \infty)}{[0, Inf)}, * Minimize: TRUE, * Average: macro, * Required Prediction: \dQuote{NA}, * Required Packages: \CRANpkg{mlr3}
 }
 
 \section{Parameters}{
