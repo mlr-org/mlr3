@@ -297,7 +297,7 @@ score_single_measure = function(measure, task, learner, train_set, prediction) {
   # convert pdata to regular prediction
   prediction = as_prediction(prediction, check = FALSE)
 
-  if (measure$predict_type %nin% prediction$predict_types) {
+  if (!is_scalar_na(measure$predict_type) && measure$predict_type %nin% prediction$predict_types) {
     # TODO lgr$debug()
     return(NaN)
   }

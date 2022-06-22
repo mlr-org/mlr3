@@ -117,3 +117,9 @@ test_that("check_prerequisites / predict_sets", {
   expect_warning(res <- bmr$aggregate(m), "predict set", fixed = TRUE)
   expect_identical(res$classif.ce, NaN)
 })
+
+test_that("time_train works with different predict type (#832)", {
+  rr = resample(tsk("iris"), lrn("classif.debug", predict_type = "prob"), rsmp("holdout"))
+  res = rr$score(msr("time_train"))
+  expect_number(res$time_train)
+})
