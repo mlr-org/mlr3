@@ -20,6 +20,15 @@ msr("time_train")
 }
 
 \section{Meta Information}{
+
+\itemize{
+\item Task type: \dQuote{NA}
+\item Range: \eqn{[0, \infty)}{[0, Inf)}
+\item Minimize: TRUE
+\item Average: macro
+\item Required Prediction: \dQuote{NA}
+\item Required Packages: \CRANpkg{mlr3}
+}
 }
 
 \section{Parameters}{
