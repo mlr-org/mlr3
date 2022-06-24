@@ -39,12 +39,34 @@ lrn("classif.debug")
 
 \section{Meta Information}{
 
-, * Task type: \dQuote{classif}, * Predict Types: \dQuote{response}, \dQuote{prob}, * Feature Types: \dQuote{logical}, \dQuote{integer}, \dQuote{numeric}, \dQuote{character}, \dQuote{factor}, \dQuote{ordered}, * Required Packages: \CRANpkg{mlr3}
+\itemize{
+\item Task type: \dQuote{classif}
+\item Predict Types: \dQuote{response}, \dQuote{prob}
+\item Feature Types: \dQuote{logical}, \dQuote{integer}, \dQuote{numeric}, \dQuote{character}, \dQuote{factor}, \dQuote{ordered}
+\item Required Packages: \CRANpkg{mlr3}
+}
 }
 
 \section{Parameters}{
-
-, |Id                   |Type      |Default |Levels      |Range                       |, |:--------------------|:---------|:-------|:-----------|:---------------------------|, |error_predict        |numeric   |0       |            |\eqn{[0, 1]}{[0, 1]}        |, |error_train          |numeric   |0       |            |\eqn{[0, 1]}{[0, 1]}        |, |message_predict      |numeric   |0       |            |\eqn{[0, 1]}{[0, 1]}        |, |message_train        |numeric   |0       |            |\eqn{[0, 1]}{[0, 1]}        |, |predict_missing      |numeric   |0       |            |\eqn{[0, 1]}{[0, 1]}        |, |predict_missing_type |character |na      |na, omit    |-                           |, |save_tasks           |logical   |FALSE   |TRUE, FALSE |-                           |, |segfault_predict     |numeric   |0       |            |\eqn{[0, 1]}{[0, 1]}        |, |segfault_train       |numeric   |0       |            |\eqn{[0, 1]}{[0, 1]}        |, |sleep_train          |untyped   |-       |            |-                           |, |sleep_predict        |untyped   |-       |            |-                           |, |threads              |integer   |-       |            |\eqn{[1, \infty)}{[1, Inf)} |, |warning_predict      |numeric   |0       |            |\eqn{[0, 1]}{[0, 1]}        |, |warning_train        |numeric   |0       |            |\eqn{[0, 1]}{[0, 1]}        |, |x                    |numeric   |-       |            |\eqn{[0, 1]}{[0, 1]}        |, |iter                 |integer   |1       |            |\eqn{[1, \infty)}{[1, Inf)} |
+\tabular{lllll}{
+   Id \tab Type \tab Default \tab Levels \tab Range \cr
+   error_predict \tab numeric \tab 0 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
+   error_train \tab numeric \tab 0 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
+   message_predict \tab numeric \tab 0 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
+   message_train \tab numeric \tab 0 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
+   predict_missing \tab numeric \tab 0 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
+   predict_missing_type \tab character \tab na \tab na, omit \tab - \cr
+   save_tasks \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   segfault_predict \tab numeric \tab 0 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
+   segfault_train \tab numeric \tab 0 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
+   sleep_train \tab untyped \tab - \tab  \tab - \cr
+   sleep_predict \tab untyped \tab - \tab  \tab - \cr
+   threads \tab integer \tab - \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
+   warning_predict \tab numeric \tab 0 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
+   warning_train \tab numeric \tab 0 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
+   x \tab numeric \tab - \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
+   iter \tab integer \tab 1 \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
+}
 }
 
 \examples{

@@ -17,8 +17,11 @@ tgen("smiley")
 }
 
 \section{Parameters}{
-
-, |Id  |Type    |Default |Range                       |, |:---|:-------|:-------|:---------------------------|, |sd1 |numeric |-       |\eqn{[0, \infty)}{[0, Inf)} |, |sd2 |numeric |-       |\eqn{[0, \infty)}{[0, Inf)} |
+\tabular{llll}{
+   Id \tab Type \tab Default \tab Range \cr
+   sd1 \tab numeric \tab - \tab \eqn{[0, \infty)}{[0, Inf)} \cr
+   sd2 \tab numeric \tab - \tab \eqn{[0, \infty)}{[0, Inf)} \cr
+}
 }
 
 \examples{

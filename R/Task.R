@@ -1094,7 +1094,7 @@ task_rm_backend = function(task) {
 
 #' @export
 rd_info.Task = function(obj, section) { # nolint
-  c("",
+  x = c("",
     sprintf("* Task type: %s", rd_format_string(obj$task_type)),
     sprintf("* Dimensions: %ix%i", obj$nrow, obj$ncol),
     sprintf("* Properties: %s", rd_format_string(obj$properties)),
@@ -1102,6 +1102,7 @@ rd_info.Task = function(obj, section) { # nolint
     sprintf("* Target: %s", rd_format_string(obj$target_names)),
     sprintf("* Features: %s", rd_format_string(obj$feature_names))
   )
+  paste(x, collapse = "\n")
 }
 
 #' @export
