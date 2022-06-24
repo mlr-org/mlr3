@@ -315,3 +315,9 @@ test_that("Task prototype is stored in state", {
   expect_data_table(prototype, nrows = 0, ncols = 19)
   expect_names(names(prototype), permutation.of = c(task$feature_names, task$target_names))
 })
+
+test_that("default_parms works", {
+  learner = lrn("regr.rpart")
+  expected = list(xval = 0)
+  expect_true(all.equal(learner$default_params, expected))
+})

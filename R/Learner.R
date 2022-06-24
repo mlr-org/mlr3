@@ -37,7 +37,6 @@
 #' @template param_packages
 #' @template param_label
 #' @template param_man
-#' @template param_default_params
 #'
 #'
 #' @section Optional Extractors:
@@ -155,8 +154,7 @@ Learner = R6Class("Learner",
     #'
     #' Note that this object is typically constructed via a derived classes, e.g. [LearnerClassif] or [LearnerRegr].
     initialize = function(id, task_type, param_set = ps(), predict_types = character(), feature_types = character(),
-      properties = character(), data_formats = "data.table", packages = character(), label = NA_character_, man = NA_character_,
-      default_params = list()
+      properties = character(), data_formats = "data.table", packages = character(), label = NA_character_, man = NA_character_
       ) {
 
       self$id = assert_string(id, min.chars = 1L)
@@ -171,11 +169,7 @@ Learner = R6Class("Learner",
       self$data_formats = assert_subset(data_formats, mlr_reflections$data_formats)
       self$packages = union("mlr3", assert_character(packages, any.missing = FALSE, min.chars = 1L))
       self$man = assert_string(man, na.ok = TRUE)
-      private$.default_params = default_params
-      if (length(param_set$values)) {
-        stopf("Use initialization argument 'default_params'.")
-      }
-      param_set$values = default_params
+      private$.default_params = param_set$values
 
       check_packages_installed(packages, msg = sprintf("Package '%%s' required but not installed for Learner '%s'", id))
     },
