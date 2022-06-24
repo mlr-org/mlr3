@@ -186,7 +186,7 @@ Learner = R6Class("Learner",
       catn(str_indent("* Model:", if (is.null(self$model)) "-" else class(self$model)[1L]))
       catn(str_indent("* Parameters:", as_short_string(self$param_set$values, 1000L)))
       catn(str_indent("* Packages:", self$packages))
-      catn(str_indent("* Predict Type:", self$predict_type))
+      cat_predict_type(self)
       catn(str_indent("* Feature Types:", self$feature_types))
       catn(str_indent("* Properties:", self$properties))
       w = self$warnings
@@ -552,4 +552,10 @@ get_log_condition = function(state, condition) {
 #' @export
 format_list_item.Learner = function(x, ...) { # nolint
   sprintf("<lrn:%s>", x$id)
+}
+
+cat_predict_type = function(x) {
+  s = x$predict_types
+  s[s == x$predict_type] = sprintf("[%s]", x$predict_type)
+  catn(str_indent("* Predict Types:", paste0(s, collapse = ", ")))
 }
