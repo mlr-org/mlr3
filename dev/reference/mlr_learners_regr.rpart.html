@@ -94,14 +94,15 @@ Parameter <code>model</code> has been renamed to <code>keep_model</code>.</p>
     <h2 id="meta-information">Meta Information<a class="anchor" aria-label="anchor" href="#meta-information"></a></h2>
     
 
-<p>, * Task type: “regr”, * Predict Types: “response”, * Feature Types: “logical”, “integer”, “numeric”, “factor”, “ordered”, * Required Packages: <a href="https://CRAN.R-project.org/package=mlr3" class="external-link"><span class="pkg">mlr3</span></a>, <a href="https://CRAN.R-project.org/package=rpart" class="external-link"><span class="pkg">rpart</span></a></p>
-    </div>
+<ul><li><p>Task type: “regr”</p></li>
+<li><p>Predict Types: “response”</p></li>
+<li><p>Feature Types: “logical”, “integer”, “numeric”, “factor”, “ordered”</p></li>
+<li><p>Required Packages: <a href="https://CRAN.R-project.org/package=mlr3" class="external-link"><span class="pkg">mlr3</span></a>, <a href="https://CRAN.R-project.org/package=rpart" class="external-link"><span class="pkg">rpart</span></a></p></li>
+</ul></div>
     <div class="section level2">
     <h2 id="parameters">Parameters<a class="anchor" aria-label="anchor" href="#parameters"></a></h2>
     
-
-<p>, |Id             |Type    |Default |Levels      |Range                       |, |:--------------|:-------|:-------|:-----------|:---------------------------|, |cp             |numeric |0.01    |            |\([0, 1]\)        |, |keep_model     |logical |FALSE   |TRUE, FALSE |-                           |, |maxcompete     |integer |4       |            |\([0, \infty)\) |, |maxdepth       |integer |30      |            |\([1, 30]\)      |, |maxsurrogate   |integer |5       |            |\([0, \infty)\) |, |minbucket      |integer |-       |            |\([1, \infty)\) |, |minsplit       |integer |20      |            |\([1, \infty)\) |, |surrogatestyle |integer |0       |            |\([0, 1]\)        |, |usesurrogate   |integer |2       |            |\([0, 2]\)        |, |xval           |integer |10      |            |\([0, \infty)\) |</p>
-    </div>
+<table class="table table"><tr><td>Id</td><td>Type</td><td>Default</td><td>Levels</td><td>Range</td></tr><tr><td>cp</td><td>numeric</td><td>0.01</td><td></td><td>\([0, 1]\)</td></tr><tr><td>keep_model</td><td>logical</td><td>FALSE</td><td>TRUE, FALSE</td><td>-</td></tr><tr><td>maxcompete</td><td>integer</td><td>4</td><td></td><td>\([0, \infty)\)</td></tr><tr><td>maxdepth</td><td>integer</td><td>30</td><td></td><td>\([1, 30]\)</td></tr><tr><td>maxsurrogate</td><td>integer</td><td>5</td><td></td><td>\([0, \infty)\)</td></tr><tr><td>minbucket</td><td>integer</td><td>-</td><td></td><td>\([1, \infty)\)</td></tr><tr><td>minsplit</td><td>integer</td><td>20</td><td></td><td>\([1, \infty)\)</td></tr><tr><td>surrogatestyle</td><td>integer</td><td>0</td><td></td><td>\([0, 1]\)</td></tr><tr><td>usesurrogate</td><td>integer</td><td>2</td><td></td><td>\([0, 2]\)</td></tr><tr><td>xval</td><td>integer</td><td>10</td><td></td><td>\([0, \infty)\)</td></tr></table></div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
     <p>Breiman L, Friedman JH, Olshen RA, Stone CJ (1984).
