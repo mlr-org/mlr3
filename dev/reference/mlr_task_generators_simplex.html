@@ -137,7 +137,7 @@ fewer samples than requested.</p>
 <h3 id="method-new-">Method <code>new()</code><a class="anchor" aria-label="anchor" href="#method-new-"></a></h3>
 <p>Creates a new instance of this <a href="https://r6.r-lib.org/reference/R6Class.html" class="external-link">R6</a> class.</p><div class="section">
 <h4 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va"><a href="../reference/mlr_task_generators_simplex.html">TaskGeneratorSimplex</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va"><a href="../reference/mlr_task_generators_simplex.html">TaskGeneratorSimplex</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 
@@ -145,7 +145,7 @@ fewer samples than requested.</p>
 <h3 id="method-plot-">Method <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code><a class="anchor" aria-label="anchor" href="#method-plot-"></a></h3>
 <p>Creates a simple plot of generated data.</p><div class="section">
 <h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">TaskGeneratorSimplex</span><span class="op">$</span><span class="fu">plot</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">200L</span>, pch <span class="op">=</span> <span class="fl">19L</span>, <span class="va">...</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TaskGeneratorSimplex</span><span class="op">$</span><span class="fu">plot</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">200L</span>, pch <span class="op">=</span> <span class="fl">19L</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -172,7 +172,7 @@ Additional arguments passed to <code><a href="https://rdrr.io/r/graphics/plot.de
 <h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
 <p>The objects of this class are cloneable with this method.</p><div class="section">
 <h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">TaskGeneratorSimplex</span><span class="op">$</span><span class="fu">clone</span><span class="op">(</span>deep <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TaskGeneratorSimplex</span><span class="op">$</span><span class="fu">clone</span><span class="op">(</span>deep <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -190,12 +190,12 @@ Additional arguments passed to <code><a href="https://rdrr.io/r/graphics/plot.de
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">generator</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">tgen</a></span><span class="op">(</span><span class="st">"simplex"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">generator</span>, n <span class="op">=</span> <span class="fl">200</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">generator</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">tgen</a></span><span class="op">(</span><span class="st">"simplex"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">generator</span>, n <span class="op">=</span> <span class="fl">200</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="mlr_task_generators_simplex-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">task</span> <span class="op">=</span> <span class="va">generator</span><span class="op">$</span><span class="fu">generate</span><span class="op">(</span><span class="fl">200</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">task</span><span class="op">$</span><span class="fu">data</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="va">generator</span><span class="op">$</span><span class="fu">generate</span><span class="op">(</span><span class="fl">200</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">task</span><span class="op">$</span><span class="fu">data</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Classes ‘data.table’ and 'data.frame':	100 obs. of  4 variables:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ y : Factor w/ 4 levels "A","B","C","D": 1 1 1 1 1 1 1 1 1 1 ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ x1: num  -0.419 -0.54 -0.32 -0.646 -0.687 ...</span>

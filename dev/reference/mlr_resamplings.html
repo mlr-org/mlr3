@@ -129,7 +129,7 @@ If <code>objects</code> is set to <code>TRUE</code>, the constructed objects are
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html" class="external-link">as.data.table</a></span><span class="op">(</span><span class="va">mlr_resamplings</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html" class="external-link">as.data.table</a></span><span class="op">(</span><span class="va">mlr_resamplings</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            key                         label        params iters</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:   bootstrap                     Bootstrap ratio,repeats    30</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2:      custom                 Custom Splits                  NA</span>
@@ -140,12 +140,12 @@ If <code>objects</code> is set to <code>TRUE</code>, the constructed objects are
 <span class="r-out co"><span class="r-pr">#&gt;</span> 7:         loo                 Leave-One-Out                  NA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 8: repeated_cv     Repeated Cross-Validation folds,repeats   100</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 9: subsampling                   Subsampling ratio,repeats    30</span>
-<span class="r-in"><span class="va">mlr_resamplings</span><span class="op">$</span><span class="fu">get</span><span class="op">(</span><span class="st">"cv"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">mlr_resamplings</span><span class="op">$</span><span class="fu">get</span><span class="op">(</span><span class="st">"cv"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;ResamplingCV&gt;: Cross-Validation</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Iterations: 10</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Instantiated: FALSE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Parameters: folds=10</span>
-<span class="r-in"><span class="fu"><a href="mlr_sugar.html">rsmp</a></span><span class="op">(</span><span class="st">"subsampling"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="mlr_sugar.html">rsmp</a></span><span class="op">(</span><span class="st">"subsampling"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;ResamplingSubsampling&gt;: Subsampling</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Iterations: 30</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Instantiated: FALSE</span>

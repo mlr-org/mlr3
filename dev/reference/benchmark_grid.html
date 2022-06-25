@@ -89,7 +89,7 @@ The only exception to this rule applies if all tasks have exactly the same numbe
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">benchmark_grid</span><span class="op">(</span><span class="va">tasks</span>, <span class="va">learners</span>, <span class="va">resamplings</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">benchmark_grid</span><span class="op">(</span><span class="va">tasks</span>, <span class="va">learners</span>, <span class="va">resamplings</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -126,12 +126,12 @@ The only exception to this rule applies if all tasks have exactly the same numbe
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">tasks</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span>, <span class="fu"><a href="mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"sonar"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">learners</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="mlr_sugar.html">lrn</a></span><span class="op">(</span><span class="st">"classif.featureless"</span><span class="op">)</span>, <span class="fu"><a href="mlr_sugar.html">lrn</a></span><span class="op">(</span><span class="st">"classif.rpart"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">resamplings</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="mlr_sugar.html">rsmp</a></span><span class="op">(</span><span class="st">"cv"</span><span class="op">)</span>, <span class="fu"><a href="mlr_sugar.html">rsmp</a></span><span class="op">(</span><span class="st">"subsampling"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">grid</span> <span class="op">=</span> <span class="fu">benchmark_grid</span><span class="op">(</span><span class="va">tasks</span>, <span class="va">learners</span>, <span class="va">resamplings</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">grid</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">tasks</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span>, <span class="fu"><a href="mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"sonar"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">learners</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="mlr_sugar.html">lrn</a></span><span class="op">(</span><span class="st">"classif.featureless"</span><span class="op">)</span>, <span class="fu"><a href="mlr_sugar.html">lrn</a></span><span class="op">(</span><span class="st">"classif.rpart"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">resamplings</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="mlr_sugar.html">rsmp</a></span><span class="op">(</span><span class="st">"cv"</span><span class="op">)</span>, <span class="fu"><a href="mlr_sugar.html">rsmp</a></span><span class="op">(</span><span class="st">"subsampling"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">grid</span> <span class="op">=</span> <span class="fu">benchmark_grid</span><span class="op">(</span><span class="va">tasks</span>, <span class="va">learners</span>, <span class="va">resamplings</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">grid</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 task                         learner</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: &lt;TaskClassif[50]&gt; &lt;LearnerClassifFeatureless[38]&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2: &lt;TaskClassif[50]&gt; &lt;LearnerClassifFeatureless[38]&gt;</span>
@@ -150,18 +150,18 @@ The only exception to this rule applies if all tasks have exactly the same numbe
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6: &lt;ResamplingSubsampling[20]&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 7:          &lt;ResamplingCV[20]&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 8: &lt;ResamplingSubsampling[20]&gt;</span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="fu"><a href="benchmark.html">benchmark</a></span><span class="op">(</span><span class="va">grid</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># manual construction of the grid with data.table::CJ()</span></span>
-<span class="r-in"><span class="va">grid</span> <span class="op">=</span> <span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/J.html" class="external-link">CJ</a></span><span class="op">(</span>task <span class="op">=</span> <span class="va">tasks</span>, learner <span class="op">=</span> <span class="va">learners</span>,</span>
-<span class="r-in">  resampling <span class="op">=</span> <span class="va">resamplings</span>, sorted <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># manual instantiation (not suited for a fair comparison of learners!)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/funprog.html" class="external-link">Map</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">task</span>, <span class="va">resampling</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in">  <span class="va">resampling</span><span class="op">$</span><span class="fu">instantiate</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span>, task <span class="op">=</span> <span class="va">grid</span><span class="op">$</span><span class="va">task</span>, resampling <span class="op">=</span> <span class="va">grid</span><span class="op">$</span><span class="va">resampling</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="benchmark.html">benchmark</a></span><span class="op">(</span><span class="va">grid</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># manual construction of the grid with data.table::CJ()</span></span></span>
+<span class="r-in"><span><span class="va">grid</span> <span class="op">=</span> <span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/J.html" class="external-link">CJ</a></span><span class="op">(</span>task <span class="op">=</span> <span class="va">tasks</span>, learner <span class="op">=</span> <span class="va">learners</span>,</span></span>
+<span class="r-in"><span>  resampling <span class="op">=</span> <span class="va">resamplings</span>, sorted <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># manual instantiation (not suited for a fair comparison of learners!)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/funprog.html" class="external-link">Map</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">task</span>, <span class="va">resampling</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="va">resampling</span><span class="op">$</span><span class="fu">instantiate</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span>, task <span class="op">=</span> <span class="va">grid</span><span class="op">$</span><span class="va">task</span>, resampling <span class="op">=</span> <span class="va">grid</span><span class="op">$</span><span class="va">resampling</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;ResamplingCV&gt;: Cross-Validation</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Iterations: 10</span>
@@ -210,9 +210,9 @@ The only exception to this rule applies if all tasks have exactly the same numbe
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Instantiated: TRUE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Parameters: repeats=30, ratio=0.6667</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="fu"><a href="benchmark.html">benchmark</a></span><span class="op">(</span><span class="va">grid</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="benchmark.html">benchmark</a></span><span class="op">(</span><span class="va">grid</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

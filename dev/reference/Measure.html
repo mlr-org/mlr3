@@ -261,22 +261,22 @@ Function to aggregate scores computed on different resampling iterations.</p></d
 <p>Creates a new instance of this <a href="https://r6.r-lib.org/reference/R6Class.html" class="external-link">R6</a> class.</p>
 <p>Note that this object is typically constructed via a derived classes, e.g. <a href="MeasureClassif.html">MeasureClassif</a> or <a href="MeasureRegr.html">MeasureRegr</a>.</p><div class="section">
 <h4 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va"><a href="../reference/Measure.html">Measure</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>
-  <span class="va">id</span>,
-  task_type <span class="op">=</span> <span class="cn">NA</span>,
-  param_set <span class="op">=</span> <span class="fu">ps</span><span class="op">(</span><span class="op">)</span>,
-  range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="cn">Inf</span>, <span class="cn">Inf</span><span class="op">)</span>,
-  minimize <span class="op">=</span> <span class="cn">NA</span>,
-  average <span class="op">=</span> <span class="st">"macro"</span>,
-  aggregator <span class="op">=</span> <span class="cn">NULL</span>,
-  properties <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="op">)</span>,
-  predict_type <span class="op">=</span> <span class="st">"response"</span>,
-  predict_sets <span class="op">=</span> <span class="st">"test"</span>,
-  task_properties <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="op">)</span>,
-  packages <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="op">)</span>,
-  label <span class="op">=</span> <span class="cn">NA_character_</span>,
-  man <span class="op">=</span> <span class="cn">NA_character_</span>
-<span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va"><a href="../reference/Measure.html">Measure</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span></span>
+<span>  <span class="va">id</span>,</span>
+<span>  task_type <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  param_set <span class="op">=</span> <span class="fu">ps</span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="cn">Inf</span>, <span class="cn">Inf</span><span class="op">)</span>,</span>
+<span>  minimize <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  average <span class="op">=</span> <span class="st">"macro"</span>,</span>
+<span>  aggregator <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  properties <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  predict_type <span class="op">=</span> <span class="st">"response"</span>,</span>
+<span>  predict_sets <span class="op">=</span> <span class="st">"test"</span>,</span>
+<span>  task_properties <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  packages <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  label <span class="op">=</span> <span class="cn">NA_character_</span>,</span>
+<span>  man <span class="op">=</span> <span class="cn">NA_character_</span></span>
+<span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -389,7 +389,7 @@ The referenced help package can be opened via method <code>$help()</code>.</p></
 <h3 id="method-format-">Method <code><a href="https://rdrr.io/r/base/format.html" class="external-link">format()</a></code><a class="anchor" aria-label="anchor" href="#method-format-"></a></h3>
 <p>Helper for print outputs.</p><div class="section">
 <h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">Measure</span><span class="op">$</span><span class="fu">format</span><span class="op">(</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Measure</span><span class="op">$</span><span class="fu">format</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 
@@ -397,7 +397,7 @@ The referenced help package can be opened via method <code>$help()</code>.</p></
 <h3 id="method-print-">Method <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code><a class="anchor" aria-label="anchor" href="#method-print-"></a></h3>
 <p>Printer.</p><div class="section">
 <h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">Measure</span><span class="op">$</span><span class="fu">print</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Measure</span><span class="op">$</span><span class="fu">print</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -410,10 +410,10 @@ The referenced help package can be opened via method <code>$help()</code>.</p></
 </div>
 
 </div><p></p><hr><a id="method-Measure-help"></a><div class="section">
-<h3 id="method-help-">Method <code>help()</code><a class="anchor" aria-label="anchor" href="#method-help-"></a></h3>
+<h3 id="method-help-">Method <code><a href="https://rdrr.io/r/utils/help.html" class="external-link">help()</a></code><a class="anchor" aria-label="anchor" href="#method-help-"></a></h3>
 <p>Opens the corresponding help page referenced by field <code>$man</code>.</p><div class="section">
 <h4 id="usage-3">Usage<a class="anchor" aria-label="anchor" href="#usage-3"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">Measure</span><span class="op">$</span><span class="fu">help</span><span class="op">(</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Measure</span><span class="op">$</span><span class="fu">help</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 
@@ -426,7 +426,7 @@ If the measure if flagged with the properties <code>"requires_task"</code>, <cod
 pass the respective <a href="Task.html">Task</a>, the (trained) <a href="Learner.html">Learner</a> or the training set indices.
 This is handled internally during <code><a href="resample.html">resample()</a></code>/<code><a href="benchmark.html">benchmark()</a></code>.</p><div class="section">
 <h4 id="usage-4">Usage<a class="anchor" aria-label="anchor" href="#usage-4"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">Measure</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="va">prediction</span>, task <span class="op">=</span> <span class="cn">NULL</span>, learner <span class="op">=</span> <span class="cn">NULL</span>, train_set <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Measure</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="va">prediction</span>, task <span class="op">=</span> <span class="cn">NULL</span>, learner <span class="op">=</span> <span class="cn">NULL</span>, train_set <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -459,7 +459,7 @@ This is handled internally during <code><a href="resample.html">resample()</a></
 <p>Aggregates multiple performance scores into a single score, e.g. by using the <code>aggregator</code>
 function of the measure.</p><div class="section">
 <h4 id="usage-5">Usage<a class="anchor" aria-label="anchor" href="#usage-5"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">Measure</span><span class="op">$</span><span class="fu">aggregate</span><span class="op">(</span><span class="va">rr</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Measure</span><span class="op">$</span><span class="fu">aggregate</span><span class="op">(</span><span class="va">rr</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">

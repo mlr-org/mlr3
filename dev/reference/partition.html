@@ -86,13 +86,13 @@ optionally stratifying on the target column.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">partition</span><span class="op">(</span><span class="va">task</span>, ratio <span class="op">=</span> <span class="fl">0.67</span>, stratify <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="co"># S3 method for TaskRegr</span>
-<span class="fu">partition</span><span class="op">(</span><span class="va">task</span>, ratio <span class="op">=</span> <span class="fl">0.67</span>, stratify <span class="op">=</span> <span class="cn">TRUE</span>, bins <span class="op">=</span> <span class="fl">3L</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="co"># S3 method for TaskClassif</span>
-<span class="fu">partition</span><span class="op">(</span><span class="va">task</span>, ratio <span class="op">=</span> <span class="fl">0.67</span>, stratify <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">partition</span><span class="op">(</span><span class="va">task</span>, ratio <span class="op">=</span> <span class="fl">0.67</span>, stratify <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for TaskRegr</span></span>
+<span><span class="fu">partition</span><span class="op">(</span><span class="va">task</span>, ratio <span class="op">=</span> <span class="fl">0.67</span>, stratify <span class="op">=</span> <span class="cn">TRUE</span>, bins <span class="op">=</span> <span class="fl">3L</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for TaskClassif</span></span>
+<span><span class="fu">partition</span><span class="op">(</span><span class="va">task</span>, ratio <span class="op">=</span> <span class="fl">0.67</span>, stratify <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -127,47 +127,47 @@ Number of bins to cut the target variable into for stratification.</p></dd>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># regression task</span></span>
-<span class="r-in"><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"boston_housing"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># roughly equal size split while stratifying on the binned response</span></span>
-<span class="r-in"><span class="va">split</span> <span class="op">=</span> <span class="fu">partition</span><span class="op">(</span><span class="va">task</span>, ratio <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
-<span class="r-in">  y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">task</span><span class="op">$</span><span class="fu">truth</span><span class="op">(</span><span class="va">split</span><span class="op">$</span><span class="va">train</span><span class="op">)</span>, <span class="va">task</span><span class="op">$</span><span class="fu">truth</span><span class="op">(</span><span class="va">split</span><span class="op">$</span><span class="va">test</span><span class="op">)</span><span class="op">)</span>,</span>
-<span class="r-in">  split <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"train"</span>, <span class="st">"predict"</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/lengths.html" class="external-link">lengths</a></span><span class="op">(</span><span class="va">split</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/boxplot.html" class="external-link">boxplot</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">split</span>, data <span class="op">=</span> <span class="va">data</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># regression task</span></span></span>
+<span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"boston_housing"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># roughly equal size split while stratifying on the binned response</span></span></span>
+<span class="r-in"><span><span class="va">split</span> <span class="op">=</span> <span class="fu">partition</span><span class="op">(</span><span class="va">task</span>, ratio <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">task</span><span class="op">$</span><span class="fu">truth</span><span class="op">(</span><span class="va">split</span><span class="op">$</span><span class="va">train</span><span class="op">)</span>, <span class="va">task</span><span class="op">$</span><span class="fu">truth</span><span class="op">(</span><span class="va">split</span><span class="op">$</span><span class="va">test</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  split <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"train"</span>, <span class="st">"predict"</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/lengths.html" class="external-link">lengths</a></span><span class="op">(</span><span class="va">split</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/boxplot.html" class="external-link">boxplot</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">split</span>, data <span class="op">=</span> <span class="va">data</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="partition-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># classification task</span></span>
-<span class="r-in"><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"pima"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">split</span> <span class="op">=</span> <span class="fu">partition</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># roughly same distribution of the target label</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/proportions.html" class="external-link">prop.table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">task</span><span class="op">$</span><span class="fu">truth</span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># classification task</span></span></span>
+<span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"pima"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">split</span> <span class="op">=</span> <span class="fu">partition</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># roughly same distribution of the target label</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/proportions.html" class="external-link">prop.table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">task</span><span class="op">$</span><span class="fu">truth</span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       pos       neg </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 0.3489583 0.6510417 </span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/proportions.html" class="external-link">prop.table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">task</span><span class="op">$</span><span class="fu">truth</span><span class="op">(</span><span class="va">split</span><span class="op">$</span><span class="va">train</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/proportions.html" class="external-link">prop.table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">task</span><span class="op">$</span><span class="fu">truth</span><span class="op">(</span><span class="va">split</span><span class="op">$</span><span class="va">train</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       pos       neg </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 0.3495146 0.6504854 </span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/proportions.html" class="external-link">prop.table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">task</span><span class="op">$</span><span class="fu">truth</span><span class="op">(</span><span class="va">split</span><span class="op">$</span><span class="va">test</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/proportions.html" class="external-link">prop.table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">task</span><span class="op">$</span><span class="fu">truth</span><span class="op">(</span><span class="va">split</span><span class="op">$</span><span class="va">test</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       pos       neg </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 0.3478261 0.6521739 </span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># splitting into 3 disjunct sets, using ResamplingCV and stratification</span></span>
-<span class="r-in"><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"iris"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">task</span><span class="op">$</span><span class="fu">set_col_roles</span><span class="op">(</span><span class="va">task</span><span class="op">$</span><span class="va">target_names</span>, add_to <span class="op">=</span> <span class="st">"stratum"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">r</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">rsmp</a></span><span class="op">(</span><span class="st">"cv"</span>, folds <span class="op">=</span> <span class="fl">3</span><span class="op">)</span><span class="op">$</span><span class="fu">instantiate</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">sets</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, <span class="va">r</span><span class="op">$</span><span class="va">train_set</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/lengths.html" class="external-link">lengths</a></span><span class="op">(</span><span class="va">sets</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># splitting into 3 disjunct sets, using ResamplingCV and stratification</span></span></span>
+<span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"iris"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">task</span><span class="op">$</span><span class="fu">set_col_roles</span><span class="op">(</span><span class="va">task</span><span class="op">$</span><span class="va">target_names</span>, add_to <span class="op">=</span> <span class="st">"stratum"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">r</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">rsmp</a></span><span class="op">(</span><span class="st">"cv"</span>, folds <span class="op">=</span> <span class="fl">3</span><span class="op">)</span><span class="op">$</span><span class="fu">instantiate</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">sets</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, <span class="va">r</span><span class="op">$</span><span class="va">train_set</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/lengths.html" class="external-link">lengths</a></span><span class="op">(</span><span class="va">sets</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1]  99  99 102</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/proportions.html" class="external-link">prop.table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">task</span><span class="op">$</span><span class="fu">truth</span><span class="op">(</span><span class="va">sets</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/proportions.html" class="external-link">prop.table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">task</span><span class="op">$</span><span class="fu">truth</span><span class="op">(</span><span class="va">sets</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     setosa versicolor  virginica </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  0.3333333  0.3333333  0.3333333 </span>

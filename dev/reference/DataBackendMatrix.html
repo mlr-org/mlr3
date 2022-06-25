@@ -148,7 +148,7 @@ Number of columns (variables), including the primary key column.</p></dd>
 <h3 id="method-new-">Method <code>new()</code><a class="anchor" aria-label="anchor" href="#method-new-"></a></h3>
 <p>Creates a new instance of this <a href="https://r6.r-lib.org/reference/R6Class.html" class="external-link">R6</a> class.</p><div class="section">
 <h4 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va"><a href="../reference/DataBackendMatrix.html">DataBackendMatrix</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="va">data</span>, dense <span class="op">=</span> <span class="cn">NULL</span>, primary_key <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va"><a href="../reference/DataBackendMatrix.html">DataBackendMatrix</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="va">data</span>, dense <span class="op">=</span> <span class="cn">NULL</span>, primary_key <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -180,7 +180,7 @@ Queries for rows with no matching row id and queries for columns with no matchin
 Rows are guaranteed to be returned in the same order as <code>rows</code>, columns may be returned in an arbitrary order.
 Duplicated row ids result in duplicated rows, duplicated column names lead to an exception.</p><div class="section">
 <h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">DataBackendMatrix</span><span class="op">$</span><span class="fu">data</span><span class="op">(</span><span class="va">rows</span>, <span class="va">cols</span>, data_format <span class="op">=</span> <span class="st">"data.table"</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">DataBackendMatrix</span><span class="op">$</span><span class="fu">data</span><span class="op">(</span><span class="va">rows</span>, <span class="va">cols</span>, data_format <span class="op">=</span> <span class="st">"data.table"</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -207,7 +207,7 @@ Desired data format, e.g. <code>"data.table"</code> or <code>"Matrix"</code>.</p
 <h3 id="method-head-">Method <code><a href="https://rdrr.io/r/utils/head.html" class="external-link">head()</a></code><a class="anchor" aria-label="anchor" href="#method-head-"></a></h3>
 <p>Retrieve the first <code>n</code> rows.</p><div class="section">
 <h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">DataBackendMatrix</span><span class="op">$</span><span class="fu">head</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">6L</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">DataBackendMatrix</span><span class="op">$</span><span class="fu">head</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">6L</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -231,7 +231,7 @@ specified. If <code>na_rm</code> is <code>TRUE</code>, missing values are remove
 returned vectors of distinct values. Non-existing rows and columns are
 silently ignored.</p><div class="section">
 <h4 id="usage-3">Usage<a class="anchor" aria-label="anchor" href="#usage-3"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">DataBackendMatrix</span><span class="op">$</span><span class="fu">distinct</span><span class="op">(</span><span class="va">rows</span>, <span class="va">cols</span>, na_rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">DataBackendMatrix</span><span class="op">$</span><span class="fu">distinct</span><span class="op">(</span><span class="va">rows</span>, <span class="va">cols</span>, na_rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -263,7 +263,7 @@ Whether to remove NAs or not.</p></dd>
 <p>Returns the number of missing values per column in the specified slice
 of data. Non-existing rows and columns are silently ignored.</p><div class="section">
 <h4 id="usage-4">Usage<a class="anchor" aria-label="anchor" href="#usage-4"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">DataBackendMatrix</span><span class="op">$</span><span class="fu">missings</span><span class="op">(</span><span class="va">rows</span>, <span class="va">cols</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">DataBackendMatrix</span><span class="op">$</span><span class="fu">missings</span><span class="op">(</span><span class="va">rows</span>, <span class="va">cols</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -291,18 +291,17 @@ Column names.</p></dd>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"Matrix"</span><span class="op">)</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required namespace: Matrix</span>
-<span class="r-in"><span class="va">data</span> <span class="op">=</span> <span class="fu">Matrix</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/Matrix.html" class="external-link">Matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">1</span>, <span class="fl">20</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x1"</span>, <span class="st">"x2"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">dense</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
-<span class="r-in">  ..row_id <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span>,</span>
-<span class="r-in">  num <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span>,</span>
-<span class="r-in">  fact <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span><span class="op">)</span>, <span class="fl">10</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">b</span> <span class="op">=</span> <span class="fu"><a href="as_data_backend.html">as_data_backend</a></span><span class="op">(</span><span class="va">data</span>, dense <span class="op">=</span> <span class="va">dense</span>, primary_key <span class="op">=</span> <span class="st">"..row_id"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">b</span><span class="op">$</span><span class="fu">head</span><span class="op">(</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"Matrix"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">data</span> <span class="op">=</span> <span class="fu">Matrix</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/Matrix.html" class="external-link">Matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">1</span>, <span class="fl">20</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x1"</span>, <span class="st">"x2"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">dense</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  ..row_id <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span>,</span></span>
+<span class="r-in"><span>  num <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  fact <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span><span class="op">)</span>, <span class="fl">10</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">b</span> <span class="op">=</span> <span class="fu"><a href="as_data_backend.html">as_data_backend</a></span><span class="op">(</span><span class="va">data</span>, dense <span class="op">=</span> <span class="va">dense</span>, primary_key <span class="op">=</span> <span class="st">"..row_id"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">b</span><span class="op">$</span><span class="fu">head</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    ..row_id        num fact x1 x2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:        1 0.03092667    a  0  1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2:        2 0.49381410    b  1  0</span>
@@ -310,13 +309,13 @@ Column names.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4:        4 0.42955521    a  1  1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5:        5 0.11537900    b  1  1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6:        6 0.28180840    b  1  1</span>
-<span class="r-in"><span class="va">b</span><span class="op">$</span><span class="fu">data</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, <span class="va">b</span><span class="op">$</span><span class="va">colnames</span>, data_format <span class="op">=</span> <span class="st">"Matrix"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">b</span><span class="op">$</span><span class="fu">data</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, <span class="va">b</span><span class="op">$</span><span class="va">colnames</span>, data_format <span class="op">=</span> <span class="st">"Matrix"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3 x 5 Matrix of class "dgeMatrix"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   x1 x2 ..row_id        num fact_b</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> a  0  1        1 0.03092667      0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> b  1  0        2 0.49381410      1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> b  0  0        3 0.21081463      1</span>
-<span class="r-in"><span class="va">b</span><span class="op">$</span><span class="fu">data</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, <span class="va">b</span><span class="op">$</span><span class="va">colnames</span>, data_format <span class="op">=</span> <span class="st">"data.table"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">b</span><span class="op">$</span><span class="fu">data</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, <span class="va">b</span><span class="op">$</span><span class="va">colnames</span>, data_format <span class="op">=</span> <span class="st">"data.table"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    ..row_id        num fact x1 x2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:        1 0.03092667    a  0  1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2:        2 0.49381410    b  1  0</span>

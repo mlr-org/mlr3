@@ -143,7 +143,7 @@ If <code>objects</code> is set to <code>TRUE</code>, the constructed objects are
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html" class="external-link">as.data.table</a></span><span class="op">(</span><span class="va">mlr_tasks</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html" class="external-link">as.data.table</a></span><span class="op">(</span><span class="va">mlr_tasks</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                key                   label task_type nrow ncol properties lgl</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  1: boston_housing   Boston Housing Prices      regr  506   19              0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  2:  breast_cancer Wisconsin Breast Cancer   classif  683   10   twoclass   0</span>
@@ -168,8 +168,8 @@ If <code>objects</code> is set to <code>TRUE</code>, the constructed objects are
 <span class="r-out co"><span class="r-pr">#&gt;</span>  9:   0  57   0   0   0   0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 10:   2  11   0   0   0   0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 11:   1   0   0   0   0   0</span>
-<span class="r-in"><span class="va">task</span> <span class="op">=</span> <span class="va">mlr_tasks</span><span class="op">$</span><span class="fu">get</span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span> <span class="co"># same as tsk("penguins")</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">task</span><span class="op">$</span><span class="fu">data</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="va">mlr_tasks</span><span class="op">$</span><span class="fu">get</span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span> <span class="co"># same as tsk("penguins")</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">task</span><span class="op">$</span><span class="fu">data</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    species bill_depth bill_length body_mass flipper_length    island    sex</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:  Adelie       18.7        39.1      3750            181 Torgersen   male</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2:  Adelie       17.4        39.5      3800            186 Torgersen female</span>
@@ -184,23 +184,23 @@ If <code>objects</code> is set to <code>TRUE</code>, the constructed objects are
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4: 2007</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5: 2007</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6: 2007</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Add a new task, based on a subset of penguins:</span></span>
-<span class="r-in"><span class="va">data</span> <span class="op">=</span> <span class="fu">palmerpenguins</span><span class="fu">::</span><span class="va"><a href="https://allisonhorst.github.io/palmerpenguins/reference/penguins.html" class="external-link">penguins</a></span></span>
-<span class="r-in"><span class="va">data</span><span class="op">$</span><span class="va">species</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">species</span> <span class="op">==</span> <span class="st">"Adelie"</span>, <span class="st">"1"</span>, <span class="st">"0"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">task</span> <span class="op">=</span> <span class="va"><a href="TaskClassif.html">TaskClassif</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="st">"penguins.binary"</span>, <span class="va">data</span>, target <span class="op">=</span> <span class="st">"species"</span>, positive <span class="op">=</span> <span class="st">"1"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># add to dictionary</span></span>
-<span class="r-in"><span class="va">mlr_tasks</span><span class="op">$</span><span class="fu">add</span><span class="op">(</span><span class="st">"penguins.binary"</span>, <span class="va">task</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># list available tasks</span></span>
-<span class="r-in"><span class="va">mlr_tasks</span><span class="op">$</span><span class="fu">keys</span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Add a new task, based on a subset of penguins:</span></span></span>
+<span class="r-in"><span><span class="va">data</span> <span class="op">=</span> <span class="fu">palmerpenguins</span><span class="fu">::</span><span class="va"><a href="https://allisonhorst.github.io/palmerpenguins/reference/penguins.html" class="external-link">penguins</a></span></span></span>
+<span class="r-in"><span><span class="va">data</span><span class="op">$</span><span class="va">species</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">species</span> <span class="op">==</span> <span class="st">"Adelie"</span>, <span class="st">"1"</span>, <span class="st">"0"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="va"><a href="TaskClassif.html">TaskClassif</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="st">"penguins.binary"</span>, <span class="va">data</span>, target <span class="op">=</span> <span class="st">"species"</span>, positive <span class="op">=</span> <span class="st">"1"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># add to dictionary</span></span></span>
+<span class="r-in"><span><span class="va">mlr_tasks</span><span class="op">$</span><span class="fu">add</span><span class="op">(</span><span class="st">"penguins.binary"</span>, <span class="va">task</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># list available tasks</span></span></span>
+<span class="r-in"><span><span class="va">mlr_tasks</span><span class="op">$</span><span class="fu">keys</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "boston_housing"  "breast_cancer"   "german_credit"   "iris"           </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [5] "mtcars"          "penguins"        "penguins.binary" "pima"           </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [9] "sonar"           "spam"            "wine"            "zoo"            </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># retrieve from dictionary</span></span>
-<span class="r-in"><span class="va">mlr_tasks</span><span class="op">$</span><span class="fu">get</span><span class="op">(</span><span class="st">"penguins.binary"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># retrieve from dictionary</span></span></span>
+<span class="r-in"><span><span class="va">mlr_tasks</span><span class="op">$</span><span class="fu">get</span><span class="op">(</span><span class="st">"penguins.binary"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;TaskClassif:penguins.binary&gt; (344 x 8)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Target: species</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Properties: twoclass</span>
@@ -208,9 +208,9 @@ If <code>objects</code> is set to <code>TRUE</code>, the constructed objects are
 <span class="r-out co"><span class="r-pr">#&gt;</span>   - int (3): body_mass_g, flipper_length_mm, year</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   - dbl (2): bill_depth_mm, bill_length_mm</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   - fct (2): island, sex</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># remove task again</span></span>
-<span class="r-in"><span class="va">mlr_tasks</span><span class="op">$</span><span class="fu">remove</span><span class="op">(</span><span class="st">"penguins.binary"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># remove task again</span></span></span>
+<span class="r-in"><span><span class="va">mlr_tasks</span><span class="op">$</span><span class="fu">remove</span><span class="op">(</span><span class="st">"penguins.binary"</span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

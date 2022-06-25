@@ -176,13 +176,13 @@
 </h2>
 <p>Install the last release from CRAN:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"mlr3"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"mlr3"</span><span class="op">)</span></span></code></pre></div>
 <p>Install the development version from GitHub:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"mlr-org/mlr3"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"mlr-org/mlr3"</span><span class="op">)</span></span></code></pre></div>
 <p>If you want to get started with <code>mlr3</code>, we recommend installing the <a href="https://mlr3verse.mlr-org.com/" class="external-link">mlr3verse</a> meta-package which installs <code>mlr3</code> and some of the most important extension packages:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"mlr3verse"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"mlr3verse"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
@@ -191,11 +191,11 @@
 <h3 id="constructing-learners-and-tasks">Constructing Learners and Tasks<a class="anchor" aria-label="anchor" href="#constructing-learners-and-tasks"></a>
 </h3>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mlr3.mlr-org.com">mlr3</a></span><span class="op">)</span>
-
-<span class="co"># create learning task</span>
-<span class="va">task_penguins</span> <span class="op">=</span> <span class="fu"><a href="reference/as_task_classif.html">as_task_classif</a></span><span class="op">(</span><span class="va">species</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="fu">palmerpenguins</span><span class="fu">::</span><span class="va"><a href="https://allisonhorst.github.io/palmerpenguins/reference/penguins.html" class="external-link">penguins</a></span><span class="op">)</span>
-<span class="va">task_penguins</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mlr3.mlr-org.com">mlr3</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># create learning task</span></span>
+<span><span class="va">task_penguins</span> <span class="op">=</span> <span class="fu"><a href="reference/as_task_classif.html">as_task_classif</a></span><span class="op">(</span><span class="va">species</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="fu">palmerpenguins</span><span class="fu">::</span><span class="va"><a href="https://allisonhorst.github.io/palmerpenguins/reference/penguins.html" class="external-link">penguins</a></span><span class="op">)</span></span>
+<span><span class="va">task_penguins</span></span></code></pre></div>
 <div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="do">## &lt;TaskClassif:palmerpenguins::penguins&gt; (344 x 8)</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="do">## * Target: species</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="do">## * Properties: multiclass</span></span>
@@ -204,32 +204,32 @@
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="do">##   - dbl (2): bill_depth_mm, bill_length_mm</span></span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="do">##   - fct (2): island, sex</span></span></code></pre></div>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># load learner and set hyperparameter</span>
-<span class="va">learner</span> <span class="op">=</span> <span class="fu"><a href="reference/mlr_sugar.html">lrn</a></span><span class="op">(</span><span class="st">"classif.rpart"</span>, cp <span class="op">=</span> <span class="fl">.01</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># load learner and set hyperparameter</span></span>
+<span><span class="va">learner</span> <span class="op">=</span> <span class="fu"><a href="reference/mlr_sugar.html">lrn</a></span><span class="op">(</span><span class="st">"classif.rpart"</span>, cp <span class="op">=</span> <span class="fl">.01</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="basic-train--predict">Basic train + predict<a class="anchor" aria-label="anchor" href="#basic-train--predict"></a>
 </h3>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># train/test split</span>
-<span class="va">split</span> <span class="op">=</span> <span class="fu"><a href="reference/partition.html">partition</a></span><span class="op">(</span><span class="va">task_penguins</span>, ratio <span class="op">=</span> <span class="fl">0.67</span><span class="op">)</span>
-
-<span class="co"># train the model</span>
-<span class="va">learner</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task_penguins</span>, <span class="va">split</span><span class="op">$</span><span class="va">train_set</span><span class="op">)</span>
-
-<span class="co"># predict data</span>
-<span class="va">prediction</span> <span class="op">=</span> <span class="va">learner</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="va">task_penguins</span>, <span class="va">split</span><span class="op">$</span><span class="va">test_set</span><span class="op">)</span>
-
-<span class="co"># calculate performance</span>
-<span class="va">prediction</span><span class="op">$</span><span class="va">confusion</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># train/test split</span></span>
+<span><span class="va">split</span> <span class="op">=</span> <span class="fu"><a href="reference/partition.html">partition</a></span><span class="op">(</span><span class="va">task_penguins</span>, ratio <span class="op">=</span> <span class="fl">0.67</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># train the model</span></span>
+<span><span class="va">learner</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task_penguins</span>, <span class="va">split</span><span class="op">$</span><span class="va">train_set</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># predict data</span></span>
+<span><span class="va">prediction</span> <span class="op">=</span> <span class="va">learner</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="va">task_penguins</span>, <span class="va">split</span><span class="op">$</span><span class="va">test_set</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># calculate performance</span></span>
+<span><span class="va">prediction</span><span class="op">$</span><span class="va">confusion</span></span></code></pre></div>
 <div class="sourceCode" id="cb8"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="do">##            truth</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="do">## response    Adelie Chinstrap Gentoo</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="do">##   Adelie       146         5      0</span></span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="do">##   Chinstrap      6        63      1</span></span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="do">##   Gentoo         0         0    123</span></span></code></pre></div>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">measure</span> <span class="op">=</span> <span class="fu"><a href="reference/mlr_sugar.html">msr</a></span><span class="op">(</span><span class="st">"classif.acc"</span><span class="op">)</span>
-<span class="va">prediction</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="va">measure</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">measure</span> <span class="op">=</span> <span class="fu"><a href="reference/mlr_sugar.html">msr</a></span><span class="op">(</span><span class="st">"classif.acc"</span><span class="op">)</span></span>
+<span><span class="va">prediction</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="va">measure</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb10"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="do">## classif.acc </span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="do">##   0.9651163</span></span></code></pre></div>
 </div>
@@ -237,20 +237,20 @@
 <h3 id="resample">Resample<a class="anchor" aria-label="anchor" href="#resample"></a>
 </h3>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># 3-fold cross validation</span>
-<span class="va">resampling</span> <span class="op">=</span> <span class="fu"><a href="reference/mlr_sugar.html">rsmp</a></span><span class="op">(</span><span class="st">"cv"</span>, folds <span class="op">=</span> <span class="fl">3L</span><span class="op">)</span>
-
-<span class="co"># run experiments</span>
-<span class="va">rr</span> <span class="op">=</span> <span class="fu"><a href="reference/resample.html">resample</a></span><span class="op">(</span><span class="va">task_penguins</span>, <span class="va">learner</span>, <span class="va">resampling</span><span class="op">)</span>
-
-<span class="co"># access results</span>
-<span class="va">rr</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="va">measure</span><span class="op">)</span><span class="op">[</span>, <span class="fu">.</span><span class="op">(</span><span class="va">task_id</span>, <span class="va">learner_id</span>, <span class="va">iteration</span>, <span class="va">classif.acc</span><span class="op">)</span><span class="op">]</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># 3-fold cross validation</span></span>
+<span><span class="va">resampling</span> <span class="op">=</span> <span class="fu"><a href="reference/mlr_sugar.html">rsmp</a></span><span class="op">(</span><span class="st">"cv"</span>, folds <span class="op">=</span> <span class="fl">3L</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># run experiments</span></span>
+<span><span class="va">rr</span> <span class="op">=</span> <span class="fu"><a href="reference/resample.html">resample</a></span><span class="op">(</span><span class="va">task_penguins</span>, <span class="va">learner</span>, <span class="va">resampling</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># access results</span></span>
+<span><span class="va">rr</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="va">measure</span><span class="op">)</span><span class="op">[</span>, <span class="fu">.</span><span class="op">(</span><span class="va">task_id</span>, <span class="va">learner_id</span>, <span class="va">iteration</span>, <span class="va">classif.acc</span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
 <div class="sourceCode" id="cb12"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="do">##                     task_id    learner_id iteration classif.acc</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="do">## 1: palmerpenguins::penguins classif.rpart         1   0.9391304</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="do">## 2: palmerpenguins::penguins classif.rpart         2   0.9478261</span></span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="do">## 3: palmerpenguins::penguins classif.rpart         3   0.9298246</span></span></code></pre></div>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">rr</span><span class="op">$</span><span class="fu">aggregate</span><span class="op">(</span><span class="va">measure</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">rr</span><span class="op">$</span><span class="fu">aggregate</span><span class="op">(</span><span class="va">measure</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb14"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="do">## classif.acc </span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="do">##    0.938927</span></span></code></pre></div>
 </div>

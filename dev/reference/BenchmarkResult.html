@@ -201,7 +201,7 @@ Set of (unique) hashes of all included <a href="ResampleResult.html">ResampleRes
 <h3 id="method-new-">Method <code>new()</code><a class="anchor" aria-label="anchor" href="#method-new-"></a></h3>
 <p>Creates a new instance of this <a href="https://r6.r-lib.org/reference/R6Class.html" class="external-link">R6</a> class.</p><div class="section">
 <h4 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va"><a href="../reference/BenchmarkResult.html">BenchmarkResult</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>data <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va"><a href="../reference/BenchmarkResult.html">BenchmarkResult</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>data <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -216,10 +216,10 @@ BenchmarkResult, or manually constructed with <code><a href="as_result_data.html
 </div>
 
 </div><p></p><hr><a id="method-BenchmarkResult-help"></a><div class="section">
-<h3 id="method-help-">Method <code>help()</code><a class="anchor" aria-label="anchor" href="#method-help-"></a></h3>
+<h3 id="method-help-">Method <code><a href="https://rdrr.io/r/utils/help.html" class="external-link">help()</a></code><a class="anchor" aria-label="anchor" href="#method-help-"></a></h3>
 <p>Opens the help page for this object.</p><div class="section">
 <h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">BenchmarkResult</span><span class="op">$</span><span class="fu">help</span><span class="op">(</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">BenchmarkResult</span><span class="op">$</span><span class="fu">help</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 
@@ -227,7 +227,7 @@ BenchmarkResult, or manually constructed with <code><a href="as_result_data.html
 <h3 id="method-format-">Method <code><a href="https://rdrr.io/r/base/format.html" class="external-link">format()</a></code><a class="anchor" aria-label="anchor" href="#method-format-"></a></h3>
 <p>Helper for print outputs.</p><div class="section">
 <h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">BenchmarkResult</span><span class="op">$</span><span class="fu">format</span><span class="op">(</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">BenchmarkResult</span><span class="op">$</span><span class="fu">format</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 
@@ -235,7 +235,7 @@ BenchmarkResult, or manually constructed with <code><a href="as_result_data.html
 <h3 id="method-print-">Method <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code><a class="anchor" aria-label="anchor" href="#method-print-"></a></h3>
 <p>Printer.</p><div class="section">
 <h4 id="usage-3">Usage<a class="anchor" aria-label="anchor" href="#usage-3"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">BenchmarkResult</span><span class="op">$</span><span class="fu">print</span><span class="op">(</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">BenchmarkResult</span><span class="op">$</span><span class="fu">print</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 
@@ -245,7 +245,7 @@ BenchmarkResult, or manually constructed with <code><a href="as_result_data.html
 If the second BenchmarkResult <code>bmr</code> is <code>NULL</code>, simply returns <code>self</code>.
 Note that you can alternatively use the combine function <code><a href="https://rdrr.io/r/base/c.html" class="external-link">c()</a></code> which calls this method internally.</p><div class="section">
 <h4 id="usage-4">Usage<a class="anchor" aria-label="anchor" href="#usage-4"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">BenchmarkResult</span><span class="op">$</span><span class="fu">combine</span><span class="op">(</span><span class="va">bmr</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">BenchmarkResult</span><span class="op">$</span><span class="fu">combine</span><span class="op">(</span><span class="va">bmr</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -275,12 +275,12 @@ filtering: <code>"task_id"</code>, <code>"learner_id"</code>, and <code>"resampl
 performance scores as extra columns. These columns are named using the id of
 the respective <a href="Measure.html">Measure</a>.</p><div class="section">
 <h4 id="usage-5">Usage<a class="anchor" aria-label="anchor" href="#usage-5"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">BenchmarkResult</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span>
-  measures <span class="op">=</span> <span class="cn">NULL</span>,
-  ids <span class="op">=</span> <span class="cn">TRUE</span>,
-  conditions <span class="op">=</span> <span class="cn">FALSE</span>,
-  predict_sets <span class="op">=</span> <span class="st">"test"</span>
-<span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">BenchmarkResult</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span></span>
+<span>  measures <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  ids <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  conditions <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  predict_sets <span class="op">=</span> <span class="st">"test"</span></span>
+<span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -336,13 +336,13 @@ significance tests.</p>
 <p>For convenience, different flags can be set to extract more
 information from the returned <a href="ResampleResult.html">ResampleResult</a>.</p><div class="section">
 <h4 id="usage-6">Usage<a class="anchor" aria-label="anchor" href="#usage-6"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">BenchmarkResult</span><span class="op">$</span><span class="fu">aggregate</span><span class="op">(</span>
-  measures <span class="op">=</span> <span class="cn">NULL</span>,
-  ids <span class="op">=</span> <span class="cn">TRUE</span>,
-  uhashes <span class="op">=</span> <span class="cn">FALSE</span>,
-  params <span class="op">=</span> <span class="cn">FALSE</span>,
-  conditions <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">BenchmarkResult</span><span class="op">$</span><span class="fu">aggregate</span><span class="op">(</span></span>
+<span>  measures <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  ids <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  uhashes <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  params <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  conditions <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -390,14 +390,14 @@ iterations with errors as extra integer column <code>"errors"</code>.</p></dd>
 tasks with provided task ids and discards all others tasks.
 Same procedure for <code>learner_ids</code> and <code>resampling_ids</code>.</p><div class="section">
 <h4 id="usage-7">Usage<a class="anchor" aria-label="anchor" href="#usage-7"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">BenchmarkResult</span><span class="op">$</span><span class="fu">filter</span><span class="op">(</span>
-  task_ids <span class="op">=</span> <span class="cn">NULL</span>,
-  task_hashes <span class="op">=</span> <span class="cn">NULL</span>,
-  learner_ids <span class="op">=</span> <span class="cn">NULL</span>,
-  learner_hashes <span class="op">=</span> <span class="cn">NULL</span>,
-  resampling_ids <span class="op">=</span> <span class="cn">NULL</span>,
-  resampling_hashes <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">BenchmarkResult</span><span class="op">$</span><span class="fu">filter</span><span class="op">(</span></span>
+<span>  task_ids <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  task_hashes <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  learner_ids <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  learner_hashes <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  resampling_ids <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  resampling_hashes <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -446,7 +446,7 @@ the object in its previous state.</p>
 <p>Retrieve the i-th <a href="ResampleResult.html">ResampleResult</a>, by position or by unique hash <code>uhash</code>.
 <code>i</code> and <code>uhash</code> are mutually exclusive.</p><div class="section">
 <h4 id="usage-8">Usage<a class="anchor" aria-label="anchor" href="#usage-8"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">BenchmarkResult</span><span class="op">$</span><span class="fu">resample_result</span><span class="op">(</span>i <span class="op">=</span> <span class="cn">NULL</span>, uhash <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">BenchmarkResult</span><span class="op">$</span><span class="fu">resample_result</span><span class="op">(</span>i <span class="op">=</span> <span class="cn">NULL</span>, uhash <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -474,7 +474,7 @@ The <code>ushash</code> value to filter for.</p></dd>
 Note that certain operations might stop work, e.g. extracting
 importance values from learners or calculating measures requiring the task's data.</p><div class="section">
 <h4 id="usage-9">Usage<a class="anchor" aria-label="anchor" href="#usage-9"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">BenchmarkResult</span><span class="op">$</span><span class="fu">discard</span><span class="op">(</span>backends <span class="op">=</span> <span class="cn">FALSE</span>, models <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">BenchmarkResult</span><span class="op">$</span><span class="fu">discard</span><span class="op">(</span>backends <span class="op">=</span> <span class="cn">FALSE</span>, models <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -502,7 +502,7 @@ the object in its previous state.</p>
 <h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
 <p>The objects of this class are cloneable with this method.</p><div class="section">
 <h4 id="usage-10">Usage<a class="anchor" aria-label="anchor" href="#usage-10"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">BenchmarkResult</span><span class="op">$</span><span class="fu">clone</span><span class="op">(</span>deep <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">BenchmarkResult</span><span class="op">$</span><span class="fu">clone</span><span class="op">(</span>deep <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -520,50 +520,50 @@ the object in its previous state.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">learners</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span class="r-in">  <span class="fu"><a href="mlr_sugar.html">lrn</a></span><span class="op">(</span><span class="st">"classif.featureless"</span>, predict_type <span class="op">=</span> <span class="st">"prob"</span><span class="op">)</span>,</span>
-<span class="r-in">  <span class="fu"><a href="mlr_sugar.html">lrn</a></span><span class="op">(</span><span class="st">"classif.rpart"</span>, predict_type <span class="op">=</span> <span class="st">"prob"</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">design</span> <span class="op">=</span> <span class="fu"><a href="benchmark_grid.html">benchmark_grid</a></span><span class="op">(</span></span>
-<span class="r-in">  tasks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"sonar"</span><span class="op">)</span>, <span class="fu"><a href="mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"spam"</span><span class="op">)</span><span class="op">)</span>,</span>
-<span class="r-in">  learners <span class="op">=</span> <span class="va">learners</span>,</span>
-<span class="r-in">  resamplings <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">rsmp</a></span><span class="op">(</span><span class="st">"cv"</span>, folds <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">design</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">learners</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="mlr_sugar.html">lrn</a></span><span class="op">(</span><span class="st">"classif.featureless"</span>, predict_type <span class="op">=</span> <span class="st">"prob"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  <span class="fu"><a href="mlr_sugar.html">lrn</a></span><span class="op">(</span><span class="st">"classif.rpart"</span>, predict_type <span class="op">=</span> <span class="st">"prob"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">design</span> <span class="op">=</span> <span class="fu"><a href="benchmark_grid.html">benchmark_grid</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  tasks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"sonar"</span><span class="op">)</span>, <span class="fu"><a href="mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"spam"</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  learners <span class="op">=</span> <span class="va">learners</span>,</span></span>
+<span class="r-in"><span>  resamplings <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">rsmp</a></span><span class="op">(</span><span class="st">"cv"</span>, folds <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">design</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 task                         learner         resampling</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: &lt;TaskClassif[50]&gt; &lt;LearnerClassifFeatureless[38]&gt; &lt;ResamplingCV[20]&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2: &lt;TaskClassif[50]&gt;       &lt;LearnerClassifRpart[38]&gt; &lt;ResamplingCV[20]&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3: &lt;TaskClassif[50]&gt; &lt;LearnerClassifFeatureless[38]&gt; &lt;ResamplingCV[20]&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4: &lt;TaskClassif[50]&gt;       &lt;LearnerClassifRpart[38]&gt; &lt;ResamplingCV[20]&gt;</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">bmr</span> <span class="op">=</span> <span class="fu"><a href="benchmark.html">benchmark</a></span><span class="op">(</span><span class="va">design</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">bmr</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">bmr</span> <span class="op">=</span> <span class="fu"><a href="benchmark.html">benchmark</a></span><span class="op">(</span><span class="va">design</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">bmr</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;BenchmarkResult&gt; of 12 rows with 4 resampling runs</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  nr task_id          learner_id resampling_id iters warnings errors</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   1   sonar classif.featureless            cv     3        0      0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   2   sonar       classif.rpart            cv     3        0      0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   3    spam classif.featureless            cv     3        0      0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   4    spam       classif.rpart            cv     3        0      0</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">bmr</span><span class="op">$</span><span class="va">tasks</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">bmr</span><span class="op">$</span><span class="va">tasks</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           task_hash task_id              task</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: a7ab684ccac733b8    spam &lt;TaskClassif[50]&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2: f14a201721a14300   sonar &lt;TaskClassif[50]&gt;</span>
-<span class="r-in"><span class="va">bmr</span><span class="op">$</span><span class="va">learners</span></span>
+<span class="r-in"><span><span class="va">bmr</span><span class="op">$</span><span class="va">learners</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        learner_hash          learner_id                         learner</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: 4a8ddb31f4547017       classif.rpart       &lt;LearnerClassifRpart[38]&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2: 54ecc16720ea1edf classif.featureless &lt;LearnerClassifFeatureless[38]&gt;</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># first 5 resampling iterations</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html" class="external-link">as.data.table</a></span><span class="op">(</span><span class="va">bmr</span>, measures <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"classif.acc"</span>, <span class="st">"classif.auc"</span><span class="op">)</span><span class="op">)</span>, <span class="fl">5</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># first 5 resampling iterations</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html" class="external-link">as.data.table</a></span><span class="op">(</span><span class="va">bmr</span>, measures <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"classif.acc"</span>, <span class="st">"classif.auc"</span><span class="op">)</span><span class="op">)</span>, <span class="fl">5</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                   uhash              task</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: b4f4b425-88c2-4a77-aa01-83afbd22757b &lt;TaskClassif[50]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: b4f4b425-88c2-4a77-aa01-83afbd22757b &lt;TaskClassif[50]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: b4f4b425-88c2-4a77-aa01-83afbd22757b &lt;TaskClassif[50]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4: 717c344e-6118-4340-80eb-a37c829c9bfc &lt;TaskClassif[50]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5: 717c344e-6118-4340-80eb-a37c829c9bfc &lt;TaskClassif[50]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: cefb3973-2792-4491-b708-9bb586187f25 &lt;TaskClassif[50]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: cefb3973-2792-4491-b708-9bb586187f25 &lt;TaskClassif[50]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: cefb3973-2792-4491-b708-9bb586187f25 &lt;TaskClassif[50]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4: 595fc788-1be9-4772-90ba-b134962b19c5 &lt;TaskClassif[50]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5: 595fc788-1be9-4772-90ba-b134962b19c5 &lt;TaskClassif[50]&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                            learner         resampling iteration</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: &lt;LearnerClassifFeatureless[38]&gt; &lt;ResamplingCV[20]&gt;         1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2: &lt;LearnerClassifFeatureless[38]&gt; &lt;ResamplingCV[20]&gt;         2</span>
@@ -576,9 +576,9 @@ the object in its previous state.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3: &lt;PredictionClassif[20]&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4: &lt;PredictionClassif[20]&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5: &lt;PredictionClassif[20]&gt;</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># aggregate results</span></span>
-<span class="r-in"><span class="va">bmr</span><span class="op">$</span><span class="fu">aggregate</span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># aggregate results</span></span></span>
+<span class="r-in"><span><span class="va">bmr</span><span class="op">$</span><span class="fu">aggregate</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    nr      resample_result task_id          learner_id resampling_id iters</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:  1 &lt;ResampleResult[22]&gt;   sonar classif.featureless            cv     3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2:  2 &lt;ResampleResult[22]&gt;   sonar       classif.rpart            cv     3</span>
@@ -589,9 +589,9 @@ the object in its previous state.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2:  0.2739130</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3:  0.3940399</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4:  0.1086721</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># aggregate results with hyperparameters as separate columns</span></span>
-<span class="r-in"><span class="fu">mlr3misc</span><span class="fu">::</span><span class="fu"><a href="https://mlr3misc.mlr-org.com/reference/unnest.html" class="external-link">unnest</a></span><span class="op">(</span><span class="va">bmr</span><span class="op">$</span><span class="fu">aggregate</span><span class="op">(</span>params <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, <span class="st">"params"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># aggregate results with hyperparameters as separate columns</span></span></span>
+<span class="r-in"><span><span class="fu">mlr3misc</span><span class="fu">::</span><span class="fu"><a href="https://mlr3misc.mlr-org.com/reference/unnest.html" class="external-link">unnest</a></span><span class="op">(</span><span class="va">bmr</span><span class="op">$</span><span class="fu">aggregate</span><span class="op">(</span>params <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, <span class="st">"params"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    nr      resample_result task_id          learner_id resampling_id iters</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:  1 &lt;ResampleResult[22]&gt;   sonar classif.featureless            cv     3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2:  2 &lt;ResampleResult[22]&gt;   sonar       classif.rpart            cv     3</span>
@@ -602,26 +602,26 @@ the object in its previous state.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2:  0.2739130   &lt;NA&gt;    0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3:  0.3940399   mode   NA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4:  0.1086721   &lt;NA&gt;    0</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># extract resample result for classif.rpart</span></span>
-<span class="r-in"><span class="va">rr</span> <span class="op">=</span> <span class="va">bmr</span><span class="op">$</span><span class="fu">aggregate</span><span class="op">(</span><span class="op">)</span><span class="op">[</span><span class="va">learner_id</span> <span class="op">==</span> <span class="st">"classif.rpart"</span>, <span class="va">resample_result</span><span class="op">]</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">rr</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># extract resample result for classif.rpart</span></span></span>
+<span class="r-in"><span><span class="va">rr</span> <span class="op">=</span> <span class="va">bmr</span><span class="op">$</span><span class="fu">aggregate</span><span class="op">(</span><span class="op">)</span><span class="op">[</span><span class="va">learner_id</span> <span class="op">==</span> <span class="st">"classif.rpart"</span>, <span class="va">resample_result</span><span class="op">]</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">rr</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;ResampleResult&gt; of 3 iterations</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Task: sonar</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Learner: classif.rpart</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Warnings: 0 in 0 iterations</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Errors: 0 in 0 iterations</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># access the confusion matrix of the first resampling iteration</span></span>
-<span class="r-in"><span class="va">rr</span><span class="op">$</span><span class="fu">predictions</span><span class="op">(</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">confusion</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># access the confusion matrix of the first resampling iteration</span></span></span>
+<span class="r-in"><span><span class="va">rr</span><span class="op">$</span><span class="fu">predictions</span><span class="op">(</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">confusion</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         truth</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> response  M  R</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        M 30 18</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        R  3 19</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># reduce to subset with task id "sonar"</span></span>
-<span class="r-in"><span class="va">bmr</span><span class="op">$</span><span class="fu">filter</span><span class="op">(</span>task_ids <span class="op">=</span> <span class="st">"sonar"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">bmr</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># reduce to subset with task id "sonar"</span></span></span>
+<span class="r-in"><span><span class="va">bmr</span><span class="op">$</span><span class="fu">filter</span><span class="op">(</span>task_ids <span class="op">=</span> <span class="st">"sonar"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">bmr</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;BenchmarkResult&gt; of 6 rows with 2 resampling runs</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  nr task_id          learner_id resampling_id iters warnings errors</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   1   sonar classif.featureless            cv     3        0      0</span>

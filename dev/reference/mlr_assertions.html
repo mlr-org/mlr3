@@ -107,77 +107,77 @@ Otherwise, the input object is returned invisibly.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">assert_backend</span><span class="op">(</span><span class="va">b</span>, .var.name <span class="op">=</span> <span class="fu">vname</span><span class="op">(</span><span class="va">b</span><span class="op">)</span><span class="op">)</span>
-
-<span class="fu">assert_task</span><span class="op">(</span>
-  <span class="va">task</span>,
-  task_type <span class="op">=</span> <span class="cn">NULL</span>,
-  feature_types <span class="op">=</span> <span class="cn">NULL</span>,
-  task_properties <span class="op">=</span> <span class="cn">NULL</span>,
-  .var.name <span class="op">=</span> <span class="fu">vname</span><span class="op">(</span><span class="va">task</span><span class="op">)</span>
-<span class="op">)</span>
-
-<span class="fu">assert_tasks</span><span class="op">(</span>
-  <span class="va">tasks</span>,
-  task_type <span class="op">=</span> <span class="cn">NULL</span>,
-  feature_types <span class="op">=</span> <span class="cn">NULL</span>,
-  task_properties <span class="op">=</span> <span class="cn">NULL</span>,
-  .var.name <span class="op">=</span> <span class="fu">vname</span><span class="op">(</span><span class="va">tasks</span><span class="op">)</span>
-<span class="op">)</span>
-
-<span class="fu">assert_learner</span><span class="op">(</span>
-  <span class="va">learner</span>,
-  task <span class="op">=</span> <span class="cn">NULL</span>,
-  task_type <span class="op">=</span> <span class="cn">NULL</span>,
-  properties <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="op">)</span>,
-  .var.name <span class="op">=</span> <span class="fu">vname</span><span class="op">(</span><span class="va">learner</span><span class="op">)</span>
-<span class="op">)</span>
-
-<span class="fu">assert_learners</span><span class="op">(</span>
-  <span class="va">learners</span>,
-  task <span class="op">=</span> <span class="cn">NULL</span>,
-  task_type <span class="op">=</span> <span class="cn">NULL</span>,
-  properties <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="op">)</span>,
-  .var.name <span class="op">=</span> <span class="fu">vname</span><span class="op">(</span><span class="va">learners</span><span class="op">)</span>
-<span class="op">)</span>
-
-<span class="fu">assert_learnable</span><span class="op">(</span><span class="va">task</span>, <span class="va">learner</span><span class="op">)</span>
-
-<span class="fu">assert_predictable</span><span class="op">(</span><span class="va">task</span>, <span class="va">learner</span><span class="op">)</span>
-
-<span class="fu">assert_measure</span><span class="op">(</span>
-  <span class="va">measure</span>,
-  task <span class="op">=</span> <span class="cn">NULL</span>,
-  learner <span class="op">=</span> <span class="cn">NULL</span>,
-  .var.name <span class="op">=</span> <span class="fu">vname</span><span class="op">(</span><span class="va">measure</span><span class="op">)</span>
-<span class="op">)</span>
-
-<span class="fu">assert_measures</span><span class="op">(</span>
-  <span class="va">measures</span>,
-  task <span class="op">=</span> <span class="cn">NULL</span>,
-  learner <span class="op">=</span> <span class="cn">NULL</span>,
-  .var.name <span class="op">=</span> <span class="fu">vname</span><span class="op">(</span><span class="va">measures</span><span class="op">)</span>
-<span class="op">)</span>
-
-<span class="fu">assert_resampling</span><span class="op">(</span>
-  <span class="va">resampling</span>,
-  instantiated <span class="op">=</span> <span class="cn">NULL</span>,
-  .var.name <span class="op">=</span> <span class="fu">vname</span><span class="op">(</span><span class="va">resampling</span><span class="op">)</span>
-<span class="op">)</span>
-
-<span class="fu">assert_resamplings</span><span class="op">(</span>
-  <span class="va">resamplings</span>,
-  instantiated <span class="op">=</span> <span class="cn">NULL</span>,
-  .var.name <span class="op">=</span> <span class="fu">vname</span><span class="op">(</span><span class="va">resamplings</span><span class="op">)</span>
-<span class="op">)</span>
-
-<span class="fu">assert_prediction</span><span class="op">(</span><span class="va">prediction</span>, .var.name <span class="op">=</span> <span class="fu">vname</span><span class="op">(</span><span class="va">prediction</span><span class="op">)</span><span class="op">)</span>
-
-<span class="fu">assert_resample_result</span><span class="op">(</span><span class="va">rr</span>, .var.name <span class="op">=</span> <span class="fu">vname</span><span class="op">(</span><span class="va">rr</span><span class="op">)</span><span class="op">)</span>
-
-<span class="fu">assert_benchmark_result</span><span class="op">(</span><span class="va">bmr</span>, .var.name <span class="op">=</span> <span class="fu">vname</span><span class="op">(</span><span class="va">bmr</span><span class="op">)</span><span class="op">)</span>
-
-<span class="fu">assert_row_ids</span><span class="op">(</span><span class="va">row_ids</span>, null.ok <span class="op">=</span> <span class="cn">FALSE</span>, .var.name <span class="op">=</span> <span class="fu">vname</span><span class="op">(</span><span class="va">row_ids</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">assert_backend</span><span class="op">(</span><span class="va">b</span>, .var.name <span class="op">=</span> <span class="fu">vname</span><span class="op">(</span><span class="va">b</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">assert_task</span><span class="op">(</span></span>
+<span>  <span class="va">task</span>,</span>
+<span>  task_type <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  feature_types <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  task_properties <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  .var.name <span class="op">=</span> <span class="fu">vname</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">assert_tasks</span><span class="op">(</span></span>
+<span>  <span class="va">tasks</span>,</span>
+<span>  task_type <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  feature_types <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  task_properties <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  .var.name <span class="op">=</span> <span class="fu">vname</span><span class="op">(</span><span class="va">tasks</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">assert_learner</span><span class="op">(</span></span>
+<span>  <span class="va">learner</span>,</span>
+<span>  task <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  task_type <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  properties <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  .var.name <span class="op">=</span> <span class="fu">vname</span><span class="op">(</span><span class="va">learner</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">assert_learners</span><span class="op">(</span></span>
+<span>  <span class="va">learners</span>,</span>
+<span>  task <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  task_type <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  properties <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  .var.name <span class="op">=</span> <span class="fu">vname</span><span class="op">(</span><span class="va">learners</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">assert_learnable</span><span class="op">(</span><span class="va">task</span>, <span class="va">learner</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">assert_predictable</span><span class="op">(</span><span class="va">task</span>, <span class="va">learner</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">assert_measure</span><span class="op">(</span></span>
+<span>  <span class="va">measure</span>,</span>
+<span>  task <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  learner <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  .var.name <span class="op">=</span> <span class="fu">vname</span><span class="op">(</span><span class="va">measure</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">assert_measures</span><span class="op">(</span></span>
+<span>  <span class="va">measures</span>,</span>
+<span>  task <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  learner <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  .var.name <span class="op">=</span> <span class="fu">vname</span><span class="op">(</span><span class="va">measures</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">assert_resampling</span><span class="op">(</span></span>
+<span>  <span class="va">resampling</span>,</span>
+<span>  instantiated <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  .var.name <span class="op">=</span> <span class="fu">vname</span><span class="op">(</span><span class="va">resampling</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">assert_resamplings</span><span class="op">(</span></span>
+<span>  <span class="va">resamplings</span>,</span>
+<span>  instantiated <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  .var.name <span class="op">=</span> <span class="fu">vname</span><span class="op">(</span><span class="va">resamplings</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">assert_prediction</span><span class="op">(</span><span class="va">prediction</span>, .var.name <span class="op">=</span> <span class="fu">vname</span><span class="op">(</span><span class="va">prediction</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">assert_resample_result</span><span class="op">(</span><span class="va">rr</span>, .var.name <span class="op">=</span> <span class="fu">vname</span><span class="op">(</span><span class="va">rr</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">assert_benchmark_result</span><span class="op">(</span><span class="va">bmr</span>, .var.name <span class="op">=</span> <span class="fu">vname</span><span class="op">(</span><span class="va">bmr</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">assert_row_ids</span><span class="op">(</span><span class="va">row_ids</span>, null.ok <span class="op">=</span> <span class="cn">FALSE</span>, .var.name <span class="op">=</span> <span class="fu">vname</span><span class="op">(</span><span class="va">row_ids</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">

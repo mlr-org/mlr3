@@ -148,7 +148,7 @@ Number of columns (variables), including the primary key column.</p></dd>
 <p>Note that <code>DataBackendDataTable</code> does not copy the input data, while <code><a href="as_data_backend.html">as_data_backend()</a></code> calls <code><a href="https://Rdatatable.gitlab.io/data.table/reference/copy.html" class="external-link">data.table::copy()</a></code>.
 <code><a href="as_data_backend.html">as_data_backend()</a></code> also takes care about casting to a <code>data.table()</code> and adds a primary key column if necessary.</p><div class="section">
 <h4 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va"><a href="../reference/DataBackendDataTable.html">DataBackendDataTable</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="va">data</span>, <span class="va">primary_key</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va"><a href="../reference/DataBackendDataTable.html">DataBackendDataTable</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="va">data</span>, <span class="va">primary_key</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -175,7 +175,7 @@ Queries for rows with no matching row id and queries for columns with no matchin
 Rows are guaranteed to be returned in the same order as <code>rows</code>, columns may be returned in an arbitrary order.
 Duplicated row ids result in duplicated rows, duplicated column names lead to an exception.</p><div class="section">
 <h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">DataBackendDataTable</span><span class="op">$</span><span class="fu">data</span><span class="op">(</span><span class="va">rows</span>, <span class="va">cols</span>, data_format <span class="op">=</span> <span class="st">"data.table"</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">DataBackendDataTable</span><span class="op">$</span><span class="fu">data</span><span class="op">(</span><span class="va">rows</span>, <span class="va">cols</span>, data_format <span class="op">=</span> <span class="st">"data.table"</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -202,7 +202,7 @@ Desired data format, e.g. <code>"data.table"</code> or <code>"Matrix"</code>.</p
 <h3 id="method-head-">Method <code><a href="https://rdrr.io/r/utils/head.html" class="external-link">head()</a></code><a class="anchor" aria-label="anchor" href="#method-head-"></a></h3>
 <p>Retrieve the first <code>n</code> rows.</p><div class="section">
 <h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">DataBackendDataTable</span><span class="op">$</span><span class="fu">head</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">6L</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">DataBackendDataTable</span><span class="op">$</span><span class="fu">head</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">6L</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -226,7 +226,7 @@ specified. If <code>na_rm</code> is <code>TRUE</code>, missing values are remove
 returned vectors of distinct values. Non-existing rows and columns are
 silently ignored.</p><div class="section">
 <h4 id="usage-3">Usage<a class="anchor" aria-label="anchor" href="#usage-3"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">DataBackendDataTable</span><span class="op">$</span><span class="fu">distinct</span><span class="op">(</span><span class="va">rows</span>, <span class="va">cols</span>, na_rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">DataBackendDataTable</span><span class="op">$</span><span class="fu">distinct</span><span class="op">(</span><span class="va">rows</span>, <span class="va">cols</span>, na_rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -258,7 +258,7 @@ Whether to remove NAs or not.</p></dd>
 <p>Returns the number of missing values per column in the specified slice
 of data. Non-existing rows and columns are silently ignored.</p><div class="section">
 <h4 id="usage-4">Usage<a class="anchor" aria-label="anchor" href="#usage-4"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">DataBackendDataTable</span><span class="op">$</span><span class="fu">missings</span><span class="op">(</span><span class="va">rows</span>, <span class="va">cols</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">DataBackendDataTable</span><span class="op">$</span><span class="fu">missings</span><span class="op">(</span><span class="va">rows</span>, <span class="va">cols</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -286,10 +286,10 @@ Column names.</p></dd>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html" class="external-link">as.data.table</a></span><span class="op">(</span><span class="fu">palmerpenguins</span><span class="fu">::</span><span class="va"><a href="https://allisonhorst.github.io/palmerpenguins/reference/penguins.html" class="external-link">penguins</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="va">data</span><span class="op">$</span><span class="va">id</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="fu">palmerpenguins</span><span class="fu">::</span><span class="va"><a href="https://allisonhorst.github.io/palmerpenguins/reference/penguins.html" class="external-link">penguins</a></span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">b</span> <span class="op">=</span> <span class="va">DataBackendDataTable</span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, primary_key <span class="op">=</span> <span class="st">"id"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html" class="external-link">as.data.table</a></span><span class="op">(</span><span class="fu">palmerpenguins</span><span class="fu">::</span><span class="va"><a href="https://allisonhorst.github.io/palmerpenguins/reference/penguins.html" class="external-link">penguins</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">data</span><span class="op">$</span><span class="va">id</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="fu">palmerpenguins</span><span class="fu">::</span><span class="va"><a href="https://allisonhorst.github.io/palmerpenguins/reference/penguins.html" class="external-link">penguins</a></span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">b</span> <span class="op">=</span> <span class="va">DataBackendDataTable</span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, primary_key <span class="op">=</span> <span class="st">"id"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;DataBackendDataTable&gt; (344x9)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  species    island bill_length_mm bill_depth_mm flipper_length_mm body_mass_g</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Adelie Torgersen           39.1          18.7               181        3750</span>
@@ -306,7 +306,7 @@ Column names.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  female 2007  5</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    male 2007  6</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [...] (338 rows omitted)</span>
-<span class="r-in"><span class="va">b</span><span class="op">$</span><span class="fu">head</span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">b</span><span class="op">$</span><span class="fu">head</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    species    island bill_length_mm bill_depth_mm flipper_length_mm body_mass_g</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:  Adelie Torgersen           39.1          18.7               181        3750</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2:  Adelie Torgersen           39.5          17.4               186        3800</span>
@@ -321,25 +321,25 @@ Column names.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4:   &lt;NA&gt; 2007  4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5: female 2007  5</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6:   male 2007  6</span>
-<span class="r-in"><span class="va">b</span><span class="op">$</span><span class="fu">data</span><span class="op">(</span>rows <span class="op">=</span> <span class="fl">100</span><span class="op">:</span><span class="fl">101</span>, cols <span class="op">=</span> <span class="st">"species"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">b</span><span class="op">$</span><span class="fu">data</span><span class="op">(</span>rows <span class="op">=</span> <span class="fl">100</span><span class="op">:</span><span class="fl">101</span>, cols <span class="op">=</span> <span class="st">"species"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    species</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:  Adelie</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2:  Adelie</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">b</span><span class="op">$</span><span class="va">nrow</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">b</span><span class="op">$</span><span class="va">nrow</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 344</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">b</span><span class="op">$</span><span class="va">rownames</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">b</span><span class="op">$</span><span class="va">rownames</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1 2 3 4 5 6</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">b</span><span class="op">$</span><span class="va">ncol</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">b</span><span class="op">$</span><span class="va">ncol</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 9</span>
-<span class="r-in"><span class="va">b</span><span class="op">$</span><span class="va">colnames</span></span>
+<span class="r-in"><span><span class="va">b</span><span class="op">$</span><span class="va">colnames</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "species"           "island"            "bill_length_mm"   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4] "bill_depth_mm"     "flipper_length_mm" "body_mass_g"      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [7] "sex"               "year"              "id"               </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># alternative construction</span></span>
-<span class="r-in"><span class="fu"><a href="as_data_backend.html">as_data_backend</a></span><span class="op">(</span><span class="fu">palmerpenguins</span><span class="fu">::</span><span class="va"><a href="https://allisonhorst.github.io/palmerpenguins/reference/penguins.html" class="external-link">penguins</a></span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># alternative construction</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="as_data_backend.html">as_data_backend</a></span><span class="op">(</span><span class="fu">palmerpenguins</span><span class="fu">::</span><span class="va"><a href="https://allisonhorst.github.io/palmerpenguins/reference/penguins.html" class="external-link">penguins</a></span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;DataBackendDataTable&gt; (344x9)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  species    island bill_length_mm bill_depth_mm flipper_length_mm body_mass_g</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Adelie Torgersen           39.1          18.7               181        3750</span>

@@ -403,7 +403,7 @@ The reverse is not necessarily true: There can be columns with the same content 
 <p>Creates a new instance of this <a href="https://r6.r-lib.org/reference/R6Class.html" class="external-link">R6</a> class.</p>
 <p>Note that this object is typically constructed via a derived classes, e.g. <a href="TaskClassif.html">TaskClassif</a> or <a href="TaskRegr.html">TaskRegr</a>.</p><div class="section">
 <h4 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va"><a href="../reference/Task.html">Task</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="va">id</span>, <span class="va">task_type</span>, <span class="va">backend</span>, label <span class="op">=</span> <span class="cn">NA_character_</span>, extra_args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va"><a href="../reference/Task.html">Task</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="va">id</span>, <span class="va">task_type</span>, <span class="va">backend</span>, label <span class="op">=</span> <span class="cn">NA_character_</span>, extra_args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -440,10 +440,10 @@ via <code><a href="convert_task.html">convert_task()</a></code>.</p></dd>
 </div>
 
 </div><p></p><hr><a id="method-Task-help"></a><div class="section">
-<h3 id="method-help-">Method <code>help()</code><a class="anchor" aria-label="anchor" href="#method-help-"></a></h3>
+<h3 id="method-help-">Method <code><a href="https://rdrr.io/r/utils/help.html" class="external-link">help()</a></code><a class="anchor" aria-label="anchor" href="#method-help-"></a></h3>
 <p>Opens the corresponding help page referenced by field <code>$man</code>.</p><div class="section">
 <h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">Task</span><span class="op">$</span><span class="fu">help</span><span class="op">(</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Task</span><span class="op">$</span><span class="fu">help</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 
@@ -451,7 +451,7 @@ via <code><a href="convert_task.html">convert_task()</a></code>.</p></dd>
 <h3 id="method-format-">Method <code><a href="https://rdrr.io/r/base/format.html" class="external-link">format()</a></code><a class="anchor" aria-label="anchor" href="#method-format-"></a></h3>
 <p>Helper for print outputs.</p><div class="section">
 <h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">Task</span><span class="op">$</span><span class="fu">format</span><span class="op">(</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Task</span><span class="op">$</span><span class="fu">format</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 
@@ -459,7 +459,7 @@ via <code><a href="convert_task.html">convert_task()</a></code>.</p></dd>
 <h3 id="method-print-">Method <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code><a class="anchor" aria-label="anchor" href="#method-print-"></a></h3>
 <p>Printer.</p><div class="section">
 <h4 id="usage-3">Usage<a class="anchor" aria-label="anchor" href="#usage-3"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">Task</span><span class="op">$</span><span class="fu">print</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Task</span><span class="op">$</span><span class="fu">print</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -485,12 +485,12 @@ If <code>cols</code> is <code>NULL</code>, the column order defaults to
 Note that it is recommended to <strong>not</strong> rely on the order of columns, and instead always
 address columns with their respective column name.</p><div class="section">
 <h4 id="usage-4">Usage<a class="anchor" aria-label="anchor" href="#usage-4"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">Task</span><span class="op">$</span><span class="fu">data</span><span class="op">(</span>
-  rows <span class="op">=</span> <span class="cn">NULL</span>,
-  cols <span class="op">=</span> <span class="cn">NULL</span>,
-  data_format <span class="op">=</span> <span class="st">"data.table"</span>,
-  ordered <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Task</span><span class="op">$</span><span class="fu">data</span><span class="op">(</span></span>
+<span>  rows <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  cols <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  data_format <span class="op">=</span> <span class="st">"data.table"</span>,</span>
+<span>  ordered <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -529,7 +529,7 @@ using the features provided in argument <code>rhs</code> (defaults to all column
 <p>Note that it is currently not possible to change the formula.
 However, <a href="https://CRAN.R-project.org/package=mlr3pipelines" class="external-link"><span class="pkg">mlr3pipelines</span></a> provides a pipe operator interfacing <code><a href="https://rdrr.io/r/stats/model.matrix.html" class="external-link">stats::model.matrix()</a></code> for this purpose: <code>"modelmatrix"</code>.</p><div class="section">
 <h4 id="usage-5">Usage<a class="anchor" aria-label="anchor" href="#usage-5"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">Task</span><span class="op">$</span><span class="fu">formula</span><span class="op">(</span>rhs <span class="op">=</span> <span class="st">"."</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Task</span><span class="op">$</span><span class="fu">formula</span><span class="op">(</span>rhs <span class="op">=</span> <span class="st">"."</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -550,7 +550,7 @@ Right hand side of the formula. Defaults to <code>"."</code> (all features of th
 <h3 id="method-head-">Method <code><a href="https://rdrr.io/r/utils/head.html" class="external-link">head()</a></code><a class="anchor" aria-label="anchor" href="#method-head-"></a></h3>
 <p>Get the first <code>n</code> observations with role <code>"use"</code> of all columns with role <code>"target"</code> or <code>"feature"</code>.</p><div class="section">
 <h4 id="usage-6">Usage<a class="anchor" aria-label="anchor" href="#usage-6"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">Task</span><span class="op">$</span><span class="fu">head</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">6L</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Task</span><span class="op">$</span><span class="fu">head</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">6L</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -573,7 +573,7 @@ Argument <code>cols</code> defaults to all such columns with role <code>"target"
 <p>Note that this function ignores the row roles, it returns all levels available in the <a href="DataBackend.html">DataBackend</a>.
 To update the stored level information, e.g. after subsetting a task with <code>$filter()</code>, call <code>$droplevels()</code>.</p><div class="section">
 <h4 id="usage-7">Usage<a class="anchor" aria-label="anchor" href="#usage-7"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">Task</span><span class="op">$</span><span class="fu">levels</span><span class="op">(</span>cols <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Task</span><span class="op">$</span><span class="fu">levels</span><span class="op">(</span>cols <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -596,7 +596,7 @@ Column names.</p></dd>
 Considers only active rows with row role <code>"use"</code>.
 Argument <code>cols</code> defaults to all columns with role "target" or "feature".</p><div class="section">
 <h4 id="usage-8">Usage<a class="anchor" aria-label="anchor" href="#usage-8"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">Task</span><span class="op">$</span><span class="fu">missings</span><span class="op">(</span>cols <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Task</span><span class="op">$</span><span class="fu">missings</span><span class="op">(</span>cols <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -619,7 +619,7 @@ Column names.</p></dd>
 <p>This operation mutates the task in-place.
 See the section on task mutators for more information.</p><div class="section">
 <h4 id="usage-9">Usage<a class="anchor" aria-label="anchor" href="#usage-9"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">Task</span><span class="op">$</span><span class="fu">filter</span><span class="op">(</span><span class="va">rows</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Task</span><span class="op">$</span><span class="fu">filter</span><span class="op">(</span><span class="va">rows</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -645,7 +645,7 @@ Note that you cannot deselect the target column, for obvious reasons.</p>
 <p>This operation mutates the task in-place.
 See the section on task mutators for more information.</p><div class="section">
 <h4 id="usage-10">Usage<a class="anchor" aria-label="anchor" href="#usage-10"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">Task</span><span class="op">$</span><span class="fu">select</span><span class="op">(</span><span class="va">cols</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Task</span><span class="op">$</span><span class="fu">select</span><span class="op">(</span><span class="va">cols</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -677,7 +677,7 @@ Columns only present in <code>data</code> but not in the <a href="DataBackend.ht
 <p>This operation mutates the task in-place.
 See the section on task mutators for more information.</p><div class="section">
 <h4 id="usage-11">Usage<a class="anchor" aria-label="anchor" href="#usage-11"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">Task</span><span class="op">$</span><span class="fu">rbind</span><span class="op">(</span><span class="va">data</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Task</span><span class="op">$</span><span class="fu">rbind</span><span class="op">(</span><span class="va">data</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -705,7 +705,7 @@ and virtually overwrite the columns in the <a href="DataBackend.html">DataBacken
 <p>This operation mutates the task in-place.
 See the section on task mutators for more information.</p><div class="section">
 <h4 id="usage-12">Usage<a class="anchor" aria-label="anchor" href="#usage-12"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">Task</span><span class="op">$</span><span class="fu">cbind</span><span class="op">(</span><span class="va">data</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Task</span><span class="op">$</span><span class="fu">cbind</span><span class="op">(</span><span class="va">data</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -723,7 +723,7 @@ See the section on task mutators for more information.</p><div class="section">
 <p>This operation mutates the task in-place.
 See the section on task mutators for more information.</p><div class="section">
 <h4 id="usage-13">Usage<a class="anchor" aria-label="anchor" href="#usage-13"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">Task</span><span class="op">$</span><span class="fu">rename</span><span class="op">(</span><span class="va">old</span>, <span class="va">new</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Task</span><span class="op">$</span><span class="fu">rename</span><span class="op">(</span><span class="va">old</span>, <span class="va">new</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -751,7 +751,7 @@ the object in its previous state.</p>
 <h3 id="method-set-row-roles-">Method <code>set_row_roles()</code><a class="anchor" aria-label="anchor" href="#method-set-row-roles-"></a></h3>
 <p>Modifies the roles in <code>$row_roles</code> <strong>in-place</strong>.</p><div class="section">
 <h4 id="usage-14">Usage<a class="anchor" aria-label="anchor" href="#usage-14"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">Task</span><span class="op">$</span><span class="fu">set_row_roles</span><span class="op">(</span><span class="va">rows</span>, roles <span class="op">=</span> <span class="cn">NULL</span>, add_to <span class="op">=</span> <span class="cn">NULL</span>, remove_from <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Task</span><span class="op">$</span><span class="fu">set_row_roles</span><span class="op">(</span><span class="va">rows</span>, roles <span class="op">=</span> <span class="cn">NULL</span>, add_to <span class="op">=</span> <span class="cn">NULL</span>, remove_from <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -797,7 +797,7 @@ the object in its previous state.</p>
 <h3 id="method-set-col-roles-">Method <code>set_col_roles()</code><a class="anchor" aria-label="anchor" href="#method-set-col-roles-"></a></h3>
 <p>Modifies the roles in <code>$col_roles</code> <strong>in-place</strong>.</p><div class="section">
 <h4 id="usage-15">Usage<a class="anchor" aria-label="anchor" href="#usage-15"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">Task</span><span class="op">$</span><span class="fu">set_col_roles</span><span class="op">(</span><span class="va">cols</span>, roles <span class="op">=</span> <span class="cn">NULL</span>, add_to <span class="op">=</span> <span class="cn">NULL</span>, remove_from <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Task</span><span class="op">$</span><span class="fu">set_col_roles</span><span class="op">(</span><span class="va">cols</span>, roles <span class="op">=</span> <span class="cn">NULL</span>, add_to <span class="op">=</span> <span class="cn">NULL</span>, remove_from <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -848,7 +848,7 @@ If you just want to remove unused levels, use <code>$droplevels()</code> instead
 <p>Note that factor levels which are present in the data but not listed in the task as
 valid levels are converted to missing values.</p><div class="section">
 <h4 id="usage-16">Usage<a class="anchor" aria-label="anchor" href="#usage-16"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">Task</span><span class="op">$</span><span class="fu">set_levels</span><span class="op">(</span><span class="va">levels</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Task</span><span class="op">$</span><span class="fu">set_levels</span><span class="op">(</span><span class="va">levels</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -870,7 +870,7 @@ List of character vectors of new levels, named by column names.</p></dd>
 <p>Updates the cache of stored factor levels, removing all levels not present in the current set of active rows.
 <code>cols</code> defaults to all columns with storage type "factor" or "ordered".</p><div class="section">
 <h4 id="usage-17">Usage<a class="anchor" aria-label="anchor" href="#usage-17"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">Task</span><span class="op">$</span><span class="fu">droplevels</span><span class="op">(</span>cols <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Task</span><span class="op">$</span><span class="fu">droplevels</span><span class="op">(</span>cols <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -894,7 +894,7 @@ Column names.</p></dd>
 This ensures that all training and test splits contain observations from all bins.
 The columns are named <code>"..stratum_[col_name]"</code>.</p><div class="section">
 <h4 id="usage-18">Usage<a class="anchor" aria-label="anchor" href="#usage-18"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">Task</span><span class="op">$</span><span class="fu">add_strata</span><span class="op">(</span><span class="va">cols</span>, bins <span class="op">=</span> <span class="fl">3L</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Task</span><span class="op">$</span><span class="fu">add_strata</span><span class="op">(</span><span class="va">cols</span>, bins <span class="op">=</span> <span class="fl">3L</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -921,7 +921,7 @@ Replicated to have the same length as <code>cols</code>.</p></dd>
 <h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
 <p>The objects of this class are cloneable with this method.</p><div class="section">
 <h4 id="usage-19">Usage<a class="anchor" aria-label="anchor" href="#usage-19"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">Task</span><span class="op">$</span><span class="fu">clone</span><span class="op">(</span>deep <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Task</span><span class="op">$</span><span class="fu">clone</span><span class="op">(</span>deep <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -939,32 +939,32 @@ Replicated to have the same length as <code>cols</code>.</p></dd>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># We use the inherited class TaskClassif here,</span></span>
-<span class="r-in"><span class="co"># because the base class `Task` is not intended for direct use</span></span>
-<span class="r-in"><span class="va">task</span> <span class="op">=</span> <span class="va"><a href="TaskClassif.html">TaskClassif</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="st">"penguings"</span>, <span class="fu">palmerpenguins</span><span class="fu">::</span><span class="va"><a href="https://allisonhorst.github.io/palmerpenguins/reference/penguins.html" class="external-link">penguins</a></span>, target <span class="op">=</span> <span class="st">"species"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">task</span><span class="op">$</span><span class="va">nrow</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># We use the inherited class TaskClassif here,</span></span></span>
+<span class="r-in"><span><span class="co"># because the base class `Task` is not intended for direct use</span></span></span>
+<span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="va"><a href="TaskClassif.html">TaskClassif</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="st">"penguings"</span>, <span class="fu">palmerpenguins</span><span class="fu">::</span><span class="va"><a href="https://allisonhorst.github.io/palmerpenguins/reference/penguins.html" class="external-link">penguins</a></span>, target <span class="op">=</span> <span class="st">"species"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">task</span><span class="op">$</span><span class="va">nrow</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 344</span>
-<span class="r-in"><span class="va">task</span><span class="op">$</span><span class="va">ncol</span></span>
+<span class="r-in"><span><span class="va">task</span><span class="op">$</span><span class="va">ncol</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 8</span>
-<span class="r-in"><span class="va">task</span><span class="op">$</span><span class="va">feature_names</span></span>
+<span class="r-in"><span><span class="va">task</span><span class="op">$</span><span class="va">feature_names</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "bill_depth_mm"     "bill_length_mm"    "body_mass_g"      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4] "flipper_length_mm" "island"            "sex"              </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [7] "year"             </span>
-<span class="r-in"><span class="va">task</span><span class="op">$</span><span class="fu">formula</span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">task</span><span class="op">$</span><span class="fu">formula</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> species ~ .</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># de-select "year"</span></span>
-<span class="r-in"><span class="va">task</span><span class="op">$</span><span class="fu">select</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sets.html" class="external-link">setdiff</a></span><span class="op">(</span><span class="va">task</span><span class="op">$</span><span class="va">feature_names</span>, <span class="st">"year"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">task</span><span class="op">$</span><span class="va">feature_names</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># de-select "year"</span></span></span>
+<span class="r-in"><span><span class="va">task</span><span class="op">$</span><span class="fu">select</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sets.html" class="external-link">setdiff</a></span><span class="op">(</span><span class="va">task</span><span class="op">$</span><span class="va">feature_names</span>, <span class="st">"year"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">task</span><span class="op">$</span><span class="va">feature_names</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "bill_depth_mm"     "bill_length_mm"    "body_mass_g"      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4] "flipper_length_mm" "island"            "sex"              </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Add new column "foo"</span></span>
-<span class="r-in"><span class="va">task</span><span class="op">$</span><span class="fu">cbind</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>foo <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">344</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Add new column "foo"</span></span></span>
+<span class="r-in"><span><span class="va">task</span><span class="op">$</span><span class="fu">cbind</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>foo <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">344</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    species bill_depth_mm bill_length_mm body_mass_g flipper_length_mm    island</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:  Adelie          18.7           39.1        3750               181 Torgersen</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2:  Adelie          17.4           39.5        3800               186 Torgersen</span>

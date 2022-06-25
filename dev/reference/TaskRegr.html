@@ -159,7 +159,7 @@ Predefined tasks are stored in the <a href="https://mlr3misc.mlr-org.com/referen
 <p>Creates a new instance of this <a href="https://r6.r-lib.org/reference/R6Class.html" class="external-link">R6</a> class.
 The function <code><a href="as_task_regr.html">as_task_regr()</a></code> provides an alternative way to construct regression tasks.</p><div class="section">
 <h4 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va"><a href="../reference/TaskRegr.html">TaskRegr</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="va">id</span>, <span class="va">backend</span>, <span class="va">target</span>, label <span class="op">=</span> <span class="cn">NA_character_</span>, extra_args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va"><a href="../reference/TaskRegr.html">TaskRegr</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="va">id</span>, <span class="va">backend</span>, <span class="va">target</span>, label <span class="op">=</span> <span class="cn">NA_character_</span>, extra_args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -199,7 +199,7 @@ via <code><a href="convert_task.html">convert_task()</a></code>.</p></dd>
 <p>True response for specified <code>row_ids</code>. Format depends on the task type.
 Defaults to all rows with role "use".</p><div class="section">
 <h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">TaskRegr</span><span class="op">$</span><span class="fu">truth</span><span class="op">(</span>rows <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TaskRegr</span><span class="op">$</span><span class="fu">truth</span><span class="op">(</span>rows <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -220,7 +220,7 @@ Row indices.</p></dd>
 <h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
 <p>The objects of this class are cloneable with this method.</p><div class="section">
 <h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">TaskRegr</span><span class="op">$</span><span class="fu">clone</span><span class="op">(</span>deep <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TaskRegr</span><span class="op">$</span><span class="fu">clone</span><span class="op">(</span>deep <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -238,13 +238,13 @@ Row indices.</p></dd>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="as_task_regr.html">as_task_regr</a></span><span class="op">(</span><span class="fu">palmerpenguins</span><span class="fu">::</span><span class="va"><a href="https://allisonhorst.github.io/palmerpenguins/reference/penguins.html" class="external-link">penguins</a></span>, target <span class="op">=</span> <span class="st">"bill_length_mm"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">task</span><span class="op">$</span><span class="va">task_type</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="as_task_regr.html">as_task_regr</a></span><span class="op">(</span><span class="fu">palmerpenguins</span><span class="fu">::</span><span class="va"><a href="https://allisonhorst.github.io/palmerpenguins/reference/penguins.html" class="external-link">penguins</a></span>, target <span class="op">=</span> <span class="st">"bill_length_mm"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">task</span><span class="op">$</span><span class="va">task_type</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "regr"</span>
-<span class="r-in"><span class="va">task</span><span class="op">$</span><span class="fu">formula</span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">task</span><span class="op">$</span><span class="fu">formula</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> bill_length_mm ~ .</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
-<span class="r-in"><span class="va">task</span><span class="op">$</span><span class="fu">truth</span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">task</span><span class="op">$</span><span class="fu">truth</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   [1] 39.1 39.5 40.3   NA 36.7 39.3 38.9 39.2 34.1 42.0 37.8 37.8 41.1 38.6 34.6</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [16] 36.6 38.7 42.5 34.4 46.0 37.8 37.7 35.9 38.2 38.8 35.3 40.6 40.5 37.9 40.5</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [31] 39.5 37.2 39.5 40.9 36.4 39.2 38.8 42.2 37.6 39.8 36.5 40.8 36.0 44.1 37.0</span>
@@ -268,7 +268,7 @@ Row indices.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [301] 46.7 52.0 50.5 49.5 46.4 52.8 40.9 54.2 42.5 51.0 49.7 47.5 47.6 52.0 46.9</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [316] 53.5 49.0 46.2 50.9 45.5 50.9 50.8 50.1 49.0 51.5 49.8 48.1 51.4 45.7 50.7</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [331] 42.5 52.2 45.2 49.3 50.2 45.6 51.9 46.8 45.7 55.8 43.5 49.6 50.8 50.2</span>
-<span class="r-in"><span class="va">task</span><span class="op">$</span><span class="fu">data</span><span class="op">(</span>rows <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, cols <span class="op">=</span> <span class="va">task</span><span class="op">$</span><span class="va">feature_names</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">task</span><span class="op">$</span><span class="fu">data</span><span class="op">(</span>rows <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, cols <span class="op">=</span> <span class="va">task</span><span class="op">$</span><span class="va">feature_names</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    bill_depth_mm body_mass_g</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:          18.7        3750</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2:          17.4        3800</span>

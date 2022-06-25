@@ -170,7 +170,7 @@ The reverse is not necessarily true: There can be columns with the same content 
 <a href="DataBackendDataTable.html">DataBackendDataTable</a> or <a href="DataBackendMatrix.html">DataBackendMatrix</a>, or via the S3 method
 <code><a href="as_data_backend.html">as_data_backend()</a></code>.</p><div class="section">
 <h4 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va"><a href="../reference/DataBackend.html">DataBackend</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="va">data</span>, <span class="va">primary_key</span>, data_formats <span class="op">=</span> <span class="st">"data.table"</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va"><a href="../reference/DataBackend.html">DataBackend</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="va">data</span>, <span class="va">primary_key</span>, data_formats <span class="op">=</span> <span class="st">"data.table"</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -202,7 +202,7 @@ e.g. <code>"data.table"</code>.</p></dd>
 <h3 id="method-format-">Method <code><a href="https://rdrr.io/r/base/format.html" class="external-link">format()</a></code><a class="anchor" aria-label="anchor" href="#method-format-"></a></h3>
 <p>Helper for print outputs.</p><div class="section">
 <h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">DataBackend</span><span class="op">$</span><span class="fu">format</span><span class="op">(</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">DataBackend</span><span class="op">$</span><span class="fu">format</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 
@@ -210,7 +210,7 @@ e.g. <code>"data.table"</code>.</p></dd>
 <h3 id="method-print-">Method <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code><a class="anchor" aria-label="anchor" href="#method-print-"></a></h3>
 <p>Printer.</p><div class="section">
 <h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">DataBackend</span><span class="op">$</span><span class="fu">print</span><span class="op">(</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">DataBackend</span><span class="op">$</span><span class="fu">print</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 
@@ -220,11 +220,11 @@ e.g. <code>"data.table"</code>.</p></dd>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">data</span> <span class="op">=</span> <span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table</a></span><span class="op">(</span>id <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span>,</span>
-<span class="r-in">  y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span>, <span class="fl">5</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">b</span> <span class="op">=</span> <span class="va"><a href="DataBackendDataTable.html">DataBackendDataTable</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="va">data</span>, primary_key <span class="op">=</span> <span class="st">"id"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">data</span> <span class="op">=</span> <span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table</a></span><span class="op">(</span>id <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span>, <span class="fl">5</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">b</span> <span class="op">=</span> <span class="va"><a href="DataBackendDataTable.html">DataBackendDataTable</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="va">data</span>, primary_key <span class="op">=</span> <span class="st">"id"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;DataBackendDataTable&gt; (5x3)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  id         x y</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   1 0.9195260 a</span>
@@ -232,19 +232,19 @@ e.g. <code>"data.table"</code>.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   3 0.8159971 a</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   4 0.2838847 a</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   5 0.4509142 a</span>
-<span class="r-in"><span class="va">b</span><span class="op">$</span><span class="fu">head</span><span class="op">(</span><span class="fl">2</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">b</span><span class="op">$</span><span class="fu">head</span><span class="op">(</span><span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    id         x y</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:  1 0.9195260 a</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2:  2 0.9810948 b</span>
-<span class="r-in"><span class="va">b</span><span class="op">$</span><span class="fu">data</span><span class="op">(</span>rows <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, cols <span class="op">=</span> <span class="st">"x"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">b</span><span class="op">$</span><span class="fu">data</span><span class="op">(</span>rows <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, cols <span class="op">=</span> <span class="st">"x"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            x</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: 0.9195260</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2: 0.9810948</span>
-<span class="r-in"><span class="va">b</span><span class="op">$</span><span class="fu">distinct</span><span class="op">(</span>rows <span class="op">=</span> <span class="va">b</span><span class="op">$</span><span class="va">rownames</span>, <span class="st">"y"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">b</span><span class="op">$</span><span class="fu">distinct</span><span class="op">(</span>rows <span class="op">=</span> <span class="va">b</span><span class="op">$</span><span class="va">rownames</span>, <span class="st">"y"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $y</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "a" "b"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="va">b</span><span class="op">$</span><span class="fu">missings</span><span class="op">(</span>rows <span class="op">=</span> <span class="va">b</span><span class="op">$</span><span class="va">rownames</span>, cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">b</span><span class="op">$</span><span class="fu">missings</span><span class="op">(</span>rows <span class="op">=</span> <span class="va">b</span><span class="op">$</span><span class="va">rownames</span>, cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> id  x  y </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  0  0  0 </span>
 </code></pre></div>

@@ -116,25 +116,25 @@ Relies on <code><a href="https://mlr3misc.mlr-org.com/reference/dictionary_sugar
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">tsk</span><span class="op">(</span><span class="va">.key</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="fu">tsks</span><span class="op">(</span><span class="va">.keys</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="fu">tgen</span><span class="op">(</span><span class="va">.key</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="fu">tgens</span><span class="op">(</span><span class="va">.keys</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="fu">lrn</span><span class="op">(</span><span class="va">.key</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="fu">lrns</span><span class="op">(</span><span class="va">.keys</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="fu">rsmp</span><span class="op">(</span><span class="va">.key</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="fu">rsmps</span><span class="op">(</span><span class="va">.keys</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="fu">msr</span><span class="op">(</span><span class="va">.key</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="fu">msrs</span><span class="op">(</span><span class="va">.keys</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">tsk</span><span class="op">(</span><span class="va">.key</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tsks</span><span class="op">(</span><span class="va">.keys</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tgen</span><span class="op">(</span><span class="va">.key</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tgens</span><span class="op">(</span><span class="va">.keys</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">lrn</span><span class="op">(</span><span class="va">.key</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">lrns</span><span class="op">(</span><span class="va">.keys</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">rsmp</span><span class="op">(</span><span class="va">.key</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">rsmps</span><span class="op">(</span><span class="va">.keys</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">msr</span><span class="op">(</span><span class="va">.key</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">msrs</span><span class="op">(</span><span class="va">.keys</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -165,8 +165,8 @@ or a list of <a href="https://r6.r-lib.org/reference/R6Class.html" class="extern
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># penguins task with new id</span></span>
-<span class="r-in"><span class="fu">tsk</span><span class="op">(</span><span class="st">"penguins"</span>, id <span class="op">=</span> <span class="st">"penguins2"</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># penguins task with new id</span></span></span>
+<span class="r-in"><span><span class="fu">tsk</span><span class="op">(</span><span class="st">"penguins"</span>, id <span class="op">=</span> <span class="st">"penguins2"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;TaskClassif:penguins2&gt; (344 x 8): Palmer Penguins</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Target: species</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Properties: multiclass</span>
@@ -174,10 +174,10 @@ or a list of <a href="https://r6.r-lib.org/reference/R6Class.html" class="extern
 <span class="r-out co"><span class="r-pr">#&gt;</span>   - int (3): body_mass, flipper_length, year</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   - dbl (2): bill_depth, bill_length</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   - fct (2): island, sex</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># classification tree with different hyperparameters</span></span>
-<span class="r-in"><span class="co"># and predict type set to predict probabilities</span></span>
-<span class="r-in"><span class="fu">lrn</span><span class="op">(</span><span class="st">"classif.rpart"</span>, cp <span class="op">=</span> <span class="fl">0.1</span>, predict_type <span class="op">=</span> <span class="st">"prob"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># classification tree with different hyperparameters</span></span></span>
+<span class="r-in"><span><span class="co"># and predict type set to predict probabilities</span></span></span>
+<span class="r-in"><span><span class="fu">lrn</span><span class="op">(</span><span class="st">"classif.rpart"</span>, cp <span class="op">=</span> <span class="fl">0.1</span>, predict_type <span class="op">=</span> <span class="st">"prob"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;LearnerClassifRpart:classif.rpart&gt;: Classification Tree</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Model: -</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Parameters: xval=0, cp=0.1</span>
@@ -186,9 +186,9 @@ or a list of <a href="https://r6.r-lib.org/reference/R6Class.html" class="extern
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Feature Types: logical, integer, numeric, factor, ordered</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Properties: importance, missings, multiclass, selected_features,</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   twoclass, weights</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># multiple learners with predict type 'prob'</span></span>
-<span class="r-in"><span class="fu">lrns</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"classif.featureless"</span>, <span class="st">"classif.rpart"</span><span class="op">)</span>, predict_type <span class="op">=</span> <span class="st">"prob"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># multiple learners with predict type 'prob'</span></span></span>
+<span class="r-in"><span><span class="fu">lrns</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"classif.featureless"</span>, <span class="st">"classif.rpart"</span><span class="op">)</span>, predict_type <span class="op">=</span> <span class="st">"prob"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;LearnerClassifFeatureless:classif.featureless&gt;: Featureless Classification Learner</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Model: -</span>

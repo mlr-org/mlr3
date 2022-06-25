@@ -92,13 +92,13 @@ to real DBMS like PostgreSQL (via <a href="https://CRAN.R-project.org/package=db
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="co"># S3 method for Matrix</span>
-<span class="fu">as_data_backend</span><span class="op">(</span><span class="va">data</span>, primary_key <span class="op">=</span> <span class="cn">NULL</span>, dense <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="fu">as_data_backend</span><span class="op">(</span><span class="va">data</span>, primary_key <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="co"># S3 method for data.frame</span>
-<span class="fu">as_data_backend</span><span class="op">(</span><span class="va">data</span>, primary_key <span class="op">=</span> <span class="cn">NULL</span>, keep_rownames <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># S3 method for Matrix</span></span>
+<span><span class="fu">as_data_backend</span><span class="op">(</span><span class="va">data</span>, primary_key <span class="op">=</span> <span class="cn">NULL</span>, dense <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">as_data_backend</span><span class="op">(</span><span class="va">data</span>, primary_key <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for data.frame</span></span>
+<span><span class="fu">as_data_backend</span><span class="op">(</span><span class="va">data</span>, primary_key <span class="op">=</span> <span class="cn">NULL</span>, keep_rownames <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -153,8 +153,8 @@ e.g. SQL servers or <a href="https://CRAN.R-project.org/package=duckdb" class="e
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># create a new backend using the penguins data:</span></span>
-<span class="r-in"><span class="fu">as_data_backend</span><span class="op">(</span><span class="fu">palmerpenguins</span><span class="fu">::</span><span class="va"><a href="https://allisonhorst.github.io/palmerpenguins/reference/penguins.html" class="external-link">penguins</a></span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># create a new backend using the penguins data:</span></span></span>
+<span class="r-in"><span><span class="fu">as_data_backend</span><span class="op">(</span><span class="fu">palmerpenguins</span><span class="fu">::</span><span class="va"><a href="https://allisonhorst.github.io/palmerpenguins/reference/penguins.html" class="external-link">penguins</a></span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;DataBackendDataTable&gt; (344x9)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  species    island bill_length_mm bill_depth_mm flipper_length_mm body_mass_g</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Adelie Torgersen           39.1          18.7               181        3750</span>
