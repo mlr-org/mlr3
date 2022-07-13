@@ -29,9 +29,11 @@ See example for the creation of a \link{MeasureClassifCosts} as described miscla
 }
 \section{Dictionary}{
 
-This \link{Task} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_tasks} or with the associated sugar function \code{\link[=tsk]{tsk()}}:\preformatted{mlr_tasks$get("german_credit")
+This \link{Task} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_tasks} or with the associated sugar function \code{\link[=tsk]{tsk()}}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{mlr_tasks$get("german_credit")
 tsk("german_credit")
-}
+}\if{html}{\out{</div>}}
 }
 
 \section{Meta Information}{

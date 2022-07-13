@@ -12,9 +12,11 @@ Target variable is \code{mpg} (Miles/(US) gallon).
 Rownames are stored as variable \verb{"..rownames} with column role \code{"model"}.
 }
 \section{Construction}{
-\preformatted{mlr_tasks$get("mtcars")
+
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{mlr_tasks$get("mtcars")
 tsk("mtcars")
-}
+}\if{html}{\out{</div>}}
 }
 
 \section{Meta Information}{

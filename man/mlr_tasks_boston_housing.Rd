@@ -10,9 +10,11 @@
 A regression task for the \link[mlbench:BostonHousing]{mlbench::BostonHousing2} data set.
 }
 \section{Construction}{
-\preformatted{mlr_tasks$get("boston_housing")
+
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{mlr_tasks$get("boston_housing")
 tsk("boston_housing")
-}
+}\if{html}{\out{</div>}}
 }
 
 \section{Meta Information}{

@@ -86,17 +86,17 @@ Returns \code{row_ids} for which the predictions are missing or incomplete.}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-format}{\code{Prediction$format()}}
-\item \href{#method-print}{\code{Prediction$print()}}
-\item \href{#method-help}{\code{Prediction$help()}}
-\item \href{#method-score}{\code{Prediction$score()}}
-\item \href{#method-filter}{\code{Prediction$filter()}}
-\item \href{#method-clone}{\code{Prediction$clone()}}
+\item \href{#method-Prediction-format}{\code{Prediction$format()}}
+\item \href{#method-Prediction-print}{\code{Prediction$print()}}
+\item \href{#method-Prediction-help}{\code{Prediction$help()}}
+\item \href{#method-Prediction-score}{\code{Prediction$score()}}
+\item \href{#method-Prediction-filter}{\code{Prediction$filter()}}
+\item \href{#method-Prediction-clone}{\code{Prediction$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-format"></a>}}
-\if{latex}{\out{\hypertarget{method-format}{}}}
+\if{html}{\out{<a id="method-Prediction-format"></a>}}
+\if{latex}{\out{\hypertarget{method-Prediction-format}{}}}
 \subsection{Method \code{format()}}{
 Helper for print outputs.
 \subsection{Usage}{
@@ -105,8 +105,8 @@ Helper for print outputs.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-print"></a>}}
-\if{latex}{\out{\hypertarget{method-print}{}}}
+\if{html}{\out{<a id="method-Prediction-print"></a>}}
+\if{latex}{\out{\hypertarget{method-Prediction-print}{}}}
 \subsection{Method \code{print()}}{
 Printer.
 \subsection{Usage}{
@@ -122,8 +122,8 @@ Printer.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-help"></a>}}
-\if{latex}{\out{\hypertarget{method-help}{}}}
+\if{html}{\out{<a id="method-Prediction-help"></a>}}
+\if{latex}{\out{\hypertarget{method-Prediction-help}{}}}
 \subsection{Method \code{help()}}{
 Opens the corresponding help page referenced by field \verb{$man}.
 \subsection{Usage}{
@@ -132,8 +132,8 @@ Opens the corresponding help page referenced by field \verb{$man}.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-score"></a>}}
-\if{latex}{\out{\hypertarget{method-score}{}}}
+\if{html}{\out{<a id="method-Prediction-score"></a>}}
+\if{latex}{\out{\hypertarget{method-Prediction-score}{}}}
 \subsection{Method \code{score()}}{
 Calculates the performance for all provided measures
 \link{Task} and \link{Learner} may be \code{NULL} for most measures, but some measures need to extract information
@@ -168,8 +168,8 @@ Measure(s) to calculate.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-filter"></a>}}
-\if{latex}{\out{\hypertarget{method-filter}{}}}
+\if{html}{\out{<a id="method-Prediction-filter"></a>}}
+\if{latex}{\out{\hypertarget{method-Prediction-filter}{}}}
 \subsection{Method \code{filter()}}{
 Filters the \link{Prediction}, keeping only predictions for the provided row_ids.
 This changes the object in-place, you need to create a clone to preserve
@@ -191,8 +191,8 @@ Row indices.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-Prediction-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-Prediction-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

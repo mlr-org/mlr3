@@ -136,7 +136,7 @@ Measure = R6Class("Measure",
     #' Printer.
     #' @param ... (ignored).
     print = function(...) {
-      catn(format(self), if (is.na(self$label)) "" else paste0(": ", self$label))
+      catn(format(self), if (is.null(self$label) || is.na(self$label)) "" else paste0(": ", self$label))
       catn(str_indent("* Packages:", self$packages))
       catn(str_indent("* Range:", sprintf("[%g, %g]", self$range[1L], self$range[2L])))
       catn(str_indent("* Minimize:", self$minimize))
@@ -297,7 +297,7 @@ score_single_measure = function(measure, task, learner, train_set, prediction) {
   # convert pdata to regular prediction
   prediction = as_prediction(prediction, check = FALSE)
 
-  if (measure$predict_type %nin% prediction$predict_types) {
+  if (!is_scalar_na(measure$predict_type) && measure$predict_type %nin% prediction$predict_types) {
     # TODO lgr$debug()
     return(NaN)
   }
@@ -354,7 +354,7 @@ format_list_item.Measure = function(x, ...) { # nolint
 
 #' @export
 rd_info.Measure = function(obj) { # nolint
-  c("",
+  x = c("",
     sprintf("* Task type: %s", rd_format_string(obj$task_type)),
     sprintf("* Range: %s", rd_format_range(obj$range[1L], obj$range[2L])),
     sprintf("* Minimize: %s", obj$minimize),
@@ -362,4 +362,5 @@ rd_info.Measure = function(obj) { # nolint
     sprintf("* Required Prediction: %s", rd_format_string(obj$predict_type)),
     sprintf("* Required Packages: %s", rd_format_packages(obj$packages))
   )
+  paste(x, collapse = "\n")
 }

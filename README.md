@@ -27,7 +27,7 @@ Status](https://www.r-pkg.org/badges/version-ago/mlr3)](https://cran.r-project.o
 -   [Reference manual](https://mlr3.mlr-org.com/reference/)
 -   [FAQ](https://github.com/mlr-org/mlr3/wiki/FAQ)
 -   Ask questions on [Stackoverflow (tag
-    #mlr3)](https://stackoverflow.com/questions/tagged/mlr3)
+    \#mlr3)](https://stackoverflow.com/questions/tagged/mlr3)
 -   **Extension Learners**
     -   Recommended core regression, classification, and survival
         learners are in
@@ -64,10 +64,10 @@ Status](https://www.r-pkg.org/badges/version-ago/mlr3)](https://cran.r-project.o
         and
         [exercises](https://github.com/slds-lmu/lecture_i2ml/tree/master/exercises).
 -   **Templates/Tutorials**
-    -   [mlr3-learndrake](https://github.com/mlr-org/mlr3-learndrake):
-        Shows how to use mlr3 with
-        [drake](https://docs.ropensci.org/drake/) for reproducible ML
-        workflow automation.
+    -   [mlr3-targets](https://github.com/mlr-org/mlr3-targets):
+        Tutorial showcasing how to use {mlr3} with
+        [targets](https://docs.ropensci.org/targets/) for reproducible
+        ML workflow automation.
 -   [List of extension
     packages](https://github.com/mlr-org/mlr3/wiki/Extension-Packages)
 -   [mlr-outreach](https://github.com/mlr-org/mlr-outreach) contains

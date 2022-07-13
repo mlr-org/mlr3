@@ -39,26 +39,26 @@ Returns \code{NULL} if the \link{ResultData} is empty.}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{ResultData$new()}}
-\item \href{#method-uhashes}{\code{ResultData$uhashes()}}
-\item \href{#method-iterations}{\code{ResultData$iterations()}}
-\item \href{#method-tasks}{\code{ResultData$tasks()}}
-\item \href{#method-learners}{\code{ResultData$learners()}}
-\item \href{#method-learner_states}{\code{ResultData$learner_states()}}
-\item \href{#method-resamplings}{\code{ResultData$resamplings()}}
-\item \href{#method-predictions}{\code{ResultData$predictions()}}
-\item \href{#method-prediction}{\code{ResultData$prediction()}}
-\item \href{#method-combine}{\code{ResultData$combine()}}
-\item \href{#method-sweep}{\code{ResultData$sweep()}}
-\item \href{#method-discard}{\code{ResultData$discard()}}
-\item \href{#method-as_data_table}{\code{ResultData$as_data_table()}}
-\item \href{#method-logs}{\code{ResultData$logs()}}
-\item \href{#method-clone}{\code{ResultData$clone()}}
+\item \href{#method-ResultData-new}{\code{ResultData$new()}}
+\item \href{#method-ResultData-uhashes}{\code{ResultData$uhashes()}}
+\item \href{#method-ResultData-iterations}{\code{ResultData$iterations()}}
+\item \href{#method-ResultData-tasks}{\code{ResultData$tasks()}}
+\item \href{#method-ResultData-learners}{\code{ResultData$learners()}}
+\item \href{#method-ResultData-learner_states}{\code{ResultData$learner_states()}}
+\item \href{#method-ResultData-resamplings}{\code{ResultData$resamplings()}}
+\item \href{#method-ResultData-predictions}{\code{ResultData$predictions()}}
+\item \href{#method-ResultData-prediction}{\code{ResultData$prediction()}}
+\item \href{#method-ResultData-combine}{\code{ResultData$combine()}}
+\item \href{#method-ResultData-sweep}{\code{ResultData$sweep()}}
+\item \href{#method-ResultData-discard}{\code{ResultData$discard()}}
+\item \href{#method-ResultData-as_data_table}{\code{ResultData$as_data_table()}}
+\item \href{#method-ResultData-logs}{\code{ResultData$logs()}}
+\item \href{#method-ResultData-clone}{\code{ResultData$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-ResultData-new"></a>}}
+\if{latex}{\out{\hypertarget{method-ResultData-new}{}}}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 An alternative construction method is provided by \code{\link[=as_result_data]{as_result_data()}}.
@@ -80,8 +80,8 @@ removed.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-uhashes"></a>}}
-\if{latex}{\out{\hypertarget{method-uhashes}{}}}
+\if{html}{\out{<a id="method-ResultData-uhashes"></a>}}
+\if{latex}{\out{\hypertarget{method-ResultData-uhashes}{}}}
 \subsection{Method \code{uhashes()}}{
 Returns all unique hashes (\code{uhash} values) of all included \link{ResampleResult}s.
 \subsection{Usage}{
@@ -101,8 +101,8 @@ Single \code{uhash} to restrict the results to.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-iterations"></a>}}
-\if{latex}{\out{\hypertarget{method-iterations}{}}}
+\if{html}{\out{<a id="method-ResultData-iterations"></a>}}
+\if{latex}{\out{\hypertarget{method-ResultData-iterations}{}}}
 \subsection{Method \code{iterations()}}{
 Returns the number of recorded iterations / experiments.
 \subsection{Usage}{
@@ -122,8 +122,8 @@ Single \code{uhash} to restrict the results to.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-tasks"></a>}}
-\if{latex}{\out{\hypertarget{method-tasks}{}}}
+\if{html}{\out{<a id="method-ResultData-tasks"></a>}}
+\if{latex}{\out{\hypertarget{method-ResultData-tasks}{}}}
 \subsection{Method \code{tasks()}}{
 Returns a table of included \link{Task}s.
 \subsection{Usage}{
@@ -143,8 +143,8 @@ Single \code{uhash} to restrict the results to.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-learners"></a>}}
-\if{latex}{\out{\hypertarget{method-learners}{}}}
+\if{html}{\out{<a id="method-ResultData-learners"></a>}}
+\if{latex}{\out{\hypertarget{method-ResultData-learners}{}}}
 \subsection{Method \code{learners()}}{
 Returns a table of included \link{Learner}s.
 \subsection{Usage}{
@@ -172,8 +172,8 @@ returning the learners.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-learner_states"></a>}}
-\if{latex}{\out{\hypertarget{method-learner_states}{}}}
+\if{html}{\out{<a id="method-ResultData-learner_states"></a>}}
+\if{latex}{\out{\hypertarget{method-ResultData-learner_states}{}}}
 \subsection{Method \code{learner_states()}}{
 Returns a list of states of included \link{Learner}s without reassembling the learners.
 
@@ -192,8 +192,8 @@ Single \code{uhash} to restrict the results to.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-resamplings"></a>}}
-\if{latex}{\out{\hypertarget{method-resamplings}{}}}
+\if{html}{\out{<a id="method-ResultData-resamplings"></a>}}
+\if{latex}{\out{\hypertarget{method-ResultData-resamplings}{}}}
 \subsection{Method \code{resamplings()}}{
 Returns a table of included \link{Resampling}s.
 \subsection{Usage}{
@@ -213,8 +213,8 @@ Single \code{uhash} to restrict the results to.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-predictions"></a>}}
-\if{latex}{\out{\hypertarget{method-predictions}{}}}
+\if{html}{\out{<a id="method-ResultData-predictions"></a>}}
+\if{latex}{\out{\hypertarget{method-ResultData-predictions}{}}}
 \subsection{Method \code{predictions()}}{
 Returns a list of \link{Prediction} objects.
 \subsection{Usage}{
@@ -255,8 +255,8 @@ Default is \code{"test"}.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-prediction"></a>}}
-\if{latex}{\out{\hypertarget{method-prediction}{}}}
+\if{html}{\out{<a id="method-ResultData-prediction"></a>}}
+\if{latex}{\out{\hypertarget{method-ResultData-prediction}{}}}
 \subsection{Method \code{prediction()}}{
 Returns a combined \link{Prediction} objects.
 \subsection{Usage}{
@@ -297,8 +297,8 @@ Default is \code{"test"}.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-combine"></a>}}
-\if{latex}{\out{\hypertarget{method-combine}{}}}
+\if{html}{\out{<a id="method-ResultData-combine"></a>}}
+\if{latex}{\out{\hypertarget{method-ResultData-combine}{}}}
 \subsection{Method \code{combine()}}{
 Combines multiple \link{ResultData} objects, modifying \code{self} in-place.
 \subsection{Usage}{
@@ -317,8 +317,8 @@ Combines multiple \link{ResultData} objects, modifying \code{self} in-place.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-sweep"></a>}}
-\if{latex}{\out{\hypertarget{method-sweep}{}}}
+\if{html}{\out{<a id="method-ResultData-sweep"></a>}}
+\if{latex}{\out{\hypertarget{method-ResultData-sweep}{}}}
 \subsection{Method \code{sweep()}}{
 Updates the \link{ResultData} object, removing rows from all tables which are not referenced
 by the fact table anymore.
@@ -332,8 +332,8 @@ Modified \code{self} (invisibly).
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-discard"></a>}}
-\if{latex}{\out{\hypertarget{method-discard}{}}}
+\if{html}{\out{<a id="method-ResultData-discard"></a>}}
+\if{latex}{\out{\hypertarget{method-ResultData-discard}{}}}
 \subsection{Method \code{discard()}}{
 Shrinks the object by discarding parts of the stored data.
 \subsection{Usage}{
@@ -356,8 +356,8 @@ Modified \code{self} (invisibly).
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-as_data_table"></a>}}
-\if{latex}{\out{\hypertarget{method-as_data_table}{}}}
+\if{html}{\out{<a id="method-ResultData-as_data_table"></a>}}
+\if{latex}{\out{\hypertarget{method-ResultData-as_data_table}{}}}
 \subsection{Method \code{as_data_table()}}{
 Combines internal tables into a single flat \code{\link[=data.table]{data.table()}}.
 \subsection{Usage}{
@@ -406,8 +406,8 @@ Default is \code{"test"}.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-logs"></a>}}
-\if{latex}{\out{\hypertarget{method-logs}{}}}
+\if{html}{\out{<a id="method-ResultData-logs"></a>}}
+\if{latex}{\out{\hypertarget{method-ResultData-logs}{}}}
 \subsection{Method \code{logs()}}{
 Get a table of recorded learner logs.
 \subsection{Usage}{
@@ -430,8 +430,8 @@ The condition to extract. One of \code{"message"}, \code{"warning"} or \code{"er
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-ResultData-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-ResultData-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{
