@@ -293,7 +293,7 @@ Task = R6Class("Task",
     #' @param n (`integer(1)`).
     #' @return [data.table::data.table()] with `n` rows.
     head = function(n = 6L) {
-      assert_count(n)
+      assert_number(n, na.ok = FALSE)
       ids = head(private$.row_roles$use, n)
       self$data(rows = ids)
     },
@@ -1064,13 +1064,13 @@ as.data.table.Task = function(x, ...) { # nolint
 
 #' @export
 head.Task = function(x, n = 6L, ...) { # nolint
-  assert_count(n)
+  assert_number(n, na.ok = FALSE)
   x$data(rows = head(x$row_ids, n))
 }
 
 #' @export
 tail.Task = function(x, n = 6L, ...) { # nolint
-  assert_count(n)
+  assert_number(n, na.ok = FALSE)
   x$data(rows = tail(x$row_ids, n))
 }
 
