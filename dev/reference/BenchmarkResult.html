@@ -120,14 +120,7 @@ Combines multiple objects convertible to BenchmarkResult into a new BenchmarkRes
     </div>
     <div class="section level2">
     <h2 id="active-bindings">Active bindings<a class="anchor" aria-label="anchor" href="#active-bindings"></a></h2>
-    <p></p><div class="r6-active-bindings"><dl><dt><code>data</code></dt>
-<dd><p>(<code>ResultData</code>)<br>
-Internal data storage object of type <code>ResultData</code>.
-This field is deprecated and will be removed in the next release.
-Use <code>as.table.table(BenchmarkResult)</code> instead.</p></dd>
-
-
-<dt><code>task_type</code></dt>
+    <p></p><div class="r6-active-bindings"><dl><dt><code>task_type</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 Task type of objects in the <code>BenchmarkResult</code>.
 All stored objects (<a href="Task.html">Task</a>, <a href="Learner.html">Learner</a>, <a href="Prediction.html">Prediction</a>) in a single <code>BenchmarkResult</code> are
@@ -559,11 +552,11 @@ the object in its previous state.</p>
 <span class="r-in"><span><span class="co"># first 5 resampling iterations</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html" class="external-link">as.data.table</a></span><span class="op">(</span><span class="va">bmr</span>, measures <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"classif.acc"</span>, <span class="st">"classif.auc"</span><span class="op">)</span><span class="op">)</span>, <span class="fl">5</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                   uhash              task</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 3a40bf7b-7350-440d-b618-30dc8b92379b &lt;TaskClassif[50]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 3a40bf7b-7350-440d-b618-30dc8b92379b &lt;TaskClassif[50]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 3a40bf7b-7350-440d-b618-30dc8b92379b &lt;TaskClassif[50]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4: 660e474e-ee9d-47d9-aa68-f5491131000f &lt;TaskClassif[50]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5: 660e474e-ee9d-47d9-aa68-f5491131000f &lt;TaskClassif[50]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 003acbe7-c9a4-4219-811f-1e841f3285b8 &lt;TaskClassif[50]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 003acbe7-c9a4-4219-811f-1e841f3285b8 &lt;TaskClassif[50]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 003acbe7-c9a4-4219-811f-1e841f3285b8 &lt;TaskClassif[50]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4: d7450f18-b9af-4e62-994d-016a0e3d5576 &lt;TaskClassif[50]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5: d7450f18-b9af-4e62-994d-016a0e3d5576 &lt;TaskClassif[50]&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                            learner         resampling iteration</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: &lt;LearnerClassifFeatureless[38]&gt; &lt;ResamplingCV[20]&gt;         1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2: &lt;LearnerClassifFeatureless[38]&gt; &lt;ResamplingCV[20]&gt;         2</span>
@@ -580,10 +573,10 @@ the object in its previous state.</p>
 <span class="r-in"><span><span class="co"># aggregate results</span></span></span>
 <span class="r-in"><span><span class="va">bmr</span><span class="op">$</span><span class="fu">aggregate</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    nr      resample_result task_id          learner_id resampling_id iters</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1:  1 &lt;ResampleResult[22]&gt;   sonar classif.featureless            cv     3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2:  2 &lt;ResampleResult[22]&gt;   sonar       classif.rpart            cv     3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3:  3 &lt;ResampleResult[22]&gt;    spam classif.featureless            cv     3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4:  4 &lt;ResampleResult[22]&gt;    spam       classif.rpart            cv     3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:  1 &lt;ResampleResult[21]&gt;   sonar classif.featureless            cv     3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:  2 &lt;ResampleResult[21]&gt;   sonar       classif.rpart            cv     3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:  3 &lt;ResampleResult[21]&gt;    spam classif.featureless            cv     3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:  4 &lt;ResampleResult[21]&gt;    spam       classif.rpart            cv     3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    classif.ce</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:  0.4660455</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2:  0.2739130</span>
@@ -593,10 +586,10 @@ the object in its previous state.</p>
 <span class="r-in"><span><span class="co"># aggregate results with hyperparameters as separate columns</span></span></span>
 <span class="r-in"><span><span class="fu">mlr3misc</span><span class="fu">::</span><span class="fu"><a href="https://mlr3misc.mlr-org.com/reference/unnest.html" class="external-link">unnest</a></span><span class="op">(</span><span class="va">bmr</span><span class="op">$</span><span class="fu">aggregate</span><span class="op">(</span>params <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, <span class="st">"params"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    nr      resample_result task_id          learner_id resampling_id iters</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1:  1 &lt;ResampleResult[22]&gt;   sonar classif.featureless            cv     3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2:  2 &lt;ResampleResult[22]&gt;   sonar       classif.rpart            cv     3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3:  3 &lt;ResampleResult[22]&gt;    spam classif.featureless            cv     3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4:  4 &lt;ResampleResult[22]&gt;    spam       classif.rpart            cv     3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:  1 &lt;ResampleResult[21]&gt;   sonar classif.featureless            cv     3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:  2 &lt;ResampleResult[21]&gt;   sonar       classif.rpart            cv     3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:  3 &lt;ResampleResult[21]&gt;    spam classif.featureless            cv     3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:  4 &lt;ResampleResult[21]&gt;    spam       classif.rpart            cv     3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    classif.ce method xval</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:  0.4660455   mode   NA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2:  0.2739130   &lt;NA&gt;    0</span>

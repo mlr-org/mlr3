@@ -240,12 +240,12 @@ or <code>"trace"</code>:</p>
 <span class="r-in"><span><span class="co">## Data of all resamplings</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html" class="external-link">as.data.table</a></span><span class="op">(</span><span class="va">bmr</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                   uhash              task</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 1fea4490-3820-440d-b521-abbfd86b8dc8 &lt;TaskClassif[50]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 1fea4490-3820-440d-b521-abbfd86b8dc8 &lt;TaskClassif[50]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 1fea4490-3820-440d-b521-abbfd86b8dc8 &lt;TaskClassif[50]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4: 83e91af8-8b8e-418c-8ca2-41e7918ae4cc &lt;TaskClassif[50]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5: 83e91af8-8b8e-418c-8ca2-41e7918ae4cc &lt;TaskClassif[50]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6: 83e91af8-8b8e-418c-8ca2-41e7918ae4cc &lt;TaskClassif[50]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 05667176-00ac-40f1-ab2a-82711aabb2e0 &lt;TaskClassif[50]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 05667176-00ac-40f1-ab2a-82711aabb2e0 &lt;TaskClassif[50]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 05667176-00ac-40f1-ab2a-82711aabb2e0 &lt;TaskClassif[50]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4: ea358d52-3b9f-45ad-b0ee-dee26e5cf2f4 &lt;TaskClassif[50]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5: ea358d52-3b9f-45ad-b0ee-dee26e5cf2f4 &lt;TaskClassif[50]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6: ea358d52-3b9f-45ad-b0ee-dee26e5cf2f4 &lt;TaskClassif[50]&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                            learner         resampling iteration</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: &lt;LearnerClassifFeatureless[38]&gt; &lt;ResamplingCV[20]&gt;         1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2: &lt;LearnerClassifFeatureless[38]&gt; &lt;ResamplingCV[20]&gt;         2</span>
@@ -265,10 +265,10 @@ or <code>"trace"</code>:</p>
 <span class="r-in"><span><span class="va">aggr</span> <span class="op">=</span> <span class="va">bmr</span><span class="op">$</span><span class="fu">aggregate</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">aggr</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    nr      resample_result  task_id          learner_id resampling_id iters</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1:  1 &lt;ResampleResult[22]&gt; penguins classif.featureless            cv     3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2:  2 &lt;ResampleResult[22]&gt; penguins       classif.rpart            cv     3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3:  3 &lt;ResampleResult[22]&gt;    sonar classif.featureless            cv     3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4:  4 &lt;ResampleResult[22]&gt;    sonar       classif.rpart            cv     3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:  1 &lt;ResampleResult[21]&gt; penguins classif.featureless            cv     3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:  2 &lt;ResampleResult[21]&gt; penguins       classif.rpart            cv     3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:  3 &lt;ResampleResult[21]&gt;    sonar classif.featureless            cv     3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:  4 &lt;ResampleResult[21]&gt;    sonar       classif.rpart            cv     3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    classif.ce</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: 0.55822527</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2: 0.06112382</span>
