@@ -7,8 +7,7 @@
 #'
 #' Learners are build around the three following key parts:
 #'
-#' * Methods `$train()` and `$predict()` which call internal methods (either public method `$train_internal()`/`$predict_internal()` (deprecated)
-#'   or private methods `$.train()`/`$.predict()`).
+#' * Methods `$train()` and `$predict()` which call internal methods or private methods `$.train()`/`$.predict()`).
 #' * A [paradox::ParamSet] which stores meta-information about available hyperparameters, and also stores hyperparameter settings.
 #' * Meta-information about the requirements and capabilities of the learner.
 #' * The fitted model stored in field `$model`, available after calling `$train()`.
