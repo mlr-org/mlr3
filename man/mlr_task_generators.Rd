@@ -50,6 +50,7 @@ Other TaskGenerator:
 \code{\link{mlr_task_generators_circle}},
 \code{\link{mlr_task_generators_friedman1}},
 \code{\link{mlr_task_generators_moons}},
+\code{\link{mlr_task_generators_random_walk}},
 \code{\link{mlr_task_generators_simplex}},
 \code{\link{mlr_task_generators_smiley}},
 \code{\link{mlr_task_generators_spirals}},
