@@ -21,12 +21,21 @@ msr("debug")
 
 \section{Meta Information}{
 
-, * Task type: \dQuote{NA}, * Range: \eqn{[0, \infty)}{[0, Inf)}, * Minimize: NA, * Average: macro, * Required Prediction: \dQuote{response}, * Required Packages: \CRANpkg{mlr3}
+\itemize{
+\item Task type: \dQuote{NA}
+\item Range: \eqn{[0, \infty)}{[0, Inf)}
+\item Minimize: NA
+\item Average: macro
+\item Required Prediction: \dQuote{response}
+\item Required Packages: \CRANpkg{mlr3}
+}
 }
 
 \section{Parameters}{
-
-, |Id       |Type    |Default |Range                |, |:--------|:-------|:-------|:--------------------|, |na_ratio |numeric |-       |\eqn{[0, 1]}{[0, 1]} |
+\tabular{llll}{
+   Id \tab Type \tab Default \tab Range \cr
+   na_ratio \tab numeric \tab - \tab \eqn{[0, 1]}{[0, 1]} \cr
+}
 }
 
 \examples{

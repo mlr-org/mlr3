@@ -29,7 +29,14 @@ tsk("wine")
 
 \section{Meta Information}{
 
-, * Task type: \dQuote{classif}, * Dimensions: 178x14, * Properties: \dQuote{multiclass}, * Has Missings: \code{FALSE}, * Target: \dQuote{type}, * Features: \dQuote{alcalinity}, \dQuote{alcohol}, \dQuote{ash}, \dQuote{color}, \dQuote{dilution}, \dQuote{flavanoids}, \dQuote{hue}, \dQuote{magnesium}, \dQuote{malic}, \dQuote{nonflavanoids}, \dQuote{phenols}, \dQuote{proanthocyanins}, \dQuote{proline}
+\itemize{
+\item Task type: \dQuote{classif}
+\item Dimensions: 178x14
+\item Properties: \dQuote{multiclass}
+\item Has Missings: \code{FALSE}
+\item Target: \dQuote{type}
+\item Features: \dQuote{alcalinity}, \dQuote{alcohol}, \dQuote{ash}, \dQuote{color}, \dQuote{dilution}, \dQuote{flavanoids}, \dQuote{hue}, \dQuote{magnesium}, \dQuote{malic}, \dQuote{nonflavanoids}, \dQuote{phenols}, \dQuote{proanthocyanins}, \dQuote{proline}
+}
 }
 
 \references{

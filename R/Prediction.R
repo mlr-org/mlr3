@@ -149,8 +149,7 @@ c.Prediction = function(..., keep_duplicates = TRUE) { # nolint
   as_prediction(pdata, check = FALSE)
 }
 
-#' @export
-format_list_item.Prediction = function(x, ...) { # nolint
-  sprintf("<prd[%i]>", length(x$row_ids))
-}
-
+# #' @export
+# format_list_item.Prediction = function(x, ...) { # nolint
+#   sprintf("<prd[%i]>", length(x$row_ids))
+# }

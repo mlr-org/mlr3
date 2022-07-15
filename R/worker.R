@@ -111,13 +111,7 @@ learner_predict = function(learner, task, row_ids = NULL) {
       stopf("No trained model available for learner '%s' on task '%s'", learner$id, task$id)
     }
 
-    if (exists("predict_internal", envir = learner, inherits = FALSE)) {
-      .Deprecated(msg = "Use private method '.predict()' instead of public method 'predict_internal()'")
-      result = learner$predict_internal(task)
-    } else {
-      result = get_private(learner)$.predict(task)
-    }
-
+    result = get_private(learner)$.predict(task)
     as_prediction_data(result, task = task, check = TRUE)
   }
 

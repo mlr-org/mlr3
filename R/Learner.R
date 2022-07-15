@@ -7,8 +7,7 @@
 #'
 #' Learners are build around the three following key parts:
 #'
-#' * Methods `$train()` and `$predict()` which call internal methods (either public method `$train_internal()`/`$predict_internal()` (deprecated)
-#'   or private methods `$.train()`/`$.predict()`).
+#' * Methods `$train()` and `$predict()` which call internal methods or private methods `$.train()`/`$.predict()`).
 #' * A [paradox::ParamSet] which stores meta-information about available hyperparameters, and also stores hyperparameter settings.
 #' * Meta-information about the requirements and capabilities of the learner.
 #' * The fitted model stored in field `$model`, available after calling `$train()`.
@@ -188,7 +187,7 @@ Learner = R6Class("Learner",
       catn(str_indent("* Model:", if (is.null(self$model)) "-" else class(self$model)[1L]))
       catn(str_indent("* Parameters:", as_short_string(self$param_set$values, 1000L)))
       catn(str_indent("* Packages:", self$packages))
-      cat_predict_type(self)
+      catn(str_indent("* Predict Types: ", replace(self$predict_types, self$predict_types == self$predict_type, paste0("[", self$predict_type, "]"))))
       catn(str_indent("* Feature Types:", self$feature_types))
       catn(str_indent("* Properties:", self$properties))
       w = self$warnings
@@ -542,12 +541,13 @@ Learner = R6Class("Learner",
 
 #' @export
 rd_info.Learner = function(obj) {
-  c("",
+  x = c("",
     sprintf("* Task type: %s", rd_format_string(obj$task_type)),
     sprintf("* Predict Types: %s", rd_format_string(obj$predict_types)),
     sprintf("* Feature Types: %s", rd_format_string(obj$feature_types)),
     sprintf("* Required Packages: %s", rd_format_packages(obj$packages))
   )
+  paste(x, collapse = "\n")
 }
 
 get_log_condition = function(state, condition) {
@@ -558,13 +558,7 @@ get_log_condition = function(state, condition) {
   }
 }
 
-#' @export
-format_list_item.Learner = function(x, ...) { # nolint
-  sprintf("<lrn:%s>", x$id)
-}
-
-cat_predict_type = function(x) {
-  s = x$predict_types
-  s[s == x$predict_type] = sprintf("[%s]", x$predict_type)
-  catn(str_indent("* Predict Types:", paste0(s, collapse = ", ")))
-}
+# #' @export
+# format_list_item.Learner = function(x, ...) { # nolint
+#   sprintf("<lrn:%s>", x$id)
+# }

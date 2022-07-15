@@ -293,7 +293,7 @@ Task = R6Class("Task",
     #' @param n (`integer(1)`).
     #' @return [data.table::data.table()] with `n` rows.
     head = function(n = 6L) {
-      assert_count(n)
+      assert_number(n, na.ok = FALSE)
       ids = head(private$.row_roles$use, n)
       self$data(rows = ids)
     },
@@ -1064,20 +1064,21 @@ as.data.table.Task = function(x, ...) { # nolint
 
 #' @export
 head.Task = function(x, n = 6L, ...) { # nolint
-  assert_count(n)
+  assert_number(n, na.ok = FALSE)
   x$data(rows = head(x$row_ids, n))
 }
 
 #' @export
 tail.Task = function(x, n = 6L, ...) { # nolint
-  assert_count(n)
+  assert_number(n, na.ok = FALSE)
   x$data(rows = tail(x$row_ids, n))
 }
 
-#' @export
-format_list_item.Task = function(x, ...) { # nolint
-  sprintf("<tsk:%s>", x$id)
-}
+# #' @export
+# format_list_item.Task = function(x, ...) { # nolint
+#   print("HIIII")
+#   sprintf("<tsk:%s>", x$id)
+# }
 
 task_rm_backend = function(task) {
   # fix task hash
@@ -1094,7 +1095,7 @@ task_rm_backend = function(task) {
 
 #' @export
 rd_info.Task = function(obj, section) { # nolint
-  c("",
+  x = c("",
     sprintf("* Task type: %s", rd_format_string(obj$task_type)),
     sprintf("* Dimensions: %ix%i", obj$nrow, obj$ncol),
     sprintf("* Properties: %s", rd_format_string(obj$properties)),
@@ -1102,6 +1103,7 @@ rd_info.Task = function(obj, section) { # nolint
     sprintf("* Target: %s", rd_format_string(obj$target_names)),
     sprintf("* Features: %s", rd_format_string(obj$feature_names))
   )
+  paste(x, collapse = "\n")
 }
 
 #' @export

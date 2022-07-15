@@ -25,12 +25,21 @@ msr("classif.costs")
 
 \section{Meta Information}{
 
-, * Task type: \dQuote{classif}, * Range: \eqn{(-\infty, \infty)}{(-Inf, Inf)}, * Minimize: TRUE, * Average: macro, * Required Prediction: \dQuote{response}, * Required Packages: \CRANpkg{mlr3}
+\itemize{
+\item Task type: \dQuote{classif}
+\item Range: \eqn{(-\infty, \infty)}{(-Inf, Inf)}
+\item Minimize: TRUE
+\item Average: macro
+\item Required Prediction: \dQuote{response}
+\item Required Packages: \CRANpkg{mlr3}
+}
 }
 
 \section{Parameters}{
-
-, |Id        |Type    |Default |Levels      |, |:---------|:-------|:-------|:-----------|, |normalize |logical |TRUE    |TRUE, FALSE |
+\tabular{llll}{
+   Id \tab Type \tab Default \tab Levels \cr
+   normalize \tab logical \tab TRUE \tab TRUE, FALSE \cr
+}
 }
 
 \examples{

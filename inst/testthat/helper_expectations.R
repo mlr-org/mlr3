@@ -352,16 +352,8 @@ expect_learner = function(lrn, task = NULL) {
   expect_hash(lrn$hash)
   expect_hash(lrn$phash)
 
-  if (is.null(mlr3misc::get_private(lrn)$.train)) {
-    checkmate::expect_function(lrn$train_internal, args = "task", nargs = 1L)
-  } else {
-    checkmate::expect_function(mlr3misc::get_private(lrn)$.train, args = "task", nargs = 1L)
-  }
-  if (is.null(mlr3misc::get_private(lrn)$.predict)) {
-    checkmate::expect_function(lrn$predict_internal, args = "task", nargs = 1L)
-  } else {
-    checkmate::expect_function(mlr3misc::get_private(lrn)$.predict, args = "task", nargs = 1L)
-  }
+  checkmate::expect_function(mlr3misc::get_private(lrn)$.train, args = "task", nargs = 1L)
+  checkmate::expect_function(mlr3misc::get_private(lrn)$.predict, args = "task", nargs = 1L)
   expect_hash(lrn$hash, 1L)
 
   tags = lrn$param_set$tags
