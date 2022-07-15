@@ -548,7 +548,7 @@ get_log_condition = function(state, condition) {
   }
 }
 
-#' @export
-format_list_item.Learner = function(x, ...) { # nolint
-  sprintf("<lrn:%s>", x$id)
-}
+# #' @export
+# format_list_item.Learner = function(x, ...) { # nolint
+#   sprintf("<lrn:%s>", x$id)
+# }

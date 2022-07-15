@@ -326,10 +326,10 @@ as.data.table.ResampleResult = function(x, ..., predict_sets = "test") { # nolin
   tab[, c("task", "learner", "resampling", "iteration", "prediction"), with = FALSE]
 }
 
-#' @export
-format_list_item.ResampleResult = function(x, ...) { # nolint
-  sprintf("<rr[%i]>", x$iters)
-}
+# #' @export
+# format_list_item.ResampleResult = function(x, ...) { # nolint
+#   sprintf("<rr[%i]>", x$iters)
+# }
 
 #' @export
 c.ResampleResult = function(...) {
