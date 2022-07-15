@@ -3,8 +3,10 @@
 \name{as_measure}
 \alias{as_measure}
 \alias{as_measure.NULL}
+\alias{as_measure.character}
 \alias{as_measure.Measure}
 \alias{as_measures}
+\alias{as_measures.character}
 \alias{as_measures.NULL}
 \alias{as_measures.list}
 \alias{as_measures.Measure}
@@ -14,9 +16,13 @@ as_measure(x, ...)
 
 \method{as_measure}{`NULL`}(x, task_type = NULL, clone = FALSE, ...)
 
+\method{as_measure}{character}(x, ...)
+
 \method{as_measure}{Measure}(x, clone = FALSE, ...)
 
 as_measures(x, ...)
+
+\method{as_measures}{character}(x, ...)
 
 \method{as_measures}{`NULL`}(x, task_type = NULL, clone = FALSE, ...)
 

@@ -22,6 +22,12 @@ as_measure.NULL = function(x, task_type = NULL, clone = FALSE, ...) { # nolint
 
 #' @export
 #' @rdname as_measure
+as_measure.character = function(x, ...) {
+  msr(x, ...)
+}
+
+#' @export
+#' @rdname as_measure
 as_measure.Measure = function(x, clone = FALSE, ...) { # nolint
   if (clone) x$clone() else x
 }
@@ -30,6 +36,12 @@ as_measure.Measure = function(x, clone = FALSE, ...) { # nolint
 #' @rdname as_measure
 as_measures = function(x, ...) { # nolint
   UseMethod("as_measures")
+}
+
+#' @export
+#' @rdname as_measure
+as_measures.character = function(x, ...) {
+  msrs(x, ...)
 }
 
 #' @export
