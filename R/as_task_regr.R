@@ -34,7 +34,7 @@ as_task_regr.TaskRegr = function(x, clone = FALSE, ...) { # nolint
 #' @template param_label
 #' @export
 as_task_regr.data.frame = function(x, target, id = deparse(substitute(x)), label = NA_character_, ...) { # nolint
-  expect_data_frame(x, min.rows = 1L, min.cols = 1L, names = "unique")
+  assert_data_frame(x, min.rows = 1L, min.cols = 1L, col.names = "unique")
   ii = which(map_lgl(keep(x, is.double), anyInfinite))
   if (length(ii)) {
     warningf("Detected columns with unsupported Inf values in data: %s", str_collapse(names(ii)))
@@ -46,7 +46,7 @@ as_task_regr.data.frame = function(x, target, id = deparse(substitute(x)), label
 #' @rdname as_task_regr
 #' @export
 as_task_regr.matrix = function(x, target, id = deparse(substitute(x)), label = NA_character_, ...) { # nolint
-  expect_matrix(x, mode = "numeric")
+  assert_matrix(x, mode = "numeric")
   as_task_regr(as.data.table(x), target = target, id = id, label = label, ...)
 }
 

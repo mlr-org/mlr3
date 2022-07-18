@@ -36,7 +36,7 @@ as_task_classif.TaskClassif = function(x, clone = FALSE, ...) { # nolint
 #' @template param_label
 #' @export
 as_task_classif.data.frame = function(x, target = NULL, id = deparse(substitute(x)), positive = NULL, label = NA_character_, ...) { # nolint
-  expect_data_frame(x, min.rows = 1L, min.cols = 1L, names = "unique")
+  assert_data_frame(x, min.rows = 1L, min.cols = 1L, col.names = "unique")
   ii = which(map_lgl(keep(x, is.double), anyInfinite))
   if (length(ii)) {
     warningf("Detected columns with unsupported Inf values in data: %s", str_collapse(names(ii)))
@@ -53,7 +53,7 @@ as_task_classif.data.frame = function(x, target = NULL, id = deparse(substitute(
 #' @rdname as_task_classif
 #' @export
 as_task_classif.matrix = function(x, target, id = deparse(substitute(x)), label = NA_character_, ...) { # nolint
-  expect_matrix(x, col.names = "unique", min.rows = 1L, min.cols = 1L)
+  assert_matrix(x, col.names = "unique", min.rows = 1L, min.cols = 1L)
   as_task_classif(as.data.table(x), target = target, id = id, label = label, ...)
 }
 
