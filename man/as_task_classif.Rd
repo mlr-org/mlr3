@@ -4,6 +4,8 @@
 \alias{as_task_classif}
 \alias{as_task_classif.TaskClassif}
 \alias{as_task_classif.data.frame}
+\alias{as_task_classif.matrix}
+\alias{as_task_classif.Matrix}
 \alias{as_task_classif.DataBackend}
 \alias{as_task_classif.TaskRegr}
 \alias{as_task_classif.formula}
@@ -22,11 +24,28 @@ as_task_classif(x, ...)
   ...
 )
 
+\method{as_task_classif}{matrix}(
+  x,
+  target,
+  id = deparse(substitute(x)),
+  label = NA_character_,
+  ...
+)
+
+\method{as_task_classif}{Matrix}(
+  x,
+  target,
+  id = deparse(substitute(x)),
+  label = NA_character_,
+  ...
+)
+
 \method{as_task_classif}{DataBackend}(
   x,
   target = NULL,
   id = deparse(substitute(x)),
   positive = NULL,
+  label = NA_character_,
   ...
 )
 
@@ -38,7 +57,14 @@ as_task_classif(x, ...)
   ...
 )
 
-\method{as_task_classif}{formula}(x, data, id = deparse(substitute(data)), positive = NULL, ...)
+\method{as_task_classif}{formula}(
+  x,
+  data,
+  id = deparse(substitute(data)),
+  positive = NULL,
+  label = NA_character_,
+  ...
+)
 }
 \arguments{
 \item{x}{(any)\cr
@@ -78,12 +104,14 @@ Data frame containing all columns referenced in formula \code{x}.}
 }
 \description{
 Convert object to a \link{TaskClassif}.
-This is a S3 generic, specialized for at least the following objects:
+This is a S3 generic. mlr3 ships with methods for the following objects:
 \enumerate{
 \item \link{TaskClassif}: ensure the identity
-\item \code{\link{formula}}, \code{\link[=data.frame]{data.frame()}} and \link{DataBackend}: provides an alternative to the constructor of \link{TaskClassif}.
+\item \code{\link{formula}}, \code{\link[=data.frame]{data.frame()}}, \code{\link[=matrix]{matrix()}}, \code{\link[Matrix:Matrix]{Matrix::Matrix()}} and \link{DataBackend}: provides an alternative to the constructor of \link{TaskClassif}.
 \item \link{TaskRegr}: Calls \code{\link[=convert_task]{convert_task()}}.
 }
+
+Note that the target column will be converted to a \code{factor()}, if possible.
 }
 \examples{
 as_task_classif(palmerpenguins::penguins, target = "species")
