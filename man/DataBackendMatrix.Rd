@@ -83,7 +83,7 @@ Number of columns (variables), including the primary key column.}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{DataBackendMatrix$new(data, dense = NULL, primary_key = NULL)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{DataBackendMatrix$new(data, dense, primary_key = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{

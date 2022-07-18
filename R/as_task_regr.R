@@ -2,10 +2,10 @@
 #'
 #' @description
 #' Convert object to a [TaskRegr].
-#' This is a S3 generic, specialized for at least the following objects:
+#' This is a S3 generic. mlr3 ships with methods for the following objects:
 #'
 #' 1. [TaskRegr]: ensure the identity
-#' 2. [formula], [data.frame()] and [DataBackend]: provides an alternative to the constructor of [TaskRegr].
+#' 2. [`formula`], [data.frame()], [matrix()], [Matrix::Matrix()] and [DataBackend]: provides an alternative to the constructor of [TaskRegr].
 #' 3. [TaskClassif]: Calls [convert_task()].
 #'
 #' @inheritParams as_task
@@ -34,6 +34,7 @@ as_task_regr.TaskRegr = function(x, clone = FALSE, ...) { # nolint
 #' @template param_label
 #' @export
 as_task_regr.data.frame = function(x, target, id = deparse(substitute(x)), label = NA_character_, ...) { # nolint
+  assert_data_frame(x, min.rows = 1L, min.cols = 1L, col.names = "unique")
   ii = which(map_lgl(keep(x, is.double), anyInfinite))
   if (length(ii)) {
     warningf("Detected columns with unsupported Inf values in data: %s", str_collapse(names(ii)))
@@ -42,13 +43,26 @@ as_task_regr.data.frame = function(x, target, id = deparse(substitute(x)), label
   TaskRegr$new(id = id, backend = x, target = target, label = label)
 }
 
+#' @rdname as_task_regr
+#' @export
+as_task_regr.matrix = function(x, target, id = deparse(substitute(x)), label = NA_character_, ...) { # nolint
+  assert_matrix(x, mode = "numeric")
+  as_task_regr(as.data.table(x), target = target, id = id, label = label, ...)
+}
 
 #' @rdname as_task_regr
 #' @export
-as_task_regr.DataBackend = function(x, target, id = deparse(substitute(x)), ...) { # nolint
-  TaskRegr$new(id = id, backend = x, target = target)
+as_task_regr.Matrix = function(x, target, id = deparse(substitute(x)), label = NA_character_, ...) { # nolint
+  dense = data.table(..row_id = seq_len(nrow(x)))
+  b = DataBackendMatrix$new(x, dense = dense, primary_key = "..row_id")
+  as_task_regr(b, target = target, id = id, label = label, ...)
 }
 
+#' @rdname as_task_regr
+#' @export
+as_task_regr.DataBackend = function(x, target, id = deparse(substitute(x)), label = NA_character_, ...) { # nolint
+  TaskRegr$new(id = id, backend = x, target = target, label = label, ...)
+}
 
 #' @rdname as_task_regr
 #' @inheritParams convert_task
@@ -61,7 +75,7 @@ as_task_regr.TaskClassif = function(x, target = NULL, drop_original_target = FAL
 #' @param data (`data.frame()`)\cr
 #'   Data frame containing all columns referenced in formula `x`.
 #' @export
-as_task_regr.formula = function(x, data, id = deparse(substitute(data)), ...) { # nolint
+as_task_regr.formula = function(x, data, id = deparse(substitute(data)), label = NA_character_, ...) { # nolint
   assert_data_frame(data)
   assert_subset(all.vars(x), c(names(data), "."), .var.name = "formula")
   if (!attributes(terms(x, data = data))$response) {
@@ -71,5 +85,5 @@ as_task_regr.formula = function(x, data, id = deparse(substitute(data)), ...) { 
   attr(tab, "terms") = attr(tab, "na.action") = NULL
   target = all.vars(x)[1L]
 
-  as_task_regr(tab, target = target, id = id, ...)
+  as_task_regr(tab, target = target, id = id, label = label, ...)
 }
