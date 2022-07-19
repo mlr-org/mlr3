@@ -53,7 +53,7 @@ TaskClassif = R6Class("TaskClassif",
         id = id, task_type = "classif", backend = backend,
         target = target, label = label, extra_args = extra_args)
 
-      private$.update_class_property()
+      update_classif_property(self, private)
 
       if (!is.null(positive)) {
         # NB: this also sets `extra_args$positive`
@@ -77,7 +77,7 @@ TaskClassif = R6Class("TaskClassif",
     #' @return Modified `self`.
     droplevels = function(cols = NULL) {
       super$droplevels()
-      private$.update_class_property()
+      update_classif_property(self, private)
       invisible(self)
     }
   ),
@@ -129,19 +129,25 @@ TaskClassif = R6Class("TaskClassif",
   ),
 
   private = list(
+    # TODO: remove this method in the future, but keep it for now to
+    # be backward compatible
     .update_class_property = function() {
-      tn = self$target_names
-      if (fget(self$col_info, tn, "type", key = "id") %nin% c("factor", "ordered")) {
-        stopf("Target column '%s' must be a factor or ordered factor", tn)
-      }
-
-      nlvls = length(self$class_names)
-      if (nlvls < 2L) {
-        stopf("Target column '%s' must have at least two levels", tn)
-      }
-
-      private$.properties = setdiff(private$.properties, c("twoclass", "multiclass"))
-      private$.properties = union(private$.properties, if (nlvls == 2L) "twoclass" else "multiclass")
+      update_classif_property(self, private)
     }
   )
 )
+
+update_classif_property = function(self, private) {
+  tn = self$target_names
+  if (fget(self$col_info, tn, "type", key = "id") %nin% c("factor", "ordered")) {
+    stopf("Target column '%s' must be a factor or ordered factor", tn)
+  }
+
+  nlvls = length(self$class_names)
+  if (nlvls < 2L) {
+    stopf("Target column '%s' must have at least two levels", tn)
+  }
+
+  private$.properties = setdiff(private$.properties, c("twoclass", "multiclass"))
+  private$.properties = union(private$.properties, if (nlvls == 2L) "twoclass" else "multiclass")
+}

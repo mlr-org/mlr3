@@ -263,7 +263,7 @@ as.data.table.Resampling = function(x, ...) { # nolint
   setkeyv(tab, c("set", "iteration"))[]
 }
 
-#' @export
-format_list_item.Resampling = function(x, ...) { # nolint
-  sprintf("<rsmp:%s[%i]>", x$id, x$iters)
-}
+# #' @export
+# format_list_item.Resampling = function(x, ...) { # nolint
+#   sprintf("<rsmp:%s[%i]>", x$id, x$iters)
+# }

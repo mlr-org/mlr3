@@ -21,7 +21,14 @@ tsk("zoo")
 
 \section{Meta Information}{
 
-, * Task type: \dQuote{classif}, * Dimensions: 101x17, * Properties: \dQuote{multiclass}, * Has Missings: \code{FALSE}, * Target: \dQuote{type}, * Features: \dQuote{airborne}, \dQuote{aquatic}, \dQuote{backbone}, \dQuote{breathes}, \dQuote{catsize}, \dQuote{domestic}, \dQuote{eggs}, \dQuote{feathers}, \dQuote{fins}, \dQuote{hair}, \dQuote{legs}, \dQuote{milk}, \dQuote{predator}, \dQuote{tail}, \dQuote{toothed}, \dQuote{venomous}
+\itemize{
+\item Task type: \dQuote{classif}
+\item Dimensions: 101x17
+\item Properties: \dQuote{multiclass}
+\item Has Missings: \code{FALSE}
+\item Target: \dQuote{type}
+\item Features: \dQuote{airborne}, \dQuote{aquatic}, \dQuote{backbone}, \dQuote{breathes}, \dQuote{catsize}, \dQuote{domestic}, \dQuote{eggs}, \dQuote{feathers}, \dQuote{fins}, \dQuote{hair}, \dQuote{legs}, \dQuote{milk}, \dQuote{predator}, \dQuote{tail}, \dQuote{toothed}, \dQuote{venomous}
+}
 }
 
 \seealso{

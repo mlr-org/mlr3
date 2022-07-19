@@ -298,7 +298,7 @@ score_single_measure = function(measure, task, learner, train_set, prediction) {
   # convert pdata to regular prediction
   prediction = as_prediction(prediction, check = FALSE)
 
-  if (measure$predict_type %nin% prediction$predict_types) {
+  if (!is_scalar_na(measure$predict_type) && measure$predict_type %nin% prediction$predict_types) {
     # TODO lgr$debug()
     return(NaN)
   }
@@ -348,14 +348,13 @@ score_measures = function(obj, measures, reassemble = TRUE, view = NULL) {
 }
 
 
-format_list_item.Measure = function(x, ...) { # nolint
-  sprintf("<msr:%s>", x$id)
-}
-
+# format_list_item.Measure = function(x, ...) { # nolint
+#   sprintf("<msr:%s>", x$id)
+# }
 
 #' @export
 rd_info.Measure = function(obj) { # nolint
-  c("",
+  x = c("",
     sprintf("* Measure type: %s", rd_format_string(obj$measure_type)),
     sprintf("* Range: %s", rd_format_range(obj$range[1L], obj$range[2L])),
     sprintf("* Minimize: %s", obj$minimize),
@@ -363,4 +362,5 @@ rd_info.Measure = function(obj) { # nolint
     sprintf("* Required Prediction: %s", rd_format_string(obj$predict_type)),
     sprintf("* Required Packages: %s", rd_format_packages(obj$packages))
   )
+  paste(x, collapse = "\n")
 }

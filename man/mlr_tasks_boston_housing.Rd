@@ -19,7 +19,14 @@ tsk("boston_housing")
 
 \section{Meta Information}{
 
-, * Task type: \dQuote{regr}, * Dimensions: 506x19, * Properties: -, * Has Missings: \code{FALSE}, * Target: \dQuote{medv}, * Features: \dQuote{age}, \dQuote{b}, \dQuote{chas}, \dQuote{cmedv}, \dQuote{crim}, \dQuote{dis}, \dQuote{indus}, \dQuote{lat}, \dQuote{lon}, \dQuote{lstat}, \dQuote{nox}, \dQuote{ptratio}, \dQuote{rad}, \dQuote{rm}, \dQuote{tax}, \dQuote{town}, \dQuote{tract}, \dQuote{zn}
+\itemize{
+\item Task type: \dQuote{regr}
+\item Dimensions: 506x19
+\item Properties: -
+\item Has Missings: \code{FALSE}
+\item Target: \dQuote{medv}
+\item Features: \dQuote{age}, \dQuote{b}, \dQuote{chas}, \dQuote{cmedv}, \dQuote{crim}, \dQuote{dis}, \dQuote{indus}, \dQuote{lat}, \dQuote{lon}, \dQuote{lstat}, \dQuote{nox}, \dQuote{ptratio}, \dQuote{rad}, \dQuote{rm}, \dQuote{tax}, \dQuote{town}, \dQuote{tract}, \dQuote{zn}
+}
 }
 
 \seealso{

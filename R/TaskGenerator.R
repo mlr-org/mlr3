@@ -86,7 +86,7 @@ convert_mlbench = function(obj) {
   insert_named(as.data.table(X), list(y = y))
 }
 
-#' @export
-format_list_item.TaskGenerator = function(x, ...) { # nolint
-  sprintf("<tgen:%s>", x$id)
-}
+# #' @export
+# format_list_item.TaskGenerator = function(x, ...) { # nolint
+#   sprintf("<tgen:%s>", x$id)
+# }

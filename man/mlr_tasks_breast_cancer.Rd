@@ -27,7 +27,14 @@ tsk("breast_cancer")
 
 \section{Meta Information}{
 
-, * Task type: \dQuote{classif}, * Dimensions: 683x10, * Properties: \dQuote{twoclass}, * Has Missings: \code{FALSE}, * Target: \dQuote{class}, * Features: \dQuote{bare_nuclei}, \dQuote{bl_cromatin}, \dQuote{cell_shape}, \dQuote{cell_size}, \dQuote{cl_thickness}, \dQuote{epith_c_size}, \dQuote{marg_adhesion}, \dQuote{mitoses}, \dQuote{normal_nucleoli}
+\itemize{
+\item Task type: \dQuote{classif}
+\item Dimensions: 683x10
+\item Properties: \dQuote{twoclass}
+\item Has Missings: \code{FALSE}
+\item Target: \dQuote{class}
+\item Features: \dQuote{bare_nuclei}, \dQuote{bl_cromatin}, \dQuote{cell_shape}, \dQuote{cell_size}, \dQuote{cl_thickness}, \dQuote{epith_c_size}, \dQuote{marg_adhesion}, \dQuote{mitoses}, \dQuote{normal_nucleoli}
+}
 }
 
 \seealso{

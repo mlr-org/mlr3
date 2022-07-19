@@ -34,7 +34,14 @@ tsk("spam")
 
 \section{Meta Information}{
 
-, * Task type: \dQuote{classif}, * Dimensions: 4601x58, * Properties: \dQuote{twoclass}, * Has Missings: \code{FALSE}, * Target: \dQuote{type}, * Features: \dQuote{address}, \dQuote{addresses}, \dQuote{all}, \dQuote{business}, \dQuote{capitalAve}, \dQuote{capitalLong}, \dQuote{capitalTotal}, \dQuote{charDollar}, \dQuote{charExclamation}, \dQuote{charHash}, \dQuote{charRoundbracket}, \dQuote{charSemicolon}, \dQuote{charSquarebracket}, \dQuote{conference}, \dQuote{credit}, \dQuote{cs}, \dQuote{data}, \dQuote{direct}, \dQuote{edu}, \dQuote{email}, \dQuote{font}, \dQuote{free}, \dQuote{george}, \dQuote{hp}, \dQuote{hpl}, \dQuote{internet}, \dQuote{lab}, \dQuote{labs}, \dQuote{mail}, \dQuote{make}, \dQuote{meeting}, \dQuote{money}, \dQuote{num000}, \dQuote{num1999}, \dQuote{num3d}, \dQuote{num415}, \dQuote{num650}, \dQuote{num85}, \dQuote{num857}, \dQuote{order}, \dQuote{original}, \dQuote{our}, \dQuote{over}, \dQuote{parts}, \dQuote{people}, \dQuote{pm}, \dQuote{project}, \dQuote{re}, \dQuote{receive}, \dQuote{remove}, \dQuote{report}, \dQuote{table}, \dQuote{technology}, \dQuote{telnet}, \dQuote{will}, \dQuote{you}, \dQuote{your}
+\itemize{
+\item Task type: \dQuote{classif}
+\item Dimensions: 4601x58
+\item Properties: \dQuote{twoclass}
+\item Has Missings: \code{FALSE}
+\item Target: \dQuote{type}
+\item Features: \dQuote{address}, \dQuote{addresses}, \dQuote{all}, \dQuote{business}, \dQuote{capitalAve}, \dQuote{capitalLong}, \dQuote{capitalTotal}, \dQuote{charDollar}, \dQuote{charExclamation}, \dQuote{charHash}, \dQuote{charRoundbracket}, \dQuote{charSemicolon}, \dQuote{charSquarebracket}, \dQuote{conference}, \dQuote{credit}, \dQuote{cs}, \dQuote{data}, \dQuote{direct}, \dQuote{edu}, \dQuote{email}, \dQuote{font}, \dQuote{free}, \dQuote{george}, \dQuote{hp}, \dQuote{hpl}, \dQuote{internet}, \dQuote{lab}, \dQuote{labs}, \dQuote{mail}, \dQuote{make}, \dQuote{meeting}, \dQuote{money}, \dQuote{num000}, \dQuote{num1999}, \dQuote{num3d}, \dQuote{num415}, \dQuote{num650}, \dQuote{num85}, \dQuote{num857}, \dQuote{order}, \dQuote{original}, \dQuote{our}, \dQuote{over}, \dQuote{parts}, \dQuote{people}, \dQuote{pm}, \dQuote{project}, \dQuote{re}, \dQuote{receive}, \dQuote{remove}, \dQuote{report}, \dQuote{table}, \dQuote{technology}, \dQuote{telnet}, \dQuote{will}, \dQuote{you}, \dQuote{your}
+}
 }
 
 \references{

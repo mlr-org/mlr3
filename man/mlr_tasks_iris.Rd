@@ -28,7 +28,14 @@ tsk("iris")
 
 \section{Meta Information}{
 
-, * Task type: \dQuote{classif}, * Dimensions: 150x5, * Properties: \dQuote{multiclass}, * Has Missings: \code{FALSE}, * Target: \dQuote{Species}, * Features: \dQuote{Petal.Length}, \dQuote{Petal.Width}, \dQuote{Sepal.Length}, \dQuote{Sepal.Width}
+\itemize{
+\item Task type: \dQuote{classif}
+\item Dimensions: 150x5
+\item Properties: \dQuote{multiclass}
+\item Has Missings: \code{FALSE}
+\item Target: \dQuote{Species}
+\item Features: \dQuote{Petal.Length}, \dQuote{Petal.Width}, \dQuote{Sepal.Length}, \dQuote{Sepal.Width}
+}
 }
 
 \seealso{
