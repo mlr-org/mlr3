@@ -315,3 +315,12 @@ test_that("Task prototype is stored in state", {
   expect_data_table(prototype, nrows = 0, ncols = 19)
   expect_names(names(prototype), permutation.of = c(task$feature_names, task$target_names))
 })
+
+test_that("Models can be replaced", {
+  task = tsk("boston_housing")
+  learner = lrn("regr.featureless")
+  learner$train(task)
+
+  learner$model$location = 1
+  expect_equal(learner$model$location, 1)
+})

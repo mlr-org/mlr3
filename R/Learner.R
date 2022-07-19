@@ -372,7 +372,9 @@ Learner = R6Class("Learner",
     #' @field model (any)\cr
     #' The fitted model. Only available after `$train()` has been called.
     model = function(rhs) {
-      assert_ro_binding(rhs)
+      if (!missing(rhs)) {
+        self$state$model = rhs
+      }
       self$state$model
     },
 
