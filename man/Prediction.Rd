@@ -34,7 +34,7 @@ the data of the former passed objects get overwritten by the data of the later p
 \seealso{
 \itemize{
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
-\url{https://mlr3book.mlr-org.com/basics.html#train-predict}
+\url{https://mlr3book.mlr-org.com/02-basics-train-predict.html}
 \item Package \CRANpkg{mlr3viz} for some generic visualizations.
 \item Extension packages for additional task types:
 \itemize{

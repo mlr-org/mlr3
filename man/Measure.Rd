@@ -24,7 +24,7 @@ A guide on how to extend \CRANpkg{mlr3} with custom measures can be found in the
 \seealso{
 \itemize{
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
-\url{https://mlr3book.mlr-org.com/basics.html#train-predict}
+\url{https://mlr3book.mlr-org.com/02-basics-train-predict.html}
 \item Package \CRANpkg{mlr3measures} for the scoring functions.
 \link[mlr3misc:Dictionary]{Dictionary} of \link[=Measure]{Measures}: \link{mlr_measures}
 \code{as.data.table(mlr_measures)} for a table of available \link[=Measure]{Measures} in the running session (depending on the loaded packages).
