@@ -29,13 +29,13 @@ future_map = function(n, FUN, ..., MoreArgs = list()) {
   } else {
     is_sequential = inherits(plan(), "sequential")
     scheduling = if (!is_sequential && isTRUE(getOption("mlr3.exec_random", TRUE))) structure(TRUE, ordering = "random") else TRUE
-    chunks = getOption("mlr3.exec_chunks", 1)
+    chunk_size = getOption("mlr3.exec_chunk_size", 1)
     stdout = if (is_sequential) NA else TRUE
 
     lg$debug("Running resample() via future with %n iterations", n)
     future.apply::future_mapply(
       FUN, ..., MoreArgs = MoreArgs, SIMPLIFY = FALSE, USE.NAMES = FALSE,
       future.globals = FALSE, future.packages = "mlr3", future.seed = TRUE,
-      future.scheduling = scheduling, future.chunk.size = chunks, future.stdout = stdout)
+      future.scheduling = scheduling, future.chunk.size = chunk_size, future.stdout = stdout)
   }
 }
