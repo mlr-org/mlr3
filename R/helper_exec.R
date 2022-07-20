@@ -22,10 +22,20 @@ set_encapsulation = function(learners, encapsulate) {
   learners
 }
 
-future_stdout = function() {
-  if (inherits(plan(), "sequential")) {
-    NA
+future_map = function(n, FUN, ..., MoreArgs = list()) {
+  if (getOption("mlr3.debug", FALSE)) {
+    lg$info("Running experiments sequentially in debug mode with %i iterations", n)
+    mapply(FUN, ..., MoreArgs = MoreArgs, SIMPLIFY = FALSE, USE.NAMES = FALSE)
   } else {
-    TRUE
+    is_sequential = inherits(plan(), "sequential")
+    scheduling = if (!is_sequential && isTRUE(getOption("mlr3.exec_random", TRUE))) structure(TRUE, ordering = "random") else TRUE
+    chunk_size = getOption("mlr3.exec_chunk_size", 1)
+    stdout = if (is_sequential) NA else TRUE
+
+    lg$debug("Running resample() via future with %n iterations", n)
+    future.apply::future_mapply(
+      FUN, ..., MoreArgs = MoreArgs, SIMPLIFY = FALSE, USE.NAMES = FALSE,
+      future.globals = FALSE, future.packages = "mlr3", future.seed = TRUE,
+      future.scheduling = scheduling, future.chunk.size = chunk_size, future.stdout = stdout)
   }
 }
