@@ -11,7 +11,7 @@ For example, for a classification task a single column must be marked as target 
 
 Predefined (toy) tasks are stored in the dictionary mlr_tasks,
 e.g. penguins or boston_housing.
-More toy tasks can be found in the dictionary after loading mlr3data."><title>Task Class — Task • mlr3</title><!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png"><link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png"><link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png"><link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png"><link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png"><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><link href="../deps/_Roboto-0.4.0/font.css" rel="stylesheet"><link href="../deps/_JetBrains%20Mono-0.4.0/font.css" rel="stylesheet"><link href="../deps/_Roboto%20Slab-0.4.0/font.css" rel="stylesheet"><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Task Class — Task"><meta property="og:description" content="This is the abstract base class for TaskSupervised and TaskUnsupervised.
+More toy tasks can be found in the dictionary after loading mlr3data."><title>Task Class — Task • mlr3</title><!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png"><link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png"><link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png"><link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png"><link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png"><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.2/font.css" rel="stylesheet"><link href="../deps/JetBrains_Mono-0.4.2/font.css" rel="stylesheet"><link href="../deps/Roboto_Slab-0.4.2/font.css" rel="stylesheet"><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Task Class — Task"><meta property="og:description" content="This is the abstract base class for TaskSupervised and TaskUnsupervised.
 TaskClassif and TaskRegr inherit from TaskSupervised.
 More supervised tasks are implemented in mlr3proba, unsupervised cluster tasks
 in package mlr3cluster.
@@ -34,7 +34,7 @@ More toy tasks can be found in the dictionary after loading mlr3data."><meta pro
     
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.13.3</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.13.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -119,6 +119,10 @@ More toy tasks can be found in the dictionary after loading <a href="https://CRA
 <ul><li><p><code>as.data.table(t)</code><br>
 Task -&gt; <code><a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code><br>
 Returns the complete data as <code><a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code>.</p></li>
+<li><p><code>head(t)</code><br>
+Calls <code><a href="https://rdrr.io/r/utils/head.html" class="external-link">head()</a></code> on the task's data.</p></li>
+<li><p><code>summary(t)</code><br>
+Calls <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> on the task's data.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="task-mutators">Task mutators<a class="anchor" aria-label="anchor" href="#task-mutators"></a></h2>
@@ -266,7 +270,12 @@ The following properties are currently standardized and understood by tasks in <
 <dd><p>(named <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>)<br>
 Each row (observation) can have an arbitrary number of roles in the learning task:</p><ul><li><p><code>"use"</code>: Use in train / predict / resampling.</p></li>
 <li><p><code>"holdout"</code>: Observations are hold back unless explicitly queried.
-Can be used, e.g., as truly independent holdout set.</p></li>
+Can be used, e.g., as truly independent holdout set:</p><ol><li><p>Add <code>"holdout"</code> to the <code>predict_sets</code> of a <a href="Learner.html">Learner</a>.</p></li>
+<li><p>Configure a <a href="Measure.html">Measure</a> to use the <code>"holdout"</code> set by updating its <code>predict_sets</code> field.</p></li>
+</ol></li>
+<li><p><code>"early_stopping"</code>: Observations are hold back unless explicitly queried.
+Can be queried by a <a href="Learner.html">Learner</a> to determine a good iteration to stop by evaluating the performance
+on external data, e.g. the XGboost learner in <a href="https://CRAN.R-project.org/package=mlr3learners" class="external-link"><span class="pkg">mlr3learners</span></a> for parameter <code>nrounds</code>.</p></li>
 </ul><p><code>row_roles</code> is a named list whose elements are named by row role and each element is an <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code> vector of row ids.
 To alter the roles, just modify the list, e.g. with  <span style="R">R</span>'s set functions (<code><a href="https://rdrr.io/r/base/sets.html" class="external-link">intersect()</a></code>, <code><a href="https://rdrr.io/r/base/sets.html" class="external-link">setdiff()</a></code>, <code><a href="https://rdrr.io/r/base/sets.html" class="external-link">union()</a></code>, ...).</p></dd>
 
@@ -369,32 +378,32 @@ The reverse is not necessarily true: There can be columns with the same content 
 <div class="section">
 <h3 id="public-methods">Public methods<a class="anchor" aria-label="anchor" href="#public-methods"></a></h3>
 
-<ul><li><p><a href="#method-new"><code>Task$new()</code></a></p></li>
-<li><p><a href="#method-help"><code>Task$help()</code></a></p></li>
-<li><p><a href="#method-format"><code>Task$format()</code></a></p></li>
-<li><p><a href="#method-print"><code>Task$print()</code></a></p></li>
-<li><p><a href="#method-data"><code>Task$data()</code></a></p></li>
-<li><p><a href="#method-formula"><code>Task$formula()</code></a></p></li>
-<li><p><a href="#method-head"><code>Task$head()</code></a></p></li>
-<li><p><a href="#method-levels"><code>Task$levels()</code></a></p></li>
-<li><p><a href="#method-missings"><code>Task$missings()</code></a></p></li>
-<li><p><a href="#method-filter"><code>Task$filter()</code></a></p></li>
-<li><p><a href="#method-select"><code>Task$select()</code></a></p></li>
-<li><p><a href="#method-rbind"><code>Task$rbind()</code></a></p></li>
-<li><p><a href="#method-cbind"><code>Task$cbind()</code></a></p></li>
-<li><p><a href="#method-rename"><code>Task$rename()</code></a></p></li>
-<li><p><a href="#method-set_row_roles"><code>Task$set_row_roles()</code></a></p></li>
-<li><p><a href="#method-set_col_roles"><code>Task$set_col_roles()</code></a></p></li>
-<li><p><a href="#method-set_levels"><code>Task$set_levels()</code></a></p></li>
-<li><p><a href="#method-droplevels"><code>Task$droplevels()</code></a></p></li>
-<li><p><a href="#method-add_strata"><code>Task$add_strata()</code></a></p></li>
-<li><p><a href="#method-clone"><code>Task$clone()</code></a></p></li>
-</ul></div><p></p><hr><a id="method-new"></a><div class="section">
+<ul><li><p><a href="#method-Task-new"><code>Task$new()</code></a></p></li>
+<li><p><a href="#method-Task-help"><code>Task$help()</code></a></p></li>
+<li><p><a href="#method-Task-format"><code>Task$format()</code></a></p></li>
+<li><p><a href="#method-Task-print"><code>Task$print()</code></a></p></li>
+<li><p><a href="#method-Task-data"><code>Task$data()</code></a></p></li>
+<li><p><a href="#method-Task-formula"><code>Task$formula()</code></a></p></li>
+<li><p><a href="#method-Task-head"><code>Task$head()</code></a></p></li>
+<li><p><a href="#method-Task-levels"><code>Task$levels()</code></a></p></li>
+<li><p><a href="#method-Task-missings"><code>Task$missings()</code></a></p></li>
+<li><p><a href="#method-Task-filter"><code>Task$filter()</code></a></p></li>
+<li><p><a href="#method-Task-select"><code>Task$select()</code></a></p></li>
+<li><p><a href="#method-Task-rbind"><code>Task$rbind()</code></a></p></li>
+<li><p><a href="#method-Task-cbind"><code>Task$cbind()</code></a></p></li>
+<li><p><a href="#method-Task-rename"><code>Task$rename()</code></a></p></li>
+<li><p><a href="#method-Task-set_row_roles"><code>Task$set_row_roles()</code></a></p></li>
+<li><p><a href="#method-Task-set_col_roles"><code>Task$set_col_roles()</code></a></p></li>
+<li><p><a href="#method-Task-set_levels"><code>Task$set_levels()</code></a></p></li>
+<li><p><a href="#method-Task-droplevels"><code>Task$droplevels()</code></a></p></li>
+<li><p><a href="#method-Task-add_strata"><code>Task$add_strata()</code></a></p></li>
+<li><p><a href="#method-Task-clone"><code>Task$clone()</code></a></p></li>
+</ul></div><p></p><hr><a id="method-Task-new"></a><div class="section">
 <h3 id="method-new-">Method <code>new()</code><a class="anchor" aria-label="anchor" href="#method-new-"></a></h3>
 <p>Creates a new instance of this <a href="https://r6.r-lib.org/reference/R6Class.html" class="external-link">R6</a> class.</p>
 <p>Note that this object is typically constructed via a derived classes, e.g. <a href="TaskClassif.html">TaskClassif</a> or <a href="TaskRegr.html">TaskRegr</a>.</p><div class="section">
 <h4 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va"><a href="../reference/Task.html">Task</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="va">id</span>, <span class="va">task_type</span>, <span class="va">backend</span>, label <span class="op">=</span> <span class="cn">NA_character_</span>, extra_args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va"><a href="../reference/Task.html">Task</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="va">id</span>, <span class="va">task_type</span>, <span class="va">backend</span>, label <span class="op">=</span> <span class="cn">NA_character_</span>, extra_args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -430,27 +439,27 @@ via <code><a href="convert_task.html">convert_task()</a></code>.</p></dd>
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-help"></a><div class="section">
-<h3 id="method-help-">Method <code>help()</code><a class="anchor" aria-label="anchor" href="#method-help-"></a></h3>
+</div><p></p><hr><a id="method-Task-help"></a><div class="section">
+<h3 id="method-help-">Method <code><a href="https://rdrr.io/r/utils/help.html" class="external-link">help()</a></code><a class="anchor" aria-label="anchor" href="#method-help-"></a></h3>
 <p>Opens the corresponding help page referenced by field <code>$man</code>.</p><div class="section">
 <h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">Task</span><span class="op">$</span><span class="fu">help</span><span class="op">(</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Task</span><span class="op">$</span><span class="fu">help</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 
-</div><p></p><hr><a id="method-format"></a><div class="section">
+</div><p></p><hr><a id="method-Task-format"></a><div class="section">
 <h3 id="method-format-">Method <code><a href="https://rdrr.io/r/base/format.html" class="external-link">format()</a></code><a class="anchor" aria-label="anchor" href="#method-format-"></a></h3>
 <p>Helper for print outputs.</p><div class="section">
 <h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">Task</span><span class="op">$</span><span class="fu">format</span><span class="op">(</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Task</span><span class="op">$</span><span class="fu">format</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 
-</div><p></p><hr><a id="method-print"></a><div class="section">
+</div><p></p><hr><a id="method-Task-print"></a><div class="section">
 <h3 id="method-print-">Method <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code><a class="anchor" aria-label="anchor" href="#method-print-"></a></h3>
 <p>Printer.</p><div class="section">
 <h4 id="usage-3">Usage<a class="anchor" aria-label="anchor" href="#usage-3"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">Task</span><span class="op">$</span><span class="fu">print</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Task</span><span class="op">$</span><span class="fu">print</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -462,7 +471,7 @@ via <code><a href="convert_task.html">convert_task()</a></code>.</p></dd>
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-data"></a><div class="section">
+</div><p></p><hr><a id="method-Task-data"></a><div class="section">
 <h3 id="method-data-">Method <code><a href="https://rdrr.io/r/utils/data.html" class="external-link">data()</a></code><a class="anchor" aria-label="anchor" href="#method-data-"></a></h3>
 <p>Returns a slice of the data from the <a href="DataBackend.html">DataBackend</a> in the data format specified by <code>data_format</code>.
 Rows default to observations with role <code>"use"</code>, and
@@ -476,12 +485,12 @@ If <code>cols</code> is <code>NULL</code>, the column order defaults to
 Note that it is recommended to <strong>not</strong> rely on the order of columns, and instead always
 address columns with their respective column name.</p><div class="section">
 <h4 id="usage-4">Usage<a class="anchor" aria-label="anchor" href="#usage-4"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">Task</span><span class="op">$</span><span class="fu">data</span><span class="op">(</span>
-  rows <span class="op">=</span> <span class="cn">NULL</span>,
-  cols <span class="op">=</span> <span class="cn">NULL</span>,
-  data_format <span class="op">=</span> <span class="st">"data.table"</span>,
-  ordered <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Task</span><span class="op">$</span><span class="fu">data</span><span class="op">(</span></span>
+<span>  rows <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  cols <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  data_format <span class="op">=</span> <span class="st">"data.table"</span>,</span>
+<span>  ordered <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -513,14 +522,14 @@ If <code>TRUE</code>, data is ordered according to the columns with column role 
 <p>Depending on the <a href="DataBackend.html">DataBackend</a>, but usually a <code><a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code>.</p>
 </div>
 
-</div><p></p><hr><a id="method-formula"></a><div class="section">
+</div><p></p><hr><a id="method-Task-formula"></a><div class="section">
 <h3 id="method-formula-">Method <code><a href="https://rdrr.io/r/stats/formula.html" class="external-link">formula()</a></code><a class="anchor" aria-label="anchor" href="#method-formula-"></a></h3>
 <p>Constructs a <code><a href="https://rdrr.io/r/stats/formula.html" class="external-link">formula()</a></code>, e.g. <code>[target] ~ [feature_1] + [feature_2] + ... + [feature_k]</code>,
 using the features provided in argument <code>rhs</code> (defaults to all columns with role <code>"feature"</code>, symbolized by <code>"."</code>).</p>
 <p>Note that it is currently not possible to change the formula.
 However, <a href="https://CRAN.R-project.org/package=mlr3pipelines" class="external-link"><span class="pkg">mlr3pipelines</span></a> provides a pipe operator interfacing <code><a href="https://rdrr.io/r/stats/model.matrix.html" class="external-link">stats::model.matrix()</a></code> for this purpose: <code>"modelmatrix"</code>.</p><div class="section">
 <h4 id="usage-5">Usage<a class="anchor" aria-label="anchor" href="#usage-5"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">Task</span><span class="op">$</span><span class="fu">formula</span><span class="op">(</span>rhs <span class="op">=</span> <span class="st">"."</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Task</span><span class="op">$</span><span class="fu">formula</span><span class="op">(</span>rhs <span class="op">=</span> <span class="st">"."</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -537,11 +546,11 @@ Right hand side of the formula. Defaults to <code>"."</code> (all features of th
 <p><code><a href="https://rdrr.io/r/stats/formula.html" class="external-link">formula()</a></code>.</p>
 </div>
 
-</div><p></p><hr><a id="method-head"></a><div class="section">
+</div><p></p><hr><a id="method-Task-head"></a><div class="section">
 <h3 id="method-head-">Method <code><a href="https://rdrr.io/r/utils/head.html" class="external-link">head()</a></code><a class="anchor" aria-label="anchor" href="#method-head-"></a></h3>
 <p>Get the first <code>n</code> observations with role <code>"use"</code> of all columns with role <code>"target"</code> or <code>"feature"</code>.</p><div class="section">
 <h4 id="usage-6">Usage<a class="anchor" aria-label="anchor" href="#usage-6"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">Task</span><span class="op">$</span><span class="fu">head</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">6L</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Task</span><span class="op">$</span><span class="fu">head</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">6L</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -557,14 +566,14 @@ Right hand side of the formula. Defaults to <code>"."</code> (all features of th
 <p><code><a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code> with <code>n</code> rows.</p>
 </div>
 
-</div><p></p><hr><a id="method-levels"></a><div class="section">
+</div><p></p><hr><a id="method-Task-levels"></a><div class="section">
 <h3 id="method-levels-">Method <code><a href="https://rdrr.io/r/base/levels.html" class="external-link">levels()</a></code><a class="anchor" aria-label="anchor" href="#method-levels-"></a></h3>
 <p>Returns the distinct values for columns referenced in <code>cols</code> with storage type "factor" or "ordered".
 Argument <code>cols</code> defaults to all such columns with role <code>"target"</code> or <code>"feature"</code>.</p>
 <p>Note that this function ignores the row roles, it returns all levels available in the <a href="DataBackend.html">DataBackend</a>.
 To update the stored level information, e.g. after subsetting a task with <code>$filter()</code>, call <code>$droplevels()</code>.</p><div class="section">
 <h4 id="usage-7">Usage<a class="anchor" aria-label="anchor" href="#usage-7"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">Task</span><span class="op">$</span><span class="fu">levels</span><span class="op">(</span>cols <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Task</span><span class="op">$</span><span class="fu">levels</span><span class="op">(</span>cols <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -581,13 +590,13 @@ Column names.</p></dd>
 <p>named <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>.</p>
 </div>
 
-</div><p></p><hr><a id="method-missings"></a><div class="section">
+</div><p></p><hr><a id="method-Task-missings"></a><div class="section">
 <h3 id="method-missings-">Method <code>missings()</code><a class="anchor" aria-label="anchor" href="#method-missings-"></a></h3>
 <p>Returns the number of missing observations for columns referenced in <code>cols</code>.
 Considers only active rows with row role <code>"use"</code>.
 Argument <code>cols</code> defaults to all columns with role "target" or "feature".</p><div class="section">
 <h4 id="usage-8">Usage<a class="anchor" aria-label="anchor" href="#usage-8"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">Task</span><span class="op">$</span><span class="fu">missings</span><span class="op">(</span>cols <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Task</span><span class="op">$</span><span class="fu">missings</span><span class="op">(</span>cols <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -604,13 +613,13 @@ Column names.</p></dd>
 <p>Named <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>.</p>
 </div>
 
-</div><p></p><hr><a id="method-filter"></a><div class="section">
+</div><p></p><hr><a id="method-Task-filter"></a><div class="section">
 <h3 id="method-filter-">Method <code><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter()</a></code><a class="anchor" aria-label="anchor" href="#method-filter-"></a></h3>
 <p>Subsets the task, keeping only the rows specified via row ids <code>rows</code>.</p>
 <p>This operation mutates the task in-place.
 See the section on task mutators for more information.</p><div class="section">
 <h4 id="usage-9">Usage<a class="anchor" aria-label="anchor" href="#usage-9"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">Task</span><span class="op">$</span><span class="fu">filter</span><span class="op">(</span><span class="va">rows</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Task</span><span class="op">$</span><span class="fu">filter</span><span class="op">(</span><span class="va">rows</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -629,14 +638,14 @@ You need to explicitly <code>$clone()</code> the object beforehand if you want t
 the object in its previous state.</p>
 </div>
 
-</div><p></p><hr><a id="method-select"></a><div class="section">
+</div><p></p><hr><a id="method-Task-select"></a><div class="section">
 <h3 id="method-select-">Method <code>select()</code><a class="anchor" aria-label="anchor" href="#method-select-"></a></h3>
 <p>Subsets the task, keeping only the features specified via column names <code>cols</code>.
 Note that you cannot deselect the target column, for obvious reasons.</p>
 <p>This operation mutates the task in-place.
 See the section on task mutators for more information.</p><div class="section">
 <h4 id="usage-10">Usage<a class="anchor" aria-label="anchor" href="#usage-10"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">Task</span><span class="op">$</span><span class="fu">select</span><span class="op">(</span><span class="va">cols</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Task</span><span class="op">$</span><span class="fu">select</span><span class="op">(</span><span class="va">cols</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -655,7 +664,7 @@ You need to explicitly <code>$clone()</code> the object beforehand if you want t
 the object in its previous state.</p>
 </div>
 
-</div><p></p><hr><a id="method-rbind"></a><div class="section">
+</div><p></p><hr><a id="method-Task-rbind"></a><div class="section">
 <h3 id="method-rbind-">Method <code><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind()</a></code><a class="anchor" aria-label="anchor" href="#method-rbind-"></a></h3>
 <p>Adds additional rows to the <a href="DataBackend.html">DataBackend</a> stored in <code>$backend</code>.
 New row ids are automatically created, unless <code>data</code> has a column whose name matches
@@ -668,7 +677,7 @@ Columns only present in <code>data</code> but not in the <a href="DataBackend.ht
 <p>This operation mutates the task in-place.
 See the section on task mutators for more information.</p><div class="section">
 <h4 id="usage-11">Usage<a class="anchor" aria-label="anchor" href="#usage-11"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">Task</span><span class="op">$</span><span class="fu">rbind</span><span class="op">(</span><span class="va">data</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Task</span><span class="op">$</span><span class="fu">rbind</span><span class="op">(</span><span class="va">data</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -686,7 +695,7 @@ You need to explicitly <code>$clone()</code> the object beforehand if you want t
 the object in its previous state.</p>
 </div>
 
-</div><p></p><hr><a id="method-cbind"></a><div class="section">
+</div><p></p><hr><a id="method-Task-cbind"></a><div class="section">
 <h3 id="method-cbind-">Method <code><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind()</a></code><a class="anchor" aria-label="anchor" href="#method-cbind-"></a></h3>
 <p>Adds additional columns to the <a href="DataBackend.html">DataBackend</a> stored in <code>$backend</code>.</p>
 <p>The row ids must be provided as column in <code>data</code> (with column name matching the primary key name of the <a href="DataBackend.html">DataBackend</a>).
@@ -696,7 +705,7 @@ and virtually overwrite the columns in the <a href="DataBackend.html">DataBacken
 <p>This operation mutates the task in-place.
 See the section on task mutators for more information.</p><div class="section">
 <h4 id="usage-12">Usage<a class="anchor" aria-label="anchor" href="#usage-12"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">Task</span><span class="op">$</span><span class="fu">cbind</span><span class="op">(</span><span class="va">data</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Task</span><span class="op">$</span><span class="fu">cbind</span><span class="op">(</span><span class="va">data</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -708,13 +717,13 @@ See the section on task mutators for more information.</p><div class="section">
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-rename"></a><div class="section">
+</div><p></p><hr><a id="method-Task-rename"></a><div class="section">
 <h3 id="method-rename-">Method <code>rename()</code><a class="anchor" aria-label="anchor" href="#method-rename-"></a></h3>
 <p>Renames columns by mapping column names in <code>old</code> to new column names in <code>new</code> (element-wise).</p>
 <p>This operation mutates the task in-place.
 See the section on task mutators for more information.</p><div class="section">
 <h4 id="usage-13">Usage<a class="anchor" aria-label="anchor" href="#usage-13"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">Task</span><span class="op">$</span><span class="fu">rename</span><span class="op">(</span><span class="va">old</span>, <span class="va">new</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Task</span><span class="op">$</span><span class="fu">rename</span><span class="op">(</span><span class="va">old</span>, <span class="va">new</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -738,11 +747,11 @@ You need to explicitly <code>$clone()</code> the object beforehand if you want t
 the object in its previous state.</p>
 </div>
 
-</div><p></p><hr><a id="method-set_row_roles"></a><div class="section">
+</div><p></p><hr><a id="method-Task-set_row_roles"></a><div class="section">
 <h3 id="method-set-row-roles-">Method <code>set_row_roles()</code><a class="anchor" aria-label="anchor" href="#method-set-row-roles-"></a></h3>
 <p>Modifies the roles in <code>$row_roles</code> <strong>in-place</strong>.</p><div class="section">
 <h4 id="usage-14">Usage<a class="anchor" aria-label="anchor" href="#usage-14"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">Task</span><span class="op">$</span><span class="fu">set_row_roles</span><span class="op">(</span><span class="va">rows</span>, roles <span class="op">=</span> <span class="cn">NULL</span>, add_to <span class="op">=</span> <span class="cn">NULL</span>, remove_from <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Task</span><span class="op">$</span><span class="fu">set_row_roles</span><span class="op">(</span><span class="va">rows</span>, roles <span class="op">=</span> <span class="cn">NULL</span>, add_to <span class="op">=</span> <span class="cn">NULL</span>, remove_from <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -784,11 +793,11 @@ You need to explicitly <code>$clone()</code> the object beforehand if you want t
 the object in its previous state.</p>
 </div>
 
-</div><p></p><hr><a id="method-set_col_roles"></a><div class="section">
+</div><p></p><hr><a id="method-Task-set_col_roles"></a><div class="section">
 <h3 id="method-set-col-roles-">Method <code>set_col_roles()</code><a class="anchor" aria-label="anchor" href="#method-set-col-roles-"></a></h3>
 <p>Modifies the roles in <code>$col_roles</code> <strong>in-place</strong>.</p><div class="section">
 <h4 id="usage-15">Usage<a class="anchor" aria-label="anchor" href="#usage-15"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">Task</span><span class="op">$</span><span class="fu">set_col_roles</span><span class="op">(</span><span class="va">cols</span>, roles <span class="op">=</span> <span class="cn">NULL</span>, add_to <span class="op">=</span> <span class="cn">NULL</span>, remove_from <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Task</span><span class="op">$</span><span class="fu">set_col_roles</span><span class="op">(</span><span class="va">cols</span>, roles <span class="op">=</span> <span class="cn">NULL</span>, add_to <span class="op">=</span> <span class="cn">NULL</span>, remove_from <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -830,16 +839,16 @@ You need to explicitly <code>$clone()</code> the object beforehand if you want t
 the object in its previous state.</p>
 </div>
 
-</div><p></p><hr><a id="method-set_levels"></a><div class="section">
+</div><p></p><hr><a id="method-Task-set_levels"></a><div class="section">
 <h3 id="method-set-levels-">Method <code>set_levels()</code><a class="anchor" aria-label="anchor" href="#method-set-levels-"></a></h3>
 <p>Set levels for columns of type <code>factor</code> and <code>ordered</code> in field <code>col_info</code>.
 You can add, remove or reorder the levels, affecting the data returned by
-<code>$data()</code>, <code>$head()</code> and <code>$levels()</code>.
+<code>$data()</code> and <code>$levels()</code>.
 If you just want to remove unused levels, use <code>$droplevels()</code> instead.</p>
 <p>Note that factor levels which are present in the data but not listed in the task as
 valid levels are converted to missing values.</p><div class="section">
 <h4 id="usage-16">Usage<a class="anchor" aria-label="anchor" href="#usage-16"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">Task</span><span class="op">$</span><span class="fu">set_levels</span><span class="op">(</span><span class="va">levels</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Task</span><span class="op">$</span><span class="fu">set_levels</span><span class="op">(</span><span class="va">levels</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -856,12 +865,12 @@ List of character vectors of new levels, named by column names.</p></dd>
 <p>Modified <code>self</code>.</p>
 </div>
 
-</div><p></p><hr><a id="method-droplevels"></a><div class="section">
+</div><p></p><hr><a id="method-Task-droplevels"></a><div class="section">
 <h3 id="method-droplevels-">Method <code><a href="https://rdrr.io/r/base/droplevels.html" class="external-link">droplevels()</a></code><a class="anchor" aria-label="anchor" href="#method-droplevels-"></a></h3>
 <p>Updates the cache of stored factor levels, removing all levels not present in the current set of active rows.
 <code>cols</code> defaults to all columns with storage type "factor" or "ordered".</p><div class="section">
 <h4 id="usage-17">Usage<a class="anchor" aria-label="anchor" href="#usage-17"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">Task</span><span class="op">$</span><span class="fu">droplevels</span><span class="op">(</span>cols <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Task</span><span class="op">$</span><span class="fu">droplevels</span><span class="op">(</span>cols <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -878,14 +887,14 @@ Column names.</p></dd>
 <p>Modified <code>self</code>.</p>
 </div>
 
-</div><p></p><hr><a id="method-add_strata"></a><div class="section">
+</div><p></p><hr><a id="method-Task-add_strata"></a><div class="section">
 <h3 id="method-add-strata-">Method <code>add_strata()</code><a class="anchor" aria-label="anchor" href="#method-add-strata-"></a></h3>
 <p>Cuts numeric variables into new factors columns which are added to the task with role
 <code>"stratum"</code>.
 This ensures that all training and test splits contain observations from all bins.
 The columns are named <code>"..stratum_[col_name]"</code>.</p><div class="section">
 <h4 id="usage-18">Usage<a class="anchor" aria-label="anchor" href="#usage-18"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">Task</span><span class="op">$</span><span class="fu">add_strata</span><span class="op">(</span><span class="va">cols</span>, bins <span class="op">=</span> <span class="fl">3L</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Task</span><span class="op">$</span><span class="fu">add_strata</span><span class="op">(</span><span class="va">cols</span>, bins <span class="op">=</span> <span class="fl">3L</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -908,11 +917,11 @@ Replicated to have the same length as <code>cols</code>.</p></dd>
 <p>self (invisibly).</p>
 </div>
 
-</div><p></p><hr><a id="method-clone"></a><div class="section">
+</div><p></p><hr><a id="method-Task-clone"></a><div class="section">
 <h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
 <p>The objects of this class are cloneable with this method.</p><div class="section">
 <h4 id="usage-19">Usage<a class="anchor" aria-label="anchor" href="#usage-19"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">Task</span><span class="op">$</span><span class="fu">clone</span><span class="op">(</span>deep <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Task</span><span class="op">$</span><span class="fu">clone</span><span class="op">(</span>deep <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -930,32 +939,32 @@ Replicated to have the same length as <code>cols</code>.</p></dd>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># We use the inherited class TaskClassif here,</span></span>
-<span class="r-in"><span class="co"># because the base class `Task` is not intended for direct use</span></span>
-<span class="r-in"><span class="va">task</span> <span class="op">=</span> <span class="va"><a href="TaskClassif.html">TaskClassif</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="st">"penguings"</span>, <span class="fu">palmerpenguins</span><span class="fu">::</span><span class="va"><a href="https://allisonhorst.github.io/palmerpenguins/reference/penguins.html" class="external-link">penguins</a></span>, target <span class="op">=</span> <span class="st">"species"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">task</span><span class="op">$</span><span class="va">nrow</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># We use the inherited class TaskClassif here,</span></span></span>
+<span class="r-in"><span><span class="co"># because the base class `Task` is not intended for direct use</span></span></span>
+<span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="va"><a href="TaskClassif.html">TaskClassif</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="st">"penguings"</span>, <span class="fu">palmerpenguins</span><span class="fu">::</span><span class="va"><a href="https://allisonhorst.github.io/palmerpenguins/reference/penguins.html" class="external-link">penguins</a></span>, target <span class="op">=</span> <span class="st">"species"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">task</span><span class="op">$</span><span class="va">nrow</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 344</span>
-<span class="r-in"><span class="va">task</span><span class="op">$</span><span class="va">ncol</span></span>
+<span class="r-in"><span><span class="va">task</span><span class="op">$</span><span class="va">ncol</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 8</span>
-<span class="r-in"><span class="va">task</span><span class="op">$</span><span class="va">feature_names</span></span>
+<span class="r-in"><span><span class="va">task</span><span class="op">$</span><span class="va">feature_names</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "bill_depth_mm"     "bill_length_mm"    "body_mass_g"      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4] "flipper_length_mm" "island"            "sex"              </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [7] "year"             </span>
-<span class="r-in"><span class="va">task</span><span class="op">$</span><span class="fu">formula</span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">task</span><span class="op">$</span><span class="fu">formula</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> species ~ .</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># de-select "year"</span></span>
-<span class="r-in"><span class="va">task</span><span class="op">$</span><span class="fu">select</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sets.html" class="external-link">setdiff</a></span><span class="op">(</span><span class="va">task</span><span class="op">$</span><span class="va">feature_names</span>, <span class="st">"year"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">task</span><span class="op">$</span><span class="va">feature_names</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># de-select "year"</span></span></span>
+<span class="r-in"><span><span class="va">task</span><span class="op">$</span><span class="fu">select</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sets.html" class="external-link">setdiff</a></span><span class="op">(</span><span class="va">task</span><span class="op">$</span><span class="va">feature_names</span>, <span class="st">"year"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">task</span><span class="op">$</span><span class="va">feature_names</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "bill_depth_mm"     "bill_length_mm"    "body_mass_g"      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4] "flipper_length_mm" "island"            "sex"              </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Add new column "foo"</span></span>
-<span class="r-in"><span class="va">task</span><span class="op">$</span><span class="fu">cbind</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>foo <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">344</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">task</span><span class="op">$</span><span class="fu">head</span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Add new column "foo"</span></span></span>
+<span class="r-in"><span><span class="va">task</span><span class="op">$</span><span class="fu">cbind</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>foo <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">344</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    species bill_depth_mm bill_length_mm body_mass_g flipper_length_mm    island</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:  Adelie          18.7           39.1        3750               181 Torgersen</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2:  Adelie          17.4           39.5        3800               186 Torgersen</span>
@@ -981,7 +990,7 @@ Replicated to have the same length as <code>cols</code>.</p></dd>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
     </footer></div>
