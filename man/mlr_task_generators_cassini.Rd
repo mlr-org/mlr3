@@ -17,12 +17,8 @@ tgen("cassini")
 }
 
 \section{Parameters}{
-\tabular{llll}{
-   Id \tab Type \tab Default \tab Range \cr
-   relsize1 \tab integer \tab 2 \tab \eqn{[1, \infty)}{[1, Inf)} \cr
-   relsize2 \tab integer \tab 2 \tab \eqn{[1, \infty)}{[1, Inf)} \cr
-   relsize3 \tab integer \tab 1 \tab \eqn{[1, \infty)}{[1, Inf)} \cr
-}
+
+, |Id       |Type    |Default |Range                       |, |:--------|:-------|:-------|:---------------------------|, |relsize1 |integer |2       |\eqn{[1, \infty)}{[1, Inf)} |, |relsize2 |integer |2       |\eqn{[1, \infty)}{[1, Inf)} |, |relsize3 |integer |1       |\eqn{[1, \infty)}{[1, Inf)} |
 }
 
 \examples{

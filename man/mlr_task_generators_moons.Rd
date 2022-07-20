@@ -18,10 +18,8 @@ tgen("moons")
 }
 
 \section{Parameters}{
-\tabular{llll}{
-   Id \tab Type \tab Default \tab Range \cr
-   sigma \tab numeric \tab 1 \tab \eqn{[0, \infty)}{[0, Inf)} \cr
-}
+
+, |Id    |Type    |Default |Range                       |, |:-----|:-------|:-------|:---------------------------|, |sigma |numeric |1       |\eqn{[0, \infty)}{[0, Inf)} |
 }
 
 \examples{

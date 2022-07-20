@@ -29,19 +29,8 @@ lrn("classif.rpart")
 }
 
 \section{Parameters}{
-\tabular{lllll}{
-   Id \tab Type \tab Default \tab Levels \tab Range \cr
-   cp \tab numeric \tab 0.01 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
-   keep_model \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
-   maxcompete \tab integer \tab 4 \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
-   maxdepth \tab integer \tab 30 \tab  \tab \eqn{[1, 30]}{[1, 30]} \cr
-   maxsurrogate \tab integer \tab 5 \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
-   minbucket \tab integer \tab - \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
-   minsplit \tab integer \tab 20 \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
-   surrogatestyle \tab integer \tab 0 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
-   usesurrogate \tab integer \tab 2 \tab  \tab \eqn{[0, 2]}{[0, 2]} \cr
-   xval \tab integer \tab 10 \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
-}
+
+, |Id             |Type    |Default |Levels      |Range                       |, |:--------------|:-------|:-------|:-----------|:---------------------------|, |cp             |numeric |0.01    |            |\eqn{[0, 1]}{[0, 1]}        |, |keep_model     |logical |FALSE   |TRUE, FALSE |-                           |, |maxcompete     |integer |4       |            |\eqn{[0, \infty)}{[0, Inf)} |, |maxdepth       |integer |30      |            |\eqn{[1, 30]}{[1, 30]}      |, |maxsurrogate   |integer |5       |            |\eqn{[0, \infty)}{[0, Inf)} |, |minbucket      |integer |-       |            |\eqn{[1, \infty)}{[1, Inf)} |, |minsplit       |integer |20      |            |\eqn{[1, \infty)}{[1, Inf)} |, |surrogatestyle |integer |0       |            |\eqn{[0, 1]}{[0, 1]}        |, |usesurrogate   |integer |2       |            |\eqn{[0, 2]}{[0, 2]}        |, |xval           |integer |10      |            |\eqn{[0, \infty)}{[0, Inf)} |
 }
 
 \references{

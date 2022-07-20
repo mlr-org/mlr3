@@ -33,10 +33,8 @@ lrn("classif.featureless")
 }
 
 \section{Parameters}{
-\tabular{llll}{
-   Id \tab Type \tab Default \tab Levels \cr
-   method \tab character \tab mode \tab mode, sample, weighted.sample \cr
-}
+
+, |Id     |Type      |Default |Levels                        |, |:------|:---------|:-------|:-----------------------------|, |method |character |mode    |mode, sample, weighted.sample |
 }
 
 \seealso{

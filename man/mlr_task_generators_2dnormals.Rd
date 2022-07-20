@@ -17,12 +17,8 @@ tgen("2dnormals")
 }
 
 \section{Parameters}{
-\tabular{llll}{
-   Id \tab Type \tab Default \tab Range \cr
-   cl \tab integer \tab - \tab \eqn{[2, \infty)}{[2, Inf)} \cr
-   r \tab numeric \tab - \tab \eqn{[1, \infty)}{[1, Inf)} \cr
-   sd \tab numeric \tab - \tab \eqn{[0, \infty)}{[0, Inf)} \cr
-}
+
+, |Id |Type    |Default |Range                       |, |:--|:-------|:-------|:---------------------------|, |cl |integer |-       |\eqn{[2, \infty)}{[2, Inf)} |, |r  |numeric |-       |\eqn{[1, \infty)}{[1, Inf)} |, |sd |numeric |-       |\eqn{[0, \infty)}{[0, Inf)} |
 }
 
 \examples{
