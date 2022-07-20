@@ -55,9 +55,10 @@ Efficient, object-oriented programming on the building blocks of machine learnin
 
 \itemize{
 \item \code{"mlr3.exec_random"}: Randomize the order of execution in \code{\link[=resample]{resample()}} and \code{\link[=benchmark]{benchmark()}} during
-parallelization with \CRANpkg{future}. Defaults to \code{TRUE}. Note that this does not affect the order of results.
-\item \code{"mlr3.exec_chunks"}: Number of iterations to perform in a single \code{\link[future:future]{future::future()}}.
-Defaults to 1.
+parallelization with \CRANpkg{future}. Defaults to \code{TRUE}.
+Note that this does not affect the order of results.
+\item \code{"mlr3.exec_chunk_size"}: Number of iterations to perform in a single \code{\link[future:future]{future::future()}} during
+parallelization with \CRANpkg{future}. Defaults to 1.
 \item \code{"mlr3.debug"}: If set to \code{TRUE}, parallelization via \CRANpkg{future} is disabled to simplify
 debugging and provide more concise tracebacks.
 Note that results computed in debug mode use a different seeding mechanism and are \strong{not reproducible}.
