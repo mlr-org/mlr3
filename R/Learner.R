@@ -7,8 +7,7 @@
 #'
 #' Learners are build around the three following key parts:
 #'
-#' * Methods `$train()` and `$predict()` which call internal methods (either public method `$train_internal()`/`$predict_internal()` (deprecated)
-#'   or private methods `$.train()`/`$.predict()`).
+#' * Methods `$train()` and `$predict()` which call internal methods or private methods `$.train()`/`$.predict()`).
 #' * A [paradox::ParamSet] which stores meta-information about available hyperparameters, and also stores hyperparameter settings.
 #' * Meta-information about the requirements and capabilities of the learner.
 #' * The fitted model stored in field `$model`, available after calling `$train()`.
@@ -373,7 +372,9 @@ Learner = R6Class("Learner",
     #' @field model (any)\cr
     #' The fitted model. Only available after `$train()` has been called.
     model = function(rhs) {
-      assert_ro_binding(rhs)
+      if (!missing(rhs)) {
+        self$state$model = rhs
+      }
       self$state$model
     },
 
@@ -549,7 +550,7 @@ get_log_condition = function(state, condition) {
   }
 }
 
-#' @export
-format_list_item.Learner = function(x, ...) { # nolint
-  sprintf("<lrn:%s>", x$id)
-}
+# #' @export
+# format_list_item.Learner = function(x, ...) { # nolint
+#   sprintf("<lrn:%s>", x$id)
+# }

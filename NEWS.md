@@ -1,3 +1,9 @@
+# mlr3 0.13.4
+
+* Fixed runtime measures depending on specific predict types (#832).
+* Added `head()` and `tail()` methods for `Task`.
+* Improved printing of multiple objects.
+
 # mlr3 0.13.3
 
 * Most objects now have a new (optional) field `label`, i.e. `Task`,

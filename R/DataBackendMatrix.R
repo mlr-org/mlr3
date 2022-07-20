@@ -40,7 +40,7 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
     #'   The input [Matrix::Matrix()].
     #' @param dense [data.frame()].
     #'   Dense data, converted to [data.table::data.table()].
-    initialize = function(data, dense = NULL, primary_key = NULL) {
+    initialize = function(data, dense, primary_key = NULL) {
       require_namespaces("Matrix")
       assert_class(data, "Matrix")
       assert_names(colnames(data), type = "unique")

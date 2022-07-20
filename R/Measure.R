@@ -347,10 +347,9 @@ score_measures = function(obj, measures, reassemble = TRUE, view = NULL) {
 }
 
 
-format_list_item.Measure = function(x, ...) { # nolint
-  sprintf("<msr:%s>", x$id)
-}
-
+# format_list_item.Measure = function(x, ...) { # nolint
+#   sprintf("<msr:%s>", x$id)
+# }
 
 #' @export
 rd_info.Measure = function(obj) { # nolint
