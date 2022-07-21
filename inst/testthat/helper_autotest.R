@@ -365,10 +365,10 @@ run_autotest = function(learner, N = 30L, exclude = NULL, predict_types = learne
     run
   }
 
-  param_tags = unique(unlist(learner$param_set$tags))
-  if (!test_subset(param_tags, mlr_reflections$learner_param_tags)) {
-    return(list(ok = FALSE, error = "Invalid parameter tag(s), check `mlr_reflections$learner_param_tags`."))
-  }
+  # param_tags = unique(unlist(learner$param_set$tags))
+  # if (!test_subset(param_tags, mlr_reflections$learner_param_tags)) {
+  #   return(list(ok = FALSE, error = "Invalid parameter tag(s), check `mlr_reflections$learner_param_tags`."))
+  # }
 
   for (task in tasks) {
     for (predict_type in predict_types) {
