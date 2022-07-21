@@ -368,7 +368,9 @@ expect_learner = function(lrn, task = NULL) {
     testthat::expect_identical(lrn$task_type, task$task_type)
   }
 
-  checkmate::expect_class(lrn$base_learner(), "Learner")
+  if (!inherits(lrn, "GraphLearner") && !inherits(lrn, "AutoTuner")) { # still not in pipelines, breaking check in mlr3tuning
+    checkmate::expect_class(lrn$base_learner(), "Learner")
+  }
 }
 
 expect_resampling = function(r, task = NULL) {
