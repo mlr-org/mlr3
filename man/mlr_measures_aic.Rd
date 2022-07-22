@@ -34,8 +34,10 @@ msr("aic")
 }
 
 \section{Parameters}{
-
-, |Id |Type    |Default |Range                       |, |:--|:-------|:-------|:---------------------------|, |k  |integer |-       |\eqn{[0, \infty)}{[0, Inf)} |
+\tabular{llll}{
+   Id \tab Type \tab Default \tab Range \cr
+   k \tab integer \tab - \tab \eqn{[0, \infty)}{[0, Inf)} \cr
+}
 }
 
 \seealso{

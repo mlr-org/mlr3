@@ -35,8 +35,10 @@ msr("selected_features")
 }
 
 \section{Parameters}{
-
-, |Id        |Type    |Default |Levels      |, |:---------|:-------|:-------|:-----------|, |normalize |logical |FALSE   |TRUE, FALSE |
+\tabular{llll}{
+   Id \tab Type \tab Default \tab Levels \cr
+   normalize \tab logical \tab FALSE \tab TRUE, FALSE \cr
+}
 }
 
 \examples{

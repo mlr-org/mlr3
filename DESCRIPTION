@@ -186,6 +186,7 @@ Collate:
     'as_task.R'
     'as_task_classif.R'
     'as_task_regr.R'
+    'as_task_unsupervised.R'
     'assertions.R'
     'auto_convert.R'
     'benchmark.R'

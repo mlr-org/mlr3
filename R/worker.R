@@ -112,7 +112,7 @@ learner_predict = function(learner, task, row_ids = NULL) {
     }
 
     result = get_private(learner)$.predict(task)
-    as_prediction_data(result, task = task, check = TRUE)
+    as_prediction_data(result, task = task, check = TRUE, train_task = learner$state$train_task)
   }
 
   assert_task(task)
@@ -149,7 +149,7 @@ learner_predict = function(learner, task, row_ids = NULL) {
     # return an empty prediction object, #421
     lg$debug("No observations in task, returning empty prediction data", task = task)
     learner$state$log = append_log(learner$state$log, "predict", "output", "No data to predict on")
-    return(as_prediction_data(named_list(), task = task, row_ids = integer(), check = TRUE))
+    return(as_prediction_data(named_list(), task = task, row_ids = integer(), check = TRUE,  train_task = learner$state$train_task))
   }
 
   if (is.null(learner$state$model)) {
@@ -187,7 +187,7 @@ learner_predict = function(learner, task, row_ids = NULL) {
       fb = assert_learner(as_learner(fb))
       fb$predict_type = learner$predict_type
       fb$state = learner$state$fallback_state
-      as_prediction_data(fb$predict(task, row_ids), task, row_ids, check = TRUE)
+      as_prediction_data(fb$predict(task, row_ids), task, row_ids, check = TRUE, train_task = learner$state$train_task)
     }
 
 

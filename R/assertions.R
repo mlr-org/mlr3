@@ -101,7 +101,7 @@ assert_task_learner = function(task, learner, cols = NULL) {
     stopf("%s cannot be trained with TuneToken present in hyperparameter: %s", learner$format(), str_collapse(names(pars)))
   }
 
-  if (task$task_type != learner$task_type) {
+  if (fget(mlr_reflections$task_types, task$task_type, "learner", "type") %nin% class(learner)) {
     stopf("Type '%s' of %s does not match type '%s' of %s",
       task$task_type, task$format(), learner$task_type, learner$format())
   }

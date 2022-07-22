@@ -36,8 +36,10 @@ msr("classif.costs")
 }
 
 \section{Parameters}{
-
-, |Id        |Type    |Default |Levels      |, |:---------|:-------|:-------|:-----------|, |normalize |logical |TRUE    |TRUE, FALSE |
+\tabular{llll}{
+   Id \tab Type \tab Default \tab Levels \cr
+   normalize \tab logical \tab TRUE \tab TRUE, FALSE \cr
+}
 }
 
 \examples{

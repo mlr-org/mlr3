@@ -319,6 +319,11 @@ expect_task_regr = function(task) {
   expect_hash(task$hash, 1L)
 }
 
+expect_task_unsupervised = function(task) {
+  checkmate::expect_r6(task, "TaskUnsupervised")
+  expect_hash(task$hash, 1L)
+}
+
 expect_task_generator = function(gen) {
   checkmate::expect_r6(gen, "TaskGenerator", private = ".generate")
   expect_id(gen$id)

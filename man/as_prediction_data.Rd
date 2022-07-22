@@ -13,7 +13,14 @@ as_prediction_data(x, task, row_ids = task$row_ids, check = TRUE, ...)
 
 \method{as_prediction_data}{PredictionData}(x, task, row_ids = task$row_ids, check = TRUE, ...)
 
-\method{as_prediction_data}{list}(x, task, row_ids = task$row_ids, check = TRUE, ...)
+\method{as_prediction_data}{list}(
+  x,
+  task,
+  row_ids = task$row_ids,
+  check = TRUE,
+  train_task,
+  ...
+)
 }
 \arguments{
 \item{x}{(any)\cr

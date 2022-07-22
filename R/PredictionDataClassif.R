@@ -3,7 +3,8 @@
 check_prediction_data.PredictionDataClassif = function(pdata) { # nolint
   pdata$row_ids = assert_row_ids(pdata$row_ids)
   n = length(pdata$row_ids)
-  assert_factor(pdata$truth, len = n, null.ok = TRUE)
+  # single NA value when predicting from unsupervised tasks
+  assert_factor(pdata$truth, len = if (is_scalar_na(pdata$truth)) 1 else n, null.ok = TRUE)
   lvls = levels(pdata$truth)
 
   if (!is.null(pdata$response)) {
