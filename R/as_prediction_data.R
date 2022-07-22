@@ -28,6 +28,8 @@ as_prediction_data.PredictionData = function(x, task, row_ids = task$row_ids, ch
 }
 
 #' @rdname as_prediction_data
+#' @param train_task ([Task])\cr
+#'   Task used for training the learner.
 #' @export
 as_prediction_data.list = function(x, task, row_ids = task$row_ids, check = TRUE, train_task, ...) { # nolint
   assert_list(x, names = "unique")

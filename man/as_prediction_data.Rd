@@ -36,6 +36,9 @@ Perform argument checks and type conversions?}
 
 \item{...}{(any)\cr
 Additional arguments.}
+
+\item{train_task}{(\link{Task})\cr
+Task used for training the learner.}
 }
 \value{
 \link{PredictionData}.
