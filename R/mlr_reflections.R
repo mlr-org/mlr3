@@ -100,7 +100,7 @@ local({
   mlr_reflections$task_col_roles = list(
     regr = tmp,
     classif = tmp,
-    unsupervised = setdiff(tmp, "target")
+    unsupervised = c("feature", "name", "order")
   )
 
   tmp = c("strata", "groups", "weights")
