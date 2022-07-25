@@ -36,8 +36,14 @@ lrn("regr.debug")
 }
 
 \section{Parameters}{
-
-, |Id                   |Type      |Default |Levels      |Range                       |, |:--------------------|:---------|:-------|:-----------|:---------------------------|, |predict_missing      |numeric   |0       |            |\eqn{[0, 1]}{[0, 1]}        |, |predict_missing_type |character |na      |na, omit    |-                           |, |save_tasks           |logical   |FALSE   |TRUE, FALSE |-                           |, |threads              |integer   |-       |            |\eqn{[1, \infty)}{[1, Inf)} |, |x                    |numeric   |-       |            |\eqn{[0, 1]}{[0, 1]}        |
+\tabular{lllll}{
+   Id \tab Type \tab Default \tab Levels \tab Range \cr
+   predict_missing \tab numeric \tab 0 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
+   predict_missing_type \tab character \tab na \tab na, omit \tab - \cr
+   save_tasks \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   threads \tab integer \tab - \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
+   x \tab numeric \tab - \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
+}
 }
 
 \examples{

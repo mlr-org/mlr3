@@ -31,8 +31,10 @@ lrn("regr.featureless")
 }
 
 \section{Parameters}{
-
-, |Id     |Type    |Default |Levels      |, |:------|:-------|:-------|:-----------|, |robust |logical |TRUE    |TRUE, FALSE |
+\tabular{llll}{
+   Id \tab Type \tab Default \tab Levels \cr
+   robust \tab logical \tab TRUE \tab TRUE, FALSE \cr
+}
 }
 
 \seealso{

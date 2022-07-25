@@ -32,8 +32,10 @@ msr("debug")
 }
 
 \section{Parameters}{
-
-, |Id       |Type    |Default |Range                |, |:--------|:-------|:-------|:--------------------|, |na_ratio |numeric |-       |\eqn{[0, 1]}{[0, 1]} |
+\tabular{llll}{
+   Id \tab Type \tab Default \tab Range \cr
+   na_ratio \tab numeric \tab - \tab \eqn{[0, 1]}{[0, 1]} \cr
+}
 }
 
 \examples{

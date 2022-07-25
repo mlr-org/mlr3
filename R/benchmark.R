@@ -87,7 +87,9 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
   assert_flag(store_backends)
 
   # check for multiple task types
-  assert_same_task_type(c(design$task, design$learner))
+  if (any(pmap_lgl(list(design$task, design$learner), function(task, learner) fget(mlr_reflections$task_types, task$task_type, "learner", "type") %nin% class(learner)))) {
+    stopf("Multiple task types detected, but mixing types is not supported: %s", str_collapse(unique(map_chr(c(design$task, design$learner), "task_type"))))
+  }
 
   # clone inputs
   setDT(design)
