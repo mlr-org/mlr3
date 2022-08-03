@@ -22,7 +22,7 @@ NULL
 
 new_prediction_data = function(li, task_type = NULL) {
   li = discard(li, is.null)
-  class(li) = sprintf("PredictionData%s", c(capitalize(task_type), ""))
+  class(li) = c(fget(mlr_reflections$task_types, task_type, "prediction_data", "type"), "PredictionData")
   li
 }
 
