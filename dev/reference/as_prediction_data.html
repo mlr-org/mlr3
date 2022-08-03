@@ -89,7 +89,14 @@
 <span><span class="fu">as_prediction_data</span><span class="op">(</span><span class="va">x</span>, <span class="va">task</span>, row_ids <span class="op">=</span> <span class="va">task</span><span class="op">$</span><span class="va">row_ids</span>, check <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for list</span></span>
-<span><span class="fu">as_prediction_data</span><span class="op">(</span><span class="va">x</span>, <span class="va">task</span>, row_ids <span class="op">=</span> <span class="va">task</span><span class="op">$</span><span class="va">row_ids</span>, check <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">as_prediction_data</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  <span class="va">task</span>,</span>
+<span>  row_ids <span class="op">=</span> <span class="va">task</span><span class="op">$</span><span class="va">row_ids</span>,</span>
+<span>  check <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  <span class="va">...</span>,</span>
+<span>  <span class="va">train_task</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -116,6 +123,11 @@ Perform argument checks and type conversions?</p></dd>
 <dt>...</dt>
 <dd><p>(any)<br>
 Additional arguments.</p></dd>
+
+
+<dt>train_task</dt>
+<dd><p>(<a href="Task.html">Task</a>)<br>
+Task used for training the learner.</p></dd>
 
 </dl></div>
     <div class="section level2">

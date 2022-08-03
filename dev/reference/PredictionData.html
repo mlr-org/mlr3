@@ -110,26 +110,26 @@ Returns an update object of class <code>PredictionData</code>.</p></li>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">check_prediction_data</span><span class="op">(</span><span class="va">pdata</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">check_prediction_data</span><span class="op">(</span><span class="va">pdata</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">is_missing_prediction_data</span><span class="op">(</span><span class="va">pdata</span><span class="op">)</span></span>
+<span><span class="fu">is_missing_prediction_data</span><span class="op">(</span><span class="va">pdata</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">filter_prediction_data</span><span class="op">(</span><span class="va">pdata</span>, <span class="va">row_ids</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># S3 method for PredictionDataClassif</span></span>
-<span><span class="fu">check_prediction_data</span><span class="op">(</span><span class="va">pdata</span><span class="op">)</span></span>
+<span><span class="fu">filter_prediction_data</span><span class="op">(</span><span class="va">pdata</span>, <span class="va">row_ids</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for PredictionDataClassif</span></span>
-<span><span class="fu">is_missing_prediction_data</span><span class="op">(</span><span class="va">pdata</span><span class="op">)</span></span>
+<span><span class="fu">check_prediction_data</span><span class="op">(</span><span class="va">pdata</span>, <span class="va">train_task</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for PredictionDataClassif</span></span>
+<span><span class="fu">is_missing_prediction_data</span><span class="op">(</span><span class="va">pdata</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for PredictionDataClassif</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">...</span>, keep_duplicates <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for PredictionDataRegr</span></span>
-<span><span class="fu">check_prediction_data</span><span class="op">(</span><span class="va">pdata</span><span class="op">)</span></span>
+<span><span class="fu">check_prediction_data</span><span class="op">(</span><span class="va">pdata</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for PredictionDataRegr</span></span>
-<span><span class="fu">is_missing_prediction_data</span><span class="op">(</span><span class="va">pdata</span><span class="op">)</span></span>
+<span><span class="fu">is_missing_prediction_data</span><span class="op">(</span><span class="va">pdata</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for PredictionDataRegr</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">...</span>, keep_duplicates <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
@@ -142,13 +142,18 @@ Returns an update object of class <code>PredictionData</code>.</p></li>
 Named list inheriting from <code>"PredictionData"</code>.</p></dd>
 
 
+<dt>...</dt>
+<dd><p>(one or more PredictionData objects).</p></dd>
+
+
 <dt>row_ids</dt>
 <dd><p><code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code><br>
 Row indices.</p></dd>
 
 
-<dt>...</dt>
-<dd><p>(one or more PredictionData objects).</p></dd>
+<dt>train_task</dt>
+<dd><p>(<a href="Task.html">Task</a>)<br>
+Task used for training the learner.</p></dd>
 
 
 <dt>keep_duplicates</dt>
