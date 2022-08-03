@@ -12,7 +12,7 @@ Efficient, object-oriented programming on the building blocks of machine learnin
     
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.13.3-9000</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.13.4-9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -124,9 +124,14 @@ Efficient, object-oriented programming on the building blocks of machine learnin
     <h2 id="package-options">Package Options<a class="anchor" aria-label="anchor" href="#package-options"></a></h2>
     
 
-<ul><li><p><code>"mlr3.debug"</code>: If set to <code>TRUE</code>, parallelization via <a href="https://CRAN.R-project.org/package=future" class="external-link"><span class="pkg">future</span></a> is disabled to simplify
+<ul><li><p><code>"mlr3.exec_random"</code>: Randomize the order of execution in <code><a href="resample.html">resample()</a></code> and <code><a href="benchmark.html">benchmark()</a></code> during
+parallelization with <a href="https://CRAN.R-project.org/package=future" class="external-link"><span class="pkg">future</span></a>. Defaults to <code>TRUE</code>.
+Note that this does not affect the order of results.</p></li>
+<li><p><code>"mlr3.exec_chunk_size"</code>: Number of iterations to perform in a single <code><a href="https://future.futureverse.org/reference/future.html" class="external-link">future::future()</a></code> during
+parallelization with <a href="https://CRAN.R-project.org/package=future" class="external-link"><span class="pkg">future</span></a>. Defaults to 1.</p></li>
+<li><p><code>"mlr3.debug"</code>: If set to <code>TRUE</code>, parallelization via <a href="https://CRAN.R-project.org/package=future" class="external-link"><span class="pkg">future</span></a> is disabled to simplify
 debugging and provide more concise tracebacks.
-Note that results computed with debug mode enabled use a different seeding mechanism and are not reproducible.</p></li>
+Note that results computed in debug mode use a different seeding mechanism and are <strong>not reproducible</strong>.</p></li>
 <li><p><code>"mlr3.allow_utf8_names"</code>: If set to <code>TRUE</code>, checks on the feature names are relaxed, allowing
 non-ascii characters in column names. This is an experimental and temporal option to
 pave the way for text analysis, and will likely be removed in a future version of the package.
