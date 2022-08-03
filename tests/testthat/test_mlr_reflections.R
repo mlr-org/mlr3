@@ -1,4 +1,8 @@
-old_mlr_reflections = as.environment(as.list(mlr_reflections, all.names=TRUE))
+old_mlr_reflections = as.environment(as.list(mlr_reflections, all.names = TRUE))
+
+on.exit({
+  mlr_reflections = as.environment(as.list(old_mlr_reflections, all.names = TRUE))
+})
 
 mlr_reflections$task_types = setkeyv(rbind(mlr_reflections$task_types, rowwise_table(
   ~type,  ~package, ~task,              ~learner,        ~prediction,         ~prediction_data,        ~measure,
@@ -72,5 +76,3 @@ test_that("set column roles works", {
   expect_task(task$set_col_roles("age", "test"))
   expect_equal(task$col_roles$test, "age")
 })
-
-mlr_reflections = as.environment(as.list(old_mlr_reflections, all.names=TRUE))
