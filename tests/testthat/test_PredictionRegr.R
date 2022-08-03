@@ -59,7 +59,7 @@ test_that("distr", {
     params = replicate(task$nrow, list(prob = runif(1), size = 10), FALSE)
   )
 
-  p = PredictionRegr$new(row_ids = task$row_ids, truth = task$truth(), distr = distr)
+  p = PredictionRegr$new(row_ids = task$row_ids, truth = task$truth(), distr = distr, check = TRUE)
   expect_output(print(p))
   expect_set_equal(p$predict_types, c("response", "se", "distr"))
   expect_numeric(p$response, len = task$nrow, any.missing = FALSE)
