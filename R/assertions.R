@@ -73,7 +73,8 @@ assert_learner = function(learner, task = NULL, task_type = NULL, properties = c
   assert_class(learner, "Learner", .var.name = .var.name)
 
   task_type = task_type %??% task$task_type
-  if (!is.null(task_type) && task_type != learner$task_type) {
+  # check on class(learner) does not work with GraphLearner and AutoTuner
+  if (!is.null(task_type) && fget(mlr_reflections$task_types, task_type, "learner", "type") != fget(mlr_reflections$task_types, learner$task_type, "learner", "type")) {
     stopf("Learner '%s' must have task type '%s'", learner$id, task_type)
   }
 
@@ -100,8 +101,8 @@ assert_task_learner = function(task, learner, cols = NULL) {
   if (length(pars) > 0) {
     stopf("%s cannot be trained with TuneToken present in hyperparameter: %s", learner$format(), str_collapse(names(pars)))
   }
-
-  if (fget(mlr_reflections$task_types, task$task_type, "learner", "type") %nin% class(learner)) {
+  # check on class(learner) does not work with GraphLearner and AutoTuner
+  if (fget(mlr_reflections$task_types, task$task_type, "learner", "type") != fget(mlr_reflections$task_types, learner$task_type, "learner", "type")) {
     stopf("Type '%s' of %s does not match type '%s' of %s",
       task$task_type, task$format(), learner$task_type, learner$format())
   }
@@ -151,7 +152,7 @@ assert_measure = function(measure, task = NULL, learner = NULL, .var.name = vnam
 
 
   if (!is.null(task)) {
-    if (!is_scalar_na(measure$task_type) && measure$task_type != task$task_type) {
+    if (!is_scalar_na(measure$task_type) && fget(mlr_reflections$task_types, task$task_type, "measure", "type") %nin% class(measure)) {
       stopf("Measure '%s' is not compatible with type '%s' of task '%s'",
         measure$id, task$task_type, task$id)
     }
@@ -310,12 +311,5 @@ assert_row_sums = function(prob) {
         stopf("Probabilities for observation %i do sum up to %f != 1", i, s)
       }
     }
-  }
-}
-
-assert_same_task_type = function(objs) {
-  task_types = unique(map_chr(objs, "task_type"))
-  if (length(task_types) > 1L) {
-    stopf("Multiple task types detected, but mixing types is not supported: %s", str_collapse(task_types))
   }
 }

@@ -326,3 +326,29 @@ test_that("disable cloning", {
   expect_identical(learner$hash, bmr$learners$learner[[1]]$hash)
   expect_identical(resampling$hash, bmr$resamplings$resampling[[1]]$hash)
 })
+
+test_that("task and learner assertions", {
+  grid = benchmark_grid(
+    task = tsks(c("iris", "boston_housing")),
+    learners = lrn("classif.rpart"),
+    resamplings = rsmp("holdout")
+  )
+
+  expect_error(benchmark(grid), "task types")
+
+  grid = benchmark_grid(
+    task = tsk("iris"),
+    learners = lrns(c("classif.rpart", "regr.rpart")),
+    resamplings = rsmp("holdout")
+  )
+
+  expect_error(benchmark(grid), "learner types")
+
+  grid = benchmark_grid(
+    task = tsk("iris"),
+    learners = lrn("regr.rpart"),
+    resamplings = rsmp("holdout")
+  )
+
+  expect_error(benchmark(grid), "not match type")
+})
