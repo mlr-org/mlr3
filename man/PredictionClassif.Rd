@@ -129,7 +129,7 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
   truth = task$truth(),
   response = NULL,
   prob = NULL,
-  check = TRUE
+  check = FALSE
 )}\if{html}{\out{</div>}}
 }
 

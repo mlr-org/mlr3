@@ -80,7 +80,7 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
   response = NULL,
   se = NULL,
   distr = NULL,
-  check = TRUE
+  check = FALSE
 )}\if{html}{\out{</div>}}
 }
 

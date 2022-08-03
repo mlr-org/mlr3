@@ -18,8 +18,8 @@ as_prediction_data(x, task, row_ids = task$row_ids, check = TRUE, ...)
   task,
   row_ids = task$row_ids,
   check = TRUE,
-  train_task,
-  ...
+  ...,
+  train_task
 )
 }
 \arguments{

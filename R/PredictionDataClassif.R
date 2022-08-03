@@ -1,10 +1,16 @@
 #' @rdname PredictionData
+#' @param train_task ([Task])\cr
+#'   Task used for training the learner.
 #' @export
-check_prediction_data.PredictionDataClassif = function(pdata) { # nolint
+check_prediction_data.PredictionDataClassif = function(pdata, train_task, ...) { # nolint
   pdata$row_ids = assert_row_ids(pdata$row_ids)
   n = length(pdata$row_ids)
-  # single NA value when predicting from unsupervised tasks
-  assert_factor(pdata$truth, len = if (is_scalar_na(pdata$truth)) 1 else n, null.ok = TRUE)
+  assert_factor(pdata$truth, len = n, null.ok = TRUE)
+  # unsupervised task
+  if (is.null(pdata$truth)) {
+    lvls = train_task$col_info[train_task$target_names, get("levels"), on = "id"][[1]]
+    pdata$truth = if (length(pdata$row_ids)) factor(NA, lvls) else factor(levels = lvls)
+  }
   lvls = levels(pdata$truth)
 
   if (!is.null(pdata$response)) {
@@ -51,7 +57,7 @@ check_prediction_data.PredictionDataClassif = function(pdata) { # nolint
 
 #' @rdname PredictionData
 #' @export
-is_missing_prediction_data.PredictionDataClassif = function(pdata) { # nolint
+is_missing_prediction_data.PredictionDataClassif = function(pdata, ...) { # nolint
   miss = logical(length(pdata$row_ids))
   if (!is.null(pdata$response)) {
     miss = is.na(pdata$response)
@@ -100,7 +106,7 @@ c.PredictionDataClassif = function(..., keep_duplicates = TRUE) {
 }
 
 #' @export
-filter_prediction_data.PredictionDataClassif = function(pdata, row_ids) {
+filter_prediction_data.PredictionDataClassif = function(pdata, row_ids, ...) {
   keep = pdata$row_ids %in% row_ids
   pdata$row_ids = pdata$row_ids[keep]
   pdata$truth = pdata$truth[keep]
