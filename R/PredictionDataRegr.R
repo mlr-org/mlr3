@@ -1,8 +1,10 @@
 #' @rdname PredictionData
 #' @export
-check_prediction_data.PredictionDataRegr = function(pdata) { # nolint
+check_prediction_data.PredictionDataRegr = function(pdata, ...) { # nolint
   pdata$row_ids = assert_row_ids(pdata$row_ids)
   n = length(pdata$row_ids)
+  if (is.null(pdata$truth)) pdata$truth = NA_real_
+  if (!length(pdata$row_ids)) pdata$truth = numeric(0)
 
   if (!is.null(pdata$response)) {
     pdata$response = assert_numeric(unname(pdata$response))
@@ -32,7 +34,7 @@ check_prediction_data.PredictionDataRegr = function(pdata) { # nolint
 
 #' @rdname PredictionData
 #' @export
-is_missing_prediction_data.PredictionDataRegr = function(pdata) { # nolint
+is_missing_prediction_data.PredictionDataRegr = function(pdata, ...) { # nolint
   miss = logical(length(pdata$row_ids))
 
   if (!is.null(pdata$response)) {
@@ -81,7 +83,7 @@ c.PredictionDataRegr = function(..., keep_duplicates = TRUE) { # nolint
 }
 
 #' @export
-filter_prediction_data.PredictionDataRegr = function(pdata, row_ids) {
+filter_prediction_data.PredictionDataRegr = function(pdata, row_ids, ...) {
   keep = pdata$row_ids %in% row_ids
   pdata$row_ids = pdata$row_ids[keep]
   pdata$truth = pdata$truth[keep]

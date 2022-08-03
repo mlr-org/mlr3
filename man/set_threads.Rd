@@ -7,13 +7,13 @@
 \alias{set_threads.list}
 \title{Set the Number of Threads}
 \usage{
-set_threads(x, n = availableCores())
+set_threads(x, n = availableCores(), ...)
 
-\method{set_threads}{default}(x, n = availableCores())
+\method{set_threads}{default}(x, n = availableCores(), ...)
 
-\method{set_threads}{R6}(x, n = availableCores())
+\method{set_threads}{R6}(x, n = availableCores(), ...)
 
-\method{set_threads}{list}(x, n = availableCores())
+\method{set_threads}{list}(x, n = availableCores(), ...)
 }
 \arguments{
 \item{x}{(any)\cr
@@ -22,6 +22,9 @@ This object is modified in-place.}
 
 \item{n}{(\code{integer(1)})\cr
 Number of threads to use. Defaults to \code{\link[parallelly:availableCores]{parallelly::availableCores()}}.}
+
+\item{...}{(any)\cr
+Additional arguments.}
 }
 \value{
 Same object as input \code{x} (changed in-place),

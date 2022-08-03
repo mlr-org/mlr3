@@ -20,7 +20,7 @@
 #'
 NULL
 
-new_prediction_data = function(li, task_type = NULL) {
+new_prediction_data = function(li, task_type) {
   li = discard(li, is.null)
   class(li) = c(fget(mlr_reflections$task_types, task_type, "prediction_data", "type"), "PredictionData")
   li
@@ -35,19 +35,19 @@ print.PredictionData = function(x, ...) {
 #' @param pdata ([PredictionData])\cr
 #'   Named list inheriting from `"PredictionData"`.
 #' @export
-check_prediction_data = function(pdata) {
+check_prediction_data = function(pdata, ...) {
   UseMethod("check_prediction_data")
 }
 
 #' @rdname PredictionData
 #' @export
-is_missing_prediction_data = function(pdata) {
+is_missing_prediction_data = function(pdata, ...) {
   UseMethod("is_missing_prediction_data")
 }
 
 #' @rdname PredictionData
 #' @template param_row_ids
 #' @export
-filter_prediction_data = function(pdata, row_ids) {
+filter_prediction_data = function(pdata, row_ids, ...) {
   UseMethod("filter_prediction_data")
 }

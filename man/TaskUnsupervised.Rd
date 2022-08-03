@@ -4,7 +4,7 @@
 \alias{TaskUnsupervised}
 \title{Unsupervised Task}
 \description{
-This is the abstract base class for unsupervised tasks such as cluster tasks in \CRANpkg{mlr3cluster}.
+This is the abstract base class for unsupervised tasks such as cluster tasks in \CRANpkg{mlr3cluster} and \CRANpkg{mlr3spatial}.
 }
 \examples{
 TaskUnsupervised$new("penguins", task_type = "regr", backend = palmerpenguins::penguins)
@@ -52,6 +52,7 @@ Other Task:
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
+\item \href{#method-TaskUnsupervised-new}{\code{TaskUnsupervised$new()}}
 \item \href{#method-TaskUnsupervised-clone}{\code{TaskUnsupervised$clone()}}
 }
 }
@@ -67,7 +68,6 @@ Other Task:
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="formula"><a href='../../mlr3/html/Task.html#method-Task-formula'><code>mlr3::Task$formula()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="head"><a href='../../mlr3/html/Task.html#method-Task-head'><code>mlr3::Task$head()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="help"><a href='../../mlr3/html/Task.html#method-Task-help'><code>mlr3::Task$help()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="initialize"><a href='../../mlr3/html/Task.html#method-Task-initialize'><code>mlr3::Task$initialize()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="levels"><a href='../../mlr3/html/Task.html#method-Task-levels'><code>mlr3::Task$levels()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="missings"><a href='../../mlr3/html/Task.html#method-Task-missings'><code>mlr3::Task$missings()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="print"><a href='../../mlr3/html/Task.html#method-Task-print'><code>mlr3::Task$print()</code></a></span></li>
@@ -80,6 +80,45 @@ Other Task:
 </ul>
 </details>
 }}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TaskUnsupervised-new"></a>}}
+\if{latex}{\out{\hypertarget{method-TaskUnsupervised-new}{}}}
+\subsection{Method \code{new()}}{
+Creates a new instance of this \link[R6:R6Class]{R6} class.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TaskUnsupervised$new(
+  id,
+  task_type = "unsupervised",
+  backend,
+  label = NA_character_,
+  extra_args = list()
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{(\code{character(1)})\cr
+Identifier for the new instance.}
+
+\item{\code{task_type}}{(\code{character(1)})\cr
+Type of task, e.g. \code{"regr"} or \code{"classif"}.
+Must be an element of \link[=mlr_reflections]{mlr_reflections$task_types$type}.}
+
+\item{\code{backend}}{(\link{DataBackend})\cr
+Either a \link{DataBackend}, or any object which is convertible to a \link{DataBackend} with \code{as_data_backend()}.
+E.g., a \code{data.frame()} will be converted to a \link{DataBackendDataTable}.}
+
+\item{\code{label}}{(\code{character(1)})\cr
+Label for the new instance.}
+
+\item{\code{extra_args}}{(named \code{list()})\cr
+Named list of constructor arguments, required for converting task types
+via \code{\link[=convert_task]{convert_task()}}.}
+}
+\if{html}{\out{</div>}}
+}
+}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TaskUnsupervised-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-TaskUnsupervised-clone}{}}}

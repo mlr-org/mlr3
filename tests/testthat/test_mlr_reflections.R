@@ -35,8 +35,19 @@ measure = msr("classif.ce")
 
 test_that("assertions work", {
   expect_learner(assert_learner(learner, task))
+  expect_error(assert_learner(learner, tsk("boston_housing")), "must have task type")
   expect_null(assert_task_learner(task, learner))
+  expect_error(assert_task_learner(tsk("boston_housing"), learner), "not match type")
   expect_measure(assert_measure(measure, task, learner))
+  expect_error(assert_measure(measure, tsk("boston_housing"), learner), "is not compatible")
+  expect_error(assert_measure(measure, task, lrn("regr.rpart")), "is not compatible")
+
+  at = learner
+  class(at) = c("AutoTuner", "Learner", "R6")
+  expect_learner(assert_learner(at, task))
+  expect_error(assert_learner(at, tsk("boston_housing")), "must have task type")
+  expect_null(assert_task_learner(task, at))
+  expect_error(assert_task_learner(tsk("boston_housing"), at))
 })
 
 test_that("train and predict works", {

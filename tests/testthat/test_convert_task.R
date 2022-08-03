@@ -153,6 +153,9 @@ test_that("data.frame converters", {
   task = as_task_classif(iris, "Species")
   expect_task_classif(task)
   expect_equal(task$id, "iris")
+
+  task = as_task_unsupervised(mtcars)
+  expect_task_unsupervised(task)
 })
 
 test_that("formula converters", {
