@@ -41,4 +41,4 @@ TaskGeneratorFriedman1 = R6Class("TaskGeneratorFriedman1",
 )
 
 #' @include mlr_task_generators.R
-mlr_task_generators$add("friedman1", TaskGeneratorFriedman1)
+mlr_task_generators$add("friedman1", function() TaskGeneratorFriedman1$new())

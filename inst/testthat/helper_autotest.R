@@ -14,8 +14,10 @@
 
 generate_generic_tasks = function(learner, proto) {
   tasks = list()
+  n = proto$nrow
+  p = length(proto$feature_names)
 
-  if (length(proto$feature_names) > 1L) {
+  if (p > 0L) {
     # individual tasks with each supported feature type
     for (ftype in learner$feature_types) {
       sel = proto$feature_types[ftype, "id", on = "type", with = FALSE][[1L]]
@@ -24,47 +26,53 @@ generate_generic_tasks = function(learner, proto) {
   }
 
   # task with all supported features types
-  sel = proto$feature_types[list(learner$feature_types), "id", on = "type", with = FALSE][[1L]]
+  sel = proto$feature_types[list(learner$feature_types), "id", on = "type", with = FALSE, nomatch = NULL][[1L]]
   tasks$feat_all = proto$clone(deep = TRUE)$select(sel)
 
   # task with missing values
   if ("missings" %in% learner$properties) {
     # one missing val in each feature
     features = proto$feature_names
-    rows = sample(proto$nrow, length(features))
+    rows = sample(n, length(features))
     data = proto$data(cols = features)
-    for (j in seq_along(features))
+    for (j in seq_along(features)) {
       data.table::set(data, rows[j], features[j], NA)
+    }
     tasks$missings = proto$clone(deep = TRUE)$select(character())$cbind(data)
 
-    # no row with no missing -> complete.cases() won't help
-    features = sample(features, proto$nrow, replace = TRUE)
-    data = proto$data(cols = proto$feature_names)
-    for (i in seq_along(features))
-      data.table::set(data, i = i, j = features[i], NA)
-    tasks$missings_each_row = proto$clone(deep = TRUE)$select(character())$cbind(data)
+    if (length(features)) {
+      # no row with no missing -> complete.cases() won't help
+      features = sample(features, n, replace = TRUE)
+      data = proto$data(cols = proto$feature_names)
+      for (i in seq_along(features))
+        data.table::set(data, i = i, j = features[i], NA)
+      tasks$missings_each_row = proto$clone(deep = TRUE)$select(character())$cbind(data)
+    }
   }
 
   # task with weights
   if ("weights" %in% learner$properties) {
-    tmp = proto$clone(deep = TRUE)$cbind(data.frame(weights = runif(proto$nrow)))
+    tmp = proto$clone(deep = TRUE)$cbind(data.frame(weights = runif(n)))
     tmp$col_roles$weight = "weights"
     tmp$col_roles$features = setdiff(tmp$col_roles$features, "weights")
     tasks$weights = tmp
   }
 
   # task with non-ascii feature names
-  opts = options(mlr3.allow_utf8_names = TRUE)
-  on.exit(options(opts))
-  sel = proto$feature_types[list(learner$feature_types), "id", on = "type", with = FALSE][[1L]]
-  tasks$utf8_feature_names = proto$clone(deep = TRUE)$select(sel)
-  old = sel[1L]
-  new = "\u00e4 + \u1e9e"
-  tasks$utf8_feature_names$rename(old, new)
+  if (p > 0L) {
+    opts = options(mlr3.allow_utf8_names = TRUE)
+    on.exit(options(opts))
+    sel = proto$feature_types[list(learner$feature_types), "id", on = "type", with = FALSE, nomatch = NULL][[1L]]
+    tasks$utf8_feature_names = proto$clone(deep = TRUE)$select(sel)
+    old = sel[1L]
+    new = "\u00e4 + \u1e9e"
+    tasks$utf8_feature_names$rename(old, new)
+  }
 
   # make sure that task ids match list names
   mlr3misc::imap(tasks, function(x, n) {
-    x$id = n; x
+    x$id = n
+    x
   })
 }
 
@@ -116,7 +124,7 @@ generate_tasks.LearnerClassif = function(learner, N = 30L) {
     data = cbind(data.table::data.table(target = target), generate_data(learner, N))
     task = mlr3::TaskClassif$new("proto", mlr3::as_data_backend(data), target = "target", positive = "A")
     gen_tasks = generate_generic_tasks(learner, task)
-    #set names
+    # set names
     lapply(gen_tasks, function(x) x$id = paste0(x$id, "_binary"))
     gen_tasks = mlr3misc::set_names(gen_tasks, paste0(names(gen_tasks), "_binary"))
     tasks = c(tasks, gen_tasks)
@@ -128,7 +136,7 @@ generate_tasks.LearnerClassif = function(learner, N = 30L) {
     data = cbind(data.table::data.table(target = target), generate_data(learner, N))
     task = mlr3::TaskClassif$new("proto", mlr3::as_data_backend(data), target = "target")
     gen_tasks = generate_generic_tasks(learner, task)
-    #set names
+    # set names
     lapply(gen_tasks, function(x) x$id = paste0(x$id, "_multiclass"))
     gen_tasks = mlr3misc::set_names(gen_tasks, paste0(names(gen_tasks), "_multiclass"))
     tasks = c(tasks, gen_tasks)
@@ -223,43 +231,53 @@ run_experiment = function(task, learner, seed = NULL) {
 
   stage = "train()"
   ok = try(learner$train(task), silent = TRUE)
-  if (inherits(ok, "try-error"))
+  if (inherits(ok, "try-error")) {
     return(err(as.character(ok)))
+  }
   log = learner$log[stage == "train"]
-  if ("error" %in% log$class)
+  if ("error" %in% log$class) {
     return(err("train log has errors: %s", mlr3misc::str_collapse(log[class == "error", msg])))
-  if (is.null(learner$model))
+  }
+  if (is.null(learner$model)) {
     return(err("model is NULL"))
+  }
 
   stage = "predict()"
 
   prediction = try(learner$predict(task), silent = TRUE)
-  if (inherits(ok, "try-error"))
+  if (inherits(ok, "try-error")) {
     return(err(as.character(ok)))
+  }
   log = learner$log[stage == "predict"]
-  if ("error" %in% log$class)
+  if ("error" %in% log$class) {
     return(err("predict log has errors: %s", mlr3misc::str_collapse(log[class == "error", msg])))
+  }
   msg = checkmate::check_class(prediction, "Prediction")
-  if (!isTRUE(msg))
+  if (!isTRUE(msg)) {
     return(err(msg))
-  if (prediction$task_type != learner$task_type)
+  }
+  if (prediction$task_type != learner$task_type) {
     return(err("learner and prediction have different task_type"))
+  }
 
   # catch for mlr3proba tasks, which all return every possible predict type
   if (!(learner$task_type %in% c("dens", "surv"))) {
     expected = mlr3::mlr_reflections$learner_predict_types[[learner$task_type]][[learner$predict_type]]
     msg = checkmate::check_subset(expected, prediction$predict_types, empty.ok = FALSE)
-    if (!isTRUE(msg))
+    if (!isTRUE(msg)) {
       return(err(msg))
+    }
 
     if (learner$predict_type == "response") {
       msg = checkmate::check_set_equal(learner$predict_type, prediction$predict_types)
-      if (!isTRUE(msg))
+      if (!isTRUE(msg)) {
         return(err(msg))
+      }
     } else {
       msg = checkmate::check_subset(learner$predict_type, prediction$predict_types, empty.ok = FALSE)
-      if (!isTRUE(msg))
+      if (!isTRUE(msg)) {
         return(err(msg))
+      }
     }
   }
 
@@ -281,15 +299,17 @@ run_experiment = function(task, learner, seed = NULL) {
       learner = learner,
       train_set = task$row_ids
   ), silent = TRUE)
-  if (inherits(score, "try-error"))
+  if (inherits(score, "try-error")) {
     return(err(as.character(score)))
+  }
   msg = checkmate::check_numeric(score, any.missing = FALSE)
-  if (!isTRUE(msg))
+  if (!isTRUE(msg)) {
     return(err(msg))
+  }
 
   # run sanity check on sanity task
   if (startsWith(task$id, "sanity") && !
-    sanity_check(prediction, task = task, learner = learner, train_set = task$row_ids)) {
+  sanity_check(prediction, task = task, learner = learner, train_set = task$row_ids)) {
     return(err("sanity check failed"))
   }
 
@@ -297,27 +317,32 @@ run_experiment = function(task, learner, seed = NULL) {
     if ("importance" %in% learner$properties) {
       importance = learner$importance()
       msg = checkmate::check_numeric(rev(importance), any.missing = FALSE, min.len = 1L, sorted = TRUE)
-      if (!isTRUE(msg))
+      if (!isTRUE(msg)) {
         return(err(msg))
+      }
       msg = checkmate::check_names(names(importance), subset.of = task$feature_names)
-      if (!isTRUE(msg))
+      if (!isTRUE(msg)) {
         return(err("Names of returned importance scores do not match task names: %s", str_collapse(names(importance))))
-      if ("unimportant" %in% head(names(importance), 1L))
+      }
+      if ("unimportant" %in% head(names(importance), 1L)) {
         return(err("unimportant feature is important"))
+      }
     }
 
     if ("selected_features" %in% learner$properties) {
       selected = learner$selected_features()
       msg = checkmate::check_subset(selected, task$feature_names)
-      if (!isTRUE(msg))
+      if (!isTRUE(msg)) {
         return(err(msg))
+      }
     }
 
     if ("oob_error" %in% learner$properties) {
       oob = learner$oob_error()
       msg = checkmate::check_number(oob)
-      if (!isTRUE(msg))
+      if (!isTRUE(msg)) {
         return(err(msg))
+      }
     }
   }
 
@@ -332,12 +357,18 @@ run_autotest = function(learner, N = 30L, exclude = NULL, predict_types = learne
     tasks = tasks[!grepl(exclude, names(tasks))]
   }
 
+
   sanity_runs = list()
   make_err = function(msg, ...) {
     run$ok = FALSE
     run$error = sprintf(msg, ...)
     run
   }
+
+  # param_tags = unique(unlist(learner$param_set$tags))
+  # if (!test_subset(param_tags, mlr_reflections$learner_param_tags)) {
+  #   return(list(ok = FALSE, error = "Invalid parameter tag(s), check `mlr_reflections$learner_param_tags`."))
+  # }
 
   for (task in tasks) {
     for (predict_type in predict_types) {
@@ -440,8 +471,9 @@ run_paramtest = function(learner, fun, exclude = character(), tag = NULL) {
   extra = setdiff(par_learner, par_package)
   extra = setdiff(extra, c(exclude, "..."))
 
-  if (length(c(missing, extra)) == 0L)
+  if (length(c(missing, extra)) == 0L) {
     return(TRUE)
+  }
 
   merror = eerror = character(0)
 

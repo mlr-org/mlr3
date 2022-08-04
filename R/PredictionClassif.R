@@ -89,7 +89,7 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
     #'
     #' @param check (`logical(1)`)\cr
     #'   If `TRUE`, performs some argument checks and predict type conversions.
-    initialize = function(task = NULL, row_ids = task$row_ids, truth = task$truth(), response = NULL, prob = NULL, check = TRUE) {
+    initialize = function(task = NULL, row_ids = task$row_ids, truth = task$truth(), response = NULL, prob = NULL, check = FALSE) {
       pdata = new_prediction_data(
         list(row_ids = row_ids, truth = truth, response = response, prob = prob),
         task_type = "classif"

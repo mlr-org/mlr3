@@ -38,7 +38,7 @@ b$missings(rows = b$rownames, cols = names(data))
 \seealso{
 \itemize{
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
-\url{https://mlr3book.mlr-org.com/technical.html#backends}
+\url{https://mlr3book.mlr-org.com/06-technical-databases.html}
 \item Package \CRANpkg{mlr3db} to interface out-of-memory data,
 e.g. SQL servers or \CRANpkg{duckdb}.
 }
@@ -76,14 +76,14 @@ The reverse is not necessarily true: There can be columns with the same content 
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{DataBackend$new()}}
-\item \href{#method-format}{\code{DataBackend$format()}}
-\item \href{#method-print}{\code{DataBackend$print()}}
+\item \href{#method-DataBackend-new}{\code{DataBackend$new()}}
+\item \href{#method-DataBackend-format}{\code{DataBackend$format()}}
+\item \href{#method-DataBackend-print}{\code{DataBackend$print()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-DataBackend-new"></a>}}
+\if{latex}{\out{\hypertarget{method-DataBackend-new}{}}}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 
@@ -115,8 +115,8 @@ e.g. \code{"data.table"}.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-format"></a>}}
-\if{latex}{\out{\hypertarget{method-format}{}}}
+\if{html}{\out{<a id="method-DataBackend-format"></a>}}
+\if{latex}{\out{\hypertarget{method-DataBackend-format}{}}}
 \subsection{Method \code{format()}}{
 Helper for print outputs.
 \subsection{Usage}{
@@ -125,8 +125,8 @@ Helper for print outputs.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-print"></a>}}
-\if{latex}{\out{\hypertarget{method-print}{}}}
+\if{html}{\out{<a id="method-DataBackend-print"></a>}}
+\if{latex}{\out{\hypertarget{method-DataBackend-print}{}}}
 \subsection{Method \code{print()}}{
 Printer.
 \subsection{Usage}{

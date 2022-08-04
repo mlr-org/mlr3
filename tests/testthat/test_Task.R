@@ -210,7 +210,8 @@ test_that("select works", {
   task$select("Sepal.Width")
   expect_equal(task$feature_names, "Sepal.Width")
 
-  expect_error(task$select(1:4), "subset")
+  expect_error(task$select(1:4), "character")
+  expect_error(task$select("xxx", "subset"))
 })
 
 test_that("rename works", {
@@ -454,7 +455,7 @@ test_that("set_levels", {
   expect_equal(tab$levels[[1]], new_lvls)
   expect_equal(tab$fix_factor_levels[[1]], TRUE)
   expect_equal(levels(task$data(1)$sex), new_lvls)
-  expect_equal(levels(task$head()$sex), new_lvls)
+  expect_equal(levels(head(task)$sex), new_lvls)
 
 
   new_lvls = c("female", "nothing")
@@ -464,9 +465,9 @@ test_that("set_levels", {
   expect_equal(tab$levels[[1]], new_lvls)
   expect_equal(tab$fix_factor_levels[[1]], TRUE)
   expect_equal(as.integer(task$data(1)$sex), NA_integer_)
-  expect_equal(as.integer(task$head(1)$sex), NA_integer_)
+  expect_equal(as.integer(head(task, 1)$sex), NA_integer_)
   expect_equal(levels(task$data(1)$sex), new_lvls)
-  expect_equal(levels(task$head(1)$sex), new_lvls)
+  expect_equal(levels(head(task, 1)$sex), new_lvls)
 })
 
 test_that("special chars in feature names (#697)", {
@@ -480,7 +481,23 @@ test_that("special chars in feature names (#697)", {
   options(mlr3.allow_utf8_names = TRUE)
 
   expect_error(
-    TaskRegr$new("test", data.table(`%^` = 1:3, t = 3:1), target = "t"),
+    TaskRegr$new("test", data.table(`%asd` = 1:3, t = 3:1), target = "t")
+    ,
     "special character"
   )
+})
+
+test_that("head/tail", {
+  task = tsk("iris")
+  expect_data_table(head(task, n = 3), nrows = 3)
+  expect_data_table(head(task, n = -3), nrows = task$nrow - 3)
+
+  expect_data_table(tail(task, n = 3), nrows = 3)
+  expect_data_table(tail(task, n = -3), nrows = task$nrow - 3)
+
+  expect_data_table(head(task, n = Inf), nrows = 150)
+  expect_data_table(tail(task, n = Inf), nrows = 150)
+
+  expect_data_table(head(task, n = -Inf), nrows = 0)
+  expect_data_table(tail(task, n = -Inf), nrows = 0)
 })

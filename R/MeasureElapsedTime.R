@@ -35,7 +35,7 @@ MeasureElapsedTime = R6Class("MeasureElapsedTime",
       super$initialize(
         id = id,
         task_type = NA_character_,
-        predict_type = "response",
+        predict_type = NA_character_,
         range = c(0, Inf),
         minimize = TRUE,
         label = "Elapsed Time",
@@ -55,6 +55,6 @@ MeasureElapsedTime = R6Class("MeasureElapsedTime",
 )
 
 #' @include mlr_measures.R
-mlr_measures$add("time_train", MeasureElapsedTime, id = "time_train", stages = "train")
-mlr_measures$add("time_predict", MeasureElapsedTime, id = "time_predict", stages = "predict")
-mlr_measures$add("time_both", MeasureElapsedTime, id = "time_both", stages = c("train", "predict"))
+mlr_measures$add("time_train", function() MeasureElapsedTime$new(id = "time_train", stages = "train"))
+mlr_measures$add("time_predict", function() MeasureElapsedTime$new(id = "time_predict", stages = "predict"))
+mlr_measures$add("time_both", function() MeasureElapsedTime$new(id = "time_both", stages = c("train", "predict")))

@@ -1,9 +1,24 @@
+# mlr3 0.13.4
+
+* Added new options for parallelization (`"mlr3.exec_random"` and
+  `"mlr3.exec_chunk_size"`). These options are passed down to the respective map
+  functions in package `future.apply`.
+* Fixed runtime measures depending on specific predict types (#832).
+* Added `head()` and `tail()` methods for `Task`.
+* Improved printing of multiple objects.
+
+
 # mlr3 0.13.3
 
 * Most objects now have a new (optional) field `label`, i.e. `Task`,
   `TaskGenerator`, `Learner`, `Resampling`, and `Measure`.
 * `as.data.table()` methods for objects of class `Dictonary` have been extended
   with additional columns.
+* `as_task_classif.formula()` and `as_task_regr.formula()` now remove additional
+  atrributes attached to the data which caused some some learners to break.
+* Packages are now loaded prior to calling the `$train()` and `$predict()`
+  methods of a `Learner`. This ensures that package loading errors are properly
+  propagated and not affected by encapsulation (#771).
 
 
 # mlr3 0.13.2

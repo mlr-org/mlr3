@@ -105,24 +105,9 @@ resample = function(task, learner, resampling, store_models = FALSE, store_backe
     data.table(learner = replicate(n, learner), mode = "train")
   }
 
-  if (getOption("mlr3.debug", FALSE)) {
-    lg$info("Running resample() sequentially in debug mode with %i iterations", n)
-    res = mapply(workhorse,
-      iteration = seq_len(n), learner = grid$learner, mode = grid$mode,
-      MoreArgs = list(task = task, resampling = resampling, store_models = store_models, lgr_threshold = lgr_threshold,
-        pb = pb), SIMPLIFY = FALSE
-    )
-  } else {
-    lg$debug("Running resample() via future with %i iterations", n)
-
-    res = future.apply::future_mapply(workhorse,
-      iteration = seq_len(n), learner = grid$learner, mode = grid$mode,
-      MoreArgs = list(task = task, resampling = resampling, store_models = store_models, lgr_threshold = lgr_threshold,
-      pb = pb),
-      SIMPLIFY = FALSE, future.globals = FALSE, future.scheduling = structure(TRUE, ordering = "random"),
-      future.packages = "mlr3", future.seed = TRUE, future.stdout = future_stdout()
-    )
-  }
+  res = future_map(n, workhorse, iteration = seq_len(n), learner = grid$learner, mode = grid$mode,
+    MoreArgs = list(task = task, resampling = resampling, store_models = store_models, lgr_threshold = lgr_threshold, pb = pb)
+  )
 
   data = data.table(
     task = list(task),

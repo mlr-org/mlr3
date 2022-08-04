@@ -61,4 +61,4 @@ TaskGeneratorCassini = R6Class("TaskGeneratorCassini",
 )
 
 #' @include mlr_task_generators.R
-mlr_task_generators$add("cassini", TaskGeneratorCassini)
+mlr_task_generators$add("cassini", function() TaskGeneratorCassini$new())

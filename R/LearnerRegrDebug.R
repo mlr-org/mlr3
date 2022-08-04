@@ -99,4 +99,4 @@ LearnerRegrDebug = R6Class("LearnerRegrDebug", inherit = LearnerRegr,
 )
 
 #' @include mlr_learners.R
-mlr_learners$add("regr.debug", LearnerRegrDebug)
+mlr_learners$add("regr.debug", function() LearnerRegrDebug$new())

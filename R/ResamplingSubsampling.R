@@ -94,4 +94,4 @@ ResamplingSubsampling = R6Class("ResamplingSubsampling", inherit = Resampling,
 )
 
 #' @include mlr_resamplings.R
-mlr_resamplings$add("subsampling", ResamplingSubsampling)
+mlr_resamplings$add("subsampling", function() ResamplingSubsampling$new())

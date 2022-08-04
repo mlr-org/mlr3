@@ -38,7 +38,7 @@ Status](https://www.r-pkg.org/badges/version-ago/mlr3)](https://cran.r-project.o
         search](https://mlr3extralearners.mlr-org.com/articles/learners/list_learners.html)
         to get a simple overview
     -   Use the [learner
-        status](https://mlr3extralearners.mlr-org.com/articles/learners/learner_status.html)
+        status](https://mlr3extralearners.mlr-org.com/articles/learners/test_overview.html)
         to see their build status
 -   **Cheatsheets**
     -   [Overview of cheatsheets](https://cheatsheets.mlr-org.com)
@@ -64,10 +64,10 @@ Status](https://www.r-pkg.org/badges/version-ago/mlr3)](https://cran.r-project.o
         and
         [exercises](https://github.com/slds-lmu/lecture_i2ml/tree/master/exercises).
 -   **Templates/Tutorials**
-    -   [mlr3-learndrake](https://github.com/mlr-org/mlr3-learndrake):
-        Shows how to use mlr3 with
-        [drake](https://docs.ropensci.org/drake/) for reproducible ML
-        workflow automation.
+    -   [mlr3-targets](https://github.com/mlr-org/mlr3-targets):
+        Tutorial showcasing how to use {mlr3} with
+        [targets](https://docs.ropensci.org/targets/) for reproducible
+        ML workflow automation.
 -   [List of extension
     packages](https://github.com/mlr-org/mlr3/wiki/Extension-Packages)
 -   [mlr-outreach](https://github.com/mlr-org/mlr-outreach) contains
@@ -107,11 +107,11 @@ install.packages("mlr3verse")
 library(mlr3)
 
 # create learning task
-task_penguins <- TaskClassif$new(id = "penguins", backend = palmerpenguins::penguins, target = "species")
+task_penguins = as_task_classif(species ~ ., data = palmerpenguins::penguins)
 task_penguins
 ```
 
-    ## <TaskClassif:penguins> (344 x 8)
+    ## <TaskClassif:palmerpenguins::penguins> (344 x 8)
     ## * Target: species
     ## * Properties: multiclass
     ## * Features (7):
@@ -121,21 +121,20 @@ task_penguins
 
 ``` r
 # load learner and set hyperparameter
-learner <- lrn("classif.rpart", cp = .01)
+learner = lrn("classif.rpart", cp = .01)
 ```
 
 ### Basic train + predict
 
 ``` r
 # train/test split
-train_set <- sample(task_penguins$nrow, 0.8 * task_penguins$nrow)
-test_set <- setdiff(seq_len(task_penguins$nrow), train_set)
+split = partition(task_penguins, ratio = 0.67)
 
 # train the model
-learner$train(task_penguins, row_ids = train_set)
+learner$train(task_penguins, split$train_set)
 
 # predict data
-prediction <- learner$predict(task_penguins, row_ids = test_set)
+prediction = learner$predict(task_penguins, split$test_set)
 
 # calculate performance
 prediction$confusion
@@ -143,46 +142,42 @@ prediction$confusion
 
     ##            truth
     ## response    Adelie Chinstrap Gentoo
-    ##   Adelie        32         2      0
-    ##   Chinstrap      1         8      0
-    ##   Gentoo         0         3     23
+    ##   Adelie       146         5      0
+    ##   Chinstrap      6        63      1
+    ##   Gentoo         0         0    123
 
 ``` r
-measure <- msr("classif.acc")
+measure = msr("classif.acc")
 prediction$score(measure)
 ```
 
     ## classif.acc 
-    ##   0.9130435
+    ##   0.9651163
 
 ### Resample
 
 ``` r
-# automatic resampling
-resampling <- rsmp("cv", folds = 3L)
-rr <- resample(task_penguins, learner, resampling)
-rr$score(measure)
+# 3-fold cross validation
+resampling = rsmp("cv", folds = 3L)
+
+# run experiments
+rr = resample(task_penguins, learner, resampling)
+
+# access results
+rr$score(measure)[, .(task_id, learner_id, iteration, classif.acc)]
 ```
 
-    ##                 task  task_id                   learner    learner_id
-    ## 1: <TaskClassif[49]> penguins <LearnerClassifRpart[37]> classif.rpart
-    ## 2: <TaskClassif[49]> penguins <LearnerClassifRpart[37]> classif.rpart
-    ## 3: <TaskClassif[49]> penguins <LearnerClassifRpart[37]> classif.rpart
-    ##            resampling resampling_id iteration              prediction
-    ## 1: <ResamplingCV[19]>            cv         1 <PredictionClassif[20]>
-    ## 2: <ResamplingCV[19]>            cv         2 <PredictionClassif[20]>
-    ## 3: <ResamplingCV[19]>            cv         3 <PredictionClassif[20]>
-    ##    classif.acc
-    ## 1:   0.8956522
-    ## 2:   0.9130435
-    ## 3:   0.9473684
+    ##                     task_id    learner_id iteration classif.acc
+    ## 1: palmerpenguins::penguins classif.rpart         1   0.9391304
+    ## 2: palmerpenguins::penguins classif.rpart         2   0.9478261
+    ## 3: palmerpenguins::penguins classif.rpart         3   0.9298246
 
 ``` r
 rr$aggregate(measure)
 ```
 
     ## classif.acc 
-    ##    0.918688
+    ##    0.938927
 
 ## Extension Packages
 

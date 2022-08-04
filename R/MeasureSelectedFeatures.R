@@ -65,4 +65,4 @@ MeasureSelectedFeatures = R6Class("MeasureSelectedFeatures",
 )
 
 #' @include mlr_measures.R
-mlr_measures$add("selected_features", MeasureSelectedFeatures)
+mlr_measures$add("selected_features", function() MeasureSelectedFeatures$new())

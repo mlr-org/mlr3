@@ -105,7 +105,7 @@ MeasureClassifCosts = R6Class("MeasureClassifCosts",
 )
 
 #' @include mlr_measures.R
-mlr_measures$add("classif.costs", MeasureClassifCosts)
+mlr_measures$add("classif.costs", function() MeasureClassifCosts$new())
 
 assert_cost_matrix = function(costs, task = NULL) {
   if (is.null(task)) {

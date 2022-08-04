@@ -71,7 +71,7 @@ print(bmr)
 \seealso{
 \itemize{
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
-\url{https://mlr3book.mlr-org.com/basics.html#benchmarking}
+\url{https://mlr3book.mlr-org.com/02-basics-train-predict.html}
 \item Package \CRANpkg{mlr3viz} for some generic visualizations.
 \item \CRANpkg{mlr3benchmark} for post-hoc analysis of benchmark results.
 }
@@ -84,11 +84,6 @@ Other benchmark:
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{data}}{(\code{ResultData})\cr
-Internal data storage object of type \code{ResultData}.
-This field is deprecated and will be removed in the next release.
-Use \code{as.table.table(BenchmarkResult)} instead.}
-
 \item{\code{task_type}}{(\code{character(1)})\cr
 Task type of objects in the \code{BenchmarkResult}.
 All stored objects (\link{Task}, \link{Learner}, \link{Prediction}) in a single \code{BenchmarkResult} are
@@ -141,22 +136,22 @@ Set of (unique) hashes of all included \link{ResampleResult}s.}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{BenchmarkResult$new()}}
-\item \href{#method-help}{\code{BenchmarkResult$help()}}
-\item \href{#method-format}{\code{BenchmarkResult$format()}}
-\item \href{#method-print}{\code{BenchmarkResult$print()}}
-\item \href{#method-combine}{\code{BenchmarkResult$combine()}}
-\item \href{#method-score}{\code{BenchmarkResult$score()}}
-\item \href{#method-aggregate}{\code{BenchmarkResult$aggregate()}}
-\item \href{#method-filter}{\code{BenchmarkResult$filter()}}
-\item \href{#method-resample_result}{\code{BenchmarkResult$resample_result()}}
-\item \href{#method-discard}{\code{BenchmarkResult$discard()}}
-\item \href{#method-clone}{\code{BenchmarkResult$clone()}}
+\item \href{#method-BenchmarkResult-new}{\code{BenchmarkResult$new()}}
+\item \href{#method-BenchmarkResult-help}{\code{BenchmarkResult$help()}}
+\item \href{#method-BenchmarkResult-format}{\code{BenchmarkResult$format()}}
+\item \href{#method-BenchmarkResult-print}{\code{BenchmarkResult$print()}}
+\item \href{#method-BenchmarkResult-combine}{\code{BenchmarkResult$combine()}}
+\item \href{#method-BenchmarkResult-score}{\code{BenchmarkResult$score()}}
+\item \href{#method-BenchmarkResult-aggregate}{\code{BenchmarkResult$aggregate()}}
+\item \href{#method-BenchmarkResult-filter}{\code{BenchmarkResult$filter()}}
+\item \href{#method-BenchmarkResult-resample_result}{\code{BenchmarkResult$resample_result()}}
+\item \href{#method-BenchmarkResult-discard}{\code{BenchmarkResult$discard()}}
+\item \href{#method-BenchmarkResult-clone}{\code{BenchmarkResult$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-BenchmarkResult-new"></a>}}
+\if{latex}{\out{\hypertarget{method-BenchmarkResult-new}{}}}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
@@ -174,8 +169,8 @@ An object of type \code{ResultData}, either extracted from another \link{Resampl
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-help"></a>}}
-\if{latex}{\out{\hypertarget{method-help}{}}}
+\if{html}{\out{<a id="method-BenchmarkResult-help"></a>}}
+\if{latex}{\out{\hypertarget{method-BenchmarkResult-help}{}}}
 \subsection{Method \code{help()}}{
 Opens the help page for this object.
 \subsection{Usage}{
@@ -184,8 +179,8 @@ Opens the help page for this object.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-format"></a>}}
-\if{latex}{\out{\hypertarget{method-format}{}}}
+\if{html}{\out{<a id="method-BenchmarkResult-format"></a>}}
+\if{latex}{\out{\hypertarget{method-BenchmarkResult-format}{}}}
 \subsection{Method \code{format()}}{
 Helper for print outputs.
 \subsection{Usage}{
@@ -194,8 +189,8 @@ Helper for print outputs.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-print"></a>}}
-\if{latex}{\out{\hypertarget{method-print}{}}}
+\if{html}{\out{<a id="method-BenchmarkResult-print"></a>}}
+\if{latex}{\out{\hypertarget{method-BenchmarkResult-print}{}}}
 \subsection{Method \code{print()}}{
 Printer.
 \subsection{Usage}{
@@ -204,8 +199,8 @@ Printer.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-combine"></a>}}
-\if{latex}{\out{\hypertarget{method-combine}{}}}
+\if{html}{\out{<a id="method-BenchmarkResult-combine"></a>}}
+\if{latex}{\out{\hypertarget{method-BenchmarkResult-combine}{}}}
 \subsection{Method \code{combine()}}{
 Fuses a second \link{BenchmarkResult} into itself, mutating the \link{BenchmarkResult} in-place.
 If the second \link{BenchmarkResult} \code{bmr} is \code{NULL}, simply returns \code{self}.
@@ -229,8 +224,8 @@ the object in its previous state.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-score"></a>}}
-\if{latex}{\out{\hypertarget{method-score}{}}}
+\if{html}{\out{<a id="method-BenchmarkResult-score"></a>}}
+\if{latex}{\out{\hypertarget{method-BenchmarkResult-score}{}}}
 \subsection{Method \code{score()}}{
 Returns a table with one row for each resampling iteration, including
 all involved objects: \link{Task}, \link{Learner}, \link{Resampling}, iteration number
@@ -278,8 +273,8 @@ Default is \code{"test"}.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-aggregate"></a>}}
-\if{latex}{\out{\hypertarget{method-aggregate}{}}}
+\if{html}{\out{<a id="method-BenchmarkResult-aggregate"></a>}}
+\if{latex}{\out{\hypertarget{method-BenchmarkResult-aggregate}{}}}
 \subsection{Method \code{aggregate()}}{
 Returns a result table where resampling iterations are combined into
 \link{ResampleResult}s. A column with the aggregated performance score is
@@ -339,8 +334,8 @@ iterations with errors as extra integer column \code{"errors"}.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-filter"></a>}}
-\if{latex}{\out{\hypertarget{method-filter}{}}}
+\if{html}{\out{<a id="method-BenchmarkResult-filter"></a>}}
+\if{latex}{\out{\hypertarget{method-BenchmarkResult-filter}{}}}
 \subsection{Method \code{filter()}}{
 Subsets the benchmark result. If \code{task_ids} is not \code{NULL}, keeps all
 tasks with provided task ids and discards all others tasks.
@@ -386,8 +381,8 @@ the object in its previous state.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-resample_result"></a>}}
-\if{latex}{\out{\hypertarget{method-resample_result}{}}}
+\if{html}{\out{<a id="method-BenchmarkResult-resample_result"></a>}}
+\if{latex}{\out{\hypertarget{method-BenchmarkResult-resample_result}{}}}
 \subsection{Method \code{resample_result()}}{
 Retrieve the i-th \link{ResampleResult}, by position or by unique hash \code{uhash}.
 \code{i} and \code{uhash} are mutually exclusive.
@@ -411,8 +406,8 @@ The \code{ushash} value to filter for.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-discard"></a>}}
-\if{latex}{\out{\hypertarget{method-discard}{}}}
+\if{html}{\out{<a id="method-BenchmarkResult-discard"></a>}}
+\if{latex}{\out{\hypertarget{method-BenchmarkResult-discard}{}}}
 \subsection{Method \code{discard()}}{
 Shrinks the \link{BenchmarkResult} by discarding parts of the internally stored data.
 Note that certain operations might stop work, e.g. extracting
@@ -439,8 +434,8 @@ the object in its previous state.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-BenchmarkResult-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-BenchmarkResult-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

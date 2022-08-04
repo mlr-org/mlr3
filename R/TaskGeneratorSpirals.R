@@ -58,4 +58,4 @@ TaskGeneratorSpirals = R6Class("TaskGeneratorSpirals",
 )
 
 #' @include mlr_task_generators.R
-mlr_task_generators$add("spirals", TaskGeneratorSpirals)
+mlr_task_generators$add("spirals", function() TaskGeneratorSpirals$new())

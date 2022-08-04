@@ -7,8 +7,7 @@
 #'
 #' Learners are build around the three following key parts:
 #'
-#' * Methods `$train()` and `$predict()` which call internal methods (either public method `$train_internal()`/`$predict_internal()` (deprecated)
-#'   or private methods `$.train()`/`$.predict()`).
+#' * Methods `$train()` and `$predict()` which call internal methods or private methods `$.train()`/`$.predict()`).
 #' * A [paradox::ParamSet] which stores meta-information about available hyperparameters, and also stores hyperparameter settings.
 #' * Meta-information about the requirements and capabilities of the learner.
 #' * The fitted model stored in field `$model`, available after calling `$train()`.
@@ -143,7 +142,7 @@ Learner = R6Class("Learner",
     #' This works differently for different encapsulation methods, see
     #' [mlr3misc::encapsulate()].
     #' Default is `c(train = Inf, predict = Inf)`.
-    #' Also see the section on error handling the mlr3book: \url{https://mlr3book.mlr-org.com/technical.html#error-handling}
+    #' Also see the section on error handling the mlr3book: \url{https://mlr3book.mlr-org.com/06-technical-error-handling.html}
     timeout = c(train = Inf, predict = Inf),
 
     #' @template field_man
@@ -160,8 +159,9 @@ Learner = R6Class("Learner",
       self$label = assert_string(label, na.ok = TRUE)
       self$task_type = assert_choice(task_type, mlr_reflections$task_types$type)
       private$.param_set = assert_param_set(param_set)
-      self$feature_types = assert_subset(feature_types, mlr_reflections$task_feature_types)
-      self$predict_types = assert_subset(predict_types, names(mlr_reflections$learner_predict_types[[task_type]]), empty.ok = FALSE)
+      self$feature_types = assert_ordered_set(feature_types, mlr_reflections$task_feature_types, .var.name = "feature_types")
+      self$predict_types = assert_ordered_set(predict_types, names(mlr_reflections$learner_predict_types[[task_type]]),
+        empty.ok = FALSE, .var.name = "predict_types")
       private$.predict_type = predict_types[1L]
       self$properties = sort(assert_subset(properties, mlr_reflections$learner_properties[[task_type]]))
       self$data_formats = assert_subset(data_formats, mlr_reflections$data_formats)
@@ -181,12 +181,12 @@ Learner = R6Class("Learner",
     #' Printer.
     #' @param ... (ignored).
     print = function(...) {
-      catn(format(self), if (is.na(self$label)) "" else paste0(": ", self$label))
+      catn(format(self), if (is.null(self$label) || is.na(self$label)) "" else paste0(": ", self$label))
       catn(str_indent("* Model:", if (is.null(self$model)) "-" else class(self$model)[1L]))
       catn(str_indent("* Parameters:", as_short_string(self$param_set$values, 1000L)))
       catn(str_indent("* Packages:", self$packages))
-      catn(str_indent("* Predict Type:", self$predict_type))
-      catn(str_indent("* Feature types:", self$feature_types))
+      catn(str_indent("* Predict Types: ", replace(self$predict_types, self$predict_types == self$predict_type, paste0("[", self$predict_type, "]"))))
+      catn(str_indent("* Feature Types:", self$feature_types))
       catn(str_indent("* Properties:", self$properties))
       w = self$warnings
       e = self$errors
@@ -283,7 +283,7 @@ Learner = R6Class("Learner",
       if (is.null(pdata)) {
         return(NULL)
       } else {
-        as_prediction(check_prediction_data(pdata))
+        as_prediction(pdata)
       }
     },
 
@@ -372,7 +372,9 @@ Learner = R6Class("Learner",
     #' @field model (any)\cr
     #' The fitted model. Only available after `$train()` has been called.
     model = function(rhs) {
-      assert_ro_binding(rhs)
+      if (!missing(rhs)) {
+        self$state$model = rhs
+      }
       self$state$model
     },
 
@@ -474,7 +476,7 @@ Learner = R6Class("Learner",
     #' Requires encapsulation, otherwise errors are not caught and the execution is terminated before the fallback learner kicks in.
     #' If you have not set encapsulation manually before, setting the fallback learner automatically
     #' activates encapsulation using the \CRANpkg{evaluate} package.
-    #' Also see the section on error handling the mlr3book: \url{https://mlr3book.mlr-org.com/technical.html#error-handling}
+    #' Also see the section on error handling the mlr3book: \url{https://mlr3book.mlr-org.com/06-technical-error-handling.html}
     fallback = function(rhs) {
       if (missing(rhs)) {
         return(private$.fallback)
@@ -531,12 +533,13 @@ Learner = R6Class("Learner",
 
 #' @export
 rd_info.Learner = function(obj) {
-  c("",
+  x = c("",
     sprintf("* Task type: %s", rd_format_string(obj$task_type)),
     sprintf("* Predict Types: %s", rd_format_string(obj$predict_types)),
     sprintf("* Feature Types: %s", rd_format_string(obj$feature_types)),
     sprintf("* Required Packages: %s", rd_format_packages(obj$packages))
   )
+  paste(x, collapse = "\n")
 }
 
 get_log_condition = function(state, condition) {
@@ -548,11 +551,10 @@ get_log_condition = function(state, condition) {
 }
 
 #' @export
-format_list_item.Learner = function(x, ...) { # nolint
-  sprintf("<lrn:%s>", x$id)
-}
-
-#' @export
 default_values.Learner = function(x, search_space, task, ...) { # nolint
   default_values(x$param_set)[search_space$ids()]
 }
+# #' @export
+# format_list_item.Learner = function(x, ...) { # nolint
+#   sprintf("<lrn:%s>", x$id)
+# }

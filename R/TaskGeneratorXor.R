@@ -57,4 +57,4 @@ TaskGeneratorXor = R6Class("TaskGeneratorXor",
 )
 
 #' @include mlr_task_generators.R
-mlr_task_generators$add("xor", TaskGeneratorXor)
+mlr_task_generators$add("xor", function() TaskGeneratorXor$new())
