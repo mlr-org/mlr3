@@ -94,6 +94,7 @@
 <ul><li>Setting a fallback learner for a learner with encapsulation in its default settings now automatically sets encapsulation to <code>"evaluate"</code> (<a href="https://github.com/mlr-org/mlr3/issues/763" class="external-link">#763</a>).</li>
 <li>
 <code><a href="../reference/as_task_classif.html">as_task_classif()</a></code> and <code><a href="../reference/as_task_regr.html">as_task_regr()</a></code> now support the construction of tasks using the formula interface, e.g. <code>as_task_regr(mpg ~ ., data = mtcars)</code> (<a href="https://github.com/mlr-org/mlr3/issues/761" class="external-link">#761</a>).</li>
+<li>Added <code>default_values()</code> function to extract parameter default values from <code>Learner</code> objects.</li>
 <li>The row role <code>"validation"</code> has been renamed to <code>"holdout"</code>. In the next release, <code>mlr3</code> will start switching to the now more common terms <code>"train"</code>/<code>"validation"</code> instead of <code>"train"</code>/<code>"test"</code> for the sets created during resampling.</li>
 </ul></div>
     <div class="section level2">
