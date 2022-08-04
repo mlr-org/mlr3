@@ -60,3 +60,17 @@ test_that("early_stopping set is available", {
     expect_equal(rr$learners[[i]]$model$task_train$row_roles$early_stopping, seq(10))
   })
 })
+
+test_that("default_values", {
+  learner = lrn("classif.debug")
+  search_space = ps(iter = p_int(1, 10))
+  task = tsk("pima")
+
+  values = default_values(learner, search_space, task)
+  expect_names(names(values), identical.to = "iter")
+})
+
+test_that("default_values works with empty search space", {
+  learner = lrn("classif.debug")
+  expect_list(default_values(learner, ps(), task), len = 0)
+})
