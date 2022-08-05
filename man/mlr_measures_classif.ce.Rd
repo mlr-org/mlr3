@@ -67,6 +67,10 @@ Other classification measures:
 \code{\link{mlr_measures_classif.fpr}},
 \code{\link{mlr_measures_classif.fp}},
 \code{\link{mlr_measures_classif.logloss}},
+\code{\link{mlr_measures_classif.mauc_au1p}},
+\code{\link{mlr_measures_classif.mauc_au1u}},
+\code{\link{mlr_measures_classif.mauc_aunp}},
+\code{\link{mlr_measures_classif.mauc_aunu}},
 \code{\link{mlr_measures_classif.mbrier}},
 \code{\link{mlr_measures_classif.mcc}},
 \code{\link{mlr_measures_classif.npv}},
@@ -86,6 +90,10 @@ Other multiclass classification measures:
 \code{\link{mlr_measures_classif.bacc}},
 \code{\link{mlr_measures_classif.costs}},
 \code{\link{mlr_measures_classif.logloss}},
+\code{\link{mlr_measures_classif.mauc_au1p}},
+\code{\link{mlr_measures_classif.mauc_au1u}},
+\code{\link{mlr_measures_classif.mauc_aunp}},
+\code{\link{mlr_measures_classif.mauc_aunu}},
 \code{\link{mlr_measures_classif.mbrier}}
 }
 \concept{classification measures}
