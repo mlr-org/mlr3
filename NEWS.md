@@ -1,3 +1,11 @@
+# mlr3 0.14.0
+
+* Added multiclass measures: `mauc_aunu`, `mauc_aunp`, `mauc_au1u`, `mauc_au1p`.
+* Measure `classif.costs` does not require a `Task` anymore.
+* New converter: `as_task_unsupervised()`
+* Refactored the task types in `mlr_reflections`.
+
+
 # mlr3 0.13.4
 
 * Added new options for parallelization (`"mlr3.exec_random"` and
