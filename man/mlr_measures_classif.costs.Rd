@@ -11,8 +11,6 @@ The cost matrix is stored as slot \verb{$costs}.
 
 For calculation of the score, the confusion matrix is multiplied element-wise with the cost matrix.
 The costs are then summed up (and potentially divided by the number of observations if \code{normalize} is set to \code{TRUE} (default)).
-
-This measure requires the \link{Task} during scoring to ensure that the rows and columns of the cost matrix are in the same order as in the confusion matrix.
 }
 \section{Dictionary}{
 
