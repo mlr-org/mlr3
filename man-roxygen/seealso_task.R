@@ -1,7 +1,7 @@
 #' @seealso
 #'
 #' * Chapter in the [mlr3book](https://mlr3book.mlr-org.com/):
-#'   \url{https://mlr3book.mlr-org.com/02-basics-tasks.html}
+#'   \url{https://mlr3book.mlr-org.com/basics.html#tasks}
 #' * Package \CRANpkg{mlr3data} for more toy tasks.
 #' * Package \CRANpkg{mlr3oml} for downloading tasks from \url{https://www.openml.org}.
 #' * Package \CRANpkg{mlr3viz} for some generic visualizations.

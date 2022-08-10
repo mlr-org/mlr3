@@ -159,7 +159,7 @@ print(bmr1$combine(bmr2))
 \itemize{
 \item \code{\link[=as_benchmark_result]{as_benchmark_result()}} to convert to a \link{BenchmarkResult}.
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
-\url{https://mlr3book.mlr-org.com/03-perf-resampling.html}
+\url{https://mlr3book.mlr-org.com/performance.html#sec-resampling}
 \item Package \CRANpkg{mlr3viz} for some generic visualizations.
 }
 

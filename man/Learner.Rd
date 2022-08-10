@@ -79,7 +79,7 @@ Here, we add a factor hyperparameter with id \code{"foo"} and possible levels \c
 \seealso{
 \itemize{
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
-\url{https://mlr3book.mlr-org.com/02-basics-learners.html}
+\url{https://mlr3book.mlr-org.com/basics.html#learners}
 \item Package \CRANpkg{mlr3learners} for a solid collection of essential learners.
 \item Package \href{https://github.com/mlr-org/mlr3extralearners}{mlr3extralearners} for more learners.
 \item \link[mlr3misc:Dictionary]{Dictionary} of \link[=Learner]{Learners}: \link{mlr_learners}
@@ -170,7 +170,7 @@ Timeout for the learner's train and predict steps, in seconds.
 This works differently for different encapsulation methods, see
 \code{\link[mlr3misc:encapsulate]{mlr3misc::encapsulate()}}.
 Default is \code{c(train = Inf, predict = Inf)}.
-Also see the section on error handling the mlr3book: \url{https://mlr3book.mlr-org.com/06-technical-error-handling.html}}
+Also see the section on error handling the mlr3book: \url{https://mlr3book.mlr-org.com/technical.html#error-handling}}
 
 \item{\code{man}}{(\code{character(1)})\cr
 String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
@@ -228,7 +228,7 @@ Learner which is fitted to impute predictions in case that either the model fitt
 Requires encapsulation, otherwise errors are not caught and the execution is terminated before the fallback learner kicks in.
 If you have not set encapsulation manually before, setting the fallback learner automatically
 activates encapsulation using the \CRANpkg{evaluate} package.
-Also see the section on error handling the mlr3book: \url{https://mlr3book.mlr-org.com/06-technical-error-handling.html}}
+Also see the section on error handling the mlr3book: \url{https://mlr3book.mlr-org.com/technical.html#error-handling}}
 
 \item{\code{hotstart_stack}}{(\link{HotstartStack})\cr.
 Stores \code{HotstartStack}.}
