@@ -72,7 +72,7 @@ Imports:
     mlr3misc (>= 0.10.0),
     parallelly,
     palmerpenguins,
-    paradox (>= 0.8.0),
+    paradox (>= 0.10.0),
     uuid
 Suggests:
     Matrix,
@@ -86,8 +86,6 @@ Suggests:
     remotes,
     rpart,
     testthat (>= 3.1.0)
-Remotes:
-    mlr-org/paradox
 Encoding: UTF-8
 Config/testthat/edition: 3
 Config/testthat/parallel: false
