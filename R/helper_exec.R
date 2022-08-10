@@ -32,7 +32,7 @@ future_map = function(n, FUN, ..., MoreArgs = list()) {
     chunk_size = getOption("mlr3.exec_chunk_size", 1)
     stdout = if (is_sequential) NA else TRUE
 
-    lg$debug("Running resample() via future with %n iterations", n)
+    lg$debug("Running resample() via future with %i iterations", n)
     future.apply::future_mapply(
       FUN, ..., MoreArgs = MoreArgs, SIMPLIFY = FALSE, USE.NAMES = FALSE,
       future.globals = FALSE, future.packages = "mlr3", future.seed = TRUE,
