@@ -133,6 +133,9 @@
     <loc>https://mlr3.mlr-org.com/reference/as_task_regr.html</loc>
   </url>
   <url>
+    <loc>https://mlr3.mlr-org.com/reference/as_task_unsupervised.html</loc>
+  </url>
+  <url>
     <loc>https://mlr3.mlr-org.com/reference/auto_convert.html</loc>
   </url>
   <url>
@@ -233,6 +236,18 @@
   </url>
   <url>
     <loc>https://mlr3.mlr-org.com/reference/mlr_measures_classif.logloss.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_classif.mauc_au1p.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_classif.mauc_au1u.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_classif.mauc_aunp.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_classif.mauc_aunu.html</loc>
   </url>
   <url>
     <loc>https://mlr3.mlr-org.com/reference/mlr_measures_classif.mbrier.html</loc>

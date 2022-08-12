@@ -18,7 +18,7 @@ For statistical analysis of benchmark results and more advanced plots, see mlr3b
     
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.13.4</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.14.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -111,7 +111,7 @@ Combines multiple objects convertible to BenchmarkResult into a new BenchmarkRes
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index">
 <ul><li><p>Chapter in the <a href="https://mlr3book.mlr-org.com/" class="external-link">mlr3book</a>:
-<a href="https://mlr3book.mlr-org.com/02-basics-train-predict.html" class="external-link">https://mlr3book.mlr-org.com/02-basics-train-predict.html</a></p></li>
+<a href="https://mlr3book.mlr-org.com/performance.html" class="external-link">https://mlr3book.mlr-org.com/performance.html</a></p></li>
 <li><p>Package <a href="https://CRAN.R-project.org/package=mlr3viz" class="external-link"><span class="pkg">mlr3viz</span></a> for some generic visualizations.</p></li>
 <li><p><a href="https://CRAN.R-project.org/package=mlr3benchmark" class="external-link"><span class="pkg">mlr3benchmark</span></a> for post-hoc analysis of benchmark results.</p></li>
 </ul><p>Other benchmark: 
@@ -552,11 +552,11 @@ the object in its previous state.</p>
 <span class="r-in"><span><span class="co"># first 5 resampling iterations</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html" class="external-link">as.data.table</a></span><span class="op">(</span><span class="va">bmr</span>, measures <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"classif.acc"</span>, <span class="st">"classif.auc"</span><span class="op">)</span><span class="op">)</span>, <span class="fl">5</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                   uhash              task</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 913d38ea-6f49-4b07-98e5-ef2118e17437 &lt;TaskClassif[50]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 913d38ea-6f49-4b07-98e5-ef2118e17437 &lt;TaskClassif[50]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 913d38ea-6f49-4b07-98e5-ef2118e17437 &lt;TaskClassif[50]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4: b971ff21-3324-4042-8309-8bc9e2af4770 &lt;TaskClassif[50]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5: b971ff21-3324-4042-8309-8bc9e2af4770 &lt;TaskClassif[50]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 257459eb-bab6-4554-801c-7ab126a76269 &lt;TaskClassif[50]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 257459eb-bab6-4554-801c-7ab126a76269 &lt;TaskClassif[50]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 257459eb-bab6-4554-801c-7ab126a76269 &lt;TaskClassif[50]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4: 2da38961-eb3b-4f91-8d23-3d564b768e9d &lt;TaskClassif[50]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5: 2da38961-eb3b-4f91-8d23-3d564b768e9d &lt;TaskClassif[50]&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                            learner         resampling iteration</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: &lt;LearnerClassifFeatureless[38]&gt; &lt;ResamplingCV[20]&gt;         1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2: &lt;LearnerClassifFeatureless[38]&gt; &lt;ResamplingCV[20]&gt;         2</span>
