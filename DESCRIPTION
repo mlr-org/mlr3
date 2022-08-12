@@ -1,6 +1,6 @@
 Package: mlr3
 Title: Machine Learning in R - Next Generation
-Version: 0.13.3-9000
+Version: 0.14.0-9000
 Authors@R:
     c(person(given = "Michel",
              family = "Lang",
@@ -72,7 +72,7 @@ Imports:
     mlr3misc (>= 0.10.0),
     parallelly,
     palmerpenguins,
-    paradox (>= 0.8.0),
+    paradox (>= 0.10.0),
     uuid
 Suggests:
     Matrix,
@@ -90,7 +90,7 @@ Config/testthat/edition: 3
 Config/testthat/parallel: false
 NeedsCompilation: no
 Roxygen: list(markdown = TRUE, r6 = TRUE)
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.1
 Collate:
     'mlr_reflections.R'
     'BenchmarkResult.R'
@@ -185,6 +185,7 @@ Collate:
     'as_task.R'
     'as_task_classif.R'
     'as_task_regr.R'
+    'as_task_unsupervised.R'
     'assertions.R'
     'auto_convert.R'
     'benchmark.R'

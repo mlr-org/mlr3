@@ -82,9 +82,10 @@ local({
   ### Task
   # task types + constructors
   mlr_reflections$task_types = rowwise_table(.key = "type",
-    ~type,     ~package, ~task,         ~learner,         ~prediction,         ~measure,
-    "regr",    "mlr3",   "TaskRegr",    "LearnerRegr",    "PredictionRegr",    "MeasureRegr",
-    "classif", "mlr3",   "TaskClassif", "LearnerClassif", "PredictionClassif", "MeasureClassif"
+    ~type,          ~package, ~task,              ~learner,         ~prediction,          ~prediction_data,         ~measure,
+    "regr",         "mlr3",   "TaskRegr",         "LearnerRegr",    "PredictionRegr",     "PredictionDataRegr",     "MeasureRegr",
+    "classif",      "mlr3",   "TaskClassif",      "LearnerClassif", "PredictionClassif",  "PredictionDataClassif",  "MeasureClassif",
+    "unsupervised", "mlr3",   "TaskUnsupervised", "Learner",        NA_character_,        NA_character_,            NA_character_
   )
 
   mlr_reflections$task_feature_types = c(
@@ -98,13 +99,15 @@ local({
   tmp = c("feature", "target", "name", "order", "stratum", "group", "weight")
   mlr_reflections$task_col_roles = list(
     regr = tmp,
-    classif = tmp
+    classif = tmp,
+    unsupervised = c("feature", "name", "order")
   )
 
   tmp = c("strata", "groups", "weights")
   mlr_reflections$task_properties = list(
     classif = c(tmp, "twoclass", "multiclass"),
-    regr = tmp
+    regr = tmp,
+    unsupervised = character(0)
   )
 
   mlr_reflections$task_mandatory_properties = list(
@@ -140,7 +143,8 @@ local({
 
   mlr_reflections$default_measures = list(
     classif = "classif.ce",
-    regr = "regr.mse"
+    regr = "regr.mse",
+    unsupervised = NA_character_
   )
 
   ### ResampleResult

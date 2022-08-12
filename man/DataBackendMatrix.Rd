@@ -62,28 +62,28 @@ Number of columns (variables), including the primary key column.}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{DataBackendMatrix$new()}}
-\item \href{#method-data}{\code{DataBackendMatrix$data()}}
-\item \href{#method-head}{\code{DataBackendMatrix$head()}}
-\item \href{#method-distinct}{\code{DataBackendMatrix$distinct()}}
-\item \href{#method-missings}{\code{DataBackendMatrix$missings()}}
+\item \href{#method-DataBackendMatrix-new}{\code{DataBackendMatrix$new()}}
+\item \href{#method-DataBackendMatrix-data}{\code{DataBackendMatrix$data()}}
+\item \href{#method-DataBackendMatrix-head}{\code{DataBackendMatrix$head()}}
+\item \href{#method-DataBackendMatrix-distinct}{\code{DataBackendMatrix$distinct()}}
+\item \href{#method-DataBackendMatrix-missings}{\code{DataBackendMatrix$missings()}}
 }
 }
-\if{html}{
-\out{<details open ><summary>Inherited methods</summary>}
-\itemize{
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="DataBackend" data-id="format">}\href{../../mlr3/html/DataBackend.html#method-format}{\code{mlr3::DataBackend$format()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="DataBackend" data-id="print">}\href{../../mlr3/html/DataBackend.html#method-print}{\code{mlr3::DataBackend$print()}}\out{</span>}
-}
-\out{</details>}
-}
+\if{html}{\out{
+<details open><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="DataBackend" data-id="format"><a href='../../mlr3/html/DataBackend.html#method-DataBackend-format'><code>mlr3::DataBackend$format()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="DataBackend" data-id="print"><a href='../../mlr3/html/DataBackend.html#method-DataBackend-print'><code>mlr3::DataBackend$print()</code></a></span></li>
+</ul>
+</details>
+}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-DataBackendMatrix-new"></a>}}
+\if{latex}{\out{\hypertarget{method-DataBackendMatrix-new}{}}}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{DataBackendMatrix$new(data, dense = NULL, primary_key = NULL)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{DataBackendMatrix$new(data, dense, primary_key = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -102,8 +102,8 @@ Name of the primary key column, or integer vector of row ids.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-data"></a>}}
-\if{latex}{\out{\hypertarget{method-data}{}}}
+\if{html}{\out{<a id="method-DataBackendMatrix-data"></a>}}
+\if{latex}{\out{\hypertarget{method-DataBackendMatrix-data}{}}}
 \subsection{Method \code{data()}}{
 Returns a slice of the data in the specified format.
 Currently, the only supported formats are \code{"data.table"} and \code{"Matrix"}.
@@ -131,8 +131,8 @@ Desired data format, e.g. \code{"data.table"} or \code{"Matrix"}.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-head"></a>}}
-\if{latex}{\out{\hypertarget{method-head}{}}}
+\if{html}{\out{<a id="method-DataBackendMatrix-head"></a>}}
+\if{latex}{\out{\hypertarget{method-DataBackendMatrix-head}{}}}
 \subsection{Method \code{head()}}{
 Retrieve the first \code{n} rows.
 \subsection{Usage}{
@@ -152,8 +152,8 @@ Number of rows.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-distinct"></a>}}
-\if{latex}{\out{\hypertarget{method-distinct}{}}}
+\if{html}{\out{<a id="method-DataBackendMatrix-distinct"></a>}}
+\if{latex}{\out{\hypertarget{method-DataBackendMatrix-distinct}{}}}
 \subsection{Method \code{distinct()}}{
 Returns a named list of vectors of distinct values for each column
 specified. If \code{na_rm} is \code{TRUE}, missing values are removed from the
@@ -182,8 +182,8 @@ Named \code{list()} of distinct values.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-missings"></a>}}
-\if{latex}{\out{\hypertarget{method-missings}{}}}
+\if{html}{\out{<a id="method-DataBackendMatrix-missings"></a>}}
+\if{latex}{\out{\hypertarget{method-DataBackendMatrix-missings}{}}}
 \subsection{Method \code{missings()}}{
 Returns the number of missing values per column in the specified slice
 of data. Non-existing rows and columns are silently ignored.

@@ -388,16 +388,6 @@ BenchmarkResult = R6Class("BenchmarkResult",
   ),
 
   active = list(
-    #' @field data (`ResultData`)\cr
-    #' Internal data storage object of type `ResultData`.
-    #' This field is deprecated and will be removed in the next release.
-    #' Use `as.table.table(BenchmarkResult)` instead.
-    data = function(rhs) {
-      assert_ro_binding(rhs)
-      .Deprecated("as.data.table(benchmark_result)")
-      private$.data
-    },
-
     #' @field task_type (`character(1)`)\cr
     #' Task type of objects in the `BenchmarkResult`.
     #' All stored objects ([Task], [Learner], [Prediction]) in a single `BenchmarkResult` are

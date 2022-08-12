@@ -87,7 +87,15 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
   assert_flag(store_backends)
 
   # check for multiple task types
-  assert_same_task_type(c(design$task, design$learner))
+  task_types = unique(map_chr(design$task, "task_type"))
+  if (length(task_types) > 1) {
+    stopf("Multiple task types detected, but mixing types is not supported: %s", str_collapse(task_types))
+  }
+  learner_types = unique(map_chr(design$learner, "task_type"))
+  if (length(learner_types) > 1) {
+    stopf("Multiple learner types detected, but mixing types is not supported: %s", str_collapse(learner_types))
+  }
+  assert_task_learner(design$task[[1]], design$learner[[1]])
 
   # clone inputs
   setDT(design)
@@ -158,27 +166,10 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
     set(grid, j = "mode", value = hotstart_grid$mode)
   }
 
-  if (getOption("mlr3.debug", FALSE)) {
-    lg$info("Running benchmark() sequentially in debug mode with %i iterations", n)
-
-    res = mapply(workhorse,
-      task = grid$task, learner = grid$learner, resampling = grid$resampling, iteration = grid$iteration,
-      mode = grid$mode,
-      MoreArgs = list(store_models = store_models, lgr_threshold = lgr_threshold, pb = pb),
-      SIMPLIFY = FALSE, USE.NAMES = FALSE
-    )
-  } else {
-    lg$debug("Running benchmark() via future with %i iterations", n)
-
-    res = future.apply::future_mapply(workhorse,
-      task = grid$task, learner = grid$learner, resampling = grid$resampling, iteration = grid$iteration,
-      mode = grid$mode,
-      MoreArgs = list(store_models = store_models, lgr_threshold = lgr_threshold, pb = pb),
-      SIMPLIFY = FALSE, USE.NAMES = FALSE, future.globals = FALSE,
-      future.scheduling = structure(TRUE, ordering = "random"), future.packages = "mlr3", future.seed = TRUE,
-      future.stdout = future_stdout()
-    )
-  }
+  res = future_map(n, workhorse,
+    task = grid$task, learner = grid$learner, resampling = grid$resampling, iteration = grid$iteration, mode = grid$mode,
+    MoreArgs = list(store_models = store_models, lgr_threshold = lgr_threshold, pb = pb)
+  )
 
   grid = insert_named(grid, list(
     learner_state = map(res, "learner_state"),

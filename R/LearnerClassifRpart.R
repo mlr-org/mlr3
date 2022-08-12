@@ -100,5 +100,14 @@ LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
   )
 )
 
+#' @export
+default_values.LearnerClassifRpart = function(x, search_space, task, ...) { # nolint
+  special_defaults = list(
+    minbucket = round(20 / 3)
+  )
+  defaults = insert_named(default_values(x$param_set), special_defaults)
+  defaults[search_space$ids()]
+}
+
 #' @include mlr_learners.R
 mlr_learners$add("classif.rpart", function() LearnerClassifRpart$new())

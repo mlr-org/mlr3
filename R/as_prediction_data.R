@@ -8,6 +8,8 @@
 #' @template param_row_ids
 #' @param check (`logical(1)`)\cr
 #'   Perform argument checks and type conversions?
+#' @param ... (any)\cr
+#'   Additional arguments.
 #'
 #' @return [PredictionData].
 #' @export
@@ -28,8 +30,10 @@ as_prediction_data.PredictionData = function(x, task, row_ids = task$row_ids, ch
 }
 
 #' @rdname as_prediction_data
+#' @param train_task ([Task])\cr
+#'   Task used for training the learner.
 #' @export
-as_prediction_data.list = function(x, task, row_ids = task$row_ids, check = TRUE, ...) { # nolint
+as_prediction_data.list = function(x, task, row_ids = task$row_ids, check = TRUE, ..., train_task) { # nolint
   assert_list(x, names = "unique")
   predict_types = names(mlr_reflections$learner_predict_types[[task$task_type]])
   assert_names(names(x), subset.of = predict_types)
@@ -39,9 +43,10 @@ as_prediction_data.list = function(x, task, row_ids = task$row_ids, check = TRUE
     x$truth = task$truth(row_ids)
   }
 
-  pdata = new_prediction_data(x, task_type = task$task_type)
+  task = if (task$task_type == "unsupervised") train_task else task
+  pdata = new_prediction_data(x, task$task_type)
   if (check) {
-    pdata = check_prediction_data(pdata)
+    pdata = check_prediction_data(pdata, train_task = task)
   }
 
   pdata

@@ -153,6 +153,9 @@ test_that("data.frame converters", {
   task = as_task_classif(iris, "Species")
   expect_task_classif(task)
   expect_equal(task$id, "iris")
+
+  task = as_task_unsupervised(mtcars)
+  expect_task_unsupervised(task)
 })
 
 test_that("formula converters", {
@@ -192,4 +195,20 @@ test_that("formula converters", {
 
   expect_error(as_task_classif(Species ~ Sepal.Length + x, iris), "Assertion on 'formula' failed")
   expect_error(as_task_classif(~ Sepal.Length + Sepal.Width, iris), "is missing a response")
+})
+
+test_that("matrix converters", {
+  X = matrix(1:9, nrow = 3)
+  colnames(X) = letters[1:3]
+  expect_task(as_task_regr(X, target = "a"))
+  expect_task(as_task_classif(X, target = "a"))
+})
+
+test_that("Matrix converters", {
+  requireNamespace("Matrix")
+  X = Matrix::Matrix(1:9, nrow = 3)
+  force(X)
+  colnames(X) = letters[1:3]
+  expect_task(as_task_regr(X, target = "a"))
+  expect_task(as_task_classif(X, target = "a", id = "foo"))
 })

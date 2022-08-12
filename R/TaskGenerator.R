@@ -59,7 +59,7 @@ TaskGenerator = R6Class("TaskGenerator",
     #' Printer.
     #' @param ... (ignored).
     print = function(...) {
-      catn(format(self), if (is.na(self$label)) "" else paste0(": ", self$label))
+      catn(format(self), if (is.null(self$label) || is.na(self$label)) "" else paste0(": ", self$label))
       catn(str_indent("* Task type:", self$task_type))
       catn(str_indent("* Packages:", self$packages))
       catn(str_indent("* Parameters:", as_short_string(self$param_set$values, 1000L)))
@@ -86,7 +86,7 @@ convert_mlbench = function(obj) {
   insert_named(as.data.table(X), list(y = y))
 }
 
-#' @export
-format_list_item.TaskGenerator = function(x, ...) { # nolint
-  sprintf("<tgen:%s>", x$id)
-}
+# #' @export
+# format_list_item.TaskGenerator = function(x, ...) { # nolint
+#   sprintf("<tgen:%s>", x$id)
+# }

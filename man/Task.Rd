@@ -26,6 +26,10 @@ More toy tasks can be found in the dictionary after loading \CRANpkg{mlr3data}.
 \item \code{as.data.table(t)}\cr
 \link{Task} -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Returns the complete data as \code{\link[data.table:data.table]{data.table::data.table()}}.
+\item \code{head(t)}\cr
+Calls \code{\link[=head]{head()}} on the task's data.
+\item \code{summary(t)}\cr
+Calls \code{\link[=summary]{summary()}} on the task's data.
 }
 }
 
@@ -70,15 +74,15 @@ head(task)
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
 \url{https://mlr3book.mlr-org.com/basics.html#tasks}
 \item Package \CRANpkg{mlr3data} for more toy tasks.
-\item Package \CRANpkg{mlr3oml} for downloading tasks from \url{https://openml.org}.
+\item Package \CRANpkg{mlr3oml} for downloading tasks from \url{https://www.openml.org}.
 \item Package \CRANpkg{mlr3viz} for some generic visualizations.
 \item \link[mlr3misc:Dictionary]{Dictionary} of \link[=Task]{Tasks}: \link{mlr_tasks}
 \item \code{as.data.table(mlr_tasks)} for a table of available \link[=Task]{Tasks} in the running session (depending on the loaded packages).
 \item \CRANpkg{mlr3fselect} and \CRANpkg{mlr3filters} for feature selection and feature filtering.
 \item Extension packages for additional task types:
 \itemize{
-\item \CRANpkg{mlr3proba} for probabilistic supervised regression and survival analysis.
-\item \CRANpkg{mlr3cluster} for unsupervised clustering.
+\item Unsupervised clustering: \CRANpkg{mlr3cluster}
+\item Probabilistic supervised regression and survival analysis: \url{https://mlr3proba.mlr-org.com/}.
 }
 }
 
@@ -292,31 +296,31 @@ The reverse is not necessarily true: There can be columns with the same content 
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{Task$new()}}
-\item \href{#method-help}{\code{Task$help()}}
-\item \href{#method-format}{\code{Task$format()}}
-\item \href{#method-print}{\code{Task$print()}}
-\item \href{#method-data}{\code{Task$data()}}
-\item \href{#method-formula}{\code{Task$formula()}}
-\item \href{#method-head}{\code{Task$head()}}
-\item \href{#method-levels}{\code{Task$levels()}}
-\item \href{#method-missings}{\code{Task$missings()}}
-\item \href{#method-filter}{\code{Task$filter()}}
-\item \href{#method-select}{\code{Task$select()}}
-\item \href{#method-rbind}{\code{Task$rbind()}}
-\item \href{#method-cbind}{\code{Task$cbind()}}
-\item \href{#method-rename}{\code{Task$rename()}}
-\item \href{#method-set_row_roles}{\code{Task$set_row_roles()}}
-\item \href{#method-set_col_roles}{\code{Task$set_col_roles()}}
-\item \href{#method-set_levels}{\code{Task$set_levels()}}
-\item \href{#method-droplevels}{\code{Task$droplevels()}}
-\item \href{#method-add_strata}{\code{Task$add_strata()}}
-\item \href{#method-clone}{\code{Task$clone()}}
+\item \href{#method-Task-new}{\code{Task$new()}}
+\item \href{#method-Task-help}{\code{Task$help()}}
+\item \href{#method-Task-format}{\code{Task$format()}}
+\item \href{#method-Task-print}{\code{Task$print()}}
+\item \href{#method-Task-data}{\code{Task$data()}}
+\item \href{#method-Task-formula}{\code{Task$formula()}}
+\item \href{#method-Task-head}{\code{Task$head()}}
+\item \href{#method-Task-levels}{\code{Task$levels()}}
+\item \href{#method-Task-missings}{\code{Task$missings()}}
+\item \href{#method-Task-filter}{\code{Task$filter()}}
+\item \href{#method-Task-select}{\code{Task$select()}}
+\item \href{#method-Task-rbind}{\code{Task$rbind()}}
+\item \href{#method-Task-cbind}{\code{Task$cbind()}}
+\item \href{#method-Task-rename}{\code{Task$rename()}}
+\item \href{#method-Task-set_row_roles}{\code{Task$set_row_roles()}}
+\item \href{#method-Task-set_col_roles}{\code{Task$set_col_roles()}}
+\item \href{#method-Task-set_levels}{\code{Task$set_levels()}}
+\item \href{#method-Task-droplevels}{\code{Task$droplevels()}}
+\item \href{#method-Task-add_strata}{\code{Task$add_strata()}}
+\item \href{#method-Task-clone}{\code{Task$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-Task-new"></a>}}
+\if{latex}{\out{\hypertarget{method-Task-new}{}}}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 
@@ -350,8 +354,8 @@ via \code{\link[=convert_task]{convert_task()}}.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-help"></a>}}
-\if{latex}{\out{\hypertarget{method-help}{}}}
+\if{html}{\out{<a id="method-Task-help"></a>}}
+\if{latex}{\out{\hypertarget{method-Task-help}{}}}
 \subsection{Method \code{help()}}{
 Opens the corresponding help page referenced by field \verb{$man}.
 \subsection{Usage}{
@@ -360,8 +364,8 @@ Opens the corresponding help page referenced by field \verb{$man}.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-format"></a>}}
-\if{latex}{\out{\hypertarget{method-format}{}}}
+\if{html}{\out{<a id="method-Task-format"></a>}}
+\if{latex}{\out{\hypertarget{method-Task-format}{}}}
 \subsection{Method \code{format()}}{
 Helper for print outputs.
 \subsection{Usage}{
@@ -370,8 +374,8 @@ Helper for print outputs.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-print"></a>}}
-\if{latex}{\out{\hypertarget{method-print}{}}}
+\if{html}{\out{<a id="method-Task-print"></a>}}
+\if{latex}{\out{\hypertarget{method-Task-print}{}}}
 \subsection{Method \code{print()}}{
 Printer.
 \subsection{Usage}{
@@ -387,8 +391,8 @@ Printer.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-data"></a>}}
-\if{latex}{\out{\hypertarget{method-data}{}}}
+\if{html}{\out{<a id="method-Task-data"></a>}}
+\if{latex}{\out{\hypertarget{method-Task-data}{}}}
 \subsection{Method \code{data()}}{
 Returns a slice of the data from the \link{DataBackend} in the data format specified by \code{data_format}.
 Rows default to observations with role \code{"use"}, and
@@ -433,8 +437,8 @@ Depending on the \link{DataBackend}, but usually a \code{\link[data.table:data.t
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-formula"></a>}}
-\if{latex}{\out{\hypertarget{method-formula}{}}}
+\if{html}{\out{<a id="method-Task-formula"></a>}}
+\if{latex}{\out{\hypertarget{method-Task-formula}{}}}
 \subsection{Method \code{formula()}}{
 Constructs a \code{\link[=formula]{formula()}}, e.g. \verb{[target] ~ [feature_1] + [feature_2] + ... + [feature_k]},
 using the features provided in argument \code{rhs} (defaults to all columns with role \code{"feature"}, symbolized by \code{"."}).
@@ -458,8 +462,8 @@ Right hand side of the formula. Defaults to \code{"."} (all features of the task
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-head"></a>}}
-\if{latex}{\out{\hypertarget{method-head}{}}}
+\if{html}{\out{<a id="method-Task-head"></a>}}
+\if{latex}{\out{\hypertarget{method-Task-head}{}}}
 \subsection{Method \code{head()}}{
 Get the first \code{n} observations with role \code{"use"} of all columns with role \code{"target"} or \code{"feature"}.
 \subsection{Usage}{
@@ -478,8 +482,8 @@ Get the first \code{n} observations with role \code{"use"} of all columns with r
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-levels"></a>}}
-\if{latex}{\out{\hypertarget{method-levels}{}}}
+\if{html}{\out{<a id="method-Task-levels"></a>}}
+\if{latex}{\out{\hypertarget{method-Task-levels}{}}}
 \subsection{Method \code{levels()}}{
 Returns the distinct values for columns referenced in \code{cols} with storage type "factor" or "ordered".
 Argument \code{cols} defaults to all such columns with role \code{"target"} or \code{"feature"}.
@@ -503,8 +507,8 @@ named \code{list()}.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-missings"></a>}}
-\if{latex}{\out{\hypertarget{method-missings}{}}}
+\if{html}{\out{<a id="method-Task-missings"></a>}}
+\if{latex}{\out{\hypertarget{method-Task-missings}{}}}
 \subsection{Method \code{missings()}}{
 Returns the number of missing observations for columns referenced in \code{cols}.
 Considers only active rows with row role \code{"use"}.
@@ -526,8 +530,8 @@ Named \code{integer()}.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-filter"></a>}}
-\if{latex}{\out{\hypertarget{method-filter}{}}}
+\if{html}{\out{<a id="method-Task-filter"></a>}}
+\if{latex}{\out{\hypertarget{method-Task-filter}{}}}
 \subsection{Method \code{filter()}}{
 Subsets the task, keeping only the rows specified via row ids \code{rows}.
 
@@ -552,8 +556,8 @@ the object in its previous state.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-select"></a>}}
-\if{latex}{\out{\hypertarget{method-select}{}}}
+\if{html}{\out{<a id="method-Task-select"></a>}}
+\if{latex}{\out{\hypertarget{method-Task-select}{}}}
 \subsection{Method \code{select()}}{
 Subsets the task, keeping only the features specified via column names \code{cols}.
 Note that you cannot deselect the target column, for obvious reasons.
@@ -579,8 +583,8 @@ the object in its previous state.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-rbind"></a>}}
-\if{latex}{\out{\hypertarget{method-rbind}{}}}
+\if{html}{\out{<a id="method-Task-rbind"></a>}}
+\if{latex}{\out{\hypertarget{method-Task-rbind}{}}}
 \subsection{Method \code{rbind()}}{
 Adds additional rows to the \link{DataBackend} stored in \verb{$backend}.
 New row ids are automatically created, unless \code{data} has a column whose name matches
@@ -612,8 +616,8 @@ the object in its previous state.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-cbind"></a>}}
-\if{latex}{\out{\hypertarget{method-cbind}{}}}
+\if{html}{\out{<a id="method-Task-cbind"></a>}}
+\if{latex}{\out{\hypertarget{method-Task-cbind}{}}}
 \subsection{Method \code{cbind()}}{
 Adds additional columns to the \link{DataBackend} stored in \verb{$backend}.
 
@@ -637,8 +641,8 @@ See the section on task mutators for more information.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-rename"></a>}}
-\if{latex}{\out{\hypertarget{method-rename}{}}}
+\if{html}{\out{<a id="method-Task-rename"></a>}}
+\if{latex}{\out{\hypertarget{method-Task-rename}{}}}
 \subsection{Method \code{rename()}}{
 Renames columns by mapping column names in \code{old} to new column names in \code{new} (element-wise).
 
@@ -666,8 +670,8 @@ the object in its previous state.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-set_row_roles"></a>}}
-\if{latex}{\out{\hypertarget{method-set_row_roles}{}}}
+\if{html}{\out{<a id="method-Task-set_row_roles"></a>}}
+\if{latex}{\out{\hypertarget{method-Task-set_row_roles}{}}}
 \subsection{Method \code{set_row_roles()}}{
 Modifies the roles in \verb{$row_roles} \strong{in-place}.
 \subsection{Usage}{
@@ -705,8 +709,8 @@ the object in its previous state.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-set_col_roles"></a>}}
-\if{latex}{\out{\hypertarget{method-set_col_roles}{}}}
+\if{html}{\out{<a id="method-Task-set_col_roles"></a>}}
+\if{latex}{\out{\hypertarget{method-Task-set_col_roles}{}}}
 \subsection{Method \code{set_col_roles()}}{
 Modifies the roles in \verb{$col_roles} \strong{in-place}.
 \subsection{Usage}{
@@ -744,8 +748,8 @@ the object in its previous state.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-set_levels"></a>}}
-\if{latex}{\out{\hypertarget{method-set_levels}{}}}
+\if{html}{\out{<a id="method-Task-set_levels"></a>}}
+\if{latex}{\out{\hypertarget{method-Task-set_levels}{}}}
 \subsection{Method \code{set_levels()}}{
 Set levels for columns of type \code{factor} and \code{ordered} in field \code{col_info}.
 You can add, remove or reorder the levels, affecting the data returned by
@@ -771,8 +775,8 @@ Modified \code{self}.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-droplevels"></a>}}
-\if{latex}{\out{\hypertarget{method-droplevels}{}}}
+\if{html}{\out{<a id="method-Task-droplevels"></a>}}
+\if{latex}{\out{\hypertarget{method-Task-droplevels}{}}}
 \subsection{Method \code{droplevels()}}{
 Updates the cache of stored factor levels, removing all levels not present in the current set of active rows.
 \code{cols} defaults to all columns with storage type "factor" or "ordered".
@@ -793,8 +797,8 @@ Modified \code{self}.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-add_strata"></a>}}
-\if{latex}{\out{\hypertarget{method-add_strata}{}}}
+\if{html}{\out{<a id="method-Task-add_strata"></a>}}
+\if{latex}{\out{\hypertarget{method-Task-add_strata}{}}}
 \subsection{Method \code{add_strata()}}{
 Cuts numeric variables into new factors columns which are added to the task with role
 \code{"stratum"}.
@@ -821,8 +825,8 @@ self (invisibly).
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-Task-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-Task-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

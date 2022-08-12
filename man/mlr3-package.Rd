@@ -6,7 +6,7 @@
 \alias{mlr3-package}
 \title{mlr3: Machine Learning in R - Next Generation}
 \description{
-\if{html}{\figure{logo.png}{options: align='right' alt='logo' width='120'}}
+\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
 Efficient, object-oriented programming on the building blocks of machine learning. Provides 'R6' objects for tasks, learners, resamplings, and measures. The package is geared towards scalability and larger datasets by supporting parallelization and out-of-memory data-backends like databases. While 'mlr3' focuses on the core computational operations, add-on packages provide additional functionality.
 }
@@ -54,9 +54,14 @@ Efficient, object-oriented programming on the building blocks of machine learnin
 \section{Package Options}{
 
 \itemize{
+\item \code{"mlr3.exec_random"}: Randomize the order of execution in \code{\link[=resample]{resample()}} and \code{\link[=benchmark]{benchmark()}} during
+parallelization with \CRANpkg{future}. Defaults to \code{TRUE}.
+Note that this does not affect the order of results.
+\item \code{"mlr3.exec_chunk_size"}: Number of iterations to perform in a single \code{\link[future:future]{future::future()}} during
+parallelization with \CRANpkg{future}. Defaults to 1.
 \item \code{"mlr3.debug"}: If set to \code{TRUE}, parallelization via \CRANpkg{future} is disabled to simplify
 debugging and provide more concise tracebacks.
-Note that results computed with debug mode enabled use a different seeding mechanism and are not reproducible.
+Note that results computed in debug mode use a different seeding mechanism and are \strong{not reproducible}.
 \item \code{"mlr3.allow_utf8_names"}: If set to \code{TRUE}, checks on the feature names are relaxed, allowing
 non-ascii characters in column names. This is an experimental and temporal option to
 pave the way for text analysis, and will likely be removed in a future version of the package.

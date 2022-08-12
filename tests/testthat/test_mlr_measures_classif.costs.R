@@ -14,7 +14,7 @@ test_that("binary task", {
   measures = list(m1, m2, m3)
 
   lrn = lrn("classif.featureless")
-  perf = lrn$train(task)$predict(task)$score(measures, task = task)
+  perf = lrn$train(task)$predict(task)$score(measures)
   expect_equal(perf[[1]], -perf[[2]])
   expect_equal(perf[[3]], 0)
 })
