@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.13.4-9000</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.14.0-9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -73,6 +73,14 @@
       <small>Source: <a href="https://github.com/mlr-org/mlr3/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.14.0" id="mlr3-0140">mlr3 0.14.0<a class="anchor" aria-label="anchor" href="#mlr3-0140"></a></h2><p class="text-muted">CRAN release: 2022-08-11</p>
+<ul><li>Added multiclass measures: <code>mauc_aunu</code>, <code>mauc_aunp</code>, <code>mauc_au1u</code>, <code>mauc_au1p</code>.</li>
+<li>Measure <code>classif.costs</code> does not require a <code>Task</code> anymore.</li>
+<li>New converter: <code><a href="../reference/as_task_unsupervised.html">as_task_unsupervised()</a></code>
+</li>
+<li>Refactored the task types in <code>mlr_reflections</code>.</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.13.4" id="mlr3-0134">mlr3 0.13.4<a class="anchor" aria-label="anchor" href="#mlr3-0134"></a></h2><p class="text-muted">CRAN release: 2022-07-21</p>
 <ul><li>Added new options for parallelization (<code>"mlr3.exec_random"</code> and <code>"mlr3.exec_chunk_size"</code>). These options are passed down to the respective map functions in package <code>future.apply</code>.</li>
