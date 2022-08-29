@@ -89,6 +89,8 @@ Suggests:
 Encoding: UTF-8
 Config/testthat/edition: 3
 Config/testthat/parallel: false
+Remotes:
+  alan-turing-institute/distr6
 NeedsCompilation: no
 Roxygen: list(markdown = TRUE, r6 = TRUE)
 RoxygenNote: 7.2.1
