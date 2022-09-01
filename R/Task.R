@@ -144,7 +144,7 @@ Task = R6Class("Task",
       )
 
       cn = self$col_info$id # note: this sorts the columns!
-      private$.row_roles = list(use = rn, holdout = integer(), early_stopping = integer())
+      private$.row_roles = list(use = rn, test = integer(), holdout = integer())
       private$.col_roles = named_list(mlr_reflections$task_col_roles[[task_type]], character())
       private$.col_roles$feature = setdiff(cn, self$backend$primary_key)
       self$extra_args = assert_list(extra_args, names = "unique")
@@ -693,7 +693,7 @@ Task = R6Class("Task",
     hash = function(rhs) {
       private$.hash %??% calculate_hash(
         class(self), self$id, self$backend$hash, self$col_info,
-        private$.row_roles, private$.col_roles, private$.properties
+        remove_named(private$.row_roles, "test"), private$.col_roles, private$.properties
       )
     },
 
@@ -766,15 +766,14 @@ Task = R6Class("Task",
     #' Each row (observation) can have an arbitrary number of roles in the learning task:
     #'
     #' - `"use"`: Use in train / predict / resampling.
+    #' - `"test"`: Observations are hold back unless explicitly queried.
+    #'   Can be queried by a [Learner] to determine a good iteration to stop by evaluating the performance
+    #'   on external data, e.g. the XGboost learner in \CRANpkg{mlr3learners} for parameter `nrounds`.
     #' - `"holdout"`: Observations are hold back unless explicitly queried.
     #'   Can be used, e.g., as truly independent holdout set:
     #'
     #'   1. Add `"holdout"` to the `predict_sets` of a [Learner].
     #'   2. Configure a [Measure] to use the `"holdout"` set by updating its `predict_sets` field.
-    #'
-    #' - `"early_stopping"`: Observations are hold back unless explicitly queried.
-    #'   Can be queried by a [Learner] to determine a good iteration to stop by evaluating the performance
-    #'   on external data, e.g. the XGboost learner in \CRANpkg{mlr3learners} for parameter `nrounds`.
     #'
     #' `row_roles` is a named list whose elements are named by row role and each element is an `integer()` vector of row ids.
     #' To alter the roles, just modify the list, e.g. with  \R's set functions ([intersect()], [setdiff()], [union()], \ldots).
