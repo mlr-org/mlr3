@@ -1,6 +1,6 @@
 # mlr3 0.14.0-9000
 
-* Test set is available to the Learner for early stopping.
+* Test set is available to the `Learner` for early stopping.
 
 # mlr3 0.14.0
 
