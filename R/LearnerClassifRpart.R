@@ -5,8 +5,12 @@
 #'
 #' @description
 #' A [LearnerClassif] for a classification tree implemented in [rpart::rpart()] in package \CRANpkg{rpart}.
-#' Parameter `xval` is set to 0 in order to save some computation time.
-#' Parameter `model` has been renamed to `keep_model`.
+#'
+#' @section Initial parameter values:
+#' * Parameter `xval` is initialized to 0 in order to save some computation time.
+#'
+#' @section Custom mlr3 parameters:
+#' * Parameter `model` has been renamed to `keep_model`.
 #'
 #' @templateVar id classif.rpart
 #' @template learner

@@ -3,10 +3,14 @@
 #' @name mlr_learners_regr.rpart
 #' @include LearnerRegr.R
 #'
-#' A [LearnerRegr] for a regression tree implemented in [rpart::rpart()] in package \CRANpkg{rpart}.
 #' @description
-#' Parameter `xval` is set to 0 in order to save some computation time.
-#' Parameter `model` has been renamed to `keep_model`.
+#' A [LearnerRegr] for a regression tree implemented in [rpart::rpart()] in package \CRANpkg{rpart}.
+#'
+#' @section Initial parameter values:
+#' * Parameter `xval` is initialized to 0 in order to save some computation time.
+#'
+#' @section Custom mlr3 parameters:
+#' * Parameter `model` has been renamed to `keep_model`.
 #'
 #' @templateVar id regr.rpart
 #' @template learner
