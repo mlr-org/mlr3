@@ -16,18 +16,6 @@ check_prediction_data.PredictionDataRegr = function(pdata, ...) { # nolint
     assert_prediction_count(length(pdata$se), n, "se")
   }
 
-  if (!is.null(pdata$distr)) {
-    assert_class(pdata$distr, "VectorDistribution")
-
-    if (is.null(pdata$response)) {
-      pdata$response = unname(pdata$distr$mean())
-    }
-
-    if (is.null(pdata$se)) {
-      pdata$se = unname(pdata$distr$stdev())
-    }
-  }
-
   pdata
 }
 
@@ -72,14 +60,7 @@ c.PredictionDataRegr = function(..., keep_duplicates = TRUE) { # nolint
     tab = unique(tab, by = "row_ids", fromLast = TRUE)
   }
 
-  result = as.list(tab)
-
-  if ("distr" %in% predict_types[[1L]]) {
-    require_namespaces("distr6")
-    result$distr = do.call(c, map(dots, "distr"))
-  }
-
-  new_prediction_data(result, "regr")
+  new_prediction_data(as.list(tab), "regr")
 }
 
 #' @export
