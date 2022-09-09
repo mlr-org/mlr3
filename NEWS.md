@@ -1,3 +1,8 @@
+# mlr3 0.15.0
+
+* Removed depdency on package `distr6`.
+
+
 # mlr3 0.14.0
 
 * Added multiclass measures: `mauc_aunu`, `mauc_aunp`, `mauc_au1u`, `mauc_au1p`.
