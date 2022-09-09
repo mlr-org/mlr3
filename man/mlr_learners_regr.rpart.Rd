@@ -5,9 +5,22 @@
 \alias{LearnerRegrRpart}
 \title{Regression Tree Learner}
 \description{
-Parameter \code{xval} is set to 0 in order to save some computation time.
-Parameter \code{model} has been renamed to \code{keep_model}.
+A \link{LearnerRegr} for a regression tree implemented in \code{\link[rpart:rpart]{rpart::rpart()}} in package \CRANpkg{rpart}.
 }
+\section{Initial parameter values}{
+
+\itemize{
+\item Parameter \code{xval} is initialized to 0 in order to save some computation time.
+}
+}
+
+\section{Custom mlr3 parameters}{
+
+\itemize{
+\item Parameter \code{model} has been renamed to \code{keep_model}.
+}
+}
+
 \section{Dictionary}{
 
 This \link{Learner} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_learners} or with the associated sugar function \code{\link[=lrn]{lrn()}}:
