@@ -1,5 +1,7 @@
-# mlr3 0.14.0-9000
+# mlr3 0.15.0
 
+* Removed depdency on package `distr6`.
+* Fixed reassembling of `GraphLearner`.
 * Test set is available to the `Learner` for early stopping.
 
 # mlr3 0.14.0

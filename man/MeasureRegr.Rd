@@ -7,7 +7,7 @@
 This measure specializes \link{Measure} for regression problems:
 \itemize{
 \item \code{task_type} is set to \code{"regr"}.
-\item Possible values for \code{predict_type} are \code{"response"}, \code{"se"} and \code{"distr"}.
+\item Possible values for \code{predict_type} are \code{"response"} and \code{"se"}.
 }
 
 Predefined measures can be found in the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures}.

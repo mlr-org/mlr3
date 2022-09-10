@@ -414,8 +414,7 @@ reassemble_learners = function(learners, states = NULL, param_vals = NULL) {
 
   if (!is.null(param_vals)) {
     Map(function(l, pv) {
-      p = get_private(l$param_set)
-      p$.values = pv
+      l$param_set$values = pv
     }, l = learners, pv = param_vals)
   }
   learners
