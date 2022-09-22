@@ -7,7 +7,7 @@
 #' Splits data `repeats` (default: 30) times into training and test set
 #' with a ratio of `ratio` (default: 2/3) observations going into the training set.
 #'
-#' @templateVar id holdout
+#' @templateVar id subsampling
 #' @template resampling
 #'
 #' @section Parameters:
