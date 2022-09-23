@@ -12,8 +12,8 @@ with a ratio of \code{ratio} (default: 2/3) observations going into the training
 
 This \link{Resampling} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_resamplings} or with the associated sugar function \code{\link[=rsmp]{rsmp()}}:
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{mlr_resamplings$get("holdout")
-rsmp("holdout")
+\if{html}{\out{<div class="sourceCode">}}\preformatted{mlr_resamplings$get("subsampling")
+rsmp("subsampling")
 }\if{html}{\out{</div>}}
 }
 
