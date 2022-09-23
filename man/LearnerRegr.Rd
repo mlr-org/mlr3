@@ -12,7 +12,8 @@ This Learner specializes \link{Learner} for regression problems:
 \itemize{
 \item \code{"response"}: Predicts a numeric response for each observation in the test set.
 \item \code{"se"}: Predicts the standard error for each value of response for each observation in the test set.
-\item \code{"distr"}: Probability distribution as \link[distr6:VectorDistribution]{distr6::VectorDistribution} object (requires package \CRANpkg{distr6}).
+\item \code{"distr"}: Probability distribution as \code{VectorDistribution} object (requires package \code{distr6}, available via
+repository \url{https://raphaels1.r-universe.dev}).
 }
 }
 

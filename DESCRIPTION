@@ -79,7 +79,6 @@ Suggests:
     callr,
     codetools,
     datasets,
-    distr6,
     future.callr,
     mlr3data,
     progressr,
@@ -89,8 +88,7 @@ Suggests:
 Encoding: UTF-8
 Config/testthat/edition: 3
 Config/testthat/parallel: false
-Remotes:
-  alan-turing-institute/distr6
+Additional_repositories: https://raphaels1.r-universe.dev/
 NeedsCompilation: no
 Roxygen: list(markdown = TRUE, r6 = TRUE)
 RoxygenNote: 7.2.1

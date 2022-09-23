@@ -5,7 +5,7 @@
 #' @description
 #' This object wraps the predictions returned by a learner of class [LearnerRegr], i.e.
 #' the predicted response and standard error.
-#' Additionally, probability distributions implemented in \CRANpkg{distr6} are supported.
+#' Additionally, probability distributions implemented in package `distr6` are supported.
 #'
 #' @template seealso_prediction
 #' @export
@@ -38,8 +38,8 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
     #'   Numeric vector of predicted standard errors.
     #'   One element for each observation in the test set.
     #'
-    #' @param distr ([distr6::VectorDistribution])\cr
-    #'   [VectorDistribution][distr6::VectorDistribution] from \CRANpkg{distr6}.
+    #' @param distr (`VectorDistribution`)\cr
+    #'   `VectorDistribution` from package distr6 (in repository \url{https://raphaels1.r-universe.dev}).
     #'   Each individual distribution in the vector represents the random variable 'survival time'
     #'   for an individual observation.
     #'
@@ -76,12 +76,12 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
       self$data$se %??% rep(NA_real_, length(self$data$row_ids))
     },
 
-    #' @field distr ([distr6::VectorDistribution])\cr
+    #' @field distr (`VectorDistribution`)\cr
     #' Access the stored vector distribution.
-    #' Requires package \CRANpkg{distr6}.
+    #' Requires package `distr6`(in repository \url{https://raphaels1.r-universe.dev}) .
     distr = function() {
       if ("distr" %in% self$predict_types) {
-        require_namespaces("distr6")
+        require_namespaces("distr6", msg = "To predict probability distributions, please install %s")
       }
       return(self$data$distr)
     }
@@ -94,7 +94,7 @@ as.data.table.PredictionRegr = function(x, ...) { # nolint
   tab = as.data.table(x$data[c("row_ids", "truth", "response", "se")])
 
   if ("distr" %in% x$predict_types) {
-    require_namespaces("distr6")
+    require_namespaces("distr6", msg = "To predict probability distributions, please install %s")
     tab$distr = list(x$distr)
   }
   tab

@@ -75,7 +75,7 @@ c.PredictionDataRegr = function(..., keep_duplicates = TRUE) { # nolint
   result = as.list(tab)
 
   if ("distr" %in% predict_types[[1L]]) {
-    require_namespaces("distr6")
+    require_namespaces("distr6", msg = "To predict probability distributions, please install %s")
     result$distr = do.call(c, map(dots, "distr"))
   }
 
