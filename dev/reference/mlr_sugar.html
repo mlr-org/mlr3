@@ -189,7 +189,7 @@ or a list of <a href="https://r6.r-lib.org/reference/R6Class.html" class="extern
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># multiple learners with predict type 'prob'</span></span></span>
 <span class="r-in"><span><span class="fu">lrns</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"classif.featureless"</span>, <span class="st">"classif.rpart"</span><span class="op">)</span>, predict_type <span class="op">=</span> <span class="st">"prob"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $classif.featureless</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;LearnerClassifFeatureless:classif.featureless&gt;: Featureless Classification Learner</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Model: -</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Parameters: method=mode</span>
@@ -200,7 +200,7 @@ or a list of <a href="https://r6.r-lib.org/reference/R6Class.html" class="extern
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Properties: featureless, importance, missings, multiclass,</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   selected_features, twoclass</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[2]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $classif.rpart</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;LearnerClassifRpart:classif.rpart&gt;: Classification Tree</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Model: -</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Parameters: xval=0</span>
