@@ -259,6 +259,10 @@ expect_task = function(task, null_backend_ok = TRUE) {
     missings = task$missings()
     checkmate::expect_integer(missings, names = "unique", any.missing = FALSE, lower = 0L, upper = task$nrow)
 
+    missings = task$missings(character())
+    checkmate::expect_integer(missings, len = 0L)
+    testthat::expect_named(missings)
+
     # query zero columns
     data = task$data(cols = character(), data_format = "data.table")
     checkmate::expect_data_table(data, ncols  = 0L)
