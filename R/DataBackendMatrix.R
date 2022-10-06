@@ -158,6 +158,10 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
       cols_sparse = intersect(cols, colnames(private$.data$sparse))
       cols_dense = intersect(cols, colnames(private$.data$dense))
 
+      if (length(cols_sparse) == 0L && length(cols_dense) == 0L) {
+        return(set_names(integer()))
+      }
+
       res = c(
         apply(private$.data$sparse[rows, cols_sparse, drop = FALSE], 2L, count_missing),
         private$.data$dense[, map_int(.SD, count_missing), .SDcols = cols_dense]

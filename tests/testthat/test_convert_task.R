@@ -209,6 +209,10 @@ test_that("Matrix converters", {
   X = Matrix::Matrix(1:9, nrow = 3)
   force(X)
   colnames(X) = letters[1:3]
-  expect_task(as_task_regr(X, target = "a"))
-  expect_task(as_task_classif(X, target = "a", id = "foo"))
+
+  task = as_task_regr(X, target = "a")
+  expect_task(task)
+
+  task = as_task_classif(X, target = "a", id = "foo")
+  expect_task(task)
 })
