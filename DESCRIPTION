@@ -2,6 +2,7 @@ Package: mlr3
 Title: Machine Learning in R - Next Generation
 Version: 0.14.0-9000
 Authors@R:
+  c(
     person("Michel", "Lang", , "michellang@gmail.com", role = c("cre", "aut"),
            comment = c(ORCID = "0000-0001-9754-0393")),
     person("Bernd", "Bischl", , "bernd_bischl@gmx.net", role = "aut",
