@@ -1,7 +1,7 @@
 Package: mlr3
 Title: Machine Learning in R - Next Generation
-Version: 0.13.3-9000
-Authors@R: c(
+Version: 0.14.0-9000
+Authors@R:
     person("Michel", "Lang", , "michellang@gmail.com", role = c("cre", "aut"),
            comment = c(ORCID = "0000-0001-9754-0393")),
     person("Bernd", "Bischl", , "bernd_bischl@gmx.net", role = "aut",
@@ -28,12 +28,12 @@ Authors@R: c(
     person("Sebastian", "Fischer", , "sebf.fischer@gmail.com", role = "ctb",
            comment = c(ORCID = "0000-0002-9609-3197"))
   )
-Description: Efficient, object-oriented programming on the building blocks
-    of machine learning. Provides 'R6' objects for tasks, learners,
-    resamplings, and measures. The package is geared towards scalability
-    and larger datasets by supporting parallelization and out-of-memory
-    data-backends like databases. While 'mlr3' focuses on the core
-    computational operations, add-on packages provide additional
+Description: Efficient, object-oriented programming on the
+    building blocks of machine learning. Provides 'R6' objects for tasks,
+    learners, resamplings, and measures. The package is geared towards
+    scalability and larger datasets by supporting parallelization and
+    out-of-memory data-backends like databases. While 'mlr3' focuses on
+    the core computational operations, add-on packages provide additional
     functionality.
 License: LGPL-3
 URL: https://mlr3.mlr-org.com, https://github.com/mlr-org/mlr3
@@ -41,6 +41,7 @@ BugReports: https://github.com/mlr-org/mlr3/issues
 Depends:
     R (>= 3.1.0)
 Imports:
+    R6 (>= 2.4.1),
     backports,
     checkmate (>= 2.0.0),
     data.table (>= 1.14.2),
@@ -51,29 +52,28 @@ Imports:
     mlbench,
     mlr3measures (>= 0.4.1),
     mlr3misc (>= 0.10.0),
-    palmerpenguins,
-    paradox (>= 0.8.0),
     parallelly,
-    R6 (>= 2.4.1),
+    palmerpenguins,
+    paradox (>= 0.10.0),
     uuid
 Suggests:
+    Matrix,
     callr,
     codetools,
     datasets,
-    distr6,
     future.callr,
-    Matrix,
     mlr3data,
     progressr,
     remotes,
     rpart,
     testthat (>= 3.1.0)
+Encoding: UTF-8
 Config/testthat/edition: 3
 Config/testthat/parallel: false
-Encoding: UTF-8
+Additional_repositories: https://raphaels1.r-universe.dev/
 NeedsCompilation: no
 Roxygen: list(markdown = TRUE, r6 = TRUE)
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.1
 Collate:
     'mlr_reflections.R'
     'BenchmarkResult.R'
@@ -168,6 +168,7 @@ Collate:
     'as_task.R'
     'as_task_classif.R'
     'as_task_regr.R'
+    'as_task_unsupervised.R'
     'assertions.R'
     'auto_convert.R'
     'benchmark.R'

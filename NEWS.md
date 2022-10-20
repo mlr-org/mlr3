@@ -1,3 +1,28 @@
+# mlr3 0.15.0
+
+* Removed depdency on package `distr6`.
+* Fixed reassembling of `GraphLearner`.
+* Test set is available to the `Learner` for early stopping.
+* Fixed bug that elapsed time measures were 0: https://stackoverflow.com/questions/73797845/mlr3-benchmarking-with-elapsed-time-measure
+
+# mlr3 0.14.0
+
+* Added multiclass measures: `mauc_aunu`, `mauc_aunp`, `mauc_au1u`, `mauc_au1p`.
+* Measure `classif.costs` does not require a `Task` anymore.
+* New converter: `as_task_unsupervised()`
+* Refactored the task types in `mlr_reflections`.
+
+
+# mlr3 0.13.4
+
+* Added new options for parallelization (`"mlr3.exec_random"` and
+  `"mlr3.exec_chunk_size"`). These options are passed down to the respective map
+  functions in package `future.apply`.
+* Fixed runtime measures depending on specific predict types (#832).
+* Added `head()` and `tail()` methods for `Task`.
+* Improved printing of multiple objects.
+
+
 # mlr3 0.13.3
 
 * Most objects now have a new (optional) field `label`, i.e. `Task`,
@@ -18,6 +43,8 @@
 * `as_task_classif()` and `as_task_regr()` now support the construction of tasks
   using the formula interface, e.g. `as_task_regr(mpg ~ ., data = mtcars)`
   (#761).
+* Added `default_values()` function to extract parameter default values from
+  `Learner` objects.
 * The row role `"validation"` has been renamed to `"holdout"`.
   In the next release, `mlr3` will start switching to the now more common terms
   `"train"`/`"validation"` instead of `"train"`/`"test"` for the sets created

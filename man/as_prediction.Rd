@@ -9,13 +9,13 @@
 \alias{as_predictions.list}
 \title{Convert to a Prediction}
 \usage{
-as_prediction(x, check = TRUE, ...)
+as_prediction(x, check = FALSE, ...)
 
-\method{as_prediction}{Prediction}(x, check = TRUE, ...)
+\method{as_prediction}{Prediction}(x, check = FALSE, ...)
 
-\method{as_prediction}{PredictionDataClassif}(x, check = TRUE, ...)
+\method{as_prediction}{PredictionDataClassif}(x, check = FALSE, ...)
 
-\method{as_prediction}{PredictionDataRegr}(x, check = TRUE, ...)
+\method{as_prediction}{PredictionDataRegr}(x, check = FALSE, ...)
 
 as_predictions(x, predict_sets = "test", ...)
 

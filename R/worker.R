@@ -1,4 +1,4 @@
-learner_train = function(learner, task, row_ids = NULL, mode = "train") {
+learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NULL, mode = "train") {
   # This wrapper calls learner$train, and additionally performs some basic
   # checks that the training was successful.
   # Exceptions here are possibly encapsulated, so that they get captured
@@ -29,17 +29,26 @@ learner_train = function(learner, task, row_ids = NULL, mode = "train") {
   require_namespaces(learner$packages)
 
   # subset to train set w/o cloning
-  if (!is.null(row_ids)) {
+  if (!is.null(train_row_ids)) {
     lg$debug("Subsetting task '%s' to %i rows",
-      task$id, length(row_ids), task = task$clone(), row_ids = row_ids)
+      task$id, length(train_row_ids), task = task$clone(), row_ids = train_row_ids)
 
     prev_use = task$row_roles$use
     on.exit({
       task$row_roles$use = prev_use
     }, add = TRUE)
-    task$row_roles$use = row_ids
+    task$row_roles$use = train_row_ids
   } else {
     lg$debug("Skip subsetting of task '%s'", task$id)
+  }
+
+  # pass test ids w/o cloning
+  if (!is.null(test_row_ids)) {
+    prev_test = task$row_roles$test
+    on.exit({
+      task$row_roles$test = prev_test
+    }, add = TRUE)
+    task$row_roles$test = test_row_ids
   }
 
   if (mode == "train") learner$state = list()
@@ -111,14 +120,8 @@ learner_predict = function(learner, task, row_ids = NULL) {
       stopf("No trained model available for learner '%s' on task '%s'", learner$id, task$id)
     }
 
-    if (exists("predict_internal", envir = learner, inherits = FALSE)) {
-      .Deprecated(msg = "Use private method '.predict()' instead of public method 'predict_internal()'")
-      result = learner$predict_internal(task)
-    } else {
-      result = get_private(learner)$.predict(task)
-    }
-
-    as_prediction_data(result, task = task, check = TRUE)
+    result = get_private(learner)$.predict(task)
+    as_prediction_data(result, task = task, check = TRUE, train_task = learner$state$train_task)
   }
 
   assert_task(task)
@@ -155,7 +158,7 @@ learner_predict = function(learner, task, row_ids = NULL) {
     # return an empty prediction object, #421
     lg$debug("No observations in task, returning empty prediction data", task = task)
     learner$state$log = append_log(learner$state$log, "predict", "output", "No data to predict on")
-    return(as_prediction_data(named_list(), task = task, row_ids = integer(), check = TRUE))
+    return(as_prediction_data(named_list(), task = task, row_ids = integer(), check = TRUE, train_task = learner$state$train_task))
   }
 
   if (is.null(learner$state$model)) {
@@ -193,7 +196,7 @@ learner_predict = function(learner, task, row_ids = NULL) {
       fb = assert_learner(as_learner(fb))
       fb$predict_type = learner$predict_type
       fb$state = learner$state$fallback_state
-      as_prediction_data(fb$predict(task, row_ids), task, row_ids, check = TRUE)
+      as_prediction_data(fb$predict(task, row_ids), task, row_ids, check = TRUE, train_task = learner$state$train_task)
     }
 
 
@@ -243,7 +246,7 @@ workhorse = function(iteration, task, learner, resampling, lgr_threshold, store_
   )
 
   # train model
-  learner = learner_train(learner$clone(), task, sets[["train"]], mode = mode)
+  learner = learner_train(learner$clone(), task, sets[["train"]], sets[["test"]], mode = mode)
 
   # predict for each set
   sets = sets[learner$predict_sets]

@@ -7,27 +7,27 @@
 #'
 #' @return [Prediction].
 #' @export
-as_prediction = function(x, check = TRUE, ...) {
+as_prediction = function(x, check = FALSE, ...) {
   UseMethod("as_prediction")
 }
 
 #' @rdname as_prediction
 #' @export
-as_prediction.Prediction = function(x, check = TRUE, ...) { # nolint
+as_prediction.Prediction = function(x, check = FALSE, ...) { # nolint
   x
 }
 
 
 #' @rdname as_prediction
 #' @export
-as_prediction.PredictionDataClassif = function(x, check = TRUE, ...) { # nolint
+as_prediction.PredictionDataClassif = function(x, check = FALSE, ...) { # nolint
   invoke(PredictionClassif$new, check = check, .args = x)
 }
 
 
 #' @rdname as_prediction
 #' @export
-as_prediction.PredictionDataRegr = function(x, check = TRUE, ...) { # nolint
+as_prediction.PredictionDataRegr = function(x, check = FALSE, ...) { # nolint
   invoke(PredictionRegr$new, check = check, .args = x)
 }
 

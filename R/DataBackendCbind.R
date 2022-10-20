@@ -50,6 +50,10 @@ DataBackendCbind = R6Class("DataBackendCbind", inherit = DataBackend, cloneable 
     missings = function(rows, cols) {
       m2 = private$.data$b2$missings(rows, cols)
       m1 = private$.data$b1$missings(rows, setdiff(cols, names(m2)))
+      if (length(m2) == 0L && length(m1) == 0L) {
+        return(set_names(integer()))
+      }
+
       res = c(m1, m2)
       res[reorder_vector(names(res), cols)]
     }

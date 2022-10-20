@@ -61,17 +61,17 @@ Stores hot start learners.}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{HotstartStack$new()}}
-\item \href{#method-add}{\code{HotstartStack$add()}}
-\item \href{#method-start_cost}{\code{HotstartStack$start_cost()}}
-\item \href{#method-format}{\code{HotstartStack$format()}}
-\item \href{#method-print}{\code{HotstartStack$print()}}
-\item \href{#method-clone}{\code{HotstartStack$clone()}}
+\item \href{#method-HotstartStack-new}{\code{HotstartStack$new()}}
+\item \href{#method-HotstartStack-add}{\code{HotstartStack$add()}}
+\item \href{#method-HotstartStack-start_cost}{\code{HotstartStack$start_cost()}}
+\item \href{#method-HotstartStack-format}{\code{HotstartStack$format()}}
+\item \href{#method-HotstartStack-print}{\code{HotstartStack$print()}}
+\item \href{#method-HotstartStack-clone}{\code{HotstartStack$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-HotstartStack-new"></a>}}
+\if{latex}{\out{\hypertarget{method-HotstartStack-new}{}}}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
@@ -89,8 +89,8 @@ stack is created.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-add"></a>}}
-\if{latex}{\out{\hypertarget{method-add}{}}}
+\if{html}{\out{<a id="method-HotstartStack-add"></a>}}
+\if{latex}{\out{\hypertarget{method-HotstartStack-add}{}}}
 \subsection{Method \code{add()}}{
 Add learners to hot start stack.
 \subsection{Usage}{
@@ -110,8 +110,8 @@ self (invisibly).
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-start_cost"></a>}}
-\if{latex}{\out{\hypertarget{method-start_cost}{}}}
+\if{html}{\out{<a id="method-HotstartStack-start_cost"></a>}}
+\if{latex}{\out{\hypertarget{method-HotstartStack-start_cost}{}}}
 \subsection{Method \code{start_cost()}}{
 Calculates the cost for each learner of the stack to hot start the target
 \code{learner}.
@@ -140,8 +140,8 @@ Hash of the task on which the target learner is trained.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-format"></a>}}
-\if{latex}{\out{\hypertarget{method-format}{}}}
+\if{html}{\out{<a id="method-HotstartStack-format"></a>}}
+\if{latex}{\out{\hypertarget{method-HotstartStack-format}{}}}
 \subsection{Method \code{format()}}{
 Helper for print outputs.
 \subsection{Usage}{
@@ -150,8 +150,8 @@ Helper for print outputs.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-print"></a>}}
-\if{latex}{\out{\hypertarget{method-print}{}}}
+\if{html}{\out{<a id="method-HotstartStack-print"></a>}}
+\if{latex}{\out{\hypertarget{method-HotstartStack-print}{}}}
 \subsection{Method \code{print()}}{
 Printer.
 \subsection{Usage}{
@@ -167,8 +167,8 @@ Printer.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-HotstartStack-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-HotstartStack-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

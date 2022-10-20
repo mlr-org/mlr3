@@ -5,8 +5,12 @@
 #'
 #' @description
 #' A [LearnerClassif] for a classification tree implemented in [rpart::rpart()] in package \CRANpkg{rpart}.
-#' Parameter `xval` is set to 0 in order to save some computation time.
-#' Parameter `model` has been renamed to `keep_model`.
+#'
+#' @section Initial parameter values:
+#' * Parameter `xval` is initialized to 0 in order to save some computation time.
+#'
+#' @section Custom mlr3 parameters:
+#' * Parameter `model` has been renamed to `keep_model`.
 #'
 #' @templateVar id classif.rpart
 #' @template learner
@@ -99,6 +103,15 @@ LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
     }
   )
 )
+
+#' @export
+default_values.LearnerClassifRpart = function(x, search_space, task, ...) { # nolint
+  special_defaults = list(
+    minbucket = round(20 / 3)
+  )
+  defaults = insert_named(default_values(x$param_set), special_defaults)
+  defaults[search_space$ids()]
+}
 
 #' @include mlr_learners.R
 mlr_learners$add("classif.rpart", function() LearnerClassifRpart$new())

@@ -237,7 +237,7 @@ expect_task = function(task, null_backend_ok = TRUE) {
   lapply(task$col_roles, checkmate::expect_character, any.missing = FALSE, unique = TRUE, min.chars = 1L)
   checkmate::expect_subset(unlist(task$col_roles, use.names = FALSE), task$col_info$id)
 
-  checkmate::expect_list(task$row_roles, names = "unique", types = c("integer", "character"), any.missing = FALSE)
+  checkmate::expect_list(task$row_roles, names = "unique", types = c("integer", "character", "numeric"), any.missing = FALSE)
   checkmate::expect_names(names(task$row_roles), permutation.of = mlr3::mlr_reflections$task_row_roles)
   lapply(task$row_roles, checkmate::expect_integerish, any.missing = FALSE, unique = TRUE)
 
@@ -258,6 +258,10 @@ expect_task = function(task, null_backend_ok = TRUE) {
   if (!null_backend) {
     missings = task$missings()
     checkmate::expect_integer(missings, names = "unique", any.missing = FALSE, lower = 0L, upper = task$nrow)
+
+    missings = task$missings(character())
+    checkmate::expect_integer(missings, len = 0L)
+    testthat::expect_named(missings)
 
     # query zero columns
     data = task$data(cols = character(), data_format = "data.table")
@@ -319,6 +323,11 @@ expect_task_regr = function(task) {
   expect_hash(task$hash, 1L)
 }
 
+expect_task_unsupervised = function(task) {
+  checkmate::expect_r6(task, "TaskUnsupervised")
+  expect_hash(task$hash, 1L)
+}
+
 expect_task_generator = function(gen) {
   checkmate::expect_r6(gen, "TaskGenerator", private = ".generate")
   expect_id(gen$id)
@@ -352,16 +361,8 @@ expect_learner = function(lrn, task = NULL) {
   expect_hash(lrn$hash)
   expect_hash(lrn$phash)
 
-  if (is.null(mlr3misc::get_private(lrn)$.train)) {
-    checkmate::expect_function(lrn$train_internal, args = "task", nargs = 1L)
-  } else {
-    checkmate::expect_function(mlr3misc::get_private(lrn)$.train, args = "task", nargs = 1L)
-  }
-  if (is.null(mlr3misc::get_private(lrn)$.predict)) {
-    checkmate::expect_function(lrn$predict_internal, args = "task", nargs = 1L)
-  } else {
-    checkmate::expect_function(mlr3misc::get_private(lrn)$.predict, args = "task", nargs = 1L)
-  }
+  checkmate::expect_function(mlr3misc::get_private(lrn)$.train, args = "task", nargs = 1L)
+  checkmate::expect_function(mlr3misc::get_private(lrn)$.predict, args = "task", nargs = 1L)
   expect_hash(lrn$hash, 1L)
 
   tags = lrn$param_set$tags
@@ -376,7 +377,9 @@ expect_learner = function(lrn, task = NULL) {
     testthat::expect_identical(lrn$task_type, task$task_type)
   }
 
-  checkmate::expect_class(lrn$base_learner(), "Learner")
+  if (!inherits(lrn, "GraphLearner") && !inherits(lrn, "AutoTuner")) { # still not in pipelines, breaking check in mlr3tuning
+    checkmate::expect_class(lrn$base_learner(), "Learner")
+  }
 }
 
 expect_resampling = function(r, task = NULL) {

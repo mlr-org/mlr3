@@ -14,7 +14,7 @@ test_that("as.data.table(mlr_measures)", {
   expect_character(d$key, unique = TRUE, any.missing = FALSE)
   expect_subset(d$task_type, c(mlr_reflections$task_types$type, NA))
   qexpectr(d$packages, "S")
-  expect_subset(d$predict_type, unlist(mlr_reflections$learner_predict_types))
+  expect_subset(d$predict_type, c(NA, unlist(mlr_reflections$learner_predict_types)))
   qexpectr(d$task_properties, "S")
   expect_subset(unlist(d$task_properties), unlist(mlr_reflections$task_properties))
 })

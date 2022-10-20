@@ -31,6 +31,11 @@
 #' * `as.data.table(t)`\cr
 #'   [Task] -> [data.table::data.table()]\cr
 #'   Returns the complete data as [data.table::data.table()].
+#' * `head(t)`\cr
+#'   Calls [head()] on the task's data.
+#' * `summary(t)`\cr
+#'   Calls [summary()] on the task's data.
+#'
 #'
 #' @section Task mutators:
 #' The following methods change the task in-place:
@@ -139,7 +144,7 @@ Task = R6Class("Task",
       )
 
       cn = self$col_info$id # note: this sorts the columns!
-      private$.row_roles = list(use = rn, holdout = integer(), early_stopping = integer())
+      private$.row_roles = list(use = rn, test = integer(), holdout = integer())
       private$.col_roles = named_list(mlr_reflections$task_col_roles[[task_type]], character())
       private$.col_roles$feature = setdiff(cn, self$backend$primary_key)
       self$extra_args = assert_list(extra_args, names = "unique")
@@ -162,7 +167,7 @@ Task = R6Class("Task",
     #' @param ... (ignored).
     print = function(...) {
       catf("%s (%i x %i)%s", format(self), self$nrow, self$ncol,
-        if (is.na(self$label)) "" else paste0(": ", self$label))
+        if (is.null(self$label) || is.na(self$label)) "" else paste0(": ", self$label))
       catf(str_indent("* Target:", self$target_names))
       catf(str_indent("* Properties:", self$properties))
 
@@ -288,7 +293,7 @@ Task = R6Class("Task",
     #' @param n (`integer(1)`).
     #' @return [data.table::data.table()] with `n` rows.
     head = function(n = 6L) {
-      assert_count(n)
+      assert_number(n, na.ok = FALSE)
       ids = head(private$.row_roles$use, n)
       self$data(rows = ids)
     },
@@ -688,7 +693,7 @@ Task = R6Class("Task",
     hash = function(rhs) {
       private$.hash %??% calculate_hash(
         class(self), self$id, self$backend$hash, self$col_info,
-        private$.row_roles, private$.col_roles, private$.properties
+        remove_named(private$.row_roles, "test"), private$.col_roles, private$.properties
       )
     },
 
@@ -761,15 +766,14 @@ Task = R6Class("Task",
     #' Each row (observation) can have an arbitrary number of roles in the learning task:
     #'
     #' - `"use"`: Use in train / predict / resampling.
+    #' - `"test"`: Observations are hold back unless explicitly queried.
+    #'   Can be queried by a [Learner] to determine a good iteration to stop by evaluating the performance
+    #'   on external data, e.g. the XGboost learner in \CRANpkg{mlr3learners} for parameter `nrounds`.
     #' - `"holdout"`: Observations are hold back unless explicitly queried.
     #'   Can be used, e.g., as truly independent holdout set:
     #'
     #'   1. Add `"holdout"` to the `predict_sets` of a [Learner].
     #'   2. Configure a [Measure] to use the `"holdout"` set by updating its `predict_sets` field.
-    #'
-    #' - `"early_stopping"`: Observations are hold back unless explicitly queried.
-    #'   Can be queried by a [Learner] to determine a good iteration to stop by evaluating the performance
-    #'   on external data, e.g. the XGboost learner in \CRANpkg{mlr3learners} for parameter `nrounds`.
     #'
     #' `row_roles` is a named list whose elements are named by row role and each element is an `integer()` vector of row ids.
     #' To alter the roles, just modify the list, e.g. with  \R's set functions ([intersect()], [setdiff()], [union()], \ldots).
@@ -1059,20 +1063,21 @@ as.data.table.Task = function(x, ...) { # nolint
 
 #' @export
 head.Task = function(x, n = 6L, ...) { # nolint
-  assert_count(n)
+  assert_number(n, na.ok = FALSE)
   x$data(rows = head(x$row_ids, n))
 }
 
 #' @export
 tail.Task = function(x, n = 6L, ...) { # nolint
-  assert_count(n)
+  assert_number(n, na.ok = FALSE)
   x$data(rows = tail(x$row_ids, n))
 }
 
-#' @export
-format_list_item.Task = function(x, ...) { # nolint
-  sprintf("<tsk:%s>", x$id)
-}
+# #' @export
+# format_list_item.Task = function(x, ...) { # nolint
+#   print("HIIII")
+#   sprintf("<tsk:%s>", x$id)
+# }
 
 task_rm_backend = function(task) {
   # fix task hash
@@ -1089,7 +1094,7 @@ task_rm_backend = function(task) {
 
 #' @export
 rd_info.Task = function(obj, section) { # nolint
-  c("",
+  x = c("",
     sprintf("* Task type: %s", rd_format_string(obj$task_type)),
     sprintf("* Dimensions: %ix%i", obj$nrow, obj$ncol),
     sprintf("* Properties: %s", rd_format_string(obj$properties)),
@@ -1097,4 +1102,10 @@ rd_info.Task = function(obj, section) { # nolint
     sprintf("* Target: %s", rd_format_string(obj$target_names)),
     sprintf("* Features: %s", rd_format_string(obj$feature_names))
   )
+  paste(x, collapse = "\n")
+}
+
+#' @export
+summary.Task = function(object, limit = object$nrow, ...) {
+  summary(head(object, limit))
 }

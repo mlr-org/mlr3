@@ -7,8 +7,7 @@
 #'
 #' Learners are build around the three following key parts:
 #'
-#' * Methods `$train()` and `$predict()` which call internal methods (either public method `$train_internal()`/`$predict_internal()` (deprecated)
-#'   or private methods `$.train()`/`$.predict()`).
+#' * Methods `$train()` and `$predict()` which call internal methods or private methods `$.train()`/`$.predict()`).
 #' * A [paradox::ParamSet] which stores meta-information about available hyperparameters, and also stores hyperparameter settings.
 #' * Meta-information about the requirements and capabilities of the learner.
 #' * The fitted model stored in field `$model`, available after calling `$train()`.
@@ -182,12 +181,12 @@ Learner = R6Class("Learner",
     #' Printer.
     #' @param ... (ignored).
     print = function(...) {
-      catn(format(self), if (is.na(self$label)) "" else paste0(": ", self$label))
+      catn(format(self), if (is.null(self$label) || is.na(self$label)) "" else paste0(": ", self$label))
       catn(str_indent("* Model:", if (is.null(self$model)) "-" else class(self$model)[1L]))
       catn(str_indent("* Parameters:", as_short_string(self$param_set$values, 1000L)))
       catn(str_indent("* Packages:", self$packages))
-      catn(str_indent("* Predict Type:", self$predict_type))
-      catn(str_indent("* Feature types:", self$feature_types))
+      catn(str_indent("* Predict Types: ", replace(self$predict_types, self$predict_types == self$predict_type, paste0("[", self$predict_type, "]"))))
+      catn(str_indent("* Feature Types:", self$feature_types))
       catn(str_indent("* Properties:", self$properties))
       w = self$warnings
       e = self$errors
@@ -238,7 +237,10 @@ Learner = R6Class("Learner",
         mode = "hotstart"
       }
 
-      learner_train(learner, task, row_ids, mode)
+      train_row_ids = if (!is.null(row_ids)) row_ids else task$row_roles$use
+      test_row_ids = task$row_roles$test
+
+      learner_train(learner, task, train_row_ids = row_ids, test_row_ids = test_row_ids, mode = mode)
 
       # store the task w/o the data
       self$state$train_task = task_rm_backend(task$clone(deep = TRUE))
@@ -284,7 +286,7 @@ Learner = R6Class("Learner",
       if (is.null(pdata)) {
         return(NULL)
       } else {
-        as_prediction(check_prediction_data(pdata))
+        as_prediction(pdata)
       }
     },
 
@@ -373,7 +375,9 @@ Learner = R6Class("Learner",
     #' @field model (any)\cr
     #' The fitted model. Only available after `$train()` has been called.
     model = function(rhs) {
-      assert_ro_binding(rhs)
+      if (!missing(rhs)) {
+        self$state$model = rhs
+      }
       self$state$model
     },
 
@@ -532,12 +536,13 @@ Learner = R6Class("Learner",
 
 #' @export
 rd_info.Learner = function(obj) {
-  c("",
+  x = c("",
     sprintf("* Task type: %s", rd_format_string(obj$task_type)),
     sprintf("* Predict Types: %s", rd_format_string(obj$predict_types)),
     sprintf("* Feature Types: %s", rd_format_string(obj$feature_types)),
     sprintf("* Required Packages: %s", rd_format_packages(obj$packages))
   )
+  paste(x, collapse = "\n")
 }
 
 get_log_condition = function(state, condition) {
@@ -549,6 +554,10 @@ get_log_condition = function(state, condition) {
 }
 
 #' @export
-format_list_item.Learner = function(x, ...) { # nolint
-  sprintf("<lrn:%s>", x$id)
+default_values.Learner = function(x, search_space, task, ...) { # nolint
+  default_values(x$param_set)[search_space$ids()]
 }
+# #' @export
+# format_list_item.Learner = function(x, ...) { # nolint
+#   sprintf("<lrn:%s>", x$id)
+# }

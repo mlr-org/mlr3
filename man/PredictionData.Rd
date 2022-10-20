@@ -14,21 +14,21 @@
 \alias{c.PredictionDataRegr}
 \title{Convert to PredictionData}
 \usage{
-check_prediction_data(pdata)
+check_prediction_data(pdata, ...)
 
-is_missing_prediction_data(pdata)
+is_missing_prediction_data(pdata, ...)
 
-filter_prediction_data(pdata, row_ids)
+filter_prediction_data(pdata, row_ids, ...)
 
-\method{check_prediction_data}{PredictionDataClassif}(pdata)
+\method{check_prediction_data}{PredictionDataClassif}(pdata, train_task, ...)
 
-\method{is_missing_prediction_data}{PredictionDataClassif}(pdata)
+\method{is_missing_prediction_data}{PredictionDataClassif}(pdata, ...)
 
 \method{c}{PredictionDataClassif}(..., keep_duplicates = TRUE)
 
-\method{check_prediction_data}{PredictionDataRegr}(pdata)
+\method{check_prediction_data}{PredictionDataRegr}(pdata, ...)
 
-\method{is_missing_prediction_data}{PredictionDataRegr}(pdata)
+\method{is_missing_prediction_data}{PredictionDataRegr}(pdata, ...)
 
 \method{c}{PredictionDataRegr}(..., keep_duplicates = TRUE)
 }
@@ -36,10 +36,13 @@ filter_prediction_data(pdata, row_ids)
 \item{pdata}{(\link{PredictionData})\cr
 Named list inheriting from \code{"PredictionData"}.}
 
+\item{...}{(one or more \link{PredictionData} objects).}
+
 \item{row_ids}{\code{integer()}\cr
 Row indices.}
 
-\item{...}{(one or more \link{PredictionData} objects).}
+\item{train_task}{(\link{Task})\cr
+Task used for training the learner.}
 
 \item{keep_duplicates}{(\code{logical(1)})
 If \code{TRUE}, the combined \link{PredictionData} object is filtered for duplicated

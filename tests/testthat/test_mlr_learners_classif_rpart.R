@@ -52,3 +52,16 @@ test_that("weights", {
   expect_true(sum(c1[1:2, 3]) > 0)
   expect_true(sum(c2[1:2, 3]) == 0)
 })
+
+test_that("default_values on rpart", {
+  learner = lrn("classif.rpart")
+  search_space = ps(
+    minsplit = p_int(2, 128, logscale = TRUE),
+    minbucket = p_int(1, 64, logscale = TRUE),
+    cp = p_dbl(1e-04, 1e-1, logscale = TRUE)
+  )
+  task = tsk("pima")
+
+  values = default_values(learner, search_space, task)
+  expect_names(names(values), permutation.of = c("minsplit", "minbucket", "cp"))
+})

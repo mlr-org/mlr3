@@ -252,6 +252,22 @@ mlr_measures$add("classif.ce", function() MeasureClassifSimple$new(name = "ce"))
 #' @template measure_classif
 mlr_measures$add("classif.logloss", function() MeasureClassifSimple$new(name = "logloss"))
 
+#' @templateVar id mauc_aunu
+#' @template measure_classif
+mlr_measures$add("classif.mauc_aunu", function() MeasureClassifSimple$new(name = "mauc_aunu"))
+
+#' @templateVar id mauc_aunp
+#' @template measure_classif
+mlr_measures$add("classif.mauc_aunp", function() MeasureClassifSimple$new(name = "mauc_aunp"))
+
+#' @templateVar id mauc_au1u
+#' @template measure_classif
+mlr_measures$add("classif.mauc_au1u", function() MeasureClassifSimple$new(name = "mauc_au1u"))
+
+#' @templateVar id mauc_au1p
+#' @template measure_classif
+mlr_measures$add("classif.mauc_au1p", function() MeasureClassifSimple$new(name = "mauc_au1p"))
+
 
 ### regression measures
 

@@ -44,19 +44,30 @@ test_that("NA predictions", {
   expect_equal(is.na(p$response), apply(p$prob, 1, anyMissing))
 })
 
-test_that("early_stopping set is available", {
+test_that("test set is available in $.train method", {
   task = tsk("iris")
-  task$set_row_roles(1:10, roles = "early_stopping")
   learner = lrn("classif.debug", save_tasks = TRUE)
-  learner$train(task)
+  resampling = rsmp("cv", folds = 3)
+  resampling$instantiate(task)
 
-  row_roles = learner$model$task_train$row_roles
-  expect_names(names(row_roles), permutation.of = c("use", "holdout", "early_stopping"))
-  expect_equal(row_roles$early_stopping, seq(10))
-
-  rr = resample(task, learner, rsmp("cv", folds = 3), store_models = TRUE)
+  rr = resample(task, learner, resampling, store_models = TRUE)
 
   walk(seq(rr$iters), function(i) {
-    expect_equal(rr$learners[[i]]$model$task_train$row_roles$early_stopping, seq(10))
+    expect_equal(rr$learners[[i]]$model$task_train$row_roles$use, resampling$train_set(i))
+    expect_equal(rr$learners[[i]]$model$task_train$row_roles$test, resampling$test_set(i))
   })
+})
+
+test_that("default_values", {
+  learner = lrn("classif.debug")
+  search_space = ps(iter = p_int(1, 10))
+  task = tsk("pima")
+
+  values = default_values(learner, search_space, task)
+  expect_names(names(values), identical.to = "iter")
+})
+
+test_that("default_values works with empty search space", {
+  learner = lrn("classif.debug")
+  expect_list(default_values(learner, ps(), task), len = 0)
 })

@@ -315,6 +315,12 @@ test_that("task$missings() works", {
   x = task$missings()
   y = map_int(task$data(), count_missing)
   expect_equal(x, y[match(names(x), names(y))])
+
+  # issue #862
+  task = tsk("iris")$cbind(data.frame(x = 1:150))$rename("x", "y")
+  missings = task$missings(cols = character())
+  expect_integer(missings, len = 0L)
+  testthat::expect_named(missings)
 })
 
 test_that("task$feature_types preserves key (#193)", {
@@ -485,4 +491,19 @@ test_that("special chars in feature names (#697)", {
     ,
     "special character"
   )
+})
+
+test_that("head/tail", {
+  task = tsk("iris")
+  expect_data_table(head(task, n = 3), nrows = 3)
+  expect_data_table(head(task, n = -3), nrows = task$nrow - 3)
+
+  expect_data_table(tail(task, n = 3), nrows = 3)
+  expect_data_table(tail(task, n = -3), nrows = task$nrow - 3)
+
+  expect_data_table(head(task, n = Inf), nrows = 150)
+  expect_data_table(tail(task, n = Inf), nrows = 150)
+
+  expect_data_table(head(task, n = -Inf), nrows = 0)
+  expect_data_table(tail(task, n = -Inf), nrows = 0)
 })

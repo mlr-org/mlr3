@@ -140,17 +140,17 @@ Function to aggregate scores computed on different resampling iterations.}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{Measure$new()}}
-\item \href{#method-format}{\code{Measure$format()}}
-\item \href{#method-print}{\code{Measure$print()}}
-\item \href{#method-help}{\code{Measure$help()}}
-\item \href{#method-score}{\code{Measure$score()}}
-\item \href{#method-aggregate}{\code{Measure$aggregate()}}
+\item \href{#method-Measure-new}{\code{Measure$new()}}
+\item \href{#method-Measure-format}{\code{Measure$format()}}
+\item \href{#method-Measure-print}{\code{Measure$print()}}
+\item \href{#method-Measure-help}{\code{Measure$help()}}
+\item \href{#method-Measure-score}{\code{Measure$score()}}
+\item \href{#method-Measure-aggregate}{\code{Measure$aggregate()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-Measure-new"></a>}}
+\if{latex}{\out{\hypertarget{method-Measure-new}{}}}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 
@@ -260,8 +260,8 @@ The referenced help package can be opened via method \verb{$help()}.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-format"></a>}}
-\if{latex}{\out{\hypertarget{method-format}{}}}
+\if{html}{\out{<a id="method-Measure-format"></a>}}
+\if{latex}{\out{\hypertarget{method-Measure-format}{}}}
 \subsection{Method \code{format()}}{
 Helper for print outputs.
 \subsection{Usage}{
@@ -270,8 +270,8 @@ Helper for print outputs.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-print"></a>}}
-\if{latex}{\out{\hypertarget{method-print}{}}}
+\if{html}{\out{<a id="method-Measure-print"></a>}}
+\if{latex}{\out{\hypertarget{method-Measure-print}{}}}
 \subsection{Method \code{print()}}{
 Printer.
 \subsection{Usage}{
@@ -287,8 +287,8 @@ Printer.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-help"></a>}}
-\if{latex}{\out{\hypertarget{method-help}{}}}
+\if{html}{\out{<a id="method-Measure-help"></a>}}
+\if{latex}{\out{\hypertarget{method-Measure-help}{}}}
 \subsection{Method \code{help()}}{
 Opens the corresponding help page referenced by field \verb{$man}.
 \subsection{Usage}{
@@ -297,8 +297,8 @@ Opens the corresponding help page referenced by field \verb{$man}.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-score"></a>}}
-\if{latex}{\out{\hypertarget{method-score}{}}}
+\if{html}{\out{<a id="method-Measure-score"></a>}}
+\if{latex}{\out{\hypertarget{method-Measure-score}{}}}
 \subsection{Method \code{score()}}{
 Takes a \link{Prediction} (or a list of \link{Prediction} objects named with valid \code{predict_sets})
 and calculates a numeric score.
@@ -328,8 +328,8 @@ This is handled internally during \code{\link[=resample]{resample()}}/\code{\lin
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-aggregate"></a>}}
-\if{latex}{\out{\hypertarget{method-aggregate}{}}}
+\if{html}{\out{<a id="method-Measure-aggregate"></a>}}
+\if{latex}{\out{\hypertarget{method-Measure-aggregate}{}}}
 \subsection{Method \code{aggregate()}}{
 Aggregates multiple performance scores into a single score, e.g. by using the \code{aggregator}
 function of the measure.

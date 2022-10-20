@@ -72,9 +72,11 @@ If you want to compare the performance of a learner on the training with the per
 on the test set, you have to configure the \link{Learner} to predict on multiple sets by
 setting the field \code{predict_sets} to \code{c("train", "test")} (default is \code{"test"}).
 Each set yields a separate \link{Prediction} object during resampling.
-In the next step, you have to configure the measures to operate on the respective Prediction object:\preformatted{m1 = msr("classif.ce", id = "ce.train", predict_sets = "train")
+In the next step, you have to configure the measures to operate on the respective Prediction object:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{m1 = msr("classif.ce", id = "ce.train", predict_sets = "train")
 m2 = msr("classif.ce", id = "ce.test", predict_sets = "test")
-}
+}\if{html}{\out{</div>}}
 
 The (list of) created measures can finally be passed to \verb{$aggregate()} or \verb{$score()}.
 }
@@ -106,12 +108,16 @@ The \CRANpkg{mlr3} uses the \CRANpkg{lgr} package for logging.
 \code{getOption("lgr.log_levels")}.
 
 To suppress output and reduce verbosity, you can lower the log from the
-default level \code{"info"} to \code{"warn"}:\preformatted{lgr::get_logger("mlr3")$set_threshold("warn")
-}
+default level \code{"info"} to \code{"warn"}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{lgr::get_logger("mlr3")$set_threshold("warn")
+}\if{html}{\out{</div>}}
 
 To get additional log output for debugging, increase the log level to \code{"debug"}
-or \code{"trace"}:\preformatted{lgr::get_logger("mlr3")$set_threshold("debug")
-}
+or \code{"trace"}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{lgr::get_logger("mlr3")$set_threshold("debug")
+}\if{html}{\out{</div>}}
 
 To log to a file or a data base, see the documentation of \link[lgr:lgr-package]{lgr::lgr-package}.
 }
@@ -169,7 +175,7 @@ rr$resampling$train_set(2)
 \seealso{
 \itemize{
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
-\url{https://mlr3book.mlr-org.com/basics.html#benchmarking}
+\url{https://mlr3book.mlr-org.com/performance.html}
 \item Package \CRANpkg{mlr3viz} for some generic visualizations.
 \item \CRANpkg{mlr3benchmark} for post-hoc analysis of benchmark results.
 }

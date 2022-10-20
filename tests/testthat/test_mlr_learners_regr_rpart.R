@@ -50,3 +50,16 @@ test_that("weights", {
 
   expect_lt(p1$score(), p2$score())
 })
+
+test_that("default_values on rpart", {
+  learner = lrn("regr.rpart")
+  search_space = ps(
+    minsplit = p_int(2, 128, logscale = TRUE),
+    minbucket = p_int(1, 64, logscale = TRUE),
+    cp = p_dbl(1e-04, 1e-1, logscale = TRUE)
+  )
+  task = tsk("pima")
+
+  values = default_values(learner, search_space, task)
+  expect_names(names(values), permutation.of = c("minsplit", "minbucket", "cp"))
+})
