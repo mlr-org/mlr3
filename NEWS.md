@@ -4,6 +4,7 @@
 * Fixed reassembling of `GraphLearner`.
 * Test set is available to the `Learner` for early stopping.
 * Fixed bug that elapsed time measures were 0: https://stackoverflow.com/questions/73797845/mlr3-benchmarking-with-elapsed-time-measure
+* feat: Added default method for `as_learners`
 
 # mlr3 0.14.0
 
