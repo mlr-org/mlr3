@@ -5,7 +5,6 @@
 \alias{as_learner.Learner}
 \alias{as_learners}
 \alias{as_learners.list}
-\alias{as_learners.Learner}
 \alias{as_learners.default}
 \title{Convert to a Learner}
 \usage{
@@ -16,8 +15,6 @@ as_learner(x, ...)
 as_learners(x, clone = FALSE, ...)
 
 \method{as_learners}{list}(x, clone = FALSE, ...)
-
-\method{as_learners}{Learner}(x, clone = FALSE, ...)
 
 \method{as_learners}{default}(x, clone = FALSE, ...)
 }

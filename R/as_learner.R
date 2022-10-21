@@ -31,12 +31,6 @@ as_learners.list = function(x, clone = FALSE, ...) { # nolint
 
 #' @export
 #' @rdname as_learner
-as_learners.Learner = function(x, clone = FALSE, ...) { # nolint
-  list(if (clone) x$clone(deep = TRUE) else x)
-}
-
-#' @export
-#' @rdname as_learner
 as_learners.default = function(x, clone = FALSE, ...) { # nolint
   list(as_learner(x, clone = clone, ...))
 }
