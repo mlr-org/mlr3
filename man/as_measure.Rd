@@ -5,24 +5,24 @@
 \alias{as_measure.NULL}
 \alias{as_measure.Measure}
 \alias{as_measures}
+\alias{as_measures.default}
 \alias{as_measures.NULL}
 \alias{as_measures.list}
-\alias{as_measures.Measure}
 \title{Convert to a Measure}
 \usage{
 as_measure(x, ...)
 
-\method{as_measure}{`NULL`}(x, task_type = NULL, clone = FALSE, ...)
+\method{as_measure}{`NULL`}(x, task_type = NULL, ...)
 
 \method{as_measure}{Measure}(x, clone = FALSE, ...)
 
 as_measures(x, ...)
 
-\method{as_measures}{`NULL`}(x, task_type = NULL, clone = FALSE, ...)
+\method{as_measures}{default}(x, ...)
 
-\method{as_measures}{list}(x, clone = FALSE, ...)
+\method{as_measures}{`NULL`}(x, task_type = NULL, ...)
 
-\method{as_measures}{Measure}(x, clone = FALSE, ...)
+\method{as_measures}{list}(x, ...)
 }
 \arguments{
 \item{x}{(any)\cr

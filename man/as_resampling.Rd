@@ -4,8 +4,8 @@
 \alias{as_resampling}
 \alias{as_resampling.Resampling}
 \alias{as_resamplings}
+\alias{as_resamplings.default}
 \alias{as_resamplings.list}
-\alias{as_resamplings.Resampling}
 \title{Convert to a Resampling}
 \usage{
 as_resampling(x, ...)
@@ -14,9 +14,9 @@ as_resampling(x, ...)
 
 as_resamplings(x, ...)
 
-\method{as_resamplings}{list}(x, clone = FALSE, ...)
+\method{as_resamplings}{default}(x, ...)
 
-\method{as_resamplings}{Resampling}(x, clone = FALSE, ...)
+\method{as_resamplings}{list}(x, ...)
 }
 \arguments{
 \item{x}{(any)\cr
