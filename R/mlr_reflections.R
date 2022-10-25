@@ -38,7 +38,7 @@
 #' * `task_print_col_roles` (list of named `character()`)\cr
 #'   Vector of column roles to print via `print(task)` if the role is not empty, either
 #'   before or after the task's target, properties and features.
-#'   The names are the column roles, the values correspond to the labels to use in the printer.
+#'   The names of the column roles are the values, the names correspond to the labels to use in the printer.
 #'
 #' * `learner_properties` (list of `character()`)\cr
 #'   List of vectors of supported [Learner] properties, named by their task type.
@@ -121,7 +121,7 @@ local({
 
   mlr_reflections$task_print_col_roles = list(
     before = character(),
-    after = c("order" = "Order by", "stratum" = "Strata", "group" = "Groups", "weight" = "Weights")
+    after = c("Order by" = "order", "Strata" = "stratum", "Groups" = "group", "Weights" = "weight")
   )
 
   ### Learner

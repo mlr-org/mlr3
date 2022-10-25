@@ -174,7 +174,7 @@ Task = R6Class("Task",
 
       # print additional columns are specified in reflections
       before = mlr_reflections$task_print_col_roles$before
-      iwalk(before[names(before) %in% names(roles)], function(str, role) {
+      iwalk(before[before %in% names(roles)], function(role, str) {
         catn(str_indent(sprintf("* %s:", str), role))
       })
 
@@ -194,7 +194,7 @@ Task = R6Class("Task",
 
       # print additional columns are specified in reflections
       after = mlr_reflections$task_print_col_roles$after
-      iwalk(after[names(after) %in% names(roles)], function(str, role) {
+      iwalk(after[after %in% names(roles)], function(role, str) {
         catn(str_indent(sprintf("* %s:", str), role))
       })
     },
