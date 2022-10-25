@@ -488,7 +488,7 @@ Learner = R6Class("Learner",
       if (!is.null(rhs)) {
         assert_learner(rhs, task_type = self$task_type)
         if (!identical(self$predict_type, rhs$predict_type)) {
-          warningf("The fallback learner '%s' and the base learner '%s' have different predict types '%s' and '%s'.",
+          warningf("The fallback learner '%s' and the base learner '%s' have different predict types: '%s' != '%s'.",
             rhs$id, self$id, rhs$predict_type, self$predict_type)
         }
         if (is.null(private$.encapsulate)) {
