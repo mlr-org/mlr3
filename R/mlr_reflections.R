@@ -35,6 +35,11 @@
 #'   I.e., if the task property is not found in the set of the learner properties, an exception
 #'   is raised.
 #'
+#' * `task_print_col_roles` (list of named `character()`)\cr
+#'   Vector of column roles to print via `print(task)` if the role is not empty, either
+#'   before or after the task's target, properties and features.
+#'   The names of the column roles are the values, the names correspond to the labels to use in the printer.
+#'
 #' * `learner_properties` (list of `character()`)\cr
 #'   List of vectors of supported [Learner] properties, named by their task type.
 #'
@@ -114,6 +119,10 @@ local({
     classif = c("twoclass", "multiclass")
   )
 
+  mlr_reflections$task_print_col_roles = list(
+    before = character(),
+    after = c("Order by" = "order", "Strata" = "stratum", "Groups" = "group", "Weights" = "weight")
+  )
 
   ### Learner
   tmp = c("featureless", "missings", "weights", "importance", "selected_features", "oob_error", "loglik", "hotstart_forward", "hotstart_backward")

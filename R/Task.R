@@ -168,6 +168,16 @@ Task = R6Class("Task",
     print = function(...) {
       catf("%s (%i x %i)%s", format(self), self$nrow, self$ncol,
         if (is.null(self$label) || is.na(self$label)) "" else paste0(": ", self$label))
+
+      roles = self$col_roles
+      roles = roles[lengths(roles) > 0L]
+
+      # print additional columns are specified in reflections
+      before = mlr_reflections$task_print_col_roles$before
+      iwalk(before[before %in% names(roles)], function(role, str) {
+        catn(str_indent(sprintf("* %s:", str), role))
+      })
+
       catf(str_indent("* Target:", self$target_names))
       catf(str_indent("* Properties:", self$properties))
 
@@ -182,19 +192,11 @@ Task = R6Class("Task",
         })
       }
 
-      roles = self$col_roles
-      if (length(roles$order)) {
-        catn(str_indent("* Order by:", roles$order))
-      }
-      if ("strata" %in% self$properties) {
-        catn(str_indent("* Strata:", roles$stratum))
-      }
-      if ("groups" %in% self$properties) {
-        catn(str_indent("* Groups:", roles$group))
-      }
-      if ("weights" %in% self$properties) {
-        catn(str_indent("* Weights:", roles$weight))
-      }
+      # print additional columns are specified in reflections
+      after = mlr_reflections$task_print_col_roles$after
+      iwalk(after[after %in% names(roles)], function(role, str) {
+        catn(str_indent(sprintf("* %s:", str), role))
+      })
     },
 
     #' @description
