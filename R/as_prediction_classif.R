@@ -49,6 +49,7 @@ as_prediction_classif.data.frame = function(x, ...) { # nolint
     stopf("Table may only contain columns 'row_ids', 'truth', 'response' as well as columns prefixed with 'prob.' for class probabilities")
   }
 
+  x = as.data.table(x)
   if (length(prob_cols)) {
     prob = as.matrix(x[, prob_cols, with = FALSE])
     colnames(prob) = substr(colnames(prob), 6L, nchar(colnames(prob)))

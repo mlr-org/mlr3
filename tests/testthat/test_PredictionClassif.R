@@ -149,6 +149,10 @@ test_that("as_prediction_classif", {
   p2 = as_prediction_classif(tab)
 
   expect_equal(tab, as.data.table(p2))
+
+  # issue #870
+  tab = data.frame(row_ids = 1:3, truth = factor(c("a", "b", "a")), response = factor(c("a", "b", "b")))
+  expect_class(as_prediction_classif(tab), "PredictionClassif")
 })
 
 test_that("#615", {
