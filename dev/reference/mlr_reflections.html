@@ -22,6 +22,10 @@ task_mandatory_properties (list of character())
 List of vectors of Task properties which necessarily must be supported by the Learner.
 I.e., if the task property is not found in the set of the learner properties, an exception
 is raised.
+task_print_col_roles (list of named character())
+Vector of column roles to print via print(task) if the role is not empty, either
+before or after the task's target, properties and features.
+The names of the column roles are the values, the names correspond to the labels to use in the printer.
 learner_properties (list of character())
 List of vectors of supported Learner properties, named by their task type.
 learner_predict_types (list of list of character())
@@ -68,6 +72,10 @@ task_mandatory_properties (list of character())
 List of vectors of Task properties which necessarily must be supported by the Learner.
 I.e., if the task property is not found in the set of the learner properties, an exception
 is raised.
+task_print_col_roles (list of named character())
+Vector of column roles to print via print(task) if the role is not empty, either
+before or after the task's target, properties and features.
+The names of the column roles are the values, the names correspond to the labels to use in the printer.
 learner_properties (list of character())
 List of vectors of supported Learner properties, named by their task type.
 learner_predict_types (list of list of character())
@@ -189,6 +197,10 @@ List of vectors of supported <a href="Task.html">Task</a> properties, named by t
 List of vectors of <a href="Task.html">Task</a> properties which necessarily must be supported by the <a href="Learner.html">Learner</a>.
 I.e., if the task property is not found in the set of the learner properties, an exception
 is raised.</p></li>
+<li><p><code>task_print_col_roles</code> (list of named <code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
+Vector of column roles to print via <code>print(task)</code> if the role is not empty, either
+before or after the task's target, properties and features.
+The names of the column roles are the values, the names correspond to the labels to use in the printer.</p></li>
 <li><p><code>learner_properties</code> (list of <code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 List of vectors of supported <a href="Learner.html">Learner</a> properties, named by their task type.</p></li>
 <li><p><code>learner_predict_types</code> (list of list of <code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
@@ -226,7 +238,7 @@ Can be extended by third-party with additional converters.</p></li>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/ls_str.html" class="external-link">ls.str</a></span><span class="op">(</span><span class="va">mlr_reflections</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> auto_converters : &lt;environment: 0x563516a5e4d8&gt; </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> auto_converters : &lt;environment: 0x5650a9a18588&gt; </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> data_formats :  chr [1:2] "data.table" "Matrix"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> default_measures : List of 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ classif     : chr "classif.ce"</span>
@@ -253,6 +265,9 @@ Can be extended by third-party with additional converters.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> task_feature_types :  Named chr [1:7] "logical" "integer" "numeric" "character" "factor" ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> task_mandatory_properties : List of 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ classif: chr [1:2] "twoclass" "multiclass"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> task_print_col_roles : List of 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ before: chr(0) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ after : Named chr [1:4] "order" "stratum" "group" "weight"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> task_properties : List of 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ classif     : chr [1:5] "strata" "groups" "weights" "twoclass" ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ regr        : chr [1:3] "strata" "groups" "weights"</span>
