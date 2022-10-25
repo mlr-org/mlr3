@@ -4,8 +4,8 @@
 \alias{as_task}
 \alias{as_task.Task}
 \alias{as_tasks}
+\alias{as_tasks.default}
 \alias{as_tasks.list}
-\alias{as_tasks.Task}
 \title{Convert to a Task}
 \usage{
 as_task(x, ...)
@@ -14,9 +14,9 @@ as_task(x, ...)
 
 as_tasks(x, ...)
 
-\method{as_tasks}{list}(x, clone = FALSE, ...)
+\method{as_tasks}{default}(x, ...)
 
-\method{as_tasks}{Task}(x, clone = FALSE, ...)
+\method{as_tasks}{list}(x, ...)
 }
 \arguments{
 \item{x}{(any)\cr

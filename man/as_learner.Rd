@@ -4,19 +4,19 @@
 \alias{as_learner}
 \alias{as_learner.Learner}
 \alias{as_learners}
+\alias{as_learners.default}
 \alias{as_learners.list}
-\alias{as_learners.Learner}
 \title{Convert to a Learner}
 \usage{
 as_learner(x, ...)
 
 \method{as_learner}{Learner}(x, clone = FALSE, ...)
 
-as_learners(x, clone = FALSE, ...)
+as_learners(x, ...)
 
-\method{as_learners}{list}(x, clone = FALSE, ...)
+\method{as_learners}{default}(x, ...)
 
-\method{as_learners}{Learner}(x, clone = FALSE, ...)
+\method{as_learners}{list}(x, ...)
 }
 \arguments{
 \item{x}{(any)\cr

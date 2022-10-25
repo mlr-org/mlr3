@@ -16,14 +16,14 @@ as_measure = function(x, ...) { # nolint
 
 #' @export
 #' @rdname as_measure
-as_measure.NULL = function(x, task_type = NULL, clone = FALSE, ...) { # nolint
+as_measure.NULL = function(x, task_type = NULL, ...) { # nolint
   default_measures(task_type)[[1L]]
 }
 
 #' @export
 #' @rdname as_measure
 as_measure.Measure = function(x, clone = FALSE, ...) { # nolint
-  if (clone) x$clone() else x
+  if (isTRUE(clone)) x$clone() else x
 }
 
 #' @export
@@ -34,18 +34,18 @@ as_measures = function(x, ...) { # nolint
 
 #' @export
 #' @rdname as_measure
-as_measures.NULL = function(x, task_type = NULL, clone = FALSE, ...) { # nolint
+as_measures.default = function(x, ...) { # nolint
+  list(as_measure(x, ...))
+}
+
+#' @export
+#' @rdname as_measure
+as_measures.NULL = function(x, task_type = NULL, ...) { # nolint
   default_measures(task_type)
 }
 
 #' @export
 #' @rdname as_measure
-as_measures.list = function(x, clone = FALSE, ...) { # nolint
-  lapply(x, as_measure, clone = clone, ...)
-}
-
-#' @export
-#' @rdname as_measure
-as_measures.Measure = function(x, clone = FALSE, ...) { # nolint
-  list(if (clone) x$clone() else x)
+as_measures.list = function(x, ...) { # nolint
+  lapply(x, as_measure, ...)
 }

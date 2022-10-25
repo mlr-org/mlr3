@@ -14,23 +14,23 @@ as_learner = function(x, ...) { # nolint
 #' @export
 #' @rdname as_learner
 as_learner.Learner = function(x, clone = FALSE, ...) { # nolint
-  if (clone) x$clone(deep = TRUE) else x
+  if (isTRUE(clone)) x$clone(deep = TRUE) else x
 }
 
 #' @export
 #' @rdname as_learner
-as_learners = function(x, clone = FALSE, ...) { # nolint
+as_learners = function(x, ...) { # nolint
   UseMethod("as_learners")
 }
 
 #' @export
 #' @rdname as_learner
-as_learners.list = function(x, clone = FALSE, ...) { # nolint
-  lapply(x, as_learner, clone = clone, ...)
+as_learners.default = function(x, ...) { # nolint
+  list(as_learner(x, ...))
 }
 
 #' @export
 #' @rdname as_learner
-as_learners.Learner = function(x, clone = FALSE, ...) { # nolint
-  list(if (clone) x$clone(deep = TRUE) else x)
+as_learners.list = function(x, ...) { # nolint
+  lapply(x, as_learner, ...)
 }

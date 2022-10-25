@@ -13,9 +13,11 @@ as_task = function(x, ...) {
 }
 
 #' @rdname as_task
+#' @param clone (`logical(1)`)\cr
+#'   If `TRUE`, ensures that the returned object is not the same as the input `x`.
 #' @export
 as_task.Task = function(x, clone = FALSE, ...) { # nolint
-  if (clone) x$clone() else x
+  if (isTRUE(clone)) x$clone() else x
 }
 
 #' @rdname as_task
@@ -25,15 +27,13 @@ as_tasks = function(x, ...) {
 }
 
 #' @rdname as_task
-#' @param clone (`logical(1)`)\cr
-#'   If `TRUE`, ensures that the returned object is not the same as the input `x`.
 #' @export
-as_tasks.list = function(x, clone = FALSE, ...) { # nolint
-  lapply(x, as_task, clone = clone, ...)
+as_tasks.default = function(x, ...) { # nolint
+  list(as_task(x, ...))
 }
 
 #' @rdname as_task
 #' @export
-as_tasks.Task = function(x, clone = FALSE, ...) { # nolint
-  list(if (clone) x$clone() else x)
+as_tasks.list = function(x, ...) { # nolint
+  lapply(x, as_task, ...)
 }

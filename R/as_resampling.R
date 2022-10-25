@@ -12,7 +12,7 @@ as_resampling = function(x, ...) { # nolint
 #' @export
 #' @rdname as_resampling
 as_resampling.Resampling = function(x, clone = FALSE, ...) { # nolint
-  if (clone) x$clone() else x
+  if (isTRUE(clone)) x$clone() else x
 }
 
 #' @export
@@ -23,12 +23,12 @@ as_resamplings = function(x, ...) { # nolint
 
 #' @export
 #' @rdname as_resampling
-as_resamplings.list = function(x, clone = FALSE, ...) { # nolint
-  lapply(x, as_resampling, clone = clone, ...)
+as_resamplings.default = function(x, ...) { # nolint
+  list(as_resampling(x, ...))
 }
 
 #' @export
 #' @rdname as_resampling
-as_resamplings.Resampling = function(x, clone = FALSE, ...) { # nolint
-  list(if (clone) x$clone() else x)
+as_resamplings.list = function(x, ...) { # nolint
+  lapply(x, as_resampling, ...)
 }
