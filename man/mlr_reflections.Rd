@@ -37,6 +37,9 @@ List of vectors of supported \link{Task} properties, named by their task type.
 List of vectors of \link{Task} properties which necessarily must be supported by the \link{Learner}.
 I.e., if the task property is not found in the set of the learner properties, an exception
 is raised.
+\item \code{task_print_additional_col_roles} (list of \code{character()})\cr
+Vector of additional column roles to print via \code{print(task)} if the role is not empty, either
+before or after the use other column info is printed.
 \item \code{learner_properties} (list of \code{character()})\cr
 List of vectors of supported \link{Learner} properties, named by their task type.
 \item \code{learner_predict_types} (list of list of \code{character()})\cr
