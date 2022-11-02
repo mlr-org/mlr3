@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.14.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.14.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -73,6 +73,16 @@
       <small>Source: <a href="https://github.com/mlr-org/mlr3/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.15.0" id="mlr3-0150">mlr3 0.15.0<a class="anchor" aria-label="anchor" href="#mlr3-0150"></a></h2>
+<ul><li>Removed depdency on package <code>distr6</code>.</li>
+<li>Fixed reassembling of <code>GraphLearner</code>.</li>
+<li>Fixed bug where the measured elapsed time was 0: <a href="https://stackoverflow.com/questions/73797845/mlr3-benchmarking-with-elapsed-time-measure" class="external-link uri">https://stackoverflow.com/questions/73797845/mlr3-benchmarking-with-elapsed-time-measure</a>
+</li>
+<li>Fixed <code><a href="../reference/as_prediction_classif.html">as_prediction_classif()</a></code> for <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code> input (<a href="https://github.com/mlr-org/mlr3/issues/872" class="external-link">#872</a>).</li>
+<li>Improved the error message when predict type of fallback learner does not match the predict type of the learner (mlr-org/mlr3extralearners#241).</li>
+<li>The test set is now available to the <code>Learner</code> during train for early stopping.</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.14.0" id="mlr3-0140">mlr3 0.14.0<a class="anchor" aria-label="anchor" href="#mlr3-0140"></a></h2><p class="text-muted">CRAN release: 2022-08-11</p>
 <ul><li>Added multiclass measures: <code>mauc_aunu</code>, <code>mauc_aunp</code>, <code>mauc_au1u</code>, <code>mauc_au1p</code>.</li>
@@ -303,13 +313,14 @@
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.1" id="mlr3-011">mlr3 0.1.1<a class="anchor" aria-label="anchor" href="#mlr3-011"></a></h2><p class="text-muted">CRAN release: 2019-07-25</p>
-<ul><li>Initial upload to CRAN.</li></ul></div>
+<ul><li>Initial upload to CRAN.</li>
+</ul></div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p><p>Developed by Michel Lang, Bernd Bischl, Jakob Richter, Patrick Schratz, Martin Binder.</p>
+  <p></p><p>Developed by Michel Lang, Bernd Bischl, Jakob Richter, Patrick Schratz, Martin Binder, Florian Pfisterer, Raphael Sonabend, Marc Becker.</p>
 </div>
 
 <div class="pkgdown-footer-right">
