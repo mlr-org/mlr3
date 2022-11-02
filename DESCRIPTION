@@ -1,6 +1,6 @@
 Package: mlr3
 Title: Machine Learning in R - Next Generation
-Version: 0.14.0-9000
+Version: 0.14.1
 Authors@R:
   c(
     person("Michel", "Lang", , "michellang@gmail.com", role = c("cre", "aut"),
@@ -71,7 +71,6 @@ Suggests:
 Encoding: UTF-8
 Config/testthat/edition: 3
 Config/testthat/parallel: false
-Additional_repositories: https://raphaels1.r-universe.dev/
 NeedsCompilation: no
 Roxygen: list(markdown = TRUE, r6 = TRUE)
 RoxygenNote: 7.2.1

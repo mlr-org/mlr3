@@ -2,10 +2,13 @@
 
 * Removed depdency on package `distr6`.
 * Fixed reassembling of `GraphLearner`.
-* Test set is available to the `Learner` for early stopping.
-* Fixed bug that elapsed time measures were 0: https://stackoverflow.com/questions/73797845/mlr3-benchmarking-with-elapsed-time-measure
+* Fixed bug where the measured elapsed time was 0:
+  https://stackoverflow.com/questions/73797845/mlr3-benchmarking-with-elapsed-time-measure
+* Fixed `as_prediction_classif()` for `data.frame()` input (#872).
 * Improved the error message when predict type of fallback learner does not
-  match the predict type of the learner (https://github.com/mlr-org/mlr3extralearners/issues/241)
+  match the predict type of the learner (mlr-org/mlr3extralearners#241).
+* The test set is now available to the `Learner` during train for early
+  stopping.
 
 # mlr3 0.14.0
 
