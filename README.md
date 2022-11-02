@@ -19,63 +19,61 @@ Status](https://www.r-pkg.org/badges/version-ago/mlr3)](https://cran.r-project.o
 
 ## Resources (for users and developers)
 
--   We *started* writing a [book](https://mlr3book.mlr-org.com/). This
-    should be the central entry point to the package.
--   The [mlr3gallery](https://mlr3gallery.mlr-org.com) has some case
-    studies and demonstrates how frequently occurring problems can be
-    solved. It is still in early days so stay tuned for more to come.
--   [Reference manual](https://mlr3.mlr-org.com/reference/)
--   [FAQ](https://github.com/mlr-org/mlr3/wiki/FAQ)
--   Ask questions on [Stackoverflow (tag
-    \#mlr3)](https://stackoverflow.com/questions/tagged/mlr3)
--   **Extension Learners**
-    -   Recommended core regression, classification, and survival
-        learners are in
-        [mlr3learners](https://github.com/mlr-org/mlr3learners)
-    -   All others are in
-        [mlr3extralearners](https://github.com/mlr-org/mlr3extralearners)
-    -   Use the [learner
-        search](https://mlr3extralearners.mlr-org.com/articles/learners/list_learners.html)
-        to get a simple overview
-    -   Use the [learner
-        status](https://mlr3extralearners.mlr-org.com/articles/learners/test_overview.html)
-        to see their build status
--   **Cheatsheets**
-    -   [Overview of cheatsheets](https://cheatsheets.mlr-org.com)
-    -   [mlr3](https://cheatsheets.mlr-org.com/mlr3.pdf)
-    -   [mlr3tuning](https://cheatsheets.mlr-org.com/mlr3tuning.pdf)
-    -   [mlr3pipelines](https://cheatsheets.mlr-org.com/mlr3pipelines.pdf)
--   **Videos**:
-    -   [useR2019 talk on
-        mlr3](https://www.youtube.com/watch?v=wsP2hiFnDQs)
-    -   [useR2019 talk on mlr3pipelines and
-        mlr3tuning](https://www.youtube.com/watch?v=gEW5RxkbQuQ)
-    -   [useR2020 tutorial on mlr3, mlr3tuning and
-        mlr3pipelines](https://www.youtube.com/watch?v=T43hO2o_nZw)
-    -   [Recorded talk about mlr3spatiotempcv and mlr3spatial at
-        OpenDataScience Europe Conference 2021 in Wageningen,
-        NL](https://av.tib.eu/media/55271)
--   **Courses/Lectures**
-    -   The course [Introduction to Machine learning
-        (I2ML)](https://introduction-to-machine-learning.netlify.app/)
-        is a free and open flipped classroom course on the basics of
-        machine learning. `mlr3` is used in the
-        [demos](https://github.com/slds-lmu/lecture_i2ml/tree/master/code-demos-pdf)
-        and
-        [exercises](https://github.com/slds-lmu/lecture_i2ml/tree/master/exercises).
--   **Templates/Tutorials**
-    -   [mlr3-targets](https://github.com/mlr-org/mlr3-targets):
-        Tutorial showcasing how to use {mlr3} with
-        [targets](https://docs.ropensci.org/targets/) for reproducible
-        ML workflow automation.
--   [List of extension
-    packages](https://github.com/mlr-org/mlr3/wiki/Extension-Packages)
--   [mlr-outreach](https://github.com/mlr-org/mlr-outreach) contains
-    public talks and slides resources.
--   Our [blog](https://mlr-org.com/) about *mlr* and *mlr3*. (We are not
-    the most frequent bloggers ;) )
--   [Wiki](https://github.com/mlr-org/mlr3/wiki): Contains mainly
-    information for developers.
+- We *started* writing a [book](https://mlr3book.mlr-org.com/). This
+  should be the central entry point to the package.
+- The [mlr3gallery](https://mlr3gallery.mlr-org.com) has some case
+  studies and demonstrates how frequently occurring problems can be
+  solved. It is still in early days so stay tuned for more to come.
+- [Reference manual](https://mlr3.mlr-org.com/reference/)
+- [FAQ](https://github.com/mlr-org/mlr3/wiki/FAQ)
+- Ask questions on [Stackoverflow (tag
+  \#mlr3)](https://stackoverflow.com/questions/tagged/mlr3)
+- **Extension Learners**
+  - Recommended core regression, classification, and survival learners
+    are in [mlr3learners](https://github.com/mlr-org/mlr3learners)
+  - All others are in
+    [mlr3extralearners](https://github.com/mlr-org/mlr3extralearners)
+  - Use the [learner
+    search](https://mlr3extralearners.mlr-org.com/articles/learners/list_learners.html)
+    to get a simple overview
+  - Use the [learner
+    status](https://mlr3extralearners.mlr-org.com/articles/learners/test_overview.html)
+    to see their build status
+- **Cheatsheets**
+  - [Overview of cheatsheets](https://cheatsheets.mlr-org.com)
+  - [mlr3](https://cheatsheets.mlr-org.com/mlr3.pdf)
+  - [mlr3tuning](https://cheatsheets.mlr-org.com/mlr3tuning.pdf)
+  - [mlr3pipelines](https://cheatsheets.mlr-org.com/mlr3pipelines.pdf)
+- **Videos**:
+  - [useR2019 talk on mlr3](https://www.youtube.com/watch?v=wsP2hiFnDQs)
+  - [useR2019 talk on mlr3pipelines and
+    mlr3tuning](https://www.youtube.com/watch?v=gEW5RxkbQuQ)
+  - [useR2020 tutorial on mlr3, mlr3tuning and
+    mlr3pipelines](https://www.youtube.com/watch?v=T43hO2o_nZw)
+  - [Recorded talk about mlr3spatiotempcv and mlr3spatial at
+    OpenDataScience Europe Conference 2021 in Wageningen,
+    NL](https://av.tib.eu/media/55271)
+- **Courses/Lectures**
+  - The course [Introduction to Machine learning
+    (I2ML)](https://slds-lmu.github.io/i2ml/) is a free and open flipped
+    classroom course on the basics of machine learning. `mlr3` is used
+    in the
+    [demos](https://github.com/slds-lmu/lecture_i2ml/tree/master/code-demos-pdf)
+    and
+    [exercises](https://github.com/slds-lmu/lecture_i2ml/tree/master/exercises).
+- **Templates/Tutorials**
+  - [mlr3-targets](https://github.com/mlr-org/mlr3-targets): Tutorial
+    showcasing how to use {mlr3} with
+    [targets](https://docs.ropensci.org/targets/) for reproducible ML
+    workflow automation.
+- [List of extension
+  packages](https://github.com/mlr-org/mlr3/wiki/Extension-Packages)
+- [mlr-outreach](https://github.com/mlr-org/mlr-outreach) contains
+  public talks and slides resources.
+- Our [blog](https://mlr-org.com/) about *mlr* and *mlr3*. (We are not
+  the most frequent bloggers ;) )
+- [Wiki](https://github.com/mlr-org/mlr3/wiki): Contains mainly
+  information for developers.
 
 ## Installation
 
@@ -207,72 +205,71 @@ would result in non-trivial API changes.
 
 ## Design principles
 
--   Only the basic building blocks for machine learning are implemented
-    in this package.
--   Focus on computation here. No visualization or other stuff. That can
-    go in extra packages.
--   Overcome the limitations of R’s [S3
-    classes](https://adv-r.hadley.nz/s3.html) with the help of
-    [R6](https://cran.r-project.org/package=R6).
--   Embrace [R6](https://cran.r-project.org/package=R6) for a clean
-    OO-design, object state-changes and reference semantics. This might
-    be less “traditional R”, but seems to fit `mlr` nicely.
--   Embrace
-    [`data.table`](https://cran.r-project.org/package=data.table) for
-    fast and convenient data frame computations.
--   Combine `data.table` and `R6`, for this we will make heavy use of
-    list columns in data.tables.
--   Defensive programming and type safety. All user input is checked
-    with [`checkmate`](https://cran.r-project.org/package=checkmate).
-    Return types are documented, and mechanisms popular in base R which
-    “simplify” the result unpredictably (e.g., `sapply()` or `drop`
-    argument in `[.data.frame`) are avoided.
--   Be light on dependencies. `mlr3` requires the following packages at
-    runtime:
-    -   [`parallelly`](https://cran.r-project.org/package=parallelly):
-        Helper functions for parallelization. No extra recursive
-        dependencies.
-    -   [`future.apply`](https://cran.r-project.org/package=future.apply):
-        Resampling and benchmarking is parallelized with the
-        [`future`](https://cran.r-project.org/package=future)
-        abstraction interfacing many parallel backends.
-    -   [`backports`](https://cran.r-project.org/package=backports):
-        Ensures backward compatibility with older R releases. Developed
-        by members of the `mlr` team. No recursive dependencies.
-    -   [`checkmate`](https://cran.r-project.org/package=checkmate):
-        Fast argument checks. Developed by members of the `mlr` team. No
-        extra recursive dependencies.
-    -   [`mlr3misc`](https://cran.r-project.org/package=mlr3misc):
-        Miscellaneous functions used in multiple mlr3 [extension
-        packages](https://github.com/mlr-org/mlr3/wiki/Extension-Packages).
-        Developed by the `mlr` team.
-    -   [`paradox`](https://cran.r-project.org/package=paradox):
-        Descriptions for parameters and parameter sets. Developed by the
-        `mlr` team. No extra recursive dependencies.
-    -   [`R6`](https://cran.r-project.org/package=R6): Reference class
-        objects. No recursive dependencies.
-    -   [`data.table`](https://cran.r-project.org/package=data.table):
-        Extension of R’s `data.frame`. No recursive dependencies.
-    -   [`digest`](https://cran.r-project.org/package=digest) (via
-        `mlr3misc`): Hash digests. No recursive dependencies.
-    -   [`uuid`](https://cran.r-project.org/package=uuid): Create unique
-        string identifiers. No recursive dependencies.
-    -   [`lgr`](https://cran.r-project.org/package=lgr): Logging
-        facility. No extra recursive dependencies.
-    -   [`mlr3measures`](https://cran.r-project.org/package=mlr3measures):
-        Performance measures. No extra recursive dependencies.
-    -   [`mlbench`](https://cran.r-project.org/package=mlbench): A
-        collection of machine learning data sets. No dependencies.
-    -   [`palmerpenguins`](https://cran.r-project.org/package=palmerpenguins):
-        A classification data set about penguins, used on examples and
-        provided as a toy task. No dependencies.
--   [Reflections](https://en.wikipedia.org/wiki/Reflection_%28computer_programming%29):
-    Objects are queryable for properties and capabilities, allowing you
-    to program on them.
--   Additional functionality that comes with extra dependencies:
-    -   To capture output, warnings and exceptions,
-        [`evaluate`](https://cran.r-project.org/package=evaluate) and
-        [`callr`](https://cran.r-project.org/package=callr) can be used.
+- Only the basic building blocks for machine learning are implemented in
+  this package.
+- Focus on computation here. No visualization or other stuff. That can
+  go in extra packages.
+- Overcome the limitations of R’s [S3
+  classes](https://adv-r.hadley.nz/s3.html) with the help of
+  [R6](https://cran.r-project.org/package=R6).
+- Embrace [R6](https://cran.r-project.org/package=R6) for a clean
+  OO-design, object state-changes and reference semantics. This might be
+  less “traditional R”, but seems to fit `mlr` nicely.
+- Embrace [`data.table`](https://cran.r-project.org/package=data.table)
+  for fast and convenient data frame computations.
+- Combine `data.table` and `R6`, for this we will make heavy use of list
+  columns in data.tables.
+- Defensive programming and type safety. All user input is checked with
+  [`checkmate`](https://cran.r-project.org/package=checkmate). Return
+  types are documented, and mechanisms popular in base R which
+  “simplify” the result unpredictably (e.g., `sapply()` or `drop`
+  argument in `[.data.frame`) are avoided.
+- Be light on dependencies. `mlr3` requires the following packages at
+  runtime:
+  - [`parallelly`](https://cran.r-project.org/package=parallelly):
+    Helper functions for parallelization. No extra recursive
+    dependencies.
+  - [`future.apply`](https://cran.r-project.org/package=future.apply):
+    Resampling and benchmarking is parallelized with the
+    [`future`](https://cran.r-project.org/package=future) abstraction
+    interfacing many parallel backends.
+  - [`backports`](https://cran.r-project.org/package=backports): Ensures
+    backward compatibility with older R releases. Developed by members
+    of the `mlr` team. No recursive dependencies.
+  - [`checkmate`](https://cran.r-project.org/package=checkmate): Fast
+    argument checks. Developed by members of the `mlr` team. No extra
+    recursive dependencies.
+  - [`mlr3misc`](https://cran.r-project.org/package=mlr3misc):
+    Miscellaneous functions used in multiple mlr3 [extension
+    packages](https://github.com/mlr-org/mlr3/wiki/Extension-Packages).
+    Developed by the `mlr` team.
+  - [`paradox`](https://cran.r-project.org/package=paradox):
+    Descriptions for parameters and parameter sets. Developed by the
+    `mlr` team. No extra recursive dependencies.
+  - [`R6`](https://cran.r-project.org/package=R6): Reference class
+    objects. No recursive dependencies.
+  - [`data.table`](https://cran.r-project.org/package=data.table):
+    Extension of R’s `data.frame`. No recursive dependencies.
+  - [`digest`](https://cran.r-project.org/package=digest) (via
+    `mlr3misc`): Hash digests. No recursive dependencies.
+  - [`uuid`](https://cran.r-project.org/package=uuid): Create unique
+    string identifiers. No recursive dependencies.
+  - [`lgr`](https://cran.r-project.org/package=lgr): Logging facility.
+    No extra recursive dependencies.
+  - [`mlr3measures`](https://cran.r-project.org/package=mlr3measures):
+    Performance measures. No extra recursive dependencies.
+  - [`mlbench`](https://cran.r-project.org/package=mlbench): A
+    collection of machine learning data sets. No dependencies.
+  - [`palmerpenguins`](https://cran.r-project.org/package=palmerpenguins):
+    A classification data set about penguins, used on examples and
+    provided as a toy task. No dependencies.
+- [Reflections](https://en.wikipedia.org/wiki/Reflection_%28computer_programming%29):
+  Objects are queryable for properties and capabilities, allowing you to
+  program on them.
+- Additional functionality that comes with extra dependencies:
+  - To capture output, warnings and exceptions,
+    [`evaluate`](https://cran.r-project.org/package=evaluate) and
+    [`callr`](https://cran.r-project.org/package=callr) can be used.
 
 ## Contributing to mlr3
 
