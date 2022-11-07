@@ -1,4 +1,4 @@
-# mlr3 0.15.0
+# mlr3 0.14.1
 
 * Removed depdency on package `distr6`.
 * Fixed reassembling of `GraphLearner`.
