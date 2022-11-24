@@ -135,7 +135,7 @@ Resampling = R6Class("Resampling",
 
     #' @description
     #' Helper for print outputs.
-    format = function() {
+    format = function(...) {
       sprintf("<%s>", class(self)[1L])
     },
 
