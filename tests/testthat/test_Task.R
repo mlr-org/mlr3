@@ -507,3 +507,9 @@ test_that("head/tail", {
   expect_data_table(head(task, n = -Inf), nrows = 0)
   expect_data_table(tail(task, n = -Inf), nrows = 0)
 })
+
+test_that("Roles get printed (#877)", {
+  task = tsk("iris")
+  task$col_roles$weight = "Petal.Width"
+  expect_output(print(task), "Weights: Petal.Width")
+})

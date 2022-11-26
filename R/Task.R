@@ -172,10 +172,10 @@ Task = R6Class("Task",
       roles = self$col_roles
       roles = roles[lengths(roles) > 0L]
 
-      # print additional columns are specified in reflections
+      # print additional columns as specified in reflections
       before = mlr_reflections$task_print_col_roles$before
       iwalk(before[before %in% names(roles)], function(role, str) {
-        catn(str_indent(sprintf("* %s:", str), role))
+        catn(str_indent(sprintf("* %s:", str), roles[[role]]))
       })
 
       catf(str_indent("* Target:", self$target_names))
@@ -195,7 +195,7 @@ Task = R6Class("Task",
       # print additional columns are specified in reflections
       after = mlr_reflections$task_print_col_roles$after
       iwalk(after[after %in% names(roles)], function(role, str) {
-        catn(str_indent(sprintf("* %s:", str), role))
+        catn(str_indent(sprintf("* %s:", str), roles[[role]]))
       })
     },
 
