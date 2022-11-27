@@ -229,10 +229,10 @@ or <code>"trace"</code>:</p>
 <span class="r-in"><span><span class="va">design</span> <span class="op">=</span> <span class="fu"><a href="benchmark_grid.html">benchmark_grid</a></span><span class="op">(</span><span class="va">tasks</span>, <span class="va">learners</span>, <span class="va">resamplings</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">design</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 task                         learner         resampling</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: &lt;TaskClassif[50]&gt; &lt;LearnerClassifFeatureless[38]&gt; &lt;ResamplingCV[20]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: &lt;TaskClassif[50]&gt;       &lt;LearnerClassifRpart[38]&gt; &lt;ResamplingCV[20]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: &lt;TaskClassif[50]&gt; &lt;LearnerClassifFeatureless[38]&gt; &lt;ResamplingCV[20]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4: &lt;TaskClassif[50]&gt;       &lt;LearnerClassifRpart[38]&gt; &lt;ResamplingCV[20]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: &lt;TaskClassif[51]&gt; &lt;LearnerClassifFeatureless[38]&gt; &lt;ResamplingCV[20]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: &lt;TaskClassif[51]&gt;       &lt;LearnerClassifRpart[38]&gt; &lt;ResamplingCV[20]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: &lt;TaskClassif[51]&gt; &lt;LearnerClassifFeatureless[38]&gt; &lt;ResamplingCV[20]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4: &lt;TaskClassif[51]&gt;       &lt;LearnerClassifRpart[38]&gt; &lt;ResamplingCV[20]&gt;</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">bmr</span> <span class="op">=</span> <span class="fu">benchmark</span><span class="op">(</span><span class="va">design</span><span class="op">)</span></span></span>
@@ -240,12 +240,12 @@ or <code>"trace"</code>:</p>
 <span class="r-in"><span><span class="co">## Data of all resamplings</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html" class="external-link">as.data.table</a></span><span class="op">(</span><span class="va">bmr</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                   uhash              task</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 6db82559-c843-4338-95ca-e0908d518045 &lt;TaskClassif[50]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 6db82559-c843-4338-95ca-e0908d518045 &lt;TaskClassif[50]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 6db82559-c843-4338-95ca-e0908d518045 &lt;TaskClassif[50]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4: bc3e0919-336a-41c4-8094-5898e32a807c &lt;TaskClassif[50]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5: bc3e0919-336a-41c4-8094-5898e32a807c &lt;TaskClassif[50]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6: bc3e0919-336a-41c4-8094-5898e32a807c &lt;TaskClassif[50]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 57c8b77a-802a-443c-9764-695458ad5484 &lt;TaskClassif[51]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 57c8b77a-802a-443c-9764-695458ad5484 &lt;TaskClassif[51]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 57c8b77a-802a-443c-9764-695458ad5484 &lt;TaskClassif[51]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4: fa0d0849-8eb1-420d-a6f9-342dd4556c9c &lt;TaskClassif[51]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5: fa0d0849-8eb1-420d-a6f9-342dd4556c9c &lt;TaskClassif[51]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6: fa0d0849-8eb1-420d-a6f9-342dd4556c9c &lt;TaskClassif[51]&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                            learner         resampling iteration</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: &lt;LearnerClassifFeatureless[38]&gt; &lt;ResamplingCV[20]&gt;         1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2: &lt;LearnerClassifFeatureless[38]&gt; &lt;ResamplingCV[20]&gt;         2</span>
