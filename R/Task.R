@@ -105,6 +105,10 @@ Task = R6Class("Task",
     #' Required for [convert_task()].
     extra_args = NULL,
 
+    #' @field mlr3_version (`package_version`)\cr
+    #' Package version of `mlr3` used to create the task.
+    mlr3_version = NULL,
+
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #'
@@ -148,6 +152,7 @@ Task = R6Class("Task",
       private$.col_roles = named_list(mlr_reflections$task_col_roles[[task_type]], character())
       private$.col_roles$feature = setdiff(cn, self$backend$primary_key)
       self$extra_args = assert_list(extra_args, names = "unique")
+      self$mlr3_version = packageVersion("mlr3")
     },
 
     #' @description
