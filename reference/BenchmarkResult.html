@@ -220,9 +220,17 @@ BenchmarkResult, or manually constructed with <code><a href="as_result_data.html
 <h3 id="method-format-">Method <code><a href="https://rdrr.io/r/base/format.html" class="external-link">format()</a></code><a class="anchor" aria-label="anchor" href="#method-format-"></a></h3>
 <p>Helper for print outputs.</p><div class="section">
 <h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">BenchmarkResult</span><span class="op">$</span><span class="fu">format</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">BenchmarkResult</span><span class="op">$</span><span class="fu">format</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
+<div class="section">
+<h4 id="arguments-1">Arguments<a class="anchor" aria-label="anchor" href="#arguments-1"></a></h4>
+<p></p><div class="arguments"><dl><dt><code>...</code></dt>
+<dd><p>(ignored).</p></dd>
+
+
+</dl><p></p></div>
+</div>
 
 </div><p></p><hr><a id="method-BenchmarkResult-print"></a><div class="section">
 <h3 id="method-print-">Method <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code><a class="anchor" aria-label="anchor" href="#method-print-"></a></h3>
@@ -242,7 +250,7 @@ Note that you can alternatively use the combine function <code><a href="https://
 </div>
 
 <div class="section">
-<h4 id="arguments-1">Arguments<a class="anchor" aria-label="anchor" href="#arguments-1"></a></h4>
+<h4 id="arguments-2">Arguments<a class="anchor" aria-label="anchor" href="#arguments-2"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>bmr</code></dt>
 <dd><p>(BenchmarkResult)<br>
 A second BenchmarkResult object.</p></dd>
@@ -277,7 +285,7 @@ the respective <a href="Measure.html">Measure</a>.</p><div class="section">
 </div>
 
 <div class="section">
-<h4 id="arguments-2">Arguments<a class="anchor" aria-label="anchor" href="#arguments-2"></a></h4>
+<h4 id="arguments-3">Arguments<a class="anchor" aria-label="anchor" href="#arguments-3"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>measures</code></dt>
 <dd><p>(<a href="Measure.html">Measure</a> | list of <a href="Measure.html">Measure</a>)<br>
 Measure(s) to calculate.</p></dd>
@@ -339,7 +347,7 @@ information from the returned <a href="ResampleResult.html">ResampleResult</a>.<
 </div>
 
 <div class="section">
-<h4 id="arguments-3">Arguments<a class="anchor" aria-label="anchor" href="#arguments-3"></a></h4>
+<h4 id="arguments-4">Arguments<a class="anchor" aria-label="anchor" href="#arguments-4"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>measures</code></dt>
 <dd><p>(<a href="Measure.html">Measure</a> | list of <a href="Measure.html">Measure</a>)<br>
 Measure(s) to calculate.</p></dd>
@@ -394,7 +402,7 @@ Same procedure for <code>learner_ids</code> and <code>resampling_ids</code>.</p>
 </div>
 
 <div class="section">
-<h4 id="arguments-4">Arguments<a class="anchor" aria-label="anchor" href="#arguments-4"></a></h4>
+<h4 id="arguments-5">Arguments<a class="anchor" aria-label="anchor" href="#arguments-5"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>task_ids</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 Ids of <a href="Task.html">Task</a>s to keep.</p></dd>
@@ -443,7 +451,7 @@ the object in its previous state.</p>
 </div>
 
 <div class="section">
-<h4 id="arguments-5">Arguments<a class="anchor" aria-label="anchor" href="#arguments-5"></a></h4>
+<h4 id="arguments-6">Arguments<a class="anchor" aria-label="anchor" href="#arguments-6"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>i</code></dt>
 <dd><p>(<code>integer(1)</code>)<br>
 The iteration value to filter for.</p></dd>
@@ -471,7 +479,7 @@ importance values from learners or calculating measures requiring the task's dat
 </div>
 
 <div class="section">
-<h4 id="arguments-6">Arguments<a class="anchor" aria-label="anchor" href="#arguments-6"></a></h4>
+<h4 id="arguments-7">Arguments<a class="anchor" aria-label="anchor" href="#arguments-7"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>backends</code></dt>
 <dd><p>(<code>logical(1)</code>)<br>
 If <code>TRUE</code>, the <a href="DataBackend.html">DataBackend</a> is removed from all stored <a href="Task.html">Task</a>s.</p></dd>
@@ -499,7 +507,7 @@ the object in its previous state.</p>
 </div>
 
 <div class="section">
-<h4 id="arguments-7">Arguments<a class="anchor" aria-label="anchor" href="#arguments-7"></a></h4>
+<h4 id="arguments-8">Arguments<a class="anchor" aria-label="anchor" href="#arguments-8"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>deep</code></dt>
 <dd><p>Whether to make a deep clone.</p></dd>
 
@@ -552,11 +560,11 @@ the object in its previous state.</p>
 <span class="r-in"><span><span class="co"># first 5 resampling iterations</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html" class="external-link">as.data.table</a></span><span class="op">(</span><span class="va">bmr</span>, measures <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"classif.acc"</span>, <span class="st">"classif.auc"</span><span class="op">)</span><span class="op">)</span>, <span class="fl">5</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                   uhash              task</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: f46d7a7b-1c75-4c27-aebe-6c19b5480a08 &lt;TaskClassif[51]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: f46d7a7b-1c75-4c27-aebe-6c19b5480a08 &lt;TaskClassif[51]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: f46d7a7b-1c75-4c27-aebe-6c19b5480a08 &lt;TaskClassif[51]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4: 6ada4ed7-beb7-4b6a-8e7d-1aa2c0e17dd8 &lt;TaskClassif[51]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5: 6ada4ed7-beb7-4b6a-8e7d-1aa2c0e17dd8 &lt;TaskClassif[51]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 3d029163-99c5-4b3d-bb0b-2c027942d0a6 &lt;TaskClassif[51]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 3d029163-99c5-4b3d-bb0b-2c027942d0a6 &lt;TaskClassif[51]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 3d029163-99c5-4b3d-bb0b-2c027942d0a6 &lt;TaskClassif[51]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4: 8f9f290c-899a-4799-b36a-e1670a8defc5 &lt;TaskClassif[51]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5: 8f9f290c-899a-4799-b36a-e1670a8defc5 &lt;TaskClassif[51]&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                            learner         resampling iteration</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: &lt;LearnerClassifFeatureless[38]&gt; &lt;ResamplingCV[20]&gt;         1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2: &lt;LearnerClassifFeatureless[38]&gt; &lt;ResamplingCV[20]&gt;         2</span>
