@@ -145,9 +145,16 @@ Hash of the task on which the target learner is trained.}
 \subsection{Method \code{format()}}{
 Helper for print outputs.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{HotstartStack$format()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{HotstartStack$format(...)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{...}}{(ignored).}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-HotstartStack-print"></a>}}

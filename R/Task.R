@@ -163,6 +163,7 @@ Task = R6Class("Task",
 
     #' @description
     #' Helper for print outputs.
+    #' @param ... (ignored).
     format = function(...) {
       sprintf("<%s:%s>", class(self)[1L], self$id)
     },
