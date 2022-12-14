@@ -11,15 +11,11 @@
 ^\.gitignore$
 ^\.ignore$
 ^\.lintr$
-^\.pre-commit-config\.yaml$
 ^\.vscode$
-^attic$
-^codemeta\.json$
 ^docs$
 ^inst/extdata/.+\.R$
 ^man-roxygen$
 ^paper$
 ^pkgdown$
 ^revdep$
-^tic\.R$
 ^CITATION.cff$

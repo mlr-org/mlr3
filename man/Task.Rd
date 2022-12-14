@@ -144,6 +144,9 @@ Defaults to \code{NA}, but can be set by child classes.}
 \item{\code{extra_args}}{(named \code{list()})\cr
 Additional arguments set during construction.
 Required for \code{\link[=convert_task]{convert_task()}}.}
+
+\item{\code{mlr3_version}}{(\code{package_version})\cr
+Package version of \code{mlr3} used to create the task.}
 }
 \if{html}{\out{</div>}}
 }
