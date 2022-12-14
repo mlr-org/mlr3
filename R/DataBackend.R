@@ -70,7 +70,7 @@ DataBackend = R6Class("DataBackend", cloneable = FALSE,
 
     #' @description
     #' Helper for print outputs.
-    format = function() {
+    format = function(...) {
       sprintf("<%s>", class(self)[1L])
     },
 

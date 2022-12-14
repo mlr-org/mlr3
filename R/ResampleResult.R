@@ -61,7 +61,7 @@ ResampleResult = R6Class("ResampleResult",
 
     #' @description
     #' Helper for print outputs.
-    format = function() {
+    format = function(...) {
       sprintf("<%s>", class(self)[1L])
     },
 

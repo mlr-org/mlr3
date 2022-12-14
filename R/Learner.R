@@ -173,7 +173,7 @@ Learner = R6Class("Learner",
 
     #' @description
     #' Helper for print outputs.
-    format = function() {
+    format = function(...) {
       sprintf("<%s:%s>", class(self)[1L], self$id)
     },
 
