@@ -111,10 +111,10 @@ Hyperparameters stored in the param_set can be tuned with mlr3tuning."><meta pro
     <div class="ref-description section level2">
     <p>This is the abstract base class for learner objects like <a href="LearnerClassif.html">LearnerClassif</a> and <a href="LearnerRegr.html">LearnerRegr</a>.</p>
 <p>Learners are build around the three following key parts:</p><ul><li><p>Methods <code>$train()</code> and <code>$predict()</code> which call internal methods or private methods <code>$.train()</code>/<code>$.predict()</code>).</p></li>
-<li><p>A <a href="https://rdrr.io/pkg/paradox/man/ParamSet.html" class="external-link">paradox::ParamSet</a> which stores meta-information about available hyperparameters, and also stores hyperparameter settings.</p></li>
+<li><p>A <a href="https://paradox.mlr-org.com/reference/ParamSet.html" class="external-link">paradox::ParamSet</a> which stores meta-information about available hyperparameters, and also stores hyperparameter settings.</p></li>
 <li><p>Meta-information about the requirements and capabilities of the learner.</p></li>
 <li><p>The fitted model stored in field <code>$model</code>, available after calling <code>$train()</code>.</p></li>
-</ul><p>Predefined learners are stored in the <a href="https://rdrr.io/pkg/mlr3misc/man/Dictionary.html" class="external-link">dictionary</a> <a href="mlr_learners.html">mlr_learners</a>,
+</ul><p>Predefined learners are stored in the <a href="https://mlr3misc.mlr-org.com/reference/Dictionary.html" class="external-link">dictionary</a> <a href="mlr_learners.html">mlr_learners</a>,
 e.g. <code><a href="mlr_learners_classif.rpart.html">classif.rpart</a></code> or <code><a href="mlr_learners_regr.rpart.html">regr.rpart</a></code>.</p>
 <p>More classification and regression learners are implemented in the add-on package <a href="https://CRAN.R-project.org/package=mlr3learners" class="external-link"><span class="pkg">mlr3learners</span></a>.
 Learners for survival analysis (or more general, for probabilistic regression) can be found in <a href="https://CRAN.R-project.org/package=mlr3proba" class="external-link"><span class="pkg">mlr3proba</span></a>.
@@ -152,16 +152,16 @@ This can be used in measures like <a href="mlr_measures_aic.html">mlr_measures_a
     
 
 
-<p>All information about hyperparameters is stored in the slot <code>param_set</code> which is a <a href="https://rdrr.io/pkg/paradox/man/ParamSet.html" class="external-link">paradox::ParamSet</a>.
+<p>All information about hyperparameters is stored in the slot <code>param_set</code> which is a <a href="https://paradox.mlr-org.com/reference/ParamSet.html" class="external-link">paradox::ParamSet</a>.
 The printer gives an overview about the ids of available hyperparameters, their storage type, lower and upper bounds,
 possible levels (for factors), default values and assigned values.
 To set hyperparameters, assign a named list to the subslot <code>values</code>:</p>
 <p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>lrn <span class="ot">=</span> <span class="fu">lrn</span>(<span class="st">"classif.rpart"</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>lrn<span class="sc">$</span>param_set<span class="sc">$</span>values <span class="ot">=</span> <span class="fu">list</span>(<span class="at">minsplit =</span> <span class="dv">3</span>, <span class="at">cp =</span> <span class="fl">0.01</span>)</span></code></pre><p></p></div>
 <p>Note that this operation replaces all previously set hyperparameter values.
-If you only intend to change one specific hyperparameter value and leave the others as-is, you can use the helper function <code><a href="https://rdrr.io/pkg/mlr3misc/man/insert_named.html" class="external-link">mlr3misc::insert_named()</a></code>:</p>
+If you only intend to change one specific hyperparameter value and leave the others as-is, you can use the helper function <code><a href="https://mlr3misc.mlr-org.com/reference/insert_named.html" class="external-link">mlr3misc::insert_named()</a></code>:</p>
 <p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>lrn<span class="sc">$</span>param_set<span class="sc">$</span>values <span class="ot">=</span> mlr3misc<span class="sc">::</span><span class="fu">insert_named</span>(lrn<span class="sc">$</span>param_set<span class="sc">$</span>values, <span class="fu">list</span>(<span class="at">cp =</span> <span class="fl">0.001</span>))</span></code></pre><p></p></div>
-<p>If the learner has additional hyperparameters which are not encoded in the <a href="https://rdrr.io/pkg/paradox/man/ParamSet.html" class="external-link">ParamSet</a>, you can easily extend the learner.
+<p>If the learner has additional hyperparameters which are not encoded in the <a href="https://paradox.mlr-org.com/reference/ParamSet.html" class="external-link">ParamSet</a>, you can easily extend the learner.
 Here, we add a factor hyperparameter with id <code>"foo"</code> and possible levels <code>"a"</code> and <code>"b"</code>:</p>
 <p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>lrn<span class="sc">$</span>param_set<span class="sc">$</span><span class="fu">add</span>(paradox<span class="sc">::</span>ParamFct<span class="sc">$</span><span class="fu">new</span>(<span class="st">"foo"</span>, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"b"</span>)))</span></code></pre><p></p></div>
     </div>
@@ -172,7 +172,7 @@ Here, we add a factor hyperparameter with id <code>"foo"</code> and possible lev
 <a href="https://mlr3book.mlr-org.com/basics.html#learners" class="external-link">https://mlr3book.mlr-org.com/basics.html#learners</a></p></li>
 <li><p>Package <a href="https://CRAN.R-project.org/package=mlr3learners" class="external-link"><span class="pkg">mlr3learners</span></a> for a solid collection of essential learners.</p></li>
 <li><p>Package <a href="https://github.com/mlr-org/mlr3extralearners" class="external-link">mlr3extralearners</a> for more learners.</p></li>
-<li><p><a href="https://rdrr.io/pkg/mlr3misc/man/Dictionary.html" class="external-link">Dictionary</a> of Learners: <a href="mlr_learners.html">mlr_learners</a></p></li>
+<li><p><a href="https://mlr3misc.mlr-org.com/reference/Dictionary.html" class="external-link">Dictionary</a> of Learners: <a href="mlr_learners.html">mlr_learners</a></p></li>
 <li><p><code>as.data.table(mlr_learners)</code> for a table of available Learners in the running session (depending on the loaded packages).</p></li>
 <li><p><a href="https://CRAN.R-project.org/package=mlr3pipelines" class="external-link"><span class="pkg">mlr3pipelines</span></a> to combine learners with pre- and postprocessing steps.</p></li>
 <li><p>Package <a href="https://CRAN.R-project.org/package=mlr3viz" class="external-link"><span class="pkg">mlr3viz</span></a> for some generic visualizations.</p></li>
@@ -274,7 +274,7 @@ to parallelize.</p></dd>
 <dd><p>(named <code>numeric(2)</code>)<br>
 Timeout for the learner's train and predict steps, in seconds.
 This works differently for different encapsulation methods, see
-<code><a href="https://rdrr.io/pkg/mlr3misc/man/encapsulate.html" class="external-link">mlr3misc::encapsulate()</a></code>.
+<code><a href="https://mlr3misc.mlr-org.com/reference/encapsulate.html" class="external-link">mlr3misc::encapsulate()</a></code>.
 Default is <code>c(train = Inf, predict = Inf)</code>.
 Also see the section on error handling the mlr3book: <a href="https://mlr3book.mlr-org.com/technical.html#error-handling" class="external-link">https://mlr3book.mlr-org.com/technical.html#error-handling</a></p></dd>
 
@@ -297,7 +297,7 @@ The fitted model. Only available after <code>$train()</code> has been called.</p
 <dt><code>timings</code></dt>
 <dd><p>(named <code>numeric(2)</code>)<br>
 Elapsed time in seconds for the steps <code>"train"</code> and <code>"predict"</code>.
-Measured via <code><a href="https://rdrr.io/pkg/mlr3misc/man/encapsulate.html" class="external-link">mlr3misc::encapsulate()</a></code>.</p></dd>
+Measured via <code><a href="https://mlr3misc.mlr-org.com/reference/encapsulate.html" class="external-link">mlr3misc::encapsulate()</a></code>.</p></dd>
 
 
 <dt><code>log</code></dt>
@@ -337,7 +337,7 @@ Must be an element of <code>$predict_types</code>.</p></dd>
 
 
 <dt><code>param_set</code></dt>
-<dd><p>(<a href="https://rdrr.io/pkg/paradox/man/ParamSet.html" class="external-link">paradox::ParamSet</a>)<br>
+<dd><p>(<a href="https://paradox.mlr-org.com/reference/ParamSet.html" class="external-link">paradox::ParamSet</a>)<br>
 Set of hyperparameters.</p></dd>
 
 
@@ -346,7 +346,7 @@ Set of hyperparameters.</p></dd>
 Controls how to execute the code in internal train and predict methods.
 Must be a named character vector with names <code>"train"</code> and <code>"predict"</code>.
 Possible values are <code>"none"</code>, <code>"evaluate"</code> (requires package <a href="https://CRAN.R-project.org/package=evaluate" class="external-link"><span class="pkg">evaluate</span></a>) and <code>"callr"</code> (requires package <a href="https://CRAN.R-project.org/package=callr" class="external-link"><span class="pkg">callr</span></a>).
-See <code><a href="https://rdrr.io/pkg/mlr3misc/man/encapsulate.html" class="external-link">mlr3misc::encapsulate()</a></code> for more details.</p></dd>
+See <code><a href="https://mlr3misc.mlr-org.com/reference/encapsulate.html" class="external-link">mlr3misc::encapsulate()</a></code> for more details.</p></dd>
 
 
 <dt><code>fallback</code></dt>
@@ -414,7 +414,7 @@ Must be an element of <a href="mlr_reflections.html">mlr_reflections$task_types$
 
 
 <dt><code>param_set</code></dt>
-<dd><p>(<a href="https://rdrr.io/pkg/paradox/man/ParamSet.html" class="external-link">paradox::ParamSet</a>)<br>
+<dd><p>(<a href="https://paradox.mlr-org.com/reference/ParamSet.html" class="external-link">paradox::ParamSet</a>)<br>
 Set of hyperparameters.</p></dd>
 
 

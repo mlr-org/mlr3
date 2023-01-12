@@ -85,7 +85,7 @@ For a more convenient way to retrieve and construct learners, see lrn()/lrns()."
     </div>
 
     <div class="ref-description section level2">
-    <p>A simple <a href="https://rdrr.io/pkg/mlr3misc/man/Dictionary.html" class="external-link">mlr3misc::Dictionary</a> storing objects of class <a href="Learner.html">Learner</a>.
+    <p>A simple <a href="https://mlr3misc.mlr-org.com/reference/Dictionary.html" class="external-link">mlr3misc::Dictionary</a> storing objects of class <a href="Learner.html">Learner</a>.
 Each learner has an associated help page, see <code>mlr_learners_[id]</code>.</p>
 <p>This dictionary can get populated with additional learners by add-on packages.
 For an opinionated set of solid classification and regression learners, install and load the <a href="https://CRAN.R-project.org/package=mlr3learners" class="external-link"><span class="pkg">mlr3learners</span></a> package.
@@ -96,19 +96,19 @@ More learners are connected via <a href="https://github.com/mlr-org/mlr3extralea
 
     <div class="section level2">
     <h2 id="format">Format<a class="anchor" aria-label="anchor" href="#format"></a></h2>
-    <p><a href="https://r6.r-lib.org/reference/R6Class.html" class="external-link">R6::R6Class</a> object inheriting from <a href="https://rdrr.io/pkg/mlr3misc/man/Dictionary.html" class="external-link">mlr3misc::Dictionary</a>.</p>
+    <p><a href="https://r6.r-lib.org/reference/R6Class.html" class="external-link">R6::R6Class</a> object inheriting from <a href="https://mlr3misc.mlr-org.com/reference/Dictionary.html" class="external-link">mlr3misc::Dictionary</a>.</p>
     </div>
     <div class="section level2">
     <h2 id="methods">Methods<a class="anchor" aria-label="anchor" href="#methods"></a></h2>
     
 
-<p>See <a href="https://rdrr.io/pkg/mlr3misc/man/Dictionary.html" class="external-link">mlr3misc::Dictionary</a>.</p>
+<p>See <a href="https://mlr3misc.mlr-org.com/reference/Dictionary.html" class="external-link">mlr3misc::Dictionary</a>.</p>
     </div>
     <div class="section level2">
     <h2 id="s-methods">S3 methods<a class="anchor" aria-label="anchor" href="#s-methods"></a></h2>
     
 
-<ul><li><p><code>as.data.table(dict, ..., objects = FALSE)</code><br><a href="https://rdrr.io/pkg/mlr3misc/man/Dictionary.html" class="external-link">mlr3misc::Dictionary</a> -&gt; <code><a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code><br>
+<ul><li><p><code>as.data.table(dict, ..., objects = FALSE)</code><br><a href="https://mlr3misc.mlr-org.com/reference/Dictionary.html" class="external-link">mlr3misc::Dictionary</a> -&gt; <code><a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code><br>
 Returns a <code><a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code> with fields "key", "label", "task_type", "feature_types", "packages",
 "properties", and "predict_types" as columns.
 If <code>objects</code> is set to <code>TRUE</code>, the constructed objects are returned in the list column named <code>object</code>.</p></li>
