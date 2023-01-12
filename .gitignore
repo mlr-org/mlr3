@@ -24,8 +24,7 @@
 .LSOverride
 
 # Icon must end with two \r
-Icon
-
+Icon
 
 # Thumbnails
 ._*
@@ -151,36 +150,6 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,visualstudiocode,r,macos,linux
-
-# Custom rules (everything added below won't be overriden by 'Generate .gitignore File' if you use 'Update' option)
-
-# R
-.Rprofile
-README.html
-src/*.o
-src/*.so
-src/*.dll
-
-# CRAN
-cran-comments.md
-CRAN-RELEASE
-CRAN-SUBMISSION
-
-# pkgdown
-docs/
-
-# renv
-renv/
-renv.lock
-
-# vscode
-.vscode
-
-# revdep
-revdep/
-
-# misc
-Meta/
 
 # Custom rules (everything added below won't be overriden by 'Generate .gitignore File' if you use 'Update' option)
 
