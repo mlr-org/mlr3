@@ -34,6 +34,8 @@ as_task_regr.TaskRegr = function(x, clone = FALSE, ...) { # nolint
 #' @template param_label
 #' @export
 as_task_regr.data.frame = function(x, target, id = deparse(substitute(x)), label = NA_character_, ...) { # nolint
+  force(id)
+
   assert_data_frame(x, min.rows = 1L, min.cols = 1L, col.names = "unique")
   ii = which(map_lgl(keep(x, is.double), anyInfinite))
   if (length(ii)) {
@@ -46,6 +48,8 @@ as_task_regr.data.frame = function(x, target, id = deparse(substitute(x)), label
 #' @rdname as_task_regr
 #' @export
 as_task_regr.matrix = function(x, target, id = deparse(substitute(x)), label = NA_character_, ...) { # nolint
+  force(id)
+
   assert_matrix(x, mode = "numeric")
   as_task_regr(as.data.table(x), target = target, id = id, label = label, ...)
 }
@@ -53,6 +57,8 @@ as_task_regr.matrix = function(x, target, id = deparse(substitute(x)), label = N
 #' @rdname as_task_regr
 #' @export
 as_task_regr.Matrix = function(x, target, id = deparse(substitute(x)), label = NA_character_, ...) { # nolint
+  force(id)
+
   dense = data.table(..row_id = seq_len(nrow(x)))
   b = DataBackendMatrix$new(x, dense = dense, primary_key = "..row_id")
   as_task_regr(b, target = target, id = id, label = label, ...)
@@ -61,6 +67,8 @@ as_task_regr.Matrix = function(x, target, id = deparse(substitute(x)), label = N
 #' @rdname as_task_regr
 #' @export
 as_task_regr.DataBackend = function(x, target, id = deparse(substitute(x)), label = NA_character_, ...) { # nolint
+  force(id)
+
   TaskRegr$new(id = id, backend = x, target = target, label = label, ...)
 }
 
@@ -76,6 +84,8 @@ as_task_regr.TaskClassif = function(x, target = NULL, drop_original_target = FAL
 #'   Data frame containing all columns referenced in formula `x`.
 #' @export
 as_task_regr.formula = function(x, data, id = deparse(substitute(data)), label = NA_character_, ...) { # nolint
+  force(id)
+
   assert_data_frame(data)
   assert_subset(all.vars(x), c(names(data), "."), .var.name = "formula")
   if (!attributes(terms(x, data = data))$response) {

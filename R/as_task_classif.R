@@ -36,6 +36,8 @@ as_task_classif.TaskClassif = function(x, clone = FALSE, ...) { # nolint
 #' @template param_label
 #' @export
 as_task_classif.data.frame = function(x, target = NULL, id = deparse(substitute(x)), positive = NULL, label = NA_character_, ...) { # nolint
+  force(id)
+
   assert_data_frame(x, min.rows = 1L, min.cols = 1L, col.names = "unique")
   ii = which(map_lgl(keep(x, is.double), anyInfinite))
   if (length(ii)) {
@@ -53,6 +55,8 @@ as_task_classif.data.frame = function(x, target = NULL, id = deparse(substitute(
 #' @rdname as_task_classif
 #' @export
 as_task_classif.matrix = function(x, target, id = deparse(substitute(x)), label = NA_character_, ...) { # nolint
+  force(id)
+
   assert_matrix(x, col.names = "unique", min.rows = 1L, min.cols = 1L)
   as_task_classif(as.data.table(x), target = target, id = id, label = label, ...)
 }
@@ -60,6 +64,8 @@ as_task_classif.matrix = function(x, target, id = deparse(substitute(x)), label 
 #' @rdname as_task_classif
 #' @export
 as_task_classif.Matrix = function(x, target, id = deparse(substitute(x)), label = NA_character_, ...) { # nolint
+  force(id)
+
   assert_names(colnames(x), "unique")
   assert_choice(target, colnames(x))
   ii = which(target == colnames(x))
@@ -79,6 +85,8 @@ as_task_classif.Matrix = function(x, target, id = deparse(substitute(x)), label 
 #' @rdname as_task_classif
 #' @export
 as_task_classif.DataBackend = function(x, target = NULL, id = deparse(substitute(x)), positive = NULL, label = NA_character_, ...) { # nolint
+  force(id)
+
   TaskClassif$new(id = id, backend = x, target = target, positive = positive, label = label, ...)
 }
 
@@ -94,6 +102,8 @@ as_task_classif.TaskRegr = function(x, target = NULL, drop_original_target = FAL
 #'   Data frame containing all columns referenced in formula `x`.
 #' @export
 as_task_classif.formula = function(x, data, id = deparse(substitute(data)), positive = NULL, label = NA_character_, ...) { # nolint
+  force(id)
+
   assert_data_frame(data)
   assert_subset(all.vars(x), c(names(data), "."), .var.name = "formula")
   if (!attributes(terms(x, data = data))$response) {
