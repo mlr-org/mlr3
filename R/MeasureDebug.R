@@ -1,15 +1,15 @@
-#' @title Debug Measure
+#' @title Debug Measure for Classification
 #'
-#' @name mlr_measures_debug
+#' @name mlr_measures_debug_classif
 #' @include Measure.R
 #'
 #' @description
-#' This measure returns the number of observations in the [Prediction] object.
+#' This measure returns the number of observations in the [PredictionClassif] object.
 #' Its main purpose is debugging.
 #' The parameter `na_ratio` (`numeric(1)`) controls the ratio of scores which randomly
 #' are set to `NA`, between 0 (default) and 1.
 #'
-#' @templateVar id debug
+#' @templateVar id debug_classif
 #' @template measure
 #'
 #' @template seealso_measure
@@ -17,10 +17,10 @@
 #' @examples
 #' task = tsk("wine")
 #' learner = lrn("classif.featureless")
-#' measure = msr("debug", na_ratio = 0.5)
+#' measure = msr("debug_classif", na_ratio = 0.5)
 #' rr = resample(task, learner, rsmp("cv", folds = 5))
 #' rr$score(measure)
-MeasureDebug = R6Class("MeasureDebug",
+MeasureDebugClassif = R6Class("MeasureDebugClassif",
   inherit = Measure,
   public = list(
     #' @description
@@ -29,13 +29,13 @@ MeasureDebug = R6Class("MeasureDebug",
       param_set = ps(na_ratio = p_dbl(0, 1, tags = "required"))
       param_set$values = list(na_ratio = 0)
       super$initialize(
-        id = "debug",
+        id = "debug_classif",
         param_set = param_set,
         predict_type = "response",
         range = c(0, Inf),
         properties = "na_score",
         label = "Debug Classification Measure",
-        man = "mlr3::mlr_measures_debug"
+        man = "mlr3::mlr_measures_debug_classif"
       )
     }
   ),
@@ -52,4 +52,4 @@ MeasureDebug = R6Class("MeasureDebug",
 )
 
 #' @include mlr_measures.R
-mlr_measures$add("debug", function() MeasureDebug$new())
+mlr_measures$add("debug_classif", function() MeasureDebugClassif$new())

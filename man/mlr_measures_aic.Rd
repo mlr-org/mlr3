@@ -28,7 +28,7 @@ msr("aic")
 \item Range: \eqn{(-\infty, \infty)}{(-Inf, Inf)}
 \item Minimize: TRUE
 \item Average: macro
-\item Required Prediction: \dQuote{response}
+\item Required Prediction: \dQuote{NA}
 \item Required Packages: \CRANpkg{mlr3}
 }
 }
@@ -61,7 +61,7 @@ Other Measure:
 \code{\link{Measure}},
 \code{\link{mlr_measures_bic}},
 \code{\link{mlr_measures_classif.costs}},
-\code{\link{mlr_measures_debug}},
+\code{\link{mlr_measures_debug_classif}},
 \code{\link{mlr_measures_elapsed_time}},
 \code{\link{mlr_measures_oob_error}},
 \code{\link{mlr_measures_selected_features}},
