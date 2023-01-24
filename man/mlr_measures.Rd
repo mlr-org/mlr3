@@ -57,7 +57,7 @@ Other Measure:
 \code{\link{mlr_measures_aic}},
 \code{\link{mlr_measures_bic}},
 \code{\link{mlr_measures_classif.costs}},
-\code{\link{mlr_measures_debug}},
+\code{\link{mlr_measures_debug_classif}},
 \code{\link{mlr_measures_elapsed_time}},
 \code{\link{mlr_measures_oob_error}},
 \code{\link{mlr_measures_selected_features}}
