@@ -70,15 +70,15 @@ ResampleResult = R6Class("ResampleResult",
     #' Printer.
     #' @param ... (ignored).
     print = function(...) {
-      catf("%s of %i iterations", format(self), self$iters)
-      catn(str_indent("* Task:", self$task$id))
-      catn(str_indent("* Learner:", self$learner$id))
-
-      warnings = self$warnings
-      catn(str_indent("* Warnings:", sprintf("%i in %i iterations", nrow(warnings), uniqueN(warnings, by = "iteration"))))
-
-      errors = self$errors
-      catn(str_indent("* Errors:", sprintf("%i in %i iterations", nrow(errors), uniqueN(errors, by = "iteration"))))
+      tab = self$score(measures = list(), conditions = TRUE)
+      setattr(tab, "class", c("data.table", "data.frame"))
+      tab[, warnings := map(warnings, length)]
+      tab[, errors := map(errors, length)]
+      catf("%s with %i resampling iterations",  format(self), self$iters)
+      if (nrow(tab)) {
+        tab = remove_named(tab, c("task", "learner", "resampling", "prediction"))
+        print(tab, class = FALSE, row.names = FALSE, print.keys = FALSE, digits = 3)
+      }
     },
 
     #' @description
@@ -161,6 +161,9 @@ ResampleResult = R6Class("ResampleResult",
       }
 
       set(tab, j = "prediction", value = as_predictions(tab$prediction, predict_sets))
+
+      setattr(tab, "class", c("rr_score", class(tab)))
+
       cns = c("task", "task_id", "learner", "learner_id", "resampling", "resampling_id", "iteration",
         "prediction", "warnings", "errors", ids(measures))
       cns = intersect(cns, names(tab))
@@ -340,4 +343,11 @@ c.ResampleResult = function(...) {
 
 resample_result_aggregate = function(rr, measures) {
   set_names(map_dbl(measures, function(m) m$aggregate(rr)), ids(measures))
+}
+
+#' @export
+print.rr_score = function(x, ...) {
+  tab = set_class(x, c("data.table", "data.frame"))
+  print(remove_named(tab, c("task", "learner", "resampling", "prediction")))
+  cat("Hidden columns: task, learner, resampling, prediction")
 }
