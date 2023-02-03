@@ -72,8 +72,8 @@ ResampleResult = R6Class("ResampleResult",
     print = function(...) {
       tab = self$score(measures = list(), conditions = TRUE)
       setattr(tab, "class", c("data.table", "data.frame"))
-      tab[, warnings := map(warnings, length)]
-      tab[, errors := map(errors, length)]
+      tab[, "warnings" := map(get("warnings"), length)]
+      tab[, "errors" := map(get("errors"), length)]
       catf("%s with %i resampling iterations",  format(self), self$iters)
       if (nrow(tab)) {
         tab = remove_named(tab, c("task", "learner", "resampling", "prediction"))

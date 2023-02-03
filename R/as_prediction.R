@@ -44,9 +44,11 @@ as_predictions = function(x, predict_sets = "test", ...) {
 as_predictions.list = function(x, predict_sets = "test", ...) { # nolint
   assert_subset(predict_sets, mlr_reflections$predict_sets)
 
+
   result = vector("list", length(x))
   ii = lengths(x) > 0L
   result[ii] = map(x[ii], function(li) {
+      browser()
     assert_list(li, "PredictionData")
     combined = do.call(c, discard(li[predict_sets], is.null))
     if (is.null(combined)) {
