@@ -508,14 +508,16 @@ c.BenchmarkResult = function(...) { # nolint
 
 #' @export
 print.bmr_score = function(x, ...) {
-  tab = set_class(x, c("data.table", "data.frame"))
-  print(remove_named(tab, c("uhash", "task", "learner", "resampling", "prediction")))
+  setattr(x, "class", c("data.table", "data.frame"))
+  print(x[, !c("uhash", "task", "learner", "resampling", "prediction")])
   cat("Hidden columns: uhash, task, learner, resampling, prediction")
+  setattr(x, "class", c("bmr_aggregate", "data.table", "data.frame"))
 }
 
 #' @export
 print.bmr_aggregate = function(x, ...) {
-  tab = set_class(x, c("data.table", "data.frame"))
-  print(remove_named(tab, "resample_result"))
+  setattr(x, "class", c("data.table", "data.frame"))
+  print(x[, !"resample_result"])
   cat("Hidden columns: resample_result")
+  setattr(x, "class", c("bmr_aggregate", "data.table", "data.frame"))
 }

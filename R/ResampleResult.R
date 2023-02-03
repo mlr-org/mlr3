@@ -347,7 +347,8 @@ resample_result_aggregate = function(rr, measures) {
 
 #' @export
 print.rr_score = function(x, ...) {
-  tab = set_class(x, c("data.table", "data.frame"))
-  print(remove_named(tab, c("task", "learner", "resampling", "prediction")))
+  setattr(x, "class", c("data.table", "data.frame"))
+  print(x(, !c("task", "learner", "resampling", "prediction")))
   cat("Hidden columns: task, learner, resampling, prediction")
+  setattr(x, "class", c("bmr_aggregate", "data.table", "data.frame"))
 }
