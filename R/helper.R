@@ -24,3 +24,16 @@ assert_ordered_set = function(x, y, ...) {
   assert_subset(x, y, ...)
   x[reorder_vector(x, y)]
 }
+
+set_data_table_class = function(x, class = NULL) {
+  setattr(x, "class", c(class, "data.table", "data.frame"))
+}
+
+print_data_table = function(x, hidden_columns) {
+  hidden_columns = intersect(names(x), hidden_columns)
+  extra_class = class(x)[1]
+  set_data_table_class(x)
+  print(x[, .SD, .SDcols = !hidden_columns])
+  if (length(hidden_columns)) catf("Hidden columns: %s", str_collapse(hidden_columns))
+  set_data_table_class(x, extra_class)
+}

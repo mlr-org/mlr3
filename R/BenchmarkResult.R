@@ -178,7 +178,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
 
       set(tab, j = "prediction", value = as_predictions(tab$prediction, predict_sets))
 
-      setattr(tab, "class", c("bmr_score", class(tab)))
+      set_data_table_class(tab, "bmr_score")
 
       cns = c("uhash", "nr", "task", "task_id", "learner", "learner_id", "resampling", "resampling_id",
         "iteration", "prediction", "warnings", "errors", ids(measures))
@@ -277,7 +277,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
       }
       tab = insert_named(tab, scores)
 
-      setattr(tab, "class", c("bmr_aggregate", class(tab)))
+      set_data_table_class(tab, "bmr_aggregate")
 
       cns = c("uhash", "nr", "resample_result", "task_id", "learner_id", "resampling_id", "iters",
         "warnings", "errors", "params", ids(measures))
@@ -508,16 +508,10 @@ c.BenchmarkResult = function(...) { # nolint
 
 #' @export
 print.bmr_score = function(x, ...) {
-  setattr(x, "class", c("data.table", "data.frame"))
-  print(x[, !c("uhash", "task", "learner", "resampling", "prediction")])
-  cat("Hidden columns: uhash, task, learner, resampling, prediction")
-  setattr(x, "class", c("bmr_aggregate", "data.table", "data.frame"))
+  print_data_table(x, c("uhash", "task", "learner", "resampling", "prediction"))
 }
 
 #' @export
 print.bmr_aggregate = function(x, ...) {
-  setattr(x, "class", c("data.table", "data.frame"))
-  print(x[, !"resample_result"])
-  cat("Hidden columns: resample_result")
-  setattr(x, "class", c("bmr_aggregate", "data.table", "data.frame"))
+  print_data_table(x, "resample_result")
 }

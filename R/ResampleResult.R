@@ -162,7 +162,7 @@ ResampleResult = R6Class("ResampleResult",
 
       set(tab, j = "prediction", value = as_predictions(tab$prediction, predict_sets))
 
-      setattr(tab, "class", c("rr_score", class(tab)))
+      set_data_table_class(tab, "rr_score")
 
       cns = c("task", "task_id", "learner", "learner_id", "resampling", "resampling_id", "iteration",
         "prediction", "warnings", "errors", ids(measures))
@@ -347,8 +347,5 @@ resample_result_aggregate = function(rr, measures) {
 
 #' @export
 print.rr_score = function(x, ...) {
-  setattr(x, "class", c("data.table", "data.frame"))
-  print(x[, !c("task", "learner", "resampling", "prediction")])
-  cat("Hidden columns: task, learner, resampling, prediction")
-  setattr(x, "class", c("bmr_aggregate", "data.table", "data.frame"))
+  print_data_table(x, c("task", "learner", "resampling", "prediction"))
 }
