@@ -177,7 +177,7 @@ Resampling = R6Class("Resampling",
           instance = private$.sample(task$row_ids, task)
         } else {
           private$.groups = groups
-          instance = private$.sample(unique(groups$group))
+          instance = private$.sample(unique(groups$group), task)
         }
       } else {
         if (!is.null(groups)) {
