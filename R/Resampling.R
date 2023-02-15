@@ -174,10 +174,10 @@ Resampling = R6Class("Resampling",
 
       if (is.null(strata)) {
         if (is.null(groups)) {
-          instance = private$.sample(task$row_ids, task)
+          instance = private$.sample(task$row_ids, task = task)
         } else {
           private$.groups = groups
-          instance = private$.sample(unique(groups$group), task)
+          instance = private$.sample(unique(groups$group), task = task)
         }
       } else {
         if (!is.null(groups)) {
