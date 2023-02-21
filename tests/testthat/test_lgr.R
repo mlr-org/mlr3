@@ -18,7 +18,7 @@ test_that("log to text file", {
   task = tsk("iris")
   learner = lrn("classif.featureless")
   resampling = rsmp("cv", folds = 3L)
-  rr = resample(task, learner, resampling)
+  rr = suppressWarnings(resample(task, learner, resampling))
 
   lines = readLines(f)
   expect_true(any(startsWith(lines, "INFO")))
