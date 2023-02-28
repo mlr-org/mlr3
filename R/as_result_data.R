@@ -12,7 +12,7 @@
 #' @param learners (list of trained [Learner]s).
 #' @param resampling ([Resampling]).
 #' @param iterations (`integer()`).
-#' @param predictions (list of [Prediction]s).
+#' @param predictions (list of list of [Prediction]s).
 #' @param learner_states (`list()`)\cr
 #'   Learner states. If not provided, the states of `learners` are automatically extracted.
 #' @param store_backends (`logical(1)`)\cr
@@ -34,7 +34,7 @@
 #' for (i in iterations) {
 #'   l = learner$clone(deep = TRUE)
 #'   learners[[i]] = l$train(task, row_ids = resampling$train_set(i))
-#'   predictions[[i]] = l$predict(task, row_ids = resampling$test_set(i))
+#'   predictions[[i]] = list(test = l$predict(task, row_ids = resampling$test_set(i)))
 #' }
 #'
 #' rdata = as_result_data(task, learners, resampling, iterations, predictions)
@@ -45,7 +45,8 @@ as_result_data = function(task, learners, resampling, iterations, predictions, l
   assert_task(task)
   assert_learners(learners, task = task)
   assert_resampling(resampling, instantiated = TRUE)
-  predictions = lapply(predictions, as_prediction_data)
+  assert_list(predictions, types = "list")
+  predictions = map(predictions, function(x) map(x, as_prediction_data))
   uhash = UUIDgenerate()
 
   if (is.null(learner_states)) {

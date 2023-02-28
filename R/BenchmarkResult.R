@@ -99,6 +99,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #' Printer.
     print = function() {
       tab = self$aggregate(measures = list(), conditions = TRUE)
+      setattr(tab, "class", c("data.table", "data.frame"))
       catf("%s of %i rows with %i resampling runs",
         format(self), private$.data$iterations(), nrow(tab))
       if (nrow(tab)) {
@@ -176,6 +177,8 @@ BenchmarkResult = R6Class("BenchmarkResult",
       }
 
       set(tab, j = "prediction", value = as_predictions(tab$prediction, predict_sets))
+
+      set_data_table_class(tab, "bmr_score")
 
       cns = c("uhash", "nr", "task", "task_id", "learner", "learner_id", "resampling", "resampling_id",
         "iteration", "prediction", "warnings", "errors", ids(measures))
@@ -273,6 +276,8 @@ BenchmarkResult = R6Class("BenchmarkResult",
         scores = setDT(named_list(ids(measures), double()))
       }
       tab = insert_named(tab, scores)
+
+      set_data_table_class(tab, "bmr_aggregate")
 
       cns = c("uhash", "nr", "resample_result", "task_id", "learner_id", "resampling_id", "iters",
         "warnings", "errors", "params", ids(measures))
@@ -499,4 +504,14 @@ c.BenchmarkResult = function(...) { # nolint
   bmrs = lapply(list(...), as_benchmark_result)
   init = BenchmarkResult$new()
   Reduce(function(lhs, rhs) lhs$combine(rhs), bmrs, init = init)
+}
+
+#' @export
+print.bmr_score = function(x, ...) {
+  print_data_table(x, c("uhash", "task", "learner", "resampling", "prediction"))
+}
+
+#' @export
+print.bmr_aggregate = function(x, ...) {
+  print_data_table(x, "resample_result")
 }

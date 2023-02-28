@@ -61,5 +61,15 @@ benchmark_grid = function(tasks, learners, resamplings) {
   grid$instance = seq_row(grid)
   grid = grid[CJ(task = seq_along(tasks), learner = seq_along(learners)), on = "task", allow.cartesian = TRUE]
 
-  data.table(task = tasks[grid$task], learner = learners[grid$learner], resampling = instances[grid$instance])
+  tab = data.table(task = tasks[grid$task], learner = learners[grid$learner], resampling = instances[grid$instance])
+  set_data_table_class(tab, "benchmark_grid")
+  tab
+}
+
+#' @export
+print.benchmark_grid = function(x, ...) {
+  task_ids = map(x$task, "id")
+  learner_ids = map(x$learner, "id")
+  resampling_ids = map(x$resampling, "id")
+  print(data.table(task = task_ids, learner = learner_ids, resampling = resampling_ids))
 }
