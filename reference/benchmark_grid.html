@@ -132,24 +132,15 @@ The only exception to this rule applies if all tasks have exactly the same numbe
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">grid</span> <span class="op">=</span> <span class="fu">benchmark_grid</span><span class="op">(</span><span class="va">tasks</span>, <span class="va">learners</span>, <span class="va">resamplings</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">grid</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 task                         learner</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: &lt;TaskClassif[51]&gt; &lt;LearnerClassifFeatureless[38]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: &lt;TaskClassif[51]&gt; &lt;LearnerClassifFeatureless[38]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: &lt;TaskClassif[51]&gt;       &lt;LearnerClassifRpart[38]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4: &lt;TaskClassif[51]&gt;       &lt;LearnerClassifRpart[38]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5: &lt;TaskClassif[51]&gt; &lt;LearnerClassifFeatureless[38]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6: &lt;TaskClassif[51]&gt; &lt;LearnerClassifFeatureless[38]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7: &lt;TaskClassif[51]&gt;       &lt;LearnerClassifRpart[38]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8: &lt;TaskClassif[51]&gt;       &lt;LearnerClassifRpart[38]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                     resampling</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1:          &lt;ResamplingCV[20]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: &lt;ResamplingSubsampling[20]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3:          &lt;ResamplingCV[20]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4: &lt;ResamplingSubsampling[20]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5:          &lt;ResamplingCV[20]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6: &lt;ResamplingSubsampling[20]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7:          &lt;ResamplingCV[20]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8: &lt;ResamplingSubsampling[20]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        task             learner  resampling</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: penguins classif.featureless          cv</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: penguins classif.featureless subsampling</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: penguins       classif.rpart          cv</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4: penguins       classif.rpart subsampling</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5:    sonar classif.featureless          cv</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6:    sonar classif.featureless subsampling</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7:    sonar       classif.rpart          cv</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8:    sonar       classif.rpart subsampling</span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="benchmark.html">benchmark</a></span><span class="op">(</span><span class="va">grid</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>

@@ -125,7 +125,7 @@ and multiple <a href="BenchmarkResult.html">BenchmarkResult</a>s can be combined
 
 
 <dt>predictions</dt>
-<dd><p>(list of <a href="Prediction.html">Prediction</a>s).</p></dd>
+<dd><p>(list of list of <a href="Prediction.html">Prediction</a>s).</p></dd>
 
 
 <dt>learner_states</dt>
@@ -160,16 +160,15 @@ removed.</p></dd>
 <span class="r-in"><span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="va">iterations</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="va">l</span> <span class="op">=</span> <span class="va">learner</span><span class="op">$</span><span class="fu">clone</span><span class="op">(</span>deep <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="va">learners</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span> <span class="op">=</span> <span class="va">l</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task</span>, row_ids <span class="op">=</span> <span class="va">resampling</span><span class="op">$</span><span class="fu">train_set</span><span class="op">(</span><span class="va">i</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="va">predictions</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span> <span class="op">=</span> <span class="va">l</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="va">task</span>, row_ids <span class="op">=</span> <span class="va">resampling</span><span class="op">$</span><span class="fu">test_set</span><span class="op">(</span><span class="va">i</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">predictions</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>test <span class="op">=</span> <span class="va">l</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="va">task</span>, row_ids <span class="op">=</span> <span class="va">resampling</span><span class="op">$</span><span class="fu">test_set</span><span class="op">(</span><span class="va">i</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">rdata</span> <span class="op">=</span> <span class="fu">as_result_data</span><span class="op">(</span><span class="va">task</span>, <span class="va">learners</span>, <span class="va">resampling</span>, <span class="va">iterations</span>, <span class="va">predictions</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va"><a href="ResampleResult.html">ResampleResult</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="va">rdata</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;ResampleResult&gt; of 2 iterations</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> * Task: penguins</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> * Learner: classif.rpart</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> * Warnings: 0 in 0 iterations</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> * Errors: 0 in 0 iterations</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;ResampleResult&gt; with 2 resampling iterations</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   task_id    learner_id resampling_id iteration warnings errors</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  penguins classif.rpart            cv         1        0      0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  penguins classif.rpart            cv         2        0      0</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
