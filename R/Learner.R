@@ -536,7 +536,7 @@ Learner = R6Class("Learner",
 
 
 #' @export
-rd_info.Learner = function(obj) {
+rd_info.Learner = function(obj, ...) {
   x = c("",
     sprintf("* Task type: %s", rd_format_string(obj$task_type)),
     sprintf("* Predict Types: %s", rd_format_string(obj$predict_types)),
