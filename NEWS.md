@@ -1,6 +1,12 @@
+# mlr3 0.15.0
+
+* Many returned tables are now assigned a class for a `print` method to make the output
+  more readable.
+* Fixed some typos
+
 # mlr3 0.14.1
 
-* Removed depdency on package `distr6`.
+* Removed dependency on package `distr6`.
 * Fixed reassembling of `GraphLearner`.
 * Fixed bug where the measured elapsed time was 0:
   https://stackoverflow.com/questions/73797845/mlr3-benchmarking-with-elapsed-time-measure
