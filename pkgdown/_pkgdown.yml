@@ -115,6 +115,7 @@ reference:
       - ResultData
       - PredictionData
       - predict.Learner
+      - mlr_test_helper
   - title: Package
     contents:
       - mlr3-package
