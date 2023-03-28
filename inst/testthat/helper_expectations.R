@@ -341,18 +341,6 @@ expect_task_generator = function(gen) {
 }
 
 
-#' @title Check if argument is a Learner
-#' @description 
-#' Checks various properties that learners have to satisfy.
-#' Used for testing learner implementation.
-#'
-#' @param lrn ([`Learner`])\cr
-#'    The learner whose properties are being verified.
-#' @param tsk ([`Task`])\cr
-#'    Optional argument (default is `NULL`).
-#'    If provided, some additional checks are being run that check the compatability of the learner and task.
-#'  @param check_man (`logical(1)`)\cr
-#'    Whether to check if the learner has a man page.
 expect_learner = function(lrn, task = NULL, check_man = TRUE) {
   checkmate::expect_r6(lrn, "Learner", cloneable = TRUE)
   expect_id(lrn$id)
