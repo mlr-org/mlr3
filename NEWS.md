@@ -1,3 +1,7 @@
+# mlr3 0.15.0-9000
+
+* The Resampling object now also stores the parameter values that were set during instantiation.
+
 # mlr3 0.15.0
 
 * Many returned tables are now assigned a class for a `print` method to make the output

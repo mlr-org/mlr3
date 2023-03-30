@@ -160,3 +160,11 @@ test_that("loo with groups", {
   tab = merge(as.data.table(loo), islands, by = "row_id")
   expect_true(all(tab[, .(n_islands = uniqueN(island)), by = row_id]$n_islands == 1L))
 })
+
+test_that("Parameter values are stored in the instance", {
+  res = rsmp("cv")
+  task = tsk("mtcars")
+  res$param_set$values$folds = 3
+  res$instantiate(task)
+  expect_true(res$param_vals == 3)
+})

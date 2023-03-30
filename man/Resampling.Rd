@@ -149,6 +149,9 @@ Is \code{TRUE} if the resampling has been instantiated.}
 
 \item{\code{hash}}{(\code{character(1)})\cr
 Hash (unique identifier) for this object.}
+
+\item{\code{param_vals}}{(\code{list()})\cr
+The parameter values that were set during instantiation.}
 }
 \if{html}{\out{</div>}}
 }
@@ -254,6 +257,8 @@ Opens the corresponding help page referenced by field \verb{$man}.
 \subsection{Method \code{instantiate()}}{
 Materializes fixed training and test splits for a given task and stores them in \code{r$instance}
 in an arbitrary format.
+The parameter values that were used during initialization are also stored and can be accessed using the
+\verb{$param_vals} field.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Resampling$instantiate(task)}\if{html}{\out{</div>}}
 }

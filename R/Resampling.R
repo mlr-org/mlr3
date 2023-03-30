@@ -159,6 +159,8 @@ Resampling = R6Class("Resampling",
     #' @description
     #' Materializes fixed training and test splits for a given task and stores them in `r$instance`
     #' in an arbitrary format.
+    #' The parameter values that were used during initialization are also stored and can be accessed using the
+    #' `$param_vals` field.
     #'
     #' @param task ([Task])\cr
     #'   Task used for instantiation.
@@ -167,6 +169,7 @@ Resampling = R6Class("Resampling",
     #' Returns the object itself, but modified **by reference**.
     #' You need to explicitly `$clone()` the object beforehand if you want to keeps
     #' the object in its previous state.
+    #'
     instantiate = function(task) {
       task = assert_task(as_task(task))
       strata = task$strata
@@ -187,6 +190,7 @@ Resampling = R6Class("Resampling",
       }
 
       self$instance = instance
+      private$.param_vals = self$param_set$values
       self$task_hash = task$hash
       self$task_nrow = task$nrow
       invisible(self)
@@ -228,11 +232,24 @@ Resampling = R6Class("Resampling",
         return(NA_character_)
       }
       calculate_hash(list(class(self), self$id, self$param_set$values, self$instance))
+    },
+    #' @field param_vals (`list()`)\cr
+    #' The parameter values that were set during instantiation.
+    param_vals = function(rhs) {
+      assert_ro_binding(rhs)
+
+      if (!self$is_instantiated) {
+        NULL
+      } else {
+        private$.param_vals
+      }
+
     }
   ),
 
   private = list(
     .groups = NULL,
+    .param_vals = NULL,
 
     .get_set = function(getter, i) {
       if (!self$is_instantiated) {
