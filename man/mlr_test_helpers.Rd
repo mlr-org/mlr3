@@ -5,58 +5,59 @@
 \title{Documentation of mlr3 test helpers}
 \description{
 The mlr3 package contains various helper functions to test the validity of objects such as learners.
-These functions are not contained in the mlr3 namespaces and are instead located in the \code{./inst/testthat}
-directory of the source package or the \code{./testthat} directory of the installed package.
+These functions are not contained in the mlr3 namespaces and are instead located in the \code{inst/testthat}
+directory of the source package or the \code{testthat} directory of the installed package.
 
 These files can be sourced with the following line of code:
-\code{lapply(list.files(system.file("testthat", package = "mlr3"), pattern = "^helper.*\\\\.[rR]", full.names = TRUE), source)}
 
-Note that other extensions such as mlr3proba have similar files, that can be sourced accordingly.
-These are relevant, when one e.g. implements a new survival learner.
+\if{html}{\out{<div class="sourceCode">}}\preformatted{lapply(list.files(system.file("testthat", package = "mlr3"), pattern = "^helper.*\\\\.[rR]", full.names = TRUE), source)
+}\if{html}{\out{</div>}}
+
+Other extension packages such as \code{mlr3proba} have similar files that can be sourced accordingly.
 
 This manual page documents the most important helper functions that are relevant when users implement their own
 custom learners.
 }
-\section{run_autotest}{
+\section{run_autotest()}{
 
-This function runs a Learner autotest suite.
+This function runs a Learner's automatic test suite.
 
-Generates multiple tasks, depending on the properties of the learner.
-The function then tests the learner on each task, for the predict types specified when calling the function
+During the autotests, multiple tasks are generated depending on the properties of the learner.
+The \code{run_autotest()} function then trains the learner on each task and predicts with all supported predict types.
 (see argument \code{predict_types}).
 To debug, simply run \code{result = run_autotest(learner)} and proceed with investigating
 the task, learner and prediction of the returned \code{result}.
 
-For example usages you can look at the atests in various mlr3 source repositories such as mlr3learners.
+For example usages you can look at the autotests in various mlr3 source repositories such as mlr3learners.
 
 \strong{Parameters}:
 \itemize{
-\item \code{learner} :: (\code{\link{Learner}})\cr
+\item \code{learner} (\code{\link{Learner}})\cr
 The learner to check.
-\item \code{N} :: (\code{integer(1)})\cr
+\item \code{N} (\code{integer(1)})\cr
 The number of rows of the generated tasks.
-\item \code{exclude} :: (\code{character()})\cr
+\item \code{exclude} (\code{character()})\cr
 Each task on which the learner is trained has an id.
 If for some reason, one or more such tests ought to be disabled, this argument takes in a regular expression
 that disables all tasks whose id matches the regular expression.
-\item \code{predict_types} :: (\code{character()})\cr
+\item \code{predict_types} (\code{character()})\cr
 The predict types of the learner to check.
 Defaults to all predict typpes of the learner.
-\item \code{check_replicable} :: (\code{logical(1)})\cr
+\item \code{check_replicable} (\code{logical(1)})\cr
 Whether to check that running the learner twice with the same seed should result in identical predictions.
 Default is \code{TRUE}.
 }
 }
 
-\section{run_paramtest}{
+\section{run_paramtest()}{
 
 
 \strong{Description}:
 
 Checks parameters of mlr3 Learners against parameters defined in the upstream functions of the respective learner.
-Some learners do not have all of their parameters stored within the learner
-function that is called within \code{.train()}. Sometimes learners come with a
-"control" function, e.g. \code{\link[glmnet:glmnet.control]{glmnet::glmnet.control()}}. Such need to be checked
+The goal is to detect if parameters have been dropped or added in the upstream implementation.
+Some learners do not have all of their parameters stored within the learner function that is called during training.
+Sometimes learners come with a "control" function, e.g. \code{\link[glmnet:glmnet.control]{glmnet::glmnet.control()}}. Such learners need to be checked
 as well since they make up the full ParamSet of the respective learner.
 
 To work nicely with the defined ParamSet, certain parameters need to be
@@ -65,29 +66,29 @@ actual top-level function call. Such exclusions should go into argument
 \code{exclude} with a comment for the reason of the exclusion. See examples for
 more information.
 
-For example usages you can look at the paramter tests in various mlr3 source repositories such as mlr3learners.
+For example usages you can look at the parameter tests in various mlr3 source repositories such as \CRANpkg{mlr3learners}.
 
 \strong{Parameters}:
 \itemize{
-\item \code{learner} :: \code{\link{Learner}}\cr
+\item \code{learner} (\code{Learner})\cr
 The learner whose parameter set is being checked.
-\item \code{fun} :: (\verb{function()} or list of \code{functions()}s)\cr
+\item \code{fun} (\verb{function()} or list of \code{functions()}s)\cr
 The function(s) containing the parameters that must be implemented by the learner.
-\item \code{exclude} :: (\code{character()})\cr
+\item \code{exclude} (\code{character()})\cr
 Argument names that specified through this argument are exempt from checking.
-This can be used when parameters that are avilable in the \code{fun} function(s) are not implemented in the learner,
+This can be used when parameters that are available in the \code{fun} function(s) are not implemented in the learner,
 or when the learner implements additional parameters that are not available in the \code{fun} function(s).
-\item \code{tag} :: (\code{character(1)})\cr
+\item \code{tag} (\code{character(1)})\cr
 Only parameters that are tagged with this tag are being checked.
 If \code{NULL} (default), all parameters are checked.
 }
 }
 
-\section{expect_learner}{
+\section{expect_learner()}{
 
 
 Checks various properties that learners have to satisfy.
-Used for testing learner implementations.
+Used for testing learner implementations, especially if all methods and fields are implement as document.
 
 \strong{Parameters}
 \itemize{
@@ -95,7 +96,7 @@ Used for testing learner implementations.
 The learner whose properties are being verified.
 \item \code{tsk} :: (\code{\link{Task}})\cr
 Optional argument (default is \code{NULL}).
-If provided, some additional checks are being run that check the compatability of the learner and task.
+If provided, some additional checks are being run that check the compatibility of the learner and task.
 \item \code{check_man} :: (\code{logical(1)})\cr
 Whether to check if the learner has a man page.
 }
