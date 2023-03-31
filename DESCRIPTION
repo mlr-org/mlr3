@@ -183,6 +183,7 @@ Collate:
     'helper_print.R'
     'install_pkgs.R'
     'mlr_sugar.R'
+    'mlr_test_helpers.R'
     'partition.R'
     'predict.R'
     'reexports.R'
