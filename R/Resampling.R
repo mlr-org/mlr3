@@ -233,17 +233,18 @@ Resampling = R6Class("Resampling",
       }
       calculate_hash(list(class(self), self$id, self$param_set$values, self$instance))
     },
-    #' @field param_vals (`list()`)\cr
+    #' @field param_vals (named `list()`)\cr
     #' The parameter values that were set during instantiation.
+    #' Returns `NULL` if the resampling has not been instantiated yet.
     param_vals = function(rhs) {
       assert_ro_binding(rhs)
 
       if (!self$is_instantiated) {
+        warningf("Resampling is not instantiated.")
         NULL
       } else {
         private$.param_vals
       }
-
     }
   ),
 

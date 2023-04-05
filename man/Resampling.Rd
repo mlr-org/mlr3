@@ -150,8 +150,9 @@ Is \code{TRUE} if the resampling has been instantiated.}
 \item{\code{hash}}{(\code{character(1)})\cr
 Hash (unique identifier) for this object.}
 
-\item{\code{param_vals}}{(\code{list()})\cr
-The parameter values that were set during instantiation.}
+\item{\code{param_vals}}{(named \code{list()})\cr
+The parameter values that were set during instantiation.
+Returns \code{NULL} if the resampling has not been instantiated yet.}
 }
 \if{html}{\out{</div>}}
 }
