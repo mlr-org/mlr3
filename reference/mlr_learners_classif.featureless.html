@@ -3,12 +3,15 @@
 Hyperparameter method determines the mode of operation during prediction:
 mode:
 Predicts the most frequent label. If there are two or more labels tied, randomly selects one per prediction.
+Probabilities correspond to the relative frequency of the class labels in the training set.
 
 sample:
 Randomly predict a label uniformly.
+Probabilities correspond to a uniform distribution of class labels, i.e. 1 divided by the number of classes.
 
 weighted.sample:
 Randomly predict a label, with probability estimated from the training distribution.
+For consistency, probabilities are 1 for the sampled label and 0 for all other labels.
 
 
 
@@ -16,12 +19,15 @@ Randomly predict a label, with probability estimated from the training distribut
 Hyperparameter method determines the mode of operation during prediction:
 mode:
 Predicts the most frequent label. If there are two or more labels tied, randomly selects one per prediction.
+Probabilities correspond to the relative frequency of the class labels in the training set.
 
 sample:
 Randomly predict a label uniformly.
+Probabilities correspond to a uniform distribution of class labels, i.e. 1 divided by the number of classes.
 
 weighted.sample:
 Randomly predict a label, with probability estimated from the training distribution.
+For consistency, probabilities are 1 for the sampled label and 0 for all other labels.
 
 
 
@@ -103,13 +109,16 @@ Randomly predict a label, with probability estimated from the training distribut
     <div class="ref-description section level2">
     <p>A simple <a href="LearnerClassif.html">LearnerClassif</a> which only analyzes the labels during train, ignoring all features.
 Hyperparameter <code>method</code> determines the mode of operation during prediction:</p><dl><dt>mode:</dt>
-<dd><p>Predicts the most frequent label. If there are two or more labels tied, randomly selects one per prediction.</p></dd>
+<dd><p>Predicts the most frequent label. If there are two or more labels tied, randomly selects one per prediction.
+Probabilities correspond to the relative frequency of the class labels in the training set.</p></dd>
 
 <dt>sample:</dt>
-<dd><p>Randomly predict a label uniformly.</p></dd>
+<dd><p>Randomly predict a label uniformly.
+Probabilities correspond to a uniform distribution of class labels, i.e. 1 divided by the number of classes.</p></dd>
 
 <dt>weighted.sample:</dt>
-<dd><p>Randomly predict a label, with probability estimated from the training distribution.</p></dd>
+<dd><p>Randomly predict a label, with probability estimated from the training distribution.
+For consistency, probabilities are 1 for the sampled label and 0 for all other labels.</p></dd>
 
 
 </dl></div>
