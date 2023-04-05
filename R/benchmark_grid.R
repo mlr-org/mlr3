@@ -27,6 +27,17 @@
 #' benchmark(grid)
 #' }
 #'
+#' # paired
+#' learner = lrn("classif.rpart")
+#' task1 = tsk("penguins")
+#' task2 = tsk("german_credit")
+#' res1 = rsmp("holdout")
+#' res2 = rsmp("holdout")
+#' res1$instantiate(task1)
+#' res2$instantiate(task2)
+#' design = benchmark_grid(list(task1, task2), learner, list(res1, res2), paired = TRUE)
+#' print(design)
+#'
 #' # manual construction of the grid with data.table::CJ()
 #' grid = data.table::CJ(task = tasks, learner = learners,
 #'   resampling = resamplings, sorted = FALSE)
@@ -39,24 +50,6 @@
 #' benchmark(grid)
 #' }
 #'
-#' # paired
-
-if (FALSE) {
-  learner = lrn("classif.rpart")
-  task1 = tsk("penguins")
-  task2 = tsk("german_credit")
-
-  res1 = rsmp("holdout")
-  res2 = rsmp("holdout")
-
-  res1$instantiate(task1)
-  res2$instantiate(task2)
-
-  design = benchmark_grid(list(task1, task2), learner, list(res1, res2), paired = TRUE)
-
-  print(design)
-}
-
 benchmark_grid = function(tasks, learners, resamplings, paired = FALSE) {
   tasks = assert_tasks(as_tasks(tasks))
   learners = assert_learners(as_learners(learners))
