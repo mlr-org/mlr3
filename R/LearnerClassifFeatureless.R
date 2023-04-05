@@ -7,9 +7,18 @@
 #' A simple [LearnerClassif] which only analyzes the labels during train, ignoring all features.
 #' Hyperparameter `method` determines the mode of operation during prediction:
 #' \describe{
-#'   \item{mode:}{Predicts the most frequent label. If there are two or more labels tied, randomly selects one per prediction.}
-#'   \item{sample:}{Randomly predict a label uniformly.}
-#'   \item{weighted.sample:}{Randomly predict a label, with probability estimated from the training distribution.}
+#'   \item{mode:}{
+#'     Predicts the most frequent label. If there are two or more labels tied, randomly selects one per prediction.
+#'     Probabilities correspond to the relative frequency of the class labels in the training set.
+#'   }
+#'   \item{sample:}{
+#'     Randomly predict a label uniformly.
+#'     Probabilities correspond to a uniform distribution of class labels, i.e. 1 divided by the number of classes.
+#'   }
+#'   \item{weighted.sample:}{
+#'     Randomly predict a label, with probability estimated from the training distribution.
+#'     For consistency, probabilities are 1 for the predicted label and 0 for all other labels.
+#'   }
 #' }
 #'
 #' @templateVar id classif.featureless
@@ -68,26 +77,25 @@ LearnerClassifFeatureless = R6Class("LearnerClassifFeatureless", inherit = Learn
       n = task$nrow
       response = prob = NULL
 
-      if (self$predict_type == "response") {
-        response = switch(pv$method,
-          mode = rep.int(sample(names(tab[tab == max(tab)]), 1L), n),
-          sample = sample(names(tab), n, replace = TRUE),
-          weighted.sample = sample(names(tab), n, replace = TRUE, prob = tab)
-        )
-        list(response = response)
-      } else {
+      response = switch(pv$method,
+        mode = rep.int(sample(names(tab[tab == max(tab)]), 1L), n),
+        sample = sample(names(tab), n, replace = TRUE),
+        weighted.sample = sample(names(tab), n, replace = TRUE, prob = tab)
+      )
+
+      if (self$predict_type == "prob") {
         prob = switch(pv$method,
-          mode = {
-            tmp = (tab == max(tab))
-            tmp / sum(tmp)
-          },
+          mode = unname(tab) / sum(tab),
           sample = rep.int(1 / length(tab), length(tab)),
-          weighted.sample = tab / sum(tab)
+          weighted.sample = diag(length(tab))[match(response, names(tab)), ]
         )
-        prob = matrix(prob, nrow = n, ncol = length(tab), byrow = TRUE)
+        if (!is.matrix(prob)) {
+          prob = matrix(prob, nrow = n, ncol = length(tab), byrow = TRUE)
+        }
         colnames(prob) = names(tab)
-        list(prob = prob)
       }
+
+      list(response = response, prob = prob)
     }
   )
 )
