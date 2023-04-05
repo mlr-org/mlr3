@@ -75,24 +75,22 @@ LearnerClassifFeatureless = R6Class("LearnerClassifFeatureless", inherit = Learn
       pv = self$param_set$get_values(tags = "predict")
       tab = self$model$tab
       n = task$nrow
+      labels = names(tab)
       response = prob = NULL
 
-      response = switch(pv$method,
-        mode = rep.int(sample(names(tab[tab == max(tab)]), 1L), n),
-        sample = sample(names(tab), n, replace = TRUE),
-        weighted.sample = sample(names(tab), n, replace = TRUE, prob = tab)
-      )
-
-      if (self$predict_type == "prob") {
-        prob = switch(pv$method,
-          mode = unname(tab) / sum(tab),
-          sample = rep.int(1 / length(tab), length(tab)),
-          weighted.sample = diag(length(tab))[match(response, names(tab)), ]
+      if (self$predict_type == "response") {
+        response = switch(pv$method,
+          mode = sample(labels[tab == max(tab)], n, replace = TRUE),
+          sample = sample(labels, n, replace = TRUE),
+          weighted.sample = sample(labels, n, replace = TRUE, prob = tab)
         )
-        if (!is.matrix(prob)) {
-          prob = matrix(prob, nrow = n, ncol = length(tab), byrow = TRUE)
-        }
-        colnames(prob) = names(tab)
+      } else if (self$predict_type == "prob") {
+        prob = switch(pv$method,
+          mode = matrix(unname(tab) / sum(tab), nrow = n, ncol = length(tab), byrow = TRUE),
+          sample = matrix(1 / length(tab), nrow = n, ncol = length(tab)),
+          weighted.sample = diag(length(tab))[sample(seq_along(tab), n, replace = TRUE, prob = tab),, drop = FALSE]
+        )
+        colnames(prob) = labels
       }
 
       list(response = response, prob = prob)
