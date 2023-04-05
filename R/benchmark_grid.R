@@ -10,6 +10,7 @@
 #' @param tasks (list of [Task]).
 #' @param learners (list of [Learner]).
 #' @param resamplings (list of [Resampling]).
+#' @param paired (logical) Set this to `TRUE` if the resamplings are instantiated on the tasks, i.e. the tasks and resamplings are paired.
 #'
 #' @return ([data.table::data.table()]) with the cross product of the input vectors.
 #'
@@ -37,10 +38,51 @@
 #' \dontrun{
 #' benchmark(grid)
 #' }
-benchmark_grid = function(tasks, learners, resamplings) {
+#'
+#' # paired
+
+if (FALSE) {
+  learner = lrn("classif.rpart")
+  task1 = tsk("penguins")
+  task2 = tsk("german_credit")
+
+  res1 = rsmp("holdout")
+  res2 = rsmp("holdout")
+
+  res1$instantiate(task1)
+  res2$instantiate(task2)
+
+  design = benchmark_grid(list(task1, task2), learner, list(res1, res2), paired = TRUE)
+
+  print(design)
+}
+
+benchmark_grid = function(tasks, learners, resamplings, paired = FALSE) {
   tasks = assert_tasks(as_tasks(tasks))
   learners = assert_learners(as_learners(learners))
   resamplings = assert_resamplings(as_resamplings(resamplings))
+
+  if (paired) {
+    assert_true(length(tasks) == length(resamplings))
+    assert_true(all(map_lgl(resamplings, "is_instantiated")))
+    task_hashes = map_chr(tasks, "hash")
+    resampling_hashes = map_chr(resamplings, "task_hash")
+    if (!all(task_hashes == resampling_hashes)) {
+      stopf("If paired is `TRUE`, the resamplings must be instantiated on their task.")
+    }
+
+    grid = CJ(task = seq_along(tasks), learner = seq_along(learners))
+    grid$instance = seq_row(grid)
+
+    tab = data.table(
+      task = tasks[grid$task],
+      learner = learners[grid$learner],
+      resampling = resamplings[grid$task]
+    )
+
+    set_data_table_class(tab, "benchmark_grid")
+    return(tab)
+  }
 
   grid = CJ(task = seq_along(tasks), resampling = seq_along(resamplings))
   is_instantiated = map_lgl(resamplings, "is_instantiated")
