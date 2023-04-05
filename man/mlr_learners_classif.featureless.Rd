@@ -18,7 +18,7 @@ Probabilities correspond to a uniform distribution of class labels, i.e. 1 divid
 }
 \item{weighted.sample:}{
 Randomly predict a label, with probability estimated from the training distribution.
-For consistency, probabilities are 1 for the predicted label and 0 for all other labels.
+For consistency, probabilities are 1 for the sampled label and 0 for all other labels.
 }
 }
 }
