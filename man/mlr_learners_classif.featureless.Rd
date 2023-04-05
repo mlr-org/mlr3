@@ -8,9 +8,18 @@
 A simple \link{LearnerClassif} which only analyzes the labels during train, ignoring all features.
 Hyperparameter \code{method} determines the mode of operation during prediction:
 \describe{
-\item{mode:}{Predicts the most frequent label. If there are two or more labels tied, randomly selects one per prediction.}
-\item{sample:}{Randomly predict a label uniformly.}
-\item{weighted.sample:}{Randomly predict a label, with probability estimated from the training distribution.}
+\item{mode:}{
+Predicts the most frequent label. If there are two or more labels tied, randomly selects one per prediction.
+Probabilities correspond to the relative frequency of the class labels in the training set.
+}
+\item{sample:}{
+Randomly predict a label uniformly.
+Probabilities correspond to a uniform distribution of class labels, i.e. 1 divided by the number of classes.
+}
+\item{weighted.sample:}{
+Randomly predict a label, with probability estimated from the training distribution.
+For consistency, probabilities are 1 for the sampled label and 0 for all other labels.
+}
 }
 }
 \section{Dictionary}{

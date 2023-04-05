@@ -21,14 +21,21 @@ test_that("Simple training/predict", {
 })
 
 test_that("Predict with prob", {
-  task = tsk("iris")
+  task = tsk("penguins")
   learner = mlr_learners$get("classif.featureless")
   learner$predict_type = "prob"
   expect_learner(learner, task)
 
   p = learner$train(task)$predict(task)
-  expect_matrix(p$prob, nrows = 150L, ncols = 3L)
-  expect_names(colnames(p$prob), permutation.of = levels(iris$Species))
+  expect_matrix(p$prob, nrows = task$nrow, ncols = 3L)
+  expect_names(colnames(p$prob), permutation.of = levels(task$truth()))
+
+
+  p = lrn("classif.featureless", predict_type = "prob", method = "sample")$train(task)$predict(task)
+  expect_number(unique(as.numeric(p$prob)), lower = 0.33, upper = 0.34)
+
+  p = lrn("classif.featureless", predict_type = "prob", method = "weighted.sample")$train(task)$predict(task)
+  expect_set_equal(unique(as.numeric(p$prob)), c(0, 1))
 })
 
 test_that("classif.featureless works on featureless task", {
