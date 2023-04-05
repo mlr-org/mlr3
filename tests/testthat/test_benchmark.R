@@ -356,10 +356,10 @@ test_that("task and learner assertions", {
 
 test_that("benchmark_grid works if paired = TRUE", {
   tasks = mlr3::tsks(c("pima", "iris"))
-  learners = suppressWarnings(mlr3::lrns(c("classif.featureless", "classif.rpart")))
-  resampling = mlr3::rsmp("cv")
+  learners = lrns(c("classif.featureless", "classif.rpart"))
+  resampling = rsmp("cv")
   resamplings = pmap(
-    list(tasks, mlr3::rsmps(c("cv", "holdout"))),
+    list(tasks, rsmps(c("cv", "holdout"))),
     function(task, resampling) resampling$instantiate(task)
   )
   design = benchmark_grid(tasks, learners, resamplings, paired = TRUE)
@@ -382,13 +382,13 @@ test_that("benchmark_grid works if paired = TRUE", {
 
   # Resamplings must be instantiated
   tasks = tsks(c("pima", "iris"))
-  learners = suppressWarnings(mlr3::lrns(c("classif.featureless", "classif.rpart")))
+  learners = lrns(c("classif.featureless", "classif.rpart"))
   resamplings = mlr3::rsmps(c("cv", "holdout"))
   expect_error(benchmark_grid(tasks, learners, resamplings, paired = TRUE))
 
   # Resamplings and tasks must have the same length
   tasks = tsks(c("pima", "iris"))
-  learners = suppressWarnings(mlr3::lrns(c("classif.featureless", "classif.rpart")))
+  learners = lrns(c("classif.featureless", "classif.rpart"))
   resamplings = pmap(
     list(tasks, mlr3::rsmps(c("cv", "holdout"))),
     function(task, resampling) resampling$instantiate(task)
@@ -399,8 +399,8 @@ test_that("benchmark_grid works if paired = TRUE", {
 
   # Resamplings and tasks must have corresponding hashes
 
-  tasks = mlr3::tsks(c("pima", "iris"))
-  learners = suppressWarnings(mlr3::lrns(c("classif.featureless", "classif.rpart")))
+  tasks = tsks(c("pima", "iris"))
+  learners = lrns(c("classif.featureless", "classif.rpart"))
   resamplings = pmap(
     list(tasks, mlr3::rsmps(c("cv", "holdout"))),
     function(task, resampling) resampling$instantiate(task)
