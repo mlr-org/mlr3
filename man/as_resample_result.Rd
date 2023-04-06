@@ -10,7 +10,7 @@ as_resample_result(x, ...)
 
 \method{as_resample_result}{ResampleResult}(x, ...)
 
-\method{as_resample_result}{ResultData}(x, view = NULL)
+\method{as_resample_result}{ResultData}(x, view = NULL, ...)
 }
 \arguments{
 \item{x}{(any)\cr

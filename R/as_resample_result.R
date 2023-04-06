@@ -24,6 +24,6 @@ as_resample_result.ResampleResult = function(x, ...) { # nolint
 #' @param view (`character()`)\cr
 #'   See construction argument `view` of [`ResampleResult`].
 #' @export
-as_resample_result.ResultData = function(x, view = NULL) { # nolint
+as_resample_result.ResultData = function(x, view = NULL, ...) { # nolint
   ResampleResult$new(x, view = view)
 }
