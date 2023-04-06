@@ -10,7 +10,7 @@ as_resample_result(x, ...)
 
 \method{as_resample_result}{ResampleResult}(x, ...)
 
-\method{as_resample_result}{ResultData}(x, ...)
+\method{as_resample_result}{ResultData}(x, view = NULL)
 }
 \arguments{
 \item{x}{(any)\cr
@@ -18,6 +18,9 @@ Object to convert.}
 
 \item{...}{(any)\cr
 Currently not used.}
+
+\item{view}{(\code{character()})\cr
+See construction argument \code{view} of \code{\link{ResampleResult}}.}
 }
 \value{
 (\link{ResampleResult}).
