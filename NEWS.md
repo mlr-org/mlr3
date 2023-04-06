@@ -1,3 +1,7 @@
+# mlr3 0.15.0-900
+
+* Added S3 method for `ResultData` for `as_resample_result()` converter.
+
 # mlr3 0.15.0
 
 * Many returned tables are now assigned a class for a `print` method to make the output

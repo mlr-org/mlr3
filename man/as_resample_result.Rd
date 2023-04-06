@@ -3,11 +3,14 @@
 \name{as_resample_result}
 \alias{as_resample_result}
 \alias{as_resample_result.ResampleResult}
+\alias{as_resample_result.ResultData}
 \title{Convert to ResampleResult}
 \usage{
 as_resample_result(x, ...)
 
 \method{as_resample_result}{ResampleResult}(x, ...)
+
+\method{as_resample_result}{ResultData}(x, ...)
 }
 \arguments{
 \item{x}{(any)\cr

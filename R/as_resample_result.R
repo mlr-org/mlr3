@@ -19,3 +19,9 @@ as_resample_result = function(x, ...) {
 as_resample_result.ResampleResult = function(x, ...) { # nolint
   x
 }
+
+#' @rdname as_resample_result
+#' @export
+as_resample_result.ResultData = function(x, ...) { # nolint
+  ResampleResult$new(x, ...)
+}
