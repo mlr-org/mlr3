@@ -3,11 +3,14 @@
 \name{as_resample_result}
 \alias{as_resample_result}
 \alias{as_resample_result.ResampleResult}
+\alias{as_resample_result.list}
 \title{Convert to ResampleResult}
 \usage{
 as_resample_result(x, ...)
 
 \method{as_resample_result}{ResampleResult}(x, ...)
+
+\method{as_resample_result}{list}(x, task, learners, resampling, ...)
 }
 \arguments{
 \item{x}{(any)\cr
@@ -15,10 +18,21 @@ Object to convert.}
 
 \item{...}{(any)\cr
 Currently not used.}
+
+\item{task}{(\link{Task}).}
+
+\item{learners}{(list of trained \link{Learner}s).}
+
+\item{resampling}{(\link{Resampling}).}
 }
 \value{
 (\link{ResampleResult}).
 }
 \description{
 Convert object to a \link{ResampleResult}.
+
+The S3 method for \code{list} expects argument \code{x} to be a list of \link{Prediction} objects and
+all other relevant objects (\link{Task}, \link{Learner}s, and instantiated \link{Resampling}) must
+be provided, too.
+A more flexible way to manually create a \link{ResampleResult} is implemented in \code{\link[=as_result_data]{as_result_data()}}.
 }
