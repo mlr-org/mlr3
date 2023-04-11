@@ -74,7 +74,7 @@ as_result_data = function(task, learners, resampling, iterations, predictions, l
     stopf("Resampling '%s' has not been trained on task '%s', hashes do not match", resampling$id, task$id)
   }
 
-  rdata = ResultData$new(data.table(
+  ResultData$new(data.table(
     task = list(task),
     learner = learners,
     learner_state = learner_states,
@@ -83,6 +83,4 @@ as_result_data = function(task, learners, resampling, iterations, predictions, l
     prediction = predictions,
     uhash = UUIDgenerate()
   ), store_backends = store_backends)
-
-  ResampleResult$new(rdata)
 }

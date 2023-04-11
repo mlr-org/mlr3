@@ -31,6 +31,8 @@ as_resample_result.ResampleResult = function(x, ...) { # nolint
 #' @inheritParams as_result_data
 #' @export
 as_resample_result.list = function(x, task, learners, resampling, store_backends = TRUE, ...) { # nolint
-  as_result_data(task = task, learners = learners, resampling = resampling,
+  rdata = as_result_data(task = task, learners = learners, resampling = resampling,
     iterations = seq_len(resampling$iters), predictions = x)
+
+  ResampleResult$new(rdata)
 }
