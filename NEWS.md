@@ -1,3 +1,8 @@
+# mlr3 0.15.0-9000
+
+* Added argument `paired` to `benchmark_grid()` function, which can be used to create a benchmark design, where
+  resamplings have been instantiated on tasks.
+
 # mlr3 0.15.0
 
 * Many returned tables are now assigned a class for a `print` method to make the output
