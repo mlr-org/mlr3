@@ -196,9 +196,9 @@ Returns the number of resampling iterations, depending on the values stored in t
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Individual sets:</span></span></span>
 <span class="r-in"><span><span class="va">subsampling</span><span class="op">$</span><span class="fu">train_set</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  4  1 10  3  8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 9 6 1 8 4</span>
 <span class="r-in"><span><span class="va">subsampling</span><span class="op">$</span><span class="fu">test_set</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2 5 6 7 9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  2  3  5  7 10</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Disjunct sets:</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/sets.html" class="external-link">intersect</a></span><span class="op">(</span><span class="va">subsampling</span><span class="op">$</span><span class="fu">train_set</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>, <span class="va">subsampling</span><span class="op">$</span><span class="fu">test_set</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></span>
@@ -207,10 +207,10 @@ Returns the number of resampling iterations, depending on the values stored in t
 <span class="r-in"><span><span class="co"># Internal storage:</span></span></span>
 <span class="r-in"><span><span class="va">subsampling</span><span class="op">$</span><span class="va">instance</span><span class="op">$</span><span class="va">train</span> <span class="co"># list of index vectors</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  4  1 10  3  8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 9 6 1 8 4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[2]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1 2 4 6 3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2 1 8 7 9</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>
