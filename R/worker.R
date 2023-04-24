@@ -25,9 +25,6 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
   assert_task(task)
   assert_learner(learner)
 
-  # store task_hash before modifying the task
-  task_hash = force(task$hash)
-
   # ensure that required packages are installed
   require_namespaces(learner$packages)
 
@@ -82,7 +79,7 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
     log = log,
     train_time = train_time,
     param_vals = learner$param_set$values,
-    task_hash = task_hash,
+    task_hash = task$hash,
     data_prototype = proto,
     task_prototype = proto, # deprecated, remove for mlr3learners > 0.5.1
     mlr3_version = packageVersion("mlr3")

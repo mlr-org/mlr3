@@ -10,7 +10,7 @@ as_resample_result(x, ...)
 
 \method{as_resample_result}{ResampleResult}(x, ...)
 
-\method{as_resample_result}{list}(x, task, learners, resampling, ...)
+\method{as_resample_result}{list}(x, task, learners, resampling, store_backends = TRUE, ...)
 }
 \arguments{
 \item{x}{(any)\cr
@@ -24,6 +24,10 @@ Currently not used.}
 \item{learners}{(list of trained \link{Learner}s).}
 
 \item{resampling}{(\link{Resampling}).}
+
+\item{store_backends}{(\code{logical(1)})\cr
+If set to \code{FALSE}, the backends of the \link{Task}s provided in \code{data} are
+removed.}
 }
 \value{
 (\link{ResampleResult}).
