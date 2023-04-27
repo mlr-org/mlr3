@@ -1,6 +1,10 @@
+
 # mlr3 0.15.0-900
 
 * Added S3 method for `ResultData` for `as_resample_result()` converter.
+* Added argument `paired` to `benchmark_grid()` function, which can be used to create a benchmark design, where
+  resamplings have been instantiated on tasks.
+
 
 # mlr3 0.15.0
 

@@ -69,8 +69,8 @@ test_that("encapsulation / resample", {
   expect_data_table(rr$errors, nrows = 3L)
 
   m = msr("classif.ce")
-  expect_equal(unname(rr$aggregate(m)), NA_real_)
-  expect_equal(rr$score(msr("classif.ce"))$classif.ce, rep(NA_real_, 3L))
+  expect_equal(unname(rr$aggregate(m)), NaN)
+  expect_equal(rr$score(msr("classif.ce"))$classif.ce, rep(NaN, 3L))
 })
 
 test_that("encapsulation / benchmark", {

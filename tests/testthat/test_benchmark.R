@@ -352,3 +352,59 @@ test_that("task and learner assertions", {
 
   expect_error(benchmark(grid), "not match type")
 })
+
+
+test_that("benchmark_grid works if paired = TRUE", {
+  tasks = mlr3::tsks(c("pima", "iris"))
+  learners = lrns(c("classif.featureless", "classif.rpart"))
+  resampling = rsmp("cv")
+  resamplings = pmap(
+    list(tasks, rsmps(c("cv", "holdout"))),
+    function(task, resampling) resampling$instantiate(task)
+  )
+  design = benchmark_grid(tasks, learners, resamplings, paired = TRUE)
+  expect_class(design, "benchmark_grid")
+  # design[, identical(task), by = task]]
+  # expect(identical(design$resampling[class(learner)[[1]] ==)]))
+  expect_true(nrow(design) == 4L) #
+  expect_true(identical(design$task[[1]], design$task[[2]]))
+  expect_true(identical(design$task[[3]], design$task[[4]]))
+  expect_false(identical(design$task[[1]], design$task[[3]]))
+
+  expect_true(identical(design$resampling[[1]], design$resampling[[2]]))
+  expect_true(identical(design$resampling[[3]], design$resampling[[4]]))
+  expect_false(identical(design$resampling[[1]], design$resampling[[3]]))
+
+  expect_true(identical(design$learner[[1]], design$learner[[3]]))
+  expect_true(identical(design$learner[[2]], design$learner[[4]]))
+  expect_false(identical(design$learner[[2]], design$learner[[3]]))
+
+
+  # Resamplings must be instantiated
+  tasks = tsks(c("pima", "iris"))
+  learners = lrns(c("classif.featureless", "classif.rpart"))
+  resamplings = mlr3::rsmps(c("cv", "holdout"))
+  expect_error(benchmark_grid(tasks, learners, resamplings, paired = TRUE))
+
+  # Resamplings and tasks must have the same length
+  tasks = tsks(c("pima", "iris"))
+  learners = lrns(c("classif.featureless", "classif.rpart"))
+  resamplings = pmap(
+    list(tasks, mlr3::rsmps(c("cv", "holdout"))),
+    function(task, resampling) resampling$instantiate(task)
+  )
+  resamplings = c(resamplings, resamplings)
+  expect_error(benchmark_grid(tasks, learners, resamplings, paired = TRUE))
+
+
+  # Resamplings and tasks must have corresponding hashes
+
+  tasks = tsks(c("pima", "iris"))
+  learners = lrns(c("classif.featureless", "classif.rpart"))
+  resamplings = pmap(
+    list(tasks, mlr3::rsmps(c("cv", "holdout"))),
+    function(task, resampling) resampling$instantiate(task)
+  )
+  resamplings = rev(resamplings)
+  expect_error(benchmark_grid(tasks, learners, resamplings, paired = TRUE))
+})

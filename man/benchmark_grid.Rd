@@ -4,7 +4,7 @@
 \alias{benchmark_grid}
 \title{Generate a Benchmark Grid Design}
 \usage{
-benchmark_grid(tasks, learners, resamplings)
+benchmark_grid(tasks, learners, resamplings, paired = FALSE)
 }
 \arguments{
 \item{tasks}{(list of \link{Task}).}
@@ -12,6 +12,10 @@ benchmark_grid(tasks, learners, resamplings)
 \item{learners}{(list of \link{Learner}).}
 
 \item{resamplings}{(list of \link{Resampling}).}
+
+\item{paired}{(\code{logical(1)})\cr
+Set this to \code{TRUE} if the resamplings are instantiated on the tasks, i.e., the tasks and resamplings are paired.
+You need to provide the same number of tasks and instantiated resamplings.}
 }
 \value{
 (\code{\link[data.table:data.table]{data.table::data.table()}}) with the cross product of the input vectors.
@@ -20,8 +24,15 @@ benchmark_grid(tasks, learners, resamplings)
 Takes a lists of \link{Task}, a list of \link{Learner} and a list of \link{Resampling} to
 generate a design in an \code{\link[=expand.grid]{expand.grid()}} fashion (a.k.a. cross join or Cartesian product).
 
-Resampling strategies are not allowed to be instantiated when passing the argument, and instead will be instantiated per task internally.
+There are two modes of operation, depending on the flag \code{paired}.
+\itemize{
+\item With \code{paired} set to \code{FALSE} (default), resampling strategies are not allowed to be instantiated, and instead will be instantiated per task internally.
 The only exception to this rule applies if all tasks have exactly the same number of rows, and the resamplings are all instantiated for such tasks.
+The grid will be generated based on the Cartesian product of tasks, learners, and resamplings.
+\item With \code{paired} set to \code{TRUE}, tasks and resamplings are treated as pairs.
+I.e., you must provide as many tasks as corresponding instantiated resamplings.
+The grid will be generated based on the Cartesian product of learners and pairs.
+}
 }
 \examples{
 tasks = list(tsk("penguins"), tsk("sonar"))
@@ -34,6 +45,17 @@ print(grid)
 benchmark(grid)
 }
 
+# paired
+learner = lrn("classif.rpart")
+task1 = tsk("penguins")
+task2 = tsk("german_credit")
+res1 = rsmp("holdout")
+res2 = rsmp("holdout")
+res1$instantiate(task1)
+res2$instantiate(task2)
+design = benchmark_grid(list(task1, task2), learner, list(res1, res2), paired = TRUE)
+print(design)
+
 # manual construction of the grid with data.table::CJ()
 grid = data.table::CJ(task = tasks, learner = learners,
   resampling = resamplings, sorted = FALSE)
@@ -45,6 +67,7 @@ Map(function(task, resampling) {
 \dontrun{
 benchmark(grid)
 }
+
 }
 \seealso{
 \itemize{
