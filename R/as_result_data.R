@@ -65,11 +65,6 @@ as_result_data = function(task, learners, resampling, iterations, predictions, l
     stopf("Number of learner_states (%i) must match the number of resampling iterations (%i)", length(learner_states), N)
   }
 
-  i = wf(map_chr(learner_states, "task_hash") != task$hash)
-  if (length(i)) {
-    stopf("Learner '%s' (#%i) has not been trained on task '%s', hashes do not match", learners[[i]]$id, i, task$id)
-  }
-
   if (resampling$task_hash != task$hash) {
     stopf("Resampling '%s' has not been trained on task '%s', hashes do not match", resampling$id, task$id)
   }
