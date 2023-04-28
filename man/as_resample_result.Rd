@@ -10,7 +10,9 @@
 as_resample_result(x, ...)
 
 \method{as_resample_result}{ResampleResult}(x, ...)
+
 \method{as_resample_result}{ResultData}(x, view = NULL, ...)
+
 \method{as_resample_result}{list}(x, task, learners, resampling, store_backends = TRUE, ...)
 }
 \arguments{
