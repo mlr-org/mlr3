@@ -1,9 +1,11 @@
+# mlr3 0.16.0
 
-# mlr3 0.15.0-900
-
-* Added S3 method for `ResultData` for `as_resample_result()` converter.
 * Added argument `paired` to `benchmark_grid()` function, which can be used to create a benchmark design, where
   resamplings have been instantiated on tasks.
+* Added S3 method for `ResultData` for `as_resample_result()` converter.
+* Added S3 method for `list` for `as_resample_result()` converter.
+* The featureless classification learner now returns proper probabilities
+  (#918).
 
 
 # mlr3 0.15.0
