@@ -3,12 +3,15 @@
 \name{as_resample_result}
 \alias{as_resample_result}
 \alias{as_resample_result.ResampleResult}
+\alias{as_resample_result.ResultData}
 \alias{as_resample_result.list}
 \title{Convert to ResampleResult}
 \usage{
 as_resample_result(x, ...)
 
 \method{as_resample_result}{ResampleResult}(x, ...)
+
+\method{as_resample_result}{ResultData}(x, view = NULL, ...)
 
 \method{as_resample_result}{list}(x, task, learners, resampling, store_backends = TRUE, ...)
 }
@@ -18,6 +21,9 @@ Object to convert.}
 
 \item{...}{(any)\cr
 Currently not used.}
+
+\item{view}{(\code{character()})\cr
+See construction argument \code{view} of \code{\link{ResampleResult}}.}
 
 \item{task}{(\link{Task}).}
 
