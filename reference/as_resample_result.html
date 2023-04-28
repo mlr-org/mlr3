@@ -97,6 +97,9 @@ A more flexible way to manually create a <a href="ResampleResult.html">ResampleR
 <span><span class="co"># S3 method for ResampleResult</span></span>
 <span><span class="fu">as_resample_result</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># S3 method for ResultData</span></span>
+<span><span class="fu">as_resample_result</span><span class="op">(</span><span class="va">x</span>, view <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
 <span><span class="co"># S3 method for list</span></span>
 <span><span class="fu">as_resample_result</span><span class="op">(</span><span class="va">x</span>, <span class="va">task</span>, <span class="va">learners</span>, <span class="va">resampling</span>, store_backends <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -111,6 +114,11 @@ Object to convert.</p></dd>
 <dt>...</dt>
 <dd><p>(any)<br>
 Currently not used.</p></dd>
+
+
+<dt>view</dt>
+<dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
+See construction argument <code>view</code> of <code><a href="ResampleResult.html">ResampleResult</a></code>.</p></dd>
 
 
 <dt>task</dt>
