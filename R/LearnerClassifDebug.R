@@ -23,6 +23,7 @@
 #'    \item{warning_predict:}{Probability to signal a warning during predict.}
 #'    \item{warning_train:}{Probability to signal a warning during train.}
 #'    \item{x:}{Numeric tuning parameter. Has no effect.}
+#'    \item{iter:}{Integer parameter for testing hotstarting.}
 #' }
 #' Note that segfaults may not be triggered reliably on your operating system.
 #' Also note that if they work as intended, they will tear down your R session immediately!
