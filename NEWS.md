@@ -1,3 +1,7 @@
+# mlr3 0.16.0.9000
+
+* Add `"mlr3.exec_chunk_bins"` option to split the resampling iterations into a number of bins.
+
 # mlr3 0.16.0
 
 * Added argument `paired` to `benchmark_grid()` function, which can be used to create a benchmark design, where
