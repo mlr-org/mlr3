@@ -340,11 +340,14 @@ expect_task_generator = function(gen) {
   testthat::expect_output(print(gen))
 }
 
-expect_learner = function(lrn, task = NULL) {
+
+expect_learner = function(lrn, task = NULL, check_man = TRUE) {
   checkmate::expect_r6(lrn, "Learner", cloneable = TRUE)
   expect_id(lrn$id)
   checkmate::expect_string(lrn$label, na.ok = TRUE)
-  expect_man_exists(lrn$man)
+  if (check_man) {
+    expect_man_exists(lrn$man)
+  }
   testthat::expect_output(print(lrn))
 
   checkmate::expect_choice(lrn$task_type, mlr3::mlr_reflections$task_types$type)

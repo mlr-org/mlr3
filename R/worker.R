@@ -81,7 +81,7 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
     param_vals = learner$param_set$values,
     task_hash = task$hash,
     data_prototype = proto,
-    task_prototype = proto, # deprecated, remove for mlr3learners > 0.5.1
+    task_prototype = proto,
     mlr3_version = packageVersion("mlr3")
   ))
 

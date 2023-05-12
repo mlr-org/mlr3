@@ -43,7 +43,7 @@ TaskGeneratorMoons = R6Class("TaskGeneratorMoons",
     #'   Additional arguments passed to [plot()].
     plot = function(n = 200L, pch = 19L, ...) {
       tab = private$.generate_obj(n)
-      plot(tab$x1, tab$x2, pch = pch, col = tab$y)
+      plot(tab$x1, tab$x2, pch = pch, col = tab$y, ...)
     }
   ),
 

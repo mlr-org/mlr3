@@ -143,3 +143,16 @@ test_that("disable cloning", {
   expect_true(resampling$is_instantiated)
   expect_identical(resampling$hash, rr$resampling$hash)
 })
+
+test_that("as_resample_result works for result data", {
+  task = tsk("iris")
+  learner = lrn("classif.featureless")
+  resampling = rsmp("holdout")
+
+  rr = resample(task, learner, resampling, clone = c())
+
+  result_data = get_private(rr)$.data
+
+  rr2 = as_resample_result(result_data)
+  expect_class(rr2, "ResampleResult")
+})
