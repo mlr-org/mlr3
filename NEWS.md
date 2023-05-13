@@ -1,3 +1,7 @@
+# mlr3 0.16.0-9000
+
+* Add encapsulation mode `"try"`, which works similar to `"none"` but captures errors
+
 # mlr3 0.16.0
 
 * Added argument `paired` to `benchmark_grid()` function, which can be used to create a benchmark design, where

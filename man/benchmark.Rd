@@ -38,6 +38,7 @@ in a future release.}
 If not \code{NA}, enables encapsulation by setting the field
 \code{Learner$encapsulate} to one of the supported values:
 \code{"none"} (disable encapsulation),
+\code{"try"} (captures errors but output is printed to the console and not logged),
 \code{"evaluate"} (execute via \CRANpkg{evaluate}) and
 \code{"callr"} (start in external session via \CRANpkg{callr}).
 If \code{NA}, encapsulation is not changed, i.e. the settings of the
