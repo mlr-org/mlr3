@@ -41,6 +41,8 @@ tasks = list(tsk("penguins"), tsk("sonar"))
 learners = list(lrn("classif.featureless"), lrn("classif.rpart"))
 resamplings = list(rsmp("cv"), rsmp("subsampling"))
 
+# Set a seed to ensure reproducibility of the resampling instantiation
+set.seed(123)
 grid = benchmark_grid(tasks, learners, resamplings)
 # the resamplings are now instantiated
 head(grid$resampling[[1]]$instance)
