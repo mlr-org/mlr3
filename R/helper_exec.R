@@ -32,7 +32,7 @@ future_map = function(n, FUN, ..., MoreArgs = list()) {
     chunk_size = getOption("mlr3.exec_chunk_size", 1)
     chunk_bins = getOption("mlr3.exec_chunk_bins")
     if (!is.null(chunk_bins)) {
-      chunk_size = max(ceiling(n / chunk_bins), n)
+      chunk_size = ceiling(n / chunk_bins)
     }
     stdout = if (is_sequential) NA else TRUE
 
