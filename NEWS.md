@@ -2,6 +2,7 @@
 
 * Function `data.table()` is now re-exported.
 * Fixed a test which randomly failed.
+* Improved documentation.
 
 # mlr3 0.16.0
 
