@@ -30,7 +30,7 @@ There are two modes of operation, depending on the flag \code{paired}.
 The only exception to this rule applies if all tasks have exactly the same number of rows, and the resamplings are all instantiated for such tasks.
 The grid will be generated based on the Cartesian product of tasks, learners, and resamplings.
 Because the resamplings are instantiated on the tasks, reproducibility requires a seed to be set \strong{before}
-calling this function, as this process is random.
+calling this function, as this process is stochastic.
 \item With \code{paired} set to \code{TRUE}, tasks and resamplings are treated as pairs.
 I.e., you must provide as many tasks as corresponding instantiated resamplings.
 The grid will be generated based on the Cartesian product of learners and pairs.
