@@ -18,7 +18,7 @@ Iteration numbers can be translated into folds or repeats with provided methods.
     
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.16.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.16.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -255,9 +255,9 @@ Iteration number.</p></dd>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Individual sets:</span></span></span>
 <span class="r-in"><span><span class="va">repeated_cv</span><span class="op">$</span><span class="fu">train_set</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  6  8 10  1  2  4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  1  9 10  5  6  7</span>
 <span class="r-in"><span><span class="va">repeated_cv</span><span class="op">$</span><span class="fu">test_set</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3 5 7 9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2 3 4 8</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Disjunct sets:</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/sets.html" class="external-link">intersect</a></span><span class="op">(</span><span class="va">repeated_cv</span><span class="op">$</span><span class="fu">train_set</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>, <span class="va">repeated_cv</span><span class="op">$</span><span class="fu">test_set</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></span>
@@ -266,24 +266,24 @@ Iteration number.</p></dd>
 <span class="r-in"><span><span class="co"># Internal storage:</span></span></span>
 <span class="r-in"><span><span class="va">repeated_cv</span><span class="op">$</span><span class="va">instance</span> <span class="co"># table</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     row_id rep fold</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  1:      1   1    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  2:      2   1    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1:      1   1    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  2:      2   1    1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  3:      3   1    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  4:      4   1    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  5:      5   1    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  6:      6   1    2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  7:      7   1    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  8:      8   1    2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  9:      9   1    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  4:      4   1    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  5:      5   1    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  6:      6   1    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  7:      7   1    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  8:      8   1    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  9:      9   1    2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 10:     10   1    2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11:      1   2    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12:      2   2    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13:      3   2    2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14:      4   2    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11:      1   2    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12:      2   2    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13:      3   2    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14:      4   2    3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 15:      5   2    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16:      6   2    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16:      6   2    2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 17:      7   2    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18:      8   2    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18:      8   2    3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 19:      9   2    3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 20:     10   2    2</span>
 </code></pre></div>

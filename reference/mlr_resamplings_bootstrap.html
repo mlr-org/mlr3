@@ -14,7 +14,7 @@ and the ratio of observations to draw per iteration (ratio, default: 1) for the 
     
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.16.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.16.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -199,9 +199,9 @@ Returns the number of resampling iterations, depending on the values stored in t
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Individual sets:</span></span></span>
 <span class="r-in"><span><span class="va">bootstrap</span><span class="op">$</span><span class="fu">train_set</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 3 3 4 5 5 5 5 7 8 9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  3  3  6  8  8  8  8  8  9 10</span>
 <span class="r-in"><span><span class="va">bootstrap</span><span class="op">$</span><span class="fu">test_set</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  1  2  6 10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1 2 4 5 7</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Disjunct sets:</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/sets.html" class="external-link">intersect</a></span><span class="op">(</span><span class="va">bootstrap</span><span class="op">$</span><span class="fu">train_set</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>, <span class="va">bootstrap</span><span class="op">$</span><span class="fu">test_set</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></span>
@@ -211,16 +211,16 @@ Returns the number of resampling iterations, depending on the values stored in t
 <span class="r-in"><span><span class="va">bootstrap</span><span class="op">$</span><span class="va">instance</span><span class="op">$</span><span class="va">M</span> <span class="co"># Matrix of counts</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         [,1] [,2]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    [1,]    0    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    [2,]    0    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    [1,]    0    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    [2,]    0    0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    [3,]    2    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    [4,]    1    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    [5,]    4    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    [6,]    0    0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    [7,]    1    2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    [8,]    1    0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    [4,]    0    0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    [5,]    0    0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    [6,]    1    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    [7,]    0    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    [8,]    5    1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    [9,]    1    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   [10,]    0    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [10,]    1    1</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

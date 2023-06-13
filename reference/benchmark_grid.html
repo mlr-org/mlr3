@@ -5,6 +5,8 @@ There are two modes of operation, depending on the flag paired.
 With paired set to FALSE (default), resampling strategies are not allowed to be instantiated, and instead will be instantiated per task internally.
 The only exception to this rule applies if all tasks have exactly the same number of rows, and the resamplings are all instantiated for such tasks.
 The grid will be generated based on the Cartesian product of tasks, learners, and resamplings.
+Because the resamplings are instantiated on the tasks, reproducibility requires a seed to be set before
+calling this function, as this process is stochastic.
 With paired set to TRUE, tasks and resamplings are treated as pairs.
 I.e., you must provide as many tasks as corresponding instantiated resamplings.
 The grid will be generated based on the Cartesian product of learners and pairs.
@@ -15,6 +17,8 @@ There are two modes of operation, depending on the flag paired.
 With paired set to FALSE (default), resampling strategies are not allowed to be instantiated, and instead will be instantiated per task internally.
 The only exception to this rule applies if all tasks have exactly the same number of rows, and the resamplings are all instantiated for such tasks.
 The grid will be generated based on the Cartesian product of tasks, learners, and resamplings.
+Because the resamplings are instantiated on the tasks, reproducibility requires a seed to be set before
+calling this function, as this process is stochastic.
 With paired set to TRUE, tasks and resamplings are treated as pairs.
 I.e., you must provide as many tasks as corresponding instantiated resamplings.
 The grid will be generated based on the Cartesian product of learners and pairs.
@@ -30,7 +34,7 @@ The grid will be generated based on the Cartesian product of learners and pairs.
     
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.16.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.16.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -99,7 +103,9 @@ The grid will be generated based on the Cartesian product of learners and pairs.
 generate a design in an <code><a href="https://rdrr.io/r/base/expand.grid.html" class="external-link">expand.grid()</a></code> fashion (a.k.a. cross join or Cartesian product).</p>
 <p>There are two modes of operation, depending on the flag <code>paired</code>.</p><ul><li><p>With <code>paired</code> set to <code>FALSE</code> (default), resampling strategies are not allowed to be instantiated, and instead will be instantiated per task internally.
 The only exception to this rule applies if all tasks have exactly the same number of rows, and the resamplings are all instantiated for such tasks.
-The grid will be generated based on the Cartesian product of tasks, learners, and resamplings.</p></li>
+The grid will be generated based on the Cartesian product of tasks, learners, and resamplings.
+Because the resamplings are instantiated on the tasks, reproducibility requires a seed to be set <strong>before</strong>
+calling this function, as this process is stochastic.</p></li>
 <li><p>With <code>paired</code> set to <code>TRUE</code>, tasks and resamplings are treated as pairs.
 I.e., you must provide as many tasks as corresponding instantiated resamplings.
 The grid will be generated based on the Cartesian product of learners and pairs.</p></li>
@@ -154,7 +160,18 @@ You need to provide the same number of tasks and instantiated resamplings.</p></
 <span class="r-in"><span><span class="va">learners</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="mlr_sugar.html">lrn</a></span><span class="op">(</span><span class="st">"classif.featureless"</span><span class="op">)</span>, <span class="fu"><a href="mlr_sugar.html">lrn</a></span><span class="op">(</span><span class="st">"classif.rpart"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">resamplings</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="mlr_sugar.html">rsmp</a></span><span class="op">(</span><span class="st">"cv"</span><span class="op">)</span>, <span class="fu"><a href="mlr_sugar.html">rsmp</a></span><span class="op">(</span><span class="st">"subsampling"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Set a seed to ensure reproducibility of the resampling instantiation</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">grid</span> <span class="op">=</span> <span class="fu">benchmark_grid</span><span class="op">(</span><span class="va">tasks</span>, <span class="va">learners</span>, <span class="va">resamplings</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># the resamplings are now instantiated</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">grid</span><span class="op">$</span><span class="va">resampling</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">instance</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    row_id fold</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:     12    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:     22    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:     24    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:     42    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5:     47    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6:     69    1</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">grid</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        task             learner  resampling</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: penguins classif.featureless          cv</span>
