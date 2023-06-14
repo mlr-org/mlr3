@@ -123,6 +123,7 @@ in a future release.</p></dd>
 If not <code>NA</code>, enables encapsulation by setting the field
 <code>Learner$encapsulate</code> to one of the supported values:
 <code>"none"</code> (disable encapsulation),
+<code>"try"</code> (captures errors but output is printed to the console and not logged),
 <code>"evaluate"</code> (execute via <a href="https://CRAN.R-project.org/package=evaluate" class="external-link"><span class="pkg">evaluate</span></a>) and
 <code>"callr"</code> (start in external session via <a href="https://CRAN.R-project.org/package=callr" class="external-link"><span class="pkg">callr</span></a>).
 If <code>NA</code>, encapsulation is not changed, i.e. the settings of the
@@ -240,12 +241,12 @@ or <code>"trace"</code>:</p>
 <span class="r-in"><span><span class="co">## Data of all resamplings</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html" class="external-link">as.data.table</a></span><span class="op">(</span><span class="va">bmr</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                   uhash              task</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 5a8ea7db-ec69-45e9-870c-d172c69e4684 &lt;TaskClassif[51]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 5a8ea7db-ec69-45e9-870c-d172c69e4684 &lt;TaskClassif[51]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 5a8ea7db-ec69-45e9-870c-d172c69e4684 &lt;TaskClassif[51]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4: af6d8cab-c700-4d52-8666-f65d6c5f7951 &lt;TaskClassif[51]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5: af6d8cab-c700-4d52-8666-f65d6c5f7951 &lt;TaskClassif[51]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6: af6d8cab-c700-4d52-8666-f65d6c5f7951 &lt;TaskClassif[51]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 8430a300-82dd-4179-af0f-152c508165cb &lt;TaskClassif[51]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 8430a300-82dd-4179-af0f-152c508165cb &lt;TaskClassif[51]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 8430a300-82dd-4179-af0f-152c508165cb &lt;TaskClassif[51]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4: e3f64ee0-e187-4771-8d09-f52d29d70360 &lt;TaskClassif[51]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5: e3f64ee0-e187-4771-8d09-f52d29d70360 &lt;TaskClassif[51]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6: e3f64ee0-e187-4771-8d09-f52d29d70360 &lt;TaskClassif[51]&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                            learner         resampling iteration</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: &lt;LearnerClassifFeatureless[38]&gt; &lt;ResamplingCV[20]&gt;         1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2: &lt;LearnerClassifFeatureless[38]&gt; &lt;ResamplingCV[20]&gt;         2</span>
