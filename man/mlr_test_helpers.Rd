@@ -57,8 +57,8 @@ Default is \code{TRUE}.
 Checks parameters of mlr3 Learners against parameters defined in the upstream functions of the respective learner.
 The goal is to detect if parameters have been dropped or added in the upstream implementation.
 Some learners do not have all of their parameters stored within the learner function that is called during training.
-Sometimes learners come with a "control" function, e.g. \code{\link[glmnet:glmnet.control]{glmnet::glmnet.control()}}. Such learners need to be checked
-as well since they make up the full ParamSet of the respective learner.
+Sometimes learners come with a "control" function, e.g. \code{glmnet.control()} from package \CRANpkg{glmnet}.
+Such learners need to be checked as well since they make up the full ParamSet of the respective learner.
 
 To work nicely with the defined ParamSet, certain parameters need to be
 excluded because these are only present in either the "control" object or the

@@ -1,6 +1,6 @@
 Package: mlr3
 Title: Machine Learning in R - Next Generation
-Version: 0.16.0
+Version: 0.16.1
 Authors@R:
   c(
     person("Michel", "Lang", , "michellang@gmail.com", role = c("cre", "aut"),

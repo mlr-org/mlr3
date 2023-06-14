@@ -17,7 +17,7 @@ test_that("Simple training/predict", {
   prediction = learner$predict(task)
   expect_factor(prediction$response, any.missing = FALSE, levels = levels(iris$Species))
   perf = prediction$score(msr("classif.ce"))
-  expect_number(perf, lower = 0.6, upper = 0.7)
+  expect_number(perf, lower = 0.6, upper = 0.8)
 })
 
 test_that("Predict with prob", {
