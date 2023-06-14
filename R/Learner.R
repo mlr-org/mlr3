@@ -461,7 +461,7 @@ Learner = R6Class("Learner",
     #' @field encapsulate (named `character()`)\cr
     #' Controls how to execute the code in internal train and predict methods.
     #' Must be a named character vector with names `"train"` and `"predict"`.
-    #' Possible values are `"none"`, `"evaluate"` (requires package \CRANpkg{evaluate}) and `"callr"` (requires package \CRANpkg{callr}).
+    #' Possible values are `"none"`, `"try"`, `"evaluate"` (requires package \CRANpkg{evaluate}) and `"callr"` (requires package \CRANpkg{callr}).
     #' See [mlr3misc::encapsulate()] for more details.
     encapsulate = function(rhs) {
       default = c(train = "none", predict = "none")
