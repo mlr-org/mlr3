@@ -38,7 +38,7 @@ bibentries = c(
     title        = "{UCI} Machine Learning Repository",
     author       = "Dua, Dheeru and Graff, Casey",
     year         = "2017",
-    url          = "http://archive.ics.uci.edu/ml/",
+    url          = "http://archive.ics.uci.edu/datasets",
     institution  = "University of California, Irvine, School of Information and Computer Sciences"
   ),
 

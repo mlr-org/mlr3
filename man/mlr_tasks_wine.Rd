@@ -42,7 +42,7 @@ tsk("wine")
 \references{
 Dua, Dheeru, Graff, Casey (2017).
 \dQuote{UCI Machine Learning Repository.}
-\url{http://archive.ics.uci.edu/ml/}.
+\url{http://archive.ics.uci.edu/datasets}.
 }
 \seealso{
 \itemize{
