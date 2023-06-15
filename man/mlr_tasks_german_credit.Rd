@@ -7,7 +7,7 @@
 \link[R6:R6Class]{R6::R6Class} inheriting from \link{TaskClassif}.
 }
 \source{
-Data set originally published on \href{https://archive.ics.uci.edu/ml/datasets/statlog+(german+credit+data)}{UCI}.
+Data set originally published on \href{http://archive.ics.uci.edu/dataset/144/statlog+german+credit+data}{UCI}.
 This is the preprocessed version taken from package \CRANpkg{rchallenge} with
 factors instead of dummy variables, and corrected as proposed by Ulrike
 Grömping.

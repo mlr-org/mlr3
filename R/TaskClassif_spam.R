@@ -5,7 +5,7 @@
 #' @include mlr_tasks.R
 #'
 #' @description
-#' Spam data set from the UCI machine learning repository (\url{http://archive.ics.uci.edu/ml/datasets/spambase}).
+#' Spam data set from the UCI machine learning repository (\url{http://archive.ics.uci.edu/dataset/94/spambase}).
 #' Data set collected at Hewlett-Packard Labs to classify emails as spam or non-spam.
 #' 57 variables indicate the frequency of certain words and characters in the e-mail.
 #' The positive class is set to "spam".
