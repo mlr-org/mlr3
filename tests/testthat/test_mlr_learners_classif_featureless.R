@@ -10,14 +10,14 @@ test_that("Simple training/predict", {
   learner = lrn("classif.featureless")
   expect_learner(learner, task)
 
-  learner$train(task)
+  learner$train(task, row_ids = c(1:50, 51:70, 101:120))
   learner$predict(task)
   expect_class(learner$model, "classif.featureless_model")
   expect_numeric(learner$model$tab, len = 3L, any.missing = FALSE)
   prediction = learner$predict(task)
   expect_factor(prediction$response, any.missing = FALSE, levels = levels(iris$Species))
   perf = prediction$score(msr("classif.ce"))
-  expect_number(perf, lower = 0.6, upper = 0.8)
+  expect_number(perf, lower = 0.6, upper = 0.7)
 })
 
 test_that("Predict with prob", {
