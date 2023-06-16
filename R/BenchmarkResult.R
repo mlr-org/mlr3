@@ -35,7 +35,7 @@
 #' )
 #'
 #' design = benchmark_grid(
-#'   tasks = list(tsk("sonar"), tsk("spam")),
+#'   tasks = list(tsk("sonar"), tsk("penguins")),
 #'   learners = learners,
 #'   resamplings = rsmp("cv", folds = 3)
 #' )
