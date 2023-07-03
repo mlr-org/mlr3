@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://mlr3.mlr-org.com/dev/CODE_OF_CONDUCT.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/dev/CONTRIBUTING.html</loc>
+  </url>
+  <url>
     <loc>https://mlr3.mlr-org.com/dev/LICENSE-text.html</loc>
   </url>
   <url>
@@ -286,7 +292,7 @@
     <loc>https://mlr3.mlr-org.com/dev/reference/mlr_measures_classif.tpr.html</loc>
   </url>
   <url>
-    <loc>https://mlr3.mlr-org.com/dev/reference/mlr_measures_debug.html</loc>
+    <loc>https://mlr3.mlr-org.com/dev/reference/mlr_measures_debug_classif.html</loc>
   </url>
   <url>
     <loc>https://mlr3.mlr-org.com/dev/reference/mlr_measures_elapsed_time.html</loc>
@@ -464,6 +470,9 @@
   </url>
   <url>
     <loc>https://mlr3.mlr-org.com/dev/reference/mlr_tasks_zoo.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/dev/reference/mlr_test_helpers.html</loc>
   </url>
   <url>
     <loc>https://mlr3.mlr-org.com/dev/reference/partition.html</loc>
