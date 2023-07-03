@@ -34,6 +34,8 @@ print_data_table = function(x, hidden_columns) {
   extra_class = class(x)[1]
   set_data_table_class(x)
   print(x[, .SD, .SDcols = !hidden_columns])
-  if (length(hidden_columns)) catf("Hidden columns: %s", str_collapse(hidden_columns))
+  if (length(hidden_columns)) {
+    catf(str_indent("Hidden columns:", hidden_columns))
+  }
   set_data_table_class(x, extra_class)
 }
