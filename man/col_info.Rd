@@ -31,3 +31,4 @@ Currently, this includes:
 \item levels (factor / ordered), but not for the primary key column
 }
 }
+\keyword{internal}

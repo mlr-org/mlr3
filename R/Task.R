@@ -1055,6 +1055,7 @@ task_check_col_roles = function(self, new_roles) {
 #'   Additional arguments.
 #'
 #' @export
+#' @keywords internal
 col_info = function(x, ...) {
   UseMethod("col_info")
 }
