@@ -1040,14 +1040,28 @@ task_check_col_roles = function(self, new_roles) {
   new_roles
 }
 
-# collect column information of a backend.
-# This currently includes:
-# * storage type
-# * levels (for character / factor / ordered), but not for the primary key column
+#' @title Column Information for Backend
+#'
+#' @description
+#' Collects column information for backend.
+#'
+#' Currently, this includes:
+#' * storage type
+#' * levels (factor / ordered), but not for the primary key column
+#'
+#' @param x (any)\cr
+#'   A backend-like object for which to retrieve column information.
+#' @param ... (any)\cr
+#'   Additional arguments.
+#'
+#' @export
 col_info = function(x, ...) {
   UseMethod("col_info")
 }
 
+#' @rdname col_info
+#' @param primary_key (`character()`)\cr
+#'   The primary key of the backend.
 #' @export
 col_info.data.table = function(x, primary_key = character(), ...) { # nolint
   types = map_chr(x, function(x) class(x)[1L])
@@ -1056,6 +1070,7 @@ col_info.data.table = function(x, primary_key = character(), ...) { # nolint
   data.table(id = names(types), type = unname(types), levels = levels, key = "id")
 }
 
+#' @rdname col_info
 #' @export
 col_info.DataBackend = function(x, ...) { # nolint
   types = map_chr(x$head(1L), function(x) class(x)[1L])

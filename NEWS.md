@@ -1,3 +1,7 @@
+# mlr3 0.16.1-9000
+
+* export generic function `col_info` to allow adding new methods for backends
+
 # mlr3 0.16.1
 
 * Function `data.table()` is now re-exported.
