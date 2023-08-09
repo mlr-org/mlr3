@@ -25,14 +25,12 @@ DataBackendCbind = R6Class("DataBackendCbind", inherit = DataBackend, cloneable 
       assert_choice(data_format, self$data_formats)
 
       data = private$.data$b2$data(qrows, qcols, data_format = data_format)
-      if (ncol(data) < length(qcols)) {
+      tmp = if (ncol(data) < length(qcols)) {
         qcols = c(setdiff(cols, names(data)), pk)
-        tmp = private$.data$b1$data(qrows, qcols, data_format = data_format)
-        data = merge(data, tmp, by = pk, all = TRUE, sort = TRUE)
+        private$.data$b1$data(qrows, qcols, data_format = data_format)
       }
 
-      # duplicate rows / reorder columns
-      ijoin(data, rows,  intersect(cols, names(data)), pk)
+      virtual_cbind(data, tmp, rows, cols, pk)
     },
 
     head = function(n = 6L) {
@@ -88,3 +86,23 @@ DataBackendCbind = R6Class("DataBackendCbind", inherit = DataBackend, cloneable 
     }
   )
 )
+
+#' Cbind two data formats
+#' d2 can be NULL
+#' must return the rows in the correct order, columns can be in any order
+#' @export
+virtual_cbind = function(d1, d2, rows, cols, primary_key, ...) { # nolint
+  UseMethod("virtual_cbind")
+}
+
+#' @export
+virtual_cbind.data.table = function(d1, d2, rows, cols, primary_key) { # nolint
+  if (!is.null(d2)) {
+    data = merge(d1, d2, by = primary_key, all = TRUE, sort = TRUE)
+  } else {
+    data = d1
+  }
+    # duplicate rows / reorder columns
+  ijoin(data, rows,  intersect(cols, names(data)), primary_key)
+}
+

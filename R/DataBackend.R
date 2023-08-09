@@ -110,3 +110,40 @@ DataBackend = R6Class("DataBackend", cloneable = FALSE,
     .hash = NA_character_
   )
 )
+
+#' @export
+virtual_nrow = function(x) { # nolint
+  UseMethod("virtual_nrow")
+}
+
+#' @export
+virtual_nrow.default = function(x) { # nolint
+  nrow(x)
+}
+
+#' @export
+virtual_nrow.R6 = function(x) { # nolint
+  if (is.null(x$nrow)) {
+    stopf("Object does not have field nrow.")
+  }
+  x$nrow
+}
+
+
+#' @export
+virtual_ncol = function(x) { # nolint
+  UseMethod("virtual_ncol")
+}
+
+#' @export
+virtual_ncol.default = function(x) { # nolint
+  ncol(x)
+}
+
+#' @export
+virtual_ncol.R6 = function(x) { # nolint
+  if (is.null(x$ncol)) {
+    stopf("Object does not have field ncol.")
+  }
+  x$ncol
+}

@@ -1044,6 +1044,7 @@ task_check_col_roles = function(self, new_roles) {
 # This currently includes:
 # * storage type
 # * levels (for character / factor / ordered), but not for the primary key column
+#' @export
 col_info = function(x, ...) {
   UseMethod("col_info")
 }

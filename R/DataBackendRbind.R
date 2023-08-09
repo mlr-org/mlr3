@@ -19,20 +19,18 @@ DataBackendRbind = R6Class("DataBackendRbind", inherit = DataBackend, cloneable 
     },
 
     data = function(rows, cols, data_format = "data.table") {
+      assert_choice(data_format, self$data_formats)
       pk = self$primary_key
       qrows = unique(assert_numeric(rows))
       qcols = union(assert_names(cols, type = "unique"), pk)
-      assert_choice(data_format, self$data_formats)
 
       data = private$.data$b2$data(qrows, qcols, data_format = data_format)
-      if (nrow(data) < length(qrows)) {
+      tmp = if (virtual_nrow(data) < length(qrows)) {
         qrows = setdiff(rows, data[[pk]])
-        tmp = private$.data$b1$data(qrows, qcols, data_format = data_format)
-        data = rbindlist(list(data, tmp), use.names = TRUE, fill = TRUE)
+        private$.data$b1$data(qrows, qcols, data_format = data_format)
       }
 
-      # duplicate rows / reorder columns
-      ijoin(data, rows,  intersect(cols, names(data)), pk)
+      virtual_rbind(d1 = data, d2 = tmp, rows = rows, cols = cols, primary_key = pk)
     },
 
     head = function(n = 6L) {
@@ -80,3 +78,22 @@ DataBackendRbind = R6Class("DataBackendRbind", inherit = DataBackend, cloneable 
     }
   )
 )
+
+#' Rbind two data formats
+#' data2 can be NULL
+#' must return the rows in the correct order, columns can be in any order.
+#' @export
+virtual_rbind = function(d1, d2, rows, cols, primary_key, ...) { # nolint
+  UseMethod("virtual_rbind")
+}
+
+#' @export
+virtual_rbind.data.table = function(d1, d2, rows, cols, primary_key) { # nolint
+  if (!is.null(d2)) {
+    data = rbindlist(list(d1, d2), use.names = TRUE, fill = TRUE)
+  } else {
+    data = d1
+  }
+  # duplicate rows / reorder columns
+  ijoin(data, rows,  intersect(cols, names(data)), primary_key)
+}
