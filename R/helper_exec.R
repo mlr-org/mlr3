@@ -30,6 +30,10 @@ future_map = function(n, FUN, ..., MoreArgs = list()) {
     is_sequential = inherits(plan(), "sequential")
     scheduling = if (!is_sequential && isTRUE(getOption("mlr3.exec_random", TRUE))) structure(TRUE, ordering = "random") else TRUE
     chunk_size = getOption("mlr3.exec_chunk_size", 1)
+    chunk_bins = getOption("mlr3.exec_chunk_bins")
+    if (!is.null(chunk_bins)) {
+      chunk_size = ceiling(n / chunk_bins)
+    }
     stdout = if (is_sequential) NA else TRUE
 
     lg$debug("Running resample() via future with %i iterations", n)
