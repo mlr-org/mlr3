@@ -142,7 +142,8 @@ Learner = R6Class("Learner",
     #' This works differently for different encapsulation methods, see
     #' [mlr3misc::encapsulate()].
     #' Default is `c(train = Inf, predict = Inf)`.
-    #' Also see the section on error handling the mlr3book: \url{https://mlr3book.mlr-org.com/technical.html#error-handling}
+    #' Also see the section on error handling the mlr3book:
+    #' \url{https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling}
     timeout = c(train = Inf, predict = Inf),
 
     #' @template field_man
@@ -480,7 +481,8 @@ Learner = R6Class("Learner",
     #' Requires encapsulation, otherwise errors are not caught and the execution is terminated before the fallback learner kicks in.
     #' If you have not set encapsulation manually before, setting the fallback learner automatically
     #' activates encapsulation using the \CRANpkg{evaluate} package.
-    #' Also see the section on error handling the mlr3book: \url{https://mlr3book.mlr-org.com/technical.html#error-handling}
+    #' Also see the section on error handling the mlr3book:
+    #' \url{https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling}
     fallback = function(rhs) {
       if (missing(rhs)) {
         return(private$.fallback)

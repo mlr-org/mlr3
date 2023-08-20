@@ -38,7 +38,7 @@ b$missings(rows = b$rownames, cols = names(data))
 \seealso{
 \itemize{
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
-\url{https://mlr3book.mlr-org.com/technical.html#backends}
+\url{https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-backends}
 \item Package \CRANpkg{mlr3db} to interface out-of-memory data,
 e.g. SQL servers or \CRANpkg{duckdb}.
 }
