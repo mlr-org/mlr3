@@ -10,7 +10,7 @@ test_that("Simple training/predict", {
   learner = lrn("classif.featureless")
   expect_learner(learner, task)
 
-  learner$train(task)
+  learner$train(task, row_ids = c(1:50, 51:70, 101:120))
   learner$predict(task)
   expect_class(learner$model, "classif.featureless_model")
   expect_numeric(learner$model$tab, len = 3L, any.missing = FALSE)

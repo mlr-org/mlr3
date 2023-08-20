@@ -7,7 +7,7 @@
 \link[R6:R6Class]{R6::R6Class} inheriting from \link{TaskClassif}.
 }
 \source{
-Data set originally published on \href{https://archive.ics.uci.edu/ml/datasets/statlog+(german+credit+data)}{UCI}.
+Data set originally published on \href{http://archive.ics.uci.edu/dataset/144/statlog+german+credit+data}{UCI}.
 This is the preprocessed version taken from package \CRANpkg{rchallenge} with
 factors instead of dummy variables, and corrected as proposed by Ulrike
 Grömping.
@@ -64,7 +64,7 @@ Reports in Mathematics, Physics and Chemistry 4, Department II, Beuth University
 \seealso{
 \itemize{
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
-\url{https://mlr3book.mlr-org.com/basics.html#tasks}
+\url{https://mlr3book.mlr-org.com/chapters/chapter2/data_and_basic_modeling.html}
 \item Package \CRANpkg{mlr3data} for more toy tasks.
 \item Package \CRANpkg{mlr3oml} for downloading tasks from \url{https://www.openml.org}.
 \item Package \CRANpkg{mlr3viz} for some generic visualizations.

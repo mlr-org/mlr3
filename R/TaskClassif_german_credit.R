@@ -15,7 +15,7 @@
 #' @template task
 #'
 #' @source
-#' Data set originally published on [UCI](https://archive.ics.uci.edu/ml/datasets/statlog+(german+credit+data)).
+#' Data set originally published on [UCI](http://archive.ics.uci.edu/dataset/144/statlog+german+credit+data).
 #' This is the preprocessed version taken from package \CRANpkg{rchallenge} with
 #' factors instead of dummy variables, and corrected as proposed by Ulrike
 #' Grömping.

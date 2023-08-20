@@ -6,7 +6,7 @@ allow_partial_matching = list(
 
 
 set_encapsulation = function(learners, encapsulate) {
-  assert_choice(encapsulate, c(NA_character_, "none", "evaluate", "callr"))
+  assert_choice(encapsulate, c(NA_character_, "none", "evaluate", "callr", "try"))
 
   if (!is.na(encapsulate)) {
     lapply(learners, function(learner) learner$encapsulate = c(train = encapsulate, predict = encapsulate))

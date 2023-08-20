@@ -15,7 +15,7 @@ Donor:
 Stefan Aeberhard, email: stefan@coral.cs.jcu.edu.au
 }
 \description{
-Wine data set from the UCI machine learning repository (\url{https://archive.ics.uci.edu/ml/datasets/wine}).
+Wine data set from the UCI machine learning repository (\url{http://archive.ics.uci.edu/dataset/109/wine}).
 Results of a chemical analysis of three types of wines grown in the same region in Italy but derived from three different cultivars.
 }
 \section{Dictionary}{
@@ -42,12 +42,12 @@ tsk("wine")
 \references{
 Dua, Dheeru, Graff, Casey (2017).
 \dQuote{UCI Machine Learning Repository.}
-\url{http://archive.ics.uci.edu/ml/}.
+\url{http://archive.ics.uci.edu/datasets}.
 }
 \seealso{
 \itemize{
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
-\url{https://mlr3book.mlr-org.com/basics.html#tasks}
+\url{https://mlr3book.mlr-org.com/chapters/chapter2/data_and_basic_modeling.html}
 \item Package \CRANpkg{mlr3data} for more toy tasks.
 \item Package \CRANpkg{mlr3oml} for downloading tasks from \url{https://www.openml.org}.
 \item Package \CRANpkg{mlr3viz} for some generic visualizations.

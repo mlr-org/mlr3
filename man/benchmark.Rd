@@ -38,6 +38,7 @@ in a future release.}
 If not \code{NA}, enables encapsulation by setting the field
 \code{Learner$encapsulate} to one of the supported values:
 \code{"none"} (disable encapsulation),
+\code{"try"} (captures errors but output is printed to the console and not logged),
 \code{"evaluate"} (execute via \CRANpkg{evaluate}) and
 \code{"callr"} (start in external session via \CRANpkg{callr}).
 If \code{NA}, encapsulation is not changed, i.e. the settings of the
@@ -175,7 +176,7 @@ rr$resampling$train_set(2)
 \seealso{
 \itemize{
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
-\url{https://mlr3book.mlr-org.com/performance.html}
+\url{https://mlr3book.mlr-org.com/chapters/chapter3/evaluation_and_benchmarking.html#sec-benchmarking}
 \item Package \CRANpkg{mlr3viz} for some generic visualizations.
 \item \CRANpkg{mlr3benchmark} for post-hoc analysis of benchmark results.
 }

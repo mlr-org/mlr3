@@ -40,6 +40,7 @@ in a future release.}
 If not \code{NA}, enables encapsulation by setting the field
 \code{Learner$encapsulate} to one of the supported values:
 \code{"none"} (disable encapsulation),
+\code{"try"} (captures errors but output is printed to the console and not logged),
 \code{"evaluate"} (execute via \CRANpkg{evaluate}) and
 \code{"callr"} (start in external session via \CRANpkg{callr}).
 If \code{NA}, encapsulation is not changed, i.e. the settings of the
@@ -159,7 +160,7 @@ print(bmr1$combine(bmr2))
 \itemize{
 \item \code{\link[=as_benchmark_result]{as_benchmark_result()}} to convert to a \link{BenchmarkResult}.
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
-\url{https://mlr3book.mlr-org.com/performance.html#sec-resampling}
+\url{https://mlr3book.mlr-org.com/chapters/chapter3/evaluation_and_benchmarking.html#sec-resampling}
 \item Package \CRANpkg{mlr3viz} for some generic visualizations.
 }
 

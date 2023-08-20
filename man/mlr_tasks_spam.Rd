@@ -18,7 +18,7 @@ Preprocessing:
 Columns have been renamed. Preprocessed data taken from the \CRANpkg{kernlab} package.
 }
 \description{
-Spam data set from the UCI machine learning repository (\url{http://archive.ics.uci.edu/ml/datasets/spambase}).
+Spam data set from the UCI machine learning repository (\url{http://archive.ics.uci.edu/dataset/94/spambase}).
 Data set collected at Hewlett-Packard Labs to classify emails as spam or non-spam.
 57 variables indicate the frequency of certain words and characters in the e-mail.
 The positive class is set to "spam".
@@ -47,12 +47,12 @@ tsk("spam")
 \references{
 Dua, Dheeru, Graff, Casey (2017).
 \dQuote{UCI Machine Learning Repository.}
-\url{http://archive.ics.uci.edu/ml/}.
+\url{http://archive.ics.uci.edu/datasets}.
 }
 \seealso{
 \itemize{
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
-\url{https://mlr3book.mlr-org.com/basics.html#tasks}
+\url{https://mlr3book.mlr-org.com/chapters/chapter2/data_and_basic_modeling.html}
 \item Package \CRANpkg{mlr3data} for more toy tasks.
 \item Package \CRANpkg{mlr3oml} for downloading tasks from \url{https://www.openml.org}.
 \item Package \CRANpkg{mlr3viz} for some generic visualizations.
