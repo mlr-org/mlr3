@@ -203,6 +203,15 @@ Task = R6Class("Task",
       iwalk(after[after %in% names(roles)], function(role, str) {
         catn(str_indent(sprintf("* %s:", str), roles[[role]]))
       })
+
+      nrows = list(test = length(self$row_roles$test), holdout = length(self$row_roles$holdout))
+      if (nrows$test || nrows$holdout) {
+        str = paste(c(
+          if(nrows$test) sprintf("%i (test)", nrows$test),
+          if(nrows$holdout) sprintf("%i (holdout)", nrows$holdout)
+          ), collapse = ", ")
+        catf(str_indent("* Additional Row Roles:", str))
+      }
     },
 
     #' @description
