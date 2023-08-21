@@ -46,6 +46,7 @@
 #'   Note that this does not affect the order of results.
 #' * `"mlr3.exec_chunk_size"`: Number of iterations to perform in a single [future::future()] during
 #'   parallelization with \CRANpkg{future}. Defaults to 1.
+#' * `"mlr3.exec_chunk_bins"`: Number of bins to split the iterations into. If set, `"mlr3.exec_chunk_size"` is ignored.
 #' * `"mlr3.debug"`: If set to `TRUE`, parallelization via \CRANpkg{future} is disabled to simplify
 #'   debugging and provide more concise tracebacks.
 #'   Note that results computed in debug mode use a different seeding mechanism and are **not reproducible**.
