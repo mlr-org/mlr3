@@ -332,3 +332,12 @@ assert_row_sums = function(prob) {
     }
   }
 }
+
+assert_param_values = function(x, n_learners = NULL, null_ok = TRUE) {
+  if (!is.null(x)) {
+    assert_list(x, len = n_learners)
+    walk(x, assert_list)
+    walk(x, function(x) lapply(x, assert_list, names = "unique"))
+  }
+  invisible(x)
+}

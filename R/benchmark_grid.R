@@ -1,4 +1,4 @@
-#' @title Generate a Benchmark Grid Design
+#' @title Generate a Benchmark Grid Desfgn
 #'
 #' @description
 #' Takes a lists of [Task], a list of [Learner] and a list of [Resampling] to
@@ -64,10 +64,11 @@
 #' benchmark(grid)
 #' }
 #'
-benchmark_grid = function(tasks, learners, resamplings, paired = FALSE) {
+benchmark_grid = function(tasks, learners, resamplings, param_values = NULL, paired = FALSE) {
   tasks = assert_tasks(as_tasks(tasks))
   learners = assert_learners(as_learners(learners))
   resamplings = assert_resamplings(as_resamplings(resamplings))
+  assert_param_values(param_values, n_learners = length(learners), null_ok = TRUE)
 
   if (assert_flag(paired)) {
     if (length(tasks) != length(resamplings)) {
@@ -114,6 +115,10 @@ benchmark_grid = function(tasks, learners, resamplings, paired = FALSE) {
     grid = grid[CJ(task = seq_along(tasks), learner = seq_along(learners)), on = "task", allow.cartesian = TRUE]
 
     tab = data.table(task = tasks[grid$task], learner = learners[grid$learner], resampling = instances[grid$instance])
+
+    if (!is.null(param_values)) {
+      set(tab, j = "param_values", value = param_values[grid$learner])
+    }
   }
 
   set_data_table_class(tab, "benchmark_grid")
