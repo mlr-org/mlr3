@@ -1,0 +1,161 @@
+```{r}
+devtools::load_all("../R6")
+devtools::load_all("../paradox")
+devtools::load_all("../mlr3")
+
+
+lgr::get_logger("mlr3")$set_threshold("warn")
+lgr::get_logger("bbotk")$set_threshold("warn")
+
+clone_log = future_log = NULL
+
+print_log = function() {
+  sum_clone = clone_log[, .N, by = c("object", "deep")]
+  setorder(sum_clone, object, deep)
+  sum_clone
+}
+```
+
+```{r}
+learner = lrn("classif.rpart")
+
+rm(clone_log)
+
+learner$clone()
+
+print_log()
+```
+
+```{r}
+learner = lrn("classif.rpart")
+
+
+rm(clone_log)
+
+
+learner$clone(deep = TRUE)
+
+print_log()
+```
+
+```{r}
+rm(clone_log)
+
+learner = lrn("classif.rpart")
+param_set = learner$param_set
+
+param_set$clone()
+
+print_log()
+```
+
+```{r}
+task = tsk("sonar")
+learner = lrn("classif.rpart")
+resampling = rsmp("cv", folds = 3)
+
+rm(clone_log)
+
+rr = resample(task, learner, resampling)
+
+print_log()
+```
+
+```{r}
+tasks = tsks(c("sonar", "pima"))
+learners = lrns(c("classif.rpart", "classif.featureless"))
+resampling = rsmp("cv", folds = 3)
+
+design = benchmark_grid(tasks, learners, resampling)
+
+rm(clone_log)
+
+bmr = benchmark(design)
+
+print_log()
+```
+
+```{r}
+tasks = tsks(c("sonar", "pima"))
+learners = lrns(c("classif.rpart", "classif.featureless"))
+resampling = rsmp("cv", folds = 3)
+
+rm(clone_log)
+
+design = benchmark_grid(tasks, learners, resampling)
+
+bmr = benchmark(design)
+
+print_log()
+```
+
+```{r}
+devtools::load_all("../mlr3tuning")
+library(mlr3learners)
+
+tsk_sonar = tsk("sonar")
+tnr_grid_search = tnr("random_search")
+lrn_svm = lrn("classif.rpart", cp = to_tune(0.01, 0.1))
+rsmp_cv3 = rsmp("cv", folds = 3)
+msr_ce = msr("classif.ce")
+
+rm(clone_log)
+
+instance = tune(
+  tuner = tnr_grid_search,
+  task = tsk_sonar,
+  learner = lrn_svm,
+  resampling = rsmp_cv3,
+  measures = msr_ce,
+  term_evals = 100
+)
+
+print_log()
+```
+
+```{r}
+rm(clone_log)
+
+task = tsk("sonar")
+learner = lrn("classif.rpart")
+resampling = rsmp("cv", folds = 3)
+
+rr = resample(task, learner, resampling)
+
+print_log()
+```
+
+
+```{r}
+rm(future_log)
+
+task = tsk("sonar")
+learner = lrn("classif.rpart")
+resampling = rsmp("cv", folds = 3)
+
+future::plan("multisession")
+
+rr = resample(task, learner, resampling)
+
+future::plan("sequential")
+
+future_log
+```
+
+
+```{r}
+rm(future_log)
+
+task = tsk("sonar")
+learner = lrn("classif.rpart")
+resampling = rsmp("cv", folds = 9)
+
+future::plan("multisession")
+options("mlr3.exec_chunk_size" = 3)
+
+rr = resample(task, learner, resampling)
+
+future::plan("sequential")
+
+future_log
+```

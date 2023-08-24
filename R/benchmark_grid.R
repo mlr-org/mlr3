@@ -116,8 +116,8 @@ benchmark_grid = function(tasks, learners, resamplings, param_values = NULL, pai
 
     tab = data.table(task = tasks[grid$task], learner = learners[grid$learner], resampling = instances[grid$instance])
 
-    if (!is.null(param_values)) {
-      set(tab, j = "param_values", value = param_values[grid$learner])
+    if (!is.null(param_values)) {
+      set(tab, j = "param_value", value = param_values[grid$learner])
     }
   }
 
