@@ -2,9 +2,15 @@
 % Please edit documentation in R/benchmark_grid.R
 \name{benchmark_grid}
 \alias{benchmark_grid}
-\title{Generate a Benchmark Grid Design}
+\title{Generate a Benchmark Grid Desfgn}
 \usage{
-benchmark_grid(tasks, learners, resamplings, paired = FALSE)
+benchmark_grid(
+  tasks,
+  learners,
+  resamplings,
+  param_values = NULL,
+  paired = FALSE
+)
 }
 \arguments{
 \item{tasks}{(list of \link{Task}).}
