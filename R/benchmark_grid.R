@@ -89,13 +89,7 @@ benchmark_grid = function(tasks, learners, resamplings, param_values = NULL, pai
     }
 
     grid = CJ(task = seq_along(tasks), learner = seq_along(learners))
-    grid$instance = seq_row(grid)
-
-    tab = data.table(
-      task = tasks[grid$task],
-      learner = learners[grid$learner],
-      resampling = resamplings[grid$task]
-    )
+    tab = data.table(task = tasks[grid$task], learner = learners[grid$learner], resampling = resamplings[grid$task])
   } else {
     grid = CJ(task = seq_along(tasks), resampling = seq_along(resamplings))
     is_instantiated = map_lgl(resamplings, "is_instantiated")
@@ -117,10 +111,10 @@ benchmark_grid = function(tasks, learners, resamplings, param_values = NULL, pai
     grid = grid[CJ(task = seq_along(tasks), learner = seq_along(learners)), on = "task", allow.cartesian = TRUE]
 
     tab = data.table(task = tasks[grid$task], learner = learners[grid$learner], resampling = instances[grid$instance])
+  }
 
-    if (!is.null(param_values)) {
-      set(tab, j = "param_value", value = param_values[grid$learner])
-    }
+  if (!is.null(param_values)) {
+    set(tab, j = "param_value", value = param_values[grid$learner])
   }
 
   set_data_table_class(tab, "benchmark_grid")
