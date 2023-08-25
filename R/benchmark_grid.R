@@ -68,7 +68,9 @@ benchmark_grid = function(tasks, learners, resamplings, param_values = NULL, pai
   tasks = assert_tasks(as_tasks(tasks))
   learners = assert_learners(as_learners(learners))
   resamplings = assert_resamplings(as_resamplings(resamplings))
-  assert_param_values(param_values, n_learners = length(learners), null_ok = TRUE)
+  if (!is.null(param_values)) {
+    assert_param_values(param_values, n_learners = length(learners))
+  }
 
   if (assert_flag(paired)) {
     if (length(tasks) != length(resamplings)) {

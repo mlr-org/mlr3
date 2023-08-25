@@ -83,7 +83,12 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
   design$task = list(assert_tasks(as_tasks(design$task)))
   design$learner = list(assert_learners(as_learners(design$learner)))
   design$resampling = list(assert_resamplings(as_resamplings(design$resampling), instantiated = TRUE))
-  design$param_value = list(assert_param_values(design$param_value, n_learners = length(design$learner), null_ok = TRUE))
+  if (!is.null(design$param_value)) {
+    design$param_value = list(assert_param_values(design$param_value, n_learners = length(design$learner)))
+  }
+  if (is.null(design$param_value)) {
+    design$param_value = list()
+  }
   assert_flag(store_models)
   assert_flag(store_backends)
 
