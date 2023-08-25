@@ -79,11 +79,12 @@
 benchmark = function(design, store_models = FALSE, store_backends = TRUE, encapsulate = NA_character_, allow_hotstart = FALSE, clone = c("task", "learner", "resampling")) {
   assert_subset(clone, c("task", "learner", "resampling"))
   assert_data_frame(design, min.rows = 1L)
-  assert_names(names(design), permutation.of = c("task", "learner", "resampling", "param_value"))
+  assert_names(names(design), must.include = c("task", "learner", "resampling"))
   design$task = list(assert_tasks(as_tasks(design$task)))
   design$learner = list(assert_learners(as_learners(design$learner)))
   design$resampling = list(assert_resamplings(as_resamplings(design$resampling), instantiated = TRUE))
-  design$param_value = assert_param_values(design$param_value, n_learners = length(design$learner), null_ok = TRUE)
+  if (is.null(design$param_value)) set(design, j = "param_value", value = list(replicate(length(design$learner), list(list(list())))))
+  design$param_value = list(assert_param_values(design$param_value, n_learners = length(design$learner)))
   assert_flag(store_models)
   assert_flag(store_backends)
 

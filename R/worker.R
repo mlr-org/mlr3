@@ -224,7 +224,7 @@ learner_predict = function(learner, task, row_ids = NULL) {
 }
 
 
-workhorse = function(iteration, task, learner, resampling, param_value, lgr_threshold, store_models = FALSE, pb = NULL, mode = "train") {
+workhorse = function(iteration, task, learner, resampling, param_value = list(), lgr_threshold, store_models = FALSE, pb = NULL, mode = "train") {
   if (!is.null(pb)) {
     pb(sprintf("%s|%s|i:%i", task$id, learner$id, iteration))
   }

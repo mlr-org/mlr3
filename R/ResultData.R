@@ -354,8 +354,8 @@ star_init = function() {
     learner_state = list(),
     prediction = list(),
 
-    task_hash = character(),
     learner_hash = character(),
+    task_hash = character(),
     learner_phash = character(),
     resampling_hash = character(),
 
