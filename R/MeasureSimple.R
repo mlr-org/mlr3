@@ -1,5 +1,6 @@
 #' @include MeasureClassif.R
 MeasureBinarySimple = R6Class("MeasureBinarySimple",
+  cloneable = FALSE,
   inherit = MeasureClassif,
   public = list(
     fun = NULL,
@@ -45,6 +46,7 @@ MeasureBinarySimple = R6Class("MeasureBinarySimple",
 
 #' @include MeasureClassif.R
 MeasureClassifSimple = R6Class("MeasureClassifSimple",
+  cloneable = FALSE,
   inherit = MeasureClassif,
   public = list(
     fun = NULL,
@@ -75,6 +77,7 @@ MeasureClassifSimple = R6Class("MeasureClassifSimple",
 
 #' @include MeasureRegr.R
 MeasureRegrSimple = R6Class("MeasureRegrSimple",
+  cloneable = FALSE,
   inherit = MeasureRegr,
   public = list(
     fun = NULL,
@@ -105,6 +108,7 @@ MeasureRegrSimple = R6Class("MeasureRegrSimple",
 
 #' @include MeasureSimilarity.R
 MeasureSimilaritySimple = R6Class("MeasureSimilaritySimple",
+  cloneable = FALSE,
   inherit = MeasureSimilarity,
   public = list(
     fun = NULL,
