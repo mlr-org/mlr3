@@ -59,6 +59,7 @@ parallelization with \CRANpkg{future}. Defaults to \code{TRUE}.
 Note that this does not affect the order of results.
 \item \code{"mlr3.exec_chunk_size"}: Number of iterations to perform in a single \code{\link[future:future]{future::future()}} during
 parallelization with \CRANpkg{future}. Defaults to 1.
+\item \code{"mlr3.exec_chunk_bins"}: Number of bins to split the iterations into. If set, \code{"mlr3.exec_chunk_size"} is ignored.
 \item \code{"mlr3.debug"}: If set to \code{TRUE}, parallelization via \CRANpkg{future} is disabled to simplify
 debugging and provide more concise tracebacks.
 Note that results computed in debug mode use a different seeding mechanism and are \strong{not reproducible}.

@@ -408,3 +408,58 @@ test_that("benchmark_grid works if paired = TRUE", {
   resamplings = rev(resamplings)
   expect_error(benchmark_grid(tasks, learners, resamplings, paired = TRUE))
 })
+
+test_that("param_values in benchmark", {
+  tasks = tsks("iris")
+  resamplings = list(rsmp("cv", folds = 3)$instantiate(tasks[[1]]))
+  learners = lrns("classif.debug")
+
+
+  design = data.table(task = tasks, learner = learners, resampling = resamplings)
+  bmr = benchmark(design)
+  expect_benchmark_result(bmr)
+  expect_equal(nrow(as.data.table(bmr)), 3)
+
+
+  design = data.table(task = tasks, learner = learners, resampling = resamplings, param_value = list(list(list(x = 1))))
+  bmr = benchmark(design)
+  expect_benchmark_result(bmr)
+  expect_equal(bmr$n_resample_results, 1)
+  expect_equal(nrow(as.data.table(bmr)), 3)
+  learner = bmr$learners$learner[[1]]
+  expect_equal(learner$param_set$values$x, 1)
+  expect_equal(nrow(as.data.table(bmr)), 3)
+
+
+  design = data.table(task = tasks, learner = learners, resampling = resamplings, param_value = list(list(list(x = 1), list(x = 0.5))))
+  bmr = benchmark(design)
+  expect_benchmark_result(bmr)
+  expect_equal(bmr$n_resample_results, 2)
+  expect_equal(nrow(as.data.table(bmr)), 6)
+  learner = bmr$learners$learner[[1]]
+  expect_equal(learner$param_set$values$x, 1)
+  learner = bmr$learners$learner[[2]]
+  expect_equal(learner$param_set$values$x, 0.5)
+
+
+  design = benchmark_grid(tasks, learners, resamplings, param_values = list(list(list(x = 1))))
+  expect_data_table(design, nrows = 1)
+
+  design = benchmark_grid(tasks, learners, resamplings, param_values = list(list(list(x = 1))), paired = TRUE)
+  expect_data_table(design, nrows = 1)
+  bmr = benchmark(design)
+  expect_benchmark_result(bmr)
+  expect_equal(bmr$n_resample_results, 2)
+
+  design = benchmark_grid(tasks, learners, resamplings, param_values = list(list(list(x = 1), list(x = 0.5))))
+  expect_data_table(design, nrows = 1)
+  bmr = benchmark(design)
+  expect_benchmark_result(bmr)
+  expect_equal(bmr$n_resample_results, 2)
+
+
+  design = benchmark_grid(tasks, lrns(c("classif.debug", "classif.debug")), rsmp("holdout"), param_values = list(list(list(x = 1), list(x = 0.5)), list()))
+  bmr = benchmark(design)
+  expect_benchmark_result(bmr)
+  expect_equal(bmr$n_resample_results, 3)
+})

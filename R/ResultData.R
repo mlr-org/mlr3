@@ -58,7 +58,7 @@ ResultData = R6Class("ResultData",
             keyby = "learner_phash"]
           resamplings = fact[, list(resampling = .SD$resampling[1L]),
             keyby = "resampling_hash"]
-          learner_components = fact[, list(learner_param_vals = list(.SD$param_value[[1]])),
+          learner_components = fact[, list(learner_param_vals = list(.SD$param_value[[1L]])),
             keyby = "learner_hash"]
 
           set(fact, j = "task", value = NULL)
