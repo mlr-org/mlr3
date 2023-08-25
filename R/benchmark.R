@@ -83,8 +83,7 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
   design$task = list(assert_tasks(as_tasks(design$task)))
   design$learner = list(assert_learners(as_learners(design$learner)))
   design$resampling = list(assert_resamplings(as_resamplings(design$resampling), instantiated = TRUE))
-  if (is.null(design$param_value)) set(design, j = "param_value", value = list(replicate(length(design$learner), list(list(list())))))
-  design$param_value = list(assert_param_values(design$param_value, n_learners = length(design$learner)))
+  design$param_value = list(assert_param_values(design$param_value, n_learners = length(design$learner), null_ok = TRUE))
   assert_flag(store_models)
   assert_flag(store_backends)
 
@@ -120,11 +119,12 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
     # learner = assert_learner(as_learner(learner, clone = TRUE))
     assert_learnable(task, learner)
 
+    iters = resampling$iters
     data.table(
       task = list(task), learner = list(learner), resampling = list(resampling),
-      iteration = rep(seq_len(resampling$iters), length(param_value)),
-      param_value = rep(param_value, each = resampling$iters),
-      uhash = rep(UUIDgenerate(n = length(param_value)), each = resampling$iters)
+      iteration = rep(seq_len(iters), times = length(param_value)),
+      param_value = rep(param_value, each = iters),
+      uhash = rep(UUIDgenerate(n = length(param_value)), each = iters)
     )
 
   })

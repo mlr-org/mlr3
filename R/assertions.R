@@ -338,8 +338,8 @@ assert_param_values = function(x, n_learners = NULL, null_ok = TRUE) {
     assert_list(x, len = n_learners)
     walk(x, function(x) {
       assert_list(x)
-      walk(x, assert_list, names = "unique", null.ok = TRUE))
-    }
+      walk(x, assert_list, names = "unique", null.ok = TRUE)
+    })
   }
 
   invisible(x)
