@@ -14,6 +14,7 @@
 #' @template seealso_measure
 #' @export
 MeasureOOBError = R6Class("MeasureOOBError",
+  cloneable = FALSE,
   inherit = Measure,
   public = list(
     #' @description
