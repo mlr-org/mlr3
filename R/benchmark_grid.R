@@ -114,7 +114,8 @@ benchmark_grid = function(tasks, learners, resamplings, param_values = NULL, pai
   }
 
   if (!is.null(param_values)) {
-    set(tab, j = "param_value", value = param_values[grid$learner])
+    tab$param_value = param_values[grid$learner]
+    set(tab, j = "param_value", value = )
   }
 
   set_data_table_class(tab, "benchmark_grid")
