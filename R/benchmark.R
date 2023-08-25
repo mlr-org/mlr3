@@ -83,11 +83,10 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
   design$task = list(assert_tasks(as_tasks(design$task)))
   design$learner = list(assert_learners(as_learners(design$learner)))
   design$resampling = list(assert_resamplings(as_resamplings(design$resampling), instantiated = TRUE))
-  if (!is.null(design$param_value)) {
-    design$param_value = list(assert_param_values(design$param_value, n_learners = length(design$learner)))
-  }
   if (is.null(design$param_value)) {
     design$param_value = list()
+  } else {
+    design$param_value = list(assert_param_values(design$param_value, n_learners = length(design$learner)))
   }
   assert_flag(store_models)
   assert_flag(store_backends)
@@ -119,20 +118,22 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
   # set encapsulation + fallback
   set_encapsulation(design$learner, encapsulate)
 
-  # expand the design: add rows for each resampling iteration
+  # expand the design: add rows for each resampling iteration and param_value
   grid = pmap_dtr(design, function(task, learner, resampling, param_value) {
     # learner = assert_learner(as_learner(learner, clone = TRUE))
     assert_learnable(task, learner)
 
     iters = resampling$iters
+    n_params = max(1L, length(param_value))
+
     data.table(
       task = list(task), learner = list(learner), resampling = list(resampling),
-      iteration = rep(seq_len(iters), times = length(param_value)),
-      param_value = rep(param_value, each = iters),
-      uhash = rep(UUIDgenerate(n = length(param_value)), each = iters)
+      iteration = rep(seq_len(iters), times = n_params),
+      param_value = if (is.null(param_value)) list(NULL) else rep(param_value, each = iters),
+      uhash = rep(UUIDgenerate(n = n_params), each = iters)
     )
-
   })
+
   n = nrow(grid)
   lgr_threshold = map_int(mlr_reflections$loggers, "threshold")
 
@@ -191,6 +192,6 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
 
   lg$info("Finished benchmark")
 
-  grid$mode = NULL
+  set(grid, j = "mode", value = NULL)
   BenchmarkResult$new(ResultData$new(grid, store_backends = store_backends))
 }

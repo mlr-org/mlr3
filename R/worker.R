@@ -224,7 +224,7 @@ learner_predict = function(learner, task, row_ids = NULL) {
 }
 
 
-workhorse = function(iteration, task, learner, resampling, param_value = list(), lgr_threshold, store_models = FALSE, pb = NULL, mode = "train") {
+workhorse = function(iteration, task, learner, resampling, param_value = NULL, lgr_threshold, store_models = FALSE, pb = NULL, mode = "train") {
   if (!is.null(pb)) {
     pb(sprintf("%s|%s|i:%i", task$id, learner$id, iteration))
   }
@@ -247,7 +247,9 @@ workhorse = function(iteration, task, learner, resampling, param_value = list(),
 
   # train model
   learner = learner$clone()
-  learner$param_set$set_values(.values = param_value)
+  if (!is.null(param_value)) {
+    learner$param_set$set_values(.values = param_value)
+  }
   learner = learner_train(learner, task, sets[["train"]], sets[["test"]], mode = mode)
 
   # predict for each set

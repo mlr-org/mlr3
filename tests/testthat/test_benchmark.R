@@ -408,3 +408,23 @@ test_that("benchmark_grid works if paired = TRUE", {
   resamplings = rev(resamplings)
   expect_error(benchmark_grid(tasks, learners, resamplings, paired = TRUE))
 })
+
+test_that("param_values in benchmark", {
+  tasks = tsks("iris")
+  resamplings = list(rsmp("cv", folds = 3)$instantiate(tasks[[1]]))
+  learners = lrns("classif.featureless")
+
+  design = data.table(task = tasks, learner = learners, resampling = resamplings)
+  bmr = benchmark(design)
+  expect_benchmark_result(bmr)
+
+  tasks = tsks("iris")
+  learners = lrns("classif.debug")
+  resamplings = list(rsmp("cv", folds = 3)$instantiate(tasks[[1]]))
+  design = data.table(task = tasks, learner = learners, resampling = resamplings, param_value = list(list(list(x = 1))))
+  bmr = benchmark(design)
+
+  expect_benchmark_result(bmr)
+  learner = bmr$learners$learner[[1]]
+  expect_equal(learner$param_set$values$x, 1)
+})
