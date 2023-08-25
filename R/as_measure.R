@@ -22,8 +22,8 @@ as_measure.NULL = function(x, task_type = NULL, ...) { # nolint
 
 #' @export
 #' @rdname as_measure
-as_measure.Measure = function(x, clone = FALSE, ...) { # nolint
-  if (isTRUE(clone)) x$clone() else x
+as_measure.Measure = function(x, ...) { # nolint
+  x
 }
 
 #' @export
