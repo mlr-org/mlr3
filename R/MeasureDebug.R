@@ -21,6 +21,7 @@
 #' rr = resample(task, learner, rsmp("cv", folds = 5))
 #' rr$score(measure)
 MeasureDebugClassif = R6Class("MeasureDebugClassif",
+  cloneable = FALSE,
   inherit = Measure,
   public = list(
     #' @description
