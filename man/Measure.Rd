@@ -146,6 +146,7 @@ Function to aggregate scores computed on different resampling iterations.}
 \item \href{#method-Measure-help}{\code{Measure$help()}}
 \item \href{#method-Measure-score}{\code{Measure$score()}}
 \item \href{#method-Measure-aggregate}{\code{Measure$aggregate()}}
+\item \href{#method-Measure-clone}{\code{Measure$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
@@ -353,6 +354,23 @@ function of the measure.
 }
 \subsection{Returns}{
 \code{numeric(1)}.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Measure-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-Measure-clone}{}}}
+\subsection{Method \code{clone()}}{
+The objects of this class are cloneable with this method.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Measure$clone(deep = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{deep}}{Whether to make a deep clone.}
+}
+\if{html}{\out{</div>}}
 }
 }
 }
