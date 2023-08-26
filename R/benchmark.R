@@ -83,10 +83,10 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
   design$task = list(assert_tasks(as_tasks(design$task)))
   design$learner = list(assert_learners(as_learners(design$learner)))
   design$resampling = list(assert_resamplings(as_resamplings(design$resampling), instantiated = TRUE))
-  if (is.null(design$param_value)) {
-    design$param_value = list()
+  if (is.null(design$param_values)) {
+    design$param_values = list()
   } else {
-    design$param_value = list(assert_param_values(design$param_value, n_learners = length(design$learner)))
+    design$param_values = list(assert_param_values(design$param_values, n_learners = length(design$learner)))
   }
   assert_flag(store_models)
   assert_flag(store_backends)
@@ -118,18 +118,18 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
   # set encapsulation + fallback
   set_encapsulation(design$learner, encapsulate)
 
-  # expand the design: add rows for each resampling iteration and param_value
-  grid = pmap_dtr(design, function(task, learner, resampling, param_value) {
+  # expand the design: add rows for each resampling iteration and param_values
+  grid = pmap_dtr(design, function(task, learner, resampling, param_values) {
     # learner = assert_learner(as_learner(learner, clone = TRUE))
     assert_learnable(task, learner)
 
     iters = resampling$iters
-    n_params = max(1L, length(param_value))
+    n_params = max(1L, length(param_values))
 
     data.table(
       task = list(task), learner = list(learner), resampling = list(resampling),
       iteration = rep(seq_len(iters), times = n_params),
-      param_value = if (is.null(param_value)) list(NULL) else rep(param_value, each = iters),
+      param_values = if (is.null(param_values)) list() else rep(param_values, each = iters),
       uhash = rep(UUIDgenerate(n = n_params), each = iters)
     )
   })
@@ -179,14 +179,14 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
   }
 
   res = future_map(n, workhorse,
-    task = grid$task, learner = grid$learner, resampling = grid$resampling, iteration = grid$iteration, param_value = grid$param_value, mode = grid$mode,
+    task = grid$task, learner = grid$learner, resampling = grid$resampling, iteration = grid$iteration, param_values = grid$param_values, mode = grid$mode,
     MoreArgs = list(store_models = store_models, lgr_threshold = lgr_threshold, pb = pb)
   )
 
   grid = insert_named(grid, list(
     learner_state = map(res, "learner_state"),
     prediction = map(res, "prediction"),
-    param_value = map(res, "param_value"),
+    param_values = map(res, "param_values"),
     learner_hash = map_chr(res, "learner_hash")
   ))
 

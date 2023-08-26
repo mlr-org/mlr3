@@ -40,12 +40,12 @@ ResultData = R6Class("ResultData",
         self$data = star_init()
       } else {
         assert_names(names(data),
-          permutation.of = c("task", "learner", "learner_state", "resampling", "iteration", "param_value", "prediction", "uhash", "learner_hash"))
+          permutation.of = c("task", "learner", "learner_state", "resampling", "iteration", "param_values", "prediction", "uhash", "learner_hash"))
 
         if (nrow(data) == 0L) {
           self$data = star_init()
         } else {
-          fact = data[, c("uhash", "iteration", "learner_state", "prediction", "task", "learner", "resampling", "param_value", "learner_hash"),
+          fact = data[, c("uhash", "iteration", "learner_state", "prediction", "task", "learner", "resampling", "param_values", "learner_hash"),
             with = FALSE]
           set(fact, j = "task_hash", value = hashes(fact$task))
           set(fact, j = "learner_phash", value = phashes(fact$learner))
@@ -58,13 +58,13 @@ ResultData = R6Class("ResultData",
             keyby = "learner_phash"]
           resamplings = fact[, list(resampling = .SD$resampling[1L]),
             keyby = "resampling_hash"]
-          learner_components = fact[, list(learner_param_vals = list(.SD$param_value[[1L]])),
+          learner_components = fact[, list(learner_param_vals = list(.SD$param_values[[1]])),
             keyby = "learner_hash"]
 
           set(fact, j = "task", value = NULL)
           set(fact, j = "learner", value = NULL)
           set(fact, j = "resampling", value = NULL)
-          set(fact, j = "param_value", value = NULL)
+          set(fact, j = "param_values", value = NULL)
           setkeyv(fact, c("uhash", "iteration"))
 
           if (!store_backends) {

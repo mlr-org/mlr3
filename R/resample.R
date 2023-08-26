@@ -117,7 +117,7 @@ resample = function(task, learner, resampling, store_models = FALSE, store_backe
     iteration = seq_len(n),
     prediction = map(res, "prediction"),
     uhash = UUIDgenerate(),
-    param_value = map(res, "param_value"),
+    param_values = map(res, "param_values"),
     learner_hash = map_chr(res, "learner_hash")
   )
 

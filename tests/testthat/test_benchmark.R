@@ -421,7 +421,7 @@ test_that("param_values in benchmark", {
   expect_equal(nrow(as.data.table(bmr)), 3)
 
 
-  design = data.table(task = tasks, learner = learners, resampling = resamplings, param_value = list(list(list(x = 1))))
+  design = data.table(task = tasks, learner = learners, resampling = resamplings, param_values = list(list(list(x = 1))))
   bmr = benchmark(design)
   expect_benchmark_result(bmr)
   expect_equal(bmr$n_resample_results, 1)
@@ -431,7 +431,7 @@ test_that("param_values in benchmark", {
   expect_equal(nrow(as.data.table(bmr)), 3)
 
 
-  design = data.table(task = tasks, learner = learners, resampling = resamplings, param_value = list(list(list(x = 1), list(x = 0.5))))
+  design = data.table(task = tasks, learner = learners, resampling = resamplings, param_values = list(list(list(x = 1), list(x = 0.5))))
   bmr = benchmark(design)
   expect_benchmark_result(bmr)
   expect_equal(bmr$n_resample_results, 2)
@@ -444,12 +444,14 @@ test_that("param_values in benchmark", {
 
   design = benchmark_grid(tasks, learners, resamplings, param_values = list(list(list(x = 1))))
   expect_data_table(design, nrows = 1)
+  bmr = benchmark(design)
+  expect_benchmark_result(bmr)
 
   design = benchmark_grid(tasks, learners, resamplings, param_values = list(list(list(x = 1))), paired = TRUE)
   expect_data_table(design, nrows = 1)
   bmr = benchmark(design)
   expect_benchmark_result(bmr)
-  expect_equal(bmr$n_resample_results, 2)
+  expect_equal(bmr$n_resample_results, 1)
 
   design = benchmark_grid(tasks, learners, resamplings, param_values = list(list(list(x = 1), list(x = 0.5))))
   expect_data_table(design, nrows = 1)

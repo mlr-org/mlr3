@@ -73,7 +73,6 @@ Other Measure:
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-MeasureBIC-new}{\code{MeasureBIC$new()}}
-\item \href{#method-MeasureBIC-clone}{\code{MeasureBIC$clone()}}
 }
 }
 \if{html}{\out{
@@ -96,22 +95,5 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 \if{html}{\out{<div class="r">}}\preformatted{MeasureBIC$new()}\if{html}{\out{</div>}}
 }
 
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-MeasureBIC-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-MeasureBIC-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MeasureBIC$clone(deep = FALSE)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
 }
 }

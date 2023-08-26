@@ -333,12 +333,15 @@ assert_row_sums = function(prob) {
   }
 }
 
-assert_param_values = function(x, n_learners = NULL) {
-  assert_list(x, len = n_learners)
-  walk(x, function(x) {
-    assert_list(x)
-    walk(x, assert_list, names = "unique", null.ok = TRUE)
+assert_param_values = function(x, n_learners = NULL, .var.name = vname(x)) {
+  assert_list(x, len = n_learners, .var.name = .var.name)
+
+  ok = map_lgl(x, function(x) {
+    test_list(x) && all(map_lgl(x, test_list, names = "unique", null.ok = TRUE))
   })
 
+  if (!all(ok)) {
+    stopf("'%s' must be a three-time nested list and the most inner list must be named", .var.name)
+  }
   invisible(x)
 }

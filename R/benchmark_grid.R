@@ -114,8 +114,7 @@ benchmark_grid = function(tasks, learners, resamplings, param_values = NULL, pai
   }
 
   if (!is.null(param_values)) {
-    tab$param_value = param_values[grid$learner]
-    set(tab, j = "param_value", value = param_values)
+    set(tab, j = "param_values", value = list(param_values[grid$learner]))
   }
 
   set_data_table_class(tab, "benchmark_grid")
@@ -124,8 +123,10 @@ benchmark_grid = function(tasks, learners, resamplings, param_values = NULL, pai
 
 #' @export
 print.benchmark_grid = function(x, ...) {
-  task_ids = map(x$task, "id")
-  learner_ids = map(x$learner, "id")
-  resampling_ids = map(x$resampling, "id")
-  print(data.table(task = task_ids, learner = learner_ids, resampling = resampling_ids))
+  print(data.table(
+    task = ids(x$task),
+    learner = ids(x$learner),
+    resampling = ids(x$resampling),
+    param_values = if (is.null(x$param_values)) NULL else sprintf("<%i>", lengths(x$param_values))
+  ))
 }
