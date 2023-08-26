@@ -14,7 +14,7 @@ as_measure(x, ...)
 
 \method{as_measure}{`NULL`}(x, task_type = NULL, ...)
 
-\method{as_measure}{Measure}(x, ...)
+\method{as_measure}{Measure}(x, clone = FALSE, ...)
 
 as_measures(x, ...)
 
@@ -34,6 +34,9 @@ Additional arguments.}
 \item{task_type}{(\code{character(1)})\cr
 Used if \code{x} is \code{NULL} to construct a default measure for the respective task type.
 The default measures are stored in \code{\link[=mlr_reflections]{mlr_reflections$default_measures}}.}
+
+\item{clone}{(\code{logical(1)})\cr
+If \code{TRUE}, ensures that the returned object is not the same as the input \code{x}.}
 }
 \value{
 \link{Measure}.

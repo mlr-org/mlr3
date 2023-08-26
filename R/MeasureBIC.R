@@ -17,7 +17,6 @@
 #' @template seealso_measure
 #' @export
 MeasureBIC = R6Class("MeasureBIC",
-  cloneable = FALSE,
   inherit = Measure,
   public = list(
     #' @description

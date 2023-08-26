@@ -62,6 +62,7 @@ Other Measure:
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-MeasureSimilarity-new}{\code{MeasureSimilarity$new()}}
+\item \href{#method-MeasureSimilarity-clone}{\code{MeasureSimilarity$clone()}}
 }
 }
 \if{html}{\out{
@@ -175,6 +176,23 @@ Label for the new instance.}
 \item{\code{man}}{(\code{character(1)})\cr
 String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
 The referenced help package can be opened via method \verb{$help()}.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-MeasureSimilarity-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-MeasureSimilarity-clone}{}}}
+\subsection{Method \code{clone()}}{
+The objects of this class are cloneable with this method.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{MeasureSimilarity$clone(deep = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{deep}}{Whether to make a deep clone.}
 }
 \if{html}{\out{</div>}}
 }
