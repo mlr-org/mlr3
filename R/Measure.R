@@ -50,6 +50,10 @@ Measure = R6Class("Measure",
     #' @template field_param_set
     param_set = NULL,
 
+    #' @field obs_loss (`function()` | `NULL`)
+    #' Function to calculate the observation-wise loss.
+    obs_loss = NULL,
+
     #' @field predict_type (`character(1)`)\cr
     #' Required predict type of the [Learner].
     predict_type = NULL,
@@ -94,7 +98,7 @@ Measure = R6Class("Measure",
     #'
     #' Note that this object is typically constructed via a derived classes, e.g. [MeasureClassif] or [MeasureRegr].
     initialize = function(id, task_type = NA, param_set = ps(), range = c(-Inf, Inf), minimize = NA, average = "macro",
-      aggregator = NULL, properties = character(), predict_type = "response",
+      aggregator = NULL, obs_loss = NULL, properties = character(), predict_type = "response",
       predict_sets = "test", task_properties = character(), packages = character(),
       label = NA_character_, man = NA_character_) {
 
@@ -106,6 +110,7 @@ Measure = R6Class("Measure",
       self$minimize = assert_flag(minimize, na.ok = TRUE)
       self$average = average
       private$.aggregator = assert_function(aggregator, null.ok = TRUE)
+      self$obs_loss = assert_function(obs_loss, null.ok = TRUE)
 
       if (!is_scalar_na(task_type)) {
         assert_choice(task_type, mlr_reflections$task_types$type)
@@ -225,8 +230,9 @@ Measure = R6Class("Measure",
     #' @template field_hash
     hash = function(rhs) {
       assert_ro_binding(rhs)
-      calculate_hash(class(self), self$id, self$param_set$values, private$.score, private$.average,
-        private$.aggregator, self$predict_sets, mget(private$.extra_hash, envir = self))
+      calculate_hash(class(self), self$id, self$param_set$values, private$.score,
+        private$.average, private$.aggregator, self$obs_loss,
+        self$predict_sets, mget(private$.extra_hash, envir = self))
     },
 
     #' @field average (`character(1)`)\cr
