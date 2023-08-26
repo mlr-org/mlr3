@@ -91,7 +91,6 @@ Returns \code{row_ids} for which the predictions are missing or incomplete.}
 \item \href{#method-Prediction-help}{\code{Prediction$help()}}
 \item \href{#method-Prediction-score}{\code{Prediction$score()}}
 \item \href{#method-Prediction-filter}{\code{Prediction$filter()}}
-\item \href{#method-Prediction-clone}{\code{Prediction$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
@@ -195,23 +194,6 @@ Row indices.}
 }
 \subsection{Returns}{
 \code{self}, modified.
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-Prediction-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-Prediction-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Prediction$clone(deep = FALSE)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
 }
 }
 }
