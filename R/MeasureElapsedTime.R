@@ -17,6 +17,7 @@
 #' @template seealso_measure
 #' @export
 MeasureElapsedTime = R6Class("MeasureElapsedTime",
+  cloneable = FALSE,
   inherit = Measure,
   public = list(
 
