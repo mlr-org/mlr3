@@ -80,7 +80,6 @@ Other Measure:
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-MeasureDebugClassif-new}{\code{MeasureDebugClassif$new()}}
-\item \href{#method-MeasureDebugClassif-clone}{\code{MeasureDebugClassif$clone()}}
 }
 }
 \if{html}{\out{
@@ -103,22 +102,5 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 \if{html}{\out{<div class="r">}}\preformatted{MeasureDebugClassif$new()}\if{html}{\out{</div>}}
 }
 
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-MeasureDebugClassif-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-MeasureDebugClassif-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MeasureDebugClassif$clone(deep = FALSE)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
 }
 }
