@@ -410,17 +410,12 @@ test_that("benchmark_grid works if paired = TRUE", {
 })
 
 test_that("param_values in benchmark", {
+  # setup
   tasks = tsks("iris")
   resamplings = list(rsmp("cv", folds = 3)$instantiate(tasks[[1]]))
   learners = lrns("classif.debug")
 
-
-  design = data.table(task = tasks, learner = learners, resampling = resamplings)
-  bmr = benchmark(design)
-  expect_benchmark_result(bmr)
-  expect_equal(nrow(as.data.table(bmr)), 3)
-
-
+  # single parameter set via manual design
   design = data.table(task = tasks, learner = learners, resampling = resamplings, param_values = list(list(list(x = 1))))
   bmr = benchmark(design)
   expect_benchmark_result(bmr)
@@ -430,7 +425,7 @@ test_that("param_values in benchmark", {
   expect_equal(learner$param_set$values$x, 1)
   expect_equal(nrow(as.data.table(bmr)), 3)
 
-
+  # multiple parameters set via manual design
   design = data.table(task = tasks, learner = learners, resampling = resamplings, param_values = list(list(list(x = 1), list(x = 0.5))))
   bmr = benchmark(design)
   expect_benchmark_result(bmr)
@@ -441,18 +436,25 @@ test_that("param_values in benchmark", {
   learner = bmr$learners$learner[[2]]
   expect_equal(learner$param_set$values$x, 0.5)
 
+  # benchmark grid does not attach param_values if empty
+  design = benchmark_grid(tasks, learners, resamplings)
+  expect_names(names(design), permutation.of = c("task", "learner", "resampling"))
 
+  # benchmark grid with param_values
   design = benchmark_grid(tasks, learners, resamplings, param_values = list(list(list(x = 1))))
   expect_data_table(design, nrows = 1)
+  expect_names(names(design), permutation.of = c("task", "learner", "resampling", "param_values"))
   bmr = benchmark(design)
   expect_benchmark_result(bmr)
 
+  # benchmark grid with param_values and paired = TRUE
   design = benchmark_grid(tasks, learners, resamplings, param_values = list(list(list(x = 1))), paired = TRUE)
   expect_data_table(design, nrows = 1)
   bmr = benchmark(design)
   expect_benchmark_result(bmr)
   expect_equal(bmr$n_resample_results, 1)
 
+  # benchmark grid with multiple params
   design = benchmark_grid(tasks, learners, resamplings, param_values = list(list(list(x = 1), list(x = 0.5))))
   expect_data_table(design, nrows = 1)
   bmr = benchmark(design)
@@ -460,6 +462,7 @@ test_that("param_values in benchmark", {
   expect_equal(bmr$n_resample_results, 2)
 
 
+  # benchmark grid with multiple params and multiple learners
   design = benchmark_grid(tasks, lrns(c("classif.debug", "classif.debug")), rsmp("holdout"), param_values = list(list(list(x = 1), list(x = 0.5)), list()))
   bmr = benchmark(design)
   expect_benchmark_result(bmr)

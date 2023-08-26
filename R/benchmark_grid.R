@@ -18,6 +18,15 @@
 #' @param tasks (list of [Task]).
 #' @param learners (list of [Learner]).
 #' @param resamplings (list of [Resampling]).
+#' @param param_values (`list()`)\cr
+#'   If you want to try many parameter settings for learners, you can pass them through the design
+#'   which is optimized to be faster than creating learners for each setting.
+#'
+#'   A list of lists of named lists, from outer to inner:
+#'   1. One list element for each [Learner].
+#'   2. One list element for each hyperparameter configuration to try.
+#'   3. Named list of hyperparameter settings to set in the Learner, possibly overwriting
+#'      already set set hyperparameters in the [Learner].
 #' @param paired (`logical(1)`)\cr
 #'   Set this to `TRUE` if the resamplings are instantiated on the tasks, i.e., the tasks and resamplings are paired.
 #'   You need to provide the same number of tasks and instantiated resamplings.

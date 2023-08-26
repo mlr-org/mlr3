@@ -19,6 +19,18 @@ benchmark_grid(
 
 \item{resamplings}{(list of \link{Resampling}).}
 
+\item{param_values}{(\code{list()})\cr
+If you want to try many parameter settings for learners, you can pass them through the design
+which is optimized to be faster than creating learners for each setting.
+
+A list of lists of named lists, from outer to inner:
+\enumerate{
+\item One list element for each \link{Learner}.
+\item One list element for each hyperparameter configuration to try.
+\item Named list of hyperparameter settings to set in the Learner, possibly overwriting
+already set set hyperparameters in the \link{Learner}.
+}}
+
 \item{paired}{(\code{logical(1)})\cr
 Set this to \code{TRUE} if the resamplings are instantiated on the tasks, i.e., the tasks and resamplings are paired.
 You need to provide the same number of tasks and instantiated resamplings.}

@@ -8,6 +8,7 @@
 #'   Each row defines a resampling by providing a [Task], [Learner] and an instantiated [Resampling] strategy.
 #'   The helper function [benchmark_grid()] can assist in generating an exhaustive design (see examples) and
 #'   instantiate the [Resampling]s per [Task].
+#'   Additionally, you can set the additional column 'param_values', see [benchmark_grid()].
 #' @template param_store_models
 #' @template param_store_backends
 #' @template param_encapsulate

@@ -18,7 +18,8 @@ benchmark(
 Data frame (or \code{\link[data.table:data.table]{data.table::data.table()}}) with three columns: "task", "learner", and "resampling".
 Each row defines a resampling by providing a \link{Task}, \link{Learner} and an instantiated \link{Resampling} strategy.
 The helper function \code{\link[=benchmark_grid]{benchmark_grid()}} can assist in generating an exhaustive design (see examples) and
-instantiate the \link{Resampling}s per \link{Task}.}
+instantiate the \link{Resampling}s per \link{Task}.
+Additionally, you can set the additional column 'param_values', see \code{\link[=benchmark_grid]{benchmark_grid()}}.}
 
 \item{store_models}{(\code{logical(1)})\cr
 Store the fitted model in the resulting object=
