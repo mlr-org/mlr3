@@ -39,7 +39,6 @@
 #' rr = resample(task, learner, rsmp("cv", folds = 3))
 #' rr$aggregate(m)
 MeasureClassifCosts = R6Class("MeasureClassifCosts",
-  cloneable = FALSE,
   inherit = MeasureClassif,
   public = list(
     #' @description

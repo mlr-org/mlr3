@@ -27,7 +27,8 @@
 #'
 #' @template seealso_measure
 #' @export
-MeasureClassif = R6Class("MeasureClassif", inherit = Measure, cloneable = FALSE,
+MeasureClassif = R6Class("MeasureClassif",
+  inherit = Measure,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
