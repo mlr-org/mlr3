@@ -171,6 +171,32 @@ ResampleResult = R6Class("ResampleResult",
     },
 
     #' @description
+    #' Calculates the observation-wise loss via the loss function set in the
+    #' [Measure]'s field `obs_loss`.
+    #' Returns a `data.table()` with the columns `row_ids`, `truth`, `response` and
+    #' one additional numeric column for each measure, named with the respective measure id.
+    #' If there is no observation-wise loss function for the measure, the column is filled with
+    #' `NA` values.
+    obs_loss = function(measures = NULL) {
+      measures = as_measures(measures, task_type = private$.data$task_type)
+      tab = as.data.table(self$prediction())
+
+      for (measure in measures) {
+        fun = measure$obs_loss
+        value = if (is.function(fun)) {
+          args = intersect(names(tab), names(formals(fun)))
+          do.call(fun, tab[, args, with = FALSE])
+        } else {
+          NA_real_
+        }
+
+        set(tab, j = measure$id, value = value)
+      }
+
+      tab[]
+    },
+
+    #' @description
     #' Calculates and aggregates performance values for all provided measures, according to the
     #' respective aggregation function in [Measure].
     #' If `measures` is `NULL`, `measures` defaults to the return value of [default_measures()].
