@@ -72,7 +72,9 @@ as_result_data = function(task, learners, resampling, iterations, predictions, l
   ResultData$new(data.table(
     task = list(task),
     learner = learners,
+    learner_hash = hashes(learners),
     learner_state = learner_states,
+    param_values = map(learners, function(x) x$param_set$values),
     resampling = list(resampling),
     iteration = iterations,
     prediction = predictions,
