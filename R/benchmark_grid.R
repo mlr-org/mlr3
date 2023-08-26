@@ -1,4 +1,4 @@
-#' @title Generate a Benchmark Grid Desfgn
+#' @title Generate a Benchmark Grid Design
 #'
 #' @description
 #' Takes a lists of [Task], a list of [Learner] and a list of [Resampling] to

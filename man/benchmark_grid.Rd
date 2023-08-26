@@ -2,7 +2,7 @@
 % Please edit documentation in R/benchmark_grid.R
 \name{benchmark_grid}
 \alias{benchmark_grid}
-\title{Generate a Benchmark Grid Desfgn}
+\title{Generate a Benchmark Grid Design}
 \usage{
 benchmark_grid(
   tasks,
