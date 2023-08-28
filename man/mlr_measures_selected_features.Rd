@@ -37,7 +37,7 @@ msr("selected_features")
 \section{Parameters}{
 \tabular{llll}{
    Id \tab Type \tab Default \tab Levels \cr
-   normalize \tab logical \tab FALSE \tab TRUE, FALSE \cr
+   normalize \tab logical \tab - \tab TRUE, FALSE \cr
 }
 }
 

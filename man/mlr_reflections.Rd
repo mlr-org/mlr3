@@ -50,7 +50,7 @@ predict type \code{"prob"} for a \link{LearnerClassif} provides the probabilitie
 \item \code{learner_predict_types} (list of list of \code{character()})\cr
 List of lists of supported \link{Learner} predict_types, named by their task type.
 \item \code{learner_param_tags} (\code{character()})\cr
-Character vector of allowed 'tags' for the \link[paradox:Param]{paradox::Param}s of a \link{Learner}.
+Character vector of allowed 'tags' for the \link[paradox:ParamSet]{paradox::ParamSet}s of a \link{Learner}.
 \item \code{predict_sets} (\code{character()})\cr
 Vector of possible predict sets. Currently supported are \code{"train"}, \code{"test"} and \code{"holdout"}.
 \item \code{measure_properties} (list of \code{character()})\cr
