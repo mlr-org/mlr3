@@ -35,7 +35,7 @@ predict type &quot;prob&quot; for a LearnerClassif provides the probabilities as
 learner_predict_types (list of list of character())
 List of lists of supported Learner predict_types, named by their task type.
 learner_param_tags (character())
-Character vector of allowed 'tags' for the paradox::Params of a Learner.
+Character vector of allowed 'tags' for the paradox::ParamSets of a Learner.
 predict_sets (character())
 Vector of possible predict sets. Currently supported are &quot;train&quot;, &quot;test&quot; and &quot;holdout&quot;.
 measure_properties (list of character())
@@ -85,7 +85,7 @@ predict type &quot;prob&quot; for a LearnerClassif provides the probabilities as
 learner_predict_types (list of list of character())
 List of lists of supported Learner predict_types, named by their task type.
 learner_param_tags (character())
-Character vector of allowed 'tags' for the paradox::Params of a Learner.
+Character vector of allowed 'tags' for the paradox::ParamSets of a Learner.
 predict_sets (character())
 Vector of possible predict sets. Currently supported are &quot;train&quot;, &quot;test&quot; and &quot;holdout&quot;.
 measure_properties (list of character())
@@ -210,7 +210,7 @@ predict type <code>"prob"</code> for a <a href="LearnerClassif.html">LearnerClas
 <li><p><code>learner_predict_types</code> (list of list of <code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 List of lists of supported <a href="Learner.html">Learner</a> predict_types, named by their task type.</p></li>
 <li><p><code>learner_param_tags</code> (<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
-Character vector of allowed 'tags' for the <a href="https://paradox.mlr-org.com/reference/Param.html" class="external-link">paradox::Param</a>s of a <a href="Learner.html">Learner</a>.</p></li>
+Character vector of allowed 'tags' for the <a href="https://paradox.mlr-org.com/reference/ParamSet.html" class="external-link">paradox::ParamSet</a>s of a <a href="Learner.html">Learner</a>.</p></li>
 <li><p><code>predict_sets</code> (<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 Vector of possible predict sets. Currently supported are <code>"train"</code>, <code>"test"</code> and <code>"holdout"</code>.</p></li>
 <li><p><code>measure_properties</code> (list of <code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
@@ -238,7 +238,7 @@ Can be extended by third-party with additional converters.</p></li>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/ls_str.html" class="external-link">ls.str</a></span><span class="op">(</span><span class="va">mlr_reflections</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> auto_converters : &lt;environment: 0x55eb50b3c9d0&gt; </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> auto_converters : &lt;environment: 0x55dcea0ddaa8&gt; </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> data_formats :  chr [1:2] "data.table" "Matrix"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> default_measures : List of 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ classif     : chr "classif.ce"</span>
