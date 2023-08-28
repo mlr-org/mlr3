@@ -7,6 +7,8 @@
 #'
 #' @description
 #' A regression task for the [mlbench::BostonHousing2] data set.
+#' This is the corrected data using the corrected median value (`cmedv`) as target.
+#' The uncorrected target (`medv`) is removed from the data.
 #'
 #' @section Construction:
 #' ```
@@ -21,8 +23,8 @@
 NULL
 
 load_task_boston_housing = function(id = "boston_housing") {
-  b = as_data_backend(load_dataset("BostonHousing2", "mlbench"))
-  task = TaskRegr$new(id, b, target = "medv", label = "Boston Housing Prices")
+  b = as_data_backend(remove_named(load_dataset("BostonHousing2", "mlbench"), "medv"))
+  task = TaskRegr$new(id, b, target = "cmedv", label = "Boston Housing Prices")
   b$hash = task$man = "mlr3::mlr_tasks_boston_housing"
   task
 }

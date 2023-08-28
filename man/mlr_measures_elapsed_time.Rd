@@ -80,6 +80,7 @@ Usually set during construction.}
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-MeasureElapsedTime-new}{\code{MeasureElapsedTime$new()}}
+\item \href{#method-MeasureElapsedTime-clone}{\code{MeasureElapsedTime$clone()}}
 }
 }
 \if{html}{\out{
@@ -111,6 +112,23 @@ Identifier for the new instance.}
 \item{\code{stages}}{(\code{character()})\cr
 Subset of \verb{("train", "predict")}.
 The runtime of provided stages will be summed.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-MeasureElapsedTime-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-MeasureElapsedTime-clone}{}}}
+\subsection{Method \code{clone()}}{
+The objects of this class are cloneable with this method.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{MeasureElapsedTime$clone(deep = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{deep}}{Whether to make a deep clone.}
 }
 \if{html}{\out{</div>}}
 }

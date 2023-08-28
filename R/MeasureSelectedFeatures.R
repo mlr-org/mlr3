@@ -25,7 +25,6 @@
 #' scores = rr$score(msr("selected_features"))
 #' scores[, c("iteration", "selected_features")]
 MeasureSelectedFeatures = R6Class("MeasureSelectedFeatures",
-  cloneable = FALSE,
   inherit = Measure,
   public = list(
     #' @description

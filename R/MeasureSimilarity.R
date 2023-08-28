@@ -40,7 +40,8 @@
 #' grid = benchmark_grid(task, learners, resampling)
 #' bmr = benchmark(grid, store_models = TRUE)
 #' bmr$aggregate(msrs(c("classif.ce", "sim.jaccard")))
-MeasureSimilarity = R6Class("MeasureSimilarity", inherit = Measure, cloneable = FALSE,
+MeasureSimilarity = R6Class("MeasureSimilarity",
+  inherit = Measure,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
