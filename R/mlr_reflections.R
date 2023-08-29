@@ -161,4 +161,7 @@ local({
 
   ### Logger
   mlr_reflections$loggers = list()
+
+  ### cache package version
+  mlr_reflections$package_version = packageVersion("mlr3")
 })
