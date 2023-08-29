@@ -82,7 +82,7 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
     task_hash = task$hash,
     data_prototype = proto,
     task_prototype = proto,
-    mlr3_version = packageVersion("mlr3")
+    mlr3_version = mlr_reflections$package_version
   ))
 
   if (is.null(result$result)) {
@@ -132,7 +132,7 @@ learner_predict = function(learner, task, row_ids = NULL) {
 
   if (getOption("mlr3.warn_version_mismatch", TRUE)) {
     v_train = learner$state$mlr3_version
-    v_predict = packageVersion("mlr3")
+    v_predict = mlr_reflections$package_version
 
     if (!is.null(v_train) && v_train != v_predict) {
       warningf("Detected version mismatch: Learner '%s' has been trained with mlr3 version '%s', not matching currently installed version '%s'",
