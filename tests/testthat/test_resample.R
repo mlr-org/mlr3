@@ -156,3 +156,13 @@ test_that("as_resample_result works for result data", {
   rr2 = as_resample_result(result_data)
   expect_class(rr2, "ResampleResult")
 })
+
+test_that("obs_loss", {
+  task = tsk("iris")
+  learner = lrn("classif.featureless")
+  resampling = rsmp("cv", folds = 3)
+  rr = resample(task, learner, resampling)
+
+  rr$obs_loss()
+
+})
