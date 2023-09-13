@@ -37,7 +37,7 @@ msr("selected_features")
 \section{Parameters}{
 \tabular{llll}{
    Id \tab Type \tab Default \tab Levels \cr
-   normalize \tab logical \tab FALSE \tab TRUE, FALSE \cr
+   normalize \tab logical \tab - \tab TRUE, FALSE \cr
 }
 }
 
@@ -84,6 +84,7 @@ Other Measure:
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-MeasureSelectedFeatures-new}{\code{MeasureSelectedFeatures$new()}}
+\item \href{#method-MeasureSelectedFeatures-clone}{\code{MeasureSelectedFeatures$clone()}}
 }
 }
 \if{html}{\out{
@@ -106,5 +107,22 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 \if{html}{\out{<div class="r">}}\preformatted{MeasureSelectedFeatures$new()}\if{html}{\out{</div>}}
 }
 
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-MeasureSelectedFeatures-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-MeasureSelectedFeatures-clone}{}}}
+\subsection{Method \code{clone()}}{
+The objects of this class are cloneable with this method.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{MeasureSelectedFeatures$clone(deep = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{deep}}{Whether to make a deep clone.}
+}
+\if{html}{\out{</div>}}
+}
 }
 }

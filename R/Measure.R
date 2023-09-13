@@ -37,7 +37,6 @@
 #' @template seealso_measure
 #' @export
 Measure = R6Class("Measure",
-  cloneable = FALSE,
   public = list(
     #' @template field_id
     id = NULL,

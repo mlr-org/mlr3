@@ -39,13 +39,12 @@
 #' rr = resample(task, learner, rsmp("cv", folds = 3))
 #' rr$aggregate(m)
 MeasureClassifCosts = R6Class("MeasureClassifCosts",
-  cloneable = FALSE,
   inherit = MeasureClassif,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
-      param_set = ps(normalize = p_lgl(default = TRUE, tags = "required"))
+      param_set = ps(normalize = p_lgl(tags = "required"))
       param_set$values = list(normalize = TRUE)
 
       super$initialize(

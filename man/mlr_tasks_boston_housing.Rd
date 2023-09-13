@@ -8,6 +8,8 @@
 }
 \description{
 A regression task for the \link[mlbench:BostonHousing]{mlbench::BostonHousing2} data set.
+This is the corrected data using the corrected median value (\code{cmedv}) as target.
+The uncorrected target (\code{medv}) is removed from the data.
 }
 \section{Construction}{
 
@@ -21,11 +23,11 @@ tsk("boston_housing")
 
 \itemize{
 \item Task type: \dQuote{regr}
-\item Dimensions: 506x19
+\item Dimensions: 506x18
 \item Properties: -
 \item Has Missings: \code{FALSE}
-\item Target: \dQuote{medv}
-\item Features: \dQuote{age}, \dQuote{b}, \dQuote{chas}, \dQuote{cmedv}, \dQuote{crim}, \dQuote{dis}, \dQuote{indus}, \dQuote{lat}, \dQuote{lon}, \dQuote{lstat}, \dQuote{nox}, \dQuote{ptratio}, \dQuote{rad}, \dQuote{rm}, \dQuote{tax}, \dQuote{town}, \dQuote{tract}, \dQuote{zn}
+\item Target: \dQuote{cmedv}
+\item Features: \dQuote{age}, \dQuote{b}, \dQuote{chas}, \dQuote{crim}, \dQuote{dis}, \dQuote{indus}, \dQuote{lat}, \dQuote{lon}, \dQuote{lstat}, \dQuote{nox}, \dQuote{ptratio}, \dQuote{rad}, \dQuote{rm}, \dQuote{tax}, \dQuote{town}, \dQuote{tract}, \dQuote{zn}
 }
 }
 

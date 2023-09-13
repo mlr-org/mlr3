@@ -6,7 +6,7 @@ test_that("convert_task - Regr -> Regr", {
   expect_task(result)
   expect_true(result$col_roles$target == "age")
   expect_true(all(result$feature_names != "age"))
-  expect_true(all(result$feature_names != "medv"))
+  expect_true(all(result$feature_names != "cmedv"))
   expect_true(all(unlist(imap(result$row_roles,
     .f = function(z, x) {
       all(result$row_roles[[x]] == task$row_roles[[x]])
@@ -26,7 +26,7 @@ test_that("convert_task - Regr -> Classif", {
   expect_task(result)
   expect_true(result$col_roles$target == "chas")
   expect_true(all(result$feature_names != "chas"))
-  expect_true(all(result$feature_names != "medv"))
+  expect_true(all(result$feature_names != "cmedv"))
   expect_true(all(unlist(imap(result$row_roles,
     .f = function(z, x) {
       all(result$row_roles[[x]] == task$row_roles[[x]])
@@ -63,14 +63,14 @@ test_that("convert_task - same target", {
   task$col_roles$feature = setdiff(task$col_roles$feature, "lat")
 
   results = list(
-    convert_task(task, target = "medv", new_type = "regr", drop_original_target = TRUE),
-    convert_task(task, target = "medv", new_type = "regr", drop_original_target = FALSE)
+    convert_task(task, target = "cmedv", new_type = "regr", drop_original_target = TRUE),
+    convert_task(task, target = "cmedv", new_type = "regr", drop_original_target = FALSE)
   )
 
   for (result in results) {
     expect_class(result, "TaskRegr")
     expect_task(result)
-    expect_true(result$col_roles$target == "medv")
+    expect_true(result$col_roles$target == "cmedv")
     expect_true(all(unlist(imap(result$row_roles,
       .f = function(z, x) {
         all(result$row_roles[[x]] == task$row_roles[[x]])
@@ -92,10 +92,10 @@ test_that("convert task - general checks", {
   itask = mlr_tasks$get("iris")
 
   # target does not exist
-  expect_error(convert_task(btask, target = "medv2"))
+  expect_error(convert_task(btask, target = "cmedv2"))
 
   # target class does not match
-  expect_error(convert_task(btask, target = "medv", new_type = "classif"))
+  expect_error(convert_task(btask, target = "cmedv", new_type = "classif"))
   expect_error(convert_task(itask, target = "Sepal.Length", new_type = "classif"))
 })
 

@@ -52,7 +52,7 @@
 #'   List of lists of supported [Learner] predict_types, named by their task type.
 #'
 #' * `learner_param_tags` (`character()`)\cr
-#'   Character vector of allowed 'tags' for the [paradox::Param]s of a [Learner].
+#'   Character vector of allowed 'tags' for the [paradox::ParamSet]s of a [Learner].
 #'
 #' * `predict_sets` (`character()`)\cr
 #'   Vector of possible predict sets. Currently supported are `"train"`, `"test"` and `"holdout"`.
@@ -161,4 +161,7 @@ local({
 
   ### Logger
   mlr_reflections$loggers = list()
+
+  ### cache package version
+  mlr_reflections$package_version = packageVersion("mlr3")
 })
