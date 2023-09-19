@@ -16,7 +16,6 @@
 #' p$predict_types
 #' head(as.data.table(p))
 PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
-  cloneable = FALSE,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.

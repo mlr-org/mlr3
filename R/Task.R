@@ -152,7 +152,7 @@ Task = R6Class("Task",
       private$.col_roles = named_list(mlr_reflections$task_col_roles[[task_type]], character())
       private$.col_roles$feature = setdiff(cn, self$backend$primary_key)
       self$extra_args = assert_list(extra_args, names = "unique")
-      self$mlr3_version = packageVersion("mlr3")
+      self$mlr3_version = mlr_reflections$package_version
     },
 
     #' @description
@@ -203,6 +203,15 @@ Task = R6Class("Task",
       iwalk(after[after %in% names(roles)], function(role, str) {
         catn(str_indent(sprintf("* %s:", str), roles[[role]]))
       })
+
+      nrows = list(test = length(self$row_roles$test), holdout = length(self$row_roles$holdout))
+      if (nrows$test || nrows$holdout) {
+        str = paste(c(
+          if(nrows$test) sprintf("%i (test)", nrows$test),
+          if(nrows$holdout) sprintf("%i (holdout)", nrows$holdout)
+          ), collapse = ", ")
+        catf(str_indent("* Additional Row Roles:", str))
+      }
     },
 
     #' @description

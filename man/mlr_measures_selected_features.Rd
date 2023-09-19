@@ -37,7 +37,7 @@ msr("selected_features")
 \section{Parameters}{
 \tabular{llll}{
    Id \tab Type \tab Default \tab Levels \cr
-   normalize \tab logical \tab FALSE \tab TRUE, FALSE \cr
+   normalize \tab logical \tab - \tab TRUE, FALSE \cr
 }
 }
 
@@ -52,7 +52,7 @@ scores[, c("iteration", "selected_features")]
 \seealso{
 \itemize{
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
-\url{https://mlr3book.mlr-org.com/basics.html#train-predict}
+\url{https://mlr3book.mlr-org.com/chapters/chapter2/data_and_basic_modeling.html#sec-eval}
 \item Package \CRANpkg{mlr3measures} for the scoring functions.
 \link[mlr3misc:Dictionary]{Dictionary} of \link[=Measure]{Measures}: \link{mlr_measures}
 \code{as.data.table(mlr_measures)} for a table of available \link[=Measure]{Measures} in the running session (depending on the loaded packages).

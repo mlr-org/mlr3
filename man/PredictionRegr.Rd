@@ -18,7 +18,7 @@ head(as.data.table(p))
 \seealso{
 \itemize{
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
-\url{https://mlr3book.mlr-org.com/basics.html#train-predict}
+\url{https://mlr3book.mlr-org.com/chapters/chapter2/data_and_basic_modeling.html}
 \item Package \CRANpkg{mlr3viz} for some generic visualizations.
 \item Extension packages for additional task types:
 \itemize{
@@ -54,6 +54,7 @@ Requires package \code{distr6}(in repository \url{https://raphaels1.r-universe.d
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-PredictionRegr-new}{\code{PredictionRegr$new()}}
+\item \href{#method-PredictionRegr-clone}{\code{PredictionRegr$clone()}}
 }
 }
 \if{html}{\out{
@@ -111,6 +112,23 @@ for an individual observation.}
 
 \item{\code{check}}{(\code{logical(1)})\cr
 If \code{TRUE}, performs some argument checks and predict type conversions.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-PredictionRegr-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-PredictionRegr-clone}{}}}
+\subsection{Method \code{clone()}}{
+The objects of this class are cloneable with this method.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{PredictionRegr$clone(deep = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{deep}}{Whether to make a deep clone.}
 }
 \if{html}{\out{</div>}}
 }

@@ -67,7 +67,7 @@ p$score(measures = msr("classif.ce"))
 \seealso{
 \itemize{
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
-\url{https://mlr3book.mlr-org.com/basics.html#train-predict}
+\url{https://mlr3book.mlr-org.com/chapters/chapter2/data_and_basic_modeling.html}
 \item Package \CRANpkg{mlr3viz} for some generic visualizations.
 \item Extension packages for additional task types:
 \itemize{
@@ -104,6 +104,7 @@ Truth is in columns, predicted response is in rows.}
 \itemize{
 \item \href{#method-PredictionClassif-new}{\code{PredictionClassif$new()}}
 \item \href{#method-PredictionClassif-set_threshold}{\code{PredictionClassif$set_threshold()}}
+\item \href{#method-PredictionClassif-clone}{\code{PredictionClassif$clone()}}
 }
 }
 \if{html}{\out{
@@ -189,6 +190,23 @@ tied probabilities.}
 Returns the object itself, but modified \strong{by reference}.
 You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
 the object in its previous state.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-PredictionClassif-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-PredictionClassif-clone}{}}}
+\subsection{Method \code{clone()}}{
+The objects of this class are cloneable with this method.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{PredictionClassif$clone(deep = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{deep}}{Whether to make a deep clone.}
+}
+\if{html}{\out{</div>}}
 }
 }
 }

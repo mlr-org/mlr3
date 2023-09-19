@@ -60,7 +60,6 @@
 #' p$set_threshold(th)$response
 #' p$score(measures = msr("classif.ce"))
 PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
-  cloneable = FALSE,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.

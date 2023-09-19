@@ -33,10 +33,12 @@ as_task_regr.TaskRegr = function(x, clone = FALSE, ...) { # nolint
 #'   Defaults to the (deparsed and substituted) name of the data argument.
 #' @template param_label
 #' @export
-as_task_regr.data.frame = function(x, target, id = deparse(substitute(x)), label = NA_character_, ...) { # nolint
+as_task_regr.data.frame = function(x, target = NULL, id = deparse(substitute(x)), label = NA_character_, ...) { # nolint
   force(id)
 
   assert_data_frame(x, min.rows = 1L, min.cols = 1L, col.names = "unique")
+  assert_choice(target, names(x))
+
   ii = which(map_lgl(keep(x, is.double), anyInfinite))
   if (length(ii)) {
     warningf("Detected columns with unsupported Inf values in data: %s", str_collapse(names(ii)))
@@ -47,17 +49,22 @@ as_task_regr.data.frame = function(x, target, id = deparse(substitute(x)), label
 
 #' @rdname as_task_regr
 #' @export
-as_task_regr.matrix = function(x, target, id = deparse(substitute(x)), label = NA_character_, ...) { # nolint
+as_task_regr.matrix = function(x, target = NULL, id = deparse(substitute(x)), label = NA_character_, ...) { # nolint
   force(id)
 
   assert_matrix(x, mode = "numeric")
+  assert_choice(target, colnames(x))
+
   as_task_regr(as.data.table(x), target = target, id = id, label = label, ...)
 }
 
 #' @rdname as_task_regr
 #' @export
-as_task_regr.Matrix = function(x, target, id = deparse(substitute(x)), label = NA_character_, ...) { # nolint
+as_task_regr.Matrix = function(x, target = NULL, id = deparse(substitute(x)), label = NA_character_, ...) { # nolint
   force(id)
+
+  assert_names(colnames(x), "unique")
+  assert_choice(target, colnames(x))
 
   dense = data.table(..row_id = seq_len(nrow(x)))
   b = DataBackendMatrix$new(x, dense = dense, primary_key = "..row_id")
@@ -66,8 +73,10 @@ as_task_regr.Matrix = function(x, target, id = deparse(substitute(x)), label = N
 
 #' @rdname as_task_regr
 #' @export
-as_task_regr.DataBackend = function(x, target, id = deparse(substitute(x)), label = NA_character_, ...) { # nolint
+as_task_regr.DataBackend = function(x, target = NULL, id = deparse(substitute(x)), label = NA_character_, ...) { # nolint
   force(id)
+
+  assert_choice(target, x$colnames)
 
   TaskRegr$new(id = id, backend = x, target = target, label = label, ...)
 }
@@ -88,6 +97,7 @@ as_task_regr.formula = function(x, data, id = deparse(substitute(data)), label =
 
   assert_data_frame(data)
   assert_subset(all.vars(x), c(names(data), "."), .var.name = "formula")
+
   if (!attributes(terms(x, data = data))$response) {
     stopf("Formula %s is missing a response", format(x))
   }

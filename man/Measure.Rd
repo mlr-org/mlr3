@@ -24,7 +24,7 @@ A guide on how to extend \CRANpkg{mlr3} with custom measures can be found in the
 \seealso{
 \itemize{
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
-\url{https://mlr3book.mlr-org.com/basics.html#train-predict}
+\url{https://mlr3book.mlr-org.com/chapters/chapter2/data_and_basic_modeling.html#sec-eval}
 \item Package \CRANpkg{mlr3measures} for the scoring functions.
 \link[mlr3misc:Dictionary]{Dictionary} of \link[=Measure]{Measures}: \link{mlr_measures}
 \code{as.data.table(mlr_measures)} for a table of available \link[=Measure]{Measures} in the running session (depending on the loaded packages).
@@ -146,6 +146,7 @@ Function to aggregate scores computed on different resampling iterations.}
 \item \href{#method-Measure-help}{\code{Measure$help()}}
 \item \href{#method-Measure-score}{\code{Measure$score()}}
 \item \href{#method-Measure-aggregate}{\code{Measure$aggregate()}}
+\item \href{#method-Measure-clone}{\code{Measure$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
@@ -353,6 +354,23 @@ function of the measure.
 }
 \subsection{Returns}{
 \code{numeric(1)}.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Measure-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-Measure-clone}{}}}
+\subsection{Method \code{clone()}}{
+The objects of this class are cloneable with this method.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Measure$clone(deep = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{deep}}{Whether to make a deep clone.}
+}
+\if{html}{\out{</div>}}
 }
 }
 }

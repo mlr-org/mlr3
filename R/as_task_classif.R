@@ -39,6 +39,8 @@ as_task_classif.data.frame = function(x, target = NULL, id = deparse(substitute(
   force(id)
 
   assert_data_frame(x, min.rows = 1L, min.cols = 1L, col.names = "unique")
+  assert_choice(target, names(x))
+
   ii = which(map_lgl(keep(x, is.double), anyInfinite))
   if (length(ii)) {
     warningf("Detected columns with unsupported Inf values in data: %s", str_collapse(names(ii)))
@@ -58,6 +60,8 @@ as_task_classif.matrix = function(x, target, id = deparse(substitute(x)), label 
   force(id)
 
   assert_matrix(x, col.names = "unique", min.rows = 1L, min.cols = 1L)
+  assert_choice(target, colnames(x))
+
   as_task_classif(as.data.table(x), target = target, id = id, label = label, ...)
 }
 
@@ -68,6 +72,7 @@ as_task_classif.Matrix = function(x, target, id = deparse(substitute(x)), label 
 
   assert_names(colnames(x), "unique")
   assert_choice(target, colnames(x))
+
   ii = which(target == colnames(x))
   dense = data.table(..row_id = seq_len(nrow(x)))
   y = x[, target, drop = TRUE]
@@ -86,6 +91,8 @@ as_task_classif.Matrix = function(x, target, id = deparse(substitute(x)), label 
 #' @export
 as_task_classif.DataBackend = function(x, target = NULL, id = deparse(substitute(x)), positive = NULL, label = NA_character_, ...) { # nolint
   force(id)
+
+  assert_choice(target, x$colnames)
 
   TaskClassif$new(id = id, backend = x, target = target, positive = positive, label = label, ...)
 }
@@ -106,6 +113,7 @@ as_task_classif.formula = function(x, data, id = deparse(substitute(data)), posi
 
   assert_data_frame(data)
   assert_subset(all.vars(x), c(names(data), "."), .var.name = "formula")
+
   if (!attributes(terms(x, data = data))$response) {
     stopf("Formula %s is missing a response", format(x))
   }
