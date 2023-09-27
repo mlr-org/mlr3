@@ -126,6 +126,8 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
 
     iters = resampling$iters
     n_params = max(1L, length(param_values))
+    # insert constant values
+    param_values = map(param_values, function(values) insert_named(learner$param_set$values, values))
 
     data.table(
       task = list(task), learner = list(learner), resampling = list(resampling),

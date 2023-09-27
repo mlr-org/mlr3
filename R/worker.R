@@ -248,6 +248,7 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
   # train model
   learner = learner$clone()
   if (length(param_values)) {
+    learner$param_set$values = list()
     learner$param_set$set_values(.values = param_values)
   }
   learner_hash = learner$hash
