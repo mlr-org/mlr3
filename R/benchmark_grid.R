@@ -18,6 +18,7 @@
 #' @param tasks (list of [Task]).
 #' @param learners (list of [Learner]).
 #' @param resamplings (list of [Resampling]).
+#' @template param_param_values
 #' @param paired (`logical(1)`)\cr
 #'   Set this to `TRUE` if the resamplings are instantiated on the tasks, i.e., the tasks and resamplings are paired.
 #'   You need to provide the same number of tasks and instantiated resamplings.
@@ -64,10 +65,13 @@
 #' benchmark(grid)
 #' }
 #'
-benchmark_grid = function(tasks, learners, resamplings, paired = FALSE) {
+benchmark_grid = function(tasks, learners, resamplings, param_values = NULL, paired = FALSE) {
   tasks = assert_tasks(as_tasks(tasks))
   learners = assert_learners(as_learners(learners))
   resamplings = assert_resamplings(as_resamplings(resamplings))
+  if (!is.null(param_values)) {
+    assert_param_values(param_values, n_learners = length(learners))
+  }
 
   if (assert_flag(paired)) {
     if (length(tasks) != length(resamplings)) {
@@ -86,13 +90,7 @@ benchmark_grid = function(tasks, learners, resamplings, paired = FALSE) {
     }
 
     grid = CJ(task = seq_along(tasks), learner = seq_along(learners))
-    grid$instance = seq_row(grid)
-
-    tab = data.table(
-      task = tasks[grid$task],
-      learner = learners[grid$learner],
-      resampling = resamplings[grid$task]
-    )
+    tab = data.table(task = tasks[grid$task], learner = learners[grid$learner], resampling = resamplings[grid$task])
   } else {
     grid = CJ(task = seq_along(tasks), resampling = seq_along(resamplings))
     is_instantiated = map_lgl(resamplings, "is_instantiated")
@@ -116,14 +114,20 @@ benchmark_grid = function(tasks, learners, resamplings, paired = FALSE) {
     tab = data.table(task = tasks[grid$task], learner = learners[grid$learner], resampling = instances[grid$instance])
   }
 
+  if (!is.null(param_values)) {
+    set(tab, j = "param_values", value = list(param_values[grid$learner]))
+  }
+
   set_data_table_class(tab, "benchmark_grid")
   return(tab)
 }
 
 #' @export
 print.benchmark_grid = function(x, ...) {
-  task_ids = map(x$task, "id")
-  learner_ids = map(x$learner, "id")
-  resampling_ids = map(x$resampling, "id")
-  print(data.table(task = task_ids, learner = learner_ids, resampling = resampling_ids))
+  print(data.table(
+    task = ids(x$task),
+    learner = ids(x$learner),
+    resampling = ids(x$resampling),
+    param_values = if (is.null(x$param_values)) NULL else sprintf("<%i>", lengths(x$param_values))
+  ))
 }

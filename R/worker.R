@@ -224,7 +224,7 @@ learner_predict = function(learner, task, row_ids = NULL) {
 }
 
 
-workhorse = function(iteration, task, learner, resampling, lgr_threshold, store_models = FALSE, pb = NULL, mode = "train") {
+workhorse = function(iteration, task, learner, resampling, param_values = NULL, lgr_threshold, store_models = FALSE, pb = NULL, mode = "train") {
   if (!is.null(pb)) {
     pb(sprintf("%s|%s|i:%i", task$id, learner$id, iteration))
   }
@@ -246,7 +246,13 @@ workhorse = function(iteration, task, learner, resampling, lgr_threshold, store_
   )
 
   # train model
-  learner = learner_train(learner$clone(), task, sets[["train"]], sets[["test"]], mode = mode)
+  learner = learner$clone()
+  if (length(param_values)) {
+    learner$param_set$values = list()
+    learner$param_set$set_values(.values = param_values)
+  }
+  learner_hash = learner$hash
+  learner = learner_train(learner, task, sets[["train"]], sets[["test"]], mode = mode)
 
   # predict for each set
   sets = sets[learner$predict_sets]
@@ -261,7 +267,7 @@ workhorse = function(iteration, task, learner, resampling, lgr_threshold, store_
     learner$state$model = NULL
   }
 
-  list(learner_state = learner$state, prediction = pdatas)
+  list(learner_state = learner$state, prediction = pdatas, param_values = learner$param_set$values, learner_hash = learner_hash)
 }
 
 append_log = function(log = NULL, stage = NA_character_, class = NA_character_, msg = character()) {

@@ -116,7 +116,9 @@ resample = function(task, learner, resampling, store_models = FALSE, store_backe
     resampling = list(resampling),
     iteration = seq_len(n),
     prediction = map(res, "prediction"),
-    uhash = UUIDgenerate()
+    uhash = UUIDgenerate(),
+    param_values = map(res, "param_values"),
+    learner_hash = map_chr(res, "learner_hash")
   )
 
   ResampleResult$new(ResultData$new(data, store_backends = store_backends))

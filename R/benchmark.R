@@ -8,6 +8,7 @@
 #'   Each row defines a resampling by providing a [Task], [Learner] and an instantiated [Resampling] strategy.
 #'   The helper function [benchmark_grid()] can assist in generating an exhaustive design (see examples) and
 #'   instantiate the [Resampling]s per [Task].
+#'   Additionally, you can set the additional column 'param_values', see [benchmark_grid()].
 #' @template param_store_models
 #' @template param_store_backends
 #' @template param_encapsulate
@@ -79,10 +80,15 @@
 benchmark = function(design, store_models = FALSE, store_backends = TRUE, encapsulate = NA_character_, allow_hotstart = FALSE, clone = c("task", "learner", "resampling")) {
   assert_subset(clone, c("task", "learner", "resampling"))
   assert_data_frame(design, min.rows = 1L)
-  assert_names(names(design), permutation.of = c("task", "learner", "resampling"))
+  assert_names(names(design), must.include = c("task", "learner", "resampling"))
   design$task = list(assert_tasks(as_tasks(design$task)))
   design$learner = list(assert_learners(as_learners(design$learner)))
   design$resampling = list(assert_resamplings(as_resamplings(design$resampling), instantiated = TRUE))
+  if (is.null(design$param_values)) {
+    design$param_values = list()
+  } else {
+    design$param_values = list(assert_param_values(design$param_values, n_learners = length(design$learner)))
+  }
   assert_flag(store_models)
   assert_flag(store_backends)
 
@@ -113,15 +119,24 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
   # set encapsulation + fallback
   set_encapsulation(design$learner, encapsulate)
 
-  # expand the design: add rows for each resampling iteration
-  grid = pmap_dtr(design, function(task, learner, resampling) {
+  # expand the design: add rows for each resampling iteration and param_values
+  grid = pmap_dtr(design, function(task, learner, resampling, param_values) {
     # learner = assert_learner(as_learner(learner, clone = TRUE))
     assert_learnable(task, learner)
+
+    iters = resampling$iters
+    n_params = max(1L, length(param_values))
+    # insert constant values
+    param_values = map(param_values, function(values) insert_named(learner$param_set$values, values))
+
     data.table(
       task = list(task), learner = list(learner), resampling = list(resampling),
-      iteration = seq_len(resampling$iters), uhash = UUIDgenerate()
+      iteration = rep(seq_len(iters), times = n_params),
+      param_values = if (is.null(param_values)) list() else rep(param_values, each = iters),
+      uhash = rep(UUIDgenerate(n = n_params), each = iters)
     )
   })
+
   n = nrow(grid)
   lgr_threshold = map_int(mlr_reflections$loggers, "threshold")
 
@@ -167,17 +182,19 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
   }
 
   res = future_map(n, workhorse,
-    task = grid$task, learner = grid$learner, resampling = grid$resampling, iteration = grid$iteration, mode = grid$mode,
+    task = grid$task, learner = grid$learner, resampling = grid$resampling, iteration = grid$iteration, param_values = grid$param_values, mode = grid$mode,
     MoreArgs = list(store_models = store_models, lgr_threshold = lgr_threshold, pb = pb)
   )
 
   grid = insert_named(grid, list(
     learner_state = map(res, "learner_state"),
-    prediction = map(res, "prediction")
+    prediction = map(res, "prediction"),
+    param_values = map(res, "param_values"),
+    learner_hash = map_chr(res, "learner_hash")
   ))
 
   lg$info("Finished benchmark")
 
-  grid$mode = NULL
+  set(grid, j = "mode", value = NULL)
   BenchmarkResult$new(ResultData$new(grid, store_backends = store_backends))
 }
