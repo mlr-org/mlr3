@@ -97,7 +97,8 @@
 Data frame (or <code><a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code>) with three columns: "task", "learner", and "resampling".
 Each row defines a resampling by providing a <a href="Task.html">Task</a>, <a href="Learner.html">Learner</a> and an instantiated <a href="Resampling.html">Resampling</a> strategy.
 The helper function <code><a href="benchmark_grid.html">benchmark_grid()</a></code> can assist in generating an exhaustive design (see examples) and
-instantiate the <a href="Resampling.html">Resampling</a>s per <a href="Task.html">Task</a>.</p></dd>
+instantiate the <a href="Resampling.html">Resampling</a>s per <a href="Task.html">Task</a>.
+Additionally, you can set the additional column 'param_values', see <code><a href="benchmark_grid.html">benchmark_grid()</a></code>.</p></dd>
 
 
 <dt>store_models</dt>
@@ -241,12 +242,12 @@ or <code>"trace"</code>:</p>
 <span class="r-in"><span><span class="co">## Data of all resamplings</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html" class="external-link">as.data.table</a></span><span class="op">(</span><span class="va">bmr</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                   uhash              task</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 5d2320d8-82fa-47ee-b6f6-e0d8af46d925 &lt;TaskClassif[51]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 5d2320d8-82fa-47ee-b6f6-e0d8af46d925 &lt;TaskClassif[51]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 5d2320d8-82fa-47ee-b6f6-e0d8af46d925 &lt;TaskClassif[51]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4: aa3b8cef-da70-43f9-a5b6-65bd5935a327 &lt;TaskClassif[51]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5: aa3b8cef-da70-43f9-a5b6-65bd5935a327 &lt;TaskClassif[51]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6: aa3b8cef-da70-43f9-a5b6-65bd5935a327 &lt;TaskClassif[51]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 4469dfea-652c-49ac-81c8-0e669d24124a &lt;TaskClassif[51]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 4469dfea-652c-49ac-81c8-0e669d24124a &lt;TaskClassif[51]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 4469dfea-652c-49ac-81c8-0e669d24124a &lt;TaskClassif[51]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4: 12d8e929-bc95-4a0f-807a-741a8d79d439 &lt;TaskClassif[51]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5: 12d8e929-bc95-4a0f-807a-741a8d79d439 &lt;TaskClassif[51]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6: 12d8e929-bc95-4a0f-807a-741a8d79d439 &lt;TaskClassif[51]&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                            learner         resampling iteration</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: &lt;LearnerClassifFeatureless[38]&gt; &lt;ResamplingCV[20]&gt;         1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2: &lt;LearnerClassifFeatureless[38]&gt; &lt;ResamplingCV[20]&gt;         2</span>

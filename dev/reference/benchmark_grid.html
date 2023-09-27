@@ -113,7 +113,13 @@ The grid will be generated based on the Cartesian product of learners and pairs.
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">benchmark_grid</span><span class="op">(</span><span class="va">tasks</span>, <span class="va">learners</span>, <span class="va">resamplings</span>, paired <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">benchmark_grid</span><span class="op">(</span></span>
+<span>  <span class="va">tasks</span>,</span>
+<span>  <span class="va">learners</span>,</span>
+<span>  <span class="va">resamplings</span>,</span>
+<span>  param_values <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  paired <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -128,6 +134,17 @@ The grid will be generated based on the Cartesian product of learners and pairs.
 
 <dt>resamplings</dt>
 <dd><p>(list of <a href="Resampling.html">Resampling</a>).</p></dd>
+
+
+<dt>param_values</dt>
+<dd><p>(<code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>)<br>
+If you want to try many parameter settings for learners, you can pass them through the design
+which is optimized to be faster than creating learners for each setting.</p>
+<p>A list of lists of named lists, from outer to inner:</p><ol><li><p>One list element for each <a href="Learner.html">Learner</a>.</p></li>
+<li><p>One list element for each hyperparameter configuration to try.</p></li>
+<li><p>Named list of hyperparameter settings to set in the Learner, possibly overwriting
+already set set hyperparameters in the <a href="Learner.html">Learner</a>.</p></li>
+</ol></dd>
 
 
 <dt>paired</dt>
