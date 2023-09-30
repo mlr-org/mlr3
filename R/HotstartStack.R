@@ -158,7 +158,6 @@ HotstartStack = R6Class("HotstartStack",
         ][which_min(get("cost"), na_rm = TRUE), start_learner]
 
       if (!length(start_learner)) return(NULL)
-      browser()
       learner$state = start_learner[[1]]$state
       learner
     }
