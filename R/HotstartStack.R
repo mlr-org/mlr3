@@ -159,7 +159,7 @@ HotstartStack = R6Class("HotstartStack",
         ][, "cost" := map_dbl(start_learner, function(l) calculate_cost(l, learner, hotstart_id))
         ][which_min(get("cost"), na_rm = TRUE), start_learner]
 
-      lg$debug("Found %i start learner(s) in hotstart stack.", length(start_learner))
+      lg$debug("Found %i start learner(s) in hotstart stack of size %i.", length(start_learner), nrow(self$stack))
 
       if (!length(start_learner)) return(NULL)
       learner$state = start_learner[[1]]$state
