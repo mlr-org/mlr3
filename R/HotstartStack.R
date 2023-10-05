@@ -86,6 +86,8 @@ HotstartStack = R6Class("HotstartStack",
       task_hash = map_chr(learners, function(learner) learner$state$task_hash)
       learner_hash = map_chr(learners, learner_hotstart_hash)
 
+      lg$debug("Adding %s learners to the hotstart stack.", length(learners))
+
       self$stack = rbindlist(list(self$stack, data.table(start_learner = learners, task_hash, learner_hash)))
       setkeyv(self$stack, c("task_hash", "learner_hash"))
 
@@ -156,6 +158,8 @@ HotstartStack = R6Class("HotstartStack",
       start_learner = self$stack[list(.task_hash, .learner_hash), on = c("task_hash", "learner_hash"), nomatch = NULL
         ][, "cost" := map_dbl(start_learner, function(l) calculate_cost(l, learner, hotstart_id))
         ][which_min(get("cost"), na_rm = TRUE), start_learner]
+
+      lg$debug("Found %i start learner(s).", length(start_learner))
 
       if (!length(start_learner)) return(NULL)
       learner$state = start_learner[[1]]$state
