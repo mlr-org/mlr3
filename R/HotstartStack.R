@@ -56,7 +56,7 @@ HotstartStack = R6Class("HotstartStack",
 
     #' @field hotstart_threshold (named `numeric(1)`)\cr
     #' Threshold for storing learners in the stack.
-    #' If the value of the hotstart parameter is bellow this threshold, the learner is not added to the stack.
+    #' If the value of the hotstart parameter is below this threshold, the learner is not added to the stack.
     hotstart_threshold = NULL,
 
     #' @description
@@ -69,7 +69,7 @@ HotstartStack = R6Class("HotstartStack",
     #'   Threshold for storing learners in the stack.
     initialize = function(learners = NULL, hotstart_threshold = NULL) {
       self$stack = data.table()
-      self$hotstart_threshold = assert_numeric(hotstart_threshold, names = "named")
+      self$hotstart_threshold = assert_numeric(hotstart_threshold, names = "named", null.ok = TRUE)
 
       # add learners to stack
       if (!is.null(learners)) self$add(learners)

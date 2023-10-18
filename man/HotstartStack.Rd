@@ -58,7 +58,7 @@ Stores hot start learners.}
 
 \item{\code{hotstart_threshold}}{(named \code{numeric(1)})\cr
 Threshold for storing learners in the stack.
-If the value of the hotstart parameter is bellow this threshold, the learner is not added to the stack.}
+If the value of the hotstart parameter is below this threshold, the learner is not added to the stack.}
 }
 \if{html}{\out{</div>}}
 }
