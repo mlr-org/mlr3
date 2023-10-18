@@ -54,14 +54,22 @@ HotstartStack = R6Class("HotstartStack",
     #' Stores hot start learners.
     stack = NULL,
 
+    #' @field hotstart_threshold (named `numeric(1)`)\cr
+    #' Threshold for storing learners in the stack.
+    #' If the value of the hotstart parameter is bellow this threshold, the learner is not added to the stack.
+    hotstart_threshold = NULL,
+
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #'
     #' @param learners (List of [Learner]s)\cr
     #'   Learners are added to the hotstart stack. If `NULL` (default), empty
     #'   stack is created.
-    initialize = function(learners = NULL) {
+    #' @param hotstart_threshold (named `numeric(1)`)\cr
+    #'   Threshold for storing learners in the stack.
+    initialize = function(learners = NULL, hotstart_threshold = NULL) {
       self$stack = data.table()
+      self$hotstart_threshold = assert_numeric(hotstart_threshold, names = "named")
 
       # add learners to stack
       if (!is.null(learners)) self$add(learners)
@@ -82,6 +90,14 @@ HotstartStack = R6Class("HotstartStack",
         stopf("Learners must be trained before adding them to the hotstart stack.")
       }
 
+      if (!is.null(self$hotstart_threshold)) {
+        learners = keep(learners, function(learner) {
+          hotstart_id = learner$param_set$ids(tags = "hotstart")
+          learner$param_set$values[[hotstart_id]] >= self$hotstart_threshold[hotstart_id]
+        })
+        if (!length(learners)) return(invisible(self))
+      }
+
       # hashes
       task_hash = map_chr(learners, function(learner) learner$state$task_hash)
       learner_hash = map_chr(learners, learner_hotstart_hash)
@@ -95,8 +111,7 @@ HotstartStack = R6Class("HotstartStack",
     },
 
     #' @description
-    #' Calculates the cost for each learner of the stack to hot start the target
-    #' `learner`.
+    #' Calculates the cost for each learner of the stack to hot start the target `learner`.
     #'
     #' The following cost values can be returned:
     #'
