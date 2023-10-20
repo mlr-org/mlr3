@@ -12,7 +12,7 @@ DataBackendCbind = R6Class("DataBackendCbind", inherit = DataBackend, cloneable 
       }
 
       if (pk != b2$primary_key) {
-        stopf("All backends to rbind must have the primary_key '%s'", pk)
+        stopf("All backends to cbind must have the primary_key '%s'", pk)
       }
 
       super$initialize(list(b1 = b1, b2 = b2), pk, "data.table")
