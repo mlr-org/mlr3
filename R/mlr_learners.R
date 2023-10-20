@@ -45,7 +45,7 @@ as.data.table.DictionaryLearner = function(x, ..., objects = FALSE) {
   assert_flag(objects)
 
   setkeyv(map_dtr(x$keys(), function(key) {
-    l = withCallingHandlers(x$get(key),
+    l = withCallingHandlers(x$get(key, .prototype = TRUE),
       packageNotFoundWarning = function(w) invokeRestart("muffleWarning"))
     insert_named(
       list(key = key, label = l$label, task_type = l$task_type, feature_types = list(l$feature_types), packages = list(l$packages),

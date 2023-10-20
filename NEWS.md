@@ -1,5 +1,7 @@
 # mlr3 0.16.1-9000
 
+* feat: dictionary conversion of `mlr_learners` respects prototype arguments
+recently added in mlr3i
 * export generic function `col_info` to allow adding new methods for backends
 * Add `"mlr3.exec_chunk_bins"` option to split the resampling iterations into a number of bins.
 

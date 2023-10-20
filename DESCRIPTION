@@ -68,6 +68,8 @@ Suggests:
     remotes,
     rpart,
     testthat (>= 3.1.0)
+Remotes:
+    mlr-org/mlr3misc@feat/dict-prototype
 Encoding: UTF-8
 Config/testthat/edition: 3
 Config/testthat/parallel: false

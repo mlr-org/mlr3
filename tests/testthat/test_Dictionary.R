@@ -9,3 +9,26 @@ test_that("Dictionary: clone works", {
 test_that("$keys(pattern) works", {
   expect_subset(mlr_learners$keys("classif"), mlr_learners$keys(), empty.ok = FALSE)
 })
+
+test_that("dictionary to data.table conversion works with prototype arguments", {
+  LearnerRegrRpart2 = R6Class("LearnerRegrRpart2",
+    inherit = LearnerRegrRpart,
+    public = list(
+      x = NULL,
+      initialize = function(x) {
+        self$x = x
+        super$initialize()
+      }
+    )
+  )
+  on.exit(mlr_learners$remove("regr.rpart2"))
+  mlr_learners$add("regr.rpart2", LearnerRegrRpart2, .prototype_args = list(x = 123))
+
+  dt = as.data.table(mlr_learners)
+  expect_data_table(dt)
+
+  expect_identical(
+    dt[list("regr.rpart"), -1, on = "key"],
+    dt[list("regr.rpart2"), -1, on = "key"]
+  )
+})
