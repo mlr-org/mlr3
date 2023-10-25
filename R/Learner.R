@@ -223,6 +223,9 @@ Learner = R6Class("Learner",
     train = function(task, row_ids = NULL) {
       task = assert_task(as_task(task))
       assert_learnable(task, self)
+      if (!is.null(private$.verify_train_task)) {
+        private$.verify_train_task(task, row_ids)
+      }
       row_ids = assert_row_ids(row_ids, null.ok = TRUE)
 
       if (!is.null(self$hotstart_stack)) {
@@ -268,6 +271,9 @@ Learner = R6Class("Learner",
       }
       task = assert_task(as_task(task))
       assert_predictable(task, self)
+      if (!is.null(private$.verify_predict_task)) {
+        private$.verify_predict_task(task, row_ids)
+      }
       row_ids = assert_row_ids(row_ids, null.ok = TRUE)
 
       if (is.null(self$state$model) && is.null(self$state$fallback_state$model)) {
@@ -518,7 +524,8 @@ Learner = R6Class("Learner",
     .predict_type = NULL,
     .param_set = NULL,
     .hotstart_stack = NULL,
-
+    .verify_train_task = NULL,
+    .verify_predict_task = NULL,
     deep_clone = function(name, value) {
       switch(name,
         .param_set = value$clone(deep = TRUE),
