@@ -2,7 +2,7 @@
 
 * export generic function `col_info` to allow adding new methods for backends
 * Add `"mlr3.exec_chunk_bins"` option to split the resampling iterations into a number of bins.
-* Feat: `Learner` class now private methods `.verify_train_task(task, row_ids)` and
+* Feat: `Learner` class now supports private methods `.verify_train_task(task, row_ids)` and
 `verify_predict_task(task, row_ids)` that can be used to perform additional
 compatibility checks between the task and learner that should e.g. not trigger
 the use of the fallback learner
