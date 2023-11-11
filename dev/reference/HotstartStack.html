@@ -146,6 +146,12 @@ The fidelity parameters are tagged with <code>"hotstart"</code> in learner's par
 Stores hot start learners.</p></dd>
 
 
+<dt><code>hotstart_threshold</code></dt>
+<dd><p>(named <code>numeric(1)</code>)<br>
+Threshold for storing learners in the stack.
+If the value of the hotstart parameter is below this threshold, the learner is not added to the stack.</p></dd>
+
+
 </dl><p></p></div>
     </div>
     <div class="section level2">
@@ -164,7 +170,7 @@ Stores hot start learners.</p></dd>
 <h3 id="method-new-">Method <code>new()</code><a class="anchor" aria-label="anchor" href="#method-new-"></a></h3>
 <p>Creates a new instance of this <a href="https://r6.r-lib.org/reference/R6Class.html" class="external-link">R6</a> class.</p><div class="section">
 <h4 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va"><a href="../reference/HotstartStack.html">HotstartStack</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>learners <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va"><a href="../reference/HotstartStack.html">HotstartStack</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>learners <span class="op">=</span> <span class="cn">NULL</span>, hotstart_threshold <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -173,6 +179,11 @@ Stores hot start learners.</p></dd>
 <dd><p>(List of <a href="Learner.html">Learner</a>s)<br>
 Learners are added to the hotstart stack. If <code>NULL</code> (default), empty
 stack is created.</p></dd>
+
+
+<dt><code>hotstart_threshold</code></dt>
+<dd><p>(named <code>numeric(1)</code>)<br>
+Threshold for storing learners in the stack.</p></dd>
 
 
 </dl><p></p></div>
@@ -201,8 +212,7 @@ Learners are added to the hotstart stack.</p></dd>
 
 </div><p></p><hr><a id="method-HotstartStack-start_cost"></a><div class="section">
 <h3 id="method-start-cost-">Method <code>start_cost()</code><a class="anchor" aria-label="anchor" href="#method-start-cost-"></a></h3>
-<p>Calculates the cost for each learner of the stack to hot start the target
-<code>learner</code>.</p>
+<p>Calculates the cost for each learner of the stack to hot start the target <code>learner</code>.</p>
 <p>The following cost values can be returned:</p><ul><li><p><code>NA_real_</code>: Learner is unsuitable to hot start target <code>learner</code>.</p></li>
 <li><p><code>-1</code>: Hotstart learner in the stack and target <code>learner</code> are identical.</p></li>
 <li><p><code>0</code> Cost for hot starting backwards is always 0.</p></li>

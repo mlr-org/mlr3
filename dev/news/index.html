@@ -75,7 +75,12 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.16.1-9000" id="mlr3-0161-9000">mlr3 0.16.1-9000<a class="anchor" aria-label="anchor" href="#mlr3-0161-9000"></a></h2>
-<ul><li>export generic function <code>col_info</code> to allow adding new methods for backends</li>
+<ul><li>Learners cannot be added to the <code>HotstartStack</code> anymore when the model is missing.</li>
+<li>Learners bellow the <code>hotstart_threshold</code> are not added to the <code>HotstartStack</code> anymore.</li>
+<li>The <code>learner$state$train_time</code> in hotstarted learners is now only the time of the last training.</li>
+<li>Added debug messages to the hotstart stack.</li>
+<li>Fixed bug where the <code>HotstartStack</code> did not work with column roles set in the task.</li>
+<li>export generic function <code>col_info</code> to allow adding new methods for backends</li>
 <li>Add <code>"mlr3.exec_chunk_bins"</code> option to split the resampling iterations into a number of bins.</li>
 </ul></div>
     <div class="section level2">
