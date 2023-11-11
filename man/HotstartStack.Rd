@@ -55,6 +55,10 @@ learner$train(task)
 \describe{
 \item{\code{stack}}{\code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Stores hot start learners.}
+
+\item{\code{hotstart_threshold}}{(named \code{numeric(1)})\cr
+Threshold for storing learners in the stack.
+If the value of the hotstart parameter is below this threshold, the learner is not added to the stack.}
 }
 \if{html}{\out{</div>}}
 }
@@ -75,7 +79,7 @@ Stores hot start learners.}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{HotstartStack$new(learners = NULL)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{HotstartStack$new(learners = NULL, hotstart_threshold = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -84,6 +88,9 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 \item{\code{learners}}{(List of \link{Learner}s)\cr
 Learners are added to the hotstart stack. If \code{NULL} (default), empty
 stack is created.}
+
+\item{\code{hotstart_threshold}}{(named \code{numeric(1)})\cr
+Threshold for storing learners in the stack.}
 }
 \if{html}{\out{</div>}}
 }
@@ -113,8 +120,7 @@ self (invisibly).
 \if{html}{\out{<a id="method-HotstartStack-start_cost"></a>}}
 \if{latex}{\out{\hypertarget{method-HotstartStack-start_cost}{}}}
 \subsection{Method \code{start_cost()}}{
-Calculates the cost for each learner of the stack to hot start the target
-\code{learner}.
+Calculates the cost for each learner of the stack to hot start the target \code{learner}.
 
 The following cost values can be returned:
 \itemize{

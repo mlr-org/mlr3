@@ -65,13 +65,8 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
     .timeout = learner$timeout["train"]
   )
 
-  if (mode == "train") {
-    log = append_log(NULL, "train", result$log$class, result$log$msg)
-    train_time = result$elapsed
-  } else { # hotstart
-    log = rbindlist(list(learner$state$log, append_log(NULL, "train", result$log$class, result$log$msg)))
-    train_time = learner$state$train_time + result$elapsed
-  }
+  log = append_log(NULL, "train", result$log$class, result$log$msg)
+  train_time = result$elapsed
 
   proto = task$data(rows = integer())
   learner$state = insert_named(learner$state, list(

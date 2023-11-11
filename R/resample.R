@@ -77,7 +77,10 @@ resample = function(task, learner, resampling, store_models = FALSE, store_backe
   lgr_threshold = map_int(mlr_reflections$loggers, "threshold")
 
   grid = if (allow_hotstart) {
-   hotstart_grid = map_dtr(seq_len(n), function(iteration) {
+
+    lg$debug("Resampling with hotstart enabled.")
+
+    hotstart_grid = map_dtr(seq_len(n), function(iteration) {
       if (!is.null(learner$hotstart_stack)) {
         # search for hotstart learner
         task_hashes = task_hashes(task, resampling)
@@ -85,9 +88,11 @@ resample = function(task, learner, resampling, store_models = FALSE, store_backe
       }
       if (is.null(learner$hotstart_stack) || is.null(start_learner)) {
         # no hotstart learners stored or no adaptable model found
+        lg$debug("Resampling with hotstarting not possible. Not start learner found.")
         mode = "train"
       } else {
         # hotstart learner found
+        lg$debug("Resampling with hotstarting.")
         start_learner$param_set$values = insert_named(start_learner$param_set$values, learner$param_set$values)
         learner = start_learner
         mode = "hotstart"

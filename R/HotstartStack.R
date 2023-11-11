@@ -54,14 +54,22 @@ HotstartStack = R6Class("HotstartStack",
     #' Stores hot start learners.
     stack = NULL,
 
+    #' @field hotstart_threshold (named `numeric(1)`)\cr
+    #' Threshold for storing learners in the stack.
+    #' If the value of the hotstart parameter is below this threshold, the learner is not added to the stack.
+    hotstart_threshold = NULL,
+
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #'
     #' @param learners (List of [Learner]s)\cr
     #'   Learners are added to the hotstart stack. If `NULL` (default), empty
     #'   stack is created.
-    initialize = function(learners = NULL) {
+    #' @param hotstart_threshold (named `numeric(1)`)\cr
+    #'   Threshold for storing learners in the stack.
+    initialize = function(learners = NULL, hotstart_threshold = NULL) {
       self$stack = data.table()
+      self$hotstart_threshold = assert_numeric(hotstart_threshold, names = "named", null.ok = TRUE)
 
       # add learners to stack
       if (!is.null(learners)) self$add(learners)
@@ -77,9 +85,24 @@ HotstartStack = R6Class("HotstartStack",
     add = function(learners) {
       learners = assert_learners(as_learners(learners))
 
+      # check for models
+      if (any(map_lgl(learners, function(learner) is.null(learner$state$model)))) {
+        stopf("Learners must be trained before adding them to the hotstart stack.")
+      }
+
+      if (!is.null(self$hotstart_threshold)) {
+        learners = keep(learners, function(learner) {
+          hotstart_id = learner$param_set$ids(tags = "hotstart")
+          learner$param_set$values[[hotstart_id]] >= self$hotstart_threshold[hotstart_id]
+        })
+        if (!length(learners)) return(invisible(self))
+      }
+
       # hashes
       task_hash = map_chr(learners, function(learner) learner$state$task_hash)
       learner_hash = map_chr(learners, learner_hotstart_hash)
+
+      lg$debug("Adding %s learner(s) to the hotstart stack.", length(learners))
 
       self$stack = rbindlist(list(self$stack, data.table(start_learner = learners, task_hash, learner_hash)))
       setkeyv(self$stack, c("task_hash", "learner_hash"))
@@ -88,8 +111,7 @@ HotstartStack = R6Class("HotstartStack",
     },
 
     #' @description
-    #' Calculates the cost for each learner of the stack to hot start the target
-    #' `learner`.
+    #' Calculates the cost for each learner of the stack to hot start the target `learner`.
     #'
     #' The following cost values can be returned:
     #'
@@ -151,6 +173,8 @@ HotstartStack = R6Class("HotstartStack",
       start_learner = self$stack[list(.task_hash, .learner_hash), on = c("task_hash", "learner_hash"), nomatch = NULL
         ][, "cost" := map_dbl(start_learner, function(l) calculate_cost(l, learner, hotstart_id))
         ][which_min(get("cost"), na_rm = TRUE), start_learner]
+
+      lg$debug("Found %i start learner(s) in hotstart stack of size %i.", length(start_learner), nrow(self$stack))
 
       if (!length(start_learner)) return(NULL)
       learner$state = start_learner[[1]]$state
