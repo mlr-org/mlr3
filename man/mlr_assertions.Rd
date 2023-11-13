@@ -120,12 +120,12 @@ Set of required task properties.}
 
 \item{prediction}{(\link{Prediction}).}
 
+\item{rr}{(\link{ResampleResult}).}
+
 \item{bmr}{(\link{BenchmarkResult}).}
 
 \item{row_ids}{\code{integer()}\cr
 Row indices.}
-
-\item{resample_result}{(\link{ResampleResult}).}
 }
 \description{
 Functions intended to be used in packages extending \pkg{mlr3}.

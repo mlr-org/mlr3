@@ -259,7 +259,7 @@ assert_prediction = function(prediction, .var.name = vname(prediction)) {
 
 
 #' @export
-#' @param resample_result ([ResampleResult]).
+#' @param rr ([ResampleResult]).
 #' @rdname mlr_assertions
 assert_resample_result = function(rr, .var.name = vname(rr)) {
   assert_class(rr, "ResampleResult", .var.name = .var.name)
