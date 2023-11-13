@@ -5,7 +5,11 @@
 * The `learner$state$train_time` in hotstarted learners is now only the time of the last training.
 * Added debug messages to the hotstart stack.
 * Fixed bug where the `HotstartStack` did not work with column roles set in the task.
-* export generic function `col_info` to allow adding new methods for backends
+* The `design` of `benchmark()` can now include parameter settings.
+* Speed up resampling by removing unnecessary calls to `packageVersion()`.
+* Fix boston housing data set.
+* Export generic function `col_info` to allow adding new methods for backends.
+* Task printer includes row roles now.
 * Add `"mlr3.exec_chunk_bins"` option to split the resampling iterations into a number of bins.
 
 # mlr3 0.16.1
