@@ -80,7 +80,11 @@
 <li>The <code>learner$state$train_time</code> in hotstarted learners is now only the time of the last training.</li>
 <li>Added debug messages to the hotstart stack.</li>
 <li>Fixed bug where the <code>HotstartStack</code> did not work with column roles set in the task.</li>
-<li>export generic function <code>col_info</code> to allow adding new methods for backends</li>
+<li>The <code>design</code> of <code><a href="../reference/benchmark.html">benchmark()</a></code> can now include parameter settings.</li>
+<li>Speed up resampling by removing unnecessary calls to <code><a href="https://rdrr.io/r/utils/packageDescription.html" class="external-link">packageVersion()</a></code>.</li>
+<li>Fix boston housing data set.</li>
+<li>Export generic function <code>col_info</code> to allow adding new methods for backends.</li>
+<li>Task printer includes row roles now.</li>
 <li>Add <code>"mlr3.exec_chunk_bins"</code> option to split the resampling iterations into a number of bins.</li>
 </ul></div>
     <div class="section level2">
