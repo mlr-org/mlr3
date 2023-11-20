@@ -35,7 +35,7 @@ predict type &quot;prob&quot; for a LearnerClassif provides the probabilities as
 learner_predict_types (list of list of character())
 List of lists of supported Learner predict_types, named by their task type.
 learner_param_tags (character())
-Character vector of allowed 'tags' for the paradox::Params of a Learner.
+Character vector of allowed 'tags' for the paradox::ParamSets of a Learner.
 predict_sets (character())
 Vector of possible predict sets. Currently supported are &quot;train&quot;, &quot;test&quot; and &quot;holdout&quot;.
 measure_properties (list of character())
@@ -49,7 +49,7 @@ Environment of converter functions used for rbind-ing data to tasks.
 Functions are named using the pattern &quot;[from_type]___[to_type]&quot;.
 Can be extended by third-party with additional converters.
 
-"><title>Reflections for mlr3 — mlr_reflections • mlr3</title><!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png"><link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png"><link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png"><link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png"><link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png"><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.6/font.css" rel="stylesheet"><link href="../deps/JetBrains_Mono-0.4.6/font.css" rel="stylesheet"><link href="../deps/Roboto_Slab-0.4.6/font.css" rel="stylesheet"><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Reflections for mlr3 — mlr_reflections"><meta property="og:description" content="Environment which stores various information to allow objects to examine and introspect their structure and properties
+"><title>Reflections for mlr3 — mlr_reflections • mlr3</title><!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png"><link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png"><link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png"><link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png"><link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png"><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.7/font.css" rel="stylesheet"><link href="../deps/JetBrains_Mono-0.4.7/font.css" rel="stylesheet"><link href="../deps/Roboto_Slab-0.4.7/font.css" rel="stylesheet"><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Reflections for mlr3 — mlr_reflections"><meta property="og:description" content="Environment which stores various information to allow objects to examine and introspect their structure and properties
 (c.f. Reflections).
 This environment be modified by third-party packages, e.g. by adding information about new task types
 or by extending the set of allowed feature types.
@@ -85,7 +85,7 @@ predict type &quot;prob&quot; for a LearnerClassif provides the probabilities as
 learner_predict_types (list of list of character())
 List of lists of supported Learner predict_types, named by their task type.
 learner_param_tags (character())
-Character vector of allowed 'tags' for the paradox::Params of a Learner.
+Character vector of allowed 'tags' for the paradox::ParamSets of a Learner.
 predict_sets (character())
 Vector of possible predict sets. Currently supported are &quot;train&quot;, &quot;test&quot; and &quot;holdout&quot;.
 measure_properties (list of character())
@@ -110,7 +110,7 @@ Can be extended by third-party with additional converters.
     
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.16.1</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.17.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -210,7 +210,7 @@ predict type <code>"prob"</code> for a <a href="LearnerClassif.html">LearnerClas
 <li><p><code>learner_predict_types</code> (list of list of <code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 List of lists of supported <a href="Learner.html">Learner</a> predict_types, named by their task type.</p></li>
 <li><p><code>learner_param_tags</code> (<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
-Character vector of allowed 'tags' for the <a href="https://paradox.mlr-org.com/reference/Param.html" class="external-link">paradox::Param</a>s of a <a href="Learner.html">Learner</a>.</p></li>
+Character vector of allowed 'tags' for the <a href="https://paradox.mlr-org.com/reference/ParamSet.html" class="external-link">paradox::ParamSet</a>s of a <a href="Learner.html">Learner</a>.</p></li>
 <li><p><code>predict_sets</code> (<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 Vector of possible predict sets. Currently supported are <code>"train"</code>, <code>"test"</code> and <code>"holdout"</code>.</p></li>
 <li><p><code>measure_properties</code> (list of <code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
@@ -238,7 +238,7 @@ Can be extended by third-party with additional converters.</p></li>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/ls_str.html" class="external-link">ls.str</a></span><span class="op">(</span><span class="va">mlr_reflections</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> auto_converters : &lt;environment: 0x55a988b44d18&gt; </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> auto_converters : &lt;environment: 0x556a0f918868&gt; </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> data_formats :  chr [1:2] "data.table" "Matrix"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> default_measures : List of 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ classif     : chr "classif.ce"</span>
@@ -256,6 +256,8 @@ Can be extended by third-party with additional converters.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> measure_properties : List of 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ classif: chr [1:5] "na_score" "requires_task" "requires_learner" "requires_model" ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ regr   : chr [1:5] "na_score" "requires_task" "requires_learner" "requires_model" ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> package_version : Classes 'package_version', 'numeric_version'  hidden list of 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ : int [1:3] 0 17 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> predict_sets :  chr [1:3] "train" "test" "holdout"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> rr_names :  chr [1:5] "task" "learner" "resampling" "iteration" "prediction"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> task_col_roles : List of 3</span>
