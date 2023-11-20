@@ -1,4 +1,4 @@
-# mlr3 0.16.1-9000
+# mlr3 0.17.0
 
 * Learners cannot be added to the `HotstartStack` anymore when the model is missing.
 * Learners bellow the `hotstart_threshold` are not added to the `HotstartStack` anymore.
