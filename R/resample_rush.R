@@ -117,17 +117,16 @@ resample_rush = function(task, learner, resampling, store_models = FALSE, store_
     data.table(learner = replicate(n, learner), mode = "train")
   }
 
+  rush <<- rush
+
   rush$start_workers(
     fun = workhorse,
     packages = "mlr3",
+    constants = list(task = task, resampling = resampling, lgr_threshold = lgr_threshold),
     await_workers = FALSE
   )
 
-  grid[, task := list(task)]
   grid[, iteration := seq_len(n)]
-  grid[, resampling := list(resampling)]
-  grid[, lgr_threshold := lgr_threshold]
-
   keys = rush$push_tasks(transpose_list(grid))
   rush$await_tasks(keys)
 
