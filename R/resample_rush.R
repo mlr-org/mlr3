@@ -117,17 +117,15 @@ resample_rush = function(task, learner, resampling, store_models = FALSE, store_
     data.table(learner = replicate(n, learner), mode = "train")
   }
 
-  rush <<- rush
-
   rush$start_workers(
     fun = workhorse,
     packages = "mlr3",
-    constants = list(task = task, resampling = resampling, lgr_threshold = lgr_threshold),
+    constants = list(learner = learner, task = task, resampling = resampling, lgr_threshold = lgr_threshold, mode = "train"),
     await_workers = FALSE
   )
+  rush$await_workers(1)
 
-  grid[, iteration := seq_len(n)]
-  keys = rush$push_tasks(transpose_list(grid))
+  keys = rush$push_tasks(map(seq(n), function(n) list(iteration = n)))
   rush$await_tasks(keys)
 
   res = rush$read_hashes(keys, "ys")
