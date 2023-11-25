@@ -55,6 +55,7 @@
 #' bmr2 = as_benchmark_result(rr_featureless)
 #' print(bmr1$combine(bmr2))
 resample_rush = function(task, learner, resampling, store_models = FALSE, store_backends = TRUE, encapsulate = NA_character_, allow_hotstart = FALSE, clone = c("task", "learner", "resampling")) {
+  start_time = Sys.time()
   assert_subset(clone, c("task", "learner", "resampling"))
   task = assert_task(as_task(task, clone = "task" %in% clone))
   learner = assert_learner(as_learner(learner, clone = "learner" %in% clone))
@@ -62,6 +63,7 @@ resample_rush = function(task, learner, resampling, store_models = FALSE, store_
   assert_flag(store_models)
   assert_flag(store_backends)
   assert_learnable(task, learner)
+
 
   set_encapsulation(list(learner), encapsulate)
   if (!resampling$is_instantiated) {
@@ -123,12 +125,15 @@ resample_rush = function(task, learner, resampling, store_models = FALSE, store_
     constants = list(learner = learner, task = task, resampling = resampling, lgr_threshold = lgr_threshold, mode = "train"),
     await_workers = FALSE
   )
-  rush$await_workers(1)
+  lg$warn("Rush worker started after %f.", difftime(Sys.time(), start_time, units = "secs"))
 
+  rush$await_workers(1)
+  lg$warn("Send to rush after %f.", difftime(Sys.time(), start_time, units = "secs"))
   keys = rush$push_tasks(map(seq(n), function(n) list(iteration = n)))
   rush$await_tasks(keys)
 
   res = rush$read_hashes(keys, "ys")
+  lg$warn("Results received from rush after %f.", difftime(Sys.time(), start_time, units = "secs"))
 
   data = data.table(
     task = list(task),

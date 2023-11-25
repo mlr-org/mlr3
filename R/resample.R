@@ -55,6 +55,7 @@
 #' bmr2 = as_benchmark_result(rr_featureless)
 #' print(bmr1$combine(bmr2))
 resample = function(task, learner, resampling, store_models = FALSE, store_backends = TRUE, encapsulate = NA_character_, allow_hotstart = FALSE, clone = c("task", "learner", "resampling")) {
+  start_time = Sys.time()
   assert_subset(clone, c("task", "learner", "resampling"))
   task = assert_task(as_task(task, clone = "task" %in% clone))
   learner = assert_learner(as_learner(learner, clone = "learner" %in% clone))
@@ -109,10 +110,11 @@ resample = function(task, learner, resampling, store_models = FALSE, store_backe
   } else {
     data.table(learner = replicate(n, learner), mode = "train")
   }
-
+  lg$warn("Send to future after %f", difftime(Sys.time(), start_time, units = "secs"))
   res = future_map(n, workhorse, iteration = seq_len(n), learner = grid$learner, mode = grid$mode,
     MoreArgs = list(task = task, resampling = resampling, store_models = store_models, lgr_threshold = lgr_threshold, pb = pb)
   )
+  lg$warn("Results received from future after %f", difftime(Sys.time(), start_time, units = "secs"))
 
   data = data.table(
     task = list(task),
