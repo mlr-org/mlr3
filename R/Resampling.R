@@ -186,6 +186,7 @@ Resampling = R6Class("Resampling",
         instance = private$.combine(lapply(strata$row_id, private$.sample, task = task))
       }
 
+      private$.hash = NULL
       self$instance = instance
       self$task_hash = task$hash
       self$task_nrow = task$nrow
@@ -227,11 +228,17 @@ Resampling = R6Class("Resampling",
       if (!self$is_instantiated) {
         return(NA_character_)
       }
-      calculate_hash(list(class(self), self$id, self$param_set$values, self$instance))
+
+      if (is.null(private$.hash)) {
+        private$.hash = calculate_hash(list(class(self), self$id, self$param_set$values, self$instance))
+      }
+
+      private$.hash
     }
   ),
 
   private = list(
+    .hash = NULL,
     .groups = NULL,
 
     .get_set = function(getter, i) {
