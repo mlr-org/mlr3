@@ -47,13 +47,13 @@ ResultData = R6Class("ResultData",
         } else {
           fact = data[, c("uhash", "iteration", "learner_state", "prediction", "task", "learner", "resampling", "param_values", "learner_hash"),
             with = FALSE]
+          uhashes = data.table(uhash = unique(fact$uhash))
           setkeyv(fact, c("uhash", "iteration"))
 
           fact[, task_hash := task[[1]]$hash, by = "uhash"]
           fact[, learner_phash := learner[[1]]$phash, by = "uhash"]
           fact[, resampling_hash := resampling[[1]]$hash, by = "uhash"]
 
-          uhashes = data.table(uhash = unique(fact$uhash))
           tasks = fact[, list(task = .SD$task[1L]),
             keyby = "task_hash"]
           learners = fact[, list(learner = list(.SD$learner[[1L]]$reset())),
