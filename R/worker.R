@@ -219,10 +219,13 @@ learner_predict = function(learner, task, row_ids = NULL) {
 }
 
 
-workhorse = function(iteration, task, learner, resampling, param_values = NULL, lgr_threshold, store_models = FALSE, pb = NULL, mode = "train") {
+workhorse = function(iteration, task, learner, resampling, param_values = NULL, lgr_threshold, store_models = FALSE, pb = NULL, mode = "train", dt_threads = 1) {
   if (!is.null(pb)) {
     pb(sprintf("%s|%s|i:%i", task$id, learner$id, iteration))
   }
+
+  # set data.table threads
+  data.table::setDTthreads(dt_threads)
 
   # restore logger thresholds
   for (package in names(lgr_threshold)) {
