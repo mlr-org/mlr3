@@ -123,7 +123,7 @@ Resampling = R6Class("Resampling",
     #'
     #' Note that this object is typically constructed via a derived classes, e.g. [ResamplingCV] or [ResamplingHoldout].
     initialize = function(id, param_set = ps(), duplicated_ids = FALSE, label = NA_character_, man = NA_character_) {
-      self$id = assert_string(id, min.chars = 1L)
+      private$.id = assert_string(id, min.chars = 1L)
       self$label = assert_string(label, na.ok = TRUE)
       self$param_set = assert_param_set(param_set)
       self$duplicated_ids = assert_flag(duplicated_ids)
@@ -245,6 +245,7 @@ Resampling = R6Class("Resampling",
   ),
 
   private = list(
+    .id = NULL,
     .hash = NULL,
     .groups = NULL,
 

@@ -111,7 +111,7 @@ Task = R6Class("Task",
     #'
     #' Note that this object is typically constructed via a derived classes, e.g. [TaskClassif] or [TaskRegr].
     initialize = function(id, task_type, backend, label = NA_character_, extra_args = list()) {
-      self$id = assert_string(id, min.chars = 1L)
+      private$.id = assert_string(id, min.chars = 1L)
       self$label = assert_string(label, na.ok = TRUE)
       self$task_type = assert_choice(task_type, mlr_reflections$task_types$type)
       if (!inherits(backend, "DataBackend")) {
