@@ -386,6 +386,7 @@ Task = R6Class("Task",
       assert_character(cols)
       assert_subset(cols, private$.col_roles$feature)
       private$.hash = NULL
+      private$.col_hashes = NULL
       private$.col_roles$feature = intersect(private$.col_roles$feature, cols)
       invisible(self)
     },
@@ -536,6 +537,7 @@ Task = R6Class("Task",
 
       # add new features
       private$.hash = NULL
+      private$.col_hashes = NULL
       col_roles = private$.col_roles
       private$.col_roles$feature = union(col_roles$feature, setdiff(data$colnames, c(pk, col_roles$target)))
 
@@ -565,6 +567,7 @@ Task = R6Class("Task",
     rename = function(old, new) {
       assert_has_backend(self)
       private$.hash = NULL
+      private$.col_hashes = NULL
       self$backend = DataBackendRename$new(self$backend, old, new)
       setkeyv(self$col_info[old, ("id") := new, on = "id"], "id")
       private$.col_roles = map(private$.col_roles, map_values, old = old, new = new)
@@ -630,6 +633,7 @@ Task = R6Class("Task",
       assert_subset(cols, self$col_info$id)
 
       private$.hash = NULL
+      private$.col_hashes = NULL
       new_roles = task_set_roles(private$.col_roles, cols, roles, add_to, remove_from)
       private$.col_roles = task_check_col_roles(self, new_roles)
 
@@ -864,6 +868,7 @@ Task = R6Class("Task",
       assert_subset(unlist(rhs, use.names = FALSE), setdiff(self$col_info$id, self$backend$primary_key), .var.name = "elements of col_roles")
 
       private$.hash = NULL
+      private$.col_hashes = NULL
       private$.col_roles = task_check_col_roles(self, rhs)
     },
 
@@ -1011,7 +1016,10 @@ Task = R6Class("Task",
 
     #' @template field_col_hashes
     col_hashes = function() {
-      private$.col_hashes %??% self$backend$col_hashes[setdiff(unlist(private$.col_roles), self$backend$primary_key)]
+      if (is.null(private$.col_hashes)) {
+        private$.col_hashes = self$backend$col_hashes[setdiff(unlist(private$.col_roles), self$backend$primary_key)]
+      }
+      private$.col_hashes
     }
   ),
 
