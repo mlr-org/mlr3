@@ -47,9 +47,11 @@ ResultData = R6Class("ResultData",
         } else {
           fact = data[, c("uhash", "iteration", "learner_state", "prediction", "task", "learner", "resampling", "param_values", "learner_hash"),
             with = FALSE]
-          set(fact, j = "task_hash", value = hashes(fact$task))
-          set(fact, j = "learner_phash", value = phashes(fact$learner))
-          set(fact, j = "resampling_hash", value = hashes(fact$resampling))
+          setkeyv(fact, c("uhash", "iteration"))
+
+          fact[, task_hash := task[[1]]$hash, by = "uhash"]
+          fact[, learner_phash := learner[[1]]$phash, by = "uhash"]
+          fact[, resampling_hash := resampling[[1]]$hash, by = "uhash"]
 
           uhashes = data.table(uhash = unique(fact$uhash))
           tasks = fact[, list(task = .SD$task[1L]),
@@ -65,7 +67,6 @@ ResultData = R6Class("ResultData",
           set(fact, j = "learner", value = NULL)
           set(fact, j = "resampling", value = NULL)
           set(fact, j = "param_values", value = NULL)
-          setkeyv(fact, c("uhash", "iteration"))
 
           if (!store_backends) {
             set(tasks, j = "task", value = lapply(tasks$task, task_rm_backend))
