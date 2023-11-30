@@ -82,9 +82,6 @@
 #' prop.table(table(task$truth(r$train_set(1)))) # roughly same proportion
 Resampling = R6Class("Resampling",
   public = list(
-    #' @template field_id
-    id = NULL,
-
     #' @template field_label
     label = NULL,
 
@@ -215,6 +212,16 @@ Resampling = R6Class("Resampling",
   ),
 
   active = list(
+    #' @template field_id
+    id = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.id)
+      }
+
+      private$.hash = NULL
+      private$.id = assert_string(rhs, min.chars = 1L)
+    },
+
     #' @field is_instantiated (`logical(1)`)\cr
     #'   Is `TRUE` if the resampling has been instantiated.
     is_instantiated = function(rhs) {
