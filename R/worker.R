@@ -78,7 +78,7 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
   ))
 
   if (store_prototype) {
-    proto = task$data(rows = integer()))
+    proto = task$data(rows = integer())
     learner$state$data_prototype = proto
     learner$state$task_prototype = proto
   }
