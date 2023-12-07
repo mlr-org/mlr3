@@ -1,4 +1,4 @@
-learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NULL, mode = "train", store_prototype = FALSE) {
+learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NULL, mode = "train") {
   # This wrapper calls learner$train, and additionally performs some basic
   # checks that the training was successful.
   # Exceptions here are possibly encapsulated, so that they get captured
@@ -68,20 +68,17 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
   log = append_log(NULL, "train", result$log$class, result$log$msg)
   train_time = result$elapsed
 
+  proto = task$data(rows = integer())
   learner$state = insert_named(learner$state, list(
     model = result$result,
     log = log,
     train_time = train_time,
     param_vals = learner$param_set$values,
     task_hash = task$hash,
+    data_prototype = proto,
+    task_prototype = proto,
     mlr3_version = mlr_reflections$package_version
   ))
-
-  if (store_prototype) {
-    proto = task$data(rows = integer())
-    learner$state$data_prototype = proto
-    learner$state$task_prototype = proto
-  }
 
   if (is.null(result$result)) {
     lg$debug("Learner '%s' on task '%s' failed to %s a model",
@@ -264,6 +261,14 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
     lg$debug("Erasing stored model for learner '%s'", learner$id)
     learner$state$model = NULL
   }
+
+  browser()
+
+  # repeated saving of the prototype leads to large ResultData objects if the task contains many columns, factor levels or attributes
+  learner$state$data_prototype = NULL
+  learner$state$task_prototype = NULL
+  learner$fallback$state$data_prototype = NULL
+  learner$fallback$state$task_prototype = NULL
 
   list(learner_state = learner$state, prediction = pdatas, param_values = learner$param_set$values, learner_hash = learner_hash)
 }
