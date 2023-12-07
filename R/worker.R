@@ -249,6 +249,10 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
   learner_hash = learner$hash
   learner = learner_train(learner, task, sets[["train"]], sets[["test"]], mode = mode)
 
+  # repeated saving of the prototype leads to large ResultData objects if the task contains many columns, factor levels or attributes
+  learner$state$data_prototype = NULL
+  learner$state$task_prototype = NULL
+
   # predict for each set
   sets = sets[learner$predict_sets]
   pdatas = Map(function(set, row_ids) {
