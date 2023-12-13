@@ -68,15 +68,13 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
   log = append_log(NULL, "train", result$log$class, result$log$msg)
   train_time = result$elapsed
 
-  proto = task$data(rows = integer())
   learner$state = insert_named(learner$state, list(
     model = result$result,
     log = log,
     train_time = train_time,
     param_vals = learner$param_set$values,
     task_hash = task$hash,
-    data_prototype = proto,
-    task_prototype = proto,
+    task_features = task$feature_names,
     mlr3_version = mlr_reflections$package_version
   ))
 
@@ -268,14 +266,6 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
   if (!store_models) {
     lg$debug("Erasing stored model for learner '%s'", learner$id)
     learner$state$model = NULL
-  }
-
-  if (!store_models) {
-    # repeated saving of the prototype leads to large ResultData objects if the task contains many columns, factor levels or attributes
-    learner$state$data_prototype = NULL
-    learner$state$task_prototype = NULL
-    learner$fallback$state$data_prototype = NULL
-    learner$fallback$state$task_prototype = NULL
   }
 
   list(learner_state = learner$state, prediction = pdatas, param_values = learner$param_set$values, learner_hash = learner_hash)
