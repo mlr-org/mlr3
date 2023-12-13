@@ -82,9 +82,6 @@
 #' prop.table(table(task$truth(r$train_set(1)))) # roughly same proportion
 Resampling = R6Class("Resampling",
   public = list(
-    #' @template field_id
-    id = NULL,
-
     #' @template field_label
     label = NULL,
 
@@ -126,7 +123,7 @@ Resampling = R6Class("Resampling",
     #'
     #' Note that this object is typically constructed via a derived classes, e.g. [ResamplingCV] or [ResamplingHoldout].
     initialize = function(id, param_set = ps(), duplicated_ids = FALSE, label = NA_character_, man = NA_character_) {
-      self$id = assert_string(id, min.chars = 1L)
+      private$.id = assert_string(id, min.chars = 1L)
       self$label = assert_string(label, na.ok = TRUE)
       self$param_set = assert_param_set(param_set)
       self$duplicated_ids = assert_flag(duplicated_ids)
@@ -186,6 +183,7 @@ Resampling = R6Class("Resampling",
         instance = private$.combine(lapply(strata$row_id, private$.sample, task = task))
       }
 
+      private$.hash = NULL
       self$instance = instance
       self$task_hash = task$hash
       self$task_nrow = task$nrow
@@ -214,6 +212,16 @@ Resampling = R6Class("Resampling",
   ),
 
   active = list(
+    #' @template field_id
+    id = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.id)
+      }
+
+      private$.hash = NULL
+      private$.id = assert_string(rhs, min.chars = 1L)
+    },
+
     #' @field is_instantiated (`logical(1)`)\cr
     #'   Is `TRUE` if the resampling has been instantiated.
     is_instantiated = function(rhs) {
@@ -227,11 +235,18 @@ Resampling = R6Class("Resampling",
       if (!self$is_instantiated) {
         return(NA_character_)
       }
-      calculate_hash(list(class(self), self$id, self$param_set$values, self$instance))
+
+      if (is.null(private$.hash)) {
+        private$.hash = calculate_hash(list(class(self), self$id, self$param_set$values, self$instance))
+      }
+
+      private$.hash
     }
   ),
 
   private = list(
+    .id = NULL,
+    .hash = NULL,
     .groups = NULL,
 
     .get_set = function(getter, i) {
