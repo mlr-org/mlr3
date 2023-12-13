@@ -1,5 +1,7 @@
 # mlr3 (development version)
 
+* Optimize runtime of `resample()` and `benchmark()` by reducing the number of hashing operations.
+
 # mlr3 0.17.0
 
 * Learners cannot be added to the `HotstartStack` anymore when the model is missing.
