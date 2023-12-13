@@ -85,3 +85,22 @@ test_that("parallel seed", {
   })
   expect_equal(rr1$prediction()$prob, rr2$prediction()$prob)
 })
+
+test_that("data table threads are not changed in main session", {
+  old_dt_threads = getDTthreads()
+  on.exit({
+    setDTthreads(old_dt_threads)
+  }, add = TRUE)
+  setDTthreads(2L)
+
+  task = tsk("sonar")
+  learner = lrn("classif.debug", predict_type = "prob")
+  resampling = rsmp("cv", folds = 3L)
+  measure = msr("classif.auc")
+
+  rr1 = with_seed(123, with_future(future::sequential, resample(task, learner, resampling)))
+  expect_equal(getDTthreads(), 2L)
+
+  rr2 = with_seed(123, with_future(future::multisession, resample(task, learner, resampling)))
+  expect_equal(getDTthreads(), 2L)
+})
