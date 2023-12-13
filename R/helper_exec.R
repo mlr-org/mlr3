@@ -36,6 +36,8 @@ future_map = function(n, FUN, ..., MoreArgs = list()) {
     }
     stdout = if (is_sequential) NA else TRUE
 
+    MoreArgs = c(MoreArgs, list(is_sequential = is_sequential))
+
     lg$debug("Running resample() via future with %i iterations", n)
     future.apply::future_mapply(
       FUN, ..., MoreArgs = MoreArgs, SIMPLIFY = FALSE, USE.NAMES = FALSE,
