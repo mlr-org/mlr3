@@ -74,7 +74,7 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
     train_time = train_time,
     param_vals = learner$param_set$values,
     task_hash = task$hash,
-    task_features = task$feature_names,
+    feature_names = task$feature_names,
     mlr3_version = mlr_reflections$package_version
   ))
 
