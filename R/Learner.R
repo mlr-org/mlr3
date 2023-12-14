@@ -249,7 +249,6 @@ Learner = R6Class("Learner",
 
       invisible(self)
     },
-
     #' @description
     #' Uses the information stored during `$train()` in `$state` to create a new [Prediction]
     #' for a set of observations of the provided `task`.
@@ -374,6 +373,12 @@ Learner = R6Class("Learner",
   ),
 
   active = list(
+    #' @field uses_test_set (`logical(1)`)\cr
+    #'   Whether the learner uses the test set during training, e.g. for early stopping.
+    uses_test_set = function(rhs) {
+      assert_ro_binding(rhs)
+      private$.uses_test_set()
+    },
     #' @field model (any)\cr
     #' The fitted model. Only available after `$train()` has been called.
     model = function(rhs) {
@@ -518,6 +523,7 @@ Learner = R6Class("Learner",
     .predict_type = NULL,
     .param_set = NULL,
     .hotstart_stack = NULL,
+    .uses_test_set = function() FALSE,
 
     deep_clone = function(name, value) {
       switch(name,

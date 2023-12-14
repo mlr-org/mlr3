@@ -182,6 +182,9 @@ Defaults to \code{NA}, but can be set by child classes.}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
+\item{\code{uses_test_set}}{(\code{logical(1)})\cr
+Whether the learner uses the test set during training, e.g. for early stopping.}
+
 \item{\code{model}}{(any)\cr
 The fitted model. Only available after \verb{$train()} has been called.}
 

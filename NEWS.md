@@ -1,5 +1,7 @@
 # mlr3 (development version)
 
+* Feat: Added active binding `uses_test_set` to the `Learner` class
+
 # mlr3 0.17.0
 
 * Learners cannot be added to the `HotstartStack` anymore when the model is missing.
