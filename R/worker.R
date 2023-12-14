@@ -262,14 +262,6 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
     learner$state$model = NULL
   }
 
-  if (!store_models) {
-    # repeated saving of the prototype leads to large ResultData objects if the task contains many columns, factor levels or attributes
-    learner$state$data_prototype = NULL
-    learner$state$task_prototype = NULL
-    learner$fallback$state$data_prototype = NULL
-    learner$fallback$state$task_prototype = NULL
-  }
-
   list(learner_state = learner$state, prediction = pdatas, param_values = learner$param_set$values, learner_hash = learner_hash)
 }
 
