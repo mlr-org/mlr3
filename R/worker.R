@@ -68,15 +68,13 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
   log = append_log(NULL, "train", result$log$class, result$log$msg)
   train_time = result$elapsed
 
-  proto = task$data(rows = integer())
   learner$state = insert_named(learner$state, list(
     model = result$result,
     log = log,
     train_time = train_time,
     param_vals = learner$param_set$values,
     task_hash = task$hash,
-    data_prototype = proto,
-    task_prototype = proto,
+    feature_names = task$feature_names,
     mlr3_version = mlr_reflections$package_version
   ))
 
