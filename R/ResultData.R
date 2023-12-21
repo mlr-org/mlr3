@@ -49,9 +49,10 @@ ResultData = R6Class("ResultData",
           uhashes = data.table(uhash = unique(data$uhash))
           setkeyv(data, c("uhash", "iteration"))
 
-          data[, task_hash := task[[1]]$hash, by = "uhash"]
-          data[, learner_phash := learner[[1]]$phash, by = "uhash"]
-          data[, resampling_hash := resampling[[1]]$hash, by = "uhash"]
+          task = learner = resampling = NULL
+          data[, "task_hash" := task[[1]]$hash, by = "uhash"]
+          data[, "learner_phash" := learner[[1]]$phash, by = "uhash"]
+          data[, "resampling_hash" := resampling[[1]]$hash, by = "uhash"]
 
           tasks = data[, list(task = .SD$task[1L]),
             keyby = "task_hash"]
