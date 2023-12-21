@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.17.0.9000</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.17.1.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -75,7 +75,11 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="mlr3-development-version">mlr3 (development version)<a class="anchor" aria-label="anchor" href="#mlr3-development-version"></a></h2>
-<ul><li>Reduce number of threads used by <code>data.table</code> and BLAS to 1 when running <code><a href="../reference/resample.html">resample()</a></code> or <code><a href="../reference/benchmark.html">benchmark()</a></code> in parallel.</li>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.17.1" id="mlr3-0171">mlr3 0.17.1<a class="anchor" aria-label="anchor" href="#mlr3-0171"></a></h2><p class="text-muted">CRAN release: 2023-12-21</p>
+<ul><li>Remove <code>data_prototype</code> when resampling from <code>learner$state</code> to reduce memory consumption.</li>
+<li>Reduce number of threads used by <code>data.table</code> and BLAS to 1 when running <code><a href="../reference/resample.html">resample()</a></code> or <code><a href="../reference/benchmark.html">benchmark()</a></code> in parallel.</li>
 <li>Optimize runtime of <code><a href="../reference/resample.html">resample()</a></code> and <code><a href="../reference/benchmark.html">benchmark()</a></code> by reducing the number of hashing operations.</li>
 </ul></div>
     <div class="section level2">
