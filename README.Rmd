@@ -25,8 +25,16 @@ Successor of [mlr](https://github.com/mlr-org/mlr).
 
 ## Resources (for users and developers)
 
-* We _started_ writing a [book](https://mlr3book.mlr-org.com/).
-  This should be the central entry point to the package.
+<img align="right" src="man/figures/book.jpeg" width="30%">
+
+Our [book](https://mlr3book.mlr-org.com/) "Applied Machine Learning Using mlr3 in R" is the central entry point to mlr3 ecosystem.
+This essential guide covers key aspects of machine learning, from building and evaluating predictive models to advanced techniques like hyperparameter tuning for peak performance.
+It delves into constructing comprehensive machine learning pipelines, encompassing data pre-processing, modeling, and prediction aggregation.
+The book is primarily aimed at researchers, practitioners, and graduate students who use machine learning or who are interested in using it.
+It can be used as a textbook for an introductory or advanced machine learning class that uses R, as a reference for people who work with machine learning methods, and in industry for exploratory experiments in machine learning.
+
+In addition to the book, there are many other resources to learn more about mlr3.
+
 * The [mlr-org website](https://mlr-org.com/) includes for example a [gallery](https://mlr-org.com/gallery.html) with case studies.
 * [Reference manual](https://mlr3.mlr-org.com/reference/)
 * [FAQ](https://github.com/mlr-org/mlr3/wiki/FAQ)
