@@ -1,5 +1,7 @@
 # mlr3 (development version)
 
+* Prepare compatibility with new paradox version.
+
 # mlr3 0.17.2
 
 * Skip new `data.table` tests on mac.
