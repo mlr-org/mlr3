@@ -68,15 +68,13 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
   log = append_log(NULL, "train", result$log$class, result$log$msg)
   train_time = result$elapsed
 
-  proto = task$data(rows = integer())
   learner$state = insert_named(learner$state, list(
     model = result$result,
     log = log,
     train_time = train_time,
     param_vals = learner$param_set$values,
     task_hash = task$hash,
-    data_prototype = proto,
-    task_prototype = proto,
+    feature_names = task$feature_names,
     mlr3_version = mlr_reflections$package_version
   ))
 
@@ -219,9 +217,17 @@ learner_predict = function(learner, task, row_ids = NULL) {
 }
 
 
-workhorse = function(iteration, task, learner, resampling, param_values = NULL, lgr_threshold, store_models = FALSE, pb = NULL, mode = "train") {
+workhorse = function(iteration, task, learner, resampling, param_values = NULL, lgr_threshold, store_models = FALSE, pb = NULL, mode = "train", is_sequential = TRUE) {
   if (!is.null(pb)) {
     pb(sprintf("%s|%s|i:%i", task$id, learner$id, iteration))
+  }
+
+  # reduce data.table and blas threads to 1
+  if (!is_sequential) {
+    setDTthreads(1, restore_after_fork = TRUE)
+    old_blas_threads = blas_get_num_procs()
+    on.exit(blas_set_num_threads(old_blas_threads), add = TRUE)
+    blas_set_num_threads(1)
   }
 
   # restore logger thresholds

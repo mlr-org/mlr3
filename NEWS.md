@@ -1,6 +1,17 @@
 # mlr3 (development version)
 
-* Feat: Added active binding `uses_test_set` to the `Learner` class
+* Feat: Add support for contingent properties
+* Feat: Add learner property `"validation"`
+
+# mlr3 0.17.2
+
+* Skip new `data.table` tests on mac.
+
+# mlr3 0.17.1
+
+* Remove `data_prototype` when resampling from `learner$state` to reduce memory consumption.
+* Reduce number of threads used by `data.table` and BLAS to 1 when running `resample()` or `benchmark()` in parallel.
+* Optimize runtime of `resample()` and `benchmark()` by reducing the number of hashing operations.
 
 # mlr3 0.17.0
 

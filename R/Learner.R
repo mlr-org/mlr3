@@ -113,11 +113,6 @@ Learner = R6Class("Learner",
     #' A complete list of candidate feature types, grouped by task type, is stored in [`mlr_reflections$task_feature_types`][mlr_reflections].
     feature_types = NULL,
 
-    #' @field properties (`character()`)\cr
-    #' Stores a set of properties/capabilities the learner has.
-    #' A complete list of candidate properties, grouped by task type, is stored in [`mlr_reflections$learner_properties`][mlr_reflections].
-    properties = NULL,
-
     #' @field data_formats (`character()`)\cr
     #' Supported data format, e.g. `"data.table"` or `"Matrix"`.
     data_formats = NULL,
@@ -164,7 +159,7 @@ Learner = R6Class("Learner",
       self$predict_types = assert_ordered_set(predict_types, names(mlr_reflections$learner_predict_types[[task_type]]),
         empty.ok = FALSE, .var.name = "predict_types")
       private$.predict_type = predict_types[1L]
-      self$properties = sort(assert_subset(properties, mlr_reflections$learner_properties[[task_type]]))
+      private$.properties = sort(assert_subset(properties, mlr_reflections$learner_properties[[task_type]]))
       self$data_formats = assert_subset(data_formats, mlr_reflections$data_formats)
       self$packages = union("mlr3", assert_character(packages, any.missing = FALSE, min.chars = 1L))
       self$man = assert_string(man, na.ok = TRUE)
@@ -243,6 +238,11 @@ Learner = R6Class("Learner",
       test_row_ids = task$row_roles$test
 
       learner_train(learner, task, train_row_ids = train_row_ids, test_row_ids = test_row_ids, mode = mode)
+
+      # store data prototype
+      proto = task$data(rows = integer())
+      self$state$data_prototype = proto
+      self$state$task_prototype = proto
 
       # store the task w/o the data
       self$state$train_task = task_rm_backend(task$clone(deep = TRUE))
@@ -373,6 +373,21 @@ Learner = R6Class("Learner",
   ),
 
   active = list(
+    #' @field properties (`character()`)\cr
+    #' Propert
+    #' A complete list of candidate properties, grouped by task type, is stored in [`mlr_reflections$learner_properties`][mlr_reflections].
+    properties = function(rhs) {
+      if (!missing(rhs)) {
+        properties = unique(c(private$.properties, rhs))
+        private$.properties = sort(assert_subset(properties, mlr_reflections$learner_properties[[self$task_type]]))
+      }
+      if (is.null(private$.contingent_properties)) {
+        private$.properties
+      } else {
+        c(private$.properties, private$.contingent_properties())
+      }
+    },
+
     #' @field uses_test_set (`logical(1)`)\cr
     #'   Whether the learner uses the test set during training, e.g. for early stopping.
     uses_test_set = function(rhs) {
@@ -518,12 +533,13 @@ Learner = R6Class("Learner",
   ),
 
   private = list(
+    .properties = NULL,
+    .contingent_properties = NULL,
     .encapsulate = NULL,
     .fallback = NULL,
     .predict_type = NULL,
     .param_set = NULL,
     .hotstart_stack = NULL,
-    .uses_test_set = function() FALSE,
 
     deep_clone = function(name, value) {
       switch(name,

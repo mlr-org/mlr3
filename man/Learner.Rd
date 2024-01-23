@@ -138,10 +138,6 @@ A complete list of candidate predict types, grouped by task type, is stored in \
 Stores the feature types the learner can handle, e.g. \code{"logical"}, \code{"numeric"}, or \code{"factor"}.
 A complete list of candidate feature types, grouped by task type, is stored in \code{\link[=mlr_reflections]{mlr_reflections$task_feature_types}}.}
 
-\item{\code{properties}}{(\code{character()})\cr
-Stores a set of properties/capabilities the learner has.
-A complete list of candidate properties, grouped by task type, is stored in \code{\link[=mlr_reflections]{mlr_reflections$learner_properties}}.}
-
 \item{\code{data_formats}}{(\code{character()})\cr
 Supported data format, e.g. \code{"data.table"} or \code{"Matrix"}.}
 
@@ -182,6 +178,10 @@ Defaults to \code{NA}, but can be set by child classes.}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
+\item{\code{properties}}{(\code{character()})\cr
+Propert
+A complete list of candidate properties, grouped by task type, is stored in \code{\link[=mlr_reflections]{mlr_reflections$learner_properties}}.}
+
 \item{\code{uses_test_set}}{(\code{logical(1)})\cr
 Whether the learner uses the test set during training, e.g. for early stopping.}
 

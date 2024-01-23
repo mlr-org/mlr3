@@ -22,3 +22,4 @@
 ^CONTRIBUTING.md
 ^cran-comments\.md$
 ^CRAN-SUBMISSION$
+^benchmark$
