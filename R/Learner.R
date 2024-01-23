@@ -378,8 +378,7 @@ Learner = R6Class("Learner",
     #' A complete list of candidate properties, grouped by task type, is stored in [`mlr_reflections$learner_properties`][mlr_reflections].
     properties = function(rhs) {
       if (!missing(rhs)) {
-        properties = unique(c(private$.properties, rhs))
-        private$.properties = sort(assert_subset(properties, mlr_reflections$learner_properties[[self$task_type]]))
+        private$.properties = sort(assert_subset(rhs, mlr_reflections$learner_properties[[self$task_type]]))
       }
       if (is.null(private$.contingent_properties)) {
         private$.properties
@@ -388,12 +387,6 @@ Learner = R6Class("Learner",
       }
     },
 
-    #' @field uses_test_set (`logical(1)`)\cr
-    #'   Whether the learner uses the test set during training, e.g. for early stopping.
-    uses_test_set = function(rhs) {
-      assert_ro_binding(rhs)
-      private$.uses_test_set()
-    },
     #' @field model (any)\cr
     #' The fitted model. Only available after `$train()` has been called.
     model = function(rhs) {

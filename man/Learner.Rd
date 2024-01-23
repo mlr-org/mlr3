@@ -182,9 +182,6 @@ Defaults to \code{NA}, but can be set by child classes.}
 Propert
 A complete list of candidate properties, grouped by task type, is stored in \code{\link[=mlr_reflections]{mlr_reflections$learner_properties}}.}
 
-\item{\code{uses_test_set}}{(\code{logical(1)})\cr
-Whether the learner uses the test set during training, e.g. for early stopping.}
-
 \item{\code{model}}{(any)\cr
 The fitted model. Only available after \verb{$train()} has been called.}
 
