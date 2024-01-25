@@ -374,7 +374,6 @@ Learner = R6Class("Learner",
 
   active = list(
     #' @field properties (`character()`)\cr
-    #' Propert
     #' A complete list of candidate properties, grouped by task type, is stored in [`mlr_reflections$learner_properties`][mlr_reflections].
     properties = function(rhs) {
       if (!missing(rhs)) {
