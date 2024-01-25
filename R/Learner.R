@@ -382,7 +382,7 @@ Learner = R6Class("Learner",
       if (is.null(private$.contingent_properties)) {
         private$.properties
       } else {
-        c(private$.properties, private$.contingent_properties())
+        sort(c(private$.properties, private$.contingent_properties()))
       }
     },
 
