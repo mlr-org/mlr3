@@ -72,6 +72,7 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
     model = result$result,
     log = log,
     train_time = train_time,
+    bundled = if ("bundle" %in% learner$properties) FALSE else NULL,
     param_vals = learner$param_set$values,
     task_hash = task$hash,
     feature_names = task$feature_names,
@@ -217,7 +218,7 @@ learner_predict = function(learner, task, row_ids = NULL) {
 }
 
 
-workhorse = function(iteration, task, learner, resampling, param_values = NULL, lgr_threshold, store_models = FALSE, pb = NULL, mode = "train", is_sequential = TRUE) {
+workhorse = function(iteration, task, learner, resampling, param_values = NULL, lgr_threshold, store_models = FALSE, pb = NULL, mode = "train", is_sequential = TRUE, bundle = TRUE) {
   if (!is.null(pb)) {
     pb(sprintf("%s|%s|i:%i", task$id, learner$id, iteration))
   }
@@ -266,6 +267,9 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
   if (!store_models) {
     lg$debug("Erasing stored model for learner '%s'", learner$id)
     learner$state$model = NULL
+  } else if (bundle && "bundle" %in% learner$properties) {
+    lg$debug("Bundling model for learner '%s'", learner$id)
+    learner$bundle()
   }
 
   list(learner_state = learner$state, prediction = pdatas, param_values = learner$param_set$values, learner_hash = learner_hash)

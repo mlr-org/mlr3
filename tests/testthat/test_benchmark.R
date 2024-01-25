@@ -476,3 +476,42 @@ test_that("param_values in benchmark", {
   expect_equal(bmr$learners$learner[[1]]$param_set$values, list(xval = 0, minsplit = 12, minbucket = 2))
   expect_equal(bmr$learners$learner[[2]]$param_set$values, list(xval = 0, minsplit = 12, cp = 0.1))
 })
+
+
+test_that("bundling", {
+  task = tsk("mtcars")
+  LearnerRegrTest = R6Class("LearnerRegrTest",
+    inherit = LearnerRegrFeatureless,
+    private = list(
+      .bundle = function(model) {
+        private$.tmp_model = model
+        "bundle"
+      },
+      .unbundle = function(model) {
+        model = private$.tmp_model
+        private$.tmp_model = NULL
+        model
+      },
+      .tmp_model = NULL
+    )
+  )
+  learner = LearnerRegrTest$new()
+  resampling = rsmp("holdout")$instantiate(task)
+
+  # Learner can be bundled during benchmark()
+  bmr1 = benchmark(benchmark_grid(task, learner, resampling), store_models = TRUE, bundle = TRUE)
+  lrn_rec = bmr1$resample_results$resample_result[[1]]$learners[[1]]
+  expect_true(lrn_rec$bundled)
+
+  # learner can be unbundled after benchmark()
+  lrn_rec$unbundle()
+  expect_false(lrn_rec$bundled)
+
+  # result is the same with and without bundling
+  bmr2 = benchmark(benchmark_grid(task, lrn("regr.featureless"), resampling), store_models = TRUE, bundle = TRUE)
+  expect_equal(as.data.table(bmr1$aggregate())$regr.mse, as.data.table(bmr2$aggregate())$regr.mse)
+
+  # bundling can be disabled
+  bmr3 = benchmark(benchmark_grid(task, learner, resampling), store_models = TRUE, bundle = FALSE)
+  expect_false(bmr3$resample_results$resample_result[[1]]$learners[[1]]$bundled)
+})

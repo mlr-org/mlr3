@@ -185,6 +185,9 @@ Defaults to \code{NA}, but can be set by child classes.}
 \item{\code{model}}{(any)\cr
 The fitted model. Only available after \verb{$train()} has been called.}
 
+\item{\code{bundled}}{(\code{logical(1)} or \code{NULL})\cr
+Indicates whether the model has been bundled (\code{TRUE}), unbudled (\code{FALSE}), or neither (\code{NULL}).}
+
 \item{\code{timings}}{(named \code{numeric(2)})\cr
 Elapsed time in seconds for the steps \code{"train"} and \code{"predict"}.
 Measured via \code{\link[mlr3misc:encapsulate]{mlr3misc::encapsulate()}}.}
@@ -244,6 +247,8 @@ Stores \code{HotstartStack}.}
 \item \href{#method-Learner-format}{\code{Learner$format()}}
 \item \href{#method-Learner-print}{\code{Learner$print()}}
 \item \href{#method-Learner-help}{\code{Learner$help()}}
+\item \href{#method-Learner-bundle}{\code{Learner$bundle()}}
+\item \href{#method-Learner-unbundle}{\code{Learner$unbundle()}}
 \item \href{#method-Learner-train}{\code{Learner$train()}}
 \item \href{#method-Learner-predict}{\code{Learner$predict()}}
 \item \href{#method-Learner-predict_newdata}{\code{Learner$predict_newdata()}}
@@ -303,6 +308,8 @@ The following properties are currently standardized and understood by learners i
 \item \code{"importance"}: The learner supports extraction of importance scores, i.e. comes with an \verb{$importance()} extractor function (see section on optional extractors in \link{Learner}).
 \item \code{"selected_features"}: The learner supports extraction of the set of selected features, i.e. comes with a \verb{$selected_features()} extractor function (see section on optional extractors in \link{Learner}).
 \item \code{"oob_error"}: The learner supports extraction of estimated out of bag error, i.e. comes with a \code{oob_error()} extractor function (see section on optional extractors in \link{Learner}).
+\item \code{"bundle"}: To save learners with this property, you need to call \verb{$bundle()} first.
+If a learner is in a bundled state, you call first need to call \verb{$unbundle()} to use it's model, e.g. for prediction.
 }}
 
 \item{\code{data_formats}}{(\code{character()})\cr
@@ -365,6 +372,28 @@ Printer.
 Opens the corresponding help page referenced by field \verb{$man}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Learner$help()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Learner-bundle"></a>}}
+\if{latex}{\out{\hypertarget{method-Learner-bundle}{}}}
+\subsection{Method \code{bundle()}}{
+Bundles the learner's model so it can be serialized and deserialized.
+Does nothing if the learner does not support bundling.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Learner$bundle()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Learner-unbundle"></a>}}
+\if{latex}{\out{\hypertarget{method-Learner-unbundle}{}}}
+\subsection{Method \code{unbundle()}}{
+Unbundles the learner's model so it can be used for prediction.
+Does nothing if the learner does not support (un)bundling.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Learner$unbundle()}\if{html}{\out{</div>}}
 }
 
 }

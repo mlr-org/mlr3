@@ -156,3 +156,40 @@ test_that("as_resample_result works for result data", {
   rr2 = as_resample_result(result_data)
   expect_class(rr2, "ResampleResult")
 })
+
+test_that("bundling", {
+  task = tsk("mtcars")
+  LearnerRegrTest = R6Class("LearnerRegrTest",
+    inherit = LearnerRegrFeatureless,
+    private = list(
+      .bundle = function(model) {
+        private$.tmp_model = model
+        "bundle"
+      },
+      .unbundle = function(model) {
+        model = private$.tmp_model
+        private$.tmp_model = NULL
+        model
+      },
+      .tmp_model = NULL
+    )
+  )
+  learner = LearnerRegrTest$new()
+
+  # allow to bundle during resample()
+  resampling = rsmp("holdout")$instantiate(task)
+  rr1 = resample(task, learner, resampling, store_models = TRUE, bundle = TRUE)
+  lrn_rec = rr1$learners[[1L]]
+  expect_true(lrn_rec$bundled)
+  expect_false(lrn_rec$unbundle()$bundled)
+
+  # bundled resamples are equivalent to unbundled results
+  rr2 = resample(task, lrn("regr.featureless"), resampling, store_models = TRUE)
+  rr3 = resample(task, learner, resampling, store_models = FALSE)
+  expect_equal(rr1$aggregate(), rr3$aggregate())
+  expect_equal(rr1$aggregate(), rr2$aggregate())
+
+  # bundling can be disabled
+  rr4 = resample(task, learner, resampling, bundle = FALSE, store_models = TRUE)
+  expect_false(rr4$learners[[1]]$bundled)
+})

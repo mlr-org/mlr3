@@ -14,6 +14,7 @@
 #' @template param_encapsulate
 #' @template param_allow_hotstart
 #' @template param_clone
+#' @template param_bundle
 #' @return [ResampleResult].
 #'
 #' @template section_predict_sets
@@ -54,7 +55,7 @@
 #' bmr1 = as_benchmark_result(rr)
 #' bmr2 = as_benchmark_result(rr_featureless)
 #' print(bmr1$combine(bmr2))
-resample = function(task, learner, resampling, store_models = FALSE, store_backends = TRUE, encapsulate = NA_character_, allow_hotstart = FALSE, clone = c("task", "learner", "resampling")) {
+resample = function(task, learner, resampling, store_models = FALSE, store_backends = TRUE, encapsulate = NA_character_, allow_hotstart = FALSE, clone = c("task", "learner", "resampling"), bundle = TRUE) {
   assert_subset(clone, c("task", "learner", "resampling"))
   task = assert_task(as_task(task, clone = "task" %in% clone))
   learner = assert_learner(as_learner(learner, clone = "learner" %in% clone))
@@ -111,7 +112,7 @@ resample = function(task, learner, resampling, store_models = FALSE, store_backe
   }
 
   res = future_map(n, workhorse, iteration = seq_len(n), learner = grid$learner, mode = grid$mode,
-    MoreArgs = list(task = task, resampling = resampling, store_models = store_models, lgr_threshold = lgr_threshold, pb = pb)
+    MoreArgs = list(task = task, resampling = resampling, store_models = store_models, lgr_threshold = lgr_threshold, pb = pb, bundle = bundle)
   )
 
   data = data.table(

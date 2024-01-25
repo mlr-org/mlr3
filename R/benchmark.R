@@ -14,6 +14,7 @@
 #' @template param_encapsulate
 #' @template param_allow_hotstart
 #' @template param_clone
+#' @template param_bundle
 #'
 #' @return [BenchmarkResult].
 #'
@@ -77,7 +78,7 @@
 #' ## Get the training set of the 2nd iteration of the featureless learner on penguins
 #' rr = bmr$aggregate()[learner_id == "classif.featureless"]$resample_result[[1]]
 #' rr$resampling$train_set(2)
-benchmark = function(design, store_models = FALSE, store_backends = TRUE, encapsulate = NA_character_, allow_hotstart = FALSE, clone = c("task", "learner", "resampling")) {
+benchmark = function(design, store_models = FALSE, store_backends = TRUE, encapsulate = NA_character_, allow_hotstart = FALSE, clone = c("task", "learner", "resampling"), bundle = TRUE) {
   assert_subset(clone, c("task", "learner", "resampling"))
   assert_data_frame(design, min.rows = 1L)
   assert_names(names(design), must.include = c("task", "learner", "resampling"))
@@ -183,7 +184,7 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
 
   res = future_map(n, workhorse,
     task = grid$task, learner = grid$learner, resampling = grid$resampling, iteration = grid$iteration, param_values = grid$param_values, mode = grid$mode,
-    MoreArgs = list(store_models = store_models, lgr_threshold = lgr_threshold, pb = pb)
+    MoreArgs = list(store_models = store_models, lgr_threshold = lgr_threshold, pb = pb, bundle = bundle)
   )
 
   grid = insert_named(grid, list(

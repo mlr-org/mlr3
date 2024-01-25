@@ -12,7 +12,8 @@ resample(
   store_backends = TRUE,
   encapsulate = NA_character_,
   allow_hotstart = FALSE,
-  clone = c("task", "learner", "resampling")
+  clone = c("task", "learner", "resampling"),
+  bundle = TRUE
 )
 }
 \arguments{
@@ -58,6 +59,10 @@ Select the input objects to be cloned before proceeding by
 providing a set with possible values \code{"task"}, \code{"learner"} and
 \code{"resampling"} for \link{Task}, \link{Learner} and \link{Resampling}, respectively.
 Per default, all input objects are cloned.}
+
+\item{bundle}{(\code{logical(1)})\cr
+Whether to bundle the learner(s) after the train-predict loop.
+Default is \code{TRUE}.}
 }
 \value{
 \link{ResampleResult}.

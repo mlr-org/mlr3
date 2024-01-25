@@ -1,5 +1,9 @@
 # mlr3 (development version)
 
+* Feat: added support for `"bundle"` property, which allows learners to process
+models so they can be serialized. This happens automatically during `resample()`
+and `benchmark()`. The naming was inspired by the {bundle} package.
+
 # mlr3 0.17.2
 
 * Skip new `data.table` tests on mac.

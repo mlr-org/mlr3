@@ -324,3 +324,64 @@ test_that("Models can be replaced", {
   learner$model$location = 1
   expect_equal(learner$model$location, 1)
 })
+
+test_that("bundling", {
+  task = tsk("mtcars")
+  LearnerRegrTest = R6Class("LearnerRegrTest",
+    inherit = LearnerRegrFeatureless,
+    private = list(
+      .bundle = function(model) {
+        private$.tmp_model = model
+        "bundle"
+      },
+      .unbundle = function(model) {
+        model = private$.tmp_model
+        private$.tmp_model = NULL
+        model
+      },
+      .tmp_model = NULL
+    )
+  )
+
+  # bundled property
+  learner = LearnerRegrTest$new()
+  expect_true("bundle" %in% learner$properties)
+  expect_true(is.null(learner$bundled))
+
+  # (un)bundling only possible after training
+  expect_error(learner$bundle(), "has not been trained")
+  expect_error(learner$unbundle(), "has not been trained")
+
+  learner$train(task)
+  model = learner$model
+  expect_false(learner$bundled)
+  learner$bundle()
+  expect_true(learner$bundled)
+
+  # cannot predict with bundled learner
+  expect_error(learner$predict(task), "has not been unbundled")
+  expect_true(identical(learner$model, "bundle"))
+
+  # unbundling works
+  learner$unbundle()
+  # can predict after unbundling
+  expect_prediction(learner$predict(task))
+  # model is reset
+  expect_equal(learner$model, model)
+  # bundled is set accordingly
+  expect_false(learner$bundled)
+
+  # when re-training, bundled is reset
+  learner$predict(task)
+  expect_false(learner$train(task)$bundled)
+
+  ## unbundleable learners
+  lrn_rpart = lrn("regr.rpart")
+
+  # bundled is NULL
+  expect_true(is.null(lrn_rpart$bundled))
+  expect_true(is.null(lrn_rpart$train(task)$bundled))
+  # calling (un)bundle does nothing
+  expect_true(is.null(lrn_rpart$bundle()$bundled))
+  expect_true(is.null(lrn_rpart$unbundle()$bundled))
+})
