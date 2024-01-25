@@ -329,6 +329,12 @@ test_that("bundling", {
   task = tsk("mtcars")
   LearnerRegrTest = R6Class("LearnerRegrTest",
     inherit = LearnerRegrFeatureless,
+    public = list(
+      initialize = function() {
+        super$initialize()
+        self$id = "regr.test"
+      }
+    ),
     private = list(
       .bundle = function(model) {
         private$.tmp_model = model
@@ -337,9 +343,11 @@ test_that("bundling", {
       .unbundle = function(model) {
         model = private$.tmp_model
         private$.tmp_model = NULL
+        private$.counter = private$.counter + 1
         model
       },
-      .tmp_model = NULL
+      .tmp_model = NULL,
+      .counter = 0
     )
   )
 
@@ -384,4 +392,20 @@ test_that("bundling", {
   # calling (un)bundle does nothing
   expect_true(is.null(lrn_rpart$bundle()$bundled))
   expect_true(is.null(lrn_rpart$unbundle()$bundled))
+
+  # callr encapsulation causes bundling
+  learner2 = LearnerRegrTest$new()
+  learner2$encapsulate = c(train = "callr")
+  learner2$train(task)
+  expect_false(learner2$bundled)
+
+  learner3 = LearnerRegrTest$new()
+  learner3$encapsulate = c(train = "try")
+  learner3$train(task)
+  expect_false(learner3$bundled)
+
+  # for callr, we had to unbundle
+  expect_equal(get_private(learner2)$.counter, 1)
+  # for other encapsulation, no need to unbundle becausse it was not bundled
+  expect_equal(get_private(learner3)$.counter, 0)
 })

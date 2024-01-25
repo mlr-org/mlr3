@@ -18,6 +18,10 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
       stopf("Learner '%s' on task '%s' returned NULL during internal %s()", learner$id, task$id, mode)
     }
 
+    if ("bundle" %in% learner$properties && identical(learner$encapsulate[["train"]], "callr")) {
+      model = get_private(learner)$.bundle(model)
+    }
+
     model
   }
 
@@ -68,11 +72,16 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
   log = append_log(NULL, "train", result$log$class, result$log$msg)
   train_time = result$elapsed
 
+  # callr encapsualtion causes dangling pointers between train and predict
+  bundled = if ("bundle" %in% learner$properties) {
+    identical(learner$encapsulate[["train"]], "callr")
+  }
+
   learner$state = insert_named(learner$state, list(
     model = result$result,
     log = log,
     train_time = train_time,
-    bundled = if ("bundle" %in% learner$properties) FALSE else NULL,
+    bundled = bundled,
     param_vals = learner$param_set$values,
     task_hash = task$hash,
     feature_names = task$feature_names,
@@ -100,6 +109,10 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
 
     lg$debug("Fitted fallback learner '%s'",
       fb$id, learner = fb$clone())
+  }
+
+  if (isTRUE(bundled)) {
+    learner$unbundle()
   }
 
   learner
