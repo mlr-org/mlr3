@@ -166,7 +166,7 @@ Learner = R6Class("Learner",
       private$.predict_type = predict_types[1L]
 
       if (!is.null(private$.bundle) && !is.null(private$.unbundle)) {
-        properties = c("bundle", properties)
+        properties = unique(c("bundle", properties))
       }
       self$properties = sort(assert_subset(properties, mlr_reflections$learner_properties[[task_type]]))
       self$data_formats = assert_subset(data_formats, mlr_reflections$data_formats)
