@@ -379,11 +379,7 @@ Learner = R6Class("Learner",
       if (!missing(rhs)) {
         private$.properties = sort(assert_subset(rhs, mlr_reflections$learner_properties[[self$task_type]]))
       }
-      if (is.null(private$.contingent_properties)) {
-        private$.properties
-      } else {
-        sort(c(private$.properties, private$.contingent_properties()))
-      }
+      sort(c(private$.properties, private$.contingent_properties()))
     },
 
     #' @field model (any)\cr
@@ -526,7 +522,7 @@ Learner = R6Class("Learner",
 
   private = list(
     .properties = NULL,
-    .contingent_properties = NULL,
+    .contingent_properties = function() character(0),
     .encapsulate = NULL,
     .fallback = NULL,
     .predict_type = NULL,

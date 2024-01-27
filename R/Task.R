@@ -514,14 +514,14 @@ Task = R6Class("Task",
           return(invisible(self))
         }
 
-        row_ids = if (pk %in% names(data)) pk else c(self$row_roles$use, self$row_roles$test)
+        row_ids = if (pk %in% names(data)) pk else self$row_ids
         data = as_data_backend(data, primary_key = row_ids)
       } else {
         assert_backend(data)
         if (data$ncol <= 1L) {
           return(invisible(self))
         }
-        assert_set_equal(c(self$row_roles$use, self$row_roles$test), data$rownames)
+        assert_set_equal(self$row_ids, data$rownames)
       }
 
       # update col_info for existing columns
