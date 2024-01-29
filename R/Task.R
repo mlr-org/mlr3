@@ -497,7 +497,8 @@ Task = R6Class("Task",
     #' Adds additional columns to the [DataBackend] stored in `$backend`.
     #'
     #' The row ids must be provided as column in `data` (with column name matching the primary key name of the [DataBackend]).
-    #' If this column is missing, it is assumed that the rows are exactly in the order of `$row_ids`.
+    #' If this column is missing, it is assumed that the rows are exactly in the order of
+    #' `c(task$row_roles$use, task$row_roles$test)`.
     #' In case of name clashes of column names in `data` and [DataBackend], columns in `data` have higher precedence
     #' and virtually overwrite the columns in the [DataBackend].
     #'
@@ -514,14 +515,14 @@ Task = R6Class("Task",
           return(invisible(self))
         }
 
-        row_ids = if (pk %in% names(data)) pk else self$row_ids
+        row_ids = if (pk %in% names(data)) pk else c(self$row_roles$use, self$row_roles$test)
         data = as_data_backend(data, primary_key = row_ids)
       } else {
         assert_backend(data)
         if (data$ncol <= 1L) {
           return(invisible(self))
         }
-        assert_set_equal(self$row_ids, data$rownames)
+        assert_set_equal(c(self$roles$use, self$row_roles$test), data$rownames)
       }
 
       # update col_info for existing columns

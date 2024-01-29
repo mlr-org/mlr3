@@ -515,3 +515,14 @@ test_that("Roles get printed (#877)", {
   task$col_roles$weight = "Petal.Width"
   expect_output(print(task), "Weights: Petal.Width")
 })
+
+test_that("can cbind test rows", {
+  task = tsk("iris")
+  test_ids = c(1L, 51L, 101L)
+  task$set_row_roles(test_ids, "test")
+
+  new_col = data.table(z = 1:150)
+  task$cbind(new_col)
+
+  expect_identical(task$data(test_ids, "z")$z, 148:150)
+})

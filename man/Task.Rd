@@ -632,7 +632,8 @@ the object in its previous state.
 Adds additional columns to the \link{DataBackend} stored in \verb{$backend}.
 
 The row ids must be provided as column in \code{data} (with column name matching the primary key name of the \link{DataBackend}).
-If this column is missing, it is assumed that the rows are exactly in the order of \verb{$row_ids}.
+If this column is missing, it is assumed that the rows are exactly in the order of
+\code{c(task$row_roles$use, task$row_roles$test)}.
 In case of name clashes of column names in \code{data} and \link{DataBackend}, columns in \code{data} have higher precedence
 and virtually overwrite the columns in the \link{DataBackend}.
 

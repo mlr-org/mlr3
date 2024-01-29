@@ -179,7 +179,6 @@ Defaults to \code{NA}, but can be set by child classes.}
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
 \item{\code{properties}}{(\code{character()})\cr
-Propert
 A complete list of candidate properties, grouped by task type, is stored in \code{\link[=mlr_reflections]{mlr_reflections$learner_properties}}.}
 
 \item{\code{model}}{(any)\cr
