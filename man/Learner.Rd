@@ -186,7 +186,7 @@ Defaults to \code{NA}, but can be set by child classes.}
 The fitted model. Only available after \verb{$train()} has been called.}
 
 \item{\code{bundled}}{(\code{logical(1)} or \code{NULL})\cr
-Indicates whether the model has been bundled (\code{TRUE}), unbudled (\code{FALSE}), or neither (\code{NULL}).}
+Indicates whether the model has been bundled (\code{TRUE}), unbundled (\code{FALSE}), or neither (\code{NULL}).}
 
 \item{\code{timings}}{(named \code{numeric(2)})\cr
 Elapsed time in seconds for the steps \code{"train"} and \code{"predict"}.

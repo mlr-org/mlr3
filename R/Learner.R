@@ -429,7 +429,7 @@ Learner = R6Class("Learner",
     },
 
     #' @field bundled (`logical(1)` or `NULL`)\cr
-    #' Indicates whether the model has been bundled (`TRUE`), unbudled (`FALSE`), or neither (`NULL`).
+    #' Indicates whether the model has been bundled (`TRUE`), unbundled (`FALSE`), or neither (`NULL`).
     bundled = function(rhs) {
       assert_ro_binding(rhs)
       self$state$bundled
