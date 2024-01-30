@@ -23,7 +23,7 @@ Unsupervised cluster algorithms are implemented in \CRANpkg{mlr3cluster}.
 The dictionary \link{mlr_learners} gets automatically populated with the new learners as soon as the respective packages are loaded.
 
 More (experimental) learners can be found in the GitHub repository: \url{https://github.com/mlr-org/mlr3extralearners}.
-A guide on how to extend \CRANpkg{mlr3} with custom learners can be found in the \href{https://mlr3book.mlr-org.com}{mlr3book}.
+A guide on how to extend \CRANpkg{mlr3} with custom learners can be found in \href{https://mlr3extralearners.mlr-org.com/articles/extending.html}{mlr3extralearners}.
 
 To combine the learner with preprocessing operations like factor encoding, \CRANpkg{mlr3pipelines} is recommended.
 Hyperparameters stored in the \code{param_set} can be tuned with \CRANpkg{mlr3tuning}.
@@ -74,6 +74,13 @@ Here, we add a factor hyperparameter with id \code{"foo"} and possible levels \c
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{lrn$param_set$add(paradox::ParamFct$new("foo", levels = c("a", "b")))
 }\if{html}{\out{</div>}}
+}
+
+\section{Additional Task Checks}{
+
+Learner may perform custom compatibility checks on a task that determine whether a learner is applicable to a task
+using the optional \verb{$check_task(task)} public method.
+When providing this method, it should either return \code{TRUE} or return the an error message as a \code{character(1)}.
 }
 
 \seealso{

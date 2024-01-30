@@ -21,7 +21,7 @@
 #' The dictionary [mlr_learners] gets automatically populated with the new learners as soon as the respective packages are loaded.
 #'
 #' More (experimental) learners can be found in the GitHub repository: \url{https://github.com/mlr-org/mlr3extralearners}.
-#' A guide on how to extend \CRANpkg{mlr3} with custom learners can be found in the [mlr3book](https://mlr3book.mlr-org.com).
+#' A guide on how to extend \CRANpkg{mlr3} with custom learners can be found in [mlr3extralearners](https://mlr3extralearners.mlr-org.com/articles/extending.html).
 #'
 #' To combine the learner with preprocessing operations like factor encoding, \CRANpkg{mlr3pipelines} is recommended.
 #' Hyperparameters stored in the `param_set` can be tuned with \CRANpkg{mlr3tuning}.
@@ -36,7 +36,6 @@
 #' @template param_packages
 #' @template param_label
 #' @template param_man
-#'
 #'
 #' @section Optional Extractors:
 #'
@@ -82,6 +81,11 @@
 #' ```
 #' lrn$param_set$add(paradox::ParamFct$new("foo", levels = c("a", "b")))
 #' ```
+#'
+#' @section Additional Task Checks:
+#' Learner may perform custom compatibility checks on a task that determine whether a learner is applicable to a task
+#' using the optional `$check_task(task)` public method.
+#' When providing this method, it should either return `TRUE` or return the an error message as a `character(1)`.
 #'
 #' @template seealso_learner
 #' @export

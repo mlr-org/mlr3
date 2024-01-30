@@ -324,3 +324,19 @@ test_that("Models can be replaced", {
   learner$model$location = 1
   expect_equal(learner$model$location, 1)
 })
+
+test_that("check_task is used in assert_learnable", {
+  learner = R6Class("LearnerClassifIris",
+    inherit = LearnerClassifRpart,
+    public = list(
+      check_task = function(task) {
+        if (task$id == "iris") {
+          return(TRUE)
+        }
+        "This learner can only be trained on iris."
+      }
+    )
+  )$new()
+  expect_error(assert_learnable(tsk("iris"), learner), regexp = NA)
+  expect_error(assert_learnable(tsk("sonar"), learner), regexp = "iris")
+})
