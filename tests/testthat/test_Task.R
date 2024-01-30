@@ -525,4 +525,8 @@ test_that("can cbind test rows", {
   task$cbind(new_col)
 
   expect_identical(task$data(test_ids, "z")$z, 148:150)
+
+  d = data.table(u = runif(150), ..row_id = 1:150)
+  task$cbind(d[1, ])
+  expect_equal(d[1, c("u", "..row_id")], task$data(1, c("u", "..row_id")), ignore_attr = TRUE)
 })
