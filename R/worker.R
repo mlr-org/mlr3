@@ -281,7 +281,9 @@ append_log = function(log = NULL, stage = NA_character_, class = NA_character_, 
   }
 
   if (length(msg)) {
-    lg$error("Appending log message '%s' to log", msg)
+    if ("error" %in% class) {
+      pwalk(list(stage, msg), function(s, m) lg$error("%s: %s", s, m))
+    }
     log = rbindlist(list(log, data.table(stage = stage, class = class, msg = msg)), use.names = TRUE)
   }
 
