@@ -85,7 +85,7 @@
 #' @section Additional Task Checks:
 #' Learner may perform custom compatibility checks on a task that determine whether a learner is applicable to a task
 #' using the optional `$check_task(task)` public method.
-#' When providing this method, it should either return `TRUE` or return the an error message as a `character(1)`.
+#' When providing this method, it should either return `TRUE` or return an error message as a `character(1)`.
 #'
 #' @template seealso_learner
 #' @export
