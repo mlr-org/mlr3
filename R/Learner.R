@@ -164,10 +164,6 @@ Learner = R6Class("Learner",
       self$predict_types = assert_ordered_set(predict_types, names(mlr_reflections$learner_predict_types[[task_type]]),
         empty.ok = FALSE, .var.name = "predict_types")
       private$.predict_type = predict_types[1L]
-
-      if (!is.null(private$.bundle) && !is.null(private$.unbundle)) {
-        properties = unique(c("bundle", properties))
-      }
       self$properties = sort(assert_subset(properties, mlr_reflections$learner_properties[[task_type]]))
       self$data_formats = assert_subset(data_formats, mlr_reflections$data_formats)
       self$packages = union("mlr3", assert_character(packages, any.missing = FALSE, min.chars = 1L))
