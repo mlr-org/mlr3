@@ -45,7 +45,7 @@ Imports:
     R6 (>= 2.4.1),
     backports,
     checkmate (>= 2.0.0),
-    data.table (>= 1.14.2),
+    data.table (>= 1.15.0),
     evaluate,
     future,
     future.apply (>= 1.5.0),
@@ -74,7 +74,7 @@ Config/testthat/edition: 3
 Config/testthat/parallel: false
 NeedsCompilation: no
 Roxygen: list(markdown = TRUE, r6 = TRUE)
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 Collate:
     'mlr_reflections.R'
     'BenchmarkResult.R'

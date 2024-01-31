@@ -39,7 +39,7 @@
 DataBackend = R6Class("DataBackend", cloneable = FALSE,
   public = list(
     #' @field primary_key (`character(1)`)\cr
-    #' Column name of the primary key column of unique integer row ids.
+    #' Column name of the primary key column of positive and unique integer row ids.
     primary_key = NULL,
 
     #' @field data_formats (`character()`)\cr

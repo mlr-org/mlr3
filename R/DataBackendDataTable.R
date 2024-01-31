@@ -61,15 +61,13 @@ DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
     #' Rows are guaranteed to be returned in the same order as `rows`, columns may be returned in an arbitrary order.
     #' Duplicated row ids result in duplicated rows, duplicated column names lead to an exception.
     data = function(rows, cols, data_format = "data.table") {
-      rows = assert_integerish(rows, coerce = TRUE)
+      rows = assert_integerish(rows, coerce = TRUE, lower = 0L)
       assert_names(cols, type = "unique")
       assert_choice(data_format, self$data_formats)
       cols = intersect(cols, colnames(private$.data))
 
       if (self$compact_seq) {
-        # https://github.com/Rdatatable/data.table/issues/3109
-        .__i__ = keep_in_bounds(rows, 1L, nrow(private$.data))
-        private$.data[.__i__, cols, with = FALSE]
+        private$.data[rows, cols, with = FALSE, nomatch = NULL]
       } else {
         ijoin(private$.data, rows, cols, self$primary_key)
       }
