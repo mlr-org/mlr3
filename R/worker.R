@@ -19,7 +19,7 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
     }
 
     if ("bundle" %in% learner$properties && identical(learner$encapsulate[["train"]], "callr")) {
-      model = get_private(learner)$.bundle(model)
+      model = learner$bundle_model(model)
     }
 
     model

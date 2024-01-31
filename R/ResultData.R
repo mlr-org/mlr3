@@ -250,7 +250,7 @@ ResultData = R6Class("ResultData",
         phash = self$data$fact[i, "learner_phash"][[1L]]
         learner = self$data$learners[phash, "learner", on = "learner_phash"][[1L]][[1L]]
         if (!is.null(state$model) && isFALSE(state$bundled)) {
-          state$model = get_private(learner)$.bundle(state$model)
+          state$model = learner$bundle_model(state$model)
           state$bundled = TRUE
         }
         state
@@ -266,7 +266,7 @@ ResultData = R6Class("ResultData",
         phash = self$data$fact[i, "learner_phash"][[1L]]
         learner = self$data$learners[phash, "learner", on = "learner_phash"][[1L]][[1L]]
         if (!is.null(state$model) && isTRUE(state$bundled)) {
-          state$model = get_private(learner)$.unbundle(state$model)
+          state$model = learner$unbundle_model(state$model)
           state$bundled = FALSE
         }
         state

@@ -23,11 +23,11 @@
 #' In order to implement bundling for a [`Learner`], you need to add:
 #' * the public methods `$bundle()` and `$unbundle()`, where you call `learner_bundle(self)` and
 #'   `learner_unbundle(self)` respectively.
-#' * the active binding `$bundled`, where you simply call `learner_bundled(self)`.
-#' * the private method `$.bundle(model)`, which takes in a [`Learner`]'s model and returns it in bundled form,
+#' * the public method `$bundle_model(model)`, which takes in a [`Learner`]'s model and returns it in bundled form,
 #'   without modifying the learner's state. Must not depend on the learner's state.
-#' * the private method `$.unbundle(model)`, which takes in a [`Learner`]'s bundled model and returns it in
+#' * the public method `$unbundle_model(model)`, which takes in a [`Learner`]'s bundled model and returns it in
 #'   unbundled form. Must not depend on the learner's state.
+#' * the active binding `$bundled`, where you simply call `learner_bundled(self)`.
 #' * add the property `bundle` to the learner's properties.
 #'
 #' To test the bundling implementation, you can use the internal test helper `expect_bundleable()`.
@@ -47,7 +47,7 @@ learner_unbundle = function(learner) {
   if (isFALSE(learner$bundled)) {
     warningf("Learner '%s' has not been bundled, skipping.", learner$id)
   } else if (isTRUE(learner$bundled)) {
-    learner$model = get_private(learner)$.unbundle(learner$model)
+    learner$model = learner$unbundle_model(learner$model)
     learner$state$bundled = FALSE
   }
   invisible(learner)
@@ -62,7 +62,7 @@ learner_bundle = function(learner) {
   if (isTRUE(learner$bundled)) {
     warningf("Learner '%s' has already been bundled, skipping.", learner$id)
   } else if ("bundle" %in% learner$properties) {
-    learner$model = get_private(learner)$.bundle(learner$model)
+    learner$model = learner$bundle_model(learner$model)
     learner$state$bundled = TRUE
   }
   invisible(learner)

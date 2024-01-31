@@ -167,18 +167,18 @@ test_that("bundling", {
         self$properties = c("bundle", self$properties)
       },
       bundle = function() learner_bundle(self),
-      unbundle = function() learner_unbundle(self)
+      unbundle = function() learner_unbundle(self),
+      bundle_model = function(model) {
+        structure(list(model), class = "bundled")
+      },
+      unbundle_model = function(model) {
+        model[[1L]]
+      }
     ),
     active = list(
       bundled = function() learner_bundled(self)
     ),
     private = list(
-      .bundle = function(model) {
-        structure(list(model), class = "bundled")
-      },
-      .unbundle = function(model) {
-        model[[1L]]
-      },
       .tmp_model = NULL
     )
   )

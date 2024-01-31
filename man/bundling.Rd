@@ -42,11 +42,11 @@ In order to implement bundling for a \code{\link{Learner}}, you need to add:
 \itemize{
 \item the public methods \verb{$bundle()} and \verb{$unbundle()}, where you call \code{learner_bundle(self)} and
 \code{learner_unbundle(self)} respectively.
-\item the active binding \verb{$bundled}, where you simply call \code{learner_bundled(self)}.
-\item the private method \verb{$.bundle(model)}, which takes in a \code{\link{Learner}}'s model and returns it in bundled form,
+\item the public method \verb{$bundle_model(model)}, which takes in a \code{\link{Learner}}'s model and returns it in bundled form,
 without modifying the learner's state. Must not depend on the learner's state.
-\item the private method \verb{$.unbundle(model)}, which takes in a \code{\link{Learner}}'s bundled model and returns it in
+\item the public method \verb{$unbundle_model(model)}, which takes in a \code{\link{Learner}}'s bundled model and returns it in
 unbundled form. Must not depend on the learner's state.
+\item the active binding \verb{$bundled}, where you simply call \code{learner_bundled(self)}.
 \item add the property \code{bundle} to the learner's properties.
 }
 

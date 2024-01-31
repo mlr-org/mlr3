@@ -13,19 +13,19 @@ test_that("bundleable learner behaves as expected", {
       },
       unbundle = function() {
         learner_unbundle(self)
-      }
-    ),
-    private = list(
-      .bundle = function(model) {
+      },
+      bundle_model = function(model) {
         private$.tmp_model = model
         "bundle"
       },
-      .unbundle = function(model) {
+      unbundle_model = function(model) {
         model = private$.tmp_model
         private$.tmp_model = NULL
         private$.counter = private$.counter + 1
         model
-      },
+      }
+    ),
+    private = list(
       .tmp_model = NULL,
       .counter = 0
     ),
