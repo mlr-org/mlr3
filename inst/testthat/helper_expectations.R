@@ -342,6 +342,7 @@ expect_task_generator = function(gen) {
 
 
 expect_learner = function(lrn, task = NULL, check_man = TRUE) {
+
   checkmate::expect_r6(lrn, "Learner", cloneable = TRUE)
   expect_id(lrn$id)
   checkmate::expect_string(lrn$label, na.ok = TRUE)
@@ -378,11 +379,64 @@ expect_learner = function(lrn, task = NULL, check_man = TRUE) {
     checkmate::expect_class(task, "Task")
     checkmate::expect_subset(lrn$properties, mlr3::mlr_reflections$learner_properties[[task$task_type]])
     testthat::expect_identical(lrn$task_type, task$task_type)
+
+    if ("bundle" %in% lrn$properties) {
+      expect_bundleable(lrn, task)
+    }
   }
 
   if (!inherits(lrn, "GraphLearner") && !inherits(lrn, "AutoTuner")) { # still not in pipelines, breaking check in mlr3tuning
     checkmate::expect_class(lrn$base_learner(), "Learner")
   }
+
+}
+
+expect_bundleable = function(learner, task) {
+  expect_true("bundle" %in% learner$properties)
+  learner$state = NULL
+
+  has_public = function(learner, x) {
+    exists(x, learner, inherits = FALSE)
+  }
+  has_private = function(learner, x) {
+    exists(x, get_private(learner), inherits = FALSE)
+  }
+
+  expect_true(has_public(learner, "bundle") && test_function(learner$bundle, nargs = 0))
+  expect_true(has_public(learner, "unbundle") && test_function(learner$unbundle, nargs = 0))
+  expect_true(has_public(learner, "bundle"))
+  expect_true(has_private(learner, ".bundle") && test_function(get_private(learner)$.bundle, nargs = 1, args = "model"))
+  expect_true(has_private(learner, ".unbundle") && test_function(get_private(learner)$.unbundle, nargs = 1, args = "model"))
+
+  expect_false(learner$bundled)
+
+  # (un)bundling only possible after training
+  expect_error(learner$bundle(), "has not been trained")
+  expect_error(learner$unbundle(), "has not been trained")
+
+  learner$train(task)
+  model = learner$model
+  expect_false(learner$bundled)
+  learner$bundle()
+  expect_true(learner$bundled)
+
+  # cannot predict with bundled learner
+  expect_error(learner$predict(task), "has not been unbundled")
+  expect_true(identical(learner$model, "bundle"))
+
+  # unbundling works
+  learner$unbundle()
+  # can predict after unbundling
+  expect_prediction(learner$predict(task))
+  # model is reset
+  expect_equal(learner$model, model)
+  # bundled is set accordingly
+  expect_false(learner$bundled)
+
+  # when re-training, bundled is reset
+  learner$predict(task)
+  expect_false(learner$train(task)$bundled)
+
 }
 
 expect_resampling = function(r, task = NULL) {

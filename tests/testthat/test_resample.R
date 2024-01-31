@@ -161,15 +161,19 @@ test_that("bundling", {
   task = tsk("mtcars")
   LearnerRegrTest = R6Class("LearnerRegrTest",
     inherit = LearnerRegrFeatureless,
+    public = list(
+      bundle = function() learner_bundle(self),
+      unbundle = function() learner_unbundle(self)
+    ),
+    active = list(
+      bundled = function() learner_bundled(self)
+    ),
     private = list(
       .bundle = function(model) {
-        private$.tmp_model = model
-        "bundle"
+        structure(list(model), class = "bundled")
       },
       .unbundle = function(model) {
-        model = private$.tmp_model
-        private$.tmp_model = NULL
-        model
+        model[[1L]]
       },
       .tmp_model = NULL
     )
@@ -177,11 +181,30 @@ test_that("bundling", {
   learner = LearnerRegrTest$new()
 
   # allow to bundle during resample()
-  resampling = rsmp("holdout")$instantiate(task)
+  resampling = rsmp("cv", folds = 2L)
+  resampling$instantiate(task) # to compare different resample results
   rr1 = resample(task, learner, resampling, store_models = TRUE, bundle = TRUE)
   lrn_rec = rr1$learners[[1L]]
   expect_true(lrn_rec$bundled)
   expect_false(lrn_rec$unbundle()$bundled)
+
+  # ResampleResult can be unbundled.
+  expect_true(rr1$learners[[1]]$bundled)
+  expect_class(rr1$learners[[1]]$model, "bundled")
+  expect_true(rr1$learners[[2]]$bundled)
+  expect_class(rr1$learners[[2]]$model, "bundled")
+
+  rr1$unbundle()
+  expect_false(rr1$learners[[1]]$bundled)
+  expect_class(rr1$learners[[1]]$model, "regr.featureless_model")
+  expect_false(rr1$learners[[2]]$bundled)
+  expect_class(rr1$learners[[2]]$model, "regr.featureless_model")
+
+  rr1$bundle()
+  expect_true(rr1$learners[[1]]$bundled)
+  expect_class(rr1$learners[[1]]$model, "bundled")
+  expect_true(rr1$learners[[2]]$bundled)
+  expect_class(rr1$learners[[2]]$model, "bundled")
 
   # bundled resamples are equivalent to unbundled results
   rr2 = resample(task, lrn("regr.featureless"), resampling, store_models = TRUE)
@@ -192,4 +215,12 @@ test_that("bundling", {
   # bundling can be disabled
   rr4 = resample(task, learner, resampling, bundle = FALSE, store_models = TRUE)
   expect_false(rr4$learners[[1]]$bundled)
+})
+
+test_that("bundling does nothing with unbundleable learners", {
+  rr = resample(tsk("mtcars"), lrn("regr.featureless"), rsmp("cv", folds = 2))
+  rr$unbundle()
+  expect_resample_result(rr)
+  rr$bundle()
+  expect_resample_result(rr)
 })

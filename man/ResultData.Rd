@@ -50,6 +50,8 @@ Returns \code{NULL} if the \link{ResultData} is empty.}
 \item \href{#method-ResultData-prediction}{\code{ResultData$prediction()}}
 \item \href{#method-ResultData-combine}{\code{ResultData$combine()}}
 \item \href{#method-ResultData-sweep}{\code{ResultData$sweep()}}
+\item \href{#method-ResultData-bundle}{\code{ResultData$bundle()}}
+\item \href{#method-ResultData-unbundle}{\code{ResultData$unbundle()}}
 \item \href{#method-ResultData-discard}{\code{ResultData$discard()}}
 \item \href{#method-ResultData-as_data_table}{\code{ResultData$as_data_table()}}
 \item \href{#method-ResultData-logs}{\code{ResultData$logs()}}
@@ -330,6 +332,26 @@ E.g., can be called after filtering/subsetting the fact table.
 \subsection{Returns}{
 Modified \code{self} (invisibly).
 }
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ResultData-bundle"></a>}}
+\if{latex}{\out{\hypertarget{method-ResultData-bundle}{}}}
+\subsection{Method \code{bundle()}}{
+Bundles all stored learner models.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ResultData$bundle()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ResultData-unbundle"></a>}}
+\if{latex}{\out{\hypertarget{method-ResultData-unbundle}{}}}
+\subsection{Method \code{unbundle()}}{
+Unbundles all stored learner models.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ResultData$unbundle()}\if{html}{\out{</div>}}
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ResultData-discard"></a>}}

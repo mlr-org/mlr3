@@ -482,17 +482,31 @@ test_that("bundling", {
   task = tsk("mtcars")
   LearnerRegrTest = R6Class("LearnerRegrTest",
     inherit = LearnerRegrFeatureless,
+    public = list(
+      initialize = function(class = "bundle") {
+        private$.class = class
+        super$initialize()
+      },
+      bundle = function() {
+        learner_bundle(self)
+      },
+      unbundle = function() {
+        learner_unbundle(self)
+      }
+    ),
+    active = list(
+      bundled = function() {
+        learner_bundled(self)
+      }
+    ),
     private = list(
       .bundle = function(model) {
-        private$.tmp_model = model
-        "bundle"
+        structure(list(model), class = private$.class)
       },
       .unbundle = function(model) {
-        model = private$.tmp_model
-        private$.tmp_model = NULL
-        model
+        model[[1L]]
       },
-      .tmp_model = NULL
+      .class = NULL
     )
   )
   learner = LearnerRegrTest$new()
@@ -514,4 +528,38 @@ test_that("bundling", {
   # bundling can be disabled
   bmr3 = benchmark(benchmark_grid(task, learner, resampling), store_models = TRUE, bundle = FALSE)
   expect_false(bmr3$resample_results$resample_result[[1]]$learners[[1]]$bundled)
+
+  # can (un)bundle benchmark result
+  # we are mixing differnt bundling methods
+  l1 = LearnerRegrTest$new(class = "a")
+  l2 = lrn("regr.rpart")
+  l3 = LearnerRegrTest$new(class = "b")
+  # to give l1 and l3 different hashes
+  class(l3) = c("LearenrRegrTest2", class(l3)[-1])
+  expect_false(identical(l1$phash, l3$phash))
+
+  design = benchmark_grid(tsk("mtcars"), list(l1, l2, l3), rsmp("cv", folds = 3))
+  bmr = benchmark(design, store_models = TRUE)
+
+  bmr$unbundle()
+
+  walk(bmr$resample_result(1)$learners, function(l) {
+    expect_class(l$model, "regr.featureless_model")
+  })
+  walk(bmr$resample_result(2)$learners, function(l) {
+    expect_class(l$model, "rpart")
+  })
+  walk(bmr$resample_result(3)$learners, function(l) {
+    expect_class(l$model, "regr.featureless_model")
+  })
+  bmr$bundle()
+  walk(bmr$resample_result(1)$learners, function(l) {
+    expect_class(l$model, "a")
+  })
+  walk(bmr$resample_result(2)$learners, function(l) {
+    expect_class(l$model, "rpart")
+  })
+  walk(bmr$resample_result(3)$learners, function(l) {
+    expect_class(l$model, "b")
+  })
 })

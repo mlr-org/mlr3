@@ -107,6 +107,8 @@ Note that there can be multiple rows per resampling iteration if multiple errors
 \item \href{#method-ResampleResult-aggregate}{\code{ResampleResult$aggregate()}}
 \item \href{#method-ResampleResult-filter}{\code{ResampleResult$filter()}}
 \item \href{#method-ResampleResult-discard}{\code{ResampleResult$discard()}}
+\item \href{#method-ResampleResult-bundle}{\code{ResampleResult$bundle()}}
+\item \href{#method-ResampleResult-unbundle}{\code{ResampleResult$unbundle()}}
 \item \href{#method-ResampleResult-clone}{\code{ResampleResult$clone()}}
 }
 }
@@ -347,6 +349,26 @@ Returns the object itself, but modified \strong{by reference}.
 You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
 the object in its previous state.
 }
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ResampleResult-bundle"></a>}}
+\if{latex}{\out{\hypertarget{method-ResampleResult-bundle}{}}}
+\subsection{Method \code{bundle()}}{
+Bundles all stored learner models.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$bundle()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ResampleResult-unbundle"></a>}}
+\if{latex}{\out{\hypertarget{method-ResampleResult-unbundle}{}}}
+\subsection{Method \code{unbundle()}}{
+Unbundles all stored learner models.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$unbundle()}\if{html}{\out{</div>}}
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ResampleResult-clone"></a>}}

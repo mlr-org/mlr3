@@ -243,6 +243,39 @@ ResultData = R6Class("ResultData",
     },
 
     #' @description
+    #' Bundles all stored learner models.
+    bundle = function() {
+      learner_states = map(seq_len(nrow(self$data$fact)), function(i) {
+        state = self$data$fact[i, "learner_state"][[1L]][[1L]]
+        phash = self$data$fact[i, "learner_phash"][[1L]]
+        learner = self$data$learners[phash, "learner", on = "learner_phash"][[1L]][[1L]]
+        if (!is.null(state$model) && isFALSE(state$bundled)) {
+          state$model = get_private(learner)$.bundle(state$model)
+          state$bundled = TRUE
+        }
+        state
+      })
+      self$data$fact$learner_state = learner_states
+      invisible(self)
+    },
+    #' @description
+    #' Unbundles all stored learner models.
+    unbundle = function() {
+      learner_states = map(seq_len(nrow(self$data$fact)), function(i) {
+        state = self$data$fact[i, "learner_state"][[1L]][[1L]]
+        phash = self$data$fact[i, "learner_phash"][[1L]]
+        learner = self$data$learners[phash, "learner", on = "learner_phash"][[1L]][[1L]]
+        if (!is.null(state$model) && isTRUE(state$bundled)) {
+          state$model = get_private(learner)$.unbundle(state$model)
+          state$bundled = FALSE
+        }
+        state
+      })
+      self$data$fact$learner_state = learner_states
+      invisible(self)
+    },
+
+    #' @description
     #' Shrinks the object by discarding parts of the stored data.
     #'
     #' @param backends (`logical(1)`)\cr

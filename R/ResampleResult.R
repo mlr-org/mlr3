@@ -222,6 +222,17 @@ ResampleResult = R6Class("ResampleResult",
     #' the object in its previous state.
     discard = function(backends = FALSE, models = FALSE) {
       private$.data$discard(backends = backends, models = models)
+    },
+
+    #' @description
+    #' Bundles all stored learner models.
+    bundle = function() {
+      private$.data$bundle()
+    },
+    #' @description
+    #' Unbundles all stored learner models.
+    unbundle = function() {
+      private$.data$unbundle()
     }
   ),
 

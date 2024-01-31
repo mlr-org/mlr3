@@ -188,7 +188,7 @@ Learner = R6Class("Learner",
     #' @param ... (ignored).
     print = function(...) {
       catn(format(self), if (is.null(self$label) || is.na(self$label)) "" else paste0(": ", self$label))
-      catn(str_indent("* Model:", if (is.null(self$model)) "-" else if (isTRUE(self$bundled)) "<bundled>" else paste0(class(self$model)[1L])))
+      catn(str_indent("* Model:", if (is.null(self$model)) "-" else if (learner_bundled(self)) "<bundled>" else paste0(class(self$model)[1L])))
       catn(str_indent("* Parameters:", as_short_string(self$param_set$values, 1000L)))
       catn(str_indent("* Packages:", self$packages))
       catn(str_indent("* Predict Types: ", replace(self$predict_types, self$predict_types == self$predict_type, paste0("[", self$predict_type, "]"))))
@@ -208,38 +208,6 @@ Learner = R6Class("Learner",
     #' Opens the corresponding help page referenced by field `$man`.
     help = function() {
       open_help(self$man)
-    },
-
-    #' @description
-    #' Bundles the learner's model so it can be serialized and deserialized.
-    #' Does nothing if the learner does not support bundling.
-    bundle = function() {
-      if (is.null(self$model)) {
-        stopf("Cannot bundle, Learner '%s' has not been trained yet", self$id)
-      }
-      if (isTRUE(self$bundled)) {
-        lg$warn("Learner '%s' has already been bundled, skipping.", self$id)
-      } else if ("bundle" %in% self$properties) {
-        self$model = private$.bundle(self$model)
-        self$state$bundled = TRUE
-      }
-      invisible(self)
-    },
-
-    #' @description
-    #' Unbundles the learner's model so it can be used for prediction.
-    #' Does nothing if the learner does not support (un)bundling.
-    unbundle = function() {
-      if (is.null(self$model)) {
-        stopf("Cannot unbundle, Learner '%s' has not been trained yet", self$id)
-      }
-      if (isFALSE(self$bundled)) {
-        lg$warn("Learner '%s' has not been bundled, skipping.", self$id)
-      } else if (isTRUE(self$bundled)) {
-        self$model = private$.unbundle(self$model)
-        self$state$bundled = FALSE
-      }
-      invisible(self)
     },
 
     #' @description
@@ -315,7 +283,7 @@ Learner = R6Class("Learner",
         stopf("Cannot predict, Learner '%s' has not been trained yet", self$id)
       }
 
-      if (isTRUE(self$bundled)) {
+      if (isTRUE(self$state$bundled)) {
         stopf("Cannot predict, Learner '%s' has not been unbundled yet", self$id)
       }
 
@@ -426,13 +394,6 @@ Learner = R6Class("Learner",
         self$state$model = rhs
       }
       self$state$model
-    },
-
-    #' @field bundled (`logical(1)` or `NULL`)\cr
-    #' Indicates whether the model has been bundled (`TRUE`), unbundled (`FALSE`), or neither (`NULL`).
-    bundled = function(rhs) {
-      assert_ro_binding(rhs)
-      self$state$bundled
     },
 
     #' @field timings (named `numeric(2)`)\cr
@@ -586,7 +547,6 @@ Learner = R6Class("Learner",
     }
   )
 )
-
 
 #' @export
 rd_info.Learner = function(obj, ...) {

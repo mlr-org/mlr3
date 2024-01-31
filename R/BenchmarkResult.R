@@ -133,6 +133,16 @@ BenchmarkResult = R6Class("BenchmarkResult",
       invisible(self)
     },
 
+    #' @description
+    #' Bundles all stored models.
+    bundle = function() {
+      private$.data$bundle()
+    },
+    #' @description
+    #' Unbundles all stored models.
+    unbundle = function() {
+      private$.data$unbundle()
+    },
 
     #' @description
     #' Returns a table with one row for each resampling iteration, including
