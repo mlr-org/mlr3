@@ -399,7 +399,7 @@ expect_bundleable = function(learner, task) {
     exists(x, learner, inherits = FALSE)
   }
   has_private = function(learner, x) {
-    exists(x, get_private(learner), inherits = FALSE)
+    exists(x, mlr3misc::get_private(learner), inherits = FALSE)
   }
 
   expect_true(has_public(learner, "bundle") && test_function(learner$bundle, nargs = 0))
