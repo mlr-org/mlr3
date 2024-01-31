@@ -405,8 +405,8 @@ expect_bundleable = function(learner, task) {
   expect_true(has_public(learner, "bundle") && test_function(learner$bundle, nargs = 0))
   expect_true(has_public(learner, "unbundle") && test_function(learner$unbundle, nargs = 0))
   expect_true(has_public(learner, "bundle"))
-  expect_true(has_private(learner, ".bundle") && test_function(get_private(learner)$.bundle, nargs = 1, args = "model"))
-  expect_true(has_private(learner, ".unbundle") && test_function(get_private(learner)$.unbundle, nargs = 1, args = "model"))
+  expect_true(has_private(learner, ".bundle") && test_function(mlr3misc::get_private(learner)$.bundle, nargs = 1, args = "model"))
+  expect_true(has_private(learner, ".unbundle") && test_function(mlr3misc::get_private(learner)$.unbundle, nargs = 1, args = "model"))
 
   expect_false(learner$bundled)
 

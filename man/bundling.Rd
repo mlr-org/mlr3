@@ -47,6 +47,7 @@ In order to implement bundling for a \code{\link{Learner}}, you need to add:
 without modifying the learner's state. Must not depend on the learner's state.
 \item the private method \verb{$.unbundle(model)}, which takes in a \code{\link{Learner}}'s bundled model and returns it in
 unbundled form. Must not depend on the learner's state.
+\item add the property \code{bundle} to the learner's properties.
 }
 
 To test the bundling implementation, you can use the internal test helper \code{expect_bundleable()}.
