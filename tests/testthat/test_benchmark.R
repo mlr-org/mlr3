@@ -486,6 +486,7 @@ test_that("bundling", {
       initialize = function(class = "bundle") {
         private$.class = class
         super$initialize()
+        self$properties = c("bundle", self$properties)
       },
       bundle = function() {
         learner_bundle(self)

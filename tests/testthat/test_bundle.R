@@ -6,7 +6,7 @@ test_that("bundleable learner behaves as expected", {
       initialize = function() {
         super$initialize()
         self$id = "regr.test"
-        self$properties = unique(self$properties, "bundle")
+        self$properties = c("bundle", self$properties)
       },
       bundle = function() {
         learner_bundle(self)

@@ -162,6 +162,10 @@ test_that("bundling", {
   LearnerRegrTest = R6Class("LearnerRegrTest",
     inherit = LearnerRegrFeatureless,
     public = list(
+      initialize = function() {
+        super$initialize()
+        self$properties = c("bundle", self$properties)
+      },
       bundle = function() learner_bundle(self),
       unbundle = function() learner_unbundle(self)
     ),
