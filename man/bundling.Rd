@@ -24,11 +24,12 @@ deserialized. The naming is inspired from \CRANpkg{bundle}.
 The function:
 \itemize{
 \item \code{learner_bundle(learner)}:
-Replaces the learner's model with the bundled model.
+Replaces the learner's model with the bundled model (in-place).
 \item `learner_unbundle(learner) :
-Replaces the learner's model with the unbundled model.
+Replaces the learner's model with the unbundled model (in-place).
 \item \code{learner_bundled(learner)}:
 returns \code{FALSE} if the learner is either not trained or not bundled, otherwise \code{TRUE}.
+Does not modify the learner.
 }
 
 All three functions are primarily intended to be used when implementing bundling for a \code{\link{Learner}}.

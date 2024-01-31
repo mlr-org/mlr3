@@ -8,11 +8,12 @@
 #'
 #' The function:
 #' * `learner_bundle(learner)`:
-#'   Replaces the learner's model with the bundled model.
+#'   Replaces the learner's model with the bundled model (in-place).
 #' * `learner_unbundle(learner) :
-#'   Replaces the learner's model with the unbundled model.
+#'   Replaces the learner's model with the unbundled model (in-place).
 #' * `learner_bundled(learner)`:
 #'   returns `FALSE` if the learner is either not trained or not bundled, otherwise `TRUE`.
+#'   Does not modify the learner.
 #'
 #' All three functions are primarily intended to be used when implementing bundling for a [`Learner`].
 #' Users who want to (un)bundle a [`Learner`] can instead use the public methods `$bundle()` and `$unbundle()` or the
@@ -27,6 +28,7 @@
 #'   without modifying the learner's state. Must not depend on the learner's state.
 #' * the private method `$.unbundle(model)`, which takes in a [`Learner`]'s bundled model and returns it in
 #'   unbundled form. Must not depend on the learner's state.
+#' * add the property `bundle` to the learner's properties.
 #'
 #' To test the bundling implementation, you can use the internal test helper `expect_bundleable()`.
 #' This is also run in `expect_learner()` when a task is provided.
