@@ -153,8 +153,8 @@ assert_learnable = function(task, learner) {
   if (task$task_type == "unsupervised") {
     stopf("%s cannot be trained with %s", learner$format(), task$format())
   }
-  if (exists("check_task", envir = learner, inherits = FALSE)) {
-    msg = learner$check_task(task)
+  if (exists("check_learnable", envir = learner, inherits = FALSE)) {
+    msg = learner$check_learnable(task)
     if (!isTRUE(msg)) {
       stopf("Learner '%s' incompatible with task '%s': %s", learner$id, task$id, msg)
     }

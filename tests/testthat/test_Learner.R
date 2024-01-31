@@ -325,11 +325,11 @@ test_that("Models can be replaced", {
   expect_equal(learner$model$location, 1)
 })
 
-test_that("check_task", {
+test_that("check_learnable", {
   learner = R6Class("LearnerClassifIris",
     inherit = LearnerClassifRpart,
     public = list(
-      check_task = function(task) {
+      check_learnable = function(task) {
         if (task$id == "iris") {
           return(TRUE)
         }

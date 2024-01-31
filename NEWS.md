@@ -1,6 +1,6 @@
 # mlr3 (development version)
 
-* feat(Learner): Add support for a `$check_task()` method that can be
+* feat(Learner): Add support for a `$check_learnable()` method that can be
                   implemented by `Learner`s to perform additional compatibility checks
 
 # mlr3 0.17.2

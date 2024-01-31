@@ -79,8 +79,8 @@ Here, we add a factor hyperparameter with id \code{"foo"} and possible levels \c
 \section{Additional Task Checks}{
 
 Learner may perform custom compatibility checks on a task that determine whether a learner is applicable to a task
-using the optional \verb{$check_task(task)} public method.
-When providing this method, it should either return \code{TRUE} or return the an error message as a \code{character(1)}.
+using the optional \verb{$check_learnable(task)} public method.
+When providing this method, it should either return \code{TRUE} or return an error message as a \code{character(1)}.
 }
 
 \seealso{
