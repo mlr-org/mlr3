@@ -222,6 +222,17 @@ ResampleResult = R6Class("ResampleResult",
     #' the object in its previous state.
     discard = function(backends = FALSE, models = FALSE) {
       private$.data$discard(backends = backends, models = models)
+    },
+
+    #' @description
+    #' marshals all stored learner models.
+    marshal = function() {
+      private$.data$marshal()
+    },
+    #' @description
+    #' Unmarshals all stored learner models.
+    unmarshal = function() {
+      private$.data$unmarshal()
     }
   ),
 

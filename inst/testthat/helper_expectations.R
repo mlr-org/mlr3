@@ -342,6 +342,7 @@ expect_task_generator = function(gen) {
 
 
 expect_learner = function(lrn, task = NULL, check_man = TRUE) {
+
   checkmate::expect_r6(lrn, "Learner", cloneable = TRUE)
   expect_id(lrn$id)
   checkmate::expect_string(lrn$label, na.ok = TRUE)
@@ -378,11 +379,66 @@ expect_learner = function(lrn, task = NULL, check_man = TRUE) {
     checkmate::expect_class(task, "Task")
     checkmate::expect_subset(lrn$properties, mlr3::mlr_reflections$learner_properties[[task$task_type]])
     testthat::expect_identical(lrn$task_type, task$task_type)
+
+    if ("marshal" %in% lrn$properties) {
+      expect_marshallable_learner(lrn, task)
+    }
+  } else if ("marshal" %in% lrn$properties) {
+    message("Cannot test 'marshal' property of the learner as no task is provided.")
   }
 
   if (!inherits(lrn, "GraphLearner") && !inherits(lrn, "AutoTuner")) { # still not in pipelines, breaking check in mlr3tuning
     checkmate::expect_class(lrn$base_learner(), "Learner")
   }
+
+}
+
+expect_marshallable_learner = function(learner, task) {
+  expect_true("marshal" %in% learner$properties)
+  learner$state = NULL
+
+  has_public = function(learner, x) {
+    exists(x, learner, inherits = FALSE)
+  }
+
+  expect_true(has_public(learner, "marshal") && test_function(learner$marshal, nargs = 0))
+  expect_true(has_public(learner, "unmarshal") && test_function(learner$unmarshal, nargs = 0))
+  expect_true(has_public(learner, "marshalled"))
+
+  # (un)marshal only possible after training
+  expect_error(learner$marshal(), "has not been trained")
+  expect_error(learner$unmarshal(), "has not been trained")
+  expect_error(learner$marshalled, "has not been trained")
+
+  learner$train(task)
+  model = learner$model
+  class_prev = class(model)
+  expect_false(learner$marshalled)
+  expect_equal(marshalled_model(learner$model), learner$marshalled)
+  expect_invisible(learner$marshal())
+  expect_true(learner$marshalled)
+  expect_equal(marshalled_model(learner$model), learner$marshalled)
+
+  # cannot predict with marshalled learner
+  expect_error(learner$predict(task), "has not been unmarshalled")
+
+  # unmarshalling works
+  expect_invisible(learner$unmarshal())
+  # can predict after unmarshalling
+  expect_prediction(learner$predict(task))
+  # model is reset
+  expect_equal(learner$model, model)
+  # marshalled is set accordingly
+  expect_false(learner$marshalled)
+
+  expect_equal(class(learner$model), class_prev)
+
+  # when re-training, marshalled is reset
+  learner$predict(task)
+  expect_false(learner$train(task)$marshalled)
+
+
+
 }
 
 expect_resampling = function(r, task = NULL) {

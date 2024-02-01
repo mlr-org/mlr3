@@ -141,6 +141,8 @@ Set of (unique) hashes of all included \link{ResampleResult}s.}
 \item \href{#method-BenchmarkResult-format}{\code{BenchmarkResult$format()}}
 \item \href{#method-BenchmarkResult-print}{\code{BenchmarkResult$print()}}
 \item \href{#method-BenchmarkResult-combine}{\code{BenchmarkResult$combine()}}
+\item \href{#method-BenchmarkResult-marshal}{\code{BenchmarkResult$marshal()}}
+\item \href{#method-BenchmarkResult-unmarshal}{\code{BenchmarkResult$unmarshal()}}
 \item \href{#method-BenchmarkResult-score}{\code{BenchmarkResult$score()}}
 \item \href{#method-BenchmarkResult-aggregate}{\code{BenchmarkResult$aggregate()}}
 \item \href{#method-BenchmarkResult-filter}{\code{BenchmarkResult$filter()}}
@@ -229,6 +231,26 @@ Returns the object itself, but modified \strong{by reference}.
 You need to explicitly \verb{$clone()} the object beforehand if you want to keep
 the object in its previous state.
 }
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-BenchmarkResult-marshal"></a>}}
+\if{latex}{\out{\hypertarget{method-BenchmarkResult-marshal}{}}}
+\subsection{Method \code{marshal()}}{
+marshals all stored models.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{BenchmarkResult$marshal()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-BenchmarkResult-unmarshal"></a>}}
+\if{latex}{\out{\hypertarget{method-BenchmarkResult-unmarshal}{}}}
+\subsection{Method \code{unmarshal()}}{
+Unmarshals all stored models.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{BenchmarkResult$unmarshal()}\if{html}{\out{</div>}}
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-BenchmarkResult-score"></a>}}

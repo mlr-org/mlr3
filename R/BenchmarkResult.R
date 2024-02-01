@@ -133,6 +133,16 @@ BenchmarkResult = R6Class("BenchmarkResult",
       invisible(self)
     },
 
+    #' @description
+    #' marshals all stored models.
+    marshal = function() {
+      private$.data$marshal()
+    },
+    #' @description
+    #' Unmarshals all stored models.
+    unmarshal = function() {
+      private$.data$unmarshal()
+    },
 
     #' @description
     #' Returns a table with one row for each resampling iteration, including

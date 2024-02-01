@@ -42,6 +42,7 @@ future_map = function(n, FUN, ..., MoreArgs = list()) {
     future.apply::future_mapply(
       FUN, ..., MoreArgs = MoreArgs, SIMPLIFY = FALSE, USE.NAMES = FALSE,
       future.globals = FALSE, future.packages = "mlr3", future.seed = TRUE,
-      future.scheduling = scheduling, future.chunk.size = chunk_size, future.stdout = stdout)
+      future.scheduling = scheduling, future.chunk.size = chunk_size, future.stdout = stdout
+    )
   }
 }

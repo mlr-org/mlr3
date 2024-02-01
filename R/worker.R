@@ -1,5 +1,5 @@
 learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NULL, mode = "train") {
-  # This wrapper calls learner$train, and additionally performs some basic
+  # This wrapper calls learner$.train, and additionally performs some basic
   # checks that the training was successful.
   # Exceptions here are possibly encapsulated, so that they get captured
   # and turned into log messages.
@@ -16,6 +16,11 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
 
     if (is.null(model)) {
       stopf("Learner '%s' on task '%s' returned NULL during internal %s()", learner$id, task$id, mode)
+    }
+
+    if (learner$encapsulate[["train"]] == "callr") {
+      # the default method of marshal_model does nothing
+      model = marshal_model(model)
     }
 
     model
@@ -68,8 +73,12 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
   log = append_log(NULL, "train", result$log$class, result$log$msg)
   train_time = result$elapsed
 
+  # unmarshal_model does nothing if the model was not marshalled
+  # We always want to unmarshal the model, because either:
+  # a) the user called $train() manually or
+  # b) we are within worker and still have to make a prediction
   learner$state = insert_named(learner$state, list(
-    model = result$result,
+    model = unmarshal_model(result$result),
     log = log,
     train_time = train_time,
     param_vals = learner$param_set$values,
@@ -266,6 +275,9 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
   if (!store_models) {
     lg$debug("Erasing stored model for learner '%s'", learner$id)
     learner$state$model = NULL
+  } else if (!is_sequential) {
+    lg$debug("Marshalling model for learner '%s' because of non-sequential execution", learner$id)
+    learner$model = marshal_model(learner$model)
   }
 
   list(learner_state = learner$state, prediction = pdatas, param_values = learner$param_set$values, learner_hash = learner_hash)
