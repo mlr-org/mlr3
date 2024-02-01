@@ -130,3 +130,13 @@ test_that("time_train is > 0", {
   res = rr$score(msr("time_train"))
   expect_gte(res$time_train, 0)
 })
+
+test_that("scoring fails when measure requires_model, but model is in marshalled state", {
+  measure = msr("classif.acc")
+  measure$properties = c(measure$properties, "requires_model")
+
+  rr = resample(tsk("iris"), lrn("classif.lily"), rsmp("holdout"))
+  rr$marshal()
+
+  rr$score(msr("selected_features"))
+})

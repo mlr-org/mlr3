@@ -225,14 +225,14 @@ ResampleResult = R6Class("ResampleResult",
     },
 
     #' @description
-    #' Bundles all stored learner models.
-    bundle = function() {
-      private$.data$bundle()
+    #' marshals all stored learner models.
+    marshal = function() {
+      private$.data$marshal()
     },
     #' @description
-    #' Unbundles all stored learner models.
-    unbundle = function() {
-      private$.data$unbundle()
+    #' Unmarshals all stored learner models.
+    unmarshal = function() {
+      private$.data$unmarshal()
     }
   ),
 

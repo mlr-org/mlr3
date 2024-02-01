@@ -243,35 +243,17 @@ ResultData = R6Class("ResultData",
     },
 
     #' @description
-    #' Bundles all stored learner models.
-    bundle = function() {
-      learner_states = map(seq_len(nrow(self$data$fact)), function(i) {
-        state = self$data$fact[i, "learner_state"][[1L]][[1L]]
-        phash = self$data$fact[i, "learner_phash"][[1L]]
-        learner = self$data$learners[phash, "learner", on = "learner_phash"][[1L]][[1L]]
-        if (!is.null(state$model) && isFALSE(state$bundled)) {
-          state$model = learner$bundle_model(state$model)
-          state$bundled = TRUE
-        }
-        state
-      })
-      self$data$fact$learner_state = learner_states
+    #' Marshals all stored learner models.
+    marshal = function() {
+      learner_state = NULL
+      self$data$fact[, learner_state := lapply(learner_state, marshal_state)]
       invisible(self)
     },
     #' @description
-    #' Unbundles all stored learner models.
-    unbundle = function() {
-      learner_states = map(seq_len(nrow(self$data$fact)), function(i) {
-        state = self$data$fact[i, "learner_state"][[1L]][[1L]]
-        phash = self$data$fact[i, "learner_phash"][[1L]]
-        learner = self$data$learners[phash, "learner", on = "learner_phash"][[1L]][[1L]]
-        if (!is.null(state$model) && isTRUE(state$bundled)) {
-          state$model = learner$unbundle_model(state$model)
-          state$bundled = FALSE
-        }
-        state
-      })
-      self$data$fact$learner_state = learner_states
+    #' Unmarshals all stored learner models.
+    unmarshal = function() {
+      learner_state = NULL
+      self$data$fact[, learner_state := lapply(learner_state, unmarshal_state)]
       invisible(self)
     },
 

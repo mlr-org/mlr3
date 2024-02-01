@@ -478,89 +478,68 @@ test_that("param_values in benchmark", {
 })
 
 
-test_that("bundling", {
-  task = tsk("mtcars")
-  LearnerRegrTest = R6Class("LearnerRegrTest",
-    inherit = LearnerRegrFeatureless,
-    public = list(
-      initialize = function(class = "bundle") {
-        private$.class = class
-        super$initialize()
-        self$properties = c("bundle", self$properties)
-      },
-      bundle = function() {
-        learner_bundle(self)
-      },
-      unbundle = function() {
-        learner_unbundle(self)
-      },
-      bundle_model = function(model) {
-        structure(list(model), class = private$.class)
-      },
-      unbundle_model = function(model) {
-        model[[1L]]
-      }
-    ),
-    active = list(
-      bundled = function() {
-        learner_bundled(self)
-      }
-    ),
-    private = list(
-      .class = NULL
+test_that("parallel execution automatically triggers marshalling", {
+  learner = lrn("classif.lily", count_marshalling = TRUE)
+  task = tsk("iris")
+  resampling = rsmp("holdout")
+  design = benchmark_grid(task, learner, resampling)
+  bmr = with_future(future::multisession, {
+    benchmark(design, store_models = TRUE, unmarshal = TRUE)
+  })
+  expect_equal(bmr$resample_result(1)$learners[[1]]$model$marshal_count, 1)
+  expect_false(bmr$resample_result(1)$learners[[1]]$marshalled)
+})
+
+test_that("sequential execution does not trigger marshalling", {
+  learner = lrn("classif.lily", count_marshalling = TRUE)
+  task = tsk("iris")
+  resampling = rsmp("holdout")
+  design = benchmark_grid(task, learner, resampling)
+  bmr = with_future(future::sequential, {
+    benchmark(design, store_models = TRUE, unmarshal = TRUE)
+  })
+  expect_equal(bmr$resample_result(1)$learners[[1]]$model$marshal_count, 0)
+})
+
+test_that("parallel exeuction and callr marshall twice", {
+  learner = lrn("classif.lily", count_marshalling = TRUE, encapsulate = c(train = "callr"))
+  task = tsk("iris")
+  resampling = rsmp("holdout")
+  design = benchmark_grid(task, learner, resampling)
+  bmr = with_future(future::multisession, {
+    benchmark(design, store_models = TRUE, unmarshal = TRUE)
+  })
+  expect_equal(bmr$resample_result(1)$learners[[1]]$model$marshal_count, 2)
+  expect_false(bmr$resample_result(1)$learners[[1]]$marshalled)
+})
+
+
+test_that("unmarshal parameter is respected", {
+  learner = lrn("classif.lily", count_marshalling = TRUE, encapsulate = c(train = "callr"))
+  task = tsk("iris")
+  resampling = rsmp("holdout")
+  design = benchmark_grid(task, learner, resampling)
+  bmr = with_future(future::multisession, {
+    list(
+      marshalled = benchmark(design, store_models = TRUE, unmarshal = FALSE),
+      unmarshalled = benchmark(design, store_models = TRUE, unmarshal = TRUE)
     )
-  )
-  learner = LearnerRegrTest$new()
-  resampling = rsmp("holdout")$instantiate(task)
-
-  # Learner can be bundled during benchmark()
-  bmr1 = benchmark(benchmark_grid(task, learner, resampling), store_models = TRUE, bundle = TRUE)
-  lrn_rec = bmr1$resample_results$resample_result[[1]]$learners[[1]]
-  expect_true(lrn_rec$bundled)
-
-  # learner can be unbundled after benchmark()
-  lrn_rec$unbundle()
-  expect_false(lrn_rec$bundled)
-
-  # result is the same with and without bundling
-  bmr2 = benchmark(benchmark_grid(task, lrn("regr.featureless"), resampling), store_models = TRUE, bundle = TRUE)
-  expect_equal(as.data.table(bmr1$aggregate())$regr.mse, as.data.table(bmr2$aggregate())$regr.mse)
-
-  # bundling can be disabled
-  bmr3 = benchmark(benchmark_grid(task, learner, resampling), store_models = TRUE, bundle = FALSE)
-  expect_false(bmr3$resample_results$resample_result[[1]]$learners[[1]]$bundled)
-
-  # can (un)bundle benchmark result
-  # we are mixing differnt bundling methods
-  l1 = LearnerRegrTest$new(class = "a")
-  l2 = lrn("regr.rpart")
-  l3 = LearnerRegrTest$new(class = "b")
-  # to give l1 and l3 different hashes
-  class(l3) = c("LearenrRegrTest2", class(l3)[-1])
-  expect_false(identical(l1$phash, l3$phash))
-
-  design = benchmark_grid(tsk("mtcars"), list(l1, l2, l3), rsmp("cv", folds = 3))
-  bmr = benchmark(design, store_models = TRUE)
-
-  bmr$unbundle()
-
-  walk(bmr$resample_result(1)$learners, function(l) {
-    expect_class(l$model, "regr.featureless_model")
   })
-  walk(bmr$resample_result(2)$learners, function(l) {
-    expect_class(l$model, "rpart")
-  })
-  walk(bmr$resample_result(3)$learners, function(l) {
-    expect_class(l$model, "regr.featureless_model")
-  })
-  bmr$bundle()
-  walk(bmr$resample_result(1)$learners, function(l) {
-    expect_class(l$model, "a")
-  })
-  walk(bmr$resample_result(2)$learners, function(l) {
-    expect_class(l$model, "rpart")
-  })
-  walk(bmr$resample_result(3)$learners, function(l) {
-    expect_class(l$model, "b")
-  })
+  expect_false(bmr$unmarshalled$resample_result(1)$learners[[1]]$marshalled)
+  expect_true(bmr$marshalled$resample_result(1)$learners[[1]]$marshalled)
+})
+
+test_that("BenchmarkResult can be (un)marshalled", {
+  bmr = benchmark(benchmark_grid(tsk("iris"), lrn("classif.lily"), rsmp("holdout")), store_models = TRUE)
+  expect_false(bmr$resample_result(1)$learners[[1]]$marshalled)
+  bmr$marshal()
+  expect_true(bmr$resample_result(1)$learners[[1]]$marshalled)
+  bmr$unmarshal()
+  expect_false(bmr$resample_result(1)$learners[[1]]$marshalled)
+
+  # also works with non-marshallable learner
+  bmr1 = benchmark(benchmark_grid(tsk("iris"), lrn("classif.featureless"), rsmp("holdout")), store_models = TRUE)
+  model = bmr1$resample_result(1)$learners[[1]]$model
+  bmr1$unmarshal()
+  expect_equal(bmr1$resample_result(1)$learners[[1]]$model, model)
 })

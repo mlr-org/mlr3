@@ -134,14 +134,14 @@ BenchmarkResult = R6Class("BenchmarkResult",
     },
 
     #' @description
-    #' Bundles all stored models.
-    bundle = function() {
-      private$.data$bundle()
+    #' marshals all stored models.
+    marshal = function() {
+      private$.data$marshal()
     },
     #' @description
-    #' Unbundles all stored models.
-    unbundle = function() {
-      private$.data$unbundle()
+    #' Unmarshals all stored models.
+    unmarshal = function() {
+      private$.data$unmarshal()
     },
 
     #' @description

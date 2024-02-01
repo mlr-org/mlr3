@@ -11,7 +11,7 @@ benchmark(
   encapsulate = NA_character_,
   allow_hotstart = FALSE,
   clone = c("task", "learner", "resampling"),
-  bundle = TRUE
+  unmarshal = TRUE
 )
 }
 \arguments{
@@ -59,9 +59,8 @@ providing a set with possible values \code{"task"}, \code{"learner"} and
 \code{"resampling"} for \link{Task}, \link{Learner} and \link{Resampling}, respectively.
 Per default, all input objects are cloned.}
 
-\item{bundle}{(\code{logical(1)})\cr
-Whether to bundle the learner(s) after the train-predict loop.
-Default is \code{TRUE}.}
+\item{unmarshal}{\code{\link{Learner}}\cr
+Whether to unmarshal the learner.}
 }
 \value{
 \link{BenchmarkResult}.

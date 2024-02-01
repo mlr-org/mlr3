@@ -107,8 +107,8 @@ Note that there can be multiple rows per resampling iteration if multiple errors
 \item \href{#method-ResampleResult-aggregate}{\code{ResampleResult$aggregate()}}
 \item \href{#method-ResampleResult-filter}{\code{ResampleResult$filter()}}
 \item \href{#method-ResampleResult-discard}{\code{ResampleResult$discard()}}
-\item \href{#method-ResampleResult-bundle}{\code{ResampleResult$bundle()}}
-\item \href{#method-ResampleResult-unbundle}{\code{ResampleResult$unbundle()}}
+\item \href{#method-ResampleResult-marshal}{\code{ResampleResult$marshal()}}
+\item \href{#method-ResampleResult-unmarshal}{\code{ResampleResult$unmarshal()}}
 \item \href{#method-ResampleResult-clone}{\code{ResampleResult$clone()}}
 }
 }
@@ -351,22 +351,22 @@ the object in its previous state.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-ResampleResult-bundle"></a>}}
-\if{latex}{\out{\hypertarget{method-ResampleResult-bundle}{}}}
-\subsection{Method \code{bundle()}}{
-Bundles all stored learner models.
+\if{html}{\out{<a id="method-ResampleResult-marshal"></a>}}
+\if{latex}{\out{\hypertarget{method-ResampleResult-marshal}{}}}
+\subsection{Method \code{marshal()}}{
+marshals all stored learner models.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$bundle()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$marshal()}\if{html}{\out{</div>}}
 }
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-ResampleResult-unbundle"></a>}}
-\if{latex}{\out{\hypertarget{method-ResampleResult-unbundle}{}}}
-\subsection{Method \code{unbundle()}}{
-Unbundles all stored learner models.
+\if{html}{\out{<a id="method-ResampleResult-unmarshal"></a>}}
+\if{latex}{\out{\hypertarget{method-ResampleResult-unmarshal}{}}}
+\subsection{Method \code{unmarshal()}}{
+Unmarshals all stored learner models.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$unbundle()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$unmarshal()}\if{html}{\out{</div>}}
 }
 
 }

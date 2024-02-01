@@ -1,5 +1,5 @@
 learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NULL, mode = "train") {
-  # This wrapper calls learner$train, and additionally performs some basic
+  # This wrapper calls learner$.train, and additionally performs some basic
   # checks that the training was successful.
   # Exceptions here are possibly encapsulated, so that they get captured
   # and turned into log messages.
@@ -18,8 +18,9 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
       stopf("Learner '%s' on task '%s' returned NULL during internal %s()", learner$id, task$id, mode)
     }
 
-    if ("bundle" %in% learner$properties && identical(learner$encapsulate[["train"]], "callr")) {
-      model = learner$bundle_model(model)
+    if (learner$encapsulate[["train"]] == "callr") {
+      # the default method of marshal_model does nothing
+      model = marshal_model(model)
     }
 
     model
@@ -72,16 +73,14 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
   log = append_log(NULL, "train", result$log$class, result$log$msg)
   train_time = result$elapsed
 
-  # callr encapsualtion causes dangling pointers between train and predict
-  bundled = if ("bundle" %in% learner$properties) {
-    identical(learner$encapsulate[["train"]], "callr")
-  }
-
+  # unmarshal_model does nothing if the model was not marshalled
+  # We always want to unmarshal the model, because either:
+  # a) the user called $train() manually or
+  # b) we are within worker and still have to make a prediction
   learner$state = insert_named(learner$state, list(
-    model = result$result,
+    model = unmarshal_model(result$result),
     log = log,
     train_time = train_time,
-    bundled = bundled,
     param_vals = learner$param_set$values,
     task_hash = task$hash,
     feature_names = task$feature_names,
@@ -109,10 +108,6 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
 
     lg$debug("Fitted fallback learner '%s'",
       fb$id, learner = fb$clone())
-  }
-
-  if (isTRUE(bundled)) {
-    learner$unbundle()
   }
 
   learner
@@ -231,7 +226,7 @@ learner_predict = function(learner, task, row_ids = NULL) {
 }
 
 
-workhorse = function(iteration, task, learner, resampling, param_values = NULL, lgr_threshold, store_models = FALSE, pb = NULL, mode = "train", is_sequential = TRUE, bundle = TRUE) {
+workhorse = function(iteration, task, learner, resampling, param_values = NULL, lgr_threshold, store_models = FALSE, pb = NULL, mode = "train", is_sequential = TRUE) {
   if (!is.null(pb)) {
     pb(sprintf("%s|%s|i:%i", task$id, learner$id, iteration))
   }
@@ -280,9 +275,9 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
   if (!store_models) {
     lg$debug("Erasing stored model for learner '%s'", learner$id)
     learner$state$model = NULL
-  } else if (bundle && "bundle" %in% learner$properties) {
-    lg$debug("Bundling model for learner '%s'", learner$id)
-    learner$bundle()
+  } else if (!is_sequential) {
+    lg$debug("Marshalling model for learner '%s' because of non-sequential execution", learner$id)
+    learner$model = marshal_model(learner$model)
   }
 
   list(learner_state = learner$state, prediction = pdatas, param_values = learner$param_set$values, learner_hash = learner_hash)
