@@ -1,5 +1,8 @@
 # mlr3 (development version)
 
+* Feat: When creating a task prototype, the S3 generic `strip_srcrefs` is now
+applied to all columns
+
 # mlr3 0.17.2
 
 * Skip new `data.table` tests on mac.

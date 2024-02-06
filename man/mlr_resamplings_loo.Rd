@@ -66,15 +66,15 @@ tasks.
 
 Other Resampling: 
 \code{\link{Resampling}},
+\code{\link{mlr_resamplings}},
 \code{\link{mlr_resamplings_bootstrap}},
-\code{\link{mlr_resamplings_custom_cv}},
 \code{\link{mlr_resamplings_custom}},
+\code{\link{mlr_resamplings_custom_cv}},
 \code{\link{mlr_resamplings_cv}},
 \code{\link{mlr_resamplings_holdout}},
 \code{\link{mlr_resamplings_insample}},
 \code{\link{mlr_resamplings_repeated_cv}},
-\code{\link{mlr_resamplings_subsampling}},
-\code{\link{mlr_resamplings}}
+\code{\link{mlr_resamplings_subsampling}}
 }
 \concept{Resampling}
 \section{Super class}{

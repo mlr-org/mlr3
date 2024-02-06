@@ -77,8 +77,8 @@ p$score(measures = msr("classif.ce"))
 }
 
 Other Prediction: 
-\code{\link{PredictionRegr}},
-\code{\link{Prediction}}
+\code{\link{Prediction}},
+\code{\link{PredictionRegr}}
 }
 \concept{Prediction}
 \section{Super class}{

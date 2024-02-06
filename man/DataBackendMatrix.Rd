@@ -34,8 +34,8 @@ e.g. SQL servers or \CRANpkg{duckdb}.
 }
 
 Other DataBackend: 
-\code{\link{DataBackendDataTable}},
 \code{\link{DataBackend}},
+\code{\link{DataBackendDataTable}},
 \code{\link{as_data_backend.Matrix}()}
 }
 \concept{DataBackend}

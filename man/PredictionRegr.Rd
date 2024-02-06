@@ -28,8 +28,8 @@ head(as.data.table(p))
 }
 
 Other Prediction: 
-\code{\link{PredictionClassif}},
-\code{\link{Prediction}}
+\code{\link{Prediction}},
+\code{\link{PredictionClassif}}
 }
 \concept{Prediction}
 \section{Super class}{
