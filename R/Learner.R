@@ -245,6 +245,7 @@ Learner = R6Class("Learner",
       learner_train(learner, task, train_row_ids = train_row_ids, test_row_ids = test_row_ids, mode = mode)
 
       # store data prototype
+      # stric_srcrefs is needed for mlr3fda
       proto = map_dtc(task$data(rows = integer()), strip_srcrefs)
       self$state$data_prototype = proto
       self$state$task_prototype = proto
