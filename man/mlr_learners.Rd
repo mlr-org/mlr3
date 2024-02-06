@@ -50,9 +50,9 @@ Other Dictionary:
 \code{\link{mlr_tasks}}
 
 Other Learner: 
+\code{\link{Learner}},
 \code{\link{LearnerClassif}},
 \code{\link{LearnerRegr}},
-\code{\link{Learner}},
 \code{\link{mlr_learners_classif.debug}},
 \code{\link{mlr_learners_classif.featureless}},
 \code{\link{mlr_learners_classif.rpart}},
