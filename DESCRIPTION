@@ -1,6 +1,6 @@
 Package: mlr3
 Title: Machine Learning in R - Next Generation
-Version: 0.16.1-9000
+Version: 0.17.2.9000
 Authors@R:
   c(
     person("Michel", "Lang", , "michellang@gmail.com", role = c("cre", "aut"),
@@ -56,6 +56,7 @@ Imports:
     parallelly,
     palmerpenguins,
     paradox (>= 0.10.0),
+    RhpcBLASctl,
     uuid
 Suggests:
     Matrix,

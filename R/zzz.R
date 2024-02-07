@@ -10,6 +10,7 @@
 #' @importFrom uuid UUIDgenerate
 #' @importFrom parallelly availableCores
 #' @importFrom future nbrOfWorkers plan
+#' @importFrom RhpcBLASctl blas_set_num_threads blas_get_num_procs
 #'
 #' @section Learn mlr3:
 #' * Book on mlr3: \url{https://mlr3book.mlr-org.com}

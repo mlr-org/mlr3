@@ -381,3 +381,31 @@ test_that("HotstartStack works without hotstart parameter", {
   expect_equal(hot$start_cost(target_learner, task$hash), NA_real_)
   expect_null(get_private(target_learner$hotstart_stack)$.start_learner(target_learner, task$hash))
 })
+
+
+test_that("Learners without a model are not added to the hotstart stack", {
+  task = tsk("pima")
+  learner = lrn("classif.debug", iter = 1)
+  learner$train(task)
+  learner$state$model = NULL
+
+  expect_error(HotstartStack$new(learner), "Learners must be trained before adding them to the hotstart stack.")
+})
+
+test_that("HotstartStack threshold works", {
+  hot = HotstartStack$new(hotstart_threshold = c(iter = 2))
+
+  task = tsk("pima")
+  learner_1 = lrn("classif.debug", iter = 1)
+  learner_1$train(task)
+
+  hot$add(learner_1)
+  expect_data_table(hot$stack, nrows = 0)
+
+  task = tsk("pima")
+  learner_2 = lrn("classif.debug", iter = 2)
+  learner_2$train(task)
+
+  hot$add(learner_2)
+  expect_data_table(hot$stack, nrows = 1)
+})

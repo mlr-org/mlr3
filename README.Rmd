@@ -27,7 +27,7 @@ Successor of [mlr](https://github.com/mlr-org/mlr).
 
 * We _started_ writing a [book](https://mlr3book.mlr-org.com/).
   This should be the central entry point to the package.
-* The [mlr-org website](https://mlr-org.com/) includes for example a [gallery](https://mlr-org.com/gallery.html) with case studies and a [blog](https://mlr-org.com/blog.html) (We are not the most frequent bloggers ;) )
+* The [mlr-org website](https://mlr-org.com/) includes for example a [gallery](https://mlr-org.com/gallery.html) with case studies.
 * [Reference manual](https://mlr3.mlr-org.com/reference/)
 * [FAQ](https://github.com/mlr-org/mlr3/wiki/FAQ)
 * Ask questions on [Stackoverflow (tag #mlr3)](https://stackoverflow.com/questions/tagged/mlr3)

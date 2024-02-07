@@ -98,6 +98,7 @@ DataBackend = R6Class("DataBackend", cloneable = FALSE,
       }
       private$.hash = assert_string(rhs)
     },
+
     #' @template field_col_hashes
     col_hashes = function() {
       cn = setdiff(self$colnames, self$primary_key)
