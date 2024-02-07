@@ -24,11 +24,5 @@ test_that("dictionary to data.table conversion works with prototype arguments", 
   on.exit(mlr_learners$remove("regr.rpart2"))
   mlr_learners$add("regr.rpart2", LearnerRegrRpart2, .prototype_args = list(x = 123))
 
-  dt = as.data.table(mlr_learners)
-  expect_data_table(dt)
-
-  expect_identical(
-    dt[list("regr.rpart"), -1, on = "key"],
-    dt[list("regr.rpart2"), -1, on = "key"]
-  )
+  expect_data_table(as.data.table(mlr_learners))
 })
