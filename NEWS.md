@@ -1,5 +1,8 @@
 # mlr3 (development version)
 
+* feat: dictionary conversion of `mlr_learners` respects prototype arguments
+recently added in mlr3misc
+
 # mlr3 0.17.2
 
 * Skip new `data.table` tests on mac.
