@@ -182,15 +182,18 @@ You need to provide the same number of tasks and instantiated resamplings.</p></
 <span class="r-in"><span><span class="va">grid</span> <span class="op">=</span> <span class="fu">benchmark_grid</span><span class="op">(</span><span class="va">tasks</span>, <span class="va">learners</span>, <span class="va">resamplings</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># the resamplings are now instantiated</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">grid</span><span class="op">$</span><span class="va">resampling</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">instance</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    row_id fold</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1:     12    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2:     22    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3:     24    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4:     42    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5:     47    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6:     69    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Key: &lt;fold&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    row_id  fold</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;int&gt; &lt;int&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:     12     1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:     22     1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:     24     1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:     42     1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5:     47     1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6:     69     1</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">grid</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        task             learner  resampling</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      &lt;char&gt;              &lt;char&gt;      &lt;char&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: penguins classif.featureless          cv</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2: penguins classif.featureless subsampling</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3: penguins       classif.rpart          cv</span>
@@ -214,6 +217,7 @@ You need to provide the same number of tasks and instantiated resamplings.</p></
 <span class="r-in"><span><span class="va">design</span> <span class="op">=</span> <span class="fu">benchmark_grid</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">task1</span>, <span class="va">task2</span><span class="op">)</span>, <span class="va">learner</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">res1</span>, <span class="va">res2</span><span class="op">)</span>, paired <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">design</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             task       learner resampling</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           &lt;char&gt;        &lt;char&gt;     &lt;char&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:      penguins classif.rpart    holdout</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2: german_credit classif.rpart    holdout</span>
 <span class="r-in"><span></span></span>

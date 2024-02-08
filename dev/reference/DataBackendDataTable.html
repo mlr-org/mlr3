@@ -292,37 +292,43 @@ Column names.</p></dd>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;DataBackendDataTable&gt; (344x9)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  species    island bill_length_mm bill_depth_mm flipper_length_mm body_mass_g</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   &lt;fctr&gt;    &lt;fctr&gt;          &lt;num&gt;         &lt;num&gt;             &lt;int&gt;       &lt;int&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Adelie Torgersen           39.1          18.7               181        3750</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Adelie Torgersen           39.5          17.4               186        3800</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Adelie Torgersen           40.3          18.0               195        3250</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Adelie Torgersen             NA            NA                NA          NA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Adelie Torgersen           36.7          19.3               193        3450</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Adelie Torgersen           39.3          20.6               190        3650</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     sex year id</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    male 2007  1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  female 2007  2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  female 2007  3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    &lt;NA&gt; 2007  4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  female 2007  5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    male 2007  6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     sex  year    id</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  &lt;fctr&gt; &lt;int&gt; &lt;int&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    male  2007     1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  female  2007     2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  female  2007     3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    &lt;NA&gt;  2007     4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  female  2007     5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    male  2007     6</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [...] (338 rows omitted)</span>
 <span class="r-in"><span><span class="va">b</span><span class="op">$</span><span class="fu">head</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Key: &lt;id&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    species    island bill_length_mm bill_depth_mm flipper_length_mm body_mass_g</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;fctr&gt;    &lt;fctr&gt;          &lt;num&gt;         &lt;num&gt;             &lt;int&gt;       &lt;int&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:  Adelie Torgersen           39.1          18.7               181        3750</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2:  Adelie Torgersen           39.5          17.4               186        3800</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3:  Adelie Torgersen           40.3          18.0               195        3250</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4:  Adelie Torgersen             NA            NA                NA          NA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5:  Adelie Torgersen           36.7          19.3               193        3450</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6:  Adelie Torgersen           39.3          20.6               190        3650</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       sex year id</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1:   male 2007  1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: female 2007  2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: female 2007  3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4:   &lt;NA&gt; 2007  4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5: female 2007  5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6:   male 2007  6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       sex  year    id</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    &lt;fctr&gt; &lt;int&gt; &lt;int&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:   male  2007     1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: female  2007     2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: female  2007     3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:   &lt;NA&gt;  2007     4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5: female  2007     5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6:   male  2007     6</span>
 <span class="r-in"><span><span class="va">b</span><span class="op">$</span><span class="fu">data</span><span class="op">(</span>rows <span class="op">=</span> <span class="fl">100</span><span class="op">:</span><span class="fl">101</span>, cols <span class="op">=</span> <span class="st">"species"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    species</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;fctr&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:  Adelie</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2:  Adelie</span>
 <span class="r-in"><span></span></span>
@@ -342,19 +348,21 @@ Column names.</p></dd>
 <span class="r-in"><span><span class="fu"><a href="as_data_backend.html">as_data_backend</a></span><span class="op">(</span><span class="fu">palmerpenguins</span><span class="fu">::</span><span class="va"><a href="https://allisonhorst.github.io/palmerpenguins/reference/penguins.html" class="external-link">penguins</a></span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;DataBackendDataTable&gt; (344x9)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  species    island bill_length_mm bill_depth_mm flipper_length_mm body_mass_g</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   &lt;fctr&gt;    &lt;fctr&gt;          &lt;num&gt;         &lt;num&gt;             &lt;int&gt;       &lt;int&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Adelie Torgersen           39.1          18.7               181        3750</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Adelie Torgersen           39.5          17.4               186        3800</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Adelie Torgersen           40.3          18.0               195        3250</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Adelie Torgersen             NA            NA                NA          NA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Adelie Torgersen           36.7          19.3               193        3450</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Adelie Torgersen           39.3          20.6               190        3650</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     sex year ..row_id</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    male 2007        1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  female 2007        2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  female 2007        3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    &lt;NA&gt; 2007        4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  female 2007        5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    male 2007        6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     sex  year ..row_id</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  &lt;fctr&gt; &lt;int&gt;    &lt;int&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    male  2007        1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  female  2007        2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  female  2007        3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    &lt;NA&gt;  2007        4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  female  2007        5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    male  2007        6</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [...] (338 rows omitted)</span>
 </code></pre></div>
     </div>
