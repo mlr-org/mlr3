@@ -156,3 +156,18 @@ test_that("as_resample_result works for result data", {
   rr2 = as_resample_result(result_data)
   expect_class(rr2, "ResampleResult")
 })
+
+test_that("does not unnecessarily clone state", {
+  task = tsk("iris")
+  learner = R6Class("LearnerTest", inherit = LearnerClassifDebug, private = list(
+    deep_clone = function(name, value) {
+      if (name == "state" && !is.null(value)) {
+        stop("Buggy bug bug")
+      } else {
+        super$deep_clone(name, value)
+      }
+    }
+  ))$new()
+  learner$train(task)
+  expect_resample_result(resample(task, learner, rsmp("holdout")))
+})
