@@ -505,9 +505,12 @@ Task = R6Class("Task",
     #' This operation mutates the task in-place.
     #' See the section on task mutators for more information.
     #' @param data (`data.frame()`).
-    cbind = function(data) {
+    #' @param sets (`character()`)\cr
+    #'   For which sets to bind data. Can be a ubset of `"use"`, `"test"` and `"holdout"`.
+    cbind = function(data, sets = "use") {
       assert_has_backend(self)
       pk = self$backend$primary_key
+      assert_subset(sets, c("use", "test", "holdout"))
 
       if (is.data.frame(data)) {
         # binding data with 0 rows is explicitly allowed
@@ -515,14 +518,14 @@ Task = R6Class("Task",
           return(invisible(self))
         }
 
-        row_ids = if (pk %in% names(data)) pk else c(self$row_roles$use, self$row_roles$test)
+        row_ids = if (pk %in% names(data)) pk else invoke(c, .args = self$row_roles[sets])
         data = as_data_backend(data, primary_key = row_ids)
       } else {
         assert_backend(data)
         if (data$ncol <= 1L) {
           return(invisible(self))
         }
-        assert_set_equal(c(self$roles$use, self$row_roles$test), data$rownames)
+        assert_set_equal(invoke(c, .args = self$row_roles[sets]), data$rownames)
       }
 
       # update col_info for existing columns

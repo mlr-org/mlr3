@@ -522,7 +522,7 @@ test_that("can cbind test rows", {
   task$set_row_roles(test_ids, "test")
 
   new_col = data.table(z = 1:150)
-  task$cbind(new_col)
+  task$cbind(new_col, c("use", "test"))
 
   expect_identical(task$data(test_ids, "z")$z, 148:150)
 
