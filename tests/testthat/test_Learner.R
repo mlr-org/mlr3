@@ -324,3 +324,33 @@ test_that("Models can be replaced", {
   learner$model$location = 1
   expect_equal(learner$model$location, 1)
 })
+
+test_that("check_learnable", {
+  learner = R6Class("LearnerClassifIris",
+    inherit = LearnerClassifRpart,
+    public = list(
+      check_learnable = function(task) {
+        if (task$id == "iris") {
+          return(TRUE)
+        }
+        "This learner can only be trained on iris."
+      }
+    )
+  )$new()
+  # assert_learnable
+  expect_error(assert_learnable(tsk("iris"), learner), regexp = NA)
+  expect_error(assert_learnable(tsk("sonar"), learner), regexp = "iris")
+
+  # benchmark() fails despite fallback
+  learner$fallback = lrn("classif.featureless")
+  expect_error(benchmark(benchmark_grid(tsk("iris"), learner, rsmp("holdout"))), regexp = NA)
+  expect_error(benchmark(benchmark_grid(tsk("sonar"), learner, rsmp("holdout"))), regexp = "iris")
+
+  # resample() fails despite fallback
+  expect_error(resample(tsk("iris"), learner, rsmp("holdout")), regexp = NA)
+  expect_error(resample(tsk("sonar"), learner, rsmp("holdout")), regexp = "iris")
+
+  # $train() does not trigger fallback
+  expect_error(learner$train(tsk("sonar")))
+})
+
