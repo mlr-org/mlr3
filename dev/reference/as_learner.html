@@ -83,7 +83,7 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">as_learner</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for Learner</span></span>
-<span><span class="fu">as_learner</span><span class="op">(</span><span class="va">x</span>, clone <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></span>
+<span><span class="fu">as_learner</span><span class="op">(</span><span class="va">x</span>, clone <span class="op">=</span> <span class="cn">FALSE</span>, discard_state <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">as_learners</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
@@ -109,6 +109,11 @@ Additional arguments.</p></dd>
 <dt>clone</dt>
 <dd><p>(<code>logical(1)</code>)<br>
 If <code>TRUE</code>, ensures that the returned object is not the same as the input <code>x</code>.</p></dd>
+
+
+<dt>discard_state</dt>
+<dd><p>(<code>logical(1)</code>)
+Whether to discard the state.</p></dd>
 
 </dl></div>
     <div class="section level2">
