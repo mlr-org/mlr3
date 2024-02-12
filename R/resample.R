@@ -57,7 +57,7 @@
 resample = function(task, learner, resampling, store_models = FALSE, store_backends = TRUE, encapsulate = NA_character_, allow_hotstart = FALSE, clone = c("task", "learner", "resampling")) {
   assert_subset(clone, c("task", "learner", "resampling"))
   task = assert_task(as_task(task, clone = "task" %in% clone))
-  learner = assert_learner(as_learner(learner, clone = "learner" %in% clone))
+  learner = assert_learner(as_learner(learner, clone = "learner" %in% clone, discard_state = TRUE))
   resampling = assert_resampling(as_resampling(resampling, clone = "resampling" %in% clone))
   assert_flag(store_models)
   assert_flag(store_backends)

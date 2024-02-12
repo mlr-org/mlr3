@@ -2,6 +2,9 @@
 
 * feat(Learner): Add support for a `$check_learnable()` method that can be
                   implemented by `Learner`s to perform additional compatibility checks
+* feat: dictionary conversion of `mlr_learners` respects prototype arguments
+recently added in mlr3misc
+* perf: skip unnecessary clone of learner's state in `resample()`
 
 # mlr3 0.17.2
 
