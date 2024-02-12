@@ -10,7 +10,7 @@
 \usage{
 as_learner(x, ...)
 
-\method{as_learner}{Learner}(x, clone = FALSE, ...)
+\method{as_learner}{Learner}(x, clone = FALSE, discard_state = FALSE, ...)
 
 as_learners(x, ...)
 
@@ -27,6 +27,9 @@ Additional arguments.}
 
 \item{clone}{(\code{logical(1)})\cr
 If \code{TRUE}, ensures that the returned object is not the same as the input \code{x}.}
+
+\item{discard_state}{(\code{logical(1)})
+Whether to discard the state.}
 }
 \value{
 \link{Learner}.

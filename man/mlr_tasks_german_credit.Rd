@@ -79,11 +79,12 @@ Reports in Mathematics, Physics and Chemistry 4, Department II, Beuth University
 }
 
 Other Task: 
+\code{\link{Task}},
 \code{\link{TaskClassif}},
 \code{\link{TaskRegr}},
 \code{\link{TaskSupervised}},
 \code{\link{TaskUnsupervised}},
-\code{\link{Task}},
+\code{\link{mlr_tasks}},
 \code{\link{mlr_tasks_boston_housing}},
 \code{\link{mlr_tasks_breast_cancer}},
 \code{\link{mlr_tasks_iris}},
@@ -93,7 +94,6 @@ Other Task:
 \code{\link{mlr_tasks_sonar}},
 \code{\link{mlr_tasks_spam}},
 \code{\link{mlr_tasks_wine}},
-\code{\link{mlr_tasks_zoo}},
-\code{\link{mlr_tasks}}
+\code{\link{mlr_tasks_zoo}}
 }
 \concept{Task}

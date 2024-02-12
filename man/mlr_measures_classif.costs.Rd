@@ -76,17 +76,17 @@ rr$aggregate(m)
 }
 
 Other Measure: 
+\code{\link{Measure}},
 \code{\link{MeasureClassif}},
 \code{\link{MeasureRegr}},
 \code{\link{MeasureSimilarity}},
-\code{\link{Measure}},
+\code{\link{mlr_measures}},
 \code{\link{mlr_measures_aic}},
 \code{\link{mlr_measures_bic}},
 \code{\link{mlr_measures_debug_classif}},
 \code{\link{mlr_measures_elapsed_time}},
 \code{\link{mlr_measures_oob_error}},
-\code{\link{mlr_measures_selected_features}},
-\code{\link{mlr_measures}}
+\code{\link{mlr_measures_selected_features}}
 
 Other classification measures: 
 \code{\link{mlr_measures_classif.acc}},
@@ -97,11 +97,11 @@ Other classification measures:
 \code{\link{mlr_measures_classif.dor}},
 \code{\link{mlr_measures_classif.fbeta}},
 \code{\link{mlr_measures_classif.fdr}},
-\code{\link{mlr_measures_classif.fnr}},
 \code{\link{mlr_measures_classif.fn}},
+\code{\link{mlr_measures_classif.fnr}},
 \code{\link{mlr_measures_classif.fomr}},
-\code{\link{mlr_measures_classif.fpr}},
 \code{\link{mlr_measures_classif.fp}},
+\code{\link{mlr_measures_classif.fpr}},
 \code{\link{mlr_measures_classif.logloss}},
 \code{\link{mlr_measures_classif.mauc_au1p}},
 \code{\link{mlr_measures_classif.mauc_au1u}},
@@ -116,10 +116,10 @@ Other classification measures:
 \code{\link{mlr_measures_classif.recall}},
 \code{\link{mlr_measures_classif.sensitivity}},
 \code{\link{mlr_measures_classif.specificity}},
-\code{\link{mlr_measures_classif.tnr}},
 \code{\link{mlr_measures_classif.tn}},
-\code{\link{mlr_measures_classif.tpr}},
-\code{\link{mlr_measures_classif.tp}}
+\code{\link{mlr_measures_classif.tnr}},
+\code{\link{mlr_measures_classif.tp}},
+\code{\link{mlr_measures_classif.tpr}}
 
 Other multiclass classification measures: 
 \code{\link{mlr_measures_classif.acc}},
