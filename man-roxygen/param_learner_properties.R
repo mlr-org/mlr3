@@ -8,4 +8,4 @@
 #'   * `"selected_features"`: The learner supports extraction of the set of selected features, i.e. comes with a `$selected_features()` extractor function (see section on optional extractors in [Learner]).
 #'   * `"oob_error"`: The learner supports extraction of estimated out of bag error, i.e. comes with a `oob_error()` extractor function (see section on optional extractors in [Learner]).
 #'   * `"marshal"`: To save learners with this property, you need to call `$marshal()` first.
-#'      If a learner is in a marshalled state, you call first need to call `$unmarshal()` to use it's model, e.g. for prediction.
+#'      If a learner is in a marshalled state, you call first need to call `$unmarshal()` to use its model, e.g. for prediction.
