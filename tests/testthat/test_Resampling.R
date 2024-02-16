@@ -109,7 +109,7 @@ test_that("as.data.table.Resampling", {
 test_that("Evaluation on holdout set", {
   task = tsk("sonar")
   rids = task$row_ids
-  task$row_roles$holdout = tail(rids, 10)
+  task$partition(tail(rids, 10), "holdout")
   task$row_roles$use = head(rids, -10)
   learner = lrn("classif.rpart", predict_sets = c("test", "holdout"))
   rr = resample(task, learner, rsmp("holdout"))

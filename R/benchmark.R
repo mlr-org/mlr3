@@ -102,6 +102,11 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
     stopf("Multiple learner types detected, but mixing types is not supported: %s", str_collapse(learner_types))
   }
   assert_task_learner(design$task[[1]], design$learner[[1]])
+  walk(design$task, function(task) {
+    if (!is.null(task$test_task)) {
+      stopf("Test task must not be present, but task '%s' has one", task$id)
+    }
+  })
 
   # clone inputs
   setDT(design)

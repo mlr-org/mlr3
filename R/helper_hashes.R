@@ -21,6 +21,12 @@ task_hashes = function(task, resampling) {
   map_chr(seq_len(resampling$iters), function(i) {
     train_set = resampling$train_set(i)
     row_roles$use = train_set
-    calculate_hash(class(task), task$id, task$backend$hash, task$col_info, row_roles, task$col_roles, get_private(task)$.properties)
+    task_hash(task, row_roles)
   })
+}
+
+task_hash = function(task, row_roles) {
+  # the test rows are removed, because this would interfere with hotstarting
+  calculate_hash(class(task), task$id, task$backend$hash, task$col_info, row_roles, task$col_roles,
+    get_private(task)$.properties, task$holdout_task$hash)
 }

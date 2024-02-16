@@ -98,7 +98,7 @@ local({
   )
 
   mlr_reflections$task_row_roles = c(
-    "use", "test", "holdout"
+    "use"
   )
 
   tmp = c("feature", "target", "name", "order", "stratum", "group", "weight")
@@ -125,7 +125,7 @@ local({
   )
 
   ### Learner
-  tmp = c("featureless", "missings", "weights", "importance", "selected_features", "oob_error", "loglik", "hotstart_forward", "hotstart_backward", "uses_test_rows")
+  tmp = c("featureless", "missings", "weights", "importance", "selected_features", "oob_error", "loglik", "hotstart_forward", "hotstart_backward", "uses_test_task")
   mlr_reflections$learner_properties = list(
     classif = c(tmp, "twoclass", "multiclass"),
     regr = tmp

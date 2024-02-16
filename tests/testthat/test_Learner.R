@@ -324,3 +324,20 @@ test_that("Models can be replaced", {
   learner$model$location = 1
   expect_equal(learner$model$location, 1)
 })
+
+test_that("test/holdout task's backend is removed", {
+  learner = lrn("regr.rpart")
+  task = tsk("mtcars")$partition(1:10, "test")
+  task = tsk("mtcars")$partition(11:20, "holdout")
+  learner$train(task)
+  expect_true(is.null(learner$state$train_task$test_task$backend))
+  expect_true(is.null(learner$state$train_task$holdout_task$backend))
+})
+test_that("test/holdout task's backend is removed", {
+  learner = lrn("regr.rpart")
+  task = tsk("mtcars")$partition(1:10, "test")
+  task = tsk("mtcars")$partition(11:20, "holdout")
+  learner$train(task)
+  expect_true(is.null(learner$state$train_task$test_task$backend))
+  expect_true(is.null(learner$state$train_task$holdout_task$backend))
+})

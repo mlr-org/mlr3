@@ -89,14 +89,6 @@ test_that("Task rbind", {
   expect_equal(nt$row_names$row_name, c(task$row_names$row_name, rep(NA, 101)))
   expect_equal(nt$col_info[list("foo"), .N, nomatch = NULL], 0L)
 
-  # #423
-  task = tsk("iris")
-  task$row_roles$use = 1:10
-  task$row_roles$holdout = 11:150
-
-  task$rbind(iris[sample(nrow(iris), 5), ])
-  expect_set_equal(task$row_ids, c(1:10, 151:155))
-
   # 496
   data = iris
   data$blocks = sample(letters[1:2], nrow(iris), replace = TRUE)
@@ -388,8 +380,9 @@ test_that("Task$set_row_roles", {
   task$set_row_roles(1:10, add_to = "use")
   expect_true(all(1:10 %in% task$row_ids))
 
-  task$set_row_roles(1:10, roles = "holdout")
+  task$partition(1:10, "holdout")
   expect_true(all(1:10 %nin% task$row_ids))
+  expect_true(all(1:10 %in% task$holdout_task$row_ids))
 })
 
 
@@ -516,17 +509,63 @@ test_that("Roles get printed (#877)", {
   expect_output(print(task), "Weights: Petal.Width")
 })
 
-test_that("can cbind test rows", {
+test_that("test task is cloned", {
   task = tsk("iris")
-  test_ids = c(1L, 51L, 101L)
-  task$set_row_roles(test_ids, "test")
+  task$partition(c(1:10, 51:60, 101:110), "test")
+  task2 = task$clone(deep = TRUE)
+  expect_false(identical(task$test_task, task2$test_task))
+  expect_equal(task$test_task, task2$test_task)
+})
 
-  new_col = data.table(z = 1:150)
-  task$cbind(new_col, c("use", "test"))
+test_that("holdout task is cloned", {
+  task = tsk("iris")
+  task$partition(c(1:10, 51:60, 101:110), "holdout")
+  task2 = task$clone(deep = TRUE)
+  expect_false(identical(task$holdout_task, task2$holdout_task))
+  expect_equal(task$holdout_task, task2$holdout_task)
+})
 
-  expect_identical(task$data(test_ids, "z")$z, 148:150)
+test_that("task cannot be its own test / holdout task", {
+  task = tsk("iris")
+  expect_error({task$test_task = task}, "cannot be its own test task")
+  expect_error({task$holdout_task = task}, "cannot be its own holdout task")
+})
 
-  d = data.table(u = runif(150), ..row_id = 1:150)
-  task$cbind(d[1, ])
-  expect_equal(d[1, c("u", "..row_id")], task$data(1, c("u", "..row_id")), ignore_attr = TRUE)
+test_that("test task cannot have a test or holdout task", {
+  task = tsk("iris")
+  expect_error({task$test_task = task$clone(deep = TRUE)$partition(1, "test") }, "remove its test/holdout")
+  expect_error({task$test_task = task$clone(deep = TRUE)$partition(1, "holdout") }, "remove its test/holdout")
+  expect_error({task$holdout_task = task$clone(deep = TRUE)$partition(1, "test") }, "remove its test/holdout")
+  expect_error({task$holdout_task = task$clone(deep = TRUE)$partition(1, "holdout") }, "remove its test/holdout")
+})
+
+test_that("test task does not influence a task's hash", {
+  task = tsk("iris")
+  h1 = task$hash
+  task$partition(1:10, "test", remove = FALSE)
+  expect_true(h1 == task$hash)
+  task$partition(1:10, "holdout", remove = FALSE)
+  expect_false(h1 == task$hash)
+})
+
+test_that("can call partition twice", {
+  task = tsk("iris")
+  task$partition(1:10, "test")
+  task$parition(1:10, "test")
+  task = tsk("iris")
+  task$parition(1:10, "holdout")
+  task$parition(1:10, "holdout")
+  task = tsk("iris")
+  task$parition(1:10, "holdout")
+  task$parition(1:10, "test")
+})
+
+test_that("holdout task cannot have a test or holdout task", {
+
+})
+
+test_that("test_task is printed", {
+  task = tsk("iris")
+  task$partition(c(1:10, 51:60, 101:110), "test")
+  expect_snapshot({print(task)})
 })

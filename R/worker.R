@@ -28,6 +28,7 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
   # ensure that required packages are installed
   require_namespaces(learner$packages)
 
+
   # subset to train set w/o cloning
   if (!is.null(train_row_ids)) {
     lg$debug("Subsetting task '%s' to %i rows",
@@ -42,13 +43,12 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
     lg$debug("Skip subsetting of task '%s'", task$id)
   }
 
-  # pass test ids w/o cloning
-  if (!is.null(test_row_ids)) {
-    prev_test = task$row_roles$test
+  if ("uses_test_task" %in% learner$properties && is.null(task$test_task) && !is.null(test_row_ids)) {
+    # this is the case for resample() and benchmark()
     on.exit({
-      task$row_roles$test = prev_test
+      task$test_task = NULL
     }, add = TRUE)
-    task$row_roles$test = test_row_ids
+    task$partition(test_row_ids, "test", remove = FALSE)
   }
 
   if (mode == "train") learner$state = list()
@@ -229,7 +229,6 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
     on.exit(blas_set_num_threads(old_blas_threads), add = TRUE)
     blas_set_num_threads(1)
   }
-
   # restore logger thresholds
   for (package in names(lgr_threshold)) {
     logger = lgr::get_logger(package)
@@ -242,8 +241,7 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
 
   sets = list(
     train = resampling$train_set(iteration),
-    test = resampling$test_set(iteration),
-    holdout = task$row_roles$holdout
+    test = resampling$test_set(iteration)
   )
 
   # train model
@@ -257,11 +255,14 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
   learner = learner_train(learner, task, sets[["train"]], sets[["test"]], mode = mode)
 
   # predict for each set
-  sets = sets[learner$predict_sets]
-  pdatas = Map(function(set, row_ids) {
+  predict_sets = learner$predict_sets
+  if (is.null(task$holdout_task)) predict_sets = setdiff(predict_sets, "holdout")
+  sets = sets[predict_sets]
+  tasks = list(train = task, test = task, holdout = task$holdout_task)[predict_sets]
+  pdatas = Map(function(set, row_ids, task) {
     lg$debug("Creating Prediction for predict set '%s'", set)
     learner_predict(learner, task, row_ids)
-  }, set = names(sets), row_ids = sets)
+  }, set = predict_sets, row_ids = sets, task = tasks)
   pdatas = discard(pdatas, is.null)
 
   if (!store_models) {

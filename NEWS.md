@@ -1,7 +1,7 @@
 # mlr3 (development version)
 
 * Feat: Add support for contingent properties
-* Feat: Add learner property `"uses_test_rows"`
+* Feat: Add learner property `"uses_test_task"`
 
 # mlr3 0.17.2
 

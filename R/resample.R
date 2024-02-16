@@ -62,8 +62,18 @@ resample = function(task, learner, resampling, store_models = FALSE, store_backe
   assert_flag(store_models)
   assert_flag(store_backends)
   assert_learnable(task, learner)
-
   set_encapsulation(list(learner), encapsulate)
+  if ("task" %nin% clone) {
+    # ads the test task is replaced anyway with the task from the test rows for learners that use it,
+    # we can replace it here anyway
+    # This ensures that the hashes for the hotstarting are not polluted
+    prev_test_task = task$test_task
+    task$test_task = NULL
+    on.exit({task$test_task = prev_test_task}, add = TRUE)
+  } else {
+    task$test_task = NULL
+  }
+
   if (!resampling$is_instantiated) {
     resampling = resampling$instantiate(task)
   }
@@ -88,7 +98,7 @@ resample = function(task, learner, resampling, store_models = FALSE, store_backe
       }
       if (is.null(learner$hotstart_stack) || is.null(start_learner)) {
         # no hotstart learners stored or no adaptable model found
-        lg$debug("Resampling with hotstarting not possible. Not start learner found.")
+        lg$debug("Resampling with hotstarting not possible. No start learner found.")
         mode = "train"
       } else {
         # hotstart learner found

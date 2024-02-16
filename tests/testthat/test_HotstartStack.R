@@ -409,3 +409,8 @@ test_that("HotstartStack threshold works", {
   hot$add(learner_2)
   expect_data_table(hot$stack, nrows = 1)
 })
+
+test_that("Cannot add learner with property uses_test_task", {
+  learner = lrn("classif.debug", uses_test_task = TRUE)$train(tsk("iris")$partition(1:2, "test"))
+  expect_error(HotstartStack$new(learner), "Cannot combine")
+})
