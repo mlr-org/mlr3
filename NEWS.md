@@ -2,6 +2,9 @@
 
 * Feat: Add support for contingent properties
 * Feat: Add learner property `"uses_test_task"`
+* feat: dictionary conversion of `mlr_learners` respects prototype arguments
+recently added in mlr3misc
+* perf: skip unnecessary clone of learner's state in `resample()`
 
 # mlr3 0.17.2
 

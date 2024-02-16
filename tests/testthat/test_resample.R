@@ -156,3 +156,33 @@ test_that("as_resample_result works for result data", {
   rr2 = as_resample_result(result_data)
   expect_class(rr2, "ResampleResult")
 })
+
+test_that("does not unnecessarily clone state", {
+  task = tsk("iris")
+  learner = R6Class("LearnerTest", inherit = LearnerClassifDebug, private = list(
+    deep_clone = function(name, value) {
+      if (name == "state" && !is.null(value)) {
+        stop("Buggy bug bug")
+      } else {
+        super$deep_clone(name, value)
+      }
+    }
+  ))$new()
+  learner$train(task)
+  expect_resample_result(resample(task, learner, rsmp("holdout")))
+})
+
+test_that("holdout set works", {
+  learner = lrn("regr.debug")
+  learner$predict_sets = c("test", "holdout")
+  task = tsk("mtcars")
+  row = task$data(1)
+  row$..row_id = 1000
+  row$mpg = 10000000
+  task$rbind(row)
+  task$partition(1000, "holdout")
+  rr = resample(task, learner, rsmp("holdout"))
+
+  pred = rr$prediction("holdout")
+  expect_equal(length(pred$truth), 1)
+})

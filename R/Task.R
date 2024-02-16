@@ -167,9 +167,12 @@ Task = R6Class("Task",
       assert_row_ids(row_ids, null.ok = FALSE)
       assert_subset(type, c("test", "holdout"))
       task_name = paste0(type, "_task")
+      other_name = paste0(setdiff(c("test", "holdout"), type), "_task")
+      prev_other = self[[other_name]]
+      on.exit({self[[other_name]] = prev_other}, add = TRUE)
+      self[[other_name]] = NULL
       if (!is.null(self[[task_name]])) lg$debug("Overwriting existing %s task for task '%s'", type,  self$id)
-      on.
-      $test_task = new_task$holdout_task = NULL
+      self[[task_name]] = NULL
       new_task = self$clone(deep = TRUE)
       new_task$row_roles$use = row_ids
       self[[task_name]] = new_task
@@ -758,8 +761,8 @@ Task = R6Class("Task",
 
     #' @field test_task (`Task` or `NULL`)\cr
     #' Optional test task that can e.g. be used for early stopping with learners such as XGBoost.
-    #' When training a learner that has the property 'uses_test_task', as well as rows with the row role 'test',
-    #' this task is automatically generated.
+    #' When resampling a learner that has the property 'uses_test_task', this task is automatically generated from
+    #' the test set for each resampling iteration.
     test_task = function(rhs) {
       if (missing(rhs)) {
         return(invisible(private$.test_task))
@@ -780,16 +783,17 @@ Task = R6Class("Task",
       invisible(private$.test_task)
     },
 
-    #' @field test_task (`Task` or `NULL`)\cr
+    #' @field holdout_task (`Task` or `NULL`)\cr
     #' Optional holdout task.
-    #' It is possible to make predictions on this task, by setting the `predict_set`
+    #' It is possible to make predictions on this task, by setting the `predict_set` of a [`Learner`] to `"holdout"`.
     #' When training a learner that has the property 'uses_test_task', as well as rows with the row role 'test',
     #' this task is automatically generated.
     holdout_task = function(rhs) {
       if (missing(rhs)) {
         return(invisible(private$.holdout_task))
       }
-      if (missing(rhs)) {
+      private$.hash = NULL
+      if (is.null(rhs)) {
         private$.holdout_task = NULL
         return(invisible(private$.holdout_task))
       }

@@ -88,11 +88,6 @@ HotstartStack = R6Class("HotstartStack",
       walk(learners, function(learner)
         if (is.null(learner$state$model)) {
           stopf("Learners must be trained before adding them to the hotstart stack.")
-        } else if ("uses_test_task" %in% learner$properties) {
-          # this is because we cannot let the test_task influence the task hash, because then learners that don't
-          # care about the test set might not get a hotstart hit when they should.
-          # But for learners that use the test set, it matters, so they cannot be hotstarted
-          stopf("Cannot combine hotstarting with learners with property 'uses_test_task'")
         }
       )
 

@@ -49,6 +49,7 @@ str(task$data())
 
 Other TaskGenerator: 
 \code{\link{TaskGenerator}},
+\code{\link{mlr_task_generators}},
 \code{\link{mlr_task_generators_2dnormals}},
 \code{\link{mlr_task_generators_cassini}},
 \code{\link{mlr_task_generators_circle}},
@@ -56,8 +57,7 @@ Other TaskGenerator:
 \code{\link{mlr_task_generators_moons}},
 \code{\link{mlr_task_generators_smiley}},
 \code{\link{mlr_task_generators_spirals}},
-\code{\link{mlr_task_generators_xor}},
-\code{\link{mlr_task_generators}}
+\code{\link{mlr_task_generators_xor}}
 }
 \concept{TaskGenerator}
 \section{Super class}{

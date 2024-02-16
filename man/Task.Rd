@@ -91,6 +91,7 @@ Other Task:
 \code{\link{TaskRegr}},
 \code{\link{TaskSupervised}},
 \code{\link{TaskUnsupervised}},
+\code{\link{mlr_tasks}},
 \code{\link{mlr_tasks_boston_housing}},
 \code{\link{mlr_tasks_breast_cancer}},
 \code{\link{mlr_tasks_german_credit}},
@@ -101,8 +102,7 @@ Other Task:
 \code{\link{mlr_tasks_sonar}},
 \code{\link{mlr_tasks_spam}},
 \code{\link{mlr_tasks_wine}},
-\code{\link{mlr_tasks_zoo}},
-\code{\link{mlr_tasks}}
+\code{\link{mlr_tasks_zoo}}
 }
 \concept{Task}
 \section{Public fields}{
@@ -152,6 +152,17 @@ Package version of \code{mlr3} used to create the task.}
 \item{\code{id}}{(\code{character(1)})\cr
 Identifier of the object.
 Used in tables, plot and text output.}
+
+\item{\code{test_task}}{(\code{Task} or \code{NULL})\cr
+Optional test task that can e.g. be used for early stopping with learners such as XGBoost.
+When resampling a learner that has the property 'uses_test_task', this task is automatically generated from
+the test set for each resampling iteration.}
+
+\item{\code{holdout_task}}{(\code{Task} or \code{NULL})\cr
+Optional holdout task.
+It is possible to make predictions on this task, by setting the \code{predict_set} of a \code{\link{Learner}} to \code{"holdout"}.
+When training a learner that has the property 'uses_test_task', as well as rows with the row role 'test',
+this task is automatically generated.}
 
 \item{\code{hash}}{(\code{character(1)})\cr
 Hash (unique identifier) for this object.}
@@ -300,6 +311,7 @@ The reverse is not necessarily true: There can be columns with the same content 
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-Task-new}{\code{Task$new()}}
+\item \href{#method-Task-partition}{\code{Task$partition()}}
 \item \href{#method-Task-help}{\code{Task$help()}}
 \item \href{#method-Task-format}{\code{Task$format()}}
 \item \href{#method-Task-print}{\code{Task$print()}}
@@ -354,6 +366,35 @@ Named list of constructor arguments, required for converting task types
 via \code{\link[=convert_task]{convert_task()}}.}
 }
 \if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Task-partition"></a>}}
+\if{latex}{\out{\hypertarget{method-Task-partition}{}}}
+\subsection{Method \code{partition()}}{
+Splits a test or holdout task from the task.
+This modifies the task in-place.
+Subsequent operations on the (primary) task are not relayed to the test task.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Task$partition(row_ids = NULL, type = "test", remove = TRUE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{row_ids}}{(\code{integer()} or \code{NULL})\cr
+The row ids to use for the test task.}
+
+\item{\code{type}}{(\code{character(1)})\cr
+The task to split off. Either \code{"test"} (default) or \code{"holdout"}.}
+
+\item{\code{remove}}{(\code{logical(1)})\cr
+If \code{TRUE} (default), the \code{row_ids} are removed from the primary task's active \code{"use"} rows.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Modified \code{self}.
 }
 }
 \if{html}{\out{<hr>}}
@@ -632,8 +673,7 @@ the object in its previous state.
 Adds additional columns to the \link{DataBackend} stored in \verb{$backend}.
 
 The row ids must be provided as column in \code{data} (with column name matching the primary key name of the \link{DataBackend}).
-If this column is missing, it is assumed that the rows are exactly in the order of
-\code{c(task$row_roles$use, task$row_roles$test)}.
+If this column is missing, it is assumed that the rows are exactly in the order of \verb{$row_ids}.
 In case of name clashes of column names in \code{data} and \link{DataBackend}, columns in \code{data} have higher precedence
 and virtually overwrite the columns in the \link{DataBackend}.
 

@@ -53,7 +53,7 @@ assert_learners(
   .var.name = vname(learners)
 )
 
-assert_learnable(task, learner)
+assert_learnable(task, learner, check_test_task = FALSE)
 
 assert_predictable(task, learner)
 

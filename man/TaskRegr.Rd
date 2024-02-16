@@ -36,10 +36,11 @@ task$data(rows = 1:3, cols = task$feature_names[1:2])
 }
 
 Other Task: 
+\code{\link{Task}},
 \code{\link{TaskClassif}},
 \code{\link{TaskSupervised}},
 \code{\link{TaskUnsupervised}},
-\code{\link{Task}},
+\code{\link{mlr_tasks}},
 \code{\link{mlr_tasks_boston_housing}},
 \code{\link{mlr_tasks_breast_cancer}},
 \code{\link{mlr_tasks_german_credit}},
@@ -50,8 +51,7 @@ Other Task:
 \code{\link{mlr_tasks_sonar}},
 \code{\link{mlr_tasks_spam}},
 \code{\link{mlr_tasks_wine}},
-\code{\link{mlr_tasks_zoo}},
-\code{\link{mlr_tasks}}
+\code{\link{mlr_tasks_zoo}}
 }
 \concept{Task}
 \section{Super classes}{
@@ -79,6 +79,7 @@ Other Task:
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="help"><a href='../../mlr3/html/Task.html#method-Task-help'><code>mlr3::Task$help()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="levels"><a href='../../mlr3/html/Task.html#method-Task-levels'><code>mlr3::Task$levels()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="missings"><a href='../../mlr3/html/Task.html#method-Task-missings'><code>mlr3::Task$missings()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="partition"><a href='../../mlr3/html/Task.html#method-Task-partition'><code>mlr3::Task$partition()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="print"><a href='../../mlr3/html/Task.html#method-Task-print'><code>mlr3::Task$print()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="rbind"><a href='../../mlr3/html/Task.html#method-Task-rbind'><code>mlr3::Task$rbind()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="rename"><a href='../../mlr3/html/Task.html#method-Task-rename'><code>mlr3::Task$rename()</code></a></span></li>

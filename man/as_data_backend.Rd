@@ -56,8 +56,8 @@ e.g. SQL servers or \CRANpkg{duckdb}.
 }
 
 Other DataBackend: 
+\code{\link{DataBackend}},
 \code{\link{DataBackendDataTable}},
-\code{\link{DataBackendMatrix}},
-\code{\link{DataBackend}}
+\code{\link{DataBackendMatrix}}
 }
 \concept{DataBackend}

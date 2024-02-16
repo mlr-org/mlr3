@@ -476,3 +476,18 @@ test_that("param_values in benchmark", {
   expect_equal(bmr$learners$learner[[1]]$param_set$values, list(xval = 0, minsplit = 12, minbucket = 2))
   expect_equal(bmr$learners$learner[[2]]$param_set$values, list(xval = 0, minsplit = 12, cp = 0.1))
 })
+
+test_that("holdout set works", {
+  learner = lrn("regr.debug")
+  learner$predict_sets = c("test", "holdout")
+  task = tsk("mtcars")
+  row = task$data(1)
+  row$..row_id = 1000
+  row$mpg = 10000000
+  task$rbind(row)
+  task$partition(1000, "holdout")
+  bmr = benchmark(benchmark_grid(task, learner, rsmp("holdout")))
+
+  pred = bmr$resample_result(1)$prediction("holdout")
+  expect_equal(length(pred$truth), 1)
+})

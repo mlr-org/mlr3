@@ -67,6 +67,7 @@ lrn("classif.debug")
    warning_train \tab numeric \tab 0 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
    x \tab numeric \tab - \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
    iter \tab integer \tab 1 \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
+   uses_test_task \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
 }
 }
 
@@ -102,15 +103,15 @@ for established default tuning spaces.
 }
 
 Other Learner: 
+\code{\link{Learner}},
 \code{\link{LearnerClassif}},
 \code{\link{LearnerRegr}},
-\code{\link{Learner}},
+\code{\link{mlr_learners}},
 \code{\link{mlr_learners_classif.featureless}},
 \code{\link{mlr_learners_classif.rpart}},
 \code{\link{mlr_learners_regr.debug}},
 \code{\link{mlr_learners_regr.featureless}},
-\code{\link{mlr_learners_regr.rpart}},
-\code{\link{mlr_learners}}
+\code{\link{mlr_learners_regr.rpart}}
 }
 \concept{Learner}
 \section{Super classes}{

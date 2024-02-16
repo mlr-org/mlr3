@@ -548,24 +548,49 @@ test_that("test task does not influence a task's hash", {
   expect_false(h1 == task$hash)
 })
 
+test_that("can NULL test/holdout task", {
+  task = tsk("iris")
+  task$partition(1, "test")
+  task$test_task = NULL
+  expect_equal(length(task$row_ids), 149)
+
+  task = tsk("iris")
+  task$partition(1, "holdout")
+  task$holdout_task = NULL
+  expect_equal(length(task$row_ids), 149)
+})
+
 test_that("can call partition twice", {
   task = tsk("iris")
   task$partition(1:10, "test")
-  task$parition(1:10, "test")
+  expect_task(task$partition(1:10, "test"))
+
   task = tsk("iris")
-  task$parition(1:10, "holdout")
-  task$parition(1:10, "holdout")
+  task$partition(1:10, "holdout")
+  expect_task(task$partition(1:10, "holdout"))
   task = tsk("iris")
-  task$parition(1:10, "holdout")
-  task$parition(1:10, "test")
+  task$partition(1:10, "holdout")
+  expect_task(task$partition(1:10, "test"))
 })
 
 test_that("holdout task cannot have a test or holdout task", {
-
+  task = tsk("iris")
+  task2 = tsk("iris")
+  task2$partition(1, "test")
+  expect_error({task$test_task = task2}, "remove its")
+  expect_error({task$holdout_task = task2}, "remove its")
+  task2$test_task = NULL
+  task2$partition(1, "holdout")
+  expect_error({task$test_task = task2}, "remove its")
+  expect_error({task$holdout_task = task2}, "remove its")
 })
 
 test_that("test_task is printed", {
   task = tsk("iris")
   task$partition(c(1:10, 51:60, 101:110), "test")
-  expect_snapshot({print(task)})
+  out = capture_output(print(task))
+  expect_true(grepl(pattern = "* Test Task: (30x5)", fixed = TRUE, x = out))
+  task$partition(c(1:5, 51:60, 101:110), "holdout")
+  out2 = capture_output(print(task))
+  expect_true(grepl(pattern = "* Holdout Task: (25x5)", fixed = TRUE, x = out2))
 })

@@ -39,3 +39,11 @@ print_data_table = function(x, hidden_columns) {
   }
   set_data_table_class(x, extra_class)
 }
+
+clone_without = function(x, y) {
+  y_prev = x[[y]]
+  x[[y]] = NULL
+  x2 = x$clone(deep = TRUE)
+  x[[y]] = y_prev
+  return(x2)
+}
