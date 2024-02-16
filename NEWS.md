@@ -1,5 +1,7 @@
 # mlr3 (development version)
 
+* BREAKING_CHANGE: row roles 'use' and 'test' are now replaced with fields
+'test_task' and 'holdout_task'
 * Feat: Add support for contingent properties
 * Feat: Add learner property `"uses_test_task"`
 * feat: dictionary conversion of `mlr_learners` respects prototype arguments
