@@ -68,3 +68,17 @@ test_that("evaluate / resample", {
   expect_silent(rr <- resample(task, enable_encapsulation(learner), resampling))
   expect_true(every(get_private(rr)$.data$data$fact$learner_state, function(x) all(table(x$log$stage) == 2)))
 })
+
+test_that("memory limit works", {
+  skip_if_not_installed("mlr3learners")
+  library(mlr3learners)
+
+  task = tsk("spam")
+  learner = lrn("classif.ranger", num.trees = 500000)
+  learner$encapsulate = c(train = "callr", predict = "callr")
+  learner$memory_limit = c(train = 1e9, predict = 1e9)
+
+  learner$train(task)
+
+  expect_match(learner$log$msg[2], "User interrupt or internal error")
+})

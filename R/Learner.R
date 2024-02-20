@@ -146,6 +146,8 @@ Learner = R6Class("Learner",
     #' \url{https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling}
     timeout = c(train = Inf, predict = Inf),
 
+    memory_limit = c(train = Inf, predict = Inf),
+
     #' @template field_man
     man = NULL,
 
