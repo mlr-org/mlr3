@@ -501,7 +501,7 @@ test_that("sequential execution does not trigger marshalling", {
   expect_equal(bmr$resample_result(1)$learners[[1]]$model$marshal_count, 0)
 })
 
-test_that("parallel exeuction and callr marshall twice", {
+test_that("parallel execution and callr marshall twice", {
   learner = lrn("classif.lily", count_marshalling = TRUE, encapsulate = c(train = "callr"))
   task = tsk("iris")
   resampling = rsmp("holdout")

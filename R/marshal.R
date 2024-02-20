@@ -40,9 +40,11 @@
 #' @keywords internal
 #' @export
 learner_unmarshal = function(learner) {
+  # no need to check for 'marshal' property as this method should only be available for such learners
   if (is.null(learner$model)) {
     stopf("Cannot unmarshal, Learner '%s' has not been trained yet", learner$id)
   }
+  # this will do nothing if the model was not marshalled
   learner$model = unmarshal_model(learner$model)
   invisible(learner)
 }
@@ -50,9 +52,11 @@ learner_unmarshal = function(learner) {
 #' @rdname marshalling
 #' @export
 learner_marshal = function(learner) {
+  # no need to check for 'marshal' property as this method should only be available for such learners
   if (is.null(learner$model)) {
     stopf("Cannot marshal, Learner '%s' has not been trained yet", learner$id)
   }
+  # this will do nothing if the model was already marshalled
   learner$model = marshal_model(learner$model)
   invisible(learner)
 }
@@ -60,6 +64,7 @@ learner_marshal = function(learner) {
 #' @rdname marshalling
 #' @export
 learner_marshalled = function(learner) {
+  # no need to check for 'marshal' property as this method should only be available for such learners
   if (is.null(learner$model)) {
     stopf("Cannot check marshalled status, Learner '%s' has not been trained yet", learner$id)
   }
@@ -86,6 +91,26 @@ marshalled_model = function(model) {
 
 #' @export
 marshal_model.default = function(model, ...) {
+  classes = class(model)
+  class(model) = c(paste0(classes, "_marshalled"), "marshalled")
+  model
+}
+
+#' @export
+marshal_model.marshalled = function(model, ...) {
+  model
+}
+
+#' @export
+marshal_model.NULL = function(model, ...) {
+  # NULL cannot have a class, so it is not covered by the default method
+  model
+}
+
+#' @export
+unmarshal_model.marshalled = function(model, ...) {
+  classes = class(model)[-length(class(model))]
+  class(model) = gsub("_marshalled$", "", classes)
   model
 }
 
@@ -94,12 +119,16 @@ unmarshal_model.default = function(model, ...) {
   model
 }
 
-marshal_state = function(state, ...) {
-  state$model = marshal_model(state$model)
+marshal_state_if_model = function(state, ...) {
+  if (!is.null(state$model)) {
+    state$model = marshal_model(state$model)
+  }
   state
 }
 
-unmarshal_state = function(state, ...) {
-  state$model = unmarshal_model(state$model)
+unmarshal_state_if_model = function(state, ...) {
+  if (!is.null(state$model)) {
+    state$model = unmarshal_model(state$model)
+  }
   state
 }

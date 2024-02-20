@@ -18,8 +18,7 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
       stopf("Learner '%s' on task '%s' returned NULL during internal %s()", learner$id, task$id, mode)
     }
 
-    if (learner$encapsulate[["train"]] == "callr") {
-      # the default method of marshal_model does nothing
+    if (learner$encapsulate[["train"]] == "callr" && "marshal" %in% learner$properties) {
       model = marshal_model(model)
     }
 
@@ -74,11 +73,16 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
   train_time = result$elapsed
 
   # unmarshal_model does nothing if the model was not marshalled
+
+
   # We always want to unmarshal the model, because either:
   # a) the user called $train() manually or
   # b) we are within worker and still have to make a prediction
+  if ("marshal" %in% learner$properties) {
+    result$result = unmarshal_model(result$result)
+  }
   learner$state = insert_named(learner$state, list(
-    model = unmarshal_model(result$result),
+    model = result$result,
     log = log,
     train_time = train_time,
     param_vals = learner$param_set$values,
@@ -275,8 +279,8 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
   if (!store_models) {
     lg$debug("Erasing stored model for learner '%s'", learner$id)
     learner$state$model = NULL
-  } else if (!is_sequential) {
-    lg$debug("Marshalling model for learner '%s' because of non-sequential execution", learner$id)
+  } else if ("marshal" %in% learner$properties && !is_sequential) {
+    lg$debug("Marshalling model for learner '%s'", learner$id)
     learner$model = marshal_model(learner$model)
   }
 

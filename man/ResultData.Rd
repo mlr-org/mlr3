@@ -338,6 +338,7 @@ Modified \code{self} (invisibly).
 \if{latex}{\out{\hypertarget{method-ResultData-marshal}{}}}
 \subsection{Method \code{marshal()}}{
 Marshals all stored learner models.
+This will do nothing to models that are already marshalled.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{ResultData$marshal()}\if{html}{\out{</div>}}
 }
@@ -348,6 +349,7 @@ Marshals all stored learner models.
 \if{latex}{\out{\hypertarget{method-ResultData-unmarshal}{}}}
 \subsection{Method \code{unmarshal()}}{
 Unmarshals all stored learner models.
+This will do nothing to models which are not marshalled.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{ResultData$unmarshal()}\if{html}{\out{</div>}}
 }
