@@ -62,7 +62,8 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
     .args = list(learner = learner, task = task),
     .pkgs = learner$packages,
     .seed = NA_integer_,
-    .timeout = learner$timeout["train"]
+    .timeout = learner$timeout["train"],
+    .memory_limit = learner$memory_limit["train"]
   )
 
   log = append_log(NULL, "train", result$log$class, result$log$msg)
@@ -171,7 +172,8 @@ learner_predict = function(learner, task, row_ids = NULL) {
       .args = list(task = task, learner = learner),
       .pkgs = learner$packages,
       .seed = NA_integer_,
-      .timeout = learner$timeout["predict"]
+      .timeout = learner$timeout["predict"],
+      .memory_limit = learner$memory_limit["predict"]
     )
 
     pdata = result$result
