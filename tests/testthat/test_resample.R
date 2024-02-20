@@ -186,3 +186,13 @@ test_that("holdout set works", {
   pred = rr$prediction("holdout")
   expect_equal(length(pred$truth), 1)
 })
+
+test_that("task hashes differ depending on whether test set is used", {
+  task = tsk("iris")
+  resampling = rsmp("holdout")
+  learner1 = lrn("classif.debug")
+  learner2 = lrn("classif.debug", uses_test_task = TRUE)
+  rr1 = resample(task, learner1, resampling)
+  rr2 = resample(task, learner2, resampling)
+  expect_false(rr1$learners[[1]]$state$task_hash == rr2$learners[[1]]$state$task_hash)
+})

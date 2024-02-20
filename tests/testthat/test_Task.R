@@ -539,13 +539,24 @@ test_that("test task cannot have a test or holdout task", {
   expect_error({task$holdout_task = task$clone(deep = TRUE)$partition(1, "holdout") }, "remove its test/holdout")
 })
 
-test_that("test task does not influence a task's hash", {
+test_that("test task changes a task's hash", {
   task = tsk("iris")
   h1 = task$hash
   task$partition(1:10, "test", remove = FALSE)
-  expect_true(h1 == task$hash)
+  h2 = task$hash
+  expect_false(h1 == h2)
+  task$partition(1:11, "test", remove = FALSE)
+  expect_false(h2 == task$hash)
+})
+
+test_that("holdout task changes a task's hash", {
+  task = tsk("iris")
+  h1 = task$hash
   task$partition(1:10, "holdout", remove = FALSE)
-  expect_false(h1 == task$hash)
+  h2 = task$hash
+  expect_false(h1 == h2)
+  task$partition(1:11, "holdout", remove = FALSE)
+  expect_false(h2 == task$hash)
 })
 
 test_that("can NULL test/holdout task", {
@@ -593,4 +604,15 @@ test_that("test_task is printed", {
   task$partition(c(1:5, 51:60, 101:110), "holdout")
   out2 = capture_output(print(task))
   expect_true(grepl(pattern = "* Holdout Task: (25x5)", fixed = TRUE, x = out2))
+})
+
+test_that("task hashes during resample", {
+  orig = tsk("iris")
+  task = orig$clone(deep = TRUE)
+  resampling = rsmp("holdout")
+  resampling$instantiate(task)
+  task$partition(resampling$test_set(1), "test")
+  task$hash
+  learner = lrn("classif.debug", uses_test_task = TRUE)
+  expect_equal(resampling_task_hashes(task, resampling, learner), task$hash)
 })

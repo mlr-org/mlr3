@@ -525,7 +525,7 @@ Learner = R6Class("Learner",
 
   private = list(
     .properties = NULL,
-    .contingent_properties = function() character(0),
+    .contingent_properties = function() character(0), # can't set this to NULL because of a bug in R6
     .encapsulate = NULL,
     .fallback = NULL,
     .predict_type = NULL,

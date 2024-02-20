@@ -1,9 +1,14 @@
 # mlr3 (development version)
 
+* Fix: A task's hash now takes the test task (previously row roles 'test') into
+account, which now ensures that hotstarting and usage of test rows works
+together
 * BREAKING_CHANGE: row roles 'use' and 'test' are now replaced with fields
 'test_task' and 'holdout_task'
-* Feat: Add support for contingent properties
-* Feat: Add learner property `"uses_test_task"`
+* feat(Learner): Add support for private method `$.contingent_properties()`,
+  which allows to dynamically generate a learner's properties, based e.g.
+  on its parameter values.
+* feat: Add learner property `"uses_test_task"`
 * feat: dictionary conversion of `mlr_learners` respects prototype arguments
 recently added in mlr3misc
 * perf: skip unnecessary clone of learner's state in `resample()`

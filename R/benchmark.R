@@ -102,13 +102,7 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
     stopf("Multiple learner types detected, but mixing types is not supported: %s", str_collapse(learner_types))
   }
   assert_task_learner(design$task[[1]], design$learner[[1]])
-  walk(design$task, function(task) {
-    if (!is.null(task$test_task)) {
-      stopf("Test task must not be present, but task '%s' has one", task$id)
-    }
-  })
 
-  # clone inputs
   setDT(design)
   task = learner = resampling = NULL
   if ("task" %in% clone) {
@@ -162,7 +156,7 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
       if (!is.null(learner$hotstart_stack)) {
         # search for hotstart learner
         learner = learner$clone()
-        task_hashes = task_hashes(task, resampling)
+        task_hashes = resampling_task_hashes(task, resampling, learner)
         start_learner = get_private(learner$hotstart_stack)$.start_learner(learner, task_hashes[iteration])
       }
       if (is.null(learner$hotstart_stack) || is.null(start_learner)) {

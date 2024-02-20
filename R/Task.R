@@ -153,19 +153,21 @@ Task = R6Class("Task",
     },
 
     #' @description
-    #' Splits a test or holdout task from the task.
+    #' Creates a test or holdout task from the task.
     #' This modifies the task in-place.
-    #' Subsequent operations on the (primary) task are not relayed to the test task.
+    #' Subsequent operations on the (primary) task are not relayed to the test or holdout task.
     #' @param row_ids (`integer()` or `NULL`)\cr
-    #'   The row ids to use for the test task.
+    #'   The row ids to use for the test/holdout task.
     #' @param type (`character(1)`)\cr
-    #'   The task to split off. Either `"test"` (default) or `"holdout"`.
+    #'   The type of task to create. Either `"test"` (default) or `"holdout"`.
     #' @param remove (`logical(1)`)\cr
     #'   If `TRUE` (default), the `row_ids` are removed from the primary task's active `"use"` rows.
     #' @return Modified `self`.
     partition = function(row_ids = NULL, type = "test", remove = TRUE) {
+      private$.hash = NULL
+      assert_flag(remove)
       assert_row_ids(row_ids, null.ok = FALSE)
-      assert_subset(type, c("test", "holdout"))
+      assert_choice(type, c("test", "holdout"))
       task_name = paste0(type, "_task")
       other_name = paste0(setdiff(c("test", "holdout"), type), "_task")
       prev_other = self[[other_name]]
@@ -767,6 +769,7 @@ Task = R6Class("Task",
       if (missing(rhs)) {
         return(invisible(private$.test_task))
       }
+      private$.hash = NULL
       if (is.null(rhs)) {
         private$.test_task = NULL
         return(invisible(private$.test_task))
@@ -786,8 +789,6 @@ Task = R6Class("Task",
     #' @field holdout_task (`Task` or `NULL`)\cr
     #' Optional holdout task.
     #' It is possible to make predictions on this task, by setting the `predict_set` of a [`Learner`] to `"holdout"`.
-    #' When training a learner that has the property 'uses_test_task', as well as rows with the row role 'test',
-    #' this task is automatically generated.
     holdout_task = function(rhs) {
       if (missing(rhs)) {
         return(invisible(private$.holdout_task))
@@ -798,7 +799,7 @@ Task = R6Class("Task",
         return(invisible(private$.holdout_task))
       }
       assert_task(rhs, task_type = self$task_type)
-      if (identical(rhs, self)) {
+      if (identical(rhs, self)) { # avoid cycles
         stopf("Task '%s' cannot be its own holdout task", self$id)
       }
       if (!is.null(rhs$test_task) || !is.null(rhs$holdout_task)) { # avoid recursive structures
@@ -811,7 +812,7 @@ Task = R6Class("Task",
     #' @template field_hash
     hash = function(rhs) {
       if (is.null(private$.hash)) {
-        private$.hash = task_hash(self, self$row_roles)
+        private$.hash = task_hash(self, self$row_ids)
       }
 
       private$.hash
@@ -905,7 +906,7 @@ Task = R6Class("Task",
       assert_has_backend(self)
       assert_list(rhs, .var.name = "row_roles")
       if ("test" %in% names(rhs) || "holdout" %in% names(rhs)) {
-        stopf("Setting row roles 'test'/'holdout' is no longer possible, use $split_<test/holdout>() instead")
+        stopf("Setting row roles 'test'/'holdout' is no longer possible, use `$partition()` instead")
       }
       assert_names(names(rhs), "unique", permutation.of = mlr_reflections$task_row_roles, .var.name = "names of row_roles")
       rhs = map(rhs, assert_row_ids, .var.name = "elements of row_roles")

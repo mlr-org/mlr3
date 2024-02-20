@@ -160,9 +160,7 @@ the test set for each resampling iteration.}
 
 \item{\code{holdout_task}}{(\code{Task} or \code{NULL})\cr
 Optional holdout task.
-It is possible to make predictions on this task, by setting the \code{predict_set} of a \code{\link{Learner}} to \code{"holdout"}.
-When training a learner that has the property 'uses_test_task', as well as rows with the row role 'test',
-this task is automatically generated.}
+It is possible to make predictions on this task, by setting the \code{predict_set} of a \code{\link{Learner}} to \code{"holdout"}.}
 
 \item{\code{hash}}{(\code{character(1)})\cr
 Hash (unique identifier) for this object.}
@@ -372,9 +370,9 @@ via \code{\link[=convert_task]{convert_task()}}.}
 \if{html}{\out{<a id="method-Task-partition"></a>}}
 \if{latex}{\out{\hypertarget{method-Task-partition}{}}}
 \subsection{Method \code{partition()}}{
-Splits a test or holdout task from the task.
+Creates a test or holdout task from the task.
 This modifies the task in-place.
-Subsequent operations on the (primary) task are not relayed to the test task.
+Subsequent operations on the (primary) task are not relayed to the test or holdout task.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Task$partition(row_ids = NULL, type = "test", remove = TRUE)}\if{html}{\out{</div>}}
 }
@@ -383,10 +381,10 @@ Subsequent operations on the (primary) task are not relayed to the test task.
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{row_ids}}{(\code{integer()} or \code{NULL})\cr
-The row ids to use for the test task.}
+The row ids to use for the test/holdout task.}
 
 \item{\code{type}}{(\code{character(1)})\cr
-The task to split off. Either \code{"test"} (default) or \code{"holdout"}.}
+The type of task to create. Either \code{"test"} (default) or \code{"holdout"}.}
 
 \item{\code{remove}}{(\code{logical(1)})\cr
 If \code{TRUE} (default), the \code{row_ids} are removed from the primary task's active \code{"use"} rows.}

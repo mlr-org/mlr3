@@ -49,30 +49,29 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
-      param_set = ps(
-        error_predict        = p_dbl(0, 1, default = 0, tags = "predict"),
-        error_train          = p_dbl(0, 1, default = 0, tags = "train"),
-        message_predict      = p_dbl(0, 1, default = 0, tags = "predict"),
-        message_train        = p_dbl(0, 1, default = 0, tags = "train"),
-        predict_missing      = p_dbl(0, 1, default = 0, tags = "predict"),
-        predict_missing_type = p_fct(c("na", "omit"), default = "na", tags = "predict"),
-        save_tasks           = p_lgl(default = FALSE, tags = c("train", "predict")),
-        segfault_predict     = p_dbl(0, 1, default = 0, tags = "predict"),
-        segfault_train       = p_dbl(0, 1, default = 0, tags = "train"),
-        sleep_train          = p_uty(tags = "train"),
-        sleep_predict        = p_uty(tags = "predict"),
-        threads              = p_int(1L, tags = c("train", "threads")),
-        warning_predict      = p_dbl(0, 1, default = 0, tags = "predict"),
-        warning_train        = p_dbl(0, 1, default = 0, tags = "train"),
-        x                    = p_dbl(0, 1, tags = "train"),
-        iter                 = p_int(1, default = 1, tags = c("train", "hotstart")),
-        uses_test_task       = p_lgl(default = FALSE, tags = "train")
-      )
       super$initialize(
         id = "classif.debug",
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
         predict_types = c("response", "prob"),
-        param_set = param_set,
+        param_set = ps(
+          error_predict        = p_dbl(0, 1, default = 0, tags = "predict"),
+          error_train          = p_dbl(0, 1, default = 0, tags = "train"),
+          message_predict      = p_dbl(0, 1, default = 0, tags = "predict"),
+          message_train        = p_dbl(0, 1, default = 0, tags = "train"),
+          predict_missing      = p_dbl(0, 1, default = 0, tags = "predict"),
+          predict_missing_type = p_fct(c("na", "omit"), default = "na", tags = "predict"),
+          save_tasks           = p_lgl(default = FALSE, tags = c("train", "predict")),
+          segfault_predict     = p_dbl(0, 1, default = 0, tags = "predict"),
+          segfault_train       = p_dbl(0, 1, default = 0, tags = "train"),
+          sleep_train          = p_uty(tags = "train"),
+          sleep_predict        = p_uty(tags = "predict"),
+          threads              = p_int(1L, tags = c("train", "threads")),
+          warning_predict      = p_dbl(0, 1, default = 0, tags = "predict"),
+          warning_train        = p_dbl(0, 1, default = 0, tags = "train"),
+          x                    = p_dbl(0, 1, tags = "train"),
+          iter                 = p_int(1, default = 1, tags = c("train", "hotstart")),
+          uses_test_task       = p_lgl(default = FALSE, tags = "train")
+        ),
         properties = c("twoclass", "multiclass", "missings", "hotstart_forward"),
         man = "mlr3::mlr_learners_classif.debug",
         data_formats = c("data.table", "Matrix"),
@@ -80,7 +79,6 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
       )
     }
   ),
-
   private = list(
     .contingent_properties = function() {
       if (!isTRUE(self$param_set$values$uses_test_task)) {

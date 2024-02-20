@@ -43,7 +43,7 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
     lg$debug("Skip subsetting of task '%s'", task$id)
   }
 
-  if ("uses_test_task" %in% learner$properties && is.null(task$test_task) && !is.null(test_row_ids)) {
+  if ("uses_test_task" %in% learner$properties && !is.null(test_row_ids)) {
     # this is the case for resample() and benchmark()
     on.exit({
       task$test_task = NULL

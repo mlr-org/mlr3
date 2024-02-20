@@ -47,3 +47,8 @@ clone_without = function(x, y) {
   x[[y]] = y_prev
   return(x2)
 }
+
+clone_rep = function(x, n) {
+  xc = x$clone(deep = TRUE)
+  lapply(seq_len(n), function(i) xc)
+}
