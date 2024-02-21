@@ -186,7 +186,7 @@ Measure = R6Class("Measure",
         stopf("Measure '%s' requires the trained model", self$id)
       }
       if ("requires_model" %in% self$properties && marshalled_model(learner$model)) {
-        stopf("Measure '%s' requires the trained model, but model is marshalled form", self$id)
+        stopf("Measure '%s' requires the trained model, but model is in marshalled form", self$id)
       }
 
       if ("requires_train_set" %in% self$properties && is.null(train_set)) {
