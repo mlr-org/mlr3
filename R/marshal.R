@@ -4,7 +4,7 @@
 #'
 #' @description
 #' Marshalling is the process of processing the model of a trained [`Learner`] so it an be successfully serialized and
-#' deserialized. The naming is inspired from package [marshall](https://github.com/HenrikBengtsson/marshal) and we
+#' deserialized. The naming is inspired by the [marshal package](https://github.com/HenrikBengtsson/marshal) and we
 #' plan to fully migrate to this package once it is on CRAN.
 #' The supported implementation until then should therfore be considered as a temporary solution and is likely
 #' to change in the future.
@@ -36,7 +36,7 @@
 #' For a concrete example on how to implement marshalling, see [`LearnerClassifLily`].
 #'
 #' @param learner [`Learner`]\cr
-#'   The learner to marshal.
+#'   The learner.
 #' @keywords internal
 #' @export
 learner_unmarshal = function(learner) {

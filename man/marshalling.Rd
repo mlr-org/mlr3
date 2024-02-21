@@ -24,11 +24,11 @@ marshalled_model(model)
 }
 \arguments{
 \item{learner}{\code{\link{Learner}}\cr
-The learner to marshal.}
+The learner.}
 }
 \description{
 Marshalling is the process of processing the model of a trained \code{\link{Learner}} so it an be successfully serialized and
-deserialized. The naming is inspired from package \href{https://github.com/HenrikBengtsson/marshal}{marshall} and we
+deserialized. The naming is inspired by the \href{https://github.com/HenrikBengtsson/marshal}{marshal package} and we
 plan to fully migrate to this package once it is on CRAN.
 The supported implementation until then should therfore be considered as a temporary solution and is likely
 to change in the future.
