@@ -173,7 +173,6 @@ Measure = R6Class("Measure",
       assert_measure(self, task = task, learner = learner)
       assert_prediction(prediction)
 
-      # FIXME: if self has property model check that not marshalled
 
       if ("requires_task" %in% self$properties && is.null(task)) {
         stopf("Measure '%s' requires a task", self$id)
