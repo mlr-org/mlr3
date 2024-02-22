@@ -252,7 +252,9 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
   }
   learner_hash = learner$hash
 
-  learner = learner_train(learner, task, sets[["train"]], sets[["test"]], mode = mode)
+  test_set = if ("uses_test_task" %in% learner$properties) sets$test
+
+  learner = learner_train(learner, task, sets[["train"]], test_set, mode = mode)
 
   # predict for each set
   predict_sets = learner$predict_sets
