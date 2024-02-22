@@ -243,7 +243,7 @@ Learner = R6Class("Learner",
       test_row_ids = task$row_roles$test
 
       learner_train(learner, task, train_row_ids = train_row_ids, test_row_ids = test_row_ids, mode = mode)
-      self$model = unmarshal_model(self$state$model)
+      self$model = unmarshal_model(self$state$model, clone = FALSE)
 
       # store data prototype
       proto = task$data(rows = integer())

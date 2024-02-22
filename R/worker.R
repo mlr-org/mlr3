@@ -261,8 +261,17 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
   learner_hash = learner$hash
   learner = learner_train(learner, task, sets[["train"]], sets[["test"]], mode = mode, unmarshal = FALSE)
 
-  model_marshaled = if (store_models) marshal_model(learner$model)
-  learner$model = unmarshal_model(learner$model)
+  model_marshaled = NULL
+  if (store_models && marshaled_model(learner$model) && !is_sequential) {
+    if (is_sequential) {
+      # callr + no parallelization
+      learner$model = unmarshal_model(learner$model, clone = FALSE)
+    } else {
+      # callr + parallelization
+      model_marshaled = learner$model
+      learner$model = unmarshal_model(learner$model, clone = TRUE)
+    }
+  }
 
   # predict for each set
   sets = sets[learner$predict_sets]
@@ -275,10 +284,15 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
   if (!store_models) {
     lg$debug("Erasing stored model for learner '%s'", learner$id)
     learner$state$model = NULL
-  } else if ("marshal" %in% learner$properties && !is_sequential) {
-    lg$debug("marshaling model for learner '%s'", learner$id)
+  } else if (!is.null(model_marshaled)) {
+    # callr + parallelization
     learner$model = model_marshaled
+  } else if (!is_sequential) {
+    # parallelization without callr
+    learner$model = marshal_model(learner$model, clone = FALSE)
   }
+  # no parallelization and no callr --> nothing to do
+  # no parallelization and callr --> already unmarshaled
 
 
   list(learner_state = learner$state, prediction = pdatas, param_values = learner$param_set$values, learner_hash = learner_hash)

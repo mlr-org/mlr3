@@ -48,7 +48,7 @@ learner_unmarshal = function(learner) {
     stopf("Cannot unmarshal, Learner '%s' has not been trained yet", learner$id)
   }
   # this will do nothing if the model was not marshaled
-  learner$model = unmarshal_model(learner$model)
+  learner$model = unmarshal_model(learner$model, clone = FALSE)
   invisible(learner)
 }
 
@@ -60,7 +60,7 @@ learner_marshal = function(learner) {
     stopf("Cannot marshal, Learner '%s' has not been trained yet", learner$id)
   }
   # this will do nothing if the model was already marshaled
-  learner$model = marshal_model(learner$model)
+  learner$model = marshal_model(learner$model, clone = FALSE)
   invisible(learner)
 }
 
