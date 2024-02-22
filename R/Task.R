@@ -745,7 +745,7 @@ Task = R6Class("Task",
       private$.hash
     },
 
-    #' @field row_ids (`integer()`)\cr
+    #' @field row_ids (positive `integer()`)\cr
     #' Returns the row ids of the [DataBackend] for observations with role "use".
     row_ids = function(rhs) {
       assert_ro_binding(rhs)
