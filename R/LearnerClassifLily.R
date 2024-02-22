@@ -1,11 +1,11 @@
-#' @title Lily and Marshall
+#' @title Lily and marshal
 #'
 #' @name mlr_learners_classif.lily
 #' @include LearnerClassifDebug.R
 #'
 #' @description
-#' This learner is just like [`LearnerClassifDebug`], but can be marshalled.
-#' When the `count_marshalling` parameter is `TRUE`, the model contains a `marshal_count` that will be increased
+#' This learner is just like [`LearnerClassifDebug`], but can be marshaled.
+#' When the `count_marshaling` parameter is `TRUE`, the model contains a `marshal_count` that will be increased
 #' by 1, each time `marshal_model` is called.
 #'
 #' @templateVar id classif.lily
@@ -19,8 +19,8 @@ LearnerClassifLily = R6Class("LearnerClassifLily",
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       super$initialize()
-      self$param_set$add(ps(count_marshalling = p_lgl(tags = c("train", "required"))))
-      self$param_set$values$count_marshalling = FALSE
+      self$param_set$add(ps(count_marshaling = p_lgl(tags = c("train", "required"))))
+      self$param_set$values$count_marshaling = FALSE
       self$properties = sort(c("marshal", self$properties))
       self$man = "mlr3::mlr_learners_classif.lily"
       self$label = "Lily Learner"
@@ -38,16 +38,16 @@ LearnerClassifLily = R6Class("LearnerClassifLily",
     }
   ),
   active = list(
-    #' @field marshalled (logical(1))\cr
-    #' Whether the learner has been marshalled.
-    marshalled = function() {
-      learner_marshalled(self)
+    #' @field marshaled (logical(1))\cr
+    #' Whether the learner has been marshaled.
+    marshaled = function() {
+      learner_marshaled(self)
     }
   ),
   private = list(
     .train = function(task) {
       model = super$.train(task)
-      if (self$param_set$values$count_marshalling) {
+      if (self$param_set$values$count_marshaling) {
         model$marshal_count = 0L
       }
       class(model) = "classif_lily_model"
@@ -64,11 +64,11 @@ marshal_model.classif_lily_model = function(model, ...) {
   if (!is.null(model$marshal_count)) {
     model$marshal_count = model$marshal_count + 1
   }
-  newclass = c("classif_lily_model_marshalled", "marshalled")
-  structure(list(model), class = newclass)
+  newclass = c("classif_lily_model_marshaled", "marshaled")
+  structure(list(marshaled = model, packages = "mlr3"), class = newclass)
 }
 
 #' @export
-unmarshal_model.classif_lily_model_marshalled = function(model, ...) {
-  model[[1L]]
+unmarshal_model.classif_lily_model_marshaled = function(model, ...) {
+  model$marshaled
 }

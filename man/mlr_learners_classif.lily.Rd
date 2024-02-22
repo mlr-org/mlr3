@@ -3,10 +3,10 @@
 \name{mlr_learners_classif.lily}
 \alias{mlr_learners_classif.lily}
 \alias{LearnerClassifLily}
-\title{Lily and Marshall}
+\title{Lily and marshal}
 \description{
-This learner is just like \code{\link{LearnerClassifDebug}}, but can be marshalled.
-When the \code{count_marshalling} parameter is \code{TRUE}, the model contains a \code{marshal_count} that will be increased
+This learner is just like \code{\link{LearnerClassifDebug}}, but can be marshaled.
+When the \code{count_marshaling} parameter is \code{TRUE}, the model contains a \code{marshal_count} that will be increased
 by 1, each time \code{marshal_model} is called.
 }
 \section{Dictionary}{
@@ -47,7 +47,7 @@ lrn("classif.lily")
    warning_train \tab numeric \tab 0 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
    x \tab numeric \tab - \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
    iter \tab integer \tab 1 \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
-   count_marshalling \tab logical \tab - \tab TRUE, FALSE \tab - \cr
+   count_marshaling \tab logical \tab - \tab TRUE, FALSE \tab - \cr
 }
 }
 
@@ -57,8 +57,8 @@ lrn("classif.lily")
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{marshalled}}{(logical(1))\cr
-Whether the learner has been marshalled.}
+\item{\code{marshaled}}{(logical(1))\cr
+Whether the learner has been marshaled.}
 }
 \if{html}{\out{</div>}}
 }

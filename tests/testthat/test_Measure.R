@@ -131,7 +131,7 @@ test_that("time_train is > 0", {
   expect_gte(res$time_train, 0)
 })
 
-test_that("scoring fails when measure requires_model, but model is in marshalled state", {
+test_that("scoring fails when measure requires_model, but model is in marshaled state", {
   measure = msr("classif.acc")
   measure$properties = c(measure$properties, "requires_model")
 

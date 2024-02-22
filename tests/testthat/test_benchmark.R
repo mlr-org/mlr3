@@ -478,8 +478,8 @@ test_that("param_values in benchmark", {
 })
 
 
-test_that("parallel execution automatically triggers marshalling", {
-  learner = lrn("classif.lily", count_marshalling = TRUE)
+test_that("parallel execution automatically triggers marshaling", {
+  learner = lrn("classif.lily", count_marshaling = TRUE)
   task = tsk("iris")
   resampling = rsmp("holdout")
   design = benchmark_grid(task, learner, resampling)
@@ -487,11 +487,11 @@ test_that("parallel execution automatically triggers marshalling", {
     benchmark(design, store_models = TRUE, unmarshal = TRUE)
   })
   expect_equal(bmr$resample_result(1)$learners[[1]]$model$marshal_count, 1)
-  expect_false(bmr$resample_result(1)$learners[[1]]$marshalled)
+  expect_false(bmr$resample_result(1)$learners[[1]]$marshaled)
 })
 
-test_that("sequential execution does not trigger marshalling", {
-  learner = lrn("classif.lily", count_marshalling = TRUE)
+test_that("sequential execution does not trigger marshaling", {
+  learner = lrn("classif.lily", count_marshaling = TRUE)
   task = tsk("iris")
   resampling = rsmp("holdout")
   design = benchmark_grid(task, learner, resampling)
@@ -501,8 +501,8 @@ test_that("sequential execution does not trigger marshalling", {
   expect_equal(bmr$resample_result(1)$learners[[1]]$model$marshal_count, 0)
 })
 
-test_that("parallel execution and callr marshall twice", {
-  learner = lrn("classif.lily", count_marshalling = TRUE, encapsulate = c(train = "callr"))
+test_that("parallel execution and callr marshal twice", {
+  learner = lrn("classif.lily", count_marshaling = TRUE, encapsulate = c(train = "callr"))
   task = tsk("iris")
   resampling = rsmp("holdout")
   design = benchmark_grid(task, learner, resampling)
@@ -510,34 +510,34 @@ test_that("parallel execution and callr marshall twice", {
     benchmark(design, store_models = TRUE, unmarshal = TRUE)
   })
   expect_equal(bmr$resample_result(1)$learners[[1]]$model$marshal_count, 2)
-  expect_false(bmr$resample_result(1)$learners[[1]]$marshalled)
+  expect_false(bmr$resample_result(1)$learners[[1]]$marshaled)
 })
 
 
 test_that("unmarshal parameter is respected", {
-  learner = lrn("classif.lily", count_marshalling = TRUE, encapsulate = c(train = "callr"))
+  learner = lrn("classif.lily", count_marshaling = TRUE, encapsulate = c(train = "callr"))
   task = tsk("iris")
   resampling = rsmp("holdout")
   design = benchmark_grid(task, learner, resampling)
   bmr = with_future(future::multisession, {
     list(
-      marshalled = benchmark(design, store_models = TRUE, unmarshal = FALSE),
-      unmarshalled = benchmark(design, store_models = TRUE, unmarshal = TRUE)
+      marshaled = benchmark(design, store_models = TRUE, unmarshal = FALSE),
+      unmarshaled = benchmark(design, store_models = TRUE, unmarshal = TRUE)
     )
   })
-  expect_false(bmr$unmarshalled$resample_result(1)$learners[[1]]$marshalled)
-  expect_true(bmr$marshalled$resample_result(1)$learners[[1]]$marshalled)
+  expect_false(bmr$unmarshaled$resample_result(1)$learners[[1]]$marshaled)
+  expect_true(bmr$marshaled$resample_result(1)$learners[[1]]$marshaled)
 })
 
-test_that("BenchmarkResult can be (un)marshalled", {
+test_that("BenchmarkResult can be (un)marshaled", {
   bmr = benchmark(benchmark_grid(tsk("iris"), lrn("classif.lily"), rsmp("holdout")), store_models = TRUE)
-  expect_false(bmr$resample_result(1)$learners[[1]]$marshalled)
+  expect_false(bmr$resample_result(1)$learners[[1]]$marshaled)
   bmr$marshal()
-  expect_true(bmr$resample_result(1)$learners[[1]]$marshalled)
+  expect_true(bmr$resample_result(1)$learners[[1]]$marshaled)
   bmr$unmarshal()
-  expect_false(bmr$resample_result(1)$learners[[1]]$marshalled)
+  expect_false(bmr$resample_result(1)$learners[[1]]$marshaled)
 
-  # also works with non-marshallable learner
+  # also works with non-marshalable learner
   bmr1 = benchmark(benchmark_grid(tsk("iris"), lrn("classif.featureless"), rsmp("holdout")), store_models = TRUE)
   model = bmr1$resample_result(1)$learners[[1]]$model
   bmr1$unmarshal()

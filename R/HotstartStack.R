@@ -88,8 +88,8 @@ HotstartStack = R6Class("HotstartStack",
       walk(learners, function(learner) {
         if (is.null(learner$model)) {
           stopf("Learners must be trained before adding them to the hotstart stack.")
-        } else if (marshalled_model(learner$model)) {
-          stopf("Learners must be unmarshalled before adding them to the hotstart stack.")
+        } else if (marshaled_model(learner$model)) {
+          stopf("Learners must be unmarshaled before adding them to the hotstart stack.")
         }
       })
 

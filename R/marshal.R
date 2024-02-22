@@ -1,9 +1,9 @@
 #' @title (Un)marshal a Learner
 #'
-#' @name marshalling
+#' @name marshaling
 #'
 #' @description
-#' Marshalling is the process of processing the model of a trained [`Learner`] so it an be successfully serialized and
+#' marshaling is the process of processing the model of a trained [`Learner`] so it an be successfully serialized and
 #' deserialized. The naming is inspired by the [marshal package](https://github.com/HenrikBengtsson/marshal) and we
 #' plan to fully migrate to this package once it is on CRAN.
 #' The supported implementation until then should therfore be considered as a temporary solution and is likely
@@ -11,29 +11,29 @@
 #'
 #' The central functions (and the only methods that are used by `mlr3` internally) are:
 #' * the S3 generic `marshal_model(model, ...)`.
-#'   Which takes in a model and returns it in marshalled form.
-#'   The suffix `"_marshalled"` should be added to the class of the returned object and the root class must
-#'   be set to `"marshalled"`.
+#'   Which takes in a model and returns it in marshaled form.
+#'   The suffix `"_marshaled"` should be added to the class of the returned object and the root class must
+#'   be set to `"marshaled"`.
 #' * the S3 generic `unmarshal_model(model, ...)`.
-#'   Which takes in a model and returns it in unmarshalled form.
-#'   The returned object must not inherit from class `"marshalled"`.
-#' * the function `marshalled_model(model)`, which returns `TRUE` if the model inherits from class `"marshalled"`
+#'   Which takes in a model and returns it in unmarshaled form.
+#'   The returned object must not inherit from class `"marshaled"`.
+#' * the function `marshaled_model(model)`, which returns `TRUE` if the model inherits from class `"marshaled"`
 #'   and `FALSE` otherwise.
 #'
-#' In order to implement marshalling for a Learner, you only need to overload the `marshal_model` and `unmarshal_model`
+#' In order to implement marshaling for a Learner, you only need to overload the `marshal_model` and `unmarshal_model`
 #' methods and tag the learner with the `"marshal"` property accordingly.
 #'
-#' To make marshalling accessible in an R6-manner, you should also add the public methods `$marshal()`, `$unmarshal()`
-#' and the active binding `$marshalled`.
+#' To make marshaling accessible in an R6-manner, you should also add the public methods `$marshal()`, `$unmarshal()`
+#' and the active binding `$marshaled`.
 #' To make this as convenient as possible, the functions `learner_marshal(learner)`, `learner_unmarshal(learner)`
-#' and `learner_marshalled(learner)` are provided and can be called from within the public methods.
+#' and `learner_marshaled(learner)` are provided and can be called from within the public methods.
 #' All three functions throw an error if the learner is not trained and otherwise call
-#' `marshal_model()`, `unmarshal_model()` or `marshalled_model()` on the learner's model.
+#' `marshal_model()`, `unmarshal_model()` or `marshaled_model()` on the learner's model.
 #'
-#' You can verify whether you have correctly implemented marshalling by using the internal test helper
-#' `expect_marshallable_learner()`. This is also run by `expect_learner()` if a task is provided.
+#' You can verify whether you have correctly implemented marshaling by using the internal test helper
+#' `expect_marshalable_learner()`. This is also run by `expect_learner()` if a task is provided.
 #'
-#' For a concrete example on how to implement marshalling, see [`LearnerClassifLily`].
+#' For a concrete example on how to implement marshaling, see [`LearnerClassifLily`].
 #'
 #' @param learner [`Learner`]\cr
 #'   The learner.
@@ -44,74 +44,68 @@ learner_unmarshal = function(learner) {
   if (is.null(learner$model)) {
     stopf("Cannot unmarshal, Learner '%s' has not been trained yet", learner$id)
   }
-  # this will do nothing if the model was not marshalled
+  # this will do nothing if the model was not marshaled
   learner$model = unmarshal_model(learner$model)
   invisible(learner)
 }
 
-#' @rdname marshalling
+#' @rdname marshaling
 #' @export
 learner_marshal = function(learner) {
   # no need to check for 'marshal' property as this method should only be available for such learners
   if (is.null(learner$model)) {
     stopf("Cannot marshal, Learner '%s' has not been trained yet", learner$id)
   }
-  # this will do nothing if the model was already marshalled
+  # this will do nothing if the model was already marshaled
   learner$model = marshal_model(learner$model)
   invisible(learner)
 }
 
-#' @rdname marshalling
+#' @rdname marshaling
 #' @export
-learner_marshalled = function(learner) {
+learner_marshaled = function(learner) {
   # no need to check for 'marshal' property as this method should only be available for such learners
   if (is.null(learner$model)) {
-    stopf("Cannot check marshalled status, Learner '%s' has not been trained yet", learner$id)
+    stopf("Cannot check marshaled status, Learner '%s' has not been trained yet", learner$id)
   }
-  marshalled_model(learner$model)
+  marshaled_model(learner$model)
 }
 
-#' @rdname marshalling
+#' @rdname marshaling
 #' @export
 marshal_model = function(model, ...) {
   UseMethod("marshal_model")
 }
 
-#' @rdname marshalling
+#' @rdname marshaling
 #' @export
 unmarshal_model = function(model, ...) {
+  if (marshaled_model(model) && is.character(model$packages)) {
+    require_namespaces(model$packages)
+  }
   UseMethod("unmarshal_model")
 }
 
-#' @rdname marshalling
+#' @rdname marshaling
 #' @export
-marshalled_model = function(model) {
-  test_class(model, "marshalled")
+marshaled_model = function(model) {
+  test_class(model, "marshaled")
 }
 
 #' @export
 marshal_model.default = function(model, ...) {
   classes = class(model)
-  class(model) = c(paste0(classes, "_marshalled"), "marshalled")
+  structure(list(marshaled = model), class = c(paste0(classes, "_marshaled"), "marshaled"))
+}
+
+#' @export
+marshal_model.marshaled = function(model, ...) {
   model
 }
 
 #' @export
-marshal_model.marshalled = function(model, ...) {
-  model
-}
-
-#' @export
-marshal_model.NULL = function(model, ...) {
-  # NULL cannot have a class, so it is not covered by the default method
-  model
-}
-
-#' @export
-unmarshal_model.marshalled = function(model, ...) {
-  classes = class(model)[-length(class(model))]
-  class(model) = gsub("_marshalled$", "", classes)
-  model
+unmarshal_model.marshaled = function(model, ...) {
+  model[["marshaled"]]
 }
 
 #' @export

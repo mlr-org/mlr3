@@ -410,10 +410,10 @@ test_that("HotstartStack threshold works", {
   expect_data_table(hot$stack, nrows = 1)
 })
 
-test_that("error when adding marshalled learner", {
+test_that("error when adding marshaled learner", {
   hot = HotstartStack$new()
   learner = lrn("classif.lily")
   learner$train(tsk("iris"))
   learner$marshal()
-  expect_error(hot$add(learner), "unmarshalled")
+  expect_error(hot$add(learner), "unmarshaled")
 })

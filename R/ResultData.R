@@ -244,7 +244,7 @@ ResultData = R6Class("ResultData",
 
     #' @description
     #' Marshals all stored learner models.
-    #' This will do nothing to models that are already marshalled.
+    #' This will do nothing to models that are already marshaled.
     marshal = function() {
       learner_state = NULL
       self$data$fact[, learner_state := lapply(learner_state, marshal_state_if_model)]
@@ -252,7 +252,7 @@ ResultData = R6Class("ResultData",
     },
     #' @description
     #' Unmarshals all stored learner models.
-    #' This will do nothing to models which are not marshalled.
+    #' This will do nothing to models which are not marshaled.
     unmarshal = function() {
       learner_state = NULL
       self$data$fact[, learner_state := lapply(learner_state, unmarshal_state_if_model)]

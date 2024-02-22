@@ -325,18 +325,18 @@ test_that("Models can be replaced", {
   expect_equal(learner$model$location, 1)
 })
 
-test_that("marshalling and encapsulation", {
+test_that("marshaling and encapsulation", {
   task = tsk("iris")
-  learner = lrn("classif.lily", count_marshalling = TRUE)
+  learner = lrn("classif.lily", count_marshaling = TRUE)
 
-  # callr encapsulation causes marshalling
+  # callr encapsulation causes marshaling
   learner$encapsulate = c(train = "callr")
   learner$train(task)
   expect_equal(learner$model$marshal_count, 1)
-  expect_false(learner$marshalled)
+  expect_false(learner$marshaled)
   expect_prediction(learner$predict(task))
 
-  # no marshalling with no other encapsulation
+  # no marshaling with no other encapsulation
   learner$encapsulate = c(train = "none")
   learner$train(task)
   expect_equal(learner$model$marshal_count, 0)

@@ -184,7 +184,7 @@ Learner = R6Class("Learner",
     #' @param ... (ignored).
     print = function(...) {
       catn(format(self), if (is.null(self$label) || is.na(self$label)) "" else paste0(": ", self$label))
-      catn(str_indent("* Model:", if (is.null(self$model)) "-" else if (marshalled_model(self$model)) "<marshalled>" else paste0(class(self$model)[1L])))
+      catn(str_indent("* Model:", if (is.null(self$model)) "-" else if (marshaled_model(self$model)) "<marshaled>" else paste0(class(self$model)[1L])))
       catn(str_indent("* Parameters:", as_short_string(self$param_set$values, 1000L)))
       catn(str_indent("* Packages:", self$packages))
       catn(str_indent("* Predict Types: ", replace(self$predict_types, self$predict_types == self$predict_type, paste0("[", self$predict_type, "]"))))
@@ -279,8 +279,8 @@ Learner = R6Class("Learner",
         stopf("Cannot predict, Learner '%s' has not been trained yet", self$id)
       }
 
-      if (marshalled_model(self$model)) {
-        stopf("Cannot predict, Learner '%s' has not been unmarshalled yet", self$id)
+      if (marshaled_model(self$model)) {
+        stopf("Cannot predict, Learner '%s' has not been unmarshaled yet", self$id)
       }
 
       if (isTRUE(self$parallel_predict) && nbrOfWorkers() > 1L) {

@@ -157,19 +157,19 @@ test_that("as_resample_result works for result data", {
   expect_class(rr2, "ResampleResult")
 })
 
-test_that("parallel execution automatically triggers marshalling", {
-  learner = lrn("classif.lily", count_marshalling = TRUE)
+test_that("parallel execution automatically triggers marshaling", {
+  learner = lrn("classif.lily", count_marshaling = TRUE)
   task = tsk("iris")
   resampling = rsmp("holdout")
   rr = with_future(future::multisession, {
     resample(task, learner, resampling, store_models = TRUE, unmarshal = TRUE)
   })
   expect_equal(rr$learners[[1]]$model$marshal_count, 1)
-  expect_false(rr$learners[[1]]$marshalled)
+  expect_false(rr$learners[[1]]$marshaled)
 })
 
-test_that("sequential execution does not trigger marshalling", {
-  learner = lrn("classif.lily", count_marshalling = TRUE)
+test_that("sequential execution does not trigger marshaling", {
+  learner = lrn("classif.lily", count_marshaling = TRUE)
   task = tsk("iris")
   resampling = rsmp("holdout")
   rr = with_future(future::sequential, {
@@ -178,41 +178,41 @@ test_that("sequential execution does not trigger marshalling", {
   expect_equal(rr$learners[[1]]$model$marshal_count, 0)
 })
 
-test_that("parallel execution and callr marshall twice", {
-  learner = lrn("classif.lily", count_marshalling = TRUE, encapsulate = c(train = "callr"))
+test_that("parallel execution and callr marshal twice", {
+  learner = lrn("classif.lily", count_marshaling = TRUE, encapsulate = c(train = "callr"))
   task = tsk("iris")
   resampling = rsmp("holdout")
   rr = with_future(future::multisession, {
     resample(task, learner, resampling, store_models = TRUE, unmarshal = TRUE)
   })
   expect_equal(rr$learners[[1]]$model$marshal_count, 2)
-  expect_false(rr$learners[[1]]$marshalled)
+  expect_false(rr$learners[[1]]$marshaled)
 })
 
 
 test_that("unmarshal parameter is respected", {
-  learner = lrn("classif.lily", count_marshalling = TRUE, encapsulate = c(train = "callr"))
+  learner = lrn("classif.lily", count_marshaling = TRUE, encapsulate = c(train = "callr"))
   task = tsk("iris")
   resampling = rsmp("holdout")
   rr = with_future(future::multisession, {
     list(
-      marshalled = resample(task, learner, resampling, store_models = TRUE, unmarshal = FALSE),
-      unmarshalled = resample(task, learner, resampling, store_models = TRUE, unmarshal = TRUE)
+      marshaled = resample(task, learner, resampling, store_models = TRUE, unmarshal = FALSE),
+      unmarshaled = resample(task, learner, resampling, store_models = TRUE, unmarshal = TRUE)
     )
   })
-  expect_false(rr$unmarshalled$learners[[1]]$marshalled)
-  expect_true(rr$marshalled$learners[[1]]$marshalled)
+  expect_false(rr$unmarshaled$learners[[1]]$marshaled)
+  expect_true(rr$marshaled$learners[[1]]$marshaled)
 })
 
-test_that("ResampleResult can be (un)marshalled", {
+test_that("ResampleResult can be (un)marshaled", {
   rr = resample(tsk("iris"), lrn("classif.lily"), rsmp("holdout"), store_models = TRUE)
-  expect_false(rr$learners[[1]]$marshalled)
+  expect_false(rr$learners[[1]]$marshaled)
   rr$marshal()
-  expect_true(rr$learners[[1]]$marshalled)
+  expect_true(rr$learners[[1]]$marshaled)
   rr$unmarshal()
-  expect_false(rr$learners[[1]]$marshalled)
+  expect_false(rr$learners[[1]]$marshaled)
 
-  # also works with non-marshallable learner
+  # also works with non-marshalable learner
   rr1 = resample(tsk("iris"), lrn("classif.featureless"), rsmp("holdout"), store_models = TRUE)
   model = rr1$learners[[1]]$model
   rr1$unmarshal()

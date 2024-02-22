@@ -381,7 +381,7 @@ expect_learner = function(lrn, task = NULL, check_man = TRUE) {
     testthat::expect_identical(lrn$task_type, task$task_type)
 
     if ("marshal" %in% lrn$properties) {
-      expect_marshallable_learner(lrn, task)
+      expect_marshalable_learner(lrn, task)
     }
   } else if ("marshal" %in% lrn$properties) {
     message("Cannot test 'marshal' property of the learner as no task is provided.")
@@ -393,7 +393,7 @@ expect_learner = function(lrn, task = NULL, check_man = TRUE) {
 
 }
 
-expect_marshallable_learner = function(learner, task) {
+expect_marshalable_learner = function(learner, task) {
   expect_true("marshal" %in% learner$properties)
   learner$state = NULL
 
@@ -403,39 +403,39 @@ expect_marshallable_learner = function(learner, task) {
 
   expect_true(has_public(learner, "marshal") && test_function(learner$marshal, nargs = 0))
   expect_true(has_public(learner, "unmarshal") && test_function(learner$unmarshal, nargs = 0))
-  expect_true(has_public(learner, "marshalled"))
+  expect_true(has_public(learner, "marshaled"))
 
   # (un)marshal only possible after training
   expect_error(learner$marshal(), "has not been trained")
   expect_error(learner$unmarshal(), "has not been trained")
-  expect_error(learner$marshalled, "has not been trained")
+  expect_error(learner$marshaled, "has not been trained")
 
   learner$train(task)
   model = learner$model
   class_prev = class(model)
-  expect_false(learner$marshalled)
-  expect_equal(marshalled_model(learner$model), learner$marshalled)
+  expect_false(learner$marshaled)
+  expect_equal(marshaled_model(learner$model), learner$marshaled)
   expect_invisible(learner$marshal())
-  expect_true(learner$marshalled)
-  expect_equal(marshalled_model(learner$model), learner$marshalled)
+  expect_true(learner$marshaled)
+  expect_equal(marshaled_model(learner$model), learner$marshaled)
 
-  # cannot predict with marshalled learner
-  expect_error(learner$predict(task), "has not been unmarshalled")
+  # cannot predict with marshaled learner
+  expect_error(learner$predict(task), "has not been unmarshaled")
 
-  # unmarshalling works
+  # unmarshaling works
   expect_invisible(learner$unmarshal())
-  # can predict after unmarshalling
+  # can predict after unmarshaling
   expect_prediction(learner$predict(task))
   # model is reset
   expect_equal(learner$model, model)
-  # marshalled is set accordingly
-  expect_false(learner$marshalled)
+  # marshaled is set accordingly
+  expect_false(learner$marshaled)
 
   expect_equal(class(learner$model), class_prev)
 
-  # when re-training, marshalled is reset
+  # when re-training, marshaled is reset
   learner$predict(task)
-  expect_false(learner$train(task)$marshalled)
+  expect_false(learner$train(task)$marshaled)
 
 
 

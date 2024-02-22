@@ -72,7 +72,7 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
   log = append_log(NULL, "train", result$log$class, result$log$msg)
   train_time = result$elapsed
 
-  # unmarshal_model does nothing if the model was not marshalled
+  # unmarshal_model does nothing if the model was not marshaled
 
 
   # We always want to unmarshal the model, because either:
@@ -280,7 +280,7 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
     lg$debug("Erasing stored model for learner '%s'", learner$id)
     learner$state$model = NULL
   } else if ("marshal" %in% learner$properties && !is_sequential) {
-    lg$debug("Marshalling model for learner '%s'", learner$id)
+    lg$debug("marshaling model for learner '%s'", learner$id)
     learner$model = marshal_model(learner$model)
   }
 
