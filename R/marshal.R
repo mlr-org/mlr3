@@ -12,10 +12,13 @@
 #' The central functions (and the only methods that are used by `mlr3` internally) are:
 #' * the S3 generic `marshal_model(model, ...)`.
 #'   Which takes in a model and returns it in marshaled form.
-#'   The suffix `"_marshaled"` should be added to the class of the returned object and the root class must
-#'   be set to `"marshaled"`.
+#'   The marshaled object should be a list with named elements `marshaled` and `packages`, where the former contains
+#'   the actual marshaled object, and the latter the packages required to unmarshal it.
+#'   This list should have as classes the classes of the original object with the suffix `"_marshaled"` added and the
+#'   root class should be set to `"marshaled"`.
 #' * the S3 generic `unmarshal_model(model, ...)`.
-#'   Which takes in a model and returns it in unmarshaled form.
+#'   Which takes in the marshaled model and returns it in unmarshaled form.
+#'   The generic takes care that the packages specified during `"marshal"` are loaded, and errs if they are not.
 #'   The returned object must not inherit from class `"marshaled"`.
 #' * the function `marshaled_model(model)`, which returns `TRUE` if the model inherits from class `"marshaled"`
 #'   and `FALSE` otherwise.
