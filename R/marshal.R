@@ -76,13 +76,13 @@ learner_marshaled = function(learner) {
 
 #' @rdname marshaling
 #' @export
-marshal_model = function(model, ...) {
+marshal_model = function(model, clone, ...) {
   UseMethod("marshal_model")
 }
 
 #' @rdname marshaling
 #' @export
-unmarshal_model = function(model, ...) {
+unmarshal_model = function(model, clone, ...) {
   if (marshaled_model(model) && is.character(model$packages)) {
     require_namespaces(model$packages)
   }

@@ -33,5 +33,3 @@ test_that("unmarshaling a unmarshaled object does nothing", {
   expect_equal(unmarshal_model(xm), x)
   expect_equal(unmarshal_model(unmarshal_model(xm)), x)
 })
-
-test_that("versions are required")

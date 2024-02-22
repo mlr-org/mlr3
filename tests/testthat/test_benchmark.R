@@ -501,7 +501,7 @@ test_that("sequential execution does not trigger marshaling", {
   expect_equal(bmr$resample_result(1)$learners[[1]]$model$marshal_count, 0)
 })
 
-test_that("parallel execution and callr marshal twice", {
+test_that("parallel execution and callr marshal once", {
   learner = lrn("classif.lily", count_marshaling = TRUE, encapsulate = c(train = "callr"))
   task = tsk("iris")
   resampling = rsmp("holdout")
@@ -509,7 +509,7 @@ test_that("parallel execution and callr marshal twice", {
   bmr = with_future(future::multisession, {
     benchmark(design, store_models = TRUE, unmarshal = TRUE)
   })
-  expect_equal(bmr$resample_result(1)$learners[[1]]$model$marshal_count, 2)
+  expect_equal(bmr$resample_result(1)$learners[[1]]$model$marshal_count, 1)
   expect_false(bmr$resample_result(1)$learners[[1]]$marshaled)
 })
 

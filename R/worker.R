@@ -1,4 +1,4 @@
-learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NULL, mode = "train") {
+learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NULL, mode = "train", unmarshal = TRUE) {
   # This wrapper calls learner$.train, and additionally performs some basic
   # checks that the training was successful.
   # Exceptions here are possibly encapsulated, so that they get captured
@@ -18,7 +18,7 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
       stopf("Learner '%s' on task '%s' returned NULL during internal %s()", learner$id, task$id, mode)
     }
 
-    if (learner$encapsulate[["train"]] == "callr" && "marshal" %in% learner$properties) {
+    if (learner$encapsulate[["train"]] == "callr") {
       model = marshal_model(model)
     }
 
@@ -74,13 +74,6 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
 
   # unmarshal_model does nothing if the model was not marshaled
 
-
-  # We always want to unmarshal the model, because either:
-  # a) the user called $train() manually or
-  # b) we are within worker and still have to make a prediction
-  if ("marshal" %in% learner$properties) {
-    result$result = unmarshal_model(result$result)
-  }
   learner$state = insert_named(learner$state, list(
     model = result$result,
     log = log,
@@ -266,7 +259,10 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
     learner$param_set$set_values(.values = param_values)
   }
   learner_hash = learner$hash
-  learner = learner_train(learner, task, sets[["train"]], sets[["test"]], mode = mode)
+  learner = learner_train(learner, task, sets[["train"]], sets[["test"]], mode = mode, unmarshal = FALSE)
+
+  model_marshaled = if (store_models) marshal_model(learner$model)
+  learner$model = unmarshal_model(learner$model)
 
   # predict for each set
   sets = sets[learner$predict_sets]
@@ -281,8 +277,9 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
     learner$state$model = NULL
   } else if ("marshal" %in% learner$properties && !is_sequential) {
     lg$debug("marshaling model for learner '%s'", learner$id)
-    learner$model = marshal_model(learner$model)
+    learner$model = model_marshaled
   }
+
 
   list(learner_state = learner$state, prediction = pdatas, param_values = learner$param_set$values, learner_hash = learner_hash)
 }

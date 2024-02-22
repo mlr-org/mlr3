@@ -243,6 +243,7 @@ Learner = R6Class("Learner",
       test_row_ids = task$row_roles$test
 
       learner_train(learner, task, train_row_ids = train_row_ids, test_row_ids = test_row_ids, mode = mode)
+      self$model = unmarshal_model(self$state$model)
 
       # store data prototype
       proto = task$data(rows = integer())
@@ -571,3 +572,4 @@ default_values.Learner = function(x, search_space, task, ...) { # nolint
 # format_list_item.Learner = function(x, ...) { # nolint
 #   sprintf("<lrn:%s>", x$id)
 # }
+

@@ -16,9 +16,9 @@ learner_marshal(learner)
 
 learner_marshaled(learner)
 
-marshal_model(model, ...)
+marshal_model(model, clone, ...)
 
-unmarshal_model(model, ...)
+unmarshal_model(model, clone, ...)
 
 marshaled_model(model)
 }
