@@ -80,7 +80,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
     }
   ),
   private = list(
-    .contingent_properties = function() {
+    .dependent_properties = function() {
       if (!isTRUE(self$param_set$values$uses_test_task)) {
         character(0)
       } else {

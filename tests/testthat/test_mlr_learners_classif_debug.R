@@ -45,7 +45,7 @@ test_that("NA predictions", {
 })
 
 test_that("test task is available in $.train method", {
-  task = tsk("iris")$partition(1:3, "test")
+  task = tsk("iris")$divide(1:3, "test")
   learner = lrn("classif.debug", save_tasks = TRUE, uses_test_task = TRUE)
   resampling = rsmp("cv", folds = 3)
   resampling$instantiate(task)
@@ -76,6 +76,6 @@ test_that("error when training a learner that uses test_task without a test task
   task = tsk("iris")
   learner = lrn("classif.debug", uses_test_task = TRUE)
   expect_error(learner$train(task), "Learner")
-  task$partition(1:10, "test")
+  task$divide(1:10, "test")
   expect_class(learner, "Learner")
 })

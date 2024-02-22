@@ -48,7 +48,7 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
     on.exit({
       task$test_task = NULL
     }, add = TRUE)
-    task$partition(test_row_ids, "test", remove = FALSE)
+    task$divide(test_row_ids, "test", remove = FALSE)
   }
 
   if (mode == "train") learner$state = list()

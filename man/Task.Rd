@@ -309,7 +309,7 @@ The reverse is not necessarily true: There can be columns with the same content 
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-Task-new}{\code{Task$new()}}
-\item \href{#method-Task-partition}{\code{Task$partition()}}
+\item \href{#method-Task-divide}{\code{Task$divide()}}
 \item \href{#method-Task-help}{\code{Task$help()}}
 \item \href{#method-Task-format}{\code{Task$format()}}
 \item \href{#method-Task-print}{\code{Task$print()}}
@@ -367,14 +367,14 @@ via \code{\link[=convert_task]{convert_task()}}.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-Task-partition"></a>}}
-\if{latex}{\out{\hypertarget{method-Task-partition}{}}}
-\subsection{Method \code{partition()}}{
+\if{html}{\out{<a id="method-Task-divide"></a>}}
+\if{latex}{\out{\hypertarget{method-Task-divide}{}}}
+\subsection{Method \code{divide()}}{
 Creates a test or holdout task from the task.
 This modifies the task in-place.
 Subsequent operations on the (primary) task are not relayed to the test or holdout task.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Task$partition(row_ids = NULL, type = "test", remove = TRUE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Task$divide(row_ids = NULL, type = "test", remove = TRUE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{

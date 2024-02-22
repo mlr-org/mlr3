@@ -180,7 +180,7 @@ test_that("holdout set works", {
   row$..row_id = 1000
   row$mpg = 10000000
   task$rbind(row)
-  task$partition(1000, "holdout")
+  task$divide(1000, "holdout")
   rr = resample(task, learner, rsmp("holdout"))
 
   pred = rr$prediction("holdout")

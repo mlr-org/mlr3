@@ -485,7 +485,7 @@ test_that("holdout set works", {
   row$..row_id = 1000
   row$mpg = 10000000
   task$rbind(row)
-  task$partition(1000, "holdout")
+  task$divide(1000, "holdout")
   bmr = benchmark(benchmark_grid(task, learner, rsmp("holdout")))
 
   pred = bmr$resample_result(1)$prediction("holdout")

@@ -163,7 +163,7 @@ Task = R6Class("Task",
     #' @param remove (`logical(1)`)\cr
     #'   If `TRUE` (default), the `row_ids` are removed from the primary task's active `"use"` rows.
     #' @return Modified `self`.
-    partition = function(row_ids = NULL, type = "test", remove = TRUE) {
+    divide = function(row_ids = NULL, type = "test", remove = TRUE) {
       private$.hash = NULL
       assert_flag(remove)
       assert_row_ids(row_ids, null.ok = FALSE)
@@ -906,7 +906,7 @@ Task = R6Class("Task",
       assert_has_backend(self)
       assert_list(rhs, .var.name = "row_roles")
       if ("test" %in% names(rhs) || "holdout" %in% names(rhs)) {
-        stopf("Setting row roles 'test'/'holdout' is no longer possible, use `$partition()` instead")
+        stopf("Setting row roles 'test'/'holdout' is no longer possible, use `$divide()` instead")
       }
       assert_names(names(rhs), "unique", permutation.of = mlr_reflections$task_row_roles, .var.name = "names of row_roles")
       rhs = map(rhs, assert_row_ids, .var.name = "elements of row_roles")

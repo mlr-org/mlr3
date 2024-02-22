@@ -5,8 +5,8 @@ account, which now ensures that hotstarting and usage of test rows works
 together
 * BREAKING_CHANGE: row roles 'use' and 'test' are now replaced with fields
 'test_task' and 'holdout_task'. They can be conveniently created using the
-newly added `$partition()` method
-* feat(Learner): Add support for private method `$.contingent_properties()`,
+newly added `$divide()` method
+* feat(Learner): Add support for private method `$.dependent_properties()`,
   which allows to dynamically generate a learner's properties, based e.g.
   on its parameter values.
 * feat: Add learner property `"uses_test_task"`

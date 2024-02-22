@@ -31,7 +31,7 @@ resampling_task_hashes = function(task, resampling, learner = NULL) {
 task_hash = function(task, use_ids, test_ids = NULL, ignore_test_task = FALSE) {
   # order matters: we first check for test_ids and then for the test_task
   if (!is.null(test_ids)) {
-    # this does the same as task$partition(test_ids, "test")$test_task$hash but avoids the deep clone
+    # this does the same as task$divide(test_ids, "test")$test_task$hash but avoids the deep clone
     prev_holdout = task$holdout_task
     task$holdout_task = NULL
     test_task_hash = task_hash(task, use_ids = test_ids, test_ids = NULL, ignore_test_task = TRUE)
