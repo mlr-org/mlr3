@@ -90,7 +90,6 @@ Collate:
     'mlr_learners.R'
     'LearnerClassifDebug.R'
     'LearnerClassifFeatureless.R'
-    'LearnerClassifLily.R'
     'LearnerClassifRpart.R'
     'LearnerRegr.R'
     'LearnerRegrDebug.R'

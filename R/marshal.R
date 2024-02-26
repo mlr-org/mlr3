@@ -36,7 +36,7 @@
 #' You can verify whether you have correctly implemented marshaling by using the internal test helper
 #' `expect_marshalable_learner()`. This is also run by `expect_learner()` if a task is provided.
 #'
-#' For a concrete example on how to implement marshaling, see [`LearnerClassifLily`].
+#' For a concrete example on how to implement marshaling, see [`LearnerRegrDebug`].
 #'
 #' @param learner [`Learner`]\cr
 #'   The learner.

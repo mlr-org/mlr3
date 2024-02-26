@@ -135,7 +135,7 @@ test_that("scoring fails when measure requires_model, but model is in marshaled 
   measure = msr("classif.acc")
   measure$properties = c(measure$properties, "requires_model")
 
-  rr = resample(tsk("iris"), lrn("classif.lily"), rsmp("holdout"))
+  rr = resample(tsk("mtcars"), lrn("regr.debug"), rsmp("holdout"))
   rr$marshal()
 
   rr$score(msr("selected_features"))

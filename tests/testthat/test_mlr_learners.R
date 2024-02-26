@@ -4,8 +4,8 @@ test_that("mlr_learners", {
 
   for (key in keys) {
     l = lrn(key)
-    if (key == "classif.lily") {
-      expect_learner(l, task = tsk("iris"))
+    if (key == "regr.debug") {
+      expect_learner(l, task = tsk("mtcars"))
     } else {
       expect_learner(l)
     }

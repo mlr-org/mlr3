@@ -479,8 +479,8 @@ test_that("param_values in benchmark", {
 
 
 test_that("parallel execution automatically triggers marshaling", {
-  learner = lrn("classif.lily", count_marshaling = TRUE)
-  task = tsk("iris")
+  learner = lrn("regr.debug", count_marshaling = TRUE)
+  task = tsk("mtcars")
   resampling = rsmp("holdout")
   design = benchmark_grid(task, learner, resampling)
   bmr = with_future(future::multisession, {
@@ -491,8 +491,8 @@ test_that("parallel execution automatically triggers marshaling", {
 })
 
 test_that("sequential execution does not trigger marshaling", {
-  learner = lrn("classif.lily", count_marshaling = TRUE)
-  task = tsk("iris")
+  learner = lrn("regr.debug", count_marshaling = TRUE)
+  task = tsk("mtcars")
   resampling = rsmp("holdout")
   design = benchmark_grid(task, learner, resampling)
   bmr = with_future(future::sequential, {
@@ -502,8 +502,8 @@ test_that("sequential execution does not trigger marshaling", {
 })
 
 test_that("parallel execution and callr marshal once", {
-  learner = lrn("classif.lily", count_marshaling = TRUE, encapsulate = c(train = "callr"))
-  task = tsk("iris")
+  learner = lrn("regr.debug", count_marshaling = TRUE, encapsulate = c(train = "callr"))
+  task = tsk("mtcars")
   resampling = rsmp("holdout")
   design = benchmark_grid(task, learner, resampling)
   bmr = with_future(future::multisession, {
@@ -515,8 +515,8 @@ test_that("parallel execution and callr marshal once", {
 
 
 test_that("unmarshal parameter is respected", {
-  learner = lrn("classif.lily", count_marshaling = TRUE, encapsulate = c(train = "callr"))
-  task = tsk("iris")
+  learner = lrn("regr.debug", count_marshaling = TRUE, encapsulate = c(train = "callr"))
+  task = tsk("mtcars")
   resampling = rsmp("holdout")
   design = benchmark_grid(task, learner, resampling)
   bmr = with_future(future::multisession, {
@@ -530,7 +530,7 @@ test_that("unmarshal parameter is respected", {
 })
 
 test_that("BenchmarkResult can be (un)marshaled", {
-  bmr = benchmark(benchmark_grid(tsk("iris"), lrn("classif.lily"), rsmp("holdout")), store_models = TRUE)
+  bmr = benchmark(benchmark_grid(tsk("mtcars"), lrn("regr.debug"), rsmp("holdout")), store_models = TRUE)
   expect_false(bmr$resample_result(1)$learners[[1]]$marshaled)
   bmr$marshal()
   expect_true(bmr$resample_result(1)$learners[[1]]$marshaled)

@@ -14,6 +14,7 @@ The following hyperparameters trigger the following actions:
 \item{save_tasks:}{Saves input task in \code{model} slot during training and prediction.}
 \item{threads:}{Number of threads to use. Has no effect.}
 \item{x:}{Numeric tuning parameter. Has no effect.}
+\item{count_marshaling:}{If \code{TRUE}, \code{marshal_model} will increase the \code{marshal_count} by 1. This value is initialized to \code{FALSE}.}
 }
 }
 \section{Dictionary}{
@@ -43,6 +44,7 @@ lrn("regr.debug")
    save_tasks \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
    threads \tab integer \tab - \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
    x \tab numeric \tab - \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
+   count_marshaling \tab logical \tab - \tab TRUE, FALSE \tab - \cr
 }
 }
 
@@ -89,10 +91,20 @@ Other Learner:
 \section{Super classes}{
 \code{\link[mlr3:Learner]{mlr3::Learner}} -> \code{\link[mlr3:LearnerRegr]{mlr3::LearnerRegr}} -> \code{LearnerRegrDebug}
 }
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{marshaled}}{(logical(1))\cr
+Whether the learner has been marshaled.}
+}
+\if{html}{\out{</div>}}
+}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-LearnerRegrDebug-new}{\code{LearnerRegrDebug$new()}}
+\item \href{#method-LearnerRegrDebug-marshal}{\code{LearnerRegrDebug$marshal()}}
+\item \href{#method-LearnerRegrDebug-unmarshal}{\code{LearnerRegrDebug$unmarshal()}}
 \item \href{#method-LearnerRegrDebug-clone}{\code{LearnerRegrDebug$clone()}}
 }
 }
@@ -117,6 +129,26 @@ Other Learner:
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{LearnerRegrDebug$new()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-LearnerRegrDebug-marshal"></a>}}
+\if{latex}{\out{\hypertarget{method-LearnerRegrDebug-marshal}{}}}
+\subsection{Method \code{marshal()}}{
+Marshals the learner.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{LearnerRegrDebug$marshal()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-LearnerRegrDebug-unmarshal"></a>}}
+\if{latex}{\out{\hypertarget{method-LearnerRegrDebug-unmarshal}{}}}
+\subsection{Method \code{unmarshal()}}{
+Unmarshal the learner.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{LearnerRegrDebug$unmarshal()}\if{html}{\out{</div>}}
 }
 
 }
