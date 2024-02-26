@@ -89,14 +89,6 @@ test_that("Task rbind", {
   expect_equal(nt$row_names$row_name, c(task$row_names$row_name, rep(NA, 101)))
   expect_equal(nt$col_info[list("foo"), .N, nomatch = NULL], 0L)
 
-  # #423
-  task = tsk("iris")
-  task$row_roles$use = 1:10
-  task$row_roles$holdout = 11:150
-
-  task$rbind(iris[sample(nrow(iris), 5), ])
-  expect_set_equal(task$row_ids, c(1:10, 151:155))
-
   # 496
   data = iris
   data$blocks = sample(letters[1:2], nrow(iris), replace = TRUE)
@@ -388,8 +380,9 @@ test_that("Task$set_row_roles", {
   task$set_row_roles(1:10, add_to = "use")
   expect_true(all(1:10 %in% task$row_ids))
 
-  task$set_row_roles(1:10, roles = "holdout")
+  task$divide(1:10, "holdout")
   expect_true(all(1:10 %nin% task$row_ids))
+  expect_true(all(1:10 %in% task$holdout_task$row_ids))
 })
 
 
@@ -514,4 +507,112 @@ test_that("Roles get printed (#877)", {
   task = tsk("iris")
   task$col_roles$weight = "Petal.Width"
   expect_output(print(task), "Weights: Petal.Width")
+})
+
+test_that("test task is cloned", {
+  task = tsk("iris")
+  task$divide(c(1:10, 51:60, 101:110), "test")
+  task2 = task$clone(deep = TRUE)
+  expect_false(identical(task$test_task, task2$test_task))
+  expect_equal(task$test_task, task2$test_task)
+})
+
+test_that("holdout task is cloned", {
+  task = tsk("iris")
+  task$divide(c(1:10, 51:60, 101:110), "holdout")
+  task2 = task$clone(deep = TRUE)
+  expect_false(identical(task$holdout_task, task2$holdout_task))
+  expect_equal(task$holdout_task, task2$holdout_task)
+})
+
+test_that("task cannot be its own test / holdout task", {
+  task = tsk("iris")
+  expect_error({task$test_task = task}, "cannot be its own test task")
+  expect_error({task$holdout_task = task}, "cannot be its own holdout task")
+})
+
+test_that("test task cannot have a test or holdout task", {
+  task = tsk("iris")
+  expect_error({task$test_task = task$clone(deep = TRUE)$divide(1, "test") }, "remove its test/holdout")
+  expect_error({task$test_task = task$clone(deep = TRUE)$divide(1, "holdout") }, "remove its test/holdout")
+  expect_error({task$holdout_task = task$clone(deep = TRUE)$divide(1, "test") }, "remove its test/holdout")
+  expect_error({task$holdout_task = task$clone(deep = TRUE)$divide(1, "holdout") }, "remove its test/holdout")
+})
+
+test_that("test task changes a task's hash", {
+  task = tsk("iris")
+  h1 = task$hash
+  task$divide(1:10, "test", remove = FALSE)
+  h2 = task$hash
+  expect_false(h1 == h2)
+  task$divide(1:11, "test", remove = FALSE)
+  expect_false(h2 == task$hash)
+})
+
+test_that("holdout task changes a task's hash", {
+  task = tsk("iris")
+  h1 = task$hash
+  task$divide(1:10, "holdout", remove = FALSE)
+  h2 = task$hash
+  expect_false(h1 == h2)
+  task$divide(1:11, "holdout", remove = FALSE)
+  expect_false(h2 == task$hash)
+})
+
+test_that("can NULL test/holdout task", {
+  task = tsk("iris")
+  task$divide(1, "test")
+  task$test_task = NULL
+  expect_equal(length(task$row_ids), 149)
+
+  task = tsk("iris")
+  task$divide(1, "holdout")
+  task$holdout_task = NULL
+  expect_equal(length(task$row_ids), 149)
+})
+
+test_that("can call partition twice", {
+  task = tsk("iris")
+  task$divide(1:10, "test")
+  expect_task(task$divide(1:10, "test"))
+
+  task = tsk("iris")
+  task$divide(1:10, "holdout")
+  expect_task(task$divide(1:10, "holdout"))
+  task = tsk("iris")
+  task$divide(1:10, "holdout")
+  expect_task(task$divide(1:10, "test"))
+})
+
+test_that("holdout task cannot have a test or holdout task", {
+  task = tsk("iris")
+  task2 = tsk("iris")
+  task2$divide(1, "test")
+  expect_error({task$test_task = task2}, "remove its")
+  expect_error({task$holdout_task = task2}, "remove its")
+  task2$test_task = NULL
+  task2$divide(1, "holdout")
+  expect_error({task$test_task = task2}, "remove its")
+  expect_error({task$holdout_task = task2}, "remove its")
+})
+
+test_that("test_task is printed", {
+  task = tsk("iris")
+  task$divide(c(1:10, 51:60, 101:110), "test")
+  out = capture_output(print(task))
+  expect_true(grepl(pattern = "* Test Task: (30x5)", fixed = TRUE, x = out))
+  task$divide(c(1:5, 51:60, 101:110), "holdout")
+  out2 = capture_output(print(task))
+  expect_true(grepl(pattern = "* Holdout Task: (25x5)", fixed = TRUE, x = out2))
+})
+
+test_that("task hashes during resample", {
+  orig = tsk("iris")
+  task = orig$clone(deep = TRUE)
+  resampling = rsmp("holdout")
+  resampling$instantiate(task)
+  task$divide(resampling$test_set(1), "test")
+  task$hash
+  learner = lrn("classif.debug", uses_test_task = TRUE)
+  expect_equal(resampling_task_hashes(task, resampling, learner), task$hash)
 })

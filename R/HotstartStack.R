@@ -85,10 +85,11 @@ HotstartStack = R6Class("HotstartStack",
     add = function(learners) {
       learners = assert_learners(as_learners(learners))
 
-      # check for models
-      if (any(map_lgl(learners, function(learner) is.null(learner$state$model)))) {
-        stopf("Learners must be trained before adding them to the hotstart stack.")
-      }
+      walk(learners, function(learner)
+        if (is.null(learner$state$model)) {
+          stopf("Learners must be trained before adding them to the hotstart stack.")
+        }
+      )
 
       if (!is.null(self$hotstart_threshold)) {
         learners = keep(learners, function(learner) {

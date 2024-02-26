@@ -138,10 +138,6 @@ A complete list of candidate predict types, grouped by task type, is stored in \
 Stores the feature types the learner can handle, e.g. \code{"logical"}, \code{"numeric"}, or \code{"factor"}.
 A complete list of candidate feature types, grouped by task type, is stored in \code{\link[=mlr_reflections]{mlr_reflections$task_feature_types}}.}
 
-\item{\code{properties}}{(\code{character()})\cr
-Stores a set of properties/capabilities the learner has.
-A complete list of candidate properties, grouped by task type, is stored in \code{\link[=mlr_reflections]{mlr_reflections$learner_properties}}.}
-
 \item{\code{data_formats}}{(\code{character()})\cr
 Supported data format, e.g. \code{"data.table"} or \code{"Matrix"}.}
 
@@ -182,6 +178,9 @@ Defaults to \code{NA}, but can be set by child classes.}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
+\item{\code{properties}}{(\code{character()})\cr
+A complete list of candidate properties, grouped by task type, is stored in \code{\link[=mlr_reflections]{mlr_reflections$learner_properties}}.}
+
 \item{\code{model}}{(any)\cr
 The fitted model. Only available after \verb{$train()} has been called.}
 
@@ -303,6 +302,7 @@ The following properties are currently standardized and understood by learners i
 \item \code{"importance"}: The learner supports extraction of importance scores, i.e. comes with an \verb{$importance()} extractor function (see section on optional extractors in \link{Learner}).
 \item \code{"selected_features"}: The learner supports extraction of the set of selected features, i.e. comes with a \verb{$selected_features()} extractor function (see section on optional extractors in \link{Learner}).
 \item \code{"oob_error"}: The learner supports extraction of estimated out of bag error, i.e. comes with a \code{oob_error()} extractor function (see section on optional extractors in \link{Learner}).
+\item \code{"uses_test_task"}: The learner can make use of a task's test task, e.g. for early stopping.
 }}
 
 \item{\code{data_formats}}{(\code{character()})\cr

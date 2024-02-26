@@ -171,3 +171,28 @@ test_that("does not unnecessarily clone state", {
   learner$train(task)
   expect_resample_result(resample(task, learner, rsmp("holdout")))
 })
+
+test_that("holdout set works", {
+  learner = lrn("regr.debug")
+  learner$predict_sets = c("test", "holdout")
+  task = tsk("mtcars")
+  row = task$data(1)
+  row$..row_id = 1000
+  row$mpg = 10000000
+  task$rbind(row)
+  task$divide(1000, "holdout")
+  rr = resample(task, learner, rsmp("holdout"))
+
+  pred = rr$prediction("holdout")
+  expect_equal(length(pred$truth), 1)
+})
+
+test_that("task hashes differ depending on whether test set is used", {
+  task = tsk("iris")
+  resampling = rsmp("holdout")
+  learner1 = lrn("classif.debug")
+  learner2 = lrn("classif.debug", uses_test_task = TRUE)
+  rr1 = resample(task, learner1, resampling)
+  rr2 = resample(task, learner2, resampling)
+  expect_false(rr1$learners[[1]]$state$task_hash == rr2$learners[[1]]$state$task_hash)
+})

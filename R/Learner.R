@@ -113,11 +113,6 @@ Learner = R6Class("Learner",
     #' A complete list of candidate feature types, grouped by task type, is stored in [`mlr_reflections$task_feature_types`][mlr_reflections].
     feature_types = NULL,
 
-    #' @field properties (`character()`)\cr
-    #' Stores a set of properties/capabilities the learner has.
-    #' A complete list of candidate properties, grouped by task type, is stored in [`mlr_reflections$learner_properties`][mlr_reflections].
-    properties = NULL,
-
     #' @field data_formats (`character()`)\cr
     #' Supported data format, e.g. `"data.table"` or `"Matrix"`.
     data_formats = NULL,
@@ -164,7 +159,7 @@ Learner = R6Class("Learner",
       self$predict_types = assert_ordered_set(predict_types, names(mlr_reflections$learner_predict_types[[task_type]]),
         empty.ok = FALSE, .var.name = "predict_types")
       private$.predict_type = predict_types[1L]
-      self$properties = sort(assert_subset(properties, mlr_reflections$learner_properties[[task_type]]))
+      private$.properties = sort(assert_subset(properties, mlr_reflections$learner_properties[[task_type]]))
       self$data_formats = assert_subset(data_formats, mlr_reflections$data_formats)
       self$packages = union("mlr3", assert_character(packages, any.missing = FALSE, min.chars = 1L))
       self$man = assert_string(man, na.ok = TRUE)
@@ -222,7 +217,7 @@ Learner = R6Class("Learner",
     #' the object in its previous state.
     train = function(task, row_ids = NULL) {
       task = assert_task(as_task(task))
-      assert_learnable(task, self)
+      assert_learnable(task, self, check_test_task = TRUE)
       row_ids = assert_row_ids(row_ids, null.ok = TRUE)
 
       if (!is.null(self$hotstart_stack)) {
@@ -240,9 +235,8 @@ Learner = R6Class("Learner",
       }
 
       train_row_ids = if (!is.null(row_ids)) row_ids else task$row_roles$use
-      test_row_ids = task$row_roles$test
 
-      learner_train(learner, task, train_row_ids = train_row_ids, test_row_ids = test_row_ids, mode = mode)
+      learner_train(learner, task, train_row_ids = train_row_ids, mode = mode)
 
       # store data prototype
       proto = task$data(rows = integer())
@@ -254,7 +248,6 @@ Learner = R6Class("Learner",
 
       invisible(self)
     },
-
     #' @description
     #' Uses the information stored during `$train()` in `$state` to create a new [Prediction]
     #' for a set of observations of the provided `task`.
@@ -379,6 +372,19 @@ Learner = R6Class("Learner",
   ),
 
   active = list(
+    #' @field properties (`character()`)\cr
+    #' A complete list of candidate properties, grouped by task type, is stored in [`mlr_reflections$learner_properties`][mlr_reflections].
+    properties = function(rhs) {
+      if (!missing(rhs)) {
+        private$.properties = sort(assert_subset(rhs, mlr_reflections$learner_properties[[self$task_type]]))
+      }
+      dependent_properties = private$.dependent_properties()
+      if (!length(dependent_properties)) {
+        return(private$.properties)
+      }
+      sort(c(private$.properties, dependent_properties))
+    },
+
     #' @field model (any)\cr
     #' The fitted model. Only available after `$train()` has been called.
     model = function(rhs) {
@@ -518,6 +524,8 @@ Learner = R6Class("Learner",
   ),
 
   private = list(
+    .properties = NULL,
+    .dependent_properties = function() character(0), # can't set this to NULL because of a bug in R6
     .encapsulate = NULL,
     .fallback = NULL,
     .predict_type = NULL,

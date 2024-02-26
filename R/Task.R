@@ -145,11 +145,41 @@ Task = R6Class("Task",
       )
 
       cn = self$col_info$id # note: this sorts the columns!
-      private$.row_roles = list(use = rn, test = integer(), holdout = integer())
+      private$.row_roles = list(use = rn)
       private$.col_roles = named_list(mlr_reflections$task_col_roles[[task_type]], character())
       private$.col_roles$feature = setdiff(cn, self$backend$primary_key)
       self$extra_args = assert_list(extra_args, names = "unique")
       self$mlr3_version = mlr_reflections$package_version
+    },
+
+    #' @description
+    #' Creates a test or holdout task from the task.
+    #' This modifies the task in-place.
+    #' Subsequent operations on the (primary) task are not relayed to the test or holdout task.
+    #' @param row_ids (`integer()` or `NULL`)\cr
+    #'   The row ids to use for the test/holdout task.
+    #' @param type (`character(1)`)\cr
+    #'   The type of task to create. Either `"test"` (default) or `"holdout"`.
+    #' @param remove (`logical(1)`)\cr
+    #'   If `TRUE` (default), the `row_ids` are removed from the primary task's active `"use"` rows.
+    #' @return Modified `self`.
+    divide = function(row_ids = NULL, type = "test", remove = TRUE) {
+      private$.hash = NULL
+      assert_flag(remove)
+      assert_row_ids(row_ids, null.ok = FALSE)
+      assert_choice(type, c("test", "holdout"))
+      task_name = paste0(type, "_task")
+      other_name = paste0(setdiff(c("test", "holdout"), type), "_task")
+      prev_other = self[[other_name]]
+      on.exit({self[[other_name]] = prev_other}, add = TRUE)
+      self[[other_name]] = NULL
+      if (!is.null(self[[task_name]])) lg$debug("Overwriting existing %s task for task '%s'", type,  self$id)
+      self[[task_name]] = NULL
+      new_task = self$clone(deep = TRUE)
+      new_task$row_roles$use = row_ids
+      self[[task_name]] = new_task
+      if (remove) self$row_roles$use = setdiff(self$row_roles$use, row_ids)
+      invisible(self)
     },
 
     #' @description
@@ -201,13 +231,11 @@ Task = R6Class("Task",
         catn(str_indent(sprintf("* %s:", str), roles[[role]]))
       })
 
-      nrows = list(test = length(private$.row_roles$test), holdout = length(private$.row_roles$holdout))
-      if (nrows$test || nrows$holdout) {
-        str = paste(c(
-          if(nrows$test) sprintf("%i (test)", nrows$test),
-          if(nrows$holdout) sprintf("%i (holdout)", nrows$holdout)
-          ), collapse = ", ")
-        catf(str_indent("* Additional Row Roles:", str))
+      if (!is.null(private$.test_task)) {
+        catf(str_indent("* Test Task:", sprintf("(%ix%i)", private$.test_task$nrow, private$.test_task$ncol)))
+      }
+      if (!is.null(private$.holdout_task)) {
+        catf(str_indent("* Holdout Task:", sprintf("(%ix%i)", private$.holdout_task$nrow, private$.holdout_task$ncol)))
       }
     },
 
@@ -342,6 +370,7 @@ Task = R6Class("Task",
     #' @return Named `integer()`.
     missings = function(cols = NULL) {
       assert_has_backend(self)
+
 
       if (is.null(cols)) {
         cols = unlist(private$.col_roles[c("target", "feature")], use.names = FALSE)
@@ -732,14 +761,58 @@ Task = R6Class("Task",
       private$.id = assert_string(rhs, min.chars = 1L)
     },
 
+    #' @field test_task (`Task` or `NULL`)\cr
+    #' Optional test task that can e.g. be used for early stopping with learners such as XGBoost.
+    #' When resampling a learner that has the property 'uses_test_task', this task is automatically generated from
+    #' the test set for each resampling iteration.
+    test_task = function(rhs) {
+      if (missing(rhs)) {
+        return(invisible(private$.test_task))
+      }
+      private$.hash = NULL
+      if (is.null(rhs)) {
+        private$.test_task = NULL
+        return(invisible(private$.test_task))
+      }
+
+      assert_task(rhs, task_type = self$task_type)
+      if (identical(rhs, self)) { # avoid circles
+        stopf("Task '%s' cannot be its own test task", self$id)
+      }
+      if (!is.null(rhs$test_task) || !is.null(rhs$holdout_task)) { # avoid recursive structures
+        stopf("Trying to assign task '%s' as a test task, remove its test/holdout task first", rhs$id)
+      }
+      private$.test_task = rhs
+      invisible(private$.test_task)
+    },
+
+    #' @field holdout_task (`Task` or `NULL`)\cr
+    #' Optional holdout task.
+    #' It is possible to make predictions on this task, by setting the `predict_set` of a [`Learner`] to `"holdout"`.
+    holdout_task = function(rhs) {
+      if (missing(rhs)) {
+        return(invisible(private$.holdout_task))
+      }
+      private$.hash = NULL
+      if (is.null(rhs)) {
+        private$.holdout_task = NULL
+        return(invisible(private$.holdout_task))
+      }
+      assert_task(rhs, task_type = self$task_type)
+      if (identical(rhs, self)) { # avoid cycles
+        stopf("Task '%s' cannot be its own holdout task", self$id)
+      }
+      if (!is.null(rhs$test_task) || !is.null(rhs$holdout_task)) { # avoid recursive structures
+        stopf("Trying to assign task '%s' as a holdout task, remove its test/holdout task first", rhs$id)
+      }
+      private$.holdout_task = rhs
+      invisible(private$.holdout_task)
+    },
 
     #' @template field_hash
     hash = function(rhs) {
       if (is.null(private$.hash)) {
-        private$.hash = calculate_hash(
-          class(self), self$id, self$backend$hash, self$col_info,
-          remove_named(private$.row_roles, "test"), private$.col_roles, private$.properties
-        )
+        private$.hash = task_hash(self, self$row_ids)
       }
 
       private$.hash
@@ -832,9 +905,11 @@ Task = R6Class("Task",
 
       assert_has_backend(self)
       assert_list(rhs, .var.name = "row_roles")
+      if ("test" %in% names(rhs) || "holdout" %in% names(rhs)) {
+        stopf("Setting row roles 'test'/'holdout' is no longer possible, use `$divide()` instead")
+      }
       assert_names(names(rhs), "unique", permutation.of = mlr_reflections$task_row_roles, .var.name = "names of row_roles")
       rhs = map(rhs, assert_row_ids, .var.name = "elements of row_roles")
-
       private$.hash = NULL
       private$.row_roles = rhs
     },
@@ -1024,6 +1099,8 @@ Task = R6Class("Task",
   ),
 
   private = list(
+    .holdout_task = NULL,
+    .test_task = NULL,
     .id = NULL,
     .properties = NULL,
     .col_roles = NULL,
@@ -1033,7 +1110,13 @@ Task = R6Class("Task",
 
     deep_clone = function(name, value) {
       # NB: DataBackends are never copied!
-      if (name == "col_info") copy(value) else value
+      if (name == "col_info") {
+        copy(value)
+      } else if (name %in% c(".test_task", ".holdout_task") && !is.null(value)) {
+        value$clone(deep = TRUE)
+      } else {
+        value
+      }
     }
   )
 )
@@ -1154,6 +1237,8 @@ task_rm_backend = function(task) {
   ee = get_private(task)
   ee$.hash = force(task$hash)
   ee$.col_hashes = force(task$col_hashes)
+  ee$.test_task$backend = NULL
+  ee$.holdout_task$backend = NULL
 
   # NULL backend
   task$backend = NULL

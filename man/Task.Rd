@@ -153,6 +153,15 @@ Package version of \code{mlr3} used to create the task.}
 Identifier of the object.
 Used in tables, plot and text output.}
 
+\item{\code{test_task}}{(\code{Task} or \code{NULL})\cr
+Optional test task that can e.g. be used for early stopping with learners such as XGBoost.
+When resampling a learner that has the property 'uses_test_task', this task is automatically generated from
+the test set for each resampling iteration.}
+
+\item{\code{holdout_task}}{(\code{Task} or \code{NULL})\cr
+Optional holdout task.
+It is possible to make predictions on this task, by setting the \code{predict_set} of a \code{\link{Learner}} to \code{"holdout"}.}
+
 \item{\code{hash}}{(\code{character(1)})\cr
 Hash (unique identifier) for this object.}
 
@@ -300,6 +309,7 @@ The reverse is not necessarily true: There can be columns with the same content 
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-Task-new}{\code{Task$new()}}
+\item \href{#method-Task-divide}{\code{Task$divide()}}
 \item \href{#method-Task-help}{\code{Task$help()}}
 \item \href{#method-Task-format}{\code{Task$format()}}
 \item \href{#method-Task-print}{\code{Task$print()}}
@@ -354,6 +364,35 @@ Named list of constructor arguments, required for converting task types
 via \code{\link[=convert_task]{convert_task()}}.}
 }
 \if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Task-divide"></a>}}
+\if{latex}{\out{\hypertarget{method-Task-divide}{}}}
+\subsection{Method \code{divide()}}{
+Creates a test or holdout task from the task.
+This modifies the task in-place.
+Subsequent operations on the (primary) task are not relayed to the test or holdout task.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Task$divide(row_ids = NULL, type = "test", remove = TRUE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{row_ids}}{(\code{integer()} or \code{NULL})\cr
+The row ids to use for the test/holdout task.}
+
+\item{\code{type}}{(\code{character(1)})\cr
+The type of task to create. Either \code{"test"} (default) or \code{"holdout"}.}
+
+\item{\code{remove}}{(\code{logical(1)})\cr
+If \code{TRUE} (default), the \code{row_ids} are removed from the primary task's active \code{"use"} rows.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Modified \code{self}.
 }
 }
 \if{html}{\out{<hr>}}

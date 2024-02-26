@@ -17,7 +17,7 @@ as_task = function(x, ...) {
 #'   If `TRUE`, ensures that the returned object is not the same as the input `x`.
 #' @export
 as_task.Task = function(x, clone = FALSE, ...) { # nolint
-  if (isTRUE(clone)) x$clone() else x
+  if (isTRUE(clone)) x$clone(deep = TRUE) else x
 }
 
 #' @rdname as_task

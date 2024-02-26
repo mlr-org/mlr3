@@ -97,6 +97,7 @@ Stores the negative class for binary classification tasks, and \code{NA} for mul
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="add_strata"><a href='../../mlr3/html/Task.html#method-Task-add_strata'><code>mlr3::Task$add_strata()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="cbind"><a href='../../mlr3/html/Task.html#method-Task-cbind'><code>mlr3::Task$cbind()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="data"><a href='../../mlr3/html/Task.html#method-Task-data'><code>mlr3::Task$data()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="divide"><a href='../../mlr3/html/Task.html#method-Task-divide'><code>mlr3::Task$divide()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="filter"><a href='../../mlr3/html/Task.html#method-Task-filter'><code>mlr3::Task$filter()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="format"><a href='../../mlr3/html/Task.html#method-Task-format'><code>mlr3::Task$format()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="formula"><a href='../../mlr3/html/Task.html#method-Task-formula'><code>mlr3::Task$formula()</code></a></span></li>
