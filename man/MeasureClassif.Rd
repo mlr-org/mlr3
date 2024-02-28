@@ -28,17 +28,17 @@ The default measure for classification is \code{\link[=mlr_measures_classif.ce]{
 }
 
 Other Measure: 
+\code{\link{Measure}},
 \code{\link{MeasureRegr}},
 \code{\link{MeasureSimilarity}},
-\code{\link{Measure}},
+\code{\link{mlr_measures}},
 \code{\link{mlr_measures_aic}},
 \code{\link{mlr_measures_bic}},
 \code{\link{mlr_measures_classif.costs}},
 \code{\link{mlr_measures_debug_classif}},
 \code{\link{mlr_measures_elapsed_time}},
 \code{\link{mlr_measures_oob_error}},
-\code{\link{mlr_measures_selected_features}},
-\code{\link{mlr_measures}}
+\code{\link{mlr_measures_selected_features}}
 }
 \concept{Measure}
 \section{Super class}{

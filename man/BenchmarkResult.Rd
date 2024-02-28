@@ -77,8 +77,8 @@ print(bmr)
 }
 
 Other benchmark: 
-\code{\link{benchmark_grid}()},
-\code{\link{benchmark}()}
+\code{\link{benchmark}()},
+\code{\link{benchmark_grid}()}
 }
 \concept{benchmark}
 \section{Active bindings}{

@@ -32,8 +32,8 @@ e.g. SQL servers or \CRANpkg{duckdb}.
 }
 
 Other DataBackend: 
-\code{\link{DataBackendMatrix}},
 \code{\link{DataBackend}},
+\code{\link{DataBackendMatrix}},
 \code{\link{as_data_backend.Matrix}()}
 }
 \concept{DataBackend}
@@ -125,11 +125,11 @@ Duplicated row ids result in duplicated rows, duplicated column names lead to an
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{rows}}{\code{integer()}\cr
-Row indices.}
+\item{\code{rows}}{(positive \code{integer()})\cr
+Vector or row indices.}
 
-\item{\code{cols}}{\code{character()}\cr
-Column names.}
+\item{\code{cols}}{(\code{character()})\cr
+Vector of column names.}
 
 \item{\code{data_format}}{(\code{character(1)})\cr
 Desired data format, e.g. \code{"data.table"} or \code{"Matrix"}.}
@@ -173,11 +173,11 @@ silently ignored.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{rows}}{\code{integer()}\cr
-Row indices.}
+\item{\code{rows}}{(positive \code{integer()})\cr
+Vector or row indices.}
 
-\item{\code{cols}}{\code{character()}\cr
-Column names.}
+\item{\code{cols}}{(\code{character()})\cr
+Vector of column names.}
 
 \item{\code{na_rm}}{\code{logical(1)}\cr
 Whether to remove NAs or not.}
@@ -201,11 +201,11 @@ of data. Non-existing rows and columns are silently ignored.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{rows}}{\code{integer()}\cr
-Row indices.}
+\item{\code{rows}}{(positive \code{integer()})\cr
+Vector or row indices.}
 
-\item{\code{cols}}{\code{character()}\cr
-Column names.}
+\item{\code{cols}}{(\code{character()})\cr
+Vector of column names.}
 }
 \if{html}{\out{</div>}}
 }

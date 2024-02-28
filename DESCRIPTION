@@ -45,14 +45,14 @@ Imports:
     R6 (>= 2.4.1),
     backports,
     checkmate (>= 2.0.0),
-    data.table (>= 1.14.2),
+    data.table (>= 1.15.0),
     evaluate,
     future,
     future.apply (>= 1.5.0),
     lgr (>= 0.3.4),
     mlbench,
     mlr3measures (>= 0.4.1),
-    mlr3misc (>= 0.12.0),
+    mlr3misc (>= 0.14.0),
     parallelly,
     palmerpenguins,
     paradox (>= 0.10.0),
@@ -74,7 +74,7 @@ Config/testthat/edition: 3
 Config/testthat/parallel: false
 NeedsCompilation: no
 Roxygen: list(markdown = TRUE, r6 = TRUE)
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 Collate:
     'mlr_reflections.R'
     'BenchmarkResult.R'
