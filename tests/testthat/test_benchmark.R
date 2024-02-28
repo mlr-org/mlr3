@@ -479,7 +479,10 @@ test_that("param_values in benchmark", {
     }
     x
   }
+  trained = bmr$learners$learner
+  ii = which(map_lgl(trained, function(x) "cp" %in% names(x$param_set$values))) # find learner with cp
+  expect_count(ii)
 
-  expect_equal(sortnames(bmr$learners$learner[[1]]$param_set$values), list(minbucket = 2, minsplit = 12, xval = 0))
-  expect_equal(sortnames(bmr$learners$learner[[2]]$param_set$values), list(cp = 0.1, minsplit = 12, xval = 0))
+  expect_equal(sortnames(bmr$learners$learner[-ii][[1]]$param_set$values), list(minbucket = 2, minsplit = 12, xval = 0))
+  expect_equal(sortnames(bmr$learners$learner[[ii]]$param_set$values), list(cp = 0.1, minsplit = 12, xval = 0))
 })
