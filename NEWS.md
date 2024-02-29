@@ -1,5 +1,6 @@
 # mlr3 (development version)
 
+* Prepare compatibility with new paradox version.
 * feat: dictionary conversion of `mlr_learners` respects prototype arguments
 recently added in mlr3misc
 * perf: skip unnecessary clone of learner's state in `resample()`
