@@ -168,8 +168,8 @@ on the test set, you have to configure the <a href="Learner.html">Learner</a> to
 setting the field <code>predict_sets</code> to <code>c("train", "test")</code> (default is <code>"test"</code>).
 Each set yields a separate <a href="Prediction.html">Prediction</a> object during resampling.
 In the next step, you have to configure the measures to operate on the respective Prediction object:</p>
-<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">=</span> <span class="fu">msr</span>(<span class="st">"classif.ce"</span>, <span class="at">id =</span> <span class="st">"ce.train"</span>, <span class="at">predict_sets =</span> <span class="st">"train"</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">=</span> <span class="fu">msr</span>(<span class="st">"classif.ce"</span>, <span class="at">id =</span> <span class="st">"ce.test"</span>, <span class="at">predict_sets =</span> <span class="st">"test"</span>)</span></code></pre><p></p></div>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>m1 <span class="ot">=</span> <span class="fu">msr</span>(<span class="st">"classif.ce"</span>, <span class="at">id =</span> <span class="st">"ce.train"</span>, <span class="at">predict_sets =</span> <span class="st">"train"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>m2 <span class="ot">=</span> <span class="fu">msr</span>(<span class="st">"classif.ce"</span>, <span class="at">id =</span> <span class="st">"ce.test"</span>, <span class="at">predict_sets =</span> <span class="st">"test"</span>)</span></code></pre><p></p></div>
 <p>The (list of) created measures can finally be passed to <code>$aggregate()</code> or <code>$score()</code>.</p>
     </div>
     <div class="section level2">
@@ -203,10 +203,10 @@ We recommend the <a href="https://CRAN.R-project.org/package=progress" class="ex
 <code>getOption("lgr.log_levels")</code>.</p>
 <p>To suppress output and reduce verbosity, you can lower the log from the
 default level <code>"info"</code> to <code>"warn"</code>:</p>
-<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>lgr<span class="sc">::</span><span class="fu">get_logger</span>(<span class="st">"mlr3"</span>)<span class="sc">$</span><span class="fu">set_threshold</span>(<span class="st">"warn"</span>)</span></code></pre><p></p></div>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>lgr<span class="sc">::</span><span class="fu">get_logger</span>(<span class="st">"mlr3"</span>)<span class="sc">$</span><span class="fu">set_threshold</span>(<span class="st">"warn"</span>)</span></code></pre><p></p></div>
 <p>To get additional log output for debugging, increase the log level to <code>"debug"</code>
 or <code>"trace"</code>:</p>
-<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>lgr<span class="sc">::</span><span class="fu">get_logger</span>(<span class="st">"mlr3"</span>)<span class="sc">$</span><span class="fu">set_threshold</span>(<span class="st">"debug"</span>)</span></code></pre><p></p></div>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>lgr<span class="sc">::</span><span class="fu">get_logger</span>(<span class="st">"mlr3"</span>)<span class="sc">$</span><span class="fu">set_threshold</span>(<span class="st">"debug"</span>)</span></code></pre><p></p></div>
 <p>To log to a file or a data base, see the documentation of <a href="https://s-fleck.github.io/lgr/reference/lgr-package.html" class="external-link">lgr::lgr-package</a>.</p>
     </div>
     <div class="section level2">
@@ -244,12 +244,12 @@ or <code>"trace"</code>:</p>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/as.data.table.html" class="external-link">as.data.table</a></span><span class="op">(</span><span class="va">bmr</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                   uhash                   task</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                  &lt;char&gt;                 &lt;list&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 174456c8-9249-4a3c-970f-3936756aba33 &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 174456c8-9249-4a3c-970f-3936756aba33 &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 174456c8-9249-4a3c-970f-3936756aba33 &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4: 8286e0ff-799b-46d5-9b0e-32f12fa1b4b7 &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5: 8286e0ff-799b-46d5-9b0e-32f12fa1b4b7 &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6: 8286e0ff-799b-46d5-9b0e-32f12fa1b4b7 &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 2fcf20db-d474-42c1-a9a6-cbc1554a7e4c &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 2fcf20db-d474-42c1-a9a6-cbc1554a7e4c &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 2fcf20db-d474-42c1-a9a6-cbc1554a7e4c &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4: e1fcb421-afba-4055-95ab-645d1e8a9479 &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5: e1fcb421-afba-4055-95ab-645d1e8a9479 &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6: e1fcb421-afba-4055-95ab-645d1e8a9479 &lt;TaskClassif:penguins&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                            learner     resampling iteration</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                             &lt;list&gt;         &lt;list&gt;     &lt;int&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: &lt;LearnerClassifFeatureless:classif.featureless&gt; &lt;ResamplingCV&gt;         1</span>
