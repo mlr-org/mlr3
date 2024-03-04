@@ -48,7 +48,7 @@ learner_unmarshal = function(learner) {
     stopf("Cannot unmarshal, Learner '%s' has not been trained yet", learner$id)
   }
   # this will do nothing if the model was not marshaled
-  learner$model = unmarshal_model(learner$model, clone = FALSE)
+  learner$model = unmarshal_model(learner$model, inplace = TRUE)
   invisible(learner)
 }
 
@@ -60,7 +60,7 @@ learner_marshal = function(learner) {
     stopf("Cannot marshal, Learner '%s' has not been trained yet", learner$id)
   }
   # this will do nothing if the model was already marshaled
-  learner$model = marshal_model(learner$model, clone = FALSE)
+  learner$model = marshal_model(learner$model, inplace = TRUE)
   invisible(learner)
 }
 
@@ -76,13 +76,13 @@ learner_marshaled = function(learner) {
 
 #' @rdname marshaling
 #' @export
-marshal_model = function(model, clone, ...) {
+marshal_model = function(model, inplace, ...) {
   UseMethod("marshal_model")
 }
 
 #' @rdname marshaling
 #' @export
-unmarshal_model = function(model, clone, ...) {
+unmarshal_model = function(model, inplace, ...) {
   if (marshaled_model(model) && is.character(model$packages)) {
     require_namespaces(model$packages)
   }

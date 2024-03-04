@@ -19,7 +19,7 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
     }
 
     if (learner$encapsulate[["train"]] == "callr") {
-      model = marshal_model(model)
+      model = marshal_model(model, inplace = TRUE)
     }
 
     model
