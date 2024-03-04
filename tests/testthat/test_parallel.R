@@ -88,6 +88,7 @@ test_that("parallel seed", {
 
 test_that("data table threads are not changed in main session", {
   skip_on_os("mac") # number of threads cannot be changed on mac
+  skip_on_cran()
 
   old_dt_threads = getDTthreads()
   on.exit({
