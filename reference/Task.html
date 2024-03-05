@@ -34,7 +34,7 @@ More toy tasks can be found in the dictionary after loading mlr3data."><meta pro
     
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.17.2</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.18.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -158,6 +158,7 @@ merge both backends into an abstract <a href="DataBackend.html">DataBackend</a> 
 <code><a href="TaskRegr.html">TaskRegr</a></code>,
 <code><a href="TaskSupervised.html">TaskSupervised</a></code>,
 <code><a href="TaskUnsupervised.html">TaskUnsupervised</a></code>,
+<code><a href="mlr_tasks.html">mlr_tasks</a></code>,
 <code><a href="mlr_tasks_boston_housing.html">mlr_tasks_boston_housing</a></code>,
 <code><a href="mlr_tasks_breast_cancer.html">mlr_tasks_breast_cancer</a></code>,
 <code><a href="mlr_tasks_german_credit.html">mlr_tasks_german_credit</a></code>,
@@ -168,8 +169,7 @@ merge both backends into an abstract <a href="DataBackend.html">DataBackend</a> 
 <code><a href="mlr_tasks_sonar.html">mlr_tasks_sonar</a></code>,
 <code><a href="mlr_tasks_spam.html">mlr_tasks_spam</a></code>,
 <code><a href="mlr_tasks_wine.html">mlr_tasks_wine</a></code>,
-<code><a href="mlr_tasks_zoo.html">mlr_tasks_zoo</a></code>,
-<code><a href="mlr_tasks.html">mlr_tasks</a></code></p></div>
+<code><a href="mlr_tasks_zoo.html">mlr_tasks_zoo</a></code></p></div>
     </div>
     <div class="section level2">
     <h2 id="public-fields">Public fields<a class="anchor" aria-label="anchor" href="#public-fields"></a></h2>
@@ -236,7 +236,7 @@ Hash (unique identifier) for this object.</p></dd>
 
 
 <dt><code>row_ids</code></dt>
-<dd><p>(<code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>)<br>
+<dd><p>(positive <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>)<br>
 Returns the row ids of the <a href="DataBackend.html">DataBackend</a> for observations with role "use".</p></dd>
 
 
@@ -509,13 +509,13 @@ address columns with their respective column name.</p><div class="section">
 <div class="section">
 <h4 id="arguments-3">Arguments<a class="anchor" aria-label="anchor" href="#arguments-3"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>rows</code></dt>
-<dd><p><code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code><br>
-Row indices.</p></dd>
+<dd><p>(positive <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>)<br>
+Vector or row indices.</p></dd>
 
 
 <dt><code>cols</code></dt>
-<dd><p><code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code><br>
-Column names.</p></dd>
+<dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
+Vector of column names.</p></dd>
 
 
 <dt><code>data_format</code></dt>
@@ -592,8 +592,8 @@ To update the stored level information, e.g. after subsetting a task with <code>
 <div class="section">
 <h4 id="arguments-6">Arguments<a class="anchor" aria-label="anchor" href="#arguments-6"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>cols</code></dt>
-<dd><p><code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code><br>
-Column names.</p></dd>
+<dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
+Vector of column names.</p></dd>
 
 
 </dl><p></p></div>
@@ -615,8 +615,8 @@ Argument <code>cols</code> defaults to all columns with role "target" or "featur
 <div class="section">
 <h4 id="arguments-7">Arguments<a class="anchor" aria-label="anchor" href="#arguments-7"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>cols</code></dt>
-<dd><p><code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code><br>
-Column names.</p></dd>
+<dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
+Vector of column names.</p></dd>
 
 
 </dl><p></p></div>
@@ -638,8 +638,8 @@ See the section on task mutators for more information.</p><div class="section">
 <div class="section">
 <h4 id="arguments-8">Arguments<a class="anchor" aria-label="anchor" href="#arguments-8"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>rows</code></dt>
-<dd><p><code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code><br>
-Row indices.</p></dd>
+<dd><p>(positive <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>)<br>
+Vector or row indices.</p></dd>
 
 
 </dl><p></p></div>
@@ -664,8 +664,8 @@ See the section on task mutators for more information.</p><div class="section">
 <div class="section">
 <h4 id="arguments-9">Arguments<a class="anchor" aria-label="anchor" href="#arguments-9"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>cols</code></dt>
-<dd><p><code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code><br>
-Column names.</p></dd>
+<dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
+Vector of column names.</p></dd>
 
 
 </dl><p></p></div>
@@ -889,8 +889,8 @@ List of character vectors of new levels, named by column names.</p></dd>
 <div class="section">
 <h4 id="arguments-16">Arguments<a class="anchor" aria-label="anchor" href="#arguments-16"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>cols</code></dt>
-<dd><p><code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code><br>
-Column names.</p></dd>
+<dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
+Vector of column names.</p></dd>
 
 
 </dl><p></p></div>
@@ -979,19 +979,21 @@ Replicated to have the same length as <code>cols</code>.</p></dd>
 <span class="r-in"><span><span class="va">task</span><span class="op">$</span><span class="fu">cbind</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>foo <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">344</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    species bill_depth_mm bill_length_mm body_mass_g flipper_length_mm    island</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;fctr&gt;         &lt;num&gt;          &lt;num&gt;       &lt;int&gt;             &lt;int&gt;    &lt;fctr&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:  Adelie          18.7           39.1        3750               181 Torgersen</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2:  Adelie          17.4           39.5        3800               186 Torgersen</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3:  Adelie          18.0           40.3        3250               195 Torgersen</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4:  Adelie            NA             NA          NA                NA Torgersen</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5:  Adelie          19.3           36.7        3450               193 Torgersen</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6:  Adelie          20.6           39.3        3650               190 Torgersen</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       sex foo</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1:   male   1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: female   2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: female   3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4:   &lt;NA&gt;   4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5: female   5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6:   male   6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       sex   foo</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    &lt;fctr&gt; &lt;int&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:   male     1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: female     2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: female     3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:   &lt;NA&gt;     4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5: female     5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6:   male     6</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

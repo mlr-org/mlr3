@@ -20,7 +20,7 @@ This measure requires the Task and the Learner for scoring.'><meta property="og:
     
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.17.2</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.18.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -99,8 +99,8 @@ If the learner does not support the extraction of used features, <code>NA</code>
     
 
 <p>This <a href="Measure.html">Measure</a> can be instantiated via the <a href="https://mlr3misc.mlr-org.com/reference/Dictionary.html" class="external-link">dictionary</a> <a href="mlr_measures.html">mlr_measures</a> or with the associated sugar function <code><a href="mlr_sugar.html">msr()</a></code>:</p>
-<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>mlr_measures<span class="sc">$</span><span class="fu">get</span>(<span class="st">"selected_features"</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">msr</span>(<span class="st">"selected_features"</span>)</span></code></pre><p></p></div>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>mlr_measures<span class="sc">$</span><span class="fu">get</span>(<span class="st">"selected_features"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">msr</span>(<span class="st">"selected_features"</span>)</span></code></pre><p></p></div>
     </div>
     <div class="section level2">
     <h2 id="meta-information">Meta Information<a class="anchor" aria-label="anchor" href="#meta-information"></a></h2>
@@ -129,17 +129,17 @@ If the learner does not support the extraction of used features, <code>NA</code>
 <li><p><a href="https://CRAN.R-project.org/package=mlr3cluster" class="external-link"><span class="pkg">mlr3cluster</span></a> for unsupervised clustering.</p></li>
 </ul></li>
 </ul><p>Other Measure: 
+<code><a href="Measure.html">Measure</a></code>,
 <code><a href="MeasureClassif.html">MeasureClassif</a></code>,
 <code><a href="MeasureRegr.html">MeasureRegr</a></code>,
 <code><a href="MeasureSimilarity.html">MeasureSimilarity</a></code>,
-<code><a href="Measure.html">Measure</a></code>,
+<code><a href="mlr_measures.html">mlr_measures</a></code>,
 <code><a href="mlr_measures_aic.html">mlr_measures_aic</a></code>,
 <code><a href="mlr_measures_bic.html">mlr_measures_bic</a></code>,
 <code><a href="mlr_measures_classif.costs.html">mlr_measures_classif.costs</a></code>,
 <code><a href="mlr_measures_debug_classif.html">mlr_measures_debug_classif</a></code>,
 <code><a href="mlr_measures_elapsed_time.html">mlr_measures_elapsed_time</a></code>,
-<code><a href="mlr_measures_oob_error.html">mlr_measures_oob_error</a></code>,
-<code><a href="mlr_measures.html">mlr_measures</a></code></p></div>
+<code><a href="mlr_measures_oob_error.html">mlr_measures_oob_error</a></code></p></div>
     </div>
     <div class="section level2">
     <h2 id="super-class">Super class<a class="anchor" aria-label="anchor" href="#super-class"></a></h2>
@@ -195,6 +195,7 @@ If the learner does not support the extraction of used features, <code>NA</code>
 <span class="r-in"><span><span class="va">scores</span> <span class="op">=</span> <span class="va">rr</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="fu"><a href="mlr_sugar.html">msr</a></span><span class="op">(</span><span class="st">"selected_features"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">scores</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"iteration"</span>, <span class="st">"selected_features"</span><span class="op">)</span><span class="op">]</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    iteration selected_features</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        &lt;int&gt;             &lt;num&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:         1                 9</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2:         2                 9</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3:         3                 9</span>

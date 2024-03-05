@@ -18,7 +18,7 @@ dense columns are converted to numeric columns."><meta property="og:image" conte
     
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.17.2</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.18.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -99,8 +99,8 @@ dense columns are converted to numeric columns.</p>
 <li><p>Package <a href="https://CRAN.R-project.org/package=mlr3db" class="external-link"><span class="pkg">mlr3db</span></a> to interface out-of-memory data,
 e.g. SQL servers or <a href="https://CRAN.R-project.org/package=duckdb" class="external-link"><span class="pkg">duckdb</span></a>.</p></li>
 </ul><p>Other DataBackend: 
-<code><a href="DataBackendDataTable.html">DataBackendDataTable</a></code>,
 <code><a href="DataBackend.html">DataBackend</a></code>,
+<code><a href="DataBackendDataTable.html">DataBackendDataTable</a></code>,
 <code><a href="as_data_backend.html">as_data_backend.Matrix</a>()</code></p></div>
     </div>
     <div class="section level2">
@@ -186,13 +186,13 @@ Duplicated row ids result in duplicated rows, duplicated column names lead to an
 <div class="section">
 <h4 id="arguments-1">Arguments<a class="anchor" aria-label="anchor" href="#arguments-1"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>rows</code></dt>
-<dd><p><code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code><br>
-Row indices.</p></dd>
+<dd><p>(positive <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>)<br>
+Vector or row indices.</p></dd>
 
 
 <dt><code>cols</code></dt>
-<dd><p><code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code><br>
-Column names.</p></dd>
+<dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
+Vector of column names.</p></dd>
 
 
 <dt><code>data_format</code></dt>
@@ -237,13 +237,13 @@ silently ignored.</p><div class="section">
 <div class="section">
 <h4 id="arguments-3">Arguments<a class="anchor" aria-label="anchor" href="#arguments-3"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>rows</code></dt>
-<dd><p><code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code><br>
-Row indices.</p></dd>
+<dd><p>(positive <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>)<br>
+Vector or row indices.</p></dd>
 
 
 <dt><code>cols</code></dt>
-<dd><p><code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code><br>
-Column names.</p></dd>
+<dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
+Vector of column names.</p></dd>
 
 
 <dt><code>na_rm</code></dt>
@@ -269,13 +269,13 @@ of data. Non-existing rows and columns are silently ignored.</p><div class="sect
 <div class="section">
 <h4 id="arguments-4">Arguments<a class="anchor" aria-label="anchor" href="#arguments-4"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>rows</code></dt>
-<dd><p><code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code><br>
-Row indices.</p></dd>
+<dd><p>(positive <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>)<br>
+Vector or row indices.</p></dd>
 
 
 <dt><code>cols</code></dt>
-<dd><p><code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code><br>
-Column names.</p></dd>
+<dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
+Vector of column names.</p></dd>
 
 
 </dl><p></p></div>
@@ -302,13 +302,14 @@ Column names.</p></dd>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">b</span> <span class="op">=</span> <span class="fu"><a href="as_data_backend.html">as_data_backend</a></span><span class="op">(</span><span class="va">data</span>, dense <span class="op">=</span> <span class="va">dense</span>, primary_key <span class="op">=</span> <span class="st">"..row_id"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">b</span><span class="op">$</span><span class="fu">head</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    ..row_id        num fact x1 x2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1:        1 0.57207372    b  0  1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2:        2 0.70381295    a  1  1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3:        3 0.65722106    b  0  0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4:        4 0.28935215    b  1  1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5:        5 0.09723946    a  1  0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6:        6 0.96242132    a  0  1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    ..row_id        num   fact    x1    x2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;int&gt;      &lt;num&gt; &lt;fctr&gt; &lt;num&gt; &lt;num&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:        1 0.57207372      b     0     1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:        2 0.70381295      a     1     1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:        3 0.65722106      b     0     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:        4 0.28935215      b     1     1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5:        5 0.09723946      a     1     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6:        6 0.96242132      a     0     1</span>
 <span class="r-in"><span><span class="va">b</span><span class="op">$</span><span class="fu">data</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, <span class="va">b</span><span class="op">$</span><span class="va">colnames</span>, data_format <span class="op">=</span> <span class="st">"Matrix"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3 x 5 Matrix of class "dgeMatrix"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   x1 x2 ..row_id       num fact_b</span>
@@ -316,10 +317,11 @@ Column names.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> a  1  1        2 0.7038130      0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> b  0  0        3 0.6572211      1</span>
 <span class="r-in"><span><span class="va">b</span><span class="op">$</span><span class="fu">data</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, <span class="va">b</span><span class="op">$</span><span class="va">colnames</span>, data_format <span class="op">=</span> <span class="st">"data.table"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    ..row_id       num fact x1 x2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1:        1 0.5720737    b  0  1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2:        2 0.7038130    a  1  1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3:        3 0.6572211    b  0  0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    ..row_id       num   fact    x1    x2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;int&gt;     &lt;num&gt; &lt;fctr&gt; &lt;num&gt; &lt;num&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:        1 0.5720737      b     0     1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:        2 0.7038130      a     1     1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:        3 0.6572211      b     0     0</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

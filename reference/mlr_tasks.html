@@ -20,7 +20,7 @@ For a more convenient way to retrieve and construct tasks, see tsk()/tsks()."><m
     
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.17.2</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.18.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -123,11 +123,11 @@ If <code>objects</code> is set to <code>TRUE</code>, the constructed objects are
 <code><a href="mlr_resamplings.html">mlr_resamplings</a></code>,
 <code><a href="mlr_task_generators.html">mlr_task_generators</a></code></p>
 <p>Other Task: 
+<code><a href="Task.html">Task</a></code>,
 <code><a href="TaskClassif.html">TaskClassif</a></code>,
 <code><a href="TaskRegr.html">TaskRegr</a></code>,
 <code><a href="TaskSupervised.html">TaskSupervised</a></code>,
 <code><a href="TaskUnsupervised.html">TaskUnsupervised</a></code>,
-<code><a href="Task.html">Task</a></code>,
 <code><a href="mlr_tasks_boston_housing.html">mlr_tasks_boston_housing</a></code>,
 <code><a href="mlr_tasks_breast_cancer.html">mlr_tasks_breast_cancer</a></code>,
 <code><a href="mlr_tasks_german_credit.html">mlr_tasks_german_credit</a></code>,
@@ -144,46 +144,51 @@ If <code>objects</code> is set to <code>TRUE</code>, the constructed objects are
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/as.data.table.html" class="external-link">as.data.table</a></span><span class="op">(</span><span class="va">mlr_tasks</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                key                   label task_type nrow ncol properties lgl</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  1: boston_housing   Boston Housing Prices      regr  506   18              0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  2:  breast_cancer Wisconsin Breast Cancer   classif  683   10   twoclass   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  3:  german_credit           German Credit   classif 1000   21   twoclass   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  4:           iris            Iris Flowers   classif  150    5 multiclass   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  5:         mtcars            Motor Trends      regr   32   11              0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  6:       penguins         Palmer Penguins   classif  344    8 multiclass   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  7:           pima    Pima Indian Diabetes   classif  768    9   twoclass   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  8:          sonar  Sonar: Mines vs. Rocks   classif  208   61   twoclass   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  9:           spam       HP Spam Detection   classif 4601   58   twoclass   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10:           wine            Wine Regions   classif  178   14 multiclass   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11:            zoo             Zoo Animals   classif  101   17 multiclass  15</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     int dbl chr fct ord pxc</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  1:   3  12   0   2   0   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  2:   0   0   0   0   9   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  3:   3   0   0  14   3   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  4:   0   4   0   0   0   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  5:   0  10   0   0   0   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  6:   3   2   0   2   0   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  7:   0   8   0   0   0   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  8:   0  60   0   0   0   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  9:   0  57   0   0   0   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10:   2  11   0   0   0   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11:   1   0   0   0   0   0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Key: &lt;key&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                key                   label task_type  nrow  ncol properties</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             &lt;char&gt;                  &lt;char&gt;    &lt;char&gt; &lt;int&gt; &lt;int&gt;     &lt;list&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1: boston_housing   Boston Housing Prices      regr   506    18           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  2:  breast_cancer Wisconsin Breast Cancer   classif   683    10   twoclass</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  3:  german_credit           German Credit   classif  1000    21   twoclass</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  4:           iris            Iris Flowers   classif   150     5 multiclass</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  5:         mtcars            Motor Trends      regr    32    11           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  6:       penguins         Palmer Penguins   classif   344     8 multiclass</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  7:           pima    Pima Indian Diabetes   classif   768     9   twoclass</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  8:          sonar  Sonar: Mines vs. Rocks   classif   208    61   twoclass</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  9:           spam       HP Spam Detection   classif  4601    58   twoclass</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10:           wine            Wine Regions   classif   178    14 multiclass</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11:            zoo             Zoo Animals   classif   101    17 multiclass</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       lgl   int   dbl   chr   fct   ord   pxc</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1:     0     3    12     0     2     0     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  2:     0     0     0     0     0     9     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  3:     0     3     0     0    14     3     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  4:     0     0     4     0     0     0     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  5:     0     0    10     0     0     0     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  6:     0     3     2     0     2     0     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  7:     0     0     8     0     0     0     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  8:     0     0    60     0     0     0     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  9:     0     0    57     0     0     0     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10:     0     2    11     0     0     0     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11:    15     1     0     0     0     0     0</span>
 <span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="va">mlr_tasks</span><span class="op">$</span><span class="fu">get</span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span> <span class="co"># same as tsk("penguins")</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">task</span><span class="op">$</span><span class="fu">data</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    species bill_depth bill_length body_mass flipper_length    island    sex</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;fctr&gt;      &lt;num&gt;       &lt;num&gt;     &lt;int&gt;          &lt;int&gt;    &lt;fctr&gt; &lt;fctr&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:  Adelie       18.7        39.1      3750            181 Torgersen   male</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2:  Adelie       17.4        39.5      3800            186 Torgersen female</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3:  Adelie       18.0        40.3      3250            195 Torgersen female</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4:  Adelie         NA          NA        NA             NA Torgersen   &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5:  Adelie       19.3        36.7      3450            193 Torgersen female</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6:  Adelie       20.6        39.3      3650            190 Torgersen   male</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    year</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 2007</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 2007</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 2007</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4: 2007</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5: 2007</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6: 2007</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     year</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    &lt;int&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:  2007</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:  2007</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:  2007</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:  2007</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5:  2007</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6:  2007</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Add a new task, based on a subset of penguins:</span></span></span>
 <span class="r-in"><span><span class="va">data</span> <span class="op">=</span> <span class="fu">palmerpenguins</span><span class="fu">::</span><span class="va"><a href="https://allisonhorst.github.io/palmerpenguins/reference/penguins.html" class="external-link">penguins</a></span></span></span>

@@ -18,7 +18,7 @@ Predefined tasks are stored in the dictionary mlr_tasks.'><meta property="og:ima
     
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.17.2</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.18.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -106,10 +106,11 @@ Predefined tasks are stored in the <a href="https://mlr3misc.mlr-org.com/referen
 <li><p>Probabilistic supervised regression and survival analysis: <a href="https://mlr3proba.mlr-org.com/" class="external-link">https://mlr3proba.mlr-org.com/</a>.</p></li>
 </ul></li>
 </ul><p>Other Task: 
+<code><a href="Task.html">Task</a></code>,
 <code><a href="TaskClassif.html">TaskClassif</a></code>,
 <code><a href="TaskSupervised.html">TaskSupervised</a></code>,
 <code><a href="TaskUnsupervised.html">TaskUnsupervised</a></code>,
-<code><a href="Task.html">Task</a></code>,
+<code><a href="mlr_tasks.html">mlr_tasks</a></code>,
 <code><a href="mlr_tasks_boston_housing.html">mlr_tasks_boston_housing</a></code>,
 <code><a href="mlr_tasks_breast_cancer.html">mlr_tasks_breast_cancer</a></code>,
 <code><a href="mlr_tasks_german_credit.html">mlr_tasks_german_credit</a></code>,
@@ -120,8 +121,7 @@ Predefined tasks are stored in the <a href="https://mlr3misc.mlr-org.com/referen
 <code><a href="mlr_tasks_sonar.html">mlr_tasks_sonar</a></code>,
 <code><a href="mlr_tasks_spam.html">mlr_tasks_spam</a></code>,
 <code><a href="mlr_tasks_wine.html">mlr_tasks_wine</a></code>,
-<code><a href="mlr_tasks_zoo.html">mlr_tasks_zoo</a></code>,
-<code><a href="mlr_tasks.html">mlr_tasks</a></code></p></div>
+<code><a href="mlr_tasks_zoo.html">mlr_tasks_zoo</a></code></p></div>
     </div>
     <div class="section level2">
     <h2 id="super-classes">Super classes<a class="anchor" aria-label="anchor" href="#super-classes"></a></h2>
@@ -205,8 +205,8 @@ Defaults to all rows with role "use".</p><div class="section">
 <div class="section">
 <h4 id="arguments-1">Arguments<a class="anchor" aria-label="anchor" href="#arguments-1"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>rows</code></dt>
-<dd><p><code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code><br>
-Row indices.</p></dd>
+<dd><p>(positive <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>)<br>
+Vector or row indices.</p></dd>
 
 
 </dl><p></p></div>
@@ -270,6 +270,7 @@ Row indices.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [331] 42.5 52.2 45.2 49.3 50.2 45.6 51.9 46.8 45.7 55.8 43.5 49.6 50.8 50.2</span>
 <span class="r-in"><span><span class="va">task</span><span class="op">$</span><span class="fu">data</span><span class="op">(</span>rows <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, cols <span class="op">=</span> <span class="va">task</span><span class="op">$</span><span class="va">feature_names</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    bill_depth_mm body_mass_g</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            &lt;num&gt;       &lt;int&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:          18.7        3750</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2:          17.4        3800</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3:          18.0        3250</span>

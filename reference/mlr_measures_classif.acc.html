@@ -14,7 +14,7 @@ in multiclass classification tasks."><meta property="og:image" content="https://
     
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.17.2</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.18.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -102,8 +102,8 @@ This can be customized by setting the field <code>na_value</code>.</p>
     
 
 <p>This <a href="Measure.html">Measure</a> can be instantiated via the <a href="https://mlr3misc.mlr-org.com/reference/Dictionary.html" class="external-link">dictionary</a> <a href="mlr_measures.html">mlr_measures</a> or with the associated sugar function <code><a href="mlr_sugar.html">msr()</a></code>:</p>
-<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>mlr_measures<span class="sc">$</span><span class="fu">get</span>(<span class="st">"classif.acc"</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">msr</span>(<span class="st">"classif.acc"</span>)</span></code></pre><p></p></div>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>mlr_measures<span class="sc">$</span><span class="fu">get</span>(<span class="st">"classif.acc"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">msr</span>(<span class="st">"classif.acc"</span>)</span></code></pre><p></p></div>
     </div>
     <div class="section level2">
     <h2 id="parameters">Parameters<a class="anchor" aria-label="anchor" href="#parameters"></a></h2>
@@ -134,11 +134,11 @@ This can be customized by setting the field <code>na_value</code>.</p>
 <code><a href="mlr_measures_classif.dor.html">mlr_measures_classif.dor</a></code>,
 <code><a href="mlr_measures_classif.fbeta.html">mlr_measures_classif.fbeta</a></code>,
 <code><a href="mlr_measures_classif.fdr.html">mlr_measures_classif.fdr</a></code>,
-<code><a href="mlr_measures_classif.fnr.html">mlr_measures_classif.fnr</a></code>,
 <code><a href="mlr_measures_classif.fn.html">mlr_measures_classif.fn</a></code>,
+<code><a href="mlr_measures_classif.fnr.html">mlr_measures_classif.fnr</a></code>,
 <code><a href="mlr_measures_classif.fomr.html">mlr_measures_classif.fomr</a></code>,
-<code><a href="mlr_measures_classif.fpr.html">mlr_measures_classif.fpr</a></code>,
 <code><a href="mlr_measures_classif.fp.html">mlr_measures_classif.fp</a></code>,
+<code><a href="mlr_measures_classif.fpr.html">mlr_measures_classif.fpr</a></code>,
 <code><a href="mlr_measures_classif.logloss.html">mlr_measures_classif.logloss</a></code>,
 <code><a href="mlr_measures_classif.mauc_au1p.html">mlr_measures_classif.mauc_au1p</a></code>,
 <code><a href="mlr_measures_classif.mauc_au1u.html">mlr_measures_classif.mauc_au1u</a></code>,
@@ -153,10 +153,10 @@ This can be customized by setting the field <code>na_value</code>.</p>
 <code><a href="mlr_measures_classif.recall.html">mlr_measures_classif.recall</a></code>,
 <code><a href="mlr_measures_classif.sensitivity.html">mlr_measures_classif.sensitivity</a></code>,
 <code><a href="mlr_measures_classif.specificity.html">mlr_measures_classif.specificity</a></code>,
-<code><a href="mlr_measures_classif.tnr.html">mlr_measures_classif.tnr</a></code>,
 <code><a href="mlr_measures_classif.tn.html">mlr_measures_classif.tn</a></code>,
-<code><a href="mlr_measures_classif.tpr.html">mlr_measures_classif.tpr</a></code>,
-<code><a href="mlr_measures_classif.tp.html">mlr_measures_classif.tp</a></code></p>
+<code><a href="mlr_measures_classif.tnr.html">mlr_measures_classif.tnr</a></code>,
+<code><a href="mlr_measures_classif.tp.html">mlr_measures_classif.tp</a></code>,
+<code><a href="mlr_measures_classif.tpr.html">mlr_measures_classif.tpr</a></code></p>
 <p>Other multiclass classification measures: 
 <code><a href="mlr_measures_classif.bacc.html">mlr_measures_classif.bacc</a></code>,
 <code><a href="mlr_measures_classif.ce.html">mlr_measures_classif.ce</a></code>,

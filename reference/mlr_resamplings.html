@@ -16,7 +16,7 @@ For a more convenient way to retrieve and construct resampling strategies, see r
     
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.17.2</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.18.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -117,8 +117,8 @@ If <code>objects</code> is set to <code>TRUE</code>, the constructed objects are
 <p>Other Resampling: 
 <code><a href="Resampling.html">Resampling</a></code>,
 <code><a href="mlr_resamplings_bootstrap.html">mlr_resamplings_bootstrap</a></code>,
-<code><a href="mlr_resamplings_custom_cv.html">mlr_resamplings_custom_cv</a></code>,
 <code><a href="mlr_resamplings_custom.html">mlr_resamplings_custom</a></code>,
+<code><a href="mlr_resamplings_custom_cv.html">mlr_resamplings_custom_cv</a></code>,
 <code><a href="mlr_resamplings_cv.html">mlr_resamplings_cv</a></code>,
 <code><a href="mlr_resamplings_holdout.html">mlr_resamplings_holdout</a></code>,
 <code><a href="mlr_resamplings_insample.html">mlr_resamplings_insample</a></code>,
@@ -130,7 +130,9 @@ If <code>objects</code> is set to <code>TRUE</code>, the constructed objects are
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/as.data.table.html" class="external-link">as.data.table</a></span><span class="op">(</span><span class="va">mlr_resamplings</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Key: &lt;key&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            key                         label        params iters</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;char&gt;                        &lt;char&gt;        &lt;list&gt; &lt;int&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:   bootstrap                     Bootstrap ratio,repeats    30</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2:      custom                 Custom Splits                  NA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3:   custom_cv Custom Split Cross-Validation                  NA</span>

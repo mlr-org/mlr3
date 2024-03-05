@@ -18,7 +18,7 @@ For statistical analysis of benchmark results and more advanced plots, see mlr3b
     
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.17.2</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.18.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -115,8 +115,8 @@ Combines multiple objects convertible to BenchmarkResult into a new BenchmarkRes
 <li><p>Package <a href="https://CRAN.R-project.org/package=mlr3viz" class="external-link"><span class="pkg">mlr3viz</span></a> for some generic visualizations.</p></li>
 <li><p><a href="https://CRAN.R-project.org/package=mlr3benchmark" class="external-link"><span class="pkg">mlr3benchmark</span></a> for post-hoc analysis of benchmark results.</p></li>
 </ul><p>Other benchmark: 
-<code><a href="benchmark_grid.html">benchmark_grid</a>()</code>,
-<code><a href="benchmark.html">benchmark</a>()</code></p></div>
+<code><a href="benchmark.html">benchmark</a>()</code>,
+<code><a href="benchmark_grid.html">benchmark_grid</a>()</code></p></div>
     </div>
     <div class="section level2">
     <h2 id="active-bindings">Active bindings<a class="anchor" aria-label="anchor" href="#active-bindings"></a></h2>
@@ -534,6 +534,7 @@ the object in its previous state.</p>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">design</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        task             learner resampling</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      &lt;char&gt;              &lt;char&gt;     &lt;char&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:    sonar classif.featureless         cv</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2:    sonar       classif.rpart         cv</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3: penguins classif.featureless         cv</span>
@@ -549,51 +550,70 @@ the object in its previous state.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   4 penguins       classif.rpart            cv     3        0      0</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">bmr</span><span class="op">$</span><span class="va">tasks</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           task_hash  task_id              task</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 26bb097ecdef94ea penguins &lt;TaskClassif[51]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 76c4fc7a533d41b7    sonar &lt;TaskClassif[51]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Key: &lt;task_hash&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           task_hash  task_id                   task</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              &lt;char&gt;   &lt;char&gt;                 &lt;list&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 26bb097ecdef94ea penguins &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 76c4fc7a533d41b7    sonar    &lt;TaskClassif:sonar&gt;</span>
 <span class="r-in"><span><span class="va">bmr</span><span class="op">$</span><span class="va">learners</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        learner_hash          learner_id                         learner</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 4a8ddb31f4547017       classif.rpart       &lt;LearnerClassifRpart[38]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 54ecc16720ea1edf classif.featureless &lt;LearnerClassifFeatureless[38]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Key: &lt;learner_hash&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        learner_hash          learner_id</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              &lt;char&gt;              &lt;char&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 4a8ddb31f4547017       classif.rpart</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 54ecc16720ea1edf classif.featureless</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                            learner</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                             &lt;list&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:             &lt;LearnerClassifRpart:classif.rpart&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: &lt;LearnerClassifFeatureless:classif.featureless&gt;</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># first 5 resampling iterations</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/as.data.table.html" class="external-link">as.data.table</a></span><span class="op">(</span><span class="va">bmr</span>, measures <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"classif.acc"</span>, <span class="st">"classif.auc"</span><span class="op">)</span><span class="op">)</span>, <span class="fl">5</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                   uhash              task</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: e0742b06-fda8-45a2-972b-8710b7fa8919 &lt;TaskClassif[51]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: e0742b06-fda8-45a2-972b-8710b7fa8919 &lt;TaskClassif[51]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: e0742b06-fda8-45a2-972b-8710b7fa8919 &lt;TaskClassif[51]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4: eb8a9e84-8f9b-47f3-a57b-a43edf0dbf86 &lt;TaskClassif[51]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5: eb8a9e84-8f9b-47f3-a57b-a43edf0dbf86 &lt;TaskClassif[51]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                            learner         resampling iteration</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: &lt;LearnerClassifFeatureless[38]&gt; &lt;ResamplingCV[20]&gt;         1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: &lt;LearnerClassifFeatureless[38]&gt; &lt;ResamplingCV[20]&gt;         2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: &lt;LearnerClassifFeatureless[38]&gt; &lt;ResamplingCV[20]&gt;         3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4:       &lt;LearnerClassifRpart[38]&gt; &lt;ResamplingCV[20]&gt;         1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5:       &lt;LearnerClassifRpart[38]&gt; &lt;ResamplingCV[20]&gt;         2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 prediction</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: &lt;PredictionClassif[20]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: &lt;PredictionClassif[20]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: &lt;PredictionClassif[20]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4: &lt;PredictionClassif[20]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5: &lt;PredictionClassif[20]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                   uhash                task</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                  &lt;char&gt;              &lt;list&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: be876c46-55e4-412d-89ca-609c94c2f939 &lt;TaskClassif:sonar&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: be876c46-55e4-412d-89ca-609c94c2f939 &lt;TaskClassif:sonar&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: be876c46-55e4-412d-89ca-609c94c2f939 &lt;TaskClassif:sonar&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4: 206233f0-c840-4140-b848-e08efc97ebd7 &lt;TaskClassif:sonar&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5: 206233f0-c840-4140-b848-e08efc97ebd7 &lt;TaskClassif:sonar&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                            learner     resampling iteration</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                             &lt;list&gt;         &lt;list&gt;     &lt;int&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: &lt;LearnerClassifFeatureless:classif.featureless&gt; &lt;ResamplingCV&gt;         1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: &lt;LearnerClassifFeatureless:classif.featureless&gt; &lt;ResamplingCV&gt;         2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: &lt;LearnerClassifFeatureless:classif.featureless&gt; &lt;ResamplingCV&gt;         3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:             &lt;LearnerClassifRpart:classif.rpart&gt; &lt;ResamplingCV&gt;         1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5:             &lt;LearnerClassifRpart:classif.rpart&gt; &lt;ResamplingCV&gt;         2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             prediction</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 &lt;list&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: &lt;PredictionClassif&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: &lt;PredictionClassif&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: &lt;PredictionClassif&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4: &lt;PredictionClassif&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5: &lt;PredictionClassif&gt;</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># aggregate results</span></span></span>
 <span class="r-in"><span><span class="va">bmr</span><span class="op">$</span><span class="fu">aggregate</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    nr  task_id          learner_id resampling_id iters classif.ce</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1:  1    sonar classif.featureless            cv     3 0.46604555</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2:  2    sonar       classif.rpart            cv     3 0.27391304</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3:  3 penguins classif.featureless            cv     3 0.55814900</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4:  4 penguins       classif.rpart            cv     3 0.05812357</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       nr  task_id          learner_id resampling_id iters classif.ce</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    &lt;int&gt;   &lt;char&gt;              &lt;char&gt;        &lt;char&gt; &lt;int&gt;      &lt;num&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:     1    sonar classif.featureless            cv     3 0.46604555</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:     2    sonar       classif.rpart            cv     3 0.27391304</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:     3 penguins classif.featureless            cv     3 0.55814900</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:     4 penguins       classif.rpart            cv     3 0.05812357</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Hidden columns: resample_result</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># aggregate results with hyperparameters as separate columns</span></span></span>
 <span class="r-in"><span><span class="fu">mlr3misc</span><span class="fu">::</span><span class="fu"><a href="https://mlr3misc.mlr-org.com/reference/unnest.html" class="external-link">unnest</a></span><span class="op">(</span><span class="va">bmr</span><span class="op">$</span><span class="fu">aggregate</span><span class="op">(</span>params <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, <span class="st">"params"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    nr  task_id          learner_id resampling_id iters classif.ce method xval</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1:  1    sonar classif.featureless            cv     3 0.46604555   mode   NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2:  2    sonar       classif.rpart            cv     3 0.27391304   &lt;NA&gt;    0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3:  3 penguins classif.featureless            cv     3 0.55814900   mode   NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4:  4 penguins       classif.rpart            cv     3 0.05812357   &lt;NA&gt;    0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       nr  task_id          learner_id resampling_id iters classif.ce method</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    &lt;int&gt;   &lt;char&gt;              &lt;char&gt;        &lt;char&gt; &lt;int&gt;      &lt;num&gt; &lt;char&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:     1    sonar classif.featureless            cv     3 0.46604555   mode</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:     2    sonar       classif.rpart            cv     3 0.27391304   &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:     3 penguins classif.featureless            cv     3 0.55814900   mode</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:     4 penguins       classif.rpart            cv     3 0.05812357   &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     xval</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    &lt;int&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:    NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:    NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:     0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Hidden columns: resample_result</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># extract resample result for classif.rpart</span></span></span>

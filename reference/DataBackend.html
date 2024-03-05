@@ -30,7 +30,7 @@ see the extension package mlr3db."><meta property="og:image" content="https://ml
     
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.17.2</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.18.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -128,7 +128,7 @@ e.g. SQL servers or <a href="https://CRAN.R-project.org/package=duckdb" class="e
     <h2 id="public-fields">Public fields<a class="anchor" aria-label="anchor" href="#public-fields"></a></h2>
     <p></p><div class="r6-fields"><dl><dt><code>primary_key</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
-Column name of the primary key column of unique integer row ids.</p></dd>
+Column name of the primary key column of positive and unique integer row ids.</p></dd>
 
 
 <dt><code>data_formats</code></dt>
@@ -234,18 +234,22 @@ e.g. <code>"data.table"</code>.</p></dd>
 <span class="r-in"><span><span class="va">b</span> <span class="op">=</span> <span class="va"><a href="DataBackendDataTable.html">DataBackendDataTable</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="va">data</span>, primary_key <span class="op">=</span> <span class="st">"id"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;DataBackendDataTable&gt; (5x3)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  id         x y</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   1 0.9686412 c</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   2 0.4884955 c</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   3 0.4778220 c</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   4 0.7487929 c</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   5 0.6676402 b</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     id         x      y</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  &lt;int&gt;     &lt;num&gt; &lt;char&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      1 0.9686412      c</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      2 0.4884955      c</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      3 0.4778220      c</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      4 0.7487929      c</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      5 0.6676402      b</span>
 <span class="r-in"><span><span class="va">b</span><span class="op">$</span><span class="fu">head</span><span class="op">(</span><span class="fl">2</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    id         x y</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1:  1 0.9686412 c</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2:  2 0.4884955 c</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Key: &lt;id&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       id         x      y</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    &lt;int&gt;     &lt;num&gt; &lt;char&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:     1 0.9686412      c</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:     2 0.4884955      c</span>
 <span class="r-in"><span><span class="va">b</span><span class="op">$</span><span class="fu">data</span><span class="op">(</span>rows <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, cols <span class="op">=</span> <span class="st">"x"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            x</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        &lt;num&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: 0.9686412</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2: 0.4884955</span>
 <span class="r-in"><span><span class="va">b</span><span class="op">$</span><span class="fu">distinct</span><span class="op">(</span>rows <span class="op">=</span> <span class="va">b</span><span class="op">$</span><span class="va">rownames</span>, <span class="st">"y"</span><span class="op">)</span></span></span>

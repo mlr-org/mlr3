@@ -20,7 +20,7 @@ For a more convenient way to retrieve and construct learners, see lrn()/lrns()."
     
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.17.2</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.18.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -123,9 +123,9 @@ If <code>objects</code> is set to <code>TRUE</code>, the constructed objects are
 <code><a href="mlr_task_generators.html">mlr_task_generators</a></code>,
 <code><a href="mlr_tasks.html">mlr_tasks</a></code></p>
 <p>Other Learner: 
+<code><a href="Learner.html">Learner</a></code>,
 <code><a href="LearnerClassif.html">LearnerClassif</a></code>,
 <code><a href="LearnerRegr.html">LearnerRegr</a></code>,
-<code><a href="Learner.html">Learner</a></code>,
 <code><a href="mlr_learners_classif.debug.html">mlr_learners_classif.debug</a></code>,
 <code><a href="mlr_learners_classif.featureless.html">mlr_learners_classif.featureless</a></code>,
 <code><a href="mlr_learners_classif.rpart.html">mlr_learners_classif.rpart</a></code>,
@@ -137,7 +137,9 @@ If <code>objects</code> is set to <code>TRUE</code>, the constructed objects are
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/as.data.table.html" class="external-link">as.data.table</a></span><span class="op">(</span><span class="va">mlr_learners</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Key: &lt;key&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                    key                              label task_type</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 &lt;char&gt;                             &lt;char&gt;    &lt;char&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:       classif.debug   Debug Learner for Classification   classif</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2: classif.featureless Featureless Classification Learner   classif</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3:       classif.rpart                Classification Tree   classif</span>
@@ -145,6 +147,7 @@ If <code>objects</code> is set to <code>TRUE</code>, the constructed objects are
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5:    regr.featureless     Featureless Regression Learner      regr</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6:          regr.rpart                    Regression Tree      regr</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                           feature_types   packages</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                  &lt;list&gt;     &lt;list&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:     logical,integer,numeric,character,factor,ordered       mlr3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2: logical,integer,numeric,character,factor,ordered,...       mlr3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3:               logical,integer,numeric,factor,ordered mlr3,rpart</span>
@@ -152,6 +155,7 @@ If <code>objects</code> is set to <code>TRUE</code>, the constructed objects are
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5: logical,integer,numeric,character,factor,ordered,... mlr3,stats</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6:               logical,integer,numeric,factor,ordered mlr3,rpart</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                               properties</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                   &lt;list&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:                         hotstart_forward,missings,multiclass,twoclass</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2: featureless,importance,missings,multiclass,selected_features,twoclass</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3:     importance,missings,multiclass,selected_features,twoclass,weights</span>
@@ -159,6 +163,7 @@ If <code>objects</code> is set to <code>TRUE</code>, the constructed objects are
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5:                     featureless,importance,missings,selected_features</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6:                         importance,missings,selected_features,weights</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    predict_types</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           &lt;list&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: response,prob</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2: response,prob</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3: response,prob</span>

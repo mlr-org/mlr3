@@ -22,7 +22,7 @@ requirements."><meta property="og:image" content="https://mlr3.mlr-org.com/logo.
     
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.17.2</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.18.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -563,21 +563,26 @@ The condition to extract. One of <code>"message"</code>, <code>"warning"</code> 
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># table overview</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">ResultData</span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">data</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $fact</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Key: &lt;uhash, iteration&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Empty data.table (0 rows and 8 cols): uhash,iteration,learner_state,prediction,learner_hash,task_hash...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $uhashes</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Empty data.table (0 rows and 1 cols): uhash</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $tasks</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Key: &lt;task_hash&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Empty data.table (0 rows and 2 cols): task_hash,task</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $learners</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Key: &lt;learner_phash&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Empty data.table (0 rows and 2 cols): learner_phash,learner</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $resamplings</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Key: &lt;resampling_hash&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Empty data.table (0 rows and 2 cols): resampling_hash,resampling</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $learner_components</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Key: &lt;learner_hash&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Empty data.table (0 rows and 2 cols): learner_hash,learner_param_vals</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
