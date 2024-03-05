@@ -159,17 +159,17 @@ Task = R6Class("Task",
     #' @param row_ids (`integer()` or `NULL`)\cr
     #'   The row ids to use for the test/holdout task.
     #' @param type (`character(1)`)\cr
-    #'   The type of task to create. Either `"test"` (default) or `"holdout"`.
+    #'   The type of task to create. Either `"validation"` (default) or `"holdout"`.
     #' @param remove (`logical(1)`)\cr
     #'   If `TRUE` (default), the `row_ids` are removed from the primary task's active `"use"` rows.
     #' @return Modified `self`.
-    divide = function(row_ids = NULL, type = "test", remove = TRUE) {
+    divide = function(row_ids = NULL, type = "validation", remove = TRUE) {
       private$.hash = NULL
       assert_flag(remove)
       assert_row_ids(row_ids, null.ok = FALSE)
-      assert_choice(type, c("test", "holdout"))
+      assert_choice(type, c("validation", "holdout"))
       task_name = paste0(type, "_task")
-      other_name = paste0(setdiff(c("test", "holdout"), type), "_task")
+      other_name = paste0(setdiff(c("validation", "holdout"), type), "_task")
       prev_other = self[[other_name]]
       on.exit({self[[other_name]] = prev_other}, add = TRUE)
       self[[other_name]] = NULL
@@ -231,8 +231,8 @@ Task = R6Class("Task",
         catn(str_indent(sprintf("* %s:", str), roles[[role]]))
       })
 
-      if (!is.null(private$.test_task)) {
-        catf(str_indent("* Test Task:", sprintf("(%ix%i)", private$.test_task$nrow, private$.test_task$ncol)))
+      if (!is.null(private$.validation_task)) {
+        catf(str_indent("* Validation Task:", sprintf("(%ix%i)", private$.validation_task$nrow, private$.validation_task$ncol)))
       }
       if (!is.null(private$.holdout_task)) {
         catf(str_indent("* Holdout Task:", sprintf("(%ix%i)", private$.holdout_task$nrow, private$.holdout_task$ncol)))
@@ -761,29 +761,29 @@ Task = R6Class("Task",
       private$.id = assert_string(rhs, min.chars = 1L)
     },
 
-    #' @field test_task (`Task` or `NULL`)\cr
-    #' Optional test task that can e.g. be used for early stopping with learners such as XGBoost.
-    #' When resampling a learner that has the property 'uses_test_task', this task is automatically generated from
+    #' @field validation_task (`Task` or `NULL`)\cr
+    #' Optional validation task that can e.g. be used for early stopping with learners such as XGBoost.
+    #' When resampling a learner that has the property 'validation', this task is automatically generated from
     #' the test set for each resampling iteration.
-    test_task = function(rhs) {
+    validation_task = function(rhs) {
       if (missing(rhs)) {
-        return(invisible(private$.test_task))
+        return(invisible(private$.validation_task))
       }
       private$.hash = NULL
       if (is.null(rhs)) {
-        private$.test_task = NULL
-        return(invisible(private$.test_task))
+        private$.validation_task = NULL
+        return(invisible(private$.validation_task))
       }
 
       assert_task(rhs, task_type = self$task_type)
       if (identical(rhs, self)) { # avoid circles
-        stopf("Task '%s' cannot be its own test task", self$id)
+        stopf("Task '%s' cannot be its own validation task", self$id)
       }
-      if (!is.null(rhs$test_task) || !is.null(rhs$holdout_task)) { # avoid recursive structures
-        stopf("Trying to assign task '%s' as a test task, remove its test/holdout task first", rhs$id)
+      if (!is.null(rhs$validation_task) || !is.null(rhs$holdout_task)) { # avoid recursive structures
+        stopf("Trying to assign task '%s' as a validation task, remove its validation/holdout task first", rhs$id)
       }
-      private$.test_task = rhs
-      invisible(private$.test_task)
+      private$.validation_task = rhs
+      invisible(private$.validation_task)
     },
 
     #' @field holdout_task (`Task` or `NULL`)\cr
@@ -802,8 +802,8 @@ Task = R6Class("Task",
       if (identical(rhs, self)) { # avoid cycles
         stopf("Task '%s' cannot be its own holdout task", self$id)
       }
-      if (!is.null(rhs$test_task) || !is.null(rhs$holdout_task)) { # avoid recursive structures
-        stopf("Trying to assign task '%s' as a holdout task, remove its test/holdout task first", rhs$id)
+      if (!is.null(rhs$validation_task) || !is.null(rhs$holdout_task)) { # avoid recursive structures
+        stopf("Trying to assign task '%s' as a holdout task, remove its validation/holdout task first", rhs$id)
       }
       private$.holdout_task = rhs
       invisible(private$.holdout_task)
@@ -887,14 +887,7 @@ Task = R6Class("Task",
     #' Each row (observation) can have an arbitrary number of roles in the learning task:
     #'
     #' - `"use"`: Use in train / predict / resampling.
-    #' - `"test"`: Observations are hold back unless explicitly queried.
-    #'   Can be queried by a [Learner] to determine a good iteration to stop by evaluating the performance
-    #'   on external data, e.g. the XGboost learner in \CRANpkg{mlr3learners} for parameter `nrounds`.
-    #' - `"holdout"`: Observations are hold back unless explicitly queried.
-    #'   Can be used, e.g., as truly independent holdout set:
-    #'
-    #'   1. Add `"holdout"` to the `predict_sets` of a [Learner].
-    #'   2. Configure a [Measure] to use the `"holdout"` set by updating its `predict_sets` field.
+    #' For the previous `"test"` and `"holdout"` rows, see the `$divide()` method.
     #'
     #' `row_roles` is a named list whose elements are named by row role and each element is an `integer()` vector of row ids.
     #' To alter the roles, just modify the list, e.g. with  \R's set functions ([intersect()], [setdiff()], [union()], \ldots).
@@ -1100,7 +1093,7 @@ Task = R6Class("Task",
 
   private = list(
     .holdout_task = NULL,
-    .test_task = NULL,
+    .validation_task = NULL,
     .id = NULL,
     .properties = NULL,
     .col_roles = NULL,
@@ -1112,7 +1105,7 @@ Task = R6Class("Task",
       # NB: DataBackends are never copied!
       if (name == "col_info") {
         copy(value)
-      } else if (name %in% c(".test_task", ".holdout_task") && !is.null(value)) {
+      } else if (name %in% c(".validation_task", ".holdout_task") && !is.null(value)) {
         value$clone(deep = TRUE)
       } else {
         value
@@ -1237,7 +1230,7 @@ task_rm_backend = function(task) {
   ee = get_private(task)
   ee$.hash = force(task$hash)
   ee$.col_hashes = force(task$col_hashes)
-  ee$.test_task$backend = NULL
+  ee$.validation_task$backend = NULL
   ee$.holdout_task$backend = NULL
 
   # NULL backend

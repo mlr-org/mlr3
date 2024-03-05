@@ -7,4 +7,4 @@
 #'   * `"importance"`: The learner supports extraction of importance scores, i.e. comes with an `$importance()` extractor function (see section on optional extractors in [Learner]).
 #'   * `"selected_features"`: The learner supports extraction of the set of selected features, i.e. comes with a `$selected_features()` extractor function (see section on optional extractors in [Learner]).
 #'   * `"oob_error"`: The learner supports extraction of estimated out of bag error, i.e. comes with a `oob_error()` extractor function (see section on optional extractors in [Learner]).
-#'   * `"uses_test_task"`: The learner can make use of a task's test task, e.g. for early stopping.
+#'   * `"validation"`: The learner can make use of a task's validation task, e.g. for early stopping.

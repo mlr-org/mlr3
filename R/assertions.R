@@ -111,7 +111,7 @@ assert_learners = function(learners, task = NULL, task_type = NULL, properties =
   invisible(lapply(learners, assert_learner, task = task, task_type = NULL, properties = properties, .var.name = .var.name))
 }
 
-assert_task_learner = function(task, learner, cols = NULL, check_test_task = FALSE) {
+assert_task_learner = function(task, learner, cols = NULL, check_validation_task = FALSE) {
   pars = learner$param_set$get_values(type = "only_token", check_required = FALSE)
   if (length(pars) > 0) {
     stopf("%s cannot be trained with TuneToken present in hyperparameter: %s", learner$format(), str_collapse(names(pars)))
@@ -131,15 +131,15 @@ assert_task_learner = function(task, learner, cols = NULL, check_test_task = FAL
 
   assert_missingness(task, learner, cols, "Task")
   assert_task_properties(task, learner, "Task")
-  if (check_test_task) {
-    # we only check that test task exists in learner$train() as it is generated from test rows in resample and benchmark
-    if (!is.null(task) && "uses_test_task" %in% learner$properties && is.null(task$test_task)) {
-      stopf("Learner '%s' has property 'uses_test_task', but task '%s' does not have one.", learner$id, task$id)
+  if (check_validation_task) {
+    # we only check that validation task exists in learner$train() as it is generated from test rows in resample and benchmark
+    if (!is.null(task) && "validation" %in% learner$properties && is.null(task$validation_task)) {
+      stopf("Learner '%s' has property 'validation', but task '%s' does not have one.", learner$id, task$id)
     }
-    assert_task_properties(task, learner, "Test Task")
+    assert_task_properties(task, learner, "Validation Task")
   }
-  if (check_test_task && "uses_test_task" %in% learner$properties) {
-    assert_missingness(task$test_task, learner, cols, "Test Task")
+  if (check_validation_task && "validation" %in% learner$properties) {
+    assert_missingness(task$validation_task, learner, cols, "Validation Task")
   }
 }
 
@@ -166,11 +166,11 @@ assert_task_properties = function(task, learner, name) {
 
 #' @export
 #' @rdname mlr_assertions
-assert_learnable = function(task, learner, check_test_task = FALSE) {
+assert_learnable = function(task, learner, check_validation_task = FALSE) {
   if (task$task_type == "unsupervised") {
     stopf("%s cannot be trained with %s", learner$format(), task$format())
   }
-  assert_task_learner(task, learner, check_test_task = check_test_task)
+  assert_task_learner(task, learner, check_validation_task = check_validation_task)
 }
 
 #' @export

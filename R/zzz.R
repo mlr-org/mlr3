@@ -117,7 +117,7 @@ dummy_import = function() {
   #      feature_types = mlr_reflections$task_feature_types,
   #      predict_types = names(mlr_reflections$learner_predict_types[[task_type]]),
   #      packages = graph$packages,
-  #      properties = setdiff(mlr_reflections$learner_properties[[task_type]], "uses_test_task"),
+  #      properties = setdiff(mlr_reflections$learner_properties[[task_type]], "validation"),
   #      man = "mlr3pipelines::GraphLearner"
   #    )
 

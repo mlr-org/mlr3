@@ -217,7 +217,7 @@ Learner = R6Class("Learner",
     #' the object in its previous state.
     train = function(task, row_ids = NULL) {
       task = assert_task(as_task(task))
-      assert_learnable(task, self, check_test_task = TRUE)
+      assert_learnable(task, self, check_validation_task = TRUE)
       row_ids = assert_row_ids(row_ids, null.ok = TRUE)
 
       if (!is.null(self$hotstart_stack)) {

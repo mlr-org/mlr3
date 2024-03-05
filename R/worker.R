@@ -43,12 +43,12 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
     lg$debug("Skip subsetting of task '%s'", task$id)
   }
 
-  if ("uses_test_task" %in% learner$properties && !is.null(test_row_ids)) {
+  if ("validation" %in% learner$properties && !is.null(test_row_ids)) {
     # this is the case for resample() and benchmark()
     on.exit({
-      task$test_task = NULL
+      task$validation_task = NULL
     }, add = TRUE)
-    task$divide(test_row_ids, "test", remove = FALSE)
+    task$divide(test_row_ids, "validation", remove = FALSE)
   }
 
   if (mode == "train") learner$state = list()
@@ -252,7 +252,7 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
   }
   learner_hash = learner$hash
 
-  test_set = if ("uses_test_task" %in% learner$properties) sets$test
+  test_set = if ("validation" %in% learner$properties) sets$test
 
   learner = learner_train(learner, task, sets[["train"]], test_set, mode = mode)
 
