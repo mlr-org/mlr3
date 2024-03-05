@@ -1,4 +1,4 @@
-# mlr3 (development version)
+# mlr3 0.18.0
 
 * Prepare compatibility with new paradox version.
 * feat: dictionary conversion of `mlr_learners` respects prototype arguments
