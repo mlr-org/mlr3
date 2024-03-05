@@ -10,20 +10,20 @@
 \alias{marshaled_model}
 \title{(Un)marshal a Learner}
 \usage{
-learner_unmarshal(learner)
+learner_unmarshal(.learner, ...)
 
-learner_marshal(learner)
+learner_marshal(.learner, ...)
 
-learner_marshaled(learner)
+learner_marshaled(.learner)
 
-marshal_model(model, clone, ...)
+marshal_model(model, inplace, ...)
 
-unmarshal_model(model, clone, ...)
+unmarshal_model(model, inplace, ...)
 
 marshaled_model(model)
 }
 \arguments{
-\item{learner}{\code{\link{Learner}}\cr
+\item{.learner}{\code{\link{Learner}}\cr
 The learner.}
 }
 \description{
@@ -62,6 +62,6 @@ All three functions throw an error if the learner is not trained and otherwise c
 You can verify whether you have correctly implemented marshaling by using the internal test helper
 \code{expect_marshalable_learner()}. This is also run by \code{expect_learner()} if a task is provided.
 
-For a concrete example on how to implement marshaling, see \code{\link{LearnerClassifLily}}.
+For a concrete example on how to implement marshaling, see \code{\link{LearnerRegrDebug}}.
 }
 \keyword{internal}

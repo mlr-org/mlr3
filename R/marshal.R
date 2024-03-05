@@ -38,40 +38,40 @@
 #'
 #' For a concrete example on how to implement marshaling, see [`LearnerRegrDebug`].
 #'
-#' @param learner [`Learner`]\cr
+#' @param .learner [`Learner`]\cr
 #'   The learner.
 #' @keywords internal
 #' @export
-learner_unmarshal = function(learner) {
+learner_unmarshal = function(.learner, ...) {
   # no need to check for 'marshal' property as this method should only be available for such learners
-  if (is.null(learner$model)) {
-    stopf("Cannot unmarshal, Learner '%s' has not been trained yet", learner$id)
+  if (is.null(.learner$model)) {
+    stopf("Cannot unmarshal, Learner '%s' has not been trained yet", .learner$id)
   }
   # this will do nothing if the model was not marshaled
-  learner$model = unmarshal_model(learner$model, inplace = TRUE)
-  invisible(learner)
+  .learner$model = unmarshal_model(.learner$model, inplace = TRUE, ...)
+  invisible(.learner)
 }
 
 #' @rdname marshaling
 #' @export
-learner_marshal = function(learner) {
+learner_marshal = function(.learner, ...) {
   # no need to check for 'marshal' property as this method should only be available for such learners
-  if (is.null(learner$model)) {
-    stopf("Cannot marshal, Learner '%s' has not been trained yet", learner$id)
+  if (is.null(.learner$model)) {
+    stopf("Cannot marshal, Learner '%s' has not been trained yet", .learner$id)
   }
   # this will do nothing if the model was already marshaled
-  learner$model = marshal_model(learner$model, inplace = TRUE)
-  invisible(learner)
+  .learner$model = marshal_model(.learner$model, inplace = TRUE, ...)
+  invisible(.learner)
 }
 
 #' @rdname marshaling
 #' @export
-learner_marshaled = function(learner) {
+learner_marshaled = function(.learner) {
   # no need to check for 'marshal' property as this method should only be available for such learners
-  if (is.null(learner$model)) {
-    stopf("Cannot check marshaled status, Learner '%s' has not been trained yet", learner$id)
+  if (is.null(.learner$model)) {
+    stopf("Cannot check marshaled status, Learner '%s' has not been trained yet", .learner$id)
   }
-  marshaled_model(learner$model)
+  marshaled_model(.learner$model)
 }
 
 #' @rdname marshaling
@@ -116,16 +116,16 @@ unmarshal_model.default = function(model, ...) {
   model
 }
 
-marshal_state_if_model = function(state, ...) {
-  if (!is.null(state$model)) {
-    state$model = marshal_model(state$model)
+marshal_state_if_model = function(.state, ...) {
+  if (!is.null(.state$model)) {
+    .state$model = marshal_model(.state$model, ...)
   }
-  state
+  .state
 }
 
-unmarshal_state_if_model = function(state, ...) {
-  if (!is.null(state$model)) {
-    state$model = unmarshal_model(state$model)
+unmarshal_state_if_model = function(.state, ...) {
+  if (!is.null(.state$model)) {
+    .state$model = unmarshal_model(.state$model, ...)
   }
-  state
+  .state
 }

@@ -56,13 +56,17 @@ LearnerRegrDebug = R6Class("LearnerRegrDebug", inherit = LearnerRegr,
     },
     #' @description
     #' Marshals the learner.
-    marshal = function() {
-      learner_marshal(self)
+    #' @param ... (any)\cr
+    #'   Additional arguments passed to [`marshal_model()`].
+    marshal = function(...) {
+      learner_marshal(.learner = self, ...)
     },
     #' @description
     #' Unmarshal the learner.
-    unmarshal = function() {
-      learner_unmarshal(self)
+    #' @param ... (any)\cr
+    #'   Additional arguments passed to [`unmarshal_model()`].
+    unmarshal = function(...) {
+      learner_unmarshal(.learner = self, ...)
     }
   ),
   active = list(

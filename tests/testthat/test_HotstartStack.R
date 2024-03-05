@@ -412,7 +412,7 @@ test_that("HotstartStack threshold works", {
 
 test_that("error when adding marshaled learner", {
   hot = HotstartStack$new()
-  learner = lrn("regr.debuLg")
+  learner = lrn("regr.debug")
   learner$train(tsk("mtcars"))
   learner$marshal()
   expect_error(hot$add(learner), "unmarshaled")

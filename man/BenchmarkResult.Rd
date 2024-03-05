@@ -236,11 +236,19 @@ the object in its previous state.
 \if{html}{\out{<a id="method-BenchmarkResult-marshal"></a>}}
 \if{latex}{\out{\hypertarget{method-BenchmarkResult-marshal}{}}}
 \subsection{Method \code{marshal()}}{
-marshals all stored models.
+Marshals all stored models.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{BenchmarkResult$marshal()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{BenchmarkResult$marshal(...)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{...}}{(any)\cr
+Additional arguments passed to \code{\link[=marshal_model]{marshal_model()}}.}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-BenchmarkResult-unmarshal"></a>}}
@@ -248,9 +256,17 @@ marshals all stored models.
 \subsection{Method \code{unmarshal()}}{
 Unmarshals all stored models.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{BenchmarkResult$unmarshal()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{BenchmarkResult$unmarshal(...)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{...}}{(any)\cr
+Additional arguments passed to \code{\link[=unmarshal_model]{unmarshal_model()}}.}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-BenchmarkResult-score"></a>}}

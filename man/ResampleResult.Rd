@@ -354,21 +354,37 @@ the object in its previous state.
 \if{html}{\out{<a id="method-ResampleResult-marshal"></a>}}
 \if{latex}{\out{\hypertarget{method-ResampleResult-marshal}{}}}
 \subsection{Method \code{marshal()}}{
-marshals all stored learner models.
+Marshals all stored models.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$marshal()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$marshal(...)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{...}}{(any)\cr
+Additional arguments passed to \code{\link[=marshal_model]{marshal_model()}}.}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ResampleResult-unmarshal"></a>}}
 \if{latex}{\out{\hypertarget{method-ResampleResult-unmarshal}{}}}
 \subsection{Method \code{unmarshal()}}{
-Unmarshals all stored learner models.
+Unmarshals all stored models.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$unmarshal()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$unmarshal(...)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{...}}{(any)\cr
+Additional arguments passed to \code{\link[=unmarshal_model]{unmarshal_model()}}.}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ResampleResult-clone"></a>}}

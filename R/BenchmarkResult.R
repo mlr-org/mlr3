@@ -134,14 +134,18 @@ BenchmarkResult = R6Class("BenchmarkResult",
     },
 
     #' @description
-    #' marshals all stored models.
-    marshal = function() {
-      private$.data$marshal()
+    #' Marshals all stored models.
+    #' @param ... (any)\cr
+    #'   Additional arguments passed to [`marshal_model()`].
+    marshal = function(...) {
+      private$.data$marshal(...)
     },
     #' @description
     #' Unmarshals all stored models.
-    unmarshal = function() {
-      private$.data$unmarshal()
+    #' @param ... (any)\cr
+    #'   Additional arguments passed to [`unmarshal_model()`].
+    unmarshal = function(...) {
+      private$.data$unmarshal(...)
     },
 
     #' @description

@@ -340,9 +340,17 @@ Modified \code{self} (invisibly).
 Marshals all stored learner models.
 This will do nothing to models that are already marshaled.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResultData$marshal()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{ResultData$marshal(...)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{...}}{(any)\cr
+Additional arguments passed to \code{\link[=marshal_model]{marshal_model()}}.}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ResultData-unmarshal"></a>}}
@@ -351,9 +359,17 @@ This will do nothing to models that are already marshaled.
 Unmarshals all stored learner models.
 This will do nothing to models which are not marshaled.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResultData$unmarshal()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{ResultData$unmarshal(...)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{...}}{(any)\cr
+Additional arguments passed to \code{\link[=unmarshal_model]{unmarshal_model()}}.}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ResultData-discard"></a>}}

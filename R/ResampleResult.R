@@ -225,14 +225,18 @@ ResampleResult = R6Class("ResampleResult",
     },
 
     #' @description
-    #' marshals all stored learner models.
-    marshal = function() {
-      private$.data$marshal()
+    #' Marshals all stored models.
+    #' @param ... (any)\cr
+    #'   Additional arguments passed to [`marshal_model()`].
+    marshal = function(...) {
+      private$.data$marshal(...)
     },
     #' @description
-    #' Unmarshals all stored learner models.
-    unmarshal = function() {
-      private$.data$unmarshal()
+    #' Unmarshals all stored models.
+    #' @param ... (any)\cr
+    #'   Additional arguments passed to [`unmarshal_model()`].
+    unmarshal = function(...) {
+      private$.data$unmarshal(...)
     }
   ),
 
