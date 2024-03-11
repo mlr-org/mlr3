@@ -68,3 +68,44 @@ test_that("evaluate / resample", {
   expect_silent(rr <- resample(task, enable_encapsulation(learner), resampling))
   expect_true(every(get_private(rr)$.data$data$fact$learner_state, function(x) all(table(x$log$stage) == 2)))
 })
+
+test_that("encapsulate methods produce the same results", {
+  rng_state = .GlobalEnv$.Random.seed
+  on.exit({.GlobalEnv$.Random.seed = rng_state})
+
+  set.seed(123)
+  learner = lrn("classif.debug")
+  learner$train(task)
+  expect_equal(learner$model$random_number, 2986)
+  expect_equal(sample(seq(1000), 1), 818)
+  rr = resample(task, learner, rsmp("cv", folds = 3), store_models = TRUE)
+  expect_equal(map_int(rr$learners, function(learner) learner$model$random_number), c(37151, 94567, 21057))
+
+
+  set.seed(123)
+  learner = lrn("classif.debug")
+  learner$encapsulate = c(train = "try", predict = "none")
+  learner$train(task)
+  expect_equal(learner$model$random_number, 2986)
+  expect_equal(sample(seq(1000), 1), 818)
+  rr = resample(task, learner, rsmp("cv", folds = 3), store_models = TRUE)
+  expect_equal(map_int(rr$learners, function(learner) learner$model$random_number), c(37151, 94567, 21057))
+
+  set.seed(123)
+  learner = lrn("classif.debug")
+  learner$encapsulate = c(train = "evaluate", predict = "none")
+  learner$train(task)
+  expect_equal(learner$model$random_number, 2986)
+  expect_equal(sample(seq(1000), 1), 818)
+  rr = resample(task, learner, rsmp("cv", folds = 3), store_models = TRUE)
+  expect_equal(map_int(rr$learners, function(learner) learner$model$random_number), c(37151, 94567, 21057))
+
+  set.seed(123)
+  learner = lrn("classif.debug")
+  learner$encapsulate = c(train = "callr", predict = "none")
+  learner$train(task)
+  expect_equal(learner$model$random_number, 2986)
+  expect_equal(sample(seq(1000), 1), 818)
+  rr = resample(task, learner, rsmp("cv", folds = 3), store_models = TRUE)
+  expect_equal(map_int(rr$learners, function(learner) learner$model$random_number), c(37151, 94567, 21057))
+})
