@@ -14,6 +14,9 @@ The following hyperparameters trigger the following actions:
 \item{save_tasks:}{Saves input task in \code{model} slot during training and prediction.}
 \item{threads:}{Number of threads to use. Has no effect.}
 \item{x:}{Numeric tuning parameter. Has no effect.}
+\item{validate:}{Whether to evaluate the response on the validation set. This parameter can be either \code{NULL},
+a ratio, \code{"test"}, or \code{"inner_valid_task"}.}
+\item{response:}{Whether to evaluate }
 }
 }
 \section{Dictionary}{
@@ -43,11 +46,13 @@ lrn("regr.debug")
    save_tasks \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
    threads \tab integer \tab - \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
    x \tab numeric \tab - \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
+   validate \tab untyped \tab NULL \tab  \tab - \cr
+   response \tab untyped \tab NULL \tab  \tab - \cr
 }
 }
 
 \examples{
-task = tsk("mtcars")
+task = tsk("")
 learner = lrn("regr.debug", save_tasks = TRUE)
 learner$train(task, row_ids = 1:20)
 prediction = learner$predict(task, row_ids = 21:32)
@@ -93,6 +98,8 @@ Other Learner:
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-LearnerRegrDebug-new}{\code{LearnerRegrDebug$new()}}
+\item \href{#method-LearnerRegrDebug-inner_valid_scores}{\code{LearnerRegrDebug$inner_valid_scores()}}
+\item \href{#method-LearnerRegrDebug-inner_tuning_values}{\code{LearnerRegrDebug$inner_tuning_values()}}
 \item \href{#method-LearnerRegrDebug-clone}{\code{LearnerRegrDebug$clone()}}
 }
 }
@@ -119,6 +126,33 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 \if{html}{\out{<div class="r">}}\preformatted{LearnerRegrDebug$new()}\if{html}{\out{</div>}}
 }
 
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-LearnerRegrDebug-inner_valid_scores"></a>}}
+\if{latex}{\out{\hypertarget{method-LearnerRegrDebug-inner_valid_scores}{}}}
+\subsection{Method \code{inner_valid_scores()}}{
+Retrieves the inner validation scores.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{LearnerRegrDebug$inner_valid_scores()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+named \code{list()}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-LearnerRegrDebug-inner_tuning_values"></a>}}
+\if{latex}{\out{\hypertarget{method-LearnerRegrDebug-inner_tuning_values}{}}}
+\subsection{Method \code{inner_tuning_values()}}{
+Retrieves the inner tuned values.
+In this case
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{LearnerRegrDebug$inner_tuning_values()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+named \code{list()}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-LearnerRegrDebug-clone"></a>}}

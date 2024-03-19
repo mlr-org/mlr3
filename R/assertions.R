@@ -111,7 +111,8 @@ assert_learners = function(learners, task = NULL, task_type = NULL, properties =
   invisible(lapply(learners, assert_learner, task = task, task_type = NULL, properties = properties, .var.name = .var.name))
 }
 
-assert_task_learner = function(task, learner, cols = NULL, check_validation_task = FALSE) {
+# this does not check the validation task, as this is only possible once the validation set is known
+assert_task_learner = function(task, learner, cols = NULL) {
   pars = learner$param_set$get_values(type = "only_token", check_required = FALSE)
   if (length(pars) > 0) {
     stopf("%s cannot be trained with TuneToken present in hyperparameter: %s", learner$format(), str_collapse(names(pars)))
@@ -129,48 +130,36 @@ assert_task_learner = function(task, learner, cols = NULL, check_validation_task
     stopf("%s has the following unsupported feature types: %s", task$format(), str_collapse(tmp))
   }
 
-  assert_missingness(task, learner, cols, "Task")
-  assert_task_properties(task, learner, "Task")
-  if (check_validation_task) {
-    # we only check that validation task exists in learner$train() as it is generated from test rows in resample and benchmark
-    if (!is.null(task) && "validation" %in% learner$properties && is.null(task$validation_task)) {
-      stopf("Learner '%s' has property 'validation', but task '%s' does not have one.", learner$id, task$id)
-    }
-    assert_task_properties(task, learner, "Validation Task")
-  }
-  if (check_validation_task && "validation" %in% learner$properties) {
-    assert_missingness(task$validation_task, learner, cols, "Validation Task")
-  }
-}
-
-assert_missingness = function(task, learner, cols, name) {
   if ("missings" %nin% learner$properties) {
     miss = task$missings(cols = cols) > 0L
     if (any(miss)) {
-      stopf("%s '%s' has missing values in column(s) %s, but learner '%s' does not support this",
-        name, task$id, str_collapse(names(miss)[miss], quote = "'"), learner$id)
+      stopf("Task '%s' has missing values in column(s) %s, but learner '%s' does not support this",
+        task$id, str_collapse(names(miss)[miss], quote = "'"), learner$id)
     }
   }
-}
 
-assert_task_properties = function(task, learner, name) {
   tmp = mlr_reflections$task_mandatory_properties[[task$task_type]]
   if (length(tmp)) {
     tmp = setdiff(intersect(task$properties, tmp), learner$properties)
     if (length(tmp)) {
-      stopf("%s '%s' has property '%s', but learner '%s' does not support that",
-        name, task$id, tmp[1L], learner$id)
+      stopf("Task '%s' has property '%s', but learner '%s' does not support that",
+        task$id, tmp[1L], learner$id)
     }
+  }
+
+  validate = learner$param_set$values$validate
+  if (!is.null(task$inner_valid_task) && (is.numeric(validate) || isTRUE(all.equal(validate, "test")))) {
+    stopf("Parameter 'validate' of Learner '%s' cannot be set to 'test' or a ratio when inner_valid_task is present", learner$id)
   }
 }
 
 #' @export
 #' @rdname mlr_assertions
-assert_learnable = function(task, learner, check_validation_task = FALSE) {
+assert_learnable = function(task, learner, valid = FALSE) {
   if (task$task_type == "unsupervised") {
     stopf("%s cannot be trained with %s", learner$format(), task$format())
   }
-  assert_task_learner(task, learner, check_validation_task = check_validation_task)
+  assert_task_learner(task, learner)
 }
 
 #' @export

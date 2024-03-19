@@ -28,7 +28,6 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
   # ensure that required packages are installed
   require_namespaces(learner$packages)
 
-
   # subset to train set w/o cloning
   if (!is.null(train_row_ids)) {
     lg$debug("Subsetting task '%s' to %i rows",
@@ -43,13 +42,37 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
     lg$debug("Skip subsetting of task '%s'", task$id)
   }
 
-  if ("validation" %in% learner$properties && !is.null(test_row_ids)) {
-    # this is the case for resample() and benchmark()
+  validate = learner$param_set$values$validate
+  if (!is.null(validate)) {
+    # handle the inner validation task
+    prev_valid = force(task$inner_valid_task)
     on.exit({
-      task$validation_task = NULL
+      task$inner_valid_task = prev_valid
     }, add = TRUE)
-    task$divide(test_row_ids, "validation", remove = FALSE)
+
+    # Otherwise, predict_set = "inner_valid" is ambiguous
+    if (!is.null(prev_valid) && (is.numeric(validate) || isTRUE(all.equal(validate, "test")))) {
+      stopf("Parameter 'validate' of Learner '%s' cannot be set to 'test' or a ratio when inner_valid_task is present", learner$id)
+    }
+
+    if (isTRUE(all.equal(validate, "inner_valid_task")) && is.null(task$inner_valid_task)) {
+      stopf("Parameter 'validate' is set to 'inner_valid_task' but no inner validation task is present.")
+    }
+    if (isTRUE(all.equal(validate, "test"))) {
+      if (is.null(test_row_ids)) {
+        stopf("Parameter 'validate' cannot be set to 'test' when calling train manually.")
+      }
+      # at this point, the train rows are already set to the train set, i.e. we don't have to remove the test ids
+      # from the primary task (this would cause bugs for resamplings with overlapping train and test set)
+      task$divide(test_row_ids, remove = FALSE)
+    }
+    if (is.numeric(validate)) {
+      task$divide(validate, remove = TRUE)
+    }
+
+    assert_task_learner(task$inner_valid_task, learner)
   }
+
 
   if (mode == "train") learner$state = list()
 
@@ -101,7 +124,12 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
       fb$id, learner = fb$clone())
   }
 
-  learner
+  list(
+    learner = learner,
+    train_ids = task$row_ids,
+    inner_valid_task_ids = if (!is.null(validate)) task$inner_valid_task$row_ids,
+    inner_valid_task_hash = if (!is.null(validate)) task$inner_valid_task$hash
+  )
 }
 
 learner_predict = function(learner, task, row_ids = NULL) {
@@ -252,15 +280,29 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
   }
   learner_hash = learner$hash
 
-  test_set = if ("validation" %in% learner$properties) sets$test
-
-  learner = learner_train(learner, task, sets[["train"]], test_set, mode = mode)
+  test_set = if (isTRUE(all.equal(learner$param_set$values$validate, "test"))) sets$test
+  train_result = learner_train(learner, task, sets[["train"]], test_set, mode = mode)
+  learner = train_result$learner
 
   # predict for each set
   predict_sets = learner$predict_sets
-  if (is.null(task$holdout_task)) predict_sets = setdiff(predict_sets, "holdout")
+
+  validate = learner$param_set$values$validate
+
+  # if the valdiate parameter is a ratio, some data was taken from the training data for the inner validation
+  if (is.numeric(validate)) {
+    sets$train = train_result$train_ids
+  }
+  tasks = list(train = task, test = task)
+  if (!is.null(train_result$inner_valid_task_ids)) sets$inner_valid = train_result$inner_valid_task_ids
+  tasks$inner_valid = if (isTRUE(all.equal(validate, "inner_valid_task"))) {
+    task$inner_valid_task
+  } else {
+    task
+  }
+  tasks = tasks[predict_sets]
   sets = sets[predict_sets]
-  tasks = list(train = task, test = task, holdout = task$holdout_task)[predict_sets]
+
   pdatas = Map(function(set, row_ids, task) {
     lg$debug("Creating Prediction for predict set '%s'", set)
     learner_predict(learner, task, row_ids)

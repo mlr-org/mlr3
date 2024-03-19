@@ -28,19 +28,16 @@ resampling_task_hashes = function(task, resampling, learner = NULL) {
   })
 }
 
-task_hash = function(task, use_ids, test_ids = NULL, ignore_validation_task = FALSE) {
-  # order matters: we first check for test_ids and then for the validation_task
+task_hash = function(task, use_ids, test_ids = NULL, ignore_inner_valid_task = FALSE) {
+  # order matters: we first check for test_ids and then for the inner_valid_task
   if (!is.null(test_ids)) {
-    # this does the same as task$divide(test_ids, "test")$validation_task$hash but avoids the deep clone
-    prev_holdout = task$holdout_task
-    task$holdout_task = NULL
-    validation_task_hash = task_hash(task, use_ids = test_ids, test_ids = NULL, ignore_validation_task = TRUE)
-    task$holdout_task = prev_holdout
-  } else if (!ignore_validation_task) {
-    validation_task_hash = task$validation_task$hash
+    # this does the same as task$divide(test_ids)$inner_valid_task$hash but avoids the deep clone
+    inner_valid_task_hash = task_hash(task, use_ids = test_ids, test_ids = NULL, ignore_inner_valid_task = TRUE)
+  } else if (!ignore_inner_valid_task) {
+    inner_valid_task_hash = task$inner_valid_task$hash
   } else {
-    validation_task_hash = NULL
+    inner_valid_task_hash = NULL
   }
   calculate_hash(class(task), task$id, task$backend$hash, task$col_info, use_ids, task$col_roles,
-    get_private(task)$.properties, validation_task_hash, task$holdout_task$hash)
+    get_private(task)$.properties, inner_valid_task_hash)
 }

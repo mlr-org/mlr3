@@ -44,20 +44,6 @@ test_that("NA predictions", {
   expect_equal(is.na(p$response), apply(p$prob, 1, anyMissing))
 })
 
-test_that("validation task is available in $.train method", {
-  task = tsk("iris")$divide(1:3, "validation")
-  learner = lrn("classif.debug", save_tasks = TRUE, validation = TRUE)
-  resampling = rsmp("cv", folds = 3)
-  resampling$instantiate(task)
-
-  rr = resample(task, learner, resampling, store_models = TRUE)
-
-  walk(seq(rr$iters), function(i) {
-    expect_equal(rr$learners[[i]]$model$task_train$row_roles$use, resampling$train_set(i))
-    expect_equal(rr$learners[[i]]$model$task_train$validation_task$row_roles$use, resampling$test_set(i))
-  })
-})
-
 test_that("default_values", {
   learner = lrn("classif.debug")
   search_space = ps(iter = p_int(1, 10))
@@ -72,10 +58,3 @@ test_that("default_values works with empty search space", {
   expect_list(default_values(learner, ps(), task), len = 0)
 })
 
-test_that("error when training a learner that uses validation_task without a validation task", {
-  task = tsk("iris")
-  learner = lrn("classif.debug", validation = TRUE)
-  expect_error(learner$train(task), "Learner")
-  task$divide(1:10, "validation")
-  expect_class(learner, "Learner")
-})

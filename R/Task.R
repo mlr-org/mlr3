@@ -153,32 +153,44 @@ Task = R6Class("Task",
     },
 
     #' @description
-    #' Creates a test or holdout task from the task.
+    #' Creates a validation task from the primary task.
     #' This modifies the task in-place.
-    #' Subsequent operations on the (primary) task are not relayed to the test or holdout task.
-    #' @param row_ids (`integer()` or `NULL`)\cr
-    #'   The row ids to use for the test/holdout task.
-    #' @param type (`character(1)`)\cr
-    #'   The type of task to create. Either `"validation"` (default) or `"holdout"`.
+    #' Subsequent operations on the (primary) task are **not** relayed to the validation task.
+    #' @param x (`numeric(1)`, `integer()`)\cr
+    #'   Either a `ratio` indicating the proportion of the validation data, or a vector of row ids.
     #' @param remove (`logical(1)`)\cr
     #'   If `TRUE` (default), the `row_ids` are removed from the primary task's active `"use"` rows.
+    #'
     #' @return Modified `self`.
-    divide = function(row_ids = NULL, type = "validation", remove = TRUE) {
-      private$.hash = NULL
+    divide = function(x, remove = TRUE) {
       assert_flag(remove)
-      assert_row_ids(row_ids, null.ok = FALSE)
-      assert_choice(type, c("validation", "holdout"))
-      task_name = paste0(type, "_task")
-      other_name = paste0(setdiff(c("validation", "holdout"), type), "_task")
-      prev_other = self[[other_name]]
-      on.exit({self[[other_name]] = prev_other}, add = TRUE)
-      self[[other_name]] = NULL
-      if (!is.null(self[[task_name]])) lg$debug("Overwriting existing %s task for task '%s'", type,  self$id)
-      self[[task_name]] = NULL
+      private$.hash = NULL
+
+      if (test_numeric(x, lower = 0, upper = 1, len = 1L, any.missing = FALSE) && !test_integerish(x)) {
+        # stratify = FALSE means we only stratify when strata are present
+        x = partition(self, ratio = 1 - x, stratify = FALSE)$test
+      } else {
+        x = assert_row_ids(x, null.ok = FALSE)
+      }
+
+      if (!is.null(self$inner_valid_task)) lg$debug("Overwriting existing inner_valid_task for task '%s'", self$id)
+      prev_inner_valid = force(self$inner_valid_task)
+      on.exit({
+        self$inner_valid_task = prev_inner_valid
+      }, add = TRUE)
+      self$inner_valid_task = NULL
+
       new_task = self$clone(deep = TRUE)
-      new_task$row_roles$use = row_ids
-      self[[task_name]] = new_task
-      if (remove) self$row_roles$use = setdiff(self$row_roles$use, row_ids)
+      new_task$row_roles$use = x
+      self$inner_valid_task = new_task
+      prev_use = force(self$row_roles$use)
+      if (remove) {
+        on.exit({
+          self$row_roles$use = prev_use
+        }, add = TRUE)
+        self$row_roles$use = setdiff(self$row_roles$use, x)
+      }
+      on.exit({}, add = FALSE)
       invisible(self)
     },
 
@@ -231,11 +243,8 @@ Task = R6Class("Task",
         catn(str_indent(sprintf("* %s:", str), roles[[role]]))
       })
 
-      if (!is.null(private$.validation_task)) {
-        catf(str_indent("* Validation Task:", sprintf("(%ix%i)", private$.validation_task$nrow, private$.validation_task$ncol)))
-      }
-      if (!is.null(private$.holdout_task)) {
-        catf(str_indent("* Holdout Task:", sprintf("(%ix%i)", private$.holdout_task$nrow, private$.holdout_task$ncol)))
+      if (!is.null(private$.inner_valid_task)) {
+        catf(str_indent("* Validation Task:", sprintf("(%ix%i)", private$.inner_valid_task$nrow, private$.inner_valid_task$ncol)))
       }
     },
 
@@ -761,52 +770,29 @@ Task = R6Class("Task",
       private$.id = assert_string(rhs, min.chars = 1L)
     },
 
-    #' @field validation_task (`Task` or `NULL`)\cr
+    #' @field inner_valid_task (`Task` or `NULL`)\cr
     #' Optional validation task that can e.g. be used for early stopping with learners such as XGBoost.
     #' When resampling a learner that has the property 'validation', this task is automatically generated from
     #' the test set for each resampling iteration.
-    validation_task = function(rhs) {
+    inner_valid_task = function(rhs) {
       if (missing(rhs)) {
-        return(invisible(private$.validation_task))
+        return(invisible(private$.inner_valid_task))
       }
       private$.hash = NULL
       if (is.null(rhs)) {
-        private$.validation_task = NULL
-        return(invisible(private$.validation_task))
+        private$.inner_valid_task = NULL
+        return(invisible(private$.inner_valid_task))
       }
 
       assert_task(rhs, task_type = self$task_type)
       if (identical(rhs, self)) { # avoid circles
         stopf("Task '%s' cannot be its own validation task", self$id)
       }
-      if (!is.null(rhs$validation_task) || !is.null(rhs$holdout_task)) { # avoid recursive structures
-        stopf("Trying to assign task '%s' as a validation task, remove its validation/holdout task first", rhs$id)
+      if (!is.null(rhs$inner_valid_task)) { # avoid recursive structures
+        stopf("Trying to assign task '%s' as a validation task, remove its validation task first", rhs$id)
       }
-      private$.validation_task = rhs
-      invisible(private$.validation_task)
-    },
-
-    #' @field holdout_task (`Task` or `NULL`)\cr
-    #' Optional holdout task.
-    #' It is possible to make predictions on this task, by setting the `predict_set` of a [`Learner`] to `"holdout"`.
-    holdout_task = function(rhs) {
-      if (missing(rhs)) {
-        return(invisible(private$.holdout_task))
-      }
-      private$.hash = NULL
-      if (is.null(rhs)) {
-        private$.holdout_task = NULL
-        return(invisible(private$.holdout_task))
-      }
-      assert_task(rhs, task_type = self$task_type)
-      if (identical(rhs, self)) { # avoid cycles
-        stopf("Task '%s' cannot be its own holdout task", self$id)
-      }
-      if (!is.null(rhs$validation_task) || !is.null(rhs$holdout_task)) { # avoid recursive structures
-        stopf("Trying to assign task '%s' as a holdout task, remove its validation/holdout task first", rhs$id)
-      }
-      private$.holdout_task = rhs
-      invisible(private$.holdout_task)
+      private$.inner_valid_task = rhs
+      invisible(private$.inner_valid_task)
     },
 
     #' @template field_hash
@@ -887,7 +873,6 @@ Task = R6Class("Task",
     #' Each row (observation) can have an arbitrary number of roles in the learning task:
     #'
     #' - `"use"`: Use in train / predict / resampling.
-    #' For the previous `"test"` and `"holdout"` rows, see the `$divide()` method.
     #'
     #' `row_roles` is a named list whose elements are named by row role and each element is an `integer()` vector of row ids.
     #' To alter the roles, just modify the list, e.g. with  \R's set functions ([intersect()], [setdiff()], [union()], \ldots).
@@ -899,7 +884,7 @@ Task = R6Class("Task",
       assert_has_backend(self)
       assert_list(rhs, .var.name = "row_roles")
       if ("test" %in% names(rhs) || "holdout" %in% names(rhs)) {
-        stopf("Setting row roles 'test'/'holdout' is no longer possible, use `$divide()` instead")
+        stopf("Setting row roles 'test'/'holdout' is no longer possible.")
       }
       assert_names(names(rhs), "unique", permutation.of = mlr_reflections$task_row_roles, .var.name = "names of row_roles")
       rhs = map(rhs, assert_row_ids, .var.name = "elements of row_roles")
@@ -1092,8 +1077,7 @@ Task = R6Class("Task",
   ),
 
   private = list(
-    .holdout_task = NULL,
-    .validation_task = NULL,
+    .inner_valid_task = NULL,
     .id = NULL,
     .properties = NULL,
     .col_roles = NULL,
@@ -1105,7 +1089,7 @@ Task = R6Class("Task",
       # NB: DataBackends are never copied!
       if (name == "col_info") {
         copy(value)
-      } else if (name %in% c(".validation_task", ".holdout_task") && !is.null(value)) {
+      } else if (name == ".inner_valid_task" && !is.null(value)) {
         value$clone(deep = TRUE)
       } else {
         value
@@ -1230,8 +1214,7 @@ task_rm_backend = function(task) {
   ee = get_private(task)
   ee$.hash = force(task$hash)
   ee$.col_hashes = force(task$col_hashes)
-  ee$.validation_task$backend = NULL
-  ee$.holdout_task$backend = NULL
+  ee$.inner_valid_task$backend = NULL
 
   # NULL backend
   task$backend = NULL

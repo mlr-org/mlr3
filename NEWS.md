@@ -3,13 +3,9 @@
 * Fix: A task's hash now takes the validation task (previously row roles 'test') into
 account, which now ensures that hotstarting and usage of test rows works
 together
-* BREAKING_CHANGE: row roles 'use' and 'test' are now replaced with fields
-'validation_task' and 'holdout_task'. They can be conveniently created using the
-newly added `$divide()` method
-* feat(Learner): Add support for private method `$.dependent_properties()`,
-  which allows to dynamically generate a learner's properties, based e.g.
-  on its parameter values.
-* feat: Add learner property `"validation"`
+* BREAKING_CHANGE: removes row rols 'test' and 'holdout'.
+* Feat(Learner): Better support for validation and learner internal tuning.
+* TODOOOO
 * feat: dictionary conversion of `mlr_learners` respects prototype arguments
 recently added in mlr3misc
 * perf: skip unnecessary clone of learner's state in `resample()`

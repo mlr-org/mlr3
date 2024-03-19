@@ -61,6 +61,13 @@
 #' * `loglik(...)`: Extracts the log-likelihood (c.f. [stats::logLik()]).
 #'   This can be used in measures like [mlr_measures_aic] or [mlr_measures_bic].
 #'
+#' * `inner_valid_scores(...)`: Returns the inner validation error(s) of the model as named `list()` with
+#'   `numeric(1)` values.
+#'   Learners that have the `"validation"` property must implement this.
+
+#' * `inner_tuning_values(...)`: Returns the inner tuned hyperparameters of the model as named `list()`.
+#'   Learners that have the `"tune"` property must implement this.
+#'   In case no values were tuned, an empty list should be returned.
 #'
 #' @section Setting Hyperparameters:
 #'
@@ -83,6 +90,23 @@
 #' lrn$param_set$add(paradox::ParamFct$new("foo", levels = c("a", "b")))
 #' ```
 #'
+#' @section Validation:
+#' Learners that can make use of an additional validation set (e.g. for early stopping) must:
+#' * be annotated with the `"validation"` property
+#' * implement the `$inner_valid_scores()` extractors (see section *Optional Extractors*)
+#' * Add the `validate` parameter, which can be either `NULL`, a ratio, `"test"`, or `"inner_valid_task"`:
+#'   * `NULL`: no validation
+#'   * `ratio`: only proportion `1 - ratio` of the task is used for training and `ratio` is used for validation.
+#'      set in the task).
+#'   * `"test"` means that the `"test"` task is used.
+#'     **Warning**: This might lead to bias performance estimation.
+#'     This option is only available if the learner is being trained via [resample()], [benchmark()] or functions that
+#'     internally use them, e.g. [`mlr3tuning::tune`] or [`mlr3batchmark::batchmark()`].
+#'     This is especially useful for hyperparameter tuning, where one might want to use the same data for early
+#'     stopping and the evaluation of the hyperparameter configurations.
+#'   * `"inner_valid_task"` means that the inner validation task is used.
+#'     See the [`Task`] documentation for this.
+#'
 #' @template seealso_learner
 #' @export
 Learner = R6Class("Learner",
@@ -102,6 +126,11 @@ Learner = R6Class("Learner",
 
     #' @template field_task_type
     task_type = NULL,
+
+    #' @field properties (`character()`)\cr
+    #' Stores a set of properties/capabilities the learner has.
+    #' A complete list of candidate properties, grouped by task type, is stored in [`mlr_reflections$learner_properties`][mlr_reflections].
+    properties = NULL,
 
     #' @field predict_types (`character()`)\cr
     #' Stores the possible predict types the learner is capable of.
@@ -159,7 +188,7 @@ Learner = R6Class("Learner",
       self$predict_types = assert_ordered_set(predict_types, names(mlr_reflections$learner_predict_types[[task_type]]),
         empty.ok = FALSE, .var.name = "predict_types")
       private$.predict_type = predict_types[1L]
-      private$.properties = sort(assert_subset(properties, mlr_reflections$learner_properties[[task_type]]))
+      self$properties = sort(assert_subset(properties, mlr_reflections$learner_properties[[task_type]]))
       self$data_formats = assert_subset(data_formats, mlr_reflections$data_formats)
       self$packages = union("mlr3", assert_character(packages, any.missing = FALSE, min.chars = 1L))
       self$man = assert_string(man, na.ok = TRUE)
@@ -217,7 +246,7 @@ Learner = R6Class("Learner",
     #' the object in its previous state.
     train = function(task, row_ids = NULL) {
       task = assert_task(as_task(task))
-      assert_learnable(task, self, check_validation_task = TRUE)
+      assert_learnable(task, self)
       row_ids = assert_row_ids(row_ids, null.ok = TRUE)
 
       if (!is.null(self$hotstart_stack)) {
@@ -236,14 +265,22 @@ Learner = R6Class("Learner",
 
       train_row_ids = if (!is.null(row_ids)) row_ids else task$row_roles$use
 
-      learner_train(learner, task, train_row_ids = train_row_ids, mode = mode)
+      train_result = learner_train(learner, task, train_row_ids = train_row_ids, mode = mode)
 
       # store data prototype
       proto = task$data(rows = integer())
       self$state$data_prototype = proto
       self$state$task_prototype = proto
 
-      # store the task w/o the data
+      # In the case where the validation task was specified manually we are duplicating some information here
+      # but this is in the interest of consistency
+      if (!is.null(self$param_set$values$validate)) {
+        self$state = insert_named(self$state, list(
+          inner_valid_task_ids = train_result$inner_valid_task_ids,
+          inner_valid_task_hash = train_result$inner_valid_task_hash
+        ))
+      }
+
       self$state$train_task = task_rm_backend(task$clone(deep = TRUE))
 
       invisible(self)
@@ -372,19 +409,6 @@ Learner = R6Class("Learner",
   ),
 
   active = list(
-    #' @field properties (`character()`)\cr
-    #' A complete list of candidate properties, grouped by task type, is stored in [`mlr_reflections$learner_properties`][mlr_reflections].
-    properties = function(rhs) {
-      if (!missing(rhs)) {
-        private$.properties = sort(assert_subset(rhs, mlr_reflections$learner_properties[[self$task_type]]))
-      }
-      dependent_properties = private$.dependent_properties()
-      if (!length(dependent_properties)) {
-        return(private$.properties)
-      }
-      sort(c(private$.properties, dependent_properties))
-    },
-
     #' @field model (any)\cr
     #' The fitted model. Only available after `$train()` has been called.
     model = function(rhs) {
@@ -393,7 +417,6 @@ Learner = R6Class("Learner",
       }
       self$state$model
     },
-
 
     #' @field timings (named `numeric(2)`)\cr
     #' Elapsed time in seconds for the steps `"train"` and `"predict"`.
@@ -525,7 +548,6 @@ Learner = R6Class("Learner",
 
   private = list(
     .properties = NULL,
-    .dependent_properties = function() character(0), # can't set this to NULL because of a bug in R6
     .encapsulate = NULL,
     .fallback = NULL,
     .predict_type = NULL,

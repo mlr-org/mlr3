@@ -52,3 +52,10 @@ clone_rep = function(x, n) {
   xc = x$clone(deep = TRUE)
   lapply(seq_len(n), function(i) xc)
 }
+
+check_validate = function(x) {
+  if (test_numeric(x, lower = 0, upper = 1, len = 1L)) {
+    return(TRUE)
+  }
+  check_choice(x, c("inner_valid", "test"), null.ok = TRUE)
+}

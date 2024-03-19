@@ -85,11 +85,14 @@ HotstartStack = R6Class("HotstartStack",
     add = function(learners) {
       learners = assert_learners(as_learners(learners))
 
-      walk(learners, function(learner)
+      walk(learners, function(learner) {
         if (is.null(learner$state$model)) {
           stopf("Learners must be trained before adding them to the hotstart stack.")
         }
-      )
+        if (!is.null(learner$state$param_vals$validate)) {
+          stopf("Hotstart learners that did validation is currently not supported.")
+        }
+})
 
       if (!is.null(self$hotstart_threshold)) {
         learners = keep(learners, function(learner) {

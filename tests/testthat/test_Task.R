@@ -379,10 +379,6 @@ test_that("Task$set_row_roles", {
 
   task$set_row_roles(1:10, add_to = "use")
   expect_true(all(1:10 %in% task$row_ids))
-
-  task$divide(1:10, "holdout")
-  expect_true(all(1:10 %nin% task$row_ids))
-  expect_true(all(1:10 %in% task$holdout_task$row_ids))
 })
 
 
@@ -511,99 +507,58 @@ test_that("Roles get printed (#877)", {
 
 test_that("validation task is cloned", {
   task = tsk("iris")
-  task$divide(c(1:10, 51:60, 101:110), "validation")
+  task$divide(c(1:10, 51:60, 101:110))
   task2 = task$clone(deep = TRUE)
-  expect_false(identical(task$validation_task, task2$validation_task))
-  expect_equal(task$validation_task, task2$validation_task)
+  expect_false(identical(task$inner_valid_task, task2$inner_valid_task))
+  expect_equal(task$inner_valid_task, task2$inner_valid_task)
 })
 
-test_that("holdout task is cloned", {
+test_that("task cannot be its own validation task", {
   task = tsk("iris")
-  task$divide(c(1:10, 51:60, 101:110), "holdout")
-  task2 = task$clone(deep = TRUE)
-  expect_false(identical(task$holdout_task, task2$holdout_task))
-  expect_equal(task$holdout_task, task2$holdout_task)
+  expect_error({task$inner_valid_task = task}, "cannot be its own validation task")
 })
 
-test_that("task cannot be its own test / holdout task", {
+test_that("validation task cannot have a validation task", {
   task = tsk("iris")
-  expect_error({task$validation_task = task}, "cannot be its own validation task")
-  expect_error({task$holdout_task = task}, "cannot be its own holdout task")
+  expect_error({task$inner_valid_task = task$clone(deep = TRUE)$divide(1, "validation") }, "remove its validation")
 })
 
-test_that("validation task cannot have a test or holdout task", {
-  task = tsk("iris")
-  expect_error({task$validation_task = task$clone(deep = TRUE)$divide(1, "validation") }, "remove its validation/holdout")
-  expect_error({task$validation_task = task$clone(deep = TRUE)$divide(1, "holdout") }, "remove its validation/holdout")
-  expect_error({task$holdout_task = task$clone(deep = TRUE)$divide(1, "validation") }, "remove its validation/holdout")
-  expect_error({task$holdout_task = task$clone(deep = TRUE)$divide(1, "holdout") }, "remove its validation/holdout")
+test_that("divide works with ratio", {
+  task = tsk("iris")$filter(1:10)
+  task$divide(0.1)
+  expect_equal(task$nrow, 9)
+  expect_equal(task$inner_valid_task$nrow, 1)
+  expect_permutation(1:10, c(task$row_ids, task$inner_valid_task$row_ids))
 })
 
 test_that("validation task changes a task's hash", {
   task = tsk("iris")
   h1 = task$hash
-  task$divide(1:10, "validation", remove = FALSE)
+  task$divide(1:10, remove = FALSE)
   h2 = task$hash
   expect_false(h1 == h2)
-  task$divide(1:11, "validation", remove = FALSE)
+  task$divide(1:11, remove = FALSE)
   expect_false(h2 == task$hash)
 })
 
-test_that("holdout task changes a task's hash", {
+test_that("can NULL validation task", {
   task = tsk("iris")
-  h1 = task$hash
-  task$divide(1:10, "holdout", remove = FALSE)
-  h2 = task$hash
-  expect_false(h1 == h2)
-  task$divide(1:11, "holdout", remove = FALSE)
-  expect_false(h2 == task$hash)
-})
-
-test_that("can NULL validation/holdout task", {
-  task = tsk("iris")
-  task$divide(1, "validation")
-  task$validation_task = NULL
-  expect_equal(length(task$row_ids), 149)
-
-  task = tsk("iris")
-  task$divide(1, "holdout")
-  task$holdout_task = NULL
+  task$divide(1)
+  task$inner_valid_task = NULL
   expect_equal(length(task$row_ids), 149)
 })
 
 test_that("can call $divide twice", {
   task = tsk("iris")
-  task$divide(1:10, "validation")
-  expect_task(task$divide(1:10, "validation"))
-
-  task = tsk("iris")
-  task$divide(1:10, "holdout")
-  expect_task(task$divide(1:10, "holdout"))
-  task = tsk("iris")
-  task$divide(1:10, "holdout")
-  expect_task(task$divide(1:10, "validation"))
+  task$divide(1:10)
+  expect_task(task$divide(1:10))
 })
 
-test_that("holdout task cannot have a test or holdout task", {
+test_that("inner_valid_task is printed", {
   task = tsk("iris")
-  task2 = tsk("iris")
-  task2$divide(1, "validation")
-  expect_error({task$validation_task = task2}, "remove its")
-  expect_error({task$holdout_task = task2}, "remove its")
-  task2$validation_task = NULL
-  task2$divide(1, "holdout")
-  expect_error({task$validation_task = task2}, "remove its")
-  expect_error({task$holdout_task = task2}, "remove its")
-})
-
-test_that("validation_task is printed", {
-  task = tsk("iris")
-  task$divide(c(1:10, 51:60, 101:110), "validation")
+  task$divide(c(1:10, 51:60, 101:110))
   out = capture_output(print(task))
   expect_true(grepl(pattern = "* Validation Task: (30x5)", fixed = TRUE, x = out))
-  task$divide(c(1:5, 51:60, 101:110), "holdout")
-  out2 = capture_output(print(task))
-  expect_true(grepl(pattern = "* Holdout Task: (25x5)", fixed = TRUE, x = out2))
 })
 
 test_that("task hashes during resample", {
@@ -611,7 +566,7 @@ test_that("task hashes during resample", {
   task = orig$clone(deep = TRUE)
   resampling = rsmp("holdout")
   resampling$instantiate(task)
-  task$divide(resampling$test_set(1), "validation")
+  task$divide(resampling$test_set(1))
   task$hash
   learner = lrn("classif.debug", validation = TRUE)
   expect_equal(resampling_task_hashes(task, resampling, learner), task$hash)

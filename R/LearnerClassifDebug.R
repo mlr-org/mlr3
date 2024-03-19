@@ -69,8 +69,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
           warning_predict      = p_dbl(0, 1, default = 0, tags = "predict"),
           warning_train        = p_dbl(0, 1, default = 0, tags = "train"),
           x                    = p_dbl(0, 1, tags = "train"),
-          iter                 = p_int(1, default = 1, tags = c("train", "hotstart")),
-          validation           = p_lgl(default = FALSE, tags = "train")
+          iter                 = p_int(1, default = 1, tags = c("train", "hotstart"))
         ),
         properties = c("twoclass", "multiclass", "missings", "hotstart_forward"),
         man = "mlr3::mlr_learners_classif.debug",
@@ -79,14 +78,8 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
       )
     }
   ),
+
   private = list(
-    .dependent_properties = function() {
-      if (!isTRUE(self$param_set$values$validation)) {
-        character(0)
-      } else {
-        "validation"
-      }
-    },
     .train = function(task) {
       pv = self$param_set$get_values(tags = "train")
       roll = function(name) {

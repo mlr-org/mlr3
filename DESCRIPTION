@@ -189,6 +189,7 @@ Collate:
     'predict.R'
     'reexports.R'
     'resample.R'
+    'set_inner_tuning.R'
     'set_threads.R'
     'task_converters.R'
     'worker.R'

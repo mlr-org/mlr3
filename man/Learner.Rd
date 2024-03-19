@@ -48,6 +48,12 @@ The learner must be tagged with property \code{"selected_features"}.
 The learner must be tagged with property \code{"oob_error"}.
 \item \code{loglik(...)}: Extracts the log-likelihood (c.f. \code{\link[stats:logLik]{stats::logLik()}}).
 This can be used in measures like \link{mlr_measures_aic} or \link{mlr_measures_bic}.
+\item \code{inner_valid_scores(...)}: Returns the inner validation error(s) of the model as named \code{list()} with
+\code{numeric(1)} values.
+Learners that have the \code{"validation"} property must implement this.
+\item \code{inner_tuning_values(...)}: Returns the inner tuned hyperparameters of the model as named \code{list()}.
+Learners that have the \code{"tune"} property must implement this.
+In case no values were tuned, an empty list should be returned.
 }
 }
 
@@ -74,6 +80,29 @@ Here, we add a factor hyperparameter with id \code{"foo"} and possible levels \c
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{lrn$param_set$add(paradox::ParamFct$new("foo", levels = c("a", "b")))
 }\if{html}{\out{</div>}}
+}
+
+\section{Validation}{
+
+Learners that can make use of an additional validation set (e.g. for early stopping) must:
+\itemize{
+\item be annotated with the \code{"validation"} property
+\item implement the \verb{$inner_valid_scores()} extractors (see section \emph{Optional Extractors})
+\item Add the \code{validate} parameter, which can be either \code{NULL}, a ratio, \code{"test"}, or \code{"inner_valid_task"}:
+\itemize{
+\item \code{NULL}: no validation
+\item \code{ratio}: only proportion \code{1 - ratio} of the task is used for training and \code{ratio} is used for validation.
+set in the task).
+\item \code{"test"} means that the \code{"test"} task is used.
+\strong{Warning}: This might lead to bias performance estimation.
+This option is only available if the learner is being trained via \code{\link[=resample]{resample()}}, \code{\link[=benchmark]{benchmark()}} or functions that
+internally use them, e.g. \code{\link[mlr3tuning:tune]{mlr3tuning::tune}} or \code{\link[mlr3batchmark:batchmark]{mlr3batchmark::batchmark()}}.
+This is especially useful for hyperparameter tuning, where one might want to use the same data for early
+stopping and the evaluation of the hyperparameter configurations.
+\item \code{"inner_valid_task"} means that the inner validation task is used.
+See the \code{\link{Task}} documentation for this.
+}
+}
 }
 
 \seealso{
@@ -130,6 +159,10 @@ Task type, e.g. \code{"classif"} or \code{"regr"}.
 For a complete list of possible task types (depending on the loaded packages),
 see \code{\link[=mlr_reflections]{mlr_reflections$task_types$type}}.}
 
+\item{\code{properties}}{(\code{character()})\cr
+Stores a set of properties/capabilities the learner has.
+A complete list of candidate properties, grouped by task type, is stored in \code{\link[=mlr_reflections]{mlr_reflections$learner_properties}}.}
+
 \item{\code{predict_types}}{(\code{character()})\cr
 Stores the possible predict types the learner is capable of.
 A complete list of candidate predict types, grouped by task type, is stored in \code{\link[=mlr_reflections]{mlr_reflections$learner_predict_types}}.}
@@ -178,9 +211,6 @@ Defaults to \code{NA}, but can be set by child classes.}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{properties}}{(\code{character()})\cr
-A complete list of candidate properties, grouped by task type, is stored in \code{\link[=mlr_reflections]{mlr_reflections$learner_properties}}.}
-
 \item{\code{model}}{(any)\cr
 The fitted model. Only available after \verb{$train()} has been called.}
 
@@ -302,7 +332,7 @@ The following properties are currently standardized and understood by learners i
 \item \code{"importance"}: The learner supports extraction of importance scores, i.e. comes with an \verb{$importance()} extractor function (see section on optional extractors in \link{Learner}).
 \item \code{"selected_features"}: The learner supports extraction of the set of selected features, i.e. comes with a \verb{$selected_features()} extractor function (see section on optional extractors in \link{Learner}).
 \item \code{"oob_error"}: The learner supports extraction of estimated out of bag error, i.e. comes with a \code{oob_error()} extractor function (see section on optional extractors in \link{Learner}).
-\item \code{"uses_test_task"}: The learner can make use of a task's test task, e.g. for early stopping.
+\item \code{"validation"}: The learner can make use of a task's validation task, e.g. for early stopping.
 }}
 
 \item{\code{data_formats}}{(\code{character()})\cr

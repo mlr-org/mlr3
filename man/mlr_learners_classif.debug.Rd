@@ -67,7 +67,6 @@ lrn("classif.debug")
    warning_train \tab numeric \tab 0 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
    x \tab numeric \tab - \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
    iter \tab integer \tab 1 \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
-   uses_test_task \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
 }
 }
 
