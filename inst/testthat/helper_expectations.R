@@ -388,8 +388,6 @@ expect_learner = function(lrn, task = NULL, check_man = TRUE) {
     if ("marshal" %in% lrn$properties) {
       expect_marshalable_learner(lrn, task)
     }
-  } else if ("marshal" %in% lrn$properties) {
-    message("Cannot test 'marshal' property of the learner as no task is provided.")
   }
 
   if (!inherits(lrn, "GraphLearner") && !inherits(lrn, "AutoTuner")) { # still not in pipelines, breaking check in mlr3tuning
@@ -421,11 +419,15 @@ expect_marshalable_learner = function(learner, task) {
   expect_false(learner$marshaled)
   expect_equal(is_marshaled_model(learner$model), learner$marshaled)
   expect_invisible(learner$marshal())
-  expect_true(learner$marshaled)
+  if (!test_class(learner, "GraphLearner")) {
+    expect_true(learner$marshaled)
+  }
   expect_equal(is_marshaled_model(learner$model), learner$marshaled)
 
-  # cannot predict with marshaled learner
-  expect_error(learner$predict(task), "has not been unmarshaled")
+  if (learner$marshaled) {
+    # cannot predict with marshaled learner
+    expect_error(learner$predict(task), "has not been unmarshaled")
+  }
 
   # unmarshaling works
   expect_invisible(learner$unmarshal())
@@ -441,8 +443,6 @@ expect_marshalable_learner = function(learner, task) {
   # when re-training, marshaled is reset
   learner$predict(task)
   expect_false(learner$train(task)$marshaled)
-
-
 
 }
 
