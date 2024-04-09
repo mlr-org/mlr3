@@ -172,6 +172,7 @@ set_inner_tuning.LearnerRegrDebug = function(learner, disable = FALSE, validate 
   }
   learner$param_set$values = pv
   invisible(learner)
+}
 
 
 #' @include mlr_learners.R

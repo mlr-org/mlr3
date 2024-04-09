@@ -235,6 +235,15 @@ test_that("inner_valid and train predictions", {
   task = tsk("mtcars")$filter(1:10)
   rr2 = resample(task, learner, rsmp("insample"))
   expect_true(length(rr2$predictions("train")[[1L]]$row_ids) == 1L)
+  expect_true(length(rr2$predictions("test")[[1L]]$row_ids) == 10L)
+
+  rr3 = resample(task, learner, rsmp("holdout"))
+  rr3$predictions("train")
+  rr3$predictions("inner_valid")
+  rr3$predictions("test")
+
+  expect_true(length(rr2$predictions("train")[[1L]]$row_ids) == 1L)
+  expect_true(length(rr2$predictions("test")[[1L]]$row_ids) == 10L)
 })
 
 test_that("properties are also checked on validation task", {
