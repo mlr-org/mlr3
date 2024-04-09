@@ -158,8 +158,8 @@ test_that("as_resample_result works for result data", {
 })
 
 test_that("parallel execution automatically triggers marshaling", {
-  learner = lrn("regr.debug", count_marshaling = TRUE)
-  task = tsk("mtcars")
+  learner = lrn("classif.debug", count_marshaling = TRUE)
+  task = tsk("iris")
   resampling = rsmp("holdout")
   rr = with_future(future::multisession, {
     resample(task, learner, resampling, store_models = TRUE, unmarshal = TRUE)
@@ -169,8 +169,8 @@ test_that("parallel execution automatically triggers marshaling", {
 })
 
 test_that("sequential execution does not trigger marshaling", {
-  learner = lrn("regr.debug", count_marshaling = TRUE)
-  task = tsk("mtcars")
+  learner = lrn("classif.debug", count_marshaling = TRUE)
+  task = tsk("iris")
   resampling = rsmp("holdout")
   rr = with_future(future::sequential, {
     resample(task, learner, resampling, store_models = TRUE, unmarshal = TRUE)
@@ -179,8 +179,8 @@ test_that("sequential execution does not trigger marshaling", {
 })
 
 test_that("parallel execution and callr marshal once", {
-  learner = lrn("regr.debug", count_marshaling = TRUE, encapsulate = c(train = "callr"))
-  task = tsk("mtcars")
+  learner = lrn("classif.debug", count_marshaling = TRUE, encapsulate = c(train = "callr"))
+  task = tsk("iris")
   resampling = rsmp("holdout")
   rr = with_future(future::multisession, {
     resample(task, learner, resampling, store_models = TRUE, unmarshal = TRUE)
@@ -191,8 +191,8 @@ test_that("parallel execution and callr marshal once", {
 
 
 test_that("unmarshal parameter is respected", {
-  learner = lrn("regr.debug", count_marshaling = TRUE, encapsulate = c(train = "callr"))
-  task = tsk("mtcars")
+  learner = lrn("classif.debug", count_marshaling = TRUE, encapsulate = c(train = "callr"))
+  task = tsk("iris")
   resampling = rsmp("holdout")
   rr = with_future(future::multisession, {
     list(
@@ -205,7 +205,7 @@ test_that("unmarshal parameter is respected", {
 })
 
 test_that("ResampleResult can be (un)marshaled", {
-  rr = resample(tsk("mtcars"), lrn("regr.debug"), rsmp("holdout"), store_models = TRUE)
+  rr = resample(tsk("iris"), lrn("classif.debug"), rsmp("holdout"), store_models = TRUE)
   expect_false(rr$learners[[1]]$marshaled)
   rr$marshal()
   expect_true(rr$learners[[1]]$marshaled)

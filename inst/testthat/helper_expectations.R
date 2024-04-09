@@ -375,6 +375,14 @@ expect_learner = function(lrn, task = NULL, check_man = TRUE) {
     info = sprintf("All hyperparameters of learner %s must be tagged with 'train' or 'predict'. Missing tags for: %s", lrn$id, paste0(names(tags), collapse = ", "))
   )
 
+  if ("marshal" %in% lrn$properties) {
+    assert_function(lrn$marshal)
+    assert_function(lrn$unmarshal)
+  } else if (exists("marshal", lrn)) {
+    assert_function(lrn$unmarshal)
+    assert_true("marshal" %in% lrn$properties)
+  }
+
   if (!is.null(task)) {
     checkmate::expect_class(task, "Task")
     checkmate::expect_subset(lrn$properties, mlr3::mlr_reflections$learner_properties[[task$task_type]])

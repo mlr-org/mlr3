@@ -326,8 +326,8 @@ test_that("Models can be replaced", {
 })
 
 test_that("marshaling and encapsulation", {
-  task = tsk("mtcars")
-  learner = lrn("regr.debug", count_marshaling = TRUE)
+  task = tsk("iris")
+  learner = lrn("classif.debug", count_marshaling = TRUE)
 
   # callr encapsulation causes marshaling
   learner$encapsulate = c(train = "callr")

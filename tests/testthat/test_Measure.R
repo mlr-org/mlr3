@@ -135,8 +135,10 @@ test_that("scoring fails when measure requires_model, but model is in marshaled 
   measure = msr("classif.acc")
   measure$properties = c(measure$properties, "requires_model")
 
-  rr = resample(tsk("mtcars"), lrn("regr.debug"), rsmp("holdout"))
-  rr$marshal()
-
-  rr$score(msr("selected_features"))
+  task = tsk("iris")
+  learner = lrn("classif.debug")
+  pred = learner$train(task)$predict(task)
+  learner$marshal()
+  expect_error(measure$score(pred, learner = learner),
+    regexp = "is in marshaled form")
 })
