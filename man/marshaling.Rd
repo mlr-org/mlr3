@@ -28,13 +28,6 @@ The learner.}
 
 \item{...}{(any)\cr
 Additional parameters, currently unused.}
-
-\item{inplace}{(\code{logical(1)})\cr
-Whether to do the (un)marshaling in-place.
-Only relevant for objects with reference semantics.
-Set this to \code{TRUE} if you don't intend to keep the original object, e.g. in functions that return
-a marshaled object. The default of methdos should always be \code{FALSE}, which should leave the original object
-as-is.}
 }
 \description{
 Marshaling is the process of processing the model of a trained \code{\link{Learner}} so it an be successfully serialized and
@@ -59,12 +52,17 @@ The returned object must not inherit from class \code{"marshaled"}.
 and \code{FALSE} otherwise.
 }
 
-The contract of these functions is:
+The contract of these generics is:
 \itemize{
 \item \code{unmarshal_model(marshal_model(x))} returns \code{x} as is.
+\item \code{unmarshal_model(x)} can be serialized and de-serialzed without loss of information.
 \item If \code{is_marshaled_model(x)} is \code{TRUE}, this means that \code{x} is in marshaled form.
 Note that it is not guarateed that \code{is_marshaled_model(marshal_model(x))} returns \code{TRUE}.
 This is because the default \code{marshal_model(x)} returns \code{x} as-is.
+\item The \code{inplace} argument determines whether in-place marshaling should be performed.
+This is especially relevant in the context of references semantics.
+If \code{inplace} is \code{FALSE}, the marshaled model should not share references with the original model.
+If \code{inplace} is \code{TRUE} this is not necessary and the original object can be modified in-place.
 }
 }
 \section{Implementing Marshaling}{

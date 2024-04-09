@@ -23,13 +23,16 @@
 #' * the function `is_ marshaled_model(model)`, which returns `TRUE` if the model inherits from class `"marshaled"`
 #'   and `FALSE` otherwise.
 #'
-#'
-#' The contract of these functions is:
+#' The contract of these generics is:
 #' * `unmarshal_model(marshal_model(x))` returns `x` as is.
+#' * `unmarshal_model(x)` can be serialized and de-serialzed without loss of information.
 #' * If `is_marshaled_model(x)` is `TRUE`, this means that `x` is in marshaled form.
 #'   Note that it is not guarateed that `is_marshaled_model(marshal_model(x))` returns `TRUE`.
 #'   This is because the default `marshal_model(x)` returns `x` as-is.
-#'
+#' * The `inplace` argument determines whether in-place marshaling should be performed.
+#'   This is especially relevant in the context of references semantics.
+#'   If `inplace` is `FALSE`, the marshaled model should not share references with the original model.
+#'   If `inplace` is `TRUE` this is not necessary and the original object can be modified in-place.
 #'
 #' @section Implementing Marshaling:
 #'
@@ -50,12 +53,6 @@
 #'
 #' @param .learner [`Learner`]\cr
 #'   The learner.
-#' @param inplace (`logical(1)`)\cr
-#'   Whether to do the (un)marshaling in-place.
-#'   Only relevant for objects with reference semantics.
-#'   Set this to `TRUE` if you don't intend to keep the original object, e.g. in functions that return
-#'   a marshaled object. The default of methdos should always be `FALSE`, which should leave the original object
-#'   as-is.
 #' @param ... (any)\cr
 #'   Additional parameters, currently unused.
 #'
