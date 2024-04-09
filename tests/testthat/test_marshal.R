@@ -66,3 +66,7 @@ test_that("marshal count works for LearnerClassifDebug", {
   model2 = learner2$marshal()$unmarshal()$model
   expect_equal(model1, model2)
 })
+
+test_that("printer", {
+  expect_output(print(lrn("classif.debug")$train(tsk("iris"))$marshal()$model), "<regr.debug_model_marshaled>")
+})

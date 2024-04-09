@@ -378,9 +378,6 @@ expect_learner = function(lrn, task = NULL, check_man = TRUE) {
   if ("marshal" %in% lrn$properties) {
     assert_function(lrn$marshal)
     assert_function(lrn$unmarshal)
-  } else if (exists("marshal", lrn)) {
-    assert_function(lrn$unmarshal)
-    assert_true("marshal" %in% lrn$properties)
   }
 
   if (!is.null(task)) {

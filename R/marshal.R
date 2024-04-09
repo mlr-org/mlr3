@@ -144,3 +144,8 @@ unmarshal_state_if_model = function(.state, ...) {
   }
   .state
 }
+
+#' @export
+print.marshaled = function(x, ...) {
+  catn(sprintf("<%s>", class(x)[[1L]]))
+}
