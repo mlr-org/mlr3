@@ -217,6 +217,7 @@ test_that("ResampleResult can be (un)marshaled", {
   model = rr1$learners[[1]]$model
   rr1$unmarshal()
   expect_equal(rr1$learners[[1]]$model, model)
+})
 
 test_that("does not unnecessarily clone state", {
   task = tsk("iris")
