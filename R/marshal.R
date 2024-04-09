@@ -20,7 +20,7 @@
 #'   Which takes in the marshaled model and returns it in unmarshaled form.
 #'   The generic takes care that the packages specified during `"marshal"` are loaded, and errs if they are not.
 #'   The returned object must not inherit from class `"marshaled"`.
-#' * the function `marshaled_model(model)`, which returns `TRUE` if the model inherits from class `"marshaled"`
+#' * the function `is_ marshaled_model(model)`, which returns `TRUE` if the model inherits from class `"marshaled"`
 #'   and `FALSE` otherwise.
 #'
 #' In order to implement marshaling for a Learner, you only need to overload the `marshal_model` and `unmarshal_model`
@@ -31,7 +31,7 @@
 #' To make this as convenient as possible, the functions `learner_marshal(learner)`, `learner_unmarshal(learner)`
 #' and `learner_marshaled(learner)` are provided and can be called from within the public methods.
 #' All three functions throw an error if the learner is not trained and otherwise call
-#' `marshal_model()`, `unmarshal_model()` or `marshaled_model()` on the learner's model.
+#' `marshal_model()`, `unmarshal_model()` or `is_marshaled_model()` on the learner's model.
 #'
 #' You can verify whether you have correctly implemented marshaling by using the internal test helper
 #' `expect_marshalable_learner()`. This is also run by `expect_learner()` if a task is provided.
@@ -71,7 +71,7 @@ learner_marshaled = function(.learner) {
   if (is.null(.learner$model)) {
     stopf("Cannot check marshaled status, Learner '%s' has not been trained yet", .learner$id)
   }
-  marshaled_model(.learner$model)
+  is_marshaled_model(.learner$model)
 }
 
 #' @rdname marshaling
@@ -83,7 +83,7 @@ marshal_model = function(model, inplace, ...) {
 #' @rdname marshaling
 #' @export
 unmarshal_model = function(model, inplace, ...) {
-  if (marshaled_model(model) && is.character(model$packages)) {
+  if (is_marshaled_model(model) && is.character(model$packages)) {
     require_namespaces(model$packages)
   }
   UseMethod("unmarshal_model")
@@ -91,7 +91,7 @@ unmarshal_model = function(model, inplace, ...) {
 
 #' @rdname marshaling
 #' @export
-marshaled_model = function(model) {
+is_marshaled_model = function(model) {
   test_class(model, "marshaled")
 }
 

@@ -262,7 +262,7 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
   learner = learner_train(learner, task, sets[["train"]], sets[["test"]], mode = mode, unmarshal = FALSE)
 
   model_marshaled = NULL
-  if (store_models && marshaled_model(learner$model) && !is_sequential) {
+  if (store_models && is_marshaled_model(learner$model) && !is_sequential) {
     if (is_sequential) {
       # callr + no parallelization
       learner$model = unmarshal_model(learner$model, clone = FALSE)

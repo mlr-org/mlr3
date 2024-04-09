@@ -414,10 +414,10 @@ expect_marshalable_learner = function(learner, task) {
   model = learner$model
   class_prev = class(model)
   expect_false(learner$marshaled)
-  expect_equal(marshaled_model(learner$model), learner$marshaled)
+  expect_equal(is_marshaled_model(learner$model), learner$marshaled)
   expect_invisible(learner$marshal())
   expect_true(learner$marshaled)
-  expect_equal(marshaled_model(learner$model), learner$marshaled)
+  expect_equal(is_marshaled_model(learner$model), learner$marshaled)
 
   # cannot predict with marshaled learner
   expect_error(learner$predict(task), "has not been unmarshaled")

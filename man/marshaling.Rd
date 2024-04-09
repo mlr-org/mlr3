@@ -7,7 +7,7 @@
 \alias{learner_marshaled}
 \alias{marshal_model}
 \alias{unmarshal_model}
-\alias{marshaled_model}
+\alias{is_marshaled_model}
 \title{(Un)marshal a Learner}
 \usage{
 learner_unmarshal(.learner, ...)
@@ -20,7 +20,7 @@ marshal_model(model, inplace, ...)
 
 unmarshal_model(model, inplace, ...)
 
-marshaled_model(model)
+is_marshaled_model(model)
 }
 \arguments{
 \item{.learner}{\code{\link{Learner}}\cr
@@ -45,7 +45,7 @@ root class should be set to \code{"marshaled"}.
 Which takes in the marshaled model and returns it in unmarshaled form.
 The generic takes care that the packages specified during \code{"marshal"} are loaded, and errs if they are not.
 The returned object must not inherit from class \code{"marshaled"}.
-\item the function \code{marshaled_model(model)}, which returns \code{TRUE} if the model inherits from class \code{"marshaled"}
+\item the function \verb{is_ marshaled_model(model)}, which returns \code{TRUE} if the model inherits from class \code{"marshaled"}
 and \code{FALSE} otherwise.
 }
 
@@ -57,7 +57,7 @@ and the active binding \verb{$marshaled}.
 To make this as convenient as possible, the functions \code{learner_marshal(learner)}, \code{learner_unmarshal(learner)}
 and \code{learner_marshaled(learner)} are provided and can be called from within the public methods.
 All three functions throw an error if the learner is not trained and otherwise call
-\code{marshal_model()}, \code{unmarshal_model()} or \code{marshaled_model()} on the learner's model.
+\code{marshal_model()}, \code{unmarshal_model()} or \code{is_marshaled_model()} on the learner's model.
 
 You can verify whether you have correctly implemented marshaling by using the internal test helper
 \code{expect_marshalable_learner()}. This is also run by \code{expect_learner()} if a task is provided.
