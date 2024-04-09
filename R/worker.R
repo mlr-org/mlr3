@@ -265,11 +265,13 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
   if (store_models && is_marshaled_model(learner$model) && !is_sequential) {
     if (is_sequential) {
       # callr + no parallelization
-      learner$model = unmarshal_model(learner$model, clone = FALSE)
+      learner$model = unmarshal_model(model = learner$model, inplace = TRUE)
     } else {
       # callr + parallelization
+      # we need to send the marshaled model back to the main process, so we temporarily keep a marshaled
+      # and unmarshalde model in RAM to avoig an additional call to marshal_mode
       model_marshaled = learner$model
-      learner$model = unmarshal_model(learner$model, clone = TRUE)
+        learner$model = unmarshal_model(model = learner$model, inplace = FALSE)
     }
   }
 

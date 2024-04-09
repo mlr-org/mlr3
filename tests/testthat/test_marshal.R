@@ -13,12 +13,9 @@ test_that("learner methods", {
   expect_false(learner_marshaled(learner))
 })
 
-test_that("default method just changes class", {
+test_that("default method does nothing", {
   x = 1
-  xm = marshal_model(x)
-  expect_equal(class(xm), c("numeric_marshaled", "marshaled"))
-  expect_equal(xm[["marshaled"]], x)
-  expect_equal(x, unmarshal_model(xm))
+  expect_equal(x, marshal_model(x))
 })
 
 test_that("marshaling a marshaled object does nothing", {

@@ -16,18 +16,28 @@ learner_marshal(.learner, ...)
 
 learner_marshaled(.learner)
 
-marshal_model(model, inplace, ...)
+marshal_model(model, inplace = FALSE, ...)
 
-unmarshal_model(model, inplace, ...)
+unmarshal_model(model, inplace = FALSE, ...)
 
 is_marshaled_model(model)
 }
 \arguments{
 \item{.learner}{\code{\link{Learner}}\cr
 The learner.}
+
+\item{...}{(any)\cr
+Additional parameters, currently unused.}
+
+\item{inplace}{(\code{logical(1)})\cr
+Whether to do the (un)marshaling in-place.
+Only relevant for objects with reference semantics.
+Set this to \code{TRUE} if you don't intend to keep the original object, e.g. in functions that return
+a marshaled object. The default of methdos should always be \code{FALSE}, which should leave the original object
+as-is.}
 }
 \description{
-marshaling is the process of processing the model of a trained \code{\link{Learner}} so it an be successfully serialized and
+Marshaling is the process of processing the model of a trained \code{\link{Learner}} so it an be successfully serialized and
 deserialized. The naming is inspired by the \href{https://github.com/HenrikBengtsson/marshal}{marshal package} and we
 plan to fully migrate to this package once it is on CRAN.
 The supported implementation until then should therfore be considered as a temporary solution and is likely
@@ -35,19 +45,30 @@ to change in the future.
 
 The central functions (and the only methods that are used by \code{mlr3} internally) are:
 \itemize{
-\item the S3 generic \code{marshal_model(model, ...)}.
+\item the S3 generic \code{marshal_model(model, inplace, ...)}.
 Which takes in a model and returns it in marshaled form.
 The marshaled object should be a list with named elements \code{marshaled} and \code{packages}, where the former contains
-the actual marshaled object, and the latter the packages required to unmarshal it.
-This list should have as classes the classes of the original object with the suffix \code{"_marshaled"} added and the
+the marshaled object, and the latter the packages required to unmarshal it.
+This list should have the classes of the original object with the suffix \code{"_marshaled"} appended and the
 root class should be set to \code{"marshaled"}.
-\item the S3 generic \code{unmarshal_model(model, ...)}.
+\item the S3 generic \verb{unmarshal_model(model, inplace ...)}.
 Which takes in the marshaled model and returns it in unmarshaled form.
 The generic takes care that the packages specified during \code{"marshal"} are loaded, and errs if they are not.
 The returned object must not inherit from class \code{"marshaled"}.
 \item the function \verb{is_ marshaled_model(model)}, which returns \code{TRUE} if the model inherits from class \code{"marshaled"}
 and \code{FALSE} otherwise.
 }
+
+The contract of these functions is:
+\itemize{
+\item \code{unmarshal_model(marshal_model(x))} returns \code{x} as is.
+\item If \code{is_marshaled_model(x)} is \code{TRUE}, this means that \code{x} is in marshaled form.
+Note that it is not guarateed that \code{is_marshaled_model(marshal_model(x))} returns \code{TRUE}.
+This is because the default \code{marshal_model(x)} returns \code{x} as-is.
+}
+}
+\section{Implementing Marshaling}{
+
 
 In order to implement marshaling for a Learner, you only need to overload the \code{marshal_model} and \code{unmarshal_model}
 methods and tag the learner with the \code{"marshal"} property accordingly.
@@ -64,4 +85,5 @@ You can verify whether you have correctly implemented marshaling by using the in
 
 For a concrete example on how to implement marshaling, see \code{\link{LearnerRegrDebug}}.
 }
+
 \keyword{internal}
