@@ -4,6 +4,13 @@
 models so they can be serialized. This happens automatically during `resample()`
 and `benchmark()`. The naming was inspired by the {marshal} package.
 
+# mlr3 0.18.0
+
+* Prepare compatibility with new paradox version.
+* feat: dictionary conversion of `mlr_learners` respects prototype arguments
+recently added in mlr3misc
+* perf: skip unnecessary clone of learner's state in `resample()`
+
 # mlr3 0.17.2
 
 * Skip new `data.table` tests on mac.

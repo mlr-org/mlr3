@@ -217,4 +217,18 @@ test_that("ResampleResult can be (un)marshaled", {
   model = rr1$learners[[1]]$model
   rr1$unmarshal()
   expect_equal(rr1$learners[[1]]$model, model)
+
+test_that("does not unnecessarily clone state", {
+  task = tsk("iris")
+  learner = R6Class("LearnerTest", inherit = LearnerClassifDebug, private = list(
+    deep_clone = function(name, value) {
+      if (name == "state" && !is.null(value)) {
+        stop("Buggy bug bug")
+      } else {
+        super$deep_clone(name, value)
+      }
+    }
+  ))$new()
+  learner$train(task)
+  expect_resample_result(resample(task, learner, rsmp("holdout")))
 })

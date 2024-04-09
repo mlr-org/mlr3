@@ -566,7 +566,14 @@ get_log_condition = function(state, condition) {
 
 #' @export
 default_values.Learner = function(x, search_space, task, ...) { # nolint
-  default_values(x$param_set)[search_space$ids()]
+  values = default_values(x$param_set)
+
+  if (any(search_space$ids() %nin% names(values))) {
+    stopf("Could not find default values for the following parameters: %s",
+      str_collapse(setdiff(search_space$ids(), names(values))))
+  }
+
+  values[search_space$ids()]
 }
 # #' @export
 # format_list_item.Learner = function(x, ...) { # nolint

@@ -172,8 +172,8 @@ Defaults to all rows with role \code{"use"}.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{rows}}{\code{integer()}\cr
-Row indices.}
+\item{\code{rows}}{(positive \code{integer()})\cr
+Vector or row indices.}
 }
 \if{html}{\out{</div>}}
 }
@@ -195,8 +195,8 @@ Also updates the task property \code{"twoclass"}/\code{"multiclass"}.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{cols}}{\code{character()}\cr
-Column names.}
+\item{\code{cols}}{(\code{character()})\cr
+Vector of column names.}
 }
 \if{html}{\out{</div>}}
 }
