@@ -1,5 +1,7 @@
 # mlr3 (development version)
 
+* Log encapsulated errors and warnings with the `lgr` package.
+
 # mlr3 0.18.0
 
 * Prepare compatibility with new paradox version.

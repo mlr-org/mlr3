@@ -68,3 +68,19 @@ test_that("evaluate / resample", {
   expect_silent(rr <- resample(task, enable_encapsulation(learner), resampling))
   expect_true(every(get_private(rr)$.data$data$fact$learner_state, function(x) all(table(x$log$stage) == 2)))
 })
+
+test_that("errors and warnings are printed with logger", {
+  task = tsk("spam")
+
+  learner = enable_encapsulation(lrn("classif.debug", error_train = 1))
+  expect_output(learner$train(task), "ERROR")
+
+  learner = disable_encapsulation(lrn("classif.debug", error_train = 1))
+  expect_error(learner$train(task))
+
+  learner = enable_encapsulation(lrn("classif.debug", warning_train = 1))
+  expect_output(learner$train(task), "WARN")
+
+  learner = disable_encapsulation(lrn("classif.debug", warning_train = 1))
+  expect_warning(learner$train(task))
+})
