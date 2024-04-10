@@ -58,3 +58,27 @@ test_that("default_values works with empty search space", {
   expect_list(default_values(learner, ps(), task), len = 0)
 })
 
+test_that("validation and inner tuning", {
+  task = tsk("iris")
+  learner = lrn("classif.debug", iter = 100, early_stopping = TRUE, validate = 0.3, predict_type = "prob")
+  learner$train(task)
+  expect_list(learner$inner_valid_scores(), len = 2L, types = "numeric")
+  expect_permutation(names(learner$inner_valid_scores()), c("acc", "mbrier"))
+})
+
+
+test_that("set_inner_tuning works", {
+  learner = lrn("classif.debug")
+  pv = learner$param_set$values
+  expect_error(set_inner_tuning(learner), "Parameter 'validate'")
+  expect_error(set_inner_tuning(learner, validate = 0.2), "Parameter 'iter'")
+  expect_equal(pv, learner$param_set$values)
+  set_inner_tuning(learner, iter = 100, validate = 0.2)
+  expect_true(learner$param_set$values$early_stopping)
+  task = tsk("iris")
+  learner$train(task)
+  invoke(set_inner_tuning, learner = learner, disable = TRUE, .args = learner$inner_tuned_values())
+  expect_false(learner$param_set$values$early_stopping)
+})
+
+

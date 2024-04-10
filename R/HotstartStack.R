@@ -92,7 +92,7 @@ HotstartStack = R6Class("HotstartStack",
         if (!is.null(learner$state$param_vals$validate)) {
           stopf("Hotstart learners that did validation is currently not supported.")
         }
-})
+      })
 
       if (!is.null(self$hotstart_threshold)) {
         learners = keep(learners, function(learner) {

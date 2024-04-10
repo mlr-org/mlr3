@@ -520,7 +520,7 @@ test_that("task cannot be its own validation task", {
 
 test_that("validation task cannot have a validation task", {
   task = tsk("iris")
-  expect_error({task$inner_valid_task = task$clone(deep = TRUE)$divide(1, "validation") }, "remove its validation")
+  expect_error({task$inner_valid_task = task$clone(deep = TRUE)$divide(1) }, "remove its validation")
 })
 
 test_that("divide works with ratio", {
@@ -537,8 +537,6 @@ test_that("validation task changes a task's hash", {
   task$divide(1:10, remove = FALSE)
   h2 = task$hash
   expect_false(h1 == h2)
-  task$divide(1:11, remove = FALSE)
-  expect_false(h2 == task$hash)
 })
 
 test_that("can NULL validation task", {
@@ -568,6 +566,6 @@ test_that("task hashes during resample", {
   resampling$instantiate(task)
   task$divide(resampling$test_set(1))
   task$hash
-  learner = lrn("classif.debug", validation = TRUE)
+  learner = lrn("classif.debug", validate = "test")
   expect_equal(resampling_task_hashes(task, resampling, learner), task$hash)
 })

@@ -384,15 +384,15 @@ expect_learner = function(lrn, task = NULL, check_man = TRUE) {
     checkmate::expect_class(lrn$base_learner(), "Learner")
   }
 
-  if ("validate" %in% learner$properties) {
-    assert_true("valdiate" %in% learner$param_set$ids())
-    expect_function(learner$inner_valid_scores)
+  if ("validation" %in% lrn$properties) {
+    assert_true("validate" %in% lrn$param_set$ids())
+    expect_function(lrn$inner_valid_scores)
   } else {
-    assert_false("validate" %in% learner$param_set$ids())
+    assert_false("validate" %in% lrn$param_set$ids())
   }
-  if ("inner_tuning" %in% learner$properties) {
-    expect_equal(table(unlist(learner$param_set$tags))[["inner_tuning"]], 1L)
-    expect_function(learner$inner_tuning_values)
+  if ("inner_tuning" %in% lrn$properties) {
+    expect_equal(table(unlist(lrn$param_set$tags))[["tune"]], 1L)
+    expect_function(lrn$inner_tuned_values)
   }
 }
 

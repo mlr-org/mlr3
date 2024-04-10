@@ -340,15 +340,14 @@ test_that("validation task's backend is removed", {
 })
 
 test_that("manual $train() stores validation hash and validation ids", {
-  task = tsk("mtcars")
-  l = lrn("regr.debug", validate = 0.2)
+  task = tsk("iris")
+  l = lrn("classif.debug", validate = 0.2)
   l$train(task)
   expect_integer(l$state$inner_valid_task_ids)
   expect_character(l$state$inner_valid_task_hash)
 
-
-  l = lrn("regr.debug", validate = "inner_valid")
-  task = tsk("mtcars")
+  l = lrn("classif.debug", validate = "inner_valid")
+  task = tsk("iris")
   task$divide(1:10)
   l$train(task)
   expect_equal(l$state$inner_valid_task_hash, task$inner_valid_task$hash)
@@ -357,20 +356,20 @@ test_that("manual $train() stores validation hash and validation ids", {
 
 test_that("error when training a learner that uses inner_valid_task without a validation task", {
   task = tsk("iris")
-  learner = lrn("regr.debug", validate = "inner_valid")
-  expect_error(learner$train(task), "Learner")
+  learner = lrn("classif.debug", validate = "inner_valid")
+  expect_error(learner$train(task), "is set to 'inner_valid_task'")
   task$divide(1:10)
   expect_class(learner, "Learner")
 })
 
 test_that("properties are also checked on validation task", {
-  task = tsk("mtcars")
+  task = tsk("iris")
   row = task$data(1)
   row[[1]][1] = NA
-  row$..row_id = 100
+  row$..row_id = 151
   task$rbind(row)
-  task$divide(100)
-  learner = lrn("regr.debug", validate = "inner_valid")
+  task$divide(151)
+  learner = lrn("classif.debug", validate = "inner_valid")
   learner$properties = setdiff(learner$properties, "missings")
   expect_error(learner$train(task), "missing values")
 })

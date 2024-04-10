@@ -20,24 +20,23 @@ phashes = function(x) {
 #' @noRd
 resampling_task_hashes = function(task, resampling, learner = NULL) {
   # validation task is set on the worker
-  validation = !is.null(learner) && "validation" %in% learner$properties
+  learner_does_validation = !is.null(learner$param_set$values$validate)
   map_chr(seq_len(resampling$iters), function(i) {
     train_set = resampling$train_set(i)
-    test_set = if (validation) resampling$test_set(i)
+    test_set = if (learner_does_validation) resampling$test_set(i)
     task_hash(task, train_set, test_set)
   })
 }
 
 task_hash = function(task, use_ids, test_ids = NULL, ignore_inner_valid_task = FALSE) {
   # order matters: we first check for test_ids and then for the inner_valid_task
-  if (!is.null(test_ids)) {
+  inner_valid_task_hash = if (!is.null(test_ids)) {
     # this does the same as task$divide(test_ids)$inner_valid_task$hash but avoids the deep clone
     inner_valid_task_hash = task_hash(task, use_ids = test_ids, test_ids = NULL, ignore_inner_valid_task = TRUE)
   } else if (!ignore_inner_valid_task) {
     inner_valid_task_hash = task$inner_valid_task$hash
-  } else {
-    inner_valid_task_hash = NULL
   }
+
   calculate_hash(class(task), task$id, task$backend$hash, task$col_info, use_ids, task$col_roles,
     get_private(task)$.properties, inner_valid_task_hash)
 }

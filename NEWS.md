@@ -1,11 +1,9 @@
 # mlr3 (development version)
 
 * Fix: A task's hash now takes the validation task (previously row roles 'test') into
-account, which now ensures that hotstarting and usage of test rows works
-together
+account
 * BREAKING_CHANGE: removes row rols 'test' and 'holdout'.
 * Feat(Learner): Better support for validation and learner internal tuning.
-* TODOOOO
 * feat: dictionary conversion of `mlr_learners` respects prototype arguments
 recently added in mlr3misc
 * perf: skip unnecessary clone of learner's state in `resample()`

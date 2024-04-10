@@ -45,7 +45,8 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
   validate = learner$param_set$values$validate
   if (!is.null(validate)) {
     # handle the inner validation task
-    prev_valid = force(task$inner_valid_task)
+    prev_valid = task$inner_valid_task
+
     on.exit({
       task$inner_valid_task = prev_valid
     }, add = TRUE)
@@ -55,7 +56,7 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
       stopf("Parameter 'validate' of Learner '%s' cannot be set to 'test' or a ratio when inner_valid_task is present", learner$id)
     }
 
-    if (isTRUE(all.equal(validate, "inner_valid_task")) && is.null(task$inner_valid_task)) {
+    if (isTRUE(all.equal(validate, "inner_valid")) && is.null(task$inner_valid_task)) {
       stopf("Parameter 'validate' is set to 'inner_valid_task' but no inner validation task is present.")
     }
     if (isTRUE(all.equal(validate, "test"))) {
@@ -65,8 +66,7 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
       # at this point, the train rows are already set to the train set, i.e. we don't have to remove the test ids
       # from the primary task (this would cause bugs for resamplings with overlapping train and test set)
       task$divide(test_row_ids, remove = FALSE)
-    }
-    if (is.numeric(validate)) {
+    } else if (is.numeric(validate)) {
       task$divide(validate, remove = TRUE)
     }
 
@@ -289,13 +289,13 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
 
   validate = learner$param_set$values$validate
 
-  # if the valdiate parameter is a ratio, some data was taken from the training data for the inner validation
+  # if the validate parameter is a ratio, some data was taken from the training data for the inner validation
   if (is.numeric(validate)) {
     sets$train = train_result$train_ids
   }
   tasks = list(train = task, test = task)
   if (!is.null(train_result$inner_valid_task_ids)) sets$inner_valid = train_result$inner_valid_task_ids
-  tasks$inner_valid = if (isTRUE(all.equal(validate, "inner_valid_task"))) {
+  tasks$inner_valid = if (isTRUE(all.equal(validate, "inner_valid"))) {
     task$inner_valid_task
   } else {
     task

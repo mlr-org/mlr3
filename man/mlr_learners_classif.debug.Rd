@@ -25,6 +25,8 @@ The following hyperparameters trigger the following actions:
 \item{warning_train:}{Probability to signal a warning during train.}
 \item{x:}{Numeric tuning parameter. Has no effect.}
 \item{iter:}{Integer parameter for testing hotstarting.}
+\item{validate:}{How to construct the internal validation data. This parameter can be either \code{NULL},
+a ratio, \code{"test"}, or \code{"inner_valid"}.}
 }
 Note that segfaults may not be triggered reliably on your operating system.
 Also note that if they work as intended, they will tear down your R session immediately!
@@ -66,7 +68,9 @@ lrn("classif.debug")
    warning_predict \tab numeric \tab 0 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
    warning_train \tab numeric \tab 0 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
    x \tab numeric \tab - \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
+   validate \tab untyped \tab  \tab  \tab - \cr
    iter \tab integer \tab 1 \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
+   early_stopping \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
 }
 }
 
@@ -120,6 +124,8 @@ Other Learner:
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-LearnerClassifDebug-new}{\code{LearnerClassifDebug$new()}}
+\item \href{#method-LearnerClassifDebug-inner_valid_scores}{\code{LearnerClassifDebug$inner_valid_scores()}}
+\item \href{#method-LearnerClassifDebug-inner_tuned_values}{\code{LearnerClassifDebug$inner_tuned_values()}}
 \item \href{#method-LearnerClassifDebug-clone}{\code{LearnerClassifDebug$clone()}}
 }
 }
@@ -146,6 +152,32 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 \if{html}{\out{<div class="r">}}\preformatted{LearnerClassifDebug$new()}\if{html}{\out{</div>}}
 }
 
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-LearnerClassifDebug-inner_valid_scores"></a>}}
+\if{latex}{\out{\hypertarget{method-LearnerClassifDebug-inner_valid_scores}{}}}
+\subsection{Method \code{inner_valid_scores()}}{
+Retrieves the inner validation scores.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{LearnerClassifDebug$inner_valid_scores()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+named \code{list()}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-LearnerClassifDebug-inner_tuned_values"></a>}}
+\if{latex}{\out{\hypertarget{method-LearnerClassifDebug-inner_tuned_values}{}}}
+\subsection{Method \code{inner_tuned_values()}}{
+Retrieves the inner tuned values, in this case the value of \code{iter}.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{LearnerClassifDebug$inner_tuned_values()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+named \code{list()}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-LearnerClassifDebug-clone"></a>}}

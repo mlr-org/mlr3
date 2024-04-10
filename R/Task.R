@@ -153,43 +153,37 @@ Task = R6Class("Task",
     },
 
     #' @description
-    #' Creates a validation task from the primary task.
+    #' Creates an inner validation task (field `$inner_valid_task`) from the primary task.
     #' This modifies the task in-place.
-    #' Subsequent operations on the (primary) task are **not** relayed to the validation task.
+    #' Subsequent operations on the (primary) task are **not** relayed to the inner validation task.
+    #'
     #' @param x (`numeric(1)`, `integer()`)\cr
     #'   Either a `ratio` indicating the proportion of the validation data, or a vector of row ids.
+    #'   All values in `(0, 1)` are interpreted as ratios.
     #' @param remove (`logical(1)`)\cr
     #'   If `TRUE` (default), the `row_ids` are removed from the primary task's active `"use"` rows.
     #'
     #' @return Modified `self`.
     divide = function(x, remove = TRUE) {
       assert_flag(remove)
+
       private$.hash = NULL
-
-      if (test_numeric(x, lower = 0, upper = 1, len = 1L, any.missing = FALSE) && !test_integerish(x)) {
+      valid_ids = if (test_numeric(x, lower = 0, upper = 1, len = 1L, any.missing = FALSE) && !test_integerish(x)) {
         # stratify = FALSE means we only stratify when strata are present
-        x = partition(self, ratio = 1 - x, stratify = FALSE)$test
+        partition(self, ratio = 1 - x, stratify = FALSE)$test
       } else {
-        x = assert_row_ids(x, null.ok = FALSE)
+        assert_row_ids(x, null.ok = FALSE)
       }
-
-      if (!is.null(self$inner_valid_task)) lg$debug("Overwriting existing inner_valid_task for task '%s'", self$id)
-      prev_inner_valid = force(self$inner_valid_task)
-      on.exit({
-        self$inner_valid_task = prev_inner_valid
-      }, add = TRUE)
-      self$inner_valid_task = NULL
-
-      new_task = self$clone(deep = TRUE)
-      new_task$row_roles$use = x
-      self$inner_valid_task = new_task
-      prev_use = force(self$row_roles$use)
-      if (remove) {
-        on.exit({
-          self$row_roles$use = prev_use
-        }, add = TRUE)
-        self$row_roles$use = setdiff(self$row_roles$use, x)
+      prev_inner_valid = self$inner_valid_task
+      if (!is.null(prev_inner_valid)) {
+        lg$info("Task %s already had an inner validation task that is being overwritten.", self$id)
+        # in case something goes wrong
+        on.exit({self$inner_valid_task = prev_inner_valid}, add = TRUE)
+        self$inner_valid_task = NULL
       }
+      self$inner_valid_task = self$clone(deep = TRUE)
+      self$inner_valid_task$row_roles$use = valid_ids
+      self$row_roles$use = setdiff(self$row_roles$use, valid_ids)
       on.exit({}, add = FALSE)
       invisible(self)
     },
@@ -789,7 +783,7 @@ Task = R6Class("Task",
         stopf("Task '%s' cannot be its own validation task", self$id)
       }
       if (!is.null(rhs$inner_valid_task)) { # avoid recursive structures
-        stopf("Trying to assign task '%s' as a validation task, remove its validation task first", rhs$id)
+        stopf("Trying to assign task '%s' as a validation task, remove its validation task first.", rhs$id)
       }
       private$.inner_valid_task = rhs
       invisible(private$.inner_valid_task)
@@ -798,7 +792,7 @@ Task = R6Class("Task",
     #' @template field_hash
     hash = function(rhs) {
       if (is.null(private$.hash)) {
-        private$.hash = task_hash(self, self$row_ids)
+        private$.hash = task_hash(self, self$row_ids, ignore_inner_valid_task = FALSE)
       }
 
       private$.hash

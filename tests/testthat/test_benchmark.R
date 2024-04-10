@@ -473,29 +473,29 @@ test_that("param_values in benchmark", {
   design = data.table(task = tasks, learner = learners, resampling = resamplings, param_values = list(list(list(cp = 0.1), list(minbucket = 2))))
   bmr = benchmark(design)
 
-  expect_equal(bmr$learners$learner[[1]]$param_set$values, list(xval = 0, minsplit = 12, minbucket = 2, xval = 0))
+  expect_equal(bmr$learners$learner[[1]]$param_set$values, list(xval = 0, minsplit = 12, minbucket = 2))
   expect_equal(bmr$learners$learner[[2]]$param_set$values, list(xval = 0, minsplit = 12, cp = 0.1))
 })
 
 
 test_that("learner's validate cannot be 'test' if inner_valid_set is present", {
   # otherwise, predict_set = "inner_valid" would be ambiguous
-  learner = lrn("regr.debug", validate = "test", predict_sets = c("train", "inner_valid"))
-  task = tsk("mtcars")$divide(1)
+  learner = lrn("classif.debug", validate = "test", predict_sets = c("train", "inner_valid"))
+  task = tsk("iris")$divide(1)
   expect_error(benchmark(benchmark_grid(task, learner, rsmp("holdout"))), "cannot be set to ")
 })
 
 test_that("learner's validate cannot be a ratio if inner_valid_set is present", {
   # otherwise, predict_set = "inner_valid" would be ambiguous
-  learner = lrn("regr.debug", validate = 0.5, predict_sets = c("train", "inner_valid"))
-  task = tsk("mtcars")$divide(1)
+  learner = lrn("classif.debug", validate = 0.5, predict_sets = c("train", "inner_valid"))
+  task = tsk("iris")$divide(1)
   expect_error(benchmark(benchmark_grid(task, learner, rsmp("holdout"))), "cannot be set to ")
 })
 
 test_that("benchmark also throws if some param value ", {
   # this ensures that
-  learner = lrn("regr.debug", predict_sets = c("train", "inner_valid"))
-  task = tsk("mtcars")$divide(1)
+  learner = lrn("classif.debug", predict_sets = c("train", "inner_valid"))
+  task = tsk("iris")$divide(1)
   design1 = benchmark_grid(task, learner, rsmp("holdout"), param_values = list(regr.debug = list(list(validate = 0.2))))
   design1 = benchmark_grid(task, learner, rsmp("holdout"), param_values = list(regr.debug = list(list(validate = 'test'))))
   expect_error(benchmark(design1), "cannot be set to 'test'")
@@ -503,13 +503,13 @@ test_that("benchmark also throws if some param value ", {
 })
 
 test_that("properties are also checked on validation task", {
-  task = tsk("mtcars")
+  task = tsk("iris")
   row = task$data(1)
   row[[1]][1] = NA
-  row$..row_id = 100
+  row$..row_id = 151
   task$rbind(row)
-  task$divide(100)
-  learner = lrn("regr.debug", validate = "inner_valid")
+  task$divide(151)
+  learner = lrn("classif.debug", validate = "inner_valid")
   learner$properties = setdiff(learner$properties, "missings")
 
   expect_error(benchmark(benchmark_grid(task, learner, rsmp("holdout"))), "missing values")

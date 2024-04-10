@@ -19,7 +19,7 @@
 #' @param disable (`logical(1)`)\cr
 #'   Whether to disable the inner tuning, default is `FALSE`.
 #' @param ... (any)\cr
-#'   Additional parameter.
+#'   Additional parameter values that are set in the learner.
 #' @return The input [`Learner`]
 #' @export
 set_inner_tuning = function(learner, disable = FALSE, ...) {

@@ -357,9 +357,9 @@ via \code{\link[=convert_task]{convert_task()}}.}
 \if{html}{\out{<a id="method-Task-divide"></a>}}
 \if{latex}{\out{\hypertarget{method-Task-divide}{}}}
 \subsection{Method \code{divide()}}{
-Creates a validation task from the primary task.
+Creates an inner validation task (field \verb{$inner_valid_task}) from the primary task.
 This modifies the task in-place.
-Subsequent operations on the (primary) task are \strong{not} relayed to the validation task.
+Subsequent operations on the (primary) task are \strong{not} relayed to the inner validation task.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Task$divide(x, remove = TRUE)}\if{html}{\out{</div>}}
 }
@@ -368,7 +368,8 @@ Subsequent operations on the (primary) task are \strong{not} relayed to the vali
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{x}}{(\code{numeric(1)}, \code{integer()})\cr
-Either a \code{ratio} indicating the proportion of the validation data, or a vector of row ids.}
+Either a \code{ratio} indicating the proportion of the validation data, or a vector of row ids.
+All values in \verb{(0, 1)} are interpreted as ratios.}
 
 \item{\code{remove}}{(\code{logical(1)})\cr
 If \code{TRUE} (default), the \code{row_ids} are removed from the primary task's active \code{"use"} rows.}

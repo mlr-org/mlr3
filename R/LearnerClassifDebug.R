@@ -24,6 +24,8 @@
 #'    \item{warning_train:}{Probability to signal a warning during train.}
 #'    \item{x:}{Numeric tuning parameter. Has no effect.}
 #'    \item{iter:}{Integer parameter for testing hotstarting.}
+#'    \item{validate:}{How to construct the internal validation data. This parameter can be either `NULL`,
+#'    a ratio, `"test"`, or `"inner_valid"`.}
 #' }
 #' Note that segfaults may not be triggered reliably on your operating system.
 #' Also note that if they work as intended, they will tear down your R session immediately!
@@ -69,13 +71,38 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
           warning_predict      = p_dbl(0, 1, default = 0, tags = "predict"),
           warning_train        = p_dbl(0, 1, default = 0, tags = "train"),
           x                    = p_dbl(0, 1, tags = "train"),
-          iter                 = p_int(1, default = 1, tags = c("train", "hotstart"))
+          validate             = p_uty(default = NULL, tags = "train", custom_check = check_validate),
+          iter                 = p_int(1, default = 1, tags = c("train", "hotstart", "tune")),
+          early_stopping       = p_lgl(default = FALSE, tags = "train")
         ),
-        properties = c("twoclass", "multiclass", "missings", "hotstart_forward"),
+        properties = c("twoclass", "multiclass", "missings", "hotstart_forward", "validation", "inner_tuning"),
         man = "mlr3::mlr_learners_classif.debug",
         data_formats = c("data.table", "Matrix"),
         label = "Debug Learner for Classification"
       )
+    },
+    #' @description
+    #' Retrieves the inner validation scores.
+    #' @return named `list()`
+    inner_valid_scores = function() {
+      if (is.null(self$model)) {
+        stopf("No model trained yet.")
+      }
+      if (is.null(self$model$inner_valid_scores)) {
+        stopf("No inner validation.")
+      }
+      self$model$inner_valid_scores
+    },
+    #' @description
+    #' Retrieves the inner tuned values, in this case the value of `iter`.
+    #' @return named `list()`
+    inner_tuned_values = function() {
+      if (is.null(self$model)) {
+        stopf("No model trained yet.")
+      } else if (!isTRUE(self$state$param_vals$early_stopping)) {
+        stopf("No inner tuning. Set 'early_stopping = TRUE' in the learner to enable this.")
+      }
+      list(iter = self$state$model$iter)
     }
   ),
 
@@ -104,8 +131,32 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
         get("attach")(structure(list(), class = "UserDefinedDatabase"))
       }
 
-      model = list(response = as.character(sample(task$truth(), 1L)), pid = Sys.getpid(), iter = pv$iter,
-        id = UUIDgenerate())
+      valid_truth = if (!is.null(pv$validate)) {
+        if (is.null(task$inner_valid_task)) {
+          stopf("No inner validation task present, but parameter 'validate' is not NULL.")
+        }
+        task$inner_valid_task$truth()
+      }
+
+      if (isTRUE(pv$early_stopping) && is.null(valid_truth)) {
+        stopf("Early stopping is only possible when a validation task is present.")
+      }
+
+      model = list(response = as.character(sample(task$truth(), 1L)), pid = Sys.getpid(), id = UUIDgenerate(),
+        iter = if (isTRUE(pv$early_stopping)) sample(pv$iter %??% 1L, 1L) else pv$iter %??% 1L
+      )
+
+      if (!is.null(valid_truth)) {
+        valid_pred = private$.make_prediction(task$inner_valid_task, model, self$param_set$get_values(tags = "predict"))
+
+        valid_pred = as_prediction(as_prediction_data(valid_pred, task = task$inner_valid_task, check = TRUE, train_task = task))
+
+        model$inner_valid_scores = list(acc = mlr3measures::acc(valid_truth, valid_pred$response))
+        if (self$predict_type == "prob") {
+          model$inner_valid_scores$mbrier = mlr3measures::mbrier(valid_truth, valid_pred$prob)
+        }
+      }
+
       if (isTRUE(pv$save_tasks)) {
         model$task_train = task$clone(deep = TRUE)
       }
@@ -114,7 +165,6 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
     },
 
     .predict = function(task) {
-      n = task$nrow
       pv = self$param_set$get_values(tags = "predict")
       roll = function(name) {
         name %in% names(pv) && pv[[name]] > runif(1L)
@@ -142,11 +192,16 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
         self$state$model$task_predict = task$clone(deep = TRUE)
       }
 
+      private$.make_prediction(task, self$model, pv)
+    },
+
+    .make_prediction = function(task, model, pv) {
+      n = task$nrow
       response = prob = NULL
       missing_type = pv$predict_missing_type %??% "na"
 
       if ("response" %in% self$predict_type) {
-        response = rep.int(unclass(self$model$response), n)
+        response = rep.int(unclass(model$response), n)
         if (!is.null(pv$predict_missing)) {
           ii = sample.int(n, n * pv$predict_missing)
           response = switch(missing_type,
@@ -190,6 +245,30 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
     }
   )
 )
+
+
+#' @export
+set_inner_tuning.LearnerClassifDebug = function(learner, disable = FALSE, ...) {
+  prev_pvs = learner$param_set$values
+  on.exit({learner$param_set$values = prev_pvs}, add = TRUE)
+  learner$param_set$set_values(...)
+  pv = learner$param_set$values
+  if (disable) {
+    learner$param_set$set_values(early_stopping = FALSE)
+  } else {
+    learner$param_set$set_values(early_stopping = TRUE)
+    if (is.null(pv$validate)) {
+      stopf("Parameter 'validate' must be set to enable inner tuning.")
+    }
+    if (is.null(pv$iter)) {
+      stopf("Parameter 'iter' must be set to enable inner tuning.")
+    }
+
+  }
+  on.exit({}, add = FALSE)
+  invisible(learner)
+}
+
 
 #' @include mlr_learners.R
 mlr_learners$add("classif.debug", function() LearnerClassifDebug$new())

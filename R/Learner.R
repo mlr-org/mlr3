@@ -61,11 +61,10 @@
 #' * `loglik(...)`: Extracts the log-likelihood (c.f. [stats::logLik()]).
 #'   This can be used in measures like [mlr_measures_aic] or [mlr_measures_bic].
 #'
-#' * `inner_valid_scores(...)`: Returns the inner validation error(s) of the model as named `list()` with
-#'   `numeric(1)` values.
+#' * `inner_valid_scores(...)`: Returns the inner validation score(s) of the model as a named `list()` of `numeric(1)`.
 #'   Learners that have the `"validation"` property must implement this.
-
-#' * `inner_tuning_values(...)`: Returns the inner tuned hyperparameters of the model as named `list()`.
+#'
+#' * `inner_tuned_values(...)`: Returns the inner tuned hyperparameters of the model as a named `list()`.
 #'   Learners that have the `"tune"` property must implement this.
 #'   In case no values were tuned, an empty list should be returned.
 #'
@@ -94,18 +93,18 @@
 #' Learners that can make use of an additional validation set (e.g. for early stopping) must:
 #' * be annotated with the `"validation"` property
 #' * implement the `$inner_valid_scores()` extractors (see section *Optional Extractors*)
-#' * Add the `validate` parameter, which can be either `NULL`, a ratio, `"test"`, or `"inner_valid_task"`:
+#' * Add the `validate` parameter, which can be either `NULL`, a ratio, `"test"`, or `"inner_valid"`:
 #'   * `NULL`: no validation
 #'   * `ratio`: only proportion `1 - ratio` of the task is used for training and `ratio` is used for validation.
 #'      set in the task).
 #'   * `"test"` means that the `"test"` task is used.
-#'     **Warning**: This might lead to bias performance estimation.
+#'     **Warning**: This can lead to bias performance estimation.
 #'     This option is only available if the learner is being trained via [resample()], [benchmark()] or functions that
 #'     internally use them, e.g. [`mlr3tuning::tune`] or [`mlr3batchmark::batchmark()`].
 #'     This is especially useful for hyperparameter tuning, where one might want to use the same data for early
 #'     stopping and the evaluation of the hyperparameter configurations.
-#'   * `"inner_valid_task"` means that the inner validation task is used.
-#'     See the [`Task`] documentation for this.
+#'   * `"inner_valid"` means that the task's `$inner_vali_task` is used.
+#'     See the [`Task`] documentation for more information.
 #'
 #' @template seealso_learner
 #' @export
@@ -127,11 +126,6 @@ Learner = R6Class("Learner",
     #' @template field_task_type
     task_type = NULL,
 
-    #' @field properties (`character()`)\cr
-    #' Stores a set of properties/capabilities the learner has.
-    #' A complete list of candidate properties, grouped by task type, is stored in [`mlr_reflections$learner_properties`][mlr_reflections].
-    properties = NULL,
-
     #' @field predict_types (`character()`)\cr
     #' Stores the possible predict types the learner is capable of.
     #' A complete list of candidate predict types, grouped by task type, is stored in [`mlr_reflections$learner_predict_types`][mlr_reflections].
@@ -141,6 +135,11 @@ Learner = R6Class("Learner",
     #' Stores the feature types the learner can handle, e.g. `"logical"`, `"numeric"`, or `"factor"`.
     #' A complete list of candidate feature types, grouped by task type, is stored in [`mlr_reflections$task_feature_types`][mlr_reflections].
     feature_types = NULL,
+
+    #' @field properties (`character()`)\cr
+    #' Stores a set of properties/capabilities the learner has.
+    #' A complete list of candidate properties, grouped by task type, is stored in [`mlr_reflections$learner_properties`][mlr_reflections].
+    properties = NULL,
 
     #' @field data_formats (`character()`)\cr
     #' Supported data format, e.g. `"data.table"` or `"Matrix"`.
@@ -547,7 +546,6 @@ Learner = R6Class("Learner",
   ),
 
   private = list(
-    .properties = NULL,
     .encapsulate = NULL,
     .fallback = NULL,
     .predict_type = NULL,
