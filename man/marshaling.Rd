@@ -61,8 +61,8 @@ Note that it is not guarateed that \code{is_marshaled_model(marshal_model(x))} r
 This is because the default \code{marshal_model(x)} returns \code{x} as-is.
 \item The \code{inplace} argument determines whether in-place marshaling should be performed.
 This is especially relevant in the context of references semantics.
-If \code{inplace} is \code{FALSE}, the marshaled model should not share references with the original model.
-If \code{inplace} is \code{TRUE} this is not necessary and the original object can be modified in-place.
+If \code{inplace} is \code{FALSE}, the original input should not be modified, otherwise this is allowed.
+Note that the input and output can still share references, even when \code{inplace} is \code{FALSE}.
 }
 }
 \section{Implementing Marshaling}{

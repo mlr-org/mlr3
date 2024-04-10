@@ -31,8 +31,8 @@
 #'   This is because the default `marshal_model(x)` returns `x` as-is.
 #' * The `inplace` argument determines whether in-place marshaling should be performed.
 #'   This is especially relevant in the context of references semantics.
-#'   If `inplace` is `FALSE`, the marshaled model should not share references with the original model.
-#'   If `inplace` is `TRUE` this is not necessary and the original object can be modified in-place.
+#'   If `inplace` is `FALSE`, the original input should not be modified, otherwise this is allowed.
+#'   Note that the input and output can still share references, even when `inplace` is `FALSE`.
 #'
 #' @section Implementing Marshaling:
 #'

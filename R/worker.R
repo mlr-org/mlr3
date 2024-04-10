@@ -261,19 +261,15 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
   learner_hash = learner$hash
   learner = learner_train(learner, task, sets[["train"]], sets[["test"]], mode = mode, unmarshal = FALSE)
 
-  model_marshaled = NULL
-  if (store_models && is_marshaled_model(learner$model) && !is_sequential) {
-    if (is_sequential) {
-      # callr + no parallelization
-      learner$model = unmarshal_model(model = learner$model, inplace = TRUE)
-    } else {
-      # callr + parallelization
-      # we need to send the marshaled model back to the main process, so we temporarily keep a marshaled
-      # and unmarshalde model in RAM to avoig an additional call to marshal_mode
-      model_marshaled = learner$model
-        learner$model = unmarshal_model(model = learner$model, inplace = FALSE)
-    }
-  }
+  # The model is in marshaled form in case we did callr encapsulation and the model needed marshaling.
+  # But for the predict step we need it unmarshaled.
+  # In case we have a marshaled model and are parallelizing, we avoid to marshal again after unmarshaling
+  # the model for the predict step.
+  # We do this by temporarily keep the marshaled and unmarshaled model in RAM (the marshaled model model of course only
+  # if store_models is TRUE)
+  model_marshaled_or_null = unmarshal_maybe_after_train(
+    learner = learner, store_models = store_models, is_sequential = is_sequential
+  )
 
   # predict for each set
   sets = sets[learner$predict_sets]
@@ -283,6 +279,35 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
   }, set = names(sets), row_ids = sets)
   pdatas = discard(pdatas, is.null)
 
+  # In case we are parallelizing and the learner needs marshaling, we need to send the marshaled model back to
+  # the main process. We can skip this if we are using callr encapsulation as we already have the marshaled
+  # model.
+  marshal_maybe_after_predict(
+    learner = learner, store_models = store_models, is_sequential = is_sequential, model_marshaled = model_marshaled_or_null
+  )
+
+  learner_state = set_class(learner$state, c("learner_state", "list"))
+
+  list(learner_state = learner_state, prediction = pdatas, param_values = learner$param_set$values, learner_hash = learner_hash)
+}
+
+unmarshal_maybe_after_train = function(learner, store_models, is_sequential) {
+  if (!is_marshaled_model(learner$model)) return(NULL)
+  if (is_sequential) {
+    # no need to keep the marshaled model in RAM, because we can send back the unmarshaled model back to the main
+    # process
+    model_marshaled = NULL
+    learner$model = unmarshal_model(model = learner$model, inplace = TRUE)
+  } else {
+    # here, we simultaneously keep the marshaled and unmarshaled model in RAM
+    model_marshaled = learner$model
+    learner$model = unmarshal_model(model = learner$model, inplace = FALSE)
+  }
+
+  model_marshaled
+}
+
+marshal_maybe_after_predict = function(learner, store_models, is_sequential, model_marshaled) {
   if (!store_models) {
     lg$debug("Erasing stored model for learner '%s'", learner$id)
     learner$state$model = NULL
@@ -291,13 +316,8 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
     learner$model = model_marshaled
   } else if (!is_sequential) {
     # parallelization without callr
-    learner$model = marshal_model(learner$model, clone = FALSE)
+    learner$model = marshal_model(learner$model, inplace = TRUE)
   }
-  # no parallelization and no callr --> nothing to do
-  # no parallelization and callr --> already unmarshaled
-
-
-  list(learner_state = learner$state, prediction = pdatas, param_values = learner$param_set$values, learner_hash = learner_hash)
 }
 
 append_log = function(log = NULL, stage = NA_character_, class = NA_character_, msg = character()) {
