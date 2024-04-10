@@ -128,16 +128,16 @@ unmarshal_model.default = function(model, inplace = FALSE, ...) {
   model
 }
 
-marshal_state_if_model = function(.state, ...) {
+marshal_state_if_model = function(.state, inplace, ...) {
   if (!is.null(.state$model)) {
-    .state$model = marshal_model(.state$model, ...)
+    .state$model = marshal_model(.state$model, inplace, ...)
   }
   .state
 }
 
-unmarshal_state_if_model = function(.state, ...) {
+unmarshal_state_if_model = function(.state, inplace, ...) {
   if (!is.null(.state$model)) {
-    .state$model = unmarshal_model(model = .state$model, ...)
+    .state$model = unmarshal_model(model = .state$model, inplace = inplace, ...)
   }
   .state
 }

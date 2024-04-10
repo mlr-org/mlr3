@@ -249,7 +249,7 @@ ResultData = R6Class("ResultData",
     #'   Additional arguments passed to [`marshal_model()`].
     marshal = function(...) {
       learner_state = NULL
-      self$data$fact[, learner_state := lapply(learner_state, function(x) marshal_state_if_model(.state = x, ...))]
+      self$data$fact[, learner_state := lapply(learner_state, function(x) marshal_state_if_model(.state = x, inplace = TRUE, ...))]
       invisible(self)
     },
     #' @description
@@ -259,7 +259,7 @@ ResultData = R6Class("ResultData",
     #'   Additional arguments passed to [`unmarshal_model()`].
     unmarshal = function(...) {
       learner_state = NULL
-      self$data$fact[, learner_state := lapply(learner_state, function(x) unmarshal_state_if_model(.state = x, ...))]
+      self$data$fact[, learner_state := lapply(learner_state, function(x) unmarshal_state_if_model(.state = x, inplace = TRUE, ...))]
       invisible(self)
     },
 
