@@ -80,12 +80,12 @@ expect_backend = function(b) {
   checkmate::expect_data_table(x, nrows = 0L, ncols = 0L)
 
   # extra rows are ignored
-  query_rows = c(rn1, if (is.numeric(rn)) -1L else "_not_existing_")
+  query_rows = c(rn1, if (is.numeric(rn)) b$nrow + 1L else "_not_existing_")
   x = b$data(query_rows, cols = cn[1L], data_format = "data.table")
   checkmate::expect_data_table(x, nrows = length(rn1), ncols = 1L)
 
   # zero rows matching
-  query_rows = if (is.numeric(rn)) -1L else "_not_existing_"
+  query_rows = if (is.numeric(rn)) b$nrow + 1L else "_not_existing_"
   x = b$data(rows = query_rows, cols = cn[1L], data_format = "data.table")
   checkmate::expect_data_table(x, nrows = 0L, ncols = 1L)
 

@@ -67,7 +67,7 @@ as_data_backend.data.frame = function(data, primary_key = NULL, keep_rownames = 
   if (is.character(primary_key)) {
     assert_string(primary_key)
     assert_choice(primary_key, colnames(data))
-    assert_integer(data[[primary_key]], any.missing = FALSE, unique = TRUE)
+    assert_integer(data[[primary_key]], any.missing = FALSE, unique = TRUE, lower = 0L)
   } else {
     if (is.null(primary_key)) {
       row_ids = seq_row(data)

@@ -98,13 +98,13 @@ for established default tuning spaces.
 Other Learner: 
 \code{\link{LearnerClassif}},
 \code{\link{LearnerRegr}},
+\code{\link{mlr_learners}},
 \code{\link{mlr_learners_classif.debug}},
 \code{\link{mlr_learners_classif.featureless}},
 \code{\link{mlr_learners_classif.rpart}},
 \code{\link{mlr_learners_regr.debug}},
 \code{\link{mlr_learners_regr.featureless}},
-\code{\link{mlr_learners_regr.rpart}},
-\code{\link{mlr_learners}}
+\code{\link{mlr_learners_regr.rpart}}
 }
 \concept{Learner}
 \section{Public fields}{
