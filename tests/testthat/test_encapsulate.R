@@ -29,6 +29,12 @@ test_that("encapsulation is automatically enabled", {
 })
 
 test_that("evaluate / single step", {
+
+  lg$set_threshold("off")
+  on.exit({
+    lg$set_threshold("warn")
+  })
+
   row_ids = 1:120
   expect_message(expect_warning(disable_encapsulation(learner)$train(task, row_ids)))
   log = learner$log
@@ -60,6 +66,12 @@ test_that("evaluate / single step", {
 })
 
 test_that("evaluate / resample", {
+
+  lg$set_threshold("off")
+  on.exit({
+    lg$set_threshold("warn")
+  })
+
   resampling = rsmp("cv", folds = 3)
 
   rr = suppressMessages(suppressWarnings(resample(task, disable_encapsulation(learner), resampling)))
