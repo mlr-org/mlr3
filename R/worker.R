@@ -101,6 +101,15 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
     mlr3_version = mlr_reflections$package_version
   ))
 
+  # store the results of the inner tuning / inner validation in the learner's STATE
+  # otherwise this information is only available with store_models = TRUE
+  if (!is.null(validate)) {
+    learner$state$inner_valid_scores = get_private(learner)$.extract_inner_valid_scores()
+  }
+  if ("inner_tuning" %in% learner$properties) {
+    learner$state$inner_tuned_values = get_private(learner)$.extract_inner_tuned_values()
+  }
+
   if (is.null(result$result)) {
     lg$debug("Learner '%s' on task '%s' failed to %s a model",
       learner$id, task$id, mode, learner = learner$clone(), messages = result$log$msg)

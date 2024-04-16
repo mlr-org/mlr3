@@ -1,12 +1,15 @@
 # mlr3 (development version)
 
-* Fix: A task's hash now takes the validation task (previously row roles 'test') into
-account
-* BREAKING_CHANGE: removes row rols 'test' and 'holdout'.
-* Feat(Learner): Better support for validation and learner internal tuning.
+* Log encapsulated errors and warnings with the `lgr` package.
+
+# mlr3 0.18.0
+
+* Prepare compatibility with new paradox version.
 * feat: dictionary conversion of `mlr_learners` respects prototype arguments
 recently added in mlr3misc
 * perf: skip unnecessary clone of learner's state in `resample()`
+* fix: Encapsulation methods use the same RNG state now.
+* feat: support for validation and learner-internal tuning
 
 # mlr3 0.17.2
 

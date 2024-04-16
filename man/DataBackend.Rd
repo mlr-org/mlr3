@@ -53,7 +53,7 @@ Other DataBackend:
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
 \item{\code{primary_key}}{(\code{character(1)})\cr
-Column name of the primary key column of unique integer row ids.}
+Column name of the primary key column of positive and unique integer row ids.}
 
 \item{\code{data_formats}}{(\code{character()})\cr
 Set of supported formats, e.g. \code{"data.table"} or \code{"Matrix"}.}

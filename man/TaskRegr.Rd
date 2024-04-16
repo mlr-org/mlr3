@@ -136,8 +136,8 @@ Defaults to all rows with role "use".
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{rows}}{\code{integer()}\cr
-Row indices.}
+\item{\code{rows}}{(positive \code{integer()})\cr
+Vector or row indices.}
 }
 \if{html}{\out{</div>}}
 }

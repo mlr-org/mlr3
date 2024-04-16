@@ -1,6 +1,6 @@
 Package: mlr3
 Title: Machine Learning in R - Next Generation
-Version: 0.17.2.9000
+Version: 0.18.0.9000
 Authors@R:
   c(
     person("Michel", "Lang", , "michellang@gmail.com", role = c("cre", "aut"),
@@ -45,7 +45,7 @@ Imports:
     R6 (>= 2.4.1),
     backports,
     checkmate (>= 2.0.0),
-    data.table (>= 1.14.2),
+    data.table (>= 1.15.0),
     evaluate,
     future,
     future.apply (>= 1.5.0),

@@ -80,32 +80,30 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
         data_formats = c("data.table", "Matrix"),
         label = "Debug Learner for Classification"
       )
-    },
+    }
+  ),
+  active = list(
     #' @description
     #' Retrieves the inner validation scores.
+    #' If `early_stopping` was `FALSE`, this returns an empty list.
     #' @return named `list()`
     inner_valid_scores = function() {
-      if (is.null(self$model)) {
-        stopf("No model trained yet.")
-      }
       if (is.null(self$model$inner_valid_scores)) {
-        stopf("No inner validation.")
+        stopf("No inner validation scores available.")
       }
-      self$model$inner_valid_scores
+      self$state$inner_valid_scores
     },
     #' @description
     #' Retrieves the inner tuned values, in this case the value of `iter`.
+    #' If parameter `validate` was `NULL`, this returns an empty list.
     #' @return named `list()`
     inner_tuned_values = function() {
-      if (is.null(self$model)) {
-        stopf("No model trained yet.")
-      } else if (!isTRUE(self$state$param_vals$early_stopping)) {
-        stopf("No inner tuning. Set 'early_stopping = TRUE' in the learner to enable this.")
+      if (is.null(self$state$inner_tuned_values)) {
+        stopf("No inner tuned values available.")
       }
-      list(iter = self$state$model$iter)
+      self$state$inner_tuned_values
     }
   ),
-
   private = list(
     .train = function(task) {
       pv = self$param_set$get_values(tags = "train")
@@ -164,6 +162,20 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
       set_class(model, "classif.debug_model")
     },
 
+    .extract_inner_tuned_values = function() {
+      if (!isTRUE(self$state$param_vals$early_stopping)) {
+        named_list()
+      } else {
+        self$model["iter"]
+      }
+    },
+    .extract_inner_valid_scores = function() {
+      if (is.null(self$model$inner_valid_scores)) {
+        named_list()
+      } else {
+        self$model$inner_valid_scores
+      }
+    },
     .predict = function(task) {
       pv = self$param_set$get_values(tags = "predict")
       roll = function(name) {
