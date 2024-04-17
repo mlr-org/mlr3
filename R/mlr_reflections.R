@@ -137,7 +137,7 @@ local({
   )
 
   # Allowed tags for parameters
-  mlr_reflections$learner_param_tags = c("train", "predict", "hotstart", "importance", "threads", "required", "tune")
+  mlr_reflections$learner_param_tags = c("train", "predict", "hotstart", "importance", "threads", "required", "inner_tuning")
 
   ### Prediction
   mlr_reflections$predict_sets = c("train", "test", "inner_valid")

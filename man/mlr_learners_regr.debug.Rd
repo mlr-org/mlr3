@@ -14,9 +14,6 @@ The following hyperparameters trigger the following actions:
 \item{save_tasks:}{Saves input task in \code{model} slot during training and prediction.}
 \item{threads:}{Number of threads to use. Has no effect.}
 \item{x:}{Numeric tuning parameter. Has no effect.}
-\item{response:}{How to construct the response. Possible values are \code{NULL}, which uses the mean of the primary
-task's truth column, \code{"tune"}, which uses the mean of the primary task and validation task (i.e. \code{validate})
-must also be set, and a provided value which is used as the response.}
 }
 }
 \section{Dictionary}{
@@ -46,7 +43,6 @@ lrn("regr.debug")
    save_tasks \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
    threads \tab integer \tab - \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
    x \tab numeric \tab - \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
-   response \tab untyped \tab  \tab  \tab - \cr
 }
 }
 

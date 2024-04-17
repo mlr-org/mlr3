@@ -72,7 +72,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
           warning_train        = p_dbl(0, 1, default = 0, tags = "train"),
           x                    = p_dbl(0, 1, tags = "train"),
           validate             = p_uty(default = NULL, tags = "train", custom_check = check_validate),
-          iter                 = p_int(1, default = 1, tags = c("train", "hotstart", "tune")),
+          iter                 = p_int(1, default = 1, tags = c("train", "hotstart", "inner_tuning")),
           early_stopping       = p_lgl(default = FALSE, tags = "train")
         ),
         properties = c("twoclass", "multiclass", "missings", "hotstart_forward", "validation", "inner_tuning"),
@@ -83,23 +83,21 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
     }
   ),
   active = list(
-    #' @description
-    #' Retrieves the inner validation scores.
-    #' If `early_stopping` was `FALSE`, this returns an empty list.
-    #' @return named `list()`
-    inner_valid_scores = function() {
-      if (is.null(self$model$inner_valid_scores)) {
-        stopf("No inner validation scores available.")
+    #' @field inner_valid_scores
+    #' Retrieves the inner validation scores as a named `list()`.
+    inner_valid_scores = function(rhs) {
+      assert_ro_binding(rhs)
+      if (is.null(self$state)) {
+        stopf("Learner not trained")
       }
       self$state$inner_valid_scores
     },
-    #' @description
-    #' Retrieves the inner tuned values, in this case the value of `iter`.
-    #' If parameter `validate` was `NULL`, this returns an empty list.
-    #' @return named `list()`
-    inner_tuned_values = function() {
-      if (is.null(self$state$inner_tuned_values)) {
-        stopf("No inner tuned values available.")
+    #' @field inner_tuned_values
+    #' Retrieves the inner tuned values as a named `list()`.
+    inner_tuned_values = function(rhs) {
+      assert_ro_binding(rhs)
+      if (is.null(self$state)) {
+        stopf("Learner not trained")
       }
       self$state$inner_tuned_values
     }

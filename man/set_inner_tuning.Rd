@@ -14,7 +14,7 @@ The learner for which to set the inner tuning.}
 Whether to disable the inner tuning, default is \code{FALSE}.}
 
 \item{...}{(any)\cr
-Additional parameter.}
+Additional parameter values that are set in the learner.}
 }
 \value{
 The input \code{\link{Learner}}

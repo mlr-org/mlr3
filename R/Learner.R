@@ -65,7 +65,7 @@
 #'   Learners that have the `"validation"` property must implement this.
 #'
 #' * `inner_tuned_values(...)`: Returns the inner tuned hyperparameters of the model as a named `list()`.
-#'   Learners that have the `"tune"` property must implement this.
+#'   Learners that have the `"inner_tuning"` property must implement this.
 #'   In case no values were tuned, an empty list should be returned.
 #'
 #' @section Setting Hyperparameters:

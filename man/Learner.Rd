@@ -51,7 +51,7 @@ This can be used in measures like \link{mlr_measures_aic} or \link{mlr_measures_
 \item \code{inner_valid_scores(...)}: Returns the inner validation score(s) of the model as a named \code{list()} of \code{numeric(1)}.
 Learners that have the \code{"validation"} property must implement this.
 \item \code{inner_tuned_values(...)}: Returns the inner tuned hyperparameters of the model as a named \code{list()}.
-Learners that have the \code{"tune"} property must implement this.
+Learners that have the \code{"inner_tuning"} property must implement this.
 In case no values were tuned, an empty list should be returned.
 }
 }

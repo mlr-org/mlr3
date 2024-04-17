@@ -77,7 +77,7 @@ test_that("set_inner_tuning works", {
   expect_true(learner$param_set$values$early_stopping)
   task = tsk("iris")
   learner$train(task)
-  invoke(set_inner_tuning, learner = learner, disable = TRUE, .args = learner$inner_tuned_values())
+  invoke(set_inner_tuning, learner = learner, disable = TRUE, .args = learner$inner_tuned_values)
   expect_false(learner$param_set$values$early_stopping)
 })
 
