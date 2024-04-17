@@ -129,7 +129,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
       }
 
       model = list(response = as.character(sample(task$truth(), 1L)), pid = Sys.getpid(), iter = pv$iter,
-        id = UUIDgenerate())
+        id = UUIDgenerate(), random_number = sample(100000, 1))
       if (isTRUE(pv$save_tasks)) {
         model$task_train = task$clone(deep = TRUE)
       }
