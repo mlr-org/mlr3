@@ -44,7 +44,6 @@ LearnerRegrDebug = R6Class("LearnerRegrDebug", inherit = LearnerRegr,
           threads              = p_int(1L, tags = c("train", "threads")),
           x                    = p_dbl(0, 1, tags = "train")
         ),
-        param_set = param_set,
         properties = "missings",
         man = "mlr3::mlr_learners_regr.debug",
         data_formats = c("data.table", "Matrix"),

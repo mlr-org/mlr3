@@ -27,12 +27,23 @@ lrn("regr.debug")
 
 \section{Meta Information}{
 
-\verb{r mlr3misc::rd_info(mlr3::lrn("regr.debug"))}
+\itemize{
+\item Task type: \dQuote{regr}
+\item Predict Types: \dQuote{response}, \dQuote{se}
+\item Feature Types: \dQuote{logical}, \dQuote{integer}, \dQuote{numeric}, \dQuote{character}, \dQuote{factor}, \dQuote{ordered}
+\item Required Packages: \CRANpkg{mlr3}
+}
 }
 
 \section{Parameters}{
-
-\verb{r mlr3misc::rd_info(mlr3::lrn("regr.debug")$param_set)}
+\tabular{lllll}{
+   Id \tab Type \tab Default \tab Levels \tab Range \cr
+   predict_missing \tab numeric \tab 0 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
+   predict_missing_type \tab character \tab na \tab na, omit \tab - \cr
+   save_tasks \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   threads \tab integer \tab - \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
+   x \tab numeric \tab - \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
+}
 }
 
 \examples{
