@@ -68,5 +68,5 @@ test_that("marshal count works for LearnerClassifDebug", {
 })
 
 test_that("printer", {
-  expect_output(print(lrn("classif.debug")$train(tsk("iris"))$marshal()$model), "<regr.debug_model_marshaled>")
+  expect_output(print(lrn("classif.debug")$train(tsk("iris"))$marshal()$model), "<classif.debug_model_marshaled>")
 })
