@@ -583,6 +583,9 @@ default_values.Learner = function(x, search_space, task, ...) { # nolint
 
 #' @export
 marshal_model.learner_state = function(model, inplace = FALSE, ...) {
+  if (is.null(model$model)) {
+    return(model)
+  }
   mm = marshal_model(model$model, inplace = inplace, ...)
   if (!is_marshaled_model(mm)) {
     return(model)
