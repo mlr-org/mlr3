@@ -33,17 +33,17 @@ LearnerRegrDebug = R6Class("LearnerRegrDebug", inherit = LearnerRegr,
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
-      param_set = ps(
-        predict_missing      = p_dbl(0, 1, default = 0, tags = "predict"),
-        predict_missing_type = p_fct(c("na", "omit"), default = "na", tags = "predict"),
-        save_tasks           = p_lgl(default = FALSE, tags = c("train", "predict")),
-        threads              = p_int(1L, tags = c("train", "threads")),
-        x                    = p_dbl(0, 1, tags = "train")
-      )
       super$initialize(
         id = "regr.debug",
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
         predict_types = c("response", "se"),
+        param_set = ps(
+          predict_missing      = p_dbl(0, 1, default = 0, tags = "predict"),
+          predict_missing_type = p_fct(c("na", "omit"), default = "na", tags = "predict"),
+          save_tasks           = p_lgl(default = FALSE, tags = c("train", "predict")),
+          threads              = p_int(1L, tags = c("train", "threads")),
+          x                    = p_dbl(0, 1, tags = "train")
+        ),
         param_set = param_set,
         properties = "missings",
         man = "mlr3::mlr_learners_regr.debug",

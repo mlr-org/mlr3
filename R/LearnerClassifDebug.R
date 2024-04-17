@@ -81,14 +81,14 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
       )
     },
     #' @description
-    #' Marshals the learner.
+    #' Marshal the learner's model.
     #' @param ... (any)\cr
     #'   Additional arguments passed to [`marshal_model()`].
     marshal = function(...) {
       learner_marshal(.learner = self, ...)
     },
     #' @description
-    #' Unmarshal the learner.
+    #' Unmarshal the learner's model.
     #' @param ... (any)\cr
     #'   Additional arguments passed to [`unmarshal_model()`].
     unmarshal = function(...) {
@@ -224,7 +224,7 @@ mlr_learners$add("classif.debug", function() LearnerClassifDebug$new())
 
 #' @export
 #' @method marshal_model classif.debug_model
-marshal_model.classif.debug_model = function(model, ...) {
+marshal_model.classif.debug_model = function(model, inplace = FALSE, ...) {
   if (!is.null(model$marshal_count)) {
     model$marshal_count = model$marshal_count + 1
   }
@@ -236,6 +236,6 @@ marshal_model.classif.debug_model = function(model, ...) {
 
 #' @export
 #' @method unmarshal_model classif.debug_model_marshaled
-unmarshal_model.classif.debug_model_marshaled = function(model, ...) {
+unmarshal_model.classif.debug_model_marshaled = function(model, inplace = FALSE, ...) {
   model$marshaled
 }

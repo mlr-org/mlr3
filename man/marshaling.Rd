@@ -41,15 +41,16 @@ The central functions (and the only methods that are used by \code{mlr3} interna
 \item the S3 generic \code{marshal_model(model, inplace, ...)}.
 Which takes in a model and returns it in marshaled form.
 The marshaled object should be a list with named elements \code{marshaled} and \code{packages}, where the former contains
-the marshaled object, and the latter the packages required to unmarshal it.
-This list should have the classes of the original object with the suffix \code{"_marshaled"} appended and the
+the marshaled object, and the latter the package that contains the packages requrired to unmarshal.
+Most importantly, this list should contain the package that contains the \code{unmarshal_model} method.
+This \verb{$marshaled} field should have the classes of the original object with the suffix \code{"_marshaled"} appended and the
 root class should be set to \code{"marshaled"}.
 \item the S3 generic \verb{unmarshal_model(model, inplace ...)}.
 Which takes in the marshaled model and returns it in unmarshaled form.
 The generic takes care that the packages specified during \code{"marshal"} are loaded, and errs if they are not.
-The returned object must not inherit from class \code{"marshaled"}.
-\item the function \verb{is_ marshaled_model(model)}, which returns \code{TRUE} if the model inherits from class \code{"marshaled"}
-and \code{FALSE} otherwise.
+The returned object must not inherit from class \code{"marshaled"} and should reconstrct the original object.
+\item the function \code{is_marshaled_model(model)}.
+This (helper) function returns \code{TRUE} if the model inherits from class \code{"marshaled"} and \code{FALSE} otherwise.
 }
 
 The contract of these generics is:
@@ -68,15 +69,13 @@ Note that the input and output can still share references, even when \code{inpla
 \section{Implementing Marshaling}{
 
 
-In order to implement marshaling for a Learner, you only need to overload the \code{marshal_model} and \code{unmarshal_model}
-methods and tag the learner with the \code{"marshal"} property accordingly.
+In order to implement marshaling for a Learner, you only to overload the \code{marshal_model} and \code{unmarshal_model}
+methods for the class of the learner's model and tag the learner with the \code{"marshal"} property.
 
 To make marshaling accessible in an R6-manner, you should also add the public methods \verb{$marshal()}, \verb{$unmarshal()}
 and the active binding \verb{$marshaled}.
 To make this as convenient as possible, the functions \code{learner_marshal(learner)}, \code{learner_unmarshal(learner)}
 and \code{learner_marshaled(learner)} are provided and can be called from within the public methods.
-All three functions throw an error if the learner is not trained and otherwise call
-\code{marshal_model()}, \code{unmarshal_model()} or \code{is_marshaled_model()} on the learner's model.
 
 You can verify whether you have correctly implemented marshaling by using the internal test helper
 \code{expect_marshalable_learner()}. This is also run by \code{expect_learner()} if a task is provided.

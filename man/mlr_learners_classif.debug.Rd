@@ -163,7 +163,7 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 \if{html}{\out{<a id="method-LearnerClassifDebug-marshal"></a>}}
 \if{latex}{\out{\hypertarget{method-LearnerClassifDebug-marshal}{}}}
 \subsection{Method \code{marshal()}}{
-Marshals the learner.
+Marshal the learner's model.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{LearnerClassifDebug$marshal(...)}\if{html}{\out{</div>}}
 }
@@ -181,7 +181,7 @@ Additional arguments passed to \code{\link[=marshal_model]{marshal_model()}}.}
 \if{html}{\out{<a id="method-LearnerClassifDebug-unmarshal"></a>}}
 \if{latex}{\out{\hypertarget{method-LearnerClassifDebug-unmarshal}{}}}
 \subsection{Method \code{unmarshal()}}{
-Unmarshal the learner.
+Unmarshal the learner's model.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{LearnerClassifDebug$unmarshal(...)}\if{html}{\out{</div>}}
 }
