@@ -228,8 +228,10 @@ marshal_model.classif.debug_model = function(model, ...) {
   if (!is.null(model$marshal_count)) {
     model$marshal_count = model$marshal_count + 1
   }
-  newclass = c("classif.debug_model_marshaled", "marshaled")
-  structure(list(marshaled = model, packages = "mlr3"), class = newclass)
+  structure(list(
+    marshaled = model, packages = "mlr3"),
+    class = c("classif.debug_model_marshaled", "marshaled")
+  )
 }
 
 #' @export

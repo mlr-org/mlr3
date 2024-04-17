@@ -341,3 +341,10 @@ test_that("marshaling and encapsulation", {
   learner$train(task)
   expect_equal(learner$model$marshal_count, 0)
 })
+
+test_that("marshal state", {
+  state = lrn("classif.debug")$train(tsk("iris"))$state
+  sm = marshal_model(state)
+  expect_true(is_marshaled_model(sm))
+  expect_equal(state, unmarshal_model(marshal_model(state)))
+})

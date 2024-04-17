@@ -580,3 +580,23 @@ default_values.Learner = function(x, search_space, task, ...) { # nolint
 #   sprintf("<lrn:%s>", x$id)
 # }
 
+
+#' @export
+marshal_model.learner_state = function(model, inplace = FALSE, ...) {
+  mm = marshal_model(model$model, inplace = inplace, ...)
+  if (!is_marshaled_model(mm)) {
+    return(model)
+  }
+  model$model = mm
+  structure(list(
+    marshaled = model,
+    packages = "mlr3"
+  ), class = c("learner_state_marshaled", "list_marshaled", "marshaled"))
+}
+
+#' @export
+unmarshal_model.learner_state_marshaled = function(model, inplace = FALSE, ...) {
+  mm = model$marshaled
+  mm$model = unmarshal_model(mm$model, inplace = inplace, ...)
+  return(mm)
+}

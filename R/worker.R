@@ -74,7 +74,7 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
 
   # unmarshal_model does nothing if the model was not marshaled
 
-  learner$state = insert_named(learner$state, list(
+  learner$state = set_class(insert_named(learner$state, list(
     model = result$result,
     log = log,
     train_time = train_time,
@@ -82,7 +82,7 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
     task_hash = task$hash,
     feature_names = task$feature_names,
     mlr3_version = mlr_reflections$package_version
-  ))
+  )), c("learner_state", "list"))
 
   if (is.null(result$result)) {
     lg$debug("Learner '%s' on task '%s' failed to %s a model",
