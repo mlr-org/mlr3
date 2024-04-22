@@ -261,7 +261,7 @@ test_that("does not unnecessarily clone state", {
   expect_resample_result(resample(task, learner, rsmp("holdout")))
 })
 
-test_that("marshaling does not change class of learner state", {
+test_that("marshaling does not change class of learner state when reassembling", {
   rr = resample(tsk("iris"), lrn("classif.debug", encapsulate = c(train = "callr")), rsmp("holdout"), store_models = TRUE)
   expect_class(rr$learners[[1]]$state, "learner_state")
 })

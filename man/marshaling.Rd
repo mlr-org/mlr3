@@ -42,19 +42,19 @@ The central functions (and the only methods that are used by \code{mlr3} interna
 Which takes in a model and returns it in marshaled form.
 This means, that the resulting object can be serialized and de-serialzed without loss of information.
 The marshaled object should be a list with named elements \code{marshaled} and \code{packages}, where the former contains
-the marshaled object, and the latter the package that contains the packages requrired to unmarshal.
+the marshaled object, and the latter the package that contains the packages requirrd to unmarshal.
 Most importantly, this list should contain the package that contains the \code{unmarshal_model} method.
 The returned object should have the classes of the original object with the suffix \code{"_marshaled"} appended and the
 root class should be set to \code{"marshaled"}.
-Note that it is not guarateed that \code{is_marshaled_model(marshal_model(x))} returns \code{TRUE}.
-This is because the default \code{marshal_model(x)} returns \code{x} as-is.
 \item the S3 generic \verb{unmarshal_model(model, inplace ...)}.
 Which takes in the marshaled model and returns it in unmarshaled form.
-The generic takes care that the packages specified during \code{"marshal"} are loaded, and errs if they are not.
+The generic takes care that the packages specified during \code{"marshal"} are loaded, and errs if they are not availabe.
 Calling this function on a marshaled model should reconstruct the original model, i.e.
 \code{unmarshal_model(marshal_model(x))} should return \code{x} as is.
 \item the function \code{is_marshaled_model(model)}.
 This (helper) function returns \code{TRUE} if the model inherits from class \code{"marshaled"} and \code{FALSE} otherwise.
+Note that it is not guarateed that \code{is_marshaled_model(marshal_model(x))} returns \code{TRUE}.
+This is because the default \code{marshal_model(x)} returns \code{x} as-is.
 }
 
 For both \code{marshal_model} and \code{unmarshal_model}, the \code{inplace} argument determines whether in-place marshaling
@@ -69,8 +69,8 @@ In order to implement marshaling for a Learner, you need to overload the \code{m
 methods for the class of the learner's model and tag the learner with the \code{"marshal"} property.
 To make marshaling accessible in an R6-manner, you should also add the public methods \verb{$marshal()}, \verb{$unmarshal()}
 and the active binding \verb{$marshaled}.
-To make this as convenient as possible, the functions \code{learner_marshal(learner)}, \code{learner_unmarshal(learner)}
-and \code{learner_marshaled(learner)} are provided and can be called from within the public methods.
+To make this as convenient as possible, the functions \code{learner_marshal(.learner, ...)}, \code{learner_unmarshal(.learner, ...)}
+and \code{learner_marshaled(.learner)} are provided and can be called from the public methods.
 
 You can verify whether you have correctly implemented marshaling by using the internal test helper
 \code{expect_marshalable_learner(learner, task)}. This is also run by \code{expect_learner()} if a task is provided.
