@@ -1,4 +1,5 @@
 #' @param unmarshal [`Learner`]\cr
-#'   Whether to unmarshal learners that were sent back to the main process in marshaled form.
-#'   Setting this to `TRUE` does not guarantee that all learners that require marshaling are marshaled.
-#'   To achieve this, call `$marshal()` on the result object.
+#'   Whether to unmarshal learners that were marshaled during the execution.
+#'   Setting this to `FALSE` does not guarantee that the learners are marshaled.
+#'   For example, with sequential execution and no encapsulation, marshaling is not necessary.
+#'   If you want all learners in marshaled form, you need to call `$marshal()` on the result object.

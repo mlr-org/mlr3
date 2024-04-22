@@ -315,9 +315,11 @@ set_model_after_predict = function(learner, store_models, is_sequential, model_m
   } else if (!is.null(model_marshaled)) {
     # callr + parallelization
     # or callr + sequential, but unmarshal was FALSE
+    # i.e. those cases, where keep_marshaled_if_needed returned the marshaled model
     learner$model = model_marshaled
   } else if (!is_sequential) {
     # parallelization without callr
+    # in this case we don't have computed the marshaled model yet, so we do it now
     learner$model = marshal_model(learner$model, inplace = TRUE)
   }
 }
