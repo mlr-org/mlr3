@@ -376,7 +376,7 @@ expect_learner = function(lrn, task = NULL, check_man = TRUE) {
   )
 
   # FIXME: remove at and glrn when they have new releases supporting marshaling
-  if ("marshal" %in% lrn$properties && !test_class(lrn, "GraphLearner") && !test_class(lrn, "AutoTuner")) {
+  if ("marshal" %in% lrn$properties && !test_class(lrn, "GraphLearner") && !test_class(lrn, "AutoTuner") && !test_class(lrn, "AutoFSelector")) {
     assert_function(lrn$marshal)
     assert_function(lrn$unmarshal)
   }
@@ -387,7 +387,7 @@ expect_learner = function(lrn, task = NULL, check_man = TRUE) {
     testthat::expect_identical(lrn$task_type, task$task_type)
 
     # FIXME: remove at and glrn when they have new releases supporting marshaling
-    if ("marshal" %in% lrn$properties && !test_class(lrn, "GraphLearner") && !test_class(lrn, "AutoTuner")) {
+    if ("marshal" %in% lrn$properties && !test_class(lrn, "GraphLearner") && !test_class(lrn, "AutoTuner") && !test_class(lrn, "AutoFSelector")) {
       expect_marshalable_learner(lrn, task)
     }
   }
