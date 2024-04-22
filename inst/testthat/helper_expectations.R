@@ -375,7 +375,8 @@ expect_learner = function(lrn, task = NULL, check_man = TRUE) {
     info = sprintf("All hyperparameters of learner %s must be tagged with 'train' or 'predict'. Missing tags for: %s", lrn$id, paste0(names(tags), collapse = ", "))
   )
 
-  if ("marshal" %in% lrn$properties) {
+  # FIXME: remove at and glrn when they have new releases supporting marshaling
+  if ("marshal" %in% lrn$properties && !test_class(lrn, "GraphLearner") && !test_class(lrn, "AutoTuner")) {
     assert_function(lrn$marshal)
     assert_function(lrn$unmarshal)
   }
@@ -385,7 +386,8 @@ expect_learner = function(lrn, task = NULL, check_man = TRUE) {
     checkmate::expect_subset(lrn$properties, mlr3::mlr_reflections$learner_properties[[task$task_type]])
     testthat::expect_identical(lrn$task_type, task$task_type)
 
-    if ("marshal" %in% lrn$properties) {
+    # FIXME: remove at and glrn when they have new releases supporting marshaling
+    if ("marshal" %in% lrn$properties && !test_class(lrn, "GraphLearner") && !test_class(lrn, "AutoTuner")) {
       expect_marshalable_learner(lrn, task)
     }
   }
