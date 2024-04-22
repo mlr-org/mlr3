@@ -24,7 +24,7 @@ test_that("marshaling a marshaled object does nothing", {
   expect_equal(marshal_model(xm), xm)
 })
 
-test_that("unmarshaling a unmarshaled object does nothing", {
+test_that("unmarshaling an unmarshaled object does nothing", {
   x = 1
   xm = marshal_model(x)
   expect_equal(unmarshal_model(xm), x)
@@ -57,8 +57,6 @@ test_that("marshal count works for LearnerClassifDebug", {
   learner$marshal()$unmarshal()
   expect_equal(learner$model$marshal_count, 2)
 
-  # TO make the lily learner more realistic (i.e. (un)marshaling leaves the object unchanged)
-  # the count_marshaling parameter can also be set to FALSE
   learner2 = lrn("classif.debug", count_marshaling = FALSE)
   learner2$train(task)
   expect_true(is.null(learner2$model$marshal_count))

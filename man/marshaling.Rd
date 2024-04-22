@@ -33,52 +33,47 @@ Additional parameters, currently unused.}
 Marshaling is the process of processing the model of a trained \code{\link{Learner}} so it an be successfully serialized and
 deserialized. The naming is inspired by the \href{https://github.com/HenrikBengtsson/marshal}{marshal package} and we
 plan to fully migrate to this package once it is on CRAN.
-The supported implementation until then should therfore be considered as a temporary solution and is likely
+The current implementation should therfore be considered as a temporary solution and is likely
 to change in the future.
 
 The central functions (and the only methods that are used by \code{mlr3} internally) are:
 \itemize{
 \item the S3 generic \code{marshal_model(model, inplace, ...)}.
 Which takes in a model and returns it in marshaled form.
+This means, that the resulting object can be serialized and de-serialzed without loss of information.
 The marshaled object should be a list with named elements \code{marshaled} and \code{packages}, where the former contains
 the marshaled object, and the latter the package that contains the packages requrired to unmarshal.
 Most importantly, this list should contain the package that contains the \code{unmarshal_model} method.
-This \verb{$marshaled} field should have the classes of the original object with the suffix \code{"_marshaled"} appended and the
+The returned object should have the classes of the original object with the suffix \code{"_marshaled"} appended and the
 root class should be set to \code{"marshaled"}.
+Note that it is not guarateed that \code{is_marshaled_model(marshal_model(x))} returns \code{TRUE}.
+This is because the default \code{marshal_model(x)} returns \code{x} as-is.
 \item the S3 generic \verb{unmarshal_model(model, inplace ...)}.
 Which takes in the marshaled model and returns it in unmarshaled form.
 The generic takes care that the packages specified during \code{"marshal"} are loaded, and errs if they are not.
-The returned object must not inherit from class \code{"marshaled"} and should reconstrct the original object.
+Calling this function on a marshaled model should reconstruct the original model, i.e.
+\code{unmarshal_model(marshal_model(x))} should return \code{x} as is.
 \item the function \code{is_marshaled_model(model)}.
 This (helper) function returns \code{TRUE} if the model inherits from class \code{"marshaled"} and \code{FALSE} otherwise.
 }
 
-The contract of these generics is:
-\itemize{
-\item \code{unmarshal_model(marshal_model(x))} returns \code{x} as is.
-\item \code{unmarshal_model(x)} can be serialized and de-serialzed without loss of information.
-\item If \code{is_marshaled_model(x)} is \code{TRUE}, this means that \code{x} is in marshaled form.
-Note that it is not guarateed that \code{is_marshaled_model(marshal_model(x))} returns \code{TRUE}.
-This is because the default \code{marshal_model(x)} returns \code{x} as-is.
-\item The \code{inplace} argument determines whether in-place marshaling should be performed.
-This is especially relevant in the context of references semantics.
+For both \code{marshal_model} and \code{unmarshal_model}, the \code{inplace} argument determines whether in-place marshaling
+should be performed. This is especially relevant in the context of references semantics.
 If \code{inplace} is \code{FALSE}, the original input should not be modified, otherwise this is allowed.
 Note that the input and output can still share references, even when \code{inplace} is \code{FALSE}.
-}
 }
 \section{Implementing Marshaling}{
 
 
-In order to implement marshaling for a Learner, you only to overload the \code{marshal_model} and \code{unmarshal_model}
+In order to implement marshaling for a Learner, you need to overload the \code{marshal_model} and \code{unmarshal_model}
 methods for the class of the learner's model and tag the learner with the \code{"marshal"} property.
-
 To make marshaling accessible in an R6-manner, you should also add the public methods \verb{$marshal()}, \verb{$unmarshal()}
 and the active binding \verb{$marshaled}.
 To make this as convenient as possible, the functions \code{learner_marshal(learner)}, \code{learner_unmarshal(learner)}
 and \code{learner_marshaled(learner)} are provided and can be called from within the public methods.
 
 You can verify whether you have correctly implemented marshaling by using the internal test helper
-\code{expect_marshalable_learner()}. This is also run by \code{expect_learner()} if a task is provided.
+\code{expect_marshalable_learner(learner, task)}. This is also run by \code{expect_learner()} if a task is provided.
 
 For a concrete example on how to implement marshaling, see \code{\link{LearnerClassifDebug}}.
 }

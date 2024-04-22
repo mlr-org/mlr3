@@ -157,6 +157,16 @@ test_that("as_resample_result works for result data", {
   expect_class(rr2, "ResampleResult")
 })
 
+test_that("encapsulation triggers marshaling correctly", {
+  learner1 = lrn("classif.debug", count_marshaling = TRUE, encapsulate = c(train = "callr"))
+  learner2 = lrn("classif.debug", count_marshaling = TRUE, encapsulate = c(train = "none"))
+  task = tsk("iris")
+  resampling = rsmp("holdout")
+  rr1 = resample(task, learner1, resampling, store_models = TRUE, unmarshal = FALSE)
+  expect_true(rr1$learners[[1]]$marshaled)
+  rr2 = resample(task, learner2, resampling, store_models = TRUE, unmarshal = FALSE)
+})
+
 test_that("parallel execution automatically triggers marshaling", {
   learner = lrn("classif.debug", count_marshaling = TRUE)
   task = tsk("iris")
@@ -197,7 +207,13 @@ test_that("marshaling works when store_models is FALSE", {
     resample(task, learner, resampling, store_models = FALSE, unmarshal = TRUE)
   })
   expect_resample_result(rr)
-  rr$learners[[1]]$model
+  expect_true(is.null(rr$learners[[1]]$model))
+
+  rr1 = with_future(future::sequential, {
+    resample(task, learner, resampling, store_models = FALSE, unmarshal = TRUE)
+  })
+  expect_resample_result(rr1)
+  expect_true(is.null(rr1$learners[[1]]$model))
 })
 
 
@@ -243,4 +259,9 @@ test_that("does not unnecessarily clone state", {
   ))$new()
   learner$train(task)
   expect_resample_result(resample(task, learner, rsmp("holdout")))
+})
+
+test_that("marshaling does not change class of learner state", {
+  rr = resample(tsk("iris"), lrn("classif.debug", encapsulate = c(train = "callr")), rsmp("holdout"), store_models = TRUE)
+  expect_class(rr$learners[[1]]$state, "learner_state")
 })

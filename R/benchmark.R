@@ -82,6 +82,7 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
   assert_subset(clone, c("task", "learner", "resampling"))
   assert_data_frame(design, min.rows = 1L)
   assert_names(names(design), must.include = c("task", "learner", "resampling"))
+  assert_flag(unmarshal)
   design$task = list(assert_tasks(as_tasks(design$task)))
   design$learner = list(assert_learners(as_learners(design$learner)))
   design$resampling = list(assert_resamplings(as_resamplings(design$resampling), instantiated = TRUE))
@@ -184,7 +185,7 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
 
   res = future_map(n, workhorse,
     task = grid$task, learner = grid$learner, resampling = grid$resampling, iteration = grid$iteration, param_values = grid$param_values, mode = grid$mode,
-    MoreArgs = list(store_models = store_models, lgr_threshold = lgr_threshold, pb = pb)
+    MoreArgs = list(store_models = store_models, lgr_threshold = lgr_threshold, pb = pb, unmarshal = unmarshal)
   )
 
   grid = insert_named(grid, list(

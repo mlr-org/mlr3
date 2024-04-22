@@ -61,7 +61,9 @@ providing a set with possible values \code{"task"}, \code{"learner"} and
 Per default, all input objects are cloned.}
 
 \item{unmarshal}{\code{\link{Learner}}\cr
-Whether to unmarshal the learner.}
+Whether to unmarshal learners that were sent back to the main process in marshaled form.
+Setting this to \code{TRUE} does not guarantee that all learners that require marshaling are marshaled.
+To achieve this, call \verb{$marshal()} on the result object.}
 }
 \value{
 \link{ResampleResult}.

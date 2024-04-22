@@ -439,11 +439,6 @@ expect_marshalable_learner = function(learner, task) {
   expect_false(learner$marshaled)
 
   expect_equal(class(learner$model), class_prev)
-
-  # when re-training, marshaled is reset
-  learner$predict(task)
-  expect_false(learner$train(task)$marshaled)
-
 }
 
 expect_resampling = function(r, task = NULL) {

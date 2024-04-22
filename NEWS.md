@@ -2,7 +2,7 @@
 
 * Feat: added support for `"marshal"` property, which allows learners to process
 models so they can be serialized. This happens automatically during `resample()`
-and `benchmark()`. The naming was inspired by the {marshal} package.
+and `benchmark()`.
 * Log encapsulated errors and warnings with the `lgr` package.
 
 # mlr3 0.18.0

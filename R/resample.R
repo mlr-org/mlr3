@@ -113,7 +113,7 @@ resample = function(task, learner, resampling, store_models = FALSE, store_backe
   }
 
   res = future_map(n, workhorse, iteration = seq_len(n), learner = grid$learner, mode = grid$mode,
-    MoreArgs = list(task = task, resampling = resampling, store_models = store_models, lgr_threshold = lgr_threshold, pb = pb)
+    MoreArgs = list(task = task, resampling = resampling, store_models = store_models, lgr_threshold = lgr_threshold, pb = pb, unmarshal = unmarshal)
   )
 
   data = data.table(
