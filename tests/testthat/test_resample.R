@@ -265,3 +265,9 @@ test_that("marshaling does not change class of learner state when reassembling",
   rr = resample(tsk("iris"), lrn("classif.debug", encapsulate = c(train = "callr")), rsmp("holdout"), store_models = TRUE)
   expect_class(rr$learners[[1]]$state, "learner_state")
 })
+
+test_that("marshaled model is sent back, when unmarshal is FALSE, sequential exec and callr", {
+  learner = lrn("classif.debug", count_marshaling = TRUE, encapsulate = c(train = "callr"))
+  rr = resample(tsk("iris"), learner, rsmp("holdout"), store_models = TRUE, unmarshal = FALSE)
+  expect_true(rr$learners[[1L]]$marshaled)
+})
