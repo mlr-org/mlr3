@@ -4,7 +4,11 @@ test_that("mlr_learners", {
 
   for (key in keys) {
     l = lrn(key)
-    expect_learner(l)
+    if (key == "classif.debug") {
+      expect_learner(l, task = tsk("iris"))
+    } else {
+      expect_learner(l)
+    }
     if (inherits(l, "TaskClassif")) {
       expect_true(startsWith(l$id, "classif."))
     }

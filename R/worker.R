@@ -1,5 +1,5 @@
 learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NULL, mode = "train") {
-  # This wrapper calls learner$train, and additionally performs some basic
+  # This wrapper calls learner$.train, and additionally performs some basic
   # checks that the training was successful.
   # Exceptions here are possibly encapsulated, so that they get captured
   # and turned into log messages.
@@ -16,6 +16,10 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
 
     if (is.null(model)) {
       stopf("Learner '%s' on task '%s' returned NULL during internal %s()", learner$id, task$id, mode)
+    }
+
+    if (learner$encapsulate[["train"]] == "callr") {
+      model = marshal_model(model, inplace = TRUE)
     }
 
     model
@@ -68,7 +72,7 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
   log = append_log(NULL, "train", result$log$class, result$log$msg)
   train_time = result$elapsed
 
-  learner$state = insert_named(learner$state, list(
+  learner$state = set_class(insert_named(learner$state, list(
     model = result$result,
     log = log,
     train_time = train_time,
@@ -76,7 +80,7 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
     task_hash = task$hash,
     feature_names = task$feature_names,
     mlr3_version = mlr_reflections$package_version
-  ))
+  )), c("learner_state", "list"))
 
   if (is.null(result$result)) {
     lg$debug("Learner '%s' on task '%s' failed to %s a model",
@@ -217,7 +221,7 @@ learner_predict = function(learner, task, row_ids = NULL) {
 }
 
 
-workhorse = function(iteration, task, learner, resampling, param_values = NULL, lgr_threshold, store_models = FALSE, pb = NULL, mode = "train", is_sequential = TRUE) {
+workhorse = function(iteration, task, learner, resampling, param_values = NULL, lgr_threshold, store_models = FALSE, pb = NULL, mode = "train", is_sequential = TRUE, unmarshal = TRUE) {
   if (!is.null(pb)) {
     pb(sprintf("%s|%s|i:%i", task$id, learner$id, iteration))
   }
@@ -255,6 +259,12 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
   learner_hash = learner$hash
   learner = learner_train(learner, task, sets[["train"]], sets[["test"]], mode = mode)
 
+  # keep a copy of the marshaled model if it is available and needed later
+  # this also unmarshals the model if necessary so it can be used for prediction
+  model_marshaled_or_null = keep_marshaled_if_needed(
+    learner = learner, store_models = store_models, is_sequential = is_sequential, unmarshal = unmarshal
+  )
+
   # predict for each set
   sets = sets[learner$predict_sets]
   pdatas = Map(function(set, row_ids) {
@@ -263,12 +273,55 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
   }, set = names(sets), row_ids = sets)
   pdatas = discard(pdatas, is.null)
 
+  # set the model slot after prediction so it can be sent back to the main process
+  set_model_after_predict(
+    learner = learner, store_models = store_models, is_sequential = is_sequential, model_marshaled = model_marshaled_or_null
+  )
+
+  learner_state = set_class(learner$state, c("learner_state", "list"))
+
+  list(learner_state = learner_state, prediction = pdatas, param_values = learner$param_set$values, learner_hash = learner_hash)
+}
+
+keep_marshaled_if_needed = function(learner, store_models, is_sequential, unmarshal) {
+  model_marshaled = if (!is_marshaled_model(learner$model)) {
+    NULL
+  } else if (!store_models) { # else condition means model was marshaled
+    # not storing models, so no need to keep the marhshaled model
+    NULL
+  } else if (is_sequential && unmarshal) {
+    # because of no parallelization, we can send the unmarshaled model back, which the user
+    # wants anyway (because unmarshal = TRUE)
+    NULL
+  } else if (is_sequential && !unmarshal) {
+    # here, the user set unmarshal to FALSE, i.e. he wants the marshaled model, so we
+    # keep it, as we have already computed it
+    learner$model
+  } else { # parallel execution
+    # here, we need to send back the marshaled model
+    learner$model
+  }
+
+  # need to unmarshal for prediction, does nothing if the model is not marshaled
+  # we can do it in-place if the marshaled model is not kept
+  learner$model = unmarshal_model(model = learner$model, inplace = is.null(model_marshaled))
+  return(model_marshaled)
+}
+
+set_model_after_predict = function(learner, store_models, is_sequential, model_marshaled) {
   if (!store_models) {
     lg$debug("Erasing stored model for learner '%s'", learner$id)
     learner$state$model = NULL
+  } else if (!is.null(model_marshaled)) {
+    # callr + parallelization
+    # or callr + sequential, but unmarshal was FALSE
+    # i.e. those cases, where keep_marshaled_if_needed returned the marshaled model
+    learner$model = model_marshaled
+  } else if (!is_sequential) {
+    # parallelization without callr
+    # in this case we don't have computed the marshaled model yet, so we do it now
+    learner$model = marshal_model(learner$model, inplace = TRUE)
   }
-
-  list(learner_state = learner$state, prediction = pdatas, param_values = learner$param_set$values, learner_hash = learner_hash)
 }
 
 append_log = function(log = NULL, stage = NA_character_, class = NA_character_, msg = character()) {
@@ -281,6 +334,10 @@ append_log = function(log = NULL, stage = NA_character_, class = NA_character_, 
   }
 
   if (length(msg)) {
+    pwalk(list(stage, class, msg), function(s, c, m) {
+      if (c == "error") lg$error("%s: %s", s, m)
+      if (c == "warning") lg$warn("%s: %s", s, m)
+    })
     log = rbindlist(list(log, data.table(stage = stage, class = class, msg = msg)), use.names = TRUE)
   }
 

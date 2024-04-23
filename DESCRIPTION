@@ -183,6 +183,7 @@ Collate:
     'helper_hashes.R'
     'helper_print.R'
     'install_pkgs.R'
+    'marshal.R'
     'mlr_sugar.R'
     'mlr_test_helpers.R'
     'partition.R'

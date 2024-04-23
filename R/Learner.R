@@ -184,7 +184,7 @@ Learner = R6Class("Learner",
     #' @param ... (ignored).
     print = function(...) {
       catn(format(self), if (is.null(self$label) || is.na(self$label)) "" else paste0(": ", self$label))
-      catn(str_indent("* Model:", if (is.null(self$model)) "-" else class(self$model)[1L]))
+      catn(str_indent("* Model:", if (is.null(self$model)) "-" else if (is_marshaled_model(self$model)) "<marshaled>" else paste0(class(self$model)[1L])))
       catn(str_indent("* Parameters:", as_short_string(self$param_set$values, 1000L)))
       catn(str_indent("* Packages:", self$packages))
       catn(str_indent("* Predict Types: ", replace(self$predict_types, self$predict_types == self$predict_type, paste0("[", self$predict_type, "]"))))
@@ -243,6 +243,7 @@ Learner = R6Class("Learner",
       test_row_ids = task$row_roles$test
 
       learner_train(learner, task, train_row_ids = train_row_ids, test_row_ids = test_row_ids, mode = mode)
+      self$model = unmarshal_model(model = self$state$model, inplace = TRUE)
 
       # store data prototype
       proto = task$data(rows = integer())
@@ -277,6 +278,10 @@ Learner = R6Class("Learner",
 
       if (is.null(self$state$model) && is.null(self$state$fallback_state$model)) {
         stopf("Cannot predict, Learner '%s' has not been trained yet", self$id)
+      }
+
+      if (is_marshaled_model(self$model)) {
+        stopf("Cannot predict, Learner '%s' has not been unmarshaled yet", self$id)
       }
 
       if (isTRUE(self$parallel_predict) && nbrOfWorkers() > 1L) {
@@ -387,7 +392,6 @@ Learner = R6Class("Learner",
       }
       self$state$model
     },
-
 
     #' @field timings (named `numeric(2)`)\cr
     #' Elapsed time in seconds for the steps `"train"` and `"predict"`.
@@ -541,7 +545,6 @@ Learner = R6Class("Learner",
   )
 )
 
-
 #' @export
 rd_info.Learner = function(obj, ...) {
   x = c("",
@@ -576,3 +579,27 @@ default_values.Learner = function(x, search_space, task, ...) { # nolint
 # format_list_item.Learner = function(x, ...) { # nolint
 #   sprintf("<lrn:%s>", x$id)
 # }
+
+
+#' @export
+marshal_model.learner_state = function(model, inplace = FALSE, ...) {
+  if (is.null(model$model)) {
+    return(model)
+  }
+  mm = marshal_model(model$model, inplace = inplace, ...)
+  if (!is_marshaled_model(mm)) {
+    return(model)
+  }
+  model$model = mm
+  structure(list(
+    marshaled = model,
+    packages = "mlr3"
+  ), class = c("learner_state_marshaled", "list_marshaled", "marshaled"))
+}
+
+#' @export
+unmarshal_model.learner_state_marshaled = function(model, inplace = FALSE, ...) {
+  mm = model$marshaled
+  mm$model = unmarshal_model(mm$model, inplace = inplace, ...)
+  return(mm)
+}

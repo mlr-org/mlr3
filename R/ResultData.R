@@ -243,6 +243,27 @@ ResultData = R6Class("ResultData",
     },
 
     #' @description
+    #' Marshals all stored learner models.
+    #' This will do nothing to models that are already marshaled.
+    #' @param ... (any)\cr
+    #'   Additional arguments passed to [`marshal_model()`].
+    marshal = function(...) {
+      learner_state = NULL
+      self$data$fact[, learner_state := lapply(learner_state, function(x) marshal_state_if_model(.state = x, inplace = TRUE, ...))]
+      invisible(self)
+    },
+    #' @description
+    #' Unmarshals all stored learner models.
+    #' This will do nothing to models which are not marshaled.
+    #' @param ... (any)\cr
+    #'   Additional arguments passed to [`unmarshal_model()`].
+    unmarshal = function(...) {
+      learner_state = NULL
+      self$data$fact[, learner_state := lapply(learner_state, function(x) unmarshal_state_if_model(.state = x, inplace = TRUE, ...))]
+      invisible(self)
+    },
+
+    #' @description
     #' Shrinks the object by discarding parts of the stored data.
     #'
     #' @param backends (`logical(1)`)\cr

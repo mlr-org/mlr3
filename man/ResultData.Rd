@@ -50,6 +50,8 @@ Returns \code{NULL} if the \link{ResultData} is empty.}
 \item \href{#method-ResultData-prediction}{\code{ResultData$prediction()}}
 \item \href{#method-ResultData-combine}{\code{ResultData$combine()}}
 \item \href{#method-ResultData-sweep}{\code{ResultData$sweep()}}
+\item \href{#method-ResultData-marshal}{\code{ResultData$marshal()}}
+\item \href{#method-ResultData-unmarshal}{\code{ResultData$unmarshal()}}
 \item \href{#method-ResultData-discard}{\code{ResultData$discard()}}
 \item \href{#method-ResultData-as_data_table}{\code{ResultData$as_data_table()}}
 \item \href{#method-ResultData-logs}{\code{ResultData$logs()}}
@@ -329,6 +331,44 @@ E.g., can be called after filtering/subsetting the fact table.
 
 \subsection{Returns}{
 Modified \code{self} (invisibly).
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ResultData-marshal"></a>}}
+\if{latex}{\out{\hypertarget{method-ResultData-marshal}{}}}
+\subsection{Method \code{marshal()}}{
+Marshals all stored learner models.
+This will do nothing to models that are already marshaled.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ResultData$marshal(...)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{...}}{(any)\cr
+Additional arguments passed to \code{\link[=marshal_model]{marshal_model()}}.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ResultData-unmarshal"></a>}}
+\if{latex}{\out{\hypertarget{method-ResultData-unmarshal}{}}}
+\subsection{Method \code{unmarshal()}}{
+Unmarshals all stored learner models.
+This will do nothing to models which are not marshaled.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ResultData$unmarshal(...)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{...}}{(any)\cr
+Additional arguments passed to \code{\link[=unmarshal_model]{unmarshal_model()}}.}
+}
+\if{html}{\out{</div>}}
 }
 }
 \if{html}{\out{<hr>}}

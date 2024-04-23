@@ -51,7 +51,6 @@ LearnerRegrDebug = R6Class("LearnerRegrDebug", inherit = LearnerRegr,
       )
     }
   ),
-
   private = list(
     .train = function(task) {
       pv = self$param_set$get_values(tags = "train")
