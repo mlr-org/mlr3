@@ -1,12 +1,15 @@
 # mlr3 (development version)
 
+* Added marshalling to learner models.
+* Encapsulation methods use the same RNG state now.
+* Fix missing values in `default_values.Learner()` function.
+* Encapsulated error messages are now printed with the `lgr` package.
+
 # mlr3 0.18.0
 
 * Prepare compatibility with new paradox version.
-* feat: dictionary conversion of `mlr_learners` respects prototype arguments
-recently added in mlr3misc
-* perf: skip unnecessary clone of learner's state in `resample()`
-* fix: Encapsulation methods use the same RNG state now.
+* Dictionary conversion of `mlr_learners` respects prototype arguments recently added in mlr3misc.
+* Skip unnecessary clone of learner's state in `resample()`.
 
 # mlr3 0.17.2
 
