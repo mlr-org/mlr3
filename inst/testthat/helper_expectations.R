@@ -376,9 +376,9 @@ expect_learner = function(lrn, task = NULL, check_man = TRUE) {
   )
 
   # FIXME: remove at and glrn when they have new releases supporting marshaling
-  if ("marshal" %in% lrn$properties && !test_class(lrn, "GraphLearner") && !test_class(lrn, "AutoTuner") && !test_class(lrn, "AutoFSelector")) {
-    assert_function(lrn$marshal)
-    assert_function(lrn$unmarshal)
+  if ("marshal" %in% lrn$properties && !inherits(lrn, "GraphLearner") && !inherits(lrn, "AutoTuner") && !inherits(lrn, "AutoFSelector")) {
+    checkmate::expect_function(lrn$marshal)
+    checkmate::expect_function(lrn$unmarshal)
   }
 
   if (!is.null(task)) {
@@ -387,7 +387,7 @@ expect_learner = function(lrn, task = NULL, check_man = TRUE) {
     testthat::expect_identical(lrn$task_type, task$task_type)
 
     # FIXME: remove at and glrn when they have new releases supporting marshaling
-    if ("marshal" %in% lrn$properties && !test_class(lrn, "GraphLearner") && !test_class(lrn, "AutoTuner") && !test_class(lrn, "AutoFSelector")) {
+    if ("marshal" %in% lrn$properties && !inherits(lrn, "GraphLearner") && !inherits(lrn, "AutoTuner") && !inherits(lrn, "AutoFSelector")) {
       expect_marshalable_learner(lrn, task)
     }
   }
@@ -399,48 +399,47 @@ expect_learner = function(lrn, task = NULL, check_man = TRUE) {
 }
 
 expect_marshalable_learner = function(learner, task) {
-  expect_true("marshal" %in% learner$properties)
+  testthat::expect_true("marshal" %in% learner$properties)
   learner$state = NULL
 
   has_public = function(learner, x) {
     exists(x, learner, inherits = FALSE)
   }
 
-  expect_true(has_public(learner, "marshal") && test_function(learner$marshal, nargs = 0))
-  expect_true(has_public(learner, "unmarshal") && test_function(learner$unmarshal, nargs = 0))
-  expect_true(has_public(learner, "marshaled"))
+  testthat::expect_true(has_public(learner, "marshal") && checkmate::test_function(learner$marshal, nargs = 0))
+  testthat::expect_true(has_public(learner, "unmarshal") && checkmate::test_function(learner$unmarshal, nargs = 0))
+  testthat::expect_true(has_public(learner, "marshaled"))
 
   # (un)marshal only possible after training
-  expect_error(learner$marshal(), "has not been trained")
-  expect_error(learner$unmarshal(), "has not been trained")
-  expect_error(learner$marshaled, "has not been trained")
+  testthat::expect_error(learner$marshal(), "has not been trained")
+  testthat::expect_error(learner$unmarshal(), "has not been trained")
+  testthat::expect_error(learner$marshaled, "has not been trained")
 
   learner$train(task)
   model = learner$model
   class_prev = class(model)
-  expect_false(learner$marshaled)
-  expect_equal(is_marshaled_model(learner$model), learner$marshaled)
-  expect_invisible(learner$marshal())
-  if (!test_class(learner, "GraphLearner")) {
-    expect_true(learner$marshaled)
+  testthat::expect_false(learner$marshaled)
+  testthat::expect_equal(mlr3::is_marshaled_model(learner$model), learner$marshaled)
+  testthat::expect_invisible(learner$marshal())
+  if (!inherits(learner, "GraphLearner")) {
+    testthat::expect_true(learner$marshaled)
   }
-  expect_equal(is_marshaled_model(learner$model), learner$marshaled)
+  testthat::expect_equal(mlr3::is_marshaled_model(learner$model), learner$marshaled)
 
   if (learner$marshaled) {
     # cannot predict with marshaled learner
-    expect_error(learner$predict(task), "has not been unmarshaled")
+    testthat::expect_error(learner$predict(task), "has not been unmarshaled")
   }
 
   # unmarshaling works
-  expect_invisible(learner$unmarshal())
+  testthat::expect_invisible(learner$unmarshal())
   # can predict after unmarshaling
   expect_prediction(learner$predict(task))
   # model is reset
-  expect_equal(learner$model, model)
+  testthat::expect_equal(learner$model, model)
   # marshaled is set accordingly
-  expect_false(learner$marshaled)
-
-  expect_equal(class(learner$model), class_prev)
+  testthat::expect_false(learner$marshaled)
+  testthat::expect_equal(class(learner$model), class_prev)
 }
 
 expect_resampling = function(r, task = NULL) {
@@ -652,7 +651,7 @@ expect_benchmark_result = function(bmr) {
   }
 
   tab = bmr$aggregate(measures = measures, params = TRUE)
-  checkmate::assert_list(tab$params)
+  checkmate::expect_list(tab$params)
 
   uhashes = bmr$uhashes
   expect_uhash(uhashes, len = length(mlr3misc::get_private(bmr)$.data$uhashes()))
