@@ -61,7 +61,6 @@ bibentries = c(
     author       = "Ulrike Gr\u00f6mping",
     year         = "2019",
     number       = "4",
-    url          = "http://www1.beuth-hochschule.de/FB_II/reports/Report-2019-004.pdf",
     type         = "Reports in Mathematics, Physics and Chemistry",
     institution  = "Department II, Beuth University of Applied Sciences Berlin"
   ),

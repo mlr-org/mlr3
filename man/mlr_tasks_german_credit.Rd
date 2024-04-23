@@ -59,7 +59,6 @@ print(measure)
 Grömping U (2019).
 \dQuote{South German Credit Data: Correcting a Widely Used Data Set.}
 Reports in Mathematics, Physics and Chemistry 4, Department II, Beuth University of Applied Sciences Berlin.
-\url{http://www1.beuth-hochschule.de/FB_II/reports/Report-2019-004.pdf}.
 }
 \seealso{
 \itemize{
