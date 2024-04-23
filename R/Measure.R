@@ -173,6 +173,7 @@ Measure = R6Class("Measure",
       assert_measure(self, task = task, learner = learner)
       assert_prediction(prediction)
 
+
       if ("requires_task" %in% self$properties && is.null(task)) {
         stopf("Measure '%s' requires a task", self$id)
       }
@@ -183,6 +184,9 @@ Measure = R6Class("Measure",
 
       if ("requires_model" %in% self$properties && (is.null(learner) || is.null(learner$model))) {
         stopf("Measure '%s' requires the trained model", self$id)
+      }
+      if ("requires_model" %in% self$properties && is_marshaled_model(learner$model)) {
+        stopf("Measure '%s' requires the trained model, but model is in marshaled form", self$id)
       }
 
       if ("requires_train_set" %in% self$properties && is.null(train_set)) {

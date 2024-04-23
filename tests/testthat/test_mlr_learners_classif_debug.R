@@ -71,3 +71,13 @@ test_that("default_values works with empty search space", {
   learner = lrn("classif.debug")
   expect_list(default_values(learner, ps(), task), len = 0)
 })
+
+test_that("marshaling", {
+  l = lrn("classif.debug")
+  expect_learner(l, tsk("iris"))
+  task = tsk("iris")
+  l$train(task)
+  p1 = l$predict(task)
+  p2 = l$marshal()$unmarshal()$predict(task)
+  expect_equal(p1, p2)
+})

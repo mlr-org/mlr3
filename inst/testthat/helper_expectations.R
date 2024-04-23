@@ -342,6 +342,7 @@ expect_task_generator = function(gen) {
 
 
 expect_learner = function(lrn, task = NULL, check_man = TRUE) {
+
   checkmate::expect_r6(lrn, "Learner", cloneable = TRUE)
   expect_id(lrn$id)
   checkmate::expect_string(lrn$label, na.ok = TRUE)
@@ -374,15 +375,71 @@ expect_learner = function(lrn, task = NULL, check_man = TRUE) {
     info = sprintf("All hyperparameters of learner %s must be tagged with 'train' or 'predict'. Missing tags for: %s", lrn$id, paste0(names(tags), collapse = ", "))
   )
 
+  # FIXME: remove at and glrn when they have new releases supporting marshaling
+  if ("marshal" %in% lrn$properties && !inherits(lrn, "GraphLearner") && !inherits(lrn, "AutoTuner") && !inherits(lrn, "AutoFSelector")) {
+    checkmate::expect_function(lrn$marshal)
+    checkmate::expect_function(lrn$unmarshal)
+  }
+
   if (!is.null(task)) {
     checkmate::expect_class(task, "Task")
     checkmate::expect_subset(lrn$properties, mlr3::mlr_reflections$learner_properties[[task$task_type]])
     testthat::expect_identical(lrn$task_type, task$task_type)
+
+    # FIXME: remove at and glrn when they have new releases supporting marshaling
+    if ("marshal" %in% lrn$properties && !inherits(lrn, "GraphLearner") && !inherits(lrn, "AutoTuner") && !inherits(lrn, "AutoFSelector")) {
+      expect_marshalable_learner(lrn, task)
+    }
   }
 
   if (!inherits(lrn, "GraphLearner") && !inherits(lrn, "AutoTuner")) { # still not in pipelines, breaking check in mlr3tuning
     checkmate::expect_class(lrn$base_learner(), "Learner")
   }
+
+}
+
+expect_marshalable_learner = function(learner, task) {
+  testthat::expect_true("marshal" %in% learner$properties)
+  learner$state = NULL
+
+  has_public = function(learner, x) {
+    exists(x, learner, inherits = FALSE)
+  }
+
+  testthat::expect_true(has_public(learner, "marshal") && checkmate::test_function(learner$marshal, nargs = 0))
+  testthat::expect_true(has_public(learner, "unmarshal") && checkmate::test_function(learner$unmarshal, nargs = 0))
+  testthat::expect_true(has_public(learner, "marshaled"))
+
+  # (un)marshal only possible after training
+  testthat::expect_error(learner$marshal(), "has not been trained")
+  testthat::expect_error(learner$unmarshal(), "has not been trained")
+  testthat::expect_error(learner$marshaled, "has not been trained")
+
+  learner$train(task)
+  model = learner$model
+  class_prev = class(model)
+  testthat::expect_false(learner$marshaled)
+  testthat::expect_equal(mlr3::is_marshaled_model(learner$model), learner$marshaled)
+  testthat::expect_invisible(learner$marshal())
+  if (!inherits(learner, "GraphLearner")) {
+    testthat::expect_true(learner$marshaled)
+  }
+  testthat::expect_equal(mlr3::is_marshaled_model(learner$model), learner$marshaled)
+
+  if (learner$marshaled) {
+    # cannot predict with marshaled learner
+    testthat::expect_error(learner$predict(task), "has not been unmarshaled")
+  }
+
+  # unmarshaling works
+  testthat::expect_invisible(learner$unmarshal())
+  # can predict after unmarshaling
+  expect_prediction(learner$predict(task))
+  # model is reset
+  testthat::expect_equal(learner$model, model)
+  # marshaled is set accordingly
+  testthat::expect_false(learner$marshaled)
+  testthat::expect_equal(class(learner$model), class_prev)
 }
 
 expect_resampling = function(r, task = NULL) {
@@ -594,7 +651,7 @@ expect_benchmark_result = function(bmr) {
   }
 
   tab = bmr$aggregate(measures = measures, params = TRUE)
-  checkmate::assert_list(tab$params)
+  checkmate::expect_list(tab$params)
 
   uhashes = bmr$uhashes
   expect_uhash(uhashes, len = length(mlr3misc::get_private(bmr)$.data$uhashes()))
