@@ -1,15 +1,10 @@
 # mlr3 (development version)
 
-<<<<<<< HEAD
 * Added support for `"marshal"` property, which allows learners to process models so they can be serialized.
 This happens automatically during `resample()` and `benchmark()`.
 * Encapsulation methods use the same RNG state now.
 * Fix missing values in `default_values.Learner()` function.
 * Encapsulated error messages are now printed with the `lgr` package.
-=======
-* Feat:
-* Log encapsulated errors and warnings with the `lgr` package.
->>>>>>> main
 
 # mlr3 0.18.0
 
