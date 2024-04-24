@@ -413,7 +413,7 @@ expect_marshalable_learner = function(learner, task) {
   # (un)marshal only possible after training
   testthat::expect_error(learner$marshal(), "has not been trained")
   testthat::expect_error(learner$unmarshal(), "has not been trained")
-  testthat::expect_error(learner$marshaled, "has not been trained")
+  testthat::expect_equal(learner$marshaled, FALSE)
 
   learner$train(task)
   model = learner$model

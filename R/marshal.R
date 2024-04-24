@@ -81,7 +81,7 @@ learner_marshal = function(.learner, ...) {
 learner_marshaled = function(.learner) {
   # no need to check for 'marshal' property as this method should only be available for such learners
   if (is.null(.learner$model)) {
-    stopf("Cannot check marshaled status, Learner '%s' has not been trained yet", .learner$id)
+    return(FALSE)
   }
   is_marshaled_model(model = .learner$model)
 }
