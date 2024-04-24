@@ -147,7 +147,7 @@ assert_task_learner = function(task, learner, cols = NULL) {
     }
   }
 
-  validate = learner$param_set$values$validate
+  validate = get0("validate", learner)
   if (!is.null(task$inner_valid_task) && (is.numeric(validate) || isTRUE(all.equal(validate, "test")))) {
     stopf("Parameter 'validate' of Learner '%s' cannot be set to 'test' or a ratio when inner_valid_task is present", learner$id)
   }

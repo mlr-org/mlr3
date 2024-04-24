@@ -273,7 +273,7 @@ Learner = R6Class("Learner",
 
       # In the case where the validation task was specified manually we are duplicating some information here
       # but this is in the interest of consistency
-      if (!is.null(self$param_set$values$validate)) {
+      if (!is.null(get0("validate", self))) {
         self$state = insert_named(self$state, list(
           inner_valid_task_ids = train_result$inner_valid_task_ids,
           inner_valid_task_hash = train_result$inner_valid_task_hash

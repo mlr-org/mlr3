@@ -502,16 +502,6 @@ test_that("learner's validate cannot be a ratio if inner_valid_set is present", 
   expect_error(benchmark(benchmark_grid(task, learner, rsmp("holdout"))), "cannot be set to ")
 })
 
-test_that("benchmark also throws if some param value ", {
-  # this ensures that
-  learner = lrn("classif.debug", predict_sets = c("train", "inner_valid"))
-  task = tsk("iris")$divide(1)
-  design1 = benchmark_grid(task, learner, rsmp("holdout"), param_values = list(regr.debug = list(list(validate = 0.2))))
-  design1 = benchmark_grid(task, learner, rsmp("holdout"), param_values = list(regr.debug = list(list(validate = 'test'))))
-  expect_error(benchmark(design1), "cannot be set to 'test'")
-  expect_error(benchmark(design2))
-})
-
 test_that("properties are also checked on validation task", {
   task = tsk("iris")
   row = task$data(1)

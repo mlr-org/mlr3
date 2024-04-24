@@ -33,7 +33,7 @@ Additional arguments.}
 The input \code{\link{Learner}}
 }
 \description{
-This generic helps to (de)activate the inner tuning for a learner.
+(De)activate the inner tuning for a learner.
 }
 \details{
 Calling this function does not autoconfigure the inner tuning of the learner.

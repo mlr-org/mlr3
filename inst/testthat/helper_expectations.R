@@ -385,11 +385,11 @@ expect_learner = function(lrn, task = NULL, check_man = TRUE) {
   }
 
   if ("validation" %in% lrn$properties) {
-    expect_true("validate" %in% lrn$param_set$ids())
+    expect_true(exists("validate", lrn))
     expect_true(exists("inner_valid_scores", envir = lrn))
     expect_function(mlr3misc::get_private(lrn)$.extract_inner_valid_scores)
   } else {
-    assert_false("validate" %in% lrn$param_set$ids())
+    assert_false(exists("validate", lrn))
   }
   if ("inner_tuning" %in% lrn$properties) {
     expect_equal(table(unlist(lrn$param_set$tags))[["inner_tuning"]], 1L)

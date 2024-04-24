@@ -20,7 +20,7 @@ phashes = function(x) {
 #' @noRd
 resampling_task_hashes = function(task, resampling, learner = NULL) {
   # validation task is set on the worker
-  learner_does_validation = !is.null(learner$param_set$values$validate)
+  learner_does_validation = !is.null(get0("validate", learner))
   map_chr(seq_len(resampling$iters), function(i) {
     train_set = resampling$train_set(i)
     test_set = if (learner_does_validation) resampling$test_set(i)

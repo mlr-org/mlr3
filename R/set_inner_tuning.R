@@ -1,9 +1,11 @@
 #' @title Activate Inner Tuning
 #' @description
-#' This generic helps to (de)activate the inner tuning for a learner.
+#' (De)activate the inner tuning for a learner.
+#' There are two modi:
+#' * `disable = TRUE`: This will deactive the inner tuning and possibly also the validation.
+#' * `disable = FALSE`: This will
 #'
 #' @details
-#'
 #' Calling this function does not autoconfigure the inner tuning of the learner.
 #' However, if the necessary parameter to configure the inner tuning are neither set nor specified via the `...`
 #' parameter, the function should raise an informative error message.
@@ -27,7 +29,7 @@
 #'   Additional arguments.
 #' @return The input [`Learner`]
 #' @export
-set_inner_tuning = function(learner, disable = FALSE, ids = NULL, param_vals = named_list(), ...) {
+set_inner_tuning = function(learner, disable = FALSE, ids = NULL, args = named_list(), ...) {
   assert_flag(disable)
   if (!is.null(ids)) {
     assert_subset(ids, names(learner$param_set$tags[map_lgl(learner$param_set$tags, function(t) "inner_tuning" %in% t)]))

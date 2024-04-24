@@ -42,7 +42,7 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
     lg$debug("Skip subsetting of task '%s'", task$id)
   }
 
-  validate = learner$param_set$values$validate
+  validate = get0("validate", learner)
   if (!is.null(validate)) {
     # handle the inner validation task
     prev_valid = task$inner_valid_task
@@ -289,14 +289,15 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
   }
   learner_hash = learner$hash
 
-  test_set = if (isTRUE(all.equal(learner$param_set$values$validate, "test"))) sets$test
+  validate = get0("validate", learner)
+
+  test_set = if (isTRUE(all.equal(validate, "test"))) sets$test
   train_result = learner_train(learner, task, sets[["train"]], test_set, mode = mode)
   learner = train_result$learner
 
   # predict for each set
   predict_sets = learner$predict_sets
 
-  validate = learner$param_set$values$validate
 
   # if the validate parameter is a ratio, some data was taken from the training data for the inner validation
   if (is.numeric(validate)) {

@@ -24,8 +24,6 @@
 #'    \item{warning_train:}{Probability to signal a warning during train.}
 #'    \item{x:}{Numeric tuning parameter. Has no effect.}
 #'    \item{iter:}{Integer parameter for testing hotstarting.}
-#'    \item{validate:}{How to construct the internal validation data. This parameter can be either `NULL`,
-#'    a ratio, `"test"`, or `"inner_valid"`.}
 #' }
 #' Note that segfaults may not be triggered reliably on your operating system.
 #' Also note that if they work as intended, they will tear down your R session immediately!
@@ -71,7 +69,6 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
           warning_predict      = p_dbl(0, 1, default = 0, tags = "predict"),
           warning_train        = p_dbl(0, 1, default = 0, tags = "train"),
           x                    = p_dbl(0, 1, tags = "train"),
-          validate             = p_uty(default = NULL, tags = "train", custom_check = check_validate),
           iter                 = p_int(1, default = 1, tags = c("train", "hotstart", "inner_tuning")),
           early_stopping       = p_lgl(default = FALSE, tags = "train")
         ),
@@ -98,7 +95,20 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
       self$state$inner_tuned_values
     }
   ),
+  active = list(
+
+    #' @field validate
+    #' How to construct the internal validation data. This parameter can be either `NULL`,
+    #' a ratio, `"test"`, or `"inner_valid"`.
+    validate = function(rhs) {
+      if (!missing(rhs)) {
+        private$.validate = assert_validate(rhs)
+      }
+      private$.validate
+    }
+  ),
   private = list(
+    .validate = NULL,
     .train = function(task) {
       pv = self$param_set$get_values(tags = "train")
       roll = function(name) {
@@ -123,12 +133,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
         get("attach")(structure(list(), class = "UserDefinedDatabase"))
       }
 
-      valid_truth = if (!is.null(pv$validate)) {
-        if (is.null(task$inner_valid_task)) {
-          stopf("No inner validation task present, but parameter 'validate' is not NULL.")
-        }
-        task$inner_valid_task$truth()
-      }
+      valid_truth = if (!is.null(task$inner_valid_task)) task$inner_valid_task$truth()
 
       if (isTRUE(pv$early_stopping) && is.null(valid_truth)) {
         stopf("Early stopping is only possible when a validation task is present.")
@@ -254,7 +259,8 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
 
 
 #' @export
-set_inner_tuning.LearnerClassifDebug = function(learner, disable = FALSE, param_vals = list(), ...) {
+set_inner_tuning.LearnerClassifDebug = function(learner, disable = FALSE, ids = NULL, param_vals = list(),
+  validate = NULL, ...) {
   prev_pvs = learner$param_set$values
   on.exit({learner$param_set$values = prev_pvs}, add = TRUE)
   learner$param_set$set_values(.values = param_vals)
@@ -263,7 +269,7 @@ set_inner_tuning.LearnerClassifDebug = function(learner, disable = FALSE, param_
     learner$param_set$set_values(early_stopping = FALSE, validate = NULL)
   } else {
     learner$param_set$set_values(early_stopping = TRUE)
-    if (is.null(pv$validate)) {
+    if (is.null(learner$validate)) {
       stopf("Parameter 'validate' must be set to enable inner tuning.")
     }
     if (is.null(pv$iter)) {

@@ -25,8 +25,6 @@ The following hyperparameters trigger the following actions:
 \item{warning_train:}{Probability to signal a warning during train.}
 \item{x:}{Numeric tuning parameter. Has no effect.}
 \item{iter:}{Integer parameter for testing hotstarting.}
-\item{validate:}{How to construct the internal validation data. This parameter can be either \code{NULL},
-a ratio, \code{"test"}, or \code{"inner_valid"}.}
 }
 Note that segfaults may not be triggered reliably on your operating system.
 Also note that if they work as intended, they will tear down your R session immediately!
@@ -68,7 +66,6 @@ lrn("classif.debug")
    warning_predict \tab numeric \tab 0 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
    warning_train \tab numeric \tab 0 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
    x \tab numeric \tab - \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
-   validate \tab untyped \tab NULL \tab  \tab - \cr
    iter \tab integer \tab 1 \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
    early_stopping \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
 }
@@ -119,6 +116,14 @@ Other Learner:
 \concept{Learner}
 \section{Super classes}{
 \code{\link[mlr3:Learner]{mlr3::Learner}} -> \code{\link[mlr3:LearnerClassif]{mlr3::LearnerClassif}} -> \code{LearnerClassifDebug}
+}
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{validate}}{How to construct the internal validation data. This parameter can be either \code{NULL},
+a ratio, \code{"test"}, or \code{"inner_valid"}.}
+}
+\if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
