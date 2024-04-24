@@ -71,14 +71,15 @@ test_that("set_inner_tuning works", {
   learner = lrn("classif.debug")
   pv = learner$param_set$values
   expect_error(set_inner_tuning(learner), "Parameter 'validate'")
-  expect_error(set_inner_tuning(learner, validate = 0.2), "Parameter 'iter'")
+  expect_error(set_inner_tuning(learner, param_vals = list(validate = 0.2)), "Parameter 'iter'")
   expect_equal(pv, learner$param_set$values)
-  set_inner_tuning(learner, iter = 100, validate = 0.2)
+  set_inner_tuning(learner, param_vals = list(validate = 0.2, iter = 100))
   expect_true(learner$param_set$values$early_stopping)
   task = tsk("iris")
   learner$train(task)
-  invoke(set_inner_tuning, learner = learner, disable = TRUE, .args = learner$inner_tuned_values)
+  invoke(set_inner_tuning, learner = learner, disable = TRUE, param_vals = learner$inner_tuned_values())
   expect_false(learner$param_set$values$early_stopping)
+  expect_true(is.null(learner$param_set$values$validate))
 })
 
 

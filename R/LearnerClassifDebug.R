@@ -80,22 +80,18 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
         data_formats = c("data.table", "Matrix"),
         label = "Debug Learner for Classification"
       )
-    }
-  ),
-  active = list(
-    #' @field inner_valid_scores
+    },
+    #' @description
     #' Retrieves the inner validation scores as a named `list()`.
-    inner_valid_scores = function(rhs) {
-      assert_ro_binding(rhs)
+    inner_valid_scores = function() {
       if (is.null(self$state)) {
         stopf("Learner not trained")
       }
       self$state$inner_valid_scores
     },
-    #' @field inner_tuned_values
+    #' @description
     #' Retrieves the inner tuned values as a named `list()`.
-    inner_tuned_values = function(rhs) {
-      assert_ro_binding(rhs)
+    inner_tuned_values = function() {
       if (is.null(self$state)) {
         stopf("Learner not trained")
       }
@@ -258,13 +254,13 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
 
 
 #' @export
-set_inner_tuning.LearnerClassifDebug = function(learner, disable = FALSE, ...) {
+set_inner_tuning.LearnerClassifDebug = function(learner, disable = FALSE, param_vals = list(), ...) {
   prev_pvs = learner$param_set$values
   on.exit({learner$param_set$values = prev_pvs}, add = TRUE)
-  learner$param_set$set_values(...)
+  learner$param_set$set_values(.values = param_vals)
   pv = learner$param_set$values
   if (disable) {
-    learner$param_set$set_values(early_stopping = FALSE)
+    learner$param_set$set_values(early_stopping = FALSE, validate = NULL)
   } else {
     learner$param_set$set_values(early_stopping = TRUE)
     if (is.null(pv$validate)) {

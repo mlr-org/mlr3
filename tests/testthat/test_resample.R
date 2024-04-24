@@ -214,7 +214,7 @@ test_that("inner_valid and train predictions", {
   measure_valid$predict_sets = "inner_valid"
   expect_equal(
     rr$score(measure_valid, predict_sets = "inner_valid")$classif.acc,
-    rr$learners[[1L]]$model$inner_valid_scores$acc
+    rr$learners[[1L]]$inner_valid_scores()$acc
   )
 
   # if valid = "test", inner_valid and test predictions are the same
