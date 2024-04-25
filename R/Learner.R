@@ -103,7 +103,7 @@
 #'     internally use them, e.g. [`mlr3tuning::tune`] or [`mlr3batchmark::batchmark()`].
 #'     This is especially useful for hyperparameter tuning, where one might want to use the same data for early
 #'     stopping and the evaluation of the hyperparameter configurations.
-#'   * `"inner_valid"` means that the task's `$inner_vali_task` is used.
+#'   * `"inner_valid"` means that the task's `$inner_valid_task` is used.
 #'     See the [`Task`] documentation for more information.
 #'
 #' @template seealso_learner
@@ -273,8 +273,6 @@ Learner = R6Class("Learner",
       self$state$data_prototype = proto
       self$state$task_prototype = proto
 
-      # In the case where the validation task was specified manually we are duplicating some information here
-      # but this is in the interest of consistency
       if (!is.null(get0("validate", self))) {
         self$state = insert_named(self$state, list(
           inner_valid_task_ids = train_result$inner_valid_task_ids,

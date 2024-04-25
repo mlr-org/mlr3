@@ -155,7 +155,7 @@ assert_task_learner = function(task, learner, cols = NULL) {
 
 #' @export
 #' @rdname mlr_assertions
-assert_learnable = function(task, learner, valid = FALSE) {
+assert_learnable = function(task, learner) {
   if (task$task_type == "unsupervised") {
     stopf("%s cannot be trained with %s", learner$format(), task$format())
   }

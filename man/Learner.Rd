@@ -98,7 +98,7 @@ This option is only available if the learner is being trained via \code{\link[=r
 internally use them, e.g. \code{\link[mlr3tuning:tune]{mlr3tuning::tune}} or \code{\link[mlr3batchmark:batchmark]{mlr3batchmark::batchmark()}}.
 This is especially useful for hyperparameter tuning, where one might want to use the same data for early
 stopping and the evaluation of the hyperparameter configurations.
-\item \code{"inner_valid"} means that the task's \verb{$inner_vali_task} is used.
+\item \code{"inner_valid"} means that the task's \verb{$inner_valid_task} is used.
 See the \code{\link{Task}} documentation for more information.
 }
 }

@@ -91,43 +91,6 @@ dummy_import = function() {
     warning("Packages 'mlr3' and 'mlr' are conflicting and should not be loaded in the same session")
   })
 
-  #register_namespace_callback(pkgname, "mlr3pipelines", function(...) {
-  #  getFromNamespace(ns = "mlr3pipelines", "GraphLearner")$set("public", "initialize", overwrite = TRUE,
-  #    function(graph, id = NULL, param_vals = list(), task_type = NULL, predict_type = NULL, clone_graph = TRUE) {
-  #    graph = as_graph(graph, clone = assert_flag(clone_graph))
-  #    graph$state = NULL
-
-  #    id = assert_string(id, null.ok = TRUE) %??% paste(graph$ids(sorted = TRUE), collapse = ".")
-  #    private$.graph = graph
-
-  #    output = graph$output
-  #    if (nrow(output) != 1) {
-  #      stop("'graph' must have exactly one output channel")
-  #    }
-  #    if (!are_types_compatible(output$predict, "Prediction")) {
-  #      stop("'graph' output type not 'Prediction' (or compatible with it)")
-  #    }
-
-  #    if (is.null(task_type)) {
-  #      task_type = infer_task_type(graph)
-  #    }
-  #    assert_subset(task_type, mlr_reflections$task_types$type)
-
-  #    super$initialize(id = id, task_type = task_type,
-  #      feature_types = mlr_reflections$task_feature_types,
-  #      predict_types = names(mlr_reflections$learner_predict_types[[task_type]]),
-  #      packages = graph$packages,
-  #      properties = setdiff(mlr_reflections$learner_properties[[task_type]], "validation"),
-  #      man = "mlr3pipelines::GraphLearner"
-  #    )
-
-  #    if (length(param_vals)) {
-  #      private$.graph$param_set$values = insert_named(private$.graph$param_set$values, param_vals)
-  #    }
-  #    if (!is.null(predict_type)) self$predict_type = predict_type
-  #  })
-  #})
-
   mlr_reflections$loggers[["mlr3"]] = lg
 } # nocov end
 

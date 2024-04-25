@@ -159,7 +159,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
       }
 
       model = list(response = as.character(sample(task$truth(), 1L)), pid = Sys.getpid(), id = UUIDgenerate(),
-        iter = if (isTRUE(pv$early_stopping)) sample(pv$iter %??% 1L, 1L) else pv$iter %??% 1L
+        random_number = sample(100000, 1), iter = if (isTRUE(pv$early_stopping)) sample(pv$iter %??% 1L, 1L) else pv$iter %??% 1L
       )
 
       if (!is.null(valid_truth)) {
@@ -172,9 +172,6 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
           model$inner_valid_scores$mbrier = mlr3measures::mbrier(valid_truth, valid_pred$prob)
         }
       }
-
-      model = list(response = as.character(sample(task$truth(), 1L)), pid = Sys.getpid(), iter = pv$iter,
-        id = UUIDgenerate(), random_number = sample(100000, 1))
 
       if (isTRUE(pv$save_tasks)) {
         model$task_train = task$clone(deep = TRUE)
