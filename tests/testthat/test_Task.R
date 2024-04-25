@@ -569,3 +569,12 @@ test_that("task hashes during resample", {
   learner = lrn("classif.debug", validate = "test")
   expect_equal(resampling_task_hashes(task, resampling, learner), task$hash)
 })
+
+test_that("divide remove parameter works", {
+  task = tsk("iris")
+  task$divide(1L, remove = FALSE)
+  expect_true(1L %in% task$row_ids)
+  task = tsk("iris")
+  task$divide(1L, remove = TRUE)
+  expect_false(1L %in% task$row_ids)
+})

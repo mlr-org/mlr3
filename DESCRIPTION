@@ -103,6 +103,7 @@ Collate:
     'MeasureClassifCosts.R'
     'MeasureDebug.R'
     'MeasureElapsedTime.R'
+    'MeasureInnerValidScore.R'
     'MeasureOOBError.R'
     'MeasureRegr.R'
     'MeasureSelectedFeatures.R'

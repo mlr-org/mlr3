@@ -77,25 +77,21 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
         data_formats = c("data.table", "Matrix"),
         label = "Debug Learner for Classification"
       )
-    },
-    #' @description
-    #' Retrieves the inner validation scores as a named `list()`.
-    inner_valid_scores = function() {
-      if (is.null(self$state)) {
-        stopf("Learner not trained")
-      }
-      self$state$inner_valid_scores
-    },
-    #' @description
-    #' Retrieves the inner tuned values as a named `list()`.
-    inner_tuned_values = function() {
-      if (is.null(self$state)) {
-        stopf("Learner not trained")
-      }
-      self$state$inner_tuned_values
     }
   ),
   active = list(
+    #' @field inner_valid_scores
+    #' Retrieves the inner validation scores as a named `list()`.
+    #' Returns `NULL` if learner is not trained yet.
+    inner_valid_scores = function() {
+      self$state$inner_valid_scores
+    },
+    #' @field inner_tuned_values
+    #' Retrieves the inner tuned values as a named `list()`.
+    #' Returns `NULL` if learner is not trained yet.
+    inner_tuned_values = function() {
+      self$state$inner_tuned_values
+    },
 
     #' @field validate
     #' How to construct the internal validation data. This parameter can be either `NULL`,

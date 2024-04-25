@@ -456,17 +456,16 @@ Learner = R6Class("Learner",
     hash = function(rhs) {
       assert_ro_binding(rhs)
       calculate_hash(class(self), self$id, self$param_set$values, private$.predict_type,
-        self$fallback$hash, self$parallel_predict)
+        self$fallback$hash, self$parallel_predict, private$.validate)
     },
 
     #' @field phash (`character(1)`)\cr
     #' Hash (unique identifier) for this partial object, excluding some components
-    #' which are varied systematically during tuning (parameter values) or feature
-    #' selection (feature names).
+    #' which are varied systematically during tuning (parameter values).
     phash = function(rhs) {
       assert_ro_binding(rhs)
       calculate_hash(class(self), self$id, private$.predict_type,
-        self$fallback$hash, self$parallel_predict)
+        self$fallback$hash, self$parallel_predict, private$.validate)
     },
 
     #' @field predict_type (`character(1)`)\cr

@@ -120,6 +120,12 @@ Other Learner:
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
+\item{\code{inner_valid_scores}}{Retrieves the inner validation scores as a named \code{list()}.
+Returns \code{NULL} if learner is not trained yet.}
+
+\item{\code{inner_tuned_values}}{Retrieves the inner tuned values as a named \code{list()}.
+Returns \code{NULL} if learner is not trained yet.}
+
 \item{\code{validate}}{How to construct the internal validation data. This parameter can be either \code{NULL},
 a ratio, \code{"test"}, or \code{"inner_valid"}.}
 }
@@ -129,8 +135,6 @@ a ratio, \code{"test"}, or \code{"inner_valid"}.}
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-LearnerClassifDebug-new}{\code{LearnerClassifDebug$new()}}
-\item \href{#method-LearnerClassifDebug-inner_valid_scores}{\code{LearnerClassifDebug$inner_valid_scores()}}
-\item \href{#method-LearnerClassifDebug-inner_tuned_values}{\code{LearnerClassifDebug$inner_tuned_values()}}
 \item \href{#method-LearnerClassifDebug-clone}{\code{LearnerClassifDebug$clone()}}
 }
 }
@@ -155,26 +159,6 @@ a ratio, \code{"test"}, or \code{"inner_valid"}.}
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{LearnerClassifDebug$new()}\if{html}{\out{</div>}}
-}
-
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-LearnerClassifDebug-inner_valid_scores"></a>}}
-\if{latex}{\out{\hypertarget{method-LearnerClassifDebug-inner_valid_scores}{}}}
-\subsection{Method \code{inner_valid_scores()}}{
-Retrieves the inner validation scores as a named \code{list()}.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{LearnerClassifDebug$inner_valid_scores()}\if{html}{\out{</div>}}
-}
-
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-LearnerClassifDebug-inner_tuned_values"></a>}}
-\if{latex}{\out{\hypertarget{method-LearnerClassifDebug-inner_tuned_values}{}}}
-\subsection{Method \code{inner_tuned_values()}}{
-Retrieves the inner tuned values as a named \code{list()}.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{LearnerClassifDebug$inner_tuned_values()}\if{html}{\out{</div>}}
 }
 
 }

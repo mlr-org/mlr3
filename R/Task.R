@@ -183,7 +183,9 @@ Task = R6Class("Task",
       }
       self$inner_valid_task = self$clone(deep = TRUE)
       self$inner_valid_task$row_roles$use = valid_ids
-      self$row_roles$use = setdiff(self$row_roles$use, valid_ids)
+      if (remove) {
+        self$row_roles$use = setdiff(self$row_roles$use, valid_ids)
+      }
       on.exit({}, add = FALSE)
       invisible(self)
     },

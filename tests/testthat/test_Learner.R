@@ -373,3 +373,11 @@ test_that("properties are also checked on validation task", {
   learner$properties = setdiff(learner$properties, "missings")
   expect_error(learner$train(task), "missing values")
 })
+
+test_that("validate changes phash and hash", {
+  l1 = lrn("classif.debug")
+  l2 = lrn("classif.debug")
+  l2$validate = 0.2
+  expect_false(l1$hash == l2$hash)
+  expect_false(l1$phash == l2$phash)
+})

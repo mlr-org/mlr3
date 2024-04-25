@@ -62,8 +62,8 @@ test_that("validation and inner tuning", {
   task = tsk("iris")
   learner = lrn("classif.debug", iter = 100, early_stopping = TRUE, validate = 0.3, predict_type = "prob")
   learner$train(task)
-  expect_list(learner$inner_valid_scores(), len = 2L, types = "numeric")
-  expect_permutation(names(learner$inner_valid_scores()), c("acc", "mbrier"))
+  expect_list(learner$inner_valid_scores, len = 2L, types = "numeric")
+  expect_permutation(names(learner$inner_valid_scores), c("acc", "mbrier"))
 })
 
 test_that("set_inner_tuning", {
@@ -74,6 +74,7 @@ test_that("set_inner_tuning", {
   expect_equal(pv, learner$param_set$values)
   set_inner_tuning(learner, validate = 0.2, iter = 100)
   expect_true(learner$param_set$values$early_stopping)
+  expect_equal(learner$param_set$values$iter, 100)
   task = tsk("iris")
   learner$train(task)
   set_inner_tuning(learner, .disable = TRUE)

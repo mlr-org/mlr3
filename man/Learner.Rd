@@ -236,8 +236,7 @@ Hash (unique identifier) for this object.}
 
 \item{\code{phash}}{(\code{character(1)})\cr
 Hash (unique identifier) for this partial object, excluding some components
-which are varied systematically during tuning (parameter values) or feature
-selection (feature names).}
+which are varied systematically during tuning (parameter values).}
 
 \item{\code{predict_type}}{(\code{character(1)})\cr
 Stores the currently active predict type, e.g. \code{"response"}.

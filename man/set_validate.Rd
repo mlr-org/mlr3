@@ -23,7 +23,7 @@ The modified learner.
 Helper function to configure validation for a learner.
 }
 \details{
-This is especially useful for learners such as \code{\link[mlr3tuning:AutoTuner]{mlr3tuning::AutoTuner}} or \code{\link[mlr3pipelines:mlr_learners_graph]{mlr3pipelines::GraphLearner}},
+This is especially useful for learners such as \code{\link[mlr3tuning:AutoTuner]{mlr3tuning::AutoTuner}} or \code{\link[mlr3pipelines:GraphLearner]{mlr3pipelines::GraphLearner}},
 where configuring, where the validation set needs to be configured on different levels.
 }
 \examples{
