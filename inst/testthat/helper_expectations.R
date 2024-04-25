@@ -316,6 +316,10 @@ expect_task_classif = function(task) {
   expect_hash(task$hash, 1L)
 }
 
+is_special_learner = function(x) {
+  inherits(x, "GraphLearner") || inherits(x, "AutoTuner") || inherits(x, "AutoFSelector")
+}
+
 expect_task_regr = function(task) {
   checkmate::expect_r6(task, "TaskRegr")
   y = task$truth()
@@ -388,7 +392,7 @@ expect_learner = function(lrn, task = NULL, check_man = TRUE) {
     expect_true(exists("validate", lrn))
     expect_true(exists("inner_valid_scores", envir = lrn))
     expect_function(mlr3misc::get_private(lrn)$.extract_inner_valid_scores)
-  } else {
+  } else if (!is_special_learner(lrn)){
     assert_false(exists("validate", lrn))
   }
   if ("inner_tuning" %in% lrn$properties) {
