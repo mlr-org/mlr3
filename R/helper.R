@@ -53,6 +53,12 @@ clone_rep = function(x, n) {
   lapply(seq_len(n), function(i) xc)
 }
 
+#' @title Assert Validate
+#' @description
+#' Asserts whether the input is a valid value for the `$validate` field of a [`Learner`].
+#' @param x (any)\cr
+#'   The input to check.
+#' @export
 assert_validate = function(x) {
   if (test_numeric(x, lower = 0, upper = 1, len = 1L)) {
     return(x)

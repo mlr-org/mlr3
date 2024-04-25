@@ -66,20 +66,17 @@ test_that("validation and inner tuning", {
   expect_permutation(names(learner$inner_valid_scores()), c("acc", "mbrier"))
 })
 
-
-test_that("set_inner_tuning works", {
+test_that("set_inner_tuning", {
   learner = lrn("classif.debug")
   pv = learner$param_set$values
   expect_error(set_inner_tuning(learner), "Parameter 'validate'")
-  expect_error(set_inner_tuning(learner, validate = 0.2), "Parameter 'iter'")
+  expect_error(set_inner_tuning(learner, validate = 0.2), "Specify 'iter'")
   expect_equal(pv, learner$param_set$values)
-  set_inner_tuning(learner, valdiate = 0.2, param_vals = list(iter = 100))
+  set_inner_tuning(learner, validate = 0.2, iter = 100)
   expect_true(learner$param_set$values$early_stopping)
   task = tsk("iris")
   learner$train(task)
-  invoke(set_inner_tuning, learner = learner, disable = TRUE, param_vals = learner$inner_tuned_values())
+  set_inner_tuning(learner, .disable = TRUE)
   expect_false(learner$param_set$values$early_stopping)
   expect_true(is.null(learner$validate))
 })
-
-

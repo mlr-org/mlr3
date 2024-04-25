@@ -4,27 +4,14 @@
 \alias{set_inner_tuning}
 \title{Activate Inner Tuning}
 \usage{
-set_inner_tuning(
-  learner,
-  disable = FALSE,
-  ids = NULL,
-  param_vals = named_list(),
-  ...
-)
+set_inner_tuning(.learner, .disable = FALSE, ...)
 }
 \arguments{
-\item{learner}{(\code{\link{Learner}})\cr
+\item{.learner}{(\code{\link{Learner}})\cr
 The learner for which to set the inner tuning.}
 
-\item{disable}{(\code{logical(1)})\cr
+\item{.disable}{(\code{logical(1)})\cr
 Whether to disable the inner tuning, default is \code{FALSE}.}
-
-\item{ids}{(\code{character(1)})\cr
-The ids of the parameters to disable. Will be ignored by \code{\link{Learner}}s that have only one such parameter.
-Mostly relevant for \code{\link[mlr3pipelines:mlr_learners_graph]{mlr3pipelines::GraphLearner}}.}
-
-\item{param_vals}{(named \code{list()})\cr
-Parameter values for the learner.}
 
 \item{...}{(any)\cr
 Additional arguments.}

@@ -209,6 +209,7 @@ Learner = R6Class("Learner",
       catn(format(self), if (is.null(self$label) || is.na(self$label)) "" else paste0(": ", self$label))
       catn(str_indent("* Model:", if (is.null(self$model)) "-" else class(self$model)[1L]))
       catn(str_indent("* Parameters:", as_short_string(self$param_set$values, 1000L)))
+      if (exists("validate", self)) catn(str_indent("* Validate:", format(self$validate)))
       catn(str_indent("* Packages:", self$packages))
       catn(str_indent("* Predict Types: ", replace(self$predict_types, self$predict_types == self$predict_type, paste0("[", self$predict_type, "]"))))
       catn(str_indent("* Feature Types:", self$feature_types))

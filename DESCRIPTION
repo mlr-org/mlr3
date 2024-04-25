@@ -191,6 +191,7 @@ Collate:
     'resample.R'
     'set_inner_tuning.R'
     'set_threads.R'
+    'set_validate.R'
     'task_converters.R'
     'worker.R'
     'zzz.R'

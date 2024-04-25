@@ -258,27 +258,61 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
 )
 
 
+#' @title Configure Inner Tuning for Debug Classifier
+#' @description
+#'
+#' Configure the inner tuning for [`LearnerClassifDebug`].
+#' This function specifies the `early_stopping` parameter and ensures that the learner is correctly configured.
+#'
+#' @inheritParams set_inner_tuning
+#' @param validate (`NA`, `numeric(1)`, `"inner_valid"` or `NULL`)\cr
+#'   How to set the `validate` field of the learner.
+#'   If `NA` (default), it is se to `NULL` when disabling inner tuning and left unchanged otherwise.
+#' @param iter (`integer(1)` or `NULL`)\cr
+#'   Value for parameter `iter`.
 #' @export
-set_inner_tuning.LearnerClassifDebug = function(learner, disable = FALSE, ids = NULL, param_vals = list(),
-  validate = NULL, ...) {
-  prev_pvs = learner$param_set$values
-  on.exit({learner$param_set$values = prev_pvs}, add = TRUE)
-  learner$param_set$set_values(.values = param_vals)
-  pv = learner$param_set$values
-  if (disable) {
-    learner$param_set$set_values(early_stopping = FALSE, validate = NULL)
-  } else {
-    learner$param_set$set_values(early_stopping = TRUE)
-    if (is.null(learner$validate)) {
-      stopf("Parameter 'validate' must be set to enable inner tuning.")
-    }
-    if (is.null(pv$iter)) {
-      stopf("Parameter 'iter' must be set to enable inner tuning.")
-    }
-
+#' @examples
+#' learner = lrn("classif.debug")
+#' set_inner_tuning(learner, validate = 0.3, iter = 100)
+#' learner$validate
+#' learner$early_stopping
+#'
+#' set_inner_tuning(learner, .disable = TRUE)
+#' learner$validate
+#' learner$early_stopping
+set_inner_tuning.LearnerClassifDebug = function(.learner, .disable = FALSE, validate = NA, iter = NULL, ...) {
+  if (.disable) {
+    .learner$validate = if (identical(validate, NA)) NULL else validate
+    .learner$param_set$set_values(
+      early_stopping = FALSE
+    )
+    return(invisible(.learner))
   }
-  on.exit({}, add = FALSE)
-  invisible(learner)
+
+  prev_pvs = .learner$param_set$values
+  prev_validate = .learner$validate
+  on.exit({
+    .learner$param_set$set_values(.values = prev_pvs)
+    .learner$validate= prev_validate
+  }, add = TRUE)
+
+  if (!identical(validate, NA)) {
+    .learner$validate = validate
+  }
+  if (is.null(.learner$validate)) {
+    stopf("Parameter 'validate' must be set to enable inner tuning.")
+  }
+  if (!is.null(iter)) {
+    .learner$param_set$set_values(iter = iter)
+  }
+  if (is.null(.learner$param_set$values$iter)) {
+    stopf("Specify 'iter' to enable inner tuning.")
+  }
+  .learner$param_set$set_values(
+    early_stopping = TRUE
+  )
+  on.exit()
+  invisible(.learner)
 }
 
 
