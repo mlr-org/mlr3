@@ -768,8 +768,6 @@ Task = R6Class("Task",
 
     #' @field inner_valid_task (`Task` or `NULL`)\cr
     #' Optional validation task that can e.g. be used for early stopping with learners such as XGBoost.
-    #' When resampling a learner that has the property 'validation', this task is automatically generated from
-    #' the test set for each resampling iteration.
     inner_valid_task = function(rhs) {
       if (missing(rhs)) {
         return(invisible(private$.inner_valid_task))

@@ -154,9 +154,7 @@ Identifier of the object.
 Used in tables, plot and text output.}
 
 \item{\code{inner_valid_task}}{(\code{Task} or \code{NULL})\cr
-Optional validation task that can e.g. be used for early stopping with learners such as XGBoost.
-When resampling a learner that has the property 'validation', this task is automatically generated from
-the test set for each resampling iteration.}
+Optional validation task that can e.g. be used for early stopping with learners such as XGBoost.}
 
 \item{\code{hash}}{(\code{character(1)})\cr
 Hash (unique identifier) for this object.}

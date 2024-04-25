@@ -80,6 +80,7 @@ test_that("set_inner_tuning", {
   set_inner_tuning(learner, .disable = TRUE)
   expect_false(learner$param_set$values$early_stopping)
   expect_true(is.null(learner$validate))
+})
 
 test_that("marshaling", {
   l = lrn("classif.debug")
