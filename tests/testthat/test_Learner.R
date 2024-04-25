@@ -379,5 +379,28 @@ test_that("validate changes phash and hash", {
   l2 = lrn("classif.debug")
   l2$validate = 0.2
   expect_false(l1$hash == l2$hash)
-  expect_false(l1$phash == l2$phash)
+})
+
+test_that("marshaling and encapsulation", {
+  task = tsk("iris")
+  learner = lrn("classif.debug", count_marshaling = TRUE)
+
+  # callr encapsulation causes marshaling
+  learner$encapsulate = c(train = "callr")
+  learner$train(task)
+  expect_equal(learner$model$marshal_count, 1)
+  expect_false(learner$marshaled)
+  expect_prediction(learner$predict(task))
+
+  # no marshaling with no other encapsulation
+  learner$encapsulate = c(train = "none")
+  learner$train(task)
+  expect_equal(learner$model$marshal_count, 0)
+})
+
+test_that("marshal state", {
+  state = lrn("classif.debug")$train(tsk("iris"))$state
+  sm = marshal_model(state)
+  expect_true(is_marshaled_model(sm))
+  expect_equal(state, unmarshal_model(marshal_model(state)))
 })

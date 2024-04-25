@@ -1,15 +1,20 @@
 # mlr3 (development version)
 
-* Log encapsulated errors and warnings with the `lgr` package.
+* added support for learner-internal validation
+
+# mlr3 0.19.0
+
+* Added support for `"marshal"` property, which allows learners to process models so they can be serialized.
+This happens automatically during `resample()` and `benchmark()`.
+* Encapsulation methods use the same RNG state now.
+* Fix missing values in `default_values.Learner()` function.
+* Encapsulated error messages are now printed with the `lgr` package.
 
 # mlr3 0.18.0
 
 * Prepare compatibility with new paradox version.
-* feat: dictionary conversion of `mlr_learners` respects prototype arguments
-recently added in mlr3misc
-* perf: skip unnecessary clone of learner's state in `resample()`
-* fix: Encapsulation methods use the same RNG state now.
-* feat: support for validation and learner-internal tuning
+* Dictionary conversion of `mlr_learners` respects prototype arguments recently added in mlr3misc.
+* Skip unnecessary clone of learner's state in `resample()`.
 
 # mlr3 0.17.2
 

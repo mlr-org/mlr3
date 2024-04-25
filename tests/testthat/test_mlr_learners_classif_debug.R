@@ -27,7 +27,7 @@ test_that("updating model works / resample", {
   learner = lrn("classif.debug", save_tasks = TRUE)
   rr = resample(tsk("iris"), learner, rsmp("holdout"), store_models = TRUE)
   new_learner = rr$learners[[1]]
-  expect_list(new_learner$model, len = 6)
+  expect_list(new_learner$model, len = 7)
 })
 
 test_that("NA predictions", {
@@ -80,4 +80,13 @@ test_that("set_inner_tuning", {
   set_inner_tuning(learner, .disable = TRUE)
   expect_false(learner$param_set$values$early_stopping)
   expect_true(is.null(learner$validate))
+
+test_that("marshaling", {
+  l = lrn("classif.debug")
+  expect_learner(l, tsk("iris"))
+  task = tsk("iris")
+  l$train(task)
+  p1 = l$predict(task)
+  p2 = l$marshal()$unmarshal()$predict(task)
+  expect_equal(p1, p2)
 })

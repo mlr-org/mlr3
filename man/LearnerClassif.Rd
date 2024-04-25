@@ -140,6 +140,8 @@ The following properties are currently standardized and understood by learners i
 \item \code{"selected_features"}: The learner supports extraction of the set of selected features, i.e. comes with a \verb{$selected_features()} extractor function (see section on optional extractors in \link{Learner}).
 \item \code{"oob_error"}: The learner supports extraction of estimated out of bag error, i.e. comes with a \code{oob_error()} extractor function (see section on optional extractors in \link{Learner}).
 \item \code{"validation"}: The learner can make use of a task's validation task, e.g. for early stopping.
+\item \code{"marshal"}: To save learners with this property, you need to call \verb{$marshal()} first.
+If a learner is in a marshaled state, you call first need to call \verb{$unmarshal()} to use its model, e.g. for prediction.
 }}
 
 \item{\code{data_formats}}{(\code{character()})\cr

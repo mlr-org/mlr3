@@ -61,10 +61,10 @@
 #' * `loglik(...)`: Extracts the log-likelihood (c.f. [stats::logLik()]).
 #'   This can be used in measures like [mlr_measures_aic] or [mlr_measures_bic].
 #'
-#' * `inner_valid_scores(...)`: Returns the inner validation score(s) of the model as a named `list()` of `numeric(1)`.
+#' * `inner_valid_scores`: Returns the inner validation score(s) of the model as a named `list()` of `numeric(1)`.
 #'   Learners that have the `"validation"` property must implement this.
 #'
-#' * `inner_tuned_values(...)`: Returns the inner tuned hyperparameters of the model as a named `list()`.
+#' * `inner_tuned_values`: Returns the inner tuned hyperparameters of the model as a named `list()`.
 #'   Learners that have the `"inner_tuning"` property must implement this.
 #'   In case no values were tuned, an empty list should be returned.
 #'
@@ -98,7 +98,7 @@
 #'   * `ratio`: only proportion `1 - ratio` of the task is used for training and `ratio` is used for validation.
 #'      set in the task).
 #'   * `"test"` means that the `"test"` task is used.
-#'     **Warning**: This can lead to bias performance estimation.
+#'     **Warning**: This can lead to biased performance estimation.
 #'     This option is only available if the learner is being trained via [resample()], [benchmark()] or functions that
 #'     internally use them, e.g. [`mlr3tuning::tune`] or [`mlr3batchmark::batchmark()`].
 #'     This is especially useful for hyperparameter tuning, where one might want to use the same data for early
@@ -207,7 +207,7 @@ Learner = R6Class("Learner",
     #' @param ... (ignored).
     print = function(...) {
       catn(format(self), if (is.null(self$label) || is.na(self$label)) "" else paste0(": ", self$label))
-      catn(str_indent("* Model:", if (is.null(self$model)) "-" else class(self$model)[1L]))
+      catn(str_indent("* Model:", if (is.null(self$model)) "-" else if (is_marshaled_model(self$model)) "<marshaled>" else paste0(class(self$model)[1L])))
       catn(str_indent("* Parameters:", as_short_string(self$param_set$values, 1000L)))
       if (exists("validate", self)) catn(str_indent("* Validate:", format(self$validate)))
       catn(str_indent("* Packages:", self$packages))
@@ -266,6 +266,7 @@ Learner = R6Class("Learner",
       train_row_ids = if (!is.null(row_ids)) row_ids else task$row_roles$use
 
       train_result = learner_train(learner, task, train_row_ids = train_row_ids, mode = mode)
+      self$model = unmarshal_model(model = self$state$model, inplace = TRUE)
 
       # store data prototype
       proto = task$data(rows = integer())
@@ -307,6 +308,10 @@ Learner = R6Class("Learner",
 
       if (is.null(self$state$model) && is.null(self$state$fallback_state$model)) {
         stopf("Cannot predict, Learner '%s' has not been trained yet", self$id)
+      }
+
+      if (is_marshaled_model(self$model)) {
+        stopf("Cannot predict, Learner '%s' has not been unmarshaled yet", self$id)
       }
 
       if (isTRUE(self$parallel_predict) && nbrOfWorkers() > 1L) {
@@ -569,7 +574,6 @@ Learner = R6Class("Learner",
   )
 )
 
-
 #' @export
 rd_info.Learner = function(obj, ...) {
   x = c("",
@@ -591,9 +595,40 @@ get_log_condition = function(state, condition) {
 
 #' @export
 default_values.Learner = function(x, search_space, task, ...) { # nolint
-  default_values(x$param_set)[search_space$ids()]
+  values = default_values(x$param_set)
+
+  if (any(search_space$ids() %nin% names(values))) {
+    stopf("Could not find default values for the following parameters: %s",
+      str_collapse(setdiff(search_space$ids(), names(values))))
+  }
+
+  values[search_space$ids()]
 }
 # #' @export
 # format_list_item.Learner = function(x, ...) { # nolint
 #   sprintf("<lrn:%s>", x$id)
 # }
+
+
+#' @export
+marshal_model.learner_state = function(model, inplace = FALSE, ...) {
+  if (is.null(model$model)) {
+    return(model)
+  }
+  mm = marshal_model(model$model, inplace = inplace, ...)
+  if (!is_marshaled_model(mm)) {
+    return(model)
+  }
+  model$model = mm
+  structure(list(
+    marshaled = model,
+    packages = "mlr3"
+  ), class = c("learner_state_marshaled", "list_marshaled", "marshaled"))
+}
+
+#' @export
+unmarshal_model.learner_state_marshaled = function(model, inplace = FALSE, ...) {
+  mm = model$marshaled
+  mm$model = unmarshal_model(mm$model, inplace = inplace, ...)
+  return(mm)
+}

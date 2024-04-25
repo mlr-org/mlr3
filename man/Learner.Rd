@@ -48,9 +48,9 @@ The learner must be tagged with property \code{"selected_features"}.
 The learner must be tagged with property \code{"oob_error"}.
 \item \code{loglik(...)}: Extracts the log-likelihood (c.f. \code{\link[stats:logLik]{stats::logLik()}}).
 This can be used in measures like \link{mlr_measures_aic} or \link{mlr_measures_bic}.
-\item \code{inner_valid_scores(...)}: Returns the inner validation score(s) of the model as a named \code{list()} of \code{numeric(1)}.
+\item \code{inner_valid_scores}: Returns the inner validation score(s) of the model as a named \code{list()} of \code{numeric(1)}.
 Learners that have the \code{"validation"} property must implement this.
-\item \code{inner_tuned_values(...)}: Returns the inner tuned hyperparameters of the model as a named \code{list()}.
+\item \code{inner_tuned_values}: Returns the inner tuned hyperparameters of the model as a named \code{list()}.
 Learners that have the \code{"inner_tuning"} property must implement this.
 In case no values were tuned, an empty list should be returned.
 }
@@ -93,7 +93,7 @@ Learners that can make use of an additional validation set (e.g. for early stopp
 \item \code{ratio}: only proportion \code{1 - ratio} of the task is used for training and \code{ratio} is used for validation.
 set in the task).
 \item \code{"test"} means that the \code{"test"} task is used.
-\strong{Warning}: This can lead to bias performance estimation.
+\strong{Warning}: This can lead to biased performance estimation.
 This option is only available if the learner is being trained via \code{\link[=resample]{resample()}}, \code{\link[=benchmark]{benchmark()}} or functions that
 internally use them, e.g. \code{\link[mlr3tuning:tune]{mlr3tuning::tune}} or \code{\link[mlr3batchmark:batchmark]{mlr3batchmark::batchmark()}}.
 This is especially useful for hyperparameter tuning, where one might want to use the same data for early
@@ -331,6 +331,8 @@ The following properties are currently standardized and understood by learners i
 \item \code{"selected_features"}: The learner supports extraction of the set of selected features, i.e. comes with a \verb{$selected_features()} extractor function (see section on optional extractors in \link{Learner}).
 \item \code{"oob_error"}: The learner supports extraction of estimated out of bag error, i.e. comes with a \code{oob_error()} extractor function (see section on optional extractors in \link{Learner}).
 \item \code{"validation"}: The learner can make use of a task's validation task, e.g. for early stopping.
+\item \code{"marshal"}: To save learners with this property, you need to call \verb{$marshal()} first.
+If a learner is in a marshaled state, you call first need to call \verb{$unmarshal()} to use its model, e.g. for prediction.
 }}
 
 \item{\code{data_formats}}{(\code{character()})\cr
