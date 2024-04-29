@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.18.0.9000</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.19.0.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -75,16 +75,19 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="mlr3-development-version">mlr3 (development version)<a class="anchor" aria-label="anchor" href="#mlr3-development-version"></a></h2>
-<ul><li>Feat: added support for <code>"marshal"</code> property, which allows learners to process models so they can be serialized. This happens automatically during <code><a href="../reference/resample.html">resample()</a></code> and <code><a href="../reference/benchmark.html">benchmark()</a></code>.</li>
-<li>Log encapsulated errors and warnings with the <code>lgr</code> package.</li>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.19.0" id="mlr3-0190">mlr3 0.19.0<a class="anchor" aria-label="anchor" href="#mlr3-0190"></a></h2><p class="text-muted">CRAN release: 2024-04-24</p>
+<ul><li>Added support for <code>"marshal"</code> property, which allows learners to process models so they can be serialized. This happens automatically during <code><a href="../reference/resample.html">resample()</a></code> and <code><a href="../reference/benchmark.html">benchmark()</a></code>.</li>
+<li>Encapsulation methods use the same RNG state now.</li>
+<li>Fix missing values in <code>default_values.Learner()</code> function.</li>
+<li>Encapsulated error messages are now printed with the <code>lgr</code> package.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.18.0" id="mlr3-0180">mlr3 0.18.0<a class="anchor" aria-label="anchor" href="#mlr3-0180"></a></h2><p class="text-muted">CRAN release: 2024-03-05</p>
 <ul><li>Prepare compatibility with new paradox version.</li>
-<li>feat: dictionary conversion of <code>mlr_learners</code> respects prototype arguments recently added in mlr3misc</li>
-<li>perf: skip unnecessary clone of learner’s state in <code><a href="../reference/resample.html">resample()</a></code>
-</li>
-<li>fix: Encapsulation methods use the same RNG state now.</li>
+<li>Dictionary conversion of <code>mlr_learners</code> respects prototype arguments recently added in mlr3misc.</li>
+<li>Skip unnecessary clone of learner’s state in <code><a href="../reference/resample.html">resample()</a></code>.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.17.2" id="mlr3-0172">mlr3 0.17.2<a class="anchor" aria-label="anchor" href="#mlr3-0172"></a></h2><p class="text-muted">CRAN release: 2024-01-09</p>
