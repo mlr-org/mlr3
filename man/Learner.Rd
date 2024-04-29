@@ -249,6 +249,7 @@ Stores \code{HotstartStack}.}
 \item \href{#method-Learner-predict_newdata}{\code{Learner$predict_newdata()}}
 \item \href{#method-Learner-reset}{\code{Learner$reset()}}
 \item \href{#method-Learner-base_learner}{\code{Learner$base_learner()}}
+\item \href{#method-Learner-estimate_memory_usage}{\code{Learner$estimate_memory_usage()}}
 \item \href{#method-Learner-clone}{\code{Learner$clone()}}
 }
 }
@@ -491,6 +492,25 @@ Depth of recursion for multiple nested objects.}
 }
 \subsection{Returns}{
 \link{Learner}.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Learner-estimate_memory_usage"></a>}}
+\if{latex}{\out{\hypertarget{method-Learner-estimate_memory_usage}{}}}
+\subsection{Method \code{estimate_memory_usage()}}{
+Estimate the memory usage of the learner in bytes.
+Defaults to \code{-Inf} which means that the memory usage is unknown.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Learner$estimate_memory_usage(task)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{task}}{(\link{Task})\cr
+Task to estimate the memory usage for.}
+}
+\if{html}{\out{</div>}}
 }
 }
 \if{html}{\out{<hr>}}

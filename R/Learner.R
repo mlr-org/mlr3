@@ -380,6 +380,16 @@ Learner = R6Class("Learner",
       } else {
         self
       }
+    },
+
+    #' @description
+    #' Estimate the memory usage of the learner in bytes.
+    #' Defaults to `-Inf` which means that the memory usage is unknown.
+    #'
+    #' @param task ([Task])\cr
+    #'  Task to estimate the memory usage for.
+    estimate_memory_usage = function(task) {
+      -Inf
     }
   ),
 
