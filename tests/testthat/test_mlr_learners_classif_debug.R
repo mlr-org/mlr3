@@ -66,20 +66,10 @@ test_that("validation and inner tuning", {
   expect_permutation(names(learner$inner_valid_scores), c("acc", "mbrier"))
 })
 
-test_that("set_inner_tuning", {
-  learner = lrn("classif.debug")
-  pv = learner$param_set$values
-  expect_error(set_inner_tuning(learner), "Parameter 'validate'")
-  expect_error(set_inner_tuning(learner, validate = 0.2), "Specify 'iter'")
-  expect_equal(pv, learner$param_set$values)
-  set_inner_tuning(learner, validate = 0.2, iter = 100)
-  expect_true(learner$param_set$values$early_stopping)
-  expect_equal(learner$param_set$values$iter, 100)
-  task = tsk("iris")
-  learner$train(task)
-  set_inner_tuning(learner, .disable = TRUE)
+test_that("disable inner tuning", {
+  learner = lrn("classif.debug", early_stopping = TRUE, iter = 100, validate = 0.2)
+  disable_inner_tuning(learner)
   expect_false(learner$param_set$values$early_stopping)
-  expect_true(is.null(learner$validate))
 })
 
 test_that("marshaling", {

@@ -41,36 +41,12 @@ lrn("classif.debug")
 
 \section{Meta Information}{
 
-\itemize{
-\item Task type: \dQuote{classif}
-\item Predict Types: \dQuote{response}, \dQuote{prob}
-\item Feature Types: \dQuote{logical}, \dQuote{integer}, \dQuote{numeric}, \dQuote{character}, \dQuote{factor}, \dQuote{ordered}
-\item Required Packages: \CRANpkg{mlr3}
-}
+\verb{r mlr3misc::rd_info(mlr3::lrn("classif.debug"))}
 }
 
 \section{Parameters}{
-\tabular{lllll}{
-   Id \tab Type \tab Default \tab Levels \tab Range \cr
-   error_predict \tab numeric \tab 0 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
-   error_train \tab numeric \tab 0 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
-   message_predict \tab numeric \tab 0 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
-   message_train \tab numeric \tab 0 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
-   predict_missing \tab numeric \tab 0 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
-   predict_missing_type \tab character \tab na \tab na, omit \tab - \cr
-   save_tasks \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
-   segfault_predict \tab numeric \tab 0 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
-   segfault_train \tab numeric \tab 0 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
-   sleep_train \tab untyped \tab - \tab  \tab - \cr
-   sleep_predict \tab untyped \tab - \tab  \tab - \cr
-   threads \tab integer \tab - \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
-   warning_predict \tab numeric \tab 0 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
-   warning_train \tab numeric \tab 0 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
-   x \tab numeric \tab - \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
-   iter \tab integer \tab 1 \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
-   count_marshaling \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
-   early_stopping \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
-}
+
+\verb{r mlr3misc::rd_info(mlr3::lrn("classif.debug")$param_set)}
 }
 
 \examples{
