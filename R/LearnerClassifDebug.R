@@ -52,10 +52,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
     initialize = function() {
       iter_aggr = crate(function(x) ceiling(mean(unlist(x))), .parent = topenv())
       iter_tune_fn = crate(function(domain, param_set) {
-        assert_true(domain$cls == "ParamInt")
-        assert_true(isTRUE(all.equal(domain$lower, param_set$params[domain$id, "lower", on = "id"][[1L]])))
-        assert_true(!is.infinite(domain$upper))
-        domain$upper
+        assert_integerish(domain$upper, len = 1L, any.missing = FALSE)
       }, .parent = topenv())
 
       param_set = ps(
@@ -74,7 +71,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
         warning_predict      = p_dbl(0, 1, default = 0, tags = "predict"),
         warning_train        = p_dbl(0, 1, default = 0, tags = "train"),
         x                    = p_dbl(0, 1, tags = "train"),
-        iter                 = p_int(1, default = 1, tags = c("train", "hotstart", "inner_tuning"), aggr = iter_aggr, tune_fn = iter_tune_fn), # nolint
+        iter                 = p_int(1, default = 1, tags = c("train", "hotstart", "inner_tuning"), aggr = iter_aggr, in_tune_fn = iter_tune_fn), # nolint
         count_marshaling     = p_lgl(default = FALSE, tags = "train"),
         early_stopping       = p_lgl(default = FALSE, tags = "train")
       )
@@ -289,26 +286,10 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
 )
 
 
-#' @title Configure Inner Tuning for the Debug Classifier
-#'
-#' @description
-#' Configure the inner tuning for [`LearnerClassifDebug`].
-#' There are two modi:
-#' 1. Disabling inner tuning (`.disable = TRUE`), sets `early_stopping = FALSE` and all other arguments are ignored.
-#' 2. Enablig inner tuning (`disable = FALSE`) sets `validate` and `iter` parameters if given and afterwards ensures
-#'    that the llearner is configured to actually perform inner tuning.
-#'
-#' This function specifies the `early_stopping` parameter and ensures that the learner is correctly configured.
-#'
-#' @inheritParams set_inner_tuning
-#' @param validate (`numeric(1)`, `"inner_valid"` or `NULL`)\cr
-#'   How to set the `validate` field of the learner, optional.
-#' @param iter (`integer(1)`)\cr
-#'   Value for parameter `iter`, optional.
 #' @export
-disable_inner_tuning.LearnerClassifDebug = function(learner, ids) {
+disable_inner_tuning.LearnerClassifDebug = function(learner, ids, ...) {
   if (!(length(ids) == 0L)) {
-    learner$params$set_values(early_stopping = FALSE)
+    learner$param_set$set_values(early_stopping = FALSE)
   }
   invisible(learner)
 }

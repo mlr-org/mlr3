@@ -10,21 +10,21 @@ set_validate(learner, validate, ...)
 \item{learner}{(any)\cr
 The learner.}
 
-\item{validate}{(\code{numeric(1)}, \code{"inner_valid"} or \code{NULL})\cr
+\item{validate}{(\code{numeric(1)}, \code{"inner_valid"}, \code{"test"}, or \code{NULL})\cr
 Which validation set to use.}
 
 \item{...}{(any)\cr
-Additional arguments passed to the methods.}
+Additional arguments.}
 }
 \value{
-The modified learner.
+Modified \code{\link{Learner}}
 }
 \description{
 Helper function to configure validation for a learner.
 }
 \details{
 This is especially useful for learners such as \code{\link[mlr3tuning:AutoTuner]{mlr3tuning::AutoTuner}} or \code{\link[mlr3pipelines:mlr_learners_graph]{mlr3pipelines::GraphLearner}},
-where configuring, where the validation set needs to be configured on different levels.
+where configuring, where the \verb{$validate} fields need to be configured on multiple levels.
 }
 \examples{
 learner = lrn("classif.debug")
