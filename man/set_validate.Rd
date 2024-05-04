@@ -20,11 +20,10 @@ Additional arguments.}
 Modified \code{\link{Learner}}
 }
 \description{
-Helper function to configure validation for a learner.
-}
-\details{
+Helper function to configure the \verb{$validate} field(s) of a \code{\link{Learner}}.
+
 This is especially useful for learners such as \code{\link[mlr3tuning:AutoTuner]{mlr3tuning::AutoTuner}} or \code{\link[mlr3pipelines:mlr_learners_graph]{mlr3pipelines::GraphLearner}},
-where configuring, where the \verb{$validate} fields need to be configured on multiple levels.
+where the \verb{$validate} fields need to be configured on multiple levels.
 }
 \examples{
 learner = lrn("classif.debug")

@@ -17,4 +17,12 @@ test_that("inner valid score", {
     NA_real_
   )
   expect_measure(msr("inner_valid_score"))
+
+  # learner that does not have it
+  task = tsk("mtcars")
+  learner = lrn("regr.debug")
+  learner$train(task)
+  pred = learner$predict(task)
+  rr = resample(task, learner, rsmp("holdout"))
+  expect_equal(rr$score(msr("inner_valid_score", select = "a"))$inner_valid_score, NA_real_)
 })

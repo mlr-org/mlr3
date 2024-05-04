@@ -1,4 +1,4 @@
-#' @title Inner Validation Score
+#' @title Measure Inner Validation Score
 #'
 #' @name mlr_measures_inner_valid_score
 #' @include Measure.R
@@ -11,6 +11,7 @@
 #' @section Parameters:
 #' * `select` : (`character(1)`)\cr
 #'   Which of the inner validation scores to select.
+#'   Which scores are available depends on the learner.
 #'
 #' @templateVar id inner_valid_score
 #' @template measure

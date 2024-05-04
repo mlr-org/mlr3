@@ -3,7 +3,7 @@
 \name{mlr_measures_inner_valid_score}
 \alias{mlr_measures_inner_valid_score}
 \alias{MeasureInnerValidScore}
-\title{Inner Validation Score}
+\title{Measure Inner Validation Score}
 \description{
 Returns the selected inner validation score of the \link{Learner} for learners that support it
 (learners with property \code{"validation"}).
@@ -14,6 +14,7 @@ Returns \code{NA} for unsupported learners, when no validation was done, or when
 \itemize{
 \item \code{select} : (\code{character(1)})\cr
 Which of the inner validation scores to select.
+Which scores are available depends on the learner.
 }
 
 \tabular{lll}{

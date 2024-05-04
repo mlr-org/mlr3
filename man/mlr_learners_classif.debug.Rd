@@ -132,7 +132,7 @@ Returns \code{NULL} if learner is not trained yet.}
 Returns \code{NULL} if learner is not trained yet.}
 
 \item{\code{validate}}{How to construct the internal validation data. This parameter can be either \code{NULL},
-a ratio, \code{"test"}, or \code{"inner_valid"}.}
+a ratio in $(0, 1)$, \code{"test"}, or \code{"inner_valid"}.}
 }
 \if{html}{\out{</div>}}
 }

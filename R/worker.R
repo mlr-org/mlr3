@@ -46,15 +46,14 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
     lg$debug("Skip subsetting of task '%s'", task$id)
   }
 
+  # handle the inner validation task
   validate = get0("validate", learner)
+  prev_valid = task$inner_valid_task
+  on.exit({
+    task$inner_valid_task = prev_valid
+  }, add = TRUE)
+
   if (!is.null(validate)) {
-    # handle the inner validation task
-    prev_valid = task$inner_valid_task
-
-    on.exit({
-      task$inner_valid_task = prev_valid
-    }, add = TRUE)
-
     # Otherwise, predict_set = "inner_valid" is ambiguous
     if (!is.null(prev_valid) && (is.numeric(validate) || isTRUE(all.equal(validate, "test")))) {
       stopf("Parameter 'validate' of Learner '%s' cannot be set to 'test' or a ratio when inner_valid_task is present", learner$id)
@@ -73,8 +72,9 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
     } else if (is.numeric(validate)) {
       task$divide(validate, remove = TRUE)
     }
-
     assert_task_learner(task$inner_valid_task, learner)
+  } else {
+    task$inner_valid_task = NULL
   }
 
 

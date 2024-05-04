@@ -539,6 +539,18 @@ test_that("validation task changes a task's hash", {
   expect_false(h1 == h2)
 })
 
+test_that("compatibility checks on inner_valid_task", {
+  d1 = data.table(x = 1:10, y = 1:10)
+  d2 = data.table(x = rnorm(10), y = 1:10)
+  d3 = data.table(x1 = rnorm(10), y = 1:10)
+
+  t1 = as_task_regr(d1, target = "y")
+  t2 = as_task_regr(d2, target = "y")
+  t3 = as_task_regr(d3, target = "y")
+  expect_error({t1$inner_valid_task = t2 }, "differs from the type")
+  expect_error({t1$inner_valid_task = t3 }, "not present")
+})
+
 test_that("can NULL validation task", {
   task = tsk("iris")
   task$divide(1)

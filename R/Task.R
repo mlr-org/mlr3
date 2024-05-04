@@ -161,9 +161,10 @@ Task = R6Class("Task",
     #'   Either a `ratio` indicating the proportion of the validation data, or a vector of row ids.
     #'   All values in `(0, 1)` are interpreted as ratios.
     #' @param remove (`logical(1)`)\cr
-    #'   If `TRUE` (default), the `row_ids` are removed from the primary task's active `"use"` rows.
+    #'   If `TRUE` (default), the `row_ids` are removed from the primary task's active `"use"` rows, ensuring a
+    #'   disjoint split between the train and validation data.
     #'
-    #' @return Modified `self`.
+    #' @return Modified `Self`.
     divide = function(x, remove = TRUE) {
       assert_flag(remove)
 
@@ -176,7 +177,7 @@ Task = R6Class("Task",
       }
       prev_inner_valid = self$inner_valid_task
       if (!is.null(prev_inner_valid)) {
-        lg$info("Task %s already had an inner validation task that is being overwritten.", self$id)
+        lg$debug("Task %s already had an inner validation task that is being overwritten.", self$id)
         # in case something goes wrong
         on.exit({self$inner_valid_task = prev_inner_valid}, add = TRUE)
         self$inner_valid_task = NULL
@@ -767,7 +768,8 @@ Task = R6Class("Task",
     },
 
     #' @field inner_valid_task (`Task` or `NULL`)\cr
-    #' Optional validation task that can e.g. be used for early stopping with learners such as XGBoost.
+    #' Optional validation task that can, e.g., be used for early stopping with learners such as XGBoost.
+    #' See also the `$validate` field of [`Learner`].
     inner_valid_task = function(rhs) {
       if (missing(rhs)) {
         return(invisible(private$.inner_valid_task))
@@ -785,6 +787,19 @@ Task = R6Class("Task",
       if (!is.null(rhs$inner_valid_task)) { # avoid recursive structures
         stopf("Trying to assign task '%s' as a validation task, remove its validation task first.", rhs$id)
       }
+
+      ci1 = self$col_info
+      ci2 = rhs$col_info
+      active_cols = unlist(self$col_roles)
+      walk(active_cols, function(.col) {
+        if (.col %nin% ci2$id) {
+          stopf("Primary task has column '%s' which is not present in the validation task.", .col)
+        }
+        if (ci1[get("id") == .col, "type"]$type != ci2[get("id") == .col, "type"]$type) {
+          stopf("The type of column '%s' from the validation task differs from the type in the primary task.", .col)
+        }
+      })
+
       private$.inner_valid_task = rhs
       invisible(private$.inner_valid_task)
     },

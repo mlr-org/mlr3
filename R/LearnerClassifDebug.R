@@ -122,7 +122,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
 
     #' @field validate
     #' How to construct the internal validation data. This parameter can be either `NULL`,
-    #' a ratio, `"test"`, or `"inner_valid"`.
+    #' a ratio in $(0, 1)$, `"test"`, or `"inner_valid"`.
     validate = function(rhs) {
       if (!missing(rhs)) {
         private$.validate = assert_validate(rhs)

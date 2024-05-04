@@ -408,7 +408,7 @@ expect_learner = function(lrn, task = NULL, check_man = TRUE) {
     assert_false(exists("validate", lrn))
   }
   if ("inner_tuning" %in% lrn$properties) {
-    expect_equal(table(unlist(lrn$param_set$tags))[["inner_tuning"]], 1L)
+    expect_true(table(unlist(lrn$param_set$tags))[["inner_tuning"]] >= 1L)
     expect_true(exists("inner_tuned_values", envir = lrn))
     expect_function(mlr3misc::get_private(lrn)$.extract_inner_tuned_values)
   }

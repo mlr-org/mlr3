@@ -32,9 +32,9 @@ task_hash = function(task, use_ids, test_ids = NULL, ignore_inner_valid_task = F
   # order matters: we first check for test_ids and then for the inner_valid_task
   inner_valid_task_hash = if (!is.null(test_ids)) {
     # this does the same as task$divide(test_ids)$inner_valid_task$hash but avoids the deep clone
-    inner_valid_task_hash = task_hash(task, use_ids = test_ids, test_ids = NULL, ignore_inner_valid_task = TRUE)
+    task_hash(task, use_ids = test_ids, test_ids = NULL, ignore_inner_valid_task = TRUE)
   } else if (!ignore_inner_valid_task) {
-    inner_valid_task_hash = task$inner_valid_task$hash
+    task$inner_valid_task$hash
   }
 
   calculate_hash(class(task), task$id, task$backend$hash, task$col_info, use_ids, task$col_roles,

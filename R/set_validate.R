@@ -1,11 +1,10 @@
 #' @title Enable Validation for Learner
 #'
 #' @description
-#' Helper function to configure validation for a learner.
+#' Helper function to configure the `$validate` field(s) of a [`Learner`].
 #'
-#' @details
 #' This is especially useful for learners such as [`mlr3tuning::AutoTuner`] or [`mlr3pipelines::GraphLearner`],
-#' where configuring, where the `$validate` fields need to be configured on multiple levels.
+#' where the `$validate` fields need to be configured on multiple levels.
 #'
 #' @param learner (any)\cr
 #'   The learner.
@@ -21,14 +20,14 @@
 #' set_validate(learner, 0.2)
 #' learner$validate
 set_validate = function(learner, validate, ...) {
-  if (!"validation" %in% learner$properties) {
-    stopf("Learner '%s' does not support validation.", learner$id)
-  }
   UseMethod("set_validate")
 }
 
 #' @export
 set_validate.Learner = function(learner, validate, ...) {
+  if (!"validation" %in% learner$properties) {
+    stopf("Learner '%s' does not support validation.", learner$id)
+  }
   learner$validate = validate
   invisible(learner)
 }

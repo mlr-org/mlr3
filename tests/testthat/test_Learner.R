@@ -404,3 +404,79 @@ test_that("marshal state", {
   expect_true(is_marshaled_model(sm))
   expect_equal(state, unmarshal_model(marshal_model(state)))
 })
+
+test_that("inner_valid_task is created correctly", {
+  LearnerClassifTest = R6Class("LearnerClassifTest", inherit = LearnerClassifDebug,
+    public = list(
+      task = NULL
+    ),
+    private = list(
+      .train = function(task, ...)  {
+        self$task = task$clone(deep = TRUE)
+        super$.train(task, ...)
+      }
+    )
+  )
+  # validate = NULL (but task has one)
+  learner = LearnerClassifTest$new()
+  task = tsk("iris")$divide(0.3)
+  learner$train(task)
+  learner$validate = NULL
+  expect_true(is.null(learner$inner_valid_scores))
+  expect_true(is.null(learner$task$inner_valid_task))
+
+  # validate = NULL (but task has none)
+  learner1 = LearnerClassifTest$new()
+  task1 = tsk("iris")
+  learner1$train(task1)
+  expect_true(is.null(learner1$inner_valid_scores))
+  expect_true(is.null(learner1$task$inner_valid_task))
+
+  # validate = "test"
+  LearnerClassifTest2 = R6Class("LearnerClassifTest2", inherit = LearnerClassifDebug,
+    public = list(
+      expected_valid_ids = NULL,
+      expected_train_ids = NULL
+    ),
+    private = list(
+      .train = function(task, ...)  {
+        if (!test_permutation(task$inner_valid_task$row_ids, self$expected_valid_ids)) {
+          stopf("something went wrong")
+        }
+        if (!test_permutation(task$row_ids, self$expected_train_ids)) {
+          stopf("something went wrong")
+        }
+        super$.train(task, ...)
+      }
+    )
+  )
+  task2 = tsk("iris")
+  learner2 = LearnerClassifTest2$new()
+  learner2$validate = "test"
+  resampling = rsmp("holdout")$instantiate(task2)
+  learner2$expected_valid_ids = resampling$test_set(1)
+  learner2$expected_train_ids = resampling$train_set(1)
+  expect_error(resample(task2, learner2, resampling), regexp = NA)
+
+  # ratio works
+  LearnerClassifTest3 = R6Class("LearnerClassifTest3", inherit = LearnerClassifDebug,
+    private = list(
+      .train = function(task, ...)  {
+        if (length(task$inner_valid_task$row_ids) != 20) {
+          stopf("something went wrong")
+        }
+        super$.train(task, ...)
+      }
+    )
+  )
+  task = tsk("iris")$filter(1:100)
+  learner3 = LearnerClassifTest3$new()
+  learner3$validate = 0.2
+  learner3$train(task)
+
+  # check that validation task is reset discarded at the end
+  learner4 = lrn("classif.debug", validate = 0.2)
+  task = tsk("iris")
+  learner4$train(task)
+  expect_true(is.null(task$inner_valid_task))
+})

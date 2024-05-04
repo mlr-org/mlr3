@@ -154,7 +154,8 @@ Identifier of the object.
 Used in tables, plot and text output.}
 
 \item{\code{inner_valid_task}}{(\code{Task} or \code{NULL})\cr
-Optional validation task that can e.g. be used for early stopping with learners such as XGBoost.}
+Optional validation task that can, e.g., be used for early stopping with learners such as XGBoost.
+See also the \verb{$validate} field of \code{\link{Learner}}.}
 
 \item{\code{hash}}{(\code{character(1)})\cr
 Hash (unique identifier) for this object.}
@@ -370,12 +371,13 @@ Either a \code{ratio} indicating the proportion of the validation data, or a vec
 All values in \verb{(0, 1)} are interpreted as ratios.}
 
 \item{\code{remove}}{(\code{logical(1)})\cr
-If \code{TRUE} (default), the \code{row_ids} are removed from the primary task's active \code{"use"} rows.}
+If \code{TRUE} (default), the \code{row_ids} are removed from the primary task's active \code{"use"} rows, ensuring a
+disjoint split between the train and validation data.}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-Modified \code{self}.
+Modified \code{Self}.
 }
 }
 \if{html}{\out{<hr>}}
