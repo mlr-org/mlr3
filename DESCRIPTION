@@ -70,7 +70,7 @@ Suggests:
     rpart,
     testthat (>= 3.1.0)
 Remotes:
-    mlr-org/paradox
+    mlr-org/paradox@feat/inner_valid
 Encoding: UTF-8
 Config/testthat/edition: 3
 Config/testthat/parallel: false
