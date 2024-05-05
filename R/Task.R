@@ -790,8 +790,9 @@ Task = R6Class("Task",
 
       ci1 = self$col_info
       ci2 = rhs$col_info
-      active_cols = unlist(self$col_roles)
-      walk(active_cols, function(.col) {
+      # don't do this too strictly, some column roles might just be important during training (weights)
+      cols = unlist(self$col_roles[c("target", "feature")])
+      walk(cols, function(.col) {
         if (.col %nin% ci2$id) {
           stopf("Primary task has column '%s' which is not present in the validation task.", .col)
         }

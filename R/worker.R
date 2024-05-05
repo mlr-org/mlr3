@@ -53,29 +53,9 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
     task$inner_valid_task = prev_valid
   }, add = TRUE)
 
-  if (!is.null(validate)) {
-    # Otherwise, predict_set = "inner_valid" is ambiguous
-    if (!is.null(prev_valid) && (is.numeric(validate) || isTRUE(all.equal(validate, "test")))) {
-      stopf("Parameter 'validate' of Learner '%s' cannot be set to 'test' or a ratio when inner_valid_task is present", learner$id)
-    }
-
-    if (isTRUE(all.equal(validate, "inner_valid")) && is.null(task$inner_valid_task)) {
-      stopf("Parameter 'validate' is set to 'inner_valid_task' but no inner validation task is present.")
-    }
-    if (isTRUE(all.equal(validate, "test"))) {
-      if (is.null(test_row_ids)) {
-        stopf("Parameter 'validate' cannot be set to 'test' when calling train manually.")
-      }
-      # at this point, the train rows are already set to the train set, i.e. we don't have to remove the test ids
-      # from the primary task (this would cause bugs for resamplings with overlapping train and test set)
-      task$divide(test_row_ids, remove = FALSE)
-    } else if (is.numeric(validate)) {
-      task$divide(validate, remove = TRUE)
-    }
-  } else {
-    task$inner_valid_task = NULL
-  }
-
+  # depending on the validate parameter, create the inner validation task (if needed)
+  # modifies the task in place
+  create_inner_valid_task(validate, task, test_row_ids, prev_valid, learner)
 
   if (mode == "train") learner$state = list()
 
@@ -415,4 +395,40 @@ append_log = function(log = NULL, stage = NA_character_, class = NA_character_, 
   }
 
   log
+}
+
+create_inner_valid_task = function(validate, task, test_row_ids, prev_valid, learner) {
+
+  if (!is.null(validate)) {
+    # Otherwise, predict_set = "inner_valid" is ambiguous
+    if (!is.null(prev_valid) && (is.numeric(validate) || isTRUE(all.equal(validate, "test")))) {
+      stopf("Parameter 'validate' of Learner '%s' cannot be set to 'test' or a ratio when inner_valid_task is present", learner$id)
+    }
+
+    if (isTRUE(all.equal(validate, "inner_valid"))) {
+      if (is.null(task$inner_valid_task)) {
+        stopf("Parameter 'validate' is set to 'inner_valid_task' but no inner validation task is present.")
+      }
+      if (!isTRUE(all.equal(task$target_names, task$inner_valid_task$target_names))) {
+        stopf("Inner validation task '%s' has different target names than primary task '%s', did you modify the task after creating the inner validation task?",
+          task$inner_valid_task$id, task$id)
+      }
+      if (!test_permutation(task$feature_names, task$inner_valid_task$feature_names)) {
+        stopf("Inner validation task '%s' has different features than primary task '%s', did you modify the task after creating the inner validation task?",
+          task$inner_valid_task$id, task$id)
+      }
+    }
+    if (isTRUE(all.equal(validate, "test"))) {
+      if (is.null(test_row_ids)) {
+        stopf("Parameter 'validate' cannot be set to 'test' when calling train manually.")
+      }
+      # at this point, the train rows are already set to the train set, i.e. we don't have to remove the test ids
+      # from the primary task (this would cause bugs for resamplings with overlapping train and test set)
+      task$divide(test_row_ids, remove = FALSE)
+    } else if (is.numeric(validate)) {
+      task$divide(validate, remove = TRUE)
+    }
+  } else {
+    task$inner_valid_task = NULL
+  }
 }

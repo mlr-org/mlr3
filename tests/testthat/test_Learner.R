@@ -480,3 +480,13 @@ test_that("inner_valid_task is created correctly", {
   learner4$train(task)
   expect_true(is.null(task$inner_valid_task))
 })
+
+test_that("compatability check on validation task", {
+  learner = lrn("classif.debug", validate = "inner_valid")
+  task = tsk("german_credit")$divide(1:10)
+  task$col_roles$feature = "age"
+  expect_error(learner$train(task), "has different features")
+  task$inner_valid_task$col_roles$feature = "age"
+  task$inner_valid_task$col_roles$target = "credit_history"
+  expect_error(learner$train(task), "has different target")
+})
