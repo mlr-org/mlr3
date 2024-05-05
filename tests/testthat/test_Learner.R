@@ -332,13 +332,6 @@ test_that("validation task's backend is removed", {
   expect_true(is.null(learner$state$train_task$inner_valid_task$backend))
 })
 
-test_that("validation task's backend is removed", {
-  learner = lrn("regr.rpart")
-  task = tsk("mtcars")$divide(1:10)
-  learner$train(task)
-  expect_true(is.null(learner$state$train_task$inner_valid_task$backend))
-})
-
 test_that("manual $train() stores validation hash and validation ids", {
   task = tsk("iris")
   l = lrn("classif.debug", validate = 0.2)
@@ -352,9 +345,16 @@ test_that("manual $train() stores validation hash and validation ids", {
   l$train(task)
   expect_equal(l$state$inner_valid_task_hash, task$inner_valid_task$hash)
   expect_equal(l$state$inner_valid_task_ids, task$inner_valid_task$row_ids)
+
+  # nothing is stored for learners that don't do it
+  l2 = lrn("classif.featureless")
+  l2$train(task)
+  expect_true(is.null(l2$state$inner_valid_task_hash))
+  expect_true(is.null(l2$state$inner_valid_task_ids))
+
 })
 
-test_that("error when training a learner that uses inner_valid_task without a validation task", {
+test_that("error when training a learner that sets valiadte to 'inner_valid' on a task without a validation task", {
   task = tsk("iris")
   learner = lrn("classif.debug", validate = "inner_valid")
   expect_error(learner$train(task), "is set to 'inner_valid_task'")

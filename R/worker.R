@@ -72,7 +72,6 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
     } else if (is.numeric(validate)) {
       task$divide(validate, remove = TRUE)
     }
-    assert_task_learner(task$inner_valid_task, learner)
   } else {
     task$inner_valid_task = NULL
   }
@@ -262,6 +261,9 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
   if (!is.null(pb)) {
     pb(sprintf("%s|%s|i:%i", task$id, learner$id, iteration))
   }
+  if ("inner_valid" %in% learner$predict_sets && is.null(task$inner_valid_task) && is.null(get0("validate", learner))) {
+    stopf("Cannot set the predict_type field of learner '%s' to 'inner_valid' if there is no innver validation task configured", learner$id)
+  }
 
   # reduce data.table and blas threads to 1
   if (!is_sequential) {
@@ -308,25 +310,13 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
   # predict for each set
   predict_sets = learner$predict_sets
 
-
-  # if the validate parameter is a ratio, some data was taken from the training data for the inner validation
-  if (is.numeric(validate)) {
-    sets$train = train_result$train_ids
-  }
-  tasks = list(train = task, test = task)
-  if (!is.null(train_result$inner_valid_task_ids)) sets$inner_valid = train_result$inner_valid_task_ids
-  tasks$inner_valid = if (isTRUE(all.equal(validate, "inner_valid"))) {
-    task$inner_valid_task
-  } else {
-    task
-  }
-  tasks = tasks[predict_sets]
-  sets = sets[predict_sets]
+  # creates the tasks and row_ids for all selected predict sets
+  pred_data = prediction_tasks_and_sets(task, train_result, validate, sets, predict_sets)
 
   pdatas = Map(function(set, row_ids, task) {
     lg$debug("Creating Prediction for predict set '%s'", set)
     learner_predict(learner, task, row_ids)
-  }, set = predict_sets, row_ids = sets, task = tasks)
+  }, set = predict_sets, row_ids = pred_data$sets, task = pred_data$tasks)
   pdatas = discard(pdatas, is.null)
 
   # set the model slot after prediction so it can be sent back to the main process
@@ -337,6 +327,33 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
   learner_state = set_class(learner$state, c("learner_state", "list"))
 
   list(learner_state = learner_state, prediction = pdatas, param_values = learner$param_set$values, learner_hash = learner_hash)
+}
+
+# creates the tasks and row ids for the selected predict sets
+prediction_tasks_and_sets = function(task, train_result, validate, sets, predict_sets) {
+  # if the validate parameter is a ratio, some data was taken from the training data for the inner validation
+  if (is.numeric(validate)) {
+    sets$train = train_result$train_ids
+  }
+  tasks = list(train = task, test = task)
+  if ("inner_valid" %nin% predict_sets) {
+    return(list(tasks = tasks[predict_sets], sets = sets[predict_sets]))
+  }
+
+  if ("inner_valid" %in% predict_sets) {
+    if (is.numeric(validate) || identical(validate, "test")) {
+      # in this scenario, the inner_valid_task was created during learner_train, which means that it used the
+      # primary task. The selected ids are returned via the train result
+      tasks$inner_valid = task
+      sets$inner_valid = train_result$inner_valid_task_ids
+    } else {
+      # the predefined inner_valid_task w2as used
+      tasks$inner_valid = task$inner_valid_task
+      sets$inner_valid = task$inner_valid_task$row_ids
+    }
+  }
+
+  list(tasks = tasks[predict_sets], sets = sets[predict_sets])
 }
 
 keep_marshaled_if_needed = function(learner, store_models, is_sequential, unmarshal) {

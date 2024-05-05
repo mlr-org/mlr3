@@ -408,7 +408,16 @@ expect_learner = function(lrn, task = NULL, check_man = TRUE) {
     assert_false(exists("validate", lrn))
   }
   if ("inner_tuning" %in% lrn$properties) {
-    expect_true(table(unlist(lrn$param_set$tags))[["inner_tuning"]] >= 1L)
+    any_inner_tuning = FALSE
+    for (tags in lrn$param_set$tags) {
+      if ("inner_tuning" %in% tags) {
+        any_inner_tuning = TRUE
+        break
+      }
+    }
+    if (!any_inner_tuning) {
+      stopf("at least one parameter must do inner tuning when the learner is tagged as such")
+    }
     expect_true(exists("inner_tuned_values", envir = lrn))
     expect_function(mlr3misc::get_private(lrn)$.extract_inner_tuned_values)
   }

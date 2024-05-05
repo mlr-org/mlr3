@@ -359,3 +359,14 @@ test_that("marshaled model is sent back, when unmarshal is FALSE, sequential exe
   rr = resample(tsk("iris"), learner, rsmp("holdout"), store_models = TRUE, unmarshal = FALSE)
   expect_true(rr$learners[[1L]]$marshaled)
 })
+
+test_that("predict_set inner_valid throws error when none is available", {
+  expect_error(
+    resample(tsk("iris"), lrn("classif.debug", predict_sets = "inner_valid"), rsmp("holdout")),
+    "Cannot set the predict_type"
+  )
+})
+
+test_that("can even use iner_valid predict set on learners that don't support validation", {
+  rr = resample(tsk("mtcars")$divide(1:10), lrn("regr.debug", predict_sets = "inner_valid"), rsmp("holdout"))
+})
