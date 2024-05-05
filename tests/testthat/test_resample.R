@@ -367,6 +367,6 @@ test_that("predict_set inner_valid throws error when none is available", {
   )
 })
 
-test_that("can even use iner_valid predict set on learners that don't support validation", {
+test_that("can even use inner_valid predict set on learners that don't support validation", {
   rr = resample(tsk("mtcars")$divide(1:10), lrn("regr.debug", predict_sets = "inner_valid"), rsmp("holdout"))
 })
