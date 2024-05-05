@@ -18,6 +18,7 @@
 #'   Additional arguments.
 #' @return Modified [`Learner`]
 #' @export
+#' @keywords internal
 #' @examples
 #' learner = lrn("classif.debug", validate = 0.3, early_stopping = TRUE, iter = 100)
 #' disable_inner_tuning(learner, "iter")

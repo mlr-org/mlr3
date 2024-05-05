@@ -35,3 +35,4 @@ disable_inner_tuning(learner, "iter")
 learner$param_set$values
 learner$validate
 }
+\keyword{internal}

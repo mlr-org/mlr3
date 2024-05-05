@@ -15,6 +15,7 @@
 #'
 #' @export
 #' @return Modified [`Learner`]
+#' @rdname mlr_sugar
 #' @examples
 #' learner = lrn("classif.debug")
 #' set_validate(learner, 0.2)

@@ -59,6 +59,7 @@ clone_rep = function(x, n) {
 #' @param x (any)\cr
 #'   The input to check.
 #' @export
+#' @rdname mlr_assertions
 assert_validate = function(x) {
   if (test_numeric(x, lower = 0, upper = 1, len = 1L)) {
     return(x)
