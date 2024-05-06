@@ -61,7 +61,7 @@ clone_rep = function(x, n) {
 #' @export
 #' @rdname mlr_assertions
 assert_validate = function(x) {
-  if (test_numeric(x, lower = 0, upper = 1, len = 1L)) {
+  if (test_numeric(x, lower = 0, upper = 1, len = 1L, any.missing = FALSE)) {
     return(x)
   }
   assert_choice(x, c("predefined", "test"), null.ok = TRUE)
