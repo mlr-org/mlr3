@@ -58,7 +58,7 @@ test_that("default_values works with empty search space", {
   expect_list(default_values(learner, ps(), task), len = 0)
 })
 
-test_that("validation and inner tuning", {
+test_that("validation and internal tuning", {
   task = tsk("iris")
   learner = lrn("classif.debug", iter = 100, early_stopping = TRUE, validate = 0.3, predict_type = "prob")
   learner$train(task)

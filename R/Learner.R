@@ -122,7 +122,7 @@
 #' In order to be able to combine this internal hyperparamer tuning with the standard hyperparameter optimization
 #' implemented via \CRANpkg{mlr3tuning}, one most:
 #' * annotate the learner with the `"internal_tuning"` property
-#' * implement the active binding `$inner_tuned_values` (see section *Optional Extractors*) as well as the
+#' * implement the active binding `$internal_tuned_values` (see section *Optional Extractors*) as well as the
 #'   private method `$.extract_internal_tuned_values()` which extracts the inner tuned values from the [`Learner`]'s
 #'   model and returns themn as a named `list()`.
 #'   If the model is not trained yet, this method should return `NULL`.

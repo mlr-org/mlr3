@@ -122,7 +122,7 @@ In order to be able to combine this internal hyperparamer tuning with the standa
 implemented via \CRANpkg{mlr3tuning}, one most:
 \itemize{
 \item annotate the learner with the \code{"internal_tuning"} property
-\item implement the active binding \verb{$inner_tuned_values} (see section \emph{Optional Extractors}) as well as the
+\item implement the active binding \verb{$internal_tuned_values} (see section \emph{Optional Extractors}) as well as the
 private method \verb{$.extract_internal_tuned_values()} which extracts the inner tuned values from the \code{\link{Learner}}'s
 model and returns themn as a named \code{list()}.
 If the model is not trained yet, this method should return \code{NULL}.

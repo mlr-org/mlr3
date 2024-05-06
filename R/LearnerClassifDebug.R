@@ -117,7 +117,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
     #' Retrieves the inner tuned values as a named `list()`.
     #' Returns `NULL` if learner is not trained yet.
     internal_tuned_values = function() {
-      self$state$inner_tuned_values
+      self$state$internal_tuned_values
     },
 
     #' @field validate
