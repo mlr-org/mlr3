@@ -105,7 +105,7 @@ Collate:
     'MeasureClassifCosts.R'
     'MeasureDebug.R'
     'MeasureElapsedTime.R'
-    'MeasureInnerValidScore.R'
+    'MeasureInternalValidScore.R'
     'MeasureOOBError.R'
     'MeasureRegr.R'
     'MeasureSelectedFeatures.R'

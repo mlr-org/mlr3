@@ -272,56 +272,56 @@ test_that("task hashes differ depending on whether test set is used", {
   expect_false(rr1$learners[[1]]$state$task_hash == rr2$learners[[1]]$state$task_hash)
 })
 
-test_that("can make predictions for inner_valid_task", {
+test_that("can make predictions for internal_valid_task", {
   task = tsk("iris")
-  learner = lrn("classif.debug", validate = 0.5, predict_sets = c("train", "inner_valid"))
+  learner = lrn("classif.debug", validate = 0.5, predict_sets = c("train", "internal_valid"))
   rr = resample(task, learner, rsmp("insample"))
-  expect_equal(length(rr$predictions("inner_valid")[[1L]]$row_ids), task$nrow / 2)
-  # the training ids don't incldue the inner validation ids
+  expect_equal(length(rr$predictions("internal_valid")[[1L]]$row_ids), task$nrow / 2)
+  # the training ids don't incldue the internal validation ids
   expect_equal(length(rr$predictions("train")[[1L]]$row_ids), task$nrow / 2)
 })
 
-test_that("learner's validate cannot be 'test' if inner_valid_set is present", {
-  # otherwise, predict_set = "inner_valid" would be ambiguous
-  learner = lrn("classif.debug", validate = "test", predict_sets = c("train", "inner_valid"))
+test_that("learner's validate cannot be 'test' if internal_valid_set is present", {
+  # otherwise, predict_set = "internal_valid" would be ambiguous
+  learner = lrn("classif.debug", validate = "test", predict_sets = c("train", "internal_valid"))
   task = tsk("iris")$divide(1)
   expect_error(resample(task, learner, rsmp("holdout")), "cannot be set to ")
 })
 
-test_that("learner's validate cannot be a ratio if inner_valid_set is present", {
-  # otherwise, predict_set = "inner_valid" would be ambiguous
-  learner = lrn("classif.debug", validate = 0.5, predict_sets = c("train", "inner_valid"))
+test_that("learner's validate cannot be a ratio if internal_valid_set is present", {
+  # otherwise, predict_set = "internal_valid" would be ambiguous
+  learner = lrn("classif.debug", validate = 0.5, predict_sets = c("train", "internal_valid"))
   task = tsk("iris")$divide(1)
   expect_error(resample(task, learner, rsmp("holdout")), "cannot be set to")
 })
 
-test_that("inner_valid and train predictions", {
+test_that("internal_valid and train predictions", {
   task = tsk("iris")$divide(1:2)
-  learner = lrn("classif.debug", validate = "inner_valid", predict_sets = c("train", "inner_valid", "test"))
+  learner = lrn("classif.debug", validate = "predefined", predict_sets = c("train", "internal_valid", "test"))
   rr = resample(task, learner, rsmp("insample"), store_models = TRUE)
   measure_valid = msr("classif.acc")
   # this should not be necessary I think, but: https://github.com/mlr-org/mlr3/issues/1011
-  measure_valid$predict_sets = "inner_valid"
+  measure_valid$predict_sets = "internal_valid"
   expect_equal(
-    rr$score(measure_valid, predict_sets = "inner_valid")$classif.acc,
-    rr$learners[[1L]]$inner_valid_scores$acc
+    rr$score(measure_valid, predict_sets = "internal_valid")$classif.acc,
+    rr$learners[[1L]]$internal_valid_scores$acc
   )
 
-  # if valid = "test", inner_valid and test predictions are the same
+  # if valid = "test", internal_valid and test predictions are the same
   task = tsk("iris")
-  learner = lrn("classif.debug", validate = "test", predict_sets = c("train", "inner_valid", "test"))
+  learner = lrn("classif.debug", validate = "test", predict_sets = c("train", "internal_valid", "test"))
   rr2 = resample(task, learner, rsmp("holdout"))
 
   expect_equal(
-    rr2$score(measure_valid, predict_sets = "inner_valid")$classif.acc,
+    rr2$score(measure_valid, predict_sets = "internal_valid")$classif.acc,
     rr2$score(msr("classif.acc"), predict_sets = "test")$classif.acc
   )
   expect_equal(
-    rr2$predictions("inner_valid")[[1L]]$response,
+    rr2$predictions("internal_valid")[[1L]]$response,
     rr2$predictions("test")[[1L]]$response
   )
 
-  learner = lrn("classif.debug", validate = 0.9, predict_sets = c("train", "inner_valid", "test"))
+  learner = lrn("classif.debug", validate = 0.9, predict_sets = c("train", "internal_valid", "test"))
   task = tsk("iris")$filter(1:10)
   rr2 = resample(task, learner, rsmp("insample"))
   expect_true(length(rr2$predictions("train")[[1L]]$row_ids) == 1L)
@@ -329,7 +329,7 @@ test_that("inner_valid and train predictions", {
 
   rr3 = resample(task, learner, rsmp("holdout"))
   rr3$predictions("train")
-  rr3$predictions("inner_valid")
+  rr3$predictions("internal_valid")
   rr3$predictions("test")
 
   expect_true(length(rr2$predictions("train")[[1L]]$row_ids) == 1L)
@@ -343,7 +343,7 @@ test_that("properties are also checked on validation task", {
   row$..row_id = 151
   task$rbind(row)
   task$divide(151)
-  learner = lrn("classif.debug", validate = "inner_valid")
+  learner = lrn("classif.debug", validate = "predefined")
   learner$properties = setdiff(learner$properties, "missings")
 
   expect_error(resample(task, learner, rsmp("holdout")), "missing values")
@@ -360,13 +360,13 @@ test_that("marshaled model is sent back, when unmarshal is FALSE, sequential exe
   expect_true(rr$learners[[1L]]$marshaled)
 })
 
-test_that("predict_set inner_valid throws error when none is available", {
+test_that("predict_set internal_valid throws error when none is available", {
   expect_error(
-    resample(tsk("iris"), lrn("classif.debug", predict_sets = "inner_valid"), rsmp("holdout")),
+    resample(tsk("iris"), lrn("classif.debug", predict_sets = "internal_valid"), rsmp("holdout")),
     "Cannot set the predict_type"
   )
 })
 
-test_that("can even use inner_valid predict set on learners that don't support validation", {
-  rr = resample(tsk("mtcars")$divide(1:10), lrn("regr.debug", predict_sets = "inner_valid"), rsmp("holdout"))
+test_that("can even use internal_valid predict set on learners that don't support validation", {
+  rr = resample(tsk("mtcars")$divide(1:10), lrn("regr.debug", predict_sets = "internal_valid"), rsmp("holdout"))
 })

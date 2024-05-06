@@ -329,35 +329,35 @@ test_that("validation task's backend is removed", {
   learner = lrn("regr.rpart")
   task = tsk("mtcars")$divide(1:10)
   learner$train(task)
-  expect_true(is.null(learner$state$train_task$inner_valid_task$backend))
+  expect_true(is.null(learner$state$train_task$internal_valid_task$backend))
 })
 
 test_that("manual $train() stores validation hash and validation ids", {
   task = tsk("iris")
   l = lrn("classif.debug", validate = 0.2)
   l$train(task)
-  expect_integer(l$state$inner_valid_task_ids)
-  expect_character(l$state$inner_valid_task_hash)
+  expect_integer(l$state$internal_valid_task_ids)
+  expect_character(l$state$internal_valid_task_hash)
 
-  l = lrn("classif.debug", validate = "inner_valid")
+  l = lrn("classif.debug", validate = "predefined")
   task = tsk("iris")
   task$divide(1:10)
   l$train(task)
-  expect_equal(l$state$inner_valid_task_hash, task$inner_valid_task$hash)
-  expect_equal(l$state$inner_valid_task_ids, task$inner_valid_task$row_ids)
+  expect_equal(l$state$internal_valid_task_hash, task$internal_valid_task$hash)
+  expect_equal(l$state$internal_valid_task_ids, task$internal_valid_task$row_ids)
 
   # nothing is stored for learners that don't do it
   l2 = lrn("classif.featureless")
   l2$train(task)
-  expect_true(is.null(l2$state$inner_valid_task_hash))
-  expect_true(is.null(l2$state$inner_valid_task_ids))
+  expect_true(is.null(l2$state$internal_valid_task_hash))
+  expect_true(is.null(l2$state$internal_valid_task_ids))
 
 })
 
-test_that("error when training a learner that sets valiadte to 'inner_valid' on a task without a validation task", {
+test_that("error when training a learner that sets valiadte to 'predefined' on a task without a validation task", {
   task = tsk("iris")
-  learner = lrn("classif.debug", validate = "inner_valid")
-  expect_error(learner$train(task), "is set to 'inner_valid_task'")
+  learner = lrn("classif.debug", validate = "predefined")
+  expect_error(learner$train(task), "is set to 'predefined'")
   task$divide(1:10)
   expect_class(learner, "Learner")
 })
@@ -369,7 +369,7 @@ test_that("properties are also checked on validation task", {
   row$..row_id = 151
   task$rbind(row)
   task$divide(151)
-  learner = lrn("classif.debug", validate = "inner_valid")
+  learner = lrn("classif.debug", validate = "predefined")
   learner$properties = setdiff(learner$properties, "missings")
   expect_error(learner$train(task), "missing values")
 })
@@ -405,7 +405,7 @@ test_that("marshal state", {
   expect_equal(state, unmarshal_model(marshal_model(state)))
 })
 
-test_that("inner_valid_task is created correctly", {
+test_that("internal_valid_task is created correctly", {
   LearnerClassifTest = R6Class("LearnerClassifTest", inherit = LearnerClassifDebug,
     public = list(
       task = NULL
@@ -422,15 +422,15 @@ test_that("inner_valid_task is created correctly", {
   task = tsk("iris")$divide(0.3)
   learner$train(task)
   learner$validate = NULL
-  expect_true(is.null(learner$inner_valid_scores))
-  expect_true(is.null(learner$task$inner_valid_task))
+  expect_true(is.null(learner$internal_valid_scores))
+  expect_true(is.null(learner$task$internal_valid_task))
 
   # validate = NULL (but task has none)
   learner1 = LearnerClassifTest$new()
   task1 = tsk("iris")
   learner1$train(task1)
-  expect_true(is.null(learner1$inner_valid_scores))
-  expect_true(is.null(learner1$task$inner_valid_task))
+  expect_true(is.null(learner1$internal_valid_scores))
+  expect_true(is.null(learner1$task$internal_valid_task))
 
   # validate = "test"
   LearnerClassifTest2 = R6Class("LearnerClassifTest2", inherit = LearnerClassifDebug,
@@ -440,7 +440,7 @@ test_that("inner_valid_task is created correctly", {
     ),
     private = list(
       .train = function(task, ...)  {
-        if (!test_permutation(task$inner_valid_task$row_ids, self$expected_valid_ids)) {
+        if (!test_permutation(task$internal_valid_task$row_ids, self$expected_valid_ids)) {
           stopf("something went wrong")
         }
         if (!test_permutation(task$row_ids, self$expected_train_ids)) {
@@ -462,7 +462,7 @@ test_that("inner_valid_task is created correctly", {
   LearnerClassifTest3 = R6Class("LearnerClassifTest3", inherit = LearnerClassifDebug,
     private = list(
       .train = function(task, ...)  {
-        if (length(task$inner_valid_task$row_ids) != 20) {
+        if (length(task$internal_valid_task$row_ids) != 20) {
           stopf("something went wrong")
         }
         super$.train(task, ...)
@@ -478,15 +478,15 @@ test_that("inner_valid_task is created correctly", {
   learner4 = lrn("classif.debug", validate = 0.2)
   task = tsk("iris")
   learner4$train(task)
-  expect_true(is.null(task$inner_valid_task))
+  expect_true(is.null(task$internal_valid_task))
 })
 
 test_that("compatability check on validation task", {
-  learner = lrn("classif.debug", validate = "inner_valid")
+  learner = lrn("classif.debug", validate = "predefined")
   task = tsk("german_credit")$divide(1:10)
   task$col_roles$feature = "age"
   expect_error(learner$train(task), "has different features")
-  task$inner_valid_task$col_roles$feature = "age"
-  task$inner_valid_task$col_roles$target = "credit_history"
+  task$internal_valid_task$col_roles$feature = "age"
+  task$internal_valid_task$col_roles$target = "credit_history"
   expect_error(learner$train(task), "has different target")
 })

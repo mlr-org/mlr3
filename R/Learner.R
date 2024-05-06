@@ -61,12 +61,12 @@
 #' * `loglik(...)`: Extracts the log-likelihood (c.f. [stats::logLik()]).
 #'   This can be used in measures like [mlr_measures_aic] or [mlr_measures_bic].
 #'
-#' * `inner_valid_scores`: Returns the inner validation score(s) of the model as a named `list()`.
+#' * `internal_valid_scores`: Returns the internal validation score(s) of the model as a named `list()`.
 #'   Only available for [`Learner`]s with the `"validation"` property.
 #'   If the learner is not trained yet, this returns `NULL`.
 #'
-#' * `inner_tuned_values`: Returns the inner tuned hyperparameters of the model as a named `list()`.
-#'   Only available for [`Learner`]s with the `"inner_tuning"` property.
+#' * `internal_tuned_values`: Returns the internally tuned hyperparameters of the model as a named `list()`.
+#'   Only available for [`Learner`]s with the `"internal_tuning"` property.
 #'   If the learner is not trained yet, this returns `NULL`.
 #'
 #' @section Setting Hyperparameters:
@@ -96,11 +96,11 @@
 #' It is possible to configure learners to be able to receive such an independent validation set during training.
 #' To do so, one must:
 #' * annotate the learner with the `"validation"` property
-#' * implement the active binding `$inner_valid_scores` (see section *Optional Extractors*), as well as the
-#'   private method `$.extract_inner_valid_scores()` which returns the (final) inner validation scores from the
+#' * implement the active binding `$internal_valid_scores` (see section *Optional Extractors*), as well as the
+#'   private method `$.extract_internal_valid_scores()` which returns the (final) internal validation scores from the
 #'   model of the [`Learner`] and returns them as a named `list()` of `numeric(1)`.
 #'   If the model is not trained yet, this method should return `NULL`.
-#' * Add the `validate` parameter, which can be either `NULL`, a ratio in $(0, 1)$, `"test"`, or `"inner_valid"`:
+#' * Add the `validate` parameter, which can be either `NULL`, a ratio in $(0, 1)$, `"test"`, or `"internal_valid"`:
 #'   * `NULL`: no validation
 #'   * `ratio`: only proportion `1 - ratio` of the task is used for training and `ratio` is used for validation.
 #'   * `"test"` means that the `"test"` task is used.
@@ -109,26 +109,26 @@
 #'     internally use them, e.g. [`mlr3tuning::tune`] or [`mlr3batchmark::batchmark()`].
 #'     This is especially useful for hyperparameter tuning, where one might e.g. want to use the same validation data
 #'     for early as well as the tuning of the other hyperparameters.
-#'   * `"inner_valid"` means that the task's (manyally set) `$inner_valid_task` is used.
+#'   * `"predefined"` means that the task's (manually set) `$internal_valid_task` is used.
 #'     See the [`Task`] documentation for more information.
 #'
 #' For an example how to do this, see [`LearnerClassifDebug`].
 #'
-#' @section Implementing Inner Tuning:
+#' @section Implementing Internal Tuning:
 #' Some learners such as `XGBoost` or `cv.glmnet` can internally tune hyperparameters.
 #' XGBoost, for example, can tune the number of boosting rounds based on the validation performance.
 #' CV Glmnet, on the other hand, can tune the regularization parameter based on an internal cross-validation.
 #'
 #' In order to be able to combine this internal hyperparamer tuning with the standard hyperparameter optimization
 #' implemented via \CRANpkg{mlr3tuning}, one most:
-#' * annotate the learner with the `"inner_tuning"` property
+#' * annotate the learner with the `"internal_tuning"` property
 #' * implement the active binding `$inner_tuned_values` (see section *Optional Extractors*) as well as the
-#'   private method `$.extract_inner_tuned_values()` which extracts the inner tuned values from the [`Learner`]'s
+#'   private method `$.extract_internal_tuned_values()` which extracts the inner tuned values from the [`Learner`]'s
 #'   model and returns themn as a named `list()`.
 #'   If the model is not trained yet, this method should return `NULL`.
-#' * Have at least one parameter tagged with `"inner_tuning"`.
-#' * implement the `disable_inner_tuning(learner, ids, ...)` generic for the [`Learner`].
-#'   Calling this method should deactivate the inner tuning for all the parameters that are passed via `ids`.
+#' * Have at least one parameter tagged with `"internal_tuning"`.
+#' * implement the `disable_internal_tuning(learner, ids, ...)` generic for the [`Learner`].
+#'   Calling this method should deactivate the internal tuning for all the parameters that are passed via `ids`.
 #'   Calling this should *not* change the value of the `$validate` field.
 #'
 #' For an example how to do this, see [`LearnerClassifDebug`].
@@ -307,8 +307,8 @@ Learner = R6Class("Learner",
 
       if (!is.null(get0("validate", self))) {
         self$state = insert_named(self$state, list(
-          inner_valid_task_ids = train_result$inner_valid_task_ids,
-          inner_valid_task_hash = train_result$inner_valid_task_hash
+          internal_valid_task_ids = train_result$internal_valid_task_ids,
+          internal_valid_task_hash = train_result$internal_valid_task_hash
         ))
       }
 

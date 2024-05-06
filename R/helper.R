@@ -64,5 +64,5 @@ assert_validate = function(x) {
   if (test_numeric(x, lower = 0, upper = 1, len = 1L)) {
     return(x)
   }
-  assert_choice(x, c("inner_valid", "test"), null.ok = TRUE)
+  assert_choice(x, c("predefined", "test"), null.ok = TRUE)
 }

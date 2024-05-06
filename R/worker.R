@@ -46,16 +46,16 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
     lg$debug("Skip subsetting of task '%s'", task$id)
   }
 
-  # handle the inner validation task
+  # handle the internal validation task
   validate = get0("validate", learner)
-  prev_valid = task$inner_valid_task
+  prev_valid = task$internal_valid_task
   on.exit({
-    task$inner_valid_task = prev_valid
+    task$internal_valid_task = prev_valid
   }, add = TRUE)
 
-  # depending on the validate parameter, create the inner validation task (if needed)
+  # depending on the validate parameter, create the internal validation task (if needed)
   # modifies the task in place
-  create_inner_valid_task(validate, task, test_row_ids, prev_valid, learner)
+  create_internal_valid_task(validate, task, test_row_ids, prev_valid, learner)
 
   if (mode == "train") learner$state = list()
 
@@ -84,13 +84,13 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
     mlr3_version = mlr_reflections$package_version
   )), c("learner_state", "list"))
 
-  # store the results of the inner tuning / inner validation in the learner's STATE
+  # store the results of the internal tuning / internal validation in the learner's STATE
   # otherwise this information is only available with store_models = TRUE
   if (!is.null(validate)) {
-    learner$state$inner_valid_scores = get_private(learner)$.extract_inner_valid_scores()
+    learner$state$internal_valid_scores = get_private(learner)$.extract_internal_valid_scores()
   }
-  if ("inner_tuning" %in% learner$properties) {
-    learner$state$inner_tuned_values = get_private(learner)$.extract_inner_tuned_values()
+  if ("internal_tuning" %in% learner$properties) {
+    learner$state$internal_tuned_values = get_private(learner)$.extract_internal_tuned_values()
   }
 
   if (is.null(result$result)) {
@@ -119,8 +119,8 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
   list(
     learner = learner,
     train_ids = task$row_ids,
-    inner_valid_task_ids = if (!is.null(validate)) task$inner_valid_task$row_ids,
-    inner_valid_task_hash = if (!is.null(validate)) task$inner_valid_task$hash
+    internal_valid_task_ids = if (!is.null(validate)) task$internal_valid_task$row_ids,
+    internal_valid_task_hash = if (!is.null(validate)) task$internal_valid_task$hash
   )
 }
 
@@ -241,8 +241,8 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
   if (!is.null(pb)) {
     pb(sprintf("%s|%s|i:%i", task$id, learner$id, iteration))
   }
-  if ("inner_valid" %in% learner$predict_sets && is.null(task$inner_valid_task) && is.null(get0("validate", learner))) {
-    stopf("Cannot set the predict_type field of learner '%s' to 'inner_valid' if there is no innver validation task configured", learner$id)
+  if ("internal_valid" %in% learner$predict_sets && is.null(task$internal_valid_task) && is.null(get0("validate", learner))) {
+    stopf("Cannot set the predict_type field of learner '%s' to 'internal_valid' if there is no innver validation task configured", learner$id)
   }
 
   # reduce data.table and blas threads to 1
@@ -311,25 +311,25 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
 
 # creates the tasks and row ids for the selected predict sets
 prediction_tasks_and_sets = function(task, train_result, validate, sets, predict_sets) {
-  # if the validate parameter is a ratio, some data was taken from the training data for the inner validation
+  # if the validate parameter is a ratio, some data was taken from the training data for the internal validation
   if (is.numeric(validate)) {
     sets$train = train_result$train_ids
   }
   tasks = list(train = task, test = task)
-  if ("inner_valid" %nin% predict_sets) {
+  if ("internal_valid" %nin% predict_sets) {
     return(list(tasks = tasks[predict_sets], sets = sets[predict_sets]))
   }
 
-  if ("inner_valid" %in% predict_sets) {
+  if ("internal_valid" %in% predict_sets) {
     if (is.numeric(validate) || identical(validate, "test")) {
-      # in this scenario, the inner_valid_task was created during learner_train, which means that it used the
+      # in this scenario, the internal_valid_task was created during learner_train, which means that it used the
       # primary task. The selected ids are returned via the train result
-      tasks$inner_valid = task
-      sets$inner_valid = train_result$inner_valid_task_ids
+      tasks$internal_valid = task
+      sets$internal_valid = train_result$internal_valid_task_ids
     } else {
-      # the predefined inner_valid_task w2as used
-      tasks$inner_valid = task$inner_valid_task
-      sets$inner_valid = task$inner_valid_task$row_ids
+      # the predefined internal_valid_task w2as used
+      tasks$internal_valid = task$internal_valid_task
+      sets$internal_valid = task$internal_valid_task$row_ids
     }
   }
 
@@ -397,25 +397,25 @@ append_log = function(log = NULL, stage = NA_character_, class = NA_character_, 
   log
 }
 
-create_inner_valid_task = function(validate, task, test_row_ids, prev_valid, learner) {
+create_internal_valid_task = function(validate, task, test_row_ids, prev_valid, learner) {
 
   if (!is.null(validate)) {
-    # Otherwise, predict_set = "inner_valid" is ambiguous
+    # Otherwise, predict_set = "predefined" is ambiguous
     if (!is.null(prev_valid) && (is.numeric(validate) || isTRUE(all.equal(validate, "test")))) {
-      stopf("Parameter 'validate' of Learner '%s' cannot be set to 'test' or a ratio when inner_valid_task is present", learner$id)
+      stopf("Parameter 'validate' of Learner '%s' cannot be set to 'test' or a ratio when internal_valid_task is present", learner$id)
     }
 
-    if (isTRUE(all.equal(validate, "inner_valid"))) {
-      if (is.null(task$inner_valid_task)) {
-        stopf("Parameter 'validate' is set to 'inner_valid_task' but no inner validation task is present.")
+    if (isTRUE(all.equal(validate, "predefined"))) {
+      if (is.null(task$internal_valid_task)) {
+        stopf("Parameter 'validate' is set to 'predefined' but no internal validation task is present.")
       }
-      if (!isTRUE(all.equal(task$target_names, task$inner_valid_task$target_names))) {
-        stopf("Inner validation task '%s' has different target names than primary task '%s', did you modify the task after creating the inner validation task?",
-          task$inner_valid_task$id, task$id)
+      if (!isTRUE(all.equal(task$target_names, task$internal_valid_task$target_names))) {
+        stopf("Internal validation task '%s' has different target names than primary task '%s', did you modify the task after creating the internal validation task?",
+          task$internal_valid_task$id, task$id)
       }
-      if (!test_permutation(task$feature_names, task$inner_valid_task$feature_names)) {
-        stopf("Inner validation task '%s' has different features than primary task '%s', did you modify the task after creating the inner validation task?",
-          task$inner_valid_task$id, task$id)
+      if (!test_permutation(task$feature_names, task$internal_valid_task$feature_names)) {
+        stopf("Internal validation task '%s' has different features than primary task '%s', did you modify the task after creating the internal validation task?",
+          task$internal_valid_task$id, task$id)
       }
     }
     if (isTRUE(all.equal(validate, "test"))) {
@@ -429,6 +429,6 @@ create_inner_valid_task = function(validate, task, test_row_ids, prev_valid, lea
       task$divide(validate, remove = TRUE)
     }
   } else {
-    task$inner_valid_task = NULL
+    task$internal_valid_task = NULL
   }
 }

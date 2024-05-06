@@ -62,13 +62,13 @@ test_that("validation and inner tuning", {
   task = tsk("iris")
   learner = lrn("classif.debug", iter = 100, early_stopping = TRUE, validate = 0.3, predict_type = "prob")
   learner$train(task)
-  expect_list(learner$inner_valid_scores, len = 2L, types = "numeric")
-  expect_permutation(names(learner$inner_valid_scores), c("acc", "mbrier"))
+  expect_list(learner$internal_valid_scores, len = 2L, types = "numeric")
+  expect_permutation(names(learner$internal_valid_scores), c("acc", "mbrier"))
 })
 
-test_that("disable inner tuning", {
+test_that("disable internal tuning", {
   learner = lrn("classif.debug", early_stopping = TRUE, iter = 100, validate = 0.2)
-  disable_inner_tuning(learner, "iter")
+  disable_internal_tuning(learner, "iter")
   expect_false(learner$param_set$values$early_stopping)
 })
 

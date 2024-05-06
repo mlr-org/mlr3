@@ -153,9 +153,9 @@ Task = R6Class("Task",
     },
 
     #' @description
-    #' Creates an inner validation task (field `$inner_valid_task`) from the primary task.
+    #' Creates an internal validation task (field `$internal_valid_task`) from the primary task.
     #' This modifies the task in-place.
-    #' Subsequent operations on the (primary) task are **not** relayed to the inner validation task.
+    #' Subsequent operations on the (primary) task are **not** relayed to the internal validation task.
     #'
     #' @param x (`numeric(1)`, `integer()`)\cr
     #'   Either a `ratio` indicating the proportion of the validation data, or a vector of row ids.
@@ -175,15 +175,15 @@ Task = R6Class("Task",
       } else {
         assert_row_ids(x, null.ok = FALSE)
       }
-      prev_inner_valid = self$inner_valid_task
-      if (!is.null(prev_inner_valid)) {
-        lg$debug("Task %s already had an inner validation task that is being overwritten.", self$id)
+      prev_internal_valid = self$internal_valid_task
+      if (!is.null(prev_internal_valid)) {
+        lg$debug("Task %s already had an internal validation task that is being overwritten.", self$id)
         # in case something goes wrong
-        on.exit({self$inner_valid_task = prev_inner_valid}, add = TRUE)
-        self$inner_valid_task = NULL
+        on.exit({self$internal_valid_task = prev_internal_valid}, add = TRUE)
+        self$internal_valid_task = NULL
       }
-      self$inner_valid_task = self$clone(deep = TRUE)
-      self$inner_valid_task$row_roles$use = valid_ids
+      self$internal_valid_task = self$clone(deep = TRUE)
+      self$internal_valid_task$row_roles$use = valid_ids
       if (remove) {
         self$row_roles$use = setdiff(self$row_roles$use, valid_ids)
       }
@@ -240,8 +240,8 @@ Task = R6Class("Task",
         catn(str_indent(sprintf("* %s:", str), roles[[role]]))
       })
 
-      if (!is.null(private$.inner_valid_task)) {
-        catf(str_indent("* Validation Task:", sprintf("(%ix%i)", private$.inner_valid_task$nrow, private$.inner_valid_task$ncol)))
+      if (!is.null(private$.internal_valid_task)) {
+        catf(str_indent("* Validation Task:", sprintf("(%ix%i)", private$.internal_valid_task$nrow, private$.internal_valid_task$ncol)))
       }
     },
 
@@ -767,24 +767,24 @@ Task = R6Class("Task",
       private$.id = assert_string(rhs, min.chars = 1L)
     },
 
-    #' @field inner_valid_task (`Task` or `NULL`)\cr
+    #' @field internal_valid_task (`Task` or `NULL`)\cr
     #' Optional validation task that can, e.g., be used for early stopping with learners such as XGBoost.
     #' See also the `$validate` field of [`Learner`].
-    inner_valid_task = function(rhs) {
+    internal_valid_task = function(rhs) {
       if (missing(rhs)) {
-        return(invisible(private$.inner_valid_task))
+        return(invisible(private$.internal_valid_task))
       }
       private$.hash = NULL
       if (is.null(rhs)) {
-        private$.inner_valid_task = NULL
-        return(invisible(private$.inner_valid_task))
+        private$.internal_valid_task = NULL
+        return(invisible(private$.internal_valid_task))
       }
 
       assert_task(rhs, task_type = self$task_type)
       if (identical(rhs, self)) { # avoid circles
         stopf("Task '%s' cannot be its own validation task", self$id)
       }
-      if (!is.null(rhs$inner_valid_task)) { # avoid recursive structures
+      if (!is.null(rhs$internal_valid_task)) { # avoid recursive structures
         stopf("Trying to assign task '%s' as a validation task, remove its validation task first.", rhs$id)
       }
 
@@ -801,14 +801,14 @@ Task = R6Class("Task",
         }
       })
 
-      private$.inner_valid_task = rhs
-      invisible(private$.inner_valid_task)
+      private$.internal_valid_task = rhs
+      invisible(private$.internal_valid_task)
     },
 
     #' @template field_hash
     hash = function(rhs) {
       if (is.null(private$.hash)) {
-        private$.hash = task_hash(self, self$row_ids, ignore_inner_valid_task = FALSE)
+        private$.hash = task_hash(self, self$row_ids, ignore_internal_valid_task = FALSE)
       }
 
       private$.hash
@@ -1087,7 +1087,7 @@ Task = R6Class("Task",
   ),
 
   private = list(
-    .inner_valid_task = NULL,
+    .internal_valid_task = NULL,
     .id = NULL,
     .properties = NULL,
     .col_roles = NULL,
@@ -1099,7 +1099,7 @@ Task = R6Class("Task",
       # NB: DataBackends are never copied!
       if (name == "col_info") {
         copy(value)
-      } else if (name == ".inner_valid_task" && !is.null(value)) {
+      } else if (name == ".internal_valid_task" && !is.null(value)) {
         value$clone(deep = TRUE)
       } else {
         value
@@ -1224,7 +1224,7 @@ task_rm_backend = function(task) {
   ee = get_private(task)
   ee$.hash = force(task$hash)
   ee$.col_hashes = force(task$col_hashes)
-  ee$.inner_valid_task$backend = NULL
+  ee$.internal_valid_task$backend = NULL
 
   # NULL backend
   task$backend = NULL

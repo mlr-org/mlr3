@@ -509,26 +509,26 @@ test_that("validation task is cloned", {
   task = tsk("iris")
   task$divide(c(1:10, 51:60, 101:110))
   task2 = task$clone(deep = TRUE)
-  expect_false(identical(task$inner_valid_task, task2$inner_valid_task))
-  expect_equal(task$inner_valid_task, task2$inner_valid_task)
+  expect_false(identical(task$internal_valid_task, task2$internal_valid_task))
+  expect_equal(task$internal_valid_task, task2$internal_valid_task)
 })
 
 test_that("task cannot be its own validation task", {
   task = tsk("iris")
-  expect_error({task$inner_valid_task = task}, "cannot be its own validation task")
+  expect_error({task$internal_valid_task = task}, "cannot be its own validation task")
 })
 
 test_that("validation task cannot have a validation task", {
   task = tsk("iris")
-  expect_error({task$inner_valid_task = task$clone(deep = TRUE)$divide(1) }, "remove its validation")
+  expect_error({task$internal_valid_task = task$clone(deep = TRUE)$divide(1) }, "remove its validation")
 })
 
 test_that("divide works with ratio", {
   task = tsk("iris")$filter(1:10)
   task$divide(0.1)
   expect_equal(task$nrow, 9)
-  expect_equal(task$inner_valid_task$nrow, 1)
-  expect_permutation(1:10, c(task$row_ids, task$inner_valid_task$row_ids))
+  expect_equal(task$internal_valid_task$nrow, 1)
+  expect_permutation(1:10, c(task$row_ids, task$internal_valid_task$row_ids))
 })
 
 test_that("validation task changes a task's hash", {
@@ -539,7 +539,7 @@ test_that("validation task changes a task's hash", {
   expect_false(h1 == h2)
 })
 
-test_that("compatibility checks on inner_valid_task", {
+test_that("compatibility checks on internal_valid_task", {
   d1 = data.table(x = 1:10, y = 1:10)
   d2 = data.table(x = rnorm(10), y = 1:10)
   d3 = data.table(x1 = rnorm(10), y = 1:10)
@@ -547,14 +547,14 @@ test_that("compatibility checks on inner_valid_task", {
   t1 = as_task_regr(d1, target = "y")
   t2 = as_task_regr(d2, target = "y")
   t3 = as_task_regr(d3, target = "y")
-  expect_error({t1$inner_valid_task = t2 }, "differs from the type")
-  expect_error({t1$inner_valid_task = t3 }, "not present")
+  expect_error({t1$internal_valid_task = t2 }, "differs from the type")
+  expect_error({t1$internal_valid_task = t3 }, "not present")
 })
 
 test_that("can NULL validation task", {
   task = tsk("iris")
   task$divide(1)
-  task$inner_valid_task = NULL
+  task$internal_valid_task = NULL
   expect_equal(length(task$row_ids), 149)
 })
 
@@ -564,7 +564,7 @@ test_that("can call $divide twice", {
   expect_task(task$divide(1:10))
 })
 
-test_that("inner_valid_task is printed", {
+test_that("internal_valid_task is printed", {
   task = tsk("iris")
   task$divide(c(1:10, 51:60, 101:110))
   out = capture_output(print(task))

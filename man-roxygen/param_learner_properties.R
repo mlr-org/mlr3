@@ -8,6 +8,6 @@
 #'   * `"selected_features"`: The learner supports extraction of the set of selected features, i.e. comes with a `$selected_features()` extractor function (see section on optional extractors in [Learner]).
 #'   * `"oob_error"`: The learner supports extraction of estimated out of bag error, i.e. comes with a `oob_error()` extractor function (see section on optional extractors in [Learner]).
 #'   * `"validation"`: The learner can use a validation task during training.
-#'   * `"inner_tuning"`: The learner is able to internally optimize hyperparameters (those are also tagged with `"inner_tuning"`).
+#'   * `"internal_tuning"`: The learner is able to internally optimize hyperparameters (those are also tagged with `"internal_tuning"`).
 #'   * `"marshal"`: To save learners with this property, you need to call `$marshal()` first.
 #'      If a learner is in a marshaled state, you call first need to call `$unmarshal()` to use its model, e.g. for prediction.

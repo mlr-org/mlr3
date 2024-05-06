@@ -48,11 +48,11 @@ The learner must be tagged with property \code{"selected_features"}.
 The learner must be tagged with property \code{"oob_error"}.
 \item \code{loglik(...)}: Extracts the log-likelihood (c.f. \code{\link[stats:logLik]{stats::logLik()}}).
 This can be used in measures like \link{mlr_measures_aic} or \link{mlr_measures_bic}.
-\item \code{inner_valid_scores}: Returns the inner validation score(s) of the model as a named \code{list()}.
+\item \code{internal_valid_scores}: Returns the internal validation score(s) of the model as a named \code{list()}.
 Only available for \code{\link{Learner}}s with the \code{"validation"} property.
 If the learner is not trained yet, this returns \code{NULL}.
-\item \code{inner_tuned_values}: Returns the inner tuned hyperparameters of the model as a named \code{list()}.
-Only available for \code{\link{Learner}}s with the \code{"inner_tuning"} property.
+\item \code{internal_tuned_values}: Returns the internally tuned hyperparameters of the model as a named \code{list()}.
+Only available for \code{\link{Learner}}s with the \code{"internal_tuning"} property.
 If the learner is not trained yet, this returns \code{NULL}.
 }
 }
@@ -90,11 +90,11 @@ It is possible to configure learners to be able to receive such an independent v
 To do so, one must:
 \itemize{
 \item annotate the learner with the \code{"validation"} property
-\item implement the active binding \verb{$inner_valid_scores} (see section \emph{Optional Extractors}), as well as the
-private method \verb{$.extract_inner_valid_scores()} which returns the (final) inner validation scores from the
+\item implement the active binding \verb{$internal_valid_scores} (see section \emph{Optional Extractors}), as well as the
+private method \verb{$.extract_internal_valid_scores()} which returns the (final) internal validation scores from the
 model of the \code{\link{Learner}} and returns them as a named \code{list()} of \code{numeric(1)}.
 If the model is not trained yet, this method should return \code{NULL}.
-\item Add the \code{validate} parameter, which can be either \code{NULL}, a ratio in $(0, 1)$, \code{"test"}, or \code{"inner_valid"}:
+\item Add the \code{validate} parameter, which can be either \code{NULL}, a ratio in $(0, 1)$, \code{"test"}, or \code{"internal_valid"}:
 \itemize{
 \item \code{NULL}: no validation
 \item \code{ratio}: only proportion \code{1 - ratio} of the task is used for training and \code{ratio} is used for validation.
@@ -104,7 +104,7 @@ This option is only available if the learner is being trained via \code{\link[=r
 internally use them, e.g. \code{\link[mlr3tuning:tune]{mlr3tuning::tune}} or \code{\link[mlr3batchmark:batchmark]{mlr3batchmark::batchmark()}}.
 This is especially useful for hyperparameter tuning, where one might e.g. want to use the same validation data
 for early as well as the tuning of the other hyperparameters.
-\item \code{"inner_valid"} means that the task's (manyally set) \verb{$inner_valid_task} is used.
+\item \code{"predefined"} means that the task's (manually set) \verb{$internal_valid_task} is used.
 See the \code{\link{Task}} documentation for more information.
 }
 }
@@ -112,7 +112,7 @@ See the \code{\link{Task}} documentation for more information.
 For an example how to do this, see \code{\link{LearnerClassifDebug}}.
 }
 
-\section{Implementing Inner Tuning}{
+\section{Implementing Internal Tuning}{
 
 Some learners such as \code{XGBoost} or \code{cv.glmnet} can internally tune hyperparameters.
 XGBoost, for example, can tune the number of boosting rounds based on the validation performance.
@@ -121,14 +121,14 @@ CV Glmnet, on the other hand, can tune the regularization parameter based on an 
 In order to be able to combine this internal hyperparamer tuning with the standard hyperparameter optimization
 implemented via \CRANpkg{mlr3tuning}, one most:
 \itemize{
-\item annotate the learner with the \code{"inner_tuning"} property
+\item annotate the learner with the \code{"internal_tuning"} property
 \item implement the active binding \verb{$inner_tuned_values} (see section \emph{Optional Extractors}) as well as the
-private method \verb{$.extract_inner_tuned_values()} which extracts the inner tuned values from the \code{\link{Learner}}'s
+private method \verb{$.extract_internal_tuned_values()} which extracts the inner tuned values from the \code{\link{Learner}}'s
 model and returns themn as a named \code{list()}.
 If the model is not trained yet, this method should return \code{NULL}.
-\item Have at least one parameter tagged with \code{"inner_tuning"}.
-\item implement the \code{disable_inner_tuning(learner, ids, ...)} generic for the \code{\link{Learner}}.
-Calling this method should deactivate the inner tuning for all the parameters that are passed via \code{ids}.
+\item Have at least one parameter tagged with \code{"internal_tuning"}.
+\item implement the \code{disable_internal_tuning(learner, ids, ...)} generic for the \code{\link{Learner}}.
+Calling this method should deactivate the internal tuning for all the parameters that are passed via \code{ids}.
 Calling this should \emph{not} change the value of the \verb{$validate} field.
 }
 
@@ -218,7 +218,7 @@ These packages are loaded, but not attached.}
 \item{\code{predict_sets}}{(\code{character()})\cr
 During \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}, a \link{Learner} can predict on multiple sets.
 Per default, a learner only predicts observations in the test set (\code{predict_sets == "test"}).
-To change this behavior, set \code{predict_sets} to a non-empty subset of \verb{\{"train", "test", "inner_valid"\}}.
+To change this behavior, set \code{predict_sets} to a non-empty subset of \verb{\{"train", "test", "internal_valid"\}}.
 Each set yields a separate \link{Prediction} object.
 Those can be combined via getters in \link{ResampleResult}/\link{BenchmarkResult}, or \link{Measure}s can be configured
 to operate on specific subsets of the calculated prediction sets.}
@@ -369,7 +369,7 @@ The following properties are currently standardized and understood by learners i
 \item \code{"selected_features"}: The learner supports extraction of the set of selected features, i.e. comes with a \verb{$selected_features()} extractor function (see section on optional extractors in \link{Learner}).
 \item \code{"oob_error"}: The learner supports extraction of estimated out of bag error, i.e. comes with a \code{oob_error()} extractor function (see section on optional extractors in \link{Learner}).
 \item \code{"validation"}: The learner can use a validation task during training.
-\item \code{"inner_tuning"}: The learner is able to internally optimize hyperparameters (those are also tagged with \code{"inner_tuning"}).
+\item \code{"internal_tuning"}: The learner is able to internally optimize hyperparameters (those are also tagged with \code{"internal_tuning"}).
 \item \code{"marshal"}: To save learners with this property, you need to call \verb{$marshal()} first.
 If a learner is in a marshaled state, you call first need to call \verb{$unmarshal()} to use its model, e.g. for prediction.
 }}
