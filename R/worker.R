@@ -275,7 +275,7 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
   # predict for each set
   sets = sets[learner$predict_sets]
   pdatas = Map(function(set, row_ids) {
-    lg$debug("Creating Prediction for predict set '%s'", set)
+    lg$debug("Creating Prediction for predict set '%se'", set)
     learner_predict(learner, task, row_ids)
   }, set = names(sets), row_ids = sets)
   pdatas = discard(pdatas, is.null)
@@ -298,21 +298,21 @@ process_model_before_predict = function(learner, store_models, is_sequential, un
   #
   # and also, do we even need to send it back at all?
 
-  current_form = if (is_marshaled_model(learner$model)) "marshaled" else "unmarshaled"
-  predict_form = if (isTRUE(all.equal(learner$encapsulate[["predict"]], "callr"))) "marshaled" else "unmarshaled"
-  final_form = if (!is_sequential) "marshaled" else "unmarshaled"
+  currently_marshaled = is_marshaled_model(learner$model)
+  predict_needs_marshaling = isTRUE(all.equal(learner$encapsulate[["predict"]], "callr"))
+  final_needs_marshaling = !is_sequential
 
   # the only scenario in which we keep a copy is when we now have the model in the correct form but need to transform
   # it for prediction
-  keep_copy = store_models & (current_form == final_form) && (current_form != predict_form)
+  keep_copy = store_models & (currently_marshaled == final_needs_marshaling) && (currently_marshaled != predict_needs_marshaling)
   # This is because learner_predict does it in-place, but here we
 
   if (!keep_copy) {
     # here we either
     # * don't return the model at all --> no copy
-    # * the predict_form is equal to the final form --> no copy
+    # * the predict form is equal to the final form --> no copy
     # * we do store models but the current form is not the final form --> no copy
-    if (predict_form == "marshaled") {
+    if (predict_needs_marshaling) {
       learner$model = marshal_model(learner$model, inplace = TRUE)
     } else {
       learner$model = unmarshal_model(learner$model, inplace = TRUE)
@@ -329,7 +329,7 @@ process_model_before_predict = function(learner, store_models, is_sequential, un
   # we will mess up our copy
 
   model_copy = learner$model
-  if (predict_form == "marshaled") {
+  if (predict_needs_marshaling) {
     learner$model = marshal_model(learner$model, inplace = FALSE)
   } else {
     learner$model = unmarshal_model(learner$model, inplace = FALSE)
