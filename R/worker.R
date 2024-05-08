@@ -275,7 +275,7 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
   # predict for each set
   sets = sets[learner$predict_sets]
   pdatas = Map(function(set, row_ids) {
-    lg$debug("Creating Prediction for predict set '%se'", set)
+    lg$debug("Creating Prediction for predict set '%s'", set)
     learner_predict(learner, task, row_ids)
   }, set = names(sets), row_ids = sets)
   pdatas = discard(pdatas, is.null)
