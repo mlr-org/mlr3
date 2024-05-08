@@ -282,7 +282,8 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
 
   # set the model slot after prediction so it can be sent back to the main process
   process_model_after_predict(
-    learner = learner, store_models = store_models, is_sequential = is_sequential, model_copy = model_copy_or_null
+    learner = learner, store_models = store_models, is_sequential = is_sequential, model_copy = model_copy_or_null,
+    unmarshal = unmarshal
   )
 
   learner_state = set_class(learner$state, c("learner_state", "list"))
@@ -300,7 +301,7 @@ process_model_before_predict = function(learner, store_models, is_sequential, un
 
   currently_marshaled = is_marshaled_model(learner$model)
   predict_needs_marshaling = isTRUE(all.equal(learner$encapsulate[["predict"]], "callr"))
-  final_needs_marshaling = !is_sequential
+  final_needs_marshaling = !is_sequential || !unmarshal
 
   # the only scenario in which we keep a copy is when we now have the model in the correct form but need to transform
   # it for prediction
@@ -337,15 +338,15 @@ process_model_before_predict = function(learner, store_models, is_sequential, un
   return(model_copy)
 }
 
-process_model_after_predict = function(learner, store_models, is_sequential, model_copy) {
+process_model_after_predict = function(learner, store_models, is_sequential, unmarshal, model_copy) {
   if (!store_models) {
     lg$debug("Erasing stored model for learner '%s'", learner$id)
     learner$state$model = NULL
   } else if (!is.null(model_copy)) {
     # we created a copy of the model to avoid additional marshaling cycles
     learner$model = model_copy
-  } else if (!is_sequential) {
-    # no copy was created, here we make sure that we return the model in the propert form
+  } else if (!is_sequential || !unmarshal) {
+    # no copy was created, here we make sure that we return the model the way the user wants it
     learner$model = marshal_model(learner$model, inplace = TRUE)
   }
 }

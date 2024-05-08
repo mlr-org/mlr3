@@ -348,3 +348,7 @@ test_that("marshal state", {
   expect_true(is_marshaled_model(sm))
   expect_equal(state, unmarshal_model(marshal_model(state)))
 })
+
+test_that("parallel predict and marshaling", {
+
+})
