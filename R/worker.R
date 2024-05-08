@@ -268,6 +268,7 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
 
   # process the model so it can be used for prediction (e.g. marshal for callr prediction), but also
   # keep a copy of the model in current form in case this is the format that we want to send back to the main process
+  # and not the format that we need for prediction
   model_copy_or_null = process_model_before_predict(
     learner = learner, store_models = store_models, is_sequential = is_sequential, unmarshal = unmarshal
   )
@@ -306,7 +307,6 @@ process_model_before_predict = function(learner, store_models, is_sequential, un
   # the only scenario in which we keep a copy is when we now have the model in the correct form but need to transform
   # it for prediction
   keep_copy = store_models & (currently_marshaled == final_needs_marshaling) && (currently_marshaled != predict_needs_marshaling)
-  # This is because learner_predict does it in-place, but here we
 
   if (!keep_copy) {
     # here we either
