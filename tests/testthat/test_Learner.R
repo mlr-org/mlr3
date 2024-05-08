@@ -348,3 +348,12 @@ test_that("marshal state", {
   expect_true(is_marshaled_model(sm))
   expect_equal(state, unmarshal_model(marshal_model(state)))
 })
+
+test_that("estimate_memor_usage works", {
+  task = tsk("pima")
+  learner = lrn("classif.debug", iter = 10)
+  expect_equal(learner$estimate_memory_usage(task), 7680)
+
+  learner = lrn("classif.debug", iter = to_tune(1, 10))
+  learner$estimate_memory_usage(task)
+})

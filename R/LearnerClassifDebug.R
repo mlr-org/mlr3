@@ -93,6 +93,12 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
     #'   Additional arguments passed to [`unmarshal_model()`].
     unmarshal = function(...) {
       learner_unmarshal(.learner = self, ...)
+    },
+
+    #' @description
+    estimate_memory_usage = function(task) {
+      iter = self$param_set$values$iter %??% 1
+      iter * task$nrow
     }
   ),
   active = list(
