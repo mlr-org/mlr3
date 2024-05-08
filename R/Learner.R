@@ -280,7 +280,7 @@ Learner = R6Class("Learner",
         stopf("Cannot predict, Learner '%s' has not been trained yet", self$id)
       }
 
-      # we need to marshal for call-r prediction and parallel prediction, but we we afterwards we reset the model
+      # we need to marshal for call-r prediction and parallel prediction, but afterwards we reset the model
       # to it original state
       model_was_marshaled = is_marshaled_model(self$model)
       on.exit({
