@@ -163,9 +163,9 @@ test_that("encapsulation triggers marshaling correctly", {
   task = tsk("iris")
   resampling = rsmp("holdout")
   rr1 = resample(task, learner1, resampling, store_models = TRUE, unmarshal = FALSE)
-  expect_false(rr1$learners[[1]]$marshaled)
+  expect_true(rr1$learners[[1]]$marshaled)
   rr2 = resample(task, learner2, resampling, store_models = TRUE, unmarshal = FALSE)
-  expect_false(rr2$learners[[1]]$marshaled)
+  expect_true(rr2$learners[[1]]$marshaled)
 })
 
 test_that("parallel execution automatically triggers marshaling", {
