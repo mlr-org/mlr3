@@ -91,7 +91,7 @@
 #' ```
 #'
 #' @section Implementing Validation:
-#' Some Learners, such as `XGBoost`, other boosting algorithms, or deep learning models `mlr3torch`,
+#' Some Learners, such as `XGBoost`, other boosting algorithms, or deep learning models (`mlr3torch`),
 #' utilize validation data during the training to prevent overfitting or to log the validation performance.
 #' It is possible to configure learners to be able to receive such an independent validation set during training.
 #' To do so, one must:
@@ -100,15 +100,15 @@
 #'   private method `$.extract_internal_valid_scores()` which returns the (final) internal validation scores from the
 #'   model of the [`Learner`] and returns them as a named `list()` of `numeric(1)`.
 #'   If the model is not trained yet, this method should return `NULL`.
-#' * Add the `validate` parameter, which can be either `NULL`, a ratio in $(0, 1)$, `"test"`, or `"internal_valid"`:
+#' * Add the `validate` parameter, which can be either `NULL`, a ratio in $(0, 1)$, `"test"`, or `"predefined"`:
 #'   * `NULL`: no validation
 #'   * `ratio`: only proportion `1 - ratio` of the task is used for training and `ratio` is used for validation.
 #'   * `"test"` means that the `"test"` task is used.
 #'     **Warning**: This can lead to biased performance estimation.
 #'     This option is only available if the learner is being trained via [resample()], [benchmark()] or functions that
-#'     internally use them, e.g. [`mlr3tuning::tune`] or [`mlr3batchmark::batchmark()`].
+#'     internally use them, e.g. [`mlr3tuning::tune()`] or [`mlr3batchmark::batchmark()`].
 #'     This is especially useful for hyperparameter tuning, where one might e.g. want to use the same validation data
-#'     for early as well as the tuning of the other hyperparameters.
+#'     for early stopping and model evaluation.
 #'   * `"predefined"` means that the task's (manually set) `$internal_valid_task` is used.
 #'     See the [`Task`] documentation for more information.
 #'
@@ -118,22 +118,23 @@
 #' Some learners such as `XGBoost` or `cv.glmnet` can internally tune hyperparameters.
 #' XGBoost, for example, can tune the number of boosting rounds based on the validation performance.
 #' CV Glmnet, on the other hand, can tune the regularization parameter based on an internal cross-validation.
+#' Internal tuning *can* therefore rely on the internal validation data, but does not necessarily do so.
 #'
 #' In order to be able to combine this internal hyperparamer tuning with the standard hyperparameter optimization
 #' implemented via \CRANpkg{mlr3tuning}, one most:
 #' * annotate the learner with the `"internal_tuning"` property
 #' * implement the active binding `$internal_tuned_values` (see section *Optional Extractors*) as well as the
-#'   private method `$.extract_internal_tuned_values()` which extracts the inner tuned values from the [`Learner`]'s
-#'   model and returns themn as a named `list()`.
+#'   private method `$.extract_internal_tuned_values()` which extracts the internally tuned values from the [`Learner`]'s
+#'   model and returns them as a named `list()`.
 #'   If the model is not trained yet, this method should return `NULL`.
 #' * Have at least one parameter tagged with `"internal_tuning"`.
-#' * implement the `disable_internal_tuning(learner, ids, ...)` generic for the [`Learner`].
-#'   Calling this method should deactivate the internal tuning for all the parameters that are passed via `ids`.
-#'   Calling this should *not* change the value of the `$validate` field.
+#' * implement a method for the `disable_internal_tuning(learner, ids, ...)` generic for the [`Learner`].
+#'   Calling this method should deactivate the internal tuning for all the parameters that are passed via `ids`,
+#'   but should *not* change the value of the `$validate` field.
 #'
 #' For an example how to do this, see [`LearnerClassifDebug`].
 #'
-#' @section Impelemting Marshaling:
+#' @section Implementing Marshaling:
 #' Some [`Learner`]s have models that cannot be serialized as they e.g. contain external pointers.
 #' In order to still be able to save them, use them with parallelization or callr encapsulation it is necessary
 #' to implement how they should be (un)-marshaled. See [`marshaling`] for how to do this.

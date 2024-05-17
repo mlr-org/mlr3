@@ -125,10 +125,10 @@ Other Learner:
 \item{\code{marshaled}}{(\code{logical(1)})\cr
 Whether the learner has been marshaled.}
 
-\item{\code{internal_valid_scores}}{Retrieves the inner validation scores as a named \code{list()}.
+\item{\code{internal_valid_scores}}{Retrieves the internal validation scores as a named \code{list()}.
 Returns \code{NULL} if learner is not trained yet.}
 
-\item{\code{internal_tuned_values}}{Retrieves the inner tuned values as a named \code{list()}.
+\item{\code{internal_tuned_values}}{Retrieves the internally tuned values as a named \code{list()}.
 Returns \code{NULL} if learner is not trained yet.}
 
 \item{\code{validate}}{How to construct the internal validation data. This parameter can be either \code{NULL},

@@ -4,9 +4,9 @@
 #' Disable the internal tuning for some parameters of a [`Learner`].
 #'
 #' @details
-#' When implementing internal tuning for a [`Learner`], this method must be implemented.
+#' When implementing internal tuning for a [`Learner`], this method must be provided.
 #' This is necessary to be able to use internal tuning with the [`mlr3tuning::AutoTuner`], which -- after using
-#' internal tuning during to find the best hyperparameters -- then needs to deactive it for the final model fit.
+#' internal tuning to find the best hyperparameters -- then needs to deactive it for the final model fit.
 #'
 #' Note that calling this function should not change the value of the `$validate` parameter.
 #'

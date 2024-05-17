@@ -84,7 +84,7 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
     mlr3_version = mlr_reflections$package_version
   )), c("learner_state", "list"))
 
-  # store the results of the internal tuning / internal validation in the learner's STATE
+  # store the results of the internal tuning / internal validation in the learner's state
   # otherwise this information is only available with store_models = TRUE
   if (!is.null(validate)) {
     learner$state$internal_valid_scores = get_private(learner)$.extract_internal_valid_scores()
@@ -242,7 +242,7 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
     pb(sprintf("%s|%s|i:%i", task$id, learner$id, iteration))
   }
   if ("internal_valid" %in% learner$predict_sets && is.null(task$internal_valid_task) && is.null(get0("validate", learner))) {
-    stopf("Cannot set the predict_type field of learner '%s' to 'internal_valid' if there is no innver validation task configured", learner$id)
+    stopf("Cannot set the predict_type field of learner '%s' to 'internal_valid' if there is no internal validation task configured", learner$id)
   }
 
   # reduce data.table and blas threads to 1
@@ -327,7 +327,7 @@ prediction_tasks_and_sets = function(task, train_result, validate, sets, predict
       tasks$internal_valid = task
       sets$internal_valid = train_result$internal_valid_task_ids
     } else {
-      # the predefined internal_valid_task w2as used
+      # the predefined internal_valid_task was used
       tasks$internal_valid = task$internal_valid_task
       sets$internal_valid = task$internal_valid_task$row_ids
     }
@@ -400,7 +400,7 @@ append_log = function(log = NULL, stage = NA_character_, class = NA_character_, 
 create_internal_valid_task = function(validate, task, test_row_ids, prev_valid, learner) {
 
   if (!is.null(validate)) {
-    # Otherwise, predict_set = "predefined" is ambiguous
+    # Otherwise, predict_set = "internal_valid" is ambiguous
     if (!is.null(prev_valid) && (is.numeric(validate) || isTRUE(all.equal(validate, "test")))) {
       stopf("Parameter 'validate' of Learner '%s' cannot be set to 'test' or a ratio when internal_valid_task is present", learner$id)
     }

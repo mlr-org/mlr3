@@ -84,7 +84,7 @@ Here, we add a factor hyperparameter with id \code{"foo"} and possible levels \c
 
 \section{Implementing Validation}{
 
-Some Learners, such as \code{XGBoost}, other boosting algorithms, or deep learning models \code{mlr3torch},
+Some Learners, such as \code{XGBoost}, other boosting algorithms, or deep learning models (\code{mlr3torch}),
 utilize validation data during the training to prevent overfitting or to log the validation performance.
 It is possible to configure learners to be able to receive such an independent validation set during training.
 To do so, one must:
@@ -94,16 +94,16 @@ To do so, one must:
 private method \verb{$.extract_internal_valid_scores()} which returns the (final) internal validation scores from the
 model of the \code{\link{Learner}} and returns them as a named \code{list()} of \code{numeric(1)}.
 If the model is not trained yet, this method should return \code{NULL}.
-\item Add the \code{validate} parameter, which can be either \code{NULL}, a ratio in $(0, 1)$, \code{"test"}, or \code{"internal_valid"}:
+\item Add the \code{validate} parameter, which can be either \code{NULL}, a ratio in $(0, 1)$, \code{"test"}, or \code{"predefined"}:
 \itemize{
 \item \code{NULL}: no validation
 \item \code{ratio}: only proportion \code{1 - ratio} of the task is used for training and \code{ratio} is used for validation.
 \item \code{"test"} means that the \code{"test"} task is used.
 \strong{Warning}: This can lead to biased performance estimation.
 This option is only available if the learner is being trained via \code{\link[=resample]{resample()}}, \code{\link[=benchmark]{benchmark()}} or functions that
-internally use them, e.g. \code{\link[mlr3tuning:tune]{mlr3tuning::tune}} or \code{\link[mlr3batchmark:batchmark]{mlr3batchmark::batchmark()}}.
+internally use them, e.g. \code{\link[mlr3tuning:tune]{mlr3tuning::tune()}} or \code{\link[mlr3batchmark:batchmark]{mlr3batchmark::batchmark()}}.
 This is especially useful for hyperparameter tuning, where one might e.g. want to use the same validation data
-for early as well as the tuning of the other hyperparameters.
+for early stopping and model evaluation.
 \item \code{"predefined"} means that the task's (manually set) \verb{$internal_valid_task} is used.
 See the \code{\link{Task}} documentation for more information.
 }
@@ -117,25 +117,26 @@ For an example how to do this, see \code{\link{LearnerClassifDebug}}.
 Some learners such as \code{XGBoost} or \code{cv.glmnet} can internally tune hyperparameters.
 XGBoost, for example, can tune the number of boosting rounds based on the validation performance.
 CV Glmnet, on the other hand, can tune the regularization parameter based on an internal cross-validation.
+Internal tuning \emph{can} therefore rely on the internal validation data, but does not necessarily do so.
 
 In order to be able to combine this internal hyperparamer tuning with the standard hyperparameter optimization
 implemented via \CRANpkg{mlr3tuning}, one most:
 \itemize{
 \item annotate the learner with the \code{"internal_tuning"} property
 \item implement the active binding \verb{$internal_tuned_values} (see section \emph{Optional Extractors}) as well as the
-private method \verb{$.extract_internal_tuned_values()} which extracts the inner tuned values from the \code{\link{Learner}}'s
-model and returns themn as a named \code{list()}.
+private method \verb{$.extract_internal_tuned_values()} which extracts the internally tuned values from the \code{\link{Learner}}'s
+model and returns them as a named \code{list()}.
 If the model is not trained yet, this method should return \code{NULL}.
 \item Have at least one parameter tagged with \code{"internal_tuning"}.
-\item implement the \code{disable_internal_tuning(learner, ids, ...)} generic for the \code{\link{Learner}}.
-Calling this method should deactivate the internal tuning for all the parameters that are passed via \code{ids}.
-Calling this should \emph{not} change the value of the \verb{$validate} field.
+\item implement a method for the \code{disable_internal_tuning(learner, ids, ...)} generic for the \code{\link{Learner}}.
+Calling this method should deactivate the internal tuning for all the parameters that are passed via \code{ids},
+but should \emph{not} change the value of the \verb{$validate} field.
 }
 
 For an example how to do this, see \code{\link{LearnerClassifDebug}}.
 }
 
-\section{Impelemting Marshaling}{
+\section{Implementing Marshaling}{
 
 Some \code{\link{Learner}}s have models that cannot be serialized as they e.g. contain external pointers.
 In order to still be able to save them, use them with parallelization or callr encapsulation it is necessary
