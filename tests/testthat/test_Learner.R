@@ -348,3 +348,38 @@ test_that("marshal state", {
   expect_true(is_marshaled_model(sm))
   expect_equal(state, unmarshal_model(marshal_model(state)))
 })
+
+test_that("model is marshaled during parallel predict", {
+  # by setting check_pid = TRUE, we ensure that unmarshal_model() sets the process id to the current
+  # id. LearnerClassifDebug then checks during `.predict()`, whether the marshal_id of the model is equal to the current process id and errs if this is not the case.
+  task = tsk("iris")
+  learner = lrn("classif.debug", check_pid = TRUE)
+  learner$train(task)
+  learner$parallel_predict = TRUE
+  pred = with_future(future::multisession, {
+    learner$predict(task)
+  })
+  expect_class(pred, "Prediction")
+})
+
+test_that("model is marshaled during callr prediction", {
+  # by setting check_pid = TRUE, we ensure that unmarshal_model() sets the process id to the current
+  # id. LearnerClassifDebug then checks during `.predict()`, whether the marshal_id of the model is equal to the current process id and errs if this is not the case.
+  task = tsk("iris")
+  learner = lrn("classif.debug", check_pid = TRUE, encapsulate = c(predict = "callr"))
+  learner$train(task)
+  pred = learner$predict(task)
+  expect_class(pred, "Prediction")
+})
+
+test_that("predict leaves marshaling status as-is", {
+  task = tsk("iris")
+  learner = lrn("classif.debug", check_pid = TRUE, encapsulate = c(predict = "callr"))
+  learner$train(task)
+  learner$marshal()
+  expect_class(learner$predict(task), "Prediction")
+  expect_true(learner$marshaled)
+  learner$unmarshal()
+  expect_class(learner$predict(task), "Prediction")
+  expect_false(learner$marshaled)
+})

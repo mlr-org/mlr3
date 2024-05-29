@@ -426,11 +426,6 @@ expect_marshalable_learner = function(learner, task) {
   }
   testthat::expect_equal(mlr3::is_marshaled_model(learner$model), learner$marshaled)
 
-  if (learner$marshaled) {
-    # cannot predict with marshaled learner
-    testthat::expect_error(learner$predict(task), "has not been unmarshaled")
-  }
-
   # unmarshaling works
   testthat::expect_invisible(learner$unmarshal())
   # can predict after unmarshaling

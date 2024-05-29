@@ -165,7 +165,7 @@ test_that("encapsulation triggers marshaling correctly", {
   rr1 = resample(task, learner1, resampling, store_models = TRUE, unmarshal = FALSE)
   expect_true(rr1$learners[[1]]$marshaled)
   rr2 = resample(task, learner2, resampling, store_models = TRUE, unmarshal = FALSE)
-  expect_false(rr2$learners[[1]]$marshaled)
+  expect_true(rr2$learners[[1]]$marshaled)
 })
 
 test_that("parallel execution automatically triggers marshaling", {
@@ -268,7 +268,68 @@ test_that("marshaling does not change class of learner state when reassembling",
 })
 
 test_that("marshaled model is sent back, when unmarshal is FALSE, sequential exec and callr", {
-  learner = lrn("classif.debug", count_marshaling = TRUE, encapsulate = c(train = "callr"))
+  learner = lrn("classif.debug", count_marshaling = TRUE, encapsulate = c(train = "callr", predict = "callr"))
   rr = resample(tsk("iris"), learner, rsmp("holdout"), store_models = TRUE, unmarshal = FALSE)
   expect_true(rr$learners[[1L]]$marshaled)
+})
+
+test_that("callr during prediction triggers marshaling", {
+  learner1 = lrn("classif.debug", count_marshaling = TRUE, encapsulate = c(train = "none", predict = "callr"))
+  learner2 = lrn("classif.debug", count_marshaling = TRUE, encapsulate = c(train = "callr", predict = "callr"))
+
+  rr1 = with_future(future::multisession, {
+    resample(tsk("iris"), learner1, rsmp("holdout"), unmarshal = FALSE, store_models = TRUE)
+  })
+  l1 = rr1$learners[[1L]]
+  expect_true(l1$marshaled)
+  expect_equal(l1$model$marshaled$marshal_count, 1L)
+
+  rr2 = with_future(future::sequential, {
+    resample(tsk("iris"), learner1, rsmp("holdout"), unmarshal = FALSE, store_models = TRUE)
+  })
+  l2 = rr2$learners[[1L]]
+  expect_true(l2$marshaled)
+  expect_equal(l2$model$marshaled$marshal_count, 1L)
+
+  rr3 = with_future(future::multisession, {
+    resample(tsk("iris"), learner2, rsmp("holdout"), unmarshal = FALSE, store_models = TRUE)
+  })
+  l3 = rr3$learners[[1L]]
+  expect_true(l3$marshaled)
+  expect_equal(l3$model$marshaled$marshal_count, 1L)
+
+  rr4 = with_future(future::sequential, {
+    resample(tsk("iris"), learner2, rsmp("holdout"), unmarshal = FALSE, store_models = TRUE)
+  })
+  l4 = rr4$learners[[1L]]
+  expect_true(l4$marshaled)
+  expect_equal(l4$model$marshaled$marshal_count, 1L)
+
+  rr5 = with_future(future::multisession, {
+    resample(tsk("iris"), learner1, rsmp("holdout"), unmarshal = TRUE, store_models = TRUE)
+  })
+  l5 = rr5$learners[[1L]]
+  expect_false(l5$marshaled)
+  expect_equal(l5$model$marshal_count, 1L)
+
+  rr6 = with_future(future::sequential, {
+    resample(tsk("iris"), learner1, rsmp("holdout"), unmarshal = TRUE, store_models = TRUE)
+  })
+  l6 = rr6$learners[[1L]]
+  expect_false(l6$marshaled)
+  expect_equal(l6$model$marshal_count, 0L)
+
+  rr7 = with_future(future::multisession, {
+    resample(tsk("iris"), learner2, rsmp("holdout"), unmarshal = TRUE, store_models = TRUE)
+  })
+  l7 = rr7$learners[[1L]]
+  expect_false(l7$marshaled)
+  expect_equal(l7$model$marshal_count, 1L)
+
+  rr8 = with_future(future::sequential, {
+    resample(tsk("iris"), learner2, rsmp("holdout"), unmarshal = TRUE, store_models = TRUE)
+  })
+  l8 = rr8$learners[[1L]]
+  expect_false(l8$marshaled)
+  expect_equal(l8$model$marshal_count, 1L)
 })

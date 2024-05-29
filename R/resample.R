@@ -130,6 +130,9 @@ resample = function(task, learner, resampling, store_models = FALSE, store_backe
 
   result_data = ResultData$new(data, store_backends = store_backends)
 
+  # the worker already ensures that models are sent back in marshaled form if unmarshal = FALSE, so we don't have
+  # to do anything in this case. This allows us to minimize the amount of marshaling in those situtions where
+  # the model is available in both states on the worker
   if (unmarshal && store_models) {
     result_data$unmarshal()
   }

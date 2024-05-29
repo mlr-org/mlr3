@@ -61,9 +61,8 @@ Per default, all input objects are cloned.}
 
 \item{unmarshal}{\code{\link{Learner}}\cr
 Whether to unmarshal learners that were marshaled during the execution.
-Setting this to \code{FALSE} does not guarantee that the learners are marshaled.
-For example, with sequential execution and no encapsulation, marshaling is not necessary.
-If you want to ensure that all learners are in marshaled form, you need to call \verb{$marshal()} on the result object.}
+If \code{TRUE} all models are stored in unmarshaled form.
+If \code{FALSE}, all learners (that need marshaling) are stored in marshaled form.}
 }
 \value{
 \link{BenchmarkResult}.
