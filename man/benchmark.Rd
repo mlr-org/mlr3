@@ -61,8 +61,8 @@ Per default, all input objects are cloned.}
 
 \item{unmarshal}{\code{\link{Learner}}\cr
 Whether to unmarshal learners that were marshaled during the execution.
-If \code{TRUE} all learners are in unmarshaled form.
-If \code{FALSE}, all learners that need marshaling will be in marshaled form.}
+If \code{TRUE} all models are stored in unmarshaled form.
+If \code{FALSE}, all learners (that need marshaling) are stored in marshaled form.}
 }
 \value{
 \link{BenchmarkResult}.
