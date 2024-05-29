@@ -127,10 +127,8 @@ implemented via \CRANpkg{mlr3tuning}, one most:
 private method \verb{$.extract_internal_tuned_values()} which extracts the internally tuned values from the \code{\link{Learner}}'s
 model and returns them as a named \code{list()}.
 If the model is not trained yet, this method should return \code{NULL}.
-\item Have at least one parameter tagged with \code{"internal_tuning"}.
-\item implement a method for the \code{disable_internal_tuning(learner, ids, ...)} generic for the \code{\link{Learner}}.
-Calling this method should deactivate the internal tuning for all the parameters that are passed via \code{ids},
-but should \emph{not} change the value of the \verb{$validate} field.
+\item Have at least one parameter tagged with \code{"internal_tuning"}, which requires to also provide a \code{in_tune_fn} and
+\code{disable_tune_fn}, and \emph{should} also include a default \code{aggr}egation function.
 }
 
 For an example how to do this, see \code{\link{LearnerClassifDebug}}.

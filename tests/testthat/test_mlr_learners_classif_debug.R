@@ -68,7 +68,7 @@ test_that("validation and internal tuning", {
 
 test_that("disable internal tuning", {
   learner = lrn("classif.debug", early_stopping = TRUE, iter = 100, validate = 0.2)
-  disable_internal_tuning(learner, "iter")
+  learner$param_set$disable_internal_tuning("iter")
   expect_false(learner$param_set$values$early_stopping)
 })
 

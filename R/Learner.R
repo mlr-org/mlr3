@@ -127,10 +127,8 @@
 #'   private method `$.extract_internal_tuned_values()` which extracts the internally tuned values from the [`Learner`]'s
 #'   model and returns them as a named `list()`.
 #'   If the model is not trained yet, this method should return `NULL`.
-#' * Have at least one parameter tagged with `"internal_tuning"`.
-#' * implement a method for the `disable_internal_tuning(learner, ids, ...)` generic for the [`Learner`].
-#'   Calling this method should deactivate the internal tuning for all the parameters that are passed via `ids`,
-#'   but should *not* change the value of the `$validate` field.
+#' * Have at least one parameter tagged with `"internal_tuning"`, which requires to also provide a `in_tune_fn` and
+#'   `disable_tune_fn`, and *should* also include a default `aggr`egation function.
 #'
 #' For an example how to do this, see [`LearnerClassifDebug`].
 #'

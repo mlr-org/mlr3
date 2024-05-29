@@ -55,6 +55,9 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
         assert_integerish(domain$upper, len = 1L, any.missing = FALSE)
       }, .parent = topenv())
 
+      p_iter = p_int(1, default = 1, tags = c("train", "hotstart", "internal_tuning"),
+        aggr = iter_aggr, in_tune_fn = iter_tune_fn, disable_in_tune = list(early_stopping = FALSE))
+
       param_set = ps(
         error_predict        = p_dbl(0, 1, default = 0, tags = "predict"),
         error_train          = p_dbl(0, 1, default = 0, tags = "train"),
@@ -71,7 +74,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
         warning_predict      = p_dbl(0, 1, default = 0, tags = "predict"),
         warning_train        = p_dbl(0, 1, default = 0, tags = "train"),
         x                    = p_dbl(0, 1, tags = "train"),
-        iter                 = p_int(1, default = 1, tags = c("train", "hotstart", "internal_tuning"), aggr = iter_aggr, in_tune_fn = iter_tune_fn), # nolint
+        iter                 = p_iter,
         count_marshaling     = p_lgl(default = FALSE, tags = "train"),
         early_stopping       = p_lgl(default = FALSE, tags = "train")
       )
@@ -284,16 +287,6 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
     }
   )
 )
-
-
-#' @export
-disable_internal_tuning.LearnerClassifDebug = function(learner, ids, ...) {
-  if (!(length(ids) == 0L)) {
-    learner$param_set$set_values(early_stopping = FALSE)
-  }
-  invisible(learner)
-}
-
 
 #' @include mlr_learners.R
 mlr_learners$add("classif.debug", function() LearnerClassifDebug$new())
