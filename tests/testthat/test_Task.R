@@ -507,25 +507,26 @@ test_that("Roles get printed (#877)", {
 
 test_that("validation task is cloned", {
   task = tsk("iris")
-  task$divide(c(1:10, 51:60, 101:110))
+  task$divide(ids = c(1:10, 51:60, 101:110))
   task2 = task$clone(deep = TRUE)
   expect_false(identical(task$internal_valid_task, task2$internal_valid_task))
   expect_equal(task$internal_valid_task, task2$internal_valid_task)
 })
 
-test_that("task cannot be its own validation task", {
+test_that("task is cloned when assining internal validation task", {
   task = tsk("iris")
-  expect_error({task$internal_valid_task = task}, "cannot be its own validation task")
+  task$internal_valid_task = task
+  expect_false(identical(task, task$internal_valid_task))
 })
 
 test_that("validation task cannot have a validation task", {
   task = tsk("iris")
-  expect_error({task$internal_valid_task = task$clone(deep = TRUE)$divide(1) }, "remove its validation")
+  expect_error({task$internal_valid_task = task$clone(deep = TRUE)$divide(ids = 1) }, "remove its validation")
 })
 
 test_that("divide works with ratio", {
   task = tsk("iris")$filter(1:10)
-  task$divide(0.1)
+  task$divide(ratio = 0.1)
   expect_equal(task$nrow, 9)
   expect_equal(task$internal_valid_task$nrow, 1)
   expect_permutation(1:10, c(task$row_ids, task$internal_valid_task$row_ids))
@@ -534,7 +535,7 @@ test_that("divide works with ratio", {
 test_that("validation task changes a task's hash", {
   task = tsk("iris")
   h1 = task$hash
-  task$divide(1:10, remove = FALSE)
+  task$divide(ids = 1:10, remove = FALSE)
   h2 = task$hash
   expect_false(h1 == h2)
 })
@@ -553,20 +554,20 @@ test_that("compatibility checks on internal_valid_task", {
 
 test_that("can NULL validation task", {
   task = tsk("iris")
-  task$divide(1)
+  task$divide(ids = 1)
   task$internal_valid_task = NULL
   expect_equal(length(task$row_ids), 149)
 })
 
 test_that("can call $divide twice", {
   task = tsk("iris")
-  task$divide(1:10)
-  expect_task(task$divide(1:10))
+  task$divide(ids = 1:10)
+  expect_task(task$divide(ids = 1:10))
 })
 
 test_that("internal_valid_task is printed", {
   task = tsk("iris")
-  task$divide(c(1:10, 51:60, 101:110))
+  task$divide(ids = c(1:10, 51:60, 101:110))
   out = capture_output(print(task))
   expect_true(grepl(pattern = "* Validation Task: (30x5)", fixed = TRUE, x = out))
 })
@@ -576,7 +577,7 @@ test_that("task hashes during resample", {
   task = orig$clone(deep = TRUE)
   resampling = rsmp("holdout")
   resampling$instantiate(task)
-  task$divide(resampling$test_set(1))
+  task$divide(ids = resampling$test_set(1))
   task$hash
   learner = lrn("classif.debug", validate = "test")
   expect_equal(resampling_task_hashes(task, resampling, learner), task$hash)
@@ -584,9 +585,21 @@ test_that("task hashes during resample", {
 
 test_that("divide remove parameter works", {
   task = tsk("iris")
-  task$divide(1L, remove = FALSE)
+  task$divide(ids = 1L, remove = FALSE)
   expect_true(1L %in% task$row_ids)
   task = tsk("iris")
-  task$divide(1L, remove = TRUE)
+  task$divide(ids = 1L, remove = TRUE)
   expect_false(1L %in% task$row_ids)
+})
+
+test_that("divide does not take ratio and ids", {
+  expect_error(tsk("iris")$divide(0.2, 1), "to create a validation task")
+})
+
+test_that("divide requires ratio in (0, 1)", {
+  expect_error(tsk("iris")$divide(1.2))
+})
+
+test_that("divide requires ids to be row_ids", {
+  expect_error(tsk("iris")$divide(ids = 0.5))
 })

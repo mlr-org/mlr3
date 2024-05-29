@@ -14,6 +14,7 @@ Returns \code{NA} for unsupported learners, when no validation was done, or when
 \item \code{select} : (\code{character(1)})\cr
 Which of the internal validation scores to select.
 Which scores are available depends on the learner.
+By default, the first score is chosen.
 }
 
 \tabular{lll}{

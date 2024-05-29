@@ -118,7 +118,6 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
 
   list(
     learner = learner,
-    train_ids = task$row_ids,
     internal_valid_task_ids = if (!is.null(validate)) task$internal_valid_task$row_ids,
     internal_valid_task_hash = if (!is.null(validate)) task$internal_valid_task$hash
   )
@@ -277,7 +276,7 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
 
   validate = get0("validate", learner)
 
-  test_set = if (isTRUE(all.equal(validate, "test"))) sets$test
+  test_set = if (identical(validate, "test")) sets$test
   train_result = learner_train(learner, task, sets[["train"]], test_set, mode = mode)
   learner = train_result$learner
 
@@ -311,10 +310,6 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
 
 # creates the tasks and row ids for the selected predict sets
 prediction_tasks_and_sets = function(task, train_result, validate, sets, predict_sets) {
-  # if the validate parameter is a ratio, some data was taken from the training data for the internal validation
-  if (is.numeric(validate)) {
-    sets$train = train_result$train_ids
-  }
   tasks = list(train = task, test = task)
   if ("internal_valid" %nin% predict_sets) {
     return(list(tasks = tasks[predict_sets], sets = sets[predict_sets]))
@@ -398,18 +393,22 @@ append_log = function(log = NULL, stage = NA_character_, class = NA_character_, 
 }
 
 create_internal_valid_task = function(validate, task, test_row_ids, prev_valid, learner) {
+  if (is.null(validate)) {
+    task$internal_valid_task = NULL
+    return(task)
+  }
 
-  if (!is.null(validate)) {
-    # Otherwise, predict_set = "internal_valid" is ambiguous
-    if (!is.null(prev_valid) && (is.numeric(validate) || isTRUE(all.equal(validate, "test")))) {
-      stopf("Parameter 'validate' of Learner '%s' cannot be set to 'test' or a ratio when internal_valid_task is present", learner$id)
-    }
+  # Otherwise, predict_set = "internal_valid" is ambiguous
+  if (!is.null(prev_valid) && (is.numeric(validate) || identical(validate, "test"))) {
+    stopf("Parameter 'validate' of Learner '%s' cannot be set to 'test' or a ratio when internal_valid_task is present", learner$id)
+  }
 
-    if (isTRUE(all.equal(validate, "predefined"))) {
+  if (is.character(validate)) {
+    if (validate == "predefined") {
       if (is.null(task$internal_valid_task)) {
         stopf("Parameter 'validate' is set to 'predefined' but no internal validation task is present.")
       }
-      if (!isTRUE(all.equal(task$target_names, task$internal_valid_task$target_names))) {
+      if (!identical(task$target_names, task$internal_valid_task$target_names)) {
         stopf("Internal validation task '%s' has different target names than primary task '%s', did you modify the task after creating the internal validation task?",
           task$internal_valid_task$id, task$id)
       }
@@ -417,18 +416,21 @@ create_internal_valid_task = function(validate, task, test_row_ids, prev_valid, 
         stopf("Internal validation task '%s' has different features than primary task '%s', did you modify the task after creating the internal validation task?",
           task$internal_valid_task$id, task$id)
       }
-    }
-    if (isTRUE(all.equal(validate, "test"))) {
+      return(task)
+    } else { # validate is "test"
       if (is.null(test_row_ids)) {
         stopf("Parameter 'validate' cannot be set to 'test' when calling train manually.")
       }
       # at this point, the train rows are already set to the train set, i.e. we don't have to remove the test ids
       # from the primary task (this would cause bugs for resamplings with overlapping train and test set)
-      task$divide(test_row_ids, remove = FALSE)
-    } else if (is.numeric(validate)) {
-      task$divide(validate, remove = TRUE)
+      task$divide(ids = test_row_ids, remove = FALSE)
+      return(task)
     }
-  } else {
-    task$internal_valid_task = NULL
+
+   return(task)
   }
+
+  # validate is numeric
+  task$divide(ratio = validate, remove = TRUE)
+  return(task)
 }

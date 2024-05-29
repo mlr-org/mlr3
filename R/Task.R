@@ -156,34 +156,42 @@ Task = R6Class("Task",
     #' Creates an internal validation task (field `$internal_valid_task`) from the primary task.
     #' This modifies the task in-place.
     #' Subsequent operations on the (primary) task are **not** relayed to the internal validation task.
+    #' One must either provide the parameter `ratio` or `ids.
     #'
-    #' @param x (`numeric(1)`, `integer()`)\cr
-    #'   Either a `ratio` indicating the proportion of the validation data, or a vector of row ids.
-    #'   All values in `(0, 1)` are interpreted as ratios.
+    #' @param ratio (`numeric(1)`)\cr
+    #'   The proportion of datapoints to use as validation data.
+    #' @param ids (`integer()`)\cr
+    #'   The row ids to use as validation data.
     #' @param remove (`logical(1)`)\cr
     #'   If `TRUE` (default), the `row_ids` are removed from the primary task's active `"use"` rows, ensuring a
     #'   disjoint split between the train and validation data.
     #'
     #' @return Modified `Self`.
-    divide = function(x, remove = TRUE) {
+    divide = function(ratio = NULL, ids = NULL, remove = TRUE) {
       assert_flag(remove)
-
       private$.hash = NULL
-      valid_ids = if (test_numeric(x, lower = 0, upper = 1, len = 1L, any.missing = FALSE) && !test_integerish(x)) {
-        # stratify = FALSE means we only stratify when strata are present
-        partition(self, ratio = 1 - x, stratify = FALSE)$test
-      } else {
-        assert_row_ids(x, null.ok = FALSE)
+
+      if (!xor(is.null(ratio), is.null(ids))) {
+        stopf("Provide a ratio or ids to create a validation task, but not both (Task '%s').", self$id)
       }
-      prev_internal_valid = self$internal_valid_task
+
+      valid_ids = if (!is.null(ratio)) {
+        assert_numeric(ratio, lower = 0, upper = 1, any.missing = FALSE)
+        # stratify = FALSE means we only stratify when strata are present
+        partition(self, ratio = 1 - ratio, stratify = FALSE)$test
+      } else {
+        assert_row_ids(ids, null.ok = FALSE) 
+      }
+
+      prev_internal_valid = private$.internal_valid_task
       if (!is.null(prev_internal_valid)) {
         lg$debug("Task %s already had an internal validation task that is being overwritten.", self$id)
         # in case something goes wrong
-        on.exit({self$internal_valid_task = prev_internal_valid}, add = TRUE)
-        self$internal_valid_task = NULL
+        on.exit({private$.internal_valid_task = prev_internal_valid}, add = TRUE)
+        private$.internal_valid_task = NULL
       }
-      self$internal_valid_task = self$clone(deep = TRUE)
-      self$internal_valid_task$row_roles$use = valid_ids
+      private$.internal_valid_task = self$clone(deep = TRUE)
+      private$.internal_valid_task$row_roles$use = valid_ids
       if (remove) {
         self$row_roles$use = setdiff(self$row_roles$use, valid_ids)
       }
@@ -770,6 +778,7 @@ Task = R6Class("Task",
     #' @field internal_valid_task (`Task` or `NULL`)\cr
     #' Optional validation task that can, e.g., be used for early stopping with learners such as XGBoost.
     #' See also the `$validate` field of [`Learner`].
+    #' When assigning a new task, it is always cloned.
     internal_valid_task = function(rhs) {
       if (missing(rhs)) {
         return(invisible(private$.internal_valid_task))
@@ -781,9 +790,10 @@ Task = R6Class("Task",
       }
 
       assert_task(rhs, task_type = self$task_type)
-      if (identical(rhs, self)) { # avoid circles
-        stopf("Task '%s' cannot be its own validation task", self$id)
-      }
+      rhs = rhs$clone(deep = TRUE)
+      # if (identical(rhs, self)) { # avoid circles
+      #   stopf("Task '%s' cannot be its own validation task", self$id)
+      # }
       if (!is.null(rhs$internal_valid_task)) { # avoid recursive structures
         stopf("Trying to assign task '%s' as a validation task, remove its validation task first.", rhs$id)
       }

@@ -277,30 +277,27 @@ test_that("can make predictions for internal_valid_task", {
   learner = lrn("classif.debug", validate = 0.5, predict_sets = c("train", "internal_valid"))
   rr = resample(task, learner, rsmp("insample"))
   expect_equal(length(rr$predictions("internal_valid")[[1L]]$row_ids), task$nrow / 2)
-  # the training ids don't incldue the internal validation ids
-  expect_equal(length(rr$predictions("train")[[1L]]$row_ids), task$nrow / 2)
 })
 
 test_that("learner's validate cannot be 'test' if internal_valid_set is present", {
   # otherwise, predict_set = "internal_valid" would be ambiguous
   learner = lrn("classif.debug", validate = "test", predict_sets = c("train", "internal_valid"))
-  task = tsk("iris")$divide(1)
+  task = tsk("iris")$divide(ids = 1)
   expect_error(resample(task, learner, rsmp("holdout")), "cannot be set to ")
 })
 
 test_that("learner's validate cannot be a ratio if internal_valid_set is present", {
   # otherwise, predict_set = "internal_valid" would be ambiguous
   learner = lrn("classif.debug", validate = 0.5, predict_sets = c("train", "internal_valid"))
-  task = tsk("iris")$divide(1)
+  task = tsk("iris")$divide(ids = 1)
   expect_error(resample(task, learner, rsmp("holdout")), "cannot be set to")
 })
 
 test_that("internal_valid and train predictions", {
-  task = tsk("iris")$divide(1:2)
+  task = tsk("iris")$divide(ids = 1:2)
   learner = lrn("classif.debug", validate = "predefined", predict_sets = c("train", "internal_valid", "test"))
-  rr = resample(task, learner, rsmp("insample"), store_models = TRUE)
+  rr = resample(task, learner, rsmp("insample"))
   measure_valid = msr("classif.acc")
-  # this should not be necessary I think, but: https://github.com/mlr-org/mlr3/issues/1011
   measure_valid$predict_sets = "internal_valid"
   expect_equal(
     rr$score(measure_valid, predict_sets = "internal_valid")$classif.acc,
@@ -315,25 +312,26 @@ test_that("internal_valid and train predictions", {
   expect_equal(
     rr2$score(measure_valid, predict_sets = "internal_valid")$classif.acc,
     rr2$score(msr("classif.acc"), predict_sets = "test")$classif.acc
-  )
+ )
   expect_equal(
     rr2$predictions("internal_valid")[[1L]]$response,
     rr2$predictions("test")[[1L]]$response
   )
 
-  learner = lrn("classif.debug", validate = 0.9, predict_sets = c("train", "internal_valid", "test"))
+  # train predictions include the validation data
+  learner = lrn("classif.debug", validate = 0.5, predict_sets = c("train", "internal_valid", "test"))
   task = tsk("iris")$filter(1:10)
   rr2 = resample(task, learner, rsmp("insample"))
-  expect_true(length(rr2$predictions("train")[[1L]]$row_ids) == 1L)
-  expect_true(length(rr2$predictions("test")[[1L]]$row_ids) == 10L)
+  expect_equal(length(rr2$predictions("train")[[1L]]$row_ids), 10L)
 
-  rr3 = resample(task, learner, rsmp("holdout"))
-  rr3$predictions("train")
-  rr3$predictions("internal_valid")
-  rr3$predictions("test")
+  rr3 = resample(task, learner, rsmp("holdout", ratio = 0.8))
 
-  expect_true(length(rr2$predictions("train")[[1L]]$row_ids) == 1L)
-  expect_true(length(rr2$predictions("test")[[1L]]$row_ids) == 10L)
+  expect_equal(length(rr3$predictions("train")[[1L]]$row_ids), 8L)
+  expect_subset(
+    rr3$predictions("internal_valid")$row_ids, rr3$predictions("internal_valid")$row_ids
+  )
+  expect_equal(length(rr3$predictions("internal_valid")[[1L]]$row_ids), 4L)
+  expect_equal(length(rr3$predictions("test")[[1L]]$row_ids), 2L)
 })
 
 test_that("properties are also checked on validation task", {
@@ -342,7 +340,7 @@ test_that("properties are also checked on validation task", {
   row[[1]][1] = NA
   row$..row_id = 151
   task$rbind(row)
-  task$divide(151)
+  task$divide(ids = 151)
   learner = lrn("classif.debug", validate = "predefined")
   learner$properties = setdiff(learner$properties, "missings")
 
@@ -368,5 +366,5 @@ test_that("predict_set internal_valid throws error when none is available", {
 })
 
 test_that("can even use internal_valid predict set on learners that don't support validation", {
-  rr = resample(tsk("mtcars")$divide(1:10), lrn("regr.debug", predict_sets = "internal_valid"), rsmp("holdout"))
+  rr = resample(tsk("mtcars")$divide(ids = 1:10), lrn("regr.debug", predict_sets = "internal_valid"), rsmp("holdout"))
 })

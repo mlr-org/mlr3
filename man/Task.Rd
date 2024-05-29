@@ -155,7 +155,8 @@ Used in tables, plot and text output.}
 
 \item{\code{internal_valid_task}}{(\code{Task} or \code{NULL})\cr
 Optional validation task that can, e.g., be used for early stopping with learners such as XGBoost.
-See also the \verb{$validate} field of \code{\link{Learner}}.}
+See also the \verb{$validate} field of \code{\link{Learner}}.
+When assigning a new task, it is always cloned.}
 
 \item{\code{hash}}{(\code{character(1)})\cr
 Hash (unique identifier) for this object.}
@@ -359,16 +360,19 @@ via \code{\link[=convert_task]{convert_task()}}.}
 Creates an internal validation task (field \verb{$internal_valid_task}) from the primary task.
 This modifies the task in-place.
 Subsequent operations on the (primary) task are \strong{not} relayed to the internal validation task.
+One must either provide the parameter \code{ratio} or `ids.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Task$divide(x, remove = TRUE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Task$divide(ratio = NULL, ids = NULL, remove = TRUE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{x}}{(\code{numeric(1)}, \code{integer()})\cr
-Either a \code{ratio} indicating the proportion of the validation data, or a vector of row ids.
-All values in \verb{(0, 1)} are interpreted as ratios.}
+\item{\code{ratio}}{(\code{numeric(1)})\cr
+The proportion of datapoints to use as validation data.}
+
+\item{\code{ids}}{(\code{integer()})\cr
+The row ids to use as validation data.}
 
 \item{\code{remove}}{(\code{logical(1)})\cr
 If \code{TRUE} (default), the \code{row_ids} are removed from the primary task's active \code{"use"} rows, ensuring a

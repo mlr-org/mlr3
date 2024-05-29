@@ -11,6 +11,7 @@
 #' * `select` : (`character(1)`)\cr
 #'   Which of the internal validation scores to select.
 #'   Which scores are available depends on the learner.
+#'   By default, the first score is chosen.
 #'
 #' @templateVar id internal_valid_score
 #' @template measure
@@ -32,7 +33,7 @@ MeasureInternalValidScore = R6Class("MeasureInternalValidScore",
         properties = c("na_score", "requires_learner"),
         predict_type = NA_character_,
         param_set = ps(
-          select = p_uty(tags = "required", custom_check = check_string)
+          select = p_uty(custom_check = check_string)
         ),
         range = c(-Inf, Inf),
         minimize = NA,
@@ -44,7 +45,8 @@ MeasureInternalValidScore = R6Class("MeasureInternalValidScore",
 
   private = list(
     .score = function(prediction, learner, ...) {
-      get0("internal_valid_scores", learner)[[self$param_set$get_values()$select]] %??% NA_real_
+      x = get0("internal_valid_scores", learner)
+      x[[self$param_set$get_values()$select %??% 1]] %??% NA_real_
     }
   )
 )

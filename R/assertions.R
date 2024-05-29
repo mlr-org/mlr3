@@ -149,7 +149,7 @@ assert_task_learner = function(task, learner, cols = NULL) {
   }
 
   validate = get0("validate", learner)
-  if (!is.null(task$internal_valid_task) && (is.numeric(validate) || isTRUE(all.equal(validate, "test")))) {
+  if (!is.null(task$internal_valid_task) && (is.numeric(validate) || identical(validate, "test"))) {
     stopf("Parameter 'validate' of Learner '%s' cannot be set to 'test' or a ratio when internal_valid_task is present, remove it first", learner$id)
   }
 }
