@@ -5,6 +5,8 @@
 #'   The learner.
 #' @param ids (`character()`)\cr
 #'   The parameter ids to check.
+#' @param ... (any)\cr
+#'   Additional parameters.
 #' @export
 #' @keywords internal
 assert_internal_tuning = function(learner, ids, ...) {

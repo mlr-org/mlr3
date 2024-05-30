@@ -76,7 +76,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
         warning_train        = p_dbl(0, 1, default = 0, tags = "train"),
         x                    = p_dbl(0, 1, tags = "train"),
         iter                 = p_iter,
-        early_stopping       = p_lgl(default = FALSE, tags = "train")
+        early_stopping       = p_lgl(default = FALSE, tags = "train"),
         count_marshaling     = p_lgl(default = FALSE, tags = "train"),
         check_pid            = p_lgl(default = TRUE, tags = "train")
       )

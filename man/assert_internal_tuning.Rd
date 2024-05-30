@@ -12,6 +12,9 @@ The learner.}
 
 \item{ids}{(\code{character()})\cr
 The parameter ids to check.}
+
+\item{...}{(any)\cr
+Additional parameters.}
 }
 \description{
 Asserts that internal tuning is correctly configured for a \code{\link{Learner}}.
