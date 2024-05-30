@@ -83,7 +83,7 @@ test_that("marshaling", {
 })
 
 test_that("assert_internal_tuning", {
-  learner = lrn("classif.debug", early_stopping = TRUE)
+  learner = lrn("classif.debug", early_stopping = TRUE, validate = 0.2)
   expect_class(assert_internal_tuning(learner, "iter"), "Learner")
   learner$param_set$set_values(early_stopping = FALSE)
   expect_error(assert_internal_tuning(learner, "iter"))
@@ -91,4 +91,7 @@ test_that("assert_internal_tuning", {
   expect_error(assert_internal_tuning(learner, "iter"))
   expect_class(assert_internal_tuning(learner, character(0)), "Learner")
   expect_error(assert_internal_tuning(learner, "x"))
+  learner$validate = NULL
+  learner$param_set$set_values(early_stopping = TRUE)
+  expect_error(assert_internal_tuning(learner, "iter"))
 })
