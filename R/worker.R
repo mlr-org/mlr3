@@ -89,7 +89,8 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
   if (!is.null(validate)) {
     learner$state$internal_valid_scores = get_private(learner)$.extract_internal_valid_scores()
   }
-  if ("internal_tuning" %in% learner$properties) {
+
+  if (exists(".extract_internal_tuned_values", get_private(learner))) {
     learner$state$internal_tuned_values = get_private(learner)$.extract_internal_tuned_values()
   }
 
