@@ -173,6 +173,7 @@ Collate:
     'as_task_classif.R'
     'as_task_regr.R'
     'as_task_unsupervised.R'
+    'assert_internal_tuning.R'
     'assertions.R'
     'auto_convert.R'
     'benchmark.R'
