@@ -340,13 +340,23 @@ Learner = R6Class("Learner",
         stopf("Cannot predict, Learner '%s' has not been trained yet", self$id)
       }
 
-      if (is_marshaled_model(self$model)) {
-        stopf("Cannot predict, Learner '%s' has not been unmarshaled yet", self$id)
-      }
+      # we need to marshal for call-r prediction and parallel prediction, but afterwards we reset the model
+      # to it original state
+      model_was_marshaled = is_marshaled_model(self$model)
+      on.exit({
+        if (model_was_marshaled) {
+          self$model = marshal_model(self$model, inplace = TRUE)
+        } else {
+          self$model = unmarshal_model(self$model, inplace = TRUE)
+        }
+      }, add = TRUE)
 
+      # we only have to marshal here for the parallel prediction case, because learner_predict() handles the
+      # marshaling for call-r encapsulation itself
       if (isTRUE(self$parallel_predict) && nbrOfWorkers() > 1L) {
         row_ids = row_ids %??% task$row_ids
         chunked = chunk_vector(row_ids, n_chunks = nbrOfWorkers(), shuffle = FALSE)
+        self$model = marshal_model(self$model, inplace = TRUE)
         pdata = future.apply::future_lapply(chunked,
           learner_predict, learner = self, task = task,
           future.globals = FALSE, future.seed = TRUE)
@@ -354,6 +364,7 @@ Learner = R6Class("Learner",
       } else {
         pdata = learner_predict(self, task, row_ids)
       }
+
 
       if (is.null(pdata)) {
         return(NULL)

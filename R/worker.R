@@ -127,7 +127,10 @@ learner_predict = function(learner, task, row_ids = NULL) {
   # This wrapper calls learner$predict, and additionally performs some basic
   # checks that the prediction was successful.
   # Exceptions here are possibly encapsulated, so that they get captured and turned into log messages.
+
   predict_wrapper = function(task, learner) {
+    # default method does nothing
+    learner$model = unmarshal_model(learner$model, inplace = TRUE)
     if (is.null(learner$state$model)) {
       stopf("No trained model available for learner '%s' on task '%s'", learner$id, task$id)
     }
@@ -183,6 +186,10 @@ learner_predict = function(learner, task, row_ids = NULL) {
     # call predict with encapsulation
     lg$debug("Calling predict method of Learner '%s' on task '%s' with %i observations",
       learner$id, task$id, task$nrow, learner = learner$clone())
+
+    if (isTRUE(all.equal(learner$encapsulate[["predict"]], "callr"))) {
+      learner$model = marshal_model(learner$model, inplace = TRUE)
+    }
 
     result = encapsulate(
       learner$encapsulate["predict"],
@@ -280,9 +287,10 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
   train_result = learner_train(learner, task, sets[["train"]], test_set, mode = mode)
   learner = train_result$learner
 
-  # keep a copy of the marshaled model if it is available and needed later
-  # this also unmarshals the model if necessary so it can be used for prediction
-  model_marshaled_or_null = keep_marshaled_if_needed(
+  # process the model so it can be used for prediction (e.g. marshal for callr prediction), but also
+  # keep a copy of the model in current form in case this is the format that we want to send back to the main process
+  # and not the format that we need for prediction
+  model_copy_or_null = process_model_before_predict(
     learner = learner, store_models = store_models, is_sequential = is_sequential, unmarshal = unmarshal
   )
 
@@ -299,8 +307,9 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
   pdatas = discard(pdatas, is.null)
 
   # set the model slot after prediction so it can be sent back to the main process
-  set_model_after_predict(
-    learner = learner, store_models = store_models, is_sequential = is_sequential, model_marshaled = model_marshaled_or_null
+  process_model_after_predict(
+    learner = learner, store_models = store_models, is_sequential = is_sequential, model_copy = model_copy_or_null,
+    unmarshal = unmarshal
   )
 
   learner_state = set_class(learner$state, c("learner_state", "list"))
@@ -331,43 +340,61 @@ prediction_tasks_and_sets = function(task, train_result, validate, sets, predict
   list(tasks = tasks[predict_sets], sets = sets[predict_sets])
 }
 
-keep_marshaled_if_needed = function(learner, store_models, is_sequential, unmarshal) {
-  model_marshaled = if (!is_marshaled_model(learner$model)) {
-    NULL
-  } else if (!store_models) { # else condition means model was marshaled
-    # not storing models, so no need to keep the marhshaled model
-    NULL
-  } else if (is_sequential && unmarshal) {
-    # because of no parallelization, we can send the unmarshaled model back, which the user
-    # wants anyway (because unmarshal = TRUE)
-    NULL
-  } else if (is_sequential && !unmarshal) {
-    # here, the user set unmarshal to FALSE, i.e. he wants the marshaled model, so we
-    # keep it, as we have already computed it
-    learner$model
-  } else { # parallel execution
-    # here, we need to send back the marshaled model
-    learner$model
+process_model_before_predict = function(learner, store_models, is_sequential, unmarshal) {
+  # there are three states of the model that have to be considered to minimize how often we marshal a model:
+  # 1. the current form: is it marshaled or not?
+  # 2. the form for prediction: do we need to marshal it?
+  # 3. the final form that is returned: does it have to be marshaled?
+  #
+  # and also, do we even need to send it back at all?
+
+  currently_marshaled = is_marshaled_model(learner$model)
+  predict_needs_marshaling = isTRUE(all.equal(learner$encapsulate[["predict"]], "callr"))
+  final_needs_marshaling = !is_sequential || !unmarshal
+
+  # the only scenario in which we keep a copy is when we now have the model in the correct form but need to transform
+  # it for prediction
+  keep_copy = store_models & (currently_marshaled == final_needs_marshaling) && (currently_marshaled != predict_needs_marshaling)
+
+  if (!keep_copy) {
+    # here we either
+    # * don't return the model at all --> no copy
+    # * the predict form is equal to the final form --> no copy
+    # * we do store models but the current form is not the final form --> no copy
+    if (predict_needs_marshaling) {
+      learner$model = marshal_model(learner$model, inplace = TRUE)
+    } else {
+      learner$model = unmarshal_model(learner$model, inplace = TRUE)
+    }
+    return(NULL)
   }
 
-  # need to unmarshal for prediction, does nothing if the model is not marshaled
-  # we can do it in-place if the marshaled model is not kept
-  learner$model = unmarshal_model(model = learner$model, inplace = is.null(model_marshaled))
-  return(model_marshaled)
+  # here, we do store models, the current form is the final form and the current form is not the predict form
+  # in order to avoid a marshaling cycle, we therefore keep a copy of the current model and then continue to
+  # process the model for prediction
+
+  # note that even though learner_predict takes care of the marshaling itself, it does do it in-place
+  # Because we here have a copy of the model, we transform it NOT in-place. This is important because otherwise
+  # we will mess up our copy
+
+  model_copy = learner$model
+  if (predict_needs_marshaling) {
+    learner$model = marshal_model(learner$model, inplace = FALSE)
+  } else {
+    learner$model = unmarshal_model(learner$model, inplace = FALSE)
+  }
+  return(model_copy)
 }
 
-set_model_after_predict = function(learner, store_models, is_sequential, model_marshaled) {
+process_model_after_predict = function(learner, store_models, is_sequential, unmarshal, model_copy) {
   if (!store_models) {
     lg$debug("Erasing stored model for learner '%s'", learner$id)
     learner$state$model = NULL
-  } else if (!is.null(model_marshaled)) {
-    # callr + parallelization
-    # or callr + sequential, but unmarshal was FALSE
-    # i.e. those cases, where keep_marshaled_if_needed returned the marshaled model
-    learner$model = model_marshaled
-  } else if (!is_sequential) {
-    # parallelization without callr
-    # in this case we don't have computed the marshaled model yet, so we do it now
+  } else if (!is.null(model_copy)) {
+    # we created a copy of the model to avoid additional marshaling cycles
+    learner$model = model_copy
+  } else if (!is_sequential || !unmarshal) {
+    # no copy was created, here we make sure that we return the model the way the user wants it
     learner$model = marshal_model(learner$model, inplace = TRUE)
   }
 }

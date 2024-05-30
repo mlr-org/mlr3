@@ -25,6 +25,7 @@
 #'    \item{x:}{Numeric tuning parameter. Has no effect.}
 #'    \item{iter:}{Integer parameter for testing hotstarting.}
 #'    \item{count_marshaling:}{If `TRUE`, `marshal_model` will increase the `marshal_count` by 1 each time it is called. The default is `FALSE`.}
+#'    \item{check_pid:}{If `TRUE`, the `$predict()` function will throw an error if the model was not unmarshaled in the same session that is used for prediction.)}
 #' }
 #' Note that segfaults may not be triggered reliably on your operating system.
 #' Also note that if they work as intended, they will tear down your R session immediately!
@@ -75,8 +76,9 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
         warning_train        = p_dbl(0, 1, default = 0, tags = "train"),
         x                    = p_dbl(0, 1, tags = "train"),
         iter                 = p_iter,
-        count_marshaling     = p_lgl(default = FALSE, tags = "train"),
         early_stopping       = p_lgl(default = FALSE, tags = "train")
+        count_marshaling     = p_lgl(default = FALSE, tags = "train"),
+        check_pid            = p_lgl(default = TRUE, tags = "train")
       )
       super$initialize(
         id = "classif.debug",
@@ -185,6 +187,10 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
         model$task_train = task$clone(deep = TRUE)
       }
 
+      if (pv$check_pid %??% FALSE) {
+        model$marshal_pid = Sys.getpid()
+      }
+
       if (isTRUE(pv$count_marshaling)) {
         model$marshal_count = 0L
       }
@@ -207,6 +213,10 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
       }
     },
     .predict = function(task) {
+      if (!is.null(self$model$marshal_pid) && self$model$marshal_pid != Sys.getpid()) {
+        stopf("Model was not unmarshaled correctly")
+      }
+      n = task$nrow
       pv = self$param_set$get_values(tags = "predict")
       roll = function(name) {
         name %in% names(pv) && pv[[name]] > runif(1L)
@@ -306,7 +316,11 @@ marshal_model.classif.debug_model = function(model, inplace = FALSE, ...) {
 #' @export
 #' @method unmarshal_model classif.debug_model_marshaled
 unmarshal_model.classif.debug_model_marshaled = function(model, inplace = FALSE, ...) {
-  model$marshaled
+  unmarshaled = model$marshaled
+  if (!is.null(unmarshaled$marshal_pid)) {
+    unmarshaled$marshal_pid = Sys.getpid()
+  }
+  unmarshaled
 }
 
 #' @export

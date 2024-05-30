@@ -39,7 +39,6 @@ test_that("marshaling for LearnerClassif", {
   expect_false(learner$marshaled)
   learner$marshal()
   expect_true(learner$marshaled)
-  expect_error(learner$predict(task), "has not been unmarshaled")
   learner$unmarshal()
   expect_learner(learner, task)
 })
