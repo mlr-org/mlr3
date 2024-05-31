@@ -304,12 +304,6 @@ Learner = R6Class("Learner",
       self$state$data_prototype = proto
       self$state$task_prototype = proto
 
-      if (!is.null(get0("validate", self))) {
-        self$state = insert_named(self$state, list(
-          internal_valid_task_ids = train_result$internal_valid_task_ids
-        ))
-      }
-
       # store the task w/o the data
       self$state$train_task = task_rm_backend(task$clone(deep = TRUE))
 

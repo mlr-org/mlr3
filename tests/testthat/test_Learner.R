@@ -336,7 +336,6 @@ test_that("manual $train() stores validation hash and validation ids", {
   task = tsk("iris")
   l = lrn("classif.debug", validate = 0.2)
   l$train(task)
-  expect_integer(l$state$internal_valid_task_ids)
   expect_character(l$state$internal_valid_task_hash)
 
   l = lrn("classif.debug", validate = "predefined")
@@ -344,14 +343,11 @@ test_that("manual $train() stores validation hash and validation ids", {
   task$divide(ids = 1:10)
   l$train(task)
   expect_equal(l$state$internal_valid_task_hash, task$internal_valid_task$hash)
-  expect_equal(l$state$internal_valid_task_ids, task$internal_valid_task$row_ids)
 
   # nothing is stored for learners that don't do it
   l2 = lrn("classif.featureless")
   l2$train(task)
   expect_true(is.null(l2$state$internal_valid_task_hash))
-  expect_true(is.null(l2$state$internal_valid_task_ids))
-
 })
 
 test_that("error when training a learner that sets valiadte to 'predefined' on a task without a validation task", {
@@ -533,16 +529,14 @@ test_that("learner state contains validate field", {
   expect_equal(learner$state$validate, 0.2)
 })
 
-test_thae("learner state contains internal valid task information", {
+test_that("learner state contains internal valid task information", {
   task = tsk("iris")
   # 1. resample
   learner = lrn("classif.debug", validate = 0.2)
   rr = resample(task, learner, rsmp("holdout"))
   expect_string(rr$learners[[1L]]$state$internal_valid_task_hash)
-  expect_true(is.null(rr$learners[[1L]]$state$internal_valid_task_ids))
 
   # 1. manual
   learner$train(task) 
   expect_string(learner$state$internal_valid_task_hash)
-  expect_integerish(learner$state$internal_valid_task_ids)
 })
