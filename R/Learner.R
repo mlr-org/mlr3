@@ -306,8 +306,7 @@ Learner = R6Class("Learner",
 
       if (!is.null(get0("validate", self))) {
         self$state = insert_named(self$state, list(
-          internal_valid_task_ids = train_result$internal_valid_task_ids,
-          internal_valid_task_hash = train_result$internal_valid_task_hash
+          internal_valid_task_ids = train_result$internal_valid_task_ids
         ))
       }
 

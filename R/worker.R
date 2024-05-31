@@ -88,6 +88,7 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
   # otherwise this information is only available with store_models = TRUE
   if (!is.null(validate)) {
     learner$state$internal_valid_scores = get_private(learner)$.extract_internal_valid_scores()
+    learner$state$internal_valid_task_hash = task$internal_valid_task$hash
   }
 
   if (exists(".extract_internal_tuned_values", get_private(learner))) {
@@ -117,10 +118,10 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
       fb$id, learner = fb$clone())
   }
 
+
   list(
     learner = learner,
-    internal_valid_task_ids = if (!is.null(validate)) task$internal_valid_task$row_ids,
-    internal_valid_task_hash = if (!is.null(validate)) task$internal_valid_task$hash
+    internal_valid_task_ids = if (!is.null(validate)) task$internal_valid_task$row_ids
   )
 }
 
