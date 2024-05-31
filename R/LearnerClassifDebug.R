@@ -53,7 +53,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
     initialize = function() {
       iter_aggr = crate(function(x) as.integer(ceiling(mean(unlist(x)))), .parent = topenv())
       iter_tune_fn = crate(function(domain, param_set) {
-        assert_integerish(domain$upper, len = 1L, any.missing = FALSE)
+        domain$upper
       }, .parent = topenv())
 
       p_iter = p_int(1, default = 1, tags = c("train", "hotstart", "internal_tuning"),
@@ -309,7 +309,7 @@ marshal_model.classif.debug_model = function(model, inplace = FALSE, ...) {
   }
   structure(list(
     marshaled = model, packages = "mlr3"),
-    class = c("classif.debug_model_marshaled", "marshaled")
+  class = c("classif.debug_model_marshaled", "marshaled")
   )
 }
 
