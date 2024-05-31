@@ -526,3 +526,23 @@ test_that("predict leaves marshaling status as-is", {
   expect_class(learner$predict(task), "Prediction")
   expect_false(learner$marshaled)
 })
+
+test_that("learner state contains validate field", {
+  learner = lrn("classif.debug", validate = 0.2)
+  learner$train(tsk("iris"))
+  expect_equal(learner$state$validate, 0.2)
+})
+
+test_thae("learner state contains internal valid task information", {
+  task = tsk("iris")
+  # 1. resample
+  learner = lrn("classif.debug", validate = 0.2)
+  rr = resample(task, learner, rsmp("holdout"))
+  expect_string(rr$learners[[1L]]$state$internal_valid_task_hash)
+  expect_true(is.null(rr$learners[[1L]]$state$internal_valid_task_ids))
+
+  # 1. manual
+  learner$train(task) 
+  expect_string(learner$state$internal_valid_task_hash)
+  expect_integerish(learner$state$internal_valid_task_ids)
+})

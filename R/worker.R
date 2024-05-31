@@ -81,6 +81,7 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
     param_vals = learner$param_set$values,
     task_hash = task$hash,
     feature_names = task$feature_names,
+    validate = validate,
     mlr3_version = mlr_reflections$package_version
   )), c("learner_state", "list"))
 
