@@ -52,7 +52,9 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       iter_aggr = crate(function(x) as.integer(ceiling(mean(unlist(x)))), .parent = topenv())
-      iter_tune_fn = crate(function(domain, param_set) {
+      iter_tune_fn = crate(function(domain, param_vals) {
+        assert_true(isTRUE(param_vals$early_stopping))
+        assert_true(domain$lower == 1)
         domain$upper
       }, .parent = topenv())
 

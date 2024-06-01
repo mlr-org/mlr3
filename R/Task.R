@@ -791,9 +791,6 @@ Task = R6Class("Task",
 
       assert_task(rhs, task_type = self$task_type)
       rhs = rhs$clone(deep = TRUE)
-      # if (identical(rhs, self)) { # avoid circles
-      #   stopf("Task '%s' cannot be its own validation task", self$id)
-      # }
       if (!is.null(rhs$internal_valid_task)) { # avoid recursive structures
         stopf("Trying to assign task '%s' as a validation task, remove its validation task first.", rhs$id)
       }
