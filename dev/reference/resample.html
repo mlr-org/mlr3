@@ -166,9 +166,8 @@ Per default, all input objects are cloned.</p></dd>
 <dt>unmarshal</dt>
 <dd><p><code><a href="Learner.html">Learner</a></code><br>
 Whether to unmarshal learners that were marshaled during the execution.
-Setting this to <code>FALSE</code> does not guarantee that the learners are marshaled.
-For example, with sequential execution and no encapsulation, marshaling is not necessary.
-If you want to ensure that all learners are in marshaled form, you need to call <code>$marshal()</code> on the result object.</p></dd>
+If <code>TRUE</code> all models are stored in unmarshaled form.
+If <code>FALSE</code>, all learners (that need marshaling) are stored in marshaled form.</p></dd>
 
 </dl></div>
     <div class="section level2">
