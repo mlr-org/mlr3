@@ -401,11 +401,11 @@ expect_learner = function(lrn, task = NULL, check_man = TRUE) {
   }
 
   if ("validation" %in% lrn$properties) {
-    expect_true(exists("validate", lrn))
-    expect_true(exists("internal_valid_scores", envir = lrn))
-    expect_function(mlr3misc::get_private(lrn)$.extract_internal_valid_scores)
+    testthat::expect_true(exists("validate", lrn))
+    testthat::expect_true(exists("internal_valid_scores", envir = lrn))
+    checkmate::expect_function(mlr3misc::get_private(lrn)$.extract_internal_valid_scores)
   } else if (!is_special_learner(lrn)){
-    assert_false(exists("validate", lrn))
+    checkmate::assert_false(exists("validate", lrn))
   }
   if ("internal_tuning" %in% lrn$properties) {
     any_internal_tuning = FALSE
@@ -418,8 +418,8 @@ expect_learner = function(lrn, task = NULL, check_man = TRUE) {
     if (!any_internal_tuning) {
       stopf("at least one parameter must support internal tuning when the learner is tagged as such")
     }
-    expect_true(exists("internal_tuned_values", envir = lrn))
-    expect_function(mlr3misc::get_private(lrn)$.extract_internal_tuned_values)
+    testthat::expect_true(exists("internal_tuned_values", envir = lrn))
+    checkmate::expect_function(mlr3misc::get_private(lrn)$.extract_internal_tuned_values)
   }
 }
 

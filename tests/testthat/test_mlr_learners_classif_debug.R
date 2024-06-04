@@ -81,17 +81,3 @@ test_that("marshaling", {
   p2 = l$marshal()$unmarshal()$predict(task)
   expect_equal(p1, p2)
 })
-
-test_that("assert_internal_tuning", {
-  learner = lrn("classif.debug", early_stopping = TRUE, validate = 0.2)
-  expect_class(assert_internal_tuning(learner, "iter"), "Learner")
-  learner$param_set$set_values(early_stopping = FALSE)
-  expect_error(assert_internal_tuning(learner, "iter"))
-  learner$param_set$set_values(early_stopping = NULL)
-  expect_error(assert_internal_tuning(learner, "iter"))
-  expect_class(assert_internal_tuning(learner, character(0)), "Learner")
-  expect_error(assert_internal_tuning(learner, "x"))
-  learner$validate = NULL
-  learner$param_set$set_values(early_stopping = TRUE)
-  expect_error(assert_internal_tuning(learner, "iter"))
-})

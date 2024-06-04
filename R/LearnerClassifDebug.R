@@ -324,12 +324,3 @@ unmarshal_model.classif.debug_model_marshaled = function(model, inplace = FALSE,
   }
   unmarshaled
 }
-
-#' @export
-assert_internal_tuning.LearnerClassifDebug = function(learner, ids, ...) {
-  if (length(ids)) {
-    assert_true(isTRUE(learner$param_set$values$early_stopping), .var.name = "early stopping parameter")
-    assert_false(is.null(learner$validate), .var.name = "validate parameter is null")
-  }
-  return(learner)
-}
