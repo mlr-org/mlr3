@@ -322,6 +322,7 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
 
 # creates the tasks and row ids for the selected predict sets
 prediction_tasks_and_sets = function(task, train_result, validate, sets, predict_sets) {
+  predict_sets = predict_sets[predict_sets %in% mlr_reflections$predict_sets]
   tasks = list(train = task, test = task)
   if ("internal_valid" %nin% predict_sets) {
     return(list(tasks = tasks[predict_sets], sets = sets[predict_sets]))
