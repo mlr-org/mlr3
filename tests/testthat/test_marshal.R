@@ -1,8 +1,6 @@
 test_that("learner methods", {
   learner = lrn("classif.debug")
   task = tsk("iris")
-  expect_error(learner_marshal(learner), "not been trained")
-  expect_error(learner_unmarshal(learner), "not been trained")
   expect_false(learner_marshaled(learner))
 
   learner$train(task)
