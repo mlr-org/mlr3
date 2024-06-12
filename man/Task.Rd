@@ -233,9 +233,8 @@ Returns the total number of rows with role "use".}
 \item{\code{ncol}}{(\code{integer(1)})\cr
 Returns the total number of columns with role "target" or "feature".}
 
-\item{\code{nfeatures}}{(\code{integer(1)})\cr
-Returns the total number of columns with role "feature" (i.e. the
-number of "active" features in the task).}
+\item{\code{n_features}}{(\code{integer(1)})\cr
+Returns the total number of columns with role "feature" (i.e. the number of "active" features in the task).}
 
 \item{\code{feature_types}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
 Returns a table with columns \code{id} and \code{type} where \code{id} are the column names of "active"

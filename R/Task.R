@@ -886,10 +886,9 @@ Task = R6Class("Task",
       length(private$.col_roles$feature) + length(private$.col_roles$target)
     },
 
-    #' @field nfeatures (`integer(1)`)\cr
-    #' Returns the total number of columns with role "feature" (i.e. the
-    #' number of "active" features in the task).
-    nfeatures = function(rhs) {
+    #' @field n_features (`integer(1)`)\cr
+    #' Returns the total number of columns with role "feature" (i.e. the number of "active" features in the task).
+    n_features = function(rhs) {
       assert_ro_binding(rhs)
       length(private$.col_roles$feature)
     },
