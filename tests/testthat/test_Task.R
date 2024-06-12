@@ -171,12 +171,14 @@ test_that("cbind/rbind works", {
 
   task$cbind(data)
   expect_task(task)
+  expect_equal(task$n_features, 5L) # "foo" was added as a feature
   expect_set_equal(c(task$feature_names, task$target_names), c(names(iris), "foo"))
   expect_data_table(task$data(), ncols = 6, any.missing = FALSE)
 
   task$rbind(cbind(data.table(..row_id = 201:210, foo = 99L), iris[1:10, ]))
   expect_task(task)
   expect_set_equal(task$row_ids, c(1:150, 201:210))
+  expect_equal(task$n_features, 5L) # adding rows doesn't change #features
   expect_data_table(task$data(), ncols = 6, nrows = 160, any.missing = FALSE)
 
   # auto generated ids
@@ -332,9 +334,13 @@ test_that("task$feature_types preserves key (#193)", {
 
 test_that("switch columns on and off (#301)", {
   task = tsk("iris")
+  expect_equal(task$n_features, 4L)
   task$col_roles$feature = setdiff(task$col_roles$feature, "Sepal.Length")
+  expect_equal(task$n_features, 3L)
   task$cbind(data.table(x = 1:150))
+  expect_equal(task$n_features, 4L)
   task$col_roles$feature = union(task$col_roles$feature, "Sepal.Length")
+  expect_equal(task$n_features, 5L)
   expect_data_table(task$data(), ncols = 6, nrows = 150, any.missing = FALSE)
 })
 
@@ -395,18 +401,23 @@ test_that("Task$set_row_roles", {
 
 test_that("Task$set_col_roles", {
   task = tsk("pima")
+  expect_equal(task$n_features, 8L)
 
   task$set_col_roles("mass", remove_from = "feature")
+  expect_equal(task$n_features, 7L)
   expect_true("mass" %nin% task$feature_names)
 
   task$set_col_roles("mass", add_to = "feature")
+  expect_equal(task$n_features, 8L)
   expect_true("mass" %in% task$feature_names)
 
   task$set_col_roles("age", roles = "weight")
+  expect_equal(task$n_features, 7L)
   expect_true("age" %nin% task$feature_names)
   expect_data_table(task$weights)
 
   task$set_col_roles("age", add_to = "feature", remove_from = "weight")
+  expect_equal(task$n_features, 8L)
   expect_true("age" %in% task$feature_names)
   expect_null(task$weights)
 })
