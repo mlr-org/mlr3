@@ -35,7 +35,7 @@ Description: Efficient, object-oriented programming on the
     scalability and larger datasets by supporting parallelization and
     out-of-memory data-backends like databases. While 'mlr3' focuses on
     the core computational operations, add-on packages provide additional
-    functionality.
+    functionality. TEST
 License: LGPL-3
 URL: https://mlr3.mlr-org.com, https://github.com/mlr-org/mlr3
 BugReports: https://github.com/mlr-org/mlr3/issues
