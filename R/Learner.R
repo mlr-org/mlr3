@@ -446,9 +446,8 @@ Learner = R6Class("Learner",
     },
 
     #' @field phash (`character(1)`)\cr
-    #' Hash (unique identifier) for this partial object, excluding some components
-    #' which are varied systematically during tuning (parameter values) or feature
-    #' selection (feature names).
+    #' Hash (unique identifier) for this partial object, excluding the parameter values,
+    #' which are varied systematically during tuning.
     phash = function(rhs) {
       assert_ro_binding(rhs)
       calculate_hash(class(self), self$id, private$.predict_type,
