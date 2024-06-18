@@ -435,9 +435,6 @@ expect_marshalable_learner = function(learner, task) {
   testthat::expect_true(has_public(learner, "unmarshal") && checkmate::test_function(learner$unmarshal, nargs = 0))
   testthat::expect_true(has_public(learner, "marshaled"))
 
-  # (un)marshal only possible after training
-  testthat::expect_error(learner$marshal(), "has not been trained")
-  testthat::expect_error(learner$unmarshal(), "has not been trained")
   testthat::expect_equal(learner$marshaled, FALSE)
 
   learner$train(task)

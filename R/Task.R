@@ -956,6 +956,13 @@ Task = R6Class("Task",
       length(private$.col_roles$feature) + length(private$.col_roles$target)
     },
 
+    #' @field n_features (`integer(1)`)\cr
+    #' Returns the total number of columns with role "feature" (i.e. the number of "active" features in the task).
+    n_features = function(rhs) {
+      assert_ro_binding(rhs)
+      length(private$.col_roles$feature)
+    },
+
     #' @field feature_types ([data.table::data.table()])\cr
     #' Returns a table with columns `id` and `type` where `id` are the column names of "active"
     #' features of the task and `type` is the storage type.

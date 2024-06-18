@@ -55,10 +55,6 @@
 #' @keywords internal
 #' @export
 learner_unmarshal = function(.learner, ...) {
-  # no need to check for 'marshal' property as this method should only be available for such learners
-  if (is.null(.learner$model)) {
-    stopf("Cannot unmarshal, Learner '%s' has not been trained yet", .learner$id)
-  }
   # this will do nothing if the model was not marshaled
   .learner$model = unmarshal_model(model = .learner$model, inplace = TRUE, ...)
   invisible(.learner)
@@ -67,10 +63,6 @@ learner_unmarshal = function(.learner, ...) {
 #' @rdname marshaling
 #' @export
 learner_marshal = function(.learner, ...) {
-  # no need to check for 'marshal' property as this method should only be available for such learners
-  if (is.null(.learner$model)) {
-    stopf("Cannot marshal, Learner '%s' has not been trained yet", .learner$id)
-  }
   # this will do nothing if the model was already marshaled
   .learner$model = marshal_model(model = .learner$model, inplace = TRUE, ...)
   invisible(.learner)
@@ -79,10 +71,6 @@ learner_marshal = function(.learner, ...) {
 #' @rdname marshaling
 #' @export
 learner_marshaled = function(.learner) {
-  # no need to check for 'marshal' property as this method should only be available for such learners
-  if (is.null(.learner$model)) {
-    return(FALSE)
-  }
   is_marshaled_model(model = .learner$model)
 }
 
