@@ -304,6 +304,9 @@
     <loc>https://mlr3.mlr-org.com/dev/reference/mlr_measures_elapsed_time.html</loc>
   </url>
   <url>
+    <loc>https://mlr3.mlr-org.com/dev/reference/mlr_measures_internal_valid_score.html</loc>
+  </url>
+  <url>
     <loc>https://mlr3.mlr-org.com/dev/reference/mlr_measures_oob_error.html</loc>
   </url>
   <url>

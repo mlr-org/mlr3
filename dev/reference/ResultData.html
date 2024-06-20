@@ -317,7 +317,7 @@ Single <code>uhash</code> to restrict the results to.</p></dd>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 Prediction sets to operate on, used in <code><a href="https://rdrr.io/r/stats/aggregate.html" class="external-link">aggregate()</a></code> to extract the matching <code>predict_sets</code> from the <a href="ResampleResult.html">ResampleResult</a>.
 Multiple predict sets are calculated by the respective <a href="Learner.html">Learner</a> during <code><a href="resample.html">resample()</a></code>/<code><a href="benchmark.html">benchmark()</a></code>.
-Must be a non-empty subset of <code>{"train", "test", "holdout"}</code>.
+Must be a non-empty subset of <code>{"train", "test", "internal_valid"}</code>.
 If multiple sets are provided, these are first combined to a single prediction object.
 Default is <code>"test"</code>.</p></dd>
 
@@ -326,7 +326,7 @@ Default is <code>"test"</code>.</p></dd>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 Prediction sets to operate on, used in <code><a href="https://rdrr.io/r/stats/aggregate.html" class="external-link">aggregate()</a></code> to extract the matching <code>predict_sets</code> from the <a href="ResampleResult.html">ResampleResult</a>.
 Multiple predict sets are calculated by the respective <a href="Learner.html">Learner</a> during <code><a href="resample.html">resample()</a></code>/<code><a href="benchmark.html">benchmark()</a></code>.
-Must be a non-empty subset of <code>{"train", "test", "holdout"}</code>.
+Must be a non-empty subset of <code>{"train", "test", "internal_valid"}</code>.
 If multiple sets are provided, these are first combined to a single prediction object.
 Default is <code>"test"</code>.</p></dd>
 
@@ -335,7 +335,7 @@ Default is <code>"test"</code>.</p></dd>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 Prediction sets to operate on, used in <code><a href="https://rdrr.io/r/stats/aggregate.html" class="external-link">aggregate()</a></code> to extract the matching <code>predict_sets</code> from the <a href="ResampleResult.html">ResampleResult</a>.
 Multiple predict sets are calculated by the respective <a href="Learner.html">Learner</a> during <code><a href="resample.html">resample()</a></code>/<code><a href="benchmark.html">benchmark()</a></code>.
-Must be a non-empty subset of <code>{"train", "test", "holdout"}</code>.
+Must be a non-empty subset of <code>{"train", "test", "internal_valid"}</code>.
 If multiple sets are provided, these are first combined to a single prediction object.
 Default is <code>"test"</code>.</p></dd>
 
@@ -365,7 +365,7 @@ Single <code>uhash</code> to restrict the results to.</p></dd>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 Prediction sets to operate on, used in <code><a href="https://rdrr.io/r/stats/aggregate.html" class="external-link">aggregate()</a></code> to extract the matching <code>predict_sets</code> from the <a href="ResampleResult.html">ResampleResult</a>.
 Multiple predict sets are calculated by the respective <a href="Learner.html">Learner</a> during <code><a href="resample.html">resample()</a></code>/<code><a href="benchmark.html">benchmark()</a></code>.
-Must be a non-empty subset of <code>{"train", "test", "holdout"}</code>.
+Must be a non-empty subset of <code>{"train", "test", "internal_valid"}</code>.
 If multiple sets are provided, these are first combined to a single prediction object.
 Default is <code>"test"</code>.</p></dd>
 
@@ -374,7 +374,7 @@ Default is <code>"test"</code>.</p></dd>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 Prediction sets to operate on, used in <code><a href="https://rdrr.io/r/stats/aggregate.html" class="external-link">aggregate()</a></code> to extract the matching <code>predict_sets</code> from the <a href="ResampleResult.html">ResampleResult</a>.
 Multiple predict sets are calculated by the respective <a href="Learner.html">Learner</a> during <code><a href="resample.html">resample()</a></code>/<code><a href="benchmark.html">benchmark()</a></code>.
-Must be a non-empty subset of <code>{"train", "test", "holdout"}</code>.
+Must be a non-empty subset of <code>{"train", "test", "internal_valid"}</code>.
 If multiple sets are provided, these are first combined to a single prediction object.
 Default is <code>"test"</code>.</p></dd>
 
@@ -383,7 +383,7 @@ Default is <code>"test"</code>.</p></dd>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 Prediction sets to operate on, used in <code><a href="https://rdrr.io/r/stats/aggregate.html" class="external-link">aggregate()</a></code> to extract the matching <code>predict_sets</code> from the <a href="ResampleResult.html">ResampleResult</a>.
 Multiple predict sets are calculated by the respective <a href="Learner.html">Learner</a> during <code><a href="resample.html">resample()</a></code>/<code><a href="benchmark.html">benchmark()</a></code>.
-Must be a non-empty subset of <code>{"train", "test", "holdout"}</code>.
+Must be a non-empty subset of <code>{"train", "test", "internal_valid"}</code>.
 If multiple sets are provided, these are first combined to a single prediction object.
 Default is <code>"test"</code>.</p></dd>
 
@@ -524,7 +524,7 @@ Convert <a href="PredictionData.html">PredictionData</a> to <a href="Prediction.
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 Prediction sets to operate on, used in <code><a href="https://rdrr.io/r/stats/aggregate.html" class="external-link">aggregate()</a></code> to extract the matching <code>predict_sets</code> from the <a href="ResampleResult.html">ResampleResult</a>.
 Multiple predict sets are calculated by the respective <a href="Learner.html">Learner</a> during <code><a href="resample.html">resample()</a></code>/<code><a href="benchmark.html">benchmark()</a></code>.
-Must be a non-empty subset of <code>{"train", "test", "holdout"}</code>.
+Must be a non-empty subset of <code>{"train", "test", "internal_valid"}</code>.
 If multiple sets are provided, these are first combined to a single prediction object.
 Default is <code>"test"</code>.</p></dd>
 
@@ -533,7 +533,7 @@ Default is <code>"test"</code>.</p></dd>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 Prediction sets to operate on, used in <code><a href="https://rdrr.io/r/stats/aggregate.html" class="external-link">aggregate()</a></code> to extract the matching <code>predict_sets</code> from the <a href="ResampleResult.html">ResampleResult</a>.
 Multiple predict sets are calculated by the respective <a href="Learner.html">Learner</a> during <code><a href="resample.html">resample()</a></code>/<code><a href="benchmark.html">benchmark()</a></code>.
-Must be a non-empty subset of <code>{"train", "test", "holdout"}</code>.
+Must be a non-empty subset of <code>{"train", "test", "internal_valid"}</code>.
 If multiple sets are provided, these are first combined to a single prediction object.
 Default is <code>"test"</code>.</p></dd>
 
@@ -542,7 +542,7 @@ Default is <code>"test"</code>.</p></dd>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 Prediction sets to operate on, used in <code><a href="https://rdrr.io/r/stats/aggregate.html" class="external-link">aggregate()</a></code> to extract the matching <code>predict_sets</code> from the <a href="ResampleResult.html">ResampleResult</a>.
 Multiple predict sets are calculated by the respective <a href="Learner.html">Learner</a> during <code><a href="resample.html">resample()</a></code>/<code><a href="benchmark.html">benchmark()</a></code>.
-Must be a non-empty subset of <code>{"train", "test", "holdout"}</code>.
+Must be a non-empty subset of <code>{"train", "test", "internal_valid"}</code>.
 If multiple sets are provided, these are first combined to a single prediction object.
 Default is <code>"test"</code>.</p></dd>
 
@@ -630,7 +630,7 @@ The condition to extract. One of <code>"message"</code>, <code>"warning"</code> 
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Michel Lang, Bernd Bischl, Jakob Richter, Patrick Schratz, Martin Binder, Florian Pfisterer, Raphael Sonabend, Marc Becker.</p>
+  <p>Developed by Michel Lang, Bernd Bischl, Jakob Richter, Patrick Schratz, Martin Binder, Florian Pfisterer, Raphael Sonabend, Marc Becker, Sebastian Fischer.</p>
 </div>
 
 <div class="pkgdown-footer-right">

@@ -130,6 +130,7 @@ Many of the measures in <span class="pkg">mlr3</span> are implemented in <a href
 <code><a href="mlr_measures_classif.costs.html">mlr_measures_classif.costs</a></code>,
 <code><a href="mlr_measures_debug_classif.html">mlr_measures_debug_classif</a></code>,
 <code><a href="mlr_measures_elapsed_time.html">mlr_measures_elapsed_time</a></code>,
+<code><a href="mlr_measures_internal_valid_score.html">mlr_measures_internal_valid_score</a></code>,
 <code><a href="mlr_measures_oob_error.html">mlr_measures_oob_error</a></code>,
 <code><a href="mlr_measures_selected_features.html">mlr_measures_selected_features</a></code></p></div>
     </div>
@@ -168,7 +169,10 @@ Required predict type of the <a href="Learner.html">Learner</a>.</p></dd>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 During <code><a href="resample.html">resample()</a></code>/<code><a href="benchmark.html">benchmark()</a></code>, a <a href="Learner.html">Learner</a> can predict on multiple sets.
 Per default, a learner only predicts observations in the test set (<code>predict_sets == "test"</code>).
-To change this behavior, set <code>predict_sets</code> to a non-empty subset of <code>{"train", "test", "holdout"}</code>.
+To change this behavior, set <code>predict_sets</code> to a non-empty subset of <code>{"train", "test", "internal_valid"}</code>.
+The <code>"train"</code> predict set contains the train ids from the resampling. This means that if a learner does validation and
+sets <code>$validate</code> to a ratio (creating the validation data from the training data), the train predictions
+will include the predictions for the validation data.
 Each set yields a separate <a href="Prediction.html">Prediction</a> object.
 Those can be combined via getters in <a href="ResampleResult.html">ResampleResult</a>/<a href="BenchmarkResult.html">BenchmarkResult</a>, or Measures can be configured
 to operate on specific subsets of the calculated prediction sets.</p></dd>
@@ -355,7 +359,7 @@ Possible values are stored in <a href="mlr_reflections.html">mlr_reflections$lea
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 Prediction sets to operate on, used in <code><a href="https://rdrr.io/r/stats/aggregate.html" class="external-link">aggregate()</a></code> to extract the matching <code>predict_sets</code> from the <a href="ResampleResult.html">ResampleResult</a>.
 Multiple predict sets are calculated by the respective <a href="Learner.html">Learner</a> during <code><a href="resample.html">resample()</a></code>/<code><a href="benchmark.html">benchmark()</a></code>.
-Must be a non-empty subset of <code>{"train", "test", "holdout"}</code>.
+Must be a non-empty subset of <code>{"train", "test", "internal_valid"}</code>.
 If multiple sets are provided, these are first combined to a single prediction object.
 Default is <code>"test"</code>.</p></dd>
 
@@ -509,7 +513,7 @@ function of the measure.</p><div class="section">
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Michel Lang, Bernd Bischl, Jakob Richter, Patrick Schratz, Martin Binder, Florian Pfisterer, Raphael Sonabend, Marc Becker.</p>
+  <p>Developed by Michel Lang, Bernd Bischl, Jakob Richter, Patrick Schratz, Martin Binder, Florian Pfisterer, Raphael Sonabend, Marc Becker, Sebastian Fischer.</p>
 </div>
 
 <div class="pkgdown-footer-right">

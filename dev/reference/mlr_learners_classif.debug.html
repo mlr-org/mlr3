@@ -275,7 +275,7 @@ Also note that if they work as intended, they will tear down your R session imme
     <div class="section level2">
     <h2 id="parameters">Parameters<a class="anchor" aria-label="anchor" href="#parameters"></a></h2>
     
-<table class="table table"><tr><td>Id</td><td>Type</td><td>Default</td><td>Levels</td><td>Range</td></tr><tr><td>error_predict</td><td>numeric</td><td>0</td><td></td><td>\([0, 1]\)</td></tr><tr><td>error_train</td><td>numeric</td><td>0</td><td></td><td>\([0, 1]\)</td></tr><tr><td>message_predict</td><td>numeric</td><td>0</td><td></td><td>\([0, 1]\)</td></tr><tr><td>message_train</td><td>numeric</td><td>0</td><td></td><td>\([0, 1]\)</td></tr><tr><td>predict_missing</td><td>numeric</td><td>0</td><td></td><td>\([0, 1]\)</td></tr><tr><td>predict_missing_type</td><td>character</td><td>na</td><td>na, omit</td><td>-</td></tr><tr><td>save_tasks</td><td>logical</td><td>FALSE</td><td>TRUE, FALSE</td><td>-</td></tr><tr><td>segfault_predict</td><td>numeric</td><td>0</td><td></td><td>\([0, 1]\)</td></tr><tr><td>segfault_train</td><td>numeric</td><td>0</td><td></td><td>\([0, 1]\)</td></tr><tr><td>sleep_train</td><td>untyped</td><td>-</td><td></td><td>-</td></tr><tr><td>sleep_predict</td><td>untyped</td><td>-</td><td></td><td>-</td></tr><tr><td>threads</td><td>integer</td><td>-</td><td></td><td>\([1, \infty)\)</td></tr><tr><td>warning_predict</td><td>numeric</td><td>0</td><td></td><td>\([0, 1]\)</td></tr><tr><td>warning_train</td><td>numeric</td><td>0</td><td></td><td>\([0, 1]\)</td></tr><tr><td>x</td><td>numeric</td><td>-</td><td></td><td>\([0, 1]\)</td></tr><tr><td>iter</td><td>integer</td><td>1</td><td></td><td>\([1, \infty)\)</td></tr><tr><td>count_marshaling</td><td>logical</td><td>FALSE</td><td>TRUE, FALSE</td><td>-</td></tr><tr><td>check_pid</td><td>logical</td><td>TRUE</td><td>TRUE, FALSE</td><td>-</td></tr></table></div>
+<table class="table table"><tr><td>Id</td><td>Type</td><td>Default</td><td>Levels</td><td>Range</td></tr><tr><td>error_predict</td><td>numeric</td><td>0</td><td></td><td>\([0, 1]\)</td></tr><tr><td>error_train</td><td>numeric</td><td>0</td><td></td><td>\([0, 1]\)</td></tr><tr><td>message_predict</td><td>numeric</td><td>0</td><td></td><td>\([0, 1]\)</td></tr><tr><td>message_train</td><td>numeric</td><td>0</td><td></td><td>\([0, 1]\)</td></tr><tr><td>predict_missing</td><td>numeric</td><td>0</td><td></td><td>\([0, 1]\)</td></tr><tr><td>predict_missing_type</td><td>character</td><td>na</td><td>na, omit</td><td>-</td></tr><tr><td>save_tasks</td><td>logical</td><td>FALSE</td><td>TRUE, FALSE</td><td>-</td></tr><tr><td>segfault_predict</td><td>numeric</td><td>0</td><td></td><td>\([0, 1]\)</td></tr><tr><td>segfault_train</td><td>numeric</td><td>0</td><td></td><td>\([0, 1]\)</td></tr><tr><td>sleep_train</td><td>untyped</td><td>-</td><td></td><td>-</td></tr><tr><td>sleep_predict</td><td>untyped</td><td>-</td><td></td><td>-</td></tr><tr><td>threads</td><td>integer</td><td>-</td><td></td><td>\([1, \infty)\)</td></tr><tr><td>warning_predict</td><td>numeric</td><td>0</td><td></td><td>\([0, 1]\)</td></tr><tr><td>warning_train</td><td>numeric</td><td>0</td><td></td><td>\([0, 1]\)</td></tr><tr><td>x</td><td>numeric</td><td>-</td><td></td><td>\([0, 1]\)</td></tr><tr><td>iter</td><td>integer</td><td>1</td><td></td><td>\([1, \infty)\)</td></tr><tr><td>early_stopping</td><td>logical</td><td>FALSE</td><td>TRUE, FALSE</td><td>-</td></tr><tr><td>count_marshaling</td><td>logical</td><td>FALSE</td><td>TRUE, FALSE</td><td>-</td></tr><tr><td>check_pid</td><td>logical</td><td>TRUE</td><td>TRUE, FALSE</td><td>-</td></tr></table></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index">
@@ -310,8 +310,23 @@ for established default tuning spaces.</p></li>
     <div class="section level2">
     <h2 id="active-bindings">Active bindings<a class="anchor" aria-label="anchor" href="#active-bindings"></a></h2>
     <p></p><div class="r6-active-bindings"><dl><dt><code>marshaled</code></dt>
-<dd><p>(logical(1))<br>
+<dd><p>(<code>logical(1)</code>)<br>
 Whether the learner has been marshaled.</p></dd>
+
+
+<dt><code>internal_valid_scores</code></dt>
+<dd><p>Retrieves the internal validation scores as a named <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>.
+Returns <code>NULL</code> if learner is not trained yet.</p></dd>
+
+
+<dt><code>internal_tuned_values</code></dt>
+<dd><p>Retrieves the internally tuned values as a named <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>.
+Returns <code>NULL</code> if learner is not trained yet.</p></dd>
+
+
+<dt><code>validate</code></dt>
+<dd><p>How to construct the internal validation data. This parameter can be either <code>NULL</code>,
+a ratio in $(0, 1)$, <code>"test"</code>, or <code>"predefined"</code>.</p></dd>
 
 
 </dl><p></p></div>
@@ -418,8 +433,8 @@ Additional arguments passed to <code><a href="marshaling.html">unmarshal_model()
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># task_train and task_predict are the input tasks for train() and predict()</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">learner</span><span class="op">$</span><span class="va">model</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "response"      "pid"           "iter"          "id"           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5] "random_number" "task_train"    "task_predict" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "response"      "pid"           "id"            "random_number"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5] "iter"          "task_train"    "task_predict" </span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
@@ -427,7 +442,7 @@ Additional arguments passed to <code><a href="marshaling.html">unmarshal_model()
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Michel Lang, Bernd Bischl, Jakob Richter, Patrick Schratz, Martin Binder, Florian Pfisterer, Raphael Sonabend, Marc Becker.</p>
+  <p>Developed by Michel Lang, Bernd Bischl, Jakob Richter, Patrick Schratz, Martin Binder, Florian Pfisterer, Raphael Sonabend, Marc Becker, Sebastian Fischer.</p>
 </div>
 
 <div class="pkgdown-footer-right">
