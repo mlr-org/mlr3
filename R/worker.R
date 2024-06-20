@@ -46,14 +46,16 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
     lg$debug("Skip subsetting of task '%s'", task$id)
   }
 
-  # pass test ids w/o cloning
-  if (!is.null(test_row_ids)) {
-    prev_test = task$row_roles$test
-    on.exit({
-      task$row_roles$test = prev_test
-    }, add = TRUE)
-    task$row_roles$test = test_row_ids
-  }
+  # handle the internal validation task
+  validate = get0("validate", learner)
+  prev_valid = task$internal_valid_task
+  on.exit({
+    task$internal_valid_task = prev_valid
+  }, add = TRUE)
+
+  # depending on the validate parameter, create the internal validation task (if needed)
+  # modifies the task in place
+  create_internal_valid_task(validate, task, test_row_ids, prev_valid, learner)
 
   if (mode == "train") learner$state = list()
 
@@ -79,8 +81,20 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
     param_vals = learner$param_set$values,
     task_hash = task$hash,
     feature_names = task$feature_names,
+    validate = validate,
     mlr3_version = mlr_reflections$package_version
   )), c("learner_state", "list"))
+
+  # store the results of the internal tuning / internal validation in the learner's state
+  # otherwise this information is only available with store_models = TRUE
+  if (!is.null(validate)) {
+    learner$state$internal_valid_scores = get_private(learner)$.extract_internal_valid_scores()
+    learner$state$internal_valid_task_hash = task$internal_valid_task$hash
+  }
+
+  if (exists(".extract_internal_tuned_values", get_private(learner))) {
+    learner$state$internal_tuned_values = get_private(learner)$.extract_internal_tuned_values()
+  }
 
   if (is.null(result$result)) {
     lg$debug("Learner '%s' on task '%s' failed to %s a model",
@@ -105,7 +119,11 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
       fb$id, learner = fb$clone())
   }
 
-  learner
+
+  list(
+    learner = learner,
+    internal_valid_task_ids = if (!is.null(validate)) task$internal_valid_task$row_ids
+  )
 }
 
 learner_predict = function(learner, task, row_ids = NULL) {
@@ -232,6 +250,9 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
   if (!is.null(pb)) {
     pb(sprintf("%s|%s|i:%i", task$id, learner$id, iteration))
   }
+  if ("internal_valid" %in% learner$predict_sets && is.null(task$internal_valid_task) && is.null(get0("validate", learner))) {
+    stopf("Cannot set the predict_type field of learner '%s' to 'internal_valid' if there is no internal validation task configured", learner$id)
+  }
 
   # reduce data.table and blas threads to 1
   if (!is_sequential) {
@@ -240,7 +261,6 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
     on.exit(blas_set_num_threads(old_blas_threads), add = TRUE)
     blas_set_num_threads(1)
   }
-
   # restore logger thresholds
   for (package in names(lgr_threshold)) {
     logger = lgr::get_logger(package)
@@ -253,8 +273,7 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
 
   sets = list(
     train = resampling$train_set(iteration),
-    test = resampling$test_set(iteration),
-    holdout = task$row_roles$holdout
+    test = resampling$test_set(iteration)
   )
 
   # train model
@@ -264,7 +283,12 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
     learner$param_set$set_values(.values = param_values)
   }
   learner_hash = learner$hash
-  learner = learner_train(learner, task, sets[["train"]], sets[["test"]], mode = mode)
+
+  validate = get0("validate", learner)
+
+  test_set = if (identical(validate, "test")) sets$test
+  train_result = learner_train(learner, task, sets[["train"]], test_set, mode = mode)
+  learner = train_result$learner
 
   # process the model so it can be used for prediction (e.g. marshal for callr prediction), but also
   # keep a copy of the model in current form in case this is the format that we want to send back to the main process
@@ -274,11 +298,15 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
   )
 
   # predict for each set
-  sets = sets[learner$predict_sets]
-  pdatas = Map(function(set, row_ids) {
+  predict_sets = learner$predict_sets
+
+  # creates the tasks and row_ids for all selected predict sets
+  pred_data = prediction_tasks_and_sets(task, train_result, validate, sets, predict_sets)
+
+  pdatas = Map(function(set, row_ids, task) {
     lg$debug("Creating Prediction for predict set '%s'", set)
     learner_predict(learner, task, row_ids)
-  }, set = names(sets), row_ids = sets)
+  }, set = predict_sets, row_ids = pred_data$sets, task = pred_data$tasks)
   pdatas = discard(pdatas, is.null)
 
   # set the model slot after prediction so it can be sent back to the main process
@@ -290,6 +318,30 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
   learner_state = set_class(learner$state, c("learner_state", "list"))
 
   list(learner_state = learner_state, prediction = pdatas, param_values = learner$param_set$values, learner_hash = learner_hash)
+}
+
+# creates the tasks and row ids for the selected predict sets
+prediction_tasks_and_sets = function(task, train_result, validate, sets, predict_sets) {
+  predict_sets = predict_sets[predict_sets %in% mlr_reflections$predict_sets]
+  tasks = list(train = task, test = task)
+  if ("internal_valid" %nin% predict_sets) {
+    return(list(tasks = tasks[predict_sets], sets = sets[predict_sets]))
+  }
+
+  if ("internal_valid" %in% predict_sets) {
+    if (is.numeric(validate) || identical(validate, "test")) {
+      # in this scenario, the internal_valid_task was created during learner_train, which means that it used the
+      # primary task. The selected ids are returned via the train result
+      tasks$internal_valid = task
+      sets$internal_valid = train_result$internal_valid_task_ids
+    } else {
+      # the predefined internal_valid_task was used
+      tasks$internal_valid = task$internal_valid_task
+      sets$internal_valid = task$internal_valid_task$row_ids
+    }
+  }
+
+  list(tasks = tasks[predict_sets], sets = sets[predict_sets])
 }
 
 process_model_before_predict = function(learner, store_models, is_sequential, unmarshal) {
@@ -369,4 +421,46 @@ append_log = function(log = NULL, stage = NA_character_, class = NA_character_, 
   }
 
   log
+}
+
+create_internal_valid_task = function(validate, task, test_row_ids, prev_valid, learner) {
+  if (is.null(validate)) {
+    return(task)
+  }
+
+  # Otherwise, predict_set = "internal_valid" is ambiguous
+  if (!is.null(prev_valid) && (is.numeric(validate) || identical(validate, "test"))) {
+    stopf("Parameter 'validate' of Learner '%s' cannot be set to 'test' or a ratio when internal_valid_task is present", learner$id)
+  }
+
+  if (is.character(validate)) {
+    if (validate == "predefined") {
+      if (is.null(task$internal_valid_task)) {
+        stopf("Parameter 'validate' is set to 'predefined' but no internal validation task is present.")
+      }
+      if (!identical(task$target_names, task$internal_valid_task$target_names)) {
+        stopf("Internal validation task '%s' has different target names than primary task '%s', did you modify the task after creating the internal validation task?",
+          task$internal_valid_task$id, task$id)
+      }
+      if (!test_permutation(task$feature_names, task$internal_valid_task$feature_names)) {
+        stopf("Internal validation task '%s' has different features than primary task '%s', did you modify the task after creating the internal validation task?",
+          task$internal_valid_task$id, task$id)
+      }
+      return(task)
+    } else { # validate is "test"
+      if (is.null(test_row_ids)) {
+        stopf("Parameter 'validate' cannot be set to 'test' when calling train manually.")
+      }
+      # at this point, the train rows are already set to the train set, i.e. we don't have to remove the test ids
+      # from the primary task (this would cause bugs for resamplings with overlapping train and test set)
+      task$divide(ids = test_row_ids, remove = FALSE)
+      return(task)
+    }
+
+   return(task)
+  }
+
+  # validate is numeric
+  task$divide(ratio = validate, remove = TRUE)
+  return(task)
 }

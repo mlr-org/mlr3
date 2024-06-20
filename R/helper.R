@@ -47,3 +47,22 @@ clone_without = function(x, y) {
   x[[y]] = y_prev
   return(x2)
 }
+
+clone_rep = function(x, n) {
+  xc = x$clone(deep = TRUE)
+  lapply(seq_len(n), function(i) xc)
+}
+
+#' @title Assert Validate
+#' @description
+#' Asserts whether the input is a valid value for the `$validate` field of a [`Learner`].
+#' @param x (any)\cr
+#'   The input to check.
+#' @export
+#' @rdname mlr_assertions
+assert_validate = function(x) {
+  if (test_numeric(x, lower = 0, upper = 1, len = 1L, any.missing = FALSE)) {
+    return(x)
+  }
+  assert_choice(x, c("predefined", "test"), null.ok = TRUE)
+}

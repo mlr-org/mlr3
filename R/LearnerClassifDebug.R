@@ -51,6 +51,16 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
+      iter_aggr = crate(function(x) as.integer(ceiling(mean(unlist(x)))), .parent = topenv())
+      iter_tune_fn = crate(function(domain, param_vals) {
+        assert_true(isTRUE(param_vals$early_stopping))
+        assert_true(domain$lower <= 1)
+        domain$upper
+      }, .parent = topenv())
+
+      p_iter = p_int(1, default = 1, tags = c("train", "hotstart", "internal_tuning"),
+        aggr = iter_aggr, in_tune_fn = iter_tune_fn, disable_in_tune = list(early_stopping = FALSE))
+
       param_set = ps(
         error_predict        = p_dbl(0, 1, default = 0, tags = "predict"),
         error_train          = p_dbl(0, 1, default = 0, tags = "train"),
@@ -67,7 +77,8 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
         warning_predict      = p_dbl(0, 1, default = 0, tags = "predict"),
         warning_train        = p_dbl(0, 1, default = 0, tags = "train"),
         x                    = p_dbl(0, 1, tags = "train"),
-        iter                 = p_int(1, default = 1, tags = c("train", "hotstart")),
+        iter                 = p_iter,
+        early_stopping       = p_lgl(default = FALSE, tags = "train"),
         count_marshaling     = p_lgl(default = FALSE, tags = "train"),
         check_pid            = p_lgl(default = TRUE, tags = "train")
       )
@@ -76,7 +87,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
         param_set = param_set,
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
         predict_types = c("response", "prob"),
-        properties = c("twoclass", "multiclass", "missings", "hotstart_forward", "marshal"),
+        properties = c("twoclass", "multiclass", "missings", "hotstart_forward", "validation", "internal_tuning", "marshal"),
         man = "mlr3::mlr_learners_classif.debug",
         data_formats = c("data.table", "Matrix"),
         label = "Debug Learner for Classification"
@@ -98,13 +109,36 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
     }
   ),
   active = list(
-    #' @field marshaled (logical(1))\cr
+    #' @field marshaled (`logical(1)`)\cr
     #' Whether the learner has been marshaled.
     marshaled = function() {
       learner_marshaled(self)
+    },
+    #' @field internal_valid_scores
+    #' Retrieves the internal validation scores as a named `list()`.
+    #' Returns `NULL` if learner is not trained yet.
+    internal_valid_scores = function() {
+      self$state$internal_valid_scores
+    },
+    #' @field internal_tuned_values
+    #' Retrieves the internally tuned values as a named `list()`.
+    #' Returns `NULL` if learner is not trained yet.
+    internal_tuned_values = function() {
+      self$state$internal_tuned_values
+    },
+
+    #' @field validate
+    #' How to construct the internal validation data. This parameter can be either `NULL`,
+    #' a ratio in $(0, 1)$, `"test"`, or `"predefined"`.
+    validate = function(rhs) {
+      if (!missing(rhs)) {
+        private$.validate = assert_validate(rhs)
+      }
+      private$.validate
     }
   ),
   private = list(
+    .validate = NULL,
     .train = function(task) {
       pv = self$param_set$get_values(tags = "train")
       pv$count_marshaling = pv$count_marshaling %??% FALSE
@@ -130,8 +164,27 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
         get("attach")(structure(list(), class = "UserDefinedDatabase"))
       }
 
-      model = list(response = as.character(sample(task$truth(), 1L)), pid = Sys.getpid(), iter = pv$iter,
-        id = UUIDgenerate(), random_number = sample(100000, 1))
+      valid_truth = if (!is.null(self$validate)) task$internal_valid_task$truth()
+
+      if (isTRUE(pv$early_stopping) && is.null(valid_truth)) {
+        stopf("Early stopping is only possible when a validation task is present.")
+      }
+
+      model = list(response = as.character(sample(task$truth(), 1L)), pid = Sys.getpid(), id = UUIDgenerate(),
+        random_number = sample(100000, 1), iter = if (isTRUE(pv$early_stopping)) sample(pv$iter %??% 1L, 1L) else pv$iter %??% 1L
+      )
+
+      if (!is.null(valid_truth)) {
+        valid_pred = private$.make_prediction(task$internal_valid_task, model, self$param_set$get_values(tags = "predict"))
+
+        valid_pred = as_prediction(as_prediction_data(valid_pred, task = task$internal_valid_task, check = TRUE, train_task = task))
+
+        model$internal_valid_scores = list(acc = mlr3measures::acc(valid_truth, valid_pred$response))
+        if (self$predict_type == "prob") {
+          model$internal_valid_scores$mbrier = mlr3measures::mbrier(valid_truth, valid_pred$prob)
+        }
+      }
+
       if (isTRUE(pv$save_tasks)) {
         model$task_train = task$clone(deep = TRUE)
       }
@@ -147,6 +200,20 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
       set_class(model, "classif.debug_model")
     },
 
+    .extract_internal_tuned_values = function() {
+      if (!isTRUE(self$state$param_vals$early_stopping)) {
+        named_list()
+      } else {
+        self$model["iter"]
+      }
+    },
+    .extract_internal_valid_scores = function() {
+      if (is.null(self$model$internal_valid_scores)) {
+        named_list()
+      } else {
+        self$model$internal_valid_scores
+      }
+    },
     .predict = function(task) {
       if (!is.null(self$model$marshal_pid) && self$model$marshal_pid != Sys.getpid()) {
         stopf("Model was not unmarshaled correctly")
@@ -179,11 +246,16 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
         self$state$model$task_predict = task$clone(deep = TRUE)
       }
 
+      private$.make_prediction(task, self$model, pv)
+    },
+
+    .make_prediction = function(task, model, pv) {
+      n = task$nrow
       response = prob = NULL
       missing_type = pv$predict_missing_type %??% "na"
 
       if ("response" %in% self$predict_type) {
-        response = rep.int(unclass(self$model$response), n)
+        response = rep.int(unclass(model$response), n)
         if (!is.null(pv$predict_missing)) {
           ii = sample.int(n, n * pv$predict_missing)
           response = switch(missing_type,
@@ -239,7 +311,7 @@ marshal_model.classif.debug_model = function(model, inplace = FALSE, ...) {
   }
   structure(list(
     marshaled = model, packages = "mlr3"),
-    class = c("classif.debug_model_marshaled", "marshaled")
+  class = c("classif.debug_model_marshaled", "marshaled")
   )
 }
 

@@ -262,6 +262,91 @@ test_that("does not unnecessarily clone state", {
   expect_resample_result(resample(task, learner, rsmp("holdout")))
 })
 
+test_that("task hashes differ depending on whether test set is used", {
+  task = tsk("iris")
+  resampling = rsmp("holdout")
+  learner1 = lrn("classif.debug")
+  learner2 = lrn("classif.debug", validate = "test")
+  rr1 = resample(task, learner1, resampling)
+  rr2 = resample(task, learner2, resampling)
+  expect_false(rr1$learners[[1]]$state$task_hash == rr2$learners[[1]]$state$task_hash)
+})
+
+test_that("can make predictions for internal_valid_task", {
+  task = tsk("iris")
+  learner = lrn("classif.debug", validate = 0.5, predict_sets = c("train", "internal_valid"))
+  rr = resample(task, learner, rsmp("insample"))
+  expect_equal(length(rr$predictions("internal_valid")[[1L]]$row_ids), task$nrow / 2)
+})
+
+test_that("learner's validate cannot be 'test' if internal_valid_set is present", {
+  # otherwise, predict_set = "internal_valid" would be ambiguous
+  learner = lrn("classif.debug", validate = "test", predict_sets = c("train", "internal_valid"))
+  task = tsk("iris")$divide(ids = 1)
+  expect_error(resample(task, learner, rsmp("holdout")), "cannot be set to ")
+})
+
+test_that("learner's validate cannot be a ratio if internal_valid_set is present", {
+  # otherwise, predict_set = "internal_valid" would be ambiguous
+  learner = lrn("classif.debug", validate = 0.5, predict_sets = c("train", "internal_valid"))
+  task = tsk("iris")$divide(ids = 1)
+  expect_error(resample(task, learner, rsmp("holdout")), "cannot be set to")
+})
+
+test_that("internal_valid and train predictions", {
+  task = tsk("iris")$divide(ids = 1:2)
+  learner = lrn("classif.debug", validate = "predefined", predict_sets = c("train", "internal_valid", "test"))
+  rr = resample(task, learner, rsmp("insample"))
+  measure_valid = msr("classif.acc")
+  measure_valid$predict_sets = "internal_valid"
+  expect_equal(
+    rr$score(measure_valid, predict_sets = "internal_valid")$classif.acc,
+    rr$learners[[1L]]$internal_valid_scores$acc
+  )
+
+  # if valid = "test", internal_valid and test predictions are the same
+  task = tsk("iris")
+  learner = lrn("classif.debug", validate = "test", predict_sets = c("train", "internal_valid", "test"))
+  rr2 = resample(task, learner, rsmp("holdout"))
+
+  expect_equal(
+    rr2$score(measure_valid, predict_sets = "internal_valid")$classif.acc,
+    rr2$score(msr("classif.acc"), predict_sets = "test")$classif.acc
+ )
+  expect_equal(
+    rr2$predictions("internal_valid")[[1L]]$response,
+    rr2$predictions("test")[[1L]]$response
+  )
+
+  # train predictions include the validation data
+  learner = lrn("classif.debug", validate = 0.5, predict_sets = c("train", "internal_valid", "test"))
+  task = tsk("iris")$filter(1:10)
+  rr2 = resample(task, learner, rsmp("insample"))
+  expect_equal(length(rr2$predictions("train")[[1L]]$row_ids), 10L)
+
+  rr3 = resample(task, learner, rsmp("holdout", ratio = 0.8))
+
+  expect_equal(length(rr3$predictions("train")[[1L]]$row_ids), 8L)
+  expect_subset(
+    rr3$predictions("internal_valid")$row_ids, rr3$predictions("internal_valid")$row_ids
+  )
+  expect_equal(length(rr3$predictions("internal_valid")[[1L]]$row_ids), 4L)
+  expect_equal(length(rr3$predictions("test")[[1L]]$row_ids), 2L)
+})
+
+test_that("properties are also checked on validation task", {
+  task = tsk("iris")
+  row = task$data(1)
+  row[[1]][1] = NA
+  row$..row_id = 151
+  task$rbind(row)
+  task$divide(ids = 151)
+  learner = lrn("classif.debug", validate = "predefined")
+  learner$properties = setdiff(learner$properties, "missings")
+
+  expect_error(resample(task, learner, rsmp("holdout")), "missing values")
+})
+
 test_that("marshaling does not change class of learner state when reassembling", {
   rr = resample(tsk("iris"), lrn("classif.debug", encapsulate = c(train = "callr")), rsmp("holdout"), store_models = TRUE)
   expect_class(rr$learners[[1]]$state, "learner_state")
@@ -271,6 +356,17 @@ test_that("marshaled model is sent back, when unmarshal is FALSE, sequential exe
   learner = lrn("classif.debug", count_marshaling = TRUE, encapsulate = c(train = "callr", predict = "callr"))
   rr = resample(tsk("iris"), learner, rsmp("holdout"), store_models = TRUE, unmarshal = FALSE)
   expect_true(rr$learners[[1L]]$marshaled)
+})
+
+test_that("predict_set internal_valid throws error when none is available", {
+  expect_error(
+    resample(tsk("iris"), lrn("classif.debug", predict_sets = "internal_valid"), rsmp("holdout")),
+    "Cannot set the predict_type"
+  )
+})
+
+test_that("can even use internal_valid predict set on learners that don't support validation", {
+  rr = resample(tsk("mtcars")$divide(ids = 1:10), lrn("regr.debug", predict_sets = "internal_valid"), rsmp("holdout"))
 })
 
 test_that("callr during prediction triggers marshaling", {
