@@ -110,6 +110,8 @@ See the \code{\link{Task}} documentation for more information.
 }
 
 For an example how to do this, see \code{\link{LearnerClassifDebug}}.
+Note that in \code{.train()}, the \verb{$internal_valid_task} will only be present if the \verb{$validate} field of the \code{Learner}
+is set to a non-\code{NULL} value.
 }
 
 \section{Implementing Internal Tuning}{
