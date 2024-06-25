@@ -194,7 +194,9 @@ for early stopping and model evaluation.</p></li>
 <li><p><code>"predefined"</code> means that the task's (manually set) <code>$internal_valid_task</code> is used.
 See the <code><a href="Task.html">Task</a></code> documentation for more information.</p></li>
 </ul></li>
-</ul><p>For an example how to do this, see <code><a href="mlr_learners_classif.debug.html">LearnerClassifDebug</a></code>.</p>
+</ul><p>For an example how to do this, see <code><a href="mlr_learners_classif.debug.html">LearnerClassifDebug</a></code>.
+Note that in <code>.train()</code>, the <code>$internal_valid_task</code> will only be present if the <code>$validate</code> field of the <code>Learner</code>
+is set to a non-<code>NULL</code> value.</p>
     </div>
     <div class="section level2">
     <h2 id="implementing-internal-tuning">Implementing Internal Tuning<a class="anchor" aria-label="anchor" href="#implementing-internal-tuning"></a></h2>
