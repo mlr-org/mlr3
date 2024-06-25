@@ -425,6 +425,7 @@ append_log = function(log = NULL, stage = NA_character_, class = NA_character_, 
 
 create_internal_valid_task = function(validate, task, test_row_ids, prev_valid, learner) {
   if (is.null(validate)) {
+    task$internal_valid_task = NULL
     return(task)
   }
 

@@ -113,6 +113,8 @@
 #'     See the [`Task`] documentation for more information.
 #'
 #' For an example how to do this, see [`LearnerClassifDebug`].
+#' Note that in `.train()`, the `$internal_valid_task` will only be present if the `$validate` field of the `Learner`
+#' is set to a non-`NULL` value.
 #'
 #' @section Implementing Internal Tuning:
 #' Some learners such as `XGBoost` or `cv.glmnet` can internally tune hyperparameters.

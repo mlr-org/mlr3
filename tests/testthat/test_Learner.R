@@ -420,7 +420,7 @@ test_that("internal_valid_task is created correctly", {
   learner$train(task)
   learner$validate = NULL
   expect_true(is.null(learner$internal_valid_scores))
-  expect_false(is.null(learner$task$internal_valid_task))
+  expect_true(is.null(learner$task$internal_valid_task))
 
   # validate = NULL (but task has none)
   learner1 = LearnerClassifTest$new()

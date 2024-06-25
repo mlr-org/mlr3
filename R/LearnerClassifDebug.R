@@ -164,7 +164,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
         get("attach")(structure(list(), class = "UserDefinedDatabase"))
       }
 
-      valid_truth = if (!is.null(self$validate)) task$internal_valid_task$truth()
+      valid_truth = if (!is.null(task$internal_valid_task)) task$internal_valid_task$truth()
 
       if (isTRUE(pv$early_stopping) && is.null(valid_truth)) {
         stopf("Early stopping is only possible when a validation task is present.")
