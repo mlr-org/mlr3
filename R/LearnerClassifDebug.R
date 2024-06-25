@@ -202,7 +202,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
 
     .extract_internal_tuned_values = function() {
       if (!isTRUE(self$state$param_vals$early_stopping)) {
-        named_list()
+        NULL
       } else {
         self$model["iter"]
       }
