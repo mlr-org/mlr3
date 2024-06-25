@@ -22,7 +22,7 @@ as_task_unsupervised.Task = function(x, clone = FALSE, ...) { # nolint
 #'   Defaults to the (deparsed and substituted) name of the data argument.
 #' @template param_label
 #' @export
-as_task_unsupervised.data.frame = function(x, id = deparse(substitute(x)), label = NA_character_, ...) { # nolint
+as_task_unsupervised.data.frame = function(x, id = deparse1(substitute(x)), label = NA_character_, ...) { # nolint
   force(id)
 
   ii = which(map_lgl(keep(x, is.double), anyInfinite))
@@ -35,7 +35,7 @@ as_task_unsupervised.data.frame = function(x, id = deparse(substitute(x)), label
 
 #' @rdname as_task_unsupervised
 #' @export
-as_task_unsupervised.DataBackend = function(x, id = deparse(substitute(x)), label = NA_character_, ...) { # nolint
+as_task_unsupervised.DataBackend = function(x, id = deparse1(substitute(x)), label = NA_character_, ...) { # nolint
   force(id)
 
   TaskUnsupervised$new(id = id, backend = x, label = label)

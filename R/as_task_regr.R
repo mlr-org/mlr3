@@ -33,7 +33,7 @@ as_task_regr.TaskRegr = function(x, clone = FALSE, ...) { # nolint
 #'   Defaults to the (deparsed and substituted) name of the data argument.
 #' @template param_label
 #' @export
-as_task_regr.data.frame = function(x, target = NULL, id = deparse(substitute(x)), label = NA_character_, ...) { # nolint
+as_task_regr.data.frame = function(x, target = NULL, id = deparse1(substitute(x)), label = NA_character_, ...) { # nolint
   force(id)
 
   assert_data_frame(x, min.rows = 1L, min.cols = 1L, col.names = "unique")
@@ -49,7 +49,7 @@ as_task_regr.data.frame = function(x, target = NULL, id = deparse(substitute(x))
 
 #' @rdname as_task_regr
 #' @export
-as_task_regr.matrix = function(x, target = NULL, id = deparse(substitute(x)), label = NA_character_, ...) { # nolint
+as_task_regr.matrix = function(x, target = NULL, id = deparse1(substitute(x)), label = NA_character_, ...) { # nolint
   force(id)
 
   assert_matrix(x, mode = "numeric")
@@ -60,7 +60,7 @@ as_task_regr.matrix = function(x, target = NULL, id = deparse(substitute(x)), la
 
 #' @rdname as_task_regr
 #' @export
-as_task_regr.Matrix = function(x, target = NULL, id = deparse(substitute(x)), label = NA_character_, ...) { # nolint
+as_task_regr.Matrix = function(x, target = NULL, id = deparse1(substitute(x)), label = NA_character_, ...) { # nolint
   force(id)
 
   assert_names(colnames(x), "unique")
@@ -73,7 +73,7 @@ as_task_regr.Matrix = function(x, target = NULL, id = deparse(substitute(x)), la
 
 #' @rdname as_task_regr
 #' @export
-as_task_regr.DataBackend = function(x, target = NULL, id = deparse(substitute(x)), label = NA_character_, ...) { # nolint
+as_task_regr.DataBackend = function(x, target = NULL, id = deparse1(substitute(x)), label = NA_character_, ...) { # nolint
   force(id)
 
   assert_choice(target, x$colnames)
@@ -92,7 +92,7 @@ as_task_regr.TaskClassif = function(x, target = NULL, drop_original_target = FAL
 #' @param data (`data.frame()`)\cr
 #'   Data frame containing all columns referenced in formula `x`.
 #' @export
-as_task_regr.formula = function(x, data, id = deparse(substitute(data)), label = NA_character_, ...) { # nolint
+as_task_regr.formula = function(x, data, id = deparse1(substitute(data)), label = NA_character_, ...) { # nolint
   force(id)
 
   assert_data_frame(data)

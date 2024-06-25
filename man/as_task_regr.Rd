@@ -18,7 +18,7 @@ as_task_regr(x, ...)
 \method{as_task_regr}{data.frame}(
   x,
   target = NULL,
-  id = deparse(substitute(x)),
+  id = deparse1(substitute(x)),
   label = NA_character_,
   ...
 )
@@ -26,7 +26,7 @@ as_task_regr(x, ...)
 \method{as_task_regr}{matrix}(
   x,
   target = NULL,
-  id = deparse(substitute(x)),
+  id = deparse1(substitute(x)),
   label = NA_character_,
   ...
 )
@@ -34,7 +34,7 @@ as_task_regr(x, ...)
 \method{as_task_regr}{Matrix}(
   x,
   target = NULL,
-  id = deparse(substitute(x)),
+  id = deparse1(substitute(x)),
   label = NA_character_,
   ...
 )
@@ -42,7 +42,7 @@ as_task_regr(x, ...)
 \method{as_task_regr}{DataBackend}(
   x,
   target = NULL,
-  id = deparse(substitute(x)),
+  id = deparse1(substitute(x)),
   label = NA_character_,
   ...
 )
@@ -58,7 +58,7 @@ as_task_regr(x, ...)
 \method{as_task_regr}{formula}(
   x,
   data,
-  id = deparse(substitute(data)),
+  id = deparse1(substitute(data)),
   label = NA_character_,
   ...
 )
