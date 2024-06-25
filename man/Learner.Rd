@@ -128,7 +128,7 @@ implemented via \CRANpkg{mlr3tuning}, one most:
 \item implement the active binding \verb{$internal_tuned_values} (see section \emph{Optional Extractors}) as well as the
 private method \verb{$.extract_internal_tuned_values()} which extracts the internally tuned values from the \code{\link{Learner}}'s
 model and returns them as a named \code{list()}.
-If the model is not trained yet, this method should return \code{NULL}.
+If the model did not internally tune hyperparameters, this method should return \code{NULL}.
 \item Have at least one parameter tagged with \code{"internal_tuning"}, which requires to also provide a \code{in_tune_fn} and
 \code{disable_tune_fn}, and \emph{should} also include a default \code{aggr}egation function.
 }

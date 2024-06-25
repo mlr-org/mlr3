@@ -128,7 +128,7 @@
 #' * implement the active binding `$internal_tuned_values` (see section *Optional Extractors*) as well as the
 #'   private method `$.extract_internal_tuned_values()` which extracts the internally tuned values from the [`Learner`]'s
 #'   model and returns them as a named `list()`.
-#'   If the model is not trained yet, this method should return `NULL`.
+#'   If the model did not internally tune hyperparameters, this method should return `NULL`.
 #' * Have at least one parameter tagged with `"internal_tuning"`, which requires to also provide a `in_tune_fn` and
 #'   `disable_tune_fn`, and *should* also include a default `aggr`egation function.
 #'
