@@ -1,6 +1,6 @@
 # mlr3 0.20.0
 
-* added support for learner-internal validation and tuning
+* Added support for learner-internal validation and tuning.
 
 # mlr3 0.19.0
 
