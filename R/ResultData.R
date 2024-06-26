@@ -5,7 +5,7 @@
 #' It is advised to not directly work on this data structure as it may be changed in the future
 #' without further warnings.
 #'
-#' The main motivation of this data structure is the necessity to avoid storing duplicated [R6] objects.
+#' The main motivation of this data structure is the necessity to avoid storing duplicated [R6][R6::R6Class] objects.
 #' While this is usually no problem in a single R session, serialization via [serialize()] (which is
 #' used in [save()]/[saveRDS()] or during parallelization) leads to objects with unreasonable memory
 #' requirements.
@@ -19,7 +19,7 @@
 ResultData = R6Class("ResultData",
   public = list(
     #' @field data (`list()`)\cr
-    #'   List of `data.tables()`, arranged in a star schema.
+    #'   List of [data.table::data.table()], arranged in a star schema.
     #'   Do not operate directly on this list.
     data = NULL,
 
@@ -28,7 +28,7 @@ ResultData = R6Class("ResultData",
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #' An alternative construction method is provided by [as_result_data()].
     #'
-    #' @param data ([data.table()] | `NULL`)\cr
+    #' @param data ([data.table::data.table()]) | `NULL`)\cr
     #'   Do not initialize this object yourself, use [as_result_data()] instead.
     #' @param store_backends (`logical(1)`)\cr
     #'   If set to `FALSE`, the backends of the [Task]s provided in `data` are
@@ -325,7 +325,7 @@ ResultData = R6Class("ResultData",
     #' @param condition (`character(1)`)
     #'   The condition to extract. One of `"message"`, `"warning"` or `"error"`.
     #'
-    #' @return [data.table()].
+    #' @return [data.table::data.table()].
     logs = function(view = NULL, condition) {
       .__ii__ = private$get_view_index(view)
       learner_state = NULL

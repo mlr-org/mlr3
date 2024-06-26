@@ -8,7 +8,7 @@ Internal object to store results in list of data.tables, arranged in a star sche
 It is advised to not directly work on this data structure as it may be changed in the future
 without further warnings.
 
-The main motivation of this data structure is the necessity to avoid storing duplicated \link{R6} objects.
+The main motivation of this data structure is the necessity to avoid storing duplicated \link[R6:R6Class]{R6} objects.
 While this is usually no problem in a single R session, serialization via \code{\link[=serialize]{serialize()}} (which is
 used in \code{\link[=save]{save()}}/\code{\link[=saveRDS]{saveRDS()}} or during parallelization) leads to objects with unreasonable memory
 requirements.
@@ -22,7 +22,7 @@ print(ResultData$new()$data)
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
 \item{\code{data}}{(\code{list()})\cr
-List of \code{data.tables()}, arranged in a star schema.
+List of \code{\link[data.table:data.table]{data.table::data.table()}}, arranged in a star schema.
 Do not operate directly on this list.}
 }
 \if{html}{\out{</div>}}
@@ -71,7 +71,7 @@ An alternative construction method is provided by \code{\link[=as_result_data]{a
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{data}}{(\code{\link[=data.table]{data.table()}} | \code{NULL})\cr
+\item{\code{data}}{(\code{\link[data.table:data.table]{data.table::data.table()}}) | \code{NULL})\cr
 Do not initialize this object yourself, use \code{\link[=as_result_data]{as_result_data()}} instead.}
 
 \item{\code{store_backends}}{(\code{logical(1)})\cr
@@ -466,7 +466,7 @@ The condition to extract. One of \code{"message"}, \code{"warning"} or \code{"er
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-\code{\link[=data.table]{data.table()}}.
+\code{\link[data.table:data.table]{data.table::data.table()}}.
 }
 }
 \if{html}{\out{<hr>}}
