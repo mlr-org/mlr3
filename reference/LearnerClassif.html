@@ -40,7 +40,7 @@ Additional learners are implement in the Github package https://github.com/mlr-o
     
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.19.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.20.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -214,6 +214,8 @@ The following properties are currently standardized and understood by learners i
 <li><p><code>"importance"</code>: The learner supports extraction of importance scores, i.e. comes with an <code>$importance()</code> extractor function (see section on optional extractors in <a href="Learner.html">Learner</a>).</p></li>
 <li><p><code>"selected_features"</code>: The learner supports extraction of the set of selected features, i.e. comes with a <code>$selected_features()</code> extractor function (see section on optional extractors in <a href="Learner.html">Learner</a>).</p></li>
 <li><p><code>"oob_error"</code>: The learner supports extraction of estimated out of bag error, i.e. comes with a <code>oob_error()</code> extractor function (see section on optional extractors in <a href="Learner.html">Learner</a>).</p></li>
+<li><p><code>"validation"</code>: The learner can use a validation task during training.</p></li>
+<li><p><code>"internal_tuning"</code>: The learner is able to internally optimize hyperparameters (those are also tagged with <code>"internal_tuning"</code>).</p></li>
 <li><p><code>"marshal"</code>: To save learners with this property, you need to call <code>$marshal()</code> first.
 If a learner is in a marshaled state, you call first need to call <code>$unmarshal()</code> to use its model, e.g. for prediction.</p></li>
 </ul></dd>
@@ -303,7 +305,7 @@ The referenced help package can be opened via method <code>$help()</code>.</p></
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Michel Lang, Bernd Bischl, Jakob Richter, Patrick Schratz, Martin Binder, Florian Pfisterer, Raphael Sonabend, Marc Becker.</p>
+  <p>Developed by Michel Lang, Bernd Bischl, Jakob Richter, Patrick Schratz, Martin Binder, Florian Pfisterer, Raphael Sonabend, Marc Becker, Sebastian Fischer.</p>
 </div>
 
 <div class="pkgdown-footer-right">

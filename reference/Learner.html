@@ -44,7 +44,7 @@ Hyperparameters stored in the param_set can be tuned with mlr3tuning."><meta pro
     
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.19.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.20.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -146,6 +146,12 @@ The learner must be tagged with property <code>"selected_features"</code>.</p></
 The learner must be tagged with property <code>"oob_error"</code>.</p></li>
 <li><p><code>loglik(...)</code>: Extracts the log-likelihood (c.f. <code><a href="https://rdrr.io/r/stats/logLik.html" class="external-link">stats::logLik()</a></code>).
 This can be used in measures like <a href="mlr_measures_aic.html">mlr_measures_aic</a> or <a href="mlr_measures_bic.html">mlr_measures_bic</a>.</p></li>
+<li><p><code>internal_valid_scores</code>: Returns the internal validation score(s) of the model as a named <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>.
+Only available for <code>Learner</code>s with the <code>"validation"</code> property.
+If the learner is not trained yet, this returns <code>NULL</code>.</p></li>
+<li><p><code>internal_tuned_values</code>: Returns the internally tuned hyperparameters of the model as a named <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>.
+Only available for <code>Learner</code>s with the <code>"internal_tuning"</code> property.
+If the learner is not trained yet, this returns <code>NULL</code>.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="setting-hyperparameters">Setting Hyperparameters<a class="anchor" aria-label="anchor" href="#setting-hyperparameters"></a></h2>
@@ -164,6 +170,59 @@ If you only intend to change one specific hyperparameter value and leave the oth
 <p>If the learner has additional hyperparameters which are not encoded in the <a href="https://paradox.mlr-org.com/reference/ParamSet.html" class="external-link">ParamSet</a>, you can easily extend the learner.
 Here, we add a factor hyperparameter with id <code>"foo"</code> and possible levels <code>"a"</code> and <code>"b"</code>:</p>
 <p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>lrn<span class="sc">$</span>param_set<span class="sc">$</span><span class="fu">add</span>(paradox<span class="sc">::</span>ParamFct<span class="sc">$</span><span class="fu">new</span>(<span class="st">"foo"</span>, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"b"</span>)))</span></code></pre><p></p></div>
+    </div>
+    <div class="section level2">
+    <h2 id="implementing-validation">Implementing Validation<a class="anchor" aria-label="anchor" href="#implementing-validation"></a></h2>
+    
+
+<p>Some Learners, such as <code>XGBoost</code>, other boosting algorithms, or deep learning models (<code>mlr3torch</code>),
+utilize validation data during the training to prevent overfitting or to log the validation performance.
+It is possible to configure learners to be able to receive such an independent validation set during training.
+To do so, one must:</p><ul><li><p>annotate the learner with the <code>"validation"</code> property</p></li>
+<li><p>implement the active binding <code>$internal_valid_scores</code> (see section <em>Optional Extractors</em>), as well as the
+private method <code>$.extract_internal_valid_scores()</code> which returns the (final) internal validation scores from the
+model of the <code>Learner</code> and returns them as a named <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code> of <code>numeric(1)</code>.
+If the model is not trained yet, this method should return <code>NULL</code>.</p></li>
+<li><p>Add the <code>validate</code> parameter, which can be either <code>NULL</code>, a ratio in $(0, 1)$, <code>"test"</code>, or <code>"predefined"</code>:</p><ul><li><p><code>NULL</code>: no validation</p></li>
+<li><p><code>ratio</code>: only proportion <code>1 - ratio</code> of the task is used for training and <code>ratio</code> is used for validation.</p></li>
+<li><p><code>"test"</code> means that the <code>"test"</code> task is used.
+<strong>Warning</strong>: This can lead to biased performance estimation.
+This option is only available if the learner is being trained via <code><a href="resample.html">resample()</a></code>, <code><a href="benchmark.html">benchmark()</a></code> or functions that
+internally use them, e.g. <code>mlr3tuning::tune()</code> or <code>mlr3batchmark::batchmark()</code>.
+This is especially useful for hyperparameter tuning, where one might e.g. want to use the same validation data
+for early stopping and model evaluation.</p></li>
+<li><p><code>"predefined"</code> means that the task's (manually set) <code>$internal_valid_task</code> is used.
+See the <code><a href="Task.html">Task</a></code> documentation for more information.</p></li>
+</ul></li>
+</ul><p>For an example how to do this, see <code><a href="mlr_learners_classif.debug.html">LearnerClassifDebug</a></code>.
+Note that in <code>.train()</code>, the <code>$internal_valid_task</code> will only be present if the <code>$validate</code> field of the <code>Learner</code>
+is set to a non-<code>NULL</code> value.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="implementing-internal-tuning">Implementing Internal Tuning<a class="anchor" aria-label="anchor" href="#implementing-internal-tuning"></a></h2>
+    
+
+<p>Some learners such as <code>XGBoost</code> or <code>cv.glmnet</code> can internally tune hyperparameters.
+XGBoost, for example, can tune the number of boosting rounds based on the validation performance.
+CV Glmnet, on the other hand, can tune the regularization parameter based on an internal cross-validation.
+Internal tuning <em>can</em> therefore rely on the internal validation data, but does not necessarily do so.</p>
+<p>In order to be able to combine this internal hyperparamer tuning with the standard hyperparameter optimization
+implemented via <a href="https://CRAN.R-project.org/package=mlr3tuning" class="external-link"><span class="pkg">mlr3tuning</span></a>, one most:</p><ul><li><p>annotate the learner with the <code>"internal_tuning"</code> property</p></li>
+<li><p>implement the active binding <code>$internal_tuned_values</code> (see section <em>Optional Extractors</em>) as well as the
+private method <code>$.extract_internal_tuned_values()</code> which extracts the internally tuned values from the <code>Learner</code>'s
+model and returns them as a named <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>.
+If the model is not trained yet, this method should return <code>NULL</code>.</p></li>
+<li><p>Have at least one parameter tagged with <code>"internal_tuning"</code>, which requires to also provide a <code>in_tune_fn</code> and
+<code>disable_tune_fn</code>, and <em>should</em> also include a default <code>aggr</code>egation function.</p></li>
+</ul><p>For an example how to do this, see <code><a href="mlr_learners_classif.debug.html">LearnerClassifDebug</a></code>.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="implementing-marshaling">Implementing Marshaling<a class="anchor" aria-label="anchor" href="#implementing-marshaling"></a></h2>
+    
+
+<p>Some <code>Learner</code>s have models that cannot be serialized as they e.g. contain external pointers.
+In order to still be able to save them, use them with parallelization or callr encapsulation it is necessary
+to implement how they should be (un)-marshaled. See <code><a href="marshaling.html">marshaling</a></code> for how to do this.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -254,7 +313,10 @@ These packages are loaded, but not attached.</p></dd>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 During <code><a href="resample.html">resample()</a></code>/<code><a href="benchmark.html">benchmark()</a></code>, a Learner can predict on multiple sets.
 Per default, a learner only predicts observations in the test set (<code>predict_sets == "test"</code>).
-To change this behavior, set <code>predict_sets</code> to a non-empty subset of <code>{"train", "test", "holdout"}</code>.
+To change this behavior, set <code>predict_sets</code> to a non-empty subset of <code>{"train", "test", "internal_valid"}</code>.
+The <code>"train"</code> predict set contains the train ids from the resampling. This means that if a learner does validation and
+sets <code>$validate</code> to a ratio (creating the validation data from the training data), the train predictions
+will include the predictions for the validation data.
 Each set yields a separate <a href="Prediction.html">Prediction</a> object.
 Those can be combined via getters in <a href="ResampleResult.html">ResampleResult</a>/<a href="BenchmarkResult.html">BenchmarkResult</a>, or <a href="Measure.html">Measure</a>s can be configured
 to operate on specific subsets of the calculated prediction sets.</p></dd>
@@ -327,8 +389,7 @@ Hash (unique identifier) for this object.</p></dd>
 <dt><code>phash</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 Hash (unique identifier) for this partial object, excluding some components
-which are varied systematically during tuning (parameter values) or feature
-selection (feature names).</p></dd>
+which are varied systematically during tuning (parameter values).</p></dd>
 
 
 <dt><code>predict_type</code></dt>
@@ -439,6 +500,8 @@ The following properties are currently standardized and understood by learners i
 <li><p><code>"importance"</code>: The learner supports extraction of importance scores, i.e. comes with an <code>$importance()</code> extractor function (see section on optional extractors in Learner).</p></li>
 <li><p><code>"selected_features"</code>: The learner supports extraction of the set of selected features, i.e. comes with a <code>$selected_features()</code> extractor function (see section on optional extractors in Learner).</p></li>
 <li><p><code>"oob_error"</code>: The learner supports extraction of estimated out of bag error, i.e. comes with a <code>oob_error()</code> extractor function (see section on optional extractors in Learner).</p></li>
+<li><p><code>"validation"</code>: The learner can use a validation task during training.</p></li>
+<li><p><code>"internal_tuning"</code>: The learner is able to internally optimize hyperparameters (those are also tagged with <code>"internal_tuning"</code>).</p></li>
 <li><p><code>"marshal"</code>: To save learners with this property, you need to call <code>$marshal()</code> first.
 If a learner is in a marshaled state, you call first need to call <code>$unmarshal()</code> to use its model, e.g. for prediction.</p></li>
 </ul></dd>
@@ -664,7 +727,7 @@ Depth of recursion for multiple nested objects.</p></dd>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Michel Lang, Bernd Bischl, Jakob Richter, Patrick Schratz, Martin Binder, Florian Pfisterer, Raphael Sonabend, Marc Becker.</p>
+  <p>Developed by Michel Lang, Bernd Bischl, Jakob Richter, Patrick Schratz, Martin Binder, Florian Pfisterer, Raphael Sonabend, Marc Becker, Sebastian Fischer.</p>
 </div>
 
 <div class="pkgdown-footer-right">

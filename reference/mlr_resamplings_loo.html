@@ -20,7 +20,7 @@ see the examples."><meta property="og:image" content="https://mlr3.mlr-org.com/l
     
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.19.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.20.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -200,9 +200,9 @@ provided to instantiate. Is <code>NA</code> if the resampling has not been insta
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Individual sets:</span></span></span>
 <span class="r-in"><span><span class="va">loo</span><span class="op">$</span><span class="fu">train_set</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  1  2  9  6  4 10  8  7  3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1 6 7 4 3 9 8 5 2</span>
 <span class="r-in"><span><span class="va">loo</span><span class="op">$</span><span class="fu">test_set</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 10</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Disjunct sets:</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/sets.html" class="external-link">intersect</a></span><span class="op">(</span><span class="va">loo</span><span class="op">$</span><span class="fu">train_set</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>, <span class="va">loo</span><span class="op">$</span><span class="fu">test_set</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></span>
@@ -210,7 +210,7 @@ provided to instantiate. Is <code>NA</code> if the resampling has not been insta
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Internal storage:</span></span></span>
 <span class="r-in"><span><span class="va">loo</span><span class="op">$</span><span class="va">instance</span> <span class="co"># vector</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  5  1  2  9  6  4 10  8  7  3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 10  1  6  7  4  3  9  8  5  2</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Combine with group feature of tasks:</span></span></span>
 <span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span></span>
@@ -225,7 +225,7 @@ provided to instantiate. Is <code>NA</code> if the resampling has not been insta
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Michel Lang, Bernd Bischl, Jakob Richter, Patrick Schratz, Martin Binder, Florian Pfisterer, Raphael Sonabend, Marc Becker.</p>
+  <p>Developed by Michel Lang, Bernd Bischl, Jakob Richter, Patrick Schratz, Martin Binder, Florian Pfisterer, Raphael Sonabend, Marc Becker, Sebastian Fischer.</p>
 </div>
 
 <div class="pkgdown-footer-right">
