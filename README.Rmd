@@ -124,7 +124,7 @@ rr$aggregate(measure)
 
 <a href="https://raw.githubusercontent.com/mlr-org/mlr3/main/man/figures/mlr3verse.svg?sanitize=true"><img src="man/figures/mlr3verse.svg" /></a>
 
-Consult the [wiki](https://github.com/mlr-org/mlr3/wiki/Extension-Packages) for short descriptions and links to the respective repositories.
+Consult the [ecosystem overview](https://mlr-org.com/ecosystem.html) for short descriptions and links to the respective repositories.
 
 For beginners, we strongly recommend to install and load the [mlr3verse](https://mlr3verse.mlr-org.com/) package for a better user experience.
 
