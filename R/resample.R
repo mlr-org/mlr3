@@ -62,6 +62,7 @@ resample = function(task, learner, resampling, store_models = FALSE, store_backe
   resampling = assert_resampling(as_resampling(resampling, clone = "resampling" %in% clone))
   assert_flag(store_models)
   assert_flag(store_backends)
+  # this does not check the internal validation task as it might not be set yet
   assert_learnable(task, learner)
   assert_flag(unmarshal)
 
@@ -85,12 +86,12 @@ resample = function(task, learner, resampling, store_models = FALSE, store_backe
     hotstart_grid = map_dtr(seq_len(n), function(iteration) {
       if (!is.null(learner$hotstart_stack)) {
         # search for hotstart learner
-        task_hashes = task_hashes(task, resampling)
+        task_hashes = resampling_task_hashes(task, resampling, learner)
         start_learner = get_private(learner$hotstart_stack)$.start_learner(learner$clone(), task_hashes[iteration])
       }
       if (is.null(learner$hotstart_stack) || is.null(start_learner)) {
         # no hotstart learners stored or no adaptable model found
-        lg$debug("Resampling with hotstarting not possible. Not start learner found.")
+        lg$debug("Resampling with hotstarting not possible. No start learner found.")
         mode = "train"
       } else {
         # hotstart learner found
@@ -130,6 +131,9 @@ resample = function(task, learner, resampling, store_models = FALSE, store_backe
 
   result_data = ResultData$new(data, store_backends = store_backends)
 
+  # the worker already ensures that models are sent back in marshaled form if unmarshal = FALSE, so we don't have
+  # to do anything in this case. This allows us to minimize the amount of marshaling in those situtions where
+  # the model is available in both states on the worker
   if (unmarshal && store_models) {
     result_data$unmarshal()
   }

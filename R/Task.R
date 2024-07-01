@@ -145,11 +145,58 @@ Task = R6Class("Task",
       )
 
       cn = self$col_info$id # note: this sorts the columns!
-      private$.row_roles = list(use = rn, test = integer(), holdout = integer())
+      private$.row_roles = list(use = rn)
       private$.col_roles = named_list(mlr_reflections$task_col_roles[[task_type]], character())
       private$.col_roles$feature = setdiff(cn, self$backend$primary_key)
       self$extra_args = assert_list(extra_args, names = "unique")
       self$mlr3_version = mlr_reflections$package_version
+    },
+
+    #' @description
+    #' Creates an internal validation task (field `$internal_valid_task`) from the primary task.
+    #' This modifies the task in-place.
+    #' Subsequent operations on the (primary) task are **not** relayed to the internal validation task.
+    #' One must either provide the parameter `ratio` or `ids.
+    #'
+    #' @param ratio (`numeric(1)`)\cr
+    #'   The proportion of datapoints to use as validation data.
+    #' @param ids (`integer()`)\cr
+    #'   The row ids to use as validation data.
+    #' @param remove (`logical(1)`)\cr
+    #'   If `TRUE` (default), the `row_ids` are removed from the primary task's active `"use"` rows, ensuring a
+    #'   disjoint split between the train and validation data.
+    #'
+    #' @return Modified `Self`.
+    divide = function(ratio = NULL, ids = NULL, remove = TRUE) {
+      assert_flag(remove)
+      private$.hash = NULL
+
+      if (!xor(is.null(ratio), is.null(ids))) {
+        stopf("Provide a ratio or ids to create a validation task, but not both (Task '%s').", self$id)
+      }
+
+      valid_ids = if (!is.null(ratio)) {
+        assert_numeric(ratio, lower = 0, upper = 1, any.missing = FALSE)
+        # stratify = FALSE means we only stratify when strata are present
+        partition(self, ratio = 1 - ratio, stratify = FALSE)$test
+      } else {
+        assert_row_ids(ids, null.ok = FALSE) 
+      }
+
+      prev_internal_valid = private$.internal_valid_task
+      if (!is.null(prev_internal_valid)) {
+        lg$debug("Task %s already had an internal validation task that is being overwritten.", self$id)
+        # in case something goes wrong
+        on.exit({private$.internal_valid_task = prev_internal_valid}, add = TRUE)
+        private$.internal_valid_task = NULL
+      }
+      private$.internal_valid_task = self$clone(deep = TRUE)
+      private$.internal_valid_task$row_roles$use = valid_ids
+      if (remove) {
+        self$row_roles$use = setdiff(self$row_roles$use, valid_ids)
+      }
+      on.exit({}, add = FALSE)
+      invisible(self)
     },
 
     #' @description
@@ -201,13 +248,8 @@ Task = R6Class("Task",
         catn(str_indent(sprintf("* %s:", str), roles[[role]]))
       })
 
-      nrows = list(test = length(private$.row_roles$test), holdout = length(private$.row_roles$holdout))
-      if (nrows$test || nrows$holdout) {
-        str = paste(c(
-          if(nrows$test) sprintf("%i (test)", nrows$test),
-          if(nrows$holdout) sprintf("%i (holdout)", nrows$holdout)
-          ), collapse = ", ")
-        catf(str_indent("* Additional Row Roles:", str))
+      if (!is.null(private$.internal_valid_task)) {
+        catf(str_indent("* Validation Task:", sprintf("(%ix%i)", private$.internal_valid_task$nrow, private$.internal_valid_task$ncol)))
       }
     },
 
@@ -342,6 +384,7 @@ Task = R6Class("Task",
     #' @return Named `integer()`.
     missings = function(cols = NULL) {
       assert_has_backend(self)
+
 
       if (is.null(cols)) {
         cols = unlist(private$.col_roles[c("target", "feature")], use.names = FALSE)
@@ -732,14 +775,47 @@ Task = R6Class("Task",
       private$.id = assert_string(rhs, min.chars = 1L)
     },
 
+    #' @field internal_valid_task (`Task` or `NULL`)\cr
+    #' Optional validation task that can, e.g., be used for early stopping with learners such as XGBoost.
+    #' See also the `$validate` field of [`Learner`].
+    #' When assigning a new task, it is always cloned.
+    internal_valid_task = function(rhs) {
+      if (missing(rhs)) {
+        return(invisible(private$.internal_valid_task))
+      }
+      private$.hash = NULL
+      if (is.null(rhs)) {
+        private$.internal_valid_task = NULL
+        return(invisible(private$.internal_valid_task))
+      }
+
+      assert_task(rhs, task_type = self$task_type)
+      rhs = rhs$clone(deep = TRUE)
+      if (!is.null(rhs$internal_valid_task)) { # avoid recursive structures
+        stopf("Trying to assign task '%s' as a validation task, remove its validation task first.", rhs$id)
+      }
+
+      ci1 = self$col_info
+      ci2 = rhs$col_info
+      # don't do this too strictly, some column roles might just be important during training (weights)
+      cols = unlist(self$col_roles[c("target", "feature")])
+      walk(cols, function(.col) {
+        if (.col %nin% ci2$id) {
+          stopf("Primary task has column '%s' which is not present in the validation task.", .col)
+        }
+        if (ci1[get("id") == .col, "type"]$type != ci2[get("id") == .col, "type"]$type) {
+          stopf("The type of column '%s' from the validation task differs from the type in the primary task.", .col)
+        }
+      })
+
+      private$.internal_valid_task = rhs
+      invisible(private$.internal_valid_task)
+    },
 
     #' @template field_hash
     hash = function(rhs) {
       if (is.null(private$.hash)) {
-        private$.hash = calculate_hash(
-          class(self), self$id, self$backend$hash, self$col_info,
-          remove_named(private$.row_roles, "test"), private$.col_roles, private$.properties
-        )
+        private$.hash = task_hash(self, self$row_ids, ignore_internal_valid_task = FALSE)
       }
 
       private$.hash
@@ -814,14 +890,6 @@ Task = R6Class("Task",
     #' Each row (observation) can have an arbitrary number of roles in the learning task:
     #'
     #' - `"use"`: Use in train / predict / resampling.
-    #' - `"test"`: Observations are hold back unless explicitly queried.
-    #'   Can be queried by a [Learner] to determine a good iteration to stop by evaluating the performance
-    #'   on external data, e.g. the XGboost learner in \CRANpkg{mlr3learners} for parameter `nrounds`.
-    #' - `"holdout"`: Observations are hold back unless explicitly queried.
-    #'   Can be used, e.g., as truly independent holdout set:
-    #'
-    #'   1. Add `"holdout"` to the `predict_sets` of a [Learner].
-    #'   2. Configure a [Measure] to use the `"holdout"` set by updating its `predict_sets` field.
     #'
     #' `row_roles` is a named list whose elements are named by row role and each element is an `integer()` vector of row ids.
     #' To alter the roles, just modify the list, e.g. with  \R's set functions ([intersect()], [setdiff()], [union()], \ldots).
@@ -832,9 +900,11 @@ Task = R6Class("Task",
 
       assert_has_backend(self)
       assert_list(rhs, .var.name = "row_roles")
+      if ("test" %in% names(rhs) || "holdout" %in% names(rhs)) {
+        stopf("Setting row roles 'test'/'holdout' is no longer possible.")
+      }
       assert_names(names(rhs), "unique", permutation.of = mlr_reflections$task_row_roles, .var.name = "names of row_roles")
       rhs = map(rhs, assert_row_ids, .var.name = "elements of row_roles")
-
       private$.hash = NULL
       private$.row_roles = rhs
     },
@@ -884,6 +954,13 @@ Task = R6Class("Task",
     ncol = function(rhs) {
       assert_ro_binding(rhs)
       length(private$.col_roles$feature) + length(private$.col_roles$target)
+    },
+
+    #' @field n_features (`integer(1)`)\cr
+    #' Returns the total number of columns with role "feature" (i.e. the number of "active" features in the task).
+    n_features = function(rhs) {
+      assert_ro_binding(rhs)
+      length(private$.col_roles$feature)
     },
 
     #' @field feature_types ([data.table::data.table()])\cr
@@ -1024,6 +1101,7 @@ Task = R6Class("Task",
   ),
 
   private = list(
+    .internal_valid_task = NULL,
     .id = NULL,
     .properties = NULL,
     .col_roles = NULL,
@@ -1033,7 +1111,13 @@ Task = R6Class("Task",
 
     deep_clone = function(name, value) {
       # NB: DataBackends are never copied!
-      if (name == "col_info") copy(value) else value
+      if (name == "col_info") {
+        copy(value)
+      } else if (name == ".internal_valid_task" && !is.null(value)) {
+        value$clone(deep = TRUE)
+      } else {
+        value
+      }
     }
   )
 )
@@ -1154,6 +1238,7 @@ task_rm_backend = function(task) {
   ee = get_private(task)
   ee$.hash = force(task$hash)
   ee$.col_hashes = force(task$col_hashes)
+  ee$.internal_valid_task$backend = NULL
 
   # NULL backend
   task$backend = NULL

@@ -60,6 +60,7 @@ Other Measure:
 \code{\link{mlr_measures_bic}},
 \code{\link{mlr_measures_classif.costs}},
 \code{\link{mlr_measures_debug_classif}},
+\code{\link{mlr_measures_internal_valid_score}},
 \code{\link{mlr_measures_oob_error}},
 \code{\link{mlr_measures_selected_features}}
 }

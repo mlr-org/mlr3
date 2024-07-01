@@ -153,6 +153,11 @@ Package version of \code{mlr3} used to create the task.}
 Identifier of the object.
 Used in tables, plot and text output.}
 
+\item{\code{internal_valid_task}}{(\code{Task} or \code{NULL})\cr
+Optional validation task that can, e.g., be used for early stopping with learners such as XGBoost.
+See also the \verb{$validate} field of \code{\link{Learner}}.
+When assigning a new task, it is always cloned.}
+
 \item{\code{hash}}{(\code{character(1)})\cr
 Hash (unique identifier) for this object.}
 
@@ -193,15 +198,6 @@ Note that above listed properties are calculated from the \verb{$col_roles} and 
 Each row (observation) can have an arbitrary number of roles in the learning task:
 \itemize{
 \item \code{"use"}: Use in train / predict / resampling.
-\item \code{"test"}: Observations are hold back unless explicitly queried.
-Can be queried by a \link{Learner} to determine a good iteration to stop by evaluating the performance
-on external data, e.g. the XGboost learner in \CRANpkg{mlr3learners} for parameter \code{nrounds}.
-\item \code{"holdout"}: Observations are hold back unless explicitly queried.
-Can be used, e.g., as truly independent holdout set:
-\enumerate{
-\item Add \code{"holdout"} to the \code{predict_sets} of a \link{Learner}.
-\item Configure a \link{Measure} to use the \code{"holdout"} set by updating its \code{predict_sets} field.
-}
 }
 
 \code{row_roles} is a named list whose elements are named by row role and each element is an \code{integer()} vector of row ids.
@@ -232,6 +228,9 @@ Returns the total number of rows with role "use".}
 
 \item{\code{ncol}}{(\code{integer(1)})\cr
 Returns the total number of columns with role "target" or "feature".}
+
+\item{\code{n_features}}{(\code{integer(1)})\cr
+Returns the total number of columns with role "feature" (i.e. the number of "active" features in the task).}
 
 \item{\code{feature_types}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
 Returns a table with columns \code{id} and \code{type} where \code{id} are the column names of "active"
@@ -300,6 +299,7 @@ The reverse is not necessarily true: There can be columns with the same content 
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-Task-new}{\code{Task$new()}}
+\item \href{#method-Task-divide}{\code{Task$divide()}}
 \item \href{#method-Task-help}{\code{Task$help()}}
 \item \href{#method-Task-format}{\code{Task$format()}}
 \item \href{#method-Task-print}{\code{Task$print()}}
@@ -354,6 +354,37 @@ Named list of constructor arguments, required for converting task types
 via \code{\link[=convert_task]{convert_task()}}.}
 }
 \if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Task-divide"></a>}}
+\if{latex}{\out{\hypertarget{method-Task-divide}{}}}
+\subsection{Method \code{divide()}}{
+Creates an internal validation task (field \verb{$internal_valid_task}) from the primary task.
+This modifies the task in-place.
+Subsequent operations on the (primary) task are \strong{not} relayed to the internal validation task.
+One must either provide the parameter \code{ratio} or `ids.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Task$divide(ratio = NULL, ids = NULL, remove = TRUE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{ratio}}{(\code{numeric(1)})\cr
+The proportion of datapoints to use as validation data.}
+
+\item{\code{ids}}{(\code{integer()})\cr
+The row ids to use as validation data.}
+
+\item{\code{remove}}{(\code{logical(1)})\cr
+If \code{TRUE} (default), the \code{row_ids} are removed from the primary task's active \code{"use"} rows, ensuring a
+disjoint split between the train and validation data.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Modified \code{Self}.
 }
 }
 \if{html}{\out{<hr>}}

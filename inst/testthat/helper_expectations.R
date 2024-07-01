@@ -316,6 +316,10 @@ expect_task_classif = function(task) {
   expect_hash(task$hash, 1L)
 }
 
+is_special_learner = function(x) {
+  inherits(x, "GraphLearner") || inherits(x, "AutoTuner") || inherits(x, "AutoFSelector")
+}
+
 expect_task_regr = function(task) {
   checkmate::expect_r6(task, "TaskRegr")
   y = task$truth()
@@ -396,6 +400,27 @@ expect_learner = function(lrn, task = NULL, check_man = TRUE) {
     checkmate::expect_class(lrn$base_learner(), "Learner")
   }
 
+  if ("validation" %in% lrn$properties && !test_class(lrn, "GraphLearner")) {
+    testthat::expect_true(exists("validate", lrn))
+    testthat::expect_true(exists("internal_valid_scores", envir = lrn))
+    checkmate::expect_function(mlr3misc::get_private(lrn)$.extract_internal_valid_scores)
+  } else if (!is_special_learner(lrn)){
+    checkmate::assert_false(exists("validate", lrn))
+  }
+  if ("internal_tuning" %in% lrn$properties && !test_class(lrn, "GraphLearner")) {
+    any_internal_tuning = FALSE
+    for (tags in lrn$param_set$tags) {
+      if ("internal_tuning" %in% tags) {
+        any_internal_tuning = TRUE
+        break
+      }
+    }
+    if (!any_internal_tuning) {
+      stopf("at least one parameter must support internal tuning when the learner is tagged as such")
+    }
+    testthat::expect_true(exists("internal_tuned_values", envir = lrn))
+    checkmate::expect_function(mlr3misc::get_private(lrn)$.extract_internal_tuned_values)
+  }
 }
 
 expect_marshalable_learner = function(learner, task) {
@@ -410,9 +435,6 @@ expect_marshalable_learner = function(learner, task) {
   testthat::expect_true(has_public(learner, "unmarshal") && checkmate::test_function(learner$unmarshal, nargs = 0))
   testthat::expect_true(has_public(learner, "marshaled"))
 
-  # (un)marshal only possible after training
-  testthat::expect_error(learner$marshal(), "has not been trained")
-  testthat::expect_error(learner$unmarshal(), "has not been trained")
   testthat::expect_equal(learner$marshaled, FALSE)
 
   learner$train(task)
@@ -425,11 +447,6 @@ expect_marshalable_learner = function(learner, task) {
     testthat::expect_true(learner$marshaled)
   }
   testthat::expect_equal(mlr3::is_marshaled_model(learner$model), learner$marshaled)
-
-  if (learner$marshaled) {
-    # cannot predict with marshaled learner
-    testthat::expect_error(learner$predict(task), "has not been unmarshaled")
-  }
 
   # unmarshaling works
   testthat::expect_invisible(learner$unmarshal())

@@ -31,7 +31,7 @@ Additional parameters, currently unused.}
 }
 \description{
 Marshaling is the process of processing the model of a trained \code{\link{Learner}} so it an be successfully serialized and
-deserialized. The naming is inspired by the \href{https://github.com/HenrikBengtsson/marshal}{marshal package} and we
+deserialized. The naming is inspired by the \href{https://github.com/futureverse/marshal}{marshal package} and we
 plan to fully migrate to this package once it is on CRAN.
 The current implementation should therfore be considered as a temporary solution and is likely
 to change in the future.
@@ -41,8 +41,10 @@ The central functions (and the only methods that are used by \code{mlr3} interna
 \item the S3 generic \code{marshal_model(model, inplace, ...)}.
 Which takes in a model and returns it in marshaled form.
 This means, that the resulting object can be serialized and de-serialzed without loss of information.
-The marshaled object should be a list with named elements \code{marshaled} and \code{packages}, where the former contains
-the marshaled object, and the latter the package that contains the packages requirrd to unmarshal.
+If a model is serializable anyway, nothing has to be implemented and the generic will fall back to the
+default implementation of \code{marshal_model}, which is to return the object as-is.
+Otherwise, the marshaled object should be a list with named elements \code{marshaled} and \code{packages}, where the former contains
+the marshaled object, and the latter the package that contains the packages required to unmarshal.
 Most importantly, this list should contain the package that contains the \code{unmarshal_model} method.
 The returned object should have the classes of the original object with the suffix \code{"_marshaled"} appended and the
 root class should be set to \code{"marshaled"}.
@@ -50,7 +52,8 @@ root class should be set to \code{"marshaled"}.
 Which takes in the marshaled model and returns it in unmarshaled form.
 The generic takes care that the packages specified during \code{"marshal"} are loaded, and errs if they are not availabe.
 Calling this function on a marshaled model should reconstruct the original model, i.e.
-\code{unmarshal_model(marshal_model(x))} should return \code{x} as is.
+\code{unmarshal_model(marshal_model(x))} should return \code{x}.
+The default implementation of this generic returns \code{x} as-is.
 \item the function \code{is_marshaled_model(model)}.
 This (helper) function returns \code{TRUE} if the model inherits from class \code{"marshaled"} and \code{FALSE} otherwise.
 Note that it is not guarateed that \code{is_marshaled_model(marshal_model(x))} returns \code{TRUE}.

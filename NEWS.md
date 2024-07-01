@@ -1,5 +1,9 @@
 # mlr3 (development version)
 
+# mlr3 0.20.0
+
+* Added support for learner-internal validation and tuning.
+
 # mlr3 0.19.0
 
 * Added support for `"marshal"` property, which allows learners to process models so they can be serialized.

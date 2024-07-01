@@ -98,7 +98,7 @@ local({
   )
 
   mlr_reflections$task_row_roles = c(
-    "use", "test", "holdout"
+    "use"
   )
 
   tmp = c("feature", "target", "name", "order", "stratum", "group", "weight")
@@ -125,7 +125,7 @@ local({
   )
 
   ### Learner
-  tmp = c("featureless", "missings", "weights", "importance", "selected_features", "oob_error", "loglik", "hotstart_forward", "hotstart_backward", "marshal")
+  tmp = c("featureless", "missings", "weights", "importance", "selected_features", "oob_error", "loglik", "hotstart_forward", "hotstart_backward", "validation", "internal_tuning", "marshal")
   mlr_reflections$learner_properties = list(
     classif = c(tmp, "twoclass", "multiclass"),
     regr = tmp
@@ -137,10 +137,10 @@ local({
   )
 
   # Allowed tags for parameters
-  mlr_reflections$learner_param_tags = c("train", "predict", "hotstart", "importance", "threads", "required")
+  mlr_reflections$learner_param_tags = c("train", "predict", "hotstart", "importance", "threads", "required", "internal_tuning")
 
   ### Prediction
-  mlr_reflections$predict_sets = c("train", "test", "holdout")
+  mlr_reflections$predict_sets = c("train", "test", "internal_valid")
 
 
   ### Measures

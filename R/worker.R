@@ -46,14 +46,16 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
     lg$debug("Skip subsetting of task '%s'", task$id)
   }
 
-  # pass test ids w/o cloning
-  if (!is.null(test_row_ids)) {
-    prev_test = task$row_roles$test
-    on.exit({
-      task$row_roles$test = prev_test
-    }, add = TRUE)
-    task$row_roles$test = test_row_ids
-  }
+  # handle the internal validation task
+  validate = get0("validate", learner)
+  prev_valid = task$internal_valid_task
+  on.exit({
+    task$internal_valid_task = prev_valid
+  }, add = TRUE)
+
+  # depending on the validate parameter, create the internal validation task (if needed)
+  # modifies the task in place
+  create_internal_valid_task(validate, task, test_row_ids, prev_valid, learner)
 
   if (mode == "train") learner$state = list()
 
@@ -79,8 +81,20 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
     param_vals = learner$param_set$values,
     task_hash = task$hash,
     feature_names = task$feature_names,
+    validate = validate,
     mlr3_version = mlr_reflections$package_version
   )), c("learner_state", "list"))
+
+  # store the results of the internal tuning / internal validation in the learner's state
+  # otherwise this information is only available with store_models = TRUE
+  if (!is.null(validate)) {
+    learner$state$internal_valid_scores = get_private(learner)$.extract_internal_valid_scores()
+    learner$state$internal_valid_task_hash = task$internal_valid_task$hash
+  }
+
+  if (exists(".extract_internal_tuned_values", get_private(learner))) {
+    learner$state$internal_tuned_values = get_private(learner)$.extract_internal_tuned_values()
+  }
 
   if (is.null(result$result)) {
     lg$debug("Learner '%s' on task '%s' failed to %s a model",
@@ -105,14 +119,21 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
       fb$id, learner = fb$clone())
   }
 
-  learner
+
+  list(
+    learner = learner,
+    internal_valid_task_ids = if (!is.null(validate)) task$internal_valid_task$row_ids
+  )
 }
 
 learner_predict = function(learner, task, row_ids = NULL) {
   # This wrapper calls learner$predict, and additionally performs some basic
   # checks that the prediction was successful.
   # Exceptions here are possibly encapsulated, so that they get captured and turned into log messages.
+
   predict_wrapper = function(task, learner) {
+    # default method does nothing
+    learner$model = unmarshal_model(learner$model, inplace = TRUE)
     if (is.null(learner$state$model)) {
       stopf("No trained model available for learner '%s' on task '%s'", learner$id, task$id)
     }
@@ -168,6 +189,10 @@ learner_predict = function(learner, task, row_ids = NULL) {
     # call predict with encapsulation
     lg$debug("Calling predict method of Learner '%s' on task '%s' with %i observations",
       learner$id, task$id, task$nrow, learner = learner$clone())
+
+    if (isTRUE(all.equal(learner$encapsulate[["predict"]], "callr"))) {
+      learner$model = marshal_model(learner$model, inplace = TRUE)
+    }
 
     result = encapsulate(
       learner$encapsulate["predict"],
@@ -225,6 +250,9 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
   if (!is.null(pb)) {
     pb(sprintf("%s|%s|i:%i", task$id, learner$id, iteration))
   }
+  if ("internal_valid" %in% learner$predict_sets && is.null(task$internal_valid_task) && is.null(get0("validate", learner))) {
+    stopf("Cannot set the predict_type field of learner '%s' to 'internal_valid' if there is no internal validation task configured", learner$id)
+  }
 
   # reduce data.table and blas threads to 1
   if (!is_sequential) {
@@ -233,7 +261,6 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
     on.exit(blas_set_num_threads(old_blas_threads), add = TRUE)
     blas_set_num_threads(1)
   }
-
   # restore logger thresholds
   for (package in names(lgr_threshold)) {
     logger = lgr::get_logger(package)
@@ -246,8 +273,7 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
 
   sets = list(
     train = resampling$train_set(iteration),
-    test = resampling$test_set(iteration),
-    holdout = task$row_roles$holdout
+    test = resampling$test_set(iteration)
   )
 
   # train model
@@ -257,25 +283,36 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
     learner$param_set$set_values(.values = param_values)
   }
   learner_hash = learner$hash
-  learner = learner_train(learner, task, sets[["train"]], sets[["test"]], mode = mode)
 
-  # keep a copy of the marshaled model if it is available and needed later
-  # this also unmarshals the model if necessary so it can be used for prediction
-  model_marshaled_or_null = keep_marshaled_if_needed(
+  validate = get0("validate", learner)
+
+  test_set = if (identical(validate, "test")) sets$test
+  train_result = learner_train(learner, task, sets[["train"]], test_set, mode = mode)
+  learner = train_result$learner
+
+  # process the model so it can be used for prediction (e.g. marshal for callr prediction), but also
+  # keep a copy of the model in current form in case this is the format that we want to send back to the main process
+  # and not the format that we need for prediction
+  model_copy_or_null = process_model_before_predict(
     learner = learner, store_models = store_models, is_sequential = is_sequential, unmarshal = unmarshal
   )
 
   # predict for each set
-  sets = sets[learner$predict_sets]
-  pdatas = Map(function(set, row_ids) {
+  predict_sets = learner$predict_sets
+
+  # creates the tasks and row_ids for all selected predict sets
+  pred_data = prediction_tasks_and_sets(task, train_result, validate, sets, predict_sets)
+
+  pdatas = Map(function(set, row_ids, task) {
     lg$debug("Creating Prediction for predict set '%s'", set)
     learner_predict(learner, task, row_ids)
-  }, set = names(sets), row_ids = sets)
+  }, set = predict_sets, row_ids = pred_data$sets, task = pred_data$tasks)
   pdatas = discard(pdatas, is.null)
 
   # set the model slot after prediction so it can be sent back to the main process
-  set_model_after_predict(
-    learner = learner, store_models = store_models, is_sequential = is_sequential, model_marshaled = model_marshaled_or_null
+  process_model_after_predict(
+    learner = learner, store_models = store_models, is_sequential = is_sequential, model_copy = model_copy_or_null,
+    unmarshal = unmarshal
   )
 
   learner_state = set_class(learner$state, c("learner_state", "list"))
@@ -283,43 +320,85 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
   list(learner_state = learner_state, prediction = pdatas, param_values = learner$param_set$values, learner_hash = learner_hash)
 }
 
-keep_marshaled_if_needed = function(learner, store_models, is_sequential, unmarshal) {
-  model_marshaled = if (!is_marshaled_model(learner$model)) {
-    NULL
-  } else if (!store_models) { # else condition means model was marshaled
-    # not storing models, so no need to keep the marhshaled model
-    NULL
-  } else if (is_sequential && unmarshal) {
-    # because of no parallelization, we can send the unmarshaled model back, which the user
-    # wants anyway (because unmarshal = TRUE)
-    NULL
-  } else if (is_sequential && !unmarshal) {
-    # here, the user set unmarshal to FALSE, i.e. he wants the marshaled model, so we
-    # keep it, as we have already computed it
-    learner$model
-  } else { # parallel execution
-    # here, we need to send back the marshaled model
-    learner$model
+# creates the tasks and row ids for the selected predict sets
+prediction_tasks_and_sets = function(task, train_result, validate, sets, predict_sets) {
+  predict_sets = predict_sets[predict_sets %in% mlr_reflections$predict_sets]
+  tasks = list(train = task, test = task)
+  if ("internal_valid" %nin% predict_sets) {
+    return(list(tasks = tasks[predict_sets], sets = sets[predict_sets]))
   }
 
-  # need to unmarshal for prediction, does nothing if the model is not marshaled
-  # we can do it in-place if the marshaled model is not kept
-  learner$model = unmarshal_model(model = learner$model, inplace = is.null(model_marshaled))
-  return(model_marshaled)
+  if ("internal_valid" %in% predict_sets) {
+    if (is.numeric(validate) || identical(validate, "test")) {
+      # in this scenario, the internal_valid_task was created during learner_train, which means that it used the
+      # primary task. The selected ids are returned via the train result
+      tasks$internal_valid = task
+      sets$internal_valid = train_result$internal_valid_task_ids
+    } else {
+      # the predefined internal_valid_task was used
+      tasks$internal_valid = task$internal_valid_task
+      sets$internal_valid = task$internal_valid_task$row_ids
+    }
+  }
+
+  list(tasks = tasks[predict_sets], sets = sets[predict_sets])
 }
 
-set_model_after_predict = function(learner, store_models, is_sequential, model_marshaled) {
+process_model_before_predict = function(learner, store_models, is_sequential, unmarshal) {
+  # there are three states of the model that have to be considered to minimize how often we marshal a model:
+  # 1. the current form: is it marshaled or not?
+  # 2. the form for prediction: do we need to marshal it?
+  # 3. the final form that is returned: does it have to be marshaled?
+  #
+  # and also, do we even need to send it back at all?
+
+  currently_marshaled = is_marshaled_model(learner$model)
+  predict_needs_marshaling = isTRUE(all.equal(learner$encapsulate[["predict"]], "callr"))
+  final_needs_marshaling = !is_sequential || !unmarshal
+
+  # the only scenario in which we keep a copy is when we now have the model in the correct form but need to transform
+  # it for prediction
+  keep_copy = store_models & (currently_marshaled == final_needs_marshaling) && (currently_marshaled != predict_needs_marshaling)
+
+  if (!keep_copy) {
+    # here we either
+    # * don't return the model at all --> no copy
+    # * the predict form is equal to the final form --> no copy
+    # * we do store models but the current form is not the final form --> no copy
+    if (predict_needs_marshaling) {
+      learner$model = marshal_model(learner$model, inplace = TRUE)
+    } else {
+      learner$model = unmarshal_model(learner$model, inplace = TRUE)
+    }
+    return(NULL)
+  }
+
+  # here, we do store models, the current form is the final form and the current form is not the predict form
+  # in order to avoid a marshaling cycle, we therefore keep a copy of the current model and then continue to
+  # process the model for prediction
+
+  # note that even though learner_predict takes care of the marshaling itself, it does do it in-place
+  # Because we here have a copy of the model, we transform it NOT in-place. This is important because otherwise
+  # we will mess up our copy
+
+  model_copy = learner$model
+  if (predict_needs_marshaling) {
+    learner$model = marshal_model(learner$model, inplace = FALSE)
+  } else {
+    learner$model = unmarshal_model(learner$model, inplace = FALSE)
+  }
+  return(model_copy)
+}
+
+process_model_after_predict = function(learner, store_models, is_sequential, unmarshal, model_copy) {
   if (!store_models) {
     lg$debug("Erasing stored model for learner '%s'", learner$id)
     learner$state$model = NULL
-  } else if (!is.null(model_marshaled)) {
-    # callr + parallelization
-    # or callr + sequential, but unmarshal was FALSE
-    # i.e. those cases, where keep_marshaled_if_needed returned the marshaled model
-    learner$model = model_marshaled
-  } else if (!is_sequential) {
-    # parallelization without callr
-    # in this case we don't have computed the marshaled model yet, so we do it now
+  } else if (!is.null(model_copy)) {
+    # we created a copy of the model to avoid additional marshaling cycles
+    learner$model = model_copy
+  } else if (!is_sequential || !unmarshal) {
+    # no copy was created, here we make sure that we return the model the way the user wants it
     learner$model = marshal_model(learner$model, inplace = TRUE)
   }
 }
@@ -342,4 +421,47 @@ append_log = function(log = NULL, stage = NA_character_, class = NA_character_, 
   }
 
   log
+}
+
+create_internal_valid_task = function(validate, task, test_row_ids, prev_valid, learner) {
+  if (is.null(validate)) {
+    task$internal_valid_task = NULL
+    return(task)
+  }
+
+  # Otherwise, predict_set = "internal_valid" is ambiguous
+  if (!is.null(prev_valid) && (is.numeric(validate) || identical(validate, "test"))) {
+    stopf("Parameter 'validate' of Learner '%s' cannot be set to 'test' or a ratio when internal_valid_task is present", learner$id)
+  }
+
+  if (is.character(validate)) {
+    if (validate == "predefined") {
+      if (is.null(task$internal_valid_task)) {
+        stopf("Parameter 'validate' is set to 'predefined' but no internal validation task is present.")
+      }
+      if (!identical(task$target_names, task$internal_valid_task$target_names)) {
+        stopf("Internal validation task '%s' has different target names than primary task '%s', did you modify the task after creating the internal validation task?",
+          task$internal_valid_task$id, task$id)
+      }
+      if (!test_permutation(task$feature_names, task$internal_valid_task$feature_names)) {
+        stopf("Internal validation task '%s' has different features than primary task '%s', did you modify the task after creating the internal validation task?",
+          task$internal_valid_task$id, task$id)
+      }
+      return(task)
+    } else { # validate is "test"
+      if (is.null(test_row_ids)) {
+        stopf("Parameter 'validate' cannot be set to 'test' when calling train manually.")
+      }
+      # at this point, the train rows are already set to the train set, i.e. we don't have to remove the test ids
+      # from the primary task (this would cause bugs for resamplings with overlapping train and test set)
+      task$divide(ids = test_row_ids, remove = FALSE)
+      return(task)
+    }
+
+   return(task)
+  }
+
+  # validate is numeric
+  task$divide(ratio = validate, remove = TRUE)
+  return(task)
 }

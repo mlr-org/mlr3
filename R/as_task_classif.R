@@ -35,7 +35,7 @@ as_task_classif.TaskClassif = function(x, clone = FALSE, ...) { # nolint
 #'   Level of the positive class. See [TaskClassif].
 #' @template param_label
 #' @export
-as_task_classif.data.frame = function(x, target = NULL, id = deparse(substitute(x)), positive = NULL, label = NA_character_, ...) { # nolint
+as_task_classif.data.frame = function(x, target = NULL, id = deparse1(substitute(x)), positive = NULL, label = NA_character_, ...) { # nolint
   force(id)
 
   assert_data_frame(x, min.rows = 1L, min.cols = 1L, col.names = "unique")
@@ -56,7 +56,7 @@ as_task_classif.data.frame = function(x, target = NULL, id = deparse(substitute(
 
 #' @rdname as_task_classif
 #' @export
-as_task_classif.matrix = function(x, target, id = deparse(substitute(x)), label = NA_character_, ...) { # nolint
+as_task_classif.matrix = function(x, target, id = deparse1(substitute(x)), label = NA_character_, ...) { # nolint
   force(id)
 
   assert_matrix(x, col.names = "unique", min.rows = 1L, min.cols = 1L)
@@ -67,7 +67,7 @@ as_task_classif.matrix = function(x, target, id = deparse(substitute(x)), label 
 
 #' @rdname as_task_classif
 #' @export
-as_task_classif.Matrix = function(x, target, id = deparse(substitute(x)), label = NA_character_, ...) { # nolint
+as_task_classif.Matrix = function(x, target, id = deparse1(substitute(x)), label = NA_character_, ...) { # nolint
   force(id)
 
   assert_names(colnames(x), "unique")
@@ -89,7 +89,7 @@ as_task_classif.Matrix = function(x, target, id = deparse(substitute(x)), label 
 
 #' @rdname as_task_classif
 #' @export
-as_task_classif.DataBackend = function(x, target = NULL, id = deparse(substitute(x)), positive = NULL, label = NA_character_, ...) { # nolint
+as_task_classif.DataBackend = function(x, target = NULL, id = deparse1(substitute(x)), positive = NULL, label = NA_character_, ...) { # nolint
   force(id)
 
   assert_choice(target, x$colnames)
@@ -108,7 +108,7 @@ as_task_classif.TaskRegr = function(x, target = NULL, drop_original_target = FAL
 #' @param data (`data.frame()`)\cr
 #'   Data frame containing all columns referenced in formula `x`.
 #' @export
-as_task_classif.formula = function(x, data, id = deparse(substitute(data)), positive = NULL, label = NA_character_, ...) { # nolint
+as_task_classif.formula = function(x, data, id = deparse1(substitute(data)), positive = NULL, label = NA_character_, ...) { # nolint
   force(id)
 
   assert_data_frame(data)

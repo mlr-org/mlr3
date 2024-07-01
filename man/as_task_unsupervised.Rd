@@ -16,14 +16,14 @@ as_task_unsupervised(x, ...)
 
 \method{as_task_unsupervised}{data.frame}(
   x,
-  id = deparse(substitute(x)),
+  id = deparse1(substitute(x)),
   label = NA_character_,
   ...
 )
 
 \method{as_task_unsupervised}{DataBackend}(
   x,
-  id = deparse(substitute(x)),
+  id = deparse1(substitute(x)),
   label = NA_character_,
   ...
 )

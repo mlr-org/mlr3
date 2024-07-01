@@ -26,6 +26,7 @@ The following hyperparameters trigger the following actions:
 \item{x:}{Numeric tuning parameter. Has no effect.}
 \item{iter:}{Integer parameter for testing hotstarting.}
 \item{count_marshaling:}{If \code{TRUE}, \code{marshal_model} will increase the \code{marshal_count} by 1 each time it is called. The default is \code{FALSE}.}
+\item{check_pid:}{If \code{TRUE}, the \verb{$predict()} function will throw an error if the model was not unmarshaled in the same session that is used for prediction.)}
 }
 Note that segfaults may not be triggered reliably on your operating system.
 Also note that if they work as intended, they will tear down your R session immediately!
@@ -68,7 +69,9 @@ lrn("classif.debug")
    warning_train \tab numeric \tab 0 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
    x \tab numeric \tab - \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
    iter \tab integer \tab 1 \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
+   early_stopping \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
    count_marshaling \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   check_pid \tab logical \tab TRUE \tab TRUE, FALSE \tab - \cr
 }
 }
 
@@ -121,8 +124,17 @@ Other Learner:
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{marshaled}}{(logical(1))\cr
+\item{\code{marshaled}}{(\code{logical(1)})\cr
 Whether the learner has been marshaled.}
+
+\item{\code{internal_valid_scores}}{Retrieves the internal validation scores as a named \code{list()}.
+Returns \code{NULL} if learner is not trained yet.}
+
+\item{\code{internal_tuned_values}}{Retrieves the internally tuned values as a named \code{list()}.
+Returns \code{NULL} if learner is not trained yet.}
+
+\item{\code{validate}}{How to construct the internal validation data. This parameter can be either \code{NULL},
+a ratio in $(0, 1)$, \code{"test"}, or \code{"predefined"}.}
 }
 \if{html}{\out{</div>}}
 }

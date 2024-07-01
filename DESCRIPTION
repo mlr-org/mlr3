@@ -1,9 +1,9 @@
 Package: mlr3
 Title: Machine Learning in R - Next Generation
-Version: 0.19.0.9000
+Version: 0.20.0.9000
 Authors@R:
   c(
-    person("Michel", "Lang", , "michellang@gmail.com", role = c("cre", "aut"),
+    person("Michel", "Lang", , "michellang@gmail.com", role = "aut",
            comment = c(ORCID = "0000-0001-9754-0393")),
     person("Bernd", "Bischl", , "bernd_bischl@gmx.net", role = "aut",
            comment = c(ORCID = "0000-0001-6002-6980")),
@@ -24,9 +24,9 @@ Authors@R:
            comment = c(ORCID = "0000-0001-9225-4654")),
     person("Lennart", "Schneider", , "lennart.sch@web.de", role = "ctb",
            comment = c(ORCID = "0000-0003-4152-5308")),
-    person("Marc", "Becker", , "marcbecker@posteo.de", role = "aut",
+    person("Marc", "Becker", , "marcbecker@posteo.de", role = c("cre", "aut"),
            comment = c(ORCID = "0000-0002-8115-0400")),
-    person("Sebastian", "Fischer", , "sebf.fischer@gmail.com", role = "ctb",
+    person("Sebastian", "Fischer", , "sebf.fischer@gmail.com", role = "aut",
            comment = c(ORCID = "0000-0002-9609-3197"))
   )
 Description: Efficient, object-oriented programming on the
@@ -103,6 +103,7 @@ Collate:
     'MeasureClassifCosts.R'
     'MeasureDebug.R'
     'MeasureElapsedTime.R'
+    'MeasureInternalValidScore.R'
     'MeasureOOBError.R'
     'MeasureRegr.R'
     'MeasureSelectedFeatures.R'
@@ -191,6 +192,7 @@ Collate:
     'reexports.R'
     'resample.R'
     'set_threads.R'
+    'set_validate.R'
     'task_converters.R'
     'worker.R'
     'zzz.R'

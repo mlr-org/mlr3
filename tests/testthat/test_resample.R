@@ -165,7 +165,7 @@ test_that("encapsulation triggers marshaling correctly", {
   rr1 = resample(task, learner1, resampling, store_models = TRUE, unmarshal = FALSE)
   expect_true(rr1$learners[[1]]$marshaled)
   rr2 = resample(task, learner2, resampling, store_models = TRUE, unmarshal = FALSE)
-  expect_false(rr2$learners[[1]]$marshaled)
+  expect_true(rr2$learners[[1]]$marshaled)
 })
 
 test_that("parallel execution automatically triggers marshaling", {
@@ -262,13 +262,170 @@ test_that("does not unnecessarily clone state", {
   expect_resample_result(resample(task, learner, rsmp("holdout")))
 })
 
+test_that("task hashes differ depending on whether test set is used", {
+  task = tsk("iris")
+  resampling = rsmp("holdout")
+  learner1 = lrn("classif.debug")
+  learner2 = lrn("classif.debug", validate = "test")
+  rr1 = resample(task, learner1, resampling)
+  rr2 = resample(task, learner2, resampling)
+  expect_false(rr1$learners[[1]]$state$task_hash == rr2$learners[[1]]$state$task_hash)
+})
+
+test_that("can make predictions for internal_valid_task", {
+  task = tsk("iris")
+  learner = lrn("classif.debug", validate = 0.5, predict_sets = c("train", "internal_valid"))
+  rr = resample(task, learner, rsmp("insample"))
+  expect_equal(length(rr$predictions("internal_valid")[[1L]]$row_ids), task$nrow / 2)
+})
+
+test_that("learner's validate cannot be 'test' if internal_valid_set is present", {
+  # otherwise, predict_set = "internal_valid" would be ambiguous
+  learner = lrn("classif.debug", validate = "test", predict_sets = c("train", "internal_valid"))
+  task = tsk("iris")$divide(ids = 1)
+  expect_error(resample(task, learner, rsmp("holdout")), "cannot be set to ")
+})
+
+test_that("learner's validate cannot be a ratio if internal_valid_set is present", {
+  # otherwise, predict_set = "internal_valid" would be ambiguous
+  learner = lrn("classif.debug", validate = 0.5, predict_sets = c("train", "internal_valid"))
+  task = tsk("iris")$divide(ids = 1)
+  expect_error(resample(task, learner, rsmp("holdout")), "cannot be set to")
+})
+
+test_that("internal_valid and train predictions", {
+  task = tsk("iris")$divide(ids = 1:2)
+  learner = lrn("classif.debug", validate = "predefined", predict_sets = c("train", "internal_valid", "test"))
+  rr = resample(task, learner, rsmp("insample"))
+  measure_valid = msr("classif.acc")
+  measure_valid$predict_sets = "internal_valid"
+  expect_equal(
+    rr$score(measure_valid, predict_sets = "internal_valid")$classif.acc,
+    rr$learners[[1L]]$internal_valid_scores$acc
+  )
+
+  # if valid = "test", internal_valid and test predictions are the same
+  task = tsk("iris")
+  learner = lrn("classif.debug", validate = "test", predict_sets = c("train", "internal_valid", "test"))
+  rr2 = resample(task, learner, rsmp("holdout"))
+
+  expect_equal(
+    rr2$score(measure_valid, predict_sets = "internal_valid")$classif.acc,
+    rr2$score(msr("classif.acc"), predict_sets = "test")$classif.acc
+ )
+  expect_equal(
+    rr2$predictions("internal_valid")[[1L]]$response,
+    rr2$predictions("test")[[1L]]$response
+  )
+
+  # train predictions include the validation data
+  learner = lrn("classif.debug", validate = 0.5, predict_sets = c("train", "internal_valid", "test"))
+  task = tsk("iris")$filter(1:10)
+  rr2 = resample(task, learner, rsmp("insample"))
+  expect_equal(length(rr2$predictions("train")[[1L]]$row_ids), 10L)
+
+  rr3 = resample(task, learner, rsmp("holdout", ratio = 0.8))
+
+  expect_equal(length(rr3$predictions("train")[[1L]]$row_ids), 8L)
+  expect_subset(
+    rr3$predictions("internal_valid")$row_ids, rr3$predictions("internal_valid")$row_ids
+  )
+  expect_equal(length(rr3$predictions("internal_valid")[[1L]]$row_ids), 4L)
+  expect_equal(length(rr3$predictions("test")[[1L]]$row_ids), 2L)
+})
+
+test_that("properties are also checked on validation task", {
+  task = tsk("iris")
+  row = task$data(1)
+  row[[1]][1] = NA
+  row$..row_id = 151
+  task$rbind(row)
+  task$divide(ids = 151)
+  learner = lrn("classif.debug", validate = "predefined")
+  learner$properties = setdiff(learner$properties, "missings")
+
+  expect_error(resample(task, learner, rsmp("holdout")), "missing values")
+})
+
 test_that("marshaling does not change class of learner state when reassembling", {
   rr = resample(tsk("iris"), lrn("classif.debug", encapsulate = c(train = "callr")), rsmp("holdout"), store_models = TRUE)
   expect_class(rr$learners[[1]]$state, "learner_state")
 })
 
 test_that("marshaled model is sent back, when unmarshal is FALSE, sequential exec and callr", {
-  learner = lrn("classif.debug", count_marshaling = TRUE, encapsulate = c(train = "callr"))
+  learner = lrn("classif.debug", count_marshaling = TRUE, encapsulate = c(train = "callr", predict = "callr"))
   rr = resample(tsk("iris"), learner, rsmp("holdout"), store_models = TRUE, unmarshal = FALSE)
   expect_true(rr$learners[[1L]]$marshaled)
+})
+
+test_that("predict_set internal_valid throws error when none is available", {
+  expect_error(
+    resample(tsk("iris"), lrn("classif.debug", predict_sets = "internal_valid"), rsmp("holdout")),
+    "Cannot set the predict_type"
+  )
+})
+
+test_that("can even use internal_valid predict set on learners that don't support validation", {
+  rr = resample(tsk("mtcars")$divide(ids = 1:10), lrn("regr.debug", predict_sets = "internal_valid"), rsmp("holdout"))
+})
+
+test_that("callr during prediction triggers marshaling", {
+  learner1 = lrn("classif.debug", count_marshaling = TRUE, encapsulate = c(train = "none", predict = "callr"))
+  learner2 = lrn("classif.debug", count_marshaling = TRUE, encapsulate = c(train = "callr", predict = "callr"))
+
+  rr1 = with_future(future::multisession, {
+    resample(tsk("iris"), learner1, rsmp("holdout"), unmarshal = FALSE, store_models = TRUE)
+  })
+  l1 = rr1$learners[[1L]]
+  expect_true(l1$marshaled)
+  expect_equal(l1$model$marshaled$marshal_count, 1L)
+
+  rr2 = with_future(future::sequential, {
+    resample(tsk("iris"), learner1, rsmp("holdout"), unmarshal = FALSE, store_models = TRUE)
+  })
+  l2 = rr2$learners[[1L]]
+  expect_true(l2$marshaled)
+  expect_equal(l2$model$marshaled$marshal_count, 1L)
+
+  rr3 = with_future(future::multisession, {
+    resample(tsk("iris"), learner2, rsmp("holdout"), unmarshal = FALSE, store_models = TRUE)
+  })
+  l3 = rr3$learners[[1L]]
+  expect_true(l3$marshaled)
+  expect_equal(l3$model$marshaled$marshal_count, 1L)
+
+  rr4 = with_future(future::sequential, {
+    resample(tsk("iris"), learner2, rsmp("holdout"), unmarshal = FALSE, store_models = TRUE)
+  })
+  l4 = rr4$learners[[1L]]
+  expect_true(l4$marshaled)
+  expect_equal(l4$model$marshaled$marshal_count, 1L)
+
+  rr5 = with_future(future::multisession, {
+    resample(tsk("iris"), learner1, rsmp("holdout"), unmarshal = TRUE, store_models = TRUE)
+  })
+  l5 = rr5$learners[[1L]]
+  expect_false(l5$marshaled)
+  expect_equal(l5$model$marshal_count, 1L)
+
+  rr6 = with_future(future::sequential, {
+    resample(tsk("iris"), learner1, rsmp("holdout"), unmarshal = TRUE, store_models = TRUE)
+  })
+  l6 = rr6$learners[[1L]]
+  expect_false(l6$marshaled)
+  expect_equal(l6$model$marshal_count, 0L)
+
+  rr7 = with_future(future::multisession, {
+    resample(tsk("iris"), learner2, rsmp("holdout"), unmarshal = TRUE, store_models = TRUE)
+  })
+  l7 = rr7$learners[[1L]]
+  expect_false(l7$marshaled)
+  expect_equal(l7$model$marshal_count, 1L)
+
+  rr8 = with_future(future::sequential, {
+    resample(tsk("iris"), learner2, rsmp("holdout"), unmarshal = TRUE, store_models = TRUE)
+  })
+  l8 = rr8$learners[[1L]]
+  expect_false(l8$marshaled)
+  expect_equal(l8$model$marshal_count, 1L)
 })

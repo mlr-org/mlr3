@@ -61,6 +61,13 @@
 #' * `loglik(...)`: Extracts the log-likelihood (c.f. [stats::logLik()]).
 #'   This can be used in measures like [mlr_measures_aic] or [mlr_measures_bic].
 #'
+#' * `internal_valid_scores`: Returns the internal validation score(s) of the model as a named `list()`.
+#'   Only available for [`Learner`]s with the `"validation"` property.
+#'   If the learner is not trained yet, this returns `NULL`.
+#'
+#' * `internal_tuned_values`: Returns the internally tuned hyperparameters of the model as a named `list()`.
+#'   Only available for [`Learner`]s with the `"internal_tuning"` property.
+#'   If the learner is not trained yet, this returns `NULL`.
 #'
 #' @section Setting Hyperparameters:
 #'
@@ -82,6 +89,55 @@
 #' ```
 #' lrn$param_set$add(paradox::ParamFct$new("foo", levels = c("a", "b")))
 #' ```
+#'
+#' @section Implementing Validation:
+#' Some Learners, such as `XGBoost`, other boosting algorithms, or deep learning models (`mlr3torch`),
+#' utilize validation data during the training to prevent overfitting or to log the validation performance.
+#' It is possible to configure learners to be able to receive such an independent validation set during training.
+#' To do so, one must:
+#' * annotate the learner with the `"validation"` property
+#' * implement the active binding `$internal_valid_scores` (see section *Optional Extractors*), as well as the
+#'   private method `$.extract_internal_valid_scores()` which returns the (final) internal validation scores from the
+#'   model of the [`Learner`] and returns them as a named `list()` of `numeric(1)`.
+#'   If the model is not trained yet, this method should return `NULL`.
+#' * Add the `validate` parameter, which can be either `NULL`, a ratio in $(0, 1)$, `"test"`, or `"predefined"`:
+#'   * `NULL`: no validation
+#'   * `ratio`: only proportion `1 - ratio` of the task is used for training and `ratio` is used for validation.
+#'   * `"test"` means that the `"test"` task is used.
+#'     **Warning**: This can lead to biased performance estimation.
+#'     This option is only available if the learner is being trained via [resample()], [benchmark()] or functions that
+#'     internally use them, e.g. [`mlr3tuning::tune()`] or [`mlr3batchmark::batchmark()`].
+#'     This is especially useful for hyperparameter tuning, where one might e.g. want to use the same validation data
+#'     for early stopping and model evaluation.
+#'   * `"predefined"` means that the task's (manually set) `$internal_valid_task` is used.
+#'     See the [`Task`] documentation for more information.
+#'
+#' For an example how to do this, see [`LearnerClassifDebug`].
+#' Note that in `.train()`, the `$internal_valid_task` will only be present if the `$validate` field of the `Learner`
+#' is set to a non-`NULL` value.
+#'
+#' @section Implementing Internal Tuning:
+#' Some learners such as `XGBoost` or `cv.glmnet` can internally tune hyperparameters.
+#' XGBoost, for example, can tune the number of boosting rounds based on the validation performance.
+#' CV Glmnet, on the other hand, can tune the regularization parameter based on an internal cross-validation.
+#' Internal tuning *can* therefore rely on the internal validation data, but does not necessarily do so.
+#'
+#' In order to be able to combine this internal hyperparamer tuning with the standard hyperparameter optimization
+#' implemented via \CRANpkg{mlr3tuning}, one most:
+#' * annotate the learner with the `"internal_tuning"` property
+#' * implement the active binding `$internal_tuned_values` (see section *Optional Extractors*) as well as the
+#'   private method `$.extract_internal_tuned_values()` which extracts the internally tuned values from the [`Learner`]'s
+#'   model and returns them as a named `list()`.
+#'   If the model is not trained yet, this method should return `NULL`.
+#' * Have at least one parameter tagged with `"internal_tuning"`, which requires to also provide a `in_tune_fn` and
+#'   `disable_tune_fn`, and *should* also include a default `aggr`egation function.
+#'
+#' For an example how to do this, see [`LearnerClassifDebug`].
+#'
+#' @section Implementing Marshaling:
+#' Some [`Learner`]s have models that cannot be serialized as they e.g. contain external pointers.
+#' In order to still be able to save them, use them with parallelization or callr encapsulation it is necessary
+#' to implement how they should be (un)-marshaled. See [`marshaling`] for how to do this.
 #'
 #' @template seealso_learner
 #' @export
@@ -186,6 +242,7 @@ Learner = R6Class("Learner",
       catn(format(self), if (is.null(self$label) || is.na(self$label)) "" else paste0(": ", self$label))
       catn(str_indent("* Model:", if (is.null(self$model)) "-" else if (is_marshaled_model(self$model)) "<marshaled>" else paste0(class(self$model)[1L])))
       catn(str_indent("* Parameters:", as_short_string(self$param_set$values, 1000L)))
+      if (exists("validate", self)) catn(str_indent("* Validate:", format(self$validate)))
       catn(str_indent("* Packages:", self$packages))
       catn(str_indent("* Predict Types: ", replace(self$predict_types, self$predict_types == self$predict_type, paste0("[", self$predict_type, "]"))))
       catn(str_indent("* Feature Types:", self$feature_types))
@@ -240,9 +297,8 @@ Learner = R6Class("Learner",
       }
 
       train_row_ids = if (!is.null(row_ids)) row_ids else task$row_roles$use
-      test_row_ids = task$row_roles$test
 
-      learner_train(learner, task, train_row_ids = train_row_ids, test_row_ids = test_row_ids, mode = mode)
+      train_result = learner_train(learner, task, train_row_ids = train_row_ids, mode = mode)
       self$model = unmarshal_model(model = self$state$model, inplace = TRUE)
 
       # store data prototype
@@ -255,7 +311,6 @@ Learner = R6Class("Learner",
 
       invisible(self)
     },
-
     #' @description
     #' Uses the information stored during `$train()` in `$state` to create a new [Prediction]
     #' for a set of observations of the provided `task`.
@@ -280,13 +335,23 @@ Learner = R6Class("Learner",
         stopf("Cannot predict, Learner '%s' has not been trained yet", self$id)
       }
 
-      if (is_marshaled_model(self$model)) {
-        stopf("Cannot predict, Learner '%s' has not been unmarshaled yet", self$id)
-      }
+      # we need to marshal for call-r prediction and parallel prediction, but afterwards we reset the model
+      # to it original state
+      model_was_marshaled = is_marshaled_model(self$model)
+      on.exit({
+        if (model_was_marshaled) {
+          self$model = marshal_model(self$model, inplace = TRUE)
+        } else {
+          self$model = unmarshal_model(self$model, inplace = TRUE)
+        }
+      }, add = TRUE)
 
+      # we only have to marshal here for the parallel prediction case, because learner_predict() handles the
+      # marshaling for call-r encapsulation itself
       if (isTRUE(self$parallel_predict) && nbrOfWorkers() > 1L) {
         row_ids = row_ids %??% task$row_ids
         chunked = chunk_vector(row_ids, n_chunks = nbrOfWorkers(), shuffle = FALSE)
+        self$model = marshal_model(self$model, inplace = TRUE)
         pdata = future.apply::future_lapply(chunked,
           learner_predict, learner = self, task = task,
           future.globals = FALSE, future.seed = TRUE)
@@ -294,6 +359,7 @@ Learner = R6Class("Learner",
       } else {
         pdata = learner_predict(self, task, row_ids)
       }
+
 
       if (is.null(pdata)) {
         return(NULL)
@@ -441,17 +507,16 @@ Learner = R6Class("Learner",
     hash = function(rhs) {
       assert_ro_binding(rhs)
       calculate_hash(class(self), self$id, self$param_set$values, private$.predict_type,
-        self$fallback$hash, self$parallel_predict)
+        self$fallback$hash, self$parallel_predict, get0("validate", self))
     },
 
     #' @field phash (`character(1)`)\cr
     #' Hash (unique identifier) for this partial object, excluding some components
-    #' which are varied systematically during tuning (parameter values) or feature
-    #' selection (feature names).
+    #' which are varied systematically during tuning (parameter values).
     phash = function(rhs) {
       assert_ro_binding(rhs)
       calculate_hash(class(self), self$id, private$.predict_type,
-        self$fallback$hash, self$parallel_predict)
+        self$fallback$hash, self$parallel_predict, get0("validate", self))
     },
 
     #' @field predict_type (`character(1)`)\cr

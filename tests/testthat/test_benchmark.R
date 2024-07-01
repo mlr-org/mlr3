@@ -421,7 +421,7 @@ test_that("param_values in benchmark", {
   expect_benchmark_result(bmr)
   expect_equal(bmr$n_resample_results, 1)
   expect_equal(nrow(as.data.table(bmr)), 3)
-  learner = bmr$learners$learner[[1]]
+  learner = bmr$resample_result(1)$learner
   expect_equal(learner$param_set$values$x, 1)
   expect_equal(nrow(as.data.table(bmr)), 3)
 
@@ -431,9 +431,9 @@ test_that("param_values in benchmark", {
   expect_benchmark_result(bmr)
   expect_equal(bmr$n_resample_results, 2)
   expect_equal(nrow(as.data.table(bmr)), 6)
-  learner = bmr$learners$learner[[1]]
+  learner = bmr$resample_result(1)$learner
   expect_equal(learner$param_set$values$x, 1)
-  learner = bmr$learners$learner[[2]]
+  learner = bmr$resample_result(2)$learner
   expect_equal(learner$param_set$values$x, 0.5)
 
   # benchmark grid does not attach param_values if empty
@@ -487,6 +487,33 @@ test_that("param_values in benchmark", {
   expect_equal(sortnames(bmr$learners$learner[[ii]]$param_set$values), list(cp = 0.1, minsplit = 12, xval = 0))
 })
 
+
+test_that("learner's validate cannot be 'test' if internal_valid_set is present", {
+  # otherwise, predict_set = "internal_valid" would be ambiguous
+  learner = lrn("classif.debug", validate = "test", predict_sets = c("train", "internal_valid"))
+  task = tsk("iris")$divide(ids = 1)
+  expect_error(benchmark(benchmark_grid(task, learner, rsmp("holdout"))), "cannot be set to ")
+})
+
+test_that("learner's validate cannot be a ratio if internal_valid_set is present", {
+  # otherwise, predict_set = "internal_valid" would be ambiguous
+  learner = lrn("classif.debug", validate = 0.5, predict_sets = c("train", "internal_valid"))
+  task = tsk("iris")$divide(ids = 1)
+  expect_error(benchmark(benchmark_grid(task, learner, rsmp("holdout"))), "cannot be set to ")
+})
+
+test_that("properties are also checked on validation task", {
+  task = tsk("iris")
+  row = task$data(1)
+  row[[1]][1] = NA
+  row$..row_id = 151
+  task$rbind(row)
+  task$divide(ids = 151)
+  learner = lrn("classif.debug", validate = "predefined")
+  learner$properties = setdiff(learner$properties, "missings")
+
+  expect_error(benchmark(benchmark_grid(task, learner, rsmp("holdout"))), "missing values")
+})
 
 test_that("parallel execution automatically triggers marshaling", {
   learner = lrn("classif.debug", count_marshaling = TRUE)
