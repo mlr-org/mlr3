@@ -401,6 +401,14 @@ test_that("marshal state", {
   expect_equal(state, unmarshal_model(marshal_model(state)))
 })
 
+test_that("estimate_memor_usage works", {
+  task = tsk("pima")
+  learner = lrn("classif.debug", iter = 10)
+  expect_equal(learner$estimate_memory_usage(task), 7680)
+
+  learner = lrn("classif.debug", iter = to_tune(1, 10))
+  learner$estimate_memory_usage(task)
+})
 
 test_that("internal_valid_task is created correctly", {
   LearnerClassifTest = R6Class("LearnerClassifTest", inherit = LearnerClassifDebug,
@@ -487,7 +495,7 @@ test_that("compatability check on validation task", {
   task$internal_valid_task$col_roles$target = "credit_history"
   expect_error(learner$train(task), "has different target")
 })
-  
+
 test_that("model is marshaled during parallel predict", {
   # by setting check_pid = TRUE, we ensure that unmarshal_model() sets the process id to the current
   # id. LearnerClassifDebug then checks during `.predict()`, whether the marshal_id of the model is equal to the current process id and errs if this is not the case.
@@ -537,6 +545,6 @@ test_that("learner state contains internal valid task information", {
   expect_string(rr$learners[[1L]]$state$internal_valid_task_hash)
 
   # 1. manual
-  learner$train(task) 
+  learner$train(task)
   expect_string(learner$state$internal_valid_task_hash)
 })
