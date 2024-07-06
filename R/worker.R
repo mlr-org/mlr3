@@ -56,6 +56,9 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
   # depending on the validate parameter, create the internal validation task (if needed)
   # modifies the task in place
   create_internal_valid_task(validate, task, test_row_ids, prev_valid, learner)
+  if (!is.null(task$internal_valid_task) && !task$internal_valid_task$nrow) {
+    stopf("Internal validation task for task '%s' has 0 observations", task$id)
+  }
 
   if (mode == "train") learner$state = list()
 

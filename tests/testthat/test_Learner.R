@@ -540,3 +540,10 @@ test_that("learner state contains internal valid task information", {
   learner$train(task) 
   expect_string(learner$state$internal_valid_task_hash)
 })
+
+test_that("validation task with 0 observations", {
+  learner = lrn("classif.debug", validate = "predefined")
+  task = tsk("iris")
+  task$divide(ids = integer(0))
+  expect_error({learner$train(task)}, "has 0 observations")
+})
