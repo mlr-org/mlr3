@@ -77,8 +77,8 @@ print(bmr)
 }
 
 Other benchmark: 
-\code{\link{benchmark_grid}()},
-\code{\link{benchmark}()}
+\code{\link{benchmark}()},
+\code{\link{benchmark_grid}()}
 }
 \concept{benchmark}
 \section{Active bindings}{
@@ -141,6 +141,8 @@ Set of (unique) hashes of all included \link{ResampleResult}s.}
 \item \href{#method-BenchmarkResult-format}{\code{BenchmarkResult$format()}}
 \item \href{#method-BenchmarkResult-print}{\code{BenchmarkResult$print()}}
 \item \href{#method-BenchmarkResult-combine}{\code{BenchmarkResult$combine()}}
+\item \href{#method-BenchmarkResult-marshal}{\code{BenchmarkResult$marshal()}}
+\item \href{#method-BenchmarkResult-unmarshal}{\code{BenchmarkResult$unmarshal()}}
 \item \href{#method-BenchmarkResult-score}{\code{BenchmarkResult$score()}}
 \item \href{#method-BenchmarkResult-aggregate}{\code{BenchmarkResult$aggregate()}}
 \item \href{#method-BenchmarkResult-filter}{\code{BenchmarkResult$filter()}}
@@ -231,6 +233,42 @@ the object in its previous state.
 }
 }
 \if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-BenchmarkResult-marshal"></a>}}
+\if{latex}{\out{\hypertarget{method-BenchmarkResult-marshal}{}}}
+\subsection{Method \code{marshal()}}{
+Marshals all stored models.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{BenchmarkResult$marshal(...)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{...}}{(any)\cr
+Additional arguments passed to \code{\link[=marshal_model]{marshal_model()}}.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-BenchmarkResult-unmarshal"></a>}}
+\if{latex}{\out{\hypertarget{method-BenchmarkResult-unmarshal}{}}}
+\subsection{Method \code{unmarshal()}}{
+Unmarshals all stored models.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{BenchmarkResult$unmarshal(...)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{...}}{(any)\cr
+Additional arguments passed to \code{\link[=unmarshal_model]{unmarshal_model()}}.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-BenchmarkResult-score"></a>}}
 \if{latex}{\out{\hypertarget{method-BenchmarkResult-score}{}}}
 \subsection{Method \code{score()}}{
@@ -269,7 +307,7 @@ list columns of character vectors to the returned table}
 \item{\code{predict_sets}}{(\code{character()})\cr
 Prediction sets to operate on, used in \code{aggregate()} to extract the matching \code{predict_sets} from the \link{ResampleResult}.
 Multiple predict sets are calculated by the respective \link{Learner} during \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}.
-Must be a non-empty subset of \verb{\{"train", "test", "holdout"\}}.
+Must be a non-empty subset of \verb{\{"train", "test", "internal_valid"\}}.
 If multiple sets are provided, these are first combined to a single prediction object.
 Default is \code{"test"}.}
 }

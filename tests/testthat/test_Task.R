@@ -89,14 +89,6 @@ test_that("Task rbind", {
   expect_equal(nt$row_names$row_name, c(task$row_names$row_name, rep(NA, 101)))
   expect_equal(nt$col_info[list("foo"), .N, nomatch = NULL], 0L)
 
-  # #423
-  task = tsk("iris")
-  task$row_roles$use = 1:10
-  task$row_roles$holdout = 11:150
-
-  task$rbind(iris[sample(nrow(iris), 5), ])
-  expect_set_equal(task$row_ids, c(1:10, 151:155))
-
   # 496
   data = iris
   data$blocks = sample(letters[1:2], nrow(iris), replace = TRUE)
@@ -171,12 +163,14 @@ test_that("cbind/rbind works", {
 
   task$cbind(data)
   expect_task(task)
+  expect_equal(task$n_features, 5L) # "foo" was added as a feature
   expect_set_equal(c(task$feature_names, task$target_names), c(names(iris), "foo"))
   expect_data_table(task$data(), ncols = 6, any.missing = FALSE)
 
   task$rbind(cbind(data.table(..row_id = 201:210, foo = 99L), iris[1:10, ]))
   expect_task(task)
   expect_set_equal(task$row_ids, c(1:150, 201:210))
+  expect_equal(task$n_features, 5L) # adding rows doesn't change #features
   expect_data_table(task$data(), ncols = 6, nrows = 160, any.missing = FALSE)
 
   # auto generated ids
@@ -332,9 +326,13 @@ test_that("task$feature_types preserves key (#193)", {
 
 test_that("switch columns on and off (#301)", {
   task = tsk("iris")
+  expect_equal(task$n_features, 4L)
   task$col_roles$feature = setdiff(task$col_roles$feature, "Sepal.Length")
+  expect_equal(task$n_features, 3L)
   task$cbind(data.table(x = 1:150))
+  expect_equal(task$n_features, 4L)
   task$col_roles$feature = union(task$col_roles$feature, "Sepal.Length")
+  expect_equal(task$n_features, 5L)
   expect_data_table(task$data(), ncols = 6, nrows = 150, any.missing = FALSE)
 })
 
@@ -387,26 +385,28 @@ test_that("Task$set_row_roles", {
 
   task$set_row_roles(1:10, add_to = "use")
   expect_true(all(1:10 %in% task$row_ids))
-
-  task$set_row_roles(1:10, roles = "holdout")
-  expect_true(all(1:10 %nin% task$row_ids))
 })
 
 
 test_that("Task$set_col_roles", {
   task = tsk("pima")
+  expect_equal(task$n_features, 8L)
 
   task$set_col_roles("mass", remove_from = "feature")
+  expect_equal(task$n_features, 7L)
   expect_true("mass" %nin% task$feature_names)
 
   task$set_col_roles("mass", add_to = "feature")
+  expect_equal(task$n_features, 8L)
   expect_true("mass" %in% task$feature_names)
 
   task$set_col_roles("age", roles = "weight")
+  expect_equal(task$n_features, 7L)
   expect_true("age" %nin% task$feature_names)
   expect_data_table(task$weights)
 
   task$set_col_roles("age", add_to = "feature", remove_from = "weight")
+  expect_equal(task$n_features, 8L)
   expect_true("age" %in% task$feature_names)
   expect_null(task$weights)
 })
@@ -514,4 +514,103 @@ test_that("Roles get printed (#877)", {
   task = tsk("iris")
   task$col_roles$weight = "Petal.Width"
   expect_output(print(task), "Weights: Petal.Width")
+})
+
+test_that("validation task is cloned", {
+  task = tsk("iris")
+  task$divide(ids = c(1:10, 51:60, 101:110))
+  task2 = task$clone(deep = TRUE)
+  expect_false(identical(task$internal_valid_task, task2$internal_valid_task))
+  expect_equal(task$internal_valid_task, task2$internal_valid_task)
+})
+
+test_that("task is cloned when assining internal validation task", {
+  task = tsk("iris")
+  task$internal_valid_task = task
+  expect_false(identical(task, task$internal_valid_task))
+})
+
+test_that("validation task cannot have a validation task", {
+  task = tsk("iris")
+  expect_error({task$internal_valid_task = task$clone(deep = TRUE)$divide(ids = 1) }, "remove its validation")
+})
+
+test_that("divide works with ratio", {
+  task = tsk("iris")$filter(1:10)
+  task$divide(ratio = 0.1)
+  expect_equal(task$nrow, 9)
+  expect_equal(task$internal_valid_task$nrow, 1)
+  expect_permutation(1:10, c(task$row_ids, task$internal_valid_task$row_ids))
+})
+
+test_that("validation task changes a task's hash", {
+  task = tsk("iris")
+  h1 = task$hash
+  task$divide(ids = 1:10, remove = FALSE)
+  h2 = task$hash
+  expect_false(h1 == h2)
+})
+
+test_that("compatibility checks on internal_valid_task", {
+  d1 = data.table(x = 1:10, y = 1:10)
+  d2 = data.table(x = rnorm(10), y = 1:10)
+  d3 = data.table(x1 = rnorm(10), y = 1:10)
+
+  t1 = as_task_regr(d1, target = "y")
+  t2 = as_task_regr(d2, target = "y")
+  t3 = as_task_regr(d3, target = "y")
+  expect_error({t1$internal_valid_task = t2 }, "differs from the type")
+  expect_error({t1$internal_valid_task = t3 }, "not present")
+})
+
+test_that("can NULL validation task", {
+  task = tsk("iris")
+  task$divide(ids = 1)
+  task$internal_valid_task = NULL
+  expect_equal(length(task$row_ids), 149)
+})
+
+test_that("can call $divide twice", {
+  task = tsk("iris")
+  task$divide(ids = 1:10)
+  expect_task(task$divide(ids = 1:10))
+})
+
+test_that("internal_valid_task is printed", {
+  task = tsk("iris")
+  task$divide(ids = c(1:10, 51:60, 101:110))
+  out = capture_output(print(task))
+  expect_true(grepl(pattern = "* Validation Task: (30x5)", fixed = TRUE, x = out))
+})
+
+test_that("task hashes during resample", {
+  orig = tsk("iris")
+  task = orig$clone(deep = TRUE)
+  resampling = rsmp("holdout")
+  resampling$instantiate(task)
+  task$divide(ids = resampling$test_set(1))
+  task$hash
+  learner = lrn("classif.debug", validate = "test")
+  expect_equal(resampling_task_hashes(task, resampling, learner), task$hash)
+})
+
+test_that("divide remove parameter works", {
+  task = tsk("iris")
+  task$divide(ids = 1L, remove = FALSE)
+  expect_true(1L %in% task$row_ids)
+  task = tsk("iris")
+  task$divide(ids = 1L, remove = TRUE)
+  expect_false(1L %in% task$row_ids)
+})
+
+test_that("divide does not take ratio and ids", {
+  expect_error(tsk("iris")$divide(0.2, 1), "to create a validation task")
+})
+
+test_that("divide requires ratio in (0, 1)", {
+  expect_error(tsk("iris")$divide(1.2))
+})
+
+test_that("divide requires ids to be row_ids", {
+  expect_error(tsk("iris")$divide(ids = 0.5))
 })

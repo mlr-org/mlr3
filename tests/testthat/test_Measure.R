@@ -128,5 +128,17 @@ test_that("time_train is > 0", {
   skip_on_cran()
   rr = resample(tsk("iris"), lrn("classif.debug"), rsmp("holdout"))
   res = rr$score(msr("time_train"))
-  expect_gt(res$time_train, 0)
+  expect_gte(res$time_train, 0)
+})
+
+test_that("scoring fails when measure requires_model, but model is in marshaled state", {
+  measure = msr("classif.acc")
+  measure$properties = c(measure$properties, "requires_model")
+
+  task = tsk("iris")
+  learner = lrn("classif.debug")
+  pred = learner$train(task)$predict(task)
+  learner$marshal()
+  expect_error(measure$score(pred, learner = learner),
+    regexp = "is in marshaled form")
 })

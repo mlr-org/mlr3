@@ -14,6 +14,7 @@
 #' @template param_encapsulate
 #' @template param_allow_hotstart
 #' @template param_clone
+#' @template param_unmarshal
 #' @return [ResampleResult].
 #'
 #' @template section_predict_sets
@@ -54,14 +55,16 @@
 #' bmr1 = as_benchmark_result(rr)
 #' bmr2 = as_benchmark_result(rr_featureless)
 #' print(bmr1$combine(bmr2))
-resample = function(task, learner, resampling, store_models = FALSE, store_backends = TRUE, encapsulate = NA_character_, allow_hotstart = FALSE, clone = c("task", "learner", "resampling")) {
+resample = function(task, learner, resampling, store_models = FALSE, store_backends = TRUE, encapsulate = NA_character_, allow_hotstart = FALSE, clone = c("task", "learner", "resampling"), unmarshal = TRUE) {
   assert_subset(clone, c("task", "learner", "resampling"))
   task = assert_task(as_task(task, clone = "task" %in% clone))
-  learner = assert_learner(as_learner(learner, clone = "learner" %in% clone))
+  learner = assert_learner(as_learner(learner, clone = "learner" %in% clone, discard_state = TRUE))
   resampling = assert_resampling(as_resampling(resampling, clone = "resampling" %in% clone))
   assert_flag(store_models)
   assert_flag(store_backends)
+  # this does not check the internal validation task as it might not be set yet
   assert_learnable(task, learner)
+  assert_flag(unmarshal)
 
   set_encapsulation(list(learner), encapsulate)
   if (!resampling$is_instantiated) {
@@ -77,17 +80,22 @@ resample = function(task, learner, resampling, store_models = FALSE, store_backe
   lgr_threshold = map_int(mlr_reflections$loggers, "threshold")
 
   grid = if (allow_hotstart) {
-   hotstart_grid = map_dtr(seq_len(n), function(iteration) {
+
+    lg$debug("Resampling with hotstart enabled.")
+
+    hotstart_grid = map_dtr(seq_len(n), function(iteration) {
       if (!is.null(learner$hotstart_stack)) {
         # search for hotstart learner
-        task_hashes = task_hashes(task, resampling)
+        task_hashes = resampling_task_hashes(task, resampling, learner)
         start_learner = get_private(learner$hotstart_stack)$.start_learner(learner$clone(), task_hashes[iteration])
       }
       if (is.null(learner$hotstart_stack) || is.null(start_learner)) {
         # no hotstart learners stored or no adaptable model found
+        lg$debug("Resampling with hotstarting not possible. No start learner found.")
         mode = "train"
       } else {
         # hotstart learner found
+        lg$debug("Resampling with hotstarting.")
         start_learner$param_set$values = insert_named(start_learner$param_set$values, learner$param_set$values)
         learner = start_learner
         mode = "hotstart"
@@ -106,7 +114,7 @@ resample = function(task, learner, resampling, store_models = FALSE, store_backe
   }
 
   res = future_map(n, workhorse, iteration = seq_len(n), learner = grid$learner, mode = grid$mode,
-    MoreArgs = list(task = task, resampling = resampling, store_models = store_models, lgr_threshold = lgr_threshold, pb = pb)
+    MoreArgs = list(task = task, resampling = resampling, store_models = store_models, lgr_threshold = lgr_threshold, pb = pb, unmarshal = unmarshal)
   )
 
   data = data.table(
@@ -116,8 +124,19 @@ resample = function(task, learner, resampling, store_models = FALSE, store_backe
     resampling = list(resampling),
     iteration = seq_len(n),
     prediction = map(res, "prediction"),
-    uhash = UUIDgenerate()
+    uhash = UUIDgenerate(),
+    param_values = map(res, "param_values"),
+    learner_hash = map_chr(res, "learner_hash")
   )
 
-  ResampleResult$new(ResultData$new(data, store_backends = store_backends))
+  result_data = ResultData$new(data, store_backends = store_backends)
+
+  # the worker already ensures that models are sent back in marshaled form if unmarshal = FALSE, so we don't have
+  # to do anything in this case. This allows us to minimize the amount of marshaling in those situtions where
+  # the model is available in both states on the worker
+  if (unmarshal && store_models) {
+    result_data$unmarshal()
+  }
+
+  ResampleResult$new(result_data)
 }

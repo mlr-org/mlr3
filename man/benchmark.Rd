@@ -10,7 +10,8 @@ benchmark(
   store_backends = TRUE,
   encapsulate = NA_character_,
   allow_hotstart = FALSE,
-  clone = c("task", "learner", "resampling")
+  clone = c("task", "learner", "resampling"),
+  unmarshal = TRUE
 )
 }
 \arguments{
@@ -18,7 +19,8 @@ benchmark(
 Data frame (or \code{\link[data.table:data.table]{data.table::data.table()}}) with three columns: "task", "learner", and "resampling".
 Each row defines a resampling by providing a \link{Task}, \link{Learner} and an instantiated \link{Resampling} strategy.
 The helper function \code{\link[=benchmark_grid]{benchmark_grid()}} can assist in generating an exhaustive design (see examples) and
-instantiate the \link{Resampling}s per \link{Task}.}
+instantiate the \link{Resampling}s per \link{Task}.
+Additionally, you can set the additional column 'param_values', see \code{\link[=benchmark_grid]{benchmark_grid()}}.}
 
 \item{store_models}{(\code{logical(1)})\cr
 Store the fitted model in the resulting object=
@@ -56,6 +58,11 @@ Select the input objects to be cloned before proceeding by
 providing a set with possible values \code{"task"}, \code{"learner"} and
 \code{"resampling"} for \link{Task}, \link{Learner} and \link{Resampling}, respectively.
 Per default, all input objects are cloned.}
+
+\item{unmarshal}{\code{\link{Learner}}\cr
+Whether to unmarshal learners that were marshaled during the execution.
+If \code{TRUE} all models are stored in unmarshaled form.
+If \code{FALSE}, all learners (that need marshaling) are stored in marshaled form.}
 }
 \value{
 \link{BenchmarkResult}.

@@ -64,17 +64,18 @@ scores[, c("iteration", "selected_features")]
 }
 
 Other Measure: 
+\code{\link{Measure}},
 \code{\link{MeasureClassif}},
 \code{\link{MeasureRegr}},
 \code{\link{MeasureSimilarity}},
-\code{\link{Measure}},
+\code{\link{mlr_measures}},
 \code{\link{mlr_measures_aic}},
 \code{\link{mlr_measures_bic}},
 \code{\link{mlr_measures_classif.costs}},
 \code{\link{mlr_measures_debug_classif}},
 \code{\link{mlr_measures_elapsed_time}},
-\code{\link{mlr_measures_oob_error}},
-\code{\link{mlr_measures}}
+\code{\link{mlr_measures_internal_valid_score}},
+\code{\link{mlr_measures_oob_error}}
 }
 \concept{Measure}
 \section{Super class}{

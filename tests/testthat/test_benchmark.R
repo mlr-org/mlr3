@@ -408,3 +408,175 @@ test_that("benchmark_grid works if paired = TRUE", {
   resamplings = rev(resamplings)
   expect_error(benchmark_grid(tasks, learners, resamplings, paired = TRUE))
 })
+
+test_that("param_values in benchmark", {
+  # setup
+  tasks = tsks("iris")
+  resamplings = list(rsmp("cv", folds = 3)$instantiate(tasks[[1]]))
+  learners = lrns("classif.debug")
+
+  # single parameter set via manual design
+  design = data.table(task = tasks, learner = learners, resampling = resamplings, param_values = list(list(list(x = 1))))
+  bmr = benchmark(design)
+  expect_benchmark_result(bmr)
+  expect_equal(bmr$n_resample_results, 1)
+  expect_equal(nrow(as.data.table(bmr)), 3)
+  learner = bmr$resample_result(1)$learner
+  expect_equal(learner$param_set$values$x, 1)
+  expect_equal(nrow(as.data.table(bmr)), 3)
+
+  # multiple parameters set via manual design
+  design = data.table(task = tasks, learner = learners, resampling = resamplings, param_values = list(list(list(x = 1), list(x = 0.5))))
+  bmr = benchmark(design)
+  expect_benchmark_result(bmr)
+  expect_equal(bmr$n_resample_results, 2)
+  expect_equal(nrow(as.data.table(bmr)), 6)
+  learner = bmr$resample_result(1)$learner
+  expect_equal(learner$param_set$values$x, 1)
+  learner = bmr$resample_result(2)$learner
+  expect_equal(learner$param_set$values$x, 0.5)
+
+  # benchmark grid does not attach param_values if empty
+  design = benchmark_grid(tasks, learners, resamplings)
+  expect_names(names(design), permutation.of = c("task", "learner", "resampling"))
+
+  # benchmark grid with param_values
+  design = benchmark_grid(tasks, learners, resamplings, param_values = list(list(list(x = 1))))
+  expect_data_table(design, nrows = 1)
+  expect_names(names(design), permutation.of = c("task", "learner", "resampling", "param_values"))
+  bmr = benchmark(design)
+  expect_benchmark_result(bmr)
+
+  # benchmark grid with param_values and paired = TRUE
+  design = benchmark_grid(tasks, learners, resamplings, param_values = list(list(list(x = 1))), paired = TRUE)
+  expect_data_table(design, nrows = 1)
+  bmr = benchmark(design)
+  expect_benchmark_result(bmr)
+  expect_equal(bmr$n_resample_results, 1)
+
+  # benchmark grid with multiple params
+  design = benchmark_grid(tasks, learners, resamplings, param_values = list(list(list(x = 1), list(x = 0.5))))
+  expect_data_table(design, nrows = 1)
+  bmr = benchmark(design)
+  expect_benchmark_result(bmr)
+  expect_equal(bmr$n_resample_results, 2)
+
+
+  # benchmark grid with multiple params and multiple learners
+  design = benchmark_grid(tasks, lrns(c("classif.debug", "classif.debug")), rsmp("holdout"), param_values = list(list(list(x = 1), list(x = 0.5)), list()))
+  bmr = benchmark(design)
+  expect_benchmark_result(bmr)
+  expect_equal(bmr$n_resample_results, 3)
+
+  # constant values are inserted
+  learners = lrns("classif.rpart", minsplit = 12)
+  design = data.table(task = tasks, learner = learners, resampling = resamplings, param_values = list(list(list(cp = 0.1), list(minbucket = 2))))
+  bmr = benchmark(design)
+
+  sortnames = function(x) {
+    if (!is.null(names(x))) {
+      x <- x[order(names(x))]
+    }
+    x
+  }
+  trained = bmr$learners$learner
+  ii = which(map_lgl(trained, function(x) "cp" %in% names(x$param_set$values))) # find learner with cp
+  expect_count(ii)
+
+  expect_equal(sortnames(bmr$learners$learner[-ii][[1]]$param_set$values), list(minbucket = 2, minsplit = 12, xval = 0))
+  expect_equal(sortnames(bmr$learners$learner[[ii]]$param_set$values), list(cp = 0.1, minsplit = 12, xval = 0))
+})
+
+
+test_that("learner's validate cannot be 'test' if internal_valid_set is present", {
+  # otherwise, predict_set = "internal_valid" would be ambiguous
+  learner = lrn("classif.debug", validate = "test", predict_sets = c("train", "internal_valid"))
+  task = tsk("iris")$divide(ids = 1)
+  expect_error(benchmark(benchmark_grid(task, learner, rsmp("holdout"))), "cannot be set to ")
+})
+
+test_that("learner's validate cannot be a ratio if internal_valid_set is present", {
+  # otherwise, predict_set = "internal_valid" would be ambiguous
+  learner = lrn("classif.debug", validate = 0.5, predict_sets = c("train", "internal_valid"))
+  task = tsk("iris")$divide(ids = 1)
+  expect_error(benchmark(benchmark_grid(task, learner, rsmp("holdout"))), "cannot be set to ")
+})
+
+test_that("properties are also checked on validation task", {
+  task = tsk("iris")
+  row = task$data(1)
+  row[[1]][1] = NA
+  row$..row_id = 151
+  task$rbind(row)
+  task$divide(ids = 151)
+  learner = lrn("classif.debug", validate = "predefined")
+  learner$properties = setdiff(learner$properties, "missings")
+
+  expect_error(benchmark(benchmark_grid(task, learner, rsmp("holdout"))), "missing values")
+})
+
+test_that("parallel execution automatically triggers marshaling", {
+  learner = lrn("classif.debug", count_marshaling = TRUE)
+  task = tsk("iris")
+  resampling = rsmp("holdout")
+  design = benchmark_grid(task, learner, resampling)
+  bmr = with_future(future::multisession, {
+    benchmark(design, store_models = TRUE, unmarshal = TRUE)
+  })
+  expect_equal(bmr$resample_result(1)$learners[[1]]$model$marshal_count, 1)
+  expect_false(bmr$resample_result(1)$learners[[1]]$marshaled)
+})
+
+test_that("sequential execution does not trigger marshaling", {
+  learner = lrn("classif.debug", count_marshaling = TRUE)
+  task = tsk("iris")
+  resampling = rsmp("holdout")
+  design = benchmark_grid(task, learner, resampling)
+  bmr = with_future(future::sequential, {
+    benchmark(design, store_models = TRUE, unmarshal = TRUE)
+  })
+  expect_equal(bmr$resample_result(1)$learners[[1]]$model$marshal_count, 0)
+})
+
+test_that("parallel execution and callr marshal once", {
+  learner = lrn("classif.debug", count_marshaling = TRUE, encapsulate = c(train = "callr"))
+  task = tsk("iris")
+  resampling = rsmp("holdout")
+  design = benchmark_grid(task, learner, resampling)
+  bmr = with_future(future::multisession, {
+    benchmark(design, store_models = TRUE, unmarshal = TRUE)
+  })
+  expect_equal(bmr$resample_result(1)$learners[[1]]$model$marshal_count, 1)
+  expect_false(bmr$resample_result(1)$learners[[1]]$marshaled)
+})
+
+
+test_that("unmarshal parameter is respected", {
+  learner = lrn("classif.debug", count_marshaling = TRUE, encapsulate = c(train = "callr"))
+  task = tsk("iris")
+  resampling = rsmp("holdout")
+  design = benchmark_grid(task, learner, resampling)
+  bmr = with_future(future::multisession, {
+    list(
+      marshaled = benchmark(design, store_models = TRUE, unmarshal = FALSE),
+      unmarshaled = benchmark(design, store_models = TRUE, unmarshal = TRUE)
+    )
+  })
+  expect_false(bmr$unmarshaled$resample_result(1)$learners[[1]]$marshaled)
+  expect_true(bmr$marshaled$resample_result(1)$learners[[1]]$marshaled)
+})
+
+test_that("BenchmarkResult can be (un)marshaled", {
+  bmr = benchmark(benchmark_grid(tsk("iris"), lrn("classif.debug"), rsmp("holdout")), store_models = TRUE)
+  expect_false(bmr$resample_result(1)$learners[[1]]$marshaled)
+  bmr$marshal()
+  expect_true(bmr$resample_result(1)$learners[[1]]$marshaled)
+  bmr$unmarshal()
+  expect_false(bmr$resample_result(1)$learners[[1]]$marshaled)
+
+  # also works with non-marshalable learner
+  bmr1 = benchmark(benchmark_grid(tsk("iris"), lrn("classif.featureless"), rsmp("holdout")), store_models = TRUE)
+  model = bmr1$resample_result(1)$learners[[1]]$model
+  bmr1$unmarshal()
+  expect_equal(bmr1$resample_result(1)$learners[[1]]$model, model)
+})

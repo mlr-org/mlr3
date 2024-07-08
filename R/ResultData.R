@@ -5,7 +5,7 @@
 #' It is advised to not directly work on this data structure as it may be changed in the future
 #' without further warnings.
 #'
-#' The main motivation of this data structure is the necessity to avoid storing duplicated [R6] objects.
+#' The main motivation of this data structure is the necessity to avoid storing duplicated [R6][R6::R6Class] objects.
 #' While this is usually no problem in a single R session, serialization via [serialize()] (which is
 #' used in [save()]/[saveRDS()] or during parallelization) leads to objects with unreasonable memory
 #' requirements.
@@ -19,7 +19,7 @@
 ResultData = R6Class("ResultData",
   public = list(
     #' @field data (`list()`)\cr
-    #'   List of `data.tables()`, arranged in a star schema.
+    #'   List of [data.table::data.table()], arranged in a star schema.
     #'   Do not operate directly on this list.
     data = NULL,
 
@@ -28,7 +28,7 @@ ResultData = R6Class("ResultData",
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #' An alternative construction method is provided by [as_result_data()].
     #'
-    #' @param data ([data.table()] | `NULL`)\cr
+    #' @param data ([data.table::data.table()]) | `NULL`)\cr
     #'   Do not initialize this object yourself, use [as_result_data()] instead.
     #' @param store_backends (`logical(1)`)\cr
     #'   If set to `FALSE`, the backends of the [Task]s provided in `data` are
@@ -40,38 +40,39 @@ ResultData = R6Class("ResultData",
         self$data = star_init()
       } else {
         assert_names(names(data),
-          permutation.of = c("task", "learner", "learner_state", "resampling", "iteration", "prediction", "uhash"))
+          permutation.of = c("task", "learner", "learner_state", "resampling", "iteration", "param_values", "prediction", "uhash", "learner_hash"))
 
         if (nrow(data) == 0L) {
           self$data = star_init()
         } else {
-          fact = data[, c("uhash", "iteration", "learner_state", "prediction", "task", "learner", "resampling"),
-            with = FALSE]
-          set(fact, j = "task_hash", value = hashes(fact$task))
-          set(fact, j = "learner_hash", value = hashes(fact$learner))
-          set(fact, j = "learner_phash", value = phashes(fact$learner))
-          set(fact, j = "resampling_hash", value = hashes(fact$resampling))
+          setcolorder(data, c("uhash", "iteration", "learner_state", "prediction", "task", "learner", "resampling", "param_values", "learner_hash"))
+          uhashes = data.table(uhash = unique(data$uhash))
+          setkeyv(data, c("uhash", "iteration"))
 
-          uhashes = data.table(uhash = unique(fact$uhash))
-          tasks = fact[, list(task = .SD$task[1L]),
+          task = learner = resampling = NULL
+          data[, "task_hash" := task[[1]]$hash, by = "uhash"]
+          data[, "learner_phash" := learner[[1]]$phash, by = "uhash"]
+          data[, "resampling_hash" := resampling[[1]]$hash, by = "uhash"]
+
+          tasks = data[, list(task = .SD$task[1L]),
             keyby = "task_hash"]
-          learners = fact[, list(learner = list(.SD$learner[[1L]]$reset())),
+          learners = data[, list(learner = list(.SD$learner[[1L]]$reset())),
             keyby = "learner_phash"]
-          resamplings = fact[, list(resampling = .SD$resampling[1L]),
+          resamplings = data[, list(resampling = .SD$resampling[1L]),
             keyby = "resampling_hash"]
-          learner_components = fact[, list(learner_param_vals = list(.SD$learner[[1L]]$param_set$values)),
+          learner_components = data[, list(learner_param_vals = list(.SD$param_values[[1]])),
             keyby = "learner_hash"]
 
-          set(fact, j = "task", value = NULL)
-          set(fact, j = "learner", value = NULL)
-          set(fact, j = "resampling", value = NULL)
-          setkeyv(fact, c("uhash", "iteration"))
+          set(data, j = "task", value = NULL)
+          set(data, j = "learner", value = NULL)
+          set(data, j = "resampling", value = NULL)
+          set(data, j = "param_values", value = NULL)
 
           if (!store_backends) {
             set(tasks, j = "task", value = lapply(tasks$task, task_rm_backend))
           }
 
-          self$data = list(fact = fact, uhashes = uhashes, tasks = tasks, learners = learners,
+          self$data = list(fact = data, uhashes = uhashes, tasks = tasks, learners = learners,
             resamplings = resamplings, learner_components = learner_components)
         }
       }
@@ -242,6 +243,27 @@ ResultData = R6Class("ResultData",
     },
 
     #' @description
+    #' Marshals all stored learner models.
+    #' This will do nothing to models that are already marshaled.
+    #' @param ... (any)\cr
+    #'   Additional arguments passed to [`marshal_model()`].
+    marshal = function(...) {
+      learner_state = NULL
+      self$data$fact[, learner_state := lapply(learner_state, function(x) marshal_state_if_model(.state = x, inplace = TRUE, ...))]
+      invisible(self)
+    },
+    #' @description
+    #' Unmarshals all stored learner models.
+    #' This will do nothing to models which are not marshaled.
+    #' @param ... (any)\cr
+    #'   Additional arguments passed to [`unmarshal_model()`].
+    unmarshal = function(...) {
+      learner_state = NULL
+      self$data$fact[, learner_state := lapply(learner_state, function(x) unmarshal_state_if_model(.state = x, inplace = TRUE, ...))]
+      invisible(self)
+    },
+
+    #' @description
     #' Shrinks the object by discarding parts of the stored data.
     #'
     #' @param backends (`logical(1)`)\cr
@@ -303,7 +325,7 @@ ResultData = R6Class("ResultData",
     #' @param condition (`character(1)`)
     #'   The condition to extract. One of `"message"`, `"warning"` or `"error"`.
     #'
-    #' @return [data.table()].
+    #' @return [data.table::data.table()].
     logs = function(view = NULL, condition) {
       .__ii__ = private$get_view_index(view)
       learner_state = NULL
@@ -354,8 +376,8 @@ star_init = function() {
     learner_state = list(),
     prediction = list(),
 
-    task_hash = character(),
     learner_hash = character(),
+    task_hash = character(),
     learner_phash = character(),
     resampling_hash = character(),
 

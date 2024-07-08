@@ -48,7 +48,7 @@
 #'   Instead, the methods first create a new [DataBackendDataTable] from the provided new data, and then
 #'   merge both backends into an abstract [DataBackend] which merges the results on-demand.
 #' * `rename()` wraps the [DataBackend] of the Task in an additional [DataBackend] which deals with the renaming. Also updates `$col_roles` and `$col_info`.
-#' * `set_levels()` updates the field `col_info()`.
+#' * `set_levels()` and `droplevels()` `update the field `col_info()`.
 #'
 #' @template seealso_task
 #' @concept Task
@@ -73,9 +73,6 @@
 #' head(task)
 Task = R6Class("Task",
   public = list(
-    #' @template field_id
-    id = NULL,
-
     #' @template field_label
     label = NA_character_,
 
@@ -114,7 +111,7 @@ Task = R6Class("Task",
     #'
     #' Note that this object is typically constructed via a derived classes, e.g. [TaskClassif] or [TaskRegr].
     initialize = function(id, task_type, backend, label = NA_character_, extra_args = list()) {
-      self$id = assert_string(id, min.chars = 1L)
+      private$.id = assert_string(id, min.chars = 1L)
       self$label = assert_string(label, na.ok = TRUE)
       self$task_type = assert_choice(task_type, mlr_reflections$task_types$type)
       if (!inherits(backend, "DataBackend")) {
@@ -148,11 +145,58 @@ Task = R6Class("Task",
       )
 
       cn = self$col_info$id # note: this sorts the columns!
-      private$.row_roles = list(use = rn, test = integer(), holdout = integer())
+      private$.row_roles = list(use = rn)
       private$.col_roles = named_list(mlr_reflections$task_col_roles[[task_type]], character())
       private$.col_roles$feature = setdiff(cn, self$backend$primary_key)
       self$extra_args = assert_list(extra_args, names = "unique")
-      self$mlr3_version = packageVersion("mlr3")
+      self$mlr3_version = mlr_reflections$package_version
+    },
+
+    #' @description
+    #' Creates an internal validation task (field `$internal_valid_task`) from the primary task.
+    #' This modifies the task in-place.
+    #' Subsequent operations on the (primary) task are **not** relayed to the internal validation task.
+    #' One must either provide the parameter `ratio` or `ids.
+    #'
+    #' @param ratio (`numeric(1)`)\cr
+    #'   The proportion of datapoints to use as validation data.
+    #' @param ids (`integer()`)\cr
+    #'   The row ids to use as validation data.
+    #' @param remove (`logical(1)`)\cr
+    #'   If `TRUE` (default), the `row_ids` are removed from the primary task's active `"use"` rows, ensuring a
+    #'   disjoint split between the train and validation data.
+    #'
+    #' @return Modified `Self`.
+    divide = function(ratio = NULL, ids = NULL, remove = TRUE) {
+      assert_flag(remove)
+      private$.hash = NULL
+
+      if (!xor(is.null(ratio), is.null(ids))) {
+        stopf("Provide a ratio or ids to create a validation task, but not both (Task '%s').", self$id)
+      }
+
+      valid_ids = if (!is.null(ratio)) {
+        assert_numeric(ratio, lower = 0, upper = 1, any.missing = FALSE)
+        # stratify = FALSE means we only stratify when strata are present
+        partition(self, ratio = 1 - ratio, stratify = FALSE)$test
+      } else {
+        assert_row_ids(ids, null.ok = FALSE) 
+      }
+
+      prev_internal_valid = private$.internal_valid_task
+      if (!is.null(prev_internal_valid)) {
+        lg$debug("Task %s already had an internal validation task that is being overwritten.", self$id)
+        # in case something goes wrong
+        on.exit({private$.internal_valid_task = prev_internal_valid}, add = TRUE)
+        private$.internal_valid_task = NULL
+      }
+      private$.internal_valid_task = self$clone(deep = TRUE)
+      private$.internal_valid_task$row_roles$use = valid_ids
+      if (remove) {
+        self$row_roles$use = setdiff(self$row_roles$use, valid_ids)
+      }
+      on.exit({}, add = FALSE)
+      invisible(self)
     },
 
     #' @description
@@ -175,7 +219,7 @@ Task = R6Class("Task",
       catf("%s (%i x %i)%s", format(self), self$nrow, self$ncol,
         if (is.null(self$label) || is.na(self$label)) "" else paste0(": ", self$label))
 
-      roles = self$col_roles
+      roles = private$.col_roles
       roles = roles[lengths(roles) > 0L]
 
       # print additional columns as specified in reflections
@@ -204,13 +248,8 @@ Task = R6Class("Task",
         catn(str_indent(sprintf("* %s:", str), roles[[role]]))
       })
 
-      nrows = list(test = length(self$row_roles$test), holdout = length(self$row_roles$holdout))
-      if (nrows$test || nrows$holdout) {
-        str = paste(c(
-          if(nrows$test) sprintf("%i (test)", nrows$test),
-          if(nrows$holdout) sprintf("%i (holdout)", nrows$holdout)
-          ), collapse = ", ")
-        catf(str_indent("* Additional Row Roles:", str))
+      if (!is.null(private$.internal_valid_task)) {
+        catf(str_indent("* Validation Task:", sprintf("(%ix%i)", private$.internal_valid_task$nrow, private$.internal_valid_task$ncol)))
       }
     },
 
@@ -237,8 +276,8 @@ Task = R6Class("Task",
       assert_choice(data_format, self$data_formats)
       assert_flag(ordered)
 
-      row_roles = self$row_roles
-      col_roles = self$col_roles
+      row_roles = private$.row_roles
+      col_roles = private$.col_roles
 
       if (is.null(rows)) {
         rows = row_roles$use
@@ -346,6 +385,7 @@ Task = R6Class("Task",
     missings = function(cols = NULL) {
       assert_has_backend(self)
 
+
       if (is.null(cols)) {
         cols = unlist(private$.col_roles[c("target", "feature")], use.names = FALSE)
       } else {
@@ -368,6 +408,7 @@ Task = R6Class("Task",
     filter = function(rows) {
       assert_has_backend(self)
       rows = assert_row_ids(rows)
+      private$.hash = NULL
       private$.row_roles$use = intersect(private$.row_roles$use, rows)
       invisible(self)
     },
@@ -387,6 +428,8 @@ Task = R6Class("Task",
       assert_has_backend(self)
       assert_character(cols)
       assert_subset(cols, private$.col_roles$feature)
+      private$.hash = NULL
+      private$.col_hashes = NULL
       private$.col_roles$feature = intersect(private$.col_roles$feature, cols)
       invisible(self)
     },
@@ -452,7 +495,7 @@ Task = R6Class("Task",
 
       # columns with these roles must be present in data
       mandatory_roles = c("target", "feature", "weight", "group", "stratum", "order")
-      mandatory_cols = unlist(self$col_roles[mandatory_roles], use.names = FALSE)
+      mandatory_cols = unlist(private$.col_roles[mandatory_roles], use.names = FALSE)
       missing_cols = setdiff(mandatory_cols, data$colnames)
       if (length(missing_cols)) {
         stopf("Cannot rbind data to task '%s', missing the following mandatory columns: %s", self$id, str_collapse(missing_cols))
@@ -484,9 +527,10 @@ Task = R6Class("Task",
       tab[, c("type_y", "levels_y") := list(NULL, NULL)]
 
       # everything looks good, modify task
+      private$.hash = NULL
       self$backend = DataBackendRbind$new(self$backend, data)
       self$col_info = tab[]
-      self$row_roles$use = c(self$row_roles$use, data$rownames)
+      private$.row_roles$use = c(private$.row_roles$use, data$rownames)
 
       invisible(self)
     },
@@ -535,7 +579,10 @@ Task = R6Class("Task",
       setkeyv(self$col_info, "id")
 
       # add new features
-      self$col_roles$feature = union(self$col_roles$feature, setdiff(data$colnames, c(pk, self$col_roles$target)))
+      private$.hash = NULL
+      private$.col_hashes = NULL
+      col_roles = private$.col_roles
+      private$.col_roles$feature = union(col_roles$feature, setdiff(data$colnames, c(pk, col_roles$target)))
 
       # update backend
       self$backend = DataBackendCbind$new(self$backend, data)
@@ -562,9 +609,11 @@ Task = R6Class("Task",
     #' the object in its previous state.
     rename = function(old, new) {
       assert_has_backend(self)
+      private$.hash = NULL
+      private$.col_hashes = NULL
       self$backend = DataBackendRename$new(self$backend, old, new)
       setkeyv(self$col_info[old, ("id") := new, on = "id"], "id")
-      self$col_roles = map(self$col_roles, map_values, old = old, new = new)
+      private$.col_roles = map(private$.col_roles, map_values, old = old, new = new)
       invisible(self)
     },
 
@@ -593,7 +642,10 @@ Task = R6Class("Task",
     set_row_roles = function(rows, roles = NULL, add_to = NULL, remove_from = NULL) {
       assert_has_backend(self)
       assert_subset(rows, self$backend$rownames)
+
+      private$.hash = NULL
       private$.row_roles = task_set_roles(private$.row_roles, rows, roles, add_to, remove_from)
+
       invisible(self)
     },
 
@@ -622,8 +674,12 @@ Task = R6Class("Task",
     set_col_roles = function(cols, roles = NULL, add_to = NULL, remove_from = NULL) {
       assert_has_backend(self)
       assert_subset(cols, self$col_info$id)
+
+      private$.hash = NULL
+      private$.col_hashes = NULL
       new_roles = task_set_roles(private$.col_roles, cols, roles, add_to, remove_from)
       private$.col_roles = task_check_col_roles(self, new_roles)
+
       invisible(self)
     },
 
@@ -646,6 +702,8 @@ Task = R6Class("Task",
 
       tab = enframe(lapply(levels, unname), name = "id", value = "levels")
       tab$fix_factor_levels = TRUE
+
+      private$.hash = NULL
       self$col_info = ujoin(self$col_info, tab, key = "id")
 
       invisible(self)
@@ -670,6 +728,7 @@ Task = R6Class("Task",
       tab = tab[lengths(levels) > lengths(new_levels)]
       tab[, c("levels", "fix_factor_levels") := list(Map(intersect, levels, new_levels), TRUE)]
 
+      private$.hash = NULL
       self$col_info = ujoin(self$col_info, remove_named(tab, "new_levels"), key = "id")
 
       invisible(self)
@@ -706,15 +765,63 @@ Task = R6Class("Task",
   ),
 
   active = list(
-    #' @template field_hash
-    hash = function(rhs) {
-      private$.hash %??% calculate_hash(
-        class(self), self$id, self$backend$hash, self$col_info,
-        remove_named(private$.row_roles, "test"), private$.col_roles, private$.properties
-      )
+    #' @template field_id
+    id = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.id)
+      }
+
+      private$.hash = NULL
+      private$.id = assert_string(rhs, min.chars = 1L)
     },
 
-    #' @field row_ids (`integer()`)\cr
+    #' @field internal_valid_task (`Task` or `NULL`)\cr
+    #' Optional validation task that can, e.g., be used for early stopping with learners such as XGBoost.
+    #' See also the `$validate` field of [`Learner`].
+    #' When assigning a new task, it is always cloned.
+    internal_valid_task = function(rhs) {
+      if (missing(rhs)) {
+        return(invisible(private$.internal_valid_task))
+      }
+      private$.hash = NULL
+      if (is.null(rhs)) {
+        private$.internal_valid_task = NULL
+        return(invisible(private$.internal_valid_task))
+      }
+
+      assert_task(rhs, task_type = self$task_type)
+      rhs = rhs$clone(deep = TRUE)
+      if (!is.null(rhs$internal_valid_task)) { # avoid recursive structures
+        stopf("Trying to assign task '%s' as a validation task, remove its validation task first.", rhs$id)
+      }
+
+      ci1 = self$col_info
+      ci2 = rhs$col_info
+      # don't do this too strictly, some column roles might just be important during training (weights)
+      cols = unlist(self$col_roles[c("target", "feature")])
+      walk(cols, function(.col) {
+        if (.col %nin% ci2$id) {
+          stopf("Primary task has column '%s' which is not present in the validation task.", .col)
+        }
+        if (ci1[get("id") == .col, "type"]$type != ci2[get("id") == .col, "type"]$type) {
+          stopf("The type of column '%s' from the validation task differs from the type in the primary task.", .col)
+        }
+      })
+
+      private$.internal_valid_task = rhs
+      invisible(private$.internal_valid_task)
+    },
+
+    #' @template field_hash
+    hash = function(rhs) {
+      if (is.null(private$.hash)) {
+        private$.hash = task_hash(self, self$row_ids, ignore_internal_valid_task = FALSE)
+      }
+
+      private$.hash
+    },
+
+    #' @field row_ids (positive `integer()`)\cr
     #' Returns the row ids of the [DataBackend] for observations with role "use".
     row_ids = function(rhs) {
       assert_ro_binding(rhs)
@@ -728,7 +835,7 @@ Task = R6Class("Task",
     #' * `"row_name"` (`character()`).
     row_names = function(rhs) {
       assert_ro_binding(rhs)
-      nn = self$col_roles$name
+      nn = private$.col_roles$name
       if (length(nn) == 0L) {
         return(NULL)
       }
@@ -783,14 +890,6 @@ Task = R6Class("Task",
     #' Each row (observation) can have an arbitrary number of roles in the learning task:
     #'
     #' - `"use"`: Use in train / predict / resampling.
-    #' - `"test"`: Observations are hold back unless explicitly queried.
-    #'   Can be queried by a [Learner] to determine a good iteration to stop by evaluating the performance
-    #'   on external data, e.g. the XGboost learner in \CRANpkg{mlr3learners} for parameter `nrounds`.
-    #' - `"holdout"`: Observations are hold back unless explicitly queried.
-    #'   Can be used, e.g., as truly independent holdout set:
-    #'
-    #'   1. Add `"holdout"` to the `predict_sets` of a [Learner].
-    #'   2. Configure a [Measure] to use the `"holdout"` set by updating its `predict_sets` field.
     #'
     #' `row_roles` is a named list whose elements are named by row role and each element is an `integer()` vector of row ids.
     #' To alter the roles, just modify the list, e.g. with  \R's set functions ([intersect()], [setdiff()], [union()], \ldots).
@@ -801,9 +900,12 @@ Task = R6Class("Task",
 
       assert_has_backend(self)
       assert_list(rhs, .var.name = "row_roles")
+      if ("test" %in% names(rhs) || "holdout" %in% names(rhs)) {
+        stopf("Setting row roles 'test'/'holdout' is no longer possible.")
+      }
       assert_names(names(rhs), "unique", permutation.of = mlr_reflections$task_row_roles, .var.name = "names of row_roles")
       rhs = map(rhs, assert_row_ids, .var.name = "elements of row_roles")
-
+      private$.hash = NULL
       private$.row_roles = rhs
     },
 
@@ -835,6 +937,8 @@ Task = R6Class("Task",
       assert_names(names(rhs), "unique", must.include = mlr_reflections$task_col_roles[[self$task_type]], .var.name = "names of col_roles")
       assert_subset(unlist(rhs, use.names = FALSE), setdiff(self$col_info$id, self$backend$primary_key), .var.name = "elements of col_roles")
 
+      private$.hash = NULL
+      private$.col_hashes = NULL
       private$.col_roles = task_check_col_roles(self, rhs)
     },
 
@@ -850,6 +954,13 @@ Task = R6Class("Task",
     ncol = function(rhs) {
       assert_ro_binding(rhs)
       length(private$.col_roles$feature) + length(private$.col_roles$target)
+    },
+
+    #' @field n_features (`integer(1)`)\cr
+    #' Returns the total number of columns with role "feature" (i.e. the number of "active" features in the task).
+    n_features = function(rhs) {
+      assert_ro_binding(rhs)
+      length(private$.col_roles$feature)
     },
 
     #' @field feature_types ([data.table::data.table()])\cr
@@ -982,11 +1093,16 @@ Task = R6Class("Task",
 
     #' @template field_col_hashes
     col_hashes = function() {
-      private$.col_hashes %??% self$backend$col_hashes[setdiff(unlist(self$col_roles), self$backend$primary_key)]
+      if (is.null(private$.col_hashes)) {
+        private$.col_hashes = self$backend$col_hashes[setdiff(unlist(private$.col_roles), self$backend$primary_key)]
+      }
+      private$.col_hashes
     }
   ),
 
   private = list(
+    .internal_valid_task = NULL,
+    .id = NULL,
     .properties = NULL,
     .col_roles = NULL,
     .row_roles = NULL,
@@ -995,8 +1111,13 @@ Task = R6Class("Task",
 
     deep_clone = function(name, value) {
       # NB: DataBackends are never copied!
-      # TODO: check if we can assume col_info to be read-only
-      if (name == "col_info") copy(value) else value
+      if (name == "col_info") {
+        copy(value)
+      } else if (name == ".internal_valid_task" && !is.null(value)) {
+        value$clone(deep = TRUE)
+      } else {
+        value
+      }
     }
   )
 )
@@ -1049,14 +1170,29 @@ task_check_col_roles = function(self, new_roles) {
   new_roles
 }
 
-# collect column information of a backend.
-# This currently includes:
-# * storage type
-# * levels (for character / factor / ordered), but not for the primary key column
+#' @title Column Information for Backend
+#'
+#' @description
+#' Collects column information for backend.
+#'
+#' Currently, this includes:
+#' * storage type
+#' * levels (factor / ordered), but not for the primary key column
+#'
+#' @param x (any)\cr
+#'   A backend-like object for which to retrieve column information.
+#' @param ... (any)\cr
+#'   Additional arguments.
+#'
+#' @export
+#' @keywords internal
 col_info = function(x, ...) {
   UseMethod("col_info")
 }
 
+#' @rdname col_info
+#' @param primary_key (`character()`)\cr
+#'   The primary key of the backend.
 #' @export
 col_info.data.table = function(x, primary_key = character(), ...) { # nolint
   types = map_chr(x, function(x) class(x)[1L])
@@ -1065,6 +1201,7 @@ col_info.data.table = function(x, primary_key = character(), ...) { # nolint
   data.table(id = names(types), type = unname(types), levels = levels, key = "id")
 }
 
+#' @rdname col_info
 #' @export
 col_info.DataBackend = function(x, ...) { # nolint
   types = map_chr(x$head(1L), function(x) class(x)[1L])
@@ -1101,6 +1238,7 @@ task_rm_backend = function(task) {
   ee = get_private(task)
   ee$.hash = force(task$hash)
   ee$.col_hashes = force(task$col_hashes)
+  ee$.internal_valid_task$backend = NULL
 
   # NULL backend
   task$backend = NULL

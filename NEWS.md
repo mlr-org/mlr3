@@ -1,7 +1,46 @@
-# mlr3 0.16.1.9000
+# mlr3 (development version)
 
+# mlr3 0.20.0
+
+* Added support for learner-internal validation and tuning.
+
+# mlr3 0.19.0
+
+* Added support for `"marshal"` property, which allows learners to process models so they can be serialized.
+This happens automatically during `resample()` and `benchmark()`.
+* Encapsulation methods use the same RNG state now.
+* Fix missing values in `default_values.Learner()` function.
+* Encapsulated error messages are now printed with the `lgr` package.
+
+# mlr3 0.18.0
+
+* Prepare compatibility with new paradox version.
+* Dictionary conversion of `mlr_learners` respects prototype arguments recently added in mlr3misc.
+* Skip unnecessary clone of learner's state in `resample()`.
+
+# mlr3 0.17.2
+
+* Skip new `data.table` tests on mac.
+
+# mlr3 0.17.1
+
+* Remove `data_prototype` when resampling from `learner$state` to reduce memory consumption.
+* Reduce number of threads used by `data.table` and BLAS to 1 when running `resample()` or `benchmark()` in parallel.
+* Optimize runtime of `resample()` and `benchmark()` by reducing the number of hashing operations.
+
+# mlr3 0.17.0
+
+* Learners cannot be added to the `HotstartStack` anymore when the model is missing.
+* Learners bellow the `hotstart_threshold` are not added to the `HotstartStack` anymore.
+* The `learner$state$train_time` in hotstarted learners is now only the time of the last training.
+* Added debug messages to the hotstart stack.
+* Fixed bug where the `HotstartStack` did not work with column roles set in the task.
+* The `design` of `benchmark()` can now include parameter settings.
+* Speed up resampling by removing unnecessary calls to `packageVersion()`.
+* Fix boston housing data set.
+* Export generic function `col_info` to allow adding new methods for backends.
+* Task printer includes row roles now.
 * Add `"mlr3.exec_chunk_bins"` option to split the resampling iterations into a number of bins.
-
 
 # mlr3 0.16.1
 

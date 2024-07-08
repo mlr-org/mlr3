@@ -12,7 +12,8 @@ resample(
   store_backends = TRUE,
   encapsulate = NA_character_,
   allow_hotstart = FALSE,
-  clone = c("task", "learner", "resampling")
+  clone = c("task", "learner", "resampling"),
+  unmarshal = TRUE
 )
 }
 \arguments{
@@ -58,6 +59,11 @@ Select the input objects to be cloned before proceeding by
 providing a set with possible values \code{"task"}, \code{"learner"} and
 \code{"resampling"} for \link{Task}, \link{Learner} and \link{Resampling}, respectively.
 Per default, all input objects are cloned.}
+
+\item{unmarshal}{\code{\link{Learner}}\cr
+Whether to unmarshal learners that were marshaled during the execution.
+If \code{TRUE} all models are stored in unmarshaled form.
+If \code{FALSE}, all learners (that need marshaling) are stored in marshaled form.}
 }
 \value{
 \link{ResampleResult}.

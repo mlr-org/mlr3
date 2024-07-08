@@ -4,7 +4,13 @@
 \alias{benchmark_grid}
 \title{Generate a Benchmark Grid Design}
 \usage{
-benchmark_grid(tasks, learners, resamplings, paired = FALSE)
+benchmark_grid(
+  tasks,
+  learners,
+  resamplings,
+  param_values = NULL,
+  paired = FALSE
+)
 }
 \arguments{
 \item{tasks}{(list of \link{Task}).}
@@ -12,6 +18,18 @@ benchmark_grid(tasks, learners, resamplings, paired = FALSE)
 \item{learners}{(list of \link{Learner}).}
 
 \item{resamplings}{(list of \link{Resampling}).}
+
+\item{param_values}{(\code{list()})\cr
+If you want to try many parameter settings for learners, you can pass them through the design
+which is optimized to be faster than creating learners for each setting.
+
+A list of lists of named lists, from outer to inner:
+\enumerate{
+\item One list element for each \link{Learner}.
+\item One list element for each hyperparameter configuration to try.
+\item Named list of hyperparameter settings to set in the Learner, possibly overwriting
+already set set hyperparameters in the \link{Learner}.
+}}
 
 \item{paired}{(\code{logical(1)})\cr
 Set this to \code{TRUE} if the resamplings are instantiated on the tasks, i.e., the tasks and resamplings are paired.

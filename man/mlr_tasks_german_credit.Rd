@@ -59,7 +59,6 @@ print(measure)
 Grömping U (2019).
 \dQuote{South German Credit Data: Correcting a Widely Used Data Set.}
 Reports in Mathematics, Physics and Chemistry 4, Department II, Beuth University of Applied Sciences Berlin.
-\url{http://www1.beuth-hochschule.de/FB_II/reports/Report-2019-004.pdf}.
 }
 \seealso{
 \itemize{
@@ -79,11 +78,12 @@ Reports in Mathematics, Physics and Chemistry 4, Department II, Beuth University
 }
 
 Other Task: 
+\code{\link{Task}},
 \code{\link{TaskClassif}},
 \code{\link{TaskRegr}},
 \code{\link{TaskSupervised}},
 \code{\link{TaskUnsupervised}},
-\code{\link{Task}},
+\code{\link{mlr_tasks}},
 \code{\link{mlr_tasks_boston_housing}},
 \code{\link{mlr_tasks_breast_cancer}},
 \code{\link{mlr_tasks_iris}},
@@ -93,7 +93,6 @@ Other Task:
 \code{\link{mlr_tasks_sonar}},
 \code{\link{mlr_tasks_spam}},
 \code{\link{mlr_tasks_wine}},
-\code{\link{mlr_tasks_zoo}},
-\code{\link{mlr_tasks}}
+\code{\link{mlr_tasks_zoo}}
 }
 \concept{Task}

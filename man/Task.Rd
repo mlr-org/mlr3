@@ -46,7 +46,7 @@ This provides a different "view" on the data without altering the data itself.
 Instead, the methods first create a new \link{DataBackendDataTable} from the provided new data, and then
 merge both backends into an abstract \link{DataBackend} which merges the results on-demand.
 \item \code{rename()} wraps the \link{DataBackend} of the Task in an additional \link{DataBackend} which deals with the renaming. Also updates \verb{$col_roles} and \verb{$col_info}.
-\item \code{set_levels()} updates the field \code{col_info()}.
+\item \code{set_levels()} and \code{droplevels()} \verb{update the field }col_info()`.
 }
 }
 
@@ -91,6 +91,7 @@ Other Task:
 \code{\link{TaskRegr}},
 \code{\link{TaskSupervised}},
 \code{\link{TaskUnsupervised}},
+\code{\link{mlr_tasks}},
 \code{\link{mlr_tasks_boston_housing}},
 \code{\link{mlr_tasks_breast_cancer}},
 \code{\link{mlr_tasks_german_credit}},
@@ -101,17 +102,12 @@ Other Task:
 \code{\link{mlr_tasks_sonar}},
 \code{\link{mlr_tasks_spam}},
 \code{\link{mlr_tasks_wine}},
-\code{\link{mlr_tasks_zoo}},
-\code{\link{mlr_tasks}}
+\code{\link{mlr_tasks_zoo}}
 }
 \concept{Task}
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{id}}{(\code{character(1)})\cr
-Identifier of the object.
-Used in tables, plot and text output.}
-
 \item{\code{label}}{(\code{character(1)})\cr
 Label for this object.
 Can be used in tables, plot and text output instead of the ID.}
@@ -153,10 +149,19 @@ Package version of \code{mlr3} used to create the task.}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
+\item{\code{id}}{(\code{character(1)})\cr
+Identifier of the object.
+Used in tables, plot and text output.}
+
+\item{\code{internal_valid_task}}{(\code{Task} or \code{NULL})\cr
+Optional validation task that can, e.g., be used for early stopping with learners such as XGBoost.
+See also the \verb{$validate} field of \code{\link{Learner}}.
+When assigning a new task, it is always cloned.}
+
 \item{\code{hash}}{(\code{character(1)})\cr
 Hash (unique identifier) for this object.}
 
-\item{\code{row_ids}}{(\code{integer()})\cr
+\item{\code{row_ids}}{(positive \code{integer()})\cr
 Returns the row ids of the \link{DataBackend} for observations with role "use".}
 
 \item{\code{row_names}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
@@ -193,15 +198,6 @@ Note that above listed properties are calculated from the \verb{$col_roles} and 
 Each row (observation) can have an arbitrary number of roles in the learning task:
 \itemize{
 \item \code{"use"}: Use in train / predict / resampling.
-\item \code{"test"}: Observations are hold back unless explicitly queried.
-Can be queried by a \link{Learner} to determine a good iteration to stop by evaluating the performance
-on external data, e.g. the XGboost learner in \CRANpkg{mlr3learners} for parameter \code{nrounds}.
-\item \code{"holdout"}: Observations are hold back unless explicitly queried.
-Can be used, e.g., as truly independent holdout set:
-\enumerate{
-\item Add \code{"holdout"} to the \code{predict_sets} of a \link{Learner}.
-\item Configure a \link{Measure} to use the \code{"holdout"} set by updating its \code{predict_sets} field.
-}
 }
 
 \code{row_roles} is a named list whose elements are named by row role and each element is an \code{integer()} vector of row ids.
@@ -232,6 +228,9 @@ Returns the total number of rows with role "use".}
 
 \item{\code{ncol}}{(\code{integer(1)})\cr
 Returns the total number of columns with role "target" or "feature".}
+
+\item{\code{n_features}}{(\code{integer(1)})\cr
+Returns the total number of columns with role "feature" (i.e. the number of "active" features in the task).}
 
 \item{\code{feature_types}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
 Returns a table with columns \code{id} and \code{type} where \code{id} are the column names of "active"
@@ -300,6 +299,7 @@ The reverse is not necessarily true: There can be columns with the same content 
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-Task-new}{\code{Task$new()}}
+\item \href{#method-Task-divide}{\code{Task$divide()}}
 \item \href{#method-Task-help}{\code{Task$help()}}
 \item \href{#method-Task-format}{\code{Task$format()}}
 \item \href{#method-Task-print}{\code{Task$print()}}
@@ -354,6 +354,37 @@ Named list of constructor arguments, required for converting task types
 via \code{\link[=convert_task]{convert_task()}}.}
 }
 \if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Task-divide"></a>}}
+\if{latex}{\out{\hypertarget{method-Task-divide}{}}}
+\subsection{Method \code{divide()}}{
+Creates an internal validation task (field \verb{$internal_valid_task}) from the primary task.
+This modifies the task in-place.
+Subsequent operations on the (primary) task are \strong{not} relayed to the internal validation task.
+One must either provide the parameter \code{ratio} or `ids.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Task$divide(ratio = NULL, ids = NULL, remove = TRUE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{ratio}}{(\code{numeric(1)})\cr
+The proportion of datapoints to use as validation data.}
+
+\item{\code{ids}}{(\code{integer()})\cr
+The row ids to use as validation data.}
+
+\item{\code{remove}}{(\code{logical(1)})\cr
+If \code{TRUE} (default), the \code{row_ids} are removed from the primary task's active \code{"use"} rows, ensuring a
+disjoint split between the train and validation data.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Modified \code{Self}.
 }
 }
 \if{html}{\out{<hr>}}
@@ -428,11 +459,11 @@ address columns with their respective column name.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{rows}}{\code{integer()}\cr
-Row indices.}
+\item{\code{rows}}{(positive \code{integer()})\cr
+Vector or row indices.}
 
-\item{\code{cols}}{\code{character()}\cr
-Column names.}
+\item{\code{cols}}{(\code{character()})\cr
+Vector of column names.}
 
 \item{\code{data_format}}{(\code{character(1)})\cr
 Desired data format, e.g. \code{"data.table"} or \code{"Matrix"}.}
@@ -507,8 +538,8 @@ To update the stored level information, e.g. after subsetting a task with \verb{
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{cols}}{\code{character()}\cr
-Column names.}
+\item{\code{cols}}{(\code{character()})\cr
+Vector of column names.}
 }
 \if{html}{\out{</div>}}
 }
@@ -530,8 +561,8 @@ Argument \code{cols} defaults to all columns with role "target" or "feature".
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{cols}}{\code{character()}\cr
-Column names.}
+\item{\code{cols}}{(\code{character()})\cr
+Vector of column names.}
 }
 \if{html}{\out{</div>}}
 }
@@ -554,8 +585,8 @@ See the section on task mutators for more information.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{rows}}{\code{integer()}\cr
-Row indices.}
+\item{\code{rows}}{(positive \code{integer()})\cr
+Vector or row indices.}
 }
 \if{html}{\out{</div>}}
 }
@@ -581,8 +612,8 @@ See the section on task mutators for more information.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{cols}}{\code{character()}\cr
-Column names.}
+\item{\code{cols}}{(\code{character()})\cr
+Vector of column names.}
 }
 \if{html}{\out{</div>}}
 }
@@ -797,8 +828,8 @@ Updates the cache of stored factor levels, removing all levels not present in th
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{cols}}{\code{character()}\cr
-Column names.}
+\item{\code{cols}}{(\code{character()})\cr
+Vector of column names.}
 }
 \if{html}{\out{</div>}}
 }

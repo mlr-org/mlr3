@@ -27,7 +27,7 @@ test_that("updating model works / resample", {
   learner = lrn("classif.debug", save_tasks = TRUE)
   rr = resample(tsk("iris"), learner, rsmp("holdout"), store_models = TRUE)
   new_learner = rr$learners[[1]]
-  expect_list(new_learner$model, len = 6)
+  expect_list(new_learner$model, len = 7)
 })
 
 test_that("NA predictions", {
@@ -44,20 +44,6 @@ test_that("NA predictions", {
   expect_equal(is.na(p$response), apply(p$prob, 1, anyMissing))
 })
 
-test_that("test set is available in $.train method", {
-  task = tsk("iris")
-  learner = lrn("classif.debug", save_tasks = TRUE)
-  resampling = rsmp("cv", folds = 3)
-  resampling$instantiate(task)
-
-  rr = resample(task, learner, resampling, store_models = TRUE)
-
-  walk(seq(rr$iters), function(i) {
-    expect_equal(rr$learners[[i]]$model$task_train$row_roles$use, resampling$train_set(i))
-    expect_equal(rr$learners[[i]]$model$task_train$row_roles$test, resampling$test_set(i))
-  })
-})
-
 test_that("default_values", {
   learner = lrn("classif.debug")
   search_space = ps(iter = p_int(1, 10))
@@ -70,4 +56,28 @@ test_that("default_values", {
 test_that("default_values works with empty search space", {
   learner = lrn("classif.debug")
   expect_list(default_values(learner, ps(), task), len = 0)
+})
+
+test_that("validation and internal tuning", {
+  task = tsk("iris")
+  learner = lrn("classif.debug", iter = 100, early_stopping = TRUE, validate = 0.3, predict_type = "prob")
+  learner$train(task)
+  expect_list(learner$internal_valid_scores, len = 2L, types = "numeric")
+  expect_permutation(names(learner$internal_valid_scores), c("acc", "mbrier"))
+})
+
+test_that("disable internal tuning", {
+  learner = lrn("classif.debug", early_stopping = TRUE, iter = 100, validate = 0.2)
+  learner$param_set$disable_internal_tuning("iter")
+  expect_false(learner$param_set$values$early_stopping)
+})
+
+test_that("marshaling", {
+  l = lrn("classif.debug")
+  expect_learner(l, tsk("iris"))
+  task = tsk("iris")
+  l$train(task)
+  p1 = l$predict(task)
+  p2 = l$marshal()$unmarshal()$predict(task)
+  expect_equal(p1, p2)
 })

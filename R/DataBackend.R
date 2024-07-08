@@ -39,7 +39,7 @@
 DataBackend = R6Class("DataBackend", cloneable = FALSE,
   public = list(
     #' @field primary_key (`character(1)`)\cr
-    #' Column name of the primary key column of unique integer row ids.
+    #' Column name of the primary key column of positive and unique integer row ids.
     primary_key = NULL,
 
     #' @field data_formats (`character()`)\cr
@@ -98,6 +98,7 @@ DataBackend = R6Class("DataBackend", cloneable = FALSE,
       }
       private$.hash = assert_string(rhs)
     },
+
     #' @template field_col_hashes
     col_hashes = function() {
       cn = setdiff(self$colnames, self$primary_key)

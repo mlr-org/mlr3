@@ -48,6 +48,12 @@ The learner must be tagged with property \code{"selected_features"}.
 The learner must be tagged with property \code{"oob_error"}.
 \item \code{loglik(...)}: Extracts the log-likelihood (c.f. \code{\link[stats:logLik]{stats::logLik()}}).
 This can be used in measures like \link{mlr_measures_aic} or \link{mlr_measures_bic}.
+\item \code{internal_valid_scores}: Returns the internal validation score(s) of the model as a named \code{list()}.
+Only available for \code{\link{Learner}}s with the \code{"validation"} property.
+If the learner is not trained yet, this returns \code{NULL}.
+\item \code{internal_tuned_values}: Returns the internally tuned hyperparameters of the model as a named \code{list()}.
+Only available for \code{\link{Learner}}s with the \code{"internal_tuning"} property.
+If the learner is not trained yet, this returns \code{NULL}.
 }
 }
 
@@ -76,6 +82,67 @@ Here, we add a factor hyperparameter with id \code{"foo"} and possible levels \c
 }\if{html}{\out{</div>}}
 }
 
+\section{Implementing Validation}{
+
+Some Learners, such as \code{XGBoost}, other boosting algorithms, or deep learning models (\code{mlr3torch}),
+utilize validation data during the training to prevent overfitting or to log the validation performance.
+It is possible to configure learners to be able to receive such an independent validation set during training.
+To do so, one must:
+\itemize{
+\item annotate the learner with the \code{"validation"} property
+\item implement the active binding \verb{$internal_valid_scores} (see section \emph{Optional Extractors}), as well as the
+private method \verb{$.extract_internal_valid_scores()} which returns the (final) internal validation scores from the
+model of the \code{\link{Learner}} and returns them as a named \code{list()} of \code{numeric(1)}.
+If the model is not trained yet, this method should return \code{NULL}.
+\item Add the \code{validate} parameter, which can be either \code{NULL}, a ratio in $(0, 1)$, \code{"test"}, or \code{"predefined"}:
+\itemize{
+\item \code{NULL}: no validation
+\item \code{ratio}: only proportion \code{1 - ratio} of the task is used for training and \code{ratio} is used for validation.
+\item \code{"test"} means that the \code{"test"} task is used.
+\strong{Warning}: This can lead to biased performance estimation.
+This option is only available if the learner is being trained via \code{\link[=resample]{resample()}}, \code{\link[=benchmark]{benchmark()}} or functions that
+internally use them, e.g. \code{\link[mlr3tuning:tune]{mlr3tuning::tune()}} or \code{\link[mlr3batchmark:batchmark]{mlr3batchmark::batchmark()}}.
+This is especially useful for hyperparameter tuning, where one might e.g. want to use the same validation data
+for early stopping and model evaluation.
+\item \code{"predefined"} means that the task's (manually set) \verb{$internal_valid_task} is used.
+See the \code{\link{Task}} documentation for more information.
+}
+}
+
+For an example how to do this, see \code{\link{LearnerClassifDebug}}.
+Note that in \code{.train()}, the \verb{$internal_valid_task} will only be present if the \verb{$validate} field of the \code{Learner}
+is set to a non-\code{NULL} value.
+}
+
+\section{Implementing Internal Tuning}{
+
+Some learners such as \code{XGBoost} or \code{cv.glmnet} can internally tune hyperparameters.
+XGBoost, for example, can tune the number of boosting rounds based on the validation performance.
+CV Glmnet, on the other hand, can tune the regularization parameter based on an internal cross-validation.
+Internal tuning \emph{can} therefore rely on the internal validation data, but does not necessarily do so.
+
+In order to be able to combine this internal hyperparamer tuning with the standard hyperparameter optimization
+implemented via \CRANpkg{mlr3tuning}, one most:
+\itemize{
+\item annotate the learner with the \code{"internal_tuning"} property
+\item implement the active binding \verb{$internal_tuned_values} (see section \emph{Optional Extractors}) as well as the
+private method \verb{$.extract_internal_tuned_values()} which extracts the internally tuned values from the \code{\link{Learner}}'s
+model and returns them as a named \code{list()}.
+If the model is not trained yet, this method should return \code{NULL}.
+\item Have at least one parameter tagged with \code{"internal_tuning"}, which requires to also provide a \code{in_tune_fn} and
+\code{disable_tune_fn}, and \emph{should} also include a default \code{aggr}egation function.
+}
+
+For an example how to do this, see \code{\link{LearnerClassifDebug}}.
+}
+
+\section{Implementing Marshaling}{
+
+Some \code{\link{Learner}}s have models that cannot be serialized as they e.g. contain external pointers.
+In order to still be able to save them, use them with parallelization or callr encapsulation it is necessary
+to implement how they should be (un)-marshaled. See \code{\link{marshaling}} for how to do this.
+}
+
 \seealso{
 \itemize{
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
@@ -98,13 +165,13 @@ for established default tuning spaces.
 Other Learner: 
 \code{\link{LearnerClassif}},
 \code{\link{LearnerRegr}},
+\code{\link{mlr_learners}},
 \code{\link{mlr_learners_classif.debug}},
 \code{\link{mlr_learners_classif.featureless}},
 \code{\link{mlr_learners_classif.rpart}},
 \code{\link{mlr_learners_regr.debug}},
 \code{\link{mlr_learners_regr.featureless}},
-\code{\link{mlr_learners_regr.rpart}},
-\code{\link{mlr_learners}}
+\code{\link{mlr_learners_regr.rpart}}
 }
 \concept{Learner}
 \section{Public fields}{
@@ -152,7 +219,10 @@ These packages are loaded, but not attached.}
 \item{\code{predict_sets}}{(\code{character()})\cr
 During \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}, a \link{Learner} can predict on multiple sets.
 Per default, a learner only predicts observations in the test set (\code{predict_sets == "test"}).
-To change this behavior, set \code{predict_sets} to a non-empty subset of \verb{\{"train", "test", "holdout"\}}.
+To change this behavior, set \code{predict_sets} to a non-empty subset of \verb{\{"train", "test", "internal_valid"\}}.
+The \code{"train"} predict set contains the train ids from the resampling. This means that if a learner does validation and
+sets \verb{$validate} to a ratio (creating the validation data from the training data), the train predictions
+will include the predictions for the validation data.
 Each set yields a separate \link{Prediction} object.
 Those can be combined via getters in \link{ResampleResult}/\link{BenchmarkResult}, or \link{Measure}s can be configured
 to operate on specific subsets of the calculated prediction sets.}
@@ -208,8 +278,7 @@ Hash (unique identifier) for this object.}
 
 \item{\code{phash}}{(\code{character(1)})\cr
 Hash (unique identifier) for this partial object, excluding some components
-which are varied systematically during tuning (parameter values) or feature
-selection (feature names).}
+which are varied systematically during tuning (parameter values).}
 
 \item{\code{predict_type}}{(\code{character(1)})\cr
 Stores the currently active predict type, e.g. \code{"response"}.
@@ -303,6 +372,10 @@ The following properties are currently standardized and understood by learners i
 \item \code{"importance"}: The learner supports extraction of importance scores, i.e. comes with an \verb{$importance()} extractor function (see section on optional extractors in \link{Learner}).
 \item \code{"selected_features"}: The learner supports extraction of the set of selected features, i.e. comes with a \verb{$selected_features()} extractor function (see section on optional extractors in \link{Learner}).
 \item \code{"oob_error"}: The learner supports extraction of estimated out of bag error, i.e. comes with a \code{oob_error()} extractor function (see section on optional extractors in \link{Learner}).
+\item \code{"validation"}: The learner can use a validation task during training.
+\item \code{"internal_tuning"}: The learner is able to internally optimize hyperparameters (those are also tagged with \code{"internal_tuning"}).
+\item \code{"marshal"}: To save learners with this property, you need to call \verb{$marshal()} first.
+If a learner is in a marshaled state, you call first need to call \verb{$unmarshal()} to use its model, e.g. for prediction.
 }}
 
 \item{\code{data_formats}}{(\code{character()})\cr

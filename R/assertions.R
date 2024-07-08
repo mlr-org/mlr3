@@ -111,6 +111,8 @@ assert_learners = function(learners, task = NULL, task_type = NULL, properties =
   invisible(lapply(learners, assert_learner, task = task, task_type = NULL, properties = properties, .var.name = .var.name))
 }
 
+# this does not check the validation task, as this is only possible once the validation set is known,
+# which happens during worker(), so it cannot be checked before that
 assert_task_learner = function(task, learner, cols = NULL) {
   pars = learner$param_set$get_values(type = "only_token", check_required = FALSE)
   if (length(pars) > 0) {
@@ -144,6 +146,11 @@ assert_task_learner = function(task, learner, cols = NULL) {
       stopf("Task '%s' has property '%s', but learner '%s' does not support that",
         task$id, tmp[1L], learner$id)
     }
+  }
+
+  validate = get0("validate", learner)
+  if (!is.null(task$internal_valid_task) && (is.numeric(validate) || identical(validate, "test"))) {
+    stopf("Parameter 'validate' of Learner '%s' cannot be set to 'test' or a ratio when internal_valid_task is present, remove it first", learner$id)
   }
 }
 
@@ -259,7 +266,7 @@ assert_prediction = function(prediction, .var.name = vname(prediction)) {
 
 
 #' @export
-#' @param resample_result ([ResampleResult]).
+#' @param rr ([ResampleResult]).
 #' @rdname mlr_assertions
 assert_resample_result = function(rr, .var.name = vname(rr)) {
   assert_class(rr, "ResampleResult", .var.name = .var.name)
@@ -331,4 +338,17 @@ assert_row_sums = function(prob) {
       }
     }
   }
+}
+
+assert_param_values = function(x, n_learners = NULL, .var.name = vname(x)) {
+  assert_list(x, len = n_learners, .var.name = .var.name)
+
+  ok = every(x, function(x) {
+    test_list(x) && every(x, test_list, names = "unique", null.ok = TRUE)
+  })
+
+  if (!ok) {
+    stopf("'%s' must be a three-time nested list and the most inner list must be named", .var.name)
+  }
+  invisible(x)
 }

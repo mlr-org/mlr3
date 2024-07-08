@@ -25,6 +25,8 @@ The following hyperparameters trigger the following actions:
 \item{warning_train:}{Probability to signal a warning during train.}
 \item{x:}{Numeric tuning parameter. Has no effect.}
 \item{iter:}{Integer parameter for testing hotstarting.}
+\item{count_marshaling:}{If \code{TRUE}, \code{marshal_model} will increase the \code{marshal_count} by 1 each time it is called. The default is \code{FALSE}.}
+\item{check_pid:}{If \code{TRUE}, the \verb{$predict()} function will throw an error if the model was not unmarshaled in the same session that is used for prediction.)}
 }
 Note that segfaults may not be triggered reliably on your operating system.
 Also note that if they work as intended, they will tear down your R session immediately!
@@ -67,6 +69,9 @@ lrn("classif.debug")
    warning_train \tab numeric \tab 0 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
    x \tab numeric \tab - \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
    iter \tab integer \tab 1 \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
+   early_stopping \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   count_marshaling \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   check_pid \tab logical \tab TRUE \tab TRUE, FALSE \tab - \cr
 }
 }
 
@@ -102,24 +107,43 @@ for established default tuning spaces.
 }
 
 Other Learner: 
+\code{\link{Learner}},
 \code{\link{LearnerClassif}},
 \code{\link{LearnerRegr}},
-\code{\link{Learner}},
+\code{\link{mlr_learners}},
 \code{\link{mlr_learners_classif.featureless}},
 \code{\link{mlr_learners_classif.rpart}},
 \code{\link{mlr_learners_regr.debug}},
 \code{\link{mlr_learners_regr.featureless}},
-\code{\link{mlr_learners_regr.rpart}},
-\code{\link{mlr_learners}}
+\code{\link{mlr_learners_regr.rpart}}
 }
 \concept{Learner}
 \section{Super classes}{
 \code{\link[mlr3:Learner]{mlr3::Learner}} -> \code{\link[mlr3:LearnerClassif]{mlr3::LearnerClassif}} -> \code{LearnerClassifDebug}
 }
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{marshaled}}{(\code{logical(1)})\cr
+Whether the learner has been marshaled.}
+
+\item{\code{internal_valid_scores}}{Retrieves the internal validation scores as a named \code{list()}.
+Returns \code{NULL} if learner is not trained yet.}
+
+\item{\code{internal_tuned_values}}{Retrieves the internally tuned values as a named \code{list()}.
+Returns \code{NULL} if learner is not trained yet.}
+
+\item{\code{validate}}{How to construct the internal validation data. This parameter can be either \code{NULL},
+a ratio in $(0, 1)$, \code{"test"}, or \code{"predefined"}.}
+}
+\if{html}{\out{</div>}}
+}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-LearnerClassifDebug-new}{\code{LearnerClassifDebug$new()}}
+\item \href{#method-LearnerClassifDebug-marshal}{\code{LearnerClassifDebug$marshal()}}
+\item \href{#method-LearnerClassifDebug-unmarshal}{\code{LearnerClassifDebug$unmarshal()}}
 \item \href{#method-LearnerClassifDebug-clone}{\code{LearnerClassifDebug$clone()}}
 }
 }
@@ -146,6 +170,42 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 \if{html}{\out{<div class="r">}}\preformatted{LearnerClassifDebug$new()}\if{html}{\out{</div>}}
 }
 
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-LearnerClassifDebug-marshal"></a>}}
+\if{latex}{\out{\hypertarget{method-LearnerClassifDebug-marshal}{}}}
+\subsection{Method \code{marshal()}}{
+Marshal the learner's model.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{LearnerClassifDebug$marshal(...)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{...}}{(any)\cr
+Additional arguments passed to \code{\link[=marshal_model]{marshal_model()}}.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-LearnerClassifDebug-unmarshal"></a>}}
+\if{latex}{\out{\hypertarget{method-LearnerClassifDebug-unmarshal}{}}}
+\subsection{Method \code{unmarshal()}}{
+Unmarshal the learner's model.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{LearnerClassifDebug$unmarshal(...)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{...}}{(any)\cr
+Additional arguments passed to \code{\link[=unmarshal_model]{unmarshal_model()}}.}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-LearnerClassifDebug-clone"></a>}}
