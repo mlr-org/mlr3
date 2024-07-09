@@ -144,6 +144,7 @@ Set of (unique) hashes of all included \link{ResampleResult}s.}
 \item \href{#method-BenchmarkResult-marshal}{\code{BenchmarkResult$marshal()}}
 \item \href{#method-BenchmarkResult-unmarshal}{\code{BenchmarkResult$unmarshal()}}
 \item \href{#method-BenchmarkResult-score}{\code{BenchmarkResult$score()}}
+\item \href{#method-BenchmarkResult-obs_loss}{\code{BenchmarkResult$obs_loss()}}
 \item \href{#method-BenchmarkResult-aggregate}{\code{BenchmarkResult$aggregate()}}
 \item \href{#method-BenchmarkResult-filter}{\code{BenchmarkResult$filter()}}
 \item \href{#method-BenchmarkResult-resample_result}{\code{BenchmarkResult$resample_result()}}
@@ -315,6 +316,29 @@ Default is \code{"test"}.}
 }
 \subsection{Returns}{
 \code{\link[data.table:data.table]{data.table::data.table()}}.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-BenchmarkResult-obs_loss"></a>}}
+\if{latex}{\out{\hypertarget{method-BenchmarkResult-obs_loss}{}}}
+\subsection{Method \code{obs_loss()}}{
+Calculates the observation-wise loss via the loss function set in the
+\link{Measure}'s field \code{obs_loss}.
+Returns a \code{data.table()} with the columns \code{row_ids}, \code{truth}, \code{response} and
+one additional numeric column for each measure, named with the respective measure id.
+If there is no observation-wise loss function for the measure, the column is filled with
+\code{NA} values.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{BenchmarkResult$obs_loss(measures = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{measures}}{(\link{Measure} | list of \link{Measure})\cr
+Measure(s) to calculate.}
+}
+\if{html}{\out{</div>}}
 }
 }
 \if{html}{\out{<hr>}}

@@ -74,7 +74,7 @@ Config/testthat/edition: 3
 Config/testthat/parallel: false
 NeedsCompilation: no
 Roxygen: list(markdown = TRUE, r6 = TRUE)
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
 Collate:
     'mlr_reflections.R'
     'BenchmarkResult.R'
@@ -99,6 +99,8 @@ Collate:
     'mlr_measures.R'
     'MeasureAIC.R'
     'MeasureBIC.R'
+    'MeasureCI.R'
+    'MeasureCIHoldout.R'
     'MeasureClassif.R'
     'MeasureClassifCosts.R'
     'MeasureDebug.R'

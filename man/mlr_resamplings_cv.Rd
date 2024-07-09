@@ -88,6 +88,7 @@ Returns the number of resampling iterations, depending on the values stored in t
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-ResamplingCV-new}{\code{ResamplingCV$new()}}
+\item \href{#method-ResamplingCV-ci}{\code{ResamplingCV$ci()}}
 \item \href{#method-ResamplingCV-clone}{\code{ResamplingCV$clone()}}
 }
 }
@@ -110,6 +111,15 @@ Returns the number of resampling iterations, depending on the values stored in t
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{ResamplingCV$new()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ResamplingCV-ci"></a>}}
+\if{latex}{\out{\hypertarget{method-ResamplingCV-ci}{}}}
+\subsection{Method \code{ci()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ResamplingCV$ci(tbl)}\if{html}{\out{</div>}}
 }
 
 }

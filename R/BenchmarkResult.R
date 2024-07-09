@@ -309,7 +309,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
       set_data_table_class(tab, "bmr_aggregate")
 
       cns = c("uhash", "nr", "resample_result", "task_id", "learner_id", "resampling_id", "iters",
-        "warnings", "errors", "params", ids(measures))
+        "warnings", "errors", "params", names(scores))
       cns = intersect(cns, names(tab))
       tab[, cns, with = FALSE]
     },

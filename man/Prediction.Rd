@@ -90,6 +90,7 @@ Returns \code{row_ids} for which the predictions are missing or incomplete.}
 \item \href{#method-Prediction-print}{\code{Prediction$print()}}
 \item \href{#method-Prediction-help}{\code{Prediction$help()}}
 \item \href{#method-Prediction-score}{\code{Prediction$score()}}
+\item \href{#method-Prediction-obs_loss}{\code{Prediction$obs_loss()}}
 \item \href{#method-Prediction-filter}{\code{Prediction$filter()}}
 \item \href{#method-Prediction-clone}{\code{Prediction$clone()}}
 }
@@ -172,6 +173,29 @@ Measure(s) to calculate.}
 }
 \subsection{Returns}{
 \link{Prediction}.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Prediction-obs_loss"></a>}}
+\if{latex}{\out{\hypertarget{method-Prediction-obs_loss}{}}}
+\subsection{Method \code{obs_loss()}}{
+Calculates the observation-wise loss via the loss function set in the
+\link{Measure}'s field \code{obs_loss}.
+Returns a \code{data.table()} with the columns \code{row_ids}, \code{truth}, \code{response} and
+one additional numeric column for each measure, named with the respective measure id.
+If there is no observation-wise loss function for the measure, the column is filled with
+\code{NA} values.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Prediction$obs_loss(measures = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{measures}}{(\link{Measure} | list of \link{Measure})\cr
+Measure(s) to calculate.}
+}
+\if{html}{\out{</div>}}
 }
 }
 \if{html}{\out{<hr>}}

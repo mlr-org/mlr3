@@ -370,7 +370,8 @@ c.ResampleResult = function(...) {
 
 
 resample_result_aggregate = function(rr, measures) {
-  set_names(map_dbl(measures, function(m) m$aggregate(rr)), ids(measures))
+  scores = map(measures, function(m) m$aggregate(rr))
+  unlist(unname(scores)) %??% numeric()
 }
 
 #' @export

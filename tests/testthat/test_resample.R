@@ -34,6 +34,7 @@ test_that("resample with no or multiple measures", {
     expect_set_equal(names(tab), c(mlr_reflections$rr_names, ids(measures)))
     perf = rr$aggregate(measures)
     expect_numeric(perf, any.missing = FALSE, len = length(measures), names = "unique")
+    browser()
     expect_equal(names(perf), unname(ids(measures)))
   }
 })
