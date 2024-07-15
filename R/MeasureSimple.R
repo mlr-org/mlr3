@@ -29,6 +29,9 @@ MeasureBinarySimple = R6Class("MeasureBinarySimple",
       if (!is.na(info$obs_loss)) {
         self$obs_loss = get(info$obs_loss, envir = asNamespace("mlr3measures"), mode = "function")
       }
+      if (is.function(info$trafo)) {
+        self$trafo = info$trafo
+      }
     }
   ),
 
@@ -67,6 +70,9 @@ MeasureClassifSimple = R6Class("MeasureClassifSimple",
       if (!is.na(info$obs_loss)) {
         self$obs_loss = get(info$obs_loss, envir = asNamespace("mlr3measures"), mode = "function")
       }
+      if (is.function(info$trafo)) {
+        self$trafo = info$trafo
+      }
     }
   ),
 
@@ -99,6 +105,9 @@ MeasureRegrSimple = R6Class("MeasureRegrSimple",
       self$fun = get(name, envir = asNamespace("mlr3measures"), mode = "function")
       if (!is.na(info$obs_loss)) {
         self$obs_loss = get(info$obs_loss, envir = asNamespace("mlr3measures"), mode = "function")
+      }
+      if (is.function(info$trafo)) {
+        self$trafo = info$trafo
       }
     }
   ),

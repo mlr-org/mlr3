@@ -207,11 +207,13 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #' one additional numeric column for each measure, named with the respective measure id.
     #' If there is no observation-wise loss function for the measure, the column is filled with
     #' `NA` values.
-    obs_loss = function(measures = NULL) {
+    #' @param predict_sets (`character()`)\cr
+    #'   The predict sets.
+    obs_loss = function(measures = NULL, predict_sets = "test") {
       measures = as_measures(measures, task_type = private$.data$task_type)
       map_dtr(self$resample_results$resample_result,
         function(rr) {
-          rr$obs_loss(measures)
+          rr$obs_loss(measures, predict_sets)
         }, .idcol = "resample_result")
     },
 

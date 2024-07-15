@@ -177,9 +177,11 @@ ResampleResult = R6Class("ResampleResult",
     #' one additional numeric column for each measure, named with the respective measure id.
     #' If there is no observation-wise loss function for the measure, the column is filled with
     #' `NA` values.
-    obs_loss = function(measures = NULL) {
+    #' @param predict_sets (`character()`)\cr
+    #'   The predict sets.
+    obs_loss = function(measures = NULL, predict_sets = "test") {
       measures = as_measures(measures, task_type = self$task_type)
-      tab = map_dtr(self$predictions(), as.data.table, .idcol = "iteration")
+      tab = map_dtr(self$predictions(predict_sets), as.data.table, .idcol = "iteration")
       get_obs_loss(tab, measures)
     },
 
@@ -371,7 +373,7 @@ c.ResampleResult = function(...) {
 
 resample_result_aggregate = function(rr, measures) {
   scores = map(measures, function(m) m$aggregate(rr))
-  unlist(unname(scores)) %??% numeric()
+  unlist(unname(scores)) %??% set_names(numeric(), character(0))
 }
 
 #' @export

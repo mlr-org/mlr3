@@ -33,6 +33,10 @@
 #' @template param_packages
 #' @template param_label
 #' @template param_man
+#' @param obs_loss (`function`)\cr
+#'   The observation-wise loss function, e.g. [zero-one][mlr3measures::zero_one] for classification loss.
+#' @param trafo (`function`)\cr
+#' Transformation that is applied to the point-wise loss functions in case `$obs_loss is given`.
 #'
 #' @template seealso_measure
 #' @export
@@ -50,9 +54,14 @@ Measure = R6Class("Measure",
     #' @template field_param_set
     param_set = NULL,
 
-    #' @field obs_loss (`function()` | `NULL`)
+    #' @field trafo (`function()` | `NULL`)
     #' Function to calculate the observation-wise loss.
     obs_loss = NULL,
+
+    #' @field obs_loss (`function()` | `NULL`)
+    #' Transformation that is applied to the point-wise loss functions in case `$obs_loss is given`.
+    #' For rmse, this is e.g. the root-function.
+    trafo = NULL,
 
     #' @field predict_type (`character(1)`)\cr
     #' Required predict type of the [Learner].
@@ -100,7 +109,7 @@ Measure = R6Class("Measure",
     initialize = function(id, task_type = NA, param_set = ps(), range = c(-Inf, Inf), minimize = NA, average = "macro",
       aggregator = NULL, obs_loss = NULL, properties = character(), predict_type = "response",
       predict_sets = "test", task_properties = character(), packages = character(),
-      label = NA_character_, man = NA_character_) {
+      label = NA_character_, man = NA_character_, trafo = NULL) {
 
       self$id = assert_string(id, min.chars = 1L)
       self$label = assert_string(label, na.ok = TRUE)
@@ -111,6 +120,7 @@ Measure = R6Class("Measure",
       self$average = average
       private$.aggregator = assert_function(aggregator, null.ok = TRUE)
       self$obs_loss = assert_function(obs_loss, null.ok = TRUE)
+      self$trafo = assert_function(trafo, null.ok = TRUE)
 
       if (!is_scalar_na(task_type)) {
         assert_choice(task_type, mlr_reflections$task_types$type)

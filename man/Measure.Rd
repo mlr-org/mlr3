@@ -70,9 +70,19 @@ see \code{\link[=mlr_reflections]{mlr_reflections$task_types$type}}.}
 \item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
 Set of hyperparameters.}
 
+<<<<<<< Updated upstream
 \item{\code{obs_loss}}{(\verb{function()} | \code{NULL})
 Function to calculate the observation-wise loss.}
 
+=======
+\item{\code{trafo}}{(\verb{function()} | \code{NULL})
+Function to calculate the observation-wise loss.}
+
+\item{\code{obs_loss}}{(\verb{function()} | \code{NULL})
+Transformation that is applied to the point-wise loss functions in case \verb{$obs_loss is given}.
+For rmse, this is e.g. the root-function.}
+
+>>>>>>> Stashed changes
 \item{\code{predict_type}}{(\code{character(1)})\cr
 Required predict type of the \link{Learner}.}
 
@@ -182,7 +192,11 @@ Note that this object is typically constructed via a derived classes, e.g. \link
   packages = character(),
   label = NA_character_,
   man = NA_character_,
+<<<<<<< Updated upstream
   scalar = TRUE
+=======
+  trafo = NULL
+>>>>>>> Stashed changes
 )}\if{html}{\out{</div>}}
 }
 
@@ -229,6 +243,9 @@ scored in one go.
 \item \code{"custom"}: A \link{ResampleResult} is passed to the aggregate function.
 }}
 
+\item{\code{obs_loss}}{(\code{function})\cr
+The observation-wise loss function, e.g. \link[mlr3measures:zero_one]{zero-one} for classification loss.}
+
 \item{\code{properties}}{(\code{character()})\cr
 Properties of the measure.
 Must be a subset of \link[=mlr_reflections]{mlr_reflections$measure_properties}.
@@ -267,6 +284,9 @@ Label for the new instance.}
 \item{\code{man}}{(\code{character(1)})\cr
 String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
 The referenced help package can be opened via method \verb{$help()}.}
+
+\item{\code{trafo}}{(\code{function})\cr
+Transformation that is applied to the point-wise loss functions in case \verb{$obs_loss is given}.}
 }
 \if{html}{\out{</div>}}
 }
