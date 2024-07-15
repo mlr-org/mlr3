@@ -99,8 +99,6 @@ Collate:
     'mlr_measures.R'
     'MeasureAIC.R'
     'MeasureBIC.R'
-    'MeasureCI.R'
-    'MeasureCIHoldout.R'
     'MeasureClassif.R'
     'MeasureClassifCosts.R'
     'MeasureDebug.R'

@@ -70,11 +70,6 @@ see \code{\link[=mlr_reflections]{mlr_reflections$task_types$type}}.}
 \item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
 Set of hyperparameters.}
 
-<<<<<<< Updated upstream
-\item{\code{obs_loss}}{(\verb{function()} | \code{NULL})
-Function to calculate the observation-wise loss.}
-
-=======
 \item{\code{trafo}}{(\verb{function()} | \code{NULL})
 Function to calculate the observation-wise loss.}
 
@@ -82,7 +77,6 @@ Function to calculate the observation-wise loss.}
 Transformation that is applied to the point-wise loss functions in case \verb{$obs_loss is given}.
 For rmse, this is e.g. the root-function.}
 
->>>>>>> Stashed changes
 \item{\code{predict_type}}{(\code{character(1)})\cr
 Required predict type of the \link{Learner}.}
 
@@ -126,8 +120,6 @@ These packages are loaded, but not attached.}
 \item{\code{man}}{(\code{character(1)})\cr
 String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
 Defaults to \code{NA}, but can be set by child classes.}
-
-\item{\code{scalar}}{(\code{logical(1)})\cr}
 }
 \if{html}{\out{</div>}}
 }
@@ -192,11 +184,7 @@ Note that this object is typically constructed via a derived classes, e.g. \link
   packages = character(),
   label = NA_character_,
   man = NA_character_,
-<<<<<<< Updated upstream
-  scalar = TRUE
-=======
   trafo = NULL
->>>>>>> Stashed changes
 )}\if{html}{\out{</div>}}
 }
 

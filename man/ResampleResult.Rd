@@ -288,11 +288,7 @@ one additional numeric column for each measure, named with the respective measur
 If there is no observation-wise loss function for the measure, the column is filled with
 \code{NA} values.
 \subsection{Usage}{
-<<<<<<< Updated upstream
-\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$obs_loss(measures = NULL)}\if{html}{\out{</div>}}
-=======
 \if{html}{\out{<div class="r">}}\preformatted{ResampleResult$obs_loss(measures = NULL, predict_sets = "test")}\if{html}{\out{</div>}}
->>>>>>> Stashed changes
 }
 
 \subsection{Arguments}{
@@ -300,12 +296,9 @@ If there is no observation-wise loss function for the measure, the column is fil
 \describe{
 \item{\code{measures}}{(\link{Measure} | list of \link{Measure})\cr
 Measure(s) to calculate.}
-<<<<<<< Updated upstream
-=======
 
 \item{\code{predict_sets}}{(\code{character()})\cr
 The predict sets.}
->>>>>>> Stashed changes
 }
 \if{html}{\out{</div>}}
 }

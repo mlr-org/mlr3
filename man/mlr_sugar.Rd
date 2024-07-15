@@ -77,7 +77,7 @@ Relies on \code{\link[mlr3misc:dictionary_sugar_get]{mlr3misc::dictionary_sugar_
 
 Helper function to configure the \verb{$validate} field(s) of a \code{\link{Learner}}.
 
-This is especially useful for learners such as \code{\link[mlr3tuning:AutoTuner]{mlr3tuning::AutoTuner}} or \code{\link[mlr3pipelines:mlr_learners_graph]{mlr3pipelines::GraphLearner}},
+This is especially useful for learners such as \code{\link[mlr3tuning:AutoTuner]{mlr3tuning::AutoTuner}} or \code{\link[mlr3pipelines:GraphLearner]{mlr3pipelines::GraphLearner}},
 where the \verb{$validate} fields need to be configured on multiple levels.
 }
 \examples{
