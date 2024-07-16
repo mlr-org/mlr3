@@ -98,7 +98,7 @@ ResampleResult = R6Class("ResampleResult",
     #' @param predict_sets (`character()`)\cr
     #' @return [Prediction].
     #'   Subset of `{"train", "test"}`.
-    prediction = function(predict_sets = "test") {
+    prediction = function(predict_sets = "test", iters = NULL) {
       private$.data$prediction(private$.view, predict_sets)
     },
 
@@ -377,7 +377,7 @@ resample_result_aggregate = function(rr, measures) {
     # CIs in mlr3inference return more than 1 value and are already named
     if (length(val) == 1L) return(set_names(val, m$id))
     val
-  }))
+  })) %??% set_names(numeric(), character())
 }
 
 #' @export

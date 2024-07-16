@@ -134,12 +134,20 @@ Only used internally.}
 \item{\code{man}}{(\code{character(1)})\cr
 String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
 Defaults to \code{NA}, but can be set by child classes.}
+
+\item{\code{estimation_iters}}{(\code{NULL} or \code{integer(1)})\cr
+For some resampling methods, not all iterations should be used to obtain a point estimate, e.g. when some
+are only intended for variance estimation.}
 }
 \if{html}{\out{</div>}}
 }
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
+\item{\code{estimation_iters}}{(\code{NULL} or \code{integer(1)})\cr
+For some resampling methods, not all iterations should be used to obtain a point estimate, e.g. when some
+are only intended for variance estimation.}
+
 \item{\code{id}}{(\code{character(1)})\cr
 Identifier of the object.
 Used in tables, plot and text output.}

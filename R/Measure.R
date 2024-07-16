@@ -227,12 +227,23 @@ Measure = R6Class("Measure",
       switch(self$average,
         "macro" = {
           aggregator = self$aggregator %??% mean
-          browser()
-          tab = score_measures(rr, list(self), reassemble = FALSE, view = get_private(rr)$.view)
+          tab = score_measures(rr, list(self), reassemble = FALSE, view = get_private(rr)$.view, iters = rr$resampling$primary_iters)
           set_names(aggregator(tab[[self$id]]), self$id)
         },
-        "micro" = self$score(rr$prediction(self$predict_sets), task = rr$task, learner = rr$learner),
-        "custom" = private$.aggregator(rr)
+        "micro" = {
+          if (is.null(rr$resampling$primary_iters)) {
+            self$score(rr$prediction(self$predict_sets), task = rr$task, learner = rr$learner)
+          } else {
+            prediction = do.call(c, rr$predictions(self$predict_sets)[rr$resampling$primary_iters])
+            self$score(prediction, task = rr$task, learner = rr$learner)
+          }
+        },
+        "custom" =  {
+          if (!is.null(rr$resampling$primary_iters) && "primary_iters" %nin% self$properties) {
+            stopf("Resample result has non-NULL primary_iters, but measure '%s' cannot handle them", self$id)
+          }
+          private$.aggregator(rr)
+        }
       )
     }
   ),
@@ -346,10 +357,14 @@ score_single_measure = function(measure, task, learner, train_set, prediction) {
 #' @return (`data.table()`) with added score columns.
 #'
 #' @noRd
-score_measures = function(obj, measures, reassemble = TRUE, view = NULL) {
+score_measures = function(obj, measures, reassemble = TRUE, view = NULL, iters = NULL) {
   reassemble_learners = reassemble ||
     some(measures, function(m) any(c("requires_learner", "requires_model") %in% m$properties))
   tab = get_private(obj)$.data$as_data_table(view = view, reassemble_learners = reassemble_learners, convert_predictions = FALSE)
+
+  if (!is.null(iters)) {
+    tab = tab[list(iters), on = "iteration"]
+  }
 
   tmp = unique(tab, by = c("task_hash", "learner_hash"))[, c("task", "learner"), with = FALSE]
 
