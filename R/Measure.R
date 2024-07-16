@@ -227,6 +227,7 @@ Measure = R6Class("Measure",
       switch(self$average,
         "macro" = {
           aggregator = self$aggregator %??% mean
+          browser()
           tab = score_measures(rr, list(self), reassemble = FALSE, view = get_private(rr)$.view)
           set_names(aggregator(tab[[self$id]]), self$id)
         },
@@ -241,7 +242,7 @@ Measure = R6Class("Measure",
     hash = function(rhs) {
       assert_ro_binding(rhs)
       calculate_hash(class(self), self$id, self$param_set$values, private$.score,
-        private$.average, private$.aggregator, self$obs_loss,
+        private$.average, private$.aggregator, self$obs_loss, self$trafo,
         self$predict_sets, mget(private$.extra_hash, envir = self))
     },
 

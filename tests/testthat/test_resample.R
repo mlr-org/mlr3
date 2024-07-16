@@ -438,3 +438,10 @@ test_that("obs_loss", {
 
   rr$obs_loss()
 })
+
+test_that("multiple named measures", {
+  rr = resample(tsk("iris"), lrn("classif.featureless"), rsmp("holdout"))
+  res = rr$aggregate(c(acc = msr("classif.acc"), ce = msr("classif.ce")))
+  expect_numeric(res[["classif.acc"]])
+  expect_numeric(res[["classif.ce"]])
+})
