@@ -47,7 +47,6 @@
 #' The sets can be accessed via `$train_set(i)` and `$test_set(i)`, respectively.
 #'
 #'
-#'
 #' @template seealso_resampling
 #' @export
 #' @examples
@@ -115,12 +114,6 @@ Resampling = R6Class("Resampling",
 
     #' @template field_man
     man = NULL,
-
-    #' @field estimation_iters (`NULL` or `integer(1)`)\cr
-    #' For some resampling methods, not all iterations should be used to obtain a point estimate, e.g. when some
-    #' are only intended for variance estimation.
-    #' 
-    primary_iters = NULL,
 
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
@@ -219,6 +212,14 @@ Resampling = R6Class("Resampling",
   ),
 
   active = list(
+    #' @field estimation_iters (`NULL` or `integer(1)`)\cr
+    #' For some resampling methods, not all iterations should be used to obtain a point estimate, e.g. when some
+    #' are only intended for variance estimation.
+    primary_iters = function(rhs) {
+      assert_ro_binding(rhs)
+      NULL
+    },
+
     #' @template field_id
     id = function(rhs) {
       if (missing(rhs)) {
