@@ -239,7 +239,8 @@ Measure = R6Class("Measure",
           }
         },
         "custom" =  {
-          if (!is.null(rr$resampling$primary_iters) && "primary_iters" %nin% self$properties) {
+          if (!is.null(rr$resampling$primary_iters) && "primary_iters" %nin% self$properties &&
+            !test_permutation(rr$resampling$primary_iters, seq_len(rr$resampling$iters))) {
             stopf("Resample result has non-NULL primary_iters, but measure '%s' cannot handle them", self$id)
           }
           private$.aggregator(rr)
