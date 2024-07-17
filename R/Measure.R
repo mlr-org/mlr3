@@ -120,7 +120,10 @@ Measure = R6Class("Measure",
       self$average = average
       private$.aggregator = assert_function(aggregator, null.ok = TRUE)
       self$obs_loss = assert_function(obs_loss, null.ok = TRUE)
-      self$trafo = assert_function(trafo, null.ok = TRUE)
+      self$trafo = assert_list(trafo, len = 2L, types = "function", null.ok = TRUE)
+      if (!is.null(self$trafo)) {
+        assert_permutation(names(trafo), c("fn", "deriv"))
+      }
 
       if (!is_scalar_na(task_type)) {
         assert_choice(task_type, mlr_reflections$task_types$type)
