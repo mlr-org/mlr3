@@ -372,7 +372,7 @@ c.ResampleResult = function(...) {
 
 
 resample_result_aggregate = function(rr, measures) {
-  scores = unlist(map(unname(measures), function(m) {
+  unlist(map(unname(measures), function(m) {
     val = m$aggregate(rr)
     # CIs in mlr3inference return more than 1 value and are already named
     if (length(val) == 1L) return(set_names(val, m$id))
