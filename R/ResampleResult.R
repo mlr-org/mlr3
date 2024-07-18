@@ -177,6 +177,8 @@ ResampleResult = R6Class("ResampleResult",
     #' one additional numeric column for each measure, named with the respective measure id.
     #' If there is no observation-wise loss function for the measure, the column is filled with
     #' `NA` values.
+    #' Note that some measures such as RMSE, do have an `$obs_loss`, but they require an
+    #' additional transformation after aggregation, in this example taking the square-root.
     #' @param predict_sets (`character()`)\cr
     #'   The predict sets.
     obs_loss = function(measures = NULL, predict_sets = "test") {

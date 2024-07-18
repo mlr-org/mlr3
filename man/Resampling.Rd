@@ -120,6 +120,11 @@ group ids internally instead of the row ids (which may lead to confusion).
 It is advised to not work directly with the \code{instance}, but instead only use the getters
 \verb{$train_set()} and \verb{$test_set()}.}
 
+\item{\code{estimation_iters}}{(\code{NULL} or \code{integer(1)})\cr
+For some resampling methods, not all iterations should be used to obtain a point estimate, e.g. when some
+are only intended for variance estimation.
+If required, this should be set during \verb{$instantiate()}.}
+
 \item{\code{task_hash}}{(\code{character(1)})\cr
 The hash of the \link{Task} which was passed to \code{r$instantiate()}.}
 
@@ -134,10 +139,6 @@ Only used internally.}
 \item{\code{man}}{(\code{character(1)})\cr
 String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
 Defaults to \code{NA}, but can be set by child classes.}
-
-\item{\code{estimation_iters}}{(\code{NULL} or \code{integer(1)})\cr
-For some resampling methods, not all iterations should be used to obtain a point estimate, e.g. when some
-are only intended for variance estimation.}
 }
 \if{html}{\out{</div>}}
 }
@@ -146,7 +147,8 @@ are only intended for variance estimation.}
 \describe{
 \item{\code{estimation_iters}}{(\code{NULL} or \code{integer(1)})\cr
 For some resampling methods, not all iterations should be used to obtain a point estimate, e.g. when some
-are only intended for variance estimation.}
+are only intended for variance estimation.
+If required, this should be set during \verb{$instantiate()}.}
 
 \item{\code{id}}{(\code{character(1)})\cr
 Identifier of the object.

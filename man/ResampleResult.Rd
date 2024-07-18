@@ -287,6 +287,8 @@ Returns a \code{data.table()} with the columns of the matching \link{Prediction}
 one additional numeric column for each measure, named with the respective measure id.
 If there is no observation-wise loss function for the measure, the column is filled with
 \code{NA} values.
+Note that some measures such as RMSE, do have an \verb{$obs_loss}, but they require an
+additional transformation after aggregation, in this example taking the square-root.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{ResampleResult$obs_loss(measures = NULL, predict_sets = "test")}\if{html}{\out{</div>}}
 }

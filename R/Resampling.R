@@ -97,6 +97,13 @@ Resampling = R6Class("Resampling",
     #'   `$train_set()` and `$test_set()`.
     instance = NULL,
 
+    #' @field estimation_iters (`NULL` or `integer(1)`)\cr
+    #' For some resampling methods, not all iterations should be used to obtain a point estimate, e.g. when some
+    #' are only intended for variance estimation.
+    #' If required, this should be set during `$instantiate()`.
+    primary_iters = NULL,
+
+
     #' @field task_hash (`character(1)`)\cr
     #'   The hash of the [Task] which was passed to `r$instantiate()`.
     task_hash = NA_character_,
@@ -212,14 +219,6 @@ Resampling = R6Class("Resampling",
   ),
 
   active = list(
-    #' @field estimation_iters (`NULL` or `integer(1)`)\cr
-    #' For some resampling methods, not all iterations should be used to obtain a point estimate, e.g. when some
-    #' are only intended for variance estimation.
-    primary_iters = function(rhs) {
-      assert_ro_binding(rhs)
-      NULL
-    },
-
     #' @template field_id
     id = function(rhs) {
       if (missing(rhs)) {

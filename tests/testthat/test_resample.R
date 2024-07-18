@@ -436,7 +436,8 @@ test_that("obs_loss", {
   resampling = rsmp("cv", folds = 3)
   rr = resample(task, learner, resampling)
 
-  rr$obs_loss()
+  tbl = rr$obs_loss()
+  expect_integer(tbl$classif.ce)
 })
 
 test_that("multiple named measures", {

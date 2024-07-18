@@ -231,8 +231,8 @@ scored in one go.
 \item \code{"custom"}: A \link{ResampleResult} is passed to the aggregate function.
 }}
 
-\item{\code{obs_loss}}{(\code{function})\cr
-The observation-wise loss function, e.g. \link[mlr3measures:zero_one]{zero-one} for classification loss.}
+\item{\code{obs_loss}}{(\code{function} or \code{NULL})\cr
+The observation-wise loss function, e.g. \link[mlr3measures:zero_one]{zero-one} for classification error.}
 
 \item{\code{properties}}{(\code{character()})\cr
 Properties of the measure.
@@ -275,8 +275,10 @@ Label for the new instance.}
 String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
 The referenced help package can be opened via method \verb{$help()}.}
 
-\item{\code{trafo}}{(\code{function})\cr
-Transformation that is applied to the point-wise loss functions in case \verb{$obs_loss is given}.}
+\item{\code{trafo}}{(\code{list()} or \code{NULL})\cr
+An optional list with two elements, containing the transformation \code{"fn"} and its derivative \code{"fn"}.
+The transformation function is the function that is applied after aggregating the pointwise losses, i.e.
+this requires an \verb{$obs_loss} to be present. An example is \code{sqrt} for RMSE.}
 }
 \if{html}{\out{</div>}}
 }

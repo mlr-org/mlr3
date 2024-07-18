@@ -33,10 +33,12 @@
 #' @template param_packages
 #' @template param_label
 #' @template param_man
-#' @param obs_loss (`function`)\cr
-#'   The observation-wise loss function, e.g. [zero-one][mlr3measures::zero_one] for classification loss.
-#' @param trafo (`function`)\cr
-#' Transformation that is applied to the point-wise loss functions in case `$obs_loss is given`.
+#' @param obs_loss (`function` or `NULL`)\cr
+#'   The observation-wise loss function, e.g. [zero-one][mlr3measures::zero_one] for classification error.
+#' @param trafo (`list()` or `NULL`)\cr
+#'   An optional list with two elements, containing the transformation `"fn"` and its derivative `"fn"`.
+#'   The transformation function is the function that is applied after aggregating the pointwise losses, i.e.
+#'   this requires an `$obs_loss` to be present. An example is `sqrt` for RMSE.
 #'
 #' @template seealso_measure
 #' @export
@@ -357,6 +359,8 @@ score_single_measure = function(measure, task, learner, train_set, prediction) {
 #'
 #' @param obj ([ResampleResult] | [BenchmarkResult]).
 #' @param measures (list of [Measure]).
+#' @param iters (`integer()` or `NULL`)
+#' To which iterations of the resample result to restrict the scoring (primary_iters).
 #'
 #' @return (`data.table()`) with added score columns.
 #'
