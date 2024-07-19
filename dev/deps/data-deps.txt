@@ -14,3 +14,4 @@
 <script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script>
 <script src="deps/search-1.0.0/fuse.min.js"></script>
 <script src="deps/search-1.0.0/mark.min.js"></script>
+<script src="deps/MathJax-3.2.2/tex-chtml.min.js"></script>
