@@ -101,7 +101,7 @@ If the model is not trained yet, this method should return \code{NULL}.
 \item \code{"test"} means that the \code{"test"} task is used.
 \strong{Warning}: This can lead to biased performance estimation.
 This option is only available if the learner is being trained via \code{\link[=resample]{resample()}}, \code{\link[=benchmark]{benchmark()}} or functions that
-internally use them, e.g. \code{\link[mlr3tuning:tune]{mlr3tuning::tune()}} or \code{\link[mlr3batchmark:batchmark]{mlr3batchmark::batchmark()}}.
+internally use them, e.g. \code{tune()} of \CRANpkg{mlr3tuning} or \code{batchmark()} of \CRANpkg{mlr3batchmark}.
 This is especially useful for hyperparameter tuning, where one might e.g. want to use the same validation data
 for early stopping and model evaluation.
 \item \code{"predefined"} means that the task's (manually set) \verb{$internal_valid_task} is used.
