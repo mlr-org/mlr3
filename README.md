@@ -47,9 +47,7 @@ Status](https://www.r-pkg.org/badges/version-ago/mlr3)](https://cran.r-project.o
         mlr3tuning](https://www.youtube.com/watch?v=gEW5RxkbQuQ)
     -   [useR2020 tutorial on mlr3, mlr3tuning and
         mlr3pipelines](https://www.youtube.com/watch?v=T43hO2o_nZw)
-    -   [Recorded talk about mlr3spatiotempcv and mlr3spatial at
-        OpenDataScience Europe Conference 2021 in Wageningen,
-        NL](https://av.tib.eu/media/55271)
+        <!--   - [Recorded talk about mlr3spatiotempcv and mlr3spatial at OpenDataScience Europe Conference 2021 in Wageningen, NL](https://av.tib.eu/media/55271) -->
 -   **Courses/Lectures**
     -   The course [Introduction to Machine learning
         (I2ML)](https://slds-lmu.github.io/i2ml/) is a free and open
@@ -143,7 +141,7 @@ measure = msr("classif.acc")
 prediction$score(measure)
 ```
 
-    ## classif.acc 
+    ## classif.acc
     ##   0.9651163
 
 ### Resample
@@ -168,7 +166,7 @@ rr$score(measure)[, .(task_id, learner_id, iteration, classif.acc)]
 rr$aggregate(measure)
 ```
 
-    ## classif.acc 
+    ## classif.acc
     ##    0.938927
 
 ## Extension Packages
