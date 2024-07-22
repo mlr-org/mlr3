@@ -182,10 +182,6 @@ mlr_measures$add("classif.fp", function() MeasureBinarySimple$new(name = "fp"))
 #' @template measure_binary
 mlr_measures$add("classif.fpr", function() MeasureBinarySimple$new(name = "fpr"))
 
-#' @templateVar id mcc
-#' @template measure_binary
-mlr_measures$add("classif.mcc", function() MeasureBinarySimple$new(name = "mcc"))
-
 #' @templateVar id npv
 #' @template measure_binary
 mlr_measures$add("classif.npv", function() MeasureBinarySimple$new(name = "npv"))
@@ -267,6 +263,10 @@ mlr_measures$add("classif.mauc_au1u", function() MeasureClassifSimple$new(name =
 #' @templateVar id mauc_au1p
 #' @template measure_classif
 mlr_measures$add("classif.mauc_au1p", function() MeasureClassifSimple$new(name = "mauc_au1p"))
+
+#' @templateVar id mcc
+#' @template measure_classif
+mlr_measures$add("classif.mcc", function() MeasureClassifSimple$new(name = "mcc"))
 
 
 ### regression measures
