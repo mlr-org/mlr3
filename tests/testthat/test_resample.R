@@ -157,6 +157,15 @@ test_that("as_resample_result works for result data", {
   expect_class(rr2, "ResampleResult")
 })
 
+test_that("obs_loss", {
+  task = tsk("iris")
+  learner = lrn("classif.featureless")
+  resampling = rsmp("cv", folds = 3)
+  rr = resample(task, learner, resampling)
+
+  rr$obs_loss()
+})
+
 test_that("encapsulation triggers marshaling correctly", {
   learner1 = lrn("classif.debug", count_marshaling = TRUE, encapsulate = c(train = "callr"))
   learner2 = lrn("classif.debug", count_marshaling = TRUE, encapsulate = c(train = "none"))
