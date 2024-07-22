@@ -131,7 +131,8 @@ Other multiclass classification measures:
 \code{\link{mlr_measures_classif.mauc_au1u}},
 \code{\link{mlr_measures_classif.mauc_aunp}},
 \code{\link{mlr_measures_classif.mauc_aunu}},
-\code{\link{mlr_measures_classif.mbrier}}
+\code{\link{mlr_measures_classif.mbrier}},
+\code{\link{mlr_measures_classif.mcc}}
 }
 \concept{Measure}
 \concept{classification measures}
