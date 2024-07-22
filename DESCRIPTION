@@ -51,7 +51,7 @@ Imports:
     future.apply (>= 1.5.0),
     lgr (>= 0.3.4),
     mlbench,
-    mlr3measures (>= 0.4.1),
+    mlr3measures (>= 0.6.0),
     mlr3misc (>= 0.15.0),
     parallelly,
     palmerpenguins,
@@ -69,8 +69,6 @@ Suggests:
     remotes,
     rpart,
     testthat (>= 3.1.0)
-Remotes:
-    mlr-org/mlr3measures@mcc
 Encoding: UTF-8
 Config/testthat/edition: 3
 Config/testthat/parallel: false
