@@ -41,7 +41,7 @@ Hyperparameters stored in the param_set can be tuned with mlr3tuning."><meta pro
 
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.20.0.9000</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.20.1.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -154,7 +154,7 @@ If the model is not trained yet, this method should return <code>NULL</code>.</p
 <li><p><code>"test"</code> means that the <code>"test"</code> task is used.
 <strong>Warning</strong>: This can lead to biased performance estimation.
 This option is only available if the learner is being trained via <code><a href="resample.html">resample()</a></code>, <code><a href="benchmark.html">benchmark()</a></code> or functions that
-internally use them, e.g. <code>mlr3tuning::tune()</code> or <code>mlr3batchmark::batchmark()</code>.
+internally use them, e.g. <code>tune()</code> of <a href="https://CRAN.R-project.org/package=mlr3tuning" class="external-link"><span class="pkg">mlr3tuning</span></a> or <code>batchmark()</code> of <a href="https://CRAN.R-project.org/package=mlr3batchmark" class="external-link"><span class="pkg">mlr3batchmark</span></a>.
 This is especially useful for hyperparameter tuning, where one might e.g. want to use the same validation data
 for early stopping and model evaluation.</p></li>
 <li><p><code>"predefined"</code> means that the task's (manually set) <code>$internal_valid_task</code> is used.
