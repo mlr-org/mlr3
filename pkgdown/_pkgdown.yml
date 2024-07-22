@@ -2,6 +2,8 @@ url: https://mlr3.mlr-org.com
 
 template:
   bootstrap: 5
+  light-switch: true
+  math-rendering: mathjax
   package: mlr3pkgdowntemplate
 
 development:
@@ -15,7 +17,7 @@ toc:
 navbar:
   structure:
     left:  [reference, news, book]
-    right: [github, mattermost, stackoverflow, rss]
+    right: [github, mattermost, stackoverflow, rss, lightswitch]
   components:
     home: ~
     reference:
