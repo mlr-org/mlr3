@@ -429,3 +429,20 @@ test_that("callr during prediction triggers marshaling", {
   expect_false(l8$marshaled)
   expect_equal(l8$model$marshal_count, 1L)
 })
+
+test_that("obs_loss", {
+  task = tsk("iris")
+  learner = lrn("classif.featureless")
+  resampling = rsmp("cv", folds = 3)
+  rr = resample(task, learner, resampling)
+
+  tbl = rr$obs_loss()
+  expect_integer(tbl$classif.ce)
+})
+
+test_that("multiple named measures", {
+  rr = resample(tsk("iris"), lrn("classif.featureless"), rsmp("holdout"))
+  res = rr$aggregate(c(acc = msr("classif.acc"), ce = msr("classif.ce")))
+  expect_numeric(res[["classif.acc"]])
+  expect_numeric(res[["classif.ce"]])
+})

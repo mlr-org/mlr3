@@ -44,7 +44,7 @@ as.data.table.DictionaryMeasure = function(x, ..., objects = FALSE) {
   assert_flag(objects)
 
   setkeyv(map_dtr(x$keys(), function(key) {
-    m = withCallingHandlers(x$get(key),
+    m = withCallingHandlers(x$get(key, .prototype = TRUE),
       packageNotFoundWarning = function(w) invokeRestart("muffleWarning"))
     insert_named(
       list(key = key, label = m$label, task_type = m$task_type, packages = list(m$packages), predict_type = m$predict_type,

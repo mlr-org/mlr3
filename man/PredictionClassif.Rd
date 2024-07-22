@@ -108,11 +108,12 @@ Truth is in columns, predicted response is in rows.}
 }
 }
 \if{html}{\out{
-<details open><summary>Inherited methods</summary>
+<details><summary>Inherited methods</summary>
 <ul>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="filter"><a href='../../mlr3/html/Prediction.html#method-Prediction-filter'><code>mlr3::Prediction$filter()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="format"><a href='../../mlr3/html/Prediction.html#method-Prediction-format'><code>mlr3::Prediction$format()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="help"><a href='../../mlr3/html/Prediction.html#method-Prediction-help'><code>mlr3::Prediction$help()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="obs_loss"><a href='../../mlr3/html/Prediction.html#method-Prediction-obs_loss'><code>mlr3::Prediction$obs_loss()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="print"><a href='../../mlr3/html/Prediction.html#method-Prediction-print'><code>mlr3::Prediction$print()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="score"><a href='../../mlr3/html/Prediction.html#method-Prediction-score'><code>mlr3::Prediction$score()</code></a></span></li>
 </ul>

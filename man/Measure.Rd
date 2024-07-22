@@ -70,6 +70,13 @@ see \code{\link[=mlr_reflections]{mlr_reflections$task_types$type}}.}
 \item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
 Set of hyperparameters.}
 
+\item{\code{trafo}}{(\verb{function()} | \code{NULL})
+Function to calculate the observation-wise loss.}
+
+\item{\code{obs_loss}}{(\verb{function()} | \code{NULL})
+Transformation that is applied to the point-wise loss functions in case \verb{$obs_loss is given}.
+For rmse, this is e.g. the root-function.}
+
 \item{\code{predict_type}}{(\code{character(1)})\cr
 Required predict type of the \link{Learner}.}
 
@@ -169,13 +176,15 @@ Note that this object is typically constructed via a derived classes, e.g. \link
   minimize = NA,
   average = "macro",
   aggregator = NULL,
+  obs_loss = NULL,
   properties = character(),
   predict_type = "response",
   predict_sets = "test",
   task_properties = character(),
   packages = character(),
   label = NA_character_,
-  man = NA_character_
+  man = NA_character_,
+  trafo = NULL
 )}\if{html}{\out{</div>}}
 }
 
@@ -222,6 +231,9 @@ scored in one go.
 \item \code{"custom"}: A \link{ResampleResult} is passed to the aggregate function.
 }}
 
+\item{\code{obs_loss}}{(\code{function} or \code{NULL})\cr
+The observation-wise loss function, e.g. \link[mlr3measures:zero_one]{zero-one} for classification error.}
+
 \item{\code{properties}}{(\code{character()})\cr
 Properties of the measure.
 Must be a subset of \link[=mlr_reflections]{mlr_reflections$measure_properties}.
@@ -233,6 +245,8 @@ Supported by \code{mlr3}:
 model),
 \item \code{"requires_train_set"} (requires the training indices from the \link{Resampling}), and
 \item \code{"na_score"} (the measure is expected to occasionally return \code{NA} or \code{NaN}).
+\item \code{"primary_iters"} (the measure can handle resampling methods where not all iterations should be used
+for point estimation)
 }}
 
 \item{\code{predict_type}}{(\code{character(1)})\cr
@@ -260,6 +274,11 @@ Label for the new instance.}
 \item{\code{man}}{(\code{character(1)})\cr
 String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
 The referenced help package can be opened via method \verb{$help()}.}
+
+\item{\code{trafo}}{(\code{list()} or \code{NULL})\cr
+An optional list with two elements, containing the transformation \code{"fn"} and its derivative \code{"fn"}.
+The transformation function is the function that is applied after aggregating the pointwise losses, i.e.
+this requires an \verb{$obs_loss} to be present. An example is \code{sqrt} for RMSE.}
 }
 \if{html}{\out{</div>}}
 }
