@@ -56,7 +56,6 @@ Imports:
     parallelly,
     palmerpenguins,
     paradox (>= 0.10.0),
-    RhpcBLASctl,
     uuid
 Suggests:
     Matrix,
@@ -67,6 +66,7 @@ Suggests:
     mlr3data,
     progressr,
     remotes,
+    RhpcBLASctl,
     rpart,
     testthat (>= 3.1.0)
 Encoding: UTF-8
