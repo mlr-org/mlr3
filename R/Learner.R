@@ -106,7 +106,7 @@
 #'   * `"test"` means that the `"test"` task is used.
 #'     **Warning**: This can lead to biased performance estimation.
 #'     This option is only available if the learner is being trained via [resample()], [benchmark()] or functions that
-#'     internally use them, e.g. [`mlr3tuning::tune()`] or [`mlr3batchmark::batchmark()`].
+#'     internally use them, e.g. `tune()` of \CRANpkg{mlr3tuning} or `batchmark()` of \CRANpkg{mlr3batchmark}.
 #'     This is especially useful for hyperparameter tuning, where one might e.g. want to use the same validation data
 #'     for early stopping and model evaluation.
 #'   * `"predefined"` means that the task's (manually set) `$internal_valid_task` is used.

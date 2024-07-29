@@ -3,7 +3,7 @@
 #' @description
 #' Helper function to configure the `$validate` field(s) of a [`Learner`].
 #'
-#' This is especially useful for learners such as [`mlr3tuning::AutoTuner`] or [`mlr3pipelines::GraphLearner`],
+#' This is especially useful for learners such as `AutoTuner` of \CRANpkg{mlr3tuning} or `GraphLearner` of \CRANpkg{mlr3pipelines} which have multiple levels of `$validate` fields.,
 #' where the `$validate` fields need to be configured on multiple levels.
 #'
 #' @param learner (any)\cr

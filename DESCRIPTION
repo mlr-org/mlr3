@@ -1,6 +1,6 @@
 Package: mlr3
 Title: Machine Learning in R - Next Generation
-Version: 0.20.0.9000
+Version: 0.20.1.9000
 Authors@R:
   c(
     person("Michel", "Lang", , "michellang@gmail.com", role = "aut",
@@ -57,7 +57,6 @@ Imports:
     parallelly,
     palmerpenguins,
     paradox (>= 0.10.0),
-    RhpcBLASctl,
     uuid
 Suggests:
     Matrix,
@@ -68,6 +67,7 @@ Suggests:
     mlr3data,
     progressr,
     remotes,
+    RhpcBLASctl,
     rpart,
     testthat (>= 3.1.0)
 Encoding: UTF-8

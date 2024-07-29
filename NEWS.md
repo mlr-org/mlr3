@@ -1,5 +1,9 @@
 # mlr3 (development version)
 
+# mlr3 0.20.1
+
+* feat: Add multiclass Matthews correlation coefficient `msr("classif.mcc")`.
+
 # mlr3 0.20.0
 
 * Added support for learner-internal validation and tuning.
