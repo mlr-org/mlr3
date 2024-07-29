@@ -1,4 +1,4 @@
-# mlr3 (development version)
+# mlr3 0.20.2
 
 * refactor: move RhpcBLASctl to suggest.
 
