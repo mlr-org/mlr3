@@ -1,5 +1,7 @@
 # mlr3 (development version)
 
+* refactor: move RhpcBLASctl to suggest.
+
 # mlr3 0.20.1
 
 * feat: Add multiclass Matthews correlation coefficient `msr("classif.mcc")`.

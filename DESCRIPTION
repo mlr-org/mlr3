@@ -55,7 +55,7 @@ Imports:
     mlr3misc (>= 0.15.0),
     parallelly,
     palmerpenguins,
-    paradox (>= 0.10.0),
+    paradox (>= 1.0.1),
     uuid
 Suggests:
     Matrix,
