@@ -48,7 +48,7 @@ MeasureElapsedTime = R6Class("MeasureElapsedTime",
 
   private = list(
     .score = function(prediction, learner, ...) {
-      sum(unlist(learner$state[sprintf("%s_time", self$stages)]))
+      sum(unlist(learner$state[sprintf("%s_time", self$stages)], use.names = FALSE))
     },
 
     .extra_hash = "stages"

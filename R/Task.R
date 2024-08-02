@@ -180,7 +180,7 @@ Task = R6Class("Task",
         # stratify = FALSE means we only stratify when strata are present
         partition(self, ratio = 1 - ratio, stratify = FALSE)$test
       } else {
-        assert_row_ids(ids, null.ok = FALSE) 
+        assert_row_ids(ids, null.ok = FALSE)
       }
 
       prev_internal_valid = private$.internal_valid_task
@@ -798,7 +798,7 @@ Task = R6Class("Task",
       ci1 = self$col_info
       ci2 = rhs$col_info
       # don't do this too strictly, some column roles might just be important during training (weights)
-      cols = unlist(self$col_roles[c("target", "feature")])
+      cols = unlist(self$col_roles[c("target", "feature")], use.names = FALSE)
       walk(cols, function(.col) {
         if (.col %nin% ci2$id) {
           stopf("Primary task has column '%s' which is not present in the validation task.", .col)
@@ -1094,7 +1094,7 @@ Task = R6Class("Task",
     #' @template field_col_hashes
     col_hashes = function() {
       if (is.null(private$.col_hashes)) {
-        private$.col_hashes = self$backend$col_hashes[setdiff(unlist(private$.col_roles), self$backend$primary_key)]
+        private$.col_hashes = self$backend$col_hashes[setdiff(unlist(private$.col_roles, use.names = FALSE), self$backend$primary_key)]
       }
       private$.col_hashes
     }
