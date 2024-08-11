@@ -922,7 +922,13 @@ Task = R6Class("Task",
     #'   For each resampling iteration, observations of the same group will be exclusively assigned to be either in the training set or in the test set.
     #'   Not more than a single column can be associated with this role.
     #' * `"stratum"`: Stratification variables. Multiple discrete columns may have this role.
-    #' * `"weight"`: Observation weights. Not more than one numeric column may have this role.
+    #' * `"weights_train"`: Observation weights to be used during training by the [Learner] (learner has property "weights").
+    #'   If the learner does not support weights, these weights are silently ignored.
+    #' * `"weights_measure"`: Observation weights to be used during scoring the predictions by the [Measure] (measure has property "weights").
+    #'   If the measure does not support weights, these weights are silently ignored.
+    #' * `"weights_resampling"`: Observation weights to be used to sample observations by the [Resampling] (resampling has property "weights").
+    #'   If the resampling does not support weights, these weights are silently ignored.
+    #' * `"weight"`: Deprecated, previous name for "weights_train".
     #'
     #' `col_roles` is a named list whose elements are named by column role and each element is a `character()` vector of column names.
     #' To alter the roles, just modify the list, e.g. with \R's set functions ([intersect()], [setdiff()], [union()], \ldots).
