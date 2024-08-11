@@ -101,7 +101,7 @@ local({
     "use"
   )
 
-  tmp = c("feature", "target", "name", "order", "stratum", "group", "weight")
+  tmp = c("feature", "target", "name", "order", "stratum", "group", "weight", "weights_train", "weights_measure", "weights_resampling")
   mlr_reflections$task_col_roles = list(
     regr = tmp,
     classif = tmp,

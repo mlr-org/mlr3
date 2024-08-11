@@ -1157,7 +1157,16 @@ task_set_roles = function(li, cols, roles = NULL, add_to = NULL, remove_from = N
 }
 
 task_check_col_roles = function(self, new_roles) {
-  for (role in c("group", "weight", "name")) {
+  if ("weight" %in% names(new_roles)) {
+    .Deprecated(new = "weights_train", msg = "Column role 'weight' have been deprecated in favor of the more specific 'weights_train'")
+    if ("weights_train" %in% names(new_roles)) {
+      stopf("Both deprecated column role 'weight' and its replacement 'weights_train' have benn provided")
+    }
+    new_roles$weights_train = new_roles$weight
+    new_roles$weight = NULL
+  }
+
+  for (role in c("group", "name", "weights_train", "weights_measure", "weights_resampling")) {
     if (length(new_roles[[role]]) > 1L) {
       stopf("There may only be up to one column with role '%s'", role)
     }
