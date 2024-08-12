@@ -241,14 +241,14 @@ test_that("groups/weights work", {
   expect_false("groups" %in% task$properties)
   expect_false("weights" %in% task$properties)
   expect_null(task$groups)
-  expect_null(task$weights)
+  expect_null(task$weights_train)
 
-  task$col_roles$weight = "w"
+  task$col_roles$weight_train = "w"
   expect_subset("weights", task$properties)
-  expect_data_table(task$weights, ncols = 2, nrows = 15)
-  expect_numeric(task$weights$weight, any.missing = FALSE)
+  expect_data_table(task$weights_train, ncols = 2, nrows = 15)
+  expect_numeric(task$weights_train$weight, any.missing = FALSE)
 
-  task$col_roles$weight = character()
+  task$col_roles$weight_train = character()
   expect_true("weights" %nin% task$properties)
 
   task$col_roles$group = "g"
@@ -260,7 +260,7 @@ test_that("groups/weights work", {
   expect_true("groups" %nin% task$properties)
 
   expect_error({
-    task$col_roles$weight = c("w", "g")
+    task$col_roles$weight_train = c("w", "g")
   }, "up to one")
 })
 
@@ -403,12 +403,12 @@ test_that("Task$set_col_roles", {
   task$set_col_roles("age", roles = "weight")
   expect_equal(task$n_features, 7L)
   expect_true("age" %nin% task$feature_names)
-  expect_data_table(task$weights)
+  expect_data_table(task$weights_train)
 
   task$set_col_roles("age", add_to = "feature", remove_from = "weight")
   expect_equal(task$n_features, 8L)
   expect_true("age" %in% task$feature_names)
-  expect_null(task$weights)
+  expect_null(task$weights_train)
 })
 
 test_that("$add_strata", {
@@ -512,7 +512,7 @@ test_that("head/tail", {
 
 test_that("Roles get printed (#877)", {
   task = tsk("iris")
-  task$col_roles$weight = "Petal.Width"
+  task$col_roles$weight_train = "Petal.Width"
   expect_output(print(task), "Weights: Petal.Width")
 })
 
@@ -613,4 +613,20 @@ test_that("divide requires ratio in (0, 1)", {
 
 test_that("divide requires ids to be row_ids", {
   expect_error(tsk("iris")$divide(ids = 0.5))
+})
+
+test_that("task weights", {
+  # proper deprecation
+  task = tsk("mtcars")
+  expect_null(task$weights)
+  expect_null(task$weights_train)
+  expect_disjunct(c("weights", "weights_train", "weights_measure", "weights_resampling"), task$properties)
+
+  task$cbind(data.table(w = runif(32)))
+  task$set_col_roles("w", "weight")
+  expect_data_table(task$weights)
+  expect_equal(task$weights, task$weights_train)
+  task$properties
+  expect_subset(c("weights", "weights_train"), task$properties)
+
 })

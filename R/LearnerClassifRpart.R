@@ -77,8 +77,8 @@ LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
     .train = function(task) {
       pv = self$param_set$get_values(tags = "train")
       names(pv) = replace(names(pv), names(pv) == "keep_model", "model")
-      if ("weights" %in% task$properties) {
-        pv = insert_named(pv, list(weights = task$weights$weight))
+      if ("weights_train" %in% task$properties) {
+        pv = insert_named(pv, list(weights = task$weights_train$weight))
       }
 
       invoke(rpart::rpart, formula = task$formula(), data = task$data(), .args = pv, .opts = allow_partial_matching)

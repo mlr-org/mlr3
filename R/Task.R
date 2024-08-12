@@ -494,7 +494,7 @@ Task = R6Class("Task",
       }
 
       # columns with these roles must be present in data
-      mandatory_roles = c("target", "feature", "weight", "group", "stratum", "order")
+      mandatory_roles = c("target", "feature", "group", "stratum", "order")
       mandatory_cols = unlist(private$.col_roles[mandatory_roles], use.names = FALSE)
       missing_cols = setdiff(mandatory_cols, data$colnames)
       if (length(missing_cols)) {
@@ -879,7 +879,9 @@ Task = R6Class("Task",
           private$.properties,
           if (length(col_roles$group)) "groups" else NULL,
           if (length(col_roles$stratum)) "strata" else NULL,
-          if (length(col_roles$weight)) "weights" else NULL
+          if (length(col_roles$weights_train)) c("weights", "weights_train") else NULL,
+          if (length(col_roles$weights_measure)) "weights_measure" else NULL,
+          if (length(col_roles$weights_resampling)) "weights_resampling" else NULL
         )
       } else {
         private$.properties = assert_set(rhs, .var.name = "properties")
@@ -940,7 +942,7 @@ Task = R6Class("Task",
 
       assert_has_backend(self)
       qassertr(rhs, "S[1,]", .var.name = "col_roles")
-      assert_names(names(rhs), "unique", must.include = mlr_reflections$task_col_roles[[self$task_type]], .var.name = "names of col_roles")
+      assert_names(names(rhs), "unique", subset.of = mlr_reflections$task_col_roles[[self$task_type]], .var.name = "names of col_roles")
       assert_subset(unlist(rhs, use.names = FALSE), setdiff(self$col_info$id, self$backend$primary_key), .var.name = "elements of col_roles")
 
       private$.hash = NULL
@@ -1055,9 +1057,20 @@ Task = R6Class("Task",
     #'
     #' Returns `NULL` if there are is no weight column.
     weights = function(rhs) {
+      assert_ro_binding(rhs)
+      self$weights_train
+    },
+
+    #' @field weights_train ([data.table::data.table()])\cr
+    #' Returns the observation weights used for training a [Learner] (column role `weights_train`)
+    #' or `NULL` for no weights.
+    #'
+    #' * `row_id` (`integer()`), and
+    #' * `weight` (`numeric()`).
+    weights_train = function(rhs) {
       assert_has_backend(self)
       assert_ro_binding(rhs)
-      weight_cols = private$.col_roles$weight
+      weight_cols = private$.col_roles[["weights_train"]]
       if (length(weight_cols) == 0L) {
         return(NULL)
       }
@@ -1065,6 +1078,39 @@ Task = R6Class("Task",
       setnames(data, c("row_id", "weight"))[]
     },
 
+    #' @field weights_measure ([data.table::data.table()])\cr
+    #' Returns the observation weights used for scoring with a [Measure] (column role `weights_measure`)
+    #' or `NULL` for no weights.
+    #'
+    #' * `row_id` (`integer()`), and
+    #' * `weight` (`numeric()`).
+    weights_measure = function(rhs) {
+      assert_has_backend(self)
+      assert_ro_binding(rhs)
+      weight_cols = private$.col_roles[["weights_measure"]]
+      if (length(weight_cols) == 0L) {
+        return(NULL)
+      }
+      data = self$backend$data(private$.row_roles$use, c(self$backend$primary_key, weight_cols))
+      setnames(data, c("row_id", "weight"))[]
+    },
+
+    #' @field weights_resampling ([data.table::data.table()])\cr
+    #' Returns the observation weights used for resampling (column role `weights_resampling`)
+    #' or `NULL` for no weights.
+    #'
+    #' * `row_id` (`integer()`), and
+    #' * `weight` (`numeric()`).
+    weights_resampling = function(rhs) {
+      assert_has_backend(self)
+      assert_ro_binding(rhs)
+      weight_cols = private$.col_roles[["weights_resampling"]]
+      if (length(weight_cols) == 0L) {
+        return(NULL)
+      }
+      data = self$backend$data(private$.row_roles$use, c(self$backend$primary_key, weight_cols))
+      setnames(data, c("row_id", "weight"))[]
+    },
 
     #' @field labels (named `character()`)\cr
     #'   Retrieve `labels` (prettier formated names) from columns.
@@ -1157,9 +1203,9 @@ task_set_roles = function(li, cols, roles = NULL, add_to = NULL, remove_from = N
 }
 
 task_check_col_roles = function(self, new_roles) {
-  if ("weight" %in% names(new_roles)) {
-    .Deprecated(new = "weights_train", msg = "Column role 'weight' have been deprecated in favor of the more specific 'weights_train'")
-    if ("weights_train" %in% names(new_roles)) {
+  if (length(new_roles[["weight"]])) {
+    # .Deprecated(new = "weights_train", msg = "Column role 'weight' have been deprecated in favor of 'weights_train', 'weights_measure' and 'weights_resampling'")
+    if (length(new_roles[["weights_train"]])) {
       stopf("Both deprecated column role 'weight' and its replacement 'weights_train' have benn provided")
     }
     new_roles$weights_train = new_roles$weight

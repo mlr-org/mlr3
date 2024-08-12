@@ -216,7 +216,13 @@ Columns must be sortable with \code{\link[=order]{order()}}.
 For each resampling iteration, observations of the same group will be exclusively assigned to be either in the training set or in the test set.
 Not more than a single column can be associated with this role.
 \item \code{"stratum"}: Stratification variables. Multiple discrete columns may have this role.
-\item \code{"weight"}: Observation weights. Not more than one numeric column may have this role.
+\item \code{"weights_train"}: Observation weights to be used during training by the \link{Learner} (learner has property "weights").
+If the learner does not support weights, these weights are silently ignored.
+\item \code{"weights_measure"}: Observation weights to be used during scoring the predictions by the \link{Measure} (measure has property "weights").
+If the measure does not support weights, these weights are silently ignored.
+\item \code{"weights_resampling"}: Observation weights to be used to sample observations by the \link{Resampling} (resampling has property "weights").
+If the resampling does not support weights, these weights are silently ignored.
+\item \code{"weight"}: Deprecated, previous name for "weights_train".
 }
 
 \code{col_roles} is a named list whose elements are named by column role and each element is a \code{character()} vector of column names.
@@ -276,6 +282,30 @@ If the task has a column with designated role \code{"weight"}, a table with two 
 }
 
 Returns \code{NULL} if there are is no weight column.}
+
+\item{\code{weights_train}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
+Returns the observation weights used for training a \link{Learner} (column role \code{weights_train})
+or \code{NULL} for no weights.
+\itemize{
+\item \code{row_id} (\code{integer()}), and
+\item \code{weight} (\code{numeric()}).
+}}
+
+\item{\code{weights_measure}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
+Returns the observation weights used for scoring with a \link{Measure} (column role \code{weights_measure})
+or \code{NULL} for no weights.
+\itemize{
+\item \code{row_id} (\code{integer()}), and
+\item \code{weight} (\code{numeric()}).
+}}
+
+\item{\code{weights_resampling}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
+Returns the observation weights used for resampling (column role \code{weights_resampling})
+or \code{NULL} for no weights.
+\itemize{
+\item \code{row_id} (\code{integer()}), and
+\item \code{weight} (\code{numeric()}).
+}}
 
 \item{\code{labels}}{(named \code{character()})\cr
 Retrieve \code{labels} (prettier formated names) from columns.
