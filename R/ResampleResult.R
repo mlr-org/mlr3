@@ -376,7 +376,7 @@ c.ResampleResult = function(...) {
 resample_result_aggregate = function(rr, measures) {
   unlist(map(unname(measures), function(m) {
     val = m$aggregate(rr)
-    # CIs in mlr3inference return more than 1 value and are already named
+    # CIs in mlr3inferr return more than 1 value and are already named
     if (length(val) == 1L) return(set_names(val, m$id))
     val
   })) %??% set_names(numeric(), character())
