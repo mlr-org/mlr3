@@ -17,6 +17,7 @@
 #'   e.g. `"Class$method()"` or `"Argument 'foo' of Class$method()"`.\cr
 #'   The `what` is used to determine if the warning has already been given, so
 #'   it should be unique for each deprecated entity.
+#' @keywords internal
 #' @export
 warn_deprecated = function(what) {
   assert_string(what)
@@ -48,6 +49,7 @@ deprecated_warning_given_db = new.env(parent = emptyenv())
 #' )
 #' mco = MyClass$new()
 #' mco$foo
+#' @keywords internal
 #' @export
 deprecated_binding = function(what, value) {
   assert_string(what)

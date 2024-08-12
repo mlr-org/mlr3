@@ -28,3 +28,4 @@ MyClass = R6::R6Class("MyClass", public = list(),
 mco = MyClass$new()
 mco$foo
 }
+\keyword{internal}

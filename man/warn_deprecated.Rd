@@ -25,3 +25,4 @@ The warning is of the format
 Use the 'deprecated_binding()' helper function to create an active binding
 that generates a warning when accessed.
 }
+\keyword{internal}
