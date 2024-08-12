@@ -38,7 +38,14 @@ tsk("german_credit")
 
 \section{Meta Information}{
 
-\verb{r mlr3misc::rd_info(mlr3::tsk("german_credit"))}
+\itemize{
+\item Task type: \dQuote{classif}
+\item Dimensions: 1000x21
+\item Properties: \dQuote{twoclass}
+\item Has Missings: \code{FALSE}
+\item Target: \dQuote{credit_risk}
+\item Features: \dQuote{age}, \dQuote{amount}, \dQuote{credit_history}, \dQuote{duration}, \dQuote{employment_duration}, \dQuote{foreign_worker}, \dQuote{housing}, \dQuote{installment_rate}, \dQuote{job}, \dQuote{number_credits}, \dQuote{other_debtors}, \dQuote{other_installment_plans}, \dQuote{people_liable}, \dQuote{personal_status_sex}, \dQuote{present_residence}, \dQuote{property}, \dQuote{purpose}, \dQuote{savings}, \dQuote{status}, \dQuote{telephone}
+}
 }
 
 \examples{

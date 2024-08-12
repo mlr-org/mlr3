@@ -24,7 +24,14 @@ tsk("penguins")
 
 \section{Meta Information}{
 
-\verb{r mlr3misc::rd_info(mlr3::tsk("penguins"))}
+\itemize{
+\item Task type: \dQuote{classif}
+\item Dimensions: 344x8
+\item Properties: \dQuote{multiclass}
+\item Has Missings: \code{TRUE}
+\item Target: \dQuote{species}
+\item Features: \dQuote{bill_depth}, \dQuote{bill_length}, \dQuote{body_mass}, \dQuote{flipper_length}, \dQuote{island}, \dQuote{sex}, \dQuote{year}
+}
 }
 
 \section{Pre-processing}{

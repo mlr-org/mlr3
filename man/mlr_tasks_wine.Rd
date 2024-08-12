@@ -29,7 +29,14 @@ tsk("wine")
 
 \section{Meta Information}{
 
-\verb{r mlr3misc::rd_info(mlr3::tsk("wine"))}
+\itemize{
+\item Task type: \dQuote{classif}
+\item Dimensions: 178x14
+\item Properties: \dQuote{multiclass}
+\item Has Missings: \code{FALSE}
+\item Target: \dQuote{type}
+\item Features: \dQuote{alcalinity}, \dQuote{alcohol}, \dQuote{ash}, \dQuote{color}, \dQuote{dilution}, \dQuote{flavanoids}, \dQuote{hue}, \dQuote{magnesium}, \dQuote{malic}, \dQuote{nonflavanoids}, \dQuote{phenols}, \dQuote{proanthocyanins}, \dQuote{proline}
+}
 }
 
 \references{

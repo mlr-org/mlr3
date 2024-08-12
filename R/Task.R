@@ -1,6 +1,7 @@
 #' @title Task Class
 #'
 #' @include mlr_reflections.R
+#' @include warn_deprecated.R
 #'
 #' @description
 #' This is the abstract base class for [TaskSupervised] and [TaskUnsupervised].

@@ -250,7 +250,7 @@ Defaults to \code{NA}, but can be set by child classes.}
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
 \item{\code{data_formats}}{(\code{character()})\cr
-Supported data format. Always \code{"data.table"}.
+Supported data format. Always \code{"data.table"}..
 This is deprecated and will be removed in the future.}
 
 \item{\code{model}}{(any)\cr
@@ -380,8 +380,7 @@ If a learner is in a marshaled state, you call first need to call \verb{$unmarsh
 }}
 
 \item{\code{data_formats}}{(\code{character()})\cr
-Set of supported data formats which can be processed during \verb{$train()} and \verb{$predict()},
-e.g. \code{"data.table"}.}
+Deprecated: ignored, and will be removed in the future.}
 
 \item{\code{packages}}{(\code{character()})\cr
 Set of required packages.

@@ -32,7 +32,7 @@ msr("regr.mape")
 
 \section{Parameters}{
 
-\verb{r mlr3misc::rd_info(mlr3::msr("regr.mape")$param_set)}
+Empty ParamSet
 }
 
 \section{Meta Information}{

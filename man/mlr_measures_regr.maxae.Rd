@@ -30,7 +30,7 @@ msr("regr.maxae")
 
 \section{Parameters}{
 
-\verb{r mlr3misc::rd_info(mlr3::msr("regr.maxae")$param_set)}
+Empty ParamSet
 }
 
 \section{Meta Information}{

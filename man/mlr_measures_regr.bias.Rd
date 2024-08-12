@@ -31,7 +31,7 @@ msr("regr.bias")
 
 \section{Parameters}{
 
-\verb{r mlr3misc::rd_info(mlr3::msr("regr.bias")$param_set)}
+Empty ParamSet
 }
 
 \section{Meta Information}{

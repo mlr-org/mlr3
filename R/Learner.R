@@ -1,6 +1,7 @@
 #' @title Learner Class
 #'
 #' @include mlr_reflections.R
+#' @include warn_deprecated.R
 #'
 #' @description
 #' This is the abstract base class for learner objects like [LearnerClassif] and [LearnerRegr].

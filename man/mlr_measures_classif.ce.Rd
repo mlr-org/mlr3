@@ -32,7 +32,7 @@ msr("classif.ce")
 
 \section{Parameters}{
 
-\verb{r mlr3misc::rd_info(mlr3::msr("classif.ce")$param_set)}
+Empty ParamSet
 }
 
 \section{Meta Information}{

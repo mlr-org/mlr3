@@ -21,7 +21,14 @@ tsk("pima")
 
 \section{Meta Information}{
 
-\verb{r mlr3misc::rd_info(mlr3::tsk("pima"))}
+\itemize{
+\item Task type: \dQuote{classif}
+\item Dimensions: 768x9
+\item Properties: \dQuote{twoclass}
+\item Has Missings: \code{TRUE}
+\item Target: \dQuote{diabetes}
+\item Features: \dQuote{age}, \dQuote{glucose}, \dQuote{insulin}, \dQuote{mass}, \dQuote{pedigree}, \dQuote{pregnant}, \dQuote{pressure}, \dQuote{triceps}
+}
 }
 
 \seealso{

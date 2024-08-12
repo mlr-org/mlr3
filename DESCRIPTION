@@ -79,6 +79,7 @@ RoxygenNote: 7.3.2
 Collate:
     'mlr_reflections.R'
     'BenchmarkResult.R'
+    'warn_deprecated.R'
     'DataBackend.R'
     'DataBackendCbind.R'
     'DataBackendDataTable.R'
@@ -195,6 +196,5 @@ Collate:
     'set_threads.R'
     'set_validate.R'
     'task_converters.R'
-    'warn_deprecated.R'
     'worker.R'
     'zzz.R'

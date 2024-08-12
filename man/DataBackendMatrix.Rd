@@ -22,8 +22,7 @@ dense = data.frame(
 
 b = as_data_backend(data, dense = dense, primary_key = "..row_id")
 b$head()
-b$data(1:3, b$colnames, data_format = "Matrix")
-b$data(1:3, b$colnames, data_format = "data.table")
+b$data(1:3, b$colnames)
 }
 \seealso{
 \itemize{
@@ -112,7 +111,7 @@ Queries for rows with no matching row id and queries for columns with no matchin
 Rows are guaranteed to be returned in the same order as \code{rows}, columns may be returned in an arbitrary order.
 Duplicated row ids result in duplicated rows, duplicated column names lead to an exception.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{DataBackendMatrix$data(rows, cols, data_format = "data.table")}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{DataBackendMatrix$data(rows, cols, data_format)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -125,7 +124,7 @@ Vector or row indices.}
 Vector of column names.}
 
 \item{\code{data_format}}{(\code{character(1)})\cr
-Desired data format, e.g. \code{"data.table"} or \code{"Matrix"}.}
+Deprecated. Ignored, and will be removed in the future.}
 }
 \if{html}{\out{</div>}}
 }

@@ -21,7 +21,14 @@ tsk("mtcars")
 
 \section{Meta Information}{
 
-\verb{r rd_info(tsk("mtcars"))}
+\itemize{
+\item Task type: \dQuote{regr}
+\item Dimensions: 32x11
+\item Properties: -
+\item Has Missings: \code{FALSE}
+\item Target: \dQuote{mpg}
+\item Features: \dQuote{am}, \dQuote{carb}, \dQuote{cyl}, \dQuote{disp}, \dQuote{drat}, \dQuote{gear}, \dQuote{hp}, \dQuote{qsec}, \dQuote{vs}, \dQuote{wt}
+}
 }
 
 \seealso{

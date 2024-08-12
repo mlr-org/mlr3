@@ -28,7 +28,14 @@ tsk("iris")
 
 \section{Meta Information}{
 
-\verb{r mlr3misc::rd_info(mlr3::tsk("iris"))}
+\itemize{
+\item Task type: \dQuote{classif}
+\item Dimensions: 150x5
+\item Properties: \dQuote{multiclass}
+\item Has Missings: \code{FALSE}
+\item Target: \dQuote{Species}
+\item Features: \dQuote{Petal.Length}, \dQuote{Petal.Width}, \dQuote{Sepal.Length}, \dQuote{Sepal.Width}
+}
 }
 
 \seealso{
