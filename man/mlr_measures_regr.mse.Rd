@@ -30,7 +30,7 @@ msr("regr.mse")
 
 \section{Parameters}{
 
-Empty ParamSet
+\verb{r mlr3misc::rd_info(mlr3::msr("regr.mse")$param_set)}
 }
 
 \section{Meta Information}{

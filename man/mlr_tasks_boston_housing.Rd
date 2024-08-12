@@ -21,14 +21,7 @@ tsk("boston_housing")
 
 \section{Meta Information}{
 
-\itemize{
-\item Task type: \dQuote{regr}
-\item Dimensions: 506x18
-\item Properties: -
-\item Has Missings: \code{FALSE}
-\item Target: \dQuote{cmedv}
-\item Features: \dQuote{age}, \dQuote{b}, \dQuote{chas}, \dQuote{crim}, \dQuote{dis}, \dQuote{indus}, \dQuote{lat}, \dQuote{lon}, \dQuote{lstat}, \dQuote{nox}, \dQuote{ptratio}, \dQuote{rad}, \dQuote{rm}, \dQuote{tax}, \dQuote{town}, \dQuote{tract}, \dQuote{zn}
-}
+\verb{r rd_info(tsk("boston_housing"))}
 }
 
 \seealso{

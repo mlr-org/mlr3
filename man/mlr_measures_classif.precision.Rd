@@ -35,7 +35,7 @@ msr("classif.precision")
 
 \section{Parameters}{
 
-Empty ParamSet
+\verb{r mlr3misc::rd_info(mlr3::msr("classif.precision")$param_set)}
 }
 
 \section{Meta Information}{

@@ -30,11 +30,12 @@ DataBackendRename = R6Class("DataBackendRename", inherit = DataBackend, cloneabl
       self$new = new
     },
 
-    data = function(rows, cols, data_format = self$data_formats[1L]) {
+    data = function(rows, cols, data_format) {
       assert_names(cols, type = "unique")
       b = private$.data
       cols = map_values(intersect(cols, self$colnames), self$new, self$old)
-      data = b$data(rows, cols, data_format)
+      if (!missing(data_format)) warn_deprecated("DataBackendRename$data argument 'data_format'")
+      data = b$data(rows, cols)
       set_col_names(data, map_values(names(data), self$old, self$new))
     },
 

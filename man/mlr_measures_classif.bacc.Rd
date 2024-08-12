@@ -42,7 +42,7 @@ msr("classif.bacc")
 
 \section{Parameters}{
 
-Empty ParamSet
+\verb{r mlr3misc::rd_info(mlr3::msr("classif.bacc")$param_set)}
 }
 
 \section{Meta Information}{

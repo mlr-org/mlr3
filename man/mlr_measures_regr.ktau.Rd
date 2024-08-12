@@ -27,7 +27,7 @@ msr("regr.ktau")
 
 \section{Parameters}{
 
-Empty ParamSet
+\verb{r mlr3misc::rd_info(mlr3::msr("regr.ktau")$param_set)}
 }
 
 \section{Meta Information}{

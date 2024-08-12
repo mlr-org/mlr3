@@ -35,7 +35,7 @@ msr("classif.fpr")
 
 \section{Parameters}{
 
-Empty ParamSet
+\verb{r mlr3misc::rd_info(mlr3::msr("classif.fpr")$param_set)}
 }
 
 \section{Meta Information}{

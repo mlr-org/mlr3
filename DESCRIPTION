@@ -195,5 +195,6 @@ Collate:
     'set_threads.R'
     'set_validate.R'
     'task_converters.R'
+    'warn_deprecated.R'
     'worker.R'
     'zzz.R'
