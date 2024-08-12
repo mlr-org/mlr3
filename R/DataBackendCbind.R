@@ -10,7 +10,7 @@ DataBackendCbind = R6Class("DataBackendCbind", inherit = DataBackend, cloneable 
         stopf("All backends to cbind must have the primary_key '%s'", pk)
       }
 
-      super$initialize(list(b1 = b1, b2 = b2), pk, "data.table")
+      super$initialize(list(b1 = b1, b2 = b2), pk)
     },
 
     data = function(rows, cols, data_format) {

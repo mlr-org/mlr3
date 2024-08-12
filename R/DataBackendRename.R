@@ -5,7 +5,7 @@ DataBackendRename = R6Class("DataBackendRename", inherit = DataBackend, cloneabl
     new = NULL,
 
     initialize = function(b, old, new) {
-      super$initialize(data = b, b$primary_key, "data.table")
+      super$initialize(data = b, b$primary_key)
       assert_character(old, any.missing = FALSE, unique = TRUE)
       assert_subset(old, b$colnames)
       assert_character(new, any.missing = FALSE, len = length(old))

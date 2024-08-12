@@ -39,7 +39,7 @@ test_that("DataBackendMatrix sparse output", {
   # extra rows are ignored
   query_rows = c(rn[4L], if (is.integer(rn)) -1L else "_not_existing_")
   x = b$data(query_rows, cols = b$primary_key)
-  expect_equal(unname(x[, b$primary_key, with = FALSE]), rn[4])
+  expect_equal(unname(x[[b$primary_key]]), rn[4])
 
   # zero rows matching
   query_rows = if (is.integer(rn)) -1L else "_not_existing_"
@@ -53,7 +53,7 @@ test_that("DataBackendMatrix sparse output", {
   # rows are returned in the right order
   i = sample(rn, min(b$nrow, 10L))
   x = b$data(rows = i, cols = b$primary_key)
-  testthat::expect_equal(i, as.data.table(x[, 1]))
+  testthat::expect_equal(i, x[[1]])
 
   # duplicated cols raise exception
   testthat::expect_error(b$data(rows = rn[1L], cols = rep(cn[1L], 2L)), "unique")
