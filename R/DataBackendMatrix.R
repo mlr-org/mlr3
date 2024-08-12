@@ -55,8 +55,7 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
     },
 
     #' @description
-    #' Returns a slice of the data in the specified format.
-    #' Currently, the only supported formats are `"data.table"` and `"Matrix"`.
+    #' Returns a slice of the data as `"data.table"`.
     #' The rows must be addressed as vector of primary key values, columns must be referred to via column names.
     #' Queries for rows with no matching row id and queries for columns with no matching column name are silently ignored.
     #' Rows are guaranteed to be returned in the same order as `rows`, columns may be returned in an arbitrary order.

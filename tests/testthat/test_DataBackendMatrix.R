@@ -78,7 +78,7 @@ test_that("task argument 'format' is passed down", {
   b = as_data_backend(td)
   b$colnames
   task = TaskRegr$new("regr_task", b, target = "y")
-  expect_data_table(task$data(data_format = "data.table"))
+  expect_data_table(task$data())
 })
 
 test_that("learners can request sparse data format", {

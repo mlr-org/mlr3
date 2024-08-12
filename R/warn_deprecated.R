@@ -55,7 +55,11 @@ deprecated_binding = function(what, value) {
   assert_string(what)
   # build the function-expression that should be evaluated in the parent frame.
   fnq = substitute(function(rhs) {
-      warn_deprecated(what)
+      # don't throw a warning if we are converting the R6-object to a list, e.g.
+      # when all.equals()-ing it.
+      if (!identical(sys.call(-1)[[1]], quote(as.list.environment))) {
+        warn_deprecated(what)
+      }
       ## 'value' could be an expression that gets substituted here, which we only want to evaluate once
       x = value
       if (!missing(rhs) && !identical(rhs, x)) {
