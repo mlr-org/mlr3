@@ -1,5 +1,7 @@
 # mlr3 (development version)
 
+* Deprecated `data_format` and `data_formats` for Learners, Tasks, and DataBackends.
+
 # mlr3 0.20.2
 
 * refactor: move RhpcBLASctl to suggest.
