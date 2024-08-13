@@ -22,9 +22,10 @@
 #' @section Weights:
 #'
 #' Many measures support observation weights, indicated by their property `"weights"`.
-#' The weights are stored in the [Task] where a the column role `weights_measure` needs to be assigned to a single numeric column.
+#' The weights are stored in the [Task] where the column role `weights_measure` needs to be assigned to a single numeric column.
 #' To include the weights in the scoring, you additionally have to explicitly set the Measure's hyperparamerter `use_weights` to `TRUE`.
 #' If the measure is set-up to use weights but the task does not have a designated weight column, an unweighted version is calculated instead.
+#' The weights do not necessarily need to sum up to 1, they are normalized by dividing by the sum of weights.
 #'
 #' @template param_id
 #' @template param_param_set

@@ -25,9 +25,10 @@ A guide on how to extend \CRANpkg{mlr3} with custom measures can be found in the
 
 
 Many measures support observation weights, indicated by their property \code{"weights"}.
-The weights are stored in the \link{Task} where a the column role \code{weights_measure} needs to be assigned to a single numeric column.
+The weights are stored in the \link{Task} where the column role \code{weights_measure} needs to be assigned to a single numeric column.
 To include the weights in the scoring, you additionally have to explicitly set the Measure's hyperparamerter \code{use_weights} to \code{TRUE}.
 If the measure is set-up to use weights but the task does not have a designated weight column, an unweighted version is calculated instead.
+The weights do not necessarily need to sum up to 1, they are normalized by dividing by the sum of weights.
 }
 
 \seealso{

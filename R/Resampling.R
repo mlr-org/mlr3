@@ -49,9 +49,10 @@
 #' @section Weights:
 #'
 #' Many resamlings support observation weights, indicated by their property `"weights"`.
-#' The weights are stored in the [Task] where a the column role `weights_resampling` needs to be assigned to a single numeric column.
+#' The weights are stored in the [Task] where the column role `weights_resampling` needs to be assigned to a single numeric column.
 #' To include the weights in the sampling, you additionally have to explicitly set the Resampling's hyperparamerter `use_weights` to `TRUE`.
 #' If the resampling is set-up to use weights but the task does not have a designated weight column, an unweighted version is calculated instead.
+#' The weights do not necessarily need to sum up to 1, they are passed down to argument `prob` of [sample()].
 #'
 #'
 #' @template seealso_resampling
