@@ -11,7 +11,7 @@ The weights used during training by the Learner are renamed to `weights_learner`
 the previous column role `weight` is deprecated.
 
 To use any of the different weights, in addition to assigning a column the respective role
-it is also necessary to enable the use of weights via the new hyperparameter `use_weights`.
+it will also be necessary to explicitly enable the use of weights via the new hyperparameter `use_weights` in the next release.
 Note that this is a breaking change, but explicitly stating the intention to use the weights is the less error-prone solution in the long run.
 
 
