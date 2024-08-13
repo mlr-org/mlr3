@@ -875,7 +875,7 @@
       <text x="5195.1069" xml:space="preserve" y="1763.9189" clip-path="url(#clipPath2)" stroke="none">mlr³inferr</text>
     </g>
     <g font-size="15px" stroke-linecap="butt" transform="matrix(1,0,0,1,-4535,-527)" text-rendering="geometricPrecision" font-family="sans-serif" shape-rendering="geometricPrecision" stroke-miterlimit="1.45">
-      <text x="5137.874" xml:space="preserve" y="1788.5503" clip-path="url(#clipPath2)" stroke="none">Inference on the Generalizatino Error</text>
+      <text x="5137.874" xml:space="preserve" y="1788.5503" clip-path="url(#clipPath2)" stroke="none">Inference on the Generalization Error</text>
     </g>
     <g fill="rgb(236,120,57)" text-rendering="geometricPrecision" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,-4535,-527) translate(5418.3039,1731.8935)" stroke="rgb(236,120,57)">
       <circle r="9.6669" clip-path="url(#clipPath49)" cx="9.6669" cy="9.6669" stroke="none"/>
