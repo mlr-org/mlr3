@@ -31,7 +31,7 @@ msr("regr.mae")
 \section{Parameters}{
 \tabular{llll}{
    Id \tab Type \tab Default \tab Levels \cr
-   use_weights \tab logical \tab - \tab TRUE, FALSE \cr
+   use_weights \tab logical \tab FALSE \tab TRUE, FALSE \cr
 }
 }
 

@@ -130,11 +130,8 @@ Resampling = R6Class("Resampling",
       self$properties = assert_subset(properties, mlr_reflections$resampling_properties)
       self$man = assert_string(man, na.ok = TRUE)
 
-      self$param_set = c(
-        assert_param_set(param_set),
-        ps(use_weights = p_lgl(init = "weights" %in% properties), use_strata = p_lgl(init = TRUE), use_groups = p_lgl(init = TRUE))
-      )
-
+      assert_param_set(param_set)
+      self$param_set = if ("weights" %in% properties) c(param_set, ps(use_weights = p_lgl(default = FALSE))) else param_set
     },
 
     #' @description
@@ -175,25 +172,24 @@ Resampling = R6Class("Resampling",
       task = assert_task(as_task(task))
       strata = task$strata
       groups = task$groups
-      weights = NULL
-
       weights = task$weights_resampling$weight
-      if (!is.null(weights) && !isTRUE(self$param_set$values$use_weights)) {
-        weights = NULL
+
+      use_weights = "weights" %in% self$properties && isTRUE(self$param_set$values$use_weights)
+
+      if (sum(!is.null(strata), !is.null(groups), use_weights) >= 2L) {
+        stopf("Stratification, grouping and weighted resampling are mutually exclusive")
       }
 
       if (is.null(strata)) {
         if (is.null(groups)) {
+          weights = if (use_weights) weights else NULL
           instance = private$.sample(task$row_ids, task = task, weights = weights)
         } else {
           private$.groups = groups
-          instance = private$.sample(unique(groups$group), task = task, weights = weights)
+          instance = private$.sample(unique(groups$group), task = task, weights = NULL)
         }
       } else {
-        if (!is.null(groups)) {
-          stopf("Cannot combine stratification with grouping")
-        }
-        instance = private$.combine(lapply(strata$row_id, private$.sample, task = task, weights = weights))
+        instance = private$.combine(lapply(strata$row_id, private$.sample, task = task, weights = NULL))
       }
 
       private$.hash = NULL

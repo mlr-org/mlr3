@@ -232,7 +232,7 @@ Measure = R6Class("Measure",
         private$.properties = assert_subset(rhs, mlr_reflections$measure_properties[[self$task_type]])
       } else {
         properties = private$.properties
-        if ("requires_task" %nin% properties && "weights" %in% properties && self$param_set$values$use_weights) {
+        if ("requires_task" %nin% properties && "weights" %in% properties && isTRUE(self$param_set$values$use_weights)) {
           properties = c(properties, "requires_task")
         }
         properties

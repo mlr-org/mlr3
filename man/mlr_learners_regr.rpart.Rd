@@ -53,7 +53,7 @@ lrn("regr.rpart")
    surrogatestyle \tab integer \tab 0 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
    usesurrogate \tab integer \tab 2 \tab  \tab \eqn{[0, 2]}{[0, 2]} \cr
    xval \tab integer \tab 10 \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
-   use_weights \tab logical \tab - \tab TRUE, FALSE \tab - \cr
+   use_weights \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
 }
 }
 

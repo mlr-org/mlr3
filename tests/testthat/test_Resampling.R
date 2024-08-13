@@ -151,22 +151,21 @@ test_that("resampling weights", {
   task = tsk("mtcars")
   task$cbind(data.table(w = c(100, rep(1, 31))))
   task$set_col_roles("w", "weights_resampling")
-  r = rsmp("bootstrap")
+  r = rsmp("bootstrap", use_weights = TRUE)
   r$instantiate(task)
   expect_true(sum(r$train_set(1) == 1) >= 8)
 
   task = tsk("mtcars")
   task$cbind(data.table(w = c(rep(1000, 16), rep(1, 16))))
   task$set_col_roles("w", "weights_resampling")
-  r = rsmp("holdout", ratio = 0.5)
+  r = rsmp("holdout", ratio = 0.5, use_weights = TRUE)
   r$instantiate(task)
-  r$instance
+  expect_true(sum(r$instance$train <= 16) > 12)
 
   task = tsk("mtcars")
   task$cbind(data.table(w = c(rep(1000, 16), rep(1, 16))))
   task$set_col_roles("w", "weights_resampling")
-  r = rsmp("subsampling", ratio = 0.5)
+  r = rsmp("subsampling", ratio = 0.5, use_weights = TRUE)
   r$instantiate(task)
-  r$instance
+  expect_gte(sum(unlist(r$instance$train) <= 16), 30 * 16 * 0.8)
 })
-

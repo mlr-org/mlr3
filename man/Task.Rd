@@ -191,7 +191,7 @@ The following properties are currently standardized and understood by tasks in \
 \item \code{"groups"}: The task comes with grouping/blocking information (role \code{"group"}).
 \item \code{"weights_trainin"}: The task comes with observation weights to be used during training in the \link{Learner} (role \code{"weights_training"}).
 \item \code{"weights_measure"}: The task comes with observation weights to be used during scoring in the \link{Measure} (role \code{"weights_training"}).
-\item \code{"weights_resampling"}: The task comes with observation weights to be used during samling observations in the \link{Resampling} (role \code{"weights_resampling"}).
+\item \code{"weights_resampling"}: The task comes with observation weights to be used during samling observations in the \link{Resampling} (role \code{"weights_training"}).
 }
 
 Note that above listed properties are calculated from the \verb{$col_roles} and may not be set explicitly.}

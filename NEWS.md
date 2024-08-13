@@ -1,6 +1,6 @@
 # mlr3 (development version)
 
-## Task weights
+## More weights
 
 It is now possible to use weights also during scoring predictions via measures
 and during resampling to sample observations with unequal probability.
@@ -10,12 +10,9 @@ The weights must be stored in the task and can be assigned the column role
 The weights used during training by the Learner are renamed to `weights_train`,
 the previous column role `weight` is deprecated.
 
-Additionally, the use of the weights can now be controlled with the new hyperparameter `use_weights`
-introduced in the `Learner`, `Measure`, and `Resampling`. Per default, Learners
-automatically use weights if they are set in the task, while the use of weights
-has to be enabled explicitly for measures and resamplings.
-
-FIXME: discuss defaults and change accordingly
+To use any of the different weights, in addition to assigning a column the respective role
+it is also necessary to enable the use of weights via the new hyperparameter `use_weights`.
+Note that this is a breaking change, but explicitly stating the intention to use the weights is the less error-prone solution in the long run.
 
 
 # mlr3 0.20.2

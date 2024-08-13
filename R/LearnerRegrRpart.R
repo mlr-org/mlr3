@@ -36,7 +36,7 @@ LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
         surrogatestyle = p_int(0L, 1L, default = 0L, tags = "train"),
         usesurrogate   = p_int(0L, 2L, default = 2L, tags = "train"),
         xval           = p_int(0L, default = 10L, init = 0L, tags = "train"),
-        use_weights    = p_lgl(init = FALSE, tags = "train")
+        use_weights    = p_lgl(default = FALSE, tags = "train")
       )
 
       super$initialize(

@@ -40,7 +40,7 @@ test_that("selected_features", {
 test_that("weights", {
   task = TaskClassif$new("foo", as_data_backend(cbind(iris, data.frame(w = rep(c(1, 10, 100), each = 50)))), target = "Species")
   task$set_col_roles("w", character())
-  learner = lrn("classif.rpart")
+  learner = lrn("classif.rpart", use_weights = TRUE)
 
   learner$train(task)
   c1 = learner$predict(task)$confusion

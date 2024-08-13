@@ -871,7 +871,7 @@ Task = R6Class("Task",
     #' * `"groups"`: The task comes with grouping/blocking information (role `"group"`).
     #' * `"weights_trainin"`: The task comes with observation weights to be used during training in the [Learner] (role `"weights_training"`).
     #' * `"weights_measure"`: The task comes with observation weights to be used during scoring in the [Measure] (role `"weights_training"`).
-    #' * `"weights_resampling"`: The task comes with observation weights to be used during samling observations in the [Resampling] (role `"weights_resampling"`).
+    #' * `"weights_resampling"`: The task comes with observation weights to be used during samling observations in the [Resampling] (role `"weights_training"`).
     #'
     #' Note that above listed properties are calculated from the `$col_roles` and may not be set explicitly.
     properties = function(rhs) {
