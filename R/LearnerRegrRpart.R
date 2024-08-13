@@ -78,10 +78,7 @@ LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
     .train = function(task) {
       pv = self$param_set$get_values(tags = "train")
       names(pv) = replace(names(pv), names(pv) == "keep_model", "model")
-      if ("weights_learner" %in% task$properties && isTRUE(pv$use_weights)) {
-        pv = insert_named(pv, list(weights = task$weights_learner$weight))
-      }
-
+      pv$weights = get_weights(task, pv)
       pv = remove_named(pv, "use_weights")
       invoke(rpart::rpart, formula = task$formula(), data = task$data(), .args = pv, .opts = allow_partial_matching)
     },
