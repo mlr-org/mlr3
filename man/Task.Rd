@@ -189,12 +189,15 @@ The following properties are currently standardized and understood by tasks in \
 \itemize{
 \item \code{"strata"}: The task is resampled using one or more stratification variables (role \code{"stratum"}).
 \item \code{"groups"}: The task comes with grouping/blocking information (role \code{"group"}).
-\item \code{"weights_trainin"}: The task comes with observation weights to be used during training in the \link{Learner} (role \code{"weights_training"}).
+\item \code{"weights_training"}: The task comes with observation weights to be used during training in the \link{Learner} (role \code{"weights_training"}).
+The weights are only used if the learner's hyperparameter \code{use_weights} is set to \code{TRUE}.
 \item \code{"weights_measure"}: The task comes with observation weights to be used during scoring in the \link{Measure} (role \code{"weights_training"}).
+The weights are only used if the measure's hyperparameter \code{use_weights} is set to \code{TRUE}.
 \item \code{"weights_resampling"}: The task comes with observation weights to be used during samling observations in the \link{Resampling} (role \code{"weights_training"}).
+The weights are only used if the resampling's hyperparameter \code{use_weights} is set to \code{TRUE}.
 }
 
-Note that above listed properties are calculated from the \verb{$col_roles} and may not be set explicitly.}
+Note that above listed properties are calculated from the \verb{$col_roles}, and may not be set explicitly.}
 
 \item{\code{row_roles}}{(named \code{list()})\cr
 Each row (observation) can have an arbitrary number of roles in the learning task:
@@ -218,18 +221,21 @@ Columns must be sortable with \code{\link[=order]{order()}}.
 For each resampling iteration, observations of the same group will be exclusively assigned to be either in the training set or in the test set.
 Not more than a single column can be associated with this role.
 \item \code{"stratum"}: Stratification variables. Multiple discrete columns may have this role.
-\item \code{"weights_train"}: Observation weights to be used during training by the \link{Learner} (learner has property "weights").
-If the learner does not support weights, these weights are silently ignored.
-\item \code{"weights_measure"}: Observation weights to be used during scoring the predictions by the \link{Measure} (measure has property "weights").
-If the measure does not support weights, these weights are silently ignored.
-\item \code{"weights_resampling"}: Observation weights to be used to sample observations by the \link{Resampling} (resampling has property "weights").
-If the resampling does not support weights, these weights are silently ignored.
-\item \code{"weight"}: Deprecated, previous name for "weights_train".
+\item \code{"weights_train"}: Observation weights to be used during training by the \link{Learner}.
+In order for them to be used, the learner's hyperparameter \code{use_weights} needs to be explicitly set to \code{TRUE}.
+\item \code{"weights_measure"}: Observation weights to be used during scoring the predictions by the \link{Measure}.
+In order for them to be used, the measure's hyperparameter \code{use_weights} needs to be explicitly set to \code{TRUE}.
+\item \code{"weights_resampling"}: Observation weights to be used to sample observations by the \link{Resampling}.
+In order for them to be used, the resampling's hyperparameter \code{use_weights} needs to be explicitly set to \code{TRUE}.
 }
 
 \code{col_roles} is a named list whose elements are named by column role and each element is a \code{character()} vector of column names.
 To alter the roles, just modify the list, e.g. with \R's set functions (\code{\link[=intersect]{intersect()}}, \code{\link[=setdiff]{setdiff()}}, \code{\link[=union]{union()}}, \ldots).
-The method \verb{$set_col_roles} provides a convenient alternative to assign columns to roles.}
+The method \verb{$set_col_roles} provides a convenient alternative to assign columns to roles.
+
+The roles \code{weights_train}, \code{weights_measure} and \code{weights_resampling} may only point to a single numeric column, but they can
+all point to the same column. Weights must be non-negative numerics with at least one weight being > 0.
+They don't necessarily need to sum up to 1.}
 
 \item{\code{nrow}}{(\code{integer(1)})\cr
 Returns the total number of rows with role "use".}
@@ -277,37 +283,37 @@ If the task has at least one column with designated role \code{"order"}, a table
 Returns \code{NULL} if there are is no order column.}
 
 \item{\code{weights}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
-If the task has a column with designated role \code{"weight"}, a table with two columns:
-\itemize{
-\item \code{row_id} (\code{integer()}), and
-\item observation weights \code{weight} (\code{numeric()}).
-}
-
-Returns \code{NULL} if there are is no weight column.}
+Deprecated, use \verb{$weights_train} instead.}
 
 \item{\code{weights_train}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
 Returns the observation weights used for training a \link{Learner} (column role \code{weights_train})
-or \code{NULL} for no weights.
+as a \code{data.table} with the following columns:
 \itemize{
 \item \code{row_id} (\code{integer()}), and
 \item \code{weight} (\code{numeric()}).
-}}
+}
+
+Returns \code{NULL} if there are is no column with the designated role.}
 
 \item{\code{weights_measure}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
-Returns the observation weights used for scoring with a \link{Measure} (column role \code{weights_measure})
-or \code{NULL} for no weights.
+Returns the observation weights used for scoring a prediction with a \link{Measure} (column role \code{weights_measure})
+as a \code{data.table} with the following columns:
 \itemize{
 \item \code{row_id} (\code{integer()}), and
 \item \code{weight} (\code{numeric()}).
-}}
+}
+
+Returns \code{NULL} if there are is no column with the designated role.}
 
 \item{\code{weights_resampling}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
-Returns the observation weights used for resampling (column role \code{weights_resampling})
-or \code{NULL} for no weights.
+Returns the observation weights used for sampling during a \link{Resampling} (column role \code{weights_resampling})
+as a \code{data.table} with the following columns:
 \itemize{
 \item \code{row_id} (\code{integer()}), and
 \item \code{weight} (\code{numeric()}).
-}}
+}
+
+Returns \code{NULL} if there are is no column with the designated role.}
 
 \item{\code{labels}}{(named \code{character()})\cr
 Retrieve \code{labels} (prettier formated names) from columns.

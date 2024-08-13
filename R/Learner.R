@@ -69,6 +69,13 @@
 #'   Only available for [`Learner`]s with the `"internal_tuning"` property.
 #'   If the learner is not trained yet, this returns `NULL`.
 #'
+#' @section Weights:
+#'
+#' Many learners support observation weights, indicated by their property `"weights"`.
+#' The weights are stored in the [Task] where a the column role `weights_train` needs to be assigned to a single numeric column.
+#' To include the weights in the training, you additionally have to explicitly set the Learner's hyperparamerter `use_weights` to `TRUE`.
+#' If the learner is set-up to use weights but the task does not have a designated weight column, an unweighted version is calculated instead.
+#'
 #' @section Setting Hyperparameters:
 #'
 #' All information about hyperparameters is stored in the slot `param_set` which is a [paradox::ParamSet].

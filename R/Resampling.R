@@ -46,6 +46,13 @@
 #' Next, the grouping information is replaced with the respective row ids to generate training and test sets.
 #' The sets can be accessed via `$train_set(i)` and `$test_set(i)`, respectively.
 #'
+#' @section Weights:
+#'
+#' Many resamlings support observation weights, indicated by their property `"weights"`.
+#' The weights are stored in the [Task] where a the column role `weights_resampling` needs to be assigned to a single numeric column.
+#' To include the weights in the sampling, you additionally have to explicitly set the Resampling's hyperparamerter `use_weights` to `TRUE`.
+#' If the resampling is set-up to use weights but the task does not have a designated weight column, an unweighted version is calculated instead.
+#'
 #'
 #' @template seealso_resampling
 #' @export

@@ -15,6 +15,8 @@
 #'   Number of repetitions.
 #' * `ratio` (`numeric(1)`)\cr
 #'   Ratio of observations to put into the training set.
+#' * `use_weights` (`logical(1)`)\cr
+#'   Incorporate observation weights of the [Task] (column role `weights_resampling`), if present.
 #'
 #' @references
 #' `r format_bib("bischl_2012")`

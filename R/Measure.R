@@ -19,6 +19,13 @@
 #'
 #' A guide on how to extend \CRANpkg{mlr3} with custom measures can be found in the [mlr3book](https://mlr3book.mlr-org.com).
 #'
+#' @section Weights:
+#'
+#' Many measures support observation weights, indicated by their property `"weights"`.
+#' The weights are stored in the [Task] where a the column role `weights_measure` needs to be assigned to a single numeric column.
+#' To include the weights in the scoring, you additionally have to explicitly set the Measure's hyperparamerter `use_weights` to `TRUE`.
+#' If the measure is set-up to use weights but the task does not have a designated weight column, an unweighted version is calculated instead.
+#'
 #' @template param_id
 #' @template param_param_set
 #' @template param_range

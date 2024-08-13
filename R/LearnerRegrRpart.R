@@ -8,6 +8,7 @@
 #'
 #' @section Initial parameter values:
 #' * Parameter `xval` is initialized to 0 in order to save some computation time.
+#' * Parameter `use_weights` determines if observation weights of the [Task] (column role `weights_train`) is used, if present.
 #'
 #' @section Custom mlr3 parameters:
 #' * Parameter `model` has been renamed to `keep_model`.

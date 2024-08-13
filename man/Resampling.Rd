@@ -46,6 +46,15 @@ Next, the grouping information is replaced with the respective row ids to genera
 The sets can be accessed via \verb{$train_set(i)} and \verb{$test_set(i)}, respectively.
 }
 
+\section{Weights}{
+
+
+Many resamlings support observation weights, indicated by their property \code{"weights"}.
+The weights are stored in the \link{Task} where a the column role \code{weights_resampling} needs to be assigned to a single numeric column.
+To include the weights in the sampling, you additionally have to explicitly set the Resampling's hyperparamerter \code{use_weights} to \code{TRUE}.
+If the resampling is set-up to use weights but the task does not have a designated weight column, an unweighted version is calculated instead.
+}
+
 \examples{
 r = rsmp("subsampling")
 
