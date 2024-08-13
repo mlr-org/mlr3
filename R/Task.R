@@ -869,11 +869,11 @@ Task = R6Class("Task",
     #'
     #' * `"strata"`: The task is resampled using one or more stratification variables (role `"stratum"`).
     #' * `"groups"`: The task comes with grouping/blocking information (role `"group"`).
-    #' * `"weights_training"`: The task comes with observation weights to be used during training in the [Learner] (role `"weights_training"`).
+    #' * `"weights_learnering"`: The task comes with observation weights to be used during training in the [Learner] (role `"weights_learnering"`).
     #'    The weights are only used if the learner's hyperparameter `use_weights` is set to `TRUE`.
-    #' * `"weights_measure"`: The task comes with observation weights to be used during scoring in the [Measure] (role `"weights_training"`).
+    #' * `"weights_measure"`: The task comes with observation weights to be used during scoring in the [Measure] (role `"weights_learnering"`).
     #'    The weights are only used if the measure's hyperparameter `use_weights` is set to `TRUE`.
-    #' * `"weights_resampling"`: The task comes with observation weights to be used during samling observations in the [Resampling] (role `"weights_training"`).
+    #' * `"weights_resampling"`: The task comes with observation weights to be used during samling observations in the [Resampling] (role `"weights_learnering"`).
     #'    The weights are only used if the resampling's hyperparameter `use_weights` is set to `TRUE`.
     #'
     #' Note that above listed properties are calculated from the `$col_roles`, and may not be set explicitly.
@@ -884,7 +884,7 @@ Task = R6Class("Task",
           private$.properties,
           if (length(col_roles$group)) "groups" else NULL,
           if (length(col_roles$stratum)) "strata" else NULL,
-          if (length(col_roles$weights_train)) c("weights", "weights_train") else NULL,
+          if (length(col_roles$weights_learner)) c("weights", "weights_learner") else NULL,
           if (length(col_roles$weights_measure)) "weights_measure" else NULL,
           if (length(col_roles$weights_resampling)) "weights_resampling" else NULL
         )
@@ -929,7 +929,7 @@ Task = R6Class("Task",
     #'   For each resampling iteration, observations of the same group will be exclusively assigned to be either in the training set or in the test set.
     #'   Not more than a single column can be associated with this role.
     #' * `"stratum"`: Stratification variables. Multiple discrete columns may have this role.
-    #' * `"weights_train"`: Observation weights to be used during training by the [Learner].
+    #' * `"weights_learner"`: Observation weights to be used during training by the [Learner].
     #'   In order for them to be used, the learner's hyperparameter `use_weights` needs to be explicitly set to `TRUE`.
     #' * `"weights_measure"`: Observation weights to be used during scoring the predictions by the [Measure].
     #'   In order for them to be used, the measure's hyperparameter `use_weights` needs to be explicitly set to `TRUE`.
@@ -940,7 +940,7 @@ Task = R6Class("Task",
     #' To alter the roles, just modify the list, e.g. with \R's set functions ([intersect()], [setdiff()], [union()], \ldots).
     #' The method `$set_col_roles` provides a convenient alternative to assign columns to roles.
     #'
-    #' The roles `weights_train`, `weights_measure` and `weights_resampling` may only point to a single numeric column, but they can
+    #' The roles `weights_learner`, `weights_measure` and `weights_resampling` may only point to a single numeric column, but they can
     #' all point to the same column. Weights must be non-negative numerics with at least one weight being > 0.
     #' They don't necessarily need to sum up to 1.
     col_roles = function(rhs) {
@@ -1058,24 +1058,24 @@ Task = R6Class("Task",
     },
 
     #' @field weights ([data.table::data.table()])\cr
-    #' Deprecated, use `$weights_train` instead.
+    #' Deprecated, use `$weights_learner` instead.
     weights = function(rhs) {
       assert_ro_binding(rhs)
-      self$weights_train
+      self$weights_learner
     },
 
-    #' @field weights_train ([data.table::data.table()])\cr
-    #' Returns the observation weights used for training a [Learner] (column role `weights_train`)
+    #' @field weights_learner ([data.table::data.table()])\cr
+    #' Returns the observation weights used for training a [Learner] (column role `weights_learner`)
     #' as a `data.table` with the following columns:
     #'
     #' * `row_id` (`integer()`), and
     #' * `weight` (`numeric()`).
     #'
     #' Returns `NULL` if there are is no column with the designated role.
-    weights_train = function(rhs) {
+    weights_learner = function(rhs) {
       assert_has_backend(self)
       assert_ro_binding(rhs)
-      weight_cols = private$.col_roles[["weights_train"]]
+      weight_cols = private$.col_roles[["weights_learner"]]
       if (length(weight_cols) == 0L) {
         return(NULL)
       }
@@ -1213,15 +1213,15 @@ task_set_roles = function(li, cols, roles = NULL, add_to = NULL, remove_from = N
 
 task_check_col_roles = function(self, new_roles) {
   if (length(new_roles[["weight"]])) {
-    # .Deprecated(new = "weights_train", msg = "Column role 'weight' have been deprecated in favor of 'weights_train', 'weights_measure' and 'weights_resampling'")
-    if (length(new_roles[["weights_train"]])) {
-      stopf("Both deprecated column role 'weight' and its replacement 'weights_train' have benn provided")
+    # .Deprecated(new = "weights_learner", msg = "Column role 'weight' have been deprecated in favor of 'weights_learner', 'weights_measure' and 'weights_resampling'")
+    if (length(new_roles[["weights_learner"]])) {
+      stopf("Both deprecated column role 'weight' and its replacement 'weights_learner' have benn provided")
     }
-    new_roles$weights_train = new_roles$weight
+    new_roles$weights_learner = new_roles$weight
     new_roles$weight = NULL
   }
 
-  for (role in c("group", "name", "weights_train", "weights_measure", "weights_resampling")) {
+  for (role in c("group", "name", "weights_learner", "weights_measure", "weights_resampling")) {
     if (length(new_roles[[role]]) > 1L) {
       stopf("There may only be up to one column with role '%s'", role)
     }

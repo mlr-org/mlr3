@@ -8,7 +8,7 @@
 #'
 #' @section Initial parameter values:
 #' * Parameter `xval` is initialized to 0 in order to save some computation time.
-#' * Parameter `use_weights` determines if observation weights of the [Task] (column role `weights_train`) is used, if present.
+#' * Parameter `use_weights` determines if observation weights with column role `weights_learner` are used, if present.
 #'
 #' @section Custom mlr3 parameters:
 #' * Parameter `model` has been renamed to `keep_model`.
@@ -77,8 +77,8 @@ LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
   private = list(
     .train = function(task) {
       pv = self$param_set$get_values(tags = "train")
-      if ("weights_train" %in% task$properties && isTRUE(pv$use_weights)) {
-        pv = insert_named(pv, list(weights = task$weights_train$weight))
+      if ("weights_learner" %in% task$properties && isTRUE(pv$use_weights)) {
+        pv = insert_named(pv, list(weights = task$weights_learner$weight))
       }
 
       names(pv) = replace(names(pv), names(pv) == "keep_model", "model")

@@ -51,11 +51,11 @@ generate_generic_tasks = function(learner, proto) {
   }
 
   # task with weights
-  if ("weights_train" %in% learner$properties) {
+  if ("weights_learner" %in% learner$properties) {
     tmp = proto$clone(deep = TRUE)$cbind(data.frame(weights = runif(n)))
-    tmp$col_roles$weights_train = "weights"
+    tmp$col_roles$weights_learner = "weights"
     tmp$col_roles$features = setdiff(tmp$col_roles$features, "weights")
-    tasks$weights_train = tmp
+    tasks$weights_learner = tmp
   }
 
   # task with non-ascii feature names

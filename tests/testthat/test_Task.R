@@ -240,17 +240,17 @@ test_that("groups/weights work", {
 
   expect_false("groups" %in% task$properties)
   expect_false("weights" %in% task$properties)
-  expect_false("weights_train" %in% task$properties)
+  expect_false("weights_learner" %in% task$properties)
   expect_null(task$groups)
-  expect_null(task$weights_train)
+  expect_null(task$weights_learner)
 
-  task$col_roles$weights_train = "w"
-  expect_subset("weights_train", task$properties)
-  expect_data_table(task$weights_train, ncols = 2, nrows = 15)
-  expect_numeric(task$weights_train$weight, any.missing = FALSE)
+  task$col_roles$weights_learner = "w"
+  expect_subset("weights_learner", task$properties)
+  expect_data_table(task$weights_learner, ncols = 2, nrows = 15)
+  expect_numeric(task$weights_learner$weight, any.missing = FALSE)
 
-  task$col_roles$weights_train = character()
-  expect_true("weights_train" %nin% task$properties)
+  task$col_roles$weights_learner = character()
+  expect_true("weights_learner" %nin% task$properties)
 
   task$col_roles$group = "g"
   expect_subset("groups", task$properties)
@@ -261,7 +261,7 @@ test_that("groups/weights work", {
   expect_true("groups" %nin% task$properties)
 
   expect_error({
-    task$col_roles$weights_train = c("w", "g")
+    task$col_roles$weights_learner = c("w", "g")
   }, "up to one")
 })
 
@@ -404,12 +404,12 @@ test_that("Task$set_col_roles", {
   task$set_col_roles("age", roles = "weight")
   expect_equal(task$n_features, 7L)
   expect_true("age" %nin% task$feature_names)
-  expect_data_table(task$weights_train)
+  expect_data_table(task$weights_learner)
 
-  task$set_col_roles("age", add_to = "feature", remove_from = "weights_train")
+  task$set_col_roles("age", add_to = "feature", remove_from = "weights_learner")
   expect_equal(task$n_features, 8L)
   expect_true("age" %in% task$feature_names)
-  expect_null(task$weights_train)
+  expect_null(task$weights_learner)
 })
 
 test_that("$add_strata", {
@@ -513,7 +513,7 @@ test_that("head/tail", {
 
 test_that("Roles get printed (#877)", {
   task = tsk("iris")
-  task$col_roles$weights_train = "Petal.Width"
+  task$col_roles$weights_learner = "Petal.Width"
   expect_output(print(task), "Weights/Training: Petal.Width")
 })
 
@@ -617,21 +617,21 @@ test_that("divide requires ids to be row_ids", {
 })
 
 test_that("task weights", {
-  # proper deprecation of rename weights -> weights_train
+  # proper deprecation of rename weights -> weights_learner
   task = tsk("mtcars")
   task$cbind(data.table(w = runif(32)))
   expect_null(task$weights)
-  expect_null(task$weights_train)
-  expect_disjunct(c("weights", "weights_train", "weights_measure", "weights_resampling"), task$properties)
+  expect_null(task$weights_learner)
+  expect_disjunct(c("weights", "weights_learner", "weights_measure", "weights_resampling"), task$properties)
 
   task$set_col_roles("w", "weight")
   expect_data_table(task$weights)
-  expect_equal(task$weights, task$weights_train)
-  expect_subset(c("weights", "weights_train"), task$properties)
+  expect_equal(task$weights, task$weights_learner)
+  expect_subset(c("weights", "weights_learner"), task$properties)
 
-  task$set_col_roles("w", "weights_train")
+  task$set_col_roles("w", "weights_learner")
   expect_data_table(task$weights)
-  expect_equal(task$weights, task$weights_train)
-  expect_subset(c("weights", "weights_train"), task$properties)
+  expect_equal(task$weights, task$weights_learner)
+  expect_subset(c("weights", "weights_learner"), task$properties)
 })
 

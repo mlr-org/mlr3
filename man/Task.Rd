@@ -189,11 +189,11 @@ The following properties are currently standardized and understood by tasks in \
 \itemize{
 \item \code{"strata"}: The task is resampled using one or more stratification variables (role \code{"stratum"}).
 \item \code{"groups"}: The task comes with grouping/blocking information (role \code{"group"}).
-\item \code{"weights_training"}: The task comes with observation weights to be used during training in the \link{Learner} (role \code{"weights_training"}).
+\item \code{"weights_learnering"}: The task comes with observation weights to be used during training in the \link{Learner} (role \code{"weights_learnering"}).
 The weights are only used if the learner's hyperparameter \code{use_weights} is set to \code{TRUE}.
-\item \code{"weights_measure"}: The task comes with observation weights to be used during scoring in the \link{Measure} (role \code{"weights_training"}).
+\item \code{"weights_measure"}: The task comes with observation weights to be used during scoring in the \link{Measure} (role \code{"weights_learnering"}).
 The weights are only used if the measure's hyperparameter \code{use_weights} is set to \code{TRUE}.
-\item \code{"weights_resampling"}: The task comes with observation weights to be used during samling observations in the \link{Resampling} (role \code{"weights_training"}).
+\item \code{"weights_resampling"}: The task comes with observation weights to be used during samling observations in the \link{Resampling} (role \code{"weights_learnering"}).
 The weights are only used if the resampling's hyperparameter \code{use_weights} is set to \code{TRUE}.
 }
 
@@ -221,7 +221,7 @@ Columns must be sortable with \code{\link[=order]{order()}}.
 For each resampling iteration, observations of the same group will be exclusively assigned to be either in the training set or in the test set.
 Not more than a single column can be associated with this role.
 \item \code{"stratum"}: Stratification variables. Multiple discrete columns may have this role.
-\item \code{"weights_train"}: Observation weights to be used during training by the \link{Learner}.
+\item \code{"weights_learner"}: Observation weights to be used during training by the \link{Learner}.
 In order for them to be used, the learner's hyperparameter \code{use_weights} needs to be explicitly set to \code{TRUE}.
 \item \code{"weights_measure"}: Observation weights to be used during scoring the predictions by the \link{Measure}.
 In order for them to be used, the measure's hyperparameter \code{use_weights} needs to be explicitly set to \code{TRUE}.
@@ -233,7 +233,7 @@ In order for them to be used, the resampling's hyperparameter \code{use_weights}
 To alter the roles, just modify the list, e.g. with \R's set functions (\code{\link[=intersect]{intersect()}}, \code{\link[=setdiff]{setdiff()}}, \code{\link[=union]{union()}}, \ldots).
 The method \verb{$set_col_roles} provides a convenient alternative to assign columns to roles.
 
-The roles \code{weights_train}, \code{weights_measure} and \code{weights_resampling} may only point to a single numeric column, but they can
+The roles \code{weights_learner}, \code{weights_measure} and \code{weights_resampling} may only point to a single numeric column, but they can
 all point to the same column. Weights must be non-negative numerics with at least one weight being > 0.
 They don't necessarily need to sum up to 1.}
 
@@ -283,10 +283,10 @@ If the task has at least one column with designated role \code{"order"}, a table
 Returns \code{NULL} if there are is no order column.}
 
 \item{\code{weights}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
-Deprecated, use \verb{$weights_train} instead.}
+Deprecated, use \verb{$weights_learner} instead.}
 
-\item{\code{weights_train}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
-Returns the observation weights used for training a \link{Learner} (column role \code{weights_train})
+\item{\code{weights_learner}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
+Returns the observation weights used for training a \link{Learner} (column role \code{weights_learner})
 as a \code{data.table} with the following columns:
 \itemize{
 \item \code{row_id} (\code{integer()}), and

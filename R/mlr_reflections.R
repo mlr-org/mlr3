@@ -101,7 +101,7 @@ local({
     "use"
   )
 
-  tmp = c("feature", "target", "name", "order", "stratum", "group", "weight", "weights_train", "weights_measure", "weights_resampling")
+  tmp = c("feature", "target", "name", "order", "stratum", "group", "weight", "weights_learner", "weights_measure", "weights_resampling")
   mlr_reflections$task_col_roles = list(
     regr = tmp,
     classif = tmp,
@@ -121,7 +121,7 @@ local({
 
   mlr_reflections$task_print_col_roles = list(
     before = character(),
-    after = c("Order by" = "order", "Strata" = "stratum", "Groups" = "group", "Weights/Training" = "weights_train", "Weights/Measure" = "weights_measure", "Weights/Resampling" = "weights_resampling")
+    after = c("Order by" = "order", "Strata" = "stratum", "Groups" = "group", "Weights/Learner" = "weights_learner", "Weights/Measure" = "weights_measure", "Weights/Resampling" = "weights_resampling")
   )
 
   ### Learner
