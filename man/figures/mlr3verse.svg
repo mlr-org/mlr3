@@ -165,13 +165,13 @@
               <path d="M-518.3687 -1204.7867 L1814.6313 -1204.7867 L1814.6313 111.2133 L-518.3687 111.2133 L-518.3687 -1204.7867 Z"/>
             </clipPath>
             <clipPath clipPathUnits="userSpaceOnUse" id="clipPath47">
-              <path d="M-5460.8975 -10105.8809 L14136.3027 -10105.8809 L14136.3027 948.5195 L-5460.8975 948.5195 L-5460.8975 -10105.8809 Z"/>
+              <path d="M-5506.3652 -10105.8809 L14090.835 -10105.8809 L14090.835 948.5195 L-5506.3652 948.5195 L-5506.3652 -10105.8809 Z"/>
             </clipPath>
             <clipPath clipPathUnits="userSpaceOnUse" id="clipPath48">
-              <path d="M-5470.1289 -10122.9639 L14160.1992 -10122.9639 L14160.1992 950.123 L-5470.1289 950.123 L-5470.1289 -10122.9639 Z"/>
+              <path d="M-5515.6738 -10122.9639 L14114.6543 -10122.9639 L14114.6543 950.123 L-5515.6738 950.123 L-5515.6738 -10122.9639 Z"/>
             </clipPath>
             <clipPath clipPathUnits="userSpaceOnUse" id="clipPath49">
-              <path d="M-883.3039 -1204.8936 L1449.696 -1204.8936 L1449.696 111.1065 L-883.3039 111.1065 L-883.3039 -1204.8936 Z"/>
+              <path d="M-883.5409 -1204.8936 L1449.4591 -1204.8936 L1449.4591 111.1065 L-883.5409 111.1065 L-883.5409 -1204.8936 Z"/>
             </clipPath>
             <clipPath clipPathUnits="userSpaceOnUse" id="clipPath50">
               <path d="M-11442.6416 -5599.7842 L8154.5591 -5599.7842 L8154.5591 5454.6157 L-11442.6416 5454.6157 L-11442.6416 -5599.7842 Z"/>
@@ -847,12 +847,12 @@
       <circle r="9.6669" clip-path="url(#clipPath46)" cx="9.6669" cy="9.6669" stroke="none"/>
     </g>
     <g fill="rgb(255,201,131)" text-rendering="geometricPrecision" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,-4535,-527)" stroke="rgb(255,201,131)">
-      <rect x="5100.0928" y="1724.081" clip-path="url(#clipPath2)" width="344.7571" rx="4" ry="4" height="73.6334" stroke="none"/>
+      <rect x="5110.9185" y="1724.081" clip-path="url(#clipPath2)" width="333.9315" rx="4" ry="4" height="73.6334" stroke="none"/>
     </g>
     <g stroke-linecap="butt" transform="matrix(1,0,0,1,-4535,-527)" fill="rgb(9,100,143)" text-rendering="geometricPrecision" shape-rendering="geometricPrecision" stroke="rgb(9,100,143)" stroke-width="4" stroke-miterlimit="1.45">
-      <rect x="5100.0928" y="1724.081" clip-path="url(#clipPath2)" fill="none" width="344.7571" rx="4" ry="4" height="73.6334"/>
+      <rect x="5110.9185" y="1724.081" clip-path="url(#clipPath2)" fill="none" width="333.9315" rx="4" ry="4" height="73.6334"/>
     </g>
-    <g fill="rgb(9,100,143)" text-rendering="geometricPrecision" shape-rendering="geometricPrecision" transform="matrix(0.1188,0,0,0.1188,650.1069,1203.081)" stroke="rgb(9,100,143)">
+    <g fill="rgb(9,100,143)" text-rendering="geometricPrecision" shape-rendering="geometricPrecision" transform="matrix(0.1188,0,0,0.1188,655.5197,1203.081)" stroke="rgb(9,100,143)">
       <g clip-path="url(#clipPath48)">
         <svg xmlns:svg="http://www.w3.org/2000/svg" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" opacity="1" writing-mode="lr-tb" stop-color="rgb(0, 0, 0)" shape-rendering="auto" glyph-orientation-horizontal="0deg" color-profile="auto" lighting-color="rgb(255, 255, 255)" color="rgb(0, 0, 0)" font-weight="400" alignment-baseline="auto" font-style="normal" version="1.1" color-interpolation-filters="linearrgb" text-anchor="start" stroke-linecap="butt" color-interpolation="srgb" font-variant="normal" word-spacing="normal" fill-opacity="1" text-rendering="auto" clip-path="none" text-decoration="none" letter-spacing="normal" glyph-orientation-vertical="auto" display="inline" font-size-adjust="none" overflow="hidden" fill="rgb(0, 0, 0)" font-stretch="normal" stroke-dasharray="none" id="svg16.svg6" stroke-miterlimit="4" stop-opacity="1" color-rendering="auto" font-size="12" pointer-events="visiblepainted" mask="none" direction="ltr" baseline-shift="baseline" enable-background="accumulate" fill-rule="nonzero" image-rendering="auto" stroke-dashoffset="0" width="84.141998" marker-end="none" clip="auto" cursor="auto" stroke="none" filter="none" visibility="visible" kerning="auto" stroke-width="1" font-family="&quot;Arial&quot;,&quot;Helvetica&quot;,sans-serif" flood-opacity="1" clip-rule="nonzero" src="none" height="84.141998" unicode-bidi="normal" stroke-linejoin="miter" stroke-opacity="1" flood-color="rgb(0, 0, 0)" dominant-baseline="auto" marker-start="none" marker-mid="none">
             
@@ -872,12 +872,12 @@
       </g>
     </g>
     <g font-size="35px" stroke-linecap="butt" transform="matrix(1,0,0,1,-4535,-527)" text-rendering="geometricPrecision" font-family="sans-serif" shape-rendering="geometricPrecision" stroke-miterlimit="1.45">
-      <text x="5195.1069" xml:space="preserve" y="1763.9189" clip-path="url(#clipPath2)" stroke="none">mlr³inferr</text>
+      <text x="5200.5195" xml:space="preserve" y="1763.9189" clip-path="url(#clipPath2)" stroke="none">mlr³inferr</text>
     </g>
     <g font-size="15px" stroke-linecap="butt" transform="matrix(1,0,0,1,-4535,-527)" text-rendering="geometricPrecision" font-family="sans-serif" shape-rendering="geometricPrecision" stroke-miterlimit="1.45">
-      <text x="5137.874" xml:space="preserve" y="1788.5503" clip-path="url(#clipPath2)" stroke="none">Inference on the Generalization Error</text>
+      <text x="5143.2871" xml:space="preserve" y="1788.5503" clip-path="url(#clipPath2)" stroke="none">Inference on the Generalization Error</text>
     </g>
-    <g fill="rgb(236,120,57)" text-rendering="geometricPrecision" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,-4535,-527) translate(5418.3039,1731.8935)" stroke="rgb(236,120,57)">
+    <g fill="rgb(236,120,57)" text-rendering="geometricPrecision" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,-4535,-527) translate(5418.5409,1731.8935)" stroke="rgb(236,120,57)">
       <circle r="9.6669" clip-path="url(#clipPath49)" cx="9.6669" cy="9.6669" stroke="none"/>
     </g>
     <g font-size="25px" stroke-linecap="butt" transform="matrix(1,0,0,1,-4535,-527)" text-rendering="geometricPrecision" font-family="sans-serif" shape-rendering="geometricPrecision" font-weight="bold" stroke-miterlimit="1.45">
