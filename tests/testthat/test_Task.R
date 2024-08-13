@@ -514,7 +514,7 @@ test_that("head/tail", {
 test_that("Roles get printed (#877)", {
   task = tsk("iris")
   task$col_roles$weights_learner = "Petal.Width"
-  expect_output(print(task), "Weights/Training: Petal.Width")
+  expect_output(print(task), "Weights/Learner: Petal.Width")
 })
 
 test_that("validation task is cloned", {
