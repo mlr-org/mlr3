@@ -106,11 +106,9 @@ Resampling = R6Class("Resampling",
     #'
     task_nrow = NA_integer_,
 
-    #' @field duplicated_ids (`logical(1)`)\cr
-    #'   If `TRUE`, duplicated rows can occur within a single training set or within a single test set.
-    #'   E.g., this is `TRUE` for Bootstrap, and `FALSE` for cross-validation.
-    #'   Only used internally.
-    duplicated_ids = NULL,
+    #' @field properties (`character()`)\cr
+    #'   Set of properties.
+    properties = NULL,
 
     #' @template field_man
     man = NULL,
@@ -118,16 +116,25 @@ Resampling = R6Class("Resampling",
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #'
-    #' @param duplicated_ids (`logical(1)`)\cr
-    #'   Set to `TRUE` if this resampling strategy may have duplicated row ids in a single training set or test set.
+    #' @param properties (`character()`)\cr
+    #'   Set of properties, i.e.,
+    #'   * `"duplicated_ids"`: duplicated rows can occur within a single training set or within a single test set.
+    #'     E.g., this is `TRUE` for Bootstrap, and `FALSE` for cross-validation.
+    #'   * `"weights"`: if present, the resampling supports sample weights (set via column role `weights_resampling` in the [Task]).
+    #'     The weights determine the probability to sample a observation for the training set.
     #'
     #' Note that this object is typically constructed via a derived classes, e.g. [ResamplingCV] or [ResamplingHoldout].
-    initialize = function(id, param_set = ps(), duplicated_ids = FALSE, label = NA_character_, man = NA_character_) {
+    initialize = function(id, param_set = ps(), properties = character(), label = NA_character_, man = NA_character_) {
       private$.id = assert_string(id, min.chars = 1L)
       self$label = assert_string(label, na.ok = TRUE)
-      self$param_set = assert_param_set(param_set)
-      self$duplicated_ids = assert_flag(duplicated_ids)
+      self$properties = assert_subset(properties, mlr_reflections$resampling_properties)
       self$man = assert_string(man, na.ok = TRUE)
+
+      self$param_set = c(
+        assert_param_set(param_set),
+        ps(use_weights = p_lgl(init = "weights" %in% properties), use_strata = p_lgl(init = TRUE), use_groups = p_lgl(init = TRUE))
+      )
+
     },
 
     #' @description
@@ -168,19 +175,25 @@ Resampling = R6Class("Resampling",
       task = assert_task(as_task(task))
       strata = task$strata
       groups = task$groups
+      weights = NULL
+
+      weights = task$weights_resampling$weight
+      if (!is.null(weights) && !isTRUE(self$param_set$values$use_weights)) {
+        weights = NULL
+      }
 
       if (is.null(strata)) {
         if (is.null(groups)) {
-          instance = private$.sample(task$row_ids, task = task)
+          instance = private$.sample(task$row_ids, task = task, weights = weights)
         } else {
           private$.groups = groups
-          instance = private$.sample(unique(groups$group), task = task)
+          instance = private$.sample(unique(groups$group), task = task, weights = weights)
         }
       } else {
         if (!is.null(groups)) {
           stopf("Cannot combine stratification with grouping")
         }
-        instance = private$.combine(lapply(strata$row_id, private$.sample, task = task))
+        instance = private$.combine(lapply(strata$row_id, private$.sample, task = task, weights = weights))
       }
 
       private$.hash = NULL

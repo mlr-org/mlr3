@@ -269,7 +269,7 @@ test_that("weights", {
   task = TaskClassif$new("weighted_task", data, "Species")
   task$set_col_roles("w", "weight")
 
-  learner = lrn("classif.rpart")
+  learner = lrn("classif.rpart", use_weights = TRUE)
   learner$train(task)
 
   conf = learner$predict(task)$confusion
@@ -487,7 +487,7 @@ test_that("compatability check on validation task", {
   task$internal_valid_task$col_roles$target = "credit_history"
   expect_error(learner$train(task), "has different target")
 })
-  
+
 test_that("model is marshaled during parallel predict", {
   # by setting check_pid = TRUE, we ensure that unmarshal_model() sets the process id to the current
   # id. LearnerClassifDebug then checks during `.predict()`, whether the marshal_id of the model is equal to the current process id and errs if this is not the case.
@@ -537,7 +537,7 @@ test_that("learner state contains internal valid task information", {
   expect_string(rr$learners[[1L]]$state$internal_valid_task_hash)
 
   # 1. manual
-  learner$train(task) 
+  learner$train(task)
   expect_string(learner$state$internal_valid_task_hash)
 })
 

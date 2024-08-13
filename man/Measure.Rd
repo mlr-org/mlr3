@@ -100,9 +100,6 @@ Required properties of the \link{Task}.}
 \item{\code{range}}{(\code{numeric(2)})\cr
 Lower and upper bound of possible performance scores.}
 
-\item{\code{properties}}{(\code{character()})\cr
-Properties of this measure.}
-
 \item{\code{minimize}}{(\code{logical(1)})\cr
 If \code{TRUE}, good predictions correspond to small values of performance scores.}
 
@@ -121,6 +118,9 @@ Defaults to \code{NA}, but can be set by child classes.}
 \describe{
 \item{\code{hash}}{(\code{character(1)})\cr
 Hash (unique identifier) for this object.}
+
+\item{\code{properties}}{(\code{character()})\cr
+Properties of this measure.}
 
 \item{\code{average}}{(\code{character(1)})\cr
 Method for aggregation:
@@ -231,8 +231,9 @@ Supported by \code{mlr3}:
 \item \code{"requires_learner"} (requires the trained \link{Learner}),
 \item \code{"requires_model"} (requires the trained \link{Learner}, including the fitted
 model),
-\item \code{"requires_train_set"} (requires the training indices from the \link{Resampling}), and
-\item \code{"na_score"} (the measure is expected to occasionally return \code{NA} or \code{NaN}).
+\item \code{"requires_train_set"} (requires the training indices from the \link{Resampling}),
+\item \code{"na_score"} (the measure is expected to occasionally return \code{NA} or \code{NaN}), and
+\item \code{"weights"} (support weighted scoring using sample weights from task, column role \code{weights_measure}).
 }}
 
 \item{\code{predict_type}}{(\code{character(1)})\cr

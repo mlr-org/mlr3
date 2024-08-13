@@ -75,10 +75,6 @@ Measure = R6Class("Measure",
     #' Lower and upper bound of possible performance scores.
     range = NULL,
 
-    #' @field properties (`character()`)\cr
-    #' Properties of this measure.
-    properties = NULL,
-
     #' @field minimize (`logical(1)`)\cr
     #' If `TRUE`, good predictions correspond to small values of performance scores.
     minimize = NULL,
@@ -115,7 +111,7 @@ Measure = R6Class("Measure",
         assert_subset(task_properties, mlr_reflections$task_properties[[task_type]])
       }
 
-      self$properties = unique(properties)
+      private$.properties = unique(properties)
       self$predict_type = predict_type
       self$predict_sets = assert_subset(predict_sets, mlr_reflections$predict_sets, empty.ok = FALSE)
       self$task_properties = task_properties
@@ -173,23 +169,24 @@ Measure = R6Class("Measure",
       assert_measure(self, task = task, learner = learner)
       assert_prediction(prediction)
 
+      properties = self$properties
 
-      if ("requires_task" %in% self$properties && is.null(task)) {
+      if ("requires_task" %in% properties && is.null(task)) {
         stopf("Measure '%s' requires a task", self$id)
       }
 
-      if ("requires_learner" %in% self$properties && is.null(learner)) {
+      if ("requires_learner" %in% properties && is.null(learner)) {
         stopf("Measure '%s' requires a learner", self$id)
       }
 
-      if ("requires_model" %in% self$properties && (is.null(learner) || is.null(learner$model))) {
+      if ("requires_model" %in% properties && (is.null(learner) || is.null(learner$model))) {
         stopf("Measure '%s' requires the trained model", self$id)
       }
-      if ("requires_model" %in% self$properties && is_marshaled_model(learner$model)) {
+      if ("requires_model" %in% properties && is_marshaled_model(learner$model)) {
         stopf("Measure '%s' requires the trained model, but model is in marshaled form", self$id)
       }
 
-      if ("requires_train_set" %in% self$properties && is.null(train_set)) {
+      if ("requires_train_set" %in% properties && is.null(train_set)) {
         stopf("Measure '%s' requires the train_set", self$id)
       }
 
@@ -208,7 +205,6 @@ Measure = R6Class("Measure",
     #'
     #' @return `numeric(1)`.
     aggregate = function(rr) {
-
       switch(self$average,
         "macro" = {
           aggregator = self$aggregator %??% mean
@@ -227,6 +223,20 @@ Measure = R6Class("Measure",
       assert_ro_binding(rhs)
       calculate_hash(class(self), self$id, self$param_set$values, private$.score, private$.average,
         private$.aggregator, self$predict_sets, mget(private$.extra_hash, envir = self))
+    },
+
+    #' @field properties (`character()`)\cr
+    #' Properties of this measure.
+    properties = function(rhs) {
+      if (!missing(rhs)) {
+        private$.properties = assert_subset(rhs, mlr_reflections$measure_properties[[self$task_type]])
+      } else {
+        properties = private$.properties
+        if ("requires_task" %nin% properties && "weights" %in% properties && self$param_set$values$use_weights) {
+          properties = c(properties, "requires_task")
+        }
+        properties
+      }
     },
 
     #' @field average (`character(1)`)\cr
@@ -261,6 +271,7 @@ Measure = R6Class("Measure",
   ),
 
   private = list(
+    .properties = character(),
     .extra_hash = character(),
     .average = NULL,
     .aggregator = NULL

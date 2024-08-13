@@ -183,21 +183,21 @@ test_that("custom resampling (#245)", {
 test_that("extract params", {
   # some params, some not
   lrns = list(
-    lrn("classif.rpart", id = "rp1", xval = 0),
-    lrn("classif.rpart", id = "rp2", xval = 0, cp = 0.2, minsplit = 2),
-    lrn("classif.rpart", id = "rp3", xval = 0, cp = 0.1)
+    lrn("classif.rpart", id = "rp1", xval = 0, use_weights = FALSE),
+    lrn("classif.rpart", id = "rp2", xval = 0, use_weights = FALSE, cp = 0.2, minsplit = 2),
+    lrn("classif.rpart", id = "rp3", xval = 0, use_weights = FALSE, cp = 0.1)
   )
   bmr = benchmark(benchmark_grid(tsk("wine"), lrns, rsmp("cv", folds = 3)))
   aggr = bmr$aggregate(params = TRUE)
   setorder(aggr, "learner_id")
-  expect_list(aggr$params[[1]], names = "unique", len = 1L)
-  expect_list(aggr$params[[2]], names = "unique", len = 3L)
-  expect_list(aggr$params[[3]], names = "unique", len = 2L)
+  expect_list(aggr$params[[1]], names = "unique", len = 2L)
+  expect_list(aggr$params[[2]], names = "unique", len = 4L)
+  expect_list(aggr$params[[3]], names = "unique", len = 3L)
 
   scores = bmr$score()
   pvs = map(scores$learner, function(l) l$param_set$values)
   expect_true(all(sapply(split(lengths(pvs), scores$nr), uniqueN) == 1))
-  expect_set_equal(lengths(pvs), 1:3)
+  expect_set_equal(lengths(pvs), 2:4)
 
   # only one params
   lrns = mlr_learners$mget("classif.featureless")
@@ -483,8 +483,8 @@ test_that("param_values in benchmark", {
   ii = which(map_lgl(trained, function(x) "cp" %in% names(x$param_set$values))) # find learner with cp
   expect_count(ii)
 
-  expect_equal(sortnames(bmr$learners$learner[-ii][[1]]$param_set$values), list(minbucket = 2, minsplit = 12, xval = 0))
-  expect_equal(sortnames(bmr$learners$learner[[ii]]$param_set$values), list(cp = 0.1, minsplit = 12, xval = 0))
+  expect_equal(sortnames(bmr$learners$learner[-ii][[1]]$param_set$values), list(minbucket = 2, minsplit = 12, use_weights = TRUE, xval = 0))
+  expect_equal(sortnames(bmr$learners$learner[[ii]]$param_set$values), list(cp = 0.1, minsplit = 12, use_weights = TRUE, xval = 0))
 })
 
 

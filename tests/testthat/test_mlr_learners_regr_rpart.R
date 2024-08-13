@@ -5,7 +5,7 @@ test_that("autotest", {
   expect_true(result, info = result$error)
 
   exclude = c("formula", "data", "weights", "subset", "na.action", "method", "model",
-    "x", "y", "parms", "control", "cost", "keep_model")
+    "x", "y", "parms", "control", "cost", "keep_model", "use_weights")
   result = run_paramtest(learner, list(rpart::rpart, rpart::rpart.control), exclude, tag = "train")
   expect_true(result, info = result$error)
 
@@ -39,7 +39,7 @@ test_that("selected_features", {
 test_that("weights", {
   task = TaskRegr$new("foo", as_data_backend(cbind(iris, data.frame(w = rep(c(1, 10, 100), each = 50)))), target = "Sepal.Length")
   task$set_col_roles("w", character())
-  learner = lrn("regr.rpart")
+  learner = lrn("regr.rpart", use_weights = TRUE)
 
   learner$train(task)
   p1 = learner$predict(task)

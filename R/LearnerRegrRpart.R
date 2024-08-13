@@ -35,9 +35,9 @@ LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
         minsplit       = p_int(1L, default = 20L, tags = "train"),
         surrogatestyle = p_int(0L, 1L, default = 0L, tags = "train"),
         usesurrogate   = p_int(0L, 2L, default = 2L, tags = "train"),
-        xval           = p_int(0L, default = 10L, tags = "train")
+        xval           = p_int(0L, default = 10L, init = 0L, tags = "train"),
+        use_weights    = p_lgl(init = FALSE, tags = "train")
       )
-      ps$values = list(xval = 0L)
 
       super$initialize(
         id = "regr.rpart",
@@ -77,10 +77,11 @@ LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
     .train = function(task) {
       pv = self$param_set$get_values(tags = "train")
       names(pv) = replace(names(pv), names(pv) == "keep_model", "model")
-      if ("weights_train" %in% task$properties) {
+      if ("weights_train" %in% task$properties && isTRUE(pv$use_weights)) {
         pv = insert_named(pv, list(weights = task$weights_train$weight))
       }
 
+      pv = remove_named(pv, "use_weights")
       invoke(rpart::rpart, formula = task$formula(), data = task$data(), .args = pv, .opts = allow_partial_matching)
     },
 

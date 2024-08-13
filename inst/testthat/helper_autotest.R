@@ -51,7 +51,7 @@ generate_generic_tasks = function(learner, proto) {
   }
 
   # task with weights
-  if ("weights" %in% learner$properties) {
+  if ("weights_train" %in% learner$properties) {
     tmp = proto$clone(deep = TRUE)$cbind(data.frame(weights = runif(n)))
     tmp$col_roles$weights_train = "weights"
     tmp$col_roles$features = setdiff(tmp$col_roles$features, "weights")

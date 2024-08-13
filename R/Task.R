@@ -869,7 +869,9 @@ Task = R6Class("Task",
     #'
     #' * `"strata"`: The task is resampled using one or more stratification variables (role `"stratum"`).
     #' * `"groups"`: The task comes with grouping/blocking information (role `"group"`).
-    #' * `"weights"`: The task comes with observation weights (role `"weight"`).
+    #' * `"weights_trainin"`: The task comes with observation weights to be used during training in the [Learner] (role `"weights_training"`).
+    #' * `"weights_measure"`: The task comes with observation weights to be used during scoring in the [Measure] (role `"weights_training"`).
+    #' * `"weights_resampling"`: The task comes with observation weights to be used during samling observations in the [Resampling] (role `"weights_resampling"`).
     #'
     #' Note that above listed properties are calculated from the `$col_roles` and may not be set explicitly.
     properties = function(rhs) {
@@ -942,7 +944,7 @@ Task = R6Class("Task",
 
       assert_has_backend(self)
       qassertr(rhs, "S[1,]", .var.name = "col_roles")
-      assert_names(names(rhs), "unique", subset.of = mlr_reflections$task_col_roles[[self$task_type]], .var.name = "names of col_roles")
+      assert_names(names(rhs), "unique")
       assert_subset(unlist(rhs, use.names = FALSE), setdiff(self$col_info$id, self$backend$primary_key), .var.name = "elements of col_roles")
 
       private$.hash = NULL

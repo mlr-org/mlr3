@@ -121,7 +121,7 @@ local({
 
   mlr_reflections$task_print_col_roles = list(
     before = character(),
-    after = c("Order by" = "order", "Strata" = "stratum", "Groups" = "group", "Weights" = "weight")
+    after = c("Order by" = "order", "Strata" = "stratum", "Groups" = "group", "Weights/Training" = "weights_train", "Weights/Measure" = "weights_measure", "Weights/Resampling" = "weights_resampling")
   )
 
   ### Learner
@@ -142,9 +142,11 @@ local({
   ### Prediction
   mlr_reflections$predict_sets = c("train", "test", "internal_valid")
 
+  ### Resampling
+  mlr_reflections$resampling_properties = c("duplicated_ids", "weights")
 
   ### Measures
-  tmp = c("na_score", "requires_task", "requires_learner", "requires_model", "requires_train_set")
+  tmp = c("na_score", "requires_task", "requires_learner", "requires_model", "requires_train_set", "weights")
   mlr_reflections$measure_properties = list(
     classif = tmp,
     regr = tmp
