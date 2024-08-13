@@ -112,6 +112,7 @@ reference:
       - set_threads
   - title: Internal Objects and Functions
     contents:
+      - marshaling
       - MeasureSimilarity
       - mlr_assertions
       - ResultData
