@@ -78,12 +78,16 @@ see \code{\link[=mlr_reflections]{mlr_reflections$task_types$type}}.}
 \item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
 Set of hyperparameters.}
 
-\item{\code{trafo}}{(\verb{function()} | \code{NULL})
+\item{\code{obs_loss}}{(\verb{function()} | \code{NULL})
 Function to calculate the observation-wise loss.}
 
-\item{\code{obs_loss}}{(\verb{function()} | \code{NULL})
-Transformation that is applied to the point-wise loss functions in case \verb{$obs_loss is given}.
-For rmse, this is e.g. the root-function.}
+\item{\code{trafo}}{(\code{list()} | \code{NULL})
+\code{NULL} or a list with two elements:
+\itemize{
+\item \code{trafo}: the transformation function applied after aggregating
+observation-wise losses (e.g. \code{sqrt} for RMSE)
+\item \code{deriv}: The derivative of the \code{trafo}.
+}}
 
 \item{\code{predict_type}}{(\code{character(1)})\cr
 Required predict type of the \link{Learner}.}

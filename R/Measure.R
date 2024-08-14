@@ -61,13 +61,15 @@ Measure = R6Class("Measure",
     #' @template field_param_set
     param_set = NULL,
 
-    #' @field trafo (`function()` | `NULL`)
+    #' @field obs_loss (`function()` | `NULL`)
     #' Function to calculate the observation-wise loss.
     obs_loss = NULL,
 
-    #' @field obs_loss (`function()` | `NULL`)
-    #' Transformation that is applied to the point-wise loss functions in case `$obs_loss is given`.
-    #' For rmse, this is e.g. the root-function.
+    #' @field trafo (`list()` | `NULL`)
+    #' `NULL` or a list with two elements:
+    #' * `trafo`: the transformation function applied after aggregating
+    #'   observation-wise losses (e.g. `sqrt` for RMSE)
+    #' * `deriv`: The derivative of the `trafo`.
     trafo = NULL,
 
     #' @field predict_type (`character(1)`)\cr
