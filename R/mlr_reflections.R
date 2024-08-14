@@ -108,7 +108,7 @@ local({
     unsupervised = c("feature", "name", "order")
   )
 
-  tmp = c("strata", "groups", "weights")
+  tmp = c("strata", "groups", "weights", "weights_learner", "weights_measure", "weights_resampling")
   mlr_reflections$task_properties = list(
     classif = c(tmp, "twoclass", "multiclass"),
     regr = tmp,

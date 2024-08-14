@@ -1218,7 +1218,7 @@ task_check_col_roles = function(self, new_roles) {
       stopf("Both deprecated column role 'weight' and its replacement 'weights_learner' have benn provided")
     }
     new_roles$weights_learner = new_roles$weight
-    new_roles$weight = NULL
+    new_roles$weight = character()
   }
 
   for (role in c("group", "name", "weights_learner", "weights_measure", "weights_resampling")) {

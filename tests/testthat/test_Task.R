@@ -623,15 +623,18 @@ test_that("task weights", {
   expect_null(task$weights)
   expect_null(task$weights_learner)
   expect_disjunct(c("weights", "weights_learner", "weights_measure", "weights_resampling"), task$properties)
+  expect_task(task)
 
   task$set_col_roles("w", "weight")
   expect_data_table(task$weights)
   expect_equal(task$weights, task$weights_learner)
   expect_subset(c("weights", "weights_learner"), task$properties)
+  expect_task(task)
 
   task$set_col_roles("w", "weights_learner")
   expect_data_table(task$weights)
   expect_equal(task$weights, task$weights_learner)
   expect_subset(c("weights", "weights_learner"), task$properties)
+  expect_task(task)
 })
 
