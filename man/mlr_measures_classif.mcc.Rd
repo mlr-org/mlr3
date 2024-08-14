@@ -6,17 +6,33 @@
 \description{
 Measure to compare true observed labels with predicted
 labels
-in binary classification tasks.
+in multiclass classification tasks.
 }
 \details{
-The Matthews Correlation Coefficient is defined as \deqn{
-   \frac{\mathrm{TP} \cdot \mathrm{TN} - \mathrm{FP} \cdot \mathrm{FN}}{\sqrt{(\mathrm{TP} + \mathrm{FP}) (\mathrm{TP} + \mathrm{FN}) (\mathrm{TN} + \mathrm{FP}) (\mathrm{TN} + \mathrm{FN})}}.
+In the binary case, the Matthews Correlation Coefficient is defined as \deqn{
+   \frac{\mathrm{TP} \cdot \mathrm{TN} - \mathrm{FP} \cdot \mathrm{FN}}{\sqrt{(\mathrm{TP} + \mathrm{FP}) (\mathrm{TP} + \mathrm{FN}) (\mathrm{TN} + \mathrm{FP}) (\mathrm{TN} + \mathrm{FN})}},
 }{
-   (TP * TN - FP * FN) / sqrt((TP + FP) * (TP + FN) * (TN + FP) * (TN + FN)).
+   (TP * TN - FP * FN) / sqrt((TP + FP) * (TP + FN) * (TN + FP) * (TN + FN)),
+}
+where \eqn{TP}, \eqn{FP}, \eqn{TN}, \eqn{TP} are the number of true positives, false positives, true negatives, and false negatives respectively.
+
+In the multi-class case, the Matthews Correlation Coefficient defined for a multi-class confusion matrix \eqn{C} with \eqn{K} classes: \deqn{
+   \frac{c \cdot s - \sum_k^K p_k \cdot t_k}{\sqrt{(s^2 - \sum_k^K p_k^2) \cdot (s^2 - \sum_k^K t_k^2)}},
+}{
+   (c * s - sum(pk * tk)) / sqrt((s^2 - sum(pk^2)) * (s^2 - sum(tk^2))),
+}
+where
+\itemize{
+\item \eqn{s = \sum_i^K \sum_j^K C_{ij}}: total number of samples
+\item \eqn{c = \sum_k^K C_{kk}}: total number of correctly predicted samples
+\item \eqn{t_k = \sum_i^K C_{ik}}: number of predictions for each class \eqn{k}
+\item \eqn{p_k = \sum_j^K C_{kj}}: number of true occurrences for each class \eqn{k}.
 }
 
-This above formula is undefined if any of the four sums in the denominator is 0.
+The above formula is undefined if any of the four sums in the denominator is 0 in the binary case and more generally if either \eqn{s^2 - sum(pk^2)} or \eqn{s^2 - sum(tk^2)} is equal to 0.
 The denominator is then set to 1.
+When there are more than two classes, the MCC will no longer range between -1 and +1.
+Instead, the minimum value will be between -1 and 0 depending on the true distribution. The maximum value is always +1.
 }
 \note{
 The score function calls \code{\link[mlr3measures:mcc]{mlr3measures::mcc()}} from package \CRANpkg{mlr3measures}.
@@ -42,7 +58,7 @@ Empty ParamSet
 
 
 \itemize{
-\item Type: \code{"binary"}
+\item Type: \code{"classif"}
 \item Range: \eqn{[-1, 1]}{[-1, 1]}
 \item Minimize: \code{FALSE}
 \item Required prediction: \code{response}
@@ -88,28 +104,17 @@ Other classification measures:
 \code{\link{mlr_measures_classif.tp}},
 \code{\link{mlr_measures_classif.tpr}}
 
-Other binary classification measures: 
-\code{\link{mlr_measures_classif.auc}},
-\code{\link{mlr_measures_classif.bbrier}},
-\code{\link{mlr_measures_classif.dor}},
-\code{\link{mlr_measures_classif.fbeta}},
-\code{\link{mlr_measures_classif.fdr}},
-\code{\link{mlr_measures_classif.fn}},
-\code{\link{mlr_measures_classif.fnr}},
-\code{\link{mlr_measures_classif.fomr}},
-\code{\link{mlr_measures_classif.fp}},
-\code{\link{mlr_measures_classif.fpr}},
-\code{\link{mlr_measures_classif.npv}},
-\code{\link{mlr_measures_classif.ppv}},
-\code{\link{mlr_measures_classif.prauc}},
-\code{\link{mlr_measures_classif.precision}},
-\code{\link{mlr_measures_classif.recall}},
-\code{\link{mlr_measures_classif.sensitivity}},
-\code{\link{mlr_measures_classif.specificity}},
-\code{\link{mlr_measures_classif.tn}},
-\code{\link{mlr_measures_classif.tnr}},
-\code{\link{mlr_measures_classif.tp}},
-\code{\link{mlr_measures_classif.tpr}}
+Other multiclass classification measures: 
+\code{\link{mlr_measures_classif.acc}},
+\code{\link{mlr_measures_classif.bacc}},
+\code{\link{mlr_measures_classif.ce}},
+\code{\link{mlr_measures_classif.costs}},
+\code{\link{mlr_measures_classif.logloss}},
+\code{\link{mlr_measures_classif.mauc_au1p}},
+\code{\link{mlr_measures_classif.mauc_au1u}},
+\code{\link{mlr_measures_classif.mauc_aunp}},
+\code{\link{mlr_measures_classif.mauc_aunu}},
+\code{\link{mlr_measures_classif.mbrier}}
 }
-\concept{binary classification measures}
 \concept{classification measures}
+\concept{multiclass classification measures}

@@ -9,6 +9,8 @@
 \title{Elapsed Time Measure}
 \description{
 Measures the elapsed time during train ("time_train"), predict ("time_predict"), or both ("time_both").
+Aggregation of elapsed time defaults to mean but can be configured via the field \code{aggregator} of the
+\link{Measure}.
 }
 \section{Dictionary}{
 

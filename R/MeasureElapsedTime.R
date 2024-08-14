@@ -9,6 +9,8 @@
 #'
 #' @description
 #' Measures the elapsed time during train ("time_train"), predict ("time_predict"), or both ("time_both").
+#' Aggregation of elapsed time defaults to mean but can be configured via the field `aggregator` of the
+#' [Measure].
 #'
 #' @template param_id
 #' @templateVar id time_train
@@ -48,7 +50,7 @@ MeasureElapsedTime = R6Class("MeasureElapsedTime",
 
   private = list(
     .score = function(prediction, learner, ...) {
-      sum(unlist(learner$state[sprintf("%s_time", self$stages)]))
+      sum(unlist(learner$state[sprintf("%s_time", self$stages)], use.names = FALSE))
     },
 
     .extra_hash = "stages"

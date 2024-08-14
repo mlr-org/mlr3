@@ -55,7 +55,6 @@
 #' @param ... (any)\cr
 #'   Additional parameters, currently unused.
 #'
-#' @keywords internal
 #' @export
 learner_unmarshal = function(.learner, ...) {
   # this will do nothing if the model was not marshaled

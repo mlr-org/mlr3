@@ -2,6 +2,8 @@ url: https://mlr3.mlr-org.com
 
 template:
   bootstrap: 5
+  light-switch: true
+  math-rendering: mathjax
   package: mlr3pkgdowntemplate
 
 development:
@@ -15,7 +17,7 @@ toc:
 navbar:
   structure:
     left:  [reference, news, book]
-    right: [github, mattermost, stackoverflow, rss]
+    right: [search, github, mattermost, stackoverflow, rss, lightswitch]
   components:
     home: ~
     reference:
@@ -110,6 +112,7 @@ reference:
       - set_threads
   - title: Internal Objects and Functions
     contents:
+      - marshaling
       - MeasureSimilarity
       - mlr_assertions
       - ResultData
