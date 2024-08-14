@@ -18,6 +18,11 @@ Note that this is a breaking change, but explicitly stating the intention to use
 # mlr3 0.20.2
 
 * refactor: move RhpcBLASctl to suggest.
+* feat: Added resampling property `"primary_iters"`
+* feat: added possibility to access observation-wise losses
+  via function `$obs_loss`. This is possible for `Prediction`,
+  `ResampleResult` and `BenchmarkResult`.
+* feat: `Measure`s now also return a vector of numerics.
 
 # mlr3 0.20.1
 

@@ -104,6 +104,7 @@ Note that there can be multiple rows per resampling iteration if multiple errors
 \item \href{#method-ResampleResult-prediction}{\code{ResampleResult$prediction()}}
 \item \href{#method-ResampleResult-predictions}{\code{ResampleResult$predictions()}}
 \item \href{#method-ResampleResult-score}{\code{ResampleResult$score()}}
+\item \href{#method-ResampleResult-obs_loss}{\code{ResampleResult$obs_loss()}}
 \item \href{#method-ResampleResult-aggregate}{\code{ResampleResult$aggregate()}}
 \item \href{#method-ResampleResult-filter}{\code{ResampleResult$filter()}}
 \item \href{#method-ResampleResult-discard}{\code{ResampleResult$discard()}}
@@ -274,6 +275,34 @@ Default is \code{"test"}.}
 }
 \subsection{Returns}{
 \code{\link[data.table:data.table]{data.table::data.table()}}.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ResampleResult-obs_loss"></a>}}
+\if{latex}{\out{\hypertarget{method-ResampleResult-obs_loss}{}}}
+\subsection{Method \code{obs_loss()}}{
+Calculates the observation-wise loss via the loss function set in the
+\link{Measure}'s field \code{obs_loss}.
+Returns a \code{data.table()} with the columns of the matching \link{Prediction} object plus
+one additional numeric column for each measure, named with the respective measure id.
+If there is no observation-wise loss function for the measure, the column is filled with
+\code{NA} values.
+Note that some measures such as RMSE, do have an \verb{$obs_loss}, but they require an
+additional transformation after aggregation, in this example taking the square-root.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$obs_loss(measures = NULL, predict_sets = "test")}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{measures}}{(\link{Measure} | list of \link{Measure})\cr
+Measure(s) to calculate.}
+
+\item{\code{predict_sets}}{(\code{character()})\cr
+The predict sets.}
+}
+\if{html}{\out{</div>}}
 }
 }
 \if{html}{\out{<hr>}}

@@ -36,6 +36,12 @@ MeasureBinarySimple = R6Class("MeasureBinarySimple",
       )
 
       self$fun = get(name, envir = asNamespace("mlr3measures"), mode = "function")
+      if (!is.na(info$obs_loss)) {
+        self$obs_loss = get(info$obs_loss, envir = asNamespace("mlr3measures"), mode = "function")
+      }
+      if (test_list(info$trafo)) {
+        self$trafo = info$trafo
+      }
     }
   ),
 
@@ -87,6 +93,12 @@ MeasureClassifSimple = R6Class("MeasureClassifSimple",
         man = paste0("mlr3::mlr_measures_classif.", name)
       )
       self$fun = get(name, envir = asNamespace("mlr3measures"), mode = "function")
+      if (!is.na(info$obs_loss)) {
+        self$obs_loss = get(info$obs_loss, envir = asNamespace("mlr3measures"), mode = "function")
+      }
+      if (test_list(info$trafo)) {
+        self$trafo = info$trafo
+      }
     }
   ),
 
@@ -134,6 +146,12 @@ MeasureRegrSimple = R6Class("MeasureRegrSimple",
         man = paste0("mlr3::mlr_measures_regr.", name)
       )
       self$fun = get(name, envir = asNamespace("mlr3measures"), mode = "function")
+      if (!is.na(info$obs_loss)) {
+        self$obs_loss = get(info$obs_loss, envir = asNamespace("mlr3measures"), mode = "function")
+      }
+      if (test_list(info$trafo)) {
+        self$trafo = info$trafo
+      }
     }
   ),
 

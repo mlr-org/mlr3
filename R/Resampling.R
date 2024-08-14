@@ -262,6 +262,7 @@ Resampling = R6Class("Resampling",
   ),
 
   private = list(
+    .primary_iters = NULL,
     .id = NULL,
     .hash = NULL,
     .groups = NULL,

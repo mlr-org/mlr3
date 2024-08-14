@@ -21,6 +21,14 @@ Many of the measures in \pkg{mlr3} are implemented in \CRANpkg{mlr3measures} as 
 
 A guide on how to extend \CRANpkg{mlr3} with custom measures can be found in the \href{https://mlr3book.mlr-org.com}{mlr3book}.
 }
+\section{Inheriting}{
+
+For some measures (such as confidence intervals from \code{mlr3inferr}) it is necessary that a measure
+returns more than one value.
+In such cases it is necessary to overwrite the public methods \verb{$aggregate()} and/or \verb{$score()} to return a named \code{numeric()}
+where at least one of its names corresponds to the \code{id} of the measure itself.
+}
+
 \section{Weights}{
 
 
@@ -79,6 +87,17 @@ see \code{\link[=mlr_reflections]{mlr_reflections$task_types$type}}.}
 
 \item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
 Set of hyperparameters.}
+
+\item{\code{obs_loss}}{(\verb{function()} | \code{NULL})
+Function to calculate the observation-wise loss.}
+
+\item{\code{trafo}}{(\code{list()} | \code{NULL})
+\code{NULL} or a list with two elements:
+\itemize{
+\item \code{trafo}: the transformation function applied after aggregating
+observation-wise losses (e.g. \code{sqrt} for RMSE)
+\item \code{deriv}: The derivative of the \code{trafo}.
+}}
 
 \item{\code{predict_type}}{(\code{character(1)})\cr
 Required predict type of the \link{Learner}.}
@@ -179,13 +198,15 @@ Note that this object is typically constructed via a derived classes, e.g. \link
   minimize = NA,
   average = "macro",
   aggregator = NULL,
+  obs_loss = NULL,
   properties = character(),
   predict_type = "response",
   predict_sets = "test",
   task_properties = character(),
   packages = character(),
   label = NA_character_,
-  man = NA_character_
+  man = NA_character_,
+  trafo = NULL
 )}\if{html}{\out{</div>}}
 }
 
@@ -232,6 +253,9 @@ scored in one go.
 \item \code{"custom"}: A \link{ResampleResult} is passed to the aggregate function.
 }}
 
+\item{\code{obs_loss}}{(\code{function} or \code{NULL})\cr
+The observation-wise loss function, e.g. \link[mlr3measures:zero_one]{zero-one} for classification error.}
+
 \item{\code{properties}}{(\code{character()})\cr
 Properties of the measure.
 Must be a subset of \link[=mlr_reflections]{mlr_reflections$measure_properties}.
@@ -239,11 +263,11 @@ Supported by \code{mlr3}:
 \itemize{
 \item \code{"requires_task"} (requires the complete \link{Task}),
 \item \code{"requires_learner"} (requires the trained \link{Learner}),
-\item \code{"requires_model"} (requires the trained \link{Learner}, including the fitted
-model),
+\item \code{"requires_model"} (requires the trained \link{Learner}, including the fitted model),
 \item \code{"requires_train_set"} (requires the training indices from the \link{Resampling}),
-\item \code{"na_score"} (the measure is expected to occasionally return \code{NA} or \code{NaN}), and
-\item \code{"weights"} (support weighted scoring using sample weights from task, column role \code{weights_measure}).
+\item \code{"na_score"} (the measure is expected to occasionally return \code{NA} or \code{NaN}),
+\item \code{"weights"} (support weighted scoring using sample weights from task, column role \code{weights_measure}), and
+\item \code{"primary_iters"} (the measure explictly handles resamplings that only use a subset of their iterations for the point estimate)
 }}
 
 \item{\code{predict_type}}{(\code{character(1)})\cr
@@ -271,6 +295,11 @@ Label for the new instance.}
 \item{\code{man}}{(\code{character(1)})\cr
 String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
 The referenced help package can be opened via method \verb{$help()}.}
+
+\item{\code{trafo}}{(\code{list()} or \code{NULL})\cr
+An optional list with two elements, containing the transformation \code{"fn"} and its derivative \code{"deriv"}.
+The transformation function is the function that is applied after aggregating the pointwise losses, i.e.
+this requires an \verb{$obs_loss} to be present. An example is \code{sqrt} for RMSE.}
 }
 \if{html}{\out{</div>}}
 }

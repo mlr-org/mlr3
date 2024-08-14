@@ -78,3 +78,19 @@ get_weights = function(task, pv) {
     NULL
   }
 }
+
+get_obs_loss = function(tab, measures) {
+  for (measure in measures) {
+    fun = measure$obs_loss
+    value = if (is.function(fun)) {
+      args = intersect(names(tab), names(formals(fun)))
+      do.call(fun, tab[, args, with = FALSE])
+    } else {
+      NA_real_
+    }
+
+    set(tab, j = measure$id, value = value)
+  }
+
+  tab[]
+}

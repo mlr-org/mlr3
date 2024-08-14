@@ -37,11 +37,12 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
     lg$debug("Subsetting task '%s' to %i rows",
       task$id, length(train_row_ids), task = task$clone(), row_ids = train_row_ids)
 
-    prev_use = task$row_roles$use
+    task_private = get_private(task)
+    prev_use = task_private$.row_roles$use
     on.exit({
-      task$row_roles$use = prev_use
+      task_private$.row_roles$use = prev_use
     }, add = TRUE)
-    task$row_roles$use = train_row_ids
+    task_private$.row_roles$use  = train_row_ids
   } else {
     lg$debug("Skip subsetting of task '%s'", task$id)
   }
@@ -166,11 +167,12 @@ learner_predict = function(learner, task, row_ids = NULL) {
     lg$debug("Subsetting task '%s' to %i rows",
       task$id, length(row_ids), task = task$clone(), row_ids = row_ids)
 
-    prev_use = task$row_roles$use
+    task_private = get_private(task)
+    prev_use = task_private$.row_roles$use
     on.exit({
-      task$row_roles$use = prev_use
+      task_private$.row_roles$use  = prev_use
     }, add = TRUE)
-    task$row_roles$use = row_ids
+    task_private$.row_roles$use  = row_ids
   } else {
     lg$debug("Skip subsetting of task '%s'", task$id)
   }

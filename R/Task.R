@@ -137,8 +137,8 @@ Task = R6Class("Task",
       self$col_info$fix_factor_levels = FALSE
 
       assert_subset(self$col_info$type, mlr_reflections$task_feature_types, .var.name = "feature types")
-      pmap(self$col_info[, c("id", "levels")],
-        function(id, levels) {
+      pmap(self$col_info,
+        function(id, levels, ...) {
           assert_character(levels, any.missing = FALSE, min.len = 1L, null.ok = TRUE,
             .var.name = sprintf("levels of '%s'", id))
         }
@@ -315,8 +315,10 @@ Task = R6Class("Task",
 
       .__i__ = self$col_info[["fix_factor_levels"]]
       if (any(.__i__)) {
-        fix_factors = self$col_info[.__i__, c("id", "levels"), with = FALSE][list(names(data)), on = "id", nomatch = NULL]
+        fix_factors = self$col_info[.__i__, c("id", "levels"), with = FALSE]
         if (nrow(fix_factors)) {
+          # ordering is slow
+          if (nrow(fix_factors) > 1L) fix_factors = fix_factors[list(names(data)), on = "id", nomatch = NULL]
           data = fix_factor_levels(data, levels = set_names(fix_factors$levels, fix_factors$id))
         }
       }

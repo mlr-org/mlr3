@@ -54,8 +54,11 @@
 #'   The learner.
 #' @param ... (any)\cr
 #'   Additional parameters, currently unused.
+#' @param model (any)\cr
+#'   Model to marshal.
+#' @param inplace (`logical(1)`)\cr
+#'   Whether to marshal in-place.
 #'
-#' @keywords internal
 #' @export
 learner_unmarshal = function(.learner, ...) {
   # this will do nothing if the model was not marshaled
@@ -97,7 +100,7 @@ unmarshal_model = function(model, inplace = FALSE, ...) {
 #' @rdname marshaling
 #' @export
 is_marshaled_model = function(model) {
-  test_class(model, "marshaled")
+  inherits(model, "marshaled")
 }
 
 #' @export

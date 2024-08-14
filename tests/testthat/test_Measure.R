@@ -169,3 +169,34 @@ test_that("measure weights", {
   expect_false("weights" %in% m$properties)
   expect_disjunct("use_weights", m$param_set$ids())
 })
+
+test_that("primary iters are respected", {
+  task = tsk("sonar")
+  resampling = rsmp("cv")$instantiate(task)
+  train_sets = map(1:10, function(i) resampling$train_set(i))
+  test_sets = map(1:10, function(i) resampling$train_set(i))
+  r1 = rsmp("custom")$instantiate(task, train_sets = train_sets, test_sets = test_sets)
+  get_private(r1, ".primary_iters") = 1:2
+  r2 = rsmp("custom")$instantiate(task, train_sets = train_sets[1:2], test_sets = test_sets[1:2])
+  r3 = rsmp("custom")$instantiate(task, train_sets = train_sets, test_sets = test_sets)
+
+  learner = lrn("classif.rpart", predict_type = "prob")
+
+  rr1 = resample(task, learner, r1, store_models = TRUE)
+  rr2 = resample(task, learner, r2, store_models = TRUE)
+  rr3 = resample(task, learner, r3, store_models = TRUE)
+
+  m = msr("classif.acc")
+  m$average = "macro"
+  expect_equal(rr1$aggregate(), rr2$aggregate())
+  m$average = "micro"
+  expect_equal(rr1$aggregate(), rr2$aggregate())
+
+  jaccard = msr("sim.jaccard")
+  expect_error(rr1$aggregate(jaccard), "primary_iters")
+  expect_error(rr2$aggregate(jaccard), NA)
+  jaccard$properties = c(jaccard$properties, "primary_iters")
+  x1 = rr1$aggregate(jaccard)
+  x2 = rr3$aggregate(jaccard)
+  expect_equal(x1, x2)
+})

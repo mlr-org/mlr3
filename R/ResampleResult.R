@@ -171,6 +171,23 @@ ResampleResult = R6Class("ResampleResult",
     },
 
     #' @description
+    #' Calculates the observation-wise loss via the loss function set in the
+    #' [Measure]'s field `obs_loss`.
+    #' Returns a `data.table()` with the columns of the matching [Prediction] object plus
+    #' one additional numeric column for each measure, named with the respective measure id.
+    #' If there is no observation-wise loss function for the measure, the column is filled with
+    #' `NA` values.
+    #' Note that some measures such as RMSE, do have an `$obs_loss`, but they require an
+    #' additional transformation after aggregation, in this example taking the square-root.
+    #' @param predict_sets (`character()`)\cr
+    #'   The predict sets.
+    obs_loss = function(measures = NULL, predict_sets = "test") {
+      measures = as_measures(measures, task_type = self$task_type)
+      tab = map_dtr(self$predictions(predict_sets), as.data.table, .idcol = "iteration")
+      get_obs_loss(tab, measures)
+    },
+
+    #' @description
     #' Calculates and aggregates performance values for all provided measures, according to the
     #' respective aggregation function in [Measure].
     #' If `measures` is `NULL`, `measures` defaults to the return value of [default_measures()].
@@ -357,7 +374,12 @@ c.ResampleResult = function(...) {
 
 
 resample_result_aggregate = function(rr, measures) {
-  set_names(map_dbl(measures, function(m) m$aggregate(rr)), ids(measures))
+  unlist(map(unname(measures), function(m) {
+    val = m$aggregate(rr)
+    # CIs in mlr3inferr return more than 1 value and are already named
+    if (length(val) == 1L) return(set_names(val, m$id))
+    val
+  })) %??% set_names(numeric(), character())
 }
 
 #' @export

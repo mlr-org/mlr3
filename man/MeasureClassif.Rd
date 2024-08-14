@@ -132,11 +132,11 @@ Supported by \code{mlr3}:
 \itemize{
 \item \code{"requires_task"} (requires the complete \link{Task}),
 \item \code{"requires_learner"} (requires the trained \link{Learner}),
-\item \code{"requires_model"} (requires the trained \link{Learner}, including the fitted
-model),
+\item \code{"requires_model"} (requires the trained \link{Learner}, including the fitted model),
 \item \code{"requires_train_set"} (requires the training indices from the \link{Resampling}),
-\item \code{"na_score"} (the measure is expected to occasionally return \code{NA} or \code{NaN}), and
-\item \code{"weights"} (support weighted scoring using sample weights from task, column role \code{weights_measure}).
+\item \code{"na_score"} (the measure is expected to occasionally return \code{NA} or \code{NaN}),
+\item \code{"weights"} (support weighted scoring using sample weights from task, column role \code{weights_measure}), and
+\item \code{"primary_iters"} (the measure explictly handles resamplings that only use a subset of their iterations for the point estimate)
 }}
 
 \item{\code{predict_type}}{(\code{character(1)})\cr
