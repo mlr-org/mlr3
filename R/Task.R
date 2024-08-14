@@ -315,8 +315,10 @@ Task = R6Class("Task",
 
       .__i__ = self$col_info[["fix_factor_levels"]]
       if (any(.__i__)) {
-        fix_factors = self$col_info[.__i__, c("id", "levels"), with = FALSE][list(names(data)), on = "id", nomatch = NULL]
+        fix_factors = self$col_info[.__i__, c("id", "levels"), with = FALSE]
         if (nrow(fix_factors)) {
+          # ordering is slow
+          if (nrow(fix_factors) > 1L) fix_factors = fix_factors[list(names(data)), on = "id", nomatch = NULL]
           data = fix_factor_levels(data, levels = set_names(fix_factors$levels, fix_factors$id))
         }
       }
