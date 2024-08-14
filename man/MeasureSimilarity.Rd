@@ -150,6 +150,8 @@ Supported by \code{mlr3}:
 model),
 \item \code{"requires_train_set"} (requires the training indices from the \link{Resampling}), and
 \item \code{"na_score"} (the measure is expected to occasionally return \code{NA} or \code{NaN}).
+\item \code{"primary_iters"} (the measure explictly handles resamplings that only use a subset
+of their iterations for the point estimate).
 }}
 
 \item{\code{predict_type}}{(\code{character(1)})\cr
