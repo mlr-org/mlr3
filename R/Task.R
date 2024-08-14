@@ -947,7 +947,9 @@ Task = R6Class("Task",
     #' They don't necessarily need to sum up to 1.
     col_roles = function(rhs) {
       if (missing(rhs)) {
-        return(private$.col_roles)
+        cr = private$.col_roles
+        cr$weight = cr$weights_learner
+        return(cr)
       }
 
       assert_has_backend(self)
@@ -1216,11 +1218,8 @@ task_set_roles = function(li, cols, roles = NULL, add_to = NULL, remove_from = N
 task_check_col_roles = function(self, new_roles) {
   if (length(new_roles[["weight"]])) {
     # .Deprecated(new = "weights_learner", msg = "Column role 'weight' have been deprecated in favor of 'weights_learner', 'weights_measure' and 'weights_resampling'")
-    if (length(new_roles[["weights_learner"]])) {
-      stopf("Both deprecated column role 'weight' and its replacement 'weights_learner' have benn provided")
-    }
     new_roles$weights_learner = new_roles$weight
-    new_roles$weight = character()
+    new_roles$weight = NULL
   }
 
   for (role in c("group", "name", "weights_learner", "weights_measure", "weights_resampling")) {
