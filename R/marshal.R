@@ -100,7 +100,7 @@ unmarshal_model = function(model, inplace = FALSE, ...) {
 #' @rdname marshaling
 #' @export
 is_marshaled_model = function(model) {
-  test_class(model, "marshaled")
+  inherits(model, "marshaled")
 }
 
 #' @export
