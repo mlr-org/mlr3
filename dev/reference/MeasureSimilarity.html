@@ -190,6 +190,8 @@ Supported by <code>mlr3</code>:</p><ul><li><p><code>"requires_task"</code> (requ
 model),</p></li>
 <li><p><code>"requires_train_set"</code> (requires the training indices from the <a href="Resampling.html">Resampling</a>), and</p></li>
 <li><p><code>"na_score"</code> (the measure is expected to occasionally return <code>NA</code> or <code>NaN</code>).</p></li>
+<li><p><code>"primary_iters"</code> (the measure explictly handles resamplings that only use a subset
+of their iterations for the point estimate).</p></li>
 </ul></dd>
 
 
