@@ -580,3 +580,14 @@ test_that("BenchmarkResult can be (un)marshaled", {
   bmr1$unmarshal()
   expect_equal(bmr1$resample_result(1)$learners[[1]]$model, model)
 })
+
+test_that("obs_loss", {
+  bmr = benchmark(benchmark_grid(
+    tsk("iris"),
+    lrn("classif.rpart"),
+    rsmp("holdout")
+  ))
+  tbl = bmr$obs_loss(msrs(c("classif.acc", "classif.auc")))
+  expect_true(all(is.na(tbl$classif.auc)))
+  expect_integer(tbl$classif.acc)
+})

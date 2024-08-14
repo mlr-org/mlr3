@@ -201,6 +201,25 @@ BenchmarkResult = R6Class("BenchmarkResult",
     },
 
     #' @description
+    #' Calculates the observation-wise loss via the loss function set in the
+    #' [Measure]'s field `obs_loss`.
+    #' Returns a `data.table()` with the columns `row_ids`, `truth`, `response` and
+    #' one additional numeric column for each measure, named with the respective measure id.
+    #' If there is no observation-wise loss function for the measure, the column is filled with
+    #' `NA` values.
+    #' Note that some measures such as RMSE, do have an `$obs_loss`, but they require an
+    #' additional transformation after aggregation, in this example taking the square-root.
+    #' @param predict_sets (`character()`)\cr
+    #'   The predict sets.
+    obs_loss = function(measures = NULL, predict_sets = "test") {
+      measures = as_measures(measures, task_type = private$.data$task_type)
+      map_dtr(self$resample_results$resample_result,
+        function(rr) {
+          rr$obs_loss(measures, predict_sets)
+        }, .idcol = "resample_result")
+    },
+
+    #' @description
     #' Returns a result table where resampling iterations are combined into
     #' [ResampleResult]s. A column with the aggregated performance score is
     #' added for each [Measure], named with the id of the respective measure.
@@ -294,7 +313,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
       set_data_table_class(tab, "bmr_aggregate")
 
       cns = c("uhash", "nr", "resample_result", "task_id", "learner_id", "resampling_id", "iters",
-        "warnings", "errors", "params", ids(measures))
+        "warnings", "errors", "params", names(scores))
       cns = intersect(cns, names(tab))
       tab[, cns, with = FALSE]
     },
