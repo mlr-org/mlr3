@@ -21,6 +21,14 @@ Many of the measures in \pkg{mlr3} are implemented in \CRANpkg{mlr3measures} as 
 
 A guide on how to extend \CRANpkg{mlr3} with custom measures can be found in the \href{https://mlr3book.mlr-org.com}{mlr3book}.
 }
+\section{Inheriting}{
+
+For some measures (such as confidence intervals from \code{mlr3inferr}) it is necessary that a measure
+returns more than one value.
+In such cases it is necessary to overwrite the public methods \verb{$aggregate()} and/or \verb{$score()} to return a named \code{numeric()}
+where at least one of its names corresponds to the \code{id} of the measure itself.
+}
+
 \seealso{
 \itemize{
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
@@ -245,8 +253,6 @@ Supported by \code{mlr3}:
 model),
 \item \code{"requires_train_set"} (requires the training indices from the \link{Resampling}), and
 \item \code{"na_score"} (the measure is expected to occasionally return \code{NA} or \code{NaN}).
-\item \code{"primary_iters"} (the measure can handle resampling methods where not all iterations should be used
-for point estimation)
 }}
 
 \item{\code{predict_type}}{(\code{character(1)})\cr
@@ -276,7 +282,7 @@ String in the format \verb{[pkg]::[topic]} pointing to a manual page for this ob
 The referenced help package can be opened via method \verb{$help()}.}
 
 \item{\code{trafo}}{(\code{list()} or \code{NULL})\cr
-An optional list with two elements, containing the transformation \code{"fn"} and its derivative \code{"fn"}.
+An optional list with two elements, containing the transformation \code{"fn"} and its derivative \code{"deriv"}.
 The transformation function is the function that is applied after aggregating the pointwise losses, i.e.
 this requires an \verb{$obs_loss} to be present. An example is \code{sqrt} for RMSE.}
 }

@@ -192,7 +192,7 @@ the performance scores with the aggregate function of the respective \link{Measu
 
 If you calculate the performance on this prediction object directly, this is called micro averaging.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$prediction(predict_sets = "test", iters = NULL)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$prediction(predict_sets = "test")}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{

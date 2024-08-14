@@ -98,7 +98,7 @@ ResampleResult = R6Class("ResampleResult",
     #' @param predict_sets (`character()`)\cr
     #' @return [Prediction].
     #'   Subset of `{"train", "test"}`.
-    prediction = function(predict_sets = "test", iters = NULL) {
+    prediction = function(predict_sets = "test") {
       private$.data$prediction(private$.view, predict_sets)
     },
 

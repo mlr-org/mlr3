@@ -54,6 +54,10 @@
 #'   The learner.
 #' @param ... (any)\cr
 #'   Additional parameters, currently unused.
+#' @param model (any)\cr
+#'   Model to marshal.
+#' @param inplace (`logical(1)`)\cr
+#'   Whether to marshal in-place.
 #'
 #' @export
 learner_unmarshal = function(.learner, ...) {

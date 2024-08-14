@@ -149,7 +149,7 @@ test_that("primary iters are respected", {
   train_sets = map(1:10, function(i) resampling$train_set(i))
   test_sets = map(1:10, function(i) resampling$train_set(i))
   r1 = rsmp("custom")$instantiate(task, train_sets = train_sets, test_sets = test_sets)
-  r1$primary_iters = 1:2
+  get_private(r1, ".primary_iters") = 1:2
   r2 = rsmp("custom")$instantiate(task, train_sets = train_sets[1:2], test_sets = test_sets[1:2])
   r3 = rsmp("custom")$instantiate(task, train_sets = train_sets, test_sets = test_sets)
 

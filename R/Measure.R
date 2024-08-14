@@ -18,6 +18,11 @@
 #' Many of the measures in \pkg{mlr3} are implemented in \CRANpkg{mlr3measures} as ordinary functions.
 #'
 #' A guide on how to extend \CRANpkg{mlr3} with custom measures can be found in the [mlr3book](https://mlr3book.mlr-org.com).
+#' @section Inheriting:
+#' For some measures (such as confidence intervals from `mlr3inferr`) it is necessary that a measure
+#' returns more than one value.
+#' In such cases it is necessary to overwrite the public methods `$aggregate()` and/or `$score()` to return a named `numeric()`
+#' where at least one of its names corresponds to the `id` of the measure itself.
 #'
 #' @template param_id
 #' @template param_param_set
@@ -36,7 +41,7 @@
 #' @param obs_loss (`function` or `NULL`)\cr
 #'   The observation-wise loss function, e.g. [zero-one][mlr3measures::zero_one] for classification error.
 #' @param trafo (`list()` or `NULL`)\cr
-#'   An optional list with two elements, containing the transformation `"fn"` and its derivative `"fn"`.
+#'   An optional list with two elements, containing the transformation `"fn"` and its derivative `"deriv"`.
 #'   The transformation function is the function that is applied after aggregating the pointwise losses, i.e.
 #'   this requires an `$obs_loss` to be present. An example is `sqrt` for RMSE.
 #'
@@ -232,20 +237,21 @@ Measure = R6Class("Measure",
       switch(self$average,
         "macro" = {
           aggregator = self$aggregator %??% mean
-          tab = score_measures(rr, list(self), reassemble = FALSE, view = get_private(rr)$.view, iters = rr$resampling$primary_iters)
+          tab = score_measures(rr, list(self), reassemble = FALSE, view = get_private(rr)$.view,
+            iters = get_private(rr$resampling)$.primary_iters)
           set_names(aggregator(tab[[self$id]]), self$id)
         },
         "micro" = {
-          if (is.null(rr$resampling$primary_iters)) {
+          if (is.null(get_private(rr$resampling)$.primary_iters)) {
             self$score(rr$prediction(self$predict_sets), task = rr$task, learner = rr$learner)
           } else {
-            prediction = do.call(c, rr$predictions(self$predict_sets)[rr$resampling$primary_iters])
+            prediction = do.call(c, rr$predictions(self$predict_sets)[get_private(rr$resampling)$.primary_iters])
             self$score(prediction, task = rr$task, learner = rr$learner)
           }
         },
         "custom" =  {
-          if (!is.null(rr$resampling$primary_iters) && "primary_iters" %nin% self$properties &&
-            !test_permutation(rr$resampling$primary_iters, seq_len(rr$resampling$iters))) {
+          if (!is.null(get_private(rr$resampling)$.primary_iters) && "primary_iters" %nin% self$properties &&
+            !test_permutation(get_private(rr$resampling)$.primary_iters, seq_len(rr$resampling$iters))) {
             stopf("Resample result has non-NULL primary_iters, but measure '%s' cannot handle them", self$id)
           }
           private$.aggregator(rr)
@@ -360,7 +366,7 @@ score_single_measure = function(measure, task, learner, train_set, prediction) {
 #' @param obj ([ResampleResult] | [BenchmarkResult]).
 #' @param measures (list of [Measure]).
 #' @param iters (`integer()` or `NULL`)
-#' To which iterations of the resample result to restrict the scoring (primary_iters).
+#' To which iterations of the resample result to restrict the scoring.
 #'
 #' @return (`data.table()`) with added score columns.
 #'
