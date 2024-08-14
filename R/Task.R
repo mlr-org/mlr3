@@ -137,8 +137,8 @@ Task = R6Class("Task",
       self$col_info$fix_factor_levels = FALSE
 
       assert_subset(self$col_info$type, mlr_reflections$task_feature_types, .var.name = "feature types")
-      pmap(self$col_info[, c("id", "levels")],
-        function(id, levels) {
+      pmap(self$col_info,
+        function(id, levels, ...) {
           assert_character(levels, any.missing = FALSE, min.len = 1L, null.ok = TRUE,
             .var.name = sprintf("levels of '%s'", id))
         }
