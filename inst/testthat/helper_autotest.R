@@ -230,6 +230,19 @@ run_experiment = function(task, learner, seed = NULL) {
   learner$encapsulate = c(train = "evaluate", predict = "evaluate")
 
   stage = "train()"
+
+  # enable weights
+  if ("weights" %in% learner$properties) {
+    # learner must have flag "use_weights"
+    msg = checkmate::check_subset("use_weights", learner$param_set$ids(), empty.ok = FALSE)
+    if (!isTRUE(msg)) {
+      return(err(msg))
+    }
+    if ("weights_learner" %in% task$properties) {
+      learner$param_set$use_weights = TRUE
+    }
+  }
+
   ok = try(learner$train(task), silent = TRUE)
   if (inherits(ok, "try-error")) {
     return(err(as.character(ok)))
