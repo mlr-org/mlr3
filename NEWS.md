@@ -2,6 +2,8 @@
 
 # mlr3 0.20.2
 
+* the `ratio` for `$divide()` now represents the ratio for the training data
+  this makes it consistent with `partition()` and `Task$divide`.
 * refactor: move RhpcBLASctl to suggest.
 * feat: Added resampling property `"primary_iters"`
 * feat: added possibility to access observation-wise losses

@@ -372,7 +372,7 @@ One must either provide the parameter \code{ratio} or `ids.
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{ratio}}{(\code{numeric(1)})\cr
-The proportion of datapoints to use as validation data.}
+The proportion of datapoints to use as training data. The rest \code{1 - ratio} is used for validation.}
 
 \item{\code{ids}}{(\code{integer()})\cr
 The row ids to use as validation data.}

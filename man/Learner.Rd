@@ -97,7 +97,7 @@ If the model is not trained yet, this method should return \code{NULL}.
 \item Add the \code{validate} parameter, which can be either \code{NULL}, a ratio in $(0, 1)$, \code{"test"}, or \code{"predefined"}:
 \itemize{
 \item \code{NULL}: no validation
-\item \code{ratio}: only proportion \code{1 - ratio} of the task is used for training and \code{ratio} is used for validation.
+\item \code{ratio}: only proportion \code{ratio} of the task is used for training and \code{1 - ratio} is used for validation.
 \item \code{"test"} means that the \code{"test"} task is used.
 \strong{Warning}: This can lead to biased performance estimation.
 This option is only available if the learner is being trained via \code{\link[=resample]{resample()}}, \code{\link[=benchmark]{benchmark()}} or functions that

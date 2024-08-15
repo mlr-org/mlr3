@@ -537,7 +537,7 @@ test_that("validation task cannot have a validation task", {
 
 test_that("divide works with ratio", {
   task = tsk("iris")$filter(1:10)
-  task$divide(ratio = 0.1)
+  task$divide(ratio = 0.9)
   expect_equal(task$nrow, 9)
   expect_equal(task$internal_valid_task$nrow, 1)
   expect_permutation(1:10, c(task$row_ids, task$internal_valid_task$row_ids))

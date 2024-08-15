@@ -159,7 +159,7 @@ Task = R6Class("Task",
     #' One must either provide the parameter `ratio` or `ids.
     #'
     #' @param ratio (`numeric(1)`)\cr
-    #'   The proportion of datapoints to use as validation data.
+    #'   The proportion of datapoints to use as training data. The rest `1 - ratio` is used for validation.
     #' @param ids (`integer()`)\cr
     #'   The row ids to use as validation data.
     #' @param remove (`logical(1)`)\cr
@@ -178,7 +178,7 @@ Task = R6Class("Task",
       valid_ids = if (!is.null(ratio)) {
         assert_numeric(ratio, lower = 0, upper = 1, any.missing = FALSE)
         # stratify = FALSE means we only stratify when strata are present
-        partition(self, ratio = 1 - ratio, stratify = FALSE)$test
+        partition(self, ratio = ratio, stratify = FALSE)$test
       } else {
         assert_row_ids(ids, null.ok = FALSE)
       }

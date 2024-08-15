@@ -102,7 +102,7 @@
 #'   If the model is not trained yet, this method should return `NULL`.
 #' * Add the `validate` parameter, which can be either `NULL`, a ratio in $(0, 1)$, `"test"`, or `"predefined"`:
 #'   * `NULL`: no validation
-#'   * `ratio`: only proportion `1 - ratio` of the task is used for training and `ratio` is used for validation.
+#'   * `ratio`: only proportion `ratio` of the task is used for training and `1 - ratio` is used for validation.
 #'   * `"test"` means that the `"test"` task is used.
 #'     **Warning**: This can lead to biased performance estimation.
 #'     This option is only available if the learner is being trained via [resample()], [benchmark()] or functions that
