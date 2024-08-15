@@ -267,7 +267,7 @@ test_that("integer<->numeric conversion in newdata (#533)", {
 test_that("weights", {
   data = cbind(iris, w = rep(c(1, 100, 1), each = 50))
   task = TaskClassif$new("weighted_task", data, "Species")
-  task$set_col_roles("w", "weight")
+  task$set_col_roles("w", "weights_learner")
 
   learner = lrn("classif.rpart", use_weights = TRUE)
   learner$train(task)

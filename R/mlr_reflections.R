@@ -101,18 +101,18 @@ local({
     "use"
   )
 
-  tmp = c("feature", "target", "name", "order", "stratum", "group", "weight", "weights_learner", "weights_measure", "weights_resampling")
+  tmp = c("feature", "target", "name", "order", "stratum", "group", "weights_learner", "weights_measure", "weights_resampling")
   mlr_reflections$task_col_roles = list(
     regr = tmp,
     classif = tmp,
     unsupervised = c("feature", "name", "order")
   )
 
-  tmp = c("strata", "groups", "weights", "weights_learner", "weights_measure", "weights_resampling")
+  tmp = c("strata", "groups", "weights_learner", "weights_measure", "weights_resampling")
   mlr_reflections$task_properties = list(
     classif = c(tmp, "twoclass", "multiclass"),
     regr = tmp,
-    unsupervised = character(0)
+    unsupervised = character()
   )
 
   mlr_reflections$task_mandatory_properties = list(

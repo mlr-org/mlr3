@@ -671,9 +671,8 @@ the primary key of the \link{DataBackend} (\code{task$backend$primary_key}).
 In case of name clashes of row ids, rows in \code{data} have higher precedence
 and virtually overwrite the rows in the \link{DataBackend}.
 
-All columns with the roles \code{"target"}, \code{"feature"}, \code{"weight"}, \code{"group"}, \code{"stratum"},
-and \code{"order"} must be present in \code{data}.
-Columns only present in \code{data} but not in the \link{DataBackend} of \code{task} will be discarded.
+All columns roles \code{"target"}, \code{"feature"}, \code{"weights_learner"}, \code{"weights_measure"},
+\code{"weights_resampling"}, group"\verb{, }"stratum"\verb{, and }"order"\verb{must be present in}data\verb{. Columns only present in }data\verb{but not in the [DataBackend] of}task` will be discarded.
 
 This operation mutates the task in-place.
 See the section on task mutators for more information.

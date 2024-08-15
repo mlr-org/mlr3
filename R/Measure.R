@@ -279,7 +279,8 @@ Measure = R6Class("Measure",
     #' Properties of this measure.
     properties = function(rhs) {
       if (!missing(rhs)) {
-        private$.properties = assert_subset(rhs, mlr_reflections$measure_properties[[self$task_type]])
+        props = if (is.na(self$task_type)) unique(unlist(mlr_reflections$measure_properties), use.names = FALSE) else mlr_reflections$measure_properties[[self$task_type]]
+        private$.properties = assert_subset(rhs, props)
       } else {
         properties = private$.properties
         if ("requires_task" %nin% properties && "weights" %in% properties && isTRUE(self$param_set$values$use_weights)) {

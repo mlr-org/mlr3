@@ -45,7 +45,7 @@ test_that("weights", {
   learner$train(task)
   c1 = learner$predict(task)$confusion
 
-  task$set_col_roles("w", "weight")
+  task$set_col_roles("w", "weights_learner")
   learner$train(task)
   c2 = learner$predict(task)$confusion
 

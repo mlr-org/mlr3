@@ -51,7 +51,7 @@ test_that("missing predictions are handled gracefully / regr", {
 
 test_that("predict_newdata with weights (#519)", {
   task = tsk("boston_housing")
-  task$set_col_roles("nox", "weight")
+  task$set_col_roles("nox", "weights_learner")
   learner = lrn("regr.featureless")
   learner$train(task)
   expect_prediction(learner$predict(task))

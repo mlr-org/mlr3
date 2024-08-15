@@ -443,8 +443,8 @@ Task = R6Class("Task",
     #' In case of name clashes of row ids, rows in `data` have higher precedence
     #' and virtually overwrite the rows in the [DataBackend].
     #'
-    #' All columns with the roles `"target"`, `"feature"`, `"weight"`, `"group"`, `"stratum"`,
-    #' and `"order"` must be present in `data`.
+    #' All columns roles `"target"`, `"feature"`, `"weights_learner"`, `"weights_measure"`,
+    #' `"weights_resampling"`, group"`, `"stratum"`, and `"order"` must be present in `data`.
     #' Columns only present in `data` but not in the [DataBackend] of `task` will be discarded.
     #'
     #' This operation mutates the task in-place.
@@ -881,15 +881,14 @@ Task = R6Class("Task",
     #' Note that above listed properties are calculated from the `$col_roles`, and may not be set explicitly.
     properties = function(rhs) {
       if (missing(rhs)) {
-        col_roles = private$.col_roles
-        c(character(),
-          private$.properties,
-          if (length(col_roles$group)) "groups" else NULL,
-          if (length(col_roles$stratum)) "strata" else NULL,
-          if (length(col_roles$weights_learner)) c("weights", "weights_learner") else NULL,
-          if (length(col_roles$weights_measure)) "weights_measure" else NULL,
-          if (length(col_roles$weights_resampling)) "weights_resampling" else NULL
+        prop_roles = c(
+          groups = "group",
+          strata = "stratum",
+          weights_learner = "weights_learner",
+          weights_measure = "weights_measure",
+          weights_resampling = "weights_resampling"
         )
+        c(private$.properties, names(prop_roles)[lengths(private$.col_roles[prop_roles]) > 0L])
       } else {
         private$.properties = assert_set(rhs, .var.name = "properties")
       }
@@ -947,9 +946,7 @@ Task = R6Class("Task",
     #' They don't necessarily need to sum up to 1.
     col_roles = function(rhs) {
       if (missing(rhs)) {
-        cr = private$.col_roles
-        cr$weight = cr$weights_learner
-        return(cr)
+        return(private$.col_roles)
       }
 
       assert_has_backend(self)
@@ -1064,8 +1061,7 @@ Task = R6Class("Task",
     #' @field weights ([data.table::data.table()])\cr
     #' Deprecated, use `$weights_learner` instead.
     weights = function(rhs) {
-      assert_ro_binding(rhs)
-      self$weights_learner
+      stopf("Field 'task$weights' is deprecated. Use 'task$weights_learner' instead")
     },
 
     #' @field weights_learner ([data.table::data.table()])\cr
@@ -1216,10 +1212,8 @@ task_set_roles = function(li, cols, roles = NULL, add_to = NULL, remove_from = N
 }
 
 task_check_col_roles = function(self, new_roles) {
-  if (length(new_roles[["weight"]])) {
-    # .Deprecated(new = "weights_learner", msg = "Column role 'weight' have been deprecated in favor of 'weights_learner', 'weights_measure' and 'weights_resampling'")
-    new_roles$weights_learner = new_roles$weight
-    new_roles$weight = NULL
+  if ("weight" %in% names(new_roles)) {
+    stopf("Task role 'weight' is deprecated, use 'weight_learner' instead")
   }
 
   for (role in c("group", "name", "weights_learner", "weights_measure", "weights_resampling")) {
