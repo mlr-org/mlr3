@@ -53,13 +53,13 @@ tsks = function(.keys, ...) {
 #' @rdname mlr_sugar
 #' @export
 tgen = function(.key, ...) {
-  dictionary_sugar_get_safe(dict = mlr_task_generators, .key, ...)
+  dictionary_sugar_get(dict = mlr_task_generators, .key, ...)
 }
 
 #' @rdname mlr_sugar
 #' @export
 tgens = function(.keys, ...) {
-  dictionary_sugar_mget_safe(dict = mlr_task_generators, .keys, ...)
+  dictionary_sugar_mget(dict = mlr_task_generators, .keys, ...)
 }
 
 #' @rdname mlr_sugar
