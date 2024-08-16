@@ -97,15 +97,16 @@ Calls <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">
 
 
 <p>The following methods change the task in-place:</p><ul><li><p>Any modification of the lists <code>$col_roles</code> or <code>$row_roles</code>.
-This provides a different "view" on the data without altering the data itself.</p></li>
-<li><p>Modification of column or row roles via <code>$set_col_roles()</code> or <code>$set_row_roles()</code>, respectively.</p></li>
-<li><p><code>$filter()</code> and <code>$select()</code> subset the set of active rows or features in <code>$row_roles</code> or <code>$col_roles</code>, respectively.
-This provides a different "view" on the data without altering the data itself.</p></li>
-<li><p><code><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind()</a></code> and <code><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind()</a></code> change the task in-place by binding rows or columns to the data, but without modifying the original <a href="DataBackend.html">DataBackend</a>.
-Instead, the methods first create a new <a href="DataBackendDataTable.html">DataBackendDataTable</a> from the provided new data, and then
-merge both backends into an abstract <a href="DataBackend.html">DataBackend</a> which merges the results on-demand.</p></li>
-<li><p><code>rename()</code> wraps the <a href="DataBackend.html">DataBackend</a> of the Task in an additional <a href="DataBackend.html">DataBackend</a> which deals with the renaming. Also updates <code>$col_roles</code> and <code>$col_info</code>.</p></li>
-<li><p><code>set_levels()</code> and <code><a href="https://rdrr.io/r/base/droplevels.html" class="external-link">droplevels()</a></code> <code>update the field </code>col_info()`.</p></li>
+This provides a different "view" on the data without altering the data itself.
+This may affects, e.g., <code>$data</code>, <code>$nrow</code>, <code>$ncol</code>, <code>n_features</code>, <code>row_ids</code>, and <code>$feature_names</code>.
+Altering <code>$col_roles</code> may affect, e.g., <code>$data</code>, <code>$ncol</code>, <code>$n_features</code>, and <code>$feature_names</code>.
+Altering <code>$row_roles</code> may affect, e.g., <code>$data</code>, <code>$nrow</code>, and <code>$row_ids</code>.</p></li>
+<li><p>Modification of column or row roles via <code>$set_col_roles()</code> or <code>$set_row_roles()</code>, respectively.
+They are an alternative to directly accessing <code>$col_roles</code> or <code>$row_roles</code>, with the same side effects.</p></li>
+<li><p><code>$select()</code> and <code>$filter()</code> subset the set of active features or rows in <code>$col_roles</code> or <code>$row_roles</code>, respectively.</p></li>
+<li><p><code>$cbind()</code> and <code>$rbind()</code> change the task in-place by binding new columns or rows to the data.</p></li>
+<li><p><code>$rename()</code> changes column names.</p></li>
+<li><p><code>$set_levels()</code> and <code>$droplevels()</code> update the field <code>$col_info()</code> to automatically repair factor levels while querying data with <code>$data()</code>.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
