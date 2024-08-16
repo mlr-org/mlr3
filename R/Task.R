@@ -1213,7 +1213,7 @@ task_set_roles = function(li, cols, roles = NULL, add_to = NULL, remove_from = N
 
 task_check_col_roles = function(self, new_roles) {
   if ("weight" %in% names(new_roles)) {
-    stopf("Task role 'weight' is deprecated, use 'weight_learner' instead")
+    stopf("Task role 'weight' is deprecated, use 'weights_learner' instead")
   }
 
   for (role in c("group", "name", "weights_learner", "weights_measure", "weights_resampling")) {
