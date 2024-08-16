@@ -32,10 +32,14 @@ ResamplingInsample = R6Class("ResamplingInsample", inherit = Resampling,
     initialize = function() {
       super$initialize(id = "insample",
         label = "Insample Resampling", man = "mlr3::mlr_resamplings_insample")
-    },
-
+    }
+  ),
+  active = list(
     #' @template field_iters
-    iters = 1L
+    iters = function(rhs)  {
+      assert_ro_binding(rhs)
+      1L
+    }
   ),
 
   private = list(
