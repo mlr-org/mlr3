@@ -547,3 +547,14 @@ test_that("validation task with 0 observations", {
   task$divide(ids = integer(0))
   expect_error({learner$train(task)}, "has 0 observations")
 })
+
+test_that("predict time is cumulative", {
+  learner = lrn("classif.debug", sleep_predict = function() 0.05)
+  task = tsk("iris")
+  learner$train(task)$predict(task)
+  t1 = learner$timings["predict"]
+  learner$param_set$values$sleep_predict = function() 0.01
+  learner$predict(task)
+  t2 = learner$timings["predict"]
+  expect_true(t2 > t1)
+})

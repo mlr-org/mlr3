@@ -461,6 +461,7 @@ Learner = R6Class("Learner",
 
     #' @field timings (named `numeric(2)`)\cr
     #' Elapsed time in seconds for the steps `"train"` and `"predict"`.
+    #' When multiple predictions were made, the predict time shows the cumulative duration of all predictions.
     #' Measured via [mlr3misc::encapsulate()].
     timings = function(rhs) {
       assert_ro_binding(rhs)

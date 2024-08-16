@@ -257,6 +257,7 @@ The fitted model. Only available after \verb{$train()} has been called.}
 
 \item{\code{timings}}{(named \code{numeric(2)})\cr
 Elapsed time in seconds for the steps \code{"train"} and \code{"predict"}.
+When multiple predictions were made, the predict time shows the cumulative duration of all predictions.
 Measured via \code{\link[mlr3misc:encapsulate]{mlr3misc::encapsulate()}}.}
 
 \item{\code{log}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr

@@ -11,6 +11,7 @@
 #' Measures the elapsed time during train ("time_train"), predict ("time_predict"), or both ("time_both").
 #' Aggregation of elapsed time defaults to mean but can be configured via the field `aggregator` of the
 #' [Measure].
+#' When multiple predictions were made, the predict time shows the cumulative duration of all predictions.
 #'
 #' @template param_id
 #' @templateVar id time_train
