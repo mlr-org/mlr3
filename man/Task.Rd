@@ -747,6 +747,8 @@ Other row roles are preserved.}
 \subsection{Details}{
 Roles are first set exclusively (argument \code{roles}), then added (argument \code{add_to}) and finally
 removed (argument \code{remove_from}) from different roles.
+Duplicated row ids are explicitly allowed, so you can add replicate an observation by repeating its
+\code{row_id}.
 }
 
 \subsection{Returns}{
@@ -786,6 +788,7 @@ Other column roles are preserved.}
 \subsection{Details}{
 Roles are first set exclusively (argument \code{roles}), then added (argument \code{add_to}) and finally
 removed (argument \code{remove_from}) from different roles.
+Duplicated columns are removed from the same role.
 }
 
 \subsection{Returns}{
