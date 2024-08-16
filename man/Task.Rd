@@ -39,14 +39,15 @@ The following methods change the task in-place:
 \itemize{
 \item Any modification of the lists \verb{$col_roles} or \verb{$row_roles}.
 This provides a different "view" on the data without altering the data itself.
+This may affects, e.g., \verb{$data}, \verb{$nrow}, \verb{$ncol}, \code{n_features}, \code{row_ids}, and \verb{$feature_names}.
+Altering \verb{$col_roles} may affect, e.g., \verb{$data}, \verb{$ncol}, \verb{$n_features}, and \verb{$feature_names}.
+Altering \verb{$row_roles} may affect, e.g., \verb{$data}, \verb{$nrow}, and \verb{$row_ids}.
 \item Modification of column or row roles via \verb{$set_col_roles()} or \verb{$set_row_roles()}, respectively.
-\item \verb{$filter()} and \verb{$select()} subset the set of active rows or features in \verb{$row_roles} or \verb{$col_roles}, respectively.
-This provides a different "view" on the data without altering the data itself.
-\item \code{rbind()} and \code{cbind()} change the task in-place by binding rows or columns to the data, but without modifying the original \link{DataBackend}.
-Instead, the methods first create a new \link{DataBackendDataTable} from the provided new data, and then
-merge both backends into an abstract \link{DataBackend} which merges the results on-demand.
-\item \code{rename()} wraps the \link{DataBackend} of the Task in an additional \link{DataBackend} which deals with the renaming. Also updates \verb{$col_roles} and \verb{$col_info}.
-\item \code{set_levels()} and \code{droplevels()} \verb{update the field }col_info()`.
+They are an alternative to directly accessing \verb{$col_roles} or \verb{$row_roles}, with the same side effects.
+\item \verb{$select()} and \verb{$filter()} subset the set of active features or rows in \verb{$col_roles} or \verb{$row_roles}, respectively.
+\item \verb{$cbind()} and \verb{$rbind()} change the task in-place by binding new columns or rows to the data.
+\item \verb{$rename()} changes column names.
+\item \verb{$set_levels()} and \verb{$droplevels()} update the field \verb{$col_info()} to automatically repair factor levels while querying data with \verb{$data()}.
 }
 }
 
