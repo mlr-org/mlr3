@@ -239,7 +239,7 @@ run_experiment = function(task, learner, seed = NULL) {
       return(err(msg))
     }
     if ("weights_learner" %in% task$properties) {
-      learner$param_set$use_weights = TRUE
+      learner$param_set$values$use_weights = TRUE
     }
   }
 
