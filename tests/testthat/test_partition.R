@@ -1,22 +1,25 @@
-test_that("partition TaskClassif", {
+test_that("partition two way split", {
   task = tsk("pima")
-  li = partition(task)
-  expect_list(li, len = 2L)
-  expect_names(names(li), identical.to = c("train", "test"))
+  li = partition(task, ratio = 0.66)
+  expect_list(li, len = 3L)
+  expect_names(names(li), identical.to = c("train", "test", "validation"))
+  expect_equal(length(li$train), 507)
+  expect_equal(length(li$test), 261)
+  expect_equal(length(li$validation), 0)
 
-  ratio = function(x) {
-    tab = table(x)
-    tab[1] / tab[2]
-  }
-
-  r = ratio(task$truth())
-  expect_true(abs(ratio(task$truth(li$train)) - r) < 0.05)
-  expect_true(abs(ratio(task$truth(li$test)) - r) < 0.05)
+  expect_disjunct(li$train, li$test)
+  expect_disjunct(li$train, li$validation)
 })
 
-test_that("partition TaskRegr", {
-  task = tsk("boston_housing")
-  li = partition(task)
-  expect_list(li, len = 2L)
-  expect_names(names(li), identical.to = c("train", "test"))
+test_that("partition three way split", {
+  task = tsk("pima")
+  li = partition(task, ratio = c(0.66, 0.14))
+  expect_list(li, len = 3L)
+  expect_names(names(li), identical.to = c("train", "test", "validation"))
+  expect_equal(length(li$train), 507)
+  expect_equal(length(li$test), 107)
+  expect_equal(length(li$validation), 154)
+
+  expect_disjunct(li$train, li$test)
+  expect_disjunct(li$train, li$validation)
 })
