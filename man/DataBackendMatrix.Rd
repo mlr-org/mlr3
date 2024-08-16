@@ -119,7 +119,8 @@ Duplicated row ids result in duplicated rows, duplicated column names lead to an
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{rows}}{(positive \code{integer()})\cr
-Vector or row indices.}
+Vector or row indices.
+Always refers to the complete data set, even after filtering.}
 
 \item{\code{cols}}{(\code{character()})\cr
 Vector of column names.}
@@ -167,7 +168,8 @@ silently ignored.
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{rows}}{(positive \code{integer()})\cr
-Vector or row indices.}
+Vector or row indices.
+Always refers to the complete data set, even after filtering.}
 
 \item{\code{cols}}{(\code{character()})\cr
 Vector of column names.}
@@ -195,7 +197,8 @@ of data. Non-existing rows and columns are silently ignored.
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{rows}}{(positive \code{integer()})\cr
-Vector or row indices.}
+Vector or row indices.
+Always refers to the complete data set, even after filtering.}
 
 \item{\code{cols}}{(\code{character()})\cr
 Vector of column names.}
