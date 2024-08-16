@@ -14,12 +14,16 @@ It is now also necessary to explicitly enable the use of weights via the new hyp
 Note that this is a breaking change, but explicitly stating the intention to use the weights is the less error-prone solution in the long run.
 
 
+* refactor: Optimize runtime of fixing factor levels.
+* refactor: Optimize runtime of setting row roles.
+* refactor: Optimize runtime of marshalling.
+* refactor: Optimize runtime of `Task$col_info`
 
 # mlr3 0.20.2
 
-* refactor: move RhpcBLASctl to suggest.
+* refactor: Move RhpcBLASctl to suggest.
 * feat: Added resampling property `"primary_iters"`
-* feat: added possibility to access observation-wise losses
+* feat: Added possibility to access observation-wise losses
   via function `$obs_loss`. This is possible for `Prediction`,
   `ResampleResult` and `BenchmarkResult`.
 * feat: `Measure`s now also return a vector of numerics.
