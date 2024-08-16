@@ -376,8 +376,9 @@ test_that("col roles getters/setters", {
     task$col_roles$feature = "foo"
   })
 
-  # additional roles allowed (#558)
-  task$col_roles$foo = "Species"
+  expect_error({
+    task$col_roles$foo = "Species"
+  })
 
   task$col_roles$feature = setdiff(task$col_roles$feature, "Sepal.Length")
   expect_false("Sepal.Length" %in% task$feature_names)
