@@ -41,14 +41,15 @@
 #' The following methods change the task in-place:
 #' * Any modification of the lists `$col_roles` or `$row_roles`.
 #'   This provides a different "view" on the data without altering the data itself.
+#'   This may affects, e.g., `$data`, `$nrow`, `$ncol`, `n_features`, `row_ids`, and `$feature_names`.
+#'   Altering `$col_roles` may affect, e.g., `$data`, `$ncol`, `$n_features`, and `$feature_names`.
+#'   Altering `$row_roles` may affect, e.g., `$data`, `$nrow`, and `$row_ids`.
 #' * Modification of column or row roles via `$set_col_roles()` or `$set_row_roles()`, respectively.
-#' * `$filter()` and `$select()` subset the set of active rows or features in `$row_roles` or `$col_roles`, respectively.
-#'   This provides a different "view" on the data without altering the data itself.
-#' * `rbind()` and `cbind()` change the task in-place by binding rows or columns to the data, but without modifying the original [DataBackend].
-#'   Instead, the methods first create a new [DataBackendDataTable] from the provided new data, and then
-#'   merge both backends into an abstract [DataBackend] which merges the results on-demand.
-#' * `rename()` wraps the [DataBackend] of the Task in an additional [DataBackend] which deals with the renaming. Also updates `$col_roles` and `$col_info`.
-#' * `set_levels()` and `droplevels()` `update the field `col_info()`.
+#'   They are an alternative to directly accessing `$col_roles` or `$row_roles`, with the same side effects.
+#' * `$select()` and `$filter()` subset the set of active features or rows in `$col_roles` or `$row_roles`, respectively.
+#' * `$cbind()` and `$rbind()` change the task in-place by binding new columns or rows to the data.
+#' * `$rename()` changes column names.
+#' * `$set_levels()` and `$droplevels()` update the field `$col_info()` to automatically repair factor levels while querying data with `$data()`.
 #'
 #' @template seealso_task
 #' @concept Task
@@ -84,7 +85,7 @@ Task = R6Class("Task",
     backend = NULL,
 
     #' @field col_info ([data.table::data.table()])\cr
-    #' Table with with 4 columns:
+    #' Table with with 4 columns, mainly for internal purposes:
     #' - `"id"` (`character()`) stores the name of the column.
     #' - `"type"` (`character()`) holds the storage type of the variable, e.g. `integer`, `numeric` or `character`.
     #'   See [mlr_reflections$task_feature_types][mlr_reflections] for a complete list of allowed types.
@@ -92,6 +93,9 @@ Task = R6Class("Task",
     #' - `"label"` (`character()`) stores a vector of prettier, formated column names.
     #' - `"fix_factor_levels"` (`logical()`) stores flags which determine if the levels of the respective variable
     #'   need to be reordered after querying the data from the [DataBackend].
+    #'
+    #' Note that all columns of the [DataBackend], also columns which are not selected or have any role, are listed
+    #' in this table.
     col_info = NULL,
 
     #' @template field_man
