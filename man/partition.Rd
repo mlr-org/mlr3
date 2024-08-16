@@ -24,7 +24,7 @@ task = tsk("boston_housing")
 split = partition(task, ratio = 0.5)
 data = data.frame(
   y = c(task$truth(split$train), task$truth(split$test)),
-  split = rep(c("train", "predict"), lengths(split))
+  split = rep(c("train", "predict"), lengths(split[c("train", "test")]))
 )
 boxplot(y ~ split, data = data)
 
