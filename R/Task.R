@@ -177,8 +177,7 @@ Task = R6Class("Task",
 
       valid_ids = if (!is.null(ratio)) {
         assert_numeric(ratio, lower = 0, upper = 1, any.missing = FALSE)
-        # stratify = FALSE means we only stratify when strata are present
-        partition(self, ratio = 1 - ratio, stratify = FALSE)$test
+        partition(self, ratio = 1 - ratio)$test
       } else {
         assert_row_ids(ids, null.ok = FALSE)
       }
