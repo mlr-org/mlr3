@@ -809,7 +809,9 @@ Other row roles are preserved.</p></dd>
 <div class="section">
 <h4 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h4>
 <p>Roles are first set exclusively (argument <code>roles</code>), then added (argument <code>add_to</code>) and finally
-removed (argument <code>remove_from</code>) from different roles.</p>
+removed (argument <code>remove_from</code>) from different roles.
+Duplicated row ids are explicitly allowed, so you can add replicate an observation by repeating its
+<code>row_id</code>.</p>
 </div>
 
 <div class="section">
@@ -855,7 +857,8 @@ Other column roles are preserved.</p></dd>
 <div class="section">
 <h4 id="details-1">Details<a class="anchor" aria-label="anchor" href="#details-1"></a></h4>
 <p>Roles are first set exclusively (argument <code>roles</code>), then added (argument <code>add_to</code>) and finally
-removed (argument <code>remove_from</code>) from different roles.</p>
+removed (argument <code>remove_from</code>) from different roles.
+Duplicated columns are removed from the same role.</p>
 </div>
 
 <div class="section">
