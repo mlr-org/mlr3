@@ -4,6 +4,8 @@
 * refactor: Optimize runtime of setting row roles.
 * refactor: Optimize runtime of marshalling.
 * refactor: Optimize runtime of `Task$col_info`
+* fix: `Task$cbind()` now works with non-standard primary keys
+  for `data.frames` (#961).
 
 # mlr3 0.20.2
 
