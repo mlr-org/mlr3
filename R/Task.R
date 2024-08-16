@@ -84,7 +84,7 @@ Task = R6Class("Task",
     backend = NULL,
 
     #' @field col_info ([data.table::data.table()])\cr
-    #' Table with with 4 columns:
+    #' Table with with 4 columns, mainly for internal purposes:
     #' - `"id"` (`character()`) stores the name of the column.
     #' - `"type"` (`character()`) holds the storage type of the variable, e.g. `integer`, `numeric` or `character`.
     #'   See [mlr_reflections$task_feature_types][mlr_reflections] for a complete list of allowed types.
@@ -92,6 +92,9 @@ Task = R6Class("Task",
     #' - `"label"` (`character()`) stores a vector of prettier, formated column names.
     #' - `"fix_factor_levels"` (`logical()`) stores flags which determine if the levels of the respective variable
     #'   need to be reordered after querying the data from the [DataBackend].
+    #'
+    #' Note that all columns of the [DataBackend], also columns which are not selected or have any role, are listed
+    #' in this table.
     col_info = NULL,
 
     #' @template field_man
