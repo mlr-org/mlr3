@@ -1,5 +1,6 @@
 # mlr3 (development version)
 
+* feat: The `partition()` function creates training, test and validation sets.
 * refactor: Optimize runtime of fixing factor levels.
 * refactor: Optimize runtime of setting row roles.
 * refactor: Optimize runtime of marshalling.
