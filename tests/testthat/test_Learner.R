@@ -490,7 +490,7 @@ test_that("compatability check on validation task", {
   task$internal_valid_task$col_roles$target = "credit_history"
   expect_error(learner$train(task), "has different target")
 })
-  
+
 test_that("model is marshaled during parallel predict", {
   # by setting check_pid = TRUE, we ensure that unmarshal_model() sets the process id to the current
   # id. LearnerClassifDebug then checks during `.predict()`, whether the marshal_id of the model is equal to the current process id and errs if this is not the case.
@@ -540,7 +540,7 @@ test_that("learner state contains internal valid task information", {
   expect_string(rr$learners[[1L]]$state$internal_valid_task_hash)
 
   # 1. manual
-  learner$train(task) 
+  learner$train(task)
   expect_string(learner$state$internal_valid_task_hash)
 })
 
@@ -549,4 +549,15 @@ test_that("validation task with 0 observations", {
   task = tsk("iris")
   task$internal_valid_task = integer(0)
   expect_error({learner$train(task)}, "has 0 observations")
+})
+
+test_that("predict time is cumulative", {
+  learner = lrn("classif.debug", sleep_predict = function() 0.05)
+  task = tsk("iris")
+  learner$train(task)$predict(task)
+  t1 = learner$timings["predict"]
+  learner$param_set$values$sleep_predict = function() 0.01
+  learner$predict(task)
+  t2 = learner$timings["predict"]
+  expect_true(t1 > t2)
 })

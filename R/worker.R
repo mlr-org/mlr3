@@ -210,7 +210,7 @@ learner_predict = function(learner, task, row_ids = NULL) {
 
     pdata = result$result
     learner$state$log = append_log(learner$state$log, "predict", result$log$class, result$log$msg)
-    learner$state$predict_time = result$elapsed
+    learner$state$predict_time = sum(learner$state$predict_time, result$elapsed)
 
     lg$debug("Learner '%s' returned an object of class '%s'",
       learner$id, class(pdata)[1L], learner = learner$clone(), prediction_data = pdata, messages = result$log$msg)
