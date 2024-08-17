@@ -366,10 +366,7 @@ via \code{\link[=convert_task]{convert_task()}}.}
 \if{html}{\out{<a id="method-Task-divide"></a>}}
 \if{latex}{\out{\hypertarget{method-Task-divide}{}}}
 \subsection{Method \code{divide()}}{
-Creates an internal validation task (field \verb{$internal_valid_task}) from the primary task.
-This modifies the task in-place.
-Subsequent operations on the (primary) task are \strong{not} relayed to the internal validation task.
-One must either provide the parameter \code{ratio} or `ids.
+Deprecated.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Task$divide(ratio = NULL, ids = NULL, remove = TRUE)}\if{html}{\out{</div>}}
 }

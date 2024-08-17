@@ -5,7 +5,7 @@
 * refactor: Optimize runtime of setting row roles.
 * refactor: Optimize runtime of marshalling.
 * refactor: Optimize runtime of `Task$col_info`
-* feat: `$internal_valid_task` can now be set to an `id` vector.
+* feat: `$internal_valid_task` can now be set to an `integer` vector.
 * deprecated the `$divide()` method 
 * fix: `Task$cbind()` now works with non-standard primary keys
   for `data.frames` (#961).

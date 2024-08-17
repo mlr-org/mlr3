@@ -157,10 +157,7 @@ Task = R6Class("Task",
     },
 
     #' @description
-    #' Creates an internal validation task (field `$internal_valid_task`) from the primary task.
-    #' This modifies the task in-place.
-    #' Subsequent operations on the (primary) task are **not** relayed to the internal validation task.
-    #' One must either provide the parameter `ratio` or `ids.
+    #' Deprecated.
     #'
     #' @param ratio (`numeric(1)`)\cr
     #'   The proportion of datapoints to use as validation data.
