@@ -157,9 +157,11 @@ Package version of \code{mlr3} used to create the task.}
 Identifier of the object.
 Used in tables, plot and text output.}
 
-\item{\code{internal_valid_task}}{(\code{Task} or \code{NULL})\cr
+\item{\code{internal_valid_task}}{(\code{Task} or \code{integer()} or \code{NULL})\cr
 Optional validation task that can, e.g., be used for early stopping with learners such as XGBoost.
 See also the \verb{$validate} field of \code{\link{Learner}}.
+If integers are assigned they are removed from the primary task and an internal validation task
+with those ids is created from the primary task using only those ids.
 When assigning a new task, it is always cloned.}
 
 \item{\code{hash}}{(\code{character(1)})\cr

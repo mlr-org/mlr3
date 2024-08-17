@@ -5,6 +5,8 @@
 * refactor: Optimize runtime of setting row roles.
 * refactor: Optimize runtime of marshalling.
 * refactor: Optimize runtime of `Task$col_info`
+* feat: `$internal_valid_task` can now be set to an `id` vector.
+* deprecated the `$divide()` method 
 
 # mlr3 0.20.2
 

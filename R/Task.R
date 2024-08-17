@@ -172,6 +172,7 @@ Task = R6Class("Task",
     #'
     #' @return Modified `Self`.
     divide = function(ratio = NULL, ids = NULL, remove = TRUE) {
+      .Deprecated("field $internal_valid_task")
       assert_flag(remove)
       private$.hash = NULL
 
@@ -783,9 +784,11 @@ Task = R6Class("Task",
       private$.id = assert_string(rhs, min.chars = 1L)
     },
 
-    #' @field internal_valid_task (`Task` or `NULL`)\cr
+    #' @field internal_valid_task (`Task` or `integer()` or `NULL`)\cr
     #' Optional validation task that can, e.g., be used for early stopping with learners such as XGBoost.
     #' See also the `$validate` field of [`Learner`].
+    #' If integers are assigned they are removed from the primary task and an internal validation task
+    #' with those ids is created from the primary task using only those ids.
     #' When assigning a new task, it is always cloned.
     internal_valid_task = function(rhs) {
       if (missing(rhs)) {
@@ -797,10 +800,17 @@ Task = R6Class("Task",
         return(invisible(private$.internal_valid_task))
       }
 
-      assert_task(rhs, task_type = self$task_type)
-      rhs = rhs$clone(deep = TRUE)
-      if (!is.null(rhs$internal_valid_task)) { # avoid recursive structures
-        stopf("Trying to assign task '%s' as a validation task, remove its validation task first.", rhs$id)
+      if (test_integerish(rhs)) {
+        valid_ids = setdiff(self$row_ids, rhs)
+        rhs = self$clone(deep = TRUE)$filter(rhs)
+        rhs$internal_valid_task = NULL
+        self$row_roles$use = valid_ids
+      } else {
+        if (!is.null(rhs$internal_valid_task)) { # avoid recursive structures
+          stopf("Trying to assign task '%s' as a validation task, remove its validation task first.", rhs$id)
+        }
+        assert_task(rhs, task_type = self$task_type)
+        rhs = rhs$clone(deep = TRUE)
       }
 
       ci1 = self$col_info

@@ -463,7 +463,9 @@ create_internal_valid_task = function(validate, task, test_row_ids, prev_valid, 
       }
       # at this point, the train rows are already set to the train set, i.e. we don't have to remove the test ids
       # from the primary task (this would cause bugs for resamplings with overlapping train and test set)
-      task$divide(ids = test_row_ids, remove = FALSE)
+      valid_task = task$clone(deep = TRUE)
+      valid_task$filter(test_row_ids)
+      task$internal_valid_task = valid_task
       return(task)
     }
 
@@ -471,6 +473,6 @@ create_internal_valid_task = function(validate, task, test_row_ids, prev_valid, 
   }
 
   # validate is numeric
-  task$divide(ratio = validate, remove = TRUE)
+  task$internal_valid_task = partition(task, ratio = 1 - ratio)$test
   return(task)
 }
