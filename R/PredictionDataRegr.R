@@ -98,3 +98,27 @@ filter_prediction_data.PredictionDataRegr = function(pdata, row_ids, ...) {
 
   pdata
 }
+
+#' @export
+create_empty_prediction_data.TaskRegr = function(task, learner) {
+  predict_types = mlr_reflections$learner_predict_types[["regr"]][[learner$predict_type]]
+
+  pdata = list(
+    row_ids = integer(),
+    truth = numeric()
+  )
+
+  if ("response" %in% predict_types) {
+    pdata$response = pdata$truth
+  }
+
+  if ("se" %in% predict_types) {
+    pdata$se = pdata$truth
+  }
+
+  if ("distr" %in% predict_types) {
+    pdata$distr = list()
+  }
+
+  return(new_prediction_data(pdata, "regr"))
+}

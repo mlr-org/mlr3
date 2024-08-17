@@ -180,8 +180,8 @@ learner_predict = function(learner, task, row_ids = NULL) {
   if (task$nrow == 0L) {
     # return an empty prediction object, #421
     lg$debug("No observations in task, returning empty prediction data", task = task)
-    learner$state$log = append_log(learner$state$log, "predict", "output", "No data to predict on")
-    return(as_prediction_data(named_list(), task = task, row_ids = integer(), check = TRUE, train_task = learner$state$train_task))
+    learner$state$log = append_log(learner$state$log, "predict", "output", "No data to predict on, create empty prediction")
+    return(create_empty_prediction_data(task, learner))
   }
 
   if (is.null(learner$state$model)) {
