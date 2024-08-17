@@ -4,8 +4,9 @@
 #'
 #' @description
 #' This is the result container object returned by [benchmark()].
-#' A [BenchmarkResult] consists of the data of multiple
-#' [ResampleResult]s.
+#' A [BenchmarkResult] consists of the data of multiple [ResampleResult]s.
+#' The contents of a `BenchmarkResult` and [ResampleResult] are almost identical and the stored [ResampleResult]s can be extracted via the `$resample_result(i)` method, where i is the index of the performed resample experiment.
+#' This allows us to investigate the extracted [ResampleResult] and individual resampling iterations, as well as the predictions and models from each fold.
 #'
 #' [BenchmarkResult]s can be visualized via \CRANpkg{mlr3viz}'s `autoplot()` function.
 #'
