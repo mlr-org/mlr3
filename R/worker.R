@@ -101,7 +101,7 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
   }
 
   if (is.null(result$result)) {
-    lg$debug("Learner '%s' on task '%s' failed to %s a model",
+    lg$info("Learner '%s' on task '%s' failed to %s a model",
       learner$id, task$id, mode, learner = learner$clone(), messages = result$log$msg)
   } else {
     lg$debug("Learner '%s' on task '%s' succeeded to %s a model",
@@ -111,7 +111,7 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
   # fit fallback learner
   fb = learner$fallback
   if (!is.null(fb)) {
-    lg$debug("Calling train method of fallback '%s' on task '%s' with %i observations",
+    lg$info("Calling train method of fallback '%s' on task '%s' with %i observations",
       fb$id, task$id, task$nrow, learner = fb$clone())
 
     fb = assert_learner(as_learner(fb))
