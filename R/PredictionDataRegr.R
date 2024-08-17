@@ -4,7 +4,7 @@ check_prediction_data.PredictionDataRegr = function(pdata, ...) { # nolint
   pdata$row_ids = assert_row_ids(pdata$row_ids)
   n = length(pdata$row_ids)
   if (is.null(pdata$truth)) pdata$truth = NA_real_
-  if (!length(pdata$row_ids)) pdata$truth = numeric(0)
+  if (!length(pdata$row_ids)) pdata$truth = numeric()
 
   if (!is.null(pdata$response)) {
     pdata$response = assert_numeric(unname(pdata$response))
@@ -14,6 +14,11 @@ check_prediction_data.PredictionDataRegr = function(pdata, ...) { # nolint
   if (!is.null(pdata$se)) {
     pdata$se = assert_numeric(unname(pdata$se), lower = 0)
     assert_prediction_count(length(pdata$se), n, "se")
+  }
+
+  if (!is.null(pdata$quantile)) {
+    pdata$quantile = assert_matrix(pdata$quantile)
+    assert_prediction_count(nrow(pdata$quantile), n, "quantile")
   }
 
   if (!is.null(pdata$distr)) {
@@ -43,6 +48,10 @@ is_missing_prediction_data.PredictionDataRegr = function(pdata, ...) { # nolint
 
   if (!is.null(pdata$se)) {
     miss = miss | is.na(pdata$se)
+  }
+
+  if (!is.null(pdata$quantile)) {
+    miss = miss | apply(pdata$quantile, 1L, anyMissing)
   }
 
   pdata$row_ids[miss]
