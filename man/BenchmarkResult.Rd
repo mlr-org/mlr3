@@ -287,7 +287,7 @@ the respective \link{Measure}.
   measures = NULL,
   ids = TRUE,
   conditions = FALSE,
-  predict_sets = "test"
+  predictions = FALSE
 )}\if{html}{\out{</div>}}
 }
 
@@ -305,12 +305,10 @@ extra character columns to the returned table.}
 Adds condition messages (\code{"warnings"}, \code{"errors"}) as extra
 list columns of character vectors to the returned table}
 
-\item{\code{predict_sets}}{(\code{character()})\cr
-Prediction sets to operate on, used in \code{aggregate()} to extract the matching \code{predict_sets} from the \link{ResampleResult}.
-Multiple predict sets are calculated by the respective \link{Learner} during \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}.
-Must be a non-empty subset of \verb{\{"train", "test", "internal_valid"\}}.
-If multiple sets are provided, these are first combined to a single prediction object.
-Default is \code{"test"}.}
+\item{\code{predictions}}{(\code{logical(1)})\cr
+Additionally return prediction objects, one column for each \code{predict_set} of all learners combined.
+Columns are named \code{"prediction_train"}, \code{"prediction_test"} and \code{"prediction_internal_valid"},
+if present.}
 }
 \if{html}{\out{</div>}}
 }

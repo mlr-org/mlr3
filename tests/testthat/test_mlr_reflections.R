@@ -59,13 +59,13 @@ test_that("resampling works", {
   rr = resample(task, learner, rsmp("cv", folds = 3))
   expect_equal(rr$task_type, "test")
 
-  scores = rr$score(msr("classif.ce"))
-  expect_list(scores$prediction, "Prediction")
+  scores = rr$score(msr("classif.ce"), predictions = TRUE)
+  expect_list(scores$prediction_test, "Prediction")
   expect_numeric(scores$classif.ce, any.missing = FALSE)
   expect_number(rr$aggregate(msr("classif.ce")))
 
-  scores = rr$score()
-  expect_list(scores$prediction, "Prediction")
+  scores = rr$score(predictions = TRUE)
+  expect_list(scores$prediction_test, "Prediction")
   expect_numeric(scores$classif.ce, any.missing = FALSE)
   expect_number(rr$aggregate(msr("classif.ce")))
 })
@@ -104,4 +104,3 @@ test_that("external packages can set column roles", {
     resample(task, lrn("classif.rpart"), rsmp("cv", folds = 3))
   })
 })
-
