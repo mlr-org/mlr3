@@ -5,6 +5,7 @@
 * refactor: Optimize runtime of setting row roles.
 * refactor: Optimize runtime of marshalling.
 * refactor: Optimize runtime of `Task$col_info`
+* fix: column info is now checked for compatibility during `Learner$predict` (#943)
 
 # mlr3 0.20.2
 

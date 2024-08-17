@@ -547,3 +547,29 @@ test_that("validation task with 0 observations", {
   task$divide(ids = integer(0))
   expect_error({learner$train(task)}, "has 0 observations")
 })
+
+test_that("column info is compared during predict", {
+  x = c("a", "b")
+  d = data.table(
+    x = factor(x, levels = c("a", "b")),
+    y = 1:2
+  )
+
+  dflip = data.table(
+    x = factor(x, labels = c("b", "a"), levels = c("b", "a")),
+    y = 1:2
+  )
+
+  dother = data.table(
+    x1 = factor(c("a", "b")),
+    y = 1:2
+  )
+
+  task = as_task_classif(d, target = "y")
+  task_flip = as_task_classif(dflip, target = "y")
+  task_other = as_task_classif(dother, target = "y")
+  l = lrn("classif.rpart")
+  l$train(task)
+  expect_error(l$predict(task_flip), "task with different column info")
+  expect_error(l$predict(task_other), "with different columns")
+})
