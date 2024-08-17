@@ -634,3 +634,11 @@ test_that("divide requires ratio in (0, 1)", {
 test_that("divide requires ids to be row_ids", {
   expect_error(tsk("iris")$divide(ids = 0.5))
 })
+
+test_that("cbind supports non-standard primary key (#961)", {
+  tbl = data.table(x = runif(10), y = runif(10), myid = 1:10)
+  b = as_data_backend(tbl, primary_key = "myid")
+  task = as_task_regr(b, target = "y")
+  task$cbind(data.table(x1 = 10:1))
+  expect_true("x1" %in% task$feature_names)
+})
