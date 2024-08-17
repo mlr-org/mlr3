@@ -25,15 +25,15 @@ test_that("Task duplicates rows", {
   expect_task(task, duplicated_ids = TRUE)
 
   expect_equal(task$nrow, 15L)
-  expect_data_table(task$data(), nrow = 15)
+  expect_data_table(task$data(), nrows = 15)
   task$droplevels()
   expect_character(task$class_names, len = 2L)
 
   task$set_row_roles(1, remove_from = "use")
   expect_equal(task$nrow, 13L)
-  task$set_row_roles(1L, add = "use")
+  task$set_row_roles(1L, add_to = "use")
   expect_equal(task$nrow, 14L)
-  task$set_row_roles(1L, add = "use")
+  task$set_row_roles(1L, add_to = "use")
   expect_equal(task$nrow, 15L)
 })
 
