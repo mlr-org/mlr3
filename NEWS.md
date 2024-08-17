@@ -1,11 +1,14 @@
 # mlr3 (development version)
 
+* feat: The `partition()` function creates training, test and validation sets.
 * refactor: Optimize runtime of fixing factor levels.
 * refactor: Optimize runtime of setting row roles.
 * refactor: Optimize runtime of marshalling.
 * refactor: Optimize runtime of `Task$col_info`
 * fix: `Task$cbind()` now works with non-standard primary keys
   for `data.frames` (#961).
+* fix: Triggering of fallback learner now has log-level "info"
+  instead of "debug" (#972)
 
 # mlr3 0.20.2
 

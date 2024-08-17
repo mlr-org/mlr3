@@ -464,7 +464,8 @@ address columns with their respective column name.
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{rows}}{(positive \code{integer()})\cr
-Vector or row indices.}
+Vector or row indices.
+Always refers to the complete data set, even after filtering.}
 
 \item{\code{cols}}{(\code{character()})\cr
 Vector of column names.}
@@ -590,7 +591,8 @@ See the section on task mutators for more information.
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{rows}}{(positive \code{integer()})\cr
-Vector or row indices.}
+Vector or row indices.
+Always refers to the complete data set, even after filtering.}
 }
 \if{html}{\out{</div>}}
 }
@@ -745,6 +747,8 @@ Other row roles are preserved.}
 \subsection{Details}{
 Roles are first set exclusively (argument \code{roles}), then added (argument \code{add_to}) and finally
 removed (argument \code{remove_from}) from different roles.
+Duplicated row ids are explicitly allowed, so you can add replicate an observation by repeating its
+\code{row_id}.
 }
 
 \subsection{Returns}{
@@ -784,6 +788,7 @@ Other column roles are preserved.}
 \subsection{Details}{
 Roles are first set exclusively (argument \code{roles}), then added (argument \code{add_to}) and finally
 removed (argument \code{remove_from}) from different roles.
+Duplicated columns are removed from the same role.
 }
 
 \subsection{Returns}{

@@ -137,7 +137,8 @@ Defaults to all rows with role "use".
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{rows}}{(positive \code{integer()})\cr
-Vector or row indices.}
+Vector or row indices.
+Always refers to the complete data set, even after filtering.}
 }
 \if{html}{\out{</div>}}
 }

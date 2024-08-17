@@ -87,3 +87,21 @@ test_that("set column roles works", {
   expect_task(task$set_col_roles("age", "test"))
   expect_equal(task$col_roles$test, "age")
 })
+
+test_that("external packages can set column roles", {
+  x = utils::getFromNamespace("mlr_reflections", ns = "mlr3")
+  old_col_roles = x$task_col_roles$classif
+
+  on.exit({
+    x$col_roles$classif = old_col_roles
+  }, add = TRUE)
+
+  x$task_col_roles$classif = c(x$task_col_roles$classif, "extra_role")
+
+  task = tsk("pima")
+
+  with_future(future::multisession, {
+    resample(task, lrn("classif.rpart"), rsmp("cv", folds = 3))
+  })
+})
+

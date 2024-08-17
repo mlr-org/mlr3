@@ -13,9 +13,28 @@ test_that("Feature columns can be reordered", {
 })
 
 test_that("Task duplicates rows", {
+  # getting same row ids twice
   task = tsk("iris")
   data = task$data(c(1L, 1L))
   expect_data_table(data, nrows = 2L, any.missing = FALSE)
+
+  # task with duplicated ids in row_roles$use
+  # this happens in ResamplingBootstrap!
+  task = tsk("iris")
+  task$row_roles$use = c(1:5, 1:5, 146:150)
+  expect_task(task, duplicated_ids = TRUE)
+
+  expect_equal(task$nrow, 15L)
+  expect_data_table(task$data(), nrows = 15)
+  task$droplevels()
+  expect_character(task$class_names, len = 2L)
+
+  task$set_row_roles(1, remove_from = "use")
+  expect_equal(task$nrow, 13L)
+  task$set_row_roles(1L, add_to = "use")
+  expect_equal(task$nrow, 14L)
+  task$set_row_roles(1L, add_to = "use")
+  expect_equal(task$nrow, 15L)
 })
 
 test_that("Rows return ordered", {
@@ -357,8 +376,9 @@ test_that("col roles getters/setters", {
     task$col_roles$feature = "foo"
   })
 
-  # additional roles allowed (#558)
-  task$col_roles$foo = "Species"
+  expect_error({
+    task$col_roles$foo = "Species"
+  })
 
   task$col_roles$feature = setdiff(task$col_roles$feature, "Sepal.Length")
   expect_false("Sepal.Length" %in% task$feature_names)

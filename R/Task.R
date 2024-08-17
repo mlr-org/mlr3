@@ -181,8 +181,7 @@ Task = R6Class("Task",
 
       valid_ids = if (!is.null(ratio)) {
         assert_numeric(ratio, lower = 0, upper = 1, any.missing = FALSE)
-        # stratify = FALSE means we only stratify when strata are present
-        partition(self, ratio = 1 - ratio, stratify = FALSE)$test
+        partition(self, ratio = 1 - ratio)$test
       } else {
         assert_row_ids(ids, null.ok = FALSE)
       }
@@ -643,6 +642,8 @@ Task = R6Class("Task",
     #' @details
     #' Roles are first set exclusively (argument `roles`), then added (argument `add_to`) and finally
     #' removed (argument `remove_from`) from different roles.
+    #' Duplicated row ids are explicitly allowed, so you can add replicate an observation by repeating its
+    #' `row_id`.
     #'
     #' @return
     #' Returns the object itself, but modified **by reference**.
@@ -653,7 +654,7 @@ Task = R6Class("Task",
       assert_subset(rows, self$backend$rownames)
 
       private$.hash = NULL
-      private$.row_roles = task_set_roles(private$.row_roles, rows, roles, add_to, remove_from)
+      private$.row_roles = task_set_roles(private$.row_roles, rows, roles, add_to, remove_from, allow_duplicated = TRUE)
 
       invisible(self)
     },
@@ -675,6 +676,7 @@ Task = R6Class("Task",
     #' @details
     #' Roles are first set exclusively (argument `roles`), then added (argument `add_to`) and finally
     #' removed (argument `remove_from`) from different roles.
+    #' Duplicated columns are removed from the same role.
     #'
     #' @return
     #' Returns the object itself, but modified **by reference**.
@@ -943,7 +945,7 @@ Task = R6Class("Task",
 
       assert_has_backend(self)
       qassertr(rhs, "S[1,]", .var.name = "col_roles")
-      assert_names(names(rhs), "unique", must.include = mlr_reflections$task_col_roles[[self$task_type]], .var.name = "names of col_roles")
+      assert_names(names(rhs), "unique", permutation.of = mlr_reflections$task_col_roles[[self$task_type]], .var.name = "names of col_roles")
       assert_subset(unlist(rhs, use.names = FALSE), setdiff(self$col_info$id, self$backend$primary_key), .var.name = "elements of col_roles")
 
       private$.hash = NULL
@@ -1131,28 +1133,52 @@ Task = R6Class("Task",
   )
 )
 
-task_set_roles = function(li, cols, roles = NULL, add_to = NULL, remove_from = NULL) {
+task_set_roles = function(li, elements, roles = NULL, add_to = NULL, remove_from = NULL, allow_duplicated = FALSE) {
   if (!is.null(roles)) {
     assert_subset(roles, names(li))
-    for (role in roles) {
-      li[[role]] = union(li[[role]], cols)
-    }
-    for (role in setdiff(names(li), roles)) {
-      li[[role]] = setdiff(li[[role]], cols)
+    if (allow_duplicated) {
+      for (role in roles) {
+        li[[role]] = c(li[[role]], elements)
+      }
+
+      for (role in setdiff(names(li), roles)) {
+        li[[role]] = li[[role]][li[[role]] %nin% elements]
+      }
+    } else {
+      for (role in roles) {
+        li[[role]] = union(li[[role]], elements)
+      }
+
+      for (role in setdiff(names(li), roles)) {
+        li[[role]] = setdiff(li[[role]], elements)
+      }
     }
   }
 
   if (!is.null(add_to)) {
     assert_subset(add_to, names(li))
-    for (role in add_to) {
-      li[[role]] = union(li[[role]], cols)
+    if (allow_duplicated) {
+      for (role in add_to) {
+        li[[role]] = c(li[[role]], elements)
+      }
+    } else {
+      for (role in add_to) {
+        li[[role]] = union(li[[role]], elements)
+      }
+
     }
   }
 
   if (!is.null(remove_from)) {
     assert_subset(remove_from, names(li))
-    for (role in remove_from) {
-      li[[role]] = setdiff(li[[role]], cols)
+    if (allow_duplicated) {
+      for (role in remove_from) {
+        li[[role]] = li[[role]][li[[role]] %nin% elements]
+      }
+    } else {
+      for (role in remove_from) {
+        li[[role]] = setdiff(li[[role]], elements)
+      }
     }
   }
 
