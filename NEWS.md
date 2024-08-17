@@ -7,6 +7,10 @@
 * refactor: Optimize runtime of `Task$col_info`
 * feat: `$internal_valid_task` can now be set to an `id` vector.
 * deprecated the `$divide()` method 
+* fix: `Task$cbind()` now works with non-standard primary keys
+  for `data.frames` (#961).
+* fix: Triggering of fallback learner now has log-level "info"
+  instead of "debug" (#972)
 
 # mlr3 0.20.2
 

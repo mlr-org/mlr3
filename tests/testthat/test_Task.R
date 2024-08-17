@@ -25,15 +25,15 @@ test_that("Task duplicates rows", {
   expect_task(task, duplicated_ids = TRUE)
 
   expect_equal(task$nrow, 15L)
-  expect_data_table(task$data(), nrow = 15)
+  expect_data_table(task$data(), nrows = 15)
   task$droplevels()
   expect_character(task$class_names, len = 2L)
 
   task$set_row_roles(1, remove_from = "use")
   expect_equal(task$nrow, 13L)
-  task$set_row_roles(1L, add = "use")
+  task$set_row_roles(1L, add_to = "use")
   expect_equal(task$nrow, 14L)
-  task$set_row_roles(1L, add = "use")
+  task$set_row_roles(1L, add_to = "use")
   expect_equal(task$nrow, 15L)
 })
 
@@ -607,4 +607,12 @@ test_that("integer vector can be passed to internal_valid_task", {
   task$internal_valid_task = 5
   expect_permutation(task$row_ids, 1:4)
   expect_equal(task$internal_valid_task$row_ids, 5)
+})
+
+test_that("cbind supports non-standard primary key (#961)", {
+  tbl = data.table(x = runif(10), y = runif(10), myid = 1:10)
+  b = as_data_backend(tbl, primary_key = "myid")
+  task = as_task_regr(b, target = "y")
+  task$cbind(data.table(x1 = 10:1))
+  expect_true("x1" %in% task$feature_names)
 })
