@@ -201,9 +201,11 @@ Used in tables, plot and text output.</p></dd>
 
 
 <dt><code>internal_valid_task</code></dt>
-<dd><p>(<code>Task</code> or <code>NULL</code>)<br>
+<dd><p>(<code>Task</code> or <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code> or <code>NULL</code>)<br>
 Optional validation task that can, e.g., be used for early stopping with learners such as XGBoost.
 See also the <code>$validate</code> field of <code><a href="Learner.html">Learner</a></code>.
+If integers are assigned they are removed from the primary task and an internal validation task
+with those ids is created from the primary task using only those ids.
 When assigning a new task, it is always cloned.</p></dd>
 
 
@@ -422,10 +424,7 @@ via <code><a href="convert_task.html">convert_task()</a></code>.</p></dd>
 
 </div><p></p><hr><a id="method-Task-divide"></a><div class="section">
 <h3 id="method-divide-">Method <code>divide()</code><a class="anchor" aria-label="anchor" href="#method-divide-"></a></h3>
-<p>Creates an internal validation task (field <code>$internal_valid_task</code>) from the primary task.
-This modifies the task in-place.
-Subsequent operations on the (primary) task are <strong>not</strong> relayed to the internal validation task.
-One must either provide the parameter <code>ratio</code> or `ids.</p><div class="section">
+<p>Deprecated.</p><div class="section">
 <h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Task</span><span class="op">$</span><span class="fu">divide</span><span class="op">(</span>ratio <span class="op">=</span> <span class="cn">NULL</span>, ids <span class="op">=</span> <span class="cn">NULL</span>, remove <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
