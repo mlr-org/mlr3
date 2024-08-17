@@ -41,59 +41,59 @@ NULL
 #' @rdname mlr_sugar
 #' @export
 tsk = function(.key, ...) {
-  dictionary_sugar_get(mlr_tasks, .key, ...)
+  dictionary_sugar_get(dict = mlr_tasks, .key, ...)
 }
 
 #' @rdname mlr_sugar
 #' @export
 tsks = function(.keys, ...) {
-  dictionary_sugar_mget(mlr_tasks, .keys, ...)
+  dictionary_sugar_mget(dict = mlr_tasks, .keys, ...)
 }
 
 #' @rdname mlr_sugar
 #' @export
 tgen = function(.key, ...) {
-  dictionary_sugar_get(mlr_task_generators, .key, ...)
+  dictionary_sugar_get(dict = mlr_task_generators, .key, ...)
 }
 
 #' @rdname mlr_sugar
 #' @export
 tgens = function(.keys, ...) {
-  dictionary_sugar_mget(mlr_task_generators, .keys, ...)
+  dictionary_sugar_mget(dict = mlr_task_generators, .keys, ...)
 }
 
 #' @rdname mlr_sugar
 #' @export
 lrn = function(.key, ...) {
-  dictionary_sugar_get(mlr_learners, .key, ...)
+  dictionary_sugar_get(dict = mlr_learners, .key, ...)
 }
 
 #' @rdname mlr_sugar
 #' @export
 lrns = function(.keys, ...) {
-  dictionary_sugar_mget(mlr_learners, .keys, ...)
+  dictionary_sugar_mget(dict = mlr_learners, .keys, ...)
 }
 
 #' @rdname mlr_sugar
 #' @export
 rsmp = function(.key, ...) {
-  dictionary_sugar_get(mlr_resamplings, .key, ...)
+  dictionary_sugar_get(dict = mlr_resamplings, .key, ...)
 }
 
 #' @rdname mlr_sugar
 #' @export
 rsmps = function(.keys, ...) {
-  dictionary_sugar_mget(mlr_resamplings, .keys, ...)
+  dictionary_sugar_mget(dict = mlr_resamplings, .keys, ...)
 }
 
 #' @rdname mlr_sugar
 #' @export
 msr = function(.key, ...) {
-  dictionary_sugar_get(mlr_measures, .key, ...)
+  dictionary_sugar_get(dict = mlr_measures, .key, ...)
 }
 
 #' @rdname mlr_sugar
 #' @export
 msrs = function(.keys, ...) {
-  dictionary_sugar_mget(mlr_measures, .keys, ...)
+  dictionary_sugar_mget(dict = mlr_measures, .keys, ...)
 }

@@ -51,12 +51,15 @@ ResamplingHoldout = R6Class("ResamplingHoldout", inherit = Resampling,
 
       super$initialize(id = "holdout", param_set = ps, properties = "weights",
         label = "Holdout", man = "mlr3::mlr_resamplings_holdout")
-    },
-
-    #' @template field_iters
-    iters = 1L
+    }
   ),
-
+  active = list(
+    #' @template field_iters
+    iters = function(rhs)  {
+      assert_ro_binding(rhs)
+      1L
+    }
+  ),
   private = list(
     .sample = function(ids, task, weights, ...) {
       pv = self$param_set$values

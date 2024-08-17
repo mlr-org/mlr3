@@ -491,14 +491,16 @@ test_that("param_values in benchmark", {
 test_that("learner's validate cannot be 'test' if internal_valid_set is present", {
   # otherwise, predict_set = "internal_valid" would be ambiguous
   learner = lrn("classif.debug", validate = "test", predict_sets = c("train", "internal_valid"))
-  task = tsk("iris")$divide(ids = 1)
+  task = tsk("iris")
+  task$internal_valid_task = 1
   expect_error(benchmark(benchmark_grid(task, learner, rsmp("holdout"))), "cannot be set to ")
 })
 
 test_that("learner's validate cannot be a ratio if internal_valid_set is present", {
   # otherwise, predict_set = "internal_valid" would be ambiguous
   learner = lrn("classif.debug", validate = 0.5, predict_sets = c("train", "internal_valid"))
-  task = tsk("iris")$divide(ids = 1)
+  task = tsk("iris")
+  task$internal_valid_task = 1
   expect_error(benchmark(benchmark_grid(task, learner, rsmp("holdout"))), "cannot be set to ")
 })
 
@@ -508,7 +510,7 @@ test_that("properties are also checked on validation task", {
   row[[1]][1] = NA
   row$..row_id = 151
   task$rbind(row)
-  task$divide(ids = 151)
+  task$internal_valid_task = 151
   learner = lrn("classif.debug", validate = "predefined")
   learner$properties = setdiff(learner$properties, "missings")
 

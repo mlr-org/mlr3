@@ -1,88 +1,49 @@
-#' @title Manually Partition into Training and Test Set
+#' @title Manually Partition into Training, Test and Validation Set
 #'
 #' @description
-#' Creates a split of the row ids of a [Task] into a training set and a test set while
-#' optionally stratifying on the target column.
-#'
-#' For more complex partitions, see the example.
+#' Creates a split of the row ids of a [Task] into a training and a test set, and optionally a validation set.
 #'
 #' @param task ([Task])\cr
 #'   Task to operate on.
-#' @param ratio (`numeric(1)`)\cr
+#' @param ratio (`numeric()`)\cr
 #'   Ratio of observations to put into the training set.
-#' @param stratify (`logical(1)`)\cr
-#'   If `TRUE`, stratify on the target variable.
-#'   For regression tasks, the target variable is first cut into `bins` bins.
-#'   See `Task$add_strata()`.
-#' @param ... (any)\cr
-#'   Additional arguments, currently not used.
+#'   If a 2 element vector is provided, the first element is the ratio for the training set, the second element is the ratio for the test set.
+#'   The validation set will contain the remaining observations.
 #' @export
 #' @examples
-#' # regression task
+#' # regression task partitioned into training and test set
 #' task = tsk("boston_housing")
-#'
-#' # roughly equal size split while stratifying on the binned response
 #' split = partition(task, ratio = 0.5)
 #' data = data.frame(
 #'   y = c(task$truth(split$train), task$truth(split$test)),
-#'   split = rep(c("train", "predict"), lengths(split))
+#'   split = rep(c("train", "predict"), lengths(split[c("train", "test")]))
 #' )
 #' boxplot(y ~ split, data = data)
 #'
-#'
-#' # classification task
+#' # classification task partitioned into training, test and validation set
 #' task = tsk("pima")
-#' split = partition(task)
-#'
-#' # roughly same distribution of the target label
-#' prop.table(table(task$truth()))
-#' prop.table(table(task$truth(split$train)))
-#' prop.table(table(task$truth(split$test)))
-#'
-#'
-#' # splitting into 3 disjunct sets, using ResamplingCV and stratification
-#' task = tsk("iris")
-#' task$set_col_roles(task$target_names, add_to = "stratum")
-#' r = rsmp("cv", folds = 3)$instantiate(task)
-#'
-#' sets = lapply(1:3, r$train_set)
-#' lengths(sets)
-#' prop.table(table(task$truth(sets[[1]])))
-partition = function(task, ratio = 0.67, stratify = TRUE, ...) {
-  assert_task(task)
-  assert_number(ratio, lower = 0, upper = 1)
-  assert_flag(stratify)
+#' split = partition(task, c(0.66, 0.14))
+partition = function(task, ratio = 0.67) {
+  task = assert_task(as_task(task, clone = TRUE))
+  assert_numeric(ratio, min.len = 1, max.len = 2)
 
-  UseMethod("partition")
-}
-
-
-#' @param bins (`integer(1)`)\cr
-#'   Number of bins to cut the target variable into for stratification.
-#' @export
-#' @rdname partition
-partition.TaskRegr = function(task, ratio = 0.67, stratify = TRUE, bins = 3L, ...) { # nolint
-  if (stratify) {
-    task = task$clone()
-    task$add_strata(task$target_names, bins = bins)
+  if (sum(ratio) >= 1) {
+    stopf("Sum of 'ratio' must be smaller than 1")
   }
 
-  NextMethod("partition")
-}
-
-#' @rdname partition
-#' @export
-partition.TaskClassif = function(task, ratio = 0.67, stratify = TRUE, ...) { # nolint
-  if (stratify) {
-    task = task$clone()
-    task$set_col_roles(task$target_names, add_to = "stratum")
+  if (length(ratio) == 1) {
+    ratio[2] = 1 - ratio
+  } else if (length(ratio) == 2) {
+    ratio[3] = 1 - (ratio[1] +  ratio[2])
   }
 
-  NextMethod("partition")
+  r1 = rsmp("holdout", ratio = ratio[1])$instantiate(task)
+  task$row_roles$use = r1$test_set(1L)
+  r2 = rsmp("holdout", ratio = ratio[2] / (1 - ratio[1]))$instantiate(task)
+
+  return(list(
+    train = r1$train_set(1L),
+    test = r2$train_set(1L),
+    validation = r2$test_set(1L)))
 }
 
-#' @export
-partition.Task = function(task, ratio = 0.67, stratify = TRUE, ...) { # nolint
-  r = rsmp("holdout", ratio = ratio)$instantiate(task)
-  list(train = r$train_set(1L), test = r$test_set(1L))
-}
