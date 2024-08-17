@@ -38,7 +38,7 @@ test_that("construction of empty PredictionDataClassif", {
   expect_integer(pred$row_ids, len = 0L)
   expect_factor(pred$truth, len = 0L, levels = task$class_names)
   expect_null(pred$prob)
-  expect_data_table(as.data.table(pred), nrow = 0L, ncol = 3L)
+  expect_data_table(as.data.table(pred), nrows = 0L, ncols = 3L)
 
   learner = lrn("classif.featureless", predict_type = "prob")
   learner$train(task)
@@ -47,6 +47,6 @@ test_that("construction of empty PredictionDataClassif", {
   expect_set_equal(pred$predict_types, c("response", "prob"))
   expect_integer(pred$row_ids, len = 0L)
   expect_factor(pred$truth, len = 0L, levels = task$class_names)
-  expect_matrix(pred$prob, nrow = 0L, ncol = length(task$class_names))
-  expect_data_table(as.data.table(pred), nrow = 0L, ncol = 6L)
+  expect_matrix(pred$prob, nrows = 0L, ncols = length(task$class_names))
+  expect_data_table(as.data.table(pred), nrows = 0L, ncols = 6L)
 })

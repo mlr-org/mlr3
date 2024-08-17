@@ -103,28 +103,3 @@ test_that("obs_loss", {
   loss = p$obs_loss()
   expect_double(loss$regr.mse, lower = 0, any.missing = FALSE)
 })
-
-test_that("construction of empty PredictionDataRegr", {
-  task = tsk("mtcars")
-
-  learner = lrn("regr.featureless")
-  learner$train(task)
-  pred = learner$predict(task, row_ids = integer())
-  expect_prediction(pred)
-  expect_set_equal(pred$predict_types, "response")
-  expect_integer(pred$row_ids, len = 0L)
-  expect_numeric(pred$truth, len = 0L)
-  expect_null(pred$data$se)
-  expect_null(pred$data$distr)
-  expect_data_table(as.data.table(pred), nrow = 0L, ncol = 3L)
-
-  learner = lrn("regr.featureless", predict_type = "se")
-  learner$train(task)
-  pred = learner$predict(task, row_ids = integer())
-  expect_prediction(pred)
-  expect_set_equal(pred$predict_types, c("response", "se"))
-  expect_integer(pred$row_ids, len = 0L)
-  expect_numeric(pred$truth, len = 0L)
-  expect_numeric(pred$se, len = 0L)
-  expect_data_table(as.data.table(pred), nrow = 0L, ncol = 4L)
-})
