@@ -21,7 +21,7 @@ check_prediction_data.PredictionDataRegr = function(pdata, ...) { # nolint
     assert_prediction_count(nrow(quantile), n, "quantile")
 
     if (any(apply(quantile, 1L, is.unsorted))) {
-      stopf("Quantiles are not in ascending with probabilities")
+      stopf("Quantiles are not ascending with probabilities")
     }
 
     colnames(pdata$quantile) = sprintf("q%g", attr(quantile, "probs"))

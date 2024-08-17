@@ -60,7 +60,8 @@ LearnerRegr = R6Class("LearnerRegr", inherit = Learner,
       if ("quantile" %nin% self$predict_types) {
         stopf("Learner does not support predicting quantiles")
       }
-      private$.quantile = assert_numeric(rhs, lower = 0, upper = 1, any.missing = FALSE, sorted = TRUE)
+      private$.quantile = assert_numeric(rhs, lower = 0, upper = 1, any.missing = FALSE,
+       min.len = 1L, sorted = TRUE, .var.name = "quantiles")
     }
   ),
 

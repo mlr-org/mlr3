@@ -551,15 +551,30 @@ test_that("validation task with 0 observations", {
 test_that("quantiles in LearnerRegr", {
   task = tsk("mtcars")
   learner = lrn("regr.debug", predict_type = "quantile")
-  learner$quantiles = c(0.05, 0.5, 0.95)
-  learner$quantiles
+  expect_learner(learner)
+  quantiles = c(0.05, 0.5, 0.95)
+  learner$quantiles = quantiles
+  expect_numeric(learner$quantiles, any.missing = FALSE)
+
+  expect_error({
+    learner$quantiles = c(0.5, 0.1)
+  }, "sorted")
+
+  expect_error({
+    learner$quantiles = integer()
+  }, "length")
+
   learner$train(task)
-  learner$model$quantile
+
+  expect_numeric(learner$model$quantile, len = length(quantiles))
+
   pred = learner$predict(task)
-  pred$quantile
-  pred$predict_types
-  pdata = pred$data
+  expect_prediction(pred)
+  expect_subset("quantile", pred$predict_types)
+  expect_matrix(pred$quantile, ncol = length(quantiles), nrow = task$nrow, any.missing = FALSE)
+  expect_true(!any(apply(pred$quantile, 1L, is.unsorted)))
 
-  as.data.table(pred)
-
+  tab = as.data.table(pred)
+  expect_data_table(tab, nrow = task$nrow)
+  expect_subset("q0.5", names(tab))
 })
