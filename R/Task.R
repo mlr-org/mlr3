@@ -804,10 +804,10 @@ Task = R6Class("Task",
       }
 
       if (test_integerish(rhs)) {
-        valid_ids = setdiff(self$row_ids, rhs)
+        train_ids = setdiff(self$row_ids, rhs)
         rhs = self$clone(deep = TRUE)$filter(rhs)
         rhs$internal_valid_task = NULL
-        self$row_roles$use = valid_ids
+        self$row_roles$use = train_ids
       } else {
         if (!is.null(rhs$internal_valid_task)) { # avoid recursive structures
           stopf("Trying to assign task '%s' as a validation task, remove its validation task first.", rhs$id)
