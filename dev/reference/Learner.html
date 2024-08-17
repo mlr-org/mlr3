@@ -297,7 +297,9 @@ The row ids of the <code>task</code> will be split into <code><a href="https://f
 and predictions are evaluated according to the active <code><a href="https://future.futureverse.org/reference/plan.html" class="external-link">future::plan()</a></code>.
 This currently only works for methods <code>Learner$predict()</code> and <code>Learner$predict_newdata()</code>,
 and has no effect during <code><a href="resample.html">resample()</a></code> or <code><a href="benchmark.html">benchmark()</a></code> where you have other means
-to parallelize.</p></dd>
+to parallelize.</p>
+<p>Note that the recorded time required for prediction reports the time required to predict
+is not properly defined and depends on the parallelization backend.</p></dd>
 
 
 <dt><code>timeout</code></dt>
@@ -327,8 +329,11 @@ The fitted model. Only available after <code>$train()</code> has been called.</p
 
 <dt><code>timings</code></dt>
 <dd><p>(named <code>numeric(2)</code>)<br>
-Elapsed time in seconds for the steps <code>"train"</code> and <code>"predict"</code>.
-Measured via <code><a href="https://mlr3misc.mlr-org.com/reference/encapsulate.html" class="external-link">mlr3misc::encapsulate()</a></code>.</p></dd>
+Elapsed time in seconds for the steps <code>"train"</code> and <code>"predict"</code>.</p>
+<p>When predictions for multiple predict sets were made during <code><a href="resample.html">resample()</a></code> or <code><a href="benchmark.html">benchmark()</a></code>,
+the predict time shows the cumulative duration of all predictions.
+If <code>learner$predict()</code> is called manually, the last predict time gets overwritten.</p>
+<p>Measured via <code><a href="https://mlr3misc.mlr-org.com/reference/encapsulate.html" class="external-link">mlr3misc::encapsulate()</a></code>.</p></dd>
 
 
 <dt><code>log</code></dt>
