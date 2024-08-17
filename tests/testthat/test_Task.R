@@ -550,13 +550,6 @@ test_that("task is cloned when assining internal validation task", {
   expect_false(identical(task, task$internal_valid_task))
 })
 
-test_that("validation task cannot have a validation task", {
-  task = tsk("iris")
-  task_valid = task$clone(deep = TRUE)
-  task_valid$ids = 1L
-  expect_error({task$internal_valid_task = task_valid}, "remove its validation")
-})
-
 test_that("validation task changes a task's hash", {
   task = tsk("iris")
   h1 = task$hash

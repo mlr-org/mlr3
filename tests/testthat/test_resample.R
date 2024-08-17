@@ -369,7 +369,7 @@ test_that("predict_set internal_valid throws error when none is available", {
 
 test_that("can even use internal_valid predict set on learners that don't support validation", {
   task = tsk("mtcars")
-  task$internal_valid_Task = 1:10
+  task$internal_valid_task = 1:10
   rr = resample(task, lrn("regr.debug", predict_sets = "internal_valid"), rsmp("holdout"))
 })
 
