@@ -1,5 +1,4 @@
-#' @rdname PredictionData
-#' @export
+#' @rdname PredictionData @export
 check_prediction_data.PredictionDataRegr = function(pdata, ...) { # nolint
   pdata$row_ids = assert_row_ids(pdata$row_ids)
   n = length(pdata$row_ids)
@@ -17,8 +16,15 @@ check_prediction_data.PredictionDataRegr = function(pdata, ...) { # nolint
   }
 
   if (!is.null(pdata$quantile)) {
-    pdata$quantile = assert_matrix(pdata$quantile)
-    assert_prediction_count(nrow(pdata$quantile), n, "quantile")
+    quantile = pdata$quantile
+    assert_matrix(quantile)
+    assert_prediction_count(nrow(quantile), n, "quantile")
+
+    if (any(apply(quantile, 1L, is.unsorted))) {
+      stopf("Quantiles are not in ascending with probabilities")
+    }
+
+    colnames(pdata$quantile) = sprintf("q%g", attr(quantile, "probs"))
   }
 
   if (!is.null(pdata$distr)) {
@@ -76,12 +82,16 @@ c.PredictionDataRegr = function(..., keep_duplicates = TRUE) { # nolint
 
   elems = c("row_ids", "truth", intersect(predict_types[[1L]], c("response", "se")))
   tab = map_dtr(dots, function(x) x[elems], .fill = FALSE)
+  quantile = do.call(rbind, map(dots, "quantile"))
 
   if (!keep_duplicates) {
-    tab = unique(tab, by = "row_ids", fromLast = TRUE)
+    keep = !duplicated(tab, by = "row_ids", fromLast = TRUE)
+    tab = tab[keep]
+    quantile = quantile[keep, , drop = FALSE]
   }
 
   result = as.list(tab)
+  result$quantile = quantile
 
   if ("distr" %in% predict_types[[1L]]) {
     require_namespaces("distr6", msg = "To predict probability distributions, please install %s")
@@ -103,6 +113,10 @@ filter_prediction_data.PredictionDataRegr = function(pdata, row_ids, ...) {
 
   if (!is.null(pdata$se)) {
     pdata$se = pdata$se[keep]
+  }
+
+  if (!is.null(pdata$quantile)) {
+    pdata$quantile = pdata$quantile[keep, , drop = FALSE]
   }
 
   pdata

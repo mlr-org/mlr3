@@ -487,7 +487,7 @@ test_that("compatability check on validation task", {
   task$internal_valid_task$col_roles$target = "credit_history"
   expect_error(learner$train(task), "has different target")
 })
-  
+
 test_that("model is marshaled during parallel predict", {
   # by setting check_pid = TRUE, we ensure that unmarshal_model() sets the process id to the current
   # id. LearnerClassifDebug then checks during `.predict()`, whether the marshal_id of the model is equal to the current process id and errs if this is not the case.
@@ -537,7 +537,7 @@ test_that("learner state contains internal valid task information", {
   expect_string(rr$learners[[1L]]$state$internal_valid_task_hash)
 
   # 1. manual
-  learner$train(task) 
+  learner$train(task)
   expect_string(learner$state$internal_valid_task_hash)
 })
 
@@ -546,4 +546,20 @@ test_that("validation task with 0 observations", {
   task = tsk("iris")
   task$divide(ids = integer(0))
   expect_error({learner$train(task)}, "has 0 observations")
+})
+
+test_that("quantiles in LearnerRegr", {
+  task = tsk("mtcars")
+  learner = lrn("regr.debug", predict_type = "quantile")
+  learner$quantiles = c(0.05, 0.5, 0.95)
+  learner$quantiles
+  learner$train(task)
+  learner$model$quantile
+  pred = learner$predict(task)
+  pred$quantile
+  pred$predict_types
+  pdata = pred$data
+
+  as.data.table(pred)
+
 })

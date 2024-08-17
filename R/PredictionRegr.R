@@ -37,6 +37,9 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
     #'   Numeric vector of predicted standard errors.
     #'   One element for each observation in the test set.
     #'
+    #' @param quantile (`matrix()`)\cr
+    #'   Numeric matrix of predicted quantiles. One row per observation, one column per quantile.
+    #'
     #' @param distr (`VectorDistribution`)\cr
     #'   `VectorDistribution` from package distr6 (in repository \url{https://raphaels1.r-universe.dev}).
     #'   Each individual distribution in the vector represents the random variable 'survival time'
@@ -44,9 +47,9 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
     #'
     #' @param check (`logical(1)`)\cr
     #'   If `TRUE`, performs some argument checks and predict type conversions.
-    initialize = function(task = NULL, row_ids = task$row_ids, truth = task$truth(), response = NULL, se = NULL, distr = NULL, check = TRUE) {
+    initialize = function(task = NULL, row_ids = task$row_ids, truth = task$truth(), response = NULL, se = NULL, quantile = NULL, distr = NULL, check = TRUE) {
       pdata = new_prediction_data(
-        list(row_ids = row_ids, truth = truth, response = response, se = se, distr = distr),
+        list(row_ids = row_ids, truth = truth, response = response, se = se, quantile = quantile, distr = distr),
         task_type = "regr"
       )
 
@@ -56,7 +59,7 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
       self$task_type = "regr"
       self$man = "mlr3::PredictionRegr"
       self$data = pdata
-      self$predict_types = intersect(c("response", "se", "distr"), names(pdata))
+      self$predict_types = intersect(names(mlr_reflections$learner_predict_types[["regr"]]), names(pdata))
     }
   ),
 
@@ -75,6 +78,13 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
       self$data$se %??% rep(NA_real_, length(self$data$row_ids))
     },
 
+    #' @field quantile (`matrix()`)\cr
+    #' Matrix of predicted quantiles. Observations are in rows, quantile (in ascending order) in columns.
+    quantile = function(rhs) {
+      assert_ro_binding(rhs)
+      self$data$quantile
+    },
+
     #' @field distr (`VectorDistribution`)\cr
     #' Access the stored vector distribution.
     #' Requires package `distr6`(in repository \url{https://raphaels1.r-universe.dev}) .
@@ -91,6 +101,10 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
 #' @export
 as.data.table.PredictionRegr = function(x, ...) { # nolint
   tab = as.data.table(x$data[c("row_ids", "truth", "response", "se")])
+
+  if ("quantile" %in% x$predict_types) {
+    tab = rcbind(tab, as.data.table(x$data$quantile))
+  }
 
   if ("distr" %in% x$predict_types) {
     require_namespaces("distr6", msg = "To predict probability distributions, please install %s")

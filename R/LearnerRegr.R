@@ -46,5 +46,25 @@ LearnerRegr = R6Class("LearnerRegr", inherit = Learner,
         predict_types = predict_types, properties = properties, data_formats = data_formats, packages = packages,
         label = label, man = man)
     }
+  ),
+
+  active = list(
+    #' @field quantiles (`numeric()`)\cr
+    #' Numeric vector of probabilites to be used while predicting quantiles.
+    #' Elements must be between 0 and 1, not missing and provided in ascending order.
+    quantiles = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.quantile)
+      }
+
+      if ("quantile" %nin% self$predict_types) {
+        stopf("Learner does not support predicting quantiles")
+      }
+      private$.quantile = assert_numeric(rhs, lower = 0, upper = 1, any.missing = FALSE, sorted = TRUE)
+    }
+  ),
+
+  private = list(
+    .quantile = NULL
   )
 )
