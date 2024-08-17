@@ -282,19 +282,21 @@ test_that("can make predictions for internal_valid_task", {
 test_that("learner's validate cannot be 'test' if internal_valid_set is present", {
   # otherwise, predict_set = "internal_valid" would be ambiguous
   learner = lrn("classif.debug", validate = "test", predict_sets = c("train", "internal_valid"))
-  task = tsk("iris")$divide(ids = 1)
+  task = tsk("iris")
+  task$internal_valid_task = 1
   expect_error(resample(task, learner, rsmp("holdout")), "cannot be set to ")
 })
 
 test_that("learner's validate cannot be a ratio if internal_valid_set is present", {
   # otherwise, predict_set = "internal_valid" would be ambiguous
   learner = lrn("classif.debug", validate = 0.5, predict_sets = c("train", "internal_valid"))
-  task = tsk("iris")$divide(ids = 1)
+  task$internal_valid_task = 1
   expect_error(resample(task, learner, rsmp("holdout")), "cannot be set to")
 })
 
 test_that("internal_valid and train predictions", {
-  task = tsk("iris")$divide(ids = 1:2)
+  task = tsk("iris")
+  task$internal_valid_task = 1:2
   learner = lrn("classif.debug", validate = "predefined", predict_sets = c("train", "internal_valid", "test"))
   rr = resample(task, learner, rsmp("insample"))
   measure_valid = msr("classif.acc")
@@ -340,7 +342,7 @@ test_that("properties are also checked on validation task", {
   row[[1]][1] = NA
   row$..row_id = 151
   task$rbind(row)
-  task$divide(ids = 151)
+  task$internal_valid_task = 151
   learner = lrn("classif.debug", validate = "predefined")
   learner$properties = setdiff(learner$properties, "missings")
 
@@ -366,7 +368,9 @@ test_that("predict_set internal_valid throws error when none is available", {
 })
 
 test_that("can even use internal_valid predict set on learners that don't support validation", {
-  rr = resample(tsk("mtcars")$divide(ids = 1:10), lrn("regr.debug", predict_sets = "internal_valid"), rsmp("holdout"))
+  task = tsk("mtcars")
+  task$internal_valid_task = 1:10
+  rr = resample(task, lrn("regr.debug", predict_sets = "internal_valid"), rsmp("holdout"))
 })
 
 test_that("callr during prediction triggers marshaling", {
