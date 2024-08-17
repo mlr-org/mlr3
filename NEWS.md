@@ -4,8 +4,8 @@
 * refactor: Optimize runtime of setting row roles.
 * refactor: Optimize runtime of marshalling.
 * refactor: Optimize runtime of `Task$col_info`
-* BREAKING CHANGE: the predict time of the learner now stores
-  the cumulative duration (#992)
+* BREAKING CHANGE: the predict time of the learner now stores the cumulative duration for
+  all predict sets (#992).
 
 # mlr3 0.20.2
 

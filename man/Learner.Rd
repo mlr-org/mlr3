@@ -233,7 +233,10 @@ The row ids of the \code{task} will be split into \code{\link[future:nbrOfWorker
 and predictions are evaluated according to the active \code{\link[future:plan]{future::plan()}}.
 This currently only works for methods \code{Learner$predict()} and \code{Learner$predict_newdata()},
 and has no effect during \code{\link[=resample]{resample()}} or \code{\link[=benchmark]{benchmark()}} where you have other means
-to parallelize.}
+to parallelize.
+
+Note that the recorded time required for prediction reports the time required to predict
+is not properly defined and depends on the parallelization backend.}
 
 \item{\code{timeout}}{(named \code{numeric(2)})\cr
 Timeout for the learner's train and predict steps, in seconds.
@@ -257,7 +260,11 @@ The fitted model. Only available after \verb{$train()} has been called.}
 
 \item{\code{timings}}{(named \code{numeric(2)})\cr
 Elapsed time in seconds for the steps \code{"train"} and \code{"predict"}.
-When multiple predictions were made, the predict time shows the cumulative duration of all predictions.
+
+When predictions for multiple predict sets were made during \code{\link[=resample]{resample()}} or \code{\link[=benchmark]{benchmark()}},
+the predict time shows the cumulative duration of all predictions.
+If \code{learner$predict()} is called manually, the last predict time gets overwritten.
+
 Measured via \code{\link[mlr3misc:encapsulate]{mlr3misc::encapsulate()}}.}
 
 \item{\code{log}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
