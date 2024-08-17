@@ -8,7 +8,8 @@
 #'
 #' @section Initial parameter values:
 #' * Parameter `xval` is initialized to 0 in order to save some computation time.
-#' * Parameter `use_weights` determines if observation weights with column role `weights_learner` are used, if present.
+#' * Parameter `use_weights` can be set to `FALSE` to ignore observation weights with column role `weights_learner` ,
+#'   if present.
 #'
 #' @section Custom mlr3 parameters:
 #' * Parameter `model` has been renamed to `keep_model`.
@@ -37,7 +38,7 @@ LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
         surrogatestyle = p_int(0L, 1L, default = 0L, tags = "train"),
         usesurrogate   = p_int(0L, 2L, default = 2L, tags = "train"),
         xval           = p_int(0L, default = 10L, init = 0L, tags = "train"),
-        use_weights    = p_lgl(default = FALSE, tags = "train")
+        use_weights    = p_lgl(default = TRUE, tags = "train")
       )
 
       super$initialize(
@@ -78,8 +79,7 @@ LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
     .train = function(task) {
       pv = self$param_set$get_values(tags = "train")
       names(pv) = replace(names(pv), names(pv) == "keep_model", "model")
-      pv$weights = get_weights(task, pv)
-      pv$use_weights = NULL
+      pv = get_weights(task$weights_learner$weight, pv)
       invoke(rpart::rpart, formula = task$formula(), data = task$data(), .args = pv, .opts = allow_partial_matching)
     },
 

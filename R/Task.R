@@ -888,11 +888,11 @@ Task = R6Class("Task",
     #'
     #' * `"strata"`: The task is resampled using one or more stratification variables (role `"stratum"`).
     #' * `"groups"`: The task comes with grouping/blocking information (role `"group"`).
-    #' * `"weights_learnering"`: The task comes with observation weights to be used during training in the [Learner] (role `"weights_learnering"`).
-    #'    The weights are only used if the learner's hyperparameter `use_weights` is set to `TRUE`.
-    #' * `"weights_measure"`: The task comes with observation weights to be used during scoring in the [Measure] (role `"weights_learnering"`).
-    #'    The weights are only used if the measure's hyperparameter `use_weights` is set to `TRUE`.
-    #' * `"weights_resampling"`: The task comes with observation weights to be used during samling observations in the [Resampling] (role `"weights_learnering"`).
+    #' * `"weights_learnering"`: If the task has observation weights with this role, they are passed to the [Learner] during train.
+    #'    The use of weights can be disabled via by setting the learner's hyperparameter `use_weights` to `FALSE`.
+    #' * `"weights_measure"`: If the task has observation weights with this role, they are passed to the [Measure] for weighted scoring.
+    #'    The use of weights can be disabled via by setting the measure's hyperparameter `use_weights` to `FALSE`.
+    #' * `"weights_resampling"`: If the task has observation weights with this role, they are passed to the [Resampling] for weighted sampling.
     #'    The weights are only used if the resampling's hyperparameter `use_weights` is set to `TRUE`.
     #'
     #' Note that above listed properties are calculated from the `$col_roles`, and may not be set explicitly.
@@ -947,19 +947,19 @@ Task = R6Class("Task",
     #'   For each resampling iteration, observations of the same group will be exclusively assigned to be either in the training set or in the test set.
     #'   Not more than a single column can be associated with this role.
     #' * `"stratum"`: Stratification variables. Multiple discrete columns may have this role.
-    #' * `"weights_learner"`: Observation weights to be used during training by the [Learner].
-    #'   In order for them to be used, the learner's hyperparameter `use_weights` needs to be explicitly set to `TRUE`.
-    #' * `"weights_measure"`: Observation weights to be used during scoring the predictions by the [Measure].
-    #'   In order for them to be used, the measure's hyperparameter `use_weights` needs to be explicitly set to `TRUE`.
-    #' * `"weights_resampling"`: Observation weights to be used to sample observations by the [Resampling].
-    #'   In order for them to be used, the resampling's hyperparameter `use_weights` needs to be explicitly set to `TRUE`.
+    #' * `"weights_learnering"`: If the task has observation weights with this role, they are passed to the [Learner] during train.
+    #'    The use of weights can be disabled via by setting the learner's hyperparameter `use_weights` to `FALSE`.
+    #' * `"weights_measure"`: If the task has observation weights with this role, they are passed to the [Measure] for weighted scoring.
+    #'    The use of weights can be disabled via by setting the measure's hyperparameter `use_weights` to `FALSE`.
+    #' * `"weights_resampling"`: If the task has observation weights with this role, they are passed to the [Resampling] for weighted sampling.
+    #'    The weights are only used if the resampling's hyperparameter `use_weights` is set to `TRUE`.
     #'
     #' `col_roles` is a named list whose elements are named by column role and each element is a `character()` vector of column names.
     #' To alter the roles, just modify the list, e.g. with \R's set functions ([intersect()], [setdiff()], [union()], \ldots).
     #' The method `$set_col_roles` provides a convenient alternative to assign columns to roles.
     #'
     #' The roles `weights_learner`, `weights_measure` and `weights_resampling` may only point to a single numeric column, but they can
-    #' all point to the same column. Weights must be non-negative numerics with at least one weight being > 0.
+    #' all point to the same column or different columns. Weights must be non-negative numerics with at least one weight being > 0.
     #' They don't necessarily need to sum up to 1.
     col_roles = function(rhs) {
       if (missing(rhs)) {

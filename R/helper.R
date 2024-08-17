@@ -67,16 +67,12 @@ assert_validate = function(x) {
   assert_choice(x, c("predefined", "test"), null.ok = TRUE)
 }
 
-get_weights = function(task, pv) {
-  tmp = c("weights", "weights_learner") %in% task$properties
-
-  if (tmp[1L]) { # old mlr3 version, deprecated weights
-    task$weights$weight
-  } else if (tmp[2L] && isTRUE(pv$use_weights)) {
-    task$weights_learner$weight
-  } else {
-    NULL
+get_weights = function(weights, pv, id = "weights") {
+  if (!is.null(weights)) {
+    pv[[id]] = weights
   }
+  pv$use_weights = NULL
+  pv
 }
 
 get_obs_loss = function(tab, measures) {

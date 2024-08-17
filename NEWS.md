@@ -8,10 +8,9 @@ The weights must be stored in the task and can be assigned the column role
 `weights_measure` or `weights_resampling`, respectively.
 
 The weights used during training by the Learner are renamed to `weights_learner`,
-the previous column role `weight` is deprecated.
-It is now also necessary to explicitly enable the use of weights via the new hyperparameter `use_weights`.
-
-Note that this is a breaking change, but explicitly stating the intention to use the weights is the less error-prone solution in the long run.
+the previous column role `weight` is dysfunctional.
+Additionally, it is now possible to disable the use of weights via the new hyperparameter `use_weights`.
+Note that this is a breaking change, but appears to be the less error-prone solution in the long run.
 
 
 * feat: The `partition()` function creates training, test and validation sets.

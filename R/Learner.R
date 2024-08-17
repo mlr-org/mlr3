@@ -73,7 +73,7 @@
 #'
 #' Many learners support observation weights, indicated by their property `"weights"`.
 #' The weights are stored in the [Task] where the column role `weights_learner` needs to be assigned to a single numeric column.
-#' To include the weights in the training, you additionally have to explicitly set the Learner's hyperparamerter `use_weights` to `TRUE`.
+#' The weights are automatically used if found in the task, this can be disabled by setting the hyperparamerter `use_weights` to `FALSE`.
 #' If the learner is set-up to use weights but the task does not have a designated weight column, an unweighted version is calculated instead.
 #' The weights do not necessarily need to sum up to 1, they are passed down to the learner.
 #'

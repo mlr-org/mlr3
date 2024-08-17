@@ -10,13 +10,13 @@ MeasureBinarySimple = R6Class("MeasureBinarySimple",
 
       if (is.null(param_set)) {
         if (weights) {
-          param_set = ps(use_weights = p_lgl(default = FALSE))
+          param_set = ps(use_weights = p_lgl(default = TRUE))
         } else {
           param_set = ps()
         }
       } else {
         if (weights) {
-          param_set = c(param_set, ps(use_weights = p_lgl(default = FALSE)))
+          param_set = c(param_set, ps(use_weights = p_lgl(default = TRUE)))
         } else {
           param_set = param_set$clone()
         }
@@ -47,7 +47,7 @@ MeasureBinarySimple = R6Class("MeasureBinarySimple",
 
   private = list(
     .score = function(prediction, task, ...) {
-      weights = if ("weights" %in% private$.properties && isTRUE(self$param_set$values$use_weights)) {
+      weights = if ("weights" %in% private$.properties && !isFALSE(self$param_set$values$use_weights)) {
         task$weights_measure[list(prediction$row_ids), "weight"][[1L]]
       } else {
         NULL
@@ -76,7 +76,7 @@ MeasureClassifSimple = R6Class("MeasureClassifSimple",
       weights = info$sample_weights
 
       if (weights) {
-        param_set = ps(use_weights = p_lgl(default = FALSE))
+        param_set = ps(use_weights = p_lgl(default = TRUE))
       } else {
         param_set = ps()
       }
@@ -104,7 +104,7 @@ MeasureClassifSimple = R6Class("MeasureClassifSimple",
 
   private = list(
     .score = function(prediction, task, ...) {
-      weights = if ("weights" %in% private$.properties && isTRUE(self$param_set$values$use_weights)) {
+      weights = if ("weights" %in% private$.properties && !isFALSE(self$param_set$values$use_weights)) {
         task$weights_measure[list(prediction$row_ids), "weight"][[1L]]
       } else {
         NULL
@@ -157,7 +157,7 @@ MeasureRegrSimple = R6Class("MeasureRegrSimple",
 
   private = list(
     .score = function(prediction, task, ...) {
-      weights = if ("weights" %in% private$.properties && isTRUE(self$param_set$values$use_weights)) {
+      weights = if ("weights" %in% private$.properties && !isFALSE(self$param_set$values$use_weights)) {
         task$weights_measure[list(prediction$row_ids), "weight"][[1L]]
       } else {
         NULL

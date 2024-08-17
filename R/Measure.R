@@ -28,7 +28,7 @@
 #'
 #' Many measures support observation weights, indicated by their property `"weights"`.
 #' The weights are stored in the [Task] where the column role `weights_measure` needs to be assigned to a single numeric column.
-#' To include the weights in the scoring, you additionally have to explicitly set the Measure's hyperparamerter `use_weights` to `TRUE`.
+#' The weights are automatically used if found in the task, this can be disabled by setting the hyperparamerter `use_weights` to `FALSE`.
 #' If the measure is set-up to use weights but the task does not have a designated weight column, an unweighted version is calculated instead.
 #' The weights do not necessarily need to sum up to 1, they are normalized by dividing by the sum of weights.
 #'
@@ -282,11 +282,7 @@ Measure = R6Class("Measure",
         props = if (is.na(self$task_type)) unique(unlist(mlr_reflections$measure_properties), use.names = FALSE) else mlr_reflections$measure_properties[[self$task_type]]
         private$.properties = assert_subset(rhs, props)
       } else {
-        properties = private$.properties
-        if ("requires_task" %nin% properties && "weights" %in% properties && isTRUE(self$param_set$values$use_weights)) {
-          properties = c(properties, "requires_task")
-        }
-        properties
+        private$.properties
       }
     },
 

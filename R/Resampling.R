@@ -50,7 +50,7 @@
 #'
 #' Many resamlings support observation weights, indicated by their property `"weights"`.
 #' The weights are stored in the [Task] where the column role `weights_resampling` needs to be assigned to a single numeric column.
-#' To include the weights in the sampling, you additionally have to explicitly set the Resampling's hyperparamerter `use_weights` to `TRUE`.
+#' The weights are automatically used if found in the task, this can be disabled by setting the hyperparamerter `use_weights` to `FALSE`.
 #' If the resampling is set-up to use weights but the task does not have a designated weight column, an unweighted version is calculated instead.
 #' The weights do not necessarily need to sum up to 1, they are passed down to argument `prob` of [sample()].
 #'
@@ -139,7 +139,7 @@ Resampling = R6Class("Resampling",
       self$man = assert_string(man, na.ok = TRUE)
 
       assert_param_set(param_set)
-      self$param_set = if ("weights" %in% properties) c(param_set, ps(use_weights = p_lgl(default = FALSE))) else param_set
+      self$param_set = if ("weights" %in% properties) c(param_set, ps(use_weights = p_lgl(default = TRUE))) else param_set
     },
 
     #' @description
@@ -182,7 +182,7 @@ Resampling = R6Class("Resampling",
       groups = task$groups
       weights = task$weights_resampling$weight
 
-      use_weights = "weights" %in% self$properties && isTRUE(self$param_set$values$use_weights)
+      use_weights = "weights" %in% self$properties && !isFALSE(self$param_set$values$use_weights) && !is.null(weights)
 
       if (sum(!is.null(strata), !is.null(groups), use_weights) >= 2L) {
         stopf("Stratification, grouping and weighted resampling are mutually exclusive")
