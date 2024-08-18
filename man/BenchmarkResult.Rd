@@ -5,8 +5,9 @@
 \title{Container for Benchmarking Results}
 \description{
 This is the result container object returned by \code{\link[=benchmark]{benchmark()}}.
-A \link{BenchmarkResult} consists of the data of multiple
-\link{ResampleResult}s.
+A \link{BenchmarkResult} consists of the data of multiple \link{ResampleResult}s.
+The contents of a \code{BenchmarkResult} and \link{ResampleResult} are almost identical and the stored \link{ResampleResult}s can be extracted via the \verb{$resample_result(i)} method, where i is the index of the performed resample experiment.
+This allows us to investigate the extracted \link{ResampleResult} and individual resampling iterations, as well as the predictions and models from each fold.
 
 \link{BenchmarkResult}s can be visualized via \CRANpkg{mlr3viz}'s \code{autoplot()} function.
 

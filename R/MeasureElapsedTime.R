@@ -12,6 +12,10 @@
 #' Aggregation of elapsed time defaults to mean but can be configured via the field `aggregator` of the
 #' [Measure].
 #'
+#' When predictions for multiple predict sets were made during [resample()] or [benchmark()],
+#' the predict time shows the cumulative duration of all predictions.
+#' If `learner$predict()` is called manually, the last predict time gets overwritten.
+#'
 #' @template param_id
 #' @templateVar id time_train
 #' @template measure
