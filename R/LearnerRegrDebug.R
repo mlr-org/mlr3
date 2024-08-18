@@ -99,6 +99,7 @@ LearnerRegrDebug = R6Class("LearnerRegrDebug", inherit = LearnerRegr,
 
       if (self$predict_type == "quantile") {
         prediction$quantile = matrix(self$model$quantile, nrow = n, ncol = length(self$model$quantile), byrow = TRUE)
+        prediction$response = prediction$quantile[, which(private$.quantile == private$.quantile_response)]
         attr(prediction$quantile, "probs") = self$model$quantile_probs
       }
 

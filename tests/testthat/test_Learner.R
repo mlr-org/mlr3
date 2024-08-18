@@ -554,7 +554,12 @@ test_that("quantiles in LearnerRegr", {
   expect_learner(learner)
   quantiles = c(0.05, 0.5, 0.95)
   learner$quantiles = quantiles
-  expect_numeric(learner$quantiles, any.missing = FALSE)
+
+  expect_numeric(learner$quantiles, any.missing = FALSE, len = 3)
+
+  learner$quantile_response = 0.6
+  expect_equal(learner$quantile_response, 0.6)
+  expect_equal(learner$quantiles, c(0.05, 0.5, 0.6, 0.95))
 
   expect_error({
     learner$quantiles = c(0.5, 0.1)
@@ -566,13 +571,15 @@ test_that("quantiles in LearnerRegr", {
 
   learner$train(task)
 
-  expect_numeric(learner$model$quantile, len = length(quantiles))
+  expect_numeric(learner$model$quantile, len = 4L)
 
   pred = learner$predict(task)
   expect_prediction(pred)
   expect_subset("quantile", pred$predict_types)
-  expect_matrix(pred$quantile, ncol = length(quantiles), nrow = task$nrow, any.missing = FALSE)
+  expect_matrix(pred$quantile, ncol = 4L, nrow = task$nrow, any.missing = FALSE)
   expect_true(!any(apply(pred$quantile, 1L, is.unsorted)))
+
+  expect_equal(pred$response, pred$quantile[, 3L])
 
   tab = as.data.table(pred)
   expect_data_table(tab, nrow = task$nrow)
