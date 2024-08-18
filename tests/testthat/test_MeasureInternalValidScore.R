@@ -34,7 +34,7 @@ test_that("internal valid score", {
   m = msr("internal_valid_score")
   expect_equal(
     rr$score(m)$internal_valid_score,
-    rr$learners[[1]]$internal_valid_score[[1L]]
+    rr$learners[[1]]$internal_valid_scores[[1L]]
   )
 
   measure = msr("internal_valid_score")
