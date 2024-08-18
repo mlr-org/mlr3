@@ -561,3 +561,17 @@ test_that("predict time is cumulative", {
   t2 = learner$timings["predict"]
   expect_true(t1 > t2)
 })
+
+test_that("warning if learner receives internal_valid_task but does", {
+  old_threshold = lg$threshold
+  on.exit(lg$set_threshold(threshold))
+  lg$set_threshold("warn")
+  task = tsk("iris")
+  task$internal_valid_task = 1:10
+  # learner does not have 'validation' property
+  l = lrn("classif.rpart")
+  expect_output(l$train(task), "but does not use it")
+  # learner has 'validation' property but does not set validate field
+  l = lrn("classif.debug")
+  expect_output(l$train(task), "but does not use it")
+})

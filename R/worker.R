@@ -50,6 +50,10 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
   # handle the internal validation task
   validate = get0("validate", learner)
   prev_valid = task$internal_valid_task
+  if (!is.null(prev_valid) && is.null(validate)) {
+    lg$warn("Learner %s received task with an internal validation task but does not use it.",
+      learner$id)
+  }
   on.exit({
     task$internal_valid_task = prev_valid
   }, add = TRUE)

@@ -13,6 +13,8 @@
   for `data.frames` (#961).
 * fix: Triggering of fallback learner now has log-level "info"
   instead of "debug" (#972)
+* fix: `Learner`s now throw a warning if they receive an internal validation task but don't
+  use it.
 
 # mlr3 0.20.2
 
