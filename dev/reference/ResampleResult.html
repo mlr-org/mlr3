@@ -257,7 +257,7 @@ is called macro averaging. For micro averaging, operate on the combined predicti
 <h4 id="arguments-4">Arguments<a class="anchor" aria-label="anchor" href="#arguments-4"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>predict_sets</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
-Subset of <code>{"train", "test"}</code>.</p></dd>
+Subset of <code>{"train", "test", "internal_valid"}</code>.</p></dd>
 
 
 </dl><p></p></div>
@@ -270,17 +270,17 @@ Subset of <code>{"train", "test"}</code>.</p></dd>
 </div><p></p><hr><a id="method-ResampleResult-score"></a><div class="section">
 <h3 id="method-score-">Method <code>score()</code><a class="anchor" aria-label="anchor" href="#method-score-"></a></h3>
 <p>Returns a table with one row for each resampling iteration, including all involved objects:
-<a href="Task.html">Task</a>, <a href="Learner.html">Learner</a>, <a href="Resampling.html">Resampling</a>, iteration number (<code>integer(1)</code>), and <a href="Prediction.html">Prediction</a>.
+<a href="Task.html">Task</a>, <a href="Learner.html">Learner</a>, <a href="Resampling.html">Resampling</a>, iteration number (<code>integer(1)</code>), and (if enabled)
+one <a href="Prediction.html">Prediction</a> for each predict set of the <a href="Learner.html">Learner</a>.
 Additionally, a column with the individual (per resampling iteration) performance is added
-for each <a href="Measure.html">Measure</a> in <code>measures</code>,
-named with the id of the respective measure id.
+for each <a href="Measure.html">Measure</a> in <code>measures</code>, named with the id of the respective measure id.
 If <code>measures</code> is <code>NULL</code>, <code>measures</code> defaults to the return value of <code><a href="default_measures.html">default_measures()</a></code>.</p><div class="section">
 <h4 id="usage-6">Usage<a class="anchor" aria-label="anchor" href="#usage-6"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">ResampleResult</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span></span>
 <span>  measures <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  ids <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  conditions <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  predict_sets <span class="op">=</span> <span class="st">"test"</span></span>
+<span>  predictions <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
@@ -304,10 +304,11 @@ Adds condition messages (<code>"warnings"</code>, <code>"errors"</code>) as extr
 list columns of character vectors to the returned table</p></dd>
 
 
-<dt><code>predict_sets</code></dt>
-<dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
-Vector of predict sets (<code>{"train", "test"}</code>) to construct the <a href="Prediction.html">Prediction</a> objects from.
-Default is <code>"test"</code>.</p></dd>
+<dt><code>predictions</code></dt>
+<dd><p>(<code>logical(1)</code>)<br>
+Additionally return prediction objects, one column for each <code>predict_set</code> of the learner.
+Columns are named <code>"prediction_train"</code>, <code>"prediction_test"</code> and <code>"prediction_internal_valid"</code>,
+if present.</p></dd>
 
 
 </dl><p></p></div>
