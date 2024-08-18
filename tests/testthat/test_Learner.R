@@ -564,7 +564,7 @@ test_that("predict time is cumulative", {
 
 test_that("warning if learner receives internal_valid_task but does", {
   old_threshold = lg$threshold
-  on.exit(lg$set_threshold(threshold))
+  on.exit(lg$set_threshold(old_threshold))
   lg$set_threshold("warn")
   task = tsk("iris")
   task$internal_valid_task = 1:10
