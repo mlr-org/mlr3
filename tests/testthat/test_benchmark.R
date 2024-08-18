@@ -7,17 +7,17 @@ bmr = benchmark(design)
 
 test_that("Basic benchmarking", {
   expect_benchmark_result(bmr)
-  expect_names(names(as.data.table(bmr)), permutation.of = c(mlr_reflections$rr_names, "uhash"))
+  expect_names(names(as.data.table(bmr)), permutation.of = c(mlr_reflections$rr_names, "uhash", "prediction"))
 
   tab = as.data.table(bmr)
   expect_data_table(tab, nrows = 18L, ncols = 6L)
-  expect_names(names(tab), permutation.of = c("uhash", mlr_reflections$rr_names))
+  expect_names(names(tab), permutation.of = c("uhash", "prediction", mlr_reflections$rr_names))
   measures = list(msr("classif.acc"))
 
-  tab = bmr$score(measures, ids = FALSE)
+  tab = bmr$score(measures, ids = FALSE, predictions = TRUE)
   expect_data_table(tab, nrows = 18L, ncols = 7L + length(measures))
-  expect_names(names(tab), must.include = c("nr", "uhash", mlr_reflections$rr_names, ids(measures)))
-  expect_list(tab$prediction, "Prediction")
+  expect_names(names(tab), must.include = c("nr", "uhash", "prediction_test", mlr_reflections$rr_names, ids(measures)))
+  expect_list(tab$prediction_test, "Prediction")
 
   tab = bmr$tasks
   expect_data_table(tab, nrows = 3L, any.missing = FALSE)

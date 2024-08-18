@@ -225,7 +225,7 @@ is called macro averaging. For micro averaging, operate on the combined predicti
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{predict_sets}}{(\code{character()})\cr
-Subset of \verb{\{"train", "test"\}}.}
+Subset of \verb{\{"train", "test", "internal_valid"\}}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -238,17 +238,17 @@ List of \link{Prediction} objects, one per element in \code{predict_sets}.
 \if{latex}{\out{\hypertarget{method-ResampleResult-score}{}}}
 \subsection{Method \code{score()}}{
 Returns a table with one row for each resampling iteration, including all involved objects:
-\link{Task}, \link{Learner}, \link{Resampling}, iteration number (\code{integer(1)}), and \link{Prediction}.
+\link{Task}, \link{Learner}, \link{Resampling}, iteration number (\code{integer(1)}), and (if enabled)
+one \link{Prediction} for each predict set of the \link{Learner}.
 Additionally, a column with the individual (per resampling iteration) performance is added
-for each \link{Measure} in \code{measures},
-named with the id of the respective measure id.
+for each \link{Measure} in \code{measures}, named with the id of the respective measure id.
 If \code{measures} is \code{NULL}, \code{measures} defaults to the return value of \code{\link[=default_measures]{default_measures()}}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{ResampleResult$score(
   measures = NULL,
   ids = TRUE,
   conditions = FALSE,
-  predict_sets = "test"
+  predictions = FALSE
 )}\if{html}{\out{</div>}}
 }
 
@@ -267,9 +267,10 @@ These allow to subset more conveniently.}
 Adds condition messages (\code{"warnings"}, \code{"errors"}) as extra
 list columns of character vectors to the returned table}
 
-\item{\code{predict_sets}}{(\code{character()})\cr
-Vector of predict sets (\verb{\{"train", "test"\}}) to construct the \link{Prediction} objects from.
-Default is \code{"test"}.}
+\item{\code{predictions}}{(\code{logical(1)})\cr
+Additionally return prediction objects, one column for each \code{predict_set} of the learner.
+Columns are named \code{"prediction_train"}, \code{"prediction_test"} and \code{"prediction_internal_valid"},
+if present.}
 }
 \if{html}{\out{</div>}}
 }

@@ -6,8 +6,8 @@ rr = resample(task, learner, resampling)
 test_that("resample", {
   expect_resample_result(rr)
 
-  scores = rr$score(msr("classif.ce"))
-  expect_list(scores$prediction, "Prediction")
+  scores = rr$score(msr("classif.ce"), predictions = TRUE)
+  expect_list(scores$prediction_test, "Prediction")
   expect_numeric(scores$classif.ce, any.missing = FALSE)
   expect_number(rr$aggregate(msr("classif.ce")))
   learners = rr$learners
@@ -29,9 +29,9 @@ test_that("empty RR", {
 
 test_that("resample with no or multiple measures", {
   for (measures in list(mlr_measures$mget(c("classif.ce", "classif.acc")), list())) {
-    tab = rr$score(measures, ids = FALSE)
-    expect_data_table(tab, ncols = length(mlr_reflections$rr_names) + length(measures), nrows = 3L)
-    expect_set_equal(names(tab), c(mlr_reflections$rr_names, ids(measures)))
+    tab = rr$score(measures, ids = FALSE, predictions = TRUE)
+    expect_data_table(tab, ncols = length(mlr_reflections$rr_names) + length(learner$predict_sets) + length(measures), nrows = 3L)
+    expect_set_equal(names(tab), c(mlr_reflections$rr_names, ids(measures), paste0("prediction_", learner$predict_sets)))
     perf = rr$aggregate(measures)
     expect_numeric(perf, any.missing = FALSE, len = length(measures), names = "unique")
     expect_equal(names(perf), unname(ids(measures)))
@@ -302,7 +302,7 @@ test_that("internal_valid and train predictions", {
   measure_valid = msr("classif.acc")
   measure_valid$predict_sets = "internal_valid"
   expect_equal(
-    rr$score(measure_valid, predict_sets = "internal_valid")$classif.acc,
+    rr$score(measure_valid)$classif.acc,
     rr$learners[[1L]]$internal_valid_scores$acc
   )
 
@@ -312,9 +312,9 @@ test_that("internal_valid and train predictions", {
   rr2 = resample(task, learner, rsmp("holdout"))
 
   expect_equal(
-    rr2$score(measure_valid, predict_sets = "internal_valid")$classif.acc,
-    rr2$score(msr("classif.acc"), predict_sets = "test")$classif.acc
- )
+    rr2$score(measure_valid)$classif.acc,
+    rr2$score(msr("classif.acc"))$classif.acc
+  )
   expect_equal(
     rr2$predictions("internal_valid")[[1L]]$response,
     rr2$predictions("test")[[1L]]$response
