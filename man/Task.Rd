@@ -195,11 +195,11 @@ The following properties are currently standardized and understood by tasks in \
 \itemize{
 \item \code{"strata"}: The task is resampled using one or more stratification variables (role \code{"stratum"}).
 \item \code{"groups"}: The task comes with grouping/blocking information (role \code{"group"}).
-\item \code{"weights_learnering"}: The task comes with observation weights to be used during training in the \link{Learner} (role \code{"weights_learnering"}).
-The weights are only used if the learner's hyperparameter \code{use_weights} is set to \code{TRUE}.
-\item \code{"weights_measure"}: The task comes with observation weights to be used during scoring in the \link{Measure} (role \code{"weights_learnering"}).
-The weights are only used if the measure's hyperparameter \code{use_weights} is set to \code{TRUE}.
-\item \code{"weights_resampling"}: The task comes with observation weights to be used during samling observations in the \link{Resampling} (role \code{"weights_learnering"}).
+\item \code{"weights_learnering"}: If the task has observation weights with this role, they are passed to the \link{Learner} during train.
+The use of weights can be disabled via by setting the learner's hyperparameter \code{use_weights} to \code{FALSE}.
+\item \code{"weights_measure"}: If the task has observation weights with this role, they are passed to the \link{Measure} for weighted scoring.
+The use of weights can be disabled via by setting the measure's hyperparameter \code{use_weights} to \code{FALSE}.
+\item \code{"weights_resampling"}: If the task has observation weights with this role, they are passed to the \link{Resampling} for weighted sampling.
 The weights are only used if the resampling's hyperparameter \code{use_weights} is set to \code{TRUE}.
 }
 
@@ -227,12 +227,12 @@ Columns must be sortable with \code{\link[=order]{order()}}.
 For each resampling iteration, observations of the same group will be exclusively assigned to be either in the training set or in the test set.
 Not more than a single column can be associated with this role.
 \item \code{"stratum"}: Stratification variables. Multiple discrete columns may have this role.
-\item \code{"weights_learner"}: Observation weights to be used during training by the \link{Learner}.
-In order for them to be used, the learner's hyperparameter \code{use_weights} needs to be explicitly set to \code{TRUE}.
-\item \code{"weights_measure"}: Observation weights to be used during scoring the predictions by the \link{Measure}.
-In order for them to be used, the measure's hyperparameter \code{use_weights} needs to be explicitly set to \code{TRUE}.
-\item \code{"weights_resampling"}: Observation weights to be used to sample observations by the \link{Resampling}.
-In order for them to be used, the resampling's hyperparameter \code{use_weights} needs to be explicitly set to \code{TRUE}.
+\item \code{"weights_learnering"}: If the task has observation weights with this role, they are passed to the \link{Learner} during train.
+The use of weights can be disabled via by setting the learner's hyperparameter \code{use_weights} to \code{FALSE}.
+\item \code{"weights_measure"}: If the task has observation weights with this role, they are passed to the \link{Measure} for weighted scoring.
+The use of weights can be disabled via by setting the measure's hyperparameter \code{use_weights} to \code{FALSE}.
+\item \code{"weights_resampling"}: If the task has observation weights with this role, they are passed to the \link{Resampling} for weighted sampling.
+The weights are only used if the resampling's hyperparameter \code{use_weights} is set to \code{TRUE}.
 }
 
 \code{col_roles} is a named list whose elements are named by column role and each element is a \code{character()} vector of column names.
@@ -240,7 +240,7 @@ To alter the roles, just modify the list, e.g. with \R's set functions (\code{\l
 The method \verb{$set_col_roles} provides a convenient alternative to assign columns to roles.
 
 The roles \code{weights_learner}, \code{weights_measure} and \code{weights_resampling} may only point to a single numeric column, but they can
-all point to the same column. Weights must be non-negative numerics with at least one weight being > 0.
+all point to the same column or different columns. Weights must be non-negative numerics with at least one weight being > 0.
 They don't necessarily need to sum up to 1.}
 
 \item{\code{nrow}}{(\code{integer(1)})\cr

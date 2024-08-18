@@ -968,7 +968,7 @@ Task = R6Class("Task",
 
       assert_has_backend(self)
       qassertr(rhs, "S[1,]", .var.name = "col_roles")
-      assert_names(names(rhs), "unique")
+      assert_names(names(rhs), "unique", permutation.of = mlr_reflections$task_col_roles[[self$task_type]])
       assert_subset(unlist(rhs, use.names = FALSE), setdiff(self$col_info$id, self$backend$primary_key), .var.name = "elements of col_roles")
 
       private$.hash = NULL
