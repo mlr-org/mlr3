@@ -191,6 +191,9 @@ Learner = R6Class("Learner",
     #' This currently only works for methods `Learner$predict()` and `Learner$predict_newdata()`,
     #' and has no effect during [resample()] or [benchmark()] where you have other means
     #' to parallelize.
+    #'
+    #' Note that the recorded time required for prediction reports the time required to predict
+    #' is not properly defined and depends on the parallelization backend.
     parallel_predict = FALSE,
 
     #' @field timeout (named `numeric(2)`)\cr
@@ -346,6 +349,10 @@ Learner = R6Class("Learner",
         }
       }, add = TRUE)
 
+      # reset learner predict time; this is only cumulative for multiple predict sets,
+      # not for multiple calls to predict / predict_newdata
+      self$state$predict_time = 0
+
       # we only have to marshal here for the parallel prediction case, because learner_predict() handles the
       # marshaling for call-r encapsulation itself
       if (isTRUE(self$parallel_predict) && nbrOfWorkers() > 1L) {
@@ -359,7 +366,6 @@ Learner = R6Class("Learner",
       } else {
         pdata = learner_predict(self, task, row_ids)
       }
-
 
       if (is.null(pdata)) {
         return(NULL)
@@ -461,6 +467,11 @@ Learner = R6Class("Learner",
 
     #' @field timings (named `numeric(2)`)\cr
     #' Elapsed time in seconds for the steps `"train"` and `"predict"`.
+    #'
+    #' When predictions for multiple predict sets were made during [resample()] or [benchmark()],
+    #' the predict time shows the cumulative duration of all predictions.
+    #' If `learner$predict()` is called manually, the last predict time gets overwritten.
+    #'
     #' Measured via [mlr3misc::encapsulate()].
     timings = function(rhs) {
       assert_ro_binding(rhs)
