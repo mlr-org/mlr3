@@ -18,6 +18,11 @@
 #' Many of the measures in \pkg{mlr3} are implemented in \CRANpkg{mlr3measures} as ordinary functions.
 #'
 #' A guide on how to extend \CRANpkg{mlr3} with custom measures can be found in the [mlr3book](https://mlr3book.mlr-org.com).
+#' @section Inheriting:
+#' For some measures (such as confidence intervals from `mlr3inferr`) it is necessary that a measure
+#' returns more than one value.
+#' In such cases it is necessary to overwrite the public methods `$aggregate()` and/or `$score()` to return a named `numeric()`
+#' where at least one of its names corresponds to the `id` of the measure itself.
 #'
 #' @template param_id
 #' @template param_param_set
@@ -33,6 +38,12 @@
 #' @template param_packages
 #' @template param_label
 #' @template param_man
+#' @param obs_loss (`function` or `NULL`)\cr
+#'   The observation-wise loss function, e.g. [zero-one][mlr3measures::zero_one] for classification error.
+#' @param trafo (`list()` or `NULL`)\cr
+#'   An optional list with two elements, containing the transformation `"fn"` and its derivative `"deriv"`.
+#'   The transformation function is the function that is applied after aggregating the pointwise losses, i.e.
+#'   this requires an `$obs_loss` to be present. An example is `sqrt` for RMSE.
 #'
 #' @template seealso_measure
 #' @export
@@ -49,6 +60,17 @@ Measure = R6Class("Measure",
 
     #' @template field_param_set
     param_set = NULL,
+
+    #' @field obs_loss (`function()` | `NULL`)
+    #' Function to calculate the observation-wise loss.
+    obs_loss = NULL,
+
+    #' @field trafo (`list()` | `NULL`)
+    #' `NULL` or a list with two elements:
+    #' * `trafo`: the transformation function applied after aggregating
+    #'   observation-wise losses (e.g. `sqrt` for RMSE)
+    #' * `deriv`: The derivative of the `trafo`.
+    trafo = NULL,
 
     #' @field predict_type (`character(1)`)\cr
     #' Required predict type of the [Learner].
@@ -94,9 +116,9 @@ Measure = R6Class("Measure",
     #'
     #' Note that this object is typically constructed via a derived classes, e.g. [MeasureClassif] or [MeasureRegr].
     initialize = function(id, task_type = NA, param_set = ps(), range = c(-Inf, Inf), minimize = NA, average = "macro",
-      aggregator = NULL, properties = character(), predict_type = "response",
+      aggregator = NULL, obs_loss = NULL, properties = character(), predict_type = "response",
       predict_sets = "test", task_properties = character(), packages = character(),
-      label = NA_character_, man = NA_character_) {
+      label = NA_character_, man = NA_character_, trafo = NULL) {
 
       self$id = assert_string(id, min.chars = 1L)
       self$label = assert_string(label, na.ok = TRUE)
@@ -106,6 +128,11 @@ Measure = R6Class("Measure",
       self$minimize = assert_flag(minimize, na.ok = TRUE)
       self$average = average
       private$.aggregator = assert_function(aggregator, null.ok = TRUE)
+      self$obs_loss = assert_function(obs_loss, null.ok = TRUE)
+      self$trafo = assert_list(trafo, len = 2L, types = "function", null.ok = TRUE)
+      if (!is.null(self$trafo)) {
+        assert_permutation(names(trafo), c("fn", "deriv"))
+      }
 
       if (!is_scalar_na(task_type)) {
         assert_choice(task_type, mlr_reflections$task_types$type)
@@ -212,11 +239,25 @@ Measure = R6Class("Measure",
       switch(self$average,
         "macro" = {
           aggregator = self$aggregator %??% mean
-          tab = score_measures(rr, list(self), reassemble = FALSE, view = get_private(rr)$.view)
+          tab = score_measures(rr, list(self), reassemble = FALSE, view = get_private(rr)$.view,
+            iters = get_private(rr$resampling)$.primary_iters)
           set_names(aggregator(tab[[self$id]]), self$id)
         },
-        "micro" = self$score(rr$prediction(self$predict_sets), task = rr$task, learner = rr$learner),
-        "custom" = private$.aggregator(rr)
+        "micro" = {
+          if (is.null(get_private(rr$resampling)$.primary_iters)) {
+            self$score(rr$prediction(self$predict_sets), task = rr$task, learner = rr$learner)
+          } else {
+            prediction = do.call(c, rr$predictions(self$predict_sets)[get_private(rr$resampling)$.primary_iters])
+            self$score(prediction, task = rr$task, learner = rr$learner)
+          }
+        },
+        "custom" =  {
+          if (!is.null(get_private(rr$resampling)$.primary_iters) && "primary_iters" %nin% self$properties &&
+            !test_permutation(get_private(rr$resampling)$.primary_iters, seq_len(rr$resampling$iters))) {
+            stopf("Resample result has non-NULL primary_iters, but measure '%s' cannot handle them", self$id)
+          }
+          private$.aggregator(rr)
+        }
       )
     }
   ),
@@ -225,8 +266,9 @@ Measure = R6Class("Measure",
     #' @template field_hash
     hash = function(rhs) {
       assert_ro_binding(rhs)
-      calculate_hash(class(self), self$id, self$param_set$values, private$.score, private$.average,
-        private$.aggregator, self$predict_sets, mget(private$.extra_hash, envir = self))
+      calculate_hash(class(self), self$id, self$param_set$values, private$.score,
+        private$.average, private$.aggregator, self$obs_loss, self$trafo,
+        self$predict_sets, mget(private$.extra_hash, envir = self))
     },
 
     #' @field average (`character(1)`)\cr
@@ -325,14 +367,20 @@ score_single_measure = function(measure, task, learner, train_set, prediction) {
 #'
 #' @param obj ([ResampleResult] | [BenchmarkResult]).
 #' @param measures (list of [Measure]).
+#' @param iters (`integer()` or `NULL`)
+#' To which iterations of the resample result to restrict the scoring.
 #'
 #' @return (`data.table()`) with added score columns.
 #'
 #' @noRd
-score_measures = function(obj, measures, reassemble = TRUE, view = NULL) {
+score_measures = function(obj, measures, reassemble = TRUE, view = NULL, iters = NULL) {
   reassemble_learners = reassemble ||
     some(measures, function(m) any(c("requires_learner", "requires_model") %in% m$properties))
   tab = get_private(obj)$.data$as_data_table(view = view, reassemble_learners = reassemble_learners, convert_predictions = FALSE)
+
+  if (!is.null(iters)) {
+    tab = tab[list(iters), on = "iteration"]
+  }
 
   tmp = unique(tab, by = c("task_hash", "learner_hash"))[, c("task", "learner"), with = FALSE]
 

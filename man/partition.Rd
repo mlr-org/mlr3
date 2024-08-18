@@ -2,69 +2,33 @@
 % Please edit documentation in R/partition.R
 \name{partition}
 \alias{partition}
-\alias{partition.TaskRegr}
-\alias{partition.TaskClassif}
-\title{Manually Partition into Training and Test Set}
+\title{Manually Partition into Training, Test and Validation Set}
 \usage{
-partition(task, ratio = 0.67, stratify = TRUE, ...)
-
-\method{partition}{TaskRegr}(task, ratio = 0.67, stratify = TRUE, bins = 3L, ...)
-
-\method{partition}{TaskClassif}(task, ratio = 0.67, stratify = TRUE, ...)
+partition(task, ratio = 0.67)
 }
 \arguments{
 \item{task}{(\link{Task})\cr
 Task to operate on.}
 
-\item{ratio}{(\code{numeric(1)})\cr
-Ratio of observations to put into the training set.}
-
-\item{stratify}{(\code{logical(1)})\cr
-If \code{TRUE}, stratify on the target variable.
-For regression tasks, the target variable is first cut into \code{bins} bins.
-See \code{Task$add_strata()}.}
-
-\item{...}{(any)\cr
-Additional arguments, currently not used.}
-
-\item{bins}{(\code{integer(1)})\cr
-Number of bins to cut the target variable into for stratification.}
+\item{ratio}{(\code{numeric()})\cr
+Ratio of observations to put into the training set.
+If a 2 element vector is provided, the first element is the ratio for the training set, the second element is the ratio for the test set.
+The validation set will contain the remaining observations.}
 }
 \description{
-Creates a split of the row ids of a \link{Task} into a training set and a test set while
-optionally stratifying on the target column.
-
-For more complex partitions, see the example.
+Creates a split of the row ids of a \link{Task} into a training and a test set, and optionally a validation set.
 }
 \examples{
-# regression task
+# regression task partitioned into training and test set
 task = tsk("boston_housing")
-
-# roughly equal size split while stratifying on the binned response
 split = partition(task, ratio = 0.5)
 data = data.frame(
   y = c(task$truth(split$train), task$truth(split$test)),
-  split = rep(c("train", "predict"), lengths(split))
+  split = rep(c("train", "predict"), lengths(split[c("train", "test")]))
 )
 boxplot(y ~ split, data = data)
 
-
-# classification task
+# classification task partitioned into training, test and validation set
 task = tsk("pima")
-split = partition(task)
-
-# roughly same distribution of the target label
-prop.table(table(task$truth()))
-prop.table(table(task$truth(split$train)))
-prop.table(table(task$truth(split$test)))
-
-
-# splitting into 3 disjunct sets, using ResamplingCV and stratification
-task = tsk("iris")
-task$set_col_roles(task$target_names, add_to = "stratum")
-r = rsmp("cv", folds = 3)$instantiate(task)
-
-sets = lapply(1:3, r$train_set)
-lengths(sets)
-prop.table(table(task$truth(sets[[1]])))
+split = partition(task, c(0.66, 0.14))
 }

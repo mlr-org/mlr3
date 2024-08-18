@@ -37,11 +37,12 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
     lg$debug("Subsetting task '%s' to %i rows",
       task$id, length(train_row_ids), task = task$clone(), row_ids = train_row_ids)
 
-    prev_use = task$row_roles$use
+    task_private = get_private(task)
+    prev_use = task_private$.row_roles$use
     on.exit({
-      task$row_roles$use = prev_use
+      task_private$.row_roles$use = prev_use
     }, add = TRUE)
-    task$row_roles$use = train_row_ids
+    task_private$.row_roles$use  = train_row_ids
   } else {
     lg$debug("Skip subsetting of task '%s'", task$id)
   }
@@ -100,7 +101,7 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
   }
 
   if (is.null(result$result)) {
-    lg$debug("Learner '%s' on task '%s' failed to %s a model",
+    lg$info("Learner '%s' on task '%s' failed to %s a model",
       learner$id, task$id, mode, learner = learner$clone(), messages = result$log$msg)
   } else {
     lg$debug("Learner '%s' on task '%s' succeeded to %s a model",
@@ -110,7 +111,7 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
   # fit fallback learner
   fb = learner$fallback
   if (!is.null(fb)) {
-    lg$debug("Calling train method of fallback '%s' on task '%s' with %i observations",
+    lg$info("Calling train method of fallback '%s' on task '%s' with %i observations",
       fb$id, task$id, task$nrow, learner = fb$clone())
 
     fb = assert_learner(as_learner(fb))
@@ -166,11 +167,12 @@ learner_predict = function(learner, task, row_ids = NULL) {
     lg$debug("Subsetting task '%s' to %i rows",
       task$id, length(row_ids), task = task$clone(), row_ids = row_ids)
 
-    prev_use = task$row_roles$use
+    task_private = get_private(task)
+    prev_use = task_private$.row_roles$use
     on.exit({
-      task$row_roles$use = prev_use
+      task_private$.row_roles$use  = prev_use
     }, add = TRUE)
-    task$row_roles$use = row_ids
+    task_private$.row_roles$use  = row_ids
   } else {
     lg$debug("Skip subsetting of task '%s'", task$id)
   }
@@ -208,7 +210,7 @@ learner_predict = function(learner, task, row_ids = NULL) {
 
     pdata = result$result
     learner$state$log = append_log(learner$state$log, "predict", result$log$class, result$log$msg)
-    learner$state$predict_time = result$elapsed
+    learner$state$predict_time = sum(learner$state$predict_time, result$elapsed)
 
     lg$debug("Learner '%s' returned an object of class '%s'",
       learner$id, class(pdata)[1L], learner = learner$clone(), prediction_data = pdata, messages = result$log$msg)
@@ -461,7 +463,9 @@ create_internal_valid_task = function(validate, task, test_row_ids, prev_valid, 
       }
       # at this point, the train rows are already set to the train set, i.e. we don't have to remove the test ids
       # from the primary task (this would cause bugs for resamplings with overlapping train and test set)
-      task$divide(ids = test_row_ids, remove = FALSE)
+      valid_task = task$clone(deep = TRUE)
+      valid_task$row_roles$use = test_row_ids
+      task$internal_valid_task = valid_task
       return(task)
     }
 
@@ -469,6 +473,6 @@ create_internal_valid_task = function(validate, task, test_row_ids, prev_valid, 
   }
 
   # validate is numeric
-  task$divide(ratio = validate, remove = TRUE)
+  task$internal_valid_task = partition(task, ratio = 1 - validate)$test
   return(task)
 }

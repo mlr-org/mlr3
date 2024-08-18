@@ -95,3 +95,11 @@ test_that("filtering", {
   expect_set_equal(p2$row_ids, 1:3)
   expect_prediction(as_prediction_regr(as.data.table(p2)))
 })
+
+test_that("obs_loss", {
+  task = tsk("mtcars")
+  p = PredictionRegr$new(row_ids = task$row_ids, truth = task$truth(), response = task$truth())
+  m = msr("regr.mse")
+  loss = p$obs_loss()
+  expect_double(loss$regr.mse, lower = 0, any.missing = FALSE)
+})

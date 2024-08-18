@@ -17,7 +17,7 @@ toc:
 navbar:
   structure:
     left:  [reference, news, book]
-    right: [github, mattermost, stackoverflow, rss, lightswitch]
+    right: [search, github, mattermost, stackoverflow, rss, lightswitch]
   components:
     home: ~
     reference:
@@ -112,6 +112,7 @@ reference:
       - set_threads
   - title: Internal Objects and Functions
     contents:
+      - marshaling
       - MeasureSimilarity
       - mlr_assertions
       - ResultData
