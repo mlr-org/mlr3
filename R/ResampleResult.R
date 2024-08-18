@@ -162,7 +162,7 @@ ResampleResult = R6Class("ResampleResult",
         set(tab, j = "errors", value = map(tab$learner, "errors"))
       }
 
-      if (predictions && nrow(tab)) {
+      if (predictions) {
         predict_sets = intersect(mlr_reflections$predict_sets, tab$learner[[1L]]$predict_sets)
         predict_cols = sprintf("prediction_%s", predict_sets)
         for (i in seq_along(predict_sets)) {
