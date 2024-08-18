@@ -11,6 +11,10 @@
 Measures the elapsed time during train ("time_train"), predict ("time_predict"), or both ("time_both").
 Aggregation of elapsed time defaults to mean but can be configured via the field \code{aggregator} of the
 \link{Measure}.
+
+When predictions for multiple predict sets were made during \code{\link[=resample]{resample()}} or \code{\link[=benchmark]{benchmark()}},
+the predict time shows the cumulative duration of all predictions.
+If \code{learner$predict()} is called manually, the last predict time gets overwritten.
 }
 \section{Dictionary}{
 
