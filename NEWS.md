@@ -6,6 +6,14 @@
 * refactor: Optimize runtime of marshalling.
 * refactor: Optimize runtime of `Task$col_info`
 * fix: column info is now checked for compatibility during `Learner$predict` (#943)
+* BREAKING CHANGE: the predict time of the learner now stores the cumulative duration for
+  all predict sets (#992).
+* feat: `$internal_valid_task` can now be set to an `integer` vector.
+* deprecated the `$divide()` method 
+* fix: `Task$cbind()` now works with non-standard primary keys
+  for `data.frames` (#961).
+* fix: Triggering of fallback learner now has log-level "info"
+  instead of "debug" (#972)
 
 # mlr3 0.20.2
 

@@ -6,8 +6,8 @@ rr = resample(task, learner, resampling)
 test_that("resample", {
   expect_resample_result(rr)
 
-  scores = rr$score(msr("classif.ce"))
-  expect_list(scores$prediction, "Prediction")
+  scores = rr$score(msr("classif.ce"), predictions = TRUE)
+  expect_list(scores$prediction_test, "Prediction")
   expect_numeric(scores$classif.ce, any.missing = FALSE)
   expect_number(rr$aggregate(msr("classif.ce")))
   learners = rr$learners
@@ -29,9 +29,9 @@ test_that("empty RR", {
 
 test_that("resample with no or multiple measures", {
   for (measures in list(mlr_measures$mget(c("classif.ce", "classif.acc")), list())) {
-    tab = rr$score(measures, ids = FALSE)
-    expect_data_table(tab, ncols = length(mlr_reflections$rr_names) + length(measures), nrows = 3L)
-    expect_set_equal(names(tab), c(mlr_reflections$rr_names, ids(measures)))
+    tab = rr$score(measures, ids = FALSE, predictions = TRUE)
+    expect_data_table(tab, ncols = length(mlr_reflections$rr_names) + length(learner$predict_sets) + length(measures), nrows = 3L)
+    expect_set_equal(names(tab), c(mlr_reflections$rr_names, ids(measures), paste0("prediction_", learner$predict_sets)))
     perf = rr$aggregate(measures)
     expect_numeric(perf, any.missing = FALSE, len = length(measures), names = "unique")
     expect_equal(names(perf), unname(ids(measures)))
@@ -282,25 +282,27 @@ test_that("can make predictions for internal_valid_task", {
 test_that("learner's validate cannot be 'test' if internal_valid_set is present", {
   # otherwise, predict_set = "internal_valid" would be ambiguous
   learner = lrn("classif.debug", validate = "test", predict_sets = c("train", "internal_valid"))
-  task = tsk("iris")$divide(ids = 1)
+  task = tsk("iris")
+  task$internal_valid_task = 1
   expect_error(resample(task, learner, rsmp("holdout")), "cannot be set to ")
 })
 
 test_that("learner's validate cannot be a ratio if internal_valid_set is present", {
   # otherwise, predict_set = "internal_valid" would be ambiguous
   learner = lrn("classif.debug", validate = 0.5, predict_sets = c("train", "internal_valid"))
-  task = tsk("iris")$divide(ids = 1)
+  task$internal_valid_task = 1
   expect_error(resample(task, learner, rsmp("holdout")), "cannot be set to")
 })
 
 test_that("internal_valid and train predictions", {
-  task = tsk("iris")$divide(ids = 1:2)
+  task = tsk("iris")
+  task$internal_valid_task = 1:2
   learner = lrn("classif.debug", validate = "predefined", predict_sets = c("train", "internal_valid", "test"))
   rr = resample(task, learner, rsmp("insample"))
   measure_valid = msr("classif.acc")
   measure_valid$predict_sets = "internal_valid"
   expect_equal(
-    rr$score(measure_valid, predict_sets = "internal_valid")$classif.acc,
+    rr$score(measure_valid)$classif.acc,
     rr$learners[[1L]]$internal_valid_scores$acc
   )
 
@@ -310,9 +312,9 @@ test_that("internal_valid and train predictions", {
   rr2 = resample(task, learner, rsmp("holdout"))
 
   expect_equal(
-    rr2$score(measure_valid, predict_sets = "internal_valid")$classif.acc,
-    rr2$score(msr("classif.acc"), predict_sets = "test")$classif.acc
- )
+    rr2$score(measure_valid)$classif.acc,
+    rr2$score(msr("classif.acc"))$classif.acc
+  )
   expect_equal(
     rr2$predictions("internal_valid")[[1L]]$response,
     rr2$predictions("test")[[1L]]$response
@@ -340,7 +342,7 @@ test_that("properties are also checked on validation task", {
   row[[1]][1] = NA
   row$..row_id = 151
   task$rbind(row)
-  task$divide(ids = 151)
+  task$internal_valid_task = 151
   learner = lrn("classif.debug", validate = "predefined")
   learner$properties = setdiff(learner$properties, "missings")
 
@@ -366,7 +368,9 @@ test_that("predict_set internal_valid throws error when none is available", {
 })
 
 test_that("can even use internal_valid predict set on learners that don't support validation", {
-  rr = resample(tsk("mtcars")$divide(ids = 1:10), lrn("regr.debug", predict_sets = "internal_valid"), rsmp("holdout"))
+  task = tsk("mtcars")
+  task$internal_valid_task = 1:10
+  rr = resample(task, lrn("regr.debug", predict_sets = "internal_valid"), rsmp("holdout"))
 })
 
 test_that("callr during prediction triggers marshaling", {

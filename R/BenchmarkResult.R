@@ -4,8 +4,9 @@
 #'
 #' @description
 #' This is the result container object returned by [benchmark()].
-#' A [BenchmarkResult] consists of the data of multiple
-#' [ResampleResult]s.
+#' A [BenchmarkResult] consists of the data of multiple [ResampleResult]s.
+#' The contents of a `BenchmarkResult` and [ResampleResult] are almost identical and the stored [ResampleResult]s can be extracted via the `$resample_result(i)` method, where i is the index of the performed resample experiment.
+#' This allows us to investigate the extracted [ResampleResult] and individual resampling iterations, as well as the predictions and models from each fold.
 #'
 #' [BenchmarkResult]s can be visualized via \CRANpkg{mlr3viz}'s `autoplot()` function.
 #'
@@ -167,13 +168,17 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #'   Adds condition messages (`"warnings"`, `"errors"`) as extra
     #'   list columns of character vectors to the returned table
     #'
-    #' @template param_predict_sets
+    #' @param predictions (`logical(1)`)\cr
+    #'   Additionally return prediction objects, one column for each `predict_set` of all learners combined.
+    #'   Columns are named `"prediction_train"`, `"prediction_test"` and `"prediction_internal_valid"`,
+    #'   if present.
     #'
     #' @return [data.table::data.table()].
-    score = function(measures = NULL, ids = TRUE, conditions = FALSE, predict_sets = "test") {
+    score = function(measures = NULL, ids = TRUE, conditions = FALSE, predictions = FALSE) {
       measures = as_measures(measures, task_type = self$task_type)
       assert_flag(ids)
       assert_flag(conditions)
+      assert_flag(predictions)
 
       tab = score_measures(self, measures, view = NULL)
       tab = merge(private$.data$data$uhashes, tab, by = "uhash", sort = FALSE)
@@ -190,12 +195,25 @@ BenchmarkResult = R6Class("BenchmarkResult",
         set(tab, j = "errors", value = map(tab$learner, "errors"))
       }
 
-      set(tab, j = "prediction", value = as_predictions(tab$prediction, predict_sets))
+      if (predictions) {
+        predict_sets = intersect(
+          mlr_reflections$predict_sets,
+          unlist(map(self$learners$learner, "predict_sets"), use.names = FALSE)
+        )
+        predict_cols = sprintf("prediction_%s", predict_sets)
+        for (i in seq_along(predict_sets)) {
+          set(tab, j = predict_cols[i],
+            value = map(tab$prediction, function(p) as_prediction(p[[predict_sets[i]]], check = FALSE))
+          )
+        }
+      } else {
+        predict_cols = character()
+      }
 
       set_data_table_class(tab, "bmr_score")
 
       cns = c("uhash", "nr", "task", "task_id", "learner", "learner_id", "resampling", "resampling_id",
-        "iteration", "prediction", "warnings", "errors", ids(measures))
+        "iteration", predict_cols, "warnings", "errors", ids(measures))
       cns = intersect(cns, names(tab))
       tab[, cns, with = FALSE]
     },

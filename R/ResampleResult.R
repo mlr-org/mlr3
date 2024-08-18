@@ -111,18 +111,19 @@ ResampleResult = R6Class("ResampleResult",
     #' `$prediction()`.
     #'
     #' @param predict_sets (`character()`)\cr
-    #'   Subset of `{"train", "test"}`.
+    #'   Subset of `{"train", "test", "internal_valid"}`.
     #' @return List of [Prediction] objects, one per element in `predict_sets`.
     predictions = function(predict_sets = "test") {
+      assert_subset(predict_sets, mlr_reflections$predict_sets, empty.ok = FALSE)
       private$.data$predictions(private$.view, predict_sets)
     },
 
     #' @description
     #' Returns a table with one row for each resampling iteration, including all involved objects:
-    #' [Task], [Learner], [Resampling], iteration number (`integer(1)`), and [Prediction].
+    #' [Task], [Learner], [Resampling], iteration number (`integer(1)`), and (if enabled)
+    #' one [Prediction] for each predict set of the [Learner].
     #' Additionally, a column with the individual (per resampling iteration) performance is added
-    #' for each [Measure] in `measures`,
-    #' named with the id of the respective measure id.
+    #' for each [Measure] in `measures`, named with the id of the respective measure id.
     #' If `measures` is `NULL`, `measures` defaults to the return value of [default_measures()].
     #'
     #' @param ids (`logical(1)`)\cr
@@ -134,16 +135,17 @@ ResampleResult = R6Class("ResampleResult",
     #'   Adds condition messages (`"warnings"`, `"errors"`) as extra
     #'   list columns of character vectors to the returned table
     #'
-    #' @param predict_sets (`character()`)\cr
-    #'   Vector of predict sets (`{"train", "test"}`) to construct the [Prediction] objects from.
-    #'   Default is `"test"`.
+    #' @param predictions (`logical(1)`)\cr
+    #'   Additionally return prediction objects, one column for each `predict_set` of the learner.
+    #'   Columns are named `"prediction_train"`, `"prediction_test"` and `"prediction_internal_valid"`,
+    #'   if present.
     #'
     #' @return [data.table::data.table()].
-    score = function(measures = NULL, ids = TRUE, conditions = FALSE, predict_sets = "test") {
+    score = function(measures = NULL, ids = TRUE, conditions = FALSE, predictions = FALSE) {
       measures = as_measures(measures, task_type = private$.data$task_type)
       assert_flag(ids)
       assert_flag(conditions)
-      assert_subset(predict_sets, mlr_reflections$predict_sets)
+      assert_flag(predictions)
 
       tab = score_measures(self, measures, view = private$.view)
 
@@ -160,12 +162,22 @@ ResampleResult = R6Class("ResampleResult",
         set(tab, j = "errors", value = map(tab$learner, "errors"))
       }
 
-      set(tab, j = "prediction", value = as_predictions(tab$prediction, predict_sets))
+      if (predictions) {
+        predict_sets = intersect(mlr_reflections$predict_sets, tab$learner[[1L]]$predict_sets)
+        predict_cols = sprintf("prediction_%s", predict_sets)
+        for (i in seq_along(predict_sets)) {
+          set(tab, j = predict_cols[i],
+            value = map(tab$prediction, function(p) as_prediction(p[[predict_sets[i]]], check = FALSE))
+          )
+        }
+      } else {
+        predict_cols = character()
+      }
 
       set_data_table_class(tab, "rr_score")
 
       cns = c("task", "task_id", "learner", "learner_id", "resampling", "resampling_id", "iteration",
-        "prediction", "warnings", "errors", ids(measures))
+        predict_cols, "warnings", "errors", ids(measures))
       cns = intersect(cns, names(tab))
       tab[, cns, with = FALSE]
     },
@@ -179,6 +191,7 @@ ResampleResult = R6Class("ResampleResult",
     #' `NA` values.
     #' Note that some measures such as RMSE, do have an `$obs_loss`, but they require an
     #' additional transformation after aggregation, in this example taking the square-root.
+    #'
     #' @param predict_sets (`character()`)\cr
     #'   The predict sets.
     obs_loss = function(measures = NULL, predict_sets = "test") {
@@ -384,5 +397,6 @@ resample_result_aggregate = function(rr, measures) {
 
 #' @export
 print.rr_score = function(x, ...) {
-  print_data_table(x, c("task", "learner", "resampling", "prediction"))
+  predict_cols = sprintf("prediction_%s", mlr_reflections$predict_sets)
+  print_data_table(x, c("task", "learner", "resampling", predict_cols))
 }

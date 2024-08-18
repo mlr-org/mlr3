@@ -157,9 +157,11 @@ Package version of \code{mlr3} used to create the task.}
 Identifier of the object.
 Used in tables, plot and text output.}
 
-\item{\code{internal_valid_task}}{(\code{Task} or \code{NULL})\cr
+\item{\code{internal_valid_task}}{(\code{Task} or \code{integer()} or \code{NULL})\cr
 Optional validation task that can, e.g., be used for early stopping with learners such as XGBoost.
 See also the \verb{$validate} field of \code{\link{Learner}}.
+If integers are assigned they are removed from the primary task and an internal validation task
+with those ids is created from the primary task using only those ids.
 When assigning a new task, it is always cloned.}
 
 \item{\code{hash}}{(\code{character(1)})\cr
@@ -364,10 +366,7 @@ via \code{\link[=convert_task]{convert_task()}}.}
 \if{html}{\out{<a id="method-Task-divide"></a>}}
 \if{latex}{\out{\hypertarget{method-Task-divide}{}}}
 \subsection{Method \code{divide()}}{
-Creates an internal validation task (field \verb{$internal_valid_task}) from the primary task.
-This modifies the task in-place.
-Subsequent operations on the (primary) task are \strong{not} relayed to the internal validation task.
-One must either provide the parameter \code{ratio} or `ids.
+Deprecated.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Task$divide(ratio = NULL, ids = NULL, remove = TRUE)}\if{html}{\out{</div>}}
 }

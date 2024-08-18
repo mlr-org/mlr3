@@ -327,7 +327,8 @@ test_that("Models can be replaced", {
 
 test_that("validation task's backend is removed", {
   learner = lrn("regr.rpart")
-  task = tsk("mtcars")$divide(ids = 1:10)
+  task = tsk("mtcars")
+  task$internal_valid_task = 1:10
   learner$train(task)
   expect_true(is.null(learner$state$train_task$internal_valid_task$backend))
 })
@@ -340,7 +341,7 @@ test_that("manual $train() stores validation hash and validation ids", {
 
   l = lrn("classif.debug", validate = "predefined")
   task = tsk("iris")
-  task$divide(ids = 1:10)
+  task$internal_valid_task = 1:10
   l$train(task)
   expect_equal(l$state$internal_valid_task_hash, task$internal_valid_task$hash)
 
@@ -354,7 +355,7 @@ test_that("error when training a learner that sets valiadte to 'predefined' on a
   task = tsk("iris")
   learner = lrn("classif.debug", validate = "predefined")
   expect_error(learner$train(task), "is set to 'predefined'")
-  task$divide(ids = 1:10)
+  task$internal_valid_task = 1:10
   expect_class(learner, "Learner")
 })
 
@@ -364,7 +365,7 @@ test_that("properties are also checked on validation task", {
   row[[1]][1] = NA
   row$..row_id = 151
   task$rbind(row)
-  task$divide(ids = 151)
+  task$internal_valid_task = 151
   learner = lrn("classif.debug", validate = "predefined")
   learner$properties = setdiff(learner$properties, "missings")
   expect_error(learner$train(task), "missing values")
@@ -416,7 +417,8 @@ test_that("internal_valid_task is created correctly", {
   )
   # validate = NULL (but task has one)
   learner = LearnerClassifTest$new()
-  task = tsk("iris")$divide(0.3)
+  task = tsk("iris")
+  task$internal_valid_task = partition(task)$test
   learner$train(task)
   learner$validate = NULL
   expect_true(is.null(learner$internal_valid_scores))
@@ -480,14 +482,15 @@ test_that("internal_valid_task is created correctly", {
 
 test_that("compatability check on validation task", {
   learner = lrn("classif.debug", validate = "predefined")
-  task = tsk("german_credit")$divide(ids = 1:10)
+  task = tsk("german_credit")
+  task$internal_valid_task = 1:10
   task$col_roles$feature = "age"
   expect_error(learner$train(task), "has different features")
   task$internal_valid_task$col_roles$feature = "age"
   task$internal_valid_task$col_roles$target = "credit_history"
   expect_error(learner$train(task), "has different target")
 })
-  
+
 test_that("model is marshaled during parallel predict", {
   # by setting check_pid = TRUE, we ensure that unmarshal_model() sets the process id to the current
   # id. LearnerClassifDebug then checks during `.predict()`, whether the marshal_id of the model is equal to the current process id and errs if this is not the case.
@@ -537,14 +540,14 @@ test_that("learner state contains internal valid task information", {
   expect_string(rr$learners[[1L]]$state$internal_valid_task_hash)
 
   # 1. manual
-  learner$train(task) 
+  learner$train(task)
   expect_string(learner$state$internal_valid_task_hash)
 })
 
 test_that("validation task with 0 observations", {
   learner = lrn("classif.debug", validate = "predefined")
   task = tsk("iris")
-  task$divide(ids = integer(0))
+  task$internal_valid_task = integer(0)
   expect_error({learner$train(task)}, "has 0 observations")
 })
 
@@ -572,4 +575,15 @@ test_that("column info is compared during predict", {
   l$train(task)
   expect_error(l$predict(task_flip), "task with different column info")
   expect_error(l$predict(task_other), "with different columns")
+})
+
+test_that("predict time is cumulative", {
+  learner = lrn("classif.debug", sleep_predict = function() 0.05)
+  task = tsk("iris")
+  learner$train(task)$predict(task)
+  t1 = learner$timings["predict"]
+  learner$param_set$values$sleep_predict = function() 0.01
+  learner$predict(task)
+  t2 = learner$timings["predict"]
+  expect_true(t1 > t2)
 })

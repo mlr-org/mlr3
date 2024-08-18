@@ -7,17 +7,17 @@ bmr = benchmark(design)
 
 test_that("Basic benchmarking", {
   expect_benchmark_result(bmr)
-  expect_names(names(as.data.table(bmr)), permutation.of = c(mlr_reflections$rr_names, "uhash"))
+  expect_names(names(as.data.table(bmr)), permutation.of = c(mlr_reflections$rr_names, "uhash", "prediction"))
 
   tab = as.data.table(bmr)
   expect_data_table(tab, nrows = 18L, ncols = 6L)
-  expect_names(names(tab), permutation.of = c("uhash", mlr_reflections$rr_names))
+  expect_names(names(tab), permutation.of = c("uhash", "prediction", mlr_reflections$rr_names))
   measures = list(msr("classif.acc"))
 
-  tab = bmr$score(measures, ids = FALSE)
+  tab = bmr$score(measures, ids = FALSE, predictions = TRUE)
   expect_data_table(tab, nrows = 18L, ncols = 7L + length(measures))
-  expect_names(names(tab), must.include = c("nr", "uhash", mlr_reflections$rr_names, ids(measures)))
-  expect_list(tab$prediction, "Prediction")
+  expect_names(names(tab), must.include = c("nr", "uhash", "prediction_test", mlr_reflections$rr_names, ids(measures)))
+  expect_list(tab$prediction_test, "Prediction")
 
   tab = bmr$tasks
   expect_data_table(tab, nrows = 3L, any.missing = FALSE)
@@ -491,14 +491,16 @@ test_that("param_values in benchmark", {
 test_that("learner's validate cannot be 'test' if internal_valid_set is present", {
   # otherwise, predict_set = "internal_valid" would be ambiguous
   learner = lrn("classif.debug", validate = "test", predict_sets = c("train", "internal_valid"))
-  task = tsk("iris")$divide(ids = 1)
+  task = tsk("iris")
+  task$internal_valid_task = 1
   expect_error(benchmark(benchmark_grid(task, learner, rsmp("holdout"))), "cannot be set to ")
 })
 
 test_that("learner's validate cannot be a ratio if internal_valid_set is present", {
   # otherwise, predict_set = "internal_valid" would be ambiguous
   learner = lrn("classif.debug", validate = 0.5, predict_sets = c("train", "internal_valid"))
-  task = tsk("iris")$divide(ids = 1)
+  task = tsk("iris")
+  task$internal_valid_task = 1
   expect_error(benchmark(benchmark_grid(task, learner, rsmp("holdout"))), "cannot be set to ")
 })
 
@@ -508,7 +510,7 @@ test_that("properties are also checked on validation task", {
   row[[1]][1] = NA
   row$..row_id = 151
   task$rbind(row)
-  task$divide(ids = 151)
+  task$internal_valid_task = 151
   learner = lrn("classif.debug", validate = "predefined")
   learner$properties = setdiff(learner$properties, "missings")
 
