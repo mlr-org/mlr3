@@ -375,6 +375,11 @@ run_autotest = function(learner, N = 30L, exclude = NULL, predict_types = learne
       learner$id = sprintf("%s:%s", id, predict_type)
       learner$predict_type = predict_type
 
+      if (predict_type == "quantile") {
+        learner$quantiles = c(0.25, 0.5, 0.75)
+        learner$quantile_response = 0.5
+      }
+
       run = run_experiment(task, learner)
       if (!run$ok) {
         return(run)
