@@ -59,7 +59,10 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
       self$task_type = "regr"
       self$man = "mlr3::PredictionRegr"
       self$data = pdata
-      self$predict_types = intersect(names(mlr_reflections$learner_predict_types[["regr"]]), names(pdata))
+      predict_types = intersect(names(mlr_reflections$learner_predict_types[["regr"]]), names(pdata))
+      # response is in saved in quantiles matrix
+      if ("quantiles" %in% predict_types) predict_types = union(predict_types, "response")
+      self$predict_types = predict_types
       private$.quantile_response = attr(quantiles, "response")
     }
   ),
