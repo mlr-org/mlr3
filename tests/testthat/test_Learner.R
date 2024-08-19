@@ -579,9 +579,8 @@ test_that("quantiles in LearnerRegr", {
   pred = learner$predict(task)
   expect_prediction(pred)
   expect_subset("quantile", pred$predict_types)
-  expect_matrix(pred$quantile, ncol = 4L, nrow = task$nrow, any.missing = FALSE)
+  expect_matrix(pred$quantile, ncol = 4L, nrows = task$nrow, any.missing = FALSE)
   expect_true(!any(apply(pred$quantile, 1L, is.unsorted)))
-
   expect_equal(pred$response, pred$quantile[, 3L])
 
   tab = as.data.table(pred)

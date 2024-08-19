@@ -25,6 +25,7 @@ check_prediction_data.PredictionDataRegr = function(pdata, ...) { # nolint
     }
 
     colnames(pdata$quantile) = sprintf("q%g", attr(quantile, "probs"))
+    attr(pdata$quantile, "quantile_response") = sprintf("q%g", attr(quantile, "quantile_response"))
   }
 
   if (!is.null(pdata$distr)) {

@@ -60,6 +60,7 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
       self$man = "mlr3::PredictionRegr"
       self$data = pdata
       self$predict_types = intersect(names(mlr_reflections$learner_predict_types[["regr"]]), names(pdata))
+      private$.quantile_response = attr(quantile, "quantile_response")
     }
   ),
 
@@ -68,6 +69,7 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
     #' Access the stored predicted response.
     response = function(rhs) {
       assert_ro_binding(rhs)
+      if (!is.null(private$.quantile_response)) return(self$data$quantile[, private$.quantile_response])
       self$data$response %??% rep(NA_real_, length(self$data$row_ids))
     },
 
@@ -94,6 +96,10 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
       }
       return(self$data$distr)
     }
+  ),
+
+  private = list(
+    .quantile_response = NULL
   )
 )
 
