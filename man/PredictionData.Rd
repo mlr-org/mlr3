@@ -9,6 +9,7 @@
 \alias{check_prediction_data.PredictionDataClassif}
 \alias{is_missing_prediction_data.PredictionDataClassif}
 \alias{c.PredictionDataClassif}
+\alias{check_prediction_data.PredictionDataRegr}
 \alias{is_missing_prediction_data.PredictionDataRegr}
 \alias{c.PredictionDataRegr}
 \title{Convert to PredictionData}
@@ -24,6 +25,8 @@ filter_prediction_data(pdata, row_ids, ...)
 \method{is_missing_prediction_data}{PredictionDataClassif}(pdata, ...)
 
 \method{c}{PredictionDataClassif}(..., keep_duplicates = TRUE)
+
+\method{check_prediction_data}{PredictionDataRegr}(pdata, ...)
 
 \method{is_missing_prediction_data}{PredictionDataRegr}(pdata, ...)
 
