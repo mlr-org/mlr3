@@ -133,7 +133,7 @@ local({
 
   mlr_reflections$learner_predict_types = list(
     classif = list(response = "response", prob = c("response", "prob")),
-    regr = list(response = "response", se = c("response", "se"), quantile = c("response", "quantile"), distr = c("response", "se", "distr"))
+    regr = list(response = "response", se = c("response", "se"), quantiles = c("response", "quantiles"), distr = c("response", "se", "distr"))
   )
 
   # Allowed tags for parameters

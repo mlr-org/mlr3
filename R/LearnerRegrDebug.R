@@ -36,7 +36,7 @@ LearnerRegrDebug = R6Class("LearnerRegrDebug", inherit = LearnerRegr,
       super$initialize(
         id = "regr.debug",
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
-        predict_types = c("response", "se", "quantile"),
+        predict_types = c("response", "se", "quantiles"),
         param_set = ps(
           predict_missing      = p_dbl(0, 1, default = 0, tags = "predict"),
           predict_missing_type = p_fct(c("na", "omit"), default = "na", tags = "predict"),
@@ -61,9 +61,9 @@ LearnerRegrDebug = R6Class("LearnerRegrDebug", inherit = LearnerRegr,
         pid = Sys.getpid()
       )
 
-      if (self$predict_type == "quantile") {
+      if (self$predict_type == "quantiles") {
         probs = self$quantiles
-        model$quantile = unname(quantile(truth, probs))
+        model$quantiles = unname(quantile(truth, probs))
         model$quantile_probs = probs
       }
 
@@ -81,14 +81,14 @@ LearnerRegrDebug = R6Class("LearnerRegrDebug", inherit = LearnerRegr,
         self$state$model$task_predict = task$clone(deep = TRUE)
       }
 
-      if (self$predict_type == "quantile") {
-        prediction = list(quantile = matrix(self$model$quantile, nrow = n, ncol = length(self$model$quantile), byrow = TRUE))
-        attr(prediction$quantile, "probs") = self$model$quantile_probs
-        attr(prediction$quantile, "response") = self$quantile_response
+      if (self$predict_type == "quantiles") {
+        prediction = list(quantiles = matrix(self$model$quantiles, nrow = n, ncol = length(self$model$quantiles), byrow = TRUE))
+        attr(prediction$quantiles, "probs") = self$model$quantile_probs
+        attr(prediction$quantiles, "response") = self$quantile_response
         return(prediction)
       }
 
-      prediction = setdiff(named_list(mlr_reflections$learner_predict_types[["regr"]][[self$predict_type]]), "quantile")
+      prediction = setdiff(named_list(mlr_reflections$learner_predict_types[["regr"]][[self$predict_type]]), "quantiles")
       missing_type = pv$predict_missing_type %??% "na"
 
       for (pt in names(prediction)) {

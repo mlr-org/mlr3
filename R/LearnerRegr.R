@@ -51,17 +51,23 @@ LearnerRegr = R6Class("LearnerRegr", inherit = Learner,
   active = list(
 
     #' @field quantiles (`numeric()`)\cr
-    #' Numeric vector of probabilites to be used while predicting quantiles.
+    #' Numeric vector of probabilities to be used while predicting quantiles.
     #' Elements must be between 0 and 1, not missing and provided in ascending order.
+    #' If only one quantile is provided, it is used as response.
+    #' Otherwise, set `$quantile_response` to specify the response quantile.
     quantiles = function(rhs) {
       if (missing(rhs)) {
-        return(private$.quantile)
+        return(private$.quantiles)
       }
 
-      if ("quantile" %nin% self$predict_types) {
+      if ("quantiles" %nin% self$predict_types) {
         stopf("Learner does not support predicting quantiles")
       }
-      private$.quantile = assert_numeric(rhs, lower = 0, upper = 1, any.missing = FALSE, min.len = 1L, sorted = TRUE, .var.name = "quantiles")
+      private$.quantiles = assert_numeric(rhs, lower = 0, upper = 1, any.missing = FALSE, min.len = 1L, sorted = TRUE, .var.name = "quantiles")
+
+      if (length(private$.quantiles) == 1) {
+        private$.quantile_response = private$.quantiles
+      }
     },
 
     #' @field quantile_response (`numeric(1)`)\cr
@@ -71,18 +77,18 @@ LearnerRegr = R6Class("LearnerRegr", inherit = Learner,
         return(private$.quantile_response)
       }
 
-      if ("quantile" %nin% self$predict_types) {
+      if ("quantiles" %nin% self$predict_types) {
         stopf("Learner does not support predicting quantiles")
       }
 
       private$.quantile_response = assert_number(rhs, lower = 0, upper = 1, .var.name = "response")
-      private$.quantile = sort(union(private$.quantile, private$.quantile_response))
+      private$.quantiles = sort(union(private$.quantiles, private$.quantile_response))
     }
   ),
 
 
   private = list(
-    .quantile = NULL,
+    .quantiles = NULL,
     .quantile_response = NULL
   )
 )

@@ -44,7 +44,7 @@ Access the stored predicted response.}
 \item{\code{se}}{(\code{numeric()})\cr
 Access the stored standard error.}
 
-\item{\code{quantile}}{(\code{matrix()})\cr
+\item{\code{quantiles}}{(\code{matrix()})\cr
 Matrix of predicted quantiles. Observations are in rows, quantile (in ascending order) in columns.}
 
 \item{\code{distr}}{(\code{VectorDistribution})\cr
@@ -84,7 +84,7 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
   truth = task$truth(),
   response = NULL,
   se = NULL,
-  quantile = NULL,
+  quantiles = NULL,
   distr = NULL,
   check = TRUE
 )}\if{html}{\out{</div>}}
@@ -110,7 +110,7 @@ One element for each observation in the test set.}
 Numeric vector of predicted standard errors.
 One element for each observation in the test set.}
 
-\item{\code{quantile}}{(\code{matrix()})\cr
+\item{\code{quantiles}}{(\code{matrix()})\cr
 Numeric matrix of predicted quantiles. One row per observation, one column per quantile.}
 
 \item{\code{distr}}{(\code{VectorDistribution})\cr

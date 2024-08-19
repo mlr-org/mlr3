@@ -68,8 +68,10 @@ Other Learner:
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
 \item{\code{quantiles}}{(\code{numeric()})\cr
-Numeric vector of probabilites to be used while predicting quantiles.
-Elements must be between 0 and 1, not missing and provided in ascending order.}
+Numeric vector of probabilities to be used while predicting quantiles.
+Elements must be between 0 and 1, not missing and provided in ascending order.
+If only one quantile is provided, it is used as response.
+Otherwise, set \verb{$quantile_response} to specify the response quantile.}
 
 \item{\code{quantile_response}}{(\code{numeric(1)})\cr
 The quantile to be used as response.}
