@@ -20,12 +20,20 @@ check_prediction_data.PredictionDataRegr = function(pdata, ...) { # nolint
     assert_matrix(quantile)
     assert_prediction_count(nrow(quantile), n, "quantile")
 
+    if (is.null(attr(quantile, "probs"))) {
+      stopf("No probs attribute stored in 'quantile'")
+    }
+
+    if (is.null(attr(quantile, "response"))) {
+      stopf("No response attribute stored in 'quantile'")
+    }
+
     if (any(apply(quantile, 1L, is.unsorted))) {
       stopf("Quantiles are not ascending with probabilities")
     }
 
     colnames(pdata$quantile) = sprintf("q%g", attr(quantile, "probs"))
-    attr(pdata$quantile, "quantile_response") = sprintf("q%g", attr(quantile, "quantile_response"))
+    attr(pdata$quantile, "response") = sprintf("q%g", attr(quantile, "response"))
   }
 
   if (!is.null(pdata$distr)) {

@@ -60,7 +60,7 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
       self$man = "mlr3::PredictionRegr"
       self$data = pdata
       self$predict_types = intersect(names(mlr_reflections$learner_predict_types[["regr"]]), names(pdata))
-      private$.quantile_response = attr(quantile, "quantile_response")
+      private$.quantile_response = attr(quantile, "response")
     }
   ),
 
@@ -110,6 +110,7 @@ as.data.table.PredictionRegr = function(x, ...) { # nolint
 
   if ("quantile" %in% x$predict_types) {
     tab = rcbind(tab, as.data.table(x$data$quantile))
+    set(tab, j = "response", value = x$response)
   }
 
   if ("distr" %in% x$predict_types) {

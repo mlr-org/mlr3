@@ -81,6 +81,13 @@ LearnerRegrDebug = R6Class("LearnerRegrDebug", inherit = LearnerRegr,
         self$state$model$task_predict = task$clone(deep = TRUE)
       }
 
+      if (self$predict_type == "quantile") {
+        prediction = list(quantile = matrix(self$model$quantile, nrow = n, ncol = length(self$model$quantile), byrow = TRUE))
+        attr(prediction$quantile, "probs") = self$model$quantile_probs
+        attr(prediction$quantile, "response") = self$quantile_response
+        return(prediction)
+      }
+
       prediction = setdiff(named_list(mlr_reflections$learner_predict_types[["regr"]][[self$predict_type]]), "quantile")
       missing_type = pv$predict_missing_type %??% "na"
 
@@ -95,12 +102,6 @@ LearnerRegrDebug = R6Class("LearnerRegrDebug", inherit = LearnerRegr,
         }
 
         prediction[[pt]] = value
-      }
-
-      if (self$predict_type == "quantile") {
-        prediction$quantile = matrix(self$model$quantile, nrow = n, ncol = length(self$model$quantile), byrow = TRUE)
-        attr(prediction$quantile, "probs") = self$model$quantile_probs
-        attr(prediction$quantile, "quantile_response") = self$quantile_response
       }
 
       return(prediction)
