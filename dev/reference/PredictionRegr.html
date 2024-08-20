@@ -82,6 +82,11 @@ Access the stored predicted response.</p></dd>
 Access the stored standard error.</p></dd>
 
 
+<dt><code>quantiles</code></dt>
+<dd><p>(<code><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix()</a></code>)<br>
+Matrix of predicted quantiles. Observations are in rows, quantile (in ascending order) in columns.</p></dd>
+
+
 <dt><code>distr</code></dt>
 <dd><p>(<code>VectorDistribution</code>)<br>
 Access the stored vector distribution.
@@ -114,6 +119,7 @@ Requires package <code>distr6</code>(in repository <a href="https://raphaels1.r-
 <span>  truth <span class="op">=</span> <span class="va">task</span><span class="op">$</span><span class="fu">truth</span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  response <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  se <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  quantiles <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  distr <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  check <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div><p></p></div>
@@ -146,6 +152,11 @@ One element for each observation in the test set.</p></dd>
 <dd><p>(<code><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric()</a></code>)<br>
 Numeric vector of predicted standard errors.
 One element for each observation in the test set.</p></dd>
+
+
+<dt><code>quantiles</code></dt>
+<dd><p>(<code><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix()</a></code>)<br>
+Numeric matrix of predicted quantiles. One row per observation, one column per quantile.</p></dd>
 
 
 <dt><code>distr</code></dt>

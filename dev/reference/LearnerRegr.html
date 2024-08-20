@@ -114,6 +114,23 @@ for established default tuning spaces.</p></li>
     <p><code><a href="Learner.html">mlr3::Learner</a></code> -&gt; <code>LearnerRegr</code></p>
     </div>
     <div class="section level2">
+    <h2 id="active-bindings">Active bindings<a class="anchor" aria-label="anchor" href="#active-bindings"></a></h2>
+    <p></p><div class="r6-active-bindings"><dl><dt><code>quantiles</code></dt>
+<dd><p>(<code><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric()</a></code>)<br>
+Numeric vector of probabilities to be used while predicting quantiles.
+Elements must be between 0 and 1, not missing and provided in ascending order.
+If only one quantile is provided, it is used as response.
+Otherwise, set <code>$quantile_response</code> to specify the response quantile.</p></dd>
+
+
+<dt><code>quantile_response</code></dt>
+<dd><p>(<code>numeric(1)</code>)<br>
+The quantile to be used as response.</p></dd>
+
+
+</dl><p></p></div>
+    </div>
+    <div class="section level2">
     <h2 id="methods">Methods<a class="anchor" aria-label="anchor" href="#methods"></a></h2>
 
 <div class="section">
