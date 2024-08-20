@@ -5,7 +5,9 @@
 * refactor: Optimize runtime of setting row roles.
 * refactor: Optimize runtime of marshalling.
 * refactor: Optimize runtime of `Task$col_info`
-* BREAKING CHANGE: the predict time of the learner now stores the cumulative duration for all predict sets (#992).
+* fix: column info is now checked for compatibility during `Learner$predict` (#943)
+* BREAKING CHANGE: the predict time of the learner now stores the cumulative duration for
+  all predict sets (#992).
 * feat: `$internal_valid_task` can now be set to an `integer` vector.
 * refactor: Deprecated the `$divide()` method
 * fix: `Task$cbind()` now works with non-standard primary keys  for `data.frames` (#961).
