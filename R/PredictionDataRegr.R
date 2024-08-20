@@ -4,7 +4,7 @@ check_prediction_data.PredictionDataRegr = function(pdata, ...) { # nolint
   pdata$row_ids = assert_row_ids(pdata$row_ids)
   n = length(pdata$row_ids)
   if (is.null(pdata$truth)) pdata$truth = NA_real_
-  if (!length(pdata$row_ids)) pdata$truth = numeric(0)
+  if (!length(pdata$row_ids)) pdata$truth = numeric()
 
   if (!is.null(pdata$response)) {
     pdata$response = assert_numeric(unname(pdata$response))
@@ -14,6 +14,27 @@ check_prediction_data.PredictionDataRegr = function(pdata, ...) { # nolint
   if (!is.null(pdata$se)) {
     pdata$se = assert_numeric(unname(pdata$se), lower = 0)
     assert_prediction_count(length(pdata$se), n, "se")
+  }
+
+  if (!is.null(pdata$quantiles)) {
+    quantiles = pdata$quantiles
+    assert_matrix(quantiles)
+    assert_prediction_count(nrow(quantiles), n, "quantiles")
+
+    if (is.null(attr(quantiles, "probs"))) {
+      stopf("No probs attribute stored in 'quantile'")
+    }
+
+    if (is.null(attr(quantiles, "response"))) {
+      stopf("No response attribute stored in 'quantile'")
+    }
+
+    if (any(apply(quantiles, 1L, is.unsorted))) {
+      stopf("Quantiles are not ascending with probabilities")
+    }
+
+    colnames(pdata$quantiles) = sprintf("q%g", attr(quantiles, "probs"))
+    attr(pdata$quantiles, "response") = sprintf("q%g", attr(quantiles, "response"))
   }
 
   if (!is.null(pdata$distr)) {
@@ -45,6 +66,10 @@ is_missing_prediction_data.PredictionDataRegr = function(pdata, ...) { # nolint
     miss = miss | is.na(pdata$se)
   }
 
+  if (!is.null(pdata$quantiles)) {
+    miss = miss | apply(pdata$quantiles, 1L, anyMissing)
+  }
+
   pdata$row_ids[miss]
 }
 
@@ -67,12 +92,16 @@ c.PredictionDataRegr = function(..., keep_duplicates = TRUE) { # nolint
 
   elems = c("row_ids", "truth", intersect(predict_types[[1L]], c("response", "se")))
   tab = map_dtr(dots, function(x) x[elems], .fill = FALSE)
+  quantiles = do.call(rbind, map(dots, "quantiles"))
 
   if (!keep_duplicates) {
-    tab = unique(tab, by = "row_ids", fromLast = TRUE)
+    keep = !duplicated(tab, by = "row_ids", fromLast = TRUE)
+    tab = tab[keep]
+    quantiles = quantiles[keep, , drop = FALSE]
   }
 
   result = as.list(tab)
+  result$quantiles = quantiles
 
   if ("distr" %in% predict_types[[1L]]) {
     require_namespaces("distr6", msg = "To predict probability distributions, please install %s")
@@ -94,6 +123,10 @@ filter_prediction_data.PredictionDataRegr = function(pdata, row_ids, ...) {
 
   if (!is.null(pdata$se)) {
     pdata$se = pdata$se[keep]
+  }
+
+  if (!is.null(pdata$quantiles)) {
+    pdata$quantiles = pdata$quantiles[keep, , drop = FALSE]
   }
 
   pdata
