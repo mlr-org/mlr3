@@ -12,7 +12,7 @@ in binary classification tasks.
 Computes the area under the Precision-Recall curve (PRC).
 The PRC can be interpreted as the relationship between precision and recall (sensitivity),
 and is considered to be a more appropriate measure for unbalanced datasets than the ROC curve.
-The PRC is computed by integration of the piecewise function.
+The AUC-PRC is computed by integration of the piecewise function.
 
 This measure is undefined if the true values are either all positive or
 all negative.
