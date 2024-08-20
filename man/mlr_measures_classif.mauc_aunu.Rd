@@ -28,9 +28,8 @@ distribution. Computes something like AUC of \code{c(c - 1)} binary classifiers
 while considering the a-priori distribution of the classes as suggested
 in Ferri (2009). Note we deviate from the definition in
 Ferri (2009) by a factor of \code{c}.
-The person implementing this function and writing this very
-documentation right now cautions against using this measure because it is
-an imperfect generalization of AU1U.
+\item \emph{MU}: Multiclass AUC as defined in Kleinman and Page (2019).
+This measure is an average of the pairwise AUCs between all classes.
 }
 }
 \note{
@@ -89,6 +88,7 @@ Other classification measures:
 \code{\link{mlr_measures_classif.mauc_au1p}},
 \code{\link{mlr_measures_classif.mauc_au1u}},
 \code{\link{mlr_measures_classif.mauc_aunp}},
+\code{\link{mlr_measures_classif.mauc_mu}},
 \code{\link{mlr_measures_classif.mbrier}},
 \code{\link{mlr_measures_classif.mcc}},
 \code{\link{mlr_measures_classif.npv}},
@@ -112,6 +112,7 @@ Other multiclass classification measures:
 \code{\link{mlr_measures_classif.mauc_au1p}},
 \code{\link{mlr_measures_classif.mauc_au1u}},
 \code{\link{mlr_measures_classif.mauc_aunp}},
+\code{\link{mlr_measures_classif.mauc_mu}},
 \code{\link{mlr_measures_classif.mbrier}},
 \code{\link{mlr_measures_classif.mcc}}
 }

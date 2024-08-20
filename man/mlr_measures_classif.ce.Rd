@@ -10,10 +10,11 @@ in multiclass classification tasks.
 }
 \details{
 The Classification Error is defined as \deqn{
-  \frac{1}{n} \sum_{i=1}^n w_i \left( t_i \neq r_i \right).
+  \frac{1}{n} \sum_{i=1}^n w_i \mathbf{1} \left( t_i \neq r_i \right),
 }{
-  weighted.mean(t != r, w).
+  1 / n * sum(wi * 1(ti != ri)),
 }
+where \eqn{w_i} are normalized weights for each observation \eqn{x_i}.
 }
 \note{
 The score function calls \code{\link[mlr3measures:ce]{mlr3measures::ce()}} from package \CRANpkg{mlr3measures}.
@@ -71,6 +72,7 @@ Other classification measures:
 \code{\link{mlr_measures_classif.mauc_au1u}},
 \code{\link{mlr_measures_classif.mauc_aunp}},
 \code{\link{mlr_measures_classif.mauc_aunu}},
+\code{\link{mlr_measures_classif.mauc_mu}},
 \code{\link{mlr_measures_classif.mbrier}},
 \code{\link{mlr_measures_classif.mcc}},
 \code{\link{mlr_measures_classif.npv}},
@@ -94,6 +96,7 @@ Other multiclass classification measures:
 \code{\link{mlr_measures_classif.mauc_au1u}},
 \code{\link{mlr_measures_classif.mauc_aunp}},
 \code{\link{mlr_measures_classif.mauc_aunu}},
+\code{\link{mlr_measures_classif.mauc_mu}},
 \code{\link{mlr_measures_classif.mbrier}},
 \code{\link{mlr_measures_classif.mcc}}
 }

@@ -8,10 +8,12 @@ Measure to compare true observed response with predicted response in regression 
 }
 \details{
 R Squared is defined as \deqn{
-  1 - \frac{\sum_{i=1}^n \left( t_i - r_i \right)^2}{\sum_{i=1}^n \left( t_i - \bar{t} \right)^2}.
+  1 - \frac{\sum_{i=1}^n \left( t_i - r_i \right)^2}{\sum_{i=1}^n \left( t_i - \bar{t} \right)^2},
 }{
-  1 - sum((t - r)^2) / sum((t - mean(t))^2).
+  1 - sum((t - r)^2) / sum((t - mean(t))^2),
 }
+where \eqn{\bar{t} = \sum_{i=1}^n t_i}.
+
 Also known as coefficient of determination or explained variation.
 Subtracts the \code{\link[mlr3measures:rse]{rse()}} from 1, hence it compares the squared error of
 the predictions relative to a naive model predicting the mean.
@@ -66,6 +68,7 @@ Other regression measures:
 \code{\link{mlr_measures_regr.mse}},
 \code{\link{mlr_measures_regr.msle}},
 \code{\link{mlr_measures_regr.pbias}},
+\code{\link{mlr_measures_regr.pinball}},
 \code{\link{mlr_measures_regr.rae}},
 \code{\link{mlr_measures_regr.rmse}},
 \code{\link{mlr_measures_regr.rmsle}},
