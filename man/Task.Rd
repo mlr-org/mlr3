@@ -39,14 +39,15 @@ The following methods change the task in-place:
 \itemize{
 \item Any modification of the lists \verb{$col_roles} or \verb{$row_roles}.
 This provides a different "view" on the data without altering the data itself.
+This may affects, e.g., \verb{$data}, \verb{$nrow}, \verb{$ncol}, \code{n_features}, \code{row_ids}, and \verb{$feature_names}.
+Altering \verb{$col_roles} may affect, e.g., \verb{$data}, \verb{$ncol}, \verb{$n_features}, and \verb{$feature_names}.
+Altering \verb{$row_roles} may affect, e.g., \verb{$data}, \verb{$nrow}, and \verb{$row_ids}.
 \item Modification of column or row roles via \verb{$set_col_roles()} or \verb{$set_row_roles()}, respectively.
-\item \verb{$filter()} and \verb{$select()} subset the set of active rows or features in \verb{$row_roles} or \verb{$col_roles}, respectively.
-This provides a different "view" on the data without altering the data itself.
-\item \code{rbind()} and \code{cbind()} change the task in-place by binding rows or columns to the data, but without modifying the original \link{DataBackend}.
-Instead, the methods first create a new \link{DataBackendDataTable} from the provided new data, and then
-merge both backends into an abstract \link{DataBackend} which merges the results on-demand.
-\item \code{rename()} wraps the \link{DataBackend} of the Task in an additional \link{DataBackend} which deals with the renaming. Also updates \verb{$col_roles} and \verb{$col_info}.
-\item \code{set_levels()} and \code{droplevels()} \verb{update the field }col_info()`.
+They are an alternative to directly accessing \verb{$col_roles} or \verb{$row_roles}, with the same side effects.
+\item \verb{$select()} and \verb{$filter()} subset the set of active features or rows in \verb{$col_roles} or \verb{$row_roles}, respectively.
+\item \verb{$cbind()} and \verb{$rbind()} change the task in-place by binding new columns or rows to the data.
+\item \verb{$rename()} changes column names.
+\item \verb{$set_levels()} and \verb{$droplevels()} update the field \verb{$col_info()} to automatically repair factor levels while querying data with \verb{$data()}.
 }
 }
 
@@ -122,7 +123,7 @@ see \code{\link[=mlr_reflections]{mlr_reflections$task_types$type}}.}
 Abstract interface to the data of the task.}
 
 \item{\code{col_info}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
-Table with with 4 columns:
+Table with with 4 columns, mainly for internal purposes:
 \itemize{
 \item \code{"id"} (\code{character()}) stores the name of the column.
 \item \code{"type"} (\code{character()}) holds the storage type of the variable, e.g. \code{integer}, \code{numeric} or \code{character}.
@@ -131,7 +132,10 @@ See \link[=mlr_reflections]{mlr_reflections$task_feature_types} for a complete l
 \item \code{"label"} (\code{character()}) stores a vector of prettier, formated column names.
 \item \code{"fix_factor_levels"} (\code{logical()}) stores flags which determine if the levels of the respective variable
 need to be reordered after querying the data from the \link{DataBackend}.
-}}
+}
+
+Note that all columns of the \link{DataBackend}, also columns which are not selected or have any role, are listed
+in this table.}
 
 \item{\code{man}}{(\code{character(1)})\cr
 String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
@@ -153,9 +157,11 @@ Package version of \code{mlr3} used to create the task.}
 Identifier of the object.
 Used in tables, plot and text output.}
 
-\item{\code{internal_valid_task}}{(\code{Task} or \code{NULL})\cr
+\item{\code{internal_valid_task}}{(\code{Task} or \code{integer()} or \code{NULL})\cr
 Optional validation task that can, e.g., be used for early stopping with learners such as XGBoost.
 See also the \verb{$validate} field of \code{\link{Learner}}.
+If integers are assigned they are removed from the primary task and an internal validation task
+with those ids is created from the primary task using only those ids.
 When assigning a new task, it is always cloned.}
 
 \item{\code{hash}}{(\code{character(1)})\cr
@@ -360,10 +366,7 @@ via \code{\link[=convert_task]{convert_task()}}.}
 \if{html}{\out{<a id="method-Task-divide"></a>}}
 \if{latex}{\out{\hypertarget{method-Task-divide}{}}}
 \subsection{Method \code{divide()}}{
-Creates an internal validation task (field \verb{$internal_valid_task}) from the primary task.
-This modifies the task in-place.
-Subsequent operations on the (primary) task are \strong{not} relayed to the internal validation task.
-One must either provide the parameter \code{ratio} or `ids.
+Deprecated.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Task$divide(ratio = NULL, ids = NULL, remove = TRUE)}\if{html}{\out{</div>}}
 }
@@ -460,7 +463,8 @@ address columns with their respective column name.
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{rows}}{(positive \code{integer()})\cr
-Vector or row indices.}
+Vector or row indices.
+Always refers to the complete data set, even after filtering.}
 
 \item{\code{cols}}{(\code{character()})\cr
 Vector of column names.}
@@ -586,7 +590,8 @@ See the section on task mutators for more information.
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{rows}}{(positive \code{integer()})\cr
-Vector or row indices.}
+Vector or row indices.
+Always refers to the complete data set, even after filtering.}
 }
 \if{html}{\out{</div>}}
 }
@@ -741,6 +746,8 @@ Other row roles are preserved.}
 \subsection{Details}{
 Roles are first set exclusively (argument \code{roles}), then added (argument \code{add_to}) and finally
 removed (argument \code{remove_from}) from different roles.
+Duplicated row ids are explicitly allowed, so you can add replicate an observation by repeating its
+\code{row_id}.
 }
 
 \subsection{Returns}{
@@ -780,6 +787,7 @@ Other column roles are preserved.}
 \subsection{Details}{
 Roles are first set exclusively (argument \code{roles}), then added (argument \code{add_to}) and finally
 removed (argument \code{remove_from}) from different roles.
+Duplicated columns are removed from the same role.
 }
 
 \subsection{Returns}{

@@ -199,7 +199,7 @@ expect_iris_backend = function(b, n_missing = 0L) {
   testthat::expect_equal(sum(x), n_missing)
 }
 
-expect_task = function(task, null_backend_ok = TRUE) {
+expect_task = function(task, null_backend_ok = TRUE, duplicated_ids = FALSE) {
   checkmate::expect_r6(task, "Task", cloneable = TRUE, public = c("id", "backend", "task_type", "row_roles", "col_roles", "col_info", "head", "row_ids", "feature_names", "target_names", "formula", "nrow", "ncol", "feature_types"))
   testthat::expect_output(print(task), "Task")
   expect_id(task$id)
@@ -239,7 +239,7 @@ expect_task = function(task, null_backend_ok = TRUE) {
 
   checkmate::expect_list(task$row_roles, names = "unique", types = c("integer", "character", "numeric"), any.missing = FALSE)
   checkmate::expect_names(names(task$row_roles), permutation.of = mlr3::mlr_reflections$task_row_roles)
-  lapply(task$row_roles, checkmate::expect_integerish, any.missing = FALSE, unique = TRUE)
+  lapply(task$row_roles, checkmate::expect_integerish, any.missing = FALSE, unique = !duplicated_ids)
 
   types = task$feature_types
   checkmate::expect_data_table(types, ncols  = 2, nrows  = length(task$feature_names), key = "id")
@@ -305,7 +305,7 @@ expect_task_classif = function(task) {
 
   testthat::expect_gte(length(task$class_names), 2L)
   checkmate::expect_character(task$class_names, any.missing = FALSE)
-  checkmate::expect_subset(task$class_names, as.character(y))
+  checkmate::expect_subset(task$class_names, levels(y))
   if (length(task$class_names) > 2L) {
     testthat::expect_identical(task$positive, NA_character_)
     testthat::expect_identical(task$negative, NA_character_)
@@ -623,7 +623,7 @@ expect_benchmark_result = function(bmr) {
   expect_resultdata(mlr3misc::get_private(bmr)$.data, TRUE)
   testthat::expect_output(print(bmr), "BenchmarkResult")
 
-  checkmate::expect_names(names(as.data.table(bmr)), permutation.of = c(mlr3::mlr_reflections$rr_names, "uhash"))
+  checkmate::expect_names(names(as.data.table(bmr)), permutation.of = c(mlr3::mlr_reflections$rr_names, "prediction", "uhash"))
 
   tab = bmr$tasks
   checkmate::expect_data_table(tab, ncols = 3L)
@@ -679,7 +679,7 @@ expect_benchmark_result = function(bmr) {
   checkmate::expect_data_table(tab, ncols = 3L, nrows = bmr$n_resample_results, any.missing = FALSE)
   checkmate::expect_character(tab$uhash, any.missing = FALSE)
   checkmate::expect_integer(tab$nr, sorted = TRUE, any.missing = FALSE, lower = 1L)
-  # expect_integer(tab$iters, any.missing = FALSE, lower = 1L)
+  expect_integer(tab$nr, any.missing = FALSE, lower = 1L)
   checkmate::expect_list(tab$resample_result, types = "ResampleResult")
 
   ni = mlr3misc::get_private(bmr)$.data$iterations()

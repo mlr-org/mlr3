@@ -10,7 +10,7 @@ in binary classification tasks.
 }
 \details{
 This measure counts the true negatives, i.e. the number of
-predictions correctly indicating a negative class label.
+predictions correctly indicating a negative class label. This is sometimes also called a "correct rejection".
 }
 \note{
 The score function calls \code{\link[mlr3measures:tn]{mlr3measures::tn()}} from package \CRANpkg{mlr3measures}.
@@ -94,7 +94,6 @@ Other binary classification measures:
 \code{\link{mlr_measures_classif.fomr}},
 \code{\link{mlr_measures_classif.fp}},
 \code{\link{mlr_measures_classif.fpr}},
-\code{\link{mlr_measures_classif.mcc}},
 \code{\link{mlr_measures_classif.npv}},
 \code{\link{mlr_measures_classif.ppv}},
 \code{\link{mlr_measures_classif.prauc}},

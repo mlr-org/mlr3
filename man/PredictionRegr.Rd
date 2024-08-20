@@ -44,6 +44,9 @@ Access the stored predicted response.}
 \item{\code{se}}{(\code{numeric()})\cr
 Access the stored standard error.}
 
+\item{\code{quantiles}}{(\code{matrix()})\cr
+Matrix of predicted quantiles. Observations are in rows, quantile (in ascending order) in columns.}
+
 \item{\code{distr}}{(\code{VectorDistribution})\cr
 Access the stored vector distribution.
 Requires package \code{distr6}(in repository \url{https://raphaels1.r-universe.dev}) .}
@@ -58,11 +61,12 @@ Requires package \code{distr6}(in repository \url{https://raphaels1.r-universe.d
 }
 }
 \if{html}{\out{
-<details open><summary>Inherited methods</summary>
+<details><summary>Inherited methods</summary>
 <ul>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="filter"><a href='../../mlr3/html/Prediction.html#method-Prediction-filter'><code>mlr3::Prediction$filter()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="format"><a href='../../mlr3/html/Prediction.html#method-Prediction-format'><code>mlr3::Prediction$format()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="help"><a href='../../mlr3/html/Prediction.html#method-Prediction-help'><code>mlr3::Prediction$help()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="obs_loss"><a href='../../mlr3/html/Prediction.html#method-Prediction-obs_loss'><code>mlr3::Prediction$obs_loss()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="print"><a href='../../mlr3/html/Prediction.html#method-Prediction-print'><code>mlr3::Prediction$print()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="score"><a href='../../mlr3/html/Prediction.html#method-Prediction-score'><code>mlr3::Prediction$score()</code></a></span></li>
 </ul>
@@ -80,6 +84,7 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
   truth = task$truth(),
   response = NULL,
   se = NULL,
+  quantiles = NULL,
   distr = NULL,
   check = TRUE
 )}\if{html}{\out{</div>}}
@@ -104,6 +109,9 @@ One element for each observation in the test set.}
 \item{\code{se}}{(\code{numeric()})\cr
 Numeric vector of predicted standard errors.
 One element for each observation in the test set.}
+
+\item{\code{quantiles}}{(\code{matrix()})\cr
+Numeric matrix of predicted quantiles. One row per observation, one column per quantile.}
 
 \item{\code{distr}}{(\code{VectorDistribution})\cr
 \code{VectorDistribution} from package distr6 (in repository \url{https://raphaels1.r-universe.dev}).

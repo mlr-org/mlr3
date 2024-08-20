@@ -1,5 +1,31 @@
 # mlr3 (development version)
 
+* feat: The `partition()` function creates training, test and validation sets.
+* refactor: Optimize runtime of fixing factor levels.
+* refactor: Optimize runtime of setting row roles.
+* refactor: Optimize runtime of marshalling.
+* refactor: Optimize runtime of `Task$col_info`
+* BREAKING CHANGE: the predict time of the learner now stores the cumulative duration for all predict sets (#992).
+* feat: `$internal_valid_task` can now be set to an `integer` vector.
+* refactor: Deprecated the `$divide()` method
+* fix: `Task$cbind()` now works with non-standard primary keys  for `data.frames` (#961).
+* fix: Triggering of fallback learner now has log-level `"info"` instead of `"debug"` (#972)
+* feat: Added new measure `pinballs `.
+* feat: Added new measure `mu_auc`.
+
+# mlr3 0.20.2
+
+* refactor: Move RhpcBLASctl to suggest.
+* feat: Added resampling property `"primary_iters"`
+* feat: Added possibility to access observation-wise losses
+  via function `$obs_loss`. This is possible for `Prediction`,
+  `ResampleResult` and `BenchmarkResult`.
+* feat: `Measure`s now also return a vector of numerics.
+
+# mlr3 0.20.1
+
+* feat: Add multiclass Matthews correlation coefficient `msr("classif.mcc")`.
+
 # mlr3 0.20.0
 
 * Added support for learner-internal validation and tuning.

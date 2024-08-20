@@ -8,3 +8,5 @@
 #'   model),
 #'   * `"requires_train_set"` (requires the training indices from the [Resampling]), and
 #'   * `"na_score"` (the measure is expected to occasionally return `NA` or `NaN`).
+#'   * `"primary_iters"` (the measure explictly handles resamplings that only use a subset
+#'      of their iterations for the point estimate).

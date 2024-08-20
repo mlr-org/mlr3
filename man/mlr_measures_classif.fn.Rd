@@ -11,7 +11,7 @@ in binary classification tasks.
 \details{
 This measure counts the false negatives (type 2 error), i.e. the number of
 predictions indicating a negative class label while in fact it is positive.
-This is sometimes also called a "false alarm".
+This is sometimes also called a "miss" or an "underestimation".
 }
 \note{
 The score function calls \code{\link[mlr3measures:fn]{mlr3measures::fn()}} from package \CRANpkg{mlr3measures}.
@@ -94,7 +94,6 @@ Other binary classification measures:
 \code{\link{mlr_measures_classif.fomr}},
 \code{\link{mlr_measures_classif.fp}},
 \code{\link{mlr_measures_classif.fpr}},
-\code{\link{mlr_measures_classif.mcc}},
 \code{\link{mlr_measures_classif.npv}},
 \code{\link{mlr_measures_classif.ppv}},
 \code{\link{mlr_measures_classif.prauc}},

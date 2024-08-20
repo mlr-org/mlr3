@@ -6,11 +6,10 @@
 #' @importFrom R6 R6Class is.R6
 #' @importFrom utils data head tail getFromNamespace packageVersion
 #' @importFrom graphics plot
-#' @importFrom stats predict rnorm runif sd contr.treatment model.frame terms
+#' @importFrom stats predict rnorm runif sd contr.treatment model.frame terms quantile
 #' @importFrom uuid UUIDgenerate
 #' @importFrom parallelly availableCores
 #' @importFrom future nbrOfWorkers plan
-#' @importFrom RhpcBLASctl blas_set_num_threads blas_get_num_procs
 #'
 #' @section Learn mlr3:
 #' * Book on mlr3: \url{https://mlr3book.mlr-org.com}

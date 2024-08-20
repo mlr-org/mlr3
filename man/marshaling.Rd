@@ -28,6 +28,12 @@ The learner.}
 
 \item{...}{(any)\cr
 Additional parameters, currently unused.}
+
+\item{model}{(any)\cr
+Model to marshal.}
+
+\item{inplace}{(\code{logical(1)})\cr
+Whether to marshal in-place.}
 }
 \description{
 Marshaling is the process of processing the model of a trained \code{\link{Learner}} so it an be successfully serialized and
@@ -81,4 +87,3 @@ You can verify whether you have correctly implemented marshaling by using the in
 For a concrete example on how to implement marshaling, see \code{\link{LearnerClassifDebug}}.
 }
 
-\keyword{internal}
