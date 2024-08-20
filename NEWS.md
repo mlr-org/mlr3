@@ -13,6 +13,9 @@
   for `data.frames` (#961).
 * fix: Triggering of fallback learner now has log-level "info"
   instead of "debug" (#972)
+* feat: Mesures can now have an empty `$predict_sets` (#1094).
+  this is relevant for measures that only extract information from
+  the model of a learner (such as internal validation scores or AIC / BIC)
 
 # mlr3 0.20.2
 

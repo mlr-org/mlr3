@@ -84,7 +84,7 @@ assert_resamplings(
   .var.name = vname(resamplings)
 )
 
-assert_prediction(prediction, .var.name = vname(prediction))
+assert_prediction(prediction, .var.name = vname(prediction), null.ok = FALSE)
 
 assert_resample_result(rr, .var.name = vname(rr))
 

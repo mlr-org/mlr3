@@ -173,3 +173,18 @@ test_that("primary iters are respected", {
   x2 = rr3$aggregate(jaccard)
   expect_equal(x1, x2)
 })
+
+test_that("measures don't require a predict sets (#1094)", {
+  rr = resample(tsk("iris"), lrn("classif.debug", validate = 0.3, predict_sets = NULL), rsmp("holdout"))
+  acc = rr$aggregate(msr("internal_valid_score", "acc"))
+  expect_double(acc)
+})
+
+test_that("no predict_sets required (#1094)", {
+  m = msr("internal_valid_score")
+  expect_equal(m$predict_sets, NULL)
+  rr = resample(tsk("iris"), lrn("classif.debug", validate = 0.3, predict_sets = NULL), rsmp("holdout"))
+  expect_double(rr$aggregate(m))
+
+  expect_warning(rr$aggregate(), "needs predict sets")
+})

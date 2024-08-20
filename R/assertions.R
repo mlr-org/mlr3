@@ -260,7 +260,8 @@ assert_resamplings = function(resamplings, instantiated = NULL, .var.name = vnam
 #' @export
 #' @param prediction ([Prediction]).
 #' @rdname mlr_assertions
-assert_prediction = function(prediction, .var.name = vname(prediction)) {
+assert_prediction = function(prediction, .var.name = vname(prediction), null.ok = FALSE) {
+  if (null.ok && is.null(prediction)) return(prediction)
   assert_class(prediction, "Prediction", .var.name = .var.name)
 }
 
