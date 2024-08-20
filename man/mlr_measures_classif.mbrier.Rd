@@ -9,11 +9,12 @@ probabilities
 in multiclass classification tasks.
 }
 \details{
-Brier score for multi-class classification problems with \eqn{r} labels defined as \deqn{
-   \frac{1}{n} \sum_{i=1}^n \sum_{j=1}^r (I_{ij} - p_{ij})^2.
+Brier score for multi-class classification problems with \eqn{k} labels defined as \deqn{
+   \frac{1}{n} \sum_{i=1}^n \sum_{j=1}^k (I_{ij} - p_{ij})^2.
 }{
 }
-\eqn{I_{ij}}{I_ij} is 1 if observation \eqn{i} has true label \eqn{j}, and 0 otherwise.
+\eqn{I_{ij}}{I_ij} is 1 if observation \eqn{x_i} has true label \eqn{j}, and 0 otherwise.
+\eqn{p_{ij}}{p_ij} is the probability that observation \eqn{x_i} belongs to class \eqn{j}.
 
 Note that there also is the more common definition of the Brier score for binary
 classification problems in \code{\link[mlr3measures:bbrier]{bbrier()}}.
