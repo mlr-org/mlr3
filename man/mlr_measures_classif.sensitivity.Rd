@@ -14,7 +14,7 @@ The True Positive Rate is defined as \deqn{
 }{
   TP / (TP + FN).
 }
-Also know as "recall" or "sensitivity".
+This is also know as "recall", "sensitivity", or "probability of detection".
 
 This measure is undefined if TP + FN = 0.
 }
@@ -75,6 +75,7 @@ Other classification measures:
 \code{\link{mlr_measures_classif.mauc_au1u}},
 \code{\link{mlr_measures_classif.mauc_aunp}},
 \code{\link{mlr_measures_classif.mauc_aunu}},
+\code{\link{mlr_measures_classif.mauc_mu}},
 \code{\link{mlr_measures_classif.mbrier}},
 \code{\link{mlr_measures_classif.mcc}},
 \code{\link{mlr_measures_classif.npv}},

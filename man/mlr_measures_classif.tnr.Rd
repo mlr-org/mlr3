@@ -14,7 +14,7 @@ The True Negative Rate is defined as \deqn{
 }{
    TN / (FP + TN).
 }
-Also know as "specificity".
+Also know as "specificity" or "selectivity".
 
 This measure is undefined if FP + TN = 0.
 }
@@ -75,6 +75,7 @@ Other classification measures:
 \code{\link{mlr_measures_classif.mauc_au1u}},
 \code{\link{mlr_measures_classif.mauc_aunp}},
 \code{\link{mlr_measures_classif.mauc_aunu}},
+\code{\link{mlr_measures_classif.mauc_mu}},
 \code{\link{mlr_measures_classif.mbrier}},
 \code{\link{mlr_measures_classif.mcc}},
 \code{\link{mlr_measures_classif.npv}},
