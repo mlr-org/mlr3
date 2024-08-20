@@ -55,10 +55,11 @@ in multiclass classification tasks.</p>
 
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>Brier score for multi-class classification problems with \(r\) labels defined as $$
-   \frac{1}{n} \sum_{i=1}^n \sum_{j=1}^r (I_{ij} - p_{ij})^2.
+    <p>Brier score for multi-class classification problems with \(k\) labels defined as $$
+   \frac{1}{n} \sum_{i=1}^n \sum_{j=1}^k (I_{ij} - p_{ij})^2.
 $$
-\(I_{ij}\) is 1 if observation \(i\) has true label \(j\), and 0 otherwise.</p>
+\(I_{ij}\) is 1 if observation \(x_i\) has true label \(j\), and 0 otherwise.
+\(p_{ij}\) is the probability that observation \(x_i\) belongs to class \(j\).</p>
 <p>Note that there also is the more common definition of the Brier score for binary
 classification problems in <code><a href="https://mlr3measures.mlr-org.com/reference/bbrier.html" class="external-link">bbrier()</a></code>.</p>
     </div>

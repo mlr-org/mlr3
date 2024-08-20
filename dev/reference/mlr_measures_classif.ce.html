@@ -56,8 +56,9 @@ in multiclass classification tasks.</p>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>The Classification Error is defined as $$
-  \frac{1}{n} \sum_{i=1}^n w_i \left( t_i \neq r_i \right).
-$$</p>
+  \frac{1}{n} \sum_{i=1}^n w_i \mathbf{1} \left( t_i \neq r_i \right),
+$$
+where \(w_i\) are normalized weights for each observation \(x_i\).</p>
     </div>
     <div class="section level2">
     <h2 id="note">Note<a class="anchor" aria-label="anchor" href="#note"></a></h2>

@@ -50,8 +50,9 @@
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>The Mean Absolute Percent Error is defined as $$
-  \frac{1}{n} \sum_{i=1}^n w_i \left| \frac{ t_i - r_i}{t_i} \right|.
- $$</p>
+  \frac{1}{n} \sum_{i=1}^n w_i \left| \frac{ t_i - r_i}{t_i} \right|,
+ $$
+where \(w_i\) are normalized sample weights.</p>
 <p>This measure is undefined if any element of \(t\) is \(0\).</p>
     </div>
     <div class="section level2">
@@ -98,6 +99,7 @@ This can be customized by setting the field <code>na_value</code>.</p>
 <code><a href="mlr_measures_regr.mse.html">mlr_measures_regr.mse</a></code>,
 <code><a href="mlr_measures_regr.msle.html">mlr_measures_regr.msle</a></code>,
 <code><a href="mlr_measures_regr.pbias.html">mlr_measures_regr.pbias</a></code>,
+<code><a href="mlr_measures_regr.pinball.html">mlr_measures_regr.pinball</a></code>,
 <code><a href="mlr_measures_regr.rae.html">mlr_measures_regr.rae</a></code>,
 <code><a href="mlr_measures_regr.rmse.html">mlr_measures_regr.rmse</a></code>,
 <code><a href="mlr_measures_regr.rmsle.html">mlr_measures_regr.rmsle</a></code>,

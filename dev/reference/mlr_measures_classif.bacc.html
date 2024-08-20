@@ -57,14 +57,15 @@ in multiclass classification tasks.</p>
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>The Balanced Accuracy computes the weighted balanced accuracy, suitable for imbalanced data sets.
 It is defined analogously to the definition in <a href="https://scikit-learn.org/" class="external-link">sklearn</a>.</p>
-<p>First, the sample weights \(w\) are normalized per class:
+<p>First, all sample weights \(w_i\) are normalized per class so that each class has the same influence:
 $$
- \hat{w}_i = \frac{w_i}{\sum_j 1(y_j = y_i) w_i}.
+ \hat{w}_i = \frac{w_i}{\sum_{j=1}^n w_j \cdot \mathbf{1}(t_j = t_i)}.
 $$
-The balanced accuracy is calculated as
+The Balanced Accuracy is then calculated as
 $$
- \frac{1}{\sum_i \hat{w}_i} \sum_i 1(r_i = t_i) \hat{w}_i.
-$$</p>
+ \frac{1}{\sum_{i=1}^n \hat{w}_i} \sum_{i=1}^n \hat{w}_i \cdot \mathbf{1}(r_i = t_i).
+$$
+This definition is equivalent to <code><a href="https://mlr3measures.mlr-org.com/reference/acc.html" class="external-link">acc()</a></code> with class-balanced sample weights.</p>
     </div>
     <div class="section level2">
     <h2 id="note">Note<a class="anchor" aria-label="anchor" href="#note"></a></h2>

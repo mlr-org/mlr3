@@ -50,6 +50,9 @@
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>Kendall's tau is defined as Kendall's rank correlation coefficient between truth and response.
+It is defined as $$
+  \tau = \frac{(\mathrm{number of concordant pairs)} - (\mathrm{number of discordant pairs)}}{\mathrm{(number of pairs)}}
+  $$
 Calls <code><a href="https://rdrr.io/r/stats/cor.html" class="external-link">stats::cor()</a></code> with <code>method</code> set to <code>"kendall"</code>.</p>
     </div>
     <div class="section level2">
@@ -96,6 +99,7 @@ This can be customized by setting the field <code>na_value</code>.</p>
 <code><a href="mlr_measures_regr.mse.html">mlr_measures_regr.mse</a></code>,
 <code><a href="mlr_measures_regr.msle.html">mlr_measures_regr.msle</a></code>,
 <code><a href="mlr_measures_regr.pbias.html">mlr_measures_regr.pbias</a></code>,
+<code><a href="mlr_measures_regr.pinball.html">mlr_measures_regr.pinball</a></code>,
 <code><a href="mlr_measures_regr.rae.html">mlr_measures_regr.rae</a></code>,
 <code><a href="mlr_measures_regr.rmse.html">mlr_measures_regr.rmse</a></code>,
 <code><a href="mlr_measures_regr.rmsle.html">mlr_measures_regr.rmsle</a></code>,

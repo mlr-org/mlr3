@@ -50,10 +50,11 @@
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>The Relative Absolute Error is defined as $$
-  \frac{\sum_{i=1}^n \left| t_i - r_i \right|}{\sum_{i=1}^n \left| t_i - \bar{t} \right|}.
+  \frac{\sum_{i=1}^n \left| t_i - r_i \right|}{\sum_{i=1}^n \left| t_i - \bar{t} \right|},
 $$
-Can be interpreted as absolute error of the predictions relative to a naive model predicting the mean.</p>
-<p>This measure is undefined for constant \(t\).</p>
+where \(\bar{t} = \sum_{i=1}^n t_i\).
+This measure is undefined for constant \(t\).</p>
+<p>Can be interpreted as absolute error of the predictions relative to a naive model predicting the mean.</p>
     </div>
     <div class="section level2">
     <h2 id="note">Note<a class="anchor" aria-label="anchor" href="#note"></a></h2>
@@ -100,6 +101,7 @@ This can be customized by setting the field <code>na_value</code>.</p>
 <code><a href="mlr_measures_regr.mse.html">mlr_measures_regr.mse</a></code>,
 <code><a href="mlr_measures_regr.msle.html">mlr_measures_regr.msle</a></code>,
 <code><a href="mlr_measures_regr.pbias.html">mlr_measures_regr.pbias</a></code>,
+<code><a href="mlr_measures_regr.pinball.html">mlr_measures_regr.pinball</a></code>,
 <code><a href="mlr_measures_regr.rmse.html">mlr_measures_regr.rmse</a></code>,
 <code><a href="mlr_measures_regr.rmsle.html">mlr_measures_regr.rmsle</a></code>,
 <code><a href="mlr_measures_regr.rrse.html">mlr_measures_regr.rrse</a></code>,
