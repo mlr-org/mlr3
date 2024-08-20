@@ -71,10 +71,9 @@ distribution. Computes something like the AUC of <code>c(c - 1)</code> binary cl
 distribution. Computes something like AUC of <code>c(c - 1)</code> binary classifiers
 while considering the a-priori distribution of the classes as suggested
 in Ferri (2009). Note we deviate from the definition in
-Ferri (2009) by a factor of <code>c</code>.
-The person implementing this function and writing this very
-documentation right now cautions against using this measure because it is
-an imperfect generalization of AU1U.</p></li>
+Ferri (2009) by a factor of <code>c</code>.</p></li>
+<li><p><em>MU</em>: Multiclass AUC as defined in Kleinman and Page (2019).
+This measure is an average of the pairwise AUCs between all classes.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="note">Note<a class="anchor" aria-label="anchor" href="#note"></a></h2>
@@ -129,6 +128,7 @@ This can be customized by setting the field <code>na_value</code>.</p>
 <code><a href="mlr_measures_classif.mauc_au1p.html">mlr_measures_classif.mauc_au1p</a></code>,
 <code><a href="mlr_measures_classif.mauc_au1u.html">mlr_measures_classif.mauc_au1u</a></code>,
 <code><a href="mlr_measures_classif.mauc_aunp.html">mlr_measures_classif.mauc_aunp</a></code>,
+<code><a href="mlr_measures_classif.mauc_mu.html">mlr_measures_classif.mauc_mu</a></code>,
 <code><a href="mlr_measures_classif.mbrier.html">mlr_measures_classif.mbrier</a></code>,
 <code><a href="mlr_measures_classif.mcc.html">mlr_measures_classif.mcc</a></code>,
 <code><a href="mlr_measures_classif.npv.html">mlr_measures_classif.npv</a></code>,
@@ -151,6 +151,7 @@ This can be customized by setting the field <code>na_value</code>.</p>
 <code><a href="mlr_measures_classif.mauc_au1p.html">mlr_measures_classif.mauc_au1p</a></code>,
 <code><a href="mlr_measures_classif.mauc_au1u.html">mlr_measures_classif.mauc_au1u</a></code>,
 <code><a href="mlr_measures_classif.mauc_aunp.html">mlr_measures_classif.mauc_aunp</a></code>,
+<code><a href="mlr_measures_classif.mauc_mu.html">mlr_measures_classif.mauc_mu</a></code>,
 <code><a href="mlr_measures_classif.mbrier.html">mlr_measures_classif.mbrier</a></code>,
 <code><a href="mlr_measures_classif.mcc.html">mlr_measures_classif.mcc</a></code></p></div>
     </div>
