@@ -282,6 +282,10 @@ mlr_measures$add("classif.mauc_au1u", function() MeasureClassifSimple$new(name =
 #' @template measure_classif
 mlr_measures$add("classif.mauc_au1p", function() MeasureClassifSimple$new(name = "mauc_au1p"))
 
+#' @templateVar id mauc_mu
+#' @template measure_classif
+mlr_measures$add("classif.mauc_mu", function() MeasureClassifSimple$new(name = "mauc_mu"))
+
 #' @templateVar id mcc
 #' @template measure_classif
 mlr_measures$add("classif.mcc", function() MeasureClassifSimple$new(name = "mcc"))
