@@ -266,11 +266,6 @@ Stores a set of properties/capabilities the learner has.
 A complete list of candidate properties, grouped by task type, is stored in <code><a href="mlr_reflections.html">mlr_reflections$learner_properties</a></code>.</p></dd>
 
 
-<dt><code>data_formats</code></dt>
-<dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
-Supported data format, e.g. <code>"data.table"</code> or <code>"Matrix"</code>.</p></dd>
-
-
 <dt><code>packages</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 Set of required packages.
@@ -322,7 +317,13 @@ Defaults to <code>NA</code>, but can be set by child classes.</p></dd>
     </div>
     <div class="section level2">
     <h2 id="active-bindings">Active bindings<a class="anchor" aria-label="anchor" href="#active-bindings"></a></h2>
-    <p></p><div class="r6-active-bindings"><dl><dt><code>model</code></dt>
+    <p></p><div class="r6-active-bindings"><dl><dt><code>data_formats</code></dt>
+<dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
+Supported data format. Always <code>"data.table"</code>..
+This is deprecated and will be removed in the future.</p></dd>
+
+
+<dt><code>model</code></dt>
 <dd><p>(any)<br>
 The fitted model. Only available after <code>$train()</code> has been called.</p></dd>
 
@@ -429,7 +430,7 @@ Stores <code>HotstartStack</code>.</p></dd>
 <span>  predict_types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  feature_types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  properties <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  data_formats <span class="op">=</span> <span class="st">"data.table"</span>,</span>
+<span>  <span class="va">data_formats</span>,</span>
 <span>  packages <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  label <span class="op">=</span> <span class="cn">NA_character_</span>,</span>
 <span>  man <span class="op">=</span> <span class="cn">NA_character_</span></span>
@@ -482,8 +483,7 @@ If a learner is in a marshaled state, you call first need to call <code>$unmarsh
 
 <dt><code>data_formats</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
-Set of supported data formats which can be processed during <code>$train()</code> and <code>$predict()</code>,
-e.g. <code>"data.table"</code>.</p></dd>
+Deprecated: ignored, and will be removed in the future.</p></dd>
 
 
 <dt><code>packages</code></dt>
