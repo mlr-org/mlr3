@@ -26,6 +26,16 @@ new_prediction_data = function(li, task_type) {
   li
 }
 
+#' @rdname PredictionData
+#'
+#' @param task ([Task]).
+#' @param learner ([Learner]).
+#'
+#' @export
+create_empty_prediction_data = function(task, learner) {
+  UseMethod("create_empty_prediction_data")
+}
+
 #' @export
 print.PredictionData = function(x, ...) {
   catf("<%s:%i>", class(x)[1L], length(x$row_ids))

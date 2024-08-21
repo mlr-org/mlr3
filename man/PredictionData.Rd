@@ -3,6 +3,7 @@
 %   R/PredictionDataRegr.R
 \name{PredictionData}
 \alias{PredictionData}
+\alias{create_empty_prediction_data}
 \alias{check_prediction_data}
 \alias{is_missing_prediction_data}
 \alias{filter_prediction_data}
@@ -14,6 +15,8 @@
 \alias{c.PredictionDataRegr}
 \title{Convert to PredictionData}
 \usage{
+create_empty_prediction_data(task, learner)
+
 check_prediction_data(pdata, ...)
 
 is_missing_prediction_data(pdata, ...)
@@ -33,6 +36,10 @@ filter_prediction_data(pdata, row_ids, ...)
 \method{c}{PredictionDataRegr}(..., keep_duplicates = TRUE)
 }
 \arguments{
+\item{task}{(\link{Task}).}
+
+\item{learner}{(\link{Learner}).}
+
 \item{pdata}{(\link{PredictionData})\cr
 Named list inheriting from \code{"PredictionData"}.}
 
