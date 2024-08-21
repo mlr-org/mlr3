@@ -16,7 +16,7 @@ In the binary case, the Matthews Correlation Coefficient is defined as \deqn{
 }
 where \eqn{TP}, \eqn{FP}, \eqn{TN}, \eqn{TP} are the number of true positives, false positives, true negatives, and false negatives respectively.
 
-In the multi-class case, the Matthews Correlation Coefficient defined for a multi-class confusion matrix \eqn{C} with \eqn{K} classes: \deqn{
+In the multi-class case, the Matthews Correlation Coefficient is defined for a multi-class confusion matrix \eqn{C} with \eqn{K} classes: \deqn{
    \frac{c \cdot s - \sum_k^K p_k \cdot t_k}{\sqrt{(s^2 - \sum_k^K p_k^2) \cdot (s^2 - \sum_k^K t_k^2)}},
 }{
    (c * s - sum(pk * tk)) / sqrt((s^2 - sum(pk^2)) * (s^2 - sum(tk^2))),
@@ -29,8 +29,9 @@ where
 \item \eqn{p_k = \sum_j^K C_{kj}}: number of true occurrences for each class \eqn{k}.
 }
 
-The above formula is undefined if any of the four sums in the denominator is 0 in the binary case and more generally if either \eqn{s^2 - sum(pk^2)} or \eqn{s^2 - sum(tk^2)} is equal to 0.
+The above formula is undefined if any of the four sums in the denominator is 0 in the binary case and more generally if either \eqn{s^2 - \sum_k^K p_k^2} or \eqn{s^2 - \sum_k^K t_k^2)} is equal to 0.
 The denominator is then set to 1.
+
 When there are more than two classes, the MCC will no longer range between -1 and +1.
 Instead, the minimum value will be between -1 and 0 depending on the true distribution. The maximum value is always +1.
 }
@@ -91,6 +92,7 @@ Other classification measures:
 \code{\link{mlr_measures_classif.mauc_au1u}},
 \code{\link{mlr_measures_classif.mauc_aunp}},
 \code{\link{mlr_measures_classif.mauc_aunu}},
+\code{\link{mlr_measures_classif.mauc_mu}},
 \code{\link{mlr_measures_classif.mbrier}},
 \code{\link{mlr_measures_classif.npv}},
 \code{\link{mlr_measures_classif.ppv}},
@@ -114,6 +116,7 @@ Other multiclass classification measures:
 \code{\link{mlr_measures_classif.mauc_au1u}},
 \code{\link{mlr_measures_classif.mauc_aunp}},
 \code{\link{mlr_measures_classif.mauc_aunu}},
+\code{\link{mlr_measures_classif.mauc_mu}},
 \code{\link{mlr_measures_classif.mbrier}}
 }
 \concept{classification measures}

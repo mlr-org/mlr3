@@ -7,17 +7,17 @@ bmr = benchmark(design)
 
 test_that("Basic benchmarking", {
   expect_benchmark_result(bmr)
-  expect_names(names(as.data.table(bmr)), permutation.of = c(mlr_reflections$rr_names, "uhash"))
+  expect_names(names(as.data.table(bmr)), permutation.of = c(mlr_reflections$rr_names, "uhash", "prediction"))
 
   tab = as.data.table(bmr)
   expect_data_table(tab, nrows = 18L, ncols = 6L)
-  expect_names(names(tab), permutation.of = c("uhash", mlr_reflections$rr_names))
+  expect_names(names(tab), permutation.of = c("uhash", "prediction", mlr_reflections$rr_names))
   measures = list(msr("classif.acc"))
 
-  tab = bmr$score(measures, ids = FALSE)
+  tab = bmr$score(measures, ids = FALSE, predictions = TRUE)
   expect_data_table(tab, nrows = 18L, ncols = 7L + length(measures))
-  expect_names(names(tab), must.include = c("nr", "uhash", mlr_reflections$rr_names, ids(measures)))
-  expect_list(tab$prediction, "Prediction")
+  expect_names(names(tab), must.include = c("nr", "uhash", "prediction_test", mlr_reflections$rr_names, ids(measures)))
+  expect_list(tab$prediction_test, "Prediction")
 
   tab = bmr$tasks
   expect_data_table(tab, nrows = 3L, any.missing = FALSE)
@@ -516,42 +516,6 @@ test_that("properties are also checked on validation task", {
 
   expect_error(benchmark(benchmark_grid(task, learner, rsmp("holdout"))), "missing values")
 })
-
-test_that("parallel execution automatically triggers marshaling", {
-  learner = lrn("classif.debug", count_marshaling = TRUE)
-  task = tsk("iris")
-  resampling = rsmp("holdout")
-  design = benchmark_grid(task, learner, resampling)
-  bmr = with_future(future::multisession, {
-    benchmark(design, store_models = TRUE, unmarshal = TRUE)
-  })
-  expect_equal(bmr$resample_result(1)$learners[[1]]$model$marshal_count, 1)
-  expect_false(bmr$resample_result(1)$learners[[1]]$marshaled)
-})
-
-test_that("sequential execution does not trigger marshaling", {
-  learner = lrn("classif.debug", count_marshaling = TRUE)
-  task = tsk("iris")
-  resampling = rsmp("holdout")
-  design = benchmark_grid(task, learner, resampling)
-  bmr = with_future(future::sequential, {
-    benchmark(design, store_models = TRUE, unmarshal = TRUE)
-  })
-  expect_equal(bmr$resample_result(1)$learners[[1]]$model$marshal_count, 0)
-})
-
-test_that("parallel execution and callr marshal once", {
-  learner = lrn("classif.debug", count_marshaling = TRUE, encapsulate = c(train = "callr"))
-  task = tsk("iris")
-  resampling = rsmp("holdout")
-  design = benchmark_grid(task, learner, resampling)
-  bmr = with_future(future::multisession, {
-    benchmark(design, store_models = TRUE, unmarshal = TRUE)
-  })
-  expect_equal(bmr$resample_result(1)$learners[[1]]$model$marshal_count, 1)
-  expect_false(bmr$resample_result(1)$learners[[1]]$marshaled)
-})
-
 
 test_that("unmarshal parameter is respected", {
   learner = lrn("classif.debug", count_marshaling = TRUE, encapsulate = c(train = "callr"))

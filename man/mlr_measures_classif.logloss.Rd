@@ -9,12 +9,13 @@ probabilities
 in multiclass classification tasks.
 }
 \details{
-The Log Loss is defined as \deqn{
+The Log Loss (a.k.a Benoulli Loss, Logistic Loss, Cross-Entropy Loss) is defined as
+\deqn{
   -\frac{1}{n} \sum_{i=1}^n w_i \log \left(  p_i \right )
 }{
   -weighted.mean(log(p), w)
 }
-where \eqn{p_i}{p} is the probability for the true class of observation \eqn{i}.
+where \eqn{p_i}{p} is the probability for the true class of observation \eqn{i} and \eqn{w_i} are normalized weights for each observation \eqn{x_i}.
 }
 \note{
 The score function calls \code{\link[mlr3measures:logloss]{mlr3measures::logloss()}} from package \CRANpkg{mlr3measures}.
@@ -72,6 +73,7 @@ Other classification measures:
 \code{\link{mlr_measures_classif.mauc_au1u}},
 \code{\link{mlr_measures_classif.mauc_aunp}},
 \code{\link{mlr_measures_classif.mauc_aunu}},
+\code{\link{mlr_measures_classif.mauc_mu}},
 \code{\link{mlr_measures_classif.mbrier}},
 \code{\link{mlr_measures_classif.mcc}},
 \code{\link{mlr_measures_classif.npv}},
@@ -95,6 +97,7 @@ Other multiclass classification measures:
 \code{\link{mlr_measures_classif.mauc_au1u}},
 \code{\link{mlr_measures_classif.mauc_aunp}},
 \code{\link{mlr_measures_classif.mauc_aunu}},
+\code{\link{mlr_measures_classif.mauc_mu}},
 \code{\link{mlr_measures_classif.mbrier}},
 \code{\link{mlr_measures_classif.mcc}}
 }
