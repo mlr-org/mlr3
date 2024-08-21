@@ -185,6 +185,6 @@ test_that("no predict_sets required (#1094)", {
 
 test_that("checks on predict_sets", {
   m = msr("classif.ce")
-  expect_error({m$predict_sets = NULL}, "must be subset")
-  expect_error({m$predict_sets = "imaginary"}, "must be subset")
+  expect_error({m$predict_sets = NULL}, "Must be a subset")
+  expect_error({m$predict_sets = "imaginary"}, "Must be a subset")
 })
