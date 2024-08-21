@@ -78,7 +78,9 @@ Returns an update object of class <code>PredictionData</code>.</p></li>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">check_prediction_data</span><span class="op">(</span><span class="va">pdata</span>, <span class="va">...</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">create_empty_prediction_data</span><span class="op">(</span><span class="va">task</span>, <span class="va">learner</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">check_prediction_data</span><span class="op">(</span><span class="va">pdata</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">is_missing_prediction_data</span><span class="op">(</span><span class="va">pdata</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
@@ -107,7 +109,15 @@ Returns an update object of class <code>PredictionData</code>.</p></li>
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
 
 
-<dl><dt id="arg-pdata">pdata<a class="anchor" aria-label="anchor" href="#arg-pdata"></a></dt>
+<dl><dt id="arg-task">task<a class="anchor" aria-label="anchor" href="#arg-task"></a></dt>
+<dd><p>(<a href="Task.html">Task</a>).</p></dd>
+
+
+<dt id="arg-learner">learner<a class="anchor" aria-label="anchor" href="#arg-learner"></a></dt>
+<dd><p>(<a href="Learner.html">Learner</a>).</p></dd>
+
+
+<dt id="arg-pdata">pdata<a class="anchor" aria-label="anchor" href="#arg-pdata"></a></dt>
 <dd><p>(PredictionData)<br>
 Named list inheriting from <code>"PredictionData"</code>.</p></dd>
 
