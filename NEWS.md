@@ -1,5 +1,6 @@
 # mlr3 (development version)
 
+* Deprecated `data_format` and `data_formats` for Learners, Tasks, and DataBackends.
 * feat: The `partition()` function creates training, test and validation sets.
 * refactor: Optimize runtime of fixing factor levels.
 * refactor: Optimize runtime of setting row roles.

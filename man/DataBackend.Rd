@@ -54,15 +54,16 @@ Other DataBackend:
 \describe{
 \item{\code{primary_key}}{(\code{character(1)})\cr
 Column name of the primary key column of positive and unique integer row ids.}
-
-\item{\code{data_formats}}{(\code{character()})\cr
-Set of supported formats, e.g. \code{"data.table"} or \code{"Matrix"}.}
 }
 \if{html}{\out{</div>}}
 }
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
+\item{\code{data_formats}}{(\code{character()})\cr
+Supported data format. Always \code{"data.table"}..
+This is deprecated and will be removed in the future.}
+
 \item{\code{hash}}{(\code{character(1)})\cr
 Hash (unique identifier) for this object.}
 
@@ -91,7 +92,7 @@ Note: This object is typically constructed via a derived classes, e.g.
 \link{DataBackendDataTable} or \link{DataBackendMatrix}, or via the S3 method
 \code{\link[=as_data_backend]{as_data_backend()}}.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{DataBackend$new(data, primary_key, data_formats = "data.table")}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{DataBackend$new(data, primary_key, data_formats)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -108,8 +109,7 @@ column of unique integer values, referenced here by \code{primary_key}. The
 use of this variable may differ between backends.}
 
 \item{\code{data_formats}}{(\code{character()})\cr
-Set of supported data formats which can be processed during \verb{$train()} and \verb{$predict()},
-e.g. \code{"data.table"}.}
+Deprecated: ignored, and will be removed in the future.}
 }
 \if{html}{\out{</div>}}
 }

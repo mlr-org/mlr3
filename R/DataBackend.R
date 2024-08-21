@@ -1,6 +1,7 @@
 #' @title DataBackend
 #'
 #' @include mlr_reflections.R
+#' @include warn_deprecated.R
 #'
 #' @description
 #' This is the abstract base class for data backends.
@@ -42,10 +43,6 @@ DataBackend = R6Class("DataBackend", cloneable = FALSE,
     #' Column name of the primary key column of positive and unique integer row ids.
     primary_key = NULL,
 
-    #' @field data_formats (`character()`)\cr
-    #' Set of supported formats, e.g. `"data.table"` or `"Matrix"`.
-    data_formats = NULL,
-
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #'
@@ -62,10 +59,10 @@ DataBackend = R6Class("DataBackend", cloneable = FALSE,
     #'   Each DataBackend needs a way to address rows, which is done via a
     #'   column of unique integer values, referenced here by `primary_key`. The
     #'   use of this variable may differ between backends.
-    initialize = function(data, primary_key, data_formats = "data.table") {
+    initialize = function(data, primary_key, data_formats) {
       private$.data = data
       self$primary_key = assert_string(primary_key)
-      self$data_formats = assert_subset(data_formats, mlr_reflections$data_formats, empty.ok = FALSE)
+      if (!missing(data_formats)) warn_deprecated("DataBackend$initialize argument 'data_formats'")
     },
 
     #' @description
@@ -88,6 +85,11 @@ DataBackend = R6Class("DataBackend", cloneable = FALSE,
   ),
 
   active = list(
+    #' @field data_formats (`character()`)\cr
+    #' Supported data format. Always `"data.table"`..
+    #' This is deprecated and will be removed in the future.
+    data_formats = deprecated_binding("DataBackend$data_formats", "data.table"),
+
     #' @template field_hash
     hash = function(rhs) {
       if (missing(rhs)) {

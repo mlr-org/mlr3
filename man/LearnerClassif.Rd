@@ -107,7 +107,7 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
   predict_types = "response",
   feature_types = character(),
   properties = character(),
-  data_formats = "data.table",
+  data_formats,
   packages = character(),
   label = NA_character_,
   man = NA_character_
@@ -146,8 +146,7 @@ If a learner is in a marshaled state, you call first need to call \verb{$unmarsh
 }}
 
 \item{\code{data_formats}}{(\code{character()})\cr
-Set of supported data formats which can be processed during \verb{$train()} and \verb{$predict()},
-e.g. \code{"data.table"}.}
+Deprecated: ignored, and will be removed in the future.}
 
 \item{\code{packages}}{(\code{character()})\cr
 Set of required packages.
