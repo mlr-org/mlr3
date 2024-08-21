@@ -174,12 +174,6 @@ test_that("primary iters are respected", {
   expect_equal(x1, x2)
 })
 
-test_that("measures don't require a predict sets (#1094)", {
-  rr = resample(tsk("iris"), lrn("classif.debug", validate = 0.3, predict_sets = NULL), rsmp("holdout"))
-  acc = rr$aggregate(msr("internal_valid_score", "acc"))
-  expect_double(acc)
-})
-
 test_that("no predict_sets required (#1094)", {
   m = msr("internal_valid_score")
   expect_equal(m$predict_sets, NULL)
@@ -187,4 +181,10 @@ test_that("no predict_sets required (#1094)", {
   expect_double(rr$aggregate(m))
 
   expect_warning(rr$aggregate(), "needs predict sets")
+})
+
+test_that("checks on predict_sets", {
+  m = msr("classif.ce")
+  expect_error({m$predict_sets = NULL}, "must be subset")
+  expect_error({m$predict_sets = "imaginary"}, "must be subset")
 })
