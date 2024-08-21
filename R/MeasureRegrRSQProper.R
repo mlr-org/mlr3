@@ -13,31 +13,45 @@
 #'
 #' @template seealso_measure
 #' @export
-MeasureRegrRSQProper = R6Class("MeasureRSQProper",
+MeasureRegrRSQ = R6Class("MeasureRSQ",
   inherit = Measure,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    initialize = function() {
+    initialize = function(test_mean = TRUE) {
+      private$.test_mean = assert_flag(test_mean)
+
       super$initialize(
-        id = "rsq_proper",
+        id = "rsq",
         task_type = "regr",
-        properties = c("requires_task", "requires_train_set"),
+        properties = if (!private$.test_mean) c("requires_task", "requires_train_set") else character(0),
         predict_type = "response",
         minimize = FALSE,
-        man = "mlr3::mlr_measures_regr.rsq_proper"
+        man = "mlr3::mlr_measures_regr.rsq"
       )
     }
   ),
 
   private = list(
-    .score = function(prediction, truth, task, train_set, ...) {
-      mu = mean(task$truth(train_set))
-      1 - sum((truth - prediction$response)^2) / sum((truth - mu)^2)
+    .test_mean = NULL,
 
+    .score = function(prediction, truth, task = NULL, train_set = NULL, ...) {
+
+      den = if (private$.test_mean) {
+        v = var(truth)
+        if (v < sqrt(.Machine$double.eps)) {
+          return(na_value)
+        }
+        v * (length(truth) - 1L)
+      } else {
+        mu = mean(task$truth(train_set))
+        sum((truth - mu)^2)
+      }
+
+      1 - sum((truth - prediction$response)^2) / den
     }
   )
 )
 
 #' @include mlr_measures.R
-mlr_measures$add("regr.rsq_proper", MeasureRegrRSQProper)
+mlr_measures$add("regr.rsq", MeasureRegrRSQ)
