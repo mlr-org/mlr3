@@ -4,7 +4,11 @@ test_that("mlr_learners", {
 
   for (key in keys) {
     l = lrn(key)
-    expect_learner(l)
+    if (key == "classif.debug") {
+      expect_learner(l, task = tsk("iris"))
+    } else {
+      expect_learner(l)
+    }
     if (inherits(l, "TaskClassif")) {
       expect_true(startsWith(l$id, "classif."))
     }
@@ -19,4 +23,10 @@ test_that("mlr_learners: sugar", {
   expect_equal(lrn$id, "foo")
   expect_equal(lrn$param_set$values$cp, 0.001)
   expect_equal(lrn$predict_type, "prob")
+})
+
+test_that("as.data.table(..., objects = TRUE)", {
+  tab = as.data.table(mlr_learners, objects = TRUE)
+  expect_data_table(tab)
+  expect_list(tab$object, "Learner", any.missing = FALSE)
 })

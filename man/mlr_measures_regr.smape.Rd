@@ -4,14 +4,16 @@
 \alias{mlr_measures_regr.smape}
 \title{Symmetric Mean Absolute Percent Error}
 \description{
-Regression measure defined as \deqn{
+Measure to compare true observed response with predicted response in regression tasks.
+}
+\details{
+The Symmetric Mean Absolute Percent Error is defined as \deqn{
   \frac{2}{n} \sum_{i=1}^n \frac{\left| t_i - r_i \right|}{\left| t_i \right| + \left| r_i \right|}.
 }{
   2 * mean(abs(t - r) / (abs(t) + abs(r))).
 }
-}
-\details{
-This measure is undefined if if any \eqn{|t| + |r|} is \eqn{0}.
+
+This measure is undefined if if any \eqn{|t| + |r|} is equal to \eqn{0}.
 }
 \note{
 The score function calls \code{\link[mlr3measures:smape]{mlr3measures::smape()}} from package \CRANpkg{mlr3measures}.
@@ -21,9 +23,11 @@ This can be customized by setting the field \code{na_value}.
 }
 \section{Dictionary}{
 
-This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("regr.smape")
+This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{mlr_measures$get("regr.smape")
 msr("regr.smape")
-}
+}\if{html}{\out{</div>}}
 }
 
 \section{Parameters}{
@@ -59,6 +63,7 @@ Other regression measures:
 \code{\link{mlr_measures_regr.mse}},
 \code{\link{mlr_measures_regr.msle}},
 \code{\link{mlr_measures_regr.pbias}},
+\code{\link{mlr_measures_regr.pinball}},
 \code{\link{mlr_measures_regr.rae}},
 \code{\link{mlr_measures_regr.rmse}},
 \code{\link{mlr_measures_regr.rmsle}},

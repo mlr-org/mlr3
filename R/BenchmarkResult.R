@@ -4,8 +4,9 @@
 #'
 #' @description
 #' This is the result container object returned by [benchmark()].
-#' A [BenchmarkResult] consists of the data row-binded data of multiple
-#' [ResampleResult]s, which can easily be re-constructed.
+#' A [BenchmarkResult] consists of the data of multiple [ResampleResult]s.
+#' The contents of a `BenchmarkResult` and [ResampleResult] are almost identical and the stored [ResampleResult]s can be extracted via the `$resample_result(i)` method, where i is the index of the performed resample experiment.
+#' This allows us to investigate the extracted [ResampleResult] and individual resampling iterations, as well as the predictions and models from each fold.
 #'
 #' [BenchmarkResult]s can be visualized via \CRANpkg{mlr3viz}'s `autoplot()` function.
 #'
@@ -35,7 +36,7 @@
 #' )
 #'
 #' design = benchmark_grid(
-#'   tasks = list(tsk("sonar"), tsk("spam")),
+#'   tasks = list(tsk("sonar"), tsk("penguins")),
 #'   learners = learners,
 #'   resamplings = rsmp("cv", folds = 3)
 #' )
@@ -90,7 +91,8 @@ BenchmarkResult = R6Class("BenchmarkResult",
 
     #' @description
     #' Helper for print outputs.
-    format = function() {
+    #' @param ... (ignored).
+    format = function(...) {
       sprintf("<%s>", class(self)[1L])
     },
 
@@ -98,6 +100,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #' Printer.
     print = function() {
       tab = self$aggregate(measures = list(), conditions = TRUE)
+      setattr(tab, "class", c("data.table", "data.frame"))
       catf("%s of %i rows with %i resampling runs",
         format(self), private$.data$iterations(), nrow(tab))
       if (nrow(tab)) {
@@ -131,6 +134,20 @@ BenchmarkResult = R6Class("BenchmarkResult",
       invisible(self)
     },
 
+    #' @description
+    #' Marshals all stored models.
+    #' @param ... (any)\cr
+    #'   Additional arguments passed to [`marshal_model()`].
+    marshal = function(...) {
+      private$.data$marshal(...)
+    },
+    #' @description
+    #' Unmarshals all stored models.
+    #' @param ... (any)\cr
+    #'   Additional arguments passed to [`unmarshal_model()`].
+    unmarshal = function(...) {
+      private$.data$unmarshal(...)
+    },
 
     #' @description
     #' Returns a table with one row for each resampling iteration, including
@@ -151,13 +168,17 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #'   Adds condition messages (`"warnings"`, `"errors"`) as extra
     #'   list columns of character vectors to the returned table
     #'
-    #' @template param_predict_sets
+    #' @param predictions (`logical(1)`)\cr
+    #'   Additionally return prediction objects, one column for each `predict_set` of all learners combined.
+    #'   Columns are named `"prediction_train"`, `"prediction_test"` and `"prediction_internal_valid"`,
+    #'   if present.
     #'
     #' @return [data.table::data.table()].
-    score = function(measures = NULL, ids = TRUE, conditions = FALSE, predict_sets = "test") {
+    score = function(measures = NULL, ids = TRUE, conditions = FALSE, predictions = FALSE) {
       measures = as_measures(measures, task_type = self$task_type)
       assert_flag(ids)
       assert_flag(conditions)
+      assert_flag(predictions)
 
       tab = score_measures(self, measures, view = NULL)
       tab = merge(private$.data$data$uhashes, tab, by = "uhash", sort = FALSE)
@@ -174,18 +195,56 @@ BenchmarkResult = R6Class("BenchmarkResult",
         set(tab, j = "errors", value = map(tab$learner, "errors"))
       }
 
-      set(tab, j = "prediction", value = as_predictions(tab$prediction, predict_sets))
+      if (predictions) {
+        predict_sets = intersect(
+          mlr_reflections$predict_sets,
+          unlist(map(self$learners$learner, "predict_sets"), use.names = FALSE)
+        )
+        predict_cols = sprintf("prediction_%s", predict_sets)
+        for (i in seq_along(predict_sets)) {
+          set(tab, j = predict_cols[i],
+            value = map(tab$prediction, function(p) as_prediction(p[[predict_sets[i]]], check = FALSE))
+          )
+        }
+      } else {
+        predict_cols = character()
+      }
+
+      set_data_table_class(tab, "bmr_score")
 
       cns = c("uhash", "nr", "task", "task_id", "learner", "learner_id", "resampling", "resampling_id",
-        "iteration", "prediction", "warnings", "errors", ids(measures))
+        "iteration", predict_cols, "warnings", "errors", ids(measures))
       cns = intersect(cns, names(tab))
       tab[, cns, with = FALSE]
+    },
+
+    #' @description
+    #' Calculates the observation-wise loss via the loss function set in the
+    #' [Measure]'s field `obs_loss`.
+    #' Returns a `data.table()` with the columns `row_ids`, `truth`, `response` and
+    #' one additional numeric column for each measure, named with the respective measure id.
+    #' If there is no observation-wise loss function for the measure, the column is filled with
+    #' `NA` values.
+    #' Note that some measures such as RMSE, do have an `$obs_loss`, but they require an
+    #' additional transformation after aggregation, in this example taking the square-root.
+    #' @param predict_sets (`character()`)\cr
+    #'   The predict sets.
+    obs_loss = function(measures = NULL, predict_sets = "test") {
+      measures = as_measures(measures, task_type = private$.data$task_type)
+      map_dtr(self$resample_results$resample_result,
+        function(rr) {
+          rr$obs_loss(measures, predict_sets)
+        }, .idcol = "resample_result")
     },
 
     #' @description
     #' Returns a result table where resampling iterations are combined into
     #' [ResampleResult]s. A column with the aggregated performance score is
     #' added for each [Measure], named with the id of the respective measure.
+    #'
+    #' The method for aggregation is controlled by the [Measure], e.g. micro
+    #' aggregation, macro aggregation or custom aggregation. Most measures
+    #' default to macro aggregation.
     #'
     #' Note that the aggregated performances just give a quick impression which
     #' approaches work well and which approaches are probably underperforming.
@@ -269,8 +328,10 @@ BenchmarkResult = R6Class("BenchmarkResult",
       }
       tab = insert_named(tab, scores)
 
+      set_data_table_class(tab, "bmr_aggregate")
+
       cns = c("uhash", "nr", "resample_result", "task_id", "learner_id", "resampling_id", "iters",
-        "warnings", "errors", "params", ids(measures))
+        "warnings", "errors", "params", names(scores))
       cns = intersect(cns, names(tab))
       tab[, cns, with = FALSE]
     },
@@ -384,16 +445,6 @@ BenchmarkResult = R6Class("BenchmarkResult",
   ),
 
   active = list(
-    #' @field data (`ResultData`)\cr
-    #' Internal data storage object of type `ResultData`.
-    #' This field is deprecated and will be removed in the next release.
-    #' Use `as.table.table(BenchmarkResult)` instead.
-    data = function(rhs) {
-      assert_ro_binding(rhs)
-      .Deprecated("as.data.table(benchmark_result)")
-      private$.data
-    },
-
     #' @field task_type (`character(1)`)\cr
     #' Task type of objects in the `BenchmarkResult`.
     #' All stored objects ([Task], [Learner], [Prediction]) in a single `BenchmarkResult` are
@@ -461,7 +512,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
       create_rr = function(view) {
         if (length(view)) ResampleResult$new(private$.data, view = copy(view)) else list()
       }
-      tab = rdata$fact[rdata$uhashes, list(
+      rdata$fact[rdata$uhashes, list(
         nr = .GRP,
         resample_result = list(create_rr(.BY[[1L]]))
       ), by = "uhash"]
@@ -504,4 +555,14 @@ c.BenchmarkResult = function(...) { # nolint
   bmrs = lapply(list(...), as_benchmark_result)
   init = BenchmarkResult$new()
   Reduce(function(lhs, rhs) lhs$combine(rhs), bmrs, init = init)
+}
+
+#' @export
+print.bmr_score = function(x, ...) {
+  print_data_table(x, c("uhash", "task", "learner", "resampling", "prediction"))
+}
+
+#' @export
+print.bmr_aggregate = function(x, ...) {
+  print_data_table(x, "resample_result")
 }

@@ -4,8 +4,12 @@
 \alias{mlr_measures_classif.fbeta}
 \title{F-beta Score}
 \description{
-Binary classification measure defined with \eqn{P} as \code{\link[mlr3measures:ppv]{precision()}} and \eqn{R} as
-\code{\link[mlr3measures:tpr]{recall()}} as \deqn{
+Measure to compare true observed labels with predicted
+labels
+in binary classification tasks.
+}
+\details{
+With \eqn{P} as \code{\link[mlr3measures:precision]{precision()}} and \eqn{R} as \code{\link[mlr3measures:recall]{recall()}}, the F-beta Score is defined as \deqn{
    (1 + \beta^2) \frac{P \cdot R}{(\beta^2 P) + R}.
 }{
    (1 + beta^2) * (P*R) / ((beta^2 * P) + R).
@@ -13,13 +17,8 @@ Binary classification measure defined with \eqn{P} as \code{\link[mlr3measures:p
 It measures the effectiveness of retrieval with respect to a user who attaches \eqn{\beta}{beta} times
 as much importance to recall as precision.
 For \eqn{\beta = 1}{beta = 1}, this measure is called "F1" score.
-}
-\details{
-This measure is undefined if
-\itemize{
-\item TP = 0
-\item \link[mlr3measures]{precision} or \link[mlr3measures]{recall} is undefined, i.e. TP + FP = 0 or TP + FN = 0.
-}
+
+This measure is undefined if \link[mlr3measures]{precision} or \link[mlr3measures]{recall} is undefined, i.e. TP + FP = 0 or TP + FN = 0.
 }
 \note{
 The score function calls \code{\link[mlr3measures:fbeta]{mlr3measures::fbeta()}} from package \CRANpkg{mlr3measures}.
@@ -29,15 +28,17 @@ This can be customized by setting the field \code{na_value}.
 }
 \section{Dictionary}{
 
-This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("classif.fbeta")
+This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{mlr_measures$get("classif.fbeta")
 msr("classif.fbeta")
-}
+}\if{html}{\out{</div>}}
 }
 
 \section{Parameters}{
-\tabular{lllll}{
-   Id \tab Type \tab Default \tab Range \tab Levels \cr
-   beta \tab integer \tab - \tab \eqn{[0, \infty)}{[0, Inf)} \tab - \cr
+\tabular{llll}{
+   Id \tab Type \tab Default \tab Range \cr
+   beta \tab integer \tab - \tab \eqn{[0, \infty)}{[0, Inf)} \cr
 }
 }
 
@@ -67,12 +68,17 @@ Other classification measures:
 \code{\link{mlr_measures_classif.costs}},
 \code{\link{mlr_measures_classif.dor}},
 \code{\link{mlr_measures_classif.fdr}},
-\code{\link{mlr_measures_classif.fnr}},
 \code{\link{mlr_measures_classif.fn}},
+\code{\link{mlr_measures_classif.fnr}},
 \code{\link{mlr_measures_classif.fomr}},
-\code{\link{mlr_measures_classif.fpr}},
 \code{\link{mlr_measures_classif.fp}},
+\code{\link{mlr_measures_classif.fpr}},
 \code{\link{mlr_measures_classif.logloss}},
+\code{\link{mlr_measures_classif.mauc_au1p}},
+\code{\link{mlr_measures_classif.mauc_au1u}},
+\code{\link{mlr_measures_classif.mauc_aunp}},
+\code{\link{mlr_measures_classif.mauc_aunu}},
+\code{\link{mlr_measures_classif.mauc_mu}},
 \code{\link{mlr_measures_classif.mbrier}},
 \code{\link{mlr_measures_classif.mcc}},
 \code{\link{mlr_measures_classif.npv}},
@@ -82,22 +88,21 @@ Other classification measures:
 \code{\link{mlr_measures_classif.recall}},
 \code{\link{mlr_measures_classif.sensitivity}},
 \code{\link{mlr_measures_classif.specificity}},
-\code{\link{mlr_measures_classif.tnr}},
 \code{\link{mlr_measures_classif.tn}},
-\code{\link{mlr_measures_classif.tpr}},
-\code{\link{mlr_measures_classif.tp}}
+\code{\link{mlr_measures_classif.tnr}},
+\code{\link{mlr_measures_classif.tp}},
+\code{\link{mlr_measures_classif.tpr}}
 
 Other binary classification measures: 
 \code{\link{mlr_measures_classif.auc}},
 \code{\link{mlr_measures_classif.bbrier}},
 \code{\link{mlr_measures_classif.dor}},
 \code{\link{mlr_measures_classif.fdr}},
-\code{\link{mlr_measures_classif.fnr}},
 \code{\link{mlr_measures_classif.fn}},
+\code{\link{mlr_measures_classif.fnr}},
 \code{\link{mlr_measures_classif.fomr}},
-\code{\link{mlr_measures_classif.fpr}},
 \code{\link{mlr_measures_classif.fp}},
-\code{\link{mlr_measures_classif.mcc}},
+\code{\link{mlr_measures_classif.fpr}},
 \code{\link{mlr_measures_classif.npv}},
 \code{\link{mlr_measures_classif.ppv}},
 \code{\link{mlr_measures_classif.prauc}},
@@ -105,10 +110,10 @@ Other binary classification measures:
 \code{\link{mlr_measures_classif.recall}},
 \code{\link{mlr_measures_classif.sensitivity}},
 \code{\link{mlr_measures_classif.specificity}},
-\code{\link{mlr_measures_classif.tnr}},
 \code{\link{mlr_measures_classif.tn}},
-\code{\link{mlr_measures_classif.tpr}},
-\code{\link{mlr_measures_classif.tp}}
+\code{\link{mlr_measures_classif.tnr}},
+\code{\link{mlr_measures_classif.tp}},
+\code{\link{mlr_measures_classif.tpr}}
 }
 \concept{binary classification measures}
 \concept{classification measures}

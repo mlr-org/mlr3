@@ -30,7 +30,7 @@ MeasureSelectedFeatures = R6Class("MeasureSelectedFeatures",
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
-      param_set = ps(normalize = p_lgl(default = FALSE, tags = "required"))
+      param_set = ps(normalize = p_lgl(tags = "required"))
       param_set$values = list(normalize = FALSE)
 
       super$initialize(
@@ -38,9 +38,10 @@ MeasureSelectedFeatures = R6Class("MeasureSelectedFeatures",
         param_set = param_set,
         task_type = NA_character_,
         properties = c("requires_task", "requires_learner", "requires_model"),
-        predict_type = "response",
+        predict_type = NA_character_,
         range = c(0, Inf),
         minimize = TRUE,
+        label = "Absolute or Relative Frequency of Selected Features",
         man = "mlr3::mlr_measures_selected_features"
       )
     }
@@ -64,4 +65,4 @@ MeasureSelectedFeatures = R6Class("MeasureSelectedFeatures",
 )
 
 #' @include mlr_measures.R
-mlr_measures$add("selected_features", MeasureSelectedFeatures)
+mlr_measures$add("selected_features", function() MeasureSelectedFeatures$new())

@@ -34,7 +34,7 @@ the data of the former passed objects get overwritten by the data of the later p
 \seealso{
 \itemize{
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
-\url{https://mlr3book.mlr-org.com/basics.html#train-predict}
+\url{https://mlr3book.mlr-org.com/chapters/chapter2/data_and_basic_modeling.html}
 \item Package \CRANpkg{mlr3viz} for some generic visualizations.
 \item Extension packages for additional task types:
 \itemize{
@@ -86,27 +86,35 @@ Returns \code{row_ids} for which the predictions are missing or incomplete.}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-format}{\code{Prediction$format()}}
-\item \href{#method-print}{\code{Prediction$print()}}
-\item \href{#method-help}{\code{Prediction$help()}}
-\item \href{#method-score}{\code{Prediction$score()}}
-\item \href{#method-filter}{\code{Prediction$filter()}}
-\item \href{#method-clone}{\code{Prediction$clone()}}
+\item \href{#method-Prediction-format}{\code{Prediction$format()}}
+\item \href{#method-Prediction-print}{\code{Prediction$print()}}
+\item \href{#method-Prediction-help}{\code{Prediction$help()}}
+\item \href{#method-Prediction-score}{\code{Prediction$score()}}
+\item \href{#method-Prediction-obs_loss}{\code{Prediction$obs_loss()}}
+\item \href{#method-Prediction-filter}{\code{Prediction$filter()}}
+\item \href{#method-Prediction-clone}{\code{Prediction$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-format"></a>}}
-\if{latex}{\out{\hypertarget{method-format}{}}}
+\if{html}{\out{<a id="method-Prediction-format"></a>}}
+\if{latex}{\out{\hypertarget{method-Prediction-format}{}}}
 \subsection{Method \code{format()}}{
 Helper for print outputs.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Prediction$format()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Prediction$format(...)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{...}}{(ignored).}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-print"></a>}}
-\if{latex}{\out{\hypertarget{method-print}{}}}
+\if{html}{\out{<a id="method-Prediction-print"></a>}}
+\if{latex}{\out{\hypertarget{method-Prediction-print}{}}}
 \subsection{Method \code{print()}}{
 Printer.
 \subsection{Usage}{
@@ -122,8 +130,8 @@ Printer.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-help"></a>}}
-\if{latex}{\out{\hypertarget{method-help}{}}}
+\if{html}{\out{<a id="method-Prediction-help"></a>}}
+\if{latex}{\out{\hypertarget{method-Prediction-help}{}}}
 \subsection{Method \code{help()}}{
 Opens the corresponding help page referenced by field \verb{$man}.
 \subsection{Usage}{
@@ -132,8 +140,8 @@ Opens the corresponding help page referenced by field \verb{$man}.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-score"></a>}}
-\if{latex}{\out{\hypertarget{method-score}{}}}
+\if{html}{\out{<a id="method-Prediction-score"></a>}}
+\if{latex}{\out{\hypertarget{method-Prediction-score}{}}}
 \subsection{Method \code{score()}}{
 Calculates the performance for all provided measures
 \link{Task} and \link{Learner} may be \code{NULL} for most measures, but some measures need to extract information
@@ -168,8 +176,33 @@ Measure(s) to calculate.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-filter"></a>}}
-\if{latex}{\out{\hypertarget{method-filter}{}}}
+\if{html}{\out{<a id="method-Prediction-obs_loss"></a>}}
+\if{latex}{\out{\hypertarget{method-Prediction-obs_loss}{}}}
+\subsection{Method \code{obs_loss()}}{
+Calculates the observation-wise loss via the loss function set in the
+\link{Measure}'s field \code{obs_loss}.
+Returns a \code{data.table()} with the columns \code{row_ids}, \code{truth}, \code{response} and
+one additional numeric column for each measure, named with the respective measure id.
+If there is no observation-wise loss function for the measure, the column is filled with
+\code{NA} values.
+Note that some measures such as RMSE, do have an \verb{$obs_loss}, but they require an
+additional transformation after aggregation, in this example taking the square-root.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Prediction$obs_loss(measures = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{measures}}{(\link{Measure} | list of \link{Measure})\cr
+Measure(s) to calculate.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Prediction-filter"></a>}}
+\if{latex}{\out{\hypertarget{method-Prediction-filter}{}}}
 \subsection{Method \code{filter()}}{
 Filters the \link{Prediction}, keeping only predictions for the provided row_ids.
 This changes the object in-place, you need to create a clone to preserve
@@ -191,8 +224,8 @@ Row indices.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-Prediction-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-Prediction-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

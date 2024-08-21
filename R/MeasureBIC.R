@@ -26,8 +26,9 @@ MeasureBIC = R6Class("MeasureBIC",
         id = "bic",
         task_type = NA_character_,
         properties = c("na_score", "requires_learner", "requires_model"),
-        predict_type = "response",
+        predict_type = NA_character_,
         minimize = TRUE,
+        label = "Bayesian Information Criterion",
         man = "mlr3::mlr_measures_bic"
       )
     }
@@ -46,4 +47,4 @@ MeasureBIC = R6Class("MeasureBIC",
 )
 
 #' @include mlr_measures.R
-mlr_measures$add("bic", MeasureBIC)
+mlr_measures$add("bic", function() MeasureBIC$new())

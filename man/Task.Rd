@@ -26,6 +26,10 @@ More toy tasks can be found in the dictionary after loading \CRANpkg{mlr3data}.
 \item \code{as.data.table(t)}\cr
 \link{Task} -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Returns the complete data as \code{\link[data.table:data.table]{data.table::data.table()}}.
+\item \code{head(t)}\cr
+Calls \code{\link[=head]{head()}} on the task's data.
+\item \code{summary(t)}\cr
+Calls \code{\link[=summary]{summary()}} on the task's data.
 }
 }
 
@@ -35,14 +39,15 @@ The following methods change the task in-place:
 \itemize{
 \item Any modification of the lists \verb{$col_roles} or \verb{$row_roles}.
 This provides a different "view" on the data without altering the data itself.
+This may affects, e.g., \verb{$data}, \verb{$nrow}, \verb{$ncol}, \code{n_features}, \code{row_ids}, and \verb{$feature_names}.
+Altering \verb{$col_roles} may affect, e.g., \verb{$data}, \verb{$ncol}, \verb{$n_features}, and \verb{$feature_names}.
+Altering \verb{$row_roles} may affect, e.g., \verb{$data}, \verb{$nrow}, and \verb{$row_ids}.
 \item Modification of column or row roles via \verb{$set_col_roles()} or \verb{$set_row_roles()}, respectively.
-\item \verb{$filter()} and \verb{$select()} subset the set of active rows or features in \verb{$row_roles} or \verb{$col_roles}, respectively.
-This provides a different "view" on the data without altering the data itself.
-\item \code{rbind()} and \code{cbind()} change the task in-place by binding rows or columns to the data, but without modifying the original \link{DataBackend}.
-Instead, the methods first create a new \link{DataBackendDataTable} from the provided new data, and then
-merge both backends into an abstract \link{DataBackend} which merges the results on-demand.
-\item \code{rename()} wraps the \link{DataBackend} of the Task in an additional \link{DataBackend} which deals with the renaming. Also updates \verb{$col_roles} and \verb{$col_info}.
-\item \code{set_levels()} updates the field \code{col_info()}.
+They are an alternative to directly accessing \verb{$col_roles} or \verb{$row_roles}, with the same side effects.
+\item \verb{$select()} and \verb{$filter()} subset the set of active features or rows in \verb{$col_roles} or \verb{$row_roles}, respectively.
+\item \verb{$cbind()} and \verb{$rbind()} change the task in-place by binding new columns or rows to the data.
+\item \verb{$rename()} changes column names.
+\item \verb{$set_levels()} and \verb{$droplevels()} update the field \verb{$col_info()} to automatically repair factor levels while querying data with \verb{$data()}.
 }
 }
 
@@ -63,22 +68,22 @@ task$feature_names
 
 # Add new column "foo"
 task$cbind(data.frame(foo = 1:344))
-task$head()
+head(task)
 }
 \seealso{
 \itemize{
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
-\url{https://mlr3book.mlr-org.com/basics.html#tasks}
+\url{https://mlr3book.mlr-org.com/chapters/chapter2/data_and_basic_modeling.html}
 \item Package \CRANpkg{mlr3data} for more toy tasks.
-\item Package \CRANpkg{mlr3oml} for downloading tasks from \url{https://openml.org}.
+\item Package \CRANpkg{mlr3oml} for downloading tasks from \url{https://www.openml.org}.
 \item Package \CRANpkg{mlr3viz} for some generic visualizations.
 \item \link[mlr3misc:Dictionary]{Dictionary} of \link[=Task]{Tasks}: \link{mlr_tasks}
 \item \code{as.data.table(mlr_tasks)} for a table of available \link[=Task]{Tasks} in the running session (depending on the loaded packages).
 \item \CRANpkg{mlr3fselect} and \CRANpkg{mlr3filters} for feature selection and feature filtering.
 \item Extension packages for additional task types:
 \itemize{
-\item \CRANpkg{mlr3proba} for probabilistic supervised regression and survival analysis.
-\item \CRANpkg{mlr3cluster} for unsupervised clustering.
+\item Unsupervised clustering: \CRANpkg{mlr3cluster}
+\item Probabilistic supervised regression and survival analysis: \url{https://mlr3proba.mlr-org.com/}.
 }
 }
 
@@ -87,6 +92,7 @@ Other Task:
 \code{\link{TaskRegr}},
 \code{\link{TaskSupervised}},
 \code{\link{TaskUnsupervised}},
+\code{\link{mlr_tasks}},
 \code{\link{mlr_tasks_boston_housing}},
 \code{\link{mlr_tasks_breast_cancer}},
 \code{\link{mlr_tasks_german_credit}},
@@ -97,16 +103,15 @@ Other Task:
 \code{\link{mlr_tasks_sonar}},
 \code{\link{mlr_tasks_spam}},
 \code{\link{mlr_tasks_wine}},
-\code{\link{mlr_tasks_zoo}},
-\code{\link{mlr_tasks}}
+\code{\link{mlr_tasks_zoo}}
 }
 \concept{Task}
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{id}}{(\code{character(1)})\cr
-Identifier of the object.
-Used in tables, plot and text output.}
+\item{\code{label}}{(\code{character(1)})\cr
+Label for this object.
+Can be used in tables, plot and text output instead of the ID.}
 
 \item{\code{task_type}}{(\code{character(1)})\cr
 Task type, e.g. \code{"classif"} or \code{"regr"}.
@@ -118,7 +123,7 @@ see \code{\link[=mlr_reflections]{mlr_reflections$task_types$type}}.}
 Abstract interface to the data of the task.}
 
 \item{\code{col_info}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
-Table with with 4 columns:
+Table with with 4 columns, mainly for internal purposes:
 \itemize{
 \item \code{"id"} (\code{character()}) stores the name of the column.
 \item \code{"type"} (\code{character()}) holds the storage type of the variable, e.g. \code{integer}, \code{numeric} or \code{character}.
@@ -127,7 +132,10 @@ See \link[=mlr_reflections]{mlr_reflections$task_feature_types} for a complete l
 \item \code{"label"} (\code{character()}) stores a vector of prettier, formated column names.
 \item \code{"fix_factor_levels"} (\code{logical()}) stores flags which determine if the levels of the respective variable
 need to be reordered after querying the data from the \link{DataBackend}.
-}}
+}
+
+Note that all columns of the \link{DataBackend}, also columns which are not selected or have any role, are listed
+in this table.}
 
 \item{\code{man}}{(\code{character(1)})\cr
 String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
@@ -136,16 +144,30 @@ Defaults to \code{NA}, but can be set by child classes.}
 \item{\code{extra_args}}{(named \code{list()})\cr
 Additional arguments set during construction.
 Required for \code{\link[=convert_task]{convert_task()}}.}
+
+\item{\code{mlr3_version}}{(\code{package_version})\cr
+Package version of \code{mlr3} used to create the task.}
 }
 \if{html}{\out{</div>}}
 }
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
+\item{\code{id}}{(\code{character(1)})\cr
+Identifier of the object.
+Used in tables, plot and text output.}
+
+\item{\code{internal_valid_task}}{(\code{Task} or \code{integer()} or \code{NULL})\cr
+Optional validation task that can, e.g., be used for early stopping with learners such as XGBoost.
+See also the \verb{$validate} field of \code{\link{Learner}}.
+If integers are assigned they are removed from the primary task and an internal validation task
+with those ids is created from the primary task using only those ids.
+When assigning a new task, it is always cloned.}
+
 \item{\code{hash}}{(\code{character(1)})\cr
 Hash (unique identifier) for this object.}
 
-\item{\code{row_ids}}{(\code{integer()})\cr
+\item{\code{row_ids}}{(positive \code{integer()})\cr
 Returns the row ids of the \link{DataBackend} for observations with role "use".}
 
 \item{\code{row_names}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
@@ -182,8 +204,6 @@ Note that above listed properties are calculated from the \verb{$col_roles} and 
 Each row (observation) can have an arbitrary number of roles in the learning task:
 \itemize{
 \item \code{"use"}: Use in train / predict / resampling.
-\item \code{"validation"}: Observations are hold back unless explicitly requested.
-Can be used as truly independent test set.
 }
 
 \code{row_roles} is a named list whose elements are named by row role and each element is an \code{integer()} vector of row ids.
@@ -214,6 +234,9 @@ Returns the total number of rows with role "use".}
 
 \item{\code{ncol}}{(\code{integer(1)})\cr
 Returns the total number of columns with role "target" or "feature".}
+
+\item{\code{n_features}}{(\code{integer(1)})\cr
+Returns the total number of columns with role "feature" (i.e. the number of "active" features in the task).}
 
 \item{\code{feature_types}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
 Returns a table with columns \code{id} and \code{type} where \code{id} are the column names of "active"
@@ -281,37 +304,38 @@ The reverse is not necessarily true: There can be columns with the same content 
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{Task$new()}}
-\item \href{#method-help}{\code{Task$help()}}
-\item \href{#method-format}{\code{Task$format()}}
-\item \href{#method-print}{\code{Task$print()}}
-\item \href{#method-data}{\code{Task$data()}}
-\item \href{#method-formula}{\code{Task$formula()}}
-\item \href{#method-head}{\code{Task$head()}}
-\item \href{#method-levels}{\code{Task$levels()}}
-\item \href{#method-missings}{\code{Task$missings()}}
-\item \href{#method-filter}{\code{Task$filter()}}
-\item \href{#method-select}{\code{Task$select()}}
-\item \href{#method-rbind}{\code{Task$rbind()}}
-\item \href{#method-cbind}{\code{Task$cbind()}}
-\item \href{#method-rename}{\code{Task$rename()}}
-\item \href{#method-set_row_roles}{\code{Task$set_row_roles()}}
-\item \href{#method-set_col_roles}{\code{Task$set_col_roles()}}
-\item \href{#method-set_levels}{\code{Task$set_levels()}}
-\item \href{#method-droplevels}{\code{Task$droplevels()}}
-\item \href{#method-add_strata}{\code{Task$add_strata()}}
-\item \href{#method-clone}{\code{Task$clone()}}
+\item \href{#method-Task-new}{\code{Task$new()}}
+\item \href{#method-Task-divide}{\code{Task$divide()}}
+\item \href{#method-Task-help}{\code{Task$help()}}
+\item \href{#method-Task-format}{\code{Task$format()}}
+\item \href{#method-Task-print}{\code{Task$print()}}
+\item \href{#method-Task-data}{\code{Task$data()}}
+\item \href{#method-Task-formula}{\code{Task$formula()}}
+\item \href{#method-Task-head}{\code{Task$head()}}
+\item \href{#method-Task-levels}{\code{Task$levels()}}
+\item \href{#method-Task-missings}{\code{Task$missings()}}
+\item \href{#method-Task-filter}{\code{Task$filter()}}
+\item \href{#method-Task-select}{\code{Task$select()}}
+\item \href{#method-Task-rbind}{\code{Task$rbind()}}
+\item \href{#method-Task-cbind}{\code{Task$cbind()}}
+\item \href{#method-Task-rename}{\code{Task$rename()}}
+\item \href{#method-Task-set_row_roles}{\code{Task$set_row_roles()}}
+\item \href{#method-Task-set_col_roles}{\code{Task$set_col_roles()}}
+\item \href{#method-Task-set_levels}{\code{Task$set_levels()}}
+\item \href{#method-Task-droplevels}{\code{Task$droplevels()}}
+\item \href{#method-Task-add_strata}{\code{Task$add_strata()}}
+\item \href{#method-Task-clone}{\code{Task$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-Task-new"></a>}}
+\if{latex}{\out{\hypertarget{method-Task-new}{}}}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 
 Note that this object is typically constructed via a derived classes, e.g. \link{TaskClassif} or \link{TaskRegr}.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Task$new(id, task_type, backend, extra_args = list())}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Task$new(id, task_type, backend, label = NA_character_, extra_args = list())}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -328,6 +352,9 @@ Must be an element of \link[=mlr_reflections]{mlr_reflections$task_types$type}.}
 Either a \link{DataBackend}, or any object which is convertible to a \link{DataBackend} with \code{as_data_backend()}.
 E.g., a \code{data.frame()} will be converted to a \link{DataBackendDataTable}.}
 
+\item{\code{label}}{(\code{character(1)})\cr
+Label for the new instance.}
+
 \item{\code{extra_args}}{(named \code{list()})\cr
 Named list of constructor arguments, required for converting task types
 via \code{\link[=convert_task]{convert_task()}}.}
@@ -336,8 +363,36 @@ via \code{\link[=convert_task]{convert_task()}}.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-help"></a>}}
-\if{latex}{\out{\hypertarget{method-help}{}}}
+\if{html}{\out{<a id="method-Task-divide"></a>}}
+\if{latex}{\out{\hypertarget{method-Task-divide}{}}}
+\subsection{Method \code{divide()}}{
+Deprecated.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Task$divide(ratio = NULL, ids = NULL, remove = TRUE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{ratio}}{(\code{numeric(1)})\cr
+The proportion of datapoints to use as validation data.}
+
+\item{\code{ids}}{(\code{integer()})\cr
+The row ids to use as validation data.}
+
+\item{\code{remove}}{(\code{logical(1)})\cr
+If \code{TRUE} (default), the \code{row_ids} are removed from the primary task's active \code{"use"} rows, ensuring a
+disjoint split between the train and validation data.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Modified \code{Self}.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Task-help"></a>}}
+\if{latex}{\out{\hypertarget{method-Task-help}{}}}
 \subsection{Method \code{help()}}{
 Opens the corresponding help page referenced by field \verb{$man}.
 \subsection{Usage}{
@@ -346,18 +401,25 @@ Opens the corresponding help page referenced by field \verb{$man}.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-format"></a>}}
-\if{latex}{\out{\hypertarget{method-format}{}}}
+\if{html}{\out{<a id="method-Task-format"></a>}}
+\if{latex}{\out{\hypertarget{method-Task-format}{}}}
 \subsection{Method \code{format()}}{
 Helper for print outputs.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Task$format()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Task$format(...)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{...}}{(ignored).}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-print"></a>}}
-\if{latex}{\out{\hypertarget{method-print}{}}}
+\if{html}{\out{<a id="method-Task-print"></a>}}
+\if{latex}{\out{\hypertarget{method-Task-print}{}}}
 \subsection{Method \code{print()}}{
 Printer.
 \subsection{Usage}{
@@ -373,8 +435,8 @@ Printer.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-data"></a>}}
-\if{latex}{\out{\hypertarget{method-data}{}}}
+\if{html}{\out{<a id="method-Task-data"></a>}}
+\if{latex}{\out{\hypertarget{method-Task-data}{}}}
 \subsection{Method \code{data()}}{
 Returns a slice of the data from the \link{DataBackend} in the data format specified by \code{data_format}.
 Rows default to observations with role \code{"use"}, and
@@ -400,11 +462,12 @@ address columns with their respective column name.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{rows}}{\code{integer()}\cr
-Row indices.}
+\item{\code{rows}}{(positive \code{integer()})\cr
+Vector or row indices.
+Always refers to the complete data set, even after filtering.}
 
-\item{\code{cols}}{\code{character()}\cr
-Column names.}
+\item{\code{cols}}{(\code{character()})\cr
+Vector of column names.}
 
 \item{\code{data_format}}{(\code{character(1)})\cr
 Desired data format, e.g. \code{"data.table"} or \code{"Matrix"}.}
@@ -419,8 +482,8 @@ Depending on the \link{DataBackend}, but usually a \code{\link[data.table:data.t
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-formula"></a>}}
-\if{latex}{\out{\hypertarget{method-formula}{}}}
+\if{html}{\out{<a id="method-Task-formula"></a>}}
+\if{latex}{\out{\hypertarget{method-Task-formula}{}}}
 \subsection{Method \code{formula()}}{
 Constructs a \code{\link[=formula]{formula()}}, e.g. \verb{[target] ~ [feature_1] + [feature_2] + ... + [feature_k]},
 using the features provided in argument \code{rhs} (defaults to all columns with role \code{"feature"}, symbolized by \code{"."}).
@@ -444,8 +507,8 @@ Right hand side of the formula. Defaults to \code{"."} (all features of the task
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-head"></a>}}
-\if{latex}{\out{\hypertarget{method-head}{}}}
+\if{html}{\out{<a id="method-Task-head"></a>}}
+\if{latex}{\out{\hypertarget{method-Task-head}{}}}
 \subsection{Method \code{head()}}{
 Get the first \code{n} observations with role \code{"use"} of all columns with role \code{"target"} or \code{"feature"}.
 \subsection{Usage}{
@@ -464,8 +527,8 @@ Get the first \code{n} observations with role \code{"use"} of all columns with r
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-levels"></a>}}
-\if{latex}{\out{\hypertarget{method-levels}{}}}
+\if{html}{\out{<a id="method-Task-levels"></a>}}
+\if{latex}{\out{\hypertarget{method-Task-levels}{}}}
 \subsection{Method \code{levels()}}{
 Returns the distinct values for columns referenced in \code{cols} with storage type "factor" or "ordered".
 Argument \code{cols} defaults to all such columns with role \code{"target"} or \code{"feature"}.
@@ -479,8 +542,8 @@ To update the stored level information, e.g. after subsetting a task with \verb{
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{cols}}{\code{character()}\cr
-Column names.}
+\item{\code{cols}}{(\code{character()})\cr
+Vector of column names.}
 }
 \if{html}{\out{</div>}}
 }
@@ -489,8 +552,8 @@ named \code{list()}.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-missings"></a>}}
-\if{latex}{\out{\hypertarget{method-missings}{}}}
+\if{html}{\out{<a id="method-Task-missings"></a>}}
+\if{latex}{\out{\hypertarget{method-Task-missings}{}}}
 \subsection{Method \code{missings()}}{
 Returns the number of missing observations for columns referenced in \code{cols}.
 Considers only active rows with row role \code{"use"}.
@@ -502,8 +565,8 @@ Argument \code{cols} defaults to all columns with role "target" or "feature".
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{cols}}{\code{character()}\cr
-Column names.}
+\item{\code{cols}}{(\code{character()})\cr
+Vector of column names.}
 }
 \if{html}{\out{</div>}}
 }
@@ -512,8 +575,8 @@ Named \code{integer()}.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-filter"></a>}}
-\if{latex}{\out{\hypertarget{method-filter}{}}}
+\if{html}{\out{<a id="method-Task-filter"></a>}}
+\if{latex}{\out{\hypertarget{method-Task-filter}{}}}
 \subsection{Method \code{filter()}}{
 Subsets the task, keeping only the rows specified via row ids \code{rows}.
 
@@ -526,8 +589,9 @@ See the section on task mutators for more information.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{rows}}{\code{integer()}\cr
-Row indices.}
+\item{\code{rows}}{(positive \code{integer()})\cr
+Vector or row indices.
+Always refers to the complete data set, even after filtering.}
 }
 \if{html}{\out{</div>}}
 }
@@ -538,8 +602,8 @@ the object in its previous state.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-select"></a>}}
-\if{latex}{\out{\hypertarget{method-select}{}}}
+\if{html}{\out{<a id="method-Task-select"></a>}}
+\if{latex}{\out{\hypertarget{method-Task-select}{}}}
 \subsection{Method \code{select()}}{
 Subsets the task, keeping only the features specified via column names \code{cols}.
 Note that you cannot deselect the target column, for obvious reasons.
@@ -553,8 +617,8 @@ See the section on task mutators for more information.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{cols}}{\code{character()}\cr
-Column names.}
+\item{\code{cols}}{(\code{character()})\cr
+Vector of column names.}
 }
 \if{html}{\out{</div>}}
 }
@@ -565,8 +629,8 @@ the object in its previous state.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-rbind"></a>}}
-\if{latex}{\out{\hypertarget{method-rbind}{}}}
+\if{html}{\out{<a id="method-Task-rbind"></a>}}
+\if{latex}{\out{\hypertarget{method-Task-rbind}{}}}
 \subsection{Method \code{rbind()}}{
 Adds additional rows to the \link{DataBackend} stored in \verb{$backend}.
 New row ids are automatically created, unless \code{data} has a column whose name matches
@@ -598,8 +662,8 @@ the object in its previous state.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-cbind"></a>}}
-\if{latex}{\out{\hypertarget{method-cbind}{}}}
+\if{html}{\out{<a id="method-Task-cbind"></a>}}
+\if{latex}{\out{\hypertarget{method-Task-cbind}{}}}
 \subsection{Method \code{cbind()}}{
 Adds additional columns to the \link{DataBackend} stored in \verb{$backend}.
 
@@ -623,8 +687,8 @@ See the section on task mutators for more information.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-rename"></a>}}
-\if{latex}{\out{\hypertarget{method-rename}{}}}
+\if{html}{\out{<a id="method-Task-rename"></a>}}
+\if{latex}{\out{\hypertarget{method-Task-rename}{}}}
 \subsection{Method \code{rename()}}{
 Renames columns by mapping column names in \code{old} to new column names in \code{new} (element-wise).
 
@@ -652,8 +716,8 @@ the object in its previous state.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-set_row_roles"></a>}}
-\if{latex}{\out{\hypertarget{method-set_row_roles}{}}}
+\if{html}{\out{<a id="method-Task-set_row_roles"></a>}}
+\if{latex}{\out{\hypertarget{method-Task-set_row_roles}{}}}
 \subsection{Method \code{set_row_roles()}}{
 Modifies the roles in \verb{$row_roles} \strong{in-place}.
 \subsection{Usage}{
@@ -682,6 +746,8 @@ Other row roles are preserved.}
 \subsection{Details}{
 Roles are first set exclusively (argument \code{roles}), then added (argument \code{add_to}) and finally
 removed (argument \code{remove_from}) from different roles.
+Duplicated row ids are explicitly allowed, so you can add replicate an observation by repeating its
+\code{row_id}.
 }
 
 \subsection{Returns}{
@@ -691,8 +757,8 @@ the object in its previous state.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-set_col_roles"></a>}}
-\if{latex}{\out{\hypertarget{method-set_col_roles}{}}}
+\if{html}{\out{<a id="method-Task-set_col_roles"></a>}}
+\if{latex}{\out{\hypertarget{method-Task-set_col_roles}{}}}
 \subsection{Method \code{set_col_roles()}}{
 Modifies the roles in \verb{$col_roles} \strong{in-place}.
 \subsection{Usage}{
@@ -721,6 +787,7 @@ Other column roles are preserved.}
 \subsection{Details}{
 Roles are first set exclusively (argument \code{roles}), then added (argument \code{add_to}) and finally
 removed (argument \code{remove_from}) from different roles.
+Duplicated columns are removed from the same role.
 }
 
 \subsection{Returns}{
@@ -730,12 +797,12 @@ the object in its previous state.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-set_levels"></a>}}
-\if{latex}{\out{\hypertarget{method-set_levels}{}}}
+\if{html}{\out{<a id="method-Task-set_levels"></a>}}
+\if{latex}{\out{\hypertarget{method-Task-set_levels}{}}}
 \subsection{Method \code{set_levels()}}{
 Set levels for columns of type \code{factor} and \code{ordered} in field \code{col_info}.
 You can add, remove or reorder the levels, affecting the data returned by
-\verb{$data()}, \verb{$head()} and \verb{$levels()}.
+\verb{$data()} and \verb{$levels()}.
 If you just want to remove unused levels, use \verb{$droplevels()} instead.
 
 Note that factor levels which are present in the data but not listed in the task as
@@ -757,8 +824,8 @@ Modified \code{self}.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-droplevels"></a>}}
-\if{latex}{\out{\hypertarget{method-droplevels}{}}}
+\if{html}{\out{<a id="method-Task-droplevels"></a>}}
+\if{latex}{\out{\hypertarget{method-Task-droplevels}{}}}
 \subsection{Method \code{droplevels()}}{
 Updates the cache of stored factor levels, removing all levels not present in the current set of active rows.
 \code{cols} defaults to all columns with storage type "factor" or "ordered".
@@ -769,8 +836,8 @@ Updates the cache of stored factor levels, removing all levels not present in th
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{cols}}{\code{character()}\cr
-Column names.}
+\item{\code{cols}}{(\code{character()})\cr
+Vector of column names.}
 }
 \if{html}{\out{</div>}}
 }
@@ -779,8 +846,8 @@ Modified \code{self}.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-add_strata"></a>}}
-\if{latex}{\out{\hypertarget{method-add_strata}{}}}
+\if{html}{\out{<a id="method-Task-add_strata"></a>}}
+\if{latex}{\out{\hypertarget{method-Task-add_strata}{}}}
 \subsection{Method \code{add_strata()}}{
 Cuts numeric variables into new factors columns which are added to the task with role
 \code{"stratum"}.
@@ -807,8 +874,8 @@ self (invisibly).
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-Task-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-Task-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

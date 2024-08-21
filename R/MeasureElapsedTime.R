@@ -9,6 +9,12 @@
 #'
 #' @description
 #' Measures the elapsed time during train ("time_train"), predict ("time_predict"), or both ("time_both").
+#' Aggregation of elapsed time defaults to mean but can be configured via the field `aggregator` of the
+#' [Measure].
+#'
+#' When predictions for multiple predict sets were made during [resample()] or [benchmark()],
+#' the predict time shows the cumulative duration of all predictions.
+#' If `learner$predict()` is called manually, the last predict time gets overwritten.
 #'
 #' @template param_id
 #' @templateVar id time_train
@@ -35,9 +41,11 @@ MeasureElapsedTime = R6Class("MeasureElapsedTime",
       super$initialize(
         id = id,
         task_type = NA_character_,
-        predict_type = "response",
+        predict_type = NA_character_,
         range = c(0, Inf),
         minimize = TRUE,
+        properties = "requires_learner",
+        label = "Elapsed Time",
         man = "mlr3::mlr_measures_elapsed_time"
       )
       self$stages = assert_subset(stages, c("train", "predict"), empty.ok = FALSE)
@@ -46,7 +54,7 @@ MeasureElapsedTime = R6Class("MeasureElapsedTime",
 
   private = list(
     .score = function(prediction, learner, ...) {
-      sum(unlist(learner$state[sprintf("%s_time", self$stages)]))
+      sum(unlist(learner$state[sprintf("%s_time", self$stages)], use.names = FALSE))
     },
 
     .extra_hash = "stages"
@@ -54,6 +62,6 @@ MeasureElapsedTime = R6Class("MeasureElapsedTime",
 )
 
 #' @include mlr_measures.R
-mlr_measures$add("time_train", MeasureElapsedTime, id = "time_train", stages = "train")
-mlr_measures$add("time_predict", MeasureElapsedTime, id = "time_predict", stages = "predict")
-mlr_measures$add("time_both", MeasureElapsedTime, id = "time_both", stages = c("train", "predict"))
+mlr_measures$add("time_train", function() MeasureElapsedTime$new(id = "time_train", stages = "train"))
+mlr_measures$add("time_predict", function() MeasureElapsedTime$new(id = "time_predict", stages = "predict"))
+mlr_measures$add("time_both", function() MeasureElapsedTime$new(id = "time_both", stages = c("train", "predict")))

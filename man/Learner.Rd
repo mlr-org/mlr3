@@ -8,8 +8,7 @@ This is the abstract base class for learner objects like \link{LearnerClassif} a
 
 Learners are build around the three following key parts:
 \itemize{
-\item Methods \verb{$train()} and \verb{$predict()} which call internal methods (either public method \verb{$train_internal()}/\verb{$predict_internal()} (deprecated)
-or private methods \verb{$.train()}/\verb{$.predict()}).
+\item Methods \verb{$train()} and \verb{$predict()} which call internal methods or private methods \verb{$.train()}/\verb{$.predict()}).
 \item A \link[paradox:ParamSet]{paradox::ParamSet} which stores meta-information about available hyperparameters, and also stores hyperparameter settings.
 \item Meta-information about the requirements and capabilities of the learner.
 \item The fitted model stored in field \verb{$model}, available after calling \verb{$train()}.
@@ -49,6 +48,12 @@ The learner must be tagged with property \code{"selected_features"}.
 The learner must be tagged with property \code{"oob_error"}.
 \item \code{loglik(...)}: Extracts the log-likelihood (c.f. \code{\link[stats:logLik]{stats::logLik()}}).
 This can be used in measures like \link{mlr_measures_aic} or \link{mlr_measures_bic}.
+\item \code{internal_valid_scores}: Returns the internal validation score(s) of the model as a named \code{list()}.
+Only available for \code{\link{Learner}}s with the \code{"validation"} property.
+If the learner is not trained yet, this returns \code{NULL}.
+\item \code{internal_tuned_values}: Returns the internally tuned hyperparameters of the model as a named \code{list()}.
+Only available for \code{\link{Learner}}s with the \code{"internal_tuning"} property.
+If the learner is not trained yet, this returns \code{NULL}.
 }
 }
 
@@ -58,23 +63,90 @@ This can be used in measures like \link{mlr_measures_aic} or \link{mlr_measures_
 All information about hyperparameters is stored in the slot \code{param_set} which is a \link[paradox:ParamSet]{paradox::ParamSet}.
 The printer gives an overview about the ids of available hyperparameters, their storage type, lower and upper bounds,
 possible levels (for factors), default values and assigned values.
-To set hyperparameters, assign a named list to the subslot \code{values}:\preformatted{lrn = lrn("classif.rpart")
+To set hyperparameters, assign a named list to the subslot \code{values}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{lrn = lrn("classif.rpart")
 lrn$param_set$values = list(minsplit = 3, cp = 0.01)
-}
+}\if{html}{\out{</div>}}
 
 Note that this operation replaces all previously set hyperparameter values.
-If you only intend to change one specific hyperparameter value and leave the others as-is, you can use the helper function \code{\link[mlr3misc:insert_named]{mlr3misc::insert_named()}}:\preformatted{lrn$param_set$values = mlr3misc::insert_named(lrn$param_set$values, list(cp = 0.001))
-}
+If you only intend to change one specific hyperparameter value and leave the others as-is, you can use the helper function \code{\link[mlr3misc:insert_named]{mlr3misc::insert_named()}}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{lrn$param_set$values = mlr3misc::insert_named(lrn$param_set$values, list(cp = 0.001))
+}\if{html}{\out{</div>}}
 
 If the learner has additional hyperparameters which are not encoded in the \link[paradox:ParamSet]{ParamSet}, you can easily extend the learner.
-Here, we add a factor hyperparameter with id \code{"foo"} and possible levels \code{"a"} and \code{"b"}:\preformatted{lrn$param_set$add(paradox::ParamFct$new("foo", levels = c("a", "b")))
+Here, we add a factor hyperparameter with id \code{"foo"} and possible levels \code{"a"} and \code{"b"}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{lrn$param_set$add(paradox::ParamFct$new("foo", levels = c("a", "b")))
+}\if{html}{\out{</div>}}
 }
+
+\section{Implementing Validation}{
+
+Some Learners, such as \code{XGBoost}, other boosting algorithms, or deep learning models (\code{mlr3torch}),
+utilize validation data during the training to prevent overfitting or to log the validation performance.
+It is possible to configure learners to be able to receive such an independent validation set during training.
+To do so, one must:
+\itemize{
+\item annotate the learner with the \code{"validation"} property
+\item implement the active binding \verb{$internal_valid_scores} (see section \emph{Optional Extractors}), as well as the
+private method \verb{$.extract_internal_valid_scores()} which returns the (final) internal validation scores from the
+model of the \code{\link{Learner}} and returns them as a named \code{list()} of \code{numeric(1)}.
+If the model is not trained yet, this method should return \code{NULL}.
+\item Add the \code{validate} parameter, which can be either \code{NULL}, a ratio in $(0, 1)$, \code{"test"}, or \code{"predefined"}:
+\itemize{
+\item \code{NULL}: no validation
+\item \code{ratio}: only proportion \code{1 - ratio} of the task is used for training and \code{ratio} is used for validation.
+\item \code{"test"} means that the \code{"test"} task is used.
+\strong{Warning}: This can lead to biased performance estimation.
+This option is only available if the learner is being trained via \code{\link[=resample]{resample()}}, \code{\link[=benchmark]{benchmark()}} or functions that
+internally use them, e.g. \code{tune()} of \CRANpkg{mlr3tuning} or \code{batchmark()} of \CRANpkg{mlr3batchmark}.
+This is especially useful for hyperparameter tuning, where one might e.g. want to use the same validation data
+for early stopping and model evaluation.
+\item \code{"predefined"} means that the task's (manually set) \verb{$internal_valid_task} is used.
+See the \code{\link{Task}} documentation for more information.
+}
+}
+
+For an example how to do this, see \code{\link{LearnerClassifDebug}}.
+Note that in \code{.train()}, the \verb{$internal_valid_task} will only be present if the \verb{$validate} field of the \code{Learner}
+is set to a non-\code{NULL} value.
+}
+
+\section{Implementing Internal Tuning}{
+
+Some learners such as \code{XGBoost} or \code{cv.glmnet} can internally tune hyperparameters.
+XGBoost, for example, can tune the number of boosting rounds based on the validation performance.
+CV Glmnet, on the other hand, can tune the regularization parameter based on an internal cross-validation.
+Internal tuning \emph{can} therefore rely on the internal validation data, but does not necessarily do so.
+
+In order to be able to combine this internal hyperparamer tuning with the standard hyperparameter optimization
+implemented via \CRANpkg{mlr3tuning}, one most:
+\itemize{
+\item annotate the learner with the \code{"internal_tuning"} property
+\item implement the active binding \verb{$internal_tuned_values} (see section \emph{Optional Extractors}) as well as the
+private method \verb{$.extract_internal_tuned_values()} which extracts the internally tuned values from the \code{\link{Learner}}'s
+model and returns them as a named \code{list()}.
+If the model is not trained yet, this method should return \code{NULL}.
+\item Have at least one parameter tagged with \code{"internal_tuning"}, which requires to also provide a \code{in_tune_fn} and
+\code{disable_tune_fn}, and \emph{should} also include a default \code{aggr}egation function.
+}
+
+For an example how to do this, see \code{\link{LearnerClassifDebug}}.
+}
+
+\section{Implementing Marshaling}{
+
+Some \code{\link{Learner}}s have models that cannot be serialized as they e.g. contain external pointers.
+In order to still be able to save them, use them with parallelization or callr encapsulation it is necessary
+to implement how they should be (un)-marshaled. See \code{\link{marshaling}} for how to do this.
 }
 
 \seealso{
 \itemize{
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
-\url{https://mlr3book.mlr-org.com/basics.html#learners}
+\url{https://mlr3book.mlr-org.com/chapters/chapter2/data_and_basic_modeling.html#sec-learners}
 \item Package \CRANpkg{mlr3learners} for a solid collection of essential learners.
 \item Package \href{https://github.com/mlr-org/mlr3extralearners}{mlr3extralearners} for more learners.
 \item \link[mlr3misc:Dictionary]{Dictionary} of \link[=Learner]{Learners}: \link{mlr_learners}
@@ -93,13 +165,13 @@ for established default tuning spaces.
 Other Learner: 
 \code{\link{LearnerClassif}},
 \code{\link{LearnerRegr}},
+\code{\link{mlr_learners}},
 \code{\link{mlr_learners_classif.debug}},
 \code{\link{mlr_learners_classif.featureless}},
 \code{\link{mlr_learners_classif.rpart}},
 \code{\link{mlr_learners_regr.debug}},
 \code{\link{mlr_learners_regr.featureless}},
-\code{\link{mlr_learners_regr.rpart}},
-\code{\link{mlr_learners}}
+\code{\link{mlr_learners_regr.rpart}}
 }
 \concept{Learner}
 \section{Public fields}{
@@ -108,6 +180,10 @@ Other Learner:
 \item{\code{id}}{(\code{character(1)})\cr
 Identifier of the object.
 Used in tables, plot and text output.}
+
+\item{\code{label}}{(\code{character(1)})\cr
+Label for this object.
+Can be used in tables, plot and text output instead of the ID.}
 
 \item{\code{state}}{(\code{NULL} | named \code{list()})\cr
 Current (internal) state of the learner.
@@ -143,9 +219,12 @@ These packages are loaded, but not attached.}
 \item{\code{predict_sets}}{(\code{character()})\cr
 During \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}, a \link{Learner} can predict on multiple sets.
 Per default, a learner only predicts observations in the test set (\code{predict_sets == "test"}).
-To change this behavior, set \code{predict_sets} to a non-empty subset of \verb{\{"train", "test", "validation"\}}.
+To change this behavior, set \code{predict_sets} to a non-empty subset of \verb{\{"train", "test", "internal_valid"\}}.
+The \code{"train"} predict set contains the train ids from the resampling. This means that if a learner does validation and
+sets \verb{$validate} to a ratio (creating the validation data from the training data), the train predictions
+will include the predictions for the validation data.
 Each set yields a separate \link{Prediction} object.
-Those be combined via getters in \link{ResampleResult}/\link{BenchmarkResult}, or \link{Measure}s can be altered
+Those can be combined via getters in \link{ResampleResult}/\link{BenchmarkResult}, or \link{Measure}s can be configured
 to operate on specific subsets of the calculated prediction sets.}
 
 \item{\code{parallel_predict}}{(\code{logical(1)})\cr
@@ -154,19 +233,18 @@ The row ids of the \code{task} will be split into \code{\link[future:nbrOfWorker
 and predictions are evaluated according to the active \code{\link[future:plan]{future::plan()}}.
 This currently only works for methods \code{Learner$predict()} and \code{Learner$predict_newdata()},
 and has no effect during \code{\link[=resample]{resample()}} or \code{\link[=benchmark]{benchmark()}} where you have other means
-to parallelize.}
+to parallelize.
+
+Note that the recorded time required for prediction reports the time required to predict
+is not properly defined and depends on the parallelization backend.}
 
 \item{\code{timeout}}{(named \code{numeric(2)})\cr
 Timeout for the learner's train and predict steps, in seconds.
 This works differently for different encapsulation methods, see
 \code{\link[mlr3misc:encapsulate]{mlr3misc::encapsulate()}}.
 Default is \code{c(train = Inf, predict = Inf)}.
-Also see the section on error handling the mlr3book: \url{https://mlr3book.mlr-org.com/technical.html#error-handling}}
-
-\item{\code{fallback}}{(\link{Learner})\cr
-Learner which is fitted to impute predictions in case that either the model fitting or the prediction of the top learner is not successful.
-Requires you to enable encapsulation, otherwise errors are not caught and the execution is terminated before the fallback learner kicks in.
-Also see the section on error handling the mlr3book: \url{https://mlr3book.mlr-org.com/technical.html#error-handling}}
+Also see the section on error handling the mlr3book:
+\url{https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling}}
 
 \item{\code{man}}{(\code{character(1)})\cr
 String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
@@ -182,6 +260,11 @@ The fitted model. Only available after \verb{$train()} has been called.}
 
 \item{\code{timings}}{(named \code{numeric(2)})\cr
 Elapsed time in seconds for the steps \code{"train"} and \code{"predict"}.
+
+When predictions for multiple predict sets were made during \code{\link[=resample]{resample()}} or \code{\link[=benchmark]{benchmark()}},
+the predict time shows the cumulative duration of all predictions.
+If \code{learner$predict()} is called manually, the last predict time gets overwritten.
+
 Measured via \code{\link[mlr3misc:encapsulate]{mlr3misc::encapsulate()}}.}
 
 \item{\code{log}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
@@ -203,8 +286,7 @@ Hash (unique identifier) for this object.}
 
 \item{\code{phash}}{(\code{character(1)})\cr
 Hash (unique identifier) for this partial object, excluding some components
-which are varied systematically during tuning (parameter values) or feature
-selection (feature names).}
+which are varied systematically during tuning (parameter values).}
 
 \item{\code{predict_type}}{(\code{character(1)})\cr
 Stores the currently active predict type, e.g. \code{"response"}.
@@ -216,8 +298,16 @@ Set of hyperparameters.}
 \item{\code{encapsulate}}{(named \code{character()})\cr
 Controls how to execute the code in internal train and predict methods.
 Must be a named character vector with names \code{"train"} and \code{"predict"}.
-Possible values are \code{"none"}, \code{"evaluate"} (requires package \CRANpkg{evaluate}) and \code{"callr"} (requires package \CRANpkg{callr}).
+Possible values are \code{"none"}, \code{"try"}, \code{"evaluate"} (requires package \CRANpkg{evaluate}) and \code{"callr"} (requires package \CRANpkg{callr}).
 See \code{\link[mlr3misc:encapsulate]{mlr3misc::encapsulate()}} for more details.}
+
+\item{\code{fallback}}{(\link{Learner})\cr
+Learner which is fitted to impute predictions in case that either the model fitting or the prediction of the top learner is not successful.
+Requires encapsulation, otherwise errors are not caught and the execution is terminated before the fallback learner kicks in.
+If you have not set encapsulation manually before, setting the fallback learner automatically
+activates encapsulation using the \CRANpkg{evaluate} package.
+Also see the section on error handling the mlr3book:
+\url{https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling}}
 
 \item{\code{hotstart_stack}}{(\link{HotstartStack})\cr.
 Stores \code{HotstartStack}.}
@@ -227,21 +317,21 @@ Stores \code{HotstartStack}.}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{Learner$new()}}
-\item \href{#method-format}{\code{Learner$format()}}
-\item \href{#method-print}{\code{Learner$print()}}
-\item \href{#method-help}{\code{Learner$help()}}
-\item \href{#method-train}{\code{Learner$train()}}
-\item \href{#method-predict}{\code{Learner$predict()}}
-\item \href{#method-predict_newdata}{\code{Learner$predict_newdata()}}
-\item \href{#method-reset}{\code{Learner$reset()}}
-\item \href{#method-base_learner}{\code{Learner$base_learner()}}
-\item \href{#method-clone}{\code{Learner$clone()}}
+\item \href{#method-Learner-new}{\code{Learner$new()}}
+\item \href{#method-Learner-format}{\code{Learner$format()}}
+\item \href{#method-Learner-print}{\code{Learner$print()}}
+\item \href{#method-Learner-help}{\code{Learner$help()}}
+\item \href{#method-Learner-train}{\code{Learner$train()}}
+\item \href{#method-Learner-predict}{\code{Learner$predict()}}
+\item \href{#method-Learner-predict_newdata}{\code{Learner$predict_newdata()}}
+\item \href{#method-Learner-reset}{\code{Learner$reset()}}
+\item \href{#method-Learner-base_learner}{\code{Learner$base_learner()}}
+\item \href{#method-Learner-clone}{\code{Learner$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-Learner-new"></a>}}
+\if{latex}{\out{\hypertarget{method-Learner-new}{}}}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 
@@ -256,6 +346,7 @@ Note that this object is typically constructed via a derived classes, e.g. \link
   properties = character(),
   data_formats = "data.table",
   packages = character(),
+  label = NA_character_,
   man = NA_character_
 )}\if{html}{\out{</div>}}
 }
@@ -289,6 +380,10 @@ The following properties are currently standardized and understood by learners i
 \item \code{"importance"}: The learner supports extraction of importance scores, i.e. comes with an \verb{$importance()} extractor function (see section on optional extractors in \link{Learner}).
 \item \code{"selected_features"}: The learner supports extraction of the set of selected features, i.e. comes with a \verb{$selected_features()} extractor function (see section on optional extractors in \link{Learner}).
 \item \code{"oob_error"}: The learner supports extraction of estimated out of bag error, i.e. comes with a \code{oob_error()} extractor function (see section on optional extractors in \link{Learner}).
+\item \code{"validation"}: The learner can use a validation task during training.
+\item \code{"internal_tuning"}: The learner is able to internally optimize hyperparameters (those are also tagged with \code{"internal_tuning"}).
+\item \code{"marshal"}: To save learners with this property, you need to call \verb{$marshal()} first.
+If a learner is in a marshaled state, you call first need to call \verb{$unmarshal()} to use its model, e.g. for prediction.
 }}
 
 \item{\code{data_formats}}{(\code{character()})\cr
@@ -300,6 +395,9 @@ Set of required packages.
 A warning is signaled by the constructor if at least one of the packages is not installed,
 but loaded (not attached) later on-demand via \code{\link[=requireNamespace]{requireNamespace()}}.}
 
+\item{\code{label}}{(\code{character(1)})\cr
+Label for the new instance.}
+
 \item{\code{man}}{(\code{character(1)})\cr
 String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
 The referenced help package can be opened via method \verb{$help()}.}
@@ -308,18 +406,25 @@ The referenced help package can be opened via method \verb{$help()}.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-format"></a>}}
-\if{latex}{\out{\hypertarget{method-format}{}}}
+\if{html}{\out{<a id="method-Learner-format"></a>}}
+\if{latex}{\out{\hypertarget{method-Learner-format}{}}}
 \subsection{Method \code{format()}}{
 Helper for print outputs.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Learner$format()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Learner$format(...)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{...}}{(ignored).}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-print"></a>}}
-\if{latex}{\out{\hypertarget{method-print}{}}}
+\if{html}{\out{<a id="method-Learner-print"></a>}}
+\if{latex}{\out{\hypertarget{method-Learner-print}{}}}
 \subsection{Method \code{print()}}{
 Printer.
 \subsection{Usage}{
@@ -335,8 +440,8 @@ Printer.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-help"></a>}}
-\if{latex}{\out{\hypertarget{method-help}{}}}
+\if{html}{\out{<a id="method-Learner-help"></a>}}
+\if{latex}{\out{\hypertarget{method-Learner-help}{}}}
 \subsection{Method \code{help()}}{
 Opens the corresponding help page referenced by field \verb{$man}.
 \subsection{Usage}{
@@ -345,8 +450,8 @@ Opens the corresponding help page referenced by field \verb{$man}.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-train"></a>}}
-\if{latex}{\out{\hypertarget{method-train}{}}}
+\if{html}{\out{<a id="method-Learner-train"></a>}}
+\if{latex}{\out{\hypertarget{method-Learner-train}{}}}
 \subsection{Method \code{train()}}{
 Train the learner on a set of observations of the provided \code{task}.
 Mutates the learner by reference, i.e. stores the model alongside other information in field \verb{$state}.
@@ -372,8 +477,8 @@ the object in its previous state.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-predict"></a>}}
-\if{latex}{\out{\hypertarget{method-predict}{}}}
+\if{html}{\out{<a id="method-Learner-predict"></a>}}
+\if{latex}{\out{\hypertarget{method-Learner-predict}{}}}
 \subsection{Method \code{predict()}}{
 Uses the information stored during \verb{$train()} in \verb{$state} to create a new \link{Prediction}
 for a set of observations of the provided \code{task}.
@@ -397,8 +502,8 @@ For a simple split into training and test set, see \code{\link[=partition]{parti
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-predict_newdata"></a>}}
-\if{latex}{\out{\hypertarget{method-predict_newdata}{}}}
+\if{html}{\out{<a id="method-Learner-predict_newdata"></a>}}
+\if{latex}{\out{\hypertarget{method-Learner-predict_newdata}{}}}
 \subsection{Method \code{predict_newdata()}}{
 Uses the model fitted during \verb{$train()} to create a new \link{Prediction} based on the new data in \code{newdata}.
 Object \code{task} is the task used during \verb{$train()} and required for conversion of \code{newdata}.
@@ -429,8 +534,8 @@ otherwise they are set to to the sequence \code{1:nrow(newdata)}.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-reset"></a>}}
-\if{latex}{\out{\hypertarget{method-reset}{}}}
+\if{html}{\out{<a id="method-Learner-reset"></a>}}
+\if{latex}{\out{\hypertarget{method-Learner-reset}{}}}
 \subsection{Method \code{reset()}}{
 Reset the learner, i.e. un-train by resetting the \code{state}.
 \subsection{Usage}{
@@ -444,8 +549,8 @@ the object in its previous state.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-base_learner"></a>}}
-\if{latex}{\out{\hypertarget{method-base_learner}{}}}
+\if{html}{\out{<a id="method-Learner-base_learner"></a>}}
+\if{latex}{\out{\hypertarget{method-Learner-base_learner}{}}}
 \subsection{Method \code{base_learner()}}{
 Extracts the base learner from nested learner objects like
 \code{GraphLearner} in \CRANpkg{mlr3pipelines} or \code{AutoTuner} in
@@ -468,8 +573,8 @@ Depth of recursion for multiple nested objects.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-Learner-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-Learner-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

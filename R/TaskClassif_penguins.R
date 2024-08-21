@@ -33,7 +33,8 @@ load_task_penguins = function() {
   )
 
   b = as_data_backend(penguins)
-  task = TaskClassif$new("penguins", b, target = "species")
+  task = TaskClassif$new("penguins", b, target = "species",
+    label = "Palmer Penguins")
   b$hash = task$man = "mlr3::mlr_tasks_penguins"
   task
 }

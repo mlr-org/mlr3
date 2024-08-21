@@ -4,8 +4,13 @@
 \alias{mlr_measures_classif.tn}
 \title{True Negatives}
 \description{
-Classification measure counting the true negatives, i.e. the number of
-predictions correctly indicating a negative class label.
+Measure to compare true observed labels with predicted
+labels
+in binary classification tasks.
+}
+\details{
+This measure counts the true negatives, i.e. the number of
+predictions correctly indicating a negative class label. This is sometimes also called a "correct rejection".
 }
 \note{
 The score function calls \code{\link[mlr3measures:tn]{mlr3measures::tn()}} from package \CRANpkg{mlr3measures}.
@@ -15,9 +20,11 @@ This can be customized by setting the field \code{na_value}.
 }
 \section{Dictionary}{
 
-This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("classif.tn")
+This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{mlr_measures$get("classif.tn")
 msr("classif.tn")
-}
+}\if{html}{\out{</div>}}
 }
 
 \section{Parameters}{
@@ -52,12 +59,17 @@ Other classification measures:
 \code{\link{mlr_measures_classif.dor}},
 \code{\link{mlr_measures_classif.fbeta}},
 \code{\link{mlr_measures_classif.fdr}},
-\code{\link{mlr_measures_classif.fnr}},
 \code{\link{mlr_measures_classif.fn}},
+\code{\link{mlr_measures_classif.fnr}},
 \code{\link{mlr_measures_classif.fomr}},
-\code{\link{mlr_measures_classif.fpr}},
 \code{\link{mlr_measures_classif.fp}},
+\code{\link{mlr_measures_classif.fpr}},
 \code{\link{mlr_measures_classif.logloss}},
+\code{\link{mlr_measures_classif.mauc_au1p}},
+\code{\link{mlr_measures_classif.mauc_au1u}},
+\code{\link{mlr_measures_classif.mauc_aunp}},
+\code{\link{mlr_measures_classif.mauc_aunu}},
+\code{\link{mlr_measures_classif.mauc_mu}},
 \code{\link{mlr_measures_classif.mbrier}},
 \code{\link{mlr_measures_classif.mcc}},
 \code{\link{mlr_measures_classif.npv}},
@@ -68,8 +80,8 @@ Other classification measures:
 \code{\link{mlr_measures_classif.sensitivity}},
 \code{\link{mlr_measures_classif.specificity}},
 \code{\link{mlr_measures_classif.tnr}},
-\code{\link{mlr_measures_classif.tpr}},
-\code{\link{mlr_measures_classif.tp}}
+\code{\link{mlr_measures_classif.tp}},
+\code{\link{mlr_measures_classif.tpr}}
 
 Other binary classification measures: 
 \code{\link{mlr_measures_classif.auc}},
@@ -77,12 +89,11 @@ Other binary classification measures:
 \code{\link{mlr_measures_classif.dor}},
 \code{\link{mlr_measures_classif.fbeta}},
 \code{\link{mlr_measures_classif.fdr}},
-\code{\link{mlr_measures_classif.fnr}},
 \code{\link{mlr_measures_classif.fn}},
+\code{\link{mlr_measures_classif.fnr}},
 \code{\link{mlr_measures_classif.fomr}},
-\code{\link{mlr_measures_classif.fpr}},
 \code{\link{mlr_measures_classif.fp}},
-\code{\link{mlr_measures_classif.mcc}},
+\code{\link{mlr_measures_classif.fpr}},
 \code{\link{mlr_measures_classif.npv}},
 \code{\link{mlr_measures_classif.ppv}},
 \code{\link{mlr_measures_classif.prauc}},
@@ -91,8 +102,8 @@ Other binary classification measures:
 \code{\link{mlr_measures_classif.sensitivity}},
 \code{\link{mlr_measures_classif.specificity}},
 \code{\link{mlr_measures_classif.tnr}},
-\code{\link{mlr_measures_classif.tpr}},
-\code{\link{mlr_measures_classif.tp}}
+\code{\link{mlr_measures_classif.tp}},
+\code{\link{mlr_measures_classif.tpr}}
 }
 \concept{binary classification measures}
 \concept{classification measures}

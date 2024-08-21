@@ -16,7 +16,7 @@ The default measure for classification is \code{\link[=mlr_measures_classif.ce]{
 \seealso{
 \itemize{
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
-\url{https://mlr3book.mlr-org.com/basics.html#train-predict}
+\url{https://mlr3book.mlr-org.com/chapters/chapter2/data_and_basic_modeling.html#sec-eval}
 \item Package \CRANpkg{mlr3measures} for the scoring functions.
 \link[mlr3misc:Dictionary]{Dictionary} of \link[=Measure]{Measures}: \link{mlr_measures}
 \code{as.data.table(mlr_measures)} for a table of available \link[=Measure]{Measures} in the running session (depending on the loaded packages).
@@ -28,17 +28,18 @@ The default measure for classification is \code{\link[=mlr_measures_classif.ce]{
 }
 
 Other Measure: 
+\code{\link{Measure}},
 \code{\link{MeasureRegr}},
 \code{\link{MeasureSimilarity}},
-\code{\link{Measure}},
+\code{\link{mlr_measures}},
 \code{\link{mlr_measures_aic}},
 \code{\link{mlr_measures_bic}},
 \code{\link{mlr_measures_classif.costs}},
-\code{\link{mlr_measures_debug}},
+\code{\link{mlr_measures_debug_classif}},
 \code{\link{mlr_measures_elapsed_time}},
+\code{\link{mlr_measures_internal_valid_score}},
 \code{\link{mlr_measures_oob_error}},
-\code{\link{mlr_measures_selected_features}},
-\code{\link{mlr_measures}}
+\code{\link{mlr_measures_selected_features}}
 }
 \concept{Measure}
 \section{Super class}{
@@ -47,23 +48,24 @@ Other Measure:
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{MeasureClassif$new()}}
+\item \href{#method-MeasureClassif-new}{\code{MeasureClassif$new()}}
+\item \href{#method-MeasureClassif-clone}{\code{MeasureClassif$clone()}}
 }
 }
-\if{html}{
-\out{<details open ><summary>Inherited methods</summary>}
-\itemize{
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="aggregate">}\href{../../mlr3/html/Measure.html#method-aggregate}{\code{mlr3::Measure$aggregate()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="format">}\href{../../mlr3/html/Measure.html#method-format}{\code{mlr3::Measure$format()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="help">}\href{../../mlr3/html/Measure.html#method-help}{\code{mlr3::Measure$help()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="print">}\href{../../mlr3/html/Measure.html#method-print}{\code{mlr3::Measure$print()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="score">}\href{../../mlr3/html/Measure.html#method-score}{\code{mlr3::Measure$score()}}\out{</span>}
-}
-\out{</details>}
-}
+\if{html}{\out{
+<details open><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="aggregate"><a href='../../mlr3/html/Measure.html#method-Measure-aggregate'><code>mlr3::Measure$aggregate()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="format"><a href='../../mlr3/html/Measure.html#method-Measure-format'><code>mlr3::Measure$format()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="help"><a href='../../mlr3/html/Measure.html#method-Measure-help'><code>mlr3::Measure$help()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="print"><a href='../../mlr3/html/Measure.html#method-Measure-print'><code>mlr3::Measure$print()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="score"><a href='../../mlr3/html/Measure.html#method-Measure-score'><code>mlr3::Measure$score()</code></a></span></li>
+</ul>
+</details>
+}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-MeasureClassif-new"></a>}}
+\if{latex}{\out{\hypertarget{method-MeasureClassif-new}{}}}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
@@ -79,6 +81,7 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
   predict_sets = "test",
   task_properties = character(),
   packages = character(),
+  label = NA_character_,
   man = NA_character_
 )}\if{html}{\out{</div>}}
 }
@@ -133,6 +136,8 @@ Supported by \code{mlr3}:
 model),
 \item \code{"requires_train_set"} (requires the training indices from the \link{Resampling}), and
 \item \code{"na_score"} (the measure is expected to occasionally return \code{NA} or \code{NaN}).
+\item \code{"primary_iters"} (the measure explictly handles resamplings that only use a subset
+of their iterations for the point estimate).
 }}
 
 \item{\code{predict_type}}{(\code{character(1)})\cr
@@ -142,7 +147,7 @@ Possible values are stored in \link[=mlr_reflections]{mlr_reflections$learner_pr
 \item{\code{predict_sets}}{(\code{character()})\cr
 Prediction sets to operate on, used in \code{aggregate()} to extract the matching \code{predict_sets} from the \link{ResampleResult}.
 Multiple predict sets are calculated by the respective \link{Learner} during \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}.
-Must be a non-empty subset of \verb{\{"train", "test", "validation"\}}.
+Must be a non-empty subset of \verb{\{"train", "test", "internal_valid"\}}.
 If multiple sets are provided, these are first combined to a single prediction object.
 Default is \code{"test"}.}
 
@@ -154,9 +159,29 @@ Set of required packages.
 A warning is signaled by the constructor if at least one of the packages is not installed,
 but loaded (not attached) later on-demand via \code{\link[=requireNamespace]{requireNamespace()}}.}
 
+\item{\code{label}}{(\code{character(1)})\cr
+Label for the new instance.}
+
 \item{\code{man}}{(\code{character(1)})\cr
 String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
 The referenced help package can be opened via method \verb{$help()}.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-MeasureClassif-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-MeasureClassif-clone}{}}}
+\subsection{Method \code{clone()}}{
+The objects of this class are cloneable with this method.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{MeasureClassif$clone(deep = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{deep}}{Whether to make a deep clone.}
 }
 \if{html}{\out{</div>}}
 }

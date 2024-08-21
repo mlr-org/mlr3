@@ -11,14 +11,14 @@ The cost matrix is stored as slot \verb{$costs}.
 
 For calculation of the score, the confusion matrix is multiplied element-wise with the cost matrix.
 The costs are then summed up (and potentially divided by the number of observations if \code{normalize} is set to \code{TRUE} (default)).
-
-This measure requires the \link{Task} during scoring to ensure that the rows and columns of the cost matrix are in the same order as in the confusion matrix.
 }
 \section{Dictionary}{
 
-This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("classif.costs")
+This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{mlr_measures$get("classif.costs")
 msr("classif.costs")
-}
+}\if{html}{\out{</div>}}
 }
 
 \section{Meta Information}{
@@ -34,9 +34,9 @@ msr("classif.costs")
 }
 
 \section{Parameters}{
-\tabular{lllll}{
-   Id \tab Type \tab Default \tab Range \tab Levels \cr
-   normalize \tab logical \tab TRUE \tab - \tab TRUE, FALSE \cr
+\tabular{llll}{
+   Id \tab Type \tab Default \tab Levels \cr
+   normalize \tab logical \tab - \tab TRUE, FALSE \cr
 }
 }
 
@@ -64,7 +64,7 @@ rr$aggregate(m)
 \seealso{
 \itemize{
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
-\url{https://mlr3book.mlr-org.com/basics.html#train-predict}
+\url{https://mlr3book.mlr-org.com/chapters/chapter2/data_and_basic_modeling.html#sec-eval}
 \item Package \CRANpkg{mlr3measures} for the scoring functions.
 \link[mlr3misc:Dictionary]{Dictionary} of \link[=Measure]{Measures}: \link{mlr_measures}
 \code{as.data.table(mlr_measures)} for a table of available \link[=Measure]{Measures} in the running session (depending on the loaded packages).
@@ -76,17 +76,18 @@ rr$aggregate(m)
 }
 
 Other Measure: 
+\code{\link{Measure}},
 \code{\link{MeasureClassif}},
 \code{\link{MeasureRegr}},
 \code{\link{MeasureSimilarity}},
-\code{\link{Measure}},
+\code{\link{mlr_measures}},
 \code{\link{mlr_measures_aic}},
 \code{\link{mlr_measures_bic}},
-\code{\link{mlr_measures_debug}},
+\code{\link{mlr_measures_debug_classif}},
 \code{\link{mlr_measures_elapsed_time}},
+\code{\link{mlr_measures_internal_valid_score}},
 \code{\link{mlr_measures_oob_error}},
-\code{\link{mlr_measures_selected_features}},
-\code{\link{mlr_measures}}
+\code{\link{mlr_measures_selected_features}}
 
 Other classification measures: 
 \code{\link{mlr_measures_classif.acc}},
@@ -97,12 +98,17 @@ Other classification measures:
 \code{\link{mlr_measures_classif.dor}},
 \code{\link{mlr_measures_classif.fbeta}},
 \code{\link{mlr_measures_classif.fdr}},
-\code{\link{mlr_measures_classif.fnr}},
 \code{\link{mlr_measures_classif.fn}},
+\code{\link{mlr_measures_classif.fnr}},
 \code{\link{mlr_measures_classif.fomr}},
-\code{\link{mlr_measures_classif.fpr}},
 \code{\link{mlr_measures_classif.fp}},
+\code{\link{mlr_measures_classif.fpr}},
 \code{\link{mlr_measures_classif.logloss}},
+\code{\link{mlr_measures_classif.mauc_au1p}},
+\code{\link{mlr_measures_classif.mauc_au1u}},
+\code{\link{mlr_measures_classif.mauc_aunp}},
+\code{\link{mlr_measures_classif.mauc_aunu}},
+\code{\link{mlr_measures_classif.mauc_mu}},
 \code{\link{mlr_measures_classif.mbrier}},
 \code{\link{mlr_measures_classif.mcc}},
 \code{\link{mlr_measures_classif.npv}},
@@ -112,17 +118,23 @@ Other classification measures:
 \code{\link{mlr_measures_classif.recall}},
 \code{\link{mlr_measures_classif.sensitivity}},
 \code{\link{mlr_measures_classif.specificity}},
-\code{\link{mlr_measures_classif.tnr}},
 \code{\link{mlr_measures_classif.tn}},
-\code{\link{mlr_measures_classif.tpr}},
-\code{\link{mlr_measures_classif.tp}}
+\code{\link{mlr_measures_classif.tnr}},
+\code{\link{mlr_measures_classif.tp}},
+\code{\link{mlr_measures_classif.tpr}}
 
 Other multiclass classification measures: 
 \code{\link{mlr_measures_classif.acc}},
 \code{\link{mlr_measures_classif.bacc}},
 \code{\link{mlr_measures_classif.ce}},
 \code{\link{mlr_measures_classif.logloss}},
-\code{\link{mlr_measures_classif.mbrier}}
+\code{\link{mlr_measures_classif.mauc_au1p}},
+\code{\link{mlr_measures_classif.mauc_au1u}},
+\code{\link{mlr_measures_classif.mauc_aunp}},
+\code{\link{mlr_measures_classif.mauc_aunu}},
+\code{\link{mlr_measures_classif.mauc_mu}},
+\code{\link{mlr_measures_classif.mbrier}},
+\code{\link{mlr_measures_classif.mcc}}
 }
 \concept{Measure}
 \concept{classification measures}
@@ -141,24 +153,24 @@ Matrix of costs (truth in columns, predicted response in rows).}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{MeasureClassifCosts$new()}}
-\item \href{#method-clone}{\code{MeasureClassifCosts$clone()}}
+\item \href{#method-MeasureClassifCosts-new}{\code{MeasureClassifCosts$new()}}
+\item \href{#method-MeasureClassifCosts-clone}{\code{MeasureClassifCosts$clone()}}
 }
 }
-\if{html}{
-\out{<details open ><summary>Inherited methods</summary>}
-\itemize{
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="aggregate">}\href{../../mlr3/html/Measure.html#method-aggregate}{\code{mlr3::Measure$aggregate()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="format">}\href{../../mlr3/html/Measure.html#method-format}{\code{mlr3::Measure$format()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="help">}\href{../../mlr3/html/Measure.html#method-help}{\code{mlr3::Measure$help()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="print">}\href{../../mlr3/html/Measure.html#method-print}{\code{mlr3::Measure$print()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="score">}\href{../../mlr3/html/Measure.html#method-score}{\code{mlr3::Measure$score()}}\out{</span>}
-}
-\out{</details>}
-}
+\if{html}{\out{
+<details open><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="aggregate"><a href='../../mlr3/html/Measure.html#method-Measure-aggregate'><code>mlr3::Measure$aggregate()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="format"><a href='../../mlr3/html/Measure.html#method-Measure-format'><code>mlr3::Measure$format()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="help"><a href='../../mlr3/html/Measure.html#method-Measure-help'><code>mlr3::Measure$help()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="print"><a href='../../mlr3/html/Measure.html#method-Measure-print'><code>mlr3::Measure$print()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="score"><a href='../../mlr3/html/Measure.html#method-Measure-score'><code>mlr3::Measure$score()</code></a></span></li>
+</ul>
+</details>
+}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-MeasureClassifCosts-new"></a>}}
+\if{latex}{\out{\hypertarget{method-MeasureClassifCosts-new}{}}}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
@@ -167,8 +179,8 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-MeasureClassifCosts-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-MeasureClassifCosts-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

@@ -13,7 +13,7 @@ test_that("Internally constructed Prediction", {
   expect_prediction(p)
   expect_prediction_classif(p, task = task)
 
-  p = PredictionClassif$new(row_ids = task$row_ids, truth = task$truth(), prob = p$prob)
+  p = PredictionClassif$new(row_ids = task$row_ids, truth = task$truth(), prob = p$prob, check = TRUE)
   expect_set_equal(p$predict_types, c("response", "prob"))
 })
 
@@ -131,8 +131,8 @@ test_that("c", {
   expect_equal(conf, Reduce("+", map(rr$predictions(), "confusion")))
 
   # duplicates are detected?
-  p1 = private(rr)$.data$data$fact$prediction[[1]]$test
-  p2 = private(rr)$.data$data$fact$prediction[[1]]$test
+  p1 = get_private(rr)$.data$data$fact$prediction[[1]]$test
+  p2 = get_private(rr)$.data$data$fact$prediction[[1]]$test
   p3 = c(p1, p2, keep_duplicates = FALSE)
   expect_equal(sort(p1$data$row_ids), sort(p2$data$row_ids))
   expect_equal(sort(p1$data$row_ids), sort(p3$data$row_ids))
@@ -149,6 +149,10 @@ test_that("as_prediction_classif", {
   p2 = as_prediction_classif(tab)
 
   expect_equal(tab, as.data.table(p2))
+
+  # issue #870
+  tab = data.frame(row_ids = 1:3, truth = factor(c("a", "b", "a")), response = factor(c("a", "b", "b")))
+  expect_class(as_prediction_classif(tab), "PredictionClassif")
 })
 
 test_that("#615", {

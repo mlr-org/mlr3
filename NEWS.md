@@ -1,3 +1,167 @@
+# mlr3 (development version)
+
+* feat: The `partition()` function creates training, test and validation sets.
+* refactor: Optimize runtime of fixing factor levels.
+* refactor: Optimize runtime of setting row roles.
+* refactor: Optimize runtime of marshalling.
+* refactor: Optimize runtime of `Task$col_info`
+* fix: column info is now checked for compatibility during `Learner$predict` (#943)
+* BREAKING CHANGE: the predict time of the learner now stores the cumulative duration for
+  all predict sets (#992).
+* feat: `$internal_valid_task` can now be set to an `integer` vector.
+* refactor: Deprecated the `$divide()` method
+* fix: `Task$cbind()` now works with non-standard primary keys  for `data.frames` (#961).
+* fix: Triggering of fallback learner now has log-level `"info"` instead of `"debug"` (#972)
+* feat: Added new measure `pinballs `.
+* feat: Added new measure `mu_auc`.
+
+# mlr3 0.20.2
+
+* refactor: Move RhpcBLASctl to suggest.
+* feat: Added resampling property `"primary_iters"`
+* feat: Added possibility to access observation-wise losses
+  via function `$obs_loss`. This is possible for `Prediction`,
+  `ResampleResult` and `BenchmarkResult`.
+* feat: `Measure`s now also return a vector of numerics.
+
+# mlr3 0.20.1
+
+* feat: Add multiclass Matthews correlation coefficient `msr("classif.mcc")`.
+
+# mlr3 0.20.0
+
+* Added support for learner-internal validation and tuning.
+
+# mlr3 0.19.0
+
+* Added support for `"marshal"` property, which allows learners to process models so they can be serialized.
+This happens automatically during `resample()` and `benchmark()`.
+* Encapsulation methods use the same RNG state now.
+* Fix missing values in `default_values.Learner()` function.
+* Encapsulated error messages are now printed with the `lgr` package.
+
+# mlr3 0.18.0
+
+* Prepare compatibility with new paradox version.
+* Dictionary conversion of `mlr_learners` respects prototype arguments recently added in mlr3misc.
+* Skip unnecessary clone of learner's state in `resample()`.
+
+# mlr3 0.17.2
+
+* Skip new `data.table` tests on mac.
+
+# mlr3 0.17.1
+
+* Remove `data_prototype` when resampling from `learner$state` to reduce memory consumption.
+* Reduce number of threads used by `data.table` and BLAS to 1 when running `resample()` or `benchmark()` in parallel.
+* Optimize runtime of `resample()` and `benchmark()` by reducing the number of hashing operations.
+
+# mlr3 0.17.0
+
+* Learners cannot be added to the `HotstartStack` anymore when the model is missing.
+* Learners bellow the `hotstart_threshold` are not added to the `HotstartStack` anymore.
+* The `learner$state$train_time` in hotstarted learners is now only the time of the last training.
+* Added debug messages to the hotstart stack.
+* Fixed bug where the `HotstartStack` did not work with column roles set in the task.
+* The `design` of `benchmark()` can now include parameter settings.
+* Speed up resampling by removing unnecessary calls to `packageVersion()`.
+* Fix boston housing data set.
+* Export generic function `col_info` to allow adding new methods for backends.
+* Task printer includes row roles now.
+* Add `"mlr3.exec_chunk_bins"` option to split the resampling iterations into a number of bins.
+
+# mlr3 0.16.1
+
+* Function `data.table()` is now re-exported.
+* Fixed a test which randomly failed.
+* Improved documentation.
+* Add encapsulation mode `"try"`, which works similar to `"none"` but captures errors
+
+
+# mlr3 0.16.0
+
+* Added argument `paired` to `benchmark_grid()` function, which can be used to create a benchmark design, where
+  resamplings have been instantiated on tasks.
+* Added S3 method for `ResultData` for `as_resample_result()` converter.
+* Added S3 method for `list` for `as_resample_result()` converter.
+* The featureless classification learner now returns proper probabilities
+  (#918).
+
+
+# mlr3 0.15.0
+
+* Many returned tables are now assigned a class for a `print` method to make the output
+  more readable.
+* Fixed some typos
+
+# mlr3 0.14.1
+
+* Removed dependency on package `distr6`.
+* Fixed reassembling of `GraphLearner`.
+* Fixed bug where the measured elapsed time was 0:
+  https://stackoverflow.com/questions/73797845/mlr3-benchmarking-with-elapsed-time-measure
+* Fixed `as_prediction_classif()` for `data.frame()` input (#872).
+* Improved the error message when predict type of fallback learner does not
+  match the predict type of the learner (mlr-org/mlr3extralearners#241).
+* The test set is now available to the `Learner` during train for early
+  stopping.
+
+# mlr3 0.14.0
+
+* Added multiclass measures: `mauc_aunu`, `mauc_aunp`, `mauc_au1u`, `mauc_au1p`.
+* Measure `classif.costs` does not require a `Task` anymore.
+* New converter: `as_task_unsupervised()`
+* Refactored the task types in `mlr_reflections`.
+
+
+# mlr3 0.13.4
+
+* Added new options for parallelization (`"mlr3.exec_random"` and
+  `"mlr3.exec_chunk_size"`). These options are passed down to the respective map
+  functions in package `future.apply`.
+* Fixed runtime measures depending on specific predict types (#832).
+* Added `head()` and `tail()` methods for `Task`.
+* Improved printing of multiple objects.
+
+
+# mlr3 0.13.3
+
+* Most objects now have a new (optional) field `label`, i.e. `Task`,
+  `TaskGenerator`, `Learner`, `Resampling`, and `Measure`.
+* `as.data.table()` methods for objects of class `Dictonary` have been extended
+  with additional columns.
+* `as_task_classif.formula()` and `as_task_regr.formula()` now remove additional
+  atrributes attached to the data which caused some some learners to break.
+* Packages are now loaded prior to calling the `$train()` and `$predict()`
+  methods of a `Learner`. This ensures that package loading errors are properly
+  propagated and not affected by encapsulation (#771).
+
+
+# mlr3 0.13.2
+
+* Setting a fallback learner for a learner with encapsulation in its default
+  settings now automatically sets encapsulation to `"evaluate"` (#763).
+* `as_task_classif()` and `as_task_regr()` now support the construction of tasks
+  using the formula interface, e.g. `as_task_regr(mpg ~ ., data = mtcars)`
+  (#761).
+* Added `default_values()` function to extract parameter default values from
+  `Learner` objects.
+* The row role `"validation"` has been renamed to `"holdout"`.
+  In the next release, `mlr3` will start switching to the now more common terms
+  `"train"`/`"validation"` instead of `"train"`/`"test"` for the sets created
+  during resampling.
+
+
+# mlr3 0.13.1
+
+* Improved performance for many operations on `ResampleResult` and
+  `BenchmarkResult`.
+* `resample()` and `benchmark()` got a new argument `clone` to control which
+  objects to clone before performing computations.
+* Tasks are checked for infinite values during the conversion from `data.frame`
+  to `Task` in `as_task_classif()` and `as_task_regr()`. A warning is signaled
+  if any column contains infinite values.
+
 # mlr3 0.13.0
 
 * Learners which are capable of resuming/continuing (e.g.,
@@ -87,7 +251,7 @@
   respectively. Note that this behavior will eventually will be the default for
   future releases.
 * Prediction objects generated by `Learner$predict_newdata()` now have row ids
-  starting from 1 instead auto incrementing row ids of the training task.
+  starting from 1 instead auto incremented row ids of the training task.
 * `as.data.table.DictionaryTasks` now returns an additional column `properties`.
 * Added flag `conditions` to `ResampleResult$score()` and
   `BenchmarkResult$score()` to allow to work with failing learners more

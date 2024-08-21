@@ -81,7 +81,7 @@ prop.table(table(task$truth(r$train_set(1)))) # roughly same proportion
 \seealso{
 \itemize{
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
-\url{https://mlr3book.mlr-org.com/basics.html#resampling}
+\url{https://mlr3book.mlr-org.com/chapters/chapter3/evaluation_and_benchmarking.html#sec-resampling}
 \item Package \CRANpkg{mlr3spatiotempcv} for spatio-temporal resamplings.
 \item \link[mlr3misc:Dictionary]{Dictionary} of \link[=Resampling]{Resamplings}: \link{mlr_resamplings}
 \item \code{as.data.table(mlr_resamplings)} for a table of available \link[=Resampling]{Resamplings} in the running session (depending on the loaded packages).
@@ -90,24 +90,24 @@ tasks.
 }
 
 Other Resampling: 
+\code{\link{mlr_resamplings}},
 \code{\link{mlr_resamplings_bootstrap}},
-\code{\link{mlr_resamplings_custom_cv}},
 \code{\link{mlr_resamplings_custom}},
+\code{\link{mlr_resamplings_custom_cv}},
 \code{\link{mlr_resamplings_cv}},
 \code{\link{mlr_resamplings_holdout}},
 \code{\link{mlr_resamplings_insample}},
 \code{\link{mlr_resamplings_loo}},
 \code{\link{mlr_resamplings_repeated_cv}},
-\code{\link{mlr_resamplings_subsampling}},
-\code{\link{mlr_resamplings}}
+\code{\link{mlr_resamplings_subsampling}}
 }
 \concept{Resampling}
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{id}}{(\code{character(1)})\cr
-Identifier of the object.
-Used in tables, plot and text output.}
+\item{\code{label}}{(\code{character(1)})\cr
+Label for this object.
+Can be used in tables, plot and text output instead of the ID.}
 
 \item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
 Set of hyperparameters.}
@@ -140,6 +140,10 @@ Defaults to \code{NA}, but can be set by child classes.}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
+\item{\code{id}}{(\code{character(1)})\cr
+Identifier of the object.
+Used in tables, plot and text output.}
+
 \item{\code{is_instantiated}}{(\code{logical(1)})\cr
 Is \code{TRUE} if the resampling has been instantiated.}
 
@@ -151,19 +155,19 @@ Hash (unique identifier) for this object.}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{Resampling$new()}}
-\item \href{#method-format}{\code{Resampling$format()}}
-\item \href{#method-print}{\code{Resampling$print()}}
-\item \href{#method-help}{\code{Resampling$help()}}
-\item \href{#method-instantiate}{\code{Resampling$instantiate()}}
-\item \href{#method-train_set}{\code{Resampling$train_set()}}
-\item \href{#method-test_set}{\code{Resampling$test_set()}}
-\item \href{#method-clone}{\code{Resampling$clone()}}
+\item \href{#method-Resampling-new}{\code{Resampling$new()}}
+\item \href{#method-Resampling-format}{\code{Resampling$format()}}
+\item \href{#method-Resampling-print}{\code{Resampling$print()}}
+\item \href{#method-Resampling-help}{\code{Resampling$help()}}
+\item \href{#method-Resampling-instantiate}{\code{Resampling$instantiate()}}
+\item \href{#method-Resampling-train_set}{\code{Resampling$train_set()}}
+\item \href{#method-Resampling-test_set}{\code{Resampling$test_set()}}
+\item \href{#method-Resampling-clone}{\code{Resampling$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-Resampling-new"></a>}}
+\if{latex}{\out{\hypertarget{method-Resampling-new}{}}}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
@@ -171,6 +175,7 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
   id,
   param_set = ps(),
   duplicated_ids = FALSE,
+  label = NA_character_,
   man = NA_character_
 )}\if{html}{\out{</div>}}
 }
@@ -189,6 +194,9 @@ Set to \code{TRUE} if this resampling strategy may have duplicated row ids in a 
 
 Note that this object is typically constructed via a derived classes, e.g. \link{ResamplingCV} or \link{ResamplingHoldout}.}
 
+\item{\code{label}}{(\code{character(1)})\cr
+Label for the new instance.}
+
 \item{\code{man}}{(\code{character(1)})\cr
 String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
 The referenced help package can be opened via method \verb{$help()}.}
@@ -197,18 +205,25 @@ The referenced help package can be opened via method \verb{$help()}.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-format"></a>}}
-\if{latex}{\out{\hypertarget{method-format}{}}}
+\if{html}{\out{<a id="method-Resampling-format"></a>}}
+\if{latex}{\out{\hypertarget{method-Resampling-format}{}}}
 \subsection{Method \code{format()}}{
 Helper for print outputs.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Resampling$format()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Resampling$format(...)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{...}}{(ignored).}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-print"></a>}}
-\if{latex}{\out{\hypertarget{method-print}{}}}
+\if{html}{\out{<a id="method-Resampling-print"></a>}}
+\if{latex}{\out{\hypertarget{method-Resampling-print}{}}}
 \subsection{Method \code{print()}}{
 Printer.
 \subsection{Usage}{
@@ -224,8 +239,8 @@ Printer.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-help"></a>}}
-\if{latex}{\out{\hypertarget{method-help}{}}}
+\if{html}{\out{<a id="method-Resampling-help"></a>}}
+\if{latex}{\out{\hypertarget{method-Resampling-help}{}}}
 \subsection{Method \code{help()}}{
 Opens the corresponding help page referenced by field \verb{$man}.
 \subsection{Usage}{
@@ -234,8 +249,8 @@ Opens the corresponding help page referenced by field \verb{$man}.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-instantiate"></a>}}
-\if{latex}{\out{\hypertarget{method-instantiate}{}}}
+\if{html}{\out{<a id="method-Resampling-instantiate"></a>}}
+\if{latex}{\out{\hypertarget{method-Resampling-instantiate}{}}}
 \subsection{Method \code{instantiate()}}{
 Materializes fixed training and test splits for a given task and stores them in \code{r$instance}
 in an arbitrary format.
@@ -258,8 +273,8 @@ the object in its previous state.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-train_set"></a>}}
-\if{latex}{\out{\hypertarget{method-train_set}{}}}
+\if{html}{\out{<a id="method-Resampling-train_set"></a>}}
+\if{latex}{\out{\hypertarget{method-Resampling-train_set}{}}}
 \subsection{Method \code{train_set()}}{
 Returns the row ids of the i-th training set.
 \subsection{Usage}{
@@ -279,8 +294,8 @@ Iteration.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-test_set"></a>}}
-\if{latex}{\out{\hypertarget{method-test_set}{}}}
+\if{html}{\out{<a id="method-Resampling-test_set"></a>}}
+\if{latex}{\out{\hypertarget{method-Resampling-test_set}{}}}
 \subsection{Method \code{test_set()}}{
 Returns the row ids of the i-th test set.
 \subsection{Usage}{
@@ -300,8 +315,8 @@ Iteration.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-Resampling-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-Resampling-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

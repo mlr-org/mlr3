@@ -19,7 +19,6 @@ test_that("DataBackendCbind", {
 
 
   expect_equal(b$col_hashes, c(b1$col_hashes, b2$col_hashes)[setdiff(b$colnames, b$primary_key)])
-
 })
 
 test_that("issue #124", {

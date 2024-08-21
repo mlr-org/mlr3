@@ -17,6 +17,7 @@
 #' To connect to out-of-memory database management systems such as SQL servers,
 #' see the extension package \CRANpkg{mlr3db}.
 #'
+#' @details
 #' The required set of fields and methods to implement a custom `DataBackend` is
 #' listed in the respective sections (see [DataBackendDataTable] or
 #' [DataBackendMatrix] for exemplary implementations of the interface).
@@ -38,7 +39,7 @@
 DataBackend = R6Class("DataBackend", cloneable = FALSE,
   public = list(
     #' @field primary_key (`character(1)`)\cr
-    #' Column name of the primary key column of unique integer row ids.
+    #' Column name of the primary key column of positive and unique integer row ids.
     primary_key = NULL,
 
     #' @field data_formats (`character()`)\cr
@@ -69,7 +70,8 @@ DataBackend = R6Class("DataBackend", cloneable = FALSE,
 
     #' @description
     #' Helper for print outputs.
-    format = function() {
+    #' @param ... (ignored).
+    format = function(...) {
       sprintf("<%s>", class(self)[1L])
     },
 
@@ -96,6 +98,7 @@ DataBackend = R6Class("DataBackend", cloneable = FALSE,
       }
       private$.hash = assert_string(rhs)
     },
+
     #' @template field_col_hashes
     col_hashes = function() {
       cn = setdiff(self$colnames, self$primary_key)

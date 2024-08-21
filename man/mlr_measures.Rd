@@ -25,10 +25,11 @@ See \link[mlr3misc:Dictionary]{mlr3misc::Dictionary}.
 \section{S3 methods}{
 
 \itemize{
-\item \code{as.data.table(dict)}\cr
+\item \code{as.data.table(dict, ..., objects = FALSE)}\cr
 \link[mlr3misc:Dictionary]{mlr3misc::Dictionary} -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
-Returns a \code{\link[data.table:data.table]{data.table::data.table()}} with fields "key", "task_type", "predict_type",
-and "packages" as columns.
+Returns a \code{\link[data.table:data.table]{data.table::data.table()}} with fields "key", "label", "task_type", "packages",
+"predict_type", and "task_properties" as columns.
+If \code{objects} is set to \code{TRUE}, the constructed objects are returned in the list column named \code{object}.
 }
 }
 
@@ -49,15 +50,16 @@ Other Dictionary:
 \code{\link{mlr_tasks}}
 
 Other Measure: 
+\code{\link{Measure}},
 \code{\link{MeasureClassif}},
 \code{\link{MeasureRegr}},
 \code{\link{MeasureSimilarity}},
-\code{\link{Measure}},
 \code{\link{mlr_measures_aic}},
 \code{\link{mlr_measures_bic}},
 \code{\link{mlr_measures_classif.costs}},
-\code{\link{mlr_measures_debug}},
+\code{\link{mlr_measures_debug_classif}},
 \code{\link{mlr_measures_elapsed_time}},
+\code{\link{mlr_measures_internal_valid_score}},
 \code{\link{mlr_measures_oob_error}},
 \code{\link{mlr_measures_selected_features}}
 }

@@ -21,10 +21,18 @@ Many of the measures in \pkg{mlr3} are implemented in \CRANpkg{mlr3measures} as 
 
 A guide on how to extend \CRANpkg{mlr3} with custom measures can be found in the \href{https://mlr3book.mlr-org.com}{mlr3book}.
 }
+\section{Inheriting}{
+
+For some measures (such as confidence intervals from \code{mlr3inferr}) it is necessary that a measure
+returns more than one value.
+In such cases it is necessary to overwrite the public methods \verb{$aggregate()} and/or \verb{$score()} to return a named \code{numeric()}
+where at least one of its names corresponds to the \code{id} of the measure itself.
+}
+
 \seealso{
 \itemize{
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
-\url{https://mlr3book.mlr-org.com/basics.html#train-predict}
+\url{https://mlr3book.mlr-org.com/chapters/chapter2/data_and_basic_modeling.html#sec-eval}
 \item Package \CRANpkg{mlr3measures} for the scoring functions.
 \link[mlr3misc:Dictionary]{Dictionary} of \link[=Measure]{Measures}: \link{mlr_measures}
 \code{as.data.table(mlr_measures)} for a table of available \link[=Measure]{Measures} in the running session (depending on the loaded packages).
@@ -39,14 +47,15 @@ Other Measure:
 \code{\link{MeasureClassif}},
 \code{\link{MeasureRegr}},
 \code{\link{MeasureSimilarity}},
+\code{\link{mlr_measures}},
 \code{\link{mlr_measures_aic}},
 \code{\link{mlr_measures_bic}},
 \code{\link{mlr_measures_classif.costs}},
-\code{\link{mlr_measures_debug}},
+\code{\link{mlr_measures_debug_classif}},
 \code{\link{mlr_measures_elapsed_time}},
+\code{\link{mlr_measures_internal_valid_score}},
 \code{\link{mlr_measures_oob_error}},
-\code{\link{mlr_measures_selected_features}},
-\code{\link{mlr_measures}}
+\code{\link{mlr_measures_selected_features}}
 }
 \concept{Measure}
 \section{Public fields}{
@@ -55,6 +64,10 @@ Other Measure:
 \item{\code{id}}{(\code{character(1)})\cr
 Identifier of the object.
 Used in tables, plot and text output.}
+
+\item{\code{label}}{(\code{character(1)})\cr
+Label for this object.
+Can be used in tables, plot and text output instead of the ID.}
 
 \item{\code{task_type}}{(\code{character(1)})\cr
 Task type, e.g. \code{"classif"} or \code{"regr"}.
@@ -65,15 +78,29 @@ see \code{\link[=mlr_reflections]{mlr_reflections$task_types$type}}.}
 \item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
 Set of hyperparameters.}
 
+\item{\code{obs_loss}}{(\verb{function()} | \code{NULL})
+Function to calculate the observation-wise loss.}
+
+\item{\code{trafo}}{(\code{list()} | \code{NULL})
+\code{NULL} or a list with two elements:
+\itemize{
+\item \code{trafo}: the transformation function applied after aggregating
+observation-wise losses (e.g. \code{sqrt} for RMSE)
+\item \code{deriv}: The derivative of the \code{trafo}.
+}}
+
 \item{\code{predict_type}}{(\code{character(1)})\cr
 Required predict type of the \link{Learner}.}
 
 \item{\code{predict_sets}}{(\code{character()})\cr
 During \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}, a \link{Learner} can predict on multiple sets.
 Per default, a learner only predicts observations in the test set (\code{predict_sets == "test"}).
-To change this behavior, set \code{predict_sets} to a non-empty subset of \verb{\{"train", "test", "validation"\}}.
+To change this behavior, set \code{predict_sets} to a non-empty subset of \verb{\{"train", "test", "internal_valid"\}}.
+The \code{"train"} predict set contains the train ids from the resampling. This means that if a learner does validation and
+sets \verb{$validate} to a ratio (creating the validation data from the training data), the train predictions
+will include the predictions for the validation data.
 Each set yields a separate \link{Prediction} object.
-Those be combined via getters in \link{ResampleResult}/\link{BenchmarkResult}, or \link{Measure}s can be altered
+Those can be combined via getters in \link{ResampleResult}/\link{BenchmarkResult}, or \link{Measure}s can be configured
 to operate on specific subsets of the calculated prediction sets.}
 
 \item{\code{check_prerequisites}}{(\code{character(1)})\cr
@@ -136,17 +163,18 @@ Function to aggregate scores computed on different resampling iterations.}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{Measure$new()}}
-\item \href{#method-format}{\code{Measure$format()}}
-\item \href{#method-print}{\code{Measure$print()}}
-\item \href{#method-help}{\code{Measure$help()}}
-\item \href{#method-score}{\code{Measure$score()}}
-\item \href{#method-aggregate}{\code{Measure$aggregate()}}
+\item \href{#method-Measure-new}{\code{Measure$new()}}
+\item \href{#method-Measure-format}{\code{Measure$format()}}
+\item \href{#method-Measure-print}{\code{Measure$print()}}
+\item \href{#method-Measure-help}{\code{Measure$help()}}
+\item \href{#method-Measure-score}{\code{Measure$score()}}
+\item \href{#method-Measure-aggregate}{\code{Measure$aggregate()}}
+\item \href{#method-Measure-clone}{\code{Measure$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-Measure-new"></a>}}
+\if{latex}{\out{\hypertarget{method-Measure-new}{}}}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 
@@ -160,12 +188,15 @@ Note that this object is typically constructed via a derived classes, e.g. \link
   minimize = NA,
   average = "macro",
   aggregator = NULL,
+  obs_loss = NULL,
   properties = character(),
   predict_type = "response",
   predict_sets = "test",
   task_properties = character(),
   packages = character(),
-  man = NA_character_
+  label = NA_character_,
+  man = NA_character_,
+  trafo = NULL
 )}\if{html}{\out{</div>}}
 }
 
@@ -212,6 +243,9 @@ scored in one go.
 \item \code{"custom"}: A \link{ResampleResult} is passed to the aggregate function.
 }}
 
+\item{\code{obs_loss}}{(\code{function} or \code{NULL})\cr
+The observation-wise loss function, e.g. \link[mlr3measures:zero_one]{zero-one} for classification error.}
+
 \item{\code{properties}}{(\code{character()})\cr
 Properties of the measure.
 Must be a subset of \link[=mlr_reflections]{mlr_reflections$measure_properties}.
@@ -223,6 +257,8 @@ Supported by \code{mlr3}:
 model),
 \item \code{"requires_train_set"} (requires the training indices from the \link{Resampling}), and
 \item \code{"na_score"} (the measure is expected to occasionally return \code{NA} or \code{NaN}).
+\item \code{"primary_iters"} (the measure explictly handles resamplings that only use a subset
+of their iterations for the point estimate).
 }}
 
 \item{\code{predict_type}}{(\code{character(1)})\cr
@@ -232,7 +268,7 @@ Possible values are stored in \link[=mlr_reflections]{mlr_reflections$learner_pr
 \item{\code{predict_sets}}{(\code{character()})\cr
 Prediction sets to operate on, used in \code{aggregate()} to extract the matching \code{predict_sets} from the \link{ResampleResult}.
 Multiple predict sets are calculated by the respective \link{Learner} during \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}.
-Must be a non-empty subset of \verb{\{"train", "test", "validation"\}}.
+Must be a non-empty subset of \verb{\{"train", "test", "internal_valid"\}}.
 If multiple sets are provided, these are first combined to a single prediction object.
 Default is \code{"test"}.}
 
@@ -244,26 +280,41 @@ Set of required packages.
 A warning is signaled by the constructor if at least one of the packages is not installed,
 but loaded (not attached) later on-demand via \code{\link[=requireNamespace]{requireNamespace()}}.}
 
+\item{\code{label}}{(\code{character(1)})\cr
+Label for the new instance.}
+
 \item{\code{man}}{(\code{character(1)})\cr
 String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
 The referenced help package can be opened via method \verb{$help()}.}
+
+\item{\code{trafo}}{(\code{list()} or \code{NULL})\cr
+An optional list with two elements, containing the transformation \code{"fn"} and its derivative \code{"deriv"}.
+The transformation function is the function that is applied after aggregating the pointwise losses, i.e.
+this requires an \verb{$obs_loss} to be present. An example is \code{sqrt} for RMSE.}
 }
 \if{html}{\out{</div>}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-format"></a>}}
-\if{latex}{\out{\hypertarget{method-format}{}}}
+\if{html}{\out{<a id="method-Measure-format"></a>}}
+\if{latex}{\out{\hypertarget{method-Measure-format}{}}}
 \subsection{Method \code{format()}}{
 Helper for print outputs.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Measure$format()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Measure$format(...)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{...}}{(ignored).}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-print"></a>}}
-\if{latex}{\out{\hypertarget{method-print}{}}}
+\if{html}{\out{<a id="method-Measure-print"></a>}}
+\if{latex}{\out{\hypertarget{method-Measure-print}{}}}
 \subsection{Method \code{print()}}{
 Printer.
 \subsection{Usage}{
@@ -279,8 +330,8 @@ Printer.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-help"></a>}}
-\if{latex}{\out{\hypertarget{method-help}{}}}
+\if{html}{\out{<a id="method-Measure-help"></a>}}
+\if{latex}{\out{\hypertarget{method-Measure-help}{}}}
 \subsection{Method \code{help()}}{
 Opens the corresponding help page referenced by field \verb{$man}.
 \subsection{Usage}{
@@ -289,8 +340,8 @@ Opens the corresponding help page referenced by field \verb{$man}.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-score"></a>}}
-\if{latex}{\out{\hypertarget{method-score}{}}}
+\if{html}{\out{<a id="method-Measure-score"></a>}}
+\if{latex}{\out{\hypertarget{method-Measure-score}{}}}
 \subsection{Method \code{score()}}{
 Takes a \link{Prediction} (or a list of \link{Prediction} objects named with valid \code{predict_sets})
 and calculates a numeric score.
@@ -320,8 +371,8 @@ This is handled internally during \code{\link[=resample]{resample()}}/\code{\lin
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-aggregate"></a>}}
-\if{latex}{\out{\hypertarget{method-aggregate}{}}}
+\if{html}{\out{<a id="method-Measure-aggregate"></a>}}
+\if{latex}{\out{\hypertarget{method-Measure-aggregate}{}}}
 \subsection{Method \code{aggregate()}}{
 Aggregates multiple performance scores into a single score, e.g. by using the \code{aggregator}
 function of the measure.
@@ -338,6 +389,23 @@ function of the measure.
 }
 \subsection{Returns}{
 \code{numeric(1)}.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Measure-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-Measure-clone}{}}}
+\subsection{Method \code{clone()}}{
+The objects of this class are cloneable with this method.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Measure$clone(deep = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{deep}}{Whether to make a deep clone.}
+}
+\if{html}{\out{</div>}}
 }
 }
 }

@@ -9,12 +9,20 @@
 \title{Elapsed Time Measure}
 \description{
 Measures the elapsed time during train ("time_train"), predict ("time_predict"), or both ("time_both").
+Aggregation of elapsed time defaults to mean but can be configured via the field \code{aggregator} of the
+\link{Measure}.
+
+When predictions for multiple predict sets were made during \code{\link[=resample]{resample()}} or \code{\link[=benchmark]{benchmark()}},
+the predict time shows the cumulative duration of all predictions.
+If \code{learner$predict()} is called manually, the last predict time gets overwritten.
 }
 \section{Dictionary}{
 
-This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("time_train")
+This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{mlr_measures$get("time_train")
 msr("time_train")
-}
+}\if{html}{\out{</div>}}
 }
 
 \section{Meta Information}{
@@ -24,7 +32,7 @@ msr("time_train")
 \item Range: \eqn{[0, \infty)}{[0, Inf)}
 \item Minimize: TRUE
 \item Average: macro
-\item Required Prediction: \dQuote{response}
+\item Required Prediction: \dQuote{NA}
 \item Required Packages: \CRANpkg{mlr3}
 }
 }
@@ -37,7 +45,7 @@ Empty ParamSet
 \seealso{
 \itemize{
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
-\url{https://mlr3book.mlr-org.com/basics.html#train-predict}
+\url{https://mlr3book.mlr-org.com/chapters/chapter2/data_and_basic_modeling.html#sec-eval}
 \item Package \CRANpkg{mlr3measures} for the scoring functions.
 \link[mlr3misc:Dictionary]{Dictionary} of \link[=Measure]{Measures}: \link{mlr_measures}
 \code{as.data.table(mlr_measures)} for a table of available \link[=Measure]{Measures} in the running session (depending on the loaded packages).
@@ -49,17 +57,18 @@ Empty ParamSet
 }
 
 Other Measure: 
+\code{\link{Measure}},
 \code{\link{MeasureClassif}},
 \code{\link{MeasureRegr}},
 \code{\link{MeasureSimilarity}},
-\code{\link{Measure}},
+\code{\link{mlr_measures}},
 \code{\link{mlr_measures_aic}},
 \code{\link{mlr_measures_bic}},
 \code{\link{mlr_measures_classif.costs}},
-\code{\link{mlr_measures_debug}},
+\code{\link{mlr_measures_debug_classif}},
+\code{\link{mlr_measures_internal_valid_score}},
 \code{\link{mlr_measures_oob_error}},
-\code{\link{mlr_measures_selected_features}},
-\code{\link{mlr_measures}}
+\code{\link{mlr_measures_selected_features}}
 }
 \concept{Measure}
 \section{Super class}{
@@ -77,24 +86,24 @@ Usually set during construction.}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{MeasureElapsedTime$new()}}
-\item \href{#method-clone}{\code{MeasureElapsedTime$clone()}}
+\item \href{#method-MeasureElapsedTime-new}{\code{MeasureElapsedTime$new()}}
+\item \href{#method-MeasureElapsedTime-clone}{\code{MeasureElapsedTime$clone()}}
 }
 }
-\if{html}{
-\out{<details open ><summary>Inherited methods</summary>}
-\itemize{
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="aggregate">}\href{../../mlr3/html/Measure.html#method-aggregate}{\code{mlr3::Measure$aggregate()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="format">}\href{../../mlr3/html/Measure.html#method-format}{\code{mlr3::Measure$format()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="help">}\href{../../mlr3/html/Measure.html#method-help}{\code{mlr3::Measure$help()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="print">}\href{../../mlr3/html/Measure.html#method-print}{\code{mlr3::Measure$print()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="score">}\href{../../mlr3/html/Measure.html#method-score}{\code{mlr3::Measure$score()}}\out{</span>}
-}
-\out{</details>}
-}
+\if{html}{\out{
+<details open><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="aggregate"><a href='../../mlr3/html/Measure.html#method-Measure-aggregate'><code>mlr3::Measure$aggregate()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="format"><a href='../../mlr3/html/Measure.html#method-Measure-format'><code>mlr3::Measure$format()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="help"><a href='../../mlr3/html/Measure.html#method-Measure-help'><code>mlr3::Measure$help()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="print"><a href='../../mlr3/html/Measure.html#method-Measure-print'><code>mlr3::Measure$print()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="score"><a href='../../mlr3/html/Measure.html#method-Measure-score'><code>mlr3::Measure$score()</code></a></span></li>
+</ul>
+</details>
+}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-MeasureElapsedTime-new"></a>}}
+\if{latex}{\out{\hypertarget{method-MeasureElapsedTime-new}{}}}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
@@ -115,8 +124,8 @@ The runtime of provided stages will be summed.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-MeasureElapsedTime-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-MeasureElapsedTime-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

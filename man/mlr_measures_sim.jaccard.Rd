@@ -5,7 +5,9 @@
 \title{Jaccard Similarity Index}
 \description{
 Measure to compare two or more sets w.r.t. their similarity.
-For two sets \eqn{A} and \eqn{B}, it is defined as
+}
+\details{
+For two sets \eqn{A} and \eqn{B}, the Jaccard Index is defined as
 \deqn{
   J(A, B) = \frac{|A \cap B|}{|A \cup B|}.
 }{
@@ -13,8 +15,7 @@ For two sets \eqn{A} and \eqn{B}, it is defined as
 }
 If more than two sets are provided, the mean of all pairwise scores
 is calculated.
-}
-\details{
+
 This measure is undefined if two or more sets are empty.
 }
 \note{
@@ -27,9 +28,11 @@ This can be customized by setting the field \code{na_value}.
 }
 \section{Dictionary}{
 
-This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("sim.jaccard")
+This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{mlr_measures$get("sim.jaccard")
 msr("sim.jaccard")
-}
+}\if{html}{\out{</div>}}
 }
 
 \section{Meta Information}{

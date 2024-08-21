@@ -7,7 +7,7 @@
 \link[R6:R6Class]{R6::R6Class} inheriting from \link{TaskClassif}.
 }
 \source{
-Data set originally published on \href{https://archive.ics.uci.edu/ml/datasets/statlog+(german+credit+data)}{UCI}.
+Data set originally published on \href{http://archive.ics.uci.edu/dataset/144/statlog+german+credit+data}{UCI}.
 This is the preprocessed version taken from package \CRANpkg{rchallenge} with
 factors instead of dummy variables, and corrected as proposed by Ulrike
 Grömping.
@@ -29,9 +29,11 @@ See example for the creation of a \link{MeasureClassifCosts} as described miscla
 }
 \section{Dictionary}{
 
-This \link{Task} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_tasks} or with the associated sugar function \code{\link[=tsk]{tsk()}}:\preformatted{mlr_tasks$get("german_credit")
+This \link{Task} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_tasks} or with the associated sugar function \code{\link[=tsk]{tsk()}}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{mlr_tasks$get("german_credit")
 tsk("german_credit")
-}
+}\if{html}{\out{</div>}}
 }
 
 \section{Meta Information}{
@@ -57,31 +59,31 @@ print(measure)
 Grömping U (2019).
 \dQuote{South German Credit Data: Correcting a Widely Used Data Set.}
 Reports in Mathematics, Physics and Chemistry 4, Department II, Beuth University of Applied Sciences Berlin.
-\url{http://www1.beuth-hochschule.de/FB_II/reports/Report-2019-004.pdf}.
 }
 \seealso{
 \itemize{
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
-\url{https://mlr3book.mlr-org.com/basics.html#tasks}
+\url{https://mlr3book.mlr-org.com/chapters/chapter2/data_and_basic_modeling.html}
 \item Package \CRANpkg{mlr3data} for more toy tasks.
-\item Package \CRANpkg{mlr3oml} for downloading tasks from \url{https://openml.org}.
+\item Package \CRANpkg{mlr3oml} for downloading tasks from \url{https://www.openml.org}.
 \item Package \CRANpkg{mlr3viz} for some generic visualizations.
 \item \link[mlr3misc:Dictionary]{Dictionary} of \link[=Task]{Tasks}: \link{mlr_tasks}
 \item \code{as.data.table(mlr_tasks)} for a table of available \link[=Task]{Tasks} in the running session (depending on the loaded packages).
 \item \CRANpkg{mlr3fselect} and \CRANpkg{mlr3filters} for feature selection and feature filtering.
 \item Extension packages for additional task types:
 \itemize{
-\item \CRANpkg{mlr3proba} for probabilistic supervised regression and survival analysis.
-\item \CRANpkg{mlr3cluster} for unsupervised clustering.
+\item Unsupervised clustering: \CRANpkg{mlr3cluster}
+\item Probabilistic supervised regression and survival analysis: \url{https://mlr3proba.mlr-org.com/}.
 }
 }
 
 Other Task: 
+\code{\link{Task}},
 \code{\link{TaskClassif}},
 \code{\link{TaskRegr}},
 \code{\link{TaskSupervised}},
 \code{\link{TaskUnsupervised}},
-\code{\link{Task}},
+\code{\link{mlr_tasks}},
 \code{\link{mlr_tasks_boston_housing}},
 \code{\link{mlr_tasks_breast_cancer}},
 \code{\link{mlr_tasks_iris}},
@@ -91,7 +93,6 @@ Other Task:
 \code{\link{mlr_tasks_sonar}},
 \code{\link{mlr_tasks_spam}},
 \code{\link{mlr_tasks_wine}},
-\code{\link{mlr_tasks_zoo}},
-\code{\link{mlr_tasks}}
+\code{\link{mlr_tasks_zoo}}
 }
 \concept{Task}

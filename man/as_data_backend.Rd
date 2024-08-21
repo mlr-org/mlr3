@@ -15,7 +15,7 @@ as_data_backend(data, primary_key = NULL, ...)
 \arguments{
 \item{data}{(\code{\link[=data.frame]{data.frame()}})\cr
 The input \code{\link[=data.frame]{data.frame()}}.
-Converted to a \code{\link[data.table:data.table]{data.table::data.table()}} automatically.}
+Automatically converted to a \code{\link[data.table:data.table]{data.table::data.table()}}.}
 
 \item{primary_key}{(\code{character(1)} | \code{integer()})\cr
 Name of the primary key column, or integer vector of row ids.}
@@ -50,14 +50,14 @@ as_data_backend(palmerpenguins::penguins)
 \seealso{
 \itemize{
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
-\url{https://mlr3book.mlr-org.com/technical.html#backends}
+\url{https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-backends}
 \item Package \CRANpkg{mlr3db} to interface out-of-memory data,
 e.g. SQL servers or \CRANpkg{duckdb}.
 }
 
 Other DataBackend: 
+\code{\link{DataBackend}},
 \code{\link{DataBackendDataTable}},
-\code{\link{DataBackendMatrix}},
-\code{\link{DataBackend}}
+\code{\link{DataBackendMatrix}}
 }
 \concept{DataBackend}

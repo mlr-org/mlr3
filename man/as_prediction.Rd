@@ -9,13 +9,13 @@
 \alias{as_predictions.list}
 \title{Convert to a Prediction}
 \usage{
-as_prediction(x, check = TRUE, ...)
+as_prediction(x, check = FALSE, ...)
 
-\method{as_prediction}{Prediction}(x, check = TRUE, ...)
+\method{as_prediction}{Prediction}(x, check = FALSE, ...)
 
-\method{as_prediction}{PredictionDataClassif}(x, check = TRUE, ...)
+\method{as_prediction}{PredictionDataClassif}(x, check = FALSE, ...)
 
-\method{as_prediction}{PredictionDataRegr}(x, check = TRUE, ...)
+\method{as_prediction}{PredictionDataRegr}(x, check = FALSE, ...)
 
 as_predictions(x, predict_sets = "test", ...)
 
@@ -34,7 +34,7 @@ Additional arguments.}
 \item{predict_sets}{(\code{character()})\cr
 Prediction sets to operate on, used in \code{aggregate()} to extract the matching \code{predict_sets} from the \link{ResampleResult}.
 Multiple predict sets are calculated by the respective \link{Learner} during \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}.
-Must be a non-empty subset of \verb{\{"train", "test", "validation"\}}.
+Must be a non-empty subset of \verb{\{"train", "test", "internal_valid"\}}.
 If multiple sets are provided, these are first combined to a single prediction object.
 Default is \code{"test"}.}
 }

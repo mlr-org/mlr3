@@ -25,3 +25,9 @@ test_that("mlr_resamplings: sugar", {
   expect_equal(r$id, "cv3")
   expect_equal(r$param_set$values$folds, 3L)
 })
+
+test_that("as.data.table(..., objects = TRUE)", {
+  tab = as.data.table(mlr_resamplings, objects = TRUE)
+  expect_data_table(tab)
+  expect_list(tab$object, "Resampling", any.missing = FALSE)
+})

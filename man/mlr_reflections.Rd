@@ -37,6 +37,10 @@ List of vectors of supported \link{Task} properties, named by their task type.
 List of vectors of \link{Task} properties which necessarily must be supported by the \link{Learner}.
 I.e., if the task property is not found in the set of the learner properties, an exception
 is raised.
+\item \code{task_print_col_roles} (list of named \code{character()})\cr
+Vector of column roles to print via \code{print(task)} if the role is not empty, either
+before or after the task's target, properties and features.
+The names of the column roles are the values, the names correspond to the labels to use in the printer.
 \item \code{learner_properties} (list of \code{character()})\cr
 List of vectors of supported \link{Learner} properties, named by their task type.
 \item \code{learner_predict_types} (list of list of \code{character()})\cr
@@ -45,8 +49,10 @@ The inner list translates the \code{"predict_type"} to all predict types returne
 predict type \code{"prob"} for a \link{LearnerClassif} provides the probabilities as well as the predicted labels, therefore \code{"prob"} maps to \code{c("response", "prob")}.
 \item \code{learner_predict_types} (list of list of \code{character()})\cr
 List of lists of supported \link{Learner} predict_types, named by their task type.
+\item \code{learner_param_tags} (\code{character()})\cr
+Character vector of allowed 'tags' for the \link[paradox:ParamSet]{paradox::ParamSet}s of a \link{Learner}.
 \item \code{predict_sets} (\code{character()})\cr
-Vector of possible predict sets. Currently supported are \code{"train"} and \code{"test"}.
+Vector of possible predict sets. Currently supported are \code{"train"}, \code{"test"} and \code{"holdout"}.
 \item \code{measure_properties} (list of \code{character()})\cr
 List of vectors of supported \link{Measure} properties, named by their task type.
 \item \code{default_measures} (list of \code{character()})\cr

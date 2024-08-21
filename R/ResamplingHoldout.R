@@ -47,13 +47,17 @@ ResamplingHoldout = R6Class("ResamplingHoldout", inherit = Resampling,
       )
       ps$values = list(ratio = 2 / 3)
 
-      super$initialize(id = "holdout", param_set = ps, man = "mlr3::mlr_resamplings_holdout")
-    },
-
-    #' @template field_iters
-    iters = 1L
+      super$initialize(id = "holdout", param_set = ps,
+        label = "Holdout", man = "mlr3::mlr_resamplings_holdout")
+    }
   ),
-
+  active = list(
+    #' @template field_iters
+    iters = function(rhs)  {
+      assert_ro_binding(rhs)
+      1L
+    }
+  ),
   private = list(
     .sample = function(ids, ...) {
       n = length(ids)
@@ -77,4 +81,4 @@ ResamplingHoldout = R6Class("ResamplingHoldout", inherit = Resampling,
 )
 
 #' @include mlr_resamplings.R
-mlr_resamplings$add("holdout", ResamplingHoldout)
+mlr_resamplings$add("holdout", function() ResamplingHoldout$new())

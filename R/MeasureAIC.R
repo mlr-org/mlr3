@@ -28,8 +28,9 @@ MeasureAIC = R6Class("MeasureAIC",
         task_type = NA_character_,
         param_set = param_set,
         properties = c("na_score", "requires_learner", "requires_model"),
-        predict_type = "response",
+        predict_type = NA_character_,
         minimize = TRUE,
+        label = "Akaike Information Criterion",
         man = "mlr3::mlr_measures_aic"
       )
     }
@@ -49,4 +50,4 @@ MeasureAIC = R6Class("MeasureAIC",
 )
 
 #' @include mlr_measures.R
-mlr_measures$add("aic", MeasureAIC)
+mlr_measures$add("aic", function() MeasureAIC$new())

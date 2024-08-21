@@ -4,7 +4,7 @@
 #' @include LearnerRegr.R
 #'
 #' @description
-#' A simple [LearnerRegr] which only analyses the response during train, ignoring all features.
+#' A simple [LearnerRegr] which only analyzes the response during train, ignoring all features.
 #' If hyperparameter `robust` is `FALSE` (default), constantly predicts `mean(y)` as response
 #' and `sd(y)` as standard error.
 #' If `robust` is `TRUE`, [median()] and [mad()] are used instead of [mean()] and [sd()],
@@ -32,6 +32,7 @@ LearnerRegrFeatureless = R6Class("LearnerRegrFeatureless", inherit = LearnerRegr
         param_set = ps,
         properties = c("featureless", "missings", "importance", "selected_features"),
         packages = "stats",
+        label = "Featureless Regression Learner",
         man = "mlr3::mlr_learners_regr.featureless"
       )
     },
@@ -80,4 +81,4 @@ LearnerRegrFeatureless = R6Class("LearnerRegrFeatureless", inherit = LearnerRegr
 )
 
 #' @include mlr_learners.R
-mlr_learners$add("regr.featureless", LearnerRegrFeatureless)
+mlr_learners$add("regr.featureless", function() LearnerRegrFeatureless$new())

@@ -9,7 +9,9 @@ benchmark(
   store_models = FALSE,
   store_backends = TRUE,
   encapsulate = NA_character_,
-  allow_hotstart = FALSE
+  allow_hotstart = FALSE,
+  clone = c("task", "learner", "resampling"),
+  unmarshal = TRUE
 )
 }
 \arguments{
@@ -17,7 +19,8 @@ benchmark(
 Data frame (or \code{\link[data.table:data.table]{data.table::data.table()}}) with three columns: "task", "learner", and "resampling".
 Each row defines a resampling by providing a \link{Task}, \link{Learner} and an instantiated \link{Resampling} strategy.
 The helper function \code{\link[=benchmark_grid]{benchmark_grid()}} can assist in generating an exhaustive design (see examples) and
-instantiate the \link{Resampling}s per \link{Task}.}
+instantiate the \link{Resampling}s per \link{Task}.
+Additionally, you can set the additional column 'param_values', see \code{\link[=benchmark_grid]{benchmark_grid()}}.}
 
 \item{store_models}{(\code{logical(1)})\cr
 Store the fitted model in the resulting object=
@@ -37,6 +40,7 @@ in a future release.}
 If not \code{NA}, enables encapsulation by setting the field
 \code{Learner$encapsulate} to one of the supported values:
 \code{"none"} (disable encapsulation),
+\code{"try"} (captures errors but output is printed to the console and not logged),
 \code{"evaluate"} (execute via \CRANpkg{evaluate}) and
 \code{"callr"} (start in external session via \CRANpkg{callr}).
 If \code{NA}, encapsulation is not changed, i.e. the settings of the
@@ -48,17 +52,46 @@ does not already have a fallback configured.}
 \item{allow_hotstart}{(\code{logical(1)})\cr
 Determines if learner(s) are hot started with trained models in
 \verb{$hotstart_stack}. See also \link{HotstartStack}.}
+
+\item{clone}{(\code{character()})\cr
+Select the input objects to be cloned before proceeding by
+providing a set with possible values \code{"task"}, \code{"learner"} and
+\code{"resampling"} for \link{Task}, \link{Learner} and \link{Resampling}, respectively.
+Per default, all input objects are cloned.}
+
+\item{unmarshal}{\code{\link{Learner}}\cr
+Whether to unmarshal learners that were marshaled during the execution.
+If \code{TRUE} all models are stored in unmarshaled form.
+If \code{FALSE}, all learners (that need marshaling) are stored in marshaled form.}
 }
 \value{
 \link{BenchmarkResult}.
 }
 \description{
 Runs a benchmark on arbitrary combinations of tasks (\link{Task}), learners (\link{Learner}), and resampling strategies (\link{Resampling}), possibly in parallel.
+
+For large-scale benchmarking we recommend to use the \CRANpkg{mlr3batchmark} package.
+This package runs benchmark experiments on high-performance computing clusters and handles failed experiments.
 }
 \note{
 The fitted models are discarded after the predictions have been scored in order to reduce memory consumption.
 If you need access to the models for later analysis, set \code{store_models} to \code{TRUE}.
 }
+\section{Predict Sets}{
+
+If you want to compare the performance of a learner on the training with the performance
+on the test set, you have to configure the \link{Learner} to predict on multiple sets by
+setting the field \code{predict_sets} to \code{c("train", "test")} (default is \code{"test"}).
+Each set yields a separate \link{Prediction} object during resampling.
+In the next step, you have to configure the measures to operate on the respective Prediction object:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{m1 = msr("classif.ce", id = "ce.train", predict_sets = "train")
+m2 = msr("classif.ce", id = "ce.test", predict_sets = "test")
+}\if{html}{\out{</div>}}
+
+The (list of) created measures can finally be passed to \verb{$aggregate()} or \verb{$score()}.
+}
+
 \section{Parallelization}{
 
 
@@ -86,12 +119,16 @@ The \CRANpkg{mlr3} uses the \CRANpkg{lgr} package for logging.
 \code{getOption("lgr.log_levels")}.
 
 To suppress output and reduce verbosity, you can lower the log from the
-default level \code{"info"} to \code{"warn"}:\preformatted{lgr::get_logger("mlr3")$set_threshold("warn")
-}
+default level \code{"info"} to \code{"warn"}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{lgr::get_logger("mlr3")$set_threshold("warn")
+}\if{html}{\out{</div>}}
 
 To get additional log output for debugging, increase the log level to \code{"debug"}
-or \code{"trace"}:\preformatted{lgr::get_logger("mlr3")$set_threshold("debug")
-}
+or \code{"trace"}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{lgr::get_logger("mlr3")$set_threshold("debug")
+}\if{html}{\out{</div>}}
 
 To log to a file or a data base, see the documentation of \link[lgr:lgr-package]{lgr::lgr-package}.
 }
@@ -149,7 +186,7 @@ rr$resampling$train_set(2)
 \seealso{
 \itemize{
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
-\url{https://mlr3book.mlr-org.com/basics.html#benchmarking}
+\url{https://mlr3book.mlr-org.com/chapters/chapter3/evaluation_and_benchmarking.html#sec-benchmarking}
 \item Package \CRANpkg{mlr3viz} for some generic visualizations.
 \item \CRANpkg{mlr3benchmark} for post-hoc analysis of benchmark results.
 }

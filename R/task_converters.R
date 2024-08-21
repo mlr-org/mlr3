@@ -29,7 +29,7 @@ convert_task = function(intask, target = NULL, new_type = NULL, drop_original_ta
   constructor = get(fget(mlr_reflections$task_types, new_type, "task", key = "type")[[1L]])
   common_args = intersect(names(intask$extra_args), names(formals(constructor$public_methods$initialize)))
   newtask = invoke(constructor$new, id = intask$id, backend = intask$backend,
-    target = target, .args = intask$extra_args[common_args])
+    target = target, label = intask$label, .args = intask$extra_args[common_args])
   newtask$extra_args = intask$extra_args
 
   # copy row_roles / col_roles / properties

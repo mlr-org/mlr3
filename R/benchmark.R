@@ -3,15 +3,21 @@
 #' @description
 #' Runs a benchmark on arbitrary combinations of tasks ([Task]), learners ([Learner]), and resampling strategies ([Resampling]), possibly in parallel.
 #'
+#' For large-scale benchmarking we recommend to use the \CRANpkg{mlr3batchmark} package.
+#' This package runs benchmark experiments on high-performance computing clusters and handles failed experiments.
+#'
 #' @param design ([data.frame()])\cr
 #'   Data frame (or [data.table::data.table()]) with three columns: "task", "learner", and "resampling".
 #'   Each row defines a resampling by providing a [Task], [Learner] and an instantiated [Resampling] strategy.
 #'   The helper function [benchmark_grid()] can assist in generating an exhaustive design (see examples) and
 #'   instantiate the [Resampling]s per [Task].
+#'   Additionally, you can set the additional column 'param_values', see [benchmark_grid()].
 #' @template param_store_models
 #' @template param_store_backends
 #' @template param_encapsulate
 #' @template param_allow_hotstart
+#' @template param_clone
+#' @template param_unmarshal
 #'
 #' @return [BenchmarkResult].
 #'
@@ -19,6 +25,7 @@
 #' The fitted models are discarded after the predictions have been scored in order to reduce memory consumption.
 #' If you need access to the models for later analysis, set `store_models` to `TRUE`.
 #'
+#' @template section_predict_sets
 #' @template section_parallelization
 #' @template section_progress_bars
 #' @template section_logging
@@ -74,38 +81,68 @@
 #' ## Get the training set of the 2nd iteration of the featureless learner on penguins
 #' rr = bmr$aggregate()[learner_id == "classif.featureless"]$resample_result[[1]]
 #' rr$resampling$train_set(2)
-benchmark = function(design, store_models = FALSE, store_backends = TRUE, encapsulate = NA_character_, allow_hotstart = FALSE) {
+benchmark = function(design, store_models = FALSE, store_backends = TRUE, encapsulate = NA_character_, allow_hotstart = FALSE, clone = c("task", "learner", "resampling"), unmarshal = TRUE) {
+  assert_subset(clone, c("task", "learner", "resampling"))
   assert_data_frame(design, min.rows = 1L)
-  assert_names(names(design), permutation.of = c("task", "learner", "resampling"))
+  assert_names(names(design), must.include = c("task", "learner", "resampling"))
+  assert_flag(unmarshal)
   design$task = list(assert_tasks(as_tasks(design$task)))
   design$learner = list(assert_learners(as_learners(design$learner)))
   design$resampling = list(assert_resamplings(as_resamplings(design$resampling), instantiated = TRUE))
+  if (is.null(design$param_values)) {
+    design$param_values = list()
+  } else {
+    design$param_values = list(assert_param_values(design$param_values, n_learners = length(design$learner)))
+  }
   assert_flag(store_models)
   assert_flag(store_backends)
 
   # check for multiple task types
-  assert_same_task_type(c(design$task, design$learner))
+  task_types = unique(map_chr(design$task, "task_type"))
+  if (length(task_types) > 1) {
+    stopf("Multiple task types detected, but mixing types is not supported: %s", str_collapse(task_types))
+  }
+  learner_types = unique(map_chr(design$learner, "task_type"))
+  if (length(learner_types) > 1) {
+    stopf("Multiple learner types detected, but mixing types is not supported: %s", str_collapse(learner_types))
+  }
+  assert_task_learner(design$task[[1]], design$learner[[1]])
 
-  # clone inputs
   setDT(design)
   task = learner = resampling = NULL
-  design[, "task" := list(list(task[[1L]]$clone())), by = list(hashes(task))]
-  design[, "learner" := list(list(learner[[1L]]$clone())), by = list(hashes(learner))]
-  design[, "resampling" := list(list(resampling[[1L]]$clone())), by = list(hashes(resampling))]
+  if ("task" %in% clone) {
+    design[, "task" := list(list(task[[1L]]$clone())), by = list(hashes(task))]
+  }
+  if ("learner" %in% clone) {
+    design[, "learner" := list(list(learner[[1L]]$clone())), by = list(hashes(learner))]
+  }
+  if ("resampling" %in% clone) {
+    design[, "resampling" := list(list(resampling[[1L]]$clone())), by = list(hashes(resampling))]
+  }
 
   # set encapsulation + fallback
   set_encapsulation(design$learner, encapsulate)
 
-  # expand the design: add rows for each resampling iteration
-  grid = pmap_dtr(design, function(task, learner, resampling) {
+  # expand the design: add rows for each resampling iteration and param_values
+  grid = pmap_dtr(design, function(task, learner, resampling, param_values) {
     # learner = assert_learner(as_learner(learner, clone = TRUE))
     assert_learnable(task, learner)
+
+    iters = resampling$iters
+    n_params = max(1L, length(param_values))
+    # insert constant values
+    param_values = map(param_values, function(values) insert_named(learner$param_set$values, values))
+
     data.table(
       task = list(task), learner = list(learner), resampling = list(resampling),
-      iteration = seq_len(resampling$iters), uhash = UUIDgenerate()
+      iteration = rep(seq_len(iters), times = n_params),
+      param_values = if (is.null(param_values)) list() else rep(param_values, each = iters),
+      uhash = rep(UUIDgenerate(n = n_params), each = iters)
     )
   })
+
   n = nrow(grid)
+  lgr_threshold = map_int(mlr_reflections$loggers, "threshold")
 
   # set default mode
   set(grid, j = "mode", value = "train")
@@ -123,7 +160,8 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
     hotstart_grid = pmap_dtr(grid, function(task, learner, resampling, iteration, ...) {
       if (!is.null(learner$hotstart_stack)) {
         # search for hotstart learner
-        task_hashes = task_hashes(task, resampling)
+        learner = learner$clone()
+        task_hashes = resampling_task_hashes(task, resampling, learner)
         start_learner = get_private(learner$hotstart_stack)$.start_learner(learner, task_hashes[iteration])
       }
       if (is.null(learner$hotstart_stack) || is.null(start_learner)) {
@@ -137,8 +175,9 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
       }
       data.table(learner = list(learner), mode = mode)
     })
+
     # null hotstart stack to reduce overhead in parallelization
-    map(hotstart_grid$learner, function(learner) {
+    walk(hotstart_grid$learner, function(learner) {
       learner$hotstart_stack = NULL
       learner
     })
@@ -146,35 +185,27 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
     set(grid, j = "mode", value = hotstart_grid$mode)
   }
 
-  if (getOption("mlr3.debug", FALSE)) {
-    lg$info("Running benchmark() sequentially in debug mode with %i iterations", n)
-
-    res = mapply(workhorse,
-      task = grid$task, learner = grid$learner, resampling = grid$resampling, iteration = grid$iteration,
-      mode = grid$mode,
-      MoreArgs = list(store_models = store_models, lgr_threshold = lg$threshold, pb = pb),
-      SIMPLIFY = FALSE, USE.NAMES = FALSE
-    )
-  } else {
-    lg$debug("Running benchmark() via future with %i iterations", n)
-
-    res = future.apply::future_mapply(workhorse,
-      task = grid$task, learner = grid$learner, resampling = grid$resampling, iteration = grid$iteration,
-      mode = grid$mode,
-      MoreArgs = list(store_models = store_models, lgr_threshold = lg$threshold, pb = pb),
-      SIMPLIFY = FALSE, USE.NAMES = FALSE, future.globals = FALSE,
-      future.scheduling = structure(TRUE, ordering = "random"), future.packages = "mlr3", future.seed = TRUE,
-      future.stdout = future_stdout()
-    )
-  }
+  res = future_map(n, workhorse,
+    task = grid$task, learner = grid$learner, resampling = grid$resampling, iteration = grid$iteration, param_values = grid$param_values, mode = grid$mode,
+    MoreArgs = list(store_models = store_models, lgr_threshold = lgr_threshold, pb = pb, unmarshal = unmarshal)
+  )
 
   grid = insert_named(grid, list(
     learner_state = map(res, "learner_state"),
-    prediction = map(res, "prediction")
+    prediction = map(res, "prediction"),
+    param_values = map(res, "param_values"),
+    learner_hash = map_chr(res, "learner_hash")
   ))
 
   lg$info("Finished benchmark")
 
-  grid$mode = NULL
-  BenchmarkResult$new(ResultData$new(grid, store_backends = store_backends))
+  set(grid, j = "mode", value = NULL)
+
+  result_data = ResultData$new(grid, store_backends = store_backends)
+
+  if (unmarshal && store_models) {
+    result_data$unmarshal()
+  }
+
+  BenchmarkResult$new(result_data)
 }

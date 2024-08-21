@@ -29,9 +29,17 @@
 #' rr = resample(task, learner, resampling)
 #' print(rr)
 #'
-#' rr$aggregate(msr("classif.acc"))
+#' # combined predictions and predictions for each fold separately
 #' rr$prediction()
-#' rr$prediction()$confusion
+#' rr$predictions()
+#'
+#' # folds scored separately, then aggregated (macro)
+#' rr$aggregate(msr("classif.acc"))
+#'
+#' # predictions first combined, then scored (micro)
+#' rr$prediction()$score(msr("classif.acc"))
+#'
+#' # check for warnings and errors
 #' rr$warnings
 #' rr$errors
 ResampleResult = R6Class("ResampleResult",
@@ -53,7 +61,8 @@ ResampleResult = R6Class("ResampleResult",
 
     #' @description
     #' Helper for print outputs.
-    format = function() {
+    #' @param ... (ignored).
+    format = function(...) {
       sprintf("<%s>", class(self)[1L])
     },
 
@@ -61,15 +70,15 @@ ResampleResult = R6Class("ResampleResult",
     #' Printer.
     #' @param ... (ignored).
     print = function(...) {
-      catf("%s of %i iterations", format(self), self$iters)
-      catn(str_indent("* Task:", self$task$id))
-      catn(str_indent("* Learner:", self$learner$id))
-
-      warnings = self$warnings
-      catn(str_indent("* Warnings:", sprintf("%i in %i iterations", nrow(warnings), uniqueN(warnings, by = "iteration"))))
-
-      errors = self$errors
-      catn(str_indent("* Errors:", sprintf("%i in %i iterations", nrow(errors), uniqueN(errors, by = "iteration"))))
+      tab = self$score(measures = list(), conditions = TRUE)
+      setattr(tab, "class", c("data.table", "data.frame"))
+      tab[, "warnings" := map(get("warnings"), length)]
+      tab[, "errors" := map(get("errors"), length)]
+      catf("%s with %i resampling iterations",  format(self), self$iters)
+      if (nrow(tab)) {
+        tab = remove_named(tab, c("task", "learner", "resampling", "prediction"))
+        print(tab, class = FALSE, row.names = FALSE, print.keys = FALSE, digits = 3)
+      }
     },
 
     #' @description
@@ -80,9 +89,11 @@ ResampleResult = R6Class("ResampleResult",
 
     #' @description
     #' Combined [Prediction] of all individual resampling iterations, and all provided predict sets.
-    #' Note that performance measures do not operate on this object,
-    #' but instead on each prediction object separately and then combine the performance scores
-    #' with the aggregate function of the respective [Measure].
+    #' Note that, per default, most performance measures do not operate on this object directly,
+    #' but instead on the prediction objects from the resampling iterations separately, and then combine
+    #' the performance scores with the aggregate function of the respective [Measure] (macro averaging).
+    #'
+    #' If you calculate the performance on this prediction object directly, this is called micro averaging.
     #'
     #' @param predict_sets (`character()`)\cr
     #' @return [Prediction].
@@ -95,19 +106,24 @@ ResampleResult = R6Class("ResampleResult",
     #' List of prediction objects, sorted by resampling iteration.
     #' If multiple sets are given, these are combined to a single one for each iteration.
     #'
+    #' If you evaluate the performance on all of the returned prediction objects and then average them, this
+    #' is called macro averaging. For micro averaging, operate on the combined prediction object as returned by
+    #' `$prediction()`.
+    #'
     #' @param predict_sets (`character()`)\cr
-    #'   Subset of `{"train", "test"}`.
+    #'   Subset of `{"train", "test", "internal_valid"}`.
     #' @return List of [Prediction] objects, one per element in `predict_sets`.
     predictions = function(predict_sets = "test") {
+      assert_subset(predict_sets, mlr_reflections$predict_sets, empty.ok = FALSE)
       private$.data$predictions(private$.view, predict_sets)
     },
 
     #' @description
     #' Returns a table with one row for each resampling iteration, including all involved objects:
-    #' [Task], [Learner], [Resampling], iteration number (`integer(1)`), and [Prediction].
+    #' [Task], [Learner], [Resampling], iteration number (`integer(1)`), and (if enabled)
+    #' one [Prediction] for each predict set of the [Learner].
     #' Additionally, a column with the individual (per resampling iteration) performance is added
-    #' for each [Measure] in `measures`,
-    #' named with the id of the respective measure id.
+    #' for each [Measure] in `measures`, named with the id of the respective measure id.
     #' If `measures` is `NULL`, `measures` defaults to the return value of [default_measures()].
     #'
     #' @param ids (`logical(1)`)\cr
@@ -119,16 +135,17 @@ ResampleResult = R6Class("ResampleResult",
     #'   Adds condition messages (`"warnings"`, `"errors"`) as extra
     #'   list columns of character vectors to the returned table
     #'
-    #' @param predict_sets (`character()`)\cr
-    #'   Vector of predict sets (`{"train", "test"}`) to construct the [Prediction] objects from.
-    #'   Default is `"test"`.
+    #' @param predictions (`logical(1)`)\cr
+    #'   Additionally return prediction objects, one column for each `predict_set` of the learner.
+    #'   Columns are named `"prediction_train"`, `"prediction_test"` and `"prediction_internal_valid"`,
+    #'   if present.
     #'
     #' @return [data.table::data.table()].
-    score = function(measures = NULL, ids = TRUE, conditions = FALSE, predict_sets = "test") {
+    score = function(measures = NULL, ids = TRUE, conditions = FALSE, predictions = FALSE) {
       measures = as_measures(measures, task_type = private$.data$task_type)
       assert_flag(ids)
       assert_flag(conditions)
-      assert_subset(predict_sets, mlr_reflections$predict_sets)
+      assert_flag(predictions)
 
       tab = score_measures(self, measures, view = private$.view)
 
@@ -145,11 +162,42 @@ ResampleResult = R6Class("ResampleResult",
         set(tab, j = "errors", value = map(tab$learner, "errors"))
       }
 
-      set(tab, j = "prediction", value = as_predictions(tab$prediction, predict_sets))
+      if (predictions) {
+        predict_sets = intersect(mlr_reflections$predict_sets, tab$learner[[1L]]$predict_sets)
+        predict_cols = sprintf("prediction_%s", predict_sets)
+        for (i in seq_along(predict_sets)) {
+          set(tab, j = predict_cols[i],
+            value = map(tab$prediction, function(p) as_prediction(p[[predict_sets[i]]], check = FALSE))
+          )
+        }
+      } else {
+        predict_cols = character()
+      }
+
+      set_data_table_class(tab, "rr_score")
+
       cns = c("task", "task_id", "learner", "learner_id", "resampling", "resampling_id", "iteration",
-        "prediction", "warnings", "errors", ids(measures))
+        predict_cols, "warnings", "errors", ids(measures))
       cns = intersect(cns, names(tab))
       tab[, cns, with = FALSE]
+    },
+
+    #' @description
+    #' Calculates the observation-wise loss via the loss function set in the
+    #' [Measure]'s field `obs_loss`.
+    #' Returns a `data.table()` with the columns of the matching [Prediction] object plus
+    #' one additional numeric column for each measure, named with the respective measure id.
+    #' If there is no observation-wise loss function for the measure, the column is filled with
+    #' `NA` values.
+    #' Note that some measures such as RMSE, do have an `$obs_loss`, but they require an
+    #' additional transformation after aggregation, in this example taking the square-root.
+    #'
+    #' @param predict_sets (`character()`)\cr
+    #'   The predict sets.
+    obs_loss = function(measures = NULL, predict_sets = "test") {
+      measures = as_measures(measures, task_type = self$task_type)
+      tab = map_dtr(self$predictions(predict_sets), as.data.table, .idcol = "iteration")
+      get_obs_loss(tab, measures)
     },
 
     #' @description
@@ -204,20 +252,25 @@ ResampleResult = R6Class("ResampleResult",
     #' the object in its previous state.
     discard = function(backends = FALSE, models = FALSE) {
       private$.data$discard(backends = backends, models = models)
+    },
+
+    #' @description
+    #' Marshals all stored models.
+    #' @param ... (any)\cr
+    #'   Additional arguments passed to [`marshal_model()`].
+    marshal = function(...) {
+      private$.data$marshal(...)
+    },
+    #' @description
+    #' Unmarshals all stored models.
+    #' @param ... (any)\cr
+    #'   Additional arguments passed to [`unmarshal_model()`].
+    unmarshal = function(...) {
+      private$.data$unmarshal(...)
     }
   ),
 
   active = list(
-    #' @field data (`ResultData`)\cr
-    #' Internal data storage object of type `ResultData`.
-    #' This field is deprecated and will be removed in the next release.
-    #' Use `as.table.table(BenchmarkResult)` instead.
-    data = function(rhs) {
-      assert_ro_binding(rhs)
-      .Deprecated("as.data.table(resample_result)")
-      private$.data
-    },
-
     #' @field task_type (`character(1)`)\cr
     #' Task type of objects in the `ResampleResult`, e.g. `"classif"` or `"regr"`.
     #' This is `NA` for empty [ResampleResult]s.
@@ -322,10 +375,10 @@ as.data.table.ResampleResult = function(x, ..., predict_sets = "test") { # nolin
   tab[, c("task", "learner", "resampling", "iteration", "prediction"), with = FALSE]
 }
 
-#' @export
-format_list_item.ResampleResult = function(x, ...) { # nolint
-  sprintf("<rr[%i]>", x$iters)
-}
+# #' @export
+# format_list_item.ResampleResult = function(x, ...) { # nolint
+#   sprintf("<rr[%i]>", x$iters)
+# }
 
 #' @export
 c.ResampleResult = function(...) {
@@ -334,5 +387,16 @@ c.ResampleResult = function(...) {
 
 
 resample_result_aggregate = function(rr, measures) {
-  set_names(map_dbl(measures, function(m) m$aggregate(rr)), ids(measures))
+  unlist(map(unname(measures), function(m) {
+    val = m$aggregate(rr)
+    # CIs in mlr3inferr return more than 1 value and are already named
+    if (length(val) == 1L) return(set_names(val, m$id))
+    val
+  })) %??% set_names(numeric(), character())
+}
+
+#' @export
+print.rr_score = function(x, ...) {
+  predict_cols = sprintf("prediction_%s", mlr_reflections$predict_sets)
+  print_data_table(x, c("task", "learner", "resampling", predict_cols))
 }

@@ -4,11 +4,17 @@
 \alias{mlr_measures_classif.mbrier}
 \title{Multiclass Brier Score}
 \description{
-Brier score for multi-class classification problems with \eqn{r} labels defined as \deqn{
-   \frac{1}{n} \sum_{i=1}^n \sum_{j=1}^r (I_{ij} - p_{ij})^2.
+Measure to compare true observed labels with predicted
+probabilities
+in multiclass classification tasks.
+}
+\details{
+Brier score for multi-class classification problems with \eqn{k} labels defined as \deqn{
+   \frac{1}{n} \sum_{i=1}^n \sum_{j=1}^k (I_{ij} - p_{ij})^2.
 }{
 }
-\eqn{I_{ij}}{I_ij} is 1 if observation \eqn{i} has true label \eqn{j}, and 0 otherwise.
+\eqn{I_{ij}}{I_ij} is 1 if observation \eqn{x_i} has true label \eqn{j}, and 0 otherwise.
+\eqn{p_{ij}}{p_ij} is the probability that observation \eqn{x_i} belongs to class \eqn{j}.
 
 Note that there also is the more common definition of the Brier score for binary
 classification problems in \code{\link[mlr3measures:bbrier]{bbrier()}}.
@@ -21,9 +27,11 @@ This can be customized by setting the field \code{na_value}.
 }
 \section{Dictionary}{
 
-This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("classif.mbrier")
+This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{mlr_measures$get("classif.mbrier")
 msr("classif.mbrier")
-}
+}\if{html}{\out{</div>}}
 }
 
 \section{Parameters}{
@@ -58,12 +66,17 @@ Other classification measures:
 \code{\link{mlr_measures_classif.dor}},
 \code{\link{mlr_measures_classif.fbeta}},
 \code{\link{mlr_measures_classif.fdr}},
-\code{\link{mlr_measures_classif.fnr}},
 \code{\link{mlr_measures_classif.fn}},
+\code{\link{mlr_measures_classif.fnr}},
 \code{\link{mlr_measures_classif.fomr}},
-\code{\link{mlr_measures_classif.fpr}},
 \code{\link{mlr_measures_classif.fp}},
+\code{\link{mlr_measures_classif.fpr}},
 \code{\link{mlr_measures_classif.logloss}},
+\code{\link{mlr_measures_classif.mauc_au1p}},
+\code{\link{mlr_measures_classif.mauc_au1u}},
+\code{\link{mlr_measures_classif.mauc_aunp}},
+\code{\link{mlr_measures_classif.mauc_aunu}},
+\code{\link{mlr_measures_classif.mauc_mu}},
 \code{\link{mlr_measures_classif.mcc}},
 \code{\link{mlr_measures_classif.npv}},
 \code{\link{mlr_measures_classif.ppv}},
@@ -72,17 +85,23 @@ Other classification measures:
 \code{\link{mlr_measures_classif.recall}},
 \code{\link{mlr_measures_classif.sensitivity}},
 \code{\link{mlr_measures_classif.specificity}},
-\code{\link{mlr_measures_classif.tnr}},
 \code{\link{mlr_measures_classif.tn}},
-\code{\link{mlr_measures_classif.tpr}},
-\code{\link{mlr_measures_classif.tp}}
+\code{\link{mlr_measures_classif.tnr}},
+\code{\link{mlr_measures_classif.tp}},
+\code{\link{mlr_measures_classif.tpr}}
 
 Other multiclass classification measures: 
 \code{\link{mlr_measures_classif.acc}},
 \code{\link{mlr_measures_classif.bacc}},
 \code{\link{mlr_measures_classif.ce}},
 \code{\link{mlr_measures_classif.costs}},
-\code{\link{mlr_measures_classif.logloss}}
+\code{\link{mlr_measures_classif.logloss}},
+\code{\link{mlr_measures_classif.mauc_au1p}},
+\code{\link{mlr_measures_classif.mauc_au1u}},
+\code{\link{mlr_measures_classif.mauc_aunp}},
+\code{\link{mlr_measures_classif.mauc_aunu}},
+\code{\link{mlr_measures_classif.mauc_mu}},
+\code{\link{mlr_measures_classif.mcc}}
 }
 \concept{classification measures}
 \concept{multiclass classification measures}

@@ -27,3 +27,9 @@ test_that("tasks are cloned", {
     mlr_tasks$remove("foo")
   }
 })
+
+test_that("as.data.table(..., objects = TRUE)", {
+  tab = as.data.table(mlr_tasks, objects = TRUE)
+  expect_data_table(tab)
+  expect_list(tab$object, "Task", any.missing = FALSE)
+})

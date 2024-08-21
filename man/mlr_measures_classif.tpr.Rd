@@ -4,14 +4,18 @@
 \alias{mlr_measures_classif.tpr}
 \title{True Positive Rate}
 \description{
-Binary classification measure defined as \deqn{
+Measure to compare true observed labels with predicted
+labels
+in binary classification tasks.
+}
+\details{
+The True Positive Rate is defined as \deqn{
   \frac{\mathrm{TP}}{\mathrm{TP} + \mathrm{FN}}.
 }{
   TP / (TP + FN).
 }
-Also know as "recall" or "sensitivity".
-}
-\details{
+This is also know as "recall", "sensitivity", or "probability of detection".
+
 This measure is undefined if TP + FN = 0.
 }
 \note{
@@ -22,9 +26,11 @@ This can be customized by setting the field \code{na_value}.
 }
 \section{Dictionary}{
 
-This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("classif.tpr")
+This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{mlr_measures$get("classif.tpr")
 msr("classif.tpr")
-}
+}\if{html}{\out{</div>}}
 }
 
 \section{Parameters}{
@@ -59,12 +65,17 @@ Other classification measures:
 \code{\link{mlr_measures_classif.dor}},
 \code{\link{mlr_measures_classif.fbeta}},
 \code{\link{mlr_measures_classif.fdr}},
-\code{\link{mlr_measures_classif.fnr}},
 \code{\link{mlr_measures_classif.fn}},
+\code{\link{mlr_measures_classif.fnr}},
 \code{\link{mlr_measures_classif.fomr}},
-\code{\link{mlr_measures_classif.fpr}},
 \code{\link{mlr_measures_classif.fp}},
+\code{\link{mlr_measures_classif.fpr}},
 \code{\link{mlr_measures_classif.logloss}},
+\code{\link{mlr_measures_classif.mauc_au1p}},
+\code{\link{mlr_measures_classif.mauc_au1u}},
+\code{\link{mlr_measures_classif.mauc_aunp}},
+\code{\link{mlr_measures_classif.mauc_aunu}},
+\code{\link{mlr_measures_classif.mauc_mu}},
 \code{\link{mlr_measures_classif.mbrier}},
 \code{\link{mlr_measures_classif.mcc}},
 \code{\link{mlr_measures_classif.npv}},
@@ -74,8 +85,8 @@ Other classification measures:
 \code{\link{mlr_measures_classif.recall}},
 \code{\link{mlr_measures_classif.sensitivity}},
 \code{\link{mlr_measures_classif.specificity}},
-\code{\link{mlr_measures_classif.tnr}},
 \code{\link{mlr_measures_classif.tn}},
+\code{\link{mlr_measures_classif.tnr}},
 \code{\link{mlr_measures_classif.tp}}
 
 Other binary classification measures: 
@@ -84,12 +95,11 @@ Other binary classification measures:
 \code{\link{mlr_measures_classif.dor}},
 \code{\link{mlr_measures_classif.fbeta}},
 \code{\link{mlr_measures_classif.fdr}},
-\code{\link{mlr_measures_classif.fnr}},
 \code{\link{mlr_measures_classif.fn}},
+\code{\link{mlr_measures_classif.fnr}},
 \code{\link{mlr_measures_classif.fomr}},
-\code{\link{mlr_measures_classif.fpr}},
 \code{\link{mlr_measures_classif.fp}},
-\code{\link{mlr_measures_classif.mcc}},
+\code{\link{mlr_measures_classif.fpr}},
 \code{\link{mlr_measures_classif.npv}},
 \code{\link{mlr_measures_classif.ppv}},
 \code{\link{mlr_measures_classif.prauc}},
@@ -97,8 +107,8 @@ Other binary classification measures:
 \code{\link{mlr_measures_classif.recall}},
 \code{\link{mlr_measures_classif.sensitivity}},
 \code{\link{mlr_measures_classif.specificity}},
-\code{\link{mlr_measures_classif.tnr}},
 \code{\link{mlr_measures_classif.tn}},
+\code{\link{mlr_measures_classif.tnr}},
 \code{\link{mlr_measures_classif.tp}}
 }
 \concept{binary classification measures}

@@ -67,9 +67,17 @@ assert_tasks = function(tasks, task_type = NULL, feature_types = NULL, task_prop
 
 #' @export
 #' @param learner ([Learner]).
+#' @param task_type (`character(1)`).
 #' @rdname mlr_assertions
-assert_learner = function(learner, task = NULL, properties = character(), .var.name = vname(learner)) {
+assert_learner = function(learner, task = NULL, task_type = NULL, properties = character(), .var.name = vname(learner)) {
   assert_class(learner, "Learner", .var.name = .var.name)
+
+  task_type = task_type %??% task$task_type
+  # check on class(learner) does not work with GraphLearner and AutoTuner
+  # check on learner$task_type does not work with TaskUnsupervised
+  if (!test_matching_task_type(task_type, learner, "learner")) {
+    stopf("Learner '%s' must have task type '%s'", learner$id, task_type)
+  }
 
   if (length(properties)) {
     miss = setdiff(properties, learner$properties)
@@ -81,21 +89,39 @@ assert_learner = function(learner, task = NULL, properties = character(), .var.n
   invisible(learner)
 }
 
+test_matching_task_type = function(task_type, object, class) {
+  if (is.null(task_type) || object$task_type == task_type) {
+    return(TRUE)
+  }
+
+  cl_task_type = fget(mlr_reflections$task_types, task_type, class, "type")
+  if (inherits(object, cl_task_type)) {
+    return(TRUE)
+  }
+
+  cl_object = fget(mlr_reflections$task_types, object$task_type, class, "type")
+  return(cl_task_type == cl_object)
+}
+
 
 #' @export
 #' @param learners (list of [Learner]).
 #' @rdname mlr_assertions
-assert_learners = function(learners, task = NULL, properties = character(), .var.name = vname(learners)) {
-  invisible(lapply(learners, assert_learner, task = task, properties = properties, .var.name = .var.name))
+assert_learners = function(learners, task = NULL, task_type = NULL, properties = character(), .var.name = vname(learners)) {
+  invisible(lapply(learners, assert_learner, task = task, task_type = NULL, properties = properties, .var.name = .var.name))
 }
 
+# this does not check the validation task, as this is only possible once the validation set is known,
+# which happens during worker(), so it cannot be checked before that
 assert_task_learner = function(task, learner, cols = NULL) {
   pars = learner$param_set$get_values(type = "only_token", check_required = FALSE)
   if (length(pars) > 0) {
     stopf("%s cannot be trained with TuneToken present in hyperparameter: %s", learner$format(), str_collapse(names(pars)))
   }
+  # check on class(learner) does not work with GraphLearner and AutoTuner
+  # check on learner$task_type does not work with TaskUnsupervised
 
-  if (task$task_type != learner$task_type) {
+  if (!test_matching_task_type(task$task_type, learner, "learner")) {
     stopf("Type '%s' of %s does not match type '%s' of %s",
       task$task_type, task$format(), learner$task_type, learner$format())
   }
@@ -121,17 +147,46 @@ assert_task_learner = function(task, learner, cols = NULL) {
         task$id, tmp[1L], learner$id)
     }
   }
+
+  validate = get0("validate", learner)
+  if (!is.null(task$internal_valid_task) && (is.numeric(validate) || identical(validate, "test"))) {
+    stopf("Parameter 'validate' of Learner '%s' cannot be set to 'test' or a ratio when internal_valid_task is present, remove it first", learner$id)
+  }
 }
 
 #' @export
 #' @rdname mlr_assertions
 assert_learnable = function(task, learner) {
+  if (task$task_type == "unsupervised") {
+    stopf("%s cannot be trained with %s", learner$format(), task$format())
+  }
   assert_task_learner(task, learner)
 }
 
 #' @export
 #' @rdname mlr_assertions
 assert_predictable = function(task, learner) {
+  if (!is.null(learner$state$train_task)) {
+    train_task = learner$state$train_task
+    cols_train = train_task$feature_names
+    cols_predict = task$feature_names
+
+    if (!test_permutation(cols_train, cols_predict)) {
+      stopf("Learner '%s' has received tasks with different columns in train and predict.", learner$id)
+    }
+
+    ids = train_task$col_info[get("id") %in% cols_train, "id"]$id
+    ci_predict = task$col_info[list(ids), c("id", "type", "levels"), on = "id"]
+    ci_train = train_task$col_info[list(ids), c("id", "type", "levels"), on = "id"]
+
+    ok = all(ci_train$type == ci_predict$type) &&
+      all(pmap_lgl(list(x = ci_train$levels, y = ci_predict$levels), identical))
+
+    if (!ok) {
+      stopf( "Learner '%s' received task with different column info during train and predict.", learner$id)
+    }
+  }
+
   assert_task_learner(task, learner, cols = task$feature_names)
 }
 
@@ -143,9 +198,8 @@ assert_predictable = function(task, learner) {
 assert_measure = function(measure, task = NULL, learner = NULL, .var.name = vname(measure)) {
   assert_class(measure, "Measure", .var.name = .var.name)
 
-
   if (!is.null(task)) {
-    if (!is_scalar_na(measure$task_type) && measure$task_type != task$task_type) {
+    if (!is_scalar_na(measure$task_type) && !test_matching_task_type(task$task_type, measure, "measure")) {
       stopf("Measure '%s' is not compatible with type '%s' of task '%s'",
         measure$id, task$task_type, task$id)
     }
@@ -233,7 +287,7 @@ assert_prediction = function(prediction, .var.name = vname(prediction)) {
 
 
 #' @export
-#' @param resample_result ([ResampleResult]).
+#' @param rr ([ResampleResult]).
 #' @rdname mlr_assertions
 assert_resample_result = function(rr, .var.name = vname(rr)) {
   assert_class(rr, "ResampleResult", .var.name = .var.name)
@@ -307,9 +361,15 @@ assert_row_sums = function(prob) {
   }
 }
 
-assert_same_task_type = function(objs) {
-  task_types = unique(map_chr(objs, "task_type"))
-  if (length(task_types) > 1L) {
-    stopf("Multiple task types detected, but mixing types is not supported: %s", str_collapse(task_types))
+assert_param_values = function(x, n_learners = NULL, .var.name = vname(x)) {
+  assert_list(x, len = n_learners, .var.name = .var.name)
+
+  ok = every(x, function(x) {
+    test_list(x) && every(x, test_list, names = "unique", null.ok = TRUE)
+  })
+
+  if (!ok) {
+    stopf("'%s' must be a three-time nested list and the most inner list must be named", .var.name)
   }
+  invisible(x)
 }

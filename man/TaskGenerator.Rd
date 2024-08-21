@@ -20,6 +20,7 @@ e.g. \code{\link[=mlr_task_generators_xor]{xor}}.
 }
 
 Other TaskGenerator: 
+\code{\link{mlr_task_generators}},
 \code{\link{mlr_task_generators_2dnormals}},
 \code{\link{mlr_task_generators_cassini}},
 \code{\link{mlr_task_generators_circle}},
@@ -28,8 +29,7 @@ Other TaskGenerator:
 \code{\link{mlr_task_generators_simplex}},
 \code{\link{mlr_task_generators_smiley}},
 \code{\link{mlr_task_generators_spirals}},
-\code{\link{mlr_task_generators_xor}},
-\code{\link{mlr_task_generators}}
+\code{\link{mlr_task_generators_xor}}
 }
 \concept{TaskGenerator}
 \section{Public fields}{
@@ -38,6 +38,10 @@ Other TaskGenerator:
 \item{\code{id}}{(\code{character(1)})\cr
 Identifier of the object.
 Used in tables, plot and text output.}
+
+\item{\code{label}}{(\code{character(1)})\cr
+Label for this object.
+Can be used in tables, plot and text output instead of the ID.}
 
 \item{\code{task_type}}{(\code{character(1)})\cr
 Task type, e.g. \code{"classif"} or \code{"regr"}.
@@ -61,16 +65,16 @@ Defaults to \code{NA}, but can be set by child classes.}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{TaskGenerator$new()}}
-\item \href{#method-format}{\code{TaskGenerator$format()}}
-\item \href{#method-print}{\code{TaskGenerator$print()}}
-\item \href{#method-generate}{\code{TaskGenerator$generate()}}
-\item \href{#method-clone}{\code{TaskGenerator$clone()}}
+\item \href{#method-TaskGenerator-new}{\code{TaskGenerator$new()}}
+\item \href{#method-TaskGenerator-format}{\code{TaskGenerator$format()}}
+\item \href{#method-TaskGenerator-print}{\code{TaskGenerator$print()}}
+\item \href{#method-TaskGenerator-generate}{\code{TaskGenerator$generate()}}
+\item \href{#method-TaskGenerator-clone}{\code{TaskGenerator$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-TaskGenerator-new"></a>}}
+\if{latex}{\out{\hypertarget{method-TaskGenerator-new}{}}}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
@@ -79,6 +83,7 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
   task_type,
   packages = character(),
   param_set = ps(),
+  label = NA_character_,
   man = NA_character_
 )}\if{html}{\out{</div>}}
 }
@@ -101,6 +106,9 @@ but loaded (not attached) later on-demand via \code{\link[=requireNamespace]{req
 \item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
 Set of hyperparameters.}
 
+\item{\code{label}}{(\code{character(1)})\cr
+Label for the new instance.}
+
 \item{\code{man}}{(\code{character(1)})\cr
 String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
 The referenced help package can be opened via method \verb{$help()}.}
@@ -109,18 +117,25 @@ The referenced help package can be opened via method \verb{$help()}.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-format"></a>}}
-\if{latex}{\out{\hypertarget{method-format}{}}}
+\if{html}{\out{<a id="method-TaskGenerator-format"></a>}}
+\if{latex}{\out{\hypertarget{method-TaskGenerator-format}{}}}
 \subsection{Method \code{format()}}{
 Helper for print outputs.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TaskGenerator$format()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{TaskGenerator$format(...)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{...}}{(ignored).}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-print"></a>}}
-\if{latex}{\out{\hypertarget{method-print}{}}}
+\if{html}{\out{<a id="method-TaskGenerator-print"></a>}}
+\if{latex}{\out{\hypertarget{method-TaskGenerator-print}{}}}
 \subsection{Method \code{print()}}{
 Printer.
 \subsection{Usage}{
@@ -136,8 +151,8 @@ Printer.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-generate"></a>}}
-\if{latex}{\out{\hypertarget{method-generate}{}}}
+\if{html}{\out{<a id="method-TaskGenerator-generate"></a>}}
+\if{latex}{\out{\hypertarget{method-TaskGenerator-generate}{}}}
 \subsection{Method \code{generate()}}{
 Creates a task of type \code{task_type} with \code{n} observations, possibly using additional settings stored in \code{param_set}.
 \subsection{Usage}{
@@ -157,8 +172,8 @@ Number of rows to generate.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-TaskGenerator-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-TaskGenerator-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

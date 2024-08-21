@@ -4,12 +4,21 @@
 #' @include LearnerClassif.R
 #'
 #' @description
-#' A simple [LearnerClassif] which only analyses the labels during train, ignoring all features.
+#' A simple [LearnerClassif] which only analyzes the labels during train, ignoring all features.
 #' Hyperparameter `method` determines the mode of operation during prediction:
 #' \describe{
-#'   \item{mode:}{Predicts the most frequent label. If there are two or more labels tied, randomly selects one per prediction.}
-#'   \item{sample:}{Randomly predict a label uniformly.}
-#'   \item{weighted.sample:}{Randomly predict a label, with probability estimated from the training distribution.}
+#'   \item{mode:}{
+#'     Predicts the most frequent label. If there are two or more labels tied, randomly selects one per prediction.
+#'     Probabilities correspond to the relative frequency of the class labels in the training set.
+#'   }
+#'   \item{sample:}{
+#'     Randomly predict a label uniformly.
+#'     Probabilities correspond to a uniform distribution of class labels, i.e. 1 divided by the number of classes.
+#'   }
+#'   \item{weighted.sample:}{
+#'     Randomly predict a label, with probability estimated from the training distribution.
+#'     For consistency, probabilities are 1 for the sampled label and 0 for all other labels.
+#'   }
 #' }
 #'
 #' @templateVar id classif.featureless
@@ -32,7 +41,8 @@ LearnerClassifFeatureless = R6Class("LearnerClassifFeatureless", inherit = Learn
         predict_types = c("response", "prob"),
         param_set = ps,
         properties = c("featureless", "twoclass", "multiclass", "missings", "importance", "selected_features"),
-        man = "mlr3::mlr_learners_classif.featureless"
+        label = "Featureless Classification Learner",
+        man = "mlr3::mlr_learners_classif.featureless",
       )
     },
 
@@ -65,31 +75,28 @@ LearnerClassifFeatureless = R6Class("LearnerClassifFeatureless", inherit = Learn
       pv = self$param_set$get_values(tags = "predict")
       tab = self$model$tab
       n = task$nrow
+      labels = names(tab)
       response = prob = NULL
 
       if (self$predict_type == "response") {
         response = switch(pv$method,
-          mode = rep.int(sample(names(tab[tab == max(tab)]), 1L), n),
-          sample = sample(names(tab), n, replace = TRUE),
-          weighted.sample = sample(names(tab), n, replace = TRUE, prob = tab)
+          mode = sample(labels[tab == max(tab)], n, replace = TRUE),
+          sample = sample(labels, n, replace = TRUE),
+          weighted.sample = sample(labels, n, replace = TRUE, prob = tab)
         )
-        list(response = response)
-      } else {
+      } else if (self$predict_type == "prob") {
         prob = switch(pv$method,
-          mode = {
-            tmp = (tab == max(tab))
-            tmp / sum(tmp)
-          },
-          sample = rep.int(1 / length(tab), length(tab)),
-          weighted.sample = tab / sum(tab)
+          mode = matrix(unname(tab) / sum(tab), nrow = n, ncol = length(tab), byrow = TRUE),
+          sample = matrix(1 / length(tab), nrow = n, ncol = length(tab)),
+          weighted.sample = diag(length(tab))[sample(seq_along(tab), n, replace = TRUE, prob = tab),, drop = FALSE]
         )
-        prob = matrix(prob, nrow = n, ncol = length(tab), byrow = TRUE)
-        colnames(prob) = names(tab)
-        list(prob = prob)
+        colnames(prob) = labels
       }
+
+      list(response = response, prob = prob)
     }
   )
 )
 
 #' @include mlr_learners.R
-mlr_learners$add("classif.featureless", LearnerClassifFeatureless)
+mlr_learners$add("classif.featureless", function() LearnerClassifFeatureless$new())

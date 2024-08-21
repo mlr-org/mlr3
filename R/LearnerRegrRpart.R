@@ -3,10 +3,14 @@
 #' @name mlr_learners_regr.rpart
 #' @include LearnerRegr.R
 #'
-#' A [LearnerRegr] for a regression tree implemented in [rpart::rpart()] in package \CRANpkg{rpart}.
 #' @description
-#' Parameter `xval` is set to 0 in order to save some computation time.
-#' Parameter `model` has been renamed to `keep_model`.
+#' A [LearnerRegr] for a regression tree implemented in [rpart::rpart()] in package \CRANpkg{rpart}.
+#'
+#' @section Initial parameter values:
+#' * Parameter `xval` is initialized to 0 in order to save some computation time.
+#'
+#' @section Custom mlr3 parameters:
+#' * Parameter `model` has been renamed to `keep_model`.
 #'
 #' @templateVar id regr.rpart
 #' @template learner
@@ -42,6 +46,7 @@ LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
         packages = "rpart",
         param_set = ps,
         properties = c("weights", "missings", "importance", "selected_features"),
+        label = "Regression Tree",
         man = "mlr3::mlr_learners_regr.rpart"
       )
     },
@@ -80,12 +85,23 @@ LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
     },
 
     .predict = function(task) {
+      pv = self$param_set$get_values(tags = "predict")
       newdata = task$data(cols = task$feature_names)
-      response = invoke(predict, self$model, newdata = newdata, .opts = allow_partial_matching)
+      response = invoke(predict, self$model, newdata = newdata,
+        .opts = allow_partial_matching, .args = pv)
       list(response = unname(response))
     }
   )
 )
 
+#' @export
+default_values.LearnerRegrRpart = function(x, search_space, task, ...) { # nolint
+  special_defaults = list(
+    minbucket = round(20 / 3)
+  )
+  defaults = insert_named(default_values(x$param_set), special_defaults)
+  defaults[search_space$ids()]
+}
+
 #' @include mlr_learners.R
-mlr_learners$add("regr.rpart", LearnerRegrRpart)
+mlr_learners$add("regr.rpart", function() LearnerRegrRpart$new())

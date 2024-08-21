@@ -40,7 +40,7 @@ as_data_backend.DataBackend = function(data, primary_key = NULL, ...) { # nolint
 
 #' @param data ([data.frame()])\cr
 #'   The input [data.frame()].
-#'   Converted to a [data.table::data.table()] automatically.
+#'   Automatically converted to a [data.table::data.table()].
 #'
 #' @param keep_rownames (`logical(1)` | `character(1)`)\cr
 #'   If `TRUE` or a single string, keeps the row names of `data` as a new column.
@@ -52,6 +52,7 @@ as_data_backend.DataBackend = function(data, primary_key = NULL, ...) { # nolint
 #' @export
 as_data_backend.data.frame = function(data, primary_key = NULL, keep_rownames = FALSE, ...) { # nolint
   assert_data_frame(data, min.cols = 1L, col.names = "unique")
+
   if (!isFALSE(keep_rownames)) {
     if (isTRUE(keep_rownames)) {
       keep_rownames = "..rownames"
@@ -66,7 +67,7 @@ as_data_backend.data.frame = function(data, primary_key = NULL, keep_rownames = 
   if (is.character(primary_key)) {
     assert_string(primary_key)
     assert_choice(primary_key, colnames(data))
-    assert_integer(data[[primary_key]], any.missing = FALSE, unique = TRUE)
+    assert_integer(data[[primary_key]], any.missing = FALSE, unique = TRUE, lower = 0L)
   } else {
     if (is.null(primary_key)) {
       row_ids = seq_row(data)

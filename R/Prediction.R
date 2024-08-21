@@ -50,7 +50,8 @@ Prediction = R6Class("Prediction",
 
     #' @description
     #' Helper for print outputs.
-    format = function() {
+    #' @param ... (ignored).
+    format = function(...) {
       sprintf("<%s>", class(self)[1L])
     },
 
@@ -93,6 +94,21 @@ Prediction = R6Class("Prediction",
       scores = map_dbl(measures, function(m) m$score(prediction = self, task = task, learner = learner, train_set = train_set))
       set_names(scores, ids(measures))
     },
+
+    #' @description
+    #' Calculates the observation-wise loss via the loss function set in the
+    #' [Measure]'s field `obs_loss`.
+    #' Returns a `data.table()` with the columns `row_ids`, `truth`, `response` and
+    #' one additional numeric column for each measure, named with the respective measure id.
+    #' If there is no observation-wise loss function for the measure, the column is filled with
+    #' `NA` values.
+    #' Note that some measures such as RMSE, do have an `$obs_loss`, but they require an
+    #' additional transformation after aggregation, in this example taking the square-root.
+    obs_loss = function(measures = NULL) {
+      measures = as_measures(measures, task_type = self$task_type)
+      get_obs_loss(as.data.table(self), measures)
+    },
+
 
     #' @description
     #' Filters the [Prediction], keeping only predictions for the provided row_ids.
@@ -149,8 +165,7 @@ c.Prediction = function(..., keep_duplicates = TRUE) { # nolint
   as_prediction(pdata, check = FALSE)
 }
 
-#' @export
-format_list_item.Prediction = function(x, ...) { # nolint
-  sprintf("<prd[%i]>", length(x$row_ids))
-}
-
+# #' @export
+# format_list_item.Prediction = function(x, ...) { # nolint
+#   sprintf("<prd[%i]>", length(x$row_ids))
+# }

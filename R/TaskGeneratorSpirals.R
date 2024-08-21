@@ -28,7 +28,8 @@ TaskGeneratorSpirals = R6Class("TaskGeneratorSpirals",
         sd     = p_dbl(0, default = 0)
       )
 
-      super$initialize(id = "spirals", "classif", "mlbench", ps, man = "mlr3::mlr_task_generators_spirals")
+      super$initialize(id = "spirals", "classif", "mlbench", ps,
+        label = "Spiral Classification", man = "mlr3::mlr_task_generators_spirals")
     },
 
     #' @description
@@ -57,4 +58,4 @@ TaskGeneratorSpirals = R6Class("TaskGeneratorSpirals",
 )
 
 #' @include mlr_task_generators.R
-mlr_task_generators$add("spirals", TaskGeneratorSpirals)
+mlr_task_generators$add("spirals", function() TaskGeneratorSpirals$new())

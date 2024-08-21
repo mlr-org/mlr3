@@ -1,19 +1,40 @@
 test_that("Feature columns can be reordered", {
   bh = load_dataset("BostonHousing", "mlbench")
-  task = tsk("boston_housing")
-  task$col_roles$feature = setdiff(names(bh), "medv")
+  bh$medv = NULL
 
-  expect_equal(task$feature_names, setdiff(names(bh), "medv"))
-  expect_equal(names(task$data(rows = 1)), c("medv", setdiff(names(bh), "medv")))
+  task = tsk("boston_housing")
+  task$col_roles$feature = setdiff(names(bh), "cmedv")
+
+  expect_equal(task$feature_names, setdiff(names(bh), "cmedv"))
+  expect_equal(names(task$data(rows = 1)), c("cmedv", setdiff(names(bh), "cmedv")))
 
   task$col_roles$feature = shuffle(task$col_roles$feature)
-  expect_equal(names(task$data(rows = 1)), c("medv", task$col_roles$feature))
+  expect_equal(names(task$data(rows = 1)), c("cmedv", task$col_roles$feature))
 })
 
 test_that("Task duplicates rows", {
+  # getting same row ids twice
   task = tsk("iris")
   data = task$data(c(1L, 1L))
   expect_data_table(data, nrows = 2L, any.missing = FALSE)
+
+  # task with duplicated ids in row_roles$use
+  # this happens in ResamplingBootstrap!
+  task = tsk("iris")
+  task$row_roles$use = c(1:5, 1:5, 146:150)
+  expect_task(task, duplicated_ids = TRUE)
+
+  expect_equal(task$nrow, 15L)
+  expect_data_table(task$data(), nrows = 15)
+  task$droplevels()
+  expect_character(task$class_names, len = 2L)
+
+  task$set_row_roles(1, remove_from = "use")
+  expect_equal(task$nrow, 13L)
+  task$set_row_roles(1L, add_to = "use")
+  expect_equal(task$nrow, 14L)
+  task$set_row_roles(1L, add_to = "use")
+  expect_equal(task$nrow, 15L)
 })
 
 test_that("Rows return ordered", {
@@ -86,14 +107,6 @@ test_that("Task rbind", {
   expect_set_equal(nt$row_ids, 1:202)
   expect_equal(nt$row_names$row_name, c(task$row_names$row_name, rep(NA, 101)))
   expect_equal(nt$col_info[list("foo"), .N, nomatch = NULL], 0L)
-
-  # #423
-  task = tsk("iris")
-  task$row_roles$use = 1:10
-  task$row_roles$validation = 11:150
-
-  task$rbind(iris[sample(nrow(iris), 5), ])
-  expect_set_equal(task$row_ids, c(1:10, 151:155))
 
   # 496
   data = iris
@@ -169,12 +182,14 @@ test_that("cbind/rbind works", {
 
   task$cbind(data)
   expect_task(task)
+  expect_equal(task$n_features, 5L) # "foo" was added as a feature
   expect_set_equal(c(task$feature_names, task$target_names), c(names(iris), "foo"))
   expect_data_table(task$data(), ncols = 6, any.missing = FALSE)
 
   task$rbind(cbind(data.table(..row_id = 201:210, foo = 99L), iris[1:10, ]))
   expect_task(task)
   expect_set_equal(task$row_ids, c(1:150, 201:210))
+  expect_equal(task$n_features, 5L) # adding rows doesn't change #features
   expect_data_table(task$data(), ncols = 6, nrows = 160, any.missing = FALSE)
 
   # auto generated ids
@@ -210,7 +225,8 @@ test_that("select works", {
   task$select("Sepal.Width")
   expect_equal(task$feature_names, "Sepal.Width")
 
-  expect_error(task$select(1:4), "subset")
+  expect_error(task$select(1:4), "character")
+  expect_error(task$select("xxx", "subset"))
 })
 
 test_that("rename works", {
@@ -314,6 +330,12 @@ test_that("task$missings() works", {
   x = task$missings()
   y = map_int(task$data(), count_missing)
   expect_equal(x, y[match(names(x), names(y))])
+
+  # issue #862
+  task = tsk("iris")$cbind(data.frame(x = 1:150))$rename("x", "y")
+  missings = task$missings(cols = character())
+  expect_integer(missings, len = 0L)
+  testthat::expect_named(missings)
 })
 
 test_that("task$feature_types preserves key (#193)", {
@@ -323,9 +345,13 @@ test_that("task$feature_types preserves key (#193)", {
 
 test_that("switch columns on and off (#301)", {
   task = tsk("iris")
+  expect_equal(task$n_features, 4L)
   task$col_roles$feature = setdiff(task$col_roles$feature, "Sepal.Length")
+  expect_equal(task$n_features, 3L)
   task$cbind(data.table(x = 1:150))
+  expect_equal(task$n_features, 4L)
   task$col_roles$feature = union(task$col_roles$feature, "Sepal.Length")
+  expect_equal(task$n_features, 5L)
   expect_data_table(task$data(), ncols = 6, nrows = 150, any.missing = FALSE)
 })
 
@@ -350,8 +376,9 @@ test_that("col roles getters/setters", {
     task$col_roles$feature = "foo"
   })
 
-  # additional roles allowed (#558)
-  task$col_roles$foo = "Species"
+  expect_error({
+    task$col_roles$foo = "Species"
+  })
 
   task$col_roles$feature = setdiff(task$col_roles$feature, "Sepal.Length")
   expect_false("Sepal.Length" %in% task$feature_names)
@@ -378,26 +405,28 @@ test_that("Task$set_row_roles", {
 
   task$set_row_roles(1:10, add_to = "use")
   expect_true(all(1:10 %in% task$row_ids))
-
-  task$set_row_roles(1:10, roles = "validation")
-  expect_true(all(1:10 %nin% task$row_ids))
 })
 
 
 test_that("Task$set_col_roles", {
   task = tsk("pima")
+  expect_equal(task$n_features, 8L)
 
   task$set_col_roles("mass", remove_from = "feature")
+  expect_equal(task$n_features, 7L)
   expect_true("mass" %nin% task$feature_names)
 
   task$set_col_roles("mass", add_to = "feature")
+  expect_equal(task$n_features, 8L)
   expect_true("mass" %in% task$feature_names)
 
   task$set_col_roles("age", roles = "weight")
+  expect_equal(task$n_features, 7L)
   expect_true("age" %nin% task$feature_names)
   expect_data_table(task$weights)
 
   task$set_col_roles("age", add_to = "feature", remove_from = "weight")
+  expect_equal(task$n_features, 8L)
   expect_true("age" %in% task$feature_names)
   expect_null(task$weights)
 })
@@ -454,7 +483,7 @@ test_that("set_levels", {
   expect_equal(tab$levels[[1]], new_lvls)
   expect_equal(tab$fix_factor_levels[[1]], TRUE)
   expect_equal(levels(task$data(1)$sex), new_lvls)
-  expect_equal(levels(task$head()$sex), new_lvls)
+  expect_equal(levels(head(task)$sex), new_lvls)
 
 
   new_lvls = c("female", "nothing")
@@ -464,9 +493,9 @@ test_that("set_levels", {
   expect_equal(tab$levels[[1]], new_lvls)
   expect_equal(tab$fix_factor_levels[[1]], TRUE)
   expect_equal(as.integer(task$data(1)$sex), NA_integer_)
-  expect_equal(as.integer(task$head(1)$sex), NA_integer_)
+  expect_equal(as.integer(head(task, 1)$sex), NA_integer_)
   expect_equal(levels(task$data(1)$sex), new_lvls)
-  expect_equal(levels(task$head(1)$sex), new_lvls)
+  expect_equal(levels(head(task, 1)$sex), new_lvls)
 })
 
 test_that("special chars in feature names (#697)", {
@@ -480,7 +509,103 @@ test_that("special chars in feature names (#697)", {
   options(mlr3.allow_utf8_names = TRUE)
 
   expect_error(
-    TaskRegr$new("test", data.table(`%^` = 1:3, t = 3:1), target = "t"),
+    TaskRegr$new("test", data.table(`%asd` = 1:3, t = 3:1), target = "t")
+    ,
     "special character"
   )
+})
+
+test_that("head/tail", {
+  task = tsk("iris")
+  expect_data_table(head(task, n = 3), nrows = 3)
+  expect_data_table(head(task, n = -3), nrows = task$nrow - 3)
+
+  expect_data_table(tail(task, n = 3), nrows = 3)
+  expect_data_table(tail(task, n = -3), nrows = task$nrow - 3)
+
+  expect_data_table(head(task, n = Inf), nrows = 150)
+  expect_data_table(tail(task, n = Inf), nrows = 150)
+
+  expect_data_table(head(task, n = -Inf), nrows = 0)
+  expect_data_table(tail(task, n = -Inf), nrows = 0)
+})
+
+test_that("Roles get printed (#877)", {
+  task = tsk("iris")
+  task$col_roles$weight = "Petal.Width"
+  expect_output(print(task), "Weights: Petal.Width")
+})
+
+test_that("validation task is cloned", {
+  task = tsk("iris")
+  task$internal_valid_task = c(1:10, 51:60, 101:110)
+  task2 = task$clone(deep = TRUE)
+  expect_false(identical(task$internal_valid_task, task2$internal_valid_task))
+  expect_equal(task$internal_valid_task, task2$internal_valid_task)
+})
+
+test_that("task is cloned when assining internal validation task", {
+  task = tsk("iris")
+  task$internal_valid_task = task
+  expect_false(identical(task, task$internal_valid_task))
+})
+
+test_that("validation task changes a task's hash", {
+  task = tsk("iris")
+  h1 = task$hash
+  task$internal_valid_task = task$clone(deep = TRUE)$filter(1:10)
+  h2 = task$hash
+  expect_false(h1 == h2)
+})
+
+test_that("compatibility checks on internal_valid_task", {
+  d1 = data.table(x = 1:10, y = 1:10)
+  d2 = data.table(x = rnorm(10), y = 1:10)
+  d3 = data.table(x1 = rnorm(10), y = 1:10)
+
+  t1 = as_task_regr(d1, target = "y")
+  t2 = as_task_regr(d2, target = "y")
+  t3 = as_task_regr(d3, target = "y")
+  expect_error({t1$internal_valid_task = t2 }, "differs from the type")
+  expect_error({t1$internal_valid_task = t3 }, "not present")
+})
+
+test_that("can NULL validation task", {
+  task = tsk("iris")
+  task$internal_valid_task = 1
+  task$internal_valid_task = NULL
+  expect_equal(length(task$row_ids), 149)
+})
+
+test_that("internal_valid_task is printed", {
+  task = tsk("iris")
+  task$internal_valid_task = c(1:10, 51:60, 101:110)
+  out = capture_output(print(task))
+  expect_true(grepl(pattern = "* Validation Task: (30x5)", fixed = TRUE, x = out))
+})
+
+test_that("task hashes during resample", {
+  orig = tsk("iris")
+  task = orig$clone(deep = TRUE)
+  resampling = rsmp("holdout")
+  resampling$instantiate(task)
+  task$internal_valid_task = resampling$test_set(1)
+  task$hash
+  learner = lrn("classif.debug", validate = "test")
+  expect_equal(resampling_task_hashes(task, resampling, learner), task$hash)
+})
+
+test_that("integer vector can be passed to internal_valid_task", {
+  task = tsk("iris")$filter(1:5)
+  task$internal_valid_task = 5
+  expect_permutation(task$row_ids, 1:4)
+  expect_equal(task$internal_valid_task$row_ids, 5)
+})
+
+test_that("cbind supports non-standard primary key (#961)", {
+  tbl = data.table(x = runif(10), y = runif(10), myid = 1:10)
+  b = as_data_backend(tbl, primary_key = "myid")
+  task = as_task_regr(b, target = "y")
+  task$cbind(data.table(x1 = 10:1))
+  expect_true("x1" %in% task$feature_names)
 })

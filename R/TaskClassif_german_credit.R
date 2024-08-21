@@ -15,7 +15,7 @@
 #' @template task
 #'
 #' @source
-#' Data set originally published on [UCI](https://archive.ics.uci.edu/ml/datasets/statlog+(german+credit+data)).
+#' Data set originally published on [UCI](http://archive.ics.uci.edu/dataset/144/statlog+german+credit+data).
 #' This is the preprocessed version taken from package \CRANpkg{rchallenge} with
 #' factors instead of dummy variables, and corrected as proposed by Ulrike
 #' Grömping.
@@ -42,7 +42,8 @@ NULL
 
 load_task_german_credit = function(id = "german_credit") {
   b = as_data_backend(readRDS(system.file("extdata", "german_credit.rds", package = "mlr3")))
-  task = TaskClassif$new(id, b, target = "credit_risk", positive = "good")
+  task = TaskClassif$new(id, b, target = "credit_risk", positive = "good",
+    label = "German Credit")
   b$hash = task$man = "mlr3::mlr_tasks_german_credit"
   task
 }

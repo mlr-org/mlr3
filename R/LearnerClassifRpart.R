@@ -5,8 +5,12 @@
 #'
 #' @description
 #' A [LearnerClassif] for a classification tree implemented in [rpart::rpart()] in package \CRANpkg{rpart}.
-#' Parameter `xval` is set to 0 in order to save some computation time.
-#' Parameter `model` has been renamed to `keep_model`.
+#'
+#' @section Initial parameter values:
+#' * Parameter `xval` is initialized to 0 in order to save some computation time.
+#'
+#' @section Custom mlr3 parameters:
+#' * Parameter `model` has been renamed to `keep_model`.
 #'
 #' @templateVar id classif.rpart
 #' @template learner
@@ -42,6 +46,7 @@ LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
         predict_types = c("response", "prob"),
         param_set = ps,
         properties = c("twoclass", "multiclass", "weights", "missings", "importance", "selected_features"),
+        label = "Classification Tree",
         man = "mlr3::mlr_learners_classif.rpart"
       )
     },
@@ -80,14 +85,17 @@ LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
     },
 
     .predict = function(task) {
+      pv = self$param_set$get_values(tags = "predict")
       newdata = task$data(cols = task$feature_names)
       response = prob = NULL
 
       if ("response" %in% self$predict_type) {
-        response = invoke(predict, self$model, newdata = newdata, type = "class", .opts = allow_partial_matching)
+        response = invoke(predict, self$model, newdata = newdata, type = "class",
+          .opts = allow_partial_matching, .args = pv)
         response = unname(response)
       } else if ("prob" %in% self$predict_type) {
-        prob = invoke(predict, self$model, newdata = newdata, type = "prob", .opts = allow_partial_matching)
+        prob = invoke(predict, self$model, newdata = newdata, type = "prob",
+          .opts = allow_partial_matching, .args = pv)
         rownames(prob) = NULL
       }
 
@@ -96,5 +104,14 @@ LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
   )
 )
 
+#' @export
+default_values.LearnerClassifRpart = function(x, search_space, task, ...) { # nolint
+  special_defaults = list(
+    minbucket = round(20 / 3)
+  )
+  defaults = insert_named(default_values(x$param_set), special_defaults)
+  defaults[search_space$ids()]
+}
+
 #' @include mlr_learners.R
-mlr_learners$add("classif.rpart", LearnerClassifRpart)
+mlr_learners$add("classif.rpart", function() LearnerClassifRpart$new())

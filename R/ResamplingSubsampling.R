@@ -7,7 +7,7 @@
 #' Splits data `repeats` (default: 30) times into training and test set
 #' with a ratio of `ratio` (default: 2/3) observations going into the training set.
 #'
-#' @templateVar id holdout
+#' @templateVar id subsampling
 #' @template resampling
 #'
 #' @section Parameters:
@@ -50,7 +50,8 @@ ResamplingSubsampling = R6Class("ResamplingSubsampling", inherit = Resampling,
       )
       ps$values = list(repeats = 30L, ratio = 2 / 3)
 
-      super$initialize(id = "subsampling", param_set = ps, man = "mlr3::mlr_resamplings_subsampling")
+      super$initialize(id = "subsampling", param_set = ps,
+        label = "Subsampling", man = "mlr3::mlr_resamplings_subsampling")
     }
   ),
 
@@ -93,4 +94,4 @@ ResamplingSubsampling = R6Class("ResamplingSubsampling", inherit = Resampling,
 )
 
 #' @include mlr_resamplings.R
-mlr_resamplings$add("subsampling", ResamplingSubsampling)
+mlr_resamplings$add("subsampling", function() ResamplingSubsampling$new())

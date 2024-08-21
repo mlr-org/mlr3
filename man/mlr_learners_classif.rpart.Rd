@@ -6,14 +6,28 @@
 \title{Classification Tree Learner}
 \description{
 A \link{LearnerClassif} for a classification tree implemented in \code{\link[rpart:rpart]{rpart::rpart()}} in package \CRANpkg{rpart}.
-Parameter \code{xval} is set to 0 in order to save some computation time.
-Parameter \code{model} has been renamed to \code{keep_model}.
 }
+\section{Initial parameter values}{
+
+\itemize{
+\item Parameter \code{xval} is initialized to 0 in order to save some computation time.
+}
+}
+
+\section{Custom mlr3 parameters}{
+
+\itemize{
+\item Parameter \code{model} has been renamed to \code{keep_model}.
+}
+}
+
 \section{Dictionary}{
 
-This \link{Learner} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_learners} or with the associated sugar function \code{\link[=lrn]{lrn()}}:\preformatted{mlr_learners$get("classif.rpart")
+This \link{Learner} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_learners} or with the associated sugar function \code{\link[=lrn]{lrn()}}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{mlr_learners$get("classif.rpart")
 lrn("classif.rpart")
-}
+}\if{html}{\out{</div>}}
 }
 
 \section{Meta Information}{
@@ -28,17 +42,17 @@ lrn("classif.rpart")
 
 \section{Parameters}{
 \tabular{lllll}{
-   Id \tab Type \tab Default \tab Range \tab Levels \cr
-   cp \tab numeric \tab 0.01 \tab \eqn{[0, 1]}{[0, 1]} \tab - \cr
-   keep_model \tab logical \tab FALSE \tab - \tab TRUE, FALSE \cr
-   maxcompete \tab integer \tab 4 \tab \eqn{[0, \infty)}{[0, Inf)} \tab - \cr
-   maxdepth \tab integer \tab 30 \tab \eqn{[1, 30]}{[1, 30]} \tab - \cr
-   maxsurrogate \tab integer \tab 5 \tab \eqn{[0, \infty)}{[0, Inf)} \tab - \cr
-   minbucket \tab integer \tab - \tab \eqn{[1, \infty)}{[1, Inf)} \tab - \cr
-   minsplit \tab integer \tab 20 \tab \eqn{[1, \infty)}{[1, Inf)} \tab - \cr
-   surrogatestyle \tab integer \tab 0 \tab \eqn{[0, 1]}{[0, 1]} \tab - \cr
-   usesurrogate \tab integer \tab 2 \tab \eqn{[0, 2]}{[0, 2]} \tab - \cr
-   xval \tab integer \tab 10 \tab \eqn{[0, \infty)}{[0, Inf)} \tab - \cr
+   Id \tab Type \tab Default \tab Levels \tab Range \cr
+   cp \tab numeric \tab 0.01 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
+   keep_model \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   maxcompete \tab integer \tab 4 \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
+   maxdepth \tab integer \tab 30 \tab  \tab \eqn{[1, 30]}{[1, 30]} \cr
+   maxsurrogate \tab integer \tab 5 \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
+   minbucket \tab integer \tab - \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
+   minsplit \tab integer \tab 20 \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
+   surrogatestyle \tab integer \tab 0 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
+   usesurrogate \tab integer \tab 2 \tab  \tab \eqn{[0, 2]}{[0, 2]} \cr
+   xval \tab integer \tab 10 \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
 }
 }
 
@@ -51,7 +65,7 @@ Routledge.
 \seealso{
 \itemize{
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
-\url{https://mlr3book.mlr-org.com/basics.html#learners}
+\url{https://mlr3book.mlr-org.com/chapters/chapter2/data_and_basic_modeling.html#sec-learners}
 \item Package \CRANpkg{mlr3learners} for a solid collection of essential learners.
 \item Package \href{https://github.com/mlr-org/mlr3extralearners}{mlr3extralearners} for more learners.
 \item \link[mlr3misc:Dictionary]{Dictionary} of \link[=Learner]{Learners}: \link{mlr_learners}
@@ -68,15 +82,15 @@ for established default tuning spaces.
 }
 
 Other Learner: 
+\code{\link{Learner}},
 \code{\link{LearnerClassif}},
 \code{\link{LearnerRegr}},
-\code{\link{Learner}},
+\code{\link{mlr_learners}},
 \code{\link{mlr_learners_classif.debug}},
 \code{\link{mlr_learners_classif.featureless}},
 \code{\link{mlr_learners_regr.debug}},
 \code{\link{mlr_learners_regr.featureless}},
-\code{\link{mlr_learners_regr.rpart}},
-\code{\link{mlr_learners}}
+\code{\link{mlr_learners_regr.rpart}}
 }
 \concept{Learner}
 \section{Super classes}{
@@ -85,29 +99,29 @@ Other Learner:
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{LearnerClassifRpart$new()}}
-\item \href{#method-importance}{\code{LearnerClassifRpart$importance()}}
-\item \href{#method-selected_features}{\code{LearnerClassifRpart$selected_features()}}
-\item \href{#method-clone}{\code{LearnerClassifRpart$clone()}}
+\item \href{#method-LearnerClassifRpart-new}{\code{LearnerClassifRpart$new()}}
+\item \href{#method-LearnerClassifRpart-importance}{\code{LearnerClassifRpart$importance()}}
+\item \href{#method-LearnerClassifRpart-selected_features}{\code{LearnerClassifRpart$selected_features()}}
+\item \href{#method-LearnerClassifRpart-clone}{\code{LearnerClassifRpart$clone()}}
 }
 }
-\if{html}{
-\out{<details ><summary>Inherited methods</summary>}
-\itemize{
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="base_learner">}\href{../../mlr3/html/Learner.html#method-base_learner}{\code{mlr3::Learner$base_learner()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="format">}\href{../../mlr3/html/Learner.html#method-format}{\code{mlr3::Learner$format()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="help">}\href{../../mlr3/html/Learner.html#method-help}{\code{mlr3::Learner$help()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="predict">}\href{../../mlr3/html/Learner.html#method-predict}{\code{mlr3::Learner$predict()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="predict_newdata">}\href{../../mlr3/html/Learner.html#method-predict_newdata}{\code{mlr3::Learner$predict_newdata()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="print">}\href{../../mlr3/html/Learner.html#method-print}{\code{mlr3::Learner$print()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="reset">}\href{../../mlr3/html/Learner.html#method-reset}{\code{mlr3::Learner$reset()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="train">}\href{../../mlr3/html/Learner.html#method-train}{\code{mlr3::Learner$train()}}\out{</span>}
-}
-\out{</details>}
-}
+\if{html}{\out{
+<details><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="base_learner"><a href='../../mlr3/html/Learner.html#method-Learner-base_learner'><code>mlr3::Learner$base_learner()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="format"><a href='../../mlr3/html/Learner.html#method-Learner-format'><code>mlr3::Learner$format()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="help"><a href='../../mlr3/html/Learner.html#method-Learner-help'><code>mlr3::Learner$help()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="predict"><a href='../../mlr3/html/Learner.html#method-Learner-predict'><code>mlr3::Learner$predict()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="predict_newdata"><a href='../../mlr3/html/Learner.html#method-Learner-predict_newdata'><code>mlr3::Learner$predict_newdata()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="print"><a href='../../mlr3/html/Learner.html#method-Learner-print'><code>mlr3::Learner$print()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="reset"><a href='../../mlr3/html/Learner.html#method-Learner-reset'><code>mlr3::Learner$reset()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="train"><a href='../../mlr3/html/Learner.html#method-Learner-train'><code>mlr3::Learner$train()</code></a></span></li>
+</ul>
+</details>
+}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-LearnerClassifRpart-new"></a>}}
+\if{latex}{\out{\hypertarget{method-LearnerClassifRpart-new}{}}}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
@@ -116,8 +130,8 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-importance"></a>}}
-\if{latex}{\out{\hypertarget{method-importance}{}}}
+\if{html}{\out{<a id="method-LearnerClassifRpart-importance"></a>}}
+\if{latex}{\out{\hypertarget{method-LearnerClassifRpart-importance}{}}}
 \subsection{Method \code{importance()}}{
 The importance scores are extracted from the model slot \code{variable.importance}.
 \subsection{Usage}{
@@ -129,8 +143,8 @@ Named \code{numeric()}.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-selected_features"></a>}}
-\if{latex}{\out{\hypertarget{method-selected_features}{}}}
+\if{html}{\out{<a id="method-LearnerClassifRpart-selected_features"></a>}}
+\if{latex}{\out{\hypertarget{method-LearnerClassifRpart-selected_features}{}}}
 \subsection{Method \code{selected_features()}}{
 Selected features are extracted from the model slot \code{frame$var}.
 \subsection{Usage}{
@@ -142,8 +156,8 @@ Selected features are extracted from the model slot \code{frame$var}.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-LearnerClassifRpart-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-LearnerClassifRpart-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

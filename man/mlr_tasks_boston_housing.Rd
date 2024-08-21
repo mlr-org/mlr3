@@ -8,48 +8,53 @@
 }
 \description{
 A regression task for the \link[mlbench:BostonHousing]{mlbench::BostonHousing2} data set.
+This is the corrected data using the corrected median value (\code{cmedv}) as target.
+The uncorrected target (\code{medv}) is removed from the data.
 }
 \section{Construction}{
-\preformatted{mlr_tasks$get("boston_housing")
+
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{mlr_tasks$get("boston_housing")
 tsk("boston_housing")
-}
+}\if{html}{\out{</div>}}
 }
 
 \section{Meta Information}{
 
 \itemize{
 \item Task type: \dQuote{regr}
-\item Dimensions: 506x19
+\item Dimensions: 506x18
 \item Properties: -
 \item Has Missings: \code{FALSE}
-\item Target: \dQuote{medv}
-\item Features: \dQuote{age}, \dQuote{b}, \dQuote{chas}, \dQuote{cmedv}, \dQuote{crim}, \dQuote{dis}, \dQuote{indus}, \dQuote{lat}, \dQuote{lon}, \dQuote{lstat}, \dQuote{nox}, \dQuote{ptratio}, \dQuote{rad}, \dQuote{rm}, \dQuote{tax}, \dQuote{town}, \dQuote{tract}, \dQuote{zn}
+\item Target: \dQuote{cmedv}
+\item Features: \dQuote{age}, \dQuote{b}, \dQuote{chas}, \dQuote{crim}, \dQuote{dis}, \dQuote{indus}, \dQuote{lat}, \dQuote{lon}, \dQuote{lstat}, \dQuote{nox}, \dQuote{ptratio}, \dQuote{rad}, \dQuote{rm}, \dQuote{tax}, \dQuote{town}, \dQuote{tract}, \dQuote{zn}
 }
 }
 
 \seealso{
 \itemize{
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
-\url{https://mlr3book.mlr-org.com/basics.html#tasks}
+\url{https://mlr3book.mlr-org.com/chapters/chapter2/data_and_basic_modeling.html}
 \item Package \CRANpkg{mlr3data} for more toy tasks.
-\item Package \CRANpkg{mlr3oml} for downloading tasks from \url{https://openml.org}.
+\item Package \CRANpkg{mlr3oml} for downloading tasks from \url{https://www.openml.org}.
 \item Package \CRANpkg{mlr3viz} for some generic visualizations.
 \item \link[mlr3misc:Dictionary]{Dictionary} of \link[=Task]{Tasks}: \link{mlr_tasks}
 \item \code{as.data.table(mlr_tasks)} for a table of available \link[=Task]{Tasks} in the running session (depending on the loaded packages).
 \item \CRANpkg{mlr3fselect} and \CRANpkg{mlr3filters} for feature selection and feature filtering.
 \item Extension packages for additional task types:
 \itemize{
-\item \CRANpkg{mlr3proba} for probabilistic supervised regression and survival analysis.
-\item \CRANpkg{mlr3cluster} for unsupervised clustering.
+\item Unsupervised clustering: \CRANpkg{mlr3cluster}
+\item Probabilistic supervised regression and survival analysis: \url{https://mlr3proba.mlr-org.com/}.
 }
 }
 
 Other Task: 
+\code{\link{Task}},
 \code{\link{TaskClassif}},
 \code{\link{TaskRegr}},
 \code{\link{TaskSupervised}},
 \code{\link{TaskUnsupervised}},
-\code{\link{Task}},
+\code{\link{mlr_tasks}},
 \code{\link{mlr_tasks_breast_cancer}},
 \code{\link{mlr_tasks_german_credit}},
 \code{\link{mlr_tasks_iris}},
@@ -59,7 +64,6 @@ Other Task:
 \code{\link{mlr_tasks_sonar}},
 \code{\link{mlr_tasks_spam}},
 \code{\link{mlr_tasks_wine}},
-\code{\link{mlr_tasks_zoo}},
-\code{\link{mlr_tasks}}
+\code{\link{mlr_tasks_zoo}}
 }
 \concept{Task}

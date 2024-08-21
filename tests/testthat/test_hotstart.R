@@ -167,7 +167,7 @@ test_that("learners are hotstarted when benchmark is called", {
   design = benchmark_grid(task, learner, resampling)
   bmr_2 = benchmark(design, store_models = TRUE, allow_hotstart = TRUE)
 
-  map(bmr_2$resample_result(1)$learners, function(l1) {
+  walk(bmr_2$resample_result(1)$learners, function(l1) {
     expect_equal(l1$param_set$values$iter, 3)
     expect_class(l1$model, "classif.debug_model")
     expect_equal(l1$model$iter, 3)
@@ -198,7 +198,7 @@ test_that("learners are trained and hotstarted when benchmark is called", {
   design = benchmark_grid(task, list(learner_3, learner_4), resampling)
   bmr_2 = benchmark(design, store_models = TRUE, allow_hotstart = TRUE)
 
-  map(bmr_2$resample_result(1)$learners, function(l1) {
+  walk(bmr_2$resample_result(1)$learners, function(l1) {
     expect_equal(l1$param_set$values$iter, 4)
     expect_class(l1$model, "classif.debug_model")
     expect_equal(l1$model$iter, 4)
@@ -206,7 +206,7 @@ test_that("learners are trained and hotstarted when benchmark is called", {
     expect_null(l1$hotstart_stack)
   })
 
-  map(bmr_2$resample_result(2)$learners, function(l1) {
+  walk(bmr_2$resample_result(2)$learners, function(l1) {
     expect_class(l1$model, "rpart")
     expect_null(l1$hotstart_stack)
   })
@@ -234,4 +234,27 @@ test_that("learners are cloned when hotstarting is applied", {
   expect_equal(hot$stack$start_learner[[1]]$model$iter, 1)
   expect_equal(bmr$resample_result(1)$learners[[1]]$model$id,
     hot$stack$start_learner[[1]]$model$id)
+})
+
+test_that("hotstarting works when col role is set in task", {
+  task = tsk("pima")
+  task$col_roles$stratum = task$target_names
+  learner_1 = lrn("classif.debug", iter = 1)
+  resampling = rsmp("holdout")
+  resampling$instantiate(task)
+
+  rr = resample(task, learner_1, resampling, store_models = TRUE)
+
+  learner = lrn("classif.debug", iter = 2)
+  hot = HotstartStack$new(rr$learners)
+  learner$hotstart_stack = hot
+
+  rr_2 = resample(task, learner, resampling, store_models = TRUE, allow_hotstart = TRUE)
+  pwalk(list(rr$learners, rr_2$learners), function(l1, l2) {
+    expect_equal(l2$param_set$values$iter, 2)
+    expect_class(l2$model, "classif.debug_model")
+    expect_equal(l2$model$iter, 2)
+    expect_equal(l1$model$id, l2$model$id)
+    expect_null(l2$hotstart_stack)
+  })
 })

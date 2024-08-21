@@ -16,7 +16,7 @@ Efficient, object-oriented programming on the building blocks of machine learnin
 Successor of [mlr](https://github.com/mlr-org/mlr).
 
 <!-- badges: start -->
-[![tic](https://github.com/mlr-org/mlr3/workflows/tic/badge.svg?branch=main)](https://github.com/mlr-org/mlr3/actions)
+[![r-cmd-check](https://github.com/mlr-org/mlr3/actions/workflows/r-cmd-check.yml/badge.svg)](https://github.com/mlr-org/mlr3/actions/workflows/r-cmd-check.yml)
 [![DOI](https://joss.theoj.org/papers/10.21105/joss.01903/status.svg)](https://doi.org/10.21105/joss.01903)
 [![CRAN Status](https://www.r-pkg.org/badges/version-ago/mlr3)](https://cran.r-project.org/package=mlr3)
 [![StackOverflow](https://img.shields.io/badge/stackoverflow-mlr3-orange.svg)](https://stackoverflow.com/questions/tagged/mlr3)
@@ -25,18 +25,16 @@ Successor of [mlr](https://github.com/mlr-org/mlr).
 
 ## Resources (for users and developers)
 
-* We _started_ writing a [book](https://mlr3book.mlr-org.com/).
+* We have written a [book](https://mlr3book.mlr-org.com/).
   This should be the central entry point to the package.
-* The [mlr3gallery](https://mlr3gallery.mlr-org.com) has some case studies and demonstrates how frequently occurring problems can be solved.
-  It is still in early days so stay tuned for more to come.
+* The [mlr-org website](https://mlr-org.com/) includes for example a [gallery](https://mlr-org.com/gallery.html) with case studies.
 * [Reference manual](https://mlr3.mlr-org.com/reference/)
-* [FAQ](https://github.com/mlr-org/mlr3/wiki/FAQ)
+* [FAQ](https://mlr-org.com/faq.html)
 * Ask questions on [Stackoverflow (tag #mlr3)](https://stackoverflow.com/questions/tagged/mlr3)
 * **Extension Learners**
   - Recommended core regression, classification, and survival learners are in [mlr3learners](https://github.com/mlr-org/mlr3learners)
   - All others are in [mlr3extralearners](https://github.com/mlr-org/mlr3extralearners)
-  - Use the [learner search](https://mlr3extralearners.mlr-org.com/articles/learners/list_learners.html) to get a simple overview
-  - Use the [learner status](https://mlr3extralearners.mlr-org.com/articles/learners/learner_status.html) to see their build status
+  - Use the [learner search](https://mlr-org.com/learners.html) to get a simple overview
 * **Cheatsheets**
   - [Overview of cheatsheets](https://cheatsheets.mlr-org.com)
   - [mlr3](https://cheatsheets.mlr-org.com/mlr3.pdf)
@@ -46,14 +44,13 @@ Successor of [mlr](https://github.com/mlr-org/mlr).
   - [useR2019 talk on mlr3](https://www.youtube.com/watch?v=wsP2hiFnDQs)
   - [useR2019 talk on mlr3pipelines and mlr3tuning](https://www.youtube.com/watch?v=gEW5RxkbQuQ)
   - [useR2020 tutorial on mlr3, mlr3tuning and mlr3pipelines](https://www.youtube.com/watch?v=T43hO2o_nZw)
+  <!--   - [Recorded talk about mlr3spatiotempcv and mlr3spatial at OpenDataScience Europe Conference 2021 in Wageningen, NL](https://av.tib.eu/media/55271) -->
 * **Courses/Lectures**
-  - The course [Introduction to Machine learning (I2ML)](https://introduction-to-machine-learning.netlify.app/) is a free and open flipped classroom course on the basics of machine learning. `mlr3` is used in the [demos](https://github.com/slds-lmu/lecture_i2ml/tree/master/code-demos-pdf) and [exercises](https://github.com/slds-lmu/lecture_i2ml/tree/master/exercises).
+  - The course [Introduction to Machine learning (I2ML)](https://slds-lmu.github.io/i2ml/) is a free and open flipped classroom course on the basics of machine learning. `mlr3` is used in the [demos](https://github.com/slds-lmu/lecture_i2ml/tree/master/code-demos-pdf) and [exercises](https://github.com/slds-lmu/lecture_i2ml/tree/master/exercises).
 * **Templates/Tutorials**
-  - [mlr3-learndrake](https://github.com/mlr-org/mlr3-learndrake): Shows how to use mlr3 with [drake](https://docs.ropensci.org/drake/) for reproducible ML workflow automation.
-* [List of extension packages](https://github.com/mlr-org/mlr3/wiki/Extension-Packages)
+  - [mlr3-targets](https://github.com/mlr-org/mlr3-targets): Tutorial showcasing how to use {mlr3} with [targets](https://docs.ropensci.org/targets/) for reproducible ML workflow automation.
+* [List of extension packages](https://mlr-org.com/ecosystem.html)
 * [mlr-outreach](https://github.com/mlr-org/mlr-outreach) contains public talks and slides resources.
-* Our [blog](https://mlr-org.com/) about _mlr_ and _mlr3_.
-  (We are not the most frequent bloggers ;) )
 * [Wiki](https://github.com/mlr-org/mlr3/wiki):
   Contains mainly information for developers.
 
@@ -84,39 +81,42 @@ install.packages("mlr3verse")
 library(mlr3)
 
 # create learning task
-task_penguins <- TaskClassif$new(id = "penguins", backend = palmerpenguins::penguins, target = "species")
+task_penguins = as_task_classif(species ~ ., data = palmerpenguins::penguins)
 task_penguins
 
 # load learner and set hyperparameter
-learner <- lrn("classif.rpart", cp = .01)
+learner = lrn("classif.rpart", cp = .01)
 ```
 
 ### Basic train + predict
 
 ```{r}
 # train/test split
-train_set <- sample(task_penguins$nrow, 0.8 * task_penguins$nrow)
-test_set <- setdiff(seq_len(task_penguins$nrow), train_set)
+split = partition(task_penguins, ratio = 0.67)
 
 # train the model
-learner$train(task_penguins, row_ids = train_set)
+learner$train(task_penguins, split$train_set)
 
 # predict data
-prediction <- learner$predict(task_penguins, row_ids = test_set)
+prediction = learner$predict(task_penguins, split$test_set)
 
 # calculate performance
 prediction$confusion
-measure <- msr("classif.acc")
+measure = msr("classif.acc")
 prediction$score(measure)
 ```
 
 ### Resample
 
 ```{r}
-# automatic resampling
-resampling <- rsmp("cv", folds = 3L)
-rr <- resample(task_penguins, learner, resampling)
-rr$score(measure)
+# 3-fold cross validation
+resampling = rsmp("cv", folds = 3L)
+
+# run experiments
+rr = resample(task_penguins, learner, resampling)
+
+# access results
+rr$score(measure)[, .(task_id, learner_id, iteration, classif.acc)]
 rr$aggregate(measure)
 ```
 
@@ -160,7 +160,7 @@ Also, many helpful R libraries did not exist at the time [mlr](https://github.co
       Fast argument checks. Developed by members of the `mlr` team.
       No extra recursive dependencies.
     - [`mlr3misc`](https://cran.r-project.org/package=mlr3misc):
-      Miscellaneous functions used in multiple mlr3 [extension packages](https://github.com/mlr-org/mlr3/wiki/Extension-Packages).
+      Miscellaneous functions used in multiple mlr3 [extension packages](https://mlr-org.com/ecosystem.html).
       Developed by the `mlr` team.
     - [`paradox`](https://cran.r-project.org/package=paradox):
       Descriptions for parameters and parameter sets. Developed by the `mlr` team.

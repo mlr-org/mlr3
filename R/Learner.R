@@ -7,8 +7,7 @@
 #'
 #' Learners are build around the three following key parts:
 #'
-#' * Methods `$train()` and `$predict()` which call internal methods (either public method `$train_internal()`/`$predict_internal()` (deprecated)
-#'   or private methods `$.train()`/`$.predict()`).
+#' * Methods `$train()` and `$predict()` which call internal methods or private methods `$.train()`/`$.predict()`).
 #' * A [paradox::ParamSet] which stores meta-information about available hyperparameters, and also stores hyperparameter settings.
 #' * Meta-information about the requirements and capabilities of the learner.
 #' * The fitted model stored in field `$model`, available after calling `$train()`.
@@ -35,6 +34,7 @@
 #' @template param_learner_properties
 #' @template param_data_formats
 #' @template param_packages
+#' @template param_label
 #' @template param_man
 #'
 #'
@@ -61,6 +61,13 @@
 #' * `loglik(...)`: Extracts the log-likelihood (c.f. [stats::logLik()]).
 #'   This can be used in measures like [mlr_measures_aic] or [mlr_measures_bic].
 #'
+#' * `internal_valid_scores`: Returns the internal validation score(s) of the model as a named `list()`.
+#'   Only available for [`Learner`]s with the `"validation"` property.
+#'   If the learner is not trained yet, this returns `NULL`.
+#'
+#' * `internal_tuned_values`: Returns the internally tuned hyperparameters of the model as a named `list()`.
+#'   Only available for [`Learner`]s with the `"internal_tuning"` property.
+#'   If the learner is not trained yet, this returns `NULL`.
 #'
 #' @section Setting Hyperparameters:
 #'
@@ -83,12 +90,64 @@
 #' lrn$param_set$add(paradox::ParamFct$new("foo", levels = c("a", "b")))
 #' ```
 #'
+#' @section Implementing Validation:
+#' Some Learners, such as `XGBoost`, other boosting algorithms, or deep learning models (`mlr3torch`),
+#' utilize validation data during the training to prevent overfitting or to log the validation performance.
+#' It is possible to configure learners to be able to receive such an independent validation set during training.
+#' To do so, one must:
+#' * annotate the learner with the `"validation"` property
+#' * implement the active binding `$internal_valid_scores` (see section *Optional Extractors*), as well as the
+#'   private method `$.extract_internal_valid_scores()` which returns the (final) internal validation scores from the
+#'   model of the [`Learner`] and returns them as a named `list()` of `numeric(1)`.
+#'   If the model is not trained yet, this method should return `NULL`.
+#' * Add the `validate` parameter, which can be either `NULL`, a ratio in $(0, 1)$, `"test"`, or `"predefined"`:
+#'   * `NULL`: no validation
+#'   * `ratio`: only proportion `1 - ratio` of the task is used for training and `ratio` is used for validation.
+#'   * `"test"` means that the `"test"` task is used.
+#'     **Warning**: This can lead to biased performance estimation.
+#'     This option is only available if the learner is being trained via [resample()], [benchmark()] or functions that
+#'     internally use them, e.g. `tune()` of \CRANpkg{mlr3tuning} or `batchmark()` of \CRANpkg{mlr3batchmark}.
+#'     This is especially useful for hyperparameter tuning, where one might e.g. want to use the same validation data
+#'     for early stopping and model evaluation.
+#'   * `"predefined"` means that the task's (manually set) `$internal_valid_task` is used.
+#'     See the [`Task`] documentation for more information.
+#'
+#' For an example how to do this, see [`LearnerClassifDebug`].
+#' Note that in `.train()`, the `$internal_valid_task` will only be present if the `$validate` field of the `Learner`
+#' is set to a non-`NULL` value.
+#'
+#' @section Implementing Internal Tuning:
+#' Some learners such as `XGBoost` or `cv.glmnet` can internally tune hyperparameters.
+#' XGBoost, for example, can tune the number of boosting rounds based on the validation performance.
+#' CV Glmnet, on the other hand, can tune the regularization parameter based on an internal cross-validation.
+#' Internal tuning *can* therefore rely on the internal validation data, but does not necessarily do so.
+#'
+#' In order to be able to combine this internal hyperparamer tuning with the standard hyperparameter optimization
+#' implemented via \CRANpkg{mlr3tuning}, one most:
+#' * annotate the learner with the `"internal_tuning"` property
+#' * implement the active binding `$internal_tuned_values` (see section *Optional Extractors*) as well as the
+#'   private method `$.extract_internal_tuned_values()` which extracts the internally tuned values from the [`Learner`]'s
+#'   model and returns them as a named `list()`.
+#'   If the model is not trained yet, this method should return `NULL`.
+#' * Have at least one parameter tagged with `"internal_tuning"`, which requires to also provide a `in_tune_fn` and
+#'   `disable_tune_fn`, and *should* also include a default `aggr`egation function.
+#'
+#' For an example how to do this, see [`LearnerClassifDebug`].
+#'
+#' @section Implementing Marshaling:
+#' Some [`Learner`]s have models that cannot be serialized as they e.g. contain external pointers.
+#' In order to still be able to save them, use them with parallelization or callr encapsulation it is necessary
+#' to implement how they should be (un)-marshaled. See [`marshaling`] for how to do this.
+#'
 #' @template seealso_learner
 #' @export
 Learner = R6Class("Learner",
   public = list(
     #' @template field_id
     id = NULL,
+
+    #' @template field_label
+    label = NA_character_,
 
     #' @field state (`NULL` | named `list()`)\cr
     #' Current (internal) state of the learner.
@@ -132,6 +191,9 @@ Learner = R6Class("Learner",
     #' This currently only works for methods `Learner$predict()` and `Learner$predict_newdata()`,
     #' and has no effect during [resample()] or [benchmark()] where you have other means
     #' to parallelize.
+    #'
+    #' Note that the recorded time required for prediction reports the time required to predict
+    #' is not properly defined and depends on the parallelization backend.
     parallel_predict = FALSE,
 
     #' @field timeout (named `numeric(2)`)\cr
@@ -139,14 +201,9 @@ Learner = R6Class("Learner",
     #' This works differently for different encapsulation methods, see
     #' [mlr3misc::encapsulate()].
     #' Default is `c(train = Inf, predict = Inf)`.
-    #' Also see the section on error handling the mlr3book: \url{https://mlr3book.mlr-org.com/technical.html#error-handling}
+    #' Also see the section on error handling the mlr3book:
+    #' \url{https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling}
     timeout = c(train = Inf, predict = Inf),
-
-    #' @field fallback ([Learner])\cr
-    #' Learner which is fitted to impute predictions in case that either the model fitting or the prediction of the top learner is not successful.
-    #' Requires you to enable encapsulation, otherwise errors are not caught and the execution is terminated before the fallback learner kicks in.
-    #' Also see the section on error handling the mlr3book: \url{https://mlr3book.mlr-org.com/technical.html#error-handling}
-    fallback = NULL,
 
     #' @template field_man
     man = NULL,
@@ -156,14 +213,15 @@ Learner = R6Class("Learner",
     #'
     #' Note that this object is typically constructed via a derived classes, e.g. [LearnerClassif] or [LearnerRegr].
     initialize = function(id, task_type, param_set = ps(), predict_types = character(), feature_types = character(),
-      properties = character(), data_formats = "data.table", packages = character(), man = NA_character_) {
+      properties = character(), data_formats = "data.table", packages = character(), label = NA_character_, man = NA_character_) {
 
       self$id = assert_string(id, min.chars = 1L)
+      self$label = assert_string(label, na.ok = TRUE)
       self$task_type = assert_choice(task_type, mlr_reflections$task_types$type)
       private$.param_set = assert_param_set(param_set)
-      private$.encapsulate = c(train = "none", predict = "none")
-      self$feature_types = assert_subset(feature_types, mlr_reflections$task_feature_types)
-      self$predict_types = assert_subset(predict_types, names(mlr_reflections$learner_predict_types[[task_type]]), empty.ok = FALSE)
+      self$feature_types = assert_ordered_set(feature_types, mlr_reflections$task_feature_types, .var.name = "feature_types")
+      self$predict_types = assert_ordered_set(predict_types, names(mlr_reflections$learner_predict_types[[task_type]]),
+        empty.ok = FALSE, .var.name = "predict_types")
       private$.predict_type = predict_types[1L]
       self$properties = sort(assert_subset(properties, mlr_reflections$learner_properties[[task_type]]))
       self$data_formats = assert_subset(data_formats, mlr_reflections$data_formats)
@@ -175,7 +233,8 @@ Learner = R6Class("Learner",
 
     #' @description
     #' Helper for print outputs.
-    format = function() {
+    #' @param ... (ignored).
+    format = function(...) {
       sprintf("<%s:%s>", class(self)[1L], self$id)
     },
 
@@ -183,12 +242,13 @@ Learner = R6Class("Learner",
     #' Printer.
     #' @param ... (ignored).
     print = function(...) {
-      catn(format(self))
-      catn(str_indent("* Model:", if (is.null(self$model)) "-" else class(self$model)[1L]))
+      catn(format(self), if (is.null(self$label) || is.na(self$label)) "" else paste0(": ", self$label))
+      catn(str_indent("* Model:", if (is.null(self$model)) "-" else if (is_marshaled_model(self$model)) "<marshaled>" else paste0(class(self$model)[1L])))
       catn(str_indent("* Parameters:", as_short_string(self$param_set$values, 1000L)))
+      if (exists("validate", self)) catn(str_indent("* Validate:", format(self$validate)))
       catn(str_indent("* Packages:", self$packages))
-      catn(str_indent("* Predict Type:", self$predict_type))
-      catn(str_indent("* Feature types:", self$feature_types))
+      catn(str_indent("* Predict Types: ", replace(self$predict_types, self$predict_types == self$predict_type, paste0("[", self$predict_type, "]"))))
+      catn(str_indent("* Feature Types:", self$feature_types))
       catn(str_indent("* Properties:", self$properties))
       w = self$warnings
       e = self$errors
@@ -239,14 +299,21 @@ Learner = R6Class("Learner",
         mode = "hotstart"
       }
 
-      learner_train(learner, task, row_ids, mode)
+      train_row_ids = if (!is.null(row_ids)) row_ids else task$row_roles$use
+
+      train_result = learner_train(learner, task, train_row_ids = train_row_ids, mode = mode)
+      self$model = unmarshal_model(model = self$state$model, inplace = TRUE)
+
+      # store data prototype
+      proto = task$data(rows = integer())
+      self$state$data_prototype = proto
+      self$state$task_prototype = proto
 
       # store the task w/o the data
       self$state$train_task = task_rm_backend(task$clone(deep = TRUE))
 
       invisible(self)
     },
-
     #' @description
     #' Uses the information stored during `$train()` in `$state` to create a new [Prediction]
     #' for a set of observations of the provided `task`.
@@ -271,9 +338,27 @@ Learner = R6Class("Learner",
         stopf("Cannot predict, Learner '%s' has not been trained yet", self$id)
       }
 
+      # we need to marshal for call-r prediction and parallel prediction, but afterwards we reset the model
+      # to it original state
+      model_was_marshaled = is_marshaled_model(self$model)
+      on.exit({
+        if (model_was_marshaled) {
+          self$model = marshal_model(self$model, inplace = TRUE)
+        } else {
+          self$model = unmarshal_model(self$model, inplace = TRUE)
+        }
+      }, add = TRUE)
+
+      # reset learner predict time; this is only cumulative for multiple predict sets,
+      # not for multiple calls to predict / predict_newdata
+      self$state$predict_time = 0
+
+      # we only have to marshal here for the parallel prediction case, because learner_predict() handles the
+      # marshaling for call-r encapsulation itself
       if (isTRUE(self$parallel_predict) && nbrOfWorkers() > 1L) {
         row_ids = row_ids %??% task$row_ids
         chunked = chunk_vector(row_ids, n_chunks = nbrOfWorkers(), shuffle = FALSE)
+        self$model = marshal_model(self$model, inplace = TRUE)
         pdata = future.apply::future_lapply(chunked,
           learner_predict, learner = self, task = task,
           future.globals = FALSE, future.seed = TRUE)
@@ -285,7 +370,7 @@ Learner = R6Class("Learner",
       if (is.null(pdata)) {
         return(NULL)
       } else {
-        as_prediction(check_prediction_data(pdata))
+        as_prediction(pdata)
       }
     },
 
@@ -374,13 +459,19 @@ Learner = R6Class("Learner",
     #' @field model (any)\cr
     #' The fitted model. Only available after `$train()` has been called.
     model = function(rhs) {
-      assert_ro_binding(rhs)
+      if (!missing(rhs)) {
+        self$state$model = rhs
+      }
       self$state$model
     },
 
-
     #' @field timings (named `numeric(2)`)\cr
     #' Elapsed time in seconds for the steps `"train"` and `"predict"`.
+    #'
+    #' When predictions for multiple predict sets were made during [resample()] or [benchmark()],
+    #' the predict time shows the cumulative duration of all predictions.
+    #' If `learner$predict()` is called manually, the last predict time gets overwritten.
+    #'
     #' Measured via [mlr3misc::encapsulate()].
     timings = function(rhs) {
       assert_ro_binding(rhs)
@@ -417,17 +508,16 @@ Learner = R6Class("Learner",
     hash = function(rhs) {
       assert_ro_binding(rhs)
       calculate_hash(class(self), self$id, self$param_set$values, private$.predict_type,
-        self$fallback$hash, self$parallel_predict)
+        self$fallback$hash, self$parallel_predict, get0("validate", self))
     },
 
     #' @field phash (`character(1)`)\cr
     #' Hash (unique identifier) for this partial object, excluding some components
-    #' which are varied systematically during tuning (parameter values) or feature
-    #' selection (feature names).
+    #' which are varied systematically during tuning (parameter values).
     phash = function(rhs) {
       assert_ro_binding(rhs)
       calculate_hash(class(self), self$id, private$.predict_type,
-        self$fallback$hash, self$parallel_predict)
+        self$fallback$hash, self$parallel_predict, get0("validate", self))
     },
 
     #' @field predict_type (`character(1)`)\cr
@@ -457,15 +547,43 @@ Learner = R6Class("Learner",
     #' @field encapsulate (named `character()`)\cr
     #' Controls how to execute the code in internal train and predict methods.
     #' Must be a named character vector with names `"train"` and `"predict"`.
-    #' Possible values are `"none"`, `"evaluate"` (requires package \CRANpkg{evaluate}) and `"callr"` (requires package \CRANpkg{callr}).
+    #' Possible values are `"none"`, `"try"`, `"evaluate"` (requires package \CRANpkg{evaluate}) and `"callr"` (requires package \CRANpkg{callr}).
     #' See [mlr3misc::encapsulate()] for more details.
     encapsulate = function(rhs) {
+      default = c(train = "none", predict = "none")
+
       if (missing(rhs)) {
-        return(private$.encapsulate)
+        return(insert_named(default, private$.encapsulate))
       }
+
       assert_character(rhs)
       assert_names(names(rhs), subset.of = c("train", "predict"))
-      private$.encapsulate = insert_named(c(train = "none", predict = "none"), rhs)
+      private$.encapsulate = insert_named(default, rhs)
+    },
+
+    #' @field fallback ([Learner])\cr
+    #' Learner which is fitted to impute predictions in case that either the model fitting or the prediction of the top learner is not successful.
+    #' Requires encapsulation, otherwise errors are not caught and the execution is terminated before the fallback learner kicks in.
+    #' If you have not set encapsulation manually before, setting the fallback learner automatically
+    #' activates encapsulation using the \CRANpkg{evaluate} package.
+    #' Also see the section on error handling the mlr3book:
+    #' \url{https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling}
+    fallback = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.fallback)
+      }
+
+      if (!is.null(rhs)) {
+        assert_learner(rhs, task_type = self$task_type)
+        if (!identical(self$predict_type, rhs$predict_type)) {
+          warningf("The fallback learner '%s' and the base learner '%s' have different predict types: '%s' != '%s'.",
+            rhs$id, self$id, rhs$predict_type, self$predict_type)
+        }
+        if (is.null(private$.encapsulate)) {
+          private$.encapsulate = c(train = "evaluate", predict = "evaluate")
+        }
+      }
+      private$.fallback = rhs
     },
 
     #' @field hotstart_stack ([HotstartStack])\cr.
@@ -481,6 +599,7 @@ Learner = R6Class("Learner",
 
   private = list(
     .encapsulate = NULL,
+    .fallback = NULL,
     .predict_type = NULL,
     .param_set = NULL,
     .hotstart_stack = NULL,
@@ -488,7 +607,7 @@ Learner = R6Class("Learner",
     deep_clone = function(name, value) {
       switch(name,
         .param_set = value$clone(deep = TRUE),
-        fallback = if (is.null(value)) NULL else value$clone(deep = TRUE),
+        .fallback = if (is.null(value)) NULL else value$clone(deep = TRUE),
         state = {
           if (!is.null(value$train_task)) {
             value$train_task = value$train_task$clone(deep = TRUE)
@@ -502,15 +621,15 @@ Learner = R6Class("Learner",
   )
 )
 
-
 #' @export
-rd_info.Learner = function(obj) {
-  c("",
+rd_info.Learner = function(obj, ...) {
+  x = c("",
     sprintf("* Task type: %s", rd_format_string(obj$task_type)),
     sprintf("* Predict Types: %s", rd_format_string(obj$predict_types)),
     sprintf("* Feature Types: %s", rd_format_string(obj$feature_types)),
     sprintf("* Required Packages: %s", rd_format_packages(obj$packages))
   )
+  paste(x, collapse = "\n")
 }
 
 get_log_condition = function(state, condition) {
@@ -522,6 +641,41 @@ get_log_condition = function(state, condition) {
 }
 
 #' @export
-format_list_item.Learner = function(x, ...) { # nolint
-  sprintf("<lrn:%s>", x$id)
+default_values.Learner = function(x, search_space, task, ...) { # nolint
+  values = default_values(x$param_set)
+
+  if (any(search_space$ids() %nin% names(values))) {
+    stopf("Could not find default values for the following parameters: %s",
+      str_collapse(setdiff(search_space$ids(), names(values))))
+  }
+
+  values[search_space$ids()]
+}
+# #' @export
+# format_list_item.Learner = function(x, ...) { # nolint
+#   sprintf("<lrn:%s>", x$id)
+# }
+
+
+#' @export
+marshal_model.learner_state = function(model, inplace = FALSE, ...) {
+  if (is.null(model$model)) {
+    return(model)
+  }
+  mm = marshal_model(model$model, inplace = inplace, ...)
+  if (!is_marshaled_model(mm)) {
+    return(model)
+  }
+  model$model = mm
+  structure(list(
+    marshaled = model,
+    packages = "mlr3"
+  ), class = c("learner_state_marshaled", "list_marshaled", "marshaled"))
+}
+
+#' @export
+unmarshal_model.learner_state_marshaled = function(model, inplace = FALSE, ...) {
+  mm = model$marshaled
+  mm$model = unmarshal_model(mm$model, inplace = inplace, ...)
+  return(mm)
 }

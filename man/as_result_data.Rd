@@ -23,7 +23,7 @@ as_result_data(
 
 \item{iterations}{(\code{integer()}).}
 
-\item{predictions}{(list of \link{Prediction}s).}
+\item{predictions}{(list of list of \link{Prediction}s).}
 
 \item{learner_states}{(\code{list()})\cr
 Learner states. If not provided, the states of \code{learners} are automatically extracted.}
@@ -56,7 +56,7 @@ predictions = list()
 for (i in iterations) {
   l = learner$clone(deep = TRUE)
   learners[[i]] = l$train(task, row_ids = resampling$train_set(i))
-  predictions[[i]] = l$predict(task, row_ids = resampling$test_set(i))
+  predictions[[i]] = list(test = l$predict(task, row_ids = resampling$test_set(i)))
 }
 
 rdata = as_result_data(task, learners, resampling, iterations, predictions)

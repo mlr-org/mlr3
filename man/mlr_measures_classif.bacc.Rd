@@ -4,21 +4,27 @@
 \alias{mlr_measures_classif.bacc}
 \title{Balanced Accuracy}
 \description{
-Computes the weighted balanced accuracy, suitable for imbalanced data sets.
+Measure to compare true observed labels with predicted
+labels
+in multiclass classification tasks.
+}
+\details{
+The Balanced Accuracy computes the weighted balanced accuracy, suitable for imbalanced data sets.
 It is defined analogously to the definition in \href{https://scikit-learn.org/}{sklearn}.
 
-First, the sample weights \eqn{w} are normalized per class:
+First, all sample weights \eqn{w_i} are normalized per class so that each class has the same influence:
 \deqn{
- \hat{w}_i = \frac{w_i}{\sum_j 1(y_j = y_i) w_i}.
+ \hat{w}_i = \frac{w_i}{\sum_{j=1}^n w_j \cdot \mathbf{1}(t_j = t_i)}.
 }{
  w_hat[i] = w[i] / sum((t == t[i]) * w[i]).
 }
-The balanced accuracy is calculated as
+The Balanced Accuracy is then calculated as
 \deqn{
- \frac{1}{\sum_i \hat{w}_i} \sum_i 1(r_i = t_i) \hat{w}_i.
+ \frac{1}{\sum_{i=1}^n \hat{w}_i} \sum_{i=1}^n \hat{w}_i \cdot \mathbf{1}(r_i = t_i).
 }{
  1 / sum(w_hat) * sum((r == t) * w_hat).
 }
+This definition is equivalent to \code{\link[mlr3measures:acc]{acc()}} with class-balanced sample weights.
 }
 \note{
 The score function calls \code{\link[mlr3measures:bacc]{mlr3measures::bacc()}} from package \CRANpkg{mlr3measures}.
@@ -28,9 +34,11 @@ This can be customized by setting the field \code{na_value}.
 }
 \section{Dictionary}{
 
-This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("classif.bacc")
+This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{mlr_measures$get("classif.bacc")
 msr("classif.bacc")
-}
+}\if{html}{\out{</div>}}
 }
 
 \section{Parameters}{
@@ -64,12 +72,17 @@ Other classification measures:
 \code{\link{mlr_measures_classif.dor}},
 \code{\link{mlr_measures_classif.fbeta}},
 \code{\link{mlr_measures_classif.fdr}},
-\code{\link{mlr_measures_classif.fnr}},
 \code{\link{mlr_measures_classif.fn}},
+\code{\link{mlr_measures_classif.fnr}},
 \code{\link{mlr_measures_classif.fomr}},
-\code{\link{mlr_measures_classif.fpr}},
 \code{\link{mlr_measures_classif.fp}},
+\code{\link{mlr_measures_classif.fpr}},
 \code{\link{mlr_measures_classif.logloss}},
+\code{\link{mlr_measures_classif.mauc_au1p}},
+\code{\link{mlr_measures_classif.mauc_au1u}},
+\code{\link{mlr_measures_classif.mauc_aunp}},
+\code{\link{mlr_measures_classif.mauc_aunu}},
+\code{\link{mlr_measures_classif.mauc_mu}},
 \code{\link{mlr_measures_classif.mbrier}},
 \code{\link{mlr_measures_classif.mcc}},
 \code{\link{mlr_measures_classif.npv}},
@@ -79,17 +92,23 @@ Other classification measures:
 \code{\link{mlr_measures_classif.recall}},
 \code{\link{mlr_measures_classif.sensitivity}},
 \code{\link{mlr_measures_classif.specificity}},
-\code{\link{mlr_measures_classif.tnr}},
 \code{\link{mlr_measures_classif.tn}},
-\code{\link{mlr_measures_classif.tpr}},
-\code{\link{mlr_measures_classif.tp}}
+\code{\link{mlr_measures_classif.tnr}},
+\code{\link{mlr_measures_classif.tp}},
+\code{\link{mlr_measures_classif.tpr}}
 
 Other multiclass classification measures: 
 \code{\link{mlr_measures_classif.acc}},
 \code{\link{mlr_measures_classif.ce}},
 \code{\link{mlr_measures_classif.costs}},
 \code{\link{mlr_measures_classif.logloss}},
-\code{\link{mlr_measures_classif.mbrier}}
+\code{\link{mlr_measures_classif.mauc_au1p}},
+\code{\link{mlr_measures_classif.mauc_au1u}},
+\code{\link{mlr_measures_classif.mauc_aunp}},
+\code{\link{mlr_measures_classif.mauc_aunu}},
+\code{\link{mlr_measures_classif.mauc_mu}},
+\code{\link{mlr_measures_classif.mbrier}},
+\code{\link{mlr_measures_classif.mcc}}
 }
 \concept{classification measures}
 \concept{multiclass classification measures}

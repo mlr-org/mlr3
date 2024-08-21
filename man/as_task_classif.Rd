@@ -4,8 +4,11 @@
 \alias{as_task_classif}
 \alias{as_task_classif.TaskClassif}
 \alias{as_task_classif.data.frame}
+\alias{as_task_classif.matrix}
+\alias{as_task_classif.Matrix}
 \alias{as_task_classif.DataBackend}
 \alias{as_task_classif.TaskRegr}
+\alias{as_task_classif.formula}
 \title{Convert to a Classification Task}
 \usage{
 as_task_classif(x, ...)
@@ -15,16 +18,34 @@ as_task_classif(x, ...)
 \method{as_task_classif}{data.frame}(
   x,
   target = NULL,
-  id = deparse(substitute(x)),
+  id = deparse1(substitute(x)),
   positive = NULL,
+  label = NA_character_,
+  ...
+)
+
+\method{as_task_classif}{matrix}(
+  x,
+  target,
+  id = deparse1(substitute(x)),
+  label = NA_character_,
+  ...
+)
+
+\method{as_task_classif}{Matrix}(
+  x,
+  target,
+  id = deparse1(substitute(x)),
+  label = NA_character_,
   ...
 )
 
 \method{as_task_classif}{DataBackend}(
   x,
   target = NULL,
-  id = deparse(substitute(x)),
+  id = deparse1(substitute(x)),
   positive = NULL,
+  label = NA_character_,
   ...
 )
 
@@ -33,6 +54,15 @@ as_task_classif(x, ...)
   target = NULL,
   drop_original_target = FALSE,
   drop_levels = TRUE,
+  ...
+)
+
+\method{as_task_classif}{formula}(
+  x,
+  data,
+  id = deparse1(substitute(data)),
+  positive = NULL,
+  label = NA_character_,
   ...
 )
 }
@@ -51,10 +81,13 @@ Name of the target column.}
 
 \item{id}{(\code{character(1)})\cr
 Id for the new task.
-Defaults to the (deparsed and substituted) name of \code{x}.}
+Defaults to the (deparsed and substituted) name of the data argument.}
 
 \item{positive}{(\code{character(1)})\cr
 Level of the positive class. See \link{TaskClassif}.}
+
+\item{label}{(\code{character(1)})\cr
+Label for the new instance.}
 
 \item{drop_original_target}{(\code{logical(1)})\cr
 If \code{FALSE} (default), the original target is added as a feature.
@@ -62,18 +95,23 @@ Otherwise the original target is dropped.}
 
 \item{drop_levels}{(\code{logical(1)})\cr
 If \code{TRUE} (default), unused levels of the new target variable are dropped.}
+
+\item{data}{(\code{data.frame()})\cr
+Data frame containing all columns referenced in formula \code{x}.}
 }
 \value{
 \link{TaskClassif}.
 }
 \description{
 Convert object to a \link{TaskClassif}.
-This is a S3 generic, specialized for at least the following objects:
+This is a S3 generic. mlr3 ships with methods for the following objects:
 \enumerate{
 \item \link{TaskClassif}: ensure the identity
-\item \code{\link[=data.frame]{data.frame()}} and \link{DataBackend}: provides an alternative to the constructor of \link{TaskClassif}.
+\item \code{\link{formula}}, \code{\link[=data.frame]{data.frame()}}, \code{\link[=matrix]{matrix()}}, \code{\link[Matrix:Matrix]{Matrix::Matrix()}} and \link{DataBackend}: provides an alternative to the constructor of \link{TaskClassif}.
 \item \link{TaskRegr}: Calls \code{\link[=convert_task]{convert_task()}}.
 }
+
+Note that the target column will be converted to a \code{factor()}, if possible.
 }
 \examples{
 as_task_classif(palmerpenguins::penguins, target = "species")

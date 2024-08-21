@@ -29,7 +29,8 @@ TaskGeneratorCassini = R6Class("TaskGeneratorCassini",
         relsize3 = p_int(1L, default = 1L)
       )
 
-      super$initialize(id = "cassini", "classif", "mlbench", ps, man = "mlr3::mlr_task_generators_cassini")
+      super$initialize(id = "cassini", "classif", "mlbench", ps,
+        label = "Cassini Classification", man = "mlr3::mlr_task_generators_cassini")
     },
 
     #' @description
@@ -60,4 +61,4 @@ TaskGeneratorCassini = R6Class("TaskGeneratorCassini",
 )
 
 #' @include mlr_task_generators.R
-mlr_task_generators$add("cassini", TaskGeneratorCassini)
+mlr_task_generators$add("cassini", function() TaskGeneratorCassini$new())

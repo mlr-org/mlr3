@@ -3,7 +3,7 @@
 \name{mlr_resamplings_custom_cv}
 \alias{mlr_resamplings_custom_cv}
 \alias{ResamplingCustomCV}
-\title{Custom Cross Validation}
+\title{Custom Cross-Validation}
 \description{
 Splits data into training and test sets in a cross-validation fashion based
 on a user-provided categorical vector.
@@ -16,9 +16,11 @@ showcased in the examples of \link{mlr_resamplings_loo}.
 }
 \section{Dictionary}{
 
-This \link{Resampling} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_resamplings} or with the associated sugar function \code{\link[=rsmp]{rsmp()}}:\preformatted{mlr_resamplings$get("custom_cv")
+This \link{Resampling} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_resamplings} or with the associated sugar function \code{\link[=rsmp]{rsmp()}}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{mlr_resamplings$get("custom_cv")
 rsmp("custom_cv")
-}
+}\if{html}{\out{</div>}}
 }
 
 \examples{
@@ -42,7 +44,7 @@ intersect(custom_cv$train_set(1), custom_cv$test_set(1))
 \seealso{
 \itemize{
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
-\url{https://mlr3book.mlr-org.com/basics.html#resampling}
+\url{https://mlr3book.mlr-org.com/chapters/chapter3/evaluation_and_benchmarking.html#sec-resampling}
 \item Package \CRANpkg{mlr3spatiotempcv} for spatio-temporal resamplings.
 \item \link[mlr3misc:Dictionary]{Dictionary} of \link[=Resampling]{Resamplings}: \link{mlr_resamplings}
 \item \code{as.data.table(mlr_resamplings)} for a table of available \link[=Resampling]{Resamplings} in the running session (depending on the loaded packages).
@@ -52,6 +54,7 @@ tasks.
 
 Other Resampling: 
 \code{\link{Resampling}},
+\code{\link{mlr_resamplings}},
 \code{\link{mlr_resamplings_bootstrap}},
 \code{\link{mlr_resamplings_custom}},
 \code{\link{mlr_resamplings_cv}},
@@ -59,8 +62,7 @@ Other Resampling:
 \code{\link{mlr_resamplings_insample}},
 \code{\link{mlr_resamplings_loo}},
 \code{\link{mlr_resamplings_repeated_cv}},
-\code{\link{mlr_resamplings_subsampling}},
-\code{\link{mlr_resamplings}}
+\code{\link{mlr_resamplings_subsampling}}
 }
 \concept{Resampling}
 \section{Super class}{
@@ -77,25 +79,25 @@ Returns the number of resampling iterations, depending on the values stored in t
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{ResamplingCustomCV$new()}}
-\item \href{#method-instantiate}{\code{ResamplingCustomCV$instantiate()}}
-\item \href{#method-clone}{\code{ResamplingCustomCV$clone()}}
+\item \href{#method-ResamplingCustomCV-new}{\code{ResamplingCustomCV$new()}}
+\item \href{#method-ResamplingCustomCV-instantiate}{\code{ResamplingCustomCV$instantiate()}}
+\item \href{#method-ResamplingCustomCV-clone}{\code{ResamplingCustomCV$clone()}}
 }
 }
-\if{html}{
-\out{<details open ><summary>Inherited methods</summary>}
-\itemize{
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="format">}\href{../../mlr3/html/Resampling.html#method-format}{\code{mlr3::Resampling$format()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="help">}\href{../../mlr3/html/Resampling.html#method-help}{\code{mlr3::Resampling$help()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="print">}\href{../../mlr3/html/Resampling.html#method-print}{\code{mlr3::Resampling$print()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="test_set">}\href{../../mlr3/html/Resampling.html#method-test_set}{\code{mlr3::Resampling$test_set()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="train_set">}\href{../../mlr3/html/Resampling.html#method-train_set}{\code{mlr3::Resampling$train_set()}}\out{</span>}
-}
-\out{</details>}
-}
+\if{html}{\out{
+<details open><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="format"><a href='../../mlr3/html/Resampling.html#method-Resampling-format'><code>mlr3::Resampling$format()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="help"><a href='../../mlr3/html/Resampling.html#method-Resampling-help'><code>mlr3::Resampling$help()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="print"><a href='../../mlr3/html/Resampling.html#method-Resampling-print'><code>mlr3::Resampling$print()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="test_set"><a href='../../mlr3/html/Resampling.html#method-Resampling-test_set'><code>mlr3::Resampling$test_set()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="train_set"><a href='../../mlr3/html/Resampling.html#method-Resampling-train_set'><code>mlr3::Resampling$train_set()</code></a></span></li>
+</ul>
+</details>
+}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-ResamplingCustomCV-new"></a>}}
+\if{latex}{\out{\hypertarget{method-ResamplingCustomCV-new}{}}}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
@@ -104,10 +106,10 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-instantiate"></a>}}
-\if{latex}{\out{\hypertarget{method-instantiate}{}}}
+\if{html}{\out{<a id="method-ResamplingCustomCV-instantiate"></a>}}
+\if{latex}{\out{\hypertarget{method-ResamplingCustomCV-instantiate}{}}}
 \subsection{Method \code{instantiate()}}{
-Instantiate this \link{Resampling} as cross validation with custom splits.
+Instantiate this \link{Resampling} as cross-validation with custom splits.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{ResamplingCustomCV$instantiate(task, f = NULL, col = NULL)}\if{html}{\out{</div>}}
 }
@@ -133,8 +135,8 @@ parameter \code{f}.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-ResamplingCustomCV-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-ResamplingCustomCV-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

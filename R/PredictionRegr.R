@@ -5,7 +5,7 @@
 #' @description
 #' This object wraps the predictions returned by a learner of class [LearnerRegr], i.e.
 #' the predicted response and standard error.
-#' Additionally, probability distributions implemented in \CRANpkg{distr6} are supported.
+#' Additionally, probability distributions implemented in package `distr6` are supported.
 #'
 #' @template seealso_prediction
 #' @export
@@ -16,7 +16,6 @@
 #' p$predict_types
 #' head(as.data.table(p))
 PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
-  cloneable = FALSE,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
@@ -38,16 +37,19 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
     #'   Numeric vector of predicted standard errors.
     #'   One element for each observation in the test set.
     #'
-    #' @param distr ([distr6::VectorDistribution])\cr
-    #'   [VectorDistribution][distr6::VectorDistribution] from \CRANpkg{distr6}.
+    #' @param quantiles (`matrix()`)\cr
+    #'   Numeric matrix of predicted quantiles. One row per observation, one column per quantile.
+    #'
+    #' @param distr (`VectorDistribution`)\cr
+    #'   `VectorDistribution` from package distr6 (in repository \url{https://raphaels1.r-universe.dev}).
     #'   Each individual distribution in the vector represents the random variable 'survival time'
     #'   for an individual observation.
     #'
     #' @param check (`logical(1)`)\cr
     #'   If `TRUE`, performs some argument checks and predict type conversions.
-    initialize = function(task = NULL, row_ids = task$row_ids, truth = task$truth(), response = NULL, se = NULL, distr = NULL, check = TRUE) {
+    initialize = function(task = NULL, row_ids = task$row_ids, truth = task$truth(), response = NULL, se = NULL, quantiles = NULL, distr = NULL, check = TRUE) {
       pdata = new_prediction_data(
-        list(row_ids = row_ids, truth = truth, response = response, se = se, distr = distr),
+        list(row_ids = row_ids, truth = truth, response = response, se = se, quantiles = quantiles, distr = distr),
         task_type = "regr"
       )
 
@@ -57,7 +59,11 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
       self$task_type = "regr"
       self$man = "mlr3::PredictionRegr"
       self$data = pdata
-      self$predict_types = intersect(c("response", "se", "distr"), names(pdata))
+      predict_types = intersect(names(mlr_reflections$learner_predict_types[["regr"]]), names(pdata))
+      # response is in saved in quantiles matrix
+      if ("quantiles" %in% predict_types) predict_types = union(predict_types, "response")
+      self$predict_types = predict_types
+      private$.quantile_response = attr(quantiles, "response")
     }
   ),
 
@@ -66,6 +72,7 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
     #' Access the stored predicted response.
     response = function(rhs) {
       assert_ro_binding(rhs)
+      if (!is.null(private$.quantile_response)) return(self$data$quantiles[, private$.quantile_response])
       self$data$response %??% rep(NA_real_, length(self$data$row_ids))
     },
 
@@ -76,15 +83,26 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
       self$data$se %??% rep(NA_real_, length(self$data$row_ids))
     },
 
-    #' @field distr ([distr6::VectorDistribution])\cr
+    #' @field quantiles (`matrix()`)\cr
+    #' Matrix of predicted quantiles. Observations are in rows, quantile (in ascending order) in columns.
+    quantiles = function(rhs) {
+      assert_ro_binding(rhs)
+      self$data$quantiles
+    },
+
+    #' @field distr (`VectorDistribution`)\cr
     #' Access the stored vector distribution.
-    #' Requires package \CRANpkg{distr6}.
+    #' Requires package `distr6`(in repository \url{https://raphaels1.r-universe.dev}) .
     distr = function() {
       if ("distr" %in% self$predict_types) {
-        require_namespaces("distr6")
+        require_namespaces("distr6", msg = "To predict probability distributions, please install %s")
       }
       return(self$data$distr)
     }
+  ),
+
+  private = list(
+    .quantile_response = NULL
   )
 )
 
@@ -93,8 +111,13 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
 as.data.table.PredictionRegr = function(x, ...) { # nolint
   tab = as.data.table(x$data[c("row_ids", "truth", "response", "se")])
 
+  if ("quantiles" %in% x$predict_types) {
+    tab = rcbind(tab, as.data.table(x$data$quantiles))
+    set(tab, j = "response", value = x$response)
+  }
+
   if ("distr" %in% x$predict_types) {
-    require_namespaces("distr6")
+    require_namespaces("distr6", msg = "To predict probability distributions, please install %s")
     tab$distr = list(x$distr)
   }
   tab

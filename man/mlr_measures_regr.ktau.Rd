@@ -4,7 +4,14 @@
 \alias{mlr_measures_regr.ktau}
 \title{Kendall's tau}
 \description{
-Regression measure defined as Kendall's rank correlation coefficient between truth and response.
+Measure to compare true observed response with predicted response in regression tasks.
+}
+\details{
+Kendall's tau is defined as Kendall's rank correlation coefficient between truth and response.
+It is defined as \deqn{
+  \tau = \frac{(\mathrm{number of concordant pairs)} - (\mathrm{number of discordant pairs)}}{\mathrm{(number of pairs)}}
+  }{
+    t = (number of concordant pairs) - (number of discordant pairs) / (number of pairs)}
 Calls \code{\link[stats:cor]{stats::cor()}} with \code{method} set to \code{"kendall"}.
 }
 \note{
@@ -15,9 +22,11 @@ This can be customized by setting the field \code{na_value}.
 }
 \section{Dictionary}{
 
-This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("regr.ktau")
+This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{mlr_measures$get("regr.ktau")
 msr("regr.ktau")
-}
+}\if{html}{\out{</div>}}
 }
 
 \section{Parameters}{
@@ -52,6 +61,7 @@ Other regression measures:
 \code{\link{mlr_measures_regr.mse}},
 \code{\link{mlr_measures_regr.msle}},
 \code{\link{mlr_measures_regr.pbias}},
+\code{\link{mlr_measures_regr.pinball}},
 \code{\link{mlr_measures_regr.rae}},
 \code{\link{mlr_measures_regr.rmse}},
 \code{\link{mlr_measures_regr.rmsle}},

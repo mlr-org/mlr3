@@ -29,8 +29,8 @@ test_that("c", {
   expect_data_table(dt, nrows = task$nrow, ncols = 4L, any.missing = FALSE)
 
   # duplicates are detected?
-  p1 = private(rr)$.data$data$fact$prediction[[1L]]$test
-  p2 = private(rr)$.data$data$fact$prediction[[1L]]$test
+  p1 = get_private(rr)$.data$data$fact$prediction[[1L]]$test
+  p2 = get_private(rr)$.data$data$fact$prediction[[1L]]$test
   p3 = c(p1, p2, keep_duplicates = FALSE)
   expect_equal(sort(p1$data$row_ids), sort(p2$data$row_ids))
   expect_equal(sort(p1$data$row_ids), sort(p3$data$row_ids))
@@ -59,7 +59,7 @@ test_that("distr", {
     params = replicate(task$nrow, list(prob = runif(1), size = 10), FALSE)
   )
 
-  p = PredictionRegr$new(row_ids = task$row_ids, truth = task$truth(), distr = distr)
+  p = PredictionRegr$new(row_ids = task$row_ids, truth = task$truth(), distr = distr, check = TRUE)
   expect_output(print(p))
   expect_set_equal(p$predict_types, c("response", "se", "distr"))
   expect_numeric(p$response, len = task$nrow, any.missing = FALSE)
@@ -94,4 +94,12 @@ test_that("filtering", {
   expect_set_equal(p$row_ids, 1:32)
   expect_set_equal(p2$row_ids, 1:3)
   expect_prediction(as_prediction_regr(as.data.table(p2)))
+})
+
+test_that("obs_loss", {
+  task = tsk("mtcars")
+  p = PredictionRegr$new(row_ids = task$row_ids, truth = task$truth(), response = task$truth())
+  m = msr("regr.mse")
+  loss = p$obs_loss()
+  expect_double(loss$regr.mse, lower = 0, any.missing = FALSE)
 })

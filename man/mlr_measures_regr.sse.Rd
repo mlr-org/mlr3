@@ -4,7 +4,10 @@
 \alias{mlr_measures_regr.sse}
 \title{Sum of Squared Errors}
 \description{
-Regression measure defined as \deqn{
+Measure to compare true observed response with predicted response in regression tasks.
+}
+\details{
+The Sum of Squared Errors is defined as \deqn{
   \sum_{i=1}^n \left( t_i - r_i \right)^2.
 }{
   sum((t - r)^2).
@@ -18,9 +21,11 @@ This can be customized by setting the field \code{na_value}.
 }
 \section{Dictionary}{
 
-This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("regr.sse")
+This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{mlr_measures$get("regr.sse")
 msr("regr.sse")
-}
+}\if{html}{\out{</div>}}
 }
 
 \section{Parameters}{
@@ -56,6 +61,7 @@ Other regression measures:
 \code{\link{mlr_measures_regr.mse}},
 \code{\link{mlr_measures_regr.msle}},
 \code{\link{mlr_measures_regr.pbias}},
+\code{\link{mlr_measures_regr.pinball}},
 \code{\link{mlr_measures_regr.rae}},
 \code{\link{mlr_measures_regr.rmse}},
 \code{\link{mlr_measures_regr.rmsle}},

@@ -4,8 +4,11 @@
 \alias{mlr_measures_regr.medae}
 \title{Median Absolute Error}
 \description{
-Regression measure defined as \deqn{
-  \mathop{\mathrm{median}}_i \left| t_i - r_i \right|.
+Measure to compare true observed response with predicted response in regression tasks.
+}
+\details{
+The Median Absolute Error is defined as \deqn{
+  \mathop{\mathrm{median}} \left| t_i - r_i \right|.
 }{
   median(abs(t - r)).
 }
@@ -18,9 +21,11 @@ This can be customized by setting the field \code{na_value}.
 }
 \section{Dictionary}{
 
-This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("regr.medae")
+This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{mlr_measures$get("regr.medae")
 msr("regr.medae")
-}
+}\if{html}{\out{</div>}}
 }
 
 \section{Parameters}{
@@ -55,6 +60,7 @@ Other regression measures:
 \code{\link{mlr_measures_regr.mse}},
 \code{\link{mlr_measures_regr.msle}},
 \code{\link{mlr_measures_regr.pbias}},
+\code{\link{mlr_measures_regr.pinball}},
 \code{\link{mlr_measures_regr.rae}},
 \code{\link{mlr_measures_regr.rmse}},
 \code{\link{mlr_measures_regr.rmsle}},

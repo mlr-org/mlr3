@@ -19,3 +19,28 @@ test_that("PredictionDataRegr", {
   expect_numeric(pdata$truth, len = 3)
   expect_numeric(pdata$response, len = 3)
 })
+
+test_that("construction of empty PredictionDataRegr", {
+  task = tsk("mtcars")
+
+  learner = lrn("regr.featureless")
+  learner$train(task)
+  pred = learner$predict(task, row_ids = integer())
+  expect_prediction(pred)
+  expect_set_equal(pred$predict_types, "response")
+  expect_integer(pred$row_ids, len = 0L)
+  expect_numeric(pred$truth, len = 0L)
+  expect_null(pred$data$se)
+  expect_null(pred$data$distr)
+  expect_data_table(as.data.table(pred), nrows = 0L, ncols = 3L)
+
+  learner = lrn("regr.featureless", predict_type = "se")
+  learner$train(task)
+  pred = learner$predict(task, row_ids = integer())
+  expect_prediction(pred)
+  expect_set_equal(pred$predict_types, c("response", "se"))
+  expect_integer(pred$row_ids, len = 0L)
+  expect_numeric(pred$truth, len = 0L)
+  expect_numeric(pred$se, len = 0L)
+  expect_data_table(as.data.table(pred), nrows = 0L, ncols = 4L)
+})

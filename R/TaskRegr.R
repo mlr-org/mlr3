@@ -7,6 +7,7 @@
 #' The target column is assumed to be numeric.
 #' The `task_type` is set to `"regr"`.
 #'
+#' It is recommended to use [as_task_regr()] for construction.
 #' Predefined tasks are stored in the [dictionary][mlr3misc::Dictionary] [mlr_tasks].
 #'
 #' @template param_rows
@@ -29,14 +30,15 @@ TaskRegr = R6Class("TaskRegr",
     #' The function [as_task_regr()] provides an alternative way to construct regression tasks.
     #'
     #' @template param_target
+    #' @template param_label
     #' @template param_extra_args
-    initialize = function(id, backend, target, extra_args = list()) {
+    initialize = function(id, backend, target, label = NA_character_, extra_args = list()) {
       assert_string(target)
       super$initialize(
         id = id, task_type = "regr", backend = backend,
-        target = target, extra_args = extra_args)
+        target = target, label = label, extra_args = extra_args)
 
-      type = self$col_info[id == target]$type
+      type = fget(self$col_info, i = target, j = "type", key = "id")
       if (type %nin% c("integer", "numeric")) {
         stopf("Target column '%s' must be numeric", target)
       }

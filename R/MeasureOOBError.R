@@ -23,9 +23,10 @@ MeasureOOBError = R6Class("MeasureOOBError",
         id = "oob_error",
         task_type = NA_character_,
         properties = c("na_score", "requires_learner"),
-        predict_type = "response",
+        predict_type = NA_character_,
         range = c(-Inf, Inf),
         minimize = TRUE,
+        label = "Out-of-bag Error",
         man = "mlr3::mlr_measures_oob_error"
       )
     }
@@ -44,4 +45,4 @@ MeasureOOBError = R6Class("MeasureOOBError",
 )
 
 #' @include mlr_measures.R
-mlr_measures$add("oob_error", MeasureOOBError)
+mlr_measures$add("oob_error", function() MeasureOOBError$new())

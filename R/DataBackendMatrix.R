@@ -13,6 +13,7 @@
 #' @template param_primary_key
 #' @template param_na_rm
 #'
+#' @include DataBackend.R
 #' @template seealso_databackend
 #' @export
 #' @examples
@@ -39,7 +40,7 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
     #'   The input [Matrix::Matrix()].
     #' @param dense [data.frame()].
     #'   Dense data, converted to [data.table::data.table()].
-    initialize = function(data, dense = NULL, primary_key = NULL) {
+    initialize = function(data, dense, primary_key = NULL) {
       require_namespaces("Matrix")
       assert_class(data, "Matrix")
       assert_names(colnames(data), type = "unique")
@@ -156,6 +157,10 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
       rows = private$.translate_rows(rows)
       cols_sparse = intersect(cols, colnames(private$.data$sparse))
       cols_dense = intersect(cols, colnames(private$.data$dense))
+
+      if (length(cols_sparse) == 0L && length(cols_dense) == 0L) {
+        return(set_names(integer()))
+      }
 
       res = c(
         apply(private$.data$sparse[rows, cols_sparse, drop = FALSE], 2L, count_missing),

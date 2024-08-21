@@ -4,15 +4,18 @@
 \alias{mlr_measures_regr.rae}
 \title{Relative Absolute Error}
 \description{
-Regression measure defined as \deqn{
-  \frac{\sum_{i=1}^n \left| t_i - r_i \right|}{\sum_{i=1}^n \left| t_i - \bar{t} \right|}.
-}{
-  sum((t - r)^2) / sum((t - mean(t))^2).
-}
-Can be interpreted as absolute error of the predictions relative to a naive model predicting the mean.
+Measure to compare true observed response with predicted response in regression tasks.
 }
 \details{
+The Relative Absolute Error is defined as \deqn{
+  \frac{\sum_{i=1}^n \left| t_i - r_i \right|}{\sum_{i=1}^n \left| t_i - \bar{t} \right|},
+}{
+  sum((t - r)^2) / sum((t - mean(t))^2),
+}
+where \eqn{\bar{t} = \sum_{i=1}^n t_i}.
 This measure is undefined for constant \eqn{t}.
+
+Can be interpreted as absolute error of the predictions relative to a naive model predicting the mean.
 }
 \note{
 The score function calls \code{\link[mlr3measures:rae]{mlr3measures::rae()}} from package \CRANpkg{mlr3measures}.
@@ -22,9 +25,11 @@ This can be customized by setting the field \code{na_value}.
 }
 \section{Dictionary}{
 
-This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("regr.rae")
+This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{mlr_measures$get("regr.rae")
 msr("regr.rae")
-}
+}\if{html}{\out{</div>}}
 }
 
 \section{Parameters}{
@@ -60,6 +65,7 @@ Other regression measures:
 \code{\link{mlr_measures_regr.mse}},
 \code{\link{mlr_measures_regr.msle}},
 \code{\link{mlr_measures_regr.pbias}},
+\code{\link{mlr_measures_regr.pinball}},
 \code{\link{mlr_measures_regr.rmse}},
 \code{\link{mlr_measures_regr.rmsle}},
 \code{\link{mlr_measures_regr.rrse}},

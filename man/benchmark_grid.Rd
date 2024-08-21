@@ -4,7 +4,13 @@
 \alias{benchmark_grid}
 \title{Generate a Benchmark Grid Design}
 \usage{
-benchmark_grid(tasks, learners, resamplings)
+benchmark_grid(
+  tasks,
+  learners,
+  resamplings,
+  param_values = NULL,
+  paired = FALSE
+)
 }
 \arguments{
 \item{tasks}{(list of \link{Task}).}
@@ -12,6 +18,22 @@ benchmark_grid(tasks, learners, resamplings)
 \item{learners}{(list of \link{Learner}).}
 
 \item{resamplings}{(list of \link{Resampling}).}
+
+\item{param_values}{(\code{list()})\cr
+If you want to try many parameter settings for learners, you can pass them through the design
+which is optimized to be faster than creating learners for each setting.
+
+A list of lists of named lists, from outer to inner:
+\enumerate{
+\item One list element for each \link{Learner}.
+\item One list element for each hyperparameter configuration to try.
+\item Named list of hyperparameter settings to set in the Learner, possibly overwriting
+already set set hyperparameters in the \link{Learner}.
+}}
+
+\item{paired}{(\code{logical(1)})\cr
+Set this to \code{TRUE} if the resamplings are instantiated on the tasks, i.e., the tasks and resamplings are paired.
+You need to provide the same number of tasks and instantiated resamplings.}
 }
 \value{
 (\code{\link[data.table:data.table]{data.table::data.table()}}) with the cross product of the input vectors.
@@ -20,19 +42,43 @@ benchmark_grid(tasks, learners, resamplings)
 Takes a lists of \link{Task}, a list of \link{Learner} and a list of \link{Resampling} to
 generate a design in an \code{\link[=expand.grid]{expand.grid()}} fashion (a.k.a. cross join or Cartesian product).
 
-Resampling strategies are not allowed to be instantiated when passing the argument, and instead will be instantiated per task internally.
+There are two modes of operation, depending on the flag \code{paired}.
+\itemize{
+\item With \code{paired} set to \code{FALSE} (default), resampling strategies are not allowed to be instantiated, and instead will be instantiated per task internally.
 The only exception to this rule applies if all tasks have exactly the same number of rows, and the resamplings are all instantiated for such tasks.
+The grid will be generated based on the Cartesian product of tasks, learners, and resamplings.
+Because the resamplings are instantiated on the tasks, reproducibility requires a seed to be set \strong{before}
+calling this function, as this process is stochastic.
+\item With \code{paired} set to \code{TRUE}, tasks and resamplings are treated as pairs.
+I.e., you must provide as many tasks as corresponding instantiated resamplings.
+The grid will be generated based on the Cartesian product of learners and pairs.
+}
 }
 \examples{
 tasks = list(tsk("penguins"), tsk("sonar"))
 learners = list(lrn("classif.featureless"), lrn("classif.rpart"))
 resamplings = list(rsmp("cv"), rsmp("subsampling"))
 
+# Set a seed to ensure reproducibility of the resampling instantiation
+set.seed(123)
 grid = benchmark_grid(tasks, learners, resamplings)
+# the resamplings are now instantiated
+head(grid$resampling[[1]]$instance)
 print(grid)
 \dontrun{
 benchmark(grid)
 }
+
+# paired
+learner = lrn("classif.rpart")
+task1 = tsk("penguins")
+task2 = tsk("german_credit")
+res1 = rsmp("holdout")
+res2 = rsmp("holdout")
+res1$instantiate(task1)
+res2$instantiate(task2)
+design = benchmark_grid(list(task1, task2), learner, list(res1, res2), paired = TRUE)
+print(design)
 
 # manual construction of the grid with data.table::CJ()
 grid = data.table::CJ(task = tasks, learner = learners,
@@ -45,11 +91,12 @@ Map(function(task, resampling) {
 \dontrun{
 benchmark(grid)
 }
+
 }
 \seealso{
 \itemize{
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
-\url{https://mlr3book.mlr-org.com/basics.html#benchmarking}
+\url{https://mlr3book.mlr-org.com/chapters/chapter3/evaluation_and_benchmarking.html#sec-benchmarking}
 \item Package \CRANpkg{mlr3viz} for some generic visualizations.
 \item \CRANpkg{mlr3benchmark} for post-hoc analysis of benchmark results.
 }

@@ -4,11 +4,17 @@
 \alias{mlr_measures_classif.ce}
 \title{Classification Error}
 \description{
-Classification measure defined as \deqn{
-  \frac{1}{n} \sum_{i=1}^n w_i \left( t_i \neq r_i \right).
-}{
-  weighted.mean(t != r, w).
+Measure to compare true observed labels with predicted
+labels
+in multiclass classification tasks.
 }
+\details{
+The Classification Error is defined as \deqn{
+  \frac{1}{n} \sum_{i=1}^n w_i \mathbf{1} \left( t_i \neq r_i \right),
+}{
+  1 / n * sum(wi * 1(ti != ri)),
+}
+where \eqn{w_i} are normalized weights for each observation \eqn{x_i}.
 }
 \note{
 The score function calls \code{\link[mlr3measures:ce]{mlr3measures::ce()}} from package \CRANpkg{mlr3measures}.
@@ -18,9 +24,11 @@ This can be customized by setting the field \code{na_value}.
 }
 \section{Dictionary}{
 
-This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("classif.ce")
+This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{mlr_measures$get("classif.ce")
 msr("classif.ce")
-}
+}\if{html}{\out{</div>}}
 }
 
 \section{Parameters}{
@@ -54,12 +62,17 @@ Other classification measures:
 \code{\link{mlr_measures_classif.dor}},
 \code{\link{mlr_measures_classif.fbeta}},
 \code{\link{mlr_measures_classif.fdr}},
-\code{\link{mlr_measures_classif.fnr}},
 \code{\link{mlr_measures_classif.fn}},
+\code{\link{mlr_measures_classif.fnr}},
 \code{\link{mlr_measures_classif.fomr}},
-\code{\link{mlr_measures_classif.fpr}},
 \code{\link{mlr_measures_classif.fp}},
+\code{\link{mlr_measures_classif.fpr}},
 \code{\link{mlr_measures_classif.logloss}},
+\code{\link{mlr_measures_classif.mauc_au1p}},
+\code{\link{mlr_measures_classif.mauc_au1u}},
+\code{\link{mlr_measures_classif.mauc_aunp}},
+\code{\link{mlr_measures_classif.mauc_aunu}},
+\code{\link{mlr_measures_classif.mauc_mu}},
 \code{\link{mlr_measures_classif.mbrier}},
 \code{\link{mlr_measures_classif.mcc}},
 \code{\link{mlr_measures_classif.npv}},
@@ -69,17 +82,23 @@ Other classification measures:
 \code{\link{mlr_measures_classif.recall}},
 \code{\link{mlr_measures_classif.sensitivity}},
 \code{\link{mlr_measures_classif.specificity}},
-\code{\link{mlr_measures_classif.tnr}},
 \code{\link{mlr_measures_classif.tn}},
-\code{\link{mlr_measures_classif.tpr}},
-\code{\link{mlr_measures_classif.tp}}
+\code{\link{mlr_measures_classif.tnr}},
+\code{\link{mlr_measures_classif.tp}},
+\code{\link{mlr_measures_classif.tpr}}
 
 Other multiclass classification measures: 
 \code{\link{mlr_measures_classif.acc}},
 \code{\link{mlr_measures_classif.bacc}},
 \code{\link{mlr_measures_classif.costs}},
 \code{\link{mlr_measures_classif.logloss}},
-\code{\link{mlr_measures_classif.mbrier}}
+\code{\link{mlr_measures_classif.mauc_au1p}},
+\code{\link{mlr_measures_classif.mauc_au1u}},
+\code{\link{mlr_measures_classif.mauc_aunp}},
+\code{\link{mlr_measures_classif.mauc_aunu}},
+\code{\link{mlr_measures_classif.mauc_mu}},
+\code{\link{mlr_measures_classif.mbrier}},
+\code{\link{mlr_measures_classif.mcc}}
 }
 \concept{classification measures}
 \concept{multiclass classification measures}

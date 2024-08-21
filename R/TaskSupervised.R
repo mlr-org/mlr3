@@ -12,6 +12,7 @@
 #' @template param_task_type
 #' @template param_backend
 #' @template param_rows
+#' @template param_label
 #' @template param_extra_args
 #'
 #' @template seealso_task
@@ -28,8 +29,8 @@ TaskSupervised = R6Class("TaskSupervised", inherit = Task,
     #'
     #' @param target (`character(1)`)\cr
     #'   Name of the target column.
-    initialize = function(id, task_type, backend, target, extra_args = list()) {
-      super$initialize(id = id, task_type = task_type, backend = backend, extra_args = extra_args)
+    initialize = function(id, task_type, backend, target, label = NA_character_, extra_args = list()) {
+      super$initialize(id = id, task_type = task_type, backend = backend, label = label, extra_args = extra_args)
       assert_subset(target, self$col_roles$feature)
       self$col_roles$target = target
       self$col_roles$feature = setdiff(self$col_roles$feature, target)

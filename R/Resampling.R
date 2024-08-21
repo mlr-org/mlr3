@@ -15,6 +15,7 @@
 #'
 #' @template param_id
 #' @template param_param_set
+#' @template param_label
 #' @template param_man
 #'
 #' @section Stratification:
@@ -81,8 +82,8 @@
 #' prop.table(table(task$truth(r$train_set(1)))) # roughly same proportion
 Resampling = R6Class("Resampling",
   public = list(
-    #' @template field_id
-    id = NULL,
+    #' @template field_label
+    label = NULL,
 
     #' @template field_param_set
     param_set = NULL,
@@ -121,8 +122,9 @@ Resampling = R6Class("Resampling",
     #'   Set to `TRUE` if this resampling strategy may have duplicated row ids in a single training set or test set.
     #'
     #' Note that this object is typically constructed via a derived classes, e.g. [ResamplingCV] or [ResamplingHoldout].
-    initialize = function(id, param_set = ps(), duplicated_ids = FALSE, man = NA_character_) {
-      self$id = assert_string(id, min.chars = 1L)
+    initialize = function(id, param_set = ps(), duplicated_ids = FALSE, label = NA_character_, man = NA_character_) {
+      private$.id = assert_string(id, min.chars = 1L)
+      self$label = assert_string(label, na.ok = TRUE)
       self$param_set = assert_param_set(param_set)
       self$duplicated_ids = assert_flag(duplicated_ids)
       self$man = assert_string(man, na.ok = TRUE)
@@ -130,7 +132,8 @@ Resampling = R6Class("Resampling",
 
     #' @description
     #' Helper for print outputs.
-    format = function() {
+    #' @param ... (ignored).
+    format = function(...) {
       sprintf("<%s>", class(self)[1L])
     },
 
@@ -138,10 +141,10 @@ Resampling = R6Class("Resampling",
     #' Printer.
     #' @param ... (ignored).
     print = function(...) {
-      pv = self$param_set$values
-      catf("%s with %i iterations", format(self), self$iters)
+      catn(format(self), if (is.null(self$label) || is.na(self$label)) "" else paste0(": ", self$label))
+      catn(str_indent("* Iterations:", self$iters))
       catn(str_indent("* Instantiated:", self$is_instantiated))
-      catn(str_indent("* Parameters:", as_short_string(pv, 1000L)))
+      catn(str_indent("* Parameters:", as_short_string(self$param_set$values, 1000L)))
     },
 
     #' @description
@@ -168,10 +171,10 @@ Resampling = R6Class("Resampling",
 
       if (is.null(strata)) {
         if (is.null(groups)) {
-          instance = private$.sample(task$row_ids, task)
+          instance = private$.sample(task$row_ids, task = task)
         } else {
           private$.groups = groups
-          instance = private$.sample(unique(groups$group))
+          instance = private$.sample(unique(groups$group), task = task)
         }
       } else {
         if (!is.null(groups)) {
@@ -180,6 +183,7 @@ Resampling = R6Class("Resampling",
         instance = private$.combine(lapply(strata$row_id, private$.sample, task = task))
       }
 
+      private$.hash = NULL
       self$instance = instance
       self$task_hash = task$hash
       self$task_nrow = task$nrow
@@ -208,6 +212,16 @@ Resampling = R6Class("Resampling",
   ),
 
   active = list(
+    #' @template field_id
+    id = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.id)
+      }
+
+      private$.hash = NULL
+      private$.id = assert_string(rhs, min.chars = 1L)
+    },
+
     #' @field is_instantiated (`logical(1)`)\cr
     #'   Is `TRUE` if the resampling has been instantiated.
     is_instantiated = function(rhs) {
@@ -221,11 +235,19 @@ Resampling = R6Class("Resampling",
       if (!self$is_instantiated) {
         return(NA_character_)
       }
-      calculate_hash(list(class(self), self$id, self$param_set$values, self$instance))
+
+      if (is.null(private$.hash)) {
+        private$.hash = calculate_hash(list(class(self), self$id, self$param_set$values, self$instance))
+      }
+
+      private$.hash
     }
   ),
 
   private = list(
+    .primary_iters = NULL,
+    .id = NULL,
+    .hash = NULL,
     .groups = NULL,
 
     .get_set = function(getter, i) {
@@ -258,7 +280,7 @@ as.data.table.Resampling = function(x, ...) { # nolint
   setkeyv(tab, c("set", "iteration"))[]
 }
 
-#' @export
-format_list_item.Resampling = function(x, ...) { # nolint
-  sprintf("<rsmp:%s[%i]>", x$id, x$iters)
-}
+# #' @export
+# format_list_item.Resampling = function(x, ...) { # nolint
+#   sprintf("<rsmp:%s[%i]>", x$id, x$iters)
+# }

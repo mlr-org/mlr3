@@ -23,7 +23,7 @@ NULL
 
 load_task_mtcars = function(id = "mtcars") {
   b = as_data_backend(load_dataset("mtcars", "datasets", keep_rownames = TRUE), keep_rownames = "model")
-  task = TaskRegr$new(id, b, target = "mpg")
+  task = TaskRegr$new(id, b, target = "mpg", label = "Motor Trends")
   b$hash = task$man = "mlr3::mlr_tasks_mtcars"
   task$col_roles$name = "model"
   task$col_roles$feature = setdiff(task$col_roles$feature, "model")

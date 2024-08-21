@@ -25,10 +25,11 @@ See \link[mlr3misc:Dictionary]{mlr3misc::Dictionary}.
 \section{S3 methods}{
 
 \itemize{
-\item \code{as.data.table(dict)}\cr
+\item \code{as.data.table(dict, ..., objects = FALSE)}\cr
 \link[mlr3misc:Dictionary]{mlr3misc::Dictionary} -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
-Returns a \code{\link[data.table:data.table]{data.table::data.table()}} with columns \code{"key"}, \code{"task_type"}, \code{"measures"}, \code{"nrow"}, \code{"ncol"} and
-the number of features of type \code{"lgl"}, \code{"int"}, \code{"dbl"}, \code{"chr"}, \code{"fct"} and \code{"ord"} as columns.
+Returns a \code{\link[data.table:data.table]{data.table::data.table()}} with columns "key", "label", "task_type", "nrow", "ncol", "properties",
+and the number of features of type "lgl", "int", "dbl", "chr", "fct" and "ord", respectively.
+If \code{objects} is set to \code{TRUE}, the constructed objects are returned in the list column named \code{object}.
 }
 }
 
@@ -66,11 +67,11 @@ Other Dictionary:
 \code{\link{mlr_task_generators}}
 
 Other Task: 
+\code{\link{Task}},
 \code{\link{TaskClassif}},
 \code{\link{TaskRegr}},
 \code{\link{TaskSupervised}},
 \code{\link{TaskUnsupervised}},
-\code{\link{Task}},
 \code{\link{mlr_tasks_boston_housing}},
 \code{\link{mlr_tasks_breast_cancer}},
 \code{\link{mlr_tasks_german_credit}},

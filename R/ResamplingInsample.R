@@ -30,11 +30,16 @@ ResamplingInsample = R6Class("ResamplingInsample", inherit = Resampling,
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
-      super$initialize(id = "insample", man = "mlr3::mlr_resamplings_insample")
-    },
-
+      super$initialize(id = "insample",
+        label = "Insample Resampling", man = "mlr3::mlr_resamplings_insample")
+    }
+  ),
+  active = list(
     #' @template field_iters
-    iters = 1L
+    iters = function(rhs)  {
+      assert_ro_binding(rhs)
+      1L
+    }
   ),
 
   private = list(
@@ -57,4 +62,4 @@ ResamplingInsample = R6Class("ResamplingInsample", inherit = Resampling,
 )
 
 #' @include mlr_resamplings.R
-mlr_resamplings$add("insample", ResamplingInsample)
+mlr_resamplings$add("insample", function() ResamplingInsample$new())

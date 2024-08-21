@@ -1,9 +1,16 @@
 #' @rdname PredictionData
+#' @param train_task ([Task])\cr
+#'   Task used for training the learner.
 #' @export
-check_prediction_data.PredictionDataClassif = function(pdata) { # nolint
+check_prediction_data.PredictionDataClassif = function(pdata, train_task, ...) { # nolint
   pdata$row_ids = assert_row_ids(pdata$row_ids)
   n = length(pdata$row_ids)
   assert_factor(pdata$truth, len = n, null.ok = TRUE)
+  # unsupervised task
+  if (is.null(pdata$truth)) {
+    lvls = fget(train_task$col_info, train_task$target_names, "levels", "id")
+    pdata$truth = if (length(pdata$row_ids)) factor(NA, lvls) else factor(levels = lvls)
+  }
   lvls = levels(pdata$truth)
 
   if (!is.null(pdata$response)) {
@@ -50,7 +57,7 @@ check_prediction_data.PredictionDataClassif = function(pdata) { # nolint
 
 #' @rdname PredictionData
 #' @export
-is_missing_prediction_data.PredictionDataClassif = function(pdata) { # nolint
+is_missing_prediction_data.PredictionDataClassif = function(pdata, ...) { # nolint
   miss = logical(length(pdata$row_ids))
   if (!is.null(pdata$response)) {
     miss = is.na(pdata$response)
@@ -99,7 +106,7 @@ c.PredictionDataClassif = function(..., keep_duplicates = TRUE) {
 }
 
 #' @export
-filter_prediction_data.PredictionDataClassif = function(pdata, row_ids) {
+filter_prediction_data.PredictionDataClassif = function(pdata, row_ids, ...) {
   keep = pdata$row_ids %in% row_ids
   pdata$row_ids = pdata$row_ids[keep]
   pdata$truth = pdata$truth[keep]
@@ -113,4 +120,25 @@ filter_prediction_data.PredictionDataClassif = function(pdata, row_ids) {
   }
 
   pdata
+}
+
+#' @export
+create_empty_prediction_data.TaskClassif = function(task, learner) {
+  predict_types = mlr_reflections$learner_predict_types[["classif"]][[learner$predict_type]]
+  cn = task$class_names
+
+  pdata = list(
+    row_ids = integer(),
+    truth = factor(character(), levels = cn)
+  )
+
+  if ("response" %in% predict_types) {
+    pdata$response = pdata$truth
+  }
+
+  if ("prob" %in% predict_types) {
+    pdata$prob = matrix(numeric(), nrow = 0L, ncol = length(cn), dimnames = list(NULL, cn))
+  }
+
+  return(new_prediction_data(pdata, "classif"))
 }

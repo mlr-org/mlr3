@@ -4,9 +4,9 @@
 #' @import mlr3misc
 #' @import palmerpenguins
 #' @importFrom R6 R6Class is.R6
-#' @importFrom utils data head tail getFromNamespace
+#' @importFrom utils data head tail getFromNamespace packageVersion
 #' @importFrom graphics plot
-#' @importFrom stats predict rnorm runif sd contr.treatment
+#' @importFrom stats predict rnorm runif sd contr.treatment model.frame terms quantile
 #' @importFrom uuid UUIDgenerate
 #' @importFrom parallelly availableCores
 #' @importFrom future nbrOfWorkers plan
@@ -32,6 +32,8 @@
 #' * Feature selection wrappers: \CRANpkg{mlr3fselect}
 #' * Interface to real (out-of-memory) data bases: \CRANpkg{mlr3db}
 #' * Performance measures as plain functions: \CRANpkg{mlr3measures}
+#' * Resampling methods for spatiotemporal data: \CRANpkg{mlr3spatiotempcv}
+#' * Data storage and prediction support for spatial objects: \CRANpkg{mlr3spatial}
 #'
 #' @section Suggested packages:
 #' * Parallelization framework: \CRANpkg{future}
@@ -39,13 +41,21 @@
 #' * Encapsulated evaluation: \CRANpkg{evaluate}, \CRANpkg{callr} (external process)
 #'
 #' @section Package Options:
+#' * `"mlr3.exec_random"`: Randomize the order of execution in [resample()] and [benchmark()] during
+#'   parallelization with \CRANpkg{future}. Defaults to `TRUE`.
+#'   Note that this does not affect the order of results.
+#' * `"mlr3.exec_chunk_size"`: Number of iterations to perform in a single [future::future()] during
+#'   parallelization with \CRANpkg{future}. Defaults to 1.
+#' * `"mlr3.exec_chunk_bins"`: Number of bins to split the iterations into. If set, `"mlr3.exec_chunk_size"` is ignored.
 #' * `"mlr3.debug"`: If set to `TRUE`, parallelization via \CRANpkg{future} is disabled to simplify
 #'   debugging and provide more concise tracebacks.
-#'   Note that results computed with debug mode enabled use a different seeding mechanism and are not reproducible.
+#'   Note that results computed in debug mode use a different seeding mechanism and are **not reproducible**.
 #' * `"mlr3.allow_utf8_names"`: If set to `TRUE`, checks on the feature names are relaxed, allowing
 #'   non-ascii characters in column names. This is an experimental and temporal option to
 #'   pave the way for text analysis, and will likely be removed in a future version of the package.
 #'   analysis.
+#' * `"mlr3.warn_version_mismatch"`: Set to `FALSE` to silence warnings raised during predict if a learner has been
+#'   trained with a different version version of mlr3.
 #'
 #' @references
 #' `r tools::toRd(citation("mlr3"))`
@@ -56,6 +66,7 @@ dummy_import = function() {
   # this function is required to silence R CMD check
   mlbench::mlbench.xor
   mlr3measures::mse
+  evaluate::evaluate
 } # nocov end
 
 
@@ -75,6 +86,11 @@ dummy_import = function() {
     lg$set_threshold("warn")
   }
 
+  register_namespace_callback(pkgname, "mlr", function(...) {
+    warning("Packages 'mlr3' and 'mlr' are conflicting and should not be loaded in the same session")
+  })
+
+  mlr_reflections$loggers[["mlr3"]] = lg
 } # nocov end
 
 leanify_package()

@@ -60,7 +60,6 @@
 #' p$set_threshold(th)$response
 #' p$score(measures = msr("classif.ce"))
 PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
-  cloneable = FALSE,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
@@ -152,7 +151,7 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
     #' Access to the stored predicted class labels.
     response = function(rhs) {
       assert_ro_binding(rhs)
-      self$data$response %??% factor(rep(NA, length(self$data$row_ids)), levels(self$data$truth))
+      self$data$response %??% factor(rep(NA_character_, length(self$data$row_ids)), levels(self$data$truth))
     },
 
     #' @field prob (`matrix()`)\cr

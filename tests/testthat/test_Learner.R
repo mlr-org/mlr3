@@ -185,9 +185,9 @@ test_that("predict on newdata works / titanic use case", {
 
 test_that("predict train + test set", {
   task = tsk("iris")
-  m1 = msr("debug", id = "tr", predict_sets = "train")
-  m2 = msr("debug", id = "te", predict_sets = "test")
-  m3 = msr("debug", id = "trte", predict_sets = c("train", "test"))
+  m1 = msr("debug_classif", id = "tr", predict_sets = "train")
+  m2 = msr("debug_classif", id = "te", predict_sets = "test")
+  m3 = msr("debug_classif", id = "trte", predict_sets = c("train", "test"))
   measures = list(m1, m2, m3)
   hout = rsmp("holdout")$instantiate(task)
   n_train = length(hout$train_set(1))
@@ -311,7 +311,316 @@ test_that("Task prototype is stored in state", {
   learner = lrn("regr.rpart")
   learner$train(task)
 
-  prototype = learner$state$task_prototype
-  expect_data_table(prototype, nrows = 0, ncols = 19)
+  prototype = learner$state$data_prototype
+  expect_data_table(prototype, nrows = 0, ncols = 18)
   expect_names(names(prototype), permutation.of = c(task$feature_names, task$target_names))
+})
+
+test_that("Models can be replaced", {
+  task = tsk("boston_housing")
+  learner = lrn("regr.featureless")
+  learner$train(task)
+
+  learner$model$location = 1
+  expect_equal(learner$model$location, 1)
+})
+
+test_that("validation task's backend is removed", {
+  learner = lrn("regr.rpart")
+  task = tsk("mtcars")
+  task$internal_valid_task = 1:10
+  learner$train(task)
+  expect_true(is.null(learner$state$train_task$internal_valid_task$backend))
+})
+
+test_that("manual $train() stores validation hash and validation ids", {
+  task = tsk("iris")
+  l = lrn("classif.debug", validate = 0.2)
+  l$train(task)
+  expect_character(l$state$internal_valid_task_hash)
+
+  l = lrn("classif.debug", validate = "predefined")
+  task = tsk("iris")
+  task$internal_valid_task = 1:10
+  l$train(task)
+  expect_equal(l$state$internal_valid_task_hash, task$internal_valid_task$hash)
+
+  # nothing is stored for learners that don't do it
+  l2 = lrn("classif.featureless")
+  l2$train(task)
+  expect_true(is.null(l2$state$internal_valid_task_hash))
+})
+
+test_that("error when training a learner that sets valiadte to 'predefined' on a task without a validation task", {
+  task = tsk("iris")
+  learner = lrn("classif.debug", validate = "predefined")
+  expect_error(learner$train(task), "is set to 'predefined'")
+  task$internal_valid_task = 1:10
+  expect_class(learner, "Learner")
+})
+
+test_that("properties are also checked on validation task", {
+  task = tsk("iris")
+  row = task$data(1)
+  row[[1]][1] = NA
+  row$..row_id = 151
+  task$rbind(row)
+  task$internal_valid_task = 151
+  learner = lrn("classif.debug", validate = "predefined")
+  learner$properties = setdiff(learner$properties, "missings")
+  expect_error(learner$train(task), "missing values")
+})
+
+test_that("validate changes phash and hash", {
+  l1 = lrn("classif.debug")
+  l2 = lrn("classif.debug")
+  l2$validate = 0.2
+  expect_false(l1$hash == l2$hash)
+})
+
+test_that("marshaling and encapsulation", {
+  task = tsk("iris")
+  learner = lrn("classif.debug", count_marshaling = TRUE)
+
+  # callr encapsulation causes marshaling
+  learner$encapsulate = c(train = "callr")
+  learner$train(task)
+  expect_equal(learner$model$marshal_count, 1)
+  expect_false(learner$marshaled)
+  expect_prediction(learner$predict(task))
+
+  # no marshaling with no other encapsulation
+  learner$encapsulate = c(train = "none")
+  learner$train(task)
+  expect_equal(learner$model$marshal_count, 0)
+})
+
+test_that("marshal state", {
+  state = lrn("classif.debug")$train(tsk("iris"))$state
+  sm = marshal_model(state)
+  expect_true(is_marshaled_model(sm))
+  expect_equal(state, unmarshal_model(marshal_model(state)))
+})
+
+
+test_that("internal_valid_task is created correctly", {
+  LearnerClassifTest = R6Class("LearnerClassifTest", inherit = LearnerClassifDebug,
+    public = list(
+      task = NULL
+    ),
+    private = list(
+      .train = function(task, ...)  {
+        self$task = task$clone(deep = TRUE)
+        super$.train(task, ...)
+      }
+    )
+  )
+  # validate = NULL (but task has one)
+  learner = LearnerClassifTest$new()
+  task = tsk("iris")
+  task$internal_valid_task = partition(task)$test
+  learner$train(task)
+  learner$validate = NULL
+  expect_true(is.null(learner$internal_valid_scores))
+  expect_true(is.null(learner$task$internal_valid_task))
+
+  # validate = NULL (but task has none)
+  learner1 = LearnerClassifTest$new()
+  task1 = tsk("iris")
+  learner1$train(task1)
+  expect_true(is.null(learner1$internal_valid_scores))
+  expect_true(is.null(learner1$task$internal_valid_task))
+
+  # validate = "test"
+  LearnerClassifTest2 = R6Class("LearnerClassifTest2", inherit = LearnerClassifDebug,
+    public = list(
+      expected_valid_ids = NULL,
+      expected_train_ids = NULL
+    ),
+    private = list(
+      .train = function(task, ...)  {
+        if (!test_permutation(task$internal_valid_task$row_ids, self$expected_valid_ids)) {
+          stopf("something went wrong")
+        }
+        if (!test_permutation(task$row_ids, self$expected_train_ids)) {
+          stopf("something went wrong")
+        }
+        super$.train(task, ...)
+      }
+    )
+  )
+  task2 = tsk("iris")
+  learner2 = LearnerClassifTest2$new()
+  learner2$validate = "test"
+  resampling = rsmp("holdout")$instantiate(task2)
+  learner2$expected_valid_ids = resampling$test_set(1)
+  learner2$expected_train_ids = resampling$train_set(1)
+  expect_error(resample(task2, learner2, resampling), regexp = NA)
+
+  # ratio works
+  LearnerClassifTest3 = R6Class("LearnerClassifTest3", inherit = LearnerClassifDebug,
+    private = list(
+      .train = function(task, ...)  {
+        if (length(task$internal_valid_task$row_ids) != 20) {
+          stopf("something went wrong")
+        }
+        super$.train(task, ...)
+      }
+    )
+  )
+  task = tsk("iris")$filter(1:100)
+  learner3 = LearnerClassifTest3$new()
+  learner3$validate = 0.2
+  learner3$train(task)
+
+  # check that validation task is reset discarded at the end
+  learner4 = lrn("classif.debug", validate = 0.2)
+  task = tsk("iris")
+  learner4$train(task)
+  expect_true(is.null(task$internal_valid_task))
+})
+
+test_that("compatability check on validation task", {
+  learner = lrn("classif.debug", validate = "predefined")
+  task = tsk("german_credit")
+  task$internal_valid_task = 1:10
+  task$col_roles$feature = "age"
+  expect_error(learner$train(task), "has different features")
+  task$internal_valid_task$col_roles$feature = "age"
+  task$internal_valid_task$col_roles$target = "credit_history"
+  expect_error(learner$train(task), "has different target")
+})
+
+test_that("model is marshaled during parallel predict", {
+  # by setting check_pid = TRUE, we ensure that unmarshal_model() sets the process id to the current
+  # id. LearnerClassifDebug then checks during `.predict()`, whether the marshal_id of the model is equal to the current process id and errs if this is not the case.
+  task = tsk("iris")
+  learner = lrn("classif.debug", check_pid = TRUE)
+  learner$train(task)
+  learner$parallel_predict = TRUE
+  pred = with_future(future::multisession, {
+    learner$predict(task)
+  })
+  expect_class(pred, "Prediction")
+})
+
+test_that("model is marshaled during callr prediction", {
+  # by setting check_pid = TRUE, we ensure that unmarshal_model() sets the process id to the current
+  # id. LearnerClassifDebug then checks during `.predict()`, whether the marshal_id of the model is equal to the current process id and errs if this is not the case.
+  task = tsk("iris")
+  learner = lrn("classif.debug", check_pid = TRUE, encapsulate = c(predict = "callr"))
+  learner$train(task)
+  pred = learner$predict(task)
+  expect_class(pred, "Prediction")
+})
+
+test_that("predict leaves marshaling status as-is", {
+  task = tsk("iris")
+  learner = lrn("classif.debug", check_pid = TRUE, encapsulate = c(predict = "callr"))
+  learner$train(task)
+  learner$marshal()
+  expect_class(learner$predict(task), "Prediction")
+  expect_true(learner$marshaled)
+  learner$unmarshal()
+  expect_class(learner$predict(task), "Prediction")
+  expect_false(learner$marshaled)
+})
+
+test_that("learner state contains validate field", {
+  learner = lrn("classif.debug", validate = 0.2)
+  learner$train(tsk("iris"))
+  expect_equal(learner$state$validate, 0.2)
+})
+
+test_that("learner state contains internal valid task information", {
+  task = tsk("iris")
+  # 1. resample
+  learner = lrn("classif.debug", validate = 0.2)
+  rr = resample(task, learner, rsmp("holdout"))
+  expect_string(rr$learners[[1L]]$state$internal_valid_task_hash)
+
+  # 1. manual
+  learner$train(task)
+  expect_string(learner$state$internal_valid_task_hash)
+})
+
+test_that("validation task with 0 observations", {
+  learner = lrn("classif.debug", validate = "predefined")
+  task = tsk("iris")
+  task$internal_valid_task = integer(0)
+  expect_error({learner$train(task)}, "has 0 observations")
+})
+
+test_that("column info is compared during predict", {
+  x = c("a", "b")
+  d = data.table(
+    x = factor(x, levels = c("a", "b")),
+    y = 1:2
+  )
+
+  dflip = data.table(
+    x = factor(x, labels = c("b", "a"), levels = c("b", "a")),
+    y = 1:2
+  )
+
+  dother = data.table(
+    x1 = factor(c("a", "b")),
+    y = 1:2
+  )
+
+  task = as_task_classif(d, target = "y")
+  task_flip = as_task_classif(dflip, target = "y")
+  task_other = as_task_classif(dother, target = "y")
+  l = lrn("classif.rpart")
+  l$train(task)
+  expect_error(l$predict(task_flip), "task with different column info")
+  expect_error(l$predict(task_other), "with different columns")
+})
+
+test_that("quantiles in LearnerRegr", {
+  task = tsk("mtcars")
+  learner = lrn("regr.debug", predict_type = "quantiles")
+  expect_learner(learner)
+  quantiles = c(0.05, 0.5, 0.95)
+  learner$quantiles = quantiles
+
+  expect_numeric(learner$quantiles, any.missing = FALSE, len = 3)
+
+  learner$quantile_response = 0.6
+  expect_equal(learner$quantile_response, 0.6)
+  expect_equal(learner$quantiles, c(0.05, 0.5, 0.6, 0.95))
+
+  expect_error({
+    learner$quantiles = c(0.5, 0.1)
+  }, "sorted")
+
+  expect_error({
+    learner$quantiles = integer()
+  }, "length")
+
+  learner$train(task)
+
+  expect_numeric(learner$model$quantiles, len = 4L)
+
+  pred = learner$predict(task)
+  expect_prediction(pred)
+  expect_subset("quantiles", pred$predict_types)
+  expect_matrix(pred$quantiles, ncols = 4L, nrows = task$nrow, any.missing = FALSE)
+  expect_true(!any(apply(pred$quantiles, 1L, is.unsorted)))
+  expect_equal(pred$response, pred$quantiles[, 3L])
+
+  tab = as.data.table(pred)
+  expect_data_table(tab, nrows = task$nrow)
+  expect_subset("q0.5", names(tab))
+})
+
+test_that("predict time is cumulative", {
+  learner = lrn("classif.debug", sleep_predict = function() 0.05)
+  task = tsk("iris")
+  learner$train(task)$predict(task)
+  t1 = learner$timings["predict"]
+  learner$param_set$values$sleep_predict = function() 0.01
+  learner$predict(task)
+  t2 = learner$timings["predict"]
+  expect_true(t1 > t2)
 })

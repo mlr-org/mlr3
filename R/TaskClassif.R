@@ -11,6 +11,7 @@
 #' * `"twoclass"`: The task is a binary classification problem.
 #' * `"multiclass"`: The task is a multiclass classification problem.
 #'
+#' It is recommended to use [as_task_classif()] for construction.
 #' Predefined tasks are stored in the [dictionary][mlr3misc::Dictionary] [mlr_tasks].
 #'
 #' @template param_id
@@ -44,14 +45,15 @@ TaskClassif = R6Class("TaskClassif",
     #'   Only for binary classification: Name of the positive class.
     #'   The levels of the target columns are reordered accordingly, so that the first element of `$class_names` is the
     #'   positive class, and the second element is the negative class.
+    #' @template param_label
     #' @template param_extra_args
-    initialize = function(id, backend, target, positive = NULL, extra_args = list()) {
+    initialize = function(id, backend, target, positive = NULL, label = NA_character_, extra_args = list()) {
       assert_string(target)
       super$initialize(
         id = id, task_type = "classif", backend = backend,
-        target = target, extra_args = extra_args)
+        target = target, label = label, extra_args = extra_args)
 
-      private$.update_class_property()
+      update_classif_property(self, private)
 
       if (!is.null(positive)) {
         # NB: this also sets `extra_args$positive`
@@ -75,7 +77,7 @@ TaskClassif = R6Class("TaskClassif",
     #' @return Modified `self`.
     droplevels = function(cols = NULL) {
       super$droplevels()
-      private$.update_class_property()
+      update_classif_property(self, private)
       invisible(self)
     }
   ),
@@ -127,19 +129,25 @@ TaskClassif = R6Class("TaskClassif",
   ),
 
   private = list(
+    # TODO: remove this method in the future, but keep it for now to
+    # be backward compatible
     .update_class_property = function() {
-      tn = self$target_names
-      if (fget(self$col_info, tn, "type", key = "id") %nin% c("factor", "ordered")) {
-        stopf("Target column '%s' must be a factor or ordered factor", tn)
-      }
-
-      nlvls = length(self$class_names)
-      if (nlvls < 2L) {
-        stopf("Target column '%s' must have at least two levels", tn)
-      }
-
-      private$.properties = setdiff(private$.properties, c("twoclass", "multiclass"))
-      private$.properties = union(private$.properties, if (nlvls == 2L) "twoclass" else "multiclass")
+      update_classif_property(self, private)
     }
   )
 )
+
+update_classif_property = function(self, private) {
+  tn = self$target_names
+  if (fget(self$col_info, tn, "type", key = "id") %nin% c("factor", "ordered")) {
+    stopf("Target column '%s' must be a factor or ordered factor", tn)
+  }
+
+  nlvls = length(self$class_names)
+  if (nlvls < 2L) {
+    stopf("Target column '%s' must have at least two levels", tn)
+  }
+
+  private$.properties = setdiff(private$.properties, c("twoclass", "multiclass"))
+  private$.properties = union(private$.properties, if (nlvls == 2L) "twoclass" else "multiclass")
+}
