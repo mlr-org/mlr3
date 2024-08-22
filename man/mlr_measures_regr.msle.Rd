@@ -8,11 +8,11 @@ Measure to compare true observed response with predicted response in regression 
 }
 \details{
 The Mean Squared Log Error is defined as \deqn{
-  \frac{1}{n} \sum_{i=1}^n w_i \left( \ln (1 + t_i) - \ln (1 + r_i) \right)^2,
+  \frac{1}{n} \sum_{i=1}^n w_i \left( \ln (1 + t_i) - \ln (1 + r_i) \right)^2.
 }{
-  weighted.mean((log(1 + t) - log(1 + r))^2, weights),
+  weighted.mean((log(1 + t) - log(1 + r))^2, weights).
 }
-where \eqn{w_i} are normalized sample weights.
+
 This measure is undefined if any element of \eqn{t} or \eqn{r} is less than or equal to \eqn{-1}.
 }
 \note{

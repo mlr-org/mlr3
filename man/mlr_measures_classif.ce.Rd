@@ -10,11 +10,10 @@ in multiclass classification tasks.
 }
 \details{
 The Classification Error is defined as \deqn{
-  \frac{1}{n} \sum_{i=1}^n w_i \mathbf{1} \left( t_i \neq r_i \right),
+  \frac{1}{n} \sum_{i=1}^n w_i \left( t_i \neq r_i \right).
 }{
-  1 / n * sum(wi * 1(ti != ri)),
+  weighted.mean(t != r, w).
 }
-where \eqn{w_i} are normalized weights for each observation \eqn{x_i}.
 }
 \note{
 The score function calls \code{\link[mlr3measures:ce]{mlr3measures::ce()}} from package \CRANpkg{mlr3measures}.

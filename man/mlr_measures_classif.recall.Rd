@@ -14,7 +14,7 @@ The True Positive Rate is defined as \deqn{
 }{
   TP / (TP + FN).
 }
-This is also know as "recall", "sensitivity", or "probability of detection".
+Also know as "recall" or "sensitivity".
 
 This measure is undefined if TP + FN = 0.
 }

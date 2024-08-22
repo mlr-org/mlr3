@@ -262,7 +262,7 @@ Measure = R6Class("Measure",
     #' @template field_predict_sets
     predict_sets = function(rhs) {
       if (!missing(rhs)) {
-        private$.predict_sets = assert_subset(rhs, mlr_reflections$predict_sets, empty.ok = "requires_model" %in% self$properties)
+        private$.predict_sets = assert_subset(rhs, mlr_reflections$predict_sets, empty.ok = "requires_no_prediction" %in% self$properties)
       }
       private$.predict_sets
     },

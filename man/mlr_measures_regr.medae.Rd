@@ -8,7 +8,7 @@ Measure to compare true observed response with predicted response in regression 
 }
 \details{
 The Median Absolute Error is defined as \deqn{
-  \mathop{\mathrm{median}} \left| t_i - r_i \right|.
+  \mathop{\mathrm{median}}_i \left| t_i - r_i \right|.
 }{
   median(abs(t - r)).
 }

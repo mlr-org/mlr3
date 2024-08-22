@@ -525,6 +525,10 @@ expect_measure = function(m) {
   expect_man_exists(m$man)
   testthat::expect_output(print(m), "Measure")
 
+  if ("requires_no_prediction" %in% m$properties) {
+    testthat::expect_true(is.null(m$predict_sets))
+  }
+
   expect_id(m$id)
   checkmate::expect_subset(m$task_type, c(NA_character_, mlr3::mlr_reflections$task_types$type), empty.ok = FALSE)
   checkmate::expect_numeric(m$range, len = 2, any.missing = FALSE)

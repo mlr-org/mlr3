@@ -8,11 +8,10 @@ Measure to compare true observed response with predicted response in regression 
 }
 \details{
 The Bias is defined as \deqn{
-  \frac{1}{n} \sum_{i=1}^n w_i \left( t_i - r_i \right),
+  \frac{1}{n} \sum_{i=1}^n w_i \left( t_i - r_i \right).
 }{
-  weighted.mean(t - r, w),
+  weighted.mean(t - r, w).
 }
-where \eqn{w_i} are normalized sample weights.
 Good predictions score close to 0.
 }
 \note{

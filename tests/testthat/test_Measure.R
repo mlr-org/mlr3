@@ -179,7 +179,6 @@ test_that("no predict_sets required (#1094)", {
   expect_equal(m$predict_sets, NULL)
   rr = resample(tsk("iris"), lrn("classif.debug", validate = 0.3, predict_sets = NULL), rsmp("holdout"))
   expect_double(rr$aggregate(m))
-
   expect_warning(rr$aggregate(), "needs predict sets")
 })
 
@@ -188,3 +187,4 @@ test_that("checks on predict_sets", {
   expect_error({m$predict_sets = NULL}, "Must be a subset")
   expect_error({m$predict_sets = "imaginary"}, "Must be a subset")
 })
+

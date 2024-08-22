@@ -14,7 +14,7 @@ The True Negative Rate is defined as \deqn{
 }{
    TN / (FP + TN).
 }
-Also know as "specificity" or "selectivity".
+Also know as "specificity".
 
 This measure is undefined if FP + TN = 0.
 }

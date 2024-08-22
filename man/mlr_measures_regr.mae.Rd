@@ -8,11 +8,10 @@ Measure to compare true observed response with predicted response in regression 
 }
 \details{
 The Mean Absolute Error is defined as \deqn{
-  \frac{1}{n} \sum_{i=1}^n w_i \left| t_i - r_i \right|,
+  \frac{1}{n} \sum_{i=1}^n w_i \left| t_i - r_i \right|.
 }{
-  weighted.mean(abs(t - r), w),
+  weighted.mean(abs(t - r), w).
 }
-where \eqn{w_i} are normalized sample weights.
 }
 \note{
 The score function calls \code{\link[mlr3measures:mae]{mlr3measures::mae()}} from package \CRANpkg{mlr3measures}.
