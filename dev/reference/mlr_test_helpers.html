@@ -95,6 +95,8 @@ Defaults to all predict typpes of the learner.</p></li>
 <li><p><code>check_replicable</code> (<code>logical(1)</code>)<br>
 Whether to check that running the learner twice with the same seed should result in identical predictions.
 Default is <code>TRUE</code>.</p></li>
+<li><p><code>configure_learner</code> (<code>function(learner, task)</code>)<br>
+Before running a <code>learner</code> on a <code>task</code>, this function allows to change its parameter values depending on the input task.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="run-paramtest-">run_paramtest()<a class="anchor" aria-label="anchor" href="#run-paramtest-"></a></h2>
