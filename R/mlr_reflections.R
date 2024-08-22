@@ -10,9 +10,6 @@
 #'
 #' The following objects are set by \CRANpkg{mlr3}:
 #'
-#' * `data_formats` (`character()`)\cr
-#'   Vectors of supported data formats, e.g. `"data.table"` or `"Matrix"`.
-#'
 #' * `task_types` (`data.table()`)\cr
 #'   Table with task type (`"type"`), the implementing package (`"pkg"`), and the names of the generators
 #'   of the corresponding [Task] (`"task"`), [Learner] (`"learner"`),
@@ -77,13 +74,7 @@
 #' ls.str(mlr_reflections)
 mlr_reflections = new.env(parent = emptyenv())
 
-
 local({
-  ### DataBackend
-  mlr_reflections$data_formats = c(
-    "data.table", "Matrix"
-  )
-
   ### Task
   # task types + constructors
   mlr_reflections$task_types = rowwise_table(.key = "type",

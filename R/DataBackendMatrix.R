@@ -28,8 +28,7 @@
 #'
 #' b = as_data_backend(data, dense = dense, primary_key = "..row_id")
 #' b$head()
-#' b$data(1:3, b$colnames, data_format = "Matrix")
-#' b$data(1:3, b$colnames, data_format = "data.table")
+#' b$data(1:3, b$colnames)
 DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneable = FALSE,
   public = list(
 
@@ -52,20 +51,20 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
 
       assert_disjunct(colnames(data), colnames(dense))
 
-      super$initialize(data = list(sparse = data, dense = as.data.table(dense)), primary_key, data_formats = c("Matrix", "data.table"))
+      super$initialize(data = list(sparse = data, dense = as.data.table(dense)), primary_key)
     },
 
     #' @description
-    #' Returns a slice of the data in the specified format.
-    #' Currently, the only supported formats are `"data.table"` and `"Matrix"`.
+    #' Returns a slice of the data as `"data.table"`.
     #' The rows must be addressed as vector of primary key values, columns must be referred to via column names.
     #' Queries for rows with no matching row id and queries for columns with no matching column name are silently ignored.
     #' Rows are guaranteed to be returned in the same order as `rows`, columns may be returned in an arbitrary order.
     #' Duplicated row ids result in duplicated rows, duplicated column names lead to an exception.
-    data = function(rows, cols, data_format = "data.table") {
+    data = function(rows, cols, data_format) {
       assert_integerish(rows, coerce = TRUE)
       assert_names(cols, type = "unique")
-      assert_choice(data_format, self$data_formats)
+
+      if (!missing(data_format)) warn_deprecated("DataBackendMatrix$data argument 'data_format'")
 
       rows = private$.translate_rows(rows)
       cols_sparse = intersect(cols, colnames(private$.data$sparse))
@@ -74,46 +73,8 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
       sparse = private$.data$sparse[rows, cols_sparse, drop = FALSE]
       dense = private$.data$dense[rows, cols_dense, with = FALSE]
 
-      if (data_format == "data.table") {
-        data = cbind(as.data.table(as.matrix(sparse)), dense)
-        setcolorder(data, intersect(cols, names(data)))
-      } else {
-        qassertr(dense, c("n", "f"))
-
-        factors = names(which(map_lgl(dense, is.factor)))
-        if (length(factors)) {
-          # create list of dummy matrices
-          dummies = imap(dense[, factors, with = FALSE], function(x, nn) {
-            if (nlevels(x) > 1L) {
-              contrasts = contr.treatment(levels(x), sparse = TRUE)
-              X = contrasts[match(x, rownames(contrasts), nomatch = 0L), , drop = FALSE]
-              colnames(X) = sprintf("%s_%s", nn, colnames(contrasts))
-            } else {
-              X = matrix(rep(1, nrow(dense)), ncol = 1L)
-              colnames(X) = sprintf("%s_%s", nn, levels(x))
-            }
-            X
-          })
-
-          replace_with = function(x, needle, replacement) {
-            ii = (x == needle)
-            x = rep(x, 1L + (length(replacement) - 1L) * ii)
-            replace(x, ii, replacement)
-          }
-
-          # update the column vector with new dummy names (this preserves the order)
-          cols = Reduce(function(cols, name) replace_with(cols, name, colnames(dummies[[name]])),
-            names(dummies), init = cols)
-          dense = remove_named(dense, factors)
-        } else {
-          dummies = NULL
-        }
-
-        dense = if (nrow(dense)) as.matrix(dense) else NULL
-        data = do.call(cbind, c(list(sparse, dense), dummies))
-        data[, match(cols, colnames(data), nomatch = 0L), drop = FALSE]
-      }
-
+      data = cbind(as.data.table(as.matrix(sparse)), dense)
+      setcolorder(data, intersect(cols, names(data)))
       data
     },
 

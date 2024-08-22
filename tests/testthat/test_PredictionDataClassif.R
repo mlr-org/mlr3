@@ -26,3 +26,27 @@ test_that("row sums of prob sums up to 1 ", {
     response = c("a", "b"), prob = matrix(c(0.5, 0.5, 0.5, 1), 2)), "classif")
   expect_error(check_prediction_data(pdata), "sum up")
 })
+
+test_that("construction of empty PredictionDataClassif", {
+  task = tsk("iris")
+
+  learner = lrn("classif.featureless")
+  learner$train(task)
+  pred = learner$predict(task, row_ids = integer())
+  expect_prediction(pred)
+  expect_set_equal(pred$predict_types, "response")
+  expect_integer(pred$row_ids, len = 0L)
+  expect_factor(pred$truth, len = 0L, levels = task$class_names)
+  expect_null(pred$prob)
+  expect_data_table(as.data.table(pred), nrows = 0L, ncols = 3L)
+
+  learner = lrn("classif.featureless", predict_type = "prob")
+  learner$train(task)
+  pred = learner$predict(task, row_ids = integer())
+  expect_prediction(pred)
+  expect_set_equal(pred$predict_types, c("response", "prob"))
+  expect_integer(pred$row_ids, len = 0L)
+  expect_factor(pred$truth, len = 0L, levels = task$class_names)
+  expect_matrix(pred$prob, nrows = 0L, ncols = length(task$class_names))
+  expect_data_table(as.data.table(pred), nrows = 0L, ncols = 6L)
+})

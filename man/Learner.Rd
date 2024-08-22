@@ -209,9 +209,6 @@ A complete list of candidate feature types, grouped by task type, is stored in \
 Stores a set of properties/capabilities the learner has.
 A complete list of candidate properties, grouped by task type, is stored in \code{\link[=mlr_reflections]{mlr_reflections$learner_properties}}.}
 
-\item{\code{data_formats}}{(\code{character()})\cr
-Supported data format, e.g. \code{"data.table"} or \code{"Matrix"}.}
-
 \item{\code{packages}}{(\code{character(1)})\cr
 Set of required packages.
 These packages are loaded, but not attached.}
@@ -255,6 +252,10 @@ Defaults to \code{NA}, but can be set by child classes.}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
+\item{\code{data_formats}}{(\code{character()})\cr
+Supported data format. Always \code{"data.table"}..
+This is deprecated and will be removed in the future.}
+
 \item{\code{model}}{(any)\cr
 The fitted model. Only available after \verb{$train()} has been called.}
 
@@ -344,7 +345,7 @@ Note that this object is typically constructed via a derived classes, e.g. \link
   predict_types = character(),
   feature_types = character(),
   properties = character(),
-  data_formats = "data.table",
+  data_formats,
   packages = character(),
   label = NA_character_,
   man = NA_character_
@@ -387,8 +388,7 @@ If a learner is in a marshaled state, you call first need to call \verb{$unmarsh
 }}
 
 \item{\code{data_formats}}{(\code{character()})\cr
-Set of supported data formats which can be processed during \verb{$train()} and \verb{$predict()},
-e.g. \code{"data.table"}.}
+Deprecated: ignored, and will be removed in the future.}
 
 \item{\code{packages}}{(\code{character()})\cr
 Set of required packages.

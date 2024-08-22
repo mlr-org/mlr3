@@ -89,7 +89,6 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
         predict_types = c("response", "prob"),
         properties = c("twoclass", "multiclass", "missings", "hotstart_forward", "validation", "internal_tuning", "marshal"),
         man = "mlr3::mlr_learners_classif.debug",
-        data_formats = c("data.table", "Matrix"),
         label = "Debug Learner for Classification"
       )
     },

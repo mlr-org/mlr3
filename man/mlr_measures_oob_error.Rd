@@ -61,6 +61,7 @@ Other Measure:
 \code{\link{mlr_measures_debug_classif}},
 \code{\link{mlr_measures_elapsed_time}},
 \code{\link{mlr_measures_internal_valid_score}},
+\code{\link{mlr_measures_regr.rsq}},
 \code{\link{mlr_measures_selected_features}}
 }
 \concept{Measure}

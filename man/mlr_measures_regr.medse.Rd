@@ -8,7 +8,7 @@ Measure to compare true observed response with predicted response in regression 
 }
 \details{
 The Median Squared Error is defined as \deqn{
-  \mathop{\mathrm{median}}_i \left[ \left( t_i - r_i \right)^2 \right].
+  \mathop{\mathrm{median}} \left[ \left( t_i - r_i \right)^2 \right].
 }{
   median((t - r)^2).
 }
@@ -66,7 +66,6 @@ Other regression measures:
 \code{\link{mlr_measures_regr.rmsle}},
 \code{\link{mlr_measures_regr.rrse}},
 \code{\link{mlr_measures_regr.rse}},
-\code{\link{mlr_measures_regr.rsq}},
 \code{\link{mlr_measures_regr.sae}},
 \code{\link{mlr_measures_regr.smape}},
 \code{\link{mlr_measures_regr.srho}},

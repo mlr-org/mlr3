@@ -19,8 +19,6 @@ or by extending the set of allowed feature types.
 
 The following objects are set by \CRANpkg{mlr3}:
 \itemize{
-\item \code{data_formats} (\code{character()})\cr
-Vectors of supported data formats, e.g. \code{"data.table"} or \code{"Matrix"}.
 \item \code{task_types} (\code{data.table()})\cr
 Table with task type (\code{"type"}), the implementing package (\code{"pkg"}), and the names of the generators
 of the corresponding \link{Task} (\code{"task"}), \link{Learner} (\code{"learner"}),
