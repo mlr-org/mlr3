@@ -71,7 +71,6 @@ Other regression measures:
 \code{\link{mlr_measures_regr.rmse}},
 \code{\link{mlr_measures_regr.rmsle}},
 \code{\link{mlr_measures_regr.rrse}},
-\code{\link{mlr_measures_regr.rsq}},
 \code{\link{mlr_measures_regr.sae}},
 \code{\link{mlr_measures_regr.smape}},
 \code{\link{mlr_measures_regr.srho}},
