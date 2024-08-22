@@ -5,28 +5,26 @@
 * refactor: Optimize runtime of fixing factor levels.
 * refactor: Optimize runtime of setting row roles.
 * refactor: Optimize runtime of marshalling.
-* refactor: Optimize runtime of `Task$col_info`
-* fix: column info is now checked for compatibility during `Learner$predict` (#943)
-* BREAKING CHANGE: the predict time of the learner now stores the cumulative duration for
-  all predict sets (#992).
+* refactor: Optimize runtime of `Task$col_info`.
+* fix: column info is now checked for compatibility during `Learner$predict` (#943).
+* BREAKING CHANGE: the predict time of the learner now stores the cumulative duration for all predict sets (#992).
 * feat: `$internal_valid_task` can now be set to an `integer` vector.
-* refactor: Deprecated the `$divide()` method
+* refactor: Deprecated the `$divide()` method.
 * fix: `Task$cbind()` now works with non-standard primary keys  for `data.frames` (#961).
-* fix: Triggering of fallback learner now has log-level `"info"` instead of `"debug"` (#972)
+* fix: Triggering of fallback learner now has log-level `"info"` instead of `"debug"` (#972).
 * feat: Added new measure `pinballs `.
 * feat: Added new measure `mu_auc`.
+* feat: Add option to calculate the mean of the true values on the train set in `msr("regr.rsq")`.
 
 # mlr3 0.20.2
 
 * refactor: Move RhpcBLASctl to suggest.
 * feat: Added resampling property `"primary_iters"`
-* feat: Added possibility to access observation-wise losses
-  via function `$obs_loss`. This is possible for `Prediction`,
-  `ResampleResult` and `BenchmarkResult`.
+* feat: Added possibility to access observation-wise losses via function `$obs_loss`.
+  This is possible for `Prediction`,  `ResampleResult` and `BenchmarkResult`.
 * feat: `Measure`s now also return a vector of numerics.
 
 # mlr3 0.20.1
-
 * feat: Add multiclass Matthews correlation coefficient `msr("classif.mcc")`.
 
 # mlr3 0.20.0
