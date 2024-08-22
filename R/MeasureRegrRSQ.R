@@ -23,7 +23,7 @@
 #' If `TRUE`, the mean of the true values is calculated on the prediction set.
 #' If `FALSE`, the mean of the true values is calculated on the training set.
 #'
-#' @templateVar id rsq
+#' @templateVar id regr.rsq
 #' @template measure
 #'
 #' @template seealso_measure

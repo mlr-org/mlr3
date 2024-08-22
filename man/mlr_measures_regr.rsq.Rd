@@ -24,19 +24,26 @@ This measure is undefined for constant \eqn{t}.
 
 This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{mlr_measures$get("rsq")
-msr("rsq")
+\if{html}{\out{<div class="sourceCode">}}\preformatted{mlr_measures$get("regr.rsq")
+msr("regr.rsq")
 }\if{html}{\out{</div>}}
 }
 
 \section{Meta Information}{
 
-\verb{r mlr3misc::rd_info(mlr3::msr("rsq"))}
+\itemize{
+\item Task type: \dQuote{regr}
+\item Range: \eqn{(-\infty, \infty)}{(-Inf, Inf)}
+\item Minimize: FALSE
+\item Average: macro
+\item Required Prediction: \dQuote{response}
+\item Required Packages: \CRANpkg{mlr3}
+}
 }
 
 \section{Parameters}{
 
-\verb{r mlr3misc::rd_info(mlr3::msr("rsq")$param_set)}
+Empty ParamSet
 }
 
 \seealso{
