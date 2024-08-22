@@ -110,6 +110,7 @@ Collate:
     'MeasureInternalValidScore.R'
     'MeasureOOBError.R'
     'MeasureRegr.R'
+    'MeasureRegrRSQ.R'
     'MeasureSelectedFeatures.R'
     'MeasureSimilarity.R'
     'MeasureSimple.R'

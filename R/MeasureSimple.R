@@ -353,10 +353,6 @@ mlr_measures$add("regr.rrse", function() MeasureRegrSimple$new(name = "rrse"))
 #' @template measure_regr
 mlr_measures$add("regr.rse", function() MeasureRegrSimple$new(name = "rse"))
 
-#' @templateVar id rsq
-#' @template measure_regr
-mlr_measures$add("regr.rsq", function() MeasureRegrSimple$new(name = "rsq"))
-
 #' @templateVar id sae
 #' @template measure_regr
 mlr_measures$add("regr.sae", function() MeasureRegrSimple$new(name = "sae"))
