@@ -551,7 +551,8 @@ Learner = R6Class("Learner",
     #' Controls how to execute the code in internal train and predict methods.
     #' Must be a named character vector with names `"train"` and `"predict"`.
     #' Possible values are `"none"`, `"try"`, `"evaluate"` (requires package \CRANpkg{evaluate}) and `"callr"` (requires package \CRANpkg{callr}).
-    #' If no fallback learner is set, the default fallback learner is set.
+    #' When encapsulation is activated, a fallback learner must be set.
+    #' If no learner is set in `$fallback`, the default fallback learner is used (see `mlr_reflections$task_types`).
     #' See [mlr3misc::encapsulate()] for more details.
     encapsulate = function(rhs) {
       default = c(train = "none", predict = "none")

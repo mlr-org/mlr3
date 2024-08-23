@@ -248,7 +248,7 @@ If \code{measures} is \code{NULL}, \code{measures} defaults to the return value 
   measures = NULL,
   ids = TRUE,
   conditions = FALSE,
-  predictions = FALSE
+  predictions = TRUE
 )}\if{html}{\out{</div>}}
 }
 
