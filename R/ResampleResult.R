@@ -96,8 +96,8 @@ ResampleResult = R6Class("ResampleResult",
     #' If you calculate the performance on this prediction object directly, this is called micro averaging.
     #'
     #' @param predict_sets (`character()`)\cr
-    #' @return [Prediction].
     #'   Subset of `{"train", "test"}`.
+    #' @return [Prediction] or empty `list()` if no predictions are available.
     prediction = function(predict_sets = "test") {
       private$.data$prediction(private$.view, predict_sets)
     },
@@ -113,6 +113,7 @@ ResampleResult = R6Class("ResampleResult",
     #' @param predict_sets (`character()`)\cr
     #'   Subset of `{"train", "test", "internal_valid"}`.
     #' @return List of [Prediction] objects, one per element in `predict_sets`.
+    #' Or list of empty `list()`s if no predictions are available.
     predictions = function(predict_sets = "test") {
       assert_subset(predict_sets, mlr_reflections$predict_sets, empty.ok = FALSE)
       private$.data$predictions(private$.view, predict_sets)

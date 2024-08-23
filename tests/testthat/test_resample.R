@@ -450,3 +450,35 @@ test_that("multiple named measures", {
   expect_numeric(res[["classif.acc"]])
   expect_numeric(res[["classif.ce"]])
 })
+
+test_that("resample result works with not predicted predict set", {
+  learner = lrn("classif.debug", predict_sets = "train")
+  task = tsk("iris")
+  resampling = rsmp("holdout")
+
+  rr = resample(task, learner, resampling)
+
+  expect_list(rr$prediction(predict_sets = "test"), len = 0)
+  expect_list(rr$predictions(predict_sets = "test"), len = 1)
+  expect_list(rr$predictions(predict_sets = "test")[[1L]], len = 0)
+
+  tab = as.data.table(rr)
+  expect_list(tab$prediction, len = 1)
+  expect_list(tab$prediction[[1]], len = 0)
+})
+
+test_that("resample results works with no predicted predict set", {
+  learner = lrn("classif.debug", predict_sets = NULL)
+  task = tsk("iris")
+  resampling = rsmp("holdout")
+
+  rr = resample(task, learner, resampling)
+
+  expect_list(rr$prediction(predict_sets = "test"), len = 0)
+  expect_list(rr$predictions(predict_sets = "test"), len = 1)
+  expect_list(rr$predictions(predict_sets = "test")[[1L]], len = 0)
+
+  tab = as.data.table(rr)
+  expect_list(tab$prediction, len = 1)
+  expect_list(tab$prediction[[1]], len = 0)
+})
