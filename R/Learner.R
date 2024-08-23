@@ -566,7 +566,7 @@ Learner = R6Class("Learner",
 
       if (is.null(private$.fallback)) {
         task_type = self$task_type
-        self$fallback = lrn(mlr_reflections$task_types[task_type, fallback])
+        self$fallback = lrn(mlr_reflections$task_types[task_type, fallback], predict_type = self$predict_type)
       }
     },
 
