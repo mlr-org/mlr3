@@ -223,7 +223,6 @@ Learner = R6Class("Learner",
       self$id = assert_string(id, min.chars = 1L)
       self$label = assert_string(label, na.ok = TRUE)
       self$task_type = assert_choice(task_type, mlr_reflections$task_types$type)
-      private$.param_set = assert_param_set(param_set)
       self$feature_types = assert_ordered_set(feature_types, mlr_reflections$task_feature_types, .var.name = "feature_types")
       self$predict_types = assert_ordered_set(predict_types, names(mlr_reflections$learner_predict_types[[task_type]]),
         empty.ok = FALSE, .var.name = "predict_types")
@@ -232,6 +231,11 @@ Learner = R6Class("Learner",
       if (!missing(data_formats)) warn_deprecated("Learner$initialize argument 'data_formats'")
       self$packages = union("mlr3", assert_character(packages, any.missing = FALSE, min.chars = 1L))
       self$man = assert_string(man, na.ok = TRUE)
+
+      if ("weights" %in% self$properties) {
+        param_set = c(param_set, ps(use_weights = p_lgl(default = TRUE, tags = "train")))
+      }
+      private$.param_set = assert_param_set(param_set)
 
       check_packages_installed(packages, msg = sprintf("Package '%%s' required but not installed for Learner '%s'", id))
     },

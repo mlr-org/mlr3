@@ -624,3 +624,9 @@ test_that("predict time is cumulative", {
   t2 = learner$timings["predict"]
   expect_true(t1 > t2)
 })
+
+test_that("weight parameters is added to parameter set", {
+  learner = lrn("classif.rpart")
+  expect_subset("weights", learner$properties)
+  expect_subset("use_weights", learner$param_set$ids())
+})
