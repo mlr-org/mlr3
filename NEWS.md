@@ -18,6 +18,7 @@
 * feat: Added new measure `pinballs `.
 * feat: Added new measure `mu_auc`.
 * feat: Add option to calculate the mean of the true values on the train set in `msr("regr.rsq")`.
+* feat: default fallback learner is set when encapsulation is activated.
 
 # mlr3 0.20.2
 

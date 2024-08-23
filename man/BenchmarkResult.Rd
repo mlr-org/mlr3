@@ -288,7 +288,7 @@ the respective \link{Measure}.
   measures = NULL,
   ids = TRUE,
   conditions = FALSE,
-  predictions = FALSE
+  predictions = TRUE
 )}\if{html}{\out{</div>}}
 }
 
