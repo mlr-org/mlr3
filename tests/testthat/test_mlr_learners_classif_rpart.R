@@ -40,7 +40,7 @@ test_that("selected_features", {
 test_that("weights", {
   task = TaskClassif$new("foo", as_data_backend(cbind(iris, data.frame(w = rep(c(1, 10, 100), each = 50)))), target = "Species")
   task$set_col_roles("w", character())
-  learner = lrn("classif.rpart", use_weights = TRUE)
+  learner = lrn("classif.rpart", use_weights = FALSE)
 
   learner$train(task)
   c1 = learner$predict(task)$confusion
@@ -51,6 +51,21 @@ test_that("weights", {
 
   expect_true(sum(c1[1:2, 3]) > 0)
   expect_true(sum(c2[1:2, 3]) == 0)
+})
+
+test_that("use_weights parameter works", {
+  task = TaskClassif$new("foo", as_data_backend(cbind(iris, data.frame(w = rep(c(1, 10, 100), each = 50)))), target = "Species")
+  task$set_col_roles("w", "weights_learner")
+  learner = lrn("classif.rpart", use_weights = TRUE)
+
+  learner$train(task)
+  c1 = learner$predict(task)$confusion
+
+  learner = lrn("classif.rpart", use_weights = FALSE)
+  learner$train(task)
+  c2 = learner$predict(task)$confusion
+
+  expect_false(all(c1 == c2))
 })
 
 test_that("default_values on rpart", {

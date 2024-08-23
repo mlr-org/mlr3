@@ -68,7 +68,7 @@ assert_validate = function(x) {
 }
 
 get_weights = function(weights, pv, id = "weights") {
-  if (!is.null(weights)) {
+  if (!is.null(weights) && pv$use_weights) {
     pv[[id]] = weights
   }
   pv$use_weights = NULL
