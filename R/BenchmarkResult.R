@@ -195,7 +195,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
         set(tab, j = "errors", value = map(tab$learner, "errors"))
       }
 
-      if (predictions) {
+      if (predictions && nrow(tab)) {
         predict_sets = intersect(
           mlr_reflections$predict_sets,
           unlist(map(self$learners$learner, "predict_sets"), use.names = FALSE)
