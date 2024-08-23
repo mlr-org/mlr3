@@ -141,7 +141,7 @@ ResampleResult = R6Class("ResampleResult",
     #'   if present.
     #'
     #' @return [data.table::data.table()].
-    score = function(measures = NULL, ids = TRUE, conditions = FALSE, predictions = FALSE) {
+    score = function(measures = NULL, ids = TRUE, conditions = FALSE, predictions = TRUE) {
       measures = as_measures(measures, task_type = private$.data$task_type)
       assert_flag(ids)
       assert_flag(conditions)
