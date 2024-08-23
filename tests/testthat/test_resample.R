@@ -454,9 +454,9 @@ test_that("multiple named measures", {
 test_that("empty predictions", {
   rr = resample(tsk("iris"), lrn("classif.debug", validate = 0.3, predict_sets = NULL), rsmp("holdout"))
   preds = rr$predictions()
-  expect_equal(preds, list(NULL))
+  expect_equal(preds, list(list()))
   pred = rr$prediction()
-  expect_equal(pred, NULL)
+  expect_equal(pred, list())
 })
 
 test_that("resample result works with not predicted predict set", {
