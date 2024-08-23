@@ -485,10 +485,14 @@ Additional arguments passed to <code><a href="marshaling.html">unmarshal_model()
 <span class="r-in"><span><span class="va">rr</span> <span class="op">=</span> <span class="fu"><a href="resample.html">resample</a></span><span class="op">(</span><span class="va">task</span>, <span class="va">learner</span>, <span class="va">resampling</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">rr</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;ResampleResult&gt; with 3 resampling iterations</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   task_id    learner_id resampling_id iteration warnings errors</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  penguins classif.rpart            cv         1        0      0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  penguins classif.rpart            cv         2        0      0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  penguins classif.rpart            cv         3        0      0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   task_id    learner_id resampling_id iteration     prediction_test warnings</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  penguins classif.rpart            cv         1 &lt;PredictionClassif&gt;        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  penguins classif.rpart            cv         2 &lt;PredictionClassif&gt;        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  penguins classif.rpart            cv         3 &lt;PredictionClassif&gt;        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  errors</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       0</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># combined predictions and predictions for each fold separately</span></span></span>
 <span class="r-in"><span><span class="va">rr</span><span class="op">$</span><span class="fu">prediction</span><span class="op">(</span><span class="op">)</span></span></span>
