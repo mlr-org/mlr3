@@ -231,15 +231,15 @@ the performance scores with the aggregate function of the respective <a href="Me
 <div class="section">
 <h4 id="arguments-3">Arguments<a class="anchor" aria-label="anchor" href="#arguments-3"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>predict_sets</code></dt>
-<dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br></p></dd>
+<dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
+Subset of <code>{"train", "test"}</code>.</p></dd>
 
 
 </dl><p></p></div>
 </div>
 <div class="section">
 <h4 id="returns">Returns<a class="anchor" aria-label="anchor" href="#returns"></a></h4>
-<p><a href="Prediction.html">Prediction</a>.
-Subset of <code>{"train", "test"}</code>.</p>
+<p><a href="Prediction.html">Prediction</a> or empty <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code> if no predictions are available.</p>
 </div>
 
 </div><p></p><hr><a id="method-ResampleResult-predictions"></a><div class="section">
@@ -264,7 +264,8 @@ Subset of <code>{"train", "test", "internal_valid"}</code>.</p></dd>
 </div>
 <div class="section">
 <h4 id="returns-1">Returns<a class="anchor" aria-label="anchor" href="#returns-1"></a></h4>
-<p>List of <a href="Prediction.html">Prediction</a> objects, one per element in <code>predict_sets</code>.</p>
+<p>List of <a href="Prediction.html">Prediction</a> objects, one per element in <code>predict_sets</code>.
+Or list of empty <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>s if no predictions are available.</p>
 </div>
 
 </div><p></p><hr><a id="method-ResampleResult-score"></a><div class="section">
