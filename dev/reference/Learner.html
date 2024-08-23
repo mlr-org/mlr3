@@ -382,6 +382,8 @@ Set of hyperparameters.</p></dd>
 Controls how to execute the code in internal train and predict methods.
 Must be a named character vector with names <code>"train"</code> and <code>"predict"</code>.
 Possible values are <code>"none"</code>, <code>"try"</code>, <code>"evaluate"</code> (requires package <a href="https://CRAN.R-project.org/package=evaluate" class="external-link"><span class="pkg">evaluate</span></a>) and <code>"callr"</code> (requires package <a href="https://CRAN.R-project.org/package=callr" class="external-link"><span class="pkg">callr</span></a>).
+When encapsulation is activated, a fallback learner must be set.
+If no learner is set in <code>$fallback</code>, the default fallback learner is used (see <code>mlr_reflections$task_types</code>).
 See <code><a href="https://mlr3misc.mlr-org.com/reference/encapsulate.html" class="external-link">mlr3misc::encapsulate()</a></code> for more details.</p></dd>
 
 
