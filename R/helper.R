@@ -67,6 +67,14 @@ assert_validate = function(x) {
   assert_choice(x, c("predefined", "test"), null.ok = TRUE)
 }
 
+get_weights = function(weights, pv, id = "weights") {
+  if (!is.null(weights) && pv$use_weights) {
+    pv[[id]] = weights
+  }
+  pv$use_weights = NULL
+  pv
+}
+
 get_obs_loss = function(tab, measures) {
   for (measure in measures) {
     fun = measure$obs_loss

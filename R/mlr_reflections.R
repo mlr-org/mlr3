@@ -92,18 +92,18 @@ local({
     "use"
   )
 
-  tmp = c("feature", "target", "name", "order", "stratum", "group", "weight")
+  tmp = c("feature", "target", "name", "order", "stratum", "group", "weights_learner", "weights_measure", "weights_resampling")
   mlr_reflections$task_col_roles = list(
     regr = tmp,
     classif = tmp,
     unsupervised = c("feature", "name", "order")
   )
 
-  tmp = c("strata", "groups", "weights")
+  tmp = c("strata", "groups", "weights_learner", "weights_measure", "weights_resampling")
   mlr_reflections$task_properties = list(
     classif = c(tmp, "twoclass", "multiclass"),
     regr = tmp,
-    unsupervised = character(0)
+    unsupervised = character()
   )
 
   mlr_reflections$task_mandatory_properties = list(
@@ -112,7 +112,7 @@ local({
 
   mlr_reflections$task_print_col_roles = list(
     before = character(),
-    after = c("Order by" = "order", "Strata" = "stratum", "Groups" = "group", "Weights" = "weight")
+    after = c("Order by" = "order", "Strata" = "stratum", "Groups" = "group", "Weights/Learner" = "weights_learner", "Weights/Measure" = "weights_measure", "Weights/Resampling" = "weights_resampling")
   )
 
   ### Learner
@@ -138,9 +138,11 @@ local({
   ### Prediction
   mlr_reflections$predict_sets = c("train", "test", "internal_valid")
 
+  ### Resampling
+  mlr_reflections$resampling_properties = c("duplicated_ids", "weights")
 
   ### Measures
-  tmp = c("na_score", "requires_task", "requires_learner", "requires_model", "requires_train_set", "primary_iters", "requires_no_prediction")
+  tmp = c("na_score", "requires_task", "requires_learner", "requires_model", "requires_train_set", "weights", "primary_iters", "requires_no_prediction")
   mlr_reflections$measure_properties = list(
     classif = tmp,
     regr = tmp

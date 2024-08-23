@@ -139,8 +139,35 @@ test_that("scoring fails when measure requires_model, but model is in marshaled 
   learner = lrn("classif.debug")
   pred = learner$train(task)$predict(task)
   learner$marshal()
-  expect_error(measure$score(pred, learner = learner),
+  expect_error(measure$score(pred, learner = learner, task = task),
     regexp = "is in marshaled form")
+})
+
+test_that("measure weights", {
+  task = tsk("mtcars")
+  task$cbind(data.table(w = rep(c(100, 1), each = 16)))
+  task$set_col_roles("w", "weights_measure")
+  learner = lrn("regr.rpart", use_weights = TRUE)
+  learner$train(task)
+  prediction = learner$predict(task)
+
+  m = msr("regr.mse", use_weights = FALSE)
+  expect_true("weights" %in% m$properties)
+  expect_subset("weights", m$properties)
+  expect_false(m$param_set$values$use_weights)
+  s1 = m$score(prediction, task = task)
+
+  m = msr("regr.mse", use_weights = TRUE)
+  expect_true("weights" %in% m$properties)
+  expect_subset("weights", m$properties)
+  expect_true(m$param_set$values$use_weights)
+  s2 = m$score(prediction, task = task)
+
+  expect_true(abs(s1 - s2) > 10^-5)
+
+  m = msr("classif.fdr")
+  expect_false("weights" %in% m$properties)
+  expect_disjunct("use_weights", m$param_set$ids())
 })
 
 test_that("primary iters are respected", {

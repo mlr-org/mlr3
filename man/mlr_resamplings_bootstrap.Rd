@@ -25,6 +25,8 @@ rsmp("bootstrap")
 Number of repetitions.
 \item \code{ratio} (\code{numeric(1)})\cr
 Ratio of observations to put into the training set.
+\item \code{use_weights} (\code{logical(1)})\cr
+Incorporate observation weights of the \link{Task} (column role \code{weights_resampling}), if present.
 }
 }
 

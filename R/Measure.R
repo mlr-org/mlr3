@@ -24,6 +24,14 @@
 #' In such cases it is necessary to overwrite the public methods `$aggregate()` and/or `$score()` to return a named `numeric()`
 #' where at least one of its names corresponds to the `id` of the measure itself.
 #'
+#' @section Weights:
+#'
+#' Many measures support observation weights, indicated by their property `"weights"`.
+#' The weights are stored in the [Task] where the column role `weights_measure` needs to be assigned to a single numeric column.
+#' The weights are automatically used if found in the task, this can be disabled by setting the hyperparamerter `use_weights` to `FALSE`.
+#' If the measure is set-up to use weights but the task does not have a designated weight column, an unweighted version is calculated instead.
+#' The weights do not necessarily need to sum up to 1, they are normalized by dividing by the sum of weights.
+#'
 #' @template param_id
 #' @template param_param_set
 #' @template param_range
@@ -94,10 +102,6 @@ Measure = R6Class("Measure",
     #' Lower and upper bound of possible performance scores.
     range = NULL,
 
-    #' @field properties (`character()`)\cr
-    #' Properties of this measure.
-    properties = NULL,
-
     #' @field minimize (`logical(1)`)\cr
     #' If `TRUE`, good predictions correspond to small values of performance scores.
     minimize = NULL,
@@ -117,7 +121,6 @@ Measure = R6Class("Measure",
       predict_sets = "test", task_properties = character(), packages = character(),
       label = NA_character_, man = NA_character_, trafo = NULL) {
 
-      self$properties = unique(properties)
       self$id = assert_string(id, min.chars = 1L)
       self$label = assert_string(label, na.ok = TRUE)
       self$task_type = task_type
@@ -140,6 +143,8 @@ Measure = R6Class("Measure",
         assert_subset(task_properties, mlr_reflections$task_properties[[task_type]])
       }
 
+
+      self$properties = unique(properties)
       self$predict_type = predict_type
       self$predict_sets = predict_sets
       self$task_properties = task_properties
@@ -195,24 +200,25 @@ Measure = R6Class("Measure",
     #' @return `numeric(1)`.
     score = function(prediction, task = NULL, learner = NULL, train_set = NULL) {
       assert_measure(self, task = task, learner = learner)
-      assert_prediction(prediction, null.ok = "requires_no_prediction" %nin% self$properties)
+      properties = self$properties
+      assert_prediction(prediction, null.ok = "requires_no_prediction" %nin% properties)
 
-      if ("requires_task" %in% self$properties && is.null(task)) {
+      if ("requires_task" %in% properties && is.null(task)) {
         stopf("Measure '%s' requires a task", self$id)
       }
 
-      if ("requires_learner" %in% self$properties && is.null(learner)) {
+      if ("requires_learner" %in% properties && is.null(learner)) {
         stopf("Measure '%s' requires a learner", self$id)
       }
 
-      if ("requires_model" %in% self$properties && (is.null(learner) || is.null(learner$model))) {
+      if ("requires_model" %in% properties && (is.null(learner) || is.null(learner$model))) {
         stopf("Measure '%s' requires the trained model", self$id)
       }
-      if ("requires_model" %in% self$properties && is_marshaled_model(learner$model)) {
+      if ("requires_model" %in% properties && is_marshaled_model(learner$model)) {
         stopf("Measure '%s' requires the trained model, but model is in marshaled form", self$id)
       }
 
-      if ("requires_train_set" %in% self$properties && is.null(train_set)) {
+      if ("requires_train_set" %in% properties && is.null(train_set)) {
         stopf("Measure '%s' requires the train_set", self$id)
       }
 
@@ -231,7 +237,6 @@ Measure = R6Class("Measure",
     #'
     #' @return `numeric(1)`.
     aggregate = function(rr) {
-
       switch(self$average,
         "macro" = {
           aggregator = self$aggregator %??% mean
@@ -275,6 +280,17 @@ Measure = R6Class("Measure",
         self$predict_sets, mget(private$.extra_hash, envir = self))
     },
 
+    #' @field properties (`character()`)\cr
+    #' Properties of this measure.
+    properties = function(rhs) {
+      if (!missing(rhs)) {
+        props = if (is.na(self$task_type)) unique(unlist(mlr_reflections$measure_properties), use.names = FALSE) else mlr_reflections$measure_properties[[self$task_type]]
+        private$.properties = assert_subset(rhs, props)
+      } else {
+        private$.properties
+      }
+    },
+
     #' @field average (`character(1)`)\cr
     #' Method for aggregation:
     #'
@@ -307,6 +323,7 @@ Measure = R6Class("Measure",
   ),
 
   private = list(
+    .properties = character(),
     .predict_sets = NULL,
     .extra_hash = character(),
     .average = NULL,

@@ -1,24 +1,28 @@
 # mlr3 (development version)
 
-* Deprecated `data_format` and `data_formats` for Learners, Tasks, and DataBackends.
+* refactor: It is now possible to use weights also during scoring predictions via measures and during resampling to sample observations with unequal probability.
+  The weights must be stored in the task and can be assigned the column role `weights_measure` or `weights_resampling`, respectively.
+  The weights used during training by the Learner are renamed to `weights_learner`, the previous column role `weight` is dysfunctional.
+  Additionally, it is now possible to disable the use of weights via the new hyperparameter `use_weights`.
+  Note that this is a breaking change, but appears to be the less error-prone solution in the long run.
+* refactor: Deprecated `data_format` and `data_formats` for Learners, Tasks, and DataBackends.
 * feat: The `partition()` function creates training, test and validation sets.
 * refactor: Optimize runtime of fixing factor levels.
 * refactor: Optimize runtime of setting row roles.
 * refactor: Optimize runtime of marshalling.
 * refactor: Optimize runtime of `Task$col_info`.
-* fix: column info is now checked for compatibility during `Learner$predict` (#943).
-* BREAKING CHANGE: the predict time of the learner now stores the cumulative duration for all predict sets (#992).
+* fix: Column info is now checked for compatibility during `Learner$predict` (#943).
+* BREAKING CHANGE: The predict time of the learner now stores the cumulative duration for all predict sets (#992).
 * feat: `$internal_valid_task` can now be set to an `integer` vector.
 * feat: Measures can now have an empty `$predict_sets` (#1094).
-  this is relevant for measures that only extract information from
-  the model of a learner (such as internal validation scores or AIC / BIC)
+  This is relevant for measures that only extract information from the model of a learner (such as internal validation scores or AIC / BIC)
 * refactor: Deprecated the `$divide()` method
 * fix: `Task$cbind()` now works with non-standard primary keys  for `data.frames` (#961).
 * fix: Triggering of fallback learner now has log-level `"info"` instead of `"debug"` (#972).
 * feat: Added new measure `pinballs `.
 * feat: Added new measure `mu_auc`.
 * feat: Add option to calculate the mean of the true values on the train set in `msr("regr.rsq")`.
-* feat: default fallback learner is set when encapsulation is activated.
+* feat: Default fallback learner is set when encapsulation is activated.
 
 # mlr3 0.20.2
 

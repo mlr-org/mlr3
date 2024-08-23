@@ -195,10 +195,15 @@ The following properties are currently standardized and understood by tasks in \
 \itemize{
 \item \code{"strata"}: The task is resampled using one or more stratification variables (role \code{"stratum"}).
 \item \code{"groups"}: The task comes with grouping/blocking information (role \code{"group"}).
-\item \code{"weights"}: The task comes with observation weights (role \code{"weight"}).
+\item \code{"weights_learnering"}: If the task has observation weights with this role, they are passed to the \link{Learner} during train.
+The use of weights can be disabled via by setting the learner's hyperparameter \code{use_weights} to \code{FALSE}.
+\item \code{"weights_measure"}: If the task has observation weights with this role, they are passed to the \link{Measure} for weighted scoring.
+The use of weights can be disabled via by setting the measure's hyperparameter \code{use_weights} to \code{FALSE}.
+\item \code{"weights_resampling"}: If the task has observation weights with this role, they are passed to the \link{Resampling} for weighted sampling.
+The weights are only used if the resampling's hyperparameter \code{use_weights} is set to \code{TRUE}.
 }
 
-Note that above listed properties are calculated from the \verb{$col_roles} and may not be set explicitly.}
+Note that above listed properties are calculated from the \verb{$col_roles}, and may not be set explicitly.}
 
 \item{\code{row_roles}}{(named \code{list()})\cr
 Each row (observation) can have an arbitrary number of roles in the learning task:
@@ -222,12 +227,21 @@ Columns must be sortable with \code{\link[=order]{order()}}.
 For each resampling iteration, observations of the same group will be exclusively assigned to be either in the training set or in the test set.
 Not more than a single column can be associated with this role.
 \item \code{"stratum"}: Stratification variables. Multiple discrete columns may have this role.
-\item \code{"weight"}: Observation weights. Not more than one numeric column may have this role.
+\item \code{"weights_learnering"}: If the task has observation weights with this role, they are passed to the \link{Learner} during train.
+The use of weights can be disabled via by setting the learner's hyperparameter \code{use_weights} to \code{FALSE}.
+\item \code{"weights_measure"}: If the task has observation weights with this role, they are passed to the \link{Measure} for weighted scoring.
+The use of weights can be disabled via by setting the measure's hyperparameter \code{use_weights} to \code{FALSE}.
+\item \code{"weights_resampling"}: If the task has observation weights with this role, they are passed to the \link{Resampling} for weighted sampling.
+The weights are only used if the resampling's hyperparameter \code{use_weights} is set to \code{TRUE}.
 }
 
 \code{col_roles} is a named list whose elements are named by column role and each element is a \code{character()} vector of column names.
 To alter the roles, just modify the list, e.g. with \R's set functions (\code{\link[=intersect]{intersect()}}, \code{\link[=setdiff]{setdiff()}}, \code{\link[=union]{union()}}, \ldots).
-The method \verb{$set_col_roles} provides a convenient alternative to assign columns to roles.}
+The method \verb{$set_col_roles} provides a convenient alternative to assign columns to roles.
+
+The roles \code{weights_learner}, \code{weights_measure} and \code{weights_resampling} may only point to a single numeric column, but they can
+all point to the same column or different columns. Weights must be non-negative numerics with at least one weight being > 0.
+They don't necessarily need to sum up to 1.}
 
 \item{\code{nrow}}{(\code{integer(1)})\cr
 Returns the total number of rows with role "use".}
@@ -275,13 +289,37 @@ If the task has at least one column with designated role \code{"order"}, a table
 Returns \code{NULL} if there are is no order column.}
 
 \item{\code{weights}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
-If the task has a column with designated role \code{"weight"}, a table with two columns:
+Deprecated, use \verb{$weights_learner} instead.}
+
+\item{\code{weights_learner}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
+Returns the observation weights used for training a \link{Learner} (column role \code{weights_learner})
+as a \code{data.table} with the following columns:
 \itemize{
 \item \code{row_id} (\code{integer()}), and
-\item observation weights \code{weight} (\code{numeric()}).
+\item \code{weight} (\code{numeric()}).
 }
 
-Returns \code{NULL} if there are is no weight column.}
+Returns \code{NULL} if there are is no column with the designated role.}
+
+\item{\code{weights_measure}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
+Returns the observation weights used for scoring a prediction with a \link{Measure} (column role \code{weights_measure})
+as a \code{data.table} with the following columns:
+\itemize{
+\item \code{row_id} (\code{integer()}), and
+\item \code{weight} (\code{numeric()}).
+}
+
+Returns \code{NULL} if there are is no column with the designated role.}
+
+\item{\code{weights_resampling}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
+Returns the observation weights used for sampling during a \link{Resampling} (column role \code{weights_resampling})
+as a \code{data.table} with the following columns:
+\itemize{
+\item \code{row_id} (\code{integer()}), and
+\item \code{weight} (\code{numeric()}).
+}
+
+Returns \code{NULL} if there are is no column with the designated role.}
 
 \item{\code{labels}}{(named \code{character()})\cr
 Retrieve \code{labels} (prettier formated names) from columns.
@@ -633,9 +671,8 @@ the primary key of the \link{DataBackend} (\code{task$backend$primary_key}).
 In case of name clashes of row ids, rows in \code{data} have higher precedence
 and virtually overwrite the rows in the \link{DataBackend}.
 
-All columns with the roles \code{"target"}, \code{"feature"}, \code{"weight"}, \code{"group"}, \code{"stratum"},
-and \code{"order"} must be present in \code{data}.
-Columns only present in \code{data} but not in the \link{DataBackend} of \code{task} will be discarded.
+All columns roles \code{"target"}, \code{"feature"}, \code{"weights_learner"}, \code{"weights_measure"},
+\code{"weights_resampling"}, group"\verb{, }"stratum"\verb{, and }"order"\verb{must be present in}data\verb{. Columns only present in }data\verb{but not in the [DataBackend] of}task` will be discarded.
 
 This operation mutates the task in-place.
 See the section on task mutators for more information.

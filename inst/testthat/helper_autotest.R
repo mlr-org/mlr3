@@ -51,11 +51,11 @@ generate_generic_tasks = function(learner, proto) {
   }
 
   # task with weights
-  if ("weights" %in% learner$properties) {
+  if ("weights_learner" %in% learner$properties) {
     tmp = proto$clone(deep = TRUE)$cbind(data.frame(weights = runif(n)))
-    tmp$col_roles$weight = "weights"
+    tmp$col_roles$weights_learner = "weights"
     tmp$col_roles$features = setdiff(tmp$col_roles$features, "weights")
-    tasks$weights = tmp
+    tasks$weights_learner = tmp
   }
 
   # task with non-ascii feature names
@@ -233,6 +233,19 @@ run_experiment = function(task, learner, seed = NULL, configure_learner = NULL) 
   learner$encapsulate = c(train = "evaluate", predict = "evaluate")
 
   stage = "train()"
+
+  # enable weights
+  if ("weights" %in% learner$properties) {
+    # learner must have flag "use_weights"
+    msg = checkmate::check_subset("use_weights", learner$param_set$ids(), empty.ok = FALSE)
+    if (!isTRUE(msg)) {
+      return(err(msg))
+    }
+    if ("weights_learner" %in% task$properties) {
+      learner$param_set$values$use_weights = TRUE
+    }
+  }
+
   ok = try(learner$train(task), silent = TRUE)
   if (inherits(ok, "try-error")) {
     return(err(as.character(ok)))

@@ -29,6 +29,16 @@ In such cases it is necessary to overwrite the public methods \verb{$aggregate()
 where at least one of its names corresponds to the \code{id} of the measure itself.
 }
 
+\section{Weights}{
+
+
+Many measures support observation weights, indicated by their property \code{"weights"}.
+The weights are stored in the \link{Task} where the column role \code{weights_measure} needs to be assigned to a single numeric column.
+The weights are automatically used if found in the task, this can be disabled by setting the hyperparamerter \code{use_weights} to \code{FALSE}.
+If the measure is set-up to use weights but the task does not have a designated weight column, an unweighted version is calculated instead.
+The weights do not necessarily need to sum up to 1, they are normalized by dividing by the sum of weights.
+}
+
 \seealso{
 \itemize{
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
@@ -109,9 +119,6 @@ Required properties of the \link{Task}.}
 \item{\code{range}}{(\code{numeric(2)})\cr
 Lower and upper bound of possible performance scores.}
 
-\item{\code{properties}}{(\code{character()})\cr
-Properties of this measure.}
-
 \item{\code{minimize}}{(\code{logical(1)})\cr
 If \code{TRUE}, good predictions correspond to small values of performance scores.}
 
@@ -141,6 +148,9 @@ to operate on specific subsets of the calculated prediction sets.}
 
 \item{\code{hash}}{(\code{character(1)})\cr
 Hash (unique identifier) for this object.}
+
+\item{\code{properties}}{(\code{character()})\cr
+Properties of this measure.}
 
 \item{\code{average}}{(\code{character(1)})\cr
 Method for aggregation:
@@ -254,6 +264,13 @@ Supported by \code{mlr3}:
 \itemize{
 \item \code{"requires_task"} (requires the complete \link{Task}),
 \item \code{"requires_learner"} (requires the trained \link{Learner}),
+<<<<<<< HEAD
+\item \code{"requires_model"} (requires the trained \link{Learner}, including the fitted model),
+\item \code{"requires_train_set"} (requires the training indices from the \link{Resampling}),
+\item \code{"na_score"} (the measure is expected to occasionally return \code{NA} or \code{NaN}),
+\item \code{"weights"} (support weighted scoring using sample weights from task, column role \code{weights_measure}), and
+\item \code{"primary_iters"} (the measure explictly handles resamplings that only use a subset of their iterations for the point estimate)
+=======
 \item \code{"requires_model"} (requires the trained \link{Learner}, including the fitted
 model),
 \item \code{"requires_train_set"} (requires the training indices from the \link{Resampling}), and
@@ -262,6 +279,7 @@ model),
 of their iterations for the point estimate).
 \item \code{"requires_no_prediction"} (No prediction is required; This usually means that the
 measure extracts some information from the learner state.).
+>>>>>>> main
 }}
 
 \item{\code{predict_type}}{(\code{character(1)})\cr

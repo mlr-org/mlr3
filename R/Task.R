@@ -442,8 +442,8 @@ Task = R6Class("Task",
     #' In case of name clashes of row ids, rows in `data` have higher precedence
     #' and virtually overwrite the rows in the [DataBackend].
     #'
-    #' All columns with the roles `"target"`, `"feature"`, `"weight"`, `"group"`, `"stratum"`,
-    #' and `"order"` must be present in `data`.
+    #' All columns roles `"target"`, `"feature"`, `"weights_learner"`, `"weights_measure"`,
+    #' `"weights_resampling"`, group"`, `"stratum"`, and `"order"` must be present in `data`.
     #' Columns only present in `data` but not in the [DataBackend] of `task` will be discarded.
     #'
     #' This operation mutates the task in-place.
@@ -495,7 +495,7 @@ Task = R6Class("Task",
       }
 
       # columns with these roles must be present in data
-      mandatory_roles = c("target", "feature", "weight", "group", "stratum", "order")
+      mandatory_roles = c("target", "feature", "group", "stratum", "order")
       mandatory_cols = unlist(private$.col_roles[mandatory_roles], use.names = FALSE)
       missing_cols = setdiff(mandatory_cols, data$colnames)
       if (length(missing_cols)) {
@@ -886,18 +886,24 @@ Task = R6Class("Task",
     #'
     #' * `"strata"`: The task is resampled using one or more stratification variables (role `"stratum"`).
     #' * `"groups"`: The task comes with grouping/blocking information (role `"group"`).
-    #' * `"weights"`: The task comes with observation weights (role `"weight"`).
+    #' * `"weights_learnering"`: If the task has observation weights with this role, they are passed to the [Learner] during train.
+    #'    The use of weights can be disabled via by setting the learner's hyperparameter `use_weights` to `FALSE`.
+    #' * `"weights_measure"`: If the task has observation weights with this role, they are passed to the [Measure] for weighted scoring.
+    #'    The use of weights can be disabled via by setting the measure's hyperparameter `use_weights` to `FALSE`.
+    #' * `"weights_resampling"`: If the task has observation weights with this role, they are passed to the [Resampling] for weighted sampling.
+    #'    The weights are only used if the resampling's hyperparameter `use_weights` is set to `TRUE`.
     #'
-    #' Note that above listed properties are calculated from the `$col_roles` and may not be set explicitly.
+    #' Note that above listed properties are calculated from the `$col_roles`, and may not be set explicitly.
     properties = function(rhs) {
       if (missing(rhs)) {
-        col_roles = private$.col_roles
-        c(character(),
-          private$.properties,
-          if (length(col_roles$group)) "groups" else NULL,
-          if (length(col_roles$stratum)) "strata" else NULL,
-          if (length(col_roles$weight)) "weights" else NULL
+        prop_roles = c(
+          groups = "group",
+          strata = "stratum",
+          weights_learner = "weights_learner",
+          weights_measure = "weights_measure",
+          weights_resampling = "weights_resampling"
         )
+        c(private$.properties, names(prop_roles)[lengths(private$.col_roles[prop_roles]) > 0L])
       } else {
         private$.properties = assert_set(rhs, .var.name = "properties")
       }
@@ -939,11 +945,20 @@ Task = R6Class("Task",
     #'   For each resampling iteration, observations of the same group will be exclusively assigned to be either in the training set or in the test set.
     #'   Not more than a single column can be associated with this role.
     #' * `"stratum"`: Stratification variables. Multiple discrete columns may have this role.
-    #' * `"weight"`: Observation weights. Not more than one numeric column may have this role.
+    #' * `"weights_learnering"`: If the task has observation weights with this role, they are passed to the [Learner] during train.
+    #'    The use of weights can be disabled via by setting the learner's hyperparameter `use_weights` to `FALSE`.
+    #' * `"weights_measure"`: If the task has observation weights with this role, they are passed to the [Measure] for weighted scoring.
+    #'    The use of weights can be disabled via by setting the measure's hyperparameter `use_weights` to `FALSE`.
+    #' * `"weights_resampling"`: If the task has observation weights with this role, they are passed to the [Resampling] for weighted sampling.
+    #'    The weights are only used if the resampling's hyperparameter `use_weights` is set to `TRUE`.
     #'
     #' `col_roles` is a named list whose elements are named by column role and each element is a `character()` vector of column names.
     #' To alter the roles, just modify the list, e.g. with \R's set functions ([intersect()], [setdiff()], [union()], \ldots).
     #' The method `$set_col_roles` provides a convenient alternative to assign columns to roles.
+    #'
+    #' The roles `weights_learner`, `weights_measure` and `weights_resampling` may only point to a single numeric column, but they can
+    #' all point to the same column or different columns. Weights must be non-negative numerics with at least one weight being > 0.
+    #' They don't necessarily need to sum up to 1.
     col_roles = function(rhs) {
       if (missing(rhs)) {
         return(private$.col_roles)
@@ -951,7 +966,7 @@ Task = R6Class("Task",
 
       assert_has_backend(self)
       qassertr(rhs, "S[1,]", .var.name = "col_roles")
-      assert_names(names(rhs), "unique", permutation.of = mlr_reflections$task_col_roles[[self$task_type]], .var.name = "names of col_roles")
+      assert_names(names(rhs), "unique", permutation.of = mlr_reflections$task_col_roles[[self$task_type]])
       assert_subset(unlist(rhs, use.names = FALSE), setdiff(self$col_info$id, self$backend$primary_key), .var.name = "elements of col_roles")
 
       private$.hash = NULL
@@ -1056,16 +1071,25 @@ Task = R6Class("Task",
     },
 
     #' @field weights ([data.table::data.table()])\cr
-    #' If the task has a column with designated role `"weight"`, a table with two columns:
+    #' Deprecated, use `$weights_learner` instead.
+    weights = function(rhs) {
+      assert_ro_binding(rhs)
+      .Deprecated("Task$weights_learner", old = "Task$weights")
+      self$weights_learner
+    },
+
+    #' @field weights_learner ([data.table::data.table()])\cr
+    #' Returns the observation weights used for training a [Learner] (column role `weights_learner`)
+    #' as a `data.table` with the following columns:
     #'
     #' * `row_id` (`integer()`), and
-    #' * observation weights `weight` (`numeric()`).
+    #' * `weight` (`numeric()`).
     #'
-    #' Returns `NULL` if there are is no weight column.
-    weights = function(rhs) {
+    #' Returns `NULL` if there are is no column with the designated role.
+    weights_learner = function(rhs) {
       assert_has_backend(self)
       assert_ro_binding(rhs)
-      weight_cols = private$.col_roles$weight
+      weight_cols = private$.col_roles[["weights_learner"]]
       if (length(weight_cols) == 0L) {
         return(NULL)
       }
@@ -1073,6 +1097,43 @@ Task = R6Class("Task",
       setnames(data, c("row_id", "weight"))[]
     },
 
+    #' @field weights_measure ([data.table::data.table()])\cr
+    #' Returns the observation weights used for scoring a prediction with a [Measure] (column role `weights_measure`)
+    #' as a `data.table` with the following columns:
+    #'
+    #' * `row_id` (`integer()`), and
+    #' * `weight` (`numeric()`).
+    #'
+    #' Returns `NULL` if there are is no column with the designated role.
+    weights_measure = function(rhs) {
+      assert_has_backend(self)
+      assert_ro_binding(rhs)
+      weight_cols = private$.col_roles[["weights_measure"]]
+      if (length(weight_cols) == 0L) {
+        return(NULL)
+      }
+      data = self$backend$data(private$.row_roles$use, c(self$backend$primary_key, weight_cols))
+      setnames(data, c("row_id", "weight"))[]
+    },
+
+    #' @field weights_resampling ([data.table::data.table()])\cr
+    #' Returns the observation weights used for sampling during a [Resampling] (column role `weights_resampling`)
+    #' as a `data.table` with the following columns:
+    #'
+    #' * `row_id` (`integer()`), and
+    #' * `weight` (`numeric()`).
+    #'
+    #' Returns `NULL` if there are is no column with the designated role.
+    weights_resampling = function(rhs) {
+      assert_has_backend(self)
+      assert_ro_binding(rhs)
+      weight_cols = private$.col_roles[["weights_resampling"]]
+      if (length(weight_cols) == 0L) {
+        return(NULL)
+      }
+      data = self$backend$data(private$.row_roles$use, c(self$backend$primary_key, weight_cols))
+      setnames(data, c("row_id", "weight"))[]
+    },
 
     #' @field labels (named `character()`)\cr
     #'   Retrieve `labels` (prettier formated names) from columns.
@@ -1189,9 +1250,20 @@ task_set_roles = function(li, elements, roles = NULL, add_to = NULL, remove_from
 }
 
 task_check_col_roles = function(self, new_roles) {
-  for (role in c("group", "weight", "name")) {
+  if ("weight" %in% names(new_roles)) {
+    stopf("Task role 'weight' is deprecated, use 'weights_learner' instead")
+  }
+
+  for (role in c("group", "name", "weights_learner", "weights_measure", "weights_resampling")) {
     if (length(new_roles[[role]]) > 1L) {
       stopf("There may only be up to one column with role '%s'", role)
+    }
+  }
+
+  for (role in c("weights_learner", "weights_measure", "weights_resampling")) {
+    if (length(new_roles[[role]]) > 0L) {
+      col_role = self$backend$data(seq(self$backend$nrow), cols = new_roles[[role]])[[1]]
+      expect_numeric(col_role, lower = 0, any.missing = FALSE)
     }
   }
 
