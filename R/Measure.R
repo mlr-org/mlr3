@@ -121,7 +121,6 @@ Measure = R6Class("Measure",
       predict_sets = "test", task_properties = character(), packages = character(),
       label = NA_character_, man = NA_character_, trafo = NULL) {
 
-      self$properties = unique(properties)
       self$id = assert_string(id, min.chars = 1L)
       self$label = assert_string(label, na.ok = TRUE)
       self$task_type = task_type
@@ -144,6 +143,8 @@ Measure = R6Class("Measure",
         assert_subset(task_properties, mlr_reflections$task_properties[[task_type]])
       }
 
+
+      self$properties = unique(properties)
       self$predict_type = predict_type
       self$predict_sets = predict_sets
       self$task_properties = task_properties
