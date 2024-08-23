@@ -46,6 +46,7 @@ test_that("weights", {
   c1 = learner$predict(task)$confusion
 
   task$set_col_roles("w", "weights_learner")
+  learner = lrn("classif.rpart", use_weights = TRUE)
   learner$train(task)
   c2 = learner$predict(task)$confusion
 
