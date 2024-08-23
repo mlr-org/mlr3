@@ -103,7 +103,7 @@ test_that("convert_task reconstructs task", {
   task = mlr_tasks$get("iris")
   tsk = convert_task(task)
   tsk$man = "mlr3::mlr_tasks_iris"
-  expect_equal(task, tsk, ignore_attr = TRUE)
+  suppressWarnings(expect_equal(task, tsk, ignore_attr = TRUE))
 
   task2 = task$filter(1:100)
   tsk2 = convert_task(task2)

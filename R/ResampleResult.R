@@ -141,7 +141,7 @@ ResampleResult = R6Class("ResampleResult",
     #'   if present.
     #'
     #' @return [data.table::data.table()].
-    score = function(measures = NULL, ids = TRUE, conditions = FALSE, predictions = FALSE) {
+    score = function(measures = NULL, ids = TRUE, conditions = FALSE, predictions = TRUE) {
       measures = as_measures(measures, task_type = private$.data$task_type)
       assert_flag(ids)
       assert_flag(conditions)
@@ -162,7 +162,7 @@ ResampleResult = R6Class("ResampleResult",
         set(tab, j = "errors", value = map(tab$learner, "errors"))
       }
 
-      if (predictions) {
+      if (predictions && nrow(tab)) {
         predict_sets = intersect(mlr_reflections$predict_sets, tab$learner[[1L]]$predict_sets)
         predict_cols = sprintf("prediction_%s", predict_sets)
         for (i in seq_along(predict_sets)) {
