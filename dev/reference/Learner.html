@@ -122,6 +122,17 @@ Only available for <code>Learner</code>s with the <code>"internal_tuning"</code>
 If the learner is not trained yet, this returns <code>NULL</code>.</p></li>
 </ul></div>
     <div class="section level2">
+    <h2 id="weights">Weights<a class="anchor" aria-label="anchor" href="#weights"></a></h2>
+
+
+
+<p>Many learners support observation weights, indicated by their property <code>"weights"</code>.
+The weights are stored in the <a href="Task.html">Task</a> where the column role <code>weights_learner</code> needs to be assigned to a single numeric column.
+The weights are automatically used if found in the task, this can be disabled by setting the hyperparamerter <code>use_weights</code> to <code>FALSE</code>.
+If the learner is set-up to use weights but the task does not have a designated weight column, an unweighted version is calculated instead.
+The weights do not necessarily need to sum up to 1, they are passed down to the learner.</p>
+    </div>
+    <div class="section level2">
     <h2 id="setting-hyperparameters">Setting Hyperparameters<a class="anchor" aria-label="anchor" href="#setting-hyperparameters"></a></h2>
 
 
