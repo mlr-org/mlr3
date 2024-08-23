@@ -10,3 +10,5 @@
 #'   * `"na_score"` (the measure is expected to occasionally return `NA` or `NaN`).
 #'   * `"primary_iters"` (the measure explictly handles resamplings that only use a subset
 #'      of their iterations for the point estimate).
+#'   * `"requires_no_prediction"` (No prediction is required; This usually means that the
+#'      measure extracts some information from the learner state.).

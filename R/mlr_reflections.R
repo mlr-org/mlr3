@@ -140,7 +140,7 @@ local({
 
 
   ### Measures
-  tmp = c("na_score", "requires_task", "requires_learner", "requires_model", "requires_train_set", "primary_iters")
+  tmp = c("na_score", "requires_task", "requires_learner", "requires_model", "requires_train_set", "primary_iters", "requires_no_prediction")
   mlr_reflections$measure_properties = list(
     classif = tmp,
     regr = tmp

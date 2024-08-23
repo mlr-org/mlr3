@@ -41,10 +41,11 @@ MeasureElapsedTime = R6Class("MeasureElapsedTime",
       super$initialize(
         id = id,
         task_type = NA_character_,
+        predict_sets = NULL,
         predict_type = NA_character_,
         range = c(0, Inf),
         minimize = TRUE,
-        properties = "requires_learner",
+        properties = c("requires_learner", "requires_no_prediction"),
         label = "Elapsed Time",
         man = "mlr3::mlr_measures_elapsed_time"
       )

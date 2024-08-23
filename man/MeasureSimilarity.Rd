@@ -153,6 +153,8 @@ model),
 \item \code{"na_score"} (the measure is expected to occasionally return \code{NA} or \code{NaN}).
 \item \code{"primary_iters"} (the measure explictly handles resamplings that only use a subset
 of their iterations for the point estimate).
+\item \code{"requires_no_prediction"} (No prediction is required; This usually means that the
+measure extracts some information from the learner state.).
 }}
 
 \item{\code{predict_type}}{(\code{character(1)})\cr
