@@ -1073,7 +1073,9 @@ Task = R6Class("Task",
     #' @field weights ([data.table::data.table()])\cr
     #' Deprecated, use `$weights_learner` instead.
     weights = function(rhs) {
-      stopf("Field 'task$weights' is deprecated. Use 'task$weights_learner' instead")
+      assert_ro_binding(rhs)
+      .Deprecated("Task$weights_learner", old = "Task$weights")
+      self$weights_learner
     },
 
     #' @field weights_learner ([data.table::data.table()])\cr
