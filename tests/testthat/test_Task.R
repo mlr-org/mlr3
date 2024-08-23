@@ -617,10 +617,36 @@ test_that("task weights", {
   # proper deprecation of rename weights -> weights_learner
   task = tsk("mtcars")
   task$cbind(data.table(w = runif(32)))
-  expect_error(task$weights)
+  expect_warning(task$weights)
 
   task$set_col_roles("w", "weights_learner")
   expect_data_table(task$weights_learner)
   expect_subset("weights_learner", task$properties)
   expect_task(task)
+})
+
+test_that("task$set_col_roles() with weights", {
+  task = tsk("mtcars")
+  task$cbind(data.table(w = runif(32)))
+  task$set_col_roles("w", "weights_learner")
+  expect_data_table(task$weights_learner)
+  expect_subset("weights_learner", task$properties)
+  expect_task(task)
+})
+
+test_that("task$set_col_roles errors with wrong weights", {
+  dd = iris
+  dd$ww = iris$Species
+  tt = as_task_classif(dd, target = "Species")
+  expect_error(tt$set_col_roles("ww", "weights_learner"), "Must be of type")
+
+  dd = iris
+  dd$ww = 1:150; dd$ww[1] = NA
+  tt = as_task_classif(dd, target = "Species")
+  expect_error(tt$set_col_roles("ww", "weights_learner"), "missing values")
+
+  dd = iris
+  dd$ww = 1:150; dd$ww[1] = -99
+  tt = as_task_classif(dd, target = "Species")
+  expect_error(tt$set_col_roles("ww", "weights_learner"), "is not")
 })

@@ -1260,6 +1260,13 @@ task_check_col_roles = function(self, new_roles) {
     }
   }
 
+  for (role in c("weights_learner", "weights_measure", "weights_resampling")) {
+    if (length(new_roles[[role]]) > 0L) {
+      col_role = self$backend$data(seq(self$backend$nrow), cols = new_roles[[role]])[[1]]
+      expect_numeric(col_role, lower = 0, any.missing = FALSE)
+    }
+  }
+
   if (inherits(self, "TaskSupervised")) {
     if (length(new_roles$target) == 0L) {
       stopf("Supervised tasks need at least one target column")
