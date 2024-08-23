@@ -6,7 +6,7 @@ on.exit({
 
 mlr_reflections$task_types = setkeyv(rbind(mlr_reflections$task_types, rowwise_table(
   ~type,  ~package, ~task,              ~learner,        ~prediction,         ~prediction_data,        ~measure,
-  "test", "mlr3",   "TaskClassifTest", "LearnerClassif", "PredictionClassif", "PredictionDataClassif", "MeasureClassif",
+  "test", "mlr3",   "TaskClassifTest", "LearnerClassif", "PredictionClassif", "PredictionDataClassif", "MeasureClassif"
 )), "type")
 
 mlr_reflections$task_col_roles$test = c(mlr_reflections$task_col_roles$classif, "test")
