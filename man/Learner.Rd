@@ -300,6 +300,7 @@ Set of hyperparameters.}
 Controls how to execute the code in internal train and predict methods.
 Must be a named character vector with names \code{"train"} and \code{"predict"}.
 Possible values are \code{"none"}, \code{"try"}, \code{"evaluate"} (requires package \CRANpkg{evaluate}) and \code{"callr"} (requires package \CRANpkg{callr}).
+If no fallback learner is set, the default fallback learner is set.
 See \code{\link[mlr3misc:encapsulate]{mlr3misc::encapsulate()}} for more details.}
 
 \item{\code{fallback}}{(\link{Learner})\cr
