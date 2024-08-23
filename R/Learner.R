@@ -578,7 +578,10 @@ Learner = R6Class("Learner",
       private$.encapsulate = insert_named(default, rhs)
 
       if (is.null(private$.fallback)) {
-        self$fallback = lrn(mlr_reflections$learner_fallback[[self$task_type]], predict_type = self$predict_type)
+        fallback_id = mlr_reflections$learner_fallback[[self$task_type]]
+        if (!is.null(fallback_id)) {
+          self$fallback = lrn(mlr_reflections$learner_fallback[[self$task_type]], predict_type = self$predict_type)
+        }
       }
     },
 
