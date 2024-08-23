@@ -156,19 +156,6 @@ observation-wise losses (e.g. <code>sqrt</code> for RMSE)</p></li>
 Required predict type of the <a href="Learner.html">Learner</a>.</p></dd>
 
 
-<dt><code>predict_sets</code></dt>
-<dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
-During <code><a href="resample.html">resample()</a></code>/<code><a href="benchmark.html">benchmark()</a></code>, a <a href="Learner.html">Learner</a> can predict on multiple sets.
-Per default, a learner only predicts observations in the test set (<code>predict_sets == "test"</code>).
-To change this behavior, set <code>predict_sets</code> to a non-empty subset of <code>{"train", "test", "internal_valid"}</code>.
-The <code>"train"</code> predict set contains the train ids from the resampling. This means that if a learner does validation and
-sets <code>$validate</code> to a ratio (creating the validation data from the training data), the train predictions
-will include the predictions for the validation data.
-Each set yields a separate <a href="Prediction.html">Prediction</a> object.
-Those can be combined via getters in <a href="ResampleResult.html">ResampleResult</a>/<a href="BenchmarkResult.html">BenchmarkResult</a>, or Measures can be configured
-to operate on specific subsets of the calculated prediction sets.</p></dd>
-
-
 <dt><code>check_prerequisites</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 How to proceed if one of the following prerequisites is not met:</p><ul><li><p>wrong predict type (e.g., probabilities required, but only labels available).</p></li>
@@ -213,7 +200,20 @@ Defaults to <code>NA</code>, but can be set by child classes.</p></dd>
     </div>
     <div class="section level2">
     <h2 id="active-bindings">Active bindings<a class="anchor" aria-label="anchor" href="#active-bindings"></a></h2>
-    <p></p><div class="r6-active-bindings"><dl><dt><code>hash</code></dt>
+    <p></p><div class="r6-active-bindings"><dl><dt><code>predict_sets</code></dt>
+<dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
+During <code><a href="resample.html">resample()</a></code>/<code><a href="benchmark.html">benchmark()</a></code>, a <a href="Learner.html">Learner</a> can predict on multiple sets.
+Per default, a learner only predicts observations in the test set (<code>predict_sets == "test"</code>).
+To change this behavior, set <code>predict_sets</code> to a non-empty subset of <code>{"train", "test", "internal_valid"}</code>.
+The <code>"train"</code> predict set contains the train ids from the resampling. This means that if a learner does validation and
+sets <code>$validate</code> to a ratio (creating the validation data from the training data), the train predictions
+will include the predictions for the validation data.
+Each set yields a separate <a href="Prediction.html">Prediction</a> object.
+Those can be combined via getters in <a href="ResampleResult.html">ResampleResult</a>/<a href="BenchmarkResult.html">BenchmarkResult</a>, or Measures can be configured
+to operate on specific subsets of the calculated prediction sets.</p></dd>
+
+
+<dt><code>hash</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 Hash (unique identifier) for this object.</p></dd>
 
@@ -346,6 +346,8 @@ model),</p></li>
 <li><p><code>"na_score"</code> (the measure is expected to occasionally return <code>NA</code> or <code>NaN</code>).</p></li>
 <li><p><code>"primary_iters"</code> (the measure explictly handles resamplings that only use a subset
 of their iterations for the point estimate).</p></li>
+<li><p><code>"requires_no_prediction"</code> (No prediction is required; This usually means that the
+measure extracts some information from the learner state.).</p></li>
 </ul></dd>
 
 
