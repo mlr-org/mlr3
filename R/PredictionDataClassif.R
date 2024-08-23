@@ -121,3 +121,24 @@ filter_prediction_data.PredictionDataClassif = function(pdata, row_ids, ...) {
 
   pdata
 }
+
+#' @export
+create_empty_prediction_data.TaskClassif = function(task, learner) {
+  predict_types = mlr_reflections$learner_predict_types[["classif"]][[learner$predict_type]]
+  cn = task$class_names
+
+  pdata = list(
+    row_ids = integer(),
+    truth = factor(character(), levels = cn)
+  )
+
+  if ("response" %in% predict_types) {
+    pdata$response = pdata$truth
+  }
+
+  if ("prob" %in% predict_types) {
+    pdata$prob = matrix(numeric(), nrow = 0L, ncol = length(cn), dimnames = list(NULL, cn))
+  }
+
+  return(new_prediction_data(pdata, "classif"))
+}

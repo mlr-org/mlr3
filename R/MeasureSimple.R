@@ -332,6 +332,10 @@ mlr_measures$add("classif.mauc_au1u", function() MeasureClassifSimple$new(name =
 #' @template measure_classif
 mlr_measures$add("classif.mauc_au1p", function() MeasureClassifSimple$new(name = "mauc_au1p"))
 
+#' @templateVar id mauc_mu
+#' @template measure_classif
+mlr_measures$add("classif.mauc_mu", function() MeasureClassifSimple$new(name = "mauc_mu"))
+
 #' @templateVar id mcc
 #' @template measure_classif
 mlr_measures$add("classif.mcc", function() MeasureClassifSimple$new(name = "mcc"))
@@ -399,10 +403,6 @@ mlr_measures$add("regr.rrse", function() MeasureRegrSimple$new(name = "rrse"))
 #' @template measure_regr
 mlr_measures$add("regr.rse", function() MeasureRegrSimple$new(name = "rse"))
 
-#' @templateVar id rsq
-#' @template measure_regr
-mlr_measures$add("regr.rsq", function() MeasureRegrSimple$new(name = "rsq"))
-
 #' @templateVar id sae
 #' @template measure_regr
 mlr_measures$add("regr.sae", function() MeasureRegrSimple$new(name = "sae"))
@@ -418,6 +418,10 @@ mlr_measures$add("regr.srho", function() MeasureRegrSimple$new(name = "srho"))
 #' @templateVar id sse
 #' @template measure_regr
 mlr_measures$add("regr.sse", function() MeasureRegrSimple$new(name = "sse"))
+
+#' @templateVar id pinball
+#' @template measure_regr
+mlr_measures$add("regr.pinball", function() MeasureRegrSimple$new(name = "pinball"))
 
 
 ### similarity measures

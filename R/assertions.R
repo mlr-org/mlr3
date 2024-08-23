@@ -166,6 +166,27 @@ assert_learnable = function(task, learner) {
 #' @export
 #' @rdname mlr_assertions
 assert_predictable = function(task, learner) {
+  if (!is.null(learner$state$train_task)) {
+    train_task = learner$state$train_task
+    cols_train = train_task$feature_names
+    cols_predict = task$feature_names
+
+    if (!test_permutation(cols_train, cols_predict)) {
+      stopf("Learner '%s' has received tasks with different columns in train and predict.", learner$id)
+    }
+
+    ids = train_task$col_info[get("id") %in% cols_train, "id"]$id
+    ci_predict = task$col_info[list(ids), c("id", "type", "levels"), on = "id"]
+    ci_train = train_task$col_info[list(ids), c("id", "type", "levels"), on = "id"]
+
+    ok = all(ci_train$type == ci_predict$type) &&
+      all(pmap_lgl(list(x = ci_train$levels, y = ci_predict$levels), identical))
+
+    if (!ok) {
+      stopf( "Learner '%s' received task with different column info during train and predict.", learner$id)
+    }
+  }
+
   assert_task_learner(task, learner, cols = task$feature_names)
 }
 
@@ -260,7 +281,8 @@ assert_resamplings = function(resamplings, instantiated = NULL, .var.name = vnam
 #' @export
 #' @param prediction ([Prediction]).
 #' @rdname mlr_assertions
-assert_prediction = function(prediction, .var.name = vname(prediction)) {
+assert_prediction = function(prediction, .var.name = vname(prediction), null.ok = FALSE) {
+  if (null.ok && is.null(prediction)) return(prediction)
   assert_class(prediction, "Prediction", .var.name = .var.name)
 }
 

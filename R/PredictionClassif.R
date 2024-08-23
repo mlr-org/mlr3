@@ -151,7 +151,7 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
     #' Access to the stored predicted class labels.
     response = function(rhs) {
       assert_ro_binding(rhs)
-      self$data$response %??% factor(rep(NA, length(self$data$row_ids)), levels(self$data$truth))
+      self$data$response %??% factor(rep(NA_character_, length(self$data$row_ids)), levels(self$data$truth))
     },
 
     #' @field prob (`matrix()`)\cr

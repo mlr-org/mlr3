@@ -45,7 +45,7 @@ DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
     #'   The input [data.table()].
     initialize = function(data, primary_key) {
       assert_data_table(data, col.names = "unique")
-      super$initialize(setkeyv(data, primary_key), primary_key, data_formats = "data.table")
+      super$initialize(setkeyv(data, primary_key), primary_key)
       ii = match(primary_key, names(data))
       if (is.na(ii)) {
         stopf("Primary key '%s' not in 'data'", primary_key)
@@ -60,10 +60,10 @@ DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
     #' Queries for rows with no matching row id and queries for columns with no matching column name are silently ignored.
     #' Rows are guaranteed to be returned in the same order as `rows`, columns may be returned in an arbitrary order.
     #' Duplicated row ids result in duplicated rows, duplicated column names lead to an exception.
-    data = function(rows, cols, data_format = "data.table") {
+    data = function(rows, cols, data_format) {
       rows = assert_integerish(rows, coerce = TRUE)
       assert_names(cols, type = "unique")
-      assert_choice(data_format, self$data_formats)
+      if (!missing(data_format)) warn_deprecated("DataBackendDataTable$data argument 'data_format'")
       cols = intersect(cols, colnames(private$.data))
 
       if (self$compact_seq) {

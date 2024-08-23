@@ -1,6 +1,7 @@
 #' @title Learner Class
 #'
 #' @include mlr_reflections.R
+#' @include warn_deprecated.R
 #'
 #' @description
 #' This is the abstract base class for learner objects like [LearnerClassif] and [LearnerRegr].
@@ -182,10 +183,6 @@ Learner = R6Class("Learner",
     #' A complete list of candidate properties, grouped by task type, is stored in [`mlr_reflections$learner_properties`][mlr_reflections].
     properties = NULL,
 
-    #' @field data_formats (`character()`)\cr
-    #' Supported data format, e.g. `"data.table"` or `"Matrix"`.
-    data_formats = NULL,
-
     #' @template field_packages
     packages = NULL,
 
@@ -221,7 +218,7 @@ Learner = R6Class("Learner",
     #'
     #' Note that this object is typically constructed via a derived classes, e.g. [LearnerClassif] or [LearnerRegr].
     initialize = function(id, task_type, param_set = ps(), predict_types = character(), feature_types = character(),
-      properties = character(), data_formats = "data.table", packages = character(), label = NA_character_, man = NA_character_) {
+      properties = character(), data_formats, packages = character(), label = NA_character_, man = NA_character_) {
 
       self$id = assert_string(id, min.chars = 1L)
       self$label = assert_string(label, na.ok = TRUE)
@@ -232,7 +229,7 @@ Learner = R6Class("Learner",
         empty.ok = FALSE, .var.name = "predict_types")
       private$.predict_type = predict_types[1L]
       self$properties = sort(assert_subset(properties, mlr_reflections$learner_properties[[task_type]]))
-      self$data_formats = assert_subset(data_formats, mlr_reflections$data_formats)
+      if (!missing(data_formats)) warn_deprecated("Learner$initialize argument 'data_formats'")
       self$packages = union("mlr3", assert_character(packages, any.missing = FALSE, min.chars = 1L))
       self$man = assert_string(man, na.ok = TRUE)
 
@@ -464,6 +461,12 @@ Learner = R6Class("Learner",
   ),
 
   active = list(
+    #' @field data_formats (`character()`)\cr
+    #' Supported data format. Always `"data.table"`..
+    #' This is deprecated and will be removed in the future.
+    data_formats = deprecated_binding("Learner$data_formats", "data.table"),
+
+
     #' @field model (any)\cr
     #' The fitted model. Only available after `$train()` has been called.
     model = function(rhs) {
@@ -556,6 +559,8 @@ Learner = R6Class("Learner",
     #' Controls how to execute the code in internal train and predict methods.
     #' Must be a named character vector with names `"train"` and `"predict"`.
     #' Possible values are `"none"`, `"try"`, `"evaluate"` (requires package \CRANpkg{evaluate}) and `"callr"` (requires package \CRANpkg{callr}).
+    #' When encapsulation is activated, a fallback learner must be set.
+    #' If no learner is set in `$fallback`, the default fallback learner is used (see `mlr_reflections$task_types`).
     #' See [mlr3misc::encapsulate()] for more details.
     encapsulate = function(rhs) {
       default = c(train = "none", predict = "none")
@@ -567,6 +572,10 @@ Learner = R6Class("Learner",
       assert_character(rhs)
       assert_names(names(rhs), subset.of = c("train", "predict"))
       private$.encapsulate = insert_named(default, rhs)
+
+      if (is.null(private$.fallback)) {
+        self$fallback = lrn(mlr_reflections$learner_fallback[[self$task_type]], predict_type = self$predict_type)
+      }
     },
 
     #' @field fallback ([Learner])\cr

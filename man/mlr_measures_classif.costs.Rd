@@ -87,6 +87,7 @@ Other Measure:
 \code{\link{mlr_measures_elapsed_time}},
 \code{\link{mlr_measures_internal_valid_score}},
 \code{\link{mlr_measures_oob_error}},
+\code{\link{mlr_measures_regr.rsq}},
 \code{\link{mlr_measures_selected_features}}
 
 Other classification measures: 
@@ -108,6 +109,7 @@ Other classification measures:
 \code{\link{mlr_measures_classif.mauc_au1u}},
 \code{\link{mlr_measures_classif.mauc_aunp}},
 \code{\link{mlr_measures_classif.mauc_aunu}},
+\code{\link{mlr_measures_classif.mauc_mu}},
 \code{\link{mlr_measures_classif.mbrier}},
 \code{\link{mlr_measures_classif.mcc}},
 \code{\link{mlr_measures_classif.npv}},
@@ -131,6 +133,7 @@ Other multiclass classification measures:
 \code{\link{mlr_measures_classif.mauc_au1u}},
 \code{\link{mlr_measures_classif.mauc_aunp}},
 \code{\link{mlr_measures_classif.mauc_aunu}},
+\code{\link{mlr_measures_classif.mauc_mu}},
 \code{\link{mlr_measures_classif.mbrier}},
 \code{\link{mlr_measures_classif.mcc}}
 }

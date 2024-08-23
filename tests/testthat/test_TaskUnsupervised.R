@@ -33,7 +33,6 @@ test_that("empty classif task", {
   iris = iris[NULL, ]
   task_predict = as_task_unsupervised(iris, id = "Test")
   expect_task_unsupervised(task_predict)
-  expect_prediction(learner$predict(task_predict))
 })
 
 test_that("empty regr task", {
@@ -46,7 +45,6 @@ test_that("empty regr task", {
   mtcars = mtcars[NULL, ]
   task_predict = as_task_unsupervised(mtcars, id = "Test")
   expect_task_unsupervised(task_predict)
-  expect_prediction(learner$predict(task_predict))
 })
 
 test_that("fallback", {

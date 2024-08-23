@@ -10,7 +10,7 @@ in binary classification tasks.
 }
 \details{
 This measure counts the true positives, i.e. the number of
-predictions correctly indicating a positive class label.
+predictions correctly indicating a positive class label. This is sometimes also called a "hit".
 }
 \note{
 The score function calls \code{\link[mlr3measures:tp]{mlr3measures::tp()}} from package \CRANpkg{mlr3measures}.
@@ -69,6 +69,7 @@ Other classification measures:
 \code{\link{mlr_measures_classif.mauc_au1u}},
 \code{\link{mlr_measures_classif.mauc_aunp}},
 \code{\link{mlr_measures_classif.mauc_aunu}},
+\code{\link{mlr_measures_classif.mauc_mu}},
 \code{\link{mlr_measures_classif.mbrier}},
 \code{\link{mlr_measures_classif.mcc}},
 \code{\link{mlr_measures_classif.npv}},

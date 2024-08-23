@@ -84,9 +84,6 @@ Measure = R6Class("Measure",
     #' Required predict type of the [Learner].
     predict_type = NULL,
 
-    #' @template field_predict_sets
-    predict_sets = NULL,
-
     #' @field check_prerequisites (`character(1)`)\cr
     #' How to proceed if one of the following prerequisites is not met:
     #'
@@ -124,6 +121,7 @@ Measure = R6Class("Measure",
       predict_sets = "test", task_properties = character(), packages = character(),
       label = NA_character_, man = NA_character_, trafo = NULL) {
 
+      self$properties = unique(properties)
       self$id = assert_string(id, min.chars = 1L)
       self$label = assert_string(label, na.ok = TRUE)
       self$task_type = task_type
@@ -146,9 +144,8 @@ Measure = R6Class("Measure",
         assert_subset(task_properties, mlr_reflections$task_properties[[task_type]])
       }
 
-      private$.properties = unique(properties)
       self$predict_type = predict_type
-      self$predict_sets = assert_subset(predict_sets, mlr_reflections$predict_sets, empty.ok = FALSE)
+      self$predict_sets = predict_sets
       self$task_properties = task_properties
       self$packages = union("mlr3", assert_character(packages, any.missing = FALSE, min.chars = 1L))
       self$man = assert_string(man, na.ok = TRUE)
@@ -202,9 +199,8 @@ Measure = R6Class("Measure",
     #' @return `numeric(1)`.
     score = function(prediction, task = NULL, learner = NULL, train_set = NULL) {
       assert_measure(self, task = task, learner = learner)
-      assert_prediction(prediction)
-
       properties = self$properties
+      assert_prediction(prediction, null.ok = "requires_no_prediction" %nin% properties)
 
       if ("requires_task" %in% properties && is.null(task)) {
         stopf("Measure '%s' requires a task", self$id)
@@ -267,6 +263,14 @@ Measure = R6Class("Measure",
   ),
 
   active = list(
+    #' @template field_predict_sets
+    predict_sets = function(rhs) {
+      if (!missing(rhs)) {
+        private$.predict_sets = assert_subset(rhs, mlr_reflections$predict_sets, empty.ok = "requires_no_prediction" %in% self$properties)
+      }
+      private$.predict_sets
+    },
+
     #' @template field_hash
     hash = function(rhs) {
       assert_ro_binding(rhs)
@@ -319,6 +323,7 @@ Measure = R6Class("Measure",
 
   private = list(
     .properties = character(),
+    .predict_sets = NULL,
     .extra_hash = character(),
     .average = NULL,
     .aggregator = NULL
@@ -342,8 +347,11 @@ Measure = R6Class("Measure",
 #' @return (`numeric()`).
 #' @noRd
 score_single_measure = function(measure, task, learner, train_set, prediction) {
-  if (is.null(prediction)) {
-    return(NaN)
+  if (!length(measure$predict_sets)) {
+    score = get_private(measure)$.score(
+      prediction = NULL, task = task, learner = learner, train_set = train_set
+    )
+    return(score)
   }
 
   # merge multiple predictions (on different predict sets) to a single one
@@ -358,6 +366,12 @@ score_single_measure = function(measure, task, learner, train_set, prediction) {
 
   # convert pdata to regular prediction
   prediction = as_prediction(prediction, check = FALSE)
+
+  if (is.null(prediction) && length(measure$predict_sets)) {
+    return(NaN)
+  }
+
+
 
   if (!is_scalar_na(measure$predict_type) && measure$predict_type %nin% prediction$predict_types) {
     # TODO lgr$debug()

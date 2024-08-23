@@ -199,7 +199,7 @@ sanity_check.PredictionRegr = function(prediction, ...) {
 }
 registerS3method("sanity_check", "LearnerRegr", sanity_check.PredictionRegr)
 
-run_experiment = function(task, learner, seed = NULL) {
+run_experiment = function(task, learner, seed = NULL, configure_learner = NULL) {
   err = function(info, ...) {
     info = sprintf(info, ...)
     list(
@@ -225,6 +225,9 @@ run_experiment = function(task, learner, seed = NULL) {
 
   task = mlr3::assert_task(mlr3::as_task(task))
   learner = mlr3::assert_learner(mlr3::as_learner(learner, clone = TRUE))
+  if (!is.null(configure_learner)) {
+    configure_learner(learner = learner, task = task)
+  }
   prediction = NULL
   score = NULL
   learner$encapsulate = c(train = "evaluate", predict = "evaluate")
@@ -362,7 +365,10 @@ run_experiment = function(task, learner, seed = NULL) {
   return(list(ok = TRUE, learner = learner, prediction = prediction, error = character(), seed = seed))
 }
 
-run_autotest = function(learner, N = 30L, exclude = NULL, predict_types = learner$predict_types, check_replicable = TRUE) {
+run_autotest = function(learner, N = 30L, exclude = NULL, predict_types = learner$predict_types, check_replicable = TRUE, configure_learner = NULL) { # nolint
+  if (!is.null(configure_learner)) {
+    checkmate::assert_function(configure_learner, args = c("learner", "task"))
+  }
   learner = learner$clone(deep = TRUE)
   id = learner$id
   tasks = generate_tasks(learner, N = N)
@@ -387,6 +393,10 @@ run_autotest = function(learner, N = 30L, exclude = NULL, predict_types = learne
     for (predict_type in predict_types) {
       learner$id = sprintf("%s:%s", id, predict_type)
       learner$predict_type = predict_type
+
+      if (predict_type == "quantiles") {
+        learner$quantiles = 0.5
+      }
 
       run = run_experiment(task, learner)
       if (!run$ok) {

@@ -256,9 +256,9 @@ Returns the total number of columns with role "feature" (i.e. the number of "act
 Returns a table with columns \code{id} and \code{type} where \code{id} are the column names of "active"
 features of the task and \code{type} is the storage type.}
 
-\item{\code{data_formats}}{\code{character()}\cr
-Vector of supported data output formats.
-A specific format can be chosen in the \verb{$data()} method.}
+\item{\code{data_formats}}{(\code{character()})\cr
+Supported data format. Always \code{"data.table"}..
+This is deprecated and will be removed in the future.}
 
 \item{\code{strata}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
 If the task has columns designated with role \code{"stratum"}, returns a table with one subpopulation per row and two columns:
@@ -476,7 +476,7 @@ Printer.
 \if{html}{\out{<a id="method-Task-data"></a>}}
 \if{latex}{\out{\hypertarget{method-Task-data}{}}}
 \subsection{Method \code{data()}}{
-Returns a slice of the data from the \link{DataBackend} in the data format specified by \code{data_format}.
+Returns a slice of the data from the \link{DataBackend} as a \code{data.table}.
 Rows default to observations with role \code{"use"}, and
 columns default to features with roles \code{"target"} or \code{"feature"}.
 If \code{rows} or \code{cols} are specified which do not exist in the \link{DataBackend},
@@ -489,12 +489,7 @@ If \code{cols} is \code{NULL}, the column order defaults to
 Note that it is recommended to \strong{not} rely on the order of columns, and instead always
 address columns with their respective column name.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Task$data(
-  rows = NULL,
-  cols = NULL,
-  data_format = "data.table",
-  ordered = FALSE
-)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Task$data(rows = NULL, cols = NULL, data_format, ordered = FALSE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -508,7 +503,7 @@ Always refers to the complete data set, even after filtering.}
 Vector of column names.}
 
 \item{\code{data_format}}{(\code{character(1)})\cr
-Desired data format, e.g. \code{"data.table"} or \code{"Matrix"}.}
+Deprecated. Ignored, and will be removed in the future.}
 
 \item{\code{ordered}}{(\code{logical(1)})\cr
 If \code{TRUE}, data is ordered according to the columns with column role \code{"order"}.}

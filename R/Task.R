@@ -1,6 +1,7 @@
 #' @title Task Class
 #'
 #' @include mlr_reflections.R
+#' @include warn_deprecated.R
 #'
 #' @description
 #' This is the abstract base class for [TaskSupervised] and [TaskUnsupervised].
@@ -255,7 +256,7 @@ Task = R6Class("Task",
     },
 
     #' @description
-    #' Returns a slice of the data from the [DataBackend] in the data format specified by `data_format`.
+    #' Returns a slice of the data from the [DataBackend] as a `data.table`.
     #' Rows default to observations with role `"use"`, and
     #' columns default to features with roles `"target"` or `"feature"`.
     #' If `rows` or `cols` are specified which do not exist in the [DataBackend],
@@ -272,10 +273,10 @@ Task = R6Class("Task",
     #'   If `TRUE`, data is ordered according to the columns with column role `"order"`.
     #'
     #' @return Depending on the [DataBackend], but usually a [data.table::data.table()].
-    data = function(rows = NULL, cols = NULL, data_format = "data.table", ordered = FALSE) {
+    data = function(rows = NULL, cols = NULL, data_format, ordered = FALSE) {
       assert_has_backend(self)
-      assert_choice(data_format, self$data_formats)
       assert_flag(ordered)
+      if (!missing(data_format)) warn_deprecated("Task$data argument 'data_format'")
 
       row_roles = private$.row_roles
       col_roles = private$.col_roles
@@ -298,13 +299,10 @@ Task = R6Class("Task",
 
       reorder_rows = length(col_roles$order) > 0L && ordered
       if (reorder_rows) {
-        if (data_format != "data.table") {
-          stopf("Ordering only supported for data_format 'data.table'")
-        }
         query_cols = union(query_cols, col_roles$order)
       }
 
-      data = self$backend$data(rows = rows, cols = query_cols, data_format = data_format)
+      data = self$backend$data(rows = rows, cols = query_cols)
 
       if (length(query_cols) && nrow(data) != length(rows)) {
         stopf("DataBackend did not return the queried rows correctly: %i requested, %i received", length(rows), nrow(data))
@@ -1005,13 +1003,10 @@ Task = R6Class("Task",
       setkeyv(self$col_info[list(private$.col_roles$feature), c("id", "type"), on = "id"], "id")
     },
 
-    #' @field data_formats `character()`\cr
-    #'   Vector of supported data output formats.
-    #'   A specific format can be chosen in the `$data()` method.
-    data_formats = function(rhs) {
-      assert_ro_binding(rhs)
-      self$backend$data_formats %??% character()
-    },
+    #' @field data_formats (`character()`)\cr
+    #' Supported data format. Always `"data.table"`..
+    #' This is deprecated and will be removed in the future.
+    data_formats = deprecated_binding("Task$data_formats", "data.table"),
 
     #' @field strata ([data.table::data.table()])\cr
     #' If the task has columns designated with role `"stratum"`, returns a table with one subpopulation per row and two columns:

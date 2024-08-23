@@ -11,6 +11,7 @@ in binary classification tasks.
 \details{
 This measure counts the false positives (type 1 error), i.e. the number of
 predictions indicating a positive class label while in fact it is negative.
+This is sometimes also called a "false alarm".
 }
 \note{
 The score function calls \code{\link[mlr3measures:fp]{mlr3measures::fp()}} from package \CRANpkg{mlr3measures}.
@@ -68,6 +69,7 @@ Other classification measures:
 \code{\link{mlr_measures_classif.mauc_au1u}},
 \code{\link{mlr_measures_classif.mauc_aunp}},
 \code{\link{mlr_measures_classif.mauc_aunu}},
+\code{\link{mlr_measures_classif.mauc_mu}},
 \code{\link{mlr_measures_classif.mbrier}},
 \code{\link{mlr_measures_classif.mcc}},
 \code{\link{mlr_measures_classif.npv}},
