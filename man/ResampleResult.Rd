@@ -198,13 +198,13 @@ If you calculate the performance on this prediction object directly, this is cal
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{predict_sets}}{(\code{character()})\cr}
+\item{\code{predict_sets}}{(\code{character()})\cr
+Subset of \verb{\{"train", "test"\}}.}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-\link{Prediction}.
-Subset of \verb{\{"train", "test"\}}.
+\link{Prediction} or empty \code{list()} if no predictions are available.
 }
 }
 \if{html}{\out{<hr>}}
@@ -231,6 +231,7 @@ Subset of \verb{\{"train", "test", "internal_valid"\}}.}
 }
 \subsection{Returns}{
 List of \link{Prediction} objects, one per element in \code{predict_sets}.
+Or list of empty \code{list()}s if no predictions are available.
 }
 }
 \if{html}{\out{<hr>}}
