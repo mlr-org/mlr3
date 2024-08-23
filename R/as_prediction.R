@@ -42,7 +42,7 @@ as_predictions = function(x, predict_sets = "test", ...) {
 #' @rdname as_prediction
 #' @export
 as_predictions.list = function(x, predict_sets = "test", ...) { # nolint
-  result = vector("list", length(x))
+  result = replicate(length(x), list())
   ii = lengths(x) > 0L
   result[ii] = map(x[ii], function(li) {
     assert_list(li, "PredictionData")
