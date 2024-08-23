@@ -47,6 +47,7 @@ test_that("encapsulation", {
   expect_data_table(learner$log, nrows = 0L)
   expect_character(learner$warnings, len = 0L, any.missing = FALSE)
   expect_character(learner$errors, len = 0L, any.missing = FALSE)
+  learner$predict(task)
   expect_character(learner$warnings, len = 0L, any.missing = FALSE)
   expect_character(learner$errors, len = 1L, any.missing = FALSE)
 })
