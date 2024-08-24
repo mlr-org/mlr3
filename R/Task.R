@@ -886,7 +886,7 @@ Task = R6Class("Task",
     #'
     #' * `"strata"`: The task is resampled using one or more stratification variables (role `"stratum"`).
     #' * `"groups"`: The task comes with grouping/blocking information (role `"group"`).
-    #' * `"weights_learnering"`: If the task has observation weights with this role, they are passed to the [Learner] during train.
+    #' * `"weights_learner"`: If the task has observation weights with this role, they are passed to the [Learner] during train.
     #'    The use of weights can be disabled via by setting the learner's hyperparameter `use_weights` to `FALSE`.
     #' * `"weights_measure"`: If the task has observation weights with this role, they are passed to the [Measure] for weighted scoring.
     #'    The use of weights can be disabled via by setting the measure's hyperparameter `use_weights` to `FALSE`.
@@ -945,7 +945,7 @@ Task = R6Class("Task",
     #'   For each resampling iteration, observations of the same group will be exclusively assigned to be either in the training set or in the test set.
     #'   Not more than a single column can be associated with this role.
     #' * `"stratum"`: Stratification variables. Multiple discrete columns may have this role.
-    #' * `"weights_learnering"`: If the task has observation weights with this role, they are passed to the [Learner] during train.
+    #' * `"weights_learner"`: If the task has observation weights with this role, they are passed to the [Learner] during train.
     #'    The use of weights can be disabled via by setting the learner's hyperparameter `use_weights` to `FALSE`.
     #' * `"weights_measure"`: If the task has observation weights with this role, they are passed to the [Measure] for weighted scoring.
     #'    The use of weights can be disabled via by setting the measure's hyperparameter `use_weights` to `FALSE`.

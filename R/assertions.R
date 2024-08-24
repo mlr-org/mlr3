@@ -160,6 +160,16 @@ assert_learnable = function(task, learner) {
   if (task$task_type == "unsupervised") {
     stopf("%s cannot be trained with %s", learner$format(), task$format())
   }
+  # we only need to check whether the learner wants to error on weights in training,
+  # since weights_learner are always ignored during prediction.
+  if (learner$use_weights == "error" && "weights_learner" %in% task$properties) {
+    stopf("%s cannot be trained with weights in %s%s", learner$format(), task$format(),
+      if ("weights_learner" %in% learner$properties) {
+        " since 'use_weights' was set to 'error'."
+      } else {
+        " since the Learner does not support weights.\nYou may set 'use_weights' to 'ignore' if you want the Learner to ignore weights."
+      })
+  }
   assert_task_learner(task, learner)
 }
 

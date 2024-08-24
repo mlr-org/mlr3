@@ -233,9 +233,11 @@ Learner = R6Class("Learner",
       self$man = assert_string(man, na.ok = TRUE)
 
       if ("weights" %in% self$properties) {
-        param_set = c(param_set, ps(use_weights = p_lgl(default = TRUE, tags = "train")))
+        self$use_weights = "use"
+      } else {
+        self$use_weights = "ignore"
       }
-      private$.param_set = assert_param_set(param_set)
+      private$.param_set = param_set
 
       check_packages_installed(packages, msg = sprintf("Package '%%s' required but not installed for Learner '%s'", id))
     },
@@ -465,6 +467,25 @@ Learner = R6Class("Learner",
   ),
 
   active = list(
+    #' @field use_weights (`character(1)`)\cr
+    #' How to use weights.
+    #' Settings are `"use"` `"ignore"`, and `"error"`.
+    #'
+    #' * `"use"`: use weights, as supported by the underlying `Learner`.
+    #' * `"ignore"`: do not use weights.
+    #' * `"error"`: throw an error if weights are present in the training `Task`.
+    #'
+    #' For `Learner`s with the property `"weights_learner"`, this is initialized as `"use"`.
+    #' For `Learner`s that do not support weights, i.e. without the `"weights_learner"` property, this is initialized as `"error"`.
+    #' This behaviour is to avoid cases where a user erroneously assumes that a `Learner` supports weights when it does not.
+    use_weights = function(rhs) {
+      if (!missing(rhs)) {
+        assert_choice(rhs, c(if ("weights" %in% self$properties) "use", "ignore", "error"))
+        private$.use_weights = rhs
+      }
+      private$.use_weights
+    },
+
     #' @field data_formats (`character()`)\cr
     #' Supported data format. Always `"data.table"`..
     #' This is deprecated and will be removed in the future.
@@ -622,11 +643,28 @@ Learner = R6Class("Learner",
   ),
 
   private = list(
+    .use_weights = NULL,
     .encapsulate = NULL,
     .fallback = NULL,
     .predict_type = NULL,
     .param_set = NULL,
     .hotstart_stack = NULL,
+
+    # retrieve weights from a task, if it has weights and if the user did not
+    # deactivate weight usage through `self$use_weights`.
+    # - `task`: Task to retrieve weights from
+    # - `no_weights_val`: Value to return if no weights are found (default NULL)
+    # return: Numeric vector of weights or `no_weights_val` (default NULL)
+    .get_weights = function(task, no_weights_val = NULL) {
+      if ("weights" %nin% self$properties) {
+        stop("private$.get_weights should not be used in Learners that do not have the 'weights_learner' property.")
+      }
+      if (self$use_weights == "use" && "weights_learner" %in% task$properties) {
+        task$weights_learner$weight
+      } else {
+        no_weights_val
+      }
+    },
 
     deep_clone = function(name, value) {
       switch(name,
