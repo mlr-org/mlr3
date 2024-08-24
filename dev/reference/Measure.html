@@ -350,23 +350,13 @@ The observation-wise loss function, e.g. <a href="https://mlr3measures.mlr-org.c
 Properties of the measure.
 Must be a subset of <a href="mlr_reflections.html">mlr_reflections$measure_properties</a>.
 Supported by <code>mlr3</code>:</p><ul><li><p><code>"requires_task"</code> (requires the complete <a href="Task.html">Task</a>),</p></li>
-<li><p><code>"requires_learner"</code> (requires the trained <a href="Learner.html">Learner</a>),
-&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</p></li>
+<li><p><code>"requires_learner"</code> (requires the trained <a href="Learner.html">Learner</a>),</p></li>
 <li><p><code>"requires_model"</code> (requires the trained <a href="Learner.html">Learner</a>, including the fitted model),</p></li>
 <li><p><code>"requires_train_set"</code> (requires the training indices from the <a href="Resampling.html">Resampling</a>),</p></li>
 <li><p><code>"na_score"</code> (the measure is expected to occasionally return <code>NA</code> or <code>NaN</code>),</p></li>
 <li><p><code>"weights"</code> (support weighted scoring using sample weights from task, column role <code>weights_measure</code>), and</p></li>
-<li><p><code>"primary_iters"</code> (the measure explictly handles resamplings that only use a subset of their iterations for the point estimate)
-=======</p></li>
-<li><p><code>"requires_model"</code> (requires the trained <a href="Learner.html">Learner</a>, including the fitted
-model),</p></li>
-<li><p><code>"requires_train_set"</code> (requires the training indices from the <a href="Resampling.html">Resampling</a>), and</p></li>
-<li><p><code>"na_score"</code> (the measure is expected to occasionally return <code>NA</code> or <code>NaN</code>).</p></li>
-<li><p><code>"primary_iters"</code> (the measure explictly handles resamplings that only use a subset
-of their iterations for the point estimate).</p></li>
-<li><p><code>"requires_no_prediction"</code> (No prediction is required; This usually means that the
-measure extracts some information from the learner state.).
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; main</p></li>
+<li><p><code>"primary_iters"</code> (the measure explictly handles resamplings that only use a subset of their iterations for the point estimate)</p></li>
+<li><p><code>"requires_no_prediction"</code> (No prediction is required; This usually means that the measure extracts some information from the learner state.).</p></li>
 </ul></dd>
 
 
