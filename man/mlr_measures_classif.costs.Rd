@@ -81,8 +81,6 @@ Other Measure:
 \code{\link{MeasureRegr}},
 \code{\link{MeasureSimilarity}},
 \code{\link{mlr_measures}},
-\code{\link{mlr_measures_aic}},
-\code{\link{mlr_measures_bic}},
 \code{\link{mlr_measures_debug_classif}},
 \code{\link{mlr_measures_elapsed_time}},
 \code{\link{mlr_measures_internal_valid_score}},
