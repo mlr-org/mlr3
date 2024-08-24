@@ -29,10 +29,12 @@ test_that("average with micro/macro", {
   expect_equal(aggr[[2]], macro$score(rr$prediction("test")))
 })
 
-test_that("k is hashed in AIC", {
-  m1 = msr("aic", k = 2)
-  m2 = msr("aic", k = 3)
-
+test_that("param values are hashed", {
+  task = tsk("iris")
+  costs = matrix(1:9, nrow = 3)
+  dimnames(costs) = list(truth = task$class_names, predicted = task$class_names)
+  m1 = msr("classif.costs", costs = costs, normalize = TRUE)
+  m2 = msr("classif.costs", costs = costs, normalize = FALSE)
   expect_true(m1$hash != m2$hash)
 })
 

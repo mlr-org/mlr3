@@ -46,8 +46,6 @@ To filter variables using the importance scores, see package \CRANpkg{mlr3filter
 The learner must be tagged with property \code{"selected_features"}.
 \item \code{oob_error(...)}: Returns the out-of-bag error of the model as \code{numeric(1)}.
 The learner must be tagged with property \code{"oob_error"}.
-\item \code{loglik(...)}: Extracts the log-likelihood (c.f. \code{\link[stats:logLik]{stats::logLik()}}).
-This can be used in measures like \link{mlr_measures_aic} or \link{mlr_measures_bic}.
 \item \code{internal_valid_scores}: Returns the internal validation score(s) of the model as a named \code{list()}.
 Only available for \code{\link{Learner}}s with the \code{"validation"} property.
 If the learner is not trained yet, this returns \code{NULL}.

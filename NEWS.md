@@ -23,6 +23,7 @@
 * feat: Added new measure `mu_auc`.
 * feat: Add option to calculate the mean of the true values on the train set in `msr("regr.rsq")`.
 * feat: Default fallback learner is set when encapsulation is activated.
+* remove: Measures AIC, BIC and `Learner$loglik` have been removed
 
 # mlr3 0.20.2
 
