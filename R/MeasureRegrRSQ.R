@@ -48,6 +48,8 @@ MeasureRegrRSQ = R6Class("MeasureRSQ",
   ),
 
   private = list(
+    # this is not included in the paramset as this flag influences properties of the learner
+    # so this flag should not be "dynamic state"
     .pred_set_mean = NULL,
 
     .score = function(prediction, task = NULL, train_set = NULL, ...) {
