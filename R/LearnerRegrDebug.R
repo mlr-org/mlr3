@@ -48,6 +48,27 @@ LearnerRegrDebug = R6Class("LearnerRegrDebug", inherit = LearnerRegr,
         man = "mlr3::mlr_learners_regr.debug",
         label = "Debug Learner for Regression"
       )
+    },
+
+    #' @description
+    #' Returns 0 for each feature seen in training.
+    #' @return Named `numeric()`.
+    importance = function() {
+      if (is.null(self$model)) {
+        stopf("No model stored")
+      }
+      fns = self$state$feature_names
+      set_names(rep(0, length(fns)), fns)
+    },
+
+    #' @description
+    #' Always returns character(0).
+    #' @return `character()`.
+    selected_features = function() {
+      if (is.null(self$model)) {
+        stopf("No model stored")
+      }
+      character(0)
     }
   ),
   private = list(

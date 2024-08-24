@@ -93,6 +93,8 @@ Other Learner:
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-LearnerRegrDebug-new}{\code{LearnerRegrDebug$new()}}
+\item \href{#method-LearnerRegrDebug-importance}{\code{LearnerRegrDebug$importance()}}
+\item \href{#method-LearnerRegrDebug-selected_features}{\code{LearnerRegrDebug$selected_features()}}
 \item \href{#method-LearnerRegrDebug-clone}{\code{LearnerRegrDebug$clone()}}
 }
 }
@@ -119,6 +121,32 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 \if{html}{\out{<div class="r">}}\preformatted{LearnerRegrDebug$new()}\if{html}{\out{</div>}}
 }
 
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-LearnerRegrDebug-importance"></a>}}
+\if{latex}{\out{\hypertarget{method-LearnerRegrDebug-importance}{}}}
+\subsection{Method \code{importance()}}{
+Returns 0 for each feature seen in training.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{LearnerRegrDebug$importance()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+Named \code{numeric()}.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-LearnerRegrDebug-selected_features"></a>}}
+\if{latex}{\out{\hypertarget{method-LearnerRegrDebug-selected_features}{}}}
+\subsection{Method \code{selected_features()}}{
+Always returns character(0).
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{LearnerRegrDebug$selected_features()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+\code{character()}.
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-LearnerRegrDebug-clone"></a>}}
