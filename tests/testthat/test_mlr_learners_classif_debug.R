@@ -81,3 +81,13 @@ test_that("marshaling", {
   p2 = l$marshal()$unmarshal()$predict(task)
   expect_equal(p1, p2)
 })
+
+test_that("importance and selected features", {
+  l = lrn("classif.debug")
+  task = tsk("iris")
+  l$train(task)
+  expect_equal(l$selected_features(), character(0))
+  expect_equal(l$importance(), set_names(rep(0, task$n_features), task$feature_names))
+})
+
+
