@@ -236,13 +236,8 @@ run_experiment = function(task, learner, seed = NULL, configure_learner = NULL) 
 
   # enable weights
   if ("weights" %in% learner$properties) {
-    # learner must have flag "use_weights"
-    msg = checkmate::check_subset("use_weights", learner$param_set$ids(), empty.ok = FALSE)
-    if (!isTRUE(msg)) {
-      return(err(msg))
-    }
-    if ("weights_learner" %in% task$properties) {
-      learner$param_set$values$use_weights = TRUE
+    if (learner$use_weights != "use") {
+      return(err("use_weights != 'use' for learner with property 'weights' on init!"))
     }
   }
 
