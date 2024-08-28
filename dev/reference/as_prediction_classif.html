@@ -90,14 +90,14 @@ Additional arguments.</p></dd>
 <span class="r-in"><span><span class="co"># convert back to a Prediction</span></span></span>
 <span class="r-in"><span><span class="fu">as_prediction_classif</span><span class="op">(</span><span class="va">tab</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;PredictionClassif&gt; for 344 observations:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     row_ids     truth  response prob.Adelie prob.Chinstrap prob.Gentoo</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           1    Adelie    Adelie  0.96688742     0.03311258  0.00000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           2    Adelie    Adelie  0.96688742     0.03311258  0.00000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           3    Adelie    Adelie  0.96688742     0.03311258  0.00000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ---                                                                   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         342 Chinstrap Chinstrap  0.06349206     0.92063492  0.01587302</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         343 Chinstrap Chinstrap  0.28571429     0.71428571  0.00000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         344 Chinstrap Chinstrap  0.06349206     0.92063492  0.01587302</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  row_ids     truth  response prob.Adelie prob.Chinstrap prob.Gentoo</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        1    Adelie    Adelie  0.96688742     0.03311258  0.00000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        2    Adelie    Adelie  0.96688742     0.03311258  0.00000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        3    Adelie    Adelie  0.96688742     0.03311258  0.00000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      ---       ---       ---         ---            ---         ---</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      342 Chinstrap Chinstrap  0.06349206     0.92063492  0.01587302</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      343 Chinstrap Chinstrap  0.28571429     0.71428571  0.00000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      344 Chinstrap Chinstrap  0.06349206     0.92063492  0.01587302</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># split data.table into a list of data.tables</span></span></span>
 <span class="r-in"><span><span class="va">tabs</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span><span class="va">tab</span>, <span class="va">tab</span><span class="op">$</span><span class="va">truth</span><span class="op">)</span></span></span>

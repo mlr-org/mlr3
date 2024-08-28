@@ -90,14 +90,14 @@ Additional arguments.</p></dd>
 <span class="r-in"><span><span class="co"># convert back to a Prediction</span></span></span>
 <span class="r-in"><span><span class="fu">as_prediction_regr</span><span class="op">(</span><span class="va">tab</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;PredictionRegr&gt; for 32 observations:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     row_ids truth response</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           1  21.0 18.26429</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           2  21.0 18.26429</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           3  22.8 26.66364</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ---                       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          30  19.7 18.26429</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          31  15.0 13.41429</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          32  21.4 26.66364</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  row_ids truth response</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        1  21.0 18.26429</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        2  21.0 18.26429</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        3  22.8 26.66364</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      ---   ---      ---</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       30  19.7 18.26429</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       31  15.0 13.41429</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       32  21.4 26.66364</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># split data.table into a list of data.tables</span></span></span>
 <span class="r-in"><span><span class="va">tabs</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span><span class="va">tab</span>, <span class="fu"><a href="https://rdrr.io/r/base/cut.html" class="external-link">cut</a></span><span class="op">(</span><span class="va">tab</span><span class="op">$</span><span class="va">truth</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span></span></span>
