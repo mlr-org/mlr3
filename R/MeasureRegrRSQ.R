@@ -34,6 +34,8 @@ MeasureRegrRSQ = R6Class("MeasureRSQ",
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function(pred_set_mean = TRUE) {
+      # this is not included in the paramset as this flag influences properties of the learner
+      # so this flag should not be "dynamic state"
       private$.pred_set_mean = assert_flag(pred_set_mean)
 
       super$initialize(
