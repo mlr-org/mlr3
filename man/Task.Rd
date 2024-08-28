@@ -195,7 +195,7 @@ The following properties are currently standardized and understood by tasks in \
 \itemize{
 \item \code{"strata"}: The task is resampled using one or more stratification variables (role \code{"stratum"}).
 \item \code{"groups"}: The task comes with grouping/blocking information (role \code{"group"}).
-\item \code{"weights_learnering"}: If the task has observation weights with this role, they are passed to the \link{Learner} during train.
+\item \code{"weights_learner"}: If the task has observation weights with this role, they are passed to the \link{Learner} during train.
 The use of weights can be disabled via by setting the learner's hyperparameter \code{use_weights} to \code{FALSE}.
 \item \code{"weights_measure"}: If the task has observation weights with this role, they are passed to the \link{Measure} for weighted scoring.
 The use of weights can be disabled via by setting the measure's hyperparameter \code{use_weights} to \code{FALSE}.
@@ -227,7 +227,7 @@ Columns must be sortable with \code{\link[=order]{order()}}.
 For each resampling iteration, observations of the same group will be exclusively assigned to be either in the training set or in the test set.
 Not more than a single column can be associated with this role.
 \item \code{"stratum"}: Stratification variables. Multiple discrete columns may have this role.
-\item \code{"weights_learnering"}: If the task has observation weights with this role, they are passed to the \link{Learner} during train.
+\item \code{"weights_learner"}: If the task has observation weights with this role, they are passed to the \link{Learner} during train.
 The use of weights can be disabled via by setting the learner's hyperparameter \code{use_weights} to \code{FALSE}.
 \item \code{"weights_measure"}: If the task has observation weights with this role, they are passed to the \link{Measure} for weighted scoring.
 The use of weights can be disabled via by setting the measure's hyperparameter \code{use_weights} to \code{FALSE}.

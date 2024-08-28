@@ -262,6 +262,19 @@ Defaults to \code{NA}, but can be set by child classes.}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
+\item{\code{use_weights}}{(\code{character(1)})\cr
+How to use weights.
+Settings are \code{"use"} \code{"ignore"}, and \code{"error"}.
+\itemize{
+\item \code{"use"}: use weights, as supported by the underlying \code{Learner}.
+\item \code{"ignore"}: do not use weights.
+\item \code{"error"}: throw an error if weights are present in the training \code{Task}.
+}
+
+For \code{Learner}s with the property \code{"weights_learner"}, this is initialized as \code{"use"}.
+For \code{Learner}s that do not support weights, i.e. without the \code{"weights_learner"} property, this is initialized as \code{"error"}.
+This behaviour is to avoid cases where a user erroneously assumes that a \code{Learner} supports weights when it does not.}
+
 \item{\code{data_formats}}{(\code{character()})\cr
 Supported data format. Always \code{"data.table"}..
 This is deprecated and will be removed in the future.}

@@ -269,7 +269,7 @@ test_that("weights", {
   task = TaskClassif$new("weighted_task", data, "Species")
   task$set_col_roles("w", "weights_learner")
 
-  learner = lrn("classif.rpart", use_weights = TRUE)
+  learner = lrn("classif.rpart", use_weights = "use")
   learner$train(task)
 
   conf = learner$predict(task)$confusion
@@ -625,8 +625,12 @@ test_that("predict time is cumulative", {
   expect_true(t1 > t2)
 })
 
-test_that("weight parameters is added to parameter set", {
-  learner = lrn("classif.rpart")
-  expect_subset("weights", learner$properties)
-  expect_subset("use_weights", learner$param_set$ids())
+test_that("weights properties and defaults", {
+  ll = lrn("classif.rpart")
+  expect_true("weights" %in% ll$properties)
+  expect_equal(ll$use_weights, "use")
+
+  ll = lrn("classif.debug")
+  expect_true("weights" %nin% ll$properties)
+  expect_equal(ll$use_weights, "error")
 })

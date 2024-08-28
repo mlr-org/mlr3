@@ -180,24 +180,24 @@ test_that("custom resampling (#245)", {
   expect_data_table(design, nrows = 1)
 })
 
-test_that("extract params", {
-  # some params, some not
+test_that("extract params in aggregate and score", {
+  # set params differently in a few learners
   lrns = list(
-    lrn("classif.rpart", id = "rp1", xval = 0, use_weights = FALSE),
-    lrn("classif.rpart", id = "rp2", xval = 0, use_weights = FALSE, cp = 0.2, minsplit = 2),
-    lrn("classif.rpart", id = "rp3", xval = 0, use_weights = FALSE, cp = 0.1)
+    lrn("classif.rpart", id = "rp1", xval = 0),
+    lrn("classif.rpart", id = "rp2", xval = 0, cp = 0.2, minsplit = 2),
+    lrn("classif.rpart", id = "rp3", xval = 0, cp = 0.1)
   )
   bmr = benchmark(benchmark_grid(tsk("wine"), lrns, rsmp("cv", folds = 3)))
   aggr = bmr$aggregate(params = TRUE)
   setorder(aggr, "learner_id")
-  expect_list(aggr$params[[1]], names = "unique", len = 2L)
-  expect_list(aggr$params[[2]], names = "unique", len = 4L)
-  expect_list(aggr$params[[3]], names = "unique", len = 3L)
+  expect_list(aggr$params[[1]], names = "unique", len = 1L)
+  expect_list(aggr$params[[2]], names = "unique", len = 3L)
+  expect_list(aggr$params[[3]], names = "unique", len = 2L)
 
   scores = bmr$score()
   pvs = map(scores$learner, function(l) l$param_set$values)
   expect_true(all(sapply(split(lengths(pvs), scores$nr), uniqueN) == 1))
-  expect_set_equal(lengths(pvs), 2:4)
+  expect_set_equal(lengths(pvs), 1:3)
 
   # only one params
   lrns = mlr_learners$mget("classif.featureless")

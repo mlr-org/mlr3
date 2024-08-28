@@ -235,7 +235,7 @@ Learner = R6Class("Learner",
       if ("weights" %in% self$properties) {
         self$use_weights = "use"
       } else {
-        self$use_weights = "ignore"
+        self$use_weights = "error"
       }
       private$.param_set = param_set
 
