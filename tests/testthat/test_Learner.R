@@ -573,7 +573,10 @@ test_that("column info is compared during predict", {
   task_other = as_task_classif(dother, target = "y")
   l = lrn("classif.rpart")
   l$train(task)
+  old_threshold = lg$threshold
+  lg$set_threshold("warn")
   expect_output(l$predict(task_flip), "task with different column info")
+  lg$set_threshold(old_threshold)
   expect_error(l$predict(task_other), "with different columns")
 })
 
