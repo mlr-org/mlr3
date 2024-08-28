@@ -235,9 +235,15 @@ run_experiment = function(task, learner, seed = NULL, configure_learner = NULL) 
   stage = "train()"
 
   # enable weights
+  # the next lines are maybe not strictly necessary, but test that the defaults are
+  # what they should be
   if ("weights" %in% learner$properties) {
     if (learner$use_weights != "use") {
       return(err("use_weights != 'use' for learner with property 'weights' on init!"))
+    }
+  } else {
+    if (learner$use_weights != "error") {
+      return(err("use_weights != 'error' for learner without property 'weights' on init!"))
     }
   }
 
