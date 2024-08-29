@@ -557,3 +557,13 @@ test_that("obs_loss", {
   expect_true(all(is.na(tbl$classif.auc)))
   expect_integer(tbl$classif.acc)
 })
+
+test_that("predictions retrieved with as.data.table and predictions method are equal", {
+  tab = as.data.table(bmr)
+  predictions = unlist(map(bmr$resample_results$resample_result, function(rr) rr$predictions()), recursive = FALSE)
+  expect_equal(tab$prediction, predictions)
+
+  tab = as.data.table(bmr, predict_sets = "train")
+  predictions = unlist(map(bmr$resample_results$resample_result, function(rr) rr$predictions(predict_sets = "train")), recursive = FALSE)
+  expect_equal(tab$prediction, predictions)
+})
