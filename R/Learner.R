@@ -572,6 +572,11 @@ Learner = R6Class("Learner",
         fallback_id = mlr_reflections$learner_fallback[[self$task_type]]
         if (!is.null(fallback_id)) {
           self$fallback = lrn(mlr_reflections$learner_fallback[[self$task_type]], predict_type = self$predict_type)
+
+          if (self$predict_type == "quantiles") {
+            self$fallback$quantiles = self$quantiles
+            self$fallback$quantile_response = self$quantile_response
+          }
         }
       }
     },
