@@ -1,17 +1,25 @@
 # Learner autotest suite
 #
 # `run_experiment(task, learner)` runs a single experiment.
-# Returns a list with success flag "status" (`logical(1)`),
-# "experiment" (partially constructed experiment), and "error"
-# (informative error message).
+# Returns a list with success flag "status" (`logical(1)`), "experiment" (partially constructed experiment), and "error" (informative error message).
 #
-# `run_autotest(learner)` generates multiple tasks, depending on the properties of the learner.
-# and tests the learner on each task, with each predict type.
-# To debug, simply run `result = run_autotest(learner)` and proceed with investigating
-# the task, learner and prediction of the returned `result`.
+# `run_autotest(learner)` generates multiple tasks, depending on the properties of the learner and tests the learner on each task, with each predict type.
+# To debug, simply run `result = run_autotest(learner)` and proceed with investigating he task, learner and prediction of the returned `result`.
 #
 # NB: Extension packages need to specialize the S3 methods in the file.
 
+
+#' @title Generate Tasks for a Learner
+#'
+#' @description
+#' Generates multiple tasks for a given [Learner], based on its properties.
+#'
+#' @param learner [Learner]\cr
+#'  Learner to generate tasks for.
+#' @param proto [Task]\cr
+#'  Prototype task to generate tasks from.
+#'
+#' @noRd
 generate_generic_tasks = function(learner, proto) {
   tasks = list()
   n = proto$nrow
@@ -76,6 +84,18 @@ generate_generic_tasks = function(learner, proto) {
   })
 }
 
+#' @title Generate Data for a Learner
+#'
+#' @description
+#' Generates data for a given [Learner], based on its supported feature types.
+#' Data is created for logical, integer, numeric, character, factor, ordered, and POSIXct features.
+#'
+#' @param learner [Learner]\cr
+#'  Learner to generate data for.
+#' @param N `integer(1)`\cr
+#'  Number of rows of generated data.
+#'
+#' @noRd
 generate_data = function(learner, N) {
   generate_feature = function(type) {
     switch(type,
@@ -99,7 +119,7 @@ generate_data = function(learner, N) {
 #' This function is primarily used for unit tests, but can also assist while
 #' writing custom learners.
 #'
-#' @param learner :: [Learner].
+#' @param learner [Learner].
 #' @param N :: `integer(1)`\cr
 #'   Number of rows of generated tasks.
 #'
