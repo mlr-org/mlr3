@@ -31,8 +31,10 @@ msr("regr.bias")
 }
 
 \section{Parameters}{
-
-Empty ParamSet
+\tabular{llll}{
+   Id \tab Type \tab Default \tab Levels \cr
+   use_weights \tab logical \tab FALSE \tab TRUE, FALSE \cr
+}
 }
 
 \section{Meta Information}{

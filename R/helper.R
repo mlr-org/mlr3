@@ -67,6 +67,7 @@ assert_validate = function(x) {
   assert_choice(x, c("predefined", "test"), null.ok = TRUE)
 }
 
+
 get_obs_loss = function(tab, measures) {
   for (measure in measures) {
     fun = measure$obs_loss

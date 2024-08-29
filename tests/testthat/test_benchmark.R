@@ -180,8 +180,8 @@ test_that("custom resampling (#245)", {
   expect_data_table(design, nrows = 1)
 })
 
-test_that("extract params", {
-  # some params, some not
+test_that("extract params in aggregate and score", {
+  # set params differently in a few learners
   lrns = list(
     lrn("classif.rpart", id = "rp1", xval = 0),
     lrn("classif.rpart", id = "rp2", xval = 0, cp = 0.2, minsplit = 2),

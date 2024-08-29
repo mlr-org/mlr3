@@ -57,6 +57,16 @@ If the learner is not trained yet, this returns \code{NULL}.
 }
 }
 
+\section{Weights}{
+
+
+Many learners support observation weights, indicated by their property \code{"weights"}.
+The weights are stored in the \link{Task} where the column role \code{weights_learner} needs to be assigned to a single numeric column.
+The weights are automatically used if found in the task, this can be disabled by setting the hyperparamerter \code{use_weights} to \code{FALSE}.
+If the learner is set-up to use weights but the task does not have a designated weight column, an unweighted version is calculated instead.
+The weights do not necessarily need to sum up to 1, they are passed down to the learner.
+}
+
 \section{Setting Hyperparameters}{
 
 
@@ -252,6 +262,19 @@ Defaults to \code{NA}, but can be set by child classes.}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
+\item{\code{use_weights}}{(\code{character(1)})\cr
+How to use weights.
+Settings are \code{"use"} \code{"ignore"}, and \code{"error"}.
+\itemize{
+\item \code{"use"}: use weights, as supported by the underlying \code{Learner}.
+\item \code{"ignore"}: do not use weights.
+\item \code{"error"}: throw an error if weights are present in the training \code{Task}.
+}
+
+For \code{Learner}s with the property \code{"weights_learner"}, this is initialized as \code{"use"}.
+For \code{Learner}s that do not support weights, i.e. without the \code{"weights_learner"} property, this is initialized as \code{"error"}.
+This behaviour is to avoid cases where a user erroneously assumes that a \code{Learner} supports weights when it does not.}
+
 \item{\code{data_formats}}{(\code{character()})\cr
 Supported data format. Always \code{"data.table"}..
 This is deprecated and will be removed in the future.}

@@ -1,6 +1,6 @@
 test_that("bootstrap has duplicated ids", {
   r = rsmp("bootstrap")
-  expect_identical(r$duplicated_ids, TRUE)
+  expect_subset("duplicated_ids", r$properties)
 })
 
 test_that("stratification", {

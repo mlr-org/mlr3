@@ -51,11 +51,11 @@ generate_generic_tasks = function(learner, proto) {
   }
 
   # task with weights
-  if ("weights" %in% learner$properties) {
+  if ("weights_learner" %in% learner$properties) {
     tmp = proto$clone(deep = TRUE)$cbind(data.frame(weights = runif(n)))
-    tmp$col_roles$weight = "weights"
+    tmp$col_roles$weights_learner = "weights"
     tmp$col_roles$features = setdiff(tmp$col_roles$features, "weights")
-    tasks$weights = tmp
+    tasks$weights_learner = tmp
   }
 
   # task with non-ascii feature names
@@ -233,6 +233,20 @@ run_experiment = function(task, learner, seed = NULL, configure_learner = NULL) 
   learner$encapsulate = c(train = "evaluate", predict = "evaluate")
 
   stage = "train()"
+
+  # enable weights
+  # the next lines are maybe not strictly necessary, but test that the defaults are
+  # what they should be
+  if ("weights" %in% learner$properties) {
+    if (learner$use_weights != "use") {
+      return(err("use_weights != 'use' for learner with property 'weights' on init!"))
+    }
+  } else {
+    if (learner$use_weights != "error") {
+      return(err("use_weights != 'error' for learner without property 'weights' on init!"))
+    }
+  }
+
   ok = try(learner$train(task), silent = TRUE)
   if (inherits(ok, "try-error")) {
     return(err(as.character(ok)))

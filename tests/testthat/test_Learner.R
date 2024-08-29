@@ -267,9 +267,9 @@ test_that("integer<->numeric conversion in newdata (#533)", {
 test_that("weights", {
   data = cbind(iris, w = rep(c(1, 100, 1), each = 50))
   task = TaskClassif$new("weighted_task", data, "Species")
-  task$set_col_roles("w", "weight")
+  task$set_col_roles("w", "weights_learner")
 
-  learner = lrn("classif.rpart")
+  learner = lrn("classif.rpart", use_weights = "use")
   learner$train(task)
 
   conf = learner$predict(task)$confusion
@@ -626,4 +626,14 @@ test_that("predict time is cumulative", {
   learner$predict(task)
   t2 = learner$timings["predict"]
   expect_true(t1 > t2)
+})
+
+test_that("weights properties and defaults", {
+  ll = lrn("classif.rpart")
+  expect_true("weights" %in% ll$properties)
+  expect_equal(ll$use_weights, "use")
+
+  ll = lrn("classif.debug")
+  expect_true("weights" %nin% ll$properties)
+  expect_equal(ll$use_weights, "error")
 })

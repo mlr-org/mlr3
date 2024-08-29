@@ -16,6 +16,8 @@
 #'   Number of repetitions.
 #' * `ratio` (`numeric(1)`)\cr
 #'   Ratio of observations to put into the training set.
+#' * `use_weights` (`logical(1)`)\cr
+#'   Incorporate observation weights of the [Task] (column role `weights_resampling`), if present.
 #'
 #' @references
 #' `r format_bib("bischl_2012")`
@@ -51,7 +53,7 @@ ResamplingBootstrap = R6Class("ResamplingBootstrap", inherit = Resampling,
       )
       ps$values = list(ratio = 1, repeats = 30L)
 
-      super$initialize(id = "bootstrap", param_set = ps, duplicated_ids = TRUE,
+      super$initialize(id = "bootstrap", param_set = ps, properties = c("duplicated_ids", "weights"),
         label = "Bootstrap", man = "mlr3::mlr_resamplings_bootstrap")
     }
   ),
@@ -65,11 +67,11 @@ ResamplingBootstrap = R6Class("ResamplingBootstrap", inherit = Resampling,
   ),
 
   private = list(
-    .sample = function(ids, ...) {
+    .sample = function(ids, task, weights, ...) {
       pv = self$param_set$values
       nr = round(length(ids) * pv$ratio)
       x = factor(seq_along(ids))
-      M = replicate(pv$repeats, table(sample(x, nr, replace = TRUE)), simplify = "array")
+      M = replicate(pv$repeats, table(sample(x, nr, replace = TRUE, prob = weights)), simplify = "array")
       rownames(M) = NULL
       list(row_ids = ids, M = M)
     },

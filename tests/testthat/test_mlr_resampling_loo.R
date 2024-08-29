@@ -1,6 +1,6 @@
 test_that("loo has no duplicated ids", {
   r = rsmp("loo")
-  expect_identical(r$duplicated_ids, FALSE)
+  expect_disjunct("duplicated_ids", r$properties)
 })
 
 test_that("stratification", {

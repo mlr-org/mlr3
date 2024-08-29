@@ -46,6 +46,16 @@ Next, the grouping information is replaced with the respective row ids to genera
 The sets can be accessed via \verb{$train_set(i)} and \verb{$test_set(i)}, respectively.
 }
 
+\section{Weights}{
+
+
+Many resamlings support observation weights, indicated by their property \code{"weights"}.
+The weights are stored in the \link{Task} where the column role \code{weights_resampling} needs to be assigned to a single numeric column.
+The weights are automatically used if found in the task, this can be disabled by setting the hyperparamerter \code{use_weights} to \code{FALSE}.
+If the resampling is set-up to use weights but the task does not have a designated weight column, an unweighted version is calculated instead.
+The weights do not necessarily need to sum up to 1, they are passed down to argument \code{prob} of \code{\link[=sample]{sample()}}.
+}
+
 \examples{
 r = rsmp("subsampling")
 
@@ -126,10 +136,8 @@ The hash of the \link{Task} which was passed to \code{r$instantiate()}.}
 \item{\code{task_nrow}}{(\code{integer(1)})\cr
 The number of observations of the \link{Task} which was passed to \code{r$instantiate()}.}
 
-\item{\code{duplicated_ids}}{(\code{logical(1)})\cr
-If \code{TRUE}, duplicated rows can occur within a single training set or within a single test set.
-E.g., this is \code{TRUE} for Bootstrap, and \code{FALSE} for cross-validation.
-Only used internally.}
+\item{\code{properties}}{(\code{character()})\cr
+Set of properties.}
 
 \item{\code{man}}{(\code{character(1)})\cr
 String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
@@ -174,7 +182,7 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 \if{html}{\out{<div class="r">}}\preformatted{Resampling$new(
   id,
   param_set = ps(),
-  duplicated_ids = FALSE,
+  properties = character(),
   label = NA_character_,
   man = NA_character_
 )}\if{html}{\out{</div>}}
@@ -189,8 +197,14 @@ Identifier for the new instance.}
 \item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
 Set of hyperparameters.}
 
-\item{\code{duplicated_ids}}{(\code{logical(1)})\cr
-Set to \code{TRUE} if this resampling strategy may have duplicated row ids in a single training set or test set.
+\item{\code{properties}}{(\code{character()})\cr
+Set of properties, i.e.,
+\itemize{
+\item \code{"duplicated_ids"}: duplicated rows can occur within a single training set or within a single test set.
+E.g., this is \code{TRUE} for Bootstrap, and \code{FALSE} for cross-validation.
+\item \code{"weights"}: if present, the resampling supports sample weights (set via column role \code{weights_resampling} in the \link{Task}).
+The weights determine the probability to sample a observation for the training set.
+}
 
 Note that this object is typically constructed via a derived classes, e.g. \link{ResamplingCV} or \link{ResamplingHoldout}.}
 
