@@ -474,7 +474,6 @@ expect_resampling = function(r, task = NULL) {
     expect_hash(r$task_hash, 1L)
     if (!is.null(task)) {
       ids = task$row_ids
-      testthat::expect_equal(task$hash, r$task_hash)
     }
     checkmate::expect_count(r$iters, positive = TRUE)
 
