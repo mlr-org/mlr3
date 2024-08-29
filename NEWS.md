@@ -18,7 +18,8 @@
 * feat: Added new measure `pinballs `.
 * feat: Added new measure `mu_auc`.
 * feat: Add option to calculate the mean of the true values on the train set in `msr("regr.rsq")`.
-* feat: default fallback learner is set when encapsulation is activated.
+* feat: Default fallback learner is set when encapsulation is activated.
+* feat: Learners classif.debug and regr.debug have new methods `$importance()` and `$selected_features()` for testing, also in downstream packages
 
 # mlr3 0.20.2
 
