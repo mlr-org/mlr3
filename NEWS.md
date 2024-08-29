@@ -12,8 +12,8 @@
 * refactor: Deprecated the `$divide()` method
 * fix: `Task$cbind()` now works with non-standard primary keys  for `data.frames` (#961).
 * fix: Triggering of fallback learner now has log-level `"info"` instead of `"debug"` (#972)
-* feat: Added new measure `pinballs `.
-* feat: Added new measure `mu_auc`.
+* feat: Added new measure `regr.pinball` here and in mlr3measures.
+* feat: Added new measure `mu_auc` here and in mlr3measures.
 
 # mlr3 0.20.2
 
