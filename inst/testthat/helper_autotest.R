@@ -19,6 +19,8 @@
 #' @param proto [Task]\cr
 #'  Prototype task to generate tasks from.
 #'
+#' @return (List of [Task]s).
+#'
 #' @noRd
 generate_generic_tasks = function(learner, proto) {
   tasks = list()
@@ -95,6 +97,8 @@ generate_generic_tasks = function(learner, proto) {
 #' @param N `integer(1)`\cr
 #'  Number of rows of generated data.
 #'
+#' @return (data.table).
+#'
 #' @noRd
 generate_data = function(learner, N) {
   generate_feature = function(type) {
@@ -116,11 +120,11 @@ generate_data = function(learner, N) {
 #'
 #' @description
 #' Generates multiple tasks for a given [Learner], based on its properties.
-#' This function is primarily used for unit tests, but can also assist while
-#' writing custom learners.
+#' This function is primarily used for unit tests, but can also assist while writing custom learners.
 #'
-#' @param learner [Learner].
-#' @param N :: `integer(1)`\cr
+#' @param learner [Learner]\cr
+#'  Learner to generate tasks for.
+#' @param N `integer(1)`\cr
 #'   Number of rows of generated tasks.
 #'
 #' @return (List of [Task]s).
