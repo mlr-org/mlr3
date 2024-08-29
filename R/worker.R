@@ -262,21 +262,22 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
   # reduce data.table and blas threads to 1
   if (!is_sequential) {
     setDTthreads(1, restore_after_fork = TRUE)
-    old_blas = Sys.getenv("OPENBLAS_NUM_THREADS")
-    old_mkl = Sys.getenv("MKL_NUM_THREADS")
-    Sys.setenv(OPENBLAS_NUM_THREADS = 1)
-    Sys.setenv(MKL_NUM_THREADS = 1)
-
-    on.exit({
-      Sys.setenv(OPENBLAS_NUM_THREADS = old_blas)
-      Sys.setenv(MKL_NUM_THREADS = old_mkl)
-    }, add = TRUE)
 
     # RhpcBLASctl is licensed under AGPL and therefore should be in suggest #1023
     if (require_namespaces("RhpcBLASctl", quietly = TRUE)) {
       old_blas_threads = RhpcBLASctl::blas_get_num_procs()
       on.exit(RhpcBLASctl::blas_set_num_threads(old_blas_threads), add = TRUE)
       RhpcBLASctl::blas_set_num_threads(1)
+    } else { # try the bare minimum to disable threading of the most popular blas implementations
+      old_blas = Sys.getenv("OPENBLAS_NUM_THREADS")
+      old_mkl = Sys.getenv("MKL_NUM_THREADS")
+      Sys.setenv(OPENBLAS_NUM_THREADS = 1)
+      Sys.setenv(MKL_NUM_THREADS = 1)
+
+      on.exit({
+        Sys.setenv(OPENBLAS_NUM_THREADS = old_blas)
+        Sys.setenv(MKL_NUM_THREADS = old_mkl)
+      }, add = TRUE)
     }
   }
   # restore logger thresholds
