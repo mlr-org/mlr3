@@ -46,6 +46,8 @@ Defaults to all predict typpes of the learner.
 \item \code{check_replicable} (\code{logical(1)})\cr
 Whether to check that running the learner twice with the same seed should result in identical predictions.
 Default is \code{TRUE}.
+\item \code{configure_learner} (\verb{function(learner, task)})\cr
+Before running a \code{learner} on a \code{task}, this function allows to change its parameter values depending on the input task.
 }
 }
 
