@@ -571,7 +571,7 @@ Learner = R6Class("Learner",
         # if there is no fallback, we get a default one from the reflections table
         fallback_id = mlr_reflections$learner_fallback[[self$task_type]]
         if (!is.null(fallback_id)) {
-          self$fallback = lrn(mlr_reflections$learner_fallback[[self$task_type]], predict_type = self$predict_type)
+          self$fallback = lrn(fallback_id, predict_type = self$predict_type)
 
           if (self$predict_type == "quantiles") {
             self$fallback$quantiles = self$quantiles
