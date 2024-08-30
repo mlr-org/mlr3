@@ -567,13 +567,8 @@ Learner = R6Class("Learner",
       assert_names(names(rhs), subset.of = c("train", "predict"))
       private$.encapsulate = insert_named(default, rhs)
 
-      if (is.null(private$.fallback)) {
-        # if there is no fallback, we get a default one from the reflections table
-        fallback_id = mlr_reflections$learner_fallback[[self$task_type]]
-        if (!is.null(fallback_id)) {
-          self$fallback = lrn(fallback_id, predict_type = self$predict_type)
-        }
-      }
+      # if there is no fallback, we get a default one from the reflections table
+      if (is.null(private$.fallback)) set_fallback(self)
     },
 
     #' @field fallback ([Learner])\cr
