@@ -20,6 +20,7 @@
 * feat: Add option to calculate the mean of the true values on the train set in `msr("regr.rsq")`.
 * feat: Default fallback learner is set when encapsulation is activated.
 * feat: Learners classif.debug and regr.debug have new methods `$importance()` and `$selected_features()` for testing, also in downstream packages
+* feat: Set default fallback with `set_fallback()`.
 
 # mlr3 0.20.2
 
