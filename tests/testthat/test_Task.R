@@ -283,6 +283,25 @@ test_that("groups/weights work", {
   }, "up to one")
 })
 
+test_that("col roles are valid", {
+  b = as_data_backend(data.table(
+    y = runif(20),
+    logical = sample(c(TRUE, FALSE), 20, replace = TRUE),
+    numeric = runif(20),
+    integer = sample(1:3, 20, replace = TRUE),
+    factor = factor(sample(letters[1:3], 20, replace = TRUE))))
+  task = TaskRegr$new("test", b, target = "y")
+
+  # weight
+  expect_error(task$set_col_roles("logical", roles = "weight"), "type")
+  expect_error(task$set_col_roles("factor", roles = "weight"), "type")
+
+  # name
+  expect_error(task$set_col_roles("logical", roles = "name"), "type")
+  expect_error(task$set_col_roles("integer", roles = "name"), "type")
+  expect_error(task$set_col_roles("numeric", roles = "name"), "type")
+})
+
 test_that("ordered factors (#95)", {
   df = data.frame(
     x = c(1, 2, 3),

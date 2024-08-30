@@ -1195,6 +1195,20 @@ task_check_col_roles = function(self, new_roles) {
     }
   }
 
+  # check weights
+  if (length(new_roles[["weight"]])) {
+    weights = self$backend$data(self$backend$rownames, cols = new_roles[["weight"]])
+    assert_numeric(weights[[1L]], lower = 0, any.missing = FALSE, .var.name = names(weights))
+  }
+
+  # check name
+  if (length(new_roles[["name"]])) {
+    row_names = self$backend$data(self$backend$rownames, cols = new_roles[["name"]])
+    if (!is.character(row_names[[1L]]) && !is.factor(row_names[[1L]])) {
+      stopf("Assertion on '%s' failed: Must be of type 'character' or 'factor', not %s", names(row_names), class(row_names[[1]]))
+    }
+  }
+
   if (inherits(self, "TaskSupervised")) {
     if (length(new_roles$target) == 0L) {
       stopf("Supervised tasks need at least one target column")

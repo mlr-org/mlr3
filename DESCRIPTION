@@ -196,6 +196,7 @@ Collate:
     'predict.R'
     'reexports.R'
     'resample.R'
+    'set_fallback.R'
     'set_threads.R'
     'set_validate.R'
     'task_converters.R'
