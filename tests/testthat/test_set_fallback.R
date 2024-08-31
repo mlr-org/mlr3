@@ -33,5 +33,4 @@ test_that("fallback = default_fallback() works", {
   expect_equal(fallback$predict_type, "quantiles")
   expect_equal(fallback$quantiles, c(0.1, 0.9))
   expect_equal(fallback$quantile_response, 0.1)
-
 })
