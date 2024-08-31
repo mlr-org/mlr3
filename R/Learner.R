@@ -554,8 +554,6 @@ Learner = R6Class("Learner",
     #' When encapsulation is activated, a fallback learner must be set,
     #  to ensure that some form of valid model / predictions are created,
     #  after an error of the original learner is caught via encapsulation.
-    #' If no learner is set in `$fallback`, the default fallback learner is used (see `mlr_reflections$task_types`).
-    #' See [mlr3misc::encapsulate()] for more details.
     encapsulate = function(rhs) {
       default = c(train = "none", predict = "none")
 
@@ -566,21 +564,11 @@ Learner = R6Class("Learner",
       assert_character(rhs)
       assert_names(names(rhs), subset.of = c("train", "predict"))
       private$.encapsulate = insert_named(default, rhs)
-
-      if (is.null(private$.fallback)) {
-        # if there is no fallback, we get a default one from the reflections table
-        fallback_id = mlr_reflections$learner_fallback[[self$task_type]]
-        if (!is.null(fallback_id)) {
-          self$fallback = lrn(fallback_id, predict_type = self$predict_type)
-        }
-      }
     },
 
     #' @field fallback ([Learner])\cr
     #' Learner which is fitted to impute predictions in case that either the model fitting or the prediction of the top learner is not successful.
     #' Requires encapsulation, otherwise errors are not caught and the execution is terminated before the fallback learner kicks in.
-    #' If you have not set encapsulation manually before, setting the fallback learner automatically
-    #' activates encapsulation using the \CRANpkg{evaluate} package.
     #' Also see the section on error handling the mlr3book:
     #' \url{https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling}
     fallback = function(rhs) {
@@ -593,9 +581,6 @@ Learner = R6Class("Learner",
         if (!identical(self$predict_type, rhs$predict_type)) {
           warningf("The fallback learner '%s' and the base learner '%s' have different predict types: '%s' != '%s'.",
             rhs$id, self$id, rhs$predict_type, self$predict_type)
-        }
-        if (is.null(private$.encapsulate)) {
-          private$.encapsulate = c(train = "evaluate", predict = "evaluate")
         }
       }
       private$.fallback = rhs

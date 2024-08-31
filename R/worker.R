@@ -184,6 +184,10 @@ learner_predict = function(learner, task, row_ids = NULL) {
     return(create_empty_prediction_data(task, learner))
   }
 
+  if (is.null(learner$state$model) && is.null(learner$fallback)) {
+    stopf("Learner has no model stored and no fallback learner defined")
+  }
+
   if (is.null(learner$state$model)) {
     lg$debug("Learner '%s' has no model stored",
       learner$id, learner = learner$clone())
