@@ -50,7 +50,7 @@
 <li>refactor: Optimize runtime of marshalling.</li>
 <li>refactor: Optimize runtime of <code>Task$col_info</code>.</li>
 <li>fix: column info is now checked for compatibility during <code>Learner$predict</code> (<a href="https://github.com/mlr-org/mlr3/issues/943" class="external-link">#943</a>).</li>
-<li>BREAKING CHANGE: the predict time of the learner now stores the cumulative duration for all predict sets (<a href="https://github.com/mlr-org/mlr3/issues/992" class="external-link">#992</a>).</li>
+<li>BREAKING CHANGE: The predict time of the learner now stores the cumulative duration for all predict sets (<a href="https://github.com/mlr-org/mlr3/issues/992" class="external-link">#992</a>).</li>
 <li>feat: <code>$internal_valid_task</code> can now be set to an <code>integer</code> vector.</li>
 <li>feat: Measures can now have an empty <code>$predict_sets</code> (<a href="https://github.com/mlr-org/mlr3/issues/1094" class="external-link">#1094</a>). this is relevant for measures that only extract information from the model of a learner (such as internal validation scores or AIC / BIC)</li>
 <li>refactor: Deprecated the <code>$divide()</code> method</li>
@@ -61,6 +61,7 @@
 <li>feat: Add option to calculate the mean of the true values on the train set in <code>msr("regr.rsq")</code>.</li>
 <li>feat: Default fallback learner is set when encapsulation is activated.</li>
 <li>feat: Learners classif.debug and regr.debug have new methods <code>$importance()</code> and <code>$selected_features()</code> for testing, also in downstream packages</li>
+<li>feat: Check column roles when using <code>$set_col_roles()</code> and <code>$col_roles</code>.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.20.2" id="mlr3-0202">mlr3 0.20.2<a class="anchor" aria-label="anchor" href="#mlr3-0202"></a></h2><p class="text-muted">CRAN release: 2024-07-29</p>

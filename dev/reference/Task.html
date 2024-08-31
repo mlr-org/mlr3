@@ -850,9 +850,10 @@ Other column roles are preserved.</p></dd>
 </div>
 <div class="section">
 <h4 id="details-1">Details<a class="anchor" aria-label="anchor" href="#details-1"></a></h4>
-<p>Roles are first set exclusively (argument <code>roles</code>), then added (argument <code>add_to</code>) and finally
-removed (argument <code>remove_from</code>) from different roles.
-Duplicated columns are removed from the same role.</p>
+<p>Roles are first set exclusively (argument <code>roles</code>), then added (argument <code>add_to</code>) and finally removed (argument <code>remove_from</code>) from different roles.
+Duplicated columns are removed from the same role.
+For tasks that only allow one target, the target column cannot be set with <code>$set_col_roles()</code>.
+Use the <code>$col_roles</code> field to swap the target column.</p>
 </div>
 
 <div class="section">
