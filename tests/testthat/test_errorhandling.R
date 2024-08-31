@@ -58,7 +58,7 @@ test_that("encapsulation / resample", {
   learner = lrn("classif.debug")
   learner$param_set$values = list(warning_train = 1)
   learner$encapsulate = c(train = "evaluate", predict = "evaluate")
-  expect_class(learner$fallback, "LearnerClassifFeatureless")
+  learner$fallback = lrn("classif.featureless")
 
   rr = resample(task, learner, rsmp("cv", folds = 3))
   expect_data_table(rr$warnings, nrows = 3L)
