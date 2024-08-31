@@ -780,9 +780,10 @@ Other column roles are preserved.}
 \if{html}{\out{</div>}}
 }
 \subsection{Details}{
-Roles are first set exclusively (argument \code{roles}), then added (argument \code{add_to}) and finally
-removed (argument \code{remove_from}) from different roles.
+Roles are first set exclusively (argument \code{roles}), then added (argument \code{add_to}) and finally removed (argument \code{remove_from}) from different roles.
 Duplicated columns are removed from the same role.
+For tasks that only allow one target, the target column cannot be set with \verb{$set_col_roles()}.
+Use the \verb{$col_roles} field to swap the target column.
 }
 
 \subsection{Returns}{
