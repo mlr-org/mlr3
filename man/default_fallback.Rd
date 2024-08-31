@@ -11,9 +11,9 @@ default_fallback(learner, ...)
 
 \method{default_fallback}{Learner}(learner, ...)
 
-\method{default_fallback}{LearnerClassif}(learner)
+\method{default_fallback}{LearnerClassif}(learner, ...)
 
-\method{default_fallback}{LearnerRegr}(learner)
+\method{default_fallback}{LearnerRegr}(learner, ...)
 }
 \arguments{
 \item{learner}{\link{Learner}\cr
