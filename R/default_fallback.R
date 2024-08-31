@@ -7,10 +7,19 @@
 #'
 #' @param learner [Learner]\cr
 #'  The learner for which a fallback learner should be created.
+#' @param ... `any`\cr
+#' ignored.
 #'
 #' @return [Learner]
 default_fallback = function(learner, ...) {
   UseMethod("default_fallback")
+}
+
+#' @rdname default_fallback
+#' @export
+default_fallback.Learner = function(learner, ...) {
+  # FIXME: remove when new encapsulate/fallback system is in place
+  return(NULL)
 }
 
 #' @rdname default_fallback
