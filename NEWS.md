@@ -10,8 +10,7 @@
 * BREAKING CHANGE: The predict time of the learner now stores the cumulative duration for all predict sets (#992).
 * feat: `$internal_valid_task` can now be set to an `integer` vector.
 * feat: Measures can now have an empty `$predict_sets` (#1094).
-  this is relevant for measures that only extract information from
-  the model of a learner (such as internal validation scores or AIC / BIC)
+  This is relevant for measures that only extract information from the model of a learner (such as internal validation scores or AIC / BIC)
 * refactor: Deprecated the `$divide()` method
 * fix: `Task$cbind()` now works with non-standard primary keys  for `data.frames` (#961).
 * fix: Triggering of fallback learner now has log-level `"info"` instead of `"debug"` (#972).
@@ -22,6 +21,7 @@
 * feat: Learners classif.debug and regr.debug have new methods `$importance()` and `$selected_features()` for testing, also in downstream packages
 * feat: Create default fallback learner with `default_fallback()`.
 * feat: Check column roles when using `$set_col_roles()` and `$col_roles`.
+* BREAKING CHANGE: encapsulation is not automatically activated when a fallback is set
 
 # mlr3 0.20.2
 
