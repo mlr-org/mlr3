@@ -78,7 +78,7 @@ reference:
       - starts_with("mlr_learners")
       - as_learner
       - HotstartStack
-      - set_fallback
+      - default_fallback
   - title: Measures
     contents:
       - starts_with("mlr_measures")
