@@ -24,12 +24,12 @@ default_fallback.Learner = function(learner, ...) {
 
 #' @rdname default_fallback
 #' @export
-default_fallback.LearnerClassif = function(learner) {
+default_fallback.LearnerClassif = function(learner, ...) {
   fallback = lrn("classif.featureless")
 
   # set predict type
   if (learner$predict_type %nin% fallback$predict_types) {
-    stopf("Fallback learner '%s' does not support predict type '%s'.", fallback_id, learner$predict_type)
+    stopf("Fallback learner '%s' does not support predict type '%s'.", fallback$id, learner$predict_type)
   }
 
   fallback$predict_type = learner$predict_type
@@ -39,7 +39,7 @@ default_fallback.LearnerClassif = function(learner) {
 
 #' @rdname default_fallback
 #' @export
-default_fallback.LearnerRegr = function(learner) {
+default_fallback.LearnerRegr = function(learner, ...) {
   fallback = lrn("regr.featureless")
 
   # set predict type
