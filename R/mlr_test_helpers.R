@@ -24,6 +24,7 @@
 #' the task, learner and prediction of the returned `result`.
 #'
 #' For example usages you can look at the autotests in various mlr3 source repositories such as mlr3learners.
+#' More information can be found in the `inst/testthat/autotest.R` file.
 #'
 #' **Parameters**:
 #'
@@ -42,7 +43,7 @@
 #'   Whether to check that running the learner twice with the same seed should result in identical predictions.
 #'   Default is `TRUE`.
 #' * `configure_learner` (`function(learner, task)`)\cr
-#'   Before running a `learner` on a `task`, this function allows to change its parameter values depending on the input task. 
+#'   Before running a `learner` on a `task`, this function allows to change its parameter values depending on the input task.
 #'
 #' @section run_paramtest():
 #'
