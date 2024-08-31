@@ -300,15 +300,11 @@ Set of hyperparameters.}
 Controls how to execute the code in internal train and predict methods.
 Must be a named character vector with names \code{"train"} and \code{"predict"}.
 Possible values are \code{"none"}, \code{"try"}, \code{"evaluate"} (requires package \CRANpkg{evaluate}) and \code{"callr"} (requires package \CRANpkg{callr}).
-When encapsulation is activated, a fallback learner must be set,
-If no learner is set in \verb{$fallback}, the default fallback learner is used (see \code{mlr_reflections$task_types}).
-See \code{\link[mlr3misc:encapsulate]{mlr3misc::encapsulate()}} for more details.}
+When encapsulation is activated, a fallback learner must be set, to ensure that some form of valid model / predictions are created, after an error of the original learner is caught via encapsulation.}
 
 \item{\code{fallback}}{(\link{Learner})\cr
 Learner which is fitted to impute predictions in case that either the model fitting or the prediction of the top learner is not successful.
 Requires encapsulation, otherwise errors are not caught and the execution is terminated before the fallback learner kicks in.
-If you have not set encapsulation manually before, setting the fallback learner automatically
-activates encapsulation using the \CRANpkg{evaluate} package.
 Also see the section on error handling the mlr3book:
 \url{https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling}}
 

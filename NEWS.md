@@ -21,7 +21,8 @@
 * feat: Learners classif.debug and regr.debug have new methods `$importance()` and `$selected_features()` for testing, also in downstream packages
 * feat: Create default fallback learner with `default_fallback()`.
 * feat: Check column roles when using `$set_col_roles()` and `$col_roles`.
-* BREAKING CHANGE: encapsulation is not automatically activated when a fallback is set
+* BREAKING CHANGE: Encapsulation is not automatically activated when a fallback is set.
+* BREAKING CHANGE: The functions `resample()` and `benchmark()` error when train or predict fails and a fallback learner is not set.
 
 # mlr3 0.20.2
 

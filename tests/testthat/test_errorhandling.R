@@ -41,15 +41,6 @@ test_that("encapsulation", {
   expect_prediction(learner$predict(task))
   expect_character(learner$warnings, len = 1L, any.missing = FALSE)
   expect_character(learner$errors, len = 0L, any.missing = FALSE)
-
-  learner$param_set$values = list(error_predict = 1)
-  learner$train(task)
-  expect_data_table(learner$log, nrows = 0L)
-  expect_character(learner$warnings, len = 0L, any.missing = FALSE)
-  expect_character(learner$errors, len = 0L, any.missing = FALSE)
-  learner$predict(task)
-  expect_character(learner$warnings, len = 0L, any.missing = FALSE)
-  expect_character(learner$errors, len = 1L, any.missing = FALSE)
 })
 
 
@@ -75,6 +66,7 @@ test_that("encapsulation / benchmark", {
   learner = lrn("classif.debug")
   learner$param_set$values = list(warning_train = 1)
   learner$encapsulate = c(train = "evaluate", predict = "evaluate")
+  learner$fallback = lrn("classif.featureless")
 
   bmr = benchmark(benchmark_grid(task, learner, rsmp("cv", folds = 3)))
   aggr = bmr$aggregate(conditions = TRUE)
@@ -86,4 +78,22 @@ test_that("encapsulation / benchmark", {
   aggr = bmr$aggregate(conditions = TRUE)
   expect_equal(aggr$warnings, 3L)
   expect_equal(aggr$errors, 3L)
+})
+
+test_that("fail during train without fallback", {
+  task = tsk("iris")
+  learner = lrn("classif.debug", error_train = 1)
+  learner$encapsulate = c(train = "evaluate", predict = "none")
+  expect_null(learner$fallback)
+
+  expect_error(resample(task, learner, rsmp("cv", folds = 3)), "Learner has no model stored and no fallback learner defined")
+})
+
+test_that("fail during predict without fallback", {
+  task = tsk("iris")
+  learner = lrn("classif.debug", error_predict = 1)
+  learner$encapsulate = c(train = "evaluate", predict = "evaluate")
+  expect_null(learner$fallback)
+
+  expect_error(resample(task, learner, rsmp("cv", folds = 3)), "Learner returned no prediction and no fallback learner defined")
 })

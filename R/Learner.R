@@ -551,9 +551,7 @@ Learner = R6Class("Learner",
     #' Controls how to execute the code in internal train and predict methods.
     #' Must be a named character vector with names `"train"` and `"predict"`.
     #' Possible values are `"none"`, `"try"`, `"evaluate"` (requires package \CRANpkg{evaluate}) and `"callr"` (requires package \CRANpkg{callr}).
-    #' When encapsulation is activated, a fallback learner must be set,
-    #  to ensure that some form of valid model / predictions are created,
-    #  after an error of the original learner is caught via encapsulation.
+    #' When encapsulation is activated, a fallback learner must be set, to ensure that some form of valid model / predictions are created, after an error of the original learner is caught via encapsulation.
     encapsulate = function(rhs) {
       default = c(train = "none", predict = "none")
 

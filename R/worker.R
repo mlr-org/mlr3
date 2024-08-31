@@ -184,6 +184,7 @@ learner_predict = function(learner, task, row_ids = NULL) {
     return(create_empty_prediction_data(task, learner))
   }
 
+  # error when no model was fitted during training and no fallback learner is defined
   if (is.null(learner$state$model) && is.null(learner$fallback)) {
     stopf("Learner has no model stored and no fallback learner defined")
   }
@@ -217,6 +218,11 @@ learner_predict = function(learner, task, row_ids = NULL) {
 
     lg$debug("Learner '%s' returned an object of class '%s'",
       learner$id, class(pdata)[1L], learner = learner$clone(), prediction_data = pdata, messages = result$log$msg)
+  }
+
+  # error when no prediction was returned and no fallback learner is defined
+  if (!is.null(learner$model) && is.null(learner$fallback) && is.null(pdata)) {
+    stop("Learner returned no prediction and no fallback learner defined")
   }
 
   fb = learner$fallback
