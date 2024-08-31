@@ -670,9 +670,10 @@ Task = R6Class("Task",
     #'   Other column roles are preserved.
     #'
     #' @details
-    #' Roles are first set exclusively (argument `roles`), then added (argument `add_to`) and finally
-    #' removed (argument `remove_from`) from different roles.
+    #' Roles are first set exclusively (argument `roles`), then added (argument `add_to`) and finally removed (argument `remove_from`) from different roles.
     #' Duplicated columns are removed from the same role.
+    #' For tasks that only allow one target, the target column cannot be set with `$set_col_roles()`.
+    #' Use the `$col_roles` field to swap the target column.
     #'
     #' @return
     #' Returns the object itself, but modified **by reference**.
@@ -1188,7 +1189,25 @@ task_set_roles = function(li, elements, roles = NULL, add_to = NULL, remove_from
   li
 }
 
-task_check_col_roles = function(self, new_roles) {
+#' @title Check Column Roles
+#'
+#' @description
+#' Internal function to check column roles.
+#'
+#' @param task ([Task])\cr
+#'  Task.
+#' @param new_roles (`list()`)\cr
+#'  Column roles.
+#'
+#' @keywords internal
+#' @export
+task_check_col_roles = function(task, new_roles, ...) {
+  UseMethod("task_check_col_roles")
+}
+
+#' @rdname task_check_col_roles
+#' @export
+task_check_col_roles.Task = function(task, new_roles, ...) {
   for (role in c("group", "weight", "name")) {
     if (length(new_roles[[role]]) > 1L) {
       stopf("There may only be up to one column with role '%s'", role)
@@ -1197,29 +1216,75 @@ task_check_col_roles = function(self, new_roles) {
 
   # check weights
   if (length(new_roles[["weight"]])) {
-    weights = self$backend$data(self$backend$rownames, cols = new_roles[["weight"]])
+    weights = task$backend$data(task$backend$rownames, cols = new_roles[["weight"]])
     assert_numeric(weights[[1L]], lower = 0, any.missing = FALSE, .var.name = names(weights))
   }
 
   # check name
   if (length(new_roles[["name"]])) {
-    row_names = self$backend$data(self$backend$rownames, cols = new_roles[["name"]])
+    row_names = task$backend$data(task$backend$rownames, cols = new_roles[["name"]])
     if (!is.character(row_names[[1L]]) && !is.factor(row_names[[1L]])) {
       stopf("Assertion on '%s' failed: Must be of type 'character' or 'factor', not %s", names(row_names), class(row_names[[1]]))
     }
   }
 
-  if (inherits(self, "TaskSupervised")) {
-    if (length(new_roles$target) == 0L) {
-      stopf("Supervised tasks need at least one target column")
-    }
-  } else if (inherits(self, "TaskUnsupervised")) {
-    if (length(new_roles$target) != 0L) {
-      stopf("Unsupervised tasks may not have a target column")
-    }
+  return(new_roles)
+}
+
+#' @rdname task_check_col_roles
+#' @export
+task_check_col_roles.TaskClassif = function(task, new_roles, ...) {
+
+  # check target
+  if (length(new_roles[["target"]]) > 1L) {
+    stopf("There may only be up to one column with role 'target'")
   }
 
-  new_roles
+  if (length(new_roles[["target"]]) && any(fget(task$col_info, new_roles[["target"]], "type", key = "id") %nin% c("factor", "ordered"))) {
+    stopf("Target column(s) %s must be a factor or ordered factor", paste0("'", new_roles[["target"]], "'", collapse = ","))
+  }
+
+  NextMethod()
+}
+
+#' @rdname task_check_col_roles
+#' @export
+task_check_col_roles.TaskRegr = function(task, new_roles, ...) {
+
+  # check target
+  if (length(new_roles[["target"]]) > 1L) {
+    stopf("There may only be up to one column with role 'target'")
+  }
+
+  if (length(new_roles[["target"]]) && any(fget(task$col_info, new_roles[["target"]], "type", key = "id") %nin% c("numeric", "integer"))) {
+    stopf("Target column '%s' must be a numeric or integer column", paste0("'", new_roles[["target"]], "'", collapse = ","))
+  }
+
+  NextMethod()
+}
+
+#' @rdname task_check_col_roles
+#' @export
+task_check_col_roles.TaskSupervised = function(task, new_roles, ...) {
+
+  # check target
+  if (length(new_roles$target) == 0L) {
+    stopf("Supervised tasks need at least one target column")
+  }
+
+  NextMethod()
+}
+
+#' @rdname task_check_col_roles
+#' @export
+task_check_col_roles.TaskUnsupervised = function(task, new_roles, ...) {
+
+  # check target
+  if (length(new_roles$target) != 0L) {
+    stopf("Unsupervised tasks may not have a target column")
+  }
+
+  NextMethod()
 }
 
 #' @title Column Information for Backend

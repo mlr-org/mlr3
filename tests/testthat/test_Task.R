@@ -295,11 +295,50 @@ test_that("col roles are valid", {
   # weight
   expect_error(task$set_col_roles("logical", roles = "weight"), "type")
   expect_error(task$set_col_roles("factor", roles = "weight"), "type")
+  expect_error(task$set_col_roles(c("integer", "numeric"), roles = "weight"), "There may only be up to one column with role")
 
   # name
   expect_error(task$set_col_roles("logical", roles = "name"), "type")
   expect_error(task$set_col_roles("integer", roles = "name"), "type")
   expect_error(task$set_col_roles("numeric", roles = "name"), "type")
+  expect_error(task$set_col_roles(c("integer", "numeric"), roles = "name"), "There may only be up to one column with role")
+
+  # group
+  expect_error(task$set_col_roles(c("numeric", "factor"), roles = "group"), "There may only be up to one column with role")
+
+  # missing weights
+  b = as_data_backend(data.table(y = runif(20), numeric = c(runif(19), NA_real_)))
+  task = TaskRegr$new("test", b, target = "y")
+
+  expect_error(task$set_col_roles("numeric", roles = "weight"), "missing")
+
+  # negative weights
+  b = as_data_backend(data.table(y = runif(20), numeric = c(runif(19), -10)))
+  task = TaskRegr$new("test", b, target = "y")
+
+  expect_error(task$set_col_roles("numeric", roles = "weight"), "is not")
+
+  # target classif
+  b = as_data_backend(data.table(
+    y = factor(sample(letters[1:3], 20, replace = TRUE)),
+    numeric = runif(20)))
+  task = as_task_classif(b, target = "y")
+
+  expect_error({task$col_roles = insert_named(task$col_roles, list(target = "numeric", feature = "y"))},
+    "must be a factor or ordered factor")
+
+  expect_error(task$set_col_roles("numeric", roles = "target"), "up to one column with")
+
+  # target regr
+  b = as_data_backend(data.table(
+    y = runif(20),
+    factor = factor(sample(letters[1:3], 20, replace = TRUE))))
+  task = TaskRegr$new("test", b, target = "y")
+
+  expect_error({task$col_roles = insert_named(task$col_roles, list(target = "factor", feature = "y"))},
+    "numeric or integer column")
+
+  expect_error(task$set_col_roles("factor", roles = "target"), "up to one column with")
 })
 
 test_that("ordered factors (#95)", {
