@@ -7,6 +7,7 @@
 #' @details
 #' `run_autotest(learner)` generates multiple tasks, depending on the properties of the learner and tests the learner on each task, with each predict type.
 #' Calls `generate_tasks()` to generate tasks and `run_experiment()` to run the experiments.
+#' See `generate_tasks()` for a list of tasks that are generated.
 #' To debug, simply run `result = run_autotest(learner)` and proceed with investigating he task, learner and prediction of the returned `result`.
 #'
 #' `run_experiment(task, learner)` runs a single experiment.
@@ -131,6 +132,14 @@ generate_data = function(learner, N) {
 #' @description
 #' Generates multiple tasks for a given [Learner], based on its properties.
 #' This function is primarily used for unit tests, but can also assist while writing custom learners.
+#' The following tasks are created:
+#' * `feat_single_*`: Tasks with a single feature type.
+#' * `feat_all_*`: Task with all supported feature types.
+#' * `missings_*`: Task with missing values.
+#' * `utf8_feature_names_*`: Task with non-ascii feature names.
+#' * `sanity`: Task with a simple dataset to check if the learner is working.
+#' * `sanity_reordered`: Task with the same dataset as `sanity`, but with reordered columns.
+#' * `sanity_switched`: Task with the same dataset as `sanity`, but with the positive class switched.
 #'
 #' @param learner [Learner]\cr
 #'  Learner to generate tasks for.
