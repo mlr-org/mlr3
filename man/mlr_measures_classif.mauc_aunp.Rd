@@ -30,6 +30,7 @@ in Ferri (2009). Note we deviate from the definition in
 Ferri (2009) by a factor of \code{c}.
 \item \emph{MU}: Multiclass AUC as defined in Kleinman and Page (2019).
 This measure is an average of the pairwise AUCs between all classes.
+The measure was tested against the Python implementation by \href{https://github.com/kleimanr/auc_mu}{Ross Kleinman}.
 }
 }
 \note{

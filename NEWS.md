@@ -7,7 +7,7 @@
 * refactor: Optimize runtime of marshalling.
 * refactor: Optimize runtime of `Task$col_info`.
 * fix: column info is now checked for compatibility during `Learner$predict` (#943).
-* BREAKING CHANGE: the predict time of the learner now stores the cumulative duration for all predict sets (#992).
+* BREAKING CHANGE: The predict time of the learner now stores the cumulative duration for all predict sets (#992).
 * feat: `$internal_valid_task` can now be set to an `integer` vector.
 * feat: Measures can now have an empty `$predict_sets` (#1094).
   this is relevant for measures that only extract information from
@@ -20,7 +20,8 @@
 * feat: Add option to calculate the mean of the true values on the train set in `msr("regr.rsq")`.
 * feat: Default fallback learner is set when encapsulation is activated.
 * feat: Learners classif.debug and regr.debug have new methods `$importance()` and `$selected_features()` for testing, also in downstream packages
-* feat: Set default fallback with `set_fallback()`.
+* feat: Create default fallback learner with `default_fallback()`.
+* feat: Check column roles when using `$set_col_roles()` and `$col_roles`.
 
 # mlr3 0.20.2
 
