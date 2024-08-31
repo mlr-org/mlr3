@@ -127,11 +127,6 @@ local({
     regr = list(response = "response", se = c("response", "se"), quantiles = c("response", "quantiles"), distr = c("response", "se", "distr"))
   )
 
-  mlr_reflections$learner_fallback = list(
-    classif = "classif.featureless",
-    regr = "regr.featureless"
-  )
-
   # Allowed tags for parameters
   mlr_reflections$learner_param_tags = c("train", "predict", "hotstart", "importance", "threads", "required", "internal_tuning")
 
