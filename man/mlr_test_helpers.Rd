@@ -29,6 +29,7 @@ To debug, simply run \code{result = run_autotest(learner)} and proceed with inve
 the task, learner and prediction of the returned \code{result}.
 
 For example usages you can look at the autotests in various mlr3 source repositories such as mlr3learners.
+More information can be found in the \code{inst/testthat/autotest.R} file.
 
 \strong{Parameters}:
 \itemize{
