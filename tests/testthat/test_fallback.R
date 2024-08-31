@@ -66,3 +66,12 @@ test_that("incomplete predictions", {
   expect_factor(rr$prediction()$response, any.missing = FALSE)
   expect_matrix(rr$prediction()$prob, any.missing = FALSE)
 })
+
+test_that("fail during train without fallback", {
+  task = tsk("iris")
+  learner = lrn("classif.debug", error_train = 1)
+  learner$encapsulate = c(train = "evaluate", predict = "none")
+  expect_null(learner$fallback)
+
+  expect_error(resample(task, learner, rsmp("cv", folds = 3)), "Learner has no model stored and no fallback learner defined")
+})
