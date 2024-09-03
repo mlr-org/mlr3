@@ -567,3 +567,16 @@ test_that("predictions retrieved with as.data.table and predictions method are e
   predictions = unlist(map(bmr$resample_results$resample_result, function(rr) rr$predictions(predict_sets = "train")), recursive = FALSE)
   expect_equal(tab$prediction, predictions)
 })
+
+test_that("score works with predictions and empty predictions", {
+  learner_1 = lrn("classif.rpart", predict_sets = "train", id = "learner_1")
+  learner_2 = lrn("classif.rpart", predict_sets = "test", id = "learner_2")
+  task = tsk("pima")
+
+  design = benchmark_grid(task, list(learner_1, learner_2), rsmp("holdout"))
+
+  bmr = benchmark(design)
+
+  expect_warning({tab = bmr$score(msr("classif.ce", predict_sets = "test"))}, "Measure")
+  expect_equal(tab$classif.ce[1], NaN)
+})
