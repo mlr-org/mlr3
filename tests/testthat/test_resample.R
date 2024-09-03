@@ -490,3 +490,10 @@ test_that("resample results works with no predicted predict set", {
   expect_list(tab$prediction, len = 1)
   expect_list(tab$prediction[[1]], len = 0)
 })
+
+test_that("predict_time is 0 if no predict_set is specified", {
+  learner = lrn("classif.featureless", predict_sets = NULL)
+  rr = resample(task, learner, resampling)
+  times = rr$score(msr("time_predict"))$time_predict
+  expect_true(all(times == 0))
+})
