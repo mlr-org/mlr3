@@ -473,6 +473,9 @@ test_that("resample result works with not predicted predict set", {
   tab = as.data.table(rr)
   expect_list(tab$prediction, len = 1)
   expect_list(tab$prediction[[1]], len = 0)
+
+  expect_warning({tab = rr$score(msr("classif.ce", predict_sets = "test"))}, "Measure")
+  expect_equal(tab$classif.ce, NaN)
 })
 
 test_that("resample results works with no predicted predict set", {
@@ -489,4 +492,7 @@ test_that("resample results works with no predicted predict set", {
   tab = as.data.table(rr)
   expect_list(tab$prediction, len = 1)
   expect_list(tab$prediction[[1]], len = 0)
+
+  expect_warning({tab = rr$score(msr("classif.ce", predict_sets = "test"))}, "Measure")
+  expect_equal(tab$classif.ce, NaN)
 })
