@@ -22,6 +22,7 @@
 * feat: Learners classif.debug and regr.debug have new methods `$importance()` and `$selected_features()` for testing, also in downstream packages
 * feat: Create default fallback learner with `default_fallback()`.
 * feat: Check column roles when using `$set_col_roles()` and `$col_roles`.
+* fix: Add predict set to learner hash.
 
 # mlr3 0.20.2
 
