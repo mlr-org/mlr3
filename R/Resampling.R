@@ -46,6 +46,17 @@
 #' Next, the grouping information is replaced with the respective row ids to generate training and test sets.
 #' The sets can be accessed via `$train_set(i)` and `$test_set(i)`, respectively.
 #'
+#' @section Conversion to and from Tabular Data:
+#' Resamplings can be converted to a plain `data.table` with `as.data.table()`, resulting in a table with the
+#' following columns:
+#'
+#' * `set`: factor with levels `"train"` and `"test"`
+#' * `iteration`: non-negative integer
+#' * `row_id`: integer row ids
+#'
+#' This table can serve as exchange format with other toolkits. A table with this exact structure can also be
+#' converted to a [ResamplingCustom] again via [as_resampling()]. Note that while the training and test sets are
+#' preserved for all iterations, the elements inside the set may be reordered.
 #'
 #' @template seealso_resampling
 #' @export

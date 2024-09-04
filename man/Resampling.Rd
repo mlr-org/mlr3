@@ -46,6 +46,21 @@ Next, the grouping information is replaced with the respective row ids to genera
 The sets can be accessed via \verb{$train_set(i)} and \verb{$test_set(i)}, respectively.
 }
 
+\section{Conversion to and from Tabular Data}{
+
+Resamplings can be converted to a plain \code{data.table} with \code{as.data.table()}, resulting in a table with the
+following columns:
+\itemize{
+\item \code{set}: factor with levels \code{"train"} and \code{"test"}
+\item \code{iteration}: non-negative integer
+\item \code{row_id}: integer row ids
+}
+
+This table can serve as exchange format with other toolkits. A table with this exact structure can also be
+converted to a \link{ResamplingCustom} again via \code{\link[=as_resampling]{as_resampling()}}. Note that while the training and test sets are
+preserved for all iterations, the elements inside the set may be reordered.
+}
+
 \examples{
 r = rsmp("subsampling")
 

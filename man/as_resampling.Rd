@@ -3,6 +3,7 @@
 \name{as_resampling}
 \alias{as_resampling}
 \alias{as_resampling.Resampling}
+\alias{as_resampling.data.table}
 \alias{as_resamplings}
 \alias{as_resamplings.default}
 \alias{as_resamplings.list}
@@ -11,6 +12,8 @@
 as_resampling(x, ...)
 
 \method{as_resampling}{Resampling}(x, clone = FALSE, ...)
+
+\method{as_resampling}{data.table}(x, ...)
 
 as_resamplings(x, ...)
 
@@ -30,4 +33,12 @@ If \code{TRUE}, ensures that the returned object is not the same as the input \c
 }
 \description{
 Convert object to a \link{Resampling} or a list of \link{Resampling}.
+
+For the conversion of a \code{data.table}, the following columns (as returned by
+\code{\link[=as.data.table.Resampling]{as.data.table.Resampling()}}) are mandatory to create a \link{ResamplingCustom}:
+\itemize{
+\item \code{set}: factor with levels \code{"train"} and \code{"test"}
+\item \code{iteration}: non-negative integer
+\item \code{row_id}: integer row ids
+}
 }
