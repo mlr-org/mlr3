@@ -326,6 +326,10 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
     lg$debug("Creating Prediction for predict set '%s'", set)
     learner_predict(learner, task, row_ids)
   }, set = predict_sets, row_ids = pred_data$sets, task = pred_data$tasks)
+
+  if (!length(predict_sets)) {
+    learner$state$predict_time = 0L
+  }
   pdatas = discard(pdatas, is.null)
 
   # set the model slot after prediction so it can be sent back to the main process
