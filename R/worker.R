@@ -186,7 +186,7 @@ learner_predict = function(learner, task, row_ids = NULL) {
 
   # error when no model was fitted during training and no fallback learner is defined
   if (is.null(learner$state$model) && is.null(learner$fallback)) {
-    stopf("Learner has no model stored and no fallback learner defined")
+    stopf("Learner has no model stored and no fallback learner defined, check `learner$log` for potential messages during training.")
   }
 
   if (is.null(learner$state$model)) {

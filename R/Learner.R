@@ -551,7 +551,19 @@ Learner = R6Class("Learner",
     #' Controls how to execute the code in internal train and predict methods.
     #' Must be a named character vector with names `"train"` and `"predict"`.
     #' Possible values are `"none"`, `"try"`, `"evaluate"` (requires package \CRANpkg{evaluate}) and `"callr"` (requires package \CRANpkg{callr}).
-    #' When encapsulation is activated, a fallback learner must be set, to ensure that some form of valid model / predictions are created, after an error of the original learner is caught via encapsulation.
+    #' `"none"` runs the train and predict steps regularly without change, `"evaluate"` uses the mentioned package to run the steps in the same R session
+    #' but captures messages, warnings, errors and output, `"callr"` uses again the mentioned package to also capture these events, but runs the steps in
+    #' an isolated R session. The captured messages are stored in the learner state and can be accessed via ``$log``.
+    #' The latter 2 options are very useful in larger benchmark and tuning experiments when uninterrupted execution flow is desirable.
+    #' Note that in order to completely achieve the latter, not only encapsulation but also a fallback learner is likely required,
+    #' see the active binding `$fallback`, to ensure that some form of valid model / predictions are created,
+    #' after an error of the original learner is caught via encapsulation.
+    #' If encapsulation in on, and no fallback learner is set, and an error happens during training,
+    #' encapsulate will display the error in the main R session and produce a NULL model (which will lead to an error in the predict step).
+    #' If encapsulation in on, and no fallback learner is set, and an error happens during predict,
+    #' encapsulate will throw the error in the main R session.
+    #' Also see the section on error handling the mlr3book:
+    #' \url{https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling}
     encapsulate = function(rhs) {
       default = c(train = "none", predict = "none")
 
@@ -565,7 +577,11 @@ Learner = R6Class("Learner",
     },
 
     #' @field fallback ([Learner])\cr
-    #' Learner which is fitted to impute predictions in case that either the model fitting or the prediction of the top learner is not successful.
+    #' Learner which is fitted to create valid predictions in case that either the model fitting or the prediction of the original learner fails.
+    #' If the training step or the predict step of the original learner fails, the fallback is used completely to predict predictions sets.
+    #' If the original learner only partially fails during predict step (usually in the form of missing to predict some observations or
+    #' producing some NA predictions), these missing predictions are imputed by the fallback.
+    #' Note that the fallback is always trained if set, as we do not know in advance whether prediction will fail.
     #' Requires encapsulation, otherwise errors are not caught and the execution is terminated before the fallback learner kicks in.
     #' Also see the section on error handling the mlr3book:
     #' \url{https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling}
