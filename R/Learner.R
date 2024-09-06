@@ -480,9 +480,9 @@ Learner = R6Class("Learner",
     #'
     #' @return `self` (invisibly).
     encapsulate = function(method, fallback = NULL) {
-      assert_choice(type, c("none", "try", "evaluate", "callr"))
+      assert_choice(method, c("none", "try", "evaluate", "callr"))
 
-      if (type != "none") {
+      if (method != "none") {
         assert_learner(fallback, task_type = self$task_type)
 
         if (!identical(self$predict_type, fallback$predict_type)) {
@@ -491,11 +491,11 @@ Learner = R6Class("Learner",
         }
 
         # check properties
-      } else if (type == "none" && !is.null(fallback)) {
+      } else if (method == "none" && !is.null(fallback)) {
         stop("Fallback learner must be NULL if encapsulation is deactivated.")
       }
 
-      private$.encapsulation = c(train = type, predict = type)
+      private$.encapsulation = c(train = method, predict = method)
       private$.fallback = fallback
 
       return(invisible(self))
