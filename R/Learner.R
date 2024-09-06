@@ -498,8 +498,6 @@ Learner = R6Class("Learner",
           warningf("The fallback learner '%s' does not have the following properties of the learner '%s': %s.",
             fallback$id, self$id, str_collapse(missing_properties))
         }
-
-        # check properties
       } else if (method == "none" && !is.null(fallback)) {
         stop("Fallback learner must be NULL if encapsulation is deactivated.")
       }
