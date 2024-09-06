@@ -572,10 +572,11 @@ Depth of recursion for multiple nested objects.}
 Sets the encapsulation method and fallback learner for the train and predict steps.
 There are currently four different methods implemented:
 \itemize{
-\item \code{"none"}: Just runs the call in the current session and measures the elapsed time.
+\item \code{"none"}: Just runs the learner in the current session and measures the elapsed time.
 Does not keep a log, output is printed directly to the console.
 Works well together with \code{\link[=traceback]{traceback()}}.
-\item \code{"try"}: Similar to \code{"none"}, but catches error. Output is printed to the console and not logged.
+\item \code{"try"}: Similar to \code{"none"}, but catches error.
+Output is printed to the console and not logged.
 \item \code{"evaluate"}: Uses the package \CRANpkg{evaluate} to call the learner, measure time and do the logging.
 \item \code{"callr"}: Uses the package \CRANpkg{callr} to call the learner, measure time and do the logging.
 This encapsulation spawns a separate R session in which the learner is called.
