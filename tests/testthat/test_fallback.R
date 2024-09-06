@@ -67,3 +67,10 @@ test_that("incomplete predictions", {
   expect_factor(rr$prediction()$response, any.missing = FALSE)
   expect_matrix(rr$prediction()$prob, any.missing = FALSE)
 })
+
+test_that("fallback properties are checked", {
+  learner = lrn("classif.featureless")
+  fallback = lrn("classif.debug")
+
+  expect_warning(learner$encapsulate("evaluate", fallback), "The fallback learner")
+})

@@ -88,3 +88,4 @@ test_that("encapsulation / benchmark", {
   expect_equal(aggr$warnings, 3L)
   expect_equal(aggr$errors, 3L)
 })
+
