@@ -452,15 +452,34 @@ Learner = R6Class("Learner",
     },
 
     #' @description
-    #' Controls how to execute the code in internal train and predict methods.
-    #' Must be a named character vector with names `"train"` and `"predict"`.
-    #' Possible values are `"none"`, `"try"`, `"evaluate"` (requires package \CRANpkg{evaluate}) and `"callr"` (requires package \CRANpkg{callr}).
-    #' When encapsulation is activated, a fallback learner must be set,
-    #  to ensure that some form of valid model / predictions are created,
-    #  after an error of the original learner is caught via encapsulation.
-    #' If no learner is set in `$fallback`, the default fallback learner is used (see `mlr_reflections$task_types`).
-    #' See [mlr3misc::encapsulate()] for more details.
-    encapsulate = function(type, fallback) {
+    #' Sets the encapsulation method and fallback learner for the train and predict steps.
+    #' There are currently four different methods implemented:
+    #'
+    #' * `"none"`: Just runs the call in the current session and measures the elapsed time.
+    #'   Does not keep a log, output is printed directly to the console.
+    #'   Works well together with [traceback()].
+    #' * `"try"`: Similar to `"none"`, but catches error. Output is printed to the console and not logged.
+    #' * `"evaluate"`: Uses the package \CRANpkg{evaluate} to call the learner, measure time and do the logging.
+    #' * `"callr"`: Uses the package \CRANpkg{callr} to call the learner, measure time and do the logging.
+    #'   This encapsulation spawns a separate R session in which the learner is called.
+    #'   While this comes with a considerable overhead, it also guards your session from being teared down by segfaults.
+    #'
+    #' The fallback learner is fitted to create valid predictions in case that either the model fitting or the prediction of the original learner fails.
+    #' If the training step or the predict step of the original learner fails, the fallback is used completely to predict predictions sets.
+    #' If the original learner only partially fails during predict step (usually in the form of missing to predict some observations or producing some `NA`` predictions), these missing predictions are imputed by the fallback.
+    #' Note that the fallback is always trained, as we do not know in advance whether prediction will fail.
+    #'
+    #' Also see the section on error handling the mlr3book:
+    #' \url{https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling}
+    #'
+    #' @param method `character(1)`\cr
+    #'  One of `"none"`, `"try"`, `"evaluate"` or `"callr"`.
+    #'  See the description for details.
+    #' @param fallback [Learner]\cr
+    #'  The fallback learner for failed predictions.
+    #'
+    #' @return `self` (invisibly).
+    encapsulate = function(method, fallback = NULL) {
       assert_choice(type, c("none", "try", "evaluate", "callr"))
 
       if (type != "none") {
@@ -476,8 +495,10 @@ Learner = R6Class("Learner",
         stop("Fallback learner must be NULL if encapsulation is deactivated.")
       }
 
-      private$.encapsulate = c(train = type, predict = type)
+      private$.encapsulation = c(train = type, predict = type)
       private$.fallback = fallback
+
+      return(invisible(self))
     }
   ),
 
@@ -579,19 +600,17 @@ Learner = R6Class("Learner",
 
 
     #' @field fallback ([Learner])\cr
-    #' Learner which is fitted to impute predictions in case that either the model fitting or the prediction of the top learner is not successful.
-    #' Requires encapsulation, otherwise errors are not caught and the execution is terminated before the fallback learner kicks in.
-    #' If you have not set encapsulation manually before, setting the fallback learner automatically
-    #' activates encapsulation using the \CRANpkg{evaluate} package.
-    #' Also see the section on error handling the mlr3book:
-    #' \url{https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling}
+    #' Returns the fallback learner set with `$encapsulate()`.
     fallback = function(rhs) {
       assert_ro_binding(rhs)
       return(private$.fallback)
+    },
 
-      if (missing(rhs)) {
-        return(private$.fallback)
-      }
+    #' @field encapsulation (`character(2)`)\cr
+    #' Returns the encapsulation settings set with `$encapsulate()`.
+    encapsulation = function(rhs) {
+      assert_ro_binding(rhs)
+      return(private$.encapsulation)
     },
 
     #' @field hotstart_stack ([HotstartStack])\cr.
@@ -606,7 +625,7 @@ Learner = R6Class("Learner",
   ),
 
   private = list(
-    .encapsulate = NULL,
+    .encapsulation = c(train = "none", predict = "none"),
     .fallback = NULL,
     .predict_type = NULL,
     .param_set = NULL,

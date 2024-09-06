@@ -18,7 +18,7 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
       stopf("Learner '%s' on task '%s' returned NULL during internal %s()", learner$id, task$id, mode)
     }
 
-    if (learner$encapsulate[["train"]] == "callr") {
+    if (learner$encapsulation[["train"]] == "callr") {
       model = marshal_model(model, inplace = TRUE)
     }
 
@@ -67,7 +67,7 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
     mode, learner$id, task$id, task$nrow, learner = learner$clone())
 
   # call train_wrapper with encapsulation
-  result = encapsulate(learner$encapsulate["train"],
+  result = encapsulate(learner$encapsulation["train"],
     .f = train_wrapper,
     .args = list(learner = learner, task = task),
     .pkgs = learner$packages,
@@ -195,12 +195,12 @@ learner_predict = function(learner, task, row_ids = NULL) {
     lg$debug("Calling predict method of Learner '%s' on task '%s' with %i observations",
       learner$id, task$id, task$nrow, learner = learner$clone())
 
-    if (isTRUE(all.equal(learner$encapsulate[["predict"]], "callr"))) {
+    if (isTRUE(all.equal(learner$encapsulation[["predict"]], "callr"))) {
       learner$model = marshal_model(learner$model, inplace = TRUE)
     }
 
     result = encapsulate(
-      learner$encapsulate["predict"],
+      learner$encapsulation["predict"],
       .f = predict_wrapper,
       .args = list(task = task, learner = learner),
       .pkgs = learner$packages,
@@ -376,7 +376,7 @@ process_model_before_predict = function(learner, store_models, is_sequential, un
   # and also, do we even need to send it back at all?
 
   currently_marshaled = is_marshaled_model(learner$model)
-  predict_needs_marshaling = isTRUE(all.equal(learner$encapsulate[["predict"]], "callr"))
+  predict_needs_marshaling = isTRUE(all.equal(learner$encapsulation[["predict"]], "callr"))
   final_needs_marshaling = !is_sequential || !unmarshal
 
   # the only scenario in which we keep a copy is when we now have the model in the correct form but need to transform

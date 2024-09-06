@@ -19,7 +19,8 @@ test_that("no encapsulation / resampling", {
 test_that("encapsulation", {
   task = tsk("iris")
   learner = lrn("classif.debug")
-  learner$encapsulate = c(train = "evaluate", predict = "evaluate")
+  learner$encapsulate("evaluate", lrn("classif.featureless"))
+  expect_class(learner$fallback, "LearnerClassifFeatureless")
 
   learner$param_set$values = list(warning_train = 1)
   learner$train(task)
@@ -52,12 +53,11 @@ test_that("encapsulation", {
   expect_character(learner$errors, len = 1L, any.missing = FALSE)
 })
 
-
 test_that("encapsulation / resample", {
   task = tsk("iris")
   learner = lrn("classif.debug")
   learner$param_set$values = list(warning_train = 1)
-  learner$encapsulate = c(train = "evaluate", predict = "evaluate")
+  learner$encapsulate("evaluate", lrn("classif.featureless"))
   expect_class(learner$fallback, "LearnerClassifFeatureless")
 
   rr = resample(task, learner, rsmp("cv", folds = 3))
@@ -74,7 +74,8 @@ test_that("encapsulation / benchmark", {
   task = tsk("iris")
   learner = lrn("classif.debug")
   learner$param_set$values = list(warning_train = 1)
-  learner$encapsulate = c(train = "evaluate", predict = "evaluate")
+  learner$encapsulate("evaluate", lrn("classif.featureless"))
+  expect_class(learner$fallback, "LearnerClassifFeatureless")
 
   bmr = benchmark(benchmark_grid(task, learner, rsmp("cv", folds = 3)))
   aggr = bmr$aggregate(conditions = TRUE)

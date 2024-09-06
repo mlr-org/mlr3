@@ -301,8 +301,8 @@ test_that("encapsulatiion", {
 
   for (learner in bmr$learners$learner) {
     expect_class(learner$fallback, "LearnerClassifFeatureless")
-    expect_equal(learner$encapsulate[["train"]], "evaluate")
-    expect_equal(learner$encapsulate[["predict"]], "evaluate")
+    expect_equal(learner$encapsulation[["train"]], "evaluate")
+    expect_equal(learner$encapsulation[["predict"]], "evaluate")
   }
 })
 
@@ -518,7 +518,8 @@ test_that("properties are also checked on validation task", {
 })
 
 test_that("unmarshal parameter is respected", {
-  learner = lrn("classif.debug", count_marshaling = TRUE, encapsulate = c(train = "callr"))
+  learner = lrn("classif.debug", count_marshaling = TRUE)
+  learner$encapsulate("callr", lrn("classif.featureless"))
   task = tsk("iris")
   resampling = rsmp("holdout")
   design = benchmark_grid(task, learner, resampling)

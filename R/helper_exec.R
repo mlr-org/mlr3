@@ -4,7 +4,6 @@ allow_partial_matching = list(
   warnPartialMatchDollar = FALSE
 )
 
-
 set_encapsulation = function(learners, encapsulate) {
   assert_choice(encapsulate, c(NA_character_, "none", "evaluate", "callr", "try"))
 
