@@ -43,24 +43,24 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="mlr3-development-version">mlr3 (development version)<a class="anchor" aria-label="anchor" href="#mlr3-development-version"></a></h2>
-<ul><li>Deprecated <code>data_format</code> and <code>data_formats</code> for Learners, Tasks, and DataBackends.</li>
-<li>feat: The <code><a href="../reference/partition.html">partition()</a></code> function creates training, test and validation sets.</li>
-<li>refactor: Optimize runtime of fixing factor levels.</li>
-<li>refactor: Optimize runtime of setting row roles.</li>
-<li>refactor: Optimize runtime of marshalling.</li>
-<li>refactor: Optimize runtime of <code>Task$col_info</code>.</li>
+<ul><li>BREAKING CHANGE: Deprecated <code>data_format</code> and <code>data_formats</code> for <code>Learner</code>, <code>Task</code>, and <code>DataBackend</code> classes.</li>
+<li>feat: The <code><a href="../reference/partition.html">partition()</a></code> function creates training, test and validation sets now.</li>
+<li>perf: Optimize the runtime of fixing factor levels.</li>
+<li>perf: Optimize the runtime of setting row roles.</li>
+<li>perf: Optimize the runtime of marshalling.</li>
+<li>perf: Optimize the runtime of <code>Task$col_info</code>.</li>
 <li>fix: column info is now checked for compatibility during <code>Learner$predict</code> (<a href="https://github.com/mlr-org/mlr3/issues/943" class="external-link">#943</a>).</li>
 <li>BREAKING CHANGE: The predict time of the learner now stores the cumulative duration for all predict sets (<a href="https://github.com/mlr-org/mlr3/issues/992" class="external-link">#992</a>).</li>
 <li>feat: <code>$internal_valid_task</code> can now be set to an <code>integer</code> vector.</li>
-<li>feat: Measures can now have an empty <code>$predict_sets</code> (<a href="https://github.com/mlr-org/mlr3/issues/1094" class="external-link">#1094</a>). this is relevant for measures that only extract information from the model of a learner (such as internal validation scores or AIC / BIC)</li>
-<li>refactor: Deprecated the <code>$divide()</code> method</li>
+<li>feat: Measures can now have an empty <code>$predict_sets</code> (<a href="https://github.com/mlr-org/mlr3/issues/1094" class="external-link">#1094</a>). This is relevant for measures that only extract information from the model of a learner (such as internal validation scores or AIC / BIC)</li>
+<li>BREAKING CHANGE: Deprecated the <code>$divide()</code> method</li>
 <li>fix: <code>Task$cbind()</code> now works with non-standard primary keys for <code>data.frames</code> (<a href="https://github.com/mlr-org/mlr3/issues/961" class="external-link">#961</a>).</li>
 <li>fix: Triggering of fallback learner now has log-level <code>"info"</code> instead of <code>"debug"</code> (<a href="https://github.com/mlr-org/mlr3/issues/972" class="external-link">#972</a>).</li>
-<li>feat: Added new measure <code>pinballs</code>.</li>
-<li>feat: Added new measure <code>mu_auc</code>.</li>
+<li>feat: Added new measure <code>regr.pinball</code> here and in mlr3measures.</li>
+<li>feat: Added new measure <code>mu_auc</code> here and in mlr3measures.</li>
 <li>feat: Add option to calculate the mean of the true values on the train set in <code>msr("regr.rsq")</code>.</li>
 <li>feat: Default fallback learner is set when encapsulation is activated.</li>
-<li>feat: Learners classif.debug and regr.debug have new methods <code>$importance()</code> and <code>$selected_features()</code> for testing, also in downstream packages</li>
+<li>feat: Learners <code>classif.debug</code> and <code>regr.debug</code> have new methods <code>$importance()</code> and <code>$selected_features()</code> for testing, also in downstream packages.</li>
 <li>feat: Create default fallback learner with <code><a href="../reference/default_fallback.html">default_fallback()</a></code>.</li>
 <li>feat: Check column roles when using <code>$set_col_roles()</code> and <code>$col_roles</code>.</li>
 <li>fix: Add predict set to learner hash.</li>
