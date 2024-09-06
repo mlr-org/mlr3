@@ -22,7 +22,8 @@
 * feat: Create default fallback learner with `default_fallback()`.
 * feat: Check column roles when using `$set_col_roles()` and `$col_roles`.
 * fix: Add predict set to learner hash.
-* BREAKING CHANGE: Encapsulation and the fallback learner are now set the `$encapsulate()` method.
+* BREAKING CHANGE: Encapsulation and the fallback learner are now set with the `$encapsulate(method, fallback)` method.
+  The `$fallback` field is read-only now and the encapsulate status can be retrieved from the `$encapsulation` field.
 
 # mlr3 0.20.2
 
