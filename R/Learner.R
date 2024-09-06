@@ -449,6 +449,35 @@ Learner = R6Class("Learner",
       } else {
         self
       }
+    },
+
+    #' @description
+    #' Controls how to execute the code in internal train and predict methods.
+    #' Must be a named character vector with names `"train"` and `"predict"`.
+    #' Possible values are `"none"`, `"try"`, `"evaluate"` (requires package \CRANpkg{evaluate}) and `"callr"` (requires package \CRANpkg{callr}).
+    #' When encapsulation is activated, a fallback learner must be set,
+    #  to ensure that some form of valid model / predictions are created,
+    #  after an error of the original learner is caught via encapsulation.
+    #' If no learner is set in `$fallback`, the default fallback learner is used (see `mlr_reflections$task_types`).
+    #' See [mlr3misc::encapsulate()] for more details.
+    encapsulate = function(type, fallback) {
+      assert_choice(type, c("none", "try", "evaluate", "callr"))
+
+      if (type != "none") {
+        assert_learner(fallback, task_type = self$task_type)
+
+        if (!identical(self$predict_type, fallback$predict_type)) {
+          warningf("The fallback learner '%s' and the base learner '%s' have different predict types: '%s' != '%s'.",
+            fallback$id, self$id, fallback$predict_type, self$predict_type)
+        }
+
+        # check properties
+      } else if (type == "none" && !is.null(fallback)) {
+        stop("Fallback learner must be NULL if encapsulation is deactivated.")
+      }
+
+      private$.encapsulate = c(train = type, predict = type)
+      private$.fallback = fallback
     }
   ),
 
@@ -547,34 +576,7 @@ Learner = R6Class("Learner",
       private$.param_set
     },
 
-    #' @field encapsulate (named `character()`)\cr
-    #' Controls how to execute the code in internal train and predict methods.
-    #' Must be a named character vector with names `"train"` and `"predict"`.
-    #' Possible values are `"none"`, `"try"`, `"evaluate"` (requires package \CRANpkg{evaluate}) and `"callr"` (requires package \CRANpkg{callr}).
-    #' When encapsulation is activated, a fallback learner must be set,
-    #  to ensure that some form of valid model / predictions are created,
-    #  after an error of the original learner is caught via encapsulation.
-    #' If no learner is set in `$fallback`, the default fallback learner is used (see `mlr_reflections$task_types`).
-    #' See [mlr3misc::encapsulate()] for more details.
-    encapsulate = function(rhs) {
-      default = c(train = "none", predict = "none")
 
-      if (missing(rhs)) {
-        return(insert_named(default, private$.encapsulate))
-      }
-
-      assert_character(rhs)
-      assert_names(names(rhs), subset.of = c("train", "predict"))
-      private$.encapsulate = insert_named(default, rhs)
-
-      # if there is no fallback, we get a default one
-      if (is.null(private$.fallback)) {
-        fallback = default_fallback(self)
-        if (!is.null(fallback)) {
-          self$fallback = fallback
-        }
-      }
-    },
 
     #' @field fallback ([Learner])\cr
     #' Learner which is fitted to impute predictions in case that either the model fitting or the prediction of the top learner is not successful.
@@ -584,21 +586,12 @@ Learner = R6Class("Learner",
     #' Also see the section on error handling the mlr3book:
     #' \url{https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling}
     fallback = function(rhs) {
+      assert_ro_binding(rhs)
+      return(private$.fallback)
+
       if (missing(rhs)) {
         return(private$.fallback)
       }
-
-      if (!is.null(rhs)) {
-        assert_learner(rhs, task_type = self$task_type)
-        if (!identical(self$predict_type, rhs$predict_type)) {
-          warningf("The fallback learner '%s' and the base learner '%s' have different predict types: '%s' != '%s'.",
-            rhs$id, self$id, rhs$predict_type, self$predict_type)
-        }
-        if (is.null(private$.encapsulate)) {
-          private$.encapsulate = c(train = "evaluate", predict = "evaluate")
-        }
-      }
-      private$.fallback = rhs
     },
 
     #' @field hotstart_stack ([HotstartStack])\cr.
