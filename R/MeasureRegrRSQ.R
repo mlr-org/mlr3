@@ -15,7 +15,7 @@
 #' where \eqn{\bar{t} = \sum_{i=1}^n t_i}.
 #'
 #' Also known as coefficient of determination or explained variation.
-#' Subtracts the [rse()] from 1, hence it compares the squared error of the predictions relative to a naive model predicting the mean.
+#' Subtracts the [mlr3measures::rse()] from 1, hence it compares the squared error of the predictions relative to a naive model predicting the mean.
 #'
 #' This measure is undefined for constant \eqn{t}.
 #'
