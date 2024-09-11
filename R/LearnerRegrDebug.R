@@ -125,8 +125,6 @@ LearnerRegrDebug = R6Class("LearnerRegrDebug", inherit = LearnerRegr,
         prediction[[pt]] = value
       }
 
-      browser()
-
       return(prediction)
     }
   )
