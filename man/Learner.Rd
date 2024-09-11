@@ -296,21 +296,11 @@ Must be an element of \verb{$predict_types}.}
 \item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
 Set of hyperparameters.}
 
-\item{\code{encapsulate}}{(named \code{character()})\cr
-Controls how to execute the code in internal train and predict methods.
-Must be a named character vector with names \code{"train"} and \code{"predict"}.
-Possible values are \code{"none"}, \code{"try"}, \code{"evaluate"} (requires package \CRANpkg{evaluate}) and \code{"callr"} (requires package \CRANpkg{callr}).
-When encapsulation is activated, a fallback learner must be set,
-If no learner is set in \verb{$fallback}, the default fallback learner is used (see \code{mlr_reflections$task_types}).
-See \code{\link[mlr3misc:encapsulate]{mlr3misc::encapsulate()}} for more details.}
-
 \item{\code{fallback}}{(\link{Learner})\cr
-Learner which is fitted to impute predictions in case that either the model fitting or the prediction of the top learner is not successful.
-Requires encapsulation, otherwise errors are not caught and the execution is terminated before the fallback learner kicks in.
-If you have not set encapsulation manually before, setting the fallback learner automatically
-activates encapsulation using the \CRANpkg{evaluate} package.
-Also see the section on error handling the mlr3book:
-\url{https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling}}
+Returns the fallback learner set with \verb{$encapsulate()}.}
+
+\item{\code{encapsulation}}{(\code{character(2)})\cr
+Returns the encapsulation settings set with \verb{$encapsulate()}.}
 
 \item{\code{hotstart_stack}}{(\link{HotstartStack})\cr.
 Stores \code{HotstartStack}.}
@@ -329,6 +319,7 @@ Stores \code{HotstartStack}.}
 \item \href{#method-Learner-predict_newdata}{\code{Learner$predict_newdata()}}
 \item \href{#method-Learner-reset}{\code{Learner$reset()}}
 \item \href{#method-Learner-base_learner}{\code{Learner$base_learner()}}
+\item \href{#method-Learner-encapsulate}{\code{Learner$encapsulate()}}
 \item \href{#method-Learner-clone}{\code{Learner$clone()}}
 }
 }
@@ -572,6 +563,51 @@ Depth of recursion for multiple nested objects.}
 }
 \subsection{Returns}{
 \link{Learner}.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Learner-encapsulate"></a>}}
+\if{latex}{\out{\hypertarget{method-Learner-encapsulate}{}}}
+\subsection{Method \code{encapsulate()}}{
+Sets the encapsulation method and fallback learner for the train and predict steps.
+There are currently four different methods implemented:
+\itemize{
+\item \code{"none"}: Just runs the learner in the current session and measures the elapsed time.
+Does not keep a log, output is printed directly to the console.
+Works well together with \code{\link[=traceback]{traceback()}}.
+\item \code{"try"}: Similar to \code{"none"}, but catches error.
+Output is printed to the console and not logged.
+\item \code{"evaluate"}: Uses the package \CRANpkg{evaluate} to call the learner, measure time and do the logging.
+\item \code{"callr"}: Uses the package \CRANpkg{callr} to call the learner, measure time and do the logging.
+This encapsulation spawns a separate R session in which the learner is called.
+While this comes with a considerable overhead, it also guards your session from being teared down by segfaults.
+}
+
+The fallback learner is fitted to create valid predictions in case that either the model fitting or the prediction of the original learner fails.
+If the training step or the predict step of the original learner fails, the fallback is used completely to predict predictions sets.
+If the original learner only partially fails during predict step (usually in the form of missing to predict some observations or producing some `NA`` predictions), these missing predictions are imputed by the fallback.
+Note that the fallback is always trained, as we do not know in advance whether prediction will fail.
+
+Also see the section on error handling the mlr3book:
+\url{https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling}
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Learner$encapsulate(method, fallback = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{method}}{\code{character(1)}\cr
+One of \code{"none"}, \code{"try"}, \code{"evaluate"} or \code{"callr"}.
+See the description for details.}
+
+\item{\code{fallback}}{\link{Learner}\cr
+The fallback learner for failed predictions.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\code{self} (invisibly).
 }
 }
 \if{html}{\out{<hr>}}

@@ -51,8 +51,7 @@ test_that("fallback", {
   data("iris", package = "datasets")
   task_train = as_task_classif(iris, "Species")
   learner = lrn("classif.debug", error_predict = 1)
-  learner$encapsulate = c(predict = "evaluate")
-  learner$fallback = lrn("classif.featureless")
+  learner$encapsulate("evaluate", lrn("classif.featureless"))
   learner$train(task_train)
 
   iris$Species = NULL

@@ -1,32 +1,16 @@
 disable_encapsulation = function(learner) {
-  learner$encapsulate = c(train = "none", predict = "none")
+  learner$encapsulate("none")
   learner
 }
 
 enable_encapsulation = function(learner) {
-  learner$encapsulate = c(train = "evaluate", predict = "evaluate")
+  learner$encapsulate("evaluate", default_fallback(learner))
   learner
 }
 
 task = tsk("iris")
 learner = lrn("classif.debug")
 learner$param_set$values = list(message_train = 1, warning_train = 1, message_predict = 1, warning_predict = 1)
-
-test_that("encapsulation is automatically enabled", {
-  tmp = lrn("classif.debug")
-  expect_equal(tmp$encapsulate, c(train = "none", predict = "none"))
-  expect_null(get_private(tmp)$.encapsulate)
-
-  tmp$fallback = lrn("classif.featureless")
-  expect_equal(tmp$encapsulate, c(train = "evaluate", predict = "evaluate"))
-  expect_equal(get_private(tmp)$.encapsulate, c(train = "evaluate", predict = "evaluate"))
-
-  tmp = lrn("classif.debug")
-  tmp$encapsulate = c(train = "none", predict = "none")
-  tmp$fallback = lrn("classif.featureless")
-  expect_equal(tmp$encapsulate, c(train = "none", predict = "none"))
-  expect_equal(get_private(tmp)$.encapsulate, c(train = "none", predict = "none"))
-})
 
 test_that("evaluate / single step", {
 
@@ -112,7 +96,7 @@ test_that("encapsulate methods produce the same results", {
 
   set.seed(123)
   learner = lrn("classif.debug")
-  learner$encapsulate = c(train = "try", predict = "none")
+  learner$encapsulate("try", lrn("classif.featureless"))
   learner$train(task)
   expect_equal(learner$model$random_number, 2986)
   expect_equal(sample(seq(1000), 1), 818)
@@ -121,7 +105,7 @@ test_that("encapsulate methods produce the same results", {
 
   set.seed(123)
   learner = lrn("classif.debug")
-  learner$encapsulate = c(train = "evaluate", predict = "none")
+  learner$encapsulate("evaluate", lrn("classif.featureless"))
   learner$train(task)
   expect_equal(learner$model$random_number, 2986)
   expect_equal(sample(seq(1000), 1), 818)
@@ -130,7 +114,7 @@ test_that("encapsulate methods produce the same results", {
 
   set.seed(123)
   learner = lrn("classif.debug")
-  learner$encapsulate = c(train = "callr", predict = "none")
+  learner$encapsulate("callr", lrn("classif.featureless"))
   learner$train(task)
   expect_equal(learner$model$random_number, 2986)
   expect_equal(sample(seq(1000), 1), 818)

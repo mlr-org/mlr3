@@ -123,8 +123,8 @@ test_that("encapsulation", {
   rr = resample(task, learner, resampling, encapsulate = "evaluate")
   expect_data_table(rr$errors, nrows = 1L)
   expect_class(rr$learner$fallback, "LearnerClassifFeatureless")
-  expect_equal(rr$learner$encapsulate[["train"]], "evaluate")
-  expect_equal(rr$learner$encapsulate[["predict"]], "evaluate")
+  expect_equal(rr$learner$encapsulation[["train"]], "evaluate")
+  expect_equal(rr$learner$encapsulation[["predict"]], "evaluate")
 })
 
 test_that("disable cloning", {
@@ -158,8 +158,10 @@ test_that("as_resample_result works for result data", {
 })
 
 test_that("encapsulation triggers marshaling correctly", {
-  learner1 = lrn("classif.debug", count_marshaling = TRUE, encapsulate = c(train = "callr"))
-  learner2 = lrn("classif.debug", count_marshaling = TRUE, encapsulate = c(train = "none"))
+  learner1 = lrn("classif.debug", count_marshaling = TRUE)
+  learner1$encapsulate("callr", fallback = lrn("classif.featureless"))
+  learner2 = lrn("classif.debug", count_marshaling = TRUE)
+  learner2$encapsulate("none")
   task = tsk("iris")
   resampling = rsmp("holdout")
   rr1 = resample(task, learner1, resampling, store_models = TRUE, unmarshal = FALSE)
@@ -190,7 +192,8 @@ test_that("sequential execution does not trigger marshaling", {
 })
 
 test_that("parallel execution and callr marshal once", {
-  learner = lrn("classif.debug", count_marshaling = TRUE, encapsulate = c(train = "callr"))
+  learner = lrn("classif.debug", count_marshaling = TRUE)
+  learner$encapsulate("callr", lrn("classif.featureless"))
   task = tsk("iris")
   resampling = rsmp("holdout")
   rr = with_future(future::multisession, {
@@ -201,7 +204,8 @@ test_that("parallel execution and callr marshal once", {
 })
 
 test_that("marshaling works when store_models is FALSE", {
-  learner = lrn("classif.debug", count_marshaling = FALSE, encapsulate = c(train = "callr"))
+  learner = lrn("classif.debug", count_marshaling = FALSE)
+  learner$encapsulate("callr", lrn("classif.featureless"))
   task = tsk("iris")
   resampling = rsmp("holdout")
   rr = with_future(future::multisession, {
@@ -219,7 +223,8 @@ test_that("marshaling works when store_models is FALSE", {
 
 
 test_that("unmarshal parameter is respected", {
-  learner = lrn("classif.debug", count_marshaling = TRUE, encapsulate = c(train = "callr"))
+  learner = lrn("classif.debug", count_marshaling = TRUE)
+  learner$encapsulate("callr", lrn("classif.featureless"))
   task = tsk("iris")
   resampling = rsmp("holdout")
   rr = with_future(future::multisession, {
@@ -350,13 +355,13 @@ test_that("properties are also checked on validation task", {
 })
 
 test_that("marshaling does not change class of learner state when reassembling", {
-  rr = resample(tsk("iris"), lrn("classif.debug", encapsulate = c(train = "callr")), rsmp("holdout"), store_models = TRUE)
+  rr = resample(tsk("iris"), lrn("classif.debug"), rsmp("holdout"), encapsulate = "callr", store_models = TRUE)
   expect_class(rr$learners[[1]]$state, "learner_state")
 })
 
 test_that("marshaled model is sent back, when unmarshal is FALSE, sequential exec and callr", {
-  learner = lrn("classif.debug", count_marshaling = TRUE, encapsulate = c(train = "callr", predict = "callr"))
-  rr = resample(tsk("iris"), learner, rsmp("holdout"), store_models = TRUE, unmarshal = FALSE)
+  learner = lrn("classif.debug", count_marshaling = TRUE)
+  rr = resample(tsk("iris"), learner, rsmp("holdout"), store_models = TRUE, encapsulate = "callr", unmarshal = FALSE)
   expect_true(rr$learners[[1L]]$marshaled)
 })
 
@@ -374,8 +379,10 @@ test_that("can even use internal_valid predict set on learners that don't suppor
 })
 
 test_that("callr during prediction triggers marshaling", {
-  learner1 = lrn("classif.debug", count_marshaling = TRUE, encapsulate = c(train = "none", predict = "callr"))
-  learner2 = lrn("classif.debug", count_marshaling = TRUE, encapsulate = c(train = "callr", predict = "callr"))
+  learner1 = lrn("classif.debug", count_marshaling = TRUE)
+  learner1$encapsulate("callr", lrn("classif.featureless"))
+  learner2 = lrn("classif.debug", count_marshaling = TRUE)
+  learner2$encapsulate("callr", lrn("classif.featureless"))
 
   rr1 = with_future(future::multisession, {
     resample(tsk("iris"), learner1, rsmp("holdout"), unmarshal = FALSE, store_models = TRUE)
@@ -417,7 +424,7 @@ test_that("callr during prediction triggers marshaling", {
   })
   l6 = rr6$learners[[1L]]
   expect_false(l6$marshaled)
-  expect_equal(l6$model$marshal_count, 0L)
+  expect_equal(l6$model$marshal_count, 1L)
 
   rr7 = with_future(future::multisession, {
     resample(tsk("iris"), learner2, rsmp("holdout"), unmarshal = TRUE, store_models = TRUE)

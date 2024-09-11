@@ -241,7 +241,7 @@ test_that("empty predict set (#421)", {
 
 test_that("fallback learner is deep cloned (#511)", {
   l = lrn("classif.rpart")
-  l$fallback = lrn("classif.featureless")
+  l$encapsulate("evaluate",lrn("classif.featureless"))
   expect_different_address(l$fallback, l$clone(deep = TRUE)$fallback)
 })
 
@@ -383,14 +383,14 @@ test_that("marshaling and encapsulation", {
   learner = lrn("classif.debug", count_marshaling = TRUE)
 
   # callr encapsulation causes marshaling
-  learner$encapsulate = c(train = "callr")
+  learner$encapsulate("callr", lrn("classif.featureless"))
   learner$train(task)
   expect_equal(learner$model$marshal_count, 1)
   expect_false(learner$marshaled)
   expect_prediction(learner$predict(task))
 
   # no marshaling with no other encapsulation
-  learner$encapsulate = c(train = "none")
+  learner$encapsulate("none")
   learner$train(task)
   expect_equal(learner$model$marshal_count, 0)
 })
@@ -508,7 +508,8 @@ test_that("model is marshaled during callr prediction", {
   # by setting check_pid = TRUE, we ensure that unmarshal_model() sets the process id to the current
   # id. LearnerClassifDebug then checks during `.predict()`, whether the marshal_id of the model is equal to the current process id and errs if this is not the case.
   task = tsk("iris")
-  learner = lrn("classif.debug", check_pid = TRUE, encapsulate = c(predict = "callr"))
+  learner = lrn("classif.debug", check_pid = TRUE)
+  learner$encapsulate("callr", lrn("classif.featureless"))
   learner$train(task)
   pred = learner$predict(task)
   expect_class(pred, "Prediction")
@@ -516,7 +517,8 @@ test_that("model is marshaled during callr prediction", {
 
 test_that("predict leaves marshaling status as-is", {
   task = tsk("iris")
-  learner = lrn("classif.debug", check_pid = TRUE, encapsulate = c(predict = "callr"))
+  learner = lrn("classif.debug", check_pid = TRUE)
+  learner$encapsulate("callr", lrn("classif.featureless"))
   learner$train(task)
   learner$marshal()
   expect_class(learner$predict(task), "Prediction")
