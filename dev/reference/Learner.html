@@ -377,24 +377,14 @@ Must be an element of <code>$predict_types</code>.</p></dd>
 Set of hyperparameters.</p></dd>
 
 
-<dt><code>encapsulate</code></dt>
-<dd><p>(named <code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
-Controls how to execute the code in internal train and predict methods.
-Must be a named character vector with names <code>"train"</code> and <code>"predict"</code>.
-Possible values are <code>"none"</code>, <code>"try"</code>, <code>"evaluate"</code> (requires package <a href="https://CRAN.R-project.org/package=evaluate" class="external-link"><span class="pkg">evaluate</span></a>) and <code>"callr"</code> (requires package <a href="https://CRAN.R-project.org/package=callr" class="external-link"><span class="pkg">callr</span></a>).
-When encapsulation is activated, a fallback learner must be set,
-If no learner is set in <code>$fallback</code>, the default fallback learner is used (see <code>mlr_reflections$task_types</code>).
-See <code><a href="https://mlr3misc.mlr-org.com/reference/encapsulate.html" class="external-link">mlr3misc::encapsulate()</a></code> for more details.</p></dd>
-
-
 <dt><code>fallback</code></dt>
 <dd><p>(Learner)<br>
-Learner which is fitted to impute predictions in case that either the model fitting or the prediction of the top learner is not successful.
-Requires encapsulation, otherwise errors are not caught and the execution is terminated before the fallback learner kicks in.
-If you have not set encapsulation manually before, setting the fallback learner automatically
-activates encapsulation using the <a href="https://CRAN.R-project.org/package=evaluate" class="external-link"><span class="pkg">evaluate</span></a> package.
-Also see the section on error handling the mlr3book:
-<a href="https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling" class="external-link">https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling</a></p></dd>
+Returns the fallback learner set with <code>$encapsulate()</code>.</p></dd>
+
+
+<dt><code>encapsulation</code></dt>
+<dd><p>(<code>character(2)</code>)<br>
+Returns the encapsulation settings set with <code>$encapsulate()</code>.</p></dd>
 
 
 <dt><code>hotstart_stack</code></dt>
@@ -419,6 +409,7 @@ Stores <code>HotstartStack</code>.</p></dd>
 <li><p><a href="#method-Learner-predict_newdata"><code>Learner$predict_newdata()</code></a></p></li>
 <li><p><a href="#method-Learner-reset"><code>Learner$reset()</code></a></p></li>
 <li><p><a href="#method-Learner-base_learner"><code>Learner$base_learner()</code></a></p></li>
+<li><p><a href="#method-Learner-encapsulate"><code>Learner$encapsulate()</code></a></p></li>
 <li><p><a href="#method-Learner-clone"><code>Learner$clone()</code></a></p></li>
 </ul></div><p></p><hr><a id="method-Learner-new"></a><div class="section">
 <h3 id="method-new-">Method <code>new()</code><a class="anchor" aria-label="anchor" href="#method-new-"></a></h3>
@@ -677,15 +668,57 @@ Depth of recursion for multiple nested objects.</p></dd>
 <p>Learner.</p>
 </div>
 
-</div><p></p><hr><a id="method-Learner-clone"></a><div class="section">
-<h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
-<p>The objects of this class are cloneable with this method.</p><div class="section">
+</div><p></p><hr><a id="method-Learner-encapsulate"></a><div class="section">
+<h3 id="method-encapsulate-">Method <code>encapsulate()</code><a class="anchor" aria-label="anchor" href="#method-encapsulate-"></a></h3>
+<p>Sets the encapsulation method and fallback learner for the train and predict steps.
+There are currently four different methods implemented:</p><ul><li><p><code>"none"</code>: Just runs the learner in the current session and measures the elapsed time.
+Does not keep a log, output is printed directly to the console.
+Works well together with <code><a href="https://rdrr.io/r/base/traceback.html" class="external-link">traceback()</a></code>.</p></li>
+<li><p><code>"try"</code>: Similar to <code>"none"</code>, but catches error.
+Output is printed to the console and not logged.</p></li>
+<li><p><code>"evaluate"</code>: Uses the package <a href="https://CRAN.R-project.org/package=evaluate" class="external-link"><span class="pkg">evaluate</span></a> to call the learner, measure time and do the logging.</p></li>
+<li><p><code>"callr"</code>: Uses the package <a href="https://CRAN.R-project.org/package=callr" class="external-link"><span class="pkg">callr</span></a> to call the learner, measure time and do the logging.
+This encapsulation spawns a separate R session in which the learner is called.
+While this comes with a considerable overhead, it also guards your session from being teared down by segfaults.</p></li>
+</ul><p>The fallback learner is fitted to create valid predictions in case that either the model fitting or the prediction of the original learner fails.
+If the training step or the predict step of the original learner fails, the fallback is used completely to predict predictions sets.
+If the original learner only partially fails during predict step (usually in the form of missing to predict some observations or producing some `NA“ predictions), these missing predictions are imputed by the fallback.
+Note that the fallback is always trained, as we do not know in advance whether prediction will fail.</p>
+<p>Also see the section on error handling the mlr3book:
+<a href="https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling" class="external-link">https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling</a></p><div class="section">
 <h4 id="usage-9">Usage<a class="anchor" aria-label="anchor" href="#usage-9"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Learner</span><span class="op">$</span><span class="fu">clone</span><span class="op">(</span>deep <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Learner</span><span class="op">$</span><span class="fu">encapsulate</span><span class="op">(</span><span class="va">method</span>, fallback <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
 <h4 id="arguments-7">Arguments<a class="anchor" aria-label="anchor" href="#arguments-7"></a></h4>
+<p></p><div class="arguments"><dl><dt><code>method</code></dt>
+<dd><p><code>character(1)</code><br>
+One of <code>"none"</code>, <code>"try"</code>, <code>"evaluate"</code> or <code>"callr"</code>.
+See the description for details.</p></dd>
+
+
+<dt><code>fallback</code></dt>
+<dd><p>Learner<br>
+The fallback learner for failed predictions.</p></dd>
+
+
+</dl><p></p></div>
+</div>
+<div class="section">
+<h4 id="returns-5">Returns<a class="anchor" aria-label="anchor" href="#returns-5"></a></h4>
+<p><code>self</code> (invisibly).</p>
+</div>
+
+</div><p></p><hr><a id="method-Learner-clone"></a><div class="section">
+<h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
+<p>The objects of this class are cloneable with this method.</p><div class="section">
+<h4 id="usage-10">Usage<a class="anchor" aria-label="anchor" href="#usage-10"></a></h4>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Learner</span><span class="op">$</span><span class="fu">clone</span><span class="op">(</span>deep <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
+</div>
+
+<div class="section">
+<h4 id="arguments-8">Arguments<a class="anchor" aria-label="anchor" href="#arguments-8"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>deep</code></dt>
 <dd><p>Whether to make a deep clone.</p></dd>
 
