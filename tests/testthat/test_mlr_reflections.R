@@ -101,6 +101,7 @@ test_that("external packages can set column roles", {
   task = tsk("pima")
 
   with_future(future::multisession, {
-    resample(task, lrn("classif.rpart"), rsmp("cv", folds = 3))
+    rr = resample(task, lrn("classif.rpart"), rsmp("cv", folds = 3))
   })
+  expect_resample_result(rr)
 })

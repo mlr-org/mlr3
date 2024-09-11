@@ -598,8 +598,7 @@ test_that("validation task is cloned", {
   task = tsk("iris")
   task$internal_valid_task = c(1:10, 51:60, 101:110)
   task2 = task$clone(deep = TRUE)
-  expect_false(identical(task$internal_valid_task, task2$internal_valid_task))
-  expect_equal(task$internal_valid_task, task2$internal_valid_task)
+  expect_different_address(task$internal_valid_task, task2$internal_valid_task)
 })
 
 test_that("task is cloned when assining internal validation task", {
