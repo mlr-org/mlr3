@@ -233,9 +233,6 @@ for established default tuning spaces.</p></li>
 <span class="r-in"><span><span class="va">learner</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">lrn</a></span><span class="op">(</span><span class="st">"regr.debug"</span>, save_tasks <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">learner</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task</span>, row_ids <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">20</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">prediction</span> <span class="op">=</span> <span class="va">learner</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="va">task</span>, row_ids <span class="op">=</span> <span class="fl">21</span><span class="op">:</span><span class="fl">32</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Called from: .__LearnerRegrDebug__.predict(self = self, private = private, </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     super = super, task = task)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> debug: return(prediction)</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">learner</span><span class="op">$</span><span class="va">model</span><span class="op">$</span><span class="va">task_train</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;TaskRegr:mtcars&gt; (20 x 11): Motor Trends</span>
