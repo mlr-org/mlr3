@@ -25,8 +25,8 @@ check_prediction_data.PredictionDataRegr = function(pdata, ...) { # nolint
       stopf("No probs attribute stored in 'quantile'")
     }
 
-    if (is.null(attr(quantiles, "response"))) {
-      stopf("No response attribute stored in 'quantile'")
+    if (is.null(attr(quantiles, "response")) && is.null(pdata$response)) {
+      stopf("No response attribute stored in 'quantile' or response stored in 'pdata'")
     }
 
     if (any(apply(quantiles, 1L, is.unsorted))) {

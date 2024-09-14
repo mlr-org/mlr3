@@ -63,7 +63,7 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
       # response is in saved in quantiles matrix
       if ("quantiles" %in% predict_types) predict_types = union(predict_types, "response")
       self$predict_types = predict_types
-      private$.quantile_response = attr(quantiles, "response")
+      if (is.null(pdata$response)) private$.quantile_response = attr(quantiles, "response")
     }
   ),
 
