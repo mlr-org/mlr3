@@ -316,7 +316,7 @@ run_experiment = function(task, learner, seed = NULL, configure_learner = NULL) 
   # check train
   stage = "train()"
 
-  ok = try(learner$train(task), silent = TRUE)
+  ok = suppressWarnings(try(learner$train(task), silent = TRUE))
   if (inherits(ok, "try-error")) {
     return(err(as.character(ok)))
   }
@@ -327,7 +327,7 @@ run_experiment = function(task, learner, seed = NULL, configure_learner = NULL) 
   # check predict
   stage = "predict()"
 
-  prediction = try(learner$predict(task), silent = TRUE)
+  prediction = suppressWarnings(try(learner$predict(task), silent = TRUE))
   if (inherits(prediction, "try-error")) {
     ok = prediction
     prediction = NULL
