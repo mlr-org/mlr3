@@ -44,3 +44,38 @@ test_that("construction of empty PredictionDataRegr", {
   expect_numeric(pred$se, len = 0L)
   expect_data_table(as.data.table(pred), nrows = 0L, ncols = 4L)
 })
+
+test_that("PredictionDataRegr with quantiles", {
+  n = 100
+  probs = c(0.1, 0.5, 0.9)
+  y = runif(n)
+  task = as_task_regr(data.table(y = y), target = "y")
+
+  quantiles = quantile(y, probs = probs)
+  quantiles = matrix(rep(quantiles, n), nrow = n, byrow = TRUE)
+  attr(quantiles, "probs") = probs
+  attr(quantiles, "response") = 0.5
+
+  data = list(quantiles = quantiles)
+  pdata = as_prediction_data(data, task)
+
+  pred = as_prediction(pdata)
+  expect_prediction_regr(pred)
+})
+
+test_that("PredictionDataRegr with quantiles and response", {
+  n = 100
+  probs = c(0.1, 0.9)
+  y = runif(n)
+  task = as_task_regr(data.table(y = y), target = "y")
+
+  quantiles = quantile(y, probs = probs)
+  quantiles = matrix(rep(quantiles, n), nrow = n, byrow = TRUE)
+  attr(quantiles, "probs") = probs
+
+  data = list(quantiles = quantiles, response = rep(0.5, n))
+  pdata = as_prediction_data(data, task)
+
+  pred = as_prediction(pdata)
+  expect_prediction_regr(pred)
+})
