@@ -20,7 +20,7 @@ deprecation warnings can be suppressed by setting the option
 \code{mlr3.warn_deprecated = FALSE}.
 
 The warning is of the format
-"\if{html}{\out{<what>}} is deprecated and will be removed in the future."
+"what is deprecated and will be removed in the future."
 
 Use the 'deprecated_binding()' helper function to create an active binding
 that generates a warning when accessed.
