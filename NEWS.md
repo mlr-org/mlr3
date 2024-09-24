@@ -1,4 +1,4 @@
-# mlr3 (development version)
+# mlr3 0.21.0
 
 * BREAKING CHANGE: Deprecated `data_format` and `data_formats` for `Learner`, `Task`, and `DataBackend` classes.
 * feat: The `partition()` function creates training, test and validation sets now.
@@ -12,7 +12,7 @@
 * feat: Measures can now have an empty `$predict_sets` (#1094).
   This is relevant for measures that only extract information from the model of a learner (such as internal validation scores or AIC / BIC)
 * BREAKING CHANGE: Deprecated the `$divide()` method
-* fix: `Task$cbind()` now works with non-standard primary keys  for `data.frames` (#961).
+* fix: `Task$cbind()` now works with non-standard primary keys for `data.frames` (#961).
 * fix: Triggering of fallback learner now has log-level `"info"` instead of `"debug"` (#972).
 * feat: Added new measure `regr.pinball` here and in mlr3measures.
 * feat: Added new measure `mu_auc` here and in mlr3measures.
