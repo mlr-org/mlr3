@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.20.2</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.21.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -18,7 +18,9 @@
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../reference/index.html"><span class="fa fa-file-alt"></span> Reference</a></li>
 <li class="active nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://mlr3book.mlr-org.com"><span class="fa fa-link"></span> mlr3book</a></li>
-      </ul><ul class="navbar-nav"><li class="nav-item"><a class="external-link nav-link" href="https://github.com/mlr-org/mlr3/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
+      </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
+ <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/mlr-org/mlr3/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://lmmisld-lmu-stats-slds.srv.mwn.de/mlr_invite/"><span class="fa fa-comments"></span></a></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://stackoverflow.com/questions/tagged/mlr3"><span class="fa fab fa-stack-overflow"></span></a></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://mlr-org.com/"><span class="fa fa-rss"></span></a></li>
@@ -40,8 +42,37 @@
     </div>
 
     <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.21.0" id="mlr3-0210">mlr3 0.21.0<a class="anchor" aria-label="anchor" href="#mlr3-0210"></a></h2><p class="text-muted">CRAN release: 2024-09-24</p>
+<ul><li>BREAKING CHANGE: Deprecated <code>data_format</code> and <code>data_formats</code> for <code>Learner</code>, <code>Task</code>, and <code>DataBackend</code> classes.</li>
+<li>feat: The <code><a href="../reference/partition.html">partition()</a></code> function creates training, test and validation sets now.</li>
+<li>perf: Optimize the runtime of fixing factor levels.</li>
+<li>perf: Optimize the runtime of setting row roles.</li>
+<li>perf: Optimize the runtime of marshalling.</li>
+<li>perf: Optimize the runtime of <code>Task$col_info</code>.</li>
+<li>fix: column info is now checked for compatibility during <code>Learner$predict</code> (<a href="https://github.com/mlr-org/mlr3/issues/943" class="external-link">#943</a>).</li>
+<li>BREAKING CHANGE: The predict time of the learner now stores the cumulative duration for all predict sets (<a href="https://github.com/mlr-org/mlr3/issues/992" class="external-link">#992</a>).</li>
+<li>feat: <code>$internal_valid_task</code> can now be set to an <code>integer</code> vector.</li>
+<li>feat: Measures can now have an empty <code>$predict_sets</code> (<a href="https://github.com/mlr-org/mlr3/issues/1094" class="external-link">#1094</a>). This is relevant for measures that only extract information from the model of a learner (such as internal validation scores or AIC / BIC)</li>
+<li>BREAKING CHANGE: Deprecated the <code>$divide()</code> method</li>
+<li>fix: <code>Task$cbind()</code> now works with non-standard primary keys for <code>data.frames</code> (<a href="https://github.com/mlr-org/mlr3/issues/961" class="external-link">#961</a>).</li>
+<li>fix: Triggering of fallback learner now has log-level <code>"info"</code> instead of <code>"debug"</code> (<a href="https://github.com/mlr-org/mlr3/issues/972" class="external-link">#972</a>).</li>
+<li>feat: Added new measure <code>regr.pinball</code> here and in mlr3measures.</li>
+<li>feat: Added new measure <code>mu_auc</code> here and in mlr3measures.</li>
+<li>feat: Add option to calculate the mean of the true values on the train set in <code>msr("regr.rsq")</code>.</li>
+<li>feat: Default fallback learner is set when encapsulation is activated.</li>
+<li>feat: Learners <code>classif.debug</code> and <code>regr.debug</code> have new methods <code>$importance()</code> and <code>$selected_features()</code> for testing, also in downstream packages.</li>
+<li>feat: Create default fallback learner with <code><a href="../reference/default_fallback.html">default_fallback()</a></code>.</li>
+<li>feat: Check column roles when using <code>$set_col_roles()</code> and <code>$col_roles</code>.</li>
+<li>fix: Add predict set to learner hash.</li>
+<li>BREAKING CHANGE: Encapsulation and the fallback learner are now set with the <code>$encapsulate(method, fallback)</code> method. The <code>$fallback</code> field is read-only now and the encapsulate status can be retrieved from the <code>$encapsulation</code> field.</li>
+</ul></div>
+    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.20.2" id="mlr3-0202">mlr3 0.20.2<a class="anchor" aria-label="anchor" href="#mlr3-0202"></a></h2><p class="text-muted">CRAN release: 2024-07-29</p>
-<ul><li>refactor: move RhpcBLASctl to suggest.</li>
+<ul><li>refactor: Move RhpcBLASctl to suggest.</li>
+<li>feat: Added resampling property <code>"primary_iters"</code>
+</li>
+<li>feat: Added possibility to access observation-wise losses via function <code>$obs_loss</code>. This is possible for <code>Prediction</code>, <code>ResampleResult</code> and <code>BenchmarkResult</code>.</li>
+<li>feat: <code>Measure</code>s now also return a vector of numerics.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.20.1" id="mlr3-0201">mlr3 0.20.1<a class="anchor" aria-label="anchor" href="#mlr3-0201"></a></h2><p class="text-muted">CRAN release: 2024-07-22</p>
@@ -358,7 +389,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer></div>

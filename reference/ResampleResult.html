@@ -13,7 +13,7 @@ ResampleResults can be visualized via mlr3viz's autoplot() function."><meta prop
 
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.20.2</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.21.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -24,7 +24,9 @@ ResampleResults can be visualized via mlr3viz's autoplot() function."><meta prop
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html"><span class="fa fa-file-alt"></span> Reference</a></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://mlr3book.mlr-org.com"><span class="fa fa-link"></span> mlr3book</a></li>
-      </ul><ul class="navbar-nav"><li class="nav-item"><a class="external-link nav-link" href="https://github.com/mlr-org/mlr3/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
+      </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
+ <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/mlr-org/mlr3/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://lmmisld-lmu-stats-slds.srv.mwn.de/mlr_invite/"><span class="fa fa-comments"></span></a></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://stackoverflow.com/questions/tagged/mlr3"><span class="fa fab fa-stack-overflow"></span></a></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://mlr-org.com/"><span class="fa fa-rss"></span></a></li>
@@ -143,6 +145,7 @@ Note that there can be multiple rows per resampling iteration if multiple errors
 <li><p><a href="#method-ResampleResult-prediction"><code>ResampleResult$prediction()</code></a></p></li>
 <li><p><a href="#method-ResampleResult-predictions"><code>ResampleResult$predictions()</code></a></p></li>
 <li><p><a href="#method-ResampleResult-score"><code>ResampleResult$score()</code></a></p></li>
+<li><p><a href="#method-ResampleResult-obs_loss"><code>ResampleResult$obs_loss()</code></a></p></li>
 <li><p><a href="#method-ResampleResult-aggregate"><code>ResampleResult$aggregate()</code></a></p></li>
 <li><p><a href="#method-ResampleResult-filter"><code>ResampleResult$filter()</code></a></p></li>
 <li><p><a href="#method-ResampleResult-discard"><code>ResampleResult$discard()</code></a></p></li>
@@ -228,15 +231,15 @@ the performance scores with the aggregate function of the respective <a href="Me
 <div class="section">
 <h4 id="arguments-3">Arguments<a class="anchor" aria-label="anchor" href="#arguments-3"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>predict_sets</code></dt>
-<dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br></p></dd>
+<dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
+Subset of <code>{"train", "test"}</code>.</p></dd>
 
 
 </dl><p></p></div>
 </div>
 <div class="section">
 <h4 id="returns">Returns<a class="anchor" aria-label="anchor" href="#returns"></a></h4>
-<p><a href="Prediction.html">Prediction</a>.
-Subset of <code>{"train", "test"}</code>.</p>
+<p><a href="Prediction.html">Prediction</a> or empty <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code> if no predictions are available.</p>
 </div>
 
 </div><p></p><hr><a id="method-ResampleResult-predictions"></a><div class="section">
@@ -254,30 +257,31 @@ is called macro averaging. For micro averaging, operate on the combined predicti
 <h4 id="arguments-4">Arguments<a class="anchor" aria-label="anchor" href="#arguments-4"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>predict_sets</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
-Subset of <code>{"train", "test"}</code>.</p></dd>
+Subset of <code>{"train", "test", "internal_valid"}</code>.</p></dd>
 
 
 </dl><p></p></div>
 </div>
 <div class="section">
 <h4 id="returns-1">Returns<a class="anchor" aria-label="anchor" href="#returns-1"></a></h4>
-<p>List of <a href="Prediction.html">Prediction</a> objects, one per element in <code>predict_sets</code>.</p>
+<p>List of <a href="Prediction.html">Prediction</a> objects, one per element in <code>predict_sets</code>.
+Or list of empty <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>s if no predictions are available.</p>
 </div>
 
 </div><p></p><hr><a id="method-ResampleResult-score"></a><div class="section">
 <h3 id="method-score-">Method <code>score()</code><a class="anchor" aria-label="anchor" href="#method-score-"></a></h3>
 <p>Returns a table with one row for each resampling iteration, including all involved objects:
-<a href="Task.html">Task</a>, <a href="Learner.html">Learner</a>, <a href="Resampling.html">Resampling</a>, iteration number (<code>integer(1)</code>), and <a href="Prediction.html">Prediction</a>.
+<a href="Task.html">Task</a>, <a href="Learner.html">Learner</a>, <a href="Resampling.html">Resampling</a>, iteration number (<code>integer(1)</code>), and (if enabled)
+one <a href="Prediction.html">Prediction</a> for each predict set of the <a href="Learner.html">Learner</a>.
 Additionally, a column with the individual (per resampling iteration) performance is added
-for each <a href="Measure.html">Measure</a> in <code>measures</code>,
-named with the id of the respective measure id.
+for each <a href="Measure.html">Measure</a> in <code>measures</code>, named with the id of the respective measure id.
 If <code>measures</code> is <code>NULL</code>, <code>measures</code> defaults to the return value of <code><a href="default_measures.html">default_measures()</a></code>.</p><div class="section">
 <h4 id="usage-6">Usage<a class="anchor" aria-label="anchor" href="#usage-6"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">ResampleResult</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span></span>
 <span>  measures <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  ids <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  conditions <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  predict_sets <span class="op">=</span> <span class="st">"test"</span></span>
+<span>  predictions <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
@@ -301,10 +305,11 @@ Adds condition messages (<code>"warnings"</code>, <code>"errors"</code>) as extr
 list columns of character vectors to the returned table</p></dd>
 
 
-<dt><code>predict_sets</code></dt>
-<dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
-Vector of predict sets (<code>{"train", "test"}</code>) to construct the <a href="Prediction.html">Prediction</a> objects from.
-Default is <code>"test"</code>.</p></dd>
+<dt><code>predictions</code></dt>
+<dd><p>(<code>logical(1)</code>)<br>
+Additionally return prediction objects, one column for each <code>predict_set</code> of the learner.
+Columns are named <code>"prediction_train"</code>, <code>"prediction_test"</code> and <code>"prediction_internal_valid"</code>,
+if present.</p></dd>
 
 
 </dl><p></p></div>
@@ -314,17 +319,46 @@ Default is <code>"test"</code>.</p></dd>
 <p><code><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code>.</p>
 </div>
 
+</div><p></p><hr><a id="method-ResampleResult-obs_loss"></a><div class="section">
+<h3 id="method-obs-loss-">Method <code>obs_loss()</code><a class="anchor" aria-label="anchor" href="#method-obs-loss-"></a></h3>
+<p>Calculates the observation-wise loss via the loss function set in the
+<a href="Measure.html">Measure</a>'s field <code>obs_loss</code>.
+Returns a <code><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table()</a></code> with the columns of the matching <a href="Prediction.html">Prediction</a> object plus
+one additional numeric column for each measure, named with the respective measure id.
+If there is no observation-wise loss function for the measure, the column is filled with
+<code>NA</code> values.
+Note that some measures such as RMSE, do have an <code>$obs_loss</code>, but they require an
+additional transformation after aggregation, in this example taking the square-root.</p><div class="section">
+<h4 id="usage-7">Usage<a class="anchor" aria-label="anchor" href="#usage-7"></a></h4>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">ResampleResult</span><span class="op">$</span><span class="fu">obs_loss</span><span class="op">(</span>measures <span class="op">=</span> <span class="cn">NULL</span>, predict_sets <span class="op">=</span> <span class="st">"test"</span><span class="op">)</span></span></code></pre></div><p></p></div>
+</div>
+
+<div class="section">
+<h4 id="arguments-6">Arguments<a class="anchor" aria-label="anchor" href="#arguments-6"></a></h4>
+<p></p><div class="arguments"><dl><dt><code>measures</code></dt>
+<dd><p>(<a href="Measure.html">Measure</a> | list of <a href="Measure.html">Measure</a>)<br>
+Measure(s) to calculate.</p></dd>
+
+
+<dt><code>predict_sets</code></dt>
+<dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
+The predict sets.</p></dd>
+
+
+</dl><p></p></div>
+</div>
+
 </div><p></p><hr><a id="method-ResampleResult-aggregate"></a><div class="section">
 <h3 id="method-aggregate-">Method <code><a href="https://rdrr.io/r/stats/aggregate.html" class="external-link">aggregate()</a></code><a class="anchor" aria-label="anchor" href="#method-aggregate-"></a></h3>
 <p>Calculates and aggregates performance values for all provided measures, according to the
 respective aggregation function in <a href="Measure.html">Measure</a>.
 If <code>measures</code> is <code>NULL</code>, <code>measures</code> defaults to the return value of <code><a href="default_measures.html">default_measures()</a></code>.</p><div class="section">
-<h4 id="usage-7">Usage<a class="anchor" aria-label="anchor" href="#usage-7"></a></h4>
+<h4 id="usage-8">Usage<a class="anchor" aria-label="anchor" href="#usage-8"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">ResampleResult</span><span class="op">$</span><span class="fu">aggregate</span><span class="op">(</span>measures <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
-<h4 id="arguments-6">Arguments<a class="anchor" aria-label="anchor" href="#arguments-6"></a></h4>
+<h4 id="arguments-7">Arguments<a class="anchor" aria-label="anchor" href="#arguments-7"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>measures</code></dt>
 <dd><p>(<a href="Measure.html">Measure</a> | list of <a href="Measure.html">Measure</a>)<br>
 Measure(s) to calculate.</p></dd>
@@ -340,12 +374,12 @@ Measure(s) to calculate.</p></dd>
 </div><p></p><hr><a id="method-ResampleResult-filter"></a><div class="section">
 <h3 id="method-filter-">Method <code><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter()</a></code><a class="anchor" aria-label="anchor" href="#method-filter-"></a></h3>
 <p>Subsets the ResampleResult, reducing it to only keep the iterations specified in <code>iters</code>.</p><div class="section">
-<h4 id="usage-8">Usage<a class="anchor" aria-label="anchor" href="#usage-8"></a></h4>
+<h4 id="usage-9">Usage<a class="anchor" aria-label="anchor" href="#usage-9"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">ResampleResult</span><span class="op">$</span><span class="fu">filter</span><span class="op">(</span><span class="va">iters</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
-<h4 id="arguments-7">Arguments<a class="anchor" aria-label="anchor" href="#arguments-7"></a></h4>
+<h4 id="arguments-8">Arguments<a class="anchor" aria-label="anchor" href="#arguments-8"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>iters</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>)<br>
 Resampling iterations to keep.</p></dd>
@@ -365,12 +399,12 @@ the object in its previous state.</p>
 <p>Shrinks the ResampleResult by discarding parts of the internally stored data.
 Note that certain operations might stop work, e.g. extracting
 importance values from learners or calculating measures requiring the task's data.</p><div class="section">
-<h4 id="usage-9">Usage<a class="anchor" aria-label="anchor" href="#usage-9"></a></h4>
+<h4 id="usage-10">Usage<a class="anchor" aria-label="anchor" href="#usage-10"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">ResampleResult</span><span class="op">$</span><span class="fu">discard</span><span class="op">(</span>backends <span class="op">=</span> <span class="cn">FALSE</span>, models <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
-<h4 id="arguments-8">Arguments<a class="anchor" aria-label="anchor" href="#arguments-8"></a></h4>
+<h4 id="arguments-9">Arguments<a class="anchor" aria-label="anchor" href="#arguments-9"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>backends</code></dt>
 <dd><p>(<code>logical(1)</code>)<br>
 If <code>TRUE</code>, the <a href="DataBackend.html">DataBackend</a> is removed from all stored <a href="Task.html">Task</a>s.</p></dd>
@@ -393,12 +427,12 @@ the object in its previous state.</p>
 </div><p></p><hr><a id="method-ResampleResult-marshal"></a><div class="section">
 <h3 id="method-marshal-">Method <code>marshal()</code><a class="anchor" aria-label="anchor" href="#method-marshal-"></a></h3>
 <p>Marshals all stored models.</p><div class="section">
-<h4 id="usage-10">Usage<a class="anchor" aria-label="anchor" href="#usage-10"></a></h4>
+<h4 id="usage-11">Usage<a class="anchor" aria-label="anchor" href="#usage-11"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">ResampleResult</span><span class="op">$</span><span class="fu">marshal</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
-<h4 id="arguments-9">Arguments<a class="anchor" aria-label="anchor" href="#arguments-9"></a></h4>
+<h4 id="arguments-10">Arguments<a class="anchor" aria-label="anchor" href="#arguments-10"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>...</code></dt>
 <dd><p>(any)<br>
 Additional arguments passed to <code><a href="marshaling.html">marshal_model()</a></code>.</p></dd>
@@ -410,12 +444,12 @@ Additional arguments passed to <code><a href="marshaling.html">marshal_model()</
 </div><p></p><hr><a id="method-ResampleResult-unmarshal"></a><div class="section">
 <h3 id="method-unmarshal-">Method <code>unmarshal()</code><a class="anchor" aria-label="anchor" href="#method-unmarshal-"></a></h3>
 <p>Unmarshals all stored models.</p><div class="section">
-<h4 id="usage-11">Usage<a class="anchor" aria-label="anchor" href="#usage-11"></a></h4>
+<h4 id="usage-12">Usage<a class="anchor" aria-label="anchor" href="#usage-12"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">ResampleResult</span><span class="op">$</span><span class="fu">unmarshal</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
-<h4 id="arguments-10">Arguments<a class="anchor" aria-label="anchor" href="#arguments-10"></a></h4>
+<h4 id="arguments-11">Arguments<a class="anchor" aria-label="anchor" href="#arguments-11"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>...</code></dt>
 <dd><p>(any)<br>
 Additional arguments passed to <code><a href="marshaling.html">unmarshal_model()</a></code>.</p></dd>
@@ -427,12 +461,12 @@ Additional arguments passed to <code><a href="marshaling.html">unmarshal_model()
 </div><p></p><hr><a id="method-ResampleResult-clone"></a><div class="section">
 <h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
 <p>The objects of this class are cloneable with this method.</p><div class="section">
-<h4 id="usage-12">Usage<a class="anchor" aria-label="anchor" href="#usage-12"></a></h4>
+<h4 id="usage-13">Usage<a class="anchor" aria-label="anchor" href="#usage-13"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">ResampleResult</span><span class="op">$</span><span class="fu">clone</span><span class="op">(</span>deep <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
-<h4 id="arguments-11">Arguments<a class="anchor" aria-label="anchor" href="#arguments-11"></a></h4>
+<h4 id="arguments-12">Arguments<a class="anchor" aria-label="anchor" href="#arguments-12"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>deep</code></dt>
 <dd><p>Whether to make a deep clone.</p></dd>
 
@@ -452,55 +486,59 @@ Additional arguments passed to <code><a href="marshaling.html">unmarshal_model()
 <span class="r-in"><span><span class="va">rr</span> <span class="op">=</span> <span class="fu"><a href="resample.html">resample</a></span><span class="op">(</span><span class="va">task</span>, <span class="va">learner</span>, <span class="va">resampling</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">rr</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;ResampleResult&gt; with 3 resampling iterations</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   task_id    learner_id resampling_id iteration warnings errors</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  penguins classif.rpart            cv         1        0      0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  penguins classif.rpart            cv         2        0      0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  penguins classif.rpart            cv         3        0      0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   task_id    learner_id resampling_id iteration     prediction_test warnings</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  penguins classif.rpart            cv         1 &lt;PredictionClassif&gt;        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  penguins classif.rpart            cv         2 &lt;PredictionClassif&gt;        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  penguins classif.rpart            cv         3 &lt;PredictionClassif&gt;        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  errors</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       0</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># combined predictions and predictions for each fold separately</span></span></span>
 <span class="r-in"><span><span class="va">rr</span><span class="op">$</span><span class="fu">prediction</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;PredictionClassif&gt; for 344 observations:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     row_ids     truth  response</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           2    Adelie    Adelie</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           9    Adelie    Adelie</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          13    Adelie    Adelie</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ---                            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         337 Chinstrap    Gentoo</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         340 Chinstrap    Gentoo</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         342 Chinstrap Chinstrap</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  row_ids     truth  response</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        2    Adelie    Adelie</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        9    Adelie    Adelie</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       13    Adelie    Adelie</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      ---       ---       ---</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      337 Chinstrap    Gentoo</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      340 Chinstrap    Gentoo</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      342 Chinstrap Chinstrap</span>
 <span class="r-in"><span><span class="va">rr</span><span class="op">$</span><span class="fu">predictions</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;PredictionClassif&gt; for 115 observations:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     row_ids     truth  response</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           2    Adelie    Adelie</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           9    Adelie    Adelie</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          13    Adelie    Adelie</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ---                            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         321 Chinstrap Chinstrap</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         334 Chinstrap Chinstrap</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         335 Chinstrap Chinstrap</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  row_ids     truth  response</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        2    Adelie    Adelie</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        9    Adelie    Adelie</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       13    Adelie    Adelie</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      ---       ---       ---</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      321 Chinstrap Chinstrap</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      334 Chinstrap Chinstrap</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      335 Chinstrap Chinstrap</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[2]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;PredictionClassif&gt; for 115 observations:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     row_ids     truth  response</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           3    Adelie    Adelie</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           5    Adelie    Adelie</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           6    Adelie    Adelie</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ---                            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         341 Chinstrap    Adelie</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         343 Chinstrap    Gentoo</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         344 Chinstrap Chinstrap</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  row_ids     truth  response</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        3    Adelie    Adelie</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        5    Adelie    Adelie</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        6    Adelie    Adelie</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      ---       ---       ---</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      341 Chinstrap    Adelie</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      343 Chinstrap    Gentoo</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      344 Chinstrap Chinstrap</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[3]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;PredictionClassif&gt; for 114 observations:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     row_ids     truth  response</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           1    Adelie    Adelie</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           4    Adelie    Adelie</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          15    Adelie    Adelie</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ---                            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         337 Chinstrap    Gentoo</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         340 Chinstrap    Gentoo</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         342 Chinstrap Chinstrap</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  row_ids     truth  response</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        1    Adelie    Adelie</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        4    Adelie    Adelie</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       15    Adelie    Adelie</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      ---       ---       ---</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      337 Chinstrap    Gentoo</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      340 Chinstrap    Gentoo</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      342 Chinstrap Chinstrap</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># folds scored separately, then aggregated (macro)</span></span></span>
@@ -529,7 +567,7 @@ Additional arguments passed to <code><a href="marshaling.html">unmarshal_model()
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer></div>

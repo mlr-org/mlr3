@@ -125,7 +125,7 @@ Also note that if they work as intended, they will tear down your R session imme
 
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.20.2</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.21.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -136,7 +136,9 @@ Also note that if they work as intended, they will tear down your R session imme
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html"><span class="fa fa-file-alt"></span> Reference</a></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://mlr3book.mlr-org.com"><span class="fa fa-link"></span> mlr3book</a></li>
-      </ul><ul class="navbar-nav"><li class="nav-item"><a class="external-link nav-link" href="https://github.com/mlr-org/mlr3/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
+      </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
+ <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/mlr-org/mlr3/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://lmmisld-lmu-stats-slds.srv.mwn.de/mlr_invite/"><span class="fa fa-comments"></span></a></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://stackoverflow.com/questions/tagged/mlr3"><span class="fa fab fa-stack-overflow"></span></a></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://mlr-org.com/"><span class="fa fa-rss"></span></a></li>
@@ -306,8 +308,11 @@ a ratio in $(0, 1)$, <code>"test"</code>, or <code>"predefined"</code>.</p></dd>
 <ul><li><p><a href="#method-LearnerClassifDebug-new"><code>LearnerClassifDebug$new()</code></a></p></li>
 <li><p><a href="#method-LearnerClassifDebug-marshal"><code>LearnerClassifDebug$marshal()</code></a></p></li>
 <li><p><a href="#method-LearnerClassifDebug-unmarshal"><code>LearnerClassifDebug$unmarshal()</code></a></p></li>
+<li><p><a href="#method-LearnerClassifDebug-importance"><code>LearnerClassifDebug$importance()</code></a></p></li>
+<li><p><a href="#method-LearnerClassifDebug-selected_features"><code>LearnerClassifDebug$selected_features()</code></a></p></li>
 <li><p><a href="#method-LearnerClassifDebug-clone"><code>LearnerClassifDebug$clone()</code></a></p></li>
 </ul></div><p><details><summary>Inherited methods</summary><ul><li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="base_learner"><a href="Learner.html#method-base_learner"><code>mlr3::Learner$base_learner()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="encapsulate"><a href="Learner.html#method-encapsulate"><code>mlr3::Learner$encapsulate()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="format"><a href="Learner.html#method-format"><code>mlr3::Learner$format()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="help"><a href="Learner.html#method-help"><code>mlr3::Learner$help()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="predict"><a href="Learner.html#method-predict"><code>mlr3::Learner$predict()</code></a></span></li>
@@ -357,10 +362,34 @@ Additional arguments passed to <code><a href="marshaling.html">unmarshal_model()
 </dl><p></p></div>
 </div>
 
+</div><p></p><hr><a id="method-LearnerClassifDebug-importance"></a><div class="section">
+<h3 id="method-importance-">Method <code>importance()</code><a class="anchor" aria-label="anchor" href="#method-importance-"></a></h3>
+<p>Returns 0 for each feature seen in training.</p><div class="section">
+<h4 id="usage-3">Usage<a class="anchor" aria-label="anchor" href="#usage-3"></a></h4>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">LearnerClassifDebug</span><span class="op">$</span><span class="fu">importance</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
+</div>
+
+<div class="section">
+<h4 id="returns">Returns<a class="anchor" aria-label="anchor" href="#returns"></a></h4>
+<p>Named <code><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric()</a></code>.</p>
+</div>
+
+</div><p></p><hr><a id="method-LearnerClassifDebug-selected_features"></a><div class="section">
+<h3 id="method-selected-features-">Method <code>selected_features()</code><a class="anchor" aria-label="anchor" href="#method-selected-features-"></a></h3>
+<p>Always returns character(0).</p><div class="section">
+<h4 id="usage-4">Usage<a class="anchor" aria-label="anchor" href="#usage-4"></a></h4>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">LearnerClassifDebug</span><span class="op">$</span><span class="fu">selected_features</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
+</div>
+
+<div class="section">
+<h4 id="returns-1">Returns<a class="anchor" aria-label="anchor" href="#returns-1"></a></h4>
+<p><code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>.</p>
+</div>
+
 </div><p></p><hr><a id="method-LearnerClassifDebug-clone"></a><div class="section">
 <h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
 <p>The objects of this class are cloneable with this method.</p><div class="section">
-<h4 id="usage-3">Usage<a class="anchor" aria-label="anchor" href="#usage-3"></a></h4>
+<h4 id="usage-5">Usage<a class="anchor" aria-label="anchor" href="#usage-5"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">LearnerClassifDebug</span><span class="op">$</span><span class="fu">clone</span><span class="op">(</span>deep <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
@@ -388,14 +417,14 @@ Additional arguments passed to <code><a href="marshaling.html">unmarshal_model()
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Message from classif.debug-&gt;train()</span>
 <span class="r-in"><span><span class="va">learner</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;PredictionClassif&gt; for 344 observations:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     row_ids     truth response</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           1    Adelie   Gentoo</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           2    Adelie   Gentoo</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           3    Adelie   Gentoo</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ---                           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         342 Chinstrap   Gentoo</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         343 Chinstrap   Gentoo</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         344 Chinstrap   Gentoo</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  row_ids     truth response</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        1    Adelie   Gentoo</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        2    Adelie   Gentoo</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        3    Adelie   Gentoo</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      ---       ---      ---</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      342 Chinstrap   Gentoo</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      343 Chinstrap   Gentoo</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      344 Chinstrap   Gentoo</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># task_train and task_predict are the input tasks for train() and predict()</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">learner</span><span class="op">$</span><span class="va">model</span><span class="op">)</span></span></span>
@@ -412,7 +441,7 @@ Additional arguments passed to <code><a href="marshaling.html">unmarshal_model()
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer></div>
