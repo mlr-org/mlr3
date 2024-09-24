@@ -33,7 +33,7 @@
 
     <a class="navbar-brand me-2" href="index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.20.2.9000</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.21.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -212,13 +212,13 @@
 <span><span class="co"># access results</span></span>
 <span><span class="va">rr</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="va">measure</span><span class="op">)</span><span class="op">[</span>, <span class="fu">.</span><span class="op">(</span><span class="va">task_id</span>, <span class="va">learner_id</span>, <span class="va">iteration</span>, <span class="va">classif.acc</span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
 <div class="sourceCode" id="cb12"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="do">##                     task_id    learner_id iteration classif.acc</span></span>
-<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="do">## 1: palmerpenguins::penguins classif.rpart         1   0.9391304</span></span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="do">## 1: palmerpenguins::penguins classif.rpart         1   0.8956522</span></span>
 <span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a><span class="do">## 2: palmerpenguins::penguins classif.rpart         2   0.9478261</span></span>
-<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a><span class="do">## 3: palmerpenguins::penguins classif.rpart         3   0.9298246</span></span></code></pre></div>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a><span class="do">## 3: palmerpenguins::penguins classif.rpart         3   0.9649123</span></span></code></pre></div>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">rr</span><span class="op">$</span><span class="fu">aggregate</span><span class="op">(</span><span class="va">measure</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb14"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="do">## classif.acc </span></span>
-<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a><span class="do">##    0.938927</span></span></code></pre></div>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a><span class="do">##   0.9361302</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -373,7 +373,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer>
