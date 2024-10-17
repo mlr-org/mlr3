@@ -1,5 +1,7 @@
 # mlr3 (development version)
 
+* feat: throw warning when prediction and measure type do not match.
+
 # mlr3 0.21.0
 
 * BREAKING CHANGE: Deprecated `data_format` and `data_formats` for `Learner`, `Task`, and `DataBackend` classes.
