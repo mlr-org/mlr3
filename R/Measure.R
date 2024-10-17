@@ -194,7 +194,7 @@ Measure = R6Class("Measure",
     #'
     #' @return `numeric(1)`.
     score = function(prediction, task = NULL, learner = NULL, train_set = NULL) {
-      assert_measure(self, task = task, learner = learner)
+      assert_measure(self, task = task, learner = learner, prediction = prediction)
       assert_prediction(prediction, null.ok = "requires_no_prediction" %nin% self$properties)
 
       if ("requires_task" %in% self$properties && is.null(task)) {

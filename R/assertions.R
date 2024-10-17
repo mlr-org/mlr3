@@ -194,8 +194,9 @@ assert_predictable = function(task, learner) {
 
 #' @export
 #' @param measure ([Measure]).
+#' @param prediction ([Prediction]).
 #' @rdname mlr_assertions
-assert_measure = function(measure, task = NULL, learner = NULL, .var.name = vname(measure)) {
+assert_measure = function(measure, task = NULL, learner = NULL, prediction = NULL, .var.name = vname(measure)) {
   assert_class(measure, "Measure", .var.name = .var.name)
 
   if (!is.null(task)) {
@@ -233,6 +234,13 @@ assert_measure = function(measure, task = NULL, learner = NULL, .var.name = vnam
         warningf("Measure '%s' needs predict sets %s, but learner '%s' only predicted on sets %s",
           measure$id, str_collapse(miss, quote = "'"), learner$id, str_collapse(learner$predict_sets, quote = "'"))
       }
+    }
+  }
+
+  if (!is.null(prediction)) {
+    # same as above but works without learner e.g. measure$score(prediction)
+    if (measure$check_prerequisites != "ignore" && measure$predict_type %nin% prediction$predict_types) {
+      warningf("Measure '%s' is missing predict type '%s' of prediction", measure$id, measure$predict_type)
     }
   }
 
