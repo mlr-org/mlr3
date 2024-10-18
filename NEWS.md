@@ -1,5 +1,6 @@
 # mlr3 (development version)
 
+* feat: Throw warning when prediction and measure type do not match.
 * fix: The `mlr_reflections` were broken when an extension package was not loaded on the workers.
   Extension packages must now register themselves in the `mlr_reflections$loaded_packages` field.
 

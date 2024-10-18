@@ -188,3 +188,13 @@ test_that("checks on predict_sets", {
   expect_error({m$predict_sets = "imaginary"}, "Must be a subset")
 })
 
+test_that("measure and prediction type is checked", {
+  learner = lrn("classif.rpart")
+  task = tsk("pima")
+  learner$train(task)
+  pred = learner$predict(task)
+
+  measure = msr("classif.logloss")
+  expect_warning(measure$score(pred), "is missing predict type")
+})
+
