@@ -35,7 +35,7 @@ future_map = function(n, FUN, ..., MoreArgs = list()) {
     lg$debug("Running resample() via future with %i iterations", n)
     future.apply::future_mapply(
       FUN, ..., MoreArgs = MoreArgs, SIMPLIFY = FALSE, USE.NAMES = FALSE,
-      future.globals = FALSE, future.packages = "mlr3", future.seed = TRUE,
+      future.globals = FALSE, future.packages = mlr_reflections$loaded_packages, future.seed = TRUE,
       future.scheduling = scheduling, future.chunk.size = chunk_size, future.stdout = stdout
     )
   }
