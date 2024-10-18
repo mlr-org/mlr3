@@ -17,6 +17,8 @@ Environment which stores various information to allow objects to examine and int
 This environment be modified by third-party packages, e.g. by adding information about new task types
 or by extending the set of allowed feature types.
 
+Third-party packages that modify the reflections must register themselves in the \code{loaded_packages} field.
+
 The following objects are set by \CRANpkg{mlr3}:
 \itemize{
 \item \code{task_types} (\code{data.table()})\cr

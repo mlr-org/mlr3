@@ -8,6 +8,8 @@
 #' This environment be modified by third-party packages, e.g. by adding information about new task types
 #' or by extending the set of allowed feature types.
 #'
+#' Third-party packages that modify the reflections must register themselves in the `loaded_packages` field.
+#'
 #' The following objects are set by \CRANpkg{mlr3}:
 #'
 #' * `task_types` (`data.table()`)\cr
@@ -153,6 +155,9 @@ local({
   ### Logger
   mlr_reflections$loggers = list()
 
-  ### cache package version
+  ### Cached package version
   mlr_reflections$package_version = packageVersion("mlr3")
+
+  ### Loaded packages
+  mlr_reflections$loaded_packages = "mlr3"
 })
