@@ -104,6 +104,13 @@ test_that("as.data.table.Resampling", {
   expect_integer(tab$iteration, any.missing = FALSE)
   expect_factor(tab$set, levels = c("train", "test"), any.missing = FALSE)
   expect_integer(tab$row_id, any.missing = FALSE)
+
+  r2 = as_resampling(tab)
+  expect_r6(r2, "ResamplingCustom")
+  for (i in seq_len(r$iters)) {
+    expect_set_equal(r$train_set(i), r2$train_set(i))
+    expect_set_equal(r$test_set(i), r2$test_set(i))
+  }
 })
 
 test_that("custom_cv", {
