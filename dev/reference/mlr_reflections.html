@@ -3,6 +3,7 @@
 (c.f. Reflections).
 This environment be modified by third-party packages, e.g. by adding information about new task types
 or by extending the set of allowed feature types.
+Third-party packages that modify the reflections must register themselves in the loaded_packages field.
 The following objects are set by mlr3:
 task_types (data.table())
 Table with task type (&quot;type&quot;), the implementing package (&quot;pkg&quot;), and the names of the generators
@@ -51,6 +52,7 @@ Can be extended by third-party with additional converters.
 (c.f. Reflections).
 This environment be modified by third-party packages, e.g. by adding information about new task types
 or by extending the set of allowed feature types.
+Third-party packages that modify the reflections must register themselves in the loaded_packages field.
 The following objects are set by mlr3:
 task_types (data.table())
 Table with task type (&quot;type&quot;), the implementing package (&quot;pkg&quot;), and the names of the generators
@@ -143,6 +145,7 @@ Can be extended by third-party with additional converters.
 (c.f. <a href="https://www.wikiwand.com/en/Reflection_(computer_programming)" class="external-link">Reflections</a>).</p>
 <p>This environment be modified by third-party packages, e.g. by adding information about new task types
 or by extending the set of allowed feature types.</p>
+<p>Third-party packages that modify the reflections must register themselves in the <code>loaded_packages</code> field.</p>
 <p>The following objects are set by <a href="https://CRAN.R-project.org/package=mlr3" class="external-link"><span class="pkg">mlr3</span></a>:</p><ul><li><p><code>task_types</code> (<code><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table()</a></code>)<br>
 Table with task type (<code>"type"</code>), the implementing package (<code>"pkg"</code>), and the names of the generators
 of the corresponding <a href="Task.html">Task</a> (<code>"task"</code>), <a href="Learner.html">Learner</a> (<code>"learner"</code>),
@@ -200,7 +203,7 @@ Can be extended by third-party with additional converters.</p></li>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/ls_str.html" class="external-link">ls.str</a></span><span class="op">(</span><span class="va">mlr_reflections</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> auto_converters : &lt;environment: 0x5619b5feb8c8&gt; </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> auto_converters : &lt;environment: 0x564ec923f100&gt; </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> default_measures : List of 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ classif     : chr "classif.ce"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ regr        : chr "regr.mse"</span>
@@ -212,6 +215,7 @@ Can be extended by third-party with additional converters.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> learner_properties : List of 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ classif: chr [1:14] "featureless" "missings" "weights" "importance" ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ regr   : chr [1:12] "featureless" "missings" "weights" "importance" ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> loaded_packages :  chr "mlr3"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> loggers : List of 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ mlr3:Classes 'Logger', 'Filterable', 'R6' &lt;Logger&gt; [warn] mlr3  inherited appenders:   console: &lt;AppenderConsole&gt; [all] -&gt; console </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> measure_properties : List of 2</span>

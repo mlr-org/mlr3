@@ -43,7 +43,8 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="mlr3-development-version">mlr3 (development version)<a class="anchor" aria-label="anchor" href="#mlr3-development-version"></a></h2>
-</div>
+<ul><li>fix: The <code>mlr_reflections</code> were broken when an extension package was not loaded on the workers. Extension packages must now register themselves in the <code>mlr_reflections$loaded_packages</code> field.</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.21.0" id="mlr3-0210">mlr3 0.21.0<a class="anchor" aria-label="anchor" href="#mlr3-0210"></a></h2><p class="text-muted">CRAN release: 2024-09-24</p>
 <ul><li>BREAKING CHANGE: Deprecated <code>data_format</code> and <code>data_formats</code> for <code>Learner</code>, <code>Task</code>, and <code>DataBackend</code> classes.</li>
