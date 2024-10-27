@@ -29,10 +29,6 @@ check_prediction_data.PredictionDataRegr = function(pdata, ...) { # nolint
       stopf("No response attribute stored in 'quantile' or response stored in 'pdata'")
     }
 
-    if (any(apply(quantiles, 1L, is.unsorted))) {
-      stopf("Quantiles are not ascending with probabilities")
-    }
-
     colnames(pdata$quantiles) = sprintf("q%g", attr(quantiles, "probs"))
     attr(pdata$quantiles, "response") = sprintf("q%g", attr(quantiles, "response"))
   }

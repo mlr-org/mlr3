@@ -1,5 +1,7 @@
 # mlr3 (development version)
 
+* fix: Quantiles must not ascend with probabilities.
+
 # mlr3 0.21.1
 
 * feat: Throw warning when prediction and measure type do not match.
