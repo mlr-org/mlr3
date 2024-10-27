@@ -67,7 +67,7 @@
 #'
 benchmark_grid = function(tasks, learners, resamplings, param_values = NULL, paired = FALSE) {
   tasks = assert_tasks(as_tasks(tasks))
-  learners = assert_learners(as_learners(learners))
+  learners = assert_learners(as_learners(learners), unique_ids = TRUE)
   resamplings = assert_resamplings(as_resamplings(resamplings))
   if (!is.null(param_values)) {
     assert_param_values(param_values, n_learners = length(learners))

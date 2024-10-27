@@ -463,7 +463,7 @@ test_that("param_values in benchmark", {
 
 
   # benchmark grid with multiple params and multiple learners
-  design = benchmark_grid(tasks, lrns(c("classif.debug", "classif.debug")), rsmp("holdout"), param_values = list(list(list(x = 1), list(x = 0.5)), list()))
+  design = benchmark_grid(tasks, lrns(c("classif.debug", "classif.rpart")), rsmp("holdout"), param_values = list(list(list(x = 1), list(x = 0.5)), list()))
   bmr = benchmark(design)
   expect_benchmark_result(bmr)
   expect_equal(bmr$n_resample_results, 3)
@@ -580,4 +580,12 @@ test_that("score works with predictions and empty predictions", {
 
   expect_warning({tab = bmr$score(msr("classif.ce", predict_sets = "test"))}, "Measure")
   expect_equal(tab$classif.ce[1], NaN)
+})
+
+test_that("benchmark_grid only allows unique learner ids", {
+  task = tsk("iris")
+  learner = lrn("classif.rpart")
+  resampling = rsmp("holdout")
+
+  expect_error(benchmark_grid(task, list(learner, learner), resampling), "unique")
 })
