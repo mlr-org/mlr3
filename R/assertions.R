@@ -237,7 +237,7 @@ assert_measure = function(measure, task = NULL, learner = NULL, prediction = NUL
     }
   }
 
-  if (!is.null(prediction)) {
+  if (!is.null(prediction) && is.null(learner)) {
     # same as above but works without learner e.g. measure$score(prediction)
     if (measure$check_prerequisites != "ignore" && measure$predict_type %nin% prediction$predict_types) {
       warningf("Measure '%s' is missing predict type '%s' of prediction", measure$id, measure$predict_type)

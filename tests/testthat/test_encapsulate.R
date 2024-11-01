@@ -13,12 +13,6 @@ learner = lrn("classif.debug")
 learner$param_set$values = list(message_train = 1, warning_train = 1, message_predict = 1, warning_predict = 1)
 
 test_that("evaluate / single step", {
-
-  lg$set_threshold("off")
-  on.exit({
-    lg$set_threshold("warn")
-  })
-
   row_ids = 1:120
   expect_message(expect_warning(disable_encapsulation(learner)$train(task, row_ids)))
   log = learner$log
@@ -50,12 +44,6 @@ test_that("evaluate / single step", {
 })
 
 test_that("evaluate / resample", {
-
-  lg$set_threshold("off")
-  on.exit({
-    lg$set_threshold("warn")
-  })
-
   resampling = rsmp("cv", folds = 3)
 
   rr = suppressMessages(suppressWarnings(resample(task, disable_encapsulation(learner), resampling)))
@@ -67,6 +55,12 @@ test_that("evaluate / resample", {
 
 test_that("errors and warnings are printed with logger", {
   task = tsk("spam")
+
+  old_threshold = lg$threshold
+  lg$set_threshold("warn")
+  on.exit({
+    lg$set_threshold(old_threshold)
+  })
 
   learner = enable_encapsulation(lrn("classif.debug", error_train = 1))
   expect_output(learner$train(task), "ERROR")
