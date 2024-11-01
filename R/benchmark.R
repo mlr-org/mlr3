@@ -128,6 +128,10 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
     # learner = assert_learner(as_learner(learner, clone = TRUE))
     assert_learnable(task, learner)
 
+    if (resampling$task_hash != task$hash) {
+      stopf("Resampling '%s' was not instantiated with task '%s'", resampling$id, task$id)
+    }
+
     iters = resampling$iters
     n_params = max(1L, length(param_values))
     # insert constant values
