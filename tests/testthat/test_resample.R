@@ -375,7 +375,7 @@ test_that("predict_set internal_valid throws error when none is available", {
 test_that("can even use internal_valid predict set on learners that don't support validation", {
   task = tsk("mtcars")
   task$internal_valid_task = 1:10
-  rr = resample(task, lrn("regr.debug", predict_sets = "internal_valid"), rsmp("holdout"))
+  expect_resample_result(resample(task, lrn("regr.debug", predict_sets = "internal_valid"), rsmp("holdout")))
 })
 
 test_that("callr during prediction triggers marshaling", {
@@ -509,4 +509,14 @@ test_that("predict_time is 0 if no predict_set is specified", {
   rr = resample(task, learner, resampling)
   times = rr$score(msr("time_predict"))$time_predict
   expect_true(all(times == 0))
+})
+
+test_that("resampling was instantiated on the task", {
+  learner = lrn("classif.rpart")
+  task = tsk("pima")
+  resampling = rsmp("cv", folds = 5)
+  resampling$instantiate(task)
+  task = tsk("spam")
+
+  expect_error(resample(task, learner, resampling), "not instantiated")
 })

@@ -589,3 +589,15 @@ test_that("benchmark_grid only allows unique learner ids", {
 
   expect_error(benchmark_grid(task, list(learner, learner), resampling), "unique")
 })
+
+test_that("resampling was instantiated on the task", {
+  learner = lrn("classif.rpart")
+  task = tsk("pima")
+  resampling = rsmp("cv", folds = 5)
+  resampling$instantiate(task)
+  task = tsk("spam")
+
+  design = data.table(task = list(task), learner = list(learner), resampling = list(resampling))
+
+  expect_error(benchmark(design), "not instantiated")
+})

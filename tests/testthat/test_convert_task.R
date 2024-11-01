@@ -205,7 +205,7 @@ test_that("matrix converters", {
 })
 
 test_that("Matrix converters", {
-  requireNamespace("Matrix")
+  requireNamespace("Matrix", quietly = TRUE)
   X = Matrix::Matrix(1:9, nrow = 3)
   force(X)
   colnames(X) = letters[1:3]

@@ -82,8 +82,8 @@ test_that("check_prerequisites / predict_type", {
   p = learner$train(task)$predict(task)
   m = msr("classif.auc")
 
-  expect_identical(unname(m$score(p)), NaN)
-  expect_identical(unname(p$score(m)), NaN)
+  expect_identical(unname(suppressWarnings(m$score(p))), NaN)
+  expect_identical(unname(suppressWarnings(p$score(m))), NaN)
   expect_warning(m$score(p, learner = learner), "predict type", fixed = TRUE)
   expect_warning(p$score(m, learner = learner), "predict type", fixed = TRUE)
 
