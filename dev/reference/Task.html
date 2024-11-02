@@ -211,7 +211,9 @@ When assigning a new task, it is always cloned.</p></dd>
 
 <dt><code>hash</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
-Hash (unique identifier) for this object.</p></dd>
+Hash (unique identifier) for this object.
+The hash is calculated based on the complete task object and <code>$row_ids</code>.
+If an internal validation task is set, the hash is recalculated.</p></dd>
 
 
 <dt><code>row_ids</code></dt>

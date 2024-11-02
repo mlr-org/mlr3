@@ -178,7 +178,9 @@ Is <code>TRUE</code> if the resampling has been instantiated.</p></dd>
 
 <dt><code>hash</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
-Hash (unique identifier) for this object.</p></dd>
+Hash (unique identifier) for this object.
+If the object has not been instantiated yet, <code>NA_character_</code> is returned.
+The hash is calculated based on the class name, the id, the parameter set, and the instance.</p></dd>
 
 
 </dl><p></p></div>

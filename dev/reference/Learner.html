@@ -357,13 +357,13 @@ Logged errors as vector.</p></dd>
 
 <dt><code>hash</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
-Hash (unique identifier) for this object.</p></dd>
+Hash (unique identifier) for this object.
+The hash is calculated based on the learner id, the parameter settings, the predict type, the fallback hash, the parallel predict setting, the validate setting, and the predict sets.</p></dd>
 
 
 <dt><code>phash</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
-Hash (unique identifier) for this partial object, excluding some components
-which are varied systematically during tuning (parameter values).</p></dd>
+Hash (unique identifier) for this partial object, excluding some components which are varied systematically during tuning (parameter values).</p></dd>
 
 
 <dt><code>predict_type</code></dt>
