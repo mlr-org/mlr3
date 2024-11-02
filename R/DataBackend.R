@@ -90,7 +90,8 @@ DataBackend = R6Class("DataBackend", cloneable = FALSE,
     #' This is deprecated and will be removed in the future.
     data_formats = deprecated_binding("DataBackend$data_formats", "data.table"),
 
-    #' @template field_hash
+    #' @field hash (`character(1)`)\cr
+    #' Hash (unique identifier) for this object.
     hash = function(rhs) {
       if (missing(rhs)) {
         if (is.na(private$.hash)) {

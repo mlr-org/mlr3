@@ -283,11 +283,11 @@ Logged warnings as vector.}
 Logged errors as vector.}
 
 \item{\code{hash}}{(\code{character(1)})\cr
-Hash (unique identifier) for this object.}
+Hash (unique identifier) for this object.
+The hash is calculated based on the learner id, the parameter settings, the predict type, the fallback hash, the parallel predict setting, the validate setting, and the predict sets.}
 
 \item{\code{phash}}{(\code{character(1)})\cr
-Hash (unique identifier) for this partial object, excluding some components
-which are varied systematically during tuning (parameter values).}
+Hash (unique identifier) for this partial object, excluding some components which are varied systematically during tuning (parameter values).}
 
 \item{\code{predict_type}}{(\code{character(1)})\cr
 Stores the currently active predict type, e.g. \code{"response"}.

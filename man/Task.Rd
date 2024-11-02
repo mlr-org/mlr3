@@ -165,7 +165,9 @@ with those ids is created from the primary task using only those ids.
 When assigning a new task, it is always cloned.}
 
 \item{\code{hash}}{(\code{character(1)})\cr
-Hash (unique identifier) for this object.}
+Hash (unique identifier) for this object.
+The hash is calculated based on the complete task object and \verb{$row_ids}.
+If an internal validation task is set, the hash is recalculated.}
 
 \item{\code{row_ids}}{(positive \code{integer()})\cr
 Returns the row ids of the \link{DataBackend} for observations with role "use".}
