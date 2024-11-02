@@ -140,7 +140,9 @@ Those can be combined via getters in \link{ResampleResult}/\link{BenchmarkResult
 to operate on specific subsets of the calculated prediction sets.}
 
 \item{\code{hash}}{(\code{character(1)})\cr
-Hash (unique identifier) for this object.}
+Hash (unique identifier) for this object.
+The hash is calculated based on the id, the parameter settings, predict sets and the \verb{$score}, \verb{$average}, \verb{$aggregator}, \verb{$obs_loss}, \verb{$trafo} method.
+Measure can define additional fields to be included in the hash by setting the field \verb{$.extra_hash}.}
 
 \item{\code{average}}{(\code{character(1)})\cr
 Method for aggregation:
