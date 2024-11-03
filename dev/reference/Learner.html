@@ -682,8 +682,7 @@ This encapsulation spawns a separate R session in which the learner is called.
 While this comes with a considerable overhead, it also guards your session from being teared down by segfaults.</p></li>
 </ul><p>The fallback learner is fitted to create valid predictions in case that either the model fitting or the prediction of the original learner fails.
 If the training step or the predict step of the original learner fails, the fallback is used completely to predict predictions sets.
-If the original learner only partially fails during predict step (usually in the form of missing to predict some observations or producing some `NA“ predictions), these missing predictions are imputed by the fallback.
-Note that the fallback is always trained, as we do not know in advance whether prediction will fail.</p>
+If the original learner only partially fails during predict step (usually in the form of missing to predict some observations or producing some <code>NA`` predictions), these missing predictions are imputed by the fallback. Note that the fallback is always trained, as we do not know in advance whether prediction will fail. If the training step fails, the </code>$model<code>field of the original learner is</code>NULL`.</p>
 <p>Also see the section on error handling the mlr3book:
 <a href="https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling" class="external-link">https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling</a></p><div class="section">
 <h4 id="usage-9">Usage<a class="anchor" aria-label="anchor" href="#usage-9"></a></h4>
