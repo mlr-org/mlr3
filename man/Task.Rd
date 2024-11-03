@@ -758,6 +758,7 @@ the object in its previous state.
 \if{latex}{\out{\hypertarget{method-Task-set_col_roles}{}}}
 \subsection{Method \code{set_col_roles()}}{
 Modifies the roles in \verb{$col_roles} \strong{in-place}.
+See \verb{$col_roles} for a list of possible roles.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Task$set_col_roles(cols, roles = NULL, add_to = NULL, remove_from = NULL)}\if{html}{\out{</div>}}
 }

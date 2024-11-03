@@ -657,6 +657,7 @@ Task = R6Class("Task",
 
     #' @description
     #' Modifies the roles in `$col_roles` **in-place**.
+    #' See `$col_roles` for a list of possible roles.
     #'
     #' @param cols (`character()`)\cr
     #'   Column names for which to change the roles for.
