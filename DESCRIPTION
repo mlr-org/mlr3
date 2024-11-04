@@ -156,7 +156,7 @@ Collate:
     'TaskGeneratorSpirals.R'
     'TaskGeneratorXor.R'
     'TaskRegr.R'
-    'TaskRegr_boston_housing.R'
+    'TaskRegr_ames_housing.R'
     'TaskRegr_mtcars.R'
     'TaskUnsupervised.R'
     'as_benchmark_result.R'

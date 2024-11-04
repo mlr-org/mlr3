@@ -16,7 +16,7 @@
 #'    For example, for a classification task a single column must be marked as target column, and others as features.
 #'
 #' Predefined (toy) tasks are stored in the [dictionary][mlr3misc::Dictionary] [mlr_tasks],
-#' e.g. [`penguins`][mlr_tasks_penguins] or [`boston_housing`][mlr_tasks_boston_housing].
+#' e.g. [`penguins`][mlr_tasks_penguins] or [`ames_housing`][mlr_tasks_ames_housing].
 #' More toy tasks can be found in the dictionary after loading \CRANpkg{mlr3data}.
 #'
 #' @template param_id
