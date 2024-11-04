@@ -60,7 +60,7 @@ test_that("predict_newdata with weights (#519)", {
   expect_prediction(learner$predict_newdata(task$data()))
 
   # w weights
-  expect_prediction(learner$predict_newdata(task$data(cols = c(task$target_names, task$feature_names, "Bsmt_Half_Bath"))))
+  expect_prediction(learner$predict_newdata(task$data(cols = c(task$target_names, task$feature_names, "Bedroom_AbvGr"))))
 })
 
 test_that("parallel predict works", {
