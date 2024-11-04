@@ -1,6 +1,5 @@
 test_that("Feature columns can be reordered", {
   ah = readRDS(system.file("extdata", "ames_housing.rds", package = "mlr3"))
-  ah$Sale_Price = NULL
 
   task = tsk("ames_housing")
   task$col_roles$feature = setdiff(names(ah), "Sale_Price")
