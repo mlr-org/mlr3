@@ -375,7 +375,8 @@ test_that("predict_set internal_valid throws error when none is available", {
 test_that("can even use internal_valid predict set on learners that don't support validation", {
   task = tsk("mtcars")
   task$internal_valid_task = 1:10
-  expect_resample_result(resample(task, lrn("regr.debug", predict_sets = "internal_valid"), rsmp("holdout")))
+  rr = resample(task, lrn("regr.debug", predict_sets = "internal_valid"), rsmp("holdout"))
+  expect_warning(rr$score(), "only predicted on sets")
 })
 
 test_that("callr during prediction triggers marshaling", {
