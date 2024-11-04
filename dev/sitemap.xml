@@ -30,6 +30,7 @@
 <url><loc>https://mlr3.mlr-org.com/dev/reference/TaskRegr.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/dev/reference/TaskSupervised.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/dev/reference/TaskUnsupervised.html</loc></url>
+<url><loc>https://mlr3.mlr-org.com/dev/reference/ames_housing.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/dev/reference/as_benchmark_result.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/dev/reference/as_data_backend.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/dev/reference/as_learner.html</loc></url>
@@ -152,7 +153,6 @@
 <url><loc>https://mlr3.mlr-org.com/dev/reference/mlr_task_generators_spirals.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/dev/reference/mlr_task_generators_xor.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/dev/reference/mlr_tasks.html</loc></url>
-<url><loc>https://mlr3.mlr-org.com/dev/reference/mlr_tasks_boston_housing.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/dev/reference/mlr_tasks_breast_cancer.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/dev/reference/mlr_tasks_german_credit.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/dev/reference/mlr_tasks_iris.html</loc></url>
