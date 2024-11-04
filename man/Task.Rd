@@ -169,6 +169,9 @@ Hash (unique identifier) for this object.
 The hash is calculated based on the complete task object and \verb{$row_ids}.
 If an internal validation task is set, the hash is recalculated.}
 
+\item{\code{phash}}{(\code{character(1)})\cr
+Hash (unique identifier) for this partial object, excluding some components which are varied systematically during feature selection (\verb{$col_roles}).}
+
 \item{\code{row_ids}}{(positive \code{integer()})\cr
 Returns the row ids of the \link{DataBackend} for observations with role "use".}
 

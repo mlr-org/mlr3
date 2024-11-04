@@ -28,18 +28,25 @@ resampling_task_hashes = function(task, resampling, learner = NULL) {
   })
 }
 
-task_hash = function(task, use_ids, test_ids = NULL, ignore_internal_valid_task = FALSE) {
+task_hash = function(task, use_ids, test_ids = NULL, ignore_internal_valid_task = FALSE, ignore_col_roles = FALSE) {
   # order matters: we first check for test_ids and then for the internal_valid_task
   internal_valid_task_hash = if (!is.null(test_ids)) {
-    # this does the same as 
+    # this does the same as
     # task$internal_valid_task = test_ids
     # $internal_valid_task$hash
     # but avoids the deep clone
-    task_hash(task, use_ids = test_ids, test_ids = NULL, ignore_internal_valid_task = TRUE)
+    task_hash(task, use_ids = test_ids, test_ids = NULL, ignore_internal_valid_task = TRUE, ignore_col_roles = ignore_col_roles)
   } else if (!ignore_internal_valid_task) {
     task$internal_valid_task$hash
   }
 
-  calculate_hash(class(task), task$id, task$backend$hash, task$col_info, use_ids, task$col_roles,
-    get_private(task)$.properties, internal_valid_task_hash)
+  calculate_hash(
+    class(task),
+    task$id,
+    task$backend$hash,
+    task$col_info,
+    use_ids,
+    if (!ignore_col_roles) task$col_roles,
+    get_private(task)$.properties,
+    internal_valid_task_hash)
 }

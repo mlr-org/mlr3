@@ -101,6 +101,11 @@ Resampling = R6Class("Resampling",
     #'   The hash of the [Task] which was passed to `r$instantiate()`.
     task_hash = NA_character_,
 
+    #' @field task_phash (`character(1)`)\cr
+    #'  The phash of the [Task] which was passed to `r$instantiate()`.
+    #'  This is the hash of the task without the features.
+    task_phash = NA_character_,
+
     #' @field task_nrow (`integer(1)`)\cr
     #'   The number of observations of the [Task] which was passed to `r$instantiate()`.
     #'
@@ -186,6 +191,7 @@ Resampling = R6Class("Resampling",
       private$.hash = NULL
       self$instance = instance
       self$task_hash = task$hash
+      self$task_phash = task$phash
       self$task_nrow = task$nrow
       invisible(self)
     },

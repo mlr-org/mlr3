@@ -54,6 +54,7 @@ ResamplingCustom = R6Class("ResamplingCustom", inherit = Resampling,
       assert_subset(unlist(test_sets, use.names = FALSE), task$row_ids)
       self$instance = list(train = train_sets, test = test_sets)
       self$task_hash = task$hash
+      self$task_phash = task$phash
       self$task_nrow = task$nrow
       invisible(self)
     }

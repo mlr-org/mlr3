@@ -128,7 +128,7 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
     # learner = assert_learner(as_learner(learner, clone = TRUE))
     assert_learnable(task, learner)
 
-    if (resampling$task_hash != task$hash) {
+    if (resampling$task_phash != task$phash) {
       stopf("Resampling '%s' was not instantiated with task '%s'", resampling$id, task$id)
     }
 

@@ -71,7 +71,7 @@ resample = function(task, learner, resampling, store_models = FALSE, store_backe
     resampling = resampling$instantiate(task)
   }
 
-  if (resampling$task_hash != task$hash) {
+  if (resampling$task_phash != task$phash) {
     stopf("Resampling '%s' was not instantiated with task '%s'", resampling$id, task$id)
   }
 

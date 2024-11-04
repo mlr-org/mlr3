@@ -661,3 +661,13 @@ test_that("cbind supports non-standard primary key (#961)", {
   task$cbind(data.table(x1 = 10:1))
   expect_true("x1" %in% task$feature_names)
 })
+
+test_that("Task phash works", {
+  task_1 = tsk("pima")
+  phash_1 = task_1$phash
+
+  task_2 = task_1$clone()
+  task_2$select("mass")
+
+  expect_equal(phash_1, task_2$phash)
+})

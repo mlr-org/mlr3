@@ -843,6 +843,16 @@ Task = R6Class("Task",
       private$.hash
     },
 
+    #' @field phash (`character(1)`)\cr
+    #' Hash (unique identifier) for this partial object, excluding some components which are varied systematically during feature selection (`$col_roles`).
+    phash = function(rhs) {
+      if (is.null(private$.phash)) {
+        private$.phash = task_hash(self, self$row_ids, ignore_internal_valid_task = TRUE, ignore_col_roles = TRUE)
+      }
+
+      private$.phash
+    },
+
     #' @field row_ids (positive `integer()`)\cr
     #' Returns the row ids of the [DataBackend] for observations with role "use".
     row_ids = function(rhs) {
@@ -1126,6 +1136,7 @@ Task = R6Class("Task",
     .col_roles = NULL,
     .row_roles = NULL,
     .hash = NULL,
+    .phash = NULL,
     .col_hashes = NULL,
 
     deep_clone = function(name, value) {
