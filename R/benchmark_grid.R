@@ -103,14 +103,20 @@ benchmark_grid = function(tasks, learners, resamplings, param_values = NULL, pai
       if (!identical(task_nrow, unique(map_int(resamplings, "task_nrow")))) {
         stop("A Resampling is instantiated for a task with a different number of observations")
       }
-      instances = pmap(grid, function(task, resampling) resamplings[[resampling]]$clone())
+      # clone resamplings for each task and update task hashes
+      instances = pmap(grid, function(task, resampling) {
+        resampling = resamplings[[resampling]]$clone()
+        resampling$task_phash = tasks[[task]]$phash
+        resampling$task_hash = tasks[[task]]$hash
+        resampling
+      })
     } else {
       instances = pmap(grid, function(task, resampling) resamplings[[resampling]]$clone()$instantiate(tasks[[task]]))
     }
 
     grid$instance = seq_row(grid)
     grid = grid[CJ(task = seq_along(tasks), learner = seq_along(learners)), on = "task", allow.cartesian = TRUE]
-
+    browser()
     tab = data.table(task = tasks[grid$task], learner = learners[grid$learner], resampling = instances[grid$instance])
   }
 

@@ -601,3 +601,16 @@ test_that("resampling was instantiated on the task", {
 
   expect_error(benchmark(design), "not instantiated")
 })
+
+
+generator = tgen("moons")
+task_1 = generator$generate(100L)
+task_2 = generator$generate(100L)
+
+task_1$hash
+task_2$hash
+resampling = rsmp("cv", folds = 3)
+
+resampling$instantiate(task_1)
+
+grid = benchmark_grid(list(task_1, task_2), lrn("classif.featureless"), resampling)
