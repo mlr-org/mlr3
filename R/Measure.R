@@ -267,7 +267,10 @@ Measure = R6Class("Measure",
       private$.predict_sets
     },
 
-    #' @template field_hash
+    #' @field hash (`character(1)`)\cr
+    #' Hash (unique identifier) for this object.
+    #' The hash is calculated based on the id, the parameter settings, predict sets and the `$score`, `$average`, `$aggregator`, `$obs_loss`, `$trafo` method.
+    #' Measure can define additional fields to be included in the hash by setting the field `$.extra_hash`.
     hash = function(rhs) {
       assert_ro_binding(rhs)
       calculate_hash(class(self), self$id, self$param_set$values, private$.score,

@@ -229,7 +229,10 @@ Resampling = R6Class("Resampling",
       !is.null(self$instance)
     },
 
-    #' @template field_hash
+    #' @field hash (`character(1)`)\cr
+    #' Hash (unique identifier) for this object.
+    #' If the object has not been instantiated yet, `NA_character_` is returned.
+    #' The hash is calculated based on the class name, the id, the parameter set, and the instance.
     hash = function(rhs) {
       assert_ro_binding(rhs)
       if (!self$is_instantiated) {

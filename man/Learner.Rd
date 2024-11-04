@@ -283,11 +283,11 @@ Logged warnings as vector.}
 Logged errors as vector.}
 
 \item{\code{hash}}{(\code{character(1)})\cr
-Hash (unique identifier) for this object.}
+Hash (unique identifier) for this object.
+The hash is calculated based on the learner id, the parameter settings, the predict type, the fallback hash, the parallel predict setting, the validate setting, and the predict sets.}
 
 \item{\code{phash}}{(\code{character(1)})\cr
-Hash (unique identifier) for this partial object, excluding some components
-which are varied systematically during tuning (parameter values).}
+Hash (unique identifier) for this partial object, excluding some components which are varied systematically during tuning (parameter values).}
 
 \item{\code{predict_type}}{(\code{character(1)})\cr
 Stores the currently active predict type, e.g. \code{"response"}.
@@ -585,8 +585,7 @@ While this comes with a considerable overhead, it also guards your session from 
 
 The fallback learner is fitted to create valid predictions in case that either the model fitting or the prediction of the original learner fails.
 If the training step or the predict step of the original learner fails, the fallback is used completely to predict predictions sets.
-If the original learner only partially fails during predict step (usually in the form of missing to predict some observations or producing some `NA`` predictions), these missing predictions are imputed by the fallback.
-Note that the fallback is always trained, as we do not know in advance whether prediction will fail.
+If the original learner only partially fails during predict step (usually in the form of missing to predict some observations or producing some \verb{NA`` predictions), these missing predictions are imputed by the fallback. Note that the fallback is always trained, as we do not know in advance whether prediction will fail. If the training step fails, the }$model\verb{field of the original learner is}NULL`.
 
 Also see the section on error handling the mlr3book:
 \url{https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling}

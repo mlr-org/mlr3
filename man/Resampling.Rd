@@ -148,7 +148,9 @@ Used in tables, plot and text output.}
 Is \code{TRUE} if the resampling has been instantiated.}
 
 \item{\code{hash}}{(\code{character(1)})\cr
-Hash (unique identifier) for this object.}
+Hash (unique identifier) for this object.
+If the object has not been instantiated yet, \code{NA_character_} is returned.
+The hash is calculated based on the class name, the id, the parameter set, and the instance.}
 }
 \if{html}{\out{</div>}}
 }

@@ -657,6 +657,7 @@ Task = R6Class("Task",
 
     #' @description
     #' Modifies the roles in `$col_roles` **in-place**.
+    #' See `$col_roles` for a list of possible roles.
     #'
     #' @param cols (`character()`)\cr
     #'   Column names for which to change the roles for.
@@ -830,7 +831,10 @@ Task = R6Class("Task",
       invisible(private$.internal_valid_task)
     },
 
-    #' @template field_hash
+    #' @field hash (`character(1)`)\cr
+    #' Hash (unique identifier) for this object.
+    #' The hash is calculated based on the complete task object and `$row_ids`.
+    #' If an internal validation task is set, the hash is recalculated.
     hash = function(rhs) {
       if (is.null(private$.hash)) {
         private$.hash = task_hash(self, self$row_ids, ignore_internal_valid_task = FALSE)
