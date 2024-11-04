@@ -35,19 +35,19 @@ measure = msr("classif.ce")
 
 test_that("assertions work", {
   expect_learner(assert_learner(learner, task))
-  expect_error(assert_learner(learner, tsk("boston_housing")), "must have task type")
+  expect_error(assert_learner(learner, tsk("ames_housing")), "must have task type")
   expect_null(assert_task_learner(task, learner))
-  expect_error(assert_task_learner(tsk("boston_housing"), learner), "not match type")
+  expect_error(assert_task_learner(tsk("ames_housing"), learner), "not match type")
   expect_measure(assert_measure(measure, task, learner))
-  expect_error(assert_measure(measure, tsk("boston_housing"), learner), "is not compatible")
+  expect_error(assert_measure(measure, tsk("ames_housing"), learner), "is not compatible")
   expect_error(assert_measure(measure, task, lrn("regr.rpart")), "is not compatible")
 
   at = learner
   class(at) = c("AutoTuner", "Learner", "R6")
   expect_learner(assert_learner(at, task))
-  expect_error(assert_learner(at, tsk("boston_housing")), "must have task type")
+  expect_error(assert_learner(at, tsk("ames_housing")), "must have task type")
   expect_null(assert_task_learner(task, at))
-  expect_error(assert_task_learner(tsk("boston_housing"), at))
+  expect_error(assert_task_learner(tsk("ames_housing"), at))
 })
 
 test_that("train and predict works", {
@@ -79,7 +79,7 @@ test_that("benchmark works", {
   expect_data_table(tab, nrows = 1L)
   expect_names(names(tab), type = "unique", identical.to = c("nr", "resample_result", "task_id", "learner_id", "resampling_id", "iters", "classif.ce"))
 
-  grid = benchmark_grid(list(task, tsk("mtcars"), tsk("boston_housing")), learner, rsmp("cv", folds = 3))
+  grid = benchmark_grid(list(task, tsk("mtcars"), tsk("ames_housing")), learner, rsmp("cv", folds = 3))
   expect_error(benchmark(grid), "Multiple task types detected")
 })
 

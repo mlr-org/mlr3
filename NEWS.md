@@ -1,6 +1,7 @@
 # mlr3 (development version)
 
 * fix: Quantiles must not ascend with probabilities.
+* refactor: Replace `tsk("boston_housing")` with `tsk("ames_housing")`.
 
 # mlr3 0.21.1
 

@@ -1,15 +1,10 @@
 test_that("Feature columns can be reordered", {
-  bh = load_dataset("BostonHousing", "mlbench")
-  bh$medv = NULL
+  task = tsk("ames_housing")
+  new_order = shuffle(task$feature_names)
 
-  task = tsk("boston_housing")
-  task$col_roles$feature = setdiff(names(bh), "cmedv")
-
-  expect_equal(task$feature_names, setdiff(names(bh), "cmedv"))
-  expect_equal(names(task$data(rows = 1)), c("cmedv", setdiff(names(bh), "cmedv")))
-
-  task$col_roles$feature = shuffle(task$col_roles$feature)
-  expect_equal(names(task$data(rows = 1)), c("cmedv", task$col_roles$feature))
+  task$col_roles$feature = new_order
+  expect_equal(task$feature_names, new_order)
+  expect_equal(names(task$data(rows = 1)), c("Sale_Price", new_order))
 })
 
 test_that("Task duplicates rows", {

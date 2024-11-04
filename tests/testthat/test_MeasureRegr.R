@@ -1,6 +1,6 @@
 test_that("Regression measures", {
   keys = mlr_measures$keys("^regr\\.")
-  task = tsk("boston_housing")
+  task = tsk("ames_housing")
   learner = lrn("regr.rpart")
   learner$train(task)
   p = learner$predict(task)
