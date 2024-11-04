@@ -1,14 +1,10 @@
 test_that("Feature columns can be reordered", {
-  ah = readRDS(system.file("extdata", "ames_housing.rds", package = "mlr3"))
-
   task = tsk("ames_housing")
-  task$set_col_roles(setdiff(names(ah), "Sale_Price"), "feature")
+  new_order = shuffle(task$feature_names)
 
-  expect_equal(task$feature_names, setdiff(names(ah), "Sale_Price"))
-  expect_equal(names(task$data(rows = 1)), c("Sale_Price", setdiff(names(ah), "Sale_Price")))
-
-  task$set_col_roles(shuffle(task$col_roles$feature), "feature")
-  expect_equal(names(task$data(rows = 1)), c("Sale_Price", task$col_roles$feature))
+  task$col_roles$feature = new_order
+  expect_equal(task$feature_names, new_order)
+  expect_equal(names(task$data(rows = 1)), c("Sale_Price", new_order))
 })
 
 test_that("Task duplicates rows", {
