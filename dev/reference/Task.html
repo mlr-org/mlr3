@@ -216,6 +216,11 @@ The hash is calculated based on the complete task object and <code>$row_ids</cod
 If an internal validation task is set, the hash is recalculated.</p></dd>
 
 
+<dt><code>phash</code></dt>
+<dd><p>(<code>character(1)</code>)<br>
+Hash (unique identifier) for this partial object, excluding some components which are varied systematically during feature selection (<code>$col_roles</code>).</p></dd>
+
+
 <dt><code>row_ids</code></dt>
 <dd><p>(positive <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>)<br>
 Returns the row ids of the <a href="DataBackend.html">DataBackend</a> for observations with role "use".</p></dd>
