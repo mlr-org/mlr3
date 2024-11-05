@@ -71,13 +71,10 @@ resample = function(task, learner, resampling, store_models = FALSE, store_backe
     resampling = resampling$instantiate(task)
   }
 
-<<<<<<< HEAD
   if (resampling$task_phash != task$phash) {
     stopf("Resampling '%s' was not instantiated with task '%s'", resampling$id, task$id)
   }
 
-=======
->>>>>>> main
   n = resampling$iters
   pb = if (isNamespaceLoaded("progressr")) {
     # NB: the progress bar needs to be created in this env
