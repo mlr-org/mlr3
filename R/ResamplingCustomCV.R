@@ -75,7 +75,6 @@ ResamplingCustomCV = R6Class("ResamplingCustomCV", inherit = Resampling,
 
       self$instance = split(task$row_ids, f, drop = TRUE)
       self$task_hash = task$hash
-      self$task_phash = task$phash
       self$task_nrow = task$nrow
       invisible(self)
     }

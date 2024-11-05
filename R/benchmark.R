@@ -119,7 +119,6 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
   if ("resampling" %in% clone) {
     design[, "resampling" := list(list(resampling[[1L]]$clone())), by = list(hashes(resampling))]
   }
-  browser()
 
   # set encapsulation + fallback
   set_encapsulation(design$learner, encapsulate)
@@ -128,10 +127,6 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
   grid = pmap_dtr(design, function(task, learner, resampling, param_values) {
     # learner = assert_learner(as_learner(learner, clone = TRUE))
     assert_learnable(task, learner)
-
-    if (resampling$task_phash != task$phash) {
-      stopf("Resampling '%s' was not instantiated with task '%s'", resampling$id, task$id)
-    }
 
     iters = resampling$iters
     n_params = max(1L, length(param_values))
