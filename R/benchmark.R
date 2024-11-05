@@ -119,7 +119,6 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
   if ("resampling" %in% clone) {
     design[, "resampling" := list(list(resampling[[1L]]$clone())), by = list(hashes(resampling))]
   }
-  browser()
 
   # set encapsulation + fallback
   set_encapsulation(design$learner, encapsulate)
