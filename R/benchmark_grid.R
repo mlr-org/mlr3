@@ -104,16 +104,12 @@ benchmark_grid = function(tasks, learners, resamplings, param_values = NULL, pai
         stop("A Resampling is instantiated for a task with a different number of observations")
       }
       # clone resamplings for each task and update task hashes
-<<<<<<< HEAD
       instances = pmap(grid, function(task, resampling) {
         resampling = resamplings[[resampling]]$clone()
         resampling$task_phash = tasks[[task]]$phash
         resampling$task_hash = tasks[[task]]$hash
         resampling
       })
-=======
-      instances = pmap(grid, function(task, resampling) resampling = resamplings[[resampling]]$clone())
->>>>>>> main
     } else {
       instances = pmap(grid, function(task, resampling) resamplings[[resampling]]$clone()$instantiate(tasks[[task]]))
     }

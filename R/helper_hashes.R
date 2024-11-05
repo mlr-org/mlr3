@@ -46,10 +46,7 @@ task_hash = function(task, use_ids, test_ids = NULL, ignore_internal_valid_task 
     task$backend$hash,
     task$col_info,
     use_ids,
-<<<<<<< HEAD
     if (!ignore_col_roles) task$col_roles,
-=======
->>>>>>> main
     get_private(task)$.properties,
     internal_valid_task_hash)
 }
