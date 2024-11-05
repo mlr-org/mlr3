@@ -596,8 +596,6 @@ test_that("resampling was instantiated on the task", {
   resampling = rsmp("cv", folds = 5)
   resampling$instantiate(task)
   task = tsk("spam")
-
   design = data.table(task = list(task), learner = list(learner), resampling = list(resampling))
-
   expect_error(benchmark(design), "not instantiated")
 })
