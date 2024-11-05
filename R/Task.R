@@ -305,7 +305,8 @@ Task = R6Class("Task",
       data = self$backend$data(rows = rows, cols = query_cols)
 
       if (length(query_cols) && nrow(data) != length(rows)) {
-        stopf("DataBackend did not return the queried rows correctly: %i requested, %i received", length(rows), nrow(data))
+        stopf("DataBackend did not return the queried rows correctly: %i requested, %i received.
+        The resampling was probably instantiated on a different task.", length(rows), nrow(data))
       }
 
       if (length(rows) && ncol(data) != length(query_cols)) {
