@@ -661,3 +661,11 @@ test_that("cbind supports non-standard primary key (#961)", {
   task$cbind(data.table(x1 = 10:1))
   expect_true("x1" %in% task$feature_names)
 })
+
+test_that("$select changes hash", {
+  task = tsk("iris")
+  h1 = task$hash
+  task$select("Petal.Length")
+  h2 = task$hash
+  expect_false(h1 == h2)
+})
