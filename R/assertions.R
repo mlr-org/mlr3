@@ -107,7 +107,13 @@ test_matching_task_type = function(task_type, object, class) {
 #' @export
 #' @param learners (list of [Learner]).
 #' @rdname mlr_assertions
-assert_learners = function(learners, task = NULL, task_type = NULL, properties = character(), .var.name = vname(learners)) {
+assert_learners = function(learners, task = NULL, task_type = NULL, properties = character(), unique_ids = FALSE, .var.name = vname(learners)) {
+  if (unique_ids)  {
+    ids = map_chr(learners, "id")
+    if (!test_character(ids, unique = TRUE)) {
+      stopf("Learners need to have unique IDs: %s", str_collapse(ids))
+    }
+  }
   invisible(lapply(learners, assert_learner, task = task, task_type = NULL, properties = properties, .var.name = .var.name))
 }
 

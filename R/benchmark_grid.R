@@ -67,7 +67,7 @@
 #'
 benchmark_grid = function(tasks, learners, resamplings, param_values = NULL, paired = FALSE) {
   tasks = assert_tasks(as_tasks(tasks))
-  learners = assert_learners(as_learners(learners))
+  learners = assert_learners(as_learners(learners), unique_ids = TRUE)
   resamplings = assert_resamplings(as_resamplings(resamplings))
   if (!is.null(param_values)) {
     assert_param_values(param_values, n_learners = length(learners))
@@ -103,7 +103,8 @@ benchmark_grid = function(tasks, learners, resamplings, param_values = NULL, pai
       if (!identical(task_nrow, unique(map_int(resamplings, "task_nrow")))) {
         stop("A Resampling is instantiated for a task with a different number of observations")
       }
-      instances = pmap(grid, function(task, resampling) resamplings[[resampling]]$clone())
+      # clone resamplings for each task and update task hashes
+      instances = pmap(grid, function(task, resampling) resampling = resamplings[[resampling]]$clone())
     } else {
       instances = pmap(grid, function(task, resampling) resamplings[[resampling]]$clone()$instantiate(tasks[[task]]))
     }

@@ -154,7 +154,7 @@ test_that("learners are hotstarted when benchmark is called", {
   resampling = rsmp("cv", folds = 3)
   resampling$instantiate(task)
 
-  design = benchmark_grid(task, list(learner_1, learner_2), resampling)
+  design = data.table(task = list(task), learner = list(learner_1, learner_2), resampling = list(resampling))
   bmr = benchmark(design, store_models = TRUE)
 
   learners = unlist(map(seq_len(bmr$n_resample_results), function(i) bmr$resample_result(i)$learners))
@@ -183,7 +183,7 @@ test_that("learners are trained and hotstarted when benchmark is called", {
   resampling = rsmp("cv", folds = 3)
   resampling$instantiate(task)
 
-  design = benchmark_grid(task, list(learner_1, learner_2), resampling)
+  design = data.table(task = list(task), learner = list(learner_1, learner_2), resampling = list(resampling))
   bmr = benchmark(design, store_models = TRUE)
 
   learners = unlist(map(seq_len(bmr$n_resample_results), function(i) bmr$resample_result(i)$learners))

@@ -51,6 +51,7 @@ assert_learners(
   task = NULL,
   task_type = NULL,
   properties = character(),
+  unique_ids = FALSE,
   .var.name = vname(learners)
 )
 

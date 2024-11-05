@@ -46,7 +46,7 @@ test_that("parallel benchmark", {
   expect_equal(bmr$aggregate(conditions = TRUE)$warnings, 0L)
   expect_equal(bmr$aggregate(conditions = TRUE)$errors, 0L)
 
-  grid = benchmark_grid(list(tsk("wine"), tsk("sonar")), replicate(2, lrn("classif.debug")), rsmp("cv", folds = 2))
+  grid = benchmark_grid(list(tsk("wine"), tsk("sonar")), list(lrn("classif.debug", id = "learner_1"), lrn("classif.debug", id = "learner_2")), rsmp("cv", folds = 2))
   njobs = 3L
   bmr = with_future(future::multisession, {
     benchmark(grid, store_models = TRUE)
