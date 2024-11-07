@@ -1,7 +1,8 @@
-# mlr3 (development version)
+# mlr3 0.22.0
 
 * fix: Quantiles must not ascend with probabilities.
 * refactor: Replace `tsk("boston_housing")` with `tsk("california_housing")`.
+* feat: Require unique learner ids in `benchmark_grid()`.
 
 # mlr3 0.21.1
 
