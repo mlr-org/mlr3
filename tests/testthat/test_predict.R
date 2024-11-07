@@ -50,8 +50,8 @@ test_that("missing predictions are handled gracefully / regr", {
 
 
 test_that("predict_newdata with weights (#519)", {
-  task = tsk("ames_housing")
-  task$set_col_roles("Bedroom_AbvGr", "weight")
+  task = tsk("california_housing")
+  task$set_col_roles("households", "weight")
   learner = lrn("regr.featureless")
   learner$train(task)
   expect_prediction(learner$predict(task))
@@ -60,7 +60,7 @@ test_that("predict_newdata with weights (#519)", {
   expect_prediction(learner$predict_newdata(task$data()))
 
   # w weights
-  expect_prediction(learner$predict_newdata(task$data(cols = c(task$target_names, task$feature_names, "Bedroom_AbvGr"))))
+  expect_prediction(learner$predict_newdata(task$data(cols = c(task$target_names, task$feature_names, "households"))))
 })
 
 test_that("parallel predict works", {

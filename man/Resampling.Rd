@@ -123,10 +123,6 @@ It is advised to not work directly with the \code{instance}, but instead only us
 \item{\code{task_hash}}{(\code{character(1)})\cr
 The hash of the \link{Task} which was passed to \code{r$instantiate()}.}
 
-\item{\code{task_phash}}{(\code{character(1)})\cr
-The phash of the \link{Task} which was passed to \code{r$instantiate()}.
-This is the hash of the task without the features.}
-
 \item{\code{task_nrow}}{(\code{integer(1)})\cr
 The number of observations of the \link{Task} which was passed to \code{r$instantiate()}.}
 

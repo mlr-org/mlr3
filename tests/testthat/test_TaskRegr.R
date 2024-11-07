@@ -1,9 +1,9 @@
 test_that("Basic ops on Ames Housing task", {
-  task = tsk("ames_housing")
+  task = tsk("california_housing")
   expect_task(task)
   expect_task_supervised(task)
   expect_task_regr(task)
-  expect_equal(task$target_names, "Sale_Price")
+  expect_equal(task$target_names, "median_house_value")
 
   f = task$formula()
   expect_class(f, "formula")

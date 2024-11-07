@@ -1,12 +1,12 @@
 test_that("convert_task - Regr -> Regr", {
-  task = tsk("ames_housing")
-  result = convert_task(task, target = "Mas_Vnr_Area", drop_original_target = TRUE)
+  task = tsk("california_housing")
+  result = convert_task(task, target = "households", drop_original_target = TRUE)
 
   expect_class(result, "TaskRegr")
   expect_task(result)
-  expect_true(result$col_roles$target == "Mas_Vnr_Area")
-  expect_true(all(result$feature_names != "Mas_Vnr_Area"))
-  expect_true(all(result$feature_names != "Sale_Price"))
+  expect_true(result$col_roles$target == "households")
+  expect_true(all(result$feature_names != "households"))
+  expect_true(all(result$feature_names != "median_house_value"))
   expect_true(all(unlist(imap(result$row_roles,
     .f = function(z, x) {
       all(result$row_roles[[x]] == task$row_roles[[x]])
@@ -19,14 +19,14 @@ test_that("convert_task - Regr -> Regr", {
 })
 
 test_that("convert_task - Regr -> Classif", {
-  task = tsk("ames_housing")
-  result = convert_task(task, target = "Alley", new_type = "classif", drop_original_target = TRUE)
+  task = tsk("california_housing")
+  result = convert_task(task, target = "ocean_proximity", new_type = "classif", drop_original_target = TRUE)
 
   expect_class(result, "TaskClassif")
   expect_task(result)
-  expect_true(result$col_roles$target == "Alley")
-  expect_true(all(result$feature_names != "Alley"))
-  expect_true(all(result$feature_names != "Sale_Price"))
+  expect_true(result$col_roles$target == "ocean_proximity")
+  expect_true(all(result$feature_names != "ocean_proximity"))
+  expect_true(all(result$feature_names != "median_house_value"))
   expect_true(all(unlist(imap(result$row_roles,
     .f = function(z, x) {
       all(result$row_roles[[x]] == task$row_roles[[x]])
@@ -59,18 +59,18 @@ test_that("convert_task - Classif -> Regr", {
 })
 
 test_that("convert_task - same target", {
-  task = tsk("ames_housing")
-  task$col_roles$feature = setdiff(task$col_roles$feature, "Latitue")
+  task = tsk("california_housing")
+  task$col_roles$feature = setdiff(task$col_roles$feature, "latitue")
 
   results = list(
-    convert_task(task, target = "Sale_Price", new_type = "regr", drop_original_target = TRUE),
-    convert_task(task, target = "Sale_Price", new_type = "regr", drop_original_target = FALSE)
+    convert_task(task, target = "median_house_value", new_type = "regr", drop_original_target = TRUE),
+    convert_task(task, target = "median_house_value", new_type = "regr", drop_original_target = FALSE)
   )
 
   for (result in results) {
     expect_class(result, "TaskRegr")
     expect_task(result)
-    expect_true(result$col_roles$target == "Sale_Price")
+    expect_true(result$col_roles$target == "median_house_value")
     expect_true(all(unlist(imap(result$row_roles,
       .f = function(z, x) {
         all(result$row_roles[[x]] == task$row_roles[[x]])
@@ -88,15 +88,15 @@ test_that("convert_task - same target", {
 })
 
 test_that("convert task - general checks", {
-  btask = tsk("ames_housing")
+  btask = tsk("california_housing")
   itask = tsk("iris")
 
   # target does not exist
-  expect_error(convert_task(btask, target = "Sale_Price2"))
+  expect_error(convert_task(btask, target = "median_house_value2"))
 
   # target class does not match
-  expect_error(convert_task(btask, target = "Sale_Price", new_type = "classif"))
-  expect_error(convert_task(itask, target = "Total_Bsmt_SF", new_type = "classif"))
+  expect_error(convert_task(btask, target = "latitude", new_type = "classif"))
+  expect_error(convert_task(itask, target = "Sepal.Width", new_type = "classif"))
 })
 
 test_that("convert_task reconstructs task", {

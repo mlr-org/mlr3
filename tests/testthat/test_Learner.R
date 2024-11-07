@@ -16,7 +16,7 @@ test_that("clone", {
 })
 
 test_that("Learners are called with invoke / small footprint of call", {
-  task = tsk("ames_housing")
+  task = tsk("california_housing")
   learner = lrn("regr.rpart")
   learner$train(task)
   call = as.character(learner$model$call)
@@ -27,7 +27,7 @@ test_that("Learners are called with invoke / small footprint of call", {
 })
 
 test_that("Extra data slots of learners are kept / reset", {
-  task = tsk("ames_housing")
+  task = tsk("california_housing")
   learner = lrn("regr.rpart")
   learner$train(task)
   learner$state$foo = "bar"
@@ -101,7 +101,7 @@ test_that("train task is properly cloned (#383)", {
 })
 
 test_that("predict on newdata works / regr", {
-  task = tsk("ames_housing")
+  task = tsk("california_housing")
   train = which(seq_len(task$nrow) %% 2 == 0L)
   test = setdiff(seq_len(task$nrow), train)
 
@@ -117,7 +117,7 @@ test_that("predict on newdata works / regr", {
 
 
 test_that("predict on newdata works / no target column", {
-  task = tsk("ames_housing")
+  task = tsk("california_housing")
   train = which(seq_len(task$nrow) %% 2 == 0L)
   test = setdiff(seq_len(task$nrow), train)
 
@@ -246,7 +246,7 @@ test_that("fallback learner is deep cloned (#511)", {
 })
 
 test_that("learner cannot be trained with TuneToken present", {
-  task = tsk("ames_housing")
+  task = tsk("california_housing")
   learner = lrn("regr.rpart", cp = paradox::to_tune(0.1, 0.3))
   expect_error(learner$train(task),
     regexp = "<LearnerRegrRpart:regr.rpart> cannot be trained with TuneToken present in hyperparameter: cp",
@@ -307,17 +307,17 @@ test_that("Error on missing data (#413)", {
 })
 
 test_that("Task prototype is stored in state", {
-  task = tsk("ames_housing")
+  task = tsk("california_housing")
   learner = lrn("regr.rpart")
   learner$train(task)
 
   prototype = learner$state$data_prototype
-  expect_data_table(prototype, nrows = 0, ncols = 82)
+  expect_data_table(prototype, nrows = 0, ncols = 10)
   expect_names(names(prototype), permutation.of = c(task$feature_names, task$target_names))
 })
 
 test_that("Models can be replaced", {
-  task = tsk("ames_housing")
+  task = tsk("california_housing")
   learner = lrn("regr.featureless")
   learner$train(task)
 

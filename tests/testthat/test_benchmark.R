@@ -161,7 +161,7 @@ test_that("predict_type is checked", {
 })
 
 test_that("custom resampling (#245)", {
-  task_boston = tsk("ames_housing")
+  task_boston = tsk("california_housing")
   lrn = lrn("regr.featureless")
 
   rdesc = rsmp("custom")
@@ -329,7 +329,7 @@ test_that("disable cloning", {
 
 test_that("task and learner assertions", {
   grid = benchmark_grid(
-    tasks = tsks(c("iris", "ames_housing")),
+    tasks = tsks(c("iris", "california_housing")),
     learners = lrn("classif.rpart"),
     resamplings = rsmp("holdout")
   )
