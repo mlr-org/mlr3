@@ -4,7 +4,7 @@ test_that("Feature columns can be reordered", {
 
   task$col_roles$feature = new_order
   expect_equal(task$feature_names, new_order)
-  expect_equal(names(task$data(rows = 1)), c("Sale_Price", new_order))
+  expect_equal(names(task$data(rows = 1)), c("median_house_value", new_order))
 })
 
 test_that("Task duplicates rows", {
