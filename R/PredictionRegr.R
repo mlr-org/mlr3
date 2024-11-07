@@ -10,7 +10,7 @@
 #' @template seealso_prediction
 #' @export
 #' @examples
-#' task = tsk("ames_housing")
+#' task = tsk("california_housing")
 #' learner = lrn("regr.featureless", predict_type = "se")
 #' p = learner$train(task)$predict(task)
 #' p$predict_types

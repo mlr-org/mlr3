@@ -1,5 +1,5 @@
 test_that("Basic ops on Ames Housing task", {
-  task = tsk("ames_housing")
+  task = tsk("california_housing")
   expect_task(task)
   expect_task_supervised(task)
   expect_task_regr(task)

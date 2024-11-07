@@ -35,7 +35,7 @@ Other Task:
 \code{\link{TaskClassif}},
 \code{\link{TaskRegr}},
 \code{\link{TaskUnsupervised}},
-\code{\link{ames_housing}},
+\code{\link{california_housing}},
 \code{\link{mlr_tasks}},
 \code{\link{mlr_tasks_breast_cancer}},
 \code{\link{mlr_tasks_german_credit}},

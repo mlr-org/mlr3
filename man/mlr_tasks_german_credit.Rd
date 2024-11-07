@@ -83,7 +83,7 @@ Other Task:
 \code{\link{TaskRegr}},
 \code{\link{TaskSupervised}},
 \code{\link{TaskUnsupervised}},
-\code{\link{ames_housing}},
+\code{\link{california_housing}},
 \code{\link{mlr_tasks}},
 \code{\link{mlr_tasks_breast_cancer}},
 \code{\link{mlr_tasks_iris}},

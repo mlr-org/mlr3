@@ -1,5 +1,5 @@
 test_that("convert_task - Regr -> Regr", {
-  task = tsk("ames_housing")
+  task = tsk("california_housing")
   result = convert_task(task, target = "Mas_Vnr_Area", drop_original_target = TRUE)
 
   expect_class(result, "TaskRegr")
@@ -19,7 +19,7 @@ test_that("convert_task - Regr -> Regr", {
 })
 
 test_that("convert_task - Regr -> Classif", {
-  task = tsk("ames_housing")
+  task = tsk("california_housing")
   result = convert_task(task, target = "Alley", new_type = "classif", drop_original_target = TRUE)
 
   expect_class(result, "TaskClassif")
@@ -59,7 +59,7 @@ test_that("convert_task - Classif -> Regr", {
 })
 
 test_that("convert_task - same target", {
-  task = tsk("ames_housing")
+  task = tsk("california_housing")
   task$col_roles$feature = setdiff(task$col_roles$feature, "Latitue")
 
   results = list(
@@ -88,7 +88,7 @@ test_that("convert_task - same target", {
 })
 
 test_that("convert task - general checks", {
-  btask = tsk("ames_housing")
+  btask = tsk("california_housing")
   itask = tsk("iris")
 
   # target does not exist
