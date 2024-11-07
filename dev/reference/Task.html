@@ -10,7 +10,7 @@ For example, for a classification task a single column must be marked as target 
 
 
 Predefined (toy) tasks are stored in the dictionary mlr_tasks,
-e.g. penguins or ames_housing.
+e.g. penguins or california_housing.
 More toy tasks can be found in the dictionary after loading mlr3data."><meta property="og:description" content="This is the abstract base class for TaskSupervised and TaskUnsupervised.
 TaskClassif and TaskRegr inherit from TaskSupervised.
 More supervised tasks are implemented in mlr3proba, unsupervised cluster tasks
@@ -22,7 +22,7 @@ For example, for a classification task a single column must be marked as target 
 
 
 Predefined (toy) tasks are stored in the dictionary mlr_tasks,
-e.g. penguins or ames_housing.
+e.g. penguins or california_housing.
 More toy tasks can be found in the dictionary after loading mlr3data."><meta property="og:image" content="https://mlr3.mlr-org.com/logo.svg"><meta name="robots" content="noindex"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
@@ -75,7 +75,7 @@ in package <a href="https://CRAN.R-project.org/package=mlr3cluster" class="exter
 <li><p>Tasks store meta-information, such as the role of the individual columns in the <a href="DataBackend.html">DataBackend</a>.
 For example, for a classification task a single column must be marked as target column, and others as features.</p></li>
 </ol><p>Predefined (toy) tasks are stored in the <a href="https://mlr3misc.mlr-org.com/reference/Dictionary.html" class="external-link">dictionary</a> <a href="mlr_tasks.html">mlr_tasks</a>,
-e.g. <code><a href="mlr_tasks_penguins.html">penguins</a></code> or <code><a href="ames_housing.html">ames_housing</a></code>.
+e.g. <code><a href="mlr_tasks_penguins.html">penguins</a></code> or <code><a href="california_housing.html">california_housing</a></code>.
 More toy tasks can be found in the dictionary after loading <a href="https://CRAN.R-project.org/package=mlr3data" class="external-link"><span class="pkg">mlr3data</span></a>.</p>
     </div>
 
@@ -127,7 +127,7 @@ They are an alternative to directly accessing <code>$col_roles</code> or <code>$
 <code><a href="TaskRegr.html">TaskRegr</a></code>,
 <code><a href="TaskSupervised.html">TaskSupervised</a></code>,
 <code><a href="TaskUnsupervised.html">TaskUnsupervised</a></code>,
-<code><a href="ames_housing.html">ames_housing</a></code>,
+<code><a href="california_housing.html">california_housing</a></code>,
 <code><a href="mlr_tasks.html">mlr_tasks</a></code>,
 <code><a href="mlr_tasks_breast_cancer.html">mlr_tasks_breast_cancer</a></code>,
 <code><a href="mlr_tasks_german_credit.html">mlr_tasks_german_credit</a></code>,
@@ -214,11 +214,6 @@ When assigning a new task, it is always cloned.</p></dd>
 Hash (unique identifier) for this object.
 The hash is calculated based on the complete task object and <code>$row_ids</code>.
 If an internal validation task is set, the hash is recalculated.</p></dd>
-
-
-<dt><code>phash</code></dt>
-<dd><p>(<code>character(1)</code>)<br>
-Hash (unique identifier) for this partial object, excluding some components which are varied systematically during feature selection (<code>$col_roles</code>).</p></dd>
 
 
 <dt><code>row_ids</code></dt>

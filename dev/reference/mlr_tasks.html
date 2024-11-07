@@ -96,7 +96,7 @@ If <code>objects</code> is set to <code>TRUE</code>, the constructed objects are
 <code><a href="TaskRegr.html">TaskRegr</a></code>,
 <code><a href="TaskSupervised.html">TaskSupervised</a></code>,
 <code><a href="TaskUnsupervised.html">TaskUnsupervised</a></code>,
-<code><a href="ames_housing.html">ames_housing</a></code>,
+<code><a href="california_housing.html">california_housing</a></code>,
 <code><a href="mlr_tasks_breast_cancer.html">mlr_tasks_breast_cancer</a></code>,
 <code><a href="mlr_tasks_german_credit.html">mlr_tasks_german_credit</a></code>,
 <code><a href="mlr_tasks_iris.html">mlr_tasks_iris</a></code>,
@@ -113,23 +113,23 @@ If <code>objects</code> is set to <code>TRUE</code>, the constructed objects are
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/as.data.table.html" class="external-link">as.data.table</a></span><span class="op">(</span><span class="va">mlr_tasks</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Key: &lt;key&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>               key                   label task_type  nrow  ncol properties</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            &lt;char&gt;                  &lt;char&gt;    &lt;char&gt; &lt;int&gt; &lt;int&gt;     &lt;list&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  1:  ames_housing        Ames House Sales      regr  2930    81           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  2: breast_cancer Wisconsin Breast Cancer   classif   683    10   twoclass</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  3: german_credit           German Credit   classif  1000    21   twoclass</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  4:          iris            Iris Flowers   classif   150     5 multiclass</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  5:        mtcars            Motor Trends      regr    32    11           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  6:      penguins         Palmer Penguins   classif   344     8 multiclass</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  7:          pima    Pima Indian Diabetes   classif   768     9   twoclass</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  8:         sonar  Sonar: Mines vs. Rocks   classif   208    61   twoclass</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  9:          spam       HP Spam Detection   classif  4601    58   twoclass</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10:          wine            Wine Regions   classif   178    14 multiclass</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11:           zoo             Zoo Animals   classif   101    17 multiclass</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                    key                   label task_type  nrow  ncol properties</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 &lt;char&gt;                  &lt;char&gt;    &lt;char&gt; &lt;int&gt; &lt;int&gt;     &lt;list&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1:      breast_cancer Wisconsin Breast Cancer   classif   683    10   twoclass</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  2: california_housing  California House Value      regr 20640    10           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  3:      german_credit           German Credit   classif  1000    21   twoclass</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  4:               iris            Iris Flowers   classif   150     5 multiclass</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  5:             mtcars            Motor Trends      regr    32    11           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  6:           penguins         Palmer Penguins   classif   344     8 multiclass</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  7:               pima    Pima Indian Diabetes   classif   768     9   twoclass</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  8:              sonar  Sonar: Mines vs. Rocks   classif   208    61   twoclass</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  9:               spam       HP Spam Detection   classif  4601    58   twoclass</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10:               wine            Wine Regions   classif   178    14 multiclass</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11:                zoo             Zoo Animals   classif   101    17 multiclass</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       lgl   int   dbl   chr   fct   ord   pxc</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  1:     0    22    12     0    46     0     0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  2:     0     0     0     0     0     9     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1:     0     0     0     0     0     9     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  2:     0     0     8     0     1     0     0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  3:     0     3     0     0    14     3     0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  4:     0     0     4     0     0     0     0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  5:     0     0    10     0     0     0     0</span>
@@ -168,9 +168,10 @@ If <code>objects</code> is set to <code>TRUE</code>, the constructed objects are
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># list available tasks</span></span></span>
 <span class="r-in"><span><span class="va">mlr_tasks</span><span class="op">$</span><span class="fu">keys</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "ames_housing"    "breast_cancer"   "german_credit"   "iris"           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [5] "mtcars"          "penguins"        "penguins.binary" "pima"           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [9] "sonar"           "spam"            "wine"            "zoo"            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "breast_cancer"      "california_housing" "german_credit"     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [4] "iris"               "mtcars"             "penguins"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7] "penguins.binary"    "pima"               "sonar"             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [10] "spam"               "wine"               "zoo"               </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># retrieve from dictionary</span></span></span>
 <span class="r-in"><span><span class="va">mlr_tasks</span><span class="op">$</span><span class="fu">get</span><span class="op">(</span><span class="st">"penguins.binary"</span><span class="op">)</span></span></span>
