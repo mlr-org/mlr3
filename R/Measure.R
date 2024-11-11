@@ -136,14 +136,15 @@ Measure = R6Class("Measure",
     #' Printer.
     #' @param ... (ignored).
     print = function(...) {
-      catn(format(self), if (is.null(self$label) || is.na(self$label)) "" else paste0(": ", self$label))
-      catn(str_indent("* Packages:", self$packages))
-      catn(str_indent("* Range:", sprintf("[%g, %g]", self$range[1L], self$range[2L])))
-      catn(str_indent("* Minimize:", self$minimize))
-      catn(str_indent("* Average:", self$average))
-      catn(str_indent("* Parameters:", as_short_string(self$param_set$values, 1000L)))
-      catn(str_indent("* Properties:", self$properties))
-      catn(str_indent("* Predict type:", self$predict_type))
+      cli_h1(sprintf("%s (%s)%s", class(self)[1L], self$id, if (is.null(self$label) || is.na(self$label)) "" else paste0(": ", self$label)))
+      cli_li(sprintf("Packages: %s", paste(self$packages, collapse = ", ")))
+      cli_li(sprintf("Range: [%g, %g]", self$range[1L], self$range[2L]))
+      cli_li(sprintf("Minimize: %s", self$minimize))
+      cli_li(sprintf("Average: %s", self$average))
+      cli_li(sprintf("Parameters: %s", paste(as_short_string(self$param_set$values, 1000L), collapse = ", ")))
+      cli_li(sprintf("Properties: %s", paste(self$properties, collapse = ", ")))
+      cli_li(sprintf("Predict type: %s", self$predict_type))
+      cli_li(sprintf("Predict sets: %s", paste(self$predict_sets, collapse = ", ")))
     },
 
     #' @description

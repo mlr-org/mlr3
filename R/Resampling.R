@@ -141,10 +141,10 @@ Resampling = R6Class("Resampling",
     #' Printer.
     #' @param ... (ignored).
     print = function(...) {
-      catn(format(self), if (is.null(self$label) || is.na(self$label)) "" else paste0(": ", self$label))
-      catn(str_indent("* Iterations:", self$iters))
-      catn(str_indent("* Instantiated:", self$is_instantiated))
-      catn(str_indent("* Parameters:", as_short_string(self$param_set$values, 1000L)))
+      cli_h1(sprintf("%s %s", class(self)[1L], if (is.null(self$label) || is.na(self$label)) "" else paste0(": ", self$label)))
+      cli_li(sprintf("Iterations: %s", paste(self$iters, collapse = ", ")))
+      cli_li(sprintf("Instantiated: %s", self$is_instantiated))
+      cli_li(sprintf("Parameters: %s", paste(as_short_string(self$param_set$values, 1000L), collapse = ", ")))
     },
 
     #' @description
