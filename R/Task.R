@@ -233,19 +233,20 @@ Task = R6Class("Task",
       cli_li(sprintf("Target: %s", self$target_names))
 
       if (class(self)[1L] == "TaskClassif") {
-        class_freqs = table(self$truth()) / self$nrow * 100  # class frequency percentages
-        class_freqs = class_freqs[order(-class_freqs, names(class_freqs))]  # order: class frequency, then names
-        classes = if("twoclass" %in% self$properties) {
-          sprintf("%s (positive class, %.0f%%), %s (%.0f%%)",
-                  self$positive, class_freqs[[self$positive]], self$negative, class_freqs[[self$negative]])
+        if (!is.null(self$backend)) {
+          class_freqs = table(self$truth()) / self$nrow * 100
+          class_freqs = class_freqs[order(-class_freqs, names(class_freqs))]  # Order by class frequency, then names
+          classes = if ("twoclass" %in% self$properties) {
+            sprintf("%s (positive class, %.0f%%), %s (%.0f%%)",
+                    self$positive, class_freqs[[self$positive]], self$negative, class_freqs[[self$negative]])
+          } else {
+            paste(sprintf("%s (%.0f%%)", names(class_freqs), class_freqs), collapse = ", ")
+          }
         } else {
-          class_str = paste(sprintf("%s (%.0f%%)", names(class_freqs), class_freqs), collapse = ", ")
+          classes = paste(self$class_names, collapse = ", ")
         }
         cli_li(sprintf("Target classes: %s", classes))
       }
-
-
-      cli_li(sprintf("Properties: %s", self$properties))
 
       types = self$feature_types
       if (nrow(types)) {
