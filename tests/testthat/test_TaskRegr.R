@@ -18,7 +18,7 @@ test_that("Target is numeric", {
 test_that("TaskRegr: 0 feature task", {
   b = as_data_backend(data.table(y = runif(20)))
   task = TaskRegr$new(id = "zero_feat_task", b, target = "y")
-  expect_output(print(task))
+  expect_message(print(task))
   b = task$backend
   expect_backend(b)
   expect_task(task)
