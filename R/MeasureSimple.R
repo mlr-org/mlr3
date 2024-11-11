@@ -26,6 +26,12 @@ MeasureBinarySimple = R6Class("MeasureBinarySimple",
         man = paste0("mlr3::mlr_measures_classif.", name)
       )
       self$fun = get(name, envir = asNamespace("mlr3measures"), mode = "function")
+      if (!is.na(info$obs_loss)) {
+        self$obs_loss = get(info$obs_loss, envir = asNamespace("mlr3measures"), mode = "function")
+      }
+      if (test_list(info$trafo)) {
+        self$trafo = info$trafo
+      }
     }
   ),
 
@@ -61,6 +67,12 @@ MeasureClassifSimple = R6Class("MeasureClassifSimple",
         man = paste0("mlr3::mlr_measures_classif.", name)
       )
       self$fun = get(name, envir = asNamespace("mlr3measures"), mode = "function")
+      if (!is.na(info$obs_loss)) {
+        self$obs_loss = get(info$obs_loss, envir = asNamespace("mlr3measures"), mode = "function")
+      }
+      if (test_list(info$trafo)) {
+        self$trafo = info$trafo
+      }
     }
   ),
 
@@ -91,6 +103,12 @@ MeasureRegrSimple = R6Class("MeasureRegrSimple",
         man = paste0("mlr3::mlr_measures_regr.", name)
       )
       self$fun = get(name, envir = asNamespace("mlr3measures"), mode = "function")
+      if (!is.na(info$obs_loss)) {
+        self$obs_loss = get(info$obs_loss, envir = asNamespace("mlr3measures"), mode = "function")
+      }
+      if (test_list(info$trafo)) {
+        self$trafo = info$trafo
+      }
     }
   ),
 
@@ -182,10 +200,6 @@ mlr_measures$add("classif.fp", function() MeasureBinarySimple$new(name = "fp"))
 #' @template measure_binary
 mlr_measures$add("classif.fpr", function() MeasureBinarySimple$new(name = "fpr"))
 
-#' @templateVar id mcc
-#' @template measure_binary
-mlr_measures$add("classif.mcc", function() MeasureBinarySimple$new(name = "mcc"))
-
 #' @templateVar id npv
 #' @template measure_binary
 mlr_measures$add("classif.npv", function() MeasureBinarySimple$new(name = "npv"))
@@ -268,6 +282,14 @@ mlr_measures$add("classif.mauc_au1u", function() MeasureClassifSimple$new(name =
 #' @template measure_classif
 mlr_measures$add("classif.mauc_au1p", function() MeasureClassifSimple$new(name = "mauc_au1p"))
 
+#' @templateVar id mauc_mu
+#' @template measure_classif
+mlr_measures$add("classif.mauc_mu", function() MeasureClassifSimple$new(name = "mauc_mu"))
+
+#' @templateVar id mcc
+#' @template measure_classif
+mlr_measures$add("classif.mcc", function() MeasureClassifSimple$new(name = "mcc"))
+
 
 ### regression measures
 
@@ -331,10 +353,6 @@ mlr_measures$add("regr.rrse", function() MeasureRegrSimple$new(name = "rrse"))
 #' @template measure_regr
 mlr_measures$add("regr.rse", function() MeasureRegrSimple$new(name = "rse"))
 
-#' @templateVar id rsq
-#' @template measure_regr
-mlr_measures$add("regr.rsq", function() MeasureRegrSimple$new(name = "rsq"))
-
 #' @templateVar id sae
 #' @template measure_regr
 mlr_measures$add("regr.sae", function() MeasureRegrSimple$new(name = "sae"))
@@ -350,6 +368,10 @@ mlr_measures$add("regr.srho", function() MeasureRegrSimple$new(name = "srho"))
 #' @templateVar id sse
 #' @template measure_regr
 mlr_measures$add("regr.sse", function() MeasureRegrSimple$new(name = "sse"))
+
+#' @templateVar id pinball
+#' @template measure_regr
+mlr_measures$add("regr.pinball", function() MeasureRegrSimple$new(name = "pinball"))
 
 
 ### similarity measures

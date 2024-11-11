@@ -6,28 +6,23 @@ DataBackendCbind = R6Class("DataBackendCbind", inherit = DataBackend, cloneable 
       assert_backend(b2)
       pk = b1$primary_key
 
-      data_formats = intersect(b1$data_formats, b2$data_formats)
-      if ("data.table" %nin% data_formats) {
-        stopf("There is supported data format for the backends to cbind (supported: 'data.table')")
-      }
-
       if (pk != b2$primary_key) {
         stopf("All backends to cbind must have the primary_key '%s'", pk)
       }
 
-      super$initialize(list(b1 = b1, b2 = b2), pk, "data.table")
+      super$initialize(list(b1 = b1, b2 = b2), pk)
     },
 
-    data = function(rows, cols, data_format = "data.table") {
+    data = function(rows, cols, data_format) {
       pk = self$primary_key
       qrows = unique(assert_numeric(rows))
       qcols = union(assert_names(cols, type = "unique"), pk)
-      assert_choice(data_format, self$data_formats)
+      if (!missing(data_format)) warn_deprecated("DataBackendCbind$data argument 'data_format'")
 
-      data = private$.data$b2$data(qrows, qcols, data_format = data_format)
+      data = private$.data$b2$data(qrows, qcols)
       if (ncol(data) < length(qcols)) {
         qcols = c(setdiff(cols, names(data)), pk)
-        tmp = private$.data$b1$data(qrows, qcols, data_format = data_format)
+        tmp = private$.data$b1$data(qrows, qcols)
         data = merge(data, tmp, by = pk, all = TRUE, sort = TRUE)
       }
 

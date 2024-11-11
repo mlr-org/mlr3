@@ -29,7 +29,7 @@ lrn("regr.debug")
 
 \itemize{
 \item Task type: \dQuote{regr}
-\item Predict Types: \dQuote{response}, \dQuote{se}
+\item Predict Types: \dQuote{response}, \dQuote{se}, \dQuote{quantiles}
 \item Feature Types: \dQuote{logical}, \dQuote{integer}, \dQuote{numeric}, \dQuote{character}, \dQuote{factor}, \dQuote{ordered}
 \item Required Packages: \CRANpkg{mlr3}
 }
@@ -93,6 +93,8 @@ Other Learner:
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-LearnerRegrDebug-new}{\code{LearnerRegrDebug$new()}}
+\item \href{#method-LearnerRegrDebug-importance}{\code{LearnerRegrDebug$importance()}}
+\item \href{#method-LearnerRegrDebug-selected_features}{\code{LearnerRegrDebug$selected_features()}}
 \item \href{#method-LearnerRegrDebug-clone}{\code{LearnerRegrDebug$clone()}}
 }
 }
@@ -100,6 +102,7 @@ Other Learner:
 <details><summary>Inherited methods</summary>
 <ul>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="base_learner"><a href='../../mlr3/html/Learner.html#method-Learner-base_learner'><code>mlr3::Learner$base_learner()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="encapsulate"><a href='../../mlr3/html/Learner.html#method-Learner-encapsulate'><code>mlr3::Learner$encapsulate()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="format"><a href='../../mlr3/html/Learner.html#method-Learner-format'><code>mlr3::Learner$format()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="help"><a href='../../mlr3/html/Learner.html#method-Learner-help'><code>mlr3::Learner$help()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="predict"><a href='../../mlr3/html/Learner.html#method-Learner-predict'><code>mlr3::Learner$predict()</code></a></span></li>
@@ -119,6 +122,32 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 \if{html}{\out{<div class="r">}}\preformatted{LearnerRegrDebug$new()}\if{html}{\out{</div>}}
 }
 
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-LearnerRegrDebug-importance"></a>}}
+\if{latex}{\out{\hypertarget{method-LearnerRegrDebug-importance}{}}}
+\subsection{Method \code{importance()}}{
+Returns 0 for each feature seen in training.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{LearnerRegrDebug$importance()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+Named \code{numeric()}.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-LearnerRegrDebug-selected_features"></a>}}
+\if{latex}{\out{\hypertarget{method-LearnerRegrDebug-selected_features}{}}}
+\subsection{Method \code{selected_features()}}{
+Always returns character(0).
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{LearnerRegrDebug$selected_features()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+\code{character()}.
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-LearnerRegrDebug-clone"></a>}}

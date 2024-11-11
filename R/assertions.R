@@ -107,7 +107,13 @@ test_matching_task_type = function(task_type, object, class) {
 #' @export
 #' @param learners (list of [Learner]).
 #' @rdname mlr_assertions
-assert_learners = function(learners, task = NULL, task_type = NULL, properties = character(), .var.name = vname(learners)) {
+assert_learners = function(learners, task = NULL, task_type = NULL, properties = character(), unique_ids = FALSE, .var.name = vname(learners)) {
+  if (unique_ids)  {
+    ids = map_chr(learners, "id")
+    if (!test_character(ids, unique = TRUE)) {
+      stopf("Learners need to have unique IDs: %s", str_collapse(ids))
+    }
+  }
   invisible(lapply(learners, assert_learner, task = task, task_type = NULL, properties = properties, .var.name = .var.name))
 }
 
@@ -166,6 +172,27 @@ assert_learnable = function(task, learner) {
 #' @export
 #' @rdname mlr_assertions
 assert_predictable = function(task, learner) {
+  if (!is.null(learner$state$train_task)) {
+    train_task = learner$state$train_task
+    cols_train = train_task$feature_names
+    cols_predict = task$feature_names
+
+    if (!test_permutation(cols_train, cols_predict)) {
+      stopf("Learner '%s' has received tasks with different columns in train and predict.", learner$id)
+    }
+
+    ids = train_task$col_info[get("id") %in% cols_train, "id"]$id
+    ci_predict = task$col_info[list(ids), c("id", "type", "levels"), on = "id"]
+    ci_train = train_task$col_info[list(ids), c("id", "type", "levels"), on = "id"]
+
+    ok = all(ci_train$type == ci_predict$type) &&
+      all(pmap_lgl(list(x = ci_train$levels, y = ci_predict$levels), identical))
+
+    if (!ok) {
+      lg$warn("Learner '%s' received task with different column info (feature type or level ordering) during train and predict.", learner$id)
+    }
+  }
+
   assert_task_learner(task, learner, cols = task$feature_names)
 }
 
@@ -173,8 +200,9 @@ assert_predictable = function(task, learner) {
 
 #' @export
 #' @param measure ([Measure]).
+#' @param prediction ([Prediction]).
 #' @rdname mlr_assertions
-assert_measure = function(measure, task = NULL, learner = NULL, .var.name = vname(measure)) {
+assert_measure = function(measure, task = NULL, learner = NULL, prediction = NULL, .var.name = vname(measure)) {
   assert_class(measure, "Measure", .var.name = .var.name)
 
   if (!is.null(task)) {
@@ -212,6 +240,13 @@ assert_measure = function(measure, task = NULL, learner = NULL, .var.name = vnam
         warningf("Measure '%s' needs predict sets %s, but learner '%s' only predicted on sets %s",
           measure$id, str_collapse(miss, quote = "'"), learner$id, str_collapse(learner$predict_sets, quote = "'"))
       }
+    }
+  }
+
+  if (!is.null(prediction) && is.null(learner)) {
+    # same as above but works without learner e.g. measure$score(prediction)
+    if (measure$check_prerequisites != "ignore" && measure$predict_type %nin% prediction$predict_types) {
+      warningf("Measure '%s' is missing predict type '%s' of prediction", measure$id, measure$predict_type)
     }
   }
 
@@ -260,7 +295,8 @@ assert_resamplings = function(resamplings, instantiated = NULL, .var.name = vnam
 #' @export
 #' @param prediction ([Prediction]).
 #' @rdname mlr_assertions
-assert_prediction = function(prediction, .var.name = vname(prediction)) {
+assert_prediction = function(prediction, .var.name = vname(prediction), null.ok = FALSE) {
+  if (null.ok && is.null(prediction)) return(prediction)
   assert_class(prediction, "Prediction", .var.name = .var.name)
 }
 

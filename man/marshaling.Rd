@@ -28,10 +28,16 @@ The learner.}
 
 \item{...}{(any)\cr
 Additional parameters, currently unused.}
+
+\item{model}{(any)\cr
+Model to marshal.}
+
+\item{inplace}{(\code{logical(1)})\cr
+Whether to marshal in-place.}
 }
 \description{
 Marshaling is the process of processing the model of a trained \code{\link{Learner}} so it an be successfully serialized and
-deserialized. The naming is inspired by the \href{https://github.com/HenrikBengtsson/marshal}{marshal package} and we
+deserialized. The naming is inspired by the \href{https://github.com/futureverse/marshal}{marshal package} and we
 plan to fully migrate to this package once it is on CRAN.
 The current implementation should therfore be considered as a temporary solution and is likely
 to change in the future.
@@ -81,4 +87,3 @@ You can verify whether you have correctly implemented marshaling by using the in
 For a concrete example on how to implement marshaling, see \code{\link{LearnerClassifDebug}}.
 }
 
-\keyword{internal}

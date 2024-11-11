@@ -69,6 +69,9 @@ If \code{FALSE}, all learners (that need marshaling) are stored in marshaled for
 }
 \description{
 Runs a benchmark on arbitrary combinations of tasks (\link{Task}), learners (\link{Learner}), and resampling strategies (\link{Resampling}), possibly in parallel.
+
+For large-scale benchmarking we recommend to use the \CRANpkg{mlr3batchmark} package.
+This package runs benchmark experiments on high-performance computing clusters and handles failed experiments.
 }
 \note{
 The fitted models are discarded after the predictions have been scored in order to reduce memory consumption.
@@ -96,6 +99,8 @@ This function can be parallelized with the \CRANpkg{future} package.
 One job is one resampling iteration, and all jobs are send to an apply function
 from \CRANpkg{future.apply} in a single batch.
 To select a parallel backend, use \code{\link[future:plan]{future::plan()}}.
+More on parallelization can be found in the book:
+\url{https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html}
 }
 
 \section{Progress Bars}{

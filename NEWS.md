@@ -1,6 +1,55 @@
 # mlr3 (development version)
 
-* added support for learner-internal validation and tuning
+* fix: Quantiles must not ascend with probabilities.
+* refactor: Replace `tsk("boston_housing")` with `tsk("california_housing")`.
+
+# mlr3 0.21.1
+
+* feat: Throw warning when prediction and measure type do not match.
+* fix: The `mlr_reflections` were broken when an extension package was not loaded on the workers.
+  Extension packages must now register themselves in the `mlr_reflections$loaded_packages` field.
+
+# mlr3 0.21.0
+
+* BREAKING CHANGE: Deprecated `data_format` and `data_formats` for `Learner`, `Task`, and `DataBackend` classes.
+* feat: The `partition()` function creates training, test and validation sets now.
+* perf: Optimize the runtime of fixing factor levels.
+* perf: Optimize the runtime of setting row roles.
+* perf: Optimize the runtime of marshalling.
+* perf: Optimize the runtime of `Task$col_info`.
+* fix: column info is now checked for compatibility during `Learner$predict` (#943).
+* BREAKING CHANGE: The predict time of the learner now stores the cumulative duration for all predict sets (#992).
+* feat: `$internal_valid_task` can now be set to an `integer` vector.
+* feat: Measures can now have an empty `$predict_sets` (#1094).
+  This is relevant for measures that only extract information from the model of a learner (such as internal validation scores or AIC / BIC)
+* BREAKING CHANGE: Deprecated the `$divide()` method
+* fix: `Task$cbind()` now works with non-standard primary keys for `data.frames` (#961).
+* fix: Triggering of fallback learner now has log-level `"info"` instead of `"debug"` (#972).
+* feat: Added new measure `regr.pinball` here and in mlr3measures.
+* feat: Added new measure `mu_auc` here and in mlr3measures.
+* feat: Add option to calculate the mean of the true values on the train set in `msr("regr.rsq")`.
+* feat: Default fallback learner is set when encapsulation is activated.
+* feat: Learners `classif.debug` and `regr.debug` have new methods `$importance()` and `$selected_features()` for testing, also in downstream packages.
+* feat: Create default fallback learner with `default_fallback()`.
+* feat: Check column roles when using `$set_col_roles()` and `$col_roles`.
+* fix: Add predict set to learner hash.
+* BREAKING CHANGE: Encapsulation and the fallback learner are now set with the `$encapsulate(method, fallback)` method.
+  The `$fallback` field is read-only now and the encapsulate status can be retrieved from the `$encapsulation` field.
+
+# mlr3 0.20.2
+
+* refactor: Move RhpcBLASctl to suggest.
+* feat: Added resampling property `"primary_iters"`
+* feat: Added possibility to access observation-wise losses via function `$obs_loss`.
+  This is possible for `Prediction`,  `ResampleResult` and `BenchmarkResult`.
+* feat: `Measure`s now also return a vector of numerics.
+
+# mlr3 0.20.1
+* feat: Add multiclass Matthews correlation coefficient `msr("classif.mcc")`.
+
+# mlr3 0.20.0
+
+* Added support for learner-internal validation and tuning.
 
 # mlr3 0.19.0
 

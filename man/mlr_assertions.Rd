@@ -51,6 +51,7 @@ assert_learners(
   task = NULL,
   task_type = NULL,
   properties = character(),
+  unique_ids = FALSE,
   .var.name = vname(learners)
 )
 
@@ -62,6 +63,7 @@ assert_measure(
   measure,
   task = NULL,
   learner = NULL,
+  prediction = NULL,
   .var.name = vname(measure)
 )
 
@@ -84,7 +86,7 @@ assert_resamplings(
   .var.name = vname(resamplings)
 )
 
-assert_prediction(prediction, .var.name = vname(prediction))
+assert_prediction(prediction, .var.name = vname(prediction), null.ok = FALSE)
 
 assert_resample_result(rr, .var.name = vname(rr))
 
@@ -115,13 +117,13 @@ Set of required task properties.}
 
 \item{measure}{(\link{Measure}).}
 
+\item{prediction}{(\link{Prediction}).}
+
 \item{measures}{(list of \link{Measure}).}
 
 \item{resampling}{(\link{Resampling}).}
 
 \item{resamplings}{(list of \link{Resampling}).}
-
-\item{prediction}{(\link{Prediction}).}
 
 \item{rr}{(\link{ResampleResult}).}
 

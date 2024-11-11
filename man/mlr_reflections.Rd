@@ -17,14 +17,14 @@ Environment which stores various information to allow objects to examine and int
 This environment be modified by third-party packages, e.g. by adding information about new task types
 or by extending the set of allowed feature types.
 
+Third-party packages that modify the reflections must register themselves in the \code{loaded_packages} field.
+
 The following objects are set by \CRANpkg{mlr3}:
 \itemize{
-\item \code{data_formats} (\code{character()})\cr
-Vectors of supported data formats, e.g. \code{"data.table"} or \code{"Matrix"}.
 \item \code{task_types} (\code{data.table()})\cr
 Table with task type (\code{"type"}), the implementing package (\code{"pkg"}), and the names of the generators
 of the corresponding \link{Task} (\code{"task"}), \link{Learner} (\code{"learner"}),
-\link{Prediction} (\code{"prediction"}) and \link{Measure} (\code{"measure"}).
+\link{Prediction} (\code{"prediction"}), \link{Measure} (\code{"measure"}) and fallback \link{Learner}.
 \item \code{task_feature_types} (named \code{character()})\cr
 Vector of base R types supported as \link{Task} features, named with a 3 letter abbreviation.
 \item \code{task_row_roles} (\code{character()})\cr

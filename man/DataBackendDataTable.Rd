@@ -119,20 +119,21 @@ Queries for rows with no matching row id and queries for columns with no matchin
 Rows are guaranteed to be returned in the same order as \code{rows}, columns may be returned in an arbitrary order.
 Duplicated row ids result in duplicated rows, duplicated column names lead to an exception.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{DataBackendDataTable$data(rows, cols, data_format = "data.table")}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{DataBackendDataTable$data(rows, cols, data_format)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{rows}}{(positive \code{integer()})\cr
-Vector or row indices.}
+Vector or row indices.
+Always refers to the complete data set, even after filtering.}
 
 \item{\code{cols}}{(\code{character()})\cr
 Vector of column names.}
 
 \item{\code{data_format}}{(\code{character(1)})\cr
-Desired data format, e.g. \code{"data.table"} or \code{"Matrix"}.}
+Deprecated. Ignored, and will be removed in the future.}
 }
 \if{html}{\out{</div>}}
 }
@@ -174,7 +175,8 @@ silently ignored.
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{rows}}{(positive \code{integer()})\cr
-Vector or row indices.}
+Vector or row indices.
+Always refers to the complete data set, even after filtering.}
 
 \item{\code{cols}}{(\code{character()})\cr
 Vector of column names.}
@@ -202,7 +204,8 @@ of data. Non-existing rows and columns are silently ignored.
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{rows}}{(positive \code{integer()})\cr
-Vector or row indices.}
+Vector or row indices.
+Always refers to the complete data set, even after filtering.}
 
 \item{\code{cols}}{(\code{character()})\cr
 Vector of column names.}

@@ -8,6 +8,8 @@
 #' @return [Prediction].
 #' @export
 as_prediction = function(x, check = FALSE, ...) {
+  if (is.null(x)) return(list())
+
   UseMethod("as_prediction")
 }
 
@@ -42,18 +44,21 @@ as_predictions = function(x, predict_sets = "test", ...) {
 #' @rdname as_prediction
 #' @export
 as_predictions.list = function(x, predict_sets = "test", ...) { # nolint
-  assert_subset(predict_sets, mlr_reflections$predict_sets)
-
-  result = vector("list", length(x))
+  result = replicate(length(x), list())
   ii = lengths(x) > 0L
   result[ii] = map(x[ii], function(li) {
     assert_list(li, "PredictionData")
-    combined = do.call(c, discard(li[predict_sets], is.null))
-    if (is.null(combined)) {
-      list()
-    } else {
-      as_prediction(combined, check = FALSE)
+    li = discard(li[predict_sets], is.null)
+    if (length(li) == 0L) {
+      return(list())
     }
+
+    if (length(li) == 1L) {
+      combined = li[[1L]]
+    } else {
+      combined = do.call(c, li)
+    }
+    as_prediction(combined, check = FALSE)
   })
   result
 }

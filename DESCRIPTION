@@ -1,9 +1,9 @@
 Package: mlr3
 Title: Machine Learning in R - Next Generation
-Version: 0.19.0.9000
+Version: 0.21.1.9000
 Authors@R:
   c(
-    person("Michel", "Lang", , "michellang@gmail.com", role = c("cre", "aut"),
+    person("Michel", "Lang", , "michellang@gmail.com", role = "aut",
            comment = c(ORCID = "0000-0001-9754-0393")),
     person("Bernd", "Bischl", , "bernd_bischl@gmx.net", role = "aut",
            comment = c(ORCID = "0000-0001-6002-6980")),
@@ -24,10 +24,11 @@ Authors@R:
            comment = c(ORCID = "0000-0001-9225-4654")),
     person("Lennart", "Schneider", , "lennart.sch@web.de", role = "ctb",
            comment = c(ORCID = "0000-0003-4152-5308")),
-    person("Marc", "Becker", , "marcbecker@posteo.de", role = "aut",
+    person("Marc", "Becker", , "marcbecker@posteo.de", role = c("cre", "aut"),
            comment = c(ORCID = "0000-0002-8115-0400")),
     person("Sebastian", "Fischer", , "sebf.fischer@gmail.com", role = "aut",
-           comment = c(ORCID = "0000-0002-9609-3197"))
+           comment = c(ORCID = "0000-0002-9609-3197")),
+    person("Lona", "Koers", , "lona.koers@gmail.com", role = "ctb")
   )
 Description: Efficient, object-oriented programming on the
     building blocks of machine learning. Provides 'R6' objects for tasks,
@@ -52,12 +53,11 @@ Imports:
     future.apply (>= 1.5.0),
     lgr (>= 0.3.4),
     mlbench,
-    mlr3measures (>= 0.4.1),
+    mlr3measures (>= 1.0.0),
     mlr3misc (>= 0.15.0),
     parallelly,
     palmerpenguins,
-    paradox (>= 0.10.0),
-    RhpcBLASctl,
+    paradox (>= 1.0.1),
     uuid
 Suggests:
     Matrix,
@@ -68,6 +68,7 @@ Suggests:
     mlr3data,
     progressr,
     remotes,
+    RhpcBLASctl,
     rpart,
     testthat (>= 3.1.0)
 Encoding: UTF-8
@@ -79,6 +80,7 @@ RoxygenNote: 7.3.2
 Collate:
     'mlr_reflections.R'
     'BenchmarkResult.R'
+    'warn_deprecated.R'
     'DataBackend.R'
     'DataBackendCbind.R'
     'DataBackendDataTable.R'
@@ -107,6 +109,7 @@ Collate:
     'MeasureInternalValidScore.R'
     'MeasureOOBError.R'
     'MeasureRegr.R'
+    'MeasureRegrRSQ.R'
     'MeasureSelectedFeatures.R'
     'MeasureSimilarity.R'
     'MeasureSimple.R'
@@ -154,7 +157,7 @@ Collate:
     'TaskGeneratorSpirals.R'
     'TaskGeneratorXor.R'
     'TaskRegr.R'
-    'TaskRegr_boston_housing.R'
+    'TaskRegr_california_housing.R'
     'TaskRegr_mtcars.R'
     'TaskUnsupervised.R'
     'as_benchmark_result.R'
@@ -177,6 +180,7 @@ Collate:
     'benchmark.R'
     'benchmark_grid.R'
     'bibentries.R'
+    'default_fallback.R'
     'default_measures.R'
     'fix_factor_levels.R'
     'helper.R'

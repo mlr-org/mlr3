@@ -4,7 +4,7 @@
 #'
 #' @description
 #' Marshaling is the process of processing the model of a trained [`Learner`] so it an be successfully serialized and
-#' deserialized. The naming is inspired by the [marshal package](https://github.com/HenrikBengtsson/marshal) and we
+#' deserialized. The naming is inspired by the [marshal package](https://github.com/futureverse/marshal) and we
 #' plan to fully migrate to this package once it is on CRAN.
 #' The current implementation should therfore be considered as a temporary solution and is likely
 #' to change in the future.
@@ -13,7 +13,7 @@
 #' * the S3 generic `marshal_model(model, inplace, ...)`.
 #'   Which takes in a model and returns it in marshaled form.
 #'   This means, that the resulting object can be serialized and de-serialzed without loss of information.
-#'   If a model is serializable anyway, nothing has to be implemented and the generic will fall back to the 
+#'   If a model is serializable anyway, nothing has to be implemented and the generic will fall back to the
 #'   default implementation of `marshal_model`, which is to return the object as-is.
 #'   Otherwise, the marshaled object should be a list with named elements `marshaled` and `packages`, where the former contains
 #'   the marshaled object, and the latter the package that contains the packages required to unmarshal.
@@ -54,8 +54,11 @@
 #'   The learner.
 #' @param ... (any)\cr
 #'   Additional parameters, currently unused.
+#' @param model (any)\cr
+#'   Model to marshal.
+#' @param inplace (`logical(1)`)\cr
+#'   Whether to marshal in-place.
 #'
-#' @keywords internal
 #' @export
 learner_unmarshal = function(.learner, ...) {
   # this will do nothing if the model was not marshaled
@@ -97,7 +100,7 @@ unmarshal_model = function(model, inplace = FALSE, ...) {
 #' @rdname marshaling
 #' @export
 is_marshaled_model = function(model) {
-  test_class(model, "marshaled")
+  inherits(model, "marshaled")
 }
 
 #' @export

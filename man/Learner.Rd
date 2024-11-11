@@ -101,7 +101,7 @@ If the model is not trained yet, this method should return \code{NULL}.
 \item \code{"test"} means that the \code{"test"} task is used.
 \strong{Warning}: This can lead to biased performance estimation.
 This option is only available if the learner is being trained via \code{\link[=resample]{resample()}}, \code{\link[=benchmark]{benchmark()}} or functions that
-internally use them, e.g. \code{\link[mlr3tuning:tune]{mlr3tuning::tune()}} or \code{\link[mlr3batchmark:batchmark]{mlr3batchmark::batchmark()}}.
+internally use them, e.g. \code{tune()} of \CRANpkg{mlr3tuning} or \code{batchmark()} of \CRANpkg{mlr3batchmark}.
 This is especially useful for hyperparameter tuning, where one might e.g. want to use the same validation data
 for early stopping and model evaluation.
 \item \code{"predefined"} means that the task's (manually set) \verb{$internal_valid_task} is used.
@@ -209,9 +209,6 @@ A complete list of candidate feature types, grouped by task type, is stored in \
 Stores a set of properties/capabilities the learner has.
 A complete list of candidate properties, grouped by task type, is stored in \code{\link[=mlr_reflections]{mlr_reflections$learner_properties}}.}
 
-\item{\code{data_formats}}{(\code{character()})\cr
-Supported data format, e.g. \code{"data.table"} or \code{"Matrix"}.}
-
 \item{\code{packages}}{(\code{character(1)})\cr
 Set of required packages.
 These packages are loaded, but not attached.}
@@ -233,7 +230,10 @@ The row ids of the \code{task} will be split into \code{\link[future:nbrOfWorker
 and predictions are evaluated according to the active \code{\link[future:plan]{future::plan()}}.
 This currently only works for methods \code{Learner$predict()} and \code{Learner$predict_newdata()},
 and has no effect during \code{\link[=resample]{resample()}} or \code{\link[=benchmark]{benchmark()}} where you have other means
-to parallelize.}
+to parallelize.
+
+Note that the recorded time required for prediction reports the time required to predict
+is not properly defined and depends on the parallelization backend.}
 
 \item{\code{timeout}}{(named \code{numeric(2)})\cr
 Timeout for the learner's train and predict steps, in seconds.
@@ -252,11 +252,20 @@ Defaults to \code{NA}, but can be set by child classes.}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
+\item{\code{data_formats}}{(\code{character()})\cr
+Supported data format. Always \code{"data.table"}..
+This is deprecated and will be removed in the future.}
+
 \item{\code{model}}{(any)\cr
 The fitted model. Only available after \verb{$train()} has been called.}
 
 \item{\code{timings}}{(named \code{numeric(2)})\cr
 Elapsed time in seconds for the steps \code{"train"} and \code{"predict"}.
+
+When predictions for multiple predict sets were made during \code{\link[=resample]{resample()}} or \code{\link[=benchmark]{benchmark()}},
+the predict time shows the cumulative duration of all predictions.
+If \code{learner$predict()} is called manually, the last predict time gets overwritten.
+
 Measured via \code{\link[mlr3misc:encapsulate]{mlr3misc::encapsulate()}}.}
 
 \item{\code{log}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
@@ -274,11 +283,11 @@ Logged warnings as vector.}
 Logged errors as vector.}
 
 \item{\code{hash}}{(\code{character(1)})\cr
-Hash (unique identifier) for this object.}
+Hash (unique identifier) for this object.
+The hash is calculated based on the learner id, the parameter settings, the predict type, the fallback hash, the parallel predict setting, the validate setting, and the predict sets.}
 
 \item{\code{phash}}{(\code{character(1)})\cr
-Hash (unique identifier) for this partial object, excluding some components
-which are varied systematically during tuning (parameter values).}
+Hash (unique identifier) for this partial object, excluding some components which are varied systematically during tuning (parameter values).}
 
 \item{\code{predict_type}}{(\code{character(1)})\cr
 Stores the currently active predict type, e.g. \code{"response"}.
@@ -287,19 +296,11 @@ Must be an element of \verb{$predict_types}.}
 \item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
 Set of hyperparameters.}
 
-\item{\code{encapsulate}}{(named \code{character()})\cr
-Controls how to execute the code in internal train and predict methods.
-Must be a named character vector with names \code{"train"} and \code{"predict"}.
-Possible values are \code{"none"}, \code{"try"}, \code{"evaluate"} (requires package \CRANpkg{evaluate}) and \code{"callr"} (requires package \CRANpkg{callr}).
-See \code{\link[mlr3misc:encapsulate]{mlr3misc::encapsulate()}} for more details.}
-
 \item{\code{fallback}}{(\link{Learner})\cr
-Learner which is fitted to impute predictions in case that either the model fitting or the prediction of the top learner is not successful.
-Requires encapsulation, otherwise errors are not caught and the execution is terminated before the fallback learner kicks in.
-If you have not set encapsulation manually before, setting the fallback learner automatically
-activates encapsulation using the \CRANpkg{evaluate} package.
-Also see the section on error handling the mlr3book:
-\url{https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling}}
+Returns the fallback learner set with \verb{$encapsulate()}.}
+
+\item{\code{encapsulation}}{(\code{character(2)})\cr
+Returns the encapsulation settings set with \verb{$encapsulate()}.}
 
 \item{\code{hotstart_stack}}{(\link{HotstartStack})\cr.
 Stores \code{HotstartStack}.}
@@ -318,6 +319,7 @@ Stores \code{HotstartStack}.}
 \item \href{#method-Learner-predict_newdata}{\code{Learner$predict_newdata()}}
 \item \href{#method-Learner-reset}{\code{Learner$reset()}}
 \item \href{#method-Learner-base_learner}{\code{Learner$base_learner()}}
+\item \href{#method-Learner-encapsulate}{\code{Learner$encapsulate()}}
 \item \href{#method-Learner-clone}{\code{Learner$clone()}}
 }
 }
@@ -336,7 +338,7 @@ Note that this object is typically constructed via a derived classes, e.g. \link
   predict_types = character(),
   feature_types = character(),
   properties = character(),
-  data_formats = "data.table",
+  data_formats,
   packages = character(),
   label = NA_character_,
   man = NA_character_
@@ -379,8 +381,7 @@ If a learner is in a marshaled state, you call first need to call \verb{$unmarsh
 }}
 
 \item{\code{data_formats}}{(\code{character()})\cr
-Set of supported data formats which can be processed during \verb{$train()} and \verb{$predict()},
-e.g. \code{"data.table"}.}
+Deprecated: ignored, and will be removed in the future.}
 
 \item{\code{packages}}{(\code{character()})\cr
 Set of required packages.
@@ -562,6 +563,50 @@ Depth of recursion for multiple nested objects.}
 }
 \subsection{Returns}{
 \link{Learner}.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Learner-encapsulate"></a>}}
+\if{latex}{\out{\hypertarget{method-Learner-encapsulate}{}}}
+\subsection{Method \code{encapsulate()}}{
+Sets the encapsulation method and fallback learner for the train and predict steps.
+There are currently four different methods implemented:
+\itemize{
+\item \code{"none"}: Just runs the learner in the current session and measures the elapsed time.
+Does not keep a log, output is printed directly to the console.
+Works well together with \code{\link[=traceback]{traceback()}}.
+\item \code{"try"}: Similar to \code{"none"}, but catches error.
+Output is printed to the console and not logged.
+\item \code{"evaluate"}: Uses the package \CRANpkg{evaluate} to call the learner, measure time and do the logging.
+\item \code{"callr"}: Uses the package \CRANpkg{callr} to call the learner, measure time and do the logging.
+This encapsulation spawns a separate R session in which the learner is called.
+While this comes with a considerable overhead, it also guards your session from being teared down by segfaults.
+}
+
+The fallback learner is fitted to create valid predictions in case that either the model fitting or the prediction of the original learner fails.
+If the training step or the predict step of the original learner fails, the fallback is used completely to predict predictions sets.
+If the original learner only partially fails during predict step (usually in the form of missing to predict some observations or producing some \verb{NA`` predictions), these missing predictions are imputed by the fallback. Note that the fallback is always trained, as we do not know in advance whether prediction will fail. If the training step fails, the }$model\verb{field of the original learner is}NULL`.
+
+Also see the section on error handling the mlr3book:
+\url{https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling}
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Learner$encapsulate(method, fallback = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{method}}{\code{character(1)}\cr
+One of \code{"none"}, \code{"try"}, \code{"evaluate"} or \code{"callr"}.
+See the description for details.}
+
+\item{\code{fallback}}{\link{Learner}\cr
+The fallback learner for failed predictions.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\code{self} (invisibly).
 }
 }
 \if{html}{\out{<hr>}}

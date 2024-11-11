@@ -17,7 +17,7 @@ For example, for a classification task a single column must be marked as target 
 }
 
 Predefined (toy) tasks are stored in the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_tasks},
-e.g. \code{\link[=mlr_tasks_penguins]{penguins}} or \code{\link[=mlr_tasks_boston_housing]{boston_housing}}.
+e.g. \code{\link[=mlr_tasks_penguins]{penguins}} or \code{\link[=mlr_tasks_california_housing]{california_housing}}.
 More toy tasks can be found in the dictionary after loading \CRANpkg{mlr3data}.
 }
 \section{S3 methods}{
@@ -39,14 +39,15 @@ The following methods change the task in-place:
 \itemize{
 \item Any modification of the lists \verb{$col_roles} or \verb{$row_roles}.
 This provides a different "view" on the data without altering the data itself.
+This may affects, e.g., \verb{$data}, \verb{$nrow}, \verb{$ncol}, \code{n_features}, \code{row_ids}, and \verb{$feature_names}.
+Altering \verb{$col_roles} may affect, e.g., \verb{$data}, \verb{$ncol}, \verb{$n_features}, and \verb{$feature_names}.
+Altering \verb{$row_roles} may affect, e.g., \verb{$data}, \verb{$nrow}, and \verb{$row_ids}.
 \item Modification of column or row roles via \verb{$set_col_roles()} or \verb{$set_row_roles()}, respectively.
-\item \verb{$filter()} and \verb{$select()} subset the set of active rows or features in \verb{$row_roles} or \verb{$col_roles}, respectively.
-This provides a different "view" on the data without altering the data itself.
-\item \code{rbind()} and \code{cbind()} change the task in-place by binding rows or columns to the data, but without modifying the original \link{DataBackend}.
-Instead, the methods first create a new \link{DataBackendDataTable} from the provided new data, and then
-merge both backends into an abstract \link{DataBackend} which merges the results on-demand.
-\item \code{rename()} wraps the \link{DataBackend} of the Task in an additional \link{DataBackend} which deals with the renaming. Also updates \verb{$col_roles} and \verb{$col_info}.
-\item \code{set_levels()} and \code{droplevels()} \verb{update the field }col_info()`.
+They are an alternative to directly accessing \verb{$col_roles} or \verb{$row_roles}, with the same side effects.
+\item \verb{$select()} and \verb{$filter()} subset the set of active features or rows in \verb{$col_roles} or \verb{$row_roles}, respectively.
+\item \verb{$cbind()} and \verb{$rbind()} change the task in-place by binding new columns or rows to the data.
+\item \verb{$rename()} changes column names.
+\item \verb{$set_levels()} and \verb{$droplevels()} update the field \verb{$col_info()} to automatically repair factor levels while querying data with \verb{$data()}.
 }
 }
 
@@ -91,8 +92,8 @@ Other Task:
 \code{\link{TaskRegr}},
 \code{\link{TaskSupervised}},
 \code{\link{TaskUnsupervised}},
+\code{\link{california_housing}},
 \code{\link{mlr_tasks}},
-\code{\link{mlr_tasks_boston_housing}},
 \code{\link{mlr_tasks_breast_cancer}},
 \code{\link{mlr_tasks_german_credit}},
 \code{\link{mlr_tasks_iris}},
@@ -122,7 +123,7 @@ see \code{\link[=mlr_reflections]{mlr_reflections$task_types$type}}.}
 Abstract interface to the data of the task.}
 
 \item{\code{col_info}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
-Table with with 4 columns:
+Table with with 4 columns, mainly for internal purposes:
 \itemize{
 \item \code{"id"} (\code{character()}) stores the name of the column.
 \item \code{"type"} (\code{character()}) holds the storage type of the variable, e.g. \code{integer}, \code{numeric} or \code{character}.
@@ -131,7 +132,10 @@ See \link[=mlr_reflections]{mlr_reflections$task_feature_types} for a complete l
 \item \code{"label"} (\code{character()}) stores a vector of prettier, formated column names.
 \item \code{"fix_factor_levels"} (\code{logical()}) stores flags which determine if the levels of the respective variable
 need to be reordered after querying the data from the \link{DataBackend}.
-}}
+}
+
+Note that all columns of the \link{DataBackend}, also columns which are not selected or have any role, are listed
+in this table.}
 
 \item{\code{man}}{(\code{character(1)})\cr
 String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
@@ -153,13 +157,17 @@ Package version of \code{mlr3} used to create the task.}
 Identifier of the object.
 Used in tables, plot and text output.}
 
-\item{\code{internal_valid_task}}{(\code{Task} or \code{NULL})\cr
+\item{\code{internal_valid_task}}{(\code{Task} or \code{integer()} or \code{NULL})\cr
 Optional validation task that can, e.g., be used for early stopping with learners such as XGBoost.
 See also the \verb{$validate} field of \code{\link{Learner}}.
+If integers are assigned they are removed from the primary task and an internal validation task
+with those ids is created from the primary task using only those ids.
 When assigning a new task, it is always cloned.}
 
 \item{\code{hash}}{(\code{character(1)})\cr
-Hash (unique identifier) for this object.}
+Hash (unique identifier) for this object.
+The hash is calculated based on the complete task object and \verb{$row_ids}.
+If an internal validation task is set, the hash is recalculated.}
 
 \item{\code{row_ids}}{(positive \code{integer()})\cr
 Returns the row ids of the \link{DataBackend} for observations with role "use".}
@@ -236,9 +244,9 @@ Returns the total number of columns with role "feature" (i.e. the number of "act
 Returns a table with columns \code{id} and \code{type} where \code{id} are the column names of "active"
 features of the task and \code{type} is the storage type.}
 
-\item{\code{data_formats}}{\code{character()}\cr
-Vector of supported data output formats.
-A specific format can be chosen in the \verb{$data()} method.}
+\item{\code{data_formats}}{(\code{character()})\cr
+Supported data format. Always \code{"data.table"}..
+This is deprecated and will be removed in the future.}
 
 \item{\code{strata}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
 If the task has columns designated with role \code{"stratum"}, returns a table with one subpopulation per row and two columns:
@@ -360,10 +368,7 @@ via \code{\link[=convert_task]{convert_task()}}.}
 \if{html}{\out{<a id="method-Task-divide"></a>}}
 \if{latex}{\out{\hypertarget{method-Task-divide}{}}}
 \subsection{Method \code{divide()}}{
-Creates an internal validation task (field \verb{$internal_valid_task}) from the primary task.
-This modifies the task in-place.
-Subsequent operations on the (primary) task are \strong{not} relayed to the internal validation task.
-One must either provide the parameter \code{ratio} or `ids.
+Deprecated.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Task$divide(ratio = NULL, ids = NULL, remove = TRUE)}\if{html}{\out{</div>}}
 }
@@ -435,7 +440,7 @@ Printer.
 \if{html}{\out{<a id="method-Task-data"></a>}}
 \if{latex}{\out{\hypertarget{method-Task-data}{}}}
 \subsection{Method \code{data()}}{
-Returns a slice of the data from the \link{DataBackend} in the data format specified by \code{data_format}.
+Returns a slice of the data from the \link{DataBackend} as a \code{data.table}.
 Rows default to observations with role \code{"use"}, and
 columns default to features with roles \code{"target"} or \code{"feature"}.
 If \code{rows} or \code{cols} are specified which do not exist in the \link{DataBackend},
@@ -448,25 +453,21 @@ If \code{cols} is \code{NULL}, the column order defaults to
 Note that it is recommended to \strong{not} rely on the order of columns, and instead always
 address columns with their respective column name.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Task$data(
-  rows = NULL,
-  cols = NULL,
-  data_format = "data.table",
-  ordered = FALSE
-)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Task$data(rows = NULL, cols = NULL, data_format, ordered = FALSE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{rows}}{(positive \code{integer()})\cr
-Vector or row indices.}
+Vector or row indices.
+Always refers to the complete data set, even after filtering.}
 
 \item{\code{cols}}{(\code{character()})\cr
 Vector of column names.}
 
 \item{\code{data_format}}{(\code{character(1)})\cr
-Desired data format, e.g. \code{"data.table"} or \code{"Matrix"}.}
+Deprecated. Ignored, and will be removed in the future.}
 
 \item{\code{ordered}}{(\code{logical(1)})\cr
 If \code{TRUE}, data is ordered according to the columns with column role \code{"order"}.}
@@ -586,7 +587,8 @@ See the section on task mutators for more information.
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{rows}}{(positive \code{integer()})\cr
-Vector or row indices.}
+Vector or row indices.
+Always refers to the complete data set, even after filtering.}
 }
 \if{html}{\out{</div>}}
 }
@@ -741,6 +743,8 @@ Other row roles are preserved.}
 \subsection{Details}{
 Roles are first set exclusively (argument \code{roles}), then added (argument \code{add_to}) and finally
 removed (argument \code{remove_from}) from different roles.
+Duplicated row ids are explicitly allowed, so you can add replicate an observation by repeating its
+\code{row_id}.
 }
 
 \subsection{Returns}{
@@ -754,6 +758,7 @@ the object in its previous state.
 \if{latex}{\out{\hypertarget{method-Task-set_col_roles}{}}}
 \subsection{Method \code{set_col_roles()}}{
 Modifies the roles in \verb{$col_roles} \strong{in-place}.
+See \verb{$col_roles} for a list of possible roles.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Task$set_col_roles(cols, roles = NULL, add_to = NULL, remove_from = NULL)}\if{html}{\out{</div>}}
 }
@@ -778,8 +783,10 @@ Other column roles are preserved.}
 \if{html}{\out{</div>}}
 }
 \subsection{Details}{
-Roles are first set exclusively (argument \code{roles}), then added (argument \code{add_to}) and finally
-removed (argument \code{remove_from}) from different roles.
+Roles are first set exclusively (argument \code{roles}), then added (argument \code{add_to}) and finally removed (argument \code{remove_from}) from different roles.
+Duplicated columns are removed from the same role.
+For tasks that only allow one target, the target column cannot be set with \verb{$set_col_roles()}.
+Use the \verb{$col_roles} field to swap the target column.
 }
 
 \subsection{Returns}{

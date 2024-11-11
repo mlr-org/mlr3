@@ -82,8 +82,8 @@ test_that("check_prerequisites / predict_type", {
   p = learner$train(task)$predict(task)
   m = msr("classif.auc")
 
-  expect_identical(unname(m$score(p)), NaN)
-  expect_identical(unname(p$score(m)), NaN)
+  expect_identical(unname(suppressWarnings(m$score(p))), NaN)
+  expect_identical(unname(suppressWarnings(p$score(m))), NaN)
   expect_warning(m$score(p, learner = learner), "predict type", fixed = TRUE)
   expect_warning(p$score(m, learner = learner), "predict type", fixed = TRUE)
 
@@ -142,3 +142,59 @@ test_that("scoring fails when measure requires_model, but model is in marshaled 
   expect_error(measure$score(pred, learner = learner),
     regexp = "is in marshaled form")
 })
+
+test_that("primary iters are respected", {
+  task = tsk("sonar")
+  resampling = rsmp("cv")$instantiate(task)
+  train_sets = map(1:10, function(i) resampling$train_set(i))
+  test_sets = map(1:10, function(i) resampling$train_set(i))
+  r1 = rsmp("custom")$instantiate(task, train_sets = train_sets, test_sets = test_sets)
+  get_private(r1, ".primary_iters") = 1:2
+  r2 = rsmp("custom")$instantiate(task, train_sets = train_sets[1:2], test_sets = test_sets[1:2])
+  r3 = rsmp("custom")$instantiate(task, train_sets = train_sets, test_sets = test_sets)
+
+  learner = lrn("classif.rpart", predict_type = "prob")
+
+  rr1 = resample(task, learner, r1, store_models = TRUE)
+  rr2 = resample(task, learner, r2, store_models = TRUE)
+  rr3 = resample(task, learner, r3, store_models = TRUE)
+
+  m = msr("classif.acc")
+  m$average = "macro"
+  expect_equal(rr1$aggregate(), rr2$aggregate())
+  m$average = "micro"
+  expect_equal(rr1$aggregate(), rr2$aggregate())
+
+  jaccard = msr("sim.jaccard")
+  expect_error(rr1$aggregate(jaccard), "primary_iters")
+  expect_error(rr2$aggregate(jaccard), NA)
+  jaccard$properties = c(jaccard$properties, "primary_iters")
+  x1 = rr1$aggregate(jaccard)
+  x2 = rr3$aggregate(jaccard)
+  expect_equal(x1, x2)
+})
+
+test_that("no predict_sets required (#1094)", {
+  m = msr("internal_valid_score")
+  expect_equal(m$predict_sets, NULL)
+  rr = resample(tsk("iris"), lrn("classif.debug", validate = 0.3, predict_sets = NULL), rsmp("holdout"))
+  expect_double(rr$aggregate(m))
+  expect_warning(rr$aggregate(msr("classif.ce")), "needs predict sets")
+})
+
+test_that("checks on predict_sets", {
+  m = msr("classif.ce")
+  expect_error({m$predict_sets = NULL}, "Must be a subset")
+  expect_error({m$predict_sets = "imaginary"}, "Must be a subset")
+})
+
+test_that("measure and prediction type is checked", {
+  learner = lrn("classif.rpart")
+  task = tsk("pima")
+  learner$train(task)
+  pred = learner$predict(task)
+
+  measure = msr("classif.logloss")
+  expect_warning(measure$score(pred), "is missing predict type")
+})
+

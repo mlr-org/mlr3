@@ -36,7 +36,7 @@ LearnerRegrDebug = R6Class("LearnerRegrDebug", inherit = LearnerRegr,
       super$initialize(
         id = "regr.debug",
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
-        predict_types = c("response", "se"),
+        predict_types = c("response", "se", "quantiles"),
         param_set = ps(
           predict_missing      = p_dbl(0, 1, default = 0, tags = "predict"),
           predict_missing_type = p_fct(c("na", "omit"), default = "na", tags = "predict"),
@@ -46,9 +46,29 @@ LearnerRegrDebug = R6Class("LearnerRegrDebug", inherit = LearnerRegr,
         ),
         properties = "missings",
         man = "mlr3::mlr_learners_regr.debug",
-        data_formats = c("data.table", "Matrix"),
         label = "Debug Learner for Regression"
       )
+    },
+
+    #' @description
+    #' Returns 0 for each feature seen in training.
+    #' @return Named `numeric()`.
+    importance = function() {
+      if (is.null(self$model)) {
+        stopf("No model stored")
+      }
+      fns = self$state$feature_names
+      set_names(rep(0, length(fns)), fns)
+    },
+
+    #' @description
+    #' Always returns character(0).
+    #' @return `character()`.
+    selected_features = function() {
+      if (is.null(self$model)) {
+        stopf("No model stored")
+      }
+      character(0)
     }
   ),
   private = list(
@@ -60,6 +80,12 @@ LearnerRegrDebug = R6Class("LearnerRegrDebug", inherit = LearnerRegr,
         se = sd(truth),
         pid = Sys.getpid()
       )
+
+      if (self$predict_type == "quantiles") {
+        probs = self$quantiles
+        model$quantiles = unname(quantile(truth, probs))
+        model$quantile_probs = probs
+      }
 
       if (isTRUE(pv$save_tasks)) {
         model$task_train = task$clone(deep = TRUE)
@@ -75,7 +101,15 @@ LearnerRegrDebug = R6Class("LearnerRegrDebug", inherit = LearnerRegr,
         self$state$model$task_predict = task$clone(deep = TRUE)
       }
 
-      prediction = named_list(mlr_reflections$learner_predict_types[["regr"]][[self$predict_type]])
+      if (self$predict_type == "quantiles") {
+        prediction = list(quantiles = matrix(self$model$quantiles, nrow = n, ncol = length(self$model$quantiles), byrow = TRUE))
+        attr(prediction$quantiles, "probs") = self$model$quantile_probs
+        attr(prediction$quantiles, "response") = self$quantile_response
+        return(prediction)
+      }
+
+      predict_types = setdiff(self$predict_type, "quantiles")
+      prediction = named_list(mlr_reflections$learner_predict_types[["regr"]][[predict_types]])
       missing_type = pv$predict_missing_type %??% "na"
 
       for (pt in names(prediction)) {
@@ -90,7 +124,6 @@ LearnerRegrDebug = R6Class("LearnerRegrDebug", inherit = LearnerRegr,
 
         prediction[[pt]] = value
       }
-
 
       return(prediction)
     }

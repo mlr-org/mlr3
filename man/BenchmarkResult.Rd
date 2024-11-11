@@ -5,8 +5,9 @@
 \title{Container for Benchmarking Results}
 \description{
 This is the result container object returned by \code{\link[=benchmark]{benchmark()}}.
-A \link{BenchmarkResult} consists of the data of multiple
-\link{ResampleResult}s.
+A \link{BenchmarkResult} consists of the data of multiple \link{ResampleResult}s.
+The contents of a \code{BenchmarkResult} and \link{ResampleResult} are almost identical and the stored \link{ResampleResult}s can be extracted via the \verb{$resample_result(i)} method, where i is the index of the performed resample experiment.
+This allows us to investigate the extracted \link{ResampleResult} and individual resampling iterations, as well as the predictions and models from each fold.
 
 \link{BenchmarkResult}s can be visualized via \CRANpkg{mlr3viz}'s \code{autoplot()} function.
 
@@ -144,6 +145,7 @@ Set of (unique) hashes of all included \link{ResampleResult}s.}
 \item \href{#method-BenchmarkResult-marshal}{\code{BenchmarkResult$marshal()}}
 \item \href{#method-BenchmarkResult-unmarshal}{\code{BenchmarkResult$unmarshal()}}
 \item \href{#method-BenchmarkResult-score}{\code{BenchmarkResult$score()}}
+\item \href{#method-BenchmarkResult-obs_loss}{\code{BenchmarkResult$obs_loss()}}
 \item \href{#method-BenchmarkResult-aggregate}{\code{BenchmarkResult$aggregate()}}
 \item \href{#method-BenchmarkResult-filter}{\code{BenchmarkResult$filter()}}
 \item \href{#method-BenchmarkResult-resample_result}{\code{BenchmarkResult$resample_result()}}
@@ -286,7 +288,7 @@ the respective \link{Measure}.
   measures = NULL,
   ids = TRUE,
   conditions = FALSE,
-  predict_sets = "test"
+  predictions = TRUE
 )}\if{html}{\out{</div>}}
 }
 
@@ -304,17 +306,43 @@ extra character columns to the returned table.}
 Adds condition messages (\code{"warnings"}, \code{"errors"}) as extra
 list columns of character vectors to the returned table}
 
-\item{\code{predict_sets}}{(\code{character()})\cr
-Prediction sets to operate on, used in \code{aggregate()} to extract the matching \code{predict_sets} from the \link{ResampleResult}.
-Multiple predict sets are calculated by the respective \link{Learner} during \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}.
-Must be a non-empty subset of \verb{\{"train", "test", "internal_valid"\}}.
-If multiple sets are provided, these are first combined to a single prediction object.
-Default is \code{"test"}.}
+\item{\code{predictions}}{(\code{logical(1)})\cr
+Additionally return prediction objects, one column for each \code{predict_set} of all learners combined.
+Columns are named \code{"prediction_train"}, \code{"prediction_test"} and \code{"prediction_internal_valid"},
+if present.}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
 \code{\link[data.table:data.table]{data.table::data.table()}}.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-BenchmarkResult-obs_loss"></a>}}
+\if{latex}{\out{\hypertarget{method-BenchmarkResult-obs_loss}{}}}
+\subsection{Method \code{obs_loss()}}{
+Calculates the observation-wise loss via the loss function set in the
+\link{Measure}'s field \code{obs_loss}.
+Returns a \code{data.table()} with the columns \code{row_ids}, \code{truth}, \code{response} and
+one additional numeric column for each measure, named with the respective measure id.
+If there is no observation-wise loss function for the measure, the column is filled with
+\code{NA} values.
+Note that some measures such as RMSE, do have an \verb{$obs_loss}, but they require an
+additional transformation after aggregation, in this example taking the square-root.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{BenchmarkResult$obs_loss(measures = NULL, predict_sets = "test")}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{measures}}{(\link{Measure} | list of \link{Measure})\cr
+Measure(s) to calculate.}
+
+\item{\code{predict_sets}}{(\code{character()})\cr
+The predict sets.}
+}
+\if{html}{\out{</div>}}
 }
 }
 \if{html}{\out{<hr>}}

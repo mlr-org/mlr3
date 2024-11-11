@@ -6,12 +6,7 @@
 #' @description
 #' Returns the selected internal validation score of the [Learner] for learners property `"validation"`.
 #' Returns `NA` for unsupported learners, when no validation was done, or when the selected id was not found.
-#'
-#' @section Parameters:
-#' * `select` : (`character(1)`)\cr
-#'   Which of the internal validation scores to select.
-#'   Which scores are available depends on the learner.
-#'   By default, the first score is chosen.
+#' The `id` of this measure is set to the value of `select` if provided.
 #'
 #' @templateVar id internal_valid_score
 #' @template measure
@@ -26,17 +21,23 @@ MeasureInternalValidScore = R6Class("MeasureInternalValidScore",
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    initialize = function() {
+    #' @param select  (`character(1)`)\cr
+    #'   Which of the internal validation scores to select.
+    #'   Which scores are available depends on the learner and its configuration.
+    #'   By default, the first score is chosen.
+    #' @param minimize (`logical(1)`)\cr
+    #'   Whether smaller values are better.
+    #'   Must be set to use for tuning.
+    initialize = function(select = NULL, minimize = NA) {
+      private$.select = assert_string(select, null.ok = TRUE)
       super$initialize(
-        id = "internal_valid_score",
+        id = select %??% "internal_valid_score",
         task_type = NA_character_,
-        properties = c("na_score", "requires_learner"),
+        properties = c("na_score", "requires_model", "requires_learner", "requires_no_prediction"),
+        predict_sets = NULL,
         predict_type = NA_character_,
-        param_set = ps(
-          select = p_uty(custom_check = check_string)
-        ),
         range = c(-Inf, Inf),
-        minimize = NA,
+        minimize = assert_flag(minimize, na.ok = TRUE),
         label = "Internal Validation Score",
         man = "mlr3::mlr_measures_internal_valid_score"
       )
@@ -44,12 +45,13 @@ MeasureInternalValidScore = R6Class("MeasureInternalValidScore",
   ),
 
   private = list(
+    .select = NULL,
     .score = function(prediction, learner, ...) {
       x = get0("internal_valid_scores", learner)
-      x[[self$param_set$get_values()$select %??% 1]] %??% NA_real_
+      x[[private$.select %??% 1]] %??% NA_real_
     }
   )
 )
 
 #' @include mlr_measures.R
-mlr_measures$add("internal_valid_score", function() MeasureInternalValidScore$new())
+mlr_measures$add("internal_valid_score", MeasureInternalValidScore)

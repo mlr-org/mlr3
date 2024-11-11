@@ -8,15 +8,14 @@
 #' This environment be modified by third-party packages, e.g. by adding information about new task types
 #' or by extending the set of allowed feature types.
 #'
-#' The following objects are set by \CRANpkg{mlr3}:
+#' Third-party packages that modify the reflections must register themselves in the `loaded_packages` field.
 #'
-#' * `data_formats` (`character()`)\cr
-#'   Vectors of supported data formats, e.g. `"data.table"` or `"Matrix"`.
+#' The following objects are set by \CRANpkg{mlr3}:
 #'
 #' * `task_types` (`data.table()`)\cr
 #'   Table with task type (`"type"`), the implementing package (`"pkg"`), and the names of the generators
 #'   of the corresponding [Task] (`"task"`), [Learner] (`"learner"`),
-#'   [Prediction] (`"prediction"`) and [Measure] (`"measure"`).
+#'   [Prediction] (`"prediction"`), [Measure] (`"measure"`) and fallback [Learner].
 #'
 #' * `task_feature_types` (named `character()`)\cr
 #'   Vector of base R types supported as [Task] features, named with a 3 letter abbreviation.
@@ -77,13 +76,7 @@
 #' ls.str(mlr_reflections)
 mlr_reflections = new.env(parent = emptyenv())
 
-
 local({
-  ### DataBackend
-  mlr_reflections$data_formats = c(
-    "data.table", "Matrix"
-  )
-
   ### Task
   # task types + constructors
   mlr_reflections$task_types = rowwise_table(.key = "type",
@@ -133,7 +126,7 @@ local({
 
   mlr_reflections$learner_predict_types = list(
     classif = list(response = "response", prob = c("response", "prob")),
-    regr = list(response = "response", se = c("response", "se"), distr = c("response", "se", "distr"))
+    regr = list(response = "response", se = c("response", "se"), quantiles = c("response", "quantiles"), distr = c("response", "se", "distr"))
   )
 
   # Allowed tags for parameters
@@ -144,7 +137,7 @@ local({
 
 
   ### Measures
-  tmp = c("na_score", "requires_task", "requires_learner", "requires_model", "requires_train_set")
+  tmp = c("na_score", "requires_task", "requires_learner", "requires_model", "requires_train_set", "primary_iters", "requires_no_prediction")
   mlr_reflections$measure_properties = list(
     classif = tmp,
     regr = tmp
@@ -157,11 +150,14 @@ local({
   )
 
   ### ResampleResult
-  mlr_reflections$rr_names = c("task", "learner", "resampling", "iteration", "prediction")
+  mlr_reflections$rr_names = c("task", "learner", "resampling", "iteration")
 
   ### Logger
   mlr_reflections$loggers = list()
 
-  ### cache package version
+  ### Cached package version
   mlr_reflections$package_version = packageVersion("mlr3")
+
+  ### Loaded packages
+  mlr_reflections$loaded_packages = "mlr3"
 })

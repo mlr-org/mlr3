@@ -18,7 +18,7 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
       stopf("Learner '%s' on task '%s' returned NULL during internal %s()", learner$id, task$id, mode)
     }
 
-    if (learner$encapsulate[["train"]] == "callr") {
+    if (learner$encapsulation[["train"]] == "callr") {
       model = marshal_model(model, inplace = TRUE)
     }
 
@@ -37,11 +37,12 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
     lg$debug("Subsetting task '%s' to %i rows",
       task$id, length(train_row_ids), task = task$clone(), row_ids = train_row_ids)
 
-    prev_use = task$row_roles$use
+    task_private = get_private(task)
+    prev_use = task_private$.row_roles$use
     on.exit({
-      task$row_roles$use = prev_use
+      task_private$.row_roles$use = prev_use
     }, add = TRUE)
-    task$row_roles$use = train_row_ids
+    task_private$.row_roles$use  = train_row_ids
   } else {
     lg$debug("Skip subsetting of task '%s'", task$id)
   }
@@ -56,6 +57,9 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
   # depending on the validate parameter, create the internal validation task (if needed)
   # modifies the task in place
   create_internal_valid_task(validate, task, test_row_ids, prev_valid, learner)
+  if (!is.null(task$internal_valid_task) && !task$internal_valid_task$nrow) {
+    stopf("Internal validation task for task '%s' has 0 observations", task$id)
+  }
 
   if (mode == "train") learner$state = list()
 
@@ -63,7 +67,7 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
     mode, learner$id, task$id, task$nrow, learner = learner$clone())
 
   # call train_wrapper with encapsulation
-  result = encapsulate(learner$encapsulate["train"],
+  result = encapsulate(learner$encapsulation["train"],
     .f = train_wrapper,
     .args = list(learner = learner, task = task),
     .pkgs = learner$packages,
@@ -97,7 +101,7 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
   }
 
   if (is.null(result$result)) {
-    lg$debug("Learner '%s' on task '%s' failed to %s a model",
+    lg$info("Learner '%s' on task '%s' failed to %s a model",
       learner$id, task$id, mode, learner = learner$clone(), messages = result$log$msg)
   } else {
     lg$debug("Learner '%s' on task '%s' succeeded to %s a model",
@@ -107,7 +111,7 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
   # fit fallback learner
   fb = learner$fallback
   if (!is.null(fb)) {
-    lg$debug("Calling train method of fallback '%s' on task '%s' with %i observations",
+    lg$info("Calling train method of fallback '%s' on task '%s' with %i observations",
       fb$id, task$id, task$nrow, learner = fb$clone())
 
     fb = assert_learner(as_learner(fb))
@@ -163,11 +167,12 @@ learner_predict = function(learner, task, row_ids = NULL) {
     lg$debug("Subsetting task '%s' to %i rows",
       task$id, length(row_ids), task = task$clone(), row_ids = row_ids)
 
-    prev_use = task$row_roles$use
+    task_private = get_private(task)
+    prev_use = task_private$.row_roles$use
     on.exit({
-      task$row_roles$use = prev_use
+      task_private$.row_roles$use  = prev_use
     }, add = TRUE)
-    task$row_roles$use = row_ids
+    task_private$.row_roles$use  = row_ids
   } else {
     lg$debug("Skip subsetting of task '%s'", task$id)
   }
@@ -175,8 +180,8 @@ learner_predict = function(learner, task, row_ids = NULL) {
   if (task$nrow == 0L) {
     # return an empty prediction object, #421
     lg$debug("No observations in task, returning empty prediction data", task = task)
-    learner$state$log = append_log(learner$state$log, "predict", "output", "No data to predict on")
-    return(as_prediction_data(named_list(), task = task, row_ids = integer(), check = TRUE, train_task = learner$state$train_task))
+    learner$state$log = append_log(learner$state$log, "predict", "output", "No data to predict on, create empty prediction")
+    return(create_empty_prediction_data(task, learner))
   }
 
   if (is.null(learner$state$model)) {
@@ -190,12 +195,12 @@ learner_predict = function(learner, task, row_ids = NULL) {
     lg$debug("Calling predict method of Learner '%s' on task '%s' with %i observations",
       learner$id, task$id, task$nrow, learner = learner$clone())
 
-    if (isTRUE(all.equal(learner$encapsulate[["predict"]], "callr"))) {
+    if (isTRUE(all.equal(learner$encapsulation[["predict"]], "callr"))) {
       learner$model = marshal_model(learner$model, inplace = TRUE)
     }
 
     result = encapsulate(
-      learner$encapsulate["predict"],
+      learner$encapsulation["predict"],
       .f = predict_wrapper,
       .args = list(task = task, learner = learner),
       .pkgs = learner$packages,
@@ -205,7 +210,7 @@ learner_predict = function(learner, task, row_ids = NULL) {
 
     pdata = result$result
     learner$state$log = append_log(learner$state$log, "predict", result$log$class, result$log$msg)
-    learner$state$predict_time = result$elapsed
+    learner$state$predict_time = sum(learner$state$predict_time, result$elapsed)
 
     lg$debug("Learner '%s' returned an object of class '%s'",
       learner$id, class(pdata)[1L], learner = learner$clone(), prediction_data = pdata, messages = result$log$msg)
@@ -257,9 +262,23 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
   # reduce data.table and blas threads to 1
   if (!is_sequential) {
     setDTthreads(1, restore_after_fork = TRUE)
-    old_blas_threads = blas_get_num_procs()
-    on.exit(blas_set_num_threads(old_blas_threads), add = TRUE)
-    blas_set_num_threads(1)
+
+    # RhpcBLASctl is licensed under AGPL and therefore should be in suggest #1023
+    if (require_namespaces("RhpcBLASctl", quietly = TRUE)) {
+      old_blas_threads = RhpcBLASctl::blas_get_num_procs()
+      on.exit(RhpcBLASctl::blas_set_num_threads(old_blas_threads), add = TRUE)
+      RhpcBLASctl::blas_set_num_threads(1)
+    } else { # try the bare minimum to disable threading of the most popular blas implementations
+      old_blas = Sys.getenv("OPENBLAS_NUM_THREADS")
+      old_mkl = Sys.getenv("MKL_NUM_THREADS")
+      Sys.setenv(OPENBLAS_NUM_THREADS = 1)
+      Sys.setenv(MKL_NUM_THREADS = 1)
+
+      on.exit({
+        Sys.setenv(OPENBLAS_NUM_THREADS = old_blas)
+        Sys.setenv(MKL_NUM_THREADS = old_mkl)
+      }, add = TRUE)
+    }
   }
   # restore logger thresholds
   for (package in names(lgr_threshold)) {
@@ -307,6 +326,10 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
     lg$debug("Creating Prediction for predict set '%s'", set)
     learner_predict(learner, task, row_ids)
   }, set = predict_sets, row_ids = pred_data$sets, task = pred_data$tasks)
+
+  if (!length(predict_sets)) {
+    learner$state$predict_time = 0L
+  }
   pdatas = discard(pdatas, is.null)
 
   # set the model slot after prediction so it can be sent back to the main process
@@ -353,7 +376,7 @@ process_model_before_predict = function(learner, store_models, is_sequential, un
   # and also, do we even need to send it back at all?
 
   currently_marshaled = is_marshaled_model(learner$model)
-  predict_needs_marshaling = isTRUE(all.equal(learner$encapsulate[["predict"]], "callr"))
+  predict_needs_marshaling = isTRUE(all.equal(learner$encapsulation[["predict"]], "callr"))
   final_needs_marshaling = !is_sequential || !unmarshal
 
   # the only scenario in which we keep a copy is when we now have the model in the correct form but need to transform
@@ -454,7 +477,9 @@ create_internal_valid_task = function(validate, task, test_row_ids, prev_valid, 
       }
       # at this point, the train rows are already set to the train set, i.e. we don't have to remove the test ids
       # from the primary task (this would cause bugs for resamplings with overlapping train and test set)
-      task$divide(ids = test_row_ids, remove = FALSE)
+      valid_task = task$clone(deep = TRUE)
+      valid_task$row_roles$use = test_row_ids
+      task$internal_valid_task = valid_task
       return(task)
     }
 
@@ -462,6 +487,6 @@ create_internal_valid_task = function(validate, task, test_row_ids, prev_valid, 
   }
 
   # validate is numeric
-  task$divide(ratio = validate, remove = TRUE)
+  task$internal_valid_task = partition(task, ratio = 1 - validate)$test
   return(task)
 }

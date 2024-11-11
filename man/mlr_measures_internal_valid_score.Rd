@@ -7,22 +7,8 @@
 \description{
 Returns the selected internal validation score of the \link{Learner} for learners property \code{"validation"}.
 Returns \code{NA} for unsupported learners, when no validation was done, or when the selected id was not found.
+The \code{id} of this measure is set to the value of \code{select} if provided.
 }
-\section{Parameters}{
-
-\itemize{
-\item \code{select} : (\code{character(1)})\cr
-Which of the internal validation scores to select.
-Which scores are available depends on the learner.
-By default, the first score is chosen.
-}
-
-\tabular{lll}{
-   Id \tab Type \tab Default \cr
-   select \tab untyped \tab - \cr
-}
-}
-
 \section{Dictionary}{
 
 This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:
@@ -42,6 +28,11 @@ msr("internal_valid_score")
 \item Required Prediction: \dQuote{NA}
 \item Required Packages: \CRANpkg{mlr3}
 }
+}
+
+\section{Parameters}{
+
+Empty ParamSet
 }
 
 \examples{
@@ -74,6 +65,7 @@ Other Measure:
 \code{\link{mlr_measures_debug_classif}},
 \code{\link{mlr_measures_elapsed_time}},
 \code{\link{mlr_measures_oob_error}},
+\code{\link{mlr_measures_regr.rsq}},
 \code{\link{mlr_measures_selected_features}}
 }
 \concept{Measure}
@@ -104,9 +96,23 @@ Other Measure:
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MeasureInternalValidScore$new()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{MeasureInternalValidScore$new(select = NULL, minimize = NA)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{select}}{(\code{character(1)})\cr
+Which of the internal validation scores to select.
+Which scores are available depends on the learner and its configuration.
+By default, the first score is chosen.}
+
+\item{\code{minimize}}{(\code{logical(1)})\cr
+Whether smaller values are better.
+Must be set to use for tuning.}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-MeasureInternalValidScore-clone"></a>}}

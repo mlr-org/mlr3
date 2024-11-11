@@ -104,6 +104,7 @@ Note that there can be multiple rows per resampling iteration if multiple errors
 \item \href{#method-ResampleResult-prediction}{\code{ResampleResult$prediction()}}
 \item \href{#method-ResampleResult-predictions}{\code{ResampleResult$predictions()}}
 \item \href{#method-ResampleResult-score}{\code{ResampleResult$score()}}
+\item \href{#method-ResampleResult-obs_loss}{\code{ResampleResult$obs_loss()}}
 \item \href{#method-ResampleResult-aggregate}{\code{ResampleResult$aggregate()}}
 \item \href{#method-ResampleResult-filter}{\code{ResampleResult$filter()}}
 \item \href{#method-ResampleResult-discard}{\code{ResampleResult$discard()}}
@@ -197,13 +198,13 @@ If you calculate the performance on this prediction object directly, this is cal
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{predict_sets}}{(\code{character()})\cr}
+\item{\code{predict_sets}}{(\code{character()})\cr
+Subset of \verb{\{"train", "test"\}}.}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-\link{Prediction}.
-Subset of \verb{\{"train", "test"\}}.
+\link{Prediction} or empty \code{list()} if no predictions are available.
 }
 }
 \if{html}{\out{<hr>}}
@@ -224,12 +225,13 @@ is called macro averaging. For micro averaging, operate on the combined predicti
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{predict_sets}}{(\code{character()})\cr
-Subset of \verb{\{"train", "test"\}}.}
+Subset of \verb{\{"train", "test", "internal_valid"\}}.}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
 List of \link{Prediction} objects, one per element in \code{predict_sets}.
+Or list of empty \code{list()}s if no predictions are available.
 }
 }
 \if{html}{\out{<hr>}}
@@ -237,17 +239,17 @@ List of \link{Prediction} objects, one per element in \code{predict_sets}.
 \if{latex}{\out{\hypertarget{method-ResampleResult-score}{}}}
 \subsection{Method \code{score()}}{
 Returns a table with one row for each resampling iteration, including all involved objects:
-\link{Task}, \link{Learner}, \link{Resampling}, iteration number (\code{integer(1)}), and \link{Prediction}.
+\link{Task}, \link{Learner}, \link{Resampling}, iteration number (\code{integer(1)}), and (if enabled)
+one \link{Prediction} for each predict set of the \link{Learner}.
 Additionally, a column with the individual (per resampling iteration) performance is added
-for each \link{Measure} in \code{measures},
-named with the id of the respective measure id.
+for each \link{Measure} in \code{measures}, named with the id of the respective measure id.
 If \code{measures} is \code{NULL}, \code{measures} defaults to the return value of \code{\link[=default_measures]{default_measures()}}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{ResampleResult$score(
   measures = NULL,
   ids = TRUE,
   conditions = FALSE,
-  predict_sets = "test"
+  predictions = TRUE
 )}\if{html}{\out{</div>}}
 }
 
@@ -266,14 +268,43 @@ These allow to subset more conveniently.}
 Adds condition messages (\code{"warnings"}, \code{"errors"}) as extra
 list columns of character vectors to the returned table}
 
-\item{\code{predict_sets}}{(\code{character()})\cr
-Vector of predict sets (\verb{\{"train", "test"\}}) to construct the \link{Prediction} objects from.
-Default is \code{"test"}.}
+\item{\code{predictions}}{(\code{logical(1)})\cr
+Additionally return prediction objects, one column for each \code{predict_set} of the learner.
+Columns are named \code{"prediction_train"}, \code{"prediction_test"} and \code{"prediction_internal_valid"},
+if present.}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
 \code{\link[data.table:data.table]{data.table::data.table()}}.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ResampleResult-obs_loss"></a>}}
+\if{latex}{\out{\hypertarget{method-ResampleResult-obs_loss}{}}}
+\subsection{Method \code{obs_loss()}}{
+Calculates the observation-wise loss via the loss function set in the
+\link{Measure}'s field \code{obs_loss}.
+Returns a \code{data.table()} with the columns of the matching \link{Prediction} object plus
+one additional numeric column for each measure, named with the respective measure id.
+If there is no observation-wise loss function for the measure, the column is filled with
+\code{NA} values.
+Note that some measures such as RMSE, do have an \verb{$obs_loss}, but they require an
+additional transformation after aggregation, in this example taking the square-root.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$obs_loss(measures = NULL, predict_sets = "test")}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{measures}}{(\link{Measure} | list of \link{Measure})\cr
+Measure(s) to calculate.}
+
+\item{\code{predict_sets}}{(\code{character()})\cr
+The predict sets.}
+}
+\if{html}{\out{</div>}}
 }
 }
 \if{html}{\out{<hr>}}

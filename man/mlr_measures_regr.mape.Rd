@@ -8,10 +8,11 @@ Measure to compare true observed response with predicted response in regression 
 }
 \details{
 The Mean Absolute Percent Error is defined as \deqn{
-  \frac{1}{n} \sum_{i=1}^n w_i \left| \frac{ t_i - r_i}{t_i} \right|.
+  \frac{1}{n} \sum_{i=1}^n w_i \left| \frac{ t_i - r_i}{t_i} \right|,
  }{
-   weighted.mean(abs((t - r) / t), w).
+   weighted.mean(abs((t - r) / t), w),
  }
+where \eqn{w_i} are normalized sample weights.
 
 This measure is undefined if any element of \eqn{t} is \eqn{0}.
 }
@@ -62,12 +63,12 @@ Other regression measures:
 \code{\link{mlr_measures_regr.mse}},
 \code{\link{mlr_measures_regr.msle}},
 \code{\link{mlr_measures_regr.pbias}},
+\code{\link{mlr_measures_regr.pinball}},
 \code{\link{mlr_measures_regr.rae}},
 \code{\link{mlr_measures_regr.rmse}},
 \code{\link{mlr_measures_regr.rmsle}},
 \code{\link{mlr_measures_regr.rrse}},
 \code{\link{mlr_measures_regr.rse}},
-\code{\link{mlr_measures_regr.rsq}},
 \code{\link{mlr_measures_regr.sae}},
 \code{\link{mlr_measures_regr.smape}},
 \code{\link{mlr_measures_regr.srho}},

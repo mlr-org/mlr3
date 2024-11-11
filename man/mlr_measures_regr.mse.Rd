@@ -8,10 +8,11 @@ Measure to compare true observed response with predicted response in regression 
 }
 \details{
 The Mean Squared Error is defined as \deqn{
-  \frac{1}{n} w_i \sum_{i=1}^n \left( t_i - r_i \right)^2.
+  \frac{1}{n} \sum_{i=1}^n w_i \left( t_i - r_i \right)^2,
 }{
-  weighted.mean((t - r)^2, w).
+  weighted.mean((t - r)^2, w),
 }
+where \eqn{w_i} are normalized sample weights.
 }
 \note{
 The score function calls \code{\link[mlr3measures:mse]{mlr3measures::mse()}} from package \CRANpkg{mlr3measures}.
@@ -60,12 +61,12 @@ Other regression measures:
 \code{\link{mlr_measures_regr.medse}},
 \code{\link{mlr_measures_regr.msle}},
 \code{\link{mlr_measures_regr.pbias}},
+\code{\link{mlr_measures_regr.pinball}},
 \code{\link{mlr_measures_regr.rae}},
 \code{\link{mlr_measures_regr.rmse}},
 \code{\link{mlr_measures_regr.rmsle}},
 \code{\link{mlr_measures_regr.rrse}},
 \code{\link{mlr_measures_regr.rse}},
-\code{\link{mlr_measures_regr.rsq}},
 \code{\link{mlr_measures_regr.sae}},
 \code{\link{mlr_measures_regr.smape}},
 \code{\link{mlr_measures_regr.srho}},

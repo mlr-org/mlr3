@@ -1,12 +1,12 @@
 test_that("Construction", {
-  task = tsk("boston_housing")
+  task = tsk("california_housing")
   p = PredictionRegr$new(row_ids = task$row_ids, truth = task$truth(), response = task$truth())
   expect_prediction(p)
   expect_prediction_regr(p)
 })
 
 test_that("Internally constructed Prediction", {
-  task = tsk("boston_housing")
+  task = tsk("california_housing")
   lrn = lrn("regr.featureless")
   lrn$predict_type = "se"
   p = lrn$train(task)$predict(task)
@@ -16,7 +16,7 @@ test_that("Internally constructed Prediction", {
 
 
 test_that("c", {
-  task = tsk("boston_housing")
+  task = tsk("california_housing")
   lrn = lrn("regr.featureless")
   lrn$predict_type = "se"
   rr = resample(task, lrn, rsmp("cv", folds = 3))
@@ -39,7 +39,7 @@ test_that("c", {
 })
 
 test_that("c drops se (#250)", {
-  task = tsk("boston_housing")
+  task = tsk("california_housing")
   lrn = lrn("regr.featureless")
   rr = resample(task, lrn, rsmp("cv", folds = 3))
 
@@ -94,4 +94,12 @@ test_that("filtering", {
   expect_set_equal(p$row_ids, 1:32)
   expect_set_equal(p2$row_ids, 1:3)
   expect_prediction(as_prediction_regr(as.data.table(p2)))
+})
+
+test_that("obs_loss", {
+  task = tsk("mtcars")
+  p = PredictionRegr$new(row_ids = task$row_ids, truth = task$truth(), response = task$truth())
+  m = msr("regr.mse")
+  loss = p$obs_loss()
+  expect_double(loss$regr.mse, lower = 0, any.missing = FALSE)
 })

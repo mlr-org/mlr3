@@ -1,6 +1,7 @@
 #' @title Learner Class
 #'
 #' @include mlr_reflections.R
+#' @include warn_deprecated.R
 #'
 #' @description
 #' This is the abstract base class for learner objects like [LearnerClassif] and [LearnerRegr].
@@ -106,7 +107,7 @@
 #'   * `"test"` means that the `"test"` task is used.
 #'     **Warning**: This can lead to biased performance estimation.
 #'     This option is only available if the learner is being trained via [resample()], [benchmark()] or functions that
-#'     internally use them, e.g. [`mlr3tuning::tune()`] or [`mlr3batchmark::batchmark()`].
+#'     internally use them, e.g. `tune()` of \CRANpkg{mlr3tuning} or `batchmark()` of \CRANpkg{mlr3batchmark}.
 #'     This is especially useful for hyperparameter tuning, where one might e.g. want to use the same validation data
 #'     for early stopping and model evaluation.
 #'   * `"predefined"` means that the task's (manually set) `$internal_valid_task` is used.
@@ -174,10 +175,6 @@ Learner = R6Class("Learner",
     #' A complete list of candidate properties, grouped by task type, is stored in [`mlr_reflections$learner_properties`][mlr_reflections].
     properties = NULL,
 
-    #' @field data_formats (`character()`)\cr
-    #' Supported data format, e.g. `"data.table"` or `"Matrix"`.
-    data_formats = NULL,
-
     #' @template field_packages
     packages = NULL,
 
@@ -191,6 +188,9 @@ Learner = R6Class("Learner",
     #' This currently only works for methods `Learner$predict()` and `Learner$predict_newdata()`,
     #' and has no effect during [resample()] or [benchmark()] where you have other means
     #' to parallelize.
+    #'
+    #' Note that the recorded time required for prediction reports the time required to predict
+    #' is not properly defined and depends on the parallelization backend.
     parallel_predict = FALSE,
 
     #' @field timeout (named `numeric(2)`)\cr
@@ -210,7 +210,7 @@ Learner = R6Class("Learner",
     #'
     #' Note that this object is typically constructed via a derived classes, e.g. [LearnerClassif] or [LearnerRegr].
     initialize = function(id, task_type, param_set = ps(), predict_types = character(), feature_types = character(),
-      properties = character(), data_formats = "data.table", packages = character(), label = NA_character_, man = NA_character_) {
+      properties = character(), data_formats, packages = character(), label = NA_character_, man = NA_character_) {
 
       self$id = assert_string(id, min.chars = 1L)
       self$label = assert_string(label, na.ok = TRUE)
@@ -221,7 +221,7 @@ Learner = R6Class("Learner",
         empty.ok = FALSE, .var.name = "predict_types")
       private$.predict_type = predict_types[1L]
       self$properties = sort(assert_subset(properties, mlr_reflections$learner_properties[[task_type]]))
-      self$data_formats = assert_subset(data_formats, mlr_reflections$data_formats)
+      if (!missing(data_formats)) warn_deprecated("Learner$initialize argument 'data_formats'")
       self$packages = union("mlr3", assert_character(packages, any.missing = FALSE, min.chars = 1L))
       self$man = assert_string(man, na.ok = TRUE)
 
@@ -347,6 +347,10 @@ Learner = R6Class("Learner",
         }
       }, add = TRUE)
 
+      # reset learner predict time; this is only cumulative for multiple predict sets,
+      # not for multiple calls to predict / predict_newdata
+      self$state$predict_time = 0
+
       # we only have to marshal here for the parallel prediction case, because learner_predict() handles the
       # marshaling for call-r encapsulation itself
       if (isTRUE(self$parallel_predict) && nbrOfWorkers() > 1L) {
@@ -360,7 +364,6 @@ Learner = R6Class("Learner",
       } else {
         pdata = learner_predict(self, task, row_ids)
       }
-
 
       if (is.null(pdata)) {
         return(NULL)
@@ -447,10 +450,75 @@ Learner = R6Class("Learner",
       } else {
         self
       }
+    },
+
+    #' @description
+    #' Sets the encapsulation method and fallback learner for the train and predict steps.
+    #' There are currently four different methods implemented:
+    #'
+    #' * `"none"`: Just runs the learner in the current session and measures the elapsed time.
+    #'   Does not keep a log, output is printed directly to the console.
+    #'   Works well together with [traceback()].
+    #' * `"try"`: Similar to `"none"`, but catches error.
+    #'   Output is printed to the console and not logged.
+    #' * `"evaluate"`: Uses the package \CRANpkg{evaluate} to call the learner, measure time and do the logging.
+    #' * `"callr"`: Uses the package \CRANpkg{callr} to call the learner, measure time and do the logging.
+    #'   This encapsulation spawns a separate R session in which the learner is called.
+    #'   While this comes with a considerable overhead, it also guards your session from being teared down by segfaults.
+    #'
+    #' The fallback learner is fitted to create valid predictions in case that either the model fitting or the prediction of the original learner fails.
+    #' If the training step or the predict step of the original learner fails, the fallback is used completely to predict predictions sets.
+    #' If the original learner only partially fails during predict step (usually in the form of missing to predict some observations or producing some `NA`` predictions), these missing predictions are imputed by the fallback.
+    #' Note that the fallback is always trained, as we do not know in advance whether prediction will fail.
+    #' If the training step fails, the `$model` field of the original learner is `NULL`.
+    #'
+    #' Also see the section on error handling the mlr3book:
+    #' \url{https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling}
+    #'
+    #' @param method `character(1)`\cr
+    #'  One of `"none"`, `"try"`, `"evaluate"` or `"callr"`.
+    #'  See the description for details.
+    #' @param fallback [Learner]\cr
+    #'  The fallback learner for failed predictions.
+    #'
+    #' @return `self` (invisibly).
+    encapsulate = function(method, fallback = NULL) {
+      assert_choice(method, c("none", "try", "evaluate", "callr"))
+
+      if (method != "none") {
+        assert_learner(fallback, task_type = self$task_type)
+
+        if (!identical(self$predict_type, fallback$predict_type)) {
+          warningf("The fallback learner '%s' and the base learner '%s' have different predict types: '%s' != '%s'.",
+            fallback$id, self$id, fallback$predict_type, self$predict_type)
+        }
+
+        # check properties
+        properties = intersect(self$properties, c("twoclass", "multiclass", "missings", "importance", "selected_features"))
+        missing_properties = setdiff(properties, fallback$properties)
+
+        if (length(missing_properties)) {
+          warningf("The fallback learner '%s' does not have the following properties of the learner '%s': %s.",
+            fallback$id, self$id, str_collapse(missing_properties))
+        }
+      } else if (method == "none" && !is.null(fallback)) {
+        stop("Fallback learner must be `NULL` if encapsulation is set to `none`.")
+      }
+
+      private$.encapsulation = c(train = method, predict = method)
+      private$.fallback = fallback
+
+      return(invisible(self))
     }
   ),
 
   active = list(
+    #' @field data_formats (`character()`)\cr
+    #' Supported data format. Always `"data.table"`..
+    #' This is deprecated and will be removed in the future.
+    data_formats = deprecated_binding("Learner$data_formats", "data.table"),
+
+
     #' @field model (any)\cr
     #' The fitted model. Only available after `$train()` has been called.
     model = function(rhs) {
@@ -462,6 +530,11 @@ Learner = R6Class("Learner",
 
     #' @field timings (named `numeric(2)`)\cr
     #' Elapsed time in seconds for the steps `"train"` and `"predict"`.
+    #'
+    #' When predictions for multiple predict sets were made during [resample()] or [benchmark()],
+    #' the predict time shows the cumulative duration of all predictions.
+    #' If `learner$predict()` is called manually, the last predict time gets overwritten.
+    #'
     #' Measured via [mlr3misc::encapsulate()].
     timings = function(rhs) {
       assert_ro_binding(rhs)
@@ -494,16 +567,17 @@ Learner = R6Class("Learner",
     },
 
 
-    #' @template field_hash
+    #' @field hash (`character(1)`)\cr
+    #' Hash (unique identifier) for this object.
+    #' The hash is calculated based on the learner id, the parameter settings, the predict type, the fallback hash, the parallel predict setting, the validate setting, and the predict sets.
     hash = function(rhs) {
       assert_ro_binding(rhs)
       calculate_hash(class(self), self$id, self$param_set$values, private$.predict_type,
-        self$fallback$hash, self$parallel_predict, get0("validate", self))
+        self$fallback$hash, self$parallel_predict, get0("validate", self), self$predict_sets)
     },
 
     #' @field phash (`character(1)`)\cr
-    #' Hash (unique identifier) for this partial object, excluding some components
-    #' which are varied systematically during tuning (parameter values).
+    #' Hash (unique identifier) for this partial object, excluding some components which are varied systematically during tuning (parameter values).
     phash = function(rhs) {
       assert_ro_binding(rhs)
       calculate_hash(class(self), self$id, private$.predict_type,
@@ -534,46 +608,20 @@ Learner = R6Class("Learner",
       private$.param_set
     },
 
-    #' @field encapsulate (named `character()`)\cr
-    #' Controls how to execute the code in internal train and predict methods.
-    #' Must be a named character vector with names `"train"` and `"predict"`.
-    #' Possible values are `"none"`, `"try"`, `"evaluate"` (requires package \CRANpkg{evaluate}) and `"callr"` (requires package \CRANpkg{callr}).
-    #' See [mlr3misc::encapsulate()] for more details.
-    encapsulate = function(rhs) {
-      default = c(train = "none", predict = "none")
 
-      if (missing(rhs)) {
-        return(insert_named(default, private$.encapsulate))
-      }
-
-      assert_character(rhs)
-      assert_names(names(rhs), subset.of = c("train", "predict"))
-      private$.encapsulate = insert_named(default, rhs)
-    },
 
     #' @field fallback ([Learner])\cr
-    #' Learner which is fitted to impute predictions in case that either the model fitting or the prediction of the top learner is not successful.
-    #' Requires encapsulation, otherwise errors are not caught and the execution is terminated before the fallback learner kicks in.
-    #' If you have not set encapsulation manually before, setting the fallback learner automatically
-    #' activates encapsulation using the \CRANpkg{evaluate} package.
-    #' Also see the section on error handling the mlr3book:
-    #' \url{https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling}
+    #' Returns the fallback learner set with `$encapsulate()`.
     fallback = function(rhs) {
-      if (missing(rhs)) {
-        return(private$.fallback)
-      }
+      assert_ro_binding(rhs)
+      return(private$.fallback)
+    },
 
-      if (!is.null(rhs)) {
-        assert_learner(rhs, task_type = self$task_type)
-        if (!identical(self$predict_type, rhs$predict_type)) {
-          warningf("The fallback learner '%s' and the base learner '%s' have different predict types: '%s' != '%s'.",
-            rhs$id, self$id, rhs$predict_type, self$predict_type)
-        }
-        if (is.null(private$.encapsulate)) {
-          private$.encapsulate = c(train = "evaluate", predict = "evaluate")
-        }
-      }
-      private$.fallback = rhs
+    #' @field encapsulation (`character(2)`)\cr
+    #' Returns the encapsulation settings set with `$encapsulate()`.
+    encapsulation = function(rhs) {
+      assert_ro_binding(rhs)
+      return(private$.encapsulation)
     },
 
     #' @field hotstart_stack ([HotstartStack])\cr.
@@ -588,7 +636,7 @@ Learner = R6Class("Learner",
   ),
 
   private = list(
-    .encapsulate = NULL,
+    .encapsulation = c(train = "none", predict = "none"),
     .fallback = NULL,
     .predict_type = NULL,
     .param_set = NULL,

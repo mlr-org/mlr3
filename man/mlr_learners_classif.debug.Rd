@@ -144,6 +144,8 @@ a ratio in $(0, 1)$, \code{"test"}, or \code{"predefined"}.}
 \item \href{#method-LearnerClassifDebug-new}{\code{LearnerClassifDebug$new()}}
 \item \href{#method-LearnerClassifDebug-marshal}{\code{LearnerClassifDebug$marshal()}}
 \item \href{#method-LearnerClassifDebug-unmarshal}{\code{LearnerClassifDebug$unmarshal()}}
+\item \href{#method-LearnerClassifDebug-importance}{\code{LearnerClassifDebug$importance()}}
+\item \href{#method-LearnerClassifDebug-selected_features}{\code{LearnerClassifDebug$selected_features()}}
 \item \href{#method-LearnerClassifDebug-clone}{\code{LearnerClassifDebug$clone()}}
 }
 }
@@ -151,6 +153,7 @@ a ratio in $(0, 1)$, \code{"test"}, or \code{"predefined"}.}
 <details><summary>Inherited methods</summary>
 <ul>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="base_learner"><a href='../../mlr3/html/Learner.html#method-Learner-base_learner'><code>mlr3::Learner$base_learner()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="encapsulate"><a href='../../mlr3/html/Learner.html#method-Learner-encapsulate'><code>mlr3::Learner$encapsulate()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="format"><a href='../../mlr3/html/Learner.html#method-Learner-format'><code>mlr3::Learner$format()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="help"><a href='../../mlr3/html/Learner.html#method-Learner-help'><code>mlr3::Learner$help()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="predict"><a href='../../mlr3/html/Learner.html#method-Learner-predict'><code>mlr3::Learner$predict()</code></a></span></li>
@@ -205,6 +208,32 @@ Unmarshal the learner's model.
 Additional arguments passed to \code{\link[=unmarshal_model]{unmarshal_model()}}.}
 }
 \if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-LearnerClassifDebug-importance"></a>}}
+\if{latex}{\out{\hypertarget{method-LearnerClassifDebug-importance}{}}}
+\subsection{Method \code{importance()}}{
+Returns 0 for each feature seen in training.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{LearnerClassifDebug$importance()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+Named \code{numeric()}.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-LearnerClassifDebug-selected_features"></a>}}
+\if{latex}{\out{\hypertarget{method-LearnerClassifDebug-selected_features}{}}}
+\subsection{Method \code{selected_features()}}{
+Always returns character(0).
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{LearnerClassifDebug$selected_features()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+\code{character()}.
 }
 }
 \if{html}{\out{<hr>}}

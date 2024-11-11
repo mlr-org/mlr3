@@ -3,6 +3,9 @@
 #' @description
 #' Runs a benchmark on arbitrary combinations of tasks ([Task]), learners ([Learner]), and resampling strategies ([Resampling]), possibly in parallel.
 #'
+#' For large-scale benchmarking we recommend to use the \CRANpkg{mlr3batchmark} package.
+#' This package runs benchmark experiments on high-performance computing clusters and handles failed experiments.
+#'
 #' @param design ([data.frame()])\cr
 #'   Data frame (or [data.table::data.table()]) with three columns: "task", "learner", and "resampling".
 #'   Each row defines a resampling by providing a [Task], [Learner] and an instantiated [Resampling] strategy.

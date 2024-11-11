@@ -6,8 +6,8 @@ rr = resample(task, learner, resampling)
 test_that("resample", {
   expect_resample_result(rr)
 
-  scores = rr$score(msr("classif.ce"))
-  expect_list(scores$prediction, "Prediction")
+  scores = rr$score(msr("classif.ce"), predictions = TRUE)
+  expect_list(scores$prediction_test, "Prediction")
   expect_numeric(scores$classif.ce, any.missing = FALSE)
   expect_number(rr$aggregate(msr("classif.ce")))
   learners = rr$learners
@@ -29,9 +29,9 @@ test_that("empty RR", {
 
 test_that("resample with no or multiple measures", {
   for (measures in list(mlr_measures$mget(c("classif.ce", "classif.acc")), list())) {
-    tab = rr$score(measures, ids = FALSE)
-    expect_data_table(tab, ncols = length(mlr_reflections$rr_names) + length(measures), nrows = 3L)
-    expect_set_equal(names(tab), c(mlr_reflections$rr_names, ids(measures)))
+    tab = rr$score(measures, ids = FALSE, predictions = TRUE)
+    expect_data_table(tab, ncols = length(mlr_reflections$rr_names) + length(learner$predict_sets) + length(measures), nrows = 3L)
+    expect_set_equal(names(tab), c(mlr_reflections$rr_names, ids(measures), paste0("prediction_", learner$predict_sets)))
     perf = rr$aggregate(measures)
     expect_numeric(perf, any.missing = FALSE, len = length(measures), names = "unique")
     expect_equal(names(perf), unname(ids(measures)))
@@ -123,8 +123,8 @@ test_that("encapsulation", {
   rr = resample(task, learner, resampling, encapsulate = "evaluate")
   expect_data_table(rr$errors, nrows = 1L)
   expect_class(rr$learner$fallback, "LearnerClassifFeatureless")
-  expect_equal(rr$learner$encapsulate[["train"]], "evaluate")
-  expect_equal(rr$learner$encapsulate[["predict"]], "evaluate")
+  expect_equal(rr$learner$encapsulation[["train"]], "evaluate")
+  expect_equal(rr$learner$encapsulation[["predict"]], "evaluate")
 })
 
 test_that("disable cloning", {
@@ -158,8 +158,10 @@ test_that("as_resample_result works for result data", {
 })
 
 test_that("encapsulation triggers marshaling correctly", {
-  learner1 = lrn("classif.debug", count_marshaling = TRUE, encapsulate = c(train = "callr"))
-  learner2 = lrn("classif.debug", count_marshaling = TRUE, encapsulate = c(train = "none"))
+  learner1 = lrn("classif.debug", count_marshaling = TRUE)
+  learner1$encapsulate("callr", fallback = lrn("classif.featureless"))
+  learner2 = lrn("classif.debug", count_marshaling = TRUE)
+  learner2$encapsulate("none")
   task = tsk("iris")
   resampling = rsmp("holdout")
   rr1 = resample(task, learner1, resampling, store_models = TRUE, unmarshal = FALSE)
@@ -190,7 +192,8 @@ test_that("sequential execution does not trigger marshaling", {
 })
 
 test_that("parallel execution and callr marshal once", {
-  learner = lrn("classif.debug", count_marshaling = TRUE, encapsulate = c(train = "callr"))
+  learner = lrn("classif.debug", count_marshaling = TRUE)
+  learner$encapsulate("callr", lrn("classif.featureless"))
   task = tsk("iris")
   resampling = rsmp("holdout")
   rr = with_future(future::multisession, {
@@ -201,7 +204,8 @@ test_that("parallel execution and callr marshal once", {
 })
 
 test_that("marshaling works when store_models is FALSE", {
-  learner = lrn("classif.debug", count_marshaling = FALSE, encapsulate = c(train = "callr"))
+  learner = lrn("classif.debug", count_marshaling = FALSE)
+  learner$encapsulate("callr", lrn("classif.featureless"))
   task = tsk("iris")
   resampling = rsmp("holdout")
   rr = with_future(future::multisession, {
@@ -219,7 +223,8 @@ test_that("marshaling works when store_models is FALSE", {
 
 
 test_that("unmarshal parameter is respected", {
-  learner = lrn("classif.debug", count_marshaling = TRUE, encapsulate = c(train = "callr"))
+  learner = lrn("classif.debug", count_marshaling = TRUE)
+  learner$encapsulate("callr", lrn("classif.featureless"))
   task = tsk("iris")
   resampling = rsmp("holdout")
   rr = with_future(future::multisession, {
@@ -282,25 +287,27 @@ test_that("can make predictions for internal_valid_task", {
 test_that("learner's validate cannot be 'test' if internal_valid_set is present", {
   # otherwise, predict_set = "internal_valid" would be ambiguous
   learner = lrn("classif.debug", validate = "test", predict_sets = c("train", "internal_valid"))
-  task = tsk("iris")$divide(ids = 1)
+  task = tsk("iris")
+  task$internal_valid_task = 1
   expect_error(resample(task, learner, rsmp("holdout")), "cannot be set to ")
 })
 
 test_that("learner's validate cannot be a ratio if internal_valid_set is present", {
   # otherwise, predict_set = "internal_valid" would be ambiguous
   learner = lrn("classif.debug", validate = 0.5, predict_sets = c("train", "internal_valid"))
-  task = tsk("iris")$divide(ids = 1)
+  task$internal_valid_task = 1
   expect_error(resample(task, learner, rsmp("holdout")), "cannot be set to")
 })
 
 test_that("internal_valid and train predictions", {
-  task = tsk("iris")$divide(ids = 1:2)
+  task = tsk("iris")
+  task$internal_valid_task = 1:2
   learner = lrn("classif.debug", validate = "predefined", predict_sets = c("train", "internal_valid", "test"))
   rr = resample(task, learner, rsmp("insample"))
   measure_valid = msr("classif.acc")
   measure_valid$predict_sets = "internal_valid"
   expect_equal(
-    rr$score(measure_valid, predict_sets = "internal_valid")$classif.acc,
+    rr$score(measure_valid)$classif.acc,
     rr$learners[[1L]]$internal_valid_scores$acc
   )
 
@@ -310,9 +317,9 @@ test_that("internal_valid and train predictions", {
   rr2 = resample(task, learner, rsmp("holdout"))
 
   expect_equal(
-    rr2$score(measure_valid, predict_sets = "internal_valid")$classif.acc,
-    rr2$score(msr("classif.acc"), predict_sets = "test")$classif.acc
- )
+    rr2$score(measure_valid)$classif.acc,
+    rr2$score(msr("classif.acc"))$classif.acc
+  )
   expect_equal(
     rr2$predictions("internal_valid")[[1L]]$response,
     rr2$predictions("test")[[1L]]$response
@@ -340,7 +347,7 @@ test_that("properties are also checked on validation task", {
   row[[1]][1] = NA
   row$..row_id = 151
   task$rbind(row)
-  task$divide(ids = 151)
+  task$internal_valid_task = 151
   learner = lrn("classif.debug", validate = "predefined")
   learner$properties = setdiff(learner$properties, "missings")
 
@@ -348,13 +355,13 @@ test_that("properties are also checked on validation task", {
 })
 
 test_that("marshaling does not change class of learner state when reassembling", {
-  rr = resample(tsk("iris"), lrn("classif.debug", encapsulate = c(train = "callr")), rsmp("holdout"), store_models = TRUE)
+  rr = resample(tsk("iris"), lrn("classif.debug"), rsmp("holdout"), encapsulate = "callr", store_models = TRUE)
   expect_class(rr$learners[[1]]$state, "learner_state")
 })
 
 test_that("marshaled model is sent back, when unmarshal is FALSE, sequential exec and callr", {
-  learner = lrn("classif.debug", count_marshaling = TRUE, encapsulate = c(train = "callr", predict = "callr"))
-  rr = resample(tsk("iris"), learner, rsmp("holdout"), store_models = TRUE, unmarshal = FALSE)
+  learner = lrn("classif.debug", count_marshaling = TRUE)
+  rr = resample(tsk("iris"), learner, rsmp("holdout"), store_models = TRUE, encapsulate = "callr", unmarshal = FALSE)
   expect_true(rr$learners[[1L]]$marshaled)
 })
 
@@ -366,12 +373,17 @@ test_that("predict_set internal_valid throws error when none is available", {
 })
 
 test_that("can even use internal_valid predict set on learners that don't support validation", {
-  rr = resample(tsk("mtcars")$divide(ids = 1:10), lrn("regr.debug", predict_sets = "internal_valid"), rsmp("holdout"))
+  task = tsk("mtcars")
+  task$internal_valid_task = 1:10
+  rr = resample(task, lrn("regr.debug", predict_sets = "internal_valid"), rsmp("holdout"))
+  expect_warning(rr$score(), "only predicted on sets")
 })
 
 test_that("callr during prediction triggers marshaling", {
-  learner1 = lrn("classif.debug", count_marshaling = TRUE, encapsulate = c(train = "none", predict = "callr"))
-  learner2 = lrn("classif.debug", count_marshaling = TRUE, encapsulate = c(train = "callr", predict = "callr"))
+  learner1 = lrn("classif.debug", count_marshaling = TRUE)
+  learner1$encapsulate("callr", lrn("classif.featureless"))
+  learner2 = lrn("classif.debug", count_marshaling = TRUE)
+  learner2$encapsulate("callr", lrn("classif.featureless"))
 
   rr1 = with_future(future::multisession, {
     resample(tsk("iris"), learner1, rsmp("holdout"), unmarshal = FALSE, store_models = TRUE)
@@ -413,7 +425,7 @@ test_that("callr during prediction triggers marshaling", {
   })
   l6 = rr6$learners[[1L]]
   expect_false(l6$marshaled)
-  expect_equal(l6$model$marshal_count, 0L)
+  expect_equal(l6$model$marshal_count, 1L)
 
   rr7 = with_future(future::multisession, {
     resample(tsk("iris"), learner2, rsmp("holdout"), unmarshal = TRUE, store_models = TRUE)
@@ -428,4 +440,83 @@ test_that("callr during prediction triggers marshaling", {
   l8 = rr8$learners[[1L]]
   expect_false(l8$marshaled)
   expect_equal(l8$model$marshal_count, 1L)
+})
+
+test_that("obs_loss", {
+  task = tsk("iris")
+  learner = lrn("classif.featureless")
+  resampling = rsmp("cv", folds = 3)
+  rr = resample(task, learner, resampling)
+
+  tbl = rr$obs_loss()
+  expect_integer(tbl$classif.ce)
+})
+
+test_that("multiple named measures", {
+  rr = resample(tsk("iris"), lrn("classif.featureless"), rsmp("holdout"))
+  res = rr$aggregate(c(acc = msr("classif.acc"), ce = msr("classif.ce")))
+  expect_numeric(res[["classif.acc"]])
+  expect_numeric(res[["classif.ce"]])
+})
+
+test_that("empty predictions", {
+  rr = resample(tsk("iris"), lrn("classif.debug", validate = 0.3, predict_sets = NULL), rsmp("holdout"))
+  preds = rr$predictions()
+  expect_equal(preds, list(list()))
+  pred = rr$prediction()
+  expect_equal(pred, list())
+})
+
+test_that("resample result works with not predicted predict set", {
+  learner = lrn("classif.debug", predict_sets = "train")
+  task = tsk("iris")
+  resampling = rsmp("holdout")
+
+  rr = resample(task, learner, resampling)
+
+  expect_list(rr$prediction(predict_sets = "test"), len = 0)
+  expect_list(rr$predictions(predict_sets = "test"), len = 1)
+  expect_list(rr$predictions(predict_sets = "test")[[1L]], len = 0)
+
+  tab = as.data.table(rr)
+  expect_list(tab$prediction, len = 1)
+  expect_list(tab$prediction[[1]], len = 0)
+
+  expect_warning({tab = rr$score(msr("classif.ce", predict_sets = "test"))}, "Measure")
+  expect_equal(tab$classif.ce, NaN)
+})
+
+test_that("resample results works with no predicted predict set", {
+  learner = lrn("classif.debug", predict_sets = NULL)
+  task = tsk("iris")
+  resampling = rsmp("holdout")
+
+  rr = resample(task, learner, resampling)
+
+  expect_list(rr$prediction(predict_sets = "test"), len = 0)
+  expect_list(rr$predictions(predict_sets = "test"), len = 1)
+  expect_list(rr$predictions(predict_sets = "test")[[1L]], len = 0)
+
+  tab = as.data.table(rr)
+  expect_list(tab$prediction, len = 1)
+  expect_list(tab$prediction[[1]], len = 0)
+
+  expect_warning({tab = rr$score(msr("classif.ce", predict_sets = "test"))}, "Measure")
+  expect_equal(tab$classif.ce, NaN)
+})
+
+test_that("predict_time is 0 if no predict_set is specified", {
+  learner = lrn("classif.featureless", predict_sets = NULL)
+  rr = resample(task, learner, resampling)
+  times = rr$score(msr("time_predict"))$time_predict
+  expect_true(all(times == 0))
+})
+
+test_that("resampling instantiated on a different task throws an error", {
+  task = tsk("spam")
+  resampling = rsmp("cv", folds = 3)
+  resampling$instantiate(task)
+
+  expect_error(resample(tsk("pima"), lrn("classif.rpart"), resampling), "The resampling was probably instantiated on a different task")
+
 })

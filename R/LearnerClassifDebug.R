@@ -51,7 +51,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
-      iter_aggr = crate(function(x) as.integer(ceiling(mean(unlist(x)))), .parent = topenv())
+      iter_aggr = crate(function(x) as.integer(ceiling(mean(unlist(x, use.names = FALSE)))), .parent = topenv())
       iter_tune_fn = crate(function(domain, param_vals) {
         assert_true(isTRUE(param_vals$early_stopping))
         assert_true(domain$lower <= 1)
@@ -89,7 +89,6 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
         predict_types = c("response", "prob"),
         properties = c("twoclass", "multiclass", "missings", "hotstart_forward", "validation", "internal_tuning", "marshal"),
         man = "mlr3::mlr_learners_classif.debug",
-        data_formats = c("data.table", "Matrix"),
         label = "Debug Learner for Classification"
       )
     },
@@ -106,6 +105,27 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
     #'   Additional arguments passed to [`unmarshal_model()`].
     unmarshal = function(...) {
       learner_unmarshal(.learner = self, ...)
+    },
+
+    #' @description
+    #' Returns 0 for each feature seen in training.
+    #' @return Named `numeric()`.
+    importance = function() {
+      if (is.null(self$model)) {
+        stopf("No model stored")
+      }
+      fns = self$state$feature_names
+      set_names(rep(0, length(fns)), fns)
+    },
+
+    #' @description
+    #' Always returns character(0).
+    #' @return `character()`.
+    selected_features = function() {
+      if (is.null(self$model)) {
+        stopf("No model stored")
+      }
+      character(0)
     }
   ),
   active = list(
@@ -170,8 +190,15 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
         stopf("Early stopping is only possible when a validation task is present.")
       }
 
-      model = list(response = as.character(sample(task$truth(), 1L)), pid = Sys.getpid(), id = UUIDgenerate(),
-        random_number = sample(100000, 1), iter = if (isTRUE(pv$early_stopping)) sample(pv$iter %??% 1L, 1L) else pv$iter %??% 1L
+      model = list(
+          response = as.character(sample(task$truth(), 1L)),
+          pid = Sys.getpid(),
+          id = UUIDgenerate(),
+          random_number = sample(100000, 1),
+          iter = if (isTRUE(pv$early_stopping))
+            sample(pv$iter %??% 1L, 1L)
+          else
+            pv$iter %??% 1L
       )
 
       if (!is.null(valid_truth)) {

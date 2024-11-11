@@ -1,21 +1,35 @@
 test_that("Feature columns can be reordered", {
-  bh = load_dataset("BostonHousing", "mlbench")
-  bh$medv = NULL
+  task = tsk("california_housing")
+  new_order = shuffle(task$feature_names)
 
-  task = tsk("boston_housing")
-  task$col_roles$feature = setdiff(names(bh), "cmedv")
-
-  expect_equal(task$feature_names, setdiff(names(bh), "cmedv"))
-  expect_equal(names(task$data(rows = 1)), c("cmedv", setdiff(names(bh), "cmedv")))
-
-  task$col_roles$feature = shuffle(task$col_roles$feature)
-  expect_equal(names(task$data(rows = 1)), c("cmedv", task$col_roles$feature))
+  task$col_roles$feature = new_order
+  expect_equal(task$feature_names, new_order)
+  expect_equal(names(task$data(rows = 1)), c("median_house_value", new_order))
 })
 
 test_that("Task duplicates rows", {
+  # getting same row ids twice
   task = tsk("iris")
   data = task$data(c(1L, 1L))
   expect_data_table(data, nrows = 2L, any.missing = FALSE)
+
+  # task with duplicated ids in row_roles$use
+  # this happens in ResamplingBootstrap!
+  task = tsk("iris")
+  task$row_roles$use = c(1:5, 1:5, 146:150)
+  expect_task(task, duplicated_ids = TRUE)
+
+  expect_equal(task$nrow, 15L)
+  expect_data_table(task$data(), nrows = 15)
+  task$droplevels()
+  expect_character(task$class_names, len = 2L)
+
+  task$set_row_roles(1, remove_from = "use")
+  expect_equal(task$nrow, 13L)
+  task$set_row_roles(1L, add_to = "use")
+  expect_equal(task$nrow, 14L)
+  task$set_row_roles(1L, add_to = "use")
+  expect_equal(task$nrow, 15L)
 })
 
 test_that("Rows return ordered", {
@@ -264,6 +278,64 @@ test_that("groups/weights work", {
   }, "up to one")
 })
 
+test_that("col roles are valid", {
+  b = as_data_backend(data.table(
+    y = runif(20),
+    logical = sample(c(TRUE, FALSE), 20, replace = TRUE),
+    numeric = runif(20),
+    integer = sample(1:3, 20, replace = TRUE),
+    factor = factor(sample(letters[1:3], 20, replace = TRUE))))
+  task = TaskRegr$new("test", b, target = "y")
+
+  # weight
+  expect_error(task$set_col_roles("logical", roles = "weight"), "type")
+  expect_error(task$set_col_roles("factor", roles = "weight"), "type")
+  expect_error(task$set_col_roles(c("integer", "numeric"), roles = "weight"), "There may only be up to one column with role")
+
+  # name
+  expect_error(task$set_col_roles("logical", roles = "name"), "type")
+  expect_error(task$set_col_roles("integer", roles = "name"), "type")
+  expect_error(task$set_col_roles("numeric", roles = "name"), "type")
+  expect_error(task$set_col_roles(c("integer", "numeric"), roles = "name"), "There may only be up to one column with role")
+
+  # group
+  expect_error(task$set_col_roles(c("numeric", "factor"), roles = "group"), "There may only be up to one column with role")
+
+  # missing weights
+  b = as_data_backend(data.table(y = runif(20), numeric = c(runif(19), NA_real_)))
+  task = TaskRegr$new("test", b, target = "y")
+
+  expect_error(task$set_col_roles("numeric", roles = "weight"), "missing")
+
+  # negative weights
+  b = as_data_backend(data.table(y = runif(20), numeric = c(runif(19), -10)))
+  task = TaskRegr$new("test", b, target = "y")
+
+  expect_error(task$set_col_roles("numeric", roles = "weight"), "is not")
+
+  # target classif
+  b = as_data_backend(data.table(
+    y = factor(sample(letters[1:3], 20, replace = TRUE)),
+    numeric = runif(20)))
+  task = as_task_classif(b, target = "y")
+
+  expect_error({task$col_roles = insert_named(task$col_roles, list(target = "numeric", feature = "y"))},
+    "must be a factor or ordered factor")
+
+  expect_error(task$set_col_roles("numeric", roles = "target"), "up to one column with")
+
+  # target regr
+  b = as_data_backend(data.table(
+    y = runif(20),
+    factor = factor(sample(letters[1:3], 20, replace = TRUE))))
+  task = TaskRegr$new("test", b, target = "y")
+
+  expect_error({task$col_roles = insert_named(task$col_roles, list(target = "factor", feature = "y"))},
+    "numeric or integer column")
+
+  expect_error(task$set_col_roles("factor", roles = "target"), "up to one column with")
+})
+
 test_that("ordered factors (#95)", {
   df = data.frame(
     x = c(1, 2, 3),
@@ -357,8 +429,9 @@ test_that("col roles getters/setters", {
     task$col_roles$feature = "foo"
   })
 
-  # additional roles allowed (#558)
-  task$col_roles$foo = "Species"
+  expect_error({
+    task$col_roles$foo = "Species"
+  })
 
   task$col_roles$feature = setdiff(task$col_roles$feature, "Sepal.Length")
   expect_false("Sepal.Length" %in% task$feature_names)
@@ -518,10 +591,9 @@ test_that("Roles get printed (#877)", {
 
 test_that("validation task is cloned", {
   task = tsk("iris")
-  task$divide(ids = c(1:10, 51:60, 101:110))
+  task$internal_valid_task = c(1:10, 51:60, 101:110)
   task2 = task$clone(deep = TRUE)
-  expect_false(identical(task$internal_valid_task, task2$internal_valid_task))
-  expect_equal(task$internal_valid_task, task2$internal_valid_task)
+  expect_different_address(task$internal_valid_task, task2$internal_valid_task)
 })
 
 test_that("task is cloned when assining internal validation task", {
@@ -530,23 +602,10 @@ test_that("task is cloned when assining internal validation task", {
   expect_false(identical(task, task$internal_valid_task))
 })
 
-test_that("validation task cannot have a validation task", {
-  task = tsk("iris")
-  expect_error({task$internal_valid_task = task$clone(deep = TRUE)$divide(ids = 1) }, "remove its validation")
-})
-
-test_that("divide works with ratio", {
-  task = tsk("iris")$filter(1:10)
-  task$divide(ratio = 0.1)
-  expect_equal(task$nrow, 9)
-  expect_equal(task$internal_valid_task$nrow, 1)
-  expect_permutation(1:10, c(task$row_ids, task$internal_valid_task$row_ids))
-})
-
 test_that("validation task changes a task's hash", {
   task = tsk("iris")
   h1 = task$hash
-  task$divide(ids = 1:10, remove = FALSE)
+  task$internal_valid_task = task$clone(deep = TRUE)$filter(1:10)
   h2 = task$hash
   expect_false(h1 == h2)
 })
@@ -565,20 +624,14 @@ test_that("compatibility checks on internal_valid_task", {
 
 test_that("can NULL validation task", {
   task = tsk("iris")
-  task$divide(ids = 1)
+  task$internal_valid_task = 1
   task$internal_valid_task = NULL
   expect_equal(length(task$row_ids), 149)
 })
 
-test_that("can call $divide twice", {
-  task = tsk("iris")
-  task$divide(ids = 1:10)
-  expect_task(task$divide(ids = 1:10))
-})
-
 test_that("internal_valid_task is printed", {
   task = tsk("iris")
-  task$divide(ids = c(1:10, 51:60, 101:110))
+  task$internal_valid_task = c(1:10, 51:60, 101:110)
   out = capture_output(print(task))
   expect_true(grepl(pattern = "* Validation Task: (30x5)", fixed = TRUE, x = out))
 })
@@ -588,29 +641,31 @@ test_that("task hashes during resample", {
   task = orig$clone(deep = TRUE)
   resampling = rsmp("holdout")
   resampling$instantiate(task)
-  task$divide(ids = resampling$test_set(1))
+  task$internal_valid_task = resampling$test_set(1)
   task$hash
   learner = lrn("classif.debug", validate = "test")
   expect_equal(resampling_task_hashes(task, resampling, learner), task$hash)
 })
 
-test_that("divide remove parameter works", {
+test_that("integer vector can be passed to internal_valid_task", {
+  task = tsk("iris")$filter(1:5)
+  task$internal_valid_task = 5
+  expect_permutation(task$row_ids, 1:4)
+  expect_equal(task$internal_valid_task$row_ids, 5)
+})
+
+test_that("cbind supports non-standard primary key (#961)", {
+  tbl = data.table(x = runif(10), y = runif(10), myid = 1:10)
+  b = as_data_backend(tbl, primary_key = "myid")
+  task = as_task_regr(b, target = "y")
+  task$cbind(data.table(x1 = 10:1))
+  expect_true("x1" %in% task$feature_names)
+})
+
+test_that("$select changes hash", {
   task = tsk("iris")
-  task$divide(ids = 1L, remove = FALSE)
-  expect_true(1L %in% task$row_ids)
-  task = tsk("iris")
-  task$divide(ids = 1L, remove = TRUE)
-  expect_false(1L %in% task$row_ids)
-})
-
-test_that("divide does not take ratio and ids", {
-  expect_error(tsk("iris")$divide(0.2, 1), "to create a validation task")
-})
-
-test_that("divide requires ratio in (0, 1)", {
-  expect_error(tsk("iris")$divide(1.2))
-})
-
-test_that("divide requires ids to be row_ids", {
-  expect_error(tsk("iris")$divide(ids = 0.5))
+  h1 = task$hash
+  task$select("Petal.Length")
+  h2 = task$hash
+  expect_false(h1 == h2)
 })

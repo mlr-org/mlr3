@@ -8,13 +8,14 @@ Measure to compare true observed response with predicted response in regression 
 }
 \details{
 The Relative Absolute Error is defined as \deqn{
-  \frac{\sum_{i=1}^n \left| t_i - r_i \right|}{\sum_{i=1}^n \left| t_i - \bar{t} \right|}.
+  \frac{\sum_{i=1}^n \left| t_i - r_i \right|}{\sum_{i=1}^n \left| t_i - \bar{t} \right|},
 }{
-  sum((t - r)^2) / sum((t - mean(t))^2).
+  sum((t - r)^2) / sum((t - mean(t))^2),
 }
-Can be interpreted as absolute error of the predictions relative to a naive model predicting the mean.
-
+where \eqn{\bar{t} = \sum_{i=1}^n t_i}.
 This measure is undefined for constant \eqn{t}.
+
+Can be interpreted as absolute error of the predictions relative to a naive model predicting the mean.
 }
 \note{
 The score function calls \code{\link[mlr3measures:rae]{mlr3measures::rae()}} from package \CRANpkg{mlr3measures}.
@@ -64,11 +65,11 @@ Other regression measures:
 \code{\link{mlr_measures_regr.mse}},
 \code{\link{mlr_measures_regr.msle}},
 \code{\link{mlr_measures_regr.pbias}},
+\code{\link{mlr_measures_regr.pinball}},
 \code{\link{mlr_measures_regr.rmse}},
 \code{\link{mlr_measures_regr.rmsle}},
 \code{\link{mlr_measures_regr.rrse}},
 \code{\link{mlr_measures_regr.rse}},
-\code{\link{mlr_measures_regr.rsq}},
 \code{\link{mlr_measures_regr.sae}},
 \code{\link{mlr_measures_regr.smape}},
 \code{\link{mlr_measures_regr.srho}},

@@ -29,6 +29,7 @@ To debug, simply run \code{result = run_autotest(learner)} and proceed with inve
 the task, learner and prediction of the returned \code{result}.
 
 For example usages you can look at the autotests in various mlr3 source repositories such as mlr3learners.
+More information can be found in the \code{inst/testthat/autotest.R} file.
 
 \strong{Parameters}:
 \itemize{
@@ -46,6 +47,8 @@ Defaults to all predict typpes of the learner.
 \item \code{check_replicable} (\code{logical(1)})\cr
 Whether to check that running the learner twice with the same seed should result in identical predictions.
 Default is \code{TRUE}.
+\item \code{configure_learner} (\verb{function(learner, task)})\cr
+Before running a \code{learner} on a \code{task}, this function allows to change its parameter values depending on the input task.
 }
 }
 

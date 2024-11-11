@@ -70,6 +70,7 @@ resample = function(task, learner, resampling, store_models = FALSE, store_backe
   if (!resampling$is_instantiated) {
     resampling = resampling$instantiate(task)
   }
+
   n = resampling$iters
   pb = if (isNamespaceLoaded("progressr")) {
     # NB: the progress bar needs to be created in this env

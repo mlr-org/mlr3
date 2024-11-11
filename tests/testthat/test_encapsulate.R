@@ -1,10 +1,10 @@
 disable_encapsulation = function(learner) {
-  learner$encapsulate = c(train = "none", predict = "none")
+  learner$encapsulate("none")
   learner
 }
 
 enable_encapsulation = function(learner) {
-  learner$encapsulate = c(train = "evaluate", predict = "evaluate")
+  learner$encapsulate("evaluate", default_fallback(learner))
   learner
 }
 
@@ -12,29 +12,7 @@ task = tsk("iris")
 learner = lrn("classif.debug")
 learner$param_set$values = list(message_train = 1, warning_train = 1, message_predict = 1, warning_predict = 1)
 
-test_that("encapsulation is automatically enabled", {
-  tmp = lrn("classif.debug")
-  expect_equal(tmp$encapsulate, c(train = "none", predict = "none"))
-  expect_null(get_private(tmp)$.encapsulate)
-
-  tmp$fallback = lrn("classif.featureless")
-  expect_equal(tmp$encapsulate, c(train = "evaluate", predict = "evaluate"))
-  expect_equal(get_private(tmp)$.encapsulate, c(train = "evaluate", predict = "evaluate"))
-
-  tmp = lrn("classif.debug")
-  tmp$encapsulate = c(train = "none", predict = "none")
-  tmp$fallback = lrn("classif.featureless")
-  expect_equal(tmp$encapsulate, c(train = "none", predict = "none"))
-  expect_equal(get_private(tmp)$.encapsulate, c(train = "none", predict = "none"))
-})
-
 test_that("evaluate / single step", {
-
-  lg$set_threshold("off")
-  on.exit({
-    lg$set_threshold("warn")
-  })
-
   row_ids = 1:120
   expect_message(expect_warning(disable_encapsulation(learner)$train(task, row_ids)))
   log = learner$log
@@ -66,12 +44,6 @@ test_that("evaluate / single step", {
 })
 
 test_that("evaluate / resample", {
-
-  lg$set_threshold("off")
-  on.exit({
-    lg$set_threshold("warn")
-  })
-
   resampling = rsmp("cv", folds = 3)
 
   rr = suppressMessages(suppressWarnings(resample(task, disable_encapsulation(learner), resampling)))
@@ -83,6 +55,12 @@ test_that("evaluate / resample", {
 
 test_that("errors and warnings are printed with logger", {
   task = tsk("spam")
+
+  old_threshold = lg$threshold
+  lg$set_threshold("warn")
+  on.exit({
+    lg$set_threshold(old_threshold)
+  })
 
   learner = enable_encapsulation(lrn("classif.debug", error_train = 1))
   expect_output(learner$train(task), "ERROR")
@@ -112,7 +90,7 @@ test_that("encapsulate methods produce the same results", {
 
   set.seed(123)
   learner = lrn("classif.debug")
-  learner$encapsulate = c(train = "try", predict = "none")
+  learner$encapsulate("try", lrn("classif.featureless"))
   learner$train(task)
   expect_equal(learner$model$random_number, 2986)
   expect_equal(sample(seq(1000), 1), 818)
@@ -121,7 +99,7 @@ test_that("encapsulate methods produce the same results", {
 
   set.seed(123)
   learner = lrn("classif.debug")
-  learner$encapsulate = c(train = "evaluate", predict = "none")
+  learner$encapsulate("evaluate", lrn("classif.featureless"))
   learner$train(task)
   expect_equal(learner$model$random_number, 2986)
   expect_equal(sample(seq(1000), 1), 818)
@@ -130,7 +108,7 @@ test_that("encapsulate methods produce the same results", {
 
   set.seed(123)
   learner = lrn("classif.debug")
-  learner$encapsulate = c(train = "callr", predict = "none")
+  learner$encapsulate("callr", lrn("classif.featureless"))
   learner$train(task)
   expect_equal(learner$model$random_number, 2986)
   expect_equal(sample(seq(1000), 1), 818)

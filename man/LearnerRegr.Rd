@@ -64,6 +64,20 @@ Other Learner:
 \section{Super class}{
 \code{\link[mlr3:Learner]{mlr3::Learner}} -> \code{LearnerRegr}
 }
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{quantiles}}{(\code{numeric()})\cr
+Numeric vector of probabilities to be used while predicting quantiles.
+Elements must be between 0 and 1, not missing and provided in ascending order.
+If only one quantile is provided, it is used as response.
+Otherwise, set \verb{$quantile_response} to specify the response quantile.}
+
+\item{\code{quantile_response}}{(\code{numeric(1)})\cr
+The quantile to be used as response.}
+}
+\if{html}{\out{</div>}}
+}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
@@ -75,6 +89,7 @@ Other Learner:
 <details><summary>Inherited methods</summary>
 <ul>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="base_learner"><a href='../../mlr3/html/Learner.html#method-Learner-base_learner'><code>mlr3::Learner$base_learner()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="encapsulate"><a href='../../mlr3/html/Learner.html#method-Learner-encapsulate'><code>mlr3::Learner$encapsulate()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="format"><a href='../../mlr3/html/Learner.html#method-Learner-format'><code>mlr3::Learner$format()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="help"><a href='../../mlr3/html/Learner.html#method-Learner-help'><code>mlr3::Learner$help()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="predict"><a href='../../mlr3/html/Learner.html#method-Learner-predict'><code>mlr3::Learner$predict()</code></a></span></li>
@@ -97,7 +112,7 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
   predict_types = "response",
   feature_types = character(),
   properties = character(),
-  data_formats = "data.table",
+  data_formats,
   packages = character(),
   label = NA_character_,
   man = NA_character_
@@ -136,8 +151,7 @@ If a learner is in a marshaled state, you call first need to call \verb{$unmarsh
 }}
 
 \item{\code{data_formats}}{(\code{character()})\cr
-Set of supported data formats which can be processed during \verb{$train()} and \verb{$predict()},
-e.g. \code{"data.table"}.}
+Deprecated: ignored, and will be removed in the future.}
 
 \item{\code{packages}}{(\code{character()})\cr
 Set of required packages.

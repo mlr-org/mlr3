@@ -9,6 +9,11 @@
 #'
 #' @description
 #' Measures the elapsed time during train ("time_train"), predict ("time_predict"), or both ("time_both").
+#' Aggregation of elapsed time defaults to mean but can be configured via the field `aggregator` of the [Measure].
+#'
+#' When predictions for multiple predict sets were made during [resample()] or [benchmark()], the predict time shows the cumulative duration of all predictions.
+#' If `learner$predict()` is called manually, the last predict time gets overwritten.
+#' The elapsed time accounts only for the training duration of the primary learner, excluding the time required for training the fallback learner.
 #'
 #' @template param_id
 #' @templateVar id time_train
@@ -35,10 +40,11 @@ MeasureElapsedTime = R6Class("MeasureElapsedTime",
       super$initialize(
         id = id,
         task_type = NA_character_,
+        predict_sets = NULL,
         predict_type = NA_character_,
         range = c(0, Inf),
         minimize = TRUE,
-        properties = "requires_learner",
+        properties = c("requires_learner", "requires_no_prediction"),
         label = "Elapsed Time",
         man = "mlr3::mlr_measures_elapsed_time"
       )
@@ -48,7 +54,7 @@ MeasureElapsedTime = R6Class("MeasureElapsedTime",
 
   private = list(
     .score = function(prediction, learner, ...) {
-      sum(unlist(learner$state[sprintf("%s_time", self$stages)]))
+      sum(unlist(learner$state[sprintf("%s_time", self$stages)], use.names = FALSE))
     },
 
     .extra_hash = "stages"
