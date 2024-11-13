@@ -146,7 +146,7 @@ Can be extended by third-party with additional converters.
 <p>This environment be modified by third-party packages, e.g. by adding information about new task types
 or by extending the set of allowed feature types.</p>
 <p>Third-party packages that modify the reflections must register themselves in the <code>loaded_packages</code> field.</p>
-<p>The following objects are set by <a href="https://CRAN.R-project.org/package=mlr3" class="external-link"><span class="pkg">mlr3</span></a>:</p><ul><li><p><code>task_types</code> (<code><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table()</a></code>)<br>
+<p>The following objects are set by <a href="https://CRAN.R-project.org/package=mlr3" class="external-link"><span class="pkg">mlr3</span></a>:</p><ul><li><p><code>task_types</code> (<code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table()</a></code>)<br>
 Table with task type (<code>"type"</code>), the implementing package (<code>"pkg"</code>), and the names of the generators
 of the corresponding <a href="Task.html">Task</a> (<code>"task"</code>), <a href="Learner.html">Learner</a> (<code>"learner"</code>),
 <a href="Prediction.html">Prediction</a> (<code>"prediction"</code>), <a href="Measure.html">Measure</a> (<code>"measure"</code>) and fallback <a href="Learner.html">Learner</a>.</p></li>
@@ -203,7 +203,7 @@ Can be extended by third-party with additional converters.</p></li>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/ls_str.html" class="external-link">ls.str</a></span><span class="op">(</span><span class="va">mlr_reflections</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> auto_converters : &lt;environment: 0x55bc41c98470&gt; </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> auto_converters : &lt;environment: 0x556f10565908&gt; </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> default_measures : List of 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ classif     : chr "classif.ce"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ regr        : chr "regr.mse"</span>
