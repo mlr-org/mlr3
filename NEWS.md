@@ -2,6 +2,7 @@
 
 * fix: Quantiles must not ascend with probabilities.
 * refactor: Replace `tsk("boston_housing")` with `tsk("california_housing")`.
+* BREAKING CHANGE: Remove ``$loglik()`` method from all learners.
 
 # mlr3 0.21.1
 
