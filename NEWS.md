@@ -3,6 +3,7 @@
 * fix: Quantiles must not ascend with probabilities.
 * refactor: Replace `tsk("boston_housing")` with `tsk("california_housing")`.
 * BREAKING CHANGE: Remove ``$loglik()`` method from all learners.
+* fix: Ignore `future.globals.maxSize` when `future::plan("sequential")` is used.
 
 # mlr3 0.21.1
 
