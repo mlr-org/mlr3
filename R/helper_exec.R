@@ -30,6 +30,13 @@ future_map = function(n, FUN, ..., MoreArgs = list()) {
     }
     stdout = if (is_sequential) NA else TRUE
 
+    # workaround for sequential plan checking the size of the globals
+    # see https://github.com/futureverse/future/issues/197
+    if (is_sequential) {
+      old_opts = options(future.globals.maxSize = Inf)
+      on.exit(options(old_opts), add = TRUE)
+    }
+
     MoreArgs = c(MoreArgs, list(is_sequential = is_sequential))
 
     lg$debug("Running resample() via future with %i iterations", n)
