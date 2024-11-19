@@ -253,6 +253,10 @@ Task = R6Class("Task",
       if (!is.null(private$.internal_valid_task)) {
         catf(str_indent("* Validation Task:", sprintf("(%ix%i)", private$.internal_valid_task$nrow, private$.internal_valid_task$ncol)))
       }
+
+      if (!is.null(self$characteristics)) {
+        catf(str_indent("* Characteristics: ", as_short_string(self$characteristics)))
+      }
     },
 
     #' @description
@@ -838,7 +842,7 @@ Task = R6Class("Task",
     #' If an internal validation task is set, the hash is recalculated.
     hash = function(rhs) {
       if (is.null(private$.hash)) {
-        private$.hash = task_hash(self, self$row_ids, ignore_internal_valid_task = FALSE)
+        private$.hash = task_hash(self, self$characteristics, self$row_ids, ignore_internal_valid_task = FALSE)
       }
 
       private$.hash
@@ -1117,6 +1121,17 @@ Task = R6Class("Task",
         private$.col_hashes = self$backend$col_hashes[setdiff(unlist(private$.col_roles, use.names = FALSE), self$backend$primary_key)]
       }
       private$.col_hashes
+    },
+
+    #' @field characteristics (`list()`)\cr
+    #' List of characteristics of the task, e.g. `list(n = 5, p = 7)`.
+    characteristics = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.characteristics)
+      }
+
+      private$.characteristics = assert_list(rhs, null.ok = TRUE)
+      private$.hash = NULL
     }
   ),
 
@@ -1128,6 +1143,7 @@ Task = R6Class("Task",
     .row_roles = NULL,
     .hash = NULL,
     .col_hashes = NULL,
+    .characteristics = NULL,
 
     deep_clone = function(name, value) {
       # NB: DataBackends are never copied!
