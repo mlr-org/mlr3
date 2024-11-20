@@ -13,7 +13,8 @@ resample(
   encapsulate = NA_character_,
   allow_hotstart = FALSE,
   clone = c("task", "learner", "resampling"),
-  unmarshal = TRUE
+  unmarshal = TRUE,
+  extractor = NULL
 )
 }
 \arguments{
@@ -64,6 +65,10 @@ Per default, all input objects are cloned.}
 Whether to unmarshal learners that were marshaled during the execution.
 If \code{TRUE} all models are stored in unmarshaled form.
 If \code{FALSE}, all learners (that need marshaling) are stored in marshaled form.}
+
+\item{extractor}{(\verb{function()})\cr
+Function to extract information from the learner model on the worker.
+The function takes \code{model} as input and must return a named list.}
 }
 \value{
 \link{ResampleResult}.
