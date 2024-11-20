@@ -520,3 +520,8 @@ test_that("resampling instantiated on a different task throws an error", {
   expect_error(resample(tsk("pima"), lrn("classif.rpart"), resampling), "The resampling was probably instantiated on a different task")
 
 })
+
+test_that("$score() checks for models", {
+  rr = resample(tsk("mtcars"), lrn("regr.debug"), rsmp("holdout"))
+  expect_error(rr$score(msr("aic")), "requires the trained model")
+})
