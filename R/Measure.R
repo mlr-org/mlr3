@@ -197,6 +197,9 @@ Measure = R6Class("Measure",
       assert_measure(self, task = task, learner = learner, prediction = prediction)
       assert_prediction(prediction, null.ok = "requires_no_prediction" %nin% self$properties)
 
+      # check should be added to assert_measure()
+      # except when the checks are superfluous for rr$score() and bmr$score()
+      # these checks should be added bellow
       if ("requires_task" %in% self$properties && is.null(task)) {
         stopf("Measure '%s' requires a task", self$id)
       }
@@ -205,19 +208,12 @@ Measure = R6Class("Measure",
         stopf("Measure '%s' requires a learner", self$id)
       }
 
-      if ("requires_model" %in% self$properties && (is.null(learner) || is.null(learner$model))) {
-        stopf("Measure '%s' requires the trained model", self$id)
-      }
-      if ("requires_model" %in% self$properties && is_marshaled_model(learner$model)) {
-        stopf("Measure '%s' requires the trained model, but model is in marshaled form", self$id)
+      if (!is_scalar_na(self$task_type) && self$task_type != prediction$task_type) {
+        stopf("Measure '%s' incompatible with task type '%s'", self$id, prediction$task_type)
       }
 
       if ("requires_train_set" %in% self$properties && is.null(train_set)) {
         stopf("Measure '%s' requires the train_set", self$id)
-      }
-
-      if (!is_scalar_na(self$task_type) && self$task_type != prediction$task_type) {
-        stopf("Measure '%s' incompatible with task type '%s'", self$id, prediction$task_type)
       }
 
       score_single_measure(self, task, learner, train_set, prediction)
@@ -358,8 +354,6 @@ score_single_measure = function(measure, task, learner, train_set, prediction) {
     return(NaN)
   }
 
-
-
   if (!is_scalar_na(measure$predict_type) && measure$predict_type %nin% prediction$predict_types) {
     # TODO lgr$debug()
     return(NaN)
@@ -369,7 +363,6 @@ score_single_measure = function(measure, task, learner, train_set, prediction) {
     # TODO lgr$debug()
     return(NaN)
   }
-
 
   get_private(measure)$.score(prediction = prediction, task = task, learner = learner, train_set = train_set)
 }
