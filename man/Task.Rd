@@ -147,6 +147,9 @@ Required for \code{\link[=convert_task]{convert_task()}}.}
 
 \item{\code{mlr3_version}}{(\code{package_version})\cr
 Package version of \code{mlr3} used to create the task.}
+
+\item{\code{characteristics}}{(\code{list()})\cr
+List of characteristics of the task, e.g. \code{list(n = 5, p = 7)}.}
 }
 \if{html}{\out{</div>}}
 }

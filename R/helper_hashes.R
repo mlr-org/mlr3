@@ -48,5 +48,6 @@ task_hash = function(task, use_ids, test_ids = NULL, ignore_internal_valid_task 
     use_ids,
     task$col_roles,
     get_private(task)$.properties,
-    internal_valid_task_hash)
+    internal_valid_task_hash,
+    task$characteristics)
 }
