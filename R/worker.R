@@ -1,4 +1,4 @@
-learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NULL, mode = "train") {
+learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NULL, mode = "train", callback, context) {
   # This wrapper calls learner$.train, and additionally performs some basic
   # checks that the training was successful.
   # Exceptions here are possibly encapsulated, so that they get captured
@@ -251,7 +251,20 @@ learner_predict = function(learner, task, row_ids = NULL) {
 }
 
 
-workhorse = function(iteration, task, learner, resampling, param_values = NULL, lgr_threshold, store_models = FALSE, pb = NULL, mode = "train", is_sequential = TRUE, unmarshal = TRUE) {
+workhorse = function(
+  iteration,
+  task,
+  learner,
+  resampling,
+  param_values = NULL,
+  lgr_threshold,
+  store_models = FALSE,
+  pb = NULL,
+  mode = "train",
+  is_sequential = TRUE,
+  unmarshal = TRUE,
+  callback = NULL,
+  ) {
   if (!is.null(pb)) {
     pb(sprintf("%s|%s|i:%i", task$id, learner$id, iteration))
   }
@@ -331,6 +344,10 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
     learner$state$predict_time = 0L
   }
   pdatas = discard(pdatas, is.null)
+
+  if (!is.null(callback)) {
+    learner_state = c(learner_state, assert_list(callback(learner$model)))
+  }
 
   # set the model slot after prediction so it can be sent back to the main process
   process_model_after_predict(

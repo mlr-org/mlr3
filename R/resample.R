@@ -55,7 +55,21 @@
 #' bmr1 = as_benchmark_result(rr)
 #' bmr2 = as_benchmark_result(rr_featureless)
 #' print(bmr1$combine(bmr2))
-resample = function(task, learner, resampling, store_models = FALSE, store_backends = TRUE, encapsulate = NA_character_, allow_hotstart = FALSE, clone = c("task", "learner", "resampling"), unmarshal = TRUE) {
+resample = function(
+  task,
+  learner,
+  resampling,
+  store_models = FALSE,
+  store_backends = TRUE,
+  encapsulate = NA_character_,
+  allow_hotstart = FALSE,
+  clone = c("task", "learner", "resampling"),
+  unmarshal = TRUE,
+  callbacks = NULL
+  ) {
+  callbacks = assert_resample_callbacks(as_callbacks(callbacks))
+  context = ContextResample$new("resample")
+
   assert_subset(clone, c("task", "learner", "resampling"))
   task = assert_task(as_task(task, clone = "task" %in% clone))
   learner = assert_learner(as_learner(learner, clone = "learner" %in% clone, discard_state = TRUE))
@@ -118,7 +132,7 @@ resample = function(task, learner, resampling, store_models = FALSE, store_backe
     MoreArgs = list(task = task, resampling = resampling, store_models = store_models, lgr_threshold = lgr_threshold, pb = pb, unmarshal = unmarshal)
   )
 
-  data = data.table(
+  context$data = data.table(
     task = list(task),
     learner = grid$learner,
     learner_state = map(res, "learner_state"),
@@ -130,7 +144,9 @@ resample = function(task, learner, resampling, store_models = FALSE, store_backe
     learner_hash = map_chr(res, "learner_hash")
   )
 
-  result_data = ResultData$new(data, store_backends = store_backends)
+  call_back("on_resample_before_result_data", callbacks, context)
+
+  result_data = ResultData$new(context$data, store_backends = store_backends)
 
   # the worker already ensures that models are sent back in marshaled form if unmarshal = FALSE, so we don't have
   # to do anything in this case. This allows us to minimize the amount of marshaling in those situtions where
