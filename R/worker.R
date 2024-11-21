@@ -263,8 +263,11 @@ workhorse = function(
   mode = "train",
   is_sequential = TRUE,
   unmarshal = TRUE,
-  callback = NULL,
+  callbacks = NULL
   ) {
+  context = ContextWorkhorse$new("workhorse")
+  context$env = environment()
+
   if (!is.null(pb)) {
     pb(sprintf("%s|%s|i:%i", task$id, learner$id, iteration))
   }
@@ -319,6 +322,9 @@ workhorse = function(
   validate = get0("validate", learner)
 
   test_set = if (identical(validate, "test")) sets$test
+
+  call_back("on_workhorse_before_train", callbacks, context)
+
   train_result = learner_train(learner, task, sets[["train"]], test_set, mode = mode)
   learner = train_result$learner
 
@@ -337,6 +343,9 @@ workhorse = function(
 
   pdatas = Map(function(set, row_ids, task) {
     lg$debug("Creating Prediction for predict set '%s'", set)
+
+    call_back("on_workhorse_before_predict", callbacks, context)
+
     learner_predict(learner, task, row_ids)
   }, set = predict_sets, row_ids = pred_data$sets, task = pred_data$tasks)
 
@@ -345,9 +354,7 @@ workhorse = function(
   }
   pdatas = discard(pdatas, is.null)
 
-  if (!is.null(callback)) {
-    learner_state = c(learner_state, assert_list(callback(learner$model)))
-  }
+  call_back("on_workhorse_before_result", callbacks, context)
 
   # set the model slot after prediction so it can be sent back to the main process
   process_model_after_predict(

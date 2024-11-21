@@ -67,8 +67,7 @@ resample = function(
   unmarshal = TRUE,
   callbacks = NULL
   ) {
-  callbacks = assert_resample_callbacks(as_callbacks(callbacks))
-  context = ContextResample$new("resample")
+  callbacks = assert_workhorse_callbacks(as_callbacks(callbacks))
 
   assert_subset(clone, c("task", "learner", "resampling"))
   task = assert_task(as_task(task, clone = "task" %in% clone))
@@ -129,10 +128,10 @@ resample = function(
   }
 
   res = future_map(n, workhorse, iteration = seq_len(n), learner = grid$learner, mode = grid$mode,
-    MoreArgs = list(task = task, resampling = resampling, store_models = store_models, lgr_threshold = lgr_threshold, pb = pb, unmarshal = unmarshal)
+    MoreArgs = list(task = task, resampling = resampling, store_models = store_models, lgr_threshold = lgr_threshold, pb = pb, unmarshal = unmarshal, callbacks = callbacks)
   )
 
-  context$data = data.table(
+  data = data.table(
     task = list(task),
     learner = grid$learner,
     learner_state = map(res, "learner_state"),
@@ -144,9 +143,7 @@ resample = function(
     learner_hash = map_chr(res, "learner_hash")
   )
 
-  call_back("on_resample_before_result_data", callbacks, context)
-
-  result_data = ResultData$new(context$data, store_backends = store_backends)
+  result_data = ResultData$new(data, store_backends = store_backends)
 
   # the worker already ensures that models are sent back in marshaled form if unmarshal = FALSE, so we don't have
   # to do anything in this case. This allows us to minimize the amount of marshaling in those situtions where

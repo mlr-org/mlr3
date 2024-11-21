@@ -13,7 +13,8 @@ resample(
   encapsulate = NA_character_,
   allow_hotstart = FALSE,
   clone = c("task", "learner", "resampling"),
-  unmarshal = TRUE
+  unmarshal = TRUE,
+  callbacks = NULL
 )
 }
 \arguments{
