@@ -490,7 +490,6 @@ run_autotest = function(learner, N = 30L, exclude = NULL, predict_types = learne
 
       if (predict_type == "quantiles") {
         learner$quantiles = 0.5
-              browser()
       }
 
       run = run_experiment(task, learner)
