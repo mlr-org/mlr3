@@ -20,7 +20,7 @@ Do not modify any extracted object without cloning it first.
 \section{S3 Methods}{
 
 \itemize{
-\item \code{as.data.table(rr, ..., reassemble_learners = TRUE, convert_predictions = TRUE, predict_sets = "test")}\cr
+\item \code{as.data.table(rr, ..., reassemble_learners = TRUE, convert_predictions = TRUE, predict_sets = "test", task_characteristics = FALSE)}\cr
 \link{BenchmarkResult} -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Returns a tabular view of the internal data.
 \item \code{c(...)}\cr

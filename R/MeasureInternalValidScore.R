@@ -33,7 +33,7 @@ MeasureInternalValidScore = R6Class("MeasureInternalValidScore",
       super$initialize(
         id = select %??% "internal_valid_score",
         task_type = NA_character_,
-        properties = c("na_score", "requires_model", "requires_learner", "requires_no_prediction"),
+        properties = c("na_score", "requires_learner", "requires_no_prediction"),
         predict_sets = NULL,
         predict_type = NA_character_,
         range = c(-Inf, Inf),
