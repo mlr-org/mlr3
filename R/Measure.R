@@ -166,7 +166,7 @@ Measure = R6Class("Measure",
       cli_li(sprintf("Minimize: %s", self$minimize))
       cli_li(sprintf("Average: %s", self$average))
       cli_li(sprintf("Parameters: %s", paste(as_short_string(self$param_set$values, 1000L), collapse = ", ")))
-      cli_li(sprintf("Properties: %s", paste(self$properties, collapse = ", ")))
+      cli_li(sprintf("Properties: %s", if (length(self$properties)) paste(self$properties, collapse = ", ") else "-"))
       cli_li(sprintf("Predict type: %s", self$predict_type))
       cli_li(sprintf("Predict sets: %s", paste(self$predict_sets, collapse = ", ")))
     },

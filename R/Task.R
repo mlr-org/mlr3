@@ -248,6 +248,8 @@ Task = R6Class("Task",
         cli_li(sprintf("Target classes: %s", classes))
       }
 
+      cli_li(sprintf("Properties: %s", if (length(self$properties)) paste(self$properties, collapse = ", ") else "-"))
+
       types = self$feature_types
       if (nrow(types)) {
         id = type = NULL
