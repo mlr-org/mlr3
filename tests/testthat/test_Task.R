@@ -586,7 +586,7 @@ test_that("head/tail", {
 test_that("Roles get printed (#877)", {
   task = tsk("iris")
   task$col_roles$weight = "Petal.Width"
-  expect_output(print(task), "Weights: Petal.Width")
+  expect_message(print(task), "Weights: Petal.Width")
 })
 
 test_that("validation task is cloned", {
@@ -632,8 +632,7 @@ test_that("can NULL validation task", {
 test_that("internal_valid_task is printed", {
   task = tsk("iris")
   task$internal_valid_task = c(1:10, 51:60, 101:110)
-  out = capture_output(print(task))
-  expect_true(grepl(pattern = "* Validation Task: (30x5)", fixed = TRUE, x = out))
+  expect_message(print(task), "Validation Task: \\(30x5\\)")
 })
 
 test_that("task hashes during resample", {
