@@ -206,6 +206,7 @@ assert_measure = function(measure, task = NULL, learner = NULL, prediction = NUL
   assert_class(measure, "Measure", .var.name = .var.name)
 
   if (!is.null(task)) {
+
     if (!is_scalar_na(measure$task_type) && !test_matching_task_type(task$task_type, measure, "measure")) {
       stopf("Measure '%s' is not compatible with type '%s' of task '%s'",
         measure$id, task$task_type, task$id)
@@ -221,6 +222,15 @@ assert_measure = function(measure, task = NULL, learner = NULL, prediction = NUL
   }
 
   if (!is.null(learner)) {
+
+    if ("requires_model" %in% measure$properties && is.null(learner$model)) {
+      stopf("Measure '%s' requires the trained model", measure$id)
+    }
+
+    if ("requires_model" %in% measure$properties && is_marshaled_model(learner$model)) {
+      stopf("Measure '%s' requires the trained model, but model is in marshaled form", measure$id)
+    }
+
     if (!is_scalar_na(measure$task_type) && measure$task_type != learner$task_type) {
       stopf("Measure '%s' is not compatible with type '%s' of learner '%s'",
         measure$id, learner$task_type, learner$id)

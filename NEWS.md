@@ -1,7 +1,13 @@
 # mlr3 (development version)
 
+# mlr3 0.22.0
+
 * fix: Quantiles must not ascend with probabilities.
 * refactor: Replace `tsk("boston_housing")` with `tsk("california_housing")`.
+* feat: Require unique learner ids in `benchmark_grid()`.
+* BREAKING CHANGE: Remove ``$loglik()`` method from all learners.
+* fix: Ignore `future.globals.maxSize` when `future::plan("sequential")` is used.
+* feat: Add `$characteristics` field to `Task` to store additional information.
 
 # mlr3 0.21.1
 
