@@ -551,7 +551,7 @@ as.data.table.BenchmarkResult = function(x, ..., hashes = FALSE, predict_sets = 
   tab = tab[, c("uhash", "task", "learner", "resampling", "iteration", "prediction"), with = FALSE]
 
   if (task_characteristics) {
-    tab[, characteristics := map(task, "characteristics")]
+    set(tab, j = "characteristics", value = map(tab$task, "characteristics"))
     tab = unnest(tab, "characteristics")
   }
 

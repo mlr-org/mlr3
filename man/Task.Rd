@@ -147,9 +147,6 @@ Required for \code{\link[=convert_task]{convert_task()}}.}
 
 \item{\code{mlr3_version}}{(\code{package_version})\cr
 Package version of \code{mlr3} used to create the task.}
-
-\item{\code{characteristics}}{(\code{list()})\cr
-List of characteristics of the task, e.g. \code{list(n = 5, p = 7)}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -303,6 +300,9 @@ Alternatively, you can provide a \code{\link[=data.frame]{data.frame()}} with th
 Hash (unique identifier) for all columns except the \code{primary_key}: A \code{character} vector, named by the columns that each element refers to.\cr
 Columns of different \code{\link{Task}}s or \code{\link{DataBackend}}s that have agreeing \code{col_hashes} always represent the same data, given that the same \code{row}s are selected.
 The reverse is not necessarily true: There can be columns with the same content that have different \code{col_hashes}.}
+
+\item{\code{characteristics}}{(\code{list()})\cr
+List of characteristics of the task, e.g. \code{list(n = 5, p = 7)}.}
 }
 \if{html}{\out{</div>}}
 }
