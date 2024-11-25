@@ -49,6 +49,7 @@
 <url><loc>https://mlr3.mlr-org.com/reference/auto_convert.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/reference/benchmark.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/reference/benchmark_grid.html</loc></url>
+<url><loc>https://mlr3.mlr-org.com/reference/california_housing.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/reference/col_info.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/reference/convert_task.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/reference/default_fallback.html</loc></url>
@@ -153,7 +154,6 @@
 <url><loc>https://mlr3.mlr-org.com/reference/mlr_task_generators_spirals.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/reference/mlr_task_generators_xor.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/reference/mlr_tasks.html</loc></url>
-<url><loc>https://mlr3.mlr-org.com/reference/mlr_tasks_boston_housing.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/reference/mlr_tasks_breast_cancer.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/reference/mlr_tasks_german_credit.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/reference/mlr_tasks_iris.html</loc></url>
