@@ -31,7 +31,7 @@ More toy tasks can be found in the dictionary after loading mlr3data."><meta pro
 
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.21.1.9000</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.22.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -188,11 +188,6 @@ Required for <code><a href="convert_task.html">convert_task()</a></code>.</p></d
 <dt><code>mlr3_version</code></dt>
 <dd><p>(<code>package_version</code>)<br>
 Package version of <code>mlr3</code> used to create the task.</p></dd>
-
-
-<dt><code>characteristics</code></dt>
-<dd><p>(<code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>)<br>
-List of characteristics of the task, e.g. <code>list(n = 5, p = 7)</code>.</p></dd>
 
 
 </dl><p></p></div>
@@ -357,6 +352,11 @@ Alternatively, you can provide a <code><a href="https://rdrr.io/r/base/data.fram
 Hash (unique identifier) for all columns except the <code>primary_key</code>: A <code>character</code> vector, named by the columns that each element refers to.<br>
 Columns of different <code>Task</code>s or <code><a href="DataBackend.html">DataBackend</a></code>s that have agreeing <code>col_hashes</code> always represent the same data, given that the same <code>row</code>s are selected.
 The reverse is not necessarily true: There can be columns with the same content that have different <code>col_hashes</code>.</p></dd>
+
+
+<dt><code>characteristics</code></dt>
+<dd><p>(<code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>)<br>
+List of characteristics of the task, e.g. <code>list(n = 5, p = 7)</code>.</p></dd>
 
 
 </dl><p></p></div>

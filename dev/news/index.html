@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.21.1.9000</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.22.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -43,8 +43,12 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="mlr3-development-version">mlr3 (development version)<a class="anchor" aria-label="anchor" href="#mlr3-development-version"></a></h2>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.22.0" id="mlr3-0220">mlr3 0.22.0<a class="anchor" aria-label="anchor" href="#mlr3-0220"></a></h2><p class="text-muted">CRAN release: 2024-11-24</p>
 <ul><li>fix: Quantiles must not ascend with probabilities.</li>
 <li>refactor: Replace <code>tsk("boston_housing")</code> with <code>tsk("california_housing")</code>.</li>
+<li>feat: Require unique learner ids in <code><a href="../reference/benchmark_grid.html">benchmark_grid()</a></code>.</li>
 <li>BREAKING CHANGE: Remove <code>$loglik()</code> method from all learners.</li>
 <li>fix: Ignore <code>future.globals.maxSize</code> when <code>future::plan("sequential")</code> is used.</li>
 <li>feat: Add <code>$characteristics</code> field to <code>Task</code> to store additional information.</li>
