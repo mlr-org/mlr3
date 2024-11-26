@@ -79,8 +79,8 @@ RoxygenNote: 7.3.2
 Collate:
     'mlr_reflections.R'
     'BenchmarkResult.R'
-    'CallbackWorkhorse.R'
-    'ContextWorkhorse.R'
+    'CallbackEvaluation.R'
+    'ContextEvaluation.R'
     'warn_deprecated.R'
     'DataBackend.R'
     'DataBackendCbind.R'

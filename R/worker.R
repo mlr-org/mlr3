@@ -265,8 +265,9 @@ workhorse = function(
   unmarshal = TRUE,
   callbacks = NULL
   ) {
-  context = ContextWorkhorse$new("workhorse")
-  context$env = environment()
+  ctx = ContextEvaluation$new(task, learner, resampling, param_values)
+
+  call_back("on_evaluation_begin", callbacks, ctx)
 
   if (!is.null(pb)) {
     pb(sprintf("%s|%s|i:%i", task$id, learner$id, iteration))
@@ -306,13 +307,13 @@ workhorse = function(
   lg$info("%s learner '%s' on task '%s' (iter %i/%i)",
     if (mode == "train") "Applying" else "Hotstarting", learner$id, task$id, iteration, resampling$iters)
 
-  sets = list(
+  ctx$sets = list(
     train = resampling$train_set(iteration),
     test = resampling$test_set(iteration)
   )
 
   # train model
-  learner = learner$clone()
+  ctx$learner = learner = learner$clone()
   if (length(param_values)) {
     learner$param_set$values = list()
     learner$param_set$set_values(.values = param_values)
@@ -321,12 +322,12 @@ workhorse = function(
 
   validate = get0("validate", learner)
 
-  test_set = if (identical(validate, "test")) sets$test
+  ctx$test_set = if (identical(validate, "test")) ctx$sets$test
 
-  call_back("on_workhorse_before_train", callbacks, context)
+  call_back("on_evaluation_before_train", callbacks, ctx)
 
-  train_result = learner_train(learner, task, sets[["train"]], test_set, mode = mode)
-  learner = train_result$learner
+  train_result = learner_train(learner, task, ctx$sets[["train"]], ctx$test_set, mode = mode)
+  ctx$learner = learner = train_result$learner
 
   # process the model so it can be used for prediction (e.g. marshal for callr prediction), but also
   # keep a copy of the model in current form in case this is the format that we want to send back to the main process
@@ -336,31 +337,36 @@ workhorse = function(
   )
 
   # predict for each set
-  predict_sets = learner$predict_sets
+  ctx$predict_sets = learner$predict_sets
 
   # creates the tasks and row_ids for all selected predict sets
-  pred_data = prediction_tasks_and_sets(task, train_result, validate, sets, predict_sets)
+  pred_data = prediction_tasks_and_sets(task, train_result, validate, ctx$sets, ctx$predict_sets)
+
+  call_back("on_evaluation_before_predict", callbacks, ctx)
 
   pdatas = Map(function(set, row_ids, task) {
     lg$debug("Creating Prediction for predict set '%s'", set)
 
-    call_back("on_workhorse_before_predict", callbacks, context)
-
     learner_predict(learner, task, row_ids)
-  }, set = predict_sets, row_ids = pred_data$sets, task = pred_data$tasks)
+  }, set = ctx$predict_sets, row_ids = pred_data$sets, task = pred_data$tasks)
 
-  if (!length(predict_sets)) {
+  if (!length(ctx$predict_sets)) {
     learner$state$predict_time = 0L
   }
-  pdatas = discard(pdatas, is.null)
-
-  call_back("on_workhorse_before_result", callbacks, context)
+  ctx$pdatas = discard(pdatas, is.null)
 
   # set the model slot after prediction so it can be sent back to the main process
   process_model_after_predict(
     learner = learner, store_models = store_models, is_sequential = is_sequential, model_copy = model_copy_or_null,
     unmarshal = unmarshal
   )
+
+  call_back("on_evaluation_end", callbacks, ctx)
+
+  if (!store_models) {
+    lg$debug("Erasing stored model for learner '%s'", learner$id)
+    learner$state$model = NULL
+  }
 
   learner_state = set_class(learner$state, c("learner_state", "list"))
 
@@ -438,13 +444,10 @@ process_model_before_predict = function(learner, store_models, is_sequential, un
 }
 
 process_model_after_predict = function(learner, store_models, is_sequential, unmarshal, model_copy) {
-  if (!store_models) {
-    lg$debug("Erasing stored model for learner '%s'", learner$id)
-    learner$state$model = NULL
-  } else if (!is.null(model_copy)) {
+  if (store_models && !is.null(model_copy)) {
     # we created a copy of the model to avoid additional marshaling cycles
     learner$model = model_copy
-  } else if (!is_sequential || !unmarshal) {
+  } else if (store_models &&  !is_sequential || !unmarshal) {
     # no copy was created, here we make sure that we return the model the way the user wants it
     learner$model = marshal_model(learner$model, inplace = TRUE)
   }

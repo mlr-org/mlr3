@@ -67,7 +67,7 @@ resample = function(
   unmarshal = TRUE,
   callbacks = NULL
   ) {
-  callbacks = assert_workhorse_callbacks(as_callbacks(callbacks))
+  callbacks = assert_callbacks(as_callbacks(callbacks))
 
   assert_subset(clone, c("task", "learner", "resampling"))
   task = assert_task(as_task(task, clone = "task" %in% clone))
