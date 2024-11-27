@@ -15,6 +15,7 @@
 #' @template param_allow_hotstart
 #' @template param_clone
 #' @template param_unmarshal
+#' @template param_callbacks
 #' @return [ResampleResult].
 #'
 #' @template section_predict_sets
@@ -67,8 +68,6 @@ resample = function(
   unmarshal = TRUE,
   callbacks = NULL
   ) {
-  callbacks = assert_callbacks(as_callbacks(callbacks))
-
   assert_subset(clone, c("task", "learner", "resampling"))
   task = assert_task(as_task(task, clone = "task" %in% clone))
   learner = assert_learner(as_learner(learner, clone = "learner" %in% clone, discard_state = TRUE))
@@ -78,6 +77,7 @@ resample = function(
   # this does not check the internal validation task as it might not be set yet
   assert_learnable(task, learner)
   assert_flag(unmarshal)
+  callbacks = assert_callbacks(as_callbacks(callbacks))
 
   set_encapsulation(list(learner), encapsulate)
   if (!resampling$is_instantiated) {

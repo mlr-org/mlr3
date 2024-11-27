@@ -18,6 +18,7 @@
 #' @template param_allow_hotstart
 #' @template param_clone
 #' @template param_unmarshal
+#' @template param_callbacks
 #'
 #' @return [BenchmarkResult].
 #'
@@ -81,7 +82,7 @@
 #' ## Get the training set of the 2nd iteration of the featureless learner on penguins
 #' rr = bmr$aggregate()[learner_id == "classif.featureless"]$resample_result[[1]]
 #' rr$resampling$train_set(2)
-benchmark = function(design, store_models = FALSE, store_backends = TRUE, encapsulate = NA_character_, allow_hotstart = FALSE, clone = c("task", "learner", "resampling"), unmarshal = TRUE) {
+benchmark = function(design, store_models = FALSE, store_backends = TRUE, encapsulate = NA_character_, allow_hotstart = FALSE, clone = c("task", "learner", "resampling"), unmarshal = TRUE, callbacks = NULL) {
   assert_subset(clone, c("task", "learner", "resampling"))
   assert_data_frame(design, min.rows = 1L)
   assert_names(names(design), must.include = c("task", "learner", "resampling"))
@@ -96,6 +97,7 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
   }
   assert_flag(store_models)
   assert_flag(store_backends)
+  callbacks = assert_callbacks(as_callbacks(callbacks))
 
   # check for multiple task types
   task_types = unique(map_chr(design$task, "task_type"))
@@ -187,14 +189,15 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
 
   res = future_map(n, workhorse,
     task = grid$task, learner = grid$learner, resampling = grid$resampling, iteration = grid$iteration, param_values = grid$param_values, mode = grid$mode,
-    MoreArgs = list(store_models = store_models, lgr_threshold = lgr_threshold, pb = pb, unmarshal = unmarshal)
+    MoreArgs = list(store_models = store_models, lgr_threshold = lgr_threshold, pb = pb, unmarshal = unmarshal, callbacks = callbacks)
   )
 
   grid = insert_named(grid, list(
     learner_state = map(res, "learner_state"),
     prediction = map(res, "prediction"),
     param_values = map(res, "param_values"),
-    learner_hash = map_chr(res, "learner_hash")
+    learner_hash = map_chr(res, "learner_hash"),
+    data_extra = map(res, "data_extra")
   ))
 
   lg$info("Finished benchmark")
