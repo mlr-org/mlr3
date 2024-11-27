@@ -74,6 +74,10 @@ dummy_import = function() {
   # nocov start
   backports::import(pkgname)
 
+ # callbacks
+  x = utils::getFromNamespace("mlr_callbacks", ns = "mlr3misc")
+  x$add("mlr3.score_measures", load_callback_score_measures)
+
   # setup logger
   lg = lgr::get_logger(pkgname)
   assign("lg", lg, envir = parent.env(environment()))
