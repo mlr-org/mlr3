@@ -24,7 +24,8 @@
 .LSOverride
 
 # Icon must end with two \r
-Icon
+Icon
+
 
 # Thumbnails
 ._*
@@ -180,3 +181,4 @@ revdep/
 
 # misc
 Meta/
+Rplots.pdf
