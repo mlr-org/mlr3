@@ -689,9 +689,9 @@ test_that("$characteristics works", {
   resampling = rsmp("cv", folds = 3)
 
   design = benchmark_grid(
-    task = list(tsk_1, tsk_2),
-    learner = learner,
-    resampling = resampling
+    tasks = list(tsk_1, tsk_2),
+    learners = learner,
+    resamplings = resampling
   )
 
   bmr = benchmark(design)
@@ -703,9 +703,9 @@ test_that("$characteristics works", {
   tsk_2$characteristics = list(n = 200, f = 2)
 
   design = benchmark_grid(
-    task = list(tsk_1, tsk_2),
-    learner = learner,
-    resampling = resampling
+    tasks = list(tsk_1, tsk_2),
+    learners = learner,
+    resamplings = resampling
   )
 
   bmr = benchmark(design)
@@ -718,9 +718,9 @@ test_that("$characteristics works", {
   tsk_2$characteristics = list(n = 200)
 
   design = benchmark_grid(
-    task = list(tsk_1, tsk_2),
-    learner = learner,
-    resampling = resampling
+    tasks = list(tsk_1, tsk_2),
+    learners = learner,
+    resamplings = resampling
   )
 
   bmr = benchmark(design)

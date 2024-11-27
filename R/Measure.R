@@ -194,7 +194,7 @@ Measure = R6Class("Measure",
     #'
     #' @return `numeric(1)`.
     score = function(prediction, task = NULL, learner = NULL, train_set = NULL) {
-      assert_measure(self, task = task, learner = learner, prediction = prediction)
+      assert_scorable(self, task = task, learner = learner, prediction = prediction)
       assert_prediction(prediction, null.ok = "requires_no_prediction" %nin% self$properties)
 
       # check should be added to assert_measure()
@@ -395,7 +395,7 @@ score_measures = function(obj, measures, reassemble = TRUE, view = NULL, iters =
   tmp = unique(tab, by = c("task_hash", "learner_hash"))[, c("task", "learner"), with = FALSE]
 
   for (measure in measures) {
-    pmap(tmp, assert_measure, measure = measure)
+    pmap(tmp, assert_scorable, measure = measure)
 
     score = pmap_dbl(tab[, c("task", "learner", "resampling", "iteration", "prediction"), with = FALSE],
       function(task, learner, resampling, iteration, prediction) {
