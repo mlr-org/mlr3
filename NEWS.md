@@ -1,4 +1,4 @@
-# mlr3 (development version)
+# mlr3 0.22.1
 
 # mlr3 0.22.0
 
