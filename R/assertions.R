@@ -223,14 +223,6 @@ assert_measure = function(measure, task = NULL, learner = NULL, prediction = NUL
 
   if (!is.null(learner)) {
 
-    if ("requires_model" %in% measure$properties && is.null(learner$model)) {
-      stopf("Measure '%s' requires the trained model", measure$id)
-    }
-
-    if ("requires_model" %in% measure$properties && is_marshaled_model(learner$model)) {
-      stopf("Measure '%s' requires the trained model, but model is in marshaled form", measure$id)
-    }
-
     if (!is_scalar_na(measure$task_type) && measure$task_type != learner$task_type) {
       stopf("Measure '%s' is not compatible with type '%s' of learner '%s'",
         measure$id, learner$task_type, learner$id)
@@ -263,6 +255,21 @@ assert_measure = function(measure, task = NULL, learner = NULL, prediction = NUL
   invisible(measure)
 }
 
+#' @export
+#' @param measure ([Measure]).
+#' @param prediction ([Prediction]).
+#' @rdname mlr_assertions
+assert_scorable = function(measure, task, learner, prediction = NULL, .var.name = vname(measure)) {
+  if ("requires_model" %in% measure$properties && is.null(learner$model)) {
+    stopf("Measure '%s' requires the trained model", measure$id)
+  }
+
+  if ("requires_model" %in% measure$properties && is_marshaled_model(learner$model)) {
+    stopf("Measure '%s' requires the trained model, but model is in marshaled form", measure$id)
+  }
+
+  assert_measure(measure, task = task, learner = learner, prediction = prediction, .var.name = .var.name)
+}
 
 #' @export
 #' @param measures (list of [Measure]).
