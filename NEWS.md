@@ -1,5 +1,7 @@
 # mlr3 0.22.1
 
+* fix: Extend `assert_measure()` with checks for trained models in `assert_scorable()`.
+
 # mlr3 0.22.0
 
 * fix: Quantiles must not ascend with probabilities.
