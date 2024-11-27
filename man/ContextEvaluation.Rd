@@ -45,6 +45,10 @@ The sets are available on stage \code{on_evaluation_before_predict}.}
 \item{\code{pdatas}}{(List of \link{PredictionData})\cr
 The prediction data.
 The data is available on stage \code{on_evaluation_end}.}
+
+\item{\code{data_extra}}{(list())\cr
+Data saved in the \link{ResampleResult} or \link{BenchmarkResult}.
+Use this field to save results.}
 }
 \if{html}{\out{</div>}}
 }

@@ -18,11 +18,11 @@
 #' print(ResultData$new()$data)
 ResultData = R6Class("ResultData",
   public = list(
+
     #' @field data (`list()`)\cr
     #'   List of [data.table::data.table()], arranged in a star schema.
     #'   Do not operate directly on this list.
     data = NULL,
-
 
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
@@ -40,12 +40,12 @@ ResultData = R6Class("ResultData",
         self$data = star_init()
       } else {
         assert_names(names(data),
-          permutation.of = c("task", "learner", "learner_state", "resampling", "iteration", "param_values", "prediction", "uhash", "learner_hash"))
+          permutation.of = c("task", "learner", "learner_state", "resampling", "iteration", "param_values", "prediction", "uhash", "learner_hash", "data_extra"))
 
         if (nrow(data) == 0L) {
           self$data = star_init()
         } else {
-          setcolorder(data, c("uhash", "iteration", "learner_state", "prediction", "task", "learner", "resampling", "param_values", "learner_hash"))
+          setcolorder(data, c("uhash", "iteration", "learner_state", "prediction", "data_extra", "task", "learner", "resampling", "param_values", "learner_hash"))
           uhashes = data.table(uhash = unique(data$uhash))
           setkeyv(data, c("uhash", "iteration"))
 
@@ -190,6 +190,15 @@ ResultData = R6Class("ResultData",
     },
 
     #' @description
+    #' Returns additional data stored.
+    #'
+    #' @return `list()`.
+    data_extra = function(view = NULL) {
+      .__ii__ = private$get_view_index(view)
+      self$data$fact[.__ii__, "data_extra", with = FALSE][[1L]]
+    },
+
+    #' @description
     #' Combines multiple [ResultData] objects, modifying `self` in-place.
     #'
     #' @param rdata ([ResultData]).
@@ -315,7 +324,7 @@ ResultData = R6Class("ResultData",
       }
 
       cns = c("uhash", "task", "task_hash", "learner", "learner_hash", "learner_param_vals", "resampling",
-        "resampling_hash", "iteration", "prediction")
+        "resampling_hash", "iteration", "prediction", "data_extra")
       merge(self$data$uhashes, tab[, cns, with = FALSE], by = "uhash", sort = FALSE)
     },
 
@@ -375,6 +384,7 @@ star_init = function() {
     iteration = integer(),
     learner_state = list(),
     prediction = list(),
+    data_extra = list(),
 
     learner_hash = character(),
     task_hash = character(),

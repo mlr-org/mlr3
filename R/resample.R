@@ -140,7 +140,8 @@ resample = function(
     prediction = map(res, "prediction"),
     uhash = UUIDgenerate(),
     param_values = map(res, "param_values"),
-    learner_hash = map_chr(res, "learner_hash")
+    learner_hash = map_chr(res, "learner_hash"),
+    data_extra = map(res, "data_extra")
   )
 
   result_data = ResultData$new(data, store_backends = store_backends)

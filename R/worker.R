@@ -370,7 +370,12 @@ workhorse = function(
 
   learner_state = set_class(learner$state, c("learner_state", "list"))
 
-  list(learner_state = learner_state, prediction = pdatas, param_values = learner$param_set$values, learner_hash = learner_hash)
+  list(
+    learner_state = learner_state,
+    prediction = pdatas,
+    param_values = learner$param_set$values,
+    learner_hash = learner_hash,
+    data_extra = ctx$data_extra)
 }
 
 # creates the tasks and row ids for the selected predict sets

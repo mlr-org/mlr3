@@ -10,4 +10,6 @@ test_that("score_measure works", {
   walk(rr$learners, function(learner) {
     expect_number(learner$state$selected_features)
   })
+
+  expect_names(names(as.data.table(rr, data_extra = TRUE)), must.include = "data_extra")
 })

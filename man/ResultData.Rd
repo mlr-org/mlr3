@@ -48,6 +48,7 @@ Returns \code{NULL} if the \link{ResultData} is empty.}
 \item \href{#method-ResultData-resamplings}{\code{ResultData$resamplings()}}
 \item \href{#method-ResultData-predictions}{\code{ResultData$predictions()}}
 \item \href{#method-ResultData-prediction}{\code{ResultData$prediction()}}
+\item \href{#method-ResultData-data_extra}{\code{ResultData$data_extra()}}
 \item \href{#method-ResultData-combine}{\code{ResultData$combine()}}
 \item \href{#method-ResultData-sweep}{\code{ResultData$sweep()}}
 \item \href{#method-ResultData-marshal}{\code{ResultData$marshal()}}
@@ -296,6 +297,27 @@ Default is \code{"test"}.}
 }
 \subsection{Returns}{
 \link{Prediction}.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ResultData-data_extra"></a>}}
+\if{latex}{\out{\hypertarget{method-ResultData-data_extra}{}}}
+\subsection{Method \code{data_extra()}}{
+Returns additional data stored.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ResultData$data_extra(view = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{view}}{\code{character(1)}\cr
+Single \code{uhash} to restrict the results to.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\code{list()}.
 }
 }
 \if{html}{\out{<hr>}}

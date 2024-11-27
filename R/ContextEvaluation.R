@@ -50,6 +50,11 @@ ContextEvaluation = R6Class("ContextEvaluation",
     #' The data is available on stage `on_evaluation_end`.
     pdatas = NULL,
 
+    #' @field data_extra (list())\cr
+    #' Data saved in the [ResampleResult] or [BenchmarkResult].
+    #' Use this field to save results.
+    data_extra = NULL,
+
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #'
