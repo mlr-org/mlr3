@@ -68,6 +68,9 @@ resample = function(
   unmarshal = TRUE,
   callbacks = NULL
   ) {
+
+  lg$debug("Start resampling")
+
   assert_subset(clone, c("task", "learner", "resampling"))
   task = assert_task(as_task(task, clone = "task" %in% clone))
   learner = assert_learner(as_learner(learner, clone = "learner" %in% clone, discard_state = TRUE))
