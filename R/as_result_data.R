@@ -39,17 +39,17 @@
 #'
 #' rdata = as_result_data(task, learners, resampling, iterations, predictions)
 #' ResampleResult$new(rdata)
-as_result_data = function(task, learners, resampling, iterations, predictions, learner_states = NULL, store_backends = TRUE) {
+as_result_data = function(task, learners, resampling, iterations, predictions, learner_states = NULL, data_extra = NULL, store_backends = TRUE) {
   assert_task(task)
   assert_learners(learners, task = task)
   assert_resampling(resampling, instantiated = TRUE)
   assert_integer(iterations, any.missing = FALSE, lower = 1L, upper = resampling$iters, unique = TRUE)
   assert_list(predictions, types = "list")
   assert_list(learner_states, null.ok = TRUE)
+  assert_list(data_extra, null.ok = TRUE)
   predictions = map(predictions, function(x) map(x, as_prediction_data))
 
   N = length(iterations)
-
 
   if (length(learners) != N) {
     stopf("Number of learners (%i) must match the number of resampling iterations (%i)", length(learners), N)
@@ -78,6 +78,7 @@ as_result_data = function(task, learners, resampling, iterations, predictions, l
     resampling = list(resampling),
     iteration = iterations,
     prediction = predictions,
-    uhash = UUIDgenerate()
+    uhash = UUIDgenerate(),
+    data_extra = data_extra
   ), store_backends = store_backends)
 }
