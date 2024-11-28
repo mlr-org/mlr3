@@ -730,3 +730,8 @@ test_that("$characteristics works", {
   expect_subset(tab$n, c(300, 200))
   expect_subset(tab$f, c(2, NA_real_))
 })
+
+test_that("warn when internal valid task has 0 obs", {
+  task = tsk("iris")
+  expect_warning({task$internal_valid_task = 151}, "has 0 observations")
+})
