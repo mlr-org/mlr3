@@ -94,7 +94,7 @@ resample = function(
   } else {
     NULL
   }
-  browser()
+
   lgr_threshold = map_int(mlr_reflections$loggers, "threshold")
 
   grid = if (allow_hotstart) {
