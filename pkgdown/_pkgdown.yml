@@ -115,6 +115,9 @@ reference:
     contents:
       - CallbackEvaluation
       - ContextEvaluation
+      - callback_evaluation
+      - assert_evaluation_callback
+      - mlr3.score_measures
   - title: Internal Objects and Functions
     contents:
       - marshaling
