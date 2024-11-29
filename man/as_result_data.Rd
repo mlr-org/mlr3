@@ -29,6 +29,9 @@ as_result_data(
 \item{learner_states}{(\code{list()})\cr
 Learner states. If not provided, the states of \code{learners} are automatically extracted.}
 
+\item{data_extra}{(\code{list()})\cr
+Additional data for each iteration.}
+
 \item{store_backends}{(\code{logical(1)})\cr
 If set to \code{FALSE}, the backends of the \link{Task}s provided in \code{data} are
 removed.}

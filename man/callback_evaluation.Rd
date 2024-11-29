@@ -24,6 +24,22 @@ Label for the new instance.}
 \item{man}{(\code{character(1)})\cr
 String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
 The referenced help package can be opened via method \verb{$help()}.}
+
+\item{on_evaluation_begin}{(\verb{function()})\cr
+Stage called at the beginning of an evaluation.
+Called in \code{workhorse()} (internal).}
+
+\item{on_evaluation_before_train}{(\verb{function()})\cr
+Stage called before training the learner.
+Called in \code{workhorse()} (internal).}
+
+\item{on_evaluation_before_predict}{(\verb{function()})\cr
+Stage called before predicting.
+Called in \code{workhorse()} (internal).}
+
+\item{on_evaluation_end}{(\verb{function()})\cr
+Stage called at the end of an evaluation.
+Called in \code{workhorse()} (internal).}
 }
 \description{
 Function to create a \link{CallbackEvaluation}.

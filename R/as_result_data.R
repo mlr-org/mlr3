@@ -15,6 +15,8 @@
 #' @param predictions (list of list of [Prediction]s).
 #' @param learner_states (`list()`)\cr
 #'   Learner states. If not provided, the states of `learners` are automatically extracted.
+#' @param data_extra (`list()`)\cr
+#'  Additional data for each iteration.
 #' @param store_backends (`logical(1)`)\cr
 #'   If set to `FALSE`, the backends of the [Task]s provided in `data` are
 #'   removed.

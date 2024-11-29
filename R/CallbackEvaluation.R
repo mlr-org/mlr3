@@ -57,6 +57,19 @@ CallbackEvaluation= R6Class("CallbackEvaluation",
 #'  String in the format `[pkg]::[topic]` pointing to a manual page for this object.
 #'  The referenced help package can be opened via method `$help()`.
 #'
+#' @param on_evaluation_begin (`function()`)\cr
+#' Stage called at the beginning of an evaluation.
+#' Called in `workhorse()` (internal).
+#' @param on_evaluation_before_train (`function()`)\cr
+#' Stage called before training the learner.
+#' Called in `workhorse()` (internal).
+#' @param on_evaluation_before_predict (`function()`)\cr
+#' Stage called before predicting.
+#' Called in `workhorse()` (internal).
+#' @param on_evaluation_end (`function()`)\cr
+#' Stage called at the end of an evaluation.
+#' Called in `workhorse()` (internal).
+#'
 #' @export
 callback_evaluation = function(
   id,
