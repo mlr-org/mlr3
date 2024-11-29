@@ -187,6 +187,7 @@ learner_predict = function(learner, task, row_ids = NULL) {
   if (is.null(learner$state$model)) {
     lg$debug("Learner '%s' has no model stored",
       learner$id, learner = learner$clone())
+
     pdata = NULL
     learner$state$predict_time = NA_real_
   } else {
