@@ -64,7 +64,7 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
   if (mode == "train") learner$state = list()
 
   lg$debug("Calling %s method of Learner '%s' on task '%s' with %i observations",
-     mode, learner$id, task$id, task$nrow, learner = learner$clone())
+    mode, learner$id, task$id, task$nrow, learner = learner$clone())
 
   # call train_wrapper with encapsulation
   result = encapsulate(learner$encapsulation["train"],
@@ -104,7 +104,7 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
     lg$info("Learner '%s' on task '%s' failed to %s a model",
       learner$id, task$id, mode, learner = learner$clone(), messages = result$log$msg)
   } else {
-   lg$debug("Learner '%s' on task '%s' succeeded to %s a model",
+    lg$debug("Learner '%s' on task '%s' succeeded to %s a model",
       learner$id, task$id, mode, learner = learner$clone(), result = result$result, messages = result$log$msg)
   }
 
