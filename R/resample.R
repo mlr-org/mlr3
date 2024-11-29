@@ -135,8 +135,6 @@ resample = function(
     MoreArgs = list(task = task, resampling = resampling, store_models = store_models, lgr_threshold = lgr_threshold, pb = pb, unmarshal = unmarshal, callbacks = callbacks)
   )
 
-  lg$debug("Resampling finished")
-
   data = data.table(
     task = list(task),
     learner = grid$learner,
@@ -150,11 +148,7 @@ resample = function(
     data_extra = map(res, "data_extra")
   )
 
-  lg$debug("Prepare result data")
-
   result_data = ResultData$new(data, store_backends = store_backends)
-
-  lg$debug("Result data written")
 
   # the worker already ensures that models are sent back in marshaled form if unmarshal = FALSE, so we don't have
   # to do anything in this case. This allows us to minimize the amount of marshaling in those situtions where
@@ -162,8 +156,6 @@ resample = function(
   if (unmarshal && store_models) {
     result_data$unmarshal()
   }
-
-  lg$debug("Prepare resample result")
 
   ResampleResult$new(result_data)
 }
