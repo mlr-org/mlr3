@@ -109,7 +109,7 @@ resample = function(
       }
       if (is.null(learner$hotstart_stack) || is.null(start_learner)) {
         # no hotstart learners stored or no adaptable model found
-        #lg$debug("Resampling with hotstarting not possible. No start learner found.")
+        lg$debug("Resampling with hotstarting not possible. No start learner found.")
         mode = "train"
       } else {
         # hotstart learner found
