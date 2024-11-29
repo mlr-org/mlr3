@@ -228,7 +228,8 @@ learner_predict = function(learner, task, row_ids = NULL) {
 
 
     if (is.null(pdata)) {
-      lg$debug("Creating new Prediction using fallback '%s'", fb$id)
+      lg$debug("Creating new Prediction using fallback '%s'",
+        fb$id, learner = fb$clone())
 
       learner$state$log = append_log(learner$state$log, "predict", "output", "Using fallback learner for predictions")
       pdata = predict_fb(task$row_ids)
