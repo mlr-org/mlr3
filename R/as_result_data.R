@@ -39,7 +39,16 @@
 #'
 #' rdata = as_result_data(task, learners, resampling, iterations, predictions)
 #' ResampleResult$new(rdata)
-as_result_data = function(task, learners, resampling, iterations, predictions, learner_states = NULL, data_extra = NULL, store_backends = TRUE) {
+as_result_data = function(
+  task,
+  learners,
+  resampling,
+  iterations,
+  predictions,
+  learner_states = NULL,
+  data_extra = NULL,
+  store_backends = TRUE
+  ) {
   assert_task(task)
   assert_learners(learners, task = task)
   assert_resampling(resampling, instantiated = TRUE)
@@ -67,6 +76,10 @@ as_result_data = function(task, learners, resampling, iterations, predictions, l
 
   if (resampling$task_hash != task$hash) {
     stopf("Resampling '%s' has not been trained on task '%s', hashes do not match", resampling$id, task$id)
+  }
+
+  if (!is.null(data_extra) && length(data_extra) != N) {
+    stopf("Number of data_extra (%i) must match the number of resampling iterations (%i)", length(data_extra), N)
   }
 
   ResultData$new(data.table(

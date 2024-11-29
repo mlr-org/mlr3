@@ -196,15 +196,16 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
     learner_state = map(res, "learner_state"),
     prediction = map(res, "prediction"),
     param_values = map(res, "param_values"),
-    learner_hash = map_chr(res, "learner_hash"),
-    data_extra = map(res, "data_extra")
+    learner_hash = map_chr(res, "learner_hash")
   ))
 
   lg$info("Finished benchmark")
 
   set(grid, j = "mode", value = NULL)
 
-  result_data = ResultData$new(grid, store_backends = store_backends)
+  data_extra = if (length(callbacks)) map(res, "data_extra")
+
+  result_data = ResultData$new(grid, data_extra, store_backends = store_backends)
 
   if (unmarshal && store_models) {
     result_data$unmarshal()

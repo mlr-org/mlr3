@@ -20,8 +20,8 @@ ResultData = R6Class("ResultData",
   public = list(
 
     #' @field data (`list()`)\cr
-    #'   List of [data.table::data.table()], arranged in a star schema.
-    #'   Do not operate directly on this list.
+    #' List of [data.table::data.table()], arranged in a star schema.
+    #' Do not operate directly on this list.
     data = NULL,
 
     #' @description
@@ -29,23 +29,25 @@ ResultData = R6Class("ResultData",
     #' An alternative construction method is provided by [as_result_data()].
     #'
     #' @param data ([data.table::data.table()]) | `NULL`)\cr
-    #'   Do not initialize this object yourself, use [as_result_data()] instead.
+    #' Do not initialize this object yourself, use [as_result_data()] instead.
+    #' @param data_extra (`list()`)\cr
+    #' Additional data to store.
+    #' This can be used to store additional information for each iteration.
+    #'
     #' @param store_backends (`logical(1)`)\cr
-    #'   If set to `FALSE`, the backends of the [Task]s provided in `data` are
-    #'   removed.
-    initialize = function(data = NULL, store_backends = TRUE) {
+    #' If set to `FALSE`, the backends of the [Task]s provided in `data` are removed.
+    initialize = function(data = NULL, data_extra = NULL, store_backends = TRUE) {
       assert_flag(store_backends)
 
       if (is.null(data)) {
         self$data = star_init()
       } else {
-        assert_names(names(data),
-          permutation.of = c("task", "learner", "learner_state", "resampling", "iteration", "param_values", "prediction", "uhash", "learner_hash", "data_extra"))
+        assert_names(names(data), permutation.of = c("task", "learner", "learner_state", "resampling", "iteration", "param_values", "prediction", "uhash", "learner_hash"))
 
         if (nrow(data) == 0L) {
           self$data = star_init()
         } else {
-          setcolorder(data, c("uhash", "iteration", "learner_state", "prediction", "data_extra", "task", "learner", "resampling", "param_values", "learner_hash"))
+          setcolorder(data, c("uhash", "iteration", "learner_state", "prediction", "task", "learner", "resampling", "param_values", "learner_hash"))
           uhashes = data.table(uhash = unique(data$uhash))
           setkeyv(data, c("uhash", "iteration"))
 
@@ -67,6 +69,12 @@ ResultData = R6Class("ResultData",
           set(data, j = "learner", value = NULL)
           set(data, j = "resampling", value = NULL)
           set(data, j = "param_values", value = NULL)
+
+          # add extra data to fact table
+          if (!is.null(data_extra)) {
+            assert_list(data_extra, len = nrow(data))
+            set(data, j = "data_extra", value = data_extra)
+          }
 
           if (!store_backends) {
             set(tasks, j = "task", value = lapply(tasks$task, task_rm_backend))
@@ -194,6 +202,9 @@ ResultData = R6Class("ResultData",
     #'
     #' @return `list()`.
     data_extra = function(view = NULL) {
+      if ("data_extra" %nin% names(self$data$fact)) {
+        return(NULL)
+      }
       .__ii__ = private$get_view_index(view)
       self$data$fact[.__ii__, "data_extra", with = FALSE][[1L]]
     },
@@ -324,7 +335,7 @@ ResultData = R6Class("ResultData",
       }
 
       cns = c("uhash", "task", "task_hash", "learner", "learner_hash", "learner_param_vals", "resampling",
-        "resampling_hash", "iteration", "prediction", "data_extra")
+        "resampling_hash", "iteration", "prediction", if ("data_extra" %in% names(self$data$fact)) "data_extra")
       merge(self$data$uhashes, tab[, cns, with = FALSE], by = "uhash", sort = FALSE)
     },
 
@@ -378,13 +389,13 @@ ResultData = R6Class("ResultData",
 #######################################################################################################################
 ### constructor
 #######################################################################################################################
-star_init = function() {
+star_init = function(data_extra = FALSE) {
   fact = data.table(
     uhash = character(),
     iteration = integer(),
     learner_state = list(),
     prediction = list(),
-    data_extra = list(),
+
 
     learner_hash = character(),
     task_hash = character(),
@@ -393,6 +404,8 @@ star_init = function() {
 
     key = c("uhash", "iteration")
   )
+
+  if (data_extra) fact[, "data_extra" := list()]
 
   uhashes = data.table(
     uhash = character()

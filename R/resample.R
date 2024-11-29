@@ -144,11 +144,13 @@ resample = function(
     prediction = map(res, "prediction"),
     uhash = UUIDgenerate(),
     param_values = map(res, "param_values"),
-    learner_hash = map_chr(res, "learner_hash"),
-    data_extra = map(res, "data_extra")
+    learner_hash = map_chr(res, "learner_hash")
   )
 
-  result_data = ResultData$new(data, store_backends = store_backends)
+  # save the extra data only if a callback could have generated some
+  data_extra = if (length(callbacks)) map(res, "data_extra")
+
+  result_data = ResultData$new(data, data_extra, store_backends = store_backends)
 
   # the worker already ensures that models are sent back in marshaled form if unmarshal = FALSE, so we don't have
   # to do anything in this case. This allows us to minimize the amount of marshaling in those situtions where

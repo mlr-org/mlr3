@@ -11,6 +11,7 @@ as_result_data(
   iterations,
   predictions,
   learner_states = NULL,
+  data_extra = NULL,
   store_backends = TRUE
 )
 }
