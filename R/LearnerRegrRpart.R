@@ -77,7 +77,7 @@ LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
     .train = function(task) {
       pv = self$param_set$get_values(tags = "train")
       names(pv) = replace(names(pv), names(pv) == "keep_model", "model")
-      if ("weights" %in% task$properties) {
+      if ("weights" %chin% task$properties) {
         pv = insert_named(pv, list(weights = task$weights$weight))
       }
 

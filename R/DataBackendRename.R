@@ -15,7 +15,7 @@ DataBackendRename = R6Class("DataBackendRename", inherit = DataBackend, cloneabl
       old = old[ii]
       new = new[ii]
 
-      if (self$primary_key %in% old) {
+      if (self$primary_key %chin% old) {
         stopf("Renaming the primary key is not supported")
       }
 

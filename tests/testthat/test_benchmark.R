@@ -85,9 +85,9 @@ test_that("bmr$combine()", {
     expect_data_table(get_private(bmr_new)$.data$data$fact, nrows = 6L)
     expect_data_table(get_private(bmr_combined)$.data$data$fact, nrows = 24L)
 
-    expect_false("pima" %in% bmr$tasks$task_id)
-    expect_true("pima" %in% bmr_new$tasks$task_id)
-    expect_true("pima" %in% bmr_combined$tasks$task_id)
+    expect_false("pima" %chin% bmr$tasks$task_id)
+    expect_true("pima" %chin% bmr_new$tasks$task_id)
+    expect_true("pima" %chin% bmr_combined$tasks$task_id)
   }
 
   rr = resample(tsk("zoo"), lrn("classif.rpart"), rsmp("holdout"))
@@ -212,7 +212,7 @@ test_that("extract params", {
   aggr = bmr$aggregate(params = TRUE)
   expect_list(aggr$params[[1]], names = "unique", len = 0L)
 
-  expect_true(all(c("warnings", "errors") %in% names(bmr$score(conditions = TRUE))))
+  expect_true(all(c("warnings", "errors") %chin% names(bmr$score(conditions = TRUE))))
 })
 
 test_that("benchmark_grid", {
@@ -480,7 +480,7 @@ test_that("param_values in benchmark", {
     x
   }
   trained = bmr$learners$learner
-  ii = which(map_lgl(trained, function(x) "cp" %in% names(x$param_set$values))) # find learner with cp
+  ii = which(map_lgl(trained, function(x) "cp" %chin% names(x$param_set$values))) # find learner with cp
   expect_count(ii)
 
   expect_equal(sortnames(bmr$learners$learner[-ii][[1]]$param_set$values), list(minbucket = 2, minsplit = 12, xval = 0))
