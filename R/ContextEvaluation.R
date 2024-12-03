@@ -30,6 +30,10 @@ ContextEvaluation = R6Class("ContextEvaluation",
     #' Is usually only set while tuning.
     param_values = NULL,
 
+    #' @field iteration (`integer()`)\cr
+    #' The current iteration.
+    iteration = NULL,
+
     #' @field sets (`list()`)\cr
     #' The train and test set.
     #' The sets are available on stage `on_evaluation_before_train``.
@@ -66,11 +70,12 @@ ContextEvaluation = R6Class("ContextEvaluation",
     #' The resampling strategy to be used.
     #' @param param_values (`list()`)\cr
     #' The parameter values to be used.
-    initialize = function(task, learner, resampling, param_values) {
+    initialize = function(task, learner, resampling, param_values, iteration) {
       # no assertions to avoid overhead
       self$task = task
       self$learner = learner
       self$resampling = resampling
+      self$iteration = iteration
 
       super$initialize(id = "evaluate", label = "Evaluation")
     }

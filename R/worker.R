@@ -265,7 +265,7 @@ workhorse = function(
   unmarshal = TRUE,
   callbacks = NULL
   ) {
-  ctx = ContextEvaluation$new(task, learner, resampling, param_values)
+  ctx = ContextEvaluation$new(task, learner, resampling, param_values, iteration)
 
   call_back("on_evaluation_begin", callbacks, ctx)
 
