@@ -1,5 +1,7 @@
 # mlr3 (development version)
 
+* feat: add new `col_role` offset in `Task`.
+
 # mlr3 0.22.1
 
 * fix: Extend `assert_measure()` with checks for trained models in `assert_scorable()`.
