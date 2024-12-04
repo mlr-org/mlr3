@@ -247,16 +247,19 @@ test_that("stratify works", {
   expect_list(tab$row_id, "integer")
 })
 
-test_that("groups/weights work", {
-  b = as_data_backend(data.table(x = runif(20), y = runif(20), w = runif(20), g = sample(letters[1:2], 20, replace = TRUE)))
+test_that("groups/weights/offset work", {
+  b = as_data_backend(data.table(x = runif(20), y = runif(20), w = runif(20),
+                                 o = runif(20), g = sample(letters[1:2], 20, replace = TRUE)))
   task = TaskRegr$new("test", b, target = "y")
   task$set_row_roles(16:20, character())
 
   expect_false("groups" %in% task$properties)
   expect_false("weights" %in% task$properties)
+  expect_false("offset" %in% task$properties)
   expect_null(task$groups)
   expect_null(task$weights)
 
+  # weight
   task$col_roles$weight = "w"
   expect_subset("weights", task$properties)
   expect_data_table(task$weights, ncols = 2, nrows = 15)
@@ -265,6 +268,7 @@ test_that("groups/weights work", {
   task$col_roles$weight = character()
   expect_true("weights" %nin% task$properties)
 
+  # group
   task$col_roles$group = "g"
   expect_subset("groups", task$properties)
   expect_data_table(task$groups, ncols = 2, nrows = 15)
@@ -276,6 +280,15 @@ test_that("groups/weights work", {
   expect_error({
     task$col_roles$weight = c("w", "g")
   }, "up to one")
+
+  # offset
+  task$col_roles$offset = "o"
+  expect_subset("offset", task$properties)
+  expect_error({
+    task$col_roles$offset = c("o", "w")
+  }, "up to one")
+  task$col_roles$offset = character()
+  expect_true("offset" %nin% task$properties)
 })
 
 test_that("col roles are valid", {
