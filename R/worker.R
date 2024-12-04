@@ -323,11 +323,11 @@ workhorse = function(
 
   validate = get0("validate", learner)
 
-  ctx$test_set = if (identical(validate, "test")) sets$test
+  test_set = if (identical(validate, "test")) sets$test
 
   call_back("on_evaluation_before_train", callbacks, ctx)
 
-  train_result = learner_train(learner, task, sets[["train"]], ctx$test_set, mode = mode)
+  train_result = learner_train(learner, task, sets[["train"]], test_set, mode = mode)
   ctx$learner = learner = train_result$learner
 
   # process the model so it can be used for prediction (e.g. marshal for callr prediction), but also
