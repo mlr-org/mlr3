@@ -81,7 +81,7 @@ as_result_data = function(
   }
 
   if (!is.null(data_extra) && length(data_extra) != N) {
-    stopf("Number of data_extra (%i) must match the number of resampling iterations (%i)", length(data_extra), N)
+    stopf("Length of data_extra (%i) must match the number of resampling iterations (%i)", length(data_extra), N)
   }
 
   ResultData$new(data.table(
