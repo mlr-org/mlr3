@@ -34,15 +34,22 @@ CallbackEvaluation= R6Class("CallbackEvaluation",
 #'
 #' @description
 #' Function to create a [CallbackEvaluation].
+#' Predefined callbacks are stored in the [dictionary][mlr3misc::Dictionary] [mlr_callbacks] and can be retrieved with [clbk()].
+#'
+#' Evaluation callbacks are called at different stages of the resampling process.
+#' The stages are prefixed with `on_*`.
 #'
 #' ```
-#' Start Evaluation on Worker
+#' Start Resampling Iteration on Worker
 #'  - on_evaluation_begin
 #'  - on_evaluation_before_train
 #'  - on_evaluation_before_predict
 #'  - on_evaluation_end
-#' End Evaluation on Worker
+#' End Resampling Iteration on Worker
 #' ```
+#'
+#' See also the section on parameters for more information on the stages.
+#' A evaluation callback works with [ContextEvaluation].
 #
 #' @details
 #' When implementing a callback, each function must have two arguments named `callback` and `context`.
@@ -84,7 +91,7 @@ callback_evaluation = function(
     on_evaluation_begin,
     on_evaluation_before_train,
     on_evaluation_before_predict,
-    on_evaluation_end ),
+    on_evaluation_end),
     c(
       "on_evaluation_begin",
       "on_evaluation_before_train",
@@ -92,7 +99,7 @@ callback_evaluation = function(
       "on_evaluation_end"
     )), is.null)
 
-  walk(stages, function(stage) assert_function(stage, args = c("callback", "context")))
+  stages = map(stages, function(stage) crate(assert_function(stage, args = c("callback", "context"))))
   callback = CallbackEvaluation$new(id, label, man)
   iwalk(stages, function(stage, name) callback[[name]] = stage)
   callback

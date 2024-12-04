@@ -43,14 +43,21 @@ Called in \code{workhorse()} (internal).}
 }
 \description{
 Function to create a \link{CallbackEvaluation}.
+Predefined callbacks are stored in the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_callbacks} and can be retrieved with \code{\link[=clbk]{clbk()}}.
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{Start Evaluation on Worker
+Evaluation callbacks are called at different stages of the resampling process.
+The stages are prefixed with \verb{on_*}.
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{Start Resampling Iteration on Worker
  - on_evaluation_begin
  - on_evaluation_before_train
  - on_evaluation_before_predict
  - on_evaluation_end
-End Evaluation on Worker
+End Resampling Iteration on Worker
 }\if{html}{\out{</div>}}
+
+See also the section on parameters for more information on the stages.
+A evaluation callback works with \link{ContextEvaluation}.
 }
 \details{
 When implementing a callback, each function must have two arguments named \code{callback} and \code{context}.

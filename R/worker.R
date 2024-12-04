@@ -265,7 +265,7 @@ workhorse = function(
   unmarshal = TRUE,
   callbacks = NULL
   ) {
-  ctx = ContextEvaluation$new(task, learner, resampling, param_values, iteration)
+  ctx = ContextEvaluation$new(task, learner, resampling, iteration)
 
   call_back("on_evaluation_begin", callbacks, ctx)
 
@@ -308,7 +308,7 @@ workhorse = function(
   lg$info("%s learner '%s' on task '%s' (iter %i/%i)",
     if (mode == "train") "Applying" else "Hotstarting", learner$id, task$id, iteration, resampling$iters)
 
-  ctx$sets = list(
+  sets = list(
     train = resampling$train_set(iteration),
     test = resampling$test_set(iteration)
   )
@@ -323,11 +323,11 @@ workhorse = function(
 
   validate = get0("validate", learner)
 
-  ctx$test_set = if (identical(validate, "test")) ctx$sets$test
+  ctx$test_set = if (identical(validate, "test")) sets$test
 
   call_back("on_evaluation_before_train", callbacks, ctx)
 
-  train_result = learner_train(learner, task, ctx$sets[["train"]], ctx$test_set, mode = mode)
+  train_result = learner_train(learner, task, sets[["train"]], ctx$test_set, mode = mode)
   ctx$learner = learner = train_result$learner
 
   # process the model so it can be used for prediction (e.g. marshal for callr prediction), but also
@@ -338,10 +338,10 @@ workhorse = function(
   )
 
   # predict for each set
-  ctx$predict_sets = learner$predict_sets
+  predict_sets = learner$predict_sets
 
   # creates the tasks and row_ids for all selected predict sets
-  pred_data = prediction_tasks_and_sets(task, train_result, validate, ctx$sets, ctx$predict_sets)
+  pred_data = prediction_tasks_and_sets(task, train_result, validate, sets, predict_sets)
 
   call_back("on_evaluation_before_predict", callbacks, ctx)
 
@@ -349,9 +349,9 @@ workhorse = function(
     lg$debug("Creating Prediction for predict set '%s'", set)
 
     learner_predict(learner, task, row_ids)
-  }, set = ctx$predict_sets, row_ids = pred_data$sets, task = pred_data$tasks)
+  }, set = predict_sets, row_ids = pred_data$sets, task = pred_data$tasks)
 
-  if (!length(ctx$predict_sets)) {
+  if (!length(predict_sets)) {
     learner$state$predict_time = 0L
   }
   ctx$pdatas = discard(pdatas, is.null)

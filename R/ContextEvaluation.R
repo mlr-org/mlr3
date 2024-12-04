@@ -25,29 +25,9 @@ ContextEvaluation = R6Class("ContextEvaluation",
     #' The resampling is unchanged during the evaluation.
     resampling = NULL,
 
-    #' @field param_values `list()`\cr
-    #' The parameter values to be used.
-    #' Is usually only set while tuning.
-    param_values = NULL,
-
     #' @field iteration (`integer()`)\cr
     #' The current iteration.
     iteration = NULL,
-
-    #' @field sets (`list()`)\cr
-    #' The train and test set.
-    #' The sets are available on stage `on_evaluation_before_train``.
-    sets = NULL,
-
-    #' @field test_set (`integer()`)\cr
-    #' Validation test set.
-    #' The set is only available when using internal validation.
-    test_set = NULL,
-
-    #' @field predict_sets (`list()`)\cr
-    #' The prediction sets stored in `learner$predict_sets`.
-    #' The sets are available on stage `on_evaluation_before_predict`.
-    predict_sets = NULL,
 
     #' @field pdatas (List of [PredictionData])\cr
     #' The prediction data.
@@ -68,9 +48,9 @@ ContextEvaluation = R6Class("ContextEvaluation",
     #' The learner to be evaluated.
     #' @param resampling ([Resampling])\cr
     #' The resampling strategy to be used.
-    #' @param param_values (`list()`)\cr
-    #' The parameter values to be used.
-    initialize = function(task, learner, resampling, param_values, iteration) {
+    #' @param iteration (`integer()`)\cr
+    #' The current iteration.
+    initialize = function(task, learner, resampling, iteration) {
       # no assertions to avoid overhead
       self$task = task
       self$learner = learner
