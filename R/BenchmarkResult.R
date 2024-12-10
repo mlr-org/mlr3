@@ -487,14 +487,6 @@ BenchmarkResult = R6Class("BenchmarkResult",
       setcolorder(tab, c("learner_hash", "learner_id", "learner"))[]
     },
 
-
-    #' @field data_extra (list())\cr
-    #' Additional data stored in the [ResampleResult].
-    data_extra = function() {
-      private$.data$data_extra(private$.view)
-    },
-
-
     #' @field resamplings ([data.table::data.table()])\cr
     #' Table of included [Resampling]s with three columns:
     #'

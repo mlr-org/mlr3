@@ -99,7 +99,6 @@ test_that("writing to learner$state works", {
   walk(bmr$score()$learner, function(learner) {
     expect_equal(learner$state$test, 1)
   })
-  expect_null(bmr$data_extra)
 })
 
 test_that("writing to data_extra works", {
@@ -124,12 +123,9 @@ test_that("writing to data_extra works", {
   expect_data_table(tab)
   expect_names(names(tab), must.include = "data_extra")
 
-  # benchmark result
+  # benchmark data.table
   design = benchmark_grid(task, learner, resampling)
   bmr = benchmark(design, callbacks = callback)
-  expect_list(bmr$data_extra, len = 3)
-
-  # benchmark data.table
   tab = as.data.table(bmr, data_extra = TRUE)
   expect_names(names(tab), must.include = "data_extra")
   expect_list(tab$data_extra)
@@ -154,16 +150,13 @@ test_that("data_extra is null", {
   expect_null(rr$data_extra)
 
   # resample result data.table
-  tab = as.data.table(bmr, data_extra = TRUE)
+  tab = as.data.table(rr, data_extra = TRUE)
   expect_data_table(tab)
   expect_names(names(tab), disjunct.from = "data_extra")
 
-  # benchmark result
+  # benchmark data.table
   design = benchmark_grid(task, learner, resampling)
   bmr = benchmark(design, callbacks = callback)
-  expect_null(bmr$data_extra)
-
-  # benchmark data.table
   tab = as.data.table(bmr, data_extra = TRUE)
   expect_data_table(tab)
   expect_names(names(tab), disjunct.from = "data_extra")
