@@ -337,7 +337,8 @@ ResampleResult = R6Class("ResampleResult",
 
     #' @field data_extra (list())\cr
     #' Additional data stored in the [ResampleResult].
-    data_extra = function() {
+    data_extra = function(rhs) {
+      assert_ro_binding(rhs)
       private$.data$data_extra(private$.view)
     },
 
