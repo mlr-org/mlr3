@@ -125,6 +125,7 @@ assert_evaluation_callback = function(callback, null_ok = FALSE) {
 #' @export
 #' @param callbacks (list of [CallbackEvaluation]).
 #' @rdname assert_evaluation_callback
-assert_evaluation_callbacks = function(callbacks) {
+assert_evaluation_callbacks = function(callbacks, null_ok = FALSE) {
+  if (null_ok && is.null(callbacks)) return(invisible(NULL))
   invisible(lapply(callbacks, assert_evaluation_callback))
 }
