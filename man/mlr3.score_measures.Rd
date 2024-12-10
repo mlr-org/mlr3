@@ -4,8 +4,8 @@
 \alias{mlr3.score_measures}
 \title{Score Measures Callback}
 \description{
-This \code{CallbackEvaluation} scores measures directly on the worker.
-This way measures that require a model can be scores without saving the model.
+This \link{CallbackEvaluation} scores measures directly on the worker.
+This way measures that require a model can be scored without saving the model.
 }
 \examples{
 clbk("mlr3.score_measures", measures = msr("classif.ce"))
@@ -16,7 +16,7 @@ resampling = rsmp("cv", folds = 3)
 
 callback = clbk("mlr3.score_measures", measures = msr("selected_features"))
 
-rr = resample(task, learner, resampling = resampling, callbacks = callback)
+rr = resample(task, learner, resampling = resampling, store_models = FALSE, callbacks = callback)
 
-rr$learners[[1]]$state$selected_features
+rr$data_extra
 }
