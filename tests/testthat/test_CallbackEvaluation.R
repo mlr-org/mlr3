@@ -91,14 +91,15 @@ test_that("writing to learner$state works", {
   walk(rr$learners, function(learner) {
     expect_equal(learner$state$test, 1)
   })
+  expect_null(rr$data_extra)
 
   # benchmark result
   design = benchmark_grid(task, learner, resampling)
   bmr = benchmark(design, callbacks = callback)
-
   walk(bmr$score()$learner, function(learner) {
     expect_equal(learner$state$test, 1)
   })
+  expect_null(bmr$data_extra)
 })
 
 test_that("writing to data_extra works", {
