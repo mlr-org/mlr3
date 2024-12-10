@@ -487,6 +487,14 @@ BenchmarkResult = R6Class("BenchmarkResult",
       setcolorder(tab, c("learner_hash", "learner_id", "learner"))[]
     },
 
+
+    #' @field data_extra (list())\cr
+    #' Additional data stored in the [ResampleResult].
+    data_extra = function() {
+      private$.data$data_extra(private$.view)
+    },
+
+
     #' @field resamplings ([data.table::data.table()])\cr
     #' Table of included [Resampling]s with three columns:
     #'
@@ -545,10 +553,12 @@ BenchmarkResult = R6Class("BenchmarkResult",
 )
 
 #' @export
-as.data.table.BenchmarkResult = function(x, ..., hashes = FALSE, predict_sets = "test", task_characteristics = FALSE) { # nolint
+as.data.table.BenchmarkResult = function(x, ..., hashes = FALSE, predict_sets = "test", task_characteristics = FALSE, data_extra = FALSE) { # nolint
   assert_flag(task_characteristics)
   tab = get_private(x)$.data$as_data_table(view = NULL, predict_sets = predict_sets)
-  tab = tab[, c("uhash", "task", "learner", "resampling", "iteration", "prediction"), with = FALSE]
+  cns = c("uhash", "task", "learner", "resampling", "iteration", "prediction")
+  if (data_extra && "data_extra" %in% names(tab)) cns = c(cns, "data_extra")
+  tab = tab[, cns, with = FALSE]
 
   if (task_characteristics) {
     set(tab, j = "characteristics", value = map(tab$task, "characteristics"))

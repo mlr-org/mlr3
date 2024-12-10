@@ -203,7 +203,7 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
 
   set(grid, j = "mode", value = NULL)
 
-  data_extra = if (length(callbacks)) map(res, "data_extra")
+  data_extra = if (length(callbacks) && any(map_lgl(res, function(x) !is.null(x$data_extra)))) map(res, "data_extra")
 
   result_data = ResultData$new(grid, data_extra, store_backends = store_backends)
 

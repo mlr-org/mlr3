@@ -147,8 +147,7 @@ resample = function(
     learner_hash = map_chr(res, "learner_hash")
   )
 
-  # save the extra data only if a callback could have generated some
-  data_extra = if (length(callbacks)) map(res, "data_extra")
+  data_extra = if (length(callbacks) && any(map_lgl(res, function(x) !is.null(x$data_extra)))) map(res, "data_extra")
 
   result_data = ResultData$new(data, data_extra, store_backends = store_backends)
 

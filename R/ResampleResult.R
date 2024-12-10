@@ -379,7 +379,9 @@ ResampleResult = R6Class("ResampleResult",
 as.data.table.ResampleResult = function(x, ..., predict_sets = "test", data_extra = FALSE) { # nolint
   private = get_private(x)
   tab = private$.data$as_data_table(view = private$.view, predict_sets = predict_sets)
-  tab[, c("task", "learner", "resampling", "iteration", "prediction", if (data_extra) "data_extra"), with = FALSE]
+  cns = c("task", "learner", "resampling", "iteration", "prediction")
+  if (data_extra && "data_extra" %in% names(tab)) cns = c(cns, "data_extra")
+  tab[, cns, with = FALSE]
 }
 
 # #' @export
