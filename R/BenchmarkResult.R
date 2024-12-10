@@ -19,7 +19,7 @@
 #' @template param_measures
 #'
 #' @section S3 Methods:
-#' * `as.data.table(rr, ..., reassemble_learners = TRUE, convert_predictions = TRUE, predict_sets = "test", task_characteristics = FALSE)`\cr
+#' * `as.data.table(rr, ..., reassemble_learners = TRUE, convert_predictions = TRUE, predict_sets = "test", task_characteristics = FALSE, data_extra = FALSE)`\cr
 #'   [BenchmarkResult] -> [data.table::data.table()]\cr
 #'   Returns a tabular view of the internal data.
 #' * `c(...)`\cr

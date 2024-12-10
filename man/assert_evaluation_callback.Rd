@@ -7,7 +7,7 @@
 \usage{
 assert_evaluation_callback(callback, null_ok = FALSE)
 
-assert_evaluation_callbacks(callbacks)
+assert_evaluation_callbacks(callbacks, null_ok = FALSE)
 }
 \arguments{
 \item{callback}{(\link{CallbackEvaluation}).}

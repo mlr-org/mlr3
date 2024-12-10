@@ -26,24 +26,8 @@ The learner contains the models after stage \code{on_evaluation_before_train}.}
 The resampling strategy to be used.
 The resampling is unchanged during the evaluation.}
 
-\item{\code{param_values}}{\code{list()}\cr
-The parameter values to be used.
-Is usually only set while tuning.}
-
 \item{\code{iteration}}{(\code{integer()})\cr
 The current iteration.}
-
-\item{\code{sets}}{(\code{list()})\cr
-The train and test set.
-The sets are available on stage `on_evaluation_before_train``.}
-
-\item{\code{test_set}}{(\code{integer()})\cr
-Validation test set.
-The set is only available when using internal validation.}
-
-\item{\code{predict_sets}}{(\code{list()})\cr
-The prediction sets stored in \code{learner$predict_sets}.
-The sets are available on stage \code{on_evaluation_before_predict}.}
 
 \item{\code{pdatas}}{(List of \link{PredictionData})\cr
 The prediction data.
@@ -76,7 +60,7 @@ Use this field to save results.}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ContextEvaluation$new(task, learner, resampling, param_values, iteration)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{ContextEvaluation$new(task, learner, resampling, iteration)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -90,9 +74,6 @@ The learner to be evaluated.}
 
 \item{\code{resampling}}{(\link{Resampling})\cr
 The resampling strategy to be used.}
-
-\item{\code{param_values}}{(\code{list()})\cr
-The parameter values to be used.}
 
 \item{\code{iteration}}{(\code{integer()})\cr
 The current iteration.}
