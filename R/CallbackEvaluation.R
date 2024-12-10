@@ -1,7 +1,10 @@
-#' @title Create Evaluation Callback
+#' @title Evaluation Callback
 #'
 #' @description
-#' Callbacks allow to customize the behavior of `resample()` and `benchmark()` in mlr3.
+#' Specialized [mlr3misc::Callback] to customize the behavior of [resample()] and [benchmark()] in mlr3.
+#' The [callback_evaluation()] function is used to create instances of this class.
+#' Predefined callbacks are stored in the [dictionary][mlr3misc::Dictionary] [mlr_callbacks] and can be retrieved with [clbk()].
+#' For more information on callbacks, see the [callback_evaluation()] documentation.
 #'
 #' @export
 CallbackEvaluation= R6Class("CallbackEvaluation",
@@ -30,13 +33,14 @@ CallbackEvaluation= R6Class("CallbackEvaluation",
   )
 )
 
-#' @title Create Workhorse Callback
+#' @title Create Evaluation Callback
 #'
 #' @description
 #' Function to create a [CallbackEvaluation].
 #' Predefined callbacks are stored in the [dictionary][mlr3misc::Dictionary] [mlr_callbacks] and can be retrieved with [clbk()].
 #'
 #' Evaluation callbacks are called at different stages of the resampling process.
+#' Each stage is called once per resampling iteration.
 #' The stages are prefixed with `on_*`.
 #'
 #' ```
@@ -49,21 +53,22 @@ CallbackEvaluation= R6Class("CallbackEvaluation",
 #' ```
 #'
 #' See also the section on parameters for more information on the stages.
-#' A evaluation callback works with [ContextEvaluation].
+#' An evaluation callback works with [ContextEvaluation].
 #
 #' @details
 #' When implementing a callback, each function must have two arguments named `callback` and `context`.
 #' A callback can write data to the state (`$state`), e.g. settings that affect the callback itself.
 #' Evaluation callbacks access [ContextEvaluation].
+#' Data can be stored in the [ResampleResult] and [BenchmarkResult] objects via `context$data_extra`.
+#' Alternatively results can be stored in the learner state via `context$learner$state`.
 #'
 #' @param id (`character(1)`)\cr
-#'  Identifier for the new instance.
+#' Identifier for the new instance.
 #' @param label (`character(1)`)\cr
-#'  Label for the new instance.
+#' Label for the new instance.
 #' @param man (`character(1)`)\cr
-#'  String in the format `[pkg]::[topic]` pointing to a manual page for this object.
-#'  The referenced help package can be opened via method `$help()`.
-#'
+#' String in the format `[pkg]::[topic]` pointing to a manual page for this object.
+#' The referenced help package can be opened via method `$help()`.
 #' @param on_evaluation_begin (`function()`)\cr
 #' Stage called at the beginning of an evaluation.
 #' Called in `workhorse()` (internal).
@@ -78,6 +83,27 @@ CallbackEvaluation= R6Class("CallbackEvaluation",
 #' Called in `workhorse()` (internal).
 #'
 #' @export
+#' @examples
+#' callback = callback_evaluation("selected_features",
+#'  label = "Selected Features",
+#'
+#'  on_evaluation_end = function(callback, context) {
+#'     pred = as_prediction(context$pdatas$test)
+#'     selected_features = pred$score(
+#'       measure = msr("selected_features"),
+#'       learner = context$learner,
+#'       task = context$task)
+#'     context$learner$state$selected_features = selected_features
+#'   }
+#' )
+#'
+#' task = tsk("pima")
+#' learner = lrn("classif.rpart")
+#' resampling = rsmp("cv", folds = 3)
+#'
+#' rr = resample(task, learner, resampling, callbacks = callback)
+#'
+#' rr$learners[[1]]$state$selected_features
 callback_evaluation = function(
   id,
   label = NA_character_,

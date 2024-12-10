@@ -2,7 +2,7 @@
 % Please edit documentation in R/CallbackEvaluation.R
 \name{callback_evaluation}
 \alias{callback_evaluation}
-\title{Create Workhorse Callback}
+\title{Create Evaluation Callback}
 \usage{
 callback_evaluation(
   id,
@@ -46,6 +46,7 @@ Function to create a \link{CallbackEvaluation}.
 Predefined callbacks are stored in the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_callbacks} and can be retrieved with \code{\link[=clbk]{clbk()}}.
 
 Evaluation callbacks are called at different stages of the resampling process.
+Each stage is called once per resampling iteration.
 The stages are prefixed with \verb{on_*}.
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{Start Resampling Iteration on Worker
@@ -57,10 +58,34 @@ End Resampling Iteration on Worker
 }\if{html}{\out{</div>}}
 
 See also the section on parameters for more information on the stages.
-A evaluation callback works with \link{ContextEvaluation}.
+An evaluation callback works with \link{ContextEvaluation}.
 }
 \details{
 When implementing a callback, each function must have two arguments named \code{callback} and \code{context}.
 A callback can write data to the state (\verb{$state}), e.g. settings that affect the callback itself.
 Evaluation callbacks access \link{ContextEvaluation}.
+Data can be stored in the \link{ResampleResult} and \link{BenchmarkResult} objects via \code{context$data_extra}.
+Alternatively results can be stored in the learner state via \code{context$learner$state}.
+}
+\examples{
+callback = callback_evaluation("selected_features",
+ label = "Selected Features",
+
+ on_evaluation_end = function(callback, context) {
+    pred = as_prediction(context$pdatas$test)
+    selected_features = pred$score(
+      measure = msr("selected_features"),
+      learner = context$learner,
+      task = context$task)
+    context$learner$state$selected_features = selected_features
+  }
+)
+
+task = tsk("pima")
+learner = lrn("classif.rpart")
+resampling = rsmp("cv", folds = 3)
+
+rr = resample(task, learner, resampling, callbacks = callback)
+
+rr$learners[[1]]$state$selected_features
 }

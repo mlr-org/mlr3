@@ -2,9 +2,12 @@
 % Please edit documentation in R/CallbackEvaluation.R
 \name{CallbackEvaluation}
 \alias{CallbackEvaluation}
-\title{Create Evaluation Callback}
+\title{Evaluation Callback}
 \description{
-Callbacks allow to customize the behavior of \code{resample()} and \code{benchmark()} in mlr3.
+Specialized \link[mlr3misc:Callback]{mlr3misc::Callback} to customize the behavior of \code{\link[=resample]{resample()}} and \code{\link[=benchmark]{benchmark()}} in mlr3.
+The \code{\link[=callback_evaluation]{callback_evaluation()}} function is used to create instances of this class.
+Predefined callbacks are stored in the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_callbacks} and can be retrieved with \code{\link[=clbk]{clbk()}}.
+For more information on callbacks, see the \code{\link[=callback_evaluation]{callback_evaluation()}} documentation.
 }
 \section{Super class}{
 \code{\link[mlr3misc:Callback]{mlr3misc::Callback}} -> \code{CallbackEvaluation}
