@@ -31,8 +31,9 @@ load_callback_score_measures = function() {
 
       # Score measures on the test set
       pred = as_prediction(context$pdatas$test)
-      res = pred$score(measures, context$task, context$learner)
-      context$learner$state$selected_features = res
+      context$data_extra = insert_named(context$data_extra, list(
+        score_measures = pred$score(measures, context$task, context$learner)
+      ))
     }
   )
 }

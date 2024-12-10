@@ -7,9 +7,19 @@ test_that("score_measure works", {
 
   rr = resample(task, learner, resampling = resampling, callbacks = callback)
 
-  walk(rr$learners, function(learner) {
-    expect_number(learner$state$selected_features)
+  expect_list(rr$data_extra)
+  walk(rr$data_extra, function(data) {
+    expect_names(names(data), must.include = "score_measures")
+    expect_names(names(data[["score_measures"]]), must.include = "selected_features")
   })
 
-  expect_names(names(as.data.table(rr, data_extra = TRUE)), must.include = "data_extra")
+  callback = clbk("mlr3.score_measures", measures = msrs(c("classif.ce", "selected_features")))
+
+  rr = resample(task, learner, resampling = resampling, callbacks = callback)
+
+  expect_list(rr$data_extra)
+  walk(rr$data_extra, function(data) {
+    expect_names(names(data), must.include = "score_measures")
+    expect_names(names(data[["score_measures"]]), must.include = c("classif.ce", "selected_features"))
+  })
 })
