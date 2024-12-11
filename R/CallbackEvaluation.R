@@ -42,18 +42,24 @@ CallbackEvaluation= R6Class("CallbackEvaluation",
 #' Evaluation callbacks are called at different stages of the resampling process.
 #' Each stage is called once per resampling iteration.
 #' The stages are prefixed with `on_*`.
+#' The text in brackets indicates what happens between the stages and which accesses to the [ContextEvaluation] `ctx` are typical for the stage.
 #'
 #' ```
 #' Start Resampling Iteration on Worker
 #'  - on_evaluation_begin
+#'    (Split `ctx$task` into training and test set with `ctx$resampling` and `ctx$iteration`)
 #'  - on_evaluation_before_train
+#'    (Train the learner `ctx$learner` on training data)
 #'  - on_evaluation_before_predict
+#'    (Predict on predict sets and store prediction data `ctx$pdatas`)
 #'  - on_evaluation_end
+#'    (Erase model `ctx$learner$model` if requested and return results)
 #' End Resampling Iteration on Worker
 #' ```
 #'
+#' The callback can store data in `ctx$learner$state` or `ctx$data_extra`.
+#' The data in `ctx$data_extra` is stored in the [ResampleResult] or [BenchmarkResult].
 #' See also the section on parameters for more information on the stages.
-#' An evaluation callback works with [ContextEvaluation].
 #
 #' @details
 #' When implementing a callback, each function must have two arguments named `callback` and `context`.
