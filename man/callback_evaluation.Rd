@@ -48,7 +48,7 @@ Predefined callbacks are stored in the \link[mlr3misc:Dictionary]{dictionary} \l
 Evaluation callbacks are called at different stages of the resampling process.
 Each stage is called once per resampling iteration.
 The stages are prefixed with \verb{on_*}.
-The text in brackets indicates what happens between the stages and which accesses to the \link{ContextEvaluation} \code{ctx} are typical for the stage.
+The text in brackets indicates what happens between the stages and which accesses to the \link{ContextEvaluation} (\code{ctx}) are typical for the stage.
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{Start Resampling Iteration on Worker
  - on_evaluation_begin
@@ -69,10 +69,15 @@ See also the section on parameters for more information on the stages.
 \details{
 When implementing a callback, each function must have two arguments named \code{callback} and \code{context}.
 A callback can write data to the state (\verb{$state}), e.g. settings that affect the callback itself.
-Evaluation callbacks access \link{ContextEvaluation}.
-Data can be stored in the \link{ResampleResult} and \link{BenchmarkResult} objects via \code{context$data_extra}.
-Alternatively results can be stored in the learner state via \code{context$learner$state}.
 }
+\section{Parallelization}{
+
+Be careful when modifying \code{ctx$learner}, \code{ctx$task}, or \code{ctx$resampling} because callbacks can behave differently when parallelizing the resampling process.
+When running the resampling process sequentially, the modifications are carried over to the next iteration.
+When parallelizing the resampling process, modifying the \link{ContextEvaluation} will not be synchronized between workers.
+This also applies to the \verb{$state} of the callback.
+}
+
 \examples{
 callback = callback_evaluation("selected_features",
  label = "Selected Features",

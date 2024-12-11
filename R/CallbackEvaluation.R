@@ -42,7 +42,7 @@ CallbackEvaluation= R6Class("CallbackEvaluation",
 #' Evaluation callbacks are called at different stages of the resampling process.
 #' Each stage is called once per resampling iteration.
 #' The stages are prefixed with `on_*`.
-#' The text in brackets indicates what happens between the stages and which accesses to the [ContextEvaluation] `ctx` are typical for the stage.
+#' The text in brackets indicates what happens between the stages and which accesses to the [ContextEvaluation] (`ctx`) are typical for the stage.
 #'
 #' ```
 #' Start Resampling Iteration on Worker
@@ -64,9 +64,12 @@ CallbackEvaluation= R6Class("CallbackEvaluation",
 #' @details
 #' When implementing a callback, each function must have two arguments named `callback` and `context`.
 #' A callback can write data to the state (`$state`), e.g. settings that affect the callback itself.
-#' Evaluation callbacks access [ContextEvaluation].
-#' Data can be stored in the [ResampleResult] and [BenchmarkResult] objects via `context$data_extra`.
-#' Alternatively results can be stored in the learner state via `context$learner$state`.
+#'
+#' @section Parallelization:
+#' Be careful when modifying `ctx$learner`, `ctx$task`, or `ctx$resampling` because callbacks can behave differently when parallelizing the resampling process.
+#' When running the resampling process sequentially, the modifications are carried over to the next iteration.
+#' When parallelizing the resampling process, modifying the [ContextEvaluation] will not be synchronized between workers.
+#' This also applies to the `$state` of the callback.
 #'
 #' @param id (`character(1)`)\cr
 #' Identifier for the new instance.

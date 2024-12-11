@@ -134,6 +134,27 @@ test_that("writing to data_extra works", {
   })
 })
 
+test_that("data_extra is a list column", {
+  task = tsk("pima")
+  learner = lrn("classif.rpart")
+  resampling = rsmp("holdout")
+
+  callback = callback_evaluation("test",
+    on_evaluation_end = function(callback, context) {
+      context$data_extra$test = 1
+    }
+  )
+
+  rr = resample(task, learner, resampling, callbacks = callback)
+  expect_list(as.data.table(rr, data_extra = TRUE)$data_extra, len = 1)
+  expect_list(as.data.table(rr, data_extra = TRUE)$data_extra[[1]], len = 1)
+
+  resampling = rsmp("cv", folds = 3)
+  rr = resample(task, learner, resampling, callbacks = callback)
+  expect_list(as.data.table(rr, data_extra = TRUE)$data_extra, len = 3)
+  expect_list(as.data.table(rr, data_extra = TRUE)$data_extra[[1]], len = 1)
+})
+
 test_that("data_extra is null", {
   task = tsk("pima")
   learner = lrn("classif.rpart")
@@ -161,3 +182,4 @@ test_that("data_extra is null", {
   expect_data_table(tab)
   expect_names(names(tab), disjunct.from = "data_extra")
 })
+

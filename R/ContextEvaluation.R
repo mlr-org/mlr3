@@ -34,11 +34,6 @@ ContextEvaluation = R6Class("ContextEvaluation",
     #' The data is available on stage `on_evaluation_end`.
     pdatas = NULL,
 
-    #' @field data_extra (list())\cr
-    #' Data saved in the [ResampleResult] or [BenchmarkResult].
-    #' Use this field to save results.
-    data_extra = NULL,
-
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #'
@@ -59,5 +54,23 @@ ContextEvaluation = R6Class("ContextEvaluation",
 
       super$initialize(id = "evaluate", label = "Evaluation")
     }
+  ),
+
+  active = list(
+
+    #' @field data_extra (list())\cr
+    #' Data saved in the [ResampleResult] or [BenchmarkResult].
+    #' Use this field to save results.
+    #' Must be a `list()`.
+    data_extra = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.data_extra)
+      }
+      private$.data_extra = assert_list(rhs)
+    }
+  ),
+
+  private = list(
+    .data_extra = NULL
   )
 )

@@ -73,7 +73,7 @@ ResultData = R6Class("ResultData",
           # add extra data to fact table
           if (!is.null(data_extra)) {
             assert_list(data_extra, len = nrow(data))
-            set(data, j = "data_extra", value = data_extra)
+            set(data, j = "data_extra", value = list(data_extra))
           }
 
           if (!store_backends) {

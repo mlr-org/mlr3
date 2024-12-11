@@ -32,10 +32,16 @@ The current iteration.}
 \item{\code{pdatas}}{(List of \link{PredictionData})\cr
 The prediction data.
 The data is available on stage \code{on_evaluation_end}.}
-
+}
+\if{html}{\out{</div>}}
+}
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
 \item{\code{data_extra}}{(list())\cr
 Data saved in the \link{ResampleResult} or \link{BenchmarkResult}.
-Use this field to save results.}
+Use this field to save results.
+Must be a \code{list()}.}
 }
 \if{html}{\out{</div>}}
 }
