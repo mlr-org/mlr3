@@ -38,13 +38,13 @@ ContextEvaluation = R6Class("ContextEvaluation",
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #'
     #' @param task ([Task])\cr
-    #' The task to be evaluated.
+    #'   The task to be evaluated.
     #' @param learner ([Learner])\cr
-    #' The learner to be evaluated.
+    #'   The learner to be evaluated.
     #' @param resampling ([Resampling])\cr
-    #' The resampling strategy to be used.
+    #'   The resampling strategy to be used.
     #' @param iteration (`integer()`)\cr
-    #' The current iteration.
+    #'   The current iteration.
     initialize = function(task, learner, resampling, iteration) {
       # no assertions to avoid overhead
       self$task = task
