@@ -152,8 +152,7 @@ callback_evaluation = function(
 #' @return [CallbackEvaluation | List of [CallbackEvaluation]s.
 #' @export
 assert_evaluation_callback = function(callback, null_ok = FALSE) {
-  if (null_ok && is.null(callback)) return(invisible(NULL))
-  assert_class(callback, "CallbackEvaluation")
+  assert_class(callback, "CallbackEvaluation", null.ok = null_ok)
   invisible(callback)
 }
 
