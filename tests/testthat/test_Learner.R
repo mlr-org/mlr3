@@ -455,7 +455,7 @@ test_that("internal_valid_task is created correctly", {
   resampling = rsmp("holdout")$instantiate(task2)
   learner2$expected_valid_ids = resampling$test_set(1)
   learner2$expected_train_ids = resampling$train_set(1)
-  expect_error(resample(task2, learner2, resampling), regexp = NA)
+  expect_no_error(resample(task2, learner2, resampling))
 
   # ratio works
   LearnerClassifTest3 = R6Class("LearnerClassifTest3", inherit = LearnerClassifDebug,

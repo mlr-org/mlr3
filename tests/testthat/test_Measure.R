@@ -167,7 +167,7 @@ test_that("primary iters are respected", {
 
   jaccard = msr("sim.jaccard")
   expect_error(rr1$aggregate(jaccard), "primary_iters")
-  expect_error(rr2$aggregate(jaccard), NA)
+  expect_no_error(rr2$aggregate(jaccard))
   jaccard$properties = c(jaccard$properties, "primary_iters")
   x1 = rr1$aggregate(jaccard)
   x2 = rr3$aggregate(jaccard)
