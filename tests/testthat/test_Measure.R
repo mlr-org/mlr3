@@ -176,7 +176,7 @@ test_that("primary iters are respected", {
 
 test_that("no predict_sets required (#1094)", {
   m = msr("internal_valid_score")
-  expect_equal(m$predict_sets, NULL)
+  expect_null(m$predict_sets)
   rr = resample(tsk("iris"), lrn("classif.debug", validate = 0.3, predict_sets = NULL), rsmp("holdout"))
   expect_double(rr$aggregate(m))
   expect_warning(rr$aggregate(msr("classif.ce")), "needs predict sets")

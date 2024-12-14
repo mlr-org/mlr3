@@ -633,7 +633,7 @@ test_that("internal_valid_task is printed", {
   task = tsk("iris")
   task$internal_valid_task = c(1:10, 51:60, 101:110)
   out = capture_output(print(task))
-  expect_true(grepl(pattern = "* Validation Task: (30x5)", fixed = TRUE, x = out))
+  expect_match(out, "* Validation Task: (30x5)", fixed = TRUE)
 })
 
 test_that("task hashes during resample", {
