@@ -40,7 +40,7 @@ test_that("evaluate / single step", {
   expect_data_table(log, nrows = 2L, ncols = 3L, any.missing = FALSE)
   expect_factor(log$class)
   expect_equal(as.character(log$class), c("output", "warning"))
-  expect_true(all(grepl("->predict()", log$msg, fixed = TRUE)))
+  expect_match(log$msg, "->predict()",  fixed = TRUE)
 })
 
 test_that("evaluate / resample", {

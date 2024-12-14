@@ -21,8 +21,8 @@ test_that("Learners are called with invoke / small footprint of call", {
   learner$train(task)
   call = as.character(learner$model$call)
   expect_character(call, min.len = 1L, any.missing = FALSE)
-  expect_true(any(grepl("task$formula()", call, fixed = TRUE)))
-  expect_true(any(grepl("task$data", call, fixed = TRUE)))
+  expect_match(call, "task$formula()", fixed = TRUE, all = FALSE)
+  expect_match(call, "task$data", fixed = TRUE, all = FALSE)
   expect_lt(sum(nchar(call)), 1000)
 })
 
@@ -236,7 +236,7 @@ test_that("empty predict set (#421)", {
   learner$train(task, hout$train_set(1))
   pred = learner$predict(task, hout$test_set(1))
   expect_prediction(pred)
-  expect_true(any(grepl("No data to predict on", learner$log$msg)))
+  expect_match(learner$log$msg, "No data to predict on", all = FALSE)
 })
 
 test_that("fallback learner is deep cloned (#511)", {
