@@ -19,9 +19,9 @@ test_that("DataBackendRbind", {
 
 
   # all col-hashes are mutually disjoint
-  expect_true(length(intersect(b1$col_hashes, b2$col_hashes)) == 0)
-  expect_true(length(intersect(b$col_hashes, b1$col_hashes)) == 0)
-  expect_true(length(intersect(b$col_hashes, b2$col_hashes)) == 0)
+  expect_length(intersect(b1$col_hashes, b2$col_hashes), 0)
+  expect_length(intersect(b$col_hashes, b1$col_hashes), 0)
+  expect_length(intersect(b$col_hashes, b2$col_hashes), 0)
 
 })
 
