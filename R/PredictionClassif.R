@@ -175,7 +175,7 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
 as.data.table.PredictionClassif = function(x, ...) { # nolint
   tab = as.data.table(x$data[c("row_ids", "truth", "response")])
 
-  if ("prob" %in% x$predict_types) {
+  if ("prob" %chin% x$predict_types) {
     prob = as.data.table(x$data$prob)
     setnames(prob, names(prob), paste0("prob.", names(prob)))
     tab = rcbind(tab, prob)

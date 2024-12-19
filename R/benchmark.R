@@ -110,13 +110,13 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
 
   setDT(design)
   task = learner = resampling = NULL
-  if ("task" %in% clone) {
+  if ("task" %chin% clone) {
     design[, "task" := list(list(task[[1L]]$clone())), by = list(hashes(task))]
   }
-  if ("learner" %in% clone) {
+  if ("learner" %chin% clone) {
     design[, "learner" := list(list(learner[[1L]]$clone())), by = list(hashes(learner))]
   }
-  if ("resampling" %in% clone) {
+  if ("resampling" %chin% clone) {
     design[, "resampling" := list(list(resampling[[1L]]$clone())), by = list(hashes(resampling))]
   }
 

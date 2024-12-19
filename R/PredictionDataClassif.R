@@ -132,11 +132,11 @@ create_empty_prediction_data.TaskClassif = function(task, learner) {
     truth = factor(character(), levels = cn)
   )
 
-  if ("response" %in% predict_types) {
+  if ("response" %chin% predict_types) {
     pdata$response = pdata$truth
   }
 
-  if ("prob" %in% predict_types) {
+  if ("prob" %chin% predict_types) {
     pdata$prob = matrix(numeric(), nrow = 0L, ncol = length(cn), dimnames = list(NULL, cn))
   }
 
