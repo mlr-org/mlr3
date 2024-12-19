@@ -8,8 +8,6 @@
 #'
 #' @section Initial parameter values:
 #' * Parameter `xval` is initialized to 0 in order to save some computation time.
-#' * Parameter `use_weights` can be set to `FALSE` to ignore observation weights with column role `weights_learner` ,
-#'   if present.
 #'
 #' @section Custom mlr3 parameters:
 #' * Parameter `model` has been renamed to `keep_model`.

@@ -1,10 +1,12 @@
 # mlr3 (development version)
 
-* refactor: It is now possible to use weights also during scoring predictions via measures and during resampling to sample observations with unequal probability.
-  The weights must be stored in the task and can be assigned the column role `weights_measure` or `weights_resampling`, respectively.
-  The weights used during training by the Learner are renamed to `weights_learner`, the previous column role `weight` is dysfunctional.
-  Additionally, it is now possible to disable the use of weights via the new hyperparameter `use_weights`.
-  Note that this is a breaking change, but appears to be the less error-prone solution in the long run.
+* BREAKING CHANGE: `weights` property and functionality is split into `weights_learner`, `weights_measure`, and `weights_resampling`:
+
+  * `weights_learner`: Weights used during training by the Learner.
+  * `weights_measure`: Weights used during scoring predictions via measures.
+  * `weights_resampling`: Weights used during resampling to sample observations with unequal probability.
+
+  Each of these can be disabled via the new hyperparameter (Measure, Resampling) or field (Learner) `use_weights`.
 
 # mlr3 0.22.1
 

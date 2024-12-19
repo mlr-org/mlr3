@@ -71,9 +71,14 @@
 #'
 #' Many learners support observation weights, indicated by their property `"weights"`.
 #' The weights are stored in the [Task] where the column role `weights_learner` needs to be assigned to a single numeric column.
-#' The weights are automatically used if found in the task, this can be disabled by setting the hyperparamerter `use_weights` to `FALSE`.
+#' If a task has weights and the learner supports them, they are used automatically.
+#' If a task has weights but the learner does not support them, an error is thrown.
+#' Both of these behaviors can be disabled by setting the `use_weights` field to `"ignore"`.
+#' See the description of `use_weights` for more information.
+#'
 #' If the learner is set-up to use weights but the task does not have a designated weight column, an unweighted version is calculated instead.
-#' The weights do not necessarily need to sum up to 1, they are passed down to the learner.
+#' When they are being used, weights are passed down to the learner directly.
+#' Generally, they do not necessarily need to sum up to 1.
 #'
 #' @section Setting Hyperparameters:
 #'
@@ -533,7 +538,8 @@ Learner = R6Class("Learner",
     #'
     #' For `Learner`s with the property `"weights_learner"`, this is initialized as `"use"`.
     #' For `Learner`s that do not support weights, i.e. without the `"weights_learner"` property, this is initialized as `"error"`.
-    #' This behaviour is to avoid cases where a user erroneously assumes that a `Learner` supports weights when it does not.
+    #' The latter behavior is to avoid cases where a user erroneously assumes that a `Learner` supports weights when it does not.
+    #' For `Learner`s that do not support weights, `use_weights` needs to be set to `"ignore"` if tasks with weights should be handled (by dropping the weights).
     use_weights = function(rhs) {
       if (!missing(rhs)) {
         assert_choice(rhs, c(if ("weights" %in% self$properties) "use", "ignore", "error"))
