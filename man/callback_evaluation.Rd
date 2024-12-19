@@ -83,12 +83,7 @@ callback = callback_evaluation("selected_features",
  label = "Selected Features",
 
  on_evaluation_end = function(callback, context) {
-    pred = as_prediction(context$pdatas$test)
-    selected_features = pred$score(
-      measure = msr("selected_features"),
-      learner = context$learner,
-      task = context$task)
-    context$learner$state$selected_features = selected_features
+    context$learner$state$selected_features = context$learner$selected_features()
   }
 )
 
