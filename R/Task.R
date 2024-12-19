@@ -448,7 +448,7 @@ Task = R6Class("Task",
     #' and virtually overwrite the rows in the [DataBackend].
     #'
     #' All columns roles `"target"`, `"feature"`, `"weights_learner"`, `"weights_measure"`,
-    #' `"weights_resampling"`, group"`, `"stratum"`, and `"order"` must be present in `data`.
+    #' `"weights_resampling"`, `"group"`, `"stratum"`, and `"order"` must be present in `data`.
     #' Columns only present in `data` but not in the [DataBackend] of `task` will be discarded.
     #'
     #' This operation mutates the task in-place.
@@ -500,7 +500,7 @@ Task = R6Class("Task",
       }
 
       # columns with these roles must be present in data
-      mandatory_roles = c("target", "feature", "group", "stratum", "order")
+      mandatory_roles = c("target", "feature", "group", "stratum", "order", "weights_learner", "weights_measure", "weights_resampling")
       mandatory_cols = unlist(private$.col_roles[mandatory_roles], use.names = FALSE)
       missing_cols = setdiff(mandatory_cols, data$colnames)
       if (length(missing_cols)) {
