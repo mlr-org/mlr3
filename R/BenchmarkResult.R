@@ -19,7 +19,7 @@
 #' @template param_measures
 #'
 #' @section S3 Methods:
-#' * `as.data.table(rr, ..., reassemble_learners = TRUE, convert_predictions = TRUE, predict_sets = "test", task_characteristics = FALSE)`\cr
+#' * `as.data.table(rr, ..., reassemble_learners = TRUE, convert_predictions = TRUE, predict_sets = "test", task_characteristics = FALSE, data_extra = FALSE)`\cr
 #'   [BenchmarkResult] -> [data.table::data.table()]\cr
 #'   Returns a tabular view of the internal data.
 #' * `c(...)`\cr
@@ -545,10 +545,12 @@ BenchmarkResult = R6Class("BenchmarkResult",
 )
 
 #' @export
-as.data.table.BenchmarkResult = function(x, ..., hashes = FALSE, predict_sets = "test", task_characteristics = FALSE) { # nolint
+as.data.table.BenchmarkResult = function(x, ..., hashes = FALSE, predict_sets = "test", task_characteristics = FALSE, data_extra = FALSE) { # nolint
   assert_flag(task_characteristics)
   tab = get_private(x)$.data$as_data_table(view = NULL, predict_sets = predict_sets)
-  tab = tab[, c("uhash", "task", "learner", "resampling", "iteration", "prediction"), with = FALSE]
+  cns = c("uhash", "task", "learner", "resampling", "iteration", "prediction")
+  if (data_extra && "data_extra" %in% names(tab)) cns = c(cns, "data_extra")
+  tab = tab[, cns, with = FALSE]
 
   if (task_characteristics) {
     set(tab, j = "characteristics", value = map(tab$task, "characteristics"))
