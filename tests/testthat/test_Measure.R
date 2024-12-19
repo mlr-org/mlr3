@@ -82,8 +82,8 @@ test_that("check_prerequisites / predict_type", {
   p = learner$train(task)$predict(task)
   m = msr("classif.auc")
 
-  expect_identical(unname(m$score(p)), NaN)
-  expect_identical(unname(p$score(m)), NaN)
+  expect_identical(unname(suppressWarnings(m$score(p))), NaN)
+  expect_identical(unname(suppressWarnings(p$score(m))), NaN)
   expect_warning(m$score(p, learner = learner), "predict type", fixed = TRUE)
   expect_warning(p$score(m, learner = learner), "predict type", fixed = TRUE)
 
@@ -194,7 +194,7 @@ test_that("primary iters are respected", {
 
   jaccard = msr("sim.jaccard")
   expect_error(rr1$aggregate(jaccard), "primary_iters")
-  expect_error(rr2$aggregate(jaccard), NA)
+  expect_no_error(rr2$aggregate(jaccard))
   jaccard$properties = c(jaccard$properties, "primary_iters")
   x1 = rr1$aggregate(jaccard)
   x2 = rr3$aggregate(jaccard)
@@ -203,7 +203,7 @@ test_that("primary iters are respected", {
 
 test_that("no predict_sets required (#1094)", {
   m = msr("internal_valid_score")
-  expect_equal(m$predict_sets, NULL)
+  expect_null(m$predict_sets)
   rr = resample(tsk("iris"), lrn("classif.debug", validate = 0.3, predict_sets = NULL), rsmp("holdout"))
   expect_double(rr$aggregate(m))
   expect_warning(rr$aggregate(msr("classif.ce")), "needs predict sets")
@@ -213,5 +213,15 @@ test_that("checks on predict_sets", {
   m = msr("classif.ce")
   expect_error({m$predict_sets = NULL}, "Must be a subset")
   expect_error({m$predict_sets = "imaginary"}, "Must be a subset")
+})
+
+test_that("measure and prediction type is checked", {
+  learner = lrn("classif.rpart")
+  task = tsk("pima")
+  learner$train(task)
+  pred = learner$predict(task)
+
+  measure = msr("classif.logloss")
+  expect_warning(measure$score(pred), "is missing predict type")
 })
 

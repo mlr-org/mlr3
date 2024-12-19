@@ -38,11 +38,13 @@ MeasureBIC = R6Class("MeasureBIC",
   private = list(
     .score = function(prediction, learner, ...) {
       learner = learner$base_learner()
-      if ("loglik" %nin% learner$properties) {
-        return(NA_real_)
-      }
 
-      return(stats::BIC(learner$loglik()))
+      tryCatch({
+        return(stats::BIC(stats::logLik(learner$model)))
+      }, error = function(e) {
+        warningf("Learner '%s' does not support BIC calculation", learner$id)
+        return(NA_real_)
+      })
     }
   )
 )

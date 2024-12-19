@@ -16,18 +16,18 @@ test_that("clone", {
 })
 
 test_that("Learners are called with invoke / small footprint of call", {
-  task = tsk("boston_housing")
+  task = tsk("california_housing")
   learner = lrn("regr.rpart")
   learner$train(task)
   call = as.character(learner$model$call)
   expect_character(call, min.len = 1L, any.missing = FALSE)
-  expect_true(any(grepl("task$formula()", call, fixed = TRUE)))
-  expect_true(any(grepl("task$data", call, fixed = TRUE)))
+  expect_match(call, "task$formula()", fixed = TRUE, all = FALSE)
+  expect_match(call, "task$data", fixed = TRUE, all = FALSE)
   expect_lt(sum(nchar(call)), 1000)
 })
 
 test_that("Extra data slots of learners are kept / reset", {
-  task = tsk("boston_housing")
+  task = tsk("california_housing")
   learner = lrn("regr.rpart")
   learner$train(task)
   learner$state$foo = "bar"
@@ -101,7 +101,7 @@ test_that("train task is properly cloned (#383)", {
 })
 
 test_that("predict on newdata works / regr", {
-  task = tsk("boston_housing")
+  task = tsk("california_housing")
   train = which(seq_len(task$nrow) %% 2 == 0L)
   test = setdiff(seq_len(task$nrow), train)
 
@@ -117,7 +117,7 @@ test_that("predict on newdata works / regr", {
 
 
 test_that("predict on newdata works / no target column", {
-  task = tsk("boston_housing")
+  task = tsk("california_housing")
   train = which(seq_len(task$nrow) %% 2 == 0L)
   test = setdiff(seq_len(task$nrow), train)
 
@@ -236,17 +236,17 @@ test_that("empty predict set (#421)", {
   learner$train(task, hout$train_set(1))
   pred = learner$predict(task, hout$test_set(1))
   expect_prediction(pred)
-  expect_true(any(grepl("No data to predict on", learner$log$msg)))
+  expect_match(learner$log$msg, "No data to predict on", all = FALSE)
 })
 
 test_that("fallback learner is deep cloned (#511)", {
   l = lrn("classif.rpart")
-  l$fallback = lrn("classif.featureless")
+  l$encapsulate("evaluate",lrn("classif.featureless"))
   expect_different_address(l$fallback, l$clone(deep = TRUE)$fallback)
 })
 
 test_that("learner cannot be trained with TuneToken present", {
-  task = tsk("boston_housing")
+  task = tsk("california_housing")
   learner = lrn("regr.rpart", cp = paradox::to_tune(0.1, 0.3))
   expect_error(learner$train(task),
     regexp = "<LearnerRegrRpart:regr.rpart> cannot be trained with TuneToken present in hyperparameter: cp",
@@ -307,17 +307,17 @@ test_that("Error on missing data (#413)", {
 })
 
 test_that("Task prototype is stored in state", {
-  task = tsk("boston_housing")
+  task = tsk("california_housing")
   learner = lrn("regr.rpart")
   learner$train(task)
 
   prototype = learner$state$data_prototype
-  expect_data_table(prototype, nrows = 0, ncols = 18)
+  expect_data_table(prototype, nrows = 0, ncols = 10)
   expect_names(names(prototype), permutation.of = c(task$feature_names, task$target_names))
 })
 
 test_that("Models can be replaced", {
-  task = tsk("boston_housing")
+  task = tsk("california_housing")
   learner = lrn("regr.featureless")
   learner$train(task)
 
@@ -330,7 +330,7 @@ test_that("validation task's backend is removed", {
   task = tsk("mtcars")
   task$internal_valid_task = 1:10
   learner$train(task)
-  expect_true(is.null(learner$state$train_task$internal_valid_task$backend))
+  expect_null(learner$state$train_task$internal_valid_task$backend)
 })
 
 test_that("manual $train() stores validation hash and validation ids", {
@@ -348,7 +348,7 @@ test_that("manual $train() stores validation hash and validation ids", {
   # nothing is stored for learners that don't do it
   l2 = lrn("classif.featureless")
   l2$train(task)
-  expect_true(is.null(l2$state$internal_valid_task_hash))
+  expect_null(l2$state$internal_valid_task_hash)
 })
 
 test_that("error when training a learner that sets valiadte to 'predefined' on a task without a validation task", {
@@ -383,14 +383,14 @@ test_that("marshaling and encapsulation", {
   learner = lrn("classif.debug", count_marshaling = TRUE)
 
   # callr encapsulation causes marshaling
-  learner$encapsulate = c(train = "callr")
+  learner$encapsulate("callr", lrn("classif.featureless"))
   learner$train(task)
   expect_equal(learner$model$marshal_count, 1)
   expect_false(learner$marshaled)
   expect_prediction(learner$predict(task))
 
   # no marshaling with no other encapsulation
-  learner$encapsulate = c(train = "none")
+  learner$encapsulate("none")
   learner$train(task)
   expect_equal(learner$model$marshal_count, 0)
 })
@@ -421,15 +421,15 @@ test_that("internal_valid_task is created correctly", {
   task$internal_valid_task = partition(task)$test
   learner$train(task)
   learner$validate = NULL
-  expect_true(is.null(learner$internal_valid_scores))
-  expect_true(is.null(learner$task$internal_valid_task))
+  expect_null(learner$internal_valid_scores)
+  expect_null(learner$task$internal_valid_task)
 
   # validate = NULL (but task has none)
   learner1 = LearnerClassifTest$new()
   task1 = tsk("iris")
   learner1$train(task1)
-  expect_true(is.null(learner1$internal_valid_scores))
-  expect_true(is.null(learner1$task$internal_valid_task))
+  expect_null(learner1$internal_valid_scores)
+  expect_null(learner1$task$internal_valid_task)
 
   # validate = "test"
   LearnerClassifTest2 = R6Class("LearnerClassifTest2", inherit = LearnerClassifDebug,
@@ -455,7 +455,7 @@ test_that("internal_valid_task is created correctly", {
   resampling = rsmp("holdout")$instantiate(task2)
   learner2$expected_valid_ids = resampling$test_set(1)
   learner2$expected_train_ids = resampling$train_set(1)
-  expect_error(resample(task2, learner2, resampling), regexp = NA)
+  expect_no_error(resample(task2, learner2, resampling))
 
   # ratio works
   LearnerClassifTest3 = R6Class("LearnerClassifTest3", inherit = LearnerClassifDebug,
@@ -477,7 +477,7 @@ test_that("internal_valid_task is created correctly", {
   learner4 = lrn("classif.debug", validate = 0.2)
   task = tsk("iris")
   learner4$train(task)
-  expect_true(is.null(task$internal_valid_task))
+  expect_null(task$internal_valid_task)
 })
 
 test_that("compatability check on validation task", {
@@ -508,7 +508,8 @@ test_that("model is marshaled during callr prediction", {
   # by setting check_pid = TRUE, we ensure that unmarshal_model() sets the process id to the current
   # id. LearnerClassifDebug then checks during `.predict()`, whether the marshal_id of the model is equal to the current process id and errs if this is not the case.
   task = tsk("iris")
-  learner = lrn("classif.debug", check_pid = TRUE, encapsulate = c(predict = "callr"))
+  learner = lrn("classif.debug", check_pid = TRUE)
+  learner$encapsulate("callr", lrn("classif.featureless"))
   learner$train(task)
   pred = learner$predict(task)
   expect_class(pred, "Prediction")
@@ -516,7 +517,8 @@ test_that("model is marshaled during callr prediction", {
 
 test_that("predict leaves marshaling status as-is", {
   task = tsk("iris")
-  learner = lrn("classif.debug", check_pid = TRUE, encapsulate = c(predict = "callr"))
+  learner = lrn("classif.debug", check_pid = TRUE)
+  learner$encapsulate("callr", lrn("classif.featureless"))
   learner$train(task)
   learner$marshal()
   expect_class(learner$predict(task), "Prediction")
@@ -573,7 +575,10 @@ test_that("column info is compared during predict", {
   task_other = as_task_classif(dother, target = "y")
   l = lrn("classif.rpart")
   l$train(task)
-  expect_error(l$predict(task_flip), "task with different column info")
+  old_threshold = lg$threshold
+  lg$set_threshold("warn")
+  expect_output(l$predict(task_flip), "task with different column info")
+  lg$set_threshold(old_threshold)
   expect_error(l$predict(task_other), "with different columns")
 })
 

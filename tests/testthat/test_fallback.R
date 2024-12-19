@@ -14,8 +14,8 @@ test_that("predict fails gracefully", {
 test_that("fail during train", {
   task = tsk("iris")
   learner = lrn("classif.debug", error_train = 1)
-  learner$encapsulate = c(train = "evaluate", predict = "none")
-  learner$fallback = lrn("classif.featureless")
+  learner$encapsulate("evaluate", lrn("classif.featureless"))
+  expect_class(learner$fallback, "LearnerClassifFeatureless")
   learner$train(task)
 
   expect_s3_class(learner$state$fallback_state$model, "classif.featureless_model")
@@ -28,8 +28,8 @@ test_that("fail during train", {
 test_that("fail during predict", {
   task = tsk("iris")
   learner = lrn("classif.debug", error_predict = 1)
-  learner$encapsulate = c(predict = "evaluate")
-  learner$fallback = lrn("classif.featureless")
+  learner$encapsulate("evaluate", lrn("classif.featureless"))
+  expect_class(learner$fallback, "LearnerClassifFeatureless")
   learner$train(task)
 
   expect_s3_class(learner$state$fallback_state$model, "classif.featureless_model")
@@ -42,8 +42,8 @@ test_that("fail during predict", {
 test_that("fail during resample", {
   task = tsk("iris")
   learner = lrn("classif.debug", error_predict = 1)
-  learner$encapsulate = c(predict = "evaluate")
-  learner$fallback = lrn("classif.featureless")
+  learner$encapsulate("evaluate", lrn("classif.featureless"))
+  expect_class(learner$fallback, "LearnerClassifFeatureless")
 
   rr = resample(tsk("iris"), learner, rsmp("cv", folds = 3))
   expect_data_table(rr$errors, nrows = 3)
@@ -52,8 +52,9 @@ test_that("fail during resample", {
 
 test_that("incomplete predictions", {
   task = tsk("iris")
-  learner = lrn("classif.debug", predict_type = "prob", predict_missing = 0.5,
-    fallback = lrn("classif.featureless", predict_type = "prob"))
+  learner = lrn("classif.debug", predict_type = "prob", predict_missing = 0.5)
+  learner$encapsulate("evaluate", lrn("classif.featureless", predict_type = "prob"))
+  expect_class(learner$fallback, "LearnerClassifFeatureless")
 
   learner$train(task)
   p = learner$predict(task)
@@ -65,4 +66,11 @@ test_that("incomplete predictions", {
   expect_prediction(rr$prediction())
   expect_factor(rr$prediction()$response, any.missing = FALSE)
   expect_matrix(rr$prediction()$prob, any.missing = FALSE)
+})
+
+test_that("fallback properties are checked", {
+  learner = lrn("classif.featureless")
+  fallback = lrn("classif.debug")
+
+  expect_warning(learner$encapsulate("evaluate", fallback), "The fallback learner")
 })

@@ -12,7 +12,7 @@
 #' @export
 #' @examples
 #' # regression task partitioned into training and test set
-#' task = tsk("boston_housing")
+#' task = tsk("california_housing")
 #' split = partition(task, ratio = 0.5)
 #' data = data.frame(
 #'   y = c(task$truth(split$train), task$truth(split$test)),

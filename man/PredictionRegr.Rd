@@ -9,7 +9,7 @@ the predicted response and standard error.
 Additionally, probability distributions implemented in package \code{distr6} are supported.
 }
 \examples{
-task = tsk("boston_housing")
+task = tsk("california_housing")
 learner = lrn("regr.featureless", predict_type = "se")
 p = learner$train(task)$predict(task)
 p$predict_types

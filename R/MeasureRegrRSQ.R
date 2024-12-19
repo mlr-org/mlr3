@@ -15,7 +15,7 @@
 #' where \eqn{\bar{t} = \sum_{i=1}^n t_i}.
 #'
 #' Also known as coefficient of determination or explained variation.
-#' Subtracts the [rse()] from 1, hence it compares the squared error of the predictions relative to a naive model predicting the mean.
+#' Subtracts the [mlr3measures::rse()] from 1, hence it compares the squared error of the predictions relative to a naive model predicting the mean.
 #'
 #' This measure is undefined for constant \eqn{t}.
 #'
@@ -29,7 +29,7 @@
 #' @template seealso_measure
 #' @export
 MeasureRegrRSQ = R6Class("MeasureRSQ",
-  inherit = Measure,
+  inherit = MeasureRegr,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
@@ -40,10 +40,10 @@ MeasureRegrRSQ = R6Class("MeasureRSQ",
 
       super$initialize(
         id = "rsq",
-        task_type = "regr",
         properties = if (!private$.pred_set_mean) c("requires_task", "requires_train_set") else character(0),
         predict_type = "response",
         minimize = FALSE,
+        range = c(-Inf, 1),
         man = "mlr3::mlr_measures_regr.rsq"
       )
     }

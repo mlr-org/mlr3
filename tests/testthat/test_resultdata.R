@@ -48,13 +48,14 @@ test_that("results are ordered", {
 
 test_that("mlr3tuning use case", {
   task = tsk("iris")
-  learners = lrns(c("classif.rpart", "classif.rpart", "classif.rpart"))
+  learners = replicate(3, lrn("classif.rpart"), simplify = FALSE)
   learners[[1]]$param_set$values = list(xval = 0, cp = 0.1)
   learners[[2]]$param_set$values = list(xval = 0, cp = 0.2)
   learners[[3]]$param_set$values = list(xval = 0, cp = 0.3)
   resampling = rsmp("holdout")
+  resampling$instantiate(task)
 
-  bmr = benchmark(benchmark_grid(task, learners, resampling))
+  bmr = benchmark(data.table(task = list(task), learner = learners, resampling = list(resampling)))
 
   rdata = get_private(bmr)$.data
 

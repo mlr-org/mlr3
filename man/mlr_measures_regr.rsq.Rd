@@ -16,7 +16,7 @@ R Squared is defined as \deqn{
 where \eqn{\bar{t} = \sum_{i=1}^n t_i}.
 
 Also known as coefficient of determination or explained variation.
-Subtracts the \code{\link[=rse]{rse()}} from 1, hence it compares the squared error of the predictions relative to a naive model predicting the mean.
+Subtracts the \code{\link[mlr3measures:rse]{mlr3measures::rse()}} from 1, hence it compares the squared error of the predictions relative to a naive model predicting the mean.
 
 This measure is undefined for constant \eqn{t}.
 }
@@ -33,7 +33,7 @@ msr("regr.rsq")
 
 \itemize{
 \item Task type: \dQuote{regr}
-\item Range: \eqn{(-\infty, \infty)}{(-Inf, Inf)}
+\item Range: \eqn{(-\infty, 1]}{(-Inf, 1]}
 \item Minimize: FALSE
 \item Average: macro
 \item Required Prediction: \dQuote{response}
@@ -76,8 +76,8 @@ Other Measure:
 \code{\link{mlr_measures_selected_features}}
 }
 \concept{Measure}
-\section{Super class}{
-\code{\link[mlr3:Measure]{mlr3::Measure}} -> \code{MeasureRSQ}
+\section{Super classes}{
+\code{\link[mlr3:Measure]{mlr3::Measure}} -> \code{\link[mlr3:MeasureRegr]{mlr3::MeasureRegr}} -> \code{MeasureRSQ}
 }
 \section{Methods}{
 \subsection{Public methods}{

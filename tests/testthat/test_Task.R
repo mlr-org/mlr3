@@ -1,15 +1,10 @@
 test_that("Feature columns can be reordered", {
-  bh = load_dataset("BostonHousing", "mlbench")
-  bh$medv = NULL
+  task = tsk("california_housing")
+  new_order = shuffle(task$feature_names)
 
-  task = tsk("boston_housing")
-  task$col_roles$feature = setdiff(names(bh), "cmedv")
-
-  expect_equal(task$feature_names, setdiff(names(bh), "cmedv"))
-  expect_equal(names(task$data(rows = 1)), c("cmedv", setdiff(names(bh), "cmedv")))
-
-  task$col_roles$feature = shuffle(task$col_roles$feature)
-  expect_equal(names(task$data(rows = 1)), c("cmedv", task$col_roles$feature))
+  task$col_roles$feature = new_order
+  expect_equal(task$feature_names, new_order)
+  expect_equal(names(task$data(rows = 1)), c("median_house_value", new_order))
 })
 
 test_that("Task duplicates rows", {
@@ -284,6 +279,64 @@ test_that("groups/weights work", {
   }, "up to one")
 })
 
+test_that("col roles are valid", {
+  b = as_data_backend(data.table(
+    y = runif(20),
+    logical = sample(c(TRUE, FALSE), 20, replace = TRUE),
+    numeric = runif(20),
+    integer = sample(1:3, 20, replace = TRUE),
+    factor = factor(sample(letters[1:3], 20, replace = TRUE))))
+  task = TaskRegr$new("test", b, target = "y")
+
+  # weight
+  expect_error(task$set_col_roles("logical", roles = "weight"), "type")
+  expect_error(task$set_col_roles("factor", roles = "weight"), "type")
+  expect_error(task$set_col_roles(c("integer", "numeric"), roles = "weight"), "There may only be up to one column with role")
+
+  # name
+  expect_error(task$set_col_roles("logical", roles = "name"), "type")
+  expect_error(task$set_col_roles("integer", roles = "name"), "type")
+  expect_error(task$set_col_roles("numeric", roles = "name"), "type")
+  expect_error(task$set_col_roles(c("integer", "numeric"), roles = "name"), "There may only be up to one column with role")
+
+  # group
+  expect_error(task$set_col_roles(c("numeric", "factor"), roles = "group"), "There may only be up to one column with role")
+
+  # missing weights
+  b = as_data_backend(data.table(y = runif(20), numeric = c(runif(19), NA_real_)))
+  task = TaskRegr$new("test", b, target = "y")
+
+  expect_error(task$set_col_roles("numeric", roles = "weight"), "missing")
+
+  # negative weights
+  b = as_data_backend(data.table(y = runif(20), numeric = c(runif(19), -10)))
+  task = TaskRegr$new("test", b, target = "y")
+
+  expect_error(task$set_col_roles("numeric", roles = "weight"), "is not")
+
+  # target classif
+  b = as_data_backend(data.table(
+    y = factor(sample(letters[1:3], 20, replace = TRUE)),
+    numeric = runif(20)))
+  task = as_task_classif(b, target = "y")
+
+  expect_error({task$col_roles = insert_named(task$col_roles, list(target = "numeric", feature = "y"))},
+    "must be a factor or ordered factor")
+
+  expect_error(task$set_col_roles("numeric", roles = "target"), "up to one column with")
+
+  # target regr
+  b = as_data_backend(data.table(
+    y = runif(20),
+    factor = factor(sample(letters[1:3], 20, replace = TRUE))))
+  task = TaskRegr$new("test", b, target = "y")
+
+  expect_error({task$col_roles = insert_named(task$col_roles, list(target = "factor", feature = "y"))},
+    "numeric or integer column")
+
+  expect_error(task$set_col_roles("factor", roles = "target"), "up to one column with")
+})
+
 test_that("ordered factors (#95)", {
   df = data.frame(
     x = c(1, 2, 3),
@@ -541,8 +594,8 @@ test_that("validation task is cloned", {
   task = tsk("iris")
   task$internal_valid_task = c(1:10, 51:60, 101:110)
   task2 = task$clone(deep = TRUE)
-  expect_false(identical(task$internal_valid_task, task2$internal_valid_task))
-  # TODO: re-enable after $weights has been removed
+  expect_different_address(task$internal_valid_task, task2$internal_valid_task)
+  # TODO: maybe re-enable after $weights has been removed?
   # expect_equal(task$internal_valid_task, task2$internal_valid_task)
 })
 
@@ -584,7 +637,7 @@ test_that("internal_valid_task is printed", {
   task = tsk("iris")
   task$internal_valid_task = c(1:10, 51:60, 101:110)
   out = capture_output(print(task))
-  expect_true(grepl(pattern = "* Validation Task: (30x5)", fixed = TRUE, x = out))
+  expect_match(out, "* Validation Task: (30x5)", fixed = TRUE)
 })
 
 test_that("task hashes during resample", {
@@ -649,4 +702,78 @@ test_that("task$set_col_roles errors with wrong weights", {
   dd$ww = 1:150; dd$ww[1] = -99
   tt = as_task_classif(dd, target = "Species")
   expect_error(tt$set_col_roles("ww", "weights_learner"), "is not")
+})
+
+test_that("$select changes hash", {
+  task = tsk("iris")
+  h1 = task$hash
+  task$select("Petal.Length")
+  h2 = task$hash
+  expect_false(h1 == h2)
+})
+
+test_that("$characteristics works", {
+  task = tsk("spam")
+  characteristics = list(foo = 1, bar = "a")
+  task$characteristics = characteristics
+
+  expect_snapshot(task)
+  expect_equal(task$characteristics, characteristics)
+
+  tsk_1 = tsk("spam")
+  tsk_1$characteristics = list(n = 300)
+  tsk_2 = tsk("spam")
+  tsk_2$characteristics = list(n = 200)
+
+  expect_true(tsk_1$hash != tsk_2$hash)
+
+  learner = lrn("classif.rpart")
+  resampling = rsmp("cv", folds = 3)
+
+  design = benchmark_grid(
+    tasks = list(tsk_1, tsk_2),
+    learners = learner,
+    resamplings = resampling
+  )
+
+  bmr = benchmark(design)
+  tab = as.data.table(bmr, task_characteristics = TRUE)
+  expect_names(names(tab), must.include = "n")
+  expect_subset(tab$n, c(300, 200))
+
+  tsk_1$characteristics = list(n = 300, f = 3)
+  tsk_2$characteristics = list(n = 200, f = 2)
+
+  design = benchmark_grid(
+    tasks = list(tsk_1, tsk_2),
+    learners = learner,
+    resamplings = resampling
+  )
+
+  bmr = benchmark(design)
+  tab = as.data.table(bmr, task_characteristics = TRUE)
+  expect_names(names(tab), must.include = c("n", "f"))
+  expect_subset(tab$n, c(300, 200))
+  expect_subset(tab$f, c(2, 3))
+
+  tsk_1$characteristics = list(n = 300, f = 2)
+  tsk_2$characteristics = list(n = 200)
+
+  design = benchmark_grid(
+    tasks = list(tsk_1, tsk_2),
+    learners = learner,
+    resamplings = resampling
+  )
+
+  bmr = benchmark(design)
+  tab = as.data.table(bmr, task_characteristics = TRUE)
+
+  expect_names(names(tab), must.include = c("n", "f"))
+  expect_subset(tab$n, c(300, 200))
+  expect_subset(tab$f, c(2, NA_real_))
+})
+
+test_that("warn when internal valid task has 0 obs", {
+  task = tsk("iris")
+  expect_warning({task$internal_valid_task = 151}, "has 0 observations")
 })

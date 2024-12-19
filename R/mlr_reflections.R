@@ -8,6 +8,8 @@
 #' This environment be modified by third-party packages, e.g. by adding information about new task types
 #' or by extending the set of allowed feature types.
 #'
+#' Third-party packages that modify the reflections must register themselves in the `loaded_packages` field.
+#'
 #' The following objects are set by \CRANpkg{mlr3}:
 #'
 #' * `task_types` (`data.table()`)\cr
@@ -116,7 +118,7 @@ local({
   )
 
   ### Learner
-  tmp = c("featureless", "missings", "weights", "importance", "selected_features", "oob_error", "loglik", "hotstart_forward", "hotstart_backward", "validation", "internal_tuning", "marshal")
+  tmp = c("featureless", "missings", "weights", "importance", "selected_features", "oob_error", "hotstart_forward", "hotstart_backward", "validation", "internal_tuning", "marshal")
   mlr_reflections$learner_properties = list(
     classif = c(tmp, "twoclass", "multiclass"),
     regr = tmp
@@ -125,11 +127,6 @@ local({
   mlr_reflections$learner_predict_types = list(
     classif = list(response = "response", prob = c("response", "prob")),
     regr = list(response = "response", se = c("response", "se"), quantiles = c("response", "quantiles"), distr = c("response", "se", "distr"))
-  )
-
-  mlr_reflections$learner_fallback = list(
-    classif = "classif.featureless",
-    regr = "regr.featureless"
   )
 
   # Allowed tags for parameters
@@ -160,6 +157,9 @@ local({
   ### Logger
   mlr_reflections$loggers = list()
 
-  ### cache package version
+  ### Cached package version
   mlr_reflections$package_version = packageVersion("mlr3")
+
+  ### Loaded packages
+  mlr_reflections$loaded_packages = "mlr3"
 })

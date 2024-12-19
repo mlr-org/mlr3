@@ -1,6 +1,6 @@
 Package: mlr3
 Title: Machine Learning in R - Next Generation
-Version: 0.20.2.9000
+Version: 0.22.1.9000
 Authors@R:
   c(
     person("Michel", "Lang", , "michellang@gmail.com", role = "aut",
@@ -52,7 +52,7 @@ Imports:
     future.apply (>= 1.5.0),
     lgr (>= 0.3.4),
     mlbench,
-    mlr3measures (>= 0.6.0),
+    mlr3measures (>= 1.0.0),
     mlr3misc (>= 0.15.0),
     parallelly,
     palmerpenguins,
@@ -69,9 +69,7 @@ Suggests:
     remotes,
     RhpcBLASctl,
     rpart,
-    testthat (>= 3.1.0)
-Remotes:
-    mlr-org/mlr3measures
+    testthat (>= 3.2.0)
 Encoding: UTF-8
 Config/testthat/edition: 3
 Config/testthat/parallel: false
@@ -158,7 +156,7 @@ Collate:
     'TaskGeneratorSpirals.R'
     'TaskGeneratorXor.R'
     'TaskRegr.R'
-    'TaskRegr_boston_housing.R'
+    'TaskRegr_california_housing.R'
     'TaskRegr_mtcars.R'
     'TaskUnsupervised.R'
     'as_benchmark_result.R'
@@ -181,6 +179,7 @@ Collate:
     'benchmark.R'
     'benchmark_grid.R'
     'bibentries.R'
+    'default_fallback.R'
     'default_measures.R'
     'fix_factor_levels.R'
     'helper.R'

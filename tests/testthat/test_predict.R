@@ -52,9 +52,9 @@ test_that("missing predictions are handled gracefully / regr", {
 test_that("predict_newdata with weights (#519)", {
   # we had a problem where predict did not work if weights were present in the task
   # especially with the "predict_newdata" function
-  task = tsk("boston_housing")
-  task$set_col_roles("nox", "weights_learner")
-  learner = lrn("regr.rpart")
+  task = tsk("california_housing")
+  task$set_col_roles("households", "weight")
+  learner = lrn("regr.featureless")
   learner$train(task)
 
   # predict with different API calls
@@ -63,7 +63,7 @@ test_that("predict_newdata with weights (#519)", {
   # w/o weights in the new-df
   expect_prediction(learner$predict_newdata(task$data()))
   # w weights in the new-df
-  expect_prediction(learner$predict_newdata(task$data(cols = c(task$target_names, task$feature_names, "nox"))))
+  expect_prediction(learner$predict_newdata(task$data(cols = c(task$target_names, task$feature_names, "households"))))
 })
 
 test_that("parallel predict works", {
@@ -81,3 +81,6 @@ test_that("parallel predict works", {
 
   expect_equal(as.data.table(p1), as.data.table(p2))
 })
+
+
+

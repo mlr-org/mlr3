@@ -199,10 +199,13 @@ Measure = R6Class("Measure",
     #'
     #' @return `numeric(1)`.
     score = function(prediction, task = NULL, learner = NULL, train_set = NULL) {
-      assert_measure(self, task = task, learner = learner)
+      assert_scorable(self, task = task, learner = learner, prediction = prediction)
       properties = self$properties
       assert_prediction(prediction, null.ok = "requires_no_prediction" %nin% properties)
 
+      # check should be added to assert_measure()
+      # except when the checks are superfluous for rr$score() and bmr$score()
+      # these checks should be added bellow
       if ("requires_task" %in% properties && is.null(task)) {
         stopf("Measure '%s' requires a task", self$id)
       }
@@ -211,19 +214,12 @@ Measure = R6Class("Measure",
         stopf("Measure '%s' requires a learner", self$id)
       }
 
-      if ("requires_model" %in% properties && (is.null(learner) || is.null(learner$model))) {
-        stopf("Measure '%s' requires the trained model", self$id)
-      }
-      if ("requires_model" %in% properties && is_marshaled_model(learner$model)) {
-        stopf("Measure '%s' requires the trained model, but model is in marshaled form", self$id)
+      if (!is_scalar_na(self$task_type) && self$task_type != prediction$task_type) {
+        stopf("Measure '%s' incompatible with task type '%s'", self$id, prediction$task_type)
       }
 
       if ("requires_train_set" %in% properties && is.null(train_set)) {
         stopf("Measure '%s' requires the train_set", self$id)
-      }
-
-      if (!is_scalar_na(self$task_type) && self$task_type != prediction$task_type) {
-        stopf("Measure '%s' incompatible with task type '%s'", self$id, prediction$task_type)
       }
 
       score_single_measure(self, task, learner, train_set, prediction)
@@ -272,7 +268,10 @@ Measure = R6Class("Measure",
       private$.predict_sets
     },
 
-    #' @template field_hash
+    #' @field hash (`character(1)`)\cr
+    #' Hash (unique identifier) for this object.
+    #' The hash is calculated based on the id, the parameter settings, predict sets and the `$score`, `$average`, `$aggregator`, `$obs_loss`, `$trafo` method.
+    #' Measure can define additional fields to be included in the hash by setting the field `$.extra_hash`.
     hash = function(rhs) {
       assert_ro_binding(rhs)
       calculate_hash(class(self), self$id, self$param_set$values, private$.score,
@@ -372,8 +371,6 @@ score_single_measure = function(measure, task, learner, train_set, prediction) {
     return(NaN)
   }
 
-
-
   if (!is_scalar_na(measure$predict_type) && measure$predict_type %nin% prediction$predict_types) {
     # TODO lgr$debug()
     return(NaN)
@@ -383,7 +380,6 @@ score_single_measure = function(measure, task, learner, train_set, prediction) {
     # TODO lgr$debug()
     return(NaN)
   }
-
 
   get_private(measure)$.score(prediction = prediction, task = task, learner = learner, train_set = train_set)
 }
@@ -416,7 +412,7 @@ score_measures = function(obj, measures, reassemble = TRUE, view = NULL, iters =
   tmp = unique(tab, by = c("task_hash", "learner_hash"))[, c("task", "learner"), with = FALSE]
 
   for (measure in measures) {
-    pmap(tmp, assert_measure, measure = measure)
+    pmap(tmp, assert_scorable, measure = measure)
 
     score = pmap_dbl(tab[, c("task", "learner", "resampling", "iteration", "prediction"), with = FALSE],
       function(task, learner, resampling, iteration, prediction) {

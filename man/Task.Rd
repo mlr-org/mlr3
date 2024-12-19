@@ -17,7 +17,7 @@ For example, for a classification task a single column must be marked as target 
 }
 
 Predefined (toy) tasks are stored in the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_tasks},
-e.g. \code{\link[=mlr_tasks_penguins]{penguins}} or \code{\link[=mlr_tasks_boston_housing]{boston_housing}}.
+e.g. \code{\link[=mlr_tasks_penguins]{penguins}} or \code{\link[=mlr_tasks_california_housing]{california_housing}}.
 More toy tasks can be found in the dictionary after loading \CRANpkg{mlr3data}.
 }
 \section{S3 methods}{
@@ -92,8 +92,8 @@ Other Task:
 \code{\link{TaskRegr}},
 \code{\link{TaskSupervised}},
 \code{\link{TaskUnsupervised}},
+\code{\link{california_housing}},
 \code{\link{mlr_tasks}},
-\code{\link{mlr_tasks_boston_housing}},
 \code{\link{mlr_tasks_breast_cancer}},
 \code{\link{mlr_tasks_german_credit}},
 \code{\link{mlr_tasks_iris}},
@@ -165,7 +165,9 @@ with those ids is created from the primary task using only those ids.
 When assigning a new task, it is always cloned.}
 
 \item{\code{hash}}{(\code{character(1)})\cr
-Hash (unique identifier) for this object.}
+Hash (unique identifier) for this object.
+The hash is calculated based on the complete task object and \verb{$row_ids}.
+If an internal validation task is set, the hash is recalculated.}
 
 \item{\code{row_ids}}{(positive \code{integer()})\cr
 Returns the row ids of the \link{DataBackend} for observations with role "use".}
@@ -336,6 +338,9 @@ Alternatively, you can provide a \code{\link[=data.frame]{data.frame()}} with th
 Hash (unique identifier) for all columns except the \code{primary_key}: A \code{character} vector, named by the columns that each element refers to.\cr
 Columns of different \code{\link{Task}}s or \code{\link{DataBackend}}s that have agreeing \code{col_hashes} always represent the same data, given that the same \code{row}s are selected.
 The reverse is not necessarily true: There can be columns with the same content that have different \code{col_hashes}.}
+
+\item{\code{characteristics}}{(\code{list()})\cr
+List of characteristics of the task, e.g. \code{list(n = 5, p = 7)}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -793,6 +798,7 @@ the object in its previous state.
 \if{latex}{\out{\hypertarget{method-Task-set_col_roles}{}}}
 \subsection{Method \code{set_col_roles()}}{
 Modifies the roles in \verb{$col_roles} \strong{in-place}.
+See \verb{$col_roles} for a list of possible roles.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Task$set_col_roles(cols, roles = NULL, add_to = NULL, remove_from = NULL)}\if{html}{\out{</div>}}
 }
@@ -817,9 +823,10 @@ Other column roles are preserved.}
 \if{html}{\out{</div>}}
 }
 \subsection{Details}{
-Roles are first set exclusively (argument \code{roles}), then added (argument \code{add_to}) and finally
-removed (argument \code{remove_from}) from different roles.
+Roles are first set exclusively (argument \code{roles}), then added (argument \code{add_to}) and finally removed (argument \code{remove_from}) from different roles.
 Duplicated columns are removed from the same role.
+For tasks that only allow one target, the target column cannot be set with \verb{$set_col_roles()}.
+Use the \verb{$col_roles} field to swap the target column.
 }
 
 \subsection{Returns}{

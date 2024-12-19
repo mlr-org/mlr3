@@ -107,7 +107,13 @@ test_matching_task_type = function(task_type, object, class) {
 #' @export
 #' @param learners (list of [Learner]).
 #' @rdname mlr_assertions
-assert_learners = function(learners, task = NULL, task_type = NULL, properties = character(), .var.name = vname(learners)) {
+assert_learners = function(learners, task = NULL, task_type = NULL, properties = character(), unique_ids = FALSE, .var.name = vname(learners)) {
+  if (unique_ids)  {
+    ids = map_chr(learners, "id")
+    if (!test_character(ids, unique = TRUE)) {
+      stopf("Learners need to have unique IDs: %s", str_collapse(ids))
+    }
+  }
   invisible(lapply(learners, assert_learner, task = task, task_type = NULL, properties = properties, .var.name = .var.name))
 }
 
@@ -193,7 +199,7 @@ assert_predictable = function(task, learner) {
       all(pmap_lgl(list(x = ci_train$levels, y = ci_predict$levels), identical))
 
     if (!ok) {
-      stopf( "Learner '%s' received task with different column info during train and predict.", learner$id)
+      lg$warn("Learner '%s' received task with different column info (feature type or level ordering) during train and predict.", learner$id)
     }
   }
 
@@ -204,11 +210,13 @@ assert_predictable = function(task, learner) {
 
 #' @export
 #' @param measure ([Measure]).
+#' @param prediction ([Prediction]).
 #' @rdname mlr_assertions
-assert_measure = function(measure, task = NULL, learner = NULL, .var.name = vname(measure)) {
+assert_measure = function(measure, task = NULL, learner = NULL, prediction = NULL, .var.name = vname(measure)) {
   assert_class(measure, "Measure", .var.name = .var.name)
 
   if (!is.null(task)) {
+
     if (!is_scalar_na(measure$task_type) && !test_matching_task_type(task$task_type, measure, "measure")) {
       stopf("Measure '%s' is not compatible with type '%s' of task '%s'",
         measure$id, task$task_type, task$id)
@@ -224,6 +232,7 @@ assert_measure = function(measure, task = NULL, learner = NULL, .var.name = vnam
   }
 
   if (!is.null(learner)) {
+
     if (!is_scalar_na(measure$task_type) && measure$task_type != learner$task_type) {
       stopf("Measure '%s' is not compatible with type '%s' of learner '%s'",
         measure$id, learner$task_type, learner$id)
@@ -246,9 +255,31 @@ assert_measure = function(measure, task = NULL, learner = NULL, .var.name = vnam
     }
   }
 
+  if (!is.null(prediction) && is.null(learner)) {
+    # same as above but works without learner e.g. measure$score(prediction)
+    if (measure$check_prerequisites != "ignore" && measure$predict_type %nin% prediction$predict_types) {
+      warningf("Measure '%s' is missing predict type '%s' of prediction", measure$id, measure$predict_type)
+    }
+  }
+
   invisible(measure)
 }
 
+#' @export
+#' @param measure ([Measure]).
+#' @param prediction ([Prediction]).
+#' @rdname mlr_assertions
+assert_scorable = function(measure, task, learner, prediction = NULL, .var.name = vname(measure)) {
+  if ("requires_model" %in% measure$properties && is.null(learner$model)) {
+    stopf("Measure '%s' requires the trained model", measure$id)
+  }
+
+  if ("requires_model" %in% measure$properties && is_marshaled_model(learner$model)) {
+    stopf("Measure '%s' requires the trained model, but model is in marshaled form", measure$id)
+  }
+
+  assert_measure(measure, task = task, learner = learner, prediction = prediction, .var.name = .var.name)
+}
 
 #' @export
 #' @param measures (list of [Measure]).

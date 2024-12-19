@@ -8,6 +8,8 @@
 #' @return [Prediction].
 #' @export
 as_prediction = function(x, check = FALSE, ...) {
+  if (is.null(x)) return(list())
+
   UseMethod("as_prediction")
 }
 

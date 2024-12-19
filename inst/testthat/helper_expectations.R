@@ -474,7 +474,6 @@ expect_resampling = function(r, task = NULL) {
     expect_hash(r$task_hash, 1L)
     if (!is.null(task)) {
       ids = task$row_ids
-      testthat::expect_equal(task$hash, r$task_hash)
     }
     checkmate::expect_count(r$iters, positive = TRUE)
 
@@ -518,7 +517,7 @@ expect_measure = function(m) {
   testthat::expect_output(print(m), "Measure")
 
   if ("requires_no_prediction" %in% m$properties) {
-    testthat::expect_true(is.null(m$predict_sets))
+    testthat::expect_null(m$predict_sets)
   }
 
   expect_id(m$id)

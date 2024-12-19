@@ -18,7 +18,7 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
       stopf("Learner '%s' on task '%s' returned NULL during internal %s()", learner$id, task$id, mode)
     }
 
-    if (learner$encapsulate[["train"]] == "callr") {
+    if (learner$encapsulation[["train"]] == "callr") {
       model = marshal_model(model, inplace = TRUE)
     }
 
@@ -67,7 +67,7 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
     mode, learner$id, task$id, task$nrow, learner = learner$clone())
 
   # call train_wrapper with encapsulation
-  result = encapsulate(learner$encapsulate["train"],
+  result = encapsulate(learner$encapsulation["train"],
     .f = train_wrapper,
     .args = list(learner = learner, task = task),
     .pkgs = learner$packages,
@@ -195,12 +195,12 @@ learner_predict = function(learner, task, row_ids = NULL) {
     lg$debug("Calling predict method of Learner '%s' on task '%s' with %i observations",
       learner$id, task$id, task$nrow, learner = learner$clone())
 
-    if (isTRUE(all.equal(learner$encapsulate[["predict"]], "callr"))) {
+    if (isTRUE(all.equal(learner$encapsulation[["predict"]], "callr"))) {
       learner$model = marshal_model(learner$model, inplace = TRUE)
     }
 
     result = encapsulate(
-      learner$encapsulate["predict"],
+      learner$encapsulation["predict"],
       .f = predict_wrapper,
       .args = list(task = task, learner = learner),
       .pkgs = learner$packages,
@@ -268,6 +268,16 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
       old_blas_threads = RhpcBLASctl::blas_get_num_procs()
       on.exit(RhpcBLASctl::blas_set_num_threads(old_blas_threads), add = TRUE)
       RhpcBLASctl::blas_set_num_threads(1)
+    } else { # try the bare minimum to disable threading of the most popular blas implementations
+      old_blas = Sys.getenv("OPENBLAS_NUM_THREADS")
+      old_mkl = Sys.getenv("MKL_NUM_THREADS")
+      Sys.setenv(OPENBLAS_NUM_THREADS = 1)
+      Sys.setenv(MKL_NUM_THREADS = 1)
+
+      on.exit({
+        Sys.setenv(OPENBLAS_NUM_THREADS = old_blas)
+        Sys.setenv(MKL_NUM_THREADS = old_mkl)
+      }, add = TRUE)
     }
   }
   # restore logger thresholds
@@ -316,6 +326,10 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
     lg$debug("Creating Prediction for predict set '%s'", set)
     learner_predict(learner, task, row_ids)
   }, set = predict_sets, row_ids = pred_data$sets, task = pred_data$tasks)
+
+  if (!length(predict_sets)) {
+    learner$state$predict_time = 0L
+  }
   pdatas = discard(pdatas, is.null)
 
   # set the model slot after prediction so it can be sent back to the main process
@@ -362,7 +376,7 @@ process_model_before_predict = function(learner, store_models, is_sequential, un
   # and also, do we even need to send it back at all?
 
   currently_marshaled = is_marshaled_model(learner$model)
-  predict_needs_marshaling = isTRUE(all.equal(learner$encapsulate[["predict"]], "callr"))
+  predict_needs_marshaling = isTRUE(all.equal(learner$encapsulation[["predict"]], "callr"))
   final_needs_marshaling = !is_sequential || !unmarshal
 
   # the only scenario in which we keep a copy is when we now have the model in the correct form but need to transform

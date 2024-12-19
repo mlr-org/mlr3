@@ -8,7 +8,7 @@
 #' `mlr3.warn_deprecated = FALSE`.
 #'
 #' The warning is of the format
-#' "<what> is deprecated and will be removed in the future."
+#' "what is deprecated and will be removed in the future."
 #'
 #' Use the 'deprecated_binding()' helper function to create an active binding
 #' that generates a warning when accessed.

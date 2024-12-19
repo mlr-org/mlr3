@@ -108,7 +108,8 @@ LearnerRegrDebug = R6Class("LearnerRegrDebug", inherit = LearnerRegr,
         return(prediction)
       }
 
-      prediction = setdiff(named_list(mlr_reflections$learner_predict_types[["regr"]][[self$predict_type]]), "quantiles")
+      predict_types = setdiff(self$predict_type, "quantiles")
+      prediction = named_list(mlr_reflections$learner_predict_types[["regr"]][[predict_types]])
       missing_type = pv$predict_missing_type %??% "na"
 
       for (pt in names(prediction)) {

@@ -1,6 +1,6 @@
 test_that("re-instantiating", {
   t1 = tsk("iris")
-  t2 = tsk("boston_housing")
+  t2 = tsk("california_housing")
   r = rsmp("cv", folds = 2)
 
   expect_resampling(r$instantiate(t1), task = t1)
