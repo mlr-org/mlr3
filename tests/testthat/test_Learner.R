@@ -629,3 +629,37 @@ test_that("predict time is cumulative", {
   t2 = learner$timings["predict"]
   expect_true(t1 > t2)
 })
+
+test_that("configure method works", {
+  learner = lrn("classif.rpart")
+
+  expect_learner(learner$configure())
+  expect_learner(learner$configure(.values = list()))
+
+  # set new hyperparameter value
+  learner$configure(cp = 0.1)
+  expect_equal(learner$param_set$values$cp, 0.1)
+
+  # overwrite existing hyperparameter value
+  learner$configure(xval = 10)
+  expect_equal(learner$param_set$values$xval, 10)
+
+  # set field
+  learner$configure(predict_sets = "train")
+  expect_equal(learner$predict_sets, "train")
+
+  # hyperparameter and field
+  learner$configure(minbucket = 2, parallel_predict = TRUE)
+  expect_equal(learner$param_set$values$minbucket, 2)
+  expect_true(learner$parallel_predict)
+
+  # unknown hyperparameter and field
+  expect_error(learner$configure(xvald = 1), "Cannot set argument")
+
+  # use .values
+  learner = lrn("classif.rpart")
+  learner$configure(.values = list(cp = 0.1, xval = 10, predict_sets = "train"))
+  expect_equal(learner$param_set$values$cp, 0.1)
+  expect_equal(learner$param_set$values$xval, 10)
+  expect_equal(learner$predict_sets, "train")
+})

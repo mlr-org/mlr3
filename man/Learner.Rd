@@ -318,6 +318,7 @@ Stores \code{HotstartStack}.}
 \item \href{#method-Learner-reset}{\code{Learner$reset()}}
 \item \href{#method-Learner-base_learner}{\code{Learner$base_learner()}}
 \item \href{#method-Learner-encapsulate}{\code{Learner$encapsulate()}}
+\item \href{#method-Learner-configure}{\code{Learner$configure()}}
 \item \href{#method-Learner-clone}{\code{Learner$clone()}}
 }
 }
@@ -605,6 +606,29 @@ The fallback learner for failed predictions.}
 }
 \subsection{Returns}{
 \code{self} (invisibly).
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Learner-configure"></a>}}
+\if{latex}{\out{\hypertarget{method-Learner-configure}{}}}
+\subsection{Method \code{configure()}}{
+Sets parameter values and fields of the learner.
+All arguments whose names match the name of a parameter of the \link[paradox:ParamSet]{paradox::ParamSet} are set as parameters.
+All remaining arguments are assumed to be regular fields.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Learner$configure(..., .values = list())}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{...}}{(named \code{any})\cr
+Named arguments to set parameter values and fields.}
+
+\item{\code{.values}}{(named \code{any})\cr
+Named list of parameter values and fields.}
+}
+\if{html}{\out{</div>}}
 }
 }
 \if{html}{\out{<hr>}}
