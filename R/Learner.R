@@ -505,6 +505,50 @@ Learner = R6Class("Learner",
       private$.fallback = fallback
 
       return(invisible(self))
+    },
+
+    #' @description
+    #' Sets parameter values and fields of the learner.
+    #' All arguments whose names match the name of a parameter of the [paradox::ParamSet] are set as parameters.
+    #' All remaining arguments are assumed to be regular fields.
+    #'
+    #' @param ... (named `any`)\cr
+    #'   Named arguments to set parameter values and fields.
+    #' @param .values (named `any`)\cr
+    #'   Named list of parameter values and fields.
+    configure = function(..., .values = list()) {
+      dots = list(...)
+      assert_list(dots, names = "unique")
+      assert_list(.values, names = "unique")
+      assert_disjunct(names(dots), names(.values))
+      new_values = insert_named(dots, .values)
+
+      # set params in ParamSet
+      if (length(new_values)) {
+        param_ids = self$param_set$ids()
+        ii = names(new_values) %in% param_ids
+        if (any(ii)) {
+          self$param_set$values = insert_named(self$param_set$values, new_values[ii])
+          new_values = new_values[!ii]
+        }
+      } else {
+        param_ids = character()
+      }
+
+      # remaining args go into fields
+      if (length(new_values)) {
+        ndots = names(new_values)
+        for (i in seq_along(new_values)) {
+          nn = ndots[[i]]
+          if (!exists(nn, envir = self, inherits = FALSE)) {
+            stopf("Cannot set argument '%s' for '%s' (not a parameter, not a field).%s",
+              nn, class(self)[1L], did_you_mean(nn, c(param_ids, setdiff(names(self), ".__enclos_env__")))) # nolint
+          }
+          self[[nn]] = new_values[[i]]
+        }
+      }
+
+      return(invisible(self))
     }
   ),
 
