@@ -111,6 +111,13 @@ reference:
       - mlr_sugar
       - mlr_reflections
       - set_threads
+  - title: Callbacks
+    contents:
+      - CallbackEvaluation
+      - ContextEvaluation
+      - callback_evaluation
+      - assert_evaluation_callback
+      - mlr3.score_measures
   - title: Internal Objects and Functions
     contents:
       - marshaling

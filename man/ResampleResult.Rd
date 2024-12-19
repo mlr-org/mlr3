@@ -14,7 +14,7 @@ Do not modify any object without cloning it first.
 \section{S3 Methods}{
 
 \itemize{
-\item \code{as.data.table(rr, reassemble_learners = TRUE, convert_predictions = TRUE, predict_sets = "test")}\cr
+\item \code{as.data.table(rr, reassemble_learners = TRUE, convert_predictions = TRUE, predict_sets = "test", data_extra = FALSE)}\cr
 \link{ResampleResult} -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Returns a tabular view of the internal data.
 \item \code{c(...)}\cr
@@ -81,6 +81,9 @@ Instantiated \link{Resampling} object which stores the splits into training and 
 
 \item{\code{learners}}{(list of \link{Learner})\cr
 List of trained learners, sorted by resampling iteration.}
+
+\item{\code{data_extra}}{(list())\cr
+Additional data stored in the \link{ResampleResult}.}
 
 \item{\code{warnings}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
 A table with all warning messages.
