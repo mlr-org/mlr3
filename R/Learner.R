@@ -552,7 +552,7 @@ Learner = R6Class("Learner",
     },
 
     #' @description
-    #' Returns the selected features of the model.
+    #' Returns the features selected by the model.
     #' The field `selected_features_impute` controls the behavior if the learner does not support feature selection.
     #' If set to `"error"`, an error is thrown, otherwise all features are returned.
     selected_features = function() {
