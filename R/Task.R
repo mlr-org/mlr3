@@ -900,6 +900,7 @@ Task = R6Class("Task",
     #' * `"strata"`: The task is resampled using one or more stratification variables (role `"stratum"`).
     #' * `"groups"`: The task comes with grouping/blocking information (role `"group"`).
     #' * `"weights"`: The task comes with observation weights (role `"weight"`).
+    #' * `"offset"`: The task includes an offset column specifying fixed adjustments for model training (role `"offset"`).
     #'
     #' Note that above listed properties are calculated from the `$col_roles` and may not be set explicitly.
     properties = function(rhs) {
@@ -909,7 +910,8 @@ Task = R6Class("Task",
           private$.properties,
           if (length(col_roles$group)) "groups" else NULL,
           if (length(col_roles$stratum)) "strata" else NULL,
-          if (length(col_roles$weight)) "weights" else NULL
+          if (length(col_roles$weight)) "weights" else NULL,
+          if (length(col_roles$offset)) "offset" else NULL
         )
       } else {
         private$.properties = assert_set(rhs, .var.name = "properties")
@@ -953,6 +955,8 @@ Task = R6Class("Task",
     #'   Not more than a single column can be associated with this role.
     #' * `"stratum"`: Stratification variables. Multiple discrete columns may have this role.
     #' * `"weight"`: Observation weights. Not more than one numeric column may have this role.
+    #' * `"offset"`: Offset values specifying fixed adjustments for model training. These values can be used to provide baseline predictions from an existing model for updating another model.
+    #' Not more than one numeric column may have this role.
     #'
     #' `col_roles` is a named list whose elements are named by column role and each element is a `character()` vector of column names.
     #' To alter the roles, just modify the list, e.g. with \R's set functions ([intersect()], [setdiff()], [union()], \ldots).
@@ -1232,7 +1236,7 @@ task_check_col_roles = function(task, new_roles, ...) {
 #' @rdname task_check_col_roles
 #' @export
 task_check_col_roles.Task = function(task, new_roles, ...) {
-  for (role in c("group", "weight", "name")) {
+  for (role in c("group", "weight", "name", "offset")) {
     if (length(new_roles[[role]]) > 1L) {
       stopf("There may only be up to one column with role '%s'", role)
     }
@@ -1250,6 +1254,12 @@ task_check_col_roles.Task = function(task, new_roles, ...) {
     if (!is.character(row_names[[1L]]) && !is.factor(row_names[[1L]])) {
       stopf("Assertion on '%s' failed: Must be of type 'character' or 'factor', not %s", names(row_names), class(row_names[[1]]))
     }
+  }
+
+  # check offset
+  if (length(new_roles[["offset"]])) {
+    offset = task$backend$data(task$backend$rownames, cols = new_roles[["offset"]])
+    assert_numeric(offset[[1L]], any.missing = FALSE)
   }
 
   return(new_roles)

@@ -94,14 +94,14 @@ local({
     "use"
   )
 
-  tmp = c("feature", "target", "name", "order", "stratum", "group", "weight")
+  tmp = c("feature", "target", "name", "order", "stratum", "group", "weight", "offset")
   mlr_reflections$task_col_roles = list(
     regr = tmp,
     classif = tmp,
     unsupervised = c("feature", "name", "order")
   )
 
-  tmp = c("strata", "groups", "weights")
+  tmp = c("strata", "groups", "weights", "offset")
   mlr_reflections$task_properties = list(
     classif = c(tmp, "twoclass", "multiclass"),
     regr = tmp,
@@ -114,7 +114,7 @@ local({
 
   mlr_reflections$task_print_col_roles = list(
     before = character(),
-    after = c("Order by" = "order", "Strata" = "stratum", "Groups" = "group", "Weights" = "weight")
+    after = c("Order by" = "order", "Strata" = "stratum", "Groups" = "group", "Weights" = "weight", "Offset" = "offset")
   )
 
   ### Learner
