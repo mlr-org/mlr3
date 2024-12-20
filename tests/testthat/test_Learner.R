@@ -549,8 +549,7 @@ test_that("learner state contains internal valid task information", {
 test_that("validation task with 0 observations", {
   learner = lrn("classif.debug", validate = "predefined")
   task = tsk("iris")
-  task$internal_valid_task = integer(0)
-  expect_error({learner$train(task)}, "has 0 observations")
+  expect_warning({task$internal_valid_task = integer(0)})
 })
 
 test_that("column info is compared during predict", {
