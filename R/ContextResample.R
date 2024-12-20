@@ -1,4 +1,4 @@
-#' @title Evaluation Context
+#' @title Resample Context
 #'
 #' @description
 #' A [CallbackResample] accesses and modifies data during [resample()] and [benchmark()] via the `ContextResample`.

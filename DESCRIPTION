@@ -80,7 +80,7 @@ Collate:
     'mlr_reflections.R'
     'BenchmarkResult.R'
     'CallbackResample.R'
-    'ContextEvaluation.R'
+    'ContextResample.R'
     'warn_deprecated.R'
     'DataBackend.R'
     'DataBackendCbind.R'
