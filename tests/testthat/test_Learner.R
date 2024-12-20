@@ -667,10 +667,13 @@ test_that("configure method works", {
 test_that("selected_features works", {
   task = tsk("spam")
   # alter rpart class to not support feature selection
-  LearnerClassifRpart2 = R6::R6Class("LearnerClassifRpart2", inherit = LearnerClassifRpart)
-  LearnerClassifRpart2$public_methods$selected_features = NULL
+  fun = LearnerClassifRpart$public_methods$selected_features
+  on.exit({
+    LearnerClassifRpart$public_methods$selected_features = fun
+  })
+  LearnerClassifRpart$public_methods$selected_features = NULL
 
-  learner = LearnerClassifRpart2$new()
+  learner = lrn("classif.rpart")
   expect_error(learner$selected_features(), "No model stored")
   learner$train(task)
   expect_error(learner$selected_features(), "Learner does not support feature selection")
