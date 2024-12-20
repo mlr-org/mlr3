@@ -21,8 +21,8 @@ test_that("Learners are called with invoke / small footprint of call", {
   learner$train(task)
   call = as.character(learner$model$call)
   expect_character(call, min.len = 1L, any.missing = FALSE)
-  expect_true(any(grepl("task$formula()", call, fixed = TRUE)))
-  expect_true(any(grepl("task$data", call, fixed = TRUE)))
+  expect_match(call, "task$formula()", fixed = TRUE, all = FALSE)
+  expect_match(call, "task$data", fixed = TRUE, all = FALSE)
   expect_lt(sum(nchar(call)), 1000)
 })
 
@@ -236,7 +236,7 @@ test_that("empty predict set (#421)", {
   learner$train(task, hout$train_set(1))
   pred = learner$predict(task, hout$test_set(1))
   expect_prediction(pred)
-  expect_true(any(grepl("No data to predict on", learner$log$msg)))
+  expect_match(learner$log$msg, "No data to predict on", all = FALSE)
 })
 
 test_that("fallback learner is deep cloned (#511)", {
@@ -330,7 +330,7 @@ test_that("validation task's backend is removed", {
   task = tsk("mtcars")
   task$internal_valid_task = 1:10
   learner$train(task)
-  expect_true(is.null(learner$state$train_task$internal_valid_task$backend))
+  expect_null(learner$state$train_task$internal_valid_task$backend)
 })
 
 test_that("manual $train() stores validation hash and validation ids", {
@@ -348,7 +348,7 @@ test_that("manual $train() stores validation hash and validation ids", {
   # nothing is stored for learners that don't do it
   l2 = lrn("classif.featureless")
   l2$train(task)
-  expect_true(is.null(l2$state$internal_valid_task_hash))
+  expect_null(l2$state$internal_valid_task_hash)
 })
 
 test_that("error when training a learner that sets valiadte to 'predefined' on a task without a validation task", {
@@ -421,15 +421,15 @@ test_that("internal_valid_task is created correctly", {
   task$internal_valid_task = partition(task)$test
   learner$train(task)
   learner$validate = NULL
-  expect_true(is.null(learner$internal_valid_scores))
-  expect_true(is.null(learner$task$internal_valid_task))
+  expect_null(learner$internal_valid_scores)
+  expect_null(learner$task$internal_valid_task)
 
   # validate = NULL (but task has none)
   learner1 = LearnerClassifTest$new()
   task1 = tsk("iris")
   learner1$train(task1)
-  expect_true(is.null(learner1$internal_valid_scores))
-  expect_true(is.null(learner1$task$internal_valid_task))
+  expect_null(learner1$internal_valid_scores)
+  expect_null(learner1$task$internal_valid_task)
 
   # validate = "test"
   LearnerClassifTest2 = R6Class("LearnerClassifTest2", inherit = LearnerClassifDebug,
@@ -455,7 +455,7 @@ test_that("internal_valid_task is created correctly", {
   resampling = rsmp("holdout")$instantiate(task2)
   learner2$expected_valid_ids = resampling$test_set(1)
   learner2$expected_train_ids = resampling$train_set(1)
-  expect_error(resample(task2, learner2, resampling), regexp = NA)
+  expect_no_error(resample(task2, learner2, resampling))
 
   # ratio works
   LearnerClassifTest3 = R6Class("LearnerClassifTest3", inherit = LearnerClassifDebug,
@@ -477,7 +477,7 @@ test_that("internal_valid_task is created correctly", {
   learner4 = lrn("classif.debug", validate = 0.2)
   task = tsk("iris")
   learner4$train(task)
-  expect_true(is.null(task$internal_valid_task))
+  expect_null(task$internal_valid_task)
 })
 
 test_that("compatability check on validation task", {
@@ -628,4 +628,38 @@ test_that("predict time is cumulative", {
   learner$predict(task)
   t2 = learner$timings["predict"]
   expect_true(t1 > t2)
+})
+
+test_that("configure method works", {
+  learner = lrn("classif.rpart")
+
+  expect_learner(learner$configure())
+  expect_learner(learner$configure(.values = list()))
+
+  # set new hyperparameter value
+  learner$configure(cp = 0.1)
+  expect_equal(learner$param_set$values$cp, 0.1)
+
+  # overwrite existing hyperparameter value
+  learner$configure(xval = 10)
+  expect_equal(learner$param_set$values$xval, 10)
+
+  # set field
+  learner$configure(predict_sets = "train")
+  expect_equal(learner$predict_sets, "train")
+
+  # hyperparameter and field
+  learner$configure(minbucket = 2, parallel_predict = TRUE)
+  expect_equal(learner$param_set$values$minbucket, 2)
+  expect_true(learner$parallel_predict)
+
+  # unknown hyperparameter and field
+  expect_error(learner$configure(xvald = 1), "Cannot set argument")
+
+  # use .values
+  learner = lrn("classif.rpart")
+  learner$configure(.values = list(cp = 0.1, xval = 10, predict_sets = "train"))
+  expect_equal(learner$param_set$values$cp, 0.1)
+  expect_equal(learner$param_set$values$xval, 10)
+  expect_equal(learner$predict_sets, "train")
 })

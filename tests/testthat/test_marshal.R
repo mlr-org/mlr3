@@ -56,7 +56,7 @@ test_that("marshal count works for LearnerClassifDebug", {
 
   learner2 = lrn("classif.debug", count_marshaling = FALSE)
   learner2$train(task)
-  expect_true(is.null(learner2$model$marshal_count))
+  expect_null(learner2$model$marshal_count)
   model1 = learner2$model
   model2 = learner2$marshal()$unmarshal()$model
   expect_equal(model1, model2)
