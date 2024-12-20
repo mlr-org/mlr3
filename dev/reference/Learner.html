@@ -246,12 +246,6 @@ Task type, e.g. <code>"classif"</code> or <code>"regr"</code>.</p>
 see <code><a href="mlr_reflections.html">mlr_reflections$task_types$type</a></code>.</p></dd>
 
 
-<dt><code>predict_types</code></dt>
-<dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
-Stores the possible predict types the learner is capable of.
-A complete list of candidate predict types, grouped by task type, is stored in <code><a href="mlr_reflections.html">mlr_reflections$learner_predict_types</a></code>.</p></dd>
-
-
 <dt><code>feature_types</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 Stores the feature types the learner can handle, e.g. <code>"logical"</code>, <code>"numeric"</code>, or <code>"factor"</code>.
@@ -367,7 +361,9 @@ Hash (unique identifier) for this partial object, excluding some components whic
 <dt><code>predict_type</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 Stores the currently active predict type, e.g. <code>"response"</code>.
-Must be an element of <code>$predict_types</code>.</p></dd>
+Must be an element of <code>$predict_types</code>.
+A few learners already use the predict type during training.
+So there is no guarantee that changing the predict type after training will have any effect or does not lead to errors.</p></dd>
 
 
 <dt><code>param_set</code></dt>
@@ -388,6 +384,13 @@ Returns the encapsulation settings set with <code>$encapsulate()</code>.</p></dd
 <dt><code>hotstart_stack</code></dt>
 <dd><p>(<a href="HotstartStack.html">HotstartStack</a>)<br>.
 Stores <code>HotstartStack</code>.</p></dd>
+
+
+<dt><code>predict_types</code></dt>
+<dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
+Stores the possible predict types the learner is capable of.
+A complete list of candidate predict types, grouped by task type, is stored in <code><a href="mlr_reflections.html">mlr_reflections$learner_predict_types</a></code>.
+This field is read-only.</p></dd>
 
 
 </dl><p></p></div>
