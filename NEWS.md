@@ -1,10 +1,9 @@
 # mlr3 (development version)
 
-* BREAKING CHANGE: `weights` property and functionality is split into `weights_learner`, `weights_measure`, and `weights_resampling`:
+* BREAKING CHANGE: `weights` property and functionality is split into `weights_learner` and `weights_measure`:
 
   * `weights_learner`: Weights used during training by the Learner.
   * `weights_measure`: Weights used during scoring predictions via measures.
-  * `weights_resampling`: Weights used during resampling to sample observations with unequal probability.
 
   Each of these can be disabled via the new hyperparameter (Measure, Resampling) or field (Learner) `use_weights`.
 
