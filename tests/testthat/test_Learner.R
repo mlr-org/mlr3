@@ -663,3 +663,21 @@ test_that("configure method works", {
   expect_equal(learner$param_set$values$xval, 10)
   expect_equal(learner$predict_sets, "train")
 })
+
+test_that("selected_features works", {
+  task = tsk("spam")
+  # alter rpart class to not support feature selection
+  fun = LearnerClassifRpart$public_methods$selected_features
+  on.exit({
+    LearnerClassifRpart$public_methods$selected_features = fun
+  })
+  LearnerClassifRpart$public_methods$selected_features = NULL
+
+  learner = lrn("classif.rpart")
+  expect_error(learner$selected_features(), "No model stored")
+  learner$train(task)
+  expect_error(learner$selected_features(), "Learner does not support feature selection")
+
+  learner$selected_features_impute = "all"
+  expect_equal(learner$selected_features(), task$feature_names)
+})
