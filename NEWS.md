@@ -1,5 +1,8 @@
 # mlr3 (development version)
 
+* BREAKING CHANGE: `Learner$predict_types` is read-only now.
+* docs: Clear up behavior of `Learner$predict_type` after training.
+
 # mlr3 0.22.1
 
 * fix: Extend `assert_measure()` with checks for trained models in `assert_scorable()`.
