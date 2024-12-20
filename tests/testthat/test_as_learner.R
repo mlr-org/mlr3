@@ -21,3 +21,7 @@ test_that("discard_state", {
   as_learner(learner3, clone = FALSE, discard_state = TRUE)
   expect_null(learner3$state)
 })
+
+test_that("error when arguments are misspelled", {
+  expect_error(as_learner(lrn("classif.rpart"), clone2 = TRUE), "Received the following")
+})

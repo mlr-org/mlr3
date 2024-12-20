@@ -17,12 +17,14 @@ as_measure = function(x, ...) { # nolint
 #' @export
 #' @rdname as_measure
 as_measure.NULL = function(x, task_type = NULL, ...) { # nolint
+  assert_empty_ellipsis(...)
   default_measures(task_type)[[1L]]
 }
 
 #' @export
 #' @rdname as_measure
 as_measure.Measure = function(x, clone = FALSE, ...) { # nolint
+  assert_empty_ellipsis(...)
   if (isTRUE(clone)) x$clone() else x
 }
 

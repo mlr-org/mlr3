@@ -22,3 +22,7 @@ test_that("as_task_xx error messages (#944)", {
     "subset of"
   )
 })
+
+test_that("error when arguments are misspelled", {
+  expect_error(as_task(tsk("iris"), clone2 = TRUE), "Received the following")
+})

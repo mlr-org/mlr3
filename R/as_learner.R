@@ -16,6 +16,7 @@ as_learner = function(x, ...) { # nolint
 #'   Whether to discard the state.
 #' @rdname as_learner
 as_learner.Learner = function(x, clone = FALSE, discard_state = FALSE, ...) { # nolint
+  assert_empty_ellipsis(...)
   if (isTRUE(clone) && isTRUE(discard_state)) {
     clone_without(x, "state")
   } else if (isTRUE(clone)) {
