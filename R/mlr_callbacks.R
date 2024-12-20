@@ -45,7 +45,7 @@ load_callback_model_extractor = function() {
 #' @title Callback Holdout Task
 #'
 #' @include CallbackResample.R
-#' @name mlr3.holdout_set
+#' @name mlr3.holdout_task
 #'
 #' @description
 #' This [CallbackResample] predicts on an additional holdout task after training.
