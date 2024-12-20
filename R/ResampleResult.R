@@ -13,7 +13,7 @@
 #' @template param_measures
 #'
 #' @section S3 Methods:
-#' * `as.data.table(rr, reassemble_learners = TRUE, convert_predictions = TRUE, predict_sets = "test", data_extra = FALSE)`\cr
+#' * `as.data.table(rr, reassemble_learners = TRUE, convert_predictions = TRUE, predict_sets = "test")`\cr
 #'   [ResampleResult] -> [data.table::data.table()]\cr
 #'   Returns a tabular view of the internal data.
 #' * `c(...)`\cr
@@ -377,11 +377,11 @@ ResampleResult = R6Class("ResampleResult",
 )
 
 #' @export
-as.data.table.ResampleResult = function(x, ..., predict_sets = "test", data_extra = FALSE) { # nolint
+as.data.table.ResampleResult = function(x, ..., predict_sets = "test") { # nolint
   private = get_private(x)
   tab = private$.data$as_data_table(view = private$.view, predict_sets = predict_sets)
   cns = c("task", "learner", "resampling", "iteration", "prediction")
-  if (data_extra && "data_extra" %in% names(tab)) cns = c(cns, "data_extra")
+  if ("data_extra" %in% names(tab)) cns = c(cns, "data_extra")
   tab[, cns, with = FALSE]
 }
 
