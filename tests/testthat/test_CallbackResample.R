@@ -183,3 +183,29 @@ test_that("data_extra is null", {
   expect_names(names(tab), disjunct.from = "data_extra")
 })
 
+test_that("learner cloning in workhorse is passed to context", {
+  task = tsk("pima")
+  learner = lrn("classif.rpart")
+  resampling = rsmp("holdout")
+
+  callback = callback_resample("test",
+    on_resample_begin = function(callback, context) {
+      callback$state$address_1 = data.table::address(context$learner)
+    },
+
+    on_resample_before_train = function(callback, context) {
+      callback$state$address_2 = data.table::address(context$learner)
+    },
+
+    on_resample_end = function(callback, context) {
+      context$data_extra = list(
+        address_1 = callback$state$address_1,
+        address_2 = callback$state$address_2
+      )
+    }
+  )
+
+  rr = resample(task, learner, resampling, callbacks = callback)
+
+  expect_true(rr$data_extra[[1]]$address_1 != rr$data_extra[[1]]$address_2)
+})

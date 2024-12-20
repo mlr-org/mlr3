@@ -76,8 +76,6 @@ load_callback_holdout_task = function() {
     man = "mlr3::mlr3.holdout_task",
 
     on_resample_before_predict = function(callback, context) {
-      assert_task(callback$state$task)
-
       pred = context$learner$predict(callback$state$task)
       context$data_extra = list(prediction_holdout = pred)
     }
