@@ -70,6 +70,11 @@ dummy_import = function() {
   # nocov start
   backports::import(pkgname)
 
+  # callbacks
+  x = utils::getFromNamespace("mlr_callbacks", ns = "mlr3misc")
+  x$add("mlr3.model_extractor", load_callback_model_extractor)
+  x$add("mlr3.holdout_task", load_callback_holdout_task)
+
   # setup logger
   lg = lgr::get_logger(pkgname)
   assign("lg", lg, envir = parent.env(environment()))

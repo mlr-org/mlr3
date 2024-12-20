@@ -79,6 +79,8 @@ RoxygenNote: 7.3.2
 Collate:
     'mlr_reflections.R'
     'BenchmarkResult.R'
+    'CallbackResample.R'
+    'ContextResample.R'
     'warn_deprecated.R'
     'DataBackend.R'
     'DataBackendCbind.R'
@@ -189,6 +191,7 @@ Collate:
     'helper_print.R'
     'install_pkgs.R'
     'marshal.R'
+    'mlr_callbacks.R'
     'mlr_sugar.R'
     'mlr_test_helpers.R'
     'partition.R'
