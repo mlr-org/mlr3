@@ -1,38 +1,14 @@
 #' @title Evaluation Context
 #'
 #' @description
-#' A [CallbackEvaluation] accesses and modifies data during [resample()] and [benchmark()] via the `ContextEvaluation`.
+#' A [CallbackResample] accesses and modifies data during [resample()] and [benchmark()] via the `ContextResample`.
 #' See the section on fields for a list of modifiable objects.
-#' See [callback_evaluation()] for a list of stages that access `ContextEvaluation`.
+#' See [callback_resample()] for a list of stages that access `ContextResample`.
 #'
 #' @export
-ContextEvaluation = R6Class("ContextEvaluation",
+ContextResample = R6Class("ContextResample",
   inherit = Context,
   public = list(
-
-    #' @field task ([Task])\cr
-    #' The task to be evaluated.
-    #' The task is unchanged during the evaluation.
-    task = NULL,
-
-    #' @field learner ([Learner])\cr
-    #' The learner to be evaluated.
-    #' The learner contains the models after stage `on_evaluation_before_train`.
-    learner = NULL,
-
-    #' @field resampling [Resampling]\cr
-    #' The resampling strategy to be used.
-    #' The resampling is unchanged during the evaluation.
-    resampling = NULL,
-
-    #' @field iteration (`integer()`)\cr
-    #' The current iteration.
-    iteration = NULL,
-
-    #' @field pdatas (List of [PredictionData])\cr
-    #' The prediction data.
-    #' The data is available on stage `on_evaluation_end`.
-    pdatas = NULL,
 
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
@@ -47,16 +23,62 @@ ContextEvaluation = R6Class("ContextEvaluation",
     #'   The current iteration.
     initialize = function(task, learner, resampling, iteration) {
       # no assertions to avoid overhead
-      self$task = task
-      self$learner = learner
-      self$resampling = resampling
-      self$iteration = iteration
+      private$.task = task
+      private$.learner = learner
+      private$.resampling = resampling
+      private$.iteration = iteration
 
       super$initialize(id = "evaluate", label = "Evaluation")
     }
   ),
 
   active = list(
+
+    #' @field task ([Task])\cr
+    #' The task to be evaluated.
+    #' The task is unchanged during the evaluation.
+    #' The task is read-only.
+    task = function(rhs) {
+      assert_ro_binding(rhs)
+      private$.task
+    },
+
+    #' @field learner ([Learner])\cr
+    #' The learner to be evaluated.
+    #' The learner contains the models after stage `on_resample_before_train`.
+    learner = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.learner)
+      }
+      private$.learner = assert_learner(rhs)
+    },
+
+    #' @field resampling [Resampling]\cr
+    #' The resampling strategy to be used.
+    #' The resampling is unchanged during the evaluation.
+    #' The resampling is read-only.
+    resampling = function(rhs) {
+      assert_ro_binding(rhs)
+      private$.resampling
+    },
+
+    #' @field iteration (`integer()`)\cr
+    #' The current iteration.
+    #' The iteration is read-only.
+    iteration = function(rhs) {
+      assert_ro_binding(rhs)
+      private$.iteration
+    },
+
+    #' @field pdatas (List of [PredictionData])\cr
+    #' The prediction data.
+    #' The data is available on stage `on_resample_end`.
+    pdatas = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.pdatas)
+      }
+      private$.pdatas = assert_list(rhs, "PredictionData")
+    },
 
     #' @field data_extra (list())\cr
     #' Data saved in the [ResampleResult] or [BenchmarkResult].
@@ -71,6 +93,11 @@ ContextEvaluation = R6Class("ContextEvaluation",
   ),
 
   private = list(
+    .task = NULL,
+    .learner = NULL,
+    .resampling = NULL,
+    .iteration = NULL,
+    .pdatas = NULL,
     .data_extra = NULL
   )
 )

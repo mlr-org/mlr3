@@ -265,9 +265,9 @@ workhorse = function(
   unmarshal = TRUE,
   callbacks = NULL
   ) {
-  ctx = ContextEvaluation$new(task, learner, resampling, iteration)
+  ctx = ContextResample$new(task, learner, resampling, iteration)
 
-  call_back("on_evaluation_begin", callbacks, ctx)
+  call_back("on_resample_begin", callbacks, ctx)
 
   if (!is.null(pb)) {
     pb(sprintf("%s|%s|i:%i", ctx$task$id, ctx$learner$id, ctx$iteration))
@@ -325,7 +325,7 @@ workhorse = function(
 
   test_set = if (identical(validate, "test")) sets$test
 
-  call_back("on_evaluation_before_train", callbacks, ctx)
+  call_back("on_resample_before_train", callbacks, ctx)
 
   train_result = learner_train(ctx$learner, ctx$task, sets[["train"]], test_set, mode = mode)
   ctx$learner = train_result$learner
@@ -342,8 +342,7 @@ workhorse = function(
 
   # creates the tasks and row_ids for all selected predict sets
   pred_data = prediction_tasks_and_sets(ctx$task, train_result, validate, sets, predict_sets)
-
-  call_back("on_evaluation_before_predict", callbacks, ctx)
+  call_back("on_resample_before_predict", callbacks, ctx)
 
   pdatas = Map(function(set, row_ids, task) {
     lg$debug("Creating Prediction for predict set '%s'", set)
@@ -362,7 +361,7 @@ workhorse = function(
     unmarshal = unmarshal
   )
 
-  call_back("on_evaluation_end", callbacks, ctx)
+  call_back("on_resample_end", callbacks, ctx)
 
   if (!store_models) {
     lg$debug("Erasing stored model for learner '%s'", ctx$learner$id)

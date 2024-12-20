@@ -68,7 +68,7 @@ If \code{FALSE}, all learners (that need marshaling) are stored in marshaled for
 
 \item{callbacks}{(List of \link[mlr3misc:Callback]{mlr3misc::Callback})\cr
 Callbacks to be executed during the resampling process.
-See \link{CallbackEvaluation} and \link{ContextEvaluation} for details.}
+See \link{CallbackResample} and \link{ContextResample} for details.}
 }
 \value{
 \link{ResampleResult}.

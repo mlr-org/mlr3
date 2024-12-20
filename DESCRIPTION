@@ -79,7 +79,7 @@ RoxygenNote: 7.3.2
 Collate:
     'mlr_reflections.R'
     'BenchmarkResult.R'
-    'CallbackEvaluation.R'
+    'CallbackResample.R'
     'ContextEvaluation.R'
     'warn_deprecated.R'
     'DataBackend.R'

@@ -113,10 +113,10 @@ reference:
       - set_threads
   - title: Callbacks
     contents:
-      - CallbackEvaluation
-      - ContextEvaluation
-      - callback_evaluation
-      - assert_evaluation_callback
+      - CallbackResample
+      - ContextResample
+      - callback_resample
+      - assert_resample_callback
       - mlr3.score_measures
   - title: Internal Objects and Functions
     contents:
