@@ -303,7 +303,8 @@ Stores \code{HotstartStack}.}
 
 \item{\code{predict_types}}{(\code{character()})\cr
 Stores the possible predict types the learner is capable of.
-A complete list of candidate predict types, grouped by task type, is stored in \code{\link[=mlr_reflections]{mlr_reflections$learner_predict_types}}.}
+A complete list of candidate predict types, grouped by task type, is stored in \code{\link[=mlr_reflections]{mlr_reflections$learner_predict_types}}.
+This field is read-only.}
 }
 \if{html}{\out{</div>}}
 }

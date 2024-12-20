@@ -672,6 +672,7 @@ Learner = R6Class("Learner",
     #' @field predict_types (`character()`)\cr
     #' Stores the possible predict types the learner is capable of.
     #' A complete list of candidate predict types, grouped by task type, is stored in [`mlr_reflections$learner_predict_types`][mlr_reflections].
+    #' This field is read-only.
     predict_types = function(rhs) {
       assert_ro_binding(rhs)
       return(private$.predict_types)
