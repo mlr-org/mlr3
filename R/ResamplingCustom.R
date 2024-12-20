@@ -29,7 +29,7 @@ ResamplingCustom = R6Class("ResamplingCustom", inherit = Resampling,
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
-      super$initialize(id = "custom", properties = "duplicated_ids",
+      super$initialize(id = "custom", duplicated_ids = TRUE,
         label = "Custom Splits", man = "mlr3::mlr_resamplings_custom")
     },
 

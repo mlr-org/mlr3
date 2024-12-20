@@ -15,8 +15,6 @@
 #'   Number of repetitions.
 #' * `ratio` (`numeric(1)`)\cr
 #'   Ratio of observations to put into the training set.
-#' * `use_weights` (`logical(1)`)\cr
-#'   Incorporate observation weights of the [Task] (column role `weights_resampling`), if present.
 #'
 #' @references
 #' `r format_bib("bischl_2012")`
@@ -52,7 +50,7 @@ ResamplingSubsampling = R6Class("ResamplingSubsampling", inherit = Resampling,
       )
       ps$values = list(repeats = 30L, ratio = 2 / 3)
 
-      super$initialize(id = "subsampling", param_set = ps, properties = "weights",
+      super$initialize(id = "subsampling", param_set = ps,
         label = "Subsampling", man = "mlr3::mlr_resamplings_subsampling")
     }
   ),
@@ -66,11 +64,12 @@ ResamplingSubsampling = R6Class("ResamplingSubsampling", inherit = Resampling,
   ),
 
   private = list(
-    .sample = function(ids, task, weights, ...) {
+    .sample = function(ids, ...) {
       pv = self$param_set$values
       n = length(ids)
       nr = round(n * pv$ratio)
-      train = replicate(pv$repeats, sample.int(n, nr, prob = weights), simplify = FALSE)
+
+      train = replicate(pv$repeats, sample.int(n, nr), simplify = FALSE)
       list(train = train, row_ids = ids)
     },
 

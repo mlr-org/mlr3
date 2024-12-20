@@ -13,8 +13,6 @@
 #' @section Parameters:
 #' * `ratio` (`numeric(1)`)\cr
 #'   Ratio of observations to put into the training set.
-#' * `use_weights` (`logical(1)`)\cr
-#'   Incorporate observation weights of the [Task] (column role `weights_resampling`), if present.
 #'
 #' @references
 #' `r format_bib("bischl_2012")`
@@ -49,7 +47,7 @@ ResamplingHoldout = R6Class("ResamplingHoldout", inherit = Resampling,
       )
       ps$values = list(ratio = 2 / 3)
 
-      super$initialize(id = "holdout", param_set = ps, properties = "weights",
+      super$initialize(id = "holdout", param_set = ps,
         label = "Holdout", man = "mlr3::mlr_resamplings_holdout")
     }
   ),
@@ -61,11 +59,10 @@ ResamplingHoldout = R6Class("ResamplingHoldout", inherit = Resampling,
     }
   ),
   private = list(
-    .sample = function(ids, task, weights, ...) {
-      pv = self$param_set$values
+    .sample = function(ids, ...) {
       n = length(ids)
       in_train = logical(n)
-      in_train[sample.int(n, round(n * self$param_set$values$ratio), prob = weights)] = TRUE
+      in_train[sample.int(n, round(n * self$param_set$values$ratio))] = TRUE
       list(train = ids[in_train], test = ids[!in_train])
     },
 

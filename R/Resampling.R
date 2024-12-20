@@ -46,14 +46,6 @@
 #' Next, the grouping information is replaced with the respective row ids to generate training and test sets.
 #' The sets can be accessed via `$train_set(i)` and `$test_set(i)`, respectively.
 #'
-#' @section Weights:
-#'
-#' Many resamlings support observation weights, indicated by their property `"weights"`.
-#' The weights are stored in the [Task] where the column role `weights_resampling` needs to be assigned to a single numeric column.
-#' The weights are automatically used if found in the task, this can be disabled by setting the hyperparamerter `use_weights` to `FALSE`.
-#' If the resampling is set-up to use weights but the task does not have a designated weight column, an unweighted version is calculated instead.
-#' The weights do not necessarily need to sum up to 1, they are passed down to argument `prob` of [sample()].
-#'
 #'
 #' @template seealso_resampling
 #' @export
@@ -114,9 +106,11 @@ Resampling = R6Class("Resampling",
     #'
     task_nrow = NA_integer_,
 
-    #' @field properties (`character()`)\cr
-    #'   Set of properties.
-    properties = NULL,
+    #' @field duplicated_ids (`logical(1)`)\cr
+    #'   If `TRUE`, duplicated rows can occur within a single training set or within a single test set.
+    #'   E.g., this is `TRUE` for Bootstrap, and `FALSE` for cross-validation.
+    #'   Only used internally.
+    duplicated_ids = NULL,
 
     #' @template field_man
     man = NULL,
@@ -124,22 +118,16 @@ Resampling = R6Class("Resampling",
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #'
-    #' @param properties (`character()`)\cr
-    #'   Set of properties, i.e.,
-    #'   * `"duplicated_ids"`: duplicated rows can occur within a single training set or within a single test set.
-    #'     E.g., this is `TRUE` for Bootstrap, and `FALSE` for cross-validation.
-    #'   * `"weights"`: if present, the resampling supports sample weights (set via column role `weights_resampling` in the [Task]).
-    #'     The weights determine the probability to sample a observation for the training set.
+    #' @param duplicated_ids (`logical(1)`)\cr
+    #'   Set to `TRUE` if this resampling strategy may have duplicated row ids in a single training set or test set.
     #'
     #' Note that this object is typically constructed via a derived classes, e.g. [ResamplingCV] or [ResamplingHoldout].
-    initialize = function(id, param_set = ps(), properties = character(), label = NA_character_, man = NA_character_) {
+    initialize = function(id, param_set = ps(), duplicated_ids = FALSE, label = NA_character_, man = NA_character_) {
       private$.id = assert_string(id, min.chars = 1L)
       self$label = assert_string(label, na.ok = TRUE)
-      self$properties = assert_subset(properties, mlr_reflections$resampling_properties)
+      self$param_set = assert_param_set(param_set)
+      self$duplicated_ids = assert_flag(duplicated_ids)
       self$man = assert_string(man, na.ok = TRUE)
-
-      assert_param_set(param_set)
-      self$param_set = if ("weights" %in% properties) c(param_set, ps(use_weights = p_lgl(default = TRUE))) else param_set
     },
 
     #' @description
@@ -180,24 +168,19 @@ Resampling = R6Class("Resampling",
       task = assert_task(as_task(task))
       strata = task$strata
       groups = task$groups
-      weights = task$weights_resampling$weight
-
-      use_weights = "weights" %in% self$properties && !isFALSE(self$param_set$values$use_weights) && !is.null(weights)
-
-      if (sum(!is.null(strata), !is.null(groups), use_weights) >= 2L) {
-        stopf("Stratification, grouping and weighted resampling are mutually exclusive")
-      }
 
       if (is.null(strata)) {
         if (is.null(groups)) {
-          weights = if (use_weights) weights else NULL
-          instance = private$.sample(task$row_ids, task = task, weights = weights)
+          instance = private$.sample(task$row_ids, task = task)
         } else {
           private$.groups = groups
-          instance = private$.sample(unique(groups$group), task = task, weights = NULL)
+          instance = private$.sample(unique(groups$group), task = task)
         }
       } else {
-        instance = private$.combine(lapply(strata$row_id, private$.sample, task = task, weights = NULL))
+        if (!is.null(groups)) {
+          stopf("Cannot combine stratification with grouping")
+        }
+        instance = private$.combine(lapply(strata$row_id, private$.sample, task = task))
       }
 
       private$.hash = NULL
