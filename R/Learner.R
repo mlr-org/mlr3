@@ -536,8 +536,8 @@ Learner = R6Class("Learner",
     #' * `"ignore"`: do not use weights.
     #' * `"error"`: throw an error if weights are present in the training `Task`.
     #'
-    #' For `Learner`s with the property `"weights_learner"`, this is initialized as `"use"`.
-    #' For `Learner`s that do not support weights, i.e. without the `"weights_learner"` property, this is initialized as `"error"`.
+    #' For `Learner`s with the property `"weights"`, this is initialized as `"use"`.
+    #' For `Learner`s that do not support weights, i.e. without the `"weights"` property, this is initialized as `"error"`.
     #' The latter behavior is to avoid cases where a user erroneously assumes that a `Learner` supports weights when it does not.
     #' For `Learner`s that do not support weights, `use_weights` needs to be set to `"ignore"` if tasks with weights should be handled (by dropping the weights).
     use_weights = function(rhs) {
@@ -685,7 +685,7 @@ Learner = R6Class("Learner",
     # return: Numeric vector of weights or `no_weights_val` (default NULL)
     .get_weights = function(task, no_weights_val = NULL) {
       if ("weights" %nin% self$properties) {
-        stop("private$.get_weights should not be used in Learners that do not have the 'weights_learner' property.")
+        stop("private$.get_weights should not be used in Learners that do not have the 'weights' property.")
       }
       if (self$use_weights == "use" && "weights_learner" %in% task$properties) {
         task$weights_learner$weight

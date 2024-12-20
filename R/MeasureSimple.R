@@ -8,20 +8,6 @@ MeasureBinarySimple = R6Class("MeasureBinarySimple",
       info = mlr3measures::measures[[name]]
       weights = info$sample_weights
 
-      if (is.null(param_set)) {
-        if (weights) {
-          param_set = ps(use_weights = p_lgl(default = TRUE))
-        } else {
-          param_set = ps()
-        }
-      } else {
-        if (weights) {
-          param_set = c(param_set, ps(use_weights = p_lgl(default = TRUE)))
-        } else {
-          param_set = param_set$clone()
-        }
-      }
-
       super$initialize(
         id = paste0("classif.", name),
         param_set = param_set,
@@ -46,13 +32,7 @@ MeasureBinarySimple = R6Class("MeasureBinarySimple",
   ),
 
   private = list(
-    .score = function(prediction, task, ...) {
-      weights = if ("weights" %in% private$.properties && !isFALSE(self$param_set$values$use_weights)) {
-        task$weights_measure[list(prediction$row_ids), "weight"][[1L]]
-      } else {
-        NULL
-      }
-
+    .score = function(prediction, task, weights = NULL, ...) {
       truth = prediction$truth
       positive = levels(truth)[1L]
       invoke(self$fun, .args = self$param_set$get_values(),
@@ -74,12 +54,6 @@ MeasureClassifSimple = R6Class("MeasureClassifSimple",
     initialize = function(name) {
       info = mlr3measures::measures[[name]]
       weights = info$sample_weights
-
-      if (weights) {
-        param_set = ps(use_weights = p_lgl(default = TRUE))
-      } else {
-        param_set = ps()
-      }
 
       super$initialize(
         id = paste0("classif.", name),
@@ -103,13 +77,7 @@ MeasureClassifSimple = R6Class("MeasureClassifSimple",
   ),
 
   private = list(
-    .score = function(prediction, task, ...) {
-      weights = if ("weights" %in% private$.properties && !isFALSE(self$param_set$values$use_weights)) {
-        task$weights_measure[list(prediction$row_ids), "weight"][[1L]]
-      } else {
-        NULL
-      }
-
+    .score = function(prediction, task, weights = NULL, ...) {
       self$fun(truth = prediction$truth, response = prediction$response, prob = prediction$prob,
         na_value = self$na_value, sample_weights = weights)
     },
@@ -127,12 +95,6 @@ MeasureRegrSimple = R6Class("MeasureRegrSimple",
     initialize = function(name) {
       info = mlr3measures::measures[[name]]
       weights = info$sample_weights
-
-      if (weights) {
-        param_set = ps(use_weights = p_lgl(default = FALSE))
-      } else {
-        param_set = ps()
-      }
 
       super$initialize(
         id = paste0("regr.", name),
@@ -156,13 +118,7 @@ MeasureRegrSimple = R6Class("MeasureRegrSimple",
   ),
 
   private = list(
-    .score = function(prediction, task, ...) {
-      weights = if ("weights" %in% private$.properties && !isFALSE(self$param_set$values$use_weights)) {
-        task$weights_measure[list(prediction$row_ids), "weight"][[1L]]
-      } else {
-        NULL
-      }
-
+    .score = function(prediction, task, weights = NULL, ...) {
       self$fun(truth = prediction$truth, response = prediction$response, se = prediction$se,
         na_value = self$na_value, sample_weights = weights)
     },

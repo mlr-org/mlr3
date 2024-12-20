@@ -40,7 +40,7 @@ MeasureRegrRSQ = R6Class("MeasureRSQ",
 
       super$initialize(
         id = "rsq",
-        properties = if (!private$.pred_set_mean) c("requires_task", "requires_train_set") else character(0),
+        properties = c(if (!private$.pred_set_mean) c("requires_task", "requires_train_set"), "weights"),
         predict_type = "response",
         minimize = FALSE,
         range = c(-Inf, 1),
@@ -54,9 +54,18 @@ MeasureRegrRSQ = R6Class("MeasureRSQ",
     # so this flag should not be "dynamic state"
     .pred_set_mean = NULL,
 
-    .score = function(prediction, task = NULL, train_set = NULL, ...) {
-      mu = if (private$.pred_set_mean) mean(prediction$truth) else mean(task$truth(train_set))
-      1 - sum((prediction$truth - prediction$response)^2) / sum((prediction$truth - mu)^2)
+    .score = function(prediction, task = NULL, train_set = NULL, weights = NULL, ...) {
+      if (is.null(weights)) {
+        mu = if (private$.pred_set_mean) mean(prediction$truth) else mean(task$truth(train_set))
+        1 - sum((prediction$truth - prediction$response)^2) / sum((prediction$truth - mu)^2)
+      } else {
+        mu = if (private$.pred_set_mean) {
+          weighted.mean(prediction$truth, weights)
+        } else {
+          weighted.mean(task$truth(train_set), task$weights_measure[train_set, "weight"][[1L]])
+        }
+        1 - sum(weights * (prediction$truth - prediction$response)^2) / sum(weights * (prediction$truth - mu)^2)
+      }
     }
   )
 )

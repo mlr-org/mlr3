@@ -229,6 +229,15 @@ assert_measure = function(measure, task = NULL, learner = NULL, prediction = NUL
           measure$id, str_collapse(miss, quote = "'"), task$id)
       }
     }
+
+    if (measure$use_weights == "error" && "weights_measure" %in% task$properties) {
+      stopf("%s cannot be trained with weights in %s%s", measure$format(), task$format(),
+        if ("weights_measure" %in% measure$properties) {
+          " since 'use_weights' was set to 'error'."
+        } else {
+          " since the Measure does not support weights.\nYou may set 'use_weights' to 'ignore' if you want the Measure to ignore weights."
+      })
+    }
   }
 
   if (!is.null(learner)) {
