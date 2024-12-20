@@ -81,8 +81,6 @@ generate_generic_tasks = function(learner, proto) {
 
   # task with non-ascii feature names
   if (p > 0L) {
-    opts = options(mlr3.allow_utf8_names = TRUE)
-    on.exit(options(opts))
     sel = proto$feature_types[list(learner$feature_types), "id", on = "type", with = FALSE, nomatch = NULL][[1L]]
     tasks$utf8_feature_names = proto$clone(deep = TRUE)$select(sel)
     old = sel[1L]

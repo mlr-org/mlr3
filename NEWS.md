@@ -1,5 +1,10 @@
 # mlr3 (development version)
 
+* Column names with UTF-8 characters are now allowed by default.
+The option `mlr3.allow_utf8_names` is removed.
+* BREAKING CHANGE: `Learner$predict_types` is read-only now.
+* docs: Clear up behavior of `Learner$predict_type` after training.
+
 # mlr3 0.22.1
 
 * fix: Extend `assert_measure()` with checks for trained models in `assert_scorable()`.
