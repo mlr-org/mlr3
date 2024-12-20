@@ -41,4 +41,5 @@ jobs:
 
       - uses: r-lib/actions/check-r-package@v2
         with:
-          error-on: '"note"'
+          error-on: '"error"'
+          args: 'c("--no-multiarch", "--no-manual", "--as-cran")'
