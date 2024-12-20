@@ -623,7 +623,7 @@ Learner = R6Class("Learner",
     #' Stores the currently active predict type, e.g. `"response"`.
     #' Must be an element of `$predict_types`.
     #' A few learners already use the predict type during training.
-    #' So there is no guarantee that changing the predict type after training will have any effect.
+    #' So there is no guarantee that changing the predict type after training will have any effect or does not lead to errors.
     predict_type = function(rhs) {
       if (missing(rhs)) {
         return(private$.predict_type)

@@ -287,7 +287,7 @@ Hash (unique identifier) for this partial object, excluding some components whic
 Stores the currently active predict type, e.g. \code{"response"}.
 Must be an element of \verb{$predict_types}.
 A few learners already use the predict type during training.
-So there is no guarantee that changing the predict type after training will have any effect.}
+So there is no guarantee that changing the predict type after training will have any effect or does not lead to errors.}
 
 \item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
 Set of hyperparameters.}
