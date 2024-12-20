@@ -218,8 +218,8 @@ Task = R6Class("Task",
     #' Printer.
     #' @param ... (ignored).
     print = function(...) {
-      cli_h1(sprintf("%s (%i x %i)%s", class(self)[1L], self$nrow, self$ncol,
-             if (is.null(self$label) || is.na(self$label)) "" else paste0(": ", self$label)))
+      msg_h = if (is.null(self$label) || is.na(self$label)) "" else paste0(": ", self$label)
+      cli_h1("{.cls {class(self)[1L]}} ({self$nrow}x{self$ncol}){msg_h}")
 
       roles = private$.col_roles
       roles = roles[lengths(roles) > 0L]
@@ -227,10 +227,10 @@ Task = R6Class("Task",
       # print additional columns as specified in reflections
       before = mlr_reflections$task_print_col_roles$before
       iwalk(before[before %in% names(roles)], function(role, str) {
-        cli_li(sprintf("%s: %s", str, roles[[role]]))
+        cli_li("{str}: {roles[[role]]}")
       })
 
-      cli_li(sprintf("Target: %s", self$target_names))
+      cli_li("Target: {self$target_names}")
 
       if (class(self)[1L] == "TaskClassif") {
         if (!is.null(self$backend)) {
@@ -245,21 +245,22 @@ Task = R6Class("Task",
         } else {
           classes = paste(self$class_names, collapse = ", ")
         }
-        cli_li(sprintf("Target classes: %s", classes))
+        cli_li("Target classes: {classes}")
       }
 
-      cli_li(sprintf("Properties: %s", if (length(self$properties)) paste(self$properties, collapse = ", ") else "-"))
+      properties = if (length(self$properties)) paste(self$properties, collapse = ", ") else "-"
+      cli_li("Properties: {properties}")
 
       types = self$feature_types
       if (nrow(types)) {
         id = type = NULL
-        cli_li(sprintf("Features (%i):", nrow(types)))
+        cli_li("Features ({nrow(types)}):")
         types = types[, list(N = .N, feats = str_collapse(id, n = 100L)), by = "type"][, "type" := translate_types(type)]
         setorderv(types, "N", order = -1L)
 
         ulid <- cli_ul()
         pmap(types, function(type, N, feats) {
-          cli_li(sprintf("%s (%i): %s", type, N, feats))
+          cli_li("{type} ({N}): {feats}")
         })
         cli_end(ulid)
       }
@@ -267,15 +268,15 @@ Task = R6Class("Task",
       # print additional columns are specified in reflections
       after = mlr_reflections$task_print_col_roles$after
       iwalk(after[after %in% names(roles)], function(role, str) {
-        cli_li(sprintf("%s: %s", str, roles[[role]]))
+        cli_li("{str}: {roles[[role]]}")
       })
 
       if (!is.null(private$.internal_valid_task)) {
-        cli_li(sprintf("Validation Task: (%ix%i)", private$.internal_valid_task$nrow, private$.internal_valid_task$ncol))
+        cli_li("Validation Task: ({private$.internal_valid_task$nrow}x{private$.internal_valid_task$ncol})")
       }
 
       if (!is.null(self$characteristics)) {
-        catf(str_indent("* Characteristics: ", as_short_string(self$characteristics)))
+        cli_li("Characteristics: {as_short_string(self$characteristics)}")
       }
     },
 

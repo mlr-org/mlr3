@@ -61,10 +61,10 @@ Prediction = R6Class("Prediction",
     print = function(...) {
       n = length(self$data$row_ids)
       if (n == 0L) {
-        cli_h1(sprintf("%s for 0 observations", class(self)[1L]))
+        cli_h1("{.cls {class(self)[1L]}} for {.val 0} observations")
       } else {
         data = as.data.table(self)
-        cli_h1(sprintf("%s for %i observations:", class(self)[1L], n))
+        cli_h1("{.cls {class(self)[1L]}} for {.val {n}} observations:")
         print(data, nrows = 10L, topn = 3L, class = FALSE, row.names = FALSE, print.keys = FALSE)
       }
     },

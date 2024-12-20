@@ -4,7 +4,7 @@
       task
     Message
       
-      -- TaskClassif (4601 x 58): HP Spam Detection ----------------------------------
+      -- <TaskClassif> (4601x58): HP Spam Detection ----------------------------------
       * Target: type
       * Target classes: spam (positive class, 39%), nonspam (61%)
       * Properties: twoclass
@@ -16,6 +16,5 @@
         money, num000, num1999, num3d, num415, num650, num85, num857, order,
         original, our, over, parts, people, pm, project, re, receive, remove, report,
         table, technology, telnet, will, you, your
-    Output
-      * Characteristics:  foo=1, bar=a
+      * Characteristics: foo=1, bar=a
 

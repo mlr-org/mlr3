@@ -141,10 +141,11 @@ Resampling = R6Class("Resampling",
     #' Printer.
     #' @param ... (ignored).
     print = function(...) {
-      cli_h1(sprintf("%s %s", class(self)[1L], if (is.null(self$label) || is.na(self$label)) "" else paste0(": ", self$label)))
-      cli_li(sprintf("Iterations: %s", paste(self$iters, collapse = ", ")))
-      cli_li(sprintf("Instantiated: %s", self$is_instantiated))
-      cli_li(sprintf("Parameters: %s", paste(as_short_string(self$param_set$values, 1000L), collapse = ", ")))
+      msg_h = if (is.null(self$label) || is.na(self$label)) "" else paste0(": ", self$label)
+      cli_h1("{.cls {class(self)[1L]}} {msg_h}")
+      cli_li("Iterations: {.val {self$iters}}")
+      cli_li("Instantiated: {.val {self$is_instantiated}}")
+      cli_li("Parameters: {.arg {as_short_string(self$param_set$values, 1000L)}}")
     },
 
     #' @description

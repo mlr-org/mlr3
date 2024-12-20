@@ -76,7 +76,7 @@ DataBackend = R6Class("DataBackend", cloneable = FALSE,
     #' Printer.
     print = function() {
       nr = self$nrow
-      cli_h1(sprintf("%s (%ix%i)", class(self)[1L], nr, self$ncol))
+      cli_h1("{.cls {class(self)[1L]}} ({.val {nr}}x{.val {self$ncol}})")
       print(self$head(6L), row.names = FALSE, print.keys = FALSE)
       if (nr > 6L) {
         catf("[...] (%i rows omitted)", nr - 6L)

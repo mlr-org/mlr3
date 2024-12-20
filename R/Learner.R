@@ -236,22 +236,28 @@ Learner = R6Class("Learner",
     #' Printer.
     #' @param ... (ignored).
     print = function(...) {
-      cli_h1(sprintf("%s (%s)%s", class(self)[1L], self$id, if (is.null(self$label) || is.na(self$label)) "" else paste0(": ", self$label)))
-      cli_li(sprintf("Model: %s", if (is.null(self$model)) "-" else if (is_marshaled_model(self$model)) "<marshaled>" else paste0(class(self$model)[1L])))
-      cli_li(sprintf("Parameters: %s", paste(as_short_string(self$param_set$values, 1000L), collapse = ", ")))
-      if (exists("validate", self)) cli_li(sprintf("Validate: %s %s", class(self$validate[1]), self$validate$id))
-      cli_li(sprintf("Packages: %s", paste(self$packages, collapse = ", ")))
-      cli_li(sprintf("Predict Types: %s", paste(replace(self$predict_types, self$predict_types == self$predict_type, paste0("[", self$predict_type, "]")), collapse = ", ")))
-      cli_li(sprintf("Feature Types: %s", paste(self$feature_types, collapse = ", ")))
-      cli_li(sprintf("Properties: %s", paste(self$properties, collapse = ", ")))
+      msg_h =  if (is.null(self$label) || is.na(self$label)) "" else paste0(": ", self$label)
+      cli_h1("{.cls {class(self)[1L]}} ({self$id}){msg_h}")
+
+      model =  if (is.null(self$model)) "-" else if (is_marshaled_model(self$model)) "<marshaled>" else paste0(class(self$model)[1L])
+      cli_li("Model: {model}")
+      cli_li("Parameters: {.arg {as_short_string(self$param_set$values, 1000L)}}")
+
+      if (exists("validate", self)) cli_li("Validate: {.cls {class(self$validate[1])}} {self$validate$id}")
+      cli_li("Packages: {.pkg {self$packages}}")
+
+      pred_typs = replace(self$predict_types, self$predict_types == self$predict_type, paste0("[", self$predict_type, "]"))
+      cli_li("Predict Types: {pred_typs}")
+      cli_li("Feature Types: {self$feature_types}")
+      cli_li("Properties: {self$properties}")
 
       w = self$warnings
       e = self$errors
       if (length(w)) {
-        cli_li(sprintf("Warnings: %s", paste(w, collapse = ", ")))
+        cli_alert_warning("Warnings: {w}")
       }
       if (length(e)) {
-        cli_li(sprintf("Errors: %s", paste(e, collapse = ", ")))
+        cli_alert_danger("Errors: {e}")
       }
     },
 

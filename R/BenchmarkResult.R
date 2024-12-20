@@ -101,7 +101,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
     print = function() {
       tab = self$aggregate(measures = list(), conditions = TRUE)
       setattr(tab, "class", c("data.table", "data.frame"))
-      cli_h1(sprintf("%s of %i rows with %i resampling runs", class(self)[1L], private$.data$iterations(), nrow(tab)))
+      cli_h1("{.cls {class(self)[1L]}} of {.val {private$.data$iterations()}} rows with {.val {nrow(tab)}} resampling run")
       if (nrow(tab)) {
         tab = remove_named(tab, c("uhash", "resample_result"))
         print(tab, class = FALSE, row.names = FALSE, print.keys = FALSE, digits = 3)
