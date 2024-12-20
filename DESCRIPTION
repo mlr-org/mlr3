@@ -46,6 +46,7 @@ Imports:
     R6 (>= 2.4.1),
     backports,
     checkmate (>= 2.0.0),
+    cli,
     data.table (>= 1.15.0),
     evaluate,
     future,
