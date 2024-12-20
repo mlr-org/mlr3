@@ -195,10 +195,6 @@ Task type, e.g. \code{"classif"} or \code{"regr"}.
 For a complete list of possible task types (depending on the loaded packages),
 see \code{\link[=mlr_reflections]{mlr_reflections$task_types$type}}.}
 
-\item{\code{predict_types}}{(\code{character()})\cr
-Stores the possible predict types the learner is capable of.
-A complete list of candidate predict types, grouped by task type, is stored in \code{\link[=mlr_reflections]{mlr_reflections$learner_predict_types}}.}
-
 \item{\code{feature_types}}{(\code{character()})\cr
 Stores the feature types the learner can handle, e.g. \code{"logical"}, \code{"numeric"}, or \code{"factor"}.
 A complete list of candidate feature types, grouped by task type, is stored in \code{\link[=mlr_reflections]{mlr_reflections$task_feature_types}}.}
@@ -289,7 +285,9 @@ Hash (unique identifier) for this partial object, excluding some components whic
 
 \item{\code{predict_type}}{(\code{character(1)})\cr
 Stores the currently active predict type, e.g. \code{"response"}.
-Must be an element of \verb{$predict_types}.}
+Must be an element of \verb{$predict_types}.
+A few learners already use the predict type during training.
+So there is no guarantee that changing the predict type after training will have any effect or does not lead to errors.}
 
 \item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
 Set of hyperparameters.}
@@ -302,6 +300,11 @@ Returns the encapsulation settings set with \verb{$encapsulate()}.}
 
 \item{\code{hotstart_stack}}{(\link{HotstartStack})\cr.
 Stores \code{HotstartStack}.}
+
+\item{\code{predict_types}}{(\code{character()})\cr
+Stores the possible predict types the learner is capable of.
+A complete list of candidate predict types, grouped by task type, is stored in \code{\link[=mlr_reflections]{mlr_reflections$learner_predict_types}}.
+This field is read-only.}
 }
 \if{html}{\out{</div>}}
 }
