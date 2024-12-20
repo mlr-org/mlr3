@@ -4,7 +4,7 @@
 #' Convert object to a [TaskRegr].
 #' This is a S3 generic. mlr3 ships with methods for the following objects:
 #'
-#' 1. [TaskRegr]: ensure the identity
+#' 1. [TaskRegr]: returns the object as-is, possibly cloned.
 #' 2. [`formula`], [data.frame()], [matrix()], [Matrix::Matrix()] and [DataBackend]: provides an alternative to the constructor of [TaskRegr].
 #' 3. [TaskClassif]: Calls [convert_task()].
 #'
