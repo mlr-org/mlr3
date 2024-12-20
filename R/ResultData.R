@@ -29,13 +29,12 @@ ResultData = R6Class("ResultData",
     #' An alternative construction method is provided by [as_result_data()].
     #'
     #' @param data ([data.table::data.table()]) | `NULL`)\cr
-    #' Do not initialize this object yourself, use [as_result_data()] instead.
+    #'   Do not initialize this object yourself, use [as_result_data()] instead.
     #' @param data_extra (`list()`)\cr
-    #' Additional data to store.
-    #' This can be used to store additional information for each iteration.
-    #'
+    #'   Additional data to store.
+    #'   This can be used to store additional information for each iteration.
     #' @param store_backends (`logical(1)`)\cr
-    #' If set to `FALSE`, the backends of the [Task]s provided in `data` are removed.
+    #'   If set to `FALSE`, the backends of the [Task]s provided in `data` are removed.
     initialize = function(data = NULL, data_extra = NULL, store_backends = TRUE) {
       assert_flag(store_backends)
 
