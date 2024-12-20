@@ -237,11 +237,11 @@ test_that("rename works", {
 
 test_that("stratify works", {
   task = tsk("iris")
-  expect_false("strata" %in% task$properties)
+  expect_false("strata" %chin% task$properties)
   expect_null(task$strata)
 
   task$col_roles$stratum = task$target_names
-  expect_true("strata" %in% task$properties)
+  expect_true("strata" %chin% task$properties)
   tab = task$strata
   expect_data_table(tab, ncols = 2, nrows = 3)
   expect_list(tab$row_id, "integer")
@@ -252,8 +252,8 @@ test_that("groups/weights work", {
   task = TaskRegr$new("test", b, target = "y")
   task$set_row_roles(16:20, character())
 
-  expect_false("groups" %in% task$properties)
-  expect_false("weights" %in% task$properties)
+  expect_false("groups" %chin% task$properties)
+  expect_false("weights" %chin% task$properties)
   expect_null(task$groups)
   expect_null(task$weights)
 
@@ -434,7 +434,7 @@ test_that("col roles getters/setters", {
   })
 
   task$col_roles$feature = setdiff(task$col_roles$feature, "Sepal.Length")
-  expect_false("Sepal.Length" %in% task$feature_names)
+  expect_false("Sepal.Length" %chin% task$feature_names)
 })
 
 test_that("Task$row_names", {
@@ -471,7 +471,7 @@ test_that("Task$set_col_roles", {
 
   task$set_col_roles("mass", add_to = "feature")
   expect_equal(task$n_features, 8L)
-  expect_true("mass" %in% task$feature_names)
+  expect_true("mass" %chin% task$feature_names)
 
   task$set_col_roles("age", roles = "weight")
   expect_equal(task$n_features, 7L)
@@ -480,7 +480,7 @@ test_that("Task$set_col_roles", {
 
   task$set_col_roles("age", add_to = "feature", remove_from = "weight")
   expect_equal(task$n_features, 8L)
-  expect_true("age" %in% task$feature_names)
+  expect_true("age" %chin% task$feature_names)
   expect_null(task$weights)
 })
 
@@ -650,7 +650,7 @@ test_that("cbind supports non-standard primary key (#961)", {
   b = as_data_backend(tbl, primary_key = "myid")
   task = as_task_regr(b, target = "y")
   task$cbind(data.table(x1 = 10:1))
-  expect_true("x1" %in% task$feature_names)
+  expect_true("x1" %chin% task$feature_names)
 })
 
 test_that("$select changes hash", {

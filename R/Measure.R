@@ -200,11 +200,11 @@ Measure = R6Class("Measure",
       # check should be added to assert_measure()
       # except when the checks are superfluous for rr$score() and bmr$score()
       # these checks should be added bellow
-      if ("requires_task" %in% self$properties && is.null(task)) {
+      if ("requires_task" %chin% self$properties && is.null(task)) {
         stopf("Measure '%s' requires a task", self$id)
       }
 
-      if ("requires_learner" %in% self$properties && is.null(learner)) {
+      if ("requires_learner" %chin% self$properties && is.null(learner)) {
         stopf("Measure '%s' requires a learner", self$id)
       }
 
@@ -212,7 +212,7 @@ Measure = R6Class("Measure",
         stopf("Measure '%s' incompatible with task type '%s'", self$id, prediction$task_type)
       }
 
-      if ("requires_train_set" %in% self$properties && is.null(train_set)) {
+      if ("requires_train_set" %chin% self$properties && is.null(train_set)) {
         stopf("Measure '%s' requires the train_set", self$id)
       }
 
@@ -258,7 +258,7 @@ Measure = R6Class("Measure",
     #' @template field_predict_sets
     predict_sets = function(rhs) {
       if (!missing(rhs)) {
-        private$.predict_sets = assert_subset(rhs, mlr_reflections$predict_sets, empty.ok = "requires_no_prediction" %in% self$properties)
+        private$.predict_sets = assert_subset(rhs, mlr_reflections$predict_sets, empty.ok = "requires_no_prediction" %chin% self$properties)
       }
       private$.predict_sets
     },
@@ -385,7 +385,7 @@ score_single_measure = function(measure, task, learner, train_set, prediction) {
 #' @noRd
 score_measures = function(obj, measures, reassemble = TRUE, view = NULL, iters = NULL) {
   reassemble_learners = reassemble ||
-    some(measures, function(m) any(c("requires_learner", "requires_model") %in% m$properties))
+    some(measures, function(m) any(c("requires_learner", "requires_model") %chin% m$properties))
   tab = get_private(obj)$.data$as_data_table(view = view, reassemble_learners = reassemble_learners, convert_predictions = FALSE)
 
   if (!is.null(iters)) {
