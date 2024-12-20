@@ -2,7 +2,7 @@
 % Please edit documentation in R/CallbackResample.R
 \name{CallbackResample}
 \alias{CallbackResample}
-\title{Evaluation Callback}
+\title{Resample Callback}
 \description{
 Specialized \link[mlr3misc:Callback]{mlr3misc::Callback} to customize the behavior of \code{\link[=resample]{resample()}} and \code{\link[=benchmark]{benchmark()}} in mlr3.
 The \code{\link[=callback_resample]{callback_resample()}} function is used to create instances of this class.

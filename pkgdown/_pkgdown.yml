@@ -117,7 +117,9 @@ reference:
       - ContextResample
       - callback_resample
       - assert_resample_callback
-      - mlr3.score_measures
+      - assert_resample_callbacks
+      - mlr3.model_extractor
+      - mlr3.holdout_task
   - title: Internal Objects and Functions
     contents:
       - marshaling

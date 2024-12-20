@@ -1,4 +1,4 @@
-#' @title Evaluation Callback
+#' @title Resample Callback
 #'
 #' @description
 #' Specialized [mlr3misc::Callback] to customize the behavior of [resample()] and [benchmark()] in mlr3.
@@ -88,17 +88,16 @@ CallbackResample = R6Class("CallbackResample",
 #'
 #' @export
 #' @examples
-#' callback = callback_resample("selected_features",
-#'  label = "Selected Features",
+#' task = tsk("pima")
+#' learner = lrn("classif.rpart")
+#' resampling = rsmp("cv", folds = 3)
 #'
+#' # save selected features callback
+#' callback = callback_resample("selected_features",
 #'  on_resample_end = function(callback, context) {
 #'     context$learner$state$selected_features = context$learner$selected_features()
 #'   }
 #' )
-#'
-#' task = tsk("pima")
-#' learner = lrn("classif.rpart")
-#' resampling = rsmp("cv", folds = 3)
 #'
 #' rr = resample(task, learner, resampling, callbacks = callback)
 #'

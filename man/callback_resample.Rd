@@ -72,17 +72,16 @@ A callback can write data to the state (\verb{$state}), e.g. settings that affec
 We highly discourage changing the task, learner and resampling objects via the callback.
 }
 \examples{
-callback = callback_resample("selected_features",
- label = "Selected Features",
+task = tsk("pima")
+learner = lrn("classif.rpart")
+resampling = rsmp("cv", folds = 3)
 
+# save selected features callback
+callback = callback_resample("selected_features",
  on_resample_end = function(callback, context) {
     context$learner$state$selected_features = context$learner$selected_features()
   }
 )
-
-task = tsk("pima")
-learner = lrn("classif.rpart")
-resampling = rsmp("cv", folds = 3)
 
 rr = resample(task, learner, resampling, callbacks = callback)
 
