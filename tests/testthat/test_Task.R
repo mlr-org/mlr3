@@ -552,15 +552,6 @@ test_that("set_levels", {
 })
 
 test_that("special chars in feature names (#697)", {
-  prev = options(mlr3.allow_utf8_names = FALSE)
-  on.exit(options(prev))
-
-  expect_error(
-    TaskRegr$new("test", data.table(`%^` = 1:3, t = 3:1), target = "t"),
-    "comply"
-  )
-  options(mlr3.allow_utf8_names = TRUE)
-
   expect_error(
     TaskRegr$new("test", data.table(`%asd` = 1:3, t = 3:1), target = "t")
     ,
@@ -728,4 +719,9 @@ test_that("$characteristics works", {
   expect_names(names(tab), must.include = c("n", "f"))
   expect_subset(tab$n, c(300, 200))
   expect_subset(tab$f, c(2, NA_real_))
+})
+
+test_that("warn when internal valid task has 0 obs", {
+  task = tsk("iris")
+  expect_warning({task$internal_valid_task = 151}, "has 0 observations")
 })

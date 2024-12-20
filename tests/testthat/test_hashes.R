@@ -8,8 +8,8 @@ expect_hash_changes = function(x) {
     expect_false(identical(x$hash, hash_before))
   }
   x$id = id_before
-  expect_true(identical(x$id, id_before))
-  expect_true(identical(x$hash, hash_before))
+  expect_identical(x$id, id_before)
+  expect_identical(x$hash, hash_before)
 }
 
 test_that("task$hash", {

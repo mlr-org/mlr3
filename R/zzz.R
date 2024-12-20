@@ -51,10 +51,6 @@
 #' * `"mlr3.debug"`: If set to `TRUE`, parallelization via \CRANpkg{future} is disabled to simplify
 #'   debugging and provide more concise tracebacks.
 #'   Note that results computed in debug mode use a different seeding mechanism and are **not reproducible**.
-#' * `"mlr3.allow_utf8_names"`: If set to `TRUE`, checks on the feature names are relaxed, allowing
-#'   non-ascii characters in column names. This is an experimental and temporal option to
-#'   pave the way for text analysis, and will likely be removed in a future version of the package.
-#'   analysis.
 #' * `"mlr3.warn_version_mismatch"`: Set to `FALSE` to silence warnings raised during predict if a learner has been
 #'   trained with a different version version of mlr3.
 #'

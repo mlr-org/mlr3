@@ -517,7 +517,7 @@ expect_measure = function(m) {
   testthat::expect_message(print(m), "Measure")
 
   if ("requires_no_prediction" %in% m$properties) {
-    testthat::expect_true(is.null(m$predict_sets))
+    testthat::expect_null(m$predict_sets)
   }
 
   expect_id(m$id)
