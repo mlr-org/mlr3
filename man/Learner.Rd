@@ -302,6 +302,11 @@ Returns the encapsulation settings set with \verb{$encapsulate()}.}
 
 \item{\code{hotstart_stack}}{(\link{HotstartStack})\cr.
 Stores \code{HotstartStack}.}
+
+\item{\code{selected_features_impute}}{(\code{character(1)})\cr
+Controls the behavior if the learner does not support feature selection.
+If set to \code{"error"}, an error is thrown.
+If set to \code{"all"} the complete feature set is returned.}
 }
 \if{html}{\out{</div>}}
 }
@@ -319,6 +324,7 @@ Stores \code{HotstartStack}.}
 \item \href{#method-Learner-base_learner}{\code{Learner$base_learner()}}
 \item \href{#method-Learner-encapsulate}{\code{Learner$encapsulate()}}
 \item \href{#method-Learner-configure}{\code{Learner$configure()}}
+\item \href{#method-Learner-selected_features}{\code{Learner$selected_features()}}
 \item \href{#method-Learner-clone}{\code{Learner$clone()}}
 }
 }
@@ -630,6 +636,18 @@ Named list of parameter values and fields.}
 }
 \if{html}{\out{</div>}}
 }
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Learner-selected_features"></a>}}
+\if{latex}{\out{\hypertarget{method-Learner-selected_features}{}}}
+\subsection{Method \code{selected_features()}}{
+Returns the selected features of the model.
+The field \code{selected_features_impute} controls the behavior if the learner does not support feature selection.
+If set to \code{"error"}, an error is thrown, otherwise all features are returned.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Learner$selected_features()}\if{html}{\out{</div>}}
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Learner-clone"></a>}}

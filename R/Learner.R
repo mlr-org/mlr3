@@ -549,6 +549,21 @@ Learner = R6Class("Learner",
       }
 
       return(invisible(self))
+    },
+
+    #' @description
+    #' Returns the selected features of the model.
+    #' The field `selected_features_impute` controls the behavior if the learner does not support feature selection.
+    #' If set to `"error"`, an error is thrown, otherwise all features are returned.
+    selected_features = function() {
+      if (is.null(self$model)) {
+        stopf("No model stored")
+      }
+      if (private$.selected_features_impute == "error") {
+        stop("Learner does not support feature selection")
+      } else {
+        self$state$feature_names
+      }
     }
   ),
 
@@ -672,6 +687,17 @@ Learner = R6Class("Learner",
       }
       assert_r6(rhs, "HotstartStack", null.ok = TRUE)
       private$.hotstart_stack = rhs
+    },
+
+    #' @field selected_features_impute (`character(1)`)\cr
+    #' Controls the behavior if the learner does not support feature selection.
+    #' If set to `"error"`, an error is thrown.
+    #' If set to `"all"` the complete feature set is returned.
+    selected_features_impute = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.selected_features_impute)
+      }
+      private$.selected_features_impute = assert_choice(rhs, c("error", "all"))
     }
   ),
 
@@ -681,6 +707,7 @@ Learner = R6Class("Learner",
     .predict_type = NULL,
     .param_set = NULL,
     .hotstart_stack = NULL,
+    .selected_features_impute = "error",
 
     deep_clone = function(name, value) {
       switch(name,

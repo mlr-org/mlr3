@@ -663,3 +663,17 @@ test_that("configure method works", {
   expect_equal(learner$param_set$values$xval, 10)
   expect_equal(learner$predict_sets, "train")
 })
+
+test_that("selected_features works", {
+  task = tsk("spam")
+  LearnerClassifRpart2 = LearnerClassifRpart
+  LearnerClassifRpart2$public_methods$selected_features = NULL
+
+  learner = LearnerClassifRpart$new()
+  expect_error(learner$selected_features(), "No model stored")
+  learner$train(task)
+  expect_error(learner$selected_features(), "Learner does not support feature selection")
+
+  learner$selected_features_impute = "all"
+  expect_equal(learner$selected_features(), task$feature_names)
+})
