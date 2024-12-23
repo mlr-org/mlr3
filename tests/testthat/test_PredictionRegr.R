@@ -45,9 +45,9 @@ test_that("c drops se (#250)", {
 
   pred = do.call(c, rr$predictions())
   expect_null(pred$data$se)
-  expect_false("se" %in% pred$predict_types)
+  expect_false("se" %chin% pred$predict_types)
   expect_true(allMissing(pred$se))
-  expect_false("se" %in% names(as.data.table(pred)))
+  expect_false("se" %chin% names(as.data.table(pred)))
 })
 
 test_that("distr", {
