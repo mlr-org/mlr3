@@ -64,7 +64,7 @@ possible levels (for factors), default values and assigned values.
 To set hyperparameters, assign a named list to the subslot \code{values}:
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{lrn = lrn("classif.rpart")
-lrn$param_set$values = list(minsplit = 3, cp = 0.01)
+lrn$param_set$set_values(minsplit = 3, cp = 0.01)
 }\if{html}{\out{</div>}}
 
 Note that this operation replaces all previously set hyperparameter values.

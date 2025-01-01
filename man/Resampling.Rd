@@ -53,7 +53,7 @@ r = rsmp("subsampling")
 r$param_set$values
 
 # Do only 3 repeats on 10\% of the data
-r$param_set$values = list(ratio = 0.1, repeats = 3)
+r$param_set$set_values(ratio = 0.1, repeats = 3)
 r$param_set$values
 
 # Instantiate on penguins task

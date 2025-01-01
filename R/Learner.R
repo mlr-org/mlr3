@@ -75,7 +75,7 @@
 #' To set hyperparameters, assign a named list to the subslot `values`:
 #' ```
 #' lrn = lrn("classif.rpart")
-#' lrn$param_set$values = list(minsplit = 3, cp = 0.01)
+#' lrn$param_set$set_values(minsplit = 3, cp = 0.01)
 #' ```
 #' Note that this operation replaces all previously set hyperparameter values.
 #' If you only intend to change one specific hyperparameter value and leave the others as-is, you can use the helper function [mlr3misc::insert_named()]:
