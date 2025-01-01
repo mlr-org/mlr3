@@ -896,6 +896,7 @@ Task = R6Class("Task",
     #' * `"strata"`: The task is resampled using one or more stratification variables (role `"stratum"`).
     #' * `"groups"`: The task comes with grouping/blocking information (role `"group"`).
     #' * `"weights"`: The task comes with observation weights (role `"weight"`).
+    #' * `"ordered"`: The task has columns which define the row order (role `"order"`).
     #'
     #' Note that above listed properties are calculated from the `$col_roles` and may not be set explicitly.
     properties = function(rhs) {
@@ -905,7 +906,8 @@ Task = R6Class("Task",
           private$.properties,
           if (length(col_roles$group)) "groups" else NULL,
           if (length(col_roles$stratum)) "strata" else NULL,
-          if (length(col_roles$weight)) "weights" else NULL
+          if (length(col_roles$weight)) "weights" else NULL,
+          if (length(col_roles$order)) "ordered" else NULL
         )
       } else {
         private$.properties = assert_set(rhs, .var.name = "properties")
