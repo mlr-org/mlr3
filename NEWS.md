@@ -1,5 +1,10 @@
 # mlr3 (development version)
 
+* fix: the `$predict_newdata()` method of `Learner` now automatically conducts
+  type conversions if the input is a `data.frame` (#685)
+* BREAKING_CHANGE: Predicting on a `task` with the wrong column information is
+  now an error and not a warning. 
+
 # mlr3 0.22.1
 
 * fix: Extend `assert_measure()` with checks for trained models in `assert_scorable()`.

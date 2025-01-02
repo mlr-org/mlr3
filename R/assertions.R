@@ -189,7 +189,7 @@ assert_predictable = function(task, learner) {
       all(pmap_lgl(list(x = ci_train$levels, y = ci_predict$levels), identical))
 
     if (!ok) {
-      lg$warn("Learner '%s' received task with different column info (feature type or level ordering) during train and predict.", learner$id)
+      stopf("Learner '%s' received task with different column info (feature type or factor level ordering) during train and predict.", learner$id)
     }
   }
 

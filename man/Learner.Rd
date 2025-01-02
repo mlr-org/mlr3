@@ -515,7 +515,9 @@ New data to predict on.
 All data formats convertible by \code{\link[=as_data_backend]{as_data_backend()}} are supported, e.g.
 \code{data.frame()} or \link{DataBackend}.
 If a \link{DataBackend} is provided as \code{newdata}, the row ids are preserved,
-otherwise they are set to to the sequence \code{1:nrow(newdata)}.}
+otherwise they are set to to the sequence \code{1:nrow(newdata)}.
+If the input is a \code{data.frame}, \code{\link{auto_convert}} is used for type-conversions to ensure compatability
+of features between \verb{$train()} and \verb{$predict()}.}
 
 \item{\code{task}}{(\link{Task}).}
 }
