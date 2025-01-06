@@ -127,9 +127,9 @@ If the learner is not trained yet, this returns <code>NULL</code>.</p></li>
 <p>All information about hyperparameters is stored in the slot <code>param_set</code> which is a <a href="https://paradox.mlr-org.com/reference/ParamSet.html" class="external-link">paradox::ParamSet</a>.
 The printer gives an overview about the ids of available hyperparameters, their storage type, lower and upper bounds,
 possible levels (for factors), default values and assigned values.
-To set hyperparameters, assign a named list to the subslot <code>values</code>:</p>
+To set hyperparameters, call the <code>set_values()</code> method on the <code>param_set</code>:</p>
 <p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>lrn <span class="ot">=</span> <span class="fu">lrn</span>(<span class="st">"classif.rpart"</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>lrn<span class="sc">$</span>param_set<span class="sc">$</span>values <span class="ot">=</span> <span class="fu">list</span>(<span class="at">minsplit =</span> <span class="dv">3</span>, <span class="at">cp =</span> <span class="fl">0.01</span>)</span></code></pre><p></p></div>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>lrn<span class="sc">$</span>param_set<span class="sc">$</span><span class="fu">set_values</span>(<span class="at">minsplit =</span> <span class="dv">3</span>, <span class="at">cp =</span> <span class="fl">0.01</span>)</span></code></pre><p></p></div>
 <p>Note that this operation replaces all previously set hyperparameter values.
 If you only intend to change one specific hyperparameter value and leave the others as-is, you can use the helper function <code><a href="https://mlr3misc.mlr-org.com/reference/insert_named.html" class="external-link">mlr3misc::insert_named()</a></code>:</p>
 <p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>lrn<span class="sc">$</span>param_set<span class="sc">$</span>values <span class="ot">=</span> mlr3misc<span class="sc">::</span><span class="fu">insert_named</span>(lrn<span class="sc">$</span>param_set<span class="sc">$</span>values, <span class="fu">list</span>(<span class="at">cp =</span> <span class="fl">0.001</span>))</span></code></pre><p></p></div>
@@ -618,7 +618,9 @@ New data to predict on.
 All data formats convertible by <code><a href="as_data_backend.html">as_data_backend()</a></code> are supported, e.g.
 <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code> or <a href="DataBackend.html">DataBackend</a>.
 If a <a href="DataBackend.html">DataBackend</a> is provided as <code>newdata</code>, the row ids are preserved,
-otherwise they are set to to the sequence <code>1:nrow(newdata)</code>.</p></dd>
+otherwise they are set to to the sequence <code>1:nrow(newdata)</code>.
+If the input is a <code>data.frame</code>, <code><a href="auto_convert.html">auto_convert</a></code> is used for type-conversions to ensure compatability
+of features between <code>$train()</code> and <code>$predict()</code>.</p></dd>
 
 
 <dt><code>task</code></dt>
