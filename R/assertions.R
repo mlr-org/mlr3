@@ -108,7 +108,7 @@ test_matching_task_type = function(task_type, object, class) {
 #' @param learners (list of [Learner]).
 #' @rdname mlr_assertions
 assert_learners = function(learners, task = NULL, task_type = NULL, properties = character(), unique_ids = FALSE, .var.name = vname(learners)) {
-  if (unique_ids)  {
+  if (unique_ids) {
     ids = map_chr(learners, "id")
     if (!test_character(ids, unique = TRUE)) {
       stopf("Learners need to have unique IDs: %s", str_collapse(ids))
@@ -416,18 +416,23 @@ assert_param_values = function(x, n_learners = NULL, .var.name = vname(x)) {
 #' @return `NULL`
 #' @export
 assert_empty_ellipsis = function(...) {
-  if (...length()) {
-    names = ...names()
-    if (is.null(names)) {
-      stopf("Received %i unnamed argument that was not used.", ...length())
-    } else {
-      names2 = names[names != ""]
-      if (length(names2) == length(names)) {
-        stopf("Received the following named arguments that were unused: %s.", paste0(names2, collapse = ", "))
-      } else {
-        stopf("Received unused arguments: %i unnamed, as well as named arguments %s.", length(names) - length(names2), paste0(names2, collapse = ", "))
-      }
-    }
+  nx = ...length()
+  if (nx == 0L) {
+    return(NULL)
   }
-  NULL
+  names = ...names()
+  if (is.null(names)) {
+    stopf("Received %i unnamed argument that was not used.", nx)
+  }
+  names2 = names[nzchar(names)]
+  if (length(names2) == length(names)) {
+    stopf(
+      "Received the following named arguments that were unused: %s.",
+      toString(names2)
+    )
+  }
+  stopf(
+    "Received unused arguments: %i unnamed, as well as named arguments %s.",
+    length(names) - length(names2), toString(names2)
+  )
 }

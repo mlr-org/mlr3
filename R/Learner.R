@@ -279,7 +279,7 @@ Learner = R6Class("Learner",
         start_learner = get_private(self$hotstart_stack)$.start_learner(self, task$hash)
       }
       if (is.null(self$hotstart_stack) || is.null(start_learner)) {
-         # no hotstart learners stored or no adaptable model found
+        # no hotstart learners stored or no adaptable model found
         learner = self
         mode = "train"
       } else {
