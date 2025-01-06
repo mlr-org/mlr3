@@ -405,3 +405,29 @@ assert_param_values = function(x, n_learners = NULL, .var.name = vname(x)) {
   }
   invisible(x)
 }
+
+#' @title Assert Empty Ellipsis
+#' @description
+#' Assert that `...` arguments are empty.
+#' Use this function in S3-methods to ensure that misspelling of arguments does not go unnoticed.
+#' @param ... (any)\cr
+#'    Ellipsis arguments to check.
+#' @keywords internal
+#' @return `NULL`
+#' @export
+assert_empty_ellipsis = function(...) {
+  if (...length()) {
+    names = ...names()
+    if (is.null(names)) {
+      stopf("Received %i unnamed argument that was not used.", ...length())
+    } else {
+      names2 = names[names != ""]
+      if (length(names2) == length(names)) {
+        stopf("Received the following named arguments that were unused: %s.", paste0(names2, collapse = ", "))
+      } else {
+        stopf("Received unused arguments: %i unnamed, as well as named arguments %s.", length(names) - length(names2), paste0(names2, collapse = ", "))
+      }
+    }
+  }
+  NULL
+}
