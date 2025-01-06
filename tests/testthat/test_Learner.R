@@ -255,13 +255,15 @@ test_that("learner cannot be trained with TuneToken present", {
 
 test_that("integer<->numeric conversion in newdata (#533)", {
   data = data.table(y = runif(10), x = 1:10)
-  newdata = data.table(y = runif(10), x = 1:10 + 0.1)
+  newdata1 = data.table(y = runif(10), x = as.double(1:10))
+  newdata2 = data.table(y = runif(10), x = 1:10 + 0.1)
 
   task = TaskRegr$new("test", data, "y")
   learner = lrn("regr.featureless")
   learner$train(task)
   expect_prediction(learner$predict_newdata(data))
-  expect_prediction(learner$predict_newdata(newdata))
+  expect_prediction(learner$predict_newdata(newdata1))
+  expect_error(learner$predict_newdata(newdata2), "failed to convert from class 'numeric'")
 })
 
 test_that("weights", {
@@ -575,10 +577,7 @@ test_that("column info is compared during predict", {
   task_other = as_task_classif(dother, target = "y")
   l = lrn("classif.rpart")
   l$train(task)
-  old_threshold = lg$threshold
-  lg$set_threshold("warn")
-  expect_output(l$predict(task_flip), "task with different column info")
-  lg$set_threshold(old_threshold)
+  expect_error(l$predict(task_flip), "task with different column info")
   expect_error(l$predict(task_other), "with different columns")
 })
 
@@ -662,4 +661,20 @@ test_that("configure method works", {
   expect_equal(learner$param_set$values$cp, 0.1)
   expect_equal(learner$param_set$values$xval, 10)
   expect_equal(learner$predict_sets, "train")
+})
+
+test_that("predict_newdata auto conversion (#685)", {
+  l = lrn("classif.debug", save_tasks = TRUE)$train(tsk("iris")$select(c("Sepal.Length", "Sepal.Width")))
+  expect_error(l$predict_newdata(data.table(Sepal.Length = 1, Sepal.Width = "abc")),
+    "Incompatible types during auto-converting column 'Sepal.Width'", fixed = TRUE)
+  expect_error(l$predict_newdata(data.table(Sepal.Length = 1L)),
+    "but is missing elements")
+
+  # New test for integerish value conversion to double
+  p1 = l$predict_newdata(data.table(Sepal.Length = 1, Sepal.Width = 2))
+  p2 = l$predict_newdata(data.table(Sepal.Length = 1L, Sepal.Width = 2))
+  expect_equal(l$model$task_predict$col_info[list("Sepal.Length")]$type, "numeric")
+  expect_double(l$model$task_predict$data(cols = "Sepal.Length")[[1]])
+
+  expect_equal(p1, p2)
 })

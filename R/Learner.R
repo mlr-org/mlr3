@@ -377,6 +377,8 @@ Learner = R6Class("Learner",
     #'   `data.frame()` or [DataBackend].
     #'   If a [DataBackend] is provided as `newdata`, the row ids are preserved,
     #'   otherwise they are set to to the sequence `1:nrow(newdata)`.
+    #'  If the input is a `data.frame`, [`auto_convert`] is used for type-conversions to ensure compatability
+    #'  of features between `$train()` and `$predict()`.
     #'
     #' @param task ([Task]).
     #'
@@ -391,6 +393,14 @@ Learner = R6Class("Learner",
         task = assert_task(as_task(task, clone = TRUE))
         assert_learnable(task, self)
         task = task_rm_backend(task)
+      }
+
+      if (is.data.frame(newdata)) {
+        keep_cols = intersect(names(newdata), task$col_info$id)
+        ci = task$col_info[list(keep_cols), on = "id"]
+        newdata = do.call(data.table, Map(auto_convert,
+          value = as.list(newdata)[ci$id],
+          id = ci$id, type = ci$type, levels = ci$levels))
       }
 
       newdata = as_data_backend(newdata)
@@ -409,6 +419,7 @@ Learner = R6Class("Learner",
 
       # do some type conversions if necessary
       task$backend = newdata
+      task$col_info = col_info(task$backend)
       task$row_roles$use = task$backend$rownames
       self$predict(task)
     },
