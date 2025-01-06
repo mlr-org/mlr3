@@ -72,10 +72,10 @@
 #' All information about hyperparameters is stored in the slot `param_set` which is a [paradox::ParamSet].
 #' The printer gives an overview about the ids of available hyperparameters, their storage type, lower and upper bounds,
 #' possible levels (for factors), default values and assigned values.
-#' To set hyperparameters, assign a named list to the subslot `values`:
+#' To set hyperparameters, call the `set_values()` method on the `param_set`:
 #' ```
 #' lrn = lrn("classif.rpart")
-#' lrn$param_set$values = list(minsplit = 3, cp = 0.01)
+#' lrn$param_set$set_values(minsplit = 3, cp = 0.01)
 #' ```
 #' Note that this operation replaces all previously set hyperparameter values.
 #' If you only intend to change one specific hyperparameter value and leave the others as-is, you can use the helper function [mlr3misc::insert_named()]:

@@ -31,7 +31,7 @@ MeasureSelectedFeatures = R6Class("MeasureSelectedFeatures",
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       param_set = ps(normalize = p_lgl(tags = "required"))
-      param_set$values = list(normalize = FALSE)
+      param_set$set_values(normalize = FALSE)
 
       super$initialize(
         id = "selected_features",

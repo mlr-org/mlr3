@@ -37,7 +37,7 @@
 #' @export
 #' @examples
 #' learner = lrn("classif.debug")
-#' learner$param_set$values = list(message_train = 1, save_tasks = TRUE)
+#' learner$param_set$set_values(message_train = 1, save_tasks = TRUE)
 #'
 #' # this should signal a message
 #' task = tsk("penguins")

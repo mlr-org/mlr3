@@ -37,7 +37,7 @@ LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
         usesurrogate   = p_int(0L, 2L, default = 2L, tags = "train"),
         xval           = p_int(0L, default = 10L, tags = "train")
       )
-      ps$values = list(xval = 0L)
+      ps$set_values(xval = 0L)
 
       super$initialize(
         id = "regr.rpart",

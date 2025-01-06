@@ -27,7 +27,7 @@ MeasureDebugClassif = R6Class("MeasureDebugClassif",
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       param_set = ps(na_ratio = p_dbl(0, 1, tags = "required"))
-      param_set$values = list(na_ratio = 0)
+      param_set$set_values(na_ratio = 0)
       super$initialize(
         id = "debug_classif",
         param_set = param_set,
