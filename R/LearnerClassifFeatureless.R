@@ -34,7 +34,7 @@ LearnerClassifFeatureless = R6Class("LearnerClassifFeatureless", inherit = Learn
       ps = ps(
         method = p_fct(c("mode", "sample", "weighted.sample"), default = "mode", tags = "predict")
       )
-      ps$values = list(method = "mode")
+      ps$set_values(method = "mode")
       super$initialize(
         id = "classif.featureless",
         feature_types = mlr_reflections$task_feature_types,

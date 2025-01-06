@@ -181,7 +181,7 @@ assert_predictable = function(task, learner) {
       stopf("Learner '%s' has received tasks with different columns in train and predict.", learner$id)
     }
 
-    ids = train_task$col_info[get("id") %in% cols_train, "id"]$id
+    ids = train_task$col_info[get("id") %chin% cols_train, "id"]$id
     ci_predict = task$col_info[list(ids), c("id", "type", "levels"), on = "id"]
     ci_train = train_task$col_info[list(ids), c("id", "type", "levels"), on = "id"]
 
@@ -260,11 +260,11 @@ assert_measure = function(measure, task = NULL, learner = NULL, prediction = NUL
 #' @param prediction ([Prediction]).
 #' @rdname mlr_assertions
 assert_scorable = function(measure, task, learner, prediction = NULL, .var.name = vname(measure)) {
-  if ("requires_model" %in% measure$properties && is.null(learner$model)) {
+  if ("requires_model" %chin% measure$properties && is.null(learner$model)) {
     stopf("Measure '%s' requires the trained model", measure$id)
   }
 
-  if ("requires_model" %in% measure$properties && is_marshaled_model(learner$model)) {
+  if ("requires_model" %chin% measure$properties && is_marshaled_model(learner$model)) {
     stopf("Measure '%s' requires the trained model, but model is in marshaled form", measure$id)
   }
 
