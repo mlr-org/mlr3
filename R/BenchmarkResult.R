@@ -175,7 +175,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #'
     #' @return [data.table::data.table()].
     score = function(measures = NULL, ids = TRUE, conditions = FALSE, predictions = TRUE) {
-      measures = as_measures(measures, task_type = self$task_type)
+      measures = assert_measures(as_measures(measures, task_type = self$task_type))
       assert_flag(ids)
       assert_flag(conditions)
       assert_flag(predictions)
@@ -230,7 +230,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #' @param predict_sets (`character()`)\cr
     #'   The predict sets.
     obs_loss = function(measures = NULL, predict_sets = "test") {
-      measures = as_measures(measures, task_type = private$.data$task_type)
+      measures = assert_measures(as_measures(measures, task_type = self$task_type))
       map_dtr(self$resample_results$resample_result,
         function(rr) {
           rr$obs_loss(measures, predict_sets)
