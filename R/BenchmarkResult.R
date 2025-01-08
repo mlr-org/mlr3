@@ -276,7 +276,11 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #'
     #' @return [data.table::data.table()].
     aggregate = function(measures = NULL, ids = TRUE, uhashes = FALSE, params = FALSE, conditions = FALSE) {
-      measures = assert_measures(as_measures(measures, task_type = self$task_type))
+      measures = if (is.null(measures)) {
+        default_measures(self$task_type)
+      } else {
+        assert_measures(as_measures(measures))
+      }
       assert_flag(ids)
       assert_flag(uhashes)
       assert_flag(params)
