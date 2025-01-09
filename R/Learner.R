@@ -370,6 +370,8 @@ Learner = R6Class("Learner",
     #' of the training task stored in the learner.
     #' If the learner has been fitted via [resample()] or [benchmark()], you need to pass the corresponding task stored
     #' in the [ResampleResult] or [BenchmarkResult], respectively.
+    #' Further, [`auto_convert`] is used for type-conversions to ensure compatability
+    #' of features between `$train()` and `$predict()`.
     #'
     #' @param newdata (any object supported by [as_data_backend()])\cr
     #'   New data to predict on.
@@ -377,8 +379,6 @@ Learner = R6Class("Learner",
     #'   `data.frame()` or [DataBackend].
     #'   If a [DataBackend] is provided as `newdata`, the row ids are preserved,
     #'   otherwise they are set to to the sequence `1:nrow(newdata)`.
-    #'  If the input is a `data.frame`, [`auto_convert`] is used for type-conversions to ensure compatability
-    #'  of features between `$train()` and `$predict()`.
     #'
     #' @param task ([Task]).
     #'
@@ -395,31 +395,38 @@ Learner = R6Class("Learner",
         task = task_rm_backend(task)
       }
 
-      if (is.data.frame(newdata)) {
-        keep_cols = intersect(names(newdata), task$col_info$id)
-        ci = task$col_info[list(keep_cols), on = "id"]
-        newdata = do.call(data.table, Map(auto_convert,
-          value = as.list(newdata)[ci$id],
-          id = ci$id, type = ci$type, levels = ci$levels))
-      }
-
       newdata = as_data_backend(newdata)
       assert_names(newdata$colnames, must.include = task$feature_names)
 
       # the following columns are automatically set to NA if missing
       impute = unlist(task$col_roles[c("target", "name", "order", "stratum", "group", "weight")], use.names = FALSE)
       impute = setdiff(impute, newdata$colnames)
-      if (length(impute)) {
+      tab1 = if (length(impute)) {
         # create list with correct NA types and cbind it to the backend
         ci = insert_named(task$col_info[list(impute), c("id", "type", "levels"), on = "id", with = FALSE], list(value = NA))
         na_cols = set_names(pmap(ci, function(..., nrow) rep(auto_convert(...), nrow), nrow = newdata$nrow), ci$id)
-        tab = invoke(data.table, .args = insert_named(na_cols, set_names(list(newdata$rownames), newdata$primary_key)))
+        invoke(data.table, .args = insert_named(na_cols, set_names(list(newdata$rownames), newdata$primary_key)))
+      }
+
+      # Perform type conversion where necessary
+      keep_cols = intersect(newdata$colnames, task$col_info$id)
+      ci = task$col_info[list(keep_cols), ][
+        get("type") != col_info(newdata)[list(keep_cols), on = "id"]$type]
+      tab2 = do.call(data.table, Map(auto_convert,
+        value = as.list(newdata$data(rows = newdata$rownames, cols = ci$id)),
+        id = ci$id, type = ci$type, levels = ci$levels))
+
+      tab = cbind(tab1, tab2)
+      if (ncol(tab)) {
+        tab[[newdata$primary_key]] = newdata$rownames
         newdata = DataBackendCbind$new(newdata, DataBackendDataTable$new(tab, primary_key = newdata$primary_key))
       }
 
-      # do some type conversions if necessary
+      prevci = task$col_info
       task$backend = newdata
       task$col_info = col_info(task$backend)
+      task$col_info[, c("label", "fix_factor_levels")] = prevci[list(task$col_info$id), on = "id", c("label", "fix_factor_levels")]
+      task$col_info$fix_factor_levels[is.na(task$col_info$fix_factor_levels)] = FALSE
       task$row_roles$use = task$backend$rownames
       self$predict(task)
     },

@@ -677,3 +677,42 @@ test_that("predict_newdata auto conversion (#685)", {
 
   expect_equal(p1, p2)
 })
+
+test_that("predict_newdata creates column info correctly", {
+
+  learner = lrn("classif.debug", save_tasks = TRUE)
+  task = tsk("iris")
+  task$col_info$label = letters[1:6]
+  task$col_info$fix_factor_levels = c(TRUE, TRUE, FALSE, TRUE, FALSE, TRUE)
+  learner$train(task)
+
+  ## data.frame is passed without task
+  p1 = learner$predict_newdata(iris[10:11, ])
+  expect_equal(learner$model$task_predict$col_info, task$col_info)
+  expect_equal(p1$row_ids, 1:2)
+
+  ## backend is passed without task
+  d = iris[10:11, ]
+  d$..row_id = 10:11
+  b = as_data_backend(d, primary_key = "..row_id")
+  p2 = learner$predict_newdata(b)
+  expect_equal(p2$row_ids, 10:11)
+  expect_equal(learner$model$task_predict$col_info, task$col_info)
+
+  ## data.frame is passed with task
+  task2 = tsk("iris")
+  learner$predict_newdata(iris[10:11, ], task2)
+  expect_equal(learner$model$task_predict$col_info, task2$col_info)
+
+  ## backend is passed with task
+  learner$predict_newdata(b, task2)
+  expect_equal(learner$model$task_predict$col_info, task2$col_info)
+
+  ## backend with different name for primary key
+  d2 = iris[10:11, ]
+  d2$row_id = 10:11
+  b2 = as_data_backend(d2, primary_key = "row_id")
+  p3 = learner$predict_newdata(b2, task2)
+  expect_equal(p3$row_ids, 10:11)
+  expect_true("row_id" %in% learner$model$task_predict$col_info$id)
+})
