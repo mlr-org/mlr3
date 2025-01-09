@@ -143,11 +143,7 @@ ResampleResult = R6Class("ResampleResult",
     #'
     #' @return [data.table::data.table()].
     score = function(measures = NULL, ids = TRUE, conditions = FALSE, predictions = TRUE) {
-      measures = if (is.null(measures)) {
-        default_measures(self$task_type)
-      } else {
-        assert_measures(as_measures(measures))
-      }
+      measures = assert_measures(as_measures(measures, task_type = self$task_type))
       assert_flag(ids)
       assert_flag(conditions)
       assert_flag(predictions)
@@ -200,11 +196,7 @@ ResampleResult = R6Class("ResampleResult",
     #' @param predict_sets (`character()`)\cr
     #'   The predict sets.
     obs_loss = function(measures = NULL, predict_sets = "test") {
-      measures = if (is.null(measures)) {
-        default_measures(self$task_type)
-      } else {
-        assert_measures(as_measures(measures))
-      }
+      measures = assert_measures(as_measures(measures, task_type = self$task_type))
       tab = map_dtr(self$predictions(predict_sets), as.data.table, .idcol = "iteration")
       get_obs_loss(tab, measures)
     },
@@ -216,11 +208,7 @@ ResampleResult = R6Class("ResampleResult",
     #'
     #' @return Named `numeric()`.
     aggregate = function(measures = NULL) {
-      measures = if (is.null(measures)) {
-        default_measures(self$task_type)
-      } else {
-        assert_measures(as_measures(measures))
-      }
+      measures = assert_measures(as_measures(measures, task_type = self$task_type))
       resample_result_aggregate(self, measures)
     },
 

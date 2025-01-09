@@ -10,7 +10,7 @@
 #'
 #' @return [Measure].
 #' @export
-as_measure = function(x, ...) { # nolint
+as_measure = function(x, task_type = NULL, ...) { # nolint
   UseMethod("as_measure")
 }
 
@@ -23,21 +23,21 @@ as_measure.NULL = function(x, task_type = NULL, ...) { # nolint
 
 #' @export
 #' @rdname as_measure
-as_measure.Measure = function(x, clone = FALSE, ...) { # nolint
+as_measure.Measure = function(x, task_type = NULL, clone = FALSE, ...) { # nolint
   assert_empty_ellipsis(...)
   if (isTRUE(clone)) x$clone() else x
 }
 
 #' @export
 #' @rdname as_measure
-as_measures = function(x, ...) { # nolint
+as_measures = function(x, task_type = NULL, ...) { # nolint
   UseMethod("as_measures")
 }
 
 #' @export
 #' @rdname as_measure
-as_measures.default = function(x, ...) { # nolint
-  list(as_measure(x, ...))
+as_measures.default = function(x, task_type = NULL, ...) { # nolint
+  list(as_measure(x, task_type = task_type, ...))
 }
 
 #' @export
@@ -48,6 +48,6 @@ as_measures.NULL = function(x, task_type = NULL, ...) { # nolint
 
 #' @export
 #' @rdname as_measure
-as_measures.list = function(x, ...) { # nolint
-  lapply(x, as_measure, ...)
+as_measures.list = function(x, task_type = NULL, ...) { # nolint
+  lapply(x, as_measure, task_type = NULL, ...)
 }
