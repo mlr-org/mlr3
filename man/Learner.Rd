@@ -506,6 +506,8 @@ If the learner's \verb{$train()} method has been called, there is a (size reduce
 of the training task stored in the learner.
 If the learner has been fitted via \code{\link[=resample]{resample()}} or \code{\link[=benchmark]{benchmark()}}, you need to pass the corresponding task stored
 in the \link{ResampleResult} or \link{BenchmarkResult}, respectively.
+Further, \code{\link{auto_convert}} is used for type-conversions to ensure compatability
+of features between \verb{$train()} and \verb{$predict()}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Learner$predict_newdata(newdata, task = NULL)}\if{html}{\out{</div>}}
 }
@@ -518,9 +520,7 @@ New data to predict on.
 All data formats convertible by \code{\link[=as_data_backend]{as_data_backend()}} are supported, e.g.
 \code{data.frame()} or \link{DataBackend}.
 If a \link{DataBackend} is provided as \code{newdata}, the row ids are preserved,
-otherwise they are set to to the sequence \code{1:nrow(newdata)}.
-If the input is a \code{data.frame}, \code{\link{auto_convert}} is used for type-conversions to ensure compatability
-of features between \verb{$train()} and \verb{$predict()}.}
+otherwise they are set to to the sequence \code{1:nrow(newdata)}.}
 
 \item{\code{task}}{(\link{Task}).}
 }
