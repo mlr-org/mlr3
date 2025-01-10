@@ -605,7 +605,9 @@ Object <code>task</code> is the task used during <code>$train()</code> and requi
 If the learner's <code>$train()</code> method has been called, there is a (size reduced) version
 of the training task stored in the learner.
 If the learner has been fitted via <code><a href="resample.html">resample()</a></code> or <code><a href="benchmark.html">benchmark()</a></code>, you need to pass the corresponding task stored
-in the <a href="ResampleResult.html">ResampleResult</a> or <a href="BenchmarkResult.html">BenchmarkResult</a>, respectively.</p><div class="section">
+in the <a href="ResampleResult.html">ResampleResult</a> or <a href="BenchmarkResult.html">BenchmarkResult</a>, respectively.
+Further, <code><a href="auto_convert.html">auto_convert</a></code> is used for type-conversions to ensure compatability
+of features between <code>$train()</code> and <code>$predict()</code>.</p><div class="section">
 <h4 id="usage-6">Usage<a class="anchor" aria-label="anchor" href="#usage-6"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Learner</span><span class="op">$</span><span class="fu">predict_newdata</span><span class="op">(</span><span class="va">newdata</span>, task <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
@@ -618,9 +620,7 @@ New data to predict on.
 All data formats convertible by <code><a href="as_data_backend.html">as_data_backend()</a></code> are supported, e.g.
 <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code> or <a href="DataBackend.html">DataBackend</a>.
 If a <a href="DataBackend.html">DataBackend</a> is provided as <code>newdata</code>, the row ids are preserved,
-otherwise they are set to to the sequence <code>1:nrow(newdata)</code>.
-If the input is a <code>data.frame</code>, <code><a href="auto_convert.html">auto_convert</a></code> is used for type-conversions to ensure compatability
-of features between <code>$train()</code> and <code>$predict()</code>.</p></dd>
+otherwise they are set to to the sequence <code>1:nrow(newdata)</code>.</p></dd>
 
 
 <dt><code>task</code></dt>
