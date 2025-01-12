@@ -60,12 +60,14 @@ TaskGenerator = R6Class("TaskGenerator",
     #' Printer.
     #' @param ... (ignored).
     print = function(...) {
-      msg_h = if (is.null(self$label) || is.na(self$label)) "" else paste0(": ", self$label)
-      cli_h1("{.cls {class(self)[1L]}} ({self$id}){msg_h}")
-      cli_li("Task type: {self$task_type}")
-      cli_li("Packages: {.pkg {self$packages}}")
-      cli_li("Parameters: {.arg {as_short_string(self$param_set$values, 1000L)}}")
-      cli_li("Manual: {.help {self$man}}")
+      cat_cli({
+        msg_h = if (is.null(self$label) || is.na(self$label)) "" else paste0(": ", self$label)
+        cli_h1("{.cls {class(self)[1L]}} ({self$id}){msg_h}")
+        cli_li("Task type: {self$task_type}")
+        cli_li("Packages: {.pkg {self$packages}}")
+        cli_li("Parameters: {as_short_string(self$param_set$values, 1000L)}")
+        cli_li("Manual: {.help {self$man}}")
+      })
     },
 
     #' @description

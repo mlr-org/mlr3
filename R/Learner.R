@@ -237,27 +237,32 @@ Learner = R6Class("Learner",
     #' @param ... (ignored).
     print = function(...) {
       msg_h =  if (is.null(self$label) || is.na(self$label)) "" else paste0(": ", self$label)
-      cli_h1("{.cls {class(self)[1L]}} ({self$id}){msg_h}")
-
       model =  if (is.null(self$model)) "-" else if (is_marshaled_model(self$model)) "<marshaled>" else paste0(class(self$model)[1L])
-      cli_li("Model: {model}")
-      cli_li("Parameters: {.arg {as_short_string(self$param_set$values, 1000L)}}")
 
-      if (exists("validate", self)) cli_li("Validate: {.cls {class(self$validate[1])}} {self$validate$id}")
-      cli_li("Packages: {.pkg {self$packages}}")
+      cat_cli({
+        cli_h1("{.cls {class(self)[1L]}} ({self$id}){msg_h}")
+        cli_li("Model: {model}")
+        cli_li("Parameters: {as_short_string(self$param_set$values, 1000L)}")
+      })
+
+      if (exists("validate", self)) cat_cli(cli_li("Validate: {.cls {class(self$validate[1])}} {self$validate$id}"))
+      cat_cli(cli_li("Packages: {.pkg {self$packages}}"))
 
       pred_typs = replace(self$predict_types, self$predict_types == self$predict_type, paste0("[", self$predict_type, "]"))
-      cli_li("Predict Types: {pred_typs}")
-      cli_li("Feature Types: {self$feature_types}")
-      cli_li("Properties: {self$properties}")
+
+      cat_cli({
+        cli_li("Predict Types: {pred_typs}")
+        cli_li("Feature Types: {self$feature_types}")
+        cli_li("Properties: {self$properties}")
+      })
 
       w = self$warnings
       e = self$errors
       if (length(w)) {
-        cli_alert_warning("Warnings: {w}")
+        cat_cli(cli_alert_warning("Warnings: {w}"))
       }
       if (length(e)) {
-        cli_alert_danger("Errors: {e}")
+        cat_cli(cli_alert_danger("Errors: {e}"))
       }
     },
 

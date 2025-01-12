@@ -156,7 +156,7 @@ HotstartStack = R6Class("HotstartStack",
     #'
     #' @param ... (ignored).
     print = function(...) {
-      cli_h1("{.cls {class(self)[1L]}}")
+      cat_cli(cli_h1("{.cls {class(self)[1L]}}"))
       print(self$stack, digits = 2)
     }
   ),

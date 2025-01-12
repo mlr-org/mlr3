@@ -2,7 +2,7 @@
 
     Code
       task
-    Message
+    Output
       
       -- <TaskClassif> (4601x58): HP Spam Detection ----------------------------------
       * Target: type

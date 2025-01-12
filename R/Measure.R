@@ -161,16 +161,18 @@ Measure = R6Class("Measure",
     #' @param ... (ignored).
     print = function(...) {
       msg_h = if (is.null(self$label) || is.na(self$label)) "" else paste0(": ", self$label)
-      cli_h1("{.cls {class(self)[1L]}} ({self$id}){msg_h}")
-      cli_li("Packages: {.pkg {self$packages}}")
-      cli_li("Range: [{self$range[1L]}, {self$range[2L]}]")
-      cli_li("Minimize: {.val {self$minimize}}")
-      cli_li("Average: {self$average}")
-      cli_li("Parameters: {.arg {as_short_string(self$param_set$values, 1000L)}}")
-      msg = if (length(self$properties)) self$properties else "-"
-      cli_li("Properties: {msg}")
-      cli_li("Predict type: {self$predict_type}")
-      cli_li("Predict sets: {self$predict_sets}")
+      msg_properties = if (length(self$properties)) self$properties else "-"
+      cat_cli({
+        cli_h1("{.cls {class(self)[1L]}} ({self$id}){msg_h}")
+        cli_li("Packages: {.pkg {self$packages}}")
+        cli_li("Range: [{self$range[1L]}, {self$range[2L]}]")
+        cli_li("Minimize: {.val {self$minimize}}")
+        cli_li("Average: {self$average}")
+        cli_li("Parameters: {as_short_string(self$param_set$values, 1000L)}")
+        cli_li("Properties: {msg_properties}")
+        cli_li("Predict type: {self$predict_type}")
+        cli_li("Predict sets: {self$predict_sets}")
+      })
     },
 
     #' @description

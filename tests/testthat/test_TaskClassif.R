@@ -45,7 +45,7 @@ test_that("Target is character/factor", {
 test_that("0 feature task", {
   b = as_data_backend(iris[, 5L, drop = FALSE])
   task = TaskClassif$new(id = "zero_feat_task", b, target = "Species")
-  expect_message(print(task))
+  expect_output(print(task))
   b = task$backend
   expect_backend(b)
   expect_task(task)

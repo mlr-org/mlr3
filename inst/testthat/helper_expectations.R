@@ -51,7 +51,7 @@ expect_backend = function(b) {
   checkmate::expect_r6(b, cloneable = FALSE,
     public = c("nrow", "ncol", "colnames", "rownames", "head", "data", "hash"),
     private = c(".data", ".hash", ".calculate_hash"))
-  testthat::expect_message(print(b), "DataBackend")
+  testthat::expect_output(print(b), "DataBackend")
 
   n = checkmate::expect_count(b$nrow)
   p = checkmate::expect_count(b$ncol)
@@ -200,7 +200,7 @@ expect_iris_backend = function(b, n_missing = 0L) {
 
 expect_task = function(task, null_backend_ok = TRUE, duplicated_ids = FALSE) {
   checkmate::expect_r6(task, "Task", cloneable = TRUE, public = c("id", "backend", "task_type", "row_roles", "col_roles", "col_info", "head", "row_ids", "feature_names", "target_names", "formula", "nrow", "ncol", "feature_types"))
-  testthat::expect_message(print(task), "Task")
+  testthat::expect_output(print(task), "Task")
   expect_id(task$id)
   checkmate::expect_string(task$label, na.ok = TRUE)
   expect_man_exists(task$man)
@@ -334,7 +334,7 @@ expect_task_generator = function(gen) {
   checkmate::expect_function(gen$generate, args = "n")
   checkmate::expect_class(gen$param_set, "ParamSet")
   checkmate::expect_list(gen$param_set$values, names = "unique")
-  testthat::expect_message(print(gen))
+  testthat::expect_output(print(gen))
 }
 
 
@@ -346,7 +346,7 @@ expect_learner = function(lrn, task = NULL, check_man = TRUE) {
   if (check_man) {
     expect_man_exists(lrn$man)
   }
-  testthat::expect_message(print(lrn))
+  testthat::expect_output(print(lrn))
 
   checkmate::expect_choice(lrn$task_type, mlr3::mlr_reflections$task_types$type)
   checkmate::expect_character(lrn$packages, any.missing = FALSE, min.chars = 1L, unique = TRUE)
@@ -453,7 +453,7 @@ expect_marshalable_learner = function(learner, task) {
 
 expect_resampling = function(r, task = NULL) {
   checkmate::expect_r6(r, "Resampling")
-  testthat::expect_message(print(r), "Resampling")
+  testthat::expect_output(print(r), "Resampling")
   expect_id(r$id)
   expect_man_exists(r$man)
 
@@ -514,7 +514,7 @@ expect_measure = function(m) {
   checkmate::expect_r6(m, "Measure", public = c("aggregate", "score", "id", "minimize", "packages", "range", "task_type", "task_properties"))
   expect_id(m$id)
   expect_man_exists(m$man)
-  testthat::expect_message(print(m), "Measure")
+  testthat::expect_output(print(m), "Measure")
 
   if ("requires_no_prediction" %in% m$properties) {
     testthat::expect_true(is.null(m$predict_sets))
@@ -536,7 +536,7 @@ expect_measure = function(m) {
 
 expect_prediction = function(p) {
   checkmate::expect_r6(p, "Prediction", public = c("row_ids", "truth", "predict_types"))
-  testthat::expect_message(print(p), "Prediction")
+  testthat::expect_output(print(p), "Prediction")
   checkmate::expect_data_table(data.table::as.data.table(p), nrows  = length(p$row_ids))
   checkmate::expect_integerish(p$missing)
 }
@@ -579,7 +579,7 @@ expect_prediction_classif = function(p, task = NULL) {
 expect_resample_result = function(rr, allow_incomplete = FALSE) {
   checkmate::expect_r6(rr, "ResampleResult")
   expect_resultdata(mlr3misc::get_private(rr)$.data, FALSE)
-  testthat::expect_message(print(rr), "ResampleResult")
+  testthat::expect_output(print(rr), "ResampleResult")
   nr = mlr3misc::get_private(rr)$.data$iterations()
 
   if (nr > 0L) {
@@ -616,7 +616,7 @@ expect_resample_result = function(rr, allow_incomplete = FALSE) {
 expect_benchmark_result = function(bmr) {
   checkmate::expect_r6(bmr, "BenchmarkResult", private = ".data")
   expect_resultdata(mlr3misc::get_private(bmr)$.data, TRUE)
-  testthat::expect_message(print(bmr), "BenchmarkResult")
+  testthat::expect_output(print(bmr), "BenchmarkResult")
 
   checkmate::expect_names(names(as.data.table(bmr)), permutation.of = c(mlr3::mlr_reflections$rr_names, "prediction", "uhash"))
 
