@@ -10,6 +10,7 @@
 \alias{assert_learnable}
 \alias{assert_predictable}
 \alias{assert_measure}
+\alias{assert_scorable}
 \alias{assert_measures}
 \alias{assert_resampling}
 \alias{assert_resamplings}
@@ -63,6 +64,14 @@ assert_measure(
   measure,
   task = NULL,
   learner = NULL,
+  prediction = NULL,
+  .var.name = vname(measure)
+)
+
+assert_scorable(
+  measure,
+  task,
+  learner,
   prediction = NULL,
   .var.name = vname(measure)
 )

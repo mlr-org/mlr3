@@ -367,16 +367,16 @@ test_that("benchmark_grid works if paired = TRUE", {
   # design[, identical(task), by = task]]
   # expect(identical(design$resampling[class(learner)[[1]] ==)]))
   expect_true(nrow(design) == 4L) #
-  expect_true(identical(design$task[[1]], design$task[[2]]))
-  expect_true(identical(design$task[[3]], design$task[[4]]))
+  expect_identical(design$task[[1]], design$task[[2]])
+  expect_identical(design$task[[3]], design$task[[4]])
   expect_false(identical(design$task[[1]], design$task[[3]]))
 
-  expect_true(identical(design$resampling[[1]], design$resampling[[2]]))
-  expect_true(identical(design$resampling[[3]], design$resampling[[4]]))
+  expect_identical(design$resampling[[1]], design$resampling[[2]])
+  expect_identical(design$resampling[[3]], design$resampling[[4]])
   expect_false(identical(design$resampling[[1]], design$resampling[[3]]))
 
-  expect_true(identical(design$learner[[1]], design$learner[[3]]))
-  expect_true(identical(design$learner[[2]], design$learner[[4]]))
+  expect_identical(design$learner[[1]], design$learner[[3]])
+  expect_identical(design$learner[[2]], design$learner[[4]])
   expect_false(identical(design$learner[[2]], design$learner[[3]]))
 
 

@@ -128,13 +128,9 @@ Task = R6Class("Task",
       cn = self$backend$colnames
       rn = self$backend$rownames
 
-      if (allow_utf8_names()) {
-        assert_names(cn, "unique", .var.name = "column names")
-        if (any(grepl("%", cn, fixed = TRUE))) {
-          stopf("Column names may not contain special character '%%'")
-        }
-      } else {
-        assert_names(cn, "strict", .var.name = "column names")
+      assert_names(cn, "unique", .var.name = "column names")
+      if (any(grepl("%", cn, fixed = TRUE))) {
+        stopf("Column names may not contain special character '%%'")
       }
 
       self$col_info = col_info(self$backend)
@@ -858,6 +854,9 @@ Task = R6Class("Task",
       })
 
       private$.internal_valid_task = rhs
+      if (private$.internal_valid_task$nrow == 0) {
+        warningf("Internal validation task has 0 observations.")
+      }
       invisible(private$.internal_valid_task)
     },
 

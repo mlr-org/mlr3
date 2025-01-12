@@ -23,6 +23,6 @@ test_that("log to text file", {
   lines = readLines(f)
   expect_true(any(startsWith(lines, "INFO")))
   expect_true(any(startsWith(lines, "DEBUG")))
-  expect_true(any(grepl("'iris'", lines, fixed = TRUE)))
-  expect_true(any(grepl("'classif.featureless'", lines, fixed = TRUE)))
+  expect_match(lines, "'iris'", fixed = TRUE, all = FALSE)
+  expect_match(lines, "'classif.featureless'", lines, fixed = TRUE, all = FALSE)
 })

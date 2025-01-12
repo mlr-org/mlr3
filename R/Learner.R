@@ -157,11 +157,6 @@ Learner = R6Class("Learner",
     #' @template field_task_type
     task_type = NULL,
 
-    #' @field predict_types (`character()`)\cr
-    #' Stores the possible predict types the learner is capable of.
-    #' A complete list of candidate predict types, grouped by task type, is stored in [`mlr_reflections$learner_predict_types`][mlr_reflections].
-    predict_types = NULL,
-
     #' @field feature_types (`character()`)\cr
     #' Stores the feature types the learner can handle, e.g. `"logical"`, `"numeric"`, or `"factor"`.
     #' A complete list of candidate feature types, grouped by task type, is stored in [`mlr_reflections$task_feature_types`][mlr_reflections].
@@ -214,7 +209,7 @@ Learner = R6Class("Learner",
       self$task_type = assert_choice(task_type, mlr_reflections$task_types$type)
       private$.param_set = assert_param_set(param_set)
       self$feature_types = assert_ordered_set(feature_types, mlr_reflections$task_feature_types, .var.name = "feature_types")
-      self$predict_types = assert_ordered_set(predict_types, names(mlr_reflections$learner_predict_types[[task_type]]),
+      private$.predict_types = assert_ordered_set(predict_types, names(mlr_reflections$learner_predict_types[[task_type]]),
         empty.ok = FALSE, .var.name = "predict_types")
       private$.predict_type = predict_types[1L]
       self$properties = sort(assert_subset(properties, mlr_reflections$learner_properties[[task_type]]))
@@ -517,6 +512,50 @@ Learner = R6Class("Learner",
       private$.fallback = fallback
 
       return(invisible(self))
+    },
+
+    #' @description
+    #' Sets parameter values and fields of the learner.
+    #' All arguments whose names match the name of a parameter of the [paradox::ParamSet] are set as parameters.
+    #' All remaining arguments are assumed to be regular fields.
+    #'
+    #' @param ... (named `any`)\cr
+    #'   Named arguments to set parameter values and fields.
+    #' @param .values (named `any`)\cr
+    #'   Named list of parameter values and fields.
+    configure = function(..., .values = list()) {
+      dots = list(...)
+      assert_list(dots, names = "unique")
+      assert_list(.values, names = "unique")
+      assert_disjunct(names(dots), names(.values))
+      new_values = insert_named(dots, .values)
+
+      # set params in ParamSet
+      if (length(new_values)) {
+        param_ids = self$param_set$ids()
+        ii = names(new_values) %in% param_ids
+        if (any(ii)) {
+          self$param_set$values = insert_named(self$param_set$values, new_values[ii])
+          new_values = new_values[!ii]
+        }
+      } else {
+        param_ids = character()
+      }
+
+      # remaining args go into fields
+      if (length(new_values)) {
+        ndots = names(new_values)
+        for (i in seq_along(new_values)) {
+          nn = ndots[[i]]
+          if (!exists(nn, envir = self, inherits = FALSE)) {
+            stopf("Cannot set argument '%s' for '%s' (not a parameter, not a field).%s",
+              nn, class(self)[1L], did_you_mean(nn, c(param_ids, setdiff(names(self), ".__enclos_env__")))) # nolint
+          }
+          self[[nn]] = new_values[[i]]
+        }
+      }
+
+      return(invisible(self))
     }
   ),
 
@@ -595,6 +634,8 @@ Learner = R6Class("Learner",
     #' @field predict_type (`character(1)`)\cr
     #' Stores the currently active predict type, e.g. `"response"`.
     #' Must be an element of `$predict_types`.
+    #' A few learners already use the predict type during training.
+    #' So there is no guarantee that changing the predict type after training will have any effect or does not lead to errors.
     predict_type = function(rhs) {
       if (missing(rhs)) {
         return(private$.predict_type)
@@ -615,8 +656,6 @@ Learner = R6Class("Learner",
       }
       private$.param_set
     },
-
-
 
     #' @field fallback ([Learner])\cr
     #' Returns the fallback learner set with `$encapsulate()`.
@@ -640,6 +679,15 @@ Learner = R6Class("Learner",
       }
       assert_r6(rhs, "HotstartStack", null.ok = TRUE)
       private$.hotstart_stack = rhs
+    },
+
+    #' @field predict_types (`character()`)\cr
+    #' Stores the possible predict types the learner is capable of.
+    #' A complete list of candidate predict types, grouped by task type, is stored in [`mlr_reflections$learner_predict_types`][mlr_reflections].
+    #' This field is read-only.
+    predict_types = function(rhs) {
+      assert_ro_binding(rhs)
+      return(private$.predict_types)
     }
   ),
 
@@ -647,6 +695,7 @@ Learner = R6Class("Learner",
     .encapsulation = c(train = "none", predict = "none"),
     .fallback = NULL,
     .predict_type = NULL,
+    .predict_types = NULL,
     .param_set = NULL,
     .hotstart_stack = NULL,
 
