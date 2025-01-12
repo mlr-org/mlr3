@@ -45,7 +45,7 @@ MeasureClassifCosts = R6Class("MeasureClassifCosts",
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       param_set = ps(normalize = p_lgl(tags = "required"))
-      param_set$values = list(normalize = TRUE)
+      param_set$set_values(normalize = TRUE)
 
       super$initialize(
         id = "classif.costs",
