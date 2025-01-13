@@ -106,7 +106,7 @@ Data frame containing all columns referenced in formula \code{x}.}
 Convert object to a \link{TaskClassif}.
 This is a S3 generic. mlr3 ships with methods for the following objects:
 \enumerate{
-\item \link{TaskClassif}: ensure the identity
+\item \link{TaskClassif}: returns the object as-is, possibly cloned.
 \item \code{\link{formula}}, \code{\link[=data.frame]{data.frame()}}, \code{\link[=matrix]{matrix()}}, \code{\link[Matrix:Matrix]{Matrix::Matrix()}} and \link{DataBackend}: provides an alternative to the constructor of \link{TaskClassif}.
 \item \link{TaskRegr}: Calls \code{\link[=convert_task]{convert_task()}}.
 }

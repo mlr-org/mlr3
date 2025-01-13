@@ -2,7 +2,7 @@
 #'
 #' @description
 #' Convert object to a [Resampling] or a list of [Resampling].
-#'
+#' This method e.g. allows to convert an [`mlr3oml::OMLTask`] to a [`Resampling`].
 #' @inheritParams as_task
 #' @export
 as_resampling = function(x, ...) { # nolint
@@ -12,6 +12,7 @@ as_resampling = function(x, ...) { # nolint
 #' @export
 #' @rdname as_resampling
 as_resampling.Resampling = function(x, clone = FALSE, ...) { # nolint
+  assert_empty_ellipsis(...)
   if (isTRUE(clone)) x$clone() else x
 }
 

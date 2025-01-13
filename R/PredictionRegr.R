@@ -61,7 +61,7 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
       self$data = pdata
       predict_types = intersect(names(mlr_reflections$learner_predict_types[["regr"]]), names(pdata))
       # response is in saved in quantiles matrix
-      if ("quantiles" %in% predict_types) predict_types = union(predict_types, "response")
+      if ("quantiles" %chin% predict_types) predict_types = union(predict_types, "response")
       self$predict_types = predict_types
       if (is.null(pdata$response)) private$.quantile_response = attr(quantiles, "response")
     }
@@ -94,7 +94,7 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
     #' Access the stored vector distribution.
     #' Requires package `distr6`(in repository \url{https://raphaels1.r-universe.dev}) .
     distr = function() {
-      if ("distr" %in% self$predict_types) {
+      if ("distr" %chin% self$predict_types) {
         require_namespaces("distr6", msg = "To predict probability distributions, please install %s")
       }
       return(self$data$distr)
@@ -111,12 +111,12 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
 as.data.table.PredictionRegr = function(x, ...) { # nolint
   tab = as.data.table(x$data[c("row_ids", "truth", "response", "se")])
 
-  if ("quantiles" %in% x$predict_types) {
+  if ("quantiles" %chin% x$predict_types) {
     tab = rcbind(tab, as.data.table(x$data$quantiles))
     set(tab, j = "response", value = x$response)
   }
 
-  if ("distr" %in% x$predict_types) {
+  if ("distr" %chin% x$predict_types) {
     require_namespaces("distr6", msg = "To predict probability distributions, please install %s")
     tab$distr = list(x$distr)
   }
