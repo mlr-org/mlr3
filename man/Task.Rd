@@ -198,11 +198,8 @@ The following properties are currently standardized and understood by tasks in \
 \item \code{"strata"}: The task is resampled using one or more stratification variables (role \code{"stratum"}).
 \item \code{"groups"}: The task comes with grouping/blocking information (role \code{"group"}).
 \item \code{"weights"}: The task comes with observation weights (role \code{"weight"}).
-<<<<<<< HEAD
 \item \code{"offset"}: The task includes an offset column specifying fixed adjustments for model training (role \code{"offset"}).
-=======
 \item \code{"ordered"}: The task has columns which define the row order (role \code{"order"}).
->>>>>>> main
 }
 
 Note that above listed properties are calculated from the \verb{$col_roles} and may not be set explicitly.}
@@ -230,8 +227,10 @@ For each resampling iteration, observations of the same group will be exclusivel
 Not more than a single column can be associated with this role.
 \item \code{"stratum"}: Stratification variables. Multiple discrete columns may have this role.
 \item \code{"weight"}: Observation weights. Not more than one numeric column may have this role.
-\item \code{"offset"}: Offset values specifying fixed adjustments for model training. These values can be used to provide baseline predictions from an existing model for updating another model.
-Not more than one numeric column may have this role.
+\item \code{"offset"}: Offset values specifying fixed adjustments for model training.
+These values can be used to provide baseline predictions from an existing model for updating another model.
+Some learners require an offset for each target class in a multiclass setting.
+In this case, the offset columns must be named \code{"offset_target_class"}.
 }
 
 \code{col_roles} is a named list whose elements are named by column role and each element is a \code{character()} vector of column names.
