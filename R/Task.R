@@ -1250,6 +1250,11 @@ task_check_col_roles.Task = function(task, new_roles, ...) {
     }
   }
 
+  # check offset
+  if (length(new_roles[["offset"]]) && any(fget(task$col_info, new_roles[["offset"]], "type", key = "id") %nin% c("numeric", "integer"))) {
+    stopf("Offset column(s) %s must be a numeric or integer column", paste0("'", new_roles[["offset"]], "'", collapse = ","))
+  }
+
   return(new_roles)
 }
 
@@ -1266,16 +1271,20 @@ task_check_col_roles.TaskClassif = function(task, new_roles, ...) {
     stopf("Target column(s) %s must be a factor or ordered factor", paste0("'", new_roles[["target"]], "'", collapse = ","))
   }
 
+  if (length(new_roles[["offset"]]) > 1L && length(task$class_names) == 2L) {
+    stop("There may only be up to one column with role 'offset' for binary classification tasks")
+  }
+
   NextMethod()
 }
 
 #' @rdname task_check_col_roles
 #' @export
 task_check_col_roles.TaskRegr = function(task, new_roles, ...) {
-
-  # check target
-  if (length(new_roles[["target"]]) > 1L) {
-    stopf("There may only be up to one column with role 'target'")
+  for (role in c("target", "offset")) {
+    if (length(new_roles[[role]]) > 1L) {
+      stopf("There may only be up to one column with role '%s'", role)
+    }
   }
 
   if (length(new_roles[["target"]]) && any(fget(task$col_info, new_roles[["target"]], "type", key = "id") %nin% c("numeric", "integer"))) {
