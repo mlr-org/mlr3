@@ -14,3 +14,7 @@ test_that("as_measure conversion", {
   default = as_measures(NULL, task_type = "classif")
   expect_list(default, types = "Measure")
 })
+
+test_that("error when arguments are misspelled", {
+  expect_error(as_measure(msr("classif.acc"), clone2 = TRUE), "Received the following")
+})

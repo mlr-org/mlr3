@@ -99,7 +99,7 @@ c.PredictionDataRegr = function(..., keep_duplicates = TRUE) { # nolint
   result = as.list(tab)
   result$quantiles = quantiles
 
-  if ("distr" %in% predict_types[[1L]]) {
+  if ("distr" %chin% predict_types[[1L]]) {
     require_namespaces("distr6", msg = "To predict probability distributions, please install %s")
     result$distr = do.call(c, map(dots, "distr"))
   }
@@ -137,15 +137,15 @@ create_empty_prediction_data.TaskRegr = function(task, learner) {
     truth = numeric()
   )
 
-  if ("response" %in% predict_types) {
+  if ("response" %chin% predict_types) {
     pdata$response = pdata$truth
   }
 
-  if ("se" %in% predict_types) {
+  if ("se" %chin% predict_types) {
     pdata$se = pdata$truth
   }
 
-  if ("distr" %in% predict_types) {
+  if ("distr" %chin% predict_types) {
     pdata$distr = list()
   }
 

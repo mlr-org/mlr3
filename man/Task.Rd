@@ -198,7 +198,11 @@ The following properties are currently standardized and understood by tasks in \
 \item \code{"strata"}: The task is resampled using one or more stratification variables (role \code{"stratum"}).
 \item \code{"groups"}: The task comes with grouping/blocking information (role \code{"group"}).
 \item \code{"weights"}: The task comes with observation weights (role \code{"weight"}).
+<<<<<<< HEAD
 \item \code{"offset"}: The task includes an offset column specifying fixed adjustments for model training (role \code{"offset"}).
+=======
+\item \code{"ordered"}: The task has columns which define the row order (role \code{"order"}).
+>>>>>>> main
 }
 
 Note that above listed properties are calculated from the \verb{$col_roles} and may not be set explicitly.}
