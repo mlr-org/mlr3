@@ -1234,7 +1234,7 @@ task_check_col_roles = function(task, new_roles, ...) {
 #' @rdname task_check_col_roles
 #' @export
 task_check_col_roles.Task = function(task, new_roles, ...) {
-  for (role in c("group", "weight", "name", "offset")) {
+  for (role in c("group", "weight", "name")) {
     if (length(new_roles[[role]]) > 1L) {
       stopf("There may only be up to one column with role '%s'", role)
     }
