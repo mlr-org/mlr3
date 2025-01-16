@@ -253,9 +253,9 @@ test_that("groups/weights work", {
   task = TaskRegr$new("test", b, target = "y")
   task$set_row_roles(16:20, character())
 
-  expect_false("groups" %cin% task$properties)
-  expect_false("weights" %cin% task$properties)
-  expect_false("offset" %cin% task$properties)
+  expect_false("groups" %chin% task$properties)
+  expect_false("weights" %chin% task$properties)
+  expect_false("offset" %chin% task$properties)
   expect_null(task$groups)
   expect_null(task$weights)
 
