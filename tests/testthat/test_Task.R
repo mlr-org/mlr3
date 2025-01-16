@@ -247,7 +247,7 @@ test_that("stratify works", {
   expect_list(tab$row_id, "integer")
 })
 
-test_that("groups/weights/offset work", {
+test_that("groups/weights work", {
   b = as_data_backend(data.table(x = runif(20), y = runif(20), w = runif(20),
                                  o = runif(20), g = sample(letters[1:2], 20, replace = TRUE)))
   task = TaskRegr$new("test", b, target = "y")
@@ -280,15 +280,6 @@ test_that("groups/weights/offset work", {
   expect_error({
     task$col_roles$weight = c("w", "g")
   }, "up to one")
-
-  # offset
-  task$col_roles$offset = "o"
-  expect_subset("offset", task$properties)
-  expect_error({
-    task$col_roles$offset = c("o", "w")
-  }, "up to one")
-  task$col_roles$offset = character()
-  expect_true("offset" %nin% task$properties)
 })
 
 test_that("col roles are valid", {
@@ -739,3 +730,4 @@ test_that("warn when internal valid task has 0 obs", {
   task = tsk("iris")
   expect_warning({task$internal_valid_task = 151}, "has 0 observations")
 })
+

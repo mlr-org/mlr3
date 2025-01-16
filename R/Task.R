@@ -1279,6 +1279,11 @@ task_check_col_roles.TaskClassif = function(task, new_roles, ...) {
     stop("There may only be up to one column with role 'offset' for binary classification tasks")
   }
 
+  if (length(new_roles[["offset"]]) > 1L) {
+    expected_names = paste0("offset_", task$class_names)
+    expect_subset(new_roles[["offset"]], expected_names)
+  }
+
   NextMethod()
 }
 
