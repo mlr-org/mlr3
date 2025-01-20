@@ -115,30 +115,40 @@ test_that("target is encoded as factor (#629)", {
 
 test_that("offset column role works with binary tasks", {
   task = tsk("pima")
-  task$set_col_roles("glucose", "offset")
+  task$set_col_roles("age", "offset")
 
   expect_subset("offset", task$properties)
 
   expect_error({
      task$col_roles$offset = c("glucose", "diabetes")
   }, "There may only be up to one column with role")
+
+  expect_error({
+    task$col_roles$offset = c("glucose")
+  }, "contain missing values")
 })
 
 test_that("offset column role works with multiclass tasks", {
   task = tsk("penguins")
-  task$set_col_roles("body_mass", "offset")
+  task$set_col_roles("year", "offset")
   expect_subset("offset", task$properties)
 
   expect_error({
-    task$col_roles$offset = c("body_mass", "flipper_length")
+    task$col_roles$offset = "bill_length"
+  }, "contain missing values")
+
+  task = tsk("wine")
+
+  expect_error({
+    task$col_roles$offset = c("alcohol", "ash")
   }, "Must be a subset of")
 
-  task = tsk("penguins")
+  task = tsk("wine")
   data = task$data()
-  set(data, j = "offset_Adelie", value = runif(nrow(data)))
-  set(data, j = "offset_Chinstrap", value = runif(nrow(data)))
-  task = as_task_classif(data, target = "species")
-  task$set_col_roles(c("offset_Adelie", "offset_Chinstrap"), "offset")
+  set(data, j = "offset_1", value = runif(nrow(data)))
+  set(data, j = "offset_2", value = runif(nrow(data)))
+  task = as_task_classif(data, target = "type")
+  task$set_col_roles(c("offset_1", "offset_2"), "offset")
 
   expect_subset("offset", task$properties)
 })

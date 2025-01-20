@@ -1261,6 +1261,12 @@ task_check_col_roles.Task = function(task, new_roles, ...) {
     stopf("Offset column(s) %s must be a numeric or integer column", paste0("'", new_roles[["offset"]], "'", collapse = ","))
   }
 
+  if (any(task$missings(cols = new_roles[["offset"]]) > 0)) {
+    missings = task$missings(cols = new_roles[["offset"]])
+    missings = names(missings[missings > 0])
+    stopf("Offset column(s) %s contain missing values", paste0("'", missings, "'", collapse = ","))
+  }
+
   return(new_roles)
 }
 
@@ -1283,7 +1289,7 @@ task_check_col_roles.TaskClassif = function(task, new_roles, ...) {
 
   if (length(new_roles[["offset"]]) > 1L) {
     expected_names = paste0("offset_", task$class_names)
-    expect_subset(new_roles[["offset"]], expected_names)
+    expect_subset(new_roles[["offset"]], expected_names, label = "col_roles")
   }
 
   NextMethod()
