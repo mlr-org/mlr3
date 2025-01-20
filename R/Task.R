@@ -496,7 +496,7 @@ Task = R6Class("Task",
       }
 
       # columns with these roles must be present in data
-      mandatory_roles = c("target", "feature", "weight", "group", "stratum", "order")
+      mandatory_roles = c("target", "feature", "weight", "group", "stratum", "order", "offset")
       mandatory_cols = unlist(private$.col_roles[mandatory_roles], use.names = FALSE)
       missing_cols = setdiff(mandatory_cols, data$colnames)
       if (length(missing_cols)) {
