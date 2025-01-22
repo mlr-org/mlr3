@@ -60,7 +60,6 @@ test_that("offset column role works", {
     task$col_roles$offset = c("am", "gear")
   }, "up to one")
 
-
   task$col_roles$offset = character()
   expect_true("offset" %nin% task$properties)
 })
