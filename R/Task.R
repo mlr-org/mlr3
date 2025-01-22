@@ -896,7 +896,7 @@ Task = R6Class("Task",
     #' * `"strata"`: The task is resampled using one or more stratification variables (role `"stratum"`).
     #' * `"groups"`: The task comes with grouping/blocking information (role `"group"`).
     #' * `"weights"`: The task comes with observation weights (role `"weight"`).
-    #' * `"offset"`: The task includes an offset column specifying fixed adjustments for model training (role `"offset"`).
+    #' * `"offset"`: The task includes one or more offset columns specifying fixed adjustments for model training and possibly for prediction (role `"offset"`).
     #' * `"ordered"`: The task has columns which define the row order (role `"order"`).
     #'
     #' Note that above listed properties are calculated from the `$col_roles` and may not be set explicitly.
@@ -956,7 +956,7 @@ Task = R6Class("Task",
     #' * `"offset"`: Offset values specifying fixed adjustments for model training.
     #'   These values can be used to provide baseline predictions from an existing model for updating another model.
     #'   Some learners require an offset for each target class in a multiclass setting.
-    #'   In this case, the offset columns must be named `"offset_target_class"`.
+    #'   In this case, the offset columns must be named `"offset_{target_class_name}"`.
     #'
     #' `col_roles` is a named list whose elements are named by column role and each element is a `character()` vector of column names.
     #' To alter the roles, just modify the list, e.g. with \R's set functions ([intersect()], [setdiff()], [union()], \ldots).
@@ -1090,6 +1090,23 @@ Task = R6Class("Task",
       setnames(data, c("row_id", "weight"))[]
     },
 
+    #' @field offset ([data.table::data.table()])\cr
+    #' Provides the offset column(s) if the task has a column designated with the role `"offset"`.
+    #'
+    #' For regression or binary classification tasks, this returns a single-column offset.
+    #' For multiclass tasks, it may return multiple offset columns, one for each target class.
+    #'
+    #' If there are no columns with the `"offset"` role, `NULL` is returned.
+    offset = function(rhs) {
+      assert_has_backend(self)
+      assert_ro_binding(rhs)
+      offset_cols = private$.col_roles$offset
+      if (length(offset_cols) == 0L) {
+        return(NULL)
+      }
+
+      self$backend$data(private$.row_roles$use, offset_cols)
+    },
 
     #' @field labels (named `character()`)\cr
     #'   Retrieve `labels` (prettier formated names) from columns.

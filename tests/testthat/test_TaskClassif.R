@@ -115,9 +115,12 @@ test_that("target is encoded as factor (#629)", {
 
 test_that("offset column role works with binary tasks", {
   task = tsk("pima")
-  task$set_col_roles("age", "offset")
+  expect_null(task$offset)
 
+  task$set_col_roles("age", "offset")
   expect_subset("offset", task$properties)
+  expect_data_table(task$offset, nrows = task$nrow, ncols = 1)
+  expect_subset("age", names(task$offset))
 
   expect_error({
      task$col_roles$offset = c("glucose", "diabetes")
@@ -130,8 +133,11 @@ test_that("offset column role works with binary tasks", {
 
 test_that("offset column role works with multiclass tasks", {
   task = tsk("penguins")
+  expect_null(task$offset)
   task$set_col_roles("year", "offset")
   expect_subset("offset", task$properties)
+  expect_data_table(task$offset, nrows = task$nrow, ncols = 1)
+  expect_subset("year", names(task$offset))
 
   expect_error({
     task$col_roles$offset = "bill_length"
@@ -151,4 +157,6 @@ test_that("offset column role works with multiclass tasks", {
   task$set_col_roles(c("offset_1", "offset_2"), "offset")
 
   expect_subset("offset", task$properties)
+  expect_data_table(task$offset, nrows = task$nrow, ncols = 2)
+  expect_subset(c("offset_1", "offset_2"), names(task$offset))
 })

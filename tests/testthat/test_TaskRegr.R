@@ -52,9 +52,12 @@ test_that("$add_strata", {
 
 test_that("offset column role works", {
   task = tsk("mtcars")
+  expect_null(task$offset)
   task$set_col_roles("am", "offset")
 
   expect_subset("offset", task$properties)
+  expect_data_table(task$offset, nrows = task$nrow, ncols = 1)
+  expect_subset("am", names(task$offset))
 
   expect_error({
     task$col_roles$offset = c("am", "gear")
@@ -62,4 +65,5 @@ test_that("offset column role works", {
 
   task$col_roles$offset = character()
   expect_true("offset" %nin% task$properties)
+  expect_null(task$offset)
 })

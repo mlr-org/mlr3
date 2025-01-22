@@ -198,7 +198,7 @@ The following properties are currently standardized and understood by tasks in \
 \item \code{"strata"}: The task is resampled using one or more stratification variables (role \code{"stratum"}).
 \item \code{"groups"}: The task comes with grouping/blocking information (role \code{"group"}).
 \item \code{"weights"}: The task comes with observation weights (role \code{"weight"}).
-\item \code{"offset"}: The task includes an offset column specifying fixed adjustments for model training (role \code{"offset"}).
+\item \code{"offset"}: The task includes one or more offset columns specifying fixed adjustments for model training and possibly for prediction (role \code{"offset"}).
 \item \code{"ordered"}: The task has columns which define the row order (role \code{"order"}).
 }
 
@@ -230,7 +230,7 @@ Not more than a single column can be associated with this role.
 \item \code{"offset"}: Offset values specifying fixed adjustments for model training.
 These values can be used to provide baseline predictions from an existing model for updating another model.
 Some learners require an offset for each target class in a multiclass setting.
-In this case, the offset columns must be named \code{"offset_target_class"}.
+In this case, the offset columns must be named \code{"offset_{target_class_name}"}.
 }
 
 \code{col_roles} is a named list whose elements are named by column role and each element is a \code{character()} vector of column names.
@@ -290,6 +290,14 @@ If the task has a column with designated role \code{"weight"}, a table with two 
 }
 
 Returns \code{NULL} if there are is no weight column.}
+
+\item{\code{offset}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
+Provides the offset column(s) if the task has a column designated with the role \code{"offset"}.
+
+For regression or binary classification tasks, this returns a single-column offset.
+For multiclass tasks, it may return multiple offset columns, one for each target class.
+
+If there are no columns with the \code{"offset"} role, \code{NULL} is returned.}
 
 \item{\code{labels}}{(named \code{character()})\cr
 Retrieve \code{labels} (prettier formated names) from columns.
