@@ -145,6 +145,11 @@ assert_task_learner = function(task, learner, cols = NULL) {
     }
   }
 
+  if ("offset" %in% task$properties && "offset" %nin% learner$properties) {
+    warningf("Task '%s' has offset, but learner '%s' does not support this, so it will be ignored",
+             task$id, learner$id)
+  }
+
   tmp = mlr_reflections$task_mandatory_properties[[task$task_type]]
   if (length(tmp)) {
     tmp = setdiff(intersect(task$properties, tmp), learner$properties)

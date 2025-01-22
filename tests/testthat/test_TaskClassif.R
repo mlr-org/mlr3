@@ -129,6 +129,8 @@ test_that("offset column role works with binary tasks", {
   expect_error({
     task$col_roles$offset = c("glucose")
   }, "contain missing values")
+
+  expect_warning(lrn("classif.rpart")$train(task), "has offset")
 })
 
 test_that("offset column role works with multiclass tasks", {
