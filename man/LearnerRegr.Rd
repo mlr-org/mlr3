@@ -109,6 +109,7 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{LearnerRegr$new(
   id,
+  task_type = "regr",
   param_set = ps(),
   predict_types = "response",
   feature_types = character(),
@@ -125,6 +126,10 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 \describe{
 \item{\code{id}}{(\code{character(1)})\cr
 Identifier for the new instance.}
+
+\item{\code{task_type}}{(\code{character(1)})\cr
+Type of task, e.g. \code{"regr"} or \code{"classif"}.
+Must be an element of \link[=mlr_reflections]{mlr_reflections$task_types$type}.}
 
 \item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
 Set of hyperparameters.}

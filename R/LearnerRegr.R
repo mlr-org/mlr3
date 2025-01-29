@@ -26,6 +26,7 @@
 #' @template param_packages
 #' @template param_label
 #' @template param_man
+#' @template param_task_type
 #'
 #' @template seealso_learner
 #' @export
