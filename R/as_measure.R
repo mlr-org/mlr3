@@ -49,5 +49,5 @@ as_measures.NULL = function(x, task_type = NULL, clone = FALSE, ...) { # nolint
 #' @export
 #' @rdname as_measure
 as_measures.list = function(x, task_type = NULL, clone = FALSE, ...) { # nolint
-  lapply(x, as_measure, task_type = NULL, cloen = clone, ...)
+  lapply(x, as_measure, task_type = NULL, clone = clone, ...)
 }
