@@ -386,6 +386,13 @@ Returns the encapsulation settings set with <code>$encapsulate()</code>.</p></dd
 Stores <code>HotstartStack</code>.</p></dd>
 
 
+<dt><code>selected_features_impute</code></dt>
+<dd><p>(<code>character(1)</code>)<br>
+Controls the behavior if the learner does not support feature selection.
+If set to <code>"error"</code>, an error is thrown.
+If set to <code>"all"</code> the complete feature set is returned.</p></dd>
+
+
 <dt><code>predict_types</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 Stores the possible predict types the learner is capable of.
@@ -412,6 +419,7 @@ This field is read-only.</p></dd>
 <li><p><a href="#method-Learner-base_learner"><code>Learner$base_learner()</code></a></p></li>
 <li><p><a href="#method-Learner-encapsulate"><code>Learner$encapsulate()</code></a></p></li>
 <li><p><a href="#method-Learner-configure"><code>Learner$configure()</code></a></p></li>
+<li><p><a href="#method-Learner-selected_features"><code>Learner$selected_features()</code></a></p></li>
 <li><p><a href="#method-Learner-clone"><code>Learner$clone()</code></a></p></li>
 </ul></div><p></p><hr><a id="method-Learner-new"></a><div class="section">
 <h3 id="method-new-">Method <code>new()</code><a class="anchor" aria-label="anchor" href="#method-new-"></a></h3>
@@ -737,10 +745,20 @@ Named list of parameter values and fields.</p></dd>
 </dl><p></p></div>
 </div>
 
+</div><p></p><hr><a id="method-Learner-selected_features"></a><div class="section">
+<h3 id="method-selected-features-">Method <code>selected_features()</code><a class="anchor" aria-label="anchor" href="#method-selected-features-"></a></h3>
+<p>Returns the features selected by the model.
+The field <code>selected_features_impute</code> controls the behavior if the learner does not support feature selection.
+If set to <code>"error"</code>, an error is thrown, otherwise all features are returned.</p><div class="section">
+<h4 id="usage-11">Usage<a class="anchor" aria-label="anchor" href="#usage-11"></a></h4>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Learner</span><span class="op">$</span><span class="fu">selected_features</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
+</div>
+
+
 </div><p></p><hr><a id="method-Learner-clone"></a><div class="section">
 <h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
 <p>The objects of this class are cloneable with this method.</p><div class="section">
-<h4 id="usage-11">Usage<a class="anchor" aria-label="anchor" href="#usage-11"></a></h4>
+<h4 id="usage-12">Usage<a class="anchor" aria-label="anchor" href="#usage-12"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Learner</span><span class="op">$</span><span class="fu">clone</span><span class="op">(</span>deep <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
