@@ -301,6 +301,11 @@ Returns the encapsulation settings set with \verb{$encapsulate()}.}
 \item{\code{hotstart_stack}}{(\link{HotstartStack})\cr.
 Stores \code{HotstartStack}.}
 
+\item{\code{selected_features_impute}}{(\code{character(1)})\cr
+Controls the behavior if the learner does not support feature selection.
+If set to \code{"error"}, an error is thrown.
+If set to \code{"all"} the complete feature set is returned.}
+
 \item{\code{predict_types}}{(\code{character()})\cr
 Stores the possible predict types the learner is capable of.
 A complete list of candidate predict types, grouped by task type, is stored in \code{\link[=mlr_reflections]{mlr_reflections$learner_predict_types}}.
@@ -322,6 +327,7 @@ This field is read-only.}
 \item \href{#method-Learner-base_learner}{\code{Learner$base_learner()}}
 \item \href{#method-Learner-encapsulate}{\code{Learner$encapsulate()}}
 \item \href{#method-Learner-configure}{\code{Learner$configure()}}
+\item \href{#method-Learner-selected_features}{\code{Learner$selected_features()}}
 \item \href{#method-Learner-clone}{\code{Learner$clone()}}
 }
 }
@@ -635,6 +641,18 @@ Named list of parameter values and fields.}
 }
 \if{html}{\out{</div>}}
 }
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Learner-selected_features"></a>}}
+\if{latex}{\out{\hypertarget{method-Learner-selected_features}{}}}
+\subsection{Method \code{selected_features()}}{
+Returns the features selected by the model.
+The field \code{selected_features_impute} controls the behavior if the learner does not support feature selection.
+If set to \code{"error"}, an error is thrown, otherwise all features are returned.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Learner$selected_features()}\if{html}{\out{</div>}}
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Learner-clone"></a>}}
