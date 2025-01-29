@@ -165,7 +165,7 @@ assert_task_learner = function(task, learner, param_values = NULL, cols = NULL) 
 #' @export
 #' @param param_values (`list()`)\cr
 #'  TuneToken are not allowed in the parameter set of the learner.
-#'  If the `param_values` overwrites the TuneToken, the assertion will pass.
+#'  If the `param_values` overwrite the TuneToken, the assertion will pass.
 #' @rdname mlr_assertions
 assert_learnable = function(task, learner, param_values = NULL) {
   if (task$task_type == "unsupervised") {

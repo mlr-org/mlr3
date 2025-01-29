@@ -126,7 +126,7 @@ Set of required task properties.}
 
 \item{param_values}{(\code{list()})\cr
 TuneToken are not allowed in the parameter set of the learner.
-If the \code{param_values} overwrites the TuneToken, the assertion will pass.}
+If the \code{param_values} overwrite the TuneToken, the assertion will pass.}
 
 \item{measure}{(\link{Measure}).}
 
