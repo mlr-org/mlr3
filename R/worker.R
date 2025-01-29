@@ -255,7 +255,7 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
   if (!is.null(pb)) {
     pb(sprintf("%s|%s|i:%i", task$id, learner$id, iteration))
   }
-  if ("internal_valid" %in% learner$predict_sets && is.null(task$internal_valid_task) && is.null(get0("validate", learner))) {
+  if ("internal_valid" %chin% learner$predict_sets && is.null(task$internal_valid_task) && is.null(get0("validate", learner))) {
     stopf("Cannot set the predict_type field of learner '%s' to 'internal_valid' if there is no internal validation task configured", learner$id)
   }
 
@@ -351,7 +351,7 @@ prediction_tasks_and_sets = function(task, train_result, validate, sets, predict
     return(list(tasks = tasks[predict_sets], sets = sets[predict_sets]))
   }
 
-  if ("internal_valid" %in% predict_sets) {
+  if ("internal_valid" %chin% predict_sets) {
     if (is.numeric(validate) || identical(validate, "test")) {
       # in this scenario, the internal_valid_task was created during learner_train, which means that it used the
       # primary task. The selected ids are returned via the train result

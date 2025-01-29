@@ -37,7 +37,7 @@
 #' @export
 #' @examples
 #' learner = lrn("classif.debug")
-#' learner$param_set$values = list(message_train = 1, save_tasks = TRUE)
+#' learner$param_set$set_values(message_train = 1, save_tasks = TRUE)
 #'
 #' # this should signal a message
 #' task = tsk("penguins")
@@ -163,7 +163,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
       pv = self$param_set$get_values(tags = "train")
       pv$count_marshaling = pv$count_marshaling %??% FALSE
       roll = function(name) {
-        name %in% names(pv) && pv[[name]] > runif(1L)
+        name %chin% names(pv) && pv[[name]] > runif(1L)
       }
 
       if (!is.null(pv$sleep_train)) {
@@ -248,7 +248,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
       n = task$nrow
       pv = self$param_set$get_values(tags = "predict")
       roll = function(name) {
-        name %in% names(pv) && pv[[name]] > runif(1L)
+        name %chin% names(pv) && pv[[name]] > runif(1L)
       }
 
       if (!is.null(pv$sleep_predict)) {
@@ -281,7 +281,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
       response = prob = NULL
       missing_type = pv$predict_missing_type %??% "na"
 
-      if ("response" %in% self$predict_type) {
+      if ("response" %chin% self$predict_type) {
         response = rep.int(unclass(model$response), n)
         if (!is.null(pv$predict_missing)) {
           ii = sample.int(n, n * pv$predict_missing)
@@ -292,7 +292,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
         }
       }
 
-      if ("prob" %in% self$predict_type) {
+      if ("prob" %chin% self$predict_type) {
         cl = task$class_names
         prob = matrix(runif(n * length(cl)), nrow = n)
         prob = prob / rowSums(prob)

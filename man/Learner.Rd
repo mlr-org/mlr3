@@ -61,10 +61,10 @@ If the learner is not trained yet, this returns \code{NULL}.
 All information about hyperparameters is stored in the slot \code{param_set} which is a \link[paradox:ParamSet]{paradox::ParamSet}.
 The printer gives an overview about the ids of available hyperparameters, their storage type, lower and upper bounds,
 possible levels (for factors), default values and assigned values.
-To set hyperparameters, assign a named list to the subslot \code{values}:
+To set hyperparameters, call the \code{set_values()} method on the \code{param_set}:
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{lrn = lrn("classif.rpart")
-lrn$param_set$values = list(minsplit = 3, cp = 0.01)
+lrn$param_set$set_values(minsplit = 3, cp = 0.01)
 }\if{html}{\out{</div>}}
 
 Note that this operation replaces all previously set hyperparameter values.
@@ -512,6 +512,8 @@ If the learner's \verb{$train()} method has been called, there is a (size reduce
 of the training task stored in the learner.
 If the learner has been fitted via \code{\link[=resample]{resample()}} or \code{\link[=benchmark]{benchmark()}}, you need to pass the corresponding task stored
 in the \link{ResampleResult} or \link{BenchmarkResult}, respectively.
+Further, \code{\link{auto_convert}} is used for type-conversions to ensure compatability
+of features between \verb{$train()} and \verb{$predict()}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Learner$predict_newdata(newdata, task = NULL)}\if{html}{\out{</div>}}
 }
