@@ -4,7 +4,7 @@
 #' @include Measure.R
 #'
 #' @description
-#' Returns the selected internal validation score of the [Learner] for learners property `"validation"`.
+#' Returns the selected internal validation score of the [Learner] for learners with property `"validation"`.
 #' Returns `NA` for unsupported learners, when no validation was done, or when the selected id was not found.
 #' The `id` of this measure is set to the value of `select` if provided.
 #'

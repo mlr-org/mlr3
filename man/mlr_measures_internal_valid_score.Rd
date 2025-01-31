@@ -5,7 +5,7 @@
 \alias{MeasureInternalValidScore}
 \title{Measure Internal Validation Score}
 \description{
-Returns the selected internal validation score of the \link{Learner} for learners property \code{"validation"}.
+Returns the selected internal validation score of the \link{Learner} for learners with property \code{"validation"}.
 Returns \code{NA} for unsupported learners, when no validation was done, or when the selected id was not found.
 The \code{id} of this measure is set to the value of \code{select} if provided.
 }
