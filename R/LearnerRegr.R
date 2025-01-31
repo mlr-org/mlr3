@@ -13,6 +13,7 @@
 #'   - `"distr"`: Probability distribution as `VectorDistribution` object (requires package `distr6`, available via
 #'     repository \url{https://raphaels1.r-universe.dev}).
 #'  - `"quantiles"`: Predicts quantile estimates for each observation in the test set.
+#'
 #' Predefined learners can be found in the [dictionary][mlr3misc::Dictionary] [mlr_learners].
 #' Essential regression learners can be found in this dictionary after loading \CRANpkg{mlr3learners}.
 #' Additional learners are implement in the Github package \url{https://github.com/mlr-org/mlr3extralearners}.
