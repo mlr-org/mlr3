@@ -16,6 +16,9 @@ This Learner specializes \link{Learner} for regression problems:
 repository \url{https://raphaels1.r-universe.dev}).
 }
 }
+\itemize{
+\item \code{"quantiles"}: Predicts quantile estimates for each observation in the test set.
+}
 
 Predefined learners can be found in the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_learners}.
 Essential regression learners can be found in this dictionary after loading \CRANpkg{mlr3learners}.
