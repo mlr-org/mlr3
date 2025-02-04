@@ -34,8 +34,7 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
 
   # subset to train set w/o cloning
   if (!is.null(train_row_ids)) {
-    lg$debug("Subsetting task '%s' to %i rows",
-      task$id, length(train_row_ids), task = task$clone(), row_ids = train_row_ids)
+    lg$debug("Subsetting task '%s' to %i rows", task$id, length(train_row_ids))
 
     task_private = get_private(task)
     prev_use = task_private$.row_roles$use
@@ -63,8 +62,7 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
 
   if (mode == "train") learner$state = list()
 
-  lg$debug("Calling %s method of Learner '%s' on task '%s' with %i observations",
-    mode, learner$id, task$id, task$nrow, learner = learner$clone())
+  lg$debug("Calling %s method of Learner '%s' on task '%s' with %i observations", mode, learner$id, task$id, task$nrow)
 
   # call train_wrapper with encapsulation
   result = encapsulate(learner$encapsulation["train"],
@@ -101,26 +99,22 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
   }
 
   if (is.null(result$result)) {
-    lg$info("Learner '%s' on task '%s' failed to %s a model",
-      learner$id, task$id, mode, learner = learner$clone(), messages = result$log$msg)
+    lg$info("Learner '%s' on task '%s' failed to %s a model", learner$id, task$id, mode)
   } else {
-    lg$debug("Learner '%s' on task '%s' succeeded to %s a model",
-      learner$id, task$id, mode, learner = learner$clone(), result = result$result, messages = result$log$msg)
+    lg$debug("Learner '%s' on task '%s' succeeded to %s a model", learner$id, task$id, mode)
   }
 
   # fit fallback learner
   fb = learner$fallback
   if (!is.null(fb)) {
-    lg$info("Calling train method of fallback '%s' on task '%s' with %i observations",
-      fb$id, task$id, task$nrow, learner = fb$clone())
+    lg$info("Calling train method of fallback '%s' on task '%s' with %i observations", fb$id, task$id, task$nrow)
 
     fb = assert_learner(as_learner(fb))
     require_namespaces(fb$packages)
     fb$train(task)
     learner$state$fallback_state = fb$state
 
-    lg$debug("Fitted fallback learner '%s'",
-      fb$id, learner = fb$clone())
+    lg$debug("Fitted fallback learner '%s'", fb$id)
   }
 
 
@@ -185,15 +179,13 @@ learner_predict = function(learner, task, row_ids = NULL) {
   }
 
   if (is.null(learner$state$model)) {
-    lg$debug("Learner '%s' has no model stored",
-      learner$id, learner = learner$clone())
+    lg$debug("Learner '%s' has no model stored", learner$id)
 
     pdata = NULL
     learner$state$predict_time = NA_real_
   } else {
     # call predict with encapsulation
-    lg$debug("Calling predict method of Learner '%s' on task '%s' with %i observations",
-      learner$id, task$id, task$nrow, learner = learner$clone())
+    lg$debug("Calling predict method of Learner '%s' on task '%s' with %i observations", learner$id, task$id, task$nrow)
 
     if (isTRUE(all.equal(learner$encapsulation[["predict"]], "callr"))) {
       learner$model = marshal_model(learner$model, inplace = TRUE)
@@ -212,8 +204,7 @@ learner_predict = function(learner, task, row_ids = NULL) {
     learner$state$log = append_log(learner$state$log, "predict", result$log$class, result$log$msg)
     learner$state$predict_time = sum(learner$state$predict_time, result$elapsed)
 
-    lg$debug("Learner '%s' returned an object of class '%s'",
-      learner$id, class(pdata)[1L], learner = learner$clone(), prediction_data = pdata, messages = result$log$msg)
+    lg$debug("Learner '%s' returned an object of class '%s'", learner$id, class(pdata)[1L])
   }
 
 
@@ -228,16 +219,14 @@ learner_predict = function(learner, task, row_ids = NULL) {
 
 
     if (is.null(pdata)) {
-      lg$debug("Creating new Prediction using fallback '%s'",
-        fb$id, learner = fb$clone())
+      lg$debug("Creating new Prediction using fallback '%s'", fb$id)
 
       learner$state$log = append_log(learner$state$log, "predict", "output", "Using fallback learner for predictions")
       pdata = predict_fb(task$row_ids)
     } else {
       miss_ids = is_missing_prediction_data(pdata)
 
-      lg$debug("Imputing %i/%i predictions using fallback '%s'",
-        length(miss_ids), length(pdata$row_ids), fb$id, learner = fb$clone())
+      lg$debug("Imputing %i/%i predictions using fallback '%s'", length(miss_ids), length(pdata$row_ids), fb$id)
 
       if (length(miss_ids)) {
         learner$state$log = append_log(learner$state$log, "predict", "output", "Using fallback learner to impute predictions")
