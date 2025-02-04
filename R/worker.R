@@ -22,6 +22,8 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
       model = marshal_model(model, inplace = TRUE)
     }
 
+    learner$state$model = model
+
     # Extract internal valid scores and tuned values if applicable.
     internal_valid_scores = if (!is.null(get0("validate", learner)) &&
       exists(".extract_internal_valid_scores", get_private(learner))) {
