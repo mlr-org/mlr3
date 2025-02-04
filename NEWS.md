@@ -6,6 +6,7 @@
   The option `mlr3.allow_utf8_names` is removed.
 * BREAKING CHANGE: `Learner$predict_types` is read-only now.
 * docs: Clear up behavior of `Learner$predict_type` after training.
+* fix: Internal tuning and validation now works when the model requires marshaling (#1256)
 
 # mlr3 0.22.1
 
