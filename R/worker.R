@@ -94,8 +94,6 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
 
   learner$state = set_class(insert_named(learner$state, list(
     model = result$result$model,
-    internal_valid_scores = result$result$internal_valid_scores,
-    internal_tuned_values = result$result$internal_tuned_values,
     log = log,
     train_time = train_time,
     param_vals = learner$param_set$values,
