@@ -22,7 +22,14 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
       model = marshal_model(model, inplace = TRUE)
     }
 
+    # In order to avoid unnecessary (un-)marshaling steps,
+    # we already extract the internal tuned values and validation scores here.
+    # They should only operate on the model and the param_vals so the
+    # information above should be enough.
+    # In the future, we might want to refactor this, so the extractors get directly
+    # called with the model and param_vals
     learner$state$model = model
+    learner$state$param_vals = learner$param_set$values
 
     # Extract internal valid scores and tuned values if applicable.
     internal_valid_scores = if (!is.null(get0("validate", learner)) &&
