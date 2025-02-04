@@ -108,7 +108,7 @@ test_matching_task_type = function(task_type, object, class) {
 #' @param learners (list of [Learner]).
 #' @rdname mlr_assertions
 assert_learners = function(learners, task = NULL, task_type = NULL, properties = character(), unique_ids = FALSE, .var.name = vname(learners)) {
-  if (unique_ids)  {
+  if (unique_ids) {
     ids = map_chr(learners, "id")
     if (!test_character(ids, unique = TRUE)) {
       stopf("Learners need to have unique IDs: %s", str_collapse(ids))
@@ -181,7 +181,7 @@ assert_predictable = function(task, learner) {
       stopf("Learner '%s' has received tasks with different columns in train and predict.", learner$id)
     }
 
-    ids = train_task$col_info[get("id") %in% cols_train, "id"]$id
+    ids = train_task$col_info[get("id") %chin% cols_train, "id"]$id
     ci_predict = task$col_info[list(ids), c("id", "type", "levels"), on = "id"]
     ci_train = train_task$col_info[list(ids), c("id", "type", "levels"), on = "id"]
 
@@ -189,7 +189,7 @@ assert_predictable = function(task, learner) {
       all(pmap_lgl(list(x = ci_train$levels, y = ci_predict$levels), identical))
 
     if (!ok) {
-      lg$warn("Learner '%s' received task with different column info (feature type or level ordering) during train and predict.", learner$id)
+      stopf("Learner '%s' received task with different column info (feature type or factor level ordering) during train and predict.", learner$id)
     }
   }
 
@@ -260,11 +260,11 @@ assert_measure = function(measure, task = NULL, learner = NULL, prediction = NUL
 #' @param prediction ([Prediction]).
 #' @rdname mlr_assertions
 assert_scorable = function(measure, task, learner, prediction = NULL, .var.name = vname(measure)) {
-  if ("requires_model" %in% measure$properties && is.null(learner$model)) {
+  if ("requires_model" %chin% measure$properties && is.null(learner$model)) {
     stopf("Measure '%s' requires the trained model", measure$id)
   }
 
-  if ("requires_model" %in% measure$properties && is_marshaled_model(learner$model)) {
+  if ("requires_model" %chin% measure$properties && is_marshaled_model(learner$model)) {
     stopf("Measure '%s' requires the trained model, but model is in marshaled form", measure$id)
   }
 
@@ -404,4 +404,35 @@ assert_param_values = function(x, n_learners = NULL, .var.name = vname(x)) {
     stopf("'%s' must be a three-time nested list and the most inner list must be named", .var.name)
   }
   invisible(x)
+}
+
+#' @title Assert Empty Ellipsis
+#' @description
+#' Assert that `...` arguments are empty.
+#' Use this function in S3-methods to ensure that misspelling of arguments does not go unnoticed.
+#' @param ... (any)\cr
+#'    Ellipsis arguments to check.
+#' @keywords internal
+#' @return `NULL`
+#' @export
+assert_empty_ellipsis = function(...) {
+  nx = ...length()
+  if (nx == 0L) {
+    return(NULL)
+  }
+  names = ...names()
+  if (is.null(names)) {
+    stopf("Received %i unnamed argument that was not used.", nx)
+  }
+  names2 = names[nzchar(names)]
+  if (length(names2) == length(names)) {
+    stopf(
+      "Received the following named arguments that were unused: %s.",
+      toString(names2)
+    )
+  }
+  stopf(
+    "Received unused arguments: %i unnamed, as well as named arguments %s.",
+    length(names) - length(names2), toString(names2)
+  )
 }

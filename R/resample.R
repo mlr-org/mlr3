@@ -72,9 +72,9 @@ resample = function(
   lg$debug("Start resampling")
 
   assert_subset(clone, c("task", "learner", "resampling"))
-  task = assert_task(as_task(task, clone = "task" %in% clone))
-  learner = assert_learner(as_learner(learner, clone = "learner" %in% clone, discard_state = TRUE))
-  resampling = assert_resampling(as_resampling(resampling, clone = "resampling" %in% clone))
+  task = assert_task(as_task(task, clone = "task" %chin% clone))
+  learner = assert_learner(as_learner(learner, clone = "learner" %chin% clone, discard_state = TRUE))
+  resampling = assert_resampling(as_resampling(resampling, clone = "resampling" %chin% clone))
   assert_flag(store_models)
   assert_flag(store_backends)
   # this does not check the internal validation task as it might not be set yet

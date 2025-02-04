@@ -23,7 +23,7 @@ LearnerRegrFeatureless = R6Class("LearnerRegrFeatureless", inherit = LearnerRegr
       ps = ps(
         robust = p_lgl(default = TRUE, tags = "train")
       )
-      ps$values = list(robust = FALSE)
+      ps$set_values(robust = FALSE)
 
       super$initialize(
         id = "regr.featureless",

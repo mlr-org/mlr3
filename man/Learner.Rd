@@ -61,10 +61,10 @@ If the learner is not trained yet, this returns \code{NULL}.
 All information about hyperparameters is stored in the slot \code{param_set} which is a \link[paradox:ParamSet]{paradox::ParamSet}.
 The printer gives an overview about the ids of available hyperparameters, their storage type, lower and upper bounds,
 possible levels (for factors), default values and assigned values.
-To set hyperparameters, assign a named list to the subslot \code{values}:
+To set hyperparameters, call the \code{set_values()} method on the \code{param_set}:
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{lrn = lrn("classif.rpart")
-lrn$param_set$values = list(minsplit = 3, cp = 0.01)
+lrn$param_set$set_values(minsplit = 3, cp = 0.01)
 }\if{html}{\out{</div>}}
 
 Note that this operation replaces all previously set hyperparameter values.
@@ -195,10 +195,6 @@ Task type, e.g. \code{"classif"} or \code{"regr"}.
 For a complete list of possible task types (depending on the loaded packages),
 see \code{\link[=mlr_reflections]{mlr_reflections$task_types$type}}.}
 
-\item{\code{predict_types}}{(\code{character()})\cr
-Stores the possible predict types the learner is capable of.
-A complete list of candidate predict types, grouped by task type, is stored in \code{\link[=mlr_reflections]{mlr_reflections$learner_predict_types}}.}
-
 \item{\code{feature_types}}{(\code{character()})\cr
 Stores the feature types the learner can handle, e.g. \code{"logical"}, \code{"numeric"}, or \code{"factor"}.
 A complete list of candidate feature types, grouped by task type, is stored in \code{\link[=mlr_reflections]{mlr_reflections$task_feature_types}}.}
@@ -289,7 +285,9 @@ Hash (unique identifier) for this partial object, excluding some components whic
 
 \item{\code{predict_type}}{(\code{character(1)})\cr
 Stores the currently active predict type, e.g. \code{"response"}.
-Must be an element of \verb{$predict_types}.}
+Must be an element of \verb{$predict_types}.
+A few learners already use the predict type during training.
+So there is no guarantee that changing the predict type after training will have any effect or does not lead to errors.}
 
 \item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
 Set of hyperparameters.}
@@ -302,6 +300,16 @@ Returns the encapsulation settings set with \verb{$encapsulate()}.}
 
 \item{\code{hotstart_stack}}{(\link{HotstartStack})\cr.
 Stores \code{HotstartStack}.}
+
+\item{\code{selected_features_impute}}{(\code{character(1)})\cr
+Controls the behavior if the learner does not support feature selection.
+If set to \code{"error"}, an error is thrown.
+If set to \code{"all"} the complete feature set is returned.}
+
+\item{\code{predict_types}}{(\code{character()})\cr
+Stores the possible predict types the learner is capable of.
+A complete list of candidate predict types, grouped by task type, is stored in \code{\link[=mlr_reflections]{mlr_reflections$learner_predict_types}}.
+This field is read-only.}
 }
 \if{html}{\out{</div>}}
 }
@@ -319,6 +327,7 @@ Stores \code{HotstartStack}.}
 \item \href{#method-Learner-base_learner}{\code{Learner$base_learner()}}
 \item \href{#method-Learner-encapsulate}{\code{Learner$encapsulate()}}
 \item \href{#method-Learner-configure}{\code{Learner$configure()}}
+\item \href{#method-Learner-selected_features}{\code{Learner$selected_features()}}
 \item \href{#method-Learner-clone}{\code{Learner$clone()}}
 }
 }
@@ -503,6 +512,8 @@ If the learner's \verb{$train()} method has been called, there is a (size reduce
 of the training task stored in the learner.
 If the learner has been fitted via \code{\link[=resample]{resample()}} or \code{\link[=benchmark]{benchmark()}}, you need to pass the corresponding task stored
 in the \link{ResampleResult} or \link{BenchmarkResult}, respectively.
+Further, \code{\link{auto_convert}} is used for type-conversions to ensure compatability
+of features between \verb{$train()} and \verb{$predict()}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Learner$predict_newdata(newdata, task = NULL)}\if{html}{\out{</div>}}
 }
@@ -630,6 +641,18 @@ Named list of parameter values and fields.}
 }
 \if{html}{\out{</div>}}
 }
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Learner-selected_features"></a>}}
+\if{latex}{\out{\hypertarget{method-Learner-selected_features}{}}}
+\subsection{Method \code{selected_features()}}{
+Returns the features selected by the model.
+The field \code{selected_features_impute} controls the behavior if the learner does not support feature selection.
+If set to \code{"error"}, an error is thrown, otherwise all features are returned.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Learner$selected_features()}\if{html}{\out{</div>}}
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Learner-clone"></a>}}

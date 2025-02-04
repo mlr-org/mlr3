@@ -10,26 +10,23 @@
 \alias{as_measures.list}
 \title{Convert to a Measure}
 \usage{
-as_measure(x, ...)
+as_measure(x, task_type = NULL, clone = FALSE, ...)
 
-\method{as_measure}{`NULL`}(x, task_type = NULL, ...)
+\method{as_measure}{`NULL`}(x, task_type = NULL, clone = FALSE, ...)
 
-\method{as_measure}{Measure}(x, clone = FALSE, ...)
+\method{as_measure}{Measure}(x, task_type = NULL, clone = FALSE, ...)
 
-as_measures(x, ...)
+as_measures(x, task_type = NULL, clone = FALSE, ...)
 
-\method{as_measures}{default}(x, ...)
+\method{as_measures}{default}(x, task_type = NULL, clone = FALSE, ...)
 
-\method{as_measures}{`NULL`}(x, task_type = NULL, ...)
+\method{as_measures}{`NULL`}(x, task_type = NULL, clone = FALSE, ...)
 
-\method{as_measures}{list}(x, ...)
+\method{as_measures}{list}(x, task_type = NULL, clone = FALSE, ...)
 }
 \arguments{
 \item{x}{(any)\cr
 Object to convert.}
-
-\item{...}{(any)\cr
-Additional arguments.}
 
 \item{task_type}{(\code{character(1)})\cr
 Used if \code{x} is \code{NULL} to construct a default measure for the respective task type.
@@ -37,6 +34,9 @@ The default measures are stored in \code{\link[=mlr_reflections]{mlr_reflections
 
 \item{clone}{(\code{logical(1)})\cr
 If \code{TRUE}, ensures that the returned object is not the same as the input \code{x}.}
+
+\item{...}{(any)\cr
+Additional arguments.}
 }
 \value{
 \link{Measure}.

@@ -9,13 +9,13 @@ DataBackendRename = R6Class("DataBackendRename", inherit = DataBackend, cloneabl
       assert_character(old, any.missing = FALSE, unique = TRUE)
       assert_subset(old, b$colnames)
       assert_character(new, any.missing = FALSE, len = length(old))
-      assert_names(new, if (allow_utf8_names()) "unique" else "strict")
+      assert_names(new, "unique")
 
       ii = old != new
       old = old[ii]
       new = new[ii]
 
-      if (self$primary_key %in% old) {
+      if (self$primary_key %chin% old) {
         stopf("Renaming the primary key is not supported")
       }
 

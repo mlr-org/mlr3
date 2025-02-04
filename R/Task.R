@@ -128,13 +128,9 @@ Task = R6Class("Task",
       cn = self$backend$colnames
       rn = self$backend$rownames
 
-      if (allow_utf8_names()) {
-        assert_names(cn, "unique", .var.name = "column names")
-        if (any(grepl("%", cn, fixed = TRUE))) {
-          stopf("Column names may not contain special character '%%'")
-        }
-      } else {
-        assert_names(cn, "strict", .var.name = "column names")
+      assert_names(cn, "unique", .var.name = "column names")
+      if (any(grepl("%", cn, fixed = TRUE))) {
+        stopf("Column names may not contain special character '%%'")
       }
 
       self$col_info = col_info(self$backend)
@@ -226,7 +222,7 @@ Task = R6Class("Task",
 
       # print additional columns as specified in reflections
       before = mlr_reflections$task_print_col_roles$before
-      iwalk(before[before %in% names(roles)], function(role, str) {
+      iwalk(before[before %chin% names(roles)], function(role, str) {
         catn(str_indent(sprintf("* %s:", str), roles[[role]]))
       })
 
@@ -246,7 +242,7 @@ Task = R6Class("Task",
 
       # print additional columns are specified in reflections
       after = mlr_reflections$task_print_col_roles$after
-      iwalk(after[after %in% names(roles)], function(role, str) {
+      iwalk(after[after %chin% names(roles)], function(role, str) {
         catn(str_indent(sprintf("* %s:", str), roles[[role]]))
       })
 
@@ -371,7 +367,7 @@ Task = R6Class("Task",
     levels = function(cols = NULL) {
       if (is.null(cols)) {
         cols = unlist(private$.col_roles[c("target", "feature")], use.names = FALSE)
-        cols = self$col_info[get("id") %in% cols & get("type") %in% c("factor", "ordered"), "id", with = FALSE][[1L]]
+        cols = self$col_info[get("id") %chin% cols & get("type") %chin% c("factor", "ordered"), "id", with = FALSE][[1L]]
       } else {
         assert_subset(cols, self$col_info$id)
       }
@@ -469,7 +465,7 @@ Task = R6Class("Task",
       type_check = TRUE
 
       if (is.data.frame(data)) {
-        pk_in_backend = pk %in% names(data)
+        pk_in_backend = pk %chin% names(data)
         type_check = FALSE # done by auto-converter
 
         keep_cols = intersect(names(data), self$col_info$id)
@@ -521,7 +517,7 @@ Task = R6Class("Task",
       }
 
       # merge factor levels
-      ii = tab[type %in% c("factor", "ordered"), which = TRUE]
+      ii = tab[type %chin% c("factor", "ordered"), which = TRUE]
       for (i in ii) {
         x = tab[["levels"]][[i]]
         y = tab[["levels_y"]][[i]]
@@ -730,7 +726,7 @@ Task = R6Class("Task",
     #' @return Modified `self`.
     droplevels = function(cols = NULL) {
       assert_has_backend(self)
-      tab = self$col_info[get("type") %in% c("factor", "ordered"), c("id", "levels", "fix_factor_levels"), with = FALSE]
+      tab = self$col_info[get("type") %chin% c("factor", "ordered"), c("id", "levels", "fix_factor_levels"), with = FALSE]
       if (!is.null(cols)) {
         tab = tab[list(cols), on = "id", nomatch = NULL]
       }
@@ -900,6 +896,7 @@ Task = R6Class("Task",
     #' * `"strata"`: The task is resampled using one or more stratification variables (role `"stratum"`).
     #' * `"groups"`: The task comes with grouping/blocking information (role `"group"`).
     #' * `"weights"`: The task comes with observation weights (role `"weight"`).
+    #' * `"ordered"`: The task has columns which define the row order (role `"order"`).
     #'
     #' Note that above listed properties are calculated from the `$col_roles` and may not be set explicitly.
     properties = function(rhs) {
@@ -909,7 +906,8 @@ Task = R6Class("Task",
           private$.properties,
           if (length(col_roles$group)) "groups" else NULL,
           if (length(col_roles$stratum)) "strata" else NULL,
-          if (length(col_roles$weight)) "weights" else NULL
+          if (length(col_roles$weight)) "weights" else NULL,
+          if (length(col_roles$order)) "ordered" else NULL
         )
       } else {
         private$.properties = assert_set(rhs, .var.name = "properties")
@@ -930,7 +928,7 @@ Task = R6Class("Task",
 
       assert_has_backend(self)
       assert_list(rhs, .var.name = "row_roles")
-      if ("test" %in% names(rhs) || "holdout" %in% names(rhs)) {
+      if ("test" %chin% names(rhs) || "holdout" %chin% names(rhs)) {
         stopf("Setting row roles 'test'/'holdout' is no longer possible.")
       }
       assert_names(names(rhs), "unique", permutation.of = mlr_reflections$task_row_roles, .var.name = "names of row_roles")
@@ -1337,7 +1335,7 @@ col_info = function(x, ...) {
 #' @export
 col_info.data.table = function(x, primary_key = character(), ...) { # nolint
   types = map_chr(x, function(x) class(x)[1L])
-  discrete = setdiff(names(types)[types %in% c("factor", "ordered")], primary_key)
+  discrete = setdiff(names(types)[types %chin% c("factor", "ordered")], primary_key)
   levels = insert_named(named_list(names(types)), lapply(x[, discrete, with = FALSE], distinct_values, drop = FALSE))
   data.table(id = names(types), type = unname(types), levels = levels, key = "id")
 }
@@ -1346,7 +1344,7 @@ col_info.data.table = function(x, primary_key = character(), ...) { # nolint
 #' @export
 col_info.DataBackend = function(x, ...) { # nolint
   types = map_chr(x$head(1L), function(x) class(x)[1L])
-  discrete = setdiff(names(types)[types %in% c("factor", "ordered")], x$primary_key)
+  discrete = setdiff(names(types)[types %chin% c("factor", "ordered")], x$primary_key)
   levels = insert_named(named_list(names(types)), x$distinct(rows = NULL, cols = discrete))
   data.table(id = names(types), type = unname(types), levels = levels, key = "id")
 }
