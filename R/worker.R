@@ -18,9 +18,6 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
       stopf("Learner '%s' on task '%s' returned NULL during internal %s()", learner$id, task$id, mode)
     }
 
-    if (learner$encapsulation[["train"]] == "callr") {
-      model = marshal_model(model, inplace = TRUE)
-    }
 
     # In order to avoid unnecessary (un-)marshaling steps,
     # we already extract the internal tuned values and validation scores here.
@@ -39,6 +36,10 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
 
     internal_tuned_values = if (exists(".extract_internal_tuned_values", get_private(learner))) {
       get_private(learner)$.extract_internal_tuned_values()
+    }
+
+    if (learner$encapsulation[["train"]] == "callr") {
+      model = marshal_model(model, inplace = TRUE)
     }
 
     list(
