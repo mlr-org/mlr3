@@ -119,8 +119,10 @@ assert_learners = function(learners, task = NULL, task_type = NULL, properties =
 
 # this does not check the validation task, as this is only possible once the validation set is known,
 # which happens during worker(), so it cannot be checked before that
-assert_task_learner = function(task, learner, cols = NULL) {
+assert_task_learner = function(task, learner, param_values = NULL, cols = NULL) {
   pars = learner$param_set$get_values(type = "only_token", check_required = FALSE)
+  # remove pars that are covered by param_values
+  pars = pars[names(pars) %nin% names(param_values)]
   if (length(pars) > 0) {
     stopf("%s cannot be trained with TuneToken present in hyperparameter: %s", learner$format(), str_collapse(names(pars)))
   }
@@ -161,12 +163,15 @@ assert_task_learner = function(task, learner, cols = NULL) {
 }
 
 #' @export
+#' @param param_values (`list()`)\cr
+#'  TuneToken are not allowed in the parameter set of the learner.
+#'  If the `param_values` overwrite the TuneToken, the assertion will pass.
 #' @rdname mlr_assertions
-assert_learnable = function(task, learner) {
+assert_learnable = function(task, learner, param_values = NULL) {
   if (task$task_type == "unsupervised") {
     stopf("%s cannot be trained with %s", learner$format(), task$format())
   }
-  assert_task_learner(task, learner)
+  assert_task_learner(task, learner, param_values)
 }
 
 #' @export

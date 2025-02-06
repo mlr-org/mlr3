@@ -106,7 +106,6 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
   if (length(learner_types) > 1) {
     stopf("Multiple learner types detected, but mixing types is not supported: %s", str_collapse(learner_types))
   }
-  assert_task_learner(design$task[[1]], design$learner[[1]])
 
   setDT(design)
   task = learner = resampling = NULL
@@ -125,13 +124,11 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
 
   # expand the design: add rows for each resampling iteration and param_values
   grid = pmap_dtr(design, function(task, learner, resampling, param_values) {
-    # learner = assert_learner(as_learner(learner, clone = TRUE))
-    assert_learnable(task, learner)
-
     iters = resampling$iters
     n_params = max(1L, length(param_values))
     # insert constant values
     param_values = map(param_values, function(values) insert_named(learner$param_set$values, values))
+    assert_learnable(task, learner, unlist(param_values, recursive = FALSE))
 
     data.table(
       task = list(task), learner = list(learner), resampling = list(resampling),
