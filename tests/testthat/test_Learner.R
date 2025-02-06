@@ -735,3 +735,13 @@ test_that("predict_newdata creates column info correctly", {
   expect_true("row_id" %in% learner$model$task_predict$col_info$id)
 })
 
+
+test_that("marshaling and internal tuning", {
+  l = lrn("classif.debug", validate = 0.3, early_stopping = TRUE, iter = 100)
+  l$encapsulate("evaluate", lrn("classif.featureless"))
+  task = tsk("iris")
+  l$train(task)
+  expect_list(l$internal_tuned_values, types = "integer")
+  expect_list(l$internal_valid_scores, types = "numeric")
+
+})
