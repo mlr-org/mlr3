@@ -953,10 +953,11 @@ Task = R6Class("Task",
     #'   Not more than a single column can be associated with this role.
     #' * `"stratum"`: Stratification variables. Multiple discrete columns may have this role.
     #' * `"weight"`: Observation weights. Not more than one numeric column may have this role.
-    #' * `"offset"`: Offset numeric values specifying fixed adjustments for model training.
-    #'   These values can be used to provide baseline predictions from an existing model for updating another model.
-    #'   Some learners require an offset for each target class in a multiclass setting.
-    #'   In this case, the offset columns must be named `"offset_{target_class_name}"`.
+    #' * `"offset"`: Numeric columns used to specify fixed adjustments for model training.
+    #'   Some models use offsets to simply shift predictions, while others incorporate them to boost predictions from a baseline model.
+    #'   For learners supporting offsets in multiclass settings, an offset column must be provided for each target class.
+    #'   These columns must follow the naming convention `"offset_{target_class_name}"`.
+    #'   For an example of a learner that supports offsets, see [LearnerClassifXgboost][mlr3learners::LearnerClassifXgboost].
     #'
     #' `col_roles` is a named list whose elements are named by column role and each element is a `character()` vector of column names.
     #' To alter the roles, just modify the list, e.g. with \R's set functions ([intersect()], [setdiff()], [union()], \ldots).

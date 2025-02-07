@@ -227,10 +227,11 @@ For each resampling iteration, observations of the same group will be exclusivel
 Not more than a single column can be associated with this role.
 \item \code{"stratum"}: Stratification variables. Multiple discrete columns may have this role.
 \item \code{"weight"}: Observation weights. Not more than one numeric column may have this role.
-\item \code{"offset"}: Offset values specifying fixed adjustments for model training.
-These values can be used to provide baseline predictions from an existing model for updating another model.
-Some learners require an offset for each target class in a multiclass setting.
-In this case, the offset columns must be named \code{"offset_{target_class_name}"}.
+\item \code{"offset"}: Numeric columns used to specify fixed adjustments for model training.
+Some models use offsets to simply shift predictions, while others incorporate them to boost predictions from a baseline model.
+For learners supporting offsets in multiclass settings, an offset column must be provided for each target class.
+These columns must follow the naming convention \code{"offset_{target_class_name}"}.
+For an example of a learner that supports offsets, see \link[mlr3learners:mlr_learners_classif.xgboost]{LearnerClassifXgboost}.
 }
 
 \code{col_roles} is a named list whose elements are named by column role and each element is a \code{character()} vector of column names.
