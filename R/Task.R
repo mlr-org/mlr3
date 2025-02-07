@@ -1099,6 +1099,7 @@ Task = R6Class("Task",
     #'
     #' For regression or binary classification tasks, there will be only a single-column offset.
     #' For multiclass tasks, it may return multiple offset columns, one for each target class.
+    #' If there is only one offset column, it will be named as `offset`.
     #'
     #' If there are no columns with the `"offset"` role, `NULL` is returned.
     offset = function(rhs) {
@@ -1110,7 +1111,11 @@ Task = R6Class("Task",
       }
 
       data = self$backend$data(private$.row_roles$use, c(self$backend$primary_key, offset_cols))
-      setnames(data, c("row_id", offset_cols))[]
+      if (length(offset_cols) == 1L) {
+        setnames(data, c("row_id", "offset"))[]
+      } else  {
+        setnames(data, c("row_id", offset_cols))[]
+      }
     },
 
     #' @field labels (named `character()`)\cr

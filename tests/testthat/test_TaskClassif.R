@@ -120,7 +120,7 @@ test_that("offset column role works with binary tasks", {
   task$set_col_roles("age", "offset")
   expect_subset("offset", task$properties)
   expect_data_table(task$offset, nrows = task$nrow, ncols = 2)
-  expect_subset("age", names(task$offset))
+  expect_subset(c("row_id", "offset"), names(task$offset))
 
   expect_error({
      task$col_roles$offset = c("glucose", "diabetes")
@@ -139,7 +139,7 @@ test_that("offset column role works with multiclass tasks", {
   task$set_col_roles("year", "offset")
   expect_subset("offset", task$properties)
   expect_data_table(task$offset, nrows = task$nrow, ncols = 2)
-  expect_subset(c("row_id", "year"), names(task$offset))
+  expect_subset(c("row_id", "offset"), names(task$offset))
 
   expect_error({
     task$col_roles$offset = "bill_length"

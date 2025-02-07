@@ -301,6 +301,7 @@ If the task has a column with designated role \code{"offset"}, a table with two 
 
 For regression or binary classification tasks, there will be only a single-column offset.
 For multiclass tasks, it may return multiple offset columns, one for each target class.
+If there is only one offset column, it will be named as \code{offset}.
 
 If there are no columns with the \code{"offset"} role, \code{NULL} is returned.}
 
