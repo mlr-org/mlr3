@@ -1092,9 +1092,12 @@ Task = R6Class("Task",
     },
 
     #' @field offset ([data.table::data.table()])\cr
-    #' Provides the offset column(s) if the task has a column designated with the role `"offset"`.
+    #' If the task has a column with designated role `"offset"`, a table with two or more columns:
     #'
-    #' For regression or binary classification tasks, this returns a single-column offset.
+    #' * `row_id` (`integer()`), and
+    #' * offset variable(s) (`numeric()`).
+    #'
+    #' For regression or binary classification tasks, there will be only a single-column offset.
     #' For multiclass tasks, it may return multiple offset columns, one for each target class.
     #'
     #' If there are no columns with the `"offset"` role, `NULL` is returned.

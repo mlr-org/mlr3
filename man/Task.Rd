@@ -293,9 +293,13 @@ If the task has a column with designated role \code{"weight"}, a table with two 
 Returns \code{NULL} if there are is no weight column.}
 
 \item{\code{offset}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
-Provides the offset column(s) if the task has a column designated with the role \code{"offset"}.
+If the task has a column with designated role \code{"offset"}, a table with two or more columns:
+\itemize{
+\item \code{row_id} (\code{integer()}), and
+\item offset variable(s) (\code{numeric()}).
+}
 
-For regression or binary classification tasks, this returns a single-column offset.
+For regression or binary classification tasks, there will be only a single-column offset.
 For multiclass tasks, it may return multiple offset columns, one for each target class.
 
 If there are no columns with the \code{"offset"} role, \code{NULL} is returned.}
