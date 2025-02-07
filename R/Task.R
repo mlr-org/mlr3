@@ -953,7 +953,7 @@ Task = R6Class("Task",
     #'   Not more than a single column can be associated with this role.
     #' * `"stratum"`: Stratification variables. Multiple discrete columns may have this role.
     #' * `"weight"`: Observation weights. Not more than one numeric column may have this role.
-    #' * `"offset"`: Offset values specifying fixed adjustments for model training.
+    #' * `"offset"`: Offset numeric values specifying fixed adjustments for model training.
     #'   These values can be used to provide baseline predictions from an existing model for updating another model.
     #'   Some learners require an offset for each target class in a multiclass setting.
     #'   In this case, the offset columns must be named `"offset_{target_class_name}"`.
