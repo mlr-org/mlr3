@@ -1105,7 +1105,8 @@ Task = R6Class("Task",
         return(NULL)
       }
 
-      self$backend$data(private$.row_roles$use, offset_cols)
+      data = self$backend$data(private$.row_roles$use, c(self$backend$primary_key, offset_cols))
+      setnames(data, c("row_id", offset_cols))[]
     },
 
     #' @field labels (named `character()`)\cr
