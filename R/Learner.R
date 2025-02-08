@@ -231,21 +231,33 @@ Learner = R6Class("Learner",
     #' Printer.
     #' @param ... (ignored).
     print = function(...) {
-      catn(format(self), if (is.null(self$label) || is.na(self$label)) "" else paste0(": ", self$label))
-      catn(str_indent("* Model:", if (is.null(self$model)) "-" else if (is_marshaled_model(self$model)) "<marshaled>" else paste0(class(self$model)[1L])))
-      catn(str_indent("* Parameters:", as_short_string(self$param_set$values, 1000L)))
-      if (exists("validate", self)) catn(str_indent("* Validate:", format(self$validate)))
-      catn(str_indent("* Packages:", self$packages))
-      catn(str_indent("* Predict Types: ", replace(self$predict_types, self$predict_types == self$predict_type, paste0("[", self$predict_type, "]"))))
-      catn(str_indent("* Feature Types:", self$feature_types))
-      catn(str_indent("* Properties:", self$properties))
+      msg_h =  if (is.null(self$label) || is.na(self$label)) "" else paste0(": ", self$label)
+      model =  if (is.null(self$model)) "-" else if (is_marshaled_model(self$model)) "<marshaled>" else paste0(class(self$model)[1L])
+
+      cat_cli({
+        cli_h1("{.cls {class(self)[1L]}} ({self$id}){msg_h}")
+        cli_li("Model: {model}")
+        cli_li("Parameters: {as_short_string(self$param_set$values, 1000L)}")
+      })
+
+      if (exists("validate", self)) cat_cli(cli_li("Validate: {.cls {class(self$validate[1])}} {self$validate$id}"))
+      cat_cli(cli_li("Packages: {.pkg {self$packages}}"))
+
+      pred_typs = replace(self$predict_types, self$predict_types == self$predict_type, paste0("[", self$predict_type, "]"))
+
+      cat_cli({
+        cli_li("Predict Types: {pred_typs}")
+        cli_li("Feature Types: {self$feature_types}")
+        cli_li("Properties: {self$properties}")
+      })
+
       w = self$warnings
       e = self$errors
       if (length(w)) {
-        catn(str_indent("* Warnings:", w))
+        cat_cli(cli_alert_warning("Warnings: {w}"))
       }
       if (length(e)) {
-        catn(str_indent("* Errors:", e))
+        cat_cli(cli_alert_danger("Errors: {e}"))
       }
     },
 
