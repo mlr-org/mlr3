@@ -93,7 +93,6 @@ as_result_data = function(
     resampling = list(resampling),
     iteration = iterations,
     prediction = predictions,
-    uhash = UUIDgenerate(),
-    data_extra = data_extra
-  ), store_backends = store_backends)
+    uhash = UUIDgenerate()
+  ), data_extra = data_extra, store_backends = store_backends)
 }

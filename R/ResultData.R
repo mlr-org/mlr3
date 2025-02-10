@@ -224,7 +224,7 @@ ResultData = R6Class("ResultData",
 
         new_rows = y[!x, on = on]
         if (nrow(new_rows)) {
-          setkeyv(rbindlist(list(x, new_rows), use.names = TRUE), on)
+          setkeyv(rbindlist(list(x, new_rows), use.names = TRUE, fill = TRUE), on)
         } else {
           x
         }

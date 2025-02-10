@@ -104,3 +104,37 @@ test_that("predict set selection", {
   expect_prediction(p2)
   expect_disjunct(p1$row_ids, p2$row_ids)
 })
+
+test_that("combine result data with data_extra", {
+  task = tsk("penguins")
+  learner = lrn("classif.rpart")
+  resampling = rsmp("cv", folds = 2)$instantiate(task)
+  iterations = seq_len(resampling$iters)
+  learners = list()
+  predictions = list()
+  for (i in iterations) {
+    l = learner$clone(deep = TRUE)
+    learners[[i]] = l$train(task, row_ids = resampling$train_set(i))
+    predictions[[i]] = list(test = l$predict(task, row_ids = resampling$test_set(i)))
+  }
+
+  rdata_1 = as_result_data(task, learners, resampling, iterations, predictions)
+
+  learner = lrn("classif.rpart")
+  learners = list()
+  predictions = list()
+  for (i in iterations) {
+    l = learner$clone(deep = TRUE)
+    learners[[i]] = l$train(task, row_ids = resampling$train_set(i))
+    predictions[[i]] = list(test = l$predict(task, row_ids = resampling$test_set(i)))
+  }
+
+  rdata_2 = as_result_data(task, learners, resampling, iterations, predictions, data_extra = list(list(a = 1), list(b = 2)))
+
+  rdata_1$combine(rdata_2)
+
+  expect_null(rdata_1$data_extra()[[1]])
+  expect_null(rdata_1$data_extra()[[2]])
+  expect_equal(rdata_1$data_extra()[[3]], list(a = 1))
+  expect_equal(rdata_1$data_extra()[[4]], list(b = 2))
+  })
