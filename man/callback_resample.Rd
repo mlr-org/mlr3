@@ -48,7 +48,7 @@ Predefined callbacks are stored in the \link[mlr3misc:Dictionary]{dictionary} \l
 Evaluation callbacks are called at different stages of the resampling process.
 Each stage is called once per resampling iteration.
 The stages are prefixed with \verb{on_resample_*}.
-The text in brackets indicates what happens between the stages and which accesses to the \link{ContextResample} (\code{ctx}) are typical for the stage.
+The text in brackets indicates what happens between the stages in the internal \code{workhorse()} function and which accesses to the \link{ContextResample} (\code{ctx}) are typical for the stage.
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{Start Resampling Iteration on Worker
  - on_resample_begin
@@ -72,8 +72,8 @@ A callback can write data to the state (\verb{$state}), e.g. settings that affec
 We highly discourage changing the task, learner and resampling objects via the callback.
 }
 \examples{
-task = tsk("pima")
 learner = lrn("classif.rpart")
+task = tsk("pima")
 resampling = rsmp("cv", folds = 3)
 
 # save selected features callback
@@ -84,6 +84,23 @@ callback = callback_resample("selected_features",
 )
 
 rr = resample(task, learner, resampling, callbacks = callback)
-
 rr$learners[[1]]$state$selected_features
+
+# holdout task callback
+callback = callback_resample("holdout_task",
+  on_resample_before_predict = function(callback, context) {
+    pred = context$learner$predict(callback$state$task)
+    context$data_extra = list(prediction_holdout = pred)
+  }
+)
+
+task_holdout = tsk("pima")
+splits = partition(task, 0.7)
+task$filter(splits$train)
+task_holdout$filter(splits$test)
+
+callback$state$task = task_holdout
+
+rr = resample(task, learner, resampling, callbacks = callback)
+rr$data_extra
 }

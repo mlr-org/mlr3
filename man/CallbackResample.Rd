@@ -5,6 +5,7 @@
 \title{Resample Callback}
 \description{
 Specialized \link[mlr3misc:Callback]{mlr3misc::Callback} to customize the behavior of \code{\link[=resample]{resample()}} and \code{\link[=benchmark]{benchmark()}} in mlr3.
+For example, callbacks can be used to extract information from models on the worker or to store intermediate results to disk.
 The \code{\link[=callback_resample]{callback_resample()}} function is used to create instances of this class.
 Predefined callbacks are stored in the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_callbacks} and can be retrieved with \code{\link[=clbk]{clbk()}}.
 For more information on callbacks, see the \code{\link[=callback_resample]{callback_resample()}} documentation.

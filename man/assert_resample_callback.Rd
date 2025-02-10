@@ -18,7 +18,7 @@ If \code{TRUE}, \code{NULL} is allowed.}
 \item{callbacks}{(list of \link{CallbackResample}).}
 }
 \value{
-[CallbackResample | List of \link{CallbackResample}s.
+\link{CallbackResample} | List of \link{CallbackResample}s.
 }
 \description{
 Assertions for \link{CallbackResample} class.

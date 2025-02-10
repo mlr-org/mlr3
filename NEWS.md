@@ -6,6 +6,7 @@
   The option `mlr3.allow_utf8_names` is removed.
 * BREAKING CHANGE: `Learner$predict_types` is read-only now.
 * docs: Clear up behavior of `Learner$predict_type` after training.
+* feat: Add callbacks to `resample()` and `benchmark()`.
 
 # mlr3 0.22.1
 

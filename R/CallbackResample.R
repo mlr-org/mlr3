@@ -2,6 +2,7 @@
 #'
 #' @description
 #' Specialized [mlr3misc::Callback] to customize the behavior of [resample()] and [benchmark()] in mlr3.
+#' For example, callbacks can be used to extract information from models on the worker or to store intermediate results to disk.
 #' The [callback_resample()] function is used to create instances of this class.
 #' Predefined callbacks are stored in the [dictionary][mlr3misc::Dictionary] [mlr_callbacks] and can be retrieved with [clbk()].
 #' For more information on callbacks, see the [callback_resample()] documentation.
@@ -42,7 +43,7 @@ CallbackResample = R6Class("CallbackResample",
 #' Evaluation callbacks are called at different stages of the resampling process.
 #' Each stage is called once per resampling iteration.
 #' The stages are prefixed with `on_resample_*`.
-#' The text in brackets indicates what happens between the stages and which accesses to the [ContextResample] (`ctx`) are typical for the stage.
+#' The text in brackets indicates what happens between the stages in the internal `workhorse()` function and which accesses to the [ContextResample] (`ctx`) are typical for the stage.
 #'
 #' ```
 #' Start Resampling Iteration on Worker
@@ -88,8 +89,8 @@ CallbackResample = R6Class("CallbackResample",
 #'
 #' @export
 #' @examples
-#' task = tsk("pima")
 #' learner = lrn("classif.rpart")
+#' task = tsk("pima")
 #' resampling = rsmp("cv", folds = 3)
 #'
 #' # save selected features callback
@@ -100,8 +101,25 @@ CallbackResample = R6Class("CallbackResample",
 #' )
 #'
 #' rr = resample(task, learner, resampling, callbacks = callback)
-#'
 #' rr$learners[[1]]$state$selected_features
+#'
+#' # holdout task callback
+#' callback = callback_resample("holdout_task",
+#'   on_resample_before_predict = function(callback, context) {
+#'     pred = context$learner$predict(callback$state$task)
+#'     context$data_extra = list(prediction_holdout = pred)
+#'   }
+#' )
+#'
+#' task_holdout = tsk("pima")
+#' splits = partition(task, 0.7)
+#' task$filter(splits$train)
+#' task_holdout$filter(splits$test)
+#'
+#' callback$state$task = task_holdout
+#'
+#' rr = resample(task, learner, resampling, callbacks = callback)
+#' rr$data_extra
 callback_resample = function(
   id,
   label = NA_character_,
@@ -138,7 +156,7 @@ callback_resample = function(
 #' @param null_ok (`logical(1)`)\cr
 #'   If `TRUE`, `NULL` is allowed.
 #'
-#' @return [CallbackResample | List of [CallbackResample]s.
+#' @return [CallbackResample] | List of [CallbackResample]s.
 #' @export
 assert_resample_callback = function(callback, null_ok = FALSE) {
   assert_class(callback, "CallbackResample", null.ok = null_ok)
