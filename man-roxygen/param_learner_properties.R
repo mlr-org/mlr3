@@ -11,3 +11,6 @@
 #'   * `"internal_tuning"`: The learner is able to internally optimize hyperparameters (those are also tagged with `"internal_tuning"`).
 #'   * `"marshal"`: To save learners with this property, you need to call `$marshal()` first.
 #'      If a learner is in a marshaled state, you call first need to call `$unmarshal()` to use its model, e.g. for prediction.
+#'   * `"hotstart_forward"`: The learner supports to hotstart a model forward.
+#'   * `"hotstart_backward"`: The learner supports hotstarting a model backward.
+#'   * `"featureless": The learner does not use features.
