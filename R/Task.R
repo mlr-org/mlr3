@@ -957,7 +957,7 @@ Task = R6Class("Task",
     #'   Some models use offsets to simply shift predictions, while others incorporate them to boost predictions from a baseline model.
     #'   For learners supporting offsets in multiclass settings, an offset column must be provided for each target class.
     #'   These columns must follow the naming convention `"offset_{target_class_name}"`.
-    #'   For an example of a learner that supports offsets, see [LearnerClassifXgboost][mlr3learners::LearnerClassifXgboost].
+    #'   For an example of a learner that supports offsets, see `LearnerClassifXgboost`  of \CRANpkg{mlr3learners}.
     #'
     #' `col_roles` is a named list whose elements are named by column role and each element is a `character()` vector of column names.
     #' To alter the roles, just modify the list, e.g. with \R's set functions ([intersect()], [setdiff()], [union()], \ldots).
