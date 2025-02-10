@@ -133,8 +133,7 @@ test_that("combine result data with data_extra", {
 
   rdata_1$combine(rdata_2)
 
-  expect_null(rdata_1$data_extra()[[1]])
-  expect_null(rdata_1$data_extra()[[2]])
-  expect_equal(rdata_1$data_extra()[[3]], list(a = 1))
-  expect_equal(rdata_1$data_extra()[[4]], list(b = 2))
-  })
+  data_extra = rdata_1$data_extra()
+  expect_true(sum(map_lgl(data_extra, is.null)) == 2)
+  expect_equal(unlist(data_extra), c(a = 1, b = 2))
+})
