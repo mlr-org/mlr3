@@ -231,7 +231,7 @@ Not more than a single column can be associated with this role.
 Some models use offsets to simply shift predictions, while others incorporate them to boost predictions from a baseline model.
 For learners supporting offsets in multiclass settings, an offset column must be provided for each target class.
 These columns must follow the naming convention \code{"offset_{target_class_name}"}.
-For an example of a learner that supports offsets, see \link[mlr3learners:mlr_learners_classif.xgboost]{LearnerClassifXgboost}.
+For an example of a learner that supports offsets, see \code{LearnerClassifXgboost}  of \CRANpkg{mlr3learners}.
 }
 
 \code{col_roles} is a named list whose elements are named by column role and each element is a \code{character()} vector of column names.

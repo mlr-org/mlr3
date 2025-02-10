@@ -93,6 +93,7 @@ Other Learner:
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="predict_newdata"><a href='../../mlr3/html/Learner.html#method-Learner-predict_newdata'><code>mlr3::Learner$predict_newdata()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="print"><a href='../../mlr3/html/Learner.html#method-Learner-print'><code>mlr3::Learner$print()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="reset"><a href='../../mlr3/html/Learner.html#method-Learner-reset'><code>mlr3::Learner$reset()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="selected_features"><a href='../../mlr3/html/Learner.html#method-Learner-selected_features'><code>mlr3::Learner$selected_features()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="train"><a href='../../mlr3/html/Learner.html#method-Learner-train'><code>mlr3::Learner$train()</code></a></span></li>
 </ul>
 </details>
@@ -146,6 +147,9 @@ The following properties are currently standardized and understood by learners i
 \item \code{"internal_tuning"}: The learner is able to internally optimize hyperparameters (those are also tagged with \code{"internal_tuning"}).
 \item \code{"marshal"}: To save learners with this property, you need to call \verb{$marshal()} first.
 If a learner is in a marshaled state, you call first need to call \verb{$unmarshal()} to use its model, e.g. for prediction.
+\item \code{"hotstart_forward"}: The learner supports to hotstart a model forward.
+\item \code{"hotstart_backward"}: The learner supports hotstarting a model backward.
+\item `"featureless": The learner does not use features.
 }}
 
 \item{\code{data_formats}}{(\code{character()})\cr

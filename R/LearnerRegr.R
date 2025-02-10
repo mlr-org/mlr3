@@ -12,6 +12,7 @@
 #'   - `"se"`: Predicts the standard error for each value of response for each observation in the test set.
 #'   - `"distr"`: Probability distribution as `VectorDistribution` object (requires package `distr6`, available via
 #'     repository \url{https://raphaels1.r-universe.dev}).
+#'  - `"quantiles"`: Predicts quantile estimates for each observation in the test set.
 #'
 #' Predefined learners can be found in the [dictionary][mlr3misc::Dictionary] [mlr_learners].
 #' Essential regression learners can be found in this dictionary after loading \CRANpkg{mlr3learners}.
@@ -26,6 +27,7 @@
 #' @template param_packages
 #' @template param_label
 #' @template param_man
+#' @template param_task_type
 #'
 #' @template seealso_learner
 #' @export
@@ -41,8 +43,8 @@ LearnerRegr = R6Class("LearnerRegr", inherit = Learner,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    initialize = function(id, param_set = ps(), predict_types = "response", feature_types = character(), properties = character(), data_formats, packages = character(), label = NA_character_, man = NA_character_) {
-      super$initialize(id = id, task_type = "regr", param_set = param_set, feature_types = feature_types,
+    initialize = function(id, task_type = "regr", param_set = ps(), predict_types = "response", feature_types = character(), properties = character(), data_formats, packages = character(), label = NA_character_, man = NA_character_) {
+      super$initialize(id = id, task_type = task_type, param_set = param_set, feature_types = feature_types,
         predict_types = predict_types, properties = properties, data_formats, packages = packages,
         label = label, man = man)
     }
