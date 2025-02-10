@@ -219,7 +219,7 @@ ResultData = R6Class("ResultData",
 
       rbind_if_new = function(x, y, on = key(x)) {
         if (nrow(x) == 0L) {
-          return(y[, names(x), with = FALSE])
+          return(y)
         }
 
         new_rows = y[!x, on = on]

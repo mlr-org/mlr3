@@ -105,7 +105,68 @@ test_that("predict set selection", {
   expect_disjunct(p1$row_ids, p2$row_ids)
 })
 
-test_that("combine result data with data_extra", {
+test_that("combine result data with itself", {
+  task = tsk("penguins")
+  learner = lrn("classif.rpart")
+  resampling = rsmp("cv", folds = 2)$instantiate(task)
+  iterations = seq_len(resampling$iters)
+  learners = list()
+  predictions = list()
+  for (i in iterations) {
+    l = learner$clone(deep = TRUE)
+    learners[[i]] = l$train(task, row_ids = resampling$train_set(i))
+    predictions[[i]] = list(test = l$predict(task, row_ids = resampling$test_set(i)))
+  }
+
+  rdata = as_result_data(task, learners, resampling, iterations, predictions)
+
+  rdata$combine(rdata)
+
+  expect_resultdata(rdata)
+  expect_data_table(rdata$data$fact, nrows = 2L)
+  expect_data_table(rdata$data$tasks, nrows = 1L)
+  expect_data_table(rdata$data$learners, nrows = 1L)
+  expect_data_table(rdata$data$learner_components, nrows = 1L)
+  expect_data_table(rdata$data$resamplings, nrows = 1L)
+})
+
+test_that("combine two result data", {
+  task = tsk("penguins")
+  learner = lrn("classif.rpart")
+  resampling = rsmp("cv", folds = 2)$instantiate(task)
+  iterations = seq_len(resampling$iters)
+  learners = list()
+  predictions = list()
+  for (i in iterations) {
+    l = learner$clone(deep = TRUE)
+    learners[[i]] = l$train(task, row_ids = resampling$train_set(i))
+    predictions[[i]] = list(test = l$predict(task, row_ids = resampling$test_set(i)))
+  }
+
+  rdata_1 = as_result_data(task, learners, resampling, iterations, predictions)
+
+  learner = lrn("classif.rpart")
+  learners = list()
+  predictions = list()
+  for (i in iterations) {
+    l = learner$clone(deep = TRUE)
+    learners[[i]] = l$train(task, row_ids = resampling$train_set(i))
+    predictions[[i]] = list(test = l$predict(task, row_ids = resampling$test_set(i)))
+  }
+
+  rdata_2 = as_result_data(task, learners, resampling, iterations, predictions)
+
+  rdata_1$combine(rdata_2)
+
+  expect_resultdata(rdata_1)
+  expect_data_table(rdata_1$data$fact, nrows = 4L)
+  expect_data_table(rdata_1$data$tasks, nrows = 1L)
+  expect_data_table(rdata_1$data$learners, nrows = 1L)
+  expect_data_table(rdata_1$data$learner_components, nrows = 1L)
+  expect_data_table(rdata_1$data$resamplings, nrows = 1L)
+})
+
+test_that("combine result data with and without data_extra", {
   task = tsk("penguins")
   learner = lrn("classif.rpart")
   resampling = rsmp("cv", folds = 2)$instantiate(task)
@@ -133,7 +194,67 @@ test_that("combine result data with data_extra", {
 
   rdata_1$combine(rdata_2)
 
-  data_extra = rdata_1$data_extra()
-  expect_true(sum(map_lgl(data_extra, is.null)) == 2)
-  expect_equal(unlist(data_extra), c(a = 1, b = 2))
+  expect_resultdata(rdata_1)
+  expect_data_table(rdata_1$data$fact, nrows = 4L)
+  expect_data_table(rdata_1$data$tasks, nrows = 1L)
+  expect_data_table(rdata_1$data$learners, nrows = 1L)
+  expect_data_table(rdata_1$data$learner_components, nrows = 1L)
+  expect_data_table(rdata_1$data$resamplings, nrows = 1L)
+  expect_true(sum(map_lgl(rdata_1$data$fact$data_extra, is.null)) == 2)
+  expect_equal(unlist(rdata_1$data$fact$data_extra), c(a = 1, b = 2))
+})
+
+
+test_that("combine empty result data with result data with data_extra", {
+  rdata_1 = ResultData$new()
+
+  task = tsk("penguins")
+  learner = lrn("classif.rpart")
+  resampling = rsmp("cv", folds = 2)$instantiate(task)
+  iterations = seq_len(resampling$iters)
+  learners = list()
+  predictions = list()
+  for (i in iterations) {
+    l = learner$clone(deep = TRUE)
+    learners[[i]] = l$train(task, row_ids = resampling$train_set(i))
+    predictions[[i]] = list(test = l$predict(task, row_ids = resampling$test_set(i)))
+  }
+
+  rdata_2 = as_result_data(task, learners, resampling, iterations, predictions, data_extra = list(list(a = 1), list(b = 2)))
+
+  rdata_1$combine(rdata_2)
+  expect_resultdata(rdata_1)
+  expect_data_table(rdata_1$data$fact, nrows = 2L)
+  expect_data_table(rdata_1$data$tasks, nrows = 1L)
+  expect_data_table(rdata_1$data$learners, nrows = 1L)
+  expect_data_table(rdata_1$data$learner_components, nrows = 1L)
+  expect_data_table(rdata_1$data$resamplings, nrows = 1L)
+  expect_equal(unlist(rdata_1$data$fact$data_extra), c(a = 1, b = 2))
+})
+
+test_that("combine result data with data_extra with empty result", {
+  task = tsk("penguins")
+  learner = lrn("classif.rpart")
+  resampling = rsmp("cv", folds = 2)$instantiate(task)
+  iterations = seq_len(resampling$iters)
+  learners = list()
+  predictions = list()
+  for (i in iterations) {
+    l = learner$clone(deep = TRUE)
+    learners[[i]] = l$train(task, row_ids = resampling$train_set(i))
+    predictions[[i]] = list(test = l$predict(task, row_ids = resampling$test_set(i)))
+  }
+
+  rdata_2 = as_result_data(task, learners, resampling, iterations, predictions, data_extra = list(list(a = 1), list(b = 2)))
+
+  rdata_1 = ResultData$new()
+  rdata_2$combine(rdata_1)
+
+  expect_resultdata(rdata_2)
+  expect_data_table(rdata_2$data$fact, nrows = 2L)
+  expect_data_table(rdata_2$data$tasks, nrows = 1L)
+  expect_data_table(rdata_2$data$learners, nrows = 1L)
+  expect_data_table(rdata_2$data$learner_components, nrows = 1L)
+  expect_data_table(rdata_2$data$resamplings, nrows = 1L)
+  expect_equal(unlist(rdata_2$data$fact$data_extra), c(a = 1, b = 2))
 })
