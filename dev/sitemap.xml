@@ -6,6 +6,8 @@
 <url><loc>https://mlr3.mlr-org.com/dev/index.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/dev/news/index.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/dev/reference/BenchmarkResult.html</loc></url>
+<url><loc>https://mlr3.mlr-org.com/dev/reference/CallbackResample.html</loc></url>
+<url><loc>https://mlr3.mlr-org.com/dev/reference/ContextResample.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/dev/reference/DataBackend.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/dev/reference/DataBackendDataTable.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/dev/reference/DataBackendMatrix.html</loc></url>
@@ -46,10 +48,12 @@
 <url><loc>https://mlr3.mlr-org.com/dev/reference/as_task_regr.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/dev/reference/as_task_unsupervised.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/dev/reference/assert_empty_ellipsis.html</loc></url>
+<url><loc>https://mlr3.mlr-org.com/dev/reference/assert_resample_callback.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/dev/reference/auto_convert.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/dev/reference/benchmark.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/dev/reference/benchmark_grid.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/dev/reference/california_housing.html</loc></url>
+<url><loc>https://mlr3.mlr-org.com/dev/reference/callback_resample.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/dev/reference/col_info.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/dev/reference/convert_task.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/dev/reference/default_fallback.html</loc></url>
@@ -59,6 +63,8 @@
 <url><loc>https://mlr3.mlr-org.com/dev/reference/install_pkgs.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/dev/reference/marshaling.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/dev/reference/mlr3-package.html</loc></url>
+<url><loc>https://mlr3.mlr-org.com/dev/reference/mlr3.holdout_task.html</loc></url>
+<url><loc>https://mlr3.mlr-org.com/dev/reference/mlr3.model_extractor.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/dev/reference/mlr_assertions.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/dev/reference/mlr_learners.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/dev/reference/mlr_learners_classif.debug.html</loc></url>
