@@ -691,7 +691,7 @@ expect_resultdata = function(rdata, consistency = TRUE) {
   checkmate::expect_class(rdata, "ResultData")
   data = rdata$data
 
-  proto = mlr3:::star_init()
+  proto = mlr3:::star_init(data_extra = "data_extra" %in% names(data$fact))
   checkmate::expect_set_equal(names(data), names(proto))
 
   for (nn in names(proto)) {

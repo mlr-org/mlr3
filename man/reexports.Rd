@@ -5,6 +5,9 @@
 \alias{reexports}
 \alias{as.data.table}
 \alias{data.table}
+\alias{mlr_callbacks}
+\alias{clbk}
+\alias{clbks}
 \title{Objects exported from other packages}
 \keyword{internal}
 \description{
@@ -13,5 +16,7 @@ below to see their documentation.
 
 \describe{
   \item{data.table}{\code{\link[data.table]{as.data.table}}, \code{\link[data.table]{data.table}}}
+
+  \item{mlr3misc}{\code{\link[mlr3misc]{clbk}}, \code{\link[mlr3misc:clbk]{clbks}}, \code{\link[mlr3misc]{mlr_callbacks}}}
 }}
 

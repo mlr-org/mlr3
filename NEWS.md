@@ -1,11 +1,12 @@
 # mlr3 (development version)
 
 * fix: the `$predict_newdata()` method of `Learner` now automatically conducts type conversions (#685)
-* BREAKING_CHANGE: Predicting on a `task` with the wrong column information is now an error and not a warning. 
+* BREAKING_CHANGE: Predicting on a `task` with the wrong column information is now an error and not a warning.
 * Column names with UTF-8 characters are now allowed by default.
   The option `mlr3.allow_utf8_names` is removed.
 * BREAKING CHANGE: `Learner$predict_types` is read-only now.
 * docs: Clear up behavior of `Learner$predict_type` after training.
+* feat: Add callbacks to `resample()` and `benchmark()`.
 * fix: Internal tuning and validation now works when the model requires marshaling (#1256)
 
 # mlr3 0.22.1

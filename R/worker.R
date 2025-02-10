@@ -273,7 +273,24 @@ learner_predict = function(learner, task, row_ids = NULL) {
 }
 
 
-workhorse = function(iteration, task, learner, resampling, param_values = NULL, lgr_threshold, store_models = FALSE, pb = NULL, mode = "train", is_sequential = TRUE, unmarshal = TRUE) {
+workhorse = function(
+  iteration,
+  task,
+  learner,
+  resampling,
+  param_values = NULL,
+  lgr_threshold,
+  store_models = FALSE,
+  pb = NULL,
+  mode = "train",
+  is_sequential = TRUE,
+  unmarshal = TRUE,
+  callbacks = NULL
+  ) {
+  ctx = ContextResample$new(task, learner, resampling, iteration)
+
+  call_back("on_resample_begin", callbacks, ctx)
+
   if (!is.null(pb)) {
     pb(sprintf("%s|%s|i:%i", task$id, learner$id, iteration))
   }
@@ -302,6 +319,7 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
       }, add = TRUE)
     }
   }
+
   # restore logger thresholds
   for (package in names(lgr_threshold)) {
     logger = lgr::get_logger(package)
@@ -318,7 +336,8 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
   )
 
   # train model
-  learner = learner$clone()
+  # use `learner` reference instead of `ctx$learner` to avoid going through the active binding
+  ctx$learner = learner = ctx$learner$clone()
   if (length(param_values)) {
     learner$param_set$values = list()
     learner$param_set$set_values(.values = param_values)
@@ -328,8 +347,11 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
   validate = get0("validate", learner)
 
   test_set = if (identical(validate, "test")) sets$test
+
+  call_back("on_resample_before_train", callbacks, ctx)
+
   train_result = learner_train(learner, task, sets[["train"]], test_set, mode = mode)
-  learner = train_result$learner
+  ctx$learner = learner = train_result$learner
 
   # process the model so it can be used for prediction (e.g. marshal for callr prediction), but also
   # keep a copy of the model in current form in case this is the format that we want to send back to the main process
@@ -343,16 +365,18 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
 
   # creates the tasks and row_ids for all selected predict sets
   pred_data = prediction_tasks_and_sets(task, train_result, validate, sets, predict_sets)
+  call_back("on_resample_before_predict", callbacks, ctx)
 
   pdatas = Map(function(set, row_ids, task) {
     lg$debug("Creating Prediction for predict set '%s'", set)
+
     learner_predict(learner, task, row_ids)
   }, set = predict_sets, row_ids = pred_data$sets, task = pred_data$tasks)
 
   if (!length(predict_sets)) {
     learner$state$predict_time = 0L
   }
-  pdatas = discard(pdatas, is.null)
+  ctx$pdatas = discard(pdatas, is.null)
 
   # set the model slot after prediction so it can be sent back to the main process
   process_model_after_predict(
@@ -360,9 +384,21 @@ workhorse = function(iteration, task, learner, resampling, param_values = NULL, 
     unmarshal = unmarshal
   )
 
+  call_back("on_resample_end", callbacks, ctx)
+
+  if (!store_models) {
+    lg$debug("Erasing stored model for learner '%s'", learner$id)
+    learner$state$model = NULL
+  }
+
   learner_state = set_class(learner$state, c("learner_state", "list"))
 
-  list(learner_state = learner_state, prediction = pdatas, param_values = learner$param_set$values, learner_hash = learner_hash)
+  list(
+    learner_state = learner_state,
+    prediction = ctx$pdatas,
+    param_values = learner$param_set$values,
+    learner_hash = learner_hash,
+    data_extra = ctx$data_extra)
 }
 
 # creates the tasks and row ids for the selected predict sets
@@ -436,13 +472,10 @@ process_model_before_predict = function(learner, store_models, is_sequential, un
 }
 
 process_model_after_predict = function(learner, store_models, is_sequential, unmarshal, model_copy) {
-  if (!store_models) {
-    lg$debug("Erasing stored model for learner '%s'", learner$id)
-    learner$state$model = NULL
-  } else if (!is.null(model_copy)) {
+  if (store_models && !is.null(model_copy)) {
     # we created a copy of the model to avoid additional marshaling cycles
     learner$model = model_copy
-  } else if (!is_sequential || !unmarshal) {
+  } else if (store_models &&  !is_sequential || !unmarshal) {
     # no copy was created, here we make sure that we return the model the way the user wants it
     learner$model = marshal_model(learner$model, inplace = TRUE)
   }
