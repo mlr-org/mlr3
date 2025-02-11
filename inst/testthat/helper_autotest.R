@@ -84,7 +84,7 @@ generate_generic_tasks = function(learner, proto) {
       offset_cols = paste0("offset_", proto$class_names)
       # One offset column per class
       offset_data = as.data.frame(
-        set_names(
+        mlr3misc::set_names(
           lapply(offset_cols, function(col) runif(n)),
           offset_cols
         )
