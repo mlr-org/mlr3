@@ -43,7 +43,8 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="mlr3-development-version">mlr3 (development version)<a class="anchor" aria-label="anchor" href="#mlr3-development-version"></a></h2>
-<ul><li>fix: the <code>$predict_newdata()</code> method of <code>Learner</code> now automatically conducts type conversions (<a href="https://github.com/mlr-org/mlr3/issues/685" class="external-link">#685</a>)</li>
+<ul><li>feat: add new <code>col_role</code> offset in <code>Task</code> and offset <code>Learner</code> property. A warning is produced if a learner that doesn’t support offsets is trained with a task that has an offset column.</li>
+<li>fix: the <code>$predict_newdata()</code> method of <code>Learner</code> now automatically conducts type conversions (<a href="https://github.com/mlr-org/mlr3/issues/685" class="external-link">#685</a>)</li>
 <li>BREAKING_CHANGE: Predicting on a <code>task</code> with the wrong column information is now an error and not a warning.</li>
 <li>Column names with UTF-8 characters are now allowed by default. The option <code>mlr3.allow_utf8_names</code> is removed.</li>
 <li>BREAKING CHANGE: <code>Learner$predict_types</code> is read-only now.</li>

@@ -182,6 +182,7 @@ Set of properties of the <a href="Learner.html">Learner</a>.
 Must be a subset of <code><a href="mlr_reflections.html">mlr_reflections$learner_properties</a></code>.
 The following properties are currently standardized and understood by learners in <a href="https://CRAN.R-project.org/package=mlr3" class="external-link"><span class="pkg">mlr3</span></a>:</p><ul><li><p><code>"missings"</code>: The learner can handle missing values in the data.</p></li>
 <li><p><code>"weights"</code>: The learner supports observation weights.</p></li>
+<li><p><code>"offset"</code>: The learner can incorporate offset values to adjust predictions.</p></li>
 <li><p><code>"importance"</code>: The learner supports extraction of importance scores, i.e. comes with an <code>$importance()</code> extractor function (see section on optional extractors in <a href="Learner.html">Learner</a>).</p></li>
 <li><p><code>"selected_features"</code>: The learner supports extraction of the set of selected features, i.e. comes with a <code>$selected_features()</code> extractor function (see section on optional extractors in <a href="Learner.html">Learner</a>).</p></li>
 <li><p><code>"oob_error"</code>: The learner supports extraction of estimated out of bag error, i.e. comes with a <code>oob_error()</code> extractor function (see section on optional extractors in <a href="Learner.html">Learner</a>).</p></li>
