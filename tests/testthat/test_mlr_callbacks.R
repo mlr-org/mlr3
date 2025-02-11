@@ -8,8 +8,8 @@ test_that("model extractor works", {
 
   rr = resample(task, learner, resampling = resampling, callbacks = callback)
 
-  expect_list(rr$data_extra)
-  walk(rr$data_extra, function(data) {
+  expect_list(rr$data_extra$data_extra)
+  walk(rr$data_extra$data_extra, function(data) {
     expect_names(names(data), must.include = "selected_features")
     expect_subset(data[["selected_features"]], task$feature_names)
   })
@@ -29,8 +29,8 @@ test_that("holdout task works", {
 
   rr = resample(task, learner, resampling = resampling, callbacks = callback)
 
-  expect_list(rr$data_extra)
-  walk(rr$data_extra, function(data) {
+  expect_list(rr$data_extra$data_extra)
+  walk(rr$data_extra$data_extra, function(data) {
     expect_names(names(data), must.include = "prediction_holdout")
     expect_prediction(data[["prediction_holdout"]])
   })

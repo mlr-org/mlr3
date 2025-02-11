@@ -69,18 +69,22 @@ ResultData = R6Class("ResultData",
           set(data, j = "resampling", value = NULL)
           set(data, j = "param_values", value = NULL)
 
-          # add extra data to fact table
-          if (!is.null(data_extra)) {
+          data_extras = if (!is.null(data_extra)) {
             assert_list(data_extra, len = nrow(data))
-            set(data, j = "data_extra", value = list(data_extra))
+            data.table(uhash = data$uhash, iteration = data$iteration, data_extra = data_extra)
+          } else {
+            data.table(uhash = character(), iteration = integer(), data_extra = list())
           }
+          # remove null rows in data_extra
+          data_extras = data_extras[!map_lgl(data_extra, is.null)]
+          setkeyv(data_extras, c("uhash", "iteration"))
 
           if (!store_backends) {
             set(tasks, j = "task", value = lapply(tasks$task, task_rm_backend))
           }
 
           self$data = list(fact = data, uhashes = uhashes, tasks = tasks, learners = learners,
-            resamplings = resamplings, learner_components = learner_components)
+            resamplings = resamplings, learner_components = learner_components, data_extras = data_extras)
         }
       }
     },
@@ -199,13 +203,11 @@ ResultData = R6Class("ResultData",
     #' @description
     #' Returns additional data stored.
     #'
-    #' @return `list()`.
+    #' @return [data.table::data.table()].
     data_extra = function(view = NULL) {
-      if ("data_extra" %nin% names(self$data$fact)) {
-        return(NULL)
-      }
       .__ii__ = private$get_view_index(view)
-      self$data$fact[.__ii__, "data_extra", with = FALSE][[1L]]
+      tab = self$data$fact[.__ii__, c("uhash", "iteration"), with = FALSE]
+      merge(tab, self$data$data_extras, by = c("uhash", "iteration"), all.x = TRUE, sort = TRUE)
     },
 
     #' @description
@@ -219,12 +221,12 @@ ResultData = R6Class("ResultData",
 
       rbind_if_new = function(x, y, on = key(x)) {
         if (nrow(x) == 0L) {
-          return(y)
+          return(y[, names(x), with = FALSE])
         }
 
         new_rows = y[!x, on = on]
         if (nrow(new_rows)) {
-          setkeyv(rbindlist(list(x, new_rows), use.names = TRUE, fill = TRUE), on)
+          setkeyv(rbindlist(list(x, new_rows), use.names = TRUE), on)
         } else {
           x
         }
@@ -321,6 +323,7 @@ ResultData = R6Class("ResultData",
       tab = merge(tab, self$data$learners, by = "learner_phash", sort = FALSE)
       tab = merge(tab, self$data$resamplings, by = "resampling_hash", sort = FALSE)
       tab = merge(tab, self$data$learner_components, by = "learner_hash", sort = FALSE)
+      if (nrow(self$data$data_extras)) tab = merge(tab, self$data$data_extras, by = c("uhash", "iteration"), all.x = TRUE, sort = FALSE)
 
       if (nrow(tab)) {
         if (reassemble_learners) {
@@ -334,7 +337,7 @@ ResultData = R6Class("ResultData",
       }
 
       cns = c("uhash", "task", "task_hash", "learner", "learner_hash", "learner_param_vals", "resampling",
-        "resampling_hash", "iteration", "prediction", if ("data_extra" %in% names(self$data$fact)) "data_extra")
+        "resampling_hash", "iteration", "prediction", if (nrow(self$data$data_extras)) "data_extra")
       merge(self$data$uhashes, tab[, cns, with = FALSE], by = "uhash", sort = FALSE)
     },
 
@@ -388,7 +391,7 @@ ResultData = R6Class("ResultData",
 #######################################################################################################################
 ### constructor
 #######################################################################################################################
-star_init = function(data_extra = FALSE) {
+star_init = function() {
   fact = data.table(
     uhash = character(),
     iteration = integer(),
@@ -403,8 +406,6 @@ star_init = function(data_extra = FALSE) {
 
     key = c("uhash", "iteration")
   )
-
-  if (data_extra) fact[, "data_extra" := list()]
 
   uhashes = data.table(
     uhash = character()
@@ -434,8 +435,21 @@ star_init = function(data_extra = FALSE) {
     key = "learner_hash"
   )
 
-  list(fact = fact, uhashes = uhashes, tasks = tasks, learners = learners,
-    resamplings = resamplings, learner_components = learner_components)
+  data_extras = data.table(
+    uhash = character(),
+    iteration = integer(),
+    data_extra = list(),
+    key = c("uhash", "iteration")
+  )
+
+  list(
+    fact = fact,
+    uhashes = uhashes,
+    tasks = tasks,
+    learners = learners,
+    resamplings = resamplings,
+    learner_components = learner_components,
+    data_extras = data_extras)
 }
 
 
