@@ -1,3 +1,5 @@
+# stages -----------------------------------------------------------------------
+
 test_that("on_resample_begin works", {
   task = tsk("pima")
   learner = lrn("classif.rpart")
@@ -75,6 +77,8 @@ test_that("on_resample_end works", {
   expect_resample_result(resample(task, learner, resampling, callbacks = callback))
 })
 
+# learner state ----------------------------------------------------------------
+
 test_that("writing to learner$state works", {
   task = tsk("pima")
   learner = lrn("classif.rpart")
@@ -91,7 +95,10 @@ test_that("writing to learner$state works", {
   walk(rr$learners, function(learner) {
     expect_equal(learner$state$test, 1)
   })
-  expect_null(rr$data_extra)
+  expect_data_table(rr$data_extra, nrows = 3)
+  walk(rr$data_extra$data_extra, expect_null)
+  tab = as.data.table(rr)
+  expect_names(names(tab), disjunct.from = "data_extra")
 
   # benchmark result
   design = benchmark_grid(task, learner, resampling)
@@ -99,7 +106,11 @@ test_that("writing to learner$state works", {
   walk(bmr$score()$learner, function(learner) {
     expect_equal(learner$state$test, 1)
   })
+  tab = as.data.table(bmr)
+  expect_names(names(tab), disjunct.from = "data_extra")
 })
+
+# data_extra -------------------------------------------------------------------
 
 test_that("writing to data_extra works", {
   task = tsk("pima")
@@ -114,7 +125,7 @@ test_that("writing to data_extra works", {
 
   # resample result
   rr = resample(task, learner, resampling, callbacks = callback)
-  walk(rr$data_extra, function(x) {
+  walk(rr$data_extra$data_extra, function(x) {
     expect_equal(x$test, 1)
   })
 
@@ -122,6 +133,9 @@ test_that("writing to data_extra works", {
   tab = as.data.table(rr)
   expect_data_table(tab)
   expect_names(names(tab), must.include = "data_extra")
+  walk(tab$data_extra, function(x) {
+    expect_equal(x$test, 1)
+  })
 
   # benchmark data.table
   design = benchmark_grid(task, learner, resampling)
@@ -168,12 +182,14 @@ test_that("data_extra is null", {
 
   # resample result
   rr = resample(task, learner, resampling, callbacks = callback)
-  expect_null(rr$data_extra)
+  expect_data_table(rr$data_extra, nrows =  3)
+  walk(rr$data_extra$data_extra, expect_null)
 
   # resample result data.table
   tab = as.data.table(rr)
   expect_data_table(tab)
   expect_names(names(tab), disjunct.from = "data_extra")
+  walk(tab$data_extra, expect_null)
 
   # benchmark data.table
   design = benchmark_grid(task, learner, resampling)
@@ -181,6 +197,7 @@ test_that("data_extra is null", {
   tab = as.data.table(bmr)
   expect_data_table(tab)
   expect_names(names(tab), disjunct.from = "data_extra")
+  walk(tab$data_extra, expect_null)
 })
 
 test_that("learner cloning in workhorse is passed to context", {
@@ -207,5 +224,29 @@ test_that("learner cloning in workhorse is passed to context", {
 
   rr = resample(task, learner, resampling, callbacks = callback)
 
-  expect_true(rr$data_extra[[1]]$address_1 != rr$data_extra[[1]]$address_2)
+  expect_true(rr$data_extra$data_extra[[1]]$address_1 != rr$data_extra$data_extra[[1]]$address_2)
+})
+
+test_that("returning data_extra sometimes works ", {
+  learners = lrns(c("classif.rpart", "classif.featureless"))
+  task = tsk("pima")
+  resampling = rsmp("cv", folds = 3)
+
+  callback = callback_resample("test",
+    on_resample_end = function(callback, context) {
+      if (context$learner$id == "classif.featureless") {
+        context$data_extra$test = 1
+      }
+    }
+  )
+
+  design = benchmark_grid(task, learners, resampling)
+  bmr = benchmark(design, callbacks = callback)
+
+  tab = as.data.table(bmr)
+  expect_data_table(tab, nrows = 6)
+  expect_names(names(tab), must.include = "data_extra")
+  expect_list(tab$data_extra)
+  expect_equal(sum(map_lgl(tab$data_extra, is.null)), 3)
+  expect_data_table(get_private(bmr)$.data$data$data_extras, nrows = 3)
 })

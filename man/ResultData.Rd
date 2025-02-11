@@ -320,7 +320,7 @@ Single \code{uhash} to restrict the results to.}
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-\code{list()}.
+\code{\link[data.table:data.table]{data.table::data.table()}}.
 }
 }
 \if{html}{\out{<hr>}}
