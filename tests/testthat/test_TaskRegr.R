@@ -49,3 +49,21 @@ test_that("$add_strata", {
   task$add_strata(task$target_names, bins = 2)
   expect_identical(task$strata$N, c(50L, 10L))
 })
+
+test_that("offset column role works", {
+  task = tsk("mtcars")
+  expect_null(task$offset)
+  task$set_col_roles("am", "offset")
+
+  expect_subset("offset", task$properties)
+  expect_data_table(task$offset, nrows = task$nrow, ncols = 2)
+  expect_subset(c("row_id", "offset"), names(task$offset))
+
+  expect_error({
+    task$col_roles$offset = c("am", "gear")
+  }, "up to one")
+
+  task$col_roles$offset = character()
+  expect_true("offset" %nin% task$properties)
+  expect_null(task$offset)
+})

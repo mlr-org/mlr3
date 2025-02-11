@@ -151,6 +151,7 @@ The following properties are currently standardized and understood by learners i
 \itemize{
 \item \code{"missings"}: The learner can handle missing values in the data.
 \item \code{"weights"}: The learner supports observation weights.
+\item \code{"offset"}: The learner can incorporate offset values to adjust predictions.
 \item \code{"importance"}: The learner supports extraction of importance scores, i.e. comes with an \verb{$importance()} extractor function (see section on optional extractors in \link{Learner}).
 \item \code{"selected_features"}: The learner supports extraction of the set of selected features, i.e. comes with a \verb{$selected_features()} extractor function (see section on optional extractors in \link{Learner}).
 \item \code{"oob_error"}: The learner supports extraction of estimated out of bag error, i.e. comes with a \code{oob_error()} extractor function (see section on optional extractors in \link{Learner}).

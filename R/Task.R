@@ -496,7 +496,7 @@ Task = R6Class("Task",
       }
 
       # columns with these roles must be present in data
-      mandatory_roles = c("target", "feature", "weight", "group", "stratum", "order")
+      mandatory_roles = c("target", "feature", "weight", "group", "stratum", "order", "offset")
       mandatory_cols = unlist(private$.col_roles[mandatory_roles], use.names = FALSE)
       missing_cols = setdiff(mandatory_cols, data$colnames)
       if (length(missing_cols)) {
@@ -896,6 +896,7 @@ Task = R6Class("Task",
     #' * `"strata"`: The task is resampled using one or more stratification variables (role `"stratum"`).
     #' * `"groups"`: The task comes with grouping/blocking information (role `"group"`).
     #' * `"weights"`: The task comes with observation weights (role `"weight"`).
+    #' * `"offset"`: The task includes one or more offset columns specifying fixed adjustments for model training and possibly for prediction (role `"offset"`).
     #' * `"ordered"`: The task has columns which define the row order (role `"order"`).
     #'
     #' Note that above listed properties are calculated from the `$col_roles` and may not be set explicitly.
@@ -907,6 +908,7 @@ Task = R6Class("Task",
           if (length(col_roles$group)) "groups" else NULL,
           if (length(col_roles$stratum)) "strata" else NULL,
           if (length(col_roles$weight)) "weights" else NULL,
+          if (length(col_roles$offset)) "offset" else NULL,
           if (length(col_roles$order)) "ordered" else NULL
         )
       } else {
@@ -951,6 +953,11 @@ Task = R6Class("Task",
     #'   Not more than a single column can be associated with this role.
     #' * `"stratum"`: Stratification variables. Multiple discrete columns may have this role.
     #' * `"weight"`: Observation weights. Not more than one numeric column may have this role.
+    #' * `"offset"`: Numeric columns used to specify fixed adjustments for model training.
+    #'   Some models use offsets to simply shift predictions, while others incorporate them to boost predictions from a baseline model.
+    #'   For learners supporting offsets in multiclass settings, an offset column must be provided for each target class.
+    #'   These columns must follow the naming convention `"offset_{target_class_name}"`.
+    #'   For an example of a learner that supports offsets, see `LearnerClassifXgboost`  of \CRANpkg{mlr3learners}.
     #'
     #' `col_roles` is a named list whose elements are named by column role and each element is a `character()` vector of column names.
     #' To alter the roles, just modify the list, e.g. with \R's set functions ([intersect()], [setdiff()], [union()], \ldots).
@@ -1084,6 +1091,32 @@ Task = R6Class("Task",
       setnames(data, c("row_id", "weight"))[]
     },
 
+    #' @field offset ([data.table::data.table()])\cr
+    #' If the task has a column with designated role `"offset"`, a table with two or more columns:
+    #'
+    #' * `row_id` (`integer()`), and
+    #' * offset variable(s) (`numeric()`).
+    #'
+    #' For regression or binary classification tasks, there will be only a single-column offset.
+    #' For multiclass tasks, it may return multiple offset columns, one for each target class.
+    #' If there is only one offset column, it will be named as `offset`.
+    #'
+    #' If there are no columns with the `"offset"` role, `NULL` is returned.
+    offset = function(rhs) {
+      assert_has_backend(self)
+      assert_ro_binding(rhs)
+      offset_cols = private$.col_roles$offset
+      if (length(offset_cols) == 0L) {
+        return(NULL)
+      }
+
+      data = self$backend$data(private$.row_roles$use, c(self$backend$primary_key, offset_cols))
+      if (length(offset_cols) == 1L) {
+        setnames(data, c("row_id", "offset"))[]
+      } else  {
+        setnames(data, c("row_id", offset_cols))[]
+      }
+    },
 
     #' @field labels (named `character()`)\cr
     #'   Retrieve `labels` (prettier formated names) from columns.
@@ -1250,6 +1283,17 @@ task_check_col_roles.Task = function(task, new_roles, ...) {
     }
   }
 
+  # check offset
+  if (length(new_roles[["offset"]]) && any(fget(task$col_info, new_roles[["offset"]], "type", key = "id") %nin% c("numeric", "integer"))) {
+    stopf("Offset column(s) %s must be a numeric or integer column", paste0("'", new_roles[["offset"]], "'", collapse = ","))
+  }
+
+  if (any(task$missings(cols = new_roles[["offset"]]) > 0)) {
+    missings = task$missings(cols = new_roles[["offset"]])
+    missings = names(missings[missings > 0])
+    stopf("Offset column(s) %s contain missing values", paste0("'", missings, "'", collapse = ","))
+  }
+
   return(new_roles)
 }
 
@@ -1266,16 +1310,25 @@ task_check_col_roles.TaskClassif = function(task, new_roles, ...) {
     stopf("Target column(s) %s must be a factor or ordered factor", paste0("'", new_roles[["target"]], "'", collapse = ","))
   }
 
+  if (length(new_roles[["offset"]]) > 1L && length(task$class_names) == 2L) {
+    stop("There may only be up to one column with role 'offset' for binary classification tasks")
+  }
+
+  if (length(new_roles[["offset"]]) > 1L) {
+    expected_names = paste0("offset_", task$class_names)
+    expect_subset(new_roles[["offset"]], expected_names, label = "col_roles")
+  }
+
   NextMethod()
 }
 
 #' @rdname task_check_col_roles
 #' @export
 task_check_col_roles.TaskRegr = function(task, new_roles, ...) {
-
-  # check target
-  if (length(new_roles[["target"]]) > 1L) {
-    stopf("There may only be up to one column with role 'target'")
+  for (role in c("target", "offset")) {
+    if (length(new_roles[[role]]) > 1L) {
+      stopf("There may only be up to one column with role '%s'", role)
+    }
   }
 
   if (length(new_roles[["target"]]) && any(fget(task$col_info, new_roles[["target"]], "type", key = "id") %nin% c("numeric", "integer"))) {
