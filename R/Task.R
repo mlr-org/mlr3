@@ -1288,7 +1288,7 @@ task_check_col_roles.Task = function(task, new_roles, ...) {
     stopf("Offset column(s) %s must be a numeric or integer column", paste0("'", new_roles[["offset"]], "'", collapse = ","))
   }
 
-  if (any(task$missings(cols = new_roles[["offset"]]) > 0)) {
+  if (length(new_roles[["offset"]]) && any(task$missings(cols = new_roles[["offset"]]) > 0)) {
     missings = task$missings(cols = new_roles[["offset"]])
     missings = names(missings[missings > 0])
     stopf("Offset column(s) %s contain missing values", paste0("'", missings, "'", collapse = ","))
