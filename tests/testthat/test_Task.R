@@ -734,7 +734,7 @@ test_that("warn when internal valid task has 0 obs", {
 
 test_that("$data() is not called during task construction", {
   tbl = data.table(x = 1:10, y = 1:10, ..row_id = 1:10)
-  DataBackendTest = R6Class("DataBackendTest",
+  backend = R6Class("DataBackendTest",
     inherit = DataBackendDataTable,
     cloneable = FALSE,
     public = list(
@@ -743,5 +743,6 @@ test_that("$data() is not called during task construction", {
       }
     )
   )$new(tbl, "..row_id")
-  expect_task(as_task_regr(tbl, target = "y"))
+  task = as_task_regr(backend, target = "y")
+  expect_class(task, "Task")
 })
