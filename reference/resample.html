@@ -13,7 +13,7 @@ Training and test sets are defined by the Resampling resampling."><meta property
 
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.22.1</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.23.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -66,7 +66,8 @@ Training and test sets are defined by the <a href="Resampling.html">Resampling</
 <span>  encapsulate <span class="op">=</span> <span class="cn">NA_character_</span>,</span>
 <span>  allow_hotstart <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  clone <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"task"</span>, <span class="st">"learner"</span>, <span class="st">"resampling"</span><span class="op">)</span>,</span>
-<span>  unmarshal <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  unmarshal <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  callbacks <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -138,6 +139,12 @@ Per default, all input objects are cloned.</p></dd>
 Whether to unmarshal learners that were marshaled during the execution.
 If <code>TRUE</code> all models are stored in unmarshaled form.
 If <code>FALSE</code>, all learners (that need marshaling) are stored in marshaled form.</p></dd>
+
+
+<dt id="arg-callbacks">callbacks<a class="anchor" aria-label="anchor" href="#arg-callbacks"></a></dt>
+<dd><p>(List of <a href="https://mlr3misc.mlr-org.com/reference/Callback.html" class="external-link">mlr3misc::Callback</a>)<br>
+Callbacks to be executed during the resampling process.
+See <a href="CallbackResample.html">CallbackResample</a> and <a href="ContextResample.html">ContextResample</a> for details.</p></dd>
 
 </dl></div>
     <div class="section level2">

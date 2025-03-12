@@ -37,7 +37,7 @@ Additional learners are implement in the Github package https://github.com/mlr-o
 
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.22.1</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.23.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -127,6 +127,7 @@ for established default tuning spaces.</p></li>
 <ul><li><p><a href="#method-LearnerClassif-new"><code>LearnerClassif$new()</code></a></p></li>
 <li><p><a href="#method-LearnerClassif-clone"><code>LearnerClassif$clone()</code></a></p></li>
 </ul></div><p><details><summary>Inherited methods</summary><ul><li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="base_learner"><a href="Learner.html#method-base_learner"><code>mlr3::Learner$base_learner()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="configure"><a href="Learner.html#method-configure"><code>mlr3::Learner$configure()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="encapsulate"><a href="Learner.html#method-encapsulate"><code>mlr3::Learner$encapsulate()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="format"><a href="Learner.html#method-format"><code>mlr3::Learner$format()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="help"><a href="Learner.html#method-help"><code>mlr3::Learner$help()</code></a></span></li>
@@ -134,6 +135,7 @@ for established default tuning spaces.</p></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="predict_newdata"><a href="Learner.html#method-predict_newdata"><code>mlr3::Learner$predict_newdata()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="print"><a href="Learner.html#method-print"><code>mlr3::Learner$print()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="reset"><a href="Learner.html#method-reset"><code>mlr3::Learner$reset()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="selected_features"><a href="Learner.html#method-selected_features"><code>mlr3::Learner$selected_features()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="train"><a href="Learner.html#method-train"><code>mlr3::Learner$train()</code></a></span></li>
 </ul></details></p><hr><a id="method-LearnerClassif-new"></a><div class="section">
 <h3 id="method-new-">Method <code>new()</code><a class="anchor" aria-label="anchor" href="#method-new-"></a></h3>
@@ -180,6 +182,7 @@ Set of properties of the <a href="Learner.html">Learner</a>.
 Must be a subset of <code><a href="mlr_reflections.html">mlr_reflections$learner_properties</a></code>.
 The following properties are currently standardized and understood by learners in <a href="https://CRAN.R-project.org/package=mlr3" class="external-link"><span class="pkg">mlr3</span></a>:</p><ul><li><p><code>"missings"</code>: The learner can handle missing values in the data.</p></li>
 <li><p><code>"weights"</code>: The learner supports observation weights.</p></li>
+<li><p><code>"offset"</code>: The learner can incorporate offset values to adjust predictions.</p></li>
 <li><p><code>"importance"</code>: The learner supports extraction of importance scores, i.e. comes with an <code>$importance()</code> extractor function (see section on optional extractors in <a href="Learner.html">Learner</a>).</p></li>
 <li><p><code>"selected_features"</code>: The learner supports extraction of the set of selected features, i.e. comes with a <code>$selected_features()</code> extractor function (see section on optional extractors in <a href="Learner.html">Learner</a>).</p></li>
 <li><p><code>"oob_error"</code>: The learner supports extraction of estimated out of bag error, i.e. comes with a <code>oob_error()</code> extractor function (see section on optional extractors in <a href="Learner.html">Learner</a>).</p></li>
@@ -187,6 +190,9 @@ The following properties are currently standardized and understood by learners i
 <li><p><code>"internal_tuning"</code>: The learner is able to internally optimize hyperparameters (those are also tagged with <code>"internal_tuning"</code>).</p></li>
 <li><p><code>"marshal"</code>: To save learners with this property, you need to call <code>$marshal()</code> first.
 If a learner is in a marshaled state, you call first need to call <code>$unmarshal()</code> to use its model, e.g. for prediction.</p></li>
+<li><p><code>"hotstart_forward"</code>: The learner supports to hotstart a model forward.</p></li>
+<li><p><code>"hotstart_backward"</code>: The learner supports hotstarting a model backward.</p></li>
+<li><p>`"featureless": The learner does not use features.</p></li>
 </ul></dd>
 
 

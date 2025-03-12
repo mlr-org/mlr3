@@ -29,7 +29,7 @@ Asserts whether the input is a valid value for the $validate field of a Learner.
 
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.22.1</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.23.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -113,7 +113,7 @@ Otherwise, the input object is returned invisibly.</p>
 <span>  .var.name <span class="op">=</span> <span class="fu">vname</span><span class="op">(</span><span class="va">learners</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">assert_learnable</span><span class="op">(</span><span class="va">task</span>, <span class="va">learner</span><span class="op">)</span></span>
+<span><span class="fu">assert_learnable</span><span class="op">(</span><span class="va">task</span>, <span class="va">learner</span>, param_values <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">assert_predictable</span><span class="op">(</span><span class="va">task</span>, <span class="va">learner</span><span class="op">)</span></span>
 <span></span>
@@ -121,6 +121,14 @@ Otherwise, the input object is returned invisibly.</p>
 <span>  <span class="va">measure</span>,</span>
 <span>  task <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  learner <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  prediction <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  .var.name <span class="op">=</span> <span class="fu">vname</span><span class="op">(</span><span class="va">measure</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">assert_scorable</span><span class="op">(</span></span>
+<span>  <span class="va">measure</span>,</span>
+<span>  <span class="va">task</span>,</span>
+<span>  <span class="va">learner</span>,</span>
 <span>  prediction <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  .var.name <span class="op">=</span> <span class="fu">vname</span><span class="op">(</span><span class="va">measure</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
@@ -191,6 +199,12 @@ Set of required task properties.</p></dd>
 
 <dt id="arg-learners">learners<a class="anchor" aria-label="anchor" href="#arg-learners"></a></dt>
 <dd><p>(list of <a href="Learner.html">Learner</a>).</p></dd>
+
+
+<dt id="arg-param-values">param_values<a class="anchor" aria-label="anchor" href="#arg-param-values"></a></dt>
+<dd><p>(<code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>)<br>
+TuneToken are not allowed in the parameter set of the learner.
+If the <code>param_values</code> overwrite the TuneToken, the assertion will pass.</p></dd>
 
 
 <dt id="arg-measure">measure<a class="anchor" aria-label="anchor" href="#arg-measure"></a></dt>

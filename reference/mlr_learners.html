@@ -17,7 +17,7 @@ For a more convenient way to retrieve and construct learners, see lrn()/lrns()."
 
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.22.1</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.23.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -76,8 +76,8 @@ More learners are connected via <a href="https://github.com/mlr-org/mlr3extralea
     <h2 id="s-methods">S3 methods<a class="anchor" aria-label="anchor" href="#s-methods"></a></h2>
 
 
-<ul><li><p><code>as.data.table(dict, ..., objects = FALSE)</code><br><a href="https://mlr3misc.mlr-org.com/reference/Dictionary.html" class="external-link">mlr3misc::Dictionary</a> -&gt; <code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code><br>
-Returns a <code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code> with fields "key", "label", "task_type", "feature_types", "packages",
+<ul><li><p><code>as.data.table(dict, ..., objects = FALSE)</code><br><a href="https://mlr3misc.mlr-org.com/reference/Dictionary.html" class="external-link">mlr3misc::Dictionary</a> -&gt; <code><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code><br>
+Returns a <code><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code> with fields "key", "label", "task_type", "feature_types", "packages",
 "properties", and "predict_types" as columns.
 If <code>objects</code> is set to <code>TRUE</code>, the constructed objects are returned in the list column named <code>object</code>.</p></li>
 </ul></div>
@@ -104,7 +104,7 @@ If <code>objects</code> is set to <code>TRUE</code>, the constructed objects are
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/pkg/data.table/man/as.data.table.html" class="external-link">as.data.table</a></span><span class="op">(</span><span class="va">mlr_learners</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/as.data.table.html" class="external-link">as.data.table</a></span><span class="op">(</span><span class="va">mlr_learners</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Key: &lt;key&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                    key                              label task_type</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 &lt;char&gt;                             &lt;char&gt;    &lt;char&gt;</span>
@@ -145,7 +145,7 @@ If <code>objects</code> is set to <code>TRUE</code>, the constructed objects are
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Packages: mlr3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Predict Types:  [response], prob</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Feature Types: logical, integer, numeric, character, factor, ordered,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   POSIXct</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   POSIXct, Date</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Properties: featureless, importance, missings, multiclass,</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   selected_features, twoclass</span>
 <span class="r-in"><span><span class="fu"><a href="mlr_sugar.html">lrn</a></span><span class="op">(</span><span class="st">"classif.rpart"</span><span class="op">)</span></span></span>

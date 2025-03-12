@@ -13,7 +13,7 @@ ResampleResults can be visualized via mlr3viz's autoplot() function."><meta prop
 
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.22.1</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.23.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -61,7 +61,7 @@ Do not modify any object without cloning it first.</p>
 
 
 <ul><li><p><code>as.data.table(rr, reassemble_learners = TRUE, convert_predictions = TRUE, predict_sets = "test")</code><br>
-ResampleResult -&gt; <code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code><br>
+ResampleResult -&gt; <code><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code><br>
 Returns a tabular view of the internal data.</p></li>
 <li><p><code>c(...)</code><br>
 (ResampleResult, ...) -&gt; <a href="BenchmarkResult.html">BenchmarkResult</a><br>
@@ -116,15 +116,20 @@ Instantiated <a href="Resampling.html">Resampling</a> object which stores the sp
 List of trained learners, sorted by resampling iteration.</p></dd>
 
 
+<dt><code>data_extra</code></dt>
+<dd><p>(list())<br>
+Additional data stored in the ResampleResult.</p></dd>
+
+
 <dt><code>warnings</code></dt>
-<dd><p>(<code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
+<dd><p>(<code><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
 A table with all warning messages.
 Column names are <code>"iteration"</code> and <code>"msg"</code>.
 Note that there can be multiple rows per resampling iteration if multiple warnings have been recorded.</p></dd>
 
 
 <dt><code>errors</code></dt>
-<dd><p>(<code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
+<dd><p>(<code><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
 A table with all error messages.
 Column names are <code>"iteration"</code> and <code>"msg"</code>.
 Note that there can be multiple rows per resampling iteration if multiple errors have been recorded.</p></dd>
@@ -163,7 +168,7 @@ An alternative construction method is provided by <code><a href="as_resample_res
 <div class="section">
 <h4 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>data</code></dt>
-<dd><p>(<a href="ResultData.html">ResultData</a> | <code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table()</a></code>)<br>
+<dd><p>(<a href="ResultData.html">ResultData</a> | <code><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table()</a></code>)<br>
 An object of type <a href="ResultData.html">ResultData</a>, either extracted from another ResampleResult, another
 <a href="BenchmarkResult.html">BenchmarkResult</a>, or manually constructed with <code><a href="as_result_data.html">as_result_data()</a></code>.</p></dd>
 
@@ -316,14 +321,14 @@ if present.</p></dd>
 </div>
 <div class="section">
 <h4 id="returns-2">Returns<a class="anchor" aria-label="anchor" href="#returns-2"></a></h4>
-<p><code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code>.</p>
+<p><code><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code>.</p>
 </div>
 
 </div><p></p><hr><a id="method-ResampleResult-obs_loss"></a><div class="section">
 <h3 id="method-obs-loss-">Method <code>obs_loss()</code><a class="anchor" aria-label="anchor" href="#method-obs-loss-"></a></h3>
 <p>Calculates the observation-wise loss via the loss function set in the
 <a href="Measure.html">Measure</a>'s field <code>obs_loss</code>.
-Returns a <code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table()</a></code> with the columns of the matching <a href="Prediction.html">Prediction</a> object plus
+Returns a <code><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table()</a></code> with the columns of the matching <a href="Prediction.html">Prediction</a> object plus
 one additional numeric column for each measure, named with the respective measure id.
 If there is no observation-wise loss function for the measure, the column is filled with
 <code>NA</code> values.

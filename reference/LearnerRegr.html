@@ -10,6 +10,9 @@ repository https://raphaels1.r-universe.dev).
 
 
 
+"quantiles": Predicts quantile estimates for each observation in the test set.
+
+
 Predefined learners can be found in the dictionary mlr_learners.
 Essential regression learners can be found in this dictionary after loading mlr3learners.
 Additional learners are implement in the Github package https://github.com/mlr-org/mlr3extralearners.'><meta property="og:description" content='This Learner specializes Learner for regression problems:
@@ -23,6 +26,9 @@ repository https://raphaels1.r-universe.dev).
 
 
 
+"quantiles": Predicts quantile estimates for each observation in the test set.
+
+
 Predefined learners can be found in the dictionary mlr_learners.
 Essential regression learners can be found in this dictionary after loading mlr3learners.
 Additional learners are implement in the Github package https://github.com/mlr-org/mlr3extralearners.'><meta property="og:image" content="https://mlr3.mlr-org.com/logo.svg"></head><body>
@@ -33,7 +39,7 @@ Additional learners are implement in the Github package https://github.com/mlr-o
 
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.22.1</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.23.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -76,6 +82,7 @@ Additional learners are implement in the Github package https://github.com/mlr-o
 <li><p><code>"distr"</code>: Probability distribution as <code>VectorDistribution</code> object (requires package <code>distr6</code>, available via
 repository <a href="https://raphaels1.r-universe.dev" class="external-link">https://raphaels1.r-universe.dev</a>).</p></li>
 </ul></li>
+</ul><ul><li><p><code>"quantiles"</code>: Predicts quantile estimates for each observation in the test set.</p></li>
 </ul><p>Predefined learners can be found in the <a href="https://mlr3misc.mlr-org.com/reference/Dictionary.html" class="external-link">dictionary</a> <a href="mlr_learners.html">mlr_learners</a>.
 Essential regression learners can be found in this dictionary after loading <a href="https://CRAN.R-project.org/package=mlr3learners" class="external-link"><span class="pkg">mlr3learners</span></a>.
 Additional learners are implement in the Github package <a href="https://github.com/mlr-org/mlr3extralearners" class="external-link">https://github.com/mlr-org/mlr3extralearners</a>.</p>
@@ -139,6 +146,7 @@ The quantile to be used as response.</p></dd>
 <ul><li><p><a href="#method-LearnerRegr-new"><code>LearnerRegr$new()</code></a></p></li>
 <li><p><a href="#method-LearnerRegr-clone"><code>LearnerRegr$clone()</code></a></p></li>
 </ul></div><p><details><summary>Inherited methods</summary><ul><li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="base_learner"><a href="Learner.html#method-base_learner"><code>mlr3::Learner$base_learner()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="configure"><a href="Learner.html#method-configure"><code>mlr3::Learner$configure()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="encapsulate"><a href="Learner.html#method-encapsulate"><code>mlr3::Learner$encapsulate()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="format"><a href="Learner.html#method-format"><code>mlr3::Learner$format()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="help"><a href="Learner.html#method-help"><code>mlr3::Learner$help()</code></a></span></li>
@@ -146,6 +154,7 @@ The quantile to be used as response.</p></dd>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="predict_newdata"><a href="Learner.html#method-predict_newdata"><code>mlr3::Learner$predict_newdata()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="print"><a href="Learner.html#method-print"><code>mlr3::Learner$print()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="reset"><a href="Learner.html#method-reset"><code>mlr3::Learner$reset()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="selected_features"><a href="Learner.html#method-selected_features"><code>mlr3::Learner$selected_features()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="train"><a href="Learner.html#method-train"><code>mlr3::Learner$train()</code></a></span></li>
 </ul></details></p><hr><a id="method-LearnerRegr-new"></a><div class="section">
 <h3 id="method-new-">Method <code>new()</code><a class="anchor" aria-label="anchor" href="#method-new-"></a></h3>
@@ -153,6 +162,7 @@ The quantile to be used as response.</p></dd>
 <h4 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va"><a href="../reference/LearnerRegr.html">LearnerRegr</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span></span>
 <span>  <span class="va">id</span>,</span>
+<span>  task_type <span class="op">=</span> <span class="st">"regr"</span>,</span>
 <span>  param_set <span class="op">=</span> <span class="fu">ps</span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  predict_types <span class="op">=</span> <span class="st">"response"</span>,</span>
 <span>  feature_types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="op">)</span>,</span>
@@ -169,6 +179,12 @@ The quantile to be used as response.</p></dd>
 <p></p><div class="arguments"><dl><dt><code>id</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 Identifier for the new instance.</p></dd>
+
+
+<dt><code>task_type</code></dt>
+<dd><p>(<code>character(1)</code>)<br>
+Type of task, e.g. <code>"regr"</code> or <code>"classif"</code>.
+Must be an element of <a href="mlr_reflections.html">mlr_reflections$task_types$type</a>.</p></dd>
 
 
 <dt><code>param_set</code></dt>
@@ -192,6 +208,7 @@ Set of properties of the <a href="Learner.html">Learner</a>.
 Must be a subset of <code><a href="mlr_reflections.html">mlr_reflections$learner_properties</a></code>.
 The following properties are currently standardized and understood by learners in <a href="https://CRAN.R-project.org/package=mlr3" class="external-link"><span class="pkg">mlr3</span></a>:</p><ul><li><p><code>"missings"</code>: The learner can handle missing values in the data.</p></li>
 <li><p><code>"weights"</code>: The learner supports observation weights.</p></li>
+<li><p><code>"offset"</code>: The learner can incorporate offset values to adjust predictions.</p></li>
 <li><p><code>"importance"</code>: The learner supports extraction of importance scores, i.e. comes with an <code>$importance()</code> extractor function (see section on optional extractors in <a href="Learner.html">Learner</a>).</p></li>
 <li><p><code>"selected_features"</code>: The learner supports extraction of the set of selected features, i.e. comes with a <code>$selected_features()</code> extractor function (see section on optional extractors in <a href="Learner.html">Learner</a>).</p></li>
 <li><p><code>"oob_error"</code>: The learner supports extraction of estimated out of bag error, i.e. comes with a <code>oob_error()</code> extractor function (see section on optional extractors in <a href="Learner.html">Learner</a>).</p></li>
@@ -199,6 +216,9 @@ The following properties are currently standardized and understood by learners i
 <li><p><code>"internal_tuning"</code>: The learner is able to internally optimize hyperparameters (those are also tagged with <code>"internal_tuning"</code>).</p></li>
 <li><p><code>"marshal"</code>: To save learners with this property, you need to call <code>$marshal()</code> first.
 If a learner is in a marshaled state, you call first need to call <code>$unmarshal()</code> to use its model, e.g. for prediction.</p></li>
+<li><p><code>"hotstart_forward"</code>: The learner supports to hotstart a model forward.</p></li>
+<li><p><code>"hotstart_backward"</code>: The learner supports hotstarting a model backward.</p></li>
+<li><p>`"featureless": The learner does not use features.</p></li>
 </ul></dd>
 
 
@@ -271,7 +291,7 @@ The referenced help package can be opened via method <code>$help()</code>.</p></
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Packages: mlr3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Predict Types:  [response], prob</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Feature Types: logical, integer, numeric, character, factor, ordered,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   POSIXct</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   POSIXct, Date</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Properties: featureless, importance, missings, multiclass,</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   selected_features, twoclass</span>
 </code></pre></div>

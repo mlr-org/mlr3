@@ -9,7 +9,7 @@ Parameter ratio determines the ratio of observation going into the training set 
 
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.22.1</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.23.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -162,9 +162,9 @@ Returns the number of resampling iterations, depending on the values stored in t
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Individual sets:</span></span></span>
 <span class="r-in"><span><span class="va">holdout</span><span class="op">$</span><span class="fu">train_set</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1 4 5 8 9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  4  5  7  9 10</span>
 <span class="r-in"><span><span class="va">holdout</span><span class="op">$</span><span class="fu">test_set</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  2  3  6  7 10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1 2 3 6 8</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Disjunct sets:</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/sets.html" class="external-link">intersect</a></span><span class="op">(</span><span class="va">holdout</span><span class="op">$</span><span class="fu">train_set</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>, <span class="va">holdout</span><span class="op">$</span><span class="fu">test_set</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></span>
@@ -173,10 +173,10 @@ Returns the number of resampling iterations, depending on the values stored in t
 <span class="r-in"><span><span class="co"># Internal storage:</span></span></span>
 <span class="r-in"><span><span class="va">holdout</span><span class="op">$</span><span class="va">instance</span> <span class="co"># simple list</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $train</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1 4 5 8 9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  4  5  7  9 10</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $test</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  2  3  6  7 10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1 2 3 6 8</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>

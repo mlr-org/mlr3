@@ -41,7 +41,7 @@ Hyperparameters stored in the param_set can be tuned with mlr3tuning."><meta pro
 
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.22.1</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.23.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -127,9 +127,9 @@ If the learner is not trained yet, this returns <code>NULL</code>.</p></li>
 <p>All information about hyperparameters is stored in the slot <code>param_set</code> which is a <a href="https://paradox.mlr-org.com/reference/ParamSet.html" class="external-link">paradox::ParamSet</a>.
 The printer gives an overview about the ids of available hyperparameters, their storage type, lower and upper bounds,
 possible levels (for factors), default values and assigned values.
-To set hyperparameters, assign a named list to the subslot <code>values</code>:</p>
+To set hyperparameters, call the <code>set_values()</code> method on the <code>param_set</code>:</p>
 <p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>lrn <span class="ot">=</span> <span class="fu">lrn</span>(<span class="st">"classif.rpart"</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>lrn<span class="sc">$</span>param_set<span class="sc">$</span>values <span class="ot">=</span> <span class="fu">list</span>(<span class="at">minsplit =</span> <span class="dv">3</span>, <span class="at">cp =</span> <span class="fl">0.01</span>)</span></code></pre><p></p></div>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>lrn<span class="sc">$</span>param_set<span class="sc">$</span><span class="fu">set_values</span>(<span class="at">minsplit =</span> <span class="dv">3</span>, <span class="at">cp =</span> <span class="fl">0.01</span>)</span></code></pre><p></p></div>
 <p>Note that this operation replaces all previously set hyperparameter values.
 If you only intend to change one specific hyperparameter value and leave the others as-is, you can use the helper function <code><a href="https://mlr3misc.mlr-org.com/reference/insert_named.html" class="external-link">mlr3misc::insert_named()</a></code>:</p>
 <p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>lrn<span class="sc">$</span>param_set<span class="sc">$</span>values <span class="ot">=</span> mlr3misc<span class="sc">::</span><span class="fu">insert_named</span>(lrn<span class="sc">$</span>param_set<span class="sc">$</span>values, <span class="fu">list</span>(<span class="at">cp =</span> <span class="fl">0.001</span>))</span></code></pre><p></p></div>
@@ -246,12 +246,6 @@ Task type, e.g. <code>"classif"</code> or <code>"regr"</code>.</p>
 see <code><a href="mlr_reflections.html">mlr_reflections$task_types$type</a></code>.</p></dd>
 
 
-<dt><code>predict_types</code></dt>
-<dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
-Stores the possible predict types the learner is capable of.
-A complete list of candidate predict types, grouped by task type, is stored in <code><a href="mlr_reflections.html">mlr_reflections$learner_predict_types</a></code>.</p></dd>
-
-
 <dt><code>feature_types</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 Stores the feature types the learner can handle, e.g. <code>"logical"</code>, <code>"numeric"</code>, or <code>"factor"</code>.
@@ -336,7 +330,7 @@ If <code>learner$predict()</code> is called manually, the last predict time gets
 
 
 <dt><code>log</code></dt>
-<dd><p>(<code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
+<dd><p>(<code><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
 Returns the output (including warning and errors) as table with columns</p><ul><li><p><code>"stage"</code> ("train" or "predict"),</p></li>
 <li><p><code>"class"</code> ("output", "warning", or "error"), and</p></li>
 <li><p><code>"msg"</code> (<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>).</p></li>
@@ -367,7 +361,9 @@ Hash (unique identifier) for this partial object, excluding some components whic
 <dt><code>predict_type</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 Stores the currently active predict type, e.g. <code>"response"</code>.
-Must be an element of <code>$predict_types</code>.</p></dd>
+Must be an element of <code>$predict_types</code>.
+A few learners already use the predict type during training.
+So there is no guarantee that changing the predict type after training will have any effect or does not lead to errors.</p></dd>
 
 
 <dt><code>param_set</code></dt>
@@ -390,6 +386,20 @@ Returns the encapsulation settings set with <code>$encapsulate()</code>.</p></dd
 Stores <code>HotstartStack</code>.</p></dd>
 
 
+<dt><code>selected_features_impute</code></dt>
+<dd><p>(<code>character(1)</code>)<br>
+Controls the behavior if the learner does not support feature selection.
+If set to <code>"error"</code>, an error is thrown.
+If set to <code>"all"</code> the complete feature set is returned.</p></dd>
+
+
+<dt><code>predict_types</code></dt>
+<dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
+Stores the possible predict types the learner is capable of.
+A complete list of candidate predict types, grouped by task type, is stored in <code><a href="mlr_reflections.html">mlr_reflections$learner_predict_types</a></code>.
+This field is read-only.</p></dd>
+
+
 </dl><p></p></div>
     </div>
     <div class="section level2">
@@ -408,6 +418,8 @@ Stores <code>HotstartStack</code>.</p></dd>
 <li><p><a href="#method-Learner-reset"><code>Learner$reset()</code></a></p></li>
 <li><p><a href="#method-Learner-base_learner"><code>Learner$base_learner()</code></a></p></li>
 <li><p><a href="#method-Learner-encapsulate"><code>Learner$encapsulate()</code></a></p></li>
+<li><p><a href="#method-Learner-configure"><code>Learner$configure()</code></a></p></li>
+<li><p><a href="#method-Learner-selected_features"><code>Learner$selected_features()</code></a></p></li>
 <li><p><a href="#method-Learner-clone"><code>Learner$clone()</code></a></p></li>
 </ul></div><p></p><hr><a id="method-Learner-new"></a><div class="section">
 <h3 id="method-new-">Method <code>new()</code><a class="anchor" aria-label="anchor" href="#method-new-"></a></h3>
@@ -462,6 +474,7 @@ Set of properties of the Learner.
 Must be a subset of <code><a href="mlr_reflections.html">mlr_reflections$learner_properties</a></code>.
 The following properties are currently standardized and understood by learners in <a href="https://CRAN.R-project.org/package=mlr3" class="external-link"><span class="pkg">mlr3</span></a>:</p><ul><li><p><code>"missings"</code>: The learner can handle missing values in the data.</p></li>
 <li><p><code>"weights"</code>: The learner supports observation weights.</p></li>
+<li><p><code>"offset"</code>: The learner can incorporate offset values to adjust predictions.</p></li>
 <li><p><code>"importance"</code>: The learner supports extraction of importance scores, i.e. comes with an <code>$importance()</code> extractor function (see section on optional extractors in Learner).</p></li>
 <li><p><code>"selected_features"</code>: The learner supports extraction of the set of selected features, i.e. comes with a <code>$selected_features()</code> extractor function (see section on optional extractors in Learner).</p></li>
 <li><p><code>"oob_error"</code>: The learner supports extraction of estimated out of bag error, i.e. comes with a <code>oob_error()</code> extractor function (see section on optional extractors in Learner).</p></li>
@@ -469,6 +482,9 @@ The following properties are currently standardized and understood by learners i
 <li><p><code>"internal_tuning"</code>: The learner is able to internally optimize hyperparameters (those are also tagged with <code>"internal_tuning"</code>).</p></li>
 <li><p><code>"marshal"</code>: To save learners with this property, you need to call <code>$marshal()</code> first.
 If a learner is in a marshaled state, you call first need to call <code>$unmarshal()</code> to use its model, e.g. for prediction.</p></li>
+<li><p><code>"hotstart_forward"</code>: The learner supports to hotstart a model forward.</p></li>
+<li><p><code>"hotstart_backward"</code>: The learner supports hotstarting a model backward.</p></li>
+<li><p>`"featureless": The learner does not use features.</p></li>
 </ul></dd>
 
 
@@ -601,7 +617,9 @@ Object <code>task</code> is the task used during <code>$train()</code> and requi
 If the learner's <code>$train()</code> method has been called, there is a (size reduced) version
 of the training task stored in the learner.
 If the learner has been fitted via <code><a href="resample.html">resample()</a></code> or <code><a href="benchmark.html">benchmark()</a></code>, you need to pass the corresponding task stored
-in the <a href="ResampleResult.html">ResampleResult</a> or <a href="BenchmarkResult.html">BenchmarkResult</a>, respectively.</p><div class="section">
+in the <a href="ResampleResult.html">ResampleResult</a> or <a href="BenchmarkResult.html">BenchmarkResult</a>, respectively.
+Further, <code><a href="auto_convert.html">auto_convert</a></code> is used for type-conversions to ensure compatability
+of features between <code>$train()</code> and <code>$predict()</code>.</p><div class="section">
 <h4 id="usage-6">Usage<a class="anchor" aria-label="anchor" href="#usage-6"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Learner</span><span class="op">$</span><span class="fu">predict_newdata</span><span class="op">(</span><span class="va">newdata</span>, task <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
@@ -707,15 +725,49 @@ The fallback learner for failed predictions.</p></dd>
 <p><code>self</code> (invisibly).</p>
 </div>
 
-</div><p></p><hr><a id="method-Learner-clone"></a><div class="section">
-<h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
-<p>The objects of this class are cloneable with this method.</p><div class="section">
+</div><p></p><hr><a id="method-Learner-configure"></a><div class="section">
+<h3 id="method-configure-">Method <code>configure()</code><a class="anchor" aria-label="anchor" href="#method-configure-"></a></h3>
+<p>Sets parameter values and fields of the learner.
+All arguments whose names match the name of a parameter of the <a href="https://paradox.mlr-org.com/reference/ParamSet.html" class="external-link">paradox::ParamSet</a> are set as parameters.
+All remaining arguments are assumed to be regular fields.</p><div class="section">
 <h4 id="usage-10">Usage<a class="anchor" aria-label="anchor" href="#usage-10"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Learner</span><span class="op">$</span><span class="fu">clone</span><span class="op">(</span>deep <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Learner</span><span class="op">$</span><span class="fu">configure</span><span class="op">(</span><span class="va">...</span>, .values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
 <h4 id="arguments-8">Arguments<a class="anchor" aria-label="anchor" href="#arguments-8"></a></h4>
+<p></p><div class="arguments"><dl><dt><code>...</code></dt>
+<dd><p>(named <code>any</code>)<br>
+Named arguments to set parameter values and fields.</p></dd>
+
+
+<dt><code>.values</code></dt>
+<dd><p>(named <code>any</code>)<br>
+Named list of parameter values and fields.</p></dd>
+
+
+</dl><p></p></div>
+</div>
+
+</div><p></p><hr><a id="method-Learner-selected_features"></a><div class="section">
+<h3 id="method-selected-features-">Method <code>selected_features()</code><a class="anchor" aria-label="anchor" href="#method-selected-features-"></a></h3>
+<p>Returns the features selected by the model.
+The field <code>selected_features_impute</code> controls the behavior if the learner does not support feature selection.
+If set to <code>"error"</code>, an error is thrown, otherwise all features are returned.</p><div class="section">
+<h4 id="usage-11">Usage<a class="anchor" aria-label="anchor" href="#usage-11"></a></h4>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Learner</span><span class="op">$</span><span class="fu">selected_features</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
+</div>
+
+
+</div><p></p><hr><a id="method-Learner-clone"></a><div class="section">
+<h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
+<p>The objects of this class are cloneable with this method.</p><div class="section">
+<h4 id="usage-12">Usage<a class="anchor" aria-label="anchor" href="#usage-12"></a></h4>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Learner</span><span class="op">$</span><span class="fu">clone</span><span class="op">(</span>deep <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
+</div>
+
+<div class="section">
+<h4 id="arguments-9">Arguments<a class="anchor" aria-label="anchor" href="#arguments-9"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>deep</code></dt>
 <dd><p>Whether to make a deep clone.</p></dd>
 

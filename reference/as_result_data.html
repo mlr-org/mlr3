@@ -17,7 +17,7 @@ $combine() method of BenchmarkResult."><meta property="og:image" content="https:
 
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.22.1</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.23.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -70,6 +70,7 @@ and multiple <a href="BenchmarkResult.html">BenchmarkResult</a>s can be combined
 <span>  <span class="va">iterations</span>,</span>
 <span>  <span class="va">predictions</span>,</span>
 <span>  learner_states <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  data_extra <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  store_backends <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -101,6 +102,11 @@ and multiple <a href="BenchmarkResult.html">BenchmarkResult</a>s can be combined
 <dt id="arg-learner-states">learner_states<a class="anchor" aria-label="anchor" href="#arg-learner-states"></a></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>)<br>
 Learner states. If not provided, the states of <code>learners</code> are automatically extracted.</p></dd>
+
+
+<dt id="arg-data-extra">data_extra<a class="anchor" aria-label="anchor" href="#arg-data-extra"></a></dt>
+<dd><p>(<code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>)<br>
+Additional data for each iteration.</p></dd>
 
 
 <dt id="arg-store-backends">store_backends<a class="anchor" aria-label="anchor" href="#arg-store-backends"></a></dt>

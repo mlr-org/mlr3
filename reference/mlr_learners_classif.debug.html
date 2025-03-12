@@ -125,7 +125,7 @@ Also note that if they work as intended, they will tear down your R session imme
 
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.22.1</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.23.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -312,6 +312,7 @@ a ratio in $(0, 1)$, <code>"test"</code>, or <code>"predefined"</code>.</p></dd>
 <li><p><a href="#method-LearnerClassifDebug-selected_features"><code>LearnerClassifDebug$selected_features()</code></a></p></li>
 <li><p><a href="#method-LearnerClassifDebug-clone"><code>LearnerClassifDebug$clone()</code></a></p></li>
 </ul></div><p><details><summary>Inherited methods</summary><ul><li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="base_learner"><a href="Learner.html#method-base_learner"><code>mlr3::Learner$base_learner()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="configure"><a href="Learner.html#method-configure"><code>mlr3::Learner$configure()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="encapsulate"><a href="Learner.html#method-encapsulate"><code>mlr3::Learner$encapsulate()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="format"><a href="Learner.html#method-format"><code>mlr3::Learner$format()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="help"><a href="Learner.html#method-help"><code>mlr3::Learner$help()</code></a></span></li>
@@ -409,7 +410,7 @@ Additional arguments passed to <code><a href="marshaling.html">unmarshal_model()
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">learner</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">lrn</a></span><span class="op">(</span><span class="st">"classif.debug"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">learner</span><span class="op">$</span><span class="va">param_set</span><span class="op">$</span><span class="va">values</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>message_train <span class="op">=</span> <span class="fl">1</span>, save_tasks <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">learner</span><span class="op">$</span><span class="va">param_set</span><span class="op">$</span><span class="fu">set_values</span><span class="op">(</span>message_train <span class="op">=</span> <span class="fl">1</span>, save_tasks <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># this should signal a message</span></span></span>
 <span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span></span>
@@ -418,13 +419,13 @@ Additional arguments passed to <code><a href="marshaling.html">unmarshal_model()
 <span class="r-in"><span><span class="va">learner</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;PredictionClassif&gt; for 344 observations:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  row_ids     truth response</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        1    Adelie   Gentoo</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        2    Adelie   Gentoo</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        3    Adelie   Gentoo</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        1    Adelie   Adelie</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        2    Adelie   Adelie</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        3    Adelie   Adelie</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      ---       ---      ---</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      342 Chinstrap   Gentoo</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      343 Chinstrap   Gentoo</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      344 Chinstrap   Gentoo</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      342 Chinstrap   Adelie</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      343 Chinstrap   Adelie</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      344 Chinstrap   Adelie</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># task_train and task_predict are the input tasks for train() and predict()</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">learner</span><span class="op">$</span><span class="va">model</span><span class="op">)</span></span></span>
