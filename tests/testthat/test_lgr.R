@@ -24,5 +24,5 @@ test_that("log to text file", {
   expect_true(any(startsWith(lines, "INFO")))
   expect_true(any(startsWith(lines, "DEBUG")))
   expect_match(lines, "'iris'", fixed = TRUE, all = FALSE)
-  expect_match(lines, "'classif.featureless'", lines, fixed = TRUE, all = FALSE)
+  expect_match(lines, "'classif.featureless'", fixed = TRUE, all = FALSE)
 })
