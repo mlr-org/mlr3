@@ -69,10 +69,14 @@ score_roc_measures = function(pred) {
 #' @description
 #' Print the confusion matrix and a set of roc performance measures.
 #'
+#' @param x (`roc_measures`)\cr
+#'   The object returned by `score_roc_measures`.
 #' @param abbreviations (`logical(1)`)\cr
-#'  If `TRUE`, print a list of abbreviations for the measures.
+#'   If `TRUE`, print a list of abbreviations for the measures.
 #' @param digits (`integer(1)`)\cr
-#'  Number of digits to round the measures to.
+#'   Number of digits to round the measures to.
+#' @param ... (`any`)\cr
+#'   Additional parameters, currently unused.
 #' @export
 print.roc_measures = function(x, abbreviations = TRUE, digits = 2, ...) {
 

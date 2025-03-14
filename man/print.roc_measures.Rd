@@ -7,11 +7,17 @@
 \method{print}{roc_measures}(x, abbreviations = TRUE, digits = 2, ...)
 }
 \arguments{
+\item{x}{(\code{roc_measures})\cr
+The object returned by \code{score_roc_measures}.}
+
 \item{abbreviations}{(\code{logical(1)})\cr
 If \code{TRUE}, print a list of abbreviations for the measures.}
 
 \item{digits}{(\code{integer(1)})\cr
 Number of digits to round the measures to.}
+
+\item{...}{(any)\cr
+Additional parameters, currently unused.}
 }
 \description{
 Print the confusion matrix and a set of roc performance measures.
