@@ -6,6 +6,10 @@
 \usage{
 score_roc_measures(pred)
 }
+\arguments{
+\item{pred}{(\link{PredictionClassif})\cr
+The prediction object.}
+}
 \value{
 \code{list()}\cr
 A list containing the confusion matrix and the calculated performance measures.

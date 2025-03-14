@@ -16,9 +16,12 @@
 #' * `lrm` Negative likelihood ratio (LR-)
 #' * `dor` Diagnostic odds ratio
 #'
+#' @param pred ([PredictionClassif])\cr
+#' The prediction object.
+#'
 #' @return `list()`\cr
 #' A list containing the confusion matrix and the calculated performance measures.
-#'
+#' @export
 #' @examples
 #' learner = lrn("classif.rpart", predict_type = "prob")
 #' splits = partition(task = tsk("pima"), ratio = 0.7)
