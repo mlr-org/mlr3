@@ -12,7 +12,7 @@ The prediction object.}
 }
 \value{
 \code{list()}\cr
-A list containing the confusion matrix and the calculated performance measures.
+A list containing two elements \code{confusion_matrix} which is the 2 times 2 confusion matrix of absolute frequencies and \code{measures}, a list of the above mentioned measures.
 }
 \description{
 Calculate a set of roc performance measures based on the confusion matrix.

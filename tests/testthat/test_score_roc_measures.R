@@ -6,6 +6,7 @@ test_that("score_roc_measure works", {
   pred = learner$predict(task)
   res = score_roc_measures(pred)
 
-  expect_list(res)
-  expect_named(res, c("confusion_matrix", "tpr", "fpr", "fnr", "tnr", "ppv", "fdr", "npv", "fomr", "acc", "lr_plus", "lr_minus", "dor"))
+  expect_list(res, len = 2)
+  expect_named(res, c("confusion_matrix", "measures"))
+  expect_named(res$measures, c("tpr", "fpr", "fnr", "tnr", "ppv", "fdr", "npv", "fomr", "acc", "lr_plus", "lr_minus", "dor"))
 })
