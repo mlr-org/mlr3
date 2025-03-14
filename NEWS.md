@@ -1,5 +1,7 @@
 # mlr3 (development version)
 
+* feat: Add `score_roc_measures()` to score a prediction on various roc measures.
+
 # mlr3 0.23.0
 
 * feat: Add new `col_role` offset in `Task` and offset `Learner` property.
