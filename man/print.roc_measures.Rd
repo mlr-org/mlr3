@@ -16,7 +16,7 @@ If \code{TRUE}, print a list of abbreviations for the measures.}
 \item{digits}{(\code{integer(1)})\cr
 Number of digits to round the measures to.}
 
-\item{...}{(any)\cr
+\item{...}{(\code{any})\cr
 Additional parameters, currently unused.}
 }
 \description{
