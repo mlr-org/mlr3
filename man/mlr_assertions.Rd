@@ -56,7 +56,7 @@ assert_learners(
   .var.name = vname(learners)
 )
 
-assert_learnable(task, learner)
+assert_learnable(task, learner, param_values = NULL)
 
 assert_predictable(task, learner)
 
@@ -123,6 +123,10 @@ Set of required task properties.}
 \item{learner}{(\link{Learner}).}
 
 \item{learners}{(list of \link{Learner}).}
+
+\item{param_values}{(\code{list()})\cr
+TuneToken are not allowed in the parameter set of the learner.
+If the \code{param_values} overwrite the TuneToken, the assertion will pass.}
 
 \item{measure}{(\link{Measure}).}
 

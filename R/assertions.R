@@ -108,7 +108,7 @@ test_matching_task_type = function(task_type, object, class) {
 #' @param learners (list of [Learner]).
 #' @rdname mlr_assertions
 assert_learners = function(learners, task = NULL, task_type = NULL, properties = character(), unique_ids = FALSE, .var.name = vname(learners)) {
-  if (unique_ids)  {
+  if (unique_ids) {
     ids = map_chr(learners, "id")
     if (!test_character(ids, unique = TRUE)) {
       stopf("Learners need to have unique IDs: %s", str_collapse(ids))
@@ -119,8 +119,10 @@ assert_learners = function(learners, task = NULL, task_type = NULL, properties =
 
 # this does not check the validation task, as this is only possible once the validation set is known,
 # which happens during worker(), so it cannot be checked before that
-assert_task_learner = function(task, learner, cols = NULL) {
+assert_task_learner = function(task, learner, param_values = NULL, cols = NULL) {
   pars = learner$param_set$get_values(type = "only_token", check_required = FALSE)
+  # remove pars that are covered by param_values
+  pars = pars[names(pars) %nin% names(param_values)]
   if (length(pars) > 0) {
     stopf("%s cannot be trained with TuneToken present in hyperparameter: %s", learner$format(), str_collapse(names(pars)))
   }
@@ -145,6 +147,11 @@ assert_task_learner = function(task, learner, cols = NULL) {
     }
   }
 
+  if ("offset" %in% task$properties && "offset" %nin% learner$properties) {
+    warningf("Task '%s' has offset, but learner '%s' does not support this, so it will be ignored",
+             task$id, learner$id)
+  }
+
   tmp = mlr_reflections$task_mandatory_properties[[task$task_type]]
   if (length(tmp)) {
     tmp = setdiff(intersect(task$properties, tmp), learner$properties)
@@ -161,12 +168,15 @@ assert_task_learner = function(task, learner, cols = NULL) {
 }
 
 #' @export
+#' @param param_values (`list()`)\cr
+#'  TuneToken are not allowed in the parameter set of the learner.
+#'  If the `param_values` overwrite the TuneToken, the assertion will pass.
 #' @rdname mlr_assertions
-assert_learnable = function(task, learner) {
+assert_learnable = function(task, learner, param_values = NULL) {
   if (task$task_type == "unsupervised") {
     stopf("%s cannot be trained with %s", learner$format(), task$format())
   }
-  assert_task_learner(task, learner)
+  assert_task_learner(task, learner, param_values)
 }
 
 #' @export
@@ -416,18 +426,23 @@ assert_param_values = function(x, n_learners = NULL, .var.name = vname(x)) {
 #' @return `NULL`
 #' @export
 assert_empty_ellipsis = function(...) {
-  if (...length()) {
-    names = ...names()
-    if (is.null(names)) {
-      stopf("Received %i unnamed argument that was not used.", ...length())
-    } else {
-      names2 = names[names != ""]
-      if (length(names2) == length(names)) {
-        stopf("Received the following named arguments that were unused: %s.", paste0(names2, collapse = ", "))
-      } else {
-        stopf("Received unused arguments: %i unnamed, as well as named arguments %s.", length(names) - length(names2), paste0(names2, collapse = ", "))
-      }
-    }
+  nx = ...length()
+  if (nx == 0L) {
+    return(NULL)
   }
-  NULL
+  names = ...names()
+  if (is.null(names)) {
+    stopf("Received %i unnamed argument that was not used.", nx)
+  }
+  names2 = names[nzchar(names)]
+  if (length(names2) == length(names)) {
+    stopf(
+      "Received the following named arguments that were unused: %s.",
+      toString(names2)
+    )
+  }
+  stopf(
+    "Received unused arguments: %i unnamed, as well as named arguments %s.",
+    length(names) - length(names2), toString(names2)
+  )
 }

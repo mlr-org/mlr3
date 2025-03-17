@@ -291,7 +291,7 @@ Learner = R6Class("Learner",
         start_learner = get_private(self$hotstart_stack)$.start_learner(self, task$hash)
       }
       if (is.null(self$hotstart_stack) || is.null(start_learner)) {
-         # no hotstart learners stored or no adaptable model found
+        # no hotstart learners stored or no adaptable model found
         learner = self
         mode = "train"
       } else {
@@ -574,6 +574,21 @@ Learner = R6Class("Learner",
       }
 
       return(invisible(self))
+    },
+
+    #' @description
+    #' Returns the features selected by the model.
+    #' The field `selected_features_impute` controls the behavior if the learner does not support feature selection.
+    #' If set to `"error"`, an error is thrown, otherwise all features are returned.
+    selected_features = function() {
+      if (is.null(self$model)) {
+        stopf("No model stored")
+      }
+      if (private$.selected_features_impute == "error") {
+        stop("Learner does not support feature selection")
+      } else {
+        self$state$feature_names
+      }
     }
   ),
 
@@ -699,6 +714,17 @@ Learner = R6Class("Learner",
       private$.hotstart_stack = rhs
     },
 
+    #' @field selected_features_impute (`character(1)`)\cr
+    #' Controls the behavior if the learner does not support feature selection.
+    #' If set to `"error"`, an error is thrown.
+    #' If set to `"all"` the complete feature set is returned.
+    selected_features_impute = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.selected_features_impute)
+      }
+      private$.selected_features_impute = assert_choice(rhs, c("error", "all"))
+    },
+
     #' @field predict_types (`character()`)\cr
     #' Stores the possible predict types the learner is capable of.
     #' A complete list of candidate predict types, grouped by task type, is stored in [`mlr_reflections$learner_predict_types`][mlr_reflections].
@@ -716,6 +742,7 @@ Learner = R6Class("Learner",
     .predict_types = NULL,
     .param_set = NULL,
     .hotstart_stack = NULL,
+    .selected_features_impute = "error",
 
     deep_clone = function(name, value) {
       switch(name,

@@ -248,15 +248,18 @@ test_that("stratify works", {
 })
 
 test_that("groups/weights work", {
-  b = as_data_backend(data.table(x = runif(20), y = runif(20), w = runif(20), g = sample(letters[1:2], 20, replace = TRUE)))
+  b = as_data_backend(data.table(x = runif(20), y = runif(20), w = runif(20),
+                                 o = runif(20), g = sample(letters[1:2], 20, replace = TRUE)))
   task = TaskRegr$new("test", b, target = "y")
   task$set_row_roles(16:20, character())
 
   expect_false("groups" %chin% task$properties)
   expect_false("weights" %chin% task$properties)
+  expect_false("offset" %chin% task$properties)
   expect_null(task$groups)
   expect_null(task$weights)
 
+  # weight
   task$col_roles$weight = "w"
   expect_subset("weights", task$properties)
   expect_data_table(task$weights, ncols = 2, nrows = 15)
@@ -265,6 +268,7 @@ test_that("groups/weights work", {
   task$col_roles$weight = character()
   expect_true("weights" %nin% task$properties)
 
+  # group
   task$col_roles$group = "g"
   expect_subset("groups", task$properties)
   expect_data_table(task$groups, ncols = 2, nrows = 15)
@@ -724,4 +728,20 @@ test_that("$characteristics works", {
 test_that("warn when internal valid task has 0 obs", {
   task = tsk("iris")
   expect_warning({task$internal_valid_task = 151}, "has 0 observations")
+})
+
+
+test_that("$data() is not called during task construction", {
+  tbl = data.table(x = 1:10, y = 1:10, ..row_id = 1:10)
+  backend = R6Class("DataBackendTest",
+    inherit = DataBackendDataTable,
+    cloneable = FALSE,
+    public = list(
+      data = function(rows, cols, data_format) {
+        stop("Bug")
+      }
+    )
+  )$new(tbl, "..row_id")
+  task = as_task_regr(backend, target = "y")
+  expect_class(task, "Task")
 })

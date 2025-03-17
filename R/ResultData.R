@@ -18,11 +18,11 @@
 #' print(ResultData$new()$data)
 ResultData = R6Class("ResultData",
   public = list(
-    #' @field data (`list()`)\cr
-    #'   List of [data.table::data.table()], arranged in a star schema.
-    #'   Do not operate directly on this list.
-    data = NULL,
 
+    #' @field data (`list()`)\cr
+    #' List of [data.table::data.table()], arranged in a star schema.
+    #' Do not operate directly on this list.
+    data = NULL,
 
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
@@ -30,17 +30,18 @@ ResultData = R6Class("ResultData",
     #'
     #' @param data ([data.table::data.table()]) | `NULL`)\cr
     #'   Do not initialize this object yourself, use [as_result_data()] instead.
+    #' @param data_extra (`list()`)\cr
+    #'   Additional data to store.
+    #'   This can be used to store additional information for each iteration.
     #' @param store_backends (`logical(1)`)\cr
-    #'   If set to `FALSE`, the backends of the [Task]s provided in `data` are
-    #'   removed.
-    initialize = function(data = NULL, store_backends = TRUE) {
+    #'   If set to `FALSE`, the backends of the [Task]s provided in `data` are removed.
+    initialize = function(data = NULL, data_extra = NULL, store_backends = TRUE) {
       assert_flag(store_backends)
 
       if (is.null(data)) {
         self$data = star_init()
       } else {
-        assert_names(names(data),
-          permutation.of = c("task", "learner", "learner_state", "resampling", "iteration", "param_values", "prediction", "uhash", "learner_hash"))
+        assert_names(names(data), permutation.of = c("task", "learner", "learner_state", "resampling", "iteration", "param_values", "prediction", "uhash", "learner_hash"))
 
         if (nrow(data) == 0L) {
           self$data = star_init()
@@ -68,12 +69,22 @@ ResultData = R6Class("ResultData",
           set(data, j = "resampling", value = NULL)
           set(data, j = "param_values", value = NULL)
 
+          data_extras = if (!is.null(data_extra)) {
+            assert_list(data_extra, len = nrow(data))
+            data.table(uhash = data$uhash, iteration = data$iteration, data_extra = data_extra)
+          } else {
+            data.table(uhash = character(), iteration = integer(), data_extra = list())
+          }
+          # remove null rows in data_extra
+          data_extras = data_extras[!map_lgl(data_extra, is.null)]
+          setkeyv(data_extras, c("uhash", "iteration"))
+
           if (!store_backends) {
             set(tasks, j = "task", value = lapply(tasks$task, task_rm_backend))
           }
 
           self$data = list(fact = data, uhashes = uhashes, tasks = tasks, learners = learners,
-            resamplings = resamplings, learner_components = learner_components)
+            resamplings = resamplings, learner_components = learner_components, data_extras = data_extras)
         }
       }
     },
@@ -190,6 +201,16 @@ ResultData = R6Class("ResultData",
     },
 
     #' @description
+    #' Returns additional data stored.
+    #'
+    #' @return [data.table::data.table()].
+    data_extra = function(view = NULL) {
+      .__ii__ = private$get_view_index(view)
+      tab = self$data$fact[.__ii__, c("uhash", "iteration"), with = FALSE]
+      merge(tab, self$data$data_extras, by = c("uhash", "iteration"), all.x = TRUE, sort = TRUE)
+    },
+
+    #' @description
     #' Combines multiple [ResultData] objects, modifying `self` in-place.
     #'
     #' @param rdata ([ResultData]).
@@ -302,6 +323,7 @@ ResultData = R6Class("ResultData",
       tab = merge(tab, self$data$learners, by = "learner_phash", sort = FALSE)
       tab = merge(tab, self$data$resamplings, by = "resampling_hash", sort = FALSE)
       tab = merge(tab, self$data$learner_components, by = "learner_hash", sort = FALSE)
+      if (nrow(self$data$data_extras)) tab = merge(tab, self$data$data_extras, by = c("uhash", "iteration"), all.x = TRUE, sort = FALSE)
 
       if (nrow(tab)) {
         if (reassemble_learners) {
@@ -315,7 +337,7 @@ ResultData = R6Class("ResultData",
       }
 
       cns = c("uhash", "task", "task_hash", "learner", "learner_hash", "learner_param_vals", "resampling",
-        "resampling_hash", "iteration", "prediction")
+        "resampling_hash", "iteration", "prediction", if (nrow(self$data$data_extras)) "data_extra")
       merge(self$data$uhashes, tab[, cns, with = FALSE], by = "uhash", sort = FALSE)
     },
 
@@ -376,6 +398,7 @@ star_init = function() {
     learner_state = list(),
     prediction = list(),
 
+
     learner_hash = character(),
     task_hash = character(),
     learner_phash = character(),
@@ -412,8 +435,21 @@ star_init = function() {
     key = "learner_hash"
   )
 
-  list(fact = fact, uhashes = uhashes, tasks = tasks, learners = learners,
-    resamplings = resamplings, learner_components = learner_components)
+  data_extras = data.table(
+    uhash = character(),
+    iteration = integer(),
+    data_extra = list(),
+    key = c("uhash", "iteration")
+  )
+
+  list(
+    fact = fact,
+    uhashes = uhashes,
+    tasks = tasks,
+    learners = learners,
+    resamplings = resamplings,
+    learner_components = learner_components,
+    data_extras = data_extras)
 }
 
 

@@ -662,6 +662,24 @@ test_that("configure method works", {
   expect_equal(learner$predict_sets, "train")
 })
 
+test_that("selected_features works", {
+  task = tsk("spam")
+  # alter rpart class to not support feature selection
+  fun = LearnerClassifRpart$public_methods$selected_features
+  on.exit({
+    LearnerClassifRpart$public_methods$selected_features = fun
+  })
+  LearnerClassifRpart$public_methods$selected_features = NULL
+
+  learner = lrn("classif.rpart")
+  expect_error(learner$selected_features(), "No model stored")
+  learner$train(task)
+  expect_error(learner$selected_features(), "Learner does not support feature selection")
+
+  learner$selected_features_impute = "all"
+  expect_equal(learner$selected_features(), task$feature_names)
+})
+
 test_that("predict_newdata auto conversion (#685)", {
   l = lrn("classif.debug", save_tasks = TRUE)$train(tsk("iris")$select(c("Sepal.Length", "Sepal.Width")))
   expect_error(l$predict_newdata(data.table(Sepal.Length = 1, Sepal.Width = "abc")),
@@ -715,4 +733,15 @@ test_that("predict_newdata creates column info correctly", {
   p3 = learner$predict_newdata(b2, task2)
   expect_equal(p3$row_ids, 10:11)
   expect_true("row_id" %in% learner$model$task_predict$col_info$id)
+})
+
+
+test_that("marshaling and internal tuning", {
+  l = lrn("classif.debug", validate = 0.3, early_stopping = TRUE, iter = 100)
+  l$encapsulate("evaluate", lrn("classif.featureless"))
+  task = tsk("iris")
+  l$train(task)
+  expect_list(l$internal_tuned_values, types = "integer")
+  expect_list(l$internal_valid_scores, types = "numeric")
+
 })

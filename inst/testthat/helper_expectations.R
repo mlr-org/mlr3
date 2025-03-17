@@ -451,7 +451,7 @@ expect_marshalable_learner = function(learner, task) {
   testthat::expect_equal(class(learner$model), class_prev)
 }
 
-expect_resampling = function(r, task = NULL) {
+expect_resampling = function(r, task = NULL, strata = TRUE) {
   checkmate::expect_r6(r, "Resampling")
   testthat::expect_output(print(r), "Resampling")
   expect_id(r$id)
@@ -487,7 +487,7 @@ expect_resampling = function(r, task = NULL) {
       }
       if (!is.null(task)) {
         checkmate::expect_subset(train, ids)
-        checkmate::expect_subset(train, ids)
+        checkmate::expect_subset(test, ids)
       }
     }
   }
@@ -502,11 +502,13 @@ expect_resampling = function(r, task = NULL) {
     checkmate::expect_subset(r$test_set(1), task$row_ids)
 
     # again with strata
-    task = task$clone()
-    task$col_roles$stratum = task$target_names
-    r$instantiate(task)
-    checkmate::expect_subset(r$train_set(1), task$row_ids)
-    checkmate::expect_subset(r$test_set(1), task$row_ids)
+    if (strata) {
+      task = task$clone()
+      task$col_roles$stratum = task$target_names
+      r$instantiate(task)
+      checkmate::expect_subset(r$train_set(1), task$row_ids)
+      checkmate::expect_subset(r$test_set(1), task$row_ids)
+    }
   }
 }
 

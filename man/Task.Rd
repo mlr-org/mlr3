@@ -198,6 +198,7 @@ The following properties are currently standardized and understood by tasks in \
 \item \code{"strata"}: The task is resampled using one or more stratification variables (role \code{"stratum"}).
 \item \code{"groups"}: The task comes with grouping/blocking information (role \code{"group"}).
 \item \code{"weights"}: The task comes with observation weights (role \code{"weight"}).
+\item \code{"offset"}: The task includes one or more offset columns specifying fixed adjustments for model training and possibly for prediction (role \code{"offset"}).
 \item \code{"ordered"}: The task has columns which define the row order (role \code{"order"}).
 }
 
@@ -226,6 +227,11 @@ For each resampling iteration, observations of the same group will be exclusivel
 Not more than a single column can be associated with this role.
 \item \code{"stratum"}: Stratification variables. Multiple discrete columns may have this role.
 \item \code{"weight"}: Observation weights. Not more than one numeric column may have this role.
+\item \code{"offset"}: Numeric columns used to specify fixed adjustments for model training.
+Some models use offsets to simply shift predictions, while others incorporate them to boost predictions from a baseline model.
+For learners supporting offsets in multiclass settings, an offset column must be provided for each target class.
+These columns must follow the naming convention \code{"offset_{target_class_name}"}.
+For an example of a learner that supports offsets, see \code{LearnerClassifXgboost}  of \CRANpkg{mlr3learners}.
 }
 
 \code{col_roles} is a named list whose elements are named by column role and each element is a \code{character()} vector of column names.
@@ -285,6 +291,19 @@ If the task has a column with designated role \code{"weight"}, a table with two 
 }
 
 Returns \code{NULL} if there are is no weight column.}
+
+\item{\code{offset}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
+If the task has a column with designated role \code{"offset"}, a table with two or more columns:
+\itemize{
+\item \code{row_id} (\code{integer()}), and
+\item offset variable(s) (\code{numeric()}).
+}
+
+For regression or binary classification tasks, there will be only a single-column offset.
+For multiclass tasks, it may return multiple offset columns, one for each target class.
+If there is only one offset column, it will be named as \code{offset}.
+
+If there are no columns with the \code{"offset"} role, \code{NULL} is returned.}
 
 \item{\code{labels}}{(named \code{character()})\cr
 Retrieve \code{labels} (prettier formated names) from columns.
