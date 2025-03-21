@@ -10,6 +10,8 @@ A warning is produced if a learner that doesn't support offsets is trained with 
 * docs: Clear up behavior of `Learner$predict_type` after training.
 * feat: Add callbacks to `resample()` and `benchmark()`.
 * fix: Internal tuning and validation now works when the model requires marshaling (#1256)
+* feat: A better error message is thrown when incorrectly configuring the `validate` field
+  of a `GraphLearner`
 
 # mlr3 0.22.1
 
