@@ -1,6 +1,6 @@
 Package: mlr3
 Title: Machine Learning in R - Next Generation
-Version: 0.22.1.9000
+Version: 0.23.0.9000
 Authors@R:
   c(
     person("Michel", "Lang", , "michellang@gmail.com", role = "aut",
@@ -200,6 +200,7 @@ Collate:
     'predict.R'
     'reexports.R'
     'resample.R'
+    'score_roc_measures.R'
     'set_threads.R'
     'set_validate.R'
     'task_converters.R'

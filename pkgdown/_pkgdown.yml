@@ -84,6 +84,8 @@ reference:
       - starts_with("mlr_measures")
       - default_measures
       - as_measure
+      - score_roc_measures
+      - print.roc_measures
   - title: Resampling Strategies
     contents:
       - starts_with("mlr_resamplings")
