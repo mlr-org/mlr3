@@ -1,7 +1,7 @@
 # mlr3 (development version)
 
 * feat: Add `score_roc_measures()` to score a prediction on various roc measures.
-* feat: A better error message is thrown when incorrectly configuring the `validate` field
+* feat: A better error message is thrown, which often happens when incorrectly configuring the `validate` field
   of a `GraphLearner`
 
 # mlr3 0.23.0
