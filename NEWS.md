@@ -1,6 +1,8 @@
 # mlr3 (development version)
 
 * feat: Add `score_roc_measures()` to score a prediction on various roc measures.
+* feat: A better error message is thrown, which often happens when incorrectly configuring the `validate` field
+  of a `GraphLearner`
 
 # mlr3 0.23.0
 
@@ -13,7 +15,7 @@
 * BREAKING CHANGE: `Learner$predict_types` is read-only now.
 * docs: Clear up behavior of `Learner$predict_type` after training.
 * feat: Add callbacks to `resample()` and `benchmark()`.
-* fix: Internal tuning and validation now works when the model requires marshaling (#1256).
+* fix: Internal tuning and validation now works when the model requires marshaling (#1256)
 
 # mlr3 0.22.1
 
