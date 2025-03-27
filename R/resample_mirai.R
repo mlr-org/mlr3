@@ -114,9 +114,8 @@ resample = function(task, learner, resampling, store_models = FALSE, store_backe
     data.table(learner = replicate(n, learner), mode = "train")
   }
 
-  res = future_map(n, workhorse, iteration = seq_len(n), learner = grid$learner, mode = grid$mode,
-    MoreArgs = list(task = task, resampling = resampling, store_models = store_models, lgr_threshold = lgr_threshold, pb = pb, unmarshal = unmarshal)
-  )
+  grid$iteration = seq_len(n)
+  res = mirai::mirai_map(grid, workhorse, .args = list(task = task, resampling = resampling, store_models = store_models, lgr_threshold = lgr_threshold, pb = pb, unmarshal = unmarshal))
 
   data = data.table(
     task = list(task),

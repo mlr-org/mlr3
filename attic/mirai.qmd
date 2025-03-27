@@ -1,0 +1,70 @@
+---
+title: "Mirai and mlr3 Demo"
+author: "Your Name"
+date: "2025-03-27"
+format: html
+---
+
+```{r}
+library(mlr3)
+
+learner = lrn("classif.rpart")
+learner$encapsulate("callr", lrn("classif.featureless"))
+task = tsk("pima")
+resampling = rsmp("cv", folds = 3)
+
+rr = resample(task, learner, resampling)
+```
+
+#
+
+
+
+# Segfaults
+
+Simulate a learner with many segfaults.
+
+```{r}
+daemons(0)
+daemons(3)
+
+x = mirai_map(seq(6), function(i) {
+  if (i == 2) return(2)
+  tools::pskill(Sys.getpid())
+})
+```
+
+```{r}
+# no daemons left
+# periodically check the status in mlr3?
+status()
+
+# mlr3 could restart local daemons
+# what about remote daemons?
+launch_local(3)
+
+# all finished
+status()
+
+x[.progress]
+```
+
+# Simple R Errors
+
+```{r}
+daemons(0)
+daemons(3)
+
+x = mirai_map(seq(3), function(i) {
+  if (i == 2) stop("Simple R error")
+  i
+})
+```
+
+```{r}
+# all daemons available
+status()
+
+x[.progress]
+```
+
