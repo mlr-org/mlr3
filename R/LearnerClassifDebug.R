@@ -175,10 +175,10 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
         message("Message from classif.debug->train()")
       }
       if (roll("warning_train")) {
-        warning("Warning from classif.debug->train()")
+        warningf("Warning from classif.debug->train()")
       }
       if (roll("error_train")) {
-        stop("Error from classif.debug->train()")
+        stopf("Error from classif.debug->train()")
       }
       if (roll("segfault_train")) {
         get("attach")(structure(list(), class = "UserDefinedDatabase"))
@@ -260,10 +260,10 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
         message("Message from classif.debug->predict()")
       }
       if (roll("warning_predict")) {
-        warning("Warning from classif.debug->predict()")
+        warningf("Warning from classif.debug->predict()")
       }
       if (roll("error_predict")) {
-        stop("Error from classif.debug->predict()")
+        stopf("Error from classif.debug->predict()")
       }
       if (roll("segfault_predict")) {
         get("attach")(structure(list(), class = "UserDefinedDatabase"))

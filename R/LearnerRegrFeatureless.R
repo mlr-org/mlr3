@@ -64,7 +64,7 @@ LearnerRegrFeatureless = R6Class("LearnerRegrFeatureless", inherit = LearnerRegr
 
       quantiles = if (self$predict_type == "quantiles") {
         if (is.null(private$.quantiles) || is.null(private$.quantile_response)) {
-          stop("Quantiles '$quantiles' and response quantile '$quantile_response' must be set")
+          stopf("Quantiles '$quantiles' and response quantile '$quantile_response' must be set")
         }
         quantile(x, probs = private$.quantiles)
       }

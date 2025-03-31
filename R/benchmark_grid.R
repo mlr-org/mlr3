@@ -101,7 +101,7 @@ benchmark_grid = function(tasks, learners, resamplings, param_values = NULL, pai
         stopf("All resamplings must be uninstantiated, or must operate on tasks with the same number of rows")
       }
       if (!identical(task_nrow, unique(map_int(resamplings, "task_nrow")))) {
-        stop("A Resampling is instantiated for a task with a different number of observations")
+        stopf("A Resampling is instantiated for a task with a different number of observations")
       }
       # clone resamplings for each task and update task hashes
       instances = pmap(grid, function(task, resampling) resampling = resamplings[[resampling]]$clone())
