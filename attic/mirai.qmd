@@ -1,70 +1,292 @@
 ---
-title: "Mirai and mlr3 Demo"
-author: "Your Name"
+title: "mirai and mlr3 Demo"
+author: "Marc Becker"
 date: "2025-03-27"
 format: html
 ---
 
-```{r}
-library(mlr3)
 
+1. Use `mirai` for parallelization
+
+```{r}
 learner = lrn("classif.rpart")
-learner$encapsulate("callr", lrn("classif.featureless"))
 task = tsk("pima")
 resampling = rsmp("cv", folds = 3)
 
-rr = resample(task, learner, resampling)
+future::plan("multisession", workers = 3)
+
+resample(task, learner, resampling)
 ```
 
-#
 
+This means replacing `future_map` with `mirai_map` or promoting the `future.mirai` backend.
 
+Can `mirai` replace all `future` backends?
 
-# Segfaults
+Is it difficult to install mirai on some systems?
 
-Simulate a learner with many segfaults.
+How does nested parallelization work?
+  Currently the user calls `future::plan(list("multisession", "sequential"))`
+  So the user can switch between inner, outer or parallelizing both loops
+  With `mirai` we have to call `daemons()` for the inner loop?
+
+2. Add `mirai` as an encapsulation option
 
 ```{r}
+learner = lrn("classif.rpart")
+learner$encapsulate("callr", fallback = lrn("classif.featureless"))
+task = tsk("pima")
+resampling = rsmp("cv", folds = 3)
+
+resample(task, learner, resampling)
+```
+
+
+Setting a timeout works but the `mirai` must be stopped with `stop_mirai()`
+Why is the `mirai` not stopped automatically?
+We could wait for `errorValue 5` and then call `stop_mirai()` in mlr3
+
+Can `mirai` record warnings?
+
+Could `mirai` enforce a memory limit?
+
+3. Combine parallelization and encapsulation with `mirai`
+
+```{r}
+learner = lrn("classif.rpart")
+learner$encapsulate("callr", fallback = lrn("classif.featureless"))
+task = tsk("pima")
+resampling = rsmp("cv", folds = 3)
+
+future::plan("multisession", workers = 3)
+
+resample(task, learner, resampling)
+```
+
+Any disadvantages of calling a `mirai` in a `mirai`?
+
+# Parallelization
+
+Use future `multisession` backend
+
+```{r}
+library(mlr3)
+library(future)
+
+lgr::get_logger("mlr3")$set_threshold("warn")
+
+learner = lrn("classif.rpart")
+task = tsk("pima")
+resampling = rsmp("subsampling", repeats = 100)
+
+future::plan("multisession", workers = 5)
+
+# 3.1 seconds
+microbenchmark::microbenchmark(
+  resample = resample(task, learner, resampling),
+  times = 10,
+  unit = "ms"
+)
+```
+
+Use future `multisession` backend and combine resampling iterations to chunks
+
+```{r}
+library(mlr3)
+library(future)
+
+lgr::get_logger("mlr3")$set_threshold("warn")
+
+learner = lrn("classif.rpart")
+task = tsk("pima")
+resampling = rsmp("subsampling", repeats = 100)
+
+future::plan("multisession", workers = 5)
+
+options(mlr3.exec_chunk_bins = 5)
+
+# 1 second
+microbenchmark::microbenchmark(
+  resample = resample(task, learner, resampling),
+  times = 10,
+  unit = "ms"
+)
+```
+
+Use `future.mirai` backend
+
+```{r}
+library(mlr3)
+library(future)
+library(future.mirai)
+
+lgr::get_logger("mlr3")$set_threshold("warn")
+
+learner = lrn("classif.rpart")
+task = tsk("pima")
+resampling = rsmp("subsampling", repeats = 100)
+
+mirai::daemons(0)
+mirai::daemons(5)
+future::plan("mirai_cluster")
+
+# 650 ms
+microbenchmark::microbenchmark(
+  resample = resample(task, learner, resampling),
+  times = 50,
+  unit = "ms"
+)
+```
+
+Replace `future_map` with `mirai_map`
+
+```{r}
+library(mlr3)
+library(mirai)
+
+learner = lrn("classif.rpart")
+task = tsk("pima")
+resampling = rsmp("subsampling", repeats = 100)
+
+daemons(0)
+daemons(5)
+
+# 440 ms
+microbenchmark::microbenchmark(
+  resample = resample_mirai(task, learner, resampling),
+  times = 50,
+  unit = "ms"
+)
+```
+
+# Encapsulation
+
+```{r}
+library(mirai)
+
+learner = lrn("classif.rpart")
+learner$encapsulate("mirai", fallback = lrn("classif.featureless"))
+task = tsk("pima")
+resampling = rsmp("subsampling", repeats = 100)
+
+# 6 seconds
+daemons(1)
+status()
+
+system.time({rr = resample(task, learner, resampling)})
+```
+
+```{r}
+learner = lrn("classif.rpart")
+learner$encapsulate("callr", fallback = lrn("classif.featureless"))
+task = tsk("pima")
+resampling = rsmp("subsampling", repeats = 100)
+
+# 90 seconds
+system.time({rr = resample(task, learner, resampling)})
+```
+
+# Encapsulation and Parallelization
+
+```{r}
+library(mirai)
+library(data.table)
+
 daemons(0)
 daemons(3)
 
-x = mirai_map(seq(6), function(i) {
-  if (i == 2) return(2)
-  tools::pskill(Sys.getpid())
+# setup encapsulation daemons
+everywhere({
+  mirai::daemons(1)
 })
+
+Sys.sleep(1)
+
+# 3 resample iterations
+x = collect_mirai(mirai_map(seq(3), function(i) {
+
+  # train
+  model = mirai::collect_mirai(mirai::mirai({
+    if (i == 2) stop("Simple R error")
+    sprintf("model_%i_%i", i, Sys.getpid())
+  }, i = i))
+
+  # fit fallback learner
+  if (mirai::is_mirai_error(model)) model = sprintf("fallback_model_%i_%i", i, Sys.getpid())
+
+  # predict
+  prediction = mirai::collect_mirai(mirai::mirai({rnorm(1)}))
+
+  data.table::data.table(model = model, prediction = prediction, pid = Sys.getpid())
+}))
+
+rbindlist(x)
+
+#              model prediction     pid
+#             <char>      <num>   <int>
+# 1: model_1_1858301 -0.2694271 1857905
+# 2: model_2_1858313 -0.3860743 1857907
+# 3: model_3_1858325 -0.0356403 1857909
 ```
 
-```{r}
-# no daemons left
-# periodically check the status in mlr3?
-status()
-
-# mlr3 could restart local daemons
-# what about remote daemons?
-launch_local(3)
-
-# all finished
-status()
-
-x[.progress]
-```
-
-# Simple R Errors
+mirai + mirai
 
 ```{r}
+library(mirai)
+
+learner = lrn("classif.rpart")
+learner$encapsulate("mirai", fallback = lrn("classif.featureless"))
+task = tsk("pima")
+resample = rsmp("subsampling", repeats = 100)
+
 daemons(0)
-daemons(3)
+daemons(5)
 
-x = mirai_map(seq(3), function(i) {
-  if (i == 2) stop("Simple R error")
-  i
-})
-```
-
-```{r}
-# all daemons available
 status()
 
-x[.progress]
+everywhere({
+  mirai::daemons(1)
+})
+
+x = mirai::mirai({mirai::status()})
+x$data
+
+status()
+
+# 1.5 seconds
+system.time({rr = resample_mirai(task, learner, resample)})
+```
+
+mirai + callr
+
+```{r}
+library(mirai)
+
+learner = lrn("classif.rpart")
+learner$encapsulate("callr", fallback = lrn("classif.featureless"))
+task = tsk("pima")
+resample = rsmp("subsampling", repeats = 100)
+
+daemons(0)
+daemons(5)
+
+# 20 seconds
+system.time({rr = resample_mirai(task, learner, resample)})
+```
+
+future + callr
+
+```{r}
+learner = lrn("classif.rpart")
+learner$encapsulate("callr", fallback = lrn("classif.featureless"))
+task = tsk("pima")
+resample = rsmp("subsampling", repeats = 100)
+
+future::plan("multisession", workers = 5)
+
+options(mlr3.exec_chunk_bins = 5)
+
+# 26 seconds
+system.time({rr = resample_mirai(task, learner, resample)})
 ```
 

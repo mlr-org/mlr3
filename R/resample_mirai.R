@@ -55,7 +55,7 @@
 #' bmr1 = as_benchmark_result(rr)
 #' bmr2 = as_benchmark_result(rr_featureless)
 #' print(bmr1$combine(bmr2))
-resample = function(task, learner, resampling, store_models = FALSE, store_backends = TRUE, encapsulate = NA_character_, allow_hotstart = FALSE, clone = c("task", "learner", "resampling"), unmarshal = TRUE) {
+resample_mirai = function(task, learner, resampling, store_models = FALSE, store_backends = TRUE, encapsulate = NA_character_, allow_hotstart = FALSE, clone = c("task", "learner", "resampling"), unmarshal = TRUE) {
   assert_subset(clone, c("task", "learner", "resampling"))
   task = assert_task(as_task(task, clone = "task" %in% clone))
   learner = assert_learner(as_learner(learner, clone = "learner" %in% clone, discard_state = TRUE))
@@ -115,7 +115,7 @@ resample = function(task, learner, resampling, store_models = FALSE, store_backe
   }
 
   grid$iteration = seq_len(n)
-  res = mirai::mirai_map(grid, workhorse, .args = list(task = task, resampling = resampling, store_models = store_models, lgr_threshold = lgr_threshold, pb = pb, unmarshal = unmarshal))
+  res = mirai::collect_mirai(mirai::mirai_map(grid, workhorse, .args = list(task = task, resampling = resampling, store_models = store_models, lgr_threshold = lgr_threshold, pb = pb, unmarshal = unmarshal)))
 
   data = data.table(
     task = list(task),

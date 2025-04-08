@@ -479,7 +479,7 @@ Learner = R6Class("Learner",
     #'
     #' @return `self` (invisibly).
     encapsulate = function(method, fallback = NULL) {
-      assert_choice(method, c("none", "try", "evaluate", "callr"))
+      assert_choice(method, c("none", "try", "evaluate", "callr", "mirai"))
 
       if (method != "none") {
         assert_learner(fallback, task_type = self$task_type)
