@@ -74,7 +74,7 @@ print(bmr)
 ## ------------------------------------------------
 
 design = benchmark_grid(
-  tsk("iris"),
+  tsk("sonar"),
   lrns(c("classif.debug", "classif.featureless"), predict_type = "prob"),
   rsmp("holdout")
 )
@@ -564,7 +564,7 @@ Must be one of \code{"random"}, \code{"first"} or \code{"last"} (corresponding t
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
 \preformatted{design = benchmark_grid(
-  tsk("iris"),
+  tsk("sonar"),
   lrns(c("classif.debug", "classif.featureless"), predict_type = "prob"),
   rsmp("holdout")
 )

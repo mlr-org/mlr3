@@ -459,7 +459,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #' @template param_ties_method
     #' @examples
     #' design = benchmark_grid(
-    #'   tsk("iris"),
+    #'   tsk("sonar"),
     #'   lrns(c("classif.debug", "classif.featureless"), predict_type = "prob"),
     #'   rsmp("holdout")
     #' )
