@@ -65,6 +65,8 @@ debugging and provide more concise tracebacks.
 Note that results computed in debug mode use a different seeding mechanism and are \strong{not reproducible}.
 \item \code{"mlr3.warn_version_mismatch"}: Set to \code{FALSE} to silence warnings raised during predict if a learner has been
 trained with a different version version of mlr3.
+\item \code{"mlr3.prob_as_default"}: Set to \code{TRUE} to set the predict type of classification learners to
+\code{"prob"} by default (if they support it).
 }
 }
 

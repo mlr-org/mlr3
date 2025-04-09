@@ -3,6 +3,10 @@
 * feat: Add `score_roc_measures()` to score a prediction on various roc measures.
 * feat: A better error message is thrown, which often happens when incorrectly configuring the `validate` field
   of a `GraphLearner`
+* feat: You can now change the default predict type of classification learners to `"prob"` by setting
+  the option `mlr3.prob_as_default` to `TRUE` (#1273).
+* feat: `benchmark()` will, by default, now throw a warning if you mix different predict types in the design.
+  To disable this warning, set `single_predict_type = FALSE` (#1273).
 
 # mlr3 0.23.0
 

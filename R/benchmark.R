@@ -82,13 +82,18 @@
 #' ## Get the training set of the 2nd iteration of the featureless learner on penguins
 #' rr = bmr$aggregate()[learner_id == "classif.featureless"]$resample_result[[1]]
 #' rr$resampling$train_set(2)
-benchmark = function(design, store_models = FALSE, store_backends = TRUE, encapsulate = NA_character_, allow_hotstart = FALSE, clone = c("task", "learner", "resampling"), unmarshal = TRUE, callbacks = NULL) {
+benchmark = function(design, store_models = FALSE, store_backends = TRUE, encapsulate = NA_character_, allow_hotstart = FALSE, clone = c("task", "learner", "resampling"), unmarshal = TRUE, callbacks = NULL, single_predict_type = TRUE) {
   assert_subset(clone, c("task", "learner", "resampling"))
   assert_data_frame(design, min.rows = 1L)
   assert_names(names(design), must.include = c("task", "learner", "resampling"))
   assert_flag(unmarshal)
+  assert_flag(single_predict_type)
   design$task = list(assert_tasks(as_tasks(design$task)))
   design$learner = list(assert_learners(as_learners(design$learner)))
+  # check all unique learners that they have the same predict_type
+  if (single_predict_type && length(unique(map_chr(unique(design$learner), "predict_type"))) > 1) {
+    warningf("Multiple predict types detected, this will mean that you cannot evaluate the same measures on all learners. To disable this warning, set `single_predict_type = FALSE`.") # nolint
+  }
   design$resampling = list(assert_resamplings(as_resamplings(design$resampling), instantiated = TRUE))
   if (is.null(design$param_values)) {
     design$param_values = list()

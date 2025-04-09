@@ -12,7 +12,8 @@ benchmark(
   allow_hotstart = FALSE,
   clone = c("task", "learner", "resampling"),
   unmarshal = TRUE,
-  callbacks = NULL
+  callbacks = NULL,
+  single_predict_type = TRUE
 )
 }
 \arguments{
