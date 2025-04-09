@@ -511,7 +511,7 @@ Learner = R6Class("Learner",
             fallback$id, self$id, str_collapse(missing_properties))
         }
       } else if (method == "none" && !is.null(fallback)) {
-        stop("Fallback learner must be `NULL` if encapsulation is set to `none`.")
+        stopf("Fallback learner must be `NULL` if encapsulation is set to `none`.")
       }
 
       private$.encapsulation = c(train = method, predict = method)
@@ -573,7 +573,7 @@ Learner = R6Class("Learner",
         stopf("No model stored")
       }
       if (private$.selected_features_impute == "error") {
-        stop("Learner does not support feature selection")
+        stopf("Learner does not support feature selection")
       } else {
         self$state$feature_names
       }
@@ -673,7 +673,7 @@ Learner = R6Class("Learner",
     #' @template field_param_set
     param_set = function(rhs) {
       if (!missing(rhs) && !identical(rhs, private$.param_set)) {
-        stop("param_set is read-only.")
+        stopf("param_set is read-only.")
       }
       private$.param_set
     },
