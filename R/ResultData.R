@@ -383,7 +383,7 @@ ResultData = R6Class("ResultData",
       assert_numeric(threshold, len = 1L, lower = 0, upper = 1)
       assert_choice(ties_method, c("random", "first", "last"))
       .__ii__ = private$get_view_index(view)
-      self$data$fact[.__ii__, "prediction" := lapply(prediction, function(ps) {
+      self$data$fact[.__ii__, "prediction" := lapply(get("prediction"), function(ps) {
         list(lapply(ps, set_threshold_pdata, threshold, ties_method))
       })]
     }

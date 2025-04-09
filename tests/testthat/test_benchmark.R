@@ -640,8 +640,8 @@ test_that("can change the threshold", {
   bmr$set_threshold(0.625, ties_method = "last")
   expect_true(all(bmr$resample_result(1)$prediction()$response == "versicolor"))
   with_seed(1, {
-    rr$set_threshold(0.625, ties_method = "random")
-    expect_true("setosa" %in% rr$prediction()$response && "versicolor" %in% rr$prediction()$response)
+    bmr$set_threshold(0.625, ties_method = "random")
+    expect_true("setosa" %in% bmr$resample_result(1)$prediction()$response && "versicolor" %in% bmr$resample_result(1)$prediction()$response)
   })
 
   # Don't modify any threshold when at least one operation is invalid
