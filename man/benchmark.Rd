@@ -69,6 +69,10 @@ If \code{FALSE}, all learners (that need marshaling) are stored in marshaled for
 \item{callbacks}{(List of \link[mlr3misc:Callback]{mlr3misc::Callback})\cr
 Callbacks to be executed during the resampling process.
 See \link{CallbackResample} and \link{ContextResample} for details.}
+
+\item{single_predict_type}{(\code{logical(1)})\cr
+Whether to throw a warning when different predict types are configured for learners.
+The default is \code{TRUE}.}
 }
 \value{
 \link{BenchmarkResult}.

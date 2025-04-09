@@ -19,6 +19,9 @@
 #' @template param_clone
 #' @template param_unmarshal
 #' @template param_callbacks
+#' @param single_predict_type (`logical(1)`)\cr
+#'   Whether to throw a warning when different predict types are configured for learners.
+#'   The default is `TRUE`.
 #'
 #' @return [BenchmarkResult].
 #'
