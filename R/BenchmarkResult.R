@@ -556,6 +556,10 @@ as.data.table.BenchmarkResult = function(x, ..., hashes = FALSE, predict_sets = 
     if ("data_extra" %in% names(tab)) "data_extra")
   tab = tab[, cns, with = FALSE]
 
+  set(tab, j = "task_id", value = ids(tab$task))
+  set(tab, j = "learner_id", value = ids(tab$learner))
+  set(tab, j = "resampling_id", value = ids(tab$resampling))
+
   if (task_characteristics) {
     set(tab, j = "characteristics", value = map(tab$task, "characteristics"))
     tab = unnest(tab, "characteristics")
