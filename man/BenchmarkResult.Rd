@@ -68,6 +68,21 @@ rr$predictions()[[1]]$confusion
 # reduce to subset with task id "sonar"
 bmr$filter(task_ids = "sonar")
 print(bmr)
+
+## ------------------------------------------------
+## Method `BenchmarkResult$set_threshold`
+## ------------------------------------------------
+
+design = benchmark_grid(
+  tsk("iris"),
+  lrns(c("classif.debug", "classif.featureless"), predict_type = "prob"),
+  rsmp("holdout")
+)
+bmr = benchmark(design)
+uhash_table = bmr$uhash_table
+print(uhash_table)
+uhash_featureless = uhash_table[learner_id == "classif.featureless", "uhash"]$uhash
+bmr$set_threshold(uhash_featureless, threshold = 0.8)
 }
 \seealso{
 \itemize{
@@ -131,6 +146,9 @@ Returns the total number of stored \link{ResampleResult}s.}
 
 \item{\code{uhashes}}{(\code{character()})\cr
 Set of (unique) hashes of all included \link{ResampleResult}s.}
+
+\item{\code{uhash_table}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
+Table with columns \code{uhash}, \code{learner_id}, \code{task_id} and \code{resampling_id}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -150,6 +168,7 @@ Set of (unique) hashes of all included \link{ResampleResult}s.}
 \item \href{#method-BenchmarkResult-filter}{\code{BenchmarkResult$filter()}}
 \item \href{#method-BenchmarkResult-resample_result}{\code{BenchmarkResult$resample_result()}}
 \item \href{#method-BenchmarkResult-discard}{\code{BenchmarkResult$discard()}}
+\item \href{#method-BenchmarkResult-set_threshold}{\code{BenchmarkResult$set_threshold()}}
 \item \href{#method-BenchmarkResult-clone}{\code{BenchmarkResult$clone()}}
 }
 }
@@ -469,8 +488,8 @@ Retrieve the i-th \link{ResampleResult}, by position or by unique hash \code{uha
 \item{\code{i}}{(\code{integer(1)})\cr
 The iteration value to filter for.}
 
-\item{\code{uhash}}{(\code{logical(1)})\cr
-The \code{ushash} value to filter for.}
+\item{\code{uhash}}{(\code{character(1)})\cr
+The \code{uhash} value to filter for.}
 }
 \if{html}{\out{</div>}}
 }
@@ -505,6 +524,60 @@ Returns the object itself, but modified \strong{by reference}.
 You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
 the object in its previous state.
 }
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-BenchmarkResult-set_threshold"></a>}}
+\if{latex}{\out{\hypertarget{method-BenchmarkResult-set_threshold}{}}}
+\subsection{Method \code{set_threshold()}}{
+Sets the threshold for the response prediction of classification learners, given they have
+output a probability prediction for a binary classification task.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{BenchmarkResult$set_threshold(
+  threshold,
+  uhashes = NULL,
+  ties_method = "random"
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{threshold}}{(\code{numeric(1)})\cr
+Threshold value.}
+
+\item{\code{uhashes}}{(\code{character()})\cr
+The uhashes for which the threshold should be set.
+A uhash uniquely identifies an individual \code{\link{ResampleResult}}.
+See examples for how to easily retrieve the uhashes for specific learners, tasks, and resamplings.}
+
+\item{\code{ties_method}}{(\code{character(1)})\cr
+Method to handle ties in probabilities when selecting a class label.
+Must be one of \code{"random"}, \code{"first"} or \code{"last"} (corresponding to the same options in \code{\link[=max.col]{max.col()}}).
+\itemize{
+\item \code{"random"}: Randomly select one of the tied class labels (default).
+\item \code{"first"}: Select the first class label among tied values.
+\item \code{"last"}: Select the last class label among tied values.
+}}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{design = benchmark_grid(
+  tsk("iris"),
+  lrns(c("classif.debug", "classif.featureless"), predict_type = "prob"),
+  rsmp("holdout")
+)
+bmr = benchmark(design)
+uhash_table = bmr$uhash_table
+print(uhash_table)
+uhash_featureless = uhash_table[learner_id == "classif.featureless", "uhash"]$uhash
+bmr$set_threshold(uhash_featureless, threshold = 0.8)
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-BenchmarkResult-clone"></a>}}

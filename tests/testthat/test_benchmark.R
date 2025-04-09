@@ -601,3 +601,60 @@ test_that("benchmark allows that param_values overwrites tune token", {
   expect_error(benchmark(design), "cannot be trained with TuneToken present in hyperparameter")
 })
 
+test_that("uhash_table works", {
+  design = benchmark_grid(tsks(c("iris", "sonar")), lrns(c("classif.debug", "classif.featureless")), rsmps(c("holdout", "insample")))
+  bmr = benchmark(design)
+  u = bmr$uhash_table
+
+  # results agree with uhash_table from resample result, which is also tested for correctness
+  for (i in seq_len(nrow(u))) {
+    rr = bmr$resample_result(i)
+    learner_id = rr$learner$id
+    task_id = rr$task$id
+    resampling_id = rr$resampling$id
+
+    expect_equal(u$learner_id[i], learner_id)
+    expect_equal(u$task_id[i], task_id)
+    expect_equal(u$resampling_id[i], resampling_id)
+    expect_equal(u$uhash[i], rr$uhash)
+  }
+
+  # uhash is in correct order
+  expect_equal(u$uhash, bmr$uhashes)
+  expect_equal(u$uhash, as.data.table(bmr)$uhash)
+})
+
+test_that("can change the threshold", {
+  task = tsk("iris")$filter(1:80)$droplevels("Species")
+  design = benchmark_grid(task, lrn("classif.featureless", predict_type = "prob"), rsmp("insample"))
+  bmr = benchmark(design)
+
+  # we can set the threshold and pass ties_method correctly
+  expect_true(all(bmr$resample_result(1)$prediction()$response == "setosa"))
+  bmr$set_threshold(0.9)
+  expect_true(all(bmr$resample_result(1)$prediction()$response == "versicolor"))
+  bmr$set_threshold(0.1)
+  expect_true(all(bmr$resample_result(1)$prediction()$response == "setosa"))
+  bmr$set_threshold(0.625, ties_method = "first")
+  expect_true(all(bmr$resample_result(1)$prediction()$response == "setosa"))
+  bmr$set_threshold(0.625, ties_method = "last")
+  expect_true(all(bmr$resample_result(1)$prediction()$response == "versicolor"))
+  with_seed(1, {
+    rr$set_threshold(0.625, ties_method = "random")
+    expect_true("setosa" %in% rr$prediction()$response && "versicolor" %in% rr$prediction()$response)
+  })
+
+  # Don't modify any threshold when at least one operation is invalid
+  design = benchmark_grid(
+    task,
+    c(lrn("classif.featureless", predict_type = "prob"), lrn("classif.debug")),
+    rsmp("insample")
+  )
+  bmr = benchmark(design)
+  response = bmr$resample_result(1)$prediction()$response
+  expect_error(bmr$set_threshold(0.9), "Cannot set threshold, no probabilities available")
+  # the other prediction was also not affected, we want to avoid partial updates
+  expect_equal(bmr$resample_result(1)$prediction()$response, response)
+  bmr$set_threshold(0.9, bmr$uhash_table[learner_id == "classif.featureless", "uhash"]$uhash)
+  expect_true(all(bmr$resample_result(1)$prediction()$response == "versicolor"))
+})

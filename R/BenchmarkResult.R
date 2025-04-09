@@ -409,8 +409,8 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #' @param i (`integer(1)`)\cr
     #'   The iteration value to filter for.
     #'
-    #' @param uhash (`logical(1)`)\cr
-    #'   The `ushash` value to filter for.
+    #' @param uhash (`character(1)`)\cr
+    #'   The `uhash` value to filter for.
     #'
     #' @return [ResampleResult].
     resample_result = function(i = NULL, uhash = NULL) {
@@ -445,6 +445,32 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #' the object in its previous state.
     discard = function(backends = FALSE, models = FALSE) {
       private$.data$discard(backends = backends, models = models)
+    },
+
+    #' @description
+    #' Sets the threshold for the response prediction of classification learners, given they have
+    #' output a probability prediction for a binary classification task.
+    #' @param uhashes (`character()`)\cr
+    #'   The uhashes for which the threshold should be set.
+    #'   A uhash uniquely identifies an individual [`ResampleResult`].
+    #'   See examples for how to easily retrieve the uhashes for specific learners, tasks, and resamplings.
+    #' @param threshold (`numeric(1)`)\cr
+    #'   Threshold value.
+    #' @template param_ties_method
+    #' @examples
+    #' design = benchmark_grid(
+    #'   tsk("iris"),
+    #'   lrns(c("classif.debug", "classif.featureless"), predict_type = "prob"),
+    #'   rsmp("holdout")
+    #' )
+    #' bmr = benchmark(design)
+    #' uhash_table = bmr$uhash_table
+    #' print(uhash_table)
+    #' uhash_featureless = uhash_table[learner_id == "classif.featureless", "uhash"]$uhash
+    #' bmr$set_threshold(uhash_featureless, threshold = 0.8)
+    set_threshold = function(threshold, uhashes = NULL, ties_method = "random") {
+      assert_character(uhashes, null.ok = TRUE)
+      private$.data$set_threshold(uhashes, threshold, ties_method)
     }
   ),
 
@@ -534,6 +560,13 @@ BenchmarkResult = R6Class("BenchmarkResult",
     uhashes = function(rhs) {
       assert_ro_binding(rhs)
       private$.data$uhashes()
+    },
+
+    #' @field uhash_table ([data.table::data.table()])\cr
+    #' Table with columns `uhash`, `learner_id`, `task_id` and `resampling_id`.
+    uhash_table = function(rhs) {
+      assert_ro_binding(rhs)
+      private$.data$uhash_table()
     }
   ),
 

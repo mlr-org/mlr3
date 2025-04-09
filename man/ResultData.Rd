@@ -41,6 +41,7 @@ Returns \code{NULL} if the \link{ResultData} is empty.}
 \itemize{
 \item \href{#method-ResultData-new}{\code{ResultData$new()}}
 \item \href{#method-ResultData-uhashes}{\code{ResultData$uhashes()}}
+\item \href{#method-ResultData-uhash_table}{\code{ResultData$uhash_table()}}
 \item \href{#method-ResultData-iterations}{\code{ResultData$iterations()}}
 \item \href{#method-ResultData-tasks}{\code{ResultData$tasks()}}
 \item \href{#method-ResultData-learners}{\code{ResultData$learners()}}
@@ -56,6 +57,7 @@ Returns \code{NULL} if the \link{ResultData} is empty.}
 \item \href{#method-ResultData-discard}{\code{ResultData$discard()}}
 \item \href{#method-ResultData-as_data_table}{\code{ResultData$as_data_table()}}
 \item \href{#method-ResultData-logs}{\code{ResultData$logs()}}
+\item \href{#method-ResultData-set_threshold}{\code{ResultData$set_threshold()}}
 \item \href{#method-ResultData-clone}{\code{ResultData$clone()}}
 }
 }
@@ -99,11 +101,40 @@ Returns all unique hashes (\code{uhash} values) of all included \link{ResampleRe
 \describe{
 \item{\code{view}}{\code{character(1)}\cr
 Single \code{uhash} to restrict the results to.}
+
+\item{\code{view}}{\code{character(1)}\cr
+Single \code{uhash} to restrict the results to.}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
 \code{character()}.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ResultData-uhash_table"></a>}}
+\if{latex}{\out{\hypertarget{method-ResultData-uhash_table}{}}}
+\subsection{Method \code{uhash_table()}}{
+Returns a \code{\link{data.table}} with columns \code{uhash}, \code{learner_id}, \code{task_id} and \code{resampling_id}
+for the given view.
+The \code{uhash} uniquely identifies an individual \code{\link{ResampleResult}}.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ResultData$uhash_table(view = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{view}}{\code{character(1)}\cr
+Single \code{uhash} to restrict the results to.}
+
+\item{\code{view}}{\code{character(1)}\cr
+Single \code{uhash} to restrict the results to.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\code{data.table()}
 }
 }
 \if{html}{\out{<hr>}}
@@ -118,6 +149,9 @@ Returns the number of recorded iterations / experiments.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
+\item{\code{view}}{\code{character(1)}\cr
+Single \code{uhash} to restrict the results to.}
+
 \item{\code{view}}{\code{character(1)}\cr
 Single \code{uhash} to restrict the results to.}
 }
@@ -141,6 +175,9 @@ Returns a table of included \link{Task}s.
 \describe{
 \item{\code{view}}{\code{character(1)}\cr
 Single \code{uhash} to restrict the results to.}
+
+\item{\code{view}}{\code{character(1)}\cr
+Single \code{uhash} to restrict the results to.}
 }
 \if{html}{\out{</div>}}
 }
@@ -160,6 +197,9 @@ Returns a table of included \link{Learner}s.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
+\item{\code{view}}{\code{character(1)}\cr
+Single \code{uhash} to restrict the results to.}
+
 \item{\code{view}}{\code{character(1)}\cr
 Single \code{uhash} to restrict the results to.}
 
@@ -193,6 +233,9 @@ Returns a list of states of included \link{Learner}s without reassembling the le
 \describe{
 \item{\code{view}}{\code{character(1)}\cr
 Single \code{uhash} to restrict the results to.}
+
+\item{\code{view}}{\code{character(1)}\cr
+Single \code{uhash} to restrict the results to.}
 }
 \if{html}{\out{</div>}}
 }
@@ -209,6 +252,9 @@ Returns a table of included \link{Resampling}s.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
+\item{\code{view}}{\code{character(1)}\cr
+Single \code{uhash} to restrict the results to.}
+
 \item{\code{view}}{\code{character(1)}\cr
 Single \code{uhash} to restrict the results to.}
 }
@@ -230,6 +276,9 @@ Returns a list of \link{Prediction} objects.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
+\item{\code{view}}{\code{character(1)}\cr
+Single \code{uhash} to restrict the results to.}
+
 \item{\code{view}}{\code{character(1)}\cr
 Single \code{uhash} to restrict the results to.}
 
@@ -275,6 +324,9 @@ Returns a combined \link{Prediction} objects.
 \item{\code{view}}{\code{character(1)}\cr
 Single \code{uhash} to restrict the results to.}
 
+\item{\code{view}}{\code{character(1)}\cr
+Single \code{uhash} to restrict the results to.}
+
 \item{\code{predict_sets}}{(\code{character()})\cr
 Prediction sets to operate on, used in \code{aggregate()} to extract the matching \code{predict_sets} from the \link{ResampleResult}.
 Multiple predict sets are calculated by the respective \link{Learner} during \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}.
@@ -314,6 +366,9 @@ Returns additional data stored.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
+\item{\code{view}}{\code{character(1)}\cr
+Single \code{uhash} to restrict the results to.}
+
 \item{\code{view}}{\code{character(1)}\cr
 Single \code{uhash} to restrict the results to.}
 }
@@ -440,6 +495,9 @@ Combines internal tables into a single flat \code{\link[=data.table]{data.table(
 \item{\code{view}}{\code{character(1)}\cr
 Single \code{uhash} to restrict the results to.}
 
+\item{\code{view}}{\code{character(1)}\cr
+Single \code{uhash} to restrict the results to.}
+
 \item{\code{reassemble_learners}}{(\code{logical(1)})\cr
 Reassemble the tasks?}
 
@@ -485,6 +543,9 @@ Get a table of recorded learner logs.
 \item{\code{view}}{\code{character(1)}\cr
 Single \code{uhash} to restrict the results to.}
 
+\item{\code{view}}{\code{character(1)}\cr
+Single \code{uhash} to restrict the results to.}
+
 \item{\code{condition}}{(\code{character(1)})
 The condition to extract. One of \code{"message"}, \code{"warning"} or \code{"error"}.}
 }
@@ -492,6 +553,39 @@ The condition to extract. One of \code{"message"}, \code{"warning"} or \code{"er
 }
 \subsection{Returns}{
 \code{\link[data.table:data.table]{data.table::data.table()}}.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ResultData-set_threshold"></a>}}
+\if{latex}{\out{\hypertarget{method-ResultData-set_threshold}{}}}
+\subsection{Method \code{set_threshold()}}{
+Sets the threshold for the response prediction of classification learners, given they have output a probability prediction.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ResultData$set_threshold(view = NULL, threshold, ties_method = "random")}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{view}}{\code{character(1)}\cr
+Single \code{uhash} to restrict the results to.}
+
+\item{\code{view}}{\code{character(1)}\cr
+Single \code{uhash} to restrict the results to.}
+
+\item{\code{threshold}}{(\code{numeric(1)})\cr
+Threshold value.}
+
+\item{\code{ties_method}}{(\code{character(1)})\cr
+Method to handle ties in probabilities when selecting a class label.
+Must be one of \code{"random"}, \code{"first"} or \code{"last"} (corresponding to the same options in \code{\link[=max.col]{max.col()}}).
+\itemize{
+\item \code{"random"}: Randomly select one of the tied class labels (default).
+\item \code{"first"}: Select the first class label among tied values.
+\item \code{"last"}: Select the last class label among tied values.
+}}
+}
+\if{html}{\out{</div>}}
 }
 }
 \if{html}{\out{<hr>}}

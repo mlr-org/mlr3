@@ -3,6 +3,9 @@
 * feat: Add `score_roc_measures()` to score a prediction on various roc measures.
 * feat: A better error message is thrown, which often happens when incorrectly configuring the `validate` field
   of a `GraphLearner`
+* feat: Added method `$set_threshold()` to `BenchmarkResult` and `ResamplingResult`, which allows to set the threshold for the response prediction of classification learners, given they have output a probability prediction (#1270).
+* feat: Added field `$uhash_table` to `BenchmarkResult` to easily compute uhashes
+  for given learner, task, or resampling ids (#1270).
 
 # mlr3 0.23.0
 

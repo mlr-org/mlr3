@@ -525,3 +525,21 @@ test_that("$score() checks for models", {
   rr = resample(tsk("mtcars"), lrn("regr.debug"), rsmp("holdout"))
   expect_error(rr$score(msr("aic")), "requires the trained model")
 })
+
+test_that("can change the threshold", {
+  task = tsk("iris")$filter(1:80)$droplevels("Species")
+  rr = resample(task, lrn("classif.featureless", predict_type = "prob"), rsmp("insample"))
+  expect_true(all(rr$prediction()$response == "setosa"))
+  rr$set_threshold(0.9)
+  expect_true(all(rr$prediction()$response == "versicolor"))
+  rr$set_threshold(0.1)
+  expect_true(all(rr$prediction()$response == "setosa"))
+  rr$set_threshold(0.625, ties_method = "first")
+  expect_true(all(rr$prediction()$response == "setosa"))
+  rr$set_threshold(0.625, ties_method = "last")
+  expect_true(all(rr$prediction()$response == "versicolor"))
+  with_seed(1, {
+    rr$set_threshold(0.625, ties_method = "random")
+    expect_true("setosa" %in% rr$prediction()$response && "versicolor" %in% rr$prediction()$response)
+  })
+})
