@@ -304,16 +304,20 @@ Learner = R6Class("Learner",
       invisible(self)
     },
     #' @description
-    #' Uses the information stored during `$train()` in `$state` to create a new [Prediction]
-    #' for a set of observations of the provided `task`.
+    #' Uses the fitted model stored in `$state` to generate predictions for a set of observations from the provided `task`.
+    #' This method requires that the learner has been previously trained using `$train()`.
     #'
-    #' @param task ([Task]).
+    #' @param task ([Task])\cr
+    #'   The task containing the observations to predict on.
+    #'   Must be compatible with the learner's task type and feature types.
+    #'   Unlike `$predict_newdata()`, no type conversion is done.
     #'
     #' @param row_ids (`integer()`)\cr
-    #'   Vector of test indices as subset of `task$row_ids`.
-    #'   For a simple split into training and test set, see [partition()].
+    #'   Vector of row indices from `task$row_ids` to predict on.
+    #'   If `NULL` (default), predictions are made for all rows in the task.
+    #'   For a simple train-test split, see [partition()].
     #'
-    #' @return [Prediction].
+    #' @return [Prediction] object containing the predictions for the specified observations.
     predict = function(task, row_ids = NULL) {
       # improve error message for the common mistake of passing a data.frame here
       if (is.data.frame(task)) {

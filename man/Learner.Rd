@@ -485,8 +485,8 @@ the object in its previous state.
 \if{html}{\out{<a id="method-Learner-predict"></a>}}
 \if{latex}{\out{\hypertarget{method-Learner-predict}{}}}
 \subsection{Method \code{predict()}}{
-Uses the information stored during \verb{$train()} in \verb{$state} to create a new \link{Prediction}
-for a set of observations of the provided \code{task}.
+Uses the fitted model stored in \verb{$state} to generate predictions for a set of observations from the provided \code{task}.
+This method requires that the learner has been previously trained using \verb{$train()}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Learner$predict(task, row_ids = NULL)}\if{html}{\out{</div>}}
 }
@@ -494,16 +494,20 @@ for a set of observations of the provided \code{task}.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{task}}{(\link{Task}).}
+\item{\code{task}}{(\link{Task})\cr
+The task containing the observations to predict on.
+Must be compatible with the learner's task type and feature types.
+Unlike \verb{$predict_newdata()}, no type conversion is done.}
 
 \item{\code{row_ids}}{(\code{integer()})\cr
-Vector of test indices as subset of \code{task$row_ids}.
-For a simple split into training and test set, see \code{\link[=partition]{partition()}}.}
+Vector of row indices from \code{task$row_ids} to predict on.
+If \code{NULL} (default), predictions are made for all rows in the task.
+For a simple train-test split, see \code{\link[=partition]{partition()}}.}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-\link{Prediction}.
+\link{Prediction} object containing the predictions for the specified observations.
 }
 }
 \if{html}{\out{<hr>}}
