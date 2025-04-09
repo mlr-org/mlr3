@@ -2,8 +2,16 @@
 #'
 #' @description
 #' Convert object to a [Task] or a list of [Task].
-#' This method e.g. allows to convert an [`mlr3oml::OMLTask`] to a [`Task`] and additionally supports cloning.
-#' In order to construct a [Task] from a `data.frame`, use task-specific converters such as [`as_task_classif()`] or [`as_task_regr()`].
+#'
+#' The function supports:
+#' * Converting existing [Task] objects (with optional cloning)
+#' * Converting objects from other packages (e.g., `OMLTask` from \CRANpkg{mlr3oml})
+#' * Converting lists of objects to lists of tasks
+#'
+#' For constructing tasks from data frames, use the dedicated converters:
+#' * [as_task_classif()] for classification tasks
+#' * [as_task_regr()] for regression tasks
+#' * [as_task_unsupervised()] for unsupervised tasks
 #'
 #' @param x (any)\cr
 #'   Object to convert.
