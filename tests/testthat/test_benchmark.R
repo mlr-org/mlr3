@@ -655,6 +655,68 @@ test_that("can change the threshold", {
   expect_error(bmr$set_threshold(0.9), "Cannot set threshold, no probabilities available")
   # the other prediction was also not affected, we want to avoid partial updates
   expect_equal(bmr$resample_result(1)$prediction()$response, response)
+
   bmr$set_threshold(0.9, bmr$uhash_table[learner_id == "classif.featureless", "uhash"]$uhash)
+
   expect_true(all(bmr$resample_result(1)$prediction()$response == "versicolor"))
+
+  # can also use the iters argument
+  bmr$set_threshold(0.01, i = 1)
+  expect_true(all(bmr$resample_result(1)$prediction()$response == "setosa"))
+})
+
+test_that("uhashe(s) work", {
+  design = benchmark_grid(
+    tsks(c("iris", "sonar")),
+    lrns(c("classif.featureless", "classif.rpart")),
+    rsmp("holdout")
+  )
+  bmr = benchmark(design)
+
+  tbl = bmr$uhash_table
+  expect_equal(bmr$uhashes, uhashes(bmr))
+  expect_equal(tbl[get("learner_id") == "classif.debug", "uhash"]$uhash, uhashes(bmr, learner_ids = "classif.debug"))
+  expect_equal(tbl[get("task_id") == "sonar", "uhash"]$uhash, uhashes(bmr, task_ids = "sonar"))
+  expect_equal(tbl[get("resampling_id") == "holdout", "uhash"]$uhash, uhashes(bmr, resampling_ids = "holdout"))
+  all_uhashes = bmr$uhashes
+  expect_equal(length(all_uhashes), 4) # 2 tasks * 2 learners
+
+  # Test filtering by single ID
+  featureless_uhashes = uhashes(bmr, learner_ids = "classif.featureless")
+  expect_equal(length(featureless_uhashes), 2)
+  expect_true(all(featureless_uhashes %in% all_uhashes))
+
+  iris_uhashes = uhashes(bmr, task_ids = "iris")
+  expect_equal(length(iris_uhashes), 2)
+  expect_true(all(iris_uhashes %in% all_uhashes))
+
+  holdout_uhashes = uhashes(bmr, resampling_ids = "holdout")
+  expect_equal(length(holdout_uhashes), 4)
+  expect_true(all(holdout_uhashes %in% all_uhashes))
+
+  # Test filtering by multiple IDs
+  learner_subset = uhashes(bmr, learner_ids = c("classif.featureless", "classif.rpart"))
+  expect_equal(length(learner_subset), 4)
+  expect_setequal(learner_subset, all_uhashes)
+
+  task_subset = uhashes(bmr, task_ids = c("iris", "sonar"))
+  expect_equal(length(task_subset), 4)
+  expect_setequal(task_subset, all_uhashes)
+
+  # Test combined filtering
+  iris_featureless = uhashes(bmr,
+    learner_ids = "classif.featureless",
+    task_ids = "iris"
+  )
+  expect_equal(length(iris_featureless), 1)
+
+  # Test uhash function with single valid combination
+  single_uhash = uhash(bmr,
+    learner_id = "classif.featureless",
+    task_id = "iris",
+    resampling_id = "holdout"
+  )
+  expect_string(single_uhash)
+  expect_true(single_uhash %in% all_uhashes)
+  expect_error(uhash(bmr), "got 4")
 })

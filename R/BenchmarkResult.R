@@ -364,6 +364,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #' the object in its previous state.
     filter = function(task_ids = NULL, task_hashes = NULL, learner_ids = NULL, learner_hashes = NULL,
       resampling_ids = NULL, resampling_hashes = NULL) {
+      # deprecate all arguments
       learner_phashes = NULL
 
       filter_if_not_null = function(column, hashes) {
@@ -411,6 +412,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #'
     #' @param uhash (`character(1)`)\cr
     #'   The `uhash` value to filter for.
+    #'   To compute a specific `uhash`, see [`uhash()`].
     #'
     #' @return [ResampleResult].
     resample_result = function(i = NULL, uhash = NULL) {
@@ -450,12 +452,16 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #' @description
     #' Sets the threshold for the response prediction of classification learners, given they have
     #' output a probability prediction for a binary classification task.
+    #' Parameters `uhashes` and `i` are mutually exclusive.
+    #'
     #' @param uhashes (`character()`)\cr
     #'   The uhashes for which the threshold should be set.
     #'   A uhash uniquely identifies an individual [`ResampleResult`].
     #'   See examples for how to easily retrieve the uhashes for specific learners, tasks, and resamplings.
     #' @param threshold (`numeric(1)`)\cr
     #'   Threshold value.
+    #' @param i (`integer()`)\cr
+    #'   The iteration values to filter for.
     #' @template param_ties_method
     #' @examples
     #' design = benchmark_grid(
@@ -464,12 +470,17 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #'   rsmp("holdout")
     #' )
     #' bmr = benchmark(design)
-    #' uhash_table = bmr$uhash_table
-    #' print(uhash_table)
-    #' uhash_featureless = uhash_table[learner_id == "classif.featureless", "uhash"]$uhash
-    #' bmr$set_threshold(uhash_featureless, threshold = 0.8)
-    set_threshold = function(threshold, uhashes = NULL, ties_method = "random") {
-      assert_character(uhashes, null.ok = TRUE)
+    #' bmr$set_threshold(0.8, uhashes(bmr, learner_ids = "classif.debug"))
+    set_threshold = function(threshold, uhashes = NULL, i = NULL, ties_method = "random") {
+      if (!is.null(i) && !is.null(uhashes)) {
+        stopf("Only one of `i` or `uhashes` can be provided.")
+      }
+      if (!is.null(i)) {
+        uhashes = self$uhashes
+        uhashes = uhashes[assert_integerish(i, lower = 1L, upper = length(uhashes))]
+      } else {
+        assert_character(uhashes, null.ok = TRUE)
+      }
       private$.data$set_threshold(uhashes, threshold, ties_method)
     }
   ),
@@ -612,4 +623,56 @@ print.bmr_score = function(x, ...) {
 #' @export
 print.bmr_aggregate = function(x, ...) {
   print_data_table(x, "resample_result")
+}
+
+#' @param learner_ids (`character()`)\cr
+#'   Learner ids.
+#' @param task_ids (`character()`)\cr
+#'   Task ids.
+#' @param resampling_ids (`character()`)\cr
+#'   Resampling ids.
+#' @rdname uhash
+#' @export
+uhashes = function(bmr, learner_ids = NULL, task_ids = NULL, resampling_ids = NULL) {
+  assert_class(bmr, "BenchmarkResult")
+  assert_character(learner_ids, null.ok = TRUE)
+  assert_character(task_ids, null.ok = TRUE)
+  assert_character(resampling_ids, null.ok = TRUE)
+  bmr$uhash_table[
+    (is.null(learner_ids) | (get("learner_id") %in% learner_ids)) &
+      (is.null(task_ids) | (get("task_id") %in% task_ids)) &
+      (is.null(resampling_ids) | (get("resampling_id") %in% resampling_ids)), "uhash"
+  ]$uhash
+}
+
+#' @title Obtain specific uhashes from a [BenchmarkResult]
+#' @description
+#' Calculates one or more uhashes (unique identifiers) from the IDs of a learner, task, and resampling.
+#' @param learner_id (`character(1)`)\cr
+#'   Learner id.
+#' @param task_id (`character(1)`)\cr
+#'   Task id.
+#' @param resampling_id (`character(1)`)\cr
+#'   Resampling id.
+#' @export
+#' @examples
+#' design = benchmark_grid(
+#'   tsks(c("sonar", "iris")),
+#'   lrns(c("classif.debug", "classif.featureless", "classif.rpart")),
+#'   rsmp("holdout")
+#' )
+#' bmr = benchmark(design)
+#' bmr
+#' bmr$uhashes
+#' uhash(bmr, learner_id = "classif.debug", task_id = "sonar", resampling_id = "holdout")
+#' uhashes(bmr, learner_ids = c("classif.debug", "classif.featureless"))
+uhash = function(bmr, learner_id = NULL, task_id = NULL, resampling_id = NULL) {
+  assert_string(learner_id, null.ok = TRUE)
+  assert_string(task_id, null.ok = TRUE)
+  assert_string(resampling_id, null.ok = TRUE)
+  uhash = uhashes(bmr, learner_id, task_id, resampling_id)
+  if (length(uhash) != 1) {
+    stopf("Expected exactly one uhash, got %s", length(uhash))
+  }
+  uhash
 }

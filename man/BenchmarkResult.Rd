@@ -79,10 +79,7 @@ design = benchmark_grid(
   rsmp("holdout")
 )
 bmr = benchmark(design)
-uhash_table = bmr$uhash_table
-print(uhash_table)
-uhash_featureless = uhash_table[learner_id == "classif.featureless", "uhash"]$uhash
-bmr$set_threshold(uhash_featureless, threshold = 0.8)
+bmr$set_threshold(0.8, uhashes(bmr, learner_ids = "classif.debug"))
 }
 \seealso{
 \itemize{
@@ -489,7 +486,8 @@ Retrieve the i-th \link{ResampleResult}, by position or by unique hash \code{uha
 The iteration value to filter for.}
 
 \item{\code{uhash}}{(\code{character(1)})\cr
-The \code{uhash} value to filter for.}
+The \code{uhash} value to filter for.
+To compute a specific \code{uhash}, see \code{\link[=uhash]{uhash()}}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -531,10 +529,12 @@ the object in its previous state.
 \subsection{Method \code{set_threshold()}}{
 Sets the threshold for the response prediction of classification learners, given they have
 output a probability prediction for a binary classification task.
+Parameters \code{uhashes} and \code{i} are mutually exclusive.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{BenchmarkResult$set_threshold(
   threshold,
   uhashes = NULL,
+  i = NULL,
   ties_method = "random"
 )}\if{html}{\out{</div>}}
 }
@@ -549,6 +549,9 @@ Threshold value.}
 The uhashes for which the threshold should be set.
 A uhash uniquely identifies an individual \code{\link{ResampleResult}}.
 See examples for how to easily retrieve the uhashes for specific learners, tasks, and resamplings.}
+
+\item{\code{i}}{(\code{integer()})\cr
+The iteration values to filter for.}
 
 \item{\code{ties_method}}{(\code{character(1)})\cr
 Method to handle ties in probabilities when selecting a class label.
@@ -569,10 +572,7 @@ Must be one of \code{"random"}, \code{"first"} or \code{"last"} (corresponding t
   rsmp("holdout")
 )
 bmr = benchmark(design)
-uhash_table = bmr$uhash_table
-print(uhash_table)
-uhash_featureless = uhash_table[learner_id == "classif.featureless", "uhash"]$uhash
-bmr$set_threshold(uhash_featureless, threshold = 0.8)
+bmr$set_threshold(0.8, uhashes(bmr, learner_ids = "classif.debug"))
 }
 \if{html}{\out{</div>}}
 
