@@ -19,9 +19,6 @@
 #' @template param_clone
 #' @template param_unmarshal
 #' @template param_callbacks
-#' @param single_predict_type (`logical(1)`)\cr
-#'   Whether to throw a warning when different predict types are configured for learners.
-#'   The default is `TRUE`.
 #'
 #' @return [BenchmarkResult].
 #'
@@ -93,10 +90,6 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
   assert_flag(single_predict_type)
   design$task = list(assert_tasks(as_tasks(design$task)))
   design$learner = list(assert_learners(as_learners(design$learner)))
-  # check all unique learners that they have the same predict_type
-  if (single_predict_type && length(unique(map_chr(unique(design$learner), "predict_type"))) > 1) {
-    warningf("Multiple predict types detected, this will mean that you cannot evaluate the same measures on all learners. To disable this warning, set `single_predict_type = FALSE`.") # nolint
-  }
   design$resampling = list(assert_resamplings(as_resamplings(design$resampling), instantiated = TRUE))
   if (is.null(design$param_values)) {
     design$param_values = list()

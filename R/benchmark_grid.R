@@ -72,6 +72,10 @@ benchmark_grid = function(tasks, learners, resamplings, param_values = NULL, pai
   if (!is.null(param_values)) {
     assert_param_values(param_values, n_learners = length(learners))
   }
+  # check all unique learners that they have the same predict_type
+  if (length(unique(map_chr(unique(learners), "predict_type"))) > 1) {
+    warningf("Multiple predict types detected, this will mean that you cannot evaluate the same measures on all learners.") # nolint
+  }
 
   if (assert_flag(paired)) {
     if (length(tasks) != length(resamplings)) {

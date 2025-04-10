@@ -602,14 +602,14 @@ test_that("benchmark allows that param_values overwrites tune token", {
 })
 
 test_that("warning when mixing predict types", {
-  design = benchmark_grid(
+  expect_warning(benchmark_grid(
     tsk("iris"),
     list(
       lrn("classif.debug", predict_type = "prob"),
       lrn("classif.featureless", predict_type = "response")
     ),
     rsmp("cv", folds = 3)
-  )
+  , "Multiple predict types detected"))
   expect_warning(benchmark(design), "Multiple predict types detected")
   expect_warning(benchmark(design, single_predict_type = FALSE), NA)
 })

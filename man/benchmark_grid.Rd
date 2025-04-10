@@ -9,7 +9,8 @@ benchmark_grid(
   learners,
   resamplings,
   param_values = NULL,
-  paired = FALSE
+  paired = FALSE,
+  single_predict_type = TRUE
 )
 }
 \arguments{
@@ -34,6 +35,10 @@ already set set hyperparameters in the \link{Learner}.
 \item{paired}{(\code{logical(1)})\cr
 Set this to \code{TRUE} if the resamplings are instantiated on the tasks, i.e., the tasks and resamplings are paired.
 You need to provide the same number of tasks and instantiated resamplings.}
+
+\item{single_predict_type}{(\code{logical(1)})\cr
+Whether to throw a warning when different predict types are configured for learners.
+The default is \code{TRUE}.}
 }
 \value{
 (\code{\link[data.table:data.table]{data.table::data.table()}}) with the cross product of the input vectors.
