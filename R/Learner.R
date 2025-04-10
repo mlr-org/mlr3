@@ -273,6 +273,7 @@ Learner = R6Class("Learner",
       task = assert_task(as_task(task))
       assert_learnable(task, self)
       row_ids = assert_row_ids(row_ids, null.ok = TRUE)
+      assert_subset(row_ids, task$row_roles$use)
 
       if (!is.null(self$hotstart_stack)) {
         # search for hotstart learner
@@ -322,6 +323,7 @@ Learner = R6Class("Learner",
       task = assert_task(as_task(task))
       assert_predictable(task, self)
       row_ids = assert_row_ids(row_ids, null.ok = TRUE)
+      assert_subset(row_ids, task$row_roles$use)
 
       if (is.null(self$state$model) && is.null(self$state$fallback_state$model)) {
         stopf("Cannot predict, Learner '%s' has not been trained yet", self$id)

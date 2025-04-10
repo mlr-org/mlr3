@@ -257,17 +257,14 @@ Task = R6Class("Task",
 
     #' @description
     #' Returns a slice of the data from the [DataBackend] as a `data.table`.
-    #' Rows default to observations with role `"use"`, and
-    #' columns default to features with roles `"target"` or `"feature"`.
-    #' If `rows` or `cols` are specified which do not exist in the [DataBackend],
-    #' an exception is raised.
+    #' Rows default to observations with role `"use"`, and columns default to features with roles `"target"` or `"feature"`.
+    #' Rows must be a subset of `$row_roles$use`.
+    #' If `rows` or `cols` are specified which do not exist in the [DataBackend], an exception is raised.
     #'
     #' Rows and columns are returned in the order specified via the arguments `rows` and `cols`.
     #' If `rows` is `NULL`, rows are returned in the order of `task$row_ids`.
-    #' If `cols` is `NULL`, the column order defaults to
-    #' `c(task$target_names, task$feature_names)`.
-    #' Note that it is recommended to **not** rely on the order of columns, and instead always
-    #' address columns with their respective column name.
+    #' If `cols` is `NULL`, the column order defaults to `c(task$target_names, task$feature_names)`.
+    #' Note that it is recommended to **not** rely on the order of columns, and instead always address columns with their respective column name.
     #'
     #' @param ordered (`logical(1)`)\cr
     #'   If `TRUE`, data is ordered according to the columns with column role `"order"`.
@@ -284,7 +281,7 @@ Task = R6Class("Task",
       if (is.null(rows)) {
         rows = row_roles$use
       } else {
-        assert_subset(rows, self$backend$rownames)
+        assert_subset(rows, self$row_roles$use)
         if (is.double(rows)) {
           rows = as.integer(rows)
         }
@@ -410,8 +407,9 @@ Task = R6Class("Task",
     filter = function(rows) {
       assert_has_backend(self)
       rows = assert_row_ids(rows)
+      private$.row_roles$use = assert_subset(rows, self$row_ids_backend)
       private$.hash = NULL
-      private$.row_roles$use = intersect(private$.row_roles$use, rows)
+      private$.row_hash = NULL
       invisible(self)
     },
 
@@ -651,6 +649,7 @@ Task = R6Class("Task",
       assert_subset(rows, self$backend$rownames)
 
       private$.hash = NULL
+      private$.row_hash = NULL
       private$.row_roles = task_set_roles(private$.row_roles, rows, roles, add_to, remove_from, allow_duplicated = TRUE)
 
       invisible(self)
@@ -845,6 +844,14 @@ Task = R6Class("Task",
       }
 
       private$.hash
+    },
+
+    row_hash = function(rhs) {
+      assert_ro_binding(rhs)
+      if (is.null(private$.row_hash)) {
+        private$.row_hash = calculate_hash(self$row_ids)
+      }
+      private$.row_hash
     },
 
     #' @field row_ids (positive `integer()`)\cr
@@ -1166,6 +1173,14 @@ Task = R6Class("Task",
 
       private$.characteristics = assert_list(rhs, null.ok = TRUE)
       private$.hash = NULL
+    },
+
+    #' @field row_ids_backend (`integer()`)\cr
+    #' Returns all row ids from the backend, regardless of their roles.
+    #' This is different from `$row_ids` which only returns rows with role "use".
+    row_ids_backend = function(rhs) {
+      assert_ro_binding(rhs)
+      self$backend$rownames
     }
   ),
 
@@ -1178,6 +1193,7 @@ Task = R6Class("Task",
     .hash = NULL,
     .col_hashes = NULL,
     .characteristics = NULL,
+    .row_hash = NULL,
 
     deep_clone = function(name, value) {
       # NB: DataBackends are never copied!

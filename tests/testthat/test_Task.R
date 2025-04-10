@@ -199,14 +199,15 @@ test_that("filter works", {
   task = tsk("iris")
   task$filter(1:100)
   expect_equal(task$nrow, 100L)
+  expect_equal(task$row_ids, 1:100)
 
   task$filter(91:150)
-  expect_equal(task$nrow, 10L)
-
-  expect_equal(task$row_ids, 91:100)
+  expect_equal(task$nrow, 60L)
+  expect_equal(task$row_ids, 91:150)
 
   task$filter(91)
   expect_equal(task$nrow, 1L)
+  expect_equal(task$row_ids, 91)
   expect_data_table(task$data(), nrows = 1L, any.missing = FALSE)
 })
 
@@ -424,6 +425,24 @@ test_that("row roles setters", {
 
   task$row_roles$use = 1:20
   expect_equal(task$nrow, 20L)
+})
+
+test_that("row_ids_backend returns all backend rows", {
+  task = tsk("iris")
+
+  expect_set_equal(task$row_ids, task$row_ids_backend)
+
+  task$filter(1:100)
+  expect_set_equal(task$row_ids, 1:100)
+  expect_set_equal(task$row_ids_backend, 1:150)
+
+  task$set_row_roles(1:50, remove_from = "use")
+  expect_set_equal(task$row_ids, 51:100)
+  expect_set_equal(task$row_ids_backend, 1:150)
+
+  expect_error({
+    task$row_ids_backend = 1:10
+  }, "read-only")
 })
 
 test_that("col roles getters/setters", {
