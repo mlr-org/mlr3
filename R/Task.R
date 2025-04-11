@@ -840,7 +840,7 @@ Task = R6Class("Task",
     #' If an internal validation task is set, the hash is recalculated.
     hash = function(rhs) {
       if (is.null(private$.hash)) {
-        private$.hash = task_hash(self, self$row_ids, ignore_internal_valid_task = FALSE)
+        private$.hash = task_hash(self, self$row_hash, ignore_internal_valid_task = FALSE)
       }
 
       private$.hash
