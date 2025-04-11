@@ -143,6 +143,57 @@ test_that("memory footprint", {
   expect_equal(uniqueN(map_chr(x$resampling, address)), 3L)
 })
 
+test_that("resampling validation in benchmark_grid", {
+  task1 = tsk("iris")
+  task2 = tsk("pima")
+  resampling_1 = rsmp("holdout")
+  resampling_2 = rsmp("holdout")
+
+  # should work when resamplings are instantiated on their corresponding tasks
+  resampling_1$instantiate(task1)
+  resampling_2$instantiate(task2)
+  expect_data_table(benchmark_grid(list(task1, task2), lrn("classif.rpart"), list(resampling_1, resampling_2), paired = TRUE))
+
+  # should fail when resamplings are not instantiated
+  resampling_1 = rsmp("holdout")
+  resampling_2 = rsmp("holdout")
+  expect_error(benchmark_grid(list(task1, task2), lrn("classif.rpart"), list(resampling_1, resampling_2), paired = TRUE),
+    "is not instantiated")
+
+  # should fail when resampling is instantiated on wrong task
+  resampling_1$instantiate(task1)
+  resampling_2$instantiate(task1)
+  expect_error(benchmark_grid(list(task1, task2), lrn("classif.rpart"), list(resampling_1, resampling_2), paired = TRUE),
+    "not instantiated")
+
+  # should fail when task row hashes don't match
+  task1 = tsk("iris")
+  task2 = tsk("iris")$filter(1:100)
+  resampling_1 = rsmp("holdout")
+  resampling_1$instantiate(task1)
+
+  expect_error(benchmark_grid(list(task1, task2), lrn("classif.rpart"), list(resampling_1)),
+    "not instantiated")
+
+  # should fail when the tasks have the same number of rows but different row hashes
+  task1 = tsk("iris")$filter(1:75)
+  task2 = tsk("iris")$filter(76:150)
+  resampling_1 = rsmp("holdout")
+  resampling_1$instantiate(task1)
+  expect_error(benchmark_grid(list(task1, task2), lrn("classif.rpart"), list(resampling_1)),
+    "not instantiated")
+
+  # should work when all resamplings are uninstantiated
+  res1 = rsmp("holdout")
+  res2 = rsmp("holdout")
+  expect_data_table(benchmark_grid(list(task1, task2), lrn("classif.rpart"), list(res1, res2)))
+
+  # should fail when some resamplings are instantiated and others are not
+  res1$instantiate(task1)
+  expect_error(benchmark_grid(list(task1, task2), lrn("classif.rpart"), list(res1, res2)),
+    "All resamplings must be instantiated, or none at all")
+})
+
 test_that("multiple measures", {
   tasks = list(tsk("iris"), tsk("sonar"))
   learner = lrn("classif.featureless")
