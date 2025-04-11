@@ -3,7 +3,11 @@
 * feat: Add `score_roc_measures()` to score a prediction on various roc measures.
 * feat: A better error message is thrown, which often happens when incorrectly configuring the `validate` field
   of a `GraphLearner`
-* Converting a `BenchmarkResult` to a `data.table` now includes the `task_id`, `learner_id`, and `resampling_id` columns (#1275).
+* feat: You can now change the default predict type of classification learners to `"prob"` by setting
+  the option `mlr3.prob_as_default` to `TRUE` (#1273).
+* feat: `benchmark_grid()` will now throw a warning if you mix different predict types in the
+  design (#1273).
+* feat: Converting a `BenchmarkResult` to a `data.table` now includes the `task_id`, `learner_id`, and `resampling_id` columns (#1275).
 
 # mlr3 0.23.0
 

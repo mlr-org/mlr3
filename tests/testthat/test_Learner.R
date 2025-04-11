@@ -735,7 +735,6 @@ test_that("predict_newdata creates column info correctly", {
   expect_true("row_id" %in% learner$model$task_predict$col_info$id)
 })
 
-
 test_that("marshaling and internal tuning", {
   l = lrn("classif.debug", validate = 0.3, early_stopping = TRUE, iter = 100)
   l$encapsulate("evaluate", lrn("classif.featureless"))
@@ -744,4 +743,16 @@ test_that("marshaling and internal tuning", {
   expect_list(l$internal_tuned_values, types = "integer")
   expect_list(l$internal_valid_scores, types = "numeric")
 
+})
+
+test_that("prob_as_default works", {
+  on.exit(options(old_opts))
+  old_opts = options(mlr3.prob_as_default = TRUE)
+  l = lrn("classif.debug")
+  expect_equal(l$predict_type, "prob")
+  options(mlr3.prob_as_default = NULL)
+  l = lrn("classif.debug")
+  expect_equal(l$predict_type, "response")
+  options(mlr3.prob_as_default = FALSE)
+  expect_equal(l$predict_type, "response")
 })

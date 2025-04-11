@@ -600,3 +600,15 @@ test_that("benchmark allows that param_values overwrites tune token", {
   design = benchmark_grid(tsk("pima"), learner, rsmp("cv", folds = 3))
   expect_error(benchmark(design), "cannot be trained with TuneToken present in hyperparameter")
 })
+
+test_that("warning when mixing predict types", {
+  expect_warning(benchmark_grid(
+    tsk("iris"),
+    list(
+      lrn("classif.debug", predict_type = "prob"),
+      lrn("classif.featureless", predict_type = "response")
+    ),
+    rsmp("cv", folds = 3)
+  ), regexp = "Multiple predict types detected")
+
+})
