@@ -519,7 +519,19 @@ test_that("resampling instantiated on a different task throws an error", {
 
   expect_error(resample(tsk("pima"), lrn("classif.rpart"), resampling),
     "not instantiated")
+})
 
+test_that("resampling task row hash validation", {
+  task = tsk("iris")
+  resampling = rsmp("cv", folds = 3)
+  resampling$instantiate(task)
+
+  # Should work with same task
+  expect_resample_result(resample(task, lrn("classif.rpart"), resampling))
+
+  # Should fail if task is filtered
+  task$filter(1:100)
+  expect_error(resample(task, lrn("classif.rpart"), resampling), "not instantiated on task")
 })
 
 test_that("$score() checks for models", {
