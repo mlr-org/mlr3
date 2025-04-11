@@ -609,7 +609,6 @@ test_that("warning when mixing predict types", {
       lrn("classif.featureless", predict_type = "response")
     ),
     rsmp("cv", folds = 3)
-  , "Multiple predict types detected"))
-  expect_warning(benchmark(design), "Multiple predict types detected")
-  expect_warning(benchmark(design, single_predict_type = FALSE), NA)
+  ), regexp = "Multiple predict types detected")
+
 })

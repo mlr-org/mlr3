@@ -9,8 +9,7 @@ benchmark_grid(
   learners,
   resamplings,
   param_values = NULL,
-  paired = FALSE,
-  single_predict_type = TRUE
+  paired = FALSE
 )
 }
 \arguments{
@@ -35,10 +34,6 @@ already set set hyperparameters in the \link{Learner}.
 \item{paired}{(\code{logical(1)})\cr
 Set this to \code{TRUE} if the resamplings are instantiated on the tasks, i.e., the tasks and resamplings are paired.
 You need to provide the same number of tasks and instantiated resamplings.}
-
-\item{single_predict_type}{(\code{logical(1)})\cr
-Whether to throw a warning when different predict types are configured for learners.
-The default is \code{TRUE}.}
 }
 \value{
 (\code{\link[data.table:data.table]{data.table::data.table()}}) with the cross product of the input vectors.
@@ -59,6 +54,13 @@ I.e., you must provide as many tasks as corresponding instantiated resamplings.
 The grid will be generated based on the Cartesian product of learners and pairs.
 }
 }
+\section{Errors and Warnings}{
+
+\itemize{
+\item \code{varying_predict_types}: This warning will be thrown if the learners have different \code{predict_type}s.
+}
+}
+
 \examples{
 tasks = list(tsk("penguins"), tsk("sonar"))
 learners = list(lrn("classif.featureless"), lrn("classif.rpart"))
