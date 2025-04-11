@@ -642,7 +642,6 @@ test_that("benchmark_grid only allows unique learner ids", {
 })
 
 test_that("benchmark allows that param_values overwrites tune token", {
-
   learner = lrn("classif.rpart", cp = to_tune(0.01, 0.1))
   design = benchmark_grid(tsk("pima"), learner, rsmp("cv", folds = 3), param_values = list(list(list(cp = 0.01))))
   expect_benchmark_result(benchmark(design))
@@ -650,5 +649,37 @@ test_that("benchmark allows that param_values overwrites tune token", {
   learner = lrn("classif.rpart", cp = to_tune(0.01, 0.1))
   design = benchmark_grid(tsk("pima"), learner, rsmp("cv", folds = 3))
   expect_error(benchmark(design), "cannot be trained with TuneToken present in hyperparameter")
+})
+
+test_that("resampling validation", {
+  # test with uninstantiated resampling
+  task = tsk("iris")
+  learner = lrn("classif.rpart")
+  resampling = rsmp("holdout")
+  design = data.table(task = list(task), learner = list(learner), resampling = list(resampling))
+  expect_error(benchmark(design), "instantiated")
+
+  # test with resampling instantiated on wrong task
+  task1 = tsk("iris")
+  task2 = tsk("pima")
+  resampling = rsmp("holdout")
+  resampling$instantiate(task1)
+  design = data.table(task = list(task2), learner = list(learner), resampling = list(resampling))
+  expect_error(benchmark(design), "not instantiated")
+
+  # test with resampling instantiated on filtered task
+  task = tsk("iris")
+  resampling = rsmp("holdout")
+  resampling$instantiate(task)
+  task$filter(1:100)
+  design = data.table(task = list(task), learner = list(learner), resampling = list(resampling))
+  expect_error(benchmark(design), "not instantiated")
+
+  # test with resampling instantiated on correct task
+  task = tsk("iris")
+  resampling = rsmp("holdout")
+  resampling$instantiate(task)
+  design = data.table(task = list(task), learner = list(learner), resampling = list(resampling))
+  expect_benchmark_result(benchmark(design))
 })
 
