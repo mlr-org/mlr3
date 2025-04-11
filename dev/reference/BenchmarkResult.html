@@ -605,11 +605,11 @@ the object in its previous state.</p>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/as.data.table.html" class="external-link">as.data.table</a></span><span class="op">(</span><span class="va">bmr</span>, measures <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"classif.acc"</span>, <span class="st">"classif.auc"</span><span class="op">)</span><span class="op">)</span>, <span class="fl">5</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                   uhash                task</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                  &lt;char&gt;              &lt;list&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: bd2871c6-303a-40a7-9b96-d170492757b6 &lt;TaskClassif:sonar&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: bd2871c6-303a-40a7-9b96-d170492757b6 &lt;TaskClassif:sonar&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: bd2871c6-303a-40a7-9b96-d170492757b6 &lt;TaskClassif:sonar&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4: 0091a42b-61dd-4acf-b0a2-14529fe04ce2 &lt;TaskClassif:sonar&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5: 0091a42b-61dd-4acf-b0a2-14529fe04ce2 &lt;TaskClassif:sonar&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 77606627-666f-4308-9fd5-60e93d0e0816 &lt;TaskClassif:sonar&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 77606627-666f-4308-9fd5-60e93d0e0816 &lt;TaskClassif:sonar&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 77606627-666f-4308-9fd5-60e93d0e0816 &lt;TaskClassif:sonar&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4: 245b167a-74d7-4f00-a764-d92773e6fdbe &lt;TaskClassif:sonar&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5: 245b167a-74d7-4f00-a764-d92773e6fdbe &lt;TaskClassif:sonar&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                            learner     resampling iteration</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                             &lt;list&gt;         &lt;list&gt;     &lt;int&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: &lt;LearnerClassifFeatureless:classif.featureless&gt; &lt;ResamplingCV&gt;         1</span>
@@ -617,13 +617,13 @@ the object in its previous state.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3: &lt;LearnerClassifFeatureless:classif.featureless&gt; &lt;ResamplingCV&gt;         3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4:             &lt;LearnerClassifRpart:classif.rpart&gt; &lt;ResamplingCV&gt;         1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5:             &lt;LearnerClassifRpart:classif.rpart&gt; &lt;ResamplingCV&gt;         2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             prediction</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 &lt;list&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: &lt;PredictionClassif&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: &lt;PredictionClassif&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: &lt;PredictionClassif&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4: &lt;PredictionClassif&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5: &lt;PredictionClassif&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             prediction task_id          learner_id resampling_id</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 &lt;list&gt;  &lt;char&gt;              &lt;char&gt;        &lt;char&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: &lt;PredictionClassif&gt;   sonar classif.featureless            cv</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: &lt;PredictionClassif&gt;   sonar classif.featureless            cv</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: &lt;PredictionClassif&gt;   sonar classif.featureless            cv</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4: &lt;PredictionClassif&gt;   sonar       classif.rpart            cv</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5: &lt;PredictionClassif&gt;   sonar       classif.rpart            cv</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># aggregate results</span></span></span>
 <span class="r-in"><span><span class="va">bmr</span><span class="op">$</span><span class="fu">aggregate</span><span class="op">(</span><span class="op">)</span></span></span>
