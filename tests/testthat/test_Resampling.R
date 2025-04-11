@@ -146,3 +146,15 @@ test_that("loo with groups", {
   tab = merge(as.data.table(loo), islands, by = "row_id")
   expect_true(all(tab[, .(n_islands = uniqueN(island)), by = row_id]$n_islands == 1L))
 })
+
+test_that("task_row_hash in Resampling works correctly", {
+  task = tsk("penguins")
+  resampling = rsmp("cv", folds = 2)
+
+  # task_row_hash should be NA before instantiation
+  expect_identical(resampling$task_row_hash, NA_character_)
+
+  # task_row_hash should be set after instantiation
+  resampling$instantiate(task)
+  expect_identical(resampling$task_row_hash, task$row_hash)
+})

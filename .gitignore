@@ -175,6 +175,7 @@ renv.lock
 
 # vscode
 .vscode
+.cursor
 
 # revdep
 revdep/
