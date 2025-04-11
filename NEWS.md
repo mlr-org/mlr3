@@ -3,6 +3,7 @@
 * feat: Add `score_roc_measures()` to score a prediction on various roc measures.
 * feat: A better error message is thrown, which often happens when incorrectly configuring the `validate` field
   of a `GraphLearner`
+* Converting a `BenchmarkResult` to a `data.table` now includes the `task_id`, `learner_id`, and `resampling_id` columns (#1275).
 
 # mlr3 0.23.0
 

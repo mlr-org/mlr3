@@ -7,11 +7,11 @@ bmr = benchmark(design)
 
 test_that("Basic benchmarking", {
   expect_benchmark_result(bmr)
-  expect_names(names(as.data.table(bmr)), permutation.of = c(mlr_reflections$rr_names, "uhash", "prediction"))
+  expect_names(names(as.data.table(bmr)), permutation.of = c(mlr_reflections$rr_names, "uhash", "prediction", "task_id", "learner_id", "resampling_id"))
 
   tab = as.data.table(bmr)
-  expect_data_table(tab, nrows = 18L, ncols = 6L)
-  expect_names(names(tab), permutation.of = c("uhash", "prediction", mlr_reflections$rr_names))
+  expect_data_table(tab, nrows = 18L, ncols = 9L)
+  expect_names(names(tab), permutation.of = c("uhash", "prediction", mlr_reflections$rr_names, "task_id", "learner_id", "resampling_id"))
   measures = list(msr("classif.acc"))
 
   tab = bmr$score(measures, ids = FALSE, predictions = TRUE)
@@ -600,4 +600,3 @@ test_that("benchmark allows that param_values overwrites tune token", {
   design = benchmark_grid(tsk("pima"), learner, rsmp("cv", folds = 3))
   expect_error(benchmark(design), "cannot be trained with TuneToken present in hyperparameter")
 })
-
