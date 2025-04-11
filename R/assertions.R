@@ -362,6 +362,8 @@ assert_range = function(range, .var.name = vname(range)) {
 
 #' @export
 #' @template param_row_ids
+#' @param task ([Task])\cr
+#'   Task to check if row ids exist in.
 #' @rdname mlr_assertions
 assert_row_ids = function(row_ids, task = NULL, null.ok = FALSE, .var.name = vname(row_ids)) {
   assert_integerish(row_ids, coerce = TRUE, null.ok = null.ok)
