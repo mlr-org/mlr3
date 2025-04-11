@@ -341,62 +341,38 @@ BenchmarkResult = R6Class("BenchmarkResult",
     },
 
     #' @description
-    #' Subsets the benchmark result. If `task_ids` is not `NULL`, keeps all
-    #' tasks with provided task ids and discards all others tasks.
-    #' Same procedure for `learner_ids` and `resampling_ids`.
+    #' Subsets the benchmark result.
+    #' You can either directly provide the uhashes of the resample results to keep, or use the
+    #' `...` argument to filter for learner, task and resampling IDs, as these arguments are passed
+    #' to [`uhashes()`] to select the resample results to keep.
+    #' You can either use `uhashes` or `...` but not both.
     #'
-    #' @param task_ids (`character()`)\cr
-    #'   Ids of [Task]s to keep.
-    #' @param task_hashes (`character()`)\cr
-    #'   Hashes of [Task]s to keep.
-    #' @param learner_ids (`character()`)\cr
-    #'   Ids of [Learner]s to keep.
-    #' @param learner_hashes (`character()`)\cr
-    #'   Hashes of [Learner]s to keep.
-    #' @param resampling_ids (`character()`)\cr
-    #'   Ids of [Resampling]s to keep.
-    #' @param resampling_hashes (`character()`)\cr
-    #'   Hashes of [Resampling]s to keep.
+    #' @param uhashes (`character()` | `NULL`)\cr
+    #'   Which resample results to keep.
+    #' @param ... (any)\cr
+    #'   Additional arguments passed to [`uhashes()`].
     #'
     #' @return
     #' Returns the object itself, but modified **by reference**.
     #' You need to explicitly `$clone()` the object beforehand if you want to keeps
     #' the object in its previous state.
-    filter = function(task_ids = NULL, task_hashes = NULL, learner_ids = NULL, learner_hashes = NULL,
-      resampling_ids = NULL, resampling_hashes = NULL) {
-      # deprecate all arguments
-      learner_phashes = NULL
-
-      filter_if_not_null = function(column, hashes) {
-        if (is.null(hashes)) {
-          fact
-        } else {
-          fact[unique(hashes), on = column, nomatch = NULL]
+    filter = function(uhashes = NULL, ...) {
+      if (is.null(uhashes) && ...length()) {
+        uhashes = uhashes(self, ...)
+      } else {
+        if (...length() > 0L) {
+          stopf("Only one of `uhashes` or `...` can be provided.")
         }
       }
 
-
-      if (!is.null(task_ids)) {
-        task = task_hash = NULL
-        task_hashes = union(task_hashes, private$.data$data$tasks[ids(task) %in% task_ids, task_hash])
-      }
-
-      if (!is.null(learner_ids)) {
-        learner = learner_phash = NULL
-        learner_phashes = private$.data$data$learners[ids(learner) %in% learner_ids, learner_phash]
-      }
-
-      if (!is.null(resampling_ids)) {
-        resampling = resampling_hash = NULL
-        resampling_hashes = union(resampling_hashes, private$.data$data$resamplings[ids(resampling) %in% resampling_ids, resampling_hash])
-      }
-
       fact = private$.data$data$fact
-      fact = filter_if_not_null("task_hash", task_hashes)
-      fact = filter_if_not_null("learner_hash", learner_hashes)
-      fact = filter_if_not_null("learner_phash", learner_phashes)
-      fact = filter_if_not_null("resampling_hash", resampling_hashes)
+      fact = if (is.null(uhashes)) {
+        fact
+      } else {
+        fact[unique(uhashes), on = "uhash", nomatch = NULL]
+      }
 
+      setkeyv(fact, c("uhash", "iteration"))
       private$.data$data$fact = fact
       private$.data$sweep()
 
@@ -404,28 +380,43 @@ BenchmarkResult = R6Class("BenchmarkResult",
     },
 
     #' @description
-    #' Retrieve the i-th [ResampleResult], by position or by unique hash `uhash`.
-    #' `i` and `uhash` are mutually exclusive.
+    #' Retrieve the i-th [ResampleResult], by position, by unique hash `uhash` or by learner,
+    #' task and resampling IDs (via `...`, which are passed to [`uhash()`]).
+    #' All three options are mutually exclusive.
     #'
-    #' @param i (`integer(1)`)\cr
+    #' @param i (`integer(1)` | `NULL`)\cr
     #'   The iteration value to filter for.
+    #' @param uhash (`character(1)` | `NULL`)\cr
+    #'   The unique identifier of the [ResampleResult].
+    #' @param ... (any)\cr
+    #'   Additional arguments (learner, task, resampling IDs) passed to [`uhash()`] to select
+    #'   the [ResampleResult].
     #'
-    #' @param uhash (`character(1)`)\cr
-    #'   The `uhash` value to filter for.
-    #'   To compute a specific `uhash`, see [`uhash()`].
-    #'
+    #' @examples
+    #' design = benchmark_grid(
+    #'   tsk("iris"),
+    #'   lrns(c("classif.debug", "classif.featureless")),
+    #'   rsmp("holdout")
+    #' )
+    #' bmr = benchmark(design)
+    #' bmr$clone()$resample_result(learner_id = "classif.featureless")
+    #' bmr$clone()$resample_result(i = 1)
+    #' bmr$resample_result(bmr$uhashes[1])
     #' @return [ResampleResult].
-    resample_result = function(i = NULL, uhash = NULL) {
-      if (!xor(is.null(i), is.null(uhash))) {
-        stopf("Either `i` or `uhash` must be provided")
+    resample_result = function(i = NULL, uhash = NULL, ...) {
+      if (sum(is.null(i), is.null(uhash), ...length() > 0L) != 1) {
+        stopf("Exactly one of `i`, `uhash`, and `...` must be provided.")
       }
 
       uhashes = private$.data$uhashes()
-      if (is.null(i)) {
-        needle = assert_choice(uhash, uhashes)
-      } else {
+
+      needle = if (!is.null(uhash)) {
+        assert_choice(uhash, uhashes)
+      } else if (!is.null(i)) {
         i = assert_int(i, lower = 1L, upper = length(uhashes), coerce = TRUE)
-        needle = uhashes[i]
+        uhashes[i]
+      } else {
+        uhash(self, ...)
       }
 
       ResampleResult$new(private$.data, view = needle)
@@ -452,16 +443,23 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #' @description
     #' Sets the threshold for the response prediction of classification learners, given they have
     #' output a probability prediction for a binary classification task.
-    #' Parameters `uhashes` and `i` are mutually exclusive.
     #'
-    #' @param uhashes (`character()`)\cr
+    #' The resample results for which to change the threshold can either be specified directly
+    #' via `uhashes`, by selecting the specific iterations (`i`) or by filtering according to
+    #' learner, task and resampling IDs (via `...`, which are passed to [`uhashes()`] to select
+    #' the resample results).
+    #'
+    #' @param uhashes (`character()` | `NULL`)\cr
     #'   The uhashes for which the threshold should be set.
     #'   A uhash uniquely identifies an individual [`ResampleResult`].
     #'   See examples for how to easily retrieve the uhashes for specific learners, tasks, and resamplings.
     #' @param threshold (`numeric(1)`)\cr
     #'   Threshold value.
-    #' @param i (`integer()`)\cr
+    #' @param i (`integer()` | `NULL`)\cr
     #'   The iteration values to filter for.
+    #' @param ... (any)\cr
+    #'   If provided, these will be passed to [`uhashes()`] to select the resample results for which
+    #'   to set the threshold.
     #' @template param_ties_method
     #' @examples
     #' design = benchmark_grid(
@@ -471,15 +469,17 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #' )
     #' bmr = benchmark(design)
     #' bmr$set_threshold(0.8, uhashes(bmr, learner_ids = "classif.debug"))
-    set_threshold = function(threshold, uhashes = NULL, i = NULL, ties_method = "random") {
-      if (!is.null(i) && !is.null(uhashes)) {
-        stopf("Only one of `i` or `uhashes` can be provided.")
+    set_threshold = function(threshold, uhashes = NULL, i = NULL, ties_method = "random", ...) {
+      if (sum(!is.null(i), !is.null(uhashes), ...length()) > 1) {
+        stopf("At most one of `i`, `uhash`, and `...` can be provided.")
       }
-      if (!is.null(i)) {
+      uhashes = if (!is.null(i)) {
         uhashes = self$uhashes
         uhashes = uhashes[assert_integerish(i, lower = 1L, upper = length(uhashes))]
-      } else {
+      } else if (!is.null(uhashes)) {
         assert_character(uhashes, null.ok = TRUE)
+      } else {
+        uhashes(self, ...)
       }
       private$.data$set_threshold(uhashes, threshold, ties_method)
     }
@@ -625,12 +625,8 @@ print.bmr_aggregate = function(x, ...) {
   print_data_table(x, "resample_result")
 }
 
-#' @param learner_ids (`character()`)\cr
-#'   Learner ids.
-#' @param task_ids (`character()`)\cr
-#'   Task ids.
-#' @param resampling_ids (`character()`)\cr
-#'   Resampling ids.
+#' @param learner_ids, task_ids, resampling_ids (`character()` | `NULL`)\cr
+#'   Learner, task, and resampling IDs.
 #' @rdname uhash
 #' @export
 uhashes = function(bmr, learner_ids = NULL, task_ids = NULL, resampling_ids = NULL) {
@@ -647,13 +643,16 @@ uhashes = function(bmr, learner_ids = NULL, task_ids = NULL, resampling_ids = NU
 
 #' @title Obtain specific uhashes from a [BenchmarkResult]
 #' @description
-#' Calculates one or more uhashes (unique identifiers) from the IDs of a learner, task, and resampling.
-#' @param learner_id (`character(1)`)\cr
-#'   Learner id.
-#' @param task_id (`character(1)`)\cr
-#'   Task id.
-#' @param resampling_id (`character(1)`)\cr
-#'   Resampling id.
+#' In a [`BenchmarkResult`], each [ResampleResult] is *u*niquely identified by a *hash* (*uhash*).
+#' Operations that select specific [ResampleResult]s from a [BenchmarkResult] operate using
+#' these hashes.
+#' This function allows to obtain uhashes for specific learners, tasks, and resamplings.
+#'
+#' If you want more control, you can also directly obtain the uhash table from the [`BenchmarkResult`]
+#' via the field `$uhash_table`.
+#'
+#' @param learner_id, task_id, resampling_id (`character(1)` | `NULL`)\cr
+#'   Learner, task, and resampling ID.
 #' @export
 #' @examples
 #' design = benchmark_grid(

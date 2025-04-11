@@ -10,26 +10,20 @@ uhashes(bmr, learner_ids = NULL, task_ids = NULL, resampling_ids = NULL)
 uhash(bmr, learner_id = NULL, task_id = NULL, resampling_id = NULL)
 }
 \arguments{
-\item{learner_ids}{(\code{character()})\cr
-Learner ids.}
+\item{learner_ids, }{task_ids, resampling_ids (\code{character()} | \code{NULL})\cr
+Learner, task, and resampling IDs.}
 
-\item{task_ids}{(\code{character()})\cr
-Task ids.}
-
-\item{resampling_ids}{(\code{character()})\cr
-Resampling ids.}
-
-\item{learner_id}{(\code{character(1)})\cr
-Learner id.}
-
-\item{task_id}{(\code{character(1)})\cr
-Task id.}
-
-\item{resampling_id}{(\code{character(1)})\cr
-Resampling id.}
+\item{learner_id, }{task_id, resampling_id (\code{character(1)} | \code{NULL})\cr
+Learner, task, and resampling ID.}
 }
 \description{
-Calculates one or more uhashes (unique identifiers) from the IDs of a learner, task, and resampling.
+In a \code{\link{BenchmarkResult}}, each \link{ResampleResult} is \emph{u}niquely identified by a \emph{hash} (\emph{uhash}).
+Operations that select specific \link{ResampleResult}s from a \link{BenchmarkResult} operate using
+these hashes.
+This function allows to obtain uhashes for specific learners, tasks, and resamplings.
+
+If you want more control, you can also directly obtain the uhash table from the \code{\link{BenchmarkResult}}
+via the field \verb{$uhash_table}.
 }
 \examples{
 design = benchmark_grid(

@@ -104,6 +104,7 @@ reference:
       - BenchmarkResult
       - as_result_data
       - as_benchmark_result
+      - uhash
   - title: Converters
     contents:
       - starts_with("as_")

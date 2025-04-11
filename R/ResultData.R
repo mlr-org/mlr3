@@ -110,6 +110,7 @@ ResultData = R6Class("ResultData",
     uhash_table = function(view = NULL) {
       newtbl = list()
       tbl = self$data$fact[private$get_view_index(view), c("uhash", "learner_phash", "task_hash", "resampling_hash"), with = FALSE]
+      tbl = tbl[!duplicated(get("uhash")), ]
       # retrieve learner id, task id and resampling id from self$data$learners, self$data$tasks and self$data$resamplings
       newtbl$learner_id = self$data$learners[list(tbl$learner_phash), ids(get("learner")), on = "learner_phash"]
       newtbl$task_id = self$data$tasks[list(tbl$task_hash), ids(get("task")), on = "task_hash"]
