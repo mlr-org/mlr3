@@ -846,6 +846,9 @@ Task = R6Class("Task",
       private$.hash
     },
 
+    #' @field row_hash (`character(1)`)\cr
+    #' Hash (unique identifier) calculated based on the row ids.
+    #' The hash is recalculated when the row ids change.
     row_hash = function(rhs) {
       assert_ro_binding(rhs)
       if (is.null(private$.row_hash)) {
@@ -943,6 +946,7 @@ Task = R6Class("Task",
       assert_names(names(rhs), "unique", permutation.of = mlr_reflections$task_row_roles, .var.name = "names of row_roles")
       rhs = map(rhs, assert_row_ids, .var.name = "elements of row_roles")
       private$.hash = NULL
+      private$.row_hash = NULL
       private$.row_roles = rhs
     },
 

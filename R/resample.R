@@ -87,7 +87,7 @@ resample = function(
     resampling = resampling$instantiate(task)
   }
 
-  if (resampling$task_row_hash != task$row_hash) {
+  if (!is.null(resampling$task_row_hash) && resampling$task_row_hash != task$row_hash) {
     stopf("Resampling '%s' is not instantiated on task '%s'", resampling$id, task$id)
   }
 

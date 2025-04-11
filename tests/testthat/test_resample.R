@@ -517,7 +517,8 @@ test_that("resampling instantiated on a different task throws an error", {
   resampling = rsmp("cv", folds = 3)
   resampling$instantiate(task)
 
-  expect_error(resample(tsk("pima"), lrn("classif.rpart"), resampling), "The resampling was probably instantiated on a different task")
+  expect_error(resample(tsk("pima"), lrn("classif.rpart"), resampling),
+    "not instantiated")
 
 })
 

@@ -224,7 +224,7 @@ test_that("benchmark_grid", {
 
   tasks = tsks(c("iris", "sonar"))
   resamp = rsmp("cv")$instantiate(tasks[[1]])
-  expect_error(benchmark_grid(tasks, learner, resamp), "rows")
+  expect_error(benchmark_grid(tasks, learner, resamp), "not instantiated")
 })
 
 test_that("filter", {

@@ -104,7 +104,8 @@ benchmark_grid = function(tasks, learners, resamplings, param_values = NULL, pai
     } else if (all(is_instantiated)) {
       # check that all row ids of the resamplings are present in the tasks
       pwalk(grid, function(task, resampling) {
-        if (resamplings[[resampling]]$task_row_hash != tasks[[task]]$row_hash) {
+        if (!is.null(resamplings[[resampling]]$task_row_hash) &&
+            resamplings[[resampling]]$task_row_hash != tasks[[task]]$row_hash) {
           stopf("Resampling '%s' is not instantiated on task '%s'", resamplings[[resampling]]$id, tasks[[task]]$id)
         }
       })
