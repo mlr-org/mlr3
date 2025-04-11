@@ -401,10 +401,10 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #' bmr = benchmark(design)
     #' bmr$clone()$resample_result(learner_id = "classif.featureless")
     #' bmr$clone()$resample_result(i = 1)
-    #' bmr$resample_result(bmr$uhashes[1])
+    #' bmr$resample_result(uhash = bmr$uhashes[1])
     #' @return [ResampleResult].
     resample_result = function(i = NULL, uhash = NULL, ...) {
-      if (sum(is.null(i), is.null(uhash), ...length() > 0L) != 1) {
+      if (sum(!is.null(i), !is.null(uhash), ...length() > 0L) != 1) {
         stopf("Exactly one of `i`, `uhash`, and `...` must be provided.")
       }
 
@@ -625,8 +625,12 @@ print.bmr_aggregate = function(x, ...) {
   print_data_table(x, "resample_result")
 }
 
-#' @param learner_ids, task_ids, resampling_ids (`character()` | `NULL`)\cr
-#'   Learner, task, and resampling IDs.
+#' @param learner_ids (`character()` | `NULL`)\cr
+#'   Learner IDs.
+#' @param task_ids (`character()` | `NULL`)\cr
+#'   Task IDs.
+#' @param resampling_ids (`character()` | `NULL`)\cr
+#'   Resampling IDs.
 #' @rdname uhash
 #' @export
 uhashes = function(bmr, learner_ids = NULL, task_ids = NULL, resampling_ids = NULL) {
@@ -651,8 +655,14 @@ uhashes = function(bmr, learner_ids = NULL, task_ids = NULL, resampling_ids = NU
 #' If you want more control, you can also directly obtain the uhash table from the [`BenchmarkResult`]
 #' via the field `$uhash_table`.
 #'
-#' @param learner_id, task_id, resampling_id (`character(1)` | `NULL`)\cr
-#'   Learner, task, and resampling ID.
+#' @param bmr (`BenchmarkResult`)\cr
+#'   Benchmark result.
+#' @param learner_id (`character(1)` | `NULL`)\cr
+#'   Learner ID.
+#' @param task_id (`character(1)` | `NULL`)\cr
+#'   Task ID.
+#' @param resampling_id (`character(1)` | `NULL`)\cr
+#'   Resampling ID.
 #' @export
 #' @examples
 #' design = benchmark_grid(

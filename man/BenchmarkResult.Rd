@@ -81,7 +81,7 @@ design = benchmark_grid(
 bmr = benchmark(design)
 bmr$clone()$resample_result(learner_id = "classif.featureless")
 bmr$clone()$resample_result(i = 1)
-bmr$resample_result(bmr$uhashes[1])
+bmr$resample_result(uhash = bmr$uhashes[1])
 
 ## ------------------------------------------------
 ## Method `BenchmarkResult$set_threshold`
@@ -505,7 +505,7 @@ the \link{ResampleResult}.}
 bmr = benchmark(design)
 bmr$clone()$resample_result(learner_id = "classif.featureless")
 bmr$clone()$resample_result(i = 1)
-bmr$resample_result(bmr$uhashes[1])
+bmr$resample_result(uhash = bmr$uhashes[1])
 }
 \if{html}{\out{</div>}}
 

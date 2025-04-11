@@ -10,11 +10,26 @@ uhashes(bmr, learner_ids = NULL, task_ids = NULL, resampling_ids = NULL)
 uhash(bmr, learner_id = NULL, task_id = NULL, resampling_id = NULL)
 }
 \arguments{
-\item{learner_ids, }{task_ids, resampling_ids (\code{character()} | \code{NULL})\cr
-Learner, task, and resampling IDs.}
+\item{bmr}{(\code{BenchmarkResult})\cr
+Benchmark result.}
 
-\item{learner_id, }{task_id, resampling_id (\code{character(1)} | \code{NULL})\cr
-Learner, task, and resampling ID.}
+\item{learner_ids}{(\code{character()} | \code{NULL})\cr
+Learner IDs.}
+
+\item{task_ids}{(\code{character()} | \code{NULL})\cr
+Task IDs.}
+
+\item{resampling_ids}{(\code{character()} | \code{NULL})\cr
+Resampling IDs.}
+
+\item{learner_id}{(\code{character(1)} | \code{NULL})\cr
+Learner ID.}
+
+\item{task_id}{(\code{character(1)} | \code{NULL})\cr
+Task ID.}
+
+\item{resampling_id}{(\code{character(1)} | \code{NULL})\cr
+Resampling ID.}
 }
 \description{
 In a \code{\link{BenchmarkResult}}, each \link{ResampleResult} is \emph{u}niquely identified by a \emph{hash} (\emph{uhash}).

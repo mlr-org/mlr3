@@ -112,6 +112,8 @@ test_that("bmr$resample_result()", {
   uhashes = bmr$uhashes
   expect_resample_result(bmr$resample_result(1L))
   expect_resample_result(bmr$resample_result(uhash = uhashes[1]))
+  expect_resample_result(bmr$resample_result(learner_id = "classif.featureless", task_id = "iris"))
+  expect_error(bmr$resample_result(learner_id = "classif.featureless"), "Expected exactly one")
   expect_error(bmr$resample_result(0))
   expect_error(bmr$resample_result(100))
   expect_error(bmr$resample_result(uhash = "a"))
