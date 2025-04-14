@@ -15,6 +15,9 @@
 #'   I.e., you must provide as many tasks as corresponding instantiated resamplings.
 #'   The grid will be generated based on the Cartesian product of learners and pairs.
 #'
+#' @section Errors and Warnings:
+#' * `varying_predict_types`: This warning will be thrown if the learners have different `predict_type`s.
+#'
 #' @param tasks (list of [Task]).
 #' @param learners (list of [Learner]).
 #' @param resamplings (list of [Resampling]).
@@ -72,6 +75,9 @@ benchmark_grid = function(tasks, learners, resamplings, param_values = NULL, pai
   if (!is.null(param_values)) {
     assert_param_values(param_values, n_learners = length(learners))
   }
+  if (length(unique(map_chr(unique(learners), "predict_type"))) > 1) {
+    warningf("Multiple predict types detected, this will mean that you cannot evaluate the same measures on all learners.", class = "varying_predict_types") # nolint
+  }
 
   if (assert_flag(paired)) {
     if (length(tasks) != length(resamplings)) {
@@ -101,7 +107,7 @@ benchmark_grid = function(tasks, learners, resamplings, param_values = NULL, pai
         stopf("All resamplings must be uninstantiated, or must operate on tasks with the same number of rows")
       }
       if (!identical(task_nrow, unique(map_int(resamplings, "task_nrow")))) {
-        stop("A Resampling is instantiated for a task with a different number of observations")
+        stopf("A Resampling is instantiated for a task with a different number of observations")
       }
       # clone resamplings for each task and update task hashes
       instances = pmap(grid, function(task, resampling) resampling = resamplings[[resampling]]$clone())
