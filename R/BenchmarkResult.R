@@ -342,25 +342,36 @@ BenchmarkResult = R6Class("BenchmarkResult",
 
     #' @description
     #' Subsets the benchmark result.
-    #' You can either directly provide the uhashes of the resample results to keep, or use the
-    #' `learner_ids`, `task_ids` and `resampling_ids` arguments to filter for learner, task and resampling IDs.
-    #' You can either use `uhashes` or `...` but not both.
+    #' You can either directly provide the row IDs or the uhashes of the resample results to keep,
+    #' or use the `learner_ids`, `task_ids` and `resampling_ids` arguments to filter for learner, task and resampling IDs.
+    #' The three options are mutually exclusive.
     #'
-    #' @param i (`integer(1)` | `NULL`)\cr
-    #'   The iteration value to filter for.
+    #' @param i (`integer()` | `NULL`)\cr
+    #'   The iteration values to filter for.
     #' @param uhashes (`character()` | `NULL`)\cr
-    #'   Which resample results to keep.
+    #'   The uhashes of the resample results to filter for.
     #' @param learner_ids (`character()` | `NULL`)\cr
-    #'   The learner IDs.
+    #'   The learner IDs to filter for.
     #' @param task_ids (`character()` | `NULL`)\cr
-    #'   The task IDs.
+    #'   The task IDs to filter for.
     #' @param resampling_ids (`character()` | `NULL`)\cr
-    #'   The resampling IDs.
+    #'   The resampling IDs to filter for.
     #'
     #' @return
     #' Returns the object itself, but modified **by reference**.
     #' You need to explicitly `$clone()` the object beforehand if you want to keeps
     #' the object in its previous state.
+    #' @examples
+    #' design = benchmark_grid(
+    #'   tsks(c("iris", "sonar")),
+    #'   lrns(c("classif.debug", "classif.featureless")),
+    #'   rsmp("holdout")
+    #' )
+    #' bmr = benchmark(design)
+    #' bmr
+    #' bmr2 = bmr$clone(deep = TRUE)
+    #' bmr2$filter(learner_ids = "classif.featureless")
+    #' bmr2
     filter = function(i = NULL, uhashes = NULL, learner_ids = NULL, task_ids = NULL, resampling_ids = NULL) {
       uhashes = private$.get_uhashes(i, uhashes, learner_ids, task_ids, resampling_ids)
 
@@ -386,13 +397,13 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #' @param i (`integer(1)` | `NULL`)\cr
     #'   The iteration value to filter for.
     #' @param uhash (`character(1)` | `NULL`)\cr
-    #'   The unique identifier of the [ResampleResult].
+    #'   The unique identifier to filter for.
     #' @param learner_id (`character(1)` | `NULL`)\cr
-    #'   The learner ID.
+    #'   The learner ID to filter for.
     #' @param task_id (`character(1)` | `NULL`)\cr
-    #'   The task ID.
+    #'   The task ID to filter for.
     #' @param resampling_id (`character(1)` | `NULL`)\cr
-    #'   The resampling ID.
+    #'   The resampling ID to filter for.
     #'
     #' @examples
     #' design = benchmark_grid(
@@ -440,22 +451,21 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #' The resample results for which to change the threshold can either be specified directly
     #' via `uhashes`, by selecting the specific iterations (`i`) or by filtering according to
     #' learner, task and resampling IDs.
-    #' If nothing is specified, the threshold is set for all resample results.
     #'
-    #' @param uhashes (`character()` | `NULL`)\cr
-    #'   The uhashes for which the threshold should be set.
-    #'   A uhash uniquely identifies an individual [`ResampleResult`].
-    #'   See examples for how to easily retrieve the uhashes for specific learners, tasks, and resamplings.
+    #' If none of the three options is specified, the threshold is set for all resample results.
+    #'
     #' @param threshold (`numeric(1)`)\cr
     #'   Threshold value.
     #' @param i (`integer()` | `NULL`)\cr
     #'   The iteration values to filter for.
+    #' @param uhashes (`character()` | `NULL`)\cr
+    #'   The unique identifiers of the [ResampleResult]s for which the threshold should be set.
     #' @param learner_ids (`character()` | `NULL`)\cr
-    #'   The learner IDs.
+    #'   The learner IDs for which the threshold should be set.
     #' @param task_ids (`character()` | `NULL`)\cr
-    #'   The task IDs.
+    #'   The task IDs for which the threshold should be set.
     #' @param resampling_ids (`character()` | `NULL`)\cr
-    #'   The resampling IDs.
+    #'   The resampling IDs for which the threshold should be set.
     #' @template param_ties_method
     #' @examples
     #' design = benchmark_grid(
@@ -464,7 +474,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #'   rsmp("holdout")
     #' )
     #' bmr = benchmark(design)
-    #' bmr$set_threshold(0.8, learner_ids = "classif.debug")
+    #' bmr$set_threshold(0.8, learner_ids = "classif.featureless")
     #' bmr$set_threshold(0.3, i = 2)
     #' bmr$set_threshold(0.7, uhashes = uhashes(bmr, learner_ids = "classif.featureless"))
     set_threshold = function(threshold, i = NULL, uhashes = NULL, learner_ids = NULL, task_ids = NULL,
@@ -562,7 +572,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
       private$.data$uhashes()
     },
 
-    #' @field uhash_table ([data.table::data.table()])\cr
+    #' @field uhash_table ([data.table::data.table])\cr
     #' Table with columns `uhash`, `learner_id`, `task_id` and `resampling_id`.
     uhash_table = function(rhs) {
       assert_ro_binding(rhs)

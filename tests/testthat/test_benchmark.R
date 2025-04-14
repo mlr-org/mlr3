@@ -247,11 +247,16 @@ test_that("filter", {
   expect_data_table(get_private(bmr)$.data$data$fact, nrows = 4)
   expect_resultdata(get_private(bmr)$.data, TRUE)
 
-  bmr$filter(resampling_ids = "cv")
-  expect_data_table(get_private(bmr)$.data$data$fact, nrows = 3)
+  bmr2 = bmr$clone(deep = TRUE)$filter(resampling_ids = "cv")
+  expect_data_table(get_private(bmr2)$.data$data$fact, nrows = 3)
+  expect_resultdata(get_private(bmr2)$.data, TRUE)
+
+  bmr$filter(i = 2)
+  expect_data_table(get_private(bmr)$.data$data$fact, nrows = 1)
   expect_resultdata(get_private(bmr)$.data, TRUE)
 
   expect_benchmark_result(bmr)
+  expect_benchmark_result(bmr2)
 })
 
 test_that("aggregated performance values are calculated correctly (#555)", {
@@ -658,13 +663,20 @@ test_that("can change the threshold", {
   # the other prediction was also not affected, we want to avoid partial updates
   expect_equal(bmr$resample_result(1)$prediction()$response, response)
 
-  bmr$set_threshold(0.9, uhashes = uhashes(bmr, learner_id = "classif.featureless"))
+  bmr$set_threshold(0.9, uhashes = uhashes(bmr, learner_ids = "classif.featureless"))
 
   expect_true(all(bmr$resample_result(1)$prediction()$response == "versicolor"))
 
   # can also use the iters argument
-  bmr$set_threshold(0.01, i = 1)
-  expect_true(all(bmr$resample_result(1)$prediction()$response == "setosa"))
+  design = benchmark_grid(
+    task,
+    c(lrn("classif.featureless", predict_type = "prob"), lrn("classif.debug", predict_type = "prob")),
+    rsmp("insample")
+  )
+  bmr = benchmark(design)
+  bmr$set_threshold(0.9, i = 1)
+  expect_true(all(bmr$resample_result(1)$prediction()$response == "versicolor"))
+  expect_false(all(bmr$resample_result(2)$prediction()$response == "versicolor"))
 })
 
 test_that("uhashe(s) work", {
@@ -725,4 +737,6 @@ test_that("uhashe(s) work", {
   # no match
   expect_equal(uhashes(bmr, "not-existing"), character(0))
   expect_error(uhash(bmr, "not-existing"), "Expected exactly one uhash")
+  expect_equal(bmr$uhashes, uhashes(bmr))
+  expect_equal(bmr$filter(1)$uhashes, uhash(bmr))
 })

@@ -70,6 +70,21 @@ bmr$filter(task_ids = "sonar")
 print(bmr)
 
 ## ------------------------------------------------
+## Method `BenchmarkResult$filter`
+## ------------------------------------------------
+
+design = benchmark_grid(
+  tsks(c("iris", "sonar")),
+  lrns(c("classif.debug", "classif.featureless")),
+  rsmp("holdout")
+)
+bmr = benchmark(design)
+bmr
+bmr2 = bmr$clone(deep = TRUE)
+bmr2$filter(learner_ids = "classif.featureless")
+bmr2
+
+## ------------------------------------------------
 ## Method `BenchmarkResult$resample_result`
 ## ------------------------------------------------
 
@@ -93,7 +108,7 @@ design = benchmark_grid(
   rsmp("holdout")
 )
 bmr = benchmark(design)
-bmr$set_threshold(0.8, learner_ids = "classif.debug")
+bmr$set_threshold(0.8, learner_ids = "classif.featureless")
 bmr$set_threshold(0.3, i = 2)
 bmr$set_threshold(0.7, uhashes = uhashes(bmr, learner_ids = "classif.featureless"))
 }
@@ -160,7 +175,7 @@ Returns the total number of stored \link{ResampleResult}s.}
 \item{\code{uhashes}}{(\code{character()})\cr
 Set of (unique) hashes of all included \link{ResampleResult}s.}
 
-\item{\code{uhash_table}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
+\item{\code{uhash_table}}{(\link[data.table:data.table]{data.table::data.table})\cr
 Table with columns \code{uhash}, \code{learner_id}, \code{task_id} and \code{resampling_id}.}
 }
 \if{html}{\out{</div>}}
@@ -443,9 +458,9 @@ iterations with errors as extra integer column \code{"errors"}.}
 \if{latex}{\out{\hypertarget{method-BenchmarkResult-filter}{}}}
 \subsection{Method \code{filter()}}{
 Subsets the benchmark result.
-You can either directly provide the uhashes of the resample results to keep, or use the
-\code{learner_ids}, \code{task_ids} and \code{resampling_ids} arguments to filter for learner, task and resampling IDs.
-You can either use \code{uhashes} or \code{...} but not both.
+You can either directly provide the row IDs or the uhashes of the resample results to keep,
+or use the \code{learner_ids}, \code{task_ids} and \code{resampling_ids} arguments to filter for learner, task and resampling IDs.
+The three options are mutually exclusive.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{BenchmarkResult$filter(
   i = NULL,
@@ -459,20 +474,20 @@ You can either use \code{uhashes} or \code{...} but not both.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{i}}{(\code{integer(1)} | \code{NULL})\cr
-The iteration value to filter for.}
+\item{\code{i}}{(\code{integer()} | \code{NULL})\cr
+The iteration values to filter for.}
 
 \item{\code{uhashes}}{(\code{character()} | \code{NULL})\cr
-Which resample results to keep.}
+The uhashes of the resample results to filter for.}
 
 \item{\code{learner_ids}}{(\code{character()} | \code{NULL})\cr
-The learner IDs.}
+The learner IDs to filter for.}
 
 \item{\code{task_ids}}{(\code{character()} | \code{NULL})\cr
-The task IDs.}
+The task IDs to filter for.}
 
 \item{\code{resampling_ids}}{(\code{character()} | \code{NULL})\cr
-The resampling IDs.}
+The resampling IDs to filter for.}
 }
 \if{html}{\out{</div>}}
 }
@@ -481,6 +496,23 @@ Returns the object itself, but modified \strong{by reference}.
 You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
 the object in its previous state.
 }
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{design = benchmark_grid(
+  tsks(c("iris", "sonar")),
+  lrns(c("classif.debug", "classif.featureless")),
+  rsmp("holdout")
+)
+bmr = benchmark(design)
+bmr
+bmr2 = bmr$clone(deep = TRUE)
+bmr2$filter(learner_ids = "classif.featureless")
+bmr2
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-BenchmarkResult-resample_result"></a>}}
@@ -506,16 +538,16 @@ All three options are mutually exclusive.
 The iteration value to filter for.}
 
 \item{\code{uhash}}{(\code{character(1)} | \code{NULL})\cr
-The unique identifier of the \link{ResampleResult}.}
+The unique identifier to filter for.}
 
 \item{\code{task_id}}{(\code{character(1)} | \code{NULL})\cr
-The task ID.}
+The task ID to filter for.}
 
 \item{\code{learner_id}}{(\code{character(1)} | \code{NULL})\cr
-The learner ID.}
+The learner ID to filter for.}
 
 \item{\code{resampling_id}}{(\code{character(1)} | \code{NULL})\cr
-The resampling ID.}
+The resampling ID to filter for.}
 }
 \if{html}{\out{</div>}}
 }
@@ -577,7 +609,8 @@ output a probability prediction for a binary classification task.
 The resample results for which to change the threshold can either be specified directly
 via \code{uhashes}, by selecting the specific iterations (\code{i}) or by filtering according to
 learner, task and resampling IDs.
-If nothing is specified, the threshold is set for all resample results.
+
+If none of the three options is specified, the threshold is set for all resample results.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{BenchmarkResult$set_threshold(
   threshold,
@@ -600,18 +633,16 @@ Threshold value.}
 The iteration values to filter for.}
 
 \item{\code{uhashes}}{(\code{character()} | \code{NULL})\cr
-The uhashes for which the threshold should be set.
-A uhash uniquely identifies an individual \code{\link{ResampleResult}}.
-See examples for how to easily retrieve the uhashes for specific learners, tasks, and resamplings.}
+The unique identifiers of the \link{ResampleResult}s for which the threshold should be set.}
 
 \item{\code{learner_ids}}{(\code{character()} | \code{NULL})\cr
-The learner IDs.}
+The learner IDs for which the threshold should be set.}
 
 \item{\code{task_ids}}{(\code{character()} | \code{NULL})\cr
-The task IDs.}
+The task IDs for which the threshold should be set.}
 
 \item{\code{resampling_ids}}{(\code{character()} | \code{NULL})\cr
-The resampling IDs.}
+The resampling IDs for which the threshold should be set.}
 
 \item{\code{ties_method}}{(\code{character(1)})\cr
 Method to handle ties in probabilities when selecting a class label.
@@ -632,7 +663,7 @@ Must be one of \code{"random"}, \code{"first"} or \code{"last"} (corresponding t
   rsmp("holdout")
 )
 bmr = benchmark(design)
-bmr$set_threshold(0.8, learner_ids = "classif.debug")
+bmr$set_threshold(0.8, learner_ids = "classif.featureless")
 bmr$set_threshold(0.3, i = 2)
 bmr$set_threshold(0.7, uhashes = uhashes(bmr, learner_ids = "classif.featureless"))
 }
