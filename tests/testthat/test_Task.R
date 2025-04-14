@@ -651,12 +651,11 @@ test_that("internal_valid_task is printed", {
 })
 
 test_that("task hashes during resample", {
-  orig = tsk("iris")
+  task = orig = tsk("iris")
   task = orig$clone(deep = TRUE)
   resampling = rsmp("holdout")
   resampling$instantiate(task)
   task$internal_valid_task = resampling$test_set(1)
-  task$hash
   learner = lrn("classif.debug", validate = "test")
   expect_equal(resampling_task_hashes(task, resampling, learner), task$hash)
 })

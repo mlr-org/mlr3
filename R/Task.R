@@ -408,8 +408,8 @@ Task = R6Class("Task",
       assert_has_backend(self)
       rows = assert_row_ids(rows)
       private$.row_roles$use = assert_subset(rows, self$row_ids_backend)
-      private$.hash = NULL
       private$.row_hash = NULL
+      private$.hash = NULL
       invisible(self)
     },
 
@@ -648,8 +648,8 @@ Task = R6Class("Task",
       assert_has_backend(self)
       assert_subset(rows, self$backend$rownames)
 
-      private$.hash = NULL
       private$.row_hash = NULL
+      private$.hash = NULL
       private$.row_roles = task_set_roles(private$.row_roles, rows, roles, add_to, remove_from, allow_duplicated = TRUE)
 
       invisible(self)
@@ -799,6 +799,7 @@ Task = R6Class("Task",
         private$.internal_valid_task = NULL
         return(invisible(private$.internal_valid_task))
       }
+      private$.row_hash = NULL
       private$.hash = NULL
 
       if (test_integerish(rhs)) {
@@ -840,7 +841,7 @@ Task = R6Class("Task",
     #' If an internal validation task is set, the hash is recalculated.
     hash = function(rhs) {
       if (is.null(private$.hash)) {
-        private$.hash = task_hash(self, self$row_hash, ignore_internal_valid_task = FALSE)
+        private$.hash = task_hash(self, self$row_ids, ignore_internal_valid_task = FALSE)
       }
 
       private$.hash
@@ -945,8 +946,8 @@ Task = R6Class("Task",
       }
       assert_names(names(rhs), "unique", permutation.of = mlr_reflections$task_row_roles, .var.name = "names of row_roles")
       rhs = map(rhs, assert_row_ids, .var.name = "elements of row_roles")
-      private$.hash = NULL
       private$.row_hash = NULL
+      private$.hash = NULL
       private$.row_roles = rhs
     },
 
