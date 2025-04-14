@@ -682,3 +682,14 @@ test_that("resampling validation", {
   design = data.table(task = list(task), learner = list(learner), resampling = list(resampling))
   expect_benchmark_result(benchmark(design))
 })
+
+test_that("warning when mixing predict types", {
+  expect_warning(benchmark_grid(
+    tsk("iris"),
+    list(
+      lrn("classif.debug", predict_type = "prob"),
+      lrn("classif.featureless", predict_type = "response")
+    ),
+    rsmp("cv", folds = 3)
+  ), regexp = "Multiple predict types detected")
+})

@@ -53,6 +53,13 @@ This means that you must provide as many tasks as corresponding instantiated res
 The grid will be generated based on the Cartesian product of learners and pairs.
 }
 }
+\section{Errors and Warnings}{
+
+\itemize{
+\item \code{varying_predict_types}: This warning will be thrown if the learners have different \code{predict_type}s.
+}
+}
+
 \examples{
 tasks = list(tsk("penguins"), tsk("sonar"))
 learners = list(lrn("classif.featureless"), lrn("classif.rpart"))
