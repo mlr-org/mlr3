@@ -343,27 +343,26 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #' @description
     #' Subsets the benchmark result.
     #' You can either directly provide the uhashes of the resample results to keep, or use the
-    #' `...` argument to filter for learner, task and resampling IDs, as these arguments are passed
-    #' to [`uhashes()`] to select the resample results to keep.
+    #' `learner_ids`, `task_ids` and `resampling_ids` arguments to filter for learner, task and resampling IDs.
     #' You can either use `uhashes` or `...` but not both.
     #'
+    #' @param i (`integer(1)` | `NULL`)\cr
+    #'   The iteration value to filter for.
     #' @param uhashes (`character()` | `NULL`)\cr
     #'   Which resample results to keep.
-    #' @param ... (any)\cr
-    #'   Additional arguments passed to [`uhashes()`].
+    #' @param learner_ids (`character()` | `NULL`)\cr
+    #'   The learner IDs.
+    #' @param task_ids (`character()` | `NULL`)\cr
+    #'   The task IDs.
+    #' @param resampling_ids (`character()` | `NULL`)\cr
+    #'   The resampling IDs.
     #'
     #' @return
     #' Returns the object itself, but modified **by reference**.
     #' You need to explicitly `$clone()` the object beforehand if you want to keeps
     #' the object in its previous state.
-    filter = function(uhashes = NULL, ...) {
-      if (is.null(uhashes) && ...length()) {
-        uhashes = uhashes(self, ...)
-      } else {
-        if (...length() > 0L) {
-          stopf("Only one of `uhashes` or `...` can be provided.")
-        }
-      }
+    filter = function(i = NULL, uhashes = NULL, learner_ids = NULL, task_ids = NULL, resampling_ids = NULL) {
+      uhashes = private$.get_uhashes(i, uhashes, learner_ids, task_ids, resampling_ids)
 
       fact = private$.data$data$fact
       fact = if (is.null(uhashes)) {
@@ -381,16 +380,19 @@ BenchmarkResult = R6Class("BenchmarkResult",
 
     #' @description
     #' Retrieve the i-th [ResampleResult], by position, by unique hash `uhash` or by learner,
-    #' task and resampling IDs (via `...`, which are passed to [`uhash()`]).
+    #' task and resampling IDs.
     #' All three options are mutually exclusive.
     #'
     #' @param i (`integer(1)` | `NULL`)\cr
     #'   The iteration value to filter for.
     #' @param uhash (`character(1)` | `NULL`)\cr
     #'   The unique identifier of the [ResampleResult].
-    #' @param ... (any)\cr
-    #'   Additional arguments (learner, task, resampling IDs) passed to [`uhash()`] to select
-    #'   the [ResampleResult].
+    #' @param learner_id (`character(1)` | `NULL`)\cr
+    #'   The learner ID.
+    #' @param task_id (`character(1)` | `NULL`)\cr
+    #'   The task ID.
+    #' @param resampling_id (`character(1)` | `NULL`)\cr
+    #'   The resampling ID.
     #'
     #' @examples
     #' design = benchmark_grid(
@@ -399,27 +401,18 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #'   rsmp("holdout")
     #' )
     #' bmr = benchmark(design)
-    #' bmr$clone()$resample_result(learner_id = "classif.featureless")
-    #' bmr$clone()$resample_result(i = 1)
-    #' bmr$resample_result(uhash = bmr$uhashes[1])
+    #' bmr$resample_result(learner_id = "classif.featureless")
+    #' bmr$resample_result(i = 1)
+    #' bmr$resample_result(uhash = uhashes(bmr, learner_id = "classif.debug"))
     #' @return [ResampleResult].
-    resample_result = function(i = NULL, uhash = NULL, ...) {
-      if (sum(!is.null(i), !is.null(uhash), ...length() > 0L) != 1) {
-        stopf("Exactly one of `i`, `uhash`, and `...` must be provided.")
+    resample_result = function(i = NULL, uhash = NULL, task_id = NULL, learner_id = NULL,
+      resampling_id = NULL) {
+      uhash = private$.get_uhashes(i, uhash, learner_id, task_id, resampling_id)
+      if (length(uhash) != 1) {
+        stopf("Method requires selecting exactly one ResampleResult, but got %s",
+          length(uhash))
       }
-
-      uhashes = private$.data$uhashes()
-
-      needle = if (!is.null(uhash)) {
-        assert_choice(uhash, uhashes)
-      } else if (!is.null(i)) {
-        i = assert_int(i, lower = 1L, upper = length(uhashes), coerce = TRUE)
-        uhashes[i]
-      } else {
-        uhash(self, ...)
-      }
-
-      ResampleResult$new(private$.data, view = needle)
+      ResampleResult$new(private$.data, view = uhash)
     },
 
     #' @description
@@ -446,8 +439,8 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #'
     #' The resample results for which to change the threshold can either be specified directly
     #' via `uhashes`, by selecting the specific iterations (`i`) or by filtering according to
-    #' learner, task and resampling IDs (via `...`, which are passed to [`uhashes()`] to select
-    #' the resample results).
+    #' learner, task and resampling IDs.
+    #' If nothing is specified, the threshold is set for all resample results.
     #'
     #' @param uhashes (`character()` | `NULL`)\cr
     #'   The uhashes for which the threshold should be set.
@@ -457,9 +450,12 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #'   Threshold value.
     #' @param i (`integer()` | `NULL`)\cr
     #'   The iteration values to filter for.
-    #' @param ... (any)\cr
-    #'   If provided, these will be passed to [`uhashes()`] to select the resample results for which
-    #'   to set the threshold.
+    #' @param learner_ids (`character()` | `NULL`)\cr
+    #'   The learner IDs.
+    #' @param task_ids (`character()` | `NULL`)\cr
+    #'   The task IDs.
+    #' @param resampling_ids (`character()` | `NULL`)\cr
+    #'   The resampling IDs.
     #' @template param_ties_method
     #' @examples
     #' design = benchmark_grid(
@@ -468,19 +464,12 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #'   rsmp("holdout")
     #' )
     #' bmr = benchmark(design)
-    #' bmr$set_threshold(0.8, uhashes(bmr, learner_ids = "classif.debug"))
-    set_threshold = function(threshold, uhashes = NULL, i = NULL, ties_method = "random", ...) {
-      if (sum(!is.null(i), !is.null(uhashes), ...length()) > 1) {
-        stopf("At most one of `i`, `uhash`, and `...` can be provided.")
-      }
-      uhashes = if (!is.null(i)) {
-        uhashes = self$uhashes
-        uhashes = uhashes[assert_integerish(i, lower = 1L, upper = length(uhashes))]
-      } else if (!is.null(uhashes)) {
-        assert_character(uhashes, null.ok = TRUE)
-      } else {
-        uhashes(self, ...)
-      }
+    #' bmr$set_threshold(0.8, learner_ids = "classif.debug")
+    #' bmr$set_threshold(0.3, i = 2)
+    #' bmr$set_threshold(0.7, uhashes = uhashes(bmr, learner_ids = "classif.featureless"))
+    set_threshold = function(threshold, i = NULL, uhashes = NULL, learner_ids = NULL, task_ids = NULL,
+      resampling_ids = NULL, ties_method = "random") {
+      uhashes = private$.get_uhashes(i, uhashes, learner_ids, task_ids, resampling_ids)
       private$.data$set_threshold(uhashes, threshold, ties_method)
     }
   ),
@@ -586,6 +575,27 @@ BenchmarkResult = R6Class("BenchmarkResult",
     # Internal data storage object of type `ResultData`.
     .data = NULL,
 
+    .get_uhashes = function(i, uhashes, learner_ids, task_ids, resampling_ids) {
+      args = discard(list(learner_ids = learner_ids, task_ids = task_ids,
+        resampling_ids = resampling_ids), is.null)
+
+      if (sum(!is.null(i), !is.null(uhashes), length(args) > 0L) > 1) {
+        stopf("At most one of `i`, `uhash`, or IDs can be provided.")
+      }
+      if (!is.null(i)) {
+        uhashes = self$uhashes
+        uhashes = uhashes[assert_integerish(i, lower = 1L, upper = length(uhashes))]
+      } else if (!is.null(uhashes)) {
+        assert_subset(uhashes, self$uhashes)
+      } else {
+        uhashes = invoke(match.fun("uhashes"), bmr = self, .args = args)
+      }
+      if (length(uhashes) == 0L) {
+        stopf("No resample results found for the given arguments.")
+      }
+      uhashes
+    },
+
     deep_clone = function(name, value) {
       if (name == ".data") value$clone(deep = TRUE) else value
     }
@@ -598,6 +608,7 @@ as.data.table.BenchmarkResult = function(x, ..., hashes = FALSE, predict_sets = 
   tab = get_private(x)$.data$as_data_table(view = NULL, predict_sets = predict_sets)
   cns = c("uhash", "task", "learner", "resampling", "iteration", "prediction",
     if ("data_extra" %in% names(tab)) "data_extra")
+
   tab = tab[, cns, with = FALSE]
 
   if (task_characteristics) {

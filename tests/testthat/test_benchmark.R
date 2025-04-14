@@ -113,7 +113,7 @@ test_that("bmr$resample_result()", {
   expect_resample_result(bmr$resample_result(1L))
   expect_resample_result(bmr$resample_result(uhash = uhashes[1]))
   expect_resample_result(bmr$resample_result(learner_id = "classif.featureless", task_id = "iris"))
-  expect_error(bmr$resample_result(learner_id = "classif.featureless"), "Expected exactly one")
+  expect_error(bmr$resample_result(learner_id = "classif.featureless"), "requires selecting exactly one")
   expect_error(bmr$resample_result(0))
   expect_error(bmr$resample_result(100))
   expect_error(bmr$resample_result(uhash = "a"))
@@ -658,7 +658,7 @@ test_that("can change the threshold", {
   # the other prediction was also not affected, we want to avoid partial updates
   expect_equal(bmr$resample_result(1)$prediction()$response, response)
 
-  bmr$set_threshold(0.9, bmr$uhash_table[learner_id == "classif.featureless", "uhash"]$uhash)
+  bmr$set_threshold(0.9, uhashes = uhashes(bmr, learner_id = "classif.featureless"))
 
   expect_true(all(bmr$resample_result(1)$prediction()$response == "versicolor"))
 
@@ -721,4 +721,8 @@ test_that("uhashe(s) work", {
   expect_string(single_uhash)
   expect_true(single_uhash %in% all_uhashes)
   expect_error(uhash(bmr), "got 4")
+
+  # no match
+  expect_equal(uhashes(bmr, "not-existing"), character(0))
+  expect_error(uhash(bmr, "not-existing"), "Expected exactly one uhash")
 })
