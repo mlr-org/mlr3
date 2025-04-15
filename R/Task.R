@@ -849,7 +849,6 @@ Task = R6Class("Task",
 
     #' @field row_hash (`character(1)`)\cr
     #' Hash (unique identifier) calculated based on the row ids.
-    #' The hash is recalculated when the row ids change.
     row_hash = function(rhs) {
       assert_ro_binding(rhs)
       if (is.null(private$.row_hash)) {
