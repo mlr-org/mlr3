@@ -67,6 +67,8 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
       task_private$.row_roles$use = prev_use
     }, add = TRUE)
     task_private$.row_roles$use  = train_row_ids
+    task_private$.row_hash = NULL
+    task_private$.hash = NULL
   } else {
     lg$debug("Skip subsetting of task '%s'", task$id)
   }
