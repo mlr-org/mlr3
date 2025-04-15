@@ -74,15 +74,32 @@ generate_generic_tasks = function(learner, proto) {
   # task with weights
   if ("weights_learner" %in% learner$properties) {
     tmp = proto$clone(deep = TRUE)$cbind(data.frame(weights = runif(n)))
-    tmp$col_roles$weights_learner = "weights"
-    tmp$col_roles$features = setdiff(tmp$col_roles$features, "weights")
+    tmp$set_col_roles(cols = "weights", roles = "weights_learner")
     tasks$weights_learner = tmp
+  }
+
+  # task with offset
+  if ("offset" %in% learner$properties) {
+    if ("multiclass" %in% tmp$properties) {
+      offset_cols = paste0("offset_", proto$class_names)
+      # One offset column per class
+      offset_data = as.data.frame(
+        mlr3misc::set_names(
+          lapply(offset_cols, function(col) runif(n)),
+          offset_cols
+        )
+      )
+      tmp = proto$clone(deep = TRUE)$cbind(offset_data)
+      tmp$set_col_roles(cols = offset_cols, roles = "offset")
+    } else {
+      tmp = proto$clone(deep = TRUE)$cbind(data.frame(offset = runif(n)))
+      tmp$set_col_roles(cols = "offset", roles = "offset")
+    }
+    tasks$offset = tmp
   }
 
   # task with non-ascii feature names
   if (p > 0L) {
-    opts = options(mlr3.allow_utf8_names = TRUE)
-    on.exit(options(opts))
     sel = proto$feature_types[list(learner$feature_types), "id", on = "type", with = FALSE, nomatch = NULL][[1L]]
     tasks$utf8_feature_names = proto$clone(deep = TRUE)$select(sel)
     old = sel[1L]
@@ -120,7 +137,8 @@ generate_data = function(learner, N) {
       character = sample(rep_len(letters[1:2], N)),
       factor = sample(factor(rep_len(c("f1", "f2"), N), levels = c("f1", "f2"))),
       ordered = sample(ordered(rep_len(c("o1", "o2"), N), levels = c("o1", "o2"))),
-      POSIXct = Sys.time() - runif(N, min = 0, max = 10 * 365 * 24 * 60 * 60)
+      POSIXct = Sys.time() - runif(N, min = 0, max = 10 * 365 * 24 * 60 * 60),
+      Date = Sys.Date() - runif(N, min = 0, max = 10 * 365)
     )
   }
   types = unique(learner$feature_types)
@@ -443,8 +461,10 @@ run_experiment = function(task, learner, seed = NULL, configure_learner = NULL) 
     }
   }
 
-  if ("weights" %in% learner$properties) {
-    learner$.__enclos_env__$private$.get_weights
+  # TODO
+  if ("weights" %chin% learner$properties) {
+    learner$.__enclos_env__$private$.get_weights()
+  }
 
   return(list(ok = TRUE, learner = learner, prediction = prediction, error = character(), seed = seed))
 }

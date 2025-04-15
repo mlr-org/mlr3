@@ -169,6 +169,9 @@ Hash (unique identifier) for this object.
 The hash is calculated based on the complete task object and \verb{$row_ids}.
 If an internal validation task is set, the hash is recalculated.}
 
+\item{\code{row_hash}}{(\code{character(1)})\cr
+Hash (unique identifier) calculated based on the row ids.}
+
 \item{\code{row_ids}}{(positive \code{integer()})\cr
 Returns the row ids of the \link{DataBackend} for observations with role "use".}
 
@@ -201,6 +204,8 @@ The following properties are currently standardized and understood by tasks in \
 The use of weights can be disabled via by setting the learner's hyperparameter \code{use_weights} to \code{FALSE}.
 \item \code{"weights_measure"}: If the task has observation weights with this role, they are passed to the \link{Measure} for weighted scoring.
 The use of weights can be disabled via by setting the measure's hyperparameter \code{use_weights} to \code{FALSE}.
+\item \code{"offset"}: The task includes one or more offset columns specifying fixed adjustments for model training and possibly for prediction (role \code{"offset"}).
+\item \code{"ordered"}: The task has columns which define the row order (role \code{"order"}).
 }
 
 Note that above listed properties are calculated from the \verb{$col_roles}, and may not be set explicitly.}
@@ -231,6 +236,11 @@ Not more than a single column can be associated with this role.
 The use of weights can be disabled via by setting the learner's hyperparameter \code{use_weights} to \code{FALSE}.
 \item \code{"weights_measure"}: If the task has observation weights with this role, they are passed to the \link{Measure} for weighted scoring.
 The use of weights can be disabled via by setting the measure's hyperparameter \code{use_weights} to \code{FALSE}.
+\item \code{"offset"}: Numeric columns used to specify fixed adjustments for model training.
+Some models use offsets to simply shift predictions, while others incorporate them to boost predictions from a baseline model.
+For learners supporting offsets in multiclass settings, an offset column must be provided for each target class.
+These columns must follow the naming convention \code{"offset_{target_class_name}"}.
+For an example of a learner that supports offsets, see \code{LearnerClassifXgboost}  of \CRANpkg{mlr3learners}.
 }
 
 \code{col_roles} is a named list whose elements are named by column role and each element is a \code{character()} vector of column names.
@@ -309,6 +319,19 @@ as a \code{data.table} with the following columns:
 
 Returns \code{NULL} if there are is no column with the designated role.}
 
+\item{\code{offset}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
+If the task has a column with designated role \code{"offset"}, a table with two or more columns:
+\itemize{
+\item \code{row_id} (\code{integer()}), and
+\item offset variable(s) (\code{numeric()}).
+}
+
+For regression or binary classification tasks, there will be only a single-column offset.
+For multiclass tasks, it may return multiple offset columns, one for each target class.
+If there is only one offset column, it will be named as \code{offset}.
+
+If there are no columns with the \code{"offset"} role, \code{NULL} is returned.}
+
 \item{\code{labels}}{(named \code{character()})\cr
 Retrieve \code{labels} (prettier formated names) from columns.
 Internally queries the column \code{label} of the table in field \code{col_info}.
@@ -327,6 +350,10 @@ The reverse is not necessarily true: There can be columns with the same content 
 
 \item{\code{characteristics}}{(\code{list()})\cr
 List of characteristics of the task, e.g. \code{list(n = 5, p = 7)}.}
+
+\item{\code{row_ids_backend}}{(\code{integer()})\cr
+Returns all row ids from the backend, regardless of their roles.
+This is different from \verb{$row_ids} which only returns rows with role "use".}
 }
 \if{html}{\out{</div>}}
 }
@@ -468,17 +495,14 @@ Printer.
 \if{latex}{\out{\hypertarget{method-Task-data}{}}}
 \subsection{Method \code{data()}}{
 Returns a slice of the data from the \link{DataBackend} as a \code{data.table}.
-Rows default to observations with role \code{"use"}, and
-columns default to features with roles \code{"target"} or \code{"feature"}.
-If \code{rows} or \code{cols} are specified which do not exist in the \link{DataBackend},
-an exception is raised.
+Rows default to observations with role \code{"use"}, and columns default to features with roles \code{"target"} or \code{"feature"}.
+Rows must be a subset of \verb{$row_ids}.
+If \code{rows} or \code{cols} are specified which do not exist in the \link{DataBackend}, an exception is raised.
 
 Rows and columns are returned in the order specified via the arguments \code{rows} and \code{cols}.
 If \code{rows} is \code{NULL}, rows are returned in the order of \code{task$row_ids}.
-If \code{cols} is \code{NULL}, the column order defaults to
-\code{c(task$target_names, task$feature_names)}.
-Note that it is recommended to \strong{not} rely on the order of columns, and instead always
-address columns with their respective column name.
+If \code{cols} is \code{NULL}, the column order defaults to \code{c(task$target_names, task$feature_names)}.
+Note that it is recommended to \strong{not} rely on the order of columns, and instead always address columns with their respective column name.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Task$data(rows = NULL, cols = NULL, data_format, ordered = FALSE)}\if{html}{\out{</div>}}
 }

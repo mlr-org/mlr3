@@ -56,7 +56,7 @@
 #' r$param_set$values
 #'
 #' # Do only 3 repeats on 10% of the data
-#' r$param_set$values = list(ratio = 0.1, repeats = 3)
+#' r$param_set$set_values(ratio = 0.1, repeats = 3)
 #' r$param_set$values
 #'
 #' # Instantiate on penguins task
@@ -100,6 +100,10 @@ Resampling = R6Class("Resampling",
     #' @field task_hash (`character(1)`)\cr
     #'   The hash of the [Task] which was passed to `r$instantiate()`.
     task_hash = NA_character_,
+
+    #' @field task_row_hash (`character(1)`)\cr
+    #'   The hash of the row ids of the [Task] which was passed to `r$instantiate()`.
+    task_row_hash = NA_character_,
 
     #' @field task_nrow (`integer(1)`)\cr
     #'   The number of observations of the [Task] which was passed to `r$instantiate()`.
@@ -186,6 +190,7 @@ Resampling = R6Class("Resampling",
       private$.hash = NULL
       self$instance = instance
       self$task_hash = task$hash
+      self$task_row_hash = task$row_hash
       self$task_nrow = task$nrow
       invisible(self)
     },

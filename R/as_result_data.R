@@ -15,6 +15,8 @@
 #' @param predictions (list of list of [Prediction]s).
 #' @param learner_states (`list()`)\cr
 #'   Learner states. If not provided, the states of `learners` are automatically extracted.
+#' @param data_extra (`list()`)\cr
+#'  Additional data for each iteration.
 #' @param store_backends (`logical(1)`)\cr
 #'   If set to `FALSE`, the backends of the [Task]s provided in `data` are
 #'   removed.
@@ -39,17 +41,26 @@
 #'
 #' rdata = as_result_data(task, learners, resampling, iterations, predictions)
 #' ResampleResult$new(rdata)
-as_result_data = function(task, learners, resampling, iterations, predictions, learner_states = NULL, store_backends = TRUE) {
+as_result_data = function(
+  task,
+  learners,
+  resampling,
+  iterations,
+  predictions,
+  learner_states = NULL,
+  data_extra = NULL,
+  store_backends = TRUE
+  ) {
   assert_task(task)
   assert_learners(learners, task = task)
   assert_resampling(resampling, instantiated = TRUE)
   assert_integer(iterations, any.missing = FALSE, lower = 1L, upper = resampling$iters, unique = TRUE)
   assert_list(predictions, types = "list")
   assert_list(learner_states, null.ok = TRUE)
+  assert_list(data_extra, null.ok = TRUE)
   predictions = map(predictions, function(x) map(x, as_prediction_data))
 
   N = length(iterations)
-
 
   if (length(learners) != N) {
     stopf("Number of learners (%i) must match the number of resampling iterations (%i)", length(learners), N)
@@ -69,6 +80,10 @@ as_result_data = function(task, learners, resampling, iterations, predictions, l
     stopf("Resampling '%s' has not been trained on task '%s', hashes do not match", resampling$id, task$id)
   }
 
+  if (!is.null(data_extra) && length(data_extra) != N) {
+    stopf("Length of data_extra (%i) must match the number of resampling iterations (%i)", length(data_extra), N)
+  }
+
   ResultData$new(data.table(
     task = list(task),
     learner = learners,
@@ -79,5 +94,5 @@ as_result_data = function(task, learners, resampling, iterations, predictions, l
     iteration = iterations,
     prediction = predictions,
     uhash = UUIDgenerate()
-  ), store_backends = store_backends)
+  ), data_extra = data_extra, store_backends = store_backends)
 }

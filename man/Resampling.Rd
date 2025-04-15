@@ -53,7 +53,7 @@ r = rsmp("subsampling")
 r$param_set$values
 
 # Do only 3 repeats on 10\% of the data
-r$param_set$values = list(ratio = 0.1, repeats = 3)
+r$param_set$set_values(ratio = 0.1, repeats = 3)
 r$param_set$values
 
 # Instantiate on penguins task
@@ -122,6 +122,9 @@ It is advised to not work directly with the \code{instance}, but instead only us
 
 \item{\code{task_hash}}{(\code{character(1)})\cr
 The hash of the \link{Task} which was passed to \code{r$instantiate()}.}
+
+\item{\code{task_row_hash}}{(\code{character(1)})\cr
+The hash of the row ids of the \link{Task} which was passed to \code{r$instantiate()}.}
 
 \item{\code{task_nrow}}{(\code{integer(1)})\cr
 The number of observations of the \link{Task} which was passed to \code{r$instantiate()}.}

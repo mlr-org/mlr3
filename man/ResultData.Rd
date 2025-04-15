@@ -48,6 +48,7 @@ Returns \code{NULL} if the \link{ResultData} is empty.}
 \item \href{#method-ResultData-resamplings}{\code{ResultData$resamplings()}}
 \item \href{#method-ResultData-predictions}{\code{ResultData$predictions()}}
 \item \href{#method-ResultData-prediction}{\code{ResultData$prediction()}}
+\item \href{#method-ResultData-data_extra}{\code{ResultData$data_extra()}}
 \item \href{#method-ResultData-combine}{\code{ResultData$combine()}}
 \item \href{#method-ResultData-sweep}{\code{ResultData$sweep()}}
 \item \href{#method-ResultData-marshal}{\code{ResultData$marshal()}}
@@ -65,7 +66,7 @@ Returns \code{NULL} if the \link{ResultData} is empty.}
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 An alternative construction method is provided by \code{\link[=as_result_data]{as_result_data()}}.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResultData$new(data = NULL, store_backends = TRUE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{ResultData$new(data = NULL, data_extra = NULL, store_backends = TRUE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -74,9 +75,12 @@ An alternative construction method is provided by \code{\link[=as_result_data]{a
 \item{\code{data}}{(\code{\link[data.table:data.table]{data.table::data.table()}}) | \code{NULL})\cr
 Do not initialize this object yourself, use \code{\link[=as_result_data]{as_result_data()}} instead.}
 
+\item{\code{data_extra}}{(\code{list()})\cr
+Additional data to store.
+This can be used to store additional information for each iteration.}
+
 \item{\code{store_backends}}{(\code{logical(1)})\cr
-If set to \code{FALSE}, the backends of the \link{Task}s provided in \code{data} are
-removed.}
+If set to \code{FALSE}, the backends of the \link{Task}s provided in \code{data} are removed.}
 }
 \if{html}{\out{</div>}}
 }
@@ -296,6 +300,27 @@ Default is \code{"test"}.}
 }
 \subsection{Returns}{
 \link{Prediction}.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ResultData-data_extra"></a>}}
+\if{latex}{\out{\hypertarget{method-ResultData-data_extra}{}}}
+\subsection{Method \code{data_extra()}}{
+Returns additional data stored.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ResultData$data_extra(view = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{view}}{\code{character(1)}\cr
+Single \code{uhash} to restrict the results to.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\code{\link[data.table:data.table]{data.table::data.table()}}.
 }
 }
 \if{html}{\out{<hr>}}

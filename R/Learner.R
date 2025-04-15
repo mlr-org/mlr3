@@ -85,10 +85,10 @@
 #' All information about hyperparameters is stored in the slot `param_set` which is a [paradox::ParamSet].
 #' The printer gives an overview about the ids of available hyperparameters, their storage type, lower and upper bounds,
 #' possible levels (for factors), default values and assigned values.
-#' To set hyperparameters, assign a named list to the subslot `values`:
+#' To set hyperparameters, call the `set_values()` method on the `param_set`:
 #' ```
 #' lrn = lrn("classif.rpart")
-#' lrn$param_set$values = list(minsplit = 3, cp = 0.01)
+#' lrn$param_set$set_values(minsplit = 3, cp = 0.01)
 #' ```
 #' Note that this operation replaces all previously set hyperparameter values.
 #' If you only intend to change one specific hyperparameter value and leave the others as-is, you can use the helper function [mlr3misc::insert_named()]:
@@ -170,11 +170,6 @@ Learner = R6Class("Learner",
     #' @template field_task_type
     task_type = NULL,
 
-    #' @field predict_types (`character()`)\cr
-    #' Stores the possible predict types the learner is capable of.
-    #' A complete list of candidate predict types, grouped by task type, is stored in [`mlr_reflections$learner_predict_types`][mlr_reflections].
-    predict_types = NULL,
-
     #' @field feature_types (`character()`)\cr
     #' Stores the feature types the learner can handle, e.g. `"logical"`, `"numeric"`, or `"factor"`.
     #' A complete list of candidate feature types, grouped by task type, is stored in [`mlr_reflections$task_feature_types`][mlr_reflections].
@@ -226,7 +221,7 @@ Learner = R6Class("Learner",
       self$label = assert_string(label, na.ok = TRUE)
       self$task_type = assert_choice(task_type, mlr_reflections$task_types$type)
       self$feature_types = assert_ordered_set(feature_types, mlr_reflections$task_feature_types, .var.name = "feature_types")
-      self$predict_types = assert_ordered_set(predict_types, names(mlr_reflections$learner_predict_types[[task_type]]),
+      private$.predict_types = assert_ordered_set(predict_types, names(mlr_reflections$learner_predict_types[[task_type]]),
         empty.ok = FALSE, .var.name = "predict_types")
       private$.predict_type = predict_types[1L]
       self$properties = sort(assert_subset(properties, mlr_reflections$learner_properties[[task_type]]))
@@ -296,14 +291,14 @@ Learner = R6Class("Learner",
     train = function(task, row_ids = NULL) {
       task = assert_task(as_task(task))
       assert_learnable(task, self)
-      row_ids = assert_row_ids(row_ids, null.ok = TRUE)
+      row_ids = assert_row_ids(row_ids, task = task, null.ok = TRUE)
 
       if (!is.null(self$hotstart_stack)) {
         # search for hotstart learner
         start_learner = get_private(self$hotstart_stack)$.start_learner(self, task$hash)
       }
       if (is.null(self$hotstart_stack) || is.null(start_learner)) {
-         # no hotstart learners stored or no adaptable model found
+        # no hotstart learners stored or no adaptable model found
         learner = self
         mode = "train"
       } else {
@@ -328,16 +323,20 @@ Learner = R6Class("Learner",
       invisible(self)
     },
     #' @description
-    #' Uses the information stored during `$train()` in `$state` to create a new [Prediction]
-    #' for a set of observations of the provided `task`.
+    #' Uses the fitted model stored in `$state` to generate predictions for a set of observations from the provided `task`.
+    #' This method requires that the learner has been previously trained using `$train()`.
     #'
-    #' @param task ([Task]).
+    #' @param task ([Task])\cr
+    #'   The task containing the observations to predict on.
+    #'   Must be compatible with the learner's task type and feature types.
+    #'   Unlike `$predict_newdata()`, no type conversion is done.
     #'
     #' @param row_ids (`integer()`)\cr
-    #'   Vector of test indices as subset of `task$row_ids`.
-    #'   For a simple split into training and test set, see [partition()].
+    #'   Vector of row indices from `task$row_ids` to predict on.
+    #'   If `NULL` (default), predictions are made for all rows in the task.
+    #'   For a simple train-test split, see [partition()].
     #'
-    #' @return [Prediction].
+    #' @return [Prediction] object containing the predictions for the specified observations.
     predict = function(task, row_ids = NULL) {
       # improve error message for the common mistake of passing a data.frame here
       if (is.data.frame(task)) {
@@ -345,7 +344,7 @@ Learner = R6Class("Learner",
       }
       task = assert_task(as_task(task))
       assert_predictable(task, self)
-      row_ids = assert_row_ids(row_ids, null.ok = TRUE)
+      row_ids = assert_row_ids(row_ids, task = task, null.ok = TRUE)
 
       if (is.null(self$state$model) && is.null(self$state$fallback_state$model)) {
         stopf("Cannot predict, Learner '%s' has not been trained yet", self$id)
@@ -394,6 +393,8 @@ Learner = R6Class("Learner",
     #' of the training task stored in the learner.
     #' If the learner has been fitted via [resample()] or [benchmark()], you need to pass the corresponding task stored
     #' in the [ResampleResult] or [BenchmarkResult], respectively.
+    #' Further, [`auto_convert`] is used for type-conversions to ensure compatability
+    #' of features between `$train()` and `$predict()`.
     #'
     #' @param newdata (any object supported by [as_data_backend()])\cr
     #'   New data to predict on.
@@ -423,16 +424,32 @@ Learner = R6Class("Learner",
       # the following columns are automatically set to NA if missing
       impute = unlist(task$col_roles[c("target", "name", "order", "stratum", "group", "weights_learner", "weights_measure")], use.names = FALSE)
       impute = setdiff(impute, newdata$colnames)
-      if (length(impute)) {
+      tab1 = if (length(impute)) {
         # create list with correct NA types and cbind it to the backend
         ci = insert_named(task$col_info[list(impute), c("id", "type", "levels"), on = "id", with = FALSE], list(value = NA))
         na_cols = set_names(pmap(ci, function(..., nrow) rep(auto_convert(...), nrow), nrow = newdata$nrow), ci$id)
-        tab = invoke(data.table, .args = insert_named(na_cols, set_names(list(newdata$rownames), newdata$primary_key)))
+        invoke(data.table, .args = insert_named(na_cols, set_names(list(newdata$rownames), newdata$primary_key)))
+      }
+
+      # Perform type conversion where necessary
+      keep_cols = intersect(newdata$colnames, task$col_info$id)
+      ci = task$col_info[list(keep_cols), ][
+        get("type") != col_info(newdata)[list(keep_cols), on = "id"]$type]
+      tab2 = do.call(data.table, Map(auto_convert,
+        value = as.list(newdata$data(rows = newdata$rownames, cols = ci$id)),
+        id = ci$id, type = ci$type, levels = ci$levels))
+
+      tab = cbind(tab1, tab2)
+      if (ncol(tab)) {
+        tab[[newdata$primary_key]] = newdata$rownames
         newdata = DataBackendCbind$new(newdata, DataBackendDataTable$new(tab, primary_key = newdata$primary_key))
       }
 
-      # do some type conversions if necessary
+      prevci = task$col_info
       task$backend = newdata
+      task$col_info = col_info(task$backend)
+      task$col_info[, c("label", "fix_factor_levels")] = prevci[list(task$col_info$id), on = "id", c("label", "fix_factor_levels")]
+      task$col_info$fix_factor_levels[is.na(task$col_info$fix_factor_levels)] = FALSE
       task$row_roles$use = task$backend$rownames
       self$predict(task)
     },
@@ -517,13 +534,72 @@ Learner = R6Class("Learner",
             fallback$id, self$id, str_collapse(missing_properties))
         }
       } else if (method == "none" && !is.null(fallback)) {
-        stop("Fallback learner must be `NULL` if encapsulation is set to `none`.")
+        stopf("Fallback learner must be `NULL` if encapsulation is set to `none`.")
       }
 
       private$.encapsulation = c(train = method, predict = method)
       private$.fallback = fallback
 
       return(invisible(self))
+    },
+
+    #' @description
+    #' Sets parameter values and fields of the learner.
+    #' All arguments whose names match the name of a parameter of the [paradox::ParamSet] are set as parameters.
+    #' All remaining arguments are assumed to be regular fields.
+    #'
+    #' @param ... (named `any`)\cr
+    #'   Named arguments to set parameter values and fields.
+    #' @param .values (named `any`)\cr
+    #'   Named list of parameter values and fields.
+    configure = function(..., .values = list()) {
+      dots = list(...)
+      assert_list(dots, names = "unique")
+      assert_list(.values, names = "unique")
+      assert_disjunct(names(dots), names(.values))
+      new_values = insert_named(dots, .values)
+
+      # set params in ParamSet
+      if (length(new_values)) {
+        param_ids = self$param_set$ids()
+        ii = names(new_values) %in% param_ids
+        if (any(ii)) {
+          self$param_set$values = insert_named(self$param_set$values, new_values[ii])
+          new_values = new_values[!ii]
+        }
+      } else {
+        param_ids = character()
+      }
+
+      # remaining args go into fields
+      if (length(new_values)) {
+        ndots = names(new_values)
+        for (i in seq_along(new_values)) {
+          nn = ndots[[i]]
+          if (!exists(nn, envir = self, inherits = FALSE)) {
+            stopf("Cannot set argument '%s' for '%s' (not a parameter, not a field).%s",
+              nn, class(self)[1L], did_you_mean(nn, c(param_ids, setdiff(names(self), ".__enclos_env__")))) # nolint
+          }
+          self[[nn]] = new_values[[i]]
+        }
+      }
+
+      return(invisible(self))
+    },
+
+    #' @description
+    #' Returns the features selected by the model.
+    #' The field `selected_features_impute` controls the behavior if the learner does not support feature selection.
+    #' If set to `"error"`, an error is thrown, otherwise all features are returned.
+    selected_features = function() {
+      if (is.null(self$model)) {
+        stopf("No model stored")
+      }
+      if (private$.selected_features_impute == "error") {
+        stopf("Learner does not support feature selection")
+      } else {
+        self$state$feature_names
+      }
     }
   ),
 
@@ -623,6 +699,8 @@ Learner = R6Class("Learner",
     #' @field predict_type (`character(1)`)\cr
     #' Stores the currently active predict type, e.g. `"response"`.
     #' Must be an element of `$predict_types`.
+    #' A few learners already use the predict type during training.
+    #' So there is no guarantee that changing the predict type after training will have any effect or does not lead to errors.
     predict_type = function(rhs) {
       if (missing(rhs)) {
         return(private$.predict_type)
@@ -639,12 +717,10 @@ Learner = R6Class("Learner",
     #' @template field_param_set
     param_set = function(rhs) {
       if (!missing(rhs) && !identical(rhs, private$.param_set)) {
-        stop("param_set is read-only.")
+        stopf("param_set is read-only.")
       }
       private$.param_set
     },
-
-
 
     #' @field fallback ([Learner])\cr
     #' Returns the fallback learner set with `$encapsulate()`.
@@ -668,6 +744,26 @@ Learner = R6Class("Learner",
       }
       assert_r6(rhs, "HotstartStack", null.ok = TRUE)
       private$.hotstart_stack = rhs
+    },
+
+    #' @field selected_features_impute (`character(1)`)\cr
+    #' Controls the behavior if the learner does not support feature selection.
+    #' If set to `"error"`, an error is thrown.
+    #' If set to `"all"` the complete feature set is returned.
+    selected_features_impute = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.selected_features_impute)
+      }
+      private$.selected_features_impute = assert_choice(rhs, c("error", "all"))
+    },
+
+    #' @field predict_types (`character()`)\cr
+    #' Stores the possible predict types the learner is capable of.
+    #' A complete list of candidate predict types, grouped by task type, is stored in [`mlr_reflections$learner_predict_types`][mlr_reflections].
+    #' This field is read-only.
+    predict_types = function(rhs) {
+      assert_ro_binding(rhs)
+      return(private$.predict_types)
     }
   ),
 
@@ -676,8 +772,10 @@ Learner = R6Class("Learner",
     .encapsulation = c(train = "none", predict = "none"),
     .fallback = NULL,
     .predict_type = NULL,
+    .predict_types = NULL,
     .param_set = NULL,
     .hotstart_stack = NULL,
+    .selected_features_impute = "error",
 
     # retrieve weights from a task, if it has weights and if the user did not
     # deactivate weight usage through `self$use_weights`.

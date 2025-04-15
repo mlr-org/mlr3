@@ -175,7 +175,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #'
     #' @return [data.table::data.table()].
     score = function(measures = NULL, ids = TRUE, conditions = FALSE, predictions = TRUE) {
-      measures = as_measures(measures, task_type = self$task_type)
+      measures = assert_measures(as_measures(measures, task_type = self$task_type))
       assert_flag(ids)
       assert_flag(conditions)
       assert_flag(predictions)
@@ -230,7 +230,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #' @param predict_sets (`character()`)\cr
     #'   The predict sets.
     obs_loss = function(measures = NULL, predict_sets = "test") {
-      measures = as_measures(measures, task_type = private$.data$task_type)
+      measures = assert_measures(as_measures(measures, task_type = self$task_type))
       map_dtr(self$resample_results$resample_result,
         function(rr) {
           rr$obs_loss(measures, predict_sets)
@@ -276,7 +276,11 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #'
     #' @return [data.table::data.table()].
     aggregate = function(measures = NULL, ids = TRUE, uhashes = FALSE, params = FALSE, conditions = FALSE) {
-      measures = assert_measures(as_measures(measures, task_type = self$task_type))
+      measures = if (is.null(measures)) {
+        default_measures(self$task_type)
+      } else {
+        assert_measures(as_measures(measures))
+      }
       assert_flag(ids)
       assert_flag(uhashes)
       assert_flag(params)
@@ -548,7 +552,13 @@ BenchmarkResult = R6Class("BenchmarkResult",
 as.data.table.BenchmarkResult = function(x, ..., hashes = FALSE, predict_sets = "test", task_characteristics = FALSE) { # nolint
   assert_flag(task_characteristics)
   tab = get_private(x)$.data$as_data_table(view = NULL, predict_sets = predict_sets)
-  tab = tab[, c("uhash", "task", "learner", "resampling", "iteration", "prediction"), with = FALSE]
+  cns = c("uhash", "task", "learner", "resampling", "iteration", "prediction",
+    if ("data_extra" %in% names(tab)) "data_extra")
+  tab = tab[, cns, with = FALSE]
+
+  set(tab, j = "task_id", value = ids(tab$task))
+  set(tab, j = "learner_id", value = ids(tab$learner))
+  set(tab, j = "resampling_id", value = ids(tab$resampling))
 
   if (task_characteristics) {
     set(tab, j = "characteristics", value = map(tab$task, "characteristics"))

@@ -4,11 +4,6 @@ translate_types = function(x) {
   factor(map_values(x, r_types, p_types), levels = p_types)
 }
 
-
-allow_utf8_names = function() {
-  isTRUE(getOption("mlr3.allow_utf8_names"))
-}
-
 get_featureless_learner = function(task_type) {
   if (!is.na(task_type)) {
     id = paste0(task_type, ".featureless")

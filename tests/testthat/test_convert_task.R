@@ -110,7 +110,7 @@ test_that("convert_task reconstructs task", {
   # TODO: re-enable after task$weights has been removed
   # expect_equal(task2$nrow, tsk2$nrow)
   # expect_equal(task2$ncol, tsk2$ncol)
-  expect_true("twoclass" %in% tsk2$properties)
+  expect_true("twoclass" %chin% tsk2$properties)
 
   task3 = task2
   task3$row_roles$use = 1:150
@@ -119,7 +119,7 @@ test_that("convert_task reconstructs task", {
   # TODO: re-enable after task$weights has been removed
   # expect_equal(task3$nrow, tsk3$nrow)
   # expect_equal(task3$ncol, tsk3$ncol)
-  expect_true("multiclass" %in% tsk3$properties)
+  expect_true("multiclass" %chin% tsk3$properties)
   # TODO: re-enable after task$weights has been removed
   # expect_equal(task, tsk3, ignore_attr = TRUE)
 })

@@ -48,7 +48,7 @@ ResamplingSubsampling = R6Class("ResamplingSubsampling", inherit = Resampling,
         ratio   = p_dbl(0, 1, tags = "required"),
         repeats = p_int(1, tags = "required")
       )
-      ps$values = list(repeats = 30L, ratio = 2 / 3)
+      ps$set_values(repeats = 30L, ratio = 2 / 3)
 
       super$initialize(id = "subsampling", param_set = ps,
         label = "Subsampling", man = "mlr3::mlr_resamplings_subsampling")

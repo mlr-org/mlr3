@@ -94,7 +94,7 @@ test_that("empty train/predict sets", {
 })
 
 test_that("conditions are returned", {
-  expect_true(all(c("warnings", "errors") %in% names(rr$score(conditions = TRUE))))
+  expect_true(all(c("warnings", "errors") %chin% names(rr$score(conditions = TRUE))))
 })
 
 test_that("save/load roundtrip", {
@@ -517,11 +517,34 @@ test_that("resampling instantiated on a different task throws an error", {
   resampling = rsmp("cv", folds = 3)
   resampling$instantiate(task)
 
-  expect_error(resample(tsk("pima"), lrn("classif.rpart"), resampling), "The resampling was probably instantiated on a different task")
+  expect_error(resample(tsk("pima"), lrn("classif.rpart"), resampling),
+    "not instantiated")
+})
 
+test_that("resampling task row hash validation", {
+  task = tsk("iris")
+  resampling = rsmp("cv", folds = 3)
+  resampling$instantiate(task)
+
+  # Should work with same task
+  expect_resample_result(resample(task, lrn("classif.rpart"), resampling))
+
+  # Should fail if task is filtered
+  task$filter(1:100)
+  expect_error(resample(task, lrn("classif.rpart"), resampling), "not instantiated on task")
 })
 
 test_that("$score() checks for models", {
   rr = resample(tsk("mtcars"), lrn("regr.debug"), rsmp("holdout"))
   expect_error(rr$score(msr("aic")), "requires the trained model")
+})
+
+test_that("hashes work", {
+  task = tsk("spam")
+  learner = lrn("classif.debug")
+  resampling = rsmp("cv", folds = 3)
+
+  rr = resample(task, learner, resampling)
+  task_hashes = map(rr$learners, function(learner) learner$state$task_hash)
+  expect_length(unique(task_hashes), 3)
 })

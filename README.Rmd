@@ -65,7 +65,8 @@ install.packages("mlr3")
 Install the development version from GitHub:
 
 ```{r eval = FALSE}
-remotes::install_github("mlr-org/mlr3")
+# install.packages("pak")
+pak::pak("mlr-org/mlr3")
 ```
 
 If you want to get started with `mlr3`, we recommend installing the [mlr3verse](https://mlr3verse.mlr-org.com/) meta-package which installs `mlr3` and some of the most important extension packages:

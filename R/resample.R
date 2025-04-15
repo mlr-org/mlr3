@@ -15,6 +15,7 @@
 #' @template param_allow_hotstart
 #' @template param_clone
 #' @template param_unmarshal
+#' @template param_callbacks
 #' @return [ResampleResult].
 #'
 #' @template section_predict_sets
@@ -55,20 +56,39 @@
 #' bmr1 = as_benchmark_result(rr)
 #' bmr2 = as_benchmark_result(rr_featureless)
 #' print(bmr1$combine(bmr2))
-resample = function(task, learner, resampling, store_models = FALSE, store_backends = TRUE, encapsulate = NA_character_, allow_hotstart = FALSE, clone = c("task", "learner", "resampling"), unmarshal = TRUE) {
+resample = function(
+  task,
+  learner,
+  resampling,
+  store_models = FALSE,
+  store_backends = TRUE,
+  encapsulate = NA_character_,
+  allow_hotstart = FALSE,
+  clone = c("task", "learner", "resampling"),
+  unmarshal = TRUE,
+  callbacks = NULL
+  ) {
+
+  lg$debug("Start resampling")
+
   assert_subset(clone, c("task", "learner", "resampling"))
-  task = assert_task(as_task(task, clone = "task" %in% clone))
-  learner = assert_learner(as_learner(learner, clone = "learner" %in% clone, discard_state = TRUE))
-  resampling = assert_resampling(as_resampling(resampling, clone = "resampling" %in% clone))
+  task = assert_task(as_task(task, clone = "task" %chin% clone))
+  learner = assert_learner(as_learner(learner, clone = "learner" %chin% clone, discard_state = TRUE))
+  resampling = assert_resampling(as_resampling(resampling, clone = "resampling" %chin% clone))
   assert_flag(store_models)
   assert_flag(store_backends)
   # this does not check the internal validation task as it might not be set yet
   assert_learnable(task, learner)
   assert_flag(unmarshal)
+  callbacks = assert_callbacks(as_callbacks(callbacks))
 
   set_encapsulation(list(learner), encapsulate)
   if (!resampling$is_instantiated) {
     resampling = resampling$instantiate(task)
+  }
+
+  if (!is.null(resampling$task_row_hash) && resampling$task_row_hash != task$row_hash) {
+    stopf("Resampling '%s' is not instantiated on task '%s'", resampling$id, task$id)
   }
 
   n = resampling$iters
@@ -78,6 +98,7 @@ resample = function(task, learner, resampling, store_models = FALSE, store_backe
   } else {
     NULL
   }
+
   lgr_threshold = map_int(mlr_reflections$loggers, "threshold")
 
   grid = if (allow_hotstart) {
@@ -115,7 +136,7 @@ resample = function(task, learner, resampling, store_models = FALSE, store_backe
   }
 
   res = future_map(n, workhorse, iteration = seq_len(n), learner = grid$learner, mode = grid$mode,
-    MoreArgs = list(task = task, resampling = resampling, store_models = store_models, lgr_threshold = lgr_threshold, pb = pb, unmarshal = unmarshal)
+    MoreArgs = list(task = task, resampling = resampling, store_models = store_models, lgr_threshold = lgr_threshold, pb = pb, unmarshal = unmarshal, callbacks = callbacks)
   )
 
   data = data.table(
@@ -130,7 +151,9 @@ resample = function(task, learner, resampling, store_models = FALSE, store_backe
     learner_hash = map_chr(res, "learner_hash")
   )
 
-  result_data = ResultData$new(data, store_backends = store_backends)
+  data_extra = if (length(callbacks) && any(map_lgl(res, function(x) !is.null(x$data_extra)))) map(res, "data_extra")
+
+  result_data = ResultData$new(data, data_extra, store_backends = store_backends)
 
   # the worker already ensures that models are sent back in marshaled form if unmarshal = FALSE, so we don't have
   # to do anything in this case. This allows us to minimize the amount of marshaling in those situtions where
