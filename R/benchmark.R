@@ -132,6 +132,11 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
     param_values = map(param_values, function(values) insert_named(learner$param_set$values, values))
     assert_learnable(task, learner, unlist(param_values, recursive = FALSE))
 
+    # check that all row ids of the resampling are present in the task
+    if (resampling$task_row_hash != task$row_hash) {
+      stopf("Resampling '%s' is not instantiated on task '%s'", resampling$id, task$id)
+    }
+
     data.table(
       task = list(task), learner = list(learner), resampling = list(resampling),
       iteration = rep(seq_len(iters), times = n_params),

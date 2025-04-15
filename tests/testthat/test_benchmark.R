@@ -143,6 +143,57 @@ test_that("memory footprint", {
   expect_equal(uniqueN(map_chr(x$resampling, address)), 3L)
 })
 
+test_that("resampling validation in benchmark_grid", {
+  task1 = tsk("iris")
+  task2 = tsk("pima")
+  resampling_1 = rsmp("holdout")
+  resampling_2 = rsmp("holdout")
+
+  # should work when resamplings are instantiated on their corresponding tasks
+  resampling_1$instantiate(task1)
+  resampling_2$instantiate(task2)
+  expect_data_table(benchmark_grid(list(task1, task2), lrn("classif.rpart"), list(resampling_1, resampling_2), paired = TRUE))
+
+  # should fail when resamplings are not instantiated
+  resampling_1 = rsmp("holdout")
+  resampling_2 = rsmp("holdout")
+  expect_error(benchmark_grid(list(task1, task2), lrn("classif.rpart"), list(resampling_1, resampling_2), paired = TRUE),
+    "is not instantiated")
+
+  # should fail when resampling is instantiated on wrong task
+  resampling_1$instantiate(task1)
+  resampling_2$instantiate(task1)
+  expect_error(benchmark_grid(list(task1, task2), lrn("classif.rpart"), list(resampling_1, resampling_2), paired = TRUE),
+    "not instantiated")
+
+  # should fail when task row hashes don't match
+  task1 = tsk("iris")
+  task2 = tsk("iris")$filter(1:100)
+  resampling_1 = rsmp("holdout")
+  resampling_1$instantiate(task1)
+
+  expect_error(benchmark_grid(list(task1, task2), lrn("classif.rpart"), list(resampling_1)),
+    "not instantiated")
+
+  # should fail when the tasks have the same number of rows but different row hashes
+  task1 = tsk("iris")$filter(1:75)
+  task2 = tsk("iris")$filter(76:150)
+  resampling_1 = rsmp("holdout")
+  resampling_1$instantiate(task1)
+  expect_error(benchmark_grid(list(task1, task2), lrn("classif.rpart"), list(resampling_1)),
+    "not instantiated")
+
+  # should work when all resamplings are uninstantiated
+  res1 = rsmp("holdout")
+  res2 = rsmp("holdout")
+  expect_data_table(benchmark_grid(list(task1, task2), lrn("classif.rpart"), list(res1, res2)))
+
+  # should fail when some resamplings are instantiated and others are not
+  res1$instantiate(task1)
+  expect_error(benchmark_grid(list(task1, task2), lrn("classif.rpart"), list(res1, res2)),
+    "All resamplings must be instantiated, or none at all")
+})
+
 test_that("multiple measures", {
   tasks = list(tsk("iris"), tsk("sonar"))
   learner = lrn("classif.featureless")
@@ -224,7 +275,7 @@ test_that("benchmark_grid", {
 
   tasks = tsks(c("iris", "sonar"))
   resamp = rsmp("cv")$instantiate(tasks[[1]])
-  expect_error(benchmark_grid(tasks, learner, resamp), "rows")
+  expect_error(benchmark_grid(tasks, learner, resamp), "not instantiated")
 })
 
 test_that("filter", {
@@ -591,7 +642,6 @@ test_that("benchmark_grid only allows unique learner ids", {
 })
 
 test_that("benchmark allows that param_values overwrites tune token", {
-
   learner = lrn("classif.rpart", cp = to_tune(0.01, 0.1))
   design = benchmark_grid(tsk("pima"), learner, rsmp("cv", folds = 3), param_values = list(list(list(cp = 0.01))))
   expect_benchmark_result(benchmark(design))
@@ -599,6 +649,38 @@ test_that("benchmark allows that param_values overwrites tune token", {
   learner = lrn("classif.rpart", cp = to_tune(0.01, 0.1))
   design = benchmark_grid(tsk("pima"), learner, rsmp("cv", folds = 3))
   expect_error(benchmark(design), "cannot be trained with TuneToken present in hyperparameter")
+})
+
+test_that("resampling validation", {
+  # test with uninstantiated resampling
+  task = tsk("iris")
+  learner = lrn("classif.rpart")
+  resampling = rsmp("holdout")
+  design = data.table(task = list(task), learner = list(learner), resampling = list(resampling))
+  expect_error(benchmark(design), "instantiated")
+
+  # test with resampling instantiated on wrong task
+  task1 = tsk("iris")
+  task2 = tsk("pima")
+  resampling = rsmp("holdout")
+  resampling$instantiate(task1)
+  design = data.table(task = list(task2), learner = list(learner), resampling = list(resampling))
+  expect_error(benchmark(design), "not instantiated")
+
+  # test with resampling instantiated on filtered task
+  task = tsk("iris")
+  resampling = rsmp("holdout")
+  resampling$instantiate(task)
+  task$filter(1:100)
+  design = data.table(task = list(task), learner = list(learner), resampling = list(resampling))
+  expect_error(benchmark(design), "not instantiated")
+
+  # test with resampling instantiated on correct task
+  task = tsk("iris")
+  resampling = rsmp("holdout")
+  resampling$instantiate(task)
+  design = data.table(task = list(task), learner = list(learner), resampling = list(resampling))
+  expect_benchmark_result(benchmark(design))
 })
 
 test_that("warning when mixing predict types", {
@@ -610,5 +692,4 @@ test_that("warning when mixing predict types", {
     ),
     rsmp("cv", folds = 3)
   ), regexp = "Multiple predict types detected")
-
 })

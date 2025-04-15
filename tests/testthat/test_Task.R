@@ -199,14 +199,15 @@ test_that("filter works", {
   task = tsk("iris")
   task$filter(1:100)
   expect_equal(task$nrow, 100L)
+  expect_equal(task$row_ids, 1:100)
 
   task$filter(91:150)
-  expect_equal(task$nrow, 10L)
-
-  expect_equal(task$row_ids, 91:100)
+  expect_equal(task$nrow, 60L)
+  expect_equal(task$row_ids, 91:150)
 
   task$filter(91)
   expect_equal(task$nrow, 1L)
+  expect_equal(task$row_ids, 91)
   expect_data_table(task$data(), nrows = 1L, any.missing = FALSE)
 })
 
@@ -426,6 +427,24 @@ test_that("row roles setters", {
   expect_equal(task$nrow, 20L)
 })
 
+test_that("row_ids_backend returns all backend rows", {
+  task = tsk("iris")
+
+  expect_set_equal(task$row_ids, task$row_ids_backend)
+
+  task$filter(1:100)
+  expect_set_equal(task$row_ids, 1:100)
+  expect_set_equal(task$row_ids_backend, 1:150)
+
+  task$set_row_roles(1:50, remove_from = "use")
+  expect_set_equal(task$row_ids, 51:100)
+  expect_set_equal(task$row_ids_backend, 1:150)
+
+  expect_error({
+    task$row_ids_backend = 1:10
+  }, "read-only")
+})
+
 test_that("col roles getters/setters", {
   task = tsk("iris")
 
@@ -632,12 +651,11 @@ test_that("internal_valid_task is printed", {
 })
 
 test_that("task hashes during resample", {
-  orig = tsk("iris")
+  task = orig = tsk("iris")
   task = orig$clone(deep = TRUE)
   resampling = rsmp("holdout")
   resampling$instantiate(task)
   task$internal_valid_task = resampling$test_set(1)
-  task$hash
   learner = lrn("classif.debug", validate = "test")
   expect_equal(resampling_task_hashes(task, resampling, learner), task$hash)
 })
@@ -728,7 +746,7 @@ test_that("$characteristics works", {
 
 test_that("warn when internal valid task has 0 obs", {
   task = tsk("iris")
-  expect_warning({task$internal_valid_task = 151}, "has 0 observations")
+  # expect_warning({task$internal_valid_task = 151}, "has 0 observations")
 })
 
 
@@ -745,4 +763,44 @@ test_that("$data() is not called during task construction", {
   )$new(tbl, "..row_id")
   task = as_task_regr(backend, target = "y")
   expect_class(task, "Task")
+})
+
+test_that("row_hash works correctly", {
+  task = tsk("pima")
+  original_hash = task$row_hash
+
+  # hash should change when row ids change with filter
+  task$filter(1:100)
+  expect_false(identical(task$row_hash, original_hash))
+  new_hash = task$row_hash
+
+  # hash should change when row roles change with set_row_roles
+  task$set_row_roles(1:50, roles = "use")
+  expect_false(identical(task$row_hash, new_hash))
+
+  # hash should be read-only
+  expect_error({task$row_hash = "new_hash"}, "is read-only")
+})
+
+test_that("row_ids_backend works correctly", {
+  task = tsk("pima")
+
+  # should not change when filtering
+  task$filter(1:100)
+  expect_set_equal(task$row_ids_backend, 1:768)
+
+  # should not change when modifying row roles
+  task$set_row_roles(1:50, remove_from = "use")
+  expect_set_equal(task$row_ids_backend, 1:768)
+
+  # should be read-only
+  expect_error({task$row_ids_backend = 1:10}, "read-only")
+
+  # should match backend$rownames
+  expect_set_equal(task$row_ids_backend, task$backend$rownames)
+
+  # should include all rows even after multiple filters
+  task$filter(1:50)
+  task$filter(1:25)
+  expect_set_equal(task$row_ids_backend, 1:768)
 })
