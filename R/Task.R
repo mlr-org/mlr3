@@ -799,7 +799,6 @@ Task = R6Class("Task",
         private$.internal_valid_task = NULL
         return(invisible(private$.internal_valid_task))
       }
-      private$.row_hash = NULL
       private$.hash = NULL
 
       if (test_integerish(rhs)) {
