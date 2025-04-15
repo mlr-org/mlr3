@@ -443,6 +443,9 @@ run_experiment = function(task, learner, seed = NULL, configure_learner = NULL) 
     }
   }
 
+  if ("weights" %in% learner$properties) {
+    learner$.__enclos_env__$private$.get_weights
+
   return(list(ok = TRUE, learner = learner, prediction = prediction, error = character(), seed = seed))
 }
 

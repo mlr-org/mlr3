@@ -30,10 +30,8 @@ msr("regr.mae")
 }
 
 \section{Parameters}{
-\tabular{llll}{
-   Id \tab Type \tab Default \tab Levels \cr
-   use_weights \tab logical \tab FALSE \tab TRUE, FALSE \cr
-}
+
+\verb{r mlr3misc::rd_info(mlr3::msr("regr.mae")$param_set)}
 }
 
 \section{Meta Information}{

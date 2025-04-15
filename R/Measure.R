@@ -249,7 +249,7 @@ Measure = R6Class("Measure",
           tab = score_measures(rr, list(self), reassemble = FALSE, view = get_private(rr)$.view,
             iters = get_private(rr$resampling)$.primary_iters)
           weights = private$.get_weights(rr)
-          set_names(aggregator(tab[[self$id]], .weights), self$id)
+          set_names(aggregator(tab[[self$id]], tab$.weights), self$id)
         },
         "macro" = {
           aggregator = self$aggregator %??% mean

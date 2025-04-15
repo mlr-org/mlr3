@@ -33,10 +33,8 @@ msr("classif.logloss")
 }
 
 \section{Parameters}{
-\tabular{llll}{
-   Id \tab Type \tab Default \tab Levels \cr
-   use_weights \tab logical \tab TRUE \tab TRUE, FALSE \cr
-}
+
+\verb{r mlr3misc::rd_info(mlr3::msr("classif.logloss")$param_set)}
 }
 
 \section{Meta Information}{

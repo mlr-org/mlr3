@@ -34,9 +34,10 @@ where at least one of its names corresponds to the \code{id} of the measure itse
 
 Many measures support observation weights, indicated by their property \code{"weights"}.
 The weights are stored in the \link{Task} where the column role \code{weights_measure} needs to be assigned to a single numeric column.
-The weights are automatically used if found in the task, this can be disabled by setting the hyperparamerter \code{use_weights} to \code{FALSE}.
-If the measure is set-up to use weights but the task does not have a designated weight column, an unweighted version is calculated instead.
-The weights do not necessarily need to sum up to 1, they are normalized by dividing by the sum of weights.
+The weights are automatically used if found in the task, this can be disabled by setting the hyperparamerter \code{use_weights} to \code{"ignore"}.
+If the measure is set-up to use weights but the task does not have a designated \code{weights_measure} column, an unweighted version is calculated instead.
+The weights do not necessarily need to sum up to 1, they are normalized by the measure.
+See the description of \code{use_weights} for more information.
 }
 
 \seealso{
@@ -170,6 +171,21 @@ The measure comes with a custom aggregation method which directly operates on a 
 
 \item{\code{aggregator}}{(\verb{function()})\cr
 Function to aggregate scores computed on different resampling iterations.}
+
+\item{\code{use_weights}}{(\code{character(1)})\cr
+How to handle weights.
+Settings are \code{"use"}, \code{"ignore"}, and \code{"error"}.
+\itemize{
+\item \code{"use"}: Weights are used automatically if found in the task, as supported by the measure.
+\item \code{"ignore"}: Weights are ignored.
+\item \code{"error"}: throw an error if weights are present in the training \code{Task}.
+}
+
+For measures with the property \code{"weights"}, this is initialized as \code{"use"}.
+For measures with the property \code{"requires_no_prediction"}, this is initialized as \code{"ignore"}.
+For measures that have neither of the properties, this is initialized as \code{"error"}.
+The latter behavior is to avoid cases where a user erroneously assumes that a measure supports weights when it does not.
+For measures that do not support weights, \code{use_weights} needs to be set to \code{"ignore"} if tasks with weights should be handled (by dropping the weights).}
 }
 \if{html}{\out{</div>}}
 }

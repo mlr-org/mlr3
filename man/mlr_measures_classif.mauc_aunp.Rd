@@ -50,7 +50,7 @@ msr("classif.mauc_aunp")
 
 \section{Parameters}{
 
-Empty ParamSet
+\verb{r mlr3misc::rd_info(mlr3::msr("classif.mauc_aunp")$param_set)}
 }
 
 \section{Meta Information}{

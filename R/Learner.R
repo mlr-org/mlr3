@@ -533,6 +533,7 @@ Learner = R6Class("Learner",
     #' Settings are `"use"` `"ignore"`, and `"error"`.
     #'
     #' * `"use"`: use weights, as supported by the underlying `Learner`.
+    #'   Only available for `Learner`s with the property `"weights"`.
     #' * `"ignore"`: do not use weights.
     #' * `"error"`: throw an error if weights are present in the training `Task`.
     #'

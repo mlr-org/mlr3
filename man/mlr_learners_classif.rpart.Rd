@@ -11,8 +11,6 @@ A \link{LearnerClassif} for a classification tree implemented in \code{\link[rpa
 
 \itemize{
 \item Parameter \code{xval} is initialized to 0 in order to save some computation time.
-\item Parameter \code{use_weights} can be set to \code{FALSE} to ignore observation weights with column role \code{weights_learner} ,
-if present.
 }
 }
 

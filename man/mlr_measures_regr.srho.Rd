@@ -27,7 +27,7 @@ msr("regr.srho")
 
 \section{Parameters}{
 
-Empty ParamSet
+\verb{r mlr3misc::rd_info(mlr3::msr("regr.srho")$param_set)}
 }
 
 \section{Meta Information}{
