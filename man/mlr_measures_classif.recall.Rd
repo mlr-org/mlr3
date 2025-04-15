@@ -35,7 +35,7 @@ msr("classif.recall")
 
 \section{Parameters}{
 
-\verb{r mlr3misc::rd_info(mlr3::msr("classif.recall")$param_set)}
+Empty ParamSet
 }
 
 \section{Meta Information}{
