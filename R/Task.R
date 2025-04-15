@@ -258,7 +258,7 @@ Task = R6Class("Task",
     #' @description
     #' Returns a slice of the data from the [DataBackend] as a `data.table`.
     #' Rows default to observations with role `"use"`, and columns default to features with roles `"target"` or `"feature"`.
-    #' Rows must be a subset of `$row_roles$use`.
+    #' Rows must be a subset of `$row_ids`.
     #' If `rows` or `cols` are specified which do not exist in the [DataBackend], an exception is raised.
     #'
     #' Rows and columns are returned in the order specified via the arguments `rows` and `cols`.
