@@ -4,7 +4,7 @@ MeasureBinarySimple = R6Class("MeasureBinarySimple",
   public = list(
     fun = NULL,
     na_value = NaN,
-    initialize = function(name, param_set = NULL) {
+    initialize = function(name, param_set = ps()) {
       info = mlr3measures::measures[[name]]
       weights = info$sample_weights
 
@@ -51,7 +51,7 @@ MeasureClassifSimple = R6Class("MeasureClassifSimple",
   public = list(
     fun = NULL,
     na_value = NaN,
-    initialize = function(name) {
+    initialize = function(name, param_set = ps()) {
       info = mlr3measures::measures[[name]]
       weights = info$sample_weights
 
@@ -92,7 +92,7 @@ MeasureRegrSimple = R6Class("MeasureRegrSimple",
   public = list(
     fun = NULL,
     na_value = NaN,
-    initialize = function(name) {
+    initialize = function(name, param_set = ps()) {
       info = mlr3measures::measures[[name]]
       weights = info$sample_weights
 
