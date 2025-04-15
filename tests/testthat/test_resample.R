@@ -538,3 +538,13 @@ test_that("$score() checks for models", {
   rr = resample(tsk("mtcars"), lrn("regr.debug"), rsmp("holdout"))
   expect_error(rr$score(msr("aic")), "requires the trained model")
 })
+
+test_that("hashes work", {
+  task = tsk("spam")
+  learner = lrn("classif.debug")
+  resampling = rsmp("cv", folds = 3)
+
+  rr = resample(task, learner, resampling)
+  task_hashes = map(rr$learners, function(learner) learner$state$task_hash)
+  expect_length(unique(task_hashes), 3)
+})
