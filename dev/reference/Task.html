@@ -216,6 +216,12 @@ The hash is calculated based on the complete task object and <code>$row_ids</cod
 If an internal validation task is set, the hash is recalculated.</p></dd>
 
 
+<dt><code>row_hash</code></dt>
+<dd><p>(<code>character(1)</code>)<br>
+Hash (unique identifier) calculated based on the row ids.
+The hash is recalculated when the row ids change.</p></dd>
+
+
 <dt><code>row_ids</code></dt>
 <dd><p>(positive <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>)<br>
 Returns the row ids of the <a href="DataBackend.html">DataBackend</a> for observations with role "use".</p></dd>
@@ -376,6 +382,12 @@ The reverse is not necessarily true: There can be columns with the same content 
 List of characteristics of the task, e.g. <code>list(n = 5, p = 7)</code>.</p></dd>
 
 
+<dt><code>row_ids_backend</code></dt>
+<dd><p>(<code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>)<br>
+Returns all row ids from the backend, regardless of their roles.
+This is different from <code>$row_ids</code> which only returns rows with role "use".</p></dd>
+
+
 </dl><p></p></div>
     </div>
     <div class="section level2">
@@ -521,16 +533,13 @@ disjoint split between the train and validation data.</p></dd>
 </div><p></p><hr><a id="method-Task-data"></a><div class="section">
 <h3 id="method-data-">Method <code><a href="https://rdrr.io/r/utils/data.html" class="external-link">data()</a></code><a class="anchor" aria-label="anchor" href="#method-data-"></a></h3>
 <p>Returns a slice of the data from the <a href="DataBackend.html">DataBackend</a> as a <code>data.table</code>.
-Rows default to observations with role <code>"use"</code>, and
-columns default to features with roles <code>"target"</code> or <code>"feature"</code>.
-If <code>rows</code> or <code>cols</code> are specified which do not exist in the <a href="DataBackend.html">DataBackend</a>,
-an exception is raised.</p>
+Rows default to observations with role <code>"use"</code>, and columns default to features with roles <code>"target"</code> or <code>"feature"</code>.
+Rows must be a subset of <code>$row_roles$use</code>.
+If <code>rows</code> or <code>cols</code> are specified which do not exist in the <a href="DataBackend.html">DataBackend</a>, an exception is raised.</p>
 <p>Rows and columns are returned in the order specified via the arguments <code>rows</code> and <code>cols</code>.
 If <code>rows</code> is <code>NULL</code>, rows are returned in the order of <code>task$row_ids</code>.
-If <code>cols</code> is <code>NULL</code>, the column order defaults to
-<code>c(task$target_names, task$feature_names)</code>.
-Note that it is recommended to <strong>not</strong> rely on the order of columns, and instead always
-address columns with their respective column name.</p><div class="section">
+If <code>cols</code> is <code>NULL</code>, the column order defaults to <code>c(task$target_names, task$feature_names)</code>.
+Note that it is recommended to <strong>not</strong> rely on the order of columns, and instead always address columns with their respective column name.</p><div class="section">
 <h4 id="usage-5">Usage<a class="anchor" aria-label="anchor" href="#usage-5"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Task</span><span class="op">$</span><span class="fu">data</span><span class="op">(</span>rows <span class="op">=</span> <span class="cn">NULL</span>, cols <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">data_format</span>, ordered <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>

@@ -3,24 +3,22 @@
 generate a design in an expand.grid() fashion (a.k.a. cross join or Cartesian product).
 There are two modes of operation, depending on the flag paired.
 With paired set to FALSE (default), resampling strategies are not allowed to be instantiated, and instead will be instantiated per task internally.
-The only exception to this rule applies if all tasks have exactly the same number of rows, and the resamplings are all instantiated for such tasks.
+The only exception to this rule applies if all tasks have exactly the same row ids, and the resamplings are all instantiated for such tasks.
 The grid will be generated based on the Cartesian product of tasks, learners, and resamplings.
-Because the resamplings are instantiated on the tasks, reproducibility requires a seed to be set before
-calling this function, as this process is stochastic.
+Because the resamplings are instantiated on the tasks, reproducibility requires a seed to be set before calling this function, as this process is stochastic.
 With paired set to TRUE, tasks and resamplings are treated as pairs.
-I.e., you must provide as many tasks as corresponding instantiated resamplings.
+This means that you must provide as many tasks as corresponding instantiated resamplings.
 The grid will be generated based on the Cartesian product of learners and pairs.
 
 "><meta property="og:description" content="Takes a lists of Task, a list of Learner and a list of Resampling to
 generate a design in an expand.grid() fashion (a.k.a. cross join or Cartesian product).
 There are two modes of operation, depending on the flag paired.
 With paired set to FALSE (default), resampling strategies are not allowed to be instantiated, and instead will be instantiated per task internally.
-The only exception to this rule applies if all tasks have exactly the same number of rows, and the resamplings are all instantiated for such tasks.
+The only exception to this rule applies if all tasks have exactly the same row ids, and the resamplings are all instantiated for such tasks.
 The grid will be generated based on the Cartesian product of tasks, learners, and resamplings.
-Because the resamplings are instantiated on the tasks, reproducibility requires a seed to be set before
-calling this function, as this process is stochastic.
+Because the resamplings are instantiated on the tasks, reproducibility requires a seed to be set before calling this function, as this process is stochastic.
 With paired set to TRUE, tasks and resamplings are treated as pairs.
-I.e., you must provide as many tasks as corresponding instantiated resamplings.
+This means that you must provide as many tasks as corresponding instantiated resamplings.
 The grid will be generated based on the Cartesian product of learners and pairs.
 
 "><meta property="og:image" content="https://mlr3.mlr-org.com/logo.svg"><meta name="robots" content="noindex"></head><body>
@@ -70,12 +68,11 @@ The grid will be generated based on the Cartesian product of learners and pairs.
     <p>Takes a lists of <a href="Task.html">Task</a>, a list of <a href="Learner.html">Learner</a> and a list of <a href="Resampling.html">Resampling</a> to
 generate a design in an <code><a href="https://rdrr.io/r/base/expand.grid.html" class="external-link">expand.grid()</a></code> fashion (a.k.a. cross join or Cartesian product).</p>
 <p>There are two modes of operation, depending on the flag <code>paired</code>.</p><ul><li><p>With <code>paired</code> set to <code>FALSE</code> (default), resampling strategies are not allowed to be instantiated, and instead will be instantiated per task internally.
-The only exception to this rule applies if all tasks have exactly the same number of rows, and the resamplings are all instantiated for such tasks.
+The only exception to this rule applies if all tasks have exactly the same row ids, and the resamplings are all instantiated for such tasks.
 The grid will be generated based on the Cartesian product of tasks, learners, and resamplings.
-Because the resamplings are instantiated on the tasks, reproducibility requires a seed to be set <strong>before</strong>
-calling this function, as this process is stochastic.</p></li>
+Because the resamplings are instantiated on the tasks, reproducibility requires a seed to be set <strong>before</strong> calling this function, as this process is stochastic.</p></li>
 <li><p>With <code>paired</code> set to <code>TRUE</code>, tasks and resamplings are treated as pairs.
-I.e., you must provide as many tasks as corresponding instantiated resamplings.
+This means that you must provide as many tasks as corresponding instantiated resamplings.
 The grid will be generated based on the Cartesian product of learners and pairs.</p></li>
 </ul></div>
 
@@ -196,8 +193,12 @@ You need to provide the same number of tasks and instantiated resamplings.</p></
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2: german_credit classif.rpart    holdout</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># manual construction of the grid with data.table::CJ()</span></span></span>
-<span class="r-in"><span><span class="va">grid</span> <span class="op">=</span> <span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/J.html" class="external-link">CJ</a></span><span class="op">(</span>task <span class="op">=</span> <span class="va">tasks</span>, learner <span class="op">=</span> <span class="va">learners</span>,</span></span>
-<span class="r-in"><span>  resampling <span class="op">=</span> <span class="va">resamplings</span>, sorted <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">grid</span> <span class="op">=</span> <span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/J.html" class="external-link">CJ</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span> task <span class="op">=</span> <span class="va">tasks</span>,</span></span>
+<span class="r-in"><span>  learner <span class="op">=</span> <span class="va">learners</span>,</span></span>
+<span class="r-in"><span>  resampling <span class="op">=</span> <span class="va">resamplings</span>,</span></span>
+<span class="r-in"><span>  sorted <span class="op">=</span> <span class="cn">FALSE</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># manual instantiation (not suited for a fair comparison of learners!)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/funprog.html" class="external-link">Map</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">task</span>, <span class="va">resampling</span><span class="op">)</span> <span class="op">{</span></span></span>
