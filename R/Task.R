@@ -922,7 +922,7 @@ Task = R6Class("Task",
         offset = "offset",
         ordered = "order"
       )
-      names(prop_roles)[lengths(private$.col_roles[prop_roles]) > 0L]
+      c(private$.properties, names(prop_roles)[lengths(private$.col_roles[prop_roles]) > 0L])
     },
 
     #' @field row_roles (named `list()`)\cr
@@ -1224,6 +1224,7 @@ Task = R6Class("Task",
   private = list(
     .internal_valid_task = NULL,
     .id = NULL,
+    .properties = NULL,
     .col_roles = NULL,
     .row_roles = NULL,
     .hash = NULL,
