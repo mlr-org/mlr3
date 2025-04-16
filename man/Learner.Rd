@@ -61,13 +61,17 @@ If the learner is not trained yet, this returns \code{NULL}.
 Many learners support observation weights, indicated by their property \code{"weights"}.
 The weights are stored in the \link{Task} where the column role \code{weights_learner} needs to be assigned to a single numeric column.
 If a task has weights and the learner supports them, they are used automatically.
-If a task has weights but the learner does not support them, an error is thrown.
+If a task has weights but the learner does not support them, an error is thrown by default.
 Both of these behaviors can be disabled by setting the \code{use_weights} field to \code{"ignore"}.
 See the description of \code{use_weights} for more information.
 
-If the learner is set-up to use weights but the task does not have a designated weight column, an unweighted version is calculated instead.
-When they are being used, weights are passed down to the learner directly.
-Generally, they do not necessarily need to sum up to 1.
+If the learner is set-up to use weights but the task does not have a designated weight column, samples are considered to have equal weight.
+When weights are being used, they are passed down to the learner directly; the effect of weights depends on the specific learner.
+Generally, weights do not need to sum up to 1.
+
+When implementing a Learner that uses weights, the \code{"weights"} property should be set.
+The \verb{$.train()}-method should then call the \verb{$.get_weights()}-method to retrieve the weights from the task.
+\verb{$.get_weights()} will automatically discard weights when \code{use_weights} is set to \code{"ignore"};
 }
 
 \section{Setting Hyperparameters}{
@@ -262,7 +266,7 @@ Defaults to \code{NA}, but can be set by child classes.}
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
 \item{\code{use_weights}}{(\code{character(1)})\cr
-How to use weights.
+How weights should be handled.
 Settings are \code{"use"} \code{"ignore"}, and \code{"error"}.
 \itemize{
 \item \code{"use"}: use weights, as supported by the underlying \code{Learner}.
