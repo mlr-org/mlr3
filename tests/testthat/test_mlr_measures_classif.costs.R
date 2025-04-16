@@ -48,3 +48,33 @@ test_that("multiclass / level reordering", {
   perf = lrn$train(task)$predict(task)$score(measures, task = task)
   expect_equal(unname(perf[1]), unname(perf[2]))
 })
+
+test_that("multiclass with weights_measure", {
+  task = iris_weights_measure
+  costs = matrix(c(0, 1, 2, 3, 0, 4, 5, 6, 0), nrow = 3, byrow = TRUE)
+  dimnames(costs) = list(response = task$class_names, truth = task$class_names)
+
+  m = msr("classif.costs", costs = costs, normalize = FALSE)
+
+  # Use a deterministic learner for simplicity
+  learner = lrn("classif.featureless")
+  p = learner$train(task)$predict(task)
+
+  # Score using the measure
+  perf = p$score(m)
+
+  # Calculate expected weighted cost manually
+  truth = p$truth
+  response = p$response
+  weights = p$weights
+  weighted_confusion = tapply(weights, list(response = response, truth = truth), sum, default = 0)
+
+  # Ensure matrix dimensions and order match
+  lvls = task$class_names
+  weighted_confusion_full = matrix(0, nrow = length(lvls), ncol = length(lvls), dimnames = list(response = lvls, truth = lvls))
+  weighted_confusion_full[rownames(weighted_confusion), colnames(weighted_confusion)] = weighted_confusion
+
+  expected_cost = sum(weighted_confusion_full * costs)
+
+  expect_equal(perf, c(classif.costs = expected_cost))
+})

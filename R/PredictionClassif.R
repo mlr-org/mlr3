@@ -183,6 +183,7 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
       ctbl = ctbl[, .(weights = sum(weights)), by = .(response, truth)]
       ctbl = dcast(ctbl, response ~ truth, value.var = "weights")
       result = as.matrix(ctbl, rownames = "response")
+      names(dimnames(result)) = c("response", "truth")
       set_class(result, "table")
     }
   )

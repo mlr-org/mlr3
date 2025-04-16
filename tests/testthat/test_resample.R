@@ -1,4 +1,4 @@
-task = tsk("iris")
+rtask = tsk("iris")
 learner = lrn("classif.featureless")
 resampling = rsmp("cv", folds = 3)
 rr = resample(task, learner, resampling)
