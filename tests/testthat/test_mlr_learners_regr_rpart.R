@@ -48,3 +48,18 @@ test_that("default_values on rpart", {
   values = default_values(learner, search_space, task)
   expect_names(names(values), permutation.of = c("minsplit", "minbucket", "cp"))
 })
+
+test_that("use_weights actually influences the model", {
+  # Task with weights_learner role defined in helper_misc.R
+  task = cars_weights_learner
+  learner = lrn("regr.rpart", use_weights = "use")
+  learner$train(task)
+  p1 = learner$predict(task)
+
+  learner = lrn("regr.rpart", use_weights = "ignore")
+  learner$train(task)
+  p2 = learner$predict(task)
+
+  # Predictions should differ if weights were used
+  expect_false(all(p1$response == p2$response))
+})

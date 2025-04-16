@@ -219,3 +219,16 @@ test_that("Matrix converters", {
   task = as_task_classif(X, target = "a", id = "foo")
   expect_task(task)
 })
+
+test_that("convert_task - Regr -> Regr with weights", {
+  task = cars_weights_learner
+  result = convert_task(task, target = "speed", drop_original_target = FALSE)
+
+  expect_equal(result$weights_learner, task$weights_learner)
+
+  task = cars_weights_measure
+  result = convert_task(task, target = "speed", drop_original_target = FALSE)
+
+  expect_equal(result$weights_measure, task$weights_measure)
+
+})

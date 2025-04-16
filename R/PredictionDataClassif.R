@@ -102,7 +102,7 @@ c.PredictionDataClassif = function(..., keep_duplicates = TRUE) {
     stopf("Cannot rbind predictions: Some predictions have weights, others do not")
   }
 
-  elems = c("row_ids", "truth", intersect(predict_types[[1L]], c("response", "weights")))
+  elems = c("row_ids", "truth", intersect(predict_types[[1L]], "response"), if ("weights" %chin% names(dots[[1L]])) "weights")
   tab = map_dtr(dots, function(x) x[elems], .fill = FALSE)
   prob = do.call(rbind, map(dots, "prob"))
 

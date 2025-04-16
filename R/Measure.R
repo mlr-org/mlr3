@@ -145,6 +145,8 @@ Measure = R6Class("Measure",
         assert_subset(properties, unique(unlist(mlr_reflections$measure_properties, use.names = FALSE)))
       }
 
+      self$properties = unique(properties)
+
       if ("weights" %in% properties) {
         self$use_weights = "use"
       } else if ("requires_no_prediction" %in% properties) {
@@ -153,7 +155,6 @@ Measure = R6Class("Measure",
         self$use_weights = "error"
       }
 
-      self$properties = unique(properties)
       self$predict_type = predict_type
       self$predict_sets = predict_sets
       self$task_properties = task_properties
@@ -294,7 +295,7 @@ Measure = R6Class("Measure",
       assert_ro_binding(rhs)
       calculate_hash(class(self), self$id, self$param_set$values, private$.score,
         private$.average, private$.aggregator, self$obs_loss, self$trafo,
-        self$predict_sets, mget(private$.extra_hash, envir = self))
+        self$predict_sets, mget(private$.extra_hash, envir = self), private$.use_weights)
     },
 
     #' @field properties (`character()`)\cr
@@ -318,6 +319,12 @@ Measure = R6Class("Measure",
     #'   The scoring function is applied on the [Prediction] object of each resampling iterations,
     #'   each yielding a single numeric score.
     #'   Next, the scores are combined with the `aggregator` function to a single numerical score.
+    #' * `"macro_weighted"`:
+    #'   The scoring function is applied on the [Prediction] object of each resampling iterations,
+    #'   each yielding a single numeric score.
+    #'   Next, the scores are combined with the `aggregator` function to a single numerical score.
+    #'   The scores are weighted by the total sample weights (if present, and if `$use_weights` is set to `"use"`),
+    #'   or the number of samples in each resampling iteration.
     #' * `"custom"`:
     #'   The measure comes with a custom aggregation method which directly operates on a [ResampleResult].
     average = function(rhs) {
@@ -353,7 +360,7 @@ Measure = R6Class("Measure",
     #' For measures that do not support weights, `use_weights` needs to be set to `"ignore"` if tasks with weights should be handled (by dropping the weights).
     use_weights = function(rhs) {
       if (!missing(rhs)) {
-        private$.use_weights = assert_choice(rhs, c("use", "ignore", "error"))
+        private$.use_weights = assert_choice(rhs, c(if ("weights" %chin% self$properties) "use", "ignore", "error"))
       } else {
         private$.use_weights
       }
@@ -449,9 +456,9 @@ score_measures = function(obj, measures, reassemble = TRUE, view = NULL, iters =
     some(measures, function(m) any(c("requires_learner", "requires_model") %chin% m$properties))
   tab = get_private(obj)$.data$as_data_table(view = view, reassemble_learners = reassemble_learners, convert_predictions = FALSE)
 
-  set(tab, j = ".samples", value = map_dbl(tab$prediction, function(x) length(x$row_ids)))
-  if ("weights" %chin% names(tab$prediction[[1L]])) {  # TODO: check this
-    set(tab, j = ".weights", value = map_dbl(tab$prediction, function(x) sum(x$weights)))
+  set(tab, j = ".samples", value = map_dbl(tab$prediction, function(x) length(x$test$row_ids)))
+  if ("weights" %chin% names(tab$prediction[[1L]]$test)) {  # TODO: check this
+    set(tab, j = ".weights", value = map_dbl(tab$prediction, function(x) sum(x$test$weights)))
   } else {
     set(tab, j = ".weights", value = tab$.samples)
   }

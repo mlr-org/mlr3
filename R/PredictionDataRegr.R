@@ -98,7 +98,7 @@ c.PredictionDataRegr = function(..., keep_duplicates = TRUE) { # nolint
     stopf("Cannot combine predictions: Some predictions have weights, others do not")
   }
 
-  elems = c("row_ids", "truth", intersect(predict_types[[1L]], c("response", "se", "weights")))
+  elems = c("row_ids", "truth", intersect(predict_types[[1L]], c("response", "se")), if ("weights" %chin% names(dots[[1L]])) "weights")
   tab = map_dtr(dots, function(x) x[elems], .fill = FALSE)
   quantiles = do.call(rbind, map(dots, "quantiles"))
 

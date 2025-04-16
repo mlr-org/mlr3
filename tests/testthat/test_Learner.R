@@ -279,6 +279,25 @@ test_that("weights", {
 
   expect_prediction(learner$predict_newdata(data[1:3, ]))
   expect_prediction(learner$predict_newdata(iris[1:3, ]))
+
+  learner$use_weights = "error"
+  expect_error(learner$train(task), "'use_weights' was set to 'error'")
+
+  ll = R6Class("dummy", inherit = LearnerClassif, public = list(
+      initialize = function() {
+        super$initialize(id = "dummy", param_set = ps(), feature_types = "numeric", predict_types = "response", properties = c("twoclass", "multiclass"))
+      }
+    ),
+    private = list(
+      .train = function(task, ...) {
+        task
+      }
+    )
+  )$new()
+  expect_error(ll$train(task), "Learner does not support weights")  # different error message from above!
+
+  ll$use_weights = "ignore"
+  expect_no_error(ll$train(task))
 })
 
 test_that("mandatory properties",  {
@@ -633,7 +652,7 @@ test_that("weights properties and defaults", {
   expect_true("weights" %in% ll$properties)
   expect_equal(ll$use_weights, "use")
 
-  ll = lrn("classif.debug")
+  ll = LearnerClassif$new(id = "dummy", param_set = ps(), feature_types = "numeric", predict_types = "response", properties = "twoclass")
   expect_true("weights" %nin% ll$properties)
   expect_equal(ll$use_weights, "error")
 })
@@ -765,4 +784,45 @@ test_that("prob_as_default works", {
   expect_equal(l$predict_type, "response")
   options(mlr3.prob_as_default = FALSE)
   expect_equal(l$predict_type, "response")
+})
+
+test_that("weights are used when appropriate", {
+  learner = lrn("classif.featureless", predict_type = "prob")
+  predict_task = tsk("iris")$filter(1)
+  expect_equal(unname(learner$train(tsk("iris"))$predict(predict_task)$prob), matrix(c(1, 1, 1) / 3, nrow = 1, ncol = 3))
+
+  # weights_measure has no effect
+  expect_equal(unname(learner$train(iris_weights_measure)$predict(predict_task)$prob), matrix(c(1, 1, 1) / 3, nrow = 1, ncol = 3))
+
+  expect_equal(unname(learner$train(iris_weights_learner)$predict(predict_task)$prob), matrix(c(1, 10, 100) / 111, nrow = 1, ncol = 3))
+
+  learner$use_weights = "ignore"
+
+  # weights are ignored
+  expect_equal(unname(learner$train(iris_weights_learner)$predict(predict_task)$prob), matrix(c(1, 1, 1) / 3, nrow = 1, ncol = 3))
+
+  learner$use_weights = "error"
+  expect_error(learner$train(iris_weights_learner), "'use_weights' was set to 'error'")
+
+  # behaviour of learner that does not support weights
+  llclass = R6Class("dummy", inherit = LearnerClassif,
+    public = list(
+      initialize = function() {
+        super$initialize(id = "dummy", param_set = ps(), feature_types = "numeric", predict_types = "response", properties = c("twoclass", "multiclass"))
+      }
+    ),
+    private = list(
+      .train = function(task) {
+        list(response = as.character(sample(task$truth(), 1L)))
+      }
+    )
+  )
+  ll = llclass$new()
+
+  # different error message
+  expect_error(ll$train(iris_weights_learner), "Learner does not support weights")
+  ll$train(iris_weights_measure)
+
+  ll$use_weights = "ignore"
+  ll$train(iris_weights_learner)
 })

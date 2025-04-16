@@ -125,6 +125,7 @@ quantile_weighted = function(x, probs, na.rm = FALSE, weights = NULL, digits = 7
   } else {
     pivots = c(0, cumsum(weights))
     weight_targets = pivots[[length(pivots)]] * probs
+    weight_targets[weight_targets < 0] = 0  # since we allow -100 * .Machine$double.eps probs
     pivots_used = pivots[-length(pivots)]
     hi_indices = findInterval(weight_targets, pivots_used)
     lo_indices = hi_indices - (weight_targets %in% pivots_used[-1])  # use weighted average for ties

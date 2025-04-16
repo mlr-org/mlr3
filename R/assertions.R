@@ -180,7 +180,7 @@ assert_learnable = function(task, learner, param_values = NULL) {
   # since weights_learner are always ignored during prediction.
   if (learner$use_weights == "error" && "weights_learner" %in% task$properties) {
     stopf("%s cannot be trained with weights in %s%s", learner$format(), task$format(),
-      if ("weights_learner" %in% learner$properties) {
+      if ("weights" %in% learner$properties) {
         " since 'use_weights' was set to 'error'."
       } else {
         " since the Learner does not support weights.\nYou may set 'use_weights' to 'ignore' if you want the Learner to ignore weights."
@@ -225,6 +225,16 @@ assert_predictable = function(task, learner) {
 assert_measure = function(measure, task = NULL, learner = NULL, prediction = NULL, .var.name = vname(measure)) {
   assert_class(measure, "Measure", .var.name = .var.name)
 
+  if (measure$use_weights == "error" && (!is.null(prediction$weights) || "weights_measure" %chin% task$properties)) {
+    stopf("%s cannot be evaluated with weights%s%s", measure$format(), if (!is.null(task)) paste0(" in ", task$format()) else "",
+      if ("weights" %in% measure$properties) {
+        " since 'use_weights' was set to 'error'."
+      } else {
+        " since the Measure does not support weights.\nYou may set 'use_weights' to 'ignore' if you want the Measure to ignore weights."
+      }
+    )
+  }
+
   if (!is.null(task)) {
 
     if (!is_scalar_na(measure$task_type) && !test_matching_task_type(task$task_type, measure, "measure")) {
@@ -238,16 +248,6 @@ assert_measure = function(measure, task = NULL, learner = NULL, prediction = NUL
         warningf("Measure '%s' is missing properties %s of task '%s'",
           measure$id, str_collapse(miss, quote = "'"), task$id)
       }
-    }
-
-    if (measure$use_weights == "error" && "weights_measure" %in% task$properties) {
-      stopf("%s cannot be trained with weights in %s%s", measure$format(), task$format(),
-        if ("weights_measure" %in% measure$properties) {
-          " since 'use_weights' was set to 'error'."
-        } else {
-          " since the Measure does not support weights.\nYou may set 'use_weights' to 'ignore' if you want the Measure to ignore weights."
-        }
-      )
     }
   }
 
@@ -280,11 +280,6 @@ assert_measure = function(measure, task = NULL, learner = NULL, prediction = NUL
     if (measure$check_prerequisites != "ignore" && measure$predict_type %nin% prediction$predict_types) {
       warningf("Measure '%s' is missing predict type '%s' of prediction", measure$id, measure$predict_type)
     }
-  }
-
-  if (measure$use_weights == "error" &&
-      (!is.null(prediction$weights) || "weights_measure" %chin% task$properties)) {
-    stopf("Measure weights are present, but Measure '%s' can not handle weights.\nSet `use_weights` to 'ignore' if you want the Measure to ignore weights.", measure$id)
   }
 
   invisible(measure)
