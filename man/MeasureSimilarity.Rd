@@ -93,7 +93,6 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
   aggregator = NULL,
   properties = character(),
   predict_type = NA_character_,
-  predict_sets = "test",
   task_properties = character(),
   packages = character(),
   label = NA_character_,
@@ -164,13 +163,6 @@ Supported by \code{mlr3}:
 \item{\code{predict_type}}{(\code{character(1)})\cr
 Required predict type of the \link{Learner}.
 Possible values are stored in \link[=mlr_reflections]{mlr_reflections$learner_predict_types}.}
-
-\item{\code{predict_sets}}{(\code{character()})\cr
-Prediction sets to operate on, used in \code{aggregate()} to extract the matching \code{predict_sets} from the \link{ResampleResult}.
-Multiple predict sets are calculated by the respective \link{Learner} during \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}.
-Must be a non-empty subset of \verb{\{"train", "test", "internal_valid"\}}.
-If multiple sets are provided, these are first combined to a single prediction object.
-Default is \code{"test"}.}
 
 \item{\code{task_properties}}{(\code{character()})\cr
 Required task properties, see \link{Task}.}

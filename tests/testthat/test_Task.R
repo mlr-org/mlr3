@@ -294,9 +294,13 @@ test_that("col roles are valid", {
   task = TaskRegr$new("test", b, target = "y")
 
   # weight
-  expect_error(task$set_col_roles("logical", roles = "weight"), "type")
-  expect_error(task$set_col_roles("factor", roles = "weight"), "type")
-  expect_error(task$set_col_roles(c("integer", "numeric"), roles = "weight"), "There may only be up to one column with role")
+  expect_error(task$set_col_roles("logical", roles = "weights_learner"), "type")
+  expect_error(task$set_col_roles("factor", roles = "weights_learner"), "type")
+  expect_error(task$set_col_roles(c("integer", "numeric"), roles = "weights_learner"), "There may only be up to one column with role")
+
+  expect_error(task$set_col_roles("logical", roles = "weights_measure"), "type")
+  expect_error(task$set_col_roles("factor", roles = "weights_measure"), "type")
+  expect_error(task$set_col_roles(c("integer", "numeric"), roles = "weights_measure"), "There may only be up to one column with role")
 
   # name
   expect_error(task$set_col_roles("logical", roles = "name"), "type")
@@ -810,8 +814,8 @@ test_that("cbind with weights", {
 
   task$cbind(new_cols_data)
 
-  expect_equal(task$n_features, original_n_features + 1) # new_feature added automatically
-  expect_equal(task$ncol, original_ncol + 1)
+  expect_equal(task$n_features, original_n_features + 3) # new_feature added automatically
+  expect_equal(task$ncol, original_ncol + 3)
   expect_true("new_feature" %in% task$feature_names)
   expect_false("weights_learner" %in% task$properties) # Role not assigned yet
   expect_false("weights_measure" %in% task$properties)

@@ -457,7 +457,7 @@ score_measures = function(obj, measures, reassemble = TRUE, view = NULL, iters =
   tab = get_private(obj)$.data$as_data_table(view = view, reassemble_learners = reassemble_learners, convert_predictions = FALSE)
 
   set(tab, j = ".samples", value = map_dbl(tab$prediction, function(x) length(x$test$row_ids)))
-  if ("weights" %chin% names(tab$prediction[[1L]]$test)) {  # TODO: check this
+  if (length(tab$prediction) && "weights" %chin% names(tab$prediction[[1L]]$test)) {
     set(tab, j = ".weights", value = map_dbl(tab$prediction, function(x) sum(x$test$weights)))
   } else {
     set(tab, j = ".weights", value = tab$.samples)

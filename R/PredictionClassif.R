@@ -86,6 +86,10 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
     #'   If `prob` is provided, but `response` is not, the class labels are calculated from
     #'   the probabilities using [max.col()] with `ties.method` set to `"random"`.
     #'
+    #' @param weights (`numeric()`)\cr
+    #'   Vector of weights for each observation in the test set. Should be constructed from
+    #'   the `Task`'s `weights_measure` column.
+    #'
     #' @param check (`logical(1)`)\cr
     #'   If `TRUE`, performs some argument checks and predict type conversions.
     initialize = function(task = NULL, row_ids = task$row_ids, truth = task$truth(), response = NULL, prob = NULL, weights = NULL, check = TRUE) {

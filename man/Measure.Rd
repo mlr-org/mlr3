@@ -165,6 +165,12 @@ Next, the scoring function of the measure is applied on this combined object, yi
 The scoring function is applied on the \link{Prediction} object of each resampling iterations,
 each yielding a single numeric score.
 Next, the scores are combined with the \code{aggregator} function to a single numerical score.
+\item \code{"macro_weighted"}:
+The scoring function is applied on the \link{Prediction} object of each resampling iterations,
+each yielding a single numeric score.
+Next, the scores are combined with the \code{aggregator} function to a single numerical score.
+The scores are weighted by the total sample weights (if present, and if \verb{$use_weights} is set to \code{"use"}),
+or the number of samples in each resampling iteration.
 \item \code{"custom"}:
 The measure comes with a custom aggregation method which directly operates on a \link{ResampleResult}.
 }}

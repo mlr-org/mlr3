@@ -137,6 +137,7 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
   truth = task$truth(),
   response = NULL,
   prob = NULL,
+  weights = NULL,
   check = TRUE
 )}\if{html}{\out{</div>}}
 }
@@ -165,6 +166,10 @@ and one row for each observation in the test set.
 Columns must be named with class labels, row names are automatically removed.
 If \code{prob} is provided, but \code{response} is not, the class labels are calculated from
 the probabilities using \code{\link[=max.col]{max.col()}} with \code{ties.method} set to \code{"random"}.}
+
+\item{\code{weights}}{(\code{numeric()})\cr
+Vector of weights for each observation in the test set. Should be constructed from
+the \code{Task}'s \code{weights_measure} column.}
 
 \item{\code{check}}{(\code{logical(1)})\cr
 If \code{TRUE}, performs some argument checks and predict type conversions.}
