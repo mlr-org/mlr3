@@ -461,9 +461,39 @@ run_experiment = function(task, learner, seed = NULL, configure_learner = NULL) 
     }
   }
 
-  # TODO
   if ("weights" %chin% learner$properties) {
-    learner$.__enclos_env__$private$.get_weights()
+    use_weights = learner$use_weights
+    get_weights = learner$.__enclos_env__$private$.get_weights
+    counter = R6::R6Class("counter", public = list(count = 0, count_up = function(x) self$count = self$count + 1))$new()
+    get_weights_counter = function(...) {
+      counter$count_up()
+      get_weights(...)
+    }
+    on.exit({
+      learner$.__enclos_env__$private$.get_weights = get_weights
+      lockBinding(".get_weights", env = learner$.__enclos_env__$private)
+      learner$use_weights = use_weights
+    })
+
+    unlockBinding(".get_weights", env = learner$.__enclos_env__$private)
+    learner$.__enclos_env__$private$.get_weights = get_weights_counter
+
+    learner$use_weights = "use"
+    learner$train(task)
+    if (counter$count == 0) {
+      return(err("get_weights was not called"))
+    }
+
+    learner$use_weights = "ignore"
+    learner$train(task)
+    if (counter$count == 0) {
+      return(err("get_weights was not called. It should be called even when use_weights = 'ignore'"))
+    }
+
+    learner$.__enclos_env__$private$.get_weights = get_weights
+    lockBinding(".get_weights", env = learner$.__enclos_env__$private)
+    learner$use_weights = use_weights
+    on.exit()
   }
 
   return(list(ok = TRUE, learner = learner, prediction = prediction, error = character(), seed = seed))
