@@ -89,7 +89,7 @@ test_that("MeasureRegrRSQ works with weights", {
 
   # # Case 4: Constant truth (denominator = 0 -> NaN)
   ### this seems to be an edge case that does not need to be checked...
-  # pred_const = PredictionRegr$new(row_ids = row_ids, truth = rep(3, 5), response = response, weights = weights)
+  pred_const = PredictionRegr$new(row_ids = row_ids, truth = rep(3, 5), response = response, weights = weights)
   # mu_const_pred = weighted.mean(pred_const$truth, weights) # 3
   # ss_tot_const_pred = sum(weights * (pred_const$truth - mu_const_pred)^2) # sum(weights * (3 - 3)^2) = 0
   # expect_equal(pred_const$score(measure_weighted), c(regr.rsq = -Inf)) # 1 - ss_res / 0 -> 1 - Inf -> -Inf? No, should be NaN

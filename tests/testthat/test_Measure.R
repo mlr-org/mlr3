@@ -190,7 +190,7 @@ test_that("measure weights", {
   expect_error({mauc$use_weights = "use"}, "Must be element of set")
 
   # evaluating resampling with weights
-  resampling = rsmp("custom")$instantiate(task,
+  resampling = rsmp("custom")$instantiate(tsk("iris"),
     train_sets = list(1, 1),
     test_sets = list(c(1, 2, 51, 52, 101, 102), c(1:3, 51:53, 101:102))
   )

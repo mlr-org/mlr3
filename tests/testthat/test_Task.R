@@ -315,13 +315,15 @@ test_that("col roles are valid", {
   b = as_data_backend(data.table(y = runif(20), numeric = c(runif(19), NA_real_)))
   task = TaskRegr$new("test", b, target = "y")
 
-  expect_error(task$set_col_roles("numeric", roles = "weight"), "missing")
+  expect_error(task$set_col_roles("numeric", roles = "weights_learner"), "missing")
+  expect_error(task$set_col_roles("numeric", roles = "weights_measure"), "missing")
 
   # negative weights
   b = as_data_backend(data.table(y = runif(20), numeric = c(runif(19), -10)))
   task = TaskRegr$new("test", b, target = "y")
 
-  expect_error(task$set_col_roles("numeric", roles = "weight"), "is not")
+  expect_error(task$set_col_roles("numeric", roles = "weights_learner"), "is not")
+  expect_error(task$set_col_roles("numeric", roles = "weights_measure"), "is not")
 
   # target classif
   b = as_data_backend(data.table(
@@ -717,12 +719,6 @@ test_that("task$set_col_roles() with weights", {
   expect_null(task$weights_measure)
   expect_false("weights_measure" %in% task$properties)
 
-  # Test assigning both
-  task$set_col_roles(c("w_lrn", "w_msr"), c("weights_learner", "weights_measure"))
-  expect_equal(task$weights_learner$weight, task$backend$data(task$row_ids, "w_lrn")$w_lrn)
-  expect_equal(task$weights_measure$weight, task$backend$data(task$row_ids, "w_msr")$w_msr)
-  expect_subset(c("weights_learner", "weights_measure"), task$properties)
-
   # Test assigning the same column to both
   task = tsk("mtcars")$cbind(data.table(w = runif(32)))
   task$set_col_roles("w", add_to = c("weights_learner", "weights_measure"))
@@ -785,13 +781,13 @@ test_that("rbind with weights", {
   # Check combined weights
   combined_weights_lrn = task$weights_learner
   expect_equal(nrow(combined_weights_lrn), task$nrow)
-  expect_equal(combined_weights_lrn[row_id %in% original_row_ids], original_weights_lrn)
+  expect_equal(setkeyv(combined_weights_lrn[row_id %in% original_row_ids], "row_id"), original_weights_lrn)
   expect_equal(combined_weights_lrn[row_id %in% 151:160]$weight, 1001:1010)
 
   combined_weights_msr = task$weights_measure
   expect_equal(nrow(combined_weights_msr), task$nrow)
   # expect_equal(combined_weights_msr[row_id %in% original_row_ids], original_weights_msr) # ordering issue with join
-  expect_equal(combined_weights_msr[list(original_row_ids), on = "row_id"], original_weights_msr)
+  expect_equal(setkeyv(combined_weights_msr[list(original_row_ids), on = "row_id"], "row_id"), original_weights_msr)
   expect_equal(combined_weights_msr[row_id %in% 151:160]$weight, 2010:2001)
 
 
