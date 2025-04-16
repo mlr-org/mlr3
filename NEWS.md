@@ -5,7 +5,7 @@
   * `weights_learner`: Weights used during training by the Learner.
   * `weights_measure`: Weights used during scoring predictions via measures.
 
-  Each of these can be disabled via the new hyperparameter (Measure, Resampling) or field (Learner) `use_weights`.
+  Each of these can be disabled via the new field `use_weights` in `Learner` and `Measure` objects.
 * feat: Add `score_roc_measures()` to score a prediction on various roc measures.
 * feat: A better error message is thrown, which often happens when incorrectly configuring the `validate` field
   of a `GraphLearner`

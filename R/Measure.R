@@ -248,7 +248,9 @@ Measure = R6Class("Measure",
           aggregator = self$aggregator %??% weighted.mean
           tab = score_measures(rr, list(self), reassemble = FALSE, view = get_private(rr)$.view,
             iters = get_private(rr$resampling)$.primary_iters)
-          set_names(aggregator(tab[[self$id]], tab$.weights), self$id)
+          # score_measures constructs both .weights and .samples, since it can work with multiple measures and hence
+          # does not depend on an individual measure's `use_weights` setting.
+          set_names(aggregator(tab[[self$id]], if (self$use_weights == "use") tab$.weights else tab$.samples), self$id)
         },
         "macro" = {
           aggregator = self$aggregator %??% mean
@@ -423,7 +425,7 @@ score_single_measure = function(measure, task, learner, train_set, prediction) {
   }
 
   get_private(measure)$.score(prediction = prediction, task = task, learner = learner, train_set = train_set,
-    weights = if (measure$use_weights == "use") task$weights_measure[list(prediction$row_ids), "weight"][[1L]])
+    weights = if (measure$use_weights == "use") prediction$weights)
 }
 
 #' @title Workhorse function to calculate multiple scores
@@ -446,17 +448,14 @@ score_measures = function(obj, measures, reassemble = TRUE, view = NULL, iters =
   reassemble_learners = reassemble ||
     some(measures, function(m) any(c("requires_learner", "requires_model") %chin% m$properties))
   tab = get_private(obj)$.data$as_data_table(view = view, reassemble_learners = reassemble_learners, convert_predictions = FALSE)
-  if ("weights_measure" %in% tab$task$properties) {
-    weightsumgetter = function(task, prediction) {
-      sum(task$weights_measure[list(prediction$row_ids), "weight"][[1L]])
-    }
+
+  set(tab, j = ".samples", value = map_dbl(tab$prediction, function(x) length(x$row_ids)))
+  if ("weights" %chin% names(tab$prediction[[1L]])) {  # TODO: check this
+    set(tab, j = ".weights", value = map_dbl(tab$prediction, function(x) sum(x$weights)))
   } else {
-    # no weights recorded, use unit weights
-    weightsumgetter = function(task, prediction) {
-      as.numeric(length(prediction$row_ids))  # should explicitly be a numeric, not an integer
-    }
+    set(tab, j = ".weights", value = tab$.samples)
   }
-  set(tab, j = ".weights", value = pmap_dbl(tab[, c("task", "prediction"), with = FALSE], weightsumgetter))
+
 
   if (!is.null(iters)) {
     tab = tab[list(iters), on = "iteration"]

@@ -86,8 +86,8 @@ LearnerRegrFeatureless = R6Class("LearnerRegrFeatureless", inherit = LearnerRegr
         location = wmd$mean
         dispersion = wmd$sd
       } else {
-        location = quantile_weighted(x, probs = 0.5, weights = weights)
-        dispersion = quantile_weighted(abs(x - location), probs = 0.5, weights = weights) * 1.4826
+        location = quantile_weighted(x, probs = 0.5, weights = weights, continuous = FALSE)
+        dispersion = quantile_weighted(abs(x - location), probs = 0.5, weights = weights, continuous = FALSE) * 1.4826
       }
 
       set_class(list(

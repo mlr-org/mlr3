@@ -15,6 +15,8 @@ p2 = learner$predict(task)
 expect_lt(p1$score(), p2$score())
 
 
+# does score_measure work the way it seems?
+
 # - assert_learnable: triggers error when 'use_weights' is "error"
 # - assert_measure: triggers error when 'use_weights' is "error"
 # - learner autotest should check that .get_weights() is called -- even when use_weights is "ignore"
@@ -22,3 +24,6 @@ expect_lt(p1$score(), p2$score())
 # - where does resample result store its weights?
 #   - should go into prediction
 # - measureclassifcosts with weights
+# - weighted_confusion()
+# - all the tests with predictions should also be done with weighted tasks
+# - error messages when prediction weights are present

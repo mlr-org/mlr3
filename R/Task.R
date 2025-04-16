@@ -913,19 +913,16 @@ Task = R6Class("Task",
     #'
     #' Note that above listed properties are calculated from the `$col_roles`, and may not be set explicitly.
     properties = function(rhs) {
-      if (missing(rhs)) {
-        prop_roles = c(
-          groups = "group",
-          strata = "stratum",
-          weights_learner = "weights_learner",
-          weights_measure = "weights_measure",
-          offset = "offset",
-          ordered = "order"
-        )
-        c(private$.properties, names(prop_roles)[lengths(private$.col_roles[prop_roles]) > 0L])
-      } else {
-        private$.properties = assert_set(rhs, .var.name = "properties")
-      }
+      assert_ro_binding(rhs)
+      prop_roles = c(
+        groups = "group",
+        strata = "stratum",
+        weights_learner = "weights_learner",
+        weights_measure = "weights_measure",
+        offset = "offset",
+        ordered = "order"
+      )
+      names(prop_roles)[lengths(private$.col_roles[prop_roles]) > 0L]
     },
 
     #' @field row_roles (named `list()`)\cr
@@ -1227,7 +1224,6 @@ Task = R6Class("Task",
   private = list(
     .internal_valid_task = NULL,
     .id = NULL,
-    .properties = NULL,
     .col_roles = NULL,
     .row_roles = NULL,
     .hash = NULL,

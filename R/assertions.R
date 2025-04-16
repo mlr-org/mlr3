@@ -282,6 +282,11 @@ assert_measure = function(measure, task = NULL, learner = NULL, prediction = NUL
     }
   }
 
+  if (measure$use_weights == "error" &&
+      (!is.null(prediction$weights) || "weights_measure" %chin% task$properties)) {
+    stopf("Measure weights are present, but Measure '%s' can not handle weights.\nSet `use_weights` to 'ignore' if you want the Measure to ignore weights.", measure$id)
+  }
+
   invisible(measure)
 }
 

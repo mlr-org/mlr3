@@ -167,6 +167,23 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
     confusion = function(rhs) {
       assert_ro_binding(rhs)
       table(response = self$data$response, truth = self$data$truth, useNA = "ifany")
+    },
+
+    #' @field confusion_weighted (`matrix()`)\cr
+    #' Confusion matrix, as resulting from the comparison of truth and response.
+    #' Truth is in columns, predicted response is in rows.
+    #' Tabulates weighted counts, if weights are present.
+    #' Otherwise, identical to `$confusion`.
+    confusion_weighted = function(rhs) {
+      assert_ro_binding(rhs)
+      if (is.null(self$data$weights)) {
+        return(self$confusion)
+      }
+      ctbl = data.table(response = self$data$response, truth = self$data$truth, weights = self$data$weights)
+      ctbl = ctbl[, .(weights = sum(weights)), by = .(response, truth)]
+      ctbl = dcast(ctbl, response ~ truth, value.var = "weights")
+      result = as.matrix(ctbl, rownames = "response")
+      set_class(result, "table")
     }
   )
 )
@@ -179,6 +196,10 @@ as.data.table.PredictionClassif = function(x, ...) { # nolint
     prob = as.data.table(x$data$prob)
     setnames(prob, names(prob), paste0("prob.", names(prob)))
     tab = rcbind(tab, prob)
+  }
+
+  if (!is.null(x$data$weights)) {
+    tab$weights = x$data$weights
   }
 
   tab[]

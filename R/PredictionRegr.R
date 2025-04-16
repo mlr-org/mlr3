@@ -120,5 +120,10 @@ as.data.table.PredictionRegr = function(x, ...) { # nolint
     require_namespaces("distr6", msg = "To predict probability distributions, please install %s")
     tab$distr = list(x$distr)
   }
+
+  if (!is.null(x$data$weights)) {
+    tab$weights = x$data$weights
+  }
+
   tab
 }
