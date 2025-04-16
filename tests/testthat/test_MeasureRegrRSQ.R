@@ -1,7 +1,7 @@
 test_that("MeasureRegrRSQ works", {
 
   measure = msr("regr.rsq")
-  expect_equal(measure$properties, character(0))
+  expect_equal(measure$properties, "weights")
 
   pred = PredictionRegr$new(truth = 0:10, response = 2:12, row_ids = seq(11))
   expect_equal(pred$score(measure), c(rsq = 0.6))
@@ -13,7 +13,7 @@ test_that("MeasureRegrRSQ works", {
   expect_equal(pred$score(measure), c(rsq = 0.8))
 
   measure = msr("regr.rsq", pred_set_mean = FALSE)
-  expect_subset(measure$properties, c("requires_task", "requires_train_set"))
+  expect_subset(measure$properties, c("requires_task", "requires_train_set", "weights"))
 
   pred = PredictionRegr$new(truth = 0:10, response = 2:12, row_ids = seq(11))
   task = as_task_regr(data.table(y = 0:10), target = "y")
