@@ -70,7 +70,8 @@ LearnerClassifFeatureless = R6Class("LearnerClassifFeatureless", inherit = Learn
 
   private = list(
     .train = function(task) {
-      counts_table = data.table(truth = task$truth(), weights = private$.get_weights(task, 1.0))[, .(weights = sum(weights)), by = truth]
+      weights = NULL
+      counts_table = data.table(truth = task$truth(), weights = private$.get_weights(task, 1.0))[, list(weights = sum(weights)), by = "truth"]
       tab = set_names(counts_table$weights, counts_table$truth)
       set_class(list(tab = tab, features = task$feature_names), "classif.featureless_model")
     },

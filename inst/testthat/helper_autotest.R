@@ -461,7 +461,7 @@ run_experiment = function(task, learner, seed = NULL, configure_learner = NULL) 
     }
   }
 
-  if ("weights" %chin% learner$properties) {
+  if ("weights" %in% learner$properties) {
     use_weights = learner$use_weights
     get_weights = learner$.__enclos_env__$private$.get_weights
     counter = R6::R6Class("counter", public = list(count = 0, count_up = function(x) self$count = self$count + 1))$new()

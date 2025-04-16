@@ -180,7 +180,8 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
         return(self$confusion)
       }
       ctbl = data.table(response = self$data$response, truth = self$data$truth, weights = self$data$weights)
-      ctbl = ctbl[, .(weights = sum(weights)), by = .(response, truth)]
+      weights = NULL
+      ctbl = ctbl[, list(weights = sum(weights)), by = c("response", "truth")]
       ctbl = dcast(ctbl, response ~ truth, value.var = "weights")
       result = as.matrix(ctbl, rownames = "response")
       names(dimnames(result)) = c("response", "truth")
