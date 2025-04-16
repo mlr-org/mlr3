@@ -426,7 +426,8 @@ Learner = R6Class("Learner",
       assert_names(newdata$colnames, must.include = task$feature_names)
 
       # the following columns are automatically set to NA if missing
-      impute = unlist(task$col_roles[c("target", "name", "order", "stratum", "group", "weights_learner", "weights_measure")], use.names = FALSE)
+      # We do not impute weighs_measure, because we decidedly do not have weights_measure in this case.
+      impute = unlist(task$col_roles[c("target", "name", "order", "stratum", "group")], use.names = FALSE)
       impute = setdiff(impute, newdata$colnames)
       tab1 = if (length(impute)) {
         # create list with correct NA types and cbind it to the backend
@@ -455,6 +456,20 @@ Learner = R6Class("Learner",
       task$col_info[, c("label", "fix_factor_levels")] = prevci[list(task$col_info$id), on = "id", c("label", "fix_factor_levels")]
       task$col_info$fix_factor_levels[is.na(task$col_info$fix_factor_levels)] = FALSE
       task$row_roles$use = task$backend$rownames
+      task_col_roles = task$col_roles
+      update_col_roles = FALSE
+      if (any(task_col_roles$weights_measure %nin% newdata$colnames)) {
+        update_col_roles = TRUE
+        task_col_roles$weights_measure = character(0)
+      }
+      if (any(task_col_roles$weights_learner %nin% newdata$colnames)) {
+        update_col_roles = TRUE
+        task_col_roles$weights_learner = character(0)
+      }
+      if (update_col_roles) {
+        task$col_roles = task_col_roles
+      }
+
       self$predict(task)
     },
 
