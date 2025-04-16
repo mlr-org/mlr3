@@ -1,6 +1,6 @@
 test_that("cv has no duplicated ids", {
   r = rsmp("cv")
-  expect_disjunct("duplicated_ids", r$properties)
+  expect_identical(r$duplicated_ids, FALSE)
 })
 
 test_that("split into evenly sized groups", {

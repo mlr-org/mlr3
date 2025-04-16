@@ -1,6 +1,6 @@
 test_that("repeated cv has no duplicated ids", {
   r = rsmp("repeated_cv")
-  expect_disjunct("duplicated_ids", r$properties)
+  expect_identical(r$duplicated_ids, FALSE)
 })
 
 test_that("folds first, then repetitions", {

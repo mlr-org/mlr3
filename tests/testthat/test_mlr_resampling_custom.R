@@ -1,6 +1,6 @@
 test_that("custom has duplicated ids", {
   r = rsmp("custom")
-  expect_subset("duplicated_ids", r$properties)
+  expect_identical(r$duplicated_ids, TRUE)
 })
 
 test_that("custom_cv accepts external factor", {
@@ -15,13 +15,13 @@ test_that("custom_cv accepts external factor", {
   expect_length(ccv$instance, 3)
   expect_length(ccv$train_set(3), 6)
 
-  expect_disjunct("duplicated_ids", ccv$properties)
+  expect_identical(ccv$duplicated_ids, FALSE)
 })
 
 test_that("custom_cv accepts task feature", {
   task = tsk("german_credit")
   ccv = rsmp("custom_cv")
-  expect_disjunct("duplicated_ids", ccv$properties)
+  expect_identical(ccv$duplicated_ids, FALSE)
 
   ccv$instantiate(task, f = task$data(cols = "job")[[1L]])
   expect_class(ccv$instance, "list")
