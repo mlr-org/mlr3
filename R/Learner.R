@@ -72,13 +72,17 @@
 #' Many learners support observation weights, indicated by their property `"weights"`.
 #' The weights are stored in the [Task] where the column role `weights_learner` needs to be assigned to a single numeric column.
 #' If a task has weights and the learner supports them, they are used automatically.
-#' If a task has weights but the learner does not support them, an error is thrown.
+#' If a task has weights but the learner does not support them, an error is thrown by default.
 #' Both of these behaviors can be disabled by setting the `use_weights` field to `"ignore"`.
 #' See the description of `use_weights` for more information.
 #'
-#' If the learner is set-up to use weights but the task does not have a designated weight column, an unweighted version is calculated instead.
-#' When they are being used, weights are passed down to the learner directly.
-#' Generally, they do not necessarily need to sum up to 1.
+#' If the learner is set-up to use weights but the task does not have a designated weight column, samples are considered to have equal weight.
+#' When weights are being used, they are passed down to the learner directly; the effect of weights depends on the specific learner.
+#' Generally, weights do not need to sum up to 1.
+#'
+#' When implementing a Learner that uses weights, the `"weights"` property should be set.
+#' The `$.train()`-method should then call the `$.get_weights()`-method to retrieve the weights from the task.
+#' `$.get_weights()` will automatically discard weights when `use_weights` is set to `"ignore"`;
 #'
 #' @section Setting Hyperparameters:
 #'
@@ -605,7 +609,7 @@ Learner = R6Class("Learner",
 
   active = list(
     #' @field use_weights (`character(1)`)\cr
-    #' How to use weights.
+    #' How weights should be handled.
     #' Settings are `"use"` `"ignore"`, and `"error"`.
     #'
     #' * `"use"`: use weights, as supported by the underlying `Learner`.
@@ -685,7 +689,7 @@ Learner = R6Class("Learner",
     hash = function(rhs) {
       assert_ro_binding(rhs)
       calculate_hash(class(self), self$id, self$param_set$values, private$.predict_type,
-        self$fallback$hash, self$parallel_predict, get0("validate", self), self$predict_sets)
+        self$fallback$hash, self$parallel_predict, get0("validate", self), self$predict_sets, private$.use_weights)
     },
 
     #' @field phash (`character(1)`)\cr
@@ -693,7 +697,7 @@ Learner = R6Class("Learner",
     phash = function(rhs) {
       assert_ro_binding(rhs)
       calculate_hash(class(self), self$id, private$.predict_type,
-        self$fallback$hash, self$parallel_predict, get0("validate", self))
+        self$fallback$hash, self$parallel_predict, get0("validate", self), private$.use_weights)
     },
 
     #' @field predict_type (`character(1)`)\cr

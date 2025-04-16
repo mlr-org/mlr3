@@ -246,7 +246,8 @@ assert_measure = function(measure, task = NULL, learner = NULL, prediction = NUL
           " since 'use_weights' was set to 'error'."
         } else {
           " since the Measure does not support weights.\nYou may set 'use_weights' to 'ignore' if you want the Measure to ignore weights."
-      })
+        }
+      )
     }
   }
 

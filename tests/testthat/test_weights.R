@@ -14,3 +14,11 @@ p2 = learner$predict(task)
 
 expect_lt(p1$score(), p2$score())
 
+
+# - assert_learnable: triggers error when 'use_weights' is "error"
+# - assert_measure: triggers error when 'use_weights' is "error"
+# - learner autotest should check that .get_weights() is called -- even when use_weights is "ignore"
+# - test quantile_weighted()
+# - where does resample result store its weights?
+#   - should go into prediction
+# - measureclassifcosts with weights

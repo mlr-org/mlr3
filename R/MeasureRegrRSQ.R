@@ -62,7 +62,9 @@ MeasureRegrRSQ = R6Class("MeasureRSQ",
         mu = if (private$.pred_set_mean) {
           weighted.mean(prediction$truth, weights)
         } else {
-          weighted.mean(task$truth(train_set), task$weights_measure[train_set, "weight"][[1L]])
+          # don't use weighted mean here, since resampling weights only concern the predict set.
+          # We might consider using the learner_weights here at some point...
+          mean(task$truth(train_set))
         }
         1 - sum(weights * (prediction$truth - prediction$response)^2) / sum(weights * (prediction$truth - mu)^2)
       }

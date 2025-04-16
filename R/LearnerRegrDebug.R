@@ -44,7 +44,8 @@ LearnerRegrDebug = R6Class("LearnerRegrDebug", inherit = LearnerRegr,
           threads              = p_int(1L, tags = c("train", "threads")),
           x                    = p_dbl(0, 1, tags = "train")
         ),
-        properties = "missings",
+        properties = c("missings", "weights"),
+        packages = "stats",
         man = "mlr3::mlr_learners_regr.debug",
         label = "Debug Learner for Regression"
       )
@@ -75,15 +76,17 @@ LearnerRegrDebug = R6Class("LearnerRegrDebug", inherit = LearnerRegr,
     .train = function(task) {
       pv = self$param_set$get_values(tags = "train")
       truth = task$truth()
+      weights = private$.get_weights(task)
+      wmd = weighted_mean_sd(truth, weights)
       model = list(
-        response = mean(truth),
-        se = sd(truth),
+        response = wmd$mean,
+        se = wmd$sd,
         pid = Sys.getpid()
       )
 
       if (self$predict_type == "quantiles") {
         probs = self$quantiles
-        model$quantiles = unname(quantile(truth, probs))
+        model$quantiles = unname(quantile_weighted(truth, probs, weights = weights))
         model$quantile_probs = probs
       }
 
