@@ -804,3 +804,12 @@ test_that("row_ids_backend works correctly", {
   task$filter(1:25)
   expect_set_equal(task$row_ids_backend, 1:768)
 })
+
+test_that("filtering with numeric does not cause numeric primary key (#1285)", {
+  task = tsk("iris")
+  task$filter(13)
+  expect_class(task$row_roles$use, "integer")
+
+  task$internal_valid_task = c(1, 2, 3)
+  expect_class(task$internal_valid_task$row_roles$use, "integer")
+})
