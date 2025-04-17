@@ -11,6 +11,7 @@
 * feat: Add `"macro_weighted"` option to `Measure$average` field.
 * feat: `MeasureRegrRSQ` and `MeasureClassifCost` gain `"weights"` property.
 * feat: `LearnerClassifFeatureless`, `LearnerRegrFeatureless`, `LearnerClassifDebug`, `LearnerRegrDebug` gain `"weights"` property.
+* feat: `Learner` printer now prints information about encapsulation and weights use.
 * feat: Add `score_roc_measures()` to score a prediction on various roc measures.
 * feat: A better error message is thrown, which often happens when incorrectly configuring the `validate` field
   of a `GraphLearner`
