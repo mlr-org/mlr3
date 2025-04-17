@@ -21,7 +21,8 @@ resample(task, learner, resampling)
 
 This means replacing `future_map` with `mirai_map` or promoting the `future.mirai` backend.
 
-Can `mirai` replace all `future` backends?
+**Can `mirai` replace all `future` backends?**
+
 
 Is it difficult to install mirai on some systems?
 
@@ -42,13 +43,22 @@ resample(task, learner, resampling)
 ```
 
 
-Setting a timeout works but the `mirai` must be stopped with `stop_mirai()`
+<!-- Setting a timeout works but the `mirai` must be stopped with `stop_mirai()`
 Why is the `mirai` not stopped automatically?
-We could wait for `errorValue 5` and then call `stop_mirai()` in mlr3
+We could wait for `errorValue 5` and then call `stop_mirai()` in mlr3 -->
 
-Can `mirai` record warnings?
+**Can `mirai` record warnings? Is this valueable for mirai?**
+  For `callr` we catch warnings and write them to a log file.
+  We parse the log file after the process has finished.
+  Not sure why we do this. Maybe to record warnings in case of segfaults?
 
-Could `mirai` enforce a memory limit?
+**Could `mirai` enforce a memory limit?**
+  This would be very useful for AutML.
+
+
+**Do I need to use `daemons()`? Or is a daemon automatically started when I call `mirai::mirai()`?**
+  Already in there.
+
 
 3. Combine parallelization and encapsulation with `mirai`
 
@@ -233,6 +243,7 @@ mirai + mirai
 
 ```{r}
 library(mirai)
+library(mlr3)
 
 learner = lrn("classif.rpart")
 learner$encapsulate("mirai", fallback = lrn("classif.featureless"))
