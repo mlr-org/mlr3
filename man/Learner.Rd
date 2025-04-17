@@ -278,7 +278,8 @@ Only available for \code{Learner}s with the property \code{"weights"}.
 For \code{Learner}s with the property \code{"weights"}, this is initialized as \code{"use"}.
 For \code{Learner}s that do not support weights, i.e. without the \code{"weights"} property, this is initialized as \code{"error"}.
 The latter behavior is to avoid cases where a user erroneously assumes that a \code{Learner} supports weights when it does not.
-For \code{Learner}s that do not support weights, \code{use_weights} needs to be set to \code{"ignore"} if tasks with weights should be handled (by dropping the weights).}
+For \code{Learner}s that do not support weights, \code{use_weights} needs to be set to \code{"ignore"} if tasks with weights should be handled (by dropping the weights).
+See Section 'weights' for more details.}
 
 \item{\code{data_formats}}{(\code{character()})\cr
 Supported data format. Always \code{"data.table"}..

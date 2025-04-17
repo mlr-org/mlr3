@@ -96,12 +96,6 @@ Access to the stored probabilities.}
 \item{\code{confusion}}{(\code{matrix()})\cr
 Confusion matrix, as resulting from the comparison of truth and response.
 Truth is in columns, predicted response is in rows.}
-
-\item{\code{confusion_weighted}}{(\code{matrix()})\cr
-Confusion matrix, as resulting from the comparison of truth and response.
-Truth is in columns, predicted response is in rows.
-Tabulates weighted counts, if weights are present.
-Otherwise, identical to \verb{$confusion}.}
 }
 \if{html}{\out{</div>}}
 }

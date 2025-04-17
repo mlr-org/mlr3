@@ -636,6 +636,7 @@ Learner = R6Class("Learner",
     #' For `Learner`s that do not support weights, i.e. without the `"weights"` property, this is initialized as `"error"`.
     #' The latter behavior is to avoid cases where a user erroneously assumes that a `Learner` supports weights when it does not.
     #' For `Learner`s that do not support weights, `use_weights` needs to be set to `"ignore"` if tasks with weights should be handled (by dropping the weights).
+    #' See Section 'weights' for more details.
     use_weights = function(rhs) {
       if (!missing(rhs)) {
         assert_choice(rhs, c(if ("weights" %in% self$properties) "use", "ignore", "error"))

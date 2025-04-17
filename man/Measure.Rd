@@ -34,10 +34,17 @@ where at least one of its names corresponds to the \code{id} of the measure itse
 
 Many measures support observation weights, indicated by their property \code{"weights"}.
 The weights are stored in the \link{Task} where the column role \code{weights_measure} needs to be assigned to a single numeric column.
-The weights are automatically used if found in the task, this can be disabled by setting the hyperparamerter \code{use_weights} to \code{"ignore"}.
-If the measure is set-up to use weights but the task does not have a designated \code{weights_measure} column, an unweighted version is calculated instead.
-The weights do not necessarily need to sum up to 1, they are normalized by the measure.
+The weights are automatically used if found in the task, this can be disabled by setting the field \code{use_weights} to \code{"ignore"}.
 See the description of \code{use_weights} for more information.
+
+If the measure is set-up to use weights but the task does not have a designated \code{weights_measure} column, an unweighted version is calculated instead.
+The weights do not necessarily need to sum up to 1, they are normalized by the measure if necessary.
+
+Most measures are so-called decomposable loss functions where a point-wise loss is computed and then either mean-aggregated or summed
+over the test set.
+For measures that do mean-aggregation, weights are typically used to compute the weighted mean, which normalizes weights to sum to 1.
+Measures that use sum-aggregation do not normalize weights and instead multiply individual losses with the given weights.
+See the documentation of specific measures for more details.
 }
 
 \seealso{
