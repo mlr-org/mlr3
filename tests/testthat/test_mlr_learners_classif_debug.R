@@ -90,4 +90,34 @@ test_that("importance and selected features", {
   expect_equal(l$importance(), set_names(rep(0, task$n_features), task$feature_names))
 })
 
+test_that("weights are respected", {
+  # Create weighted task
+  data = iris
+  data$weights = ifelse(data$Species == "setosa", 1000, 1)
+  task = TaskClassif$new(
+    id = "iris_weights",
+    backend = data,
+    target = "Species"
+  )
+  task$set_col_roles("weights", roles = "weights_learner")
+
+  # Create learner
+  learner = lrn("classif.debug")
+
+  # Train repeatedly and collect responses
+  responses = character(100)
+  for (i in 1:100) {
+    # learner$reset() # reset not needed as train overwrites model
+    learner$train(task)
+    responses[i] = learner$model$response
+  }
+
+  # Check results
+  # Expect 'setosa' to be the overwhelmingly most frequent response
+  response_table = table(responses)
+  # check if setosa is the most frequent sampled class, probability > 0.9
+  expect_true(response_table["setosa"] > 90)
+  expect_true(all(names(response_table) %in% task$class_names))
+})
+
 

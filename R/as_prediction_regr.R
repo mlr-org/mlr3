@@ -44,6 +44,6 @@ as_prediction_regr.PredictionRegr = function(x, ...) { # nolint
 #' @export
 as_prediction_regr.data.frame = function(x, ...) { # nolint
   assert_names(names(x), must.include = c("row_ids", "truth", "response"))
-  assert_names(names(x), subset.of = c("row_ids", "truth", "response", "se"))
+  assert_names(names(x), subset.of = c("row_ids", "truth", "response", "se", "weights"))
   invoke(PredictionRegr$new, .args = x)
 }

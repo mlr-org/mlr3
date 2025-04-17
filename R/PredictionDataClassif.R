@@ -50,6 +50,12 @@ check_prediction_data.PredictionDataClassif = function(pdata, train_task, ...) {
     }
   }
 
+  if (!is.null(pdata$weights)) {
+    # weights may never be NA, even if no prediction was made.
+    pdata$weights = assert_numeric(unname(pdata$weights), any.missing = FALSE)
+    assert_prediction_count(length(pdata$weights), n, "weights")
+  }
+
   pdata
 }
 
@@ -65,6 +71,8 @@ is_missing_prediction_data.PredictionDataClassif = function(pdata, ...) { # noli
   if (!is.null(pdata$prob)) {
     miss = miss | apply(pdata$prob, 1L, anyMissing)
   }
+
+  # weights may never be NA, so we don't need to check for missingness
 
   pdata$row_ids[miss]
 }
@@ -90,7 +98,11 @@ c.PredictionDataClassif = function(..., keep_duplicates = TRUE) {
     stopf("Cannot rbind predictions: Different predict types")
   }
 
-  elems = c("row_ids", "truth", intersect(predict_types[[1L]], "response"))
+  if (length(unique(map_lgl(dots, function(x) is.null(x$weights)))) > 1L) {
+    stopf("Cannot rbind predictions: Some predictions have weights, others do not")
+  }
+
+  elems = c("row_ids", "truth", intersect(predict_types[[1L]], "response"), if ("weights" %chin% names(dots[[1L]])) "weights")
   tab = map_dtr(dots, function(x) x[elems], .fill = FALSE)
   prob = do.call(rbind, map(dots, "prob"))
 
@@ -119,6 +131,10 @@ filter_prediction_data.PredictionDataClassif = function(pdata, row_ids, ...) {
     pdata$prob = pdata$prob[keep,, drop = FALSE]
   }
 
+  if (!is.null(pdata$weights)) {
+    pdata$weights = pdata$weights[keep]
+  }
+
   pdata
 }
 
@@ -138,6 +154,10 @@ create_empty_prediction_data.TaskClassif = function(task, learner) {
 
   if ("prob" %chin% predict_types) {
     pdata$prob = matrix(numeric(), nrow = 0L, ncol = length(cn), dimnames = list(NULL, cn))
+  }
+
+  if ("weights_measure" %chin% task$properties) {
+    pdata$weights = numeric()
   }
 
   return(new_prediction_data(pdata, "classif"))

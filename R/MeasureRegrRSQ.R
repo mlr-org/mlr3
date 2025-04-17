@@ -8,14 +8,17 @@
 #'
 #' @details
 #' R Squared is defined as \deqn{
-#'   1 - \frac{\sum_{i=1}^n \left( t_i - r_i \right)^2}{\sum_{i=1}^n \left( t_i - \bar{t} \right)^2},
+#'   1 - \frac{\sum_{i=1}^n w_i \left( t_i - r_i \right)^2}{\sum_{i=1}^n w_i \left( t_i - \bar{t} \right)^2},
 #' }{
-#'   1 - sum((t - r)^2) / sum((t - mean(t))^2),
+#'   1 - sum(w * (t - r)^2) / sum(w * (t - mean(t))^2),
 #' }
-#' where \eqn{\bar{t} = \sum_{i=1}^n t_i}.
+#' where \eqn{\bar{t} = \frac{1}{n} \sum_{i=1}^n t_i} and \eqn{w_i} are weights.
 #'
 #' Also known as coefficient of determination or explained variation.
-#' Subtracts the [mlr3measures::rse()] from 1, hence it compares the squared error of the predictions relative to a naive model predicting the mean.
+#' It compares the squared error of the predictions relative to a naive model predicting the mean.
+#'
+#' Note that weights are used to scale the squared error of individual predictions (both in the numerator and in the denominator),
+#' but the "plug in" value \eqn{\bar{t}} is computed without weights.
 #'
 #' This measure is undefined for constant \eqn{t}.
 #'
@@ -39,8 +42,8 @@ MeasureRegrRSQ = R6Class("MeasureRSQ",
       private$.pred_set_mean = assert_flag(pred_set_mean)
 
       super$initialize(
-        id = "rsq",
-        properties = if (!private$.pred_set_mean) c("requires_task", "requires_train_set") else character(0),
+        id = "regr.rsq",
+        properties = c(if (!private$.pred_set_mean) c("requires_task", "requires_train_set"), "weights"),
         predict_type = "response",
         minimize = FALSE,
         range = c(-Inf, 1),
@@ -50,11 +53,25 @@ MeasureRegrRSQ = R6Class("MeasureRSQ",
   ),
 
   private = list(
+    # this is not included in the paramset as this flag influences properties of the learner
+    # so this flag should not be "dynamic state"
     .pred_set_mean = NULL,
 
-    .score = function(prediction, task = NULL, train_set = NULL, ...) {
-      mu = if (private$.pred_set_mean) mean(prediction$truth) else mean(task$truth(train_set))
-      1 - sum((prediction$truth - prediction$response)^2) / sum((prediction$truth - mu)^2)
+    .score = function(prediction, task = NULL, train_set = NULL, weights = NULL, ...) {
+      if (is.null(weights)) {
+        mu = if (private$.pred_set_mean) mean(prediction$truth) else mean(task$truth(train_set))
+        1 - sum((prediction$truth - prediction$response)^2) / sum((prediction$truth - mu)^2)
+      } else {
+        # Don't use weighted mean here, since resampling weights only concern weighting of loss of individual predictions.
+        # One could argue that we should use weights when .pred_set.mean is TRUE, or we could use weights_learner from the task,
+        # but currently we decided against it.
+        mu = if (private$.pred_set_mean) {
+          mean(prediction$truth)
+        } else {
+          mean(task$truth(train_set))
+        }
+        1 - sum(weights * (prediction$truth - prediction$response)^2) / sum(weights * (prediction$truth - mu)^2)
+      }
     }
   )
 )

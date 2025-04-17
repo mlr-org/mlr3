@@ -103,3 +103,19 @@ test_that("obs_loss", {
   loss = p$obs_loss()
   expect_double(loss$regr.mse, lower = 0, any.missing = FALSE)
 })
+
+test_that("predictions with weights", {
+  ll = lrn("regr.debug")$train(as_task_regr(cars, target = "dist"), row_ids = 1)
+
+  pred_with_weights = ll$predict(cars_weights_measure)
+  expect_equal(pred_with_weights$weights, rep(c(1, 10), each = 25))
+
+  pred_without_weights = ll$predict(cars_weights_learner)  # learner weights are ignored during predict
+  expect_null(pred_without_weights$weights)
+
+  expect_error(c(pred_with_weights, pred_without_weights), "Some predictions have weights, others do not")
+
+  expect_equal(c(pred_with_weights, pred_with_weights)$weights, rep(c(1, 10, 1, 10), each = 25))
+
+  expect_equal(c(pred_with_weights$clone(deep = TRUE)$filter(1:10), pred_with_weights)$weights, rep(c(1, 10, 1, 10), each = 25)[c(1:10, 51:100)])
+})
