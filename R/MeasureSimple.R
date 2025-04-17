@@ -339,10 +339,6 @@ mlr_measures$add("regr.msle", function() MeasureRegrSimple$new(name = "msle"))
 #' @template measure_regr
 mlr_measures$add("regr.pbias", function() MeasureRegrSimple$new(name = "pbias"))
 
-#' @templateVar id rae
-#' @template measure_regr
-mlr_measures$add("regr.rae", function() MeasureRegrSimple$new(name = "rae"))
-
 #' @templateVar id rmse
 #' @template measure_regr
 mlr_measures$add("regr.rmse", function() MeasureRegrSimple$new(name = "rmse"))
@@ -350,14 +346,6 @@ mlr_measures$add("regr.rmse", function() MeasureRegrSimple$new(name = "rmse"))
 #' @templateVar id rmsle
 #' @template measure_regr
 mlr_measures$add("regr.rmsle", function() MeasureRegrSimple$new(name = "rmsle"))
-
-#' @templateVar id rrse
-#' @template measure_regr
-mlr_measures$add("regr.rrse", function() MeasureRegrSimple$new(name = "rrse"))
-
-#' @templateVar id rse
-#' @template measure_regr
-mlr_measures$add("regr.rse", function() MeasureRegrSimple$new(name = "rse"))
 
 #' @templateVar id sae
 #' @template measure_regr
