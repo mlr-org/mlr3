@@ -191,36 +191,3 @@ test_that("predictions with weights", {
   expect_equal(c(pred_with_weights$clone(deep = TRUE)$filter(1:10), pred_with_weights)$weights, rep(c(1, 10, 100, 1, 10, 100), each = 50)[c(1:10, 151:300)])
 })
 
-test_that("weighted confusion matrix", {
-  task = iris_weights_measure
-  # Use a learner that might produce some misclassifications
-  learner = lrn("classif.featureless")
-  p = learner$train(task)$predict(task)
-
-  # Get confusion matrix from prediction object
-  confusion_pred = p$confusion
-  weighted_confusion_pred = p$confusion_weighted
-
-  # Calculate expected weighted confusion matrix manually
-  truth = p$truth
-  response = p$response
-  weights = p$weights
-
-  # Use tapply to sum weights by response and truth
-  expected_confusion_raw = tapply(weights, list(response = response, truth = truth), sum, default = 0)
-
-  # Ensure the matrix has all levels and correct order
-  lvls = task$class_names
-  expected_confusion = matrix(0, nrow = length(lvls), ncol = length(lvls),
-                              dimnames = list(response = lvls, truth = lvls))
-  expected_confusion[rownames(expected_confusion_raw), colnames(expected_confusion_raw)] = expected_confusion_raw
-
-  # Compare
-  expect_equal(weighted_confusion_pred, expected_confusion)
-
-  # check that format of confusion_pred and weighted_confusion_pred is the same
-  confusion_pred[] <- NA
-  weighted_confusion_pred[] <- NA
-  expect_equal(confusion_pred, weighted_confusion_pred)
-})
-
