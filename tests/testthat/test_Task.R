@@ -208,6 +208,7 @@ test_that("filter works", {
   task$filter(91)
   expect_equal(task$nrow, 1L)
   expect_equal(task$row_ids, 91)
+  expect_integer(task$row_ids)  # #1285
   expect_data_table(task$data(), nrows = 1L, any.missing = FALSE)
 })
 
