@@ -826,3 +826,15 @@ test_that("weights are used when appropriate", {
   ll$use_weights = "ignore"
   ll$train(iris_weights_learner)
 })
+
+test_that("Learner printer for use_weights", {
+  expect_output(print(lrn("classif.featureless", use_weights = "ignore")), "use_weights = 'ignore'")
+  expect_output(print(lrn("classif.featureless", use_weights = "use")), "use_weights = 'use'")
+  expect_output(print(lrn("classif.featureless", use_weights = "error")), "use_weights = 'error'")
+})
+
+test_that("Learner printer for encapsulation", {
+  expect_output(print(lrn("classif.featureless")$encapsulate("callr", lrn("classif.rpart"))), "Encapsulation: callr \\(fallback: LearnerClassifRpart\\)")
+  expect_output(print(lrn("classif.rpart")$encapsulate("evaluate", lrn("classif.featureless"))), "Encapsulation: evaluate \\(fallback: LearnerClassifFeatureless\\)")
+  expect_output(print(lrn("classif.rpart")$encapsulate("none")), "Encapsulation: none \\(fallback: -\\)")
+})

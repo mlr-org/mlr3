@@ -261,7 +261,9 @@ Learner = R6Class("Learner",
       catn(str_indent("* Packages:", self$packages))
       catn(str_indent("* Predict Types: ", replace(self$predict_types, self$predict_types == self$predict_type, paste0("[", self$predict_type, "]"))))
       catn(str_indent("* Feature Types:", self$feature_types))
+      catn(str_indent("* Encapsulation:", paste0(self$encapsulation[[1]], " (fallback: ", if (is.null(self$fallback)) "-" else class(self$fallback)[[1L]], ")")))
       catn(str_indent("* Properties:", self$properties))
+      catn(str_indent("* Other settings:", paste0("use_weights = '", self$use_weights, "'")))
       w = self$warnings
       e = self$errors
       if (length(w)) {
