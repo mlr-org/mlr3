@@ -196,7 +196,6 @@ ResultData = R6Class("ResultData",
     #'
     #' @return [Prediction].
     prediction = function(view = NULL, predict_sets = "test") {
-      self$predictions(view = view, predict_sets = predict_sets)
       do.call(c, self$predictions(view = view, predict_sets = predict_sets))
     },
 
