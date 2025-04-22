@@ -46,7 +46,7 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
     #'   for an individual observation.
     #'
     #' @param weights (`numeric()`)\cr
-    #'   Vector of weights for each observation in the test set. Should be constructed from
+    #'   Vector of measure weights for each observation. Should be constructed from
     #'   the `Task`'s `weights_measure` column.
     #'
     #' @param check (`logical(1)`)\cr

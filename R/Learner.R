@@ -402,6 +402,10 @@ Learner = R6Class("Learner",
     #' Further, [`auto_convert`] is used for type-conversions to ensure compatability
     #' of features between `$train()` and `$predict()`.
     #'
+    #' If the stored training task has a `weights_measure` column, *and* if `newdata` contains a column with the same name,
+    #' that column must be numeric with no missing values and is used as measure weights column.
+    #' Otherwise, no measure weights are used.
+    #'
     #' @param newdata (any object supported by [as_data_backend()])\cr
     #'   New data to predict on.
     #'   All data formats convertible by [as_data_backend()] are supported, e.g.
