@@ -120,7 +120,7 @@ Each individual distribution in the vector represents the random variable 'survi
 for an individual observation.}
 
 \item{\code{weights}}{(\code{numeric()})\cr
-Vector of weights for each observation in the test set. Should be constructed from
+Vector of measure weights for each observation. Should be constructed from
 the \code{Task}'s \code{weights_measure} column.}
 
 \item{\code{check}}{(\code{logical(1)})\cr
