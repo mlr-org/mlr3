@@ -93,7 +93,10 @@ ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
 
   private = list(
     .sample = function(ids, ...) {
-      pv = self$param_set$values
+      pv = self$param_set$get_values()
+      if (length(ids) < pv$folds) {
+        stopf("Cannot instantiate ResamplingRepeatedCV with %i folds on a task with %i rows.", pv$folds, length(ids))
+      }
       n = length(ids)
       folds = as.integer(pv$folds)
       map_dtr(seq_len(pv$repeats), function(i) {

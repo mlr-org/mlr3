@@ -158,3 +158,11 @@ test_that("task_row_hash in Resampling works correctly", {
   resampling$instantiate(task)
   expect_identical(resampling$task_row_hash, task$row_hash)
 })
+
+test_that("folds must be <= task size", {
+  cv = rsmp("cv", folds = 151)
+  rep_cv = rsmp("repeated_cv", folds = 151)
+  task = tsk("iris")
+  expect_error(cv$instantiate(task), "Cannot instantiate ResamplingCV with 151 folds on a task with 150 rows")
+  expect_error(rep_cv$instantiate(task), "Cannot instantiate ResamplingRepeatedCV with 151 folds on a task with 150 rows")
+})

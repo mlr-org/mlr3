@@ -61,9 +61,13 @@ ResamplingCV = R6Class("ResamplingCV", inherit = Resampling,
 
   private = list(
     .sample = function(ids, ...) {
+      pvs = self$param_set$get_values()
+      if (length(ids) < pvs$folds) {
+        stopf("Cannot instantiate ResamplingCV with %i folds on a task with %i rows.", pvs$folds, length(ids))
+      }
       data.table(
         row_id = ids,
-        fold = shuffle(seq_along0(ids) %% as.integer(self$param_set$values$folds) + 1L),
+        fold = shuffle(seq_along0(ids) %% as.integer(pvs$folds) + 1L),
         key = "fold"
       )
     },
