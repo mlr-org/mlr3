@@ -104,7 +104,7 @@ ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
       pvs = self$param_set$get_values()
 
       if (task$nrow < pvs$folds) {
-        stopf("Cannot instantiate ResamplingRepeatedCV with %i folds on a task with %i rows.", pvs$folds, length(ids))
+        stopf("Cannot instantiate ResamplingRepeatedCV with %i folds on a task with %i rows.", pvs$folds, task$nrow)
       }
     },
 
