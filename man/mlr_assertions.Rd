@@ -114,7 +114,7 @@ assert_validate(x)
 \item{b}{(\link{DataBackend}).}
 
 \item{task}{(\link{Task})\cr
-Task to check if row ids exist in.}
+Task to check if row ids exist in it.}
 
 \item{task_type}{(\code{character(1)}).}
 

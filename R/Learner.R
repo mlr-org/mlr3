@@ -480,8 +480,8 @@ Learner = R6Class("Learner",
     #'   While this comes with a considerable overhead, it also guards your session from being teared down by segfaults.
     #'
     #' The fallback learner is fitted to create valid predictions in case that either the model fitting or the prediction of the original learner fails.
-    #' If the training step or the predict step of the original learner fails, the fallback is used completely to predict predictions sets.
-    #' If the original learner only partially fails during predict step (usually in the form of missing to predict some observations or producing some `NA`` predictions), these missing predictions are imputed by the fallback.
+    #' If the training step or the predict step of the original learner fails, the fallback is used to make the predictions.
+    #' If the original learner only partially fails during predict step (usually in the form of missing to predict some observations or producing some `NA` predictions), these missing predictions are imputed by the fallback.
     #' Note that the fallback is always trained, as we do not know in advance whether prediction will fail.
     #' If the training step fails, the `$model` field of the original learner is `NULL`.
     #'
