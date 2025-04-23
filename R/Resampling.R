@@ -170,6 +170,7 @@ Resampling = R6Class("Resampling",
     #' the object in its previous state.
     instantiate = function(task) {
       task = assert_task(as_task(task))
+      private$.check(task)
       strata = task$strata
       groups = task$groups
 
@@ -257,6 +258,9 @@ Resampling = R6Class("Resampling",
     .id = NULL,
     .hash = NULL,
     .groups = NULL,
+    .check = function(task) {
+      TRUE
+    },
 
     .get_set = function(getter, i) {
       if (!self$is_instantiated) {
