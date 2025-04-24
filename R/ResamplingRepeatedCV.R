@@ -102,7 +102,12 @@ ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
     },
     .check = function(task) {
       pvs = self$param_set$get_values()
-
+      if (!is.null(task$groups)) {
+        n_groups = length(unique(task$groups$group))
+        if (n_groups < pvs$folds) {
+          stopf("Cannot instantiate ResamplingRepeatedCV with %i folds on a grouped task with %i groups.", pvs$folds, n_groups)
+        }
+      }
       if (task$nrow < pvs$folds) {
         stopf("Cannot instantiate ResamplingRepeatedCV with %i folds on a task with %i rows.", pvs$folds, task$nrow)
       }
