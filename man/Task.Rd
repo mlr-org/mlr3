@@ -170,8 +170,7 @@ The hash is calculated based on the complete task object and \verb{$row_ids}.
 If an internal validation task is set, the hash is recalculated.}
 
 \item{\code{row_hash}}{(\code{character(1)})\cr
-Hash (unique identifier) calculated based on the row ids.
-The hash is recalculated when the row ids change.}
+Hash (unique identifier) calculated based on the row ids.}
 
 \item{\code{row_ids}}{(positive \code{integer()})\cr
 Returns the row ids of the \link{DataBackend} for observations with role "use".}
@@ -473,7 +472,7 @@ Printer.
 \subsection{Method \code{data()}}{
 Returns a slice of the data from the \link{DataBackend} as a \code{data.table}.
 Rows default to observations with role \code{"use"}, and columns default to features with roles \code{"target"} or \code{"feature"}.
-Rows must be a subset of \verb{$row_roles$use}.
+Rows must be a subset of \verb{$row_ids}.
 If \code{rows} or \code{cols} are specified which do not exist in the \link{DataBackend}, an exception is raised.
 
 Rows and columns are returned in the order specified via the arguments \code{rows} and \code{cols}.
