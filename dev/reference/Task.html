@@ -218,8 +218,7 @@ If an internal validation task is set, the hash is recalculated.</p></dd>
 
 <dt><code>row_hash</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
-Hash (unique identifier) calculated based on the row ids.
-The hash is recalculated when the row ids change.</p></dd>
+Hash (unique identifier) calculated based on the row ids.</p></dd>
 
 
 <dt><code>row_ids</code></dt>
@@ -534,7 +533,7 @@ disjoint split between the train and validation data.</p></dd>
 <h3 id="method-data-">Method <code><a href="https://rdrr.io/r/utils/data.html" class="external-link">data()</a></code><a class="anchor" aria-label="anchor" href="#method-data-"></a></h3>
 <p>Returns a slice of the data from the <a href="DataBackend.html">DataBackend</a> as a <code>data.table</code>.
 Rows default to observations with role <code>"use"</code>, and columns default to features with roles <code>"target"</code> or <code>"feature"</code>.
-Rows must be a subset of <code>$row_roles$use</code>.
+Rows must be a subset of <code>$row_ids</code>.
 If <code>rows</code> or <code>cols</code> are specified which do not exist in the <a href="DataBackend.html">DataBackend</a>, an exception is raised.</p>
 <p>Rows and columns are returned in the order specified via the arguments <code>rows</code> and <code>cols</code>.
 If <code>rows</code> is <code>NULL</code>, rows are returned in the order of <code>task$row_ids</code>.
