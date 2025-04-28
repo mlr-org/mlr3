@@ -45,6 +45,12 @@ check_prediction_data.PredictionDataRegr = function(pdata, ...) { # nolint
     }
   }
 
+  if (!is.null(pdata$weights)) {
+    # weights may never be NA, even if no prediction was made.
+    pdata$weights = assert_numeric(unname(pdata$weights), any.missing = FALSE)
+    assert_prediction_count(length(pdata$weights), n, "weights")
+  }
+
   pdata
 }
 
@@ -66,6 +72,8 @@ is_missing_prediction_data.PredictionDataRegr = function(pdata, ...) { # nolint
     miss = miss | apply(pdata$quantiles, 1L, anyMissing)
   }
 
+  # weights may never be NA, so we don't need to check for missingness
+
   pdata$row_ids[miss]
 }
 
@@ -86,7 +94,11 @@ c.PredictionDataRegr = function(..., keep_duplicates = TRUE) { # nolint
     stopf("Cannot combine predictions: Different predict types")
   }
 
-  elems = c("row_ids", "truth", intersect(predict_types[[1L]], c("response", "se")))
+  if (length(unique(map_lgl(dots, function(x) is.null(x$weights)))) > 1L) {
+    stopf("Cannot combine predictions: Some predictions have weights, others do not")
+  }
+
+  elems = c("row_ids", "truth", intersect(predict_types[[1L]], c("response", "se")), if ("weights" %chin% names(dots[[1L]])) "weights")
   tab = map_dtr(dots, function(x) x[elems], .fill = FALSE)
   quantiles = do.call(rbind, map(dots, "quantiles"))
 
@@ -125,6 +137,10 @@ filter_prediction_data.PredictionDataRegr = function(pdata, row_ids, ...) {
     pdata$quantiles = pdata$quantiles[keep, , drop = FALSE]
   }
 
+  if (!is.null(pdata$weights)) {
+    pdata$weights = pdata$weights[keep]
+  }
+
   pdata
 }
 
@@ -147,6 +163,10 @@ create_empty_prediction_data.TaskRegr = function(task, learner) {
 
   if ("distr" %chin% predict_types) {
     pdata$distr = list()
+  }
+
+  if ("weights_measure" %chin% task$properties) {
+    pdata$weights = numeric()
   }
 
   return(new_prediction_data(pdata, "regr"))

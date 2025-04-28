@@ -86,6 +86,7 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
   se = NULL,
   quantiles = NULL,
   distr = NULL,
+  weights = NULL,
   check = TRUE
 )}\if{html}{\out{</div>}}
 }
@@ -117,6 +118,10 @@ Numeric matrix of predicted quantiles. One row per observation, one column per q
 \code{VectorDistribution} from package distr6 (in repository \url{https://raphaels1.r-universe.dev}).
 Each individual distribution in the vector represents the random variable 'survival time'
 for an individual observation.}
+
+\item{\code{weights}}{(\code{numeric()})\cr
+Vector of measure weights for each observation. Should be constructed from
+the \code{Task}'s \code{weights_measure} column.}
 
 \item{\code{check}}{(\code{logical(1)})\cr
 If \code{TRUE}, performs some argument checks and predict type conversions.}

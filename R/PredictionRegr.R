@@ -45,11 +45,15 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
     #'   Each individual distribution in the vector represents the random variable 'survival time'
     #'   for an individual observation.
     #'
+    #' @param weights (`numeric()`)\cr
+    #'   Vector of measure weights for each observation. Should be constructed from
+    #'   the `Task`'s `weights_measure` column.
+    #'
     #' @param check (`logical(1)`)\cr
     #'   If `TRUE`, performs some argument checks and predict type conversions.
-    initialize = function(task = NULL, row_ids = task$row_ids, truth = task$truth(), response = NULL, se = NULL, quantiles = NULL, distr = NULL, check = TRUE) {
+    initialize = function(task = NULL, row_ids = task$row_ids, truth = task$truth(), response = NULL, se = NULL, quantiles = NULL, distr = NULL, weights = NULL, check = TRUE) {
       pdata = new_prediction_data(
-        list(row_ids = row_ids, truth = truth, response = response, se = se, quantiles = quantiles, distr = distr),
+        list(row_ids = row_ids, truth = truth, response = response, se = se, quantiles = quantiles, distr = distr, weights = weights),
         task_type = "regr"
       )
 
@@ -120,5 +124,10 @@ as.data.table.PredictionRegr = function(x, ...) { # nolint
     require_namespaces("distr6", msg = "To predict probability distributions, please install %s")
     tab$distr = list(x$distr)
   }
+
+  if (!is.null(x$data$weights)) {
+    tab$weights = x$data$weights
+  }
+
   tab
 }

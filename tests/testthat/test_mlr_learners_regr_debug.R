@@ -21,5 +21,34 @@ test_that("importance and selected features", {
   expect_equal(l$importance(), set_names(rep(0, task$n_features), task$feature_names))
 })
 
+test_that("weights are respected", {
+  # Task with weights_learner role defined in helper_misc.R
+  task = cars_weights_learner
+  learner = lrn("regr.debug")
 
+  # Check learner property
+  expect_true("weights" %in% learner$properties)
+
+  # Train with response prediction
+  learner$train(task)
+
+  # Calculate expected weighted mean and sd manually
+  dt = task$data()
+  expected_mean = weighted.mean(dt$dist, task$weights_learner$weight)
+
+  # Check model components
+  expect_equal(learner$model$response, expected_mean)
+
+  # Train with quantile prediction
+  learner$predict_type = "quantiles"
+  learner$quantiles = c(0.25, 0.5, 0.75)
+  learner$train(task)
+
+  # Calculate expected weighted quantiles manually
+  expected_quantiles = quantile_weighted(dt$dist, probs = c(0.25, 0.5, 0.75), weights = task$weights_learner$weight)
+
+  # Check model components for quantiles
+  expect_equal(learner$model$quantiles, unname(expected_quantiles))
+  expect_equal(learner$model$quantile_probs, c(0.25, 0.5, 0.75))
+})
 

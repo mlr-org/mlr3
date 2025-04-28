@@ -25,3 +25,20 @@ test_that("autotest catches error in predict", {
   expect_null(result$score)
   expect_string(result$error)
 })
+
+test_that("autotest recognizes learner that does not use .get_weights()", {
+  learner = R6Class("learner", inherit = LearnerClassifDebug, private = list(
+    .train = function(task) {
+      structure(
+        list(response = as.character(sample(task$truth(), 1L))),
+        class = "classif.debug_model"
+      )
+    }
+  ))$new()
+
+  task = tsk("spam")
+
+  result = run_experiment(task, learner)
+  expect_false(result$ok)
+  expect_string(result$error, pattern = "get_weights was not called")
+})

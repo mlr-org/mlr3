@@ -46,7 +46,7 @@ Depends:
     R (>= 3.3.0)
 Imports:
     R6 (>= 2.4.1),
-    backports,
+    backports (>= 1.5.0),
     checkmate (>= 2.0.0),
     data.table (>= 1.15.0),
     evaluate,

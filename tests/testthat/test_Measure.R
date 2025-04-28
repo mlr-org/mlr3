@@ -139,9 +139,142 @@ test_that("scoring fails when measure requires_model, but model is in marshaled 
   learner = lrn("classif.debug")
   pred = learner$train(task)$predict(task)
   learner$marshal()
-  expect_error(measure$score(pred, learner = learner),
+  expect_error(measure$score(pred, learner = learner, task = task),
     regexp = "is in marshaled form")
 })
+
+test_that("measure weights", {
+  learner = lrn("classif.featureless", predict_type = "prob")
+  learner$train(tsk("iris"), row_ids = 1)
+  prediction_no_weights = learner$predict(tsk("iris"), row_ids = c(1, 150))
+  prediction_learner_weights = learner$predict(iris_weights_learner, row_ids = c(1, 150))  # should behave the same as no weights
+  prediction_measure_weights = learner$predict(iris_weights_measure, row_ids = c(1, 150))
+
+  m = msr("classif.acc", use_weights = "use")
+  expect_true("weights" %in% m$properties)
+
+  # evaluating prediction with weights
+  expect_equal(prediction_no_weights$score(m), c(classif.acc = 0.5))
+  expect_equal(m$score(prediction_no_weights), 0.5)
+  expect_equal(prediction_learner_weights$score(m), c(classif.acc = 0.5))
+  expect_equal(m$score(prediction_learner_weights), 0.5)
+  expect_equal(prediction_measure_weights$score(m), c(classif.acc = 1 / 101))
+  expect_equal(m$score(prediction_measure_weights), 1 / 101)
+
+
+  m$use_weights = "ignore"
+  expect_equal(prediction_no_weights$score(m), c(classif.acc = 0.5))
+  expect_equal(prediction_learner_weights$score(m), c(classif.acc = 0.5))
+  expect_equal(prediction_measure_weights$score(m), c(classif.acc = 0.5))
+  expect_equal(m$score(prediction_measure_weights), 0.5)
+
+  m$use_weights = "error"
+  expect_equal(prediction_no_weights$score(m), c(classif.acc = 0.5))
+  expect_equal(prediction_learner_weights$score(m), c(classif.acc = 0.5))
+  expect_error(prediction_measure_weights$score(m), "since 'use_weights' was set to 'error'")
+  expect_error(m$score(prediction_measure_weights), "since 'use_weights' was set to 'error'")
+
+  mauc = msr("classif.mauc_au1p")
+  prediction_no_weights = learner$predict(tsk("iris"), row_ids = c(1, 2, 51, 52, 101, 102))
+  prediction_learner_weights = learner$predict(iris_weights_learner, row_ids = c(1, 2, 51, 52, 101, 102))  # should behave the same as no weights
+  prediction_measure_weights = learner$predict(iris_weights_measure, row_ids = c(1, 2, 51, 52, 101, 102))
+
+  expect_equal(prediction_no_weights$score(mauc), c(classif.mauc_au1p = 0.5))
+  expect_equal(prediction_learner_weights$score(mauc), c(classif.mauc_au1p = 0.5))
+  expect_error(prediction_measure_weights$score(mauc), "cannot be evaluated with weights since the Measure does not support weights")
+  expect_error(mauc$score(prediction_measure_weights), "cannot be evaluated with weights since the Measure does not support weights")
+
+  mauc$use_weights = "ignore"
+  expect_equal(prediction_measure_weights$score(mauc), c(classif.mauc_au1p = 0.5))
+  expect_equal(mauc$score(prediction_measure_weights), 0.5)
+  expect_error({mauc$use_weights = "use"}, "Must be element of set")
+
+  # evaluating resampling with weights
+  resampling = rsmp("custom")$instantiate(tsk("iris"),
+    train_sets = list(1, 1),
+    test_sets = list(c(1, 2, 51, 52, 101, 102), c(1:3, 51:53, 101:102))
+  )
+  rr_no_weights = resample(tsk("iris"), learner, resampling)
+  rr_learner_weights = resample(iris_weights_learner, learner, resampling)
+  rr_measure_weights = resample(iris_weights_measure, learner, resampling)
+
+  m$use_weights = "use"
+  expect_equal(rr_no_weights$score(m)$classif.acc, c(1 / 3, 3 / 8))
+  expect_equal(rr_learner_weights$score(m)$classif.acc, c(1 / 3, 3 / 8))
+  expect_equal(rr_measure_weights$score(m)$classif.acc, c(1 / 111, 3 / 233))
+
+  m$use_weights = "ignore"
+  expect_equal(rr_no_weights$score(m)$classif.acc, c(1 / 3, 3 / 8))
+  expect_equal(rr_learner_weights$score(m)$classif.acc, c(1 / 3, 3 / 8))
+  expect_equal(rr_measure_weights$score(m)$classif.acc, c(1 / 3, 3 / 8))
+
+  m$use_weights = "error"
+  expect_equal(rr_no_weights$score(m)$classif.acc, c(1 / 3, 3 / 8))
+  expect_equal(rr_learner_weights$score(m)$classif.acc, c(1 / 3, 3 / 8))
+  expect_error(rr_measure_weights$score(m), "since 'use_weights' was set to 'error'")
+
+  mauc$use_weights = "ignore"
+  expect_equal(rr_no_weights$score(mauc)$classif.mauc_au1p, c(1, 1) / 2)
+  expect_equal(rr_learner_weights$score(mauc)$classif.mauc_au1p, c(1, 1) / 2)
+  expect_equal(rr_measure_weights$score(mauc)$classif.mauc_au1p, c(1, 1) / 2)
+
+  mauc$use_weights = "error"
+  expect_equal(rr_no_weights$score(mauc)$classif.mauc_au1p, c(1, 1) / 2)
+  expect_equal(rr_learner_weights$score(mauc)$classif.mauc_au1p, c(1, 1) / 2)
+  expect_error(rr_measure_weights$score(mauc), "cannot be evaluated with weights in .*Task.*since the Measure does not support weights")
+
+  # aggregating resampling with weights
+  m$use_weights = "use"
+  expect_equal(rr_no_weights$aggregate(m), c(classif.acc = 1 / 6 + 3 / 16))
+  expect_equal(m$aggregate(rr_no_weights), c(classif.acc = 1 / 6 + 3 / 16))
+  expect_equal(rr_learner_weights$aggregate(m), c(classif.acc = 1 / 6 + 3 / 16))
+  expect_equal(m$aggregate(rr_learner_weights), c(classif.acc = 1 / 6 + 3 / 16))
+  expect_equal(rr_measure_weights$aggregate(m), c(classif.acc = 1 / 222 + 3 / 466))
+  expect_equal(m$aggregate(rr_measure_weights), c(classif.acc = 1 / 222 + 3 / 466))
+
+  m$use_weights = "ignore"
+  expect_equal(rr_no_weights$aggregate(m), c(classif.acc = 1 / 6 + 3 / 16))
+  expect_equal(rr_learner_weights$aggregate(m), c(classif.acc = 1 / 6 + 3 / 16))
+  expect_equal(rr_measure_weights$aggregate(m), c(classif.acc = 1 / 6 + 3 / 16))
+  expect_equal(m$aggregate(rr_measure_weights), c(classif.acc = 1 / 6 + 3 / 16))
+
+  m$use_weights = "error"
+  expect_equal(rr_no_weights$aggregate(m), c(classif.acc = 1 / 6 + 3 / 16))
+  expect_equal(rr_learner_weights$aggregate(m), c(classif.acc = 1 / 6 + 3 / 16))
+  expect_error(rr_measure_weights$aggregate(m), "since 'use_weights' was set to 'error'")
+  expect_error(m$aggregate(rr_measure_weights), "since 'use_weights' was set to 'error'")
+
+  mauc$use_weights = "ignore"
+  expect_equal(rr_no_weights$aggregate(mauc), c(classif.mauc_au1p = 0.5))
+  expect_equal(rr_learner_weights$aggregate(mauc), c(classif.mauc_au1p = 0.5))
+  expect_equal(rr_measure_weights$aggregate(mauc), c(classif.mauc_au1p = 0.5))
+  expect_equal(mauc$aggregate(rr_measure_weights), c(classif.mauc_au1p = 0.5))
+
+  mauc$use_weights = "error"
+  expect_equal(rr_no_weights$aggregate(mauc), c(classif.mauc_au1p = 0.5))
+  expect_equal(rr_learner_weights$aggregate(mauc), c(classif.mauc_au1p = 0.5))
+  expect_error(rr_measure_weights$aggregate(mauc), "cannot be evaluated with weights in .*Task.*since the Measure does not support weights")
+  expect_error(mauc$aggregate(rr_measure_weights), "cannot be evaluated with weights in .*Task.*since the Measure does not support weights")
+
+  m$use_weights = "use"
+  m$average = "macro_weighted"
+  expect_equal(rr_no_weights$aggregate(m), c(classif.acc = 5 / 14))
+  expect_equal(m$aggregate(rr_no_weights), c(classif.acc = 5 / 14))
+  expect_equal(rr_learner_weights$aggregate(m), c(classif.acc = 5 / 14))
+  expect_equal(m$aggregate(rr_learner_weights), c(classif.acc = 5 / 14))
+  expect_equal(rr_measure_weights$aggregate(m), c(classif.acc = 5 / 455))
+  expect_equal(m$aggregate(rr_measure_weights), c(classif.acc = 5 / 455))
+
+  m$use_weights = "ignore"
+  expect_equal(rr_no_weights$aggregate(m), c(classif.acc = 5 / 14))
+  expect_equal(rr_learner_weights$aggregate(m), c(classif.acc = 5 / 14))
+  expect_equal(rr_measure_weights$aggregate(m), c(classif.acc = 5 / 14))  # weighs by number of samples
+  expect_equal(m$aggregate(rr_measure_weights), c(classif.acc = 5 / 14))
+
+})
+
+
+
 
 test_that("primary iters are respected", {
   task = tsk("sonar")
