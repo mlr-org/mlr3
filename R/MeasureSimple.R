@@ -371,7 +371,9 @@ mlr_measures$add("regr.sse", function() MeasureRegrSimple$new(name = "sse"))
 
 #' @templateVar id pinball
 #' @template measure_regr
-mlr_measures$add("regr.pinball", function() MeasureRegrSimple$new(name = "pinball"))
+mlr_measures$add("regr.pinball", function() {
+  MeasureRegrSimple$new(name = "pinball", param_set = ps(alpha = p_dbl(lower = 0, upper = 1)))
+})
 
 
 ### similarity measures
