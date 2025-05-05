@@ -32,8 +32,10 @@ msr("regr.pinball")
 }
 
 \section{Parameters}{
-
-\verb{r mlr3misc::rd_info(mlr3::msr("regr.pinball")$param_set)}
+\tabular{llll}{
+   Id \tab Type \tab Default \tab Range \cr
+   alpha \tab numeric \tab - \tab \eqn{[0, 1]}{[0, 1]} \cr
+}
 }
 
 \section{Meta Information}{
