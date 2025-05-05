@@ -272,7 +272,7 @@ Learner = R6Class("Learner",
     train = function(task, row_ids = NULL) {
       task = assert_task(as_task(task))
       assert_learnable(task, self)
-      row_ids = assert_row_ids(row_ids, null.ok = TRUE)
+      row_ids = assert_row_ids(row_ids, task = task, null.ok = TRUE)
 
       if (!is.null(self$hotstart_stack)) {
         # search for hotstart learner
@@ -325,7 +325,7 @@ Learner = R6Class("Learner",
       }
       task = assert_task(as_task(task))
       assert_predictable(task, self)
-      row_ids = assert_row_ids(row_ids, null.ok = TRUE)
+      row_ids = assert_row_ids(row_ids, task = task, null.ok = TRUE)
 
       if (is.null(self$state$model) && is.null(self$state$fallback_state$model)) {
         stopf("Cannot predict, Learner '%s' has not been trained yet", self$id)
@@ -480,8 +480,8 @@ Learner = R6Class("Learner",
     #'   While this comes with a considerable overhead, it also guards your session from being teared down by segfaults.
     #'
     #' The fallback learner is fitted to create valid predictions in case that either the model fitting or the prediction of the original learner fails.
-    #' If the training step or the predict step of the original learner fails, the fallback is used completely to predict predictions sets.
-    #' If the original learner only partially fails during predict step (usually in the form of missing to predict some observations or producing some `NA`` predictions), these missing predictions are imputed by the fallback.
+    #' If the training step or the predict step of the original learner fails, the fallback is used to make the predictions.
+    #' If the original learner only partially fails during predict step (usually in the form of missing to predict some observations or producing some `NA` predictions), these missing predictions are imputed by the fallback.
     #' Note that the fallback is always trained, as we do not know in advance whether prediction will fail.
     #' If the training step fails, the `$model` field of the original learner is `NULL`.
     #'

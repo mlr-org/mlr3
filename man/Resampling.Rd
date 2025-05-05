@@ -123,6 +123,9 @@ It is advised to not work directly with the \code{instance}, but instead only us
 \item{\code{task_hash}}{(\code{character(1)})\cr
 The hash of the \link{Task} which was passed to \code{r$instantiate()}.}
 
+\item{\code{task_row_hash}}{(\code{character(1)})\cr
+The hash of the row ids of the \link{Task} which was passed to \code{r$instantiate()}.}
+
 \item{\code{task_nrow}}{(\code{integer(1)})\cr
 The number of observations of the \link{Task} which was passed to \code{r$instantiate()}.}
 

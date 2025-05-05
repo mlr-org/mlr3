@@ -169,6 +169,9 @@ Hash (unique identifier) for this object.
 The hash is calculated based on the complete task object and \verb{$row_ids}.
 If an internal validation task is set, the hash is recalculated.}
 
+\item{\code{row_hash}}{(\code{character(1)})\cr
+Hash (unique identifier) calculated based on the row ids.}
+
 \item{\code{row_ids}}{(positive \code{integer()})\cr
 Returns the row ids of the \link{DataBackend} for observations with role "use".}
 
@@ -323,6 +326,10 @@ The reverse is not necessarily true: There can be columns with the same content 
 
 \item{\code{characteristics}}{(\code{list()})\cr
 List of characteristics of the task, e.g. \code{list(n = 5, p = 7)}.}
+
+\item{\code{row_ids_backend}}{(\code{integer()})\cr
+Returns all row ids from the backend, regardless of their roles.
+This is different from \verb{$row_ids} which only returns rows with role "use".}
 }
 \if{html}{\out{</div>}}
 }
@@ -464,17 +471,14 @@ Printer.
 \if{latex}{\out{\hypertarget{method-Task-data}{}}}
 \subsection{Method \code{data()}}{
 Returns a slice of the data from the \link{DataBackend} as a \code{data.table}.
-Rows default to observations with role \code{"use"}, and
-columns default to features with roles \code{"target"} or \code{"feature"}.
-If \code{rows} or \code{cols} are specified which do not exist in the \link{DataBackend},
-an exception is raised.
+Rows default to observations with role \code{"use"}, and columns default to features with roles \code{"target"} or \code{"feature"}.
+Rows must be a subset of \verb{$row_ids}.
+If \code{rows} or \code{cols} are specified which do not exist in the \link{DataBackend}, an exception is raised.
 
 Rows and columns are returned in the order specified via the arguments \code{rows} and \code{cols}.
 If \code{rows} is \code{NULL}, rows are returned in the order of \code{task$row_ids}.
-If \code{cols} is \code{NULL}, the column order defaults to
-\code{c(task$target_names, task$feature_names)}.
-Note that it is recommended to \strong{not} rely on the order of columns, and instead always
-address columns with their respective column name.
+If \code{cols} is \code{NULL}, the column order defaults to \code{c(task$target_names, task$feature_names)}.
+Note that it is recommended to \strong{not} rely on the order of columns, and instead always address columns with their respective column name.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Task$data(rows = NULL, cols = NULL, data_format, ordered = FALSE)}\if{html}{\out{</div>}}
 }
