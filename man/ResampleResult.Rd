@@ -113,6 +113,7 @@ Note that there can be multiple rows per resampling iteration if multiple errors
 \item \href{#method-ResampleResult-discard}{\code{ResampleResult$discard()}}
 \item \href{#method-ResampleResult-marshal}{\code{ResampleResult$marshal()}}
 \item \href{#method-ResampleResult-unmarshal}{\code{ResampleResult$unmarshal()}}
+\item \href{#method-ResampleResult-set_threshold}{\code{ResampleResult$set_threshold()}}
 \item \href{#method-ResampleResult-clone}{\code{ResampleResult$clone()}}
 }
 }
@@ -416,6 +417,35 @@ Unmarshals all stored models.
 \describe{
 \item{\code{...}}{(any)\cr
 Additional arguments passed to \code{\link[=unmarshal_model]{unmarshal_model()}}.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ResampleResult-set_threshold"></a>}}
+\if{latex}{\out{\hypertarget{method-ResampleResult-set_threshold}{}}}
+\subsection{Method \code{set_threshold()}}{
+Sets the threshold for the response prediction of classification learners, given they have
+output a probability prediction for a binary classification task.
+This modifies the object in-place.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$set_threshold(threshold, ties_method = "random")}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{threshold}}{(\code{numeric(1)})\cr
+Threshold value.}
+
+\item{\code{ties_method}}{(\code{character(1)})\cr
+Method to handle ties in probabilities when selecting a class label.
+Must be one of \code{"random"}, \code{"first"} or \code{"last"} (corresponding to the same options in \code{\link[=max.col]{max.col()}}).
+\itemize{
+\item \code{"random"}: Randomly select one of the tied class labels (default).
+\item \code{"first"}: Select the first class label among tied values.
+\item \code{"last"}: Select the last class label among tied values.
+}}
 }
 \if{html}{\out{</div>}}
 }

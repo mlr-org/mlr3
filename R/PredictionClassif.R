@@ -118,29 +118,7 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
     #' You need to explicitly `$clone()` the object beforehand if you want to keeps
     #' the object in its previous state.
     set_threshold = function(threshold, ties_method = "random") {
-      if (!is.matrix(self$data$prob)) {
-        stopf("Cannot set threshold, no probabilities available")
-      }
-      lvls = levels(self$truth)
-
-      if (length(threshold) == 1L) {
-        assert_number(threshold, lower = 0, upper = 1)
-        if (length(lvls) != 2L) {
-          stopf("Setting a single threshold only supported for binary classification problems")
-        }
-        prob = cbind(self$data$prob[, 1L], threshold)
-      } else {
-        assert_numeric(threshold, any.missing = FALSE, lower = 0, upper = 1, len = length(lvls))
-        assert_names(names(threshold), permutation.of = lvls)
-        threshold = threshold[lvls] # reorder thresh so it is in the same order as levels
-
-        # multiply all rows by threshold, then get index of max element per row
-        prob = self$data$prob %*% diag(1 / threshold) # can generate Inf for threshold 0
-        prob[is.na(prob)] = 0 # NaN results from 0 * Inf, replace with 0, c.f. #452
-      }
-
-      ind = max.col(prob, ties.method = ties_method)
-      self$data$response = factor(lvls[ind], levels = lvls)
+      self$data = set_threshold_pdata(self$data, threshold, ties_method)
       invisible(self)
     }
   ),
@@ -182,4 +160,31 @@ as.data.table.PredictionClassif = function(x, ...) { # nolint
   }
 
   tab[]
+}
+
+set_threshold_pdata = function(pdata, threshold, ties_method) {
+  if (!is.matrix(pdata$prob)) {
+    stopf("Cannot set threshold, no probabilities available")
+  }
+  lvls = levels(pdata$truth)
+
+  if (length(threshold) == 1L) {
+    assert_number(threshold, lower = 0, upper = 1)
+    if (length(lvls) != 2L) {
+      stopf("Setting a single threshold only supported for binary classification problems")
+    }
+    prob = cbind(pdata$prob[, 1L], threshold)
+  } else {
+    assert_numeric(threshold, any.missing = FALSE, lower = 0, upper = 1, len = length(lvls))
+    assert_names(names(threshold), permutation.of = lvls)
+    threshold = threshold[lvls] # reorder thresh so it is in the same order as levels
+
+    # multiply all rows by threshold, then get index of max element per row
+    prob = pdata$prob %*% diag(1 / threshold) # can generate Inf for threshold 0
+    prob[is.na(prob)] = 0 # NaN results from 0 * Inf, replace with 0, c.f. #452
+  }
+
+  ind = max.col(prob, ties.method = ties_method)
+  pdata$response = factor(lvls[ind], levels = lvls)
+  pdata
 }

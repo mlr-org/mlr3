@@ -279,5 +279,3 @@ test_that("combine with data_extra works", {
   expect_equal(rdata_1$data$data_extras$iteration, rep(seq(2), 2))
   expect_set_equal(unlist(rdata_1$data_extra(c(rdata_1_uhash, rdata_2_uhash))$data_extra), seq(4))
 })
-
-
