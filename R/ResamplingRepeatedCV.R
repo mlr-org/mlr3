@@ -93,12 +93,24 @@ ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
 
   private = list(
     .sample = function(ids, ...) {
-      pv = self$param_set$values
+      pv = self$param_set$get_values()
       n = length(ids)
       folds = as.integer(pv$folds)
       map_dtr(seq_len(pv$repeats), function(i) {
         data.table(row_id = ids, rep = i, fold = shuffle(seq_len0(n) %% folds + 1L))
       })
+    },
+    .check = function(task) {
+      pvs = self$param_set$get_values()
+      if (!is.null(task$groups)) {
+        n_groups = length(unique(task$groups$group))
+        if (n_groups < pvs$folds) {
+          stopf("Cannot instantiate ResamplingRepeatedCV with %i folds on a grouped task with %i groups.", pvs$folds, n_groups)
+        }
+      }
+      if (task$nrow < pvs$folds) {
+        stopf("Cannot instantiate ResamplingRepeatedCV with %i folds on a task with %i rows.", pvs$folds, task$nrow)
+      }
     },
 
     .get_train = function(i) {
