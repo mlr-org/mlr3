@@ -80,7 +80,7 @@ generate_generic_tasks = function(learner, proto) {
 
   # task with offset
   if ("offset" %in% learner$properties) {
-    if ("multiclass" %in% learner$properties) {
+    if ("multiclass" %in% learner$properties && "multiclass" %in% proto$properties) {
       offset_cols = paste0("offset_", proto$class_names)
       # One offset column per class
       offset_data = as.data.frame(
