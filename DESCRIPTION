@@ -114,6 +114,7 @@ Collate:
     'MeasureInternalValidScore.R'
     'MeasureOOBError.R'
     'MeasureRegr.R'
+    'MeasureRegrPinball.R'
     'MeasureRegrRSQ.R'
     'MeasureSelectedFeatures.R'
     'MeasureSimilarity.R'
