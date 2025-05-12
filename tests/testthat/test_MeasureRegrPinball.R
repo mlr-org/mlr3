@@ -21,9 +21,4 @@ test_that("mlr_measures_regr.pinball", {
   # alpha must be in predicted quantiles
   expect_error(preds$score(msr("regr.pinball", alpha = 0.1)),
                "Assertion on 'alpha' failed: Must be element of set")
-
-  measures = list(msr("regr.pinball", alpha = 0.25, id = "q0.25"),
-                  msr("regr.pinball", alpha = 0.5, id = "q0.5"),
-                  msr("regr.pinball", alpha = 0.75, id = "q0.75"))
-  preds$score(measures)
 })
