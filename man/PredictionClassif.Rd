@@ -162,7 +162,7 @@ If \code{prob} is provided, but \code{response} is not, the class labels are cal
 the probabilities using \code{\link[=max.col]{max.col()}} with \code{ties.method} set to \code{"random"}.}
 
 \item{\code{weights}}{(\code{numeric()})\cr
-Vector of weights for each observation in the test set. Should be constructed from
+Vector of measure weights for each observation. Should be constructed from
 the \code{Task}'s \code{weights_measure} column.}
 
 \item{\code{check}}{(\code{logical(1)})\cr

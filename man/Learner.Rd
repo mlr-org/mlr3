@@ -557,6 +557,10 @@ If the learner has been fitted via \code{\link[=resample]{resample()}} or \code{
 in the \link{ResampleResult} or \link{BenchmarkResult}, respectively.
 Further, \code{\link{auto_convert}} is used for type-conversions to ensure compatability
 of features between \verb{$train()} and \verb{$predict()}.
+
+If the stored training task has a \code{weights_measure} column, \emph{and} if \code{newdata} contains a column with the same name,
+that column must be numeric with no missing values and is used as measure weights column.
+Otherwise, no measure weights are used.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Learner$predict_newdata(newdata, task = NULL)}\if{html}{\out{</div>}}
 }
