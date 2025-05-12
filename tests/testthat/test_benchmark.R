@@ -233,8 +233,8 @@ test_that("custom resampling (#245)", {
   expect_data_table(design, nrows = 1)
 })
 
-test_that("extract params", {
-  # some params, some not
+test_that("extract params in aggregate and score", {
+  # set params differently in a few learners
   lrns = list(
     lrn("classif.rpart", id = "rp1", xval = 0),
     lrn("classif.rpart", id = "rp2", xval = 0, cp = 0.2, minsplit = 2),
@@ -832,4 +832,75 @@ test_that("warning when mixing predict types", {
     ),
     rsmp("cv", folds = 3)
   ), regexp = "Multiple predict types detected")
+})
+
+test_that("benchmark with tasks with weights", {
+
+  learners = list(
+    lrn("classif.featureless", use_weights = "ignore", predict_type = "prob", id = "ignores_weights"),
+    lrn("classif.featureless", use_weights = "use", predict_type = "prob", id = "uses_weights")
+  )
+  measures = list(
+    msr("classif.acc", use_weights = "ignore", id = "acc_ignore"),
+    msr("classif.acc", use_weights = "use", id = "acc_use")
+  )
+  tasks = list(
+    iris_weights_learner,
+    iris_weights_measure,
+    tsk("iris")
+  )
+
+  resamplings = list(
+    rsmp("custom")$instantiate(tsk("iris"),
+      train_sets = list(c(1:50, 140:150)),
+      test_sets = list(c(1, 150))
+    )
+  )
+
+  design = benchmark_grid(tasks, learners, resamplings)
+  bmr = benchmark(design)
+
+  predictions = map(1:6, function(i) bmr$resample_result(i)$prediction())
+
+  # learner ignores weights, sees 50 'setosa' and 10 'virginica' -> predicts setosa
+  expect_equal(predictions[[1]]$response[1], factor("setosa", levels = levels(iris$Species)))
+
+
+  # learner uses weights, sees 50 'setosa' (weight 1) and 10 'virginica' (weight 100) -> predicts virginica
+  expect_equal(predictions[[2]]$response[1], factor("virginica", levels = levels(iris$Species)))
+
+  # task has no weights_learner -> unweighted 'setosa' predictions
+  expect_equal(predictions[[3]]$response[1], factor("setosa", levels = levels(iris$Species)))
+  expect_equal(predictions[[4]]$response[1], factor("setosa", levels = levels(iris$Species)))
+  expect_equal(predictions[[5]]$response[1], factor("setosa", levels = levels(iris$Species)))
+  expect_equal(predictions[[6]]$response[1], factor("setosa", levels = levels(iris$Species)))
+
+  # 'weights' is NULL for all predictions not made for iris_weights_measure
+  expect_null(predictions[[1]]$weights)
+  expect_null(predictions[[2]]$weights)
+  expect_null(predictions[[5]]$weights)
+  expect_null(predictions[[6]]$weights)
+
+  agpred = bmr$aggregate(measures)
+
+  expect_equal(agpred$acc_ignore, rep(0.5, 6))  # made one correct, one incorrect prediction, unweighted
+
+  # made one correct, one incorrect prediction, but 2nd task weighs the incorrect prediction x100
+  expect_equal(agpred$acc_use, c(0.5, 0.5, 1 / 101, 1 / 101, 0.5, 0.5))
+
+  expect_error(bmr$aggregate(msr("classif.acc", use_weights = "error")), "'use_weights' was set to 'error'")
+
+  # no error when task has no weights_measure
+  bmr = benchmark(design[c(1:2, 5:6)])
+  expect_equal(bmr$aggregate(msr("classif.acc", use_weights = "error"))$classif.acc, c(0.5, 0.5, 0.5, 0.5))
+
+  learners[[1]]$use_weights = "error"
+
+  design = benchmark_grid(tasks, learners, resamplings)
+  expect_error(benchmark(design), "'use_weights' was set to 'error'")
+
+  # no error when task has no weights_learner
+  design = benchmark_grid(tasks[2:3], learners, resamplings)
+  bmr = benchmark(design)
+
 })

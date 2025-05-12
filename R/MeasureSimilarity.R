@@ -46,9 +46,9 @@ MeasureSimilarity = R6Class("MeasureSimilarity",
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function(id, param_set = ps(), range, minimize = NA, average = "macro", aggregator = NULL, properties = character(), predict_type = NA_character_,
-      predict_sets = "test", task_properties = character(), packages = character(), label = NA_character_, man = NA_character_) {
+      task_properties = character(), packages = character(), label = NA_character_, man = NA_character_) {
       super$initialize(id, task_type = NA_character_, param_set = param_set, range = range, minimize = minimize, average = "custom", aggregator = aggregator,
-        properties = c("requires_model", properties), predict_type = predict_type, predict_sets = predict_sets,
+        properties = c("requires_model", "requires_no_prediction", properties), predict_type = predict_type, predict_sets = NULL,
         task_properties = task_properties, packages = packages, label = label, man = man)
     }
   ),

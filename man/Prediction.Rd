@@ -80,6 +80,10 @@ True (observed) outcome.}
 
 \item{\code{missing}}{(\code{integer()})\cr
 Returns \code{row_ids} for which the predictions are missing or incomplete.}
+
+\item{\code{weights}}{(\code{numeric()})\cr
+Vector of measure weights, obtained from the \code{weights_measure} column of the \link{Task} if present.
+This is \code{NULL} if no weights are present.}
 }
 \if{html}{\out{</div>}}
 }

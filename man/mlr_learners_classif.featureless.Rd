@@ -11,14 +11,17 @@ Hyperparameter \code{method} determines the mode of operation during prediction:
 \item{mode:}{
 Predicts the most frequent label. If there are two or more labels tied, randomly selects one per prediction.
 Probabilities correspond to the relative frequency of the class labels in the training set.
+For weighted data, the label(s) with the highest weighted frequency are selected.
 }
 \item{sample:}{
 Randomly predict a label uniformly.
 Probabilities correspond to a uniform distribution of class labels, i.e. 1 divided by the number of classes.
+Weights are ignored, if present.
 }
 \item{weighted.sample:}{
 Randomly predict a label, with probability estimated from the training distribution.
 For consistency, probabilities are 1 for the sampled label and 0 for all other labels.
+For weighted data, sample weights are used to weight the class labels.
 }
 }
 }

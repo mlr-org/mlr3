@@ -4,27 +4,23 @@ MeasureBinarySimple = R6Class("MeasureBinarySimple",
   public = list(
     fun = NULL,
     na_value = NaN,
-    initialize = function(name, param_set = NULL) {
-      if (is.null(param_set)) {
-        param_set = ps()
-      } else {
-        # cloning required because the param set lives in the
-        # dictionary mlr_measures
-        param_set = param_set$clone()
-      }
-
+    initialize = function(name, param_set = ps()) {
       info = mlr3measures::measures[[name]]
+      weights = info$sample_weights
+
       super$initialize(
         id = paste0("classif.", name),
-        param_set = param_set$clone(),
+        param_set = param_set,
         range = c(info$lower, info$upper),
         minimize = info$minimize,
+        properties = if (weights) "weights" else character(),
         predict_type = info$predict_type,
         task_properties = "twoclass",
         packages = "mlr3measures",
         label = info$title,
         man = paste0("mlr3::mlr_measures_classif.", name)
       )
+
       self$fun = get(name, envir = asNamespace("mlr3measures"), mode = "function")
       if (!is.na(info$obs_loss)) {
         self$obs_loss = get(info$obs_loss, envir = asNamespace("mlr3measures"), mode = "function")
@@ -36,12 +32,12 @@ MeasureBinarySimple = R6Class("MeasureBinarySimple",
   ),
 
   private = list(
-    .score = function(prediction, ...) {
+    .score = function(prediction, task, weights = NULL, ...) {
       truth = prediction$truth
       positive = levels(truth)[1L]
       invoke(self$fun, .args = self$param_set$get_values(),
         truth = truth, response = prediction$response, prob = prediction$prob[, positive],
-        positive = positive, na_value = self$na_value
+        positive = positive, na_value = self$na_value, sample_weights = weights
       )
     },
 
@@ -55,12 +51,16 @@ MeasureClassifSimple = R6Class("MeasureClassifSimple",
   public = list(
     fun = NULL,
     na_value = NaN,
-    initialize = function(name) {
+    initialize = function(name, param_set = ps()) {
       info = mlr3measures::measures[[name]]
+      weights = info$sample_weights
+
       super$initialize(
         id = paste0("classif.", name),
+        param_set = param_set,
         range = c(info$lower, info$upper),
         minimize = info$minimize,
+        properties = if (weights) "weights" else character(),
         predict_type = info$predict_type,
         packages = "mlr3measures",
         label = info$title,
@@ -77,8 +77,9 @@ MeasureClassifSimple = R6Class("MeasureClassifSimple",
   ),
 
   private = list(
-    .score = function(prediction, ...) {
-      self$fun(truth = prediction$truth, response = prediction$response, prob = prediction$prob, na_value = self$na_value)
+    .score = function(prediction, task, weights = NULL, ...) {
+      self$fun(truth = prediction$truth, response = prediction$response, prob = prediction$prob,
+        na_value = self$na_value, sample_weights = weights)
     },
 
     .extra_hash = c("fun", "na_value")
@@ -101,11 +102,14 @@ MeasureRegrSimple = R6Class("MeasureRegrSimple",
       }
 
       info = mlr3measures::measures[[name]]
+      weights = info$sample_weights
+
       super$initialize(
         id = paste0("regr.", name),
         param_set = param_set$clone(),
         range = c(info$lower, info$upper),
         minimize = info$minimize,
+        properties = if (weights) "weights" else character(),
         predict_type = info$predict_type,
         packages = "mlr3measures",
         label = info$title,
@@ -122,8 +126,9 @@ MeasureRegrSimple = R6Class("MeasureRegrSimple",
   ),
 
   private = list(
-    .score = function(prediction, ...) {
-      self$fun(truth = prediction$truth, response = prediction$response, se = prediction$se, na_value = self$na_value)
+    .score = function(prediction, task, weights = NULL, ...) {
+      self$fun(truth = prediction$truth, response = prediction$response, se = prediction$se,
+        na_value = self$na_value, sample_weights = weights)
     },
 
     .extra_hash = c("fun", "na_value")
@@ -351,10 +356,6 @@ mlr_measures$add("regr.msle", function() MeasureRegrSimple$new(name = "msle"))
 #' @template measure_regr
 mlr_measures$add("regr.pbias", function() MeasureRegrSimple$new(name = "pbias"))
 
-#' @templateVar id rae
-#' @template measure_regr
-mlr_measures$add("regr.rae", function() MeasureRegrSimple$new(name = "rae"))
-
 #' @templateVar id rmse
 #' @template measure_regr
 mlr_measures$add("regr.rmse", function() MeasureRegrSimple$new(name = "rmse"))
@@ -362,14 +363,6 @@ mlr_measures$add("regr.rmse", function() MeasureRegrSimple$new(name = "rmse"))
 #' @templateVar id rmsle
 #' @template measure_regr
 mlr_measures$add("regr.rmsle", function() MeasureRegrSimple$new(name = "rmsle"))
-
-#' @templateVar id rrse
-#' @template measure_regr
-mlr_measures$add("regr.rrse", function() MeasureRegrSimple$new(name = "rrse"))
-
-#' @templateVar id rse
-#' @template measure_regr
-mlr_measures$add("regr.rse", function() MeasureRegrSimple$new(name = "rse"))
 
 #' @templateVar id sae
 #' @template measure_regr

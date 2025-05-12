@@ -87,7 +87,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
         param_set = param_set,
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
         predict_types = c("response", "prob"),
-        properties = c("twoclass", "multiclass", "missings", "hotstart_forward", "validation", "internal_tuning", "marshal"),
+        properties = c("twoclass", "multiclass", "missings", "hotstart_forward", "validation", "internal_tuning", "marshal", "weights"),
         man = "mlr3::mlr_learners_classif.debug",
         label = "Debug Learner for Classification"
       )
@@ -191,7 +191,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
       }
 
       model = list(
-          response = as.character(sample(task$truth(), 1L)),
+          response = as.character(sample(task$truth(), 1L, prob = private$.get_weights(task))),
           pid = Sys.getpid(),
           id = UUIDgenerate(),
           random_number = sample(100000, 1),

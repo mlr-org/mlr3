@@ -44,9 +44,9 @@ as_prediction_classif.PredictionClassif = function(x, ...) { # nolint
 #' @export
 as_prediction_classif.data.frame = function(x, ...) { # nolint
   assert_names(names(x), must.include = c("row_ids", "truth", "response"))
-  prob_cols = setdiff(names(x), c("row_ids", "truth", "response"))
+  prob_cols = setdiff(names(x), c("row_ids", "truth", "response", "weights"))
   if (!all(startsWith(prob_cols, "prob."))) {
-    stopf("Table may only contain columns 'row_ids', 'truth', 'response' as well as columns prefixed with 'prob.' for class probabilities")
+    stopf("Table may only contain columns 'row_ids', 'truth', 'response', 'weights' as well as columns prefixed with 'prob.' for class probabilities")
   }
 
   x = as.data.table(x)

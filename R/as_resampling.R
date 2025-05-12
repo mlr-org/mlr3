@@ -2,7 +2,7 @@
 #'
 #' @description
 #' Convert object to a [Resampling] or a list of [Resampling].
-#' This method e.g. allows to convert an [`mlr3oml::OMLTask`] to a [`Resampling`].
+#' This method e.g. allows to convert an `OMLTask` of \CRANpkg{mlr3oml} to a [`Resampling`].
 #' @inheritParams as_task
 #' @export
 as_resampling = function(x, ...) { # nolint
