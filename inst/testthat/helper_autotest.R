@@ -72,7 +72,7 @@ generate_generic_tasks = function(learner, proto) {
   }
 
   # task with weights
-  if ("weights_learner" %in% learner$properties) {
+  if ("weights" %in% learner$properties) {
     tmp = proto$clone(deep = TRUE)$cbind(data.frame(weights = runif(n)))
     tmp$set_col_roles(cols = "weights", roles = "weights_learner")
     tasks$weights_learner = tmp
@@ -80,7 +80,7 @@ generate_generic_tasks = function(learner, proto) {
 
   # task with offset
   if ("offset" %in% learner$properties) {
-    if ("multiclass" %in% tmp$properties) {
+    if ("multiclass" %in% learner$properties) {
       offset_cols = paste0("offset_", proto$class_names)
       # One offset column per class
       offset_data = as.data.frame(
