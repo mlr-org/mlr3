@@ -386,7 +386,7 @@ assert_range = function(range, .var.name = vname(range)) {
 #'   Task to check if row ids exist in it.
 #' @rdname mlr_assertions
 assert_row_ids = function(row_ids, task = NULL, null.ok = FALSE, .var.name = vname(row_ids)) {
-  assert_integerish(row_ids, coerce = TRUE, null.ok = null.ok)
+  row_ids = assert_integerish(row_ids, coerce = TRUE, null.ok = null.ok)
   if (!is.null(task)) {
     if (any(row_ids %nin% task$row_ids)) {
       stopf("The provided row ids do not exist in task '%s'", task$id)

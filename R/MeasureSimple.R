@@ -92,13 +92,21 @@ MeasureRegrSimple = R6Class("MeasureRegrSimple",
   public = list(
     fun = NULL,
     na_value = NaN,
-    initialize = function(name, param_set = ps()) {
+    initialize = function(name, param_set = NULL) {
+      if (is.null(param_set)) {
+        param_set = ps()
+      } else {
+        # cloning required because the param set lives in the
+        # dictionary mlr_measures
+        param_set = param_set$clone()
+      }
+
       info = mlr3measures::measures[[name]]
       weights = info$sample_weights
 
       super$initialize(
         id = paste0("regr.", name),
-        param_set = param_set,
+        param_set = param_set$clone(),
         range = c(info$lower, info$upper),
         minimize = info$minimize,
         properties = if (weights) "weights" else character(),
@@ -133,7 +141,15 @@ MeasureSimilaritySimple = R6Class("MeasureSimilaritySimple",
   public = list(
     fun = NULL,
     na_value = NaN,
-    initialize = function(name) {
+    initialize = function(name, param_set = NULL) {
+      if (is.null(param_set)) {
+        param_set = ps()
+      } else {
+        # cloning required because the param set lives in the
+        # dictionary mlr_measures
+        param_set = param_set$clone()
+      }
+
       info = mlr3measures::measures[[name]]
       self$fun = get(name, envir = asNamespace("mlr3measures"), mode = "function")
 
@@ -144,6 +160,7 @@ MeasureSimilaritySimple = R6Class("MeasureSimilaritySimple",
 
       super$initialize(
         id = paste0("sim.", name),
+        param_set = param_set$clone(),
         range = c(info$lower, info$upper),
         minimize = info$minimize,
         average = "custom",
@@ -363,10 +380,6 @@ mlr_measures$add("regr.srho", function() MeasureRegrSimple$new(name = "srho"))
 #' @template measure_regr
 mlr_measures$add("regr.sse", function() MeasureRegrSimple$new(name = "sse"))
 
-#' @templateVar id pinball
-#' @template measure_regr
-mlr_measures$add("regr.pinball", function() MeasureRegrSimple$new(name = "pinball"))
-
 
 ### similarity measures
 
@@ -376,4 +389,6 @@ mlr_measures$add("sim.jaccard", function() MeasureSimilaritySimple$new(name = "j
 
 #' @templateVar id phi
 #' @template measure_similarity
-mlr_measures$add("sim.phi", function() MeasureSimilaritySimple$new(name = "phi"))
+mlr_measures$add("sim.phi", function() {
+  MeasureSimilaritySimple$new(name = "phi", param_set = ps(p = p_int(lower = 1L)))
+})
