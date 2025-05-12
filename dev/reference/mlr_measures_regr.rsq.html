@@ -56,11 +56,13 @@
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>R Squared is defined as $$
-  1 - \frac{\sum_{i=1}^n \left( t_i - r_i \right)^2}{\sum_{i=1}^n \left( t_i - \bar{t} \right)^2},
+  1 - \frac{\sum_{i=1}^n w_i \left( t_i - r_i \right)^2}{\sum_{i=1}^n w_i \left( t_i - \bar{t} \right)^2},
 $$
-where \(\bar{t} = \sum_{i=1}^n t_i\).</p>
+where \(\bar{t} = \frac{1}{n} \sum_{i=1}^n t_i\) and \(w_i\) are weights.</p>
 <p>Also known as coefficient of determination or explained variation.
-Subtracts the <code><a href="https://mlr3measures.mlr-org.com/reference/rse.html" class="external-link">mlr3measures::rse()</a></code> from 1, hence it compares the squared error of the predictions relative to a naive model predicting the mean.</p>
+It compares the squared error of the predictions relative to a naive model predicting the mean.</p>
+<p>Note that weights are used to scale the squared error of individual predictions (both in the numerator and in the denominator),
+but the "plug in" value \(\bar{t}\) is computed without weights.</p>
 <p>This measure is undefined for constant \(t\).</p>
     </div>
     <div class="section level2">

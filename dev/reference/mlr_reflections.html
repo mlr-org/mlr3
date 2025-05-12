@@ -209,7 +209,7 @@ Can be extended by third-party with additional converters.</p></li>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/ls_str.html" class="external-link">ls.str</a></span><span class="op">(</span><span class="va">mlr_reflections</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> auto_converters : &lt;environment: 0x55bf090a5028&gt; </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> auto_converters : &lt;environment: 0x563ae9341e20&gt; </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> default_measures : List of 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ classif     : chr "classif.ce"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ regr        : chr "regr.mse"</span>
@@ -225,25 +225,26 @@ Can be extended by third-party with additional converters.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> loggers : List of 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ mlr3:Classes 'Logger', 'Filterable', 'R6' &lt;Logger&gt; [warn] mlr3  inherited appenders:   console: &lt;AppenderConsole&gt; [all] -&gt; console </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> measure_properties : List of 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ classif: chr [1:7] "na_score" "requires_task" "requires_learner" "requires_model" ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ regr   : chr [1:7] "na_score" "requires_task" "requires_learner" "requires_model" ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ classif: chr [1:8] "na_score" "requires_task" "requires_learner" "requires_model" ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ regr   : chr [1:8] "na_score" "requires_task" "requires_learner" "requires_model" ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> package_version : Classes 'package_version', 'numeric_version'  hidden list of 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ : int [1:4] 0 23 0 9000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> predict_sets :  chr [1:3] "train" "test" "internal_valid"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> resampling_properties :  chr [1:2] "duplicated_ids" "weights"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> rr_names :  chr [1:4] "task" "learner" "resampling" "iteration"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> task_col_roles : List of 3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ regr        : chr [1:8] "feature" "target" "name" "order" ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ classif     : chr [1:8] "feature" "target" "name" "order" ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ regr        : chr [1:9] "feature" "target" "name" "order" ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ classif     : chr [1:9] "feature" "target" "name" "order" ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ unsupervised: chr [1:3] "feature" "name" "order"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> task_feature_types :  Named chr [1:8] "logical" "integer" "numeric" "character" "factor" ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> task_mandatory_properties : List of 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ classif: chr [1:2] "twoclass" "multiclass"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> task_print_col_roles : List of 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ before: chr(0) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ after : Named chr [1:5] "order" "stratum" "group" "weight" ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ after : Named chr [1:6] "order" "stratum" "group" "offset" ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> task_properties : List of 3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ classif     : chr [1:6] "strata" "groups" "weights" "offset" ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ regr        : chr [1:4] "strata" "groups" "weights" "offset"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ classif     : chr [1:7] "strata" "groups" "offset" "weights_learner" ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ regr        : chr [1:5] "strata" "groups" "offset" "weights_learner" ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ unsupervised: chr(0) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> task_row_roles :  chr "use"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> task_types : Classes ‘data.table’ and 'data.frame':	3 obs. of  7 variables:</span>

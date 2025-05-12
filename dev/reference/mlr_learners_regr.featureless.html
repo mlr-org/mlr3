@@ -9,11 +9,31 @@
 If hyperparameter robust is FALSE (default), constantly predicts mean(y) as response
 and sd(y) as standard error.
 If robust is TRUE, median() and mad() are used instead of mean() and sd(),
-respectively."><meta property="og:description" content="A simple LearnerRegr which only analyzes the response during train, ignoring all features.
+respectively.
+For weighted data, the response is the weighted mean (weighted median for robust regression).
+The predicted standard error is the square root of the weighted variance estimator with bias correction
+based on effective degrees of freedom:
+sd(y, weights) = sqrt(
+  sum(weights * (y - weighted.mean(y, weights))^2) /
+    (sum(weights) - sum(weights ^2) / sum(weights))
+)
+
+If robust is TRUE, the weighted median absolute deviation is used, adjusted by a factor of 1.4826
+for consistency with mad()."><meta property="og:description" content="A simple LearnerRegr which only analyzes the response during train, ignoring all features.
 If hyperparameter robust is FALSE (default), constantly predicts mean(y) as response
 and sd(y) as standard error.
 If robust is TRUE, median() and mad() are used instead of mean() and sd(),
-respectively."><meta property="og:image" content="https://mlr3.mlr-org.com/logo.svg"><meta name="robots" content="noindex"></head><body>
+respectively.
+For weighted data, the response is the weighted mean (weighted median for robust regression).
+The predicted standard error is the square root of the weighted variance estimator with bias correction
+based on effective degrees of freedom:
+sd(y, weights) = sqrt(
+  sum(weights * (y - weighted.mean(y, weights))^2) /
+    (sum(weights) - sum(weights ^2) / sum(weights))
+)
+
+If robust is TRUE, the weighted median absolute deviation is used, adjusted by a factor of 1.4826
+for consistency with mad()."><meta property="og:image" content="https://mlr3.mlr-org.com/logo.svg"><meta name="robots" content="noindex"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -62,6 +82,15 @@ If hyperparameter <code>robust</code> is <code>FALSE</code> (default), constantl
 and <code>sd(y)</code> as standard error.
 If <code>robust</code> is <code>TRUE</code>, <code><a href="https://rdrr.io/r/stats/median.html" class="external-link">median()</a></code> and <code><a href="https://rdrr.io/r/stats/mad.html" class="external-link">mad()</a></code> are used instead of <code><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean()</a></code> and <code><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd()</a></code>,
 respectively.</p>
+<p>For weighted data, the response is the weighted mean (weighted median for robust regression).
+The predicted standard error is the square root of the weighted variance estimator with bias correction
+based on effective degrees of freedom:</p>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">sd</span>(y, weights) <span class="ot">=</span> <span class="fu">sqrt</span>(</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>  <span class="fu">sum</span>(weights <span class="sc">*</span> (y <span class="sc">-</span> <span class="fu">weighted.mean</span>(y, weights))<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>    (<span class="fu">sum</span>(weights) <span class="sc">-</span> <span class="fu">sum</span>(weights <span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> <span class="fu">sum</span>(weights))</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>)</span></code></pre><p></p></div>
+<p>If <code>robust</code> is <code>TRUE</code>, the weighted median absolute deviation is used, adjusted by a factor of 1.4826
+for consistency with <code><a href="https://rdrr.io/r/stats/mad.html" class="external-link">mad()</a></code>.</p>
     </div>
 
 

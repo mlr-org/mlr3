@@ -125,16 +125,16 @@ If <code>objects</code> is set to <code>TRUE</code>, the constructed objects are
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:     logical,integer,numeric,character,factor,ordered       mlr3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2: logical,integer,numeric,character,factor,ordered,...       mlr3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3:               logical,integer,numeric,factor,ordered mlr3,rpart</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4:     logical,integer,numeric,character,factor,ordered       mlr3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:     logical,integer,numeric,character,factor,ordered mlr3,stats</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5: logical,integer,numeric,character,factor,ordered,... mlr3,stats</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6:               logical,integer,numeric,factor,ordered mlr3,rpart</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                                   properties</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                                       &lt;list&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: hotstart_forward,internal_tuning,marshal,missings,multiclass,twoclass,...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2:     featureless,importance,missings,multiclass,selected_features,twoclass</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: featureless,importance,missings,multiclass,selected_features,twoclass,...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3:         importance,missings,multiclass,selected_features,twoclass,weights</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4:                                                                  missings</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5:                         featureless,importance,missings,selected_features</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:                                                          missings,weights</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5:                 featureless,importance,missings,selected_features,weights</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6:                             importance,missings,selected_features,weights</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            predict_types</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                   &lt;list&gt;</span>
@@ -152,8 +152,10 @@ If <code>objects</code> is set to <code>TRUE</code>, the constructed objects are
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Predict Types:  [response], prob</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Feature Types: logical, integer, numeric, character, factor, ordered,</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   POSIXct, Date</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * Encapsulation: none (fallback: -)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Properties: featureless, importance, missings, multiclass,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   selected_features, twoclass</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   selected_features, twoclass, weights</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * Other settings: use_weights = 'use'</span>
 <span class="r-in"><span><span class="fu"><a href="mlr_sugar.html">lrn</a></span><span class="op">(</span><span class="st">"classif.rpart"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;LearnerClassifRpart:classif.rpart&gt;: Classification Tree</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Model: -</span>
@@ -161,8 +163,10 @@ If <code>objects</code> is set to <code>TRUE</code>, the constructed objects are
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Packages: mlr3, rpart</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Predict Types:  [response], prob</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Feature Types: logical, integer, numeric, factor, ordered</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * Encapsulation: none (fallback: -)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Properties: importance, missings, multiclass, selected_features,</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   twoclass, weights</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * Other settings: use_weights = 'use'</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

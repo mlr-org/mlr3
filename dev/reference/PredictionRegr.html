@@ -127,6 +127,7 @@ Requires package <code>distr6</code>(in repository <a href="https://raphaels1.r-
 <span>  se <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  quantiles <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  distr <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  weights <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  check <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
@@ -169,6 +170,12 @@ Numeric matrix of predicted quantiles. One row per observation, one column per q
 <dd><p>(<code>VectorDistribution</code>)<br><code>VectorDistribution</code> from package distr6 (in repository <a href="https://raphaels1.r-universe.dev" class="external-link">https://raphaels1.r-universe.dev</a>).
 Each individual distribution in the vector represents the random variable 'survival time'
 for an individual observation.</p></dd>
+
+
+<dt><code>weights</code></dt>
+<dd><p>(<code><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric()</a></code>)<br>
+Vector of measure weights for each observation. Should be constructed from
+the <code>Task</code>'s <code>weights_measure</code> column.</p></dd>
 
 
 <dt><code>check</code></dt>

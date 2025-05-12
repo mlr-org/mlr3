@@ -163,6 +163,11 @@ If set to <code>NA</code> (default), tuning this measure is not possible.</p></d
 How to average multiple <a href="Prediction.html">Prediction</a>s from a <a href="ResampleResult.html">ResampleResult</a>.</p>
 <p>The default, <code>"macro"</code>, calculates the individual performances scores for each <a href="Prediction.html">Prediction</a> and then uses the
 function defined in <code>$aggregator</code> to average them to a single number.</p>
+<p><code>"macro_weighted"</code> is similar to <code>"macro"</code>, but uses weighted averages.
+Weights are taken from the <code>weights_measure</code> column of the resampled <a href="Task.html">Task</a> if present.
+Note that <code>"macro_weighted"</code> can differ from <code>"macro"</code> even if no weights are present or if <code>$use_weights</code> is set to <code>"ignore"</code>,
+since then aggregation is done using <em>uniform sample weights</em>, which result in non-uniform weights for <a href="Prediction.html">Prediction</a>s if they contain different
+numbers of samples.</p>
 <p>If set to <code>"micro"</code>, the individual <a href="Prediction.html">Prediction</a> objects are first combined into a single new <a href="Prediction.html">Prediction</a> object which is then used to assess the performance.
 The function in <code>$aggregator</code> is not used in this case.</p></dd>
 
@@ -185,14 +190,12 @@ Properties of the measure.
 Must be a subset of <a href="mlr_reflections.html">mlr_reflections$measure_properties</a>.
 Supported by <code>mlr3</code>:</p><ul><li><p><code>"requires_task"</code> (requires the complete <a href="Task.html">Task</a>),</p></li>
 <li><p><code>"requires_learner"</code> (requires the trained <a href="Learner.html">Learner</a>),</p></li>
-<li><p><code>"requires_model"</code> (requires the trained <a href="Learner.html">Learner</a>, including the fitted
-model),</p></li>
-<li><p><code>"requires_train_set"</code> (requires the training indices from the <a href="Resampling.html">Resampling</a>), and</p></li>
-<li><p><code>"na_score"</code> (the measure is expected to occasionally return <code>NA</code> or <code>NaN</code>).</p></li>
-<li><p><code>"primary_iters"</code> (the measure explictly handles resamplings that only use a subset
-of their iterations for the point estimate).</p></li>
-<li><p><code>"requires_no_prediction"</code> (No prediction is required; This usually means that the
-measure extracts some information from the learner state.).</p></li>
+<li><p><code>"requires_model"</code> (requires the trained <a href="Learner.html">Learner</a>, including the fitted model),</p></li>
+<li><p><code>"requires_train_set"</code> (requires the training indices from the <a href="Resampling.html">Resampling</a>),</p></li>
+<li><p><code>"na_score"</code> (the measure is expected to occasionally return <code>NA</code> or <code>NaN</code>),</p></li>
+<li><p><code>"weights"</code> (support weighted scoring using sample weights from task, column role <code>weights_measure</code>), and</p></li>
+<li><p><code>"primary_iters"</code> (the measure explictly handles resamplings that only use a subset of their iterations for the point estimate)</p></li>
+<li><p><code>"requires_no_prediction"</code> (No prediction is required; This usually means that the measure extracts some information from the learner state.).</p></li>
 </ul></dd>
 
 

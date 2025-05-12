@@ -126,6 +126,24 @@ Only available for <code>Learner</code>s with the <code>"internal_tuning"</code>
 If the learner is not trained yet, this returns <code>NULL</code>.</p></li>
 </ul></div>
     <div class="section level2">
+    <h2 id="weights">Weights<a class="anchor" aria-label="anchor" href="#weights"></a></h2>
+
+
+
+<p>Many learners support observation weights, indicated by their property <code>"weights"</code>.
+The weights are stored in the <a href="Task.html">Task</a> where the column role <code>weights_learner</code> needs to be assigned to a single numeric column.
+If a task has weights and the learner supports them, they are used automatically.
+If a task has weights but the learner does not support them, an error is thrown by default.
+Both of these behaviors can be disabled by setting the <code>use_weights</code> field to <code>"ignore"</code>.
+See the description of <code>use_weights</code> for more information.</p>
+<p>If the learner is set-up to use weights but the task does not have a designated weight column, samples are considered to have equal weight.
+When weights are being used, they are passed down to the learner directly; the effect of weights depends on the specific learner.
+Generally, weights do not need to sum up to 1.</p>
+<p>When implementing a Learner that uses weights, the <code>"weights"</code> property should be set.
+The <code>$.train()</code>-method should then call the <code>$.get_weights()</code>-method to retrieve the weights from the task.
+<code>$.get_weights()</code> will automatically discard weights when <code>use_weights</code> is set to <code>"ignore"</code>;</p>
+    </div>
+    <div class="section level2">
     <h2 id="setting-hyperparameters">Setting Hyperparameters<a class="anchor" aria-label="anchor" href="#setting-hyperparameters"></a></h2>
 
 
@@ -315,7 +333,21 @@ Defaults to <code>NA</code>, but can be set by child classes.</p></dd>
     </div>
     <div class="section level2">
     <h2 id="active-bindings">Active bindings<a class="anchor" aria-label="anchor" href="#active-bindings"></a></h2>
-    <p></p><div class="r6-active-bindings"><dl><dt><code>data_formats</code></dt>
+    <p></p><div class="r6-active-bindings"><dl><dt><code>use_weights</code></dt>
+<dd><p>(<code>character(1)</code>)<br>
+How weights should be handled.
+Settings are <code>"use"</code> <code>"ignore"</code>, and <code>"error"</code>.</p><ul><li><p><code>"use"</code>: use weights, as supported by the underlying <code>Learner</code>.
+Only available for <code>Learner</code>s with the property <code>"weights"</code>.</p></li>
+<li><p><code>"ignore"</code>: do not use weights.</p></li>
+<li><p><code>"error"</code>: throw an error if weights are present in the training <code>Task</code>.</p></li>
+</ul><p>For <code>Learner</code>s with the property <code>"weights"</code>, this is initialized as <code>"use"</code>.
+For <code>Learner</code>s that do not support weights, i.e. without the <code>"weights"</code> property, this is initialized as <code>"error"</code>.
+The latter behavior is to avoid cases where a user erroneously assumes that a <code>Learner</code> supports weights when it does not.
+For <code>Learner</code>s that do not support weights, <code>use_weights</code> needs to be set to <code>"ignore"</code> if tasks with weights should be handled (by dropping the weights).
+See Section 'weights' for more details.</p></dd>
+
+
+<dt><code>data_formats</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 Supported data format. Always <code>"data.table"</code>..
 This is deprecated and will be removed in the future.</p></dd>
@@ -629,7 +661,10 @@ of the training task stored in the learner.
 If the learner has been fitted via <code><a href="resample.html">resample()</a></code> or <code><a href="benchmark.html">benchmark()</a></code>, you need to pass the corresponding task stored
 in the <a href="ResampleResult.html">ResampleResult</a> or <a href="BenchmarkResult.html">BenchmarkResult</a>, respectively.
 Further, <code><a href="auto_convert.html">auto_convert</a></code> is used for type-conversions to ensure compatability
-of features between <code>$train()</code> and <code>$predict()</code>.</p><div class="section">
+of features between <code>$train()</code> and <code>$predict()</code>.</p>
+<p>If the stored training task has a <code>weights_measure</code> column, <em>and</em> if <code>newdata</code> contains a column with the same name,
+that column must be numeric with no missing values and is used as measure weights column.
+Otherwise, no measure weights are used.</p><div class="section">
 <h4 id="usage-6">Usage<a class="anchor" aria-label="anchor" href="#usage-6"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Learner</span><span class="op">$</span><span class="fu">predict_newdata</span><span class="op">(</span><span class="va">newdata</span>, task <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>

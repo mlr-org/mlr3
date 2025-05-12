@@ -10,14 +10,17 @@ Hyperparameter method determines the mode of operation during prediction:
 mode:
 Predicts the most frequent label. If there are two or more labels tied, randomly selects one per prediction.
 Probabilities correspond to the relative frequency of the class labels in the training set.
+For weighted data, the label(s) with the highest weighted frequency are selected.
 
 sample:
 Randomly predict a label uniformly.
 Probabilities correspond to a uniform distribution of class labels, i.e. 1 divided by the number of classes.
+Weights are ignored, if present.
 
 weighted.sample:
 Randomly predict a label, with probability estimated from the training distribution.
 For consistency, probabilities are 1 for the sampled label and 0 for all other labels.
+For weighted data, sample weights are used to weight the class labels.
 
 
 
@@ -26,14 +29,17 @@ Hyperparameter method determines the mode of operation during prediction:
 mode:
 Predicts the most frequent label. If there are two or more labels tied, randomly selects one per prediction.
 Probabilities correspond to the relative frequency of the class labels in the training set.
+For weighted data, the label(s) with the highest weighted frequency are selected.
 
 sample:
 Randomly predict a label uniformly.
 Probabilities correspond to a uniform distribution of class labels, i.e. 1 divided by the number of classes.
+Weights are ignored, if present.
 
 weighted.sample:
 Randomly predict a label, with probability estimated from the training distribution.
 For consistency, probabilities are 1 for the sampled label and 0 for all other labels.
+For weighted data, sample weights are used to weight the class labels.
 
 
 
@@ -84,15 +90,18 @@ For consistency, probabilities are 1 for the sampled label and 0 for all other l
     <p>A simple <a href="LearnerClassif.html">LearnerClassif</a> which only analyzes the labels during train, ignoring all features.
 Hyperparameter <code>method</code> determines the mode of operation during prediction:</p><dl><dt>mode:</dt>
 <dd><p>Predicts the most frequent label. If there are two or more labels tied, randomly selects one per prediction.
-Probabilities correspond to the relative frequency of the class labels in the training set.</p></dd>
+Probabilities correspond to the relative frequency of the class labels in the training set.
+For weighted data, the label(s) with the highest weighted frequency are selected.</p></dd>
 
 <dt>sample:</dt>
 <dd><p>Randomly predict a label uniformly.
-Probabilities correspond to a uniform distribution of class labels, i.e. 1 divided by the number of classes.</p></dd>
+Probabilities correspond to a uniform distribution of class labels, i.e. 1 divided by the number of classes.
+Weights are ignored, if present.</p></dd>
 
 <dt>weighted.sample:</dt>
 <dd><p>Randomly predict a label, with probability estimated from the training distribution.
-For consistency, probabilities are 1 for the sampled label and 0 for all other labels.</p></dd>
+For consistency, probabilities are 1 for the sampled label and 0 for all other labels.
+For weighted data, sample weights are used to weight the class labels.</p></dd>
 
 
 </dl></div>

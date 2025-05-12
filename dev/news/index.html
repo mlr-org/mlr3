@@ -49,15 +49,28 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="mlr3-development-version">mlr3 (development version)<a class="anchor" aria-label="anchor" href="#mlr3-development-version"></a></h2>
-<ul><li>feat: Add <code><a href="../reference/score_roc_measures.html">score_roc_measures()</a></code> to score a prediction on various roc measures.</li>
-<li>feat: A better error message is thrown, which often happens when incorrectly configuring the <code>validate</code> field of a <code>GraphLearner</code>
+<ul><li>
+<p>BREAKING CHANGE: <code>weights</code> property and functionality is split into <code>weights_learner</code> and <code>weights_measure</code>:</p>
+<ul><li>
+<code>weights_learner</code>: Weights used during training by the Learner.</li>
+<li>
+<code>weights_measure</code>: Weights used during scoring predictions via measures.</li>
+</ul><p>Each of these can be disabled via the new field <code>use_weights</code> in <code>Learner</code> and <code>Measure</code> objects.</p>
 </li>
-<li>feat: Added method <code>$set_threshold()</code> to <code>BenchmarkResult</code> and <code>ResamplingResult</code>, which allows to set the threshold for the response prediction of classification learners, given they have output a probability prediction (<a href="https://github.com/mlr-org/mlr3/issues/1270" class="external-link">#1270</a>).</li>
-<li>feat: Added field <code>$uhash_table</code> to <code>BenchmarkResult</code> and functions <code><a href="../reference/uhash.html">uhash()</a></code> and <code><a href="../reference/uhash.html">uhashes()</a></code> to easily compute uhashes for given learner, task, or resampling ids (<a href="https://github.com/mlr-org/mlr3/issues/1270" class="external-link">#1270</a>).</li>
-<li>feat: You can now change the default predict type of classification learners to <code>"prob"</code> by setting the option <code>mlr3.prob_as_default</code> to <code>TRUE</code> (<a href="https://github.com/mlr-org/mlr3/issues/1273" class="external-link">#1273</a>).</li>
-<li>feat: <code><a href="../reference/benchmark_grid.html">benchmark_grid()</a></code> will now throw a warning if you mix different predict types in the design (<a href="https://github.com/mlr-org/mlr3/issues/1273" class="external-link">#1273</a>).</li>
-<li>feat: Converting a <code>BenchmarkResult</code> to a <code>data.table</code> now includes the <code>task_id</code>, <code>learner_id</code>, and <code>resampling_id</code> columns (<a href="https://github.com/mlr-org/mlr3/issues/1275" class="external-link">#1275</a>).</li>
-<li>fix: Add missing parameters for <code>"regr.pinball"</code> and <code>"sim.phi"</code> measures.</li>
+<li><p>feat: Add <code>$confusion_weighted</code> field to <code>PredictionClassif</code>.</p></li>
+<li><p>feat: Add <code>$weights</code> field to <code>Prediction</code>. It contains the <code>weights_measure</code> weights from the <code>Task</code> that was used for prediction.</p></li>
+<li><p>feat: Add <code>"macro_weighted"</code> option to <code>Measure$average</code> field.</p></li>
+<li><p>feat: <code>MeasureRegrRSQ</code> and <code>MeasureClassifCost</code> gain <code>"weights"</code> property.</p></li>
+<li><p>feat: <code>LearnerClassifFeatureless</code>, <code>LearnerRegrFeatureless</code>, <code>LearnerClassifDebug</code>, <code>LearnerRegrDebug</code> gain <code>"weights"</code> property.</p></li>
+<li><p>feat: <code>Learner</code> printer now prints information about encapsulation and weights use.</p></li>
+<li><p>feat: Add <code><a href="../reference/score_roc_measures.html">score_roc_measures()</a></code> to score a prediction on various roc measures.</p></li>
+<li><p>feat: A better error message is thrown, which often happens when incorrectly configuring the <code>validate</code> field of a <code>GraphLearner</code></p></li>
+<li><p>feat: Added method <code>$set_threshold()</code> to <code>BenchmarkResult</code> and <code>ResamplingResult</code>, which allows to set the threshold for the response prediction of classification learners, given they have output a probability prediction (<a href="https://github.com/mlr-org/mlr3/issues/1270" class="external-link">#1270</a>).</p></li>
+<li><p>feat: Added field <code>$uhash_table</code> to <code>BenchmarkResult</code> and functions <code><a href="../reference/uhash.html">uhash()</a></code> and <code><a href="../reference/uhash.html">uhashes()</a></code> to easily compute uhashes for given learner, task, or resampling ids (<a href="https://github.com/mlr-org/mlr3/issues/1270" class="external-link">#1270</a>).</p></li>
+<li><p>feat: You can now change the default predict type of classification learners to <code>"prob"</code> by setting the option <code>mlr3.prob_as_default</code> to <code>TRUE</code> (<a href="https://github.com/mlr-org/mlr3/issues/1273" class="external-link">#1273</a>).</p></li>
+<li><p>feat: <code><a href="../reference/benchmark_grid.html">benchmark_grid()</a></code> will now throw a warning if you mix different predict types in the design (<a href="https://github.com/mlr-org/mlr3/issues/1273" class="external-link">#1273</a>).</p></li>
+<li><p>feat: Converting a <code>BenchmarkResult</code> to a <code>data.table</code> now includes the <code>task_id</code>, <code>learner_id</code>, and <code>resampling_id</code> columns (<a href="https://github.com/mlr-org/mlr3/issues/1275" class="external-link">#1275</a>).</p></li>
+<li><p>fix: Add missing parameters for <code>"regr.pinball"</code> and <code>"sim.phi"</code> measures.</p></li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.23.0" id="mlr3-0230">mlr3 0.23.0<a class="anchor" aria-label="anchor" href="#mlr3-0230"></a></h2><p class="text-muted">CRAN release: 2025-03-12</p>
