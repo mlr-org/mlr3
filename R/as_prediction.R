@@ -48,7 +48,7 @@ as_predictions.list = function(x, predict_sets = "test", ...) { # nolint
   ii = lengths(x) > 0L
   result[ii] = map(x[ii], function(li) {
     assert_list(li, "PredictionData")
-    li = discard(li[predict_sets], is.null)
+    li = compact(li[predict_sets])
     if (length(li) == 0L) {
       return(list())
     }
