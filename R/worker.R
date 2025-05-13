@@ -378,7 +378,7 @@ workhorse = function(
   if (!length(predict_sets)) {
     learner$state$predict_time = 0L
   }
-  ctx$pdatas = discard(pdatas, is.null)
+  ctx$pdatas = compact(pdatas)
 
   # set the model slot after prediction so it can be sent back to the main process
   process_model_after_predict(

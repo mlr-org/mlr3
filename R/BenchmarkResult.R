@@ -586,8 +586,8 @@ BenchmarkResult = R6Class("BenchmarkResult",
     .data = NULL,
 
     .get_uhashes = function(i, uhashes, learner_ids, task_ids, resampling_ids) {
-      args = discard(list(learner_ids = learner_ids, task_ids = task_ids,
-        resampling_ids = resampling_ids), is.null)
+      args = compact(list(learner_ids = learner_ids, task_ids = task_ids,
+        resampling_ids = resampling_ids))
 
       if (sum(!is.null(i), !is.null(uhashes), length(args) > 0L) > 1) {
         stopf("At most one of `i`, `uhash`, or IDs can be provided.")

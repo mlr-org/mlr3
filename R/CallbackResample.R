@@ -129,7 +129,7 @@ callback_resample = function(
   on_resample_before_predict = NULL,
   on_resample_end = NULL
   ) {
-  stages = discard(set_names(list(
+  stages = compact(set_names(list(
     on_resample_begin,
     on_resample_before_train,
     on_resample_before_predict,
@@ -139,7 +139,7 @@ callback_resample = function(
       "on_resample_before_train",
       "on_resample_before_predict",
       "on_resample_end"
-    )), is.null)
+    )))
 
   stages = map(stages, function(stage) crate(assert_function(stage, args = c("callback", "context"))))
   callback = CallbackResample$new(id, label, man)
