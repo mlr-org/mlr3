@@ -237,7 +237,8 @@ or <code>"trace"</code>:</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">rr</span> <span class="op">=</span> <span class="fu">resample</span><span class="op">(</span><span class="va">task</span>, <span class="va">learner</span>, <span class="va">resampling</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">rr</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;ResampleResult&gt; with 10 resampling iterations</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="color: #0000BB; font-weight: bold;">&lt;ResampleResult&gt;</span><span style="font-weight: bold;"> with </span><span style="color: #0000BB; font-weight: bold;">10</span><span style="font-weight: bold;"> resampling iterations</span> <span style="color: #00BBBB;">──────────────────────────────</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   task_id    learner_id resampling_id iteration     prediction_test warnings</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  penguins classif.rpart            cv         1 &lt;PredictionClassif&gt;        0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  penguins classif.rpart            cv         2 &lt;PredictionClassif&gt;        0</span>
@@ -296,7 +297,8 @@ or <code>"trace"</code>:</p>
 <span class="r-in"><span><span class="va">bmr1</span> <span class="op">=</span> <span class="fu"><a href="as_benchmark_result.html">as_benchmark_result</a></span><span class="op">(</span><span class="va">rr</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">bmr2</span> <span class="op">=</span> <span class="fu"><a href="as_benchmark_result.html">as_benchmark_result</a></span><span class="op">(</span><span class="va">rr_featureless</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">bmr1</span><span class="op">$</span><span class="fu">combine</span><span class="op">(</span><span class="va">bmr2</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;BenchmarkResult&gt; of 20 rows with 2 resampling runs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="color: #0000BB; font-weight: bold;">&lt;BenchmarkResult&gt;</span><span style="font-weight: bold;"> of </span><span style="color: #0000BB; font-weight: bold;">20</span><span style="font-weight: bold;"> rows with </span><span style="color: #0000BB; font-weight: bold;">2</span><span style="font-weight: bold;"> resampling run</span> <span style="color: #00BBBB;">──────────────────────────</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  nr  task_id          learner_id resampling_id iters warnings errors</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   1 penguins       classif.rpart            cv    10        0      0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   2 penguins classif.featureless            cv    10        0      0</span>

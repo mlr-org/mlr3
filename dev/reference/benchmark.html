@@ -241,12 +241,12 @@ or <code>"trace"</code>:</p>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/as.data.table.html" class="external-link">as.data.table</a></span><span class="op">(</span><span class="va">bmr</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                   uhash                   task</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                  &lt;char&gt;                 &lt;list&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: c38170c2-00a3-4c1d-bfca-206868060a81 &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: c38170c2-00a3-4c1d-bfca-206868060a81 &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: c38170c2-00a3-4c1d-bfca-206868060a81 &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4: 635eb600-7bf4-489d-8c25-2132f139a5e8 &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5: 635eb600-7bf4-489d-8c25-2132f139a5e8 &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6: 635eb600-7bf4-489d-8c25-2132f139a5e8 &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 3df8b873-1260-4714-b3c8-11e3bc23a049 &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 3df8b873-1260-4714-b3c8-11e3bc23a049 &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 3df8b873-1260-4714-b3c8-11e3bc23a049 &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4: 931286e3-9e72-4ecc-957f-6f51e7daf7f0 &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5: 931286e3-9e72-4ecc-957f-6f51e7daf7f0 &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6: 931286e3-9e72-4ecc-957f-6f51e7daf7f0 &lt;TaskClassif:penguins&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                            learner     resampling iteration</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                             &lt;list&gt;         &lt;list&gt;     &lt;int&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: &lt;LearnerClassifFeatureless:classif.featureless&gt; &lt;ResamplingCV&gt;         1</span>
@@ -314,7 +314,8 @@ or <code>"trace"</code>:</p>
 <span class="r-in"><span><span class="co">## Run benchmark</span></span></span>
 <span class="r-in"><span><span class="va">bmr</span> <span class="op">=</span> <span class="fu">benchmark</span><span class="op">(</span><span class="va">design</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">bmr</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;BenchmarkResult&gt; of 4 rows with 2 resampling runs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="color: #0000BB; font-weight: bold;">&lt;BenchmarkResult&gt;</span><span style="font-weight: bold;"> of </span><span style="color: #0000BB; font-weight: bold;">4</span><span style="font-weight: bold;"> rows with </span><span style="color: #0000BB; font-weight: bold;">2</span><span style="font-weight: bold;"> resampling run</span> <span style="color: #00BBBB;">───────────────────────────</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  nr  task_id          learner_id resampling_id iters warnings errors</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   1 penguins classif.featureless            cv     3        0      0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   2    sonar       classif.rpart       holdout     1        0      0</span>

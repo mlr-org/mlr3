@@ -123,7 +123,8 @@ Resampling ID.</p></dd>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">bmr</span> <span class="op">=</span> <span class="fu"><a href="benchmark.html">benchmark</a></span><span class="op">(</span><span class="va">design</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">bmr</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;BenchmarkResult&gt; of 6 rows with 6 resampling runs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="color: #0000BB; font-weight: bold;">&lt;BenchmarkResult&gt;</span><span style="font-weight: bold;"> of </span><span style="color: #0000BB; font-weight: bold;">6</span><span style="font-weight: bold;"> rows with </span><span style="color: #0000BB; font-weight: bold;">6</span><span style="font-weight: bold;"> resampling run</span> <span style="color: #00BBBB;">───────────────────────────</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  nr task_id          learner_id resampling_id iters warnings errors</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   1   sonar       classif.debug       holdout     1        0      0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   2   sonar classif.featureless       holdout     1        0      0</span>
@@ -132,19 +133,19 @@ Resampling ID.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   5    iris classif.featureless       holdout     1        0      0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   6    iris       classif.rpart       holdout     1        0      0</span>
 <span class="r-in"><span><span class="va">bmr</span><span class="op">$</span><span class="va">uhashes</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "5f25766d-f84b-4913-9e75-4df9c3abc552"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "f4632c0f-b7c0-4a35-86d4-c437f47f5e6d"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "5abf379c-06de-4f51-aa7f-8be81844ecdb"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4] "93ac0abc-4caf-41d0-955a-7cc8c0e64cdf"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5] "45376cab-8127-481a-aefc-16127ce21dae"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [6] "b0335ac0-8390-4a06-ad81-4587baf41ae7"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "8054a252-6ee5-4eca-970c-fc89760a9336"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "ffd7eb55-485b-4ca5-8333-e497f08de31e"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "8d64a30f-155a-44d6-bb79-7e4ad097d611"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4] "f30f8374-61ae-4cec-9dde-c98b12899adc"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5] "13348ed5-abf4-4b48-b339-81e35ed9bdd4"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [6] "05cf898e-1ff7-4120-bd79-5f5284959f02"</span>
 <span class="r-in"><span><span class="fu">uhash</span><span class="op">(</span><span class="va">bmr</span>, learner_id <span class="op">=</span> <span class="st">"classif.debug"</span>, task_id <span class="op">=</span> <span class="st">"sonar"</span>, resampling_id <span class="op">=</span> <span class="st">"holdout"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "5f25766d-f84b-4913-9e75-4df9c3abc552"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "8054a252-6ee5-4eca-970c-fc89760a9336"</span>
 <span class="r-in"><span><span class="fu">uhashes</span><span class="op">(</span><span class="va">bmr</span>, learner_ids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"classif.debug"</span>, <span class="st">"classif.featureless"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "5f25766d-f84b-4913-9e75-4df9c3abc552"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "f4632c0f-b7c0-4a35-86d4-c437f47f5e6d"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "93ac0abc-4caf-41d0-955a-7cc8c0e64cdf"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4] "45376cab-8127-481a-aefc-16127ce21dae"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "8054a252-6ee5-4eca-970c-fc89760a9336"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "ffd7eb55-485b-4ca5-8333-e497f08de31e"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "f30f8374-61ae-4cec-9dde-c98b12899adc"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4] "13348ed5-abf4-4b48-b339-81e35ed9bdd4"</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
