@@ -269,9 +269,9 @@ test_that("integer<->numeric conversion in newdata (#533)", {
 test_that("weights", {
   data = cbind(iris, w = rep(c(1, 100, 1), each = 50))
   task = TaskClassif$new("weighted_task", data, "Species")
-  task$set_col_roles("w", "weight")
+  task$set_col_roles("w", "weights_learner")
 
-  learner = lrn("classif.rpart")
+  learner = lrn("classif.rpart", use_weights = "use")
   learner$train(task)
 
   conf = learner$predict(task)$confusion
@@ -279,6 +279,25 @@ test_that("weights", {
 
   expect_prediction(learner$predict_newdata(data[1:3, ]))
   expect_prediction(learner$predict_newdata(iris[1:3, ]))
+
+  learner$use_weights = "error"
+  expect_error(learner$train(task), "'use_weights' was set to 'error'")
+
+  ll = R6Class("dummy", inherit = LearnerClassif, public = list(
+      initialize = function() {
+        super$initialize(id = "dummy", param_set = ps(), feature_types = "numeric", predict_types = "response", properties = c("twoclass", "multiclass"))
+      }
+    ),
+    private = list(
+      .train = function(task, ...) {
+        task
+      }
+    )
+  )$new()
+  expect_error(ll$train(task), "Learner does not support weights")  # different error message from above!
+
+  ll$use_weights = "ignore"
+  expect_no_error(ll$train(task))
 })
 
 test_that("mandatory properties",  {
@@ -628,6 +647,16 @@ test_that("predict time is cumulative", {
   expect_true(t1 > t2)
 })
 
+test_that("weights properties and defaults", {
+  ll = lrn("classif.rpart")
+  expect_true("weights" %in% ll$properties)
+  expect_equal(ll$use_weights, "use")
+
+  ll = LearnerClassif$new(id = "dummy", param_set = ps(), feature_types = "numeric", predict_types = "response", properties = "twoclass")
+  expect_true("weights" %nin% ll$properties)
+  expect_equal(ll$use_weights, "error")
+})
+
 test_that("configure method works", {
   learner = lrn("classif.rpart")
 
@@ -735,7 +764,6 @@ test_that("predict_newdata creates column info correctly", {
   expect_true("row_id" %in% learner$model$task_predict$col_info$id)
 })
 
-
 test_that("marshaling and internal tuning", {
   l = lrn("classif.debug", validate = 0.3, early_stopping = TRUE, iter = 100)
   l$encapsulate("evaluate", lrn("classif.featureless"))
@@ -744,4 +772,69 @@ test_that("marshaling and internal tuning", {
   expect_list(l$internal_tuned_values, types = "integer")
   expect_list(l$internal_valid_scores, types = "numeric")
 
+})
+
+test_that("prob_as_default works", {
+  on.exit(options(old_opts))
+  old_opts = options(mlr3.prob_as_default = TRUE)
+  l = lrn("classif.debug")
+  expect_equal(l$predict_type, "prob")
+  options(mlr3.prob_as_default = NULL)
+  l = lrn("classif.debug")
+  expect_equal(l$predict_type, "response")
+  options(mlr3.prob_as_default = FALSE)
+  expect_equal(l$predict_type, "response")
+})
+
+test_that("weights are used when appropriate", {
+  learner = lrn("classif.featureless", predict_type = "prob")
+  predict_task = tsk("iris")$filter(1)
+  expect_equal(unname(learner$train(tsk("iris"))$predict(predict_task)$prob), matrix(c(1, 1, 1) / 3, nrow = 1, ncol = 3))
+
+  # weights_measure has no effect
+  expect_equal(unname(learner$train(iris_weights_measure)$predict(predict_task)$prob), matrix(c(1, 1, 1) / 3, nrow = 1, ncol = 3))
+
+  expect_equal(unname(learner$train(iris_weights_learner)$predict(predict_task)$prob), matrix(c(1, 10, 100) / 111, nrow = 1, ncol = 3))
+
+  learner$use_weights = "ignore"
+
+  # weights are ignored
+  expect_equal(unname(learner$train(iris_weights_learner)$predict(predict_task)$prob), matrix(c(1, 1, 1) / 3, nrow = 1, ncol = 3))
+
+  learner$use_weights = "error"
+  expect_error(learner$train(iris_weights_learner), "'use_weights' was set to 'error'")
+
+  # behaviour of learner that does not support weights
+  llclass = R6Class("dummy", inherit = LearnerClassif,
+    public = list(
+      initialize = function() {
+        super$initialize(id = "dummy", param_set = ps(), feature_types = "numeric", predict_types = "response", properties = c("twoclass", "multiclass"))
+      }
+    ),
+    private = list(
+      .train = function(task) {
+        list(response = as.character(sample(task$truth(), 1L)))
+      }
+    )
+  )
+  ll = llclass$new()
+
+  # different error message
+  expect_error(ll$train(iris_weights_learner), "Learner does not support weights")
+  ll$train(iris_weights_measure)
+
+  ll$use_weights = "ignore"
+  ll$train(iris_weights_learner)
+})
+
+test_that("Learner printer for use_weights", {
+  expect_output(print(lrn("classif.featureless", use_weights = "ignore")), "use_weights = 'ignore'")
+  expect_output(print(lrn("classif.featureless", use_weights = "use")), "use_weights = 'use'")
+  expect_output(print(lrn("classif.featureless", use_weights = "error")), "use_weights = 'error'")
+})
+
+test_that("Learner printer for encapsulation", {
+  expect_output(print(lrn("classif.featureless")$encapsulate("callr", lrn("classif.rpart"))), "Encapsulation: callr \\(fallback: LearnerClassifRpart\\)")
+  expect_output(print(lrn("classif.rpart")$encapsulate("evaluate", lrn("classif.featureless"))), "Encapsulation: evaluate \\(fallback: LearnerClassifFeatureless\\)")
+  expect_output(print(lrn("classif.rpart")$encapsulate("none")), "Encapsulation: none \\(fallback: -\\)")
 })

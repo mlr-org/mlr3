@@ -1,6 +1,29 @@
 # mlr3 (development version)
 
+* BREAKING CHANGE: `weights` property and functionality is split into `weights_learner` and `weights_measure`:
+
+  * `weights_learner`: Weights used during training by the Learner.
+  * `weights_measure`: Weights used during scoring predictions via measures.
+
+  Each of these can be disabled via the new field `use_weights` in `Learner` and `Measure` objects.
+* feat: Add `$confusion_weighted` field to `PredictionClassif`.
+* feat: Add `$weights` field to `Prediction`. It contains the `weights_measure` weights from the `Task` that was used for prediction.
+* feat: Add `"macro_weighted"` option to `Measure$average` field.
+* feat: `MeasureRegrRSQ` and `MeasureClassifCost` gain `"weights"` property.
+* feat: `LearnerClassifFeatureless`, `LearnerRegrFeatureless`, `LearnerClassifDebug`, `LearnerRegrDebug` gain `"weights"` property.
+* feat: `Learner` printer now prints information about encapsulation and weights use.
 * feat: Add `score_roc_measures()` to score a prediction on various roc measures.
+* feat: A better error message is thrown, which often happens when incorrectly configuring the `validate` field
+  of a `GraphLearner`
+* feat: Added method `$set_threshold()` to `BenchmarkResult` and `ResamplingResult`, which allows to set the threshold for the response prediction of classification learners, given they have output a probability prediction (#1270).
+* feat: Added field `$uhash_table` to `BenchmarkResult` and functions `uhash()` and `uhashes()`
+  to easily compute uhashes for given learner, task, or resampling ids (#1270).
+* feat: You can now change the default predict type of classification learners to `"prob"` by setting
+  the option `mlr3.prob_as_default` to `TRUE` (#1273).
+* feat: `benchmark_grid()` will now throw a warning if you mix different predict types in the
+  design (#1273).
+* feat: Converting a `BenchmarkResult` to a `data.table` now includes the `task_id`, `learner_id`, and `resampling_id` columns (#1275).
+* fix: Add missing parameters for `"regr.pinball"` and `"sim.phi"` measures.
 
 # mlr3 0.23.0
 
@@ -13,7 +36,7 @@
 * BREAKING CHANGE: `Learner$predict_types` is read-only now.
 * docs: Clear up behavior of `Learner$predict_type` after training.
 * feat: Add callbacks to `resample()` and `benchmark()`.
-* fix: Internal tuning and validation now works when the model requires marshaling (#1256).
+* fix: Internal tuning and validation now works when the model requires marshaling (#1256)
 
 # mlr3 0.22.1
 

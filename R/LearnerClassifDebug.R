@@ -87,7 +87,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
         param_set = param_set,
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
         predict_types = c("response", "prob"),
-        properties = c("twoclass", "multiclass", "missings", "hotstart_forward", "validation", "internal_tuning", "marshal"),
+        properties = c("twoclass", "multiclass", "missings", "hotstart_forward", "validation", "internal_tuning", "marshal", "weights"),
         man = "mlr3::mlr_learners_classif.debug",
         label = "Debug Learner for Classification"
       )
@@ -175,10 +175,10 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
         message("Message from classif.debug->train()")
       }
       if (roll("warning_train")) {
-        warning("Warning from classif.debug->train()")
+        warningf("Warning from classif.debug->train()")
       }
       if (roll("error_train")) {
-        stop("Error from classif.debug->train()")
+        stopf("Error from classif.debug->train()")
       }
       if (roll("segfault_train")) {
         get("attach")(structure(list(), class = "UserDefinedDatabase"))
@@ -191,7 +191,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
       }
 
       model = list(
-          response = as.character(sample(task$truth(), 1L)),
+          response = as.character(sample(task$truth(), 1L, prob = private$.get_weights(task))),
           pid = Sys.getpid(),
           id = UUIDgenerate(),
           random_number = sample(100000, 1),
@@ -260,10 +260,10 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
         message("Message from classif.debug->predict()")
       }
       if (roll("warning_predict")) {
-        warning("Warning from classif.debug->predict()")
+        warningf("Warning from classif.debug->predict()")
       }
       if (roll("error_predict")) {
-        stop("Error from classif.debug->predict()")
+        stopf("Error from classif.debug->predict()")
       }
       if (roll("segfault_predict")) {
         get("attach")(structure(list(), class = "UserDefinedDatabase"))

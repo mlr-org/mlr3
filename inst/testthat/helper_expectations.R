@@ -620,7 +620,7 @@ expect_benchmark_result = function(bmr) {
   expect_resultdata(mlr3misc::get_private(bmr)$.data, TRUE)
   testthat::expect_output(print(bmr), "BenchmarkResult")
 
-  checkmate::expect_names(names(as.data.table(bmr)), permutation.of = c(mlr3::mlr_reflections$rr_names, "prediction", "uhash"))
+  checkmate::expect_names(names(as.data.table(bmr)), permutation.of = c(mlr3::mlr_reflections$rr_names, "prediction", "uhash", "task_id", "learner_id", "resampling_id"))
 
   tab = bmr$tasks
   checkmate::expect_data_table(tab, ncols = 3L)

@@ -29,6 +29,24 @@ In such cases it is necessary to overwrite the public methods \verb{$aggregate()
 where at least one of its names corresponds to the \code{id} of the measure itself.
 }
 
+\section{Weights}{
+
+
+Many measures support observation weights, indicated by their property \code{"weights"}.
+The weights are stored in the \link{Task} where the column role \code{weights_measure} needs to be assigned to a single numeric column.
+The weights are automatically used if found in the task, this can be disabled by setting the field \code{use_weights} to \code{"ignore"}.
+See the description of \code{use_weights} for more information.
+
+If the measure is set-up to use weights but the task does not have a designated \code{weights_measure} column, an unweighted version is calculated instead.
+The weights do not necessarily need to sum up to 1, they are normalized by the measure if necessary.
+
+Most measures are so-called decomposable loss functions where a point-wise loss is computed and then either mean-aggregated or summed
+over the test set.
+For measures that do mean-aggregation, weights are typically used to compute the weighted mean, which normalizes weights to sum to 1.
+Measures that use sum-aggregation do not normalize weights and instead multiply individual losses with the given weights.
+See the documentation of specific measures for more details.
+}
+
 \seealso{
 \itemize{
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
@@ -55,6 +73,7 @@ Other Measure:
 \code{\link{mlr_measures_elapsed_time}},
 \code{\link{mlr_measures_internal_valid_score}},
 \code{\link{mlr_measures_oob_error}},
+\code{\link{mlr_measures_regr.pinball}},
 \code{\link{mlr_measures_regr.rsq}},
 \code{\link{mlr_measures_selected_features}}
 }
@@ -109,9 +128,6 @@ Required properties of the \link{Task}.}
 \item{\code{range}}{(\code{numeric(2)})\cr
 Lower and upper bound of possible performance scores.}
 
-\item{\code{properties}}{(\code{character()})\cr
-Properties of this measure.}
-
 \item{\code{minimize}}{(\code{logical(1)})\cr
 If \code{TRUE}, good predictions correspond to small values of performance scores.}
 
@@ -144,6 +160,9 @@ Hash (unique identifier) for this object.
 The hash is calculated based on the id, the parameter settings, predict sets and the \verb{$score}, \verb{$average}, \verb{$aggregator}, \verb{$obs_loss}, \verb{$trafo} method.
 Measure can define additional fields to be included in the hash by setting the field \verb{$.extra_hash}.}
 
+\item{\code{properties}}{(\code{character()})\cr
+Properties of this measure.}
+
 \item{\code{average}}{(\code{character(1)})\cr
 Method for aggregation:
 \itemize{
@@ -154,12 +173,33 @@ Next, the scoring function of the measure is applied on this combined object, yi
 The scoring function is applied on the \link{Prediction} object of each resampling iterations,
 each yielding a single numeric score.
 Next, the scores are combined with the \code{aggregator} function to a single numerical score.
+\item \code{"macro_weighted"}:
+The scoring function is applied on the \link{Prediction} object of each resampling iterations,
+each yielding a single numeric score.
+Next, the scores are combined with the \code{aggregator} function to a single numerical score.
+The scores are weighted by the total sample weights (if present, and if \verb{$use_weights} is set to \code{"use"}),
+or the number of samples in each resampling iteration.
 \item \code{"custom"}:
 The measure comes with a custom aggregation method which directly operates on a \link{ResampleResult}.
 }}
 
 \item{\code{aggregator}}{(\verb{function()})\cr
 Function to aggregate scores computed on different resampling iterations.}
+
+\item{\code{use_weights}}{(\code{character(1)})\cr
+How to handle weights.
+Settings are \code{"use"}, \code{"ignore"}, and \code{"error"}.
+\itemize{
+\item \code{"use"}: Weights are used automatically if found in the task, as supported by the measure.
+\item \code{"ignore"}: Weights are ignored.
+\item \code{"error"}: throw an error if weights are present in the training \code{Task}.
+}
+
+For measures with the property \code{"weights"}, this is initialized as \code{"use"}.
+For measures with the property \code{"requires_no_prediction"}, this is initialized as \code{"ignore"}.
+For measures that have neither of the properties, this is initialized as \code{"error"}.
+The latter behavior is to avoid cases where a user erroneously assumes that a measure supports weights when it does not.
+For measures that do not support weights, \code{use_weights} needs to be set to \code{"ignore"} if tasks with weights should be handled (by dropping the weights).}
 }
 \if{html}{\out{</div>}}
 }
@@ -231,6 +271,12 @@ How to average multiple \link{Prediction}s from a \link{ResampleResult}.
 The default, \code{"macro"}, calculates the individual performances scores for each \link{Prediction} and then uses the
 function defined in \verb{$aggregator} to average them to a single number.
 
+\code{"macro_weighted"} is similar to \code{"macro"}, but uses weighted averages.
+Weights are taken from the \code{weights_measure} column of the resampled \link{Task} if present.
+Note that \code{"macro_weighted"} can differ from \code{"macro"} even if no weights are present or if \verb{$use_weights} is set to \code{"ignore"},
+since then aggregation is done using \emph{uniform sample weights}, which result in non-uniform weights for \link{Prediction}s if they contain different
+numbers of samples.
+
 If set to \code{"micro"}, the individual \link{Prediction} objects are first combined into a single new \link{Prediction} object which is then used to assess the performance.
 The function in \verb{$aggregator} is not used in this case.}
 
@@ -256,14 +302,12 @@ Supported by \code{mlr3}:
 \itemize{
 \item \code{"requires_task"} (requires the complete \link{Task}),
 \item \code{"requires_learner"} (requires the trained \link{Learner}),
-\item \code{"requires_model"} (requires the trained \link{Learner}, including the fitted
-model),
-\item \code{"requires_train_set"} (requires the training indices from the \link{Resampling}), and
-\item \code{"na_score"} (the measure is expected to occasionally return \code{NA} or \code{NaN}).
-\item \code{"primary_iters"} (the measure explictly handles resamplings that only use a subset
-of their iterations for the point estimate).
-\item \code{"requires_no_prediction"} (No prediction is required; This usually means that the
-measure extracts some information from the learner state.).
+\item \code{"requires_model"} (requires the trained \link{Learner}, including the fitted model),
+\item \code{"requires_train_set"} (requires the training indices from the \link{Resampling}),
+\item \code{"na_score"} (the measure is expected to occasionally return \code{NA} or \code{NaN}),
+\item \code{"weights"} (support weighted scoring using sample weights from task, column role \code{weights_measure}), and
+\item \code{"primary_iters"} (the measure explictly handles resamplings that only use a subset of their iterations for the point estimate)
+\item \code{"requires_no_prediction"} (No prediction is required; This usually means that the measure extracts some information from the learner state.).
 }}
 
 \item{\code{predict_type}}{(\code{character(1)})\cr

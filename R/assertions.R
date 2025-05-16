@@ -176,6 +176,16 @@ assert_learnable = function(task, learner, param_values = NULL) {
   if (task$task_type == "unsupervised") {
     stopf("%s cannot be trained with %s", learner$format(), task$format())
   }
+  # we only need to check whether the learner wants to error on weights in training,
+  # since weights_learner are always ignored during prediction.
+  if (learner$use_weights == "error" && "weights_learner" %in% task$properties) {
+    stopf("%s cannot be trained with weights in %s%s", learner$format(), task$format(),
+      if ("weights" %in% learner$properties) {
+        " since 'use_weights' was set to 'error'."
+      } else {
+        " since the Learner does not support weights.\nYou may set 'use_weights' to 'ignore' if you want the Learner to ignore weights."
+      })
+  }
   assert_task_learner(task, learner, param_values)
 }
 
@@ -214,6 +224,16 @@ assert_predictable = function(task, learner) {
 #' @rdname mlr_assertions
 assert_measure = function(measure, task = NULL, learner = NULL, prediction = NULL, .var.name = vname(measure)) {
   assert_class(measure, "Measure", .var.name = .var.name)
+
+  if (measure$use_weights == "error" && (!is.null(prediction$weights) || "weights_measure" %chin% task$properties)) {
+    stopf("%s cannot be evaluated with weights%s%s", measure$format(), if (!is.null(task)) paste0(" in ", task$format()) else "",
+      if ("weights" %in% measure$properties) {
+        " since 'use_weights' was set to 'error'."
+      } else {
+        " since the Measure does not support weights.\nYou may set 'use_weights' to 'ignore' if you want the Measure to ignore weights."
+      }
+    )
+  }
 
   if (!is.null(task)) {
 
@@ -362,9 +382,17 @@ assert_range = function(range, .var.name = vname(range)) {
 
 #' @export
 #' @template param_row_ids
+#' @param task ([Task])\cr
+#'   Task to check if row ids exist in it.
 #' @rdname mlr_assertions
-assert_row_ids = function(row_ids, null.ok = FALSE, .var.name = vname(row_ids)) {
-  assert_integerish(row_ids, coerce = TRUE, null.ok = null.ok)
+assert_row_ids = function(row_ids, task = NULL, null.ok = FALSE, .var.name = vname(row_ids)) {
+  row_ids = assert_integerish(row_ids, coerce = TRUE, null.ok = null.ok)
+  if (!is.null(task)) {
+    if (any(row_ids %nin% task$row_ids)) {
+      stopf("The provided row ids do not exist in task '%s'", task$id)
+    }
+  }
+  invisible(row_ids)
 }
 
 assert_has_backend = function(task) {

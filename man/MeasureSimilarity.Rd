@@ -53,6 +53,7 @@ Other Measure:
 \code{\link{mlr_measures_elapsed_time}},
 \code{\link{mlr_measures_internal_valid_score}},
 \code{\link{mlr_measures_oob_error}},
+\code{\link{mlr_measures_regr.pinball}},
 \code{\link{mlr_measures_regr.rsq}},
 \code{\link{mlr_measures_selected_features}}
 }
@@ -93,7 +94,6 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
   aggregator = NULL,
   properties = character(),
   predict_type = NA_character_,
-  predict_sets = "test",
   task_properties = character(),
   packages = character(),
   label = NA_character_,
@@ -125,6 +125,12 @@ How to average multiple \link{Prediction}s from a \link{ResampleResult}.
 The default, \code{"macro"}, calculates the individual performances scores for each \link{Prediction} and then uses the
 function defined in \verb{$aggregator} to average them to a single number.
 
+\code{"macro_weighted"} is similar to \code{"macro"}, but uses weighted averages.
+Weights are taken from the \code{weights_measure} column of the resampled \link{Task} if present.
+Note that \code{"macro_weighted"} can differ from \code{"macro"} even if no weights are present or if \verb{$use_weights} is set to \code{"ignore"},
+since then aggregation is done using \emph{uniform sample weights}, which result in non-uniform weights for \link{Prediction}s if they contain different
+numbers of samples.
+
 If set to \code{"micro"}, the individual \link{Prediction} objects are first combined into a single new \link{Prediction} object which is then used to assess the performance.
 The function in \verb{$aggregator} is not used in this case.}
 
@@ -147,26 +153,17 @@ Supported by \code{mlr3}:
 \itemize{
 \item \code{"requires_task"} (requires the complete \link{Task}),
 \item \code{"requires_learner"} (requires the trained \link{Learner}),
-\item \code{"requires_model"} (requires the trained \link{Learner}, including the fitted
-model),
-\item \code{"requires_train_set"} (requires the training indices from the \link{Resampling}), and
-\item \code{"na_score"} (the measure is expected to occasionally return \code{NA} or \code{NaN}).
-\item \code{"primary_iters"} (the measure explictly handles resamplings that only use a subset
-of their iterations for the point estimate).
-\item \code{"requires_no_prediction"} (No prediction is required; This usually means that the
-measure extracts some information from the learner state.).
+\item \code{"requires_model"} (requires the trained \link{Learner}, including the fitted model),
+\item \code{"requires_train_set"} (requires the training indices from the \link{Resampling}),
+\item \code{"na_score"} (the measure is expected to occasionally return \code{NA} or \code{NaN}),
+\item \code{"weights"} (support weighted scoring using sample weights from task, column role \code{weights_measure}), and
+\item \code{"primary_iters"} (the measure explictly handles resamplings that only use a subset of their iterations for the point estimate)
+\item \code{"requires_no_prediction"} (No prediction is required; This usually means that the measure extracts some information from the learner state.).
 }}
 
 \item{\code{predict_type}}{(\code{character(1)})\cr
 Required predict type of the \link{Learner}.
 Possible values are stored in \link[=mlr_reflections]{mlr_reflections$learner_predict_types}.}
-
-\item{\code{predict_sets}}{(\code{character()})\cr
-Prediction sets to operate on, used in \code{aggregate()} to extract the matching \code{predict_sets} from the \link{ResampleResult}.
-Multiple predict sets are calculated by the respective \link{Learner} during \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}.
-Must be a non-empty subset of \verb{\{"train", "test", "internal_valid"\}}.
-If multiple sets are provided, these are first combined to a single prediction object.
-Default is \code{"test"}.}
 
 \item{\code{task_properties}}{(\code{character()})\cr
 Required task properties, see \link{Task}.}

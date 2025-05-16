@@ -87,6 +87,10 @@ resample = function(
     resampling = resampling$instantiate(task)
   }
 
+  if (!is.null(resampling$task_row_hash) && resampling$task_row_hash != task$row_hash) {
+    stopf("Resampling '%s' is not instantiated on task '%s'", resampling$id, task$id)
+  }
+
   n = resampling$iters
   pb = if (isNamespaceLoaded("progressr")) {
     # NB: the progress bar needs to be created in this env

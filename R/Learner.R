@@ -67,6 +67,23 @@
 #'   Only available for [`Learner`]s with the `"internal_tuning"` property.
 #'   If the learner is not trained yet, this returns `NULL`.
 #'
+#' @section Weights:
+#'
+#' Many learners support observation weights, indicated by their property `"weights"`.
+#' The weights are stored in the [Task] where the column role `weights_learner` needs to be assigned to a single numeric column.
+#' If a task has weights and the learner supports them, they are used automatically.
+#' If a task has weights but the learner does not support them, an error is thrown by default.
+#' Both of these behaviors can be disabled by setting the `use_weights` field to `"ignore"`.
+#' See the description of `use_weights` for more information.
+#'
+#' If the learner is set-up to use weights but the task does not have a designated weight column, samples are considered to have equal weight.
+#' When weights are being used, they are passed down to the learner directly; the effect of weights depends on the specific learner.
+#' Generally, weights do not need to sum up to 1.
+#'
+#' When implementing a Learner that uses weights, the `"weights"` property should be set.
+#' The `$.train()`-method should then call the `$.get_weights()`-method to retrieve the weights from the task.
+#' `$.get_weights()` will automatically discard weights when `use_weights` is set to `"ignore"`;
+#'
 #' @section Setting Hyperparameters:
 #'
 #' All information about hyperparameters is stored in the slot `param_set` which is a [paradox::ParamSet].
@@ -207,7 +224,6 @@ Learner = R6Class("Learner",
       self$id = assert_string(id, min.chars = 1L)
       self$label = assert_string(label, na.ok = TRUE)
       self$task_type = assert_choice(task_type, mlr_reflections$task_types$type)
-      private$.param_set = assert_param_set(param_set)
       self$feature_types = assert_ordered_set(feature_types, mlr_reflections$task_feature_types, .var.name = "feature_types")
       private$.predict_types = assert_ordered_set(predict_types, names(mlr_reflections$learner_predict_types[[task_type]]),
         empty.ok = FALSE, .var.name = "predict_types")
@@ -216,6 +232,13 @@ Learner = R6Class("Learner",
       if (!missing(data_formats)) warn_deprecated("Learner$initialize argument 'data_formats'")
       self$packages = union("mlr3", assert_character(packages, any.missing = FALSE, min.chars = 1L))
       self$man = assert_string(man, na.ok = TRUE)
+
+      if ("weights" %in% self$properties) {
+        self$use_weights = "use"
+      } else {
+        self$use_weights = "error"
+      }
+      private$.param_set = param_set
 
       check_packages_installed(packages, msg = sprintf("Package '%%s' required but not installed for Learner '%s'", id))
     },
@@ -244,11 +267,15 @@ Learner = R6Class("Learner",
       cat_cli(cli_li("Packages: {.pkg {self$packages}}"))
 
       pred_typs = replace(self$predict_types, self$predict_types == self$predict_type, paste0("[", self$predict_type, "]"))
+      encapsulation = self$encapsulation[[1]]
+      fallback = if (encapsulation != 'none') class(self$fallback)[[1L]] else "-"
 
       cat_cli({
         cli_li("Predict Types: {pred_typs}")
         cli_li("Feature Types: {self$feature_types}")
+        cli_li("Encapsulation: {encapsulation} (fallback: {fallback})")
         cli_li("Properties: {self$properties}")
+        cli_li("Other settings: use_weights = '{self$use_weights}'")
       })
 
       w = self$warnings
@@ -284,7 +311,7 @@ Learner = R6Class("Learner",
     train = function(task, row_ids = NULL) {
       task = assert_task(as_task(task))
       assert_learnable(task, self)
-      row_ids = assert_row_ids(row_ids, null.ok = TRUE)
+      row_ids = assert_row_ids(row_ids, task = task, null.ok = TRUE)
 
       if (!is.null(self$hotstart_stack)) {
         # search for hotstart learner
@@ -316,16 +343,20 @@ Learner = R6Class("Learner",
       invisible(self)
     },
     #' @description
-    #' Uses the information stored during `$train()` in `$state` to create a new [Prediction]
-    #' for a set of observations of the provided `task`.
+    #' Uses the fitted model stored in `$state` to generate predictions for a set of observations from the provided `task`.
+    #' This method requires that the learner has been previously trained using `$train()`.
     #'
-    #' @param task ([Task]).
+    #' @param task ([Task])\cr
+    #'   The task containing the observations to predict on.
+    #'   Must be compatible with the learner's task type and feature types.
+    #'   Unlike `$predict_newdata()`, no type conversion is done.
     #'
     #' @param row_ids (`integer()`)\cr
-    #'   Vector of test indices as subset of `task$row_ids`.
-    #'   For a simple split into training and test set, see [partition()].
+    #'   Vector of row indices from `task$row_ids` to predict on.
+    #'   If `NULL` (default), predictions are made for all rows in the task.
+    #'   For a simple train-test split, see [partition()].
     #'
-    #' @return [Prediction].
+    #' @return [Prediction] object containing the predictions for the specified observations.
     predict = function(task, row_ids = NULL) {
       # improve error message for the common mistake of passing a data.frame here
       if (is.data.frame(task)) {
@@ -333,7 +364,7 @@ Learner = R6Class("Learner",
       }
       task = assert_task(as_task(task))
       assert_predictable(task, self)
-      row_ids = assert_row_ids(row_ids, null.ok = TRUE)
+      row_ids = assert_row_ids(row_ids, task = task, null.ok = TRUE)
 
       if (is.null(self$state$model) && is.null(self$state$fallback_state$model)) {
         stopf("Cannot predict, Learner '%s' has not been trained yet", self$id)
@@ -385,6 +416,10 @@ Learner = R6Class("Learner",
     #' Further, [`auto_convert`] is used for type-conversions to ensure compatability
     #' of features between `$train()` and `$predict()`.
     #'
+    #' If the stored training task has a `weights_measure` column, *and* if `newdata` contains a column with the same name,
+    #' that column must be numeric with no missing values and is used as measure weights column.
+    #' Otherwise, no measure weights are used.
+    #'
     #' @param newdata (any object supported by [as_data_backend()])\cr
     #'   New data to predict on.
     #'   All data formats convertible by [as_data_backend()] are supported, e.g.
@@ -411,7 +446,8 @@ Learner = R6Class("Learner",
       assert_names(newdata$colnames, must.include = task$feature_names)
 
       # the following columns are automatically set to NA if missing
-      impute = unlist(task$col_roles[c("target", "name", "order", "stratum", "group", "weight")], use.names = FALSE)
+      # We do not impute weighs_measure, because we decidedly do not have weights_measure in this case.
+      impute = unlist(task$col_roles[c("target", "name", "order", "stratum", "group")], use.names = FALSE)
       impute = setdiff(impute, newdata$colnames)
       tab1 = if (length(impute)) {
         # create list with correct NA types and cbind it to the backend
@@ -440,6 +476,20 @@ Learner = R6Class("Learner",
       task$col_info[, c("label", "fix_factor_levels")] = prevci[list(task$col_info$id), on = "id", c("label", "fix_factor_levels")]
       task$col_info$fix_factor_levels[is.na(task$col_info$fix_factor_levels)] = FALSE
       task$row_roles$use = task$backend$rownames
+      task_col_roles = task$col_roles
+      update_col_roles = FALSE
+      if (any(task_col_roles$weights_measure %nin% newdata$colnames)) {
+        update_col_roles = TRUE
+        task_col_roles$weights_measure = character(0)
+      }
+      if (any(task_col_roles$weights_learner %nin% newdata$colnames)) {
+        update_col_roles = TRUE
+        task_col_roles$weights_learner = character(0)
+      }
+      if (update_col_roles) {
+        task$col_roles = task_col_roles
+      }
+
       self$predict(task)
     },
 
@@ -488,8 +538,8 @@ Learner = R6Class("Learner",
     #'   While this comes with a considerable overhead, it also guards your session from being teared down by segfaults.
     #'
     #' The fallback learner is fitted to create valid predictions in case that either the model fitting or the prediction of the original learner fails.
-    #' If the training step or the predict step of the original learner fails, the fallback is used completely to predict predictions sets.
-    #' If the original learner only partially fails during predict step (usually in the form of missing to predict some observations or producing some `NA`` predictions), these missing predictions are imputed by the fallback.
+    #' If the training step or the predict step of the original learner fails, the fallback is used to make the predictions.
+    #' If the original learner only partially fails during predict step (usually in the form of missing to predict some observations or producing some `NA` predictions), these missing predictions are imputed by the fallback.
     #' Note that the fallback is always trained, as we do not know in advance whether prediction will fail.
     #' If the training step fails, the `$model` field of the original learner is `NULL`.
     #'
@@ -523,7 +573,7 @@ Learner = R6Class("Learner",
             fallback$id, self$id, str_collapse(missing_properties))
         }
       } else if (method == "none" && !is.null(fallback)) {
-        stop("Fallback learner must be `NULL` if encapsulation is set to `none`.")
+        stopf("Fallback learner must be `NULL` if encapsulation is set to `none`.")
       }
 
       private$.encapsulation = c(train = method, predict = method)
@@ -585,7 +635,7 @@ Learner = R6Class("Learner",
         stopf("No model stored")
       }
       if (private$.selected_features_impute == "error") {
-        stop("Learner does not support feature selection")
+        stopf("Learner does not support feature selection")
       } else {
         self$state$feature_names
       }
@@ -593,6 +643,28 @@ Learner = R6Class("Learner",
   ),
 
   active = list(
+    #' @field use_weights (`character(1)`)\cr
+    #' How weights should be handled.
+    #' Settings are `"use"` `"ignore"`, and `"error"`.
+    #'
+    #' * `"use"`: use weights, as supported by the underlying `Learner`.
+    #'   Only available for `Learner`s with the property `"weights"`.
+    #' * `"ignore"`: do not use weights.
+    #' * `"error"`: throw an error if weights are present in the training `Task`.
+    #'
+    #' For `Learner`s with the property `"weights"`, this is initialized as `"use"`.
+    #' For `Learner`s that do not support weights, i.e. without the `"weights"` property, this is initialized as `"error"`.
+    #' The latter behavior is to avoid cases where a user erroneously assumes that a `Learner` supports weights when it does not.
+    #' For `Learner`s that do not support weights, `use_weights` needs to be set to `"ignore"` if tasks with weights should be handled (by dropping the weights).
+    #' See Section 'weights' for more details.
+    use_weights = function(rhs) {
+      if (!missing(rhs)) {
+        assert_choice(rhs, c(if ("weights" %in% self$properties) "use", "ignore", "error"))
+        private$.use_weights = rhs
+      }
+      private$.use_weights
+    },
+
     #' @field data_formats (`character()`)\cr
     #' Supported data format. Always `"data.table"`..
     #' This is deprecated and will be removed in the future.
@@ -653,7 +725,7 @@ Learner = R6Class("Learner",
     hash = function(rhs) {
       assert_ro_binding(rhs)
       calculate_hash(class(self), self$id, self$param_set$values, private$.predict_type,
-        self$fallback$hash, self$parallel_predict, get0("validate", self), self$predict_sets)
+        self$fallback$hash, self$parallel_predict, get0("validate", self), self$predict_sets, private$.use_weights)
     },
 
     #' @field phash (`character(1)`)\cr
@@ -661,7 +733,7 @@ Learner = R6Class("Learner",
     phash = function(rhs) {
       assert_ro_binding(rhs)
       calculate_hash(class(self), self$id, private$.predict_type,
-        self$fallback$hash, self$parallel_predict, get0("validate", self))
+        self$fallback$hash, self$parallel_predict, get0("validate", self), private$.use_weights)
     },
 
     #' @field predict_type (`character(1)`)\cr
@@ -685,7 +757,7 @@ Learner = R6Class("Learner",
     #' @template field_param_set
     param_set = function(rhs) {
       if (!missing(rhs) && !identical(rhs, private$.param_set)) {
-        stop("param_set is read-only.")
+        stopf("param_set is read-only.")
       }
       private$.param_set
     },
@@ -736,6 +808,7 @@ Learner = R6Class("Learner",
   ),
 
   private = list(
+    .use_weights = NULL,
     .encapsulation = c(train = "none", predict = "none"),
     .fallback = NULL,
     .predict_type = NULL,
@@ -743,6 +816,22 @@ Learner = R6Class("Learner",
     .param_set = NULL,
     .hotstart_stack = NULL,
     .selected_features_impute = "error",
+
+    # retrieve weights from a task, if it has weights and if the user did not
+    # deactivate weight usage through `self$use_weights`.
+    # - `task`: Task to retrieve weights from
+    # - `no_weights_val`: Value to return if no weights are found (default NULL)
+    # return: Numeric vector of weights or `no_weights_val` (default NULL)
+    .get_weights = function(task, no_weights_val = NULL) {
+      if ("weights" %nin% self$properties) {
+        stop("private$.get_weights should not be used in Learners that do not have the 'weights' property.")
+      }
+      if (self$use_weights == "use" && "weights_learner" %in% task$properties) {
+        task$weights_learner$weight
+      } else {
+        no_weights_val
+      }
+    },
 
     deep_clone = function(name, value) {
       switch(name,

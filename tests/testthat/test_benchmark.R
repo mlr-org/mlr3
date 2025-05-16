@@ -7,11 +7,11 @@ bmr = benchmark(design)
 
 test_that("Basic benchmarking", {
   expect_benchmark_result(bmr)
-  expect_names(names(as.data.table(bmr)), permutation.of = c(mlr_reflections$rr_names, "uhash", "prediction"))
+  expect_names(names(as.data.table(bmr)), permutation.of = c(mlr_reflections$rr_names, "uhash", "prediction", "task_id", "learner_id", "resampling_id"))
 
   tab = as.data.table(bmr)
-  expect_data_table(tab, nrows = 18L, ncols = 6L)
-  expect_names(names(tab), permutation.of = c("uhash", "prediction", mlr_reflections$rr_names))
+  expect_data_table(tab, nrows = 18L, ncols = 9L)
+  expect_names(names(tab), permutation.of = c("uhash", "prediction", mlr_reflections$rr_names, "task_id", "learner_id", "resampling_id"))
   measures = list(msr("classif.acc"))
 
   tab = bmr$score(measures, ids = FALSE, predictions = TRUE)
@@ -112,6 +112,8 @@ test_that("bmr$resample_result()", {
   uhashes = bmr$uhashes
   expect_resample_result(bmr$resample_result(1L))
   expect_resample_result(bmr$resample_result(uhash = uhashes[1]))
+  expect_resample_result(bmr$resample_result(learner_id = "classif.featureless", task_id = "iris"))
+  expect_error(bmr$resample_result(learner_id = "classif.featureless"), "requires selecting exactly one")
   expect_error(bmr$resample_result(0))
   expect_error(bmr$resample_result(100))
   expect_error(bmr$resample_result(uhash = "a"))
@@ -141,6 +143,57 @@ test_that("memory footprint", {
   expect_equal(uniqueN(map_chr(x$task, address)), 3L)
   expect_equal(uniqueN(map_chr(x$learner, address)), 18L)
   expect_equal(uniqueN(map_chr(x$resampling, address)), 3L)
+})
+
+test_that("resampling validation in benchmark_grid", {
+  task1 = tsk("iris")
+  task2 = tsk("pima")
+  resampling_1 = rsmp("holdout")
+  resampling_2 = rsmp("holdout")
+
+  # should work when resamplings are instantiated on their corresponding tasks
+  resampling_1$instantiate(task1)
+  resampling_2$instantiate(task2)
+  expect_data_table(benchmark_grid(list(task1, task2), lrn("classif.rpart"), list(resampling_1, resampling_2), paired = TRUE))
+
+  # should fail when resamplings are not instantiated
+  resampling_1 = rsmp("holdout")
+  resampling_2 = rsmp("holdout")
+  expect_error(benchmark_grid(list(task1, task2), lrn("classif.rpart"), list(resampling_1, resampling_2), paired = TRUE),
+    "is not instantiated")
+
+  # should fail when resampling is instantiated on wrong task
+  resampling_1$instantiate(task1)
+  resampling_2$instantiate(task1)
+  expect_error(benchmark_grid(list(task1, task2), lrn("classif.rpart"), list(resampling_1, resampling_2), paired = TRUE),
+    "not instantiated")
+
+  # should fail when task row hashes don't match
+  task1 = tsk("iris")
+  task2 = tsk("iris")$filter(1:100)
+  resampling_1 = rsmp("holdout")
+  resampling_1$instantiate(task1)
+
+  expect_error(benchmark_grid(list(task1, task2), lrn("classif.rpart"), list(resampling_1)),
+    "not instantiated")
+
+  # should fail when the tasks have the same number of rows but different row hashes
+  task1 = tsk("iris")$filter(1:75)
+  task2 = tsk("iris")$filter(76:150)
+  resampling_1 = rsmp("holdout")
+  resampling_1$instantiate(task1)
+  expect_error(benchmark_grid(list(task1, task2), lrn("classif.rpart"), list(resampling_1)),
+    "not instantiated")
+
+  # should work when all resamplings are uninstantiated
+  res1 = rsmp("holdout")
+  res2 = rsmp("holdout")
+  expect_data_table(benchmark_grid(list(task1, task2), lrn("classif.rpart"), list(res1, res2)))
+
+  # should fail when some resamplings are instantiated and others are not
+  res1$instantiate(task1)
+  expect_error(benchmark_grid(list(task1, task2), lrn("classif.rpart"), list(res1, res2)),
+    "All resamplings must be instantiated, or none at all")
 })
 
 test_that("multiple measures", {
@@ -180,8 +233,8 @@ test_that("custom resampling (#245)", {
   expect_data_table(design, nrows = 1)
 })
 
-test_that("extract params", {
-  # some params, some not
+test_that("extract params in aggregate and score", {
+  # set params differently in a few learners
   lrns = list(
     lrn("classif.rpart", id = "rp1", xval = 0),
     lrn("classif.rpart", id = "rp2", xval = 0, cp = 0.2, minsplit = 2),
@@ -224,7 +277,7 @@ test_that("benchmark_grid", {
 
   tasks = tsks(c("iris", "sonar"))
   resamp = rsmp("cv")$instantiate(tasks[[1]])
-  expect_error(benchmark_grid(tasks, learner, resamp), "rows")
+  expect_error(benchmark_grid(tasks, learner, resamp), "not instantiated")
 })
 
 test_that("filter", {
@@ -245,11 +298,16 @@ test_that("filter", {
   expect_data_table(get_private(bmr)$.data$data$fact, nrows = 4)
   expect_resultdata(get_private(bmr)$.data, TRUE)
 
-  bmr$filter(resampling_ids = "cv")
-  expect_data_table(get_private(bmr)$.data$data$fact, nrows = 3)
+  bmr2 = bmr$clone(deep = TRUE)$filter(resampling_ids = "cv")
+  expect_data_table(get_private(bmr2)$.data$data$fact, nrows = 3)
+  expect_resultdata(get_private(bmr2)$.data, TRUE)
+
+  bmr$filter(i = 2)
+  expect_data_table(get_private(bmr)$.data$data$fact, nrows = 1)
   expect_resultdata(get_private(bmr)$.data, TRUE)
 
   expect_benchmark_result(bmr)
+  expect_benchmark_result(bmr2)
 })
 
 test_that("aggregated performance values are calculated correctly (#555)", {
@@ -591,7 +649,6 @@ test_that("benchmark_grid only allows unique learner ids", {
 })
 
 test_that("benchmark allows that param_values overwrites tune token", {
-
   learner = lrn("classif.rpart", cp = to_tune(0.01, 0.1))
   design = benchmark_grid(tsk("pima"), learner, rsmp("cv", folds = 3), param_values = list(list(list(cp = 0.01))))
   expect_benchmark_result(benchmark(design))
@@ -601,3 +658,249 @@ test_that("benchmark allows that param_values overwrites tune token", {
   expect_error(benchmark(design), "cannot be trained with TuneToken present in hyperparameter")
 })
 
+test_that("uhash_table works", {
+  design = benchmark_grid(tsks(c("iris", "sonar")), lrns(c("classif.debug", "classif.featureless")), rsmps(c("holdout", "insample")))
+  bmr = benchmark(design)
+  u = bmr$uhash_table
+
+  # results agree with uhash_table from resample result, which is also tested for correctness
+  for (i in seq_len(nrow(u))) {
+    rr = bmr$resample_result(i)
+    learner_id = rr$learner$id
+    task_id = rr$task$id
+    resampling_id = rr$resampling$id
+
+    expect_equal(u$learner_id[i], learner_id)
+    expect_equal(u$task_id[i], task_id)
+    expect_equal(u$resampling_id[i], resampling_id)
+    expect_equal(u$uhash[i], rr$uhash)
+  }
+
+  # uhash is in correct order
+  expect_equal(u$uhash, bmr$uhashes)
+  expect_equal(u$uhash, as.data.table(bmr)$uhash)
+})
+
+test_that("can change the threshold", {
+  task = tsk("iris")$filter(1:80)$droplevels("Species")
+  design = benchmark_grid(task, lrn("classif.featureless", predict_type = "prob"), rsmp("insample"))
+  bmr = benchmark(design)
+
+  # we can set the threshold and pass ties_method correctly
+  expect_true(all(bmr$resample_result(1)$prediction()$response == "setosa"))
+  bmr$set_threshold(0.9)
+  expect_true(all(bmr$resample_result(1)$prediction()$response == "versicolor"))
+  bmr$set_threshold(0.1)
+  expect_true(all(bmr$resample_result(1)$prediction()$response == "setosa"))
+  bmr$set_threshold(0.625, ties_method = "first")
+  expect_true(all(bmr$resample_result(1)$prediction()$response == "setosa"))
+  bmr$set_threshold(0.625, ties_method = "last")
+  expect_true(all(bmr$resample_result(1)$prediction()$response == "versicolor"))
+  with_seed(1, {
+    bmr$set_threshold(0.625, ties_method = "random")
+    expect_true("setosa" %in% bmr$resample_result(1)$prediction()$response && "versicolor" %in% bmr$resample_result(1)$prediction()$response)
+  })
+
+  # Don't modify any threshold when at least one operation is invalid
+  design = benchmark_grid(
+    task,
+    c(lrn("classif.featureless", predict_type = "prob"), lrn("classif.debug")),
+    rsmp("insample")
+  )
+  bmr = benchmark(design)
+  response = bmr$resample_result(1)$prediction()$response
+  expect_error(bmr$set_threshold(0.9), "Cannot set threshold, no probabilities available")
+  # the other prediction was also not affected, we want to avoid partial updates
+  expect_equal(bmr$resample_result(1)$prediction()$response, response)
+
+  bmr$set_threshold(0.9, uhashes = uhashes(bmr, learner_ids = "classif.featureless"))
+
+  expect_true(all(bmr$resample_result(1)$prediction()$response == "versicolor"))
+
+  # can also use the iters argument
+  design = benchmark_grid(
+    task,
+    c(lrn("classif.featureless", predict_type = "prob"), lrn("classif.debug", predict_type = "prob")),
+    rsmp("insample")
+  )
+  bmr = benchmark(design)
+  bmr$set_threshold(0.9, i = 1)
+  expect_true(all(bmr$resample_result(1)$prediction()$response == "versicolor"))
+  expect_false(all(bmr$resample_result(2)$prediction()$response == "versicolor"))
+})
+
+test_that("uhashe(s) work", {
+  design = benchmark_grid(
+    tsks(c("iris", "sonar")),
+    lrns(c("classif.featureless", "classif.rpart")),
+    rsmp("holdout")
+  )
+  bmr = benchmark(design)
+
+  tbl = bmr$uhash_table
+  expect_equal(bmr$uhashes, uhashes(bmr))
+  expect_equal(tbl[get("learner_id") == "classif.debug", "uhash"]$uhash, uhashes(bmr, learner_ids = "classif.debug"))
+  expect_equal(tbl[get("task_id") == "sonar", "uhash"]$uhash, uhashes(bmr, task_ids = "sonar"))
+  expect_equal(tbl[get("resampling_id") == "holdout", "uhash"]$uhash, uhashes(bmr, resampling_ids = "holdout"))
+  all_uhashes = bmr$uhashes
+  expect_equal(length(all_uhashes), 4) # 2 tasks * 2 learners
+
+  # Test filtering by single ID
+  featureless_uhashes = uhashes(bmr, learner_ids = "classif.featureless")
+  expect_equal(length(featureless_uhashes), 2)
+  expect_true(all(featureless_uhashes %in% all_uhashes))
+
+  iris_uhashes = uhashes(bmr, task_ids = "iris")
+  expect_equal(length(iris_uhashes), 2)
+  expect_true(all(iris_uhashes %in% all_uhashes))
+
+  holdout_uhashes = uhashes(bmr, resampling_ids = "holdout")
+  expect_equal(length(holdout_uhashes), 4)
+  expect_true(all(holdout_uhashes %in% all_uhashes))
+
+  # Test filtering by multiple IDs
+  learner_subset = uhashes(bmr, learner_ids = c("classif.featureless", "classif.rpart"))
+  expect_equal(length(learner_subset), 4)
+  expect_setequal(learner_subset, all_uhashes)
+
+  task_subset = uhashes(bmr, task_ids = c("iris", "sonar"))
+  expect_equal(length(task_subset), 4)
+  expect_setequal(task_subset, all_uhashes)
+
+  # Test combined filtering
+  iris_featureless = uhashes(bmr,
+    learner_ids = "classif.featureless",
+    task_ids = "iris"
+  )
+  expect_equal(length(iris_featureless), 1)
+
+  # Test uhash function with single valid combination
+  single_uhash = uhash(bmr,
+    learner_id = "classif.featureless",
+    task_id = "iris",
+    resampling_id = "holdout"
+  )
+  expect_string(single_uhash)
+  expect_true(single_uhash %in% all_uhashes)
+  expect_error(uhash(bmr), "got 4")
+
+  # no match
+  expect_equal(uhashes(bmr, "not-existing"), character(0))
+  expect_error(uhash(bmr, "not-existing"), "Expected exactly one uhash")
+  expect_equal(bmr$uhashes, uhashes(bmr))
+  expect_equal(bmr$filter(1)$uhashes, uhash(bmr))
+})
+
+test_that("resampling validation", {
+  # test with uninstantiated resampling
+  task = tsk("iris")
+  learner = lrn("classif.rpart")
+  resampling = rsmp("holdout")
+  design = data.table(task = list(task), learner = list(learner), resampling = list(resampling))
+  expect_error(benchmark(design), "instantiated")
+
+  # test with resampling instantiated on wrong task
+  task1 = tsk("iris")
+  task2 = tsk("pima")
+  resampling = rsmp("holdout")
+  resampling$instantiate(task1)
+  design = data.table(task = list(task2), learner = list(learner), resampling = list(resampling))
+  expect_error(benchmark(design), "not instantiated")
+
+  # test with resampling instantiated on filtered task
+  task = tsk("iris")
+  resampling = rsmp("holdout")
+  resampling$instantiate(task)
+  task$filter(1:100)
+  design = data.table(task = list(task), learner = list(learner), resampling = list(resampling))
+  expect_error(benchmark(design), "not instantiated")
+
+  # test with resampling instantiated on correct task
+  task = tsk("iris")
+  resampling = rsmp("holdout")
+  resampling$instantiate(task)
+  design = data.table(task = list(task), learner = list(learner), resampling = list(resampling))
+  expect_benchmark_result(benchmark(design))
+})
+
+test_that("warning when mixing predict types", {
+  expect_warning(benchmark_grid(
+    tsk("iris"),
+    list(
+      lrn("classif.debug", predict_type = "prob"),
+      lrn("classif.featureless", predict_type = "response")
+    ),
+    rsmp("cv", folds = 3)
+  ), regexp = "Multiple predict types detected")
+})
+
+test_that("benchmark with tasks with weights", {
+
+  learners = list(
+    lrn("classif.featureless", use_weights = "ignore", predict_type = "prob", id = "ignores_weights"),
+    lrn("classif.featureless", use_weights = "use", predict_type = "prob", id = "uses_weights")
+  )
+  measures = list(
+    msr("classif.acc", use_weights = "ignore", id = "acc_ignore"),
+    msr("classif.acc", use_weights = "use", id = "acc_use")
+  )
+  tasks = list(
+    iris_weights_learner,
+    iris_weights_measure,
+    tsk("iris")
+  )
+
+  resamplings = list(
+    rsmp("custom")$instantiate(tsk("iris"),
+      train_sets = list(c(1:50, 140:150)),
+      test_sets = list(c(1, 150))
+    )
+  )
+
+  design = benchmark_grid(tasks, learners, resamplings)
+  bmr = benchmark(design)
+
+  predictions = map(1:6, function(i) bmr$resample_result(i)$prediction())
+
+  # learner ignores weights, sees 50 'setosa' and 10 'virginica' -> predicts setosa
+  expect_equal(predictions[[1]]$response[1], factor("setosa", levels = levels(iris$Species)))
+
+
+  # learner uses weights, sees 50 'setosa' (weight 1) and 10 'virginica' (weight 100) -> predicts virginica
+  expect_equal(predictions[[2]]$response[1], factor("virginica", levels = levels(iris$Species)))
+
+  # task has no weights_learner -> unweighted 'setosa' predictions
+  expect_equal(predictions[[3]]$response[1], factor("setosa", levels = levels(iris$Species)))
+  expect_equal(predictions[[4]]$response[1], factor("setosa", levels = levels(iris$Species)))
+  expect_equal(predictions[[5]]$response[1], factor("setosa", levels = levels(iris$Species)))
+  expect_equal(predictions[[6]]$response[1], factor("setosa", levels = levels(iris$Species)))
+
+  # 'weights' is NULL for all predictions not made for iris_weights_measure
+  expect_null(predictions[[1]]$weights)
+  expect_null(predictions[[2]]$weights)
+  expect_null(predictions[[5]]$weights)
+  expect_null(predictions[[6]]$weights)
+
+  agpred = bmr$aggregate(measures)
+
+  expect_equal(agpred$acc_ignore, rep(0.5, 6))  # made one correct, one incorrect prediction, unweighted
+
+  # made one correct, one incorrect prediction, but 2nd task weighs the incorrect prediction x100
+  expect_equal(agpred$acc_use, c(0.5, 0.5, 1 / 101, 1 / 101, 0.5, 0.5))
+
+  expect_error(bmr$aggregate(msr("classif.acc", use_weights = "error")), "'use_weights' was set to 'error'")
+
+  # no error when task has no weights_measure
+  bmr = benchmark(design[c(1:2, 5:6)])
+  expect_equal(bmr$aggregate(msr("classif.acc", use_weights = "error"))$classif.acc, c(0.5, 0.5, 0.5, 0.5))
+
+  learners[[1]]$use_weights = "error"
+
+  design = benchmark_grid(tasks, learners, resamplings)
+  expect_error(benchmark(design), "'use_weights' was set to 'error'")
+
+  # no error when task has no weights_learner
+  design = benchmark_grid(tasks[2:3], learners, resamplings)
+  bmr = benchmark(design)
+
+})

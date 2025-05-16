@@ -43,10 +43,10 @@ License: LGPL-3
 URL: https://mlr3.mlr-org.com, https://github.com/mlr-org/mlr3
 BugReports: https://github.com/mlr-org/mlr3/issues
 Depends:
-    R (>= 3.1.0)
+    R (>= 3.3.0)
 Imports:
     R6 (>= 2.4.1),
-    backports,
+    backports (>= 1.5.0),
     checkmate (>= 2.0.0),
     cli,
     data.table (>= 1.15.0),
@@ -56,7 +56,7 @@ Imports:
     lgr (>= 0.3.4),
     mlbench,
     mlr3measures (>= 1.0.0),
-    mlr3misc,
+    mlr3misc (>= 0.17.0),
     parallelly,
     palmerpenguins,
     paradox (>= 1.0.1),
@@ -73,7 +73,6 @@ Suggests:
     RhpcBLASctl,
     rpart,
     testthat (>= 3.2.0)
-Remotes: mlr-org/mlr3misc
 Encoding: UTF-8
 Config/testthat/edition: 3
 Config/testthat/parallel: false
@@ -114,6 +113,7 @@ Collate:
     'MeasureInternalValidScore.R'
     'MeasureOOBError.R'
     'MeasureRegr.R'
+    'MeasureRegrPinball.R'
     'MeasureRegrRSQ.R'
     'MeasureSelectedFeatures.R'
     'MeasureSimilarity.R'

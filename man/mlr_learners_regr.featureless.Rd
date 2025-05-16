@@ -10,6 +10,19 @@ If hyperparameter \code{robust} is \code{FALSE} (default), constantly predicts \
 and \code{sd(y)} as standard error.
 If \code{robust} is \code{TRUE}, \code{\link[=median]{median()}} and \code{\link[=mad]{mad()}} are used instead of \code{\link[=mean]{mean()}} and \code{\link[=sd]{sd()}},
 respectively.
+
+For weighted data, the response is the weighted mean (weighted median for robust regression).
+The predicted standard error is the square root of the weighted variance estimator with bias correction
+based on effective degrees of freedom:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{sd(y, weights) = sqrt(
+  sum(weights * (y - weighted.mean(y, weights))^2) /
+    (sum(weights) - sum(weights ^2) / sum(weights))
+)
+}\if{html}{\out{</div>}}
+
+If \code{robust} is \code{TRUE}, the weighted median absolute deviation is used, adjusted by a factor of 1.4826
+for consistency with \code{\link[=mad]{mad()}}.
 }
 \section{Dictionary}{
 

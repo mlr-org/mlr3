@@ -52,6 +52,7 @@ MeasureClassifCosts = R6Class("MeasureClassifCosts",
         param_set = param_set,
         range = c(-Inf, Inf),
         minimize = TRUE,
+        properties = "weights",
         label = "Cost-sensitive Classification",
         man = "mlr3::mlr_measures_classif.costs"
       )
@@ -82,12 +83,19 @@ MeasureClassifCosts = R6Class("MeasureClassifCosts",
   private = list(
     .costs = NULL,
 
-    .score = function(prediction, ...) {
+    .score = function(prediction, weights, ...) {
       costs = self$costs
       lvls = levels(prediction$truth)
       assert_set_equal(lvls, colnames(costs))
 
-      confusion = table(response = prediction$response, truth = prediction$truth, useNA = "ifany")
+      if (is.null(weights)) {
+        confusion = table(response = prediction$response, truth = prediction$truth, useNA = "ifany")
+      } else {
+        confusion = tapply(weights,
+          list(response = addNA(prediction$response, ifany = TRUE), truth = addNA(prediction$truth, ifany = TRUE)),
+          sum, default = 0
+        )
+      }
 
       # reorder rows / cols if necessary
       ii = reorder_vector(rownames(confusion), rownames(costs))

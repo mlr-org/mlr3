@@ -268,6 +268,20 @@ ResampleResult = R6Class("ResampleResult",
     #'   Additional arguments passed to [`unmarshal_model()`].
     unmarshal = function(...) {
       private$.data$unmarshal(...)
+    },
+
+    #' @description
+    #' Sets the threshold for the response prediction of classification learners, given they have
+    #' output a probability prediction for a binary classification task.
+    #' This modifies the object in-place.
+    #' @param threshold (`numeric(1)`)\cr
+    #'   Threshold value.
+    #' @template param_ties_method
+    set_threshold = function(threshold, ties_method = "random") {
+      if (!self$task_type == "classif") {
+        stopf("Can only change the threshold for classification problems, but task type is '%s'.", self$task_type)
+      }
+      private$.data$set_threshold(self$uhash, threshold, ties_method)
     }
   ),
 

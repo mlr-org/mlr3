@@ -10,6 +10,18 @@
 #' If `robust` is `TRUE`, [median()] and [mad()] are used instead of [mean()] and [sd()],
 #' respectively.
 #'
+#' For weighted data, the response is the weighted mean (weighted median for robust regression).
+#' The predicted standard error is the square root of the weighted variance estimator with bias correction
+#' based on effective degrees of freedom:
+#' ```
+#' sd(y, weights) = sqrt(
+#'   sum(weights * (y - weighted.mean(y, weights))^2) /
+#'     (sum(weights) - sum(weights ^2) / sum(weights))
+#' )
+#' ```
+#' If `robust` is `TRUE`, the weighted median absolute deviation is used, adjusted by a factor of 1.4826
+#' for consistency with [mad()].
+#'
 #' @templateVar id regr.featureless
 #' @template learner
 #'
@@ -30,7 +42,7 @@ LearnerRegrFeatureless = R6Class("LearnerRegrFeatureless", inherit = LearnerRegr
         feature_types = unname(mlr_reflections$task_feature_types),
         predict_types = c("response", "se", "quantiles"),
         param_set = ps,
-        properties = c("featureless", "missings", "importance", "selected_features"),
+        properties = c("featureless", "missings", "importance", "selected_features", "weights"),
         packages = "stats",
         label = "Featureless Regression Learner",
         man = "mlr3::mlr_learners_regr.featureless"
@@ -61,20 +73,21 @@ LearnerRegrFeatureless = R6Class("LearnerRegrFeatureless", inherit = LearnerRegr
     .train = function(task) {
       pv = self$param_set$get_values(tags = "train")
       x = task$data(cols = task$target_names)[[1L]]
-
+      weights = private$.get_weights(task)
       quantiles = if (self$predict_type == "quantiles") {
         if (is.null(private$.quantiles) || is.null(private$.quantile_response)) {
-          stop("Quantiles '$quantiles' and response quantile '$quantile_response' must be set")
+          stopf("Quantiles '$quantiles' and response quantile '$quantile_response' must be set")
         }
-        quantile(x, probs = private$.quantiles)
+        quantile_weighted(x, probs = private$.quantiles, weights = weights)
       }
 
       if (isFALSE(pv$robust)) {
-        location = mean(x)
-        dispersion = sd(x)
+        wmd = weighted_mean_sd(x, weights)
+        location = wmd$mean
+        dispersion = wmd$sd
       } else {
-        location = stats::median(x)
-        dispersion = stats::mad(x, center = location)
+        location = quantile_weighted(x, probs = 0.5, weights = weights, continuous = FALSE)
+        dispersion = quantile_weighted(abs(x - location), probs = 0.5, weights = weights, continuous = FALSE) * 1.4826
       }
 
       set_class(list(

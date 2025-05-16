@@ -45,15 +45,21 @@ generate a design in an \code{\link[=expand.grid]{expand.grid()}} fashion (a.k.a
 There are two modes of operation, depending on the flag \code{paired}.
 \itemize{
 \item With \code{paired} set to \code{FALSE} (default), resampling strategies are not allowed to be instantiated, and instead will be instantiated per task internally.
-The only exception to this rule applies if all tasks have exactly the same number of rows, and the resamplings are all instantiated for such tasks.
+The only exception to this rule applies if all tasks have exactly the same row ids, and the resamplings are all instantiated for such tasks.
 The grid will be generated based on the Cartesian product of tasks, learners, and resamplings.
-Because the resamplings are instantiated on the tasks, reproducibility requires a seed to be set \strong{before}
-calling this function, as this process is stochastic.
+Because the resamplings are instantiated on the tasks, reproducibility requires a seed to be set \strong{before} calling this function, as this process is stochastic.
 \item With \code{paired} set to \code{TRUE}, tasks and resamplings are treated as pairs.
-I.e., you must provide as many tasks as corresponding instantiated resamplings.
+This means that you must provide as many tasks as corresponding instantiated resamplings.
 The grid will be generated based on the Cartesian product of learners and pairs.
 }
 }
+\section{Errors and Warnings}{
+
+\itemize{
+\item \code{varying_predict_types}: This warning will be thrown if the learners have different \code{predict_type}s.
+}
+}
+
 \examples{
 tasks = list(tsk("penguins"), tsk("sonar"))
 learners = list(lrn("classif.featureless"), lrn("classif.rpart"))
@@ -81,8 +87,12 @@ design = benchmark_grid(list(task1, task2), learner, list(res1, res2), paired = 
 print(design)
 
 # manual construction of the grid with data.table::CJ()
-grid = data.table::CJ(task = tasks, learner = learners,
-  resampling = resamplings, sorted = FALSE)
+grid = data.table::CJ(
+ task = tasks,
+  learner = learners,
+  resampling = resamplings,
+  sorted = FALSE
+)
 
 # manual instantiation (not suited for a fair comparison of learners!)
 Map(function(task, resampling) {

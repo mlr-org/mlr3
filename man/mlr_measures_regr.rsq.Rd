@@ -9,14 +9,17 @@ Measure to compare true observed response with predicted response in regression 
 }
 \details{
 R Squared is defined as \deqn{
-  1 - \frac{\sum_{i=1}^n \left( t_i - r_i \right)^2}{\sum_{i=1}^n \left( t_i - \bar{t} \right)^2},
+  1 - \frac{\sum_{i=1}^n w_i \left( t_i - r_i \right)^2}{\sum_{i=1}^n w_i \left( t_i - \bar{t} \right)^2},
 }{
-  1 - sum((t - r)^2) / sum((t - mean(t))^2),
+  1 - sum(w * (t - r)^2) / sum(w * (t - mean(t))^2),
 }
-where \eqn{\bar{t} = \sum_{i=1}^n t_i}.
+where \eqn{\bar{t} = \frac{1}{n} \sum_{i=1}^n t_i} and \eqn{w_i} are weights.
 
 Also known as coefficient of determination or explained variation.
-Subtracts the \code{\link[mlr3measures:rse]{mlr3measures::rse()}} from 1, hence it compares the squared error of the predictions relative to a naive model predicting the mean.
+It compares the squared error of the predictions relative to a naive model predicting the mean.
+
+Note that weights are used to scale the squared error of individual predictions (both in the numerator and in the denominator),
+but the "plug in" value \eqn{\bar{t}} is computed without weights.
 
 This measure is undefined for constant \eqn{t}.
 }
@@ -73,6 +76,7 @@ Other Measure:
 \code{\link{mlr_measures_elapsed_time}},
 \code{\link{mlr_measures_internal_valid_score}},
 \code{\link{mlr_measures_oob_error}},
+\code{\link{mlr_measures_regr.pinball}},
 \code{\link{mlr_measures_selected_features}}
 }
 \concept{Measure}

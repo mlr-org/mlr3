@@ -74,13 +74,13 @@ generate_generic_tasks = function(learner, proto) {
   # task with weights
   if ("weights" %in% learner$properties) {
     tmp = proto$clone(deep = TRUE)$cbind(data.frame(weights = runif(n)))
-    tmp$set_col_roles(cols = "weights", roles = "weight")
-    tasks$weights = tmp
+    tmp$set_col_roles(cols = "weights", roles = "weights_learner")
+    tasks$weights_learner = tmp
   }
 
   # task with offset
   if ("offset" %in% learner$properties) {
-    if ("multiclass" %in% tmp$properties) {
+    if ("multiclass" %in% learner$properties && "multiclass" %in% proto$properties) {
       offset_cols = paste0("offset_", proto$class_names)
       # One offset column per class
       offset_data = as.data.frame(
@@ -334,6 +334,19 @@ run_experiment = function(task, learner, seed = NULL, configure_learner = NULL) 
   # check train
   stage = "train()"
 
+  # enable weights
+  # the next lines are maybe not strictly necessary, but test that the defaults are
+  # what they should be
+  if ("weights" %in% learner$properties) {
+    if (learner$use_weights != "use") {
+      return(err("use_weights != 'use' for learner with property 'weights' on init!"))
+    }
+  } else {
+    if (learner$use_weights != "error") {
+      return(err("use_weights != 'error' for learner without property 'weights' on init!"))
+    }
+  }
+
   ok = suppressWarnings(try(learner$train(task), silent = TRUE))
   if (inherits(ok, "try-error")) {
     return(err(as.character(ok)))
@@ -446,6 +459,41 @@ run_experiment = function(task, learner, seed = NULL, configure_learner = NULL) 
         return(err(msg))
       }
     }
+  }
+
+  if ("weights" %in% learner$properties) {
+    use_weights = learner$use_weights
+    get_weights = learner$.__enclos_env__$private$.get_weights
+    counter = R6::R6Class("counter", public = list(count = 0, count_up = function(x) self$count = self$count + 1))$new()
+    get_weights_counter = function(...) {
+      counter$count_up()
+      get_weights(...)
+    }
+    on.exit({
+      learner$.__enclos_env__$private$.get_weights = get_weights
+      lockBinding(".get_weights", env = learner$.__enclos_env__$private)
+      learner$use_weights = use_weights
+    })
+
+    unlockBinding(".get_weights", env = learner$.__enclos_env__$private)
+    learner$.__enclos_env__$private$.get_weights = get_weights_counter
+
+    learner$use_weights = "use"
+    suppressWarnings(learner$train(task))
+    if (counter$count == 0) {
+      return(err("get_weights was not called"))
+    }
+
+    learner$use_weights = "ignore"
+    suppressWarnings(learner$train(task))
+    if (counter$count == 0) {
+      return(err("get_weights was not called. It should be called even when use_weights = 'ignore'"))
+    }
+
+    learner$.__enclos_env__$private$.get_weights = get_weights
+    lockBinding(".get_weights", env = learner$.__enclos_env__$private)
+    learner$use_weights = use_weights
+    on.exit()
   }
 
   return(list(ok = TRUE, learner = learner, prediction = prediction, error = character(), seed = seed))

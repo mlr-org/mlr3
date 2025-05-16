@@ -30,6 +30,18 @@ If \code{TRUE}, ensures that the returned object is not the same as the input \c
 }
 \description{
 Convert object to a \link{Task} or a list of \link{Task}.
-This method e.g. allows to convert an \code{\link[mlr3oml:oml_task]{mlr3oml::OMLTask}} to a \code{\link{Task}} and additionally supports cloning.
-In order to construct a \link{Task} from a \code{data.frame}, use task-specific converters such as \code{\link[=as_task_classif]{as_task_classif()}} or \code{\link[=as_task_regr]{as_task_regr()}}.
+
+The function supports:
+\itemize{
+\item Converting existing \link{Task} objects (with optional cloning)
+\item Converting objects from other packages (e.g., \code{OMLTask} from \CRANpkg{mlr3oml})
+\item Converting lists of objects to lists of tasks
+}
+
+For constructing tasks from data frames, use the dedicated converters:
+\itemize{
+\item \code{\link[=as_task_classif]{as_task_classif()}} for classification tasks
+\item \code{\link[=as_task_regr]{as_task_regr()}} for regression tasks
+\item \code{\link[=as_task_unsupervised]{as_task_unsupervised()}} for unsupervised tasks
+}
 }

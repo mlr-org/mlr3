@@ -101,14 +101,20 @@ assert_resample_result(rr, .var.name = vname(rr))
 
 assert_benchmark_result(bmr, .var.name = vname(bmr))
 
-assert_row_ids(row_ids, null.ok = FALSE, .var.name = vname(row_ids))
+assert_row_ids(
+  row_ids,
+  task = NULL,
+  null.ok = FALSE,
+  .var.name = vname(row_ids)
+)
 
 assert_validate(x)
 }
 \arguments{
 \item{b}{(\link{DataBackend}).}
 
-\item{task}{(\link{Task}).}
+\item{task}{(\link{Task})\cr
+Task to check if row ids exist in it.}
 
 \item{task_type}{(\code{character(1)}).}
 

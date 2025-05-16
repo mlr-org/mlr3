@@ -102,6 +102,25 @@ ResultData = R6Class("ResultData",
     },
 
     #' @description
+    #' Returns a [`data.table`] with columns `uhash`, `learner_id`, `task_id` and `resampling_id`
+    #' for the given view.
+    #' The `uhash` uniquely identifies an individual [`ResampleResult`].
+    #'
+    #' @return `data.table()`
+    uhash_table = function(view = NULL) {
+      newtbl = list()
+      tbl = self$data$fact[private$get_view_index(view), c("uhash", "learner_phash", "task_hash", "resampling_hash"), with = FALSE]
+      tbl = tbl[!duplicated(get("uhash")), ]
+      # retrieve learner id, task id and resampling id from self$data$learners, self$data$tasks and self$data$resamplings
+      newtbl$learner_id = self$data$learners[list(tbl$learner_phash), ids(get("learner")), on = "learner_phash"]
+      newtbl$task_id = self$data$tasks[list(tbl$task_hash), ids(get("task")), on = "task_hash"]
+      newtbl$resampling_id = self$data$resamplings[list(tbl$resampling_hash), ids(get("resampling")), on = "resampling_hash"]
+      newtbl$uhash = tbl$uhash
+      setDT(newtbl)
+      merge(self$data$uhashes, newtbl, by = "uhash", sort = FALSE)
+    },
+
+    #' @description
     #' Returns the number of recorded iterations / experiments.
     #'
     #' @return `integer(1)`.
@@ -196,7 +215,6 @@ ResultData = R6Class("ResultData",
     #'
     #' @return [Prediction].
     prediction = function(view = NULL, predict_sets = "test") {
-      self$predictions(view = view, predict_sets = predict_sets)
       do.call(c, self$predictions(view = view, predict_sets = predict_sets))
     },
 
@@ -353,6 +371,21 @@ ResultData = R6Class("ResultData",
       learner_state = NULL
       logs = map(self$data$fact[.__ii__, learner_state], function(s) list(msg = get_log_condition(s, condition)))
       rbindlist(logs, idcol = "iteration", use.names = TRUE)
+    },
+
+    #' @description
+    #' Sets the threshold for the response prediction of classification learners, given they have output a probability prediction.
+    #' @template param_view
+    #' @param threshold (`numeric(1)`)\cr
+    #'   Threshold value.
+    #' @template param_ties_method
+    set_threshold = function(view = NULL, threshold, ties_method = "random") {
+      assert_numeric(threshold, len = 1L, lower = 0, upper = 1)
+      assert_choice(ties_method, c("random", "first", "last"))
+      .__ii__ = private$get_view_index(view)
+      self$data$fact[.__ii__, "prediction" := lapply(get("prediction"), function(ps) {
+        list(lapply(ps, set_threshold_pdata, threshold, ties_method))
+      })]
     }
   ),
 

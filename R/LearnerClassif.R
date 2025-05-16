@@ -53,6 +53,10 @@ LearnerClassif = R6Class("LearnerClassif", inherit = Learner,
       super$initialize(id = id, task_type = "classif", param_set = param_set, predict_types = predict_types,
         feature_types = feature_types, properties = properties, data_formats = data_formats, packages = packages,
         label = label, man = man)
+
+      if (getOption("mlr3.prob_as_default", FALSE) && "prob" %in% self$predict_types) {
+        self$predict_type = "prob"
+      }
     }
   )
 )

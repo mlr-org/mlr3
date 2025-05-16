@@ -144,6 +144,14 @@ Prediction = R6Class("Prediction",
     missing = function(rhs) {
       assert_ro_binding(rhs)
       is_missing_prediction_data(self$data)
+    },
+
+    #' @field weights (`numeric()`)\cr
+    #'   Vector of measure weights, obtained from the `weights_measure` column of the [Task] if present.
+    #'   This is `NULL` if no weights are present.
+    weights = function(rhs) {
+      assert_ro_binding(rhs)
+      self$data$weights
     }
   )
 )
