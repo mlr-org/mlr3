@@ -48,6 +48,7 @@ Imports:
     R6 (>= 2.4.1),
     backports (>= 1.5.0),
     checkmate (>= 2.0.0),
+    cli,
     data.table (>= 1.15.0),
     evaluate,
     future,
@@ -55,7 +56,7 @@ Imports:
     lgr (>= 0.3.4),
     mlbench,
     mlr3measures (>= 1.0.0),
-    mlr3misc (>= 0.15.0),
+    mlr3misc (>= 0.17.0),
     parallelly,
     palmerpenguins,
     paradox (>= 1.0.1),
@@ -72,8 +73,6 @@ Suggests:
     RhpcBLASctl,
     rpart,
     testthat (>= 3.2.0)
-Remotes:
-    mlr-org/mlr3misc
 Encoding: UTF-8
 Config/testthat/edition: 3
 Config/testthat/parallel: false

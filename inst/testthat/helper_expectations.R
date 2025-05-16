@@ -51,7 +51,7 @@ expect_backend = function(b) {
   checkmate::expect_r6(b, cloneable = FALSE,
     public = c("nrow", "ncol", "colnames", "rownames", "head", "data", "hash"),
     private = c(".data", ".hash", ".calculate_hash"))
-  testthat::expect_output(print(b), "^<DataBackend")
+  testthat::expect_output(print(b), "DataBackend")
 
   n = checkmate::expect_count(b$nrow)
   p = checkmate::expect_count(b$ncol)
@@ -538,7 +538,7 @@ expect_measure = function(m) {
 
 expect_prediction = function(p) {
   checkmate::expect_r6(p, "Prediction", public = c("row_ids", "truth", "predict_types"))
-  testthat::expect_output(print(p), "^<Prediction")
+  testthat::expect_output(print(p), "Prediction")
   checkmate::expect_data_table(data.table::as.data.table(p), nrows  = length(p$row_ids))
   checkmate::expect_integerish(p$missing)
 }

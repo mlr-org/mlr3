@@ -657,8 +657,7 @@ test_that("can NULL validation task", {
 test_that("internal_valid_task is printed", {
   task = tsk("iris")
   task$internal_valid_task = c(1:10, 51:60, 101:110)
-  out = capture_output(print(task))
-  expect_match(out, "* Validation Task: (30x5)", fixed = TRUE)
+  expect_output(print(task), "Validation Task: \\(30x5\\)")
 })
 
 test_that("task hashes during resample", {

@@ -74,7 +74,7 @@ ResampleResult = R6Class("ResampleResult",
       setattr(tab, "class", c("data.table", "data.frame"))
       tab[, "warnings" := map(get("warnings"), length)]
       tab[, "errors" := map(get("errors"), length)]
-      catf("%s with %i resampling iterations",  format(self), self$iters)
+      cat_cli(cli_h1("{.cls {class(self)[1L]}} with {.val {self$iters}} resampling iterations"))
       if (nrow(tab)) {
         tab = remove_named(tab, c("task", "learner", "resampling", "prediction"))
         print(tab, class = FALSE, row.names = FALSE, print.keys = FALSE, digits = 3)
