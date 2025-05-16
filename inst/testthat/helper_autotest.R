@@ -479,13 +479,13 @@ run_experiment = function(task, learner, seed = NULL, configure_learner = NULL) 
     learner$.__enclos_env__$private$.get_weights = get_weights_counter
 
     learner$use_weights = "use"
-    learner$train(task)
+    suppressWarnings(learner$train(task))
     if (counter$count == 0) {
       return(err("get_weights was not called"))
     }
 
     learner$use_weights = "ignore"
-    learner$train(task)
+    suppressWarnings(learner$train(task))
     if (counter$count == 0) {
       return(err("get_weights was not called. It should be called even when use_weights = 'ignore'"))
     }
