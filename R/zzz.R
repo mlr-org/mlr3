@@ -79,7 +79,7 @@ dummy_import = function() {
   x$add("mlr3.holdout_task", load_callback_holdout_task)
 
   # setup logger
-  lg = lgr::get_logger(pkgname)
+  lg = lgr::get_logger(paste0("mlr3verse/", pkgname))
   assign("lg", lg, envir = parent.env(environment()))
   f = function(event) {
     event$msg = paste0("[mlr3] ", event$msg)

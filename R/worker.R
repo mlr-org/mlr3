@@ -323,11 +323,11 @@ workhorse = function(
   }
 
   # restore logger thresholds
-  for (package in names(lgr_threshold)) {
-    logger = lgr::get_logger(package)
-    threshold = lgr_threshold[package]
-    logger$set_threshold(threshold)
-  }
+  # for (package in names(lgr_threshold)) {
+  #   logger = lgr::get_logger(package)
+  #   threshold = lgr_threshold[package]
+  #   logger$set_threshold(threshold)
+  # }
 
   lg$info("%s learner '%s' on task '%s' (iter %i/%i)",
     if (mode == "train") "Applying" else "Hotstarting", learner$id, task$id, iteration, resampling$iters)

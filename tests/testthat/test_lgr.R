@@ -26,3 +26,19 @@ test_that("log to text file", {
   expect_match(lines, "'iris'", fixed = TRUE, all = FALSE)
   expect_match(lines, "'classif.featureless'", fixed = TRUE, all = FALSE)
 })
+
+test_that("logger works", {
+  lgr::logger_tree()
+
+  res = capture_output(resample(tsk("pima"), lrn("classif.featureless"), rsmp("cv", folds = 3L)))
+  expect_match(res, "\\[mlr3\\]")
+
+  lg = lgr::get_logger("mlr3verse/mlr3")$set_threshold("error")
+  res = capture_output(resample(tsk("pima"), lrn("classif.featureless"), rsmp("cv", folds = 3L)))
+  expect_match(res, "\\[mlr3\\]")
+
+  lgr::logger_tree()
+  lgr::get_logger("mlr3")$set_threshold("info")
+  lgr::logger_tree()
+  res = capture_output(resample(tsk("pima"), lrn("classif.featureless"), rsmp("cv", folds = 3L)))
+})
