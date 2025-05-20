@@ -2,8 +2,7 @@ test_that("log to text file", {
   # See #566
   console_appender = if (packageVersion("lgr") >= "0.4.0") lg$inherited_appenders$console else lg$inherited_appenders$appenders.console
   f = tempfile("mlr3test_", fileext = "log")
-  th1 = lg$threshold
-  th2 = console_appender$threshold
+  th1 = console_appender$threshold
 
   lg$set_threshold("debug")
   lg$add_appender(lgr::AppenderFile$new(f, threshold = "debug"), name = "testappender")
@@ -11,8 +10,8 @@ test_that("log to text file", {
 
   on.exit({
     lg$remove_appender("testappender")
-    lg$set_threshold(th1)
-    console_appender$set_threshold(th2)
+    lg$set_threshold(NULL)
+    console_appender$set_threshold(th1)
   })
 
   task = tsk("iris")
@@ -28,17 +27,68 @@ test_that("log to text file", {
 })
 
 test_that("logger works", {
-  lgr::logger_tree()
+  on.exit({
+    lgr::get_logger("mlr3")$set_threshold(NULL)
+    lgr::get_logger("mlr3/core")$set_threshold(NULL)
+  })
 
   res = capture_output(resample(tsk("pima"), lrn("classif.featureless"), rsmp("cv", folds = 3L)))
   expect_match(res, "\\[mlr3\\]")
 
-  lg = lgr::get_logger("mlr3verse/mlr3")$set_threshold("error")
+  lgr::get_logger("mlr3")$set_threshold("error")
   res = capture_output(resample(tsk("pima"), lrn("classif.featureless"), rsmp("cv", folds = 3L)))
-  expect_match(res, "\\[mlr3\\]")
+  expect_equal(res, "")
 
-  lgr::logger_tree()
   lgr::get_logger("mlr3")$set_threshold("info")
-  lgr::logger_tree()
   res = capture_output(resample(tsk("pima"), lrn("classif.featureless"), rsmp("cv", folds = 3L)))
+  expect_match(res, "\\[mlr3\\]")
+
+  lgr::get_logger("mlr3/core")$set_threshold("error")
+  res = capture_output(resample(tsk("pima"), lrn("classif.featureless"), rsmp("cv", folds = 3L)))
+  expect_equal(res, "")
+
+  # if the child logger is configured, it overrides the parent logger
+  lgr::get_logger("mlr3")$set_threshold("info")
+  res = capture_output(resample(tsk("pima"), lrn("classif.featureless"), rsmp("cv", folds = 3L)))
+  expect_equal(res, "")
 })
+
+test_that("thresholds are restored on workers", {
+
+  on.exit({
+    lgr::get_logger("mlr3")$set_threshold(NULL)
+    lgr::get_logger("mlr3/core")$set_threshold(NULL)
+  })
+
+  res = capture_output(with_future(future::multisession, {
+    resample(tsk("pima"), lrn("classif.featureless"), rsmp("cv", folds = 3L))
+  }))
+  expect_match(res, "\\[mlr3\\]")
+
+  lgr::get_logger("mlr3")$set_threshold("error")
+
+  res = capture_output(with_future(future::multisession, {
+    resample(tsk("pima"), lrn("classif.featureless"), rsmp("cv", folds = 3L))
+  }))
+  expect_equal(res, "")
+
+  lgr::get_logger("mlr3")$set_threshold("info")
+  res = capture_output(with_future(future::multisession, {
+    resample(tsk("pima"), lrn("classif.featureless"), rsmp("cv", folds = 3L))
+  }))
+  expect_match(res, "\\[mlr3\\]")
+
+  lgr::get_logger("mlr3/core")$set_threshold("error")
+  res = capture_output(with_future(future::multisession, {
+    resample(tsk("pima"), lrn("classif.featureless"), rsmp("cv", folds = 3L))
+  }))
+  expect_equal(res, "")
+
+  # if the child logger is configured, it overrides the parent logger
+  lgr::get_logger("mlr3")$set_threshold("info")
+  res = capture_output(with_future(future::multisession, {
+    resample(tsk("pima"), lrn("classif.featureless"), rsmp("cv", folds = 3L))
+  }))
+  expect_equal(res, "")
+})
+

@@ -99,8 +99,6 @@ resample = function(
     NULL
   }
 
-  lgr_threshold = map_int(mlr_reflections$loggers, "threshold")
-
   grid = if (allow_hotstart) {
 
     lg$debug("Resampling with hotstart enabled.")
@@ -134,6 +132,12 @@ resample = function(
   } else {
     data.table(learner = replicate(n, learner), mode = "train")
   }
+
+  # get logger thresholds
+  # logger thresholds are restored on the workers
+  # skip inherited thresholds
+  lgr_index = lgr::logger_index()
+  lgr_threshold = set_names(lgr_index$threshold, lgr_index$name)[!lgr_index$threshold_inherited]
 
   res = future_map(n, workhorse, iteration = seq_len(n), learner = grid$learner, mode = grid$mode,
     MoreArgs = list(task = task, resampling = resampling, store_models = store_models, lgr_threshold = lgr_threshold, pb = pb, unmarshal = unmarshal, callbacks = callbacks)

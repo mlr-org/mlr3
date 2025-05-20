@@ -154,9 +154,6 @@ local({
   ### ResampleResult
   mlr_reflections$rr_names = c("task", "learner", "resampling", "iteration")
 
-  ### Logger
-  mlr_reflections$loggers = list()
-
   ### Cached package version
   mlr_reflections$package_version = packageVersion("mlr3")
 
