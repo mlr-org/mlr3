@@ -347,22 +347,24 @@ test_that("debug branch", {
   expect_benchmark_result(bmr)
 })
 
-test_that("encapsulatiion", {
-  learners = list(lrn("classif.debug", error_train = 1), lrn("classif.rpart"))
-  grid = benchmark_grid(tasks, learners, resamplings)
+# uncomment when evaluate 1.0.4 is released
 
-  expect_error(benchmark(grid), "classif.debug->train()")
-  bmr = benchmark(grid, encapsulate = "evaluate")
-  aggr = bmr$aggregate(conditions = TRUE)
-  expect_true(all(aggr[learner_id == "classif.debug", errors] == 3L))
-  expect_true(all(aggr[learner_id != "classif.debug", errors] == 0L))
+# test_that("encapsulatiion", {
+#   learners = list(lrn("classif.debug", error_train = 1), lrn("classif.rpart"))
+#   grid = benchmark_grid(tasks, learners, resamplings)
 
-  for (learner in bmr$learners$learner) {
-    expect_class(learner$fallback, "LearnerClassifFeatureless")
-    expect_equal(learner$encapsulation[["train"]], "evaluate")
-    expect_equal(learner$encapsulation[["predict"]], "evaluate")
-  }
-})
+#   expect_error(benchmark(grid), "classif.debug->train()")
+#   bmr = benchmark(grid, encapsulate = "evaluate")
+#   aggr = bmr$aggregate(conditions = TRUE)
+#   expect_true(all(aggr[learner_id == "classif.debug", errors] == 3L))
+#   expect_true(all(aggr[learner_id != "classif.debug", errors] == 0L))
+
+#   for (learner in bmr$learners$learner) {
+#     expect_class(learner$fallback, "LearnerClassifFeatureless")
+#     expect_equal(learner$encapsulation[["train"]], "evaluate")
+#     expect_equal(learner$encapsulation[["predict"]], "evaluate")
+#   }
+# })
 
 test_that("disable cloning", {
   grid = benchmark_grid(
@@ -702,11 +704,11 @@ test_that("can change the threshold", {
   })
 
   # Don't modify any threshold when at least one operation is invalid
-  design = benchmark_grid(
+  design = suppressWarnings(benchmark_grid(
     task,
     c(lrn("classif.featureless", predict_type = "prob"), lrn("classif.debug")),
     rsmp("insample")
-  )
+  ))
   bmr = benchmark(design)
   response = bmr$resample_result(1)$prediction()$response
   expect_error(bmr$set_threshold(0.9), "Cannot set threshold, no probabilities available")
