@@ -326,10 +326,10 @@ workhorse = function(
     # restore logger thresholds
     # skip inherited thresholds
     lgr_index = lgr_index[!lgr_index$threshold_inherited, ]
-    pwalk(lgr_index, function(name, threshold, ...) {
+    mapply(function(name, threshold) {
       logger = lgr::get_logger(name)
       logger$set_threshold(threshold)
-    })
+    }, lgr_index$name, lgr_index$threshold)
   }
 
   lg$info("%s learner '%s' on task '%s' (iter %i/%i)",
