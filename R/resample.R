@@ -99,8 +99,6 @@ resample = function(
     NULL
   }
 
-  lgr_threshold = map_int(mlr_reflections$loggers, "threshold")
-
   grid = if (allow_hotstart) {
 
     lg$debug("Resampling with hotstart enabled.")
@@ -136,7 +134,7 @@ resample = function(
   }
 
   res = future_map(n, workhorse, iteration = seq_len(n), learner = grid$learner, mode = grid$mode,
-    MoreArgs = list(task = task, resampling = resampling, store_models = store_models, lgr_threshold = lgr_threshold, pb = pb, unmarshal = unmarshal, callbacks = callbacks)
+    MoreArgs = list(task = task, resampling = resampling, store_models = store_models, lgr_index = lgr::logger_index(), pb = pb, unmarshal = unmarshal, callbacks = callbacks)
   )
 
   data = data.table(

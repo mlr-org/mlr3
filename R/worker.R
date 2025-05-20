@@ -281,7 +281,7 @@ workhorse = function(
   learner,
   resampling,
   param_values = NULL,
-  lgr_threshold,
+  lgr_index,
   store_models = FALSE,
   pb = NULL,
   mode = "train",
@@ -300,10 +300,12 @@ workhorse = function(
     stopf("Cannot set the predict_type field of learner '%s' to 'internal_valid' if there is no internal validation task configured", learner$id)
   }
 
-  # reduce data.table and blas threads to 1
+  # restore settings on the workers
   if (!is_sequential) {
+    # reduce data.table threads to 1
     setDTthreads(1, restore_after_fork = TRUE)
 
+    # reduce blas threads to 1
     # RhpcBLASctl is licensed under AGPL and therefore should be in suggest #1023
     if (require_namespaces("RhpcBLASctl", quietly = TRUE)) {
       old_blas_threads = RhpcBLASctl::blas_get_num_procs()
@@ -320,13 +322,14 @@ workhorse = function(
         Sys.setenv(MKL_NUM_THREADS = old_mkl)
       }, add = TRUE)
     }
-  }
 
-  # restore logger thresholds
-  for (package in names(lgr_threshold)) {
-    logger = lgr::get_logger(package)
-    threshold = lgr_threshold[package]
-    logger$set_threshold(threshold)
+    # restore logger thresholds
+    # skip inherited thresholds
+    lgr_index = lgr_index[!lgr_index$threshold_inherited, ]
+    mapply(function(name, threshold) {
+      logger = lgr::get_logger(name)
+      logger$set_threshold(threshold)
+    }, lgr_index$name, lgr_index$threshold)
   }
 
   lg$info("%s learner '%s' on task '%s' (iter %i/%i)",

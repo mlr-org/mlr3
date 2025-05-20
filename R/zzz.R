@@ -79,7 +79,7 @@ dummy_import = function() {
   x$add("mlr3.holdout_task", load_callback_holdout_task)
 
   # setup logger
-  lg = lgr::get_logger(pkgname)
+  lg = lgr::get_logger("mlr3/core")
   assign("lg", lg, envir = parent.env(environment()))
   f = function(event) {
     event$msg = paste0("[mlr3] ", event$msg)
@@ -93,8 +93,6 @@ dummy_import = function() {
   register_namespace_callback(pkgname, "mlr", function(...) {
     warning("Packages 'mlr3' and 'mlr' are conflicting and should not be loaded in the same session")
   })
-
-  mlr_reflections$loggers[["mlr3"]] = lg
 } # nocov end
 
 leanify_package()

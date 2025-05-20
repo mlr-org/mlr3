@@ -1,5 +1,8 @@
 # mlr3 (development version)
 
+* BREAKING CHANGE: The mlr3 ecosystem has a base logger now which is named `mlr3`.
+  The `mlr3/core` logger is a child of the `mlr3` logger and is used for logging messages from the `mlr3` package.
+  Some extension packages have their own loggers which are children of the `mlr3` logger.
 * BREAKING CHANGE: `weights` property and functionality is split into `weights_learner` and `weights_measure`:
 
   * `weights_learner`: Weights used during training by the Learner.
