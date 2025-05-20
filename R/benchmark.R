@@ -188,15 +188,9 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
     set(grid, j = "mode", value = hotstart_grid$mode)
   }
 
-  # get logger thresholds
-  # logger thresholds are restored on the workers
-  # skip inherited thresholds
-  lgr_index = lgr::logger_index()
-  lgr_threshold = set_names(lgr_index$threshold, lgr_index$name)[!lgr_index$threshold_inherited]
-
   res = future_map(n, workhorse,
     task = grid$task, learner = grid$learner, resampling = grid$resampling, iteration = grid$iteration, param_values = grid$param_values, mode = grid$mode,
-    MoreArgs = list(store_models = store_models, lgr_threshold = lgr_threshold, pb = pb, unmarshal = unmarshal, callbacks = callbacks)
+    MoreArgs = list(store_models = store_models, lgr_index = lgr::logger_index(), pb = pb, unmarshal = unmarshal, callbacks = callbacks)
   )
 
   grid = insert_named(grid, list(

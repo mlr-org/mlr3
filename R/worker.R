@@ -281,7 +281,7 @@ workhorse = function(
   learner,
   resampling,
   param_values = NULL,
-  lgr_threshold,
+  lgr_index,
   store_models = FALSE,
   pb = NULL,
   mode = "train",
@@ -324,11 +324,12 @@ workhorse = function(
     }
 
     # restore logger thresholds
-    for (package in names(lgr_threshold)) {
-      logger = lgr::get_logger(package)
-      threshold = lgr_threshold[package]
+    # skip inherited thresholds
+    lgr_index = lgr_index[!lgr_index$threshold_inherited, ]
+    pwalk(lgr_index, function(name, threshold, ...) {
+      logger = lgr::get_logger(name)
       logger$set_threshold(threshold)
-    }
+    })
   }
 
   lg$info("%s learner '%s' on task '%s' (iter %i/%i)",
