@@ -10,7 +10,7 @@ test_that("log to text file", {
 
   on.exit({
     lg$remove_appender("testappender")
-    lg$set_threshold(NULL)
+    lg$set_threshold(0)
     console_appender$set_threshold(th1)
   })
 
@@ -28,9 +28,12 @@ test_that("log to text file", {
 
 test_that("logger works", {
   on.exit({
-    lgr::get_logger("mlr3")$set_threshold(NULL)
-    lgr::get_logger("mlr3/core")$set_threshold(NULL)
+    lgr::get_logger("mlr3")$set_threshold(0L)
+    lgr::get_logger("mlr3/core")$set_threshold(0L)
   })
+
+  lgr::get_logger("mlr3")$set_threshold(NULL)
+  lgr::get_logger("mlr3/core")$set_threshold(NULL)
 
   res = capture_output(resample(tsk("pima"), lrn("classif.featureless"), rsmp("cv", folds = 3L)))
   expect_match(res, "\\[mlr3\\]")
@@ -56,9 +59,12 @@ test_that("logger works", {
 test_that("thresholds are restored on workers", {
 
   on.exit({
-    lgr::get_logger("mlr3")$set_threshold(NULL)
-    lgr::get_logger("mlr3/core")$set_threshold(NULL)
+    lgr::get_logger("mlr3")$set_threshold(0L)
+    lgr::get_logger("mlr3/core")$set_threshold(0L)
   })
+
+  lgr::get_logger("mlr3")$set_threshold(NULL)
+  lgr::get_logger("mlr3/core")$set_threshold(NULL)
 
   res = capture_output(with_future(future::multisession, {
     resample(tsk("pima"), lrn("classif.featureless"), rsmp("cv", folds = 3L))
