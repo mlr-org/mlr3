@@ -160,6 +160,7 @@ The hash is calculated based on the class name, the id, the parameter set, and t
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
+\item \href{#method-Resampling-get_instance}{\code{Resampling$get_instance()}}
 \item \href{#method-Resampling-new}{\code{Resampling$new()}}
 \item \href{#method-Resampling-format}{\code{Resampling$format()}}
 \item \href{#method-Resampling-print}{\code{Resampling$print()}}
@@ -168,6 +169,29 @@ The hash is calculated based on the class name, the id, the parameter set, and t
 \item \href{#method-Resampling-train_set}{\code{Resampling$train_set()}}
 \item \href{#method-Resampling-test_set}{\code{Resampling$test_set()}}
 \item \href{#method-Resampling-clone}{\code{Resampling$clone()}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Resampling-get_instance"></a>}}
+\if{latex}{\out{\hypertarget{method-Resampling-get_instance}{}}}
+\subsection{Method \code{get_instance()}}{
+Computes training and test splits.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Resampling$get_instance(task)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{task}}{(\link{Task})\cr
+Task used for instantiation.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Returns the object itself, but modified \strong{by reference}.
+You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
+the object in its previous state.
 }
 }
 \if{html}{\out{<hr>}}

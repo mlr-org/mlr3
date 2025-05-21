@@ -35,7 +35,7 @@
 #'
 #' # Disjunct sets:
 #' intersect(custom_cv$train_set(1), custom_cv$test_set(1))
-ResamplingCustomCV = R6Class("ResamplingCustomCV", inherit = ResamplingGroupOrStrata,
+ResamplingCustomCV = R6Class("ResamplingCustomCV", inherit = Resampling,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.

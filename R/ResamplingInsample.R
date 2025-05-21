@@ -25,7 +25,7 @@
 #'
 #' # Internal storage:
 #' insample$instance # just row ids
-ResamplingInsample = R6Class("ResamplingInsample", inherit = ResamplingGroupOrStrata,
+ResamplingInsample = R6Class("ResamplingInsample", inherit = Resampling,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
