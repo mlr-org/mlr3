@@ -10,6 +10,19 @@ If hyperparameter \code{robust} is \code{FALSE} (default), constantly predicts \
 and \code{sd(y)} as standard error.
 If \code{robust} is \code{TRUE}, \code{\link[=median]{median()}} and \code{\link[=mad]{mad()}} are used instead of \code{\link[=mean]{mean()}} and \code{\link[=sd]{sd()}},
 respectively.
+
+For weighted data, the response is the weighted mean (weighted median for robust regression).
+The predicted standard error is the square root of the weighted variance estimator with bias correction
+based on effective degrees of freedom:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{sd(y, weights) = sqrt(
+  sum(weights * (y - weighted.mean(y, weights))^2) /
+    (sum(weights) - sum(weights ^2) / sum(weights))
+)
+}\if{html}{\out{</div>}}
+
+If \code{robust} is \code{TRUE}, the weighted median absolute deviation is used, adjusted by a factor of 1.4826
+for consistency with \code{\link[=mad]{mad()}}.
 }
 \section{Dictionary}{
 
@@ -25,7 +38,7 @@ lrn("regr.featureless")
 \itemize{
 \item Task type: \dQuote{regr}
 \item Predict Types: \dQuote{response}, \dQuote{se}, \dQuote{quantiles}
-\item Feature Types: \dQuote{logical}, \dQuote{integer}, \dQuote{numeric}, \dQuote{character}, \dQuote{factor}, \dQuote{ordered}, \dQuote{POSIXct}
+\item Feature Types: \dQuote{logical}, \dQuote{integer}, \dQuote{numeric}, \dQuote{character}, \dQuote{factor}, \dQuote{ordered}, \dQuote{POSIXct}, \dQuote{Date}
 \item Required Packages: \CRANpkg{mlr3}, 'stats'
 }
 }
@@ -84,6 +97,7 @@ Other Learner:
 <details><summary>Inherited methods</summary>
 <ul>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="base_learner"><a href='../../mlr3/html/Learner.html#method-Learner-base_learner'><code>mlr3::Learner$base_learner()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="configure"><a href='../../mlr3/html/Learner.html#method-Learner-configure'><code>mlr3::Learner$configure()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="encapsulate"><a href='../../mlr3/html/Learner.html#method-Learner-encapsulate'><code>mlr3::Learner$encapsulate()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="format"><a href='../../mlr3/html/Learner.html#method-Learner-format'><code>mlr3::Learner$format()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="help"><a href='../../mlr3/html/Learner.html#method-Learner-help'><code>mlr3::Learner$help()</code></a></span></li>

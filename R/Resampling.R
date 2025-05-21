@@ -56,7 +56,7 @@
 #' r$param_set$values
 #'
 #' # Do only 3 repeats on 10% of the data
-#' r$param_set$values = list(ratio = 0.1, repeats = 3)
+#' r$param_set$set_values(ratio = 0.1, repeats = 3)
 #' r$param_set$values
 #'
 #' # Instantiate on penguins task
@@ -101,6 +101,10 @@ Resampling = R6Class("Resampling",
     #'   The hash of the [Task] which was passed to `r$instantiate()`.
     task_hash = NA_character_,
 
+    #' @field task_row_hash (`character(1)`)\cr
+    #'   The hash of the row ids of the [Task] which was passed to `r$instantiate()`.
+    task_row_hash = NA_character_,
+
     #' @field task_nrow (`integer(1)`)\cr
     #'   The number of observations of the [Task] which was passed to `r$instantiate()`.
     #'
@@ -141,10 +145,13 @@ Resampling = R6Class("Resampling",
     #' Printer.
     #' @param ... (ignored).
     print = function(...) {
-      catn(format(self), if (is.null(self$label) || is.na(self$label)) "" else paste0(": ", self$label))
-      catn(str_indent("* Iterations:", self$iters))
-      catn(str_indent("* Instantiated:", self$is_instantiated))
-      catn(str_indent("* Parameters:", as_short_string(self$param_set$values, 1000L)))
+      msg_h = if (is.null(self$label) || is.na(self$label)) "" else paste0(": ", self$label)
+      cat_cli({
+        cli_h1("{.cls {class(self)[1L]}} {msg_h}")
+        cli_li("Iterations: {.val {self$iters}}")
+        cli_li("Instantiated: {.val {self$is_instantiated}}")
+        cli_li("Parameters: {as_short_string(self$param_set$values, 1000L)}")
+      })
     },
 
     #' @description
@@ -186,6 +193,7 @@ Resampling = R6Class("Resampling",
       private$.hash = NULL
       self$instance = instance
       self$task_hash = task$hash
+      self$task_row_hash = task$row_hash
       self$task_nrow = task$nrow
       invisible(self)
     },

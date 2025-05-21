@@ -128,13 +128,9 @@ Task = R6Class("Task",
       cn = self$backend$colnames
       rn = self$backend$rownames
 
-      if (allow_utf8_names()) {
-        assert_names(cn, "unique", .var.name = "column names")
-        if (any(grepl("%", cn, fixed = TRUE))) {
-          stopf("Column names may not contain special character '%%'")
-        }
-      } else {
-        assert_names(cn, "strict", .var.name = "column names")
+      assert_names(cn, "unique", .var.name = "column names")
+      if (any(grepl("%", cn, fixed = TRUE))) {
+        stopf("Column names may not contain special character '%%'")
       }
 
       self$col_info = col_info(self$backend)
@@ -218,60 +214,82 @@ Task = R6Class("Task",
     #' Printer.
     #' @param ... (ignored).
     print = function(...) {
-      catf("%s (%i x %i)%s", format(self), self$nrow, self$ncol,
-        if (is.null(self$label) || is.na(self$label)) "" else paste0(": ", self$label))
+      msg_h = if (is.null(self$label) || is.na(self$label)) "" else paste0(": ", self$label)
+      cat_cli(cli_h1("{.cls {class(self)[1L]}} ({self$nrow}x{self$ncol}){msg_h}"))
 
       roles = private$.col_roles
       roles = roles[lengths(roles) > 0L]
 
       # print additional columns as specified in reflections
       before = mlr_reflections$task_print_col_roles$before
-      iwalk(before[before %in% names(roles)], function(role, str) {
-        catn(str_indent(sprintf("* %s:", str), roles[[role]]))
+      iwalk(before[before %chin% names(roles)], function(role, str) {
+        cat_cli(cli_li("{str}: {roles[[role]]}"))
       })
 
-      catf(str_indent("* Target:", self$target_names))
-      catf(str_indent("* Properties:", self$properties))
+      cat_cli(cli_li("Target: {self$target_names}"))
+
+      if (class(self)[1L] == "TaskClassif") {
+        if (!is.null(self$backend)) {
+          class_freqs = table(self$truth()) / self$nrow * 100
+          class_freqs = class_freqs[order(-class_freqs, names(class_freqs))]  # Order by class frequency, then names
+          classes = if ("twoclass" %in% self$properties) {
+            sprintf("%s (positive class, %.0f%%), %s (%.0f%%)",
+                    self$positive, class_freqs[[self$positive]], self$negative, class_freqs[[self$negative]])
+          } else {
+            paste(sprintf("%s (%.0f%%)", names(class_freqs), class_freqs), collapse = ", ")
+          }
+        } else {
+          classes = paste(self$class_names, collapse = ", ")
+        }
+        cat_cli(cli_li("Target classes: {classes}"))
+      }
+
+      properties = if (length(self$properties)) paste(self$properties, collapse = ", ") else "-"
+      cat_cli(cli_li("Properties: {properties}"))
 
       types = self$feature_types
-      if (nrow(types)) {
-        id = type = NULL
-        catf("* Features (%i):", nrow(types))
-        types = types[, list(N = .N, feats = str_collapse(id, n = 100L)), by = "type"][, "type" := translate_types(type)]
-        setorderv(types, "N", order = -1L)
-        pmap(types, function(type, N, feats) {
-          catn(str_indent(sprintf("  - %s (%i):", type, N), feats, exdent = 4L))
-        })
-      }
+
+      cat_cli({
+        if (nrow(types)) {
+          id = type = NULL
+          cli_li("Features ({nrow(types)}):")
+          types = types[, list(N = .N, feats = str_collapse(id, n = 100L)), by = "type"][, "type" := translate_types(type)]
+          setorderv(types, "N", order = -1L)
+
+          ulid <- cli_ul()
+          pmap(types, function(type, N, feats) {
+            cli_li("{type} ({N}): {feats}")
+          })
+          cli_end(ulid)
+        }
+      })
+
 
       # print additional columns are specified in reflections
       after = mlr_reflections$task_print_col_roles$after
-      iwalk(after[after %in% names(roles)], function(role, str) {
-        catn(str_indent(sprintf("* %s:", str), roles[[role]]))
+      iwalk(after[after %chin% names(roles)], function(role, str) {
+        cat_cli(cli_li("{str}: {roles[[role]]}"))
       })
 
       if (!is.null(private$.internal_valid_task)) {
-        catf(str_indent("* Validation Task:", sprintf("(%ix%i)", private$.internal_valid_task$nrow, private$.internal_valid_task$ncol)))
+        cat_cli(cli_li("Validation Task: ({private$.internal_valid_task$nrow}x{private$.internal_valid_task$ncol})"))
       }
 
       if (!is.null(self$characteristics)) {
-        catf(str_indent("* Characteristics: ", as_short_string(self$characteristics)))
+        cat_cli(cli_li("Characteristics: {as_short_string(self$characteristics)}"))
       }
     },
 
     #' @description
     #' Returns a slice of the data from the [DataBackend] as a `data.table`.
-    #' Rows default to observations with role `"use"`, and
-    #' columns default to features with roles `"target"` or `"feature"`.
-    #' If `rows` or `cols` are specified which do not exist in the [DataBackend],
-    #' an exception is raised.
+    #' Rows default to observations with role `"use"`, and columns default to features with roles `"target"` or `"feature"`.
+    #' Rows must be a subset of `$row_ids`.
+    #' If `rows` or `cols` are specified which do not exist in the [DataBackend], an exception is raised.
     #'
     #' Rows and columns are returned in the order specified via the arguments `rows` and `cols`.
     #' If `rows` is `NULL`, rows are returned in the order of `task$row_ids`.
-    #' If `cols` is `NULL`, the column order defaults to
-    #' `c(task$target_names, task$feature_names)`.
-    #' Note that it is recommended to **not** rely on the order of columns, and instead always
-    #' address columns with their respective column name.
+    #' If `cols` is `NULL`, the column order defaults to `c(task$target_names, task$feature_names)`.
+    #' Note that it is recommended to **not** rely on the order of columns, and instead always address columns with their respective column name.
     #'
     #' @param ordered (`logical(1)`)\cr
     #'   If `TRUE`, data is ordered according to the columns with column role `"order"`.
@@ -288,7 +306,7 @@ Task = R6Class("Task",
       if (is.null(rows)) {
         rows = row_roles$use
       } else {
-        assert_subset(rows, self$backend$rownames)
+        assert_subset(rows, self$row_roles$use)
         if (is.double(rows)) {
           rows = as.integer(rows)
         }
@@ -371,7 +389,7 @@ Task = R6Class("Task",
     levels = function(cols = NULL) {
       if (is.null(cols)) {
         cols = unlist(private$.col_roles[c("target", "feature")], use.names = FALSE)
-        cols = self$col_info[get("id") %in% cols & get("type") %in% c("factor", "ordered"), "id", with = FALSE][[1L]]
+        cols = self$col_info[get("id") %chin% cols & get("type") %chin% c("factor", "ordered"), "id", with = FALSE][[1L]]
       } else {
         assert_subset(cols, self$col_info$id)
       }
@@ -414,8 +432,9 @@ Task = R6Class("Task",
     filter = function(rows) {
       assert_has_backend(self)
       rows = assert_row_ids(rows)
+      private$.row_roles$use = assert_subset(rows, self$row_ids_backend)
+      private$.row_hash = NULL
       private$.hash = NULL
-      private$.row_roles$use = intersect(private$.row_roles$use, rows)
       invisible(self)
     },
 
@@ -447,8 +466,8 @@ Task = R6Class("Task",
     #' In case of name clashes of row ids, rows in `data` have higher precedence
     #' and virtually overwrite the rows in the [DataBackend].
     #'
-    #' All columns with the roles `"target"`, `"feature"`, `"weight"`, `"group"`, `"stratum"`,
-    #' and `"order"` must be present in `data`.
+    #' All columns roles `"target"`, `"feature"`, `"weights_learner"`, `"weights_measure"`,
+    #' `"group"`, `"stratum"`, and `"order"` must be present in `data`.
     #' Columns only present in `data` but not in the [DataBackend] of `task` will be discarded.
     #'
     #' This operation mutates the task in-place.
@@ -469,7 +488,7 @@ Task = R6Class("Task",
       type_check = TRUE
 
       if (is.data.frame(data)) {
-        pk_in_backend = pk %in% names(data)
+        pk_in_backend = pk %chin% names(data)
         type_check = FALSE # done by auto-converter
 
         keep_cols = intersect(names(data), self$col_info$id)
@@ -500,7 +519,7 @@ Task = R6Class("Task",
       }
 
       # columns with these roles must be present in data
-      mandatory_roles = c("target", "feature", "weight", "group", "stratum", "order")
+      mandatory_roles = c("target", "feature", "group", "stratum", "order", "offset", "weights_learner", "weights_measure")
       mandatory_cols = unlist(private$.col_roles[mandatory_roles], use.names = FALSE)
       missing_cols = setdiff(mandatory_cols, data$colnames)
       if (length(missing_cols)) {
@@ -521,7 +540,7 @@ Task = R6Class("Task",
       }
 
       # merge factor levels
-      ii = tab[type %in% c("factor", "ordered"), which = TRUE]
+      ii = tab[type %chin% c("factor", "ordered"), which = TRUE]
       for (i in ii) {
         x = tab[["levels"]][[i]]
         y = tab[["levels_y"]][[i]]
@@ -654,6 +673,7 @@ Task = R6Class("Task",
       assert_has_backend(self)
       assert_subset(rows, self$backend$rownames)
 
+      private$.row_hash = NULL
       private$.hash = NULL
       private$.row_roles = task_set_roles(private$.row_roles, rows, roles, add_to, remove_from, allow_duplicated = TRUE)
 
@@ -730,7 +750,7 @@ Task = R6Class("Task",
     #' @return Modified `self`.
     droplevels = function(cols = NULL) {
       assert_has_backend(self)
-      tab = self$col_info[get("type") %in% c("factor", "ordered"), c("id", "levels", "fix_factor_levels"), with = FALSE]
+      tab = self$col_info[get("type") %chin% c("factor", "ordered"), c("id", "levels", "fix_factor_levels"), with = FALSE]
       if (!is.null(cols)) {
         tab = tab[list(cols), on = "id", nomatch = NULL]
       }
@@ -851,6 +871,16 @@ Task = R6Class("Task",
       private$.hash
     },
 
+    #' @field row_hash (`character(1)`)\cr
+    #' Hash (unique identifier) calculated based on the row ids.
+    row_hash = function(rhs) {
+      assert_ro_binding(rhs)
+      if (is.null(private$.row_hash)) {
+        private$.row_hash = calculate_hash(self$row_ids)
+      }
+      private$.row_hash
+    },
+
     #' @field row_ids (positive `integer()`)\cr
     #' Returns the row ids of the [DataBackend] for observations with role "use".
     row_ids = function(rhs) {
@@ -899,21 +929,25 @@ Task = R6Class("Task",
     #'
     #' * `"strata"`: The task is resampled using one or more stratification variables (role `"stratum"`).
     #' * `"groups"`: The task comes with grouping/blocking information (role `"group"`).
-    #' * `"weights"`: The task comes with observation weights (role `"weight"`).
+    #' * `"weights_learner"`: If the task has observation weights with this role, they are passed to the [Learner] during train.
+    #'    The use of weights can be disabled via by setting the learner's hyperparameter `use_weights` to `FALSE`.
+    #' * `"weights_measure"`: If the task has observation weights with this role, they are passed to the [Measure] for weighted scoring.
+    #'    The use of weights can be disabled via by setting the measure's hyperparameter `use_weights` to `FALSE`.
+    #' * `"offset"`: The task includes one or more offset columns specifying fixed adjustments for model training and possibly for prediction (role `"offset"`).
+    #' * `"ordered"`: The task has columns which define the row order (role `"order"`).
     #'
-    #' Note that above listed properties are calculated from the `$col_roles` and may not be set explicitly.
+    #' Note that above listed properties are calculated from the `$col_roles`, and may not be set explicitly.
     properties = function(rhs) {
-      if (missing(rhs)) {
-        col_roles = private$.col_roles
-        c(character(),
-          private$.properties,
-          if (length(col_roles$group)) "groups" else NULL,
-          if (length(col_roles$stratum)) "strata" else NULL,
-          if (length(col_roles$weight)) "weights" else NULL
-        )
-      } else {
-        private$.properties = assert_set(rhs, .var.name = "properties")
-      }
+      assert_ro_binding(rhs)
+      prop_roles = c(
+        groups = "group",
+        strata = "stratum",
+        weights_learner = "weights_learner",
+        weights_measure = "weights_measure",
+        offset = "offset",
+        ordered = "order"
+      )
+      c(private$.properties, names(prop_roles)[lengths(private$.col_roles[prop_roles]) > 0L])
     },
 
     #' @field row_roles (named `list()`)\cr
@@ -930,11 +964,12 @@ Task = R6Class("Task",
 
       assert_has_backend(self)
       assert_list(rhs, .var.name = "row_roles")
-      if ("test" %in% names(rhs) || "holdout" %in% names(rhs)) {
+      if ("test" %chin% names(rhs) || "holdout" %chin% names(rhs)) {
         stopf("Setting row roles 'test'/'holdout' is no longer possible.")
       }
       assert_names(names(rhs), "unique", permutation.of = mlr_reflections$task_row_roles, .var.name = "names of row_roles")
       rhs = map(rhs, assert_row_ids, .var.name = "elements of row_roles")
+      private$.row_hash = NULL
       private$.hash = NULL
       private$.row_roles = rhs
     },
@@ -952,11 +987,23 @@ Task = R6Class("Task",
     #'   For each resampling iteration, observations of the same group will be exclusively assigned to be either in the training set or in the test set.
     #'   Not more than a single column can be associated with this role.
     #' * `"stratum"`: Stratification variables. Multiple discrete columns may have this role.
-    #' * `"weight"`: Observation weights. Not more than one numeric column may have this role.
+    #' * `"weights_learner"`: If the task has observation weights with this role, they are passed to the [Learner] during train.
+    #'    The use of weights can be disabled via by setting the learner's hyperparameter `use_weights` to `FALSE`.
+    #' * `"weights_measure"`: If the task has observation weights with this role, they are passed to the [Measure] for weighted scoring.
+    #'    The use of weights can be disabled via by setting the measure's hyperparameter `use_weights` to `FALSE`.
+    #' * `"offset"`: Numeric columns used to specify fixed adjustments for model training.
+    #'   Some models use offsets to simply shift predictions, while others incorporate them to boost predictions from a baseline model.
+    #'   For learners supporting offsets in multiclass settings, an offset column must be provided for each target class.
+    #'   These columns must follow the naming convention `"offset_{target_class_name}"`.
+    #'   For an example of a learner that supports offsets, see `LearnerClassifXgboost`  of \CRANpkg{mlr3learners}.
     #'
     #' `col_roles` is a named list whose elements are named by column role and each element is a `character()` vector of column names.
     #' To alter the roles, just modify the list, e.g. with \R's set functions ([intersect()], [setdiff()], [union()], \ldots).
     #' The method `$set_col_roles` provides a convenient alternative to assign columns to roles.
+    #'
+    #' The roles `weights_learner` and `weights_measure` may only point to a single numeric column, but they can
+    #' all point to the same column or different columns. Weights must be non-negative numerics with at least one weight being > 0.
+    #' They don't necessarily need to sum up to 1.
     col_roles = function(rhs) {
       if (missing(rhs)) {
         return(private$.col_roles)
@@ -964,7 +1011,7 @@ Task = R6Class("Task",
 
       assert_has_backend(self)
       qassertr(rhs, "S[1,]", .var.name = "col_roles")
-      assert_names(names(rhs), "unique", permutation.of = mlr_reflections$task_col_roles[[self$task_type]], .var.name = "names of col_roles")
+      assert_names(names(rhs), "unique", permutation.of = mlr_reflections$task_col_roles[[self$task_type]])
       assert_subset(unlist(rhs, use.names = FALSE), setdiff(self$col_info$id, self$backend$primary_key), .var.name = "elements of col_roles")
 
       private$.hash = NULL
@@ -1069,16 +1116,25 @@ Task = R6Class("Task",
     },
 
     #' @field weights ([data.table::data.table()])\cr
-    #' If the task has a column with designated role `"weight"`, a table with two columns:
+    #' Deprecated, use `$weights_learner` instead.
+    weights = function(rhs) {
+      assert_ro_binding(rhs)
+      .Deprecated("Task$weights_learner", old = "Task$weights")
+      self$weights_learner
+    },
+
+    #' @field weights_learner ([data.table::data.table()])\cr
+    #' Returns the observation weights used for training a [Learner] (column role `weights_learner`)
+    #' as a `data.table` with the following columns:
     #'
     #' * `row_id` (`integer()`), and
-    #' * observation weights `weight` (`numeric()`).
+    #' * `weight` (`numeric()`).
     #'
-    #' Returns `NULL` if there are is no weight column.
-    weights = function(rhs) {
+    #' Returns `NULL` if there are is no column with the designated role.
+    weights_learner = function(rhs) {
       assert_has_backend(self)
       assert_ro_binding(rhs)
-      weight_cols = private$.col_roles$weight
+      weight_cols = private$.col_roles[["weights_learner"]]
       if (length(weight_cols) == 0L) {
         return(NULL)
       }
@@ -1086,6 +1142,50 @@ Task = R6Class("Task",
       setnames(data, c("row_id", "weight"))[]
     },
 
+    #' @field weights_measure ([data.table::data.table()])\cr
+    #' Returns the observation weights used for scoring a prediction with a [Measure] (column role `weights_measure`)
+    #' as a `data.table` with the following columns:
+    #'
+    #' * `row_id` (`integer()`), and
+    #' * `weight` (`numeric()`).
+    #'
+    #' Returns `NULL` if there are is no column with the designated role.
+    weights_measure = function(rhs) {
+      assert_has_backend(self)
+      assert_ro_binding(rhs)
+      weight_cols = private$.col_roles[["weights_measure"]]
+      if (length(weight_cols) == 0L) {
+        return(NULL)
+      }
+      data = self$backend$data(private$.row_roles$use, c(self$backend$primary_key, weight_cols))
+      setnames(data, c("row_id", "weight"))[]
+    },
+    #' @field offset ([data.table::data.table()])\cr
+    #' If the task has a column with designated role `"offset"`, a table with two or more columns:
+    #'
+    #' * `row_id` (`integer()`), and
+    #' * offset variable(s) (`numeric()`).
+    #'
+    #' For regression or binary classification tasks, there will be only a single-column offset.
+    #' For multiclass tasks, it may return multiple offset columns, one for each target class.
+    #' If there is only one offset column, it will be named as `offset`.
+    #'
+    #' If there are no columns with the `"offset"` role, `NULL` is returned.
+    offset = function(rhs) {
+      assert_has_backend(self)
+      assert_ro_binding(rhs)
+      offset_cols = private$.col_roles$offset
+      if (length(offset_cols) == 0L) {
+        return(NULL)
+      }
+
+      data = self$backend$data(private$.row_roles$use, c(self$backend$primary_key, offset_cols))
+      if (length(offset_cols) == 1L) {
+        setnames(data, c("row_id", "offset"))[]
+      } else  {
+        setnames(data, c("row_id", offset_cols))[]
+      }
+    },
 
     #' @field labels (named `character()`)\cr
     #'   Retrieve `labels` (prettier formated names) from columns.
@@ -1135,6 +1235,14 @@ Task = R6Class("Task",
 
       private$.characteristics = assert_list(rhs, null.ok = TRUE)
       private$.hash = NULL
+    },
+
+    #' @field row_ids_backend (`integer()`)\cr
+    #' Returns all row ids from the backend, regardless of their roles.
+    #' This is different from `$row_ids` which only returns rows with role "use".
+    row_ids_backend = function(rhs) {
+      assert_ro_binding(rhs)
+      self$backend$rownames
     }
   ),
 
@@ -1147,6 +1255,7 @@ Task = R6Class("Task",
     .hash = NULL,
     .col_hashes = NULL,
     .characteristics = NULL,
+    .row_hash = NULL,
 
     deep_clone = function(name, value) {
       # NB: DataBackends are never copied!
@@ -1232,16 +1341,22 @@ task_check_col_roles = function(task, new_roles, ...) {
 #' @rdname task_check_col_roles
 #' @export
 task_check_col_roles.Task = function(task, new_roles, ...) {
-  for (role in c("group", "weight", "name")) {
+  if ("weight" %in% names(new_roles)) {
+    stopf("Task role 'weight' is deprecated, use 'weights_learner' instead")
+  }
+
+  for (role in c("group", "name", "weights_learner", "weights_measure")) {
     if (length(new_roles[[role]]) > 1L) {
       stopf("There may only be up to one column with role '%s'", role)
     }
   }
 
   # check weights
-  if (length(new_roles[["weight"]])) {
-    weights = task$backend$data(task$backend$rownames, cols = new_roles[["weight"]])
-    assert_numeric(weights[[1L]], lower = 0, any.missing = FALSE, .var.name = names(weights))
+  for (role in c("weights_learner", "weights_measure")) {
+    if (length(new_roles[[role]]) > 0L) {
+      col = task$backend$data(seq(task$backend$nrow), cols = new_roles[[role]])
+      assert_numeric(col[[1]], lower = 0, any.missing = FALSE, .var.name = names(col))
+    }
   }
 
   # check name
@@ -1250,6 +1365,17 @@ task_check_col_roles.Task = function(task, new_roles, ...) {
     if (!is.character(row_names[[1L]]) && !is.factor(row_names[[1L]])) {
       stopf("Assertion on '%s' failed: Must be of type 'character' or 'factor', not %s", names(row_names), class(row_names[[1]]))
     }
+  }
+
+  # check offset
+  if (length(new_roles[["offset"]]) && any(fget(task$col_info, new_roles[["offset"]], "type", key = "id") %nin% c("numeric", "integer"))) {
+    stopf("Offset column(s) %s must be a numeric or integer column", paste0("'", new_roles[["offset"]], "'", collapse = ","))
+  }
+
+  if (length(new_roles[["offset"]]) && any(task$missings(cols = new_roles[["offset"]]) > 0)) {
+    missings = task$missings(cols = new_roles[["offset"]])
+    missings = names(missings[missings > 0])
+    stopf("Offset column(s) %s contain missing values", paste0("'", missings, "'", collapse = ","))
   }
 
   return(new_roles)
@@ -1268,16 +1394,25 @@ task_check_col_roles.TaskClassif = function(task, new_roles, ...) {
     stopf("Target column(s) %s must be a factor or ordered factor", paste0("'", new_roles[["target"]], "'", collapse = ","))
   }
 
+  if (length(new_roles[["offset"]]) > 1L && length(task$class_names) == 2L) {
+    stopf("There may only be up to one column with role 'offset' for binary classification tasks")
+  }
+
+  if (length(new_roles[["offset"]]) > 1L) {
+    expected_names = paste0("offset_", task$class_names)
+    expect_subset(new_roles[["offset"]], expected_names, label = "col_roles")
+  }
+
   NextMethod()
 }
 
 #' @rdname task_check_col_roles
 #' @export
 task_check_col_roles.TaskRegr = function(task, new_roles, ...) {
-
-  # check target
-  if (length(new_roles[["target"]]) > 1L) {
-    stopf("There may only be up to one column with role 'target'")
+  for (role in c("target", "offset")) {
+    if (length(new_roles[[role]]) > 1L) {
+      stopf("There may only be up to one column with role '%s'", role)
+    }
   }
 
   if (length(new_roles[["target"]]) && any(fget(task$col_info, new_roles[["target"]], "type", key = "id") %nin% c("numeric", "integer"))) {
@@ -1337,7 +1472,7 @@ col_info = function(x, ...) {
 #' @export
 col_info.data.table = function(x, primary_key = character(), ...) { # nolint
   types = map_chr(x, function(x) class(x)[1L])
-  discrete = setdiff(names(types)[types %in% c("factor", "ordered")], primary_key)
+  discrete = setdiff(names(types)[types %chin% c("factor", "ordered")], primary_key)
   levels = insert_named(named_list(names(types)), lapply(x[, discrete, with = FALSE], distinct_values, drop = FALSE))
   data.table(id = names(types), type = unname(types), levels = levels, key = "id")
 }
@@ -1346,7 +1481,7 @@ col_info.data.table = function(x, primary_key = character(), ...) { # nolint
 #' @export
 col_info.DataBackend = function(x, ...) { # nolint
   types = map_chr(x$head(1L), function(x) class(x)[1L])
-  discrete = setdiff(names(types)[types %in% c("factor", "ordered")], x$primary_key)
+  discrete = setdiff(names(types)[types %chin% c("factor", "ordered")], x$primary_key)
   levels = insert_named(named_list(names(types)), x$distinct(rows = NULL, cols = discrete))
   data.table(id = names(types), type = unname(types), levels = levels, key = "id")
 }

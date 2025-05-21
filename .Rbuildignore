@@ -24,3 +24,4 @@
 ^CRAN-SUBMISSION$
 ^benchmark$
 ^attic$
+^.cursor$

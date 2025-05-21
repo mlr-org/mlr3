@@ -84,6 +84,8 @@ reference:
       - starts_with("mlr_measures")
       - default_measures
       - as_measure
+      - score_roc_measures
+      - print.roc_measures
   - title: Resampling Strategies
     contents:
       - starts_with("mlr_resamplings")
@@ -102,6 +104,7 @@ reference:
       - BenchmarkResult
       - as_result_data
       - as_benchmark_result
+      - uhash
   - title: Converters
     contents:
       - starts_with("as_")
@@ -111,6 +114,15 @@ reference:
       - mlr_sugar
       - mlr_reflections
       - set_threads
+  - title: Callbacks
+    contents:
+      - CallbackResample
+      - ContextResample
+      - callback_resample
+      - assert_resample_callback
+      - assert_resample_callbacks
+      - mlr3.model_extractor
+      - mlr3.holdout_task
   - title: Internal Objects and Functions
     contents:
       - marshaling

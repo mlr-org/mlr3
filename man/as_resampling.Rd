@@ -30,4 +30,5 @@ If \code{TRUE}, ensures that the returned object is not the same as the input \c
 }
 \description{
 Convert object to a \link{Resampling} or a list of \link{Resampling}.
+This method e.g. allows to convert an \code{OMLTask} of \CRANpkg{mlr3oml} to a \code{\link{Resampling}}.
 }

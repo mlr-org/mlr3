@@ -94,7 +94,7 @@ test_that("empty train/predict sets", {
 })
 
 test_that("conditions are returned", {
-  expect_true(all(c("warnings", "errors") %in% names(rr$score(conditions = TRUE))))
+  expect_true(all(c("warnings", "errors") %chin% names(rr$score(conditions = TRUE))))
 })
 
 test_that("save/load roundtrip", {
@@ -212,13 +212,13 @@ test_that("marshaling works when store_models is FALSE", {
     resample(task, learner, resampling, store_models = FALSE, unmarshal = TRUE)
   })
   expect_resample_result(rr)
-  expect_true(is.null(rr$learners[[1]]$model))
+  expect_null(rr$learners[[1]]$model)
 
   rr1 = with_future(future::sequential, {
     resample(task, learner, resampling, store_models = FALSE, unmarshal = TRUE)
   })
   expect_resample_result(rr1)
-  expect_true(is.null(rr1$learners[[1]]$model))
+  expect_null(rr1$learners[[1]]$model)
 })
 
 
@@ -517,11 +517,52 @@ test_that("resampling instantiated on a different task throws an error", {
   resampling = rsmp("cv", folds = 3)
   resampling$instantiate(task)
 
-  expect_error(resample(tsk("pima"), lrn("classif.rpart"), resampling), "The resampling was probably instantiated on a different task")
+  expect_error(resample(tsk("pima"), lrn("classif.rpart"), resampling),
+    "not instantiated")
+})
 
+test_that("resampling task row hash validation", {
+  task = tsk("iris")
+  resampling = rsmp("cv", folds = 3)
+  resampling$instantiate(task)
+
+  # Should work with same task
+  expect_resample_result(resample(task, lrn("classif.rpart"), resampling))
+
+  # Should fail if task is filtered
+  task$filter(1:100)
+  expect_error(resample(task, lrn("classif.rpart"), resampling), "not instantiated on task")
 })
 
 test_that("$score() checks for models", {
   rr = resample(tsk("mtcars"), lrn("regr.debug"), rsmp("holdout"))
   expect_error(rr$score(msr("aic")), "requires the trained model")
+})
+
+test_that("can change the threshold", {
+  task = tsk("iris")$filter(1:80)$droplevels("Species")
+  rr = resample(task, lrn("classif.featureless", predict_type = "prob"), rsmp("insample"))
+  expect_true(all(rr$prediction()$response == "setosa"))
+  rr$set_threshold(0.9)
+  expect_true(all(rr$prediction()$response == "versicolor"))
+  rr$set_threshold(0.1)
+  expect_true(all(rr$prediction()$response == "setosa"))
+  rr$set_threshold(0.625, ties_method = "first")
+  expect_true(all(rr$prediction()$response == "setosa"))
+  rr$set_threshold(0.625, ties_method = "last")
+  expect_true(all(rr$prediction()$response == "versicolor"))
+  with_seed(1, {
+    rr$set_threshold(0.625, ties_method = "random")
+    expect_true("setosa" %in% rr$prediction()$response && "versicolor" %in% rr$prediction()$response)
+  })
+})
+
+test_that("hashes work", {
+  task = tsk("spam")
+  learner = lrn("classif.debug")
+  resampling = rsmp("cv", folds = 3)
+
+  rr = resample(task, learner, resampling)
+  task_hashes = map(rr$learners, function(learner) learner$state$task_hash)
+  expect_length(unique(task_hashes), 3)
 })

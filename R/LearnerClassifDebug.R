@@ -37,7 +37,7 @@
 #' @export
 #' @examples
 #' learner = lrn("classif.debug")
-#' learner$param_set$values = list(message_train = 1, save_tasks = TRUE)
+#' learner$param_set$set_values(message_train = 1, save_tasks = TRUE)
 #'
 #' # this should signal a message
 #' task = tsk("penguins")
@@ -87,7 +87,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
         param_set = param_set,
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
         predict_types = c("response", "prob"),
-        properties = c("twoclass", "multiclass", "missings", "hotstart_forward", "validation", "internal_tuning", "marshal"),
+        properties = c("twoclass", "multiclass", "missings", "hotstart_forward", "validation", "internal_tuning", "marshal", "weights"),
         man = "mlr3::mlr_learners_classif.debug",
         label = "Debug Learner for Classification"
       )
@@ -163,7 +163,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
       pv = self$param_set$get_values(tags = "train")
       pv$count_marshaling = pv$count_marshaling %??% FALSE
       roll = function(name) {
-        name %in% names(pv) && pv[[name]] > runif(1L)
+        name %chin% names(pv) && pv[[name]] > runif(1L)
       }
 
       if (!is.null(pv$sleep_train)) {
@@ -175,10 +175,10 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
         message("Message from classif.debug->train()")
       }
       if (roll("warning_train")) {
-        warning("Warning from classif.debug->train()")
+        warningf("Warning from classif.debug->train()")
       }
       if (roll("error_train")) {
-        stop("Error from classif.debug->train()")
+        stopf("Error from classif.debug->train()")
       }
       if (roll("segfault_train")) {
         get("attach")(structure(list(), class = "UserDefinedDatabase"))
@@ -191,7 +191,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
       }
 
       model = list(
-          response = as.character(sample(task$truth(), 1L)),
+          response = as.character(sample(task$truth(), 1L, prob = private$.get_weights(task))),
           pid = Sys.getpid(),
           id = UUIDgenerate(),
           random_number = sample(100000, 1),
@@ -248,7 +248,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
       n = task$nrow
       pv = self$param_set$get_values(tags = "predict")
       roll = function(name) {
-        name %in% names(pv) && pv[[name]] > runif(1L)
+        name %chin% names(pv) && pv[[name]] > runif(1L)
       }
 
       if (!is.null(pv$sleep_predict)) {
@@ -260,10 +260,10 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
         message("Message from classif.debug->predict()")
       }
       if (roll("warning_predict")) {
-        warning("Warning from classif.debug->predict()")
+        warningf("Warning from classif.debug->predict()")
       }
       if (roll("error_predict")) {
-        stop("Error from classif.debug->predict()")
+        stopf("Error from classif.debug->predict()")
       }
       if (roll("segfault_predict")) {
         get("attach")(structure(list(), class = "UserDefinedDatabase"))
@@ -281,7 +281,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
       response = prob = NULL
       missing_type = pv$predict_missing_type %??% "na"
 
-      if ("response" %in% self$predict_type) {
+      if ("response" %chin% self$predict_type) {
         response = rep.int(unclass(model$response), n)
         if (!is.null(pv$predict_missing)) {
           ii = sample.int(n, n * pv$predict_missing)
@@ -292,7 +292,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
         }
       }
 
-      if ("prob" %in% self$predict_type) {
+      if ("prob" %chin% self$predict_type) {
         cl = task$class_names
         prob = matrix(runif(n * length(cl)), nrow = n)
         prob = prob / rowSums(prob)

@@ -21,8 +21,8 @@ test_that("Learners are called with invoke / small footprint of call", {
   learner$train(task)
   call = as.character(learner$model$call)
   expect_character(call, min.len = 1L, any.missing = FALSE)
-  expect_true(any(grepl("task$formula()", call, fixed = TRUE)))
-  expect_true(any(grepl("task$data", call, fixed = TRUE)))
+  expect_match(call, "task$formula()", fixed = TRUE, all = FALSE)
+  expect_match(call, "task$data", fixed = TRUE, all = FALSE)
   expect_lt(sum(nchar(call)), 1000)
 })
 
@@ -236,7 +236,7 @@ test_that("empty predict set (#421)", {
   learner$train(task, hout$train_set(1))
   pred = learner$predict(task, hout$test_set(1))
   expect_prediction(pred)
-  expect_true(any(grepl("No data to predict on", learner$log$msg)))
+  expect_match(learner$log$msg, "No data to predict on", all = FALSE)
 })
 
 test_that("fallback learner is deep cloned (#511)", {
@@ -255,21 +255,23 @@ test_that("learner cannot be trained with TuneToken present", {
 
 test_that("integer<->numeric conversion in newdata (#533)", {
   data = data.table(y = runif(10), x = 1:10)
-  newdata = data.table(y = runif(10), x = 1:10 + 0.1)
+  newdata1 = data.table(y = runif(10), x = as.double(1:10))
+  newdata2 = data.table(y = runif(10), x = 1:10 + 0.1)
 
   task = TaskRegr$new("test", data, "y")
   learner = lrn("regr.featureless")
   learner$train(task)
   expect_prediction(learner$predict_newdata(data))
-  expect_prediction(learner$predict_newdata(newdata))
+  expect_prediction(learner$predict_newdata(newdata1))
+  expect_error(learner$predict_newdata(newdata2), "failed to convert from class 'numeric'")
 })
 
 test_that("weights", {
   data = cbind(iris, w = rep(c(1, 100, 1), each = 50))
   task = TaskClassif$new("weighted_task", data, "Species")
-  task$set_col_roles("w", "weight")
+  task$set_col_roles("w", "weights_learner")
 
-  learner = lrn("classif.rpart")
+  learner = lrn("classif.rpart", use_weights = "use")
   learner$train(task)
 
   conf = learner$predict(task)$confusion
@@ -277,6 +279,25 @@ test_that("weights", {
 
   expect_prediction(learner$predict_newdata(data[1:3, ]))
   expect_prediction(learner$predict_newdata(iris[1:3, ]))
+
+  learner$use_weights = "error"
+  expect_error(learner$train(task), "'use_weights' was set to 'error'")
+
+  ll = R6Class("dummy", inherit = LearnerClassif, public = list(
+      initialize = function() {
+        super$initialize(id = "dummy", param_set = ps(), feature_types = "numeric", predict_types = "response", properties = c("twoclass", "multiclass"))
+      }
+    ),
+    private = list(
+      .train = function(task, ...) {
+        task
+      }
+    )
+  )$new()
+  expect_error(ll$train(task), "Learner does not support weights")  # different error message from above!
+
+  ll$use_weights = "ignore"
+  expect_no_error(ll$train(task))
 })
 
 test_that("mandatory properties",  {
@@ -330,7 +351,7 @@ test_that("validation task's backend is removed", {
   task = tsk("mtcars")
   task$internal_valid_task = 1:10
   learner$train(task)
-  expect_true(is.null(learner$state$train_task$internal_valid_task$backend))
+  expect_null(learner$state$train_task$internal_valid_task$backend)
 })
 
 test_that("manual $train() stores validation hash and validation ids", {
@@ -348,7 +369,7 @@ test_that("manual $train() stores validation hash and validation ids", {
   # nothing is stored for learners that don't do it
   l2 = lrn("classif.featureless")
   l2$train(task)
-  expect_true(is.null(l2$state$internal_valid_task_hash))
+  expect_null(l2$state$internal_valid_task_hash)
 })
 
 test_that("error when training a learner that sets valiadte to 'predefined' on a task without a validation task", {
@@ -421,15 +442,15 @@ test_that("internal_valid_task is created correctly", {
   task$internal_valid_task = partition(task)$test
   learner$train(task)
   learner$validate = NULL
-  expect_true(is.null(learner$internal_valid_scores))
-  expect_true(is.null(learner$task$internal_valid_task))
+  expect_null(learner$internal_valid_scores)
+  expect_null(learner$task$internal_valid_task)
 
   # validate = NULL (but task has none)
   learner1 = LearnerClassifTest$new()
   task1 = tsk("iris")
   learner1$train(task1)
-  expect_true(is.null(learner1$internal_valid_scores))
-  expect_true(is.null(learner1$task$internal_valid_task))
+  expect_null(learner1$internal_valid_scores)
+  expect_null(learner1$task$internal_valid_task)
 
   # validate = "test"
   LearnerClassifTest2 = R6Class("LearnerClassifTest2", inherit = LearnerClassifDebug,
@@ -455,7 +476,7 @@ test_that("internal_valid_task is created correctly", {
   resampling = rsmp("holdout")$instantiate(task2)
   learner2$expected_valid_ids = resampling$test_set(1)
   learner2$expected_train_ids = resampling$train_set(1)
-  expect_error(resample(task2, learner2, resampling), regexp = NA)
+  expect_no_error(resample(task2, learner2, resampling))
 
   # ratio works
   LearnerClassifTest3 = R6Class("LearnerClassifTest3", inherit = LearnerClassifDebug,
@@ -477,7 +498,7 @@ test_that("internal_valid_task is created correctly", {
   learner4 = lrn("classif.debug", validate = 0.2)
   task = tsk("iris")
   learner4$train(task)
-  expect_true(is.null(task$internal_valid_task))
+  expect_null(task$internal_valid_task)
 })
 
 test_that("compatability check on validation task", {
@@ -549,8 +570,7 @@ test_that("learner state contains internal valid task information", {
 test_that("validation task with 0 observations", {
   learner = lrn("classif.debug", validate = "predefined")
   task = tsk("iris")
-  task$internal_valid_task = integer(0)
-  expect_error({learner$train(task)}, "has 0 observations")
+  expect_warning({task$internal_valid_task = integer(0)})
 })
 
 test_that("column info is compared during predict", {
@@ -575,10 +595,7 @@ test_that("column info is compared during predict", {
   task_other = as_task_classif(dother, target = "y")
   l = lrn("classif.rpart")
   l$train(task)
-  old_threshold = lg$threshold
-  lg$set_threshold("warn")
-  expect_output(l$predict(task_flip), "task with different column info")
-  lg$set_threshold(old_threshold)
+  expect_error(l$predict(task_flip), "task with different column info")
   expect_error(l$predict(task_other), "with different columns")
 })
 
@@ -628,4 +645,196 @@ test_that("predict time is cumulative", {
   learner$predict(task)
   t2 = learner$timings["predict"]
   expect_true(t1 > t2)
+})
+
+test_that("weights properties and defaults", {
+  ll = lrn("classif.rpart")
+  expect_true("weights" %in% ll$properties)
+  expect_equal(ll$use_weights, "use")
+
+  ll = LearnerClassif$new(id = "dummy", param_set = ps(), feature_types = "numeric", predict_types = "response", properties = "twoclass")
+  expect_true("weights" %nin% ll$properties)
+  expect_equal(ll$use_weights, "error")
+})
+
+test_that("configure method works", {
+  learner = lrn("classif.rpart")
+
+  expect_learner(learner$configure())
+  expect_learner(learner$configure(.values = list()))
+
+  # set new hyperparameter value
+  learner$configure(cp = 0.1)
+  expect_equal(learner$param_set$values$cp, 0.1)
+
+  # overwrite existing hyperparameter value
+  learner$configure(xval = 10)
+  expect_equal(learner$param_set$values$xval, 10)
+
+  # set field
+  learner$configure(predict_sets = "train")
+  expect_equal(learner$predict_sets, "train")
+
+  # hyperparameter and field
+  learner$configure(minbucket = 2, parallel_predict = TRUE)
+  expect_equal(learner$param_set$values$minbucket, 2)
+  expect_true(learner$parallel_predict)
+
+  # unknown hyperparameter and field
+  expect_error(learner$configure(xvald = 1), "Cannot set argument")
+
+  # use .values
+  learner = lrn("classif.rpart")
+  learner$configure(.values = list(cp = 0.1, xval = 10, predict_sets = "train"))
+  expect_equal(learner$param_set$values$cp, 0.1)
+  expect_equal(learner$param_set$values$xval, 10)
+  expect_equal(learner$predict_sets, "train")
+})
+
+test_that("selected_features works", {
+  task = tsk("spam")
+  # alter rpart class to not support feature selection
+  fun = LearnerClassifRpart$public_methods$selected_features
+  on.exit({
+    LearnerClassifRpart$public_methods$selected_features = fun
+  })
+  LearnerClassifRpart$public_methods$selected_features = NULL
+
+  learner = lrn("classif.rpart")
+  expect_error(learner$selected_features(), "No model stored")
+  learner$train(task)
+  expect_error(learner$selected_features(), "Learner does not support feature selection")
+
+  learner$selected_features_impute = "all"
+  expect_equal(learner$selected_features(), task$feature_names)
+})
+
+test_that("predict_newdata auto conversion (#685)", {
+  l = lrn("classif.debug", save_tasks = TRUE)$train(tsk("iris")$select(c("Sepal.Length", "Sepal.Width")))
+  expect_error(l$predict_newdata(data.table(Sepal.Length = 1, Sepal.Width = "abc")),
+    "Incompatible types during auto-converting column 'Sepal.Width'", fixed = TRUE)
+  expect_error(l$predict_newdata(data.table(Sepal.Length = 1L)),
+    "but is missing elements")
+
+  # New test for integerish value conversion to double
+  p1 = l$predict_newdata(data.table(Sepal.Length = 1, Sepal.Width = 2))
+  p2 = l$predict_newdata(data.table(Sepal.Length = 1L, Sepal.Width = 2))
+  expect_equal(l$model$task_predict$col_info[list("Sepal.Length")]$type, "numeric")
+  expect_double(l$model$task_predict$data(cols = "Sepal.Length")[[1]])
+
+  expect_equal(p1, p2)
+})
+
+test_that("predict_newdata creates column info correctly", {
+
+  learner = lrn("classif.debug", save_tasks = TRUE)
+  task = tsk("iris")
+  task$col_info$label = letters[1:6]
+  task$col_info$fix_factor_levels = c(TRUE, TRUE, FALSE, TRUE, FALSE, TRUE)
+  learner$train(task)
+
+  ## data.frame is passed without task
+  p1 = learner$predict_newdata(iris[10:11, ])
+  expect_equal(learner$model$task_predict$col_info, task$col_info)
+  expect_equal(p1$row_ids, 1:2)
+
+  ## backend is passed without task
+  d = iris[10:11, ]
+  d$..row_id = 10:11
+  b = as_data_backend(d, primary_key = "..row_id")
+  p2 = learner$predict_newdata(b)
+  expect_equal(p2$row_ids, 10:11)
+  expect_equal(learner$model$task_predict$col_info, task$col_info)
+
+  ## data.frame is passed with task
+  task2 = tsk("iris")
+  learner$predict_newdata(iris[10:11, ], task2)
+  expect_equal(learner$model$task_predict$col_info, task2$col_info)
+
+  ## backend is passed with task
+  learner$predict_newdata(b, task2)
+  expect_equal(learner$model$task_predict$col_info, task2$col_info)
+
+  ## backend with different name for primary key
+  d2 = iris[10:11, ]
+  d2$row_id = 10:11
+  b2 = as_data_backend(d2, primary_key = "row_id")
+  p3 = learner$predict_newdata(b2, task2)
+  expect_equal(p3$row_ids, 10:11)
+  expect_true("row_id" %in% learner$model$task_predict$col_info$id)
+})
+
+test_that("marshaling and internal tuning", {
+  l = lrn("classif.debug", validate = 0.3, early_stopping = TRUE, iter = 100)
+  l$encapsulate("evaluate", lrn("classif.featureless"))
+  task = tsk("iris")
+  l$train(task)
+  expect_list(l$internal_tuned_values, types = "integer")
+  expect_list(l$internal_valid_scores, types = "numeric")
+
+})
+
+test_that("prob_as_default works", {
+  on.exit(options(old_opts))
+  old_opts = options(mlr3.prob_as_default = TRUE)
+  l = lrn("classif.debug")
+  expect_equal(l$predict_type, "prob")
+  options(mlr3.prob_as_default = NULL)
+  l = lrn("classif.debug")
+  expect_equal(l$predict_type, "response")
+  options(mlr3.prob_as_default = FALSE)
+  expect_equal(l$predict_type, "response")
+})
+
+test_that("weights are used when appropriate", {
+  learner = lrn("classif.featureless", predict_type = "prob")
+  predict_task = tsk("iris")$filter(1)
+  expect_equal(unname(learner$train(tsk("iris"))$predict(predict_task)$prob), matrix(c(1, 1, 1) / 3, nrow = 1, ncol = 3))
+
+  # weights_measure has no effect
+  expect_equal(unname(learner$train(iris_weights_measure)$predict(predict_task)$prob), matrix(c(1, 1, 1) / 3, nrow = 1, ncol = 3))
+
+  expect_equal(unname(learner$train(iris_weights_learner)$predict(predict_task)$prob), matrix(c(1, 10, 100) / 111, nrow = 1, ncol = 3))
+
+  learner$use_weights = "ignore"
+
+  # weights are ignored
+  expect_equal(unname(learner$train(iris_weights_learner)$predict(predict_task)$prob), matrix(c(1, 1, 1) / 3, nrow = 1, ncol = 3))
+
+  learner$use_weights = "error"
+  expect_error(learner$train(iris_weights_learner), "'use_weights' was set to 'error'")
+
+  # behaviour of learner that does not support weights
+  llclass = R6Class("dummy", inherit = LearnerClassif,
+    public = list(
+      initialize = function() {
+        super$initialize(id = "dummy", param_set = ps(), feature_types = "numeric", predict_types = "response", properties = c("twoclass", "multiclass"))
+      }
+    ),
+    private = list(
+      .train = function(task) {
+        list(response = as.character(sample(task$truth(), 1L)))
+      }
+    )
+  )
+  ll = llclass$new()
+
+  # different error message
+  expect_error(ll$train(iris_weights_learner), "Learner does not support weights")
+  ll$train(iris_weights_measure)
+
+  ll$use_weights = "ignore"
+  ll$train(iris_weights_learner)
+})
+
+test_that("Learner printer for use_weights", {
+  expect_output(print(lrn("classif.featureless", use_weights = "ignore")), "use_weights = 'ignore'")
+  expect_output(print(lrn("classif.featureless", use_weights = "use")), "use_weights = 'use'")
+  expect_output(print(lrn("classif.featureless", use_weights = "error")), "use_weights = 'error'")
+})
+
+test_that("Learner printer for encapsulation", {
+  expect_output(print(lrn("classif.featureless")$encapsulate("callr", lrn("classif.rpart"))), "Encapsulation: callr \\(fallback: LearnerClassifRpart\\)")
+  expect_output(print(lrn("classif.rpart")$encapsulate("evaluate", lrn("classif.featureless"))), "Encapsulation: evaluate \\(fallback: LearnerClassifFeatureless\\)")
+  expect_output(print(lrn("classif.rpart")$encapsulate("none")), "Encapsulation: none \\(fallback: -\\)")
 })

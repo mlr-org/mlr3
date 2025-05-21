@@ -108,7 +108,7 @@ test_matching_task_type = function(task_type, object, class) {
 #' @param learners (list of [Learner]).
 #' @rdname mlr_assertions
 assert_learners = function(learners, task = NULL, task_type = NULL, properties = character(), unique_ids = FALSE, .var.name = vname(learners)) {
-  if (unique_ids)  {
+  if (unique_ids) {
     ids = map_chr(learners, "id")
     if (!test_character(ids, unique = TRUE)) {
       stopf("Learners need to have unique IDs: %s", str_collapse(ids))
@@ -119,8 +119,10 @@ assert_learners = function(learners, task = NULL, task_type = NULL, properties =
 
 # this does not check the validation task, as this is only possible once the validation set is known,
 # which happens during worker(), so it cannot be checked before that
-assert_task_learner = function(task, learner, cols = NULL) {
+assert_task_learner = function(task, learner, param_values = NULL, cols = NULL) {
   pars = learner$param_set$get_values(type = "only_token", check_required = FALSE)
+  # remove pars that are covered by param_values
+  pars = pars[names(pars) %nin% names(param_values)]
   if (length(pars) > 0) {
     stopf("%s cannot be trained with TuneToken present in hyperparameter: %s", learner$format(), str_collapse(names(pars)))
   }
@@ -145,6 +147,11 @@ assert_task_learner = function(task, learner, cols = NULL) {
     }
   }
 
+  if ("offset" %in% task$properties && "offset" %nin% learner$properties) {
+    warningf("Task '%s' has offset, but learner '%s' does not support this, so it will be ignored",
+             task$id, learner$id)
+  }
+
   tmp = mlr_reflections$task_mandatory_properties[[task$task_type]]
   if (length(tmp)) {
     tmp = setdiff(intersect(task$properties, tmp), learner$properties)
@@ -161,12 +168,25 @@ assert_task_learner = function(task, learner, cols = NULL) {
 }
 
 #' @export
+#' @param param_values (`list()`)\cr
+#'  TuneToken are not allowed in the parameter set of the learner.
+#'  If the `param_values` overwrite the TuneToken, the assertion will pass.
 #' @rdname mlr_assertions
-assert_learnable = function(task, learner) {
+assert_learnable = function(task, learner, param_values = NULL) {
   if (task$task_type == "unsupervised") {
     stopf("%s cannot be trained with %s", learner$format(), task$format())
   }
-  assert_task_learner(task, learner)
+  # we only need to check whether the learner wants to error on weights in training,
+  # since weights_learner are always ignored during prediction.
+  if (learner$use_weights == "error" && "weights_learner" %in% task$properties) {
+    stopf("%s cannot be trained with weights in %s%s", learner$format(), task$format(),
+      if ("weights" %in% learner$properties) {
+        " since 'use_weights' was set to 'error'."
+      } else {
+        " since the Learner does not support weights.\nYou may set 'use_weights' to 'ignore' if you want the Learner to ignore weights."
+      })
+  }
+  assert_task_learner(task, learner, param_values)
 }
 
 #' @export
@@ -181,7 +201,7 @@ assert_predictable = function(task, learner) {
       stopf("Learner '%s' has received tasks with different columns in train and predict.", learner$id)
     }
 
-    ids = train_task$col_info[get("id") %in% cols_train, "id"]$id
+    ids = train_task$col_info[get("id") %chin% cols_train, "id"]$id
     ci_predict = task$col_info[list(ids), c("id", "type", "levels"), on = "id"]
     ci_train = train_task$col_info[list(ids), c("id", "type", "levels"), on = "id"]
 
@@ -189,7 +209,7 @@ assert_predictable = function(task, learner) {
       all(pmap_lgl(list(x = ci_train$levels, y = ci_predict$levels), identical))
 
     if (!ok) {
-      lg$warn("Learner '%s' received task with different column info (feature type or level ordering) during train and predict.", learner$id)
+      stopf("Learner '%s' received task with different column info (feature type or factor level ordering) during train and predict.", learner$id)
     }
   }
 
@@ -204,6 +224,16 @@ assert_predictable = function(task, learner) {
 #' @rdname mlr_assertions
 assert_measure = function(measure, task = NULL, learner = NULL, prediction = NULL, .var.name = vname(measure)) {
   assert_class(measure, "Measure", .var.name = .var.name)
+
+  if (measure$use_weights == "error" && (!is.null(prediction$weights) || "weights_measure" %chin% task$properties)) {
+    stopf("%s cannot be evaluated with weights%s%s", measure$format(), if (!is.null(task)) paste0(" in ", task$format()) else "",
+      if ("weights" %in% measure$properties) {
+        " since 'use_weights' was set to 'error'."
+      } else {
+        " since the Measure does not support weights.\nYou may set 'use_weights' to 'ignore' if you want the Measure to ignore weights."
+      }
+    )
+  }
 
   if (!is.null(task)) {
 
@@ -260,11 +290,11 @@ assert_measure = function(measure, task = NULL, learner = NULL, prediction = NUL
 #' @param prediction ([Prediction]).
 #' @rdname mlr_assertions
 assert_scorable = function(measure, task, learner, prediction = NULL, .var.name = vname(measure)) {
-  if ("requires_model" %in% measure$properties && is.null(learner$model)) {
+  if ("requires_model" %chin% measure$properties && is.null(learner$model)) {
     stopf("Measure '%s' requires the trained model", measure$id)
   }
 
-  if ("requires_model" %in% measure$properties && is_marshaled_model(learner$model)) {
+  if ("requires_model" %chin% measure$properties && is_marshaled_model(learner$model)) {
     stopf("Measure '%s' requires the trained model, but model is in marshaled form", measure$id)
   }
 
@@ -352,9 +382,17 @@ assert_range = function(range, .var.name = vname(range)) {
 
 #' @export
 #' @template param_row_ids
+#' @param task ([Task])\cr
+#'   Task to check if row ids exist in it.
 #' @rdname mlr_assertions
-assert_row_ids = function(row_ids, null.ok = FALSE, .var.name = vname(row_ids)) {
-  assert_integerish(row_ids, coerce = TRUE, null.ok = null.ok)
+assert_row_ids = function(row_ids, task = NULL, null.ok = FALSE, .var.name = vname(row_ids)) {
+  row_ids = assert_integerish(row_ids, coerce = TRUE, null.ok = null.ok)
+  if (!is.null(task)) {
+    if (any(row_ids %nin% task$row_ids)) {
+      stopf("The provided row ids do not exist in task '%s'", task$id)
+    }
+  }
+  invisible(row_ids)
 }
 
 assert_has_backend = function(task) {
@@ -404,4 +442,35 @@ assert_param_values = function(x, n_learners = NULL, .var.name = vname(x)) {
     stopf("'%s' must be a three-time nested list and the most inner list must be named", .var.name)
   }
   invisible(x)
+}
+
+#' @title Assert Empty Ellipsis
+#' @description
+#' Assert that `...` arguments are empty.
+#' Use this function in S3-methods to ensure that misspelling of arguments does not go unnoticed.
+#' @param ... (any)\cr
+#'    Ellipsis arguments to check.
+#' @keywords internal
+#' @return `NULL`
+#' @export
+assert_empty_ellipsis = function(...) {
+  nx = ...length()
+  if (nx == 0L) {
+    return(NULL)
+  }
+  names = ...names()
+  if (is.null(names)) {
+    stopf("Received %i unnamed argument that was not used.", nx)
+  }
+  names2 = names[nzchar(names)]
+  if (length(names2) == length(names)) {
+    stopf(
+      "Received the following named arguments that were unused: %s.",
+      toString(names2)
+    )
+  }
+  stopf(
+    "Received unused arguments: %i unnamed, as well as named arguments %s.",
+    length(names) - length(names2), toString(names2)
+  )
 }

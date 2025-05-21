@@ -61,10 +61,10 @@ Prediction = R6Class("Prediction",
     print = function(...) {
       n = length(self$data$row_ids)
       if (n == 0L) {
-        catf("%s for 0 observations", format(self))
+        cat_cli(cli_h1("{.cls {class(self)[1L]}} for {.val 0} observations"))
       } else {
         data = as.data.table(self)
-        catf("%s for %i observations:", format(self), n)
+        cat_cli(cli_h1("{.cls {class(self)[1L]}} for {.val {n}} observations:"))
         print(data, nrows = 10L, topn = 3L, class = FALSE, row.names = FALSE, print.keys = FALSE)
       }
     },
@@ -90,7 +90,7 @@ Prediction = R6Class("Prediction",
     #'
     #' @return [Prediction].
     score = function(measures = NULL, task = NULL, learner = NULL, train_set = NULL) {
-      measures = as_measures(measures, task_type = self$task_type)
+      measures = assert_measures(as_measures(measures, task_type = self$task_type))
       scores = map_dbl(measures, function(m) m$score(prediction = self, task = task, learner = learner, train_set = train_set))
       set_names(scores, ids(measures))
     },
@@ -105,7 +105,7 @@ Prediction = R6Class("Prediction",
     #' Note that some measures such as RMSE, do have an `$obs_loss`, but they require an
     #' additional transformation after aggregation, in this example taking the square-root.
     obs_loss = function(measures = NULL) {
-      measures = as_measures(measures, task_type = self$task_type)
+      measures = assert_measures(as_measures(measures, task_type = self$task_type))
       get_obs_loss(as.data.table(self), measures)
     },
 
@@ -144,6 +144,14 @@ Prediction = R6Class("Prediction",
     missing = function(rhs) {
       assert_ro_binding(rhs)
       is_missing_prediction_data(self$data)
+    },
+
+    #' @field weights (`numeric()`)\cr
+    #'   Vector of measure weights, obtained from the `weights_measure` column of the [Task] if present.
+    #'   This is `NULL` if no weights are present.
+    weights = function(rhs) {
+      assert_ro_binding(rhs)
+      self$data$weights
     }
   )
 )

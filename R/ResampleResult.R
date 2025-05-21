@@ -74,7 +74,7 @@ ResampleResult = R6Class("ResampleResult",
       setattr(tab, "class", c("data.table", "data.frame"))
       tab[, "warnings" := map(get("warnings"), length)]
       tab[, "errors" := map(get("errors"), length)]
-      catf("%s with %i resampling iterations",  format(self), self$iters)
+      cat_cli(cli_h1("{.cls {class(self)[1L]}} with {.val {self$iters}} resampling iterations"))
       if (nrow(tab)) {
         tab = remove_named(tab, c("task", "learner", "resampling", "prediction"))
         print(tab, class = FALSE, row.names = FALSE, print.keys = FALSE, digits = 3)
@@ -143,7 +143,7 @@ ResampleResult = R6Class("ResampleResult",
     #'
     #' @return [data.table::data.table()].
     score = function(measures = NULL, ids = TRUE, conditions = FALSE, predictions = TRUE) {
-      measures = as_measures(measures, task_type = private$.data$task_type)
+      measures = assert_measures(as_measures(measures, task_type = self$task_type))
       assert_flag(ids)
       assert_flag(conditions)
       assert_flag(predictions)
@@ -196,7 +196,7 @@ ResampleResult = R6Class("ResampleResult",
     #' @param predict_sets (`character()`)\cr
     #'   The predict sets.
     obs_loss = function(measures = NULL, predict_sets = "test") {
-      measures = as_measures(measures, task_type = self$task_type)
+      measures = assert_measures(as_measures(measures, task_type = self$task_type))
       tab = map_dtr(self$predictions(predict_sets), as.data.table, .idcol = "iteration")
       get_obs_loss(tab, measures)
     },
@@ -208,7 +208,7 @@ ResampleResult = R6Class("ResampleResult",
     #'
     #' @return Named `numeric()`.
     aggregate = function(measures = NULL) {
-      measures = as_measures(measures, task_type = private$.data$task_type)
+      measures = assert_measures(as_measures(measures, task_type = self$task_type))
       resample_result_aggregate(self, measures)
     },
 
@@ -268,6 +268,20 @@ ResampleResult = R6Class("ResampleResult",
     #'   Additional arguments passed to [`unmarshal_model()`].
     unmarshal = function(...) {
       private$.data$unmarshal(...)
+    },
+
+    #' @description
+    #' Sets the threshold for the response prediction of classification learners, given they have
+    #' output a probability prediction for a binary classification task.
+    #' This modifies the object in-place.
+    #' @param threshold (`numeric(1)`)\cr
+    #'   Threshold value.
+    #' @template param_ties_method
+    set_threshold = function(threshold, ties_method = "random") {
+      if (!self$task_type == "classif") {
+        stopf("Can only change the threshold for classification problems, but task type is '%s'.", self$task_type)
+      }
+      private$.data$set_threshold(self$uhash, threshold, ties_method)
     }
   ),
 
@@ -335,6 +349,13 @@ ResampleResult = R6Class("ResampleResult",
       private$.data$learners(private$.view)$learner
     },
 
+    #' @field data_extra (list())\cr
+    #' Additional data stored in the [ResampleResult].
+    data_extra = function(rhs) {
+      assert_ro_binding(rhs)
+      private$.data$data_extra(private$.view)
+    },
+
     #' @field warnings ([data.table::data.table()])\cr
     #' A table with all warning messages.
     #' Column names are `"iteration"` and `"msg"`.
@@ -373,7 +394,8 @@ ResampleResult = R6Class("ResampleResult",
 as.data.table.ResampleResult = function(x, ..., predict_sets = "test") { # nolint
   private = get_private(x)
   tab = private$.data$as_data_table(view = private$.view, predict_sets = predict_sets)
-  tab[, c("task", "learner", "resampling", "iteration", "prediction"), with = FALSE]
+  cns = c("task", "learner", "resampling", "iteration", "prediction", if ("data_extra" %in% names(tab)) "data_extra")
+  tab[, cns, with = FALSE]
 }
 
 # #' @export

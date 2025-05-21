@@ -1,6 +1,6 @@
 Package: mlr3
 Title: Machine Learning in R - Next Generation
-Version: 0.22.1.9000
+Version: 0.23.0.9000
 Authors@R:
   c(
     person("Michel", "Lang", , "michellang@gmail.com", role = "aut",
@@ -28,7 +28,9 @@ Authors@R:
            comment = c(ORCID = "0000-0002-8115-0400")),
     person("Sebastian", "Fischer", , "sebf.fischer@gmail.com", role = "aut",
            comment = c(ORCID = "0000-0002-9609-3197")),
-    person("Lona", "Koers", , "lona.koers@gmail.com", role = "ctb")
+    person("Lona", "Koers", , "lona.koers@gmail.com", role = "ctb"),
+    person("John", "Zobolas", , "bblodfon@gmail.com", role = "ctb",
+           comment = c(ORCID = "0000-0002-3609-8674"))
   )
 Description: Efficient, object-oriented programming on the
     building blocks of machine learning. Provides 'R6' objects for tasks,
@@ -41,11 +43,12 @@ License: LGPL-3
 URL: https://mlr3.mlr-org.com, https://github.com/mlr-org/mlr3
 BugReports: https://github.com/mlr-org/mlr3/issues
 Depends:
-    R (>= 3.1.0)
+    R (>= 3.3.0)
 Imports:
     R6 (>= 2.4.1),
-    backports,
+    backports (>= 1.5.0),
     checkmate (>= 2.0.0),
+    cli,
     data.table (>= 1.15.0),
     evaluate,
     future,
@@ -53,7 +56,7 @@ Imports:
     lgr (>= 0.3.4),
     mlbench,
     mlr3measures (>= 1.0.0),
-    mlr3misc (>= 0.15.0),
+    mlr3misc (>= 0.17.0),
     parallelly,
     palmerpenguins,
     paradox (>= 1.0.1),
@@ -69,7 +72,7 @@ Suggests:
     remotes,
     RhpcBLASctl,
     rpart,
-    testthat (>= 3.1.0)
+    testthat (>= 3.2.0)
 Encoding: UTF-8
 Config/testthat/edition: 3
 Config/testthat/parallel: false
@@ -79,6 +82,8 @@ RoxygenNote: 7.3.2
 Collate:
     'mlr_reflections.R'
     'BenchmarkResult.R'
+    'CallbackResample.R'
+    'ContextResample.R'
     'warn_deprecated.R'
     'DataBackend.R'
     'DataBackendCbind.R'
@@ -108,6 +113,7 @@ Collate:
     'MeasureInternalValidScore.R'
     'MeasureOOBError.R'
     'MeasureRegr.R'
+    'MeasureRegrPinball.R'
     'MeasureRegrRSQ.R'
     'MeasureSelectedFeatures.R'
     'MeasureSimilarity.R'
@@ -189,12 +195,14 @@ Collate:
     'helper_print.R'
     'install_pkgs.R'
     'marshal.R'
+    'mlr_callbacks.R'
     'mlr_sugar.R'
     'mlr_test_helpers.R'
     'partition.R'
     'predict.R'
     'reexports.R'
     'resample.R'
+    'score_roc_measures.R'
     'set_threads.R'
     'set_validate.R'
     'task_converters.R'

@@ -74,3 +74,15 @@ test_that("fallback properties are checked", {
 
   expect_warning(learner$encapsulate("evaluate", fallback), "The fallback learner")
 })
+
+test_that("fail during train, weights are used", {
+  task = iris_weights_learner
+  learner = lrn("classif.debug", error_train = 1, predict_type = "prob")
+  learner$encapsulate("evaluate", lrn("classif.featureless", predict_type = "prob"))
+  expect_class(learner$fallback, "LearnerClassifFeatureless")
+  learner$train(task)
+
+  expect_equal(unname(learner$predict(task)$prob), matrix(c(1 / 111, 10 / 111, 100 / 111), byrow = TRUE, ncol = 3, nrow = 150))
+
+  expect_equal(learner$predict(iris_weights_measure)$weights, rep(c(1, 10, 100), each = 50))
+})

@@ -7,13 +7,15 @@
 #' There are two modes of operation, depending on the flag `paired`.
 #'
 #' * With `paired` set to `FALSE` (default), resampling strategies are not allowed to be instantiated, and instead will be instantiated per task internally.
-#'   The only exception to this rule applies if all tasks have exactly the same number of rows, and the resamplings are all instantiated for such tasks.
+#'   The only exception to this rule applies if all tasks have exactly the same row ids, and the resamplings are all instantiated for such tasks.
 #'   The grid will be generated based on the Cartesian product of tasks, learners, and resamplings.
-#'   Because the resamplings are instantiated on the tasks, reproducibility requires a seed to be set **before**
-#'   calling this function, as this process is stochastic.
+#'   Because the resamplings are instantiated on the tasks, reproducibility requires a seed to be set **before** calling this function, as this process is stochastic.
 #' * With `paired` set to `TRUE`, tasks and resamplings are treated as pairs.
-#'   I.e., you must provide as many tasks as corresponding instantiated resamplings.
+#'   This means that you must provide as many tasks as corresponding instantiated resamplings.
 #'   The grid will be generated based on the Cartesian product of learners and pairs.
+#'
+#' @section Errors and Warnings:
+#' * `varying_predict_types`: This warning will be thrown if the learners have different `predict_type`s.
 #'
 #' @param tasks (list of [Task]).
 #' @param learners (list of [Learner]).
@@ -54,8 +56,12 @@
 #' print(design)
 #'
 #' # manual construction of the grid with data.table::CJ()
-#' grid = data.table::CJ(task = tasks, learner = learners,
-#'   resampling = resamplings, sorted = FALSE)
+#' grid = data.table::CJ(
+#'  task = tasks,
+#'   learner = learners,
+#'   resampling = resamplings,
+#'   sorted = FALSE
+#' )
 #'
 #' # manual instantiation (not suited for a fair comparison of learners!)
 #' Map(function(task, resampling) {
@@ -72,6 +78,9 @@ benchmark_grid = function(tasks, learners, resamplings, param_values = NULL, pai
   if (!is.null(param_values)) {
     assert_param_values(param_values, n_learners = length(learners))
   }
+  if (length(unique(map_chr(unique(learners), "predict_type"))) > 1) {
+    warningf("Multiple predict types detected, this will mean that you cannot evaluate the same measures on all learners.", class = "varying_predict_types") # nolint
+  }
 
   if (assert_flag(paired)) {
     if (length(tasks) != length(resamplings)) {
@@ -84,7 +93,7 @@ benchmark_grid = function(tasks, learners, resamplings, param_values = NULL, pai
       if (!resamplings[[i]]$is_instantiated) {
         stopf("Resampling #%i ('%s' for task '%s') is not instantiated", i, resampling$id, task$id)
       }
-      if (resampling$task_hash != task$hash) {
+      if (resampling$task_row_hash != task$row_hash) {
         stopf("Resampling #%i ('%s' for task '%s') is not instantiated on the corresponding task", i, resampling$id, task$id)
       }
     }
@@ -95,14 +104,18 @@ benchmark_grid = function(tasks, learners, resamplings, param_values = NULL, pai
     grid = CJ(task = seq_along(tasks), resampling = seq_along(resamplings))
     is_instantiated = map_lgl(resamplings, "is_instantiated")
 
-    if (any(is_instantiated)) {
-      task_nrow = unique(map_int(tasks, "nrow"))
-      if (length(task_nrow) != 1L) {
-        stopf("All resamplings must be uninstantiated, or must operate on tasks with the same number of rows")
-      }
-      if (!identical(task_nrow, unique(map_int(resamplings, "task_nrow")))) {
-        stop("A Resampling is instantiated for a task with a different number of observations")
-      }
+    if (any(is_instantiated) && !all(is_instantiated)) {
+      # prevent that some resamplings are instantiated and others are not
+      stopf("All resamplings must be instantiated, or none at all")
+    } else if (all(is_instantiated)) {
+      # check that all row ids of the resamplings are present in the tasks
+      pwalk(grid, function(task, resampling) {
+        if (!is.null(resamplings[[resampling]]$task_row_hash) &&
+            resamplings[[resampling]]$task_row_hash != tasks[[task]]$row_hash) {
+          stopf("Resampling '%s' is not instantiated on task '%s'", resamplings[[resampling]]$id, tasks[[task]]$id)
+        }
+      })
+
       # clone resamplings for each task and update task hashes
       instances = pmap(grid, function(task, resampling) resampling = resamplings[[resampling]]$clone())
     } else {

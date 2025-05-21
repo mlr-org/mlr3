@@ -63,12 +63,10 @@ parallelization with \CRANpkg{future}. Defaults to 1.
 \item \code{"mlr3.debug"}: If set to \code{TRUE}, parallelization via \CRANpkg{future} is disabled to simplify
 debugging and provide more concise tracebacks.
 Note that results computed in debug mode use a different seeding mechanism and are \strong{not reproducible}.
-\item \code{"mlr3.allow_utf8_names"}: If set to \code{TRUE}, checks on the feature names are relaxed, allowing
-non-ascii characters in column names. This is an experimental and temporal option to
-pave the way for text analysis, and will likely be removed in a future version of the package.
-analysis.
 \item \code{"mlr3.warn_version_mismatch"}: Set to \code{FALSE} to silence warnings raised during predict if a learner has been
 trained with a different version version of mlr3.
+\item \code{"mlr3.prob_as_default"}: Set to \code{TRUE} to set the predict type of classification learners to
+\code{"prob"} by default (if they support it).
 }
 }
 
@@ -109,6 +107,7 @@ Other contributors:
   \item Quay Au \email{quayau@gmail.com} (\href{https://orcid.org/0000-0002-5252-8902}{ORCID}) [contributor]
   \item Lennart Schneider \email{lennart.sch@web.de} (\href{https://orcid.org/0000-0003-4152-5308}{ORCID}) [contributor]
   \item Lona Koers \email{lona.koers@gmail.com} [contributor]
+  \item John Zobolas \email{bblodfon@gmail.com} (\href{https://orcid.org/0000-0002-3609-8674}{ORCID}) [contributor]
 }
 
 }

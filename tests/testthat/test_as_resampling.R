@@ -10,3 +10,7 @@ test_that("as_resampling conversion", {
   expect_list(as_resamplings(resampling), types = "Resampling")
   expect_list(as_resamplings(list(resampling)), types = "Resampling")
 })
+
+test_that("error when arguments are misspelled", {
+  expect_error(as_resampling(rsmp("holdout"), clone2 = TRUE), "Received the following")
+})

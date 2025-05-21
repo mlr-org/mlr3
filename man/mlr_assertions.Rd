@@ -10,6 +10,7 @@
 \alias{assert_learnable}
 \alias{assert_predictable}
 \alias{assert_measure}
+\alias{assert_scorable}
 \alias{assert_measures}
 \alias{assert_resampling}
 \alias{assert_resamplings}
@@ -55,7 +56,7 @@ assert_learners(
   .var.name = vname(learners)
 )
 
-assert_learnable(task, learner)
+assert_learnable(task, learner, param_values = NULL)
 
 assert_predictable(task, learner)
 
@@ -63,6 +64,14 @@ assert_measure(
   measure,
   task = NULL,
   learner = NULL,
+  prediction = NULL,
+  .var.name = vname(measure)
+)
+
+assert_scorable(
+  measure,
+  task,
+  learner,
   prediction = NULL,
   .var.name = vname(measure)
 )
@@ -92,14 +101,20 @@ assert_resample_result(rr, .var.name = vname(rr))
 
 assert_benchmark_result(bmr, .var.name = vname(bmr))
 
-assert_row_ids(row_ids, null.ok = FALSE, .var.name = vname(row_ids))
+assert_row_ids(
+  row_ids,
+  task = NULL,
+  null.ok = FALSE,
+  .var.name = vname(row_ids)
+)
 
 assert_validate(x)
 }
 \arguments{
 \item{b}{(\link{DataBackend}).}
 
-\item{task}{(\link{Task}).}
+\item{task}{(\link{Task})\cr
+Task to check if row ids exist in it.}
 
 \item{task_type}{(\code{character(1)}).}
 
@@ -114,6 +129,10 @@ Set of required task properties.}
 \item{learner}{(\link{Learner}).}
 
 \item{learners}{(list of \link{Learner}).}
+
+\item{param_values}{(\code{list()})\cr
+TuneToken are not allowed in the parameter set of the learner.
+If the \code{param_values} overwrite the TuneToken, the assertion will pass.}
 
 \item{measure}{(\link{Measure}).}
 

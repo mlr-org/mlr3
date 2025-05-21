@@ -24,6 +24,23 @@
 #' In such cases it is necessary to overwrite the public methods `$aggregate()` and/or `$score()` to return a named `numeric()`
 #' where at least one of its names corresponds to the `id` of the measure itself.
 #'
+#' @section Weights:
+#'
+#' Many measures support observation weights, indicated by their property `"weights"`.
+#' The weights are stored in the [Task] where the column role `weights_measure` needs to be assigned to a single numeric column.
+#' The weights are automatically used if found in the task, this can be disabled by setting the field `use_weights` to `"ignore"`.
+#' See the description of `use_weights` for more information.
+#'
+#' If the measure is set-up to use weights but the task does not have a designated `weights_measure` column, an unweighted version is calculated instead.
+#' The weights do not necessarily need to sum up to 1, they are normalized by the measure if necessary.
+#'
+#' Most measures are so-called decomposable loss functions where a point-wise loss is computed and then either mean-aggregated or summed
+#' over the test set.
+#' For measures that do mean-aggregation, weights are typically used to compute the weighted mean, which normalizes weights to sum to 1.
+#' Measures that use sum-aggregation do not normalize weights and instead multiply individual losses with the given weights.
+#' See the documentation of specific measures for more details.
+#'
+#'
 #' @template param_id
 #' @template param_param_set
 #' @template param_range
@@ -94,10 +111,6 @@ Measure = R6Class("Measure",
     #' Lower and upper bound of possible performance scores.
     range = NULL,
 
-    #' @field properties (`character()`)\cr
-    #' Properties of this measure.
-    properties = NULL,
-
     #' @field minimize (`logical(1)`)\cr
     #' If `TRUE`, good predictions correspond to small values of performance scores.
     minimize = NULL,
@@ -117,7 +130,6 @@ Measure = R6Class("Measure",
       predict_sets = "test", task_properties = character(), packages = character(),
       label = NA_character_, man = NA_character_, trafo = NULL) {
 
-      self$properties = unique(properties)
       self$id = assert_string(id, min.chars = 1L)
       self$label = assert_string(label, na.ok = TRUE)
       self$task_type = task_type
@@ -136,8 +148,19 @@ Measure = R6Class("Measure",
         assert_choice(task_type, mlr_reflections$task_types$type)
         assert_subset(properties, mlr_reflections$measure_properties[[task_type]])
         assert_choice(predict_type, names(mlr_reflections$learner_predict_types[[task_type]]))
-        assert_subset(properties, mlr_reflections$measure_properties[[task_type]])
         assert_subset(task_properties, mlr_reflections$task_properties[[task_type]])
+      } else {
+        assert_subset(properties, unique(unlist(mlr_reflections$measure_properties, use.names = FALSE)))
+      }
+
+      self$properties = unique(properties)
+
+      if ("weights" %in% properties) {
+        self$use_weights = "use"
+      } else if ("requires_no_prediction" %in% properties) {
+        self$use_weights = "ignore"
+      } else {
+        self$use_weights = "error"
       }
 
       self$predict_type = predict_type
@@ -160,14 +183,20 @@ Measure = R6Class("Measure",
     #' Printer.
     #' @param ... (ignored).
     print = function(...) {
-      catn(format(self), if (is.null(self$label) || is.na(self$label)) "" else paste0(": ", self$label))
-      catn(str_indent("* Packages:", self$packages))
-      catn(str_indent("* Range:", sprintf("[%g, %g]", self$range[1L], self$range[2L])))
-      catn(str_indent("* Minimize:", self$minimize))
-      catn(str_indent("* Average:", self$average))
-      catn(str_indent("* Parameters:", as_short_string(self$param_set$values, 1000L)))
-      catn(str_indent("* Properties:", self$properties))
-      catn(str_indent("* Predict type:", self$predict_type))
+      msg_h = if (is.null(self$label) || is.na(self$label)) "" else paste0(": ", self$label)
+      msg_properties = if (length(self$properties)) self$properties else "-"
+      cat_cli({
+        cli_h1("{.cls {class(self)[1L]}} ({self$id}){msg_h}")
+        cli_li("Packages: {.pkg {self$packages}}")
+        cli_li("Range: [{self$range[1L]}, {self$range[2L]}]")
+        cli_li("Minimize: {.val {self$minimize}}")
+        cli_li("Average: {self$average}")
+        cli_li("Parameters: {as_short_string(self$param_set$values, 1000L)}")
+        cli_li("Properties: {msg_properties}")
+        cli_li("Predict type: {self$predict_type}")
+        cli_li("Predict sets: {self$predict_sets}")
+        cli_li("Aggregator: {if (is.null(self$aggregator)) 'mean()' else '[user-defined]'}")
+      })
     },
 
     #' @description
@@ -195,16 +224,17 @@ Measure = R6Class("Measure",
     #' @return `numeric(1)`.
     score = function(prediction, task = NULL, learner = NULL, train_set = NULL) {
       assert_scorable(self, task = task, learner = learner, prediction = prediction)
-      assert_prediction(prediction, null.ok = "requires_no_prediction" %nin% self$properties)
+      properties = self$properties
+      assert_prediction(prediction, null.ok = "requires_no_prediction" %nin% properties)
 
       # check should be added to assert_measure()
       # except when the checks are superfluous for rr$score() and bmr$score()
       # these checks should be added bellow
-      if ("requires_task" %in% self$properties && is.null(task)) {
+      if ("requires_task" %chin% properties && is.null(task)) {
         stopf("Measure '%s' requires a task", self$id)
       }
 
-      if ("requires_learner" %in% self$properties && is.null(learner)) {
+      if ("requires_learner" %chin% properties && is.null(learner)) {
         stopf("Measure '%s' requires a learner", self$id)
       }
 
@@ -212,7 +242,7 @@ Measure = R6Class("Measure",
         stopf("Measure '%s' incompatible with task type '%s'", self$id, prediction$task_type)
       }
 
-      if ("requires_train_set" %in% self$properties && is.null(train_set)) {
+      if ("requires_train_set" %chin% properties && is.null(train_set)) {
         stopf("Measure '%s' requires the train_set", self$id)
       }
 
@@ -227,8 +257,15 @@ Measure = R6Class("Measure",
     #'
     #' @return `numeric(1)`.
     aggregate = function(rr) {
-
       switch(self$average,
+        "macro_weighted" = {
+          aggregator = self$aggregator %??% weighted.mean
+          tab = score_measures(rr, list(self), reassemble = FALSE, view = get_private(rr)$.view,
+            iters = get_private(rr$resampling)$.primary_iters)
+          # score_measures constructs both .weights and .samples, since it can work with multiple measures and hence
+          # does not depend on an individual measure's `use_weights` setting.
+          set_names(aggregator(tab[[self$id]], if (self$use_weights == "use") tab$.weights else tab$.samples), self$id)
+        },
         "macro" = {
           aggregator = self$aggregator %??% mean
           tab = score_measures(rr, list(self), reassemble = FALSE, view = get_private(rr)$.view,
@@ -245,7 +282,7 @@ Measure = R6Class("Measure",
         },
         "custom" =  {
           if (!is.null(get_private(rr$resampling)$.primary_iters) && "primary_iters" %nin% self$properties &&
-            !test_permutation(get_private(rr$resampling)$.primary_iters, seq_len(rr$resampling$iters))) {
+              !test_permutation(get_private(rr$resampling)$.primary_iters, seq_len(rr$resampling$iters))) {
             stopf("Resample result has non-NULL primary_iters, but measure '%s' cannot handle them", self$id)
           }
           private$.aggregator(rr)
@@ -258,7 +295,7 @@ Measure = R6Class("Measure",
     #' @template field_predict_sets
     predict_sets = function(rhs) {
       if (!missing(rhs)) {
-        private$.predict_sets = assert_subset(rhs, mlr_reflections$predict_sets, empty.ok = "requires_no_prediction" %in% self$properties)
+        private$.predict_sets = assert_subset(rhs, mlr_reflections$predict_sets, empty.ok = "requires_no_prediction" %chin% self$properties)
       }
       private$.predict_sets
     },
@@ -271,7 +308,18 @@ Measure = R6Class("Measure",
       assert_ro_binding(rhs)
       calculate_hash(class(self), self$id, self$param_set$values, private$.score,
         private$.average, private$.aggregator, self$obs_loss, self$trafo,
-        self$predict_sets, mget(private$.extra_hash, envir = self))
+        self$predict_sets, mget(private$.extra_hash, envir = self), private$.use_weights)
+    },
+
+    #' @field properties (`character()`)\cr
+    #' Properties of this measure.
+    properties = function(rhs) {
+      if (!missing(rhs)) {
+        props = if (is.na(self$task_type)) unique(unlist(mlr_reflections$measure_properties, use.names = FALSE)) else mlr_reflections$measure_properties[[self$task_type]]
+        private$.properties = assert_subset(rhs, props)
+      } else {
+        private$.properties
+      }
     },
 
     #' @field average (`character(1)`)\cr
@@ -284,11 +332,17 @@ Measure = R6Class("Measure",
     #'   The scoring function is applied on the [Prediction] object of each resampling iterations,
     #'   each yielding a single numeric score.
     #'   Next, the scores are combined with the `aggregator` function to a single numerical score.
+    #' * `"macro_weighted"`:
+    #'   The scoring function is applied on the [Prediction] object of each resampling iterations,
+    #'   each yielding a single numeric score.
+    #'   Next, the scores are combined with the `aggregator` function to a single numerical score.
+    #'   The scores are weighted by the total sample weights (if present, and if `$use_weights` is set to `"use"`),
+    #'   or the number of samples in each resampling iteration.
     #' * `"custom"`:
     #'   The measure comes with a custom aggregation method which directly operates on a [ResampleResult].
     average = function(rhs) {
       if (!missing(rhs)) {
-        private$.average = assert_choice(rhs, c("micro", "macro", "custom"))
+        private$.average = assert_choice(rhs, c("micro", "macro", "custom", "macro_weighted"))
       } else {
         private$.average
       }
@@ -302,14 +356,40 @@ Measure = R6Class("Measure",
       } else {
         private$.aggregator
       }
+    },
+
+    #' @field use_weights (`character(1)`)\cr
+    #' How to handle weights.
+    #' Settings are `"use"`, `"ignore"`, and `"error"`.
+    #'
+    #' * `"use"`: Weights are used automatically if found in the task, as supported by the measure.
+    #' * `"ignore"`: Weights are ignored.
+    #' * `"error"`: throw an error if weights are present in the training `Task`.
+    #'
+    #' For measures with the property `"weights"`, this is initialized as `"use"`.
+    #' For measures with the property `"requires_no_prediction"`, this is initialized as `"ignore"`.
+    #' For measures that have neither of the properties, this is initialized as `"error"`.
+    #' The latter behavior is to avoid cases where a user erroneously assumes that a measure supports weights when it does not.
+    #' For measures that do not support weights, `use_weights` needs to be set to `"ignore"` if tasks with weights should be handled (by dropping the weights).
+    use_weights = function(rhs) {
+      if (!missing(rhs)) {
+        private$.use_weights = assert_choice(rhs, c(if ("weights" %chin% self$properties) "use", "ignore", "error"))
+      } else {
+        private$.use_weights
+      }
     }
   ),
 
   private = list(
+    .properties = character(),
     .predict_sets = NULL,
     .extra_hash = character(),
     .average = NULL,
-    .aggregator = NULL
+    .aggregator = NULL,
+    .use_weights = NULL,
+    .score = function(prediction, task, weights, ...) {
+      stop("abstract method")
+    }
   )
 )
 
@@ -364,7 +444,8 @@ score_single_measure = function(measure, task, learner, train_set, prediction) {
     return(NaN)
   }
 
-  get_private(measure)$.score(prediction = prediction, task = task, learner = learner, train_set = train_set)
+  get_private(measure)$.score(prediction = prediction, task = task, learner = learner, train_set = train_set,
+    weights = if (measure$use_weights == "use") prediction$weights)
 }
 
 #' @title Workhorse function to calculate multiple scores
@@ -385,8 +466,16 @@ score_single_measure = function(measure, task, learner, train_set, prediction) {
 #' @noRd
 score_measures = function(obj, measures, reassemble = TRUE, view = NULL, iters = NULL) {
   reassemble_learners = reassemble ||
-    some(measures, function(m) any(c("requires_learner", "requires_model") %in% m$properties))
+    some(measures, function(m) any(c("requires_learner", "requires_model") %chin% m$properties))
   tab = get_private(obj)$.data$as_data_table(view = view, reassemble_learners = reassemble_learners, convert_predictions = FALSE)
+
+  set(tab, j = ".samples", value = map_dbl(tab$prediction, function(x) length(x$test$row_ids)))
+  if (length(tab$prediction) && "weights" %chin% names(tab$prediction[[1L]]$test)) {
+    set(tab, j = ".weights", value = map_dbl(tab$prediction, function(x) sum(x$test$weights)))
+  } else {
+    set(tab, j = ".weights", value = tab$.samples)
+  }
+
 
   if (!is.null(iters)) {
     tab = tab[list(iters), on = "iteration"]

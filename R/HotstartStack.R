@@ -156,7 +156,7 @@ HotstartStack = R6Class("HotstartStack",
     #'
     #' @param ... (ignored).
     print = function(...) {
-      catf(format(self))
+      cat_cli(cli_h1("{.cls {class(self)[1L]}}"))
       print(self$stack, digits = 2)
     }
   ),
@@ -202,9 +202,9 @@ calculate_cost = function(start_learner, learner, hotstart_id) {
   cost = learner$param_set$values[[hotstart_id]] - start_learner$param_set$values[[hotstart_id]]
   if (cost == 0) return(-1)
 
-  if ("hotstart_backward" %in% learner$properties && "hotstart_forward" %in% learner$properties) {
+  if ("hotstart_backward" %chin% learner$properties && "hotstart_forward" %chin% learner$properties) {
     if (cost < 0) 0 else cost
-  } else if ("hotstart_backward" %in% learner$properties) {
+  } else if ("hotstart_backward" %chin% learner$properties) {
     if (cost < 0) 0 else NA_real_
   } else {
     if (cost > 0) cost else NA_real_

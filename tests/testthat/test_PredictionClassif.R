@@ -174,3 +174,20 @@ test_that("filtering", {
   expect_set_equal(p2$row_ids, 1:3)
   expect_prediction(as_prediction_classif(as.data.table(p2)))
 })
+
+test_that("predictions with weights", {
+  ll = lrn("classif.debug")$train(tsk("iris"), row_ids = 1)
+
+  pred_with_weights = ll$predict(iris_weights_measure)
+  expect_equal(pred_with_weights$weights, rep(c(1, 10, 100), each = 50))
+
+  pred_without_weights = ll$predict(tsk("iris"))
+  expect_null(pred_without_weights$weights)
+
+  expect_error(c(pred_with_weights, pred_without_weights), "Some predictions have weights, others do not")
+
+  expect_equal(c(pred_with_weights, pred_with_weights)$weights, rep(c(1, 10, 100, 1, 10, 100), each = 50))
+
+  expect_equal(c(pred_with_weights$clone(deep = TRUE)$filter(1:10), pred_with_weights)$weights, rep(c(1, 10, 100, 1, 10, 100), each = 50)[c(1:10, 151:300)])
+})
+

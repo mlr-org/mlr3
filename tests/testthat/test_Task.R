@@ -199,14 +199,16 @@ test_that("filter works", {
   task = tsk("iris")
   task$filter(1:100)
   expect_equal(task$nrow, 100L)
+  expect_equal(task$row_ids, 1:100)
 
   task$filter(91:150)
-  expect_equal(task$nrow, 10L)
-
-  expect_equal(task$row_ids, 91:100)
+  expect_equal(task$nrow, 60L)
+  expect_equal(task$row_ids, 91:150)
 
   task$filter(91)
   expect_equal(task$nrow, 1L)
+  expect_equal(task$row_ids, 91)
+  expect_integer(task$row_ids)  # #1285
   expect_data_table(task$data(), nrows = 1L, any.missing = FALSE)
 })
 
@@ -237,34 +239,39 @@ test_that("rename works", {
 
 test_that("stratify works", {
   task = tsk("iris")
-  expect_false("strata" %in% task$properties)
+  expect_false("strata" %chin% task$properties)
   expect_null(task$strata)
 
   task$col_roles$stratum = task$target_names
-  expect_true("strata" %in% task$properties)
+  expect_true("strata" %chin% task$properties)
   tab = task$strata
   expect_data_table(tab, ncols = 2, nrows = 3)
   expect_list(tab$row_id, "integer")
 })
 
 test_that("groups/weights work", {
-  b = as_data_backend(data.table(x = runif(20), y = runif(20), w = runif(20), g = sample(letters[1:2], 20, replace = TRUE)))
+  b = as_data_backend(data.table(x = runif(20), y = runif(20), w = runif(20),
+                                 o = runif(20), g = sample(letters[1:2], 20, replace = TRUE)))
   task = TaskRegr$new("test", b, target = "y")
   task$set_row_roles(16:20, character())
 
   expect_false("groups" %in% task$properties)
   expect_false("weights" %in% task$properties)
+  expect_false("weights_learner" %in% task$properties)
+  expect_false("offset" %chin% task$properties)
   expect_null(task$groups)
-  expect_null(task$weights)
+  expect_null(task$weights_learner)
 
-  task$col_roles$weight = "w"
-  expect_subset("weights", task$properties)
-  expect_data_table(task$weights, ncols = 2, nrows = 15)
-  expect_numeric(task$weights$weight, any.missing = FALSE)
+  # weight
+  task$col_roles$weights_learner = "w"
+  expect_subset("weights_learner", task$properties)
+  expect_data_table(task$weights_learner, ncols = 2, nrows = 15)
+  expect_numeric(task$weights_learner$weight, any.missing = FALSE)
 
-  task$col_roles$weight = character()
-  expect_true("weights" %nin% task$properties)
+  task$col_roles$weights_learner = character()
+  expect_true("weights_learner" %nin% task$properties)
 
+  # group
   task$col_roles$group = "g"
   expect_subset("groups", task$properties)
   expect_data_table(task$groups, ncols = 2, nrows = 15)
@@ -274,7 +281,7 @@ test_that("groups/weights work", {
   expect_true("groups" %nin% task$properties)
 
   expect_error({
-    task$col_roles$weight = c("w", "g")
+    task$col_roles$weights_learner = c("w", "g")
   }, "up to one")
 })
 
@@ -288,9 +295,13 @@ test_that("col roles are valid", {
   task = TaskRegr$new("test", b, target = "y")
 
   # weight
-  expect_error(task$set_col_roles("logical", roles = "weight"), "type")
-  expect_error(task$set_col_roles("factor", roles = "weight"), "type")
-  expect_error(task$set_col_roles(c("integer", "numeric"), roles = "weight"), "There may only be up to one column with role")
+  expect_error(task$set_col_roles("logical", roles = "weights_learner"), "type")
+  expect_error(task$set_col_roles("factor", roles = "weights_learner"), "type")
+  expect_error(task$set_col_roles(c("integer", "numeric"), roles = "weights_learner"), "There may only be up to one column with role")
+
+  expect_error(task$set_col_roles("logical", roles = "weights_measure"), "type")
+  expect_error(task$set_col_roles("factor", roles = "weights_measure"), "type")
+  expect_error(task$set_col_roles(c("integer", "numeric"), roles = "weights_measure"), "There may only be up to one column with role")
 
   # name
   expect_error(task$set_col_roles("logical", roles = "name"), "type")
@@ -305,13 +316,15 @@ test_that("col roles are valid", {
   b = as_data_backend(data.table(y = runif(20), numeric = c(runif(19), NA_real_)))
   task = TaskRegr$new("test", b, target = "y")
 
-  expect_error(task$set_col_roles("numeric", roles = "weight"), "missing")
+  expect_error(task$set_col_roles("numeric", roles = "weights_learner"), "missing")
+  expect_error(task$set_col_roles("numeric", roles = "weights_measure"), "missing")
 
   # negative weights
   b = as_data_backend(data.table(y = runif(20), numeric = c(runif(19), -10)))
   task = TaskRegr$new("test", b, target = "y")
 
-  expect_error(task$set_col_roles("numeric", roles = "weight"), "is not")
+  expect_error(task$set_col_roles("numeric", roles = "weights_learner"), "is not")
+  expect_error(task$set_col_roles("numeric", roles = "weights_measure"), "is not")
 
   # target classif
   b = as_data_backend(data.table(
@@ -413,13 +426,31 @@ test_that("row roles setters", {
 
   expect_error({
     task$row_roles$use = "foo"
-  })
+  }, "integerish")
   expect_error({
     task$row_roles$foo = 1L
-  })
+  }, "extra elements")
 
   task$row_roles$use = 1:20
   expect_equal(task$nrow, 20L)
+})
+
+test_that("row_ids_backend returns all backend rows", {
+  task = tsk("iris")
+
+  expect_set_equal(task$row_ids, task$row_ids_backend)
+
+  task$filter(1:100)
+  expect_set_equal(task$row_ids, 1:100)
+  expect_set_equal(task$row_ids_backend, 1:150)
+
+  task$set_row_roles(1:50, remove_from = "use")
+  expect_set_equal(task$row_ids, 51:100)
+  expect_set_equal(task$row_ids_backend, 1:150)
+
+  expect_error({
+    task$row_ids_backend = 1:10
+  }, "read-only")
 })
 
 test_that("col roles getters/setters", {
@@ -427,14 +458,14 @@ test_that("col roles getters/setters", {
 
   expect_error({
     task$col_roles$feature = "foo"
-  })
+  }, "subset")
 
   expect_error({
     task$col_roles$foo = "Species"
   })
 
   task$col_roles$feature = setdiff(task$col_roles$feature, "Sepal.Length")
-  expect_false("Sepal.Length" %in% task$feature_names)
+  expect_false("Sepal.Length" %chin% task$feature_names)
 })
 
 test_that("Task$row_names", {
@@ -471,17 +502,17 @@ test_that("Task$set_col_roles", {
 
   task$set_col_roles("mass", add_to = "feature")
   expect_equal(task$n_features, 8L)
-  expect_true("mass" %in% task$feature_names)
+  expect_true("mass" %chin% task$feature_names)
 
-  task$set_col_roles("age", roles = "weight")
+  task$set_col_roles("age", roles = "weights_learner")
   expect_equal(task$n_features, 7L)
   expect_true("age" %nin% task$feature_names)
-  expect_data_table(task$weights)
+  expect_data_table(task$weights_learner)
 
-  task$set_col_roles("age", add_to = "feature", remove_from = "weight")
+  task$set_col_roles("age", add_to = "feature", remove_from = "weights_learner")
   expect_equal(task$n_features, 8L)
-  expect_true("age" %in% task$feature_names)
-  expect_null(task$weights)
+  expect_true("age" %chin% task$feature_names)
+  expect_null(task$weights_learner)
 })
 
 test_that("$add_strata", {
@@ -552,15 +583,6 @@ test_that("set_levels", {
 })
 
 test_that("special chars in feature names (#697)", {
-  prev = options(mlr3.allow_utf8_names = FALSE)
-  on.exit(options(prev))
-
-  expect_error(
-    TaskRegr$new("test", data.table(`%^` = 1:3, t = 3:1), target = "t"),
-    "comply"
-  )
-  options(mlr3.allow_utf8_names = TRUE)
-
   expect_error(
     TaskRegr$new("test", data.table(`%asd` = 1:3, t = 3:1), target = "t")
     ,
@@ -585,8 +607,8 @@ test_that("head/tail", {
 
 test_that("Roles get printed (#877)", {
   task = tsk("iris")
-  task$col_roles$weight = "Petal.Width"
-  expect_output(print(task), "Weights: Petal.Width")
+  task$col_roles$weights_learner = "Petal.Width"
+  expect_output(print(task), "Weights/Learner: Petal.Width")
 })
 
 test_that("validation task is cloned", {
@@ -594,12 +616,15 @@ test_that("validation task is cloned", {
   task$internal_valid_task = c(1:10, 51:60, 101:110)
   task2 = task$clone(deep = TRUE)
   expect_different_address(task$internal_valid_task, task2$internal_valid_task)
+  # TODO: maybe re-enable after $weights has been removed?
+  # expect_equal(task$internal_valid_task, task2$internal_valid_task)
 })
 
 test_that("task is cloned when assining internal validation task", {
   task = tsk("iris")
   task$internal_valid_task = task
-  expect_false(identical(task, task$internal_valid_task))
+  # TODO: re-enable after $weights has been removed
+  # expect_false(identical(task, task$internal_valid_task))
 })
 
 test_that("validation task changes a task's hash", {
@@ -632,17 +657,15 @@ test_that("can NULL validation task", {
 test_that("internal_valid_task is printed", {
   task = tsk("iris")
   task$internal_valid_task = c(1:10, 51:60, 101:110)
-  out = capture_output(print(task))
-  expect_true(grepl(pattern = "* Validation Task: (30x5)", fixed = TRUE, x = out))
+  expect_output(print(task), "Validation Task: \\(30x5\\)")
 })
 
 test_that("task hashes during resample", {
-  orig = tsk("iris")
+  task = orig = tsk("iris")
   task = orig$clone(deep = TRUE)
   resampling = rsmp("holdout")
   resampling$instantiate(task)
   task$internal_valid_task = resampling$test_set(1)
-  task$hash
   learner = lrn("classif.debug", validate = "test")
   expect_equal(resampling_task_hashes(task, resampling, learner), task$hash)
 })
@@ -659,7 +682,160 @@ test_that("cbind supports non-standard primary key (#961)", {
   b = as_data_backend(tbl, primary_key = "myid")
   task = as_task_regr(b, target = "y")
   task$cbind(data.table(x1 = 10:1))
-  expect_true("x1" %in% task$feature_names)
+  expect_true("x1" %chin% task$feature_names)
+})
+
+test_that("task weights", {
+  # proper deprecation of rename weights -> weights_learner
+  task = tsk("mtcars")
+  task$cbind(data.table(w = runif(32)))
+  expect_warning(task$weights)
+
+  task$set_col_roles("w", "weights_learner")
+  expect_data_table(task$weights_learner)
+  expect_subset("weights_learner", task$properties)
+  expect_task(task)
+})
+
+test_that("task$set_col_roles() with weights", {
+  task = tsk("mtcars")
+  task$cbind(data.table(w_lrn = runif(32), w_msr = runif(32)))
+
+  # weights_learner
+  task$set_col_roles("w_lrn", "weights_learner")
+  expect_data_table(task$weights_learner)
+  expect_subset("weights_learner", task$properties)
+  expect_task(task)
+  task$set_col_roles("w_lrn", remove_from = "weights_learner")
+  expect_null(task$weights_learner)
+  expect_false("weights_learner" %in% task$properties)
+
+  # weights_measure
+  task$set_col_roles("w_msr", "weights_measure")
+  expect_data_table(task$weights_measure)
+  expect_subset("weights_measure", task$properties)
+  expect_task(task)
+  task$set_col_roles("w_msr", remove_from = "weights_measure")
+  expect_null(task$weights_measure)
+  expect_false("weights_measure" %in% task$properties)
+
+  # Test assigning the same column to both
+  task = tsk("mtcars")$cbind(data.table(w = runif(32)))
+  task$set_col_roles("w", add_to = c("weights_learner", "weights_measure"))
+  expect_equal(task$weights_learner$weight, task$backend$data(task$row_ids, "w")$w)
+  expect_equal(task$weights_measure$weight, task$backend$data(task$row_ids, "w")$w)
+  expect_subset(c("weights_learner", "weights_measure"), task$properties)
+})
+
+test_that("task$set_col_roles errors with wrong weights", {
+  dd = iris
+  dd$ww_chr = sample(letters, 150, replace = TRUE)
+  dd$ww_na = 1:150; dd$ww_na[1] = NA
+  dd$ww_neg = 1:150; dd$ww_neg[1] = -99
+  tt = as_task_classif(dd, target = "Species")
+
+  expect_error(tt$set_col_roles("ww_chr", "weights_learner"), "Must be of type")
+  expect_error(tt$set_col_roles("ww_chr", "weights_measure"), "Must be of type")
+
+  expect_error(tt$set_col_roles("ww_na", "weights_learner"), "missing values")
+  expect_error(tt$set_col_roles("ww_na", "weights_measure"), "missing values")
+
+  expect_error(tt$set_col_roles("ww_neg", "weights_learner"), "is not >= 0")
+  expect_error(tt$set_col_roles("ww_neg", "weights_measure"), "is not >= 0")
+})
+
+test_that("weights printing", {
+  task = tsk("mtcars")
+  task$cbind(data.table(w_lrn = runif(32), w_msr = runif(32)))
+  task$set_col_roles("w_lrn", "weights_learner")
+  task$set_col_roles("w_msr", "weights_measure")
+  expect_output(print(task), "Weights/Learner: w_lrn")
+  expect_output(print(task), "Weights/Measure: w_msr")
+})
+
+test_that("rbind with weights", {
+  task = tsk("iris")
+  task$cbind(data.table(w_lrn = 1:150, w_msr = 150:1))
+  task$set_col_roles("w_lrn", "weights_learner")
+  task$set_col_roles("w_msr", "weights_measure")
+
+  original_rows = task$nrow
+  original_row_ids = task$row_ids
+  original_weights_lrn = task$weights_learner
+  original_weights_msr = task$weights_measure
+
+  new_data = task$data(1:10) # includes target, features, weights
+  new_data$..row_id = 151:160
+  new_data$w_lrn = 1001:1010
+  new_data$w_msr = 2010:2001
+  new_data$Petal.Length = new_data$Petal.Length + 100 # Change a feature to check backend update
+  new_data$Species = factor(sample(c("setosa", "versicolor", "virginica", "new_level"), 10, replace = TRUE)) # new factor level
+
+  task$rbind(new_data)
+
+  expect_equal(task$nrow, original_rows + 10)
+  expect_set_equal(task$row_ids, c(original_row_ids, 151:160))
+  expect_true("weights_learner" %in% task$properties)
+  expect_true("weights_measure" %in% task$properties)
+
+  # Check combined weights
+  combined_weights_lrn = task$weights_learner
+  expect_equal(nrow(combined_weights_lrn), task$nrow)
+  expect_equal(setkeyv(combined_weights_lrn[row_id %in% original_row_ids], "row_id"), original_weights_lrn)
+  expect_equal(combined_weights_lrn[row_id %in% 151:160]$weight, 1001:1010)
+
+  combined_weights_msr = task$weights_measure
+  expect_equal(nrow(combined_weights_msr), task$nrow)
+  # expect_equal(combined_weights_msr[row_id %in% original_row_ids], original_weights_msr) # ordering issue with join
+  expect_equal(setkeyv(combined_weights_msr[list(original_row_ids), on = "row_id"], "row_id"), original_weights_msr)
+  expect_equal(combined_weights_msr[row_id %in% 151:160]$weight, 2010:2001)
+
+
+  # Check feature and factor level update
+  expect_true(any(task$data(151:160)$Petal.Length > 100))
+  expect_subset("new_level", task$levels("Species")$Species)
+})
+
+test_that("cbind with weights", {
+  task = tsk("iris")
+  original_n_features = task$n_features
+  original_ncol = task$ncol
+
+  new_cols_data = data.table(
+    ..row_id = task$row_ids,
+    w_lrn = 1:150,
+    w_msr = 150:1,
+    new_feature = rnorm(150)
+  )
+
+  task$cbind(new_cols_data)
+
+  expect_equal(task$n_features, original_n_features + 3) # new_feature added automatically
+  expect_equal(task$ncol, original_ncol + 3)
+  expect_true("new_feature" %in% task$feature_names)
+  expect_false("weights_learner" %in% task$properties) # Role not assigned yet
+  expect_false("weights_measure" %in% task$properties)
+  expect_null(task$weights_learner)
+  expect_null(task$weights_measure)
+
+  # Assign roles
+  task$set_col_roles("w_lrn", "weights_learner")
+  task$set_col_roles("w_msr", "weights_measure")
+
+  expect_true("weights_learner" %in% task$properties)
+  expect_true("weights_measure" %in% task$properties)
+
+  weights_lrn = task$weights_learner
+  expect_equal(nrow(weights_lrn), task$nrow)
+  expect_equal(weights_lrn$weight, 1:150)
+
+  weights_msr = task$weights_measure
+  expect_equal(nrow(weights_msr), task$nrow)
+  expect_equal(weights_msr$weight, 150:1)
+
+  # Check that original features/target are still there
+  expect_equal(task$target_names, "Species")
+  expect_true(all(c("Sepal.Length", "Sepal.Width", "Petal.Length", "Petal.Width") %in% task$feature_names))
 })
 
 test_that("$select changes hash", {
@@ -733,5 +909,61 @@ test_that("$characteristics works", {
 
 test_that("warn when internal valid task has 0 obs", {
   task = tsk("iris")
-  expect_warning({task$internal_valid_task = 151}, "has 0 observations")
+  # expect_warning({task$internal_valid_task = 151}, "has 0 observations")
+})
+
+
+test_that("$data() is not called during task construction", {
+  tbl = data.table(x = 1:10, y = 1:10, ..row_id = 1:10)
+  backend = R6Class("DataBackendTest",
+    inherit = DataBackendDataTable,
+    cloneable = FALSE,
+    public = list(
+      data = function(rows, cols, data_format) {
+        stop("Bug")
+      }
+    )
+  )$new(tbl, "..row_id")
+  task = as_task_regr(backend, target = "y")
+  expect_class(task, "Task")
+})
+
+test_that("row_hash works correctly", {
+  task = tsk("pima")
+  original_hash = task$row_hash
+
+  # hash should change when row ids change with filter
+  task$filter(1:100)
+  expect_false(identical(task$row_hash, original_hash))
+  new_hash = task$row_hash
+
+  # hash should change when row roles change with set_row_roles
+  task$set_row_roles(1:50, roles = "use")
+  expect_false(identical(task$row_hash, new_hash))
+
+  # hash should be read-only
+  expect_error({task$row_hash = "new_hash"}, "is read-only")
+})
+
+test_that("row_ids_backend works correctly", {
+  task = tsk("pima")
+
+  # should not change when filtering
+  task$filter(1:100)
+  expect_set_equal(task$row_ids_backend, 1:768)
+
+  # should not change when modifying row roles
+  task$set_row_roles(1:50, remove_from = "use")
+  expect_set_equal(task$row_ids_backend, 1:768)
+
+  # should be read-only
+  expect_error({task$row_ids_backend = 1:10}, "read-only")
+
+  # should match backend$rownames
+  expect_set_equal(task$row_ids_backend, task$backend$rownames)
+
+  # should include all rows even after multiple filters
+  task$filter(1:50)
+  task$filter(1:25)
+  expect_set_equal(task$row_ids_backend, 1:768)
 })

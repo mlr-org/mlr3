@@ -11,14 +11,17 @@ Hyperparameter \code{method} determines the mode of operation during prediction:
 \item{mode:}{
 Predicts the most frequent label. If there are two or more labels tied, randomly selects one per prediction.
 Probabilities correspond to the relative frequency of the class labels in the training set.
+For weighted data, the label(s) with the highest weighted frequency are selected.
 }
 \item{sample:}{
 Randomly predict a label uniformly.
 Probabilities correspond to a uniform distribution of class labels, i.e. 1 divided by the number of classes.
+Weights are ignored, if present.
 }
 \item{weighted.sample:}{
 Randomly predict a label, with probability estimated from the training distribution.
 For consistency, probabilities are 1 for the sampled label and 0 for all other labels.
+For weighted data, sample weights are used to weight the class labels.
 }
 }
 }
@@ -36,7 +39,7 @@ lrn("classif.featureless")
 \itemize{
 \item Task type: \dQuote{classif}
 \item Predict Types: \dQuote{response}, \dQuote{prob}
-\item Feature Types: \dQuote{logical}, \dQuote{integer}, \dQuote{numeric}, \dQuote{character}, \dQuote{factor}, \dQuote{ordered}, \dQuote{POSIXct}
+\item Feature Types: \dQuote{logical}, \dQuote{integer}, \dQuote{numeric}, \dQuote{character}, \dQuote{factor}, \dQuote{ordered}, \dQuote{POSIXct}, \dQuote{Date}
 \item Required Packages: \CRANpkg{mlr3}
 }
 }
@@ -95,6 +98,7 @@ Other Learner:
 <details><summary>Inherited methods</summary>
 <ul>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="base_learner"><a href='../../mlr3/html/Learner.html#method-Learner-base_learner'><code>mlr3::Learner$base_learner()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="configure"><a href='../../mlr3/html/Learner.html#method-Learner-configure'><code>mlr3::Learner$configure()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="encapsulate"><a href='../../mlr3/html/Learner.html#method-Learner-encapsulate'><code>mlr3::Learner$encapsulate()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="format"><a href='../../mlr3/html/Learner.html#method-Learner-format'><code>mlr3::Learner$format()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="help"><a href='../../mlr3/html/Learner.html#method-Learner-help'><code>mlr3::Learner$help()</code></a></span></li>

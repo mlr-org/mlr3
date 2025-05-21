@@ -87,25 +87,25 @@ local({
   )
 
   mlr_reflections$task_feature_types = c(
-    lgl = "logical", int = "integer", dbl = "numeric", chr = "character", fct = "factor", ord = "ordered", pxc = "POSIXct"
+    lgl = "logical", int = "integer", dbl = "numeric", chr = "character", fct = "factor", ord = "ordered", pxc = "POSIXct", dte = "Date"
   )
 
   mlr_reflections$task_row_roles = c(
     "use"
   )
 
-  tmp = c("feature", "target", "name", "order", "stratum", "group", "weight")
+  tmp = c("feature", "target", "name", "order", "stratum", "group", "offset", "weights_learner", "weights_measure")
   mlr_reflections$task_col_roles = list(
     regr = tmp,
     classif = tmp,
     unsupervised = c("feature", "name", "order")
   )
 
-  tmp = c("strata", "groups", "weights")
+  tmp = c("strata", "groups", "offset", "weights_learner", "weights_measure")
   mlr_reflections$task_properties = list(
     classif = c(tmp, "twoclass", "multiclass"),
     regr = tmp,
-    unsupervised = character(0)
+    unsupervised = character()
   )
 
   mlr_reflections$task_mandatory_properties = list(
@@ -114,11 +114,11 @@ local({
 
   mlr_reflections$task_print_col_roles = list(
     before = character(),
-    after = c("Order by" = "order", "Strata" = "stratum", "Groups" = "group", "Weights" = "weight")
+    after = c("Order by" = "order", "Strata" = "stratum", "Groups" = "group", "Offset" = "offset", "Weights/Learner" = "weights_learner", "Weights/Measure" = "weights_measure")
   )
 
   ### Learner
-  tmp = c("featureless", "missings", "weights", "importance", "selected_features", "oob_error", "hotstart_forward", "hotstart_backward", "validation", "internal_tuning", "marshal")
+  tmp = c("featureless", "missings", "weights", "importance", "selected_features", "oob_error", "hotstart_forward", "hotstart_backward", "validation", "internal_tuning", "marshal", "offset")
   mlr_reflections$learner_properties = list(
     classif = c(tmp, "twoclass", "multiclass"),
     regr = tmp
@@ -135,9 +135,11 @@ local({
   ### Prediction
   mlr_reflections$predict_sets = c("train", "test", "internal_valid")
 
+  ### Resampling
+  mlr_reflections$resampling_properties = c("duplicated_ids", "weights")
 
   ### Measures
-  tmp = c("na_score", "requires_task", "requires_learner", "requires_model", "requires_train_set", "primary_iters", "requires_no_prediction")
+  tmp = c("na_score", "requires_task", "requires_learner", "requires_model", "requires_train_set", "weights", "primary_iters", "requires_no_prediction")
   mlr_reflections$measure_properties = list(
     classif = tmp,
     regr = tmp
@@ -151,9 +153,6 @@ local({
 
   ### ResampleResult
   mlr_reflections$rr_names = c("task", "learner", "resampling", "iteration")
-
-  ### Logger
-  mlr_reflections$loggers = list()
 
   ### Cached package version
   mlr_reflections$package_version = packageVersion("mlr3")

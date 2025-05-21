@@ -43,6 +43,10 @@ as_prediction_data.list = function(x, task, row_ids = task$row_ids, check = TRUE
     x$truth = task$truth(row_ids)
   }
 
+  if ("weights_measure" %chin% task$properties) {
+    x$weights = task$weights_measure[list(row_ids), "weight"][[1L]]
+  }
+
   task = if (task$task_type == "unsupervised") train_task else task
   pdata = new_prediction_data(x, task$task_type)
   if (check) {

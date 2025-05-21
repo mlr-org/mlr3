@@ -18,6 +18,7 @@
 #' @template param_allow_hotstart
 #' @template param_clone
 #' @template param_unmarshal
+#' @template param_callbacks
 #'
 #' @return [BenchmarkResult].
 #'
@@ -81,7 +82,7 @@
 #' ## Get the training set of the 2nd iteration of the featureless learner on penguins
 #' rr = bmr$aggregate()[learner_id == "classif.featureless"]$resample_result[[1]]
 #' rr$resampling$train_set(2)
-benchmark = function(design, store_models = FALSE, store_backends = TRUE, encapsulate = NA_character_, allow_hotstart = FALSE, clone = c("task", "learner", "resampling"), unmarshal = TRUE) {
+benchmark = function(design, store_models = FALSE, store_backends = TRUE, encapsulate = NA_character_, allow_hotstart = FALSE, clone = c("task", "learner", "resampling"), unmarshal = TRUE, callbacks = NULL) {
   assert_subset(clone, c("task", "learner", "resampling"))
   assert_data_frame(design, min.rows = 1L)
   assert_names(names(design), must.include = c("task", "learner", "resampling"))
@@ -96,6 +97,7 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
   }
   assert_flag(store_models)
   assert_flag(store_backends)
+  callbacks = assert_callbacks(as_callbacks(callbacks))
 
   # check for multiple task types
   task_types = unique(map_chr(design$task, "task_type"))
@@ -106,17 +108,16 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
   if (length(learner_types) > 1) {
     stopf("Multiple learner types detected, but mixing types is not supported: %s", str_collapse(learner_types))
   }
-  assert_task_learner(design$task[[1]], design$learner[[1]])
 
   setDT(design)
   task = learner = resampling = NULL
-  if ("task" %in% clone) {
+  if ("task" %chin% clone) {
     design[, "task" := list(list(task[[1L]]$clone())), by = list(hashes(task))]
   }
-  if ("learner" %in% clone) {
+  if ("learner" %chin% clone) {
     design[, "learner" := list(list(learner[[1L]]$clone())), by = list(hashes(learner))]
   }
-  if ("resampling" %in% clone) {
+  if ("resampling" %chin% clone) {
     design[, "resampling" := list(list(resampling[[1L]]$clone())), by = list(hashes(resampling))]
   }
 
@@ -125,13 +126,16 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
 
   # expand the design: add rows for each resampling iteration and param_values
   grid = pmap_dtr(design, function(task, learner, resampling, param_values) {
-    # learner = assert_learner(as_learner(learner, clone = TRUE))
-    assert_learnable(task, learner)
-
     iters = resampling$iters
     n_params = max(1L, length(param_values))
     # insert constant values
     param_values = map(param_values, function(values) insert_named(learner$param_set$values, values))
+    assert_learnable(task, learner, unlist(param_values, recursive = FALSE))
+
+    # check that all row ids of the resampling are present in the task
+    if (resampling$task_row_hash != task$row_hash) {
+      stopf("Resampling '%s' is not instantiated on task '%s'", resampling$id, task$id)
+    }
 
     data.table(
       task = list(task), learner = list(learner), resampling = list(resampling),
@@ -142,7 +146,6 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
   })
 
   n = nrow(grid)
-  lgr_threshold = map_int(mlr_reflections$loggers, "threshold")
 
   # set default mode
   set(grid, j = "mode", value = "train")
@@ -187,7 +190,7 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
 
   res = future_map(n, workhorse,
     task = grid$task, learner = grid$learner, resampling = grid$resampling, iteration = grid$iteration, param_values = grid$param_values, mode = grid$mode,
-    MoreArgs = list(store_models = store_models, lgr_threshold = lgr_threshold, pb = pb, unmarshal = unmarshal)
+    MoreArgs = list(store_models = store_models, lgr_index = lgr::logger_index(), pb = pb, unmarshal = unmarshal, callbacks = callbacks)
   )
 
   grid = insert_named(grid, list(
@@ -201,7 +204,9 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
 
   set(grid, j = "mode", value = NULL)
 
-  result_data = ResultData$new(grid, store_backends = store_backends)
+  data_extra = if (length(callbacks) && any(map_lgl(res, function(x) !is.null(x$data_extra)))) map(res, "data_extra")
+
+  result_data = ResultData$new(grid, data_extra, store_backends = store_backends)
 
   if (unmarshal && store_models) {
     result_data$unmarshal()
