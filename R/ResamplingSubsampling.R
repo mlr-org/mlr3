@@ -39,7 +39,7 @@
 #'
 #' # Internal storage:
 #' subsampling$instance$train # list of index vectors
-ResamplingSubsampling = R6Class("ResamplingSubsampling", inherit = Resampling,
+ResamplingSubsampling = R6Class("ResamplingSubsampling", inherit = ResamplingGroupOrStrata,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.

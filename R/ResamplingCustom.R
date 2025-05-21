@@ -24,7 +24,7 @@
 #'
 #' custom$train_set(1)
 #' custom$test_set(1)
-ResamplingCustom = R6Class("ResamplingCustom", inherit = Resampling,
+ResamplingCustom = R6Class("ResamplingCustom", inherit = ResamplingGroupOrStrata,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.

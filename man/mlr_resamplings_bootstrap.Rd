@@ -77,8 +77,8 @@ Other Resampling:
 \code{\link{mlr_resamplings_subsampling}}
 }
 \concept{Resampling}
-\section{Super class}{
-\code{\link[mlr3:Resampling]{mlr3::Resampling}} -> \code{ResamplingBootstrap}
+\section{Super classes}{
+\code{\link[mlr3:Resampling]{mlr3::Resampling}} -> \code{mlr3::ResamplingGroupOrStrata} -> \code{ResamplingBootstrap}
 }
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
@@ -104,6 +104,7 @@ Returns the number of resampling iterations, depending on the values stored in t
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="print"><a href='../../mlr3/html/Resampling.html#method-Resampling-print'><code>mlr3::Resampling$print()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="test_set"><a href='../../mlr3/html/Resampling.html#method-Resampling-test_set'><code>mlr3::Resampling$test_set()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="train_set"><a href='../../mlr3/html/Resampling.html#method-Resampling-train_set'><code>mlr3::Resampling$train_set()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="ResamplingGroupOrStrata" data-id="get_instance"><a href='../../mlr3/html/ResamplingGroupOrStrata.html#method-ResamplingGroupOrStrata-get_instance'><code>mlr3::ResamplingGroupOrStrata$get_instance()</code></a></span></li>
 </ul>
 </details>
 }}

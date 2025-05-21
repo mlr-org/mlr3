@@ -208,3 +208,4 @@ Collate:
     'task_converters.R'
     'worker.R'
     'zzz.R'
+Remotes: tdhock/mlr3@get_instance

@@ -40,7 +40,7 @@
 #'
 #' # Internal storage:
 #' bootstrap$instance$M # Matrix of counts
-ResamplingBootstrap = R6Class("ResamplingBootstrap", inherit = Resampling,
+ResamplingBootstrap = R6Class("ResamplingBootstrap", inherit = ResamplingGroupOrStrata,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.

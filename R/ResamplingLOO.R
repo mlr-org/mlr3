@@ -44,7 +44,7 @@
 #' task$set_col_roles("island", add_to = "group")
 #' loo$instantiate(task)
 #' loo$iters # one fold for each level of "island"
-ResamplingLOO = R6Class("ResamplingLOO", inherit = Resampling,
+ResamplingLOO = R6Class("ResamplingLOO", inherit = ResamplingGroupOrStrata,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.

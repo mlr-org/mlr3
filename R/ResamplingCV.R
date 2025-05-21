@@ -36,7 +36,7 @@
 #'
 #' # Internal storage:
 #' cv$instance # table
-ResamplingCV = R6Class("ResamplingCV", inherit = Resampling,
+ResamplingCV = R6Class("ResamplingCV", inherit = ResamplingGroupOrStrata,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.

@@ -173,25 +173,8 @@ Resampling = R6Class("Resampling",
     #' the object in its previous state.
     instantiate = function(task) {
       task = assert_task(as_task(task))
-      strata = task$strata
-      groups = task$groups
-
-      if (is.null(strata)) {
-        if (is.null(groups)) {
-          instance = private$.sample(task$row_ids, task = task)
-        } else {
-          private$.groups = groups
-          instance = private$.sample(unique(groups$group), task = task)
-        }
-      } else {
-        if (!is.null(groups)) {
-          stopf("Cannot combine stratification with grouping")
-        }
-        instance = private$.combine(lapply(strata$row_id, private$.sample, task = task))
-      }
-
       private$.hash = NULL
-      self$instance = instance
+      self$instance = self$get_instance(task)
       self$task_hash = task$hash
       self$task_row_hash = task$row_hash
       self$task_nrow = task$nrow
@@ -277,6 +260,28 @@ Resampling = R6Class("Resampling",
   )
 )
 
+ResamplingGroupOrStrata = R6Class("ResamplingGroupOrStrata",
+  inherit = Resampling,
+  public = list(
+    get_instance = function(task) {
+      strata = task$strata
+      groups = task$groups
+      if (is.null(strata)) {
+        if (is.null(groups)) {
+          private$.sample(task$row_ids, task = task)
+        } else {
+          private$.groups = groups
+          private$.sample(unique(groups$group), task = task)
+        }
+      } else {
+        if (!is.null(groups)) {
+          stopf("Cannot combine stratification with grouping")
+        }
+        private$.combine(lapply(strata$row_id, private$.sample, task = task))
+      }
+    }
+  )
+)
 
 #' @export
 as.data.table.Resampling = function(x, ...) { # nolint
