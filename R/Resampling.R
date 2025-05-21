@@ -288,6 +288,7 @@ Resampling = R6Class("Resampling",
   )
 )
 
+
 #' @export
 as.data.table.Resampling = function(x, ...) { # nolint
   assert_resampling(x, instantiated = TRUE)
