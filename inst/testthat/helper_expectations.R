@@ -472,6 +472,7 @@ expect_resampling = function(r, task = NULL, strata = TRUE) {
     testthat::expect_true(r$is_instantiated)
     expect_hash(r$hash, 1L)
     expect_hash(r$task_hash, 1L)
+    expect_hash(r$task_row_hash, 1L)
     if (!is.null(task)) {
       ids = task$row_ids
     }
