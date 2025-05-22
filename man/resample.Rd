@@ -178,7 +178,6 @@ print(bmr1$combine(bmr2))
 }
 
 Other resample: 
-\code{\link{ResampleResult}},
-\code{\link{resample_mirai}()}
+\code{\link{ResampleResult}}
 }
 \concept{resample}

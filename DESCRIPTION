@@ -74,6 +74,8 @@ Suggests:
     RhpcBLASctl,
     rpart,
     testthat (>= 3.2.0)
+Remotes:
+    mlr-org/mlr3misc@mirai
 Encoding: UTF-8
 Config/testthat/edition: 3
 Config/testthat/parallel: false
@@ -185,7 +187,6 @@ Collate:
     'auto_convert.R'
     'benchmark.R'
     'benchmark_grid.R'
-    'benchmark_mirai.R'
     'bibentries.R'
     'default_fallback.R'
     'default_measures.R'
@@ -204,7 +205,6 @@ Collate:
     'predict.R'
     'reexports.R'
     'resample.R'
-    'resample_mirai.R'
     'score_roc_measures.R'
     'set_threads.R'
     'set_validate.R'

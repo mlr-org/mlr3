@@ -53,8 +53,7 @@ rr$errors
 }
 
 Other resample: 
-\code{\link{resample}()},
-\code{\link{resample_mirai}()}
+\code{\link{resample}()}
 }
 \concept{resample}
 \section{Active bindings}{

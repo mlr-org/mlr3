@@ -200,7 +200,6 @@ rr$resampling$train_set(2)
 
 Other benchmark: 
 \code{\link{BenchmarkResult}},
-\code{\link{benchmark_grid}()},
-\code{\link{benchmark_mirai}()}
+\code{\link{benchmark_grid}()}
 }
 \concept{benchmark}

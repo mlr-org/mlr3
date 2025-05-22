@@ -122,8 +122,7 @@ bmr$set_threshold(0.7, uhashes = uhashes(bmr, learner_ids = "classif.featureless
 
 Other benchmark: 
 \code{\link{benchmark}()},
-\code{\link{benchmark_grid}()},
-\code{\link{benchmark_mirai}()}
+\code{\link{benchmark_grid}()}
 }
 \concept{benchmark}
 \section{Active bindings}{
