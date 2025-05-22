@@ -642,7 +642,7 @@ While this comes with a considerable overhead, it also guards your session from 
 This encapsulation calls the function in a \code{mirai} on a \code{daemon}.
 The \code{daemon} can be pre-started via \code{daemons(1)}, otherwise a new R session will be created for each encapsulated call.
 If a \code{deamon} is already running, it will be used to executed all calls.
-Using mirai is similarly safe as callr but much faster if several function calls are encapsulated one after the other on the same daemon.
+Using \verb{mirai"} is similarly safe as \code{callr} but much faster if several learners are encapsulated one after the other on the same daemon.
 }
 
 The fallback learner is fitted to create valid predictions in case that either the model fitting or the prediction of the original learner fails.
