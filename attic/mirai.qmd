@@ -301,3 +301,37 @@ options(mlr3.exec_chunk_bins = 5)
 system.time({rr = resample_mirai(task, learner, resample)})
 ```
 
+# Nested Parallelization
+
+```{r}
+library(mirai)
+
+daemons(0)
+daemons(5)
+
+status()
+
+everywhere({
+  mirai::daemons(2)
+})
+
+x = mirai::mirai({mirai::status()})
+x$data
+
+status()
+```
+
+# Benchmark in Parallel
+
+```{r}
+library(mirai)
+library(mlr3)
+
+learner = lrn("classif.rpart")
+task = tsk("pima")
+resampling = rsmp("cv", folds = 3)
+
+grid = benchmark_grid(list(tsk("spam"), tsk("sonar")), learner, resampling)
+
+bmr = benchmark_mirai(grid)
+```

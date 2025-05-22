@@ -113,6 +113,7 @@ benchmark(grid)
 
 Other benchmark: 
 \code{\link{BenchmarkResult}},
-\code{\link{benchmark}()}
+\code{\link{benchmark}()},
+\code{\link{benchmark_mirai}()}
 }
 \concept{benchmark}
