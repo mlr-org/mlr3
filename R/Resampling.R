@@ -97,34 +97,6 @@ Resampling = R6Class("Resampling",
     #'   `$train_set()` and `$test_set()`.
     instance = NULL,
 
-    #' @description
-    #' Computes training and test splits.
-    #'
-    #' @param task ([Task])\cr
-    #'   Task used for instantiation.
-    #'
-    #' @return
-    #' Returns the object itself, but modified **by reference**.
-    #' You need to explicitly `$clone()` the object beforehand if you want to keeps
-    #' the object in its previous state.
-    get_instance = function(task) {
-      strata = task$strata
-      groups = task$groups
-      if (is.null(strata)) {
-        if (is.null(groups)) {
-          private$.sample(task$row_ids, task = task)
-        } else {
-          private$.groups = groups
-          private$.sample(unique(groups$group), task = task)
-        }
-      } else {
-        if (!is.null(groups)) {
-          stopf("Cannot combine stratification with grouping")
-        }
-        private$.combine(lapply(strata$row_id, private$.sample, task = task))
-      }
-    },
-
     #' @field task_hash (`character(1)`)\cr
     #'   The hash of the [Task] which was passed to `r$instantiate()`.
     task_hash = NA_character_,
@@ -202,7 +174,7 @@ Resampling = R6Class("Resampling",
     instantiate = function(task) {
       task = assert_task(as_task(task))
       private$.hash = NULL
-      self$instance = self$get_instance(task)
+      self$instance = private$.get_instance(task)
       self$task_hash = task$hash
       self$task_row_hash = task$row_hash
       self$task_nrow = task$nrow
@@ -271,6 +243,24 @@ Resampling = R6Class("Resampling",
     .id = NULL,
     .hash = NULL,
     .groups = NULL,
+
+    .get_instance = function(task) {
+      strata = task$strata
+      groups = task$groups
+      if (is.null(strata)) {
+        if (is.null(groups)) {
+          private$.sample(task$row_ids, task = task)
+        } else {
+          private$.groups = groups
+          private$.sample(unique(groups$group), task = task)
+        }
+      } else {
+        if (!is.null(groups)) {
+          stopf("Cannot combine stratification with grouping")
+        }
+        private$.combine(lapply(strata$row_id, private$.sample, task = task))
+      }
+    },
 
     .get_set = function(getter, i) {
       if (!self$is_instantiated) {
