@@ -640,8 +640,8 @@ This encapsulation spawns a separate R session in which the learner is called.
 While this comes with a considerable overhead, it also guards your session from being teared down by segfaults.
 \item \code{"mirai"}: Uses the package \CRANpkg{mirai} to call the learner, measure time and do the logging.
 This encapsulation calls the function in a \code{mirai} on a \code{daemon}.
-The \code{daemon} can be pre-started via \code{daemons(1)}.
-All encapsulated function calls are executed in this \code{daemon}.
+The \code{daemon} can be pre-started via \code{daemons(1)}, otherwise a new R session will be created for each encapsulated call.
+If a \code{deamon} is already running, it will be used to executed all calls.
 Using mirai is similarly safe as callr but much faster if several function calls are encapsulated one after the other on the same daemon.
 }
 
