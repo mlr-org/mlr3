@@ -46,6 +46,11 @@ Next, the grouping information is replaced with the respective row ids to genera
 The sets can be accessed via \verb{$train_set(i)} and \verb{$test_set(i)}, respectively.
 }
 
+\section{Inheriting}{
+
+It is possible to overwrite both \code{private$.get_instance()} to have full control, or only \code{private$.sample()} when one wants to use the pre-defined mechanism for stratification and grouping.
+}
+
 \examples{
 r = rsmp("subsampling")
 
