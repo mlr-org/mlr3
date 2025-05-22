@@ -25,7 +25,7 @@ future_map = function(n, FUN, ..., MoreArgs = list()) {
     mapply(FUN, ..., MoreArgs = MoreArgs, SIMPLIFY = FALSE, USE.NAMES = FALSE)
   } else if (requireNamespace("mirai", quietly = TRUE) && mirai::status()$connections) {
     lg$debug("Running resample() via mirai with %i iterations", n)
-    mirai::collect_mirai(mirai::mirai_map(data.frame(...), workhorse, .args = c(MoreArgs, list(is_sequential = FALSE))))
+    mirai::collect_mirai(mirai::mirai_map(data.table(...), workhorse, .args = c(MoreArgs, list(is_sequential = FALSE))))
   } else {
     is_sequential = inherits(plan(), "sequential")
     scheduling = if (!is_sequential && isTRUE(getOption("mlr3.exec_random", TRUE))) structure(TRUE, ordering = "random") else TRUE
