@@ -538,8 +538,8 @@ Learner = R6Class("Learner",
     #'   While this comes with a considerable overhead, it also guards your session from being teared down by segfaults.
     #' * `"mirai"`: Uses the package \CRANpkg{mirai} to call the learner, measure time and do the logging.
     #'   This encapsulation calls the function in a `mirai` on a `daemon`.
-    #'   The `daemon` can be pre-started via `daemons(1)`.
-    #'   All encapsulated function calls are executed in this `daemon`.
+    #'   The `daemon` can be pre-started via `daemons(1)`, otherwise a new R session will be created for each encapsulated call.
+    #'   If a `deamon` is already running, it will be used to executed all calls.
     #'   Using mirai is similarly safe as callr but much faster if several function calls are encapsulated one after the other on the same daemon.
     #'
     #' The fallback learner is fitted to create valid predictions in case that either the model fitting or the prediction of the original learner fails.
