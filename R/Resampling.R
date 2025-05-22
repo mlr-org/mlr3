@@ -46,6 +46,8 @@
 #' Next, the grouping information is replaced with the respective row ids to generate training and test sets.
 #' The sets can be accessed via `$train_set(i)` and `$test_set(i)`, respectively.
 #'
+#' @section Inheriting:
+#' It is possible to overwrite both `private$.get_instance()` to have full control, or only `private$.sample()` when one wants to use the pre-defined mechanism for stratification and grouping.
 #'
 #' @template seealso_resampling
 #' @export
