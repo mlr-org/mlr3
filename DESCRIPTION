@@ -67,6 +67,7 @@ Suggests:
     codetools,
     datasets,
     future.callr,
+    mirai,
     mlr3data,
     progressr,
     remotes,
