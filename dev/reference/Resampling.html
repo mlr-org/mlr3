@@ -101,6 +101,12 @@ Next, the grouping information is replaced with the respective row ids to genera
 The sets can be accessed via <code>$train_set(i)</code> and <code>$test_set(i)</code>, respectively.</p>
     </div>
     <div class="section level2">
+    <h2 id="inheriting">Inheriting<a class="anchor" aria-label="anchor" href="#inheriting"></a></h2>
+
+
+<p>It is possible to overwrite both <code>private$.get_instance()</code> to have full control, or only <code>private$.sample()</code> when one wants to use the pre-defined mechanism for stratification and grouping.</p>
+    </div>
+    <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index">
 <ul><li><p>Chapter in the <a href="https://mlr3book.mlr-org.com/" class="external-link">mlr3book</a>:
@@ -463,7 +469,7 @@ Iteration.</p></dd>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
     </footer></div>
