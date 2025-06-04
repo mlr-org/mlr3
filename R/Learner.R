@@ -536,6 +536,11 @@ Learner = R6Class("Learner",
     #' * `"callr"`: Uses the package \CRANpkg{callr} to call the learner, measure time and do the logging.
     #'   This encapsulation spawns a separate R session in which the learner is called.
     #'   While this comes with a considerable overhead, it also guards your session from being teared down by segfaults.
+    #' * `"mirai"`: Uses the package \CRANpkg{mirai} to call the learner, measure time and do the logging.
+    #'   This encapsulation calls the function in a `mirai` on a `daemon`.
+    #'   The `daemon` can be pre-started via `daemons(1)`, otherwise a new R session will be created for each encapsulated call.
+    #'   If a `deamon` is already running, it will be used to executed all calls.
+    #'   Using `mirai"` is similarly safe as `callr` but much faster if several learners are encapsulated one after the other on the same daemon.
     #'
     #' The fallback learner is fitted to create valid predictions in case that either the model fitting or the prediction of the original learner fails.
     #' If the training step or the predict step of the original learner fails, the fallback is used to make the predictions.
@@ -554,7 +559,7 @@ Learner = R6Class("Learner",
     #'
     #' @return `self` (invisibly).
     encapsulate = function(method, fallback = NULL) {
-      assert_choice(method, c("none", "try", "evaluate", "callr"))
+      assert_choice(method, c("none", "try", "evaluate", "callr", "mirai"))
 
       if (method != "none") {
         assert_learner(fallback, task_type = self$task_type)
