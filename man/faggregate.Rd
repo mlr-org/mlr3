@@ -2,12 +2,12 @@
 % Please edit documentation in R/faggregate.R
 \name{faggregate}
 \alias{faggregate}
-\title{Fast Aggregation of BenchmarkResults}
+\title{Fast Aggregation of ResampleResults and BenchmarkResults}
 \usage{
 faggregate(obj, measure)
 }
 \arguments{
-\item{obj}{(\link{BenchmarkResult}).}
+\item{obj}{(\link{ResampleResult} | \link{BenchmarkResult}).}
 
 \item{measure}{(\link{Measure}).}
 }
