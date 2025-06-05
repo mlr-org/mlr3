@@ -37,7 +37,8 @@ faggregate = function(obj, measure) {
 #' @param measure ([Measure]).
 #' @export
 fscore = function(obj, measure) {
-  tab = get_private(obj)$.data$data$fact[, c("iteration", "prediction", "uhash"), with = FALSE]
+  data = get_private(obj)$.data$data
+  tab = data$fact[data$uhash, c("iteration", "prediction", "uhash"), with = FALSE]
   set(tab, j = measure$id, value = map_dbl(tab$prediction, fscore_single_measure, measure = measure))
   tab[, c("iteration", "uhash", measure$id), with = FALSE]
 }
