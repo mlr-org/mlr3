@@ -187,6 +187,7 @@ Collate:
     'bibentries.R'
     'default_fallback.R'
     'default_measures.R'
+    'faggregate.R'
     'fix_factor_levels.R'
     'helper.R'
     'helper_data_table.R'
