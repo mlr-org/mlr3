@@ -32,7 +32,7 @@ fscore = function(obj, measure) {
   tab[, c("iteration", "uhash", measure$id), with = FALSE]
 }
 
-fscore_single_measure = function(measure, prediction) {
+fscore_single_measure = function(prediction, measure) {
   # no predict sets
   if (!length(measure$predict_sets)) {
     score = get_private(measure)$.score(prediction = NULL, task = NULL)
