@@ -13,10 +13,9 @@ faggregate(obj, measure)
 }
 \description{
 Aggregates a \link{BenchmarkResult} for a single simple measure.
-Returns the aggregated score for each uhash.
+Returns the aggregated score for each resample result.
 }
 \details{
 This function is faster than \verb{$aggregate()} because it does not reassemble the resampling results.
-It also does not require the task, learner, model or train set to be available.
-It only works for simple measures.
+It only works on simple measures which do not require the task, learner, model or train set to be available.
 }

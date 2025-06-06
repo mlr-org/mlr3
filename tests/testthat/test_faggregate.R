@@ -12,13 +12,13 @@ test_that("faggregate works", {
 })
 
 test_that("faggregate returns the same as $aggregate", {
-  task = tsk("sonar")
-  learner = lrn("classif.rpart")
-  resampling = replicate(100, rsmp("holdout"))
-  design = benchmark_grid(task, learner, resampling)
-  bmr = benchmark(design)
-
   expect_equal(faggregate(bmr, msr("classif.ce"))$classif.ce, bmr$aggregate(msr("classif.ce"))$classif.ce)
+
+  bmr_new = c(bmr, bmr)
+  expect_equal(faggregate(bmr_new, msr("classif.ce"))$classif.ce, bmr_new$aggregate(msr("classif.ce"))$classif.ce)
+
+  bmr_new$filter(1:10)
+  expect_equal(faggregate(bmr_new, msr("classif.ce"))$classif.ce, bmr_new$aggregate(msr("classif.ce"))$classif.ce)
 })
 
 test_that("faggregate throws error if measure requires task, learner, model or train set", {

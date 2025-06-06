@@ -2,17 +2,19 @@
 #'
 #' @description
 #' Aggregates a [BenchmarkResult] for a single simple measure.
-#' Returns the aggregated score for each uhash.
+#' Returns the aggregated score for each resample result.
 #'
 #' @details
 #' This function is faster than `$aggregate()` because it does not reassemble the resampling results.
-#' It also does not require the task, learner, model or train set to be available.
-#' It only works for simple measures.
+#' It only works on simple measures which do not require the task, learner, model or train set to be available.
 #'
 #' @param obj ([ResampleResult] | [BenchmarkResult]).
 #' @param measure ([Measure]).
 #' @export
 faggregate = function(obj, measure) {
+  assert_multi_class(obj, c("ResampleResult", "BenchmarkResult"))
+  assert_class(measure, "Measure")
+
   if (any(c("requires_task", "requires_learner", "requires_model", "requires_train_set") %in% measure$properties)) {
     stopf("Cannot aggregate measure that requires task, learner, model or train set")
   }
@@ -22,20 +24,6 @@ faggregate = function(obj, measure) {
   set_names(tab[, list(score = aggregator(get(measure$id))), by = "uhash"], c("uhash", measure$id))
 }
 
-#' @title Fast Scoring of ResampleResults and BenchmarkResults
-#'
-#' @description
-#' Scores a [ResampleResult] or [BenchmarkResult] for a single simple measure.
-#' Returns the score for each iteration and uhash.
-#'
-#' @details
-#' This function is faster than `$score()` because it does not reassemble the resampling results.
-#' It also does not require the task, learner, model or train set to be available.
-#' It only works for simple measures.
-#'
-#' @param obj ([ResampleResult] | [BenchmarkResult]).
-#' @param measure ([Measure]).
-#' @export
 fscore = function(obj, measure) {
   data = get_private(obj)$.data$data
   # sort by uhash
@@ -45,6 +33,7 @@ fscore = function(obj, measure) {
 }
 
 fscore_single_measure = function(measure, prediction) {
+  # no predict sets
   if (!length(measure$predict_sets)) {
     score = get_private(measure)$.score(prediction = NULL, task = NULL)
     return(score)
