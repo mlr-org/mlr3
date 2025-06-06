@@ -27,7 +27,7 @@ faggregate = function(obj, measure) {
 fscore = function(obj, measure) {
   data = get_private(obj)$.data$data
   # sort by uhash
-  tab = data$fact[data$uhash, c("iteration", "prediction", "uhash"), with = FALSE]
+  tab = data$fact[data$uhashes, c("iteration", "prediction", "uhash"), with = FALSE]
   set(tab, j = measure$id, value = map_dbl(tab$prediction, fscore_single_measure, measure = measure))
   tab[, c("iteration", "uhash", measure$id), with = FALSE]
 }
