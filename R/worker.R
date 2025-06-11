@@ -219,7 +219,7 @@ learner_predict = function(learner, task, row_ids = NULL) {
     lg$debug("Calling predict method of Learner '%s' on task '%s' with %i observations",
       learner$id, task$id, task$nrow, learner = learner$clone())
 
-    if (isTRUE(all.equal(learner$encapsulation[["predict"]], "callr"))) {
+    if (learner$encapsulation[["predict"]] %in% c("callr", "mirai")) {
       learner$model = marshal_model(learner$model, inplace = TRUE)
     }
 
@@ -439,7 +439,7 @@ process_model_before_predict = function(learner, store_models, is_sequential, un
   # and also, do we even need to send it back at all?
 
   currently_marshaled = is_marshaled_model(learner$model)
-  predict_needs_marshaling = isTRUE(all.equal(learner$encapsulation[["predict"]], "callr"))
+  predict_needs_marshaling = learner$encapsulation[["predict"]] %in% c("callr", "mirai")
   final_needs_marshaling = !is_sequential || !unmarshal
 
   # the only scenario in which we keep a copy is when we now have the model in the correct form but need to transform
