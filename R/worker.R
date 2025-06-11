@@ -38,7 +38,7 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
       get_private(learner)$.extract_internal_tuned_values()
     }
 
-    if (learner$encapsulation[["train"]] == "callr") {
+    if (learner$encapsulation[["train"]] %in% c("callr", "mirai")) {
       model = marshal_model(model, inplace = TRUE)
     }
 
