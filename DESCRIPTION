@@ -157,6 +157,7 @@ Collate:
     'TaskGeneratorCircle.R'
     'TaskGeneratorFriedman1.R'
     'TaskGeneratorMoons.R'
+    'TaskGeneratorPeak.R'
     'TaskGeneratorSimplex.R'
     'TaskGeneratorSmiley.R'
     'TaskGeneratorSpirals.R'
