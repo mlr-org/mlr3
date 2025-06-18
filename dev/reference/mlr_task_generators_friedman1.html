@@ -80,6 +80,7 @@
 <code><a href="mlr_task_generators_cassini.html">mlr_task_generators_cassini</a></code>,
 <code><a href="mlr_task_generators_circle.html">mlr_task_generators_circle</a></code>,
 <code><a href="mlr_task_generators_moons.html">mlr_task_generators_moons</a></code>,
+<code><a href="mlr_task_generators_peak.html">mlr_task_generators_peak</a></code>,
 <code><a href="mlr_task_generators_simplex.html">mlr_task_generators_simplex</a></code>,
 <code><a href="mlr_task_generators_smiley.html">mlr_task_generators_smiley</a></code>,
 <code><a href="mlr_task_generators_spirals.html">mlr_task_generators_spirals</a></code>,
@@ -134,17 +135,17 @@
 <span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="va">generator</span><span class="op">$</span><span class="fu">generate</span><span class="op">(</span><span class="fl">200</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">task</span><span class="op">$</span><span class="fu">data</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Classes ‘data.table’ and 'data.frame':	200 obs. of  11 variables:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ y           : num  16.31 24.87 19.79 7.93 17.69 ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ important1  : num  0.765 0.99 0.944 0.611 0.706 ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ important2  : num  0.15013 0.31232 0.7915 0.00186 0.08468 ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ important3  : num  0.0382 0.989 0.9477 0.2842 0.8083 ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ important4  : num  0.686 0.858 0.69 0.77 0.982 ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ important5  : num  0.1481 0.6111 0.3696 0.0946 0.9453 ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ unimportant1: num  0.465 0.608 0.61 0.757 0.694 ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ unimportant2: num  0.712 0.041 0.375 0.34 0.883 ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ unimportant3: num  0.0165 0.3787 0.8595 0.6584 0.1895 ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ unimportant4: num  0.392 0.647 0.081 0.373 0.786 ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ unimportant5: num  0.0198 0.5281 0.9636 0.5646 0.7617 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ y           : num  5.32 16.53 21.87 5.97 14.48 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ important1  : num  0.6182 0.7875 0.6566 0.0142 0.5908 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ important2  : num  0.118 0.631 0.5 0.312 0.398 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ important3  : num  0.671 0.242 0.293 0.32 0.479 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ important4  : num  0.16 0.367 0.821 0.426 0.537 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ important5  : num  0.121 0.388 0.852 0.208 0.454 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ unimportant1: num  0.507 0.653 0.556 0.444 0.865 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ unimportant2: num  0.585 0.804 0.723 0.061 0.111 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ unimportant3: num  0.335 0.299 0.883 0.715 0.186 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ unimportant4: num  0.104 0.446 0.75 0.272 0.321 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ unimportant5: num  0.583 0.88 0.624 0.197 0.222 ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  - attr(*, ".internal.selfref")=&lt;externalptr&gt; </span>
 </code></pre></div>
     </div>

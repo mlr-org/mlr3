@@ -211,25 +211,25 @@ Deprecated: ignored, and will be removed in the future.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="color: #0000BB; font-weight: bold;">&lt;DataBackendDataTable&gt;</span><span style="font-weight: bold;"> (</span><span style="color: #0000BB; font-weight: bold;">5</span><span style="font-weight: bold;">x</span><span style="color: #0000BB; font-weight: bold;">3</span><span style="font-weight: bold;">)</span> <span style="color: #00BBBB;">────────────────────────────────────────────────</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     id          x      y</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  &lt;int&gt;      &lt;num&gt; &lt;char&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      1 0.99141219      c</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      2 0.04831452      c</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      3 0.74678791      a</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      4 0.41931352      b</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      5 0.58214390      a</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      1 0.74678791      a</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      2 0.41931352      b</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      3 0.58214390      a</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      4 0.83073406      a</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      5 0.01353063      a</span>
 <span class="r-in"><span><span class="va">b</span><span class="op">$</span><span class="fu">head</span><span class="op">(</span><span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Key: &lt;id&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       id          x      y</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    &lt;int&gt;      &lt;num&gt; &lt;char&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1:     1 0.99141219      c</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2:     2 0.04831452      c</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       id         x      y</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    &lt;int&gt;     &lt;num&gt; &lt;char&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:     1 0.7467879      a</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:     2 0.4193135      b</span>
 <span class="r-in"><span><span class="va">b</span><span class="op">$</span><span class="fu">data</span><span class="op">(</span>rows <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, cols <span class="op">=</span> <span class="st">"x"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             x</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;num&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 0.99141219</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 0.04831452</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            x</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        &lt;num&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 0.7467879</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 0.4193135</span>
 <span class="r-in"><span><span class="va">b</span><span class="op">$</span><span class="fu">distinct</span><span class="op">(</span>rows <span class="op">=</span> <span class="va">b</span><span class="op">$</span><span class="va">rownames</span>, <span class="st">"y"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $y</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "c" "a" "b"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "a" "b"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="va">b</span><span class="op">$</span><span class="fu">missings</span><span class="op">(</span>rows <span class="op">=</span> <span class="va">b</span><span class="op">$</span><span class="va">rownames</span>, cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> id  x  y </span>
