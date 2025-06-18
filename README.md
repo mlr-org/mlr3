@@ -13,7 +13,6 @@ learning. Successor of [mlr](https://github.com/mlr-org/mlr).
 [![DOI](https://joss.theoj.org/papers/10.21105/joss.01903/status.svg)](https://doi.org/10.21105/joss.01903)
 [![CRAN
 Status](https://www.r-pkg.org/badges/version-ago/mlr3)](https://cran.r-project.org/package=mlr3)
-[![StackOverflow](https://img.shields.io/badge/stackoverflow-mlr3-orange.svg)](https://stackoverflow.com/questions/tagged/mlr3)
 [![Mattermost](https://img.shields.io/badge/chat-mattermost-orange.svg)](https://lmmisld-lmu-stats-slds.srv.mwn.de/mlr_invite/)
 <!-- badges: end -->
 
@@ -100,13 +99,15 @@ task_penguins = as_task_classif(species ~ ., data = palmerpenguins::penguins)
 task_penguins
 ```
 
-    ## <TaskClassif:palmerpenguins::penguins> (344 x 8)
-    ## * Target: species
-    ## * Properties: multiclass
-    ## * Features (7):
-    ##   - int (3): body_mass_g, flipper_length_mm, year
-    ##   - dbl (2): bill_depth_mm, bill_length_mm
-    ##   - fct (2): island, sex
+    ## 
+    ## ── <TaskClassif> (344x8) ───────────────────────────────────────────────────────
+    ## • Target: species
+    ## • Target classes: Adelie (44%), Gentoo (36%), Chinstrap (20%)
+    ## • Properties: multiclass
+    ## • Features (7):
+    ##   • int (3): body_mass_g, flipper_length_mm, year
+    ##   • dbl (2): bill_depth_mm, bill_length_mm
+    ##   • fct (2): island, sex
 
 ``` r
 # load learner and set hyperparameter
