@@ -125,11 +125,8 @@
 <url><loc>https://mlr3.mlr-org.com/reference/mlr_measures_regr.msle.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/reference/mlr_measures_regr.pbias.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/reference/mlr_measures_regr.pinball.html</loc></url>
-<url><loc>https://mlr3.mlr-org.com/reference/mlr_measures_regr.rae.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/reference/mlr_measures_regr.rmse.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/reference/mlr_measures_regr.rmsle.html</loc></url>
-<url><loc>https://mlr3.mlr-org.com/reference/mlr_measures_regr.rrse.html</loc></url>
-<url><loc>https://mlr3.mlr-org.com/reference/mlr_measures_regr.rse.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/reference/mlr_measures_regr.rsq.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/reference/mlr_measures_regr.sae.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/reference/mlr_measures_regr.smape.html</loc></url>
@@ -156,6 +153,7 @@
 <url><loc>https://mlr3.mlr-org.com/reference/mlr_task_generators_circle.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/reference/mlr_task_generators_friedman1.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/reference/mlr_task_generators_moons.html</loc></url>
+<url><loc>https://mlr3.mlr-org.com/reference/mlr_task_generators_peak.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/reference/mlr_task_generators_simplex.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/reference/mlr_task_generators_smiley.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/reference/mlr_task_generators_spirals.html</loc></url>
@@ -174,10 +172,13 @@
 <url><loc>https://mlr3.mlr-org.com/reference/mlr_test_helpers.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/reference/partition.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/reference/predict.Learner.html</loc></url>
+<url><loc>https://mlr3.mlr-org.com/reference/print.roc_measures.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/reference/reexports.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/reference/resample.html</loc></url>
+<url><loc>https://mlr3.mlr-org.com/reference/score_roc_measures.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/reference/set_threads.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/reference/task_check_col_roles.html</loc></url>
+<url><loc>https://mlr3.mlr-org.com/reference/uhash.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/reference/warn_deprecated.html</loc></url>
 </urlset>
 
