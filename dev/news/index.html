@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.23.0.9000</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.0.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -49,6 +49,9 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="mlr3-development-version">mlr3 (development version)<a class="anchor" aria-label="anchor" href="#mlr3-development-version"></a></h2>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.0.0" id="mlr3-100">mlr3 1.0.0<a class="anchor" aria-label="anchor" href="#mlr3-100"></a></h2><p class="text-muted">CRAN release: 2025-06-18</p>
 <ul><li><p>BREAKING CHANGE: The mlr3 ecosystem has a base logger now which is named <code>mlr3</code>. The <code>mlr3/core</code> logger is a child of the <code>mlr3</code> logger and is used for logging messages from the <code>mlr3</code> package. Some extension packages have their own loggers which are children of the mlr3 logger e.g. mlr3/mlr3pipelines and mlr3/bbotk for tuning.</p></li>
 <li>
 <p>BREAKING CHANGE: <code>weights</code> property and functionality is split into <code>weights_learner</code> and <code>weights_measure</code>:</p>
