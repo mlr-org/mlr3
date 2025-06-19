@@ -78,7 +78,7 @@ bibentries = c(
 
   koenker_1999 = bibentry("article",
     title = "Goodness of Fit and Related Inference Processes for Quantile Regression",
-    author = "Koenker, Roger and and Machado, José A. F.",
+    author = "Koenker, Roger and Machado, Jos\u00e9 A. F.",
     year = "1999",
     doi = "10.1080/01621459.1999.10473882",
     journal = "Journal of the American Statistical Association",

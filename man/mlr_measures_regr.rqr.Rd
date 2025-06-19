@@ -13,8 +13,8 @@ Measure to compare true observed response with predicted quantiles in regression
 }{
   1 - sum(pinball(t - r(alpha))) / sum(pinball(t - quantile(t, alpha))),
 }
-where for a quantile \eqn{\alpha}, \eqn{\rho_\alpha} is the pinball function, \eqn{r_i(\alpha)} are the predictions for the quantile and
-\eqn{q_{\alpha}} is the empirical \eqn{\alpha}-quantile of the test or training data.
+where for a quantile \eqn{\alpha}, \eqn{\rho_\alpha} is the pinball function, \eqn{r_i(\alpha)} are the predictions
+for the quantile and \eqn{q_{\alpha}} is the empirical \eqn{\alpha}-quantile of the test or training data.
 
 \eqn{R^1(\alpha)} is analogous to \eqn{R^2} for regression tasks.
 It compares the pinball function of the predictions relative to a naive model predicting the empirical quantile.
@@ -50,7 +50,7 @@ msr("regr.rqr")
 }
 
 \references{
-Koenker, Roger, Machado a, F. JA (1999).
+Koenker, Roger, Machado, F. JA (1999).
 \dQuote{Goodness of Fit and Related Inference Processes for Quantile Regression.}
 \emph{Journal of the American Statistical Association}, \bold{94}(448), 1296--1310.
 \doi{10.1080/01621459.1999.10473882}.

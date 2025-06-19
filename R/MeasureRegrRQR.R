@@ -12,8 +12,8 @@
 #' }{
 #'   1 - sum(pinball(t - r(alpha))) / sum(pinball(t - quantile(t, alpha))),
 #' }
-#' where for a quantile \eqn{\alpha}, \eqn{\rho_\alpha} is the pinball function, \eqn{r_i(\alpha)} are the predictions for the quantile and
-#' \eqn{q_{\alpha}} is the empirical \eqn{\alpha}-quantile of the test or training data.
+#' where for a quantile \eqn{\alpha}, \eqn{\rho_\alpha} is the pinball function, \eqn{r_i(\alpha)} are the predictions
+#' for the quantile and \eqn{q_{\alpha}} is the empirical \eqn{\alpha}-quantile of the test or training data.
 #'
 #' \eqn{R^1(\alpha)} is analogous to \eqn{R^2} for regression tasks.
 #' It compares the pinball function of the predictions relative to a naive model predicting the empirical quantile.
