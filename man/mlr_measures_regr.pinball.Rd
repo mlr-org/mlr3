@@ -72,18 +72,19 @@ Other Measure:
 \code{\link{mlr_measures_elapsed_time}},
 \code{\link{mlr_measures_internal_valid_score}},
 \code{\link{mlr_measures_oob_error}},
+\code{\link{mlr_measures_regr.rqr}},
 \code{\link{mlr_measures_regr.rsq}},
 \code{\link{mlr_measures_selected_features}}
 }
 \concept{Measure}
 \section{Super classes}{
-\code{\link[mlr3:Measure]{mlr3::Measure}} -> \code{\link[mlr3:MeasureRegr]{mlr3::MeasureRegr}} -> \code{MeasurePinball}
+\code{\link[mlr3:Measure]{mlr3::Measure}} -> \code{\link[mlr3:MeasureRegr]{mlr3::MeasureRegr}} -> \code{MeasureRegrPinball}
 }
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-MeasurePinball-new}{\code{MeasureRegrPinball$new()}}
-\item \href{#method-MeasurePinball-clone}{\code{MeasureRegrPinball$clone()}}
+\item \href{#method-MeasureRegrPinball-new}{\code{MeasureRegrPinball$new()}}
+\item \href{#method-MeasureRegrPinball-clone}{\code{MeasureRegrPinball$clone()}}
 }
 }
 \if{html}{\out{
@@ -98,8 +99,8 @@ Other Measure:
 </details>
 }}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-MeasurePinball-new"></a>}}
-\if{latex}{\out{\hypertarget{method-MeasurePinball-new}{}}}
+\if{html}{\out{<a id="method-MeasureRegrPinball-new"></a>}}
+\if{latex}{\out{\hypertarget{method-MeasureRegrPinball-new}{}}}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
@@ -117,8 +118,8 @@ Must be one of the quantiles that the Learner was trained on.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-MeasurePinball-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-MeasurePinball-clone}{}}}
+\if{html}{\out{<a id="method-MeasureRegrPinball-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-MeasureRegrPinball-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{
