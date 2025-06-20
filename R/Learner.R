@@ -263,7 +263,10 @@ Learner = R6Class("Learner",
         cli_li("Parameters: {as_short_string(self$param_set$values, 1000L)}")
       })
 
-      if (exists("validate", self)) cat_cli(cli_li("Validate: {self$validate}"))
+      if (exists("validate", self)) {
+        validate = format(self$validate)
+        cat_cli(cli_li("Validate: {validate}"))
+      }
       cat_cli(cli_li("Packages: {.pkg {self$packages}}"))
 
       pred_typs = replace(self$predict_types, self$predict_types == self$predict_type, paste0("[", self$predict_type, "]"))
