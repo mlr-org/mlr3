@@ -25,7 +25,7 @@
 #'
 #' @template seealso_measure
 #' @export
-MeasureRegrPinball = R6Class("MeasurePinball",
+MeasureRegrPinball = R6Class("MeasureRegrPinball",
   inherit = MeasureRegr,
   public = list(
    #' @description
@@ -34,7 +34,7 @@ MeasureRegrPinball = R6Class("MeasurePinball",
       param_set = ps(alpha = p_dbl(lower = 0, upper = 1))
       param_set$set_values(alpha = alpha)
       super$initialize(
-        id = "pinball",
+        id = "regr.pinball",
         param_set = param_set,
         predict_type = "quantiles",
         minimize = TRUE,
