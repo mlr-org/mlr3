@@ -183,3 +183,4 @@ revdep/
 # misc
 Meta/
 Rplots.pdf
+.cursor/

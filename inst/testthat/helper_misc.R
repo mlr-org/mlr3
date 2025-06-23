@@ -17,6 +17,14 @@ with_future = function(backend, expr, ...) {
   force(expr)
 }
 
+with_mirai = function(expr) {
+  requireNamespace("mirai")
+  mirai::daemons(1)
+  on.exit(mirai::daemons(0), add = TRUE)
+  force(expr)
+  expect_true(mirai::status()$mirai["completed"] > 0)
+}
+
 private = function(x) {
   x[[".__enclos_env__"]][["private"]]
 }
