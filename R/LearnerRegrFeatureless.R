@@ -102,8 +102,8 @@ LearnerRegrFeatureless = R6Class("LearnerRegrFeatureless", inherit = LearnerRegr
 
       if (self$predict_type == "quantiles") {
         quantiles = matrix(rep(self$model$quantiles, n), nrow = n, byrow = TRUE)
-        attr(quantiles, "probs") = private$.quantiles
-        attr(quantiles, "response") = private$.quantile_response
+        setattr(quantiles, "probs", private$.quantiles)
+        setattr(quantiles, "response", private$.quantile_response)
         return(list(quantiles = quantiles))
       }
 
