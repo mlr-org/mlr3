@@ -236,21 +236,21 @@ Task = R6Class("Task",
             sprintf("%s (positive class, %.0f%%), %s (%.0f%%)",
                     self$positive, class_freqs[[self$positive]], self$negative, class_freqs[[self$negative]])
           } else {
-            paste(sprintf("%s (%.0f%%)", names(class_freqs), class_freqs), collapse = ", ")
+            toString(sprintf("%s (%.0f%%)", names(class_freqs), class_freqs))
           }
         } else {
-          classes = paste(self$class_names, collapse = ", ")
+          classes = toString(self$class_names)
         }
         cat_cli(cli_li("Target classes: {classes}"))
       }
 
-      properties = if (length(self$properties)) paste(self$properties, collapse = ", ") else "-"
+      properties = if (length(self$properties)) toString(self$properties) else "-"
       cat_cli(cli_li("Properties: {properties}"))
 
       types = self$feature_types
 
-      cat_cli({
-        if (nrow(types)) {
+      if (nrow(types)) {
+        cat_cli({
           id = type = NULL
           cli_li("Features ({nrow(types)}):")
           types = types[, list(N = .N, feats = str_collapse(id, n = 100L)), by = "type"][, "type" := translate_types(type)]
@@ -261,8 +261,8 @@ Task = R6Class("Task",
             cli_li("{type} ({N}): {feats}")
           })
           cli_end(ulid)
-        }
-      })
+        })
+      }
 
 
       # print additional columns are specified in reflections
