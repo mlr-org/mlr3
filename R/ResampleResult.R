@@ -71,7 +71,7 @@ ResampleResult = R6Class("ResampleResult",
     #' @param ... (ignored).
     print = function(...) {
       tab = self$score(measures = list(), conditions = TRUE)
-      setattr(tab, "class", c("data.table", "data.frame"))
+      set_data_table_class(tab)
       tab[, "warnings" := map(get("warnings"), length)]
       tab[, "errors" := map(get("errors"), length)]
       cat_cli(cli_h1("{.cls {class(self)[1L]}} with {.val {self$iters}} resampling iterations"))
