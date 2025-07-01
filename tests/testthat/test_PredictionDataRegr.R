@@ -53,8 +53,8 @@ test_that("PredictionDataRegr with quantiles", {
 
   quantiles = quantile(y, probs = probs)
   quantiles = matrix(rep(quantiles, n), nrow = n, byrow = TRUE)
-  attr(quantiles, "probs") = probs
-  attr(quantiles, "response") = 0.5
+  setattr(quantiles, "probs", probs)
+  setattr(quantiles, "response", 0.5)
 
   data = list(quantiles = quantiles)
   pdata = as_prediction_data(data, task)
@@ -71,7 +71,7 @@ test_that("PredictionDataRegr with quantiles and response", {
 
   quantiles = quantile(y, probs = probs)
   quantiles = matrix(rep(quantiles, n), nrow = n, byrow = TRUE)
-  attr(quantiles, "probs") = probs
+  setattr(quantiles, "probs", probs)
 
   data = list(quantiles = quantiles, response = rep(0.5, n))
   pdata = as_prediction_data(data, task)
