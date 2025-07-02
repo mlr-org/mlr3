@@ -8,7 +8,7 @@
 \link[R6:R6Class]{R6::R6Class} inheriting from \link{TaskRegr}.
 }
 \source{
-\url{https://www.kaggle.com/datasets/camnugent/california-housing-prices}
+https://www.kaggle.com/datasets/camnugent/california-housing-prices
 }
 \description{
 A regression task to predict the median house value in California.

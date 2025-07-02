@@ -1,4 +1,8 @@
-# mlr3 (development version)
+# mlr3 1.0.1
+
+* fix: The printer of `Learner` failed when the `validate` field was set.
+* fix: Avoid printing empty line for feature less tasks.
+* perf: Use `data.table::setattr()` for less copying.
 
 # mlr3 1.0.0
 

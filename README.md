@@ -24,8 +24,7 @@ Status](https://www.r-pkg.org/badges/version-ago/mlr3)](https://cran.r-project.o
   [gallery](https://mlr-org.com/gallery.html) with case studies.
 - [Reference manual](https://mlr3.mlr-org.com/reference/)
 - [FAQ](https://mlr-org.com/faq.html)
-- Ask questions on [Stackoverflow (tag
-  \#mlr3)](https://stackoverflow.com/questions/tagged/mlr3)
+- Ask questions on Stackoverflow (tag mlr3)
 - **Extension Learners**
   - Recommended core regression, classification, and survival learners
     are in [mlr3learners](https://github.com/mlr-org/mlr3learners)
@@ -99,7 +98,7 @@ task_penguins = as_task_classif(species ~ ., data = palmerpenguins::penguins)
 task_penguins
 ```
 
-    ## 
+    ##
     ## ── <TaskClassif> (344x8) ───────────────────────────────────────────────────────
     ## • Target: species
     ## • Target classes: Adelie (44%), Gentoo (36%), Chinstrap (20%)
@@ -141,7 +140,7 @@ measure = msr("classif.acc")
 prediction$score(measure)
 ```
 
-    ## classif.acc 
+    ## classif.acc
     ##   0.9651163
 
 ### Resample
@@ -166,7 +165,7 @@ rr$score(measure)[, .(task_id, learner_id, iteration, classif.acc)]
 rr$aggregate(measure)
 ```
 
-    ## classif.acc 
+    ## classif.acc
     ##   0.9361302
 
 ## Extension Packages
