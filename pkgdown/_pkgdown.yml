@@ -105,6 +105,7 @@ reference:
       - as_result_data
       - as_benchmark_result
       - uhash
+      - faggregate
   - title: Converters
     contents:
       - starts_with("as_")
