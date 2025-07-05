@@ -114,6 +114,7 @@ Collate:
     'MeasureOOBError.R'
     'MeasureRegr.R'
     'MeasureRegrPinball.R'
+    'MeasureRegrRQR.R'
     'MeasureRegrRSQ.R'
     'MeasureSelectedFeatures.R'
     'MeasureSimilarity.R'
