@@ -1,5 +1,7 @@
 # mlr3 (development version)
 
+* fix: `configure_learner` is passed on `run_experiment()` for autotest learners.
+
 # mlr3 1.0.0
 
 * BREAKING CHANGE: The mlr3 ecosystem has a base logger now which is named `mlr3`.
