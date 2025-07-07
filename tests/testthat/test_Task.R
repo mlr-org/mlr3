@@ -769,7 +769,9 @@ test_that("rbind with weights", {
   new_data$w_lrn = 1001:1010
   new_data$w_msr = 2010:2001
   new_data$Petal.Length = new_data$Petal.Length + 100 # Change a feature to check backend update
-  new_data$Species = factor(sample(c("setosa", "versicolor", "virginica", "new_level"), 10, replace = TRUE)) # new factor level
+  new_species = sample(c("setosa", "versicolor", "virginica", "new_level"), 10, replace = TRUE) # new factor level
+  new_species[1] = "new_level" # include new level at least once
+  new_data$Species = factor(new_species)
 
   task$rbind(new_data)
 

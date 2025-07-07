@@ -2,6 +2,12 @@
 
 * fix: `configure_learner` is passed on `run_experiment()` for autotest learners.
 
+# mlr3 1.0.1
+
+* fix: The printer of `Learner` failed when the `validate` field was set.
+* fix: Avoid printing empty line for feature less tasks.
+* perf: Use `data.table::setattr()` for less copying.
+
 # mlr3 1.0.0
 
 * BREAKING CHANGE: The mlr3 ecosystem has a base logger now which is named `mlr3`.
