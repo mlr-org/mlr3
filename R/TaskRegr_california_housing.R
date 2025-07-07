@@ -19,7 +19,7 @@
 #' @section Meta Information:
 #' `r rd_info(tsk("california_housing"))`
 #'
-#' @source \url{https://www.kaggle.com/datasets/camnugent/california-housing-prices}
+#' @source https://www.kaggle.com/datasets/camnugent/california-housing-prices
 #'
 #' @template seealso_task
 NULL
