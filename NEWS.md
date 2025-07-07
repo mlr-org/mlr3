@@ -1,5 +1,7 @@
 # mlr3 (development version)
 
+* fix: `configure_learner` is passed on `run_experiment()` for autotest learners.
+
 # mlr3 1.0.1
 
 * fix: The printer of `Learner` failed when the `validate` field was set.

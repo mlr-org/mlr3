@@ -558,14 +558,14 @@ run_autotest = function(learner, N = 30L, exclude = NULL, predict_types = learne
         learner$quantiles = 0.5
       }
 
-      run = run_experiment(task, learner)
+      run = run_experiment(task, learner, NULL, configure_learner)
       if (!run$ok) {
         return(run)
       }
 
       # re-run task with same seed for feat_all
       if (startsWith(task$id, "feat_all")) {
-        repeated_run = run_experiment(task, learner, seed = run$seed)
+        repeated_run = run_experiment(task, learner, seed = run$seed, configure_learner)
 
         if (!repeated_run$ok) {
           return(repeated_run)
