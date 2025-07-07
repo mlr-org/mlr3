@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.0.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -47,6 +47,12 @@
       <small>Source: <a href="https://github.com/mlr-org/mlr3/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.0.1" id="mlr3-101">mlr3 1.0.1<a class="anchor" aria-label="anchor" href="#mlr3-101"></a></h2><p class="text-muted">CRAN release: 2025-07-03</p>
+<ul><li>fix: The printer of <code>Learner</code> failed when the <code>validate</code> field was set.</li>
+<li>fix: Avoid printing empty line for feature less tasks.</li>
+<li>perf: Use <code><a href="https://rdatatable.gitlab.io/data.table/reference/setattr.html" class="external-link">data.table::setattr()</a></code> for less copying.</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.0.0" id="mlr3-100">mlr3 1.0.0<a class="anchor" aria-label="anchor" href="#mlr3-100"></a></h2><p class="text-muted">CRAN release: 2025-06-18</p>
 <ul><li><p>BREAKING CHANGE: The mlr3 ecosystem has a base logger now which is named <code>mlr3</code>. The <code>mlr3/core</code> logger is a child of the <code>mlr3</code> logger and is used for logging messages from the <code>mlr3</code> package. Some extension packages have their own loggers which are children of the mlr3 logger e.g. mlr3/mlr3pipelines and mlr3/bbotk for tuning.</p></li>
