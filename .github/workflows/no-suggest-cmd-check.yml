@@ -1,4 +1,4 @@
-# r cmd check workflow of the mlr3 ecosystem v0.4.0
+# r cmd check workflow without suggests of the mlr3 ecosystem v0.1.0 
 # https://github.com/mlr-org/actions
 on:
   workflow_dispatch:
@@ -15,10 +15,10 @@ on:
     branches:
       - main
 
-name: r-cmd-check
+name: no-suggest-cmd-check
 
 jobs:
-  r-cmd-check:
+  no-suggest-cmd-check:
     runs-on: ${{ matrix.config.os }}
 
     name: ${{ matrix.config.os }} (${{ matrix.config.r }})
@@ -30,7 +30,6 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - {os: ubuntu-latest,   r: 'devel'}
           - {os: ubuntu-latest,   r: 'release'}
 
     steps:
@@ -47,6 +46,7 @@ jobs:
           extra-packages: any::rcmdcheck
           needs: check
           error-on: '"note"'
+          dependencies: '"hard"'
 
       - uses: mxschmitt/action-tmate@v3
         if: ${{ github.event_name == 'workflow_dispatch' && inputs.debug_enabled }}

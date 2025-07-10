@@ -1,4 +1,4 @@
-# r cmd check workflow of the mlr3 ecosystem v0.4.0
+# dev cmd check workflow of the mlr3 ecosystem v0.4.0
 # https://github.com/mlr-org/actions
 on:
   workflow_dispatch:
@@ -15,13 +15,13 @@ on:
     branches:
       - main
 
-name: r-cmd-check
+name: dev-check
 
 jobs:
-  r-cmd-check:
+  check-package:
     runs-on: ${{ matrix.config.os }}
 
-    name: ${{ matrix.config.os }} (${{ matrix.config.r }})
+    name: ${{ matrix.config.dev-package }}
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
@@ -30,8 +30,8 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - {os: ubuntu-latest,   r: 'devel'}
-          - {os: ubuntu-latest,   r: 'release'}
+          - {os: ubuntu-latest, r: 'release', dev-package: 'mlr-org/mlr3misc'}
+          - {os: ubuntu-latest, r: 'release', dev-package: 'mlr-org/paradox'}
 
     steps:
       - uses: actions/checkout@v3
@@ -47,6 +47,10 @@ jobs:
           extra-packages: any::rcmdcheck
           needs: check
           error-on: '"note"'
+
+      - name: Install dev versions
+        run: pak::pkg_install('${{ matrix.config.dev-package }}')
+        shell: Rscript {0}
 
       - uses: mxschmitt/action-tmate@v3
         if: ${{ github.event_name == 'workflow_dispatch' && inputs.debug_enabled }}
