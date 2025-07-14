@@ -57,6 +57,66 @@ LearnerClassif = R6Class("LearnerClassif", inherit = Learner,
       if (getOption("mlr3.prob_as_default", FALSE) && "prob" %in% self$predict_types) {
         self$predict_type = "prob"
       }
+    },
+
+    #' @description
+    #' Predict new data in `newdata` using the model fitted during `$train()`.
+    #' This method is faster than `$predict_newdata()` because it does not do asserts, type conversions, encapsulation, or logging.
+    #' The return is no [Prediction] object but a list with elements `"response"` or `"prob"` depending on the predict type.
+    #'
+    #' Note that `state$predict_time` and `state$log` are empty after when this method is called.
+    #' Some learners may fail when this method is called.
+    #' Use `$predict_newdata()` instead.
+    #'
+    #' If the learner has been fitted via [resample()] or [benchmark()], you need to pass the corresponding task stored
+    #' in the [ResampleResult] or [BenchmarkResult], respectively.
+    #'
+    #' @param newdata [`data.table::data.table()`]\cr
+    #'   New data to predict on.
+    #' @param task ([Task]).
+    #'
+    #' @return `list()` with elements `"response"` or `"prob"` depending on the predict type.
+    predict_newdata_fast = function(newdata, task = NULL) {
+      if (is.null(task) && is.null(self$state$train_task)) stopf("No task stored, and no task provided")
+
+      # add data and most common used meta data
+      fake_task = list(
+        data = function(...) newdata,
+        class_names = self$state$train_task$class_names %??% task$class_names,
+        nrow = nrow(newdata)
+      )
+
+      # train failed, use fallback
+      if (is.null(self$model) && !is.null(self$state$fallback_state$model)) {
+        return(self$fallback$predict_newdata_fast(newdata))
+      }
+      pred = get_private(self)$.predict(fake_task)
+
+
+      # predict missing predictions with fallback
+      miss = logical(fake_task$nrow)
+      if (!is.null(pred$response)) {
+        miss = is.na(pred$response)
+      }
+
+      if (!is.null(pred$prob)) {
+        miss = miss | apply(pred$prob, 1L, anyMissing)
+      }
+
+      miss_ids = which(miss)
+      if (length(miss_ids) && !is.null(self$state$fallback_state$model)) {
+        pred_miss = self$fallback$predict_newdata_fast(newdata[miss_ids, ])
+
+        if (!is.null(pred$response)) {
+          pred$response[miss_ids] = pred_miss$response
+        }
+
+        if (!is.null(pred$prob)) {
+          pred$prob[miss_ids, ] = pred_miss$prob
+        }
+      }
+
+      return(pred)
     }
   )
 )

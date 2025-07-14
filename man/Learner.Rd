@@ -358,6 +358,7 @@ This field is read-only.}
 \item \href{#method-Learner-train}{\code{Learner$train()}}
 \item \href{#method-Learner-predict}{\code{Learner$predict()}}
 \item \href{#method-Learner-predict_newdata}{\code{Learner$predict_newdata()}}
+\item \href{#method-Learner-predict_newdata_fast}{\code{Learner$predict_newdata_fast()}}
 \item \href{#method-Learner-reset}{\code{Learner$reset()}}
 \item \href{#method-Learner-base_learner}{\code{Learner$base_learner()}}
 \item \href{#method-Learner-encapsulate}{\code{Learner$encapsulate()}}
@@ -581,6 +582,38 @@ otherwise they are set to to the sequence \code{1:nrow(newdata)}.}
 }
 \subsection{Returns}{
 \link{Prediction}.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Learner-predict_newdata_fast"></a>}}
+\if{latex}{\out{\hypertarget{method-Learner-predict_newdata_fast}{}}}
+\subsection{Method \code{predict_newdata_fast()}}{
+Predict new data in \code{newdata} using the model fitted during \verb{$train()}.
+This method is faster than \verb{$predict_newdata()} because it does not do asserts, type conversions, encapsulation, or logging.
+The return is no \link{Prediction} object but a list with elements \code{"response"} or \code{"prob"} depending on the predict type.
+
+Note that \code{state$predict_time} and \code{state$log} are empty after when this method is called.
+Some learners may fail when this method is called.
+Use \verb{$predict_newdata()} instead.
+
+If the learner has been fitted via \code{\link[=resample]{resample()}} or \code{\link[=benchmark]{benchmark()}}, you need to pass the corresponding task stored
+in the \link{ResampleResult} or \link{BenchmarkResult}, respectively.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Learner$predict_newdata_fast(newdata, task = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{newdata}}{\code{\link[data.table:data.table]{data.table::data.table()}}\cr
+New data to predict on.}
+
+\item{\code{task}}{(\link{Task}).}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\code{list()} with elements \code{"response"} or \code{"prob"} depending on the predict type.
 }
 }
 \if{html}{\out{<hr>}}

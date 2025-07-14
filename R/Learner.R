@@ -496,45 +496,6 @@ Learner = R6Class("Learner",
       self$predict(task)
     },
 
-
-
-# no asserts
-# no type conversion
-# no handling of weights
-# maybe we need to do fix factor levels here
-# no predict_time
-# no parallel predict
-# no require namespaces
-# no encapsulation
-# no state$log
-# no debug messages
-    predict_newdata_fast = function(newdata, task = NULL) {
-      fake_task = list(data = function(...) newdata)
-      result = get_private(self)$.predict(fake_task)
-      return(result)
-  # fb = learner$fallback
-  # if (!is.null(fb)) {
-  #   predict_fb = function(row_ids) {
-  #     fb$predict_type = learner$predict_type
-  #     fb$state = learner$state$fallback_state
-  #     # FIXME: set check = FALSE here
-  #     as_prediction_data(fb$predict(task, row_ids), task, row_ids, check = TRUE, train_task = learner$state$train_task)
-  #   }
-
-  #   if (is.null(pdata)) {
-  #     pdata = predict_fb(task$row_ids)
-  #   } else {
-  #     miss_ids = is_missing_prediction_data(pdata)
-  #     if (length(miss_ids)) {
-  #       pdata = c(pdata, predict_fb(miss_ids), keep_duplicates = FALSE)
-  #     }
-  #   }
-  # }
-
-      return(pdata)
-    },
-
-
     #' @description
     #' Reset the learner, i.e. un-train by resetting the `state`.
     #'
