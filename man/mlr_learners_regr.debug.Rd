@@ -38,10 +38,18 @@ lrn("regr.debug")
 \section{Parameters}{
 \tabular{lllll}{
    Id \tab Type \tab Default \tab Levels \tab Range \cr
+   error_predict \tab numeric \tab 0 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
+   error_train \tab numeric \tab 0 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
+   message_predict \tab numeric \tab 0 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
+   message_train \tab numeric \tab 0 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
    predict_missing \tab numeric \tab 0 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
    predict_missing_type \tab character \tab na \tab na, omit \tab - \cr
    save_tasks \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   segfault_predict \tab numeric \tab 0 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
+   segfault_train \tab numeric \tab 0 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
    threads \tab integer \tab - \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
+   warning_predict \tab numeric \tab 0 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
+   warning_train \tab numeric \tab 0 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
    x \tab numeric \tab - \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
 }
 }
@@ -108,10 +116,10 @@ Other Learner:
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="help"><a href='../../mlr3/html/Learner.html#method-Learner-help'><code>mlr3::Learner$help()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="predict"><a href='../../mlr3/html/Learner.html#method-Learner-predict'><code>mlr3::Learner$predict()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="predict_newdata"><a href='../../mlr3/html/Learner.html#method-Learner-predict_newdata'><code>mlr3::Learner$predict_newdata()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="predict_newdata_fast"><a href='../../mlr3/html/Learner.html#method-Learner-predict_newdata_fast'><code>mlr3::Learner$predict_newdata_fast()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="print"><a href='../../mlr3/html/Learner.html#method-Learner-print'><code>mlr3::Learner$print()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="reset"><a href='../../mlr3/html/Learner.html#method-Learner-reset'><code>mlr3::Learner$reset()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="train"><a href='../../mlr3/html/Learner.html#method-Learner-train'><code>mlr3::Learner$train()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="LearnerRegr" data-id="predict_newdata_fast"><a href='../../mlr3/html/LearnerRegr.html#method-LearnerRegr-predict_newdata_fast'><code>mlr3::LearnerRegr$predict_newdata_fast()</code></a></span></li>
 </ul>
 </details>
 }}

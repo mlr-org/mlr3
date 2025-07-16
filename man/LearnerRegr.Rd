@@ -85,6 +85,7 @@ The quantile to be used as response.}
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-LearnerRegr-new}{\code{LearnerRegr$new()}}
+\item \href{#method-LearnerRegr-predict_newdata_fast}{\code{LearnerRegr$predict_newdata_fast()}}
 \item \href{#method-LearnerRegr-clone}{\code{LearnerRegr$clone()}}
 }
 }
@@ -98,7 +99,6 @@ The quantile to be used as response.}
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="help"><a href='../../mlr3/html/Learner.html#method-Learner-help'><code>mlr3::Learner$help()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="predict"><a href='../../mlr3/html/Learner.html#method-Learner-predict'><code>mlr3::Learner$predict()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="predict_newdata"><a href='../../mlr3/html/Learner.html#method-Learner-predict_newdata'><code>mlr3::Learner$predict_newdata()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="predict_newdata_fast"><a href='../../mlr3/html/Learner.html#method-Learner-predict_newdata_fast'><code>mlr3::Learner$predict_newdata_fast()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="print"><a href='../../mlr3/html/Learner.html#method-Learner-print'><code>mlr3::Learner$print()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="reset"><a href='../../mlr3/html/Learner.html#method-Learner-reset'><code>mlr3::Learner$reset()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="selected_features"><a href='../../mlr3/html/Learner.html#method-Learner-selected_features'><code>mlr3::Learner$selected_features()</code></a></span></li>
@@ -181,6 +181,35 @@ String in the format \verb{[pkg]::[topic]} pointing to a manual page for this ob
 The referenced help package can be opened via method \verb{$help()}.}
 }
 \if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-LearnerRegr-predict_newdata_fast"></a>}}
+\if{latex}{\out{\hypertarget{method-LearnerRegr-predict_newdata_fast}{}}}
+\subsection{Method \code{predict_newdata_fast()}}{
+Predicts outcomes for new data in \code{newdata} using the model fitted during \verb{$train()}.
+This method is faster than \verb{$predict_newdata()} as it skips assertions, type conversions, encapsulation, and logging.
+
+Unlike \verb{$predict_newdata()}, this method does not return a \link{Prediction} object.
+Instead, it returns a list with either a \code{"response"} or \code{"prob"} element, depending on the prediction type.
+
+Note that \code{state$predict_time} and \code{state$log} will remain empty after using this method.
+Some learners may not support this method and may fail when it is called.
+Prefer \verb{$predict_newdata()} unless performance is critical.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{LearnerRegr$predict_newdata_fast(newdata)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{newdata}}{\code{\link[data.table:data.table]{data.table::data.table()}}\cr
+New data to predict on.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\code{list()} with elements \code{"response"} or \code{"se"} or \code{"quantiles"} depending on the predict type.
 }
 }
 \if{html}{\out{<hr>}}

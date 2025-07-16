@@ -50,25 +50,21 @@ LearnerRegr = R6Class("LearnerRegr", inherit = Learner,
     },
 
     #' @description
-    #' Predict new data in `newdata` using the model fitted during `$train()`.
-    #' This method is faster than `$predict_newdata()` because it does not do asserts, type conversions, encapsulation, or logging.
-    #' The return is no [Prediction] object but a list with elements `"response"` or `"prob"` depending on the predict type.
+    #' Predicts outcomes for new data in `newdata` using the model fitted during `$train()`.
+    #' This method is faster than `$predict_newdata()` as it skips assertions, type conversions, encapsulation, and logging.
     #'
-    #' Note that `state$predict_time` and `state$log` are empty after when this method is called.
-    #' Some learners may fail when this method is called.
-    #' Use `$predict_newdata()` instead.
+    #' Unlike `$predict_newdata()`, this method does not return a [Prediction] object.
+    #' Instead, it returns a list with either a `"response"` or `"prob"` element, depending on the prediction type.
     #'
-    #' If the learner has been fitted via [resample()] or [benchmark()], you need to pass the corresponding task stored
-    #' in the [ResampleResult] or [BenchmarkResult], respectively.
+    #' Note that `state$predict_time` and `state$log` will remain empty after using this method.
+    #' Some learners may not support this method and may fail when it is called.
+    #' Prefer `$predict_newdata()` unless performance is critical.
     #'
     #' @param newdata [`data.table::data.table()`]\cr
     #'   New data to predict on.
-    #' @param task ([Task]).
     #'
-    #' @return `list()` with elements `"response"` or `"prob"` depending on the predict type.
-    predict_newdata_fast = function(newdata, task = NULL) {
-      if (is.null(task) && is.null(self$state$train_task)) stopf("No task stored, and no task provided")
-
+    #' @return `list()` with elements `"response"` or `"se"` or `"quantiles"` depending on the predict type.
+    predict_newdata_fast = function(newdata) {
       # add data and most common used meta data
       fake_task = list(
         data = function(...) newdata,
