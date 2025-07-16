@@ -63,7 +63,7 @@ LearnerRegr = R6Class("LearnerRegr", inherit = Learner,
     #' @param newdata [`data.table::data.table()`]\cr
     #'   New data to predict on.
     #'
-    #' @return `list()` with elements `"response"` or `"se"` or `"quantiles"` depending on the predict type.
+    #' @return `list()` with elements `"response"`, `"se"` or `"quantiles"` depending on the predict type.
     predict_newdata_fast = function(newdata) {
       # add data and most common used meta data
       fake_task = list(

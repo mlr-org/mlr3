@@ -209,7 +209,7 @@ New data to predict on.}
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-\code{list()} with elements \code{"response"} or \code{"se"} or \code{"quantiles"} depending on the predict type.
+\code{list()} with elements \code{"response"}, \code{"se"} or \code{"quantiles"} depending on the predict type.
 }
 }
 \if{html}{\out{<hr>}}
