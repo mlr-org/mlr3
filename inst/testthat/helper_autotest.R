@@ -300,6 +300,7 @@ run_experiment = function(task, learner, seed = NULL, configure_learner = NULL) 
 
   # function to collect error message and objects
   err = function(info, ...) {
+    info = gsub("%", "", info)
     info = sprintf(info, ...)
     list(
       ok = FALSE, seed = seed,
