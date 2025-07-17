@@ -85,6 +85,7 @@ The quantile to be used as response.}
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-LearnerRegr-new}{\code{LearnerRegr$new()}}
+\item \href{#method-LearnerRegr-predict_newdata_fast}{\code{LearnerRegr$predict_newdata_fast()}}
 \item \href{#method-LearnerRegr-clone}{\code{LearnerRegr$clone()}}
 }
 }
@@ -180,6 +181,39 @@ String in the format \verb{[pkg]::[topic]} pointing to a manual page for this ob
 The referenced help package can be opened via method \verb{$help()}.}
 }
 \if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-LearnerRegr-predict_newdata_fast"></a>}}
+\if{latex}{\out{\hypertarget{method-LearnerRegr-predict_newdata_fast}{}}}
+\subsection{Method \code{predict_newdata_fast()}}{
+Predicts outcomes for new data in \code{newdata} using the model fitted during \verb{$train()}.
+This method is faster than \verb{$predict_newdata()} as it skips assertions, type conversions, encapsulation, and logging.
+
+Unlike \verb{$predict_newdata()}, this method does not return a \link{Prediction} object.
+Instead, it returns a list with either a \code{"response"} or \code{"prob"} element, depending on the prediction type.
+
+Note that \code{state$predict_time} and \code{state$log} will remain empty after using this method.
+Some learners may not support this method and may fail when it is called.
+Prefer \verb{$predict_newdata()} unless performance is critical.
+
+If the model was trained via \code{\link[=resample]{resample()}} or \code{\link[=benchmark]{benchmark()}}, you must pass the associated task object stored in the corresponding \link{ResampleResult} or \link{BenchmarkResult}.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{LearnerRegr$predict_newdata_fast(newdata, task = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{newdata}}{\code{\link[data.table:data.table]{data.table::data.table()}}\cr
+New data to predict on.}
+
+\item{\code{task}}{(\link{Task}).}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\code{list()} with elements \code{"response"}, \code{"se"} or \code{"quantiles"} depending on the predict type.
 }
 }
 \if{html}{\out{<hr>}}

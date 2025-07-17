@@ -497,6 +497,28 @@ run_experiment = function(task, learner, seed = NULL, configure_learner = NULL) 
     on.exit()
   }
 
+  # predict_newdata_fast method
+  if (startsWith(task$id, "feat_all") && exists("predict_newdata_fast", learner) && learner$predict_type == "prob") {
+
+    prediction = suppressWarnings(try(learner$predict_newdata_fast(task$data()), silent = TRUE))
+
+    if (inherits(prediction, "try-error")) {
+      ok = prediction
+      prediction = NULL
+      return(err(c("predict_newdata_fast failed: ", as.character(ok))))
+    }
+
+    msg = checkmate::check_list(prediction)
+    if (!isTRUE(msg)) {
+      return(err("predict_newdata_fast does not return a list"))
+    }
+
+    msg = checkmate::check_names(names(prediction), subset.of = mlr3::mlr_reflections$learner_predict_types[[learner$task_type]][[learner$predict_type]])
+    if (!isTRUE(msg)) {
+      return(err("Names of list returned by predict_newdata_fast do not match learner predict_types: %s", str_collapse(names(prediction))))
+    }
+  }
+
   return(list(ok = TRUE, learner = learner, prediction = prediction, error = character(), seed = seed))
 }
 
