@@ -37,6 +37,7 @@
   design (#1273).
 * feat: Converting a `BenchmarkResult` to a `data.table` now includes the `task_id`, `learner_id`, and `resampling_id` columns (#1275).
 * fix: Add missing parameters for `"regr.pinball"` and `"sim.phi"` measures.
+* feat: Add new measure `"regr.rqr"` for quantile regression.
 
 # mlr3 0.23.0
 
