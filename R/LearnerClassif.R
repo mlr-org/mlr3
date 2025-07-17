@@ -79,11 +79,14 @@ LearnerClassif = R6Class("LearnerClassif", inherit = Learner,
     #' @return `list()` with elements `"response"` or `"prob"` depending on the predict type.
     predict_newdata_fast = function(newdata, task = NULL) {
       if (is.null(task) && is.null(self$state$train_task)) stopf("No task stored, and no task provided")
+      feature_names = self$state$train_task$feature_names %??% task$feature_names
+      class_names = self$state$train_task$class_names %??% task$class_names
 
       # add data and most common used meta data
       fake_task = list(
-        data = function(...) newdata,
-        class_names = self$state$train_task$class_names %??% task$class_names,
+        # some learners require that newdata contains the features names in the same order as the training data
+        data = function(...) newdata[, feature_names, with = FALSE],
+        class_names = class_names,
         nrow = nrow(newdata)
       )
 

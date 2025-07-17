@@ -60,14 +60,21 @@ LearnerRegr = R6Class("LearnerRegr", inherit = Learner,
     #' Some learners may not support this method and may fail when it is called.
     #' Prefer `$predict_newdata()` unless performance is critical.
     #'
+    #' If the model was trained via [resample()] or [benchmark()], you must pass the associated task object stored in the corresponding [ResampleResult] or [BenchmarkResult].
+    #'
     #' @param newdata [`data.table::data.table()`]\cr
     #'   New data to predict on.
+    #' @param task ([Task]).
     #'
     #' @return `list()` with elements `"response"`, `"se"` or `"quantiles"` depending on the predict type.
-    predict_newdata_fast = function(newdata) {
+    predict_newdata_fast = function(newdata, task = NULL) {
+      if (is.null(task) && is.null(self$state$train_task)) stopf("No task stored, and no task provided")
+      feature_names = self$state$train_task$feature_names %??% task$feature_names
+
       # add data and most common used meta data
       fake_task = list(
-        data = function(...) newdata,
+        # some learners require that newdata contains the features names in the same order as the training data
+        data = function(...) newdata[, feature_names, with = FALSE],
         nrow = nrow(newdata)
       )
 

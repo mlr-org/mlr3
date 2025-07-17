@@ -196,8 +196,10 @@ Instead, it returns a list with either a \code{"response"} or \code{"prob"} elem
 Note that \code{state$predict_time} and \code{state$log} will remain empty after using this method.
 Some learners may not support this method and may fail when it is called.
 Prefer \verb{$predict_newdata()} unless performance is critical.
+
+If the model was trained via \code{\link[=resample]{resample()}} or \code{\link[=benchmark]{benchmark()}}, you must pass the associated task object stored in the corresponding \link{ResampleResult} or \link{BenchmarkResult}.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{LearnerRegr$predict_newdata_fast(newdata)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{LearnerRegr$predict_newdata_fast(newdata, task = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -205,6 +207,8 @@ Prefer \verb{$predict_newdata()} unless performance is critical.
 \describe{
 \item{\code{newdata}}{\code{\link[data.table:data.table]{data.table::data.table()}}\cr
 New data to predict on.}
+
+\item{\code{task}}{(\link{Task}).}
 }
 \if{html}{\out{</div>}}
 }
