@@ -102,7 +102,8 @@ as_task_regr.formula = function(x, data, id = deparse1(substitute(data)), label 
     stopf("Formula %s is missing a response", format(x))
   }
   tab = model.frame(x, data, na.action = "na.pass")
-  attr(tab, "terms") = attr(tab, "na.action") = NULL
+  setattr(tab, "terms", NULL)
+  setattr(tab, "na.action", NULL)
   target = all.vars(x)[1L]
 
   as_task_regr(tab, target = target, id = id, label = label, ...)

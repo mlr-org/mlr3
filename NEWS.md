@@ -1,5 +1,15 @@
 # mlr3 (development version)
 
+* fix: `configure_learner` is passed on `run_experiment()` for autotest learners.
+
+# mlr3 1.0.1
+
+* fix: The printer of `Learner` failed when the `validate` field was set.
+* fix: Avoid printing empty line for feature less tasks.
+* perf: Use `data.table::setattr()` for less copying.
+
+# mlr3 1.0.0
+
 * BREAKING CHANGE: The mlr3 ecosystem has a base logger now which is named `mlr3`.
   The `mlr3/core` logger is a child of the `mlr3` logger and is used for logging messages from the `mlr3` package.
   Some extension packages have their own loggers which are children of the mlr3 logger e.g. mlr3/mlr3pipelines and mlr3/bbotk for tuning.
@@ -27,6 +37,7 @@
   design (#1273).
 * feat: Converting a `BenchmarkResult` to a `data.table` now includes the `task_id`, `learner_id`, and `resampling_id` columns (#1275).
 * fix: Add missing parameters for `"regr.pinball"` and `"sim.phi"` measures.
+* feat: Add new measure `"regr.rqr"` for quantile regression.
 
 # mlr3 0.23.0
 

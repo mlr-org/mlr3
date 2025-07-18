@@ -1,6 +1,6 @@
 Package: mlr3
 Title: Machine Learning in R - Next Generation
-Version: 0.23.0.9000
+Version: 1.0.1.9000
 Authors@R:
   c(
     person("Michel", "Lang", , "michellang@gmail.com", role = "aut",
@@ -50,13 +50,13 @@ Imports:
     checkmate (>= 2.0.0),
     cli,
     data.table (>= 1.15.0),
-    evaluate,
+    evaluate (>= 1.0.4),
     future,
     future.apply (>= 1.5.0),
     lgr (>= 0.3.4),
     mlbench,
     mlr3measures (>= 1.0.0),
-    mlr3misc (>= 0.17.0),
+    mlr3misc (>= 0.18.0),
     parallelly,
     palmerpenguins,
     paradox (>= 1.0.1),
@@ -117,6 +117,7 @@ Collate:
     'MeasureOOBError.R'
     'MeasureRegr.R'
     'MeasureRegrPinball.R'
+    'MeasureRegrRQR.R'
     'MeasureRegrRSQ.R'
     'MeasureSelectedFeatures.R'
     'MeasureSimilarity.R'
@@ -160,6 +161,7 @@ Collate:
     'TaskGeneratorCircle.R'
     'TaskGeneratorFriedman1.R'
     'TaskGeneratorMoons.R'
+    'TaskGeneratorPeak.R'
     'TaskGeneratorSimplex.R'
     'TaskGeneratorSmiley.R'
     'TaskGeneratorSpirals.R'
