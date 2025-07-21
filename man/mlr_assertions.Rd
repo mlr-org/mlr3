@@ -18,6 +18,7 @@
 \alias{assert_resample_result}
 \alias{assert_benchmark_result}
 \alias{assert_row_ids}
+\alias{assert_has_backend}
 \alias{assert_validate}
 \title{Assertion for mlr3 Objects}
 \usage{
@@ -108,13 +109,14 @@ assert_row_ids(
   .var.name = vname(row_ids)
 )
 
+assert_has_backend(task)
+
 assert_validate(x)
 }
 \arguments{
 \item{b}{(\link{DataBackend}).}
 
-\item{task}{(\link{Task})\cr
-Task to check if row ids exist in it.}
+\item{task}{(\link{Task}).}
 
 \item{task_type}{(\code{character(1)}).}
 
