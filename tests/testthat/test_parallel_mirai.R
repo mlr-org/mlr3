@@ -33,6 +33,27 @@ test_that("real parallel resample", {
   })
 })
 
+test_that("mirai resample is reproducible", {
+  with_mirai({
+    task = tsk("pima")
+    learner = lrn("classif.debug")
+    resampling = rsmp("cv", folds = 3)
+    rr = resample(task, learner, resampling, store_models = TRUE)
+  }, seed = 123)
+  random_number_1 = map_int(rr$learners, function(l) l$model$random_number)
+
+
+  with_mirai({
+    task = tsk("pima")
+    learner = lrn("classif.debug")
+    resampling = rsmp("cv", folds = 3)
+    rr = resample(task, learner, resampling, store_models = TRUE)
+  }, seed = 123)
+  random_number_2 = map_int(rr$learners, function(l) l$model$random_number)
+
+  expect_equal(random_number_1, random_number_2)
+})
+
 test_that("data table threads are not changed in main session", {
   skip_on_os("mac") # number of threads cannot be changed on mac
   skip_on_cran()
