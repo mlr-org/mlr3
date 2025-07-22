@@ -75,6 +75,7 @@ LearnerRegr = R6Class("LearnerRegr", inherit = Learner,
       fake_task = list(
         # some learners require that newdata contains the features names in the same order as the training data
         data = function(...) newdata[, feature_names, with = FALSE],
+        feature_names = feature_names,
         nrow = nrow(newdata)
       )
 
