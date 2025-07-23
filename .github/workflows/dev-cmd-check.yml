@@ -46,7 +46,6 @@ jobs:
         with:
           extra-packages: any::rcmdcheck
           needs: check
-          error-on: '"note"'
 
       - name: Install dev versions
         run: pak::pkg_install('${{ matrix.config.dev-package }}')
@@ -60,3 +59,4 @@ jobs:
       - uses: r-lib/actions/check-r-package@v2
         with:
           args: 'c("--no-manual", "--as-cran")'
+          error-on: '"note"'
