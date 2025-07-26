@@ -395,6 +395,9 @@ assert_row_ids = function(row_ids, task = NULL, null.ok = FALSE, .var.name = vna
   invisible(row_ids)
 }
 
+#' @export
+#' @param task ([Task]).
+#' @rdname mlr_assertions
 assert_has_backend = function(task) {
   if (is.null(task$backend)) {
     stopf("The backend of Task '%s' has been removed. Set `store_backends` to `TRUE` during model fitting to conserve it.", task$id)
