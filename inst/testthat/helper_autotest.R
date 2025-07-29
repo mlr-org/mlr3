@@ -522,7 +522,7 @@ run_experiment = function(task, learner, seed = NULL, configure_learner = NULL) 
 
     msg = checkmate::check_list(prediction)
     if (!isTRUE(msg)) {
-      return(err("return a not a list"))
+      return(err("does not return a list"))
     }
 
     msg = checkmate::check_names(names(prediction), subset.of = mlr3::mlr_reflections$learner_predict_types[[learner$task_type]][[learner$predict_type]])
