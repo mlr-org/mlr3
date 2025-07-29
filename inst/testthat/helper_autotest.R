@@ -517,17 +517,17 @@ run_experiment = function(task, learner, seed = NULL, configure_learner = NULL) 
     if (inherits(prediction, "try-error")) {
       ok = prediction
       prediction = NULL
-      return(err(c("predict_newdata_fast failed: ", error_as_character(ok))))
+      return(err(error_as_character(ok)))
     }
 
     msg = checkmate::check_list(prediction)
     if (!isTRUE(msg)) {
-      return(err("predict_newdata_fast does not return a list"))
+      return(err("return a not a list"))
     }
 
     msg = checkmate::check_names(names(prediction), subset.of = mlr3::mlr_reflections$learner_predict_types[[learner$task_type]][[learner$predict_type]])
     if (!isTRUE(msg)) {
-      return(err("Names of list returned by predict_newdata_fast do not match learner predict_types: %s", str_collapse(names(prediction))))
+      return(err("Names of returned list do not match learner predict_types: %s", str_collapse(names(prediction))))
     }
   }
 
@@ -538,13 +538,13 @@ run_experiment = function(task, learner, seed = NULL, configure_learner = NULL) 
     learner$marshal()
     # learner$marshaled checks if model is of class "marshaled"
     if (!learner$marshaled) {
-      return(err("learner$marshal() did not marshal the model"))
+      return(err("model not marshaled"))
     }
 
     learner$unmarshal()
     # checks if the "marshaled" class is removed
     if (learner$marshaled) {
-      return(err("learner$unmarshal() did not unmarshal the model"))
+      return(err("model not unmarshaled"))
     }
 
     prediction_marshaling = suppressWarnings(try(learner$predict(task), silent = TRUE))
