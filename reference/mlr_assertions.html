@@ -35,7 +35,7 @@ Asserts whether the input is a valid value for the $validate field of a Learner.
 
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.0.1</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -66,7 +66,7 @@ Asserts whether the input is a valid value for the $validate field of a Learner.
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Assertion for mlr3 Objects</h1>
-      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3/blob/v1.0.1/R/assertions.R" class="external-link"><code>R/assertions.R</code></a>, <a href="https://github.com/mlr-org/mlr3/blob/v1.0.1/R/helper.R" class="external-link"><code>R/helper.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3/blob/main/R/assertions.R" class="external-link"><code>R/assertions.R</code></a>, <a href="https://github.com/mlr-org/mlr3/blob/main/R/helper.R" class="external-link"><code>R/helper.R</code></a></small>
       <div class="d-none name"><code>mlr_assertions.Rd</code></div>
     </div>
 
@@ -171,6 +171,8 @@ Otherwise, the input object is returned invisibly.</p>
 <span>  .var.name <span class="op">=</span> <span class="fu">vname</span><span class="op">(</span><span class="va">row_ids</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
+<span><span class="fu">assert_has_backend</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span>
+<span></span>
 <span><span class="fu">assert_validate</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -183,8 +185,7 @@ Otherwise, the input object is returned invisibly.</p>
 
 
 <dt id="arg-task">task<a class="anchor" aria-label="anchor" href="#arg-task"></a></dt>
-<dd><p>(<a href="Task.html">Task</a>)<br>
-Task to check if row ids exist in it.</p></dd>
+<dd><p>(<a href="Task.html">Task</a>).</p></dd>
 
 
 <dt id="arg-task-type">task_type<a class="anchor" aria-label="anchor" href="#arg-task-type"></a></dt>

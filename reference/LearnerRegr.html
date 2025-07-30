@@ -45,7 +45,7 @@ Additional learners are implement in the Github package https://github.com/mlr-o
 
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.0.1</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -76,7 +76,7 @@ Additional learners are implement in the Github package https://github.com/mlr-o
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Regression Learner</h1>
-      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3/blob/v1.0.1/R/LearnerRegr.R" class="external-link"><code>R/LearnerRegr.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3/blob/main/R/LearnerRegr.R" class="external-link"><code>R/LearnerRegr.R</code></a></small>
       <div class="d-none name"><code>LearnerRegr.Rd</code></div>
     </div>
 
@@ -150,6 +150,7 @@ The quantile to be used as response.</p></dd>
 <h3 id="public-methods">Public methods<a class="anchor" aria-label="anchor" href="#public-methods"></a></h3>
 
 <ul><li><p><a href="#method-LearnerRegr-new"><code>LearnerRegr$new()</code></a></p></li>
+<li><p><a href="#method-LearnerRegr-predict_newdata_fast"><code>LearnerRegr$predict_newdata_fast()</code></a></p></li>
 <li><p><a href="#method-LearnerRegr-clone"><code>LearnerRegr$clone()</code></a></p></li>
 </ul></div><p><details><summary>Inherited methods</summary><ul><li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="base_learner"><a href="Learner.html#method-base_learner"><code>mlr3::Learner$base_learner()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="configure"><a href="Learner.html#method-configure"><code>mlr3::Learner$configure()</code></a></span></li>
@@ -254,15 +255,47 @@ The referenced help package can be opened via method <code>$help()</code>.</p></
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-LearnerRegr-clone"></a><div class="section">
-<h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
-<p>The objects of this class are cloneable with this method.</p><div class="section">
+</div><p></p><hr><a id="method-LearnerRegr-predict_newdata_fast"></a><div class="section">
+<h3 id="method-predict-newdata-fast-">Method <code>predict_newdata_fast()</code><a class="anchor" aria-label="anchor" href="#method-predict-newdata-fast-"></a></h3>
+<p>Predicts outcomes for new data in <code>newdata</code> using the model fitted during <code>$train()</code>.
+This method is faster than <code>$predict_newdata()</code> as it skips assertions, type conversions, encapsulation, and logging.</p>
+<p>Unlike <code>$predict_newdata()</code>, this method does not return a <a href="Prediction.html">Prediction</a> object.
+Instead, it returns a list with either a <code>"response"</code> or <code>"prob"</code> element, depending on the prediction type.</p>
+<p>Note that <code>state$predict_time</code> and <code>state$log</code> will remain empty after using this method.
+Some learners may not support this method and may fail when it is called.
+Prefer <code>$predict_newdata()</code> unless performance is critical.</p>
+<p>If the model was trained via <code><a href="resample.html">resample()</a></code> or <code><a href="benchmark.html">benchmark()</a></code>, you must pass the associated task object stored in the corresponding <a href="ResampleResult.html">ResampleResult</a> or <a href="BenchmarkResult.html">BenchmarkResult</a>.</p><div class="section">
 <h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">LearnerRegr</span><span class="op">$</span><span class="fu">clone</span><span class="op">(</span>deep <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">LearnerRegr</span><span class="op">$</span><span class="fu">predict_newdata_fast</span><span class="op">(</span><span class="va">newdata</span>, task <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
 <h4 id="arguments-1">Arguments<a class="anchor" aria-label="anchor" href="#arguments-1"></a></h4>
+<p></p><div class="arguments"><dl><dt><code>newdata</code></dt>
+<dd><p><code><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code><br>
+New data to predict on.</p></dd>
+
+
+<dt><code>task</code></dt>
+<dd><p>(<a href="Task.html">Task</a>).</p></dd>
+
+
+</dl><p></p></div>
+</div>
+<div class="section">
+<h4 id="returns">Returns<a class="anchor" aria-label="anchor" href="#returns"></a></h4>
+<p><code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code> with elements <code>"response"</code>, <code>"se"</code> or <code>"quantiles"</code> depending on the predict type.</p>
+</div>
+
+</div><p></p><hr><a id="method-LearnerRegr-clone"></a><div class="section">
+<h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
+<p>The objects of this class are cloneable with this method.</p><div class="section">
+<h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">LearnerRegr</span><span class="op">$</span><span class="fu">clone</span><span class="op">(</span>deep <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
+</div>
+
+<div class="section">
+<h4 id="arguments-2">Arguments<a class="anchor" aria-label="anchor" href="#arguments-2"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>deep</code></dt>
 <dd><p>Whether to make a deep clone.</p></dd>
 

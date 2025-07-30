@@ -23,7 +23,7 @@ For a more convenient way to retrieve and construct measures, see msr()/msrs()."
 
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.0.1</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -54,7 +54,7 @@ For a more convenient way to retrieve and construct measures, see msr()/msrs()."
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Dictionary of Performance Measures</h1>
-      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3/blob/v1.0.1/R/mlr_measures.R" class="external-link"><code>R/mlr_measures.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3/blob/main/R/mlr_measures.R" class="external-link"><code>R/mlr_measures.R</code></a></small>
       <div class="d-none name"><code>mlr_measures.Rd</code></div>
     </div>
 
@@ -109,6 +109,7 @@ If <code>objects</code> is set to <code>TRUE</code>, the constructed objects are
 <code><a href="mlr_measures_internal_valid_score.html">mlr_measures_internal_valid_score</a></code>,
 <code><a href="mlr_measures_oob_error.html">mlr_measures_oob_error</a></code>,
 <code><a href="mlr_measures_regr.pinball.html">mlr_measures_regr.pinball</a></code>,
+<code><a href="mlr_measures_regr.rqr.html">mlr_measures_regr.rqr</a></code>,
 <code><a href="mlr_measures_regr.rsq.html">mlr_measures_regr.rsq</a></code>,
 <code><a href="mlr_measures_selected_features.html">mlr_measures_selected_features</a></code></p></div>
     </div>
@@ -170,17 +171,18 @@ If <code>objects</code> is set to <code>TRUE</code>, the constructed objects are
 <span class="r-out co"><span class="r-pr">#&gt;</span> 49:         regr.pinball                                                &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 50:            regr.rmse                             Root Mean Squared Error</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 51:           regr.rmsle                         Root Mean Squared Log Error</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 52:             regr.rsq                                                &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 53:             regr.sae                              Sum of Absolute Errors</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 54:           regr.smape               Symmetric Mean Absolute Percent Error</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 55:            regr.srho                                      Spearman's rho</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 56:             regr.sse                               Sum of Squared Errors</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 57:    selected_features Absolute or Relative Frequency of Selected Features</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 58:          sim.jaccard                            Jaccard Similarity Index</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 59:              sim.phi                          Phi Coefficient Similarity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 60:            time_both                                        Elapsed Time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 61:         time_predict                                        Elapsed Time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 62:           time_train                                        Elapsed Time</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 52:             regr.rqr                                                &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 53:             regr.rsq                                                &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 54:             regr.sae                              Sum of Absolute Errors</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 55:           regr.smape               Symmetric Mean Absolute Percent Error</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 56:            regr.srho                                      Spearman's rho</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 57:             regr.sse                               Sum of Squared Errors</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 58:    selected_features Absolute or Relative Frequency of Selected Features</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 59:          sim.jaccard                            Jaccard Similarity Index</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 60:              sim.phi                          Phi Coefficient Similarity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 61:            time_both                                        Elapsed Time</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 62:         time_predict                                        Elapsed Time</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 63:           time_train                                        Elapsed Time</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                      key                                               label</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     task_type          packages predict_type</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        &lt;char&gt;            &lt;list&gt;       &lt;char&gt;</span>
@@ -235,17 +237,18 @@ If <code>objects</code> is set to <code>TRUE</code>, the constructed objects are
 <span class="r-out co"><span class="r-pr">#&gt;</span> 49:      regr              mlr3    quantiles</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 50:      regr mlr3,mlr3measures     response</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 51:      regr mlr3,mlr3measures     response</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 52:      regr              mlr3     response</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 53:      regr mlr3,mlr3measures     response</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 52:      regr              mlr3    quantiles</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 53:      regr              mlr3     response</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 54:      regr mlr3,mlr3measures     response</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 55:      regr mlr3,mlr3measures     response</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 56:      regr mlr3,mlr3measures     response</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 57:      &lt;NA&gt;              mlr3         &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 58:      &lt;NA&gt; mlr3,mlr3measures         &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 57:      regr mlr3,mlr3measures     response</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 58:      &lt;NA&gt;              mlr3         &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 59:      &lt;NA&gt; mlr3,mlr3measures         &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 60:      &lt;NA&gt;              mlr3         &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 60:      &lt;NA&gt; mlr3,mlr3measures         &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 61:      &lt;NA&gt;              mlr3         &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 62:      &lt;NA&gt;              mlr3         &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 63:      &lt;NA&gt;              mlr3         &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     task_type          packages predict_type</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                               properties</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                                   &lt;list&gt;</span>
@@ -300,17 +303,18 @@ If <code>objects</code> is set to <code>TRUE</code>, the constructed objects are
 <span class="r-out co"><span class="r-pr">#&gt;</span> 49:                                                                     </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 50:                                                              weights</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 51:                                                              weights</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 52:                                                              weights</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 53:                                                                     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 52:                                                               [NULL]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 53:                                                              weights</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 54:                                                                     </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 55:                                                                     </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 56:                                                                     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 57: requires_task,requires_learner,requires_model,requires_no_prediction</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 58:                                requires_model,requires_no_prediction</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 57:                                                                     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 58: requires_task,requires_learner,requires_model,requires_no_prediction</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 59:                                requires_model,requires_no_prediction</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 60:                              requires_learner,requires_no_prediction</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 60:                                requires_model,requires_no_prediction</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 61:                              requires_learner,requires_no_prediction</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 62:                              requires_learner,requires_no_prediction</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 63:                              requires_learner,requires_no_prediction</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                               properties</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     task_properties</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              &lt;list&gt;</span>
@@ -376,6 +380,7 @@ If <code>objects</code> is set to <code>TRUE</code>, the constructed objects are
 <span class="r-out co"><span class="r-pr">#&gt;</span> 60:                </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 61:                </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 62:                </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 63:                </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     task_properties</span>
 <span class="r-in"><span><span class="va">mlr_measures</span><span class="op">$</span><span class="fu">get</span><span class="op">(</span><span class="st">"classif.ce"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
