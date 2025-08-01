@@ -61,3 +61,150 @@ test_that("autotest configure_learner works", {
   expect_true(result)
   expect_equal(learner$param_set$values$error_train, 1)
 })
+
+test_that("autotest on marshal / unmarshal", {
+  learner = R6Class(
+    "learner_broken_marshal",
+    inherit = LearnerClassifDebug,
+    public = list(
+      marshal = function(...) {
+        # do nothing
+        invisible(self)
+      }
+    )
+  )$new()
+
+  task = tsk("spam")$clone(deep = TRUE)
+  task$id = "feat_all_spam"
+  result = run_experiment(task, learner)
+  expect_false(result$ok)
+  expect_string(result$error, pattern = "marshal")
+
+  learner = R6Class(
+    "learner_broken_marshal_class",
+    inherit = LearnerClassifDebug,
+    public = list(
+      marshal = function(...) {
+        # miss to set class "marshaled" in the model
+        self$model = structure(list(
+          marshaled = self$model, packages = "mlr3"),
+          class = c("classif.debug_model_marshaled")
+        )
+      }
+    )
+  )$new()
+
+  task = tsk("spam")$clone(deep = TRUE)
+  task$id = "feat_all_spam"
+  result = run_experiment(task, learner)
+  expect_false(result$ok)
+  expect_string(result$error, pattern = "marshal")
+
+
+  learner = R6Class(
+    "learner_broken_marshal",
+    inherit = LearnerClassifDebug,
+    public = list(
+      unmarshal = function(...) {
+        # do nothing
+        invisible(self)
+      }
+    )
+  )$new()
+
+  task = tsk("spam")$clone(deep = TRUE)
+  task$id = "feat_all_spam"
+  result = run_experiment(task, learner)
+  expect_false(result$ok)
+  expect_string(result$error, pattern = "unmarshal")
+
+  learner = R6Class(
+    "learner_broken_marshal",
+    inherit = LearnerClassifDebug,
+    private = list(
+      .predict = function(task) {
+        # simulate a broken unmarshaled model
+        if (!is.null(self$model$marshal_count) && self$model$marshal_count) {
+          stop("unmarshaled model is broken")
+        }
+        super$.predict(task)
+      }
+    )
+  )$new()
+  learner$param_set$set_values(count_marshaling = TRUE)
+
+  task = tsk("spam")$clone(deep = TRUE)
+  task$id = "feat_all_spam"
+  result = run_experiment(task, learner)
+  expect_false(result$ok)
+  expect_string(result$error, pattern = "unmarshaled model is broken")
+})
+
+test_that("autotest on encapsulation", {
+
+  learner = R6Class(
+    "learner_broken_marshal",
+    inherit = LearnerClassifDebug,
+    private = list(
+      .train = function(task) {
+        # tools:callr is only available in callr processes
+        if ("tools:callr" %in% search()) {
+          stop("Error in callr process in train")
+        }
+        super$.train(task)
+      }
+    )
+  )$new()
+  task = tsk("spam")
+  task$id = "feat_all_spam"
+
+  result = run_experiment(task, learner)
+  expect_false(result$ok)
+  expect_string(result$error, pattern = "Error in callr process in train")
+
+  learner = R6Class(
+    "learner_broken_marshal",
+    inherit = LearnerClassifDebug,
+    private = list(
+      .predict = function(task) {
+        # tools:callr is only available in callr processes
+        if ("tools:callr" %in% search()) {
+          stop("Error in callr process in predict")
+        }
+        super$.predict(task)
+      }
+    )
+  )$new()
+
+  task = tsk("spam")
+  task$id = "feat_all_spam"
+
+  result = run_experiment(task, learner)
+  expect_false(result$ok)
+  expect_string(result$error, pattern = "Error in callr process in predict")
+
+  learner = R6Class(
+    "learner_broken_marshal",
+    inherit = LearnerClassifDebug,
+    private = list(
+      .predict = function(task) {
+        # tools:callr is only available in callr processes
+        if ("tools:callr" %in% search()) {
+          # common error to access unavailable train_task in predict while resampling
+          # works when $predict is called directly
+          self$state$train_task$levels()
+          super$.predict(task)
+        }
+        super$.predict(task)
+      }
+    )
+  )$new()
+
+  task = tsk("spam")
+  task$id = "feat_all_spam"
+
+  result = run_experiment(task, learner)
+  expect_false(result$ok)
+  expect_string(result$error, pattern = "attempt to apply non-function")
+})
+
