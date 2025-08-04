@@ -434,6 +434,26 @@ assert_row_sums = function(prob) {
   }
 }
 
+
+#' @export
+#' @param learner ([Learner]).
+#' @param quantile_response (`logical(1)`)\cr
+#'   Whether to check if the quantile response is set.
+#'   If `TRUE`, the learner must have the `$quantile_response` field set.
+#' @rdname mlr_assertions
+assert_quantiles = function(learner, quantile_response = FALSE) {
+
+  if (is.null(learner$quantiles)) {
+    stopf("Quantiles must be set via `$quantiles`")
+  }
+
+  if (quantile_response && is.null(learner$quantile_response)) {
+    stopf("Quantile response must be set via `$quantile_response`")
+  }
+
+  invisible(learner)
+}
+
 assert_param_values = function(x, n_learners = NULL, .var.name = vname(x)) {
   assert_list(x, len = n_learners, .var.name = .var.name)
 
