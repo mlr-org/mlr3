@@ -42,6 +42,7 @@ test_that("weights are respected", {
   # Train with quantile prediction
   learner$predict_type = "quantiles"
   learner$quantiles = c(0.25, 0.5, 0.75)
+  learner$quantile_response = 0.5
   learner$train(task)
 
   # Calculate expected weighted quantiles manually
