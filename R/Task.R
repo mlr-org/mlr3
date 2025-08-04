@@ -233,10 +233,13 @@ Task = R6Class("Task",
           class_freqs = table(self$truth()) / self$nrow * 100
           class_freqs = class_freqs[order(-class_freqs, names(class_freqs))]  # Order by class frequency, then names
           classes = if ("twoclass" %in% self$properties) {
-            sprintf("%s (positive class, %.0f%%), %s (%.0f%%)",
-                    self$positive, class_freqs[[self$positive]], self$negative, class_freqs[[self$negative]])
+            sprintf("%s (positive class, %.0f%%), %s (%.0f%%)", self$positive, class_freqs[[self$positive]], self$negative, class_freqs[[self$negative]])
           } else {
-            toString(sprintf("%s (%.0f%%)", names(class_freqs), class_freqs))
+            if (length(class_freqs) > 10) {
+              paste0(toString(sprintf("%s (%.0f%%)", names(class_freqs)[1:10], class_freqs[1:10])), " + ", length(class_freqs) - 10, " more")
+            } else {
+              toString(sprintf("%s (%.0f%%)", names(class_freqs), class_freqs))
+            }
           }
         } else {
           classes = toString(self$class_names)
