@@ -469,9 +469,9 @@ Task = R6Class("Task",
     #' You need to explicitly `$clone()` the object beforehand if you want to keeps
     #' the object in its previous state.
     #' @examples
-    #' task = tsk("penguins")$clone()
+    #' task = tsk("penguins")
     #' task$select(c("bill_length_mm", "bill_depth_mm"))
-    #' task$feature_names     # only the two selected columns
+    #' task$feature_names
     select = function(cols) {
       assert_has_backend(self)
       assert_character(cols)
@@ -502,6 +502,10 @@ Task = R6Class("Task",
     #' Returns the object itself, but modified **by reference**.
     #' You need to explicitly `$clone()` the object beforehand if you want to keeps
     #' the object in its previous state.
+    #' @examples
+    #' task = tsk("penguins")
+    #' extra = task$data(rows = 1:2)
+    #' task$rbind(extra)
     rbind = function(data) {
       assert_has_backend(self)
 
@@ -595,6 +599,10 @@ Task = R6Class("Task",
     #' This operation mutates the task in-place.
     #' See the section on task mutators for more information.
     #' @param data (`data.frame()`).
+    #' @examples
+    #' task = tsk("penguins")
+    #' task$cbind(data.table(extra_col = seq_len(task$nrow)))
+    #' head(task$data(cols = "extra_col"))
     cbind = function(data) {
       assert_has_backend(self)
       pk = self$backend$primary_key
@@ -658,6 +666,10 @@ Task = R6Class("Task",
     #' Returns the object itself, but modified **by reference**.
     #' You need to explicitly `$clone()` the object beforehand if you want to keeps
     #' the object in its previous state.
+    #' @examples
+    #' task = tsk("penguins")
+    #' task$rename("body_mass", "mass")
+    #' task$feature_names
     rename = function(old, new) {
       assert_has_backend(self)
       private$.hash = NULL
