@@ -69,6 +69,34 @@ task$feature_names
 # Add new column "foo"
 task$cbind(data.frame(foo = 1:344))
 head(task)
+
+## ------------------------------------------------
+## Method `Task$data`
+## ------------------------------------------------
+
+task = tsk("penguins")
+task$data(rows = 1:5, cols = c("species", "sex"))
+
+## ------------------------------------------------
+## Method `Task$formula`
+## ------------------------------------------------
+
+task = tsk("penguins")
+task$formula()
+
+## ------------------------------------------------
+## Method `Task$head`
+## ------------------------------------------------
+
+task = tsk("penguins")
+task$head(3)
+
+## ------------------------------------------------
+## Method `Task$levels`
+## ------------------------------------------------
+
+task = tsk("penguins")
+task$levels()
 }
 \seealso{
 \itemize{
@@ -528,6 +556,15 @@ If \code{TRUE}, data is ordered according to the columns with column role \code{
 \subsection{Returns}{
 Depending on the \link{DataBackend}, but usually a \code{\link[data.table:data.table]{data.table::data.table()}}.
 }
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{task = tsk("penguins")
+task$data(rows = 1:5, cols = c("species", "sex"))
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Task-formula"></a>}}
@@ -553,6 +590,15 @@ Right hand side of the formula. Defaults to \code{"."} (all features of the task
 \subsection{Returns}{
 \code{\link[=formula]{formula()}}.
 }
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{task = tsk("penguins")
+task$formula()
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Task-head"></a>}}
@@ -573,6 +619,15 @@ Get the first \code{n} observations with role \code{"use"} of all columns with r
 \subsection{Returns}{
 \code{\link[data.table:data.table]{data.table::data.table()}} with \code{n} rows.
 }
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{task = tsk("penguins")
+task$head(3)
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Task-levels"></a>}}
@@ -598,6 +653,15 @@ Vector of column names.}
 \subsection{Returns}{
 named \code{list()}.
 }
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{task = tsk("penguins")
+task$levels()
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Task-missings"></a>}}

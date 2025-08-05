@@ -295,6 +295,9 @@ Task = R6Class("Task",
     #'   If `TRUE`, data is ordered according to the columns with column role `"order"`.
     #'
     #' @return Depending on the [DataBackend], but usually a [data.table::data.table()].
+    #' @examples
+    #' task = tsk("penguins")
+    #' task$data(rows = 1:5, cols = c("species", "sex"))
     data = function(rows = NULL, cols = NULL, data_format, ordered = FALSE) {
       assert_has_backend(self)
       assert_flag(ordered)
@@ -363,6 +366,9 @@ Task = R6Class("Task",
     #' @param rhs (`character(1)`)\cr
     #'   Right hand side of the formula. Defaults to `"."` (all features of the task).
     #' @return [formula()].
+    #' @examples
+    #' task = tsk("penguins")
+    #' task$formula()
     formula = function(rhs = ".") {
       formulate(self$target_names, rhs)
     },
@@ -372,6 +378,9 @@ Task = R6Class("Task",
     #'
     #' @param n (`integer(1)`).
     #' @return [data.table::data.table()] with `n` rows.
+    #' @examples
+    #' task = tsk("penguins")
+    #' task$head(3)
     head = function(n = 6L) {
       assert_number(n, na.ok = FALSE)
       ids = head(private$.row_roles$use, n)
@@ -386,6 +395,9 @@ Task = R6Class("Task",
     #' To update the stored level information, e.g. after subsetting a task with `$filter()`, call `$droplevels()`.
     #'
     #' @return named `list()`.
+    #' @examples
+    #' task = tsk("penguins")
+    #' task$levels()
     levels = function(cols = NULL) {
       if (is.null(cols)) {
         cols = unlist(private$.col_roles[c("target", "feature")], use.names = FALSE)

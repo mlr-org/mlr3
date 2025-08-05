@@ -173,6 +173,10 @@ Resampling = R6Class("Resampling",
     #' Returns the object itself, but modified **by reference**.
     #' You need to explicitly `$clone()` the object beforehand if you want to keeps
     #' the object in its previous state.
+    #' @examples
+    #' task = tsk("penguins")
+    #' resampling = rsmp("holdout")
+    #' resampling$instantiate(task)
     instantiate = function(task) {
       task = assert_task(as_task(task))
       private$.hash = NULL
@@ -189,6 +193,10 @@ Resampling = R6Class("Resampling",
     #' @param i (`integer(1)`)\cr
     #'   Iteration.
     #' @return (`integer()`) of row ids.
+    #' @examples
+    #' task = tsk("penguins")
+    #' resampling = rsmp("holdout")$instantiate(task)
+    #' resampling$train_set(1)
     train_set = function(i) {
       private$.get_set(private$.get_train, i)
     },
@@ -199,6 +207,10 @@ Resampling = R6Class("Resampling",
     #' @param i (`integer(1)`)\cr
     #'   Iteration.
     #' @return (`integer()`) of row ids.
+    #' @examples
+    #' task = tsk("penguins")
+    #' resampling = rsmp("holdout")$instantiate(task)
+    #' resampling$test_set(1)
     test_set = function(i) {
       private$.get_set(private$.get_test, i)
     }

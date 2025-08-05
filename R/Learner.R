@@ -311,6 +311,10 @@ Learner = R6Class("Learner",
     #' Returns the object itself, but modified **by reference**.
     #' You need to explicitly `$clone()` the object beforehand if you want to keeps
     #' the object in its previous state.
+    #' @examples
+    #' task   = tsk("penguins")
+    #' learner = lrn("classif.rpart")
+    #' learner$train(task)
     train = function(task, row_ids = NULL) {
       task = assert_task(as_task(task))
       assert_learnable(task, self)
@@ -360,6 +364,10 @@ Learner = R6Class("Learner",
     #'   For a simple train-test split, see [partition()].
     #'
     #' @return [Prediction] object containing the predictions for the specified observations.
+    #' @examples
+    #' task = tsk("penguins")
+    #' learner = lrn("classif.rpart")$train(task)
+    #' learner$predict(task)
     predict = function(task, row_ids = NULL) {
       # improve error message for the common mistake of passing a data.frame here
       if (is.data.frame(task)) {
@@ -433,6 +441,10 @@ Learner = R6Class("Learner",
     #' @param task ([Task]).
     #'
     #' @return [Prediction].
+    #' @examples
+    #' task = tsk("penguins")
+    #' learner = lrn("classif.rpart")$train(task)
+    #' learner$predict_newdata(task$data(rows = 1:5))
     predict_newdata = function(newdata, task = NULL) {
       if (is.null(task)) {
         if (is.null(self$state$train_task)) {

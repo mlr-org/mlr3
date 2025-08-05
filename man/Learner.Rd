@@ -160,6 +160,32 @@ In order to still be able to save them, use them with parallelization or callr e
 to implement how they should be (un)-marshaled. See \code{\link{marshaling}} for how to do this.
 }
 
+\examples{
+
+## ------------------------------------------------
+## Method `Learner$train`
+## ------------------------------------------------
+
+task   = tsk("penguins")
+learner = lrn("classif.rpart")
+learner$train(task)
+
+## ------------------------------------------------
+## Method `Learner$predict`
+## ------------------------------------------------
+
+task = tsk("penguins")
+learner = lrn("classif.rpart")$train(task)
+learner$predict(task)
+
+## ------------------------------------------------
+## Method `Learner$predict_newdata`
+## ------------------------------------------------
+
+task = tsk("penguins")
+learner = lrn("classif.rpart")$train(task)
+learner$predict_newdata(task$data(rows = 1:5))
+}
 \seealso{
 \itemize{
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
@@ -515,6 +541,16 @@ Returns the object itself, but modified \strong{by reference}.
 You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
 the object in its previous state.
 }
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{task   = tsk("penguins")
+learner = lrn("classif.rpart")
+learner$train(task)
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Learner-predict"></a>}}
@@ -544,6 +580,16 @@ For a simple train-test split, see \code{\link[=partition]{partition()}}.}
 \subsection{Returns}{
 \link{Prediction} object containing the predictions for the specified observations.
 }
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{task = tsk("penguins")
+learner = lrn("classif.rpart")$train(task)
+learner$predict(task)
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Learner-predict_newdata"></a>}}
@@ -582,6 +628,16 @@ otherwise they are set to to the sequence \code{1:nrow(newdata)}.}
 \subsection{Returns}{
 \link{Prediction}.
 }
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{task = tsk("penguins")
+learner = lrn("classif.rpart")$train(task)
+learner$predict_newdata(task$data(rows = 1:5))
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Learner-reset"></a>}}
