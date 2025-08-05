@@ -1,15 +1,13 @@
 # extract values from a single column of a data table
 # tries to avoid the overhead of data.table for small tables
+# returns a vector sorted by the order of i
+# use only when the values in key column are unique
 fget = function(tab, i, j, key) {
   if (nrow(tab) > 1000L) {
     ijoin(tab, i, j, key)[[1L]]
   } else {
     x = tab[[key]]
-    if (is.character(x) && is.character(i)) {
-      tab[[j]][x %chin% i]
-    } else {
-      tab[[j]][x %in% i]
-    }
+    tab[[j]][match(i, x)]
   }
 }
 
