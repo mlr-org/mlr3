@@ -418,6 +418,9 @@ Task = R6Class("Task",
     #' Argument `cols` defaults to all columns with role "target" or "feature".
     #'
     #' @return Named `integer()`.
+    #' @examples
+    #' task = tsk("penguins")
+    #' task$missings()
     missings = function(cols = NULL) {
       assert_has_backend(self)
 
@@ -441,6 +444,10 @@ Task = R6Class("Task",
     #' Returns the object itself, but modified **by reference**.
     #' You need to explicitly `$clone()` the object beforehand if you want to keeps
     #' the object in its previous state.
+    #' @examples
+    #' task = tsk("penguins")
+    #' task$filter(1:10)
+    #' task$nrow
     filter = function(rows) {
       assert_has_backend(self)
       rows = assert_row_ids(rows)
@@ -461,6 +468,10 @@ Task = R6Class("Task",
     #' Returns the object itself, but modified **by reference**.
     #' You need to explicitly `$clone()` the object beforehand if you want to keeps
     #' the object in its previous state.
+    #' @examples
+    #' task = tsk("penguins")$clone()
+    #' task$select(c("bill_length_mm", "bill_depth_mm"))
+    #' task$feature_names     # only the two selected columns
     select = function(cols) {
       assert_has_backend(self)
       assert_character(cols)
