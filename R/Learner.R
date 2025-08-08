@@ -868,7 +868,7 @@ get_log_condition = function(state, condition) {
   if (is.null(state$log)) {
     character()
   } else {
-    ijoin(state$log, condition, "msg", "class")[[1L]]
+    fget_key(state$log, condition, "msg", "class")
   }
 }
 

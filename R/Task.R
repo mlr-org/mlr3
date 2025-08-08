@@ -395,7 +395,7 @@ Task = R6Class("Task",
       }
 
       set_names(
-        fget(self$col_info, cols, "levels", "id"),
+        fget_keys(self$col_info, cols, "levels", "id"),
         cols
       )
     },
@@ -785,7 +785,7 @@ Task = R6Class("Task",
       assert_names(cols, "unique", subset.of = self$backend$colnames)
       bins = assert_integerish(bins, any.missing = FALSE, coerce = TRUE)
 
-      col_types = fget(self$col_info, i = cols, j = "type", key = "id")
+      col_types = fget_keys(self$col_info, i = cols, j = "type", key = "id")
       ii = wf(col_types %nin% c("integer", "numeric"))
       if (length(ii)) {
         stopf("For `add_strata`, all columns must be numeric, but '%s' is not", cols[ii])
@@ -1368,7 +1368,7 @@ task_check_col_roles.Task = function(task, new_roles, ...) {
   }
 
   # check offset
-  if (length(new_roles[["offset"]]) && any(fget(task$col_info, new_roles[["offset"]], "type", key = "id") %nin% c("numeric", "integer"))) {
+  if (length(new_roles[["offset"]]) && any(fget_keys(task$col_info, new_roles[["offset"]], "type", key = "id") %nin% c("numeric", "integer"))) {
     stopf("Offset column(s) %s must be a numeric or integer column", paste0("'", new_roles[["offset"]], "'", collapse = ","))
   }
 
@@ -1390,7 +1390,7 @@ task_check_col_roles.TaskClassif = function(task, new_roles, ...) {
     stopf("There may only be up to one column with role 'target'")
   }
 
-  if (length(new_roles[["target"]]) && any(fget(task$col_info, new_roles[["target"]], "type", key = "id") %nin% c("factor", "ordered"))) {
+  if (length(new_roles[["target"]]) && any(fget_keys(task$col_info, new_roles[["target"]], "type", key = "id") %nin% c("factor", "ordered"))) {
     stopf("Target column(s) %s must be a factor or ordered factor", paste0("'", new_roles[["target"]], "'", collapse = ","))
   }
 
@@ -1415,7 +1415,7 @@ task_check_col_roles.TaskRegr = function(task, new_roles, ...) {
     }
   }
 
-  if (length(new_roles[["target"]]) && any(fget(task$col_info, new_roles[["target"]], "type", key = "id") %nin% c("numeric", "integer"))) {
+  if (length(new_roles[["target"]]) && any(fget_keys(task$col_info, new_roles[["target"]], "type", key = "id") %nin% c("numeric", "integer"))) {
     stopf("Target column '%s' must be a numeric or integer column", paste0("'", new_roles[["target"]], "'", collapse = ","))
   }
 
