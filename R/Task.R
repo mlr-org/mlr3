@@ -470,7 +470,7 @@ Task = R6Class("Task",
     #' the object in its previous state.
     #' @examples
     #' task = tsk("penguins")
-    #' task$select(c("bill_length_mm", "bill_depth_mm"))
+    #' task$select(c("bill_length", "bill_depth"))
     #' task$feature_names
     select = function(cols) {
       assert_has_backend(self)

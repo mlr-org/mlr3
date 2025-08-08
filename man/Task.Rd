@@ -118,7 +118,7 @@ task$nrow
 ## ------------------------------------------------
 
 task = tsk("penguins")
-task$select(c("bill_length_mm", "bill_depth_mm"))
+task$select(c("bill_length", "bill_depth"))
 task$feature_names
 
 ## ------------------------------------------------
@@ -847,7 +847,7 @@ the object in its previous state.
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
 \preformatted{task = tsk("penguins")
-task$select(c("bill_length_mm", "bill_depth_mm"))
+task$select(c("bill_length", "bill_depth"))
 task$feature_names
 }
 \if{html}{\out{</div>}}
