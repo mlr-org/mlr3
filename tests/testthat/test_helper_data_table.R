@@ -49,9 +49,3 @@ test_that("fget on non-unique key column", {
   expect_equal(res, c(1L, 2L))
 })
 
-tab = data.table(key_col = c("k0001", "k0002", "k0002"), val = c(1L, 2L, 3L))
-microbenchmark::microbenchmark(
-  fget(tab, i = c("k0001", "k0002"), j = "val", key = "key_col"),
-  tab[list(c("k0001", "k0002")), "val", on = "key_col"][[1]],
-  times = 100L
-)
