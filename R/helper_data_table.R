@@ -5,18 +5,18 @@
 # if no-matching elements are found, NA is returned
 fget = function(tab, i, j, key) {
   if (nrow(tab) > 1000L) {
-    ijoin(tab, i, j, key, mult = "first")[[1L]]
+    ijoin(tab, i, j, key, mult = "first", nomatch = NA)[[1L]]
   } else {
     x = tab[[key]]
     tab[[j]][match(i, x)]
   }
 }
 
-ijoin = function(tab, .__i__, .__j__, .__key__, mult = "all") {
+ijoin = function(tab, .__i__, .__j__, .__key__, nomatch = NULL, mult = "all") {
   if (!is.list(.__i__)) {
     .__i__ = list(.__i__)
   }
-  tab[.__i__, .__j__, with = FALSE, nomatch = NA, on = .__key__, mult = mult]
+  tab[.__i__, .__j__, with = FALSE, nomatch = nomatch, on = .__key__, mult = mult]
 }
 
 # updating join:
