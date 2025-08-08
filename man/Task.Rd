@@ -97,6 +97,92 @@ task$head(3)
 
 task = tsk("penguins")
 task$levels()
+
+## ------------------------------------------------
+## Method `Task$missings`
+## ------------------------------------------------
+
+task = tsk("penguins")
+task$missings()
+
+## ------------------------------------------------
+## Method `Task$filter`
+## ------------------------------------------------
+
+task = tsk("penguins")
+task$filter(1:10)
+task$nrow
+
+## ------------------------------------------------
+## Method `Task$select`
+## ------------------------------------------------
+
+task = tsk("penguins")
+task$select(c("bill_length_mm", "bill_depth_mm"))
+task$feature_names
+
+## ------------------------------------------------
+## Method `Task$rbind`
+## ------------------------------------------------
+
+task = tsk("penguins")
+extra = task$data(rows = 1:2)
+task$rbind(extra)
+
+## ------------------------------------------------
+## Method `Task$cbind`
+## ------------------------------------------------
+
+task = tsk("penguins")
+task$cbind(data.table(extra_col = seq_len(task$nrow)))
+head(task$data(cols = "extra_col"))
+
+## ------------------------------------------------
+## Method `Task$rename`
+## ------------------------------------------------
+
+task = tsk("penguins")
+task$rename("body_mass", "mass")
+task$feature_names
+
+## ------------------------------------------------
+## Method `Task$set_row_roles`
+## ------------------------------------------------
+
+task = tsk("penguins")
+task$set_row_roles(1:5, remove_from = "use")  # exclude first five rows
+length(task$row_roles$use)
+
+## ------------------------------------------------
+## Method `Task$set_col_roles`
+## ------------------------------------------------
+
+task = tsk("penguins")
+task$set_col_roles("sex", roles = "stratum")
+task$col_roles$stratum
+
+## ------------------------------------------------
+## Method `Task$set_levels`
+## ------------------------------------------------
+
+task = tsk("penguins")
+task$set_levels(list(sex = c("male", "female", "unknown")))
+task$levels("sex")
+
+## ------------------------------------------------
+## Method `Task$droplevels`
+## ------------------------------------------------
+
+task = tsk("penguins")
+task$set_levels(list(sex = c("male", "female", "unknown")))
+task$levels("sex")
+
+## ------------------------------------------------
+## Method `Task$add_strata`
+## ------------------------------------------------
+
+task = tsk("penguins")
+task$add_strata("flipper_length", bins = 4)
 }
 \seealso{
 \itemize{
@@ -685,6 +771,15 @@ Vector of column names.}
 \subsection{Returns}{
 Named \code{integer()}.
 }
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{task = tsk("penguins")
+task$missings()
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Task-filter"></a>}}
@@ -712,6 +807,16 @@ Returns the object itself, but modified \strong{by reference}.
 You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
 the object in its previous state.
 }
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{task = tsk("penguins")
+task$filter(1:10)
+task$nrow
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Task-select"></a>}}
@@ -739,6 +844,16 @@ Returns the object itself, but modified \strong{by reference}.
 You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
 the object in its previous state.
 }
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{task = tsk("penguins")
+task$select(c("bill_length_mm", "bill_depth_mm"))
+task$feature_names
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Task-rbind"></a>}}
@@ -772,6 +887,16 @@ Returns the object itself, but modified \strong{by reference}.
 You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
 the object in its previous state.
 }
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{task = tsk("penguins")
+extra = task$data(rows = 1:2)
+task$rbind(extra)
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Task-cbind"></a>}}
@@ -797,6 +922,16 @@ See the section on task mutators for more information.
 }
 \if{html}{\out{</div>}}
 }
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{task = tsk("penguins")
+task$cbind(data.table(extra_col = seq_len(task$nrow)))
+head(task$data(cols = "extra_col"))
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Task-rename"></a>}}
@@ -826,6 +961,16 @@ Returns the object itself, but modified \strong{by reference}.
 You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
 the object in its previous state.
 }
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{task = tsk("penguins")
+task$rename("body_mass", "mass")
+task$feature_names
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Task-set_row_roles"></a>}}
@@ -867,6 +1012,16 @@ Returns the object itself, but modified \strong{by reference}.
 You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
 the object in its previous state.
 }
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{task = tsk("penguins")
+task$set_row_roles(1:5, remove_from = "use")  # exclude first five rows
+length(task$row_roles$use)
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Task-set_col_roles"></a>}}
@@ -909,6 +1064,16 @@ Returns the object itself, but modified \strong{by reference}.
 You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
 the object in its previous state.
 }
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{task = tsk("penguins")
+task$set_col_roles("sex", roles = "stratum")
+task$col_roles$stratum
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Task-set_levels"></a>}}
@@ -936,6 +1101,16 @@ List of character vectors of new levels, named by column names.}
 \subsection{Returns}{
 Modified \code{self}.
 }
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{task = tsk("penguins")
+task$set_levels(list(sex = c("male", "female", "unknown")))
+task$levels("sex")
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Task-droplevels"></a>}}
@@ -958,6 +1133,16 @@ Vector of column names.}
 \subsection{Returns}{
 Modified \code{self}.
 }
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{task = tsk("penguins")
+task$set_levels(list(sex = c("male", "female", "unknown")))
+task$levels("sex")
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Task-add_strata"></a>}}
@@ -986,6 +1171,15 @@ Replicated to have the same length as \code{cols}.}
 \subsection{Returns}{
 self (invisibly).
 }
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{task = tsk("penguins")
+task$add_strata("flipper_length", bins = 4)
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Task-clone"></a>}}

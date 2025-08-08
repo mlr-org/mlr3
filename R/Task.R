@@ -834,8 +834,7 @@ Task = R6Class("Task",
     #' @return self (invisibly).
     #' @examples
     #' task = tsk("penguins")
-    #' task$add_strata("flipper_length_mm", bins = 4)
-    #' head(task$data(cols = "..stratum_flipper_length_mm"))
+    #' task$add_strata("flipper_length", bins = 4)
     add_strata = function(cols, bins = 3L) {
       assert_names(cols, "unique", subset.of = self$backend$colnames)
       bins = assert_integerish(bins, any.missing = FALSE, coerce = TRUE)
