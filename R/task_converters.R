@@ -26,7 +26,7 @@ convert_task = function(intask, target = NULL, new_type = NULL, drop_original_ta
   assert_logical(drop_original_target, any.missing = FALSE, len = 1L)
 
   # get task_type from mlr_reflections and call constructor
-  constructor = get(fget(mlr_reflections$task_types, new_type, "task", key = "type")[[1L]])
+  constructor = get(fget_key(mlr_reflections$task_types, new_type, "task", key = "type")[[1L]])
   common_args = intersect(names(intask$extra_args), names(formals(constructor$public_methods$initialize)))
   newtask = invoke(constructor$new, id = intask$id, backend = intask$backend,
     target = target, label = intask$label, .args = intask$extra_args[common_args])

@@ -969,3 +969,14 @@ test_that("row_ids_backend works correctly", {
   task$filter(1:25)
   expect_set_equal(task$row_ids_backend, 1:768)
 })
+
+test_that("$levels with cols works (#1323)", {
+  task = TaskClassif$new(id = "example", target = "target", backend = data.table(
+    target = factor(c("S", "T", "U")),
+    x = ordered(c("A", "B", "C")),
+    y = factor(c("L", "M", "N"))
+  ))
+
+  expect_equal(task$levels(), list(target = c("S", "T", "U"), x = c("A", "B", "C"), y = c("L", "M", "N")))
+  expect_equal(task$levels(cols = c("y", "x")), list(y = c("L", "M", "N"), x = c("A", "B", "C")))
+})
