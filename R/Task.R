@@ -298,6 +298,9 @@ Task = R6Class("Task",
     #'   If `TRUE`, data is ordered according to the columns with column role `"order"`.
     #'
     #' @return Depending on the [DataBackend], but usually a [data.table::data.table()].
+    #' @examples
+    #' task = tsk("penguins")
+    #' task$data(rows = 1:5, cols = c("species", "sex"))
     data = function(rows = NULL, cols = NULL, data_format, ordered = FALSE) {
       assert_has_backend(self)
       assert_flag(ordered)
@@ -366,6 +369,9 @@ Task = R6Class("Task",
     #' @param rhs (`character(1)`)\cr
     #'   Right hand side of the formula. Defaults to `"."` (all features of the task).
     #' @return [formula()].
+    #' @examples
+    #' task = tsk("penguins")
+    #' task$formula()
     formula = function(rhs = ".") {
       formulate(self$target_names, rhs)
     },
@@ -375,6 +381,9 @@ Task = R6Class("Task",
     #'
     #' @param n (`integer(1)`).
     #' @return [data.table::data.table()] with `n` rows.
+    #' @examples
+    #' task = tsk("penguins")
+    #' task$head(3)
     head = function(n = 6L) {
       assert_number(n, na.ok = FALSE)
       ids = head(private$.row_roles$use, n)
@@ -389,6 +398,9 @@ Task = R6Class("Task",
     #' To update the stored level information, e.g. after subsetting a task with `$filter()`, call `$droplevels()`.
     #'
     #' @return named `list()`.
+    #' @examples
+    #' task = tsk("penguins")
+    #' task$levels()
     levels = function(cols = NULL) {
       if (is.null(cols)) {
         cols = unlist(private$.col_roles[c("target", "feature")], use.names = FALSE)
@@ -409,6 +421,9 @@ Task = R6Class("Task",
     #' Argument `cols` defaults to all columns with role "target" or "feature".
     #'
     #' @return Named `integer()`.
+    #' @examples
+    #' task = tsk("penguins")
+    #' task$missings()
     missings = function(cols = NULL) {
       assert_has_backend(self)
 
@@ -432,6 +447,10 @@ Task = R6Class("Task",
     #' Returns the object itself, but modified **by reference**.
     #' You need to explicitly `$clone()` the object beforehand if you want to keeps
     #' the object in its previous state.
+    #' @examples
+    #' task = tsk("penguins")
+    #' task$filter(1:10)
+    #' task$nrow
     filter = function(rows) {
       assert_has_backend(self)
       rows = assert_row_ids(rows)
@@ -452,6 +471,10 @@ Task = R6Class("Task",
     #' Returns the object itself, but modified **by reference**.
     #' You need to explicitly `$clone()` the object beforehand if you want to keeps
     #' the object in its previous state.
+    #' @examples
+    #' task = tsk("penguins")
+    #' task$select(c("bill_length", "bill_depth"))
+    #' task$feature_names
     select = function(cols) {
       assert_has_backend(self)
       assert_character(cols)
@@ -482,6 +505,10 @@ Task = R6Class("Task",
     #' Returns the object itself, but modified **by reference**.
     #' You need to explicitly `$clone()` the object beforehand if you want to keeps
     #' the object in its previous state.
+    #' @examples
+    #' task = tsk("penguins")
+    #' extra = task$data(rows = 1:2)
+    #' task$rbind(extra)
     rbind = function(data) {
       assert_has_backend(self)
 
@@ -575,6 +602,10 @@ Task = R6Class("Task",
     #' This operation mutates the task in-place.
     #' See the section on task mutators for more information.
     #' @param data (`data.frame()`).
+    #' @examples
+    #' task = tsk("penguins")
+    #' task$cbind(data.table(extra_col = seq_len(task$nrow)))
+    #' head(task$data(cols = "extra_col"))
     cbind = function(data) {
       assert_has_backend(self)
       pk = self$backend$primary_key
@@ -638,6 +669,10 @@ Task = R6Class("Task",
     #' Returns the object itself, but modified **by reference**.
     #' You need to explicitly `$clone()` the object beforehand if you want to keeps
     #' the object in its previous state.
+    #' @examples
+    #' task = tsk("penguins")
+    #' task$rename("body_mass", "mass")
+    #' task$feature_names
     rename = function(old, new) {
       assert_has_backend(self)
       private$.hash = NULL
@@ -672,6 +707,9 @@ Task = R6Class("Task",
     #' Returns the object itself, but modified **by reference**.
     #' You need to explicitly `$clone()` the object beforehand if you want to keeps
     #' the object in its previous state.
+    #' @examples
+    #' task = tsk("penguins")
+    #' task$set_row_roles(1:5, remove_from = "use")
     set_row_roles = function(rows, roles = NULL, add_to = NULL, remove_from = NULL) {
       assert_has_backend(self)
       assert_subset(rows, self$backend$rownames)
@@ -708,6 +746,10 @@ Task = R6Class("Task",
     #' Returns the object itself, but modified **by reference**.
     #' You need to explicitly `$clone()` the object beforehand if you want to keeps
     #' the object in its previous state.
+    #' @examples
+    #' task = tsk("penguins")
+    #' task$set_col_roles("sex", roles = "stratum")
+    #' task$col_roles$stratum
     set_col_roles = function(cols, roles = NULL, add_to = NULL, remove_from = NULL) {
       assert_has_backend(self)
       assert_subset(cols, self$col_info$id)
@@ -733,6 +775,10 @@ Task = R6Class("Task",
     #'   List of character vectors of new levels, named by column names.
     #'
     #' @return Modified `self`.
+    #' @examples
+    #' task = tsk("penguins")
+    #' task$set_levels(list(sex = c("male", "female", "unknown")))
+    #' task$levels("sex")
     set_levels = function(levels) {
       assert_list(levels, types = "character", names = "unique", any.missing = FALSE)
       assert_subset(names(levels), self$col_info$id)
@@ -751,6 +797,10 @@ Task = R6Class("Task",
     #' Updates the cache of stored factor levels, removing all levels not present in the current set of active rows.
     #' `cols` defaults to all columns with storage type "factor" or "ordered".
     #' @return Modified `self`.
+    #' @examples
+    #' task = tsk("penguins")
+    #' task$set_levels(list(sex = c("male", "female", "unknown")))
+    #' task$levels("sex")
     droplevels = function(cols = NULL) {
       assert_has_backend(self)
       tab = self$col_info[get("type") %chin% c("factor", "ordered"), c("id", "levels", "fix_factor_levels"), with = FALSE]
@@ -784,6 +834,9 @@ Task = R6Class("Task",
     #'   Number of bins to cut into (passed to [cut()] as `breaks`).
     #'   Replicated to have the same length as `cols`.
     #' @return self (invisibly).
+    #' @examples
+    #' task = tsk("penguins")
+    #' task$add_strata("flipper_length", bins = 4)
     add_strata = function(cols, bins = 3L) {
       assert_names(cols, "unique", subset.of = self$backend$colnames)
       bins = assert_integerish(bins, any.missing = FALSE, coerce = TRUE)

@@ -82,6 +82,30 @@ task$col_roles$stratum = task$target_names
 r = rsmp("subsampling")
 r$instantiate(task)
 prop.table(table(task$truth(r$train_set(1)))) # roughly same proportion
+
+## ------------------------------------------------
+## Method `Resampling$instantiate`
+## ------------------------------------------------
+
+task = tsk("penguins")
+resampling = rsmp("holdout")
+resampling$instantiate(task)
+
+## ------------------------------------------------
+## Method `Resampling$train_set`
+## ------------------------------------------------
+
+task = tsk("penguins")
+resampling = rsmp("holdout")$instantiate(task)
+resampling$train_set(1)
+
+## ------------------------------------------------
+## Method `Resampling$test_set`
+## ------------------------------------------------
+
+task = tsk("penguins")
+resampling = rsmp("holdout")$instantiate(task)
+resampling$test_set(1)
 }
 \seealso{
 \itemize{
@@ -281,6 +305,16 @@ Returns the object itself, but modified \strong{by reference}.
 You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
 the object in its previous state.
 }
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{task = tsk("penguins")
+resampling = rsmp("holdout")
+resampling$instantiate(task)
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Resampling-train_set"></a>}}
@@ -302,6 +336,16 @@ Iteration.}
 \subsection{Returns}{
 (\code{integer()}) of row ids.
 }
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{task = tsk("penguins")
+resampling = rsmp("holdout")$instantiate(task)
+resampling$train_set(1)
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Resampling-test_set"></a>}}
@@ -323,6 +367,16 @@ Iteration.}
 \subsection{Returns}{
 (\code{integer()}) of row ids.
 }
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{task = tsk("penguins")
+resampling = rsmp("holdout")$instantiate(task)
+resampling$test_set(1)
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Resampling-clone"></a>}}

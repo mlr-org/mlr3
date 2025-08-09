@@ -98,6 +98,8 @@ ResampleResult = R6Class("ResampleResult",
     #' @param predict_sets (`character()`)\cr
     #'   Subset of `{"train", "test"}`.
     #' @return [Prediction] or empty `list()` if no predictions are available.
+    #' @examples
+    #' rr$prediction()
     prediction = function(predict_sets = "test") {
       private$.data$prediction(private$.view, predict_sets)
     },
@@ -114,6 +116,8 @@ ResampleResult = R6Class("ResampleResult",
     #'   Subset of `{"train", "test", "internal_valid"}`.
     #' @return List of [Prediction] objects, one per element in `predict_sets`.
     #' Or list of empty `list()`s if no predictions are available.
+    #' @examples
+    #' rr$predictions()
     predictions = function(predict_sets = "test") {
       assert_subset(predict_sets, mlr_reflections$predict_sets, empty.ok = FALSE)
       private$.data$predictions(private$.view, predict_sets)
@@ -142,6 +146,8 @@ ResampleResult = R6Class("ResampleResult",
     #'   if present.
     #'
     #' @return [data.table::data.table()].
+    #' @examples
+    #' rr$score(msr("classif.acc"))
     score = function(measures = NULL, ids = TRUE, conditions = FALSE, predictions = TRUE) {
       measures = assert_measures(as_measures(measures, task_type = self$task_type))
       assert_flag(ids)
@@ -195,6 +201,8 @@ ResampleResult = R6Class("ResampleResult",
     #'
     #' @param predict_sets (`character()`)\cr
     #'   The predict sets.
+    #' @examples
+    #' rr$obs_loss(msr("classif.acc"))
     obs_loss = function(measures = NULL, predict_sets = "test") {
       measures = assert_measures(as_measures(measures, task_type = self$task_type))
       tab = map_dtr(self$predictions(predict_sets), as.data.table, .idcol = "iteration")
@@ -207,6 +215,8 @@ ResampleResult = R6Class("ResampleResult",
     #' If `measures` is `NULL`, `measures` defaults to the return value of [default_measures()].
     #'
     #' @return Named `numeric()`.
+    #' @examples
+    #' rr$aggregate(msr("classif.acc"))
     aggregate = function(measures = NULL) {
       measures = assert_measures(as_measures(measures, task_type = self$task_type))
       resample_result_aggregate(self, measures)
@@ -222,6 +232,8 @@ ResampleResult = R6Class("ResampleResult",
     #' Returns the object itself, but modified **by reference**.
     #' You need to explicitly `$clone()` the object beforehand if you want to keeps
     #' the object in its previous state.
+    #' @examples
+    #' rr$filter(1L)
     filter = function(iters) {
       iters = assert_integerish(iters, lower = 1L, upper = self$resampling$iters,
         any.missing = FALSE, unique = TRUE, coerce = TRUE)
@@ -259,6 +271,8 @@ ResampleResult = R6Class("ResampleResult",
     #' Marshals all stored models.
     #' @param ... (any)\cr
     #'   Additional arguments passed to [`marshal_model()`].
+    #' @examples
+    #' rr$marshal()
     marshal = function(...) {
       private$.data$marshal(...)
     },
@@ -266,6 +280,8 @@ ResampleResult = R6Class("ResampleResult",
     #' Unmarshals all stored models.
     #' @param ... (any)\cr
     #'   Additional arguments passed to [`unmarshal_model()`].
+    #' @examples
+    #' rr$unmarshal()
     unmarshal = function(...) {
       private$.data$unmarshal(...)
     },
@@ -277,6 +293,10 @@ ResampleResult = R6Class("ResampleResult",
     #' @param threshold (`numeric(1)`)\cr
     #'   Threshold value.
     #' @template param_ties_method
+    #' @examples
+    #' learner = lrn("classif.rpart", predict_type = "prob")
+    #' rr = resample(tsk("sonar"), learner, rsmp("cv", folds = 3))
+    #' rr$set_threshold(0.6)
     set_threshold = function(threshold, ties_method = "random") {
       if (!self$task_type == "classif") {
         stopf("Can only change the threshold for classification problems, but task type is '%s'.", self$task_type)

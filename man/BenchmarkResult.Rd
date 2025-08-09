@@ -70,6 +70,36 @@ bmr$filter(task_ids = "sonar")
 print(bmr)
 
 ## ------------------------------------------------
+## Method `BenchmarkResult$marshal`
+## ------------------------------------------------
+
+bmr$marshal()
+
+## ------------------------------------------------
+## Method `BenchmarkResult$unmarshal`
+## ------------------------------------------------
+
+bmr$unmarshal()
+
+## ------------------------------------------------
+## Method `BenchmarkResult$score`
+## ------------------------------------------------
+
+bmr$score(msr("classif.acc"))
+
+## ------------------------------------------------
+## Method `BenchmarkResult$obs_loss`
+## ------------------------------------------------
+
+bmr$obs_loss(msr("classif.acc"))
+
+## ------------------------------------------------
+## Method `BenchmarkResult$aggregate`
+## ------------------------------------------------
+
+bmr$aggregate()
+
+## ------------------------------------------------
 ## Method `BenchmarkResult$filter`
 ## ------------------------------------------------
 
@@ -97,6 +127,12 @@ bmr = benchmark(design)
 bmr$resample_result(learner_id = "classif.featureless")
 bmr$resample_result(i = 1)
 bmr$resample_result(uhash = uhashes(bmr, learner_id = "classif.debug"))
+
+## ------------------------------------------------
+## Method `BenchmarkResult$discard`
+## ------------------------------------------------
+
+bmr$discard(models = TRUE)
 
 ## ------------------------------------------------
 ## Method `BenchmarkResult$set_threshold`
@@ -298,6 +334,14 @@ Additional arguments passed to \code{\link[=marshal_model]{marshal_model()}}.}
 }
 \if{html}{\out{</div>}}
 }
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{bmr$marshal()
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-BenchmarkResult-unmarshal"></a>}}
@@ -316,6 +360,14 @@ Additional arguments passed to \code{\link[=unmarshal_model]{unmarshal_model()}}
 }
 \if{html}{\out{</div>}}
 }
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{bmr$unmarshal()
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-BenchmarkResult-score"></a>}}
@@ -363,6 +415,14 @@ if present.}
 \subsection{Returns}{
 \code{\link[data.table:data.table]{data.table::data.table()}}.
 }
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{bmr$score(msr("classif.acc"))
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-BenchmarkResult-obs_loss"></a>}}
@@ -391,6 +451,14 @@ The predict sets.}
 }
 \if{html}{\out{</div>}}
 }
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{bmr$obs_loss(msr("classif.acc"))
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-BenchmarkResult-aggregate"></a>}}
@@ -452,6 +520,14 @@ iterations with errors as extra integer column \code{"errors"}.}
 \subsection{Returns}{
 \code{\link[data.table:data.table]{data.table::data.table()}}.
 }
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{bmr$aggregate()
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-BenchmarkResult-filter"></a>}}
@@ -598,6 +674,14 @@ Returns the object itself, but modified \strong{by reference}.
 You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
 the object in its previous state.
 }
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{bmr$discard(models = TRUE)
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-BenchmarkResult-set_threshold"></a>}}
