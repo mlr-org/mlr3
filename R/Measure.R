@@ -7,9 +7,12 @@
 #'
 #' Measures are classes tailored around two functions doing the work:
 #'
-#' 1. A function `$score()` which quantifies the performance by comparing the truth and predictions.
+#' 1. A function `$score()` which quantifies the performance on a [Prediction] object, so a set
+#' of predicted observation via a scalar number -- usually an aggregate of losses on the contained observations,
+#' by comparing the truth and prediction columns in the prediction object.
 #' 2. A function `$aggregator()` which combines multiple performance scores returned by
-#'    `$score()` to a single numeric value.
+#' `$score()` obtained in different resampling iterations to a scalar performance value associated
+#' with the complete resampling -- usually by averaging or summing.
 #'
 #' In addition to these two functions, meta-information about the performance measure is stored.
 #'
