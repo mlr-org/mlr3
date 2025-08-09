@@ -25,7 +25,7 @@ Combines multiple objects convertible to \link{BenchmarkResult} into a new \link
 
 \examples{
 task = tsk("penguins")
-learner = lrn("classif.rpart", predict_type = "prob")
+learner = lrn("classif.rpart")
 resampling = rsmp("cv", folds = 3)
 rr = resample(task, learner, resampling)
 print(rr)
@@ -96,6 +96,8 @@ rr$unmarshal()
 ## Method `ResampleResult$set_threshold`
 ## ------------------------------------------------
 
+learner = lrn("classif.rpart", predict_type = "prob")
+rr = resample(tsk("sonar"), learner, rsmp("cv", folds = 3))
 rr$set_threshold(0.6)
 }
 \seealso{
@@ -569,7 +571,9 @@ Must be one of \code{"random"}, \code{"first"} or \code{"last"} (corresponding t
 }
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
-\preformatted{rr$set_threshold(0.6)
+\preformatted{learner = lrn("classif.rpart", predict_type = "prob")
+rr = resample(tsk("sonar"), learner, rsmp("cv", folds = 3))
+rr$set_threshold(0.6)
 }
 \if{html}{\out{</div>}}
 

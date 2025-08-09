@@ -24,7 +24,7 @@
 #' @export
 #' @examples
 #' task = tsk("penguins")
-#' learner = lrn("classif.rpart", predict_type = "prob")
+#' learner = lrn("classif.rpart")
 #' resampling = rsmp("cv", folds = 3)
 #' rr = resample(task, learner, resampling)
 #' print(rr)
@@ -294,6 +294,8 @@ ResampleResult = R6Class("ResampleResult",
     #'   Threshold value.
     #' @template param_ties_method
     #' @examples
+    #' learner = lrn("classif.rpart", predict_type = "prob")
+    #' rr = resample(tsk("sonar"), learner, rsmp("cv", folds = 3))
     #' rr$set_threshold(0.6)
     set_threshold = function(threshold, ties_method = "random") {
       if (!self$task_type == "classif") {
