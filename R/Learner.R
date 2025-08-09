@@ -515,6 +515,10 @@ Learner = R6Class("Learner",
     #' Returns the object itself, but modified **by reference**.
     #' You need to explicitly `$clone()` the object beforehand if you want to keeps
     #' the object in its previous state.
+    #' @examples
+    #' task = tsk("penguins")
+    #' learner = lrn("classif.rpart")$train(task)
+    #' learner$reset()
     reset = function() {
       self$state = NULL
       invisible(self)
@@ -529,7 +533,7 @@ Learner = R6Class("Learner",
     #' @param recursive (`integer(1)`)\cr
     #'   Depth of recursion for multiple nested objects.
     #'
-    #' @return [Learner].
+    #' @return [Learner]
     base_learner = function(recursive = Inf) {
       if (exists(".base_learner", envir = private, inherits = FALSE)) {
         private$.base_learner(recursive)
@@ -568,6 +572,10 @@ Learner = R6Class("Learner",
     #'  The fallback learner for failed predictions.
     #'
     #' @return `self` (invisibly).
+    #' @examples
+    #' learner = lrn("classif.rpart")
+    #' fallback = lrn("classif.featureless")
+    #' learner$encapsulate("try", fallback = fallback)
     encapsulate = function(method, fallback = NULL) {
       assert_choice(method, c("none", "try", "evaluate", "callr"))
 
@@ -606,6 +614,10 @@ Learner = R6Class("Learner",
     #'   Named arguments to set parameter values and fields.
     #' @param .values (named `any`)\cr
     #'   Named list of parameter values and fields.
+    #' @examples
+    #' learner = lrn("classif.rpart")
+    #' learner$configure(minsplit = 3, parallel_predict = FALSE)
+    #' learner$configure(.values = list(cp = 0.005))
     configure = function(..., .values = list()) {
       dots = list(...)
       assert_list(dots, names = "unique")

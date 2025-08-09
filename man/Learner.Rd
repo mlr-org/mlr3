@@ -185,6 +185,30 @@ learner$predict(task)
 task = tsk("penguins")
 learner = lrn("classif.rpart")$train(task)
 learner$predict_newdata(task$data(rows = 1:5))
+
+## ------------------------------------------------
+## Method `Learner$reset`
+## ------------------------------------------------
+
+task = tsk("penguins")
+learner = lrn("classif.rpart")$train(task)
+learner$reset()
+
+## ------------------------------------------------
+## Method `Learner$encapsulate`
+## ------------------------------------------------
+
+learner = lrn("classif.rpart")
+fallback = lrn("classif.featureless")
+learner$encapsulate("try", fallback = fallback)
+
+## ------------------------------------------------
+## Method `Learner$configure`
+## ------------------------------------------------
+
+learner = lrn("classif.rpart")
+learner$configure(minsplit = 3, parallel_predict = FALSE)
+learner$configure(.values = list(cp = 0.005))
 }
 \seealso{
 \itemize{
@@ -653,6 +677,16 @@ Returns the object itself, but modified \strong{by reference}.
 You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
 the object in its previous state.
 }
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{task = tsk("penguins")
+learner = lrn("classif.rpart")$train(task)
+learner$reset()
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Learner-base_learner"></a>}}
@@ -675,7 +709,7 @@ Depth of recursion for multiple nested objects.}
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-\link{Learner}.
+\link{Learner}
 }
 }
 \if{html}{\out{<hr>}}
@@ -723,6 +757,16 @@ The fallback learner for failed predictions.}
 \subsection{Returns}{
 \code{self} (invisibly).
 }
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{learner = lrn("classif.rpart")
+fallback = lrn("classif.featureless")
+learner$encapsulate("try", fallback = fallback)
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Learner-configure"></a>}}
@@ -746,6 +790,16 @@ Named list of parameter values and fields.}
 }
 \if{html}{\out{</div>}}
 }
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{learner = lrn("classif.rpart")
+learner$configure(minsplit = 3, parallel_predict = FALSE)
+learner$configure(.values = list(cp = 0.005))
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Learner-selected_features"></a>}}

@@ -150,8 +150,7 @@ task$feature_names
 ## ------------------------------------------------
 
 task = tsk("penguins")
-task$set_row_roles(1:5, remove_from = "use")  # exclude first five rows
-length(task$row_roles$use)
+task$set_row_roles(1:5, remove_from = "use")
 
 ## ------------------------------------------------
 ## Method `Task$set_col_roles`
@@ -1015,8 +1014,7 @@ the object in its previous state.
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
 \preformatted{task = tsk("penguins")
-task$set_row_roles(1:5, remove_from = "use")  # exclude first five rows
-length(task$row_roles$use)
+task$set_row_roles(1:5, remove_from = "use")
 }
 \if{html}{\out{</div>}}
 

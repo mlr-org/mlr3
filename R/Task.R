@@ -706,8 +706,7 @@ Task = R6Class("Task",
     #' the object in its previous state.
     #' @examples
     #' task = tsk("penguins")
-    #' task$set_row_roles(1:5, remove_from = "use")  # exclude first five rows
-    #' length(task$row_roles$use)
+    #' task$set_row_roles(1:5, remove_from = "use")
     set_row_roles = function(rows, roles = NULL, add_to = NULL, remove_from = NULL) {
       assert_has_backend(self)
       assert_subset(rows, self$backend$rownames)
