@@ -241,12 +241,12 @@ or <code>"trace"</code>:</p>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/as.data.table.html" class="external-link">as.data.table</a></span><span class="op">(</span><span class="va">bmr</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                   uhash                   task</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                  &lt;char&gt;                 &lt;list&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: d57bc656-5b3c-4101-9ed5-5c67df1ab997 &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: d57bc656-5b3c-4101-9ed5-5c67df1ab997 &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: d57bc656-5b3c-4101-9ed5-5c67df1ab997 &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4: 1e65f293-5035-4008-951f-86e4619679c8 &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5: 1e65f293-5035-4008-951f-86e4619679c8 &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6: 1e65f293-5035-4008-951f-86e4619679c8 &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 19e8215b-7468-4ccb-b28e-3ed87b4d2af8 &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 19e8215b-7468-4ccb-b28e-3ed87b4d2af8 &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 19e8215b-7468-4ccb-b28e-3ed87b4d2af8 &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4: 0a42a0b0-f787-45b2-9621-a196ab0cb39c &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5: 0a42a0b0-f787-45b2-9621-a196ab0cb39c &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6: 0a42a0b0-f787-45b2-9621-a196ab0cb39c &lt;TaskClassif:penguins&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                            learner     resampling iteration</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                             &lt;list&gt;         &lt;list&gt;     &lt;int&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: &lt;LearnerClassifFeatureless:classif.featureless&gt; &lt;ResamplingCV&gt;         1</span>
@@ -269,10 +269,10 @@ or <code>"trace"</code>:</p>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">aggr</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       nr  task_id          learner_id resampling_id iters classif.ce</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    &lt;int&gt;   &lt;char&gt;              &lt;char&gt;        &lt;char&gt; &lt;int&gt;      &lt;num&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1:     1 penguins classif.featureless            cv     3 0.55814900</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2:     2 penguins       classif.rpart            cv     3 0.05232647</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3:     3    sonar classif.featureless            cv     3 0.53885438</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4:     4    sonar       classif.rpart            cv     3 0.28329883</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:     1 penguins classif.featureless            cv     3  0.5580219</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:     2 penguins       classif.rpart            cv     3  0.0756420</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:     3    sonar classif.featureless            cv     3  0.4661146</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:     4    sonar       classif.rpart            cv     3  0.2836439</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Hidden columns: resample_result</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Extract predictions of first resampling result</span></span></span>
@@ -281,15 +281,15 @@ or <code>"trace"</code>:</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      row_ids     truth response</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        &lt;int&gt;    &lt;fctr&gt;   &lt;fctr&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   1:       1    Adelie   Adelie</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   2:       7    Adelie   Adelie</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   3:       8    Adelie   Adelie</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   4:      12    Adelie   Adelie</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   5:      15    Adelie   Adelie</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   2:       3    Adelie   Adelie</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   3:       4    Adelie   Adelie</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   4:       9    Adelie   Adelie</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   5:      11    Adelie   Adelie</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  ---                           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 340:     328 Chinstrap   Adelie</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 341:     329 Chinstrap   Adelie</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 342:     331 Chinstrap   Adelie</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 343:     340 Chinstrap   Adelie</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 340:     326 Chinstrap   Adelie</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 341:     327 Chinstrap   Adelie</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 342:     329 Chinstrap   Adelie</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 343:     338 Chinstrap   Adelie</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 344:     342 Chinstrap   Adelie</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Benchmarking with a custom design:</span></span></span>
