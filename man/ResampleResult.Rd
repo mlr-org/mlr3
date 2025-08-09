@@ -25,7 +25,7 @@ Combines multiple objects convertible to \link{BenchmarkResult} into a new \link
 
 \examples{
 task = tsk("penguins")
-learner = lrn("classif.rpart")
+learner = lrn("classif.rpart", predict_type = "prob")
 resampling = rsmp("cv", folds = 3)
 rr = resample(task, learner, resampling)
 print(rr)
@@ -79,12 +79,6 @@ rr$aggregate(msr("classif.acc"))
 ## ------------------------------------------------
 
 rr$filter(1L)
-
-## ------------------------------------------------
-## Method `ResampleResult$discard`
-## ------------------------------------------------
-
-rr$discard(models = TRUE)
 
 ## ------------------------------------------------
 ## Method `ResampleResult$marshal`
@@ -492,14 +486,6 @@ Returns the object itself, but modified \strong{by reference}.
 You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
 the object in its previous state.
 }
-\subsection{Examples}{
-\if{html}{\out{<div class="r example copy">}}
-\preformatted{rr$discard(models = TRUE)
-}
-\if{html}{\out{</div>}}
-
-}
-
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ResampleResult-marshal"></a>}}

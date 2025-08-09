@@ -24,7 +24,7 @@
 #' @export
 #' @examples
 #' task = tsk("penguins")
-#' learner = lrn("classif.rpart")
+#' learner = lrn("classif.rpart", predict_type = "prob")
 #' resampling = rsmp("cv", folds = 3)
 #' rr = resample(task, learner, resampling)
 #' print(rr)
@@ -263,8 +263,6 @@ ResampleResult = R6Class("ResampleResult",
     #' Returns the object itself, but modified **by reference**.
     #' You need to explicitly `$clone()` the object beforehand if you want to keeps
     #' the object in its previous state.
-    #' @examples
-    #' rr$discard(models = TRUE)
     discard = function(backends = FALSE, models = FALSE) {
       private$.data$discard(backends = backends, models = models)
     },
