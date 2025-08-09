@@ -43,6 +43,66 @@ rr$prediction()$score(msr("classif.acc"))
 # check for warnings and errors
 rr$warnings
 rr$errors
+
+## ------------------------------------------------
+## Method `ResampleResult$prediction`
+## ------------------------------------------------
+
+rr$prediction()
+
+## ------------------------------------------------
+## Method `ResampleResult$predictions`
+## ------------------------------------------------
+
+rr$predictions()
+
+## ------------------------------------------------
+## Method `ResampleResult$score`
+## ------------------------------------------------
+
+rr$score(msr("classif.acc"))
+
+## ------------------------------------------------
+## Method `ResampleResult$obs_loss`
+## ------------------------------------------------
+
+rr$obs_loss(msr("classif.acc"))
+
+## ------------------------------------------------
+## Method `ResampleResult$aggregate`
+## ------------------------------------------------
+
+rr$aggregate(msr("classif.acc"))
+
+## ------------------------------------------------
+## Method `ResampleResult$filter`
+## ------------------------------------------------
+
+rr$filter(1L)
+
+## ------------------------------------------------
+## Method `ResampleResult$discard`
+## ------------------------------------------------
+
+rr$discard(models = TRUE)
+
+## ------------------------------------------------
+## Method `ResampleResult$marshal`
+## ------------------------------------------------
+
+rr$marshal()
+
+## ------------------------------------------------
+## Method `ResampleResult$unmarshal`
+## ------------------------------------------------
+
+rr$unmarshal()
+
+## ------------------------------------------------
+## Method `ResampleResult$set_threshold`
+## ------------------------------------------------
+
+rr$set_threshold(0.6)
 }
 \seealso{
 \itemize{
@@ -210,6 +270,14 @@ Subset of \verb{\{"train", "test"\}}.}
 \subsection{Returns}{
 \link{Prediction} or empty \code{list()} if no predictions are available.
 }
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{rr$prediction()
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ResampleResult-predictions"></a>}}
@@ -237,6 +305,14 @@ Subset of \verb{\{"train", "test", "internal_valid"\}}.}
 List of \link{Prediction} objects, one per element in \code{predict_sets}.
 Or list of empty \code{list()}s if no predictions are available.
 }
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{rr$predictions()
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ResampleResult-score"></a>}}
@@ -282,6 +358,14 @@ if present.}
 \subsection{Returns}{
 \code{\link[data.table:data.table]{data.table::data.table()}}.
 }
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{rr$score(msr("classif.acc"))
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ResampleResult-obs_loss"></a>}}
@@ -310,6 +394,14 @@ The predict sets.}
 }
 \if{html}{\out{</div>}}
 }
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{rr$obs_loss(msr("classif.acc"))
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ResampleResult-aggregate"></a>}}
@@ -333,6 +425,14 @@ Measure(s) to calculate.}
 \subsection{Returns}{
 Named \code{numeric()}.
 }
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{rr$aggregate(msr("classif.acc"))
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ResampleResult-filter"></a>}}
@@ -356,6 +456,14 @@ Returns the object itself, but modified \strong{by reference}.
 You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
 the object in its previous state.
 }
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{rr$filter(1L)
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ResampleResult-discard"></a>}}
@@ -384,6 +492,14 @@ Returns the object itself, but modified \strong{by reference}.
 You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
 the object in its previous state.
 }
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{rr$discard(models = TRUE)
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ResampleResult-marshal"></a>}}
@@ -402,6 +518,14 @@ Additional arguments passed to \code{\link[=marshal_model]{marshal_model()}}.}
 }
 \if{html}{\out{</div>}}
 }
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{rr$marshal()
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ResampleResult-unmarshal"></a>}}
@@ -420,6 +544,14 @@ Additional arguments passed to \code{\link[=unmarshal_model]{unmarshal_model()}}
 }
 \if{html}{\out{</div>}}
 }
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{rr$unmarshal()
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ResampleResult-set_threshold"></a>}}
@@ -449,6 +581,14 @@ Must be one of \code{"random"}, \code{"first"} or \code{"last"} (corresponding t
 }
 \if{html}{\out{</div>}}
 }
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{rr$set_threshold(0.6)
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ResampleResult-clone"></a>}}
