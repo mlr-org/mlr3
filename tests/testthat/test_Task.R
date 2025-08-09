@@ -623,8 +623,7 @@ test_that("validation task is cloned", {
 test_that("task is cloned when assining internal validation task", {
   task = tsk("iris")
   task$internal_valid_task = task
-  # TODO: re-enable after $weights has been removed
-  # expect_false(identical(task, task$internal_valid_task))
+  expect_false(identical(task, task$internal_valid_task))
 })
 
 test_that("validation task changes a task's hash", {
@@ -979,4 +978,19 @@ test_that("$levels with cols works (#1323)", {
 
   expect_equal(task$levels(), list(target = c("S", "T", "U"), x = c("A", "B", "C"), y = c("L", "M", "N")))
   expect_equal(task$levels(cols = c("y", "x")), list(y = c("L", "M", "N"), x = c("A", "B", "C")))
+})
+
+test_that("$materialize_view works", {
+  task = tsk("iris")
+  task$select(head(task$feature_names, 2))
+  task$materialize_view()
+
+  expect_backend(task$backend)
+  expect_task(task)
+  expect_set_equal(task$feature_names, c("Petal.Length", "Petal.Width"))
+  expect_set_equal(task$target_names, "Species")
+  expect_set_equal(task$col_info$id, c(task$backend$primary_key, task$feature_names, task$target_names))
+
+  learner = lrn("classif.featureless")$train(task)
+  expect_set_equal(learner$model$features, c("Petal.Length", "Petal.Width"))
 })

@@ -51,6 +51,8 @@
 #' * `$cbind()` and `$rbind()` change the task in-place by binding new columns or rows to the data.
 #' * `$rename()` changes column names.
 #' * `$set_levels()` and `$droplevels()` update the field `$col_info()` to automatically repair factor levels while querying data with `$data()`.
+#' * `$materialize_view()` creates a new [DataBackendDataTable] which keeps only the data in the currently active view
+#'   possibly freeing some memory consumed by the [Databackend] stored in the `Task`.
 #'
 #' @template seealso_task
 #' @concept Task
@@ -851,6 +853,25 @@ Task = R6Class("Task",
       setnames(strata, sprintf("..stratum_%s", cols))
       self$cbind(strata)
       self$set_col_roles(names(strata), roles = "stratum")
+    },
+
+    #' @description
+    #' Certain operations change the view on the data, e.g., `$filter()` or `$select()`.
+    #' This operation queries the [DataBackend] for all data required in the active view and
+    #' replaces the internal [DataBackend] with the new one. In some scenarios this helps to
+    #' free up memory or speeds up accesses to the data, especially after several `$rbind()`
+    #' and `cbind()` operations.
+    #'
+    #' @return self (invisibly).
+    #' @examples
+    #' task = tsk("penguins")
+    #' task$add_strata("flipper_length", bins = 4)
+    materialize_view = function() {
+      b = self$backend
+      dt = b$data(rows = self$row_ids, cols = union(b$primary_key, unlist(private$.col_roles, use.names = FALSE)))
+      self$backend = as_data_backend(dt, primary_key = b$primary_key)
+      self$col_info = self$col_info[b_new$colnames, on = "id"]
+      invisible(task)
     }
   ),
 
