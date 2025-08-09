@@ -524,6 +524,15 @@ This is handled internally during <code><a href="resample.html">resample()</a></
 <h4 id="returns">Returns<a class="anchor" aria-label="anchor" href="#returns"></a></h4>
 <p><code>numeric(1)</code>.</p>
 </div>
+<div class="section">
+<h4 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a></h4>
+<p></p><div class="r example copy"><div class="sourceCode"><pre><code><span><span class="co"># Score a trained learner on the penguins task using classification error</span></span>
+<span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="../reference/mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span>
+<span><span class="va">learner</span> <span class="op">=</span> <span class="fu"><a href="../reference/mlr_sugar.html">lrn</a></span><span class="op">(</span><span class="st">"classif.rpart"</span><span class="op">)</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span>
+<span><span class="va">pred</span> <span class="op">=</span> <span class="va">learner</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span>
+<span><span class="va">pred</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="fu"><a href="../reference/mlr_sugar.html">msr</a></span><span class="op">(</span><span class="st">"classif.ce"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><p></p></div>
+</div>
+
 
 </div><p></p><hr><a id="method-Measure-aggregate"></a><div class="section">
 <h3 id="method-aggregate-">Method <code><a href="https://rdrr.io/r/stats/aggregate.html" class="external-link">aggregate()</a></code><a class="anchor" aria-label="anchor" href="#method-aggregate-"></a></h3>
@@ -545,6 +554,14 @@ function of the measure.</p><div class="section">
 <h4 id="returns-1">Returns<a class="anchor" aria-label="anchor" href="#returns-1"></a></h4>
 <p><code>numeric(1)</code>.</p>
 </div>
+<div class="section">
+<h4 id="examples-1">Examples<a class="anchor" aria-label="anchor" href="#examples-1"></a></h4>
+<p></p><div class="r example copy"><div class="sourceCode"><pre><code><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="../reference/mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span>
+<span><span class="va">learner</span> <span class="op">=</span> <span class="fu"><a href="../reference/mlr_sugar.html">lrn</a></span><span class="op">(</span><span class="st">"classif.rpart"</span><span class="op">)</span></span>
+<span><span class="va">rr</span> <span class="op">=</span> <span class="fu"><a href="../reference/resample.html">resample</a></span><span class="op">(</span><span class="va">task</span>, <span class="va">learner</span>, <span class="fu"><a href="../reference/mlr_sugar.html">rsmp</a></span><span class="op">(</span><span class="st">"holdout"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">rr</span><span class="op">$</span><span class="fu">aggregate</span><span class="op">(</span><span class="fu"><a href="../reference/mlr_sugar.html">msr</a></span><span class="op">(</span><span class="st">"classif.ce"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><p></p></div>
+</div>
+
 
 </div><p></p><hr><a id="method-Measure-clone"></a><div class="section">
 <h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
@@ -566,6 +583,33 @@ function of the measure.</p><div class="section">
 
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
+<span class="r-in"><span><span class="co">## Method `Measure$score`</span></span></span>
+<span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Score a trained learner on the penguins task using classification error</span></span></span>
+<span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">learner</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">lrn</a></span><span class="op">(</span><span class="st">"classif.rpart"</span><span class="op">)</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">pred</span> <span class="op">=</span> <span class="va">learner</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">pred</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="fu"><a href="mlr_sugar.html">msr</a></span><span class="op">(</span><span class="st">"classif.ce"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> classif.ce </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.03488372 </span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
+<span class="r-in"><span><span class="co">## Method `Measure$aggregate`</span></span></span>
+<span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">learner</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">lrn</a></span><span class="op">(</span><span class="st">"classif.rpart"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">rr</span> <span class="op">=</span> <span class="fu"><a href="resample.html">resample</a></span><span class="op">(</span><span class="va">task</span>, <span class="va">learner</span>, <span class="fu"><a href="mlr_sugar.html">rsmp</a></span><span class="op">(</span><span class="st">"holdout"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">rr</span><span class="op">$</span><span class="fu">aggregate</span><span class="op">(</span><span class="fu"><a href="mlr_sugar.html">msr</a></span><span class="op">(</span><span class="st">"classif.ce"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> classif.ce </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.04347826 </span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 

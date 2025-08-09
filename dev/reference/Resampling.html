@@ -417,32 +417,32 @@ Iteration.</p></dd>
 <span class="r-in"><span><span class="co"># Extract train/test sets</span></span></span>
 <span class="r-in"><span><span class="va">train_set</span> <span class="op">=</span> <span class="va">r</span><span class="op">$</span><span class="fu">train_set</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">train_set</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1]   8 165 268 340 261  57 306 232 179 163 133 108  37 183 154 316 184  31 308</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [20] 265 181 273 319  96 238 155 284 121 223 270 141 303 315 231</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 118  96 310 131 259 309  19 317 132 282 116 314 217 201  13 117 189 238 229</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [20]  31  43 119   5  24  86 225 246 187  91 338 268  33 325 292</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/sets.html" class="external-link">intersect</a></span><span class="op">(</span><span class="va">train_set</span>, <span class="va">r</span><span class="op">$</span><span class="fu">test_set</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> integer(0)</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Another example: 10-fold CV</span></span></span>
 <span class="r-in"><span><span class="va">r</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">rsmp</a></span><span class="op">(</span><span class="st">"cv"</span><span class="op">)</span><span class="op">$</span><span class="fu">instantiate</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">r</span><span class="op">$</span><span class="fu">train_set</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   [1]   7  20  34  58  66  71  80  81 104 107 126 138 159 163 171 173 174 194</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [19] 195 200 203 207 209 220 231 257 259 264 269 274 275 301 314 320 331   5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [37]  16  27  39  44  45  57  62  69  73  88  93 101 111 118 129 133 134 144</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [55] 151 164 172 181 208 223 224 230 234 260 262 267 277 294 317 334   4   6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [73]   8  22  26  47  48  52  72  84  89 108 113 130 149 153 156 176 179 185</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [91] 189 198 211 216 217 218 219 228 245 265 281 313 319 323 342  23  40  41</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [109]  55  61  75  85  90  92  97 100 103 106 112 132 152 169 190 197 199 204</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [127] 226 248 255 256 258 272 273 278 286 325 329 330 337  11  14  31  36  43</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [145]  46  65  76  77 109 121 124 125 139 140 141 158 166 191 206 213 214 236</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [163] 240 276 290 296 308 326 328 338 340 341 344  12  19  28  35  38  42  53</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [181]  56  59  70  74  78  91  98  99 102 114 120 142 165 184 205 221 222 227</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [199] 232 241 249 263 266 285 321 339 343  13  18  30  50  51 128 135 143 146</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [217] 154 155 157 161 168 188 201 210 212 215 225 229 233 235 247 250 271 293</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [235] 297 303 306 312 315 332 336   1   2   3  15  24  33  37  60  95 105 116</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [253] 127 136 147 150 178 180 183 186 242 244 246 253 261 270 279 291 298 302</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [271] 305 311 322 324 327  17  29  32  54  67  82  83  87  94 115 117 119 123</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [289] 145 175 177 187 193 202 238 239 243 268 280 283 284 289 299 300 304 309</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [307] 310 318 333</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [1]   8  24  37  44  48  55  58  77  82  88  89  97 109 134 139 141 142 146</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [19] 162 163 168 196 201 205 226 229 248 251 254 281 292 298 306 307 314  18</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [37]  25  29  53  74  78  83  91 102 120 138 150 198 209 219 231 247 260 261</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [55] 274 276 279 282 284 290 293 311 316 317 320 325 327 329 343 344   7  11</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [73]  22  28  47  75  93  94  95 107 153 154 155 158 165 183 187 188 194 199</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [91] 222 227 230 255 263 266 267 300 304 305 309 315 328 334 341   1  16  19</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [109]  27  32  36  41  52  79  92  98 100 111 129 140 145 170 171 174 182 197</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [127] 200 207 212 214 223 239 240 241 250 272 289 324 326   5   6  14  23  40</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [145]  42  46  54  56  60  69  76  80  84 104 106 135 148 156 180 191 203 204</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [163] 215 225 252 270 275 283 286 291 294 332 337   2  12  13  17  26  31  35</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [181]  38  70  71  81  96 101 112 121 126 132 159 167 193 213 217 220 236 258</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [199] 259 262 265 278 302 312 318 319 322   9  21  43  49  61  62  63  67  68</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [217]  72  85  86 105 110 116 122 123 125 143 149 151 157 161 169 175 176 206</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [235] 218 221 237 242 269 296 339   3  20  50  51  59  90  99 113 117 119 127</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [253] 128 130 136 152 192 195 210 243 245 246 249 264 271 280 285 288 295 308</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [271] 313 331 336 340 342   4  10  30  33  34  65 108 114 147 160 166 172 177</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [289] 178 179 186 189 202 208 211 216 228 233 234 244 256 257 268 273 277 299</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [307] 303 321 323</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Stratification</span></span></span>
 <span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"pima"</span><span class="op">)</span></span></span>
