@@ -47,6 +47,26 @@ Measures that use sum-aggregation do not normalize weights and instead multiply 
 See the documentation of specific measures for more details.
 }
 
+\examples{
+
+## ------------------------------------------------
+## Method `Measure$score`
+## ------------------------------------------------
+
+task = tsk("penguins")
+learner = lrn("classif.rpart")$train(task)
+prediction = learner$predict(task)
+msr("classif.ce")$score(prediction)
+
+## ------------------------------------------------
+## Method `Measure$aggregate`
+## ------------------------------------------------
+
+task = tsk("penguins")
+learner = lrn("classif.rpart")
+rr = resample(task, learner, rsmp("holdout"))
+msr("classif.ce")$aggregate(rr)
+}
 \seealso{
 \itemize{
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
@@ -419,6 +439,17 @@ This is handled internally during \code{\link[=resample]{resample()}}/\code{\lin
 \subsection{Returns}{
 \code{numeric(1)}.
 }
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{task = tsk("penguins")
+learner = lrn("classif.rpart")$train(task)
+prediction = learner$predict(task)
+msr("classif.ce")$score(prediction)
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Measure-aggregate"></a>}}
@@ -440,6 +471,17 @@ function of the measure.
 \subsection{Returns}{
 \code{numeric(1)}.
 }
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{task = tsk("penguins")
+learner = lrn("classif.rpart")
+rr = resample(task, learner, rsmp("holdout"))
+msr("classif.ce")$aggregate(rr)
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Measure-clone"></a>}}

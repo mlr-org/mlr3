@@ -222,6 +222,11 @@ Measure = R6Class("Measure",
     #' @param train_set (`integer()`).
     #'
     #' @return `numeric(1)`.
+    #' @examples
+    #' task = tsk("penguins")
+    #' learner = lrn("classif.rpart")$train(task)
+    #' prediction = learner$predict(task)
+    #' msr("classif.ce")$score(prediction)
     score = function(prediction, task = NULL, learner = NULL, train_set = NULL) {
       assert_scorable(self, task = task, learner = learner, prediction = prediction)
       properties = self$properties
@@ -256,6 +261,11 @@ Measure = R6Class("Measure",
     #' @param rr [ResampleResult].
     #'
     #' @return `numeric(1)`.
+    #' @examples
+    #' task = tsk("penguins")
+    #' learner = lrn("classif.rpart")
+    #' rr = resample(task, learner, rsmp("holdout"))
+    #' msr("classif.ce")$aggregate(rr)
     aggregate = function(rr) {
       switch(self$average,
         "macro_weighted" = {
