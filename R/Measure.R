@@ -508,10 +508,6 @@ score_measures = function(obj, measures, reassemble = TRUE, view = NULL, iters =
 }
 
 
-# format_list_item.Measure = function(x, ...) { # nolint
-#   sprintf("<msr:%s>", x$id)
-# }
-
 #' @export
 rd_info.Measure = function(obj, ...) { # nolint
   x = c("",
