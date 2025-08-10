@@ -989,6 +989,7 @@ test_that("$materialize_view works", {
   expect_task(task)
   expect_set_equal(task$feature_names, c("Petal.Length", "Petal.Width"))
   expect_set_equal(task$target_names, "Species")
+  expect_data_table(task$col_info, key = "id")
   expect_set_equal(task$col_info$id, c(task$backend$primary_key, task$feature_names, task$target_names))
 
   learner = lrn("classif.featureless")$train(task)

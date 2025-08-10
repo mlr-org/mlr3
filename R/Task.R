@@ -865,9 +865,10 @@ Task = R6Class("Task",
     #' @return self (invisibly).
     materialize_view = function() {
       b = self$backend
-      dt = b$data(rows = self$row_ids, cols = union(b$primary_key, unlist(private$.col_roles, use.names = FALSE)))
+      ..cns = union(b$primary_key, unlist(private$.col_roles, use.names = FALSE))
+      dt = b$data(rows = self$row_ids, cols = ..cns)
       self$backend = as_data_backend(dt, primary_key = b$primary_key)
-      self$col_info = self$col_info[b$colnames, on = "id"]
+      self$col_info = setkeyv(self$col_info[list(..cns), on = "id"], "id")
       invisible(self)
     }
   ),
