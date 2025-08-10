@@ -7,9 +7,12 @@
   };
 </script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.10/font.css" rel="stylesheet"><link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet"><link href="../deps/Roboto_Slab-0.4.10/font.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Measure Class — Measure"><meta name="description" content="This is the abstract base class for measures like MeasureClassif and MeasureRegr.
 Measures are classes tailored around two functions doing the work:
-A function $score() which quantifies the performance by comparing the truth and predictions.
+A function $score() which quantifies the performance on a Prediction object, so a set
+of predicted observation via a scalar number – usually an aggregate of losses on the contained observations,
+by comparing the truth and prediction columns in the prediction object.
 A function $aggregator() which combines multiple performance scores returned by
-$score() to a single numeric value.
+$score() obtained in different resampling iterations to a scalar performance value associated
+with the complete resampling – usually by averaging or summing.
 
 
 In addition to these two functions, meta-information about the performance measure is stored.
@@ -18,9 +21,12 @@ e.g. classif.auc or time_train.
 Many of the measures in mlr3 are implemented in mlr3measures as ordinary functions.
 A guide on how to extend mlr3 with custom measures can be found in the mlr3book."><meta property="og:description" content="This is the abstract base class for measures like MeasureClassif and MeasureRegr.
 Measures are classes tailored around two functions doing the work:
-A function $score() which quantifies the performance by comparing the truth and predictions.
+A function $score() which quantifies the performance on a Prediction object, so a set
+of predicted observation via a scalar number – usually an aggregate of losses on the contained observations,
+by comparing the truth and prediction columns in the prediction object.
 A function $aggregator() which combines multiple performance scores returned by
-$score() to a single numeric value.
+$score() obtained in different resampling iterations to a scalar performance value associated
+with the complete resampling – usually by averaging or summing.
 
 
 In addition to these two functions, meta-information about the performance measure is stored.
@@ -72,9 +78,12 @@ A guide on how to extend mlr3 with custom measures can be found in the mlr3book.
 
     <div class="ref-description section level2">
     <p>This is the abstract base class for measures like <a href="MeasureClassif.html">MeasureClassif</a> and <a href="MeasureRegr.html">MeasureRegr</a>.</p>
-<p>Measures are classes tailored around two functions doing the work:</p><ol><li><p>A function <code>$score()</code> which quantifies the performance by comparing the truth and predictions.</p></li>
+<p>Measures are classes tailored around two functions doing the work:</p><ol><li><p>A function <code>$score()</code> which quantifies the performance on a <a href="Prediction.html">Prediction</a> object, so a set
+of predicted observation via a scalar number – usually an aggregate of losses on the contained observations,
+by comparing the truth and prediction columns in the prediction object.</p></li>
 <li><p>A function <code>$aggregator()</code> which combines multiple performance scores returned by
-<code>$score()</code> to a single numeric value.</p></li>
+<code>$score()</code> obtained in different resampling iterations to a scalar performance value associated
+with the complete resampling – usually by averaging or summing.</p></li>
 </ol><p>In addition to these two functions, meta-information about the performance measure is stored.</p>
 <p>Predefined measures are stored in the <a href="https://mlr3misc.mlr-org.com/reference/Dictionary.html" class="external-link">dictionary</a> <a href="mlr_measures.html">mlr_measures</a>,
 e.g. <code><a href="mlr_measures_classif.auc.html">classif.auc</a></code> or <code><a href="mlr_measures_elapsed_time.html">time_train</a></code>.
