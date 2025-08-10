@@ -41,6 +41,10 @@ as_task_classif.data.frame = function(x, target = NULL, id = deparse1(substitute
   assert_data_frame(x, min.rows = 1L, min.cols = 1L, col.names = "unique")
   assert_choice(target, names(x))
 
+  if (anyNA(x[[target]])) {
+    stopf("Detected target with unsupported `NA` values in data.")
+  }
+
   ii = which(map_lgl(keep(x, is.double), anyInfinite))
   if (length(ii)) {
     warningf("Detected columns with unsupported Inf values in data: %s", str_collapse(names(ii)))
