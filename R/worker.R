@@ -39,7 +39,7 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
     }
 
     # extract out-of-bag error if supported
-    oob_error = if (exists(".extract_oob_error", get_private(learner))) {
+    oob_error = if (exists(".extract_oob_error", envir = get_private(learner))) {
       get_private(learner)$.extract_oob_error()
     }
 
