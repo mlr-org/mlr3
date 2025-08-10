@@ -863,15 +863,12 @@ Task = R6Class("Task",
     #' and `cbind()` operations.
     #'
     #' @return self (invisibly).
-    #' @examples
-    #' task = tsk("penguins")
-    #' task$add_strata("flipper_length", bins = 4)
     materialize_view = function() {
       b = self$backend
       dt = b$data(rows = self$row_ids, cols = union(b$primary_key, unlist(private$.col_roles, use.names = FALSE)))
       self$backend = as_data_backend(dt, primary_key = b$primary_key)
-      self$col_info = self$col_info[b_new$colnames, on = "id"]
-      invisible(task)
+      self$col_info = self$col_info[b$colnames, on = "id"]
+      invisible(self)
     }
   ),
 
