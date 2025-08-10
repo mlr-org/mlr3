@@ -154,6 +154,12 @@
 #' In order to still be able to save them, use them with parallelization or callr encapsulation it is necessary
 #' to implement how they should be (un)-marshaled. See [`marshaling`] for how to do this.
 #'
+#' @section Implementing Out-of-Bag Error:
+#' Some [`Learner`]s can compute the out-of-bag error during training.
+#' In order to do this, the learner must:
+#' * annotate the learner with the `"oob_error"` property
+#' * implement the private method `$.extract_oob_error()` which extracts the out-of-bag error from the [`Learner`]'s model and returns it as a `numeric(1)`.
+#'
 #' @template seealso_learner
 #' @export
 Learner = R6Class("Learner",
