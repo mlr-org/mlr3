@@ -907,11 +907,6 @@ default_values.Learner = function(x, search_space, task, ...) { # nolint
 
   values[search_space$ids()]
 }
-# #' @export
-# format_list_item.Learner = function(x, ...) { # nolint
-#   sprintf("<lrn:%s>", x$id)
-# }
-
 
 #' @export
 marshal_model.learner_state = function(model, inplace = FALSE, ...) {

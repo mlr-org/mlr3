@@ -1559,12 +1559,6 @@ tail.Task = function(x, n = 6L, ...) { # nolint
   x$data(rows = tail(x$row_ids, n))
 }
 
-# #' @export
-# format_list_item.Task = function(x, ...) { # nolint
-#   print("HIIII")
-#   sprintf("<tsk:%s>", x$id)
-# }
-
 task_rm_backend = function(task) {
   # fix task hash
   ee = get_private(task)

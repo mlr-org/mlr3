@@ -418,10 +418,6 @@ as.data.table.ResampleResult = function(x, ..., predict_sets = "test") { # nolin
   tab[, cns, with = FALSE]
 }
 
-# #' @export
-# format_list_item.ResampleResult = function(x, ...) { # nolint
-#   sprintf("<rr[%i]>", x$iters)
-# }
 
 #' @export
 c.ResampleResult = function(...) {
