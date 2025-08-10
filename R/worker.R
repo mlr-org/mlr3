@@ -38,6 +38,11 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
       get_private(learner)$.extract_internal_tuned_values()
     }
 
+    # extract out-of-bag error if supported
+    oob_error = if (exists(".extract_oob_error", get_private(learner))) {
+      get_private(learner)$.extract_oob_error()
+    }
+
     if (learner$encapsulation[["train"]] == "callr") {
       model = marshal_model(model, inplace = TRUE)
     }
@@ -45,7 +50,8 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
     list(
       model = model,
       internal_valid_scores = internal_valid_scores,
-      internal_tuned_values = internal_tuned_values
+      internal_tuned_values = internal_tuned_values,
+      oob_error = oob_error
     )
   }
 
@@ -123,6 +129,7 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
   }
 
   learner$state$internal_tuned_values = result$result$internal_tuned_values
+  learner$state$oob_error = result$result$oob_error
 
   if (is.null(result$result$model)) {
     lg$info("Learner '%s' on task '%s' failed to %s a model",
