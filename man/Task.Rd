@@ -49,7 +49,7 @@ They are an alternative to directly accessing \verb{$col_roles} or \verb{$row_ro
 \item \verb{$rename()} changes column names.
 \item \verb{$set_levels()} and \verb{$droplevels()} update the field \verb{$col_info()} to automatically repair factor levels while querying data with \verb{$data()}.
 \item \verb{$materialize_view()} creates a new \link{DataBackendDataTable} which keeps only the data in the currently active view
-possibly freeing some memory consumed by the \link{Databackend} stored in the \code{Task}.
+possibly freeing some memory consumed by the \link{DataBackend} stored in the \code{Task}.
 }
 }
 

@@ -52,7 +52,7 @@
 #' * `$rename()` changes column names.
 #' * `$set_levels()` and `$droplevels()` update the field `$col_info()` to automatically repair factor levels while querying data with `$data()`.
 #' * `$materialize_view()` creates a new [DataBackendDataTable] which keeps only the data in the currently active view
-#'   possibly freeing some memory consumed by the [Databackend] stored in the `Task`.
+#'   possibly freeing some memory consumed by the [DataBackend] stored in the `Task`.
 #'
 #' @template seealso_task
 #' @concept Task
