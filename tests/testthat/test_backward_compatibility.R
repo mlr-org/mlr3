@@ -1,4 +1,4 @@
-test_that("task classif backward compatibility",
+test_that("task classif backward compatibility", {
   task = readRDS(system.file("snapshots/task_classif.rds", package = "mlr3"))
   expect_task(task)
 })
