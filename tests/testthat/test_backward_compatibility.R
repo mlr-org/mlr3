@@ -37,7 +37,9 @@ test_that("learner regr backward compatibility", {
 })
 
 test_that("resampling backward compatibility", {
-  resampling = readRDS(system.file("snapshots/resampling.rds", package = "mlr3"))
+  skip_on_cran()
+
+  resampling = readRDS("inst/snapshots/resampling.rds")
   expect_resampling(resampling)
 })
 
