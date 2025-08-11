@@ -113,6 +113,8 @@ They are an alternative to directly accessing <code>$col_roles</code> or <code>$
 <li><p><code>$cbind()</code> and <code>$rbind()</code> change the task in-place by binding new columns or rows to the data.</p></li>
 <li><p><code>$rename()</code> changes column names.</p></li>
 <li><p><code>$set_levels()</code> and <code>$droplevels()</code> update the field <code>$col_info()</code> to automatically repair factor levels while querying data with <code>$data()</code>.</p></li>
+<li><p><code>$materialize_view()</code> creates a new <a href="DataBackendDataTable.html">DataBackendDataTable</a> which keeps only the data in the currently active view
+possibly freeing some memory consumed by the <a href="DataBackend.html">DataBackend</a> stored in the <code>Task</code>.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -444,6 +446,7 @@ This is different from <code>$row_ids</code> which only returns rows with role "
 <li><p><a href="#method-Task-set_levels"><code>Task$set_levels()</code></a></p></li>
 <li><p><a href="#method-Task-droplevels"><code>Task$droplevels()</code></a></p></li>
 <li><p><a href="#method-Task-add_strata"><code>Task$add_strata()</code></a></p></li>
+<li><p><a href="#method-Task-materialize_view"><code>Task$materialize_view()</code></a></p></li>
 <li><p><a href="#method-Task-clone"><code>Task$clone()</code></a></p></li>
 </ul></div><p></p><hr><a id="method-Task-new"></a><div class="section">
 <h3 id="method-new-">Method <code>new()</code><a class="anchor" aria-label="anchor" href="#method-new-"></a></h3>
@@ -1101,15 +1104,40 @@ Replicated to have the same length as <code>cols</code>.</p></dd>
 </div>
 
 
-</div><p></p><hr><a id="method-Task-clone"></a><div class="section">
-<h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
-<p>The objects of this class are cloneable with this method.</p><div class="section">
+</div><p></p><hr><a id="method-Task-materialize_view"></a><div class="section">
+<h3 id="method-materialize-view-">Method <code>materialize_view()</code><a class="anchor" aria-label="anchor" href="#method-materialize-view-"></a></h3>
+<p>Certain operations change the view on the data, e.g., <code>$filter()</code> or <code>$select()</code>.
+This operation queries the <a href="DataBackend.html">DataBackend</a> for all data required in the active view and
+replaces the internal <a href="DataBackend.html">DataBackend</a> with the new one. In some scenarios this helps to
+free up memory or speeds up accesses to the data, especially after several <code>$rbind()</code>
+and <code>$cbind()</code> operations.</p><div class="section">
 <h4 id="usage-20">Usage<a class="anchor" aria-label="anchor" href="#usage-20"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Task</span><span class="op">$</span><span class="fu">clone</span><span class="op">(</span>deep <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Task</span><span class="op">$</span><span class="fu">materialize_view</span><span class="op">(</span>materialize_internal_valid_task <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
 <h4 id="arguments-19">Arguments<a class="anchor" aria-label="anchor" href="#arguments-19"></a></h4>
+<p></p><div class="arguments"><dl><dt><code>materialize_internal_valid_task</code></dt>
+<dd><p>(<code>logical(1)</code>)<br>
+Also materialize the internal validation task. Default is <code>TRUE</code>.</p></dd>
+
+
+</dl><p></p></div>
+</div>
+<div class="section">
+<h4 id="returns-15">Returns<a class="anchor" aria-label="anchor" href="#returns-15"></a></h4>
+<p>self (invisibly).</p>
+</div>
+
+</div><p></p><hr><a id="method-Task-clone"></a><div class="section">
+<h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
+<p>The objects of this class are cloneable with this method.</p><div class="section">
+<h4 id="usage-21">Usage<a class="anchor" aria-label="anchor" href="#usage-21"></a></h4>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Task</span><span class="op">$</span><span class="fu">clone</span><span class="op">(</span>deep <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
+</div>
+
+<div class="section">
+<h4 id="arguments-20">Arguments<a class="anchor" aria-label="anchor" href="#arguments-20"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>deep</code></dt>
 <dd><p>Whether to make a deep clone.</p></dd>
 
