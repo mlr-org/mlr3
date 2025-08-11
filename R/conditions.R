@@ -6,37 +6,32 @@
 #'   Additional arguments to be passed to [mlr3misc::stopf()].
 #' @param class (`character()`)\cr
 #'   Additional classes to be added to the error.
+#' @param silent (`logical(1)`)\cr
+#'   If `TRUE`, the error is returned as a condition object instead of being stopped.
 #' @export
-error_learner = function(msg, ..., class = NULL) {
-  stop(condition_learner(msg, ..., class = class))
+error_learner = function(msg, ..., class = NULL, silent = FALSE) {
+  condition = mlr3_error(msg, ..., class = c(class, "mlr3ErrorLearner"))
+  if (silent) {
+    return(condition)
+  }
+  stop(condition)
+}
+#' @rdname mlr_learner_conditions
+#' @export
+error_learner_train = function(msg, ..., class = NULL, silent = FALSE) {
+  condition = error_learner(msg, ..., class = c(class, "mlr3ErrorLearnerTrain"), silent = TRUE)
+  if (silent) {
+    return(condition)
+  }
+  stop(condition)
 }
 
 #' @rdname mlr_learner_conditions
 #' @export
-condition_learner = function(msg, ..., class = NULL) {
-  mlr3misc::condition_mlr3(msg, ..., class = c(class, "mlr3ErrorLearner"))
-}
-
-#' @rdname mlr_learner_conditions
-#' @export
-error_learner_train = function(msg, ..., class = NULL) {
-  stop(condition_learner_train(msg, ..., class = class))
-}
-
-#' @rdname mlr_learner_conditions
-#' @export
-condition_learner_train = function(msg, ..., class = NULL) {
-  condition_learner(msg, ..., class = c(class, "mlr3ConditionLearnerTrain"))
-}
-
-#' @rdname mlr_learner_conditions
-#' @export
-error_learner_predict = function(msg, ..., class = NULL) {
-  stop(condition_learner_predict(msg, ..., class = class))
-}
-
-#' @rdname mlr_learner_conditions
-#' @export
-condition_learner_predict = function(msg, ..., class = NULL) {
-  condition_learner(msg, ..., class = c(class, "mlr3ConditionLearnerPredict"))
+error_learner_predict = function(msg, ..., class = NULL, silent = FALSE) {
+  condition = error_learner(msg, ..., class = c(class, "mlr3ErrorLearnerPredict"), silent = TRUE)
+  if (silent) {
+    return(condition)
+  }
+  stop(condition)
 }

@@ -3,24 +3,15 @@
 \name{mlr_learner_conditions}
 \alias{mlr_learner_conditions}
 \alias{error_learner}
-\alias{condition_learner}
 \alias{error_learner_train}
-\alias{condition_learner_train}
 \alias{error_learner_predict}
-\alias{condition_learner_predict}
 \title{Learner Classes}
 \usage{
-error_learner(msg, ..., class = NULL)
+error_learner(msg, ..., class = NULL, silent = FALSE)
 
-condition_learner(msg, ..., class = NULL)
+error_learner_train(msg, ..., class = NULL, silent = FALSE)
 
-error_learner_train(msg, ..., class = NULL)
-
-condition_learner_train(msg, ..., class = NULL)
-
-error_learner_predict(msg, ..., class = NULL)
-
-condition_learner_predict(msg, ..., class = NULL)
+error_learner_predict(msg, ..., class = NULL, silent = FALSE)
 }
 \arguments{
 \item{msg}{(\code{character(1)})\cr
@@ -31,6 +22,9 @@ Additional arguments to be passed to \code{\link[mlr3misc:printf]{mlr3misc::stop
 
 \item{class}{(\code{character()})\cr
 Additional classes to be added to the error.}
+
+\item{silent}{(\code{logical(1)})\cr
+If \code{TRUE}, the error is returned as a condition object instead of being stopped.}
 }
 \description{
 Learner Classes

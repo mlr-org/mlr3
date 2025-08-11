@@ -842,6 +842,7 @@ test_that("Learner printer for encapsulation", {
 test_that("error conditions are working: callr", {
   l = lrn("classif.debug",
     timeout = c(train = 0.01),
+    # Sys.sleep does not get interrupted reliably
     sleep_train = function() while (TRUE) NULL
   )
 
@@ -861,6 +862,7 @@ test_that("error conditions are working: callr", {
 test_that("error conditions are working: evaluate", {
   l = lrn("classif.debug",
     timeout = c(train = 0.2),
+    # Sys.sleep does not get interrupted reliably
     sleep_train = function() while (TRUE) NULL
   )
 
@@ -880,6 +882,7 @@ test_that("error conditions are working: evaluate", {
 test_that("error conditions are working: try", {
   l = lrn("classif.debug",
     timeout = c(train = 0.01),
+    # Sys.sleep does not get interrupted reliably
     sleep_train = function() while (TRUE) NULL
   )
 
