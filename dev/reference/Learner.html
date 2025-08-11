@@ -215,6 +215,14 @@ In order to still be able to save them, use them with parallelization or callr e
 to implement how they should be (un)-marshaled. See <code><a href="marshaling.html">marshaling</a></code> for how to do this.</p>
     </div>
     <div class="section level2">
+    <h2 id="implementing-out-of-bag-error">Implementing Out-of-Bag Error<a class="anchor" aria-label="anchor" href="#implementing-out-of-bag-error"></a></h2>
+
+
+<p>Some <code>Learner</code>s can compute the out-of-bag error during training.
+In order to do this, the learner must:</p><ul><li><p>annotate the learner with the <code>"oob_error"</code> property</p></li>
+<li><p>implement the private method <code>$.extract_oob_error()</code> which extracts the out-of-bag error from the <code>Learner</code>'s model and returns it as a <code>numeric(1)</code>.</p></li>
+</ul></div>
+    <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index">
 <ul><li><p>Chapter in the <a href="https://mlr3book.mlr-org.com/" class="external-link">mlr3book</a>:

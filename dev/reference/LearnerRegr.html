@@ -17,6 +17,8 @@ repository https://raphaels1.r-universe.dev).
 
 
 "quantiles": Predicts quantile estimates for each observation in the test set.
+Set $quantiles to specify the quantiles to predict and $quantile_response to specify the response quantile.
+See mlr3book section on quantile regression for more details.
 
 
 Predefined learners can be found in the dictionary mlr_learners.
@@ -33,6 +35,8 @@ repository https://raphaels1.r-universe.dev).
 
 
 "quantiles": Predicts quantile estimates for each observation in the test set.
+Set $quantiles to specify the quantiles to predict and $quantile_response to specify the response quantile.
+See mlr3book section on quantile regression for more details.
 
 
 Predefined learners can be found in the dictionary mlr_learners.
@@ -88,7 +92,9 @@ Additional learners are implement in the Github package https://github.com/mlr-o
 <li><p><code>"distr"</code>: Probability distribution as <code>VectorDistribution</code> object (requires package <code>distr6</code>, available via
 repository <a href="https://raphaels1.r-universe.dev" class="external-link">https://raphaels1.r-universe.dev</a>).</p></li>
 </ul></li>
-</ul><ul><li><p><code>"quantiles"</code>: Predicts quantile estimates for each observation in the test set.</p></li>
+</ul><ul><li><p><code>"quantiles"</code>: Predicts quantile estimates for each observation in the test set.
+Set <code>$quantiles</code> to specify the quantiles to predict and <code>$quantile_response</code> to specify the response quantile.
+See mlr3book <a href="https://mlr3book.mlr-org.com/chapters/chapter13/beyond_regression_and_classification.html#sec-quantile-regression" class="external-link">section</a> on quantile regression for more details.</p></li>
 </ul><p>Predefined learners can be found in the <a href="https://mlr3misc.mlr-org.com/reference/Dictionary.html" class="external-link">dictionary</a> <a href="mlr_learners.html">mlr_learners</a>.
 Essential regression learners can be found in this dictionary after loading <a href="https://CRAN.R-project.org/package=mlr3learners" class="external-link"><span class="pkg">mlr3learners</span></a>.
 Additional learners are implement in the Github package <a href="https://github.com/mlr-org/mlr3extralearners" class="external-link">https://github.com/mlr-org/mlr3extralearners</a>.</p>
