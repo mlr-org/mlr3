@@ -16,17 +16,16 @@ learner_regr$train(task_regr)
 
 saveRDS(learner_regr, "inst/snapshots/learner_regr.rds")
 
-
 resampling = rsmp("cv", folds = 3)
-resampling$instantiate(task)
+resampling$instantiate(task_classif)
 saveRDS(resampling, "inst/snapshots/resampling.rds")
 
-rr = resample(task, learner, resampling)
+rr = resample(task_classif, learner_classif, resampling)
 saveRDS(rr, "inst/snapshots/rr.rds")
 
 design = benchmark_grid(
   tasks = list(task_classif),
-  learners = list(learner),
+  learners = list(learner_classif),
   resamplings = list(resampling)
 )
 
