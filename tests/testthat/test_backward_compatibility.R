@@ -13,9 +13,11 @@ test_that("learner classif backward compatibility", {
   expect_learner(learner_classif)
 
   task = tsk("pima")
-  learner_classif$train(task)
   pred = learner_classif$predict(task)
   expect_prediction_classif(pred, task)
+
+  learner_classif$train(task)
+  expect_learner(learner_classif)
 })
 
 test_that("learner regr backward compatibility", {
@@ -23,9 +25,11 @@ test_that("learner regr backward compatibility", {
   expect_learner(learner_regr)
 
   task = tsk("mtcars")
-  learner_regr$train(task)
   pred = learner_regr$predict(task)
-  expect_prediction_regr(pred, task)
+  expect_prediction_regr(pred)
+
+  learner_regr$train(task)
+  expect_learner(learner_regr)
 })
 
 test_that("resampling backward compatibility", {
