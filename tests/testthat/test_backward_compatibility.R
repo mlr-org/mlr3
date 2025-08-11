@@ -1,21 +1,15 @@
-test_that("task classif backward compatibility", {
-  skip_on_cran()
-
-  task = readRDS("inst/snapshots/task_classif.rds")
+test_that("task classif backward compatibility",
+  task = readRDS(system.file("snapshots/task_classif.rds", package = "mlr3"))
   expect_task(task)
 })
 
 test_that("task regr backward compatibility", {
-  skip_on_cran()
-
-  task = readRDS("inst/snapshots/task_regr.rds")
+  task = readRDS(system.file("snapshots/task_regr.rds", package = "mlr3"))
   expect_task(task)
 })
 
 test_that("learner classif backward compatibility", {
-  skip_on_cran()
-
-  learner_classif = readRDS("inst/snapshots/learner_classif.rds")
+  learner_classif = readRDS(system.file("snapshots/learner.rds", package = "mlr3"))
   expect_learner(learner_classif)
 
   task = tsk("pima")
@@ -25,28 +19,22 @@ test_that("learner classif backward compatibility", {
 })
 
 test_that("learner regr backward compatibility", {
-  skip_on_cran()
-
-  learner_regr = readRDS("inst/snapshots/learner_regr.rds")
+  learner_regr = readRDS(system.file("snapshots/learner.rds", package = "mlr3"))
   expect_learner(learner_regr)
 
   task = tsk("mtcars")
   learner_regr$train(task)
   pred = learner_regr$predict(task)
-  expect_prediction_regr(pred)
+  expect_prediction_regr(pred, task)
 })
 
 test_that("resampling backward compatibility", {
-  skip_on_cran()
-
-  resampling = readRDS("inst/snapshots/resampling.rds")
+  resampling = readRDS(system.file("snapshots/resampling.rds", package = "mlr3"))
   expect_resampling(resampling)
 })
 
 test_that("resample result backward compatibility", {
-  skip_on_cran()
-
-  rr = readRDS("inst/snapshots/rr.rds")
+  rr = readRDS(system.file("snapshots/rr.rds", package = "mlr3"))
   expect_resample_result(rr)
 
   score = rr$score(msr("classif.ce"))
@@ -55,9 +43,7 @@ test_that("resample result backward compatibility", {
 })
 
 test_that("benchmark result backward compatibility", {
-  skip_on_cran()
-
-  bmr = readRDS("inst/snapshots/bmr.rds")
+  bmr = readRDS(system.file("snapshots/bmr.rds", package = "mlr3"))
   expect_benchmark_result(bmr)
 
   score = bmr$score(msr("classif.ce"))
@@ -70,12 +56,10 @@ test_that("benchmark result backward compatibility", {
 })
 
 test_that("measure backward compatibility", {
-  skip_on_cran()
-
-  measure = readRDS("inst/snapshots/measure.rds")
+  measure = readRDS(system.file("snapshots/measure.rds", package = "mlr3"))
   expect_measure(measure)
 
-  task = tsk("pima")
+  task = task("pima")
   learner = lrn("classif.rpart")
   learner$train(task)
   pred = learner$predict(task)
