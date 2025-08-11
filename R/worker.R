@@ -100,9 +100,22 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
     .seed = NA_integer_,
     .timeout = learner$timeout["train"]
   )
+  # select rows where column 'class' is equal to "error" in data.table style
+  cond = result$log[class == "error", "condition"]
+  cond = if (nrow(cond)) {
+    cond = cond[[1L]][[1L]]
+  }
 
-  log = append_log(NULL, "train", result$log$class, result$log$msg)
+  should_catch = get_private(learner)$.should_catch
+  would_catch = is.null(should_catch) || (!is.null(cond) && should_catch(cond))
+
+  log = append_log(NULL, "train", result$log$class, result$log$msg, would_catch = would_catch)
   train_time = result$elapsed
+
+  if (!would_catch) {
+    stop(cond)
+  }
+
 
   learner$state = set_class(insert_named(learner$state, list(
     model = result$result$model,
@@ -486,7 +499,7 @@ process_model_after_predict = function(learner, store_models, is_sequential, unm
   }
 }
 
-append_log = function(log = NULL, stage = NA_character_, class = NA_character_, msg = character()) {
+append_log = function(log = NULL, stage = NA_character_, class = NA_character_, msg = character(), would_catch = TRUE) {
   if (is.null(log)) {
     log = data.table(
       stage = factor(levels = c("train", "predict")),
@@ -497,7 +510,7 @@ append_log = function(log = NULL, stage = NA_character_, class = NA_character_, 
 
   if (length(msg)) {
     pwalk(list(stage, class, msg), function(s, c, m) {
-      if (c == "error") lg$error("%s: %s", s, m)
+      if (c == "error" && would_catch) lg$error("%s: %s", s, m)
       if (c == "warning") lg$warn("%s: %s", s, m)
     })
     log = rbindlist(list(log, data.table(stage = stage, class = class, msg = msg)), use.names = TRUE)

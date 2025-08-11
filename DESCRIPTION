@@ -73,6 +73,8 @@ Suggests:
     RhpcBLASctl,
     rpart,
     testthat (>= 3.2.0)
+Remotes:
+     mlr-org/mlr3misc@errors
 Encoding: UTF-8
 Config/testthat/edition: 3
 Config/testthat/parallel: false
@@ -186,6 +188,7 @@ Collate:
     'benchmark.R'
     'benchmark_grid.R'
     'bibentries.R'
+    'conditions.R'
     'default_fallback.R'
     'default_measures.R'
     'fix_factor_levels.R'

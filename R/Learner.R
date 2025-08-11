@@ -377,11 +377,11 @@ Learner = R6Class("Learner",
       # to it original state
       model_was_marshaled = is_marshaled_model(self$model)
       on.exit({
-        if (model_was_marshaled) {
-          self$model = marshal_model(self$model, inplace = TRUE)
-        } else {
-          self$model = unmarshal_model(self$model, inplace = TRUE)
-        }
+          if (model_was_marshaled) {
+            self$model = marshal_model(self$model, inplace = TRUE)
+          } else {
+            self$model = unmarshal_model(self$model, inplace = TRUE)
+          }
       }, add = TRUE)
 
       # reset learner predict time; this is only cumulative for multiple predict sets,
@@ -464,7 +464,7 @@ Learner = R6Class("Learner",
       ci = task$col_info[list(keep_cols), ][
         get("type") != col_info(newdata)[list(keep_cols), on = "id"]$type]
       tab2 = do.call(data.table, Map(auto_convert,
-        value = as.list(newdata$data(rows = newdata$rownames, cols = ci$id)),
+          value = as.list(newdata$data(rows = newdata$rownames, cols = ci$id)),
         id = ci$id, type = ci$type, levels = ci$levels))
 
       tab = cbind(tab1, tab2)
@@ -554,10 +554,14 @@ Learner = R6Class("Learner",
     #'  See the description for details.
     #' @param fallback [Learner]\cr
     #'  The fallback learner for failed predictions.
+    #' @param should_catch (`function(condition)`)\cr
+    #'  Function that takes in the condition and returns `logical(1)` indicating whether to run the fallback learner.
     #'
     #' @return `self` (invisibly).
-    encapsulate = function(method, fallback = NULL) {
+    encapsulate = function(method, fallback = NULL, should_catch = NULL) {
       assert_choice(method, c("none", "try", "evaluate", "callr"))
+
+      private$.should_catch = assert_function(should_catch, null.ok = TRUE)
 
       if (method != "none") {
         assert_learner(fallback, task_type = self$task_type)
@@ -673,7 +677,6 @@ Learner = R6Class("Learner",
     #' This is deprecated and will be removed in the future.
     data_formats = deprecated_binding("Learner$data_formats", "data.table"),
 
-
     #' @field model (any)\cr
     #' The fitted model. Only available after `$train()` has been called.
     model = function(rhs) {
@@ -721,7 +724,6 @@ Learner = R6Class("Learner",
       get_log_condition(self$state, "error")
     },
 
-
     #' @field hash (`character(1)`)\cr
     #' Hash (unique identifier) for this object.
     #' The hash is calculated based on the learner id, the parameter settings, the predict type, the fallback hash, the parallel predict setting, the validate setting, and the predict sets.
@@ -751,7 +753,6 @@ Learner = R6Class("Learner",
 
       assert_string(rhs, .var.name = "predict_type")
       if (rhs %nin% self$predict_types) {
-
         stopf("Learner '%s' does not support predict type '%s'", self$id, rhs)
       }
       private$.predict_type = rhs
@@ -811,6 +812,7 @@ Learner = R6Class("Learner",
   ),
 
   private = list(
+    .should_catch = NULL,
     .use_weights = NULL,
     .encapsulation = c(train = "none", predict = "none"),
     .fallback = NULL,
@@ -900,8 +902,8 @@ marshal_model.learner_state = function(model, inplace = FALSE, ...) {
   }
   model$model = mm
   structure(list(
-    marshaled = model,
-    packages = "mlr3"
+      marshaled = model,
+      packages = "mlr3"
   ), class = c("learner_state_marshaled", "list_marshaled", "marshaled"))
 }
 

@@ -649,7 +649,7 @@ If the training step fails, the \verb{$model} field of the original learner is \
 Also see the section on error handling the mlr3book:
 \url{https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling}
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Learner$encapsulate(method, fallback = NULL)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Learner$encapsulate(method, fallback = NULL, should_catch = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -661,6 +661,9 @@ See the description for details.}
 
 \item{\code{fallback}}{\link{Learner}\cr
 The fallback learner for failed predictions.}
+
+\item{\code{should_catch}}{(\verb{function(condition)})\cr
+Function that takes in the condition and returns \code{logical(1)} indicating whether to run the fallback learner.}
 }
 \if{html}{\out{</div>}}
 }

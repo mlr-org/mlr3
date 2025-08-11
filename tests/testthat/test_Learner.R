@@ -838,3 +838,60 @@ test_that("Learner printer for encapsulation", {
   expect_output(print(lrn("classif.rpart")$encapsulate("evaluate", lrn("classif.featureless"))), "Encapsulation: evaluate \\(fallback: LearnerClassifFeatureless\\)")
   expect_output(print(lrn("classif.rpart")$encapsulate("none")), "Encapsulation: none \\(fallback: -\\)")
 })
+
+test_that("error conditions are working: callr", {
+  l = lrn("classif.debug",
+    timeout = c(train = 0.01),
+    sleep_train = function() while (TRUE) NULL
+  )
+
+  l$encapsulate(
+    "callr",
+    lrn("classif.featureless"),
+    should_catch = function(cond) {
+      !inherits(cond, "mlr3ErrorTimeout")
+    }
+  )
+
+  expect_error(l$train(tsk("iris")), regexp = "reached elapsed time limit")
+  l$configure(error_train = 1, sleep_train = NULL, timeout = c(train = Inf, predict = Inf))
+  expect_error(l$train(tsk("iris")), regexp = NA)
+})
+
+test_that("error conditions are working: evaluate", {
+  l = lrn("classif.debug",
+    timeout = c(train = 0.2),
+    sleep_train = function() while (TRUE) NULL
+  )
+
+  l$encapsulate(
+    "evaluate",
+    lrn("classif.featureless"),
+    function(x) {
+      !inherits(x, "mlr3ErrorTimeout")
+    }
+  )
+
+  expect_error(l$train(tsk("iris")), regexp = "reached elapsed time limit")
+  l$configure(error_train = 1, sleep_train = NULL, timeout = c(train = Inf, predict = Inf))
+  expect_error(l$train(tsk("iris")), regexp = NA)
+})
+
+test_that("error conditions are working: try", {
+  l = lrn("classif.debug",
+    timeout = c(train = 0.01),
+    sleep_train = function() while (TRUE) NULL
+  )
+
+  l$encapsulate(
+    "try",
+    lrn("classif.featureless"),
+    function(x) {
+      !inherits(x, "mlr3ErrorTimeout")
+    }
+  )
+
+  expect_error(l$train(tsk("iris")), regexp = "reached elapsed time limit")
+  l$configure(error_train = 1, sleep_train = NULL, timeout = c(train = Inf, predict = Inf))
+  expect_error(l$train(tsk("iris")), regexp = NA)
+})
