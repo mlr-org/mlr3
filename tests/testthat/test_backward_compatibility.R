@@ -1,15 +1,21 @@
 test_that("task classif backward compatibility", {
-  task = readRDS(system.file("snapshots/task_classif.rds", package = "mlr3"))
+  skip_on_cran()
+
+  task = readRDS("inst/snapshots/task_classif.rds")
   expect_task(task)
 })
 
 test_that("task regr backward compatibility", {
-  task = readRDS(system.file("snapshots/task_regr.rds", package = "mlr3"))
+  skip_on_cran()
+
+  task = readRDS("inst/snapshots/task_regr.rds")
   expect_task(task)
 })
 
 test_that("learner classif backward compatibility", {
-  learner_classif = readRDS(system.file("snapshots/learner_classif.rds", package = "mlr3"))
+  skip_on_cran()
+
+  learner_classif = readRDS("inst/snapshots/learner_classif.rds")
   expect_learner(learner_classif)
 
   task = tsk("pima")
@@ -19,7 +25,9 @@ test_that("learner classif backward compatibility", {
 })
 
 test_that("learner regr backward compatibility", {
-  learner_regr = readRDS(system.file("snapshots/learner_regr.rds", package = "mlr3"))
+  skip_on_cran()
+
+  learner_regr = readRDS("inst/snapshots/learner_regr.rds")
   expect_learner(learner_regr)
 
   task = tsk("mtcars")
@@ -34,7 +42,9 @@ test_that("resampling backward compatibility", {
 })
 
 test_that("resample result backward compatibility", {
-  rr = readRDS(system.file("snapshots/rr.rds", package = "mlr3"))
+  skip_on_cran()
+
+  rr = readRDS("inst/snapshots/rr.rds")
   expect_resample_result(rr)
 
   score = rr$score(msr("classif.ce"))
@@ -43,7 +53,9 @@ test_that("resample result backward compatibility", {
 })
 
 test_that("benchmark result backward compatibility", {
-  bmr = readRDS(system.file("snapshots/bmr.rds", package = "mlr3"))
+  skip_on_cran()
+
+  bmr = readRDS("inst/snapshots/bmr.rds")
   expect_benchmark_result(bmr)
 
   score = bmr$score(msr("classif.ce"))
@@ -56,7 +68,9 @@ test_that("benchmark result backward compatibility", {
 })
 
 test_that("measure backward compatibility", {
-  measure = readRDS(system.file("snapshots/measure.rds", package = "mlr3"))
+  skip_on_cran()
+
+  measure = readRDS("inst/snapshots/measure.rds")
   expect_measure(measure)
 
   task = tsk("pima")
