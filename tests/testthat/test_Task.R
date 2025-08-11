@@ -995,3 +995,19 @@ test_that("$materialize_view works", {
   learner = lrn("classif.featureless")$train(task)
   expect_set_equal(learner$model$features, c("Petal.Length", "Petal.Width"))
 })
+
+test_that("$materialize_view works with internal valid task", {
+  task = tsk("iris")
+  task$select(head(task$feature_names, 2))
+  task$filter(1:140)
+  task$internal_valid_task = 1:10
+  task$materialize_view(TRUE)
+
+  iv = task$internal_valid_task
+  expect_backend(iv$backend)
+  expect_task(iv)
+  expect_set_equal(iv$feature_names, c("Petal.Length", "Petal.Width"))
+  expect_set_equal(iv$target_names, "Species")
+  expect_data_table(iv$col_info, key = "id")
+  expect_set_equal(iv$col_info$id, c(task$backend$primary_key, task$feature_names, task$target_names))
+})

@@ -862,13 +862,22 @@ Task = R6Class("Task",
     #' free up memory or speeds up accesses to the data, especially after several `$rbind()`
     #' and `$cbind()` operations.
     #'
+    #' @param materialize_internal_valid_task (`logical(1)`)\cr
+    #'   Also materialize the internal validation task. Default is `TRUE`.
+    #'
     #' @return self (invisibly).
-    materialize_view = function() {
+    materialize_view = function(materialize_internal_valid_task = TRUE) {
+      assert_flag(materialize_internal_valid_task)
+
       b = self$backend
       ..cns = union(b$primary_key, unlist(private$.col_roles, use.names = FALSE))
       dt = b$data(rows = self$row_ids, cols = ..cns)
       self$backend = as_data_backend(dt, primary_key = b$primary_key)
       self$col_info = setkeyv(self$col_info[list(..cns), on = "id"], "id")
+
+      if (materialize_internal_valid_task && !is.null(private$.internal_valid_task)) {
+        private$.internal_valid_task$materialize_view(FALSE)
+      }
       invisible(self)
     }
   ),

@@ -1190,11 +1190,19 @@ Certain operations change the view on the data, e.g., \verb{$filter()} or \verb{
 This operation queries the \link{DataBackend} for all data required in the active view and
 replaces the internal \link{DataBackend} with the new one. In some scenarios this helps to
 free up memory or speeds up accesses to the data, especially after several \verb{$rbind()}
-and \code{cbind()} operations.
+and \verb{$cbind()} operations.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Task$materialize_view()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Task$materialize_view(materialize_internal_valid_task = TRUE)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{materialize_internal_valid_task}}{(\code{logical(1)})\cr
+Also materialize the internal validation task. Default is \code{TRUE}.}
+}
+\if{html}{\out{</div>}}
+}
 \subsection{Returns}{
 self (invisibly).
 }
