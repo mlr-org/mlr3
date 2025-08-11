@@ -860,7 +860,7 @@ Task = R6Class("Task",
     #' This operation queries the [DataBackend] for all data required in the active view and
     #' replaces the internal [DataBackend] with the new one. In some scenarios this helps to
     #' free up memory or speeds up accesses to the data, especially after several `$rbind()`
-    #' and `cbind()` operations.
+    #' and `$cbind()` operations.
     #'
     #' @return self (invisibly).
     materialize_view = function() {
