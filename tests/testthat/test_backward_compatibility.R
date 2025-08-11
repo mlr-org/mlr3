@@ -59,7 +59,7 @@ test_that("measure backward compatibility", {
   measure = readRDS(system.file("snapshots/measure.rds", package = "mlr3"))
   expect_measure(measure)
 
-  task = task("pima")
+  task = tsk("pima")
   learner = lrn("classif.rpart")
   learner$train(task)
   pred = learner$predict(task)
