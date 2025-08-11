@@ -1,15 +1,15 @@
 test_that("task classif backward compatibility", {
-  task = readRDS(system.file("snapshots/task.rds", package = "mlr3"))
+  task = readRDS(system.file("snapshots/task_classif.rds", package = "mlr3"))
   expect_task(task)
 })
 
 test_that("task regr backward compatibility", {
-  task = readRDS(system.file("snapshots/task.rds", package = "mlr3"))
+  task = readRDS(system.file("snapshots/task_regr.rds", package = "mlr3"))
   expect_task(task)
 })
 
 test_that("learner classif backward compatibility", {
-  learner_classif = readRDS(system.file("snapshots/learner.rds", package = "mlr3"))
+  learner_classif = readRDS(system.file("snapshots/learner_classif.rds", package = "mlr3"))
   expect_learner(learner_classif)
 
   task = tsk("pima")
@@ -19,7 +19,7 @@ test_that("learner classif backward compatibility", {
 })
 
 test_that("learner regr backward compatibility", {
-  learner_regr = readRDS(system.file("snapshots/learner.rds", package = "mlr3"))
+  learner_regr = readRDS(system.file("snapshots/learner_regr.rds", package = "mlr3"))
   expect_learner(learner_regr)
 
   task = tsk("mtcars")
