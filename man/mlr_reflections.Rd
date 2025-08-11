@@ -25,6 +25,7 @@ The following objects are set by \CRANpkg{mlr3}:
 Table with task type (\code{"type"}), the implementing package (\code{"pkg"}), and the names of the generators
 of the corresponding \link{Task} (\code{"task"}), \link{Learner} (\code{"learner"}),
 \link{Prediction} (\code{"prediction"}), \link{Measure} (\code{"measure"}) and fallback \link{Learner}.
+The column \code{"type"} must be unique for each row.
 \item \code{task_feature_types} (named \code{character()})\cr
 Vector of base R types supported as \link{Task} features, named with a 3 letter abbreviation.
 \item \code{task_row_roles} (\code{character()})\cr

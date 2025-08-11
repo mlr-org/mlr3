@@ -160,6 +160,16 @@ In order to still be able to save them, use them with parallelization or callr e
 to implement how they should be (un)-marshaled. See \code{\link{marshaling}} for how to do this.
 }
 
+\section{Implementing Out-of-Bag Error}{
+
+Some \code{\link{Learner}}s can compute the out-of-bag error during training.
+In order to do this, the learner must:
+\itemize{
+\item annotate the learner with the \code{"oob_error"} property
+\item implement the private method \verb{$.extract_oob_error()} which extracts the out-of-bag error from the \code{\link{Learner}}'s model and returns it as a \code{numeric(1)}.
+}
+}
+
 \examples{
 
 ## ------------------------------------------------
