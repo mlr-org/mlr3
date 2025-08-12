@@ -74,5 +74,17 @@ bibentries = c(
     number       = "5",
     pages        = "1--5",
     url          = "https://www.cs.odu.edu/~mukka/cs795sum10dm/Lecturenotes/Day3/F-measure-YS-26Oct07.pdf"
+  ),
+
+  koenker_1999 = bibentry("article",
+    title = "Goodness of Fit and Related Inference Processes for Quantile Regression",
+    author = "Koenker, Roger and Machado, Jos\u00e9 A. F.",
+    year = "1999",
+    doi = "10.1080/01621459.1999.10473882",
+    journal = "Journal of the American Statistical Association",
+    volume = "94",
+    number = "448",
+    pages = "1296--1310"
   )
+
 )

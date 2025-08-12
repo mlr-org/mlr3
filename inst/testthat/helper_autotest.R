@@ -300,6 +300,7 @@ run_experiment = function(task, learner, seed = NULL, configure_learner = NULL) 
 
   # function to collect error message and objects
   err = function(info, ...) {
+    info = gsub("%", "", info)
     info = sprintf(info, ...)
     list(
       ok = FALSE, seed = seed,
@@ -496,6 +497,28 @@ run_experiment = function(task, learner, seed = NULL, configure_learner = NULL) 
     on.exit()
   }
 
+  # predict_newdata_fast method
+  if (startsWith(task$id, "feat_all") && exists("predict_newdata_fast", learner) && learner$predict_type == "prob") {
+
+    prediction = suppressWarnings(try(learner$predict_newdata_fast(task$data()), silent = TRUE))
+
+    if (inherits(prediction, "try-error")) {
+      ok = prediction
+      prediction = NULL
+      return(err(c("predict_newdata_fast failed: ", as.character(ok))))
+    }
+
+    msg = checkmate::check_list(prediction)
+    if (!isTRUE(msg)) {
+      return(err("predict_newdata_fast does not return a list"))
+    }
+
+    msg = checkmate::check_names(names(prediction), subset.of = mlr3::mlr_reflections$learner_predict_types[[learner$task_type]][[learner$predict_type]])
+    if (!isTRUE(msg)) {
+      return(err("Names of list returned by predict_newdata_fast do not match learner predict_types: %s", str_collapse(names(prediction))))
+    }
+  }
+
   return(list(ok = TRUE, learner = learner, prediction = prediction, error = character(), seed = seed))
 }
 
@@ -558,14 +581,14 @@ run_autotest = function(learner, N = 30L, exclude = NULL, predict_types = learne
         learner$quantiles = 0.5
       }
 
-      run = run_experiment(task, learner)
+      run = run_experiment(task, learner, NULL, configure_learner)
       if (!run$ok) {
         return(run)
       }
 
       # re-run task with same seed for feat_all
       if (startsWith(task$id, "feat_all")) {
-        repeated_run = run_experiment(task, learner, seed = run$seed)
+        repeated_run = run_experiment(task, learner, seed = run$seed, configure_learner)
 
         if (!repeated_run$ok) {
           return(repeated_run)

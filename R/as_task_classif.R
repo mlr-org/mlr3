@@ -35,7 +35,7 @@ as_task_classif.TaskClassif = function(x, clone = FALSE, ...) { # nolint
 #'   Level of the positive class. See [TaskClassif].
 #' @template param_label
 #' @export
-as_task_classif.data.frame = function(x, target = NULL, id = deparse1(substitute(x)), positive = NULL, label = NA_character_, ...) { # nolint
+as_task_classif.data.frame = function(x, target, id = deparse1(substitute(x)), positive = NULL, label = NA_character_, ...) { # nolint
   force(id)
 
   assert_data_frame(x, min.rows = 1L, min.cols = 1L, col.names = "unique")
@@ -89,7 +89,7 @@ as_task_classif.Matrix = function(x, target, id = deparse1(substitute(x)), label
 
 #' @rdname as_task_classif
 #' @export
-as_task_classif.DataBackend = function(x, target = NULL, id = deparse1(substitute(x)), positive = NULL, label = NA_character_, ...) { # nolint
+as_task_classif.DataBackend = function(x, target, id = deparse1(substitute(x)), positive = NULL, label = NA_character_, ...) { # nolint
   force(id)
 
   assert_choice(target, x$colnames)
@@ -100,7 +100,7 @@ as_task_classif.DataBackend = function(x, target = NULL, id = deparse1(substitut
 #' @rdname as_task_classif
 #' @inheritParams convert_task
 #' @export
-as_task_classif.TaskRegr = function(x, target = NULL, drop_original_target = FALSE, drop_levels = TRUE, ...) { # nolint
+as_task_classif.TaskRegr = function(x, target, drop_original_target = FALSE, drop_levels = TRUE, ...) { # nolint
   convert_task(intask = x, target = target, new_type = "classif", drop_original_target = FALSE, drop_levels = TRUE)
 }
 

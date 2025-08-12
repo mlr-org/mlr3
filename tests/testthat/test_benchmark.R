@@ -574,7 +574,7 @@ test_that("properties are also checked on validation task", {
   learner = lrn("classif.debug", validate = "predefined")
   learner$properties = setdiff(learner$properties, "missings")
 
-  expect_error(benchmark(benchmark_grid(task, learner, rsmp("holdout"))), "missing values")
+  suppressWarnings(expect_error(benchmark(benchmark_grid(task, learner, rsmp("holdout"))), "missing values"))
 })
 
 test_that("unmarshal parameter is respected", {

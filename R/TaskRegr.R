@@ -38,7 +38,7 @@ TaskRegr = R6Class("TaskRegr",
         id = id, task_type = "regr", backend = backend,
         target = target, label = label, extra_args = extra_args)
 
-      type = fget(self$col_info, i = target, j = "type", key = "id")
+      type = fget_key(self$col_info, i = target, j = "type", key = "id")
       if (type %nin% c("integer", "numeric")) {
         stopf("Target column '%s' must be numeric", target)
       }

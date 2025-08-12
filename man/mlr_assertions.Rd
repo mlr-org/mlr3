@@ -18,6 +18,8 @@
 \alias{assert_resample_result}
 \alias{assert_benchmark_result}
 \alias{assert_row_ids}
+\alias{assert_has_backend}
+\alias{assert_quantiles}
 \alias{assert_validate}
 \title{Assertion for mlr3 Objects}
 \usage{
@@ -108,13 +110,16 @@ assert_row_ids(
   .var.name = vname(row_ids)
 )
 
+assert_has_backend(task)
+
+assert_quantiles(learner, quantile_response = FALSE)
+
 assert_validate(x)
 }
 \arguments{
 \item{b}{(\link{DataBackend}).}
 
-\item{task}{(\link{Task})\cr
-Task to check if row ids exist in it.}
+\item{task}{(\link{Task}).}
 
 \item{task_type}{(\code{character(1)}).}
 
@@ -150,6 +155,10 @@ If the \code{param_values} overwrite the TuneToken, the assertion will pass.}
 
 \item{row_ids}{\code{integer()}\cr
 Row indices.}
+
+\item{quantile_response}{(\code{logical(1)})\cr
+Whether to check if the quantile response is set.
+If \code{TRUE}, the learner must have the \verb{$quantile_response} field set.}
 
 \item{x}{(any)\cr
 The input to check.}

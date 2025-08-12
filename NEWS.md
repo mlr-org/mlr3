@@ -1,5 +1,11 @@
 # mlr3 (development version)
 
+# mlr3 1.1.0
+
+* feat: Add new measure `MeasureRegrRQR` for quantile regression.
+* feat: Add `$predict_newdata_fast()` method to `Learner` to speed up prediction.
+* fix: `configure_learner` is passed on `run_experiment()` for autotest learners.
+
 # mlr3 1.0.1
 
 * fix: The printer of `Learner` failed when the `validate` field was set.
@@ -35,6 +41,7 @@
   design (#1273).
 * feat: Converting a `BenchmarkResult` to a `data.table` now includes the `task_id`, `learner_id`, and `resampling_id` columns (#1275).
 * fix: Add missing parameters for `"regr.pinball"` and `"sim.phi"` measures.
+* feat: Add new measure `"regr.rqr"` for quantile regression.
 
 # mlr3 0.23.0
 

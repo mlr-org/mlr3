@@ -897,4 +897,37 @@ test_that("error conditions are working: try", {
   expect_error(l$train(tsk("iris")), regexp = "reached elapsed time limit")
   l$configure(error_train = 1, sleep_train = NULL, timeout = c(train = Inf, predict = Inf))
   expect_error(l$train(tsk("iris")), regexp = NA)
+=======
+test_that("oob_error is available without storing models via $.extract_oob_error()", {
+  LearnerDummyOOB = R6::R6Class("LearnerDummyOOB", inherit = LearnerClassif,
+    public = list(
+      initialize = function() {
+        super$initialize(
+          id = "classif.dummy_oob",
+          param_set = paradox::ps(),
+          feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
+          predict_types = c("response"),
+          properties = c("twoclass", "multiclass", "oob_error"),
+          man = NA_character_
+        )
+      }
+    ),
+    private = list(
+      .train = function(task) {
+        list(response = as.character(sample(task$truth(), 1L)))
+      },
+      .predict = function(task) {
+        list(response = rep.int(self$model$response, task$nrow))
+      },
+      .extract_oob_error = function() {
+        0.123
+      }
+    )
+  )
+
+  task = tsk("iris")
+  learner = LearnerDummyOOB$new()
+  rr = resample(task, learner, rsmp("holdout"), store_models = FALSE)
+
+  expect_equal(rr$aggregate(msr("oob_error")), c(oob_error = 0.123))
 })

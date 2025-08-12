@@ -1,7 +1,13 @@
-# r cmd check workflow of the mlr3 ecosystem v0.1.0
+# r cmd check workflow of the mlr3 ecosystem v0.4.0
 # https://github.com/mlr-org/actions
 on:
   workflow_dispatch:
+    inputs:
+      debug_enabled:
+        type: boolean
+        description: 'Run the build with tmate debugging enabled'
+        required: false
+        default: false
   push:
     branches:
       - main
@@ -30,6 +36,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - uses: r-lib/actions/setup-pandoc@v2
+
       - uses: r-lib/actions/setup-r@v2
         with:
           r-version: ${{ matrix.config.r }}
@@ -39,4 +47,12 @@ jobs:
           extra-packages: any::rcmdcheck
           needs: check
 
+      - uses: mxschmitt/action-tmate@v3
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.debug_enabled }}
+        with:
+          limit-access-to-actor: true
+
       - uses: r-lib/actions/check-r-package@v2
+        with:
+          args: 'c("--no-manual", "--as-cran")'
+          error-on: '"note"'

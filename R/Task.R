@@ -51,6 +51,8 @@
 #' * `$cbind()` and `$rbind()` change the task in-place by binding new columns or rows to the data.
 #' * `$rename()` changes column names.
 #' * `$set_levels()` and `$droplevels()` update the field `$col_info()` to automatically repair factor levels while querying data with `$data()`.
+#' * `$materialize_view()` creates a new [DataBackendDataTable] which keeps only the data in the currently active view
+#'   possibly freeing some memory consumed by the [DataBackend] stored in the `Task`.
 #'
 #' @template seealso_task
 #' @concept Task
@@ -233,10 +235,13 @@ Task = R6Class("Task",
           class_freqs = table(self$truth()) / self$nrow * 100
           class_freqs = class_freqs[order(-class_freqs, names(class_freqs))]  # Order by class frequency, then names
           classes = if ("twoclass" %in% self$properties) {
-            sprintf("%s (positive class, %.0f%%), %s (%.0f%%)",
-                    self$positive, class_freqs[[self$positive]], self$negative, class_freqs[[self$negative]])
+            sprintf("%s (positive class, %.0f%%), %s (%.0f%%)", self$positive, class_freqs[[self$positive]], self$negative, class_freqs[[self$negative]])
           } else {
-            toString(sprintf("%s (%.0f%%)", names(class_freqs), class_freqs))
+            if (length(class_freqs) > 10) {
+              paste0(toString(sprintf("%s (%.0f%%)", names(class_freqs)[1:10], class_freqs[1:10])), " + ", length(class_freqs) - 10, " more")
+            } else {
+              toString(sprintf("%s (%.0f%%)", names(class_freqs), class_freqs))
+            }
           }
         } else {
           classes = toString(self$class_names)
@@ -295,6 +300,9 @@ Task = R6Class("Task",
     #'   If `TRUE`, data is ordered according to the columns with column role `"order"`.
     #'
     #' @return Depending on the [DataBackend], but usually a [data.table::data.table()].
+    #' @examples
+    #' task = tsk("penguins")
+    #' task$data(rows = 1:5, cols = c("species", "sex"))
     data = function(rows = NULL, cols = NULL, data_format, ordered = FALSE) {
       assert_has_backend(self)
       assert_flag(ordered)
@@ -363,6 +371,9 @@ Task = R6Class("Task",
     #' @param rhs (`character(1)`)\cr
     #'   Right hand side of the formula. Defaults to `"."` (all features of the task).
     #' @return [formula()].
+    #' @examples
+    #' task = tsk("penguins")
+    #' task$formula()
     formula = function(rhs = ".") {
       formulate(self$target_names, rhs)
     },
@@ -372,6 +383,9 @@ Task = R6Class("Task",
     #'
     #' @param n (`integer(1)`).
     #' @return [data.table::data.table()] with `n` rows.
+    #' @examples
+    #' task = tsk("penguins")
+    #' task$head(3)
     head = function(n = 6L) {
       assert_number(n, na.ok = FALSE)
       ids = head(private$.row_roles$use, n)
@@ -386,6 +400,9 @@ Task = R6Class("Task",
     #' To update the stored level information, e.g. after subsetting a task with `$filter()`, call `$droplevels()`.
     #'
     #' @return named `list()`.
+    #' @examples
+    #' task = tsk("penguins")
+    #' task$levels()
     levels = function(cols = NULL) {
       if (is.null(cols)) {
         cols = unlist(private$.col_roles[c("target", "feature")], use.names = FALSE)
@@ -395,7 +412,7 @@ Task = R6Class("Task",
       }
 
       set_names(
-        fget(self$col_info, cols, "levels", "id"),
+        fget_keys(self$col_info, cols, "levels", "id"),
         cols
       )
     },
@@ -406,6 +423,9 @@ Task = R6Class("Task",
     #' Argument `cols` defaults to all columns with role "target" or "feature".
     #'
     #' @return Named `integer()`.
+    #' @examples
+    #' task = tsk("penguins")
+    #' task$missings()
     missings = function(cols = NULL) {
       assert_has_backend(self)
 
@@ -429,6 +449,10 @@ Task = R6Class("Task",
     #' Returns the object itself, but modified **by reference**.
     #' You need to explicitly `$clone()` the object beforehand if you want to keeps
     #' the object in its previous state.
+    #' @examples
+    #' task = tsk("penguins")
+    #' task$filter(1:10)
+    #' task$nrow
     filter = function(rows) {
       assert_has_backend(self)
       rows = assert_row_ids(rows)
@@ -449,6 +473,10 @@ Task = R6Class("Task",
     #' Returns the object itself, but modified **by reference**.
     #' You need to explicitly `$clone()` the object beforehand if you want to keeps
     #' the object in its previous state.
+    #' @examples
+    #' task = tsk("penguins")
+    #' task$select(c("bill_length", "bill_depth"))
+    #' task$feature_names
     select = function(cols) {
       assert_has_backend(self)
       assert_character(cols)
@@ -479,6 +507,10 @@ Task = R6Class("Task",
     #' Returns the object itself, but modified **by reference**.
     #' You need to explicitly `$clone()` the object beforehand if you want to keeps
     #' the object in its previous state.
+    #' @examples
+    #' task = tsk("penguins")
+    #' extra = task$data(rows = 1:2)
+    #' task$rbind(extra)
     rbind = function(data) {
       assert_has_backend(self)
 
@@ -572,6 +604,10 @@ Task = R6Class("Task",
     #' This operation mutates the task in-place.
     #' See the section on task mutators for more information.
     #' @param data (`data.frame()`).
+    #' @examples
+    #' task = tsk("penguins")
+    #' task$cbind(data.table(extra_col = seq_len(task$nrow)))
+    #' head(task$data(cols = "extra_col"))
     cbind = function(data) {
       assert_has_backend(self)
       pk = self$backend$primary_key
@@ -635,6 +671,10 @@ Task = R6Class("Task",
     #' Returns the object itself, but modified **by reference**.
     #' You need to explicitly `$clone()` the object beforehand if you want to keeps
     #' the object in its previous state.
+    #' @examples
+    #' task = tsk("penguins")
+    #' task$rename("body_mass", "mass")
+    #' task$feature_names
     rename = function(old, new) {
       assert_has_backend(self)
       private$.hash = NULL
@@ -669,6 +709,9 @@ Task = R6Class("Task",
     #' Returns the object itself, but modified **by reference**.
     #' You need to explicitly `$clone()` the object beforehand if you want to keeps
     #' the object in its previous state.
+    #' @examples
+    #' task = tsk("penguins")
+    #' task$set_row_roles(1:5, remove_from = "use")
     set_row_roles = function(rows, roles = NULL, add_to = NULL, remove_from = NULL) {
       assert_has_backend(self)
       assert_subset(rows, self$backend$rownames)
@@ -705,6 +748,10 @@ Task = R6Class("Task",
     #' Returns the object itself, but modified **by reference**.
     #' You need to explicitly `$clone()` the object beforehand if you want to keeps
     #' the object in its previous state.
+    #' @examples
+    #' task = tsk("penguins")
+    #' task$set_col_roles("sex", roles = "stratum")
+    #' task$col_roles$stratum
     set_col_roles = function(cols, roles = NULL, add_to = NULL, remove_from = NULL) {
       assert_has_backend(self)
       assert_subset(cols, self$col_info$id)
@@ -730,6 +777,10 @@ Task = R6Class("Task",
     #'   List of character vectors of new levels, named by column names.
     #'
     #' @return Modified `self`.
+    #' @examples
+    #' task = tsk("penguins")
+    #' task$set_levels(list(sex = c("male", "female", "unknown")))
+    #' task$levels("sex")
     set_levels = function(levels) {
       assert_list(levels, types = "character", names = "unique", any.missing = FALSE)
       assert_subset(names(levels), self$col_info$id)
@@ -748,6 +799,10 @@ Task = R6Class("Task",
     #' Updates the cache of stored factor levels, removing all levels not present in the current set of active rows.
     #' `cols` defaults to all columns with storage type "factor" or "ordered".
     #' @return Modified `self`.
+    #' @examples
+    #' task = tsk("penguins")
+    #' task$set_levels(list(sex = c("male", "female", "unknown")))
+    #' task$levels("sex")
     droplevels = function(cols = NULL) {
       assert_has_backend(self)
       tab = self$col_info[get("type") %chin% c("factor", "ordered"), c("id", "levels", "fix_factor_levels"), with = FALSE]
@@ -781,11 +836,14 @@ Task = R6Class("Task",
     #'   Number of bins to cut into (passed to [cut()] as `breaks`).
     #'   Replicated to have the same length as `cols`.
     #' @return self (invisibly).
+    #' @examples
+    #' task = tsk("penguins")
+    #' task$add_strata("flipper_length", bins = 4)
     add_strata = function(cols, bins = 3L) {
       assert_names(cols, "unique", subset.of = self$backend$colnames)
       bins = assert_integerish(bins, any.missing = FALSE, coerce = TRUE)
 
-      col_types = fget(self$col_info, i = cols, j = "type", key = "id")
+      col_types = fget_keys(self$col_info, i = cols, j = "type", key = "id")
       ii = wf(col_types %nin% c("integer", "numeric"))
       if (length(ii)) {
         stopf("For `add_strata`, all columns must be numeric, but '%s' is not", cols[ii])
@@ -795,6 +853,32 @@ Task = R6Class("Task",
       setnames(strata, sprintf("..stratum_%s", cols))
       self$cbind(strata)
       self$set_col_roles(names(strata), roles = "stratum")
+    },
+
+    #' @description
+    #' Certain operations change the view on the data, e.g., `$filter()` or `$select()`.
+    #' This operation queries the [DataBackend] for all data required in the active view and
+    #' replaces the internal [DataBackend] with the new one. In some scenarios this helps to
+    #' free up memory or speeds up accesses to the data, especially after several `$rbind()`
+    #' and `$cbind()` operations.
+    #'
+    #' @param materialize_internal_valid_task (`logical(1)`)\cr
+    #'   Also materialize the internal validation task. Default is `TRUE`.
+    #'
+    #' @return self (invisibly).
+    materialize_view = function(materialize_internal_valid_task = TRUE) {
+      assert_flag(materialize_internal_valid_task)
+
+      b = self$backend
+      ..cns = union(b$primary_key, unlist(private$.col_roles, use.names = FALSE))
+      dt = b$data(rows = self$row_ids, cols = ..cns)
+      self$backend = as_data_backend(dt, primary_key = b$primary_key)
+      self$col_info = setkeyv(self$col_info[list(..cns), on = "id"], "id")
+
+      if (materialize_internal_valid_task && !is.null(private$.internal_valid_task)) {
+        private$.internal_valid_task$materialize_view(FALSE)
+      }
+      invisible(self)
     }
   ),
 
@@ -1368,7 +1452,7 @@ task_check_col_roles.Task = function(task, new_roles, ...) {
   }
 
   # check offset
-  if (length(new_roles[["offset"]]) && any(fget(task$col_info, new_roles[["offset"]], "type", key = "id") %nin% c("numeric", "integer"))) {
+  if (length(new_roles[["offset"]]) && any(fget_keys(task$col_info, new_roles[["offset"]], "type", key = "id") %nin% c("numeric", "integer"))) {
     stopf("Offset column(s) %s must be a numeric or integer column", paste0("'", new_roles[["offset"]], "'", collapse = ","))
   }
 
@@ -1390,7 +1474,7 @@ task_check_col_roles.TaskClassif = function(task, new_roles, ...) {
     stopf("There may only be up to one column with role 'target'")
   }
 
-  if (length(new_roles[["target"]]) && any(fget(task$col_info, new_roles[["target"]], "type", key = "id") %nin% c("factor", "ordered"))) {
+  if (length(new_roles[["target"]]) && any(fget_keys(task$col_info, new_roles[["target"]], "type", key = "id") %nin% c("factor", "ordered"))) {
     stopf("Target column(s) %s must be a factor or ordered factor", paste0("'", new_roles[["target"]], "'", collapse = ","))
   }
 
@@ -1415,7 +1499,7 @@ task_check_col_roles.TaskRegr = function(task, new_roles, ...) {
     }
   }
 
-  if (length(new_roles[["target"]]) && any(fget(task$col_info, new_roles[["target"]], "type", key = "id") %nin% c("numeric", "integer"))) {
+  if (length(new_roles[["target"]]) && any(fget_keys(task$col_info, new_roles[["target"]], "type", key = "id") %nin% c("numeric", "integer"))) {
     stopf("Target column '%s' must be a numeric or integer column", paste0("'", new_roles[["target"]], "'", collapse = ","))
   }
 
@@ -1502,12 +1586,6 @@ tail.Task = function(x, n = 6L, ...) { # nolint
   assert_number(n, na.ok = FALSE)
   x$data(rows = tail(x$row_ids, n))
 }
-
-# #' @export
-# format_list_item.Task = function(x, ...) { # nolint
-#   print("HIIII")
-#   sprintf("<tsk:%s>", x$id)
-# }
 
 task_rm_backend = function(task) {
   # fix task hash

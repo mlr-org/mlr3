@@ -14,12 +14,12 @@ test_that("as_task conversion", {
 test_that("as_task_xx error messages (#944)", {
   expect_error(
     as_task_classif(data.frame(x = factor(c("a", "b", "a", "b"), levels = c("a", "b")), y = factor(c("a", "b", "a", "b"), levels = c("a", "b")))),
-    "subset of"
+    "argument \"target\" is missing, with no default"
   )
 
   expect_error(
     as_task_regr(data.frame(x = factor(c("a", "b", "a", "b"), levels = c("a", "b")), y = factor(c("a", "b", "a", "b"), levels = c("a", "b")))),
-    "subset of"
+    "argument \"target\" is missing, with no default"
   )
 })
 
