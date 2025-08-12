@@ -44,9 +44,7 @@ LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
         feature_types = c("logical", "integer", "numeric", "factor", "ordered"),
         predict_types = c("response", "prob"),
         param_set = ps,
-        properties = c("twoclass", "multiclass", "weights", "missings", "importance", "selected_features"),
-        label = "Classification Tree",
-        man = "mlr3::mlr_learners_classif.rpart"
+        properties = c("twoclass", "multiclass", "weights", "missings", "importance", "selected_features")
       )
     },
 

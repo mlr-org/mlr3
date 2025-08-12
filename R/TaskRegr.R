@@ -32,11 +32,15 @@ TaskRegr = R6Class("TaskRegr",
     #' @template param_target
     #' @template param_label
     #' @template param_extra_args
-    initialize = function(id, backend, target, label = NA_character_, extra_args = list()) {
+    initialize = function(id, backend, target, label, man, extra_args = list()) {
+      if (!missing(label) || !missing(man)) {
+        deprecated_component("label and man are deprecated for Task construction and will be removed in the future.")
+      }
+
       assert_string(target)
       super$initialize(
         id = id, task_type = "regr", backend = backend,
-        target = target, label = label, extra_args = extra_args)
+        target = target, extra_args = extra_args)
 
       type = fget_key(self$col_info, i = target, j = "type", key = "id")
       if (type %nin% c("integer", "numeric")) {

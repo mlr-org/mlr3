@@ -65,18 +65,10 @@
 #' @template seealso_measure
 #' @export
 Measure = R6Class("Measure",
+  inherit = Mlr3Component,
   public = list(
-    #' @template field_id
-    id = NULL,
-
-    #' @template field_label
-    label = NULL,
-
     #' @template field_task_type
     task_type = NULL,
-
-    #' @template field_param_set
-    param_set = NULL,
 
     #' @field obs_loss (`function()` | `NULL`)
     #' Function to calculate the observation-wise loss.
@@ -115,12 +107,6 @@ Measure = R6Class("Measure",
     #' If `TRUE`, good predictions correspond to small values of performance scores.
     minimize = NULL,
 
-    #' @template field_packages
-    packages = NULL,
-
-    #' @template field_man
-    man = NULL,
-
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #'
@@ -128,12 +114,16 @@ Measure = R6Class("Measure",
     initialize = function(id, task_type = NA, param_set = ps(), range = c(-Inf, Inf), minimize = NA, average = "macro",
       aggregator = NULL, obs_loss = NULL, properties = character(), predict_type = "response",
       predict_sets = "test", task_properties = character(), packages = character(),
-      label = NA_character_, man = NA_character_, trafo = NULL) {
+      label, man, trafo = NULL) {
 
-      self$id = assert_string(id, min.chars = 1L)
-      self$label = assert_string(label, na.ok = TRUE)
+      if (!missing(label) || !missing(man)) {
+        deprecated_component("label and man are deprecated for Measure construction and will be removed in the future.")
+      }
+
+      super$initialize(dict_entry = id, dict_shortaccess = "msr",
+        param_set = param_set, packages = packages, properties = properties)
+
       self$task_type = task_type
-      self$param_set = assert_param_set(param_set)
       self$range = assert_range(range)
       self$minimize = assert_flag(minimize, na.ok = TRUE)
       self$average = average
@@ -150,10 +140,8 @@ Measure = R6Class("Measure",
         assert_choice(predict_type, names(mlr_reflections$learner_predict_types[[task_type]]))
         assert_subset(task_properties, mlr_reflections$task_properties[[task_type]])
       } else {
-        assert_subset(properties, unique(unlist(mlr_reflections$measure_properties, use.names = FALSE)))
+        assert_subset(properties, unlist(mlr_reflections$measure_properties, use.names = FALSE))
       }
-
-      self$properties = unique(properties)
 
       if ("weights" %in% properties) {
         self$use_weights = "use"
@@ -164,19 +152,10 @@ Measure = R6Class("Measure",
       }
 
       self$predict_type = predict_type
-      self$predict_sets = predict_sets
+      self$predict_sets = unique(assert_subset(predict_sets,
+        mlr_reflections$predict_sets, empty.ok = "requires_no_prediction" %chin% properties
+      ))
       self$task_properties = task_properties
-      self$packages = union("mlr3", assert_character(packages, any.missing = FALSE, min.chars = 1L))
-      self$man = assert_string(man, na.ok = TRUE)
-
-      check_packages_installed(packages, msg = sprintf("Package '%%s' required but not installed for Measure '%s'", id))
-    },
-
-    #' @description
-    #' Helper for print outputs.
-    #' @param ... (ignored).
-    format = function(...) {
-      sprintf("<%s:%s>", class(self)[1L], self$id)
     },
 
     #' @description
@@ -197,12 +176,6 @@ Measure = R6Class("Measure",
         cli_li("Predict sets: {self$predict_sets}")
         cli_li("Aggregator: {if (is.null(self$aggregator)) 'mean()' else '[user-defined]'}")
       })
-    },
-
-    #' @description
-    #' Opens the corresponding help page referenced by field `$man`.
-    help = function() {
-      open_help(self$man)
     },
 
     #' @description
@@ -310,28 +283,6 @@ Measure = R6Class("Measure",
       private$.predict_sets
     },
 
-    #' @field hash (`character(1)`)\cr
-    #' Hash (unique identifier) for this object.
-    #' The hash is calculated based on the id, the parameter settings, predict sets and the `$score`, `$average`, `$aggregator`, `$obs_loss`, `$trafo` method.
-    #' Measure can define additional fields to be included in the hash by setting the field `$.extra_hash`.
-    hash = function(rhs) {
-      assert_ro_binding(rhs)
-      calculate_hash(class(self), self$id, self$param_set$values, private$.score,
-        private$.average, private$.aggregator, self$obs_loss, self$trafo,
-        self$predict_sets, mget(private$.extra_hash, envir = self), private$.use_weights)
-    },
-
-    #' @field properties (`character()`)\cr
-    #' Properties of this measure.
-    properties = function(rhs) {
-      if (!missing(rhs)) {
-        props = if (is.na(self$task_type)) unique(unlist(mlr_reflections$measure_properties, use.names = FALSE)) else mlr_reflections$measure_properties[[self$task_type]]
-        private$.properties = assert_subset(rhs, props)
-      } else {
-        private$.properties
-      }
-    },
-
     #' @field average (`character(1)`)\cr
     #' Method for aggregation:
     #'
@@ -391,9 +342,7 @@ Measure = R6Class("Measure",
   ),
 
   private = list(
-    .properties = character(),
     .predict_sets = NULL,
-    .extra_hash = character(),
     .average = NULL,
     .aggregator = NULL,
     .use_weights = NULL,

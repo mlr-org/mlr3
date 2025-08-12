@@ -47,11 +47,15 @@ TaskClassif = R6Class("TaskClassif",
     #'   positive class, and the second element is the negative class.
     #' @template param_label
     #' @template param_extra_args
-    initialize = function(id, backend, target, positive = NULL, label = NA_character_, extra_args = list()) {
+    initialize = function(id, backend, target, positive = NULL, label, man, extra_args = list()) {
+      if (!missing(label) || !missing(man)) {
+        deprecated_component("label and man are deprecated for Task construction and will be removed in the future.")
+      }
+
       assert_string(target)
       super$initialize(
         id = id, task_type = "classif", backend = backend,
-        target = target, label = label, extra_args = extra_args)
+        target = target, extra_args = extra_args)
 
       update_classif_property(self, private)
 

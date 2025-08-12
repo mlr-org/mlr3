@@ -74,10 +74,8 @@
 #' task$cbind(data.frame(foo = 1:344))
 #' head(task)
 Task = R6Class("Task",
+  inherit = Mlr3Component,
   public = list(
-    #' @template field_label
-    label = NA_character_,
-
     #' @template field_task_type
     task_type = NULL,
 
@@ -99,9 +97,6 @@ Task = R6Class("Task",
     #' in this table.
     col_info = NULL,
 
-    #' @template field_man
-    man = NA_character_,
-
     #' @field extra_args (named `list()`)\cr
     #' Additional arguments set during construction.
     #' Required for [convert_task()].
@@ -115,9 +110,16 @@ Task = R6Class("Task",
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #'
     #' Note that this object is typically constructed via a derived classes, e.g. [TaskClassif] or [TaskRegr].
-    initialize = function(id, task_type, backend, label = NA_character_, extra_args = list()) {
-      private$.id = assert_string(id, min.chars = 1L)
-      self$label = assert_string(label, na.ok = TRUE)
+    initialize = function(id, task_type, backend, extra_args = list(), label, man) {
+
+      if (!missing(label) || !missing(man)) {
+        deprecated_component("label and man are deprecated for Task construction and will be removed in the future.")
+      }
+
+      super$initialize(dict_entry = id, dict_shortaccess = "tsk",
+        param_set = ps(), packages = character(0), properties = character(0),
+        representable = FALSE)
+
       self$task_type = assert_choice(task_type, mlr_reflections$task_types$type)
       if (!inherits(backend, "DataBackend")) {
         self$backend = as_data_backend(backend)
@@ -195,19 +197,6 @@ Task = R6Class("Task",
       }
       on.exit({}, add = FALSE)
       invisible(self)
-    },
-
-    #' @description
-    #' Opens the corresponding help page referenced by field `$man`.
-    help = function() {
-      open_help(self$man)
-    },
-
-    #' @description
-    #' Helper for print outputs.
-    #' @param ... (ignored).
-    format = function(...) {
-      sprintf("<%s:%s>", class(self)[1L], self$id)
     },
 
     #' @description
@@ -855,16 +844,6 @@ Task = R6Class("Task",
   ),
 
   active = list(
-    #' @template field_id
-    id = function(rhs) {
-      if (missing(rhs)) {
-        return(private$.id)
-      }
-
-      private$.hash = NULL
-      private$.id = assert_string(rhs, min.chars = 1L)
-    },
-
     #' @field internal_valid_task (`Task` or `integer()` or `NULL`)\cr
     #' Optional validation task that can, e.g., be used for early stopping with learners such as XGBoost.
     #' See also the `$validate` field of [`Learner`].
@@ -880,7 +859,6 @@ Task = R6Class("Task",
         private$.internal_valid_task = NULL
         return(invisible(private$.internal_valid_task))
       }
-      private$.hash = NULL
 
       if (test_integerish(rhs)) {
         train_ids = setdiff(self$row_ids, rhs)
@@ -913,18 +891,6 @@ Task = R6Class("Task",
         warningf("Internal validation task has 0 observations.")
       }
       invisible(private$.internal_valid_task)
-    },
-
-    #' @field hash (`character(1)`)\cr
-    #' Hash (unique identifier) for this object.
-    #' The hash is calculated based on the complete task object and `$row_ids`.
-    #' If an internal validation task is set, the hash is recalculated.
-    hash = function(rhs) {
-      if (is.null(private$.hash)) {
-        private$.hash = task_hash(self, self$row_ids, ignore_internal_valid_task = FALSE)
-      }
-
-      private$.hash
     },
 
     #' @field row_hash (`character(1)`)\cr
@@ -1304,14 +1270,18 @@ Task = R6Class("Task",
 
   private = list(
     .internal_valid_task = NULL,
-    .id = NULL,
-    .properties = NULL,
     .col_roles = NULL,
     .row_roles = NULL,
-    .hash = NULL,
     .col_hashes = NULL,
     .characteristics = NULL,
     .row_hash = NULL,
+    .hash = NULL,  # TODO: not used any more?
+
+    .additional_phash_input = function() {
+      list(self$backend$hash,self$col_info, self$row_ids, self$col_roles,
+        private$.properties, self$internal_valid_task$hash, self$characteristics
+      )
+    },
 
     deep_clone = function(name, value) {
       # NB: DataBackends are never copied!
@@ -1320,7 +1290,7 @@ Task = R6Class("Task",
       } else if (name == ".internal_valid_task" && !is.null(value)) {
         value$clone(deep = TRUE)
       } else {
-        value
+        super$deep_clone(name, value)
       }
     }
   )

@@ -43,10 +43,16 @@ LearnerRegr = R6Class("LearnerRegr", inherit = Learner,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    initialize = function(id, task_type = "regr", param_set = ps(), predict_types = "response", feature_types = character(), properties = character(), data_formats, packages = character(), label = NA_character_, man = NA_character_) {
+    initialize = function(dict_entry, id = dict_entry, task_type = "regr",
+      param_set = ps(), predict_types = "response", feature_types = character(), properties = character(), data_formats, packages = character(),
+      label, man
+    ) {
+      if (!missing(label) || !missing(man)) {
+        deprecated_component("label and man are deprecated for Learner construction and will be removed in the future.")
+      }
+
       super$initialize(id = id, task_type = task_type, param_set = param_set, feature_types = feature_types,
-        predict_types = predict_types, properties = properties, data_formats, packages = packages,
-        label = label, man = man)
+        predict_types = predict_types, properties = properties, data_formats, packages = packages)
     },
 
     #' @description
