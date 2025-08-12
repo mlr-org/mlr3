@@ -82,6 +82,12 @@ This package runs benchmark experiments on high-performance computing clusters a
 The fitted models are discarded after the predictions have been scored in order to reduce memory consumption.
 If you need access to the models for later analysis, set \code{store_models} to \code{TRUE}.
 }
+\section{Stochasticity}{
+
+Note that uninstantiated \code{\link{Resampling}}s are instantiated on the task, making
+the function stochastic even in case of deterministic learners.
+}
+
 \section{Predict Sets}{
 
 If you want to compare the performance of a learner on the training with the performance

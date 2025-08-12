@@ -15,6 +15,15 @@ fixed partition of \code{row_ids} of the \link{Task}.
 Predefined resamplings are stored in the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_resamplings},
 e.g. \code{\link[=mlr_resamplings_cv]{cv}} or \code{\link[=mlr_resamplings_bootstrap]{bootstrap}}.
 }
+\section{Stochasticity & Reproducibility}{
+
+The \code{\link{Resampling}} class only defines an abstract resampling strategy.
+Concrete data splits are obtained by calling \verb{$instantiate()} on a \code{\link{Task}}.
+To ensure repdocubility of results, you need to call \code{set.seed} before doing so.
+Note that \code{\link{benchmark_grid}} internally does instantiate resamplings, so you need to set
+the seed before calling it.
+}
+
 \section{Stratification}{
 
 All derived classes support stratified sampling.
