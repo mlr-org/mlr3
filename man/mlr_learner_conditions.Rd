@@ -24,7 +24,7 @@ Additional arguments to be passed to \code{sprintf()}.}
 Additional classes to be added to the error.}
 
 \item{signal}{(\code{logical(1)})\cr
-If \code{TRUE}, the error is returned as a condition object instead of being stopped.}
+If \code{TRUE}, the error object is returned without stopping the interpreter.}
 }
 \description{
 These functions are used to create conditions for errors related to \code{\link{Learner}}s.

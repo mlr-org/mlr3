@@ -17,7 +17,7 @@
 #' @param class (`character()`)\cr
 #'   Additional classes to be added to the error.
 #' @param signal (`logical(1)`)\cr
-#'   If `TRUE`, the error is returned as a condition object instead of being stopped.
+#'   If `TRUE`, the error object is returned without stopping the interpreter.
 #' @export
 error_learner = function(msg, ..., class = NULL, signal = TRUE) {
   error_mlr3(msg, ..., class = c(class, "Mlr3ErrorLearner"), signal = signal)
