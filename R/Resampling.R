@@ -160,7 +160,6 @@ Resampling = R6Class("Resampling",
     #' resampling$instantiate(task)
     instantiate = function(task) {
       task = assert_task(as_task(task))
-      private$.hash = NULL
       self$instance = private$.get_instance(task)
       self$task_hash = task$hash
       self$task_row_hash = task$row_hash

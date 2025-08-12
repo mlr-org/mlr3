@@ -16,10 +16,9 @@ MeasureBinarySimple = R6Class("MeasureBinarySimple",
         properties = if (weights) "weights" else character(),
         predict_type = info$predict_type,
         task_properties = "twoclass",
-        packages = "mlr3measures",
-        label = info$title,
-        man = paste0("mlr3::mlr_measures_classif.", name)
+        packages = "mlr3measures"
       )
+      private$.man = paste0("mlr3::mlr_measures_classif.", name)
 
       self$fun = get(name, envir = asNamespace("mlr3measures"), mode = "function")
       if (!is.na(info$obs_loss)) {
@@ -41,7 +40,10 @@ MeasureBinarySimple = R6Class("MeasureBinarySimple",
       )
     },
 
-    .extra_hash = c("fun", "na_value")
+    .additional_phash_input = function() c(
+      list(self$fun, self$na_value),
+      super$.additional_phash_input()
+    )
   )
 )
 
@@ -62,10 +64,10 @@ MeasureClassifSimple = R6Class("MeasureClassifSimple",
         minimize = info$minimize,
         properties = if (weights) "weights" else character(),
         predict_type = info$predict_type,
-        packages = "mlr3measures",
-        label = info$title,
-        man = paste0("mlr3::mlr_measures_classif.", name)
+        packages = "mlr3measures"
       )
+      private$.man = paste0("mlr3::mlr_measures_classif.", name)
+
       self$fun = get(name, envir = asNamespace("mlr3measures"), mode = "function")
       if (!is.na(info$obs_loss)) {
         self$obs_loss = get(info$obs_loss, envir = asNamespace("mlr3measures"), mode = "function")
@@ -82,7 +84,10 @@ MeasureClassifSimple = R6Class("MeasureClassifSimple",
         na_value = self$na_value, sample_weights = weights)
     },
 
-    .extra_hash = c("fun", "na_value")
+    .additional_phash_input = function() c(
+      list(self$fun, self$na_value),
+      super$.additional_phash_input()
+    )
   )
 )
 
@@ -111,10 +116,10 @@ MeasureRegrSimple = R6Class("MeasureRegrSimple",
         minimize = info$minimize,
         properties = if (weights) "weights" else character(),
         predict_type = info$predict_type,
-        packages = "mlr3measures",
-        label = info$title,
-        man = paste0("mlr3::mlr_measures_regr.", name)
+        packages = "mlr3measures"
       )
+      private$.man = paste0("mlr3::mlr_measures_regr.", name)
+
       self$fun = get(name, envir = asNamespace("mlr3measures"), mode = "function")
       if (!is.na(info$obs_loss)) {
         self$obs_loss = get(info$obs_loss, envir = asNamespace("mlr3measures"), mode = "function")
@@ -131,7 +136,10 @@ MeasureRegrSimple = R6Class("MeasureRegrSimple",
         na_value = self$na_value, sample_weights = weights)
     },
 
-    .extra_hash = c("fun", "na_value")
+    .additional_phash_input = function() c(
+      list(self$fun, self$na_value),
+      super$.additional_phash_input()
+    )
   )
 )
 
@@ -166,15 +174,17 @@ MeasureSimilaritySimple = R6Class("MeasureSimilaritySimple",
         average = "custom",
         aggregator = agg,
         predict_type = NA_character_,
-        packages = "mlr3measures",
-        label = info$title,
-        man = paste0("mlr3::mlr_measures_sim.", name),
+        packages = "mlr3measures"
       )
+      private$.man = paste0("mlr3::mlr_measures_sim.", name)
     }
   ),
 
   private = list(
-    .extra_hash = c("fun", "na_value")
+    .additional_phash_input = function() c(
+      list(self$fun, self$na_value),
+      super$.additional_phash_input()
+    )
   )
 )
 

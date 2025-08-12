@@ -1265,6 +1265,13 @@ Task = R6Class("Task",
     row_ids_backend = function(rhs) {
       assert_ro_binding(rhs)
       self$backend$rownames
+    },
+
+    hash = function(rhs) {
+      if (!missing(rhs)) {
+        stop("'hash' is read-only")
+      }
+      task_hash(self, self$row_ids, ignore_internal_valid_task = FALSE)
     }
   ),
 
@@ -1278,7 +1285,7 @@ Task = R6Class("Task",
     .hash = NULL,  # TODO: not used any more?
 
     .additional_phash_input = function() {
-      list(self$backend$hash,self$col_info, self$row_ids, self$col_roles,
+      list(self$backend$hash, self$col_info, self$row_ids, self$col_roles,
         private$.properties, self$internal_valid_task$hash, self$characteristics
       )
     },

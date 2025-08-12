@@ -348,6 +348,10 @@ Measure = R6Class("Measure",
     .use_weights = NULL,
     .score = function(prediction, task, weights, ...) {
       stop("abstract method")
+    },
+    .additional_phash_input = function() {
+      list(private$.average, private$.aggregator, self$obs_loss, self$trafo,
+      self$predict_sets, private$.use_weights)
     }
   )
 )

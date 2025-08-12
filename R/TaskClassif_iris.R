@@ -18,9 +18,9 @@
 #' @template seealso_task
 NULL
 
-load_task_iris = function(id = "iris") {
+load_task_iris = function() {
   b = as_data_backend(load_dataset("iris", "datasets"))
-  task = TaskClassif$new(id, b, target = "Species")
+  task = TaskClassif$new(id = "iris", b, target = "Species")
   task$override_info(man = "mlr3::mlr_tasks_iris", hash = "mlr3::mlr_tasks_iris")
   task
 }
