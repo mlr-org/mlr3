@@ -123,6 +123,10 @@ reference:
       - assert_resample_callbacks
       - mlr3.model_extractor
       - mlr3.holdout_task
+  - title: Conditions
+    contents:
+      - starts_with("error_")
+      - starts_with("warning_")
   - title: Internal Objects and Functions
     contents:
       - marshaling
