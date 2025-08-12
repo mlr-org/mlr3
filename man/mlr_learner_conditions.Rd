@@ -5,27 +5,37 @@
 \alias{error_learner}
 \alias{error_learner_train}
 \alias{error_learner_predict}
-\title{Learner Classes}
+\title{Learner Conditions}
 \usage{
-error_learner(msg, ..., class = NULL, silent = FALSE)
+error_learner(msg, ..., class = NULL, signal = TRUE)
 
-error_learner_train(msg, ..., class = NULL, silent = FALSE)
+error_learner_train(msg, ..., class = NULL, signal = TRUE)
 
-error_learner_predict(msg, ..., class = NULL, silent = FALSE)
+error_learner_predict(msg, ..., class = NULL, signal = TRUE)
 }
 \arguments{
 \item{msg}{(\code{character(1)})\cr
-Message to be printed.}
+Message to be printed. (formatted with \code{sprintf()})}
 
 \item{...}{(\code{any})\cr
-Additional arguments to be passed to \code{\link[mlr3misc:printf]{mlr3misc::stopf()}}.}
+Additional arguments to be passed to \code{sprintf()}.}
 
 \item{class}{(\code{character()})\cr
 Additional classes to be added to the error.}
 
-\item{silent}{(\code{logical(1)})\cr
+\item{signal}{(\code{logical(1)})\cr
 If \code{TRUE}, the error is returned as a condition object instead of being stopped.}
 }
 \description{
-Learner Classes
+These functions are used to create conditions for errors related to \code{\link{Learner}}s.
+This extends those from \link[mlr3misc:mlr_conditions]{mlr3misc::mlr_conditions}.
 }
+\section{Errors}{
+
+\itemize{
+\item \code{Mlr3ErrorLearner}: Base class for mlr3 errors.
+\item \code{Mlr3ErrorLearnerTrain}: Errors during training.
+\item \code{Mlr3ErrorLearnerPredict}: Errors during prediction.
+}
+}
+

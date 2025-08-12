@@ -576,7 +576,7 @@ Learner = R6Class("Learner",
     #'  See the description for details.
     #' @param fallback [Learner]\cr
     #'  The fallback learner for failed predictions.
-    #' @param should_catch (`function(condition)`)\cr
+    #' @param when (`function(condition)`)\cr
     #'  Function that takes in the condition and returns `logical(1)` indicating whether to run the fallback learner.
     #'
     #' @return `self` (invisibly).
@@ -584,10 +584,10 @@ Learner = R6Class("Learner",
     #' learner = lrn("classif.rpart")
     #' fallback = lrn("classif.featureless")
     #' learner$encapsulate("try", fallback = fallback)
-    encapsulate = function(method, fallback = NULL, should_catch = NULL) {
+    encapsulate = function(method, fallback = NULL, when = NULL) {
       assert_choice(method, c("none", "try", "evaluate", "callr"))
 
-      private$.should_catch = assert_function(should_catch, null.ok = TRUE)
+      private$.when = assert_function(when, null.ok = TRUE)
 
       if (method != "none") {
         assert_learner(fallback, task_type = self$task_type)
@@ -842,7 +842,7 @@ Learner = R6Class("Learner",
   ),
 
   private = list(
-    .should_catch = NULL,
+    .when = NULL,
     .use_weights = NULL,
     .encapsulation = c(train = "none", predict = "none"),
     .fallback = NULL,

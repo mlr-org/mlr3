@@ -849,8 +849,8 @@ test_that("error conditions are working: callr", {
   l$encapsulate(
     "callr",
     lrn("classif.featureless"),
-    should_catch = function(cond) {
-      !inherits(cond, "mlr3ErrorTimeout")
+    when = function(cond) {
+      !inherits(cond, "Mlr3ErrorTimeout")
     }
   )
 
@@ -870,7 +870,7 @@ test_that("error conditions are working: evaluate", {
     "evaluate",
     lrn("classif.featureless"),
     function(x) {
-      !inherits(x, "mlr3ErrorTimeout")
+      !inherits(x, "Mlr3ErrorTimeout")
     }
   )
 
@@ -890,14 +890,15 @@ test_that("error conditions are working: try", {
     "try",
     lrn("classif.featureless"),
     function(x) {
-      !inherits(x, "mlr3ErrorTimeout")
+      !inherits(x, "Mlr3ErrorTimeout")
     }
   )
 
   expect_error(l$train(tsk("iris")), regexp = "reached elapsed time limit")
   l$configure(error_train = 1, sleep_train = NULL, timeout = c(train = Inf, predict = Inf))
   expect_error(l$train(tsk("iris")), regexp = NA)
-=======
+})
+
 test_that("oob_error is available without storing models via $.extract_oob_error()", {
   LearnerDummyOOB = R6::R6Class("LearnerDummyOOB", inherit = LearnerClassif,
     public = list(
@@ -930,4 +931,10 @@ test_that("oob_error is available without storing models via $.extract_oob_error
   rr = resample(task, learner, rsmp("holdout"), store_models = FALSE)
 
   expect_equal(rr$aggregate(msr("oob_error")), c(oob_error = 0.123))
+})
+
+test_that("config error does not trigger callback", {
+  l = lrn("classif.debug", config_error = TRUE)
+  l$encapsulate("evaluate", lrn("classif.featureless"), function(x) TRUE)
+  expect_error(l$train(tsk("iris")), regexp = "You misconfigured the learner")
 })

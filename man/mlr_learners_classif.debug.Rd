@@ -72,6 +72,7 @@ lrn("classif.debug")
    early_stopping \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
    count_marshaling \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
    check_pid \tab logical \tab TRUE \tab TRUE, FALSE \tab - \cr
+   config_error \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
 }
 }
 
