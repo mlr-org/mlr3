@@ -33,9 +33,7 @@ MeasureDebugClassif = R6Class("MeasureDebugClassif",
         param_set = param_set,
         predict_type = "response",
         range = c(0, Inf),
-        properties = "na_score",
-        label = "Debug Classification Measure",
-        man = "mlr3::mlr_measures_debug_classif"
+        properties = "na_score"
       )
     }
   ),

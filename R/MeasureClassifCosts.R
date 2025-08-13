@@ -52,9 +52,7 @@ MeasureClassifCosts = R6Class("MeasureClassifCosts",
         param_set = param_set,
         range = c(-Inf, Inf),
         minimize = TRUE,
-        properties = "weights",
-        label = "Cost-sensitive Classification",
-        man = "mlr3::mlr_measures_classif.costs"
+        properties = "weights"
       )
     }
   ),

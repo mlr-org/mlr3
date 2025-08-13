@@ -28,9 +28,7 @@ MeasureBIC = R6Class("MeasureBIC",
         properties = c("na_score", "requires_learner", "requires_model", "requires_no_prediction"),
         predict_sets = NULL,
         predict_type = NA_character_,
-        minimize = TRUE,
-        label = "Bayesian Information Criterion",
-        man = "mlr3::mlr_measures_bic"
+        minimize = TRUE
       )
     }
   ),

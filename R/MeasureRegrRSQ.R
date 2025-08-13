@@ -46,8 +46,7 @@ MeasureRegrRSQ = R6Class("MeasureRSQ",
         properties = c(if (!private$.pred_set_mean) c("requires_task", "requires_train_set"), "weights"),
         predict_type = "response",
         minimize = FALSE,
-        range = c(-Inf, 1),
-        man = "mlr3::mlr_measures_regr.rsq"
+        range = c(-Inf, 1)
       )
     }
   ),

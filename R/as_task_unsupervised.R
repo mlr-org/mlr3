@@ -22,23 +22,31 @@ as_task_unsupervised.Task = function(x, clone = FALSE, ...) { # nolint
 #'   Defaults to the (deparsed and substituted) name of the data argument.
 #' @template param_label
 #' @export
-as_task_unsupervised.data.frame = function(x, id = deparse1(substitute(x)), label = NA_character_, ...) { # nolint
+as_task_unsupervised.data.frame = function(x, id = deparse1(substitute(x)), label, ...) { # nolint
   force(id)
+
+  if (!missing(label)) {
+    deprecated_component("label is deprecated for as_task_unsupervised and will be removed in the future.")
+  }
 
   ii = which(map_lgl(keep(x, is.double), anyInfinite))
   if (length(ii)) {
     warningf("Detected columns with unsupported Inf values in data: %s", str_collapse(names(ii)))
   }
 
-  TaskUnsupervised$new(id = id, backend = x, label = label)
+  TaskUnsupervised$new(id = id, backend = x)
 }
 
 #' @rdname as_task_unsupervised
 #' @export
-as_task_unsupervised.DataBackend = function(x, id = deparse1(substitute(x)), label = NA_character_, ...) { # nolint
+  as_task_unsupervised.DataBackend = function(x, id = deparse1(substitute(x)), label, ...) { # nolint
   force(id)
 
-  TaskUnsupervised$new(id = id, backend = x, label = label)
+  if (!missing(label)) {
+    deprecated_component("label is deprecated for as_task_unsupervised and will be removed in the future.")
+  }
+
+  TaskUnsupervised$new(id = id, backend = x)
 }
 
 #' @rdname as_task_unsupervised

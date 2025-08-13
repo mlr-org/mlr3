@@ -33,7 +33,7 @@ MeasureRegr = R6Class("MeasureRegr",
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function(id, param_set = ps(), range, minimize = NA, average = "macro", aggregator = NULL, properties = character(), predict_type = "response",
-      predict_sets = "test", task_properties = character(), packages = character(), label = NA_character_, man = NA_character_) {
+      predict_sets = "test", task_properties = character(), packages = character(), label, man) {
 
       if (!missing(label) || !missing(man)) {
         deprecated_component("label and man are deprecated for Measure construction and will be removed in the future.")

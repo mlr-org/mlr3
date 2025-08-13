@@ -21,7 +21,7 @@ TaskUnsupervised = R6Class("TaskUnsupervised",
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    initialize = function(id, task_type = "unsupervised", backend, man = NA_character_, label = NA_character_, extra_args = list()) {
+    initialize = function(id, task_type = "unsupervised", backend, label, man, extra_args = list()) {
       if (!missing(label) || !missing(man)) {
         deprecated_component("label and man are deprecated for Task construction and will be removed in the future.")
       }

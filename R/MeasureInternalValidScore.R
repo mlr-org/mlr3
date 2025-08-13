@@ -37,9 +37,7 @@ MeasureInternalValidScore = R6Class("MeasureInternalValidScore",
         predict_sets = NULL,
         predict_type = NA_character_,
         range = c(-Inf, Inf),
-        minimize = assert_flag(minimize, na.ok = TRUE),
-        label = "Internal Validation Score",
-        man = "mlr3::mlr_measures_internal_valid_score"
+        minimize = assert_flag(minimize, na.ok = TRUE)
       )
     }
   ),

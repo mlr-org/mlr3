@@ -38,8 +38,7 @@ MeasureRegrPinball = R6Class("MeasureRegrPinball",
         param_set = param_set,
         predict_type = "quantiles",
         minimize = TRUE,
-        range = c(-Inf, Inf),
-        man = "mlr3::mlr_measures_regr.pinball"
+        range = c(-Inf, Inf)
       )
     }
   ),

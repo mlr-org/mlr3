@@ -44,9 +44,7 @@ MeasureElapsedTime = R6Class("MeasureElapsedTime",
         predict_type = NA_character_,
         range = c(0, Inf),
         minimize = TRUE,
-        properties = c("requires_learner", "requires_no_prediction"),
-        label = "Elapsed Time",
-        man = "mlr3::mlr_measures_elapsed_time"
+        properties = c("requires_learner", "requires_no_prediction")
       )
       self$stages = assert_subset(stages, c("train", "predict"), empty.ok = FALSE)
     }
