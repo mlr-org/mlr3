@@ -196,7 +196,6 @@ Collate:
     'helper_data_table.R'
     'helper_exec.R'
     'helper_hashes.R'
-    'helper_print.R'
     'install_pkgs.R'
     'marshal.R'
     'mlr_callbacks.R'

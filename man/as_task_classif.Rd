@@ -17,7 +17,7 @@ as_task_classif(x, ...)
 
 \method{as_task_classif}{data.frame}(
   x,
-  target = NULL,
+  target,
   id = deparse1(substitute(x)),
   positive = NULL,
   label = NA_character_,
@@ -42,7 +42,7 @@ as_task_classif(x, ...)
 
 \method{as_task_classif}{DataBackend}(
   x,
-  target = NULL,
+  target,
   id = deparse1(substitute(x)),
   positive = NULL,
   label = NA_character_,
@@ -51,7 +51,7 @@ as_task_classif(x, ...)
 
 \method{as_task_classif}{TaskRegr}(
   x,
-  target = NULL,
+  target,
   drop_original_target = FALSE,
   drop_levels = TRUE,
   ...

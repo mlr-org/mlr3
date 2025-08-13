@@ -51,6 +51,8 @@
 #' * `$cbind()` and `$rbind()` change the task in-place by binding new columns or rows to the data.
 #' * `$rename()` changes column names.
 #' * `$set_levels()` and `$droplevels()` update the field `$col_info()` to automatically repair factor levels while querying data with `$data()`.
+#' * `$materialize_view()` creates a new [DataBackendDataTable] which keeps only the data in the currently active view
+#'   possibly freeing some memory consumed by the [DataBackend] stored in the `Task`.
 #'
 #' @template seealso_task
 #' @concept Task
@@ -840,6 +842,41 @@ Task = R6Class("Task",
       setnames(strata, sprintf("..stratum_%s", cols))
       self$cbind(strata)
       self$set_col_roles(names(strata), roles = "stratum")
+    },
+
+    #' @description
+    #' Certain operations change the view on the data, e.g., `$filter()` or `$select()`.
+    #' This operation queries the [DataBackend] for all data required in the active view and
+    #' replaces the internal [DataBackend] with the new one. In some scenarios this helps to
+    #' free up memory or speeds up accesses to the data, especially after several `$rbind()`
+    #' and `$cbind()` operations.
+    #'
+    #' @details
+    #' For tasks containing the same observation more than once (duplicates in `$row_ids`),
+    #' the resulting backend contains it only once.
+    #'
+    #' @param internal_valid_task (`logical(1)`)\cr
+    #'   Also materialize the internal validation task. Default is `TRUE`.
+    #'
+    #' @return self (invisibly).
+    #' @examples
+    #' task = tsk("iris")
+    #' task$backend$nrow
+    #' task$filter(1:120)
+    #' task$backend$nrow
+    materialize_view = function(internal_valid_task = TRUE) {
+      assert_flag(internal_valid_task)
+
+      b = self$backend
+      ..cns = union(b$primary_key, unlist(private$.col_roles, use.names = FALSE))
+      dt = b$data(rows = unique(self$row_ids), cols = ..cns)
+      self$backend = as_data_backend(dt, primary_key = b$primary_key)
+      self$col_info = setkeyv(self$col_info[list(..cns), on = "id"], "id")
+
+      if (internal_valid_task && !is.null(private$.internal_valid_task)) {
+        private$.internal_valid_task$materialize_view(FALSE)
+      }
+      invisible(self)
     }
   ),
 
@@ -1535,12 +1572,6 @@ tail.Task = function(x, n = 6L, ...) { # nolint
   assert_number(n, na.ok = FALSE)
   x$data(rows = tail(x$row_ids, n))
 }
-
-# #' @export
-# format_list_item.Task = function(x, ...) { # nolint
-#   print("HIIII")
-#   sprintf("<tsk:%s>", x$id)
-# }
 
 task_rm_backend = function(task) {
   # fix task hash

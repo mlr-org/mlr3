@@ -25,3 +25,4 @@
 ^benchmark$
 ^.cursor$
 ^local_attic$
+^tests/testthat/_object_snapshots$

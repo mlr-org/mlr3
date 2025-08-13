@@ -48,6 +48,8 @@ They are an alternative to directly accessing \verb{$col_roles} or \verb{$row_ro
 \item \verb{$cbind()} and \verb{$rbind()} change the task in-place by binding new columns or rows to the data.
 \item \verb{$rename()} changes column names.
 \item \verb{$set_levels()} and \verb{$droplevels()} update the field \verb{$col_info()} to automatically repair factor levels while querying data with \verb{$data()}.
+\item \verb{$materialize_view()} creates a new \link{DataBackendDataTable} which keeps only the data in the currently active view
+possibly freeing some memory consumed by the \link{DataBackend} stored in the \code{Task}.
 }
 }
 
@@ -182,6 +184,15 @@ task$levels("sex")
 
 task = tsk("penguins")
 task$add_strata("flipper_length", bins = 4)
+
+## ------------------------------------------------
+## Method `Task$materialize_view`
+## ------------------------------------------------
+
+task = tsk("iris")
+task$backend$nrow
+task$filter(1:120)
+task$backend$nrow
 }
 \seealso{
 \itemize{
@@ -493,6 +504,7 @@ This is different from \verb{$row_ids} which only returns rows with role "use".}
 \item \href{#method-Task-set_levels}{\code{Task$set_levels()}}
 \item \href{#method-Task-droplevels}{\code{Task$droplevels()}}
 \item \href{#method-Task-add_strata}{\code{Task$add_strata()}}
+\item \href{#method-Task-materialize_view}{\code{Task$materialize_view()}}
 \item \href{#method-Task-clone}{\code{Task$clone()}}
 }
 }
@@ -1173,6 +1185,47 @@ self (invisibly).
 \if{html}{\out{<div class="r example copy">}}
 \preformatted{task = tsk("penguins")
 task$add_strata("flipper_length", bins = 4)
+}
+\if{html}{\out{</div>}}
+
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Task-materialize_view"></a>}}
+\if{latex}{\out{\hypertarget{method-Task-materialize_view}{}}}
+\subsection{Method \code{materialize_view()}}{
+Certain operations change the view on the data, e.g., \verb{$filter()} or \verb{$select()}.
+This operation queries the \link{DataBackend} for all data required in the active view and
+replaces the internal \link{DataBackend} with the new one. In some scenarios this helps to
+free up memory or speeds up accesses to the data, especially after several \verb{$rbind()}
+and \verb{$cbind()} operations.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Task$materialize_view(internal_valid_task = TRUE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{internal_valid_task}}{(\code{logical(1)})\cr
+Also materialize the internal validation task. Default is \code{TRUE}.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Details}{
+For tasks containing the same observation more than once (duplicates in \verb{$row_ids}),
+the resulting backend contains it only once.
+}
+
+\subsection{Returns}{
+self (invisibly).
+}
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{task = tsk("iris")
+task$backend$nrow
+task$filter(1:120)
+task$backend$nrow
 }
 \if{html}{\out{</div>}}
 

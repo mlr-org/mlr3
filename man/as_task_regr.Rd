@@ -17,7 +17,7 @@ as_task_regr(x, ...)
 
 \method{as_task_regr}{data.frame}(
   x,
-  target = NULL,
+  target,
   id = deparse1(substitute(x)),
   label = NA_character_,
   ...
@@ -25,7 +25,7 @@ as_task_regr(x, ...)
 
 \method{as_task_regr}{matrix}(
   x,
-  target = NULL,
+  target,
   id = deparse1(substitute(x)),
   label = NA_character_,
   ...
@@ -33,7 +33,7 @@ as_task_regr(x, ...)
 
 \method{as_task_regr}{Matrix}(
   x,
-  target = NULL,
+  target,
   id = deparse1(substitute(x)),
   label = NA_character_,
   ...
@@ -41,19 +41,13 @@ as_task_regr(x, ...)
 
 \method{as_task_regr}{DataBackend}(
   x,
-  target = NULL,
+  target,
   id = deparse1(substitute(x)),
   label = NA_character_,
   ...
 )
 
-\method{as_task_regr}{TaskClassif}(
-  x,
-  target = NULL,
-  drop_original_target = FALSE,
-  drop_levels = TRUE,
-  ...
-)
+\method{as_task_regr}{TaskClassif}(x, target, drop_original_target = FALSE, drop_levels = TRUE, ...)
 
 \method{as_task_regr}{formula}(
   x,
