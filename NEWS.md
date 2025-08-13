@@ -9,11 +9,6 @@
   examples for methods.
 * Measure "oob_error" now works even without storing models during resampling.
 
-## Deprecations:
-
-* Assigning to some fields of `Task`, `Learner`, and `Resampling` now throws a deprecation warning.
-  This will become an error in the future.
-
 # mlr3 1.1.0
 
 * feat: Add new measure `MeasureRegrRQR` for quantile regression.
