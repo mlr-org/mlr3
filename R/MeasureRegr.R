@@ -34,9 +34,14 @@ MeasureRegr = R6Class("MeasureRegr",
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function(id, param_set = ps(), range, minimize = NA, average = "macro", aggregator = NULL, properties = character(), predict_type = "response",
       predict_sets = "test", task_properties = character(), packages = character(), label = NA_character_, man = NA_character_) {
+
+      if (!missing(label) || !missing(man)) {
+        deprecated_component("label and man are deprecated for Measure construction and will be removed in the future.")
+      }
+
       super$initialize(id, task_type = "regr", param_set = param_set, range = range, minimize = minimize, average = average, aggregator = aggregator,
         properties = properties, predict_type = predict_type, predict_sets = predict_sets,
-        task_properties = task_properties, packages = packages, label = label, man = man)
+        task_properties = task_properties, packages = packages)
     }
   )
 )

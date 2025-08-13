@@ -46,8 +46,7 @@ ResamplingCV = R6Class("ResamplingCV", inherit = Resampling,
       )
       ps$set_values(folds = 10L)
 
-      super$initialize(id = "cv", param_set = ps,
-        label = "Cross-Validation", man = "mlr3::mlr_resamplings_cv")
+      super$initialize(id = "cv", param_set = ps)
     }
   ),
 
