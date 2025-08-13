@@ -15,47 +15,17 @@ as_task_regr(x, ...)
 
 \method{as_task_regr}{TaskRegr}(x, clone = FALSE, ...)
 
-\method{as_task_regr}{data.frame}(
-  x,
-  target,
-  id = deparse1(substitute(x)),
-  label = NA_character_,
-  ...
-)
+\method{as_task_regr}{data.frame}(x, target, id = deparse1(substitute(x)), label, ...)
 
-\method{as_task_regr}{matrix}(
-  x,
-  target,
-  id = deparse1(substitute(x)),
-  label = NA_character_,
-  ...
-)
+\method{as_task_regr}{matrix}(x, target, id = deparse1(substitute(x)), label, ...)
 
-\method{as_task_regr}{Matrix}(
-  x,
-  target,
-  id = deparse1(substitute(x)),
-  label = NA_character_,
-  ...
-)
+\method{as_task_regr}{Matrix}(x, target, id = deparse1(substitute(x)), label, ...)
 
-\method{as_task_regr}{DataBackend}(
-  x,
-  target,
-  id = deparse1(substitute(x)),
-  label = NA_character_,
-  ...
-)
+\method{as_task_regr}{DataBackend}(x, target, id = deparse1(substitute(x)), label, ...)
 
 \method{as_task_regr}{TaskClassif}(x, target, drop_original_target = FALSE, drop_levels = TRUE, ...)
 
-\method{as_task_regr}{formula}(
-  x,
-  data,
-  id = deparse1(substitute(data)),
-  label = NA_character_,
-  ...
-)
+\method{as_task_regr}{formula}(x, data, id = deparse1(substitute(data)), label, ...)
 }
 \arguments{
 \item{x}{(any)\cr

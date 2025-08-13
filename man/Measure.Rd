@@ -102,25 +102,17 @@ Other Measure:
 \code{\link{mlr_measures_selected_features}}
 }
 \concept{Measure}
+\section{Super class}{
+\code{\link[mlr3misc:Mlr3Component]{mlr3misc::Mlr3Component}} -> \code{Measure}
+}
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{id}}{(\code{character(1)})\cr
-Identifier of the object.
-Used in tables, plot and text output.}
-
-\item{\code{label}}{(\code{character(1)})\cr
-Label for this object.
-Can be used in tables, plot and text output instead of the ID.}
-
 \item{\code{task_type}}{(\code{character(1)})\cr
 Task type, e.g. \code{"classif"} or \code{"regr"}.
 
 For a complete list of possible task types (depending on the loaded packages),
 see \code{\link[=mlr_reflections]{mlr_reflections$task_types$type}}.}
-
-\item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
-Set of hyperparameters.}
 
 \item{\code{obs_loss}}{(\verb{function()} | \code{NULL})
 Function to calculate the observation-wise loss.}
@@ -154,14 +146,6 @@ Lower and upper bound of possible performance scores.}
 
 \item{\code{minimize}}{(\code{logical(1)})\cr
 If \code{TRUE}, good predictions correspond to small values of performance scores.}
-
-\item{\code{packages}}{(\code{character(1)})\cr
-Set of required packages.
-These packages are loaded, but not attached.}
-
-\item{\code{man}}{(\code{character(1)})\cr
-String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
-Defaults to \code{NA}, but can be set by child classes.}
 }
 \if{html}{\out{</div>}}
 }
@@ -178,14 +162,6 @@ will include the predictions for the validation data.
 Each set yields a separate \link{Prediction} object.
 Those can be combined via getters in \link{ResampleResult}/\link{BenchmarkResult}, or \link{Measure}s can be configured
 to operate on specific subsets of the calculated prediction sets.}
-
-\item{\code{hash}}{(\code{character(1)})\cr
-Hash (unique identifier) for this object.
-The hash is calculated based on the id, the parameter settings, predict sets and the \verb{$score}, \verb{$average}, \verb{$aggregator}, \verb{$obs_loss}, \verb{$trafo} method.
-Measure can define additional fields to be included in the hash by setting the field \verb{$.extra_hash}.}
-
-\item{\code{properties}}{(\code{character()})\cr
-Properties of this measure.}
 
 \item{\code{average}}{(\code{character(1)})\cr
 Method for aggregation:
@@ -231,14 +207,23 @@ For measures that do not support weights, \code{use_weights} needs to be set to 
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-Measure-new}{\code{Measure$new()}}
-\item \href{#method-Measure-format}{\code{Measure$format()}}
 \item \href{#method-Measure-print}{\code{Measure$print()}}
-\item \href{#method-Measure-help}{\code{Measure$help()}}
 \item \href{#method-Measure-score}{\code{Measure$score()}}
 \item \href{#method-Measure-aggregate}{\code{Measure$aggregate()}}
 \item \href{#method-Measure-clone}{\code{Measure$clone()}}
 }
 }
+\if{html}{\out{
+<details open><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="mlr3misc" data-topic="Mlr3Component" data-id="configure"><a href='../../mlr3misc/html/Mlr3Component.html#method-Mlr3Component-configure'><code>mlr3misc::Mlr3Component$configure()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3misc" data-topic="Mlr3Component" data-id="format"><a href='../../mlr3misc/html/Mlr3Component.html#method-Mlr3Component-format'><code>mlr3misc::Mlr3Component$format()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3misc" data-topic="Mlr3Component" data-id="help"><a href='../../mlr3misc/html/Mlr3Component.html#method-Mlr3Component-help'><code>mlr3misc::Mlr3Component$help()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3misc" data-topic="Mlr3Component" data-id="override_info"><a href='../../mlr3misc/html/Mlr3Component.html#method-Mlr3Component-override_info'><code>mlr3misc::Mlr3Component$override_info()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3misc" data-topic="Mlr3Component" data-id="require_namespaces"><a href='../../mlr3misc/html/Mlr3Component.html#method-Mlr3Component-require_namespaces'><code>mlr3misc::Mlr3Component$require_namespaces()</code></a></span></li>
+</ul>
+</details>
+}}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Measure-new"></a>}}
 \if{latex}{\out{\hypertarget{method-Measure-new}{}}}
@@ -261,8 +246,8 @@ Note that this object is typically constructed via a derived classes, e.g. \link
   predict_sets = "test",
   task_properties = character(),
   packages = character(),
-  label = NA_character_,
-  man = NA_character_,
+  label,
+  man,
   trafo = NULL
 )}\if{html}{\out{</div>}}
 }
@@ -369,23 +354,6 @@ this requires an \verb{$obs_loss} to be present. An example is \code{sqrt} for R
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-Measure-format"></a>}}
-\if{latex}{\out{\hypertarget{method-Measure-format}{}}}
-\subsection{Method \code{format()}}{
-Helper for print outputs.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Measure$format(...)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{...}}{(ignored).}
-}
-\if{html}{\out{</div>}}
-}
-}
-\if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Measure-print"></a>}}
 \if{latex}{\out{\hypertarget{method-Measure-print}{}}}
 \subsection{Method \code{print()}}{
@@ -401,16 +369,6 @@ Printer.
 }
 \if{html}{\out{</div>}}
 }
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-Measure-help"></a>}}
-\if{latex}{\out{\hypertarget{method-Measure-help}{}}}
-\subsection{Method \code{help()}}{
-Opens the corresponding help page referenced by field \verb{$man}.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Measure$help()}\if{html}{\out{</div>}}
-}
-
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Measure-score"></a>}}

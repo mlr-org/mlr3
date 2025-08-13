@@ -140,16 +140,12 @@ Other Resampling:
 \code{\link{mlr_resamplings_subsampling}}
 }
 \concept{Resampling}
+\section{Super class}{
+\code{\link[mlr3misc:Mlr3Component]{mlr3misc::Mlr3Component}} -> \code{Resampling}
+}
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{label}}{(\code{character(1)})\cr
-Label for this object.
-Can be used in tables, plot and text output instead of the ID.}
-
-\item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
-Set of hyperparameters.}
-
 \item{\code{instance}}{(any)\cr
 During \code{instantiate()}, the instance is stored in this slot in an arbitrary format.
 Note that if a grouping variable is present in the \link{Task}, a \link{Resampling} may operate on the
@@ -171,27 +167,14 @@ The number of observations of the \link{Task} which was passed to \code{r$instan
 If \code{TRUE}, duplicated rows can occur within a single training set or within a single test set.
 E.g., this is \code{TRUE} for Bootstrap, and \code{FALSE} for cross-validation.
 Only used internally.}
-
-\item{\code{man}}{(\code{character(1)})\cr
-String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
-Defaults to \code{NA}, but can be set by child classes.}
 }
 \if{html}{\out{</div>}}
 }
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{id}}{(\code{character(1)})\cr
-Identifier of the object.
-Used in tables, plot and text output.}
-
 \item{\code{is_instantiated}}{(\code{logical(1)})\cr
 Is \code{TRUE} if the resampling has been instantiated.}
-
-\item{\code{hash}}{(\code{character(1)})\cr
-Hash (unique identifier) for this object.
-If the object has not been instantiated yet, \code{NA_character_} is returned.
-The hash is calculated based on the class name, the id, the parameter set, and the instance.}
 }
 \if{html}{\out{</div>}}
 }
@@ -199,28 +182,31 @@ The hash is calculated based on the class name, the id, the parameter set, and t
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-Resampling-new}{\code{Resampling$new()}}
-\item \href{#method-Resampling-format}{\code{Resampling$format()}}
 \item \href{#method-Resampling-print}{\code{Resampling$print()}}
-\item \href{#method-Resampling-help}{\code{Resampling$help()}}
 \item \href{#method-Resampling-instantiate}{\code{Resampling$instantiate()}}
 \item \href{#method-Resampling-train_set}{\code{Resampling$train_set()}}
 \item \href{#method-Resampling-test_set}{\code{Resampling$test_set()}}
 \item \href{#method-Resampling-clone}{\code{Resampling$clone()}}
 }
 }
+\if{html}{\out{
+<details open><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="mlr3misc" data-topic="Mlr3Component" data-id="configure"><a href='../../mlr3misc/html/Mlr3Component.html#method-Mlr3Component-configure'><code>mlr3misc::Mlr3Component$configure()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3misc" data-topic="Mlr3Component" data-id="format"><a href='../../mlr3misc/html/Mlr3Component.html#method-Mlr3Component-format'><code>mlr3misc::Mlr3Component$format()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3misc" data-topic="Mlr3Component" data-id="help"><a href='../../mlr3misc/html/Mlr3Component.html#method-Mlr3Component-help'><code>mlr3misc::Mlr3Component$help()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3misc" data-topic="Mlr3Component" data-id="override_info"><a href='../../mlr3misc/html/Mlr3Component.html#method-Mlr3Component-override_info'><code>mlr3misc::Mlr3Component$override_info()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3misc" data-topic="Mlr3Component" data-id="require_namespaces"><a href='../../mlr3misc/html/Mlr3Component.html#method-Mlr3Component-require_namespaces'><code>mlr3misc::Mlr3Component$require_namespaces()</code></a></span></li>
+</ul>
+</details>
+}}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Resampling-new"></a>}}
 \if{latex}{\out{\hypertarget{method-Resampling-new}{}}}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Resampling$new(
-  id,
-  param_set = ps(),
-  duplicated_ids = FALSE,
-  label = NA_character_,
-  man = NA_character_
-)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Resampling$new(id, param_set = ps(), duplicated_ids = FALSE, label, man)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -248,23 +234,6 @@ The referenced help package can be opened via method \verb{$help()}.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-Resampling-format"></a>}}
-\if{latex}{\out{\hypertarget{method-Resampling-format}{}}}
-\subsection{Method \code{format()}}{
-Helper for print outputs.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Resampling$format(...)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{...}}{(ignored).}
-}
-\if{html}{\out{</div>}}
-}
-}
-\if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Resampling-print"></a>}}
 \if{latex}{\out{\hypertarget{method-Resampling-print}{}}}
 \subsection{Method \code{print()}}{
@@ -280,16 +249,6 @@ Printer.
 }
 \if{html}{\out{</div>}}
 }
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-Resampling-help"></a>}}
-\if{latex}{\out{\hypertarget{method-Resampling-help}{}}}
-\subsection{Method \code{help()}}{
-Opens the corresponding help page referenced by field \verb{$man}.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Resampling$help()}\if{html}{\out{</div>}}
-}
-
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Resampling-instantiate"></a>}}

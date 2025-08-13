@@ -14,19 +14,9 @@ as_task_unsupervised(x, ...)
 
 \method{as_task_unsupervised}{Task}(x, clone = FALSE, ...)
 
-\method{as_task_unsupervised}{data.frame}(
-  x,
-  id = deparse1(substitute(x)),
-  label = NA_character_,
-  ...
-)
+\method{as_task_unsupervised}{data.frame}(x, id = deparse1(substitute(x)), label, ...)
 
-\method{as_task_unsupervised}{DataBackend}(
-  x,
-  id = deparse1(substitute(x)),
-  label = NA_character_,
-  ...
-)
+\method{as_task_unsupervised}{DataBackend}(x, id = deparse1(substitute(x)), label, ...)
 
 as_tasks_unsupervised(x, ...)
 
