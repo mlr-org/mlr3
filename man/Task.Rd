@@ -184,6 +184,15 @@ task$levels("sex")
 
 task = tsk("penguins")
 task$add_strata("flipper_length", bins = 4)
+
+## ------------------------------------------------
+## Method `Task$materialize_view`
+## ------------------------------------------------
+
+task = tsk("iris")
+task$backend$nrow
+task$filter(1:120)
+task$backend$nrow
 }
 \seealso{
 \itemize{
@@ -1192,13 +1201,13 @@ replaces the internal \link{DataBackend} with the new one. In some scenarios thi
 free up memory or speeds up accesses to the data, especially after several \verb{$rbind()}
 and \verb{$cbind()} operations.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Task$materialize_view(materialize_internal_valid_task = TRUE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Task$materialize_view(internal_valid_task = TRUE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{materialize_internal_valid_task}}{(\code{logical(1)})\cr
+\item{\code{internal_valid_task}}{(\code{logical(1)})\cr
 Also materialize the internal validation task. Default is \code{TRUE}.}
 }
 \if{html}{\out{</div>}}
@@ -1211,6 +1220,17 @@ the resulting backend contains it only once.
 \subsection{Returns}{
 self (invisibly).
 }
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{task = tsk("iris")
+task$backend$nrow
+task$filter(1:120)
+task$backend$nrow
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Task-clone"></a>}}

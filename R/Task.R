@@ -866,12 +866,17 @@ Task = R6Class("Task",
     #' For tasks containing the same observation more than once (duplicates in `$row_ids`),
     #' the resulting backend contains it only once.
     #'
-    #' @param materialize_internal_valid_task (`logical(1)`)\cr
+    #' @param internal_valid_task (`logical(1)`)\cr
     #'   Also materialize the internal validation task. Default is `TRUE`.
     #'
     #' @return self (invisibly).
-    materialize_view = function(materialize_internal_valid_task = TRUE) { # nolint
-      assert_flag(materialize_internal_valid_task)
+    #' @examples
+    #' task = tsk("iris")
+    #' task$backend$nrow
+    #' task$filter(1:120)
+    #' task$backend$nrow
+    materialize_view = function(internal_valid_task = TRUE) {
+      assert_flag(internal_valid_task)
 
       b = self$backend
       ..cns = union(b$primary_key, unlist(private$.col_roles, use.names = FALSE))
@@ -879,7 +884,7 @@ Task = R6Class("Task",
       self$backend = as_data_backend(dt, primary_key = b$primary_key)
       self$col_info = setkeyv(self$col_info[list(..cns), on = "id"], "id")
 
-      if (materialize_internal_valid_task && !is.null(private$.internal_valid_task)) {
+      if (internal_valid_task && !is.null(private$.internal_valid_task)) {
         private$.internal_valid_task$materialize_view(FALSE)
       }
       invisible(self)
