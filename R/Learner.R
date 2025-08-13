@@ -568,6 +568,9 @@ Learner = R6Class("Learner",
     #' Note that the fallback is always trained, as we do not know in advance whether prediction will fail.
     #' If the training step fails, the `$model` field of the original learner is `NULL`.
     #'
+    #' Note that for errors of class `Mlr3ErrorConfig`, the function always errs and no fallback learner
+    #' is trained.
+    #'
     #' Also see the section on error handling the mlr3book:
     #' \url{https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling}
     #'
@@ -578,6 +581,7 @@ Learner = R6Class("Learner",
     #'  The fallback learner for failed predictions.
     #' @param when (`function(condition)`)\cr
     #'  Function that takes in the condition and returns `logical(1)` indicating whether to run the fallback learner.
+    #'  If `NULL` (default), the fallback is always trained, except for errors of class `Mlr3ErrorConfig`.
     #'
     #' @return `self` (invisibly).
     #' @examples
