@@ -134,7 +134,8 @@ test_that("predict on newdata works / no target column", {
   xdt = data.table(x = 1, y = 1)
   task = as_task_regr(xdt, target = "y")
   learner = lrn("regr.featureless")
-  learner$properties = setdiff(learner$properties, "missings")
+  learner_private = get_private(learner)
+  learner_private$.properties = setdiff(learner$properties, "missings")
   learner$train(task)
   learner$predict_newdata(xdt[, 1])
 })
@@ -303,7 +304,8 @@ test_that("weights", {
 test_that("mandatory properties",  {
   task = tsk("iris")
   learner = lrn("classif.rpart")
-  learner$properties = setdiff(learner$properties, "multiclass")
+  learner_private = get_private(learner)
+  learner_private$.properties = setdiff(learner$properties, "multiclass")
   resample = rsmp("holdout")
 
   expect_error(learner$train(task), "multiclass")
@@ -323,7 +325,8 @@ test_that("train task is cloned (#382)", {
 test_that("Error on missing data (#413)", {
   task = tsk("pima")
   learner = lrn("classif.rpart")
-  learner$properties = setdiff(learner$properties, "missings")
+  learner_private = get_private(learner)
+  learner_private$.properties = setdiff(learner$properties, "missings")
   expect_error(learner$train(task), "missing values")
 })
 
@@ -388,7 +391,8 @@ test_that("properties are also checked on validation task", {
   task$rbind(row)
   task$internal_valid_task = 151
   learner = lrn("classif.debug", validate = "predefined")
-  learner$properties = setdiff(learner$properties, "missings")
+  learner_private = get_private(learner)
+  learner_private$.properties = setdiff(learner$properties, "missings")
   expect_error(learner$train(task), "missing values")
 })
 
