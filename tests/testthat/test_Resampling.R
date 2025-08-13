@@ -158,3 +158,12 @@ test_that("task_row_hash in Resampling works correctly", {
   resampling$instantiate(task)
   expect_identical(resampling$task_row_hash, task$row_hash)
 })
+
+# Uncomment this once we make the fields read-only
+#test_that("fields are read-only", {
+#  r = rsmp("cv", folds = 2)
+#  expect_error({r$task_row_hash = "foo"}, "read-only")
+#  expect_error({r$task_nrow = 10}, "read-only")
+#  expect_error({r$task_hash = "foo"}, "read-only")
+#  expect_error({r$duplicated_ids = TRUE}, "read-only")
+#})
