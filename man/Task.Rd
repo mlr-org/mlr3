@@ -1203,6 +1203,11 @@ Also materialize the internal validation task. Default is \code{TRUE}.}
 }
 \if{html}{\out{</div>}}
 }
+\subsection{Details}{
+For tasks containing the same observation more than once (duplicates in \verb{$row_ids}),
+the resulting backend contains it only once.
+}
+
 \subsection{Returns}{
 self (invisibly).
 }

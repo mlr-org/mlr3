@@ -862,16 +862,20 @@ Task = R6Class("Task",
     #' free up memory or speeds up accesses to the data, especially after several `$rbind()`
     #' and `$cbind()` operations.
     #'
+    #' @details
+    #' For tasks containing the same observation more than once (duplicates in `$row_ids`),
+    #' the resulting backend contains it only once.
+    #'
     #' @param materialize_internal_valid_task (`logical(1)`)\cr
     #'   Also materialize the internal validation task. Default is `TRUE`.
     #'
     #' @return self (invisibly).
-    materialize_view = function(materialize_internal_valid_task = TRUE) {
+    materialize_view = function(materialize_internal_valid_task = TRUE) { # nolint
       assert_flag(materialize_internal_valid_task)
 
       b = self$backend
       ..cns = union(b$primary_key, unlist(private$.col_roles, use.names = FALSE))
-      dt = b$data(rows = self$row_ids, cols = ..cns)
+      dt = b$data(rows = unique(self$row_ids), cols = ..cns)
       self$backend = as_data_backend(dt, primary_key = b$primary_key)
       self$col_info = setkeyv(self$col_info[list(..cns), on = "id"], "id")
 
