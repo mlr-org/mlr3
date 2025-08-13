@@ -572,7 +572,7 @@ test_that("properties are also checked on validation task", {
   task$rbind(row)
   task$internal_valid_task = 151
   learner = lrn("classif.debug", validate = "predefined")
-  learner$properties = setdiff(learner$properties, "missings")
+  learner$.__enclos_env__$private$.properties = setdiff(learner$properties, "missings")
 
   suppressWarnings(expect_error(benchmark(benchmark_grid(task, learner, rsmp("holdout"))), "missing values"))
 })

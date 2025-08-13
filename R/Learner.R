@@ -177,45 +177,15 @@ Learner = R6Class("Learner",
     #' This is an internal data structure which may change in the future.
     state = NULL,
 
-    #' @template field_task_type
-    task_type = NULL,
-
     #' @field feature_types (`character()`)\cr
     #' Stores the feature types the learner can handle, e.g. `"logical"`, `"numeric"`, or `"factor"`.
     #' A complete list of candidate feature types, grouped by task type, is stored in [`mlr_reflections$task_feature_types`][mlr_reflections].
     feature_types = NULL,
 
-    #' @field properties (`character()`)\cr
-    #' Stores a set of properties/capabilities the learner has.
-    #' A complete list of candidate properties, grouped by task type, is stored in [`mlr_reflections$learner_properties`][mlr_reflections].
-    properties = NULL,
+
 
     #' @template field_packages
     packages = NULL,
-
-    #' @template field_predict_sets
-    predict_sets = "test",
-
-    #' @field parallel_predict (`logical(1)`)\cr
-    #' If set to `TRUE`, use \CRANpkg{future} to calculate predictions in parallel (default: `FALSE`).
-    #' The row ids of the `task` will be split into [future::nbrOfWorkers()] chunks,
-    #' and predictions are evaluated according to the active [future::plan()].
-    #' This currently only works for methods `Learner$predict()` and `Learner$predict_newdata()`,
-    #' and has no effect during [resample()] or [benchmark()] where you have other means
-    #' to parallelize.
-    #'
-    #' Note that the recorded time required for prediction reports the time required to predict
-    #' is not properly defined and depends on the parallelization backend.
-    parallel_predict = FALSE,
-
-    #' @field timeout (named `numeric(2)`)\cr
-    #' Timeout for the learner's train and predict steps, in seconds.
-    #' This works differently for different encapsulation methods, see
-    #' [mlr3misc::encapsulate()].
-    #' Default is `c(train = Inf, predict = Inf)`.
-    #' Also see the section on error handling the mlr3book:
-    #' \url{https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling}
-    timeout = c(train = Inf, predict = Inf),
 
     #' @template field_man
     man = NULL,
@@ -229,12 +199,12 @@ Learner = R6Class("Learner",
 
       self$id = assert_string(id, min.chars = 1L)
       self$label = assert_string(label, na.ok = TRUE)
-      self$task_type = assert_choice(task_type, mlr_reflections$task_types$type)
+      private$.task_type = assert_choice(task_type, mlr_reflections$task_types$type)
       self$feature_types = assert_ordered_set(feature_types, mlr_reflections$task_feature_types, .var.name = "feature_types")
       private$.predict_types = assert_ordered_set(predict_types, names(mlr_reflections$learner_predict_types[[task_type]]),
         empty.ok = FALSE, .var.name = "predict_types")
       private$.predict_type = predict_types[1L]
-      self$properties = sort(assert_subset(properties, mlr_reflections$learner_properties[[task_type]]))
+      private$.properties = sort(assert_subset(properties, mlr_reflections$learner_properties[[task_type]]))
       if (!missing(data_formats)) warn_deprecated("Learner$initialize argument 'data_formats'")
       self$packages = union("mlr3", assert_character(packages, any.missing = FALSE, min.chars = 1L))
       self$man = assert_string(man, na.ok = TRUE)
@@ -492,10 +462,10 @@ Learner = R6Class("Learner",
       }
 
       prevci = task$col_info
-      task$backend = newdata
-      task$col_info = col_info(task$backend)
-      task$col_info[, c("label", "fix_factor_levels")] = prevci[list(task$col_info$id), on = "id", c("label", "fix_factor_levels")]
-      task$col_info$fix_factor_levels[is.na(task$col_info$fix_factor_levels)] = FALSE
+      task$.__enclos_env__$private$.backend = newdata
+      task$.__enclos_env__$private$.col_info = col_info(task$backend)
+      task$.__enclos_env__$private$.col_info[, c("label", "fix_factor_levels")] = prevci[list(task$col_info$id), on = "id", c("label", "fix_factor_levels")]
+      task$.__enclos_env__$private$.col_info$fix_factor_levels[is.na(task$.__enclos_env__$private$.col_info$fix_factor_levels)] = FALSE
       task$row_roles$use = task$backend$rownames
       task_col_roles = task$col_roles
       update_col_roles = FALSE
@@ -676,6 +646,67 @@ Learner = R6Class("Learner",
   ),
 
   active = list(
+    #' @template field_task_type
+    task_type = function(rhs) {
+      if (!missing(rhs)) {
+        warn_deprecated("task_type will soon be read-only.")
+        private$.properties = rhs
+      }
+      private$.task_type
+    },
+
+    #' @field properties (`character()`)\cr
+    #' Stores a set of properties/capabilities the learner has.
+    #' A complete list of candidate properties, grouped by task type, is stored in [`mlr_reflections$learner_properties`][mlr_reflections].
+    properties = function(rhs) {
+      if (!missing(rhs)) {
+        warn_deprecated("properties will soon be read-only.")
+        private$.properties = rhs
+      }
+      private$.properties
+    },
+
+    #' @template field_predict_sets
+    predict_sets = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.predict_sets)
+      }
+      assert_subset(rhs, mlr_reflections$predict_sets)
+      private$.predict_sets = rhs
+    },
+
+    #' @field parallel_predict (`logical(1)`)\cr
+    #' If set to `TRUE`, use \CRANpkg{future} to calculate predictions in parallel (default: `FALSE`).
+    #' The row ids of the `task` will be split into [future::nbrOfWorkers()] chunks,
+    #' and predictions are evaluated according to the active [future::plan()].
+    #' This currently only works for methods `Learner$predict()` and `Learner$predict_newdata()`,
+    #' and has no effect during [resample()] or [benchmark()] where you have other means
+    #' to parallelize.
+    #'
+    #' Note that the recorded time required for prediction reports the time required to predict
+    #' is not properly defined and depends on the parallelization backend.
+    parallel_predict = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.parallel_predict)
+      }
+      private$.parallel_predict = assert_flag(rhs)
+    },
+
+    #' @field timeout (named `numeric(2)`)\cr
+    #' Timeout for the learner's train and predict steps, in seconds.
+    #' This works differently for different encapsulation methods, see
+    #' [mlr3misc::encapsulate()].
+    #' Default is `c(train = Inf, predict = Inf)`.
+    #' Also see the section on error handling the mlr3book:
+    #' \url{https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling}
+    timeout = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.timeout)
+      }
+      assert_permutation(names(rhs), c("train", "predict"))
+      private$.timeout = assert_numeric(rhs, lower = 0, any.missing = FALSE, len = 2L)
+    },
+
     #' @field use_weights (`character(1)`)\cr
     #' How weights should be handled.
     #' Settings are `"use"` `"ignore"`, and `"error"`.
@@ -841,6 +872,11 @@ Learner = R6Class("Learner",
   ),
 
   private = list(
+    .predict_sets = "test",
+    .task_type = NULL,
+    .properties = NULL,
+    .parallel_predict = FALSE,
+    .timeout = c(train = Inf, predict = Inf),
     .use_weights = NULL,
     .encapsulation = c(train = "none", predict = "none"),
     .fallback = NULL,

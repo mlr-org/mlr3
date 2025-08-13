@@ -99,24 +99,7 @@ Resampling = R6Class("Resampling",
     #'   `$train_set()` and `$test_set()`.
     instance = NULL,
 
-    #' @field task_hash (`character(1)`)\cr
-    #'   The hash of the [Task] which was passed to `r$instantiate()`.
-    task_hash = NA_character_,
 
-    #' @field task_row_hash (`character(1)`)\cr
-    #'   The hash of the row ids of the [Task] which was passed to `r$instantiate()`.
-    task_row_hash = NA_character_,
-
-    #' @field task_nrow (`integer(1)`)\cr
-    #'   The number of observations of the [Task] which was passed to `r$instantiate()`.
-    #'
-    task_nrow = NA_integer_,
-
-    #' @field duplicated_ids (`logical(1)`)\cr
-    #'   If `TRUE`, duplicated rows can occur within a single training set or within a single test set.
-    #'   E.g., this is `TRUE` for Bootstrap, and `FALSE` for cross-validation.
-    #'   Only used internally.
-    duplicated_ids = NULL,
 
     #' @template field_man
     man = NULL,
@@ -132,7 +115,7 @@ Resampling = R6Class("Resampling",
       private$.id = assert_string(id, min.chars = 1L)
       self$label = assert_string(label, na.ok = TRUE)
       self$param_set = assert_param_set(param_set)
-      self$duplicated_ids = assert_flag(duplicated_ids)
+      private$.duplicated_ids = assert_flag(duplicated_ids)
       self$man = assert_string(man, na.ok = TRUE)
     },
 
@@ -181,9 +164,9 @@ Resampling = R6Class("Resampling",
       task = assert_task(as_task(task))
       private$.hash = NULL
       self$instance = private$.get_instance(task)
-      self$task_hash = task$hash
-      self$task_row_hash = task$row_hash
-      self$task_nrow = task$nrow
+      private$.task_hash = task$hash
+      private$.task_row_hash = task$row_hash
+      private$.task_nrow = task$nrow
       invisible(self)
     },
 
@@ -249,6 +232,48 @@ Resampling = R6Class("Resampling",
       }
 
       private$.hash
+    },
+
+    #' @field task_hash (`character(1)`)\cr
+    #'   The hash of the [Task] which was passed to `r$instantiate()`.
+    task_hash = function(rhs) {
+      if (!missing(rhs)) {
+        warn_deprecated("task_hash will soon be read-only.")
+        private$.task_hash = rhs
+      }
+      private$.task_hash
+    },
+
+    #' @field task_row_hash (`character(1)`)\cr
+    #'   The hash of the row ids of the [Task] which was passed to `r$instantiate()`.
+    task_row_hash = function(rhs) {
+      if (!missing(rhs)) {
+        warn_deprecated("task_row_hash will soon be read-only.")
+        private$.task_row_hash = rhs
+      }
+      private$.task_row_hash
+    },
+
+    #' @field task_nrow (`integer(1)`)\cr
+    #'   The number of observations of the [Task] which was passed to `r$instantiate()`.
+    task_nrow = function(rhs) {
+      if (!missing(rhs)) {
+        warn_deprecated("task_nrow will soon be read-only.")
+        private$.task_nrow = rhs
+      }
+      private$.task_nrow
+    },
+
+    #' @field duplicated_ids (`logical(1)`)\cr
+    #'   If `TRUE`, duplicated rows can occur within a single training set or within a single test set.
+    #'   E.g., this is `TRUE` for Bootstrap, and `FALSE` for cross-validation.
+    #'   Only used internally.
+    duplicated_ids = function(rhs) {
+      if (!missing(rhs)) {
+        warn_deprecated("duplicated_ids will soon be read-only.")
+        private$.duplicated_ids = rhs
+      }
+      private$.duplicated_ids
     }
   ),
 
@@ -257,6 +282,10 @@ Resampling = R6Class("Resampling",
     .id = NULL,
     .hash = NULL,
     .groups = NULL,
+    .task_hash = NA_character_,
+    .task_row_hash = NA_character_,
+    .task_nrow = NA_integer_,
+    .duplicated_ids = NULL,
 
     .get_instance = function(task) {
       strata = task$strata

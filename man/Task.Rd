@@ -243,6 +243,23 @@ Task type, e.g. \code{"classif"} or \code{"regr"}.
 For a complete list of possible task types (depending on the loaded packages),
 see \code{\link[=mlr_reflections]{mlr_reflections$task_types$type}}.}
 
+\item{\code{man}}{(\code{character(1)})\cr
+String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
+Defaults to \code{NA}, but can be set by child classes.}
+
+\item{\code{extra_args}}{(named \code{list()})\cr
+Additional arguments set during construction.
+Required for \code{\link[=convert_task]{convert_task()}}.}
+}
+\if{html}{\out{</div>}}
+}
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{id}}{(\code{character(1)})\cr
+Identifier of the object.
+Used in tables, plot and text output.}
+
 \item{\code{backend}}{(\link{DataBackend})\cr
 Abstract interface to the data of the task.}
 
@@ -261,25 +278,8 @@ need to be reordered after querying the data from the \link{DataBackend}.
 Note that all columns of the \link{DataBackend}, also columns which are not selected or have any role, are listed
 in this table.}
 
-\item{\code{man}}{(\code{character(1)})\cr
-String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
-Defaults to \code{NA}, but can be set by child classes.}
-
-\item{\code{extra_args}}{(named \code{list()})\cr
-Additional arguments set during construction.
-Required for \code{\link[=convert_task]{convert_task()}}.}
-
 \item{\code{mlr3_version}}{(\code{package_version})\cr
 Package version of \code{mlr3} used to create the task.}
-}
-\if{html}{\out{</div>}}
-}
-\section{Active bindings}{
-\if{html}{\out{<div class="r6-active-bindings">}}
-\describe{
-\item{\code{id}}{(\code{character(1)})\cr
-Identifier of the object.
-Used in tables, plot and text output.}
 
 \item{\code{internal_valid_task}}{(\code{Task} or \code{integer()} or \code{NULL})\cr
 Optional validation task that can, e.g., be used for early stopping with learners such as XGBoost.
