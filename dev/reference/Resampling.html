@@ -72,6 +72,16 @@ e.g. <code><a href="mlr_resamplings_cv.html">cv</a></code> or <code><a href="mlr
 
 
     <div class="section level2">
+    <h2 id="stochasticity-amp-reproducibility">Stochasticity &amp; Reproducibility<a class="anchor" aria-label="anchor" href="#stochasticity-amp-reproducibility"></a></h2>
+
+
+<p>The <code>Resampling</code> class only defines an abstract resampling strategy.
+Concrete data splits are obtained by calling <code>$instantiate()</code> on a <code><a href="Task.html">Task</a></code>.
+To ensure repdocubility of results, you need to call <code>set.seed</code> before doing so.
+Note that <code><a href="benchmark_grid.html">benchmark_grid</a></code> internally does instantiate resamplings, so you need to set
+the seed before calling it.</p>
+    </div>
+    <div class="section level2">
     <h2 id="stratification">Stratification<a class="anchor" aria-label="anchor" href="#stratification"></a></h2>
 
 
