@@ -852,8 +852,7 @@ test_that("oob_error is available without storing models via $.extract_oob_error
           param_set = paradox::ps(),
           feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
           predict_types = c("response"),
-          properties = c("twoclass", "multiclass", "oob_error"),
-          man = NA_character_
+          properties = c("twoclass", "multiclass", "oob_error")
         )
       }
     ),
