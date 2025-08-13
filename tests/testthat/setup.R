@@ -1,7 +1,8 @@
 old_opts = options(
   warnPartialMatchArgs = TRUE,
   warnPartialMatchAttr = TRUE,
-  warnPartialMatchDollar = TRUE
+  warnPartialMatchDollar = TRUE,
+  mlr3.on_deprecated = "error"
 )
 
 # https://github.com/HenrikBengtsson/Wishlist-for-R/issues/88
