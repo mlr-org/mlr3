@@ -571,198 +571,91 @@ Must be one of <code>"random"</code>, <code>"first"</code> or <code>"last"</code
 <span class="r-in"><span><span class="va">learner</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">lrn</a></span><span class="op">(</span><span class="st">"classif.rpart"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">resampling</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">rsmp</a></span><span class="op">(</span><span class="st">"cv"</span>, folds <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">rr</span> <span class="op">=</span> <span class="fu"><a href="resample.html">resample</a></span><span class="op">(</span><span class="va">task</span>, <span class="va">learner</span>, <span class="va">resampling</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>number of items to replace is not a multiple of replacement length</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>number of items to replace is not a multiple of replacement length</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>number of items to replace is not a multiple of replacement length</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Caught simpleError. Canceling all iterations ...</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>number of items to replace is not a multiple of replacement length</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>number of items to replace is not a multiple of replacement length</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in assert_row_ids(pdata$row_ids):</span> Assertion on 'row_ids' failed: Must be of type 'integerish', not 'factor'.</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">rr</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="color: #0000BB; font-weight: bold;">&lt;ResampleResult&gt;</span><span style="font-weight: bold;"> with </span><span style="color: #0000BB; font-weight: bold;">3</span><span style="font-weight: bold;"> resampling iterations</span> <span style="color: #00BBBB;">───────────────────────────────</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   task_id    learner_id resampling_id iteration     prediction_test warnings</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  penguins classif.rpart            cv         1 &lt;PredictionClassif&gt;        0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  penguins classif.rpart            cv         2 &lt;PredictionClassif&gt;        0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  penguins classif.rpart            cv         3 &lt;PredictionClassif&gt;        0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  errors</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       0</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'rr' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># combined predictions and predictions for each fold separately</span></span></span>
 <span class="r-in"><span><span class="va">rr</span><span class="op">$</span><span class="fu">prediction</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="color: #0000BB; font-weight: bold;">&lt;PredictionClassif&gt;</span><span style="font-weight: bold;"> for </span><span style="color: #0000BB; font-weight: bold;">344</span><span style="font-weight: bold;"> observations:</span> <span style="color: #00BBBB;">───────────────────────────────────</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  row_ids     truth  response</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        1    Adelie    Adelie</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        2    Adelie    Adelie</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        3    Adelie    Adelie</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      ---       ---       ---</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      339 Chinstrap Chinstrap</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      340 Chinstrap Chinstrap</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      341 Chinstrap    Adelie</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'rr' not found</span>
 <span class="r-in"><span><span class="va">rr</span><span class="op">$</span><span class="fu">predictions</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="color: #0000BB; font-weight: bold;">&lt;PredictionClassif&gt;</span><span style="font-weight: bold;"> for </span><span style="color: #0000BB; font-weight: bold;">115</span><span style="font-weight: bold;"> observations:</span> <span style="color: #00BBBB;">───────────────────────────────────</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  row_ids     truth  response</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        1    Adelie    Adelie</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        2    Adelie    Adelie</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        3    Adelie    Adelie</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      ---       ---       ---</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      337 Chinstrap Chinstrap</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      338 Chinstrap Chinstrap</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      343 Chinstrap    Gentoo</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[2]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="color: #0000BB; font-weight: bold;">&lt;PredictionClassif&gt;</span><span style="font-weight: bold;"> for </span><span style="color: #0000BB; font-weight: bold;">115</span><span style="font-weight: bold;"> observations:</span> <span style="color: #00BBBB;">───────────────────────────────────</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  row_ids     truth  response</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        4    Adelie    Adelie</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        8    Adelie    Adelie</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        9    Adelie    Adelie</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      ---       ---       ---</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      336 Chinstrap Chinstrap</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      342 Chinstrap Chinstrap</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      344 Chinstrap Chinstrap</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[3]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="color: #0000BB; font-weight: bold;">&lt;PredictionClassif&gt;</span><span style="font-weight: bold;"> for </span><span style="color: #0000BB; font-weight: bold;">114</span><span style="font-weight: bold;"> observations:</span> <span style="color: #00BBBB;">───────────────────────────────────</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  row_ids     truth  response</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        6    Adelie    Adelie</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       13    Adelie    Adelie</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       18    Adelie    Adelie</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      ---       ---       ---</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      339 Chinstrap Chinstrap</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      340 Chinstrap Chinstrap</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      341 Chinstrap    Adelie</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'rr' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># folds scored separately, then aggregated (macro)</span></span></span>
 <span class="r-in"><span><span class="va">rr</span><span class="op">$</span><span class="fu">aggregate</span><span class="op">(</span><span class="fu"><a href="mlr_sugar.html">msr</a></span><span class="op">(</span><span class="st">"classif.acc"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> classif.acc </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0.9390033 </span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'rr' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># predictions first combined, then scored (micro)</span></span></span>
 <span class="r-in"><span><span class="va">rr</span><span class="op">$</span><span class="fu">prediction</span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="fu"><a href="mlr_sugar.html">msr</a></span><span class="op">(</span><span class="st">"classif.acc"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> classif.acc </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0.9389535 </span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'rr' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># check for warnings and errors</span></span></span>
 <span class="r-in"><span><span class="va">rr</span><span class="op">$</span><span class="va">warnings</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Empty data.table (0 rows and 2 cols): iteration,msg</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'rr' not found</span>
 <span class="r-in"><span><span class="va">rr</span><span class="op">$</span><span class="va">errors</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Empty data.table (0 rows and 2 cols): iteration,msg</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'rr' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
 <span class="r-in"><span><span class="co">## Method `ResampleResult$prediction`</span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">rr</span><span class="op">$</span><span class="fu">prediction</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="color: #0000BB; font-weight: bold;">&lt;PredictionClassif&gt;</span><span style="font-weight: bold;"> for </span><span style="color: #0000BB; font-weight: bold;">344</span><span style="font-weight: bold;"> observations:</span> <span style="color: #00BBBB;">───────────────────────────────────</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  row_ids     truth  response</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        1    Adelie    Adelie</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        2    Adelie    Adelie</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        3    Adelie    Adelie</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      ---       ---       ---</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      339 Chinstrap Chinstrap</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      340 Chinstrap Chinstrap</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      341 Chinstrap    Adelie</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'rr' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
 <span class="r-in"><span><span class="co">## Method `ResampleResult$predictions`</span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">rr</span><span class="op">$</span><span class="fu">predictions</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="color: #0000BB; font-weight: bold;">&lt;PredictionClassif&gt;</span><span style="font-weight: bold;"> for </span><span style="color: #0000BB; font-weight: bold;">115</span><span style="font-weight: bold;"> observations:</span> <span style="color: #00BBBB;">───────────────────────────────────</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  row_ids     truth  response</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        1    Adelie    Adelie</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        2    Adelie    Adelie</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        3    Adelie    Adelie</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      ---       ---       ---</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      337 Chinstrap Chinstrap</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      338 Chinstrap Chinstrap</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      343 Chinstrap    Gentoo</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[2]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="color: #0000BB; font-weight: bold;">&lt;PredictionClassif&gt;</span><span style="font-weight: bold;"> for </span><span style="color: #0000BB; font-weight: bold;">115</span><span style="font-weight: bold;"> observations:</span> <span style="color: #00BBBB;">───────────────────────────────────</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  row_ids     truth  response</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        4    Adelie    Adelie</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        8    Adelie    Adelie</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        9    Adelie    Adelie</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      ---       ---       ---</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      336 Chinstrap Chinstrap</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      342 Chinstrap Chinstrap</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      344 Chinstrap Chinstrap</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[3]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="color: #0000BB; font-weight: bold;">&lt;PredictionClassif&gt;</span><span style="font-weight: bold;"> for </span><span style="color: #0000BB; font-weight: bold;">114</span><span style="font-weight: bold;"> observations:</span> <span style="color: #00BBBB;">───────────────────────────────────</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  row_ids     truth  response</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        6    Adelie    Adelie</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       13    Adelie    Adelie</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       18    Adelie    Adelie</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      ---       ---       ---</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      339 Chinstrap Chinstrap</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      340 Chinstrap Chinstrap</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      341 Chinstrap    Adelie</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'rr' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
 <span class="r-in"><span><span class="co">## Method `ResampleResult$score`</span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">rr</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="fu"><a href="mlr_sugar.html">msr</a></span><span class="op">(</span><span class="st">"classif.acc"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     task_id    learner_id resampling_id iteration classif.acc</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      &lt;char&gt;        &lt;char&gt;        &lt;char&gt;     &lt;int&gt;       &lt;num&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: penguins classif.rpart            cv         1   0.9391304</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: penguins classif.rpart            cv         2   0.9217391</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: penguins classif.rpart            cv         3   0.9561404</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Hidden columns: task, learner, resampling, prediction_test</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'rr' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
 <span class="r-in"><span><span class="co">## Method `ResampleResult$obs_loss`</span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">rr</span><span class="op">$</span><span class="fu">obs_loss</span><span class="op">(</span><span class="fu"><a href="mlr_sugar.html">msr</a></span><span class="op">(</span><span class="st">"classif.acc"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      iteration row_ids     truth  response classif.acc</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          &lt;int&gt;   &lt;int&gt;    &lt;fctr&gt;    &lt;fctr&gt;       &lt;int&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   1:         1       1    Adelie    Adelie           1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   2:         1       2    Adelie    Adelie           1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   3:         1       3    Adelie    Adelie           1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   4:         1       5    Adelie    Adelie           1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   5:         1       7    Adelie    Adelie           1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  ---                                                  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 340:         3     332 Chinstrap Chinstrap           1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 341:         3     334 Chinstrap Chinstrap           1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 342:         3     339 Chinstrap Chinstrap           1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 343:         3     340 Chinstrap Chinstrap           1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 344:         3     341 Chinstrap    Adelie           0</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'rr' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
 <span class="r-in"><span><span class="co">## Method `ResampleResult$aggregate`</span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">rr</span><span class="op">$</span><span class="fu">aggregate</span><span class="op">(</span><span class="fu"><a href="mlr_sugar.html">msr</a></span><span class="op">(</span><span class="st">"classif.acc"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> classif.acc </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0.9390033 </span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'rr' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
 <span class="r-in"><span><span class="co">## Method `ResampleResult$filter`</span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">rr</span><span class="op">$</span><span class="fu">filter</span><span class="op">(</span><span class="fl">1L</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'rr' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
 <span class="r-in"><span><span class="co">## Method `ResampleResult$marshal`</span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">rr</span><span class="op">$</span><span class="fu">marshal</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'rr' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
 <span class="r-in"><span><span class="co">## Method `ResampleResult$unmarshal`</span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">rr</span><span class="op">$</span><span class="fu">unmarshal</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'rr' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
 <span class="r-in"><span><span class="co">## Method `ResampleResult$set_threshold`</span></span></span>
@@ -770,18 +663,15 @@ Must be one of <code>"random"</code>, <code>"first"</code> or <code>"last"</code
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">learner</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">lrn</a></span><span class="op">(</span><span class="st">"classif.rpart"</span>, predict_type <span class="op">=</span> <span class="st">"prob"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">rr</span> <span class="op">=</span> <span class="fu"><a href="resample.html">resample</a></span><span class="op">(</span><span class="fu"><a href="mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"sonar"</span><span class="op">)</span>, <span class="va">learner</span>, <span class="fu"><a href="mlr_sugar.html">rsmp</a></span><span class="op">(</span><span class="st">"cv"</span>, folds <span class="op">=</span> <span class="fl">3</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>number of items to replace is not a multiple of replacement length</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>number of items to replace is not a multiple of replacement length</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>number of items to replace is not a multiple of replacement length</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Caught simpleError. Canceling all iterations ...</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>number of items to replace is not a multiple of replacement length</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>number of items to replace is not a multiple of replacement length</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in assert_row_ids(pdata$row_ids):</span> Assertion on 'row_ids' failed: Must be of type 'integerish', not 'factor'.</span>
 <span class="r-in"><span><span class="va">rr</span><span class="op">$</span><span class="fu">set_threshold</span><span class="op">(</span><span class="fl">0.6</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Key: &lt;uhash, iteration&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                   uhash iteration      learner_state prediction</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                  &lt;char&gt;     &lt;int&gt;             &lt;list&gt;     &lt;list&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 1812bf80-9a22-4cad-b4e8-1293af41de19         1 &lt;learner_state[8]&gt;  &lt;list[1]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 1812bf80-9a22-4cad-b4e8-1293af41de19         2 &lt;learner_state[8]&gt;  &lt;list[1]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 1812bf80-9a22-4cad-b4e8-1293af41de19         3 &lt;learner_state[8]&gt;  &lt;list[1]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        learner_hash        task_hash    learner_phash  resampling_hash</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>              &lt;char&gt;           &lt;char&gt;           &lt;char&gt;           &lt;char&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 667ca7804cbe810f f9791e97f9813150 a2121f0bf1b9c2f6 b3a5e794ffec4cc0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 667ca7804cbe810f f9791e97f9813150 a2121f0bf1b9c2f6 b3a5e794ffec4cc0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 667ca7804cbe810f f9791e97f9813150 a2121f0bf1b9c2f6 b3a5e794ffec4cc0</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'rr' not found</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

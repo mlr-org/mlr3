@@ -122,30 +122,27 @@ Resampling ID.</p></dd>
 <span class="r-in"><span>  <span class="fu"><a href="mlr_sugar.html">rsmp</a></span><span class="op">(</span><span class="st">"holdout"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">bmr</span> <span class="op">=</span> <span class="fu"><a href="benchmark.html">benchmark</a></span><span class="op">(</span><span class="va">design</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>number of items to replace is not a multiple of replacement length</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>number of items to replace is not a multiple of replacement length</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>number of items to replace is not a multiple of replacement length</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>number of items to replace is not a multiple of replacement length</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>number of items to replace is not a multiple of replacement length</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>number of items to replace is not a multiple of replacement length</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Caught simpleError. Canceling all iterations ...</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>number of items to replace is not a multiple of replacement length</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>number of items to replace is not a multiple of replacement length</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>number of items to replace is not a multiple of replacement length</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>number of items to replace is not a multiple of replacement length</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>number of items to replace is not a multiple of replacement length</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in assert_row_ids(pdata$row_ids):</span> Assertion on 'row_ids' failed: Must be of type 'integerish', not 'factor'.</span>
 <span class="r-in"><span><span class="va">bmr</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="color: #0000BB; font-weight: bold;">&lt;BenchmarkResult&gt;</span><span style="font-weight: bold;"> of </span><span style="color: #0000BB; font-weight: bold;">6</span><span style="font-weight: bold;"> rows with </span><span style="color: #0000BB; font-weight: bold;">6</span><span style="font-weight: bold;"> resampling run</span> <span style="color: #00BBBB;">───────────────────────────</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  nr task_id          learner_id resampling_id iters warnings errors</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   1   sonar       classif.debug       holdout     1        0      0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   2   sonar classif.featureless       holdout     1        0      0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   3   sonar       classif.rpart       holdout     1        0      0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   4    iris       classif.debug       holdout     1        0      0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   5    iris classif.featureless       holdout     1        0      0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   6    iris       classif.rpart       holdout     1        0      0</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'bmr' not found</span>
 <span class="r-in"><span><span class="va">bmr</span><span class="op">$</span><span class="va">uhashes</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "6866e57f-a69a-40b1-a574-b47c724b9bc4"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "a15243d1-8903-410a-b555-7a0529a1398a"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "2ae2d0ca-d51c-4f61-9f3e-d2d35de5ce6c"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4] "4b436f15-9509-4cb0-bebe-2a4ac08a560e"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5] "2eae7a11-6375-4104-9025-87c64de5214c"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [6] "8d521aa2-867d-4a79-ba70-43a61fef9f20"</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'bmr' not found</span>
 <span class="r-in"><span><span class="fu">uhash</span><span class="op">(</span><span class="va">bmr</span>, learner_id <span class="op">=</span> <span class="st">"classif.debug"</span>, task_id <span class="op">=</span> <span class="st">"sonar"</span>, resampling_id <span class="op">=</span> <span class="st">"holdout"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "6866e57f-a69a-40b1-a574-b47c724b9bc4"</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'bmr' not found</span>
 <span class="r-in"><span><span class="fu">uhashes</span><span class="op">(</span><span class="va">bmr</span>, learner_ids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"classif.debug"</span>, <span class="st">"classif.featureless"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "6866e57f-a69a-40b1-a574-b47c724b9bc4"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "a15243d1-8903-410a-b555-7a0529a1398a"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "4b436f15-9509-4cb0-bebe-2a4ac08a560e"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4] "2eae7a11-6375-4104-9025-87c64de5214c"</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'bmr' not found</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

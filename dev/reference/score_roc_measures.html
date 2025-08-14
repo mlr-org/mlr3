@@ -118,30 +118,10 @@ A list containing two elements <code>confusion_matrix</code> which is the 2 time
 <span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"pima"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">learner</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">pred</span> <span class="op">=</span> <span class="va">learner</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>number of items to replace is not a multiple of replacement length</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in assert_row_ids(pdata$row_ids):</span> Assertion on 'row_ids' failed: Must be of type 'integerish', not 'factor'.</span>
 <span class="r-in"><span><span class="fu">score_roc_measures</span><span class="op">(</span><span class="va">pred</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">ROC Measures</span> ──</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      predicted</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> true  pos       neg                                 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   pos 207       73         tpr: 0.77      fnr: 0.23 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   neg 61        427        fpr: 0.15      tnr: 0.85 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       ppv: 0.74 fomr: 0.12 lr_plus: 5.29  acc: 0.83 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       fdr: 0.26 npv: 0.88  lr_minus: 0.27 dor: 19.85</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ── Abbreviations: </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> • tpr - True positive rate (Sensitivity, Recall)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> • fpr - False positive rate (Fall-out)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> • fnr - False negative rate (Miss rate)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> • tnr - True negative rate (Specificity)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> • ppv - Positive predictive value (Precision)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> • fomr - False omission rate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> • lrp - Positive likelihood ratio (LR+)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> • fdr - False discovery rate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> • npv - Negative predictive value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> • acc - Accuracy</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> • lrm - Negative likelihood ratio (LR-)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> • dor - Diagnostic odds ratio</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'pred' not found</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
