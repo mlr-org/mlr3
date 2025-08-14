@@ -767,8 +767,8 @@ This encapsulation spawns a separate R session in which the learner is called.
 While this comes with a considerable overhead, it also guards your session from being teared down by segfaults.</p></li>
 <li><p><code>"mirai"</code>: Uses the package <a href="https://CRAN.R-project.org/package=mirai" class="external-link"><span class="pkg">mirai</span></a> to call the learner, measure time and do the logging.
 This encapsulation calls the function in a <code>mirai</code> on a <code>daemon</code>.
-The <code>daemon</code> can be pre-started via <code>daemons(1)</code>, otherwise a new R session will be created for each encapsulated call.
-If a <code>deamon</code> is already running, it will be used to executed all calls.
+The <code>daemon</code> can be pre-started via <code>daemons(1, .compute = "mlr3_encapsulation")</code>, otherwise a new R session will be created for each encapsulated call.
+If a <code>deamon</code> is already running with compute profile <code>"mlr3_encapsulation"</code>, it will be used to executed all calls.
 Using <code>mirai"</code> is similarly safe as <code>callr</code> but much faster if several learners are encapsulated one after the other on the same daemon.</p></li>
 </ul><p>The fallback learner is fitted to create valid predictions in case that either the model fitting or the prediction of the original learner fails.
 If the training step or the predict step of the original learner fails, the fallback is used to make the predictions.

@@ -183,7 +183,7 @@ In the next step, you have to configure the measures to operate on the respectiv
 One job is one resampling iteration.
 All jobs are send to an apply function from <a href="https://CRAN.R-project.org/package=future.apply" class="external-link"><span class="pkg">future.apply</span></a> or <code><a href="https://mirai.r-lib.org/reference/mirai_map.html" class="external-link">mirai::mirai_map()</a></code> in a single batch.
 To select a parallel backend, use <code><a href="https://future.futureverse.org/reference/plan.html" class="external-link">future::plan()</a></code>.
-To use <code>mirai</code>, call <code><a href="https://mirai.r-lib.org/reference/daemons.html" class="external-link">mirai::daemons()</a></code> before calling this function.
+To use <code>mirai</code>, call <code>mirai::daemons(.compute = "mlr3_parallelization")</code> before calling this function.
 The <code>future</code> package guarantees reproducible results independent of the parallel backend.
 The results of <code>mirai</code> will not be the same but can be made reproducible by setting a <code>seed</code> when calling <code><a href="https://mirai.r-lib.org/reference/daemons.html" class="external-link">mirai::daemons()</a></code>.
 More on parallelization can be found in the book:
@@ -251,12 +251,12 @@ or <code>"trace"</code>:</p>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/as.data.table.html" class="external-link">as.data.table</a></span><span class="op">(</span><span class="va">bmr</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                   uhash                   task</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                  &lt;char&gt;                 &lt;list&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 8f642d90-c1ab-4437-bb0d-30a55c638560 &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 8f642d90-c1ab-4437-bb0d-30a55c638560 &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 8f642d90-c1ab-4437-bb0d-30a55c638560 &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4: 71c68984-2761-4673-a854-1fb2f35c0a08 &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5: 71c68984-2761-4673-a854-1fb2f35c0a08 &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6: 71c68984-2761-4673-a854-1fb2f35c0a08 &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: c0701cd8-8e5c-4c95-ad7a-d74cb09be23d &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: c0701cd8-8e5c-4c95-ad7a-d74cb09be23d &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: c0701cd8-8e5c-4c95-ad7a-d74cb09be23d &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4: 46d7d400-24d1-40ad-a229-fcc9330a21c3 &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5: 46d7d400-24d1-40ad-a229-fcc9330a21c3 &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6: 46d7d400-24d1-40ad-a229-fcc9330a21c3 &lt;TaskClassif:penguins&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                            learner     resampling iteration</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                             &lt;list&gt;         &lt;list&gt;     &lt;int&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: &lt;LearnerClassifFeatureless:classif.featureless&gt; &lt;ResamplingCV&gt;         1</span>
