@@ -738,6 +738,11 @@ Output is printed to the console and not logged.
 \item \code{"callr"}: Uses the package \CRANpkg{callr} to call the learner, measure time and do the logging.
 This encapsulation spawns a separate R session in which the learner is called.
 While this comes with a considerable overhead, it also guards your session from being teared down by segfaults.
+\item \code{"mirai"}: Uses the package \CRANpkg{mirai} to call the learner, measure time and do the logging.
+This encapsulation calls the function in a \code{mirai} on a \code{daemon}.
+The \code{daemon} can be pre-started via \code{daemons(1)}, otherwise a new R session will be created for each encapsulated call.
+If a \code{deamon} is already running, it will be used to executed all calls.
+Using \verb{mirai"} is similarly safe as \code{callr} but much faster if several learners are encapsulated one after the other on the same daemon.
 }
 
 The fallback learner is fitted to create valid predictions in case that either the model fitting or the prediction of the original learner fails.
@@ -745,6 +750,7 @@ If the training step or the predict step of the original learner fails, the fall
 If the original learner only partially fails during predict step (usually in the form of missing to predict some observations or producing some \code{NA} predictions), these missing predictions are imputed by the fallback.
 Note that the fallback is always trained, as we do not know in advance whether prediction will fail.
 If the training step fails, the \verb{$model} field of the original learner is \code{NULL}.
+The results are reproducible across the different encapsulation methods.
 
 Also see the section on error handling the mlr3book:
 \url{https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling}

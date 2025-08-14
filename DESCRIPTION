@@ -67,12 +67,15 @@ Suggests:
     codetools,
     datasets,
     future.callr,
+    mirai (>= 2.3.0),
     mlr3data,
     progressr,
     remotes,
     RhpcBLASctl,
     rpart,
     testthat (>= 3.2.0)
+Remotes:
+    mlr-org/mlr3misc
 Encoding: UTF-8
 Config/testthat/edition: 3
 Config/testthat/parallel: false
