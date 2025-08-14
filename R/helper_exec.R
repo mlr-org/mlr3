@@ -23,7 +23,7 @@ future_map = function(n, FUN, ..., MoreArgs = list()) {
   if (getOption("mlr3.debug", FALSE)) {
     lg$info("Running experiments sequentially in debug mode with %i iterations", n)
     mapply(FUN, ..., MoreArgs = MoreArgs, SIMPLIFY = FALSE, USE.NAMES = FALSE)
-  } else if (requireNamespace("mirai", quietly = TRUE) && mirai::daemons_set()) {
+  } else if (isNamespaceLoaded("mirai") && mirai::daemons_set()) {
     lg$debug("Running resample() via mirai with %i iterations", n)
     mirai::collect_mirai(mirai::mirai_map(data.table(...), FUN, .args = c(MoreArgs, list(is_sequential = FALSE))))
   } else {
