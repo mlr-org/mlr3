@@ -25,7 +25,6 @@
 #' @template param_predict_types
 #' @template param_feature_types
 #' @template param_learner_properties
-#' @template param_data_formats
 #' @template param_packages
 #' @template param_label
 #' @template param_man
@@ -46,7 +45,7 @@ LearnerRegr = R6Class("LearnerRegr", inherit = Learner,
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function(dict_entry, id = dict_entry, task_type = "regr",
-      param_set = ps(), predict_types = "response", feature_types = character(), properties = character(), data_formats, packages = character(),
+      param_set = ps(), predict_types = "response", feature_types = character(), properties = character(), packages = character(),
       label, man
     ) {
       if (!missing(label) || !missing(man)) {
@@ -54,7 +53,7 @@ LearnerRegr = R6Class("LearnerRegr", inherit = Learner,
       }
 
       super$initialize(id = id, task_type = task_type, param_set = param_set, feature_types = feature_types,
-        predict_types = predict_types, properties = properties, data_formats, packages = packages)
+        predict_types = predict_types, properties = properties, packages = packages)
     },
 
     #' @description

@@ -124,7 +124,6 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
   predict_types = "response",
   feature_types = character(),
   properties = character(),
-  data_formats,
   packages = character(),
   label,
   man
@@ -169,9 +168,6 @@ If a learner is in a marshaled state, you call first need to call \verb{$unmarsh
 \item \code{"hotstart_backward"}: The learner supports hotstarting a model backward.
 \item `"featureless": The learner does not use features.
 }}
-
-\item{\code{data_formats}}{(\code{character()})\cr
-Deprecated: ignored, and will be removed in the future.}
 
 \item{\code{packages}}{(\code{character()})\cr
 Set of required packages.

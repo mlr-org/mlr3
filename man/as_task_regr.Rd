@@ -5,7 +5,6 @@
 \alias{as_task_regr.TaskRegr}
 \alias{as_task_regr.data.frame}
 \alias{as_task_regr.matrix}
-\alias{as_task_regr.Matrix}
 \alias{as_task_regr.DataBackend}
 \alias{as_task_regr.TaskClassif}
 \alias{as_task_regr.formula}
@@ -18,8 +17,6 @@ as_task_regr(x, ...)
 \method{as_task_regr}{data.frame}(x, target, id = deparse1(substitute(x)), label, ...)
 
 \method{as_task_regr}{matrix}(x, target, id = deparse1(substitute(x)), label, ...)
-
-\method{as_task_regr}{Matrix}(x, target, id = deparse1(substitute(x)), label, ...)
 
 \method{as_task_regr}{DataBackend}(x, target, id = deparse1(substitute(x)), label, ...)
 
@@ -65,7 +62,7 @@ Convert object to a \link{TaskRegr}.
 This is a S3 generic. mlr3 ships with methods for the following objects:
 \enumerate{
 \item \link{TaskRegr}: returns the object as-is, possibly cloned.
-\item \code{\link{formula}}, \code{\link[=data.frame]{data.frame()}}, \code{\link[=matrix]{matrix()}}, \code{\link[Matrix:Matrix]{Matrix::Matrix()}} and \link{DataBackend}: provides an alternative to the constructor of \link{TaskRegr}.
+\item \code{\link{formula}}, \code{\link[=data.frame]{data.frame()}}, \code{\link[=matrix]{matrix()}}, and \link{DataBackend}: provides an alternative to the constructor of \link{TaskRegr}.
 \item \link{TaskClassif}: Calls \code{\link[=convert_task]{convert_task()}}.
 }
 }

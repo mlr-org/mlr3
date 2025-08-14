@@ -1,5 +1,7 @@
 # mlr3 (development version)
 
+* feat: Add `mirai` support for parallelization and encapsulation.
+
 # mlr3 1.1.0
 
 * feat: Add new measure `MeasureRegrRQR` for quantile regression.

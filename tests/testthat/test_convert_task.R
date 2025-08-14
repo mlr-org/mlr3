@@ -207,19 +207,6 @@ test_that("matrix converters", {
   expect_task(as_task_classif(X, target = "a"))
 })
 
-test_that("Matrix converters", {
-  requireNamespace("Matrix", quietly = TRUE)
-  X = Matrix::Matrix(1:9, nrow = 3)
-  force(X)
-  colnames(X) = letters[1:3]
-
-  task = as_task_regr(X, target = "a")
-  expect_task(task)
-
-  task = as_task_classif(X, target = "a", id = "foo")
-  expect_task(task)
-})
-
 test_that("convert_task - Regr -> Regr with weights", {
   task = cars_weights_learner
   result = convert_task(task, target = "speed", drop_original_target = FALSE)
