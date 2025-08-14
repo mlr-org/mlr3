@@ -5,7 +5,7 @@
 #' This is a S3 generic. mlr3 ships with methods for the following objects:
 #'
 #' 1. [TaskClassif]: returns the object as-is, possibly cloned.
-#' 2. [`formula`], [data.frame()], [matrix()], [Matrix::Matrix()] and [DataBackend]: provides an alternative to the constructor of [TaskClassif].
+#' 2. [`formula`], [data.frame()], [matrix()], and [DataBackend]: provides an alternative to the constructor of [TaskClassif].
 #' 3. [TaskRegr]: Calls [convert_task()].
 #'
 #' Note that the target column will be converted to a `factor()`, if possible.
@@ -63,28 +63,6 @@ as_task_classif.matrix = function(x, target, id = deparse1(substitute(x)), label
   assert_choice(target, colnames(x))
 
   as_task_classif(as.data.table(x), target = target, id = id, label = label, ...)
-}
-
-#' @rdname as_task_classif
-#' @export
-as_task_classif.Matrix = function(x, target, id = deparse1(substitute(x)), label = NA_character_, ...) { # nolint
-  force(id)
-
-  assert_names(colnames(x), "unique")
-  assert_choice(target, colnames(x))
-
-  ii = which(target == colnames(x))
-  dense = data.table(..row_id = seq_len(nrow(x)))
-  y = x[, target, drop = TRUE]
-
-  if (!is.factor(y)) {
-    # move target col from matrix to data frame for conversion
-    set(dense, j = target, value = factor(x[, ii, drop = TRUE]))
-    x = x[, -ii, drop = FALSE]
-  }
-
-  b = DataBackendMatrix$new(x, dense = dense, primary_key = "..row_id")
-  as_task_classif(b, target = target, id = id, label = label, ...)
 }
 
 #' @rdname as_task_classif

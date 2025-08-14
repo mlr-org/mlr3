@@ -920,7 +920,7 @@ test_that("$data() is not called during task construction", {
     inherit = DataBackendDataTable,
     cloneable = FALSE,
     public = list(
-      data = function(rows, cols, data_format) {
+      data = function(rows, cols) {
         stop("Bug")
       }
     )

@@ -388,10 +388,6 @@ Returns the total number of columns with role "feature" (i.e. the number of "act
 Returns a table with columns \code{id} and \code{type} where \code{id} are the column names of "active"
 features of the task and \code{type} is the storage type.}
 
-\item{\code{data_formats}}{(\code{character()})\cr
-Supported data format. Always \code{"data.table"}..
-This is deprecated and will be removed in the future.}
-
 \item{\code{strata}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
 If the task has columns designated with role \code{"stratum"}, returns a table with one subpopulation per row and two columns:
 \itemize{
@@ -629,7 +625,7 @@ If \code{rows} is \code{NULL}, rows are returned in the order of \code{task$row_
 If \code{cols} is \code{NULL}, the column order defaults to \code{c(task$target_names, task$feature_names)}.
 Note that it is recommended to \strong{not} rely on the order of columns, and instead always address columns with their respective column name.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Task$data(rows = NULL, cols = NULL, data_format, ordered = FALSE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Task$data(rows = NULL, cols = NULL, ordered = FALSE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -641,9 +637,6 @@ Always refers to the complete data set, even after filtering.}
 
 \item{\code{cols}}{(\code{character()})\cr
 Vector of column names.}
-
-\item{\code{data_format}}{(\code{character(1)})\cr
-Deprecated. Ignored, and will be removed in the future.}
 
 \item{\code{ordered}}{(\code{logical(1)})\cr
 If \code{TRUE}, data is ordered according to the columns with column role \code{"order"}.}
