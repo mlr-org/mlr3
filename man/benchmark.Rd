@@ -112,7 +112,7 @@ All jobs are send to an apply function from \CRANpkg{future.apply} or \code{mira
 To select a parallel backend, use \code{\link[future:plan]{future::plan()}}.
 To use \code{mirai}, call \code{mirai::daemons()} before calling this function.
 The \code{future} package guarantees reproducible results independent of the parallel backend.
-The results of \code{mirai} will not be the same but can be made reproducible by setting a \code{seed} and \code{dispatcher = FALSE} when calling \code{mirai::daemons()}.
+The results of \code{mirai} will not be the same but can be made reproducible by setting a \code{seed} when calling \code{mirai::daemons()}.
 More on parallelization can be found in the book:
 \url{https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html}
 }
