@@ -1,4 +1,4 @@
-# r cmd check workflow without suggests of the mlr3 ecosystem v0.1.0 
+# r cmd check workflow without suggests of the mlr3 ecosystem v0.1.0
 # https://github.com/mlr-org/actions
 on:
   workflow_dispatch:
@@ -45,7 +45,6 @@ jobs:
         with:
           extra-packages: any::rcmdcheck
           needs: check
-          error-on: '"note"'
           dependencies: '"hard"'
 
       - uses: mxschmitt/action-tmate@v3
@@ -56,3 +55,4 @@ jobs:
       - uses: r-lib/actions/check-r-package@v2
         with:
           args: 'c("--no-manual", "--as-cran")'
+          error-on: '"note"'

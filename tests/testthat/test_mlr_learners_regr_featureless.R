@@ -31,10 +31,11 @@ test_that("regr.featureless quantile prediction works", {
   expect_names(colnames(pred$quantiles), identical.to = c("q0.1", "q0.5", "q0.9"))
   expect_equal(pred$response, pred$quantiles[, 2L])
 
-  learner = lrn("regr.featureless",
-    predict_type = "quantiles")
+  learner = lrn("regr.featureless", predict_type = "quantiles")
+  expect_error(learner$train(task), "Quantiles must be set")
 
-  expect_error(learner$train(task), "Quantiles")
+  learner$quantiles = c(0.25, 0.5, 0.75)
+  expect_error(learner$train(task), "Quantile response must be set")
 })
 
 test_that("weights are respected", {

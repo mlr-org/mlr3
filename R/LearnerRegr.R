@@ -13,6 +13,8 @@
 #'   - `"distr"`: Probability distribution as `VectorDistribution` object (requires package `distr6`, available via
 #'     repository \url{https://raphaels1.r-universe.dev}).
 #'  - `"quantiles"`: Predicts quantile estimates for each observation in the test set.
+#'    Set `$quantiles` to specify the quantiles to predict and `$quantile_response` to specify the response quantile.
+#'    See mlr3book [section](https://mlr3book.mlr-org.com/chapters/chapter13/beyond_regression_and_classification.html#sec-quantile-regression) on quantile regression for more details.
 #'
 #' Predefined learners can be found in the [dictionary][mlr3misc::Dictionary] [mlr_learners].
 #' Essential regression learners can be found in this dictionary after loading \CRANpkg{mlr3learners}.
@@ -75,6 +77,7 @@ LearnerRegr = R6Class("LearnerRegr", inherit = Learner,
       fake_task = list(
         # some learners require that newdata contains the features names in the same order as the training data
         data = function(...) newdata[, feature_names, with = FALSE],
+        feature_names = feature_names,
         nrow = nrow(newdata)
       )
 

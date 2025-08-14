@@ -1,6 +1,6 @@
 Package: mlr3
 Title: Machine Learning in R - Next Generation
-Version: 1.0.1.9000
+Version: 1.1.0.9000
 Authors@R:
   c(
     person("Michel", "Lang", , "michellang@gmail.com", role = "aut",
@@ -197,7 +197,6 @@ Collate:
     'helper_data_table.R'
     'helper_exec.R'
     'helper_hashes.R'
-    'helper_print.R'
     'install_pkgs.R'
     'marshal.R'
     'mlr_callbacks.R'

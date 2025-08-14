@@ -7,9 +7,12 @@
 #'
 #' Measures are classes tailored around two functions doing the work:
 #'
-#' 1. A function `$score()` which quantifies the performance by comparing the truth and predictions.
+#' 1. A function `$score()` which quantifies the performance on a [Prediction] object, so a set
+#' of predicted observation via a scalar number -- usually an aggregate of losses on the contained observations,
+#' by comparing the truth and prediction columns in the prediction object.
 #' 2. A function `$aggregator()` which combines multiple performance scores returned by
-#'    `$score()` to a single numeric value.
+#' `$score()` obtained in different resampling iterations to a scalar performance value associated
+#' with the complete resampling -- usually by averaging or summing.
 #'
 #' In addition to these two functions, meta-information about the performance measure is stored.
 #'
@@ -222,6 +225,11 @@ Measure = R6Class("Measure",
     #' @param train_set (`integer()`).
     #'
     #' @return `numeric(1)`.
+    #' @examples
+    #' task = tsk("penguins")
+    #' learner = lrn("classif.rpart")$train(task)
+    #' prediction = learner$predict(task)
+    #' msr("classif.ce")$score(prediction)
     score = function(prediction, task = NULL, learner = NULL, train_set = NULL) {
       assert_scorable(self, task = task, learner = learner, prediction = prediction)
       properties = self$properties
@@ -256,6 +264,11 @@ Measure = R6Class("Measure",
     #' @param rr [ResampleResult].
     #'
     #' @return `numeric(1)`.
+    #' @examples
+    #' task = tsk("penguins")
+    #' learner = lrn("classif.rpart")
+    #' rr = resample(task, learner, rsmp("holdout"))
+    #' msr("classif.ce")$aggregate(rr)
     aggregate = function(rr) {
       switch(self$average,
         "macro_weighted" = {
@@ -497,10 +510,6 @@ score_measures = function(obj, measures, reassemble = TRUE, view = NULL, iters =
   tab[]
 }
 
-
-# format_list_item.Measure = function(x, ...) { # nolint
-#   sprintf("<msr:%s>", x$id)
-# }
 
 #' @export
 rd_info.Measure = function(obj, ...) { # nolint

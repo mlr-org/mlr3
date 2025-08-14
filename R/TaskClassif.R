@@ -87,7 +87,7 @@ TaskClassif = R6Class("TaskClassif",
     #' Returns all class labels of the target column.
     class_names = function(rhs) {
       assert_ro_binding(rhs)
-      fget(self$col_info, i = self$target_names, j = "levels", key = "id")[[1L]]
+      fget_key(self$col_info, i = self$target_names, j = "levels", key = "id")[[1L]]
     },
 
     #' @field positive (`character(1)`)\cr
@@ -139,7 +139,7 @@ TaskClassif = R6Class("TaskClassif",
 
 update_classif_property = function(self, private) {
   tn = self$target_names
-  if (fget(self$col_info, tn, "type", key = "id") %nin% c("factor", "ordered")) {
+  if (fget_key(self$col_info, tn, "type", key = "id") %nin% c("factor", "ordered")) {
     stopf("Target column '%s' must be a factor or ordered factor", tn)
   }
 

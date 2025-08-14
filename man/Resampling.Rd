@@ -15,6 +15,15 @@ fixed partition of \code{row_ids} of the \link{Task}.
 Predefined resamplings are stored in the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_resamplings},
 e.g. \code{\link[=mlr_resamplings_cv]{cv}} or \code{\link[=mlr_resamplings_bootstrap]{bootstrap}}.
 }
+\section{Stochasticity & Reproducibility}{
+
+The \code{\link{Resampling}} class only defines an abstract resampling strategy.
+Concrete data splits are obtained by calling \verb{$instantiate()} on a \code{\link{Task}}.
+To ensure repdocubility of results, you need to call \code{set.seed} before doing so.
+Note that \code{\link{benchmark_grid}} internally does instantiate resamplings, so you need to set
+the seed before calling it.
+}
+
 \section{Stratification}{
 
 All derived classes support stratified sampling.
@@ -82,6 +91,30 @@ task$col_roles$stratum = task$target_names
 r = rsmp("subsampling")
 r$instantiate(task)
 prop.table(table(task$truth(r$train_set(1)))) # roughly same proportion
+
+## ------------------------------------------------
+## Method `Resampling$instantiate`
+## ------------------------------------------------
+
+task = tsk("penguins")
+resampling = rsmp("holdout")
+resampling$instantiate(task)
+
+## ------------------------------------------------
+## Method `Resampling$train_set`
+## ------------------------------------------------
+
+task = tsk("penguins")
+resampling = rsmp("holdout")$instantiate(task)
+resampling$train_set(1)
+
+## ------------------------------------------------
+## Method `Resampling$test_set`
+## ------------------------------------------------
+
+task = tsk("penguins")
+resampling = rsmp("holdout")$instantiate(task)
+resampling$test_set(1)
 }
 \seealso{
 \itemize{
@@ -281,6 +314,16 @@ Returns the object itself, but modified \strong{by reference}.
 You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
 the object in its previous state.
 }
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{task = tsk("penguins")
+resampling = rsmp("holdout")
+resampling$instantiate(task)
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Resampling-train_set"></a>}}
@@ -302,6 +345,16 @@ Iteration.}
 \subsection{Returns}{
 (\code{integer()}) of row ids.
 }
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{task = tsk("penguins")
+resampling = rsmp("holdout")$instantiate(task)
+resampling$train_set(1)
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Resampling-test_set"></a>}}
@@ -323,6 +376,16 @@ Iteration.}
 \subsection{Returns}{
 (\code{integer()}) of row ids.
 }
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{task = tsk("penguins")
+resampling = rsmp("holdout")$instantiate(task)
+resampling$test_set(1)
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Resampling-clone"></a>}}
