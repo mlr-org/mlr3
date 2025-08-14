@@ -11,6 +11,7 @@
 #' ignored.
 #'
 #' @return [Learner]
+#' @export
 default_fallback = function(learner, ...) {
   UseMethod("default_fallback")
 }

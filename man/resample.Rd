@@ -111,7 +111,7 @@ This function can be parallelized with the \CRANpkg{future} or \CRANpkg{mirai} p
 One job is one resampling iteration.
 All jobs are send to an apply function from \CRANpkg{future.apply} or \code{mirai::mirai_map()} in a single batch.
 To select a parallel backend, use \code{\link[future:plan]{future::plan()}}.
-To use \code{mirai}, call \code{mirai::daemons()} before calling this function.
+To use \code{mirai}, call \code{mirai::daemons(.compute = "mlr3_parallelization")} before calling this function.
 The \code{future} package guarantees reproducible results independent of the parallel backend.
 The results of \code{mirai} will not be the same but can be made reproducible by setting a \code{seed} when calling \code{mirai::daemons()}.
 More on parallelization can be found in the book:
