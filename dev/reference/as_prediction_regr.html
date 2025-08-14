@@ -89,27 +89,33 @@ Additional arguments.</p></dd>
 <span class="r-in"><span><span class="va">learner</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">lrn</a></span><span class="op">(</span><span class="st">"regr.rpart"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">learner</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">p</span> <span class="op">=</span> <span class="va">learner</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>number of items to replace is not a multiple of replacement length</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># convert to a data.table</span></span></span>
 <span class="r-in"><span><span class="va">tab</span> <span class="op">=</span> <span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/as.data.table.html" class="external-link">as.data.table</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> To predict probability distributions, please install distr6</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># convert back to a Prediction</span></span></span>
 <span class="r-in"><span><span class="fu">as_prediction_regr</span><span class="op">(</span><span class="va">tab</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'tab' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="color: #0000BB; font-weight: bold;">&lt;PredictionRegr&gt;</span><span style="font-weight: bold;"> for </span><span style="color: #0000BB; font-weight: bold;">32</span><span style="font-weight: bold;"> observations:</span> <span style="color: #00BBBB;">───────────────────────────────────────</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  row_ids truth response</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        1  21.0 18.26429</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        2  21.0 18.26429</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        3  22.8 26.66364</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      ---   ---      ---</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       30  19.7 18.26429</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       31  15.0 13.41429</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       32  21.4 26.66364</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># split data.table into a list of data.tables</span></span></span>
 <span class="r-in"><span><span class="va">tabs</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span><span class="va">tab</span>, <span class="fu"><a href="https://rdrr.io/r/base/cut.html" class="external-link">cut</a></span><span class="op">(</span><span class="va">tab</span><span class="op">$</span><span class="va">truth</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'tab' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># convert back to list of predictions</span></span></span>
 <span class="r-in"><span><span class="va">preds</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">tabs</span>, <span class="va">as_prediction_regr</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'tabs' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># calculate performance in each group</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">preds</span>, <span class="kw">function</span><span class="op">(</span><span class="va">p</span><span class="op">)</span> <span class="va">p</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'preds' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (10.4,18.2].regr.mse (18.2,26.1].regr.mse (26.1,33.9].regr.mse </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             4.278393             9.122466            22.719322 </span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
