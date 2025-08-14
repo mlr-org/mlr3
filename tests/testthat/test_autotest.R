@@ -196,10 +196,7 @@ test_that("autotest on encapsulation", {
     inherit = LearnerClassifDebug,
     private = list(
       .predict = function(task) {
-        # tools:callr is only available in callr processes
         if (Sys.getenv("in_mirai") == "TRUE") {
-          # common error to access unavailable train_task in predict while resampling
-          # works when $predict is called directly
           self$state$train_task$levels()
           super$.predict(task)
         }
