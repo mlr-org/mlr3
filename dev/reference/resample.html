@@ -187,10 +187,13 @@ In the next step, you have to configure the measures to operate on the respectiv
 
 
 
-<p>This function can be parallelized with the <a href="https://CRAN.R-project.org/package=future" class="external-link"><span class="pkg">future</span></a> package.
-One job is one resampling iteration, and all jobs are send to an apply function
-from <a href="https://CRAN.R-project.org/package=future.apply" class="external-link"><span class="pkg">future.apply</span></a> in a single batch.
+<p>This function can be parallelized with the <a href="https://CRAN.R-project.org/package=future" class="external-link"><span class="pkg">future</span></a> or <a href="https://CRAN.R-project.org/package=mirai" class="external-link"><span class="pkg">mirai</span></a> package.
+One job is one resampling iteration.
+All jobs are send to an apply function from <a href="https://CRAN.R-project.org/package=future.apply" class="external-link"><span class="pkg">future.apply</span></a> or <code><a href="https://mirai.r-lib.org/reference/mirai_map.html" class="external-link">mirai::mirai_map()</a></code> in a single batch.
 To select a parallel backend, use <code><a href="https://future.futureverse.org/reference/plan.html" class="external-link">future::plan()</a></code>.
+To use <code>mirai</code>, call <code><a href="https://mirai.r-lib.org/reference/daemons.html" class="external-link">mirai::daemons()</a></code> before calling this function.
+The <code>future</code> package guarantees reproducible results independent of the parallel backend.
+The results of <code>mirai</code> will not be the same but can be made reproducible by setting a <code>seed</code> when calling <code><a href="https://mirai.r-lib.org/reference/daemons.html" class="external-link">mirai::daemons()</a></code>.
 More on parallelization can be found in the book:
 <a href="https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html" class="external-link">https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html</a></p>
     </div>

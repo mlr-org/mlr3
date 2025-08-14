@@ -179,10 +179,13 @@ In the next step, you have to configure the measures to operate on the respectiv
 
 
 
-<p>This function can be parallelized with the <a href="https://CRAN.R-project.org/package=future" class="external-link"><span class="pkg">future</span></a> package.
-One job is one resampling iteration, and all jobs are send to an apply function
-from <a href="https://CRAN.R-project.org/package=future.apply" class="external-link"><span class="pkg">future.apply</span></a> in a single batch.
+<p>This function can be parallelized with the <a href="https://CRAN.R-project.org/package=future" class="external-link"><span class="pkg">future</span></a> or <a href="https://CRAN.R-project.org/package=mirai" class="external-link"><span class="pkg">mirai</span></a> package.
+One job is one resampling iteration.
+All jobs are send to an apply function from <a href="https://CRAN.R-project.org/package=future.apply" class="external-link"><span class="pkg">future.apply</span></a> or <code><a href="https://mirai.r-lib.org/reference/mirai_map.html" class="external-link">mirai::mirai_map()</a></code> in a single batch.
 To select a parallel backend, use <code><a href="https://future.futureverse.org/reference/plan.html" class="external-link">future::plan()</a></code>.
+To use <code>mirai</code>, call <code><a href="https://mirai.r-lib.org/reference/daemons.html" class="external-link">mirai::daemons()</a></code> before calling this function.
+The <code>future</code> package guarantees reproducible results independent of the parallel backend.
+The results of <code>mirai</code> will not be the same but can be made reproducible by setting a <code>seed</code> when calling <code><a href="https://mirai.r-lib.org/reference/daemons.html" class="external-link">mirai::daemons()</a></code>.
 More on parallelization can be found in the book:
 <a href="https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html" class="external-link">https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html</a></p>
     </div>
@@ -248,12 +251,12 @@ or <code>"trace"</code>:</p>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/as.data.table.html" class="external-link">as.data.table</a></span><span class="op">(</span><span class="va">bmr</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                   uhash                   task</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                  &lt;char&gt;                 &lt;list&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 3384b8d3-729e-48e9-8999-1fabe524c17b &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 3384b8d3-729e-48e9-8999-1fabe524c17b &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 3384b8d3-729e-48e9-8999-1fabe524c17b &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4: 7e346ebd-d88d-457a-be2d-fb4f778b7a77 &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5: 7e346ebd-d88d-457a-be2d-fb4f778b7a77 &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6: 7e346ebd-d88d-457a-be2d-fb4f778b7a77 &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: f2ea611c-e11a-4cc3-a27b-77bd20562307 &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: f2ea611c-e11a-4cc3-a27b-77bd20562307 &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: f2ea611c-e11a-4cc3-a27b-77bd20562307 &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4: 1223d989-04cc-438f-bbf7-0b67f1256b53 &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5: 1223d989-04cc-438f-bbf7-0b67f1256b53 &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6: 1223d989-04cc-438f-bbf7-0b67f1256b53 &lt;TaskClassif:penguins&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                            learner     resampling iteration</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                             &lt;list&gt;         &lt;list&gt;     &lt;int&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: &lt;LearnerClassifFeatureless:classif.featureless&gt; &lt;ResamplingCV&gt;         1</span>
