@@ -114,5 +114,16 @@ test_that("encapsulate methods produce the same results", {
   expect_equal(sample(seq(1000), 1), 818)
   rr = resample(task, learner, rsmp("cv", folds = 3), store_models = TRUE)
   expect_equal(map_int(rr$learners, function(learner) learner$model$random_number), c(37151, 94567, 21057))
-})
 
+  set.seed(123)
+  learner = lrn("classif.debug")
+  learner$encapsulate("mirai", lrn("classif.featureless"))
+  with_mirai({
+    learner$train(task)
+  }, compute = "mlr3_encapsulation")
+  learner$model$random_number
+  expect_equal(learner$model$random_number, 2986)
+  expect_equal(sample(seq(1000), 1), 818)
+  rr = resample(task, learner, rsmp("cv", folds = 3), store_models = TRUE)
+  expect_equal(map_int(rr$learners, function(learner) learner$model$random_number), c(37151, 94567, 21057))
+})

@@ -104,7 +104,8 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
     .args = list(learner = learner, task = task),
     .pkgs = learner$packages,
     .seed = NA_integer_,
-    .timeout = learner$timeout["train"]
+    .timeout = learner$timeout["train"],
+    .compute = getOption("mlr3.mirai_encapsulation", "mlr3_encapsulation")
   )
 
   log = append_log(NULL, "train", result$log$class, result$log$msg)
