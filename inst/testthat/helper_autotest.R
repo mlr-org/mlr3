@@ -561,20 +561,6 @@ run_experiment = function(task, learner, seed = NULL, configure_learner = NULL) 
     learner_encapsulated = learner$clone(deep = TRUE)
     learner_encapsulated$encapsulate("mirai", default_fallback(learner_encapsulated))
 
-    # # check learner state because encapsulation catches errors
-    # learner_encapsulated$train(task)
-    # log = learner_encapsulated$log[stage == "train"]
-    # if ("error" %in% log$class) {
-    #   return(err("train log has errors: %s", mlr3misc::str_collapse(log[class == "error", msg])))
-    # }
-
-    # learner_encapsulated$predict(task)
-    # log = learner_encapsulated$log[stage == "predict"]
-    # if ("error" %in% log$class) {
-    #   return(err("predict log has errors: %s", mlr3misc::str_collapse(log[class == "error", msg])))
-    # }
-
-    # while resampling, less information are stored in the state which can lead to errors
     rr = resample(task, learner_encapsulated, rsmp("holdout"), store_models = TRUE)
     log = rr$learners[[1]]$state$log
     if ("error" %in% log$class) {

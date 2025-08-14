@@ -142,7 +142,7 @@ test_that("autotest on marshal / unmarshal", {
 
 test_that("autotest on encapsulation", {
   # error in train
-  learner = R6Class(
+  learner1 = R6Class(
       "learner_broken_marshal",
       inherit = LearnerClassifDebug,
       private = list(
@@ -159,14 +159,14 @@ test_that("autotest on encapsulation", {
 
     with_mirai({
       mirai::everywhere({Sys.setenv(in_mirai = "TRUE")}, .compute = "mlr3_encapsulation")
-      result = run_experiment(task, learner)
+      result = run_experiment(task, learner1)
     }, compute = "mlr3_encapsulation")
 
     expect_false(result$ok)
     expect_string(result$error, pattern = "Error in mirai process in train")
 
   # error in predict
-  learner = R6Class(
+  learner2 = R6Class(
     "learner_broken_marshal",
     inherit = LearnerClassifDebug,
     private = list(
@@ -184,14 +184,14 @@ test_that("autotest on encapsulation", {
 
   with_mirai({
     mirai::everywhere({Sys.setenv(in_mirai = "TRUE")}, .compute = "mlr3_encapsulation")
-    result = run_experiment(task, learner)
+    result = run_experiment(task, learner2)
   }, compute = "mlr3_encapsulation")
 
   expect_false(result$ok)
   expect_string(result$error, pattern = "Error in mirai process in predict")
 
   # access on state
-  learner = R6Class(
+  learner3 = R6Class(
     "learner_broken_marshal",
     inherit = LearnerClassifDebug,
     private = list(
@@ -213,7 +213,7 @@ test_that("autotest on encapsulation", {
 
   with_mirai({
     mirai::everywhere({Sys.setenv(in_mirai = "TRUE")}, .compute = "mlr3_encapsulation")
-    result = run_experiment(task, learner)
+    result = run_experiment(task, learner3)
   }, compute = "mlr3_encapsulation")
 
   expect_false(result$ok)
