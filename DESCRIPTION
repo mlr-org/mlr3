@@ -67,7 +67,7 @@ Suggests:
     callr,
     codetools,
     datasets,
-    future.callr
+    future.callr,
     mlr3data,
     progressr,
     remotes,

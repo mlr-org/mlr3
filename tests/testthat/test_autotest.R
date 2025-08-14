@@ -141,35 +141,38 @@ test_that("autotest on marshal / unmarshal", {
 })
 
 test_that("autotest on encapsulation", {
-
+  # error in train
   learner = R6Class(
-    "learner_broken_marshal",
-    inherit = LearnerClassifDebug,
-    private = list(
-      .train = function(task) {
-        # tools:callr is only available in callr processes
-        if ("tools:callr" %in% search()) {
-          stop("Error in callr process in train")
+      "learner_broken_marshal",
+      inherit = LearnerClassifDebug,
+      private = list(
+        .train = function(task) {
+          if (Sys.getenv("in_mirai") == "TRUE") {
+            stop("Error in mirai process in train")
+          }
+          super$.train(task)
         }
-        super$.train(task)
-      }
-    )
-  )$new()
-  task = tsk("spam")
-  task$id = "feat_all_spam"
+      )
+    )$new()
+    task = tsk("spam")
+    task$id = "feat_all_spam"
 
-  result = run_experiment(task, learner)
-  expect_false(result$ok)
-  expect_string(result$error, pattern = "Error in callr process in train")
+    with_mirai({
+      mirai::everywhere({Sys.setenv(in_mirai = "TRUE")}, .compute = "mlr3_encapsulation")
+      result = run_experiment(task, learner)
+    }, compute = "mlr3_encapsulation")
 
+    expect_false(result$ok)
+    expect_string(result$error, pattern = "Error in mirai process in train")
+
+  # error in predict
   learner = R6Class(
     "learner_broken_marshal",
     inherit = LearnerClassifDebug,
     private = list(
       .predict = function(task) {
-        # tools:callr is only available in callr processes
-        if ("tools:callr" %in% search()) {
-          stop("Error in callr process in predict")
+        if (Sys.getenv("in_mirai") == "TRUE") {
+          stop("Error in mirai process in predict")
         }
         super$.predict(task)
       }
@@ -179,17 +182,22 @@ test_that("autotest on encapsulation", {
   task = tsk("spam")
   task$id = "feat_all_spam"
 
-  result = run_experiment(task, learner)
-  expect_false(result$ok)
-  expect_string(result$error, pattern = "Error in callr process in predict")
+  with_mirai({
+    mirai::everywhere({Sys.setenv(in_mirai = "TRUE")}, .compute = "mlr3_encapsulation")
+    result = run_experiment(task, learner)
+  }, compute = "mlr3_encapsulation")
 
+  expect_false(result$ok)
+  expect_string(result$error, pattern = "Error in mirai process in predict")
+
+  # access on state
   learner = R6Class(
     "learner_broken_marshal",
     inherit = LearnerClassifDebug,
     private = list(
       .predict = function(task) {
         # tools:callr is only available in callr processes
-        if ("tools:callr" %in% search()) {
+        if (Sys.getenv("in_mirai") == "TRUE") {
           # common error to access unavailable train_task in predict while resampling
           # works when $predict is called directly
           self$state$train_task$levels()
@@ -203,8 +211,11 @@ test_that("autotest on encapsulation", {
   task = tsk("spam")
   task$id = "feat_all_spam"
 
-  result = run_experiment(task, learner)
+  with_mirai({
+    mirai::everywhere({Sys.setenv(in_mirai = "TRUE")}, .compute = "mlr3_encapsulation")
+    result = run_experiment(task, learner)
+  }, compute = "mlr3_encapsulation")
+
   expect_false(result$ok)
   expect_string(result$error, pattern = "attempt to apply non-function")
 })
-

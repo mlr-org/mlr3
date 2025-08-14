@@ -22,17 +22,6 @@ test_that("parallel benchmark", {
   expect_equal(bmr$aggregate(conditions = TRUE)$errors, 0L)
 })
 
-test_that("real parallel resample", {
-  with_mirai({
-    task = tsk("pima")
-    learner = lrn("classif.rpart")
-    rr = resample(task, learner, rsmp("cv", folds = 3))
-
-    expect_resample_result(rr)
-    expect_data_table(rr$errors, nrows = 0L)
-  }, compute = "mlr3_parallelization")
-})
-
 test_that("mirai resample is reproducible", {
   with_mirai({
     task = tsk("pima")
@@ -88,6 +77,28 @@ test_that("parallel resample and encapsulation works", {
 
     expect_resample_result(rr)
     expect_data_table(rr$errors, nrows = 0L)
-    expect_equal(mirai::status(.compute = "mlr3_parallelization")$mirai["completed"], 4L) # 3 resample iterations + everywhere call
+    # check that all resample iterations are evaluated on daemon
+    mirai::status(.compute = "mlr3_parallelization")$mirai["completed"]
+    expect_equal(mirai::status(.compute = "mlr3_parallelization")$mirai["completed"], c("completed" = 4L)) # 3 resample iterations + everywhere call
+
+    # check that all encapsulation calls are evaluated on daemon
+    status_encapsulation = mirai::collect_mirai(mirai::mirai({mirai::status(.compute = "mlr3_encapsulation")}, .compute = "mlr3_parallelization"))
+    expect_equal(status_encapsulation$mirai["completed"], c("completed" = 6L)) # 3 x train + 3 x predict
   }, compute = "mlr3_parallelization")
 })
+
+test_that("mirai compute profile can be changed", {
+  old_opts = getOption("mlr3.mirai_parallelization")
+  on.exit(options(mlr3.mirai_parallelization = old_opts), add = TRUE)
+
+  with_mirai({
+    options(mlr3.mirai_parallelization = "mlr3_parallelization2")
+    task = tsk("pima")
+    learner = lrn("classif.debug")
+    resampling = rsmp("cv", folds = 3)
+    rr = resample(task, learner, resampling, store_models = TRUE)
+  }, compute = "mlr3_parallelization2")
+
+  expect_resample_result(rr)
+})
+

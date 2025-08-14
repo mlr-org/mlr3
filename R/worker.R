@@ -237,7 +237,8 @@ learner_predict = function(learner, task, row_ids = NULL) {
       .args = list(task = task, learner = learner),
       .pkgs = learner$packages,
       .seed = NA_integer_,
-      .timeout = learner$timeout["predict"]
+      .timeout = learner$timeout["predict"],
+      .compute = getOption("mlr3.mirai_encapsulation", "mlr3_encapsulation")
     )
 
     pdata = result$result
