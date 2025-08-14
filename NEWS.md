@@ -1,5 +1,11 @@
 # mlr3 (development version)
 
+* feat: Add `mirai` support for parallelization and encapsulation.
+
+# mlr3 1.1.0
+
+* feat: Add new measure `MeasureRegrRQR` for quantile regression.
+* feat: Add `$predict_newdata_fast()` method to `Learner` to speed up prediction.
 * fix: `configure_learner` is passed on `run_experiment()` for autotest learners.
 
 # mlr3 1.0.1

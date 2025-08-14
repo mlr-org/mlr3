@@ -38,14 +38,20 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
       get_private(learner)$.extract_internal_tuned_values()
     }
 
-    if (learner$encapsulation[["train"]] == "callr") {
+    # extract out-of-bag error if supported
+    oob_error = if (exists(".extract_oob_error", envir = get_private(learner))) {
+      get_private(learner)$.extract_oob_error()
+    }
+
+    if (learner$encapsulation[["train"]] %in% c("callr", "mirai")) {
       model = marshal_model(model, inplace = TRUE)
     }
 
     list(
       model = model,
       internal_valid_scores = internal_valid_scores,
-      internal_tuned_values = internal_tuned_values
+      internal_tuned_values = internal_tuned_values,
+      oob_error = oob_error
     )
   }
 
@@ -123,6 +129,7 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
   }
 
   learner$state$internal_tuned_values = result$result$internal_tuned_values
+  learner$state$oob_error = result$result$oob_error
 
   if (is.null(result$result$model)) {
     lg$info("Learner '%s' on task '%s' failed to %s a model",
@@ -219,7 +226,7 @@ learner_predict = function(learner, task, row_ids = NULL) {
     lg$debug("Calling predict method of Learner '%s' on task '%s' with %i observations",
       learner$id, task$id, task$nrow, learner = learner$clone())
 
-    if (isTRUE(all.equal(learner$encapsulation[["predict"]], "callr"))) {
+    if (learner$encapsulation[["predict"]] %in% c("callr", "mirai")) {
       learner$model = marshal_model(learner$model, inplace = TRUE)
     }
 
@@ -439,7 +446,7 @@ process_model_before_predict = function(learner, store_models, is_sequential, un
   # and also, do we even need to send it back at all?
 
   currently_marshaled = is_marshaled_model(learner$model)
-  predict_needs_marshaling = isTRUE(all.equal(learner$encapsulation[["predict"]], "callr"))
+  predict_needs_marshaling = learner$encapsulation[["predict"]] %in% c("callr", "mirai")
   final_needs_marshaling = !is_sequential || !unmarshal
 
   # the only scenario in which we keep a copy is when we now have the model in the correct form but need to transform

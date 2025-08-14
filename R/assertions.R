@@ -94,12 +94,12 @@ test_matching_task_type = function(task_type, object, class) {
     return(TRUE)
   }
 
-  cl_task_type = fget(mlr_reflections$task_types, task_type, class, "type")
+  cl_task_type = fget_key(mlr_reflections$task_types, task_type, class, "type")
   if (inherits(object, cl_task_type)) {
     return(TRUE)
   }
 
-  cl_object = fget(mlr_reflections$task_types, object$task_type, class, "type")
+  cl_object = fget_key(mlr_reflections$task_types, object$task_type, class, "type")
   return(cl_task_type == cl_object)
 }
 
@@ -201,12 +201,13 @@ assert_predictable = function(task, learner) {
       stopf("Learner '%s' has received tasks with different columns in train and predict.", learner$id)
     }
 
-    ids = train_task$col_info[get("id") %chin% cols_train, "id"]$id
-    ci_predict = task$col_info[list(ids), c("id", "type", "levels"), on = "id"]
-    ci_train = train_task$col_info[list(ids), c("id", "type", "levels"), on = "id"]
+    ids = fget_keys(train_task$col_info, i = cols_train, j = "id", key = "id")
+    train_type = fget_keys(train_task$col_info, i = ids, j = "type", key = "id")
+    train_levels = fget_keys(train_task$col_info, i = ids, j = "levels", key = "id")
+    predict_type = fget_keys(task$col_info, i = ids, j = "type", key = "id")
+    predict_levels = fget_keys(task$col_info, i = ids, j = "levels", key = "id")
 
-    ok = all(ci_train$type == ci_predict$type) &&
-      all(pmap_lgl(list(x = ci_train$levels, y = ci_predict$levels), identical))
+    ok = all(train_type == predict_type) && all(pmap_lgl(list(x = train_levels, y = predict_levels), identical))
 
     if (!ok) {
       stopf("Learner '%s' received task with different column info (feature type or factor level ordering) during train and predict.", learner$id)
@@ -395,6 +396,9 @@ assert_row_ids = function(row_ids, task = NULL, null.ok = FALSE, .var.name = vna
   invisible(row_ids)
 }
 
+#' @export
+#' @param task ([Task]).
+#' @rdname mlr_assertions
 assert_has_backend = function(task) {
   if (is.null(task$backend)) {
     stopf("The backend of Task '%s' has been removed. Set `store_backends` to `TRUE` during model fitting to conserve it.", task$id)
@@ -429,6 +433,26 @@ assert_row_sums = function(prob) {
       }
     }
   }
+}
+
+
+#' @export
+#' @param learner ([Learner]).
+#' @param quantile_response (`logical(1)`)\cr
+#'   Whether to check if the quantile response is set.
+#'   If `TRUE`, the learner must have the `$quantile_response` field set.
+#' @rdname mlr_assertions
+assert_quantiles = function(learner, quantile_response = FALSE) {
+
+  if (is.null(learner$quantiles)) {
+    stopf("Quantiles must be set via `$quantiles`")
+  }
+
+  if (quantile_response && is.null(learner$quantile_response)) {
+    stopf("Quantile response must be set via `$quantile_response`")
+  }
+
+  invisible(learner)
 }
 
 assert_param_values = function(x, n_learners = NULL, .var.name = vname(x)) {

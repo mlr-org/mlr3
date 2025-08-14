@@ -87,7 +87,7 @@ test_that("empty train/predict sets", {
   expect_prediction(learner$predict(task, integer()))
 
   resampling = rsmp("holdout", ratio = 0)
-  expect_error(resample(task, learner, resampling))
+  suppressWarnings(expect_error(resample(task, learner, resampling)))
 
   resampling = rsmp("holdout", ratio = 1)
   expect_prediction(resample(task, learner, resampling)$predictions()[[1]])
@@ -118,7 +118,7 @@ test_that("encapsulation", {
   learner = lrn("classif.debug", error_train = 1)
   resampling = rsmp("holdout")
 
-  expect_error(resample(task, learner, resampling), "classif.debug->train()")
+  suppressWarnings(expect_error(resample(task, learner, resampling), "classif.debug->train()"))
 
   rr = resample(task, learner, resampling, encapsulate = "evaluate")
   expect_data_table(rr$errors, nrows = 1L)
@@ -351,7 +351,7 @@ test_that("properties are also checked on validation task", {
   learner = lrn("classif.debug", validate = "predefined")
   learner$properties = setdiff(learner$properties, "missings")
 
-  expect_error(resample(task, learner, rsmp("holdout")), "missing values")
+  suppressWarnings(expect_error(resample(task, learner, rsmp("holdout")), "missing values"))
 })
 
 test_that("marshaling does not change class of learner state when reassembling", {
@@ -366,10 +366,10 @@ test_that("marshaled model is sent back, when unmarshal is FALSE, sequential exe
 })
 
 test_that("predict_set internal_valid throws error when none is available", {
-  expect_error(
+  suppressWarnings(expect_error(
     resample(tsk("iris"), lrn("classif.debug", predict_sets = "internal_valid"), rsmp("holdout")),
     "Cannot set the predict_type"
-  )
+  ))
 })
 
 test_that("can even use internal_valid predict set on learners that don't support validation", {

@@ -154,6 +154,12 @@
 #' In order to still be able to save them, use them with parallelization or callr encapsulation it is necessary
 #' to implement how they should be (un)-marshaled. See [`marshaling`] for how to do this.
 #'
+#' @section Implementing Out-of-Bag Error:
+#' Some [`Learner`]s can compute the out-of-bag error during training.
+#' In order to do this, the learner must:
+#' * annotate the learner with the `"oob_error"` property
+#' * implement the private method `$.extract_oob_error()` which extracts the out-of-bag error from the [`Learner`]'s model and returns it as a `numeric(1)`.
+#'
 #' @template seealso_learner
 #' @export
 Learner = R6Class("Learner",
@@ -311,6 +317,10 @@ Learner = R6Class("Learner",
     #' Returns the object itself, but modified **by reference**.
     #' You need to explicitly `$clone()` the object beforehand if you want to keeps
     #' the object in its previous state.
+    #' @examples
+    #' task   = tsk("penguins")
+    #' learner = lrn("classif.rpart")
+    #' learner$train(task)
     train = function(task, row_ids = NULL) {
       task = assert_task(as_task(task))
       assert_learnable(task, self)
@@ -360,6 +370,10 @@ Learner = R6Class("Learner",
     #'   For a simple train-test split, see [partition()].
     #'
     #' @return [Prediction] object containing the predictions for the specified observations.
+    #' @examples
+    #' task = tsk("penguins")
+    #' learner = lrn("classif.rpart")$train(task)
+    #' learner$predict(task)
     predict = function(task, row_ids = NULL) {
       # improve error message for the common mistake of passing a data.frame here
       if (is.data.frame(task)) {
@@ -433,6 +447,10 @@ Learner = R6Class("Learner",
     #' @param task ([Task]).
     #'
     #' @return [Prediction].
+    #' @examples
+    #' task = tsk("penguins")
+    #' learner = lrn("classif.rpart")$train(task)
+    #' learner$predict_newdata(task$data(rows = 1:5))
     predict_newdata = function(newdata, task = NULL) {
       if (is.null(task)) {
         if (is.null(self$state$train_task)) {
@@ -503,6 +521,10 @@ Learner = R6Class("Learner",
     #' Returns the object itself, but modified **by reference**.
     #' You need to explicitly `$clone()` the object beforehand if you want to keeps
     #' the object in its previous state.
+    #' @examples
+    #' task = tsk("penguins")
+    #' learner = lrn("classif.rpart")$train(task)
+    #' learner$reset()
     reset = function() {
       self$state = NULL
       invisible(self)
@@ -517,7 +539,7 @@ Learner = R6Class("Learner",
     #' @param recursive (`integer(1)`)\cr
     #'   Depth of recursion for multiple nested objects.
     #'
-    #' @return [Learner].
+    #' @return [Learner]
     base_learner = function(recursive = Inf) {
       if (exists(".base_learner", envir = private, inherits = FALSE)) {
         private$.base_learner(recursive)
@@ -539,12 +561,18 @@ Learner = R6Class("Learner",
     #' * `"callr"`: Uses the package \CRANpkg{callr} to call the learner, measure time and do the logging.
     #'   This encapsulation spawns a separate R session in which the learner is called.
     #'   While this comes with a considerable overhead, it also guards your session from being teared down by segfaults.
+    #' * `"mirai"`: Uses the package \CRANpkg{mirai} to call the learner, measure time and do the logging.
+    #'   This encapsulation calls the function in a `mirai` on a `daemon`.
+    #'   The `daemon` can be pre-started via `daemons(1)`, otherwise a new R session will be created for each encapsulated call.
+    #'   If a `deamon` is already running, it will be used to executed all calls.
+    #'   Using `mirai"` is similarly safe as `callr` but much faster if several learners are encapsulated one after the other on the same daemon.
     #'
     #' The fallback learner is fitted to create valid predictions in case that either the model fitting or the prediction of the original learner fails.
     #' If the training step or the predict step of the original learner fails, the fallback is used to make the predictions.
     #' If the original learner only partially fails during predict step (usually in the form of missing to predict some observations or producing some `NA` predictions), these missing predictions are imputed by the fallback.
     #' Note that the fallback is always trained, as we do not know in advance whether prediction will fail.
     #' If the training step fails, the `$model` field of the original learner is `NULL`.
+    #' The results are reproducible across the different encapsulation methods.
     #'
     #' Also see the section on error handling the mlr3book:
     #' \url{https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling}
@@ -556,8 +584,12 @@ Learner = R6Class("Learner",
     #'  The fallback learner for failed predictions.
     #'
     #' @return `self` (invisibly).
+    #' @examples
+    #' learner = lrn("classif.rpart")
+    #' fallback = lrn("classif.featureless")
+    #' learner$encapsulate("try", fallback = fallback)
     encapsulate = function(method, fallback = NULL) {
-      assert_choice(method, c("none", "try", "evaluate", "callr"))
+      assert_choice(method, c("none", "try", "evaluate", "callr", "mirai"))
 
       if (method != "none") {
         assert_learner(fallback, task_type = self$task_type)
@@ -594,6 +626,10 @@ Learner = R6Class("Learner",
     #'   Named arguments to set parameter values and fields.
     #' @param .values (named `any`)\cr
     #'   Named list of parameter values and fields.
+    #' @examples
+    #' learner = lrn("classif.rpart")
+    #' learner$configure(minsplit = 3, parallel_predict = FALSE)
+    #' learner$configure(.values = list(cp = 0.005))
     configure = function(..., .values = list()) {
       dots = list(...)
       assert_list(dots, names = "unique")
@@ -868,7 +904,7 @@ get_log_condition = function(state, condition) {
   if (is.null(state$log)) {
     character()
   } else {
-    fget(state$log, i = condition, j = "msg", key = "class")
+    fget_key(state$log, condition, "msg", "class")
   }
 }
 
@@ -883,11 +919,6 @@ default_values.Learner = function(x, search_space, task, ...) { # nolint
 
   values[search_space$ids()]
 }
-# #' @export
-# format_list_item.Learner = function(x, ...) { # nolint
-#   sprintf("<lrn:%s>", x$id)
-# }
-
 
 #' @export
 marshal_model.learner_state = function(model, inplace = FALSE, ...) {

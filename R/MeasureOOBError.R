@@ -39,8 +39,12 @@ MeasureOOBError = R6Class("MeasureOOBError",
       if ("oob_error" %nin% learner$properties) {
         return(NA_real_)
       }
+      # prefer value captured during training in learner$state to avoid requiring stored models
+      if (!is.null(learner$state$oob_error)) {
+        return(learner$state$oob_error)
+      }
 
-      return(learner$oob_error())
+      learner$oob_error()
     }
   )
 )

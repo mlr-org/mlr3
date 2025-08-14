@@ -18,6 +18,8 @@ repository \url{https://raphaels1.r-universe.dev}).
 }
 \itemize{
 \item \code{"quantiles"}: Predicts quantile estimates for each observation in the test set.
+Set \verb{$quantiles} to specify the quantiles to predict and \verb{$quantile_response} to specify the response quantile.
+See mlr3book \href{https://mlr3book.mlr-org.com/chapters/chapter13/beyond_regression_and_classification.html#sec-quantile-regression}{section} on quantile regression for more details.
 }
 
 Predefined learners can be found in the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_learners}.
