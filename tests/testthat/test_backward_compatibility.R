@@ -1,4 +1,5 @@
 skip_if(Sys.getenv("GITHUB_ACTIONS") != "true", "Not on GitHub Actions")
+skip_if(!identical(Sys.getenv("GITHUB_HEAD_REF"), "release"), "Not in release branch")
 github_path = Sys.getenv("GITHUB_WORKSPACE")
 
 test_that("task classif backward compatibility", {
