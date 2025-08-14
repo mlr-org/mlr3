@@ -67,6 +67,10 @@ Note that results computed in debug mode use a different seeding mechanism and a
 trained with a different version version of mlr3.
 \item \code{"mlr3.prob_as_default"}: Set to \code{TRUE} to set the predict type of classification learners to
 \code{"prob"} by default (if they support it).
+\item \code{"mlr3.mirai_parallelization"}: Compute profile to use for parallelization with \CRANpkg{mirai}.
+Defaults to \code{"mlr3_parallelization"}.
+\item \code{"mlr3.mirai_encapsulation"}: Compute profile to use for encapsulation with \CRANpkg{mirai}.
+Defaults to \code{"mlr3_encapsulation"}.
 }
 }
 
