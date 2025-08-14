@@ -21,9 +21,17 @@
 NULL
 
 new_prediction_data = function(li, task_type) {
-  li[] = discard(li, is.null) # keep attributes by assigning to []
+  extra_attributes = attributes(li)
+  extra_attributes = extra_attributes[names(extra_attributes) %nin% c("names", "class")]
+
+  li = discard(li, is.null)
   class(li) = c(fget_key(mlr_reflections$task_types, task_type, "prediction_data", "type"), "PredictionData")
-  li
+
+  for (i in seq_along(extra_attributes)) {
+    attr(li, names(extra_attributes)[i]) = extra_attributes[[i]]
+  }
+
+  return(li)
 }
 
 #' @rdname PredictionData
