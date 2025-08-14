@@ -559,7 +559,7 @@ run_experiment = function(task, learner, seed = NULL, configure_learner = NULL) 
   stage = "encapsulation"
   if (startsWith(task$id, "feat_all")) {
     learner_encapsulated = learner$clone(deep = TRUE)
-    learner_encapsulated$encapsulate("callr", default_fallback(learner_encapsulated))
+    learner_encapsulated$encapsulate("mirai", default_fallback(learner_encapsulated))
 
     # check learner state because encapsulation catches errors
     learner_encapsulated$train(task)
