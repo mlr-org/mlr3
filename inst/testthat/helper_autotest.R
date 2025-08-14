@@ -315,7 +315,7 @@ run_experiment = function(task, learner, seed = NULL, configure_learner = NULL) 
 
   # some errors from upstream packages contain %
   error_as_character = function(error) {
-    gsub("%", "", as.character(error))
+    gsub("%", "%%", as.character(error), fixed = TRUE)
   }
 
   # seed handling
