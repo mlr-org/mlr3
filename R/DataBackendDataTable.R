@@ -5,7 +5,6 @@
 #'
 #' @template param_rows
 #' @template param_cols
-#' @template param_data_format
 #' @template param_primary_key
 #' @template param_na_rm
 #'
@@ -54,16 +53,14 @@ DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
     },
 
     #' @description
-    #' Returns a slice of the data in the specified format.
-    #' Currently, the only supported formats are `"data.table"` and `"Matrix"`.
+    #' Returns a slice of the data.
     #' The rows must be addressed as vector of primary key values, columns must be referred to via column names.
     #' Queries for rows with no matching row id and queries for columns with no matching column name are silently ignored.
     #' Rows are guaranteed to be returned in the same order as `rows`, columns may be returned in an arbitrary order.
     #' Duplicated row ids result in duplicated rows, duplicated column names lead to an exception.
-    data = function(rows, cols, data_format) {
+    data = function(rows, cols) {
       rows = assert_integerish(rows, coerce = TRUE)
       assert_names(cols, type = "unique")
-      if (!missing(data_format)) warn_deprecated("DataBackendDataTable$data argument 'data_format'")
       cols = intersect(cols, colnames(private$.data))
 
       if (self$compact_seq) {

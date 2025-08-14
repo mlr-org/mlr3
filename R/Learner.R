@@ -33,7 +33,6 @@
 #' @template param_predict_types
 #' @template param_feature_types
 #' @template param_learner_properties
-#' @template param_data_formats
 #' @template param_packages
 #' @template param_label
 #' @template param_man
@@ -225,7 +224,7 @@ Learner = R6Class("Learner",
     #'
     #' Note that this object is typically constructed via a derived classes, e.g. [LearnerClassif] or [LearnerRegr].
     initialize = function(id, task_type, param_set = ps(), predict_types = character(), feature_types = character(),
-      properties = character(), data_formats, packages = character(), label = NA_character_, man = NA_character_) {
+      properties = character(), packages = character(), label = NA_character_, man = NA_character_) {
 
       self$id = assert_string(id, min.chars = 1L)
       self$label = assert_string(label, na.ok = TRUE)
@@ -235,7 +234,6 @@ Learner = R6Class("Learner",
         empty.ok = FALSE, .var.name = "predict_types")
       private$.predict_type = predict_types[1L]
       self$properties = sort(assert_subset(properties, mlr_reflections$learner_properties[[task_type]]))
-      if (!missing(data_formats)) warn_deprecated("Learner$initialize argument 'data_formats'")
       self$packages = union("mlr3", assert_character(packages, any.missing = FALSE, min.chars = 1L))
       self$man = assert_string(man, na.ok = TRUE)
 
@@ -703,11 +701,6 @@ Learner = R6Class("Learner",
       }
       private$.use_weights
     },
-
-    #' @field data_formats (`character()`)\cr
-    #' Supported data format. Always `"data.table"`..
-    #' This is deprecated and will be removed in the future.
-    data_formats = deprecated_binding("Learner$data_formats", "data.table"),
 
 
     #' @field model (any)\cr

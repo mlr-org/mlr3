@@ -341,10 +341,6 @@ The latter behavior is to avoid cases where a user erroneously assumes that a \c
 For \code{Learner}s that do not support weights, \code{use_weights} needs to be set to \code{"ignore"} if tasks with weights should be handled (by dropping the weights).
 See Section 'weights' for more details.}
 
-\item{\code{data_formats}}{(\code{character()})\cr
-Supported data format. Always \code{"data.table"}..
-This is deprecated and will be removed in the future.}
-
 \item{\code{model}}{(any)\cr
 The fitted model. Only available after \verb{$train()} has been called.}
 
@@ -441,7 +437,6 @@ Note that this object is typically constructed via a derived classes, e.g. \link
   predict_types = character(),
   feature_types = character(),
   properties = character(),
-  data_formats,
   packages = character(),
   label = NA_character_,
   man = NA_character_
@@ -486,9 +481,6 @@ If a learner is in a marshaled state, you call first need to call \verb{$unmarsh
 \item \code{"hotstart_backward"}: The learner supports hotstarting a model backward.
 \item `"featureless": The learner does not use features.
 }}
-
-\item{\code{data_formats}}{(\code{character()})\cr
-Deprecated: ignored, and will be removed in the future.}
 
 \item{\code{packages}}{(\code{character()})\cr
 Set of required packages.
