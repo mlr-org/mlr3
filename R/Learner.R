@@ -572,6 +572,7 @@ Learner = R6Class("Learner",
     #' If the original learner only partially fails during predict step (usually in the form of missing to predict some observations or producing some `NA` predictions), these missing predictions are imputed by the fallback.
     #' Note that the fallback is always trained, as we do not know in advance whether prediction will fail.
     #' If the training step fails, the `$model` field of the original learner is `NULL`.
+    #' The results are reproducible across the different encapsulation methods.
     #'
     #' Also see the section on error handling the mlr3book:
     #' \url{https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling}
