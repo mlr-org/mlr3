@@ -33,7 +33,6 @@
 #' @template param_predict_types
 #' @template param_feature_types
 #' @template param_learner_properties
-#' @template param_data_formats
 #' @template param_packages
 #' @template param_label
 #' @template param_man
@@ -195,7 +194,7 @@ Learner = R6Class("Learner",
     #'
     #' Note that this object is typically constructed via a derived classes, e.g. [LearnerClassif] or [LearnerRegr].
     initialize = function(id, task_type, param_set = ps(), predict_types = character(), feature_types = character(),
-      properties = character(), data_formats, packages = character(), label = NA_character_, man = NA_character_) {
+      properties = character(), packages = character(), label = NA_character_, man = NA_character_) {
 
       self$id = assert_string(id, min.chars = 1L)
       self$label = assert_string(label, na.ok = TRUE)
@@ -205,7 +204,6 @@ Learner = R6Class("Learner",
         empty.ok = FALSE, .var.name = "predict_types")
       private$.predict_type = predict_types[1L]
       private$.properties = sort(assert_subset(properties, mlr_reflections$learner_properties[[task_type]]))
-      if (!missing(data_formats)) warn_deprecated("Learner$initialize argument 'data_formats'")
       self$packages = union("mlr3", assert_character(packages, any.missing = FALSE, min.chars = 1L))
       self$man = assert_string(man, na.ok = TRUE)
 
@@ -531,12 +529,18 @@ Learner = R6Class("Learner",
     #' * `"callr"`: Uses the package \CRANpkg{callr} to call the learner, measure time and do the logging.
     #'   This encapsulation spawns a separate R session in which the learner is called.
     #'   While this comes with a considerable overhead, it also guards your session from being teared down by segfaults.
+    #' * `"mirai"`: Uses the package \CRANpkg{mirai} to call the learner, measure time and do the logging.
+    #'   This encapsulation calls the function in a `mirai` on a `daemon`.
+    #'   The `daemon` can be pre-started via `daemons(1, .compute = "mlr3_encapsulation")`, otherwise a new R session will be created for each encapsulated call.
+    #'   If a `deamon` is already running with compute profile `"mlr3_encapsulation"`, it will be used to executed all calls.
+    #'   Using `mirai"` is similarly safe as `callr` but much faster if several learners are encapsulated one after the other on the same daemon.
     #'
     #' The fallback learner is fitted to create valid predictions in case that either the model fitting or the prediction of the original learner fails.
     #' If the training step or the predict step of the original learner fails, the fallback is used to make the predictions.
     #' If the original learner only partially fails during predict step (usually in the form of missing to predict some observations or producing some `NA` predictions), these missing predictions are imputed by the fallback.
     #' Note that the fallback is always trained, as we do not know in advance whether prediction will fail.
     #' If the training step fails, the `$model` field of the original learner is `NULL`.
+    #' The results are reproducible across the different encapsulation methods.
     #'
     #' Also see the section on error handling the mlr3book:
     #' \url{https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling}
@@ -553,7 +557,7 @@ Learner = R6Class("Learner",
     #' fallback = lrn("classif.featureless")
     #' learner$encapsulate("try", fallback = fallback)
     encapsulate = function(method, fallback = NULL) {
-      assert_choice(method, c("none", "try", "evaluate", "callr"))
+      assert_choice(method, c("none", "try", "evaluate", "callr", "mirai"))
 
       if (method != "none") {
         assert_learner(fallback, task_type = self$task_type)
@@ -728,11 +732,6 @@ Learner = R6Class("Learner",
       }
       private$.use_weights
     },
-
-    #' @field data_formats (`character()`)\cr
-    #' Supported data format. Always `"data.table"`..
-    #' This is deprecated and will be removed in the future.
-    data_formats = deprecated_binding("Learner$data_formats", "data.table"),
 
 
     #' @field model (any)\cr

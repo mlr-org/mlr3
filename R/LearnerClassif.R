@@ -23,7 +23,6 @@
 #' @template param_predict_types
 #' @template param_feature_types
 #' @template param_learner_properties
-#' @template param_data_formats
 #' @template param_packages
 #' @template param_label
 #' @template param_man
@@ -49,9 +48,9 @@ LearnerClassif = R6Class("LearnerClassif", inherit = Learner,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    initialize = function(id, param_set = ps(), predict_types = "response", feature_types = character(), properties = character(), data_formats, packages = character(), label = NA_character_, man = NA_character_) {
+    initialize = function(id, param_set = ps(), predict_types = "response", feature_types = character(), properties = character(), packages = character(), label = NA_character_, man = NA_character_) {
       super$initialize(id = id, task_type = "classif", param_set = param_set, predict_types = predict_types,
-        feature_types = feature_types, properties = properties, data_formats = data_formats, packages = packages,
+        feature_types = feature_types, properties = properties, packages = packages,
         label = label, man = man)
 
       if (getOption("mlr3.prob_as_default", FALSE) && "prob" %in% self$predict_types) {

@@ -54,6 +54,7 @@ Imports:
     future,
     future.apply (>= 1.5.0),
     lgr (>= 0.3.4),
+    mirai (>= 2.4.1),
     mlbench,
     mlr3measures (>= 1.0.0),
     mlr3misc (>= 0.18.0),
@@ -62,7 +63,6 @@ Imports:
     paradox (>= 1.0.1),
     uuid
 Suggests:
-    Matrix,
     callr,
     codetools,
     datasets,
@@ -73,6 +73,8 @@ Suggests:
     RhpcBLASctl,
     rpart,
     testthat (>= 3.2.0)
+Remotes:
+    mlr-org/mlr3misc
 Encoding: UTF-8
 Config/testthat/edition: 3
 Config/testthat/parallel: false
@@ -88,7 +90,6 @@ Collate:
     'DataBackend.R'
     'DataBackendCbind.R'
     'DataBackendDataTable.R'
-    'DataBackendMatrix.R'
     'DataBackendRbind.R'
     'DataBackendRename.R'
     'HotstartStack.R'

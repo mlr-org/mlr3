@@ -13,11 +13,10 @@ DataBackendCbind = R6Class("DataBackendCbind", inherit = DataBackend, cloneable 
       super$initialize(list(b1 = b1, b2 = b2), pk)
     },
 
-    data = function(rows, cols, data_format) {
+    data = function(rows, cols) {
       pk = self$primary_key
       qrows = unique(assert_numeric(rows))
       qcols = union(assert_names(cols, type = "unique"), pk)
-      if (!missing(data_format)) warn_deprecated("DataBackendCbind$data argument 'data_format'")
 
       data = private$.data$b2$data(qrows, qcols)
       if (ncol(data) < length(qcols)) {

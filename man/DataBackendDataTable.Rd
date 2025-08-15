@@ -33,8 +33,7 @@ e.g. SQL servers or \CRANpkg{duckdb}.
 
 Other DataBackend: 
 \code{\link{DataBackend}},
-\code{\link{DataBackendMatrix}},
-\code{\link{as_data_backend.Matrix}()}
+\code{\link{as_data_backend}()}
 }
 \concept{DataBackend}
 \section{Super class}{
@@ -112,14 +111,13 @@ Name of the primary key column, or integer vector of row ids.}
 \if{html}{\out{<a id="method-DataBackendDataTable-data"></a>}}
 \if{latex}{\out{\hypertarget{method-DataBackendDataTable-data}{}}}
 \subsection{Method \code{data()}}{
-Returns a slice of the data in the specified format.
-Currently, the only supported formats are \code{"data.table"} and \code{"Matrix"}.
+Returns a slice of the data.
 The rows must be addressed as vector of primary key values, columns must be referred to via column names.
 Queries for rows with no matching row id and queries for columns with no matching column name are silently ignored.
 Rows are guaranteed to be returned in the same order as \code{rows}, columns may be returned in an arbitrary order.
 Duplicated row ids result in duplicated rows, duplicated column names lead to an exception.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{DataBackendDataTable$data(rows, cols, data_format)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{DataBackendDataTable$data(rows, cols)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -131,9 +129,6 @@ Always refers to the complete data set, even after filtering.}
 
 \item{\code{cols}}{(\code{character()})\cr
 Vector of column names.}
-
-\item{\code{data_format}}{(\code{character(1)})\cr
-Deprecated. Ignored, and will be removed in the future.}
 }
 \if{html}{\out{</div>}}
 }

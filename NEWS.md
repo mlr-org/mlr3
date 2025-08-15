@@ -8,6 +8,7 @@
 * Various improvements to the documentation and logging output, including
   examples for methods.
 * Measure "oob_error" now works even without storing models during resampling.
+* Added `mirai` support for parallelization and encapsulation.
 
 # mlr3 1.1.0
 

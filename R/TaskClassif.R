@@ -18,7 +18,6 @@
 #' @template param_backend
 #' @template param_rows
 #' @template param_cols
-#' @template param_data_format
 #'
 #' @template seealso_task
 #' @export

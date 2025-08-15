@@ -24,7 +24,6 @@
 #' @template param_task_type
 #' @template param_rows
 #' @template param_cols
-#' @template param_data_format
 #' @template param_label
 #' @template param_extra_args
 #'
@@ -281,10 +280,9 @@ Task = R6Class("Task",
     #' @examples
     #' task = tsk("penguins")
     #' task$data(rows = 1:5, cols = c("species", "sex"))
-    data = function(rows = NULL, cols = NULL, data_format, ordered = FALSE) {
+    data = function(rows = NULL, cols = NULL, ordered = FALSE) {
       assert_has_backend(self)
       assert_flag(ordered)
-      if (!missing(data_format)) warn_deprecated("Task$data argument 'data_format'")
 
       row_roles = private$.row_roles
       col_roles = private$.col_roles
@@ -1158,11 +1156,6 @@ Task = R6Class("Task",
       assert_ro_binding(rhs)
       setkeyv(self$col_info[list(private$.col_roles$feature), c("id", "type"), on = "id"], "id")
     },
-
-    #' @field data_formats (`character()`)\cr
-    #' Supported data format. Always `"data.table"`..
-    #' This is deprecated and will be removed in the future.
-    data_formats = deprecated_binding("Task$data_formats", "data.table"),
 
     #' @field strata ([data.table::data.table()])\cr
     #' If the task has columns designated with role `"stratum"`, returns a table with one subpopulation per row and two columns:
