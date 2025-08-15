@@ -162,8 +162,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
     .validate = NULL,
     .train = function(task) {
       pv = self$param_set$get_values(tags = "train")
-      config_error = pv$config_error %??% FALSE
-      if (isTRUE(config_error)) {
+      if (isTRUE(pv$config_error)) {
         error_config("You misconfigured the learner")
       }
 

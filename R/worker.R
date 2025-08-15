@@ -107,7 +107,6 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
     .timeout = learner$timeout["train"],
     .compute = getOption("mlr3.mirai_encapsulation", "mlr3_encapsulation")
   )
-  # select rows where column 'class' is equal to "error" in data.table style
   cond = result$log[class == "error", "condition"]
   cond = if (nrow(cond)) {
     cond[[1L]][[1L]]
