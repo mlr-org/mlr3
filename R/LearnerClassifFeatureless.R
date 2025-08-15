@@ -64,6 +64,9 @@ LearnerClassifFeatureless = R6Class("LearnerClassifFeatureless", inherit = Learn
     #' Selected features are always the empty set for this learner.
     #' @return `character(0)`.
     selected_features = function() {
+      if (is.null(self$model)) {
+        stopf("No model stored")
+      }
       character()
     }
   ),
