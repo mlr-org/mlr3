@@ -389,11 +389,11 @@ Learner = R6Class("Learner",
       # to it original state
       model_was_marshaled = is_marshaled_model(self$model)
       on.exit({
-          if (model_was_marshaled) {
-            self$model = marshal_model(self$model, inplace = TRUE)
-          } else {
-            self$model = unmarshal_model(self$model, inplace = TRUE)
-          }
+        if (model_was_marshaled) {
+          self$model = marshal_model(self$model, inplace = TRUE)
+        } else {
+          self$model = unmarshal_model(self$model, inplace = TRUE)
+        }
       }, add = TRUE)
 
       # reset learner predict time; this is only cumulative for multiple predict sets,
@@ -480,7 +480,7 @@ Learner = R6Class("Learner",
       ci = task$col_info[list(keep_cols), ][
         get("type") != col_info(newdata)[list(keep_cols), on = "id"]$type]
       tab2 = do.call(data.table, Map(auto_convert,
-          value = as.list(newdata$data(rows = newdata$rownames, cols = ci$id)),
+        value = as.list(newdata$data(rows = newdata$rownames, cols = ci$id)),
         id = ci$id, type = ci$type, levels = ci$levels))
 
       tab = cbind(tab1, tab2)
@@ -930,8 +930,8 @@ marshal_model.learner_state = function(model, inplace = FALSE, ...) {
   }
   model$model = mm
   structure(list(
-      marshaled = model,
-      packages = "mlr3"
+    marshaled = model,
+    packages = "mlr3"
   ), class = c("learner_state_marshaled", "list_marshaled", "marshaled"))
 }
 

@@ -188,7 +188,6 @@ Collate:
     'benchmark.R'
     'benchmark_grid.R'
     'bibentries.R'
-    'conditions.R'
     'default_fallback.R'
     'default_measures.R'
     'fix_factor_levels.R'
