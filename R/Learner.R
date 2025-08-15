@@ -593,8 +593,8 @@ Learner = R6Class("Learner",
         assert_learner(fallback, task_type = self$task_type)
 
         if (!identical(self$predict_type, fallback$predict_type)) {
-          warningf("The fallback learner '%s' and the base learner '%s' have different predict types: '%s' != '%s'.",
-            fallback$id, self$id, fallback$predict_type, self$predict_type)
+          warning_config("The fallback learner '%s' and the base learner '%s' have different predict types: '%s' != '%s'.",
+            fallback$id, self$id, fallback$predict_type, self$predict_type, class = "Mlr3WarningConfigFallbackPredictType")
         }
 
         # check properties
@@ -602,8 +602,8 @@ Learner = R6Class("Learner",
         missing_properties = setdiff(properties, fallback$properties)
 
         if (length(missing_properties)) {
-          warningf("The fallback learner '%s' does not have the following properties of the learner '%s': %s.",
-            fallback$id, self$id, str_collapse(missing_properties))
+          warning_config("The fallback learner '%s' does not have the following properties of the learner '%s': %s.",
+            fallback$id, self$id, str_collapse(missing_properties), class = "Mlr3WarningConfigFallbackProperties")
         }
       } else if (method == "none" && !is.null(fallback)) {
         stopf("Fallback learner must be `NULL` if encapsulation is set to `none`.")
