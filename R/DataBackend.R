@@ -10,20 +10,17 @@
 #' It is not recommended to work directly with the DataBackend.
 #' Instead, all data access is handled transparently via the [Task].
 #'
-#' This package comes with two implementations for backends:
+#' This package currently shups with one implementation for backends:
 #'
 #' * [DataBackendDataTable] which stores the data as [data.table::data.table()].
-#' * [DataBackendMatrix] which stores the data as sparse [Matrix::sparseMatrix()].
 #'
 #' To connect to out-of-memory database management systems such as SQL servers,
 #' see the extension package \CRANpkg{mlr3db}.
 #'
 #' @details
 #' The required set of fields and methods to implement a custom `DataBackend` is
-#' listed in the respective sections (see [DataBackendDataTable] or
-#' [DataBackendMatrix] for exemplary implementations of the interface).
+#' listed in the respective sections (see [DataBackendDataTable]).
 #'
-#' @template param_data_formats
 #' @template seealso_databackend
 #'
 #' @export
@@ -47,22 +44,20 @@ DataBackend = R6Class("DataBackend", cloneable = FALSE,
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #'
     #' Note: This object is typically constructed via a derived classes, e.g.
-    #' [DataBackendDataTable] or [DataBackendMatrix], or via the S3 method
+    #' [DataBackendDataTable], or via the S3 method
     #' [as_data_backend()].
     #'
     #' @param data (any)\cr
     #'   The format of the input data depends on the specialization. E.g.,
-    #'   [DataBackendDataTable] expects a [data.table::data.table()] and
-    #'   [DataBackendMatrix] expects a [Matrix::Matrix()] from \CRANpkg{Matrix}.
+    #'   [DataBackendDataTable] expects a [data.table::data.table()].
     #'
     #' @param primary_key (`character(1)`)\cr
     #'   Each DataBackend needs a way to address rows, which is done via a
     #'   column of unique integer values, referenced here by `primary_key`. The
     #'   use of this variable may differ between backends.
-    initialize = function(data, primary_key, data_formats) {
+    initialize = function(data, primary_key) {
       private$.data = data
       self$primary_key = assert_string(primary_key)
-      if (!missing(data_formats)) warn_deprecated("DataBackend$initialize argument 'data_formats'")
     },
 
     #' @description
@@ -85,11 +80,6 @@ DataBackend = R6Class("DataBackend", cloneable = FALSE,
   ),
 
   active = list(
-    #' @field data_formats (`character()`)\cr
-    #' Supported data format. Always `"data.table"`..
-    #' This is deprecated and will be removed in the future.
-    data_formats = deprecated_binding("DataBackend$data_formats", "data.table"),
-
     #' @field hash (`character(1)`)\cr
     #' Hash (unique identifier) for this object.
     hash = function(rhs) {

@@ -5,7 +5,7 @@
 #' This is a S3 generic. mlr3 ships with methods for the following objects:
 #'
 #' 1. [TaskRegr]: returns the object as-is, possibly cloned.
-#' 2. [`formula`], [data.frame()], [matrix()], [Matrix::Matrix()] and [DataBackend]: provides an alternative to the constructor of [TaskRegr].
+#' 2. [`formula`], [data.frame()], [matrix()], and [DataBackend]: provides an alternative to the constructor of [TaskRegr].
 #' 3. [TaskClassif]: Calls [convert_task()].
 #'
 #' @inheritParams as_task
@@ -56,19 +56,6 @@ as_task_regr.matrix = function(x, target, id = deparse1(substitute(x)), label = 
   assert_choice(target, colnames(x))
 
   as_task_regr(as.data.table(x), target = target, id = id, label = label, ...)
-}
-
-#' @rdname as_task_regr
-#' @export
-as_task_regr.Matrix = function(x, target, id = deparse1(substitute(x)), label = NA_character_, ...) { # nolint
-  force(id)
-
-  assert_names(colnames(x), "unique")
-  assert_choice(target, colnames(x))
-
-  dense = data.table(..row_id = seq_len(nrow(x)))
-  b = DataBackendMatrix$new(x, dense = dense, primary_key = "..row_id")
-  as_task_regr(b, target = target, id = id, label = label, ...)
 }
 
 #' @rdname as_task_regr

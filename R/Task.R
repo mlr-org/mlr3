@@ -24,7 +24,6 @@
 #' @template param_task_type
 #' @template param_rows
 #' @template param_cols
-#' @template param_data_format
 #' @template param_label
 #' @template param_extra_args
 #'
@@ -303,10 +302,9 @@ Task = R6Class("Task",
     #' @examples
     #' task = tsk("penguins")
     #' task$data(rows = 1:5, cols = c("species", "sex"))
-    data = function(rows = NULL, cols = NULL, data_format, ordered = FALSE) {
+    data = function(rows = NULL, cols = NULL, ordered = FALSE) {
       assert_has_backend(self)
       assert_flag(ordered)
-      if (!missing(data_format)) warn_deprecated("Task$data argument 'data_format'")
 
       row_roles = private$.row_roles
       col_roles = private$.col_roles
@@ -862,20 +860,29 @@ Task = R6Class("Task",
     #' free up memory or speeds up accesses to the data, especially after several `$rbind()`
     #' and `$cbind()` operations.
     #'
-    #' @param materialize_internal_valid_task (`logical(1)`)\cr
+    #' @details
+    #' For tasks containing the same observation more than once (duplicates in `$row_ids`),
+    #' the resulting backend contains it only once.
+    #'
+    #' @param internal_valid_task (`logical(1)`)\cr
     #'   Also materialize the internal validation task. Default is `TRUE`.
     #'
     #' @return self (invisibly).
-    materialize_view = function(materialize_internal_valid_task = TRUE) {
-      assert_flag(materialize_internal_valid_task)
+    #' @examples
+    #' task = tsk("iris")
+    #' task$backend$nrow
+    #' task$filter(1:120)
+    #' task$backend$nrow
+    materialize_view = function(internal_valid_task = TRUE) {
+      assert_flag(internal_valid_task)
 
       b = self$backend
       ..cns = union(b$primary_key, unlist(private$.col_roles, use.names = FALSE))
-      dt = b$data(rows = self$row_ids, cols = ..cns)
+      dt = b$data(rows = unique(self$row_ids), cols = ..cns)
       self$backend = as_data_backend(dt, primary_key = b$primary_key)
       self$col_info = setkeyv(self$col_info[list(..cns), on = "id"], "id")
 
-      if (materialize_internal_valid_task && !is.null(private$.internal_valid_task)) {
+      if (internal_valid_task && !is.null(private$.internal_valid_task)) {
         private$.internal_valid_task$materialize_view(FALSE)
       }
       invisible(self)
@@ -1131,11 +1138,6 @@ Task = R6Class("Task",
       assert_ro_binding(rhs)
       setkeyv(self$col_info[list(private$.col_roles$feature), c("id", "type"), on = "id"], "id")
     },
-
-    #' @field data_formats (`character()`)\cr
-    #' Supported data format. Always `"data.table"`..
-    #' This is deprecated and will be removed in the future.
-    data_formats = deprecated_binding("Task$data_formats", "data.table"),
 
     #' @field strata ([data.table::data.table()])\cr
     #' If the task has columns designated with role `"stratum"`, returns a table with one subpopulation per row and two columns:

@@ -920,7 +920,7 @@ test_that("$data() is not called during task construction", {
     inherit = DataBackendDataTable,
     cloneable = FALSE,
     public = list(
-      data = function(rows, cols, data_format) {
+      data = function(rows, cols) {
         stop("Bug")
       }
     )
@@ -1010,4 +1010,13 @@ test_that("$materialize_view works with internal valid task", {
   expect_set_equal(iv$target_names, "Species")
   expect_data_table(iv$col_info, key = "id")
   expect_set_equal(iv$col_info$id, c(task$backend$primary_key, task$feature_names, task$target_names))
+})
+
+test_that("materialize_view works with duplicates", {
+  task = tsk("iris")
+  task2 = task$clone(deep = TRUE)
+  task$filter(c(1, 1, 2))
+  task2$filter(c(1, 1, 2))
+  task2$materialize_view()
+  expect_equal(task$data(), task2$data())
 })

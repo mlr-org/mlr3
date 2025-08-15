@@ -18,6 +18,13 @@
 #' @template param_label
 #' @template param_man
 #'
+#' @section Stochasticity & Reproducibility:
+#' The [`Resampling`] class only defines an abstract resampling strategy.
+#' Concrete data splits are obtained by calling `$instantiate()` on a [`Task`].
+#' To ensure repdocubility of results, you need to call `set.seed` before doing so.
+#' Note that [`benchmark_grid`] internally does instantiate resamplings, so you need to set
+#' the seed before calling it.
+#'
 #' @section Stratification:
 #' All derived classes support stratified sampling.
 #' The stratification variables are assumed to be discrete and must be stored in the [Task] with column role `"stratum"`.

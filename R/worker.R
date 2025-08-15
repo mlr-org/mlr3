@@ -43,7 +43,7 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
       get_private(learner)$.extract_oob_error()
     }
 
-    if (learner$encapsulation[["train"]] == "callr") {
+    if (learner$encapsulation[["train"]] %in% c("callr", "mirai")) {
       model = marshal_model(model, inplace = TRUE)
     }
 
@@ -104,7 +104,8 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
     .args = list(learner = learner, task = task),
     .pkgs = learner$packages,
     .seed = NA_integer_,
-    .timeout = learner$timeout["train"]
+    .timeout = learner$timeout["train"],
+    .compute = getOption("mlr3.mirai_encapsulation", "mlr3_encapsulation")
   )
   # select rows where column 'class' is equal to "error" in data.table style
   cond = result$log[class == "error", "condition"]
@@ -238,7 +239,7 @@ learner_predict = function(learner, task, row_ids = NULL) {
     lg$debug("Calling predict method of Learner '%s' on task '%s' with %i observations",
       learner$id, task$id, task$nrow, learner = learner$clone())
 
-    if (isTRUE(all.equal(learner$encapsulation[["predict"]], "callr"))) {
+    if (learner$encapsulation[["predict"]] %in% c("callr", "mirai")) {
       learner$model = marshal_model(learner$model, inplace = TRUE)
     }
 
@@ -248,7 +249,8 @@ learner_predict = function(learner, task, row_ids = NULL) {
       .args = list(task = task, learner = learner),
       .pkgs = learner$packages,
       .seed = NA_integer_,
-      .timeout = learner$timeout["predict"]
+      .timeout = learner$timeout["predict"],
+      .compute = getOption("mlr3.mirai_encapsulation", "mlr3_encapsulation")
     )
 
     pdata = result$result
@@ -458,7 +460,7 @@ process_model_before_predict = function(learner, store_models, is_sequential, un
   # and also, do we even need to send it back at all?
 
   currently_marshaled = is_marshaled_model(learner$model)
-  predict_needs_marshaling = isTRUE(all.equal(learner$encapsulation[["predict"]], "callr"))
+  predict_needs_marshaling = learner$encapsulation[["predict"]] %in% c("callr", "mirai")
   final_needs_marshaling = !is_sequential || !unmarshal
 
   # the only scenario in which we keep a copy is when we now have the model in the correct form but need to transform

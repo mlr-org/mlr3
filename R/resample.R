@@ -6,6 +6,10 @@
 #' then use the trained model to predict observations of a test set.
 #' Training and test sets are defined by the [Resampling] `resampling`.
 #'
+#' @section Stochasticity:
+#' Note that uninstantiated [`Resampling`]s are instantiated on the task, making
+#' the procedure stochastic even in case of a deterministic learner.
+#'
 #' @param task ([Task]).
 #' @param learner ([Learner]).
 #' @param resampling ([Resampling]).
@@ -84,6 +88,7 @@ resample = function(
 
   set_encapsulation(list(learner), encapsulate)
   if (!resampling$is_instantiated) {
+    lg$info("Resampling '%s' is being instantiated on task '%s'", resampling$id, task$id)
     resampling = resampling$instantiate(task)
   }
 

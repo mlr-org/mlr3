@@ -82,6 +82,12 @@ This package runs benchmark experiments on high-performance computing clusters a
 The fitted models are discarded after the predictions have been scored in order to reduce memory consumption.
 If you need access to the models for later analysis, set \code{store_models} to \code{TRUE}.
 }
+\section{Stochasticity}{
+
+Note that uninstantiated \code{\link{Resampling}}s are instantiated on the task, making
+the function stochastic even in case of deterministic learners.
+}
+
 \section{Predict Sets}{
 
 If you want to compare the performance of a learner on the training with the performance
@@ -100,10 +106,13 @@ The (list of) created measures can finally be passed to \verb{$aggregate()} or \
 \section{Parallelization}{
 
 
-This function can be parallelized with the \CRANpkg{future} package.
-One job is one resampling iteration, and all jobs are send to an apply function
-from \CRANpkg{future.apply} in a single batch.
+This function can be parallelized with the \CRANpkg{future} or \CRANpkg{mirai} package.
+One job is one resampling iteration.
+All jobs are send to an apply function from \CRANpkg{future.apply} or \code{mirai::mirai_map()} in a single batch.
 To select a parallel backend, use \code{\link[future:plan]{future::plan()}}.
+To use \code{mirai}, call \code{mirai::daemons(.compute = "mlr3_parallelization")} before calling this function.
+The \code{future} package guarantees reproducible results independent of the parallel backend.
+The results of \code{mirai} will not be the same but can be made reproducible by setting a \code{seed} when calling \code{mirai::daemons()}.
 More on parallelization can be found in the book:
 \url{https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html}
 }

@@ -184,6 +184,15 @@ task$levels("sex")
 
 task = tsk("penguins")
 task$add_strata("flipper_length", bins = 4)
+
+## ------------------------------------------------
+## Method `Task$materialize_view`
+## ------------------------------------------------
+
+task = tsk("iris")
+task$backend$nrow
+task$filter(1:120)
+task$backend$nrow
 }
 \seealso{
 \itemize{
@@ -378,10 +387,6 @@ Returns the total number of columns with role "feature" (i.e. the number of "act
 \item{\code{feature_types}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
 Returns a table with columns \code{id} and \code{type} where \code{id} are the column names of "active"
 features of the task and \code{type} is the storage type.}
-
-\item{\code{data_formats}}{(\code{character()})\cr
-Supported data format. Always \code{"data.table"}..
-This is deprecated and will be removed in the future.}
 
 \item{\code{strata}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
 If the task has columns designated with role \code{"stratum"}, returns a table with one subpopulation per row and two columns:
@@ -620,7 +625,7 @@ If \code{rows} is \code{NULL}, rows are returned in the order of \code{task$row_
 If \code{cols} is \code{NULL}, the column order defaults to \code{c(task$target_names, task$feature_names)}.
 Note that it is recommended to \strong{not} rely on the order of columns, and instead always address columns with their respective column name.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Task$data(rows = NULL, cols = NULL, data_format, ordered = FALSE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Task$data(rows = NULL, cols = NULL, ordered = FALSE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -632,9 +637,6 @@ Always refers to the complete data set, even after filtering.}
 
 \item{\code{cols}}{(\code{character()})\cr
 Vector of column names.}
-
-\item{\code{data_format}}{(\code{character(1)})\cr
-Deprecated. Ignored, and will be removed in the future.}
 
 \item{\code{ordered}}{(\code{logical(1)})\cr
 If \code{TRUE}, data is ordered according to the columns with column role \code{"order"}.}
@@ -1192,20 +1194,36 @@ replaces the internal \link{DataBackend} with the new one. In some scenarios thi
 free up memory or speeds up accesses to the data, especially after several \verb{$rbind()}
 and \verb{$cbind()} operations.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Task$materialize_view(materialize_internal_valid_task = TRUE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Task$materialize_view(internal_valid_task = TRUE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{materialize_internal_valid_task}}{(\code{logical(1)})\cr
+\item{\code{internal_valid_task}}{(\code{logical(1)})\cr
 Also materialize the internal validation task. Default is \code{TRUE}.}
 }
 \if{html}{\out{</div>}}
 }
+\subsection{Details}{
+For tasks containing the same observation more than once (duplicates in \verb{$row_ids}),
+the resulting backend contains it only once.
+}
+
 \subsection{Returns}{
 self (invisibly).
 }
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{task = tsk("iris")
+task$backend$nrow
+task$filter(1:120)
+task$backend$nrow
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Task-clone"></a>}}
