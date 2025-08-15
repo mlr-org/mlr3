@@ -957,4 +957,6 @@ test_that("config error does not trigger callback", {
   l = lrn("classif.debug", config_error = TRUE)
   l$encapsulate("evaluate", lrn("classif.featureless"), function(x) TRUE)
   expect_error(l$train(tsk("iris")), regexp = "You misconfigured the learner")
+  l$encapsulate("evaluate", lrn("classif.featureless"))
+  expect_error(l$train(tsk("iris")), regexp = "You misconfigured the learner")
 })
