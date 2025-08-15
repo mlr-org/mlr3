@@ -37,7 +37,7 @@ as_task_regr.data.frame = function(x, target, id = deparse1(substitute(x)), labe
   force(id)
 
   if (!missing(label)) {
-    deprecated_component("label is deprecated for as_task_regr and will be removed in the future.")
+    mlr3component_deprecation_msg("label is deprecated for as_task_regr and will be removed in the future.")
   }
 
   assert_data_frame(x, min.rows = 1L, min.cols = 1L, col.names = "unique")
@@ -57,7 +57,7 @@ as_task_regr.matrix = function(x, target, id = deparse1(substitute(x)), label, .
   force(id)
 
   if (!missing(label)) {
-    deprecated_component("label is deprecated for as_task_regr and will be removed in the future.")
+    mlr3component_deprecation_msg("label is deprecated for as_task_regr and will be removed in the future.")
   }
 
   assert_matrix(x, mode = "numeric")
@@ -72,7 +72,7 @@ as_task_regr.DataBackend = function(x, target, id = deparse1(substitute(x)), lab
   force(id)
 
   if (!missing(label)) {
-    deprecated_component("label is deprecated for as_task_regr and will be removed in the future.")
+    mlr3component_deprecation_msg("label is deprecated for as_task_regr and will be removed in the future.")
   }
 
   assert_choice(target, x$colnames)
@@ -95,7 +95,7 @@ as_task_regr.formula = function(x, data, id = deparse1(substitute(data)), label,
   force(id)
 
   if (!missing(label)) {
-    deprecated_component("label is deprecated for as_task_regr and will be removed in the future.")
+    mlr3component_deprecation_msg("label is deprecated for as_task_regr and will be removed in the future.")
   }
 
   assert_data_frame(data)

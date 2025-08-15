@@ -114,7 +114,7 @@ Task = R6Class("Task",
     initialize = function(id, task_type, backend, extra_args = list(), label, man) {
 
       if (!missing(label) || !missing(man)) {
-        deprecated_component("label and man are deprecated for Task construction and will be removed in the future.")
+        mlr3component_deprecation_msg("label and man are deprecated for Task construction and will be removed in the future.")
       }
 
       super$initialize(dict_entry = id, dict_shortaccess = "tsk",

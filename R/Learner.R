@@ -211,7 +211,7 @@ Learner = R6Class("Learner",
       properties = character(0), packages = character(0), label, man) {
 
       if (!missing(label) || !missing(man)) {
-        deprecated_component("label and man are deprecated for Learner construction and will be removed in the future.")
+        mlr3component_deprecation_msg("label and man are deprecated for Learner construction and will be removed in the future.")
       }
 
       super$initialize(dict_entry = id, dict_shortaccess = "lrn",

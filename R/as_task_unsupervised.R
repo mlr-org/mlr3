@@ -26,7 +26,7 @@ as_task_unsupervised.data.frame = function(x, id = deparse1(substitute(x)), labe
   force(id)
 
   if (!missing(label)) {
-    deprecated_component("label is deprecated for as_task_unsupervised and will be removed in the future.")
+    mlr3component_deprecation_msg("label is deprecated for as_task_unsupervised and will be removed in the future.")
   }
 
   ii = which(map_lgl(keep(x, is.double), anyInfinite))
@@ -43,7 +43,7 @@ as_task_unsupervised.data.frame = function(x, id = deparse1(substitute(x)), labe
   force(id)
 
   if (!missing(label)) {
-    deprecated_component("label is deprecated for as_task_unsupervised and will be removed in the future.")
+    mlr3component_deprecation_msg("label is deprecated for as_task_unsupervised and will be removed in the future.")
   }
 
   TaskUnsupervised$new(id = id, backend = x)

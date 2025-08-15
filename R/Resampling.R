@@ -129,7 +129,7 @@ Resampling = R6Class("Resampling",
     #' Note that this object is typically constructed via a derived classes, e.g. [ResamplingCV] or [ResamplingHoldout].
     initialize = function(id, param_set = ps(), duplicated_ids = FALSE, label, man) {
       if (!missing(label) || !missing(man)) {
-        deprecated_component("label and man are deprecated for Resampling construction and will be removed in the future.")
+        mlr3component_deprecation_msg("label and man are deprecated for Resampling construction and will be removed in the future.")
       }
 
       super$initialize(dict_entry = id, dict_shortaccess = "rsmp", param_set = param_set)

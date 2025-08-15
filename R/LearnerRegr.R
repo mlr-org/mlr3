@@ -49,7 +49,7 @@ LearnerRegr = R6Class("LearnerRegr", inherit = Learner,
       label, man
     ) {
       if (!missing(label) || !missing(man)) {
-        deprecated_component("label and man are deprecated for Learner construction and will be removed in the future.")
+        mlr3component_deprecation_msg("label and man are deprecated for Learner construction and will be removed in the future.")
       }
 
       super$initialize(id = id, task_type = task_type, param_set = param_set, feature_types = feature_types,

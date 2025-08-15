@@ -39,7 +39,7 @@ as_task_classif.data.frame = function(x, target, id = deparse1(substitute(x)), p
   force(id)
 
   if (!missing(label)) {
-    deprecated_component("label is deprecated for as_task_classif and will be removed in the future.")
+    mlr3component_deprecation_msg("label is deprecated for as_task_classif and will be removed in the future.")
   }
 
   assert_data_frame(x, min.rows = 1L, min.cols = 1L, col.names = "unique")
@@ -64,7 +64,7 @@ as_task_classif.matrix = function(x, target, id = deparse1(substitute(x)), label
   force(id)
 
   if (!missing(label)) {
-    deprecated_component("label is deprecated for as_task_classif and will be removed in the future.")
+    mlr3component_deprecation_msg("label is deprecated for as_task_classif and will be removed in the future.")
   }
 
   assert_matrix(x, col.names = "unique", min.rows = 1L, min.cols = 1L)
@@ -79,7 +79,7 @@ as_task_classif.DataBackend = function(x, target, id = deparse1(substitute(x)), 
   force(id)
 
   if (!missing(label)) {
-    deprecated_component("label is deprecated for as_task_classif and will be removed in the future.")
+    mlr3component_deprecation_msg("label is deprecated for as_task_classif and will be removed in the future.")
   }
 
   assert_choice(target, x$colnames)
@@ -102,7 +102,7 @@ as_task_classif.formula = function(x, data, id = deparse1(substitute(data)), pos
   force(id)
 
   if (!missing(label)) {
-    deprecated_component("label is deprecated for as_task_classif and will be removed in the future.")
+    mlr3component_deprecation_msg("label is deprecated for as_task_classif and will be removed in the future.")
   }
 
   assert_data_frame(data)

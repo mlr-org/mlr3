@@ -34,7 +34,7 @@ TaskRegr = R6Class("TaskRegr",
     #' @template param_extra_args
     initialize = function(id, backend, target, label, man, extra_args = list()) {
       if (!missing(label) || !missing(man)) {
-        deprecated_component("label and man are deprecated for Task construction and will be removed in the future.")
+        mlr3component_deprecation_msg("label and man are deprecated for Task construction and will be removed in the future.")
       }
 
       assert_string(target)

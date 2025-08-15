@@ -53,7 +53,7 @@ LearnerClassif = R6Class("LearnerClassif", inherit = Learner,
       label, man
     ) {
       if (!missing(label) || !missing(man)) {
-        deprecated_component("label and man are deprecated for Learner construction and will be removed in the future.")
+        mlr3component_deprecation_msg("label and man are deprecated for Learner construction and will be removed in the future.")
       }
 
       super$initialize(id = id, task_type = "classif", param_set = param_set, predict_types = predict_types,

@@ -120,7 +120,7 @@ Measure = R6Class("Measure",
       label, man, trafo = NULL) {
 
       if (!missing(label) || !missing(man)) {
-        deprecated_component("label and man are deprecated for Measure construction and will be removed in the future.")
+        mlr3component_deprecation_msg("label and man are deprecated for Measure construction and will be removed in the future.")
       }
 
       super$initialize(dict_entry = id, dict_shortaccess = "msr",

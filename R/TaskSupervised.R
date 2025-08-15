@@ -31,7 +31,7 @@ TaskSupervised = R6Class("TaskSupervised", inherit = Task,
     #'   Name of the target column.
     initialize = function(id, task_type, backend, target, extra_args = list(), label, man) {
       if (!missing(label) || !missing(man)) {
-        deprecated_component("label and man are deprecated for Task construction and will be removed in the future.")
+        mlr3component_deprecation_msg("label and man are deprecated for Task construction and will be removed in the future.")
       }
 
       super$initialize(id = id, task_type = task_type, backend = backend, extra_args = extra_args)

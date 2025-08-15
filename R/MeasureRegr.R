@@ -36,7 +36,7 @@ MeasureRegr = R6Class("MeasureRegr",
       predict_sets = "test", task_properties = character(), packages = character(), label, man) {
 
       if (!missing(label) || !missing(man)) {
-        deprecated_component("label and man are deprecated for Measure construction and will be removed in the future.")
+        mlr3component_deprecation_msg("label and man are deprecated for Measure construction and will be removed in the future.")
       }
 
       super$initialize(id, task_type = "regr", param_set = param_set, range = range, minimize = minimize, average = average, aggregator = aggregator,
