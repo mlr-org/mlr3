@@ -557,7 +557,7 @@ run_experiment = function(task, learner, seed = NULL, configure_learner = NULL) 
 
   # check encapsulation
   stage = "encapsulation"
-  if (startsWith(task$id, "feat_all")) {
+  if (startsWith(task$id, "feat_all")  && !(learner$task_type == "surv" && learner$predict_type %in% c("lp", "response"))) {
     learner_encapsulated = learner$clone(deep = TRUE)
     learner_encapsulated$encapsulate("mirai", default_fallback(learner_encapsulated))
 
@@ -761,4 +761,14 @@ prob_vector_to_matrix = function(p, levs) {
   y = matrix(c(1 - p, p), ncol = 2L, nrow = length(p))
   colnames(y) = levs
   y
+}
+
+suppress_fallback_warnings = function(expr) {
+  withCallingHandlers({expr},
+    warning = function(w) {
+      if (inherits(w, "Mlr3WarningConfigFallbackPredictType") || inherits(w, "Mlr3WarningConfigFallbackProperties")) {
+        invokeRestart("muffleWarning")
+     }
+    }
+  )
 }

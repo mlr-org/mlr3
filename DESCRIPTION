@@ -74,7 +74,7 @@ Suggests:
     rpart,
     testthat (>= 3.2.0)
 Remotes:
-    mlr-org/mlr3misc
+    mlr-org/mlr3misc@errors
 Encoding: UTF-8
 Config/testthat/edition: 3
 Config/testthat/parallel: false
