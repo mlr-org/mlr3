@@ -82,24 +82,6 @@ Task = R6Class("Task",
     #' @template field_task_type
     task_type = NULL,
 
-    #' @field backend ([DataBackend])\cr
-    #' Abstract interface to the data of the task.
-    backend = NULL,
-
-    #' @field col_info ([data.table::data.table()])\cr
-    #' Table with with 4 columns, mainly for internal purposes:
-    #' - `"id"` (`character()`) stores the name of the column.
-    #' - `"type"` (`character()`) holds the storage type of the variable, e.g. `integer`, `numeric` or `character`.
-    #'   See [mlr_reflections$task_feature_types][mlr_reflections] for a complete list of allowed types.
-    #' - `"levels"` (`list()`) stores a vector of distinct values (levels) for ordered and unordered factor variables.
-    #' - `"label"` (`character()`) stores a vector of prettier, formated column names.
-    #' - `"fix_factor_levels"` (`logical()`) stores flags which determine if the levels of the respective variable
-    #'   need to be reordered after querying the data from the [DataBackend].
-    #'
-    #' Note that all columns of the [DataBackend], also columns which are not selected or have any role, are listed
-    #' in this table.
-    col_info = NULL,
-
     #' @template field_man
     man = NA_character_,
 
@@ -107,10 +89,6 @@ Task = R6Class("Task",
     #' Additional arguments set during construction.
     #' Required for [convert_task()].
     extra_args = NULL,
-
-    #' @field mlr3_version (`package_version`)\cr
-    #' Package version of `mlr3` used to create the task.
-    mlr3_version = NULL,
 
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
@@ -120,10 +98,10 @@ Task = R6Class("Task",
       private$.id = assert_string(id, min.chars = 1L)
       self$label = assert_string(label, na.ok = TRUE)
       self$task_type = assert_choice(task_type, mlr_reflections$task_types$type)
-      if (!inherits(backend, "DataBackend")) {
-        self$backend = as_data_backend(backend)
+      private$.backend = if (!inherits(backend, "DataBackend")) {
+        as_data_backend(backend)
       } else {
-        self$backend = assert_backend(backend)
+        assert_backend(backend)
       }
 
       cn = self$backend$colnames
@@ -134,9 +112,9 @@ Task = R6Class("Task",
         stopf("Column names may not contain special character '%%'")
       }
 
-      self$col_info = col_info(self$backend)
-      self$col_info$label = NA_character_
-      self$col_info$fix_factor_levels = FALSE
+      private$.col_info = col_info(private$.backend)
+      private$.col_info$label = NA_character_
+      private$.col_info$fix_factor_levels = FALSE
 
       assert_subset(self$col_info$type, mlr_reflections$task_feature_types, .var.name = "feature types")
       pmap(self$col_info,
@@ -151,7 +129,7 @@ Task = R6Class("Task",
       private$.col_roles = named_list(mlr_reflections$task_col_roles[[task_type]], character())
       private$.col_roles$feature = setdiff(cn, self$backend$primary_key)
       self$extra_args = assert_list(extra_args, names = "unique")
-      self$mlr3_version = mlr_reflections$package_version
+      private$.mlr3_version = mlr_reflections$package_version
     },
 
     #' @description
@@ -583,8 +561,8 @@ Task = R6Class("Task",
 
       # everything looks good, modify task
       private$.hash = NULL
-      self$backend = DataBackendRbind$new(self$backend, data)
-      self$col_info = tab[]
+      private$.backend = DataBackendRbind$new(self$backend, data)
+      private$.col_info = tab[]
       private$.row_roles$use = c(private$.row_roles$use, data$rownames)
 
       invisible(self)
@@ -631,10 +609,10 @@ Task = R6Class("Task",
 
       # update col_info for existing columns
       ci = col_info(data)
-      self$col_info = ujoin(self$col_info, ci, key = "id")
+      private$.col_info = ujoin(private$.col_info, ci, key = "id")
 
       # add rows to col_info for new columns
-      self$col_info = rbindlist(list(
+      private$.col_info = rbindlist(list(
         self$col_info,
         insert_named(ci[!list(self$col_info), on = "id"], list(label = NA_character_, fix_factor_levels = FALSE))
       ), use.names = TRUE)
@@ -647,7 +625,7 @@ Task = R6Class("Task",
       private$.col_roles$feature = union(col_roles$feature, setdiff(data$colnames, c(pk, col_roles$target)))
 
       # update backend
-      self$backend = DataBackendCbind$new(self$backend, data)
+      private$.backend = DataBackendCbind$new(self$backend, data)
 
       invisible(self)
     },
@@ -677,8 +655,8 @@ Task = R6Class("Task",
       assert_has_backend(self)
       private$.hash = NULL
       private$.col_hashes = NULL
-      self$backend = DataBackendRename$new(self$backend, old, new)
-      setkeyv(self$col_info[old, ("id") := new, on = "id"], "id")
+      private$.backend = DataBackendRename$new(self$backend, old, new)
+      setkeyv(private$.col_info[old, ("id") := new, on = "id"], "id")
       private$.col_roles = map(private$.col_roles, map_values, old = old, new = new)
       invisible(self)
     },
@@ -787,7 +765,7 @@ Task = R6Class("Task",
       tab$fix_factor_levels = TRUE
 
       private$.hash = NULL
-      self$col_info = ujoin(self$col_info, tab, key = "id")
+      private$.col_info = ujoin(self$col_info, tab, key = "id")
 
       invisible(self)
     },
@@ -816,7 +794,7 @@ Task = R6Class("Task",
       tab[, c("levels", "fix_factor_levels") := list(Map(intersect, levels, new_levels), TRUE)]
 
       private$.hash = NULL
-      self$col_info = ujoin(self$col_info, remove_named(tab, "new_levels"), key = "id")
+      private$.col_info = ujoin(self$col_info, remove_named(tab, "new_levels"), key = "id")
 
       invisible(self)
     },
@@ -879,8 +857,8 @@ Task = R6Class("Task",
       b = self$backend
       ..cns = union(b$primary_key, unlist(private$.col_roles, use.names = FALSE))
       dt = b$data(rows = unique(self$row_ids), cols = ..cns)
-      self$backend = as_data_backend(dt, primary_key = b$primary_key)
-      self$col_info = setkeyv(self$col_info[list(..cns), on = "id"], "id")
+      private$.backend = as_data_backend(dt, primary_key = b$primary_key)
+      private$.col_info = setkeyv(self$col_info[list(..cns), on = "id"], "id")
 
       if (internal_valid_task && !is.null(private$.internal_valid_task)) {
         private$.internal_valid_task$materialize_view(FALSE)
@@ -898,6 +876,46 @@ Task = R6Class("Task",
 
       private$.hash = NULL
       private$.id = assert_string(rhs, min.chars = 1L)
+    },
+
+    #' @field backend ([DataBackend])\cr
+    #' Abstract interface to the data of the task.
+    backend = function(rhs) {
+      if (!missing(rhs)) {
+        warn_deprecated("backend will soon be read-only.")
+        private$.backend = rhs
+      }
+      private$.backend
+    },
+
+    #' @field col_info ([data.table::data.table()])\cr
+    #' Table with with 4 columns, mainly for internal purposes:
+    #' - `"id"` (`character()`) stores the name of the column.
+    #' - `"type"` (`character()`) holds the storage type of the variable, e.g. `integer`, `numeric` or `character`.
+    #'   See [mlr_reflections$task_feature_types][mlr_reflections] for a complete list of allowed types.
+    #' - `"levels"` (`list()`) stores a vector of distinct values (levels) for ordered and unordered factor variables.
+    #' - `"label"` (`character()`) stores a vector of prettier, formated column names.
+    #' - `"fix_factor_levels"` (`logical()`) stores flags which determine if the levels of the respective variable
+    #'   need to be reordered after querying the data from the [DataBackend].
+    #'
+    #' Note that all columns of the [DataBackend], also columns which are not selected or have any role, are listed
+    #' in this table.
+    col_info = function(rhs) {
+      if (!missing(rhs)) {
+        warn_deprecated("col_info will soon be read-only.")
+        private$.col_info = rhs
+      }
+      private$.col_info
+    },
+
+    #' @field mlr3_version (`package_version`)\cr
+    #' Package version of `mlr3` used to create the task.
+    mlr3_version = function(rhs) {
+      if (!missing(rhs)) {
+        warn_deprecated("mlr3_version will soon be read-only.")
+        private$.mlr3_version = rhs
+      }
+      private$.mlr3_version
     },
 
     #' @field internal_valid_task (`Task` or `integer()` or `NULL`)\cr
@@ -1342,10 +1360,13 @@ Task = R6Class("Task",
     .col_hashes = NULL,
     .characteristics = NULL,
     .row_hash = NULL,
+    .backend = NULL,
+    .col_info = NULL,
+    .mlr3_version = NULL,
 
     deep_clone = function(name, value) {
       # NB: DataBackends are never copied!
-      if (name == "col_info") {
+      if (name == ".col_info") {
         copy(value)
       } else if (name == ".internal_valid_task" && !is.null(value)) {
         value$clone(deep = TRUE)
@@ -1594,10 +1615,10 @@ task_rm_backend = function(task) {
   ee = get_private(task)
   ee$.hash = force(task$hash)
   ee$.col_hashes = force(task$col_hashes)
-  ee$.internal_valid_task$backend = NULL
+  ee$.internal_valid_task$.__enclos_env__$private$.backend = NULL
 
   # NULL backend
-  task$backend = NULL
+  ee$.backend = NULL
 
   task
 }

@@ -1,6 +1,14 @@
 # mlr3 (development version)
 
-* feat: Add `mirai` support for parallelization and encapsulation.
+## New Features:
+
+* `Task` got method `$materialize_view()` which can save memory after subsetting a task.
+* Better input validation for:
+  * `Learner` fields.
+* Various improvements to the documentation and logging output, including
+  examples for methods.
+* Measure "oob_error" now works even without storing models during resampling.
+* Added `mirai` support for parallelization and encapsulation.
 
 # mlr3 1.1.0
 

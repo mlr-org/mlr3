@@ -134,7 +134,7 @@ test_that("predict on newdata works / no target column", {
   xdt = data.table(x = 1, y = 1)
   task = as_task_regr(xdt, target = "y")
   learner = lrn("regr.featureless")
-  learner$properties = setdiff(learner$properties, "missings")
+  get_private(learner, ".properties") = setdiff(learner$properties, "missings")
   learner$train(task)
   learner$predict_newdata(xdt[, 1])
 })
@@ -303,7 +303,7 @@ test_that("weights", {
 test_that("mandatory properties",  {
   task = tsk("iris")
   learner = lrn("classif.rpart")
-  learner$properties = setdiff(learner$properties, "multiclass")
+  get_private(learner, ".properties") = setdiff(learner$properties, "multiclass")
   resample = rsmp("holdout")
 
   expect_error(learner$train(task), "multiclass")
@@ -323,7 +323,7 @@ test_that("train task is cloned (#382)", {
 test_that("Error on missing data (#413)", {
   task = tsk("pima")
   learner = lrn("classif.rpart")
-  learner$properties = setdiff(learner$properties, "missings")
+  get_private(learner, ".properties") = setdiff(learner$properties, "missings")
   expect_error(learner$train(task), "missing values")
 })
 
@@ -388,7 +388,7 @@ test_that("properties are also checked on validation task", {
   task$rbind(row)
   task$internal_valid_task = 151
   learner = lrn("classif.debug", validate = "predefined")
-  learner$properties = setdiff(learner$properties, "missings")
+  learner$.__enclos_env__$private$.properties = setdiff(learner$properties, "missings")
   expect_error(learner$train(task), "missing values")
 })
 
@@ -729,8 +729,8 @@ test_that("predict_newdata creates column info correctly", {
 
   learner = lrn("classif.debug", save_tasks = TRUE)
   task = tsk("iris")
-  task$col_info$label = letters[1:6]
-  task$col_info$fix_factor_levels = c(TRUE, TRUE, FALSE, TRUE, FALSE, TRUE)
+  task$.__enclos_env__$private$.col_info$label = letters[1:6]
+  task$.__enclos_env__$private$.col_info$fix_factor_levels = c(TRUE, TRUE, FALSE, TRUE, FALSE, TRUE)
   learner$train(task)
 
   ## data.frame is passed without task
@@ -872,3 +872,26 @@ test_that("oob_error is available without storing models via $.extract_oob_error
 
   expect_equal(rr$aggregate(msr("oob_error")), c(oob_error = 0.123))
 })
+
+#test_that("field validation", {
+#  l = lrn("classif.debug")
+#  expect_error({l$timeout = c(train = 1)}, "permutation")
+#  expect_error({l$timeout = c(train = 1, predict = -1)}, ">= 0")
+#  expect_error({l$timeout = c(a = 1, b = 0)}, "permutation")
+#  l$timeout = c(train = 1, predict = 0)
+#  expect_equal(l$timeout, c(train = 1, predict = 0))
+#
+#  expect_error({l$parallel_predict = ""}, "flag")
+#  l$parallel_predict = FALSE
+#  expect_false(l$parallel_predict)
+#  l$parallel_predict = TRUE
+#  expect_true(l$parallel_predict)
+#
+#  expect_error({l$task_type = "regr"}, "read-only")
+#
+#  expect_error({l$predict_sets = "abc"}, "but has additional elements")
+#  l$predict_sets = "train"
+#  expect_equal(l$predict_sets, "train")
+#  l$predict_sets = c("train", "test", "internal_valid")
+#  expect_equal(l$predict_sets, c("train", "test", "internal_valid"))
+#})

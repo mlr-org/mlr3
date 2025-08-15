@@ -268,23 +268,32 @@ Contains all information gathered during \code{train()} and \code{predict()}.
 It is not recommended to access elements from \code{state} directly.
 This is an internal data structure which may change in the future.}
 
+\item{\code{feature_types}}{(\code{character()})\cr
+Stores the feature types the learner can handle, e.g. \code{"logical"}, \code{"numeric"}, or \code{"factor"}.
+A complete list of candidate feature types, grouped by task type, is stored in \code{\link[=mlr_reflections]{mlr_reflections$task_feature_types}}.}
+
+\item{\code{packages}}{(\code{character(1)})\cr
+Set of required packages.
+These packages are loaded, but not attached.}
+
+\item{\code{man}}{(\code{character(1)})\cr
+String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
+Defaults to \code{NA}, but can be set by child classes.}
+}
+\if{html}{\out{</div>}}
+}
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
 \item{\code{task_type}}{(\code{character(1)})\cr
 Task type, e.g. \code{"classif"} or \code{"regr"}.
 
 For a complete list of possible task types (depending on the loaded packages),
 see \code{\link[=mlr_reflections]{mlr_reflections$task_types$type}}.}
 
-\item{\code{feature_types}}{(\code{character()})\cr
-Stores the feature types the learner can handle, e.g. \code{"logical"}, \code{"numeric"}, or \code{"factor"}.
-A complete list of candidate feature types, grouped by task type, is stored in \code{\link[=mlr_reflections]{mlr_reflections$task_feature_types}}.}
-
 \item{\code{properties}}{(\code{character()})\cr
 Stores a set of properties/capabilities the learner has.
 A complete list of candidate properties, grouped by task type, is stored in \code{\link[=mlr_reflections]{mlr_reflections$learner_properties}}.}
-
-\item{\code{packages}}{(\code{character(1)})\cr
-Set of required packages.
-These packages are loaded, but not attached.}
 
 \item{\code{predict_sets}}{(\code{character()})\cr
 During \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}, a \link{Learner} can predict on multiple sets.
@@ -316,15 +325,6 @@ Default is \code{c(train = Inf, predict = Inf)}.
 Also see the section on error handling the mlr3book:
 \url{https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling}}
 
-\item{\code{man}}{(\code{character(1)})\cr
-String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
-Defaults to \code{NA}, but can be set by child classes.}
-}
-\if{html}{\out{</div>}}
-}
-\section{Active bindings}{
-\if{html}{\out{<div class="r6-active-bindings">}}
-\describe{
 \item{\code{use_weights}}{(\code{character(1)})\cr
 How weights should be handled.
 Settings are \code{"use"} \code{"ignore"}, and \code{"error"}.

@@ -1020,3 +1020,11 @@ test_that("materialize_view works with duplicates", {
   task2$materialize_view()
   expect_equal(task$data(), task2$data())
 })
+
+# Uncomment this once we make the fields read-only
+#test_that("task fields are read-only", {
+#  task = tsk("iris")
+#  expect_error({task$col_info = "foo"}, "read-only")
+#  expect_error({task$backend = tsk("iris")$backend}, "read-only")
+#  expect_error({task$mlr3_version = "1.0.0"}, "read-only")
+#})
