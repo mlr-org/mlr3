@@ -763,9 +763,11 @@ See the description for details.}
 \item{\code{fallback}}{\link{Learner}\cr
 The fallback learner for failed predictions.}
 
-\item{\code{when}}{(\verb{function(condition)})\cr
-Function that takes in the condition and returns \code{logical(1)} indicating whether to run the fallback learner.
-If \code{NULL} (default), the fallback is always trained, except for errors of class \code{Mlr3ErrorConfig}.}
+\item{\code{when}}{(\verb{function(cond, stage)})\cr
+Function that takes in the condition (\code{cond}) and the stage (\code{"train"} or \code{"predict"}) and
+returns \code{logical(1)} indicating whether to run the fallback learner.
+
+If \code{NULL} (default), the fallback is always used, except for errors of class \code{Mlr3ErrorConfig}.}
 }
 \if{html}{\out{</div>}}
 }

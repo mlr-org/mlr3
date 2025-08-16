@@ -586,7 +586,8 @@ Learner = R6Class("Learner",
     #' @param when (`function(cond, stage)`)\cr
     #'  Function that takes in the condition (`cond`) and the stage (`"train"` or `"predict"`) and
     #'  returns `logical(1)` indicating whether to run the fallback learner.
-    #'  If `NULL` (default), the fallback is always trained, except for errors of class `Mlr3ErrorConfig`.
+    #'
+    #'  If `NULL` (default), the fallback is always used, except for errors of class `Mlr3ErrorConfig`.
     #'
     #' @return `self` (invisibly).
     #' @examples
