@@ -24,13 +24,13 @@ TaskGenerator = R6Class("TaskGenerator",
 
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    initialize = function(id, task_type, packages = character(0), param_set = ps(), label, man) {
+    initialize = function(id, task_type, packages = character(0), param_set = ps(), additional_configuration = character(0), label, man) {
       if (!missing(label) || !missing(man)) {
         mlr3component_deprecation_msg("label and man are deprecated for TaskGenerator construction and will be removed in the future.")
       }
 
       super$initialize(dict_entry = id, dict_shortaccess = "tgen",
-        param_set = param_set, packages = packages
+        param_set = param_set, packages = packages, additional_configuration = additional_configuration
       )
 
       self$task_type = assert_choice(task_type, mlr_reflections$task_types$type)
