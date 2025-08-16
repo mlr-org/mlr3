@@ -127,12 +127,13 @@ Resampling = R6Class("Resampling",
     #'   Set to `TRUE` if this resampling strategy may have duplicated row ids in a single training set or test set.
     #'
     #' Note that this object is typically constructed via a derived classes, e.g. [ResamplingCV] or [ResamplingHoldout].
-    initialize = function(id, param_set = ps(), duplicated_ids = FALSE, label, man) {
+    initialize = function(id, param_set = ps(), duplicated_ids = FALSE, additional_configuration = character(0), label, man) {
       if (!missing(label) || !missing(man)) {
         mlr3component_deprecation_msg("label and man are deprecated for Resampling construction and will be removed in the future.")
       }
 
-      super$initialize(dict_entry = id, dict_shortaccess = "rsmp", param_set = param_set)
+      super$initialize(dict_entry = id, dict_shortaccess = "rsmp", param_set = param_set,
+        additional_configuration = additional_configuration)
 
       self$duplicated_ids = assert_flag(duplicated_ids)
     },
@@ -143,7 +144,7 @@ Resampling = R6Class("Resampling",
     print = function(...) {
       msg_h = if (is.null(self$label) || is.na(self$label)) "" else paste0(": ", self$label)
       cat_cli({
-        cli_h1("{.cls {class(self)[1L]}} {msg_h}")
+        cli_h1("{.cls {class(self)[1L]}} ({self$id}){msg_h}")
         cli_li("Iterations: {.val {self$iters}}")
         cli_li("Instantiated: {.val {self$is_instantiated}}")
         cli_li("Parameters: {as_short_string(self$param_set$values, 1000L)}")
