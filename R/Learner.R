@@ -772,7 +772,7 @@ Learner = R6Class("Learner",
     },
 
     .additional_phash_input = function() {
-      list(private$.predict_type, self$fallback$hash, self$parallel_predict, get0("validate", self), self$predict_sets, private$.use_weights)
+      list(private$.predict_type, self$fallback$hash, self$parallel_predict, get0("validate", self), self$predict_sets, private$.use_weights, private$.when)
     },
 
     deep_clone = function(name, value) {
