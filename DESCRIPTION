@@ -55,6 +55,7 @@ Imports:
     future.apply (>= 1.5.0),
     lgr (>= 0.3.4),
     mirai (>= 2.4.1),
+    methods,
     mlbench,
     mlr3measures (>= 1.0.0),
     mlr3misc (>= 0.18.0),
