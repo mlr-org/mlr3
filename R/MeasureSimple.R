@@ -40,10 +40,9 @@ MeasureBinarySimple = R6Class("MeasureBinarySimple",
       )
     },
 
-    .additional_phash_input = function() c(
-      list(self$fun, self$na_value),
-      super$.additional_phash_input()
-    )
+    .additional_phash_input = function() {
+      c(list(self$fun, self$na_value), super$.additional_phash_input())
+    }
   )
 )
 
@@ -84,10 +83,9 @@ MeasureClassifSimple = R6Class("MeasureClassifSimple",
         na_value = self$na_value, sample_weights = weights)
     },
 
-    .additional_phash_input = function() c(
-      list(self$fun, self$na_value),
-      super$.additional_phash_input()
-    )
+    .additional_phash_input = function() {
+      c(list(self$fun, self$na_value), super$.additional_phash_input())
+    }
   )
 )
 
@@ -136,10 +134,9 @@ MeasureRegrSimple = R6Class("MeasureRegrSimple",
         na_value = self$na_value, sample_weights = weights)
     },
 
-    .additional_phash_input = function() c(
-      list(self$fun, self$na_value),
-      super$.additional_phash_input()
-    )
+    .additional_phash_input = function() {
+      c(list(self$fun, self$na_value), super$.additional_phash_input())
+    }
   )
 )
 
@@ -181,10 +178,9 @@ MeasureSimilaritySimple = R6Class("MeasureSimilaritySimple",
   ),
 
   private = list(
-    .additional_phash_input = function() c(
-      list(self$fun, self$na_value),
-      super$.additional_phash_input()
-    )
+    .additional_phash_input = function() {
+      c(list(self$fun, self$na_value), super$.additional_phash_input())
+    }
   )
 )
 

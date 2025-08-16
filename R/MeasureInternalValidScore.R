@@ -31,7 +31,7 @@ MeasureInternalValidScore = R6Class("MeasureInternalValidScore",
     initialize = function(select = NULL, minimize = NA) {
       private$.select = assert_string(select, null.ok = TRUE)
       super$initialize(
-        id = select %??% "internal_valid_score",
+        id = "internal_valid_score",
         task_type = NA_character_,
         properties = c("na_score", "requires_learner", "requires_no_prediction"),
         predict_sets = NULL,
@@ -42,11 +42,23 @@ MeasureInternalValidScore = R6Class("MeasureInternalValidScore",
     }
   ),
 
+  active = list(
+    select = function(rhs) {
+      if (!missing(rhs)) {
+        private$.select = assert_string(rhs, null.ok = TRUE)
+      }
+      private$.select
+    }
+  ),
+
   private = list(
     .select = NULL,
     .score = function(prediction, learner, ...) {
       x = get0("internal_valid_scores", learner)
       x[[private$.select %??% 1]] %??% NA_real_
+    },
+    .additional_phash_input = function() {
+      c(list(private$.select), super$.additional_phash_input())
     }
   )
 )

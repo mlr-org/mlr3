@@ -36,9 +36,9 @@ MeasureElapsedTime = R6Class("MeasureElapsedTime",
     #' @param stages (`character()`)\cr
     #'   Subset of `("train", "predict")`.
     #'   The runtime of provided stages will be summed.
-    initialize = function(id = "elapsed_time", stages) {
+    initialize = function(stages) {
       super$initialize(
-        id = id,
+        id = "elapsed_time",
         task_type = NA_character_,
         predict_sets = NULL,
         predict_type = NA_character_,
@@ -55,11 +55,14 @@ MeasureElapsedTime = R6Class("MeasureElapsedTime",
       sum(unlist(learner$state[sprintf("%s_time", self$stages)], use.names = FALSE))
     },
 
-    .extra_hash = "stages"
+    .additional_phash_input = function() {
+      c(list(self$stages), super$.additional_phash_input())
+    }
   )
 )
 
 #' @include mlr_measures.R
-mlr_measures$add("time_train", function() MeasureElapsedTime$new(id = "time_train", stages = "train"))
-mlr_measures$add("time_predict", function() MeasureElapsedTime$new(id = "time_predict", stages = "predict"))
-mlr_measures$add("time_both", function() MeasureElapsedTime$new(id = "time_both", stages = c("train", "predict")))
+mlr_measures$add("time_train", function() MeasureElapsedTime$new(stages = "train")$configure(id = "time_train"))
+mlr_measures$add("time_predict", function() MeasureElapsedTime$new(stages = "predict")$configure(id = "time_predict"))
+mlr_measures$add("time_both", function() MeasureElapsedTime$new(stages = c("train", "predict"))$configure(id = "time_both"))
+mlr_measures$add("elapsed_time", MeasureElapsedTime, .prototype_args = list(stages = "train"))

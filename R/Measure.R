@@ -127,14 +127,16 @@ Measure = R6Class("Measure",
     initialize = function(id, task_type = NA, param_set = ps(), range = c(-Inf, Inf), minimize = NA, average = "macro",
       aggregator = NULL, obs_loss = NULL, properties = character(), predict_type = "response",
       predict_sets = "test", task_properties = character(), packages = character(),
-      label, man, trafo = NULL) {
+      additional_configuration = character(0), label, man, trafo = NULL) {
 
       if (!missing(label) || !missing(man)) {
         mlr3component_deprecation_msg("label and man are deprecated for Measure construction and will be removed in the future.")
       }
 
       super$initialize(dict_entry = id, dict_shortaccess = "msr",
-        param_set = param_set, packages = packages, properties = properties)
+        param_set = param_set, packages = packages, properties = properties,
+        additional_configuration = c("check_prerequisites", "predict_sets", "average", "aggregator", "use_weights",
+          "obs_loss", "trafo", additional_configuration))
 
       self$task_type = task_type
       self$range = assert_range(range)

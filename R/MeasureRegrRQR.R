@@ -20,14 +20,16 @@
 #'
 #' This measure is undefined for constant \eqn{t}.
 #'
+#' @section Parameters
+#' * `alpha` (`numeric(1)`)\cr
+#'   The quantile for which to compute the measure.
+#'   Must be one of the quantiles that the Learner was trained on.
+#'   Initialized to `0.5`.
+#'
 #' @param pred_set_mean `logical(1)`\cr
 #' If `TRUE`, the mean of the true values is calculated on the prediction set.
 #' If `FALSE`, the mean of the true values is calculated on the training set.
 #'
-#' @param alpha `numeric(1)`\cr
-#' The quantile for which to compute the measure.
-#' Must be one of the quantiles that the Learner was trained on.
-#
 #' @references
 #' `r format_bib("koenker_1999")`
 #'
@@ -41,19 +43,30 @@ MeasureRegrRQR = R6Class("MeasureRegrRQR",
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    initialize = function(alpha = 0.5, pred_set_mean = TRUE) {
+    initialize = function(pred_set_mean = TRUE) {
       private$.pred_set_mean = assert_flag(pred_set_mean)
-      param_set = ps(alpha = p_dbl(lower = 0, upper = 1))
-      param_set$set_values(alpha = alpha)
+      param_set = ps(alpha = p_dbl(lower = 0, upper = 1, init = 0.5))
 
       super$initialize(
         id = "regr.rqr",
         param_set = param_set,
-        properties = c(if (!private$.pred_set_mean) c("requires_task", "requires_train_set")),
+        properties = c(if (!private$.pred_set_mean) c("requires_task", "requires_train_set") else character(0)),
         predict_type = "quantiles",
         minimize = FALSE,
         range = c(-Inf, 1)
       )
+    }
+  ),
+
+  active = list(
+    #' @field pred_set_mean (`logical(1)`)\cr
+    #' If `TRUE`, the mean of the true values is calculated on the prediction set.
+    #' If `FALSE`, the mean of the true values is calculated on the training set.
+    pred_set_mean = function(rhs) {
+      if (!missing(rhs)) {
+        private$.pred_set_mean = assert_flag(rhs)
+      }
+      private$.pred_set_mean
     }
   ),
 
@@ -89,6 +102,10 @@ MeasureRegrRQR = R6Class("MeasureRegrRQR",
       )
 
       1 - (numerator / denominator)
+    },
+
+    .additional_phash_input = function() {
+      c(list(self$pred_set_mean), super$.additional_phash_input())
     }
   )
 )

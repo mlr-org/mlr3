@@ -52,7 +52,8 @@ MeasureClassifCosts = R6Class("MeasureClassifCosts",
         param_set = param_set,
         range = c(-Inf, Inf),
         minimize = TRUE,
-        properties = "weights"
+        properties = "weights",
+        additional_configuration = "costs"
       )
     }
   ),
@@ -63,6 +64,10 @@ MeasureClassifCosts = R6Class("MeasureClassifCosts",
     costs = function(rhs) {
       if (missing(rhs)) {
         return(private$.costs)
+      }
+      if (is.null(rhs)) {  # need to accept NULL for resetting to initial value
+        private$.costs = NULL
+        return(NULL)
       }
 
       assert_matrix(rhs, mode = "numeric", any.missing = FALSE, col.names = "unique", row.names = "unique")
@@ -110,7 +115,9 @@ MeasureClassifCosts = R6Class("MeasureClassifCosts",
       perf
     },
 
-    .extra_hash = "costs"
+    .additional_phash_input = function() {
+      c(list(self$costs), super$.additional_phash_input())
+    }
   )
 )
 

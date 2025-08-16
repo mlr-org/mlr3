@@ -16,10 +16,13 @@
 #' }
 #' where \eqn{q} is the quantile and \eqn{w_i} are normalized sample weights.
 #'
-#' @param alpha `numeric(1)`\cr
-#' The quantile to compute the pinball loss.
-#' Must be one of the quantiles that the Learner was trained on.
-#
+#' @section Parameters
+#'
+#' * `alpha` (`numeric(1)`)\cr
+#'    The quantile to compute the pinball loss.
+#'    Must be one of the quantiles that the Learner was trained on.
+#'    Initialized to `0.5`.
+#'
 #' @templateVar id regr.pinball
 #' @template measure
 #'
@@ -28,11 +31,10 @@
 MeasureRegrPinball = R6Class("MeasureRegrPinball",
   inherit = MeasureRegr,
   public = list(
-   #' @description
-   #' Creates a new instance of this [R6][R6::R6Class] class.
-    initialize = function(alpha = 0.5) {
-      param_set = ps(alpha = p_dbl(lower = 0, upper = 1))
-      param_set$set_values(alpha = alpha)
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
+    initialize = function() {
+      param_set = ps(alpha = p_dbl(lower = 0, upper = 1, init = 0.5))
       super$initialize(
         id = "regr.pinball",
         param_set = param_set,
