@@ -572,6 +572,9 @@ Learner = R6Class("Learner",
     #' If the training step fails, the `$model` field of the original learner is `NULL`.
     #' The results are reproducible across the different encapsulation methods.
     #'
+    #' Note that for errors of class `Mlr3ErrorConfig`, the function always errs and no fallback learner
+    #' is trained.
+    #'
     #' Also see the section on error handling the mlr3book:
     #' \url{https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling}
     #'
@@ -580,14 +583,19 @@ Learner = R6Class("Learner",
     #'  See the description for details.
     #' @param fallback [Learner]\cr
     #'  The fallback learner for failed predictions.
+    #' @param when (`function(condition)`)\cr
+    #'  Function that takes in the condition and returns `logical(1)` indicating whether to run the fallback learner.
+    #'  If `NULL` (default), the fallback is always trained, except for errors of class `Mlr3ErrorConfig`.
     #'
     #' @return `self` (invisibly).
     #' @examples
     #' learner = lrn("classif.rpart")
     #' fallback = lrn("classif.featureless")
     #' learner$encapsulate("try", fallback = fallback)
-    encapsulate = function(method, fallback = NULL) {
+    encapsulate = function(method, fallback = NULL, when = NULL) {
       assert_choice(method, c("none", "try", "evaluate", "callr", "mirai"))
+
+      private$.when = assert_function(when, null.ok = TRUE)
 
       if (method != "none") {
         assert_learner(fallback, task_type = self$task_type)
@@ -702,7 +710,6 @@ Learner = R6Class("Learner",
       private$.use_weights
     },
 
-
     #' @field model (any)\cr
     #' The fitted model. Only available after `$train()` has been called.
     model = function(rhs) {
@@ -750,7 +757,6 @@ Learner = R6Class("Learner",
       get_log_condition(self$state, "error")
     },
 
-
     #' @field hash (`character(1)`)\cr
     #' Hash (unique identifier) for this object.
     #' The hash is calculated based on the learner id, the parameter settings, the predict type, the fallback hash, the parallel predict setting, the validate setting, and the predict sets.
@@ -780,7 +786,6 @@ Learner = R6Class("Learner",
 
       assert_string(rhs, .var.name = "predict_type")
       if (rhs %nin% self$predict_types) {
-
         stopf("Learner '%s' does not support predict type '%s'", self$id, rhs)
       }
       private$.predict_type = rhs
@@ -840,6 +845,7 @@ Learner = R6Class("Learner",
   ),
 
   private = list(
+    .when = NULL,
     .use_weights = NULL,
     .encapsulation = c(train = "none", predict = "none"),
     .fallback = NULL,

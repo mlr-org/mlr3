@@ -744,10 +744,13 @@ Note that the fallback is always trained, as we do not know in advance whether p
 If the training step fails, the \verb{$model} field of the original learner is \code{NULL}.
 The results are reproducible across the different encapsulation methods.
 
+Note that for errors of class \code{Mlr3ErrorConfig}, the function always errs and no fallback learner
+is trained.
+
 Also see the section on error handling the mlr3book:
 \url{https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling}
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Learner$encapsulate(method, fallback = NULL)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Learner$encapsulate(method, fallback = NULL, when = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -759,6 +762,10 @@ See the description for details.}
 
 \item{\code{fallback}}{\link{Learner}\cr
 The fallback learner for failed predictions.}
+
+\item{\code{when}}{(\verb{function(condition)})\cr
+Function that takes in the condition and returns \code{logical(1)} indicating whether to run the fallback learner.
+If \code{NULL} (default), the fallback is always trained, except for errors of class \code{Mlr3ErrorConfig}.}
 }
 \if{html}{\out{</div>}}
 }
