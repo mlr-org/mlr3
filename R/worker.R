@@ -115,12 +115,12 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
   }
 
   when = get_private(learner)$.when
-  would_catch_error = (!is.null(cond)) && (!inherits(cond, "Mlr3ErrorConfig")) && (is.null(when) || when(cond))
+  catch_error = (!is.null(cond)) && (!inherits(cond, "Mlr3ErrorConfig")) && (is.null(when) || when(cond))
 
-  log = append_log(NULL, "train", result$log$class, result$log$msg, log_error = would_catch_error)
+  log = append_log(NULL, "train", result$log$class, result$log$msg, log_error = catch_error)
   train_time = result$elapsed
 
-  if (!is.null(cond) && !would_catch_error) {
+  if (!is.null(cond) && !catch_error) {
     stop(cond)
   }
 
