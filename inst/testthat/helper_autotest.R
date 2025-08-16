@@ -297,17 +297,25 @@ registerS3method("sanity_check", "LearnerRegr", sanity_check.PredictionRegr)
 #'
 #' @noRd
 run_experiment = function(task, learner, seed = NULL, configure_learner = NULL) {
-
   # function to collect error message and objects
   err = function(info, ...) {
-    info = gsub("%", "", info)
     info = sprintf(info, ...)
     list(
-      ok = FALSE, seed = seed,
-      task = task, learner = learner, prediction = prediction, score = score,
-      error = sprintf("[%s] learner '%s' on task '%s' failed: %s",
-        stage, learner$id, task$id, info)
+      ok = FALSE,
+      seed = seed,
+      task = task,
+      learner = learner,
+      prediction = prediction,
+      score = score,
+      prediction_marshaling = prediction_marshaling,
+      learner_encapsulated = learner_encapsulated,
+      error = sprintf("[%s] learner '%s' on task '%s' failed: %s", stage, learner$id, task$id, info)
     )
+  }
+
+  # some errors from upstream packages contain %
+  error_as_character = function(error) {
+    gsub("%", "%%", as.character(error), fixed = TRUE)
   }
 
   # seed handling
@@ -331,6 +339,8 @@ run_experiment = function(task, learner, seed = NULL, configure_learner = NULL) 
   }
   prediction = NULL
   score = NULL
+  prediction_marshaling = NULL
+  learner_encapsulated = NULL
 
   # check train
   stage = "train()"
@@ -350,7 +360,7 @@ run_experiment = function(task, learner, seed = NULL, configure_learner = NULL) 
 
   ok = suppressWarnings(try(learner$train(task), silent = TRUE))
   if (inherits(ok, "try-error")) {
-    return(err(as.character(ok)))
+    return(err(error_as_character(ok)))
   }
   if (is.null(learner$model)) {
     return(err("model is NULL"))
@@ -363,7 +373,7 @@ run_experiment = function(task, learner, seed = NULL, configure_learner = NULL) 
   if (inherits(prediction, "try-error")) {
     ok = prediction
     prediction = NULL
-    return(err(as.character(ok)))
+    return(err(error_as_character(ok)))
   }
   msg = checkmate::check_class(prediction, "Prediction")
   if (!isTRUE(msg)) {
@@ -411,12 +421,11 @@ run_experiment = function(task, learner, seed = NULL, configure_learner = NULL) 
     prediction$score(mlr3::default_measures(learner$task_type),
       task = task,
       learner = learner,
-      train_set = task$row_ids
-  ), silent = TRUE)
+      train_set = task$row_ids), silent = TRUE)
   if (inherits(score, "try-error")) {
     ok = score
     score = NULL
-    return(err(as.character(ok)))
+    return(err(error_as_character(ok)))
   }
   msg = checkmate::check_numeric(score, any.missing = FALSE)
   if (!isTRUE(msg)) {
@@ -462,6 +471,8 @@ run_experiment = function(task, learner, seed = NULL, configure_learner = NULL) 
     }
   }
 
+  stage = "weights"
+
   if ("weights" %in% learner$properties) {
     use_weights = learner$use_weights
     get_weights = learner$.__enclos_env__$private$.get_weights
@@ -497,29 +508,75 @@ run_experiment = function(task, learner, seed = NULL, configure_learner = NULL) 
     on.exit()
   }
 
-  # predict_newdata_fast method
-  if (startsWith(task$id, "feat_all") && exists("predict_newdata_fast", learner) && learner$predict_type == "prob") {
+  # check predict_newdata_fast
+  stage = "predict_newdata_fast()"
 
+  if (startsWith(task$id, "feat_all") && exists("predict_newdata_fast", learner) && learner$predict_type == "prob") {
     prediction = suppressWarnings(try(learner$predict_newdata_fast(task$data()), silent = TRUE))
 
     if (inherits(prediction, "try-error")) {
       ok = prediction
       prediction = NULL
-      return(err(c("predict_newdata_fast failed: ", as.character(ok))))
+      return(err(error_as_character(ok)))
     }
 
     msg = checkmate::check_list(prediction)
     if (!isTRUE(msg)) {
-      return(err("predict_newdata_fast does not return a list"))
+      return(err("does not return a list"))
     }
 
     msg = checkmate::check_names(names(prediction), subset.of = mlr3::mlr_reflections$learner_predict_types[[learner$task_type]][[learner$predict_type]])
     if (!isTRUE(msg)) {
-      return(err("Names of list returned by predict_newdata_fast do not match learner predict_types: %s", str_collapse(names(prediction))))
+      return(err("Names of returned list do not match learner predict_types: %s", str_collapse(names(prediction))))
     }
   }
 
-  return(list(ok = TRUE, learner = learner, prediction = prediction, error = character(), seed = seed))
+  # check marshalling
+  stage = "marshal"
+
+  if (startsWith(task$id, "feat_all") && "marshal" %in% learner$properties) {
+    learner$marshal()
+    # learner$marshaled checks if model is of class "marshaled"
+    if (!learner$marshaled) {
+      return(err("model not marshaled"))
+    }
+
+    learner$unmarshal()
+    # checks if the "marshaled" class is removed
+    if (learner$marshaled) {
+      return(err("model not unmarshaled"))
+    }
+
+    prediction_marshaling = suppressWarnings(try(learner$predict(task), silent = TRUE))
+    if (inherits(prediction_marshaling, "try-error")) {
+      ok = prediction_marshaling
+      prediction_marshaling = NULL
+      return(err(error_as_character(ok)))
+    }
+  }
+
+  # check encapsulation
+  stage = "encapsulation"
+  if (startsWith(task$id, "feat_all")  && !(learner$task_type == "surv" && learner$predict_type %in% c("lp", "response"))) {
+    learner_encapsulated = learner$clone(deep = TRUE)
+    learner_encapsulated$encapsulate("mirai", default_fallback(learner_encapsulated))
+
+    rr = resample(task, learner_encapsulated, rsmp("holdout"), store_models = TRUE)
+    log = rr$learners[[1]]$state$log
+    if ("error" %in% log$class) {
+      return(err("resample log has errors: %s", mlr3misc::str_collapse(log[class == "error", msg])))
+    }
+  }
+
+  return(list(
+    ok = TRUE,
+    learner = learner,
+    prediction = prediction,
+    score = score,
+    prediction_marshaling = prediction_marshaling,
+    learner_encapsulated = learner_encapsulated,
+    error = character(),
+    seed = seed))
 }
 
 #' @title Run Autotest for a Learner
@@ -704,4 +761,14 @@ prob_vector_to_matrix = function(p, levs) {
   y = matrix(c(1 - p, p), ncol = 2L, nrow = length(p))
   colnames(y) = levs
   y
+}
+
+suppress_fallback_warnings = function(expr) {
+  withCallingHandlers({expr},
+    warning = function(w) {
+      if (inherits(w, "Mlr3WarningConfigFallbackPredictType") || inherits(w, "Mlr3WarningConfigFallbackProperties")) {
+        invokeRestart("muffleWarning")
+     }
+    }
+  )
 }

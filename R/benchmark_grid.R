@@ -15,7 +15,7 @@
 #'   The grid will be generated based on the Cartesian product of learners and pairs.
 #'
 #' @section Errors and Warnings:
-#' * `varying_predict_types`: This warning will be thrown if the learners have different `predict_type`s.
+#' * `Mlr3WarningVaryingPredictTypes`: This warning will be thrown if the learners have different `predict_type`s.
 #'
 #' @param tasks (list of [Task]).
 #' @param learners (list of [Learner]).
@@ -79,7 +79,10 @@ benchmark_grid = function(tasks, learners, resamplings, param_values = NULL, pai
     assert_param_values(param_values, n_learners = length(learners))
   }
   if (length(unique(map_chr(unique(learners), "predict_type"))) > 1) {
-    warningf("Multiple predict types detected, this will mean that you cannot evaluate the same measures on all learners.", class = "varying_predict_types") # nolint
+    warning_config(
+      "Multiple predict types detected, this will mean that you cannot evaluate the same measures on all learners.",
+      class = "Mlr3WarningVaryingPredictTypes"
+    )
   }
 
   if (assert_flag(paired)) {

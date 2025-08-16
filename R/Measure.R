@@ -43,6 +43,16 @@
 #' Measures that use sum-aggregation do not normalize weights and instead multiply individual losses with the given weights.
 #' See the documentation of specific measures for more details.
 #'
+#' @section Missing Values during Scoring:
+#'
+#' Many measurements cannot be calculated if the test set or predictions are unfortunate, for example because a denominator is 0.
+#' This typically occurs during (binary) classification if some entries of the confusion matrix are 0.
+#' For this reason, many measures which origin in \CRANpkg{mlr3measures} allow to change the default missing value (`NaN`) via the field `na_value`.
+#'
+#' If you encounter missing values in a compound object like a [ResampleResult] or [BenchmarkResult] during scoring or aggregating, simply
+#' removing iterations with missing values is statistically arguable (but technically possible by prividng a custom aggregation function
+#' which handles missing values, e.g. `function(x) mean(x, na.rm = TRUE)`). Instead, consider stratification on the target of the [Task]
+#' to work around missing values. Switching to micro averaging in the [Resampling] can also be a solution here.
 #'
 #' @template param_id
 #' @template param_param_set
