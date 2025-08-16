@@ -50,14 +50,14 @@ LearnerClassif = R6Class("LearnerClassif", inherit = Learner,
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function(id, param_set = ps(), predict_types = "response",
       feature_types = character(), properties = character(), packages = character(),
-      label, man
+      additional_configuration = character(0), label, man
     ) {
       if (!missing(label) || !missing(man)) {
         mlr3component_deprecation_msg("label and man are deprecated for Learner construction and will be removed in the future.")
       }
 
       super$initialize(id = id, task_type = "classif", param_set = param_set, predict_types = predict_types,
-        feature_types = feature_types, properties = properties, packages = packages)
+        feature_types = feature_types, properties = properties, packages = packages, additional_configuration = additional_configuration)
 
       if (getOption("mlr3.prob_as_default", FALSE) && "prob" %in% self$predict_types) {
         self$predict_type = "prob"
