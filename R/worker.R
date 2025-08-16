@@ -108,21 +108,20 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
     .compute = getOption("mlr3.mirai_encapsulation", "mlr3_encapsulation")
   )
 
-  cond = result$log[class == "error", "condition"][[1L]]
+  cond = cond_from_log(result$log)
 
-  cond = if (length(cond)) {
-    cond = cond[[1L]]
-  }
+  # We still log the warnings and messages in the case of an error,
+  # so we don't throw immediately
+  err = learner_will_err(cond, learner, stage = "train")
 
-  when = get_private(learner)$.when
-  catch_error = (!is.null(cond)) && (!inherits(cond, "Mlr3ErrorConfig")) && (is.null(when) || when(cond))
+  # we don't log an existing (uncaught) error, because it's signalled
+  log = append_log(NULL, "train", result$log$class, result$log$msg, log_error = !err)
 
-  log = append_log(NULL, "train", result$log$class, result$log$msg, log_error = catch_error)
-  train_time = result$elapsed
-
-  if (!is.null(cond) && !catch_error) {
+  if (err) {
     stop(cond)
   }
+
+  train_time = result$elapsed
 
   learner$state = set_class(insert_named(learner$state, list(
     model = result$result$model,
@@ -235,6 +234,10 @@ learner_predict = function(learner, task, row_ids = NULL) {
 
     pdata = NULL
     learner$state$predict_time = NA_real_
+    cond = error_learner_predict("No model stored", signal = FALSE, class = "Mlr3ErrorLearnerNoModel")
+    if (learner_will_err(cond, learner, stage = "predict")) {
+      stop(cond)
+    }
   } else {
     # call predict with encapsulation
     lg$debug("Calling predict method of Learner '%s' on task '%s' with %i observations",
@@ -254,8 +257,17 @@ learner_predict = function(learner, task, row_ids = NULL) {
       .compute = getOption("mlr3.mirai_encapsulation", "mlr3_encapsulation")
     )
 
+    cond = cond_from_log(result$log)
+    # Still log messages and warnings in the case of an error
+    err = learner_will_err(cond, learner, stage = "predict")
+
     pdata = result$result
-    learner$state$log = append_log(learner$state$log, "predict", result$log$class, result$log$msg)
+    # don't log an existing (uncaught) error, because it's signalled
+    learner$state$log = append_log(learner$state$log, "predict", result$log$class, result$log$msg, log_error = !err)
+
+    if (err) {
+      stop(cond)
+    }
     learner$state$predict_time = sum(learner$state$predict_time, result$elapsed)
 
     lg$debug("Learner '%s' returned an object of class '%s'",
@@ -571,4 +583,22 @@ create_internal_valid_task = function(validate, task, test_row_ids, prev_valid, 
   # validate is numeric
   task$internal_valid_task = partition(task, ratio = 1 - validate)$test
   return(task)
+}
+
+# This function returns TRUE,
+learner_will_err = function(cond, learner, stage) {
+  when = get_private(learner)$.when
+  if (is.null(cond)) return(FALSE)
+  if (inherits(cond, "Mlr3ErrorConfig")) return(TRUE)
+  if (is.null(when)) return(FALSE)
+  !when(cond = cond, stage = stage)
+}
+
+cond_from_log = function(log) {
+  x = log[class == "error", "condition"][[1L]]
+  if (length(x)) {
+    x[[1L]]
+  } else {
+    NULL
+  }
 }
