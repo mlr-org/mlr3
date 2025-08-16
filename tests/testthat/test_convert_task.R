@@ -101,7 +101,7 @@ test_that("convert task - general checks", {
 test_that("convert_task reconstructs task", {
   task = tsk("iris")
   tsk = convert_task(task)
-  tsk$man = "mlr3::mlr_tasks_iris"
+  tsk$override_info(man = "mlr3::mlr_tasks_iris", hash = "mlr3::mlr_tasks_iris")
   # TODO: re-enable after task$weights has been removed
   # expect_equal(task, tsk, ignore_attr = TRUE)
 
@@ -115,7 +115,7 @@ test_that("convert_task reconstructs task", {
   task3 = task2
   task3$row_roles$use = 1:150
   tsk3 = convert_task(task3)
-  tsk3$man = "mlr3::mlr_tasks_iris"
+  tsk3$override_info(man = "mlr3::mlr_tasks_iris", hash = "mlr3::mlr_tasks_iris")
   # TODO: re-enable after task$weights has been removed
   # expect_equal(task3$nrow, tsk3$nrow)
   # expect_equal(task3$ncol, tsk3$ncol)

@@ -17,43 +17,23 @@
 #' @template seealso_task_generator
 #' @export
 TaskGenerator = R6Class("TaskGenerator",
+  inherit = Mlr3Component,
   public = list(
-    #' @template field_id
-    id = NULL,
-
-    #' @template field_label
-    label = NULL,
-
     #' @template field_task_type
     task_type = NULL,
 
-    #' @template field_param_set
-    param_set = NULL,
-
-    #' @template field_packages
-    packages = NULL,
-
-    #' @template field_man
-    man = NULL,
-
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    initialize = function(id, task_type, packages = character(), param_set = ps(), label = NA_character_, man = NA_character_) {
-      self$id = assert_string(id, min.chars = 1L)
-      self$param_set = assert_param_set(param_set)
-      self$packages = union("mlr3", assert_character(packages, any.missing = FALSE, min.chars = 1L))
+    initialize = function(id, task_type, packages = character(0), param_set = ps(), additional_configuration = character(0), label, man) {
+      if (!missing(label) || !missing(man)) {
+        mlr3component_deprecation_msg("label and man are deprecated for TaskGenerator construction and will be removed in the future.")
+      }
+
+      super$initialize(dict_entry = id, dict_shortaccess = "tgen",
+        param_set = param_set, packages = packages, additional_configuration = additional_configuration
+      )
+
       self$task_type = assert_choice(task_type, mlr_reflections$task_types$type)
-      self$label = assert_string(label, na.ok = TRUE)
-      self$man = assert_string(man, na.ok = TRUE)
-
-      check_packages_installed(packages, msg = sprintf("Package '%%s' required but not installed for TaskGenerator '%s'", id))
-    },
-
-    #' @description
-    #' Helper for print outputs.
-    #' @param ... (ignored).
-    format = function(...) {
-      sprintf("<%s:%s>", class(self)[1L], self$id)
     },
 
     #' @description

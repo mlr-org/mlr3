@@ -30,9 +30,7 @@ MeasureAIC = R6Class("MeasureAIC",
         predict_sets = NULL,
         properties = c("na_score", "requires_learner", "requires_model", "requires_no_prediction"),
         predict_type = NA_character_,
-        minimize = TRUE,
-        label = "Akaike Information Criterion",
-        man = "mlr3::mlr_measures_aic"
+        minimize = TRUE
       )
     }
   ),

@@ -230,13 +230,12 @@ Other Task:
 \code{\link{mlr_tasks_zoo}}
 }
 \concept{Task}
+\section{Super class}{
+\code{\link[mlr3misc:Mlr3Component]{mlr3misc::Mlr3Component}} -> \code{Task}
+}
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{label}}{(\code{character(1)})\cr
-Label for this object.
-Can be used in tables, plot and text output instead of the ID.}
-
 \item{\code{task_type}}{(\code{character(1)})\cr
 Task type, e.g. \code{"classif"} or \code{"regr"}.
 
@@ -261,10 +260,6 @@ need to be reordered after querying the data from the \link{DataBackend}.
 Note that all columns of the \link{DataBackend}, also columns which are not selected or have any role, are listed
 in this table.}
 
-\item{\code{man}}{(\code{character(1)})\cr
-String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
-Defaults to \code{NA}, but can be set by child classes.}
-
 \item{\code{extra_args}}{(named \code{list()})\cr
 Additional arguments set during construction.
 Required for \code{\link[=convert_task]{convert_task()}}.}
@@ -277,21 +272,12 @@ Package version of \code{mlr3} used to create the task.}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{id}}{(\code{character(1)})\cr
-Identifier of the object.
-Used in tables, plot and text output.}
-
 \item{\code{internal_valid_task}}{(\code{Task} or \code{integer()} or \code{NULL})\cr
 Optional validation task that can, e.g., be used for early stopping with learners such as XGBoost.
 See also the \verb{$validate} field of \code{\link{Learner}}.
 If integers are assigned they are removed from the primary task and an internal validation task
 with those ids is created from the primary task using only those ids.
 When assigning a new task, it is always cloned.}
-
-\item{\code{hash}}{(\code{character(1)})\cr
-Hash (unique identifier) for this object.
-The hash is calculated based on the complete task object and \verb{$row_ids}.
-If an internal validation task is set, the hash is recalculated.}
 
 \item{\code{row_hash}}{(\code{character(1)})\cr
 Hash (unique identifier) calculated based on the row ids.}
@@ -482,8 +468,6 @@ This is different from \verb{$row_ids} which only returns rows with role "use".}
 \itemize{
 \item \href{#method-Task-new}{\code{Task$new()}}
 \item \href{#method-Task-divide}{\code{Task$divide()}}
-\item \href{#method-Task-help}{\code{Task$help()}}
-\item \href{#method-Task-format}{\code{Task$format()}}
 \item \href{#method-Task-print}{\code{Task$print()}}
 \item \href{#method-Task-data}{\code{Task$data()}}
 \item \href{#method-Task-formula}{\code{Task$formula()}}
@@ -504,6 +488,17 @@ This is different from \verb{$row_ids} which only returns rows with role "use".}
 \item \href{#method-Task-clone}{\code{Task$clone()}}
 }
 }
+\if{html}{\out{
+<details open><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="mlr3misc" data-topic="Mlr3Component" data-id="configure"><a href='../../mlr3misc/html/Mlr3Component.html#method-Mlr3Component-configure'><code>mlr3misc::Mlr3Component$configure()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3misc" data-topic="Mlr3Component" data-id="format"><a href='../../mlr3misc/html/Mlr3Component.html#method-Mlr3Component-format'><code>mlr3misc::Mlr3Component$format()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3misc" data-topic="Mlr3Component" data-id="help"><a href='../../mlr3misc/html/Mlr3Component.html#method-Mlr3Component-help'><code>mlr3misc::Mlr3Component$help()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3misc" data-topic="Mlr3Component" data-id="override_info"><a href='../../mlr3misc/html/Mlr3Component.html#method-Mlr3Component-override_info'><code>mlr3misc::Mlr3Component$override_info()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3misc" data-topic="Mlr3Component" data-id="require_namespaces"><a href='../../mlr3misc/html/Mlr3Component.html#method-Mlr3Component-require_namespaces'><code>mlr3misc::Mlr3Component$require_namespaces()</code></a></span></li>
+</ul>
+</details>
+}}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Task-new"></a>}}
 \if{latex}{\out{\hypertarget{method-Task-new}{}}}
@@ -512,7 +507,7 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 
 Note that this object is typically constructed via a derived classes, e.g. \link{TaskClassif} or \link{TaskRegr}.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Task$new(id, task_type, backend, label = NA_character_, extra_args = list())}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Task$new(id, task_type, backend, extra_args = list(), label, man)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -529,12 +524,12 @@ Must be an element of \link[=mlr_reflections]{mlr_reflections$task_types$type}.}
 Either a \link{DataBackend}, or any object which is convertible to a \link{DataBackend} with \code{as_data_backend()}.
 E.g., a \code{data.frame()} will be converted to a \link{DataBackendDataTable}.}
 
-\item{\code{label}}{(\code{character(1)})\cr
-Label for the new instance.}
-
 \item{\code{extra_args}}{(named \code{list()})\cr
 Named list of constructor arguments, required for converting task types
 via \code{\link[=convert_task]{convert_task()}}.}
+
+\item{\code{label}}{(\code{character(1)})\cr
+Label for the new instance.}
 }
 \if{html}{\out{</div>}}
 }
@@ -565,33 +560,6 @@ disjoint split between the train and validation data.}
 }
 \subsection{Returns}{
 Modified \code{Self}.
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-Task-help"></a>}}
-\if{latex}{\out{\hypertarget{method-Task-help}{}}}
-\subsection{Method \code{help()}}{
-Opens the corresponding help page referenced by field \verb{$man}.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Task$help()}\if{html}{\out{</div>}}
-}
-
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-Task-format"></a>}}
-\if{latex}{\out{\hypertarget{method-Task-format}{}}}
-\subsection{Method \code{format()}}{
-Helper for print outputs.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Task$format(...)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{...}}{(ignored).}
-}
-\if{html}{\out{</div>}}
 }
 }
 \if{html}{\out{<hr>}}

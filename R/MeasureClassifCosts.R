@@ -53,8 +53,7 @@ MeasureClassifCosts = R6Class("MeasureClassifCosts",
         range = c(-Inf, Inf),
         minimize = TRUE,
         properties = "weights",
-        label = "Cost-sensitive Classification",
-        man = "mlr3::mlr_measures_classif.costs"
+        additional_configuration = "costs"
       )
     }
   ),
@@ -65,6 +64,10 @@ MeasureClassifCosts = R6Class("MeasureClassifCosts",
     costs = function(rhs) {
       if (missing(rhs)) {
         return(private$.costs)
+      }
+      if (is.null(rhs)) {  # need to accept NULL for resetting to initial value
+        private$.costs = NULL
+        return(NULL)
       }
 
       assert_matrix(rhs, mode = "numeric", any.missing = FALSE, col.names = "unique", row.names = "unique")
@@ -112,7 +115,9 @@ MeasureClassifCosts = R6Class("MeasureClassifCosts",
       perf
     },
 
-    .extra_hash = "costs"
+    .additional_phash_input = function() {
+      c(list(self$costs), super$.additional_phash_input())
+    }
   )
 )
 

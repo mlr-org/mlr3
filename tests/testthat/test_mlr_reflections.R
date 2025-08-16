@@ -16,8 +16,8 @@ mlr_reflections$default_measures$test = "classif.ce"
 TaskClassifTest = R6Class("TaskClassifTest",
   inherit = TaskClassif,
   public = list(
-    initialize = function(id, backend, target, positive = NULL, label = NA_character_, extra_args = list()) {
-      super$initialize(id = id, backend = backend, target = target, label = label, extra_args = extra_args)
+    initialize = function(id, backend, target, positive = NULL, extra_args = list()) {
+      super$initialize(id = id, backend = backend, target = target, extra_args = extra_args)
 
       self$task_type = "test"
       new_col_roles = named_list(setdiff(mlr_reflections$task_col_roles[["test"]], names(private$.col_roles)), character(0))
@@ -29,7 +29,7 @@ TaskClassifTest = R6Class("TaskClassifTest",
 )
 
 b = as_data_backend(load_dataset("PimaIndiansDiabetes2", "mlbench"))
-task = TaskClassifTest$new("test", b, target = "diabetes", positive = "pos", label = "Pima Indian Diabetes")
+task = TaskClassifTest$new("test", b, target = "diabetes", positive = "pos")
 learner = lrn("classif.rpart")
 measure = msr("classif.ce")
 

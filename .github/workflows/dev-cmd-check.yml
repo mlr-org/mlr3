@@ -31,7 +31,6 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - {os: ubuntu-latest, r: 'release', dev-package: 'mlr-org/mlr3misc'}
           - {os: ubuntu-latest, r: 'release', dev-package: 'mlr-org/paradox'}
 
     steps:

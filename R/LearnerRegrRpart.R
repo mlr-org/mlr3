@@ -44,9 +44,7 @@ LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
         predict_types = "response",
         packages = "rpart",
         param_set = ps,
-        properties = c("weights", "missings", "importance", "selected_features"),
-        label = "Regression Tree",
-        man = "mlr3::mlr_learners_regr.rpart"
+        properties = c("weights", "missings", "importance", "selected_features")
       )
     },
 

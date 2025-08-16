@@ -6,7 +6,7 @@ test_that("mlr_measures_regr.rqr", {
 
   # default
   m = msr("regr.rqr")
-  expect_null(m$properties)
+  expect_equal(m$properties, character(0))
   expect_equal(m$param_set$values$alpha, 0.5)
 
   # missing predict type

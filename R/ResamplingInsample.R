@@ -30,8 +30,7 @@ ResamplingInsample = R6Class("ResamplingInsample", inherit = Resampling,
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
-      super$initialize(id = "insample",
-        label = "Insample Resampling", man = "mlr3::mlr_resamplings_insample")
+      super$initialize(id = "insample")
     }
   ),
   active = list(

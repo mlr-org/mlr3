@@ -26,8 +26,8 @@ NULL
 
 load_task_california_housing = function(id = "california_housing") {
   b = as_data_backend(readRDS(system.file("extdata", "california_housing.rds", package = "mlr3")))
-  task = mlr3::TaskRegr$new(id, b, target = "median_house_value", label = "California House Value")
-  b$hash = task$man = "mlr3::mlr_tasks_california_housing"
+  task = mlr3::TaskRegr$new(id, b, target = "median_house_value")
+  task$override_info(man = "mlr3::mlr_tasks_california_housing", hash = "mlr3::mlr_tasks_california_housing")
   task
 }
 

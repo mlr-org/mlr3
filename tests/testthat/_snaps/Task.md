@@ -4,7 +4,7 @@
       task
     Output
       
-      -- <TaskClassif> (4601x58): HP Spam Detection ----------------------------------
+      -- <TaskClassif> (4601x58): Spam Classification Task ---------------------------
       * Target: type
       * Target classes: spam (positive class, 39%), nonspam (61%)
       * Properties: twoclass

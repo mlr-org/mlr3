@@ -33,8 +33,7 @@ TaskGeneratorSimplex = R6Class("TaskGeneratorSimplex",
         sides  = p_int(1L, default = 1L)
       )
 
-      super$initialize(id = "simplex", "classif", "mlbench", ps,
-        label = "Simplex Classification", man = "mlr3::mlr_task_generators_simplex")
+      super$initialize(id = "simplex", "classif", "mlbench", ps)
     },
 
     #' @description

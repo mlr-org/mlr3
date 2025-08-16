@@ -133,7 +133,8 @@ test_that("time_train is > 0", {
 
 test_that("scoring fails when measure requires_model, but model is in marshaled state", {
   measure = msr("classif.acc")
-  measure$properties = c(measure$properties, "requires_model")
+  measure_private = get_private(measure)
+  measure_private$.properties = c(measure$properties, "requires_model")
 
   task = tsk("iris")
   learner = lrn("classif.debug")
@@ -301,7 +302,8 @@ test_that("primary iters are respected", {
   jaccard = msr("sim.jaccard")
   expect_error(rr1$aggregate(jaccard), "primary_iters")
   expect_no_error(rr2$aggregate(jaccard))
-  jaccard$properties = c(jaccard$properties, "primary_iters")
+  jaccard_private = get_private(jaccard)
+  jaccard_private$.properties = c(jaccard$properties, "primary_iters")
   x1 = rr1$aggregate(jaccard)
   x2 = rr3$aggregate(jaccard)
   expect_equal(x1, x2)
