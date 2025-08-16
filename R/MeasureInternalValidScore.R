@@ -31,7 +31,8 @@ MeasureInternalValidScore = R6Class("MeasureInternalValidScore",
     initialize = function(select = NULL, minimize = NA) {
       private$.select = assert_string(select, null.ok = TRUE)
       super$initialize(
-        id = "internal_valid_score",
+        id = select %??% "internal_valid_score",
+        dict_entry = "internal_valid_score",
         task_type = NA_character_,
         properties = c("na_score", "requires_learner", "requires_no_prediction"),
         predict_sets = NULL,
