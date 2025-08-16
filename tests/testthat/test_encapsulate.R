@@ -114,5 +114,28 @@ test_that("encapsulate methods produce the same results", {
   expect_equal(sample(seq(1000), 1), 818)
   rr = resample(task, learner, rsmp("cv", folds = 3), store_models = TRUE)
   expect_equal(map_int(rr$learners, function(learner) learner$model$random_number), c(37151, 94567, 21057))
+
+  set.seed(123)
+  learner = lrn("classif.debug")
+  learner$encapsulate("mirai", lrn("classif.featureless"))
+  with_mirai({
+    learner$train(task)
+  }, compute = "mlr3_encapsulation")
+  expect_equal(learner$model$random_number, 2986)
+  expect_equal(sample(seq(1000), 1), 818)
+  rr = resample(task, learner, rsmp("cv", folds = 3), store_models = TRUE)
+  expect_equal(map_int(rr$learners, function(learner) learner$model$random_number), c(37151, 94567, 21057))
 })
 
+test_that("mirai compute profile can be changed", {
+  old_opts = getOption("mlr3.mirai_encapsulation")
+  on.exit(options(mlr3.mirai_encapsulation = old_opts), add = TRUE)
+
+  with_mirai({
+    options(mlr3.mirai_encapsulation = "mlr3_encapsulation2")
+    task = tsk("pima")
+    learner = lrn("classif.debug")
+    learner$encapsulate("mirai", lrn("classif.featureless"))
+    learner$train(task)
+  }, compute = "mlr3_encapsulation2")
+})

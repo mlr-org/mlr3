@@ -55,6 +55,10 @@
 #'   trained with a different version version of mlr3.
 #' * `"mlr3.prob_as_default"`: Set to `TRUE` to set the predict type of classification learners to
 #'   `"prob"` by default (if they support it).
+#' * `"mlr3.mirai_parallelization"`: Compute profile to use for parallelization with \CRANpkg{mirai}.
+#'   Defaults to `"mlr3_parallelization"`.
+#' * `"mlr3.mirai_encapsulation"`: Compute profile to use for encapsulation with \CRANpkg{mirai}.
+#'   Defaults to `"mlr3_encapsulation"`.
 #'
 #' @references
 #' `r tools::toRd(citation("mlr3"))`

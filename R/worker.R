@@ -104,11 +104,25 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
     .args = list(learner = learner, task = task),
     .pkgs = learner$packages,
     .seed = NA_integer_,
-    .timeout = learner$timeout["train"]
+    .timeout = learner$timeout["train"],
+    .compute = getOption("mlr3.mirai_encapsulation", "mlr3_encapsulation")
   )
 
-  log = append_log(NULL, "train", result$log$class, result$log$msg)
+  cond = result$log[class == "error", "condition"][[1L]]
+
+  cond = if (length(cond)) {
+    cond = cond[[1L]]
+  }
+
+  when = get_private(learner)$.when
+  catch_error = (!is.null(cond)) && (!inherits(cond, "Mlr3ErrorConfig")) && (is.null(when) || when(cond))
+
+  log = append_log(NULL, "train", result$log$class, result$log$msg, log_error = catch_error)
   train_time = result$elapsed
+
+  if (!is.null(cond) && !catch_error) {
+    stop(cond)
+  }
 
   learner$state = set_class(insert_named(learner$state, list(
     model = result$result$model,
@@ -236,7 +250,8 @@ learner_predict = function(learner, task, row_ids = NULL) {
       .args = list(task = task, learner = learner),
       .pkgs = learner$packages,
       .seed = NA_integer_,
-      .timeout = learner$timeout["predict"]
+      .timeout = learner$timeout["predict"],
+      .compute = getOption("mlr3.mirai_encapsulation", "mlr3_encapsulation")
     )
 
     pdata = result$result
@@ -493,7 +508,7 @@ process_model_after_predict = function(learner, store_models, is_sequential, unm
   }
 }
 
-append_log = function(log = NULL, stage = NA_character_, class = NA_character_, msg = character()) {
+append_log = function(log = NULL, stage = NA_character_, class = NA_character_, msg = character(), log_error = TRUE) {
   if (is.null(log)) {
     log = data.table(
       stage = factor(levels = c("train", "predict")),
@@ -504,7 +519,7 @@ append_log = function(log = NULL, stage = NA_character_, class = NA_character_, 
 
   if (length(msg)) {
     pwalk(list(stage, class, msg), function(s, c, m) {
-      if (c == "error") lg$error("%s: %s", s, m)
+      if (c == "error" && log_error) lg$error("%s: %s", s, m)
       if (c == "warning") lg$warn("%s: %s", s, m)
     })
     log = rbindlist(list(log, data.table(stage = stage, class = class, msg = msg)), use.names = TRUE)
