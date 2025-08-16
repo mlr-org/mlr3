@@ -208,14 +208,17 @@ Learner = R6Class("Learner",
     #'
     #' Note that this object is typically constructed via a derived classes, e.g. [LearnerClassif] or [LearnerRegr].
     initialize = function(id, task_type, param_set = ps(), predict_types = character(0), feature_types = character(0),
-      properties = character(0), packages = character(0), label, man) {
+      properties = character(0), packages = character(0), additional_configuration = character(0), label, man) {
 
       if (!missing(label) || !missing(man)) {
         mlr3component_deprecation_msg("label and man are deprecated for Learner construction and will be removed in the future.")
       }
 
       super$initialize(dict_entry = id, dict_shortaccess = "lrn",
-        param_set = param_set, packages = packages, properties = properties)
+        param_set = param_set, packages = packages, properties = properties,
+        additional_configuration = c("predict_sets", "parallel_predict", "timeout", "use_weights", "predict_type", "selected_features_impute",
+          if ("validate" %in% names(self)) "validate", additional_configuration)
+      )
 
       self$task_type = assert_choice(task_type, mlr_reflections$task_types$type)
       self$feature_types = assert_ordered_set(feature_types, mlr_reflections$task_feature_types, .var.name = "feature_types")
