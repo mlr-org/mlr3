@@ -11,9 +11,11 @@
 #' @importFrom uuid UUIDgenerate
 #' @importFrom parallelly availableCores
 #' @importFrom future nbrOfWorkers plan
+#' @importFrom methods formalArgs
 #'
 #' @section Learn mlr3:
 #' * Book on mlr3: \url{https://mlr3book.mlr-org.com}
+
 #' * Use cases and examples gallery: \url{https://mlr3gallery.mlr-org.com}
 #' * Cheat Sheets: \url{https://github.com/mlr-org/mlr3cheatsheets}
 #'

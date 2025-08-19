@@ -583,9 +583,11 @@ Learner = R6Class("Learner",
     #'  See the description for details.
     #' @param fallback [Learner]\cr
     #'  The fallback learner for failed predictions.
-    #' @param when (`function(condition)`)\cr
-    #'  Function that takes in the condition and returns `logical(1)` indicating whether to run the fallback learner.
-    #'  If `NULL` (default), the fallback is always trained, except for errors of class `Mlr3ErrorConfig`.
+    #' @param when (`function(cond, stage)`)\cr
+    #'  Function that takes in the condition (`cond`) and the stage (`"train"` or `"predict"`) and
+    #'  returns `logical(1)` indicating whether to run the fallback learner.
+    #'
+    #'  If `NULL` (default), the fallback is always used, except for errors of class `Mlr3ErrorConfig`.
     #'
     #' @return `self` (invisibly).
     #' @examples
@@ -596,6 +598,13 @@ Learner = R6Class("Learner",
       assert_choice(method, c("none", "try", "evaluate", "callr", "mirai"))
 
       private$.when = assert_function(when, null.ok = TRUE)
+
+      if (!is.null(when)) {
+        fargs = formalArgs(when)
+        if ("..." %nin% fargs) {
+          assert_subset(fargs, c("cond", "stage"))
+        }
+      }
 
       if (method != "none") {
         assert_learner(fallback, task_type = self$task_type)
