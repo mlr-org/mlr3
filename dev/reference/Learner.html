@@ -798,9 +798,10 @@ The fallback learner for failed predictions.</p></dd>
 
 
 <dt><code>when</code></dt>
-<dd><p>(<code>function(condition)</code>)<br>
-Function that takes in the condition and returns <code>logical(1)</code> indicating whether to run the fallback learner.
-If <code>NULL</code> (default), the fallback is always trained, except for errors of class <code>Mlr3ErrorConfig</code>.</p></dd>
+<dd><p>(<code>function(cond, stage)</code>)<br>
+Function that takes in the condition (<code>cond</code>) and the stage (<code>"train"</code> or <code>"predict"</code>) and
+returns <code>logical(1)</code> indicating whether to run the fallback learner.</p>
+<p>If <code>NULL</code> (default), the fallback is always used, except for errors of class <code>Mlr3ErrorConfig</code>.</p></dd>
 
 
 </dl><p></p></div>
