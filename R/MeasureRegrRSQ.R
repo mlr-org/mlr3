@@ -31,7 +31,7 @@
 #'
 #' @template seealso_measure
 #' @export
-MeasureRegrRSQ = R6Class("MeasureRSQ",
+MeasureRegrRSQ = R6Class("MeasureRegrRSQ",
   inherit = MeasureRegr,
   public = list(
     #' @description
@@ -46,9 +46,20 @@ MeasureRegrRSQ = R6Class("MeasureRSQ",
         properties = c(if (!private$.pred_set_mean) c("requires_task", "requires_train_set"), "weights"),
         predict_type = "response",
         minimize = FALSE,
-        range = c(-Inf, 1),
-        man = "mlr3::mlr_measures_regr.rsq"
+        range = c(-Inf, 1)
       )
+    }
+  ),
+
+  active = list(
+    #' @field pred_set_mean (`logical(1)`)\cr
+    #' If `TRUE`, the mean of the true values is calculated on the prediction set.
+    #' If `FALSE`, the mean of the true values is calculated on the training set.
+    pred_set_mean = function(rhs) {
+      if (!missing(rhs)) {
+        private$.pred_set_mean = assert_flag(rhs)
+      }
+      private$.pred_set_mean
     }
   ),
 
@@ -72,6 +83,10 @@ MeasureRegrRSQ = R6Class("MeasureRSQ",
         }
         1 - sum(weights * (prediction$truth - prediction$response)^2) / sum(weights * (prediction$truth - mu)^2)
       }
+    },
+
+    .additional_phash_input = function() {
+      c(list(self$pred_set_mean), super$.additional_phash_input())
     }
   )
 )

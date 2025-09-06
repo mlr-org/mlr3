@@ -53,9 +53,7 @@ LearnerRegrDebug = R6Class("LearnerRegrDebug", inherit = LearnerRegr,
           x                    = p_dbl(0, 1, tags = "train")
         ),
         properties = c("missings", "weights"),
-        packages = "stats",
-        man = "mlr3::mlr_learners_regr.debug",
-        label = "Debug Learner for Regression"
+        packages = "stats"
       )
     },
 

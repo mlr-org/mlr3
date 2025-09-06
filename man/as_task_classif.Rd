@@ -19,24 +19,18 @@ as_task_classif(x, ...)
   target,
   id = deparse1(substitute(x)),
   positive = NULL,
-  label = NA_character_,
+  label,
   ...
 )
 
-\method{as_task_classif}{matrix}(
-  x,
-  target,
-  id = deparse1(substitute(x)),
-  label = NA_character_,
-  ...
-)
+\method{as_task_classif}{matrix}(x, target, id = deparse1(substitute(x)), label, ...)
 
 \method{as_task_classif}{DataBackend}(
   x,
   target,
   id = deparse1(substitute(x)),
   positive = NULL,
-  label = NA_character_,
+  label,
   ...
 )
 
@@ -53,7 +47,7 @@ as_task_classif(x, ...)
   data,
   id = deparse1(substitute(data)),
   positive = NULL,
-  label = NA_character_,
+  label,
   ...
 )
 }

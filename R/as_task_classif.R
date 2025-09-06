@@ -35,8 +35,12 @@ as_task_classif.TaskClassif = function(x, clone = FALSE, ...) { # nolint
 #'   Level of the positive class. See [TaskClassif].
 #' @template param_label
 #' @export
-as_task_classif.data.frame = function(x, target, id = deparse1(substitute(x)), positive = NULL, label = NA_character_, ...) { # nolint
+as_task_classif.data.frame = function(x, target, id = deparse1(substitute(x)), positive = NULL, label, ...) { # nolint
   force(id)
+
+  if (!missing(label)) {
+    mlr3component_deprecation_msg("label is deprecated for as_task_classif and will be removed in the future.")
+  }
 
   assert_data_frame(x, min.rows = 1L, min.cols = 1L, col.names = "unique")
   assert_choice(target, names(x))
@@ -51,28 +55,36 @@ as_task_classif.data.frame = function(x, target, id = deparse1(substitute(x)), p
     x[[target]] = as.factor(y)
   }
 
-  TaskClassif$new(id = id, backend = x, target = target, positive = positive, label = label)
+  TaskClassif$new(id = id, backend = x, target = target, positive = positive)
 }
 
 #' @rdname as_task_classif
 #' @export
-as_task_classif.matrix = function(x, target, id = deparse1(substitute(x)), label = NA_character_, ...) { # nolint
+as_task_classif.matrix = function(x, target, id = deparse1(substitute(x)), label, ...) { # nolint
   force(id)
+
+  if (!missing(label)) {
+    mlr3component_deprecation_msg("label is deprecated for as_task_classif and will be removed in the future.")
+  }
 
   assert_matrix(x, col.names = "unique", min.rows = 1L, min.cols = 1L)
   assert_choice(target, colnames(x))
 
-  as_task_classif(as.data.table(x), target = target, id = id, label = label, ...)
+  as_task_classif(as.data.table(x), target = target, id = id, ...)
 }
 
 #' @rdname as_task_classif
 #' @export
-as_task_classif.DataBackend = function(x, target, id = deparse1(substitute(x)), positive = NULL, label = NA_character_, ...) { # nolint
+as_task_classif.DataBackend = function(x, target, id = deparse1(substitute(x)), positive = NULL, label, ...) { # nolint
   force(id)
+
+  if (!missing(label)) {
+    mlr3component_deprecation_msg("label is deprecated for as_task_classif and will be removed in the future.")
+  }
 
   assert_choice(target, x$colnames)
 
-  TaskClassif$new(id = id, backend = x, target = target, positive = positive, label = label, ...)
+  TaskClassif$new(id = id, backend = x, target = target, positive = positive, ...)
 }
 
 #' @rdname as_task_classif
@@ -86,8 +98,12 @@ as_task_classif.TaskRegr = function(x, target, drop_original_target = FALSE, dro
 #' @param data (`data.frame()`)\cr
 #'   Data frame containing all columns referenced in formula `x`.
 #' @export
-as_task_classif.formula = function(x, data, id = deparse1(substitute(data)), positive = NULL, label = NA_character_, ...) { # nolint
+as_task_classif.formula = function(x, data, id = deparse1(substitute(data)), positive = NULL, label, ...) { # nolint
   force(id)
+
+  if (!missing(label)) {
+    mlr3component_deprecation_msg("label is deprecated for as_task_classif and will be removed in the future.")
+  }
 
   assert_data_frame(data)
   assert_subset(all.vars(x), c(names(data), "."), .var.name = "formula")
@@ -100,5 +116,5 @@ as_task_classif.formula = function(x, data, id = deparse1(substitute(data)), pos
   setattr(tab, "na.action", NULL)
   target = all.vars(x)[1L]
 
-  as_task_classif(tab, target = target, id = id, positive = positive, label = label, ...)
+  as_task_classif(tab, target = target, id = id, positive = positive, ...)
 }

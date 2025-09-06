@@ -56,8 +56,8 @@ Other TaskGenerator:
 \code{\link{mlr_task_generators_xor}}
 }
 \concept{TaskGenerator}
-\section{Super class}{
-\code{\link[mlr3:TaskGenerator]{mlr3::TaskGenerator}} -> \code{TaskGeneratorCircle}
+\section{Super classes}{
+\code{\link[mlr3misc:Mlr3Component]{mlr3misc::Mlr3Component}} -> \code{\link[mlr3:TaskGenerator]{mlr3::TaskGenerator}} -> \code{TaskGeneratorCircle}
 }
 \section{Methods}{
 \subsection{Public methods}{
@@ -68,9 +68,13 @@ Other TaskGenerator:
 }
 }
 \if{html}{\out{
-<details open><summary>Inherited methods</summary>
+<details><summary>Inherited methods</summary>
 <ul>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="TaskGenerator" data-id="format"><a href='../../mlr3/html/TaskGenerator.html#method-TaskGenerator-format'><code>mlr3::TaskGenerator$format()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3misc" data-topic="Mlr3Component" data-id="configure"><a href='../../mlr3misc/html/Mlr3Component.html#method-Mlr3Component-configure'><code>mlr3misc::Mlr3Component$configure()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3misc" data-topic="Mlr3Component" data-id="format"><a href='../../mlr3misc/html/Mlr3Component.html#method-Mlr3Component-format'><code>mlr3misc::Mlr3Component$format()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3misc" data-topic="Mlr3Component" data-id="help"><a href='../../mlr3misc/html/Mlr3Component.html#method-Mlr3Component-help'><code>mlr3misc::Mlr3Component$help()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3misc" data-topic="Mlr3Component" data-id="override_info"><a href='../../mlr3misc/html/Mlr3Component.html#method-Mlr3Component-override_info'><code>mlr3misc::Mlr3Component$override_info()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3misc" data-topic="Mlr3Component" data-id="require_namespaces"><a href='../../mlr3misc/html/Mlr3Component.html#method-Mlr3Component-require_namespaces'><code>mlr3misc::Mlr3Component$require_namespaces()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="TaskGenerator" data-id="generate"><a href='../../mlr3/html/TaskGenerator.html#method-TaskGenerator-generate'><code>mlr3::TaskGenerator$generate()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="TaskGenerator" data-id="print"><a href='../../mlr3/html/TaskGenerator.html#method-TaskGenerator-print'><code>mlr3::TaskGenerator$print()</code></a></span></li>
 </ul>

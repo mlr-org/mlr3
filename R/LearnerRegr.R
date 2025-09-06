@@ -12,9 +12,9 @@
 #'   - `"se"`: Predicts the standard error for each value of response for each observation in the test set.
 #'   - `"distr"`: Probability distribution as `VectorDistribution` object (requires package `distr6`, available via
 #'     repository \url{https://raphaels1.r-universe.dev}).
-#'  - `"quantiles"`: Predicts quantile estimates for each observation in the test set.
-#'    Set `$quantiles` to specify the quantiles to predict and `$quantile_response` to specify the response quantile.
-#'    See mlr3book [section](https://mlr3book.mlr-org.com/chapters/chapter13/beyond_regression_and_classification.html#sec-quantile-regression) on quantile regression for more details.
+#'   - `"quantiles"`: Predicts quantile estimates for each observation in the test set.
+#'     Set `$quantiles` to specify the quantiles to predict and `$quantile_response` to specify the response quantile.
+#'     See mlr3book [section](https://mlr3book.mlr-org.com/chapters/chapter13/beyond_regression_and_classification.html#sec-quantile-regression) on quantile regression for more details.
 #'
 #' Predefined learners can be found in the [dictionary][mlr3misc::Dictionary] [mlr_learners].
 #' Essential regression learners can be found in this dictionary after loading \CRANpkg{mlr3learners}.
@@ -44,10 +44,17 @@ LearnerRegr = R6Class("LearnerRegr", inherit = Learner,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    initialize = function(id, task_type = "regr", param_set = ps(), predict_types = "response", feature_types = character(), properties = character(), packages = character(), label = NA_character_, man = NA_character_) {
+    initialize = function(dict_entry, id = dict_entry, task_type = "regr",
+      param_set = ps(), predict_types = "response", feature_types = character(), properties = character(), packages = character(),
+      additional_configuration = character(0), label, man
+    ) {
+      if (!missing(label) || !missing(man)) {
+        mlr3component_deprecation_msg("label and man are deprecated for Learner construction and will be removed in the future.")
+      }
+
       super$initialize(id = id, task_type = task_type, param_set = param_set, feature_types = feature_types,
         predict_types = predict_types, properties = properties, packages = packages,
-        label = label, man = man)
+        additional_configuration = c("quantiles", "quantile_response", additional_configuration))
     },
 
     #' @description
@@ -136,7 +143,7 @@ LearnerRegr = R6Class("LearnerRegr", inherit = Learner,
       if ("quantiles" %nin% self$predict_types) {
         stopf("Learner does not support predicting quantiles")
       }
-      private$.quantiles = assert_numeric(rhs, lower = 0, upper = 1, any.missing = FALSE, min.len = 1L, sorted = TRUE, .var.name = "quantiles")
+      private$.quantiles = assert_numeric(rhs, lower = 0, upper = 1, any.missing = FALSE, min.len = 1L, sorted = TRUE, .var.name = "quantiles", null.ok = TRUE)
 
       if (length(private$.quantiles) == 1) {
         private$.quantile_response = private$.quantiles
@@ -154,7 +161,7 @@ LearnerRegr = R6Class("LearnerRegr", inherit = Learner,
         stopf("Learner does not support predicting quantiles")
       }
 
-      private$.quantile_response = assert_number(rhs, lower = 0, upper = 1, .var.name = "response")
+      private$.quantile_response = assert_number(rhs, lower = 0, upper = 1, .var.name = "response", null.ok = TRUE)
       private$.quantiles = sort(union(private$.quantiles, private$.quantile_response))
     }
   ),

@@ -57,8 +57,7 @@ ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
         repeats = p_int(1L)
       )
       ps$set_values(repeats = 10L, folds = 10L)
-      super$initialize(id = "repeated_cv", param_set = ps,
-        label = "Repeated Cross-Validation", man = "mlr3::mlr_resamplings_repeated_cv")
+      super$initialize(id = "repeated_cv", param_set = ps)
     },
 
     #' @description
@@ -126,8 +125,7 @@ ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
     deep_clone = function(name, value) {
       switch(name,
         "instance" = copy(value),
-        "param_set" = value$clone(deep = TRUE),
-        value
+        super$deep_clone(name, value)
       )
     }
   )

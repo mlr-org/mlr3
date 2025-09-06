@@ -162,13 +162,8 @@
 #' @template seealso_learner
 #' @export
 Learner = R6Class("Learner",
+  inherit = Mlr3Component,
   public = list(
-    #' @template field_id
-    id = NULL,
-
-    #' @template field_label
-    label = NA_character_,
-
     #' @field state (`NULL` | named `list()`)\cr
     #' Current (internal) state of the learner.
     #' Contains all information gathered during `train()` and `predict()`.
@@ -183,14 +178,6 @@ Learner = R6Class("Learner",
     #' Stores the feature types the learner can handle, e.g. `"logical"`, `"numeric"`, or `"factor"`.
     #' A complete list of candidate feature types, grouped by task type, is stored in [`mlr_reflections$task_feature_types`][mlr_reflections].
     feature_types = NULL,
-
-    #' @field properties (`character()`)\cr
-    #' Stores a set of properties/capabilities the learner has.
-    #' A complete list of candidate properties, grouped by task type, is stored in [`mlr_reflections$learner_properties`][mlr_reflections].
-    properties = NULL,
-
-    #' @template field_packages
-    packages = NULL,
 
     #' @template field_predict_sets
     predict_sets = "test",
@@ -216,42 +203,35 @@ Learner = R6Class("Learner",
     #' \url{https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling}
     timeout = c(train = Inf, predict = Inf),
 
-    #' @template field_man
-    man = NULL,
-
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #'
     #' Note that this object is typically constructed via a derived classes, e.g. [LearnerClassif] or [LearnerRegr].
-    initialize = function(id, task_type, param_set = ps(), predict_types = character(), feature_types = character(),
-      properties = character(), packages = character(), label = NA_character_, man = NA_character_) {
+    initialize = function(id, task_type, param_set = ps(), predict_types = character(0), feature_types = character(0),
+      properties = character(0), packages = character(0), additional_configuration = character(0), label, man) {
 
-      self$id = assert_string(id, min.chars = 1L)
-      self$label = assert_string(label, na.ok = TRUE)
+      if (!missing(label) || !missing(man)) {
+        mlr3component_deprecation_msg("label and man are deprecated for Learner construction and will be removed in the future.")
+      }
+
+      super$initialize(dict_entry = id, dict_shortaccess = "lrn",
+        param_set = param_set, packages = packages, properties = properties,
+        additional_configuration = c("predict_sets", "parallel_predict", "timeout", "use_weights", "predict_type", "selected_features_impute",
+          if ("validate" %in% names(self)) "validate", additional_configuration)
+      )
+
       self$task_type = assert_choice(task_type, mlr_reflections$task_types$type)
       self$feature_types = assert_ordered_set(feature_types, mlr_reflections$task_feature_types, .var.name = "feature_types")
       private$.predict_types = assert_ordered_set(predict_types, names(mlr_reflections$learner_predict_types[[task_type]]),
         empty.ok = FALSE, .var.name = "predict_types")
       private$.predict_type = predict_types[1L]
-      self$properties = sort(assert_subset(properties, mlr_reflections$learner_properties[[task_type]]))
-      self$packages = union("mlr3", assert_character(packages, any.missing = FALSE, min.chars = 1L))
-      self$man = assert_string(man, na.ok = TRUE)
+      assert_subset(properties, mlr_reflections$learner_properties[[task_type]])
 
       if ("weights" %in% self$properties) {
         self$use_weights = "use"
       } else {
         self$use_weights = "error"
       }
-      private$.param_set = param_set
-
-      check_packages_installed(packages, msg = sprintf("Package '%%s' required but not installed for Learner '%s'", id))
-    },
-
-    #' @description
-    #' Helper for print outputs.
-    #' @param ... (ignored).
-    format = function(...) {
-      sprintf("<%s:%s>", class(self)[1L], self$id)
     },
 
     #' @description
@@ -293,12 +273,6 @@ Learner = R6Class("Learner",
       if (length(e)) {
         cat_cli(cli_alert_danger("Errors: {e}"))
       }
-    },
-
-    #' @description
-    #' Opens the corresponding help page referenced by field `$man`.
-    help = function() {
-      open_help(self$man)
     },
 
     #' @description
@@ -633,54 +607,6 @@ Learner = R6Class("Learner",
     },
 
     #' @description
-    #' Sets parameter values and fields of the learner.
-    #' All arguments whose names match the name of a parameter of the [paradox::ParamSet] are set as parameters.
-    #' All remaining arguments are assumed to be regular fields.
-    #'
-    #' @param ... (named `any`)\cr
-    #'   Named arguments to set parameter values and fields.
-    #' @param .values (named `any`)\cr
-    #'   Named list of parameter values and fields.
-    #' @examples
-    #' learner = lrn("classif.rpart")
-    #' learner$configure(minsplit = 3, parallel_predict = FALSE)
-    #' learner$configure(.values = list(cp = 0.005))
-    configure = function(..., .values = list()) {
-      dots = list(...)
-      assert_list(dots, names = "unique")
-      assert_list(.values, names = "unique")
-      assert_disjunct(names(dots), names(.values))
-      new_values = insert_named(dots, .values)
-
-      # set params in ParamSet
-      if (length(new_values)) {
-        param_ids = self$param_set$ids()
-        ii = names(new_values) %in% param_ids
-        if (any(ii)) {
-          self$param_set$values = insert_named(self$param_set$values, new_values[ii])
-          new_values = new_values[!ii]
-        }
-      } else {
-        param_ids = character()
-      }
-
-      # remaining args go into fields
-      if (length(new_values)) {
-        ndots = names(new_values)
-        for (i in seq_along(new_values)) {
-          nn = ndots[[i]]
-          if (!exists(nn, envir = self, inherits = FALSE)) {
-            stopf("Cannot set argument '%s' for '%s' (not a parameter, not a field).%s",
-              nn, class(self)[1L], did_you_mean(nn, c(param_ids, setdiff(names(self), ".__enclos_env__")))) # nolint
-          }
-          self[[nn]] = new_values[[i]]
-        }
-      }
-
-      return(invisible(self))
-    },
-
-    #' @description
     #' Returns the features selected by the model.
     #' The field `selected_features_impute` controls the behavior if the learner does not support feature selection.
     #' If set to `"error"`, an error is thrown, otherwise all features are returned.
@@ -766,23 +692,6 @@ Learner = R6Class("Learner",
       get_log_condition(self$state, "error")
     },
 
-    #' @field hash (`character(1)`)\cr
-    #' Hash (unique identifier) for this object.
-    #' The hash is calculated based on the learner id, the parameter settings, the predict type, the fallback hash, the parallel predict setting, the validate setting, and the predict sets.
-    hash = function(rhs) {
-      assert_ro_binding(rhs)
-      calculate_hash(class(self), self$id, self$param_set$values, private$.predict_type,
-        self$fallback$hash, self$parallel_predict, get0("validate", self), self$predict_sets, private$.use_weights)
-    },
-
-    #' @field phash (`character(1)`)\cr
-    #' Hash (unique identifier) for this partial object, excluding some components which are varied systematically during tuning (parameter values).
-    phash = function(rhs) {
-      assert_ro_binding(rhs)
-      calculate_hash(class(self), self$id, private$.predict_type,
-        self$fallback$hash, self$parallel_predict, get0("validate", self), private$.use_weights)
-    },
-
     #' @field predict_type (`character(1)`)\cr
     #' Stores the currently active predict type, e.g. `"response"`.
     #' Must be an element of `$predict_types`.
@@ -798,14 +707,6 @@ Learner = R6Class("Learner",
         stopf("Learner '%s' does not support predict type '%s'", self$id, rhs)
       }
       private$.predict_type = rhs
-    },
-
-    #' @template field_param_set
-    param_set = function(rhs) {
-      if (!missing(rhs) && !identical(rhs, private$.param_set)) {
-        stopf("param_set is read-only.")
-      }
-      private$.param_set
     },
 
     #' @field fallback ([Learner])\cr
@@ -860,7 +761,6 @@ Learner = R6Class("Learner",
     .fallback = NULL,
     .predict_type = NULL,
     .predict_types = NULL,
-    .param_set = NULL,
     .hotstart_stack = NULL,
     .selected_features_impute = "error",
 
@@ -880,10 +780,12 @@ Learner = R6Class("Learner",
       }
     },
 
+    .additional_phash_input = function() {
+      list(private$.predict_type, self$fallback$hash, self$parallel_predict, get0("validate", self), self$predict_sets, private$.use_weights, private$.when)
+    },
+
     deep_clone = function(name, value) {
       switch(name,
-        .param_set = value$clone(deep = TRUE),
-        .fallback = if (is.null(value)) NULL else value$clone(deep = TRUE),
         state = {
           if (!is.null(value$train_task)) {
             value$train_task = value$train_task$clone(deep = TRUE)
@@ -891,7 +793,7 @@ Learner = R6Class("Learner",
           value$log = copy(value$log)
           value
         },
-        value
+        super$deep_clone(name, value)
       )
     }
   )

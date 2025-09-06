@@ -90,13 +90,8 @@
 #' r$instantiate(task)
 #' prop.table(table(task$truth(r$train_set(1)))) # roughly same proportion
 Resampling = R6Class("Resampling",
+  inherit = Mlr3Component,
   public = list(
-    #' @template field_label
-    label = NULL,
-
-    #' @template field_param_set
-    param_set = NULL,
-
     #' @field instance (any)\cr
     #'   During `instantiate()`, the instance is stored in this slot in an arbitrary format.
     #'   Note that if a grouping variable is present in the [Task], a [Resampling] may operate on the
@@ -125,9 +120,6 @@ Resampling = R6Class("Resampling",
     #'   Only used internally.
     duplicated_ids = NULL,
 
-    #' @template field_man
-    man = NULL,
-
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #'
@@ -135,19 +127,15 @@ Resampling = R6Class("Resampling",
     #'   Set to `TRUE` if this resampling strategy may have duplicated row ids in a single training set or test set.
     #'
     #' Note that this object is typically constructed via a derived classes, e.g. [ResamplingCV] or [ResamplingHoldout].
-    initialize = function(id, param_set = ps(), duplicated_ids = FALSE, label = NA_character_, man = NA_character_) {
-      private$.id = assert_string(id, min.chars = 1L)
-      self$label = assert_string(label, na.ok = TRUE)
-      self$param_set = assert_param_set(param_set)
-      self$duplicated_ids = assert_flag(duplicated_ids)
-      self$man = assert_string(man, na.ok = TRUE)
-    },
+    initialize = function(id, param_set = ps(), duplicated_ids = FALSE, additional_configuration = character(0), label, man) {
+      if (!missing(label) || !missing(man)) {
+        mlr3component_deprecation_msg("label and man are deprecated for Resampling construction and will be removed in the future.")
+      }
 
-    #' @description
-    #' Helper for print outputs.
-    #' @param ... (ignored).
-    format = function(...) {
-      sprintf("<%s>", class(self)[1L])
+      super$initialize(dict_entry = id, dict_shortaccess = "rsmp", param_set = param_set,
+        additional_configuration = additional_configuration)
+
+      self$duplicated_ids = assert_flag(duplicated_ids)
     },
 
     #' @description
@@ -156,17 +144,11 @@ Resampling = R6Class("Resampling",
     print = function(...) {
       msg_h = if (is.null(self$label) || is.na(self$label)) "" else paste0(": ", self$label)
       cat_cli({
-        cli_h1("{.cls {class(self)[1L]}} {msg_h}")
+        cli_h1("{.cls {class(self)[1L]}} ({self$id}){msg_h}")
         cli_li("Iterations: {.val {self$iters}}")
         cli_li("Instantiated: {.val {self$is_instantiated}}")
         cli_li("Parameters: {as_short_string(self$param_set$values, 1000L)}")
       })
-    },
-
-    #' @description
-    #' Opens the corresponding help page referenced by field `$man`.
-    help = function() {
-      open_help(self$man)
     },
 
     #' @description
@@ -186,7 +168,6 @@ Resampling = R6Class("Resampling",
     #' resampling$instantiate(task)
     instantiate = function(task) {
       task = assert_task(as_task(task))
-      private$.hash = NULL
       self$instance = private$.get_instance(task)
       self$task_hash = task$hash
       self$task_row_hash = task$row_hash
@@ -224,45 +205,16 @@ Resampling = R6Class("Resampling",
   ),
 
   active = list(
-    #' @template field_id
-    id = function(rhs) {
-      if (missing(rhs)) {
-        return(private$.id)
-      }
-
-      private$.hash = NULL
-      private$.id = assert_string(rhs, min.chars = 1L)
-    },
-
     #' @field is_instantiated (`logical(1)`)\cr
     #'   Is `TRUE` if the resampling has been instantiated.
     is_instantiated = function(rhs) {
       assert_ro_binding(rhs)
       !is.null(self$instance)
-    },
-
-    #' @field hash (`character(1)`)\cr
-    #' Hash (unique identifier) for this object.
-    #' If the object has not been instantiated yet, `NA_character_` is returned.
-    #' The hash is calculated based on the class name, the id, the parameter set, and the instance.
-    hash = function(rhs) {
-      assert_ro_binding(rhs)
-      if (!self$is_instantiated) {
-        return(NA_character_)
-      }
-
-      if (is.null(private$.hash)) {
-        private$.hash = calculate_hash(list(class(self), self$id, self$param_set$values, self$instance))
-      }
-
-      private$.hash
     }
   ),
 
   private = list(
     .primary_iters = NULL,
-    .id = NULL,
-    .hash = NULL,
     .groups = NULL,
 
     .get_instance = function(task) {
@@ -295,7 +247,9 @@ Resampling = R6Class("Resampling",
       }
 
       private$.groups[list(ids), on = "group", allow.cartesian = TRUE][[1L]]
-    }
+    },
+
+    .additional_phash_input = function() list(self$instance)
   )
 )
 

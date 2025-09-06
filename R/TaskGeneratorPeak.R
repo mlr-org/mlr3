@@ -30,9 +30,7 @@ TaskGeneratorPeak = R6Class(
         id = "peak",
         "regr",
         "mlbench",
-        ps,
-        label = "Peak Regression",
-        man = "mlr3::mlr_task_generators_peak"
+        ps
       )
     }
   ),

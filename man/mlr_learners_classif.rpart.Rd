@@ -36,7 +36,7 @@ lrn("classif.rpart")
 \item Task type: \dQuote{classif}
 \item Predict Types: \dQuote{response}, \dQuote{prob}
 \item Feature Types: \dQuote{logical}, \dQuote{integer}, \dQuote{numeric}, \dQuote{factor}, \dQuote{ordered}
-\item Required Packages: \CRANpkg{mlr3}, \CRANpkg{rpart}
+\item Required Packages: \CRANpkg{rpart}, \CRANpkg{mlr3}
 }
 }
 
@@ -94,7 +94,7 @@ Other Learner:
 }
 \concept{Learner}
 \section{Super classes}{
-\code{\link[mlr3:Learner]{mlr3::Learner}} -> \code{\link[mlr3:LearnerClassif]{mlr3::LearnerClassif}} -> \code{LearnerClassifRpart}
+\code{\link[mlr3misc:Mlr3Component]{mlr3misc::Mlr3Component}} -> \code{\link[mlr3:Learner]{mlr3::Learner}} -> \code{\link[mlr3:LearnerClassif]{mlr3::LearnerClassif}} -> \code{LearnerClassifRpart}
 }
 \section{Methods}{
 \subsection{Public methods}{
@@ -108,11 +108,13 @@ Other Learner:
 \if{html}{\out{
 <details><summary>Inherited methods</summary>
 <ul>
+<li><span class="pkg-link" data-pkg="mlr3misc" data-topic="Mlr3Component" data-id="configure"><a href='../../mlr3misc/html/Mlr3Component.html#method-Mlr3Component-configure'><code>mlr3misc::Mlr3Component$configure()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3misc" data-topic="Mlr3Component" data-id="format"><a href='../../mlr3misc/html/Mlr3Component.html#method-Mlr3Component-format'><code>mlr3misc::Mlr3Component$format()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3misc" data-topic="Mlr3Component" data-id="help"><a href='../../mlr3misc/html/Mlr3Component.html#method-Mlr3Component-help'><code>mlr3misc::Mlr3Component$help()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3misc" data-topic="Mlr3Component" data-id="override_info"><a href='../../mlr3misc/html/Mlr3Component.html#method-Mlr3Component-override_info'><code>mlr3misc::Mlr3Component$override_info()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3misc" data-topic="Mlr3Component" data-id="require_namespaces"><a href='../../mlr3misc/html/Mlr3Component.html#method-Mlr3Component-require_namespaces'><code>mlr3misc::Mlr3Component$require_namespaces()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="base_learner"><a href='../../mlr3/html/Learner.html#method-Learner-base_learner'><code>mlr3::Learner$base_learner()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="configure"><a href='../../mlr3/html/Learner.html#method-Learner-configure'><code>mlr3::Learner$configure()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="encapsulate"><a href='../../mlr3/html/Learner.html#method-Learner-encapsulate'><code>mlr3::Learner$encapsulate()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="format"><a href='../../mlr3/html/Learner.html#method-Learner-format'><code>mlr3::Learner$format()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="help"><a href='../../mlr3/html/Learner.html#method-Learner-help'><code>mlr3::Learner$help()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="predict"><a href='../../mlr3/html/Learner.html#method-Learner-predict'><code>mlr3::Learner$predict()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="predict_newdata"><a href='../../mlr3/html/Learner.html#method-Learner-predict_newdata'><code>mlr3::Learner$predict_newdata()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="print"><a href='../../mlr3/html/Learner.html#method-Learner-print'><code>mlr3::Learner$print()</code></a></span></li>

@@ -3,7 +3,7 @@ expect_man_exists = function(man) {
   if (!is.na(man)) {
     parts = strsplit(man, "::", fixed = TRUE)[[1L]]
     matches = help.search(parts[2L], package = parts[1L], ignore.case = FALSE)
-    checkmate::expect_data_frame(matches$matches, min.rows = 1L, info = "man page lookup")
+    checkmate::expect_data_frame(matches$matches, min.rows = 1L, info = sprintf("man page lookup for %s", man))
   }
 }
 

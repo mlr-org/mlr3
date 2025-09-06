@@ -211,14 +211,6 @@ learner$reset()
 learner = lrn("classif.rpart")
 fallback = lrn("classif.featureless")
 learner$encapsulate("try", fallback = fallback)
-
-## ------------------------------------------------
-## Method `Learner$configure`
-## ------------------------------------------------
-
-learner = lrn("classif.rpart")
-learner$configure(minsplit = 3, parallel_predict = FALSE)
-learner$configure(.values = list(cp = 0.005))
 }
 \seealso{
 \itemize{
@@ -251,17 +243,12 @@ Other Learner:
 \code{\link{mlr_learners_regr.rpart}}
 }
 \concept{Learner}
+\section{Super class}{
+\code{\link[mlr3misc:Mlr3Component]{mlr3misc::Mlr3Component}} -> \code{Learner}
+}
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{id}}{(\code{character(1)})\cr
-Identifier of the object.
-Used in tables, plot and text output.}
-
-\item{\code{label}}{(\code{character(1)})\cr
-Label for this object.
-Can be used in tables, plot and text output instead of the ID.}
-
 \item{\code{state}}{(\code{NULL} | named \code{list()})\cr
 Current (internal) state of the learner.
 Contains all information gathered during \code{train()} and \code{predict()}.
@@ -277,14 +264,6 @@ see \code{\link[=mlr_reflections]{mlr_reflections$task_types$type}}.}
 \item{\code{feature_types}}{(\code{character()})\cr
 Stores the feature types the learner can handle, e.g. \code{"logical"}, \code{"numeric"}, or \code{"factor"}.
 A complete list of candidate feature types, grouped by task type, is stored in \code{\link[=mlr_reflections]{mlr_reflections$task_feature_types}}.}
-
-\item{\code{properties}}{(\code{character()})\cr
-Stores a set of properties/capabilities the learner has.
-A complete list of candidate properties, grouped by task type, is stored in \code{\link[=mlr_reflections]{mlr_reflections$learner_properties}}.}
-
-\item{\code{packages}}{(\code{character(1)})\cr
-Set of required packages.
-These packages are loaded, but not attached.}
 
 \item{\code{predict_sets}}{(\code{character()})\cr
 During \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}, a \link{Learner} can predict on multiple sets.
@@ -315,10 +294,6 @@ This works differently for different encapsulation methods, see
 Default is \code{c(train = Inf, predict = Inf)}.
 Also see the section on error handling the mlr3book:
 \url{https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling}}
-
-\item{\code{man}}{(\code{character(1)})\cr
-String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
-Defaults to \code{NA}, but can be set by child classes.}
 }
 \if{html}{\out{</div>}}
 }
@@ -367,21 +342,11 @@ Logged warnings as vector.}
 \item{\code{errors}}{(\code{character()})\cr
 Logged errors as vector.}
 
-\item{\code{hash}}{(\code{character(1)})\cr
-Hash (unique identifier) for this object.
-The hash is calculated based on the learner id, the parameter settings, the predict type, the fallback hash, the parallel predict setting, the validate setting, and the predict sets.}
-
-\item{\code{phash}}{(\code{character(1)})\cr
-Hash (unique identifier) for this partial object, excluding some components which are varied systematically during tuning (parameter values).}
-
 \item{\code{predict_type}}{(\code{character(1)})\cr
 Stores the currently active predict type, e.g. \code{"response"}.
 Must be an element of \verb{$predict_types}.
 A few learners already use the predict type during training.
 So there is no guarantee that changing the predict type after training will have any effect or does not lead to errors.}
-
-\item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
-Set of hyperparameters.}
 
 \item{\code{fallback}}{(\link{Learner})\cr
 Returns the fallback learner set with \verb{$encapsulate()}.}
@@ -408,20 +373,28 @@ This field is read-only.}
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-Learner-new}{\code{Learner$new()}}
-\item \href{#method-Learner-format}{\code{Learner$format()}}
 \item \href{#method-Learner-print}{\code{Learner$print()}}
-\item \href{#method-Learner-help}{\code{Learner$help()}}
 \item \href{#method-Learner-train}{\code{Learner$train()}}
 \item \href{#method-Learner-predict}{\code{Learner$predict()}}
 \item \href{#method-Learner-predict_newdata}{\code{Learner$predict_newdata()}}
 \item \href{#method-Learner-reset}{\code{Learner$reset()}}
 \item \href{#method-Learner-base_learner}{\code{Learner$base_learner()}}
 \item \href{#method-Learner-encapsulate}{\code{Learner$encapsulate()}}
-\item \href{#method-Learner-configure}{\code{Learner$configure()}}
 \item \href{#method-Learner-selected_features}{\code{Learner$selected_features()}}
 \item \href{#method-Learner-clone}{\code{Learner$clone()}}
 }
 }
+\if{html}{\out{
+<details open><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="mlr3misc" data-topic="Mlr3Component" data-id="configure"><a href='../../mlr3misc/html/Mlr3Component.html#method-Mlr3Component-configure'><code>mlr3misc::Mlr3Component$configure()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3misc" data-topic="Mlr3Component" data-id="format"><a href='../../mlr3misc/html/Mlr3Component.html#method-Mlr3Component-format'><code>mlr3misc::Mlr3Component$format()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3misc" data-topic="Mlr3Component" data-id="help"><a href='../../mlr3misc/html/Mlr3Component.html#method-Mlr3Component-help'><code>mlr3misc::Mlr3Component$help()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3misc" data-topic="Mlr3Component" data-id="override_info"><a href='../../mlr3misc/html/Mlr3Component.html#method-Mlr3Component-override_info'><code>mlr3misc::Mlr3Component$override_info()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3misc" data-topic="Mlr3Component" data-id="require_namespaces"><a href='../../mlr3misc/html/Mlr3Component.html#method-Mlr3Component-require_namespaces'><code>mlr3misc::Mlr3Component$require_namespaces()</code></a></span></li>
+</ul>
+</details>
+}}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Learner-new"></a>}}
 \if{latex}{\out{\hypertarget{method-Learner-new}{}}}
@@ -434,12 +407,12 @@ Note that this object is typically constructed via a derived classes, e.g. \link
   id,
   task_type,
   param_set = ps(),
-  predict_types = character(),
-  feature_types = character(),
-  properties = character(),
-  packages = character(),
-  label = NA_character_,
-  man = NA_character_
+  predict_types = character(0),
+  feature_types = character(0),
+  properties = character(0),
+  packages = character(0),
+  label,
+  man
 )}\if{html}{\out{</div>}}
 }
 
@@ -498,23 +471,6 @@ The referenced help package can be opened via method \verb{$help()}.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-Learner-format"></a>}}
-\if{latex}{\out{\hypertarget{method-Learner-format}{}}}
-\subsection{Method \code{format()}}{
-Helper for print outputs.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Learner$format(...)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{...}}{(ignored).}
-}
-\if{html}{\out{</div>}}
-}
-}
-\if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Learner-print"></a>}}
 \if{latex}{\out{\hypertarget{method-Learner-print}{}}}
 \subsection{Method \code{print()}}{
@@ -530,16 +486,6 @@ Printer.
 }
 \if{html}{\out{</div>}}
 }
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-Learner-help"></a>}}
-\if{latex}{\out{\hypertarget{method-Learner-help}{}}}
-\subsection{Method \code{help()}}{
-Opens the corresponding help page referenced by field \verb{$man}.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Learner$help()}\if{html}{\out{</div>}}
-}
-
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Learner-train"></a>}}
@@ -779,39 +725,6 @@ If \code{NULL} (default), the fallback is always used, except for errors of clas
 \preformatted{learner = lrn("classif.rpart")
 fallback = lrn("classif.featureless")
 learner$encapsulate("try", fallback = fallback)
-}
-\if{html}{\out{</div>}}
-
-}
-
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-Learner-configure"></a>}}
-\if{latex}{\out{\hypertarget{method-Learner-configure}{}}}
-\subsection{Method \code{configure()}}{
-Sets parameter values and fields of the learner.
-All arguments whose names match the name of a parameter of the \link[paradox:ParamSet]{paradox::ParamSet} are set as parameters.
-All remaining arguments are assumed to be regular fields.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Learner$configure(..., .values = list())}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{...}}{(named \code{any})\cr
-Named arguments to set parameter values and fields.}
-
-\item{\code{.values}}{(named \code{any})\cr
-Named list of parameter values and fields.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Examples}{
-\if{html}{\out{<div class="r example copy">}}
-\preformatted{learner = lrn("classif.rpart")
-learner$configure(minsplit = 3, parallel_predict = FALSE)
-learner$configure(.values = list(cp = 0.005))
 }
 \if{html}{\out{</div>}}
 
