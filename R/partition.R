@@ -24,9 +24,14 @@
 #' task = tsk("pima")
 #' split = partition(task, c(0.66, 0.14))
 partition = function(task, ratio = 0.67) {
-  task = assert_task(as_task(task, clone = TRUE))
   assert_numeric(ratio, min.len = 1L, max.len = 2L)
+  UseMethod("partition")
+}
 
+#' @rdname partition
+#' @export
+partition.Task = function(task, ratio = 0.67) {
+  task = task$clone(deep = TRUE)
   if (sum(ratio) >= 1) {
     stopf("Sum of 'ratio' must be smaller than 1")
   }
