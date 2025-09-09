@@ -63,9 +63,9 @@ in multiclass classification tasks.</p>
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>The Classification Accuracy is defined as
 $$
-  \frac{1}{n} \sum_{i=1}^n w_i \mathbf{1} \left( t_i = r_i \right),
+  \sum_{i=1}^n w_i \mathbf{1} \left( t_i = r_i \right),
 $$
-where \(w_i\) are normalized weights for all observations \(x_i\).</p>
+where \(w_i\) are weights normalized to sum to 1 for all observations \(x_i\).</p>
     </div>
     <div class="section level2">
     <h2 id="note">Note<a class="anchor" aria-label="anchor" href="#note"></a></h2>
