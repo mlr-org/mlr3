@@ -2,9 +2,12 @@
 % Please edit documentation in R/partition.R
 \name{partition}
 \alias{partition}
+\alias{partition.Task}
 \title{Manually Partition into Training, Test and Validation Set}
 \usage{
 partition(task, ratio = 0.67)
+
+\method{partition}{Task}(task, ratio = 0.67)
 }
 \arguments{
 \item{task}{(\link{Task})\cr

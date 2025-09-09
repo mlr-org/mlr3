@@ -24,26 +24,31 @@
 #' task = tsk("pima")
 #' split = partition(task, c(0.66, 0.14))
 partition = function(task, ratio = 0.67) {
-  task = assert_task(as_task(task, clone = TRUE))
-  assert_numeric(ratio, min.len = 1, max.len = 2)
+  assert_numeric(ratio, min.len = 1L, max.len = 2L)
+  UseMethod("partition")
+}
 
+#' @rdname partition
+#' @export
+partition.Task = function(task, ratio = 0.67) {
+  task = task$clone(deep = TRUE)
   if (sum(ratio) >= 1) {
     stopf("Sum of 'ratio' must be smaller than 1")
   }
 
-  if (length(ratio) == 1) {
-    ratio[2] = 1 - ratio
-  } else if (length(ratio) == 2) {
-    ratio[3] = 1 - (ratio[1] +  ratio[2])
+  if (length(ratio) == 1L) {
+    ratio[2L] = 1 - ratio
+  } else {
+    ratio[3L] = 1 - (ratio[1L] + ratio[2L])
   }
 
-  r1 = rsmp("holdout", ratio = ratio[1])$instantiate(task)
+  r1 = rsmp("holdout", ratio = ratio[1L])$instantiate(task)
   task$row_roles$use = r1$test_set(1L)
-  r2 = rsmp("holdout", ratio = ratio[2] / (1 - ratio[1]))$instantiate(task)
+  r2 = rsmp("holdout", ratio = ratio[2L] / (1 - ratio[1L]))$instantiate(task)
 
-  return(list(
+  list(
     train = r1$train_set(1L),
     test = r2$train_set(1L),
-    validation = r2$test_set(1L)))
+    validation = r2$test_set(1L)
+  )
 }
-
