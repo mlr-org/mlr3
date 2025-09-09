@@ -78,10 +78,10 @@ score_roc_measures = function(pred) {
 #' @param ... (`any`)\cr
 #'   Additional parameters, currently unused.
 #' @export
-print.roc_measures = function(x, abbreviations = TRUE, digits = 2, ...) {
+print.roc_measures = function(x, abbreviations = TRUE, digits = 2L, ...) {
 
   assert_flag(abbreviations)
-  assert_int(digits, lower = 1)
+  assert_int(digits, lower = 1L)
 
   # format measures
   x$measures = mapply(function(m, v) paste0(m, ": ", round(v, digits)), names(x$measures), x$measures)

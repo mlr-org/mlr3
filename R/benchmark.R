@@ -105,11 +105,11 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
 
   # check for multiple task types
   task_types = unique(map_chr(design$task, "task_type"))
-  if (length(task_types) > 1) {
+  if (length(task_types) > 1L) {
     stopf("Multiple task types detected, but mixing types is not supported: %s", str_collapse(task_types))
   }
   learner_types = unique(map_chr(design$learner, "task_type"))
-  if (length(learner_types) > 1) {
+  if (length(learner_types) > 1L) {
     stopf("Multiple learner types detected, but mixing types is not supported: %s", str_collapse(learner_types))
   }
 

@@ -46,7 +46,7 @@ ResamplingSubsampling = R6Class("ResamplingSubsampling", inherit = Resampling,
     initialize = function() {
       ps = ps(
         ratio   = p_dbl(0, 1, tags = "required"),
-        repeats = p_int(1, tags = "required")
+        repeats = p_int(1L, tags = "required")
       )
       ps$set_values(repeats = 30L, ratio = 2 / 3)
 

@@ -22,7 +22,7 @@ MeasureAIC = R6Class("MeasureAIC",
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
-      param_set = ps(k = p_int(lower = 0))
+      param_set = ps(k = p_int(lower = 0L))
       super$initialize(
         id = "aic",
         task_type = NA_character_,
@@ -40,7 +40,7 @@ MeasureAIC = R6Class("MeasureAIC",
   private = list(
     .score = function(prediction, learner, ...) {
       learner = learner$base_learner()
-      k = self$param_set$values$k %??% 2
+      k = self$param_set$values$k %??% 2L
 
       tryCatch({
         return(stats::AIC(stats::logLik(learner$model), k = k))

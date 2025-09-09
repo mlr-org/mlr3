@@ -77,7 +77,7 @@ ResampleResult = R6Class("ResampleResult",
       cat_cli(cli_h1("{.cls {class(self)[1L]}} with {.val {self$iters}} resampling iterations"))
       if (nrow(tab)) {
         tab = remove_named(tab, c("task", "learner", "resampling", "prediction"))
-        print(tab, class = FALSE, row.names = FALSE, print.keys = FALSE, digits = 3)
+        print(tab, class = FALSE, row.names = FALSE, print.keys = FALSE, digits = 3L)
       }
     },
 
