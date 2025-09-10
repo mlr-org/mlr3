@@ -98,13 +98,15 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
   lg$debug("Calling %s method of Learner '%s' on task '%s' with %i observations",
     mode, learner$id, task$id, task$nrow, learner = learner$clone())
 
+  deadline_left_train <- max(as.numeric(difftime(learner$deadline["train"], Sys.time(), units = "secs")),0)
+
   # call train_wrapper with encapsulation
   result = encapsulate(learner$encapsulation["train"],
     .f = train_wrapper,
     .args = list(learner = learner, task = task),
     .pkgs = learner$packages,
     .seed = NA_integer_,
-    .timeout = learner$timeout["train"],
+    .timeout = min(learner$timeout["train"], deadline_left_train),
     .compute = getOption("mlr3.mirai_encapsulation", "mlr3_encapsulation")
   )
 
