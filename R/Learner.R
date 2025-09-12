@@ -497,17 +497,14 @@ Learner = R6Class("Learner",
       task$row_roles$use = task$backend$rownames
 
       # reset column roles that are not in the newdata if they are optional
+      optional_col_roles = mlr_reflections$task_col_roles_optional_newdata[[task$task_type]] %??% c("weights_learner", "weights_measure")
       task_col_roles = task$col_roles
-      update_col_roles = FALSE
-      walk(mlr_reflections$task_col_roles_optional_newdata[[task$task_type]] %??% c("weights_learner", "weights_measure"), function(role) {
+      for (role in optional_col_roles) {
         if (any(task_col_roles[[role]] %nin% newdata$colnames)) {
-          update_col_roles = TRUE
           task_col_roles[[role]] = character(0)
         }
-      })
-      if (update_col_roles) {
-        task$col_roles = task_col_roles
       }
+      task$col_roles = task_col_roles
 
       self$predict(task)
     },
