@@ -466,7 +466,8 @@ Learner = R6Class("Learner",
 
       # the following columns are automatically set to NA if missing
       # We do not impute weighs_measure, because we decidedly do not have weights_measure in this case.use.names = FALSE)
-      impute = setdiff(impute, task$col_roles[["target"]])
+
+      impute = setdiff(task$col_roles[["target"]], newdata$colnames)
       tab1 = if (length(impute)) {
         # create list with correct NA types and cbind it to the backend
         ci = insert_named(task$col_info[list(impute), c("id", "type", "levels"), on = "id", with = FALSE], list(value = NA))
