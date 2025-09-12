@@ -26,7 +26,7 @@ set_data_table_class = function(x, class = NULL) {
 
 print_data_table = function(x, hidden_columns) {
   hidden_columns = intersect(names(x), hidden_columns)
-  extra_class = class(x)[1]
+  extra_class = class(x)[1L]
   set_data_table_class(x)
   print(x[, .SD, .SDcols = !hidden_columns])
   if (length(hidden_columns)) {
@@ -81,7 +81,7 @@ get_obs_loss = function(tab, measures) {
 
 # Generalization of quantile(type = 7) for weighted data.
 
-quantile_weighted = function(x, probs, na.rm = FALSE, weights = NULL, digits = 7, continuous = TRUE) {
+quantile_weighted = function(x, probs, na.rm = FALSE, weights = NULL, digits = 7L, continuous = TRUE) {
   assert_flag(na.rm)
   assert_flag(continuous)
   assert_numeric(x, any.missing = na.rm)

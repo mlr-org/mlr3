@@ -339,7 +339,7 @@ mlr_learners$add("classif.debug", function() LearnerClassifDebug$new())
 #' @method marshal_model classif.debug_model
 marshal_model.classif.debug_model = function(model, inplace = FALSE, ...) {
   if (!is.null(model$marshal_count)) {
-    model$marshal_count = model$marshal_count + 1
+    model$marshal_count = model$marshal_count + 1L
   }
   structure(list(
     marshaled = model, packages = "mlr3"),

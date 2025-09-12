@@ -274,7 +274,7 @@ Learner = R6Class("Learner",
       cat_cli(cli_li("Packages: {.pkg {self$packages}}"))
 
       pred_typs = replace(self$predict_types, self$predict_types == self$predict_type, paste0("[", self$predict_type, "]"))
-      encapsulation = self$encapsulation[[1]]
+      encapsulation = self$encapsulation[[1L]]
       fallback = if (encapsulation != 'none') class(self$fallback)[[1L]] else "-"
 
       cat_cli({

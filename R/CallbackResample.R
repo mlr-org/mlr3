@@ -128,7 +128,7 @@ callback_resample = function(
   on_resample_before_train = NULL,
   on_resample_before_predict = NULL,
   on_resample_end = NULL
-  ) {
+) {
   stages = discard(set_names(list(
     on_resample_begin,
     on_resample_before_train,

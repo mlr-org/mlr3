@@ -78,7 +78,7 @@ benchmark_grid = function(tasks, learners, resamplings, param_values = NULL, pai
   if (!is.null(param_values)) {
     assert_param_values(param_values, n_learners = length(learners))
   }
-  if (length(unique(map_chr(unique(learners), "predict_type"))) > 1) {
+  if (length(unique(map_chr(unique(learners), "predict_type"))) > 1L) {
     warning_config(
       "Multiple predict types detected, this will mean that you cannot evaluate the same measures on all learners.",
       class = "Mlr3WarningVaryingPredictTypes"
