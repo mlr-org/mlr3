@@ -495,16 +495,16 @@ Learner = R6Class("Learner",
       task$col_info[, c("label", "fix_factor_levels")] = prevci[list(task$col_info$id), on = "id", c("label", "fix_factor_levels")]
       task$col_info$fix_factor_levels[is.na(task$col_info$fix_factor_levels)] = FALSE
       task$row_roles$use = task$backend$rownames
+
+      # reset column roles that are not in the newdata if they are optional
       task_col_roles = task$col_roles
       update_col_roles = FALSE
-      if (any(task_col_roles$weights_measure %nin% newdata$colnames)) {
-        update_col_roles = TRUE
-        task_col_roles$weights_measure = character(0)
-      }
-      if (any(task_col_roles$weights_learner %nin% newdata$colnames)) {
-        update_col_roles = TRUE
-        task_col_roles$weights_learner = character(0)
-      }
+      walk(mlr_reflections$task_col_roles_optional_newdata[[task$task_type]] %??% c("weights_learner", "weights_measure"), function(role) {
+        if (any(task_col_roles[[role]] %nin% newdata$colnames)) {
+          update_col_roles = TRUE
+          task_col_roles[[role]] = character(0)
+        }
+      })
       if (update_col_roles) {
         task$col_roles = task_col_roles
       }
