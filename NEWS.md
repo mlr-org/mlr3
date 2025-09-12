@@ -1,6 +1,20 @@
 # mlr3 1.2.0
 
 * feat: Add `mirai` support for parallelization and encapsulation.
+* feat: Fallback can now be configured to only be used in case of certain errors via the `when` argument.
+* feat: Custom error and warning classes.
+* fix: `$selected_features` returns error when model is not trained yet.
+* docs: Missing values during scoring.
+* BREAKING CHANGE: Removed `data_format` argument of `$data()` method of `DataBackend`.
+* BREAKING CHANGE: Remove `data_formats` field from `Learner`.
+* BREAKING CHANGE: Remove `DataBackendMatrix` class.
+* feat: Add `materialize_view()` method to `Task` to replace the internal `DataBackend` with a new one after operations like `$select()` and `$filter()`.
+* docs: Information about quantile prediction.
+* perf: Use `fget` in `assert_predictable`.
+* feat: Store oob error in state without requiring storing the model.
+* fix: `$levels()` of `Task` returns in the correct order.
+* chore: Only print up to 10 classes in the `Task` printer.
+* fix: Check if `quantiles` and `quantile_response` are set.
 
 # mlr3 1.1.0
 
