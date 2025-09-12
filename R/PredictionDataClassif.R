@@ -160,5 +160,5 @@ create_empty_prediction_data.TaskClassif = function(task, learner) {
     pdata$weights = numeric()
   }
 
-  return(new_prediction_data(pdata, "classif"))
+  new_prediction_data(pdata, "classif")
 }

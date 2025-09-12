@@ -169,5 +169,5 @@ create_empty_prediction_data.TaskRegr = function(task, learner) {
     pdata$weights = numeric()
   }
 
-  return(new_prediction_data(pdata, "regr"))
+  new_prediction_data(pdata, "regr")
 }

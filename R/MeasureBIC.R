@@ -40,10 +40,10 @@ MeasureBIC = R6Class("MeasureBIC",
       learner = learner$base_learner()
 
       tryCatch({
-        return(stats::BIC(stats::logLik(learner$model)))
+        stats::BIC(stats::logLik(learner$model))
       }, error = function(e) {
         warningf("Learner '%s' does not support BIC calculation", learner$id)
-        return(NA_real_)
+        NA_real_
       })
     }
   )

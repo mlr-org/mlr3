@@ -123,7 +123,7 @@ TaskClassif = R6Class("TaskClassif",
       if (length(lvls) != 2L) {
         return(NA_character_)
       }
-      return(lvls[2L])
+      lvls[2L]
     }
   ),
 

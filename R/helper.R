@@ -12,7 +12,7 @@ get_featureless_learner = function(task_type) {
     }
   }
 
-  return(NULL)
+  NULL
 }
 
 assert_ordered_set = function(x, y, ...) {
@@ -40,7 +40,7 @@ clone_without = function(x, y) {
   x[[y]] = NULL
   x2 = x$clone(deep = TRUE)
   x[[y]] = y_prev
-  return(x2)
+  x2
 }
 
 clone_rep = function(x, n) {

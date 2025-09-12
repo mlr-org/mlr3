@@ -100,7 +100,7 @@ test_matching_task_type = function(task_type, object, class) {
   }
 
   cl_object = fget_key(mlr_reflections$task_types, object$task_type, class, "type")
-  return(cl_task_type == cl_object)
+  cl_task_type == cl_object
 }
 
 
