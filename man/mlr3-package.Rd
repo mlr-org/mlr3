@@ -112,6 +112,7 @@ Other contributors:
   \item Lennart Schneider \email{lennart.sch@web.de} (\href{https://orcid.org/0000-0003-4152-5308}{ORCID}) [contributor]
   \item Lona Koers \email{lona.koers@gmail.com} [contributor]
   \item John Zobolas \email{bblodfon@gmail.com} (\href{https://orcid.org/0000-0002-3609-8674}{ORCID}) [contributor]
+  \item Maximilian Mücke \email{muecke.maximilian@gmail.com} (\href{https://orcid.org/0009-0000-9432-9795}{ORCID}) [contributor]
 }
 
 }
