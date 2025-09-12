@@ -464,9 +464,7 @@ Learner = R6Class("Learner",
       newdata = as_data_backend(newdata)
       assert_names(newdata$colnames, must.include = task$feature_names)
 
-      # the following columns are automatically set to NA if missing
-      # We do not impute weighs_measure, because we decidedly do not have weights_measure in this case.use.names = FALSE)
-
+      # set the target columns to NA if missing
       impute = setdiff(task$col_roles[["target"]], newdata$colnames)
       tab1 = if (length(impute)) {
         # create list with correct NA types and cbind it to the backend
