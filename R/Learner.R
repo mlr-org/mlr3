@@ -465,9 +465,8 @@ Learner = R6Class("Learner",
       assert_names(newdata$colnames, must.include = task$feature_names)
 
       # the following columns are automatically set to NA if missing
-      # We do not impute weighs_measure, because we decidedly do not have weights_measure in this case.
-      impute = unlist(task$col_roles[c("target", "name", "order", "stratum", "group")], use.names = FALSE)
-      impute = setdiff(impute, newdata$colnames)
+      # We do not impute weighs_measure, because we decidedly do not have weights_measure in this case.use.names = FALSE)
+      impute = setdiff(impute, task$col_roles[["target"]])
       tab1 = if (length(impute)) {
         # create list with correct NA types and cbind it to the backend
         ci = insert_named(task$col_info[list(impute), c("id", "type", "levels"), on = "id", with = FALSE], list(value = NA))
@@ -497,7 +496,7 @@ Learner = R6Class("Learner",
       task$row_roles$use = task$backend$rownames
 
       # reset column roles that are not in the newdata if they are optional
-      optional_col_roles = mlr_reflections$task_col_roles_optional_newdata[[task$task_type]] %??% c("weights_learner", "weights_measure")
+      optional_col_roles = mlr_reflections$task_col_roles_optional_newdata[[task$task_type]] %??% c("weights_learner", "weights_measure", "name", "order", "stratum", "group")
       task_col_roles = task$col_roles
       for (role in optional_col_roles) {
         if (any(task_col_roles[[role]] %nin% newdata$colnames)) {

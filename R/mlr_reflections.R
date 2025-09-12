@@ -118,9 +118,10 @@ local({
     after = c("Order by" = "order", "Strata" = "stratum", "Groups" = "group", "Offset" = "offset", "Weights/Learner" = "weights_learner", "Weights/Measure" = "weights_measure")
   )
 
+  tmp = c("weights_learner", "weights_measure", "name", "order", "stratum", "group")
   mlr_reflections$task_col_roles_optional_newdata = list(
-    classif = c("weights_learner", "weights_measure"),
-    regr = c("weights_learner", "weights_measure")
+    classif = tmp,
+    regr = tmp
   )
 
   ### Learner
