@@ -113,7 +113,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
     #' @return Named `numeric()`.
     importance = function() {
       if (is.null(self$model)) {
-        stopf("No model stored")
+        error_input("No model stored")
       }
       fns = self$state$feature_names
       set_names(rep(0, length(fns)), fns)
@@ -124,7 +124,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
     #' @return `character()`.
     selected_features = function() {
       if (is.null(self$model)) {
-        stopf("No model stored")
+        error_input("No model stored")
       }
       character(0)
     }
@@ -183,7 +183,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
         warningf("Warning from classif.debug->train()")
       }
       if (roll("error_train")) {
-        stopf("Error from classif.debug->train()")
+        error_learner_train("Error from classif.debug->train()")
       }
       if (roll("segfault_train")) {
         get("attach")(structure(list(), class = "UserDefinedDatabase"))
@@ -192,7 +192,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
       valid_truth = if (!is.null(task$internal_valid_task)) task$internal_valid_task$truth()
 
       if (isTRUE(pv$early_stopping) && is.null(valid_truth)) {
-        stopf("Early stopping is only possible when a validation task is present.")
+        error_config("Early stopping is only possible when a validation task is present.")
       }
 
       model = list(
@@ -248,7 +248,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
     },
     .predict = function(task) {
       if (!is.null(self$model$marshal_pid) && self$model$marshal_pid != Sys.getpid()) {
-        stopf("Model was not unmarshaled correctly")
+        error_input("Model was not unmarshaled correctly")  # TODO error_mlr3?
       }
       n = task$nrow
       pv = self$param_set$get_values(tags = "predict")
@@ -268,7 +268,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
         warningf("Warning from classif.debug->predict()")
       }
       if (roll("error_predict")) {
-        stopf("Error from classif.debug->predict()")
+        error_learner_predict("Error from classif.debug->predict()")
       }
       if (roll("segfault_predict")) {
         get("attach")(structure(list(), class = "UserDefinedDatabase"))

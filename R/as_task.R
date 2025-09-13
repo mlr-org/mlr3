@@ -24,7 +24,7 @@ as_task = function(x, ...) {
 
 #' @export
 as_task.default = function(x, ...) {
-  stopf("No method for class '%s'. To create a task from a `data.frame`, use dedicated converters such as `as_task_classif()` or `as_task_regr()`.", class(x)[1L])
+  error_input("No method for class '%s'. To create a task from a `data.frame`, use dedicated converters such as `as_task_classif()` or `as_task_regr()`.", class(x)[1L])
 }
 
 #' @rdname as_task

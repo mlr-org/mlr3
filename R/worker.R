@@ -5,7 +5,7 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
   # and turned into log messages.
   train_wrapper = function(learner, task) {
     if (task$nrow == 0L) {
-      stopf("Cannot %s Learner '%s' on task '%s': No observations", mode, learner$id, task$id)
+      error_input("Cannot %s Learner '%s' on task '%s': No observations", mode, learner$id, task$id)
     }
 
     model = if (mode == "train") {
@@ -15,7 +15,7 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
     }
 
     if (is.null(model)) {
-      stopf("Learner '%s' on task '%s' returned NULL during internal %s()", learner$id, task$id, mode)
+      error_learner_train("Learner '%s' on task '%s' returned NULL during internal %s()", learner$id, task$id, mode)
     }
 
 
@@ -90,7 +90,7 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
   # modifies the task in place
   create_internal_valid_task(validate, task, test_row_ids, prev_valid, learner)
   if (!is.null(task$internal_valid_task) && !task$internal_valid_task$nrow) {
-    stopf("Internal validation task for task '%s' has 0 observations", task$id)
+    error_learner_train("Internal validation task for task '%s' has 0 observations", task$id)
   }
 
   if (mode == "train") learner$state = list()
@@ -118,7 +118,7 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
   log = append_log(NULL, "train", result$log$class, result$log$msg, log_error = !err)
 
   if (err) {
-    stop(cond)
+    stop(cond)  # TODO: can this be changed at all to error_*?
   }
 
   train_time = result$elapsed
@@ -183,7 +183,7 @@ learner_predict = function(learner, task, row_ids = NULL) {
     # default method does nothing
     learner$model = unmarshal_model(learner$model, inplace = TRUE)
     if (is.null(learner$state$model)) {
-      stopf("No trained model available for learner '%s' on task '%s'", learner$id, task$id)
+      error_learner_train("No trained model available for learner '%s' on task '%s'", learner$id, task$id)
     }
 
     result = get_private(learner)$.predict(task)
@@ -236,7 +236,7 @@ learner_predict = function(learner, task, row_ids = NULL) {
     learner$state$predict_time = NA_real_
     cond = error_learner_predict("No model stored", signal = FALSE, class = "Mlr3ErrorLearnerNoModel")
     if (learner_will_err(cond, learner, stage = "predict")) {
-      stop(cond)
+      stop(cond)  # TODO: can this be changed at all to error_*?
     }
   } else {
     # call predict with encapsulation
@@ -266,7 +266,7 @@ learner_predict = function(learner, task, row_ids = NULL) {
     learner$state$log = append_log(learner$state$log, "predict", result$log$class, result$log$msg, log_error = !err)
 
     if (err) {
-      stop(cond)
+      stop(cond)  # TODO: can this be changed at all to error_*?
     }
     learner$state$predict_time = sum(learner$state$predict_time, result$elapsed)
 
@@ -331,7 +331,7 @@ workhorse = function(
     pb(sprintf("%s|%s|i:%i", task$id, learner$id, iteration))
   }
   if ("internal_valid" %chin% learner$predict_sets && is.null(task$internal_valid_task) && is.null(get0("validate", learner))) {
-    stopf("Cannot set the predict_type field of learner '%s' to 'internal_valid' if there is no internal validation task configured", learner$id)
+    error_config("Cannot set the predict_type field of learner '%s' to 'internal_valid' if there is no internal validation task configured", learner$id)
   }
 
   # restore settings on the workers
@@ -548,26 +548,26 @@ create_internal_valid_task = function(validate, task, test_row_ids, prev_valid, 
 
   # Otherwise, predict_set = "internal_valid" is ambiguous
   if (!is.null(prev_valid) && (is.numeric(validate) || identical(validate, "test"))) {
-    stopf("Parameter 'validate' of Learner '%s' cannot be set to 'test' or a ratio when internal_valid_task is present", learner$id)
+    error_config("Parameter 'validate' of Learner '%s' cannot be set to 'test' or a ratio when internal_valid_task is present", learner$id)
   }
 
   if (is.character(validate)) {
     if (validate == "predefined") {
       if (is.null(task$internal_valid_task)) {
-        stopf("Parameter 'validate' is set to 'predefined' but no internal validation task is present. This commonly happens in GraphLearners and can be avoided by configuring the validation data for the  GraphLearner via `set_validate(<glrn>, validate = <value>)`. See https://mlr3book.mlr-org.com/chapters/chapter15/predsets_valid_inttune.html for more information.")
+        error_config("Parameter 'validate' is set to 'predefined' but no internal validation task is present. This commonly happens in GraphLearners and can be avoided by configuring the validation data for the  GraphLearner via `set_validate(<glrn>, validate = <value>)`. See https://mlr3book.mlr-org.com/chapters/chapter15/predsets_valid_inttune.html for more information.")
       }
       if (!identical(task$target_names, task$internal_valid_task$target_names)) {
-        stopf("Internal validation task '%s' has different target names than primary task '%s', did you modify the task after creating the internal validation task?",
-          task$internal_valid_task$id, task$id)
+        error_input("Internal validation task '%s' has different target names than primary task '%s', did you modify the task after creating the internal validation task?",
+          task$internal_valid_task$id, task$id)  # TODO error_config?
       }
       if (!test_permutation(task$feature_names, task$internal_valid_task$feature_names)) {
-        stopf("Internal validation task '%s' has different features than primary task '%s', did you modify the task after creating the internal validation task?",
-          task$internal_valid_task$id, task$id)
+        error_input("Internal validation task '%s' has different features than primary task '%s', did you modify the task after creating the internal validation task?",
+          task$internal_valid_task$id, task$id)  # TODO error_config?
       }
       return(task)
     } else { # validate is "test"
       if (is.null(test_row_ids)) {
-        stopf("Parameter 'validate' cannot be set to 'test' when calling train manually.")
+        error_config("Parameter 'validate' cannot be set to 'test' when calling train manually.")
       }
       # at this point, the train rows are already set to the train set, i.e. we don't have to remove the test ids
       # from the primary task (this would cause bugs for resamplings with overlapping train and test set)

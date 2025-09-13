@@ -47,7 +47,7 @@ DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
       super$initialize(setkeyv(data, primary_key), primary_key)
       ii = match(primary_key, names(data))
       if (is.na(ii)) {
-        stopf("Primary key '%s' not in 'data'", primary_key)
+        error_input("Primary key '%s' not in 'data'", primary_key)
       }
       private$.cache = set_names(replace(rep(NA, ncol(data)), ii, FALSE), names(data))
     },

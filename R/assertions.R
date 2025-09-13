@@ -36,20 +36,20 @@ assert_task = function(task, task_type = NULL, feature_types = NULL, task_proper
   assert_class(task, "Task", .var.name = .var.name)
 
   if (!is.null(task_type) && task$task_type != task_type) {
-    stopf("Task '%s' must have type '%s'", task$id, task_type)
+    error_input("Task '%s' must have type '%s'", task$id, task_type)
   }
 
   if (!is.null(feature_types)) {
     tmp = setdiff(task$feature_types$type, feature_types)
     if (length(tmp)) {
-      stopf("Task '%s' has the following unsupported feature types: %s", task$id, str_collapse(tmp))
+      error_input("Task '%s' has the following unsupported feature types: %s", task$id, str_collapse(tmp))
     }
   }
 
   if (!is.null(task_properties)) {
     tmp = setdiff(task_properties, task$properties)
     if (length(tmp)) {
-      stopf("Task '%s' is missing the following properties: %s", task$id, str_collapse(tmp))
+      error_input("Task '%s' is missing the following properties: %s", task$id, str_collapse(tmp))
     }
   }
 
@@ -76,13 +76,13 @@ assert_learner = function(learner, task = NULL, task_type = NULL, properties = c
   # check on class(learner) does not work with GraphLearner and AutoTuner
   # check on learner$task_type does not work with TaskUnsupervised
   if (!test_matching_task_type(task_type, learner, "learner")) {
-    stopf("Learner '%s' must have task type '%s'", learner$id, task_type)
+    error_input("Learner '%s' must have task type '%s'", learner$id, task_type)
   }
 
   if (length(properties)) {
     miss = setdiff(properties, learner$properties)
     if (length(miss)) {
-      stopf("Learner '%s' must have the properties: %s", learner$id, str_collapse(miss))
+      error_input("Learner '%s' must have the properties: %s", learner$id, str_collapse(miss))
     }
   }
 
@@ -111,7 +111,7 @@ assert_learners = function(learners, task = NULL, task_type = NULL, properties =
   if (unique_ids) {
     ids = map_chr(learners, "id")
     if (!test_character(ids, unique = TRUE)) {
-      stopf("Learners need to have unique IDs: %s", str_collapse(ids))
+      error_input("Learners need to have unique IDs: %s", str_collapse(ids))
     }
   }
   invisible(lapply(learners, assert_learner, task = task, task_type = NULL, properties = properties, .var.name = .var.name))
@@ -124,25 +124,25 @@ assert_task_learner = function(task, learner, param_values = NULL, cols = NULL) 
   # remove pars that are covered by param_values
   pars = pars[names(pars) %nin% names(param_values)]
   if (length(pars) > 0) {
-    stopf("%s cannot be trained with TuneToken present in hyperparameter: %s", learner$format(), str_collapse(names(pars)))
+    error_config("%s cannot be trained with TuneToken present in hyperparameter: %s", learner$format(), str_collapse(names(pars)))
   }
   # check on class(learner) does not work with GraphLearner and AutoTuner
   # check on learner$task_type does not work with TaskUnsupervised
 
   if (!test_matching_task_type(task$task_type, learner, "learner")) {
-    stopf("Type '%s' of %s does not match type '%s' of %s",
+    error_input("Type '%s' of %s does not match type '%s' of %s",
       task$task_type, task$format(), learner$task_type, learner$format())
   }
 
   tmp = setdiff(task$feature_types$type, learner$feature_types)
   if (length(tmp) > 0) {
-    stopf("%s has the following unsupported feature types: %s", task$format(), str_collapse(tmp))
+    error_input("%s has the following unsupported feature types: %s", task$format(), str_collapse(tmp))
   }
 
   if ("missings" %nin% learner$properties) {
     miss = task$missings(cols = cols) > 0L
     if (any(miss)) {
-      stopf("Task '%s' has missing values in column(s) %s, but learner '%s' does not support this",
+      error_config("Task '%s' has missing values in column(s) %s, but learner '%s' does not support this",
         task$id, str_collapse(names(miss)[miss], quote = "'"), learner$id)
     }
   }
@@ -156,14 +156,14 @@ assert_task_learner = function(task, learner, param_values = NULL, cols = NULL) 
   if (length(tmp)) {
     tmp = setdiff(intersect(task$properties, tmp), learner$properties)
     if (length(tmp)) {
-      stopf("Task '%s' has property '%s', but learner '%s' does not support that",
+      error_input("Task '%s' has property '%s', but learner '%s' does not support that",
         task$id, tmp[1L], learner$id)
     }
   }
 
   validate = get0("validate", learner)
   if (!is.null(task$internal_valid_task) && (is.numeric(validate) || identical(validate, "test"))) {
-    stopf("Parameter 'validate' of Learner '%s' cannot be set to 'test' or a ratio when internal_valid_task is present, remove it first", learner$id)
+    error_config("Parameter 'validate' of Learner '%s' cannot be set to 'test' or a ratio when internal_valid_task is present, remove it first", learner$id)
   }
 }
 
@@ -174,12 +174,12 @@ assert_task_learner = function(task, learner, param_values = NULL, cols = NULL) 
 #' @rdname mlr_assertions
 assert_learnable = function(task, learner, param_values = NULL) {
   if (task$task_type == "unsupervised") {
-    stopf("%s cannot be trained with %s", learner$format(), task$format())
+    error_input("%s cannot be trained with %s", learner$format(), task$format())
   }
   # we only need to check whether the learner wants to error on weights in training,
   # since weights_learner are always ignored during prediction.
   if (learner$use_weights == "error" && "weights_learner" %in% task$properties) {
-    stopf("%s cannot be trained with weights in %s%s", learner$format(), task$format(),
+    error_config("%s cannot be trained with weights in %s%s", learner$format(), task$format(),
       if ("weights" %in% learner$properties) {
         " since 'use_weights' was set to 'error'."
       } else {
@@ -198,7 +198,7 @@ assert_predictable = function(task, learner) {
     cols_predict = task$feature_names
 
     if (!test_permutation(cols_train, cols_predict)) {
-      stopf("Learner '%s' has received tasks with different columns in train and predict.", learner$id)
+      error_input("Learner '%s' has received tasks with different columns in train and predict.", learner$id)
     }
 
     ids = fget_keys(train_task$col_info, i = cols_train, j = "id", key = "id")
@@ -210,7 +210,7 @@ assert_predictable = function(task, learner) {
     ok = all(train_type == predict_type) && all(pmap_lgl(list(x = train_levels, y = predict_levels), identical))
 
     if (!ok) {
-      stopf("Learner '%s' received task with different column info (feature type or factor level ordering) during train and predict.", learner$id)
+      error_input("Learner '%s' received task with different column info (feature type or factor level ordering) during train and predict.", learner$id)
     }
   }
 
@@ -227,7 +227,7 @@ assert_measure = function(measure, task = NULL, learner = NULL, prediction = NUL
   assert_class(measure, "Measure", .var.name = .var.name)
 
   if (measure$use_weights == "error" && (!is.null(prediction$weights) || "weights_measure" %chin% task$properties)) {
-    stopf("%s cannot be evaluated with weights%s%s", measure$format(), if (!is.null(task)) paste0(" in ", task$format()) else "",
+    error_input("%s cannot be evaluated with weights%s%s", measure$format(), if (!is.null(task)) paste0(" in ", task$format()) else "",
       if ("weights" %in% measure$properties) {
         " since 'use_weights' was set to 'error'."
       } else {
@@ -239,7 +239,7 @@ assert_measure = function(measure, task = NULL, learner = NULL, prediction = NUL
   if (!is.null(task)) {
 
     if (!is_scalar_na(measure$task_type) && !test_matching_task_type(task$task_type, measure, "measure")) {
-      stopf("Measure '%s' is not compatible with type '%s' of task '%s'",
+      error_input("Measure '%s' is not compatible with type '%s' of task '%s'",
         measure$id, task$task_type, task$id)
     }
 
@@ -255,7 +255,7 @@ assert_measure = function(measure, task = NULL, learner = NULL, prediction = NUL
   if (!is.null(learner)) {
 
     if (!is_scalar_na(measure$task_type) && measure$task_type != learner$task_type) {
-      stopf("Measure '%s' is not compatible with type '%s' of learner '%s'",
+      error_input("Measure '%s' is not compatible with type '%s' of learner '%s'",
         measure$id, learner$task_type, learner$id)
     }
 
@@ -292,11 +292,11 @@ assert_measure = function(measure, task = NULL, learner = NULL, prediction = NUL
 #' @rdname mlr_assertions
 assert_scorable = function(measure, task, learner, prediction = NULL, .var.name = vname(measure)) {
   if ("requires_model" %chin% measure$properties && is.null(learner$model)) {
-    stopf("Measure '%s' requires the trained model", measure$id)
+    error_input("Measure '%s' requires the trained model", measure$id)
   }
 
   if ("requires_model" %chin% measure$properties && is_marshaled_model(learner$model)) {
-    stopf("Measure '%s' requires the trained model, but model is in marshaled form", measure$id)
+    error_input("Measure '%s' requires the trained model, but model is in marshaled form", measure$id)
   }
 
   assert_measure(measure, task = task, learner = learner, prediction = prediction, .var.name = .var.name)
@@ -308,7 +308,7 @@ assert_scorable = function(measure, task, learner, prediction = NULL, .var.name 
 assert_measures = function(measures, task = NULL, learner = NULL, .var.name = vname(measures)) {
   lapply(measures, assert_measure, task = task, learner = learner, .var.name = .var.name)
   if (anyDuplicated(ids(measures))) {
-    stopf("Measures need to have unique IDs")
+    error_config("Measures need to have unique IDs")
   }
   invisible(measures)
 }
@@ -321,10 +321,10 @@ assert_resampling = function(resampling, instantiated = NULL, .var.name = vname(
 
   if (!is.null(instantiated)) {
     if (instantiated && !resampling$is_instantiated) {
-      stopf("Resampling '%s' must be instantiated", resampling$id)
+      error_input("Resampling '%s' must be instantiated", resampling$id)
     }
     if (!instantiated && resampling$is_instantiated) {
-      stopf("Resampling '%s' may not be instantiated", resampling$id)
+      error_input("Resampling '%s' may not be instantiated", resampling$id)
     }
   }
 
@@ -374,7 +374,7 @@ assert_range = function(range, .var.name = vname(range)) {
   assert_numeric(range, len = 2L, any.missing = FALSE, .var.name = .var.name)
 
   if (diff(range) <= 0) {
-    stopf("Invalid range specified. First value (%f) must be greater than second value (%f)", range[1L], range[2L])
+    error_config("Invalid range specified. First value (%f) must be greater than second value (%f)", range[1L], range[2L])
   }
 
   invisible(range)
@@ -390,7 +390,7 @@ assert_row_ids = function(row_ids, task = NULL, null.ok = FALSE, .var.name = vna
   row_ids = assert_integerish(row_ids, coerce = TRUE, null.ok = null.ok)
   if (!is.null(task)) {
     if (any(row_ids %nin% task$row_ids)) {
-      stopf("The provided row ids do not exist in task '%s'", task$id)
+      error_input("The provided row ids do not exist in task '%s'", task$id)
     }
   }
   invisible(row_ids)
@@ -401,7 +401,7 @@ assert_row_ids = function(row_ids, task = NULL, null.ok = FALSE, .var.name = vna
 #' @rdname mlr_assertions
 assert_has_backend = function(task) {
   if (is.null(task$backend)) {
-    stopf("The backend of Task '%s' has been removed. Set `store_backends` to `TRUE` during model fitting to conserve it.", task$id)
+    error_config("The backend of Task '%s' has been removed. Set `store_backends` to `TRUE` during model fitting to conserve it.", task$id)
   }
 }
 
@@ -409,10 +409,10 @@ assert_has_backend = function(task) {
 assert_prediction_count = function(actual, expected, type) {
   if (actual != expected) {
     if (actual < expected) {
-      stopf("Predicted %s not complete, %s for %i observations is missing",
+      error_learner_predict("Predicted %s not complete, %s for %i observations is missing",
         type, type, expected - actual)
     } else {
-      stopf("Predicted %s contains %i additional predictions without matching rows",
+      error_learner_predict("Predicted %s contains %i additional predictions without matching rows",
         type, actual - expected)
     }
   }
@@ -424,12 +424,12 @@ assert_row_sums = function(prob) {
     n_missing = count_missing(x)
     if (n_missing > 0L) {
       if (n_missing < length(x)) {
-        stopf("Probabilities for observation %i are partly missing", i)
+        error_config("Probabilities for observation %i are partly missing", i)
       }
     } else {
       s = sum(x)
       if (abs(s - 1) > 0.001) {
-        stopf("Probabilities for observation %i do sum up to %f != 1", i, s)
+        error_config("Probabilities for observation %i do sum up to %f != 1", i, s)  # TODO error_input?
       }
     }
   }
@@ -445,11 +445,11 @@ assert_row_sums = function(prob) {
 assert_quantiles = function(learner, quantile_response = FALSE) {
 
   if (is.null(learner$quantiles)) {
-    stopf("Quantiles must be set via `$quantiles`")
+    error_config("Quantiles must be set via `$quantiles`")
   }
 
   if (quantile_response && is.null(learner$quantile_response)) {
-    stopf("Quantile response must be set via `$quantile_response`")
+    error_config("Quantile response must be set via `$quantile_response`")
   }
 
   invisible(learner)
@@ -463,7 +463,7 @@ assert_param_values = function(x, n_learners = NULL, .var.name = vname(x)) {
   })
 
   if (!ok) {
-    stopf("'%s' must be a three-time nested list and the most inner list must be named", .var.name)
+    error_config("'%s' must be a three-time nested list and the most inner list must be named", .var.name)
   }
   invisible(x)
 }
@@ -484,16 +484,16 @@ assert_empty_ellipsis = function(...) {
   }
   names = ...names()
   if (is.null(names)) {
-    stopf("Received %i unnamed argument that was not used.", nx)
+    error_input("Received %i unnamed argument that was not used.", nx)
   }
   names2 = names[nzchar(names)]
   if (length(names2) == length(names)) {
-    stopf(
+    error_input(
       "Received the following named arguments that were unused: %s.",
       toString(names2)
     )
   }
-  stopf(
+  error_input(
     "Received unused arguments: %i unnamed, as well as named arguments %s.",
     length(names) - length(names2), toString(names2)
   )

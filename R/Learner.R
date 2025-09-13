@@ -375,14 +375,14 @@ Learner = R6Class("Learner",
     predict = function(task, row_ids = NULL) {
       # improve error message for the common mistake of passing a data.frame here
       if (is.data.frame(task)) {
-        stopf("To predict on data.frames, use the method `$predict_newdata()` instead of `$predict()`")
+        error_learner_predict("To predict on data.frames, use the method `$predict_newdata()` instead of `$predict()`")
       }
       task = assert_task(as_task(task))
       assert_predictable(task, self)
       row_ids = assert_row_ids(row_ids, task = task, null.ok = TRUE)
 
       if (is.null(self$state$model) && is.null(self$state$fallback_state$model)) {
-        stopf("Cannot predict, Learner '%s' has not been trained yet", self$id)
+        error_input("Cannot predict, Learner '%s' has not been trained yet", self$id)
       }
 
       # we need to marshal for call-r prediction and parallel prediction, but afterwards we reset the model
@@ -452,7 +452,7 @@ Learner = R6Class("Learner",
     predict_newdata = function(newdata, task = NULL) {
       if (is.null(task)) {
         if (is.null(self$state$train_task)) {
-          stopf("No task stored, and no task provided")
+          error_input("No task stored, and no task provided")
         }
         task = self$state$train_task$clone()
       } else {
@@ -623,7 +623,7 @@ Learner = R6Class("Learner",
             fallback$id, self$id, str_collapse(missing_properties), class = "Mlr3WarningConfigFallbackProperties")
         }
       } else if (method == "none" && !is.null(fallback)) {
-        stopf("Fallback learner must be `NULL` if encapsulation is set to `none`.")
+        error_config("Fallback learner must be `NULL` if encapsulation is set to `none`.")
       }
 
       private$.encapsulation = c(train = method, predict = method)
@@ -670,7 +670,7 @@ Learner = R6Class("Learner",
         for (i in seq_along(new_values)) {
           nn = ndots[[i]]
           if (!exists(nn, envir = self, inherits = FALSE)) {
-            stopf("Cannot set argument '%s' for '%s' (not a parameter, not a field).%s",
+            error_config("Cannot set argument '%s' for '%s' (not a parameter, not a field).%s",
               nn, class(self)[1L], did_you_mean(nn, c(param_ids, setdiff(names(self), ".__enclos_env__")))) # nolint
           }
           self[[nn]] = new_values[[i]]
@@ -686,10 +686,10 @@ Learner = R6Class("Learner",
     #' If set to `"error"`, an error is thrown, otherwise all features are returned.
     selected_features = function() {
       if (is.null(self$model)) {
-        stopf("No model stored")
+        error_input("No model stored")  # TODO error_learner?
       }
       if (private$.selected_features_impute == "error") {
-        stopf("Learner does not support feature selection")
+        error_config("Learner does not support feature selection")  # TODO error_learner?
       } else {
         self$state$feature_names
       }
@@ -795,7 +795,7 @@ Learner = R6Class("Learner",
 
       assert_string(rhs, .var.name = "predict_type")
       if (rhs %nin% self$predict_types) {
-        stopf("Learner '%s' does not support predict type '%s'", self$id, rhs)
+        error_config("Learner '%s' does not support predict type '%s'", self$id, rhs) # TODO error_learner?
       }
       private$.predict_type = rhs
     },
@@ -803,7 +803,7 @@ Learner = R6Class("Learner",
     #' @template field_param_set
     param_set = function(rhs) {
       if (!missing(rhs) && !identical(rhs, private$.param_set)) {
-        stopf("param_set is read-only.")
+        error_config("param_set is read-only.")
       }
       private$.param_set
     },
@@ -871,7 +871,7 @@ Learner = R6Class("Learner",
     # return: Numeric vector of weights or `no_weights_val` (default NULL)
     .get_weights = function(task, no_weights_val = NULL) {
       if ("weights" %nin% self$properties) {
-        stop("private$.get_weights should not be used in Learners that do not have the 'weights' property.")
+        error_mlr3("private$.get_weights should not be used in Learners that do not have the 'weights' property.")
       }
       if (self$use_weights == "use" && "weights_learner" %in% task$properties) {
         task$weights_learner$weight
@@ -921,7 +921,7 @@ default_values.Learner = function(x, search_space, task, ...) { # nolint
   values = default_values(x$param_set)
 
   if (any(search_space$ids() %nin% names(values))) {
-    stopf("Could not find default values for the following parameters: %s",
+    error_config("Could not find default values for the following parameters: %s",
       str_collapse(setdiff(search_space$ids(), names(values))))
   }
 

@@ -28,7 +28,7 @@ partition = function(task, ratio = 0.67) {
   assert_numeric(ratio, min.len = 1, max.len = 2)
 
   if (sum(ratio) >= 1) {
-    stopf("Sum of 'ratio' must be smaller than 1")
+    error_config("Sum of 'ratio' must be smaller than 1")
   }
 
   if (length(ratio) == 1) {
