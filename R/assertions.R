@@ -148,7 +148,7 @@ assert_task_learner = function(task, learner, param_values = NULL, cols = NULL) 
   }
 
   if ("offset" %in% task$properties && "offset" %nin% learner$properties) {
-    warningf("Task '%s' has offset, but learner '%s' does not support this, so it will be ignored",
+    warning_config("Task '%s' has offset, but learner '%s' does not support this, so it will be ignored",
              task$id, learner$id)
   }
 
@@ -246,7 +246,7 @@ assert_measure = function(measure, task = NULL, learner = NULL, prediction = NUL
     if (measure$check_prerequisites != "ignore") {
       miss = setdiff(measure$task_properties, task$properties)
       if (length(miss) > 0) {
-        warningf("Measure '%s' is missing properties %s of task '%s'",
+        warning_config("Measure '%s' is missing properties %s of task '%s'",
           measure$id, str_collapse(miss, quote = "'"), task$id)
       }
     }
@@ -262,7 +262,7 @@ assert_measure = function(measure, task = NULL, learner = NULL, prediction = NUL
     if (!is_scalar_na(measure$predict_type) && measure$check_prerequisites != "ignore") {
       predict_types = mlr_reflections$learner_predict_types[[learner$task_type]][[learner$predict_type]]
       if (measure$predict_type %nin% predict_types) {
-        warningf("Measure '%s' is missing predict type '%s' of learner '%s'", measure$id, measure$predict_type, learner$id)
+        warning_config("Measure '%s' is missing predict type '%s' of learner '%s'", measure$id, measure$predict_type, learner$id)
       }
     }
 
@@ -270,7 +270,7 @@ assert_measure = function(measure, task = NULL, learner = NULL, prediction = NUL
       miss = setdiff(measure$predict_sets, learner$predict_sets)
       if (length(miss) > 0) {
 
-        warningf("Measure '%s' needs predict sets %s, but learner '%s' only predicted on sets %s",
+        warning_config("Measure '%s' needs predict sets %s, but learner '%s' only predicted on sets %s",
           measure$id, str_collapse(miss, quote = "'"), learner$id, str_collapse(learner$predict_sets, quote = "'"))
       }
     }
@@ -279,7 +279,7 @@ assert_measure = function(measure, task = NULL, learner = NULL, prediction = NUL
   if (!is.null(prediction) && is.null(learner)) {
     # same as above but works without learner e.g. measure$score(prediction)
     if (measure$check_prerequisites != "ignore" && measure$predict_type %nin% prediction$predict_types) {
-      warningf("Measure '%s' is missing predict type '%s' of prediction", measure$id, measure$predict_type)
+      warning_config("Measure '%s' is missing predict type '%s' of prediction", measure$id, measure$predict_type)
     }
   }
 

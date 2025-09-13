@@ -180,7 +180,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
         message("Message from classif.debug->train()")
       }
       if (roll("warning_train")) {
-        warningf("Warning from classif.debug->train()")
+        warning_mlr3("Warning from classif.debug->train()")
       }
       if (roll("error_train")) {
         error_learner_train("Error from classif.debug->train()")
@@ -265,7 +265,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
         message("Message from classif.debug->predict()")
       }
       if (roll("warning_predict")) {
-        warningf("Warning from classif.debug->predict()")
+        warning_mlr3("Warning from classif.debug->predict()")
       }
       if (roll("error_predict")) {
         error_learner_predict("Error from classif.debug->predict()")

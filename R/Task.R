@@ -945,7 +945,7 @@ Task = R6Class("Task",
 
       private$.internal_valid_task = rhs
       if (private$.internal_valid_task$nrow == 0) {
-        warningf("Internal validation task has 0 observations.")
+        warning_input("Internal validation task has 0 observations.")
       }
       invisible(private$.internal_valid_task)
     },

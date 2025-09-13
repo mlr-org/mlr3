@@ -43,7 +43,7 @@ as_task_classif.data.frame = function(x, target, id = deparse1(substitute(x)), p
 
   ii = which(map_lgl(keep(x, is.double), anyInfinite))
   if (length(ii)) {
-    warningf("Detected columns with unsupported Inf values in data: %s", str_collapse(names(ii)))
+    warning_input("Detected columns with unsupported Inf values in data: %s", str_collapse(names(ii)))
   }
 
   y = x[[target]]

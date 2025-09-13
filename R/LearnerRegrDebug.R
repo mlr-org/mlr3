@@ -91,7 +91,7 @@ LearnerRegrDebug = R6Class("LearnerRegrDebug", inherit = LearnerRegr,
         message("Message from regr.debug->train()")
       }
       if (roll("warning_train")) {
-        warningf("Warning from regr.debug->train()")
+        warning_mlr3("Warning from regr.debug->train()")
       }
       if (roll("error_train")) {
         error_learner_train("Error from regr.debug->train()")
@@ -134,7 +134,7 @@ LearnerRegrDebug = R6Class("LearnerRegrDebug", inherit = LearnerRegr,
         message("Message from regr.debug->predict()")
       }
       if (roll("warning_predict")) {
-        warningf("Warning from regr.debug->predict()")
+        warning_mlr3("Warning from regr.debug->predict()")
       }
       if (roll("error_predict")) {
         error_learner_predict("Error from regr.debug->predict()")

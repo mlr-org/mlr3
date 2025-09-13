@@ -201,7 +201,7 @@ learner_predict = function(learner, task, row_ids = NULL) {
     v_predict = mlr_reflections$package_version
 
     if (!is.null(v_train) && v_train != v_predict) {
-      warningf("Detected version mismatch: Learner '%s' has been trained with mlr3 version '%s', not matching currently installed version '%s'",
+      warning_mlr3("Detected version mismatch: Learner '%s' has been trained with mlr3 version '%s', not matching currently installed version '%s'",
         learner$id, v_train, v_predict)
     }
   }

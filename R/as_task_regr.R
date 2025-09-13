@@ -41,7 +41,7 @@ as_task_regr.data.frame = function(x, target, id = deparse1(substitute(x)), labe
 
   ii = which(map_lgl(keep(x, is.double), anyInfinite))
   if (length(ii)) {
-    warningf("Detected columns with unsupported Inf values in data: %s", str_collapse(names(ii)))
+    warning_input("Detected columns with unsupported Inf values in data: %s", str_collapse(names(ii)))
   }
 
   TaskRegr$new(id = id, backend = x, target = target, label = label)

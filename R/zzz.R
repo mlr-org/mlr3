@@ -97,7 +97,7 @@ dummy_import = function() {
   }
 
   register_namespace_callback(pkgname, "mlr", function(...) {
-    warning("Packages 'mlr3' and 'mlr' are conflicting and should not be loaded in the same session")
+    warning_mlr3("Packages 'mlr3' and 'mlr' are conflicting and should not be loaded in the same session")
   })
 } # nocov end
 
