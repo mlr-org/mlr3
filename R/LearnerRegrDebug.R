@@ -88,13 +88,13 @@ LearnerRegrDebug = R6Class("LearnerRegrDebug", inherit = LearnerRegr,
       }
 
       if (roll("message_train")) {
-        message("Message from classif.debug->train()")
+        message("Message from regr.debug->train()")
       }
       if (roll("warning_train")) {
-        warningf("Warning from classif.debug->train()")
+        warningf("Warning from regr.debug->train()")
       }
       if (roll("error_train")) {
-        stopf("Error from classif.debug->train()")
+        error_learner_train("Error from regr.debug->train()")
       }
       if (roll("segfault_train")) {
         get("attach")(structure(list(), class = "UserDefinedDatabase"))
@@ -131,13 +131,13 @@ LearnerRegrDebug = R6Class("LearnerRegrDebug", inherit = LearnerRegr,
       }
 
       if (roll("message_predict")) {
-        message("Message from classif.debug->predict()")
+        message("Message from regr.debug->predict()")
       }
       if (roll("warning_predict")) {
-        warningf("Warning from classif.debug->predict()")
+        warningf("Warning from regr.debug->predict()")
       }
       if (roll("error_predict")) {
-        stopf("Error from classif.debug->predict()")
+        error_learner_predict("Error from regr.debug->predict()")
       }
       if (roll("segfault_predict")) {
         get("attach")(structure(list(), class = "UserDefinedDatabase"))
