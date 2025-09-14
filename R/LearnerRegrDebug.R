@@ -172,7 +172,7 @@ LearnerRegrDebug = R6Class("LearnerRegrDebug", inherit = LearnerRegr,
         prediction[[pt]] = value
       }
 
-      return(prediction)
+      prediction
     }
   )
 )

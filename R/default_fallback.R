@@ -20,7 +20,7 @@ default_fallback = function(learner, ...) {
 #' @export
 default_fallback.Learner = function(learner, ...) {
   # FIXME: remove when new encapsulate/fallback system is in place
-  return(NULL)
+  NULL
 }
 
 #' @rdname default_fallback
@@ -35,7 +35,7 @@ default_fallback.LearnerClassif = function(learner, ...) {
 
   fallback$predict_type = learner$predict_type
 
-  return(fallback)
+  fallback
 }
 
 #' @rdname default_fallback
@@ -61,5 +61,5 @@ default_fallback.LearnerRegr = function(learner, ...) {
     fallback$quantile_response = learner$quantile_response
   }
 
-  return(fallback)
+  fallback
 }

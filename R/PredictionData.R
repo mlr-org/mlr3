@@ -31,7 +31,7 @@ new_prediction_data = function(li, task_type) {
     attr(li, names(extra_attributes)[i]) = extra_attributes[[i]]
   }
 
-  return(li)
+  li
 }
 
 #' @rdname PredictionData
