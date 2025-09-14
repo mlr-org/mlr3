@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -62,8 +62,7 @@
 e.g. SQL servers or <a href="https://CRAN.R-project.org/package=duckdb" class="external-link"><span class="pkg">duckdb</span></a>.</p></li>
 </ul><p>Other DataBackend:
 <code><a href="DataBackend.html">DataBackend</a></code>,
-<code><a href="DataBackendMatrix.html">DataBackendMatrix</a></code>,
-<code><a href="as_data_backend.html">as_data_backend.Matrix</a>()</code></p></div>
+<code><a href="as_data_backend.html">as_data_backend</a>()</code></p></div>
     </div>
     <div class="section level2">
     <h2 id="super-class">Super class<a class="anchor" aria-label="anchor" href="#super-class"></a></h2>
@@ -142,14 +141,13 @@ Name of the primary key column, or integer vector of row ids.</p></dd>
 
 </div><p></p><hr><a id="method-DataBackendDataTable-data"></a><div class="section">
 <h3 id="method-data-">Method <code><a href="https://rdrr.io/r/utils/data.html" class="external-link">data()</a></code><a class="anchor" aria-label="anchor" href="#method-data-"></a></h3>
-<p>Returns a slice of the data in the specified format.
-Currently, the only supported formats are <code>"data.table"</code> and <code>"Matrix"</code>.
+<p>Returns a slice of the data.
 The rows must be addressed as vector of primary key values, columns must be referred to via column names.
 Queries for rows with no matching row id and queries for columns with no matching column name are silently ignored.
 Rows are guaranteed to be returned in the same order as <code>rows</code>, columns may be returned in an arbitrary order.
 Duplicated row ids result in duplicated rows, duplicated column names lead to an exception.</p><div class="section">
 <h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">DataBackendDataTable</span><span class="op">$</span><span class="fu">data</span><span class="op">(</span><span class="va">rows</span>, <span class="va">cols</span>, <span class="va">data_format</span><span class="op">)</span></span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">DataBackendDataTable</span><span class="op">$</span><span class="fu">data</span><span class="op">(</span><span class="va">rows</span>, <span class="va">cols</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -163,11 +161,6 @@ Always refers to the complete data set, even after filtering.</p></dd>
 <dt><code>cols</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 Vector of column names.</p></dd>
-
-
-<dt><code>data_format</code></dt>
-<dd><p>(<code>character(1)</code>)<br>
-Deprecated. Ignored, and will be removed in the future.</p></dd>
 
 
 </dl><p></p></div>

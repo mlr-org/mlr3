@@ -17,7 +17,7 @@ This package runs benchmark experiments on high-performance computing clusters a
 
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -155,6 +155,13 @@ See <a href="CallbackResample.html">CallbackResample</a> and <a href="ContextRes
 If you need access to the models for later analysis, set <code>store_models</code> to <code>TRUE</code>.</p>
     </div>
     <div class="section level2">
+    <h2 id="stochasticity">Stochasticity<a class="anchor" aria-label="anchor" href="#stochasticity"></a></h2>
+
+
+<p>Note that uninstantiated <code><a href="Resampling.html">Resampling</a></code>s are instantiated on the task, making
+the function stochastic even in case of deterministic learners.</p>
+    </div>
+    <div class="section level2">
     <h2 id="predict-sets">Predict Sets<a class="anchor" aria-label="anchor" href="#predict-sets"></a></h2>
 
 
@@ -172,10 +179,13 @@ In the next step, you have to configure the measures to operate on the respectiv
 
 
 
-<p>This function can be parallelized with the <a href="https://CRAN.R-project.org/package=future" class="external-link"><span class="pkg">future</span></a> package.
-One job is one resampling iteration, and all jobs are send to an apply function
-from <a href="https://CRAN.R-project.org/package=future.apply" class="external-link"><span class="pkg">future.apply</span></a> in a single batch.
+<p>This function can be parallelized with the <a href="https://CRAN.R-project.org/package=future" class="external-link"><span class="pkg">future</span></a> or <a href="https://CRAN.R-project.org/package=mirai" class="external-link"><span class="pkg">mirai</span></a> package.
+One job is one resampling iteration.
+All jobs are send to an apply function from <a href="https://CRAN.R-project.org/package=future.apply" class="external-link"><span class="pkg">future.apply</span></a> or <code><a href="https://mirai.r-lib.org/reference/mirai_map.html" class="external-link">mirai::mirai_map()</a></code> in a single batch.
 To select a parallel backend, use <code><a href="https://future.futureverse.org/reference/plan.html" class="external-link">future::plan()</a></code>.
+To use <code>mirai</code>, call <code>mirai::daemons(.compute = "mlr3_parallelization")</code> before calling this function.
+The <code>future</code> package guarantees reproducible results independent of the parallel backend.
+The results of <code>mirai</code> will not be the same but can be made reproducible by setting a <code>seed</code> when calling <code><a href="https://mirai.r-lib.org/reference/daemons.html" class="external-link">mirai::daemons()</a></code>.
 More on parallelization can be found in the book:
 <a href="https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html" class="external-link">https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html</a></p>
     </div>
@@ -241,12 +251,12 @@ or <code>"trace"</code>:</p>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/as.data.table.html" class="external-link">as.data.table</a></span><span class="op">(</span><span class="va">bmr</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                   uhash                   task</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                  &lt;char&gt;                 &lt;list&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: a10680a0-e84f-48bf-9b12-3f08d809f9ed &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: a10680a0-e84f-48bf-9b12-3f08d809f9ed &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: a10680a0-e84f-48bf-9b12-3f08d809f9ed &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4: 3c2be41f-e1a8-4ece-8d3d-366e4e2bce0e &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5: 3c2be41f-e1a8-4ece-8d3d-366e4e2bce0e &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6: 3c2be41f-e1a8-4ece-8d3d-366e4e2bce0e &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 868a9869-d09b-41bf-9843-ad3eb4135e06 &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 868a9869-d09b-41bf-9843-ad3eb4135e06 &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 868a9869-d09b-41bf-9843-ad3eb4135e06 &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4: 8a1efc1d-3b89-4e2e-bdef-45d6a2e19f08 &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5: 8a1efc1d-3b89-4e2e-bdef-45d6a2e19f08 &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6: 8a1efc1d-3b89-4e2e-bdef-45d6a2e19f08 &lt;TaskClassif:penguins&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                            learner     resampling iteration</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                             &lt;list&gt;         &lt;list&gt;     &lt;int&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: &lt;LearnerClassifFeatureless:classif.featureless&gt; &lt;ResamplingCV&gt;         1</span>
@@ -269,10 +279,10 @@ or <code>"trace"</code>:</p>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">aggr</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       nr  task_id          learner_id resampling_id iters classif.ce</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    &lt;int&gt;   &lt;char&gt;              &lt;char&gt;        &lt;char&gt; &lt;int&gt;      &lt;num&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1:     1 penguins classif.featureless            cv     3 0.55814900</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2:     2 penguins       classif.rpart            cv     3 0.05232647</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3:     3    sonar classif.featureless            cv     3 0.53885438</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4:     4    sonar       classif.rpart            cv     3 0.28329883</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:     1 penguins classif.featureless            cv     3  0.5580219</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:     2 penguins       classif.rpart            cv     3  0.0756420</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:     3    sonar classif.featureless            cv     3  0.4661146</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:     4    sonar       classif.rpart            cv     3  0.2836439</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Hidden columns: resample_result</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Extract predictions of first resampling result</span></span></span>
@@ -281,15 +291,15 @@ or <code>"trace"</code>:</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      row_ids     truth response</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        &lt;int&gt;    &lt;fctr&gt;   &lt;fctr&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   1:       1    Adelie   Adelie</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   2:       7    Adelie   Adelie</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   3:       8    Adelie   Adelie</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   4:      12    Adelie   Adelie</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   5:      15    Adelie   Adelie</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   2:       3    Adelie   Adelie</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   3:       4    Adelie   Adelie</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   4:       9    Adelie   Adelie</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   5:      11    Adelie   Adelie</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  ---                           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 340:     328 Chinstrap   Adelie</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 341:     329 Chinstrap   Adelie</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 342:     331 Chinstrap   Adelie</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 343:     340 Chinstrap   Adelie</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 340:     326 Chinstrap   Adelie</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 341:     327 Chinstrap   Adelie</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 342:     329 Chinstrap   Adelie</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 343:     338 Chinstrap   Adelie</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 344:     342 Chinstrap   Adelie</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Benchmarking with a custom design:</span></span></span>

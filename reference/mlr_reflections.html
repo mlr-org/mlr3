@@ -15,6 +15,7 @@ task_types (data.table())
 Table with task type (&quot;type&quot;), the implementing package (&quot;pkg&quot;), and the names of the generators
 of the corresponding Task (&quot;task&quot;), Learner (&quot;learner&quot;),
 Prediction (&quot;prediction&quot;), Measure (&quot;measure&quot;) and fallback Learner.
+The column &quot;type&quot; must be unique for each row.
 task_feature_types (named character())
 Vector of base R types supported as Task features, named with a 3 letter abbreviation.
 task_row_roles (character())
@@ -64,6 +65,7 @@ task_types (data.table())
 Table with task type (&quot;type&quot;), the implementing package (&quot;pkg&quot;), and the names of the generators
 of the corresponding Task (&quot;task&quot;), Learner (&quot;learner&quot;),
 Prediction (&quot;prediction&quot;), Measure (&quot;measure&quot;) and fallback Learner.
+The column &quot;type&quot; must be unique for each row.
 task_feature_types (named character())
 Vector of base R types supported as Task features, named with a 3 letter abbreviation.
 task_row_roles (character())
@@ -111,7 +113,7 @@ Can be extended by third-party with additional converters.
 
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -155,7 +157,8 @@ or by extending the set of allowed feature types.</p>
 <p>The following objects are set by <a href="https://CRAN.R-project.org/package=mlr3" class="external-link"><span class="pkg">mlr3</span></a>:</p><ul><li><p><code>task_types</code> (<code><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table()</a></code>)<br>
 Table with task type (<code>"type"</code>), the implementing package (<code>"pkg"</code>), and the names of the generators
 of the corresponding <a href="Task.html">Task</a> (<code>"task"</code>), <a href="Learner.html">Learner</a> (<code>"learner"</code>),
-<a href="Prediction.html">Prediction</a> (<code>"prediction"</code>), <a href="Measure.html">Measure</a> (<code>"measure"</code>) and fallback <a href="Learner.html">Learner</a>.</p></li>
+<a href="Prediction.html">Prediction</a> (<code>"prediction"</code>), <a href="Measure.html">Measure</a> (<code>"measure"</code>) and fallback <a href="Learner.html">Learner</a>.
+The column <code>"type"</code> must be unique for each row.</p></li>
 <li><p><code>task_feature_types</code> (named <code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 Vector of base R types supported as <a href="Task.html">Task</a> features, named with a 3 letter abbreviation.</p></li>
 <li><p><code>task_row_roles</code> (<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
@@ -209,7 +212,7 @@ Can be extended by third-party with additional converters.</p></li>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/ls_str.html" class="external-link">ls.str</a></span><span class="op">(</span><span class="va">mlr_reflections</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> auto_converters : &lt;environment: 0x55e6493f10a0&gt; </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> auto_converters : &lt;environment: 0x562772295260&gt; </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> default_measures : List of 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ classif     : chr "classif.ce"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ regr        : chr "regr.mse"</span>
@@ -226,7 +229,7 @@ Can be extended by third-party with additional converters.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ classif: chr [1:8] "na_score" "requires_task" "requires_learner" "requires_model" ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ regr   : chr [1:8] "na_score" "requires_task" "requires_learner" "requires_model" ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> package_version : Classes 'package_version', 'numeric_version'  hidden list of 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ : int [1:3] 1 1 0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ : int [1:3] 1 2 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> predict_sets :  chr [1:3] "train" "test" "internal_valid"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> resampling_properties :  chr [1:2] "duplicated_ids" "weights"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> rr_names :  chr [1:4] "task" "learner" "resampling" "iteration"</span>
@@ -234,6 +237,9 @@ Can be extended by third-party with additional converters.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ regr        : chr [1:9] "feature" "target" "name" "order" ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ classif     : chr [1:9] "feature" "target" "name" "order" ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ unsupervised: chr [1:3] "feature" "name" "order"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> task_col_roles_optional_newdata : List of 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ classif: chr [1:6] "weights_learner" "weights_measure" "name" "order" ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ regr   : chr [1:6] "weights_learner" "weights_measure" "name" "order" ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> task_feature_types :  Named chr [1:8] "logical" "integer" "numeric" "character" "factor" ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> task_mandatory_properties : List of 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ classif: chr [1:2] "twoclass" "multiclass"</span>

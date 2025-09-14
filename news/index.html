@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -48,7 +48,25 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.1.0" id="mlr3-110">mlr3 1.1.0<a class="anchor" aria-label="anchor" href="#mlr3-110"></a></h2>
+<h2 class="pkg-version" data-toc-text="1.2.0" id="mlr3-120">mlr3 1.2.0<a class="anchor" aria-label="anchor" href="#mlr3-120"></a></h2><p class="text-muted">CRAN release: 2025-09-13</p>
+<ul><li>feat: Add <code>mirai</code> support for parallelization and encapsulation.</li>
+<li>feat: Fallback can now be configured to only be used in case of certain errors via the <code>when</code> argument.</li>
+<li>feat: Custom error and warning classes.</li>
+<li>fix: <code>$selected_features</code> returns error when model is not trained yet.</li>
+<li>docs: Missing values during scoring.</li>
+<li>BREAKING CHANGE: Removed <code>data_format</code> argument of <code>$data()</code> method of <code>DataBackend</code>.</li>
+<li>BREAKING CHANGE: Remove <code>data_formats</code> field from <code>Learner</code>.</li>
+<li>BREAKING CHANGE: Remove <code>DataBackendMatrix</code> class.</li>
+<li>feat: Add <code>materialize_view()</code> method to <code>Task</code> to replace the internal <code>DataBackend</code> with a new one after operations like <code>$select()</code> and <code>$filter()</code>.</li>
+<li>docs: Information about quantile prediction.</li>
+<li>perf: Use <code>fget</code> in <code>assert_predictable</code>.</li>
+<li>feat: Store oob error in state without requiring storing the model.</li>
+<li>fix: <code>$levels()</code> of <code>Task</code> returns in the correct order.</li>
+<li>chore: Only print up to 10 classes in the <code>Task</code> printer.</li>
+<li>fix: Check if <code>quantiles</code> and <code>quantile_response</code> are set.</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.1.0" id="mlr3-110">mlr3 1.1.0<a class="anchor" aria-label="anchor" href="#mlr3-110"></a></h2><p class="text-muted">CRAN release: 2025-07-30</p>
 <ul><li>feat: Add new measure <code>MeasureRegrRQR</code> for quantile regression.</li>
 <li>feat: Add <code>$predict_newdata_fast()</code> method to <code>Learner</code> to speed up prediction.</li>
 <li>fix: <code>configure_learner</code> is passed on <code>run_experiment()</code> for autotest learners.</li>

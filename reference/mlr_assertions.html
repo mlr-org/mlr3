@@ -35,7 +35,7 @@ Asserts whether the input is a valid value for the $validate field of a Learner.
 
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -173,6 +173,8 @@ Otherwise, the input object is returned invisibly.</p>
 <span></span>
 <span><span class="fu">assert_has_backend</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span>
 <span></span>
+<span><span class="fu">assert_quantiles</span><span class="op">(</span><span class="va">learner</span>, quantile_response <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
 <span><span class="fu">assert_validate</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -251,6 +253,12 @@ If the <code>param_values</code> overwrite the TuneToken, the assertion will pas
 <dt id="arg-row-ids">row_ids<a class="anchor" aria-label="anchor" href="#arg-row-ids"></a></dt>
 <dd><p><code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code><br>
 Row indices.</p></dd>
+
+
+<dt id="arg-quantile-response">quantile_response<a class="anchor" aria-label="anchor" href="#arg-quantile-response"></a></dt>
+<dd><p>(<code>logical(1)</code>)<br>
+Whether to check if the quantile response is set.
+If <code>TRUE</code>, the learner must have the <code>$quantile_response</code> field set.</p></dd>
 
 
 <dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>

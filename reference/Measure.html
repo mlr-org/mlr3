@@ -7,9 +7,12 @@
   };
 </script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.10/font.css" rel="stylesheet"><link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet"><link href="../deps/Roboto_Slab-0.4.10/font.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Measure Class — Measure"><meta name="description" content="This is the abstract base class for measures like MeasureClassif and MeasureRegr.
 Measures are classes tailored around two functions doing the work:
-A function $score() which quantifies the performance by comparing the truth and predictions.
+A function $score() which quantifies the performance on a Prediction object, so a set
+of predicted observation via a scalar number – usually an aggregate of losses on the contained observations,
+by comparing the truth and prediction columns in the prediction object.
 A function $aggregator() which combines multiple performance scores returned by
-$score() to a single numeric value.
+$score() obtained in different resampling iterations to a scalar performance value associated
+with the complete resampling – usually by averaging or summing.
 
 
 In addition to these two functions, meta-information about the performance measure is stored.
@@ -18,9 +21,12 @@ e.g. classif.auc or time_train.
 Many of the measures in mlr3 are implemented in mlr3measures as ordinary functions.
 A guide on how to extend mlr3 with custom measures can be found in the mlr3book."><meta property="og:description" content="This is the abstract base class for measures like MeasureClassif and MeasureRegr.
 Measures are classes tailored around two functions doing the work:
-A function $score() which quantifies the performance by comparing the truth and predictions.
+A function $score() which quantifies the performance on a Prediction object, so a set
+of predicted observation via a scalar number – usually an aggregate of losses on the contained observations,
+by comparing the truth and prediction columns in the prediction object.
 A function $aggregator() which combines multiple performance scores returned by
-$score() to a single numeric value.
+$score() obtained in different resampling iterations to a scalar performance value associated
+with the complete resampling – usually by averaging or summing.
 
 
 In addition to these two functions, meta-information about the performance measure is stored.
@@ -35,7 +41,7 @@ A guide on how to extend mlr3 with custom measures can be found in the mlr3book.
 
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -72,9 +78,12 @@ A guide on how to extend mlr3 with custom measures can be found in the mlr3book.
 
     <div class="ref-description section level2">
     <p>This is the abstract base class for measures like <a href="MeasureClassif.html">MeasureClassif</a> and <a href="MeasureRegr.html">MeasureRegr</a>.</p>
-<p>Measures are classes tailored around two functions doing the work:</p><ol><li><p>A function <code>$score()</code> which quantifies the performance by comparing the truth and predictions.</p></li>
+<p>Measures are classes tailored around two functions doing the work:</p><ol><li><p>A function <code>$score()</code> which quantifies the performance on a <a href="Prediction.html">Prediction</a> object, so a set
+of predicted observation via a scalar number – usually an aggregate of losses on the contained observations,
+by comparing the truth and prediction columns in the prediction object.</p></li>
 <li><p>A function <code>$aggregator()</code> which combines multiple performance scores returned by
-<code>$score()</code> to a single numeric value.</p></li>
+<code>$score()</code> obtained in different resampling iterations to a scalar performance value associated
+with the complete resampling – usually by averaging or summing.</p></li>
 </ol><p>In addition to these two functions, meta-information about the performance measure is stored.</p>
 <p>Predefined measures are stored in the <a href="https://mlr3misc.mlr-org.com/reference/Dictionary.html" class="external-link">dictionary</a> <a href="mlr_measures.html">mlr_measures</a>,
 e.g. <code><a href="mlr_measures_classif.auc.html">classif.auc</a></code> or <code><a href="mlr_measures_elapsed_time.html">time_train</a></code>.
@@ -108,6 +117,19 @@ over the test set.
 For measures that do mean-aggregation, weights are typically used to compute the weighted mean, which normalizes weights to sum to 1.
 Measures that use sum-aggregation do not normalize weights and instead multiply individual losses with the given weights.
 See the documentation of specific measures for more details.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="missing-values-during-scoring">Missing Values during Scoring<a class="anchor" aria-label="anchor" href="#missing-values-during-scoring"></a></h2>
+
+
+
+<p>Many measurements cannot be calculated if the test set or predictions are unfortunate, for example because a denominator is 0.
+This typically occurs during (binary) classification if some entries of the confusion matrix are 0.
+For this reason, many measures which origin in <a href="https://CRAN.R-project.org/package=mlr3measures" class="external-link"><span class="pkg">mlr3measures</span></a> allow to change the default missing value (<code>NaN</code>) via the field <code>na_value</code>.</p>
+<p>If you encounter missing values in a compound object like a <a href="ResampleResult.html">ResampleResult</a> or <a href="BenchmarkResult.html">BenchmarkResult</a> during scoring or aggregating, simply
+removing iterations with missing values is statistically arguable (but technically possible by prividng a custom aggregation function
+which handles missing values, e.g. <code>function(x) mean(x, na.rm = TRUE)</code>). Instead, consider stratification on the target of the <a href="Task.html">Task</a>
+to work around missing values. Switching to micro averaging in the <a href="Resampling.html">Resampling</a> can also be a solution here.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -524,6 +546,14 @@ This is handled internally during <code><a href="resample.html">resample()</a></
 <h4 id="returns">Returns<a class="anchor" aria-label="anchor" href="#returns"></a></h4>
 <p><code>numeric(1)</code>.</p>
 </div>
+<div class="section">
+<h4 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a></h4>
+<p></p><div class="r example copy"><div class="sourceCode"><pre><code><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="../reference/mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span>
+<span><span class="va">learner</span> <span class="op">=</span> <span class="fu"><a href="../reference/mlr_sugar.html">lrn</a></span><span class="op">(</span><span class="st">"classif.rpart"</span><span class="op">)</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span>
+<span><span class="va">prediction</span> <span class="op">=</span> <span class="va">learner</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/mlr_sugar.html">msr</a></span><span class="op">(</span><span class="st">"classif.ce"</span><span class="op">)</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="va">prediction</span><span class="op">)</span></span></code></pre></div><p></p></div>
+</div>
+
 
 </div><p></p><hr><a id="method-Measure-aggregate"></a><div class="section">
 <h3 id="method-aggregate-">Method <code><a href="https://rdrr.io/r/stats/aggregate.html" class="external-link">aggregate()</a></code><a class="anchor" aria-label="anchor" href="#method-aggregate-"></a></h3>
@@ -545,6 +575,14 @@ function of the measure.</p><div class="section">
 <h4 id="returns-1">Returns<a class="anchor" aria-label="anchor" href="#returns-1"></a></h4>
 <p><code>numeric(1)</code>.</p>
 </div>
+<div class="section">
+<h4 id="examples-1">Examples<a class="anchor" aria-label="anchor" href="#examples-1"></a></h4>
+<p></p><div class="r example copy"><div class="sourceCode"><pre><code><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="../reference/mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span>
+<span><span class="va">learner</span> <span class="op">=</span> <span class="fu"><a href="../reference/mlr_sugar.html">lrn</a></span><span class="op">(</span><span class="st">"classif.rpart"</span><span class="op">)</span></span>
+<span><span class="va">rr</span> <span class="op">=</span> <span class="fu"><a href="../reference/resample.html">resample</a></span><span class="op">(</span><span class="va">task</span>, <span class="va">learner</span>, <span class="fu"><a href="../reference/mlr_sugar.html">rsmp</a></span><span class="op">(</span><span class="st">"holdout"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/mlr_sugar.html">msr</a></span><span class="op">(</span><span class="st">"classif.ce"</span><span class="op">)</span><span class="op">$</span><span class="fu">aggregate</span><span class="op">(</span><span class="va">rr</span><span class="op">)</span></span></code></pre></div><p></p></div>
+</div>
+
 
 </div><p></p><hr><a id="method-Measure-clone"></a><div class="section">
 <h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
@@ -566,6 +604,31 @@ function of the measure.</p><div class="section">
 
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
+<span class="r-in"><span><span class="co">## Method `Measure$score`</span></span></span>
+<span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">learner</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">lrn</a></span><span class="op">(</span><span class="st">"classif.rpart"</span><span class="op">)</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">prediction</span> <span class="op">=</span> <span class="va">learner</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="mlr_sugar.html">msr</a></span><span class="op">(</span><span class="st">"classif.ce"</span><span class="op">)</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="va">prediction</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.03488372</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
+<span class="r-in"><span><span class="co">## Method `Measure$aggregate`</span></span></span>
+<span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">learner</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">lrn</a></span><span class="op">(</span><span class="st">"classif.rpart"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">rr</span> <span class="op">=</span> <span class="fu"><a href="resample.html">resample</a></span><span class="op">(</span><span class="va">task</span>, <span class="va">learner</span>, <span class="fu"><a href="mlr_sugar.html">rsmp</a></span><span class="op">(</span><span class="st">"holdout"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="mlr_sugar.html">msr</a></span><span class="op">(</span><span class="st">"classif.ce"</span><span class="op">)</span><span class="op">$</span><span class="fu">aggregate</span><span class="op">(</span><span class="va">rr</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> classif.ce </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.03478261 </span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 
