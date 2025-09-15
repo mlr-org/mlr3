@@ -12,6 +12,7 @@ mlr_reflections$task_types = setkeyv(rbind(mlr_reflections$task_types, rowwise_t
 mlr_reflections$task_col_roles$test = c(mlr_reflections$task_col_roles$classif, "test")
 mlr_reflections$task_properties$test = mlr_reflections$task_properties$classif
 mlr_reflections$default_measures$test = "classif.ce"
+mlr_reflections$learner_predict_types$test = mlr_reflections$learner_predict_types$classif
 
 TaskClassifTest = R6Class("TaskClassifTest",
   inherit = TaskClassif,
