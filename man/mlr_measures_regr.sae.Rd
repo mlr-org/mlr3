@@ -8,10 +8,11 @@ Measure to compare true observed response with predicted response in regression 
 }
 \details{
 The Sum of Absolute Errors is defined as \deqn{
-  \sum_{i=1}^n \left| t_i - r_i \right|.
+  \sum_{i=1}^n w_i \left| t_i - r_i \right|.
 }{
-  sum(abs((t - r))).
+  sum(w * abs((t - r))).
 }
+where \eqn{w_i} are unnormalized weights for each observation \eqn{x_i}, defaulting to 1.
 }
 \note{
 The score function calls \code{\link[mlr3measures:sae]{mlr3measures::sae()}} from package \CRANpkg{mlr3measures}.

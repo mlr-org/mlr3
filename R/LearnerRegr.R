@@ -138,7 +138,7 @@ LearnerRegr = R6Class("LearnerRegr", inherit = Learner,
       }
       private$.quantiles = assert_numeric(rhs, lower = 0, upper = 1, any.missing = FALSE, min.len = 1L, sorted = TRUE, .var.name = "quantiles")
 
-      if (length(private$.quantiles) == 1) {
+      if (length(private$.quantiles) == 1L) {
         private$.quantile_response = private$.quantiles
       }
     },

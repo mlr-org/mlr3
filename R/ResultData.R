@@ -51,9 +51,9 @@ ResultData = R6Class("ResultData",
           setkeyv(data, c("uhash", "iteration"))
 
           task = learner = resampling = NULL
-          data[, "task_hash" := task[[1]]$hash, by = "uhash"]
-          data[, "learner_phash" := learner[[1]]$phash, by = "uhash"]
-          data[, "resampling_hash" := resampling[[1]]$hash, by = "uhash"]
+          data[, "task_hash" := task[[1L]]$hash, by = "uhash"]
+          data[, "learner_phash" := learner[[1L]]$phash, by = "uhash"]
+          data[, "resampling_hash" := resampling[[1L]]$hash, by = "uhash"]
 
           tasks = data[, list(task = .SD$task[1L]),
             keyby = "task_hash"]
@@ -61,7 +61,7 @@ ResultData = R6Class("ResultData",
             keyby = "learner_phash"]
           resamplings = data[, list(resampling = .SD$resampling[1L]),
             keyby = "resampling_hash"]
-          learner_components = data[, list(learner_param_vals = list(.SD$param_values[[1]])),
+          learner_components = data[, list(learner_param_vals = list(.SD$param_values[[1L]])),
             keyby = "learner_hash"]
 
           set(data, j = "task", value = NULL)

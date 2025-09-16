@@ -274,7 +274,7 @@ Learner = R6Class("Learner",
       cat_cli(cli_li("Packages: {.pkg {self$packages}}"))
 
       pred_typs = replace(self$predict_types, self$predict_types == self$predict_type, paste0("[", self$predict_type, "]"))
-      encapsulation = self$encapsulation[[1]]
+      encapsulation = self$encapsulation[[1L]]
       fallback = if (encapsulation != 'none') class(self$fallback)[[1L]] else "-"
 
       cat_cli({
@@ -464,10 +464,8 @@ Learner = R6Class("Learner",
       newdata = as_data_backend(newdata)
       assert_names(newdata$colnames, must.include = task$feature_names)
 
-      # the following columns are automatically set to NA if missing
-      # We do not impute weighs_measure, because we decidedly do not have weights_measure in this case.
-      impute = unlist(task$col_roles[c("target", "name", "order", "stratum", "group")], use.names = FALSE)
-      impute = setdiff(impute, newdata$colnames)
+      # set the target columns to NA if missing
+      impute = setdiff(task$col_roles[["target"]], newdata$colnames)
       tab1 = if (length(impute)) {
         # create list with correct NA types and cbind it to the backend
         ci = insert_named(task$col_info[list(impute), c("id", "type", "levels"), on = "id", with = FALSE], list(value = NA))
@@ -495,19 +493,16 @@ Learner = R6Class("Learner",
       task$col_info[, c("label", "fix_factor_levels")] = prevci[list(task$col_info$id), on = "id", c("label", "fix_factor_levels")]
       task$col_info$fix_factor_levels[is.na(task$col_info$fix_factor_levels)] = FALSE
       task$row_roles$use = task$backend$rownames
+
+      # reset column roles that are not in the newdata if they are optional
+      optional_col_roles = mlr_reflections$task_col_roles_optional_newdata[[task$task_type]] %??% c("weights_learner", "weights_measure", "name", "order", "stratum", "group")
       task_col_roles = task$col_roles
-      update_col_roles = FALSE
-      if (any(task_col_roles$weights_measure %nin% newdata$colnames)) {
-        update_col_roles = TRUE
-        task_col_roles$weights_measure = character(0)
+      for (role in optional_col_roles) {
+        if (any(task_col_roles[[role]] %nin% newdata$colnames)) {
+          task_col_roles[[role]] = character(0)
+        }
       }
-      if (any(task_col_roles$weights_learner %nin% newdata$colnames)) {
-        update_col_roles = TRUE
-        task_col_roles$weights_learner = character(0)
-      }
-      if (update_col_roles) {
-        task$col_roles = task_col_roles
-      }
+      task$col_roles = task_col_roles
 
       self$predict(task)
     },

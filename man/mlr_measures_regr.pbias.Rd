@@ -8,9 +8,9 @@ Measure to compare true observed response with predicted response in regression 
 }
 \details{
 The Percent Bias is defined as \deqn{
-  \frac{1}{n} \sum_{i=1}^n w_i \frac{\left( t_i - r_i \right)}{\left| t_i \right|},
+  \frac{1}{n} \sum_{i=1}^n w_i \frac{\left( r_i - t_i \right)}{\left| t_i \right|},
 }{
-  weighted.mean((t - r) / abs(t), w),
+  weighted.mean((r - t) / abs(t), w),
 }
 where \eqn{w_i} are normalized sample weights.
 Good predictions score close to 0.

@@ -424,10 +424,10 @@ Measure = R6Class("Measure",
 #' It is usually a good idea to exploit lazy evaluation while calling this function
 #' to avoid unnecessary allocations.
 #'
-#' @param measure ([Measre]).
-#' @param task ([Measre]).
-#' @param learner ([Measre]).
-#' @param train_set (`intger()`).
+#' @param measure ([Measure]).
+#' @param task ([Measure]).
+#' @param learner ([Measure]).
+#' @param train_set (`integer()`).
 #' @param prediction ([Prediction] | [PredictionData]).
 #'
 #' @return (`numeric()`).

@@ -71,7 +71,7 @@ resample = function(
   clone = c("task", "learner", "resampling"),
   unmarshal = TRUE,
   callbacks = NULL
-  ) {
+) {
 
   lg$debug("Start resampling")
 

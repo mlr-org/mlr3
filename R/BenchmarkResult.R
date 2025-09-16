@@ -104,7 +104,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
       cat_cli(cli_h1("{.cls {class(self)[1L]}} of {.val {private$.data$iterations()}} rows with {.val {nrow(tab)}} resampling run"))
       if (nrow(tab)) {
         tab = remove_named(tab, c("uhash", "resample_result"))
-        print(tab, class = FALSE, row.names = FALSE, print.keys = FALSE, digits = 3)
+        print(tab, class = FALSE, row.names = FALSE, print.keys = FALSE, digits = 3L)
       }
     },
 

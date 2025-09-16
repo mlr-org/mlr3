@@ -236,7 +236,7 @@ Task = R6Class("Task",
           classes = if ("twoclass" %in% self$properties) {
             sprintf("%s (positive class, %.0f%%), %s (%.0f%%)", self$positive, class_freqs[[self$positive]], self$negative, class_freqs[[self$negative]])
           } else {
-            if (length(class_freqs) > 10) {
+            if (length(class_freqs) > 10L) {
               paste0(toString(sprintf("%s (%.0f%%)", names(class_freqs)[1:10], class_freqs[1:10])), " + ", length(class_freqs) - 10, " more")
             } else {
               toString(sprintf("%s (%.0f%%)", names(class_freqs), class_freqs))
@@ -1441,7 +1441,7 @@ task_check_col_roles.Task = function(task, new_roles, ...) {
   for (role in c("weights_learner", "weights_measure")) {
     if (length(new_roles[[role]]) > 0L) {
       col = task$backend$data(seq(task$backend$nrow), cols = new_roles[[role]])
-      assert_numeric(col[[1]], lower = 0, any.missing = FALSE, .var.name = names(col))
+      assert_numeric(col[[1L]], lower = 0, any.missing = FALSE, .var.name = names(col))
     }
   }
 

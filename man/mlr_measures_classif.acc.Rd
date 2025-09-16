@@ -11,9 +11,9 @@ in multiclass classification tasks.
 \details{
 The Classification Accuracy is defined as
 \deqn{
-  \frac{1}{n} \sum_{i=1}^n w_i \mathbf{1} \left( t_i = r_i \right),
-}{1 / n * sum(wi * 1(ti = ri))}
-where \eqn{w_i} are normalized weights for all observations \eqn{x_i}.
+  \sum_{i=1}^n w_i \mathbf{1} \left( t_i = r_i \right),
+}{sum(wi * 1(ti = ri))}
+where \eqn{w_i} are weights normalized to sum to 1 for all observations \eqn{x_i}.
 }
 \note{
 The score function calls \code{\link[mlr3measures:acc]{mlr3measures::acc()}} from package \CRANpkg{mlr3measures}.

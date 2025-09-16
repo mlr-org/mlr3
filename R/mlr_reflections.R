@@ -118,6 +118,12 @@ local({
     after = c("Order by" = "order", "Strata" = "stratum", "Groups" = "group", "Offset" = "offset", "Weights/Learner" = "weights_learner", "Weights/Measure" = "weights_measure")
   )
 
+  tmp = c("weights_learner", "weights_measure", "name", "order", "stratum", "group")
+  mlr_reflections$task_col_roles_optional_newdata = list(
+    classif = tmp,
+    regr = tmp
+  )
+
   ### Learner
   tmp = c("featureless", "missings", "weights", "importance", "selected_features", "oob_error", "hotstart_forward", "hotstart_backward", "validation", "internal_tuning", "marshal", "offset")
   mlr_reflections$learner_properties = list(

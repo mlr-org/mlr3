@@ -1,6 +1,6 @@
 Package: mlr3
 Title: Machine Learning in R - Next Generation
-Version: 1.1.0.9000
+Version: 1.2.0.9000
 Authors@R:
   c(
     person("Michel", "Lang", , "michellang@gmail.com", role = "aut",
@@ -30,7 +30,9 @@ Authors@R:
            comment = c(ORCID = "0000-0002-9609-3197")),
     person("Lona", "Koers", , "lona.koers@gmail.com", role = "ctb"),
     person("John", "Zobolas", , "bblodfon@gmail.com", role = "ctb",
-           comment = c(ORCID = "0000-0002-3609-8674"))
+           comment = c(ORCID = "0000-0002-3609-8674")),
+    person("Maximilian", "Mücke", , "muecke.maximilian@gmail.com", role = "ctb",
+           comment = c(ORCID = "0009-0000-9432-9795"))
   )
 Description: Efficient, object-oriented programming on the
     building blocks of machine learning. Provides 'R6' objects for tasks,
@@ -58,7 +60,7 @@ Imports:
     methods,
     mlbench,
     mlr3measures (>= 1.0.0),
-    mlr3misc (>= 0.18.0),
+    mlr3misc (>= 0.19.0),
     parallelly,
     palmerpenguins,
     paradox (>= 1.0.1),
@@ -74,14 +76,12 @@ Suggests:
     RhpcBLASctl,
     rpart,
     testthat (>= 3.2.0)
-Remotes:
-    mlr-org/mlr3misc
 Encoding: UTF-8
 Config/testthat/edition: 3
 Config/testthat/parallel: false
 NeedsCompilation: no
 Roxygen: list(markdown = TRUE, r6 = TRUE)
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 Collate:
     'mlr_reflections.R'
     'BenchmarkResult.R'
