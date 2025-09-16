@@ -165,7 +165,7 @@ c.Prediction = function(..., keep_duplicates = TRUE) { # nolint
 
   classes = unique(map_chr(dots, function(x) class(x)[1L]))
   if (length(classes) > 1L) {
-    stopf("Cannot combine objects of different type: %s", str_collapse(classes))
+    error_input("Cannot combine objects of different type: %s", str_collapse(classes))
   }
   assert_flag(keep_duplicates)
 

@@ -95,11 +95,11 @@ c.PredictionDataClassif = function(..., keep_duplicates = TRUE) {
   predict_types = names(mlr_reflections$learner_predict_types$classif)
   predict_types = map(dots, function(x) intersect(names(x), predict_types))
   if (!every(predict_types[-1L], setequal, y = predict_types[[1L]])) {
-    stopf("Cannot rbind predictions: Different predict types")
+    error_input("Cannot rbind predictions: Different predict types")
   }
 
   if (length(unique(map_lgl(dots, function(x) is.null(x$weights)))) > 1L) {
-    stopf("Cannot rbind predictions: Some predictions have weights, others do not")
+    error_input("Cannot rbind predictions: Some predictions have weights, others do not")
   }
 
   elems = c("row_ids", "truth", intersect(predict_types[[1L]], "response"), if ("weights" %chin% names(dots[[1L]])) "weights")

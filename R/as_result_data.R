@@ -63,25 +63,25 @@ as_result_data = function(
   N = length(iterations)
 
   if (length(learners) != N) {
-    stopf("Number of learners (%i) must match the number of resampling iterations (%i)", length(learners), N)
+    error_input("Number of learners (%i) must match the number of resampling iterations (%i)", length(learners), N)
   }
 
   if (length(predictions) != N) {
-    stopf("Number of predictions (%i) must match the number of resampling iterations (%i)", length(predictions), N)
+    error_input("Number of predictions (%i) must match the number of resampling iterations (%i)", length(predictions), N)
   }
 
   if (is.null(learner_states)) {
     learner_states = map(learners, "state")
   } else if (length(learner_states) != N) {
-    stopf("Number of learner_states (%i) must match the number of resampling iterations (%i)", length(learner_states), N)
+    error_input("Number of learner_states (%i) must match the number of resampling iterations (%i)", length(learner_states), N)
   }
 
   if (resampling$task_hash != task$hash) {
-    stopf("Resampling '%s' has not been trained on task '%s', hashes do not match", resampling$id, task$id)
+    error_input("Resampling '%s' has not been trained on task '%s', hashes do not match", resampling$id, task$id)
   }
 
   if (!is.null(data_extra) && length(data_extra) != N) {
-    stopf("Length of data_extra (%i) must match the number of resampling iterations (%i)", length(data_extra), N)
+    error_input("Length of data_extra (%i) must match the number of resampling iterations (%i)", length(data_extra), N)
   }
 
   ResultData$new(data.table(

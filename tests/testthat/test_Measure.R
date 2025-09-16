@@ -140,7 +140,7 @@ test_that("scoring fails when measure requires_model, but model is in marshaled 
   pred = learner$train(task)$predict(task)
   learner$marshal()
   expect_error(measure$score(pred, learner = learner, task = task),
-    regexp = "is in marshaled form")
+    regexp = "model is in marshaled")
 })
 
 test_that("measure weights", {
@@ -171,8 +171,8 @@ test_that("measure weights", {
   m$use_weights = "error"
   expect_equal(prediction_no_weights$score(m), c(classif.acc = 0.5))
   expect_equal(prediction_learner_weights$score(m), c(classif.acc = 0.5))
-  expect_error(prediction_measure_weights$score(m), "since 'use_weights' was set to 'error'")
-  expect_error(m$score(prediction_measure_weights), "since 'use_weights' was set to 'error'")
+  expect_error(prediction_measure_weights$score(m), "'use_weights' was set to 'error'")
+  expect_error(m$score(prediction_measure_weights), "'use_weights' was set to 'error'")
 
   mauc = msr("classif.mauc_au1p")
   prediction_no_weights = learner$predict(tsk("iris"), row_ids = c(1, 2, 51, 52, 101, 102))
@@ -181,8 +181,8 @@ test_that("measure weights", {
 
   expect_equal(prediction_no_weights$score(mauc), c(classif.mauc_au1p = 0.5))
   expect_equal(prediction_learner_weights$score(mauc), c(classif.mauc_au1p = 0.5))
-  expect_error(prediction_measure_weights$score(mauc), "cannot be evaluated with weights since the Measure does not support weights")
-  expect_error(mauc$score(prediction_measure_weights), "cannot be evaluated with weights since the Measure does not support weights")
+  expect_error(prediction_measure_weights$score(mauc), "cannot be evaluated with weights")
+  expect_error(mauc$score(prediction_measure_weights), "cannot be evaluated with weights")
 
   mauc$use_weights = "ignore"
   expect_equal(prediction_measure_weights$score(mauc), c(classif.mauc_au1p = 0.5))
@@ -221,7 +221,7 @@ test_that("measure weights", {
   mauc$use_weights = "error"
   expect_equal(rr_no_weights$score(mauc)$classif.mauc_au1p, c(1, 1) / 2)
   expect_equal(rr_learner_weights$score(mauc)$classif.mauc_au1p, c(1, 1) / 2)
-  expect_error(rr_measure_weights$score(mauc), "cannot be evaluated with weights in .*Task.*since the Measure does not support weights")
+  expect_error(rr_measure_weights$score(mauc), "cannot be evaluated with weights in\n  .*Task.*since the Measure does not support\n  weights")
 
   # aggregating resampling with weights
   m$use_weights = "use"
@@ -253,8 +253,8 @@ test_that("measure weights", {
   mauc$use_weights = "error"
   expect_equal(rr_no_weights$aggregate(mauc), c(classif.mauc_au1p = 0.5))
   expect_equal(rr_learner_weights$aggregate(mauc), c(classif.mauc_au1p = 0.5))
-  expect_error(rr_measure_weights$aggregate(mauc), "cannot be evaluated with weights in .*Task.*since the Measure does not support weights")
-  expect_error(mauc$aggregate(rr_measure_weights), "cannot be evaluated with weights in .*Task.*since the Measure does not support weights")
+  expect_error(rr_measure_weights$aggregate(mauc), "cannot be evaluated with weights in\n  .*Task.*since the Measure does not support\n  weights")
+  expect_error(mauc$aggregate(rr_measure_weights), "cannot be evaluated with weights in\n  .*Task.*since the Measure does not support\n  weights")
 
   m$use_weights = "use"
   m$average = "macro_weighted"

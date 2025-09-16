@@ -63,7 +63,7 @@ deprecated_binding = function(what, value) {
       ## 'value' could be an expression that gets substituted here, which we only want to evaluate once
       x = value
       if (!missing(rhs) && !identical(rhs, x)) {
-        stop(sprintf("%s read-only.", what))
+        error_mlr3(sprintf("%s read-only.", what))
       }
       x
     },
