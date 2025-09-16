@@ -124,19 +124,19 @@ assert_task_learner = function(task, learner, param_values = NULL, cols = NULL) 
   # remove pars that are covered by param_values
   pars = pars[names(pars) %nin% names(param_values)]
   if (length(pars) > 0) {
-    error_config("%s cannot be trained with TuneToken present in hyperparameter: %s", learner$format(), str_collapse(names(pars)))
+    error_config("%s cannot be trained with TuneToken present in hyperparameter: %s", format_angle_brackets(learner), str_collapse(names(pars)))
   }
   # check on class(learner) does not work with GraphLearner and AutoTuner
   # check on learner$task_type does not work with TaskUnsupervised
 
   if (!test_matching_task_type(task$task_type, learner, "learner")) {
     error_input("Type '%s' of %s does not match type '%s' of %s",
-      task$task_type, task$format(), learner$task_type, learner$format())
+      task$task_type, format_angle_brackets(task), learner$task_type, format_angle_brackets(learner))
   }
 
   tmp = setdiff(task$feature_types$type, learner$feature_types)
   if (length(tmp) > 0) {
-    error_input("%s has the following unsupported feature types: %s", task$format(), str_collapse(tmp))
+    error_input("%s has the following unsupported feature types: %s", format_angle_brackets(task), str_collapse(tmp))
   }
 
   if ("missings" %nin% learner$properties) {
@@ -174,12 +174,12 @@ assert_task_learner = function(task, learner, param_values = NULL, cols = NULL) 
 #' @rdname mlr_assertions
 assert_learnable = function(task, learner, param_values = NULL) {
   if (task$task_type == "unsupervised") {
-    error_input("%s cannot be trained with %s", learner$format(), task$format())
+    error_input("%s cannot be trained with %s", format_angle_brackets(learner), format_angle_brackets(task))
   }
   # we only need to check whether the learner wants to error on weights in training,
   # since weights_learner are always ignored during prediction.
   if (learner$use_weights == "error" && "weights_learner" %in% task$properties) {
-    error_config("%s cannot be trained with weights in %s%s", learner$format(), task$format(),
+    error_config("%s cannot be trained with weights in %s%s", format_angle_brackets(learner), format_angle_brackets(task),
       if ("weights" %in% learner$properties) {
         " since 'use_weights' was set to 'error'."
       } else {
@@ -227,7 +227,7 @@ assert_measure = function(measure, task = NULL, learner = NULL, prediction = NUL
   assert_class(measure, "Measure", .var.name = .var.name)
 
   if (measure$use_weights == "error" && (!is.null(prediction$weights) || "weights_measure" %chin% task$properties)) {
-    error_input("%s cannot be evaluated with weights%s%s", measure$format(), if (!is.null(task)) paste0(" in ", task$format()) else "",
+    error_input("%s cannot be evaluated with weights%s%s", format_angle_brackets(measure), if (!is.null(task)) paste0(" in ", format_angle_brackets(task)) else "",
       if ("weights" %in% measure$properties) {
         " since 'use_weights' was set to 'error'."
       } else {

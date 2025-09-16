@@ -657,7 +657,7 @@ test_that("benchmark allows that param_values overwrites tune token", {
 
   learner = lrn("classif.rpart", cp = to_tune(0.01, 0.1))
   design = benchmark_grid(tsk("pima"), learner, rsmp("cv", folds = 3))
-  expect_error(benchmark(design), "cannot be trained with TuneToken present in hyperparameter")
+  expect_error(benchmark(design), "cannot be trained with TuneToken present")
 })
 
 test_that("uhash_table works", {
