@@ -210,7 +210,42 @@ assert_predictable = function(task, learner) {
     ok = all(train_type == predict_type) && all(pmap_lgl(list(x = train_levels, y = predict_levels), identical))
 
     if (!ok) {
-      stopf("Learner '%s' received task with different column info (feature type or factor level ordering) during train and predict.", learner$id)
+      # get the feature names that have different feature types
+      feature_names = train_task$feature_names[train_type != predict_type]
+      train_types = set_names(train_type, train_task$feature_names)
+      predict_types = set_names(predict_type, task$feature_names)
+
+      msg_feature_type = map_chr(feature_names, function(feature_name) {
+        sprintf("Column '%s' has different feature type during train (%s) and predict (%s).",
+          feature_name,
+          train_types[[feature_name]],
+          predict_types[[feature_name]])
+      })
+
+      # get the feature names that missing factor levels in train
+      feature_names = train_task$feature_names[pmap_lgl(list(x = train_levels, y = predict_levels), function(x, y) length(setdiff(y, x)) > 0)]
+      train_levels = set_names(train_levels, train_task$feature_names)
+      predict_levels = set_names(predict_levels, task$feature_names)
+
+      msg_factor_levels_train = map_chr(feature_names, function(feature_name) {
+        sprintf("Column '%s' has missing factor levels during train (%s).",
+          feature_name,
+          str_collapse(setdiff(predict_levels[[feature_name]], train_levels[[feature_name]])))
+      })
+
+      # get the feature names that missing factor levels in predict
+      feature_names = train_task$feature_names[pmap_lgl(list(x = train_levels, y = predict_levels), function(x, y) length(setdiff(x, y)) > 0)]
+      train_levels = set_names(train_levels, train_task$feature_names)
+      predict_levels = set_names(predict_levels, task$feature_names)
+
+      msg_factor_levels_predict = map_chr(feature_names, function(feature_name) {
+        sprintf("Column '%s' has missing factor levels during predict (%s).",
+          feature_name,
+          str_collapse(setdiff(train_levels[[feature_name]], predict_levels[[feature_name]])))
+      })
+
+      msgs = c(msg_feature_type, msg_factor_levels_train, msg_factor_levels_predict)
+      error_input("Learner '%s' received task with different column info (feature type or factor level ordering) during train and predict. %s", learner$id, msgs)
     }
   }
 
