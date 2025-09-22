@@ -79,3 +79,23 @@ test_that("PredictionDataRegr with quantiles and response", {
   pred = as_prediction(pdata)
   expect_prediction_regr(pred)
 })
+
+test_that("extra data is stored", {
+  LearnerExtra = R6Class("LearnerExtra",
+    inherit = LearnerRegrDebug,
+    private = list(
+      .predict = function(task, ...) {
+        pred = super$.predict(task, ...)
+        pred$extra = list(extra_col = replicate(length(pred$response), "bar"))
+        pred
+      }
+    )
+  )
+
+  learner = LearnerExtra$new()
+  learner$train(tsk("mtcars"))
+  pred = learner$predict(tsk("mtcars"))
+  expect_list(pred$extra, len = 1)
+  expect_equal(pred$extra[[1]], replicate(length(pred$response), "bar"))
+  expect_prediction(pred)
+})
