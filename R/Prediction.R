@@ -152,6 +152,11 @@ Prediction = R6Class("Prediction",
     weights = function(rhs) {
       assert_ro_binding(rhs)
       self$data$weights
+    },
+
+    extra = function(rhs) {
+      assert_ro_binding(rhs)
+      self$data$extra
     }
   )
 )

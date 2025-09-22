@@ -64,7 +64,7 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
       extra = NULL
       ) {
       pdata = new_prediction_data(
-        list(row_ids = row_ids, truth = truth, response = response, se = se, quantiles = quantiles, distr = distr, weights = weights),
+        list(row_ids = row_ids, truth = truth, response = response, se = se, quantiles = quantiles, distr = distr, weights = weights, extra = extra),
         task_type = "regr"
       )
 
@@ -138,6 +138,10 @@ as.data.table.PredictionRegr = function(x, ...) { # nolint
 
   if (!is.null(x$data$weights)) {
     tab$weights = x$data$weights
+  }
+
+  if (!is.null(x$data$extra)) {
+    tab = cbind(tab, as.data.table(x$data$extra))
   }
 
   tab

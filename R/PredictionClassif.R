@@ -102,8 +102,9 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
       check = TRUE,
       extra = NULL
       ) {
+
       pdata = new_prediction_data(
-        list(row_ids = row_ids, truth = truth, response = response, prob = prob, weights = weights),
+        list(row_ids = row_ids, truth = truth, response = response, prob = prob, weights = weights, extra = extra),
         task_type = "classif"
       )
 
@@ -170,6 +171,10 @@ as.data.table.PredictionClassif = function(x, ...) { # nolint
     prob = as.data.table(x$data$prob)
     setnames(prob, names(prob), paste0("prob.", names(prob)))
     tab = rcbind(tab, prob)
+  }
+
+  if (!is.null(x$data$extra)) {
+    tab = cbind(tab, as.data.table(x$data$extra))
   }
 
   if (!is.null(x$data$weights)) {

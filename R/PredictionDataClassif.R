@@ -56,6 +56,10 @@ check_prediction_data.PredictionDataClassif = function(pdata, train_task, ...) {
     assert_prediction_count(length(pdata$weights), n, "weights")
   }
 
+  if (!is.null(pdata$extra)) {
+    assert_list(pdata$extra)
+  }
+
   pdata
 }
 
