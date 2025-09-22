@@ -131,10 +131,12 @@ local({
     regr = tmp
   )
 
+  classif_predict_types = list(response = "response", prob = c("response", "prob"))
+  regr_predict_types = list(response = "response", se = c("response", "se"), quantiles = c("response", "quantiles"), distr = c("response", "se", "distr"))
   mlr_reflections$learner_predict_types = list(
-    classif = list(response = "response", prob = c("response", "prob")),
-    regr = list(response = "response", se = c("response", "se"), quantiles = c("response", "quantiles"), distr = c("response", "se", "distr")),
-    unsupervised = list(response = "response")
+    classif = classif_predict_types,
+    regr = regr_predict_types,
+    unsupervised = c(classif_predict_types, regr_predict_types)
   )
 
   # Allowed tags for parameters
