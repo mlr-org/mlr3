@@ -158,7 +158,8 @@ Truth is in columns, predicted response is in rows.</p></dd>
 <span>  response <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  prob <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  weights <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  check <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  check <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  extra <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
@@ -205,6 +206,11 @@ the <code>Task</code>'s <code>weights_measure</code> column.</p></dd>
 <dt><code>check</code></dt>
 <dd><p>(<code>logical(1)</code>)<br>
 If <code>TRUE</code>, performs some argument checks and predict type conversions.</p></dd>
+
+
+<dt><code>extra</code></dt>
+<dd><p>(<code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>)<br>
+List of extra data to be stored in the prediction object.</p></dd>
 
 
 </dl><p></p></div>
