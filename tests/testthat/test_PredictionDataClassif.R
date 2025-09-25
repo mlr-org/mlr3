@@ -51,23 +51,6 @@ test_that("construction of empty PredictionDataClassif", {
   expect_data_table(as.data.table(pred), nrows = 0L, ncols = 6L)
 })
 
-  pdata = new_prediction_data(list(
-    row_ids = 1:2,
-    truth = factor(c("a", "b")),
-    response = c("a", "b"),
-    prob = matrix(c(0.5, 0.5, 0.5, 1), 2)),
-    "classif")
-
-  pdata2 = new_prediction_data(list(
-    row_ids = 1:2,
-    truth = factor(c("a", "b")),
-    response = c("a", "b"),
-    prob = matrix(c(0.5, 0.5, 0.5, 1), 2)),
-    "classif")
-
-  c(pdata, pdata2)
-
-
 test_that("combine with extra data", {
   pdata = new_prediction_data(list(
     row_ids = 1:2,

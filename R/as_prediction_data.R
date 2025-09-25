@@ -36,7 +36,8 @@ as_prediction_data.PredictionData = function(x, task, row_ids = task$row_ids, ch
 as_prediction_data.list = function(x, task, row_ids = task$row_ids, check = TRUE, ..., train_task) { # nolint
   assert_list(x, names = "unique")
   predict_types = names(mlr_reflections$learner_predict_types[[task$task_type]])
-  assert_names(names(x), subset.of = c(predict_types, "extra"))
+  if (!is.null(predict_types)) predict_types = c(predict_types, "extra")
+  assert_names(names(x), subset.of = predict_types)
 
   x$row_ids = row_ids
   if (inherits(task, "TaskSupervised")) {
