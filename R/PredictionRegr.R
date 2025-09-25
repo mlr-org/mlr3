@@ -115,7 +115,7 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
       if ("distr" %chin% self$predict_types) {
         require_namespaces("distr6", msg = "To predict probability distributions, please install %s")
       }
-      return(self$data$distr)
+      self$data$distr
     }
   ),
 
