@@ -56,6 +56,14 @@ check_prediction_data.PredictionDataClassif = function(pdata, train_task, ...) {
     assert_prediction_count(length(pdata$weights), n, "weights")
   }
 
+  if (!is.null(pdata$extra)) {
+    assert_list(pdata$extra, names = "unique")
+    len = map_int(pdata$extra, length)
+    if (any(len != n)) {
+      error_learner_predict("Extra data must have the same length as the number of predictions")
+    }
+  }
+
   pdata
 }
 
@@ -80,8 +88,7 @@ is_missing_prediction_data.PredictionDataClassif = function(pdata, ...) { # noli
 #' @rdname PredictionData
 #'
 #' @param keep_duplicates (`logical(1)`)
-#'   If `TRUE`, the combined [PredictionData] object is filtered for duplicated
-#'   row ids (starting from last).
+#'   If `TRUE`, the combined [PredictionData] object is filtered for duplicated row ids (starting from last).
 #' @param ... (one or more [PredictionData] objects).
 #' @export
 c.PredictionDataClassif = function(..., keep_duplicates = TRUE) {
@@ -102,17 +109,27 @@ c.PredictionDataClassif = function(..., keep_duplicates = TRUE) {
     stopf("Cannot rbind predictions: Some predictions have weights, others do not")
   }
 
+  if (length(unique(map_lgl(dots, function(x) is.null(x$extra)))) > 1L) {
+    stopf("Cannot rbind predictions: Some predictions have extra data, others do not")
+  }
+
   elems = c("row_ids", "truth", intersect(predict_types[[1L]], "response"), if ("weights" %chin% names(dots[[1L]])) "weights")
   tab = map_dtr(dots, function(x) x[elems], .fill = FALSE)
   prob = do.call(rbind, map(dots, "prob"))
+
+  extra = if ("extra" %chin% names(dots[[1L]])) {
+    rbindlist(map(dots, "extra"), fill = TRUE, use.names = TRUE)
+  }
 
   if (!keep_duplicates) {
     keep = !duplicated(tab, by = "row_ids", fromLast = TRUE)
     tab = tab[keep]
     prob = prob[keep, , drop = FALSE]
+    extra = extra[keep]
   }
 
   result = as.list(tab)
+  if (!is.null(extra)) result$extra = as.list(extra)
   result$prob = prob
   new_prediction_data(result, "classif")
 }
@@ -133,6 +150,10 @@ filter_prediction_data.PredictionDataClassif = function(pdata, row_ids, ...) {
 
   if (!is.null(pdata$weights)) {
     pdata$weights = pdata$weights[keep]
+  }
+
+  if (!is.null(pdata$extra)) {
+    pdata$extra = map(pdata$extra, function(x) x[keep])
   }
 
   pdata

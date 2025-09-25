@@ -84,6 +84,9 @@ Returns \code{row_ids} for which the predictions are missing or incomplete.}
 \item{\code{weights}}{(\code{numeric()})\cr
 Vector of measure weights, obtained from the \code{weights_measure} column of the \link{Task} if present.
 This is \code{NULL} if no weights are present.}
+
+\item{\code{extra}}{(\code{list()})\cr
+List of extra data stored in the prediction object.}
 }
 \if{html}{\out{</div>}}
 }

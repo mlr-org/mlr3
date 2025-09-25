@@ -132,7 +132,8 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
   response = NULL,
   prob = NULL,
   weights = NULL,
-  check = TRUE
+  check = TRUE,
+  extra = NULL
 )}\if{html}{\out{</div>}}
 }
 
@@ -167,6 +168,9 @@ the \code{Task}'s \code{weights_measure} column.}
 
 \item{\code{check}}{(\code{logical(1)})\cr
 If \code{TRUE}, performs some argument checks and predict type conversions.}
+
+\item{\code{extra}}{(\code{list()})\cr
+List of extra data to be stored in the prediction object.}
 }
 \if{html}{\out{</div>}}
 }

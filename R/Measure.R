@@ -477,7 +477,7 @@ score_single_measure = function(measure, task, learner, train_set, prediction) {
 #' Converts `obj` from [ResampleResult] or [BenchmarkResult] to a `data.table`.
 #' Automatically reassembles learners if needed.
 #' Uses lazy evaluation to avoid querying the `train_set` while calling
-#' [score_single_measure()].
+#' `score_single_measure()`.
 #'
 #' @param obj ([ResampleResult] | [BenchmarkResult]).
 #' @param measures (list of [Measure]).
