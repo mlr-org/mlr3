@@ -1,5 +1,7 @@
 # mlr3 (development version)
 
+* feat: `Learner$predict()` can now add additional data to `PredictionClassif` and `PredictionRegr` objects via the `extra` field.
+
 # mlr3 1.2.0
 
 * feat: Add `mirai` support for parallelization and encapsulation.
