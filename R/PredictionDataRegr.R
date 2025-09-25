@@ -141,6 +141,10 @@ filter_prediction_data.PredictionDataRegr = function(pdata, row_ids, ...) {
     pdata$weights = pdata$weights[keep]
   }
 
+  if (!is.null(pdata$extra)) {
+    pdata$extra = map(pdata$extra, function(x) x[keep])
+  }
+
   pdata
 }
 

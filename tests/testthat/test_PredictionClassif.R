@@ -210,3 +210,4 @@ test_that("extra data is stored", {
   expect_equal(pred$extra[[1]], replicate(length(pred$response), "bar"))
   expect_prediction(pred)
 })
+

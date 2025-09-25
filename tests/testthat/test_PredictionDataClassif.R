@@ -50,3 +50,24 @@ test_that("construction of empty PredictionDataClassif", {
   expect_matrix(pred$prob, nrows = 0L, ncols = length(task$class_names))
   expect_data_table(as.data.table(pred), nrows = 0L, ncols = 6L)
 })
+
+test_that("combine with extra data", {
+  pdata = new_prediction_data(list(
+    row_ids = 1:2,
+    truth = factor(c("a", "b")),
+    response = c("a", "b"),
+    prob = matrix(c(0.5, 0.5, 0.5, 1), 2),
+    extra = list(extra_col = c("a", "b"), extra_col2 = c(1, 2))),
+    "classif")
+
+  pdata2 = new_prediction_data(list(
+    row_ids = 1:2,
+    truth = factor(c("a", "b")),
+    response = c("a", "b"),
+    prob = matrix(c(0.5, 0.5, 0.5, 1), 2),
+    extra = list(extra_col = c("c", "d"), extra_col2 = c(3, 4))),
+    "classif")
+    c(pdata, pdata2)
+
+  expect_equal(c(pdata, pdata)$extra, list(extra = c("a", "b", "a", "b")))
+})
