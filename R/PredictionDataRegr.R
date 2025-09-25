@@ -98,18 +98,28 @@ c.PredictionDataRegr = function(..., keep_duplicates = TRUE) { # nolint
     stopf("Cannot combine predictions: Some predictions have weights, others do not")
   }
 
+  if (length(unique(map_lgl(dots, function(x) is.null(x$extra)))) > 1L) {
+    stopf("Cannot rbind predictions: Some predictions have extra data, others do not")
+  }
+
   elems = c("row_ids", "truth", intersect(predict_types[[1L]], c("response", "se")), if ("weights" %chin% names(dots[[1L]])) "weights")
   tab = map_dtr(dots, function(x) x[elems], .fill = FALSE)
   quantiles = do.call(rbind, map(dots, "quantiles"))
+
+  extra = if ("extra" %chin% names(dots[[1L]])) {
+    rbindlist(map(dots, "extra"), fill = TRUE, use.names = TRUE)
+  }
 
   if (!keep_duplicates) {
     keep = !duplicated(tab, by = "row_ids", fromLast = TRUE)
     tab = tab[keep]
     quantiles = quantiles[keep, , drop = FALSE]
+    extra = extra[keep]
   }
 
   result = as.list(tab)
   result$quantiles = quantiles
+  if (!is.null(extra)) result$extra = as.list(extra)
 
   if ("distr" %chin% predict_types[[1L]]) {
     require_namespaces("distr6", msg = "To predict probability distributions, please install %s")

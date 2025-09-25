@@ -110,25 +110,23 @@ c.PredictionDataClassif = function(..., keep_duplicates = TRUE) {
     stopf("Cannot rbind predictions: Some predictions have extra data, others do not")
   }
 
-
   elems = c("row_ids", "truth", intersect(predict_types[[1L]], "response"), if ("weights" %chin% names(dots[[1L]])) "weights")
   tab = map_dtr(dots, function(x) x[elems], .fill = FALSE)
   prob = do.call(rbind, map(dots, "prob"))
 
-
-  if ("extra" %chin% names(dots[[1L]])) {
-    extras = map(dots, "extra")
-    extras = invoke(Map, f = c, .args = extras)
+  extra = if ("extra" %chin% names(dots[[1L]])) {
+    rbindlist(map(dots, "extra"), fill = TRUE, use.names = TRUE)
   }
 
   if (!keep_duplicates) {
     keep = !duplicated(tab, by = "row_ids", fromLast = TRUE)
     tab = tab[keep]
     prob = prob[keep, , drop = FALSE]
+    extra = extra[keep]
   }
 
   result = as.list(tab)
-  result$extra = extras
+  if (!is.null(extra)) result$extra = as.list(extra)
   result$prob = prob
   new_prediction_data(result, "classif")
 }
