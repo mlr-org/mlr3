@@ -209,15 +209,13 @@ test_that("extra data is stored", {
   expect_list(pred$extra, len = 1)
   expect_equal(pred$extra[[1]], replicate(length(pred$response), "bar"))
   expect_prediction(pred)
-})
 
-test_that("extra data is stored", {
   LearnerExtra = R6Class("LearnerExtra",
     inherit = LearnerClassifDebug,
     private = list(
       .predict = function(task, ...) {
         pred = super$.predict(task, ...)
-        pred$extra = list(extra_col = replicate(length(pred$response), "bar"))
+        pred$extra = list(extra_col = replicate(2, "bar"))
         pred
       }
     )
@@ -225,8 +223,6 @@ test_that("extra data is stored", {
 
   learner = LearnerExtra$new()
   learner$train(tsk("iris"))
-  pred = learner$predict(tsk("iris"))
-  expect_list(pred$extra, len = 1)
-  expect_equal(pred$extra[[1]], replicate(length(pred$response), "bar"))
-  expect_prediction(pred)
+  expect_error(learner$predict(tsk("iris")), "Extra data must have the same length as the number of predictions")
 })
+

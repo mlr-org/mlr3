@@ -52,8 +52,8 @@ Row indices.}
 Task used for training the learner.}
 
 \item{keep_duplicates}{(\code{logical(1)})
-If \code{TRUE}, the combined \link{PredictionData} object is filtered for duplicated
-row ids (starting from last).}
+If \code{TRUE}, the combined \link{PredictionData} object is filtered for duplicated row ids (starting from last).
+Extra data is not considered for duplicate detection.}
 }
 \description{
 Objects of type \code{PredictionData} serve as a intermediate representation for objects of type \link{Prediction}.

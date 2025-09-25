@@ -154,6 +154,8 @@ Prediction = R6Class("Prediction",
       self$data$weights
     },
 
+    #' @field extra (`list()`)\cr
+    #'   List of extra data stored in the prediction object.
     extra = function(rhs) {
       assert_ro_binding(rhs)
       self$data$extra

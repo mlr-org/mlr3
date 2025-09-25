@@ -100,19 +100,3 @@ test_that("parallel predict works", {
   expect_equal(as.data.table(p1), as.data.table(p2))
 })
 
-test_that("Learner can pass extra data slots to Prediction", {
-  LearnerExtra = R6Class("LearnerExtra",
-    inherit = LearnerClassifDebug,
-    private = list(
-      .predict = function(task, ...) {
-        pred = super$.predict(task, ...)
-        pred$extra = "bar"
-        pred
-      }
-    )
-  )
-
-  learner = LearnerExtra$new()
-  learner$train(tsk("iris"))
-  expect_prediction(learner$predict(tsk("iris")))
-})

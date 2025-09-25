@@ -92,6 +92,9 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
     #'
     #' @param check (`logical(1)`)\cr
     #'   If `TRUE`, performs some argument checks and predict type conversions.
+    #'
+    #' @param extra (`list()`)\cr
+    #'   List of extra data to be stored in the prediction object.
     initialize = function(
       task = NULL,
       row_ids = task$row_ids,
