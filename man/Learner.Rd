@@ -282,6 +282,10 @@ A complete list of candidate feature types, grouped by task type, is stored in \
 Stores a set of properties/capabilities the learner has.
 A complete list of candidate properties, grouped by task type, is stored in \code{\link[=mlr_reflections]{mlr_reflections$learner_properties}}.}
 
+\item{\code{packages}}{(\code{character(1)})\cr
+Set of required packages.
+These packages are loaded, but not attached.}
+
 \item{\code{predict_sets}}{(\code{character()})\cr
 During \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}, a \link{Learner} can predict on multiple sets.
 Per default, a learner only predicts observations in the test set (\code{predict_sets == "test"}).
@@ -397,11 +401,6 @@ If set to \code{"all"} the complete feature set is returned.}
 Stores the possible predict types the learner is capable of.
 A complete list of candidate predict types, grouped by task type, is stored in \code{\link[=mlr_reflections]{mlr_reflections$learner_predict_types}}.
 This field is read-only.}
-
-\item{\code{packages}}{(\code{character()})\cr
-Set of required packages.
-A warning is signaled by the constructor if at least one of the packages is not installed,
-but loaded (not attached) later on-demand via \code{\link[=requireNamespace]{requireNamespace()}}.}
 }
 \if{html}{\out{</div>}}
 }

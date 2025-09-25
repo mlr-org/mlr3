@@ -189,6 +189,9 @@ Learner = R6Class("Learner",
     #' A complete list of candidate properties, grouped by task type, is stored in [`mlr_reflections$learner_properties`][mlr_reflections].
     properties = NULL,
 
+    #' @template field_packages
+    packages = NULL,
+
     #' @template field_predict_sets
     predict_sets = "test",
 
@@ -842,18 +845,6 @@ Learner = R6Class("Learner",
     predict_types = function(rhs) {
       assert_ro_binding(rhs)
       return(private$.predict_types)
-    },
-
-    #' @field packages (`character()`)\cr
-    #' Set of required packages.
-    #' A warning is signaled by the constructor if at least one of the packages is not installed,
-    #' but loaded (not attached) later on-demand via [requireNamespace()].
-    packages = function(rhs) {
-      if (missing(rhs)) {
-        return(private$.packages)
-      }
-      assert_character(rhs, any.missing = FALSE, min.chars = 1L)
-      private$.packages = rhs
     }
   ),
 
@@ -867,7 +858,6 @@ Learner = R6Class("Learner",
     .param_set = NULL,
     .hotstart_stack = NULL,
     .selected_features_impute = "error",
-    .packages = NULL,
 
     # retrieve weights from a task, if it has weights and if the user did not
     # deactivate weight usage through `self$use_weights`.
