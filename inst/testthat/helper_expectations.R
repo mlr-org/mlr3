@@ -392,14 +392,14 @@ expect_learner = function(lrn, task = NULL, check_man = TRUE) {
     checkmate::expect_class(lrn$base_learner(), "Learner")
   }
 
-  if ("validation" %in% lrn$properties && !test_class(lrn, "GraphLearner")) {
+  if ("validation" %in% lrn$properties && !checkmate::test_class(lrn, "GraphLearner")) {
     testthat::expect_true(exists("validate", lrn))
     testthat::expect_true(exists("internal_valid_scores", envir = lrn))
     checkmate::expect_function(mlr3misc::get_private(lrn)$.extract_internal_valid_scores)
   } else if (!is_special_learner(lrn)){
     checkmate::assert_false(exists("validate", lrn))
   }
-  if ("internal_tuning" %in% lrn$properties && !test_class(lrn, "GraphLearner")) {
+  if ("internal_tuning" %in% lrn$properties && !checkmate::test_class(lrn, "GraphLearner")) {
     any_internal_tuning = FALSE
     for (tags in lrn$param_set$tags) {
       if ("internal_tuning" %in% tags) {
