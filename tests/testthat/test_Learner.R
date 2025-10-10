@@ -1015,3 +1015,16 @@ test_that("config error does not trigger callback", {
   l$encapsulate("evaluate", lrn("classif.featureless"))
   expect_error(l$train(tsk("iris")), regexp = "You misconfigured the learner")
 })
+
+test_that("new_levels property is working", {
+  learner = lrn("classif.featureless")
+  task = tsk("penguins")
+  learner$train(task)
+  data = task$data()
+  set(data, i = 1L, j = "island", value = "NewIsland")
+
+  expect_error(learner$predict_newdata(data), "received task with different column info")
+
+  learner$properties = c(learner$properties, "new_levels")
+  expect_prediction(learner$predict_newdata(data))
+})

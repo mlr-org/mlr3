@@ -207,7 +207,12 @@ assert_predictable = function(task, learner) {
     predict_type = fget_keys(task$col_info, i = ids, j = "type", key = "id")
     predict_levels = fget_keys(task$col_info, i = ids, j = "levels", key = "id")
 
-    ok = all(train_type == predict_type) && all(pmap_lgl(list(x = train_levels, y = predict_levels), identical))
+
+    ok = all(train_type == predict_type)
+
+    if ("new_levels" %nin% learner$properties) {
+      ok = ok && all(pmap_lgl(list(x = train_levels, y = predict_levels), identical))
+    }
 
     if (!ok) {
       stopf("Learner '%s' received task with different column info (feature type or factor level ordering) during train and predict.", learner$id)
