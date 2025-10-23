@@ -102,7 +102,7 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
   result = encapsulate(learner$encapsulation["train"],
     .f = train_wrapper,
     .args = list(learner = learner, task = task),
-    .pkgs = learner$packages,
+    .pkgs = c(learner$packages, mlr_reflections$loaded_packages),
     .seed = NA_integer_,
     .timeout = learner$timeout["train"],
     .compute = getOption("mlr3.mirai_encapsulation", "mlr3_encapsulation")
