@@ -1020,3 +1020,10 @@ test_that("materialize_view works with duplicates", {
   task2$materialize_view()
   expect_equal(task$data(), task2$data())
 })
+
+test_that("weights_measure + stratum works during resampling (#1405)", {
+  task = iris_weights_measure
+  task$set_col_roles("Species", roles = c("target", "stratum"))
+  rr = resample(task, lrn("classif.featureless"), rsmp("cv", folds = 3))
+  expect_resample_result(rr)
+})
