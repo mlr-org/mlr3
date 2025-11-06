@@ -1022,8 +1022,11 @@ test_that("materialize_view works with duplicates", {
 })
 
 test_that("weights_measure + stratum works during resampling (#1405)", {
-  task = iris_weights_measure
+  data = cbind(datasets::iris, data.frame(w = rep(c(1, 10, 100), each = 50)))
+  # 150 rows works, but 151 rows fails
+  data = data[c(seq(150), 1), ]
+  task = TaskClassif$new("iris_weights_measure", as_data_backend(data, target = "Species"), target = "Species")
+  task$set_col_roles("w", "weights_measure")
   task$set_col_roles("Species", roles = c("target", "stratum"))
-  rr = resample(task, lrn("classif.featureless"), rsmp("cv", folds = 3))
-  expect_resample_result(rr)
+  expect_resample_result(resample(task, lrn("classif.featureless"), rsmp("cv", folds = 3)))
 })
