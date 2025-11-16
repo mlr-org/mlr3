@@ -32,7 +32,7 @@ test_that("evaluate / single step", {
   expect_message(expect_warning(disable_encapsulation(learner)$predict(task, row_ids = 101:150)))
   log = learner$log[stage == "predict"]
   expect_data_table(log)
-  expect_equal(nrow(log), 0)
+  expect_shape(log, nrow = 0L)
 
   p = enable_encapsulation(learner)$predict(task, row_ids = 101:150)
   log = learner$log[stage == "predict"]

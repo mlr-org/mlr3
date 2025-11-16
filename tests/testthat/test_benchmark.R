@@ -480,17 +480,17 @@ test_that("param_values in benchmark", {
   bmr = benchmark(design)
   expect_benchmark_result(bmr)
   expect_equal(bmr$n_resample_results, 1)
-  expect_equal(nrow(as.data.table(bmr)), 3)
+  expect_shape(as.data.table(bmr), nrow = 3L)
   learner = bmr$resample_result(1)$learner
   expect_equal(learner$param_set$values$x, 1)
-  expect_equal(nrow(as.data.table(bmr)), 3)
+  expect_shape(as.data.table(bmr), nrow = 3L)
 
   # multiple parameters set via manual design
   design = data.table(task = tasks, learner = learners, resampling = resamplings, param_values = list(list(list(x = 1), list(x = 0.5))))
   bmr = benchmark(design)
   expect_benchmark_result(bmr)
   expect_equal(bmr$n_resample_results, 2)
-  expect_equal(nrow(as.data.table(bmr)), 6)
+  expect_shape(as.data.table(bmr), nrow = 6L)
   learner = bmr$resample_result(1)$learner
   expect_equal(learner$param_set$values$x, 1)
   learner = bmr$resample_result(2)$learner
