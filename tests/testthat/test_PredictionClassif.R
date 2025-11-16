@@ -109,7 +109,7 @@ test_that("confusion", {
   expect_matrix(cm, nrows = 3, ncols = 3, any.missing = FALSE)
   expect_equal(colnames(p$confusion), task$class_names)
   expect_equal(rownames(p$confusion), task$class_names)
-  expect_equal(names(dimnames(cm)), c("response", "truth"))
+  expect_names(names(dimnames(cm)), identical.to =  c("response", "truth"))
 })
 
 test_that("c", {

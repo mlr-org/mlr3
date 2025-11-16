@@ -116,7 +116,7 @@ expect_backend = function(b) {
   checkmate::expect_list(b$distinct(rn, "_not_existing_"), len = 0L, names = "named")
   d = b$distinct(rn, c("_not_existing_", rev(cn), "_also_not_existing_"))
   checkmate::expect_list(d, names = "unique")
-  testthat::expect_equal(names(d), rev(cn))
+  checkmate::expect_names(names(d), identical.to = rev(cn))
 
   d = b$distinct(rn1, cn)
   checkmate::expect_list(d, len = length(cn), names = "unique", any.missing = FALSE)
@@ -159,7 +159,7 @@ expect_iris_backend = function(b, n_missing = 0L) {
 
   x = b$head(2)
   checkmate::expect_data_table(x, nrows  = 2L, ncols  = 6L, any.missing = FALSE)
-  checkmate::expect_set_equal(names(x), c(names(iris), b$primary_key))
+  checkmate::expect_names(names(x), permutation.of = c(names(iris), b$primary_key))
 
   x = b$distinct(b$rownames, "Species")
   checkmate::expect_list(x, "character", len = 1)
@@ -167,7 +167,7 @@ expect_iris_backend = function(b, n_missing = 0L) {
 
   x = b$data(rows = 2:10, cols = c(b$primary_key, "Species", "Sepal.Width"))
   checkmate::expect_data_table(x, nrows  = 9L, ncols  = 3L)
-  checkmate::expect_set_equal(names(x), c(b$primary_key, "Species", "Sepal.Width"))
+  checkmate::expect_names(names(x), identical.to = c(b$primary_key, "Species", "Sepal.Width"))
   checkmate::expect_set_equal(x[[b$primary_key]], 2:10)
 
   if (is.factor(x$Species)) {
@@ -693,11 +693,11 @@ expect_resultdata = function(rdata, consistency = TRUE) {
   data = rdata$data
 
   proto = mlr3:::star_init()
-  checkmate::expect_set_equal(names(data), names(proto))
+  checkmate::expect_names(names(data), identical.to = names(proto))
 
   for (nn in names(proto)) {
     checkmate::expect_data_table(data[[nn]], key = data.table::key(proto[[nn]]))
-    testthat::expect_equal(names(data[[nn]]), names(proto[[nn]]))
+    checkmate::expect_names(names(data[[nn]]), identical.to = names(proto[[nn]]))
   }
 
   checkmate::expect_character(data$uhashes$uhash, unique = TRUE)

@@ -49,7 +49,7 @@ test_that("learner timings", {
   learner = lrn("regr.rpart")
   t = learner$timings
   expect_equal(unname(t), as.double(c(NA, NA)))
-  expect_equal(names(t), c("train", "predict"))
+  expect_names(names(t), identical.to = c("train", "predict"))
 
 
   learner$train(tsk("mtcars"))
