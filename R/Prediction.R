@@ -106,7 +106,7 @@ Prediction = R6Class("Prediction",
     #' additional transformation after aggregation, in this example taking the square-root.
     obs_loss = function(measures = NULL) {
       measures = assert_measures(as_measures(measures, task_type = self$task_type))
-      get_obs_loss(as.data.table(self), measures)
+      get_obs_loss(list(self), measures)
     },
 
 
