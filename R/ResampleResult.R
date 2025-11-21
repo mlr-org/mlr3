@@ -205,7 +205,9 @@ ResampleResult = R6Class("ResampleResult",
     #' rr$obs_loss(msr("classif.acc"))
     obs_loss = function(measures = NULL, predict_sets = "test") {
       measures = assert_measures(as_measures(measures, task_type = self$task_type))
-      get_obs_loss(self$predictions(predict_sets), measures)
+      map_dtr(self$predictions(predict_sets), function(pred) {
+        get_obs_loss(list(pred), measures)
+      }, .idcol = "iteration")
     },
 
     #' @description
