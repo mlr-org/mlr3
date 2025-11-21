@@ -615,6 +615,18 @@ test_that("obs_loss", {
     rsmp("holdout")
   ))
   tbl = bmr$obs_loss(msrs(c("classif.acc", "classif.auc")))
+  expect_data_table(tbl, nrows = 50L)
+  expect_true(all(is.na(tbl$classif.auc)))
+  expect_integer(tbl$classif.acc)
+
+  bmr = benchmark(benchmark_grid(
+    tsk("iris"),
+    lrn("classif.rpart"),
+    rsmp("cv", folds = 3)
+  ))
+
+  tbl = bmr$obs_loss(msrs(c("classif.acc", "classif.auc")))
+  expect_data_table(tbl, nrows = 150L)
   expect_true(all(is.na(tbl$classif.auc)))
   expect_integer(tbl$classif.acc)
 })

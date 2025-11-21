@@ -64,9 +64,9 @@ assert_validate = function(x) {
 
 
 get_obs_loss = function(preds, measures) {
-  browser()
   map_dtr(preds, function(pred) {
-    map_dtr(measures, function(measure) {
+    tab = as.data.table(pred)
+    for (measure in measures) {
       fun = measure$obs_loss
       value = if (is.function(fun)) {
         fun_args = setdiff(formalArgs(fun), "...")
@@ -75,10 +75,9 @@ get_obs_loss = function(preds, measures) {
       } else {
         NA_real_
       }
-      tab = as.data.table(pred)
       set(tab, j = measure$id, value = value)
-      tab
-    }, .fill = TRUE)
+    }
+    tab[]
   })
 }
 
