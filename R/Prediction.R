@@ -103,7 +103,7 @@ Prediction = R6Class("Prediction",
     obs_loss = function(measures = NULL) {
       measures = assert_measures(as_measures(measures, task_type = self$task_type))
       tab = as.data.table(self)
-      obs_losses = walk(measures, function(m) set(tab, j = m$id, value = m$obs_loss(prediction = self)))
+      walk(measures, function(m) set(tab, j = m$id, value = m$obs_loss(prediction = self)))
       tab[]
     },
 
