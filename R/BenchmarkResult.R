@@ -224,14 +224,11 @@ BenchmarkResult = R6Class("BenchmarkResult",
     },
 
     #' @description
-    #' Calculates the observation-wise loss via the loss function set in the
-    #' [Measure]'s field `obs_loss`.
-    #' Returns a `data.table()` with the columns `row_ids`, `truth`, `response` and
-    #' one additional numeric column for each measure, named with the respective measure id.
-    #' If there is no observation-wise loss function for the measure, the column is filled with
-    #' `NA` values.
-    #' Note that some measures such as RMSE, do have an `$obs_loss`, but they require an
-    #' additional transformation after aggregation, in this example taking the square-root.
+    #' Calculates the observation-wise loss via the [Measure]'s `obs_loss` method.
+    #' Returns a `data.table()` with columns from the predictions (e.g., `row_ids`, `truth`, `response`, etc.), plus one numeric column for each measure, named with the respective measure id, and a `resample_result` column.
+    #' If there is no observation-wise loss function for the measure, the column is filled with `NA_real_` values.
+    #' Note that some measures such as RMSE, do have an `$obs_loss`, but they require an additional transformation after aggregation, in this example taking the square-root.
+    #'
     #' @param predict_sets (`character()`)\cr
     #'   The predict sets.
     #' @examples

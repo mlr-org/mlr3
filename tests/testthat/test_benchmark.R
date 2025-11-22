@@ -608,17 +608,6 @@ test_that("BenchmarkResult can be (un)marshaled", {
   expect_equal(bmr1$resample_result(1)$learners[[1]]$model, model)
 })
 
-test_that("obs_loss", {
-  bmr = benchmark(benchmark_grid(
-    tsk("iris"),
-    lrn("classif.rpart"),
-    rsmp("holdout")
-  ))
-  tbl = bmr$obs_loss(msrs(c("classif.acc", "classif.auc")))
-  expect_true(all(is.na(tbl$classif.auc)))
-  expect_integer(tbl$classif.acc)
-})
-
 test_that("predictions retrieved with as.data.table and predictions method are equal", {
   tab = as.data.table(bmr)
   predictions = unlist(map(bmr$resample_results$resample_result, function(rr) rr$predictions()), recursive = FALSE)
@@ -905,4 +894,38 @@ test_that("benchmark with tasks with weights", {
   design = benchmark_grid(tasks[2:3], learners, resamplings)
   bmr = benchmark(design)
 
+})
+
+
+test_that("obs_loss works", {
+  bmr = benchmark(benchmark_grid(
+    tsk("iris"),
+    lrn("classif.rpart"),
+    rsmp("cv", folds = 3)
+  ))
+
+  obs_loss = bmr$obs_loss(msr("classif.acc"))
+  expect_data_table(obs_loss, nrows = 150L)
+  expect_numeric(obs_loss$classif.acc, len = 150L)
+  expect_set_equal(obs_loss$iteration, seq(3L))
+  expect_set_equal(obs_loss$resample_result, 1L)
+
+  obs_loss = bmr$obs_loss(msrs(c("classif.acc", "classif.auc")))
+  expect_data_table(obs_loss, nrows = 150L)
+  expect_numeric(obs_loss$classif.acc, len = 150L)
+  expect_true(all(is.na(obs_loss$classif.auc)))
+  expect_set_equal(obs_loss$iteration, seq(3L))
+  expect_set_equal(obs_loss$resample_result, 1L)
+
+  bmr = benchmark(benchmark_grid(
+    tsk("iris"),
+    lrn("classif.rpart"),
+    c(rsmp("cv", folds = 3), rsmp("holdout"))
+  ))
+
+  obs_loss = bmr$obs_loss(msr("classif.acc"))
+  expect_data_table(obs_loss, nrows = 200L)
+  expect_numeric(obs_loss$classif.acc, len = 200L)
+  expect_set_equal(obs_loss$iteration, seq(3L))
+  expect_set_equal(obs_loss$resample_result, seq(2L))
 })
