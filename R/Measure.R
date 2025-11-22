@@ -350,7 +350,7 @@ Measure = R6Class("Measure",
     hash = function(rhs) {
       assert_ro_binding(rhs)
       calculate_hash(class(self), self$id, self$param_set$values, private$.score,
-        private$.average, private$.aggregator, self$obs_loss, self$trafo,
+        private$.average, private$.aggregator, private$.obs_loss, self$trafo,
         self$predict_sets, mget(private$.extra_hash, envir = self), private$.use_weights)
     },
 
