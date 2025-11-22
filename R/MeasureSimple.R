@@ -46,7 +46,7 @@ MeasureBinarySimple = R6Class("MeasureBinarySimple",
       )
     },
 
-    .extra_hash = c("fun", "na_value"),
+    .extra_hash = c("fun", "fun_obs_loss", "na_value"),
 
     .obs_loss = function(prediction, ...) {
       truth = prediction$truth
