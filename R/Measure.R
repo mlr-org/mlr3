@@ -325,6 +325,18 @@ Measure = R6Class("Measure",
     #' Returns a `numeric()` with one element for each row in the [Prediction].
     #' If there is no observation-wise loss function for the measure, `NA_real_` values are returned.
     #' Note that some measures such as RMSE, do have an `$obs_loss`, but they require an additional transformation after aggregation, in this example taking the square-root.
+    #'
+    #' @param prediction ([Prediction]).
+    #' @param task ([Task]).
+    #' @param learner ([Learner]).
+    #'
+    #' @return `numeric()` with one element for each row in the [Prediction].
+    #' @examples
+    #' task = tsk("penguins")
+    #' learner = lrn("classif.rpart")
+    #' learner$train(task)
+    #' prediction = learner$predict(task)
+    #' msr("classif.ce")$obs_loss(prediction)
     obs_loss = function(prediction, task = NULL, learner = NULL) {
       if ("obs_loss" %nin% self$properties) {
         return(rep(NA_real_, length(prediction$row_ids)))
