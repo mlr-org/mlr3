@@ -97,7 +97,7 @@ Prediction = R6Class("Prediction",
 
     #' @description
     #' Calculates the observation-wise loss via the [Measure]'s `obs_loss` method.
-    #' Returns a `data.table()` with one numeric column for each measure, named with the respective measure id.
+    #' Returns a `data.table()` with the columns of the matching [Prediction] object plus one additional numeric column for each measure, named with the respective measure id.
     #' If there is no observation-wise loss function for the measure, the column is filled with `NA_real_` values.
     #' Note that some measures such as RMSE, do have an `$obs_loss`, but they require an additional transformation after aggregation, in this example taking the square-root.
     obs_loss = function(measures = NULL) {
