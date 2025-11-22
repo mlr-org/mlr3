@@ -58,7 +58,7 @@ check_prediction_data.PredictionDataClassif = function(pdata, train_task, ...) {
 
   if (!is.null(pdata$extra)) {
     assert_list(pdata$extra, names = "unique")
-    len = map_int(pdata$extra, length)
+    len = lengths(pdata$extra)
     if (any(len != n)) {
       error_learner_predict("Extra data must have the same length as the number of predictions")
     }
