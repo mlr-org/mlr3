@@ -442,18 +442,6 @@ test_that("callr during prediction triggers marshaling", {
   expect_equal(l8$model$marshal_count, 1L)
 })
 
-test_that("obs_loss", {
-  task = tsk("iris")
-  learner = lrn("classif.featureless")
-  resampling = rsmp("cv", folds = 3)
-  rr = resample(task, learner, resampling)
-
-  tbl = rr$obs_loss()
-  expect_data_table(tbl, nrows = task$nrow)
-  expect_integer(tbl$classif.ce)
-  expect_set_equal(tbl$iteration, seq(3))
-})
-
 test_that("multiple named measures", {
   rr = resample(tsk("iris"), lrn("classif.featureless"), rsmp("holdout"))
   res = rr$aggregate(c(acc = msr("classif.acc"), ce = msr("classif.ce")))
@@ -567,4 +555,22 @@ test_that("hashes work", {
   rr = resample(task, learner, resampling)
   task_hashes = map(rr$learners, function(learner) learner$state$task_hash)
   expect_length(unique(task_hashes), 3)
+})
+
+test_that("obs_loss works", {
+  task = tsk("iris")
+  learner = lrn("classif.rpart", predict_type = "prob")
+  resampling = rsmp("cv", folds = 3)
+  rr = resample(task, learner, resampling)
+
+  obs_loss = rr$obs_loss(msr("classif.logloss"))
+  expect_data_table(obs_loss, nrows = task$nrow)
+  expect_numeric(obs_loss$classif.logloss, len = task$nrow, any.missing = FALSE)
+  expect_set_equal(obs_loss$iteration, seq(3))
+
+  obs_loss = rr$obs_loss(msrs(c("classif.acc", "classif.logloss", "classif.auc")))
+  expect_data_table(obs_loss, nrows = task$nrow)
+  expect_numeric(obs_loss$classif.acc, len = task$nrow, any.missing = FALSE)
+  expect_numeric(obs_loss$classif.logloss, len = task$nrow, any.missing = FALSE)
+  expect_true(all(is.na(obs_loss$classif.auc)))
 })

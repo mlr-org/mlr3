@@ -62,25 +62,6 @@ assert_validate = function(x) {
   assert_choice(x, c("predefined", "test"), null.ok = TRUE)
 }
 
-
-get_obs_loss = function(preds, measures) {
-  map_dtr(preds, function(pred) {
-    tab = as.data.table(pred)
-    for (measure in measures) {
-      fun = measure$obs_loss
-      value = if (is.function(fun)) {
-        fun_args = setdiff(formalArgs(fun), "...")
-        args = pred$data[fun_args]
-        invoke(fun, .args = args)
-      } else {
-        NA_real_
-      }
-      set(tab, j = measure$id, value = value)
-    }
-    tab[]
-  })
-}
-
 # Generalization of quantile(type = 7) for weighted data.
 
 quantile_weighted = function(x, probs, na.rm = FALSE, weights = NULL, digits = 7L, continuous = TRUE) {

@@ -226,3 +226,24 @@ test_that("extra data is stored", {
   expect_error(learner$predict(tsk("iris")), "Extra data must have the same length as the number of predictions")
 })
 
+test_that("obs_loss works", {
+  learner = lrn("classif.rpart", predict_type = "prob")
+  task = tsk("pima")
+  learner$train(task)
+  prediction = learner$predict(task)
+  # binary simply measure
+  obs_loss = prediction$obs_loss(msr("classif.bbrier"))
+  expect_data_table(obs_loss, nrows = task$nrow, any.missing = FALSE)
+  expect_numeric(obs_loss$classif.bbrier, len = task$nrow, any.missing = FALSE)
+
+  # classif simple measure
+  obs_loss = prediction$obs_loss(msr("classif.logloss"))
+  expect_data_table(obs_loss, nrows = task$nrow, any.missing = FALSE)
+  expect_numeric(obs_loss$classif.logloss, len = task$nrow, any.missing = FALSE)
+
+  obs_loss = prediction$obs_loss(msrs(c("classif.acc", "classif.logloss", "classif.auc")))
+  expect_data_table(obs_loss, nrows = task$nrow)
+  expect_numeric(obs_loss$classif.acc, len = task$nrow, any.missing = FALSE)
+  expect_numeric(obs_loss$classif.logloss, len = task$nrow, any.missing = FALSE)
+  expect_true(all(is.na(obs_loss$classif.auc)))
+})

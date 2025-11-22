@@ -190,14 +190,10 @@ ResampleResult = R6Class("ResampleResult",
     },
 
     #' @description
-    #' Calculates the observation-wise loss via the loss function set in the
-    #' [Measure]'s field `obs_loss`.
-    #' Returns a `data.table()` with the columns of the matching [Prediction] object plus
-    #' one additional numeric column for each measure, named with the respective measure id.
-    #' If there is no observation-wise loss function for the measure, the column is filled with
-    #' `NA` values.
-    #' Note that some measures such as RMSE, do have an `$obs_loss`, but they require an
-    #' additional transformation after aggregation, in this example taking the square-root.
+    #' Calculates the observation-wise loss via the [Measure]'s `obs_loss` method.
+    #' Returns a `data.table()` with one numeric column for each measure, named with the respective measure id.
+    #' If there is no observation-wise loss function for the measure, the column is filled with `NA_real_` values.
+    #' Note that some measures such as RMSE, do have an `$obs_loss`, but they require an additional transformation after aggregation, in this example taking the square-root.
     #'
     #' @param predict_sets (`character()`)\cr
     #'   The predict sets.
@@ -206,7 +202,7 @@ ResampleResult = R6Class("ResampleResult",
     obs_loss = function(measures = NULL, predict_sets = "test") {
       measures = assert_measures(as_measures(measures, task_type = self$task_type))
       map_dtr(self$predictions(predict_sets), function(pred) {
-        get_obs_loss(list(pred), measures)
+        pred$obs_loss(measures)
       }, .idcol = "iteration")
     },
 
