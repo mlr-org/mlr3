@@ -101,6 +101,7 @@ test_that("obs_loss", {
   p = PredictionRegr$new(row_ids = task$row_ids, truth = task$truth(), response = task$truth())
   m = msr("regr.mse")
   loss = p$obs_loss()
+  expect_data_table(loss, nrows = task$nrow)
   expect_double(loss$regr.mse, lower = 0, any.missing = FALSE)
 })
 

@@ -449,7 +449,9 @@ test_that("obs_loss", {
   rr = resample(task, learner, resampling)
 
   tbl = rr$obs_loss()
+  expect_data_table(tbl, nrows = task$nrow)
   expect_integer(tbl$classif.ce)
+  expect_set_equal(tbl$iteration, seq(3))
 })
 
 test_that("multiple named measures", {
