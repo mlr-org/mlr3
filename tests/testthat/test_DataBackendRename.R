@@ -6,8 +6,8 @@ test_that("DataBackendRename", {
   expect_backend(b)
 
   expect_set_equal(b$colnames, c(new, "..row_id"))
-  expect_set_equal(names(b$data(b$rownames, b$colnames)), c(new, "..row_id"))
-  expect_set_equal(names(b$head()), c(new, "..row_id"))
+  expect_names(names(b$data(b$rownames, b$colnames)), identical.to =  c(new, "..row_id"))
+  expect_names(names(b$head()), identical.to = c(new, "..row_id"))
 
   expect_data_table(b$data(rows = b$rownames, cols = old), ncols = 0)
   expect_data_table(b$data(rows = b$rownames, cols = new), ncols = 5)
@@ -26,8 +26,8 @@ test_that("DataBackendRename / partial rename", {
   expected = c(map_values(names(iris), old, new), "..row_id")
   expect_set_equal(b$colnames, expected)
 
-  expect_set_equal(names(b$data(b$rownames, b$colnames)), expected)
-  expect_set_equal(names(b$head()), expected)
+  expect_names(names(b$data(b$rownames, b$colnames)), identical.to = expected)
+  expect_names(names(b$head()), identical.to = expected)
 
   expect_data_table(b$data(rows = b$rownames, cols = expected), ncols = 6)
 

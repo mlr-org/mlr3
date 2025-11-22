@@ -75,7 +75,7 @@ Suggests:
     remotes,
     RhpcBLASctl,
     rpart,
-    testthat (>= 3.2.0)
+    testthat (>= 3.3.0)
 Remotes:
     mlr-org/mlr3measures
 Encoding: UTF-8

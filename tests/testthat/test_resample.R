@@ -31,10 +31,10 @@ test_that("resample with no or multiple measures", {
   for (measures in list(mlr_measures$mget(c("classif.ce", "classif.acc")), list())) {
     tab = rr$score(measures, ids = FALSE, predictions = TRUE)
     expect_data_table(tab, ncols = length(mlr_reflections$rr_names) + length(learner$predict_sets) + length(measures), nrows = 3L)
-    expect_set_equal(names(tab), c(mlr_reflections$rr_names, ids(measures), paste0("prediction_", learner$predict_sets)))
+    expect_names(names(tab), permutation.of = c(mlr_reflections$rr_names, ids(measures), paste0("prediction_", learner$predict_sets)))
     perf = rr$aggregate(measures)
     expect_numeric(perf, any.missing = FALSE, len = length(measures), names = "unique")
-    expect_equal(names(perf), unname(ids(measures)))
+    expect_names(names(perf), identical.to = unname(ids(measures)))
   }
 })
 
@@ -42,7 +42,7 @@ test_that("as_benchmark_result.ResampleResult", {
   measures = list(msr("classif.ce"), msr("classif.acc"))
   bmr = as_benchmark_result(rr)
   expect_benchmark_result(bmr)
-  expect_equal(nrow(get_private(bmr)$.data), nrow(get_private(rr)$.data))
+  expect_identical(nrow(get_private(bmr)$.data), nrow(get_private(rr)$.data))
   expect_set_equal(bmr$uhashes, rr$uhash)
   aggr = bmr$aggregate()
   expect_data_table(aggr, nrows = 1)
@@ -61,9 +61,9 @@ test_that("inputs are cloned", {
 })
 
 test_that("memory footprint", {
-  expect_equal(nrow(get_private(rr)$.data$data$learners), 1L)
-  expect_equal(nrow(get_private(rr)$.data$data$tasks), 1L)
-  expect_equal(nrow(get_private(rr)$.data$data$resamplings), 1L)
+  expect_shape(get_private(rr)$.data$data$learners, nrow = 1L)
+  expect_shape(get_private(rr)$.data$data$tasks, nrow = 1L)
+  expect_shape(get_private(rr)$.data$data$resamplings, nrow = 1L)
 })
 
 test_that("predict_type is checked", {
