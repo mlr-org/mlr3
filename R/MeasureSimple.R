@@ -101,7 +101,7 @@ MeasureClassifSimple = R6Class("MeasureClassifSimple",
         na_value = self$na_value, sample_weights = weights)
     },
 
-    .extra_hash = c("fun", "na_value"),
+    .extra_hash = c("fun", "fun_obs_loss", "na_value"),
 
     .obs_loss = function(prediction, ...) {
       invoke(self$fun_obs_loss,
@@ -162,7 +162,7 @@ MeasureRegrSimple = R6Class("MeasureRegrSimple",
         na_value = self$na_value, sample_weights = weights)
     },
 
-    .extra_hash = c("fun", "na_value"),
+    .extra_hash = c("fun", "fun_obs_loss", "na_value"),
 
     .obs_loss = function(prediction, ...) {
       invoke(self$fun_obs_loss,
