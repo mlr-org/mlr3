@@ -231,7 +231,7 @@ test_that("obs_loss works", {
   task = tsk("pima")
   learner$train(task)
   prediction = learner$predict(task)
-  # binary simply measure
+  # binary simple measure
   obs_loss = prediction$obs_loss(msr("classif.bbrier"))
   expect_data_table(obs_loss, nrows = task$nrow, any.missing = FALSE)
   expect_numeric(obs_loss$classif.bbrier, len = task$nrow, any.missing = FALSE)
