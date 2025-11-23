@@ -260,14 +260,10 @@ Measure(s) to calculate.</p></dd>
 
 </div><p></p><hr><a id="method-Prediction-obs_loss"></a><div class="section">
 <h3 id="method-obs-loss-">Method <code>obs_loss()</code><a class="anchor" aria-label="anchor" href="#method-obs-loss-"></a></h3>
-<p>Calculates the observation-wise loss via the loss function set in the
-<a href="Measure.html">Measure</a>'s field <code>obs_loss</code>.
-Returns a <code><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table()</a></code> with the columns <code>row_ids</code>, <code>truth</code>, <code>response</code> and
-one additional numeric column for each measure, named with the respective measure id.
-If there is no observation-wise loss function for the measure, the column is filled with
-<code>NA</code> values.
-Note that some measures such as RMSE, do have an <code>$obs_loss</code>, but they require an
-additional transformation after aggregation, in this example taking the square-root.</p><div class="section">
+<p>Calculates the observation-wise loss via the <a href="Measure.html">Measure</a>'s <code>obs_loss</code> method.
+Returns a <code><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table()</a></code> with the columns of the matching Prediction object plus one additional numeric column for each measure, named with the respective measure id.
+If there is no observation-wise loss function for the measure, the column is filled with <code>NA_real_</code> values.
+Note that some measures such as RMSE, do have an <code>$obs_loss</code>, but they require an additional transformation after aggregation, in this example taking the square-root.</p><div class="section">
 <h4 id="usage-4">Usage<a class="anchor" aria-label="anchor" href="#usage-4"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Prediction</span><span class="op">$</span><span class="fu">obs_loss</span><span class="op">(</span>measures <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>

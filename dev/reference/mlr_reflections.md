@@ -137,7 +137,7 @@ mlr_reflections
 
 ``` r
 ls.str(mlr_reflections)
-#> auto_converters : <environment: 0x5587e2949ab8> 
+#> auto_converters : <environment: 0x5556b0eb7000> 
 #> default_measures : List of 3
 #>  $ classif     : chr "classif.ce"
 #>  $ regr        : chr "regr.mse"
@@ -152,8 +152,8 @@ ls.str(mlr_reflections)
 #>  $ regr   : chr [1:12] "featureless" "missings" "weights" "importance" ...
 #> loaded_packages :  chr "mlr3"
 #> measure_properties : List of 2
-#>  $ classif: chr [1:8] "na_score" "requires_task" "requires_learner" "requires_model" ...
-#>  $ regr   : chr [1:8] "na_score" "requires_task" "requires_learner" "requires_model" ...
+#>  $ classif: chr [1:9] "na_score" "requires_task" "requires_learner" "requires_model" ...
+#>  $ regr   : chr [1:9] "na_score" "requires_task" "requires_learner" "requires_model" ...
 #> package_version : Classes 'package_version', 'numeric_version'  hidden list of 1
 #>  $ : int [1:4] 1 2 0 9000
 #> predict_sets :  chr [1:3] "train" "test" "internal_valid"

@@ -356,18 +356,16 @@ performance is added for each
 
 ### Method `obs_loss()`
 
-Calculates the observation-wise loss via the loss function set in the
-[Measure](https://mlr3.mlr-org.com/dev/reference/Measure.md)'s field
-`obs_loss`. Returns a
+Calculates the observation-wise loss via the
+[Measure](https://mlr3.mlr-org.com/dev/reference/Measure.md)'s
+`obs_loss` method. Returns a
 [`data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html)
-with the columns of the matching
-[Prediction](https://mlr3.mlr-org.com/dev/reference/Prediction.md)
-object plus one additional numeric column for each measure, named with
-the respective measure id. If there is no observation-wise loss function
-for the measure, the column is filled with `NA` values. Note that some
-measures such as RMSE, do have an `$obs_loss`, but they require an
-additional transformation after aggregation, in this example taking the
-square-root.
+with an `iteration` column plus one numeric column for each measure,
+named with the respective measure id. If there is no observation-wise
+loss function for the measure, the column is filled with `NA_real_`
+values. Note that some measures such as RMSE, do have an `$obs_loss`,
+but they require an additional transformation after aggregation, in this
+example taking the square-root.
 
 #### Usage
 
@@ -791,9 +789,9 @@ rr$set_threshold(0.6)
 #> Key: <uhash, iteration>
 #>                                   uhash iteration      learner_state prediction
 #>                                  <char>     <int>             <list>     <list>
-#> 1: 999bc2b1-fb8a-4b67-b06a-a8750433240a         1 <learner_state[8]>  <list[1]>
-#> 2: 999bc2b1-fb8a-4b67-b06a-a8750433240a         2 <learner_state[8]>  <list[1]>
-#> 3: 999bc2b1-fb8a-4b67-b06a-a8750433240a         3 <learner_state[8]>  <list[1]>
+#> 1: 08e58500-3d7a-423b-a594-912548e240f5         1 <learner_state[8]>  <list[1]>
+#> 2: 08e58500-3d7a-423b-a594-912548e240f5         2 <learner_state[8]>  <list[1]>
+#> 3: 08e58500-3d7a-423b-a594-912548e240f5         3 <learner_state[8]>  <list[1]>
 #>        learner_hash        task_hash    learner_phash  resampling_hash
 #>              <char>           <char>           <char>           <char>
 #> 1: 667ca7804cbe810f f9791e97f9813150 a2121f0bf1b9c2f6 b3a5e794ffec4cc0

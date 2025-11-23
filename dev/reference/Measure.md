@@ -157,11 +157,6 @@ Other Measure:
   ([paradox::ParamSet](https://paradox.mlr-org.com/reference/ParamSet.html))  
   Set of hyperparameters.
 
-- `obs_loss`:
-
-  (`function()` \| `NULL`) Function to calculate the observation-wise
-  loss.
-
 - `trafo`:
 
   ([`list()`](https://rdrr.io/r/base/list.html) \| `NULL`) `NULL` or a
@@ -334,6 +329,8 @@ Other Measure:
 
 - [`Measure$aggregate()`](#method-Measure-aggregate)
 
+- [`Measure$obs_loss()`](#method-Measure-obs_loss)
+
 - [`Measure$clone()`](#method-Measure-clone)
 
 ------------------------------------------------------------------------
@@ -358,7 +355,6 @@ or [MeasureRegr](https://mlr3.mlr-org.com/dev/reference/MeasureRegr.md).
       minimize = NA,
       average = "macro",
       aggregator = NULL,
-      obs_loss = NULL,
       properties = character(),
       predict_type = "response",
       predict_sets = "test",
@@ -448,13 +444,6 @@ or [MeasureRegr](https://mlr3.mlr-org.com/dev/reference/MeasureRegr.md).
   - `"custom"`: A
     [ResampleResult](https://mlr3.mlr-org.com/dev/reference/ResampleResult.md)
     is passed to the aggregate function.
-
-- `obs_loss`:
-
-  (`function` or `NULL`)  
-  The observation-wise loss function, e.g.
-  [zero-one](https://mlr3measures.mlr-org.com/reference/zero_one.html)
-  for classification error.
 
 - `properties`:
 
@@ -670,6 +659,51 @@ using the `aggregator` function of the measure.
 
 ------------------------------------------------------------------------
 
+### Method `obs_loss()`
+
+Calculates the observation-wise loss. Returns a
+[`numeric()`](https://rdrr.io/r/base/numeric.html) with one element for
+each row in the
+[Prediction](https://mlr3.mlr-org.com/dev/reference/Prediction.md). If
+there is no observation-wise loss function for the measure, `NA_real_`
+values are returned. Note that some measures such as RMSE, do have an
+`$obs_loss`, but they require an additional transformation after
+aggregation, in this example taking the square-root.
+
+#### Usage
+
+    Measure$obs_loss(prediction, task = NULL, learner = NULL)
+
+#### Arguments
+
+- `prediction`:
+
+  ([Prediction](https://mlr3.mlr-org.com/dev/reference/Prediction.md)).
+
+- `task`:
+
+  ([Task](https://mlr3.mlr-org.com/dev/reference/Task.md)).
+
+- `learner`:
+
+  ([Learner](https://mlr3.mlr-org.com/dev/reference/Learner.md)).
+
+#### Returns
+
+[`numeric()`](https://rdrr.io/r/base/numeric.html) with one element for
+each row in the
+[Prediction](https://mlr3.mlr-org.com/dev/reference/Prediction.md).
+
+#### Examples
+
+    task = tsk("penguins")
+    learner = lrn("classif.rpart")
+    learner$train(task)
+    prediction = learner$predict(task)
+    msr("classif.ce")$obs_loss(prediction)
+
+------------------------------------------------------------------------
+
 ### Method `clone()`
 
 The objects of this class are cloneable with this method.
@@ -707,4 +741,24 @@ rr = resample(task, learner, rsmp("holdout"))
 msr("classif.ce")$aggregate(rr)
 #> classif.ce 
 #> 0.03478261 
+
+## ------------------------------------------------
+## Method `Measure$obs_loss`
+## ------------------------------------------------
+
+task = tsk("penguins")
+learner = lrn("classif.rpart")
+learner$train(task)
+prediction = learner$predict(task)
+msr("classif.ce")$obs_loss(prediction)
+#>   [1] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+#>  [38] 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1
+#>  [75] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+#> [112] 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+#> [149] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+#> [186] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+#> [223] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0
+#> [260] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+#> [297] 1 0 1 0 0 0 0 0 0 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0
+#> [334] 0 0 0 0 0 0 0 0 0 0 0
 ```

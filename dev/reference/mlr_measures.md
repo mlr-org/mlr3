@@ -212,11 +212,11 @@ as.data.table(mlr_measures)
 #>                                                                   <list>
 #>  1:      na_score,requires_learner,requires_model,requires_no_prediction
 #>  2:      na_score,requires_learner,requires_model,requires_no_prediction
-#>  3:                                                              weights
+#>  3:                                                     weights,obs_loss
 #>  4:                                                                     
 #>  5:                                                              weights
-#>  6:                                                              weights
-#>  7:                                                              weights
+#>  6:                                                     weights,obs_loss
+#>  7:                                                     weights,obs_loss
 #>  8:                                                              weights
 #>  9:                                                                     
 #> 10:                                                                     
@@ -226,7 +226,7 @@ as.data.table(mlr_measures)
 #> 14:                                                                     
 #> 15:                                                                     
 #> 16:                                                                     
-#> 17:                                                              weights
+#> 17:                                                     weights,obs_loss
 #> 18:                                                                     
 #> 19:                                                                     
 #> 20:                                                                     
@@ -250,23 +250,23 @@ as.data.table(mlr_measures)
 #> 38:                     na_score,requires_learner,requires_no_prediction
 #> 39:                                                              weights
 #> 40:                                                                     
-#> 41:                                                              weights
-#> 42:                                                              weights
-#> 43:                                                                     
-#> 44:                                                                     
-#> 45:                                                                     
-#> 46:                                                              weights
-#> 47:                                                              weights
+#> 41:                                                     weights,obs_loss
+#> 42:                                                     weights,obs_loss
+#> 43:                                                             obs_loss
+#> 44:                                                             obs_loss
+#> 45:                                                             obs_loss
+#> 46:                                                     weights,obs_loss
+#> 47:                                                     weights,obs_loss
 #> 48:                                                              weights
 #> 49:                                                                     
-#> 50:                                                              weights
+#> 50:                                                     weights,obs_loss
 #> 51:                                                              weights
 #> 52:                                                               [NULL]
 #> 53:                                                              weights
-#> 54:                                                              weights
+#> 54:                                                     weights,obs_loss
 #> 55:                                                                     
 #> 56:                                                                     
-#> 57:                                                              weights
+#> 57:                                                     weights,obs_loss
 #> 58: requires_task,requires_learner,requires_model,requires_no_prediction
 #> 59:                                requires_model,requires_no_prediction
 #> 60:                                requires_model,requires_no_prediction
@@ -348,7 +348,7 @@ mlr_measures$get("classif.ce")
 #> • Minimize: TRUE
 #> • Average: macro
 #> • Parameters: list()
-#> • Properties: weights
+#> • Properties: weights and obs_loss
 #> • Predict type: response
 #> • Predict sets: test
 #> • Aggregator: mean()
@@ -360,7 +360,7 @@ msr("regr.mse")
 #> • Minimize: TRUE
 #> • Average: macro
 #> • Parameters: list()
-#> • Properties: weights
+#> • Properties: weights and obs_loss
 #> • Predict type: response
 #> • Predict sets: test
 #> • Aggregator: mean()

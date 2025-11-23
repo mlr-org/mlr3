@@ -43,7 +43,7 @@ default_measures("classif")
 #> • Minimize: TRUE
 #> • Average: macro
 #> • Parameters: list()
-#> • Properties: weights
+#> • Properties: weights and obs_loss
 #> • Predict type: response
 #> • Predict sets: test
 #> • Aggregator: mean()
@@ -57,7 +57,7 @@ default_measures("regr")
 #> • Minimize: TRUE
 #> • Average: macro
 #> • Parameters: list()
-#> • Properties: weights
+#> • Properties: weights and obs_loss
 #> • Predict type: response
 #> • Predict sets: test
 #> • Aggregator: mean()

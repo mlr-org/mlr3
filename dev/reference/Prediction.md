@@ -224,16 +224,17 @@ Prediction.
 
 ### Method `obs_loss()`
 
-Calculates the observation-wise loss via the loss function set in the
-[Measure](https://mlr3.mlr-org.com/dev/reference/Measure.md)'s field
-`obs_loss`. Returns a
+Calculates the observation-wise loss via the
+[Measure](https://mlr3.mlr-org.com/dev/reference/Measure.md)'s
+`obs_loss` method. Returns a
 [`data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html)
-with the columns `row_ids`, `truth`, `response` and one additional
+with the columns of the matching Prediction object plus one additional
 numeric column for each measure, named with the respective measure id.
 If there is no observation-wise loss function for the measure, the
-column is filled with `NA` values. Note that some measures such as RMSE,
-do have an `$obs_loss`, but they require an additional transformation
-after aggregation, in this example taking the square-root.
+column is filled with `NA_real_` values. Note that some measures such as
+RMSE, do have an `$obs_loss`, but they require an additional
+transformation after aggregation, in this example taking the
+square-root.
 
 #### Usage
 

@@ -348,14 +348,10 @@ if present.</p></dd>
 
 </div><p></p><hr><a id="method-ResampleResult-obs_loss"></a><div class="section">
 <h3 id="method-obs-loss-">Method <code>obs_loss()</code><a class="anchor" aria-label="anchor" href="#method-obs-loss-"></a></h3>
-<p>Calculates the observation-wise loss via the loss function set in the
-<a href="Measure.html">Measure</a>'s field <code>obs_loss</code>.
-Returns a <code><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table()</a></code> with the columns of the matching <a href="Prediction.html">Prediction</a> object plus
-one additional numeric column for each measure, named with the respective measure id.
-If there is no observation-wise loss function for the measure, the column is filled with
-<code>NA</code> values.
-Note that some measures such as RMSE, do have an <code>$obs_loss</code>, but they require an
-additional transformation after aggregation, in this example taking the square-root.</p><div class="section">
+<p>Calculates the observation-wise loss via the <a href="Measure.html">Measure</a>'s <code>obs_loss</code> method.
+Returns a <code><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table()</a></code> with an <code>iteration</code> column plus one numeric column for each measure, named with the respective measure id.
+If there is no observation-wise loss function for the measure, the column is filled with <code>NA_real_</code> values.
+Note that some measures such as RMSE, do have an <code>$obs_loss</code>, but they require an additional transformation after aggregation, in this example taking the square-root.</p><div class="section">
 <h4 id="usage-7">Usage<a class="anchor" aria-label="anchor" href="#usage-7"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">ResampleResult</span><span class="op">$</span><span class="fu">obs_loss</span><span class="op">(</span>measures <span class="op">=</span> <span class="cn">NULL</span>, predict_sets <span class="op">=</span> <span class="st">"test"</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
@@ -774,9 +770,9 @@ Must be one of <code>"random"</code>, <code>"first"</code> or <code>"last"</code
 <span class="r-out co"><span class="r-pr">#&gt;</span> Key: &lt;uhash, iteration&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                   uhash iteration      learner_state prediction</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                  &lt;char&gt;     &lt;int&gt;             &lt;list&gt;     &lt;list&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 999bc2b1-fb8a-4b67-b06a-a8750433240a         1 &lt;learner_state[8]&gt;  &lt;list[1]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 999bc2b1-fb8a-4b67-b06a-a8750433240a         2 &lt;learner_state[8]&gt;  &lt;list[1]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 999bc2b1-fb8a-4b67-b06a-a8750433240a         3 &lt;learner_state[8]&gt;  &lt;list[1]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 08e58500-3d7a-423b-a594-912548e240f5         1 &lt;learner_state[8]&gt;  &lt;list[1]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 08e58500-3d7a-423b-a594-912548e240f5         2 &lt;learner_state[8]&gt;  &lt;list[1]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 08e58500-3d7a-423b-a594-912548e240f5         3 &lt;learner_state[8]&gt;  &lt;list[1]&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        learner_hash        task_hash    learner_phash  resampling_hash</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              &lt;char&gt;           &lt;char&gt;           &lt;char&gt;           &lt;char&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: 667ca7804cbe810f f9791e97f9813150 a2121f0bf1b9c2f6 b3a5e794ffec4cc0</span>
