@@ -150,7 +150,7 @@ Measure = R6Class("Measure",
       label = NA_character_,
       man = NA_character_,
       trafo = NULL
-      ) {
+    ) {
       self$id = assert_string(id, min.chars = 1L)
       self$label = assert_string(label, na.ok = TRUE)
       self$task_type = task_type
@@ -324,7 +324,6 @@ Measure = R6Class("Measure",
     #' Calculates the observation-wise loss.
     #' Returns a `numeric()` with one element for each row in the [Prediction].
     #' If there is no observation-wise loss function for the measure, `NA_real_` values are returned.
-    #' Note that some measures such as RMSE, do have an `$obs_loss`, but they require an additional transformation after aggregation, in this example taking the square-root.
     #'
     #' @param prediction ([Prediction]).
     #' @param task ([Task]).
@@ -338,6 +337,11 @@ Measure = R6Class("Measure",
     #' prediction = learner$predict(task)
     #' msr("classif.ce")$obs_loss(prediction)
     obs_loss = function(prediction, task = NULL, learner = NULL) {
+
+      if (!is_scalar_na(self$task_type) && self$task_type != prediction$task_type) {
+        stopf("Measure '%s' incompatible with task type '%s'", self$id, prediction$task_type)
+      }
+
       if ("obs_loss" %nin% self$properties) {
         return(rep(NA_real_, length(prediction$row_ids)))
       }

@@ -358,5 +358,15 @@ test_that("obs_loss works", {
   pred = learner$predict(task)
   obs_loss = measure$obs_loss(pred)
   expect_numeric(obs_loss, len = task$nrow, any.missing = FALSE)
+
+  #
+  learner = lrn("regr.rpart")
+  task = tsk("mtcars")
+  learner$train(task)
+  measure = msr("classif.logloss")
+  pred = learner$predict(task)
+  obs_loss = measure$obs_loss(pred)
+  measure$score(pred)
+  expect_numeric(obs_loss, len = task$nrow, any.missing = FALSE)
 })
 
