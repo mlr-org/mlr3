@@ -331,3 +331,42 @@ test_that("measure and prediction type is checked", {
   expect_warning(measure$score(pred), "is missing predict type")
 })
 
+test_that("obs_loss works", {
+  MeasureTest = R6Class("MeasureTest",
+    inherit = Measure,
+    public = list(
+      initialize = function() {
+        super$initialize("test", task_type = "classif", param_set = ps(), properties = "obs_loss")
+      }
+    ),
+    private = list(
+      .score = function(prediction, task, weights = NULL, ...) {
+        2
+      },
+
+      .obs_loss = function(prediction, task, ...) {
+        x = rnorm(length(prediction$row_ids))
+        x - mean(x) + 2
+      }
+    )
+  )
+
+  measure = MeasureTest$new()
+  learner = lrn("classif.rpart", predict_type = "prob")
+  task = tsk("pima")
+  learner$train(task)
+  pred = learner$predict(task)
+  obs_loss = measure$obs_loss(pred)
+  expect_numeric(obs_loss, len = task$nrow, any.missing = FALSE)
+
+  #
+  learner = lrn("regr.rpart")
+  task = tsk("mtcars")
+  learner$train(task)
+  measure = msr("classif.logloss")
+  pred = learner$predict(task)
+  obs_loss = measure$obs_loss(pred)
+  measure$score(pred)
+  expect_numeric(obs_loss, len = task$nrow, any.missing = FALSE)
+})
+

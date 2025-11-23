@@ -3,17 +3,24 @@ MeasureBinarySimple = R6Class("MeasureBinarySimple",
   inherit = MeasureClassif,
   public = list(
     fun = NULL,
+    fun_obs_loss = NULL,
     na_value = NaN,
     initialize = function(name, param_set = ps()) {
       info = mlr3measures::measures[[name]]
       weights = info$sample_weights
+      properties = if (weights) "weights" else character()
+
+      if (!is.na(info$obs_loss)) {
+        properties = c(properties, "obs_loss")
+        self$fun_obs_loss = get(info$obs_loss, envir = asNamespace("mlr3measures"), mode = "function")
+      }
 
       super$initialize(
         id = paste0("classif.", name),
         param_set = param_set,
         range = c(info$lower, info$upper),
         minimize = info$minimize,
-        properties = if (weights) "weights" else character(),
+        properties = properties,
         predict_type = info$predict_type,
         task_properties = "twoclass",
         packages = "mlr3measures",
@@ -22,9 +29,7 @@ MeasureBinarySimple = R6Class("MeasureBinarySimple",
       )
 
       self$fun = get(name, envir = asNamespace("mlr3measures"), mode = "function")
-      if (!is.na(info$obs_loss)) {
-        self$obs_loss = get(info$obs_loss, envir = asNamespace("mlr3measures"), mode = "function")
-      }
+
       if (test_list(info$trafo)) {
         self$trafo = info$trafo
       }
@@ -41,7 +46,18 @@ MeasureBinarySimple = R6Class("MeasureBinarySimple",
       )
     },
 
-    .extra_hash = c("fun", "na_value")
+    .extra_hash = c("fun", "fun_obs_loss", "na_value"),
+
+    .obs_loss = function(prediction, ...) {
+      truth = prediction$truth
+      positive = levels(truth)[1L]
+      invoke(self$fun_obs_loss,
+        .args = self$param_set$get_values(),
+        truth = truth,
+        response = prediction$response,
+        prob = prediction$prob[, positive],
+        positive = positive)
+    }
   )
 )
 
@@ -50,26 +66,29 @@ MeasureClassifSimple = R6Class("MeasureClassifSimple",
   inherit = MeasureClassif,
   public = list(
     fun = NULL,
+    fun_obs_loss = NULL,
     na_value = NaN,
     initialize = function(name, param_set = ps()) {
       info = mlr3measures::measures[[name]]
       weights = info$sample_weights
+      properties = if (weights) "weights" else character()
+      if (!is.na(info$obs_loss)) {
+        properties = c(properties, "obs_loss")
+        self$fun_obs_loss = get(info$obs_loss, envir = asNamespace("mlr3measures"), mode = "function")
+      }
 
       super$initialize(
         id = paste0("classif.", name),
         param_set = param_set,
         range = c(info$lower, info$upper),
         minimize = info$minimize,
-        properties = if (weights) "weights" else character(),
+        properties = properties,
         predict_type = info$predict_type,
         packages = "mlr3measures",
         label = info$title,
         man = paste0("mlr3::mlr_measures_classif.", name)
       )
       self$fun = get(name, envir = asNamespace("mlr3measures"), mode = "function")
-      if (!is.na(info$obs_loss)) {
-        self$obs_loss = get(info$obs_loss, envir = asNamespace("mlr3measures"), mode = "function")
-      }
       if (test_list(info$trafo)) {
         self$trafo = info$trafo
       }
@@ -82,7 +101,15 @@ MeasureClassifSimple = R6Class("MeasureClassifSimple",
         na_value = self$na_value, sample_weights = weights)
     },
 
-    .extra_hash = c("fun", "na_value")
+    .extra_hash = c("fun", "fun_obs_loss", "na_value"),
+
+    .obs_loss = function(prediction, ...) {
+      invoke(self$fun_obs_loss,
+        .args = self$param_set$get_values(),
+        truth = prediction$truth,
+        response = prediction$response,
+        prob = prediction$prob)
+    }
   )
 )
 
@@ -91,6 +118,7 @@ MeasureRegrSimple = R6Class("MeasureRegrSimple",
   inherit = MeasureRegr,
   public = list(
     fun = NULL,
+    fun_obs_loss = NULL,
     na_value = NaN,
     initialize = function(name, param_set = NULL) {
       if (is.null(param_set)) {
@@ -103,22 +131,25 @@ MeasureRegrSimple = R6Class("MeasureRegrSimple",
 
       info = mlr3measures::measures[[name]]
       weights = info$sample_weights
+      properties = if (weights) "weights" else character()
+      if (!is.na(info$obs_loss)) {
+        properties = c(properties, "obs_loss")
+        self$fun_obs_loss = get(info$obs_loss, envir = asNamespace("mlr3measures"), mode = "function")
+      }
 
       super$initialize(
         id = paste0("regr.", name),
         param_set = param_set$clone(),
         range = c(info$lower, info$upper),
         minimize = info$minimize,
-        properties = if (weights) "weights" else character(),
+        properties = properties,
         predict_type = info$predict_type,
         packages = "mlr3measures",
         label = info$title,
         man = paste0("mlr3::mlr_measures_regr.", name)
       )
       self$fun = get(name, envir = asNamespace("mlr3measures"), mode = "function")
-      if (!is.na(info$obs_loss)) {
-        self$obs_loss = get(info$obs_loss, envir = asNamespace("mlr3measures"), mode = "function")
-      }
+
       if (test_list(info$trafo)) {
         self$trafo = info$trafo
       }
@@ -131,7 +162,15 @@ MeasureRegrSimple = R6Class("MeasureRegrSimple",
         na_value = self$na_value, sample_weights = weights)
     },
 
-    .extra_hash = c("fun", "na_value")
+    .extra_hash = c("fun", "fun_obs_loss", "na_value"),
+
+    .obs_loss = function(prediction, ...) {
+      invoke(self$fun_obs_loss,
+        .args = self$param_set$get_values(),
+        truth = prediction$truth,
+        response = prediction$response,
+        se = prediction$se)
+    }
   )
 )
 

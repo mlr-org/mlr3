@@ -147,7 +147,7 @@ local({
   mlr_reflections$resampling_properties = c("duplicated_ids", "weights")
 
   ### Measures
-  tmp = c("na_score", "requires_task", "requires_learner", "requires_model", "requires_train_set", "weights", "primary_iters", "requires_no_prediction")
+  tmp = c("na_score", "requires_task", "requires_learner", "requires_model", "requires_train_set", "weights", "primary_iters", "requires_no_prediction", "obs_loss")
   mlr_reflections$measure_properties = list(
     classif = tmp,
     regr = tmp

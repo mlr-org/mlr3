@@ -96,14 +96,6 @@ test_that("filtering", {
   expect_prediction(as_prediction_regr(as.data.table(p2)))
 })
 
-test_that("obs_loss", {
-  task = tsk("mtcars")
-  p = PredictionRegr$new(row_ids = task$row_ids, truth = task$truth(), response = task$truth())
-  m = msr("regr.mse")
-  loss = p$obs_loss()
-  expect_double(loss$regr.mse, lower = 0, any.missing = FALSE)
-})
-
 test_that("predictions with weights", {
   ll = lrn("regr.debug")$train(as_task_regr(cars, target = "dist"), row_ids = 1)
 
@@ -153,4 +145,20 @@ test_that("extra data is stored", {
   learner = LearnerExtra$new()
   learner$train(tsk("mtcars"))
   expect_error(learner$predict(tsk("mtcars")), "Extra data must have the same length as the number of predictions")
+})
+
+test_that("obs_loss works", {
+  task = tsk("mtcars")
+  learner = lrn("regr.rpart")
+  learner$train(task)
+  prediction = learner$predict(task)
+  obs_loss = prediction$obs_loss(msr("regr.mse"))
+  expect_data_table(obs_loss, nrows = task$nrow)
+  expect_numeric(obs_loss$regr.mse, len = task$nrow, any.missing = FALSE)
+
+  obs_loss = prediction$obs_loss(msrs(c("regr.mse", "regr.rmse", "regr.ktau")))
+  expect_data_table(obs_loss, nrows = task$nrow)
+  expect_numeric(obs_loss$regr.mse, len = task$nrow, any.missing = FALSE)
+  expect_numeric(obs_loss$regr.rmse, len = task$nrow, any.missing = FALSE)
+  expect_true(all(is.na(obs_loss$regr.ktau)))
 })
