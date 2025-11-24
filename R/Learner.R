@@ -916,7 +916,7 @@ default_values.Learner = function(x, search_space, task, ...) { # nolint
   values = default_values(x$param_set)
 
   if (any(search_space$ids() %nin% names(values))) {
-    error_config("Could not find default values for the following parameters: %s",
+    error_learner("Could not find default values for the following parameters: %s",
       str_collapse(setdiff(search_space$ids(), names(values))))
   }
 
