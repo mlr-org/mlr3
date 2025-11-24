@@ -109,7 +109,7 @@ test_that("confusion", {
   expect_matrix(cm, nrows = 3, ncols = 3, any.missing = FALSE)
   expect_equal(colnames(p$confusion), task$class_names)
   expect_equal(rownames(p$confusion), task$class_names)
-  expect_equal(names(dimnames(cm)), c("response", "truth"))
+  expect_names(names(dimnames(cm)), identical.to =  c("response", "truth"))
 })
 
 test_that("c", {
@@ -191,3 +191,59 @@ test_that("predictions with weights", {
   expect_equal(c(pred_with_weights$clone(deep = TRUE)$filter(1:10), pred_with_weights)$weights, rep(c(1, 10, 100, 1, 10, 100), each = 50)[c(1:10, 151:300)])
 })
 
+test_that("extra data is stored", {
+  LearnerExtra = R6Class("LearnerExtra",
+    inherit = LearnerClassifDebug,
+    private = list(
+      .predict = function(task, ...) {
+        pred = super$.predict(task, ...)
+        pred$extra = list(extra_col = replicate(length(pred$response), "bar"))
+        pred
+      }
+    )
+  )
+
+  learner = LearnerExtra$new()
+  learner$train(tsk("iris"))
+  pred = learner$predict(tsk("iris"))
+  expect_list(pred$extra, len = 1)
+  expect_equal(pred$extra[[1]], replicate(length(pred$response), "bar"))
+  expect_prediction(pred)
+
+  LearnerExtra = R6Class("LearnerExtra",
+    inherit = LearnerClassifDebug,
+    private = list(
+      .predict = function(task, ...) {
+        pred = super$.predict(task, ...)
+        pred$extra = list(extra_col = replicate(2, "bar"))
+        pred
+      }
+    )
+  )
+
+  learner = LearnerExtra$new()
+  learner$train(tsk("iris"))
+  expect_error(learner$predict(tsk("iris")), "Extra data must have the same length as the number of predictions")
+})
+
+test_that("obs_loss works", {
+  learner = lrn("classif.rpart", predict_type = "prob")
+  task = tsk("pima")
+  learner$train(task)
+  prediction = learner$predict(task)
+  # binary simple measure
+  obs_loss = prediction$obs_loss(msr("classif.bbrier"))
+  expect_data_table(obs_loss, nrows = task$nrow, any.missing = FALSE)
+  expect_numeric(obs_loss$classif.bbrier, len = task$nrow, any.missing = FALSE)
+
+  # classif simple measure
+  obs_loss = prediction$obs_loss(msr("classif.logloss"))
+  expect_data_table(obs_loss, nrows = task$nrow, any.missing = FALSE)
+  expect_numeric(obs_loss$classif.logloss, len = task$nrow, any.missing = FALSE)
+
+  obs_loss = prediction$obs_loss(msrs(c("classif.acc", "classif.logloss", "classif.auc")))
+  expect_data_table(obs_loss, nrows = task$nrow)
+  expect_numeric(obs_loss$classif.acc, len = task$nrow, any.missing = FALSE)
+  expect_numeric(obs_loss$classif.logloss, len = task$nrow, any.missing = FALSE)
+  expect_true(all(is.na(obs_loss$classif.auc)))
+})

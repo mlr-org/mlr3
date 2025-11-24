@@ -51,6 +51,14 @@ check_prediction_data.PredictionDataRegr = function(pdata, ...) { # nolint
     assert_prediction_count(length(pdata$weights), n, "weights")
   }
 
+  if (!is.null(pdata$extra)) {
+    assert_list(pdata$extra, names = "unique")
+    len = lengths(pdata$extra)
+    if (any(len != n)) {
+      error_learner_predict("Extra data must have the same length as the number of predictions")
+    }
+  }
+
   pdata
 }
 
@@ -98,18 +106,28 @@ c.PredictionDataRegr = function(..., keep_duplicates = TRUE) { # nolint
     error_input("Cannot combine predictions: Some predictions have weights, others do not")
   }
 
+  if (length(unique(map_lgl(dots, function(x) is.null(x$extra)))) > 1L) {
+    stopf("Cannot rbind predictions: Some predictions have extra data, others do not")
+  }
+
   elems = c("row_ids", "truth", intersect(predict_types[[1L]], c("response", "se")), if ("weights" %chin% names(dots[[1L]])) "weights")
   tab = map_dtr(dots, function(x) x[elems], .fill = FALSE)
   quantiles = do.call(rbind, map(dots, "quantiles"))
+
+  extra = if ("extra" %chin% names(dots[[1L]])) {
+    rbindlist(map(dots, "extra"), fill = TRUE, use.names = TRUE)
+  }
 
   if (!keep_duplicates) {
     keep = !duplicated(tab, by = "row_ids", fromLast = TRUE)
     tab = tab[keep]
     quantiles = quantiles[keep, , drop = FALSE]
+    extra = extra[keep]
   }
 
   result = as.list(tab)
   result$quantiles = quantiles
+  if (!is.null(extra)) result$extra = as.list(extra)
 
   if ("distr" %chin% predict_types[[1L]]) {
     require_namespaces("distr6", msg = "To predict probability distributions, please install %s")
@@ -141,6 +159,10 @@ filter_prediction_data.PredictionDataRegr = function(pdata, row_ids, ...) {
     pdata$weights = pdata$weights[keep]
   }
 
+  if (!is.null(pdata$extra)) {
+    pdata$extra = map(pdata$extra, function(x) x[keep])
+  }
+
   pdata
 }
 
@@ -169,5 +191,5 @@ create_empty_prediction_data.TaskRegr = function(task, learner) {
     pdata$weights = numeric()
   }
 
-  return(new_prediction_data(pdata, "regr"))
+  new_prediction_data(pdata, "regr")
 }

@@ -12,7 +12,7 @@ get_featureless_learner = function(task_type) {
     }
   }
 
-  return(NULL)
+  NULL
 }
 
 assert_ordered_set = function(x, y, ...) {
@@ -40,7 +40,7 @@ clone_without = function(x, y) {
   x[[y]] = NULL
   x2 = x$clone(deep = TRUE)
   x[[y]] = y_prev
-  return(x2)
+  x2
 }
 
 clone_rep = function(x, n) {
@@ -60,23 +60,6 @@ assert_validate = function(x) {
     return(x)
   }
   assert_choice(x, c("predefined", "test"), null.ok = TRUE)
-}
-
-
-get_obs_loss = function(tab, measures) {
-  for (measure in measures) {
-    fun = measure$obs_loss
-    value = if (is.function(fun)) {
-      args = intersect(names(tab), names(formals(fun)))
-      do.call(fun, tab[, args, with = FALSE])
-    } else {
-      NA_real_
-    }
-
-    set(tab, j = measure$id, value = value)
-  }
-
-  tab[]
 }
 
 # Generalization of quantile(type = 7) for weighted data.

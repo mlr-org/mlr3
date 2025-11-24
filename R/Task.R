@@ -1464,7 +1464,7 @@ task_check_col_roles.Task = function(task, new_roles, ...) {
     error_input("Offset column(s) %s contain missing values", paste0("'", missings, "'", collapse = ","))
   }
 
-  return(new_roles)
+  new_roles
 }
 
 #' @rdname task_check_col_roles

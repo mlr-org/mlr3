@@ -4,7 +4,7 @@
 \alias{print.roc_measures}
 \title{Print ROC Measures}
 \usage{
-\method{print}{roc_measures}(x, abbreviations = TRUE, digits = 2, ...)
+\method{print}{roc_measures}(x, abbreviations = TRUE, digits = 2L, ...)
 }
 \arguments{
 \item{x}{(\code{roc_measures})\cr

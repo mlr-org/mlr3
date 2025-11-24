@@ -807,14 +807,14 @@ Learner = R6Class("Learner",
     #' Returns the fallback learner set with `$encapsulate()`.
     fallback = function(rhs) {
       assert_ro_binding(rhs)
-      return(private$.fallback)
+      private$.fallback
     },
 
     #' @field encapsulation (`character(2)`)\cr
     #' Returns the encapsulation settings set with `$encapsulate()`.
     encapsulation = function(rhs) {
       assert_ro_binding(rhs)
-      return(private$.encapsulation)
+      private$.encapsulation
     },
 
     #' @field hotstart_stack ([HotstartStack])\cr.
@@ -844,7 +844,7 @@ Learner = R6Class("Learner",
     #' This field is read-only.
     predict_types = function(rhs) {
       assert_ro_binding(rhs)
-      return(private$.predict_types)
+      private$.predict_types
     }
   ),
 

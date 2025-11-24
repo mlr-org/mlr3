@@ -102,7 +102,7 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
   result = encapsulate(learner$encapsulation["train"],
     .f = train_wrapper,
     .args = list(learner = learner, task = task),
-    .pkgs = learner$packages,
+    .pkgs = c(learner$packages, mlr_reflections$loaded_packages),
     .seed = NA_integer_,
     .timeout = learner$timeout["train"],
     .compute = getOption("mlr3.mirai_encapsulation", "mlr3_encapsulation")
@@ -507,7 +507,7 @@ process_model_before_predict = function(learner, store_models, is_sequential, un
   } else {
     learner$model = unmarshal_model(learner$model, inplace = FALSE)
   }
-  return(model_copy)
+  model_copy
 }
 
 process_model_after_predict = function(learner, store_models, is_sequential, unmarshal, model_copy) {
@@ -582,7 +582,7 @@ create_internal_valid_task = function(validate, task, test_row_ids, prev_valid, 
 
   # validate is numeric
   task$internal_valid_task = partition(task, ratio = 1 - validate)$test
-  return(task)
+  task
 }
 
 # This function returns TRUE,

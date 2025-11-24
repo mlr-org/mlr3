@@ -43,10 +43,10 @@ MeasureAIC = R6Class("MeasureAIC",
       k = self$param_set$values$k %??% 2L
 
       tryCatch({
-        return(stats::AIC(stats::logLik(learner$model), k = k))
+        stats::AIC(stats::logLik(learner$model), k = k)
       }, error = function(e) {
         warning_config("Learner '%s' does not support AIC calculation", learner$id)
-        return(NA_real_)
+        NA_real_
       })
     }
   )

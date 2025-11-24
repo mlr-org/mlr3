@@ -60,7 +60,7 @@ MeasureSelectedFeatures = R6Class("MeasureSelectedFeatures",
         n = n / length(task$feature_names)
       }
 
-      return(n)
+      n
     }
   )
 )

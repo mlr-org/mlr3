@@ -49,7 +49,7 @@ test_that("learner timings", {
   learner = lrn("regr.rpart")
   t = learner$timings
   expect_equal(unname(t), as.double(c(NA, NA)))
-  expect_equal(names(t), c("train", "predict"))
+  expect_names(names(t), identical.to = c("train", "predict"))
 
 
   learner$train(tsk("mtcars"))
@@ -1014,4 +1014,17 @@ test_that("config error does not trigger callback", {
   expect_error(l$train(tsk("iris")), regexp = "You misconfigured the learner")
   l$encapsulate("evaluate", lrn("classif.featureless"))
   expect_error(l$train(tsk("iris")), regexp = "You misconfigured the learner")
+})
+
+test_that("new_levels property is working", {
+  learner = lrn("classif.featureless")
+  task = tsk("penguins")
+  learner$train(task)
+  data = task$data()
+  set(data, i = 1L, j = "island", value = "NewIsland")
+
+  expect_error(learner$predict_newdata(data), "received task with different column info")
+
+  learner$properties = c(learner$properties, "new_levels")
+  expect_prediction(learner$predict_newdata(data))
 })

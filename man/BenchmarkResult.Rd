@@ -428,14 +428,10 @@ if present.}
 \if{html}{\out{<a id="method-BenchmarkResult-obs_loss"></a>}}
 \if{latex}{\out{\hypertarget{method-BenchmarkResult-obs_loss}{}}}
 \subsection{Method \code{obs_loss()}}{
-Calculates the observation-wise loss via the loss function set in the
-\link{Measure}'s field \code{obs_loss}.
-Returns a \code{data.table()} with the columns \code{row_ids}, \code{truth}, \code{response} and
-one additional numeric column for each measure, named with the respective measure id.
-If there is no observation-wise loss function for the measure, the column is filled with
-\code{NA} values.
-Note that some measures such as RMSE, do have an \verb{$obs_loss}, but they require an
-additional transformation after aggregation, in this example taking the square-root.
+Calculates the observation-wise loss via the \link{Measure}'s \code{obs_loss} method.
+Returns a \code{data.table()} with columns from the predictions (e.g., \code{row_ids}, \code{truth}, \code{response}, etc.), plus one numeric column for each measure, named with the respective measure id, and a \code{resample_result} column.
+If there is no observation-wise loss function for the measure, the column is filled with \code{NA_real_} values.
+Note that some measures such as RMSE, do have an \verb{$obs_loss}, but they require an additional transformation after aggregation, in this example taking the square-root.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{BenchmarkResult$obs_loss(measures = NULL, predict_sets = "test")}\if{html}{\out{</div>}}
 }

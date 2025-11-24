@@ -92,9 +92,22 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
     #'
     #' @param check (`logical(1)`)\cr
     #'   If `TRUE`, performs some argument checks and predict type conversions.
-    initialize = function(task = NULL, row_ids = task$row_ids, truth = task$truth(), response = NULL, prob = NULL, weights = NULL, check = TRUE) {
+    #'
+    #' @param extra (`list()`)\cr
+    #'   List of extra data to be stored in the prediction object.
+    initialize = function(
+      task = NULL,
+      row_ids = task$row_ids,
+      truth = task$truth(),
+      response = NULL,
+      prob = NULL,
+      weights = NULL,
+      check = TRUE,
+      extra = NULL
+      ) {
+
       pdata = new_prediction_data(
-        list(row_ids = row_ids, truth = truth, response = response, prob = prob, weights = weights),
+        list(row_ids = row_ids, truth = truth, response = response, prob = prob, weights = weights, extra = extra),
         task_type = "classif"
       )
 
@@ -161,6 +174,10 @@ as.data.table.PredictionClassif = function(x, ...) { # nolint
     prob = as.data.table(x$data$prob)
     setnames(prob, names(prob), paste0("prob.", names(prob)))
     tab = rcbind(tab, prob)
+  }
+
+  if (!is.null(x$data$extra)) {
+    tab = cbind(tab, as.data.table(x$data$extra))
   }
 
   if (!is.null(x$data$weights)) {
