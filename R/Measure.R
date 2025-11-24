@@ -339,7 +339,7 @@ Measure = R6Class("Measure",
     obs_loss = function(prediction, task = NULL, learner = NULL) {
 
       if (!is_scalar_na(self$task_type) && self$task_type != prediction$task_type) {
-        stopf("Measure '%s' incompatible with task type '%s'", self$id, prediction$task_type)
+        error_input("Measure '%s' incompatible with task type '%s'", self$id, prediction$task_type)
       }
 
       if ("obs_loss" %nin% self$properties) {

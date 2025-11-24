@@ -110,7 +110,7 @@ c.PredictionDataClassif = function(..., keep_duplicates = TRUE) {
   }
 
   if (length(unique(map_lgl(dots, function(x) is.null(x$extra)))) > 1L) {
-    stopf("Cannot rbind predictions: Some predictions have extra data, others do not")
+    error_input("Cannot rbind predictions: Some predictions have extra data, others do not")
   }
 
   elems = c("row_ids", "truth", intersect(predict_types[[1L]], "response"), if ("weights" %chin% names(dots[[1L]])) "weights")
