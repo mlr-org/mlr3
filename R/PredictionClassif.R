@@ -196,7 +196,7 @@ set_threshold_pdata = function(pdata, threshold, ties_method) {
   if (length(threshold) == 1L) {
     assert_number(threshold, lower = 0, upper = 1)
     if (length(lvls) != 2L) {
-      error_config("Setting a single threshold only supported for binary classification problems")
+      error_input("Setting a single threshold only supported for binary classification problems")
     }
     prob = cbind(pdata$prob[, 1L], threshold)
   } else {

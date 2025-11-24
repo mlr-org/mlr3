@@ -172,7 +172,7 @@ Task = R6Class("Task",
       private$.hash = NULL
 
       if (!xor(is.null(ratio), is.null(ids))) {
-        error_config("Provide a ratio or ids to create a validation task, but not both (Task '%s').", self$id)
+        error_input("Provide a ratio or ids to create a validation task, but not both (Task '%s').", self$id)
       }
 
       valid_ids = if (!is.null(ratio)) {
@@ -924,7 +924,7 @@ Task = R6Class("Task",
         self$row_roles$use = train_ids
       } else {
         if (!is.null(rhs$internal_valid_task)) { # avoid recursive structures
-          error_config("Trying to assign task '%s' as a validation task, remove its validation task first.", rhs$id)
+          error_input("Trying to assign task '%s' as a validation task, remove its validation task first.", rhs$id)
         }
         assert_task(rhs, task_type = self$task_type)
         rhs = rhs$clone(deep = TRUE)
@@ -1056,7 +1056,7 @@ Task = R6Class("Task",
       assert_has_backend(self)
       assert_list(rhs, .var.name = "row_roles")
       if ("test" %chin% names(rhs) || "holdout" %chin% names(rhs)) {
-        error_config("Setting row roles 'test'/'holdout' is no longer possible.")
+        error_input("Setting row roles 'test'/'holdout' is no longer possible.")
       }
       assert_names(names(rhs), "unique", permutation.of = mlr_reflections$task_row_roles, .var.name = "names of row_roles")
       rhs = map(rhs, assert_row_ids, .var.name = "elements of row_roles")

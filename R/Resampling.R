@@ -277,7 +277,7 @@ Resampling = R6Class("Resampling",
         }
       } else {
         if (!is.null(groups)) {
-          error_config("Cannot combine stratification with grouping")
+          error_input("Cannot combine stratification with grouping")
         }
         private$.combine(lapply(strata$row_id, private$.sample, task = task))
       }

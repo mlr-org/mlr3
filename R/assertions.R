@@ -142,13 +142,13 @@ assert_task_learner = function(task, learner, param_values = NULL, cols = NULL) 
   if ("missings" %nin% learner$properties) {
     miss = task$missings(cols = cols) > 0L
     if (any(miss)) {
-      error_config("Task '%s' has missing values in column(s) %s, but learner '%s' does not support this",
+      error_input("Task '%s' has missing values in column(s) %s, but learner '%s' does not support this",
         task$id, str_collapse(names(miss)[miss], quote = "'"), learner$id)
     }
   }
 
   if ("offset" %in% task$properties && "offset" %nin% learner$properties) {
-    warning_config("Task '%s' has offset, but learner '%s' does not support this, so it will be ignored",
+    warning_input("Task '%s' has offset, but learner '%s' does not support this, so it will be ignored",
              task$id, learner$id)
   }
 
@@ -379,7 +379,7 @@ assert_range = function(range, .var.name = vname(range)) {
   assert_numeric(range, len = 2L, any.missing = FALSE, .var.name = .var.name)
 
   if (diff(range) <= 0) {
-    error_config("Invalid range specified. First value (%f) must be greater than second value (%f)", range[1L], range[2L])
+    error_input("Invalid range specified. First value (%f) must be greater than second value (%f)", range[1L], range[2L])
   }
 
   invisible(range)
@@ -406,7 +406,7 @@ assert_row_ids = function(row_ids, task = NULL, null.ok = FALSE, .var.name = vna
 #' @rdname mlr_assertions
 assert_has_backend = function(task) {
   if (is.null(task$backend)) {
-    error_config("The backend of Task '%s' has been removed. Set `store_backends` to `TRUE` during model fitting to conserve it.", task$id)
+    error_input("The backend of Task '%s' has been removed. Set `store_backends` to `TRUE` during model fitting to conserve it.", task$id)
   }
 }
 
@@ -468,7 +468,7 @@ assert_param_values = function(x, n_learners = NULL, .var.name = vname(x)) {
   })
 
   if (!ok) {
-    error_config("'%s' must be a three-time nested list and the most inner list must be named", .var.name)
+    error_input("'%s' must be a three-time nested list and the most inner list must be named", .var.name)
   }
   invisible(x)
 }

@@ -618,7 +618,7 @@ Learner = R6Class("Learner",
             fallback$id, self$id, str_collapse(missing_properties), class = "Mlr3WarningConfigFallbackProperties")
         }
       } else if (method == "none" && !is.null(fallback)) {
-        error_config("Fallback learner must be `NULL` if encapsulation is set to `none`.")
+        error_input("Fallback learner must be `NULL` if encapsulation is set to `none`.")
       }
 
       private$.encapsulation = c(train = method, predict = method)
