@@ -134,7 +134,7 @@ LearnerRegr = R6Class("LearnerRegr", inherit = Learner,
       }
 
       if ("quantiles" %nin% self$predict_types) {
-        error_learner_predict("Learner does not support predicting quantiles")  # TODO error_config/input?
+        error_learner_predict("Learner does not support predicting quantiles") 
       }
       private$.quantiles = assert_numeric(rhs, lower = 0, upper = 1, any.missing = FALSE, min.len = 1L, sorted = TRUE, .var.name = "quantiles")
 
