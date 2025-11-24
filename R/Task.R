@@ -1473,15 +1473,15 @@ task_check_col_roles.TaskClassif = function(task, new_roles, ...) {
 
   # check target
   if (length(new_roles[["target"]]) > 1L) {
-    error_config("There may only be up to one column with role 'target'")
+    error_input("There may only be up to one column with role 'target'")
   }
 
   if (length(new_roles[["target"]]) && any(fget_keys(task$col_info, new_roles[["target"]], "type", key = "id") %nin% c("factor", "ordered"))) {
-    error_config("Target column(s) %s must be a factor or ordered factor", paste0("'", new_roles[["target"]], "'", collapse = ","))
+    error_input("Target column(s) %s must be a factor or ordered factor", paste0("'", new_roles[["target"]], "'", collapse = ","))
   }
 
   if (length(new_roles[["offset"]]) > 1L && length(task$class_names) == 2L) {
-    error_config("There may only be up to one column with role 'offset' for binary classification tasks")
+    error_input("There may only be up to one column with role 'offset' for binary classification tasks")
   }
 
   if (length(new_roles[["offset"]]) > 1L) {
@@ -1497,12 +1497,12 @@ task_check_col_roles.TaskClassif = function(task, new_roles, ...) {
 task_check_col_roles.TaskRegr = function(task, new_roles, ...) {
   for (role in c("target", "offset")) {
     if (length(new_roles[[role]]) > 1L) {
-      error_config("There may only be up to one column with role '%s'", role)
+      error_input("There may only be up to one column with role '%s'", role)
     }
   }
 
   if (length(new_roles[["target"]]) && any(fget_keys(task$col_info, new_roles[["target"]], "type", key = "id") %nin% c("numeric", "integer"))) {
-    error_config("Target column '%s' must be a numeric or integer column", paste0("'", new_roles[["target"]], "'", collapse = ","))
+    error_input("Target column '%s' must be a numeric or integer column", paste0("'", new_roles[["target"]], "'", collapse = ","))
   }
 
   NextMethod()
@@ -1514,7 +1514,7 @@ task_check_col_roles.TaskSupervised = function(task, new_roles, ...) {
 
   # check target
   if (length(new_roles$target) == 0L) {
-    error_config("Supervised tasks need at least one target column")
+    error_input("Supervised tasks need at least one target column")
   }
 
   NextMethod()
@@ -1526,7 +1526,7 @@ task_check_col_roles.TaskUnsupervised = function(task, new_roles, ...) {
 
   # check target
   if (length(new_roles$target) != 0L) {
-    error_config("Unsupervised tasks may not have a target column")
+    error_input("Unsupervised tasks may not have a target column")
   }
 
   NextMethod()

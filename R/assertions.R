@@ -313,7 +313,7 @@ assert_scorable = function(measure, task, learner, prediction = NULL, .var.name 
 assert_measures = function(measures, task = NULL, learner = NULL, .var.name = vname(measures)) {
   lapply(measures, assert_measure, task = task, learner = learner, .var.name = .var.name)
   if (anyDuplicated(ids(measures))) {
-    error_config("Measures need to have unique IDs")
+    error_input("Measures need to have unique IDs")
   }
   invisible(measures)
 }
@@ -429,12 +429,12 @@ assert_row_sums = function(prob) {
     n_missing = count_missing(x)
     if (n_missing > 0L) {
       if (n_missing < length(x)) {
-        error_config("Probabilities for observation %i are partly missing", i)
+        error_input("Probabilities for observation %i are partly missing", i)
       }
     } else {
       s = sum(x)
       if (abs(s - 1) > 0.001) {
-        error_config("Probabilities for observation %i do sum up to %f != 1", i, s)  # TODO error_input?
+        error_input("Probabilities for observation %i do sum up to %f != 1", i, s)
       }
     }
   }

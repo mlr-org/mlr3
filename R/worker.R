@@ -557,12 +557,12 @@ create_internal_valid_task = function(validate, task, test_row_ids, prev_valid, 
         error_config("Parameter 'validate' is set to 'predefined' but no internal validation task is present. This commonly happens in GraphLearners and can be avoided by configuring the validation data for the  GraphLearner via `set_validate(glrn, validate = values)`. See https://mlr3book.mlr-org.com/chapters/chapter15/predsets_valid_inttune.html for more information.")
       }
       if (!identical(task$target_names, task$internal_valid_task$target_names)) {
-        error_input("Internal validation task '%s' has different target names than primary task '%s', did you modify the task after creating the internal validation task?",
-          task$internal_valid_task$id, task$id)  # TODO error_config?
+        error_config("Internal validation task '%s' has different target names than primary task '%s', did you modify the task after creating the internal validation task?",
+          task$internal_valid_task$id, task$id)
       }
       if (!test_permutation(task$feature_names, task$internal_valid_task$feature_names)) {
-        error_input("Internal validation task '%s' has different features than primary task '%s', did you modify the task after creating the internal validation task?",
-          task$internal_valid_task$id, task$id)  # TODO error_config?
+        error_config("Internal validation task '%s' has different features than primary task '%s', did you modify the task after creating the internal validation task?",
+          task$internal_valid_task$id, task$id)
       }
       return(task)
     } else { # validate is "test"
