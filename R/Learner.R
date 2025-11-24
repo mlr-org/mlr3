@@ -375,7 +375,7 @@ Learner = R6Class("Learner",
     predict = function(task, row_ids = NULL) {
       # improve error message for the common mistake of passing a data.frame here
       if (is.data.frame(task)) {
-        error_learner_predict("To predict on data.frames, use the method `$predict_newdata()` instead of `$predict()`")
+        error_input("To predict on data.frames, use the method `$predict_newdata()` instead of `$predict()`")
       }
       task = assert_task(as_task(task))
       assert_predictable(task, self)
@@ -681,10 +681,10 @@ Learner = R6Class("Learner",
     #' If set to `"error"`, an error is thrown, otherwise all features are returned.
     selected_features = function() {
       if (is.null(self$model)) {
-        error_input("No model stored")  # TODO error_learner?
+        error_learner("No model stored")
       }
       if (private$.selected_features_impute == "error") {
-        error_config("Learner does not support feature selection")  # TODO error_learner?
+        error_learner("Learner does not support feature selection")
       } else {
         self$state$feature_names
       }
@@ -790,7 +790,7 @@ Learner = R6Class("Learner",
 
       assert_string(rhs, .var.name = "predict_type")
       if (rhs %nin% self$predict_types) {
-        error_config("Learner '%s' does not support predict type '%s'", self$id, rhs) # TODO error_learner?
+        error_input("Learner '%s' does not support predict type '%s'", self$id, rhs) # TODO error_learner?
       }
       private$.predict_type = rhs
     },
@@ -798,7 +798,7 @@ Learner = R6Class("Learner",
     #' @template field_param_set
     param_set = function(rhs) {
       if (!missing(rhs) && !identical(rhs, private$.param_set)) {
-        error_config("param_set is read-only.")
+        error_input("param_set is read-only.")
       }
       private$.param_set
     },

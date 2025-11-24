@@ -113,7 +113,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
     #' @return Named `numeric()`.
     importance = function() {
       if (is.null(self$model)) {
-        error_input("No model stored")
+        error_learner("No model stored")
       }
       fns = self$state$feature_names
       set_names(rep(0, length(fns)), fns)
@@ -124,7 +124,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
     #' @return `character()`.
     selected_features = function() {
       if (is.null(self$model)) {
-        error_input("No model stored")
+        error_learner("No model stored")
       }
       character(0)
     }
@@ -248,7 +248,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
     },
     .predict = function(task) {
       if (!is.null(self$model$marshal_pid) && self$model$marshal_pid != Sys.getpid()) {
-        error_input("Model was not unmarshaled correctly")  # TODO error_mlr3?
+        error_mlr3("Model was not unmarshaled correctly")
       }
       n = task$nrow
       pv = self$param_set$get_values(tags = "predict")

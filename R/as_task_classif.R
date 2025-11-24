@@ -93,7 +93,7 @@ as_task_classif.formula = function(x, data, id = deparse1(substitute(data)), pos
   assert_subset(all.vars(x), c(names(data), "."), .var.name = "formula")
 
   if (!attributes(terms(x, data = data))$response) {
-    error_config("Formula %s is missing a response", format(x))
+    error_input("Formula %s is missing a response", format(x))
   }
   tab = model.frame(x, data, na.action = "na.pass")
   setattr(tab, "terms", NULL)

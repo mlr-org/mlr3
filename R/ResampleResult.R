@@ -299,7 +299,7 @@ ResampleResult = R6Class("ResampleResult",
     #' rr$set_threshold(0.6)
     set_threshold = function(threshold, ties_method = "random") {
       if (!self$task_type == "classif") {
-        error_config("Can only change the threshold for classification problems, but task type is '%s'.", self$task_type)
+        error_input("Can only change the threshold for classification problems, but task type is '%s'.", self$task_type)
       }
       private$.data$set_threshold(self$uhash, threshold, ties_method)
     }

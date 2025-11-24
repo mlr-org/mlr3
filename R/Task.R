@@ -844,7 +844,7 @@ Task = R6Class("Task",
       col_types = fget_keys(self$col_info, i = cols, j = "type", key = "id")
       ii = wf(col_types %nin% c("integer", "numeric"))
       if (length(ii)) {
-        error_config("For `add_strata`, all columns must be numeric, but '%s' is not", cols[ii])
+        error_input("For `add_strata`, all columns must be numeric, but '%s' is not", cols[ii])
       }
 
       strata = pmap_dtc(list(self$data(cols = cols), bins), cut, include.lowest = TRUE)
@@ -1428,12 +1428,12 @@ task_check_col_roles = function(task, new_roles, ...) {
 #' @export
 task_check_col_roles.Task = function(task, new_roles, ...) {
   if ("weight" %in% names(new_roles)) {
-    error_config("Task role 'weight' is deprecated, use 'weights_learner' instead")
+    error_input("Task role 'weight' is deprecated, use 'weights_learner' instead")
   }
 
   for (role in c("group", "name", "weights_learner", "weights_measure")) {
     if (length(new_roles[[role]]) > 1L) {
-      error_config("There may only be up to one column with role '%s'", role)
+      error_input("There may only be up to one column with role '%s'", role)
     }
   }
 
@@ -1449,19 +1449,19 @@ task_check_col_roles.Task = function(task, new_roles, ...) {
   if (length(new_roles[["name"]])) {
     row_names = task$backend$data(task$backend$rownames, cols = new_roles[["name"]])
     if (!is.character(row_names[[1L]]) && !is.factor(row_names[[1L]])) {
-      error_config("Assertion on '%s' failed: Must be of type 'character' or 'factor', not %s", names(row_names), class(row_names[[1]]))
+      error_input("Assertion on '%s' failed: Must be of type 'character' or 'factor', not %s", names(row_names), class(row_names[[1]]))
     }
   }
 
   # check offset
   if (length(new_roles[["offset"]]) && any(fget_keys(task$col_info, new_roles[["offset"]], "type", key = "id") %nin% c("numeric", "integer"))) {
-    error_config("Offset column(s) %s must be a numeric or integer column", paste0("'", new_roles[["offset"]], "'", collapse = ","))
+    error_input("Offset column(s) %s must be a numeric or integer column", paste0("'", new_roles[["offset"]], "'", collapse = ","))
   }
 
   if (length(new_roles[["offset"]]) && any(task$missings(cols = new_roles[["offset"]]) > 0)) {
     missings = task$missings(cols = new_roles[["offset"]])
     missings = names(missings[missings > 0])
-    error_config("Offset column(s) %s contain missing values", paste0("'", missings, "'", collapse = ","))
+    error_input("Offset column(s) %s contain missing values", paste0("'", missings, "'", collapse = ","))
   }
 
   return(new_roles)

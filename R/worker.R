@@ -118,7 +118,7 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
   log = append_log(NULL, "train", result$log$class, result$log$msg, log_error = !err)
 
   if (err) {
-    stop(cond)  # TODO: can this be changed at all to error_*?
+    stop(cond)
   }
 
   train_time = result$elapsed
@@ -236,7 +236,7 @@ learner_predict = function(learner, task, row_ids = NULL) {
     learner$state$predict_time = NA_real_
     cond = error_learner_predict("No model stored", signal = FALSE, class = "Mlr3ErrorLearnerNoModel")
     if (learner_will_err(cond, learner, stage = "predict")) {
-      stop(cond)  # TODO: can this be changed at all to error_*?
+      stop(cond)
     }
   } else {
     # call predict with encapsulation
@@ -266,7 +266,7 @@ learner_predict = function(learner, task, row_ids = NULL) {
     learner$state$log = append_log(learner$state$log, "predict", result$log$class, result$log$msg, log_error = !err)
 
     if (err) {
-      stop(cond)  # TODO: can this be changed at all to error_*?
+      stop(cond)
     }
     learner$state$predict_time = sum(learner$state$predict_time, result$elapsed)
 

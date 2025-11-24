@@ -22,11 +22,11 @@ check_prediction_data.PredictionDataRegr = function(pdata, ...) { # nolint
     assert_prediction_count(nrow(quantiles), n, "quantiles")
 
     if (is.null(attr(quantiles, "probs"))) {
-      error_config("No probs attribute stored in 'quantile'")
+      error_learner_predict("No probs attribute stored in 'quantile'")
     }
 
     if (is.null(attr(quantiles, "response")) && is.null(pdata$response)) {
-      error_config("No response attribute stored in 'quantile' or response stored in 'pdata'")
+      error_learner_predict("No response attribute stored in 'quantile' or response stored in 'pdata'")
     }
 
     colnames(pdata$quantiles) = sprintf("q%g", attr(quantiles, "probs"))

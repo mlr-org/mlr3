@@ -27,7 +27,7 @@ set_validate = function(learner, validate, ...) {
 #' @export
 set_validate.Learner = function(learner, validate, ...) {
   if (!"validation" %chin% learner$properties) {
-    error_input("Learner '%s' does not support validation.", learner$id)  # TODO: error_learner?
+    error_input("Learner '%s' does not support validation.", learner$id)
   }
   learner$validate = validate
   invisible(learner)

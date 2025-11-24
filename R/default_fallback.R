@@ -30,7 +30,7 @@ default_fallback.LearnerClassif = function(learner, ...) {
 
   # set predict type
   if (learner$predict_type %nin% fallback$predict_types) {
-    error_learner_predict("Fallback learner '%s' does not support predict type '%s'.", fallback$id, learner$predict_type)
+    error_config("Fallback learner '%s' does not support predict type '%s'.", fallback$id, learner$predict_type)
   }
 
   fallback$predict_type = learner$predict_type
