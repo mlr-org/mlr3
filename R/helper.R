@@ -133,3 +133,11 @@ weighted_mean_sd = function(x, weights) {
   sd = sqrt(sum(weights * (x - mean)^2) / (weights_sum - sum(weights ^2) / weights_sum))
   list(mean = mean, sd = sd)
 }
+
+# Alternative formatting function for Task / Learner / Measure because mlr3misc::error_* and warning_* fail with input
+# that is formated with angle brackets, e.g. "<TaskClassif:iris>",
+# see https://github.com/r-lib/cli/issues/789
+# Replace this with x$format() when the issue is solved.
+format_angle_brackets = function(x) {
+  sprintf("<<%s:%s>>", class(x)[1L], x$id)
+}

@@ -510,7 +510,6 @@ msr("classif.ce")$aggregate(rr)
 Calculates the observation-wise loss.
 Returns a \code{numeric()} with one element for each row in the \link{Prediction}.
 If there is no observation-wise loss function for the measure, \code{NA_real_} values are returned.
-Note that some measures such as RMSE, do have an \verb{$obs_loss}, but they require an additional transformation after aggregation, in this example taking the square-root.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Measure$obs_loss(prediction, task = NULL, learner = NULL)}\if{html}{\out{</div>}}
 }

@@ -62,7 +62,7 @@ ResamplingCustomCV = R6Class("ResamplingCustomCV", inherit = Resampling,
     instantiate = function(task, f = NULL, col = NULL) {
       task = assert_task(as_task(task))
       if (!xor(is.null(f), is.null(col))) {
-        stopf("Either `f` or `col` must be provided")
+        error_input("Either `f` or `col` must be provided")
       }
 
       if (!is.null(col)) {

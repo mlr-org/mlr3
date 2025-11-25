@@ -249,7 +249,7 @@ test_that("learner cannot be trained with TuneToken present", {
   task = tsk("california_housing")
   learner = lrn("regr.rpart", cp = paradox::to_tune(0.1, 0.3))
   expect_error(learner$train(task),
-    regexp = "<LearnerRegrRpart:regr.rpart> cannot be trained with TuneToken present in hyperparameter: cp",
+    regexp = "<LearnerRegrRpart:regr.rpart> cannot be trained with TuneToken present",
     fixed = TRUE)
 })
 
@@ -263,7 +263,7 @@ test_that("integer<->numeric conversion in newdata (#533)", {
   learner$train(task)
   expect_prediction(learner$predict_newdata(data))
   expect_prediction(learner$predict_newdata(newdata1))
-  expect_error(learner$predict_newdata(newdata2), "failed to convert from class 'numeric'")
+  expect_error(learner$predict_newdata(newdata2), "class 'numeric' to class 'integer'")
 })
 
 test_that("weights", {
@@ -802,7 +802,7 @@ test_that("weights are used when appropriate", {
   expect_equal(unname(learner$train(iris_weights_learner)$predict(predict_task)$prob), matrix(c(1, 1, 1) / 3, nrow = 1, ncol = 3))
 
   learner$use_weights = "error"
-  expect_error(learner$train(iris_weights_learner), "'use_weights' was set to 'error'")
+  expect_error(learner$train(iris_weights_learner), "'use_weights' was set to\n  'error'")
 
   # behaviour of learner that does not support weights
   llclass = R6Class("dummy", inherit = LearnerClassif,
@@ -820,7 +820,7 @@ test_that("weights are used when appropriate", {
   ll = llclass$new()
 
   # different error message
-  expect_error(ll$train(iris_weights_learner), "Learner does not support weights")
+  expect_error(ll$train(iris_weights_learner), "Learner does not support\n  weights")
   ll$train(iris_weights_measure)
 
   ll$use_weights = "ignore"

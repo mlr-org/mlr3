@@ -72,7 +72,7 @@ as_data_backend.data.frame = function(data, primary_key = NULL, keep_rownames = 
     } else if (is.integer(primary_key)) {
       row_ids = assert_integer(primary_key, len = nrow(data), any.missing = FALSE, unique = TRUE)
     } else {
-      stopf("Argument 'primary_key' must be NULL, a column name or a vector of ids")
+      error_input("Argument 'primary_key' must be NULL, a column name or a vector of ids")
     }
 
     primary_key = "..row_id"

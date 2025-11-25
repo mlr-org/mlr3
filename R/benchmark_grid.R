@@ -87,17 +87,17 @@ benchmark_grid = function(tasks, learners, resamplings, param_values = NULL, pai
 
   if (assert_flag(paired)) {
     if (length(tasks) != length(resamplings)) {
-      stopf("If `paired` is `TRUE`, you need to provide the same number of tasks and instantiated resamplings")
+      error_input("If `paired` is `TRUE`, you need to provide the same number of tasks and instantiated resamplings")
     }
 
     for (i in seq_along(tasks)) {
       task = tasks[[i]]
       resampling = resamplings[[i]]
       if (!resamplings[[i]]$is_instantiated) {
-        stopf("Resampling #%i ('%s' for task '%s') is not instantiated", i, resampling$id, task$id)
+        error_input("Resampling #%i ('%s' for task '%s') is not instantiated", i, resampling$id, task$id)
       }
       if (resampling$task_row_hash != task$row_hash) {
-        stopf("Resampling #%i ('%s' for task '%s') is not instantiated on the corresponding task", i, resampling$id, task$id)
+        error_input("Resampling #%i ('%s' for task '%s') is not instantiated on the corresponding task", i, resampling$id, task$id)
       }
     }
 
@@ -109,13 +109,13 @@ benchmark_grid = function(tasks, learners, resamplings, param_values = NULL, pai
 
     if (any(is_instantiated) && !all(is_instantiated)) {
       # prevent that some resamplings are instantiated and others are not
-      stopf("All resamplings must be instantiated, or none at all")
+      error_input("All resamplings must be instantiated, or none at all")
     } else if (all(is_instantiated)) {
       # check that all row ids of the resamplings are present in the tasks
       pwalk(grid, function(task, resampling) {
         if (!is.null(resamplings[[resampling]]$task_row_hash) &&
             resamplings[[resampling]]$task_row_hash != tasks[[task]]$row_hash) {
-          stopf("Resampling '%s' is not instantiated on task '%s'", resamplings[[resampling]]$id, tasks[[task]]$id)
+          error_input("Resampling '%s' is not instantiated on task '%s'", resamplings[[resampling]]$id, tasks[[task]]$id)
         }
       })
 

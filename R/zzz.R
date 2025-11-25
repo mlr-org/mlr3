@@ -62,6 +62,21 @@
 #' * `"mlr3.mirai_encapsulation"`: Compute profile to use for encapsulation with \CRANpkg{mirai}.
 #'   Defaults to `"mlr3_encapsulation"`.
 #'
+#' @section Error Classes:
+#' * `Mlr3Error`: The base mlr3 error class.
+#' * `Mlr3ErrorConfig`: This error signals that the user has misconfigured something.
+#'   By default, this error is not caught when the learner is encapsulated.
+#' * `Mlr3ErrorInput`: This error signals that the input to the function is invalid.
+#' * `Mlr3ErrorLearner`: The base error class for errors related to the learner.
+#' * `Mlr3ErrorLearnerTrain`: This error signals that the learner failed to train the model.
+#' * `Mlr3ErrorLearnerPredict`: This error signals that something went wrong during prediction.
+#' * `Mlr3TimeoutError`: This error signals that the encapsulation during train or predict timed out.
+#'
+#' @section Warning Classes:
+#' * `Mlr3Warning`: The base mlr3 warning class.
+#' * `Mlr3WarningConfig`: This warning signals that the user has misconfigured something.
+#' * `Mlr3WarningInput`: This warning signals that the input to the function is invalid.
+#'
 #' @references
 #' `r tools::toRd(citation("mlr3"))`
 "_PACKAGE"
@@ -97,7 +112,7 @@ dummy_import = function() {
   }
 
   register_namespace_callback(pkgname, "mlr", function(...) {
-    warning("Packages 'mlr3' and 'mlr' are conflicting and should not be loaded in the same session")
+    warning_mlr3("Packages 'mlr3' and 'mlr' are conflicting and should not be loaded in the same session")
   })
 } # nocov end
 

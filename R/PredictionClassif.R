@@ -189,14 +189,14 @@ as.data.table.PredictionClassif = function(x, ...) { # nolint
 
 set_threshold_pdata = function(pdata, threshold, ties_method) {
   if (!is.matrix(pdata$prob)) {
-    stopf("Cannot set threshold, no probabilities available")
+    error_input("Cannot set threshold, no probabilities available")
   }
   lvls = levels(pdata$truth)
 
   if (length(threshold) == 1L) {
     assert_number(threshold, lower = 0, upper = 1)
     if (length(lvls) != 2L) {
-      stopf("Setting a single threshold only supported for binary classification problems")
+      error_input("Setting a single threshold only supported for binary classification problems")
     }
     prob = cbind(pdata$prob[, 1L], threshold)
   } else {

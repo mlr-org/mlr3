@@ -87,11 +87,11 @@ HotstartStack = R6Class("HotstartStack",
 
       walk(learners, function(learner) {
         if (!is.null(get0("validate", learner))) {
-          stopf("Hotstart learners that did validation is currently not supported.")
+          error_input("Hotstart learners that did validation is currently not supported.")
         } else if (is.null(learner$model)) {
-          stopf("Learners must be trained before adding them to the hotstart stack.")
+          error_input("Learners must be trained before adding them to the hotstart stack.")
         } else if (is_marshaled_model(learner$model)) {
-          stopf("Learners must be unmarshaled before adding them to the hotstart stack.")
+          error_input("Learners must be unmarshaled before adding them to the hotstart stack.")
         }
       })
 

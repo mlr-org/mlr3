@@ -124,7 +124,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
       if (!is.null(bmr)) {
         assert_benchmark_result(bmr)
         if (private$.data$iterations() && self$task_type != bmr$task_type) {
-          stopf("BenchmarkResult is of task type '%s', but must be '%s'", bmr$task_type, self$task_type)
+          error_input("BenchmarkResult is of task type '%s', but must be '%s'", bmr$task_type, self$task_type)
         }
 
         private$.data$combine(get_private(bmr)$.data)
@@ -425,8 +425,8 @@ BenchmarkResult = R6Class("BenchmarkResult",
     resample_result = function(i = NULL, uhash = NULL, task_id = NULL, learner_id = NULL,
       resampling_id = NULL) {
       uhash = private$.get_uhashes(i, uhash, learner_id, task_id, resampling_id)
-      if (length(uhash) != 1L) {
-        stopf("Method requires selecting exactly one ResampleResult, but got %s",
+      if (length(uhash) != 1) {
+        error_input("Method requires selecting exactly one ResampleResult, but got %s",
           length(uhash))
       }
       ResampleResult$new(private$.data, view = uhash)
@@ -598,7 +598,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
         resampling_ids = resampling_ids), is.null)
 
       if (sum(!is.null(i), !is.null(uhashes), length(args) > 0L) > 1) {
-        stopf("At most one of `i`, `uhash`, or IDs can be provided.")
+        error_input("At most one of `i`, `uhash`, or IDs can be provided.")
       }
       if (!is.null(i)) {
         uhashes = self$uhashes
@@ -609,7 +609,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
         uhashes = invoke(match.fun("uhashes"), bmr = self, .args = args)
       }
       if (length(uhashes) == 0L) {
-        stopf("No resample results found for the given arguments.")
+        error_input("No resample results found for the given arguments.")
       }
       uhashes
     },
@@ -714,7 +714,7 @@ uhash = function(bmr, learner_id = NULL, task_id = NULL, resampling_id = NULL) {
   assert_string(resampling_id, null.ok = TRUE)
   uhash = uhashes(bmr, learner_id, task_id, resampling_id)
   if (length(uhash) != 1) {
-    stopf("Expected exactly one uhash, got %s", length(uhash))
+    error_input("Expected exactly one uhash, got %s", length(uhash))
   }
   uhash
 }

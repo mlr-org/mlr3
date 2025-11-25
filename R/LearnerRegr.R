@@ -69,7 +69,7 @@ LearnerRegr = R6Class("LearnerRegr", inherit = Learner,
     #'
     #' @return `list()` with elements `"response"`, `"se"` or `"quantiles"` depending on the predict type.
     predict_newdata_fast = function(newdata, task = NULL) {
-      if (is.null(task) && is.null(self$state$train_task)) stopf("No task stored, and no task provided")
+      if (is.null(task) && is.null(self$state$train_task)) error_input("No task stored, and no task provided")
       feature_names = self$state$train_task$feature_names %??% task$feature_names
 
       # add data and most common used meta data
@@ -134,7 +134,7 @@ LearnerRegr = R6Class("LearnerRegr", inherit = Learner,
       }
 
       if ("quantiles" %nin% self$predict_types) {
-        stopf("Learner does not support predicting quantiles")
+        error_config("Learner does not support predicting quantiles")
       }
       private$.quantiles = assert_numeric(rhs, lower = 0, upper = 1, any.missing = FALSE, min.len = 1L, sorted = TRUE, .var.name = "quantiles")
 
@@ -151,7 +151,7 @@ LearnerRegr = R6Class("LearnerRegr", inherit = Learner,
       }
 
       if ("quantiles" %nin% self$predict_types) {
-        stopf("Learner does not support predicting quantiles")
+        error_config("Learner does not support predicting quantiles")
       }
 
       private$.quantile_response = assert_number(rhs, lower = 0, upper = 1, .var.name = "response")

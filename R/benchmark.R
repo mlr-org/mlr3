@@ -105,12 +105,12 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
 
   # check for multiple task types
   task_types = unique(map_chr(design$task, "task_type"))
-  if (length(task_types) > 1L) {
-    stopf("Multiple task types detected, but mixing types is not supported: %s", str_collapse(task_types))
+  if (length(task_types) > 1) {
+    error_input("Multiple task types detected, but mixing types is not supported: %s", str_collapse(task_types))
   }
   learner_types = unique(map_chr(design$learner, "task_type"))
-  if (length(learner_types) > 1L) {
-    stopf("Multiple learner types detected, but mixing types is not supported: %s", str_collapse(learner_types))
+  if (length(learner_types) > 1) {
+    error_input("Multiple learner types detected, but mixing types is not supported: %s", str_collapse(learner_types))
   }
 
   setDT(design)
@@ -138,7 +138,7 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
 
     # check that all row ids of the resampling are present in the task
     if (resampling$task_row_hash != task$row_hash) {
-      stopf("Resampling '%s' is not instantiated on task '%s'", resampling$id, task$id)
+      error_input("Resampling '%s' is not instantiated on task '%s'", resampling$id, task$id)
     }
 
     data.table(

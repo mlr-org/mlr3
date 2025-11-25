@@ -42,7 +42,7 @@ predict.Learner = function(object, newdata, predict_type = NULL, ...) {
     predict_pars = names(tags)[map_lgl(tags, is.element, el = "predict")]
     i = which(names(pars) %nin% predict_pars)
     if (length(i)) {
-      stopf("Unknown parameters: %s", str_collapse(names(pars)[i]))
+      error_input("Unknown parameters: %s", str_collapse(names(pars)[i]))
     }
 
     object = object$clone()
@@ -57,7 +57,7 @@ predict.Learner = function(object, newdata, predict_type = NULL, ...) {
 
   predict_type = predict_type %??% head(names(mlr_reflections$learner_predict_types[[object$task_type]]), 1L)
   if (predict_type %nin% prediction$predict_types) {
-    stopf("Predict type '%s' not available", predict_type)
+    error_input("Predict type '%s' not available", predict_type)
   }
 
   prediction[[predict_type]]

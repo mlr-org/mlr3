@@ -40,7 +40,7 @@ TaskRegr = R6Class("TaskRegr",
 
       type = fget_key(self$col_info, i = target, j = "type", key = "id")
       if (type %nin% c("integer", "numeric")) {
-        stopf("Target column '%s' must be numeric", target)
+        error_input("Target column '%s' must be numeric", target)
       }
     },
 

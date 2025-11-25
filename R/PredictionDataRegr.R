@@ -22,11 +22,11 @@ check_prediction_data.PredictionDataRegr = function(pdata, ...) { # nolint
     assert_prediction_count(nrow(quantiles), n, "quantiles")
 
     if (is.null(attr(quantiles, "probs"))) {
-      stopf("No probs attribute stored in 'quantile'")
+      error_learner_predict("No probs attribute stored in 'quantile'")
     }
 
     if (is.null(attr(quantiles, "response")) && is.null(pdata$response)) {
-      stopf("No response attribute stored in 'quantile' or response stored in 'pdata'")
+      error_learner_predict("No response attribute stored in 'quantile' or response stored in 'pdata'")
     }
 
     colnames(pdata$quantiles) = sprintf("q%g", attr(quantiles, "probs"))
@@ -99,15 +99,15 @@ c.PredictionDataRegr = function(..., keep_duplicates = TRUE) { # nolint
   predict_types = names(mlr_reflections$learner_predict_types$regr)
   predict_types = map(dots, function(x) intersect(names(x), predict_types))
   if (!every(predict_types[-1L], setequal, y = predict_types[[1L]])) {
-    stopf("Cannot combine predictions: Different predict types")
+    error_input("Cannot combine predictions: Different predict types")
   }
 
   if (length(unique(map_lgl(dots, function(x) is.null(x$weights)))) > 1L) {
-    stopf("Cannot combine predictions: Some predictions have weights, others do not")
+    error_input("Cannot combine predictions: Some predictions have weights, others do not")
   }
 
   if (length(unique(map_lgl(dots, function(x) is.null(x$extra)))) > 1L) {
-    stopf("Cannot rbind predictions: Some predictions have extra data, others do not")
+    error_input("Cannot rbind predictions: Some predictions have extra data, others do not")
   }
 
   elems = c("row_ids", "truth", intersect(predict_types[[1L]], c("response", "se")), if ("weights" %chin% names(dots[[1L]])) "weights")
