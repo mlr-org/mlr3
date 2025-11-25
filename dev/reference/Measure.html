@@ -578,8 +578,7 @@ function of the measure.</p><div class="section">
 <h3 id="method-obs-loss-">Method <code>obs_loss()</code><a class="anchor" aria-label="anchor" href="#method-obs-loss-"></a></h3>
 <p>Calculates the observation-wise loss.
 Returns a <code><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric()</a></code> with one element for each row in the <a href="Prediction.html">Prediction</a>.
-If there is no observation-wise loss function for the measure, <code>NA_real_</code> values are returned.
-Note that some measures such as RMSE, do have an <code>$obs_loss</code>, but they require an additional transformation after aggregation, in this example taking the square-root.</p><div class="section">
+If there is no observation-wise loss function for the measure, <code>NA_real_</code> values are returned.</p><div class="section">
 <h4 id="usage-6">Usage<a class="anchor" aria-label="anchor" href="#usage-6"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Measure</span><span class="op">$</span><span class="fu">obs_loss</span><span class="op">(</span><span class="va">prediction</span>, task <span class="op">=</span> <span class="cn">NULL</span>, learner <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>

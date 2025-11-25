@@ -117,6 +117,27 @@ Defaults to <code>"mlr3_parallelization"</code>.</p></li>
 Defaults to <code>"mlr3_encapsulation"</code>.</p></li>
 </ul></div>
     <div class="section level2">
+    <h2 id="error-classes">Error Classes<a class="anchor" aria-label="anchor" href="#error-classes"></a></h2>
+
+
+<ul><li><p><code>Mlr3Error</code>: The base mlr3 error class.</p></li>
+<li><p><code>Mlr3ErrorConfig</code>: This error signals that the user has misconfigured something.
+By default, this error is not caught when the learner is encapsulated.</p></li>
+<li><p><code>Mlr3ErrorInput</code>: This error signals that the input to the function is invalid.</p></li>
+<li><p><code>Mlr3ErrorLearner</code>: The base error class for errors related to the learner.</p></li>
+<li><p><code>Mlr3ErrorLearnerTrain</code>: This error signals that the learner failed to train the model.</p></li>
+<li><p><code>Mlr3ErrorLearnerPredict</code>: This error signals that something went wrong during prediction.</p></li>
+<li><p><code>Mlr3TimeoutError</code>: This error signals that the encapsulation during train or predict timed out.</p></li>
+</ul></div>
+    <div class="section level2">
+    <h2 id="warning-classes">Warning Classes<a class="anchor" aria-label="anchor" href="#warning-classes"></a></h2>
+
+
+<ul><li><p><code>Mlr3Warning</code>: The base mlr3 warning class.</p></li>
+<li><p><code>Mlr3WarningConfig</code>: This warning signals that the user has misconfigured something.</p></li>
+<li><p><code>Mlr3WarningInput</code>: This warning signals that the input to the function is invalid.</p></li>
+</ul></div>
+    <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
     <p>Lang M, Binder M, Richter J, Schratz P, Pfisterer F, Coors S, Au Q, Casalicchio G, Kotthoff L, Bischl B (2019).
 “mlr3: A modern object-oriented machine learning framework in R.”
