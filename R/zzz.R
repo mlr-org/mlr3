@@ -23,7 +23,7 @@
 #' * Preprocessing and machine learning pipelines: \CRANpkg{mlr3pipelines}
 #' * Analysis of benchmark experiments: \CRANpkg{mlr3benchmark}
 #' * More classification and regression tasks: \CRANpkg{mlr3data}
-#' * Connector to [OpenML](https://www.openml.org): \CRANpkg{mlr3oml}
+#' * Connector to [OpenML](https://openml.org): \CRANpkg{mlr3oml}
 #' * Solid selection of good classification and regression learners: \CRANpkg{mlr3learners}
 #' * Even more learners: \url{https://github.com/mlr-org/mlr3extralearners}
 #' * Tuning of hyperparameters: \CRANpkg{mlr3tuning}
