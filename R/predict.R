@@ -57,7 +57,7 @@ predict.Learner = function(object, newdata, predict_type = NULL, ...) {
 
   predict_type = predict_type %??% head(names(mlr_reflections$learner_predict_types[[object$task_type]]), 1L)
   if (predict_type %nin% prediction$predict_types) {
-    error_learner_predict("Predict type '%s' not available", predict_type)
+    error_input("Predict type '%s' not available", predict_type)
   }
 
   prediction[[predict_type]]

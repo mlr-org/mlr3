@@ -45,7 +45,7 @@ default_fallback.LearnerRegr = function(learner, ...) {
 
   # set predict type
   if (learner$predict_type %nin% fallback$predict_types) {
-    error_learner_predict("Fallback learner '%s' does not support predict type '%s'.", fallback$id, learner$predict_type)
+    error_config("Fallback learner '%s' does not support predict type '%s'.", fallback$id, learner$predict_type)
   }
 
   fallback$predict_type = learner$predict_type
@@ -54,7 +54,7 @@ default_fallback.LearnerRegr = function(learner, ...) {
   if (learner$predict_type == "quantiles") {
 
     if (is.null(learner$quantiles) || is.null(learner$quantile_response)) {
-      error_learner_predict("Cannot set quantiles for fallback learner. Set `$quantiles` and `$quantile_response` in %s.", learner$id)
+      error_config("Cannot set quantiles for fallback learner. Set `$quantiles` and `$quantile_response` in %s.", learner$id)
     }
 
     fallback$quantiles = learner$quantiles

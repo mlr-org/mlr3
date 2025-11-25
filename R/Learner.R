@@ -681,10 +681,10 @@ Learner = R6Class("Learner",
     #' If set to `"error"`, an error is thrown, otherwise all features are returned.
     selected_features = function() {
       if (is.null(self$model)) {
-        error_learner("No model stored")
+        error_input("No model stored")
       }
       if (private$.selected_features_impute == "error") {
-        error_learner("Learner does not support feature selection")
+        error_input("Learner does not support feature selection")
       } else {
         self$state$feature_names
       }
@@ -916,7 +916,7 @@ default_values.Learner = function(x, search_space, task, ...) { # nolint
   values = default_values(x$param_set)
 
   if (any(search_space$ids() %nin% names(values))) {
-    error_learner("Could not find default values for the following parameters: %s",
+    error_input("Could not find default values for the following parameters: %s",
       str_collapse(setdiff(search_space$ids(), names(values))))
   }
 
