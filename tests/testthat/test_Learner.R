@@ -637,6 +637,9 @@ test_that("quantiles in LearnerRegr", {
 })
 
 test_that("predict time is cumulative", {
+  # no runtime test on CRAN
+  skip_on_cran()
+
   learner = lrn("classif.debug", sleep_predict = function() 0.05)
   task = tsk("iris")
   learner$train(task)$predict(task)
@@ -840,6 +843,9 @@ test_that("Learner printer for encapsulation", {
 })
 
 test_that("error conditions are working: callr", {
+  # no runtime test on CRAN
+  skip_on_cran()
+
   l = lrn("classif.debug",
     timeout = c(train = 0.01),
     # Sys.sleep does not get interrupted reliably
@@ -860,6 +866,9 @@ test_that("error conditions are working: callr", {
 })
 
 test_that("error conditions are working: evaluate", {
+  # no runtime test on CRAN
+  skip_on_cran()
+
   l = lrn("classif.debug",
     timeout = c(train = 0.2),
     # Sys.sleep does not get interrupted reliably
@@ -880,6 +889,9 @@ test_that("error conditions are working: evaluate", {
 })
 
 test_that("error conditions are working: try", {
+  # no runtime test on CRAN
+  skip_on_cran()
+
   l = lrn("classif.debug",
     timeout = c(train = 0.01),
     # Sys.sleep does not get interrupted reliably
@@ -900,6 +912,9 @@ test_that("error conditions are working: try", {
 })
 
 test_that("error conditions are working: mirai", {
+  # no runtime test on CRAN
+  skip_on_cran()
+
   l = lrn("classif.debug",
     timeout = c(train = 0.01),
     # Sys.sleep does not get interrupted reliably

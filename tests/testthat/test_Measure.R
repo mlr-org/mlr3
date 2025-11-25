@@ -125,7 +125,9 @@ test_that("time_train works with different predict type (#832)", {
 })
 
 test_that("time_train is > 0", {
+  # no runtime test on CRAN
   skip_on_cran()
+
   rr = resample(tsk("iris"), lrn("classif.debug"), rsmp("holdout"))
   res = rr$score(msr("time_train"))
   expect_gte(res$time_train, 0)
