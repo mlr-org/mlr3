@@ -322,7 +322,7 @@ workhorse = function(
   is_sequential = TRUE,
   unmarshal = TRUE,
   callbacks = NULL
-  ) {
+) {
   ctx = ContextResample$new(task, learner, resampling, iteration)
 
   call_back("on_resample_begin", callbacks, ctx)
@@ -577,7 +577,7 @@ create_internal_valid_task = function(validate, task, test_row_ids, prev_valid, 
       return(task)
     }
 
-   return(task)
+    return(task)
   }
 
   # validate is numeric

@@ -65,7 +65,7 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
       weights = NULL,
       check = TRUE,
       extra = NULL
-      ) {
+    ) {
       pdata = new_prediction_data(
         list(row_ids = row_ids, truth = truth, response = response, se = se, quantiles = quantiles, distr = distr, weights = weights, extra = extra),
         task_type = "regr"
