@@ -59,7 +59,7 @@ Imports:
     mirai (>= 2.4.1),
     methods,
     mlbench,
-    mlr3measures (>= 1.0.0),
+    mlr3measures (>= 1.2.0),
     mlr3misc (>= 0.19.0),
     parallelly,
     palmerpenguins,
@@ -76,8 +76,6 @@ Suggests:
     RhpcBLASctl,
     rpart,
     testthat (>= 3.3.0)
-Remotes:
-    mlr-org/mlr3measures
 Encoding: UTF-8
 Config/testthat/edition: 3
 Config/testthat/parallel: false
