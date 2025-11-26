@@ -35,7 +35,7 @@ jobs:
           - {os: ubuntu-latest, r: 'release', dev-package: 'mlr-org/paradox'}
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - uses: r-lib/actions/setup-pandoc@v2
 
