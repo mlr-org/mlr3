@@ -13,7 +13,7 @@ Each task has an associated help page, see \code{mlr_tasks_[id]}.
 
 This dictionary can get populated with additional tasks by add-on packages,
 e.g. \CRANpkg{mlr3data}, \CRANpkg{mlr3proba} or \CRANpkg{mlr3cluster}.
-\CRANpkg{mlr3oml} allows to interact with \href{https://www.openml.org}{OpenML}.
+\CRANpkg{mlr3oml} allows to interact with \href{https://openml.org}{OpenML}.
 
 For a more convenient way to retrieve and construct tasks, see \code{\link[=tsk]{tsk()}}/\code{\link[=tsks]{tsks()}}.
 }
