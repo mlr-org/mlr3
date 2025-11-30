@@ -216,6 +216,12 @@ Learner = R6Class("Learner",
     #' \url{https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling}
     timeout = c(train = Inf, predict = Inf),
 
+    #' @field deadline (named `POSIXct(2)` or Inf)\cr
+    #' Deadline for the learner's train and predict steps, in seconds.
+    #' Default is `c(train = Inf, predict = Inf)`.
+    deadline = c(train = Inf, predict = Inf),
+
+
     #' @template field_man
     man = NULL,
 
