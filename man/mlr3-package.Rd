@@ -25,7 +25,7 @@ Efficient, object-oriented programming on the building blocks of machine learnin
 \item Preprocessing and machine learning pipelines: \CRANpkg{mlr3pipelines}
 \item Analysis of benchmark experiments: \CRANpkg{mlr3benchmark}
 \item More classification and regression tasks: \CRANpkg{mlr3data}
-\item Connector to \href{https://openml.org}{OpenML}: \CRANpkg{mlr3oml}
+\item Connector to \href{https://www.openml.org}{OpenML}: \CRANpkg{mlr3oml}
 \item Solid selection of good classification and regression learners: \CRANpkg{mlr3learners}
 \item Even more learners: \url{https://github.com/mlr-org/mlr3extralearners}
 \item Tuning of hyperparameters: \CRANpkg{mlr3tuning}

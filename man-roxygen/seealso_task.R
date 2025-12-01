@@ -3,7 +3,7 @@
 #' * Chapter in the [mlr3book](https://mlr3book.mlr-org.com/):
 #'   \url{https://mlr3book.mlr-org.com/chapters/chapter2/data_and_basic_modeling.html}
 #' * Package \CRANpkg{mlr3data} for more toy tasks.
-#' * Package \CRANpkg{mlr3oml} for downloading tasks from \url{https://openml.org}.
+#' * Package \CRANpkg{mlr3oml} for downloading tasks from \url{https://www.openml.org}.
 #' * Package \CRANpkg{mlr3viz} for some generic visualizations.
 #' * [Dictionary][mlr3misc::Dictionary] of [Tasks][Task]: [mlr_tasks]
 #' * `as.data.table(mlr_tasks)` for a table of available [Tasks][Task] in the running session (depending on the loaded packages).

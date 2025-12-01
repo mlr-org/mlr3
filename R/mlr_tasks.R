@@ -8,7 +8,7 @@
 #'
 #' This dictionary can get populated with additional tasks by add-on packages,
 #' e.g. \CRANpkg{mlr3data}, \CRANpkg{mlr3proba} or \CRANpkg{mlr3cluster}.
-#' \CRANpkg{mlr3oml} allows to interact with [OpenML](https://openml.org).
+#' \CRANpkg{mlr3oml} allows to interact with [OpenML](https://www.openml.org).
 #'
 #' For a more convenient way to retrieve and construct tasks, see [tsk()]/[tsks()].
 #'
