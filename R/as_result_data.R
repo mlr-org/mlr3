@@ -50,7 +50,7 @@ as_result_data = function(
   learner_states = NULL,
   data_extra = NULL,
   store_backends = TRUE
-  ) {
+) {
   assert_task(task)
   assert_learners(learners, task = task)
   assert_resampling(resampling, instantiated = TRUE)

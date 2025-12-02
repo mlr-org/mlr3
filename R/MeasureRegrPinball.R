@@ -28,8 +28,8 @@
 MeasureRegrPinball = R6Class("MeasureRegrPinball",
   inherit = MeasureRegr,
   public = list(
-   #' @description
-   #' Creates a new instance of this [R6][R6::R6Class] class.
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function(alpha = 0.5) {
       param_set = ps(alpha = p_dbl(lower = 0, upper = 1))
       param_set$set_values(alpha = alpha)
