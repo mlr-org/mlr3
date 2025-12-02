@@ -104,7 +104,7 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
       weights = NULL,
       check = TRUE,
       extra = NULL
-      ) {
+    ) {
 
       pdata = new_prediction_data(
         list(row_ids = row_ids, truth = truth, response = response, prob = prob, weights = weights, extra = extra),

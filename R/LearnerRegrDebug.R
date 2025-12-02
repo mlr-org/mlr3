@@ -64,7 +64,7 @@ LearnerRegrDebug = R6Class("LearnerRegrDebug", inherit = LearnerRegr,
     #' @return Named `numeric()`.
     importance = function() {
       if (is.null(self$model)) {
-       error_input("No model stored")
+        error_input("No model stored")
       }
       fns = self$state$feature_names
       set_names(rep(0, length(fns)), fns)
