@@ -1,7 +1,7 @@
 # NA
 
 This R package is licensed under the
-[LGPL-3](https://www.gnu.org/licenses/lgpl-3.0.en.html). If you
+[LGPL-3](https://www.gnu.org/licenses/lgpl-3.0.html.en). If you
 encounter problems using this software (lack of documentation,
 misleading or wrong documentation, unexpected behavior, bugs, …) or just
 want to suggest features, please open an issue in the [issue

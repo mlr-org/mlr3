@@ -2,9 +2,26 @@
 
 ## mlr3 (development version)
 
+## mlr3 1.3.0
+
 - feat: `Learner$predict()` can now add additional data to
   `PredictionClassif` and `PredictionRegr` objects via the `extra`
   field.
+- feat: `Mlr3Error` and `Mlr3Warning` classes for errors and warnings.
+- refactor: `$obs_loss` methods in `Measure`, `Prediction`,
+  `ResampleResult`, and `BenchmarkResult`.
+- perf: Use more [`lengths()`](https://rdrr.io/r/base/lengths.html) and
+  [`data.table::setattr()`](https://rdatatable.gitlab.io/data.table/reference/setattr.html)
+  in tests.
+- perf: Use [`attr()`](https://rdrr.io/r/base/attr.html) instead of
+  [`attributes()`](https://rdrr.io/r/base/attributes.html) for
+  extracting single attributes.
+- test: Use more specialised test functions.
+- fix: `weights_measure` now work with `stratum`.
+- fix: Encapsulation loads loaded packages on the workers.
+- fix: Learners can handle new factor levels.
+- refactor: Use more implicit returns.
+- feat: Learner can pass extra data to predictions.
 
 ## mlr3 1.2.0
 
