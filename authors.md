@@ -46,7 +46,7 @@
 ## Citation
 
 Source:
-[`inst/CITATION`](https://github.com/mlr-org/mlr3/blob/main/inst/CITATION)
+[`inst/CITATION`](https://github.com/mlr-org/mlr3/blob/v1.3.0/inst/CITATION)
 
 Lang M, Binder M, Richter J, Schratz P, Pfisterer F, Coors S, Au Q,
 Casalicchio G, Kotthoff L, Bischl B (2019). “mlr3: A modern
