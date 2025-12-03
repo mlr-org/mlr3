@@ -90,7 +90,7 @@ We are planning and working on many more packages; for example for Bayesian opti
 A complete list of existing and planned extension packages can be found on the [mlr3 wiki](https://github.com/mlr-org/mlr3/wiki/Extension-Packages).
 
 [`mlr3`](https://mlr3.mlr-org.com) and its ecosystem are documented in numerous manual pages and a comprehensive [book](https://mlr3book.mlr-org.com) (work in progress).
-All packages are licensed under GNU Lesser General Public License ([LGPL-3](https://www.gnu.org/licenses/lgpl-3.0.en.html)).
+All packages are licensed under GNU Lesser General Public License ([LGPL-3](https://www.gnu.org/licenses/lgpl-3.0.html.en)).
 
 # Acknowledgments
 
