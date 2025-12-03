@@ -1,0 +1,497 @@
+# Package index
+
+## Building Blocks
+
+- [`Task`](https://mlr3.mlr-org.com/reference/Task.md) : Task Class
+- [`Learner`](https://mlr3.mlr-org.com/reference/Learner.md) : Learner
+  Class
+- [`Measure`](https://mlr3.mlr-org.com/reference/Measure.md) : Measure
+  Class
+- [`Resampling`](https://mlr3.mlr-org.com/reference/Resampling.md) :
+  Resampling Class
+- [`Prediction`](https://mlr3.mlr-org.com/reference/Prediction.md) :
+  Abstract Prediction Object
+
+## Data Backends
+
+- [`DataBackend`](https://mlr3.mlr-org.com/reference/DataBackend.md) :
+  DataBackend
+- [`DataBackendDataTable`](https://mlr3.mlr-org.com/reference/DataBackendDataTable.md)
+  : DataBackend for data.table
+- [`as_data_backend()`](https://mlr3.mlr-org.com/reference/as_data_backend.md)
+  : Create a Data Backend
+
+## Classification
+
+- [`TaskClassif`](https://mlr3.mlr-org.com/reference/TaskClassif.md) :
+  Classification Task
+- [`as_task_classif()`](https://mlr3.mlr-org.com/reference/as_task_classif.md)
+  : Convert to a Classification Task
+- [`LearnerClassif`](https://mlr3.mlr-org.com/reference/LearnerClassif.md)
+  : Classification Learner
+- [`MeasureClassif`](https://mlr3.mlr-org.com/reference/MeasureClassif.md)
+  : Classification Measure
+- [`PredictionClassif`](https://mlr3.mlr-org.com/reference/PredictionClassif.md)
+  : Prediction Object for Classification
+
+## Regression
+
+- [`TaskRegr`](https://mlr3.mlr-org.com/reference/TaskRegr.md) :
+  Regression Task
+- [`as_task_regr()`](https://mlr3.mlr-org.com/reference/as_task_regr.md)
+  : Convert to a Regression Task
+- [`LearnerRegr`](https://mlr3.mlr-org.com/reference/LearnerRegr.md) :
+  Regression Learner
+- [`MeasureRegr`](https://mlr3.mlr-org.com/reference/MeasureRegr.md) :
+  Regression Measure
+- [`PredictionRegr`](https://mlr3.mlr-org.com/reference/PredictionRegr.md)
+  : Prediction Object for Regression
+
+## Tasks
+
+- [`california_housing`](https://mlr3.mlr-org.com/reference/california_housing.md)
+  [`mlr_tasks_california_housing`](https://mlr3.mlr-org.com/reference/california_housing.md)
+  : Median House Value in California
+- [`mlr_tasks`](https://mlr3.mlr-org.com/reference/mlr_tasks.md) :
+  Dictionary of Tasks
+- [`mlr_tasks_breast_cancer`](https://mlr3.mlr-org.com/reference/mlr_tasks_breast_cancer.md)
+  : Wisconsin Breast Cancer Classification Task
+- [`mlr_tasks_german_credit`](https://mlr3.mlr-org.com/reference/mlr_tasks_german_credit.md)
+  : German Credit Classification Task
+- [`mlr_tasks_iris`](https://mlr3.mlr-org.com/reference/mlr_tasks_iris.md)
+  : Iris Classification Task
+- [`mlr_tasks_mtcars`](https://mlr3.mlr-org.com/reference/mlr_tasks_mtcars.md)
+  : Motor Trend Regression Task
+- [`mlr_tasks_penguins`](https://mlr3.mlr-org.com/reference/mlr_tasks_penguins.md)
+  : Palmer Penguins Data Set
+- [`mlr_tasks_pima`](https://mlr3.mlr-org.com/reference/mlr_tasks_pima.md)
+  : Pima Indian Diabetes Classification Task
+- [`mlr_tasks_sonar`](https://mlr3.mlr-org.com/reference/mlr_tasks_sonar.md)
+  : Sonar Classification Task
+- [`mlr_tasks_spam`](https://mlr3.mlr-org.com/reference/mlr_tasks_spam.md)
+  : Spam Classification Task
+- [`mlr_tasks_wine`](https://mlr3.mlr-org.com/reference/mlr_tasks_wine.md)
+  : Wine Classification Task
+- [`mlr_tasks_zoo`](https://mlr3.mlr-org.com/reference/mlr_tasks_zoo.md)
+  : Zoo Classification Task
+- [`as_task()`](https://mlr3.mlr-org.com/reference/as_task.md)
+  [`as_tasks()`](https://mlr3.mlr-org.com/reference/as_task.md) :
+  Convert to a Task
+- [`convert_task()`](https://mlr3.mlr-org.com/reference/convert_task.md)
+  : Convert a Task from One Type to Another
+
+## Task Generators
+
+- [`TaskGenerator`](https://mlr3.mlr-org.com/reference/TaskGenerator.md)
+  : TaskGenerator Class
+- [`mlr_task_generators`](https://mlr3.mlr-org.com/reference/mlr_task_generators.md)
+  : Dictionary of Task Generators
+- [`mlr_task_generators_2dnormals`](https://mlr3.mlr-org.com/reference/mlr_task_generators_2dnormals.md)
+  [`TaskGenerator2DNormals`](https://mlr3.mlr-org.com/reference/mlr_task_generators_2dnormals.md)
+  : 2D Normals Classification Task Generator
+- [`mlr_task_generators_cassini`](https://mlr3.mlr-org.com/reference/mlr_task_generators_cassini.md)
+  [`TaskGeneratorCassini`](https://mlr3.mlr-org.com/reference/mlr_task_generators_cassini.md)
+  : Cassini Classification Task Generator
+- [`mlr_task_generators_circle`](https://mlr3.mlr-org.com/reference/mlr_task_generators_circle.md)
+  [`TaskGeneratorCircle`](https://mlr3.mlr-org.com/reference/mlr_task_generators_circle.md)
+  : Circle Classification Task Generator
+- [`mlr_task_generators_friedman1`](https://mlr3.mlr-org.com/reference/mlr_task_generators_friedman1.md)
+  [`TaskGeneratorFriedman1`](https://mlr3.mlr-org.com/reference/mlr_task_generators_friedman1.md)
+  : Friedman1 Regression Task Generator
+- [`mlr_task_generators_moons`](https://mlr3.mlr-org.com/reference/mlr_task_generators_moons.md)
+  [`TaskGeneratorMoons`](https://mlr3.mlr-org.com/reference/mlr_task_generators_moons.md)
+  : Moons Classification Task Generator
+- [`mlr_task_generators_peak`](https://mlr3.mlr-org.com/reference/mlr_task_generators_peak.md)
+  [`TaskGeneratorPeak`](https://mlr3.mlr-org.com/reference/mlr_task_generators_peak.md)
+  : Peak Regression Task Generator
+- [`mlr_task_generators_simplex`](https://mlr3.mlr-org.com/reference/mlr_task_generators_simplex.md)
+  [`TaskGeneratorSimplex`](https://mlr3.mlr-org.com/reference/mlr_task_generators_simplex.md)
+  : Simplex Classification Task Generator
+- [`mlr_task_generators_smiley`](https://mlr3.mlr-org.com/reference/mlr_task_generators_smiley.md)
+  [`TaskGeneratorSmiley`](https://mlr3.mlr-org.com/reference/mlr_task_generators_smiley.md)
+  : Smiley Classification Task Generator
+- [`mlr_task_generators_spirals`](https://mlr3.mlr-org.com/reference/mlr_task_generators_spirals.md)
+  [`TaskGeneratorSpirals`](https://mlr3.mlr-org.com/reference/mlr_task_generators_spirals.md)
+  : Spiral Classification Task Generator
+- [`mlr_task_generators_xor`](https://mlr3.mlr-org.com/reference/mlr_task_generators_xor.md)
+  [`TaskGeneratorXor`](https://mlr3.mlr-org.com/reference/mlr_task_generators_xor.md)
+  : XOR Classification Task Generator
+
+## Learners
+
+- [`mlr_learners`](https://mlr3.mlr-org.com/reference/mlr_learners.md) :
+  Dictionary of Learners
+- [`mlr_learners_classif.debug`](https://mlr3.mlr-org.com/reference/mlr_learners_classif.debug.md)
+  [`LearnerClassifDebug`](https://mlr3.mlr-org.com/reference/mlr_learners_classif.debug.md)
+  : Classification Learner for Debugging
+- [`mlr_learners_classif.featureless`](https://mlr3.mlr-org.com/reference/mlr_learners_classif.featureless.md)
+  [`LearnerClassifFeatureless`](https://mlr3.mlr-org.com/reference/mlr_learners_classif.featureless.md)
+  : Featureless Classification Learner
+- [`mlr_learners_classif.rpart`](https://mlr3.mlr-org.com/reference/mlr_learners_classif.rpart.md)
+  [`LearnerClassifRpart`](https://mlr3.mlr-org.com/reference/mlr_learners_classif.rpart.md)
+  : Classification Tree Learner
+- [`mlr_learners_regr.debug`](https://mlr3.mlr-org.com/reference/mlr_learners_regr.debug.md)
+  [`LearnerRegrDebug`](https://mlr3.mlr-org.com/reference/mlr_learners_regr.debug.md)
+  : Regression Learner for Debugging
+- [`mlr_learners_regr.featureless`](https://mlr3.mlr-org.com/reference/mlr_learners_regr.featureless.md)
+  [`LearnerRegrFeatureless`](https://mlr3.mlr-org.com/reference/mlr_learners_regr.featureless.md)
+  : Featureless Regression Learner
+- [`mlr_learners_regr.rpart`](https://mlr3.mlr-org.com/reference/mlr_learners_regr.rpart.md)
+  [`LearnerRegrRpart`](https://mlr3.mlr-org.com/reference/mlr_learners_regr.rpart.md)
+  : Regression Tree Learner
+- [`as_learner()`](https://mlr3.mlr-org.com/reference/as_learner.md)
+  [`as_learners()`](https://mlr3.mlr-org.com/reference/as_learner.md) :
+  Convert to a Learner
+- [`HotstartStack`](https://mlr3.mlr-org.com/reference/HotstartStack.md)
+  : Stack for Hot Start Learners
+- [`default_fallback()`](https://mlr3.mlr-org.com/reference/default_fallback.md)
+  : Create a Fallback Learner
+
+## Measures
+
+- [`mlr_measures`](https://mlr3.mlr-org.com/reference/mlr_measures.md) :
+  Dictionary of Performance Measures
+- [`mlr_measures_aic`](https://mlr3.mlr-org.com/reference/mlr_measures_aic.md)
+  [`MeasureAIC`](https://mlr3.mlr-org.com/reference/mlr_measures_aic.md)
+  : Akaike Information Criterion Measure
+- [`mlr_measures_bic`](https://mlr3.mlr-org.com/reference/mlr_measures_bic.md)
+  [`MeasureBIC`](https://mlr3.mlr-org.com/reference/mlr_measures_bic.md)
+  : Bayesian Information Criterion Measure
+- [`mlr_measures_classif.acc`](https://mlr3.mlr-org.com/reference/mlr_measures_classif.acc.md)
+  : Classification Accuracy
+- [`mlr_measures_classif.auc`](https://mlr3.mlr-org.com/reference/mlr_measures_classif.auc.md)
+  : Area Under the ROC Curve
+- [`mlr_measures_classif.bacc`](https://mlr3.mlr-org.com/reference/mlr_measures_classif.bacc.md)
+  : Balanced Accuracy
+- [`mlr_measures_classif.bbrier`](https://mlr3.mlr-org.com/reference/mlr_measures_classif.bbrier.md)
+  : Binary Brier Score
+- [`mlr_measures_classif.ce`](https://mlr3.mlr-org.com/reference/mlr_measures_classif.ce.md)
+  : Classification Error
+- [`mlr_measures_classif.costs`](https://mlr3.mlr-org.com/reference/mlr_measures_classif.costs.md)
+  [`MeasureClassifCosts`](https://mlr3.mlr-org.com/reference/mlr_measures_classif.costs.md)
+  : Cost-sensitive Classification Measure
+- [`mlr_measures_classif.dor`](https://mlr3.mlr-org.com/reference/mlr_measures_classif.dor.md)
+  : Diagnostic Odds Ratio
+- [`mlr_measures_classif.fbeta`](https://mlr3.mlr-org.com/reference/mlr_measures_classif.fbeta.md)
+  : F-beta Score
+- [`mlr_measures_classif.fdr`](https://mlr3.mlr-org.com/reference/mlr_measures_classif.fdr.md)
+  : False Discovery Rate
+- [`mlr_measures_classif.fn`](https://mlr3.mlr-org.com/reference/mlr_measures_classif.fn.md)
+  : False Negatives
+- [`mlr_measures_classif.fnr`](https://mlr3.mlr-org.com/reference/mlr_measures_classif.fnr.md)
+  : False Negative Rate
+- [`mlr_measures_classif.fomr`](https://mlr3.mlr-org.com/reference/mlr_measures_classif.fomr.md)
+  : False Omission Rate
+- [`mlr_measures_classif.fp`](https://mlr3.mlr-org.com/reference/mlr_measures_classif.fp.md)
+  : False Positives
+- [`mlr_measures_classif.fpr`](https://mlr3.mlr-org.com/reference/mlr_measures_classif.fpr.md)
+  : False Positive Rate
+- [`mlr_measures_classif.logloss`](https://mlr3.mlr-org.com/reference/mlr_measures_classif.logloss.md)
+  : Log Loss
+- [`mlr_measures_classif.mauc_au1p`](https://mlr3.mlr-org.com/reference/mlr_measures_classif.mauc_au1p.md)
+  : Multiclass AUC Scores
+- [`mlr_measures_classif.mauc_au1u`](https://mlr3.mlr-org.com/reference/mlr_measures_classif.mauc_au1u.md)
+  : Multiclass AUC Scores
+- [`mlr_measures_classif.mauc_aunp`](https://mlr3.mlr-org.com/reference/mlr_measures_classif.mauc_aunp.md)
+  : Multiclass AUC Scores
+- [`mlr_measures_classif.mauc_aunu`](https://mlr3.mlr-org.com/reference/mlr_measures_classif.mauc_aunu.md)
+  : Multiclass AUC Scores
+- [`mlr_measures_classif.mauc_mu`](https://mlr3.mlr-org.com/reference/mlr_measures_classif.mauc_mu.md)
+  : Multiclass AUC Scores
+- [`mlr_measures_classif.mbrier`](https://mlr3.mlr-org.com/reference/mlr_measures_classif.mbrier.md)
+  : Multiclass Brier Score
+- [`mlr_measures_classif.mcc`](https://mlr3.mlr-org.com/reference/mlr_measures_classif.mcc.md)
+  : Matthews Correlation Coefficient
+- [`mlr_measures_classif.npv`](https://mlr3.mlr-org.com/reference/mlr_measures_classif.npv.md)
+  : Negative Predictive Value
+- [`mlr_measures_classif.ppv`](https://mlr3.mlr-org.com/reference/mlr_measures_classif.ppv.md)
+  : Positive Predictive Value
+- [`mlr_measures_classif.prauc`](https://mlr3.mlr-org.com/reference/mlr_measures_classif.prauc.md)
+  : Area Under the Precision-Recall Curve
+- [`mlr_measures_classif.precision`](https://mlr3.mlr-org.com/reference/mlr_measures_classif.precision.md)
+  : Positive Predictive Value
+- [`mlr_measures_classif.recall`](https://mlr3.mlr-org.com/reference/mlr_measures_classif.recall.md)
+  : True Positive Rate
+- [`mlr_measures_classif.sensitivity`](https://mlr3.mlr-org.com/reference/mlr_measures_classif.sensitivity.md)
+  : True Positive Rate
+- [`mlr_measures_classif.specificity`](https://mlr3.mlr-org.com/reference/mlr_measures_classif.specificity.md)
+  : True Negative Rate
+- [`mlr_measures_classif.tn`](https://mlr3.mlr-org.com/reference/mlr_measures_classif.tn.md)
+  : True Negatives
+- [`mlr_measures_classif.tnr`](https://mlr3.mlr-org.com/reference/mlr_measures_classif.tnr.md)
+  : True Negative Rate
+- [`mlr_measures_classif.tp`](https://mlr3.mlr-org.com/reference/mlr_measures_classif.tp.md)
+  : True Positives
+- [`mlr_measures_classif.tpr`](https://mlr3.mlr-org.com/reference/mlr_measures_classif.tpr.md)
+  : True Positive Rate
+- [`mlr_measures_debug_classif`](https://mlr3.mlr-org.com/reference/mlr_measures_debug_classif.md)
+  [`MeasureDebugClassif`](https://mlr3.mlr-org.com/reference/mlr_measures_debug_classif.md)
+  : Debug Measure for Classification
+- [`mlr_measures_elapsed_time`](https://mlr3.mlr-org.com/reference/mlr_measures_elapsed_time.md)
+  [`MeasureElapsedTime`](https://mlr3.mlr-org.com/reference/mlr_measures_elapsed_time.md)
+  [`mlr_measures_time_train`](https://mlr3.mlr-org.com/reference/mlr_measures_elapsed_time.md)
+  [`mlr_measures_time_predict`](https://mlr3.mlr-org.com/reference/mlr_measures_elapsed_time.md)
+  [`mlr_measures_time_both`](https://mlr3.mlr-org.com/reference/mlr_measures_elapsed_time.md)
+  : Elapsed Time Measure
+- [`mlr_measures_internal_valid_score`](https://mlr3.mlr-org.com/reference/mlr_measures_internal_valid_score.md)
+  [`MeasureInternalValidScore`](https://mlr3.mlr-org.com/reference/mlr_measures_internal_valid_score.md)
+  : Measure Internal Validation Score
+- [`mlr_measures_oob_error`](https://mlr3.mlr-org.com/reference/mlr_measures_oob_error.md)
+  [`MeasureOOBError`](https://mlr3.mlr-org.com/reference/mlr_measures_oob_error.md)
+  : Out-of-bag Error Measure
+- [`mlr_measures_regr.bias`](https://mlr3.mlr-org.com/reference/mlr_measures_regr.bias.md)
+  : Bias
+- [`mlr_measures_regr.ktau`](https://mlr3.mlr-org.com/reference/mlr_measures_regr.ktau.md)
+  : Kendall's tau
+- [`mlr_measures_regr.mae`](https://mlr3.mlr-org.com/reference/mlr_measures_regr.mae.md)
+  : Mean Absolute Error
+- [`mlr_measures_regr.mape`](https://mlr3.mlr-org.com/reference/mlr_measures_regr.mape.md)
+  : Mean Absolute Percent Error
+- [`mlr_measures_regr.maxae`](https://mlr3.mlr-org.com/reference/mlr_measures_regr.maxae.md)
+  : Max Absolute Error
+- [`mlr_measures_regr.medae`](https://mlr3.mlr-org.com/reference/mlr_measures_regr.medae.md)
+  : Median Absolute Error
+- [`mlr_measures_regr.medse`](https://mlr3.mlr-org.com/reference/mlr_measures_regr.medse.md)
+  : Median Squared Error
+- [`mlr_measures_regr.mse`](https://mlr3.mlr-org.com/reference/mlr_measures_regr.mse.md)
+  : Mean Squared Error
+- [`mlr_measures_regr.msle`](https://mlr3.mlr-org.com/reference/mlr_measures_regr.msle.md)
+  : Mean Squared Log Error
+- [`mlr_measures_regr.pbias`](https://mlr3.mlr-org.com/reference/mlr_measures_regr.pbias.md)
+  : Percent Bias
+- [`mlr_measures_regr.pinball`](https://mlr3.mlr-org.com/reference/mlr_measures_regr.pinball.md)
+  [`MeasureRegrPinball`](https://mlr3.mlr-org.com/reference/mlr_measures_regr.pinball.md)
+  : Average Pinball Loss
+- [`mlr_measures_regr.rmse`](https://mlr3.mlr-org.com/reference/mlr_measures_regr.rmse.md)
+  : Root Mean Squared Error
+- [`mlr_measures_regr.rmsle`](https://mlr3.mlr-org.com/reference/mlr_measures_regr.rmsle.md)
+  : Root Mean Squared Log Error
+- [`mlr_measures_regr.rqr`](https://mlr3.mlr-org.com/reference/mlr_measures_regr.rqr.md)
+  [`MeasureRegrRQR`](https://mlr3.mlr-org.com/reference/mlr_measures_regr.rqr.md)
+  : R-Squared for Quantile Regression
+- [`mlr_measures_regr.rsq`](https://mlr3.mlr-org.com/reference/mlr_measures_regr.rsq.md)
+  [`MeasureRegrRSQ`](https://mlr3.mlr-org.com/reference/mlr_measures_regr.rsq.md)
+  : R-Squared
+- [`mlr_measures_regr.sae`](https://mlr3.mlr-org.com/reference/mlr_measures_regr.sae.md)
+  : Sum of Absolute Errors
+- [`mlr_measures_regr.smape`](https://mlr3.mlr-org.com/reference/mlr_measures_regr.smape.md)
+  : Symmetric Mean Absolute Percent Error
+- [`mlr_measures_regr.srho`](https://mlr3.mlr-org.com/reference/mlr_measures_regr.srho.md)
+  : Spearman's rho
+- [`mlr_measures_regr.sse`](https://mlr3.mlr-org.com/reference/mlr_measures_regr.sse.md)
+  : Sum of Squared Errors
+- [`mlr_measures_selected_features`](https://mlr3.mlr-org.com/reference/mlr_measures_selected_features.md)
+  [`MeasureSelectedFeatures`](https://mlr3.mlr-org.com/reference/mlr_measures_selected_features.md)
+  : Selected Features Measure
+- [`mlr_measures_sim.jaccard`](https://mlr3.mlr-org.com/reference/mlr_measures_sim.jaccard.md)
+  : Jaccard Similarity Index
+- [`mlr_measures_sim.phi`](https://mlr3.mlr-org.com/reference/mlr_measures_sim.phi.md)
+  : Phi Coefficient Similarity
+- [`default_measures()`](https://mlr3.mlr-org.com/reference/default_measures.md)
+  : Get the Default Measure
+- [`as_measure()`](https://mlr3.mlr-org.com/reference/as_measure.md)
+  [`as_measures()`](https://mlr3.mlr-org.com/reference/as_measure.md) :
+  Convert to a Measure
+- [`score_roc_measures()`](https://mlr3.mlr-org.com/reference/score_roc_measures.md)
+  : Calculate ROC Measures
+- [`print(`*`<roc_measures>`*`)`](https://mlr3.mlr-org.com/reference/print.roc_measures.md)
+  : Print ROC Measures
+
+## Resampling Strategies
+
+- [`mlr_resamplings`](https://mlr3.mlr-org.com/reference/mlr_resamplings.md)
+  : Dictionary of Resampling Strategies
+- [`mlr_resamplings_bootstrap`](https://mlr3.mlr-org.com/reference/mlr_resamplings_bootstrap.md)
+  [`ResamplingBootstrap`](https://mlr3.mlr-org.com/reference/mlr_resamplings_bootstrap.md)
+  : Bootstrap Resampling
+- [`mlr_resamplings_custom`](https://mlr3.mlr-org.com/reference/mlr_resamplings_custom.md)
+  [`ResamplingCustom`](https://mlr3.mlr-org.com/reference/mlr_resamplings_custom.md)
+  : Custom Resampling
+- [`mlr_resamplings_custom_cv`](https://mlr3.mlr-org.com/reference/mlr_resamplings_custom_cv.md)
+  [`ResamplingCustomCV`](https://mlr3.mlr-org.com/reference/mlr_resamplings_custom_cv.md)
+  : Custom Cross-Validation
+- [`mlr_resamplings_cv`](https://mlr3.mlr-org.com/reference/mlr_resamplings_cv.md)
+  [`ResamplingCV`](https://mlr3.mlr-org.com/reference/mlr_resamplings_cv.md)
+  : Cross-Validation Resampling
+- [`mlr_resamplings_holdout`](https://mlr3.mlr-org.com/reference/mlr_resamplings_holdout.md)
+  [`ResamplingHoldout`](https://mlr3.mlr-org.com/reference/mlr_resamplings_holdout.md)
+  : Holdout Resampling
+- [`mlr_resamplings_insample`](https://mlr3.mlr-org.com/reference/mlr_resamplings_insample.md)
+  [`ResamplingInsample`](https://mlr3.mlr-org.com/reference/mlr_resamplings_insample.md)
+  : Insample Resampling
+- [`mlr_resamplings_loo`](https://mlr3.mlr-org.com/reference/mlr_resamplings_loo.md)
+  [`ResamplingLOO`](https://mlr3.mlr-org.com/reference/mlr_resamplings_loo.md)
+  : Leave-One-Out Cross-Validation
+- [`mlr_resamplings_repeated_cv`](https://mlr3.mlr-org.com/reference/mlr_resamplings_repeated_cv.md)
+  [`ResamplingRepeatedCV`](https://mlr3.mlr-org.com/reference/mlr_resamplings_repeated_cv.md)
+  : Repeated Cross-Validation Resampling
+- [`mlr_resamplings_subsampling`](https://mlr3.mlr-org.com/reference/mlr_resamplings_subsampling.md)
+  [`ResamplingSubsampling`](https://mlr3.mlr-org.com/reference/mlr_resamplings_subsampling.md)
+  : Subsampling Resampling
+- [`as_resampling()`](https://mlr3.mlr-org.com/reference/as_resampling.md)
+  [`as_resamplings()`](https://mlr3.mlr-org.com/reference/as_resampling.md)
+  : Convert to a Resampling
+
+## Resample
+
+- [`resample()`](https://mlr3.mlr-org.com/reference/resample.md) :
+  Resample a Learner on a Task
+
+- [`partition()`](https://mlr3.mlr-org.com/reference/partition.md) :
+  Manually Partition into Training, Test and Validation Set
+
+- [`ResampleResult`](https://mlr3.mlr-org.com/reference/ResampleResult.md)
+  :
+
+  Container for Results of
+  [`resample()`](https://mlr3.mlr-org.com/reference/resample.md)
+
+- [`as_result_data()`](https://mlr3.mlr-org.com/reference/as_result_data.md)
+  : Convert to ResultData
+
+- [`as_resample_result()`](https://mlr3.mlr-org.com/reference/as_resample_result.md)
+  : Convert to ResampleResult
+
+## Benchmarking
+
+- [`benchmark()`](https://mlr3.mlr-org.com/reference/benchmark.md) :
+  Benchmark Multiple Learners on Multiple Tasks
+- [`benchmark_grid()`](https://mlr3.mlr-org.com/reference/benchmark_grid.md)
+  : Generate a Benchmark Grid Design
+- [`BenchmarkResult`](https://mlr3.mlr-org.com/reference/BenchmarkResult.md)
+  : Container for Benchmarking Results
+- [`as_result_data()`](https://mlr3.mlr-org.com/reference/as_result_data.md)
+  : Convert to ResultData
+- [`as_benchmark_result()`](https://mlr3.mlr-org.com/reference/as_benchmark_result.md)
+  : Convert to BenchmarkResult
+- [`uhashes()`](https://mlr3.mlr-org.com/reference/uhash.md)
+  [`uhash()`](https://mlr3.mlr-org.com/reference/uhash.md) : Obtain
+  specific uhashes from a BenchmarkResult
+
+## Converters
+
+- [`as_benchmark_result()`](https://mlr3.mlr-org.com/reference/as_benchmark_result.md)
+  : Convert to BenchmarkResult
+- [`as_data_backend()`](https://mlr3.mlr-org.com/reference/as_data_backend.md)
+  : Create a Data Backend
+- [`as_learner()`](https://mlr3.mlr-org.com/reference/as_learner.md)
+  [`as_learners()`](https://mlr3.mlr-org.com/reference/as_learner.md) :
+  Convert to a Learner
+- [`as_measure()`](https://mlr3.mlr-org.com/reference/as_measure.md)
+  [`as_measures()`](https://mlr3.mlr-org.com/reference/as_measure.md) :
+  Convert to a Measure
+- [`as_prediction()`](https://mlr3.mlr-org.com/reference/as_prediction.md)
+  [`as_predictions()`](https://mlr3.mlr-org.com/reference/as_prediction.md)
+  : Convert to a Prediction
+- [`as_prediction_classif()`](https://mlr3.mlr-org.com/reference/as_prediction_classif.md)
+  : Convert to a Classification Prediction
+- [`as_prediction_data()`](https://mlr3.mlr-org.com/reference/as_prediction_data.md)
+  : PredictionData
+- [`as_prediction_regr()`](https://mlr3.mlr-org.com/reference/as_prediction_regr.md)
+  : Convert to a Regression Prediction
+- [`as_resample_result()`](https://mlr3.mlr-org.com/reference/as_resample_result.md)
+  : Convert to ResampleResult
+- [`as_resampling()`](https://mlr3.mlr-org.com/reference/as_resampling.md)
+  [`as_resamplings()`](https://mlr3.mlr-org.com/reference/as_resampling.md)
+  : Convert to a Resampling
+- [`as_result_data()`](https://mlr3.mlr-org.com/reference/as_result_data.md)
+  : Convert to ResultData
+- [`as_task()`](https://mlr3.mlr-org.com/reference/as_task.md)
+  [`as_tasks()`](https://mlr3.mlr-org.com/reference/as_task.md) :
+  Convert to a Task
+- [`as_task_classif()`](https://mlr3.mlr-org.com/reference/as_task_classif.md)
+  : Convert to a Classification Task
+- [`as_task_regr()`](https://mlr3.mlr-org.com/reference/as_task_regr.md)
+  : Convert to a Regression Task
+- [`as_task_unsupervised()`](https://mlr3.mlr-org.com/reference/as_task_unsupervised.md)
+  [`as_tasks_unsupervised()`](https://mlr3.mlr-org.com/reference/as_task_unsupervised.md)
+  : Convert to an Unsupervised Task
+
+## Syntactic Sugar and Reflections
+
+- [`install_pkgs()`](https://mlr3.mlr-org.com/reference/install_pkgs.md)
+  [`extract_pkgs()`](https://mlr3.mlr-org.com/reference/install_pkgs.md)
+  : Install (Missing) Packages
+- [`tsk()`](https://mlr3.mlr-org.com/reference/mlr_sugar.md)
+  [`tsks()`](https://mlr3.mlr-org.com/reference/mlr_sugar.md)
+  [`tgen()`](https://mlr3.mlr-org.com/reference/mlr_sugar.md)
+  [`tgens()`](https://mlr3.mlr-org.com/reference/mlr_sugar.md)
+  [`lrn()`](https://mlr3.mlr-org.com/reference/mlr_sugar.md)
+  [`lrns()`](https://mlr3.mlr-org.com/reference/mlr_sugar.md)
+  [`rsmp()`](https://mlr3.mlr-org.com/reference/mlr_sugar.md)
+  [`rsmps()`](https://mlr3.mlr-org.com/reference/mlr_sugar.md)
+  [`msr()`](https://mlr3.mlr-org.com/reference/mlr_sugar.md)
+  [`msrs()`](https://mlr3.mlr-org.com/reference/mlr_sugar.md)
+  [`set_validate()`](https://mlr3.mlr-org.com/reference/mlr_sugar.md) :
+  Syntactic Sugar for Object Construction
+- [`mlr_reflections`](https://mlr3.mlr-org.com/reference/mlr_reflections.md)
+  : Reflections for mlr3
+- [`set_threads()`](https://mlr3.mlr-org.com/reference/set_threads.md) :
+  Set the Number of Threads
+
+## Callbacks
+
+- [`CallbackResample`](https://mlr3.mlr-org.com/reference/CallbackResample.md)
+  : Resample Callback
+- [`ContextResample`](https://mlr3.mlr-org.com/reference/ContextResample.md)
+  : Resample Context
+- [`callback_resample()`](https://mlr3.mlr-org.com/reference/callback_resample.md)
+  : Create Evaluation Callback
+- [`assert_resample_callback()`](https://mlr3.mlr-org.com/reference/assert_resample_callback.md)
+  [`assert_resample_callbacks()`](https://mlr3.mlr-org.com/reference/assert_resample_callback.md)
+  : Assertions for Callbacks
+- [`mlr3.model_extractor`](https://mlr3.mlr-org.com/reference/mlr3.model_extractor.md)
+  : Model Extractor Callback
+- [`mlr3.holdout_task`](https://mlr3.mlr-org.com/reference/mlr3.holdout_task.md)
+  : Callback Holdout Task
+
+## Internal Objects and Functions
+
+- [`learner_unmarshal()`](https://mlr3.mlr-org.com/reference/marshaling.md)
+  [`learner_marshal()`](https://mlr3.mlr-org.com/reference/marshaling.md)
+  [`learner_marshaled()`](https://mlr3.mlr-org.com/reference/marshaling.md)
+  [`marshal_model()`](https://mlr3.mlr-org.com/reference/marshaling.md)
+  [`unmarshal_model()`](https://mlr3.mlr-org.com/reference/marshaling.md)
+  [`is_marshaled_model()`](https://mlr3.mlr-org.com/reference/marshaling.md)
+  : (Un)marshal a Learner
+- [`MeasureSimilarity`](https://mlr3.mlr-org.com/reference/MeasureSimilarity.md)
+  : Similarity Measure
+- [`assert_backend()`](https://mlr3.mlr-org.com/reference/mlr_assertions.md)
+  [`assert_task()`](https://mlr3.mlr-org.com/reference/mlr_assertions.md)
+  [`assert_tasks()`](https://mlr3.mlr-org.com/reference/mlr_assertions.md)
+  [`assert_learner()`](https://mlr3.mlr-org.com/reference/mlr_assertions.md)
+  [`assert_learners()`](https://mlr3.mlr-org.com/reference/mlr_assertions.md)
+  [`assert_learnable()`](https://mlr3.mlr-org.com/reference/mlr_assertions.md)
+  [`assert_predictable()`](https://mlr3.mlr-org.com/reference/mlr_assertions.md)
+  [`assert_measure()`](https://mlr3.mlr-org.com/reference/mlr_assertions.md)
+  [`assert_scorable()`](https://mlr3.mlr-org.com/reference/mlr_assertions.md)
+  [`assert_measures()`](https://mlr3.mlr-org.com/reference/mlr_assertions.md)
+  [`assert_resampling()`](https://mlr3.mlr-org.com/reference/mlr_assertions.md)
+  [`assert_resamplings()`](https://mlr3.mlr-org.com/reference/mlr_assertions.md)
+  [`assert_prediction()`](https://mlr3.mlr-org.com/reference/mlr_assertions.md)
+  [`assert_resample_result()`](https://mlr3.mlr-org.com/reference/mlr_assertions.md)
+  [`assert_benchmark_result()`](https://mlr3.mlr-org.com/reference/mlr_assertions.md)
+  [`assert_row_ids()`](https://mlr3.mlr-org.com/reference/mlr_assertions.md)
+  [`assert_has_backend()`](https://mlr3.mlr-org.com/reference/mlr_assertions.md)
+  [`assert_quantiles()`](https://mlr3.mlr-org.com/reference/mlr_assertions.md)
+  [`assert_validate()`](https://mlr3.mlr-org.com/reference/mlr_assertions.md)
+  : Assertion for mlr3 Objects
+- [`ResultData`](https://mlr3.mlr-org.com/reference/ResultData.md) :
+  ResultData
+- [`create_empty_prediction_data()`](https://mlr3.mlr-org.com/reference/PredictionData.md)
+  [`check_prediction_data()`](https://mlr3.mlr-org.com/reference/PredictionData.md)
+  [`is_missing_prediction_data()`](https://mlr3.mlr-org.com/reference/PredictionData.md)
+  [`filter_prediction_data()`](https://mlr3.mlr-org.com/reference/PredictionData.md)
+  [`c(`*`<PredictionDataClassif>`*`)`](https://mlr3.mlr-org.com/reference/PredictionData.md)
+  [`c(`*`<PredictionDataRegr>`*`)`](https://mlr3.mlr-org.com/reference/PredictionData.md)
+  : Convert to PredictionData
+- [`predict(`*`<Learner>`*`)`](https://mlr3.mlr-org.com/reference/predict.Learner.md)
+  : Predict Method for Learners
+- [`mlr_test_helpers`](https://mlr3.mlr-org.com/reference/mlr_test_helpers.md)
+  : Documentation of mlr3 test helpers
+
+## Package
+
+- [`mlr3`](https://mlr3.mlr-org.com/reference/mlr3-package.md)
+  [`mlr3-package`](https://mlr3.mlr-org.com/reference/mlr3-package.md) :
+  mlr3: Machine Learning in R - Next Generation

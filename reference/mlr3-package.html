@@ -15,7 +15,7 @@ Efficient, object-oriented programming on the building blocks of machine learnin
 
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.2.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -117,6 +117,27 @@ Defaults to <code>"mlr3_parallelization"</code>.</p></li>
 Defaults to <code>"mlr3_encapsulation"</code>.</p></li>
 </ul></div>
     <div class="section level2">
+    <h2 id="error-classes">Error Classes<a class="anchor" aria-label="anchor" href="#error-classes"></a></h2>
+
+
+<ul><li><p><code>Mlr3Error</code>: The base mlr3 error class.</p></li>
+<li><p><code>Mlr3ErrorConfig</code>: This error signals that the user has misconfigured something.
+By default, this error is not caught when the learner is encapsulated.</p></li>
+<li><p><code>Mlr3ErrorInput</code>: This error signals that the input to the function is invalid.</p></li>
+<li><p><code>Mlr3ErrorLearner</code>: The base error class for errors related to the learner.</p></li>
+<li><p><code>Mlr3ErrorLearnerTrain</code>: This error signals that the learner failed to train the model.</p></li>
+<li><p><code>Mlr3ErrorLearnerPredict</code>: This error signals that something went wrong during prediction.</p></li>
+<li><p><code>Mlr3TimeoutError</code>: This error signals that the encapsulation during train or predict timed out.</p></li>
+</ul></div>
+    <div class="section level2">
+    <h2 id="warning-classes">Warning Classes<a class="anchor" aria-label="anchor" href="#warning-classes"></a></h2>
+
+
+<ul><li><p><code>Mlr3Warning</code>: The base mlr3 warning class.</p></li>
+<li><p><code>Mlr3WarningConfig</code>: This warning signals that the user has misconfigured something.</p></li>
+<li><p><code>Mlr3WarningInput</code>: This warning signals that the input to the function is invalid.</p></li>
+</ul></div>
+    <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
     <p>Lang M, Binder M, Richter J, Schratz P, Pfisterer F, Coors S, Au Q, Casalicchio G, Kotthoff L, Bischl B (2019).
 “mlr3: A modern object-oriented machine learning framework in R.”
@@ -160,7 +181,7 @@ Defaults to <code>"mlr3_encapsulation"</code>.</p></li>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>
