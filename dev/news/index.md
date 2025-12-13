@@ -4,6 +4,8 @@
 
 ## mlr3 1.3.0
 
+CRAN release: 2025-12-03
+
 - feat: `Learner$predict()` can now add additional data to
   `PredictionClassif` and `PredictionRegr` objects via the `extra`
   field.
