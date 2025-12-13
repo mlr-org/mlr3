@@ -1,4 +1,6 @@
 test_that("extract_pkgs works", {
+  skip_if_not_installed("remotes")
+
   # this is a noop, mlr3 is stripped from required packages
   expect_character(install_pkgs("mlr3"), len = 0)
 
