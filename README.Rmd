@@ -48,6 +48,7 @@ Successor of [mlr](https://github.com/mlr-org/mlr).
   - The course [Introduction to Machine learning (I2ML)](https://slds-lmu.github.io/i2ml/) is a free and open flipped classroom course on the basics of machine learning. `mlr3` is used in the [demos](https://github.com/slds-lmu/lecture_i2ml/tree/master/code-demos-pdf) and [exercises](https://github.com/slds-lmu/lecture_i2ml/tree/master/exercises).
 * **Templates/Tutorials**
   - [mlr3-targets](https://github.com/mlr-org/mlr3-targets): Tutorial showcasing how to use {mlr3} with [targets](https://docs.ropensci.org/targets/) for reproducible ML workflow automation.
+  - Using `mlr3viz` and `animint2` for [interactive visualizations](https://animint-manual-en.netlify.app/ch20/).
 * [List of extension packages](https://mlr-org.com/ecosystem.html)
 * [mlr-outreach](https://github.com/mlr-org/mlr-outreach) contains public talks and slides resources.
 * [Wiki](https://github.com/mlr-org/mlr3/wiki):
