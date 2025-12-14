@@ -46,6 +46,8 @@ learning. Successor of [mlr](https://github.com/mlr-org/mlr).
     showcasing how to use {mlr3} with
     [targets](https://docs.ropensci.org/targets/) for reproducible ML
     workflow automation.
+  - Using `mlr3viz` and `animint2` for [interactive
+    visualizations](https://animint-manual-en.netlify.app/ch20/).
 - [List of extension packages](https://mlr-org.com/ecosystem.html)
 - [mlr-outreach](https://github.com/mlr-org/mlr-outreach) contains
   public talks and slides resources.
