@@ -36,6 +36,7 @@ as_prediction_data.PredictionData = function(x, task, row_ids = task$row_ids, ch
 as_prediction_data.list = function(x, task, row_ids = task$row_ids, check = TRUE, ..., train_task) { # nolint
   assert_list(x, names = "unique")
   predict_types = names(mlr_reflections$learner_predict_types[[task$task_type]])
+  if (!is.null(predict_types)) predict_types = c(predict_types, "extra")
   assert_names(names(x), subset.of = predict_types)
 
   x$row_ids = row_ids
@@ -44,7 +45,7 @@ as_prediction_data.list = function(x, task, row_ids = task$row_ids, check = TRUE
   }
 
   if ("weights_measure" %chin% task$properties) {
-    x$weights = task$weights_measure[list(row_ids), "weight"][[1L]]
+    x$weights = task$weights_measure[list(row_id = row_ids), on = "row_id", "weight"][[1L]]
   }
 
   task = if (task$task_type == "unsupervised") train_task else task

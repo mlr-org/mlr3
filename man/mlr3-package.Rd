@@ -74,6 +74,29 @@ Defaults to \code{"mlr3_encapsulation"}.
 }
 }
 
+\section{Error Classes}{
+
+\itemize{
+\item \code{Mlr3Error}: The base mlr3 error class.
+\item \code{Mlr3ErrorConfig}: This error signals that the user has misconfigured something.
+By default, this error is not caught when the learner is encapsulated.
+\item \code{Mlr3ErrorInput}: This error signals that the input to the function is invalid.
+\item \code{Mlr3ErrorLearner}: The base error class for errors related to the learner.
+\item \code{Mlr3ErrorLearnerTrain}: This error signals that the learner failed to train the model.
+\item \code{Mlr3ErrorLearnerPredict}: This error signals that something went wrong during prediction.
+\item \code{Mlr3TimeoutError}: This error signals that the encapsulation during train or predict timed out.
+}
+}
+
+\section{Warning Classes}{
+
+\itemize{
+\item \code{Mlr3Warning}: The base mlr3 warning class.
+\item \code{Mlr3WarningConfig}: This warning signals that the user has misconfigured something.
+\item \code{Mlr3WarningInput}: This warning signals that the input to the function is invalid.
+}
+}
+
 \references{
 Lang M, Binder M, Richter J, Schratz P, Pfisterer F, Coors S, Au Q, Casalicchio G, Kotthoff L, Bischl B (2019).
 \dQuote{mlr3: A modern object-oriented machine learning framework in R.}
@@ -112,6 +135,7 @@ Other contributors:
   \item Lennart Schneider \email{lennart.sch@web.de} (\href{https://orcid.org/0000-0003-4152-5308}{ORCID}) [contributor]
   \item Lona Koers \email{lona.koers@gmail.com} [contributor]
   \item John Zobolas \email{bblodfon@gmail.com} (\href{https://orcid.org/0000-0002-3609-8674}{ORCID}) [contributor]
+  \item Maximilian Mücke \email{muecke.maximilian@gmail.com} (\href{https://orcid.org/0009-0000-9432-9795}{ORCID}) [contributor]
 }
 
 }

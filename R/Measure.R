@@ -91,10 +91,6 @@ Measure = R6Class("Measure",
     #' @template field_param_set
     param_set = NULL,
 
-    #' @field obs_loss (`function()` | `NULL`)
-    #' Function to calculate the observation-wise loss.
-    obs_loss = NULL,
-
     #' @field trafo (`list()` | `NULL`)
     #' `NULL` or a list with two elements:
     #' * `trafo`: the transformation function applied after aggregating
@@ -138,11 +134,23 @@ Measure = R6Class("Measure",
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #'
     #' Note that this object is typically constructed via a derived classes, e.g. [MeasureClassif] or [MeasureRegr].
-    initialize = function(id, task_type = NA, param_set = ps(), range = c(-Inf, Inf), minimize = NA, average = "macro",
-      aggregator = NULL, obs_loss = NULL, properties = character(), predict_type = "response",
-      predict_sets = "test", task_properties = character(), packages = character(),
-      label = NA_character_, man = NA_character_, trafo = NULL) {
-
+    initialize = function(
+      id,
+      task_type = NA,
+      param_set = ps(),
+      range = c(-Inf, Inf),
+      minimize = NA,
+      average = "macro",
+      aggregator = NULL,
+      properties = character(),
+      predict_type = "response",
+      predict_sets = "test",
+      task_properties = character(),
+      packages = character(),
+      label = NA_character_,
+      man = NA_character_,
+      trafo = NULL
+    ) {
       self$id = assert_string(id, min.chars = 1L)
       self$label = assert_string(label, na.ok = TRUE)
       self$task_type = task_type
@@ -151,7 +159,6 @@ Measure = R6Class("Measure",
       self$minimize = assert_flag(minimize, na.ok = TRUE)
       self$average = average
       private$.aggregator = assert_function(aggregator, null.ok = TRUE)
-      self$obs_loss = assert_function(obs_loss, null.ok = TRUE)
       self$trafo = assert_list(trafo, len = 2L, types = "function", null.ok = TRUE)
       if (!is.null(self$trafo)) {
         assert_permutation(names(trafo), c("fn", "deriv"))
@@ -249,19 +256,19 @@ Measure = R6Class("Measure",
       # except when the checks are superfluous for rr$score() and bmr$score()
       # these checks should be added bellow
       if ("requires_task" %chin% properties && is.null(task)) {
-        stopf("Measure '%s' requires a task", self$id)
+        error_input("Measure '%s' requires a task", self$id)
       }
 
       if ("requires_learner" %chin% properties && is.null(learner)) {
-        stopf("Measure '%s' requires a learner", self$id)
+        error_input("Measure '%s' requires a learner", self$id)
       }
 
       if (!is_scalar_na(self$task_type) && self$task_type != prediction$task_type) {
-        stopf("Measure '%s' incompatible with task type '%s'", self$id, prediction$task_type)
+        error_input("Measure '%s' incompatible with task type '%s'", self$id, prediction$task_type)
       }
 
       if ("requires_train_set" %chin% properties && is.null(train_set)) {
-        stopf("Measure '%s' requires the train_set", self$id)
+        error_input("Measure '%s' requires the train_set", self$id)
       }
 
       score_single_measure(self, task, learner, train_set, prediction)
@@ -306,11 +313,40 @@ Measure = R6Class("Measure",
         "custom" =  {
           if (!is.null(get_private(rr$resampling)$.primary_iters) && "primary_iters" %nin% self$properties &&
               !test_permutation(get_private(rr$resampling)$.primary_iters, seq_len(rr$resampling$iters))) {
-            stopf("Resample result has non-NULL primary_iters, but measure '%s' cannot handle them", self$id)
+            error_input("Resample result has non-NULL primary_iters, but measure '%s' cannot handle them", self$id)
           }
           private$.aggregator(rr)
         }
       )
+    },
+
+    #' @description
+    #' Calculates the observation-wise loss.
+    #' Returns a `numeric()` with one element for each row in the [Prediction].
+    #' If there is no observation-wise loss function for the measure, `NA_real_` values are returned.
+    #'
+    #' @param prediction ([Prediction]).
+    #' @param task ([Task]).
+    #' @param learner ([Learner]).
+    #'
+    #' @return `numeric()` with one element for each row in the [Prediction].
+    #' @examples
+    #' task = tsk("penguins")
+    #' learner = lrn("classif.rpart")
+    #' learner$train(task)
+    #' prediction = learner$predict(task)
+    #' msr("classif.ce")$obs_loss(prediction)
+    obs_loss = function(prediction, task = NULL, learner = NULL) {
+
+      if (!is_scalar_na(self$task_type) && self$task_type != prediction$task_type) {
+        error_input("Measure '%s' incompatible with task type '%s'", self$id, prediction$task_type)
+      }
+
+      if ("obs_loss" %nin% self$properties) {
+        return(rep(NA_real_, length(prediction$row_ids)))
+      }
+
+      private$.obs_loss(prediction, task)
     }
   ),
 
@@ -330,7 +366,7 @@ Measure = R6Class("Measure",
     hash = function(rhs) {
       assert_ro_binding(rhs)
       calculate_hash(class(self), self$id, self$param_set$values, private$.score,
-        private$.average, private$.aggregator, self$obs_loss, self$trafo,
+        private$.average, private$.aggregator, private$.obs_loss, self$trafo,
         self$predict_sets, mget(private$.extra_hash, envir = self), private$.use_weights)
     },
 
@@ -411,7 +447,10 @@ Measure = R6Class("Measure",
     .aggregator = NULL,
     .use_weights = NULL,
     .score = function(prediction, task, weights, ...) {
-      stop("abstract method")
+      error_mlr3("abstract method")
+    },
+    .obs_loss = function(prediction, task, ...) {
+      error_mlr3("abstract method")
     }
   )
 )
@@ -477,7 +516,7 @@ score_single_measure = function(measure, task, learner, train_set, prediction) {
 #' Converts `obj` from [ResampleResult] or [BenchmarkResult] to a `data.table`.
 #' Automatically reassembles learners if needed.
 #' Uses lazy evaluation to avoid querying the `train_set` while calling
-#' [score_single_measure()].
+#' `score_single_measure()`.
 #'
 #' @param obj ([ResampleResult] | [BenchmarkResult]).
 #' @param measures (list of [Measure]).

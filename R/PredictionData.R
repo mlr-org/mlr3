@@ -28,10 +28,10 @@ new_prediction_data = function(li, task_type) {
   class(li) = c(fget_key(mlr_reflections$task_types, task_type, "prediction_data", "type"), "PredictionData")
 
   for (i in seq_along(extra_attributes)) {
-    attr(li, names(extra_attributes)[i]) = extra_attributes[[i]]
+    setattr(li, names(extra_attributes)[i], extra_attributes[[i]])
   }
 
-  return(li)
+  li
 }
 
 #' @rdname PredictionData

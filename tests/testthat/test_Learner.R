@@ -49,7 +49,7 @@ test_that("learner timings", {
   learner = lrn("regr.rpart")
   t = learner$timings
   expect_equal(unname(t), as.double(c(NA, NA)))
-  expect_equal(names(t), c("train", "predict"))
+  expect_names(names(t), identical.to = c("train", "predict"))
 
 
   learner$train(tsk("mtcars"))
@@ -249,7 +249,7 @@ test_that("learner cannot be trained with TuneToken present", {
   task = tsk("california_housing")
   learner = lrn("regr.rpart", cp = paradox::to_tune(0.1, 0.3))
   expect_error(learner$train(task),
-    regexp = "<LearnerRegrRpart:regr.rpart> cannot be trained with TuneToken present in hyperparameter: cp",
+    regexp = "<LearnerRegrRpart:regr.rpart> cannot be trained with TuneToken present",
     fixed = TRUE)
 })
 
@@ -263,7 +263,7 @@ test_that("integer<->numeric conversion in newdata (#533)", {
   learner$train(task)
   expect_prediction(learner$predict_newdata(data))
   expect_prediction(learner$predict_newdata(newdata1))
-  expect_error(learner$predict_newdata(newdata2), "failed to convert from class 'numeric'")
+  expect_error(learner$predict_newdata(newdata2), "class 'numeric' to class 'integer'")
 })
 
 test_that("weights", {
@@ -637,6 +637,9 @@ test_that("quantiles in LearnerRegr", {
 })
 
 test_that("predict time is cumulative", {
+  # no runtime test on CRAN
+  skip_on_cran()
+
   learner = lrn("classif.debug", sleep_predict = function() 0.05)
   task = tsk("iris")
   learner$train(task)$predict(task)
@@ -802,7 +805,7 @@ test_that("weights are used when appropriate", {
   expect_equal(unname(learner$train(iris_weights_learner)$predict(predict_task)$prob), matrix(c(1, 1, 1) / 3, nrow = 1, ncol = 3))
 
   learner$use_weights = "error"
-  expect_error(learner$train(iris_weights_learner), "'use_weights' was set to 'error'")
+  expect_error(learner$train(iris_weights_learner), "'use_weights' was set to\n  'error'")
 
   # behaviour of learner that does not support weights
   llclass = R6Class("dummy", inherit = LearnerClassif,
@@ -820,7 +823,7 @@ test_that("weights are used when appropriate", {
   ll = llclass$new()
 
   # different error message
-  expect_error(ll$train(iris_weights_learner), "Learner does not support weights")
+  expect_error(ll$train(iris_weights_learner), "Learner does not support\n  weights")
   ll$train(iris_weights_measure)
 
   ll$use_weights = "ignore"
@@ -840,6 +843,9 @@ test_that("Learner printer for encapsulation", {
 })
 
 test_that("error conditions are working: callr", {
+  # no runtime test on CRAN
+  skip_on_cran()
+
   l = lrn("classif.debug",
     timeout = c(train = 0.01),
     # Sys.sleep does not get interrupted reliably
@@ -860,6 +866,9 @@ test_that("error conditions are working: callr", {
 })
 
 test_that("error conditions are working: evaluate", {
+  # no runtime test on CRAN
+  skip_on_cran()
+
   l = lrn("classif.debug",
     timeout = c(train = 0.2),
     # Sys.sleep does not get interrupted reliably
@@ -880,6 +889,9 @@ test_that("error conditions are working: evaluate", {
 })
 
 test_that("error conditions are working: try", {
+  # no runtime test on CRAN
+  skip_on_cran()
+
   l = lrn("classif.debug",
     timeout = c(train = 0.01),
     # Sys.sleep does not get interrupted reliably
@@ -900,6 +912,9 @@ test_that("error conditions are working: try", {
 })
 
 test_that("error conditions are working: mirai", {
+  # no runtime test on CRAN
+  skip_on_cran()
+
   l = lrn("classif.debug",
     timeout = c(train = 0.01),
     # Sys.sleep does not get interrupted reliably
@@ -1014,4 +1029,17 @@ test_that("config error does not trigger callback", {
   expect_error(l$train(tsk("iris")), regexp = "You misconfigured the learner")
   l$encapsulate("evaluate", lrn("classif.featureless"))
   expect_error(l$train(tsk("iris")), regexp = "You misconfigured the learner")
+})
+
+test_that("new_levels property is working", {
+  learner = lrn("classif.featureless")
+  task = tsk("penguins")
+  learner$train(task)
+  data = task$data()
+  set(data, i = 1L, j = "island", value = "NewIsland")
+
+  expect_error(learner$predict_newdata(data), "received task with different column info")
+
+  learner$properties = c(learner$properties, "new_levels")
+  expect_prediction(learner$predict_newdata(data))
 })

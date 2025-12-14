@@ -79,3 +79,52 @@ test_that("PredictionDataRegr with quantiles and response", {
   pred = as_prediction(pdata)
   expect_prediction_regr(pred)
 })
+
+test_that("combine with extra data", {
+  pdata = new_prediction_data(list(
+    row_ids = 1:2,
+    truth = runif(2),
+    response = runif(2),
+    extra = list(extra_col = c("a", "b"), extra_col2 = c(1, 2))),
+    "regr")
+
+  pdata2 = new_prediction_data(list(
+    row_ids = 1:2,
+    truth = runif(2),
+    response = runif(2),
+    extra = list(extra_col = c("c", "d"), extra_col2 = c(3, 4))),
+    "regr")
+
+  expect_equal(c(pdata, pdata2)$extra, list(extra_col = c("a", "b", "c", "d"), extra_col2 = c(1, 2, 3, 4)))
+  expect_equal(c(pdata, pdata2, keep_duplicates = FALSE)$extra, list(extra_col = c("c", "d"), extra_col2 = c(3, 4)))
+
+  pdata2 = new_prediction_data(list(
+    row_ids = 1:2,
+    truth = runif(2),
+    response = runif(2),
+    extra = list(extra_col = c("c", "d"), extra_col3 = c(3, 4))),
+    "regr")
+
+  expect_equal(c(pdata, pdata2)$extra, list(extra_col = c("a", "b", "c", "d"), extra_col2 = c(1, 2, NA, NA), extra_col3 = c(NA, NA, 3, 4)))
+
+  pdata2 = new_prediction_data(list(
+    row_ids = 1:2,
+    truth = runif(2),
+    response = runif(2),
+    prob = matrix(c(0.5, 0.5, 0.5, 1), 2)),
+    "regr")
+
+  expect_error(c(pdata, pdata2), "Some predictions have extra data, others do not")
+})
+
+test_that("filtering with extra data", {
+  pdata = new_prediction_data(list(
+    row_ids = 1:2,
+    truth = runif(2),
+    response = runif(2),
+    extra = list(extra_col = c("a", "b"), extra_col2 = c(1, 2))),
+    "regr")
+
+  expect_equal(filter_prediction_data(pdata, row_ids = 1)$extra, list(extra_col = "a", extra_col2 = 1))
+  expect_equal(filter_prediction_data(pdata, row_ids = 2)$extra, list(extra_col = "b", extra_col2 = 2))
+})

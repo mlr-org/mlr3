@@ -31,10 +31,10 @@ test_that("resample with no or multiple measures", {
   for (measures in list(mlr_measures$mget(c("classif.ce", "classif.acc")), list())) {
     tab = rr$score(measures, ids = FALSE, predictions = TRUE)
     expect_data_table(tab, ncols = length(mlr_reflections$rr_names) + length(learner$predict_sets) + length(measures), nrows = 3L)
-    expect_set_equal(names(tab), c(mlr_reflections$rr_names, ids(measures), paste0("prediction_", learner$predict_sets)))
+    expect_names(names(tab), permutation.of = c(mlr_reflections$rr_names, ids(measures), paste0("prediction_", learner$predict_sets)))
     perf = rr$aggregate(measures)
     expect_numeric(perf, any.missing = FALSE, len = length(measures), names = "unique")
-    expect_equal(names(perf), unname(ids(measures)))
+    expect_names(names(perf), identical.to = unname(ids(measures)))
   }
 })
 
@@ -42,7 +42,7 @@ test_that("as_benchmark_result.ResampleResult", {
   measures = list(msr("classif.ce"), msr("classif.acc"))
   bmr = as_benchmark_result(rr)
   expect_benchmark_result(bmr)
-  expect_equal(nrow(get_private(bmr)$.data), nrow(get_private(rr)$.data))
+  expect_identical(nrow(get_private(bmr)$.data), nrow(get_private(rr)$.data))
   expect_set_equal(bmr$uhashes, rr$uhash)
   aggr = bmr$aggregate()
   expect_data_table(aggr, nrows = 1)
@@ -61,9 +61,9 @@ test_that("inputs are cloned", {
 })
 
 test_that("memory footprint", {
-  expect_equal(nrow(get_private(rr)$.data$data$learners), 1L)
-  expect_equal(nrow(get_private(rr)$.data$data$tasks), 1L)
-  expect_equal(nrow(get_private(rr)$.data$data$resamplings), 1L)
+  expect_shape(get_private(rr)$.data$data$learners, nrow = 1L)
+  expect_shape(get_private(rr)$.data$data$tasks, nrow = 1L)
+  expect_shape(get_private(rr)$.data$data$resamplings, nrow = 1L)
 })
 
 test_that("predict_type is checked", {
@@ -376,7 +376,7 @@ test_that("can even use internal_valid predict set on learners that don't suppor
   task = tsk("mtcars")
   task$internal_valid_task = 1:10
   rr = resample(task, lrn("regr.debug", predict_sets = "internal_valid"), rsmp("holdout"))
-  expect_warning(rr$score(), "only predicted on sets")
+  expect_warning(rr$score(), "predicted on sets 'internal_valid'")
 })
 
 test_that("callr during prediction triggers marshaling", {
@@ -440,16 +440,6 @@ test_that("callr during prediction triggers marshaling", {
   l8 = rr8$learners[[1L]]
   expect_false(l8$marshaled)
   expect_equal(l8$model$marshal_count, 1L)
-})
-
-test_that("obs_loss", {
-  task = tsk("iris")
-  learner = lrn("classif.featureless")
-  resampling = rsmp("cv", folds = 3)
-  rr = resample(task, learner, resampling)
-
-  tbl = rr$obs_loss()
-  expect_integer(tbl$classif.ce)
 })
 
 test_that("multiple named measures", {
@@ -565,4 +555,22 @@ test_that("hashes work", {
   rr = resample(task, learner, resampling)
   task_hashes = map(rr$learners, function(learner) learner$state$task_hash)
   expect_length(unique(task_hashes), 3)
+})
+
+test_that("obs_loss works", {
+  task = tsk("iris")
+  learner = lrn("classif.rpart", predict_type = "prob")
+  resampling = rsmp("cv", folds = 3)
+  rr = resample(task, learner, resampling)
+
+  obs_loss = rr$obs_loss(msr("classif.logloss"))
+  expect_data_table(obs_loss, nrows = task$nrow)
+  expect_numeric(obs_loss$classif.logloss, len = task$nrow, any.missing = FALSE)
+  expect_set_equal(obs_loss$iteration, seq(3))
+
+  obs_loss = rr$obs_loss(msrs(c("classif.acc", "classif.logloss", "classif.auc")))
+  expect_data_table(obs_loss, nrows = task$nrow)
+  expect_numeric(obs_loss$classif.acc, len = task$nrow, any.missing = FALSE)
+  expect_numeric(obs_loss$classif.logloss, len = task$nrow, any.missing = FALSE)
+  expect_true(all(is.na(obs_loss$classif.auc)))
 })

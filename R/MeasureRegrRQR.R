@@ -39,23 +39,23 @@
 MeasureRegrRQR = R6Class("MeasureRQR",
   inherit = MeasureRegr,
   public = list(
-   #' @description
-   #' Creates a new instance of this [R6][R6::R6Class] class.
-   initialize = function(alpha = 0.5, pred_set_mean = TRUE) {
-     private$.pred_set_mean = assert_flag(pred_set_mean)
-     param_set = ps(alpha = p_dbl(lower = 0, upper = 1))
-     param_set$set_values(alpha = alpha)
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
+    initialize = function(alpha = 0.5, pred_set_mean = TRUE) {
+      private$.pred_set_mean = assert_flag(pred_set_mean)
+      param_set = ps(alpha = p_dbl(lower = 0, upper = 1))
+      param_set$set_values(alpha = alpha)
 
-     super$initialize(
-       id = "regr.rqr",
-       param_set = param_set,
-       properties = c(if (!private$.pred_set_mean) c("requires_task", "requires_train_set")),
-       predict_type = "quantiles",
-       minimize = FALSE,
-       range = c(-Inf, 1),
-       man = "mlr3::mlr_measures_regr.rqr"
-     )
-   }
+      super$initialize(
+        id = "regr.rqr",
+        param_set = param_set,
+        properties = c(if (!private$.pred_set_mean) c("requires_task", "requires_train_set")),
+        predict_type = "quantiles",
+        minimize = FALSE,
+        range = c(-Inf, 1),
+        man = "mlr3::mlr_measures_regr.rqr"
+      )
+    }
   ),
 
   private = list(

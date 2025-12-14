@@ -87,11 +87,11 @@ HotstartStack = R6Class("HotstartStack",
 
       walk(learners, function(learner) {
         if (!is.null(get0("validate", learner))) {
-          stopf("Hotstart learners that did validation is currently not supported.")
+          error_input("Hotstart learners that did validation is currently not supported.")
         } else if (is.null(learner$model)) {
-          stopf("Learners must be trained before adding them to the hotstart stack.")
+          error_input("Learners must be trained before adding them to the hotstart stack.")
         } else if (is_marshaled_model(learner$model)) {
-          stopf("Learners must be unmarshaled before adding them to the hotstart stack.")
+          error_input("Learners must be unmarshaled before adding them to the hotstart stack.")
         }
       })
 
@@ -132,7 +132,7 @@ HotstartStack = R6Class("HotstartStack",
     #'
     # @return `numeric()`.
     start_cost = function(learner, task_hash) {
-      if(!nrow(self$stack)) return(numeric(0))
+      if (!nrow(self$stack)) return(numeric(0))
       .learner_hash = learner_hotstart_hash(assert_learner(learner))
       .task_hash = assert_string(task_hash)
       hotstart_id = learner$param_set$ids(tags = "hotstart")
@@ -157,7 +157,7 @@ HotstartStack = R6Class("HotstartStack",
     #' @param ... (ignored).
     print = function(...) {
       cat_cli(cli_h1("{.cls {class(self)[1L]}}"))
-      print(self$stack, digits = 2)
+      print(self$stack, digits = 2L)
     }
   ),
 
@@ -170,9 +170,9 @@ HotstartStack = R6Class("HotstartStack",
     # `learner_train(learner, task, row_ids, mode = 'retrain')` with the
     # returned learner.
     .start_learner = function(learner, task_hash) {
-      if(!nrow(self$stack)) return(NULL)
+      if (!nrow(self$stack)) return(NULL)
       .learner_hash = learner_hotstart_hash(assert_learner(learner))
-      .task_hash = assert_character(task_hash, len = 1)
+      .task_hash = assert_character(task_hash, len = 1L)
       hotstart_id = learner$param_set$ids(tags = "hotstart")
 
       start_learner = self$stack[list(.task_hash, .learner_hash), on = c("task_hash", "learner_hash"), nomatch = NULL

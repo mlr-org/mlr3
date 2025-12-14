@@ -55,7 +55,7 @@ LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
     #' @return Named `numeric()`.
     importance = function() {
       if (is.null(self$model)) {
-        stopf("No model stored")
+        error_learner("No model stored")
       }
       # importance is only present if there is at least on split
       sort(self$model$variable.importance %??% set_names(numeric()), decreasing = TRUE)
@@ -66,7 +66,7 @@ LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
     #' @return `character()`.
     selected_features = function() {
       if (is.null(self$model)) {
-        stopf("No model stored")
+        error_learner("No model stored")
       }
       setdiff(self$model$frame$var, "<leaf>")
     }

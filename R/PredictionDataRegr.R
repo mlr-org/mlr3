@@ -22,11 +22,11 @@ check_prediction_data.PredictionDataRegr = function(pdata, ...) { # nolint
     assert_prediction_count(nrow(quantiles), n, "quantiles")
 
     if (is.null(attr(quantiles, "probs"))) {
-      stopf("No probs attribute stored in 'quantile'")
+      error_learner_predict("No probs attribute stored in 'quantile'")
     }
 
     if (is.null(attr(quantiles, "response")) && is.null(pdata$response)) {
-      stopf("No response attribute stored in 'quantile' or response stored in 'pdata'")
+      error_learner_predict("No response attribute stored in 'quantile' or response stored in 'pdata'")
     }
 
     colnames(pdata$quantiles) = sprintf("q%g", attr(quantiles, "probs"))
@@ -49,6 +49,14 @@ check_prediction_data.PredictionDataRegr = function(pdata, ...) { # nolint
     # weights may never be NA, even if no prediction was made.
     pdata$weights = assert_numeric(unname(pdata$weights), any.missing = FALSE)
     assert_prediction_count(length(pdata$weights), n, "weights")
+  }
+
+  if (!is.null(pdata$extra)) {
+    assert_list(pdata$extra, names = "unique")
+    len = lengths(pdata$extra)
+    if (any(len != n)) {
+      error_learner_predict("Extra data must have the same length as the number of predictions")
+    }
   }
 
   pdata
@@ -91,25 +99,35 @@ c.PredictionDataRegr = function(..., keep_duplicates = TRUE) { # nolint
   predict_types = names(mlr_reflections$learner_predict_types$regr)
   predict_types = map(dots, function(x) intersect(names(x), predict_types))
   if (!every(predict_types[-1L], setequal, y = predict_types[[1L]])) {
-    stopf("Cannot combine predictions: Different predict types")
+    error_input("Cannot combine predictions: Different predict types")
   }
 
   if (length(unique(map_lgl(dots, function(x) is.null(x$weights)))) > 1L) {
-    stopf("Cannot combine predictions: Some predictions have weights, others do not")
+    error_input("Cannot combine predictions: Some predictions have weights, others do not")
+  }
+
+  if (length(unique(map_lgl(dots, function(x) is.null(x$extra)))) > 1L) {
+    error_input("Cannot rbind predictions: Some predictions have extra data, others do not")
   }
 
   elems = c("row_ids", "truth", intersect(predict_types[[1L]], c("response", "se")), if ("weights" %chin% names(dots[[1L]])) "weights")
   tab = map_dtr(dots, function(x) x[elems], .fill = FALSE)
   quantiles = do.call(rbind, map(dots, "quantiles"))
 
+  extra = if ("extra" %chin% names(dots[[1L]])) {
+    rbindlist(map(dots, "extra"), fill = TRUE, use.names = TRUE)
+  }
+
   if (!keep_duplicates) {
     keep = !duplicated(tab, by = "row_ids", fromLast = TRUE)
     tab = tab[keep]
     quantiles = quantiles[keep, , drop = FALSE]
+    extra = extra[keep]
   }
 
   result = as.list(tab)
   result$quantiles = quantiles
+  if (!is.null(extra)) result$extra = as.list(extra)
 
   if ("distr" %chin% predict_types[[1L]]) {
     require_namespaces("distr6", msg = "To predict probability distributions, please install %s")
@@ -141,6 +159,10 @@ filter_prediction_data.PredictionDataRegr = function(pdata, row_ids, ...) {
     pdata$weights = pdata$weights[keep]
   }
 
+  if (!is.null(pdata$extra)) {
+    pdata$extra = map(pdata$extra, function(x) x[keep])
+  }
+
   pdata
 }
 
@@ -169,5 +191,5 @@ create_empty_prediction_data.TaskRegr = function(task, learner) {
     pdata$weights = numeric()
   }
 
-  return(new_prediction_data(pdata, "regr"))
+  new_prediction_data(pdata, "regr")
 }

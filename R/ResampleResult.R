@@ -77,7 +77,7 @@ ResampleResult = R6Class("ResampleResult",
       cat_cli(cli_h1("{.cls {class(self)[1L]}} with {.val {self$iters}} resampling iterations"))
       if (nrow(tab)) {
         tab = remove_named(tab, c("task", "learner", "resampling", "prediction"))
-        print(tab, class = FALSE, row.names = FALSE, print.keys = FALSE, digits = 3)
+        print(tab, class = FALSE, row.names = FALSE, print.keys = FALSE, digits = 3L)
       }
     },
 
@@ -190,14 +190,10 @@ ResampleResult = R6Class("ResampleResult",
     },
 
     #' @description
-    #' Calculates the observation-wise loss via the loss function set in the
-    #' [Measure]'s field `obs_loss`.
-    #' Returns a `data.table()` with the columns of the matching [Prediction] object plus
-    #' one additional numeric column for each measure, named with the respective measure id.
-    #' If there is no observation-wise loss function for the measure, the column is filled with
-    #' `NA` values.
-    #' Note that some measures such as RMSE, do have an `$obs_loss`, but they require an
-    #' additional transformation after aggregation, in this example taking the square-root.
+    #' Calculates the observation-wise loss via the [Measure]'s `obs_loss` method.
+    #' Returns a `data.table()` with an `iteration` column plus one numeric column for each measure, named with the respective measure id.
+    #' If there is no observation-wise loss function for the measure, the column is filled with `NA_real_` values.
+    #' Note that some measures such as RMSE, do have an `$obs_loss`, but they require an additional transformation after aggregation, in this example taking the square-root.
     #'
     #' @param predict_sets (`character()`)\cr
     #'   The predict sets.
@@ -205,8 +201,9 @@ ResampleResult = R6Class("ResampleResult",
     #' rr$obs_loss(msr("classif.acc"))
     obs_loss = function(measures = NULL, predict_sets = "test") {
       measures = assert_measures(as_measures(measures, task_type = self$task_type))
-      tab = map_dtr(self$predictions(predict_sets), as.data.table, .idcol = "iteration")
-      get_obs_loss(tab, measures)
+      map_dtr(self$predictions(predict_sets), function(pred) {
+        pred$obs_loss(measures)
+      }, .idcol = "iteration")
     },
 
     #' @description
@@ -299,7 +296,7 @@ ResampleResult = R6Class("ResampleResult",
     #' rr$set_threshold(0.6)
     set_threshold = function(threshold, ties_method = "random") {
       if (!self$task_type == "classif") {
-        stopf("Can only change the threshold for classification problems, but task type is '%s'.", self$task_type)
+        error_input("Can only change the threshold for classification problems, but task type is '%s'.", self$task_type)
       }
       private$.data$set_threshold(self$uhash, threshold, ties_method)
     }

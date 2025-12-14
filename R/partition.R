@@ -33,7 +33,7 @@ partition = function(task, ratio = 0.67) {
 partition.Task = function(task, ratio = 0.67) {
   task = task$clone(deep = TRUE)
   if (sum(ratio) >= 1) {
-    stopf("Sum of 'ratio' must be smaller than 1")
+    error_input("Sum of 'ratio' must be smaller than 1")
   }
 
   if (length(ratio) == 1L) {

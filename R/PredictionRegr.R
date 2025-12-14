@@ -51,9 +51,23 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
     #'
     #' @param check (`logical(1)`)\cr
     #'   If `TRUE`, performs some argument checks and predict type conversions.
-    initialize = function(task = NULL, row_ids = task$row_ids, truth = task$truth(), response = NULL, se = NULL, quantiles = NULL, distr = NULL, weights = NULL, check = TRUE) {
+    #'
+    #' @param extra (`list()`)\cr
+    #'   List of extra data to be stored in the prediction object.
+    initialize = function(
+      task = NULL,
+      row_ids = task$row_ids,
+      truth = task$truth(),
+      response = NULL,
+      se = NULL,
+      quantiles = NULL,
+      distr = NULL,
+      weights = NULL,
+      check = TRUE,
+      extra = NULL
+      ) {
       pdata = new_prediction_data(
-        list(row_ids = row_ids, truth = truth, response = response, se = se, quantiles = quantiles, distr = distr, weights = weights),
+        list(row_ids = row_ids, truth = truth, response = response, se = se, quantiles = quantiles, distr = distr, weights = weights, extra = extra),
         task_type = "regr"
       )
 
@@ -101,7 +115,7 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
       if ("distr" %chin% self$predict_types) {
         require_namespaces("distr6", msg = "To predict probability distributions, please install %s")
       }
-      return(self$data$distr)
+      self$data$distr
     }
   ),
 
@@ -127,6 +141,10 @@ as.data.table.PredictionRegr = function(x, ...) { # nolint
 
   if (!is.null(x$data$weights)) {
     tab$weights = x$data$weights
+  }
+
+  if (!is.null(x$data$extra)) {
+    tab = cbind(tab, as.data.table(x$data$extra))
   }
 
   tab

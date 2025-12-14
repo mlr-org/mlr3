@@ -92,9 +92,22 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
     #'
     #' @param check (`logical(1)`)\cr
     #'   If `TRUE`, performs some argument checks and predict type conversions.
-    initialize = function(task = NULL, row_ids = task$row_ids, truth = task$truth(), response = NULL, prob = NULL, weights = NULL, check = TRUE) {
+    #'
+    #' @param extra (`list()`)\cr
+    #'   List of extra data to be stored in the prediction object.
+    initialize = function(
+      task = NULL,
+      row_ids = task$row_ids,
+      truth = task$truth(),
+      response = NULL,
+      prob = NULL,
+      weights = NULL,
+      check = TRUE,
+      extra = NULL
+      ) {
+
       pdata = new_prediction_data(
-        list(row_ids = row_ids, truth = truth, response = response, prob = prob, weights = weights),
+        list(row_ids = row_ids, truth = truth, response = response, prob = prob, weights = weights, extra = extra),
         task_type = "classif"
       )
 
@@ -163,6 +176,10 @@ as.data.table.PredictionClassif = function(x, ...) { # nolint
     tab = rcbind(tab, prob)
   }
 
+  if (!is.null(x$data$extra)) {
+    tab = cbind(tab, as.data.table(x$data$extra))
+  }
+
   if (!is.null(x$data$weights)) {
     tab$weights = x$data$weights
   }
@@ -172,14 +189,14 @@ as.data.table.PredictionClassif = function(x, ...) { # nolint
 
 set_threshold_pdata = function(pdata, threshold, ties_method) {
   if (!is.matrix(pdata$prob)) {
-    stopf("Cannot set threshold, no probabilities available")
+    error_input("Cannot set threshold, no probabilities available")
   }
   lvls = levels(pdata$truth)
 
   if (length(threshold) == 1L) {
     assert_number(threshold, lower = 0, upper = 1)
     if (length(lvls) != 2L) {
-      stopf("Setting a single threshold only supported for binary classification problems")
+      error_input("Setting a single threshold only supported for binary classification problems")
     }
     prob = cbind(pdata$prob[, 1L], threshold)
   } else {

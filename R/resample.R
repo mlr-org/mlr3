@@ -71,7 +71,7 @@ resample = function(
   clone = c("task", "learner", "resampling"),
   unmarshal = TRUE,
   callbacks = NULL
-  ) {
+) {
 
   lg$debug("Start resampling")
 
@@ -93,7 +93,7 @@ resample = function(
   }
 
   if (!is.null(resampling$task_row_hash) && resampling$task_row_hash != task$row_hash) {
-    stopf("Resampling '%s' is not instantiated on task '%s'", resampling$id, task$id)
+    error_input("Resampling '%s' is not instantiated on task '%s'", resampling$id, task$id)
   }
 
   n = resampling$iters

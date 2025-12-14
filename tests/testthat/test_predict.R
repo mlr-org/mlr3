@@ -100,5 +100,3 @@ test_that("parallel predict works", {
   expect_equal(as.data.table(p1), as.data.table(p2))
 })
 
-
-

@@ -82,6 +82,16 @@ task = tsk("penguins")
 learner = lrn("classif.rpart")
 rr = resample(task, learner, rsmp("holdout"))
 msr("classif.ce")$aggregate(rr)
+
+## ------------------------------------------------
+## Method `Measure$obs_loss`
+## ------------------------------------------------
+
+task = tsk("penguins")
+learner = lrn("classif.rpart")
+learner$train(task)
+prediction = learner$predict(task)
+msr("classif.ce")$obs_loss(prediction)
 }
 \seealso{
 \itemize{
@@ -134,9 +144,6 @@ see \code{\link[=mlr_reflections]{mlr_reflections$task_types$type}}.}
 
 \item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
 Set of hyperparameters.}
-
-\item{\code{obs_loss}}{(\verb{function()} | \code{NULL})
-Function to calculate the observation-wise loss.}
 
 \item{\code{trafo}}{(\code{list()} | \code{NULL})
 \code{NULL} or a list with two elements:
@@ -249,6 +256,7 @@ For measures that do not support weights, \code{use_weights} needs to be set to 
 \item \href{#method-Measure-help}{\code{Measure$help()}}
 \item \href{#method-Measure-score}{\code{Measure$score()}}
 \item \href{#method-Measure-aggregate}{\code{Measure$aggregate()}}
+\item \href{#method-Measure-obs_loss}{\code{Measure$obs_loss()}}
 \item \href{#method-Measure-clone}{\code{Measure$clone()}}
 }
 }
@@ -268,7 +276,6 @@ Note that this object is typically constructed via a derived classes, e.g. \link
   minimize = NA,
   average = "macro",
   aggregator = NULL,
-  obs_loss = NULL,
   properties = character(),
   predict_type = "response",
   predict_sets = "test",
@@ -328,9 +335,6 @@ Instead, predictions from multiple iterations are first combined and then
 scored in one go.
 \item \code{"custom"}: A \link{ResampleResult} is passed to the aggregate function.
 }}
-
-\item{\code{obs_loss}}{(\code{function} or \code{NULL})\cr
-The observation-wise loss function, e.g. \link[mlr3measures:zero_one]{zero-one} for classification error.}
 
 \item{\code{properties}}{(\code{character()})\cr
 Properties of the measure.
@@ -493,6 +497,44 @@ function of the measure.
 learner = lrn("classif.rpart")
 rr = resample(task, learner, rsmp("holdout"))
 msr("classif.ce")$aggregate(rr)
+}
+\if{html}{\out{</div>}}
+
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Measure-obs_loss"></a>}}
+\if{latex}{\out{\hypertarget{method-Measure-obs_loss}{}}}
+\subsection{Method \code{obs_loss()}}{
+Calculates the observation-wise loss.
+Returns a \code{numeric()} with one element for each row in the \link{Prediction}.
+If there is no observation-wise loss function for the measure, \code{NA_real_} values are returned.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Measure$obs_loss(prediction, task = NULL, learner = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{prediction}}{(\link{Prediction}).}
+
+\item{\code{task}}{(\link{Task}).}
+
+\item{\code{learner}}{(\link{Learner}).}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\code{numeric()} with one element for each row in the \link{Prediction}.
+}
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{task = tsk("penguins")
+learner = lrn("classif.rpart")
+learner$train(task)
+prediction = learner$predict(task)
+msr("classif.ce")$obs_loss(prediction)
 }
 \if{html}{\out{</div>}}
 

@@ -96,17 +96,15 @@ Prediction = R6Class("Prediction",
     },
 
     #' @description
-    #' Calculates the observation-wise loss via the loss function set in the
-    #' [Measure]'s field `obs_loss`.
-    #' Returns a `data.table()` with the columns `row_ids`, `truth`, `response` and
-    #' one additional numeric column for each measure, named with the respective measure id.
-    #' If there is no observation-wise loss function for the measure, the column is filled with
-    #' `NA` values.
-    #' Note that some measures such as RMSE, do have an `$obs_loss`, but they require an
-    #' additional transformation after aggregation, in this example taking the square-root.
+    #' Calculates the observation-wise loss via the [Measure]'s `obs_loss` method.
+    #' Returns a `data.table()` with the columns of the matching [Prediction] object plus one additional numeric column for each measure, named with the respective measure id.
+    #' If there is no observation-wise loss function for the measure, the column is filled with `NA_real_` values.
+    #' Note that some measures such as RMSE, do have an `$obs_loss`, but they require an additional transformation after aggregation, in this example taking the square-root.
     obs_loss = function(measures = NULL) {
       measures = assert_measures(as_measures(measures, task_type = self$task_type))
-      get_obs_loss(as.data.table(self), measures)
+      tab = as.data.table(self)
+      walk(measures, function(m) set(tab, j = m$id, value = m$obs_loss(prediction = self)))
+      tab[]
     },
 
 
@@ -152,6 +150,13 @@ Prediction = R6Class("Prediction",
     weights = function(rhs) {
       assert_ro_binding(rhs)
       self$data$weights
+    },
+
+    #' @field extra (`list()`)\cr
+    #'   List of extra data stored in the prediction object.
+    extra = function(rhs) {
+      assert_ro_binding(rhs)
+      self$data$extra
     }
   )
 )
@@ -165,7 +170,7 @@ c.Prediction = function(..., keep_duplicates = TRUE) { # nolint
 
   classes = unique(map_chr(dots, function(x) class(x)[1L]))
   if (length(classes) > 1L) {
-    stopf("Cannot combine objects of different type: %s", str_collapse(classes))
+    error_input("Cannot combine objects of different type: %s", str_collapse(classes))
   }
   assert_flag(keep_duplicates)
 

@@ -64,7 +64,7 @@ LearnerRegrDebug = R6Class("LearnerRegrDebug", inherit = LearnerRegr,
     #' @return Named `numeric()`.
     importance = function() {
       if (is.null(self$model)) {
-        stopf("No model stored")
+       error_input("No model stored")
       }
       fns = self$state$feature_names
       set_names(rep(0, length(fns)), fns)
@@ -75,7 +75,7 @@ LearnerRegrDebug = R6Class("LearnerRegrDebug", inherit = LearnerRegr,
     #' @return `character()`.
     selected_features = function() {
       if (is.null(self$model)) {
-        stopf("No model stored")
+        error_input("No model stored")
       }
       character(0)
     }
@@ -88,13 +88,13 @@ LearnerRegrDebug = R6Class("LearnerRegrDebug", inherit = LearnerRegr,
       }
 
       if (roll("message_train")) {
-        message("Message from classif.debug->train()")
+        message("Message from regr.debug->train()")
       }
       if (roll("warning_train")) {
-        warningf("Warning from classif.debug->train()")
+        warning_mlr3("Warning from regr.debug->train()")
       }
       if (roll("error_train")) {
-        stopf("Error from classif.debug->train()")
+        error_learner_train("Error from regr.debug->train()")
       }
       if (roll("segfault_train")) {
         get("attach")(structure(list(), class = "UserDefinedDatabase"))
@@ -131,13 +131,13 @@ LearnerRegrDebug = R6Class("LearnerRegrDebug", inherit = LearnerRegr,
       }
 
       if (roll("message_predict")) {
-        message("Message from classif.debug->predict()")
+        message("Message from regr.debug->predict()")
       }
       if (roll("warning_predict")) {
-        warningf("Warning from classif.debug->predict()")
+        warning_mlr3("Warning from regr.debug->predict()")
       }
       if (roll("error_predict")) {
-        stopf("Error from classif.debug->predict()")
+        error_learner_predict("Error from regr.debug->predict()")
       }
       if (roll("segfault_predict")) {
         get("attach")(structure(list(), class = "UserDefinedDatabase"))
@@ -172,7 +172,7 @@ LearnerRegrDebug = R6Class("LearnerRegrDebug", inherit = LearnerRegr,
         prediction[[pt]] = value
       }
 
-      return(prediction)
+      prediction
     }
   )
 )

@@ -131,7 +131,7 @@ Task = R6Class("Task",
 
       assert_names(cn, "unique", .var.name = "column names")
       if (any(grepl("%", cn, fixed = TRUE))) {
-        stopf("Column names may not contain special character '%%'")
+        error_input("Column names may not contain special character '%%'")
       }
 
       self$col_info = col_info(self$backend)
@@ -172,7 +172,7 @@ Task = R6Class("Task",
       private$.hash = NULL
 
       if (!xor(is.null(ratio), is.null(ids))) {
-        stopf("Provide a ratio or ids to create a validation task, but not both (Task '%s').", self$id)
+        error_input("Provide a ratio or ids to create a validation task, but not both (Task '%s').", self$id)
       }
 
       valid_ids = if (!is.null(ratio)) {
@@ -236,7 +236,7 @@ Task = R6Class("Task",
           classes = if ("twoclass" %in% self$properties) {
             sprintf("%s (positive class, %.0f%%), %s (%.0f%%)", self$positive, class_freqs[[self$positive]], self$negative, class_freqs[[self$negative]])
           } else {
-            if (length(class_freqs) > 10) {
+            if (length(class_freqs) > 10L) {
               paste0(toString(sprintf("%s (%.0f%%)", names(class_freqs)[1:10], class_freqs[1:10])), " + ", length(class_freqs) - 10, " more")
             } else {
               toString(sprintf("%s (%.0f%%)", names(class_freqs), class_freqs))
@@ -333,12 +333,12 @@ Task = R6Class("Task",
       data = self$backend$data(rows = rows, cols = query_cols)
 
       if (length(query_cols) && nrow(data) != length(rows)) {
-        stopf("DataBackend did not return the queried rows correctly: %i requested, %i received.
-        The resampling was probably instantiated on a different task.", length(rows), nrow(data))
+        error_mlr3("DataBackend did not return the queried rows correctly: %i requested, %i received.
+        The resampling was probably instantiated on a different task.", length(rows), nrow(data))  # TODO: more specific error necessary?
       }
 
       if (length(rows) && ncol(data) != length(query_cols)) {
-        stopf("DataBackend did not return the queried cols correctly: %i requested, %i received", length(cols), ncol(data))
+        error_mlr3("DataBackend did not return the queried cols correctly: %i requested, %i received", length(cols), ncol(data))  # TODO: more specific error necessary?
       }
 
       .__i__ = self$col_info[["fix_factor_levels"]]
@@ -545,7 +545,7 @@ Task = R6Class("Task",
       }
 
       if (pk_in_backend && any(data$rownames %in% self$backend$rownames)) {
-        stopf("Cannot rbind data to task '%s', duplicated row ids", self$id)
+        error_input("Cannot rbind data to task '%s', duplicated row ids", self$id)
       }
 
       # columns with these roles must be present in data
@@ -553,7 +553,7 @@ Task = R6Class("Task",
       mandatory_cols = unlist(private$.col_roles[mandatory_roles], use.names = FALSE)
       missing_cols = setdiff(mandatory_cols, data$colnames)
       if (length(missing_cols)) {
-        stopf("Cannot rbind data to task '%s', missing the following mandatory columns: %s", self$id, str_collapse(missing_cols))
+        error_input("Cannot rbind data to task '%s', missing the following mandatory columns: %s", self$id, str_collapse(missing_cols))
       }
 
       # merge col infos
@@ -565,7 +565,7 @@ Task = R6Class("Task",
         type = type_y = NULL
         ii = head(tab[type != type_y, which = TRUE], 1L)
         if (length(ii)) {
-          stopf("Cannot rbind to task: Types do not match for column: %s (%s != %s)", tab$id[ii], tab$type[ii], tab$type_y[ii])
+          error_input("Cannot rbind to task: Types do not match for column: %s (%s != %s)", tab$id[ii], tab$type[ii], tab$type_y[ii])
         }
       }
 
@@ -844,7 +844,7 @@ Task = R6Class("Task",
       col_types = fget_keys(self$col_info, i = cols, j = "type", key = "id")
       ii = wf(col_types %nin% c("integer", "numeric"))
       if (length(ii)) {
-        stopf("For `add_strata`, all columns must be numeric, but '%s' is not", cols[ii])
+        error_input("For `add_strata`, all columns must be numeric, but '%s' is not", cols[ii])
       }
 
       strata = pmap_dtc(list(self$data(cols = cols), bins), cut, include.lowest = TRUE)
@@ -924,7 +924,7 @@ Task = R6Class("Task",
         self$row_roles$use = train_ids
       } else {
         if (!is.null(rhs$internal_valid_task)) { # avoid recursive structures
-          stopf("Trying to assign task '%s' as a validation task, remove its validation task first.", rhs$id)
+          error_input("Trying to assign task '%s' as a validation task, remove its validation task first.", rhs$id)
         }
         assert_task(rhs, task_type = self$task_type)
         rhs = rhs$clone(deep = TRUE)
@@ -936,16 +936,16 @@ Task = R6Class("Task",
       cols = unlist(self$col_roles[c("target", "feature")], use.names = FALSE)
       walk(cols, function(.col) {
         if (.col %nin% ci2$id) {
-          stopf("Primary task has column '%s' which is not present in the validation task.", .col)
+          error_input("Primary task has column '%s' which is not present in the validation task.", .col)
         }
         if (ci1[get("id") == .col, "type"]$type != ci2[get("id") == .col, "type"]$type) {
-          stopf("The type of column '%s' from the validation task differs from the type in the primary task.", .col)
+          error_input("The type of column '%s' from the validation task differs from the type in the primary task.", .col)
         }
       })
 
       private$.internal_valid_task = rhs
       if (private$.internal_valid_task$nrow == 0) {
-        warningf("Internal validation task has 0 observations.")
+        warning_input("Internal validation task has 0 observations.")
       }
       invisible(private$.internal_valid_task)
     },
@@ -1056,7 +1056,7 @@ Task = R6Class("Task",
       assert_has_backend(self)
       assert_list(rhs, .var.name = "row_roles")
       if ("test" %chin% names(rhs) || "holdout" %chin% names(rhs)) {
-        stopf("Setting row roles 'test'/'holdout' is no longer possible.")
+        error_input("Setting row roles 'test'/'holdout' is no longer possible.")
       }
       assert_names(names(rhs), "unique", permutation.of = mlr_reflections$task_row_roles, .var.name = "names of row_roles")
       rhs = map(rhs, assert_row_ids, .var.name = "elements of row_roles")
@@ -1428,12 +1428,12 @@ task_check_col_roles = function(task, new_roles, ...) {
 #' @export
 task_check_col_roles.Task = function(task, new_roles, ...) {
   if ("weight" %in% names(new_roles)) {
-    stopf("Task role 'weight' is deprecated, use 'weights_learner' instead")
+    error_input("Task role 'weight' is deprecated, use 'weights_learner' instead")
   }
 
   for (role in c("group", "name", "weights_learner", "weights_measure")) {
     if (length(new_roles[[role]]) > 1L) {
-      stopf("There may only be up to one column with role '%s'", role)
+      error_input("There may only be up to one column with role '%s'", role)
     }
   }
 
@@ -1441,7 +1441,7 @@ task_check_col_roles.Task = function(task, new_roles, ...) {
   for (role in c("weights_learner", "weights_measure")) {
     if (length(new_roles[[role]]) > 0L) {
       col = task$backend$data(seq(task$backend$nrow), cols = new_roles[[role]])
-      assert_numeric(col[[1]], lower = 0, any.missing = FALSE, .var.name = names(col))
+      assert_numeric(col[[1L]], lower = 0, any.missing = FALSE, .var.name = names(col))
     }
   }
 
@@ -1449,22 +1449,22 @@ task_check_col_roles.Task = function(task, new_roles, ...) {
   if (length(new_roles[["name"]])) {
     row_names = task$backend$data(task$backend$rownames, cols = new_roles[["name"]])
     if (!is.character(row_names[[1L]]) && !is.factor(row_names[[1L]])) {
-      stopf("Assertion on '%s' failed: Must be of type 'character' or 'factor', not %s", names(row_names), class(row_names[[1]]))
+      error_input("Assertion on '%s' failed: Must be of type 'character' or 'factor', not %s", names(row_names), class(row_names[[1]]))
     }
   }
 
   # check offset
   if (length(new_roles[["offset"]]) && any(fget_keys(task$col_info, new_roles[["offset"]], "type", key = "id") %nin% c("numeric", "integer"))) {
-    stopf("Offset column(s) %s must be a numeric or integer column", paste0("'", new_roles[["offset"]], "'", collapse = ","))
+    error_input("Offset column(s) %s must be a numeric or integer column", paste0("'", new_roles[["offset"]], "'", collapse = ","))
   }
 
   if (length(new_roles[["offset"]]) && any(task$missings(cols = new_roles[["offset"]]) > 0)) {
     missings = task$missings(cols = new_roles[["offset"]])
     missings = names(missings[missings > 0])
-    stopf("Offset column(s) %s contain missing values", paste0("'", missings, "'", collapse = ","))
+    error_input("Offset column(s) %s contain missing values", paste0("'", missings, "'", collapse = ","))
   }
 
-  return(new_roles)
+  new_roles
 }
 
 #' @rdname task_check_col_roles
@@ -1473,15 +1473,15 @@ task_check_col_roles.TaskClassif = function(task, new_roles, ...) {
 
   # check target
   if (length(new_roles[["target"]]) > 1L) {
-    stopf("There may only be up to one column with role 'target'")
+    error_input("There may only be up to one column with role 'target'")
   }
 
   if (length(new_roles[["target"]]) && any(fget_keys(task$col_info, new_roles[["target"]], "type", key = "id") %nin% c("factor", "ordered"))) {
-    stopf("Target column(s) %s must be a factor or ordered factor", paste0("'", new_roles[["target"]], "'", collapse = ","))
+    error_input("Target column(s) %s must be a factor or ordered factor", paste0("'", new_roles[["target"]], "'", collapse = ","))
   }
 
   if (length(new_roles[["offset"]]) > 1L && length(task$class_names) == 2L) {
-    stopf("There may only be up to one column with role 'offset' for binary classification tasks")
+    error_input("There may only be up to one column with role 'offset' for binary classification tasks")
   }
 
   if (length(new_roles[["offset"]]) > 1L) {
@@ -1497,12 +1497,12 @@ task_check_col_roles.TaskClassif = function(task, new_roles, ...) {
 task_check_col_roles.TaskRegr = function(task, new_roles, ...) {
   for (role in c("target", "offset")) {
     if (length(new_roles[[role]]) > 1L) {
-      stopf("There may only be up to one column with role '%s'", role)
+      error_input("There may only be up to one column with role '%s'", role)
     }
   }
 
   if (length(new_roles[["target"]]) && any(fget_keys(task$col_info, new_roles[["target"]], "type", key = "id") %nin% c("numeric", "integer"))) {
-    stopf("Target column '%s' must be a numeric or integer column", paste0("'", new_roles[["target"]], "'", collapse = ","))
+    error_input("Target column '%s' must be a numeric or integer column", paste0("'", new_roles[["target"]], "'", collapse = ","))
   }
 
   NextMethod()
@@ -1514,7 +1514,7 @@ task_check_col_roles.TaskSupervised = function(task, new_roles, ...) {
 
   # check target
   if (length(new_roles$target) == 0L) {
-    stopf("Supervised tasks need at least one target column")
+    error_input("Supervised tasks need at least one target column")
   }
 
   NextMethod()
@@ -1526,7 +1526,7 @@ task_check_col_roles.TaskUnsupervised = function(task, new_roles, ...) {
 
   # check target
   if (length(new_roles$target) != 0L) {
-    stopf("Unsupervised tasks may not have a target column")
+    error_input("Unsupervised tasks may not have a target column")
   }
 
   NextMethod()

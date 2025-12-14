@@ -4,7 +4,7 @@ test_that("Feature columns can be reordered", {
 
   task$col_roles$feature = new_order
   expect_equal(task$feature_names, new_order)
-  expect_equal(names(task$data(rows = 1)), c("median_house_value", new_order))
+  expect_names(names(task$data(rows = 1)), identical.to = c("median_house_value", new_order))
 })
 
 test_that("Task duplicates rows", {
@@ -781,12 +781,12 @@ test_that("rbind with weights", {
 
   # Check combined weights
   combined_weights_lrn = task$weights_learner
-  expect_equal(nrow(combined_weights_lrn), task$nrow)
+  expect_shape(combined_weights_lrn, nrow = task$nrow)
   expect_equal(setkeyv(combined_weights_lrn[row_id %in% original_row_ids], "row_id"), original_weights_lrn)
   expect_equal(combined_weights_lrn[row_id %in% 151:160]$weight, 1001:1010)
 
   combined_weights_msr = task$weights_measure
-  expect_equal(nrow(combined_weights_msr), task$nrow)
+  expect_shape(combined_weights_msr, nrow = task$nrow)
   # expect_equal(combined_weights_msr[row_id %in% original_row_ids], original_weights_msr) # ordering issue with join
   expect_equal(setkeyv(combined_weights_msr[list(original_row_ids), on = "row_id"], "row_id"), original_weights_msr)
   expect_equal(combined_weights_msr[row_id %in% 151:160]$weight, 2010:2001)
@@ -827,11 +827,11 @@ test_that("cbind with weights", {
   expect_true("weights_measure" %in% task$properties)
 
   weights_lrn = task$weights_learner
-  expect_equal(nrow(weights_lrn), task$nrow)
+  expect_shape(weights_lrn, nrow = task$nrow)
   expect_equal(weights_lrn$weight, 1:150)
 
   weights_msr = task$weights_measure
-  expect_equal(nrow(weights_msr), task$nrow)
+  expect_shape(weights_msr, nrow = task$nrow)
   expect_equal(weights_msr$weight, 150:1)
 
   # Check that original features/target are still there
@@ -1019,4 +1019,14 @@ test_that("materialize_view works with duplicates", {
   task2$filter(c(1, 1, 2))
   task2$materialize_view()
   expect_equal(task$data(), task2$data())
+})
+
+test_that("weights_measure + stratum works during resampling (#1405)", {
+  data = cbind(datasets::iris, data.frame(w = rep(c(1, 10, 100), each = 50)))
+  # 150 rows works, but 151 rows fails
+  data = data[c(seq(150), 1), ]
+  task = TaskClassif$new("iris_weights_measure", as_data_backend(data, target = "Species"), target = "Species")
+  task$set_col_roles("w", "weights_measure")
+  task$set_col_roles("Species", roles = c("target", "stratum"))
+  expect_resample_result(resample(task, lrn("classif.featureless"), rsmp("cv", folds = 3)))
 })

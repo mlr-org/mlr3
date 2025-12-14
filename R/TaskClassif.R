@@ -102,7 +102,7 @@ TaskClassif = R6Class("TaskClassif",
       }
 
       if (length(lvls) != 2L) {
-        stopf("Setting the positive class is only feasible for binary classification")
+        error_input("Setting the positive class is only feasible for binary classification")
       }
       positive = assert_choice(rhs, lvls)
       negative = setdiff(lvls, rhs)
@@ -123,7 +123,7 @@ TaskClassif = R6Class("TaskClassif",
       if (length(lvls) != 2L) {
         return(NA_character_)
       }
-      return(lvls[2L])
+      lvls[2L]
     }
   ),
 
@@ -139,12 +139,12 @@ TaskClassif = R6Class("TaskClassif",
 update_classif_property = function(self, private) {
   tn = self$target_names
   if (fget_key(self$col_info, tn, "type", key = "id") %nin% c("factor", "ordered")) {
-    stopf("Target column '%s' must be a factor or ordered factor", tn)
+    error_input("Target column '%s' must be a factor or ordered factor", tn)
   }
 
   nlvls = length(self$class_names)
   if (nlvls < 2L) {
-    stopf("Target column '%s' must have at least two levels", tn)
+    error_input("Target column '%s' must have at least two levels", tn)
   }
 
   private$.properties = setdiff(private$.properties, c("twoclass", "multiclass"))

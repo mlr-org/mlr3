@@ -41,7 +41,7 @@ as_task_regr.data.frame = function(x, target, id = deparse1(substitute(x)), labe
 
   ii = which(map_lgl(keep(x, is.double), anyInfinite))
   if (length(ii)) {
-    warningf("Detected columns with unsupported Inf values in data: %s", str_collapse(names(ii)))
+    warning_input("Detected columns with unsupported Inf values in data: %s", str_collapse(names(ii)))
   }
 
   TaskRegr$new(id = id, backend = x, target = target, label = label)
@@ -85,8 +85,8 @@ as_task_regr.formula = function(x, data, id = deparse1(substitute(data)), label 
   assert_data_frame(data)
   assert_subset(all.vars(x), c(names(data), "."), .var.name = "formula")
 
-  if (!attributes(terms(x, data = data))$response) {
-    stopf("Formula %s is missing a response", format(x))
+  if (!attr(terms(x, data = data), "response")) {
+    error_input("Formula %s is missing a response", format(x))
   }
   tab = model.frame(x, data, na.action = "na.pass")
   setattr(tab, "terms", NULL)

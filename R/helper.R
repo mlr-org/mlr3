@@ -12,7 +12,7 @@ get_featureless_learner = function(task_type) {
     }
   }
 
-  return(NULL)
+  NULL
 }
 
 assert_ordered_set = function(x, y, ...) {
@@ -26,7 +26,7 @@ set_data_table_class = function(x, class = NULL) {
 
 print_data_table = function(x, hidden_columns) {
   hidden_columns = intersect(names(x), hidden_columns)
-  extra_class = class(x)[1]
+  extra_class = class(x)[1L]
   set_data_table_class(x)
   print(x[, .SD, .SDcols = !hidden_columns])
   if (length(hidden_columns)) {
@@ -40,7 +40,7 @@ clone_without = function(x, y) {
   x[[y]] = NULL
   x2 = x$clone(deep = TRUE)
   x[[y]] = y_prev
-  return(x2)
+  x2
 }
 
 clone_rep = function(x, n) {
@@ -62,26 +62,9 @@ assert_validate = function(x) {
   assert_choice(x, c("predefined", "test"), null.ok = TRUE)
 }
 
-
-get_obs_loss = function(tab, measures) {
-  for (measure in measures) {
-    fun = measure$obs_loss
-    value = if (is.function(fun)) {
-      args = intersect(names(tab), names(formals(fun)))
-      do.call(fun, tab[, args, with = FALSE])
-    } else {
-      NA_real_
-    }
-
-    set(tab, j = measure$id, value = value)
-  }
-
-  tab[]
-}
-
 # Generalization of quantile(type = 7) for weighted data.
 
-quantile_weighted = function(x, probs, na.rm = FALSE, weights = NULL, digits = 7, continuous = TRUE) {
+quantile_weighted = function(x, probs, na.rm = FALSE, weights = NULL, digits = 7L, continuous = TRUE) {
   assert_flag(na.rm)
   assert_flag(continuous)
   assert_numeric(x, any.missing = na.rm)
@@ -149,4 +132,12 @@ weighted_mean_sd = function(x, weights) {
   mean = sum(x * weights) / weights_sum
   sd = sqrt(sum(weights * (x - mean)^2) / (weights_sum - sum(weights ^2) / weights_sum))
   list(mean = mean, sd = sd)
+}
+
+# Alternative formatting function for Task / Learner / Measure because mlr3misc::error_* and warning_* fail with input
+# that is formated with angle brackets, e.g. "<TaskClassif:iris>",
+# see https://github.com/r-lib/cli/issues/789
+# Replace this with x$format() when the issue is solved.
+format_angle_brackets = function(x) {
+  sprintf("<<%s:%s>>", class(x)[1L], x$id)
 }

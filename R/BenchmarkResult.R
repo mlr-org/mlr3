@@ -104,7 +104,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
       cat_cli(cli_h1("{.cls {class(self)[1L]}} of {.val {private$.data$iterations()}} rows with {.val {nrow(tab)}} resampling run"))
       if (nrow(tab)) {
         tab = remove_named(tab, c("uhash", "resample_result"))
-        print(tab, class = FALSE, row.names = FALSE, print.keys = FALSE, digits = 3)
+        print(tab, class = FALSE, row.names = FALSE, print.keys = FALSE, digits = 3L)
       }
     },
 
@@ -124,7 +124,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
       if (!is.null(bmr)) {
         assert_benchmark_result(bmr)
         if (private$.data$iterations() && self$task_type != bmr$task_type) {
-          stopf("BenchmarkResult is of task type '%s', but must be '%s'", bmr$task_type, self$task_type)
+          error_input("BenchmarkResult is of task type '%s', but must be '%s'", bmr$task_type, self$task_type)
         }
 
         private$.data$combine(get_private(bmr)$.data)
@@ -224,14 +224,11 @@ BenchmarkResult = R6Class("BenchmarkResult",
     },
 
     #' @description
-    #' Calculates the observation-wise loss via the loss function set in the
-    #' [Measure]'s field `obs_loss`.
-    #' Returns a `data.table()` with the columns `row_ids`, `truth`, `response` and
-    #' one additional numeric column for each measure, named with the respective measure id.
-    #' If there is no observation-wise loss function for the measure, the column is filled with
-    #' `NA` values.
-    #' Note that some measures such as RMSE, do have an `$obs_loss`, but they require an
-    #' additional transformation after aggregation, in this example taking the square-root.
+    #' Calculates the observation-wise loss via the [Measure]'s `obs_loss` method.
+    #' Returns a `data.table()` with columns from the predictions (e.g., `row_ids`, `truth`, `response`, etc.), plus one numeric column for each measure, named with the respective measure id, and a `resample_result` column.
+    #' If there is no observation-wise loss function for the measure, the column is filled with `NA_real_` values.
+    #' Note that some measures such as RMSE, do have an `$obs_loss`, but they require an additional transformation after aggregation, in this example taking the square-root.
+    #'
     #' @param predict_sets (`character()`)\cr
     #'   The predict sets.
     #' @examples
@@ -429,7 +426,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
       resampling_id = NULL) {
       uhash = private$.get_uhashes(i, uhash, learner_id, task_id, resampling_id)
       if (length(uhash) != 1) {
-        stopf("Method requires selecting exactly one ResampleResult, but got %s",
+        error_input("Method requires selecting exactly one ResampleResult, but got %s",
           length(uhash))
       }
       ResampleResult$new(private$.data, view = uhash)
@@ -601,7 +598,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
         resampling_ids = resampling_ids), is.null)
 
       if (sum(!is.null(i), !is.null(uhashes), length(args) > 0L) > 1) {
-        stopf("At most one of `i`, `uhash`, or IDs can be provided.")
+        error_input("At most one of `i`, `uhash`, or IDs can be provided.")
       }
       if (!is.null(i)) {
         uhashes = self$uhashes
@@ -612,7 +609,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
         uhashes = invoke(match.fun("uhashes"), bmr = self, .args = args)
       }
       if (length(uhashes) == 0L) {
-        stopf("No resample results found for the given arguments.")
+        error_input("No resample results found for the given arguments.")
       }
       uhashes
     },
@@ -717,7 +714,7 @@ uhash = function(bmr, learner_id = NULL, task_id = NULL, resampling_id = NULL) {
   assert_string(resampling_id, null.ok = TRUE)
   uhash = uhashes(bmr, learner_id, task_id, resampling_id)
   if (length(uhash) != 1) {
-    stopf("Expected exactly one uhash, got %s", length(uhash))
+    error_input("Expected exactly one uhash, got %s", length(uhash))
   }
   uhash
 }
