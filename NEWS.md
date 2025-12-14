@@ -1,5 +1,6 @@
 # mlr3 (development version)
 
+* feat: Encapsulated Learners now support a `deadline` (date-time) in addition to the existing `timeout` (seconds).
 * feat: `Learner$predict()` can now add additional data to `PredictionClassif` and `PredictionRegr` objects via the `extra` field.
 
 # mlr3 1.2.0
