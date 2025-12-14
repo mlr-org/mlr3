@@ -1043,3 +1043,78 @@ test_that("new_levels property is working", {
   learner$properties = c(learner$properties, "new_levels")
   expect_prediction(learner$predict_newdata(data))
 })
+
+test_that("deadline works as intended: callr", {
+  # no runtime test on CRAN
+  skip_on_cran()
+
+  l = lrn("classif.debug",
+    sleep_train = function() while (TRUE) NULL,
+    sleep_predict = function() while (TRUE) NULL
+  )
+
+  l$encapsulate(
+    "mirai",
+    lrn("classif.featureless"),
+    function(cond, ...) {
+      !inherits(cond, "Mlr3ErrorTimeout")
+    }
+  )
+
+  l$configure(deadline = c(train = Sys.time() + 0.1, predict = Inf))
+  expect_error(l$train(tsk("iris")), regexp = "reached elapsed time limit")
+
+  l$configure(sleep_train = NULL,deadline = c(train = Inf, predict = Sys.time() + 0.1))
+  l$train(tsk("iris"))
+  expect_error(l$predict(tsk("iris")), regexp = "reached elapsed time limit")
+})
+
+test_that("deadline works as intended: evaluate", {
+  # no runtime test on CRAN
+  skip_on_cran()
+
+  l = lrn("classif.debug",
+    sleep_train = function() while (TRUE) NULL,
+    sleep_predict = function() while (TRUE) NULL
+  )
+
+  l$encapsulate(
+    "evaluate",
+    lrn("classif.featureless"),
+    function(cond, ...) {
+      !inherits(cond, "Mlr3ErrorTimeout")
+    }
+  )
+
+  l$configure(deadline = c(train = Sys.time() + 0.1, predict = Inf))
+  expect_error(l$train(tsk("iris")), regexp = "reached elapsed time limit")
+
+  l$configure(sleep_train = NULL,deadline = c(train = Inf, predict = Sys.time() + 0.1))
+  l$train(tsk("iris"))
+  expect_error(l$predict(tsk("iris")), regexp = "reached elapsed time limit")
+})
+
+test_that("deadline works as intended: mirai", {
+  # no runtime test on CRAN
+  skip_on_cran()
+
+  l = lrn("classif.debug",
+    sleep_train = function() while (TRUE) NULL,
+    sleep_predict = function() while (TRUE) NULL
+  )
+
+  l$encapsulate(
+    "mirai",
+    lrn("classif.featureless"),
+    function(cond, ...) {
+      !inherits(cond, "Mlr3ErrorTimeout")
+    }
+  )
+
+  l$configure(deadline = c(train = Sys.time() + 0.1, predict = Inf))
+  expect_error(l$train(tsk("iris")), regexp = "reached elapsed time limit")
+
+  l$configure(sleep_train = NULL,deadline = c(train = Inf, predict = Sys.time() + 0.1))
+  l$train(tsk("iris"))
+  expect_error(l$predict(tsk("iris")), regexp = "reached elapsed time limit")
+})
