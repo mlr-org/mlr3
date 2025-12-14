@@ -110,11 +110,18 @@ c.PredictionDataRegr = function(..., keep_duplicates = TRUE) { # nolint
     error_input("Cannot rbind predictions: Some predictions have extra data, others do not")
   }
 
-  elems = c("row_ids", "truth", intersect(predict_types[[1L]], c("response", "se")), if ("weights" %chin% names(dots[[1L]])) "weights")
+  nn = names(dots[[1L]])
+  elems = c("row_ids", "truth", intersect(predict_types[[1L]], c("response", "se")), if ("weights" %chin% nn) "weights")
   tab = map_dtr(dots, function(x) x[elems], .fill = FALSE)
-  quantiles = do.call(rbind, map(dots, "quantiles"))
 
-  extra = if ("extra" %chin% names(dots[[1L]])) {
+  quantiles = if ("quantiles" %chin% nn) {
+    quantiles = map(dots, "quantiles")
+    attrs = attributes(quantiles[[1L]])
+    quantiles = do.call(rbind, quantiles)
+    setattr(quantiles, "probs", attrs$props)
+    setattr(quantiles, "response", attrs$response)
+  }
+  extra = if ("extra" %chin% nn) {
     rbindlist(map(dots, "extra"), fill = TRUE, use.names = TRUE)
   }
 

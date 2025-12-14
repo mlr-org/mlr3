@@ -57,6 +57,8 @@ Status](https://www.r-pkg.org/badges/version-ago/mlr3)](https://cran.r-project.o
     showcasing how to use {mlr3} with
     [targets](https://docs.ropensci.org/targets/) for reproducible ML
     workflow automation.
+  - Using `mlr3viz` and `animint2` for [interactive
+    visualizations](https://animint-manual-en.netlify.app/ch20/).
 - [List of extension packages](https://mlr-org.com/ecosystem.html)
 - [mlr-outreach](https://github.com/mlr-org/mlr-outreach) contains
   public talks and slides resources.
@@ -98,7 +100,7 @@ task_penguins = as_task_classif(species ~ ., data = palmerpenguins::penguins)
 task_penguins
 ```
 
-    ##
+    ## 
     ## ── <TaskClassif> (344x8) ───────────────────────────────────────────────────────
     ## • Target: species
     ## • Target classes: Adelie (44%), Gentoo (36%), Chinstrap (20%)
@@ -140,7 +142,7 @@ measure = msr("classif.acc")
 prediction$score(measure)
 ```
 
-    ## classif.acc
+    ## classif.acc 
     ##   0.9651163
 
 ### Resample
@@ -165,7 +167,7 @@ rr$score(measure)[, .(task_id, learner_id, iteration, classif.acc)]
 rr$aggregate(measure)
 ```
 
-    ## classif.acc
+    ## classif.acc 
     ##   0.9361302
 
 ## Extension Packages
@@ -265,7 +267,7 @@ would result in non-trivial API changes.
 ## Contributing to mlr3
 
 This R package is licensed under the
-[LGPL-3](https://www.gnu.org/licenses/lgpl-3.0.en.html). If you
+[LGPL-3](https://www.gnu.org/licenses/lgpl-3.0.html.en). If you
 encounter problems using this software (lack of documentation,
 misleading or wrong documentation, unexpected behavior, bugs, …) or just
 want to suggest features, please open an issue in the [issue

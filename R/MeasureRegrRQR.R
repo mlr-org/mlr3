@@ -78,7 +78,7 @@ MeasureRegrRQR = R6Class("MeasureRQR",
           truth = prediction$truth,
           response = prediction$data$quantiles[, which(probs == alpha)],
           alpha = alpha
-         )
+        )
       )
 
       denominator = sum(
@@ -89,8 +89,8 @@ MeasureRegrRQR = R6Class("MeasureRQR",
         )
       )
 
-       1 - (numerator / denominator)
-     }
+      1 - (numerator / denominator)
+    }
   )
 )
 

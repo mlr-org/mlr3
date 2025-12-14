@@ -196,14 +196,11 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
       }
 
       model = list(
-          response = as.character(sample(task$truth(), 1L, prob = private$.get_weights(task))),
-          pid = Sys.getpid(),
-          id = UUIDgenerate(),
-          random_number = sample(100000, 1),
-          iter = if (isTRUE(pv$early_stopping))
-            sample(pv$iter %??% 1L, 1L)
-          else
-            pv$iter %??% 1L
+        response = as.character(sample(task$truth(), 1L, prob = private$.get_weights(task))),
+        pid = Sys.getpid(),
+        id = UUIDgenerate(),
+        random_number = sample(100000, 1),
+        iter = if (isTRUE(pv$early_stopping)) sample(pv$iter %??% 1L, 1L) else pv$iter %??% 1L
       )
 
       if (!is.null(valid_truth)) {

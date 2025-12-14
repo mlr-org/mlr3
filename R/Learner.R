@@ -282,7 +282,7 @@ Learner = R6Class("Learner",
 
       pred_typs = replace(self$predict_types, self$predict_types == self$predict_type, paste0("[", self$predict_type, "]"))
       encapsulation = self$encapsulation[[1L]]
-      fallback = if (encapsulation != 'none') class(self$fallback)[[1L]] else "-"
+      fallback = if (encapsulation != "none") class(self$fallback)[[1L]] else "-"
 
       cat_cli({
         cli_li("Predict Types: {pred_typs}")
