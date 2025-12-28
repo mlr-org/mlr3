@@ -217,9 +217,8 @@ Learner = R6Class("Learner",
     timeout = c(train = Inf, predict = Inf),
 
     #' @field deadline (named `POSIXct(2)`)\cr
-    #' Deadline for the learner's train and predict steps, given as datetimes.
-    #' This works differently for different encapsulation methods, see
-    #' [mlr3misc::encapsulate()].
+    #' Deadline for the learner's train and predict steps. This uses the same mechanism as `timeout`, but with absolute 
+    #' an time (as date-time) instead of a relative time.
     #' Default is `c(train = Inf, predict = Inf)`.
     deadline = c(train = Inf, predict = Inf),
 

@@ -317,9 +317,8 @@ Also see the section on error handling the mlr3book:
 \url{https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling}}
 
 \item{\code{deadline}}{(named \code{POSIXct(2)})\cr
-Deadline for the learner's train and predict steps, given as datetimes.
-This works differently for different encapsulation methods, see
-\code{\link[mlr3misc:encapsulate]{mlr3misc::encapsulate()}}.
+Deadline for the learner's train and predict steps. This uses the same mechanism as \code{timeout}, but with absolute
+an time (as date-time) instead of a relative time.
 Default is \code{c(train = Inf, predict = Inf)}.}
 
 \item{\code{man}}{(\code{character(1)})\cr
