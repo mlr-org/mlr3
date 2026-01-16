@@ -260,7 +260,7 @@ Task = R6Class("Task",
           types = types[, list(N = .N, feats = str_collapse(id, n = 100L)), by = "type"][, "type" := translate_types(type)]
           setorderv(types, "N", order = -1L)
 
-          ulid <- cli_ul()
+          ulid = cli_ul()
           pmap(types, function(type, N, feats) {
             cli_li("{type} ({N}): {feats}")
           })
