@@ -216,6 +216,12 @@ Learner = R6Class("Learner",
     #' \url{https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling}
     timeout = c(train = Inf, predict = Inf),
 
+    #' @field deadline (named `POSIXct(2)`)\cr
+    #' Deadline for the learner's train and predict steps. This uses the same mechanism as `timeout`, but with absolute 
+    #' an time (as date-time) instead of a relative time.
+    #' Default is `c(train = Inf, predict = Inf)`.
+    deadline = c(train = Inf, predict = Inf),
+
     #' @template field_man
     man = NULL,
 
@@ -574,7 +580,7 @@ Learner = R6Class("Learner",
     #' \url{https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling}
     #'
     #' @param method `character(1)`\cr
-    #'  One of `"none"`, `"try"`, `"evaluate"` or `"callr"`.
+    #'  One of `"none"`, `"try"`, `"evaluate"`, `"callr"`, or `"mirai"`.
     #'  See the description for details.
     #' @param fallback [Learner]\cr
     #'  The fallback learner for failed predictions.
