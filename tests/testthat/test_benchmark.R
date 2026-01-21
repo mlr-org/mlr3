@@ -535,7 +535,7 @@ test_that("param_values in benchmark", {
 
   sortnames = function(x) {
     if (!is.null(names(x))) {
-      x <- x[order(names(x))]
+      x = x[order(names(x))]
     }
     x
   }

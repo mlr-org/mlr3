@@ -157,8 +157,8 @@ test_that("as_prediction_classif", {
 
 test_that("#615", {
   task = tsk("iris")
-  training <- task$clone()$filter(1:100)
-  testing <- task$clone()$filter(101:150)
+  training = task$clone()$filter(1:100)
+  testing = task$clone()$filter(101:150)
 
   l = lrn("classif.rpart")
   l$train(training)
