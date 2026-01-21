@@ -608,6 +608,11 @@ test_that("quantiles in LearnerRegr", {
 
   expect_numeric(learner$quantiles, any.missing = FALSE, len = 3)
 
+  learner$quantiles = NULL
+  expect_null(learner$quantiles)
+  expect_null(learner$quantile_response)
+
+  learner$quantiles = quantiles
   learner$quantile_response = 0.6
   expect_equal(learner$quantile_response, 0.6)
   expect_equal(learner$quantiles, c(0.05, 0.5, 0.6, 0.95))
