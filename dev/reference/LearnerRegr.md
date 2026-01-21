@@ -104,7 +104,8 @@ Other Learner:
   Elements must be between 0 and 1, not missing and provided in
   ascending order. If only one quantile is provided, it is used as
   response. Otherwise, set `$quantile_response` to specify the response
-  quantile.
+  quantile. Set to `NULL` to reset both `$quantiles` and
+  `$quantile_response`.
 
 - `quantile_response`:
 
