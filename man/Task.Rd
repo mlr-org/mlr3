@@ -631,11 +631,11 @@ Note that it is recommended to \strong{not} rely on the order of columns, and in
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{rows}}{(positive \code{integer()})\cr
+\item{\code{rows}}{(positive \code{integer()} | \code{NULL})\cr
 Vector or row indices.
 Always refers to the complete data set, even after filtering.}
 
-\item{\code{cols}}{(\code{character()})\cr
+\item{\code{cols}}{(\code{character()} | \code{NULL})\cr
 Vector of column names.}
 
 \item{\code{ordered}}{(\code{logical(1)})\cr
@@ -735,7 +735,7 @@ To update the stored level information, e.g. after subsetting a task with \verb{
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{cols}}{(\code{character()})\cr
+\item{\code{cols}}{(\code{character()} | \code{NULL})\cr
 Vector of column names.}
 }
 \if{html}{\out{</div>}}
@@ -767,7 +767,7 @@ Argument \code{cols} defaults to all columns with role "target" or "feature".
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{cols}}{(\code{character()})\cr
+\item{\code{cols}}{(\code{character()} | \code{NULL})\cr
 Vector of column names.}
 }
 \if{html}{\out{</div>}}
@@ -800,7 +800,7 @@ See the section on task mutators for more information.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{rows}}{(positive \code{integer()})\cr
+\item{\code{rows}}{(positive \code{integer()} | \code{NULL})\cr
 Vector or row indices.
 Always refers to the complete data set, even after filtering.}
 }
@@ -838,7 +838,7 @@ See the section on task mutators for more information.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{cols}}{(\code{character()})\cr
+\item{\code{cols}}{(\code{character()} | \code{NULL})\cr
 Vector of column names.}
 }
 \if{html}{\out{</div>}}
@@ -1128,7 +1128,7 @@ Updates the cache of stored factor levels, removing all levels not present in th
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{cols}}{(\code{character()})\cr
+\item{\code{cols}}{(\code{character()} | \code{NULL})\cr
 Vector of column names.}
 }
 \if{html}{\out{</div>}}
