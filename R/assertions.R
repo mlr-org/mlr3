@@ -123,7 +123,7 @@ assert_task_learner = function(task, learner, param_values = NULL, cols = NULL) 
   pars = learner$param_set$get_values(type = "only_token", check_required = FALSE)
   # remove pars that are covered by param_values
   pars = pars[names(pars) %nin% names(param_values)]
-  if (length(pars) > 0) {
+  if (length(pars) > 0L) {
     error_config("%s cannot be trained with TuneToken present in hyperparameter: %s", format_angle_brackets(learner), str_collapse(names(pars)))
   }
   # check on class(learner) does not work with GraphLearner and AutoTuner
@@ -135,7 +135,7 @@ assert_task_learner = function(task, learner, param_values = NULL, cols = NULL) 
   }
 
   tmp = setdiff(task$feature_types$type, learner$feature_types)
-  if (length(tmp) > 0) {
+  if (length(tmp) > 0L) {
     error_input("%s has the following unsupported feature types: %s", format_angle_brackets(task), str_collapse(tmp))
   }
 
@@ -250,7 +250,7 @@ assert_measure = function(measure, task = NULL, learner = NULL, prediction = NUL
 
     if (measure$check_prerequisites != "ignore") {
       miss = setdiff(measure$task_properties, task$properties)
-      if (length(miss) > 0) {
+      if (length(miss) > 0L) {
         warning_config("Measure '%s' is missing properties %s of task '%s'",
           measure$id, str_collapse(miss, quote = "'"), task$id)
       }
@@ -273,7 +273,7 @@ assert_measure = function(measure, task = NULL, learner = NULL, prediction = NUL
 
     if (measure$check_prerequisites != "ignore") {
       miss = setdiff(measure$predict_sets, learner$predict_sets)
-      if (length(miss) > 0) {
+      if (length(miss) > 0L) {
 
         warning_config("Measure '%s' needs predict sets %s, but learner '%s' only predicted on sets %s",
           measure$id, str_collapse(miss, quote = "'"), learner$id, str_collapse(learner$predict_sets, quote = "'"))
