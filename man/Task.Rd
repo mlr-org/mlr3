@@ -261,7 +261,7 @@ need to be reordered after querying the data from the \link{DataBackend}.
 Note that all columns of the \link{DataBackend}, also columns which are not selected or have any role, are listed
 in this table.}
 
-\item{\code{man}}{(\code{character(1)})\cr
+\item{\code{man}}{(\code{character(1)} | \code{NULL})\cr
 String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
 Defaults to \code{NA}, but can be set by child classes.}
 
@@ -281,7 +281,7 @@ Package version of \code{mlr3} used to create the task.}
 Identifier of the object.
 Used in tables, plot and text output.}
 
-\item{\code{internal_valid_task}}{(\code{Task} or \code{integer()} or \code{NULL})\cr
+\item{\code{internal_valid_task}}{(\code{Task} | \code{integer()} | \code{NULL})\cr
 Optional validation task that can, e.g., be used for early stopping with learners such as XGBoost.
 See also the \verb{$validate} field of \code{\link{Learner}}.
 If integers are assigned they are removed from the primary task and an internal validation task

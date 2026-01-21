@@ -8,7 +8,7 @@
 #'
 #' @param learner (any)\cr
 #'   The learner.
-#' @param validate (`numeric(1)`, `"predefined"`, `"test"`, or `NULL`)\cr
+#' @param validate (`numeric(1)` | `"predefined"` | `"test"` | `NULL`)\cr
 #'   Which validation set to use.
 #' @param ... (any)\cr
 #'   Additional arguments.
