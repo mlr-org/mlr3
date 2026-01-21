@@ -79,22 +79,22 @@ as.data.table(mlr_learners)
 #> 4:          regr.debug       Debug Learner for Regression      regr
 #> 5:    regr.featureless     Featureless Regression Learner      regr
 #> 6:          regr.rpart                    Regression Tree      regr
-#>                                           feature_types   packages
-#>                                                  <list>     <list>
-#> 1:     logical,integer,numeric,character,factor,ordered       mlr3
-#> 2: logical,integer,numeric,character,factor,ordered,...       mlr3
-#> 3:               logical,integer,numeric,factor,ordered mlr3,rpart
-#> 4:     logical,integer,numeric,character,factor,ordered mlr3,stats
-#> 5: logical,integer,numeric,character,factor,ordered,... mlr3,stats
-#> 6:               logical,integer,numeric,factor,ordered mlr3,rpart
-#>                                                                   properties
-#>                                                                       <list>
-#> 1: hotstart_forward,internal_tuning,marshal,missings,multiclass,twoclass,...
-#> 2: featureless,importance,missings,multiclass,selected_features,twoclass,...
-#> 3:         importance,missings,multiclass,selected_features,twoclass,weights
-#> 4:                                                          missings,weights
-#> 5:                 featureless,importance,missings,selected_features,weights
-#> 6:                             importance,missings,selected_features,weights
+#>                                              feature_types   packages
+#>                                                     <list>     <list>
+#> 1:        logical,integer,numeric,character,factor,ordered       mlr3
+#> 2: logical,integer,numeric,character,factor,ordered,...[8]       mlr3
+#> 3:                  logical,integer,numeric,factor,ordered mlr3,rpart
+#> 4:        logical,integer,numeric,character,factor,ordered mlr3,stats
+#> 5: logical,integer,numeric,character,factor,ordered,...[8] mlr3,stats
+#> 6:                  logical,integer,numeric,factor,ordered mlr3,rpart
+#>                                                                      properties
+#>                                                                          <list>
+#> 1: hotstart_forward,internal_tuning,marshal,missings,multiclass,twoclass,...[8]
+#> 2: featureless,importance,missings,multiclass,selected_features,twoclass,...[7]
+#> 3:            importance,missings,multiclass,selected_features,twoclass,weights
+#> 4:                                                             missings,weights
+#> 5:                    featureless,importance,missings,selected_features,weights
+#> 6:                                importance,missings,selected_features,weights
 #>            predict_types
 #>                   <list>
 #> 1:         response,prob
