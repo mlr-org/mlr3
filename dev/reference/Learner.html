@@ -360,6 +360,16 @@ See Section 'weights' for more details.</p></dd>
 The fitted model. Only available after <code>$train()</code> has been called.</p></dd>
 
 
+<dt><code>native_model</code></dt>
+<dd><p>(any)<br>
+The native model object from the upstream package.
+For most learners, this is identical to <code>$model</code>.
+However, some learners store additional information beyond the model from the upstream package.
+In such cases, <code>$model</code> contains a named list with the native model stored in element <code>model</code> along with additional information.
+The <code>$native_model</code> field can be overwritten by the learner to return the actual model object from the upstream package.
+The default returns <code>$model</code>.</p></dd>
+
+
 <dt><code>timings</code></dt>
 <dd><p>(named <code>numeric(2)</code>)<br>
 Elapsed time in seconds for the steps <code>"train"</code> and <code>"predict"</code>.</p>

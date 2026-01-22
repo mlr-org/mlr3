@@ -2,6 +2,9 @@
 
 ## mlr3 (development version)
 
+- feat: Add `$native_model` active binding to `Learner` to access the
+  model from the upstream package.
+
 ## mlr3 1.3.0
 
 CRAN release: 2025-12-03

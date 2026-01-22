@@ -422,6 +422,17 @@ Other Learner:
   (any)  
   The fitted model. Only available after `$train()` has been called.
 
+- `native_model`:
+
+  (any)  
+  The native model object from the upstream package. For most learners,
+  this is identical to `$model`. However, some learners store additional
+  information beyond the model from the upstream package. In such cases,
+  `$model` contains a named list with the native model stored in element
+  `model` along with additional information. The `$native_model` field
+  can be overwritten by the learner to return the actual model object
+  from the upstream package. The default returns `$model`.
+
 - `timings`:
 
   (named `numeric(2)`)  
