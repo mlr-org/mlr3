@@ -1045,7 +1045,6 @@ test_that("new_levels property is working", {
 })
 
 test_that("native_model returns model by default", {
-  # Default: native_model is identical to model
   task = tsk("iris")
   learner = lrn("classif.rpart")
   learner$train(task)
