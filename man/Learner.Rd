@@ -348,8 +348,7 @@ The fitted model. Only available after \verb{$train()} has been called.}
 The native model object from the upstream package.
 For most learners, this is identical to \verb{$model}.
 However, some learners store additional information beyond the model from the upstream package.
-In such cases, \verb{$model} contains a named list with the native model stored in element \code{model}
-along with additional information.
+In such cases, \verb{$model} contains a named list with the native model stored in element \code{model} along with additional information.
 The \verb{$native_model} field can be overwritten by the learner to return the actual model object from the upstream package.
 The default returns \verb{$model}.}
 
