@@ -344,6 +344,14 @@ See Section 'weights' for more details.}
 \item{\code{model}}{(any)\cr
 The fitted model. Only available after \verb{$train()} has been called.}
 
+\item{\code{native_model}}{(any)\cr
+The native model object from the upstream package.
+For most learners, this is identical to \verb{$model}.
+However, some learners store additional information beyond the model from the upstream package.
+In such cases, \verb{$model} contains a named list with the native model stored in element \code{model} along with additional information.
+The \verb{$native_model} field can be overwritten by the learner to return the actual model object from the upstream package.
+The default returns \verb{$model}.}
+
 \item{\code{timings}}{(named \code{numeric(2)})\cr
 Elapsed time in seconds for the steps \code{"train"} and \code{"predict"}.
 
