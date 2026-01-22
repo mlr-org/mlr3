@@ -1033,13 +1033,10 @@ test_that("weights_measure + stratum works during resampling (#1405)", {
 
 test_that("class ratios are not printed for large tasks (#1382)", {
   task = tsk("iris")
-
-  # Small task shows class percentages
+  old_threshold = getOption("mlr3.print_class_ratio_threshold")
+  on.exit(options(mlr3.print_class_ratio_threshold = old_threshold))
   expect_output(print(task), "setosa \\(33%\\), versicolor \\(33%\\), virginica \\(33%\\)")
 
-  # With threshold set to 0, class ratios are not computed
-
-  withr::with_options(list(mlr3.print_class_ratio_threshold = 0L), {
-    expect_output(print(task), "setosa, versicolor, virginica", fixed = TRUE)
-  })
+  options(mlr3.print_class_ratio_threshold = 0L)
+  expect_output(print(task), "setosa, versicolor, virginica", fixed = TRUE)
 })
