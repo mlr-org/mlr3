@@ -230,7 +230,7 @@ Task = R6Class("Task",
       cat_cli(cli_li("Target: {self$target_names}"))
 
       if (class(self)[1L] == "TaskClassif") {
-        if (!is.null(self$backend)) {
+        if (!is.null(self$backend) && self$nrow <= getOption("mlr3.print_class_ratio_threshold", 1000000L)) {
           class_freqs = table(self$truth()) / self$nrow * 100
           class_freqs = class_freqs[order(-class_freqs, names(class_freqs))]  # Order by class frequency, then names
           classes = if ("twoclass" %in% self$properties) {
