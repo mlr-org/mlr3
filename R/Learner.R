@@ -723,6 +723,18 @@ Learner = R6Class("Learner",
       self$state$model
     },
 
+    #' @field native_model (any)\cr
+    #' The native model object from the upstream package.
+    #' For most learners, this is identical to `$model`.
+    #' However, some learners store additional information beyond the model from the upstream package.
+    #' In such cases, `$model` contains a named list with the native model stored in element `model` along with additional information.
+    #' The `$native_model` field can be overwritten by the learner to return the actual model object from the upstream package.
+    #' The default returns `$model`.
+    native_model = function(rhs) {
+      assert_ro_binding(rhs)
+      self$model
+    },
+
     #' @field timings (named `numeric(2)`)\cr
     #' Elapsed time in seconds for the steps `"train"` and `"predict"`.
     #'
