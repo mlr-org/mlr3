@@ -1030,3 +1030,13 @@ test_that("weights_measure + stratum works during resampling (#1405)", {
   task$set_col_roles("Species", roles = c("target", "stratum"))
   expect_resample_result(resample(task, lrn("classif.featureless"), rsmp("cv", folds = 3)))
 })
+
+test_that("class ratios are not printed for large tasks (#1382)", {
+  task = tsk("iris")
+  old_threshold = getOption("mlr3.print_class_ratio_threshold")
+  on.exit(options(mlr3.print_class_ratio_threshold = old_threshold))
+  expect_output(print(task), "setosa \\(33%\\), versicolor \\(33%\\), virginica \\(33%\\)")
+
+  options(mlr3.print_class_ratio_threshold = 0L)
+  expect_output(print(task), "setosa, versicolor, virginica", fixed = TRUE)
+})
