@@ -332,7 +332,7 @@ If \code{measures} is \code{NULL}, \code{measures} defaults to the return value 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{measures}}{(\link{Measure} | list of \link{Measure})\cr
+\item{\code{measures}}{(\link{Measure} | list of \link{Measure} | \code{NULL})\cr
 Measure(s) to calculate.}
 
 \item{\code{ids}}{(\code{logical(1)})\cr
@@ -378,7 +378,7 @@ Note that some measures such as RMSE, do have an \verb{$obs_loss}, but they requ
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{measures}}{(\link{Measure} | list of \link{Measure})\cr
+\item{\code{measures}}{(\link{Measure} | list of \link{Measure} | \code{NULL})\cr
 Measure(s) to calculate.}
 
 \item{\code{predict_sets}}{(\code{character()})\cr
@@ -409,7 +409,7 @@ If \code{measures} is \code{NULL}, \code{measures} defaults to the return value 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{measures}}{(\link{Measure} | list of \link{Measure})\cr
+\item{\code{measures}}{(\link{Measure} | list of \link{Measure} | \code{NULL})\cr
 Measure(s) to calculate.}
 }
 \if{html}{\out{</div>}}

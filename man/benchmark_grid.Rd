@@ -19,7 +19,7 @@ benchmark_grid(
 
 \item{resamplings}{(list of \link{Resampling}).}
 
-\item{param_values}{(\code{list()})\cr
+\item{param_values}{(\code{list()} | \code{NULL})\cr
 If you want to try many parameter settings for learners, you can pass them through the design
 which is optimized to be faster than creating learners for each setting.
 

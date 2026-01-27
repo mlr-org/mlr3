@@ -1,2 +1,2 @@
-#' @param measures ([Measure] | list of [Measure])\cr
+#' @param measures ([Measure] | list of [Measure] | `NULL`)\cr
 #'   Measure(s) to calculate.

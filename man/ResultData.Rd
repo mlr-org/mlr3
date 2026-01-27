@@ -99,10 +99,10 @@ Returns all unique hashes (\code{uhash} values) of all included \link{ResampleRe
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{view}}{\code{character(1)}\cr
+\item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
 Single \code{uhash} to restrict the results to.}
 
-\item{\code{view}}{\code{character(1)}\cr
+\item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
 Single \code{uhash} to restrict the results to.}
 }
 \if{html}{\out{</div>}}
@@ -125,10 +125,10 @@ The \code{uhash} uniquely identifies an individual \code{\link{ResampleResult}}.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{view}}{\code{character(1)}\cr
+\item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
 Single \code{uhash} to restrict the results to.}
 
-\item{\code{view}}{\code{character(1)}\cr
+\item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
 Single \code{uhash} to restrict the results to.}
 }
 \if{html}{\out{</div>}}
@@ -149,10 +149,10 @@ Returns the number of recorded iterations / experiments.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{view}}{\code{character(1)}\cr
+\item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
 Single \code{uhash} to restrict the results to.}
 
-\item{\code{view}}{\code{character(1)}\cr
+\item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
 Single \code{uhash} to restrict the results to.}
 }
 \if{html}{\out{</div>}}
@@ -173,10 +173,10 @@ Returns a table of included \link{Task}s.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{view}}{\code{character(1)}\cr
+\item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
 Single \code{uhash} to restrict the results to.}
 
-\item{\code{view}}{\code{character(1)}\cr
+\item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
 Single \code{uhash} to restrict the results to.}
 }
 \if{html}{\out{</div>}}
@@ -197,10 +197,10 @@ Returns a table of included \link{Learner}s.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{view}}{\code{character(1)}\cr
+\item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
 Single \code{uhash} to restrict the results to.}
 
-\item{\code{view}}{\code{character(1)}\cr
+\item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
 Single \code{uhash} to restrict the results to.}
 
 \item{\code{states}}{(\code{logical(1)})\cr
@@ -231,10 +231,10 @@ Returns a list of states of included \link{Learner}s without reassembling the le
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{view}}{\code{character(1)}\cr
+\item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
 Single \code{uhash} to restrict the results to.}
 
-\item{\code{view}}{\code{character(1)}\cr
+\item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
 Single \code{uhash} to restrict the results to.}
 }
 \if{html}{\out{</div>}}
@@ -252,10 +252,10 @@ Returns a table of included \link{Resampling}s.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{view}}{\code{character(1)}\cr
+\item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
 Single \code{uhash} to restrict the results to.}
 
-\item{\code{view}}{\code{character(1)}\cr
+\item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
 Single \code{uhash} to restrict the results to.}
 }
 \if{html}{\out{</div>}}
@@ -276,10 +276,10 @@ Returns a list of \link{Prediction} objects.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{view}}{\code{character(1)}\cr
+\item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
 Single \code{uhash} to restrict the results to.}
 
-\item{\code{view}}{\code{character(1)}\cr
+\item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
 Single \code{uhash} to restrict the results to.}
 
 \item{\code{predict_sets}}{(\code{character()})\cr
@@ -321,10 +321,10 @@ Returns a combined \link{Prediction} objects.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{view}}{\code{character(1)}\cr
+\item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
 Single \code{uhash} to restrict the results to.}
 
-\item{\code{view}}{\code{character(1)}\cr
+\item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
 Single \code{uhash} to restrict the results to.}
 
 \item{\code{predict_sets}}{(\code{character()})\cr
@@ -366,10 +366,10 @@ Returns additional data stored.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{view}}{\code{character(1)}\cr
+\item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
 Single \code{uhash} to restrict the results to.}
 
-\item{\code{view}}{\code{character(1)}\cr
+\item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
 Single \code{uhash} to restrict the results to.}
 }
 \if{html}{\out{</div>}}
@@ -492,10 +492,10 @@ Combines internal tables into a single flat \code{\link[=data.table]{data.table(
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{view}}{\code{character(1)}\cr
+\item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
 Single \code{uhash} to restrict the results to.}
 
-\item{\code{view}}{\code{character(1)}\cr
+\item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
 Single \code{uhash} to restrict the results to.}
 
 \item{\code{reassemble_learners}}{(\code{logical(1)})\cr
@@ -540,10 +540,10 @@ Get a table of recorded learner logs.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{view}}{\code{character(1)}\cr
+\item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
 Single \code{uhash} to restrict the results to.}
 
-\item{\code{view}}{\code{character(1)}\cr
+\item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
 Single \code{uhash} to restrict the results to.}
 
 \item{\code{condition}}{(\code{character(1)})
@@ -567,10 +567,10 @@ Sets the threshold for the response prediction of classification learners, given
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{view}}{\code{character(1)}\cr
+\item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
 Single \code{uhash} to restrict the results to.}
 
-\item{\code{view}}{\code{character(1)}\cr
+\item{\code{view}}{(\code{character(1)} | \code{NULL})\cr
 Single \code{uhash} to restrict the results to.}
 
 \item{\code{threshold}}{(\code{numeric(1)})\cr

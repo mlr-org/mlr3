@@ -172,7 +172,7 @@ If \code{TRUE}, duplicated rows can occur within a single training set or within
 E.g., this is \code{TRUE} for Bootstrap, and \code{FALSE} for cross-validation.
 Only used internally.}
 
-\item{\code{man}}{(\code{character(1)})\cr
+\item{\code{man}}{(\code{character(1)} | \code{NULL})\cr
 String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
 Defaults to \code{NA}, but can be set by child classes.}
 }

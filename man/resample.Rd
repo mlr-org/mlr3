@@ -66,7 +66,7 @@ Whether to unmarshal learners that were marshaled during the execution.
 If \code{TRUE} all models are stored in unmarshaled form.
 If \code{FALSE}, all learners (that need marshaling) are stored in marshaled form.}
 
-\item{callbacks}{(List of \link[mlr3misc:Callback]{mlr3misc::Callback})\cr
+\item{callbacks}{(list of \link[mlr3misc:Callback]{mlr3misc::Callback} | \code{NULL})\cr
 Callbacks to be executed during the resampling process.
 See \link{CallbackResample} and \link{ContextResample} for details.}
 }

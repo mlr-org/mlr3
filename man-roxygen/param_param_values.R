@@ -1,4 +1,4 @@
-#' @param param_values (`list()`)\cr
+#' @param param_values (`list()` | `NULL`)\cr
 #'   If you want to try many parameter settings for learners, you can pass them through the design
 #'   which is optimized to be faster than creating learners for each setting.
 #'

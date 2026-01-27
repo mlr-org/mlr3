@@ -63,7 +63,7 @@ Required properties of the \link{Task}.}
 \item{\code{predict_types}}{(\code{character()})\cr
 Set of predict types this object stores.}
 
-\item{\code{man}}{(\code{character(1)})\cr
+\item{\code{man}}{(\code{character(1)} | \code{NULL})\cr
 String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
 Defaults to \code{NA}, but can be set by child classes.}
 }
@@ -167,7 +167,7 @@ instead all predictions are used.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{measures}}{(\link{Measure} | list of \link{Measure})\cr
+\item{\code{measures}}{(\link{Measure} | list of \link{Measure} | \code{NULL})\cr
 Measure(s) to calculate.}
 
 \item{\code{task}}{(\link{Task}).}
@@ -197,7 +197,7 @@ Note that some measures such as RMSE, do have an \verb{$obs_loss}, but they requ
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{measures}}{(\link{Measure} | list of \link{Measure})\cr
+\item{\code{measures}}{(\link{Measure} | list of \link{Measure} | \code{NULL})\cr
 Measure(s) to calculate.}
 }
 \if{html}{\out{</div>}}

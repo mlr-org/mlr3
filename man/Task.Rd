@@ -261,7 +261,7 @@ need to be reordered after querying the data from the \link{DataBackend}.
 Note that all columns of the \link{DataBackend}, also columns which are not selected or have any role, are listed
 in this table.}
 
-\item{\code{man}}{(\code{character(1)})\cr
+\item{\code{man}}{(\code{character(1)} | \code{NULL})\cr
 String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
 Defaults to \code{NA}, but can be set by child classes.}
 
@@ -281,7 +281,7 @@ Package version of \code{mlr3} used to create the task.}
 Identifier of the object.
 Used in tables, plot and text output.}
 
-\item{\code{internal_valid_task}}{(\code{Task} or \code{integer()} or \code{NULL})\cr
+\item{\code{internal_valid_task}}{(\code{Task} | \code{integer()} | \code{NULL})\cr
 Optional validation task that can, e.g., be used for early stopping with learners such as XGBoost.
 See also the \verb{$validate} field of \code{\link{Learner}}.
 If integers are assigned they are removed from the primary task and an internal validation task
@@ -631,11 +631,11 @@ Note that it is recommended to \strong{not} rely on the order of columns, and in
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{rows}}{(positive \code{integer()})\cr
+\item{\code{rows}}{(positive \code{integer()} | \code{NULL})\cr
 Vector or row indices.
 Always refers to the complete data set, even after filtering.}
 
-\item{\code{cols}}{(\code{character()})\cr
+\item{\code{cols}}{(\code{character()} | \code{NULL})\cr
 Vector of column names.}
 
 \item{\code{ordered}}{(\code{logical(1)})\cr
@@ -735,7 +735,7 @@ To update the stored level information, e.g. after subsetting a task with \verb{
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{cols}}{(\code{character()})\cr
+\item{\code{cols}}{(\code{character()} | \code{NULL})\cr
 Vector of column names.}
 }
 \if{html}{\out{</div>}}
@@ -767,7 +767,7 @@ Argument \code{cols} defaults to all columns with role "target" or "feature".
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{cols}}{(\code{character()})\cr
+\item{\code{cols}}{(\code{character()} | \code{NULL})\cr
 Vector of column names.}
 }
 \if{html}{\out{</div>}}
@@ -800,7 +800,7 @@ See the section on task mutators for more information.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{rows}}{(positive \code{integer()})\cr
+\item{\code{rows}}{(positive \code{integer()} | \code{NULL})\cr
 Vector or row indices.
 Always refers to the complete data set, even after filtering.}
 }
@@ -838,7 +838,7 @@ See the section on task mutators for more information.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{cols}}{(\code{character()})\cr
+\item{\code{cols}}{(\code{character()} | \code{NULL})\cr
 Vector of column names.}
 }
 \if{html}{\out{</div>}}
@@ -1128,7 +1128,7 @@ Updates the cache of stored factor levels, removing all levels not present in th
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{cols}}{(\code{character()})\cr
+\item{\code{cols}}{(\code{character()} | \code{NULL})\cr
 Vector of column names.}
 }
 \if{html}{\out{</div>}}

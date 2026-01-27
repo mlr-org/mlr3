@@ -169,7 +169,7 @@ Learner = R6Class("Learner",
     #' @template field_label
     label = NA_character_,
 
-    #' @field state (`NULL` | named `list()`)\cr
+    #' @field state (named `list()` | `NULL`)\cr
     #' Current (internal) state of the learner.
     #' Contains all information gathered during `train()` and `predict()`.
     #' It is not recommended to access elements from `state` directly.
