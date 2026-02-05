@@ -23,10 +23,8 @@ custom learners.
 This function runs a Learner's automatic test suite.
 
 During the autotests, multiple tasks are generated depending on the properties of the learner.
-The \code{run_autotest()} function then trains the learner on each task and predicts with all supported predict types.
-(see argument \code{predict_types}).
-To debug, simply run \code{result = run_autotest(learner)} and proceed with investigating
-the task, learner and prediction of the returned \code{result}.
+The \code{run_autotest()} function then trains the learner on each task and predicts with all supported predict types (see argument \code{predict_types}).
+To debug, simply run \code{result = run_autotest(learner)} and proceed with investigating the task, learner and prediction of the returned \code{result}.
 
 For example usages you can look at the autotests in various mlr3 source repositories such as mlr3learners.
 More information can be found in the \code{inst/testthat/autotest.R} file.
@@ -50,6 +48,21 @@ Default is \code{TRUE}.
 \item \code{configure_learner} (\verb{function(learner, task)})\cr
 Before running a \code{learner} on a \code{task}, this function allows to change its parameter values depending on the input task.
 }
+
+\strong{Checks}:
+
+The following capability checks are run by \code{run_autotest()}:
+\itemize{
+\item \code{check_reorder()}: Checks that reordering features does not change predictions.
+\item \code{check_importance()}: Checks that the learner correctly implements \verb{$importance()}.
+\item \code{check_selected_features()}: Checks that the learner correctly implements \verb{$selected_features()}.
+\item \code{check_oob_error()}: Checks that the learner correctly implements \verb{$oob_error()}.
+\item \code{check_predict_newdata_fast()}: Checks that the learner correctly implements \verb{$predict_newdata_fast()}.
+\item \code{check_marshaling()}: Checks that the learner correctly implements \verb{$marshaling()}.
+\item \code{check_encapsulation()}: Checks that the learner correctly implements \verb{$encapsulation()}.
+}
+
+These are S3 methods that can be specialized by extension packages to handle task-type-specific exceptions.
 }
 
 \section{run_paramtest()}{
