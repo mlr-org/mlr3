@@ -33,7 +33,7 @@ benchmark(
 
   ([`data.frame()`](https://rdrr.io/r/base/data.frame.html))  
   Data frame (or
-  [`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html))
+  [`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html))
   with three columns: "task", "learner", and "resampling". Each row
   defines a resampling by providing a
   [Task](https://mlr3.mlr-org.com/dev/reference/Task.md),
@@ -244,12 +244,12 @@ bmr = benchmark(design)
 head(as.data.table(bmr))
 #>                                   uhash                   task
 #>                                  <char>                 <list>
-#> 1: 861d2718-343b-4b64-8131-0ad78b9c112c <TaskClassif:penguins>
-#> 2: 861d2718-343b-4b64-8131-0ad78b9c112c <TaskClassif:penguins>
-#> 3: 861d2718-343b-4b64-8131-0ad78b9c112c <TaskClassif:penguins>
-#> 4: 50295c6f-019d-4c89-969b-c2a73fecec9e <TaskClassif:penguins>
-#> 5: 50295c6f-019d-4c89-969b-c2a73fecec9e <TaskClassif:penguins>
-#> 6: 50295c6f-019d-4c89-969b-c2a73fecec9e <TaskClassif:penguins>
+#> 1: cdfb6dc6-544f-42f9-a22b-ccbb93cf2b85 <TaskClassif:penguins>
+#> 2: cdfb6dc6-544f-42f9-a22b-ccbb93cf2b85 <TaskClassif:penguins>
+#> 3: cdfb6dc6-544f-42f9-a22b-ccbb93cf2b85 <TaskClassif:penguins>
+#> 4: 5138fbb6-c63f-47b5-9a13-e202177d603c <TaskClassif:penguins>
+#> 5: 5138fbb6-c63f-47b5-9a13-e202177d603c <TaskClassif:penguins>
+#> 6: 5138fbb6-c63f-47b5-9a13-e202177d603c <TaskClassif:penguins>
 #>                                            learner     resampling iteration
 #>                                             <list>         <list>     <int>
 #> 1: <LearnerClassifFeatureless:classif.featureless> <ResamplingCV>         1

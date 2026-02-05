@@ -32,9 +32,9 @@ See
 - `as.data.table(dict, ..., objects = FALSE)`  
   [mlr3misc::Dictionary](https://mlr3misc.mlr-org.com/reference/Dictionary.html)
   -\>
-  [`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html)  
+  [`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html)  
   Returns a
-  [`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html)
+  [`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html)
   with columns "key", "label", "task_type", "nrow", "ncol",
   "properties", and the number of features of type "lgl", "int", "dbl",
   "chr", "fct" and "ord", respectively. If `objects` is set to `TRUE`,

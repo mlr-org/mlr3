@@ -83,11 +83,11 @@ Creates a new instance of this
 Note that `DataBackendDataTable` does not copy the input data, while
 [`as_data_backend()`](https://mlr3.mlr-org.com/dev/reference/as_data_backend.md)
 calls
-[`data.table::copy()`](https://rdatatable.gitlab.io/data.table/reference/copy.html).
+[`data.table::copy()`](https://rdrr.io/pkg/data.table/man/copy.html).
 [`as_data_backend()`](https://mlr3.mlr-org.com/dev/reference/as_data_backend.md)
 also takes care about casting to a
-[`data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html)
-and adds a primary key column if necessary.
+[`data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html) and
+adds a primary key column if necessary.
 
 #### Usage
 
@@ -97,9 +97,9 @@ and adds a primary key column if necessary.
 
 - `data`:
 
-  ([`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html))  
+  ([`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html))  
   The input
-  [`data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html).
+  [`data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html).
 
 - `primary_key`:
 
@@ -155,7 +155,7 @@ Retrieve the first `n` rows.
 
 #### Returns
 
-[`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html)
+[`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html)
 of the first `n` rows.
 
 ------------------------------------------------------------------------

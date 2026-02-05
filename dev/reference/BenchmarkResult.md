@@ -31,7 +31,7 @@ extracted object without cloning it first.
 
 - `as.data.table(rr, ..., reassemble_learners = TRUE, convert_predictions = TRUE, predict_sets = "test", task_characteristics = FALSE)`  
   BenchmarkResult -\>
-  [`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html)  
+  [`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html)  
   Returns a tabular view of the internal data.
 
 - `c(...)`  
@@ -69,7 +69,7 @@ Other benchmark:
 
 - `tasks`:
 
-  ([`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html))  
+  ([`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html))  
   Table of included
   [Task](https://mlr3.mlr-org.com/dev/reference/Task.md)s with three
   columns:
@@ -82,7 +82,7 @@ Other benchmark:
 
 - `learners`:
 
-  ([`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html))  
+  ([`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html))  
   Table of included
   [Learner](https://mlr3.mlr-org.com/dev/reference/Learner.md)s with
   three columns:
@@ -101,7 +101,7 @@ Other benchmark:
 
 - `resamplings`:
 
-  ([`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html))  
+  ([`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html))  
   Table of included
   [Resampling](https://mlr3.mlr-org.com/dev/reference/Resampling.md)s
   with three columns:
@@ -115,7 +115,7 @@ Other benchmark:
 
 - `resample_results`:
 
-  ([`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html))  
+  ([`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html))  
   Returns a table with three columns:
 
   - `uhash` ([`character()`](https://rdrr.io/r/base/character.html)).
@@ -137,7 +137,7 @@ Other benchmark:
 
 - `uhash_table`:
 
-  ([data.table::data.table](https://rdatatable.gitlab.io/data.table/reference/data.table.html))  
+  ([data.table::data.table](https://rdrr.io/pkg/data.table/man/data.table.html))  
   Table with columns `uhash`, `learner_id`, `task_id` and
   `resampling_id`.
 
@@ -362,7 +362,7 @@ id of the respective
 
 #### Returns
 
-[`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html).
+[`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html).
 
 #### Examples
 
@@ -375,7 +375,7 @@ id of the respective
 Calculates the observation-wise loss via the
 [Measure](https://mlr3.mlr-org.com/dev/reference/Measure.md)'s
 `obs_loss` method. Returns a
-[`data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html)
+[`data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html)
 with columns from the predictions (e.g., `row_ids`, `truth`, `response`,
 etc.), plus one numeric column for each measure, named with the
 respective measure id, and a `resample_result` column. If there is no
@@ -480,7 +480,7 @@ from the returned
 
 #### Returns
 
-[`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html).
+[`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html).
 
 #### Examples
 
@@ -808,11 +808,11 @@ bmr$learners
 head(as.data.table(bmr, measures = c("classif.acc", "classif.auc")), 5)
 #>                                   uhash                task
 #>                                  <char>              <list>
-#> 1: 763043ba-f37a-46cd-8bc8-054697ea99fc <TaskClassif:sonar>
-#> 2: 763043ba-f37a-46cd-8bc8-054697ea99fc <TaskClassif:sonar>
-#> 3: 763043ba-f37a-46cd-8bc8-054697ea99fc <TaskClassif:sonar>
-#> 4: 2973a064-127e-4f68-accc-1e8898f24312 <TaskClassif:sonar>
-#> 5: 2973a064-127e-4f68-accc-1e8898f24312 <TaskClassif:sonar>
+#> 1: 33273292-d1e8-4ac0-aea3-34678636e198 <TaskClassif:sonar>
+#> 2: 33273292-d1e8-4ac0-aea3-34678636e198 <TaskClassif:sonar>
+#> 3: 33273292-d1e8-4ac0-aea3-34678636e198 <TaskClassif:sonar>
+#> 4: e9ff492b-09a9-4bb5-8b0a-095730d62fe1 <TaskClassif:sonar>
+#> 5: e9ff492b-09a9-4bb5-8b0a-095730d62fe1 <TaskClassif:sonar>
 #>                                            learner     resampling iteration
 #>                                             <list>         <list>     <int>
 #> 1: <LearnerClassifFeatureless:classif.featureless> <ResamplingCV>         1
@@ -1041,30 +1041,30 @@ bmr$set_threshold(0.8, learner_ids = "classif.featureless")
 #> Key: <uhash, iteration>
 #>                                   uhash iteration      learner_state prediction
 #>                                  <char>     <int>             <list>     <list>
-#> 1: 8e0b22a1-dea8-467e-9b20-19de3148be26         1 <learner_state[8]>  <list[1]>
-#> 2: ab79a22e-f51f-412e-b386-06479e2fbe9a         1 <learner_state[9]>  <list[1]>
+#> 1: bd2feca8-5318-40dc-88ad-30d117785533         1 <learner_state[9]>  <list[1]>
+#> 2: e7245526-36cb-4a9f-9eac-7b766a5f420f         1 <learner_state[8]>  <list[1]>
 #>        learner_hash        task_hash    learner_phash  resampling_hash
 #>              <char>           <char>           <char>           <char>
-#> 1: 918bbfdfae9c988e 062d5c9e3bac138b 53c7d4b30df61d77 35db3d2bb507d357
-#> 2: c7c9e936a7ad47c2 062d5c9e3bac138b 02fee2b4eac6c687 35db3d2bb507d357
+#> 1: c7c9e936a7ad47c2 062d5c9e3bac138b 02fee2b4eac6c687 35db3d2bb507d357
+#> 2: 918bbfdfae9c988e 062d5c9e3bac138b 53c7d4b30df61d77 35db3d2bb507d357
 bmr$set_threshold(0.3, i = 2)
 #> Key: <uhash, iteration>
 #>                                   uhash iteration      learner_state prediction
 #>                                  <char>     <int>             <list>     <list>
-#> 1: 8e0b22a1-dea8-467e-9b20-19de3148be26         1 <learner_state[8]>  <list[1]>
-#> 2: ab79a22e-f51f-412e-b386-06479e2fbe9a         1 <learner_state[9]>  <list[1]>
+#> 1: bd2feca8-5318-40dc-88ad-30d117785533         1 <learner_state[9]>  <list[1]>
+#> 2: e7245526-36cb-4a9f-9eac-7b766a5f420f         1 <learner_state[8]>  <list[1]>
 #>        learner_hash        task_hash    learner_phash  resampling_hash
 #>              <char>           <char>           <char>           <char>
-#> 1: 918bbfdfae9c988e 062d5c9e3bac138b 53c7d4b30df61d77 35db3d2bb507d357
-#> 2: c7c9e936a7ad47c2 062d5c9e3bac138b 02fee2b4eac6c687 35db3d2bb507d357
+#> 1: c7c9e936a7ad47c2 062d5c9e3bac138b 02fee2b4eac6c687 35db3d2bb507d357
+#> 2: 918bbfdfae9c988e 062d5c9e3bac138b 53c7d4b30df61d77 35db3d2bb507d357
 bmr$set_threshold(0.7, uhashes = uhashes(bmr, learner_ids = "classif.featureless"))
 #> Key: <uhash, iteration>
 #>                                   uhash iteration      learner_state prediction
 #>                                  <char>     <int>             <list>     <list>
-#> 1: 8e0b22a1-dea8-467e-9b20-19de3148be26         1 <learner_state[8]>  <list[1]>
-#> 2: ab79a22e-f51f-412e-b386-06479e2fbe9a         1 <learner_state[9]>  <list[1]>
+#> 1: bd2feca8-5318-40dc-88ad-30d117785533         1 <learner_state[9]>  <list[1]>
+#> 2: e7245526-36cb-4a9f-9eac-7b766a5f420f         1 <learner_state[8]>  <list[1]>
 #>        learner_hash        task_hash    learner_phash  resampling_hash
 #>              <char>           <char>           <char>           <char>
-#> 1: 918bbfdfae9c988e 062d5c9e3bac138b 53c7d4b30df61d77 35db3d2bb507d357
-#> 2: c7c9e936a7ad47c2 062d5c9e3bac138b 02fee2b4eac6c687 35db3d2bb507d357
+#> 1: c7c9e936a7ad47c2 062d5c9e3bac138b 02fee2b4eac6c687 35db3d2bb507d357
+#> 2: 918bbfdfae9c988e 062d5c9e3bac138b 53c7d4b30df61d77 35db3d2bb507d357
 ```

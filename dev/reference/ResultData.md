@@ -19,7 +19,7 @@ requirements.
 
   ([`list()`](https://rdrr.io/r/base/list.html))  
   List of
-  [`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html),
+  [`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html),
   arranged in a star schema. Do not operate directly on this list.
 
 ## Active bindings
@@ -91,7 +91,7 @@ construction method is provided by
 
 - `data`:
 
-  ([`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html))
+  ([`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html))
   \| `NULL`)  
   Do not initialize this object yourself, use
   [`as_result_data()`](https://mlr3.mlr-org.com/dev/reference/as_result_data.md)
@@ -142,9 +142,9 @@ Returns all unique hashes (`uhash` values) of all included
 ### Method `uhash_table()`
 
 Returns a
-[`data.table`](https://rdatatable.gitlab.io/data.table/reference/data.table.html)
-with columns `uhash`, `learner_id`, `task_id` and `resampling_id` for
-the given view. The `uhash` uniquely identifies an individual
+[`data.table`](https://rdrr.io/pkg/data.table/man/data.table.html) with
+columns `uhash`, `learner_id`, `task_id` and `resampling_id` for the
+given view. The `uhash` uniquely identifies an individual
 [`ResampleResult`](https://mlr3.mlr-org.com/dev/reference/ResampleResult.md).
 
 #### Usage
@@ -165,7 +165,7 @@ the given view. The `uhash` uniquely identifies an individual
 
 #### Returns
 
-[`data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html)
+[`data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html)
 
 ------------------------------------------------------------------------
 
@@ -218,7 +218,7 @@ Returns a table of included
 
 #### Returns
 
-[`data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html)
+[`data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html)
 with columns `"task_hash"`
 ([`character()`](https://rdrr.io/r/base/character.html)) and `"task"`
 ([Task](https://mlr3.mlr-org.com/dev/reference/Task.md)).
@@ -263,7 +263,7 @@ Returns a table of included
 
 #### Returns
 
-[`data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html)
+[`data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html)
 with columns `"learner_hash"`
 ([`character()`](https://rdrr.io/r/base/character.html)) and `"learner"`
 ([Learner](https://mlr3.mlr-org.com/dev/reference/Learner.md)).
@@ -319,7 +319,7 @@ Returns a table of included
 
 #### Returns
 
-[`data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html)
+[`data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html)
 with columns `"resampling_hash"`
 ([`character()`](https://rdrr.io/r/base/character.html)) and
 `"resampling"`
@@ -490,7 +490,7 @@ Returns additional data stored.
 
 #### Returns
 
-[`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html).
+[`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html).
 
 ------------------------------------------------------------------------
 
@@ -601,7 +601,7 @@ Modified `self` (invisibly).
 ### Method `as_data_table()`
 
 Combines internal tables into a single flat
-[`data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html).
+[`data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html).
 
 #### Usage
 
@@ -707,7 +707,7 @@ Get a table of recorded learner logs.
 
 #### Returns
 
-[`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html).
+[`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html).
 
 ------------------------------------------------------------------------
 

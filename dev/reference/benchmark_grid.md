@@ -79,7 +79,7 @@ benchmark_grid(
 
 ## Value
 
-([`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html))
+([`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html))
 with the cross product of the input vectors.
 
 ## Errors and Warnings

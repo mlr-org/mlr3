@@ -14,7 +14,7 @@ function.
 
 - `as.data.table(rr, reassemble_learners = TRUE, convert_predictions = TRUE, predict_sets = "test")`  
   ResampleResult -\>
-  [`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html)  
+  [`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html)  
   Returns a tabular view of the internal data.
 
 - `c(...)`  
@@ -93,14 +93,14 @@ Other resample:
 
 - `warnings`:
 
-  ([`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html))  
+  ([`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html))  
   A table with all warning messages. Column names are `"iteration"` and
   `"msg"`. Note that there can be multiple rows per resampling iteration
   if multiple warnings have been recorded.
 
 - `errors`:
 
-  ([`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html))  
+  ([`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html))  
   A table with all error messages. Column names are `"iteration"` and
   `"msg"`. Note that there can be multiple rows per resampling iteration
   if multiple errors have been recorded.
@@ -157,7 +157,7 @@ construction method is provided by
 - `data`:
 
   ([ResultData](https://mlr3.mlr-org.com/dev/reference/ResultData.md) \|
-  [`data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html))  
+  [`data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html))  
   An object of type
   [ResultData](https://mlr3.mlr-org.com/dev/reference/ResultData.md),
   either extracted from another ResampleResult, another
@@ -346,7 +346,7 @@ performance is added for each
 
 #### Returns
 
-[`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html).
+[`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html).
 
 #### Examples
 
@@ -359,7 +359,7 @@ performance is added for each
 Calculates the observation-wise loss via the
 [Measure](https://mlr3.mlr-org.com/dev/reference/Measure.md)'s
 `obs_loss` method. Returns a
-[`data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html)
+[`data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html)
 with an `iteration` column plus one numeric column for each measure,
 named with the respective measure id. If there is no observation-wise
 loss function for the measure, the column is filled with `NA_real_`
@@ -789,9 +789,9 @@ rr$set_threshold(0.6)
 #> Key: <uhash, iteration>
 #>                                   uhash iteration      learner_state prediction
 #>                                  <char>     <int>             <list>     <list>
-#> 1: 7ecfd792-526b-42b6-b00c-b017e56eb7d5         1 <learner_state[8]>  <list[1]>
-#> 2: 7ecfd792-526b-42b6-b00c-b017e56eb7d5         2 <learner_state[8]>  <list[1]>
-#> 3: 7ecfd792-526b-42b6-b00c-b017e56eb7d5         3 <learner_state[8]>  <list[1]>
+#> 1: 2dd2870c-4628-4744-b713-7dfff715c98f         1 <learner_state[8]>  <list[1]>
+#> 2: 2dd2870c-4628-4744-b713-7dfff715c98f         2 <learner_state[8]>  <list[1]>
+#> 3: 2dd2870c-4628-4744-b713-7dfff715c98f         3 <learner_state[8]>  <list[1]>
 #>        learner_hash        task_hash    learner_phash  resampling_hash
 #>              <char>           <char>           <char>           <char>
 #> 1: 667ca7804cbe810f 062d5c9e3bac138b a2121f0bf1b9c2f6 fb4fd3525746a553

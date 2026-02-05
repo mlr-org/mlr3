@@ -11,7 +11,7 @@ This package currently shups with one implementation for backends:
 
 - [DataBackendDataTable](https://mlr3.mlr-org.com/dev/reference/DataBackendDataTable.md)
   which stores the data as
-  [`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html).
+  [`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html).
 
 To connect to out-of-memory database management systems such as SQL
 servers, see the extension package
@@ -98,7 +98,7 @@ or via the S3 method
   The format of the input data depends on the specialization. E.g.,
   [DataBackendDataTable](https://mlr3.mlr-org.com/dev/reference/DataBackendDataTable.md)
   expects a
-  [`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html).
+  [`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html).
 
 - `primary_key`:
 

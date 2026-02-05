@@ -263,7 +263,7 @@ or
 
 - `newdata`:
 
-  [`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html)  
+  [`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html)  
   New data to predict on.
 
 - `task`:

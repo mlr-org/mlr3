@@ -78,7 +78,7 @@ This package runs benchmark experiments on high-performance computing clusters a
 
 <dl><dt id="arg-design">design<a class="anchor" aria-label="anchor" href="#arg-design"></a></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code>)<br>
-Data frame (or <code><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code>) with three columns: "task", "learner", and "resampling".
+Data frame (or <code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code>) with three columns: "task", "learner", and "resampling".
 Each row defines a resampling by providing a <a href="Task.html">Task</a>, <a href="Learner.html">Learner</a> and an instantiated <a href="Resampling.html">Resampling</a> strategy.
 The helper function <code><a href="benchmark_grid.html">benchmark_grid()</a></code> can assist in generating an exhaustive design (see examples) and
 instantiate the <a href="Resampling.html">Resampling</a>s per <a href="Task.html">Task</a>.
@@ -248,15 +248,15 @@ or <code>"trace"</code>:</p>
 <span class="r-in"><span><span class="va">bmr</span> <span class="op">=</span> <span class="fu">benchmark</span><span class="op">(</span><span class="va">design</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Data of all resamplings</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/as.data.table.html" class="external-link">as.data.table</a></span><span class="op">(</span><span class="va">bmr</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/data.table/man/as.data.table.html" class="external-link">as.data.table</a></span><span class="op">(</span><span class="va">bmr</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                   uhash                   task</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                  &lt;char&gt;                 &lt;list&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 861d2718-343b-4b64-8131-0ad78b9c112c &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 861d2718-343b-4b64-8131-0ad78b9c112c &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 861d2718-343b-4b64-8131-0ad78b9c112c &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4: 50295c6f-019d-4c89-969b-c2a73fecec9e &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5: 50295c6f-019d-4c89-969b-c2a73fecec9e &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6: 50295c6f-019d-4c89-969b-c2a73fecec9e &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: cdfb6dc6-544f-42f9-a22b-ccbb93cf2b85 &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: cdfb6dc6-544f-42f9-a22b-ccbb93cf2b85 &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: cdfb6dc6-544f-42f9-a22b-ccbb93cf2b85 &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4: 5138fbb6-c63f-47b5-9a13-e202177d603c &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5: 5138fbb6-c63f-47b5-9a13-e202177d603c &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6: 5138fbb6-c63f-47b5-9a13-e202177d603c &lt;TaskClassif:penguins&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                            learner     resampling iteration</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                             &lt;list&gt;         &lt;list&gt;     &lt;int&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: &lt;LearnerClassifFeatureless:classif.featureless&gt; &lt;ResamplingCV&gt;         1</span>
@@ -287,7 +287,7 @@ or <code>"trace"</code>:</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Extract predictions of first resampling result</span></span></span>
 <span class="r-in"><span><span class="va">rr</span> <span class="op">=</span> <span class="va">aggr</span><span class="op">$</span><span class="va">resample_result</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/as.data.table.html" class="external-link">as.data.table</a></span><span class="op">(</span><span class="va">rr</span><span class="op">$</span><span class="fu">prediction</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/pkg/data.table/man/as.data.table.html" class="external-link">as.data.table</a></span><span class="op">(</span><span class="va">rr</span><span class="op">$</span><span class="fu">prediction</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      row_ids     truth response</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        &lt;int&gt;    &lt;fctr&gt;   &lt;fctr&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   1:       1    Adelie   Adelie</span>
@@ -309,7 +309,7 @@ or <code>"trace"</code>:</p>
 <span class="r-in"><span><span class="va">learners</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="mlr_sugar.html">lrn</a></span><span class="op">(</span><span class="st">"classif.featureless"</span><span class="op">)</span>, <span class="fu"><a href="mlr_sugar.html">lrn</a></span><span class="op">(</span><span class="st">"classif.rpart"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">resamplings</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="mlr_sugar.html">rsmp</a></span><span class="op">(</span><span class="st">"cv"</span>, folds <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>, <span class="fu"><a href="mlr_sugar.html">rsmp</a></span><span class="op">(</span><span class="st">"holdout"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">design</span> <span class="op">=</span> <span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span><span class="va">design</span> <span class="op">=</span> <span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  task <span class="op">=</span> <span class="va">tasks</span>,</span></span>
 <span class="r-in"><span>  learner <span class="op">=</span> <span class="va">learners</span>,</span></span>
 <span class="r-in"><span>  resampling <span class="op">=</span> <span class="va">resamplings</span></span></span>

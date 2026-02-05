@@ -78,7 +78,7 @@ Do not modify any extracted object without cloning it first.</p>
 
 
 <ul><li><p><code>as.data.table(rr, ..., reassemble_learners = TRUE, convert_predictions = TRUE, predict_sets = "test", task_characteristics = FALSE)</code><br>
-BenchmarkResult -&gt; <code><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code><br>
+BenchmarkResult -&gt; <code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code><br>
 Returns a tabular view of the internal data.</p></li>
 <li><p><code>c(...)</code><br>
 (BenchmarkResult, ...) -&gt; BenchmarkResult<br>
@@ -106,7 +106,7 @@ This is <code>NA</code> for empty BenchmarkResults.</p></dd>
 
 
 <dt><code>tasks</code></dt>
-<dd><p>(<code><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
+<dd><p>(<code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
 Table of included <a href="Task.html">Task</a>s with three columns:</p><ul><li><p><code>"task_hash"</code> (<code>character(1)</code>),</p></li>
 <li><p><code>"task_id"</code> (<code>character(1)</code>), and</p></li>
 <li><p><code>"task"</code> (<a href="Task.html">Task</a>).</p></li>
@@ -114,7 +114,7 @@ Table of included <a href="Task.html">Task</a>s with three columns:</p><ul><li><
 
 
 <dt><code>learners</code></dt>
-<dd><p>(<code><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
+<dd><p>(<code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
 Table of included <a href="Learner.html">Learner</a>s with three columns:</p><ul><li><p><code>"learner_hash"</code> (<code>character(1)</code>),</p></li>
 <li><p><code>"learner_id"</code> (<code>character(1)</code>), and</p></li>
 <li><p><code>"learner"</code> (<a href="Learner.html">Learner</a>).</p></li>
@@ -124,7 +124,7 @@ Instead, select a row from the table returned by <code>$score()</code>.</p></dd>
 
 
 <dt><code>resamplings</code></dt>
-<dd><p>(<code><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
+<dd><p>(<code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
 Table of included <a href="Resampling.html">Resampling</a>s with three columns:</p><ul><li><p><code>"resampling_hash"</code> (<code>character(1)</code>),</p></li>
 <li><p><code>"resampling_id"</code> (<code>character(1)</code>), and</p></li>
 <li><p><code>"resampling"</code> (<a href="Resampling.html">Resampling</a>).</p></li>
@@ -132,7 +132,7 @@ Table of included <a href="Resampling.html">Resampling</a>s with three columns:<
 
 
 <dt><code>resample_results</code></dt>
-<dd><p>(<code><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
+<dd><p>(<code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
 Returns a table with three columns:</p><ul><li><p><code>uhash</code> (<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>).</p></li>
 <li><p><code>resample_result</code> (<a href="ResampleResult.html">ResampleResult</a>).</p></li>
 </ul></dd>
@@ -149,7 +149,7 @@ Set of (unique) hashes of all included <a href="ResampleResult.html">ResampleRes
 
 
 <dt><code>uhash_table</code></dt>
-<dd><p>(<a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table</a>)<br>
+<dd><p>(<a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table</a>)<br>
 Table with columns <code>uhash</code>, <code>learner_id</code>, <code>task_id</code> and <code>resampling_id</code>.</p></dd>
 
 
@@ -344,7 +344,7 @@ if present.</p></dd>
 </div>
 <div class="section">
 <h4 id="returns-1">Returns<a class="anchor" aria-label="anchor" href="#returns-1"></a></h4>
-<p><code><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code>.</p>
+<p><code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code>.</p>
 </div>
 <div class="section">
 <h4 id="examples-2">Examples<a class="anchor" aria-label="anchor" href="#examples-2"></a></h4>
@@ -355,7 +355,7 @@ if present.</p></dd>
 </div><p></p><hr><a id="method-BenchmarkResult-obs_loss"></a><div class="section">
 <h3 id="method-obs-loss-">Method <code>obs_loss()</code><a class="anchor" aria-label="anchor" href="#method-obs-loss-"></a></h3>
 <p>Calculates the observation-wise loss via the <a href="Measure.html">Measure</a>'s <code>obs_loss</code> method.
-Returns a <code><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table()</a></code> with columns from the predictions (e.g., <code>row_ids</code>, <code>truth</code>, <code>response</code>, etc.), plus one numeric column for each measure, named with the respective measure id, and a <code>resample_result</code> column.
+Returns a <code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table()</a></code> with columns from the predictions (e.g., <code>row_ids</code>, <code>truth</code>, <code>response</code>, etc.), plus one numeric column for each measure, named with the respective measure id, and a <code>resample_result</code> column.
 If there is no observation-wise loss function for the measure, the column is filled with <code>NA_real_</code> values.
 Note that some measures such as RMSE, do have an <code>$obs_loss</code>, but they require an additional transformation after aggregation, in this example taking the square-root.</p><div class="section">
 <h4 id="usage-8">Usage<a class="anchor" aria-label="anchor" href="#usage-8"></a></h4>
@@ -445,7 +445,7 @@ iterations with errors as extra integer column <code>"errors"</code>.</p></dd>
 </div>
 <div class="section">
 <h4 id="returns-2">Returns<a class="anchor" aria-label="anchor" href="#returns-2"></a></h4>
-<p><code><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code>.</p>
+<p><code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code>.</p>
 </div>
 <div class="section">
 <h4 id="examples-4">Examples<a class="anchor" aria-label="anchor" href="#examples-4"></a></h4>
@@ -762,14 +762,14 @@ Must be one of <code>"random"</code>, <code>"first"</code> or <code>"last"</code
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2: &lt;LearnerClassifFeatureless:classif.featureless&gt;</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># first 5 resampling iterations</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/as.data.table.html" class="external-link">as.data.table</a></span><span class="op">(</span><span class="va">bmr</span>, measures <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"classif.acc"</span>, <span class="st">"classif.auc"</span><span class="op">)</span><span class="op">)</span>, <span class="fl">5</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/data.table/man/as.data.table.html" class="external-link">as.data.table</a></span><span class="op">(</span><span class="va">bmr</span>, measures <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"classif.acc"</span>, <span class="st">"classif.auc"</span><span class="op">)</span><span class="op">)</span>, <span class="fl">5</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                   uhash                task</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                  &lt;char&gt;              &lt;list&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 763043ba-f37a-46cd-8bc8-054697ea99fc &lt;TaskClassif:sonar&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 763043ba-f37a-46cd-8bc8-054697ea99fc &lt;TaskClassif:sonar&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 763043ba-f37a-46cd-8bc8-054697ea99fc &lt;TaskClassif:sonar&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4: 2973a064-127e-4f68-accc-1e8898f24312 &lt;TaskClassif:sonar&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5: 2973a064-127e-4f68-accc-1e8898f24312 &lt;TaskClassif:sonar&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 33273292-d1e8-4ac0-aea3-34678636e198 &lt;TaskClassif:sonar&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 33273292-d1e8-4ac0-aea3-34678636e198 &lt;TaskClassif:sonar&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 33273292-d1e8-4ac0-aea3-34678636e198 &lt;TaskClassif:sonar&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4: e9ff492b-09a9-4bb5-8b0a-095730d62fe1 &lt;TaskClassif:sonar&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5: e9ff492b-09a9-4bb5-8b0a-095730d62fe1 &lt;TaskClassif:sonar&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                            learner     resampling iteration</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                             &lt;list&gt;         &lt;list&gt;     &lt;int&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: &lt;LearnerClassifFeatureless:classif.featureless&gt; &lt;ResamplingCV&gt;         1</span>
@@ -998,32 +998,32 @@ Must be one of <code>"random"</code>, <code>"first"</code> or <code>"last"</code
 <span class="r-out co"><span class="r-pr">#&gt;</span> Key: &lt;uhash, iteration&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                   uhash iteration      learner_state prediction</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                  &lt;char&gt;     &lt;int&gt;             &lt;list&gt;     &lt;list&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 8e0b22a1-dea8-467e-9b20-19de3148be26         1 &lt;learner_state[8]&gt;  &lt;list[1]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: ab79a22e-f51f-412e-b386-06479e2fbe9a         1 &lt;learner_state[9]&gt;  &lt;list[1]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: bd2feca8-5318-40dc-88ad-30d117785533         1 &lt;learner_state[9]&gt;  &lt;list[1]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: e7245526-36cb-4a9f-9eac-7b766a5f420f         1 &lt;learner_state[8]&gt;  &lt;list[1]&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        learner_hash        task_hash    learner_phash  resampling_hash</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              &lt;char&gt;           &lt;char&gt;           &lt;char&gt;           &lt;char&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 918bbfdfae9c988e 062d5c9e3bac138b 53c7d4b30df61d77 35db3d2bb507d357</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: c7c9e936a7ad47c2 062d5c9e3bac138b 02fee2b4eac6c687 35db3d2bb507d357</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: c7c9e936a7ad47c2 062d5c9e3bac138b 02fee2b4eac6c687 35db3d2bb507d357</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 918bbfdfae9c988e 062d5c9e3bac138b 53c7d4b30df61d77 35db3d2bb507d357</span>
 <span class="r-in"><span><span class="va">bmr</span><span class="op">$</span><span class="fu">set_threshold</span><span class="op">(</span><span class="fl">0.3</span>, i <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Key: &lt;uhash, iteration&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                   uhash iteration      learner_state prediction</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                  &lt;char&gt;     &lt;int&gt;             &lt;list&gt;     &lt;list&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 8e0b22a1-dea8-467e-9b20-19de3148be26         1 &lt;learner_state[8]&gt;  &lt;list[1]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: ab79a22e-f51f-412e-b386-06479e2fbe9a         1 &lt;learner_state[9]&gt;  &lt;list[1]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: bd2feca8-5318-40dc-88ad-30d117785533         1 &lt;learner_state[9]&gt;  &lt;list[1]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: e7245526-36cb-4a9f-9eac-7b766a5f420f         1 &lt;learner_state[8]&gt;  &lt;list[1]&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        learner_hash        task_hash    learner_phash  resampling_hash</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              &lt;char&gt;           &lt;char&gt;           &lt;char&gt;           &lt;char&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 918bbfdfae9c988e 062d5c9e3bac138b 53c7d4b30df61d77 35db3d2bb507d357</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: c7c9e936a7ad47c2 062d5c9e3bac138b 02fee2b4eac6c687 35db3d2bb507d357</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: c7c9e936a7ad47c2 062d5c9e3bac138b 02fee2b4eac6c687 35db3d2bb507d357</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 918bbfdfae9c988e 062d5c9e3bac138b 53c7d4b30df61d77 35db3d2bb507d357</span>
 <span class="r-in"><span><span class="va">bmr</span><span class="op">$</span><span class="fu">set_threshold</span><span class="op">(</span><span class="fl">0.7</span>, uhashes <span class="op">=</span> <span class="fu"><a href="uhash.html">uhashes</a></span><span class="op">(</span><span class="va">bmr</span>, learner_ids <span class="op">=</span> <span class="st">"classif.featureless"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Key: &lt;uhash, iteration&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                   uhash iteration      learner_state prediction</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                  &lt;char&gt;     &lt;int&gt;             &lt;list&gt;     &lt;list&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 8e0b22a1-dea8-467e-9b20-19de3148be26         1 &lt;learner_state[8]&gt;  &lt;list[1]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: ab79a22e-f51f-412e-b386-06479e2fbe9a         1 &lt;learner_state[9]&gt;  &lt;list[1]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: bd2feca8-5318-40dc-88ad-30d117785533         1 &lt;learner_state[9]&gt;  &lt;list[1]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: e7245526-36cb-4a9f-9eac-7b766a5f420f         1 &lt;learner_state[8]&gt;  &lt;list[1]&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        learner_hash        task_hash    learner_phash  resampling_hash</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              &lt;char&gt;           &lt;char&gt;           &lt;char&gt;           &lt;char&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 918bbfdfae9c988e 062d5c9e3bac138b 53c7d4b30df61d77 35db3d2bb507d357</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: c7c9e936a7ad47c2 062d5c9e3bac138b 02fee2b4eac6c687 35db3d2bb507d357</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: c7c9e936a7ad47c2 062d5c9e3bac138b 02fee2b4eac6c687 35db3d2bb507d357</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 918bbfdfae9c988e 062d5c9e3bac138b 53c7d4b30df61d77 35db3d2bb507d357</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

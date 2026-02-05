@@ -15,7 +15,7 @@ The following objects are set by
 [mlr3](https://CRAN.R-project.org/package=mlr3):
 
 - `task_types`
-  ([`data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html))  
+  ([`data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html))  
   Table with task type (`"type"`), the implementing package (`"pkg"`),
   and the names of the generators of the corresponding
   [Task](https://mlr3.mlr-org.com/dev/reference/Task.md) (`"task"`),
@@ -137,7 +137,7 @@ mlr_reflections
 
 ``` r
 ls.str(mlr_reflections)
-#> auto_converters : <environment: 0x561529725a60> 
+#> auto_converters : <environment: 0x55ca76ad7790> 
 #> default_measures : List of 3
 #>  $ classif     : chr "classif.ce"
 #>  $ regr        : chr "regr.mse"

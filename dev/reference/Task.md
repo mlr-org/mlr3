@@ -38,9 +38,9 @@ More toy tasks can be found in the dictionary after loading
 
 - `as.data.table(t)`  
   Task -\>
-  [`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html)  
+  [`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html)  
   Returns the complete data as
-  [`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html).
+  [`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html).
 
 - `head(t)`  
   Calls [`head()`](https://rdrr.io/r/utils/head.html) on the task's
@@ -159,7 +159,7 @@ Other Task:
 
 - `col_info`:
 
-  ([`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html))  
+  ([`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html))  
   Table with with 4 columns, mainly for internal purposes:
 
   - `"id"` ([`character()`](https://rdrr.io/r/base/character.html))
@@ -246,7 +246,7 @@ Other Task:
 
 - `row_names`:
 
-  ([`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html))  
+  ([`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html))  
   Returns a table with two columns:
 
   - `"row_id"` ([`integer()`](https://rdrr.io/r/base/integer.html)), and
@@ -406,13 +406,13 @@ Other Task:
 
 - `feature_types`:
 
-  ([`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html))  
+  ([`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html))  
   Returns a table with columns `id` and `type` where `id` are the column
   names of "active" features of the task and `type` is the storage type.
 
 - `strata`:
 
-  ([`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html))  
+  ([`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html))  
   If the task has columns designated with role `"stratum"`, returns a
   table with one subpopulation per row and two columns:
 
@@ -428,7 +428,7 @@ Other Task:
 
 - `groups`:
 
-  ([`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html))  
+  ([`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html))  
   If the task has a column with designated role `"group"`, a table with
   two columns:
 
@@ -443,7 +443,7 @@ Other Task:
 
 - `order`:
 
-  ([`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html))  
+  ([`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html))  
   If the task has at least one column with designated role `"order"`, a
   table with two columns:
 
@@ -456,12 +456,12 @@ Other Task:
 
 - `weights`:
 
-  ([`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html))  
+  ([`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html))  
   Deprecated, use `$weights_learner` instead.
 
 - `weights_learner`:
 
-  ([`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html))  
+  ([`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html))  
   Returns the observation weights used for training a
   [Learner](https://mlr3.mlr-org.com/dev/reference/Learner.md) (column
   role `weights_learner`) as a `data.table` with the following columns:
@@ -474,7 +474,7 @@ Other Task:
 
 - `weights_measure`:
 
-  ([`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html))  
+  ([`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html))  
   Returns the observation weights used for scoring a prediction with a
   [Measure](https://mlr3.mlr-org.com/dev/reference/Measure.md) (column
   role `weights_measure`) as a `data.table` with the following columns:
@@ -487,7 +487,7 @@ Other Task:
 
 - `offset`:
 
-  ([`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html))  
+  ([`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html))  
   If the task has a column with designated role `"offset"`, a table with
   two or more columns:
 
@@ -766,7 +766,7 @@ columns with their respective column name.
 Depending on the
 [DataBackend](https://mlr3.mlr-org.com/dev/reference/DataBackend.md),
 but usually a
-[`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html).
+[`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html).
 
 #### Examples
 
@@ -828,7 +828,7 @@ role `"target"` or `"feature"`.
 
 #### Returns
 
-[`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html)
+[`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html)
 with `n` rows.
 
 #### Examples

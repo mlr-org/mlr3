@@ -104,7 +104,11 @@ Whether to check that running the learner twice with the same seed should result
 Default is <code>TRUE</code>.</p></li>
 <li><p><code>configure_learner</code> (<code>function(learner, task)</code>)<br>
 Before running a <code>learner</code> on a <code>task</code>, this function allows to change its parameter values depending on the input task.</p></li>
-</ul></div>
+</ul><p>To speed up test execution, start an encapsulation daemon in advance by calling
+<code>mirai::daemons(1, .compute = "mlr3_encapsulation")</code> in <code>tests/testthat/setup.R</code>.
+After the tests complete, stop them with
+<code>mirai::daemons(0, .compute = "mlr3_encapsulation")</code> in <code>tests/testthat/teardown.R</code>.</p>
+    </div>
     <div class="section level2">
     <h2 id="run-paramtest-">run_paramtest()<a class="anchor" aria-label="anchor" href="#run-paramtest-"></a></h2>
 

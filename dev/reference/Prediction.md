@@ -26,9 +26,9 @@ or
 
 - `as.data.table(rr)`  
   Prediction -\>
-  [`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html)  
+  [`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html)  
   Converts the data to a
-  [`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html).
+  [`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html).
 
 - `c(..., keep_duplicates = TRUE)`  
   (Prediction, Prediction, ...) -\> Prediction  
@@ -227,7 +227,7 @@ Prediction.
 Calculates the observation-wise loss via the
 [Measure](https://mlr3.mlr-org.com/dev/reference/Measure.md)'s
 `obs_loss` method. Returns a
-[`data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html)
+[`data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html)
 with the columns of the matching Prediction object plus one additional
 numeric column for each measure, named with the respective measure id.
 If there is no observation-wise loss function for the measure, the

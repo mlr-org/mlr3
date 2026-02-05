@@ -67,7 +67,7 @@ Do not modify any object without cloning it first.</p>
 
 
 <ul><li><p><code>as.data.table(rr, reassemble_learners = TRUE, convert_predictions = TRUE, predict_sets = "test")</code><br>
-ResampleResult -&gt; <code><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code><br>
+ResampleResult -&gt; <code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code><br>
 Returns a tabular view of the internal data.</p></li>
 <li><p><code>c(...)</code><br>
 (ResampleResult, ...) -&gt; <a href="BenchmarkResult.html">BenchmarkResult</a><br>
@@ -128,14 +128,14 @@ Additional data stored in the ResampleResult.</p></dd>
 
 
 <dt><code>warnings</code></dt>
-<dd><p>(<code><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
+<dd><p>(<code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
 A table with all warning messages.
 Column names are <code>"iteration"</code> and <code>"msg"</code>.
 Note that there can be multiple rows per resampling iteration if multiple warnings have been recorded.</p></dd>
 
 
 <dt><code>errors</code></dt>
-<dd><p>(<code><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
+<dd><p>(<code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
 A table with all error messages.
 Column names are <code>"iteration"</code> and <code>"msg"</code>.
 Note that there can be multiple rows per resampling iteration if multiple errors have been recorded.</p></dd>
@@ -175,7 +175,7 @@ An alternative construction method is provided by <code><a href="as_resample_res
 <div class="section">
 <h4 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>data</code></dt>
-<dd><p>(<a href="ResultData.html">ResultData</a> | <code><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table()</a></code>)<br>
+<dd><p>(<a href="ResultData.html">ResultData</a> | <code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table()</a></code>)<br>
 An object of type <a href="ResultData.html">ResultData</a>, either extracted from another ResampleResult, another
 <a href="BenchmarkResult.html">BenchmarkResult</a>, or manually constructed with <code><a href="as_result_data.html">as_result_data()</a></code>.</p></dd>
 
@@ -338,7 +338,7 @@ if present.</p></dd>
 </div>
 <div class="section">
 <h4 id="returns-2">Returns<a class="anchor" aria-label="anchor" href="#returns-2"></a></h4>
-<p><code><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code>.</p>
+<p><code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code>.</p>
 </div>
 <div class="section">
 <h4 id="examples-2">Examples<a class="anchor" aria-label="anchor" href="#examples-2"></a></h4>
@@ -349,7 +349,7 @@ if present.</p></dd>
 </div><p></p><hr><a id="method-ResampleResult-obs_loss"></a><div class="section">
 <h3 id="method-obs-loss-">Method <code>obs_loss()</code><a class="anchor" aria-label="anchor" href="#method-obs-loss-"></a></h3>
 <p>Calculates the observation-wise loss via the <a href="Measure.html">Measure</a>'s <code>obs_loss</code> method.
-Returns a <code><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table()</a></code> with an <code>iteration</code> column plus one numeric column for each measure, named with the respective measure id.
+Returns a <code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table()</a></code> with an <code>iteration</code> column plus one numeric column for each measure, named with the respective measure id.
 If there is no observation-wise loss function for the measure, the column is filled with <code>NA_real_</code> values.
 Note that some measures such as RMSE, do have an <code>$obs_loss</code>, but they require an additional transformation after aggregation, in this example taking the square-root.</p><div class="section">
 <h4 id="usage-7">Usage<a class="anchor" aria-label="anchor" href="#usage-7"></a></h4>
@@ -770,9 +770,9 @@ Must be one of <code>"random"</code>, <code>"first"</code> or <code>"last"</code
 <span class="r-out co"><span class="r-pr">#&gt;</span> Key: &lt;uhash, iteration&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                   uhash iteration      learner_state prediction</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                  &lt;char&gt;     &lt;int&gt;             &lt;list&gt;     &lt;list&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 7ecfd792-526b-42b6-b00c-b017e56eb7d5         1 &lt;learner_state[8]&gt;  &lt;list[1]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 7ecfd792-526b-42b6-b00c-b017e56eb7d5         2 &lt;learner_state[8]&gt;  &lt;list[1]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 7ecfd792-526b-42b6-b00c-b017e56eb7d5         3 &lt;learner_state[8]&gt;  &lt;list[1]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 2dd2870c-4628-4744-b713-7dfff715c98f         1 &lt;learner_state[8]&gt;  &lt;list[1]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 2dd2870c-4628-4744-b713-7dfff715c98f         2 &lt;learner_state[8]&gt;  &lt;list[1]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 2dd2870c-4628-4744-b713-7dfff715c98f         3 &lt;learner_state[8]&gt;  &lt;list[1]&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        learner_hash        task_hash    learner_phash  resampling_hash</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              &lt;char&gt;           &lt;char&gt;           &lt;char&gt;           &lt;char&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: 667ca7804cbe810f 062d5c9e3bac138b a2121f0bf1b9c2f6 fb4fd3525746a553</span>

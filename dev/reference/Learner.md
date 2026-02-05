@@ -450,7 +450,7 @@ Other Learner:
 
 - `log`:
 
-  ([`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html))  
+  ([`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html))  
   Returns the output (including warning and errors) as table with
   columns
 
