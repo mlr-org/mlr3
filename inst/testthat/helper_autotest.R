@@ -14,6 +14,11 @@
 #' Calls `train()` and `predict()` on the learner and checks the prediction with `score()`.
 #' The prediction is checked with `sanity_check()`.
 #'
+#' `check_*()` functions are used to check capabilities of the learner.
+#' These functions are called by `run_autotest()` to check the capabilities of the learner.
+#' Each check returns `TRUE` on success or a `list(ok, error, task, learner)` on failure.
+#' See the documentation of the individual check functions for more details.
+#'
 #' `generate_tasks(learner)` generates multiple tasks for a given learner.
 #' Calls `generate_data()` and `generate_generic_tasks()` to generate tasks with different feature types.
 #'
@@ -272,10 +277,257 @@ sanity_check.PredictionRegr = function(prediction, ...) {
 registerS3method("sanity_check", "LearnerRegr", sanity_check.PredictionRegr)
 
 
+#' @title Create Error Result for Check Functions
+#' @noRd
+check_err = function(stage, learner, task, info, ...) {
+  info = sprintf(info, ...)
+  list(
+    ok = FALSE,
+    task = task,
+    learner = learner,
+    error = sprintf("[%s] learner '%s' on task '%s' failed: %s", stage, learner$id, task$id, info)
+  )
+}
+
+#' @title Check Feature Reordering
+#' @description
+#' Checks that reordering features does not change predictions.
+#' @param learner [Learner] (trained)\cr
+#' @param task [Task]\cr
+#' @param prediction [Prediction] from the original (non-reordered) predict.\cr
+#' @noRd
+check_reorder = function(learner, task, prediction) {
+  UseMethod("check_reorder")
+}
+
+check_reorder.Learner = function(learner, task, prediction) {
+  newdata = task$data(cols = rev(task$feature_names))
+  tmp = learner$predict_newdata(newdata)
+  if (!isTRUE(all.equal(prediction$response, tmp$response))) {
+    return(check_err("check_reorder", learner, task, "Task columns cannot be reordered"))
+  }
+  TRUE
+}
+registerS3method("check_reorder", "Learner", check_reorder.Learner)
+
+#' @title Check Variable Importance
+#' @description
+#' Checks that the learner correctly implements `$importance()`.
+#' @noRd
+check_importance = function(learner, task) {
+  UseMethod("check_importance")
+}
+
+check_importance.Learner = function(learner, task) {
+  importance = learner$importance()
+  msg = checkmate::check_numeric(rev(importance), any.missing = FALSE, min.len = 1L, sorted = TRUE)
+  if (!isTRUE(msg)) {
+    return(check_err("check_importance", learner, task, msg))
+  }
+  msg = checkmate::check_names(names(importance), subset.of = task$feature_names)
+  if (!isTRUE(msg)) {
+    return(check_err("check_importance", learner, task,
+      "Names of returned importance scores do not match task names: %s",
+      mlr3misc::str_collapse(names(importance))))
+  }
+  if ("unimportant" %in% head(names(importance), 1L)) {
+    return(check_err("check_importance", learner, task, "unimportant feature is important"))
+  }
+  TRUE
+}
+registerS3method("check_importance", "Learner", check_importance.Learner)
+
+#' @title Check Selected Features
+#' @noRd
+check_selected_features = function(learner, task) {
+  UseMethod("check_selected_features")
+}
+
+check_selected_features.Learner = function(learner, task) {
+  selected = learner$selected_features()
+  msg = checkmate::check_subset(selected, task$feature_names)
+  if (!isTRUE(msg)) {
+    return(check_err("check_selected_features", learner, task, msg))
+  }
+  TRUE
+}
+registerS3method("check_selected_features", "Learner", check_selected_features.Learner)
+
+#' @title Check OOB Error
+#' @noRd
+check_oob_error = function(learner, task) {
+  UseMethod("check_oob_error")
+}
+
+check_oob_error.Learner = function(learner, task) {
+  oob = learner$oob_error()
+  msg = checkmate::check_number(oob)
+  if (!isTRUE(msg)) {
+    return(check_err("check_oob_error", learner, task, msg))
+  }
+  TRUE
+}
+registerS3method("check_oob_error", "Learner", check_oob_error.Learner)
+
+#' @title Check Weights Usage
+#' @description
+#' Checks that the learner correctly calls `.get_weights()` during training,
+#' both when `use_weights = "use"` and `use_weights = "ignore"`.
+#' @noRd
+check_weights = function(learner, task) {
+  UseMethod("check_weights")
+}
+
+check_weights.Learner = function(learner, task) {
+  use_weights = learner$use_weights
+  get_weights = learner$.__enclos_env__$private$.get_weights
+  counter = R6::R6Class("counter", public = list(count = 0, count_up = function(x) self$count = self$count + 1))$new()
+  get_weights_counter = function(...) {
+    counter$count_up()
+    get_weights(...)
+  }
+  on.exit({
+    learner$.__enclos_env__$private$.get_weights = get_weights
+    lockBinding(".get_weights", env = learner$.__enclos_env__$private)
+    learner$use_weights = use_weights
+  })
+
+  unlockBinding(".get_weights", env = learner$.__enclos_env__$private)
+  learner$.__enclos_env__$private$.get_weights = get_weights_counter
+
+  learner$use_weights = "use"
+  suppressWarnings(learner$train(task))
+  if (counter$count == 0) {
+    return(check_err("check_weights", learner, task, "get_weights was not called"))
+  }
+
+  counter$count = 0
+  learner$use_weights = "ignore"
+  suppressWarnings(learner$train(task))
+  if (counter$count == 0) {
+    return(check_err("check_weights", learner, task,
+      "get_weights was not called. It should be called even when use_weights = 'ignore'"))
+  }
+
+  TRUE
+}
+registerS3method("check_weights", "Learner", check_weights.Learner)
+
+#' @title Check predict_newdata_fast
+#' @description
+#' Checks that the learner correctly implements `$predict_newdata_fast()`.
+#' @noRd
+check_predict_newdata_fast = function(learner, task) {
+  UseMethod("check_predict_newdata_fast")
+}
+
+check_predict_newdata_fast.Learner = function(learner, task) {
+  prediction = suppressWarnings(try(learner$predict_newdata_fast(task$data()), silent = TRUE))
+
+  if (inherits(prediction, "try-error")) {
+    return(check_err("check_predict_newdata_fast", learner, task,
+      gsub("%", "%%", as.character(prediction), fixed = TRUE)))
+  }
+
+  msg = checkmate::check_list(prediction)
+  if (!isTRUE(msg)) {
+    return(check_err("check_predict_newdata_fast", learner, task, "does not return a list"))
+  }
+
+  msg = checkmate::check_names(names(prediction),
+    subset.of = mlr3::mlr_reflections$learner_predict_types[[learner$task_type]][[learner$predict_type]])
+  if (!isTRUE(msg)) {
+    return(check_err("check_predict_newdata_fast", learner, task,
+      "Names of returned list do not match learner predict_types: %s",
+      mlr3misc::str_collapse(names(prediction))))
+  }
+  TRUE
+}
+registerS3method("check_predict_newdata_fast", "Learner", check_predict_newdata_fast.Learner)
+
+#' @title Check Marshal / Unmarshal
+#' @description
+#' Checks that marshaling and unmarshaling works correctly, and that the
+#' learner can still predict after a marshal/unmarshal cycle.
+#' @param learner [Learner] (trained)\cr
+#' @param task [Task]\cr
+#' @noRd
+check_marshaling = function(learner, task) {
+  UseMethod("check_marshaling")
+}
+
+check_marshaling.Learner = function(learner, task) {
+  learner$marshal()
+  if (!learner$marshaled) {
+    return(check_err("check_marshaling", learner, task, "model not marshaled"))
+  }
+
+  learner$unmarshal()
+  if (learner$marshaled) {
+    return(check_err("check_marshaling", learner, task, "model not unmarshaled"))
+  }
+
+  prediction = suppressWarnings(try(learner$predict(task), silent = TRUE))
+  if (inherits(prediction, "try-error")) {
+    return(check_err("check_marshaling", learner, task,
+      gsub("%", "%%", as.character(prediction), fixed = TRUE)))
+  }
+  TRUE
+}
+registerS3method("check_marshaling", "Learner", check_marshaling.Learner)
+
+#' @title Check Encapsulation
+#' @description
+#' Checks that the learner works with mirai encapsulation.
+#' This is an S3 generic so extension packages can handle task-type-specific
+#' exceptions (e.g. survival learners) via their own methods.
+#' @param learner [Learner]\cr
+#' @param task [Task]\cr
+#' @noRd
+check_encapsulation = function(learner, task, ...) {
+  UseMethod("check_encapsulation")
+}
+
+check_encapsulation.Learner = function(learner, task, ...) {
+  learner_encapsulated = learner$clone(deep = TRUE)
+  learner_encapsulated$encapsulate("mirai", default_fallback(learner_encapsulated))
+
+  rr = resample(task, learner_encapsulated, rsmp("holdout"), store_models = TRUE)
+  log = rr$learners[[1]]$state$log
+  if ("error" %in% log$class) {
+    return(check_err("check_encapsulation", learner, task,
+      "resample log has errors: %s", mlr3misc::str_collapse(log[class == "error", msg])))
+  }
+  TRUE
+}
+registerS3method("check_encapsulation", "Learner", check_encapsulation.Learner)
+
+#' @title Check Replicability
+#' @description
+#' Checks that running the learner twice with the same seed produces identical predictions.
+#' @noRd
+check_replicable = function(task, learner, seed, first_prediction, configure_learner = NULL) {
+  repeated_run = run_experiment(task, learner, seed = seed, configure_learner = configure_learner)
+  if (!repeated_run$ok) {
+    return(repeated_run)
+  }
+  if (!isTRUE(all.equal(as.data.table(first_prediction), as.data.table(repeated_run$prediction)))) {
+    return(check_err("check_replicable", learner, task,
+      "Different results for replicated runs using fixed seed %i", seed))
+  }
+  TRUE
+}
+
+
+# -- Core experiment -----------------------------------------------------------
+
 #' @title Run a Single Learner Test
 #'
 #' @description
-#' Runs a single experiment with a given task and learner.
+#' Runs a single experiment: trains the learner, predicts, and scores.
+#' Does not run capability checks (importance, marshaling, encapsulation, etc.);
+#' those are handled by the standalone `check_*()` functions orchestrated
+#' from `run_autotest()`.
 #'
 #' @param task [Task]\cr
 #'  Task to run the experiment on.
@@ -307,8 +559,6 @@ run_experiment = function(task, learner, seed = NULL, configure_learner = NULL) 
       learner = learner,
       prediction = prediction,
       score = score,
-      prediction_marshaling = prediction_marshaling,
-      learner_encapsulated = learner_encapsulated,
       error = sprintf("[%s] learner '%s' on task '%s' failed: %s", stage, learner$id, task$id, info)
     )
   }
@@ -339,13 +589,10 @@ run_experiment = function(task, learner, seed = NULL, configure_learner = NULL) 
   }
   prediction = NULL
   score = NULL
-  prediction_marshaling = NULL
-  learner_encapsulated = NULL
 
   # check train
   stage = "train()"
 
-  # enable weights
   # the next lines are maybe not strictly necessary, but test that the defaults are
   # what they should be
   if ("weights" %in% learner$properties) {
@@ -404,16 +651,6 @@ run_experiment = function(task, learner, seed = NULL, configure_learner = NULL) 
     }
   }
 
-  if (grepl("reordered", task$id)) {
-    # compare prediction with reordered newdata
-    newdata = task$data(cols = rev(task$feature_names))
-    tmp = learner$predict_newdata(newdata)
-
-    if (!isTRUE(all.equal(prediction$response, tmp$response))) {
-      return(err("Task columns cannot be reordered"))
-    }
-  }
-
   # check score
   stage = "score()"
 
@@ -437,144 +674,11 @@ run_experiment = function(task, learner, seed = NULL, configure_learner = NULL) 
     return(err("sanity check failed"))
   }
 
-  # check importance, selected_features and oob_error methods
-  if (startsWith(task$id, "feat_all")) {
-    if ("importance" %in% learner$properties) {
-      importance = learner$importance()
-      msg = checkmate::check_numeric(rev(importance), any.missing = FALSE, min.len = 1L, sorted = TRUE)
-      if (!isTRUE(msg)) {
-        return(err(msg))
-      }
-      msg = checkmate::check_names(names(importance), subset.of = task$feature_names)
-      if (!isTRUE(msg)) {
-        return(err("Names of returned importance scores do not match task names: %s", str_collapse(names(importance))))
-      }
-      if ("unimportant" %in% head(names(importance), 1L)) {
-        return(err("unimportant feature is important"))
-      }
-    }
-
-    if ("selected_features" %in% learner$properties) {
-      selected = learner$selected_features()
-      msg = checkmate::check_subset(selected, task$feature_names)
-      if (!isTRUE(msg)) {
-        return(err(msg))
-      }
-    }
-
-    if ("oob_error" %in% learner$properties) {
-      oob = learner$oob_error()
-      msg = checkmate::check_number(oob)
-      if (!isTRUE(msg)) {
-        return(err(msg))
-      }
-    }
-  }
-
-  stage = "weights"
-
-  if ("weights" %in% learner$properties) {
-    use_weights = learner$use_weights
-    get_weights = learner$.__enclos_env__$private$.get_weights
-    counter = R6::R6Class("counter", public = list(count = 0, count_up = function(x) self$count = self$count + 1))$new()
-    get_weights_counter = function(...) {
-      counter$count_up()
-      get_weights(...)
-    }
-    on.exit({
-      learner$.__enclos_env__$private$.get_weights = get_weights
-      lockBinding(".get_weights", env = learner$.__enclos_env__$private)
-      learner$use_weights = use_weights
-    })
-
-    unlockBinding(".get_weights", env = learner$.__enclos_env__$private)
-    learner$.__enclos_env__$private$.get_weights = get_weights_counter
-
-    learner$use_weights = "use"
-    suppressWarnings(learner$train(task))
-    if (counter$count == 0) {
-      return(err("get_weights was not called"))
-    }
-
-    learner$use_weights = "ignore"
-    suppressWarnings(learner$train(task))
-    if (counter$count == 0) {
-      return(err("get_weights was not called. It should be called even when use_weights = 'ignore'"))
-    }
-
-    learner$.__enclos_env__$private$.get_weights = get_weights
-    lockBinding(".get_weights", env = learner$.__enclos_env__$private)
-    learner$use_weights = use_weights
-    on.exit()
-  }
-
-  # check predict_newdata_fast
-  stage = "predict_newdata_fast()"
-
-  if (startsWith(task$id, "feat_all") && exists("predict_newdata_fast", learner) && learner$predict_type == "prob") {
-    prediction = suppressWarnings(try(learner$predict_newdata_fast(task$data()), silent = TRUE))
-
-    if (inherits(prediction, "try-error")) {
-      ok = prediction
-      prediction = NULL
-      return(err(error_as_character(ok)))
-    }
-
-    msg = checkmate::check_list(prediction)
-    if (!isTRUE(msg)) {
-      return(err("does not return a list"))
-    }
-
-    msg = checkmate::check_names(names(prediction), subset.of = mlr3::mlr_reflections$learner_predict_types[[learner$task_type]][[learner$predict_type]])
-    if (!isTRUE(msg)) {
-      return(err("Names of returned list do not match learner predict_types: %s", str_collapse(names(prediction))))
-    }
-  }
-
-  # check marshalling
-  stage = "marshal"
-
-  if (startsWith(task$id, "feat_all") && "marshal" %in% learner$properties) {
-    learner$marshal()
-    # learner$marshaled checks if model is of class "marshaled"
-    if (!learner$marshaled) {
-      return(err("model not marshaled"))
-    }
-
-    learner$unmarshal()
-    # checks if the "marshaled" class is removed
-    if (learner$marshaled) {
-      return(err("model not unmarshaled"))
-    }
-
-    prediction_marshaling = suppressWarnings(try(learner$predict(task), silent = TRUE))
-    if (inherits(prediction_marshaling, "try-error")) {
-      ok = prediction_marshaling
-      prediction_marshaling = NULL
-      return(err(error_as_character(ok)))
-    }
-  }
-
-  # check encapsulation
-  stage = "encapsulation"
-  if (startsWith(task$id, "feat_all")  && !(learner$task_type == "surv" && learner$predict_type %in% c("lp", "response"))) {
-    learner_encapsulated = learner$clone(deep = TRUE)
-    learner_encapsulated$encapsulate("mirai", default_fallback(learner_encapsulated))
-
-    rr = resample(task, learner_encapsulated, rsmp("holdout"), store_models = TRUE)
-    log = rr$learners[[1]]$state$log
-    if ("error" %in% log$class) {
-      return(err("resample log has errors: %s", mlr3misc::str_collapse(log[class == "error", msg])))
-    }
-  }
-
   return(list(
     ok = TRUE,
     learner = learner,
     prediction = prediction,
     score = score,
-    prediction_marshaling = prediction_marshaling,
-    learner_encapsulated = learner_encapsulated,
     error = character(),
     seed = seed))
 }
@@ -583,6 +687,8 @@ run_experiment = function(task, learner, seed = NULL, configure_learner = NULL) 
 #'
 #' @description
 #' Runs a series of experiments with a given learner on multiple tasks.
+#' Phase 1: runs the core train/predict/score cycle on every task x predict_type.
+#' Phase 2: runs capability checks (importance, marshaling, encapsulation, ...) on `feat_all` tasks via the standalone `check_*()` functions.
 #'
 #' @param learner ([Learner])\cr
 #'  The learner to test.
@@ -643,16 +749,50 @@ run_autotest = function(learner, N = 30L, exclude = NULL, predict_types = learne
         return(run)
       }
 
-      # re-run task with same seed for feat_all
-      if (startsWith(task$id, "feat_all")) {
-        repeated_run = run_experiment(task, learner, seed = run$seed, configure_learner)
+      if (grepl("reordered", task$id)) {
+        result = check_reorder(run$learner, task, run$prediction)
+        if (!isTRUE(result)) return(result)
+      }
 
-        if (!repeated_run$ok) {
-          return(repeated_run)
+      if (startsWith(task$id, "feat_all")) {
+
+        if (check_replicable) {
+          result = check_replicable(task, learner, run$seed, run$prediction, configure_learner)
+          if (!isTRUE(result)) return(result)
         }
 
-        if (check_replicable && !isTRUE(all.equal(as.data.table(run$prediction), as.data.table(repeated_run$prediction)))) {
-          return(make_err("Different results for replicated runs using fixed seed %i", run$seed))
+        if ("importance" %in% learner$properties) {
+          result = check_importance(run$learner, task)
+          if (!isTRUE(result)) return(result)
+        }
+
+        if ("selected_features" %in% learner$properties) {
+          result = check_selected_features(run$learner, task)
+          if (!isTRUE(result)) return(result)
+        }
+
+        if ("oob_error" %in% learner$properties) {
+          result = check_oob_error(run$learner, task)
+          if (!isTRUE(result)) return(result)
+        }
+
+        if (exists("predict_newdata_fast", run$learner) && learner$predict_type == "prob") {
+          result = check_predict_newdata_fast(run$learner, task)
+          if (!isTRUE(result)) return(result)
+        }
+
+        if ("marshal" %in% learner$properties) {
+          result = check_marshaling(run$learner, task)
+          if (!isTRUE(result)) return(result)
+        }
+
+        result = check_encapsulation(run$learner, task)
+        if (!isTRUE(result)) return(result)
+
+        # weights capability check retrains, so run last
+        if ("weights" %in% learner$properties) {
+          result = check_weights(run$learner, task)
+          if (!isTRUE(result)) return(result)
         }
       }
 
