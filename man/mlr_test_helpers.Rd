@@ -49,7 +49,7 @@ Default is \code{TRUE}.
 Before running a \code{learner} on a \code{task}, this function allows to change its parameter values depending on the input task.
 }
 
-\strong{Checks}:
+\strong{Check Functions}:
 
 The following capability checks are run by \code{run_autotest()}:
 \itemize{
@@ -62,7 +62,7 @@ The following capability checks are run by \code{run_autotest()}:
 \item \code{check_encapsulation()}: Checks that the learner correctly implements \verb{$encapsulation()}.
 }
 
-These are S3 methods that can be specialized by extension packages to handle task-type-specific exceptions.
+These are S3 methods that can be specialized by extension packages to handle learner-type-specific exceptions.
 }
 
 \section{run_paramtest()}{

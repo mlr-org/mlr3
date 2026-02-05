@@ -43,7 +43,7 @@
 #' * `configure_learner` (`function(learner, task)`)\cr
 #'   Before running a `learner` on a `task`, this function allows to change its parameter values depending on the input task.
 #'
-#' **Checks**:
+#' **Check Functions**:
 #'
 #' The following capability checks are run by `run_autotest()`:
 #'
@@ -55,7 +55,7 @@
 #' * `check_marshaling()`: Checks that the learner correctly implements `$marshaling()`.
 #' * `check_encapsulation()`: Checks that the learner correctly implements `$encapsulation()`.
 #'
-#' These are S3 methods that can be specialized by extension packages to handle task-type-specific exceptions.
+#' These are S3 methods that can be specialized by extension packages to handle learner-type-specific exceptions.
 #'
 #' @section run_paramtest():
 #'
