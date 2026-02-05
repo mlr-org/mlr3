@@ -146,6 +146,20 @@ test_that("extra args survive the roundtrip", {
   expect_equal(mytask$positive, "R")
 })
 
+test_that("convert_task preserves internal_valid_task", {
+  task = tsk("california_housing")
+  task$internal_valid_task = sample(task$nrow, 10)
+  expect_true(!is.null(task$internal_valid_task))
+
+  result = convert_task(task, target = "households")
+  expect_equal(result$internal_valid_task$target_names, "households")
+
+  # also works with type conversion
+  result2 = convert_task(task, target = "ocean_proximity", new_type = "classif")
+  expect_equal(result2$internal_valid_task$target_names, "ocean_proximity")
+  expect_class(result2$internal_valid_task, "TaskClassif")
+})
+
 test_that("data.frame converters", {
   data("mtcars", package = "datasets")
   task = as_task_regr(mtcars, "mpg")
