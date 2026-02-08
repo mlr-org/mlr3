@@ -83,7 +83,7 @@ ResamplingCV = R6Class("ResamplingCV", inherit = Resampling,
     deep_clone = function(name, value) {
       switch(name,
         "instance" = copy(value),
-        "param_set" = value$clone(deep = TRUE),
+        ".param_set" = value$clone(deep = TRUE),
         value
       )
     }

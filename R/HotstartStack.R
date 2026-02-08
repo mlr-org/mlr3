@@ -182,7 +182,7 @@ HotstartStack = R6Class("HotstartStack",
       lg$debug("Found %i start learner(s) in hotstart stack of size %i.", length(start_learner), nrow(self$stack))
 
       if (!length(start_learner)) return(NULL)
-      learner$state = start_learner[[1]]$state
+      learner$state = start_learner[[1L]]$state
       learner
     }
   )

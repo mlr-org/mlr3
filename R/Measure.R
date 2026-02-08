@@ -79,57 +79,6 @@
 #' @export
 Measure = R6Class("Measure",
   public = list(
-    #' @template field_id
-    id = NULL,
-
-    #' @template field_label
-    label = NULL,
-
-    #' @template field_task_type
-    task_type = NULL,
-
-    #' @template field_param_set
-    param_set = NULL,
-
-    #' @field trafo (`list()` | `NULL`)\cr
-    #' `NULL` or a list with two elements:
-    #' * `trafo`: the transformation function applied after aggregating
-    #'   observation-wise losses (e.g. `sqrt` for RMSE)
-    #' * `deriv`: The derivative of the `trafo`.
-    trafo = NULL,
-
-    #' @field predict_type (`character(1)`)\cr
-    #' Required predict type of the [Learner].
-    predict_type = NULL,
-
-    #' @field check_prerequisites (`character(1)`)\cr
-    #' How to proceed if one of the following prerequisites is not met:
-    #'
-    #' * wrong predict type (e.g., probabilities required, but only labels available).
-    #' * wrong predict set (e.g., learner predicted on training set, but predictions of test set required).
-    #' * task properties not satisfied (e.g., binary classification measure on multiclass task).
-    #'
-    #' Possible values are `"ignore"` (just return `NaN`) and `"warn"` (default, raise a warning before returning `NaN`).
-    check_prerequisites = "warn",
-
-    #' @field task_properties (`character()`)\cr
-    #' Required properties of the [Task].
-    task_properties = NULL,
-
-    #' @field range (`numeric(2)`)\cr
-    #' Lower and upper bound of possible performance scores.
-    range = NULL,
-
-    #' @field minimize (`logical(1)`)\cr
-    #' If `TRUE`, good predictions correspond to small values of performance scores.
-    minimize = NULL,
-
-    #' @template field_packages
-    packages = NULL,
-
-    #' @template field_man
-    man = NULL,
-
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #'
@@ -151,16 +100,16 @@ Measure = R6Class("Measure",
       man = NA_character_,
       trafo = NULL
     ) {
-      self$id = assert_string(id, min.chars = 1L)
-      self$label = assert_string(label, na.ok = TRUE)
-      self$task_type = task_type
-      self$param_set = assert_param_set(param_set)
-      self$range = assert_range(range)
-      self$minimize = assert_flag(minimize, na.ok = TRUE)
-      self$average = average
+      private$.id = assert_string(id, min.chars = 1L)
+      private$.label = assert_string(label, na.ok = TRUE)
+      private$.task_type = task_type
+      private$.param_set = assert_param_set(param_set)
+      private$.range = assert_range(range)
+      private$.minimize = assert_flag(minimize, na.ok = TRUE)
+      private$.average = assert_choice(average, c("micro", "macro", "custom", "macro_weighted"))
       private$.aggregator = assert_function(aggregator, null.ok = TRUE)
-      self$trafo = assert_list(trafo, len = 2L, types = "function", null.ok = TRUE)
-      if (!is.null(self$trafo)) {
+      private$.trafo = assert_list(trafo, len = 2L, types = "function", null.ok = TRUE)
+      if (!is.null(private$.trafo)) {
         assert_permutation(names(trafo), c("fn", "deriv"))
       }
 
@@ -173,21 +122,22 @@ Measure = R6Class("Measure",
         assert_subset(properties, unique(unlist(mlr_reflections$measure_properties, use.names = FALSE)))
       }
 
-      self$properties = unique(properties)
+      private$.properties = unique(properties)
 
       if ("weights" %in% properties) {
-        self$use_weights = "use"
+        private$.use_weights = "use"
       } else if ("requires_no_prediction" %in% properties) {
-        self$use_weights = "ignore"
+        private$.use_weights = "ignore"
       } else {
-        self$use_weights = "error"
+        private$.use_weights = "error"
       }
 
-      self$predict_type = predict_type
-      self$predict_sets = predict_sets
-      self$task_properties = task_properties
-      self$packages = union("mlr3", assert_character(packages, any.missing = FALSE, min.chars = 1L))
-      self$man = assert_string(man, na.ok = TRUE)
+      private$.predict_type = predict_type
+      private$.predict_sets = assert_subset(predict_sets, mlr_reflections$predict_sets, empty.ok = "requires_no_prediction" %chin% properties)
+      private$.task_properties = task_properties
+      private$.packages = union("mlr3", assert_character(packages, any.missing = FALSE, min.chars = 1L))
+      private$.man = assert_string(man, na.ok = TRUE)
+      private$.check_prerequisites = "warn"
 
       check_packages_installed(packages, msg = sprintf("Package '%%s' required but not installed for Measure '%s'", id))
     },
@@ -436,10 +386,146 @@ Measure = R6Class("Measure",
       } else {
         private$.use_weights
       }
+    },
+
+    #' @template field_id
+    id = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.id)
+      }
+      private$.id = assert_string(rhs, min.chars = 1L)
+    },
+
+    #' @template field_label
+    label = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.label)
+      }
+      private$.label = assert_string(rhs, na.ok = TRUE)
+    },
+
+    #' @template field_task_type
+    task_type = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.task_type)
+      }
+      if (!is_scalar_na(rhs)) {
+        assert_choice(rhs, mlr_reflections$task_types$type)
+      }
+      private$.task_type = rhs
+    },
+
+    #' @template field_param_set
+    param_set = function(rhs) {
+      if (!missing(rhs) && !identical(rhs, private$.param_set)) {
+        error_input("param_set is read-only.")
+      }
+      private$.param_set
+    },
+
+    #' @field predict_type (`character(1)`)\cr
+    #' Required predict type of the [Learner].
+    predict_type = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.predict_type)
+      }
+      if (!is_scalar_na(self$task_type)) {
+        assert_choice(rhs, names(mlr_reflections$learner_predict_types[[self$task_type]]))
+      }
+      private$.predict_type = rhs
+    },
+
+    #' @field check_prerequisites (`character(1)`)\cr
+    #' How to proceed if one of the following prerequisites is not met:
+    #'
+    #' * wrong predict type (e.g., probabilities required, but only labels available).
+    #' * wrong predict set (e.g., learner predicted on training set, but predictions of test set required).
+    #' * task properties not satisfied (e.g., binary classification measure on multiclass task).
+    #'
+    #' Possible values are `"ignore"` (just return `NaN`) and `"warn"` (default, raise a warning before returning `NaN`).
+    check_prerequisites = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.check_prerequisites)
+      }
+      private$.check_prerequisites = assert_choice(rhs, c("ignore", "warn"))
+    },
+
+    #' @field task_properties (`character()`)\cr
+    #' Required properties of the [Task].
+    task_properties = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.task_properties)
+      }
+      if (!is_scalar_na(self$task_type)) {
+        assert_subset(rhs, mlr_reflections$task_properties[[self$task_type]])
+      }
+      private$.task_properties = rhs
+    },
+
+    #' @field range (`numeric(2)`)\cr
+    #' Lower and upper bound of possible performance scores.
+    range = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.range)
+      }
+      private$.range = assert_range(rhs)
+    },
+
+    #' @field minimize (`logical(1)`)\cr
+    #' If `TRUE`, good predictions correspond to small values of performance scores.
+    minimize = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.minimize)
+      }
+      private$.minimize = assert_flag(rhs, na.ok = TRUE)
+    },
+
+    #' @template field_packages
+    packages = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.packages)
+      }
+      private$.packages = union("mlr3", assert_character(rhs, any.missing = FALSE, min.chars = 1L))
+    },
+
+    #' @template field_man
+    man = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.man)
+      }
+      private$.man = assert_string(rhs, na.ok = TRUE)
+    },
+
+    #' @field trafo (`list()` | `NULL`)\cr
+    #' `NULL` or a list with two elements:
+    #' * `fn`: the transformation function applied after aggregating
+    #'   observation-wise losses (e.g. `sqrt` for RMSE)
+    #' * `deriv`: The derivative of the `fn`.
+    trafo = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.trafo)
+      }
+      rhs = assert_list(rhs, len = 2L, types = "function", null.ok = TRUE)
+      if (!is.null(rhs)) {
+        assert_permutation(names(rhs), c("fn", "deriv"))
+      }
+      private$.trafo = rhs
     }
   ),
 
   private = list(
+    .id = NULL,
+    .label = NULL,
+    .task_type = NULL,
+    .param_set = NULL,
+    .predict_type = NULL,
+    .check_prerequisites = NULL,
+    .task_properties = NULL,
+    .range = NULL,
+    .minimize = NULL,
+    .packages = NULL,
+    .man = NULL,
+    .trafo = NULL,
     .properties = character(),
     .predict_sets = NULL,
     .extra_hash = character(),

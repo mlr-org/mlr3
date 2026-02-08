@@ -71,6 +71,9 @@ trained with a different version version of mlr3.
 Defaults to \code{"mlr3_parallelization"}.
 \item \code{"mlr3.mirai_encapsulation"}: Compute profile to use for encapsulation with \CRANpkg{mirai}.
 Defaults to \code{"mlr3_encapsulation"}.
+\item \code{"mlr3.print_class_ratio_threshold"}: Maximum number of rows for which class ratios are computed
+when printing a classification task. For tasks with more rows, only class names are shown.
+Defaults to \code{1000000}.
 }
 }
 

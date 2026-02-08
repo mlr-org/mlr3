@@ -49,7 +49,7 @@ test_that("weights are respected", {
   # Create weighted task
   data = iris
   # Give 'setosa' a much higher weight
-  data$weights = ifelse(data$Species == "setosa", 100, 1)
+  data$weights = fifelse(data$Species == "setosa", 100, 1)
   task = TaskClassif$new(
     id = "iris_weights",
     backend = data,

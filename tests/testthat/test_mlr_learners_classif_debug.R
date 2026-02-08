@@ -93,7 +93,7 @@ test_that("importance and selected features", {
 test_that("weights are respected", {
   # Create weighted task
   data = iris
-  data$weights = ifelse(data$Species == "setosa", 1000, 1)
+  data$weights = fifelse(data$Species == "setosa", 1000, 1)
   task = TaskClassif$new(
     id = "iris_weights",
     backend = data,

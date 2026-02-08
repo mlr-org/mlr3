@@ -143,13 +143,6 @@ Other Resampling:
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{label}}{(\code{character(1)})\cr
-Label for this object.
-Can be used in tables, plot and text output instead of the ID.}
-
-\item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
-Set of hyperparameters.}
-
 \item{\code{instance}}{(any)\cr
 During \code{instantiate()}, the instance is stored in this slot in an arbitrary format.
 Note that if a grouping variable is present in the \link{Task}, a \link{Resampling} may operate on the
@@ -157,6 +150,30 @@ group ids internally instead of the row ids (which may lead to confusion).
 
 It is advised to not work directly with the \code{instance}, but instead only use the getters
 \verb{$train_set()} and \verb{$test_set()}.}
+}
+\if{html}{\out{</div>}}
+}
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{id}}{(\code{character(1)})\cr
+Identifier of the object.
+Used in tables, plot and text output.}
+
+\item{\code{is_instantiated}}{(\code{logical(1)})\cr
+Is \code{TRUE} if the resampling has been instantiated.}
+
+\item{\code{hash}}{(\code{character(1)})\cr
+Hash (unique identifier) for this object.
+If the object has not been instantiated yet, \code{NA_character_} is returned.
+The hash is calculated based on the class name, the id, the parameter set, and the instance.}
+
+\item{\code{label}}{(\code{character(1)})\cr
+Label for this object.
+Can be used in tables, plot and text output instead of the ID.}
+
+\item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
+Set of hyperparameters.}
 
 \item{\code{task_hash}}{(\code{character(1)})\cr
 The hash of the \link{Task} which was passed to \code{r$instantiate()}.}
@@ -175,23 +192,6 @@ Only used internally.}
 \item{\code{man}}{(\code{character(1)} | \code{NULL})\cr
 String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
 Defaults to \code{NA}, but can be set by child classes.}
-}
-\if{html}{\out{</div>}}
-}
-\section{Active bindings}{
-\if{html}{\out{<div class="r6-active-bindings">}}
-\describe{
-\item{\code{id}}{(\code{character(1)})\cr
-Identifier of the object.
-Used in tables, plot and text output.}
-
-\item{\code{is_instantiated}}{(\code{logical(1)})\cr
-Is \code{TRUE} if the resampling has been instantiated.}
-
-\item{\code{hash}}{(\code{character(1)})\cr
-Hash (unique identifier) for this object.
-If the object has not been instantiated yet, \code{NA_character_} is returned.
-The hash is calculated based on the class name, the id, the parameter set, and the instance.}
 }
 \if{html}{\out{</div>}}
 }

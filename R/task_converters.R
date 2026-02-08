@@ -53,5 +53,15 @@ convert_task = function(intask, target = NULL, new_type = NULL, drop_original_ta
     newtask$col_roles$feature = setdiff(newtask$col_roles$feature, intask$col_roles$target)
   }
 
+  # preserve internal_valid_task
+  if (!is.null(intask$internal_valid_task)) {
+    newtask$internal_valid_task = convert_task(
+      intask$internal_valid_task,
+      target = target,
+      new_type = new_type,
+      drop_original_target = drop_original_target,
+      drop_levels = drop_levels)
+  }
+
   newtask
 }

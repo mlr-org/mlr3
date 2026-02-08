@@ -608,6 +608,11 @@ test_that("quantiles in LearnerRegr", {
 
   expect_numeric(learner$quantiles, any.missing = FALSE, len = 3)
 
+  learner$quantiles = NULL
+  expect_null(learner$quantiles)
+  expect_null(learner$quantile_response)
+
+  learner$quantiles = quantiles
   learner$quantile_response = 0.6
   expect_equal(learner$quantile_response, 0.6)
   expect_equal(learner$quantiles, c(0.05, 0.5, 0.6, 0.95))
@@ -1042,4 +1047,57 @@ test_that("new_levels property is working", {
 
   learner$properties = c(learner$properties, "new_levels")
   expect_prediction(learner$predict_newdata(data))
+})
+
+test_that("native_model returns model by default", {
+  task = tsk("iris")
+  learner = lrn("classif.rpart")
+  learner$train(task)
+  expect_identical(learner$native_model, learner$model)
+  expect_class(learner$native_model, "rpart")
+})
+
+test_that("native_model can be overwritten by learner", {
+  LearnerWithExtraInfo = R6Class("LearnerWithExtraInfo",
+    inherit = LearnerClassif,
+    public = list(
+      initialize = function() {
+        super$initialize(
+          id = "classif.extra_info",
+          param_set = paradox::ps(),
+          feature_types = c("logical", "integer", "numeric", "factor", "ordered"),
+          predict_types = c("response"),
+          properties = c("twoclass", "multiclass"),
+          man = NA_character_
+        )
+      }
+    ),
+    active = list(
+      native_model = function(rhs) {
+        assert_ro_binding(rhs)
+        self$model$model
+      }
+    ),
+    private = list(
+      .train = function(task) {
+        list(
+          model = list(response = as.character(sample(task$truth(), 1L))),
+          extra_info = "some additional information"
+        )
+      },
+      .predict = function(task) {
+        list(response = rep.int(self$model$model$response, task$nrow))
+      }
+    )
+  )
+
+  task = tsk("iris")
+  learner = LearnerWithExtraInfo$new()
+  learner$train(task)
+  expect_list(learner$model)
+  expect_true("extra_info" %in% names(learner$model))
+  expect_equal(learner$model$extra_info, "some additional information")
+  expect_list(learner$native_model)
+  expect_false("extra_info" %in% names(learner$native_model))
+  expect_true("response" %in% names(learner$native_model))
 })

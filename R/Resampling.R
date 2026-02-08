@@ -91,12 +91,6 @@
 #' prop.table(table(task$truth(r$train_set(1)))) # roughly same proportion
 Resampling = R6Class("Resampling",
   public = list(
-    #' @template field_label
-    label = NULL,
-
-    #' @template field_param_set
-    param_set = NULL,
-
     #' @field instance (any)\cr
     #'   During `instantiate()`, the instance is stored in this slot in an arbitrary format.
     #'   Note that if a grouping variable is present in the [Task], a [Resampling] may operate on the
@@ -105,28 +99,6 @@ Resampling = R6Class("Resampling",
     #'   It is advised to not work directly with the `instance`, but instead only use the getters
     #'   `$train_set()` and `$test_set()`.
     instance = NULL,
-
-    #' @field task_hash (`character(1)`)\cr
-    #'   The hash of the [Task] which was passed to `r$instantiate()`.
-    task_hash = NA_character_,
-
-    #' @field task_row_hash (`character(1)`)\cr
-    #'   The hash of the row ids of the [Task] which was passed to `r$instantiate()`.
-    task_row_hash = NA_character_,
-
-    #' @field task_nrow (`integer(1)`)\cr
-    #'   The number of observations of the [Task] which was passed to `r$instantiate()`.
-    #'
-    task_nrow = NA_integer_,
-
-    #' @field duplicated_ids (`logical(1)`)\cr
-    #'   If `TRUE`, duplicated rows can occur within a single training set or within a single test set.
-    #'   E.g., this is `TRUE` for Bootstrap, and `FALSE` for cross-validation.
-    #'   Only used internally.
-    duplicated_ids = NULL,
-
-    #' @template field_man
-    man = NULL,
 
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
@@ -137,10 +109,13 @@ Resampling = R6Class("Resampling",
     #' Note that this object is typically constructed via a derived classes, e.g. [ResamplingCV] or [ResamplingHoldout].
     initialize = function(id, param_set = ps(), duplicated_ids = FALSE, label = NA_character_, man = NA_character_) {
       private$.id = assert_string(id, min.chars = 1L)
-      self$label = assert_string(label, na.ok = TRUE)
-      self$param_set = assert_param_set(param_set)
-      self$duplicated_ids = assert_flag(duplicated_ids)
-      self$man = assert_string(man, na.ok = TRUE)
+      private$.label = assert_string(label, na.ok = TRUE)
+      private$.param_set = assert_param_set(param_set)
+      private$.duplicated_ids = assert_flag(duplicated_ids)
+      private$.man = assert_string(man, na.ok = TRUE)
+      private$.task_hash = NA_character_
+      private$.task_row_hash = NA_character_
+      private$.task_nrow = NA_integer_
     },
 
     #' @description
@@ -188,9 +163,9 @@ Resampling = R6Class("Resampling",
       task = assert_task(as_task(task))
       private$.hash = NULL
       self$instance = private$.get_instance(task)
-      self$task_hash = task$hash
-      self$task_row_hash = task$row_hash
-      self$task_nrow = task$nrow
+      private$.task_hash = task$hash
+      private$.task_row_hash = task$row_hash
+      private$.task_nrow = task$nrow
       invisible(self)
     },
 
@@ -256,12 +231,81 @@ Resampling = R6Class("Resampling",
       }
 
       private$.hash
+    },
+
+    #' @template field_label
+    label = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.label)
+      }
+      private$.label = assert_string(rhs, na.ok = TRUE)
+    },
+
+    #' @template field_param_set
+    param_set = function(rhs) {
+      if (!missing(rhs) && !identical(rhs, private$.param_set)) {
+        error_input("param_set is read-only.")
+      }
+      private$.param_set
+    },
+
+    #' @field task_hash (`character(1)`)\cr
+    #'   The hash of the [Task] which was passed to `r$instantiate()`.
+    task_hash = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.task_hash)
+      }
+      private$.task_hash = assert_string(rhs, na.ok = TRUE)
+    },
+
+    #' @field task_row_hash (`character(1)`)\cr
+    #'   The hash of the row ids of the [Task] which was passed to `r$instantiate()`.
+    task_row_hash = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.task_row_hash)
+      }
+      private$.task_row_hash = assert_string(rhs, na.ok = TRUE)
+    },
+
+    #' @field task_nrow (`integer(1)`)\cr
+    #'   The number of observations of the [Task] which was passed to `r$instantiate()`.
+    task_nrow = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.task_nrow)
+      }
+      private$.task_nrow = assert_int(rhs, na.ok = TRUE, coerce = TRUE)
+    },
+
+    #' @field duplicated_ids (`logical(1)`)\cr
+    #'   If `TRUE`, duplicated rows can occur within a single training set or within a single test set.
+    #'   E.g., this is `TRUE` for Bootstrap, and `FALSE` for cross-validation.
+    #'   Only used internally.
+    duplicated_ids = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.duplicated_ids)
+      }
+      private$.duplicated_ids = assert_flag(rhs)
+    },
+
+    #' @template field_man
+    man = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.man)
+      }
+      private$.man = assert_string(rhs, na.ok = TRUE)
     }
   ),
 
   private = list(
     .primary_iters = NULL,
     .id = NULL,
+    .label = NULL,
+    .param_set = NULL,
+    .task_hash = NULL,
+    .task_row_hash = NULL,
+    .task_nrow = NULL,
+    .duplicated_ids = NULL,
+    .man = NULL,
     .hash = NULL,
     .groups = NULL,
 
@@ -295,6 +339,10 @@ Resampling = R6Class("Resampling",
       }
 
       private$.groups[list(ids), on = "group", allow.cartesian = TRUE][[1L]]
+    },
+
+    deep_clone = function(name, value) {
+      if (name == ".param_set") value$clone(deep = TRUE) else value
     }
   )
 )
