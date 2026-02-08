@@ -143,13 +143,6 @@ Other Resampling:
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{label}}{(\code{character(1)})\cr
-Label for this object.
-Can be used in tables, plot and text output instead of the ID.}
-
-\item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
-Set of hyperparameters.}
-
 \item{\code{instance}}{(any)\cr
 During \code{instantiate()}, the instance is stored in this slot in an arbitrary format.
 Note that if a grouping variable is present in the \link{Task}, a \link{Resampling} may operate on the
@@ -157,24 +150,6 @@ group ids internally instead of the row ids (which may lead to confusion).
 
 It is advised to not work directly with the \code{instance}, but instead only use the getters
 \verb{$train_set()} and \verb{$test_set()}.}
-
-\item{\code{task_hash}}{(\code{character(1)})\cr
-The hash of the \link{Task} which was passed to \code{r$instantiate()}.}
-
-\item{\code{task_row_hash}}{(\code{character(1)})\cr
-The hash of the row ids of the \link{Task} which was passed to \code{r$instantiate()}.}
-
-\item{\code{task_nrow}}{(\code{integer(1)})\cr
-The number of observations of the \link{Task} which was passed to \code{r$instantiate()}.}
-
-\item{\code{duplicated_ids}}{(\code{logical(1)})\cr
-If \code{TRUE}, duplicated rows can occur within a single training set or within a single test set.
-E.g., this is \code{TRUE} for Bootstrap, and \code{FALSE} for cross-validation.
-Only used internally.}
-
-\item{\code{man}}{(\code{character(1)})\cr
-String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
-Defaults to \code{NA}, but can be set by child classes.}
 }
 \if{html}{\out{</div>}}
 }
@@ -192,6 +167,31 @@ Is \code{TRUE} if the resampling has been instantiated.}
 Hash (unique identifier) for this object.
 If the object has not been instantiated yet, \code{NA_character_} is returned.
 The hash is calculated based on the class name, the id, the parameter set, and the instance.}
+
+\item{\code{label}}{(\code{character(1)})\cr
+Label for this object.
+Can be used in tables, plot and text output instead of the ID.}
+
+\item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
+Set of hyperparameters.}
+
+\item{\code{task_hash}}{(\code{character(1)})\cr
+The hash of the \link{Task} which was passed to \code{r$instantiate()}.}
+
+\item{\code{task_row_hash}}{(\code{character(1)})\cr
+The hash of the row ids of the \link{Task} which was passed to \code{r$instantiate()}.}
+
+\item{\code{task_nrow}}{(\code{integer(1)})\cr
+The number of observations of the \link{Task} which was passed to \code{r$instantiate()}.}
+
+\item{\code{duplicated_ids}}{(\code{logical(1)})\cr
+If \code{TRUE}, duplicated rows can occur within a single training set or within a single test set.
+E.g., this is \code{TRUE} for Bootstrap, and \code{FALSE} for cross-validation.
+Only used internally.}
+
+\item{\code{man}}{(\code{character(1)} | \code{NULL})\cr
+String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
+Defaults to \code{NA}, but can be set by child classes.}
 }
 \if{html}{\out{</div>}}
 }

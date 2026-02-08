@@ -50,7 +50,7 @@ Keys passed to the respective \link[mlr3misc:Dictionary]{dictionary} to retrieve
 \item{learner}{(any)\cr
 The learner.}
 
-\item{validate}{(\code{numeric(1)}, \code{"predefined"}, \code{"test"}, or \code{NULL})\cr
+\item{validate}{(\code{numeric(1)} | \code{"predefined"} | \code{"test"} | \code{NULL})\cr
 Which validation set to use.}
 }
 \value{

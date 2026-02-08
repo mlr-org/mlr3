@@ -125,66 +125,6 @@ Other Measure:
 \code{\link{mlr_measures_selected_features}}
 }
 \concept{Measure}
-\section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{id}}{(\code{character(1)})\cr
-Identifier of the object.
-Used in tables, plot and text output.}
-
-\item{\code{label}}{(\code{character(1)})\cr
-Label for this object.
-Can be used in tables, plot and text output instead of the ID.}
-
-\item{\code{task_type}}{(\code{character(1)})\cr
-Task type, e.g. \code{"classif"} or \code{"regr"}.
-
-For a complete list of possible task types (depending on the loaded packages),
-see \code{\link[=mlr_reflections]{mlr_reflections$task_types$type}}.}
-
-\item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
-Set of hyperparameters.}
-
-\item{\code{trafo}}{(\code{list()} | \code{NULL})
-\code{NULL} or a list with two elements:
-\itemize{
-\item \code{trafo}: the transformation function applied after aggregating
-observation-wise losses (e.g. \code{sqrt} for RMSE)
-\item \code{deriv}: The derivative of the \code{trafo}.
-}}
-
-\item{\code{predict_type}}{(\code{character(1)})\cr
-Required predict type of the \link{Learner}.}
-
-\item{\code{check_prerequisites}}{(\code{character(1)})\cr
-How to proceed if one of the following prerequisites is not met:
-\itemize{
-\item wrong predict type (e.g., probabilities required, but only labels available).
-\item wrong predict set (e.g., learner predicted on training set, but predictions of test set required).
-\item task properties not satisfied (e.g., binary classification measure on multiclass task).
-}
-
-Possible values are \code{"ignore"} (just return \code{NaN}) and \code{"warn"} (default, raise a warning before returning \code{NaN}).}
-
-\item{\code{task_properties}}{(\code{character()})\cr
-Required properties of the \link{Task}.}
-
-\item{\code{range}}{(\code{numeric(2)})\cr
-Lower and upper bound of possible performance scores.}
-
-\item{\code{minimize}}{(\code{logical(1)})\cr
-If \code{TRUE}, good predictions correspond to small values of performance scores.}
-
-\item{\code{packages}}{(\code{character(1)})\cr
-Set of required packages.
-These packages are loaded, but not attached.}
-
-\item{\code{man}}{(\code{character(1)})\cr
-String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
-Defaults to \code{NA}, but can be set by child classes.}
-}
-\if{html}{\out{</div>}}
-}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
@@ -244,6 +184,61 @@ For measures with the property \code{"requires_no_prediction"}, this is initiali
 For measures that have neither of the properties, this is initialized as \code{"error"}.
 The latter behavior is to avoid cases where a user erroneously assumes that a measure supports weights when it does not.
 For measures that do not support weights, \code{use_weights} needs to be set to \code{"ignore"} if tasks with weights should be handled (by dropping the weights).}
+
+\item{\code{id}}{(\code{character(1)})\cr
+Identifier of the object.
+Used in tables, plot and text output.}
+
+\item{\code{label}}{(\code{character(1)})\cr
+Label for this object.
+Can be used in tables, plot and text output instead of the ID.}
+
+\item{\code{task_type}}{(\code{character(1)})\cr
+Task type, e.g. \code{"classif"} or \code{"regr"}.
+
+For a complete list of possible task types (depending on the loaded packages),
+see \code{\link[=mlr_reflections]{mlr_reflections$task_types$type}}.}
+
+\item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
+Set of hyperparameters.}
+
+\item{\code{predict_type}}{(\code{character(1)})\cr
+Required predict type of the \link{Learner}.}
+
+\item{\code{check_prerequisites}}{(\code{character(1)})\cr
+How to proceed if one of the following prerequisites is not met:
+\itemize{
+\item wrong predict type (e.g., probabilities required, but only labels available).
+\item wrong predict set (e.g., learner predicted on training set, but predictions of test set required).
+\item task properties not satisfied (e.g., binary classification measure on multiclass task).
+}
+
+Possible values are \code{"ignore"} (just return \code{NaN}) and \code{"warn"} (default, raise a warning before returning \code{NaN}).}
+
+\item{\code{task_properties}}{(\code{character()})\cr
+Required properties of the \link{Task}.}
+
+\item{\code{range}}{(\code{numeric(2)})\cr
+Lower and upper bound of possible performance scores.}
+
+\item{\code{minimize}}{(\code{logical(1)})\cr
+If \code{TRUE}, good predictions correspond to small values of performance scores.}
+
+\item{\code{packages}}{(\code{character(1)})\cr
+Set of required packages.
+These packages are loaded, but not attached.}
+
+\item{\code{man}}{(\code{character(1)} | \code{NULL})\cr
+String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
+Defaults to \code{NA}, but can be set by child classes.}
+
+\item{\code{trafo}}{(\code{list()} | \code{NULL})\cr
+\code{NULL} or a list with two elements:
+\itemize{
+\item \code{fn}: the transformation function applied after aggregating
+observation-wise losses (e.g. \code{sqrt} for RMSE)
+\item \code{deriv}: The derivative of the \code{fn}.
+}}
 }
 \if{html}{\out{</div>}}
 }
@@ -324,7 +319,7 @@ numbers of samples.
 If set to \code{"micro"}, the individual \link{Prediction} objects are first combined into a single new \link{Prediction} object which is then used to assess the performance.
 The function in \verb{$aggregator} is not used in this case.}
 
-\item{\code{aggregator}}{(\verb{function()})\cr
+\item{\code{aggregator}}{(\verb{function()} | \code{NULL})\cr
 Function to aggregate over multiple iterations. The role of this function depends on
 the value of field \code{"average"}:
 \itemize{
@@ -377,7 +372,7 @@ Label for the new instance.}
 String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
 The referenced help package can be opened via method \verb{$help()}.}
 
-\item{\code{trafo}}{(\code{list()} or \code{NULL})\cr
+\item{\code{trafo}}{(\code{list()} | \code{NULL})\cr
 An optional list with two elements, containing the transformation \code{"fn"} and its derivative \code{"deriv"}.
 The transformation function is the function that is applied after aggregating the pointwise losses, i.e.
 this requires an \verb{$obs_loss} to be present. An example is \code{sqrt} for RMSE.}

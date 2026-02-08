@@ -43,6 +43,11 @@
 #' * `configure_learner` (`function(learner, task)`)\cr
 #'   Before running a `learner` on a `task`, this function allows to change its parameter values depending on the input task.
 #'
+#' To speed up test execution, start an encapsulation daemon in advance by calling
+#' `mirai::daemons(1, .compute = "mlr3_encapsulation")` in `tests/testthat/setup.R`.
+#' After the tests complete, stop them with
+#' `mirai::daemons(0, .compute = "mlr3_encapsulation")` in `tests/testthat/teardown.R`.
+#'
 #' **Check Functions**:
 #'
 #' The following capability checks are run by `run_autotest()`:

@@ -230,50 +230,6 @@ Other Task:
 \code{\link{mlr_tasks_zoo}}
 }
 \concept{Task}
-\section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{label}}{(\code{character(1)})\cr
-Label for this object.
-Can be used in tables, plot and text output instead of the ID.}
-
-\item{\code{task_type}}{(\code{character(1)})\cr
-Task type, e.g. \code{"classif"} or \code{"regr"}.
-
-For a complete list of possible task types (depending on the loaded packages),
-see \code{\link[=mlr_reflections]{mlr_reflections$task_types$type}}.}
-
-\item{\code{backend}}{(\link{DataBackend})\cr
-Abstract interface to the data of the task.}
-
-\item{\code{col_info}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
-Table with with 4 columns, mainly for internal purposes:
-\itemize{
-\item \code{"id"} (\code{character()}) stores the name of the column.
-\item \code{"type"} (\code{character()}) holds the storage type of the variable, e.g. \code{integer}, \code{numeric} or \code{character}.
-See \link[=mlr_reflections]{mlr_reflections$task_feature_types} for a complete list of allowed types.
-\item \code{"levels"} (\code{list()}) stores a vector of distinct values (levels) for ordered and unordered factor variables.
-\item \code{"label"} (\code{character()}) stores a vector of prettier, formated column names.
-\item \code{"fix_factor_levels"} (\code{logical()}) stores flags which determine if the levels of the respective variable
-need to be reordered after querying the data from the \link{DataBackend}.
-}
-
-Note that all columns of the \link{DataBackend}, also columns which are not selected or have any role, are listed
-in this table.}
-
-\item{\code{man}}{(\code{character(1)})\cr
-String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
-Defaults to \code{NA}, but can be set by child classes.}
-
-\item{\code{extra_args}}{(named \code{list()})\cr
-Additional arguments set during construction.
-Required for \code{\link[=convert_task]{convert_task()}}.}
-
-\item{\code{mlr3_version}}{(\code{package_version})\cr
-Package version of \code{mlr3} used to create the task.}
-}
-\if{html}{\out{</div>}}
-}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
@@ -281,7 +237,7 @@ Package version of \code{mlr3} used to create the task.}
 Identifier of the object.
 Used in tables, plot and text output.}
 
-\item{\code{internal_valid_task}}{(\code{Task} or \code{integer()} or \code{NULL})\cr
+\item{\code{internal_valid_task}}{(\code{Task} | \code{integer()} | \code{NULL})\cr
 Optional validation task that can, e.g., be used for early stopping with learners such as XGBoost.
 See also the \verb{$validate} field of \code{\link{Learner}}.
 If integers are assigned they are removed from the primary task and an internal validation task
@@ -474,6 +430,45 @@ List of characteristics of the task, e.g. \code{list(n = 5, p = 7)}.}
 \item{\code{row_ids_backend}}{(\code{integer()})\cr
 Returns all row ids from the backend, regardless of their roles.
 This is different from \verb{$row_ids} which only returns rows with role "use".}
+
+\item{\code{label}}{(\code{character(1)})\cr
+Label for this object.
+Can be used in tables, plot and text output instead of the ID.}
+
+\item{\code{task_type}}{(\code{character(1)})\cr
+Task type, e.g. \code{"classif"} or \code{"regr"}.
+
+For a complete list of possible task types (depending on the loaded packages),
+see \code{\link[=mlr_reflections]{mlr_reflections$task_types$type}}.}
+
+\item{\code{man}}{(\code{character(1)} | \code{NULL})\cr
+String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
+Defaults to \code{NA}, but can be set by child classes.}
+
+\item{\code{extra_args}}{(named \code{list()})\cr
+Additional arguments set during construction.
+Required for \code{\link[=convert_task]{convert_task()}}.}
+
+\item{\code{backend}}{(\link{DataBackend})\cr
+Abstract interface to the data of the task.}
+
+\item{\code{col_info}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
+Table with with 4 columns, mainly for internal purposes:
+\itemize{
+\item \code{"id"} (\code{character()}) stores the name of the column.
+\item \code{"type"} (\code{character()}) holds the storage type of the variable, e.g. \code{integer}, \code{numeric} or \code{character}.
+See \link[=mlr_reflections]{mlr_reflections$task_feature_types} for a complete list of allowed types.
+\item \code{"levels"} (\code{list()}) stores a vector of distinct values (levels) for ordered and unordered factor variables.
+\item \code{"label"} (\code{character()}) stores a vector of prettier, formated column names.
+\item \code{"fix_factor_levels"} (\code{logical()}) stores flags which determine if the levels of the respective variable
+need to be reordered after querying the data from the \link{DataBackend}.
+}
+
+Note that all columns of the \link{DataBackend}, also columns which are not selected or have any role, are listed
+in this table.}
+
+\item{\code{mlr3_version}}{(\code{package_version})\cr
+Package version of \code{mlr3} used to create the task.}
 }
 \if{html}{\out{</div>}}
 }
@@ -631,11 +626,11 @@ Note that it is recommended to \strong{not} rely on the order of columns, and in
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{rows}}{(positive \code{integer()})\cr
+\item{\code{rows}}{(positive \code{integer()} | \code{NULL})\cr
 Vector or row indices.
 Always refers to the complete data set, even after filtering.}
 
-\item{\code{cols}}{(\code{character()})\cr
+\item{\code{cols}}{(\code{character()} | \code{NULL})\cr
 Vector of column names.}
 
 \item{\code{ordered}}{(\code{logical(1)})\cr
@@ -735,7 +730,7 @@ To update the stored level information, e.g. after subsetting a task with \verb{
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{cols}}{(\code{character()})\cr
+\item{\code{cols}}{(\code{character()} | \code{NULL})\cr
 Vector of column names.}
 }
 \if{html}{\out{</div>}}
@@ -767,7 +762,7 @@ Argument \code{cols} defaults to all columns with role "target" or "feature".
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{cols}}{(\code{character()})\cr
+\item{\code{cols}}{(\code{character()} | \code{NULL})\cr
 Vector of column names.}
 }
 \if{html}{\out{</div>}}
@@ -800,7 +795,7 @@ See the section on task mutators for more information.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{rows}}{(positive \code{integer()})\cr
+\item{\code{rows}}{(positive \code{integer()} | \code{NULL})\cr
 Vector or row indices.
 Always refers to the complete data set, even after filtering.}
 }
@@ -838,7 +833,7 @@ See the section on task mutators for more information.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{cols}}{(\code{character()})\cr
+\item{\code{cols}}{(\code{character()} | \code{NULL})\cr
 Vector of column names.}
 }
 \if{html}{\out{</div>}}
@@ -1128,7 +1123,7 @@ Updates the cache of stored factor levels, removing all levels not present in th
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{cols}}{(\code{character()})\cr
+\item{\code{cols}}{(\code{character()} | \code{NULL})\cr
 Vector of column names.}
 }
 \if{html}{\out{</div>}}
