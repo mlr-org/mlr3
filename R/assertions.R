@@ -382,8 +382,8 @@ assert_set = function(x, empty = TRUE, .var.name = vname(x)) {
 assert_range = function(range, .var.name = vname(range)) {
   assert_numeric(range, len = 2L, any.missing = FALSE, .var.name = .var.name)
 
-  if (diff(range) <= 0) {
-    error_input("Invalid range specified. First value (%f) must be greater than second value (%f)", range[1L], range[2L])
+  if (diff(range) < 0) {
+    error_input("Invalid range specified. First value (%f) must be less than or equal to second value (%f)", range[1L], range[2L])
   }
 
   invisible(range)

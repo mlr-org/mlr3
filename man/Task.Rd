@@ -233,16 +233,6 @@ Other Task:
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{label}}{(\code{character(1)})\cr
-Label for this object.
-Can be used in tables, plot and text output instead of the ID.}
-
-\item{\code{task_type}}{(\code{character(1)})\cr
-Task type, e.g. \code{"classif"} or \code{"regr"}.
-
-For a complete list of possible task types (depending on the loaded packages),
-see \code{\link[=mlr_reflections]{mlr_reflections$task_types$type}}.}
-
 \item{\code{backend}}{(\link{DataBackend})\cr
 Abstract interface to the data of the task.}
 
@@ -260,14 +250,6 @@ need to be reordered after querying the data from the \link{DataBackend}.
 
 Note that all columns of the \link{DataBackend}, also columns which are not selected or have any role, are listed
 in this table.}
-
-\item{\code{man}}{(\code{character(1)})\cr
-String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
-Defaults to \code{NA}, but can be set by child classes.}
-
-\item{\code{extra_args}}{(named \code{list()})\cr
-Additional arguments set during construction.
-Required for \code{\link[=convert_task]{convert_task()}}.}
 
 \item{\code{mlr3_version}}{(\code{package_version})\cr
 Package version of \code{mlr3} used to create the task.}
@@ -474,6 +456,24 @@ List of characteristics of the task, e.g. \code{list(n = 5, p = 7)}.}
 \item{\code{row_ids_backend}}{(\code{integer()})\cr
 Returns all row ids from the backend, regardless of their roles.
 This is different from \verb{$row_ids} which only returns rows with role "use".}
+
+\item{\code{label}}{(\code{character(1)})\cr
+Label for this object.
+Can be used in tables, plot and text output instead of the ID.}
+
+\item{\code{task_type}}{(\code{character(1)})\cr
+Task type, e.g. \code{"classif"} or \code{"regr"}.
+
+For a complete list of possible task types (depending on the loaded packages),
+see \code{\link[=mlr_reflections]{mlr_reflections$task_types$type}}.}
+
+\item{\code{man}}{(\code{character(1)})\cr
+String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
+Defaults to \code{NA}, but can be set by child classes.}
+
+\item{\code{extra_args}}{(named \code{list()})\cr
+Additional arguments set during construction.
+Required for \code{\link[=convert_task]{convert_task()}}.}
 }
 \if{html}{\out{</div>}}
 }
