@@ -15,6 +15,11 @@ test_that("Target is numeric", {
   expect_error(TaskRegr$new("iris", backend = b, target = "Species"), "Target column")
 })
 
+test_that("TaskRegr rejects NAs in target", {
+  dt = data.table::data.table(x = 1:10, y = c(NA_real_, 2:10))
+  expect_error(as_task_regr(dt, target = "y"), "contain missing")
+})
+
 test_that("TaskRegr: 0 feature task", {
   b = as_data_backend(data.table(y = runif(20)))
   task = TaskRegr$new(id = "zero_feat_task", b, target = "y")

@@ -17,7 +17,7 @@
 #' @template seealso_task
 #' @export
 #' @examples
-#' task = as_task_regr(palmerpenguins::penguins, target = "bill_length_mm")
+#' task = as_task_regr(mtcars, target = "mpg")
 #' task$task_type
 #' task$formula()
 #' task$truth()
