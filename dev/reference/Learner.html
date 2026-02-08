@@ -251,90 +251,12 @@ for established default tuning spaces.</p></li>
     </div>
     <div class="section level2">
     <h2 id="public-fields">Public fields<a class="anchor" aria-label="anchor" href="#public-fields"></a></h2>
-    <p></p><div class="r6-fields"><dl><dt><code>id</code></dt>
-<dd><p>(<code>character(1)</code>)<br>
-Identifier of the object.
-Used in tables, plot and text output.</p></dd>
-
-
-<dt><code>label</code></dt>
-<dd><p>(<code>character(1)</code>)<br>
-Label for this object.
-Can be used in tables, plot and text output instead of the ID.</p></dd>
-
-
-<dt><code>state</code></dt>
+    <p></p><div class="r6-fields"><dl><dt><code>state</code></dt>
 <dd><p>(<code>NULL</code> | named <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>)<br>
 Current (internal) state of the learner.
 Contains all information gathered during <code>train()</code> and <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>.
 It is not recommended to access elements from <code>state</code> directly.
 This is an internal data structure which may change in the future.</p></dd>
-
-
-<dt><code>task_type</code></dt>
-<dd><p>(<code>character(1)</code>)<br>
-Task type, e.g. <code>"classif"</code> or <code>"regr"</code>.</p>
-<p>For a complete list of possible task types (depending on the loaded packages),
-see <code><a href="mlr_reflections.html">mlr_reflections$task_types$type</a></code>.</p></dd>
-
-
-<dt><code>feature_types</code></dt>
-<dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
-Stores the feature types the learner can handle, e.g. <code>"logical"</code>, <code>"numeric"</code>, or <code>"factor"</code>.
-A complete list of candidate feature types, grouped by task type, is stored in <code><a href="mlr_reflections.html">mlr_reflections$task_feature_types</a></code>.</p></dd>
-
-
-<dt><code>properties</code></dt>
-<dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
-Stores a set of properties/capabilities the learner has.
-A complete list of candidate properties, grouped by task type, is stored in <code><a href="mlr_reflections.html">mlr_reflections$learner_properties</a></code>.</p></dd>
-
-
-<dt><code>packages</code></dt>
-<dd><p>(<code>character(1)</code>)<br>
-Set of required packages.
-These packages are loaded, but not attached.</p></dd>
-
-
-<dt><code>predict_sets</code></dt>
-<dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
-During <code><a href="resample.html">resample()</a></code>/<code><a href="benchmark.html">benchmark()</a></code>, a Learner can predict on multiple sets.
-Per default, a learner only predicts observations in the test set (<code>predict_sets == "test"</code>).
-To change this behavior, set <code>predict_sets</code> to a non-empty subset of <code>{"train", "test", "internal_valid"}</code>.
-The <code>"train"</code> predict set contains the train ids from the resampling. This means that if a learner does validation and
-sets <code>$validate</code> to a ratio (creating the validation data from the training data), the train predictions
-will include the predictions for the validation data.
-Each set yields a separate <a href="Prediction.html">Prediction</a> object.
-Those can be combined via getters in <a href="ResampleResult.html">ResampleResult</a>/<a href="BenchmarkResult.html">BenchmarkResult</a>, or <a href="Measure.html">Measure</a>s can be configured
-to operate on specific subsets of the calculated prediction sets.</p></dd>
-
-
-<dt><code>parallel_predict</code></dt>
-<dd><p>(<code>logical(1)</code>)<br>
-If set to <code>TRUE</code>, use <a href="https://CRAN.R-project.org/package=future" class="external-link"><span class="pkg">future</span></a> to calculate predictions in parallel (default: <code>FALSE</code>).
-The row ids of the <code>task</code> will be split into <code><a href="https://future.futureverse.org/reference/nbrOfWorkers.html" class="external-link">future::nbrOfWorkers()</a></code> chunks,
-and predictions are evaluated according to the active <code><a href="https://future.futureverse.org/reference/plan.html" class="external-link">future::plan()</a></code>.
-This currently only works for methods <code>Learner$predict()</code> and <code>Learner$predict_newdata()</code>,
-and has no effect during <code><a href="resample.html">resample()</a></code> or <code><a href="benchmark.html">benchmark()</a></code> where you have other means
-to parallelize.</p>
-<p>Note that the recorded time required for prediction reports the time required to predict
-is not properly defined and depends on the parallelization backend.</p></dd>
-
-
-<dt><code>timeout</code></dt>
-<dd><p>(named <code>numeric(2)</code>)<br>
-Timeout for the learner's train and predict steps, in seconds.
-This works differently for different encapsulation methods, see
-<code><a href="https://mlr3misc.mlr-org.com/reference/encapsulate.html" class="external-link">mlr3misc::encapsulate()</a></code>.
-Default is <code>c(train = Inf, predict = Inf)</code>.
-Also see the section on error handling the mlr3book:
-<a href="https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling" class="external-link">https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling</a></p></dd>
-
-
-<dt><code>man</code></dt>
-<dd><p>(<code>character(1)</code>)<br>
-String in the format <code>[pkg]::[topic]</code> pointing to a manual page for this object.
-Defaults to <code>NA</code>, but can be set by child classes.</p></dd>
 
 
 </dl><p></p></div>
@@ -448,6 +370,84 @@ If set to <code>"all"</code> the complete feature set is returned.</p></dd>
 Stores the possible predict types the learner is capable of.
 A complete list of candidate predict types, grouped by task type, is stored in <code><a href="mlr_reflections.html">mlr_reflections$learner_predict_types</a></code>.
 This field is read-only.</p></dd>
+
+
+<dt><code>id</code></dt>
+<dd><p>(<code>character(1)</code>)<br>
+Identifier of the object.
+Used in tables, plot and text output.</p></dd>
+
+
+<dt><code>label</code></dt>
+<dd><p>(<code>character(1)</code>)<br>
+Label for this object.
+Can be used in tables, plot and text output instead of the ID.</p></dd>
+
+
+<dt><code>task_type</code></dt>
+<dd><p>(<code>character(1)</code>)<br>
+Task type, e.g. <code>"classif"</code> or <code>"regr"</code>.</p>
+<p>For a complete list of possible task types (depending on the loaded packages),
+see <code><a href="mlr_reflections.html">mlr_reflections$task_types$type</a></code>.</p></dd>
+
+
+<dt><code>feature_types</code></dt>
+<dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
+Stores the feature types the learner can handle, e.g. <code>"logical"</code>, <code>"numeric"</code>, or <code>"factor"</code>.
+A complete list of candidate feature types, grouped by task type, is stored in <code><a href="mlr_reflections.html">mlr_reflections$task_feature_types</a></code>.</p></dd>
+
+
+<dt><code>properties</code></dt>
+<dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
+Stores a set of properties/capabilities the learner has.
+A complete list of candidate properties, grouped by task type, is stored in <code><a href="mlr_reflections.html">mlr_reflections$learner_properties</a></code>.</p></dd>
+
+
+<dt><code>packages</code></dt>
+<dd><p>(<code>character(1)</code>)<br>
+Set of required packages.
+These packages are loaded, but not attached.</p></dd>
+
+
+<dt><code>predict_sets</code></dt>
+<dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
+During <code><a href="resample.html">resample()</a></code>/<code><a href="benchmark.html">benchmark()</a></code>, a Learner can predict on multiple sets.
+Per default, a learner only predicts observations in the test set (<code>predict_sets == "test"</code>).
+To change this behavior, set <code>predict_sets</code> to a non-empty subset of <code>{"train", "test", "internal_valid"}</code>.
+The <code>"train"</code> predict set contains the train ids from the resampling. This means that if a learner does validation and
+sets <code>$validate</code> to a ratio (creating the validation data from the training data), the train predictions
+will include the predictions for the validation data.
+Each set yields a separate <a href="Prediction.html">Prediction</a> object.
+Those can be combined via getters in <a href="ResampleResult.html">ResampleResult</a>/<a href="BenchmarkResult.html">BenchmarkResult</a>, or <a href="Measure.html">Measure</a>s can be configured
+to operate on specific subsets of the calculated prediction sets.</p></dd>
+
+
+<dt><code>parallel_predict</code></dt>
+<dd><p>(<code>logical(1)</code>)<br>
+If set to <code>TRUE</code>, use <a href="https://CRAN.R-project.org/package=future" class="external-link"><span class="pkg">future</span></a> to calculate predictions in parallel (default: <code>FALSE</code>).
+The row ids of the <code>task</code> will be split into <code><a href="https://future.futureverse.org/reference/nbrOfWorkers.html" class="external-link">future::nbrOfWorkers()</a></code> chunks,
+and predictions are evaluated according to the active <code><a href="https://future.futureverse.org/reference/plan.html" class="external-link">future::plan()</a></code>.
+This currently only works for methods <code>Learner$predict()</code> and <code>Learner$predict_newdata()</code>,
+and has no effect during <code><a href="resample.html">resample()</a></code> or <code><a href="benchmark.html">benchmark()</a></code> where you have other means
+to parallelize.</p>
+<p>Note that the recorded time required for prediction reports the time required to predict
+is not properly defined and depends on the parallelization backend.</p></dd>
+
+
+<dt><code>timeout</code></dt>
+<dd><p>(named <code>numeric(2)</code>)<br>
+Timeout for the learner's train and predict steps, in seconds.
+This works differently for different encapsulation methods, see
+<code><a href="https://mlr3misc.mlr-org.com/reference/encapsulate.html" class="external-link">mlr3misc::encapsulate()</a></code>.
+Default is <code>c(train = Inf, predict = Inf)</code>.
+Also see the section on error handling the mlr3book:
+<a href="https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling" class="external-link">https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling</a></p></dd>
+
+
+<dt><code>man</code></dt>
+<dd><p>(<code>character(1)</code>)<br>
+String in the format <code>[pkg]::[topic]</code> pointing to a manual page for this object.
+Defaults to <code>NA</code>, but can be set by child classes.</p></dd>
 
 
 </dl><p></p></div>

@@ -132,31 +132,6 @@ Other Measure:
 
 ## Public fields
 
-- `id`:
-
-  (`character(1)`)  
-  Identifier of the object. Used in tables, plot and text output.
-
-- `label`:
-
-  (`character(1)`)  
-  Label for this object. Can be used in tables, plot and text output
-  instead of the ID.
-
-- `task_type`:
-
-  (`character(1)`)  
-  Task type, e.g. `"classif"` or `"regr"`.
-
-  For a complete list of possible task types (depending on the loaded
-  packages), see
-  [`mlr_reflections$task_types$type`](https://mlr3.mlr-org.com/dev/reference/mlr_reflections.md).
-
-- `param_set`:
-
-  ([paradox::ParamSet](https://paradox.mlr-org.com/reference/ParamSet.html))  
-  Set of hyperparameters.
-
 - `trafo`:
 
   ([`list()`](https://rdrr.io/r/base/list.html) \| `NULL`) `NULL` or a
@@ -166,57 +141,6 @@ Other Measure:
     observation-wise losses (e.g. `sqrt` for RMSE)
 
   - `deriv`: The derivative of the `trafo`.
-
-- `predict_type`:
-
-  (`character(1)`)  
-  Required predict type of the
-  [Learner](https://mlr3.mlr-org.com/dev/reference/Learner.md).
-
-- `check_prerequisites`:
-
-  (`character(1)`)  
-  How to proceed if one of the following prerequisites is not met:
-
-  - wrong predict type (e.g., probabilities required, but only labels
-    available).
-
-  - wrong predict set (e.g., learner predicted on training set, but
-    predictions of test set required).
-
-  - task properties not satisfied (e.g., binary classification measure
-    on multiclass task).
-
-  Possible values are `"ignore"` (just return `NaN`) and `"warn"`
-  (default, raise a warning before returning `NaN`).
-
-- `task_properties`:
-
-  ([`character()`](https://rdrr.io/r/base/character.html))  
-  Required properties of the
-  [Task](https://mlr3.mlr-org.com/dev/reference/Task.md).
-
-- `range`:
-
-  (`numeric(2)`)  
-  Lower and upper bound of possible performance scores.
-
-- `minimize`:
-
-  (`logical(1)`)  
-  If `TRUE`, good predictions correspond to small values of performance
-  scores.
-
-- `packages`:
-
-  (`character(1)`)  
-  Set of required packages. These packages are loaded, but not attached.
-
-- `man`:
-
-  (`character(1)`)  
-  String in the format `[pkg]::[topic]` pointing to a manual page for
-  this object. Defaults to `NA`, but can be set by child classes.
 
 ## Active bindings
 
@@ -312,6 +236,82 @@ Other Measure:
   supports weights when it does not. For measures that do not support
   weights, `use_weights` needs to be set to `"ignore"` if tasks with
   weights should be handled (by dropping the weights).
+
+- `id`:
+
+  (`character(1)`)  
+  Identifier of the object. Used in tables, plot and text output.
+
+- `label`:
+
+  (`character(1)`)  
+  Label for this object. Can be used in tables, plot and text output
+  instead of the ID.
+
+- `task_type`:
+
+  (`character(1)`)  
+  Task type, e.g. `"classif"` or `"regr"`.
+
+  For a complete list of possible task types (depending on the loaded
+  packages), see
+  [`mlr_reflections$task_types$type`](https://mlr3.mlr-org.com/dev/reference/mlr_reflections.md).
+
+- `param_set`:
+
+  ([paradox::ParamSet](https://paradox.mlr-org.com/reference/ParamSet.html))  
+  Set of hyperparameters.
+
+- `predict_type`:
+
+  (`character(1)`)  
+  Required predict type of the
+  [Learner](https://mlr3.mlr-org.com/dev/reference/Learner.md).
+
+- `check_prerequisites`:
+
+  (`character(1)`)  
+  How to proceed if one of the following prerequisites is not met:
+
+  - wrong predict type (e.g., probabilities required, but only labels
+    available).
+
+  - wrong predict set (e.g., learner predicted on training set, but
+    predictions of test set required).
+
+  - task properties not satisfied (e.g., binary classification measure
+    on multiclass task).
+
+  Possible values are `"ignore"` (just return `NaN`) and `"warn"`
+  (default, raise a warning before returning `NaN`).
+
+- `task_properties`:
+
+  ([`character()`](https://rdrr.io/r/base/character.html))  
+  Required properties of the
+  [Task](https://mlr3.mlr-org.com/dev/reference/Task.md).
+
+- `range`:
+
+  (`numeric(2)`)  
+  Lower and upper bound of possible performance scores.
+
+- `minimize`:
+
+  (`logical(1)`)  
+  If `TRUE`, good predictions correspond to small values of performance
+  scores.
+
+- `packages`:
+
+  (`character(1)`)  
+  Set of required packages. These packages are loaded, but not attached.
+
+- `man`:
+
+  (`character(1)`)  
+  String in the format `[pkg]::[topic]` pointing to a manual page for
+  this object. Defaults to `NA`, but can be set by child classes.
 
 ## Methods
 

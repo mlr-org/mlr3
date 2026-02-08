@@ -140,7 +140,38 @@ tasks.</p></li>
     </div>
     <div class="section level2">
     <h2 id="public-fields">Public fields<a class="anchor" aria-label="anchor" href="#public-fields"></a></h2>
-    <p></p><div class="r6-fields"><dl><dt><code>label</code></dt>
+    <p></p><div class="r6-fields"><dl><dt><code>instance</code></dt>
+<dd><p>(any)<br>
+During <code>instantiate()</code>, the instance is stored in this slot in an arbitrary format.
+Note that if a grouping variable is present in the <a href="Task.html">Task</a>, a Resampling may operate on the
+group ids internally instead of the row ids (which may lead to confusion).</p>
+<p>It is advised to not work directly with the <code>instance</code>, but instead only use the getters
+<code>$train_set()</code> and <code>$test_set()</code>.</p></dd>
+
+
+</dl><p></p></div>
+    </div>
+    <div class="section level2">
+    <h2 id="active-bindings">Active bindings<a class="anchor" aria-label="anchor" href="#active-bindings"></a></h2>
+    <p></p><div class="r6-active-bindings"><dl><dt><code>id</code></dt>
+<dd><p>(<code>character(1)</code>)<br>
+Identifier of the object.
+Used in tables, plot and text output.</p></dd>
+
+
+<dt><code>is_instantiated</code></dt>
+<dd><p>(<code>logical(1)</code>)<br>
+Is <code>TRUE</code> if the resampling has been instantiated.</p></dd>
+
+
+<dt><code>hash</code></dt>
+<dd><p>(<code>character(1)</code>)<br>
+Hash (unique identifier) for this object.
+If the object has not been instantiated yet, <code>NA_character_</code> is returned.
+The hash is calculated based on the class name, the id, the parameter set, and the instance.</p></dd>
+
+
+<dt><code>label</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 Label for this object.
 Can be used in tables, plot and text output instead of the ID.</p></dd>
@@ -149,15 +180,6 @@ Can be used in tables, plot and text output instead of the ID.</p></dd>
 <dt><code>param_set</code></dt>
 <dd><p>(<a href="https://paradox.mlr-org.com/reference/ParamSet.html" class="external-link">paradox::ParamSet</a>)<br>
 Set of hyperparameters.</p></dd>
-
-
-<dt><code>instance</code></dt>
-<dd><p>(any)<br>
-During <code>instantiate()</code>, the instance is stored in this slot in an arbitrary format.
-Note that if a grouping variable is present in the <a href="Task.html">Task</a>, a Resampling may operate on the
-group ids internally instead of the row ids (which may lead to confusion).</p>
-<p>It is advised to not work directly with the <code>instance</code>, but instead only use the getters
-<code>$train_set()</code> and <code>$test_set()</code>.</p></dd>
 
 
 <dt><code>task_hash</code></dt>
@@ -186,28 +208,6 @@ Only used internally.</p></dd>
 <dd><p>(<code>character(1)</code>)<br>
 String in the format <code>[pkg]::[topic]</code> pointing to a manual page for this object.
 Defaults to <code>NA</code>, but can be set by child classes.</p></dd>
-
-
-</dl><p></p></div>
-    </div>
-    <div class="section level2">
-    <h2 id="active-bindings">Active bindings<a class="anchor" aria-label="anchor" href="#active-bindings"></a></h2>
-    <p></p><div class="r6-active-bindings"><dl><dt><code>id</code></dt>
-<dd><p>(<code>character(1)</code>)<br>
-Identifier of the object.
-Used in tables, plot and text output.</p></dd>
-
-
-<dt><code>is_instantiated</code></dt>
-<dd><p>(<code>logical(1)</code>)<br>
-Is <code>TRUE</code> if the resampling has been instantiated.</p></dd>
-
-
-<dt><code>hash</code></dt>
-<dd><p>(<code>character(1)</code>)<br>
-Hash (unique identifier) for this object.
-If the object has not been instantiated yet, <code>NA_character_</code> is returned.
-The hash is calculated based on the class name, the id, the parameter set, and the instance.</p></dd>
 
 
 </dl><p></p></div>

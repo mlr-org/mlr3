@@ -137,21 +137,6 @@ Other Task:
 
 ## Public fields
 
-- `label`:
-
-  (`character(1)`)  
-  Label for this object. Can be used in tables, plot and text output
-  instead of the ID.
-
-- `task_type`:
-
-  (`character(1)`)  
-  Task type, e.g. `"classif"` or `"regr"`.
-
-  For a complete list of possible task types (depending on the loaded
-  packages), see
-  [`mlr_reflections$task_types$type`](https://mlr3.mlr-org.com/dev/reference/mlr_reflections.md).
-
 - `backend`:
 
   ([DataBackend](https://mlr3.mlr-org.com/dev/reference/DataBackend.md))  
@@ -188,18 +173,6 @@ Other Task:
   [DataBackend](https://mlr3.mlr-org.com/dev/reference/DataBackend.md),
   also columns which are not selected or have any role, are listed in
   this table.
-
-- `man`:
-
-  (`character(1)`)  
-  String in the format `[pkg]::[topic]` pointing to a manual page for
-  this object. Defaults to `NA`, but can be set by child classes.
-
-- `extra_args`:
-
-  (named [`list()`](https://rdrr.io/r/base/list.html))  
-  Additional arguments set during construction. Required for
-  [`convert_task()`](https://mlr3.mlr-org.com/dev/reference/convert_task.md).
 
 - `mlr3_version`:
 
@@ -540,6 +513,33 @@ Other Task:
   ([`integer()`](https://rdrr.io/r/base/integer.html))  
   Returns all row ids from the backend, regardless of their roles. This
   is different from `$row_ids` which only returns rows with role "use".
+
+- `label`:
+
+  (`character(1)`)  
+  Label for this object. Can be used in tables, plot and text output
+  instead of the ID.
+
+- `task_type`:
+
+  (`character(1)`)  
+  Task type, e.g. `"classif"` or `"regr"`.
+
+  For a complete list of possible task types (depending on the loaded
+  packages), see
+  [`mlr_reflections$task_types$type`](https://mlr3.mlr-org.com/dev/reference/mlr_reflections.md).
+
+- `man`:
+
+  (`character(1)`)  
+  String in the format `[pkg]::[topic]` pointing to a manual page for
+  this object. Defaults to `NA`, but can be set by child classes.
+
+- `extra_args`:
+
+  (named [`list()`](https://rdrr.io/r/base/list.html))  
+  Additional arguments set during construction. Required for
+  [`convert_task()`](https://mlr3.mlr-org.com/dev/reference/convert_task.md).
 
 ## Methods
 

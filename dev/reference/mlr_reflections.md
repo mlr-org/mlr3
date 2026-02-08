@@ -137,7 +137,7 @@ mlr_reflections
 
 ``` r
 ls.str(mlr_reflections)
-#> auto_converters : <environment: 0x5584cfee7ce0> 
+#> auto_converters : <environment: 0x55b22fe8fc90> 
 #> default_measures : List of 3
 #>  $ classif     : chr "classif.ce"
 #>  $ regr        : chr "regr.mse"
@@ -148,8 +148,8 @@ ls.str(mlr_reflections)
 #>  $ regr        :List of 4
 #>  $ unsupervised: NULL
 #> learner_properties : List of 2
-#>  $ classif: chr [1:14] "featureless" "missings" "weights" "importance" ...
-#>  $ regr   : chr [1:12] "featureless" "missings" "weights" "importance" ...
+#>  $ classif: chr [1:15] "featureless" "missings" "weights" "importance" ...
+#>  $ regr   : chr [1:13] "featureless" "missings" "weights" "importance" ...
 #> loaded_packages :  chr "mlr3"
 #> measure_properties : List of 2
 #>  $ classif: chr [1:9] "na_score" "requires_task" "requires_learner" "requires_model" ...

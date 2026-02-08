@@ -150,20 +150,7 @@ possibly freeing some memory consumed by the <a href="DataBackend.html">DataBack
     </div>
     <div class="section level2">
     <h2 id="public-fields">Public fields<a class="anchor" aria-label="anchor" href="#public-fields"></a></h2>
-    <p></p><div class="r6-fields"><dl><dt><code>label</code></dt>
-<dd><p>(<code>character(1)</code>)<br>
-Label for this object.
-Can be used in tables, plot and text output instead of the ID.</p></dd>
-
-
-<dt><code>task_type</code></dt>
-<dd><p>(<code>character(1)</code>)<br>
-Task type, e.g. <code>"classif"</code> or <code>"regr"</code>.</p>
-<p>For a complete list of possible task types (depending on the loaded packages),
-see <code><a href="mlr_reflections.html">mlr_reflections$task_types$type</a></code>.</p></dd>
-
-
-<dt><code>backend</code></dt>
+    <p></p><div class="r6-fields"><dl><dt><code>backend</code></dt>
 <dd><p>(<a href="DataBackend.html">DataBackend</a>)<br>
 Abstract interface to the data of the task.</p></dd>
 
@@ -179,18 +166,6 @@ See <a href="mlr_reflections.html">mlr_reflections$task_feature_types</a> for a 
 need to be reordered after querying the data from the <a href="DataBackend.html">DataBackend</a>.</p></li>
 </ul><p>Note that all columns of the <a href="DataBackend.html">DataBackend</a>, also columns which are not selected or have any role, are listed
 in this table.</p></dd>
-
-
-<dt><code>man</code></dt>
-<dd><p>(<code>character(1)</code>)<br>
-String in the format <code>[pkg]::[topic]</code> pointing to a manual page for this object.
-Defaults to <code>NA</code>, but can be set by child classes.</p></dd>
-
-
-<dt><code>extra_args</code></dt>
-<dd><p>(named <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>)<br>
-Additional arguments set during construction.
-Required for <code><a href="convert_task.html">convert_task()</a></code>.</p></dd>
 
 
 <dt><code>mlr3_version</code></dt>
@@ -410,6 +385,31 @@ List of characteristics of the task, e.g. <code>list(n = 5, p = 7)</code>.</p></
 <dd><p>(<code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>)<br>
 Returns all row ids from the backend, regardless of their roles.
 This is different from <code>$row_ids</code> which only returns rows with role "use".</p></dd>
+
+
+<dt><code>label</code></dt>
+<dd><p>(<code>character(1)</code>)<br>
+Label for this object.
+Can be used in tables, plot and text output instead of the ID.</p></dd>
+
+
+<dt><code>task_type</code></dt>
+<dd><p>(<code>character(1)</code>)<br>
+Task type, e.g. <code>"classif"</code> or <code>"regr"</code>.</p>
+<p>For a complete list of possible task types (depending on the loaded packages),
+see <code><a href="mlr_reflections.html">mlr_reflections$task_types$type</a></code>.</p></dd>
+
+
+<dt><code>man</code></dt>
+<dd><p>(<code>character(1)</code>)<br>
+String in the format <code>[pkg]::[topic]</code> pointing to a manual page for this object.
+Defaults to <code>NA</code>, but can be set by child classes.</p></dd>
+
+
+<dt><code>extra_args</code></dt>
+<dd><p>(named <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>)<br>
+Additional arguments set during construction.
+Required for <code><a href="convert_task.html">convert_task()</a></code>.</p></dd>
 
 
 </dl><p></p></div>

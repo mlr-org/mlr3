@@ -113,17 +113,6 @@ Other Resampling:
 
 ## Public fields
 
-- `label`:
-
-  (`character(1)`)  
-  Label for this object. Can be used in tables, plot and text output
-  instead of the ID.
-
-- `param_set`:
-
-  ([paradox::ParamSet](https://paradox.mlr-org.com/reference/ParamSet.html))  
-  Set of hyperparameters.
-
 - `instance`:
 
   (any)  
@@ -135,6 +124,36 @@ Other Resampling:
 
   It is advised to not work directly with the `instance`, but instead
   only use the getters `$train_set()` and `$test_set()`.
+
+## Active bindings
+
+- `id`:
+
+  (`character(1)`)  
+  Identifier of the object. Used in tables, plot and text output.
+
+- `is_instantiated`:
+
+  (`logical(1)`)  
+  Is `TRUE` if the resampling has been instantiated.
+
+- `hash`:
+
+  (`character(1)`)  
+  Hash (unique identifier) for this object. If the object has not been
+  instantiated yet, `NA_character_` is returned. The hash is calculated
+  based on the class name, the id, the parameter set, and the instance.
+
+- `label`:
+
+  (`character(1)`)  
+  Label for this object. Can be used in tables, plot and text output
+  instead of the ID.
+
+- `param_set`:
+
+  ([paradox::ParamSet](https://paradox.mlr-org.com/reference/ParamSet.html))  
+  Set of hyperparameters.
 
 - `task_hash`:
 
@@ -168,25 +187,6 @@ Other Resampling:
   (`character(1)`)  
   String in the format `[pkg]::[topic]` pointing to a manual page for
   this object. Defaults to `NA`, but can be set by child classes.
-
-## Active bindings
-
-- `id`:
-
-  (`character(1)`)  
-  Identifier of the object. Used in tables, plot and text output.
-
-- `is_instantiated`:
-
-  (`logical(1)`)  
-  Is `TRUE` if the resampling has been instantiated.
-
-- `hash`:
-
-  (`character(1)`)  
-  Hash (unique identifier) for this object. If the object has not been
-  instantiated yet, `NA_character_` is returned. The hash is calculated
-  based on the class name, the id, the parameter set, and the instance.
 
 ## Methods
 

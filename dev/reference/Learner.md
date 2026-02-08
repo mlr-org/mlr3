@@ -286,17 +286,6 @@ Other Learner:
 
 ## Public fields
 
-- `id`:
-
-  (`character(1)`)  
-  Identifier of the object. Used in tables, plot and text output.
-
-- `label`:
-
-  (`character(1)`)  
-  Label for this object. Can be used in tables, plot and text output
-  instead of the ID.
-
 - `state`:
 
   (`NULL` \| named [`list()`](https://rdrr.io/r/base/list.html))  
@@ -305,92 +294,6 @@ Other Learner:
   [`predict()`](https://rdrr.io/r/stats/predict.html). It is not
   recommended to access elements from `state` directly. This is an
   internal data structure which may change in the future.
-
-- `task_type`:
-
-  (`character(1)`)  
-  Task type, e.g. `"classif"` or `"regr"`.
-
-  For a complete list of possible task types (depending on the loaded
-  packages), see
-  [`mlr_reflections$task_types$type`](https://mlr3.mlr-org.com/dev/reference/mlr_reflections.md).
-
-- `feature_types`:
-
-  ([`character()`](https://rdrr.io/r/base/character.html))  
-  Stores the feature types the learner can handle, e.g. `"logical"`,
-  `"numeric"`, or `"factor"`. A complete list of candidate feature
-  types, grouped by task type, is stored in
-  [`mlr_reflections$task_feature_types`](https://mlr3.mlr-org.com/dev/reference/mlr_reflections.md).
-
-- `properties`:
-
-  ([`character()`](https://rdrr.io/r/base/character.html))  
-  Stores a set of properties/capabilities the learner has. A complete
-  list of candidate properties, grouped by task type, is stored in
-  [`mlr_reflections$learner_properties`](https://mlr3.mlr-org.com/dev/reference/mlr_reflections.md).
-
-- `packages`:
-
-  (`character(1)`)  
-  Set of required packages. These packages are loaded, but not attached.
-
-- `predict_sets`:
-
-  ([`character()`](https://rdrr.io/r/base/character.html))  
-  During
-  [`resample()`](https://mlr3.mlr-org.com/dev/reference/resample.md)/[`benchmark()`](https://mlr3.mlr-org.com/dev/reference/benchmark.md),
-  a Learner can predict on multiple sets. Per default, a learner only
-  predicts observations in the test set (`predict_sets == "test"`). To
-  change this behavior, set `predict_sets` to a non-empty subset of
-  `{"train", "test", "internal_valid"}`. The `"train"` predict set
-  contains the train ids from the resampling. This means that if a
-  learner does validation and sets `$validate` to a ratio (creating the
-  validation data from the training data), the train predictions will
-  include the predictions for the validation data. Each set yields a
-  separate
-  [Prediction](https://mlr3.mlr-org.com/dev/reference/Prediction.md)
-  object. Those can be combined via getters in
-  [ResampleResult](https://mlr3.mlr-org.com/dev/reference/ResampleResult.md)/[BenchmarkResult](https://mlr3.mlr-org.com/dev/reference/BenchmarkResult.md),
-  or [Measure](https://mlr3.mlr-org.com/dev/reference/Measure.md)s can
-  be configured to operate on specific subsets of the calculated
-  prediction sets.
-
-- `parallel_predict`:
-
-  (`logical(1)`)  
-  If set to `TRUE`, use
-  [future](https://CRAN.R-project.org/package=future) to calculate
-  predictions in parallel (default: `FALSE`). The row ids of the `task`
-  will be split into
-  [`future::nbrOfWorkers()`](https://future.futureverse.org/reference/nbrOfWorkers.html)
-  chunks, and predictions are evaluated according to the active
-  [`future::plan()`](https://future.futureverse.org/reference/plan.html).
-  This currently only works for methods `Learner$predict()` and
-  `Learner$predict_newdata()`, and has no effect during
-  [`resample()`](https://mlr3.mlr-org.com/dev/reference/resample.md) or
-  [`benchmark()`](https://mlr3.mlr-org.com/dev/reference/benchmark.md)
-  where you have other means to parallelize.
-
-  Note that the recorded time required for prediction reports the time
-  required to predict is not properly defined and depends on the
-  parallelization backend.
-
-- `timeout`:
-
-  (named `numeric(2)`)  
-  Timeout for the learner's train and predict steps, in seconds. This
-  works differently for different encapsulation methods, see
-  [`mlr3misc::encapsulate()`](https://mlr3misc.mlr-org.com/reference/encapsulate.html).
-  Default is `c(train = Inf, predict = Inf)`. Also see the section on
-  error handling the mlr3book:
-  <https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling>
-
-- `man`:
-
-  (`character(1)`)  
-  String in the format `[pkg]::[topic]` pointing to a manual page for
-  this object. Defaults to `NA`, but can be set by child classes.
 
 ## Active bindings
 
@@ -529,6 +432,103 @@ Other Learner:
   stored in
   [`mlr_reflections$learner_predict_types`](https://mlr3.mlr-org.com/dev/reference/mlr_reflections.md).
   This field is read-only.
+
+- `id`:
+
+  (`character(1)`)  
+  Identifier of the object. Used in tables, plot and text output.
+
+- `label`:
+
+  (`character(1)`)  
+  Label for this object. Can be used in tables, plot and text output
+  instead of the ID.
+
+- `task_type`:
+
+  (`character(1)`)  
+  Task type, e.g. `"classif"` or `"regr"`.
+
+  For a complete list of possible task types (depending on the loaded
+  packages), see
+  [`mlr_reflections$task_types$type`](https://mlr3.mlr-org.com/dev/reference/mlr_reflections.md).
+
+- `feature_types`:
+
+  ([`character()`](https://rdrr.io/r/base/character.html))  
+  Stores the feature types the learner can handle, e.g. `"logical"`,
+  `"numeric"`, or `"factor"`. A complete list of candidate feature
+  types, grouped by task type, is stored in
+  [`mlr_reflections$task_feature_types`](https://mlr3.mlr-org.com/dev/reference/mlr_reflections.md).
+
+- `properties`:
+
+  ([`character()`](https://rdrr.io/r/base/character.html))  
+  Stores a set of properties/capabilities the learner has. A complete
+  list of candidate properties, grouped by task type, is stored in
+  [`mlr_reflections$learner_properties`](https://mlr3.mlr-org.com/dev/reference/mlr_reflections.md).
+
+- `packages`:
+
+  (`character(1)`)  
+  Set of required packages. These packages are loaded, but not attached.
+
+- `predict_sets`:
+
+  ([`character()`](https://rdrr.io/r/base/character.html))  
+  During
+  [`resample()`](https://mlr3.mlr-org.com/dev/reference/resample.md)/[`benchmark()`](https://mlr3.mlr-org.com/dev/reference/benchmark.md),
+  a Learner can predict on multiple sets. Per default, a learner only
+  predicts observations in the test set (`predict_sets == "test"`). To
+  change this behavior, set `predict_sets` to a non-empty subset of
+  `{"train", "test", "internal_valid"}`. The `"train"` predict set
+  contains the train ids from the resampling. This means that if a
+  learner does validation and sets `$validate` to a ratio (creating the
+  validation data from the training data), the train predictions will
+  include the predictions for the validation data. Each set yields a
+  separate
+  [Prediction](https://mlr3.mlr-org.com/dev/reference/Prediction.md)
+  object. Those can be combined via getters in
+  [ResampleResult](https://mlr3.mlr-org.com/dev/reference/ResampleResult.md)/[BenchmarkResult](https://mlr3.mlr-org.com/dev/reference/BenchmarkResult.md),
+  or [Measure](https://mlr3.mlr-org.com/dev/reference/Measure.md)s can
+  be configured to operate on specific subsets of the calculated
+  prediction sets.
+
+- `parallel_predict`:
+
+  (`logical(1)`)  
+  If set to `TRUE`, use
+  [future](https://CRAN.R-project.org/package=future) to calculate
+  predictions in parallel (default: `FALSE`). The row ids of the `task`
+  will be split into
+  [`future::nbrOfWorkers()`](https://future.futureverse.org/reference/nbrOfWorkers.html)
+  chunks, and predictions are evaluated according to the active
+  [`future::plan()`](https://future.futureverse.org/reference/plan.html).
+  This currently only works for methods `Learner$predict()` and
+  `Learner$predict_newdata()`, and has no effect during
+  [`resample()`](https://mlr3.mlr-org.com/dev/reference/resample.md) or
+  [`benchmark()`](https://mlr3.mlr-org.com/dev/reference/benchmark.md)
+  where you have other means to parallelize.
+
+  Note that the recorded time required for prediction reports the time
+  required to predict is not properly defined and depends on the
+  parallelization backend.
+
+- `timeout`:
+
+  (named `numeric(2)`)  
+  Timeout for the learner's train and predict steps, in seconds. This
+  works differently for different encapsulation methods, see
+  [`mlr3misc::encapsulate()`](https://mlr3misc.mlr-org.com/reference/encapsulate.html).
+  Default is `c(train = Inf, predict = Inf)`. Also see the section on
+  error handling the mlr3book:
+  <https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling>
+
+- `man`:
+
+  (`character(1)`)  
+  String in the format `[pkg]::[topic]` pointing to a manual page for
+  this object. Defaults to `NA`, but can be set by child classes.
 
 ## Methods
 
