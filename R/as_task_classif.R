@@ -46,6 +46,10 @@ as_task_classif.data.frame = function(x, target, id = deparse1(substitute(x)), p
     warning_input("Detected columns with unsupported Inf values in data: %s", str_collapse(names(ii)))
   }
 
+  if (anyMissing(x[[target]])) {
+    error_input("Target column '%s' must not contain missing values", target)
+  }
+
   y = x[[target]]
   if (!is.factor(y)) {
     x[[target]] = as.factor(y)

@@ -42,6 +42,11 @@ test_that("Target is character/factor", {
   expect_error(TaskClassif$new("iris", backend = b, target = "Sepal.Length"), "Target column")
 })
 
+test_that("TaskClassif rejects NAs in target", {
+  dt = data.table::data.table(x = 1:10, y = factor(c(NA, letters[1:9])))
+  expect_error(as_task_classif(dt, target = "y"), "contain missing")
+})
+
 test_that("0 feature task", {
   b = as_data_backend(iris[, 5L, drop = FALSE])
   task = TaskClassif$new(id = "zero_feat_task", b, target = "Species")
