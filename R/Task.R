@@ -865,7 +865,7 @@ Task = R6Class("Task",
       private$.id = assert_string(rhs, min.chars = 1L)
     },
 
-    #' @field internal_valid_task (`Task` or `integer()` or `NULL`)\cr
+    #' @field internal_valid_task (`Task` | `integer()` | `NULL`)\cr
     #' Optional validation task that can, e.g., be used for early stopping with learners such as XGBoost.
     #' See also the `$validate` field of [`Learner`].
     #' If integers are assigned they are removed from the primary task and an internal validation task

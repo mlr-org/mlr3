@@ -136,7 +136,7 @@ numbers of samples.
 If set to \code{"micro"}, the individual \link{Prediction} objects are first combined into a single new \link{Prediction} object which is then used to assess the performance.
 The function in \verb{$aggregator} is not used in this case.}
 
-\item{\code{aggregator}}{(\verb{function()})\cr
+\item{\code{aggregator}}{(\verb{function()} | \code{NULL})\cr
 Function to aggregate over multiple iterations. The role of this function depends on
 the value of field \code{"average"}:
 \itemize{

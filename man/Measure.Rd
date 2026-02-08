@@ -125,19 +125,6 @@ Other Measure:
 \code{\link{mlr_measures_selected_features}}
 }
 \concept{Measure}
-\section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{trafo}}{(\code{list()} | \code{NULL})
-\code{NULL} or a list with two elements:
-\itemize{
-\item \code{trafo}: the transformation function applied after aggregating
-observation-wise losses (e.g. \code{sqrt} for RMSE)
-\item \code{deriv}: The derivative of the \code{trafo}.
-}}
-}
-\if{html}{\out{</div>}}
-}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
@@ -241,9 +228,17 @@ If \code{TRUE}, good predictions correspond to small values of performance score
 Set of required packages.
 These packages are loaded, but not attached.}
 
-\item{\code{man}}{(\code{character(1)})\cr
+\item{\code{man}}{(\code{character(1)} | \code{NULL})\cr
 String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
 Defaults to \code{NA}, but can be set by child classes.}
+
+\item{\code{trafo}}{(\code{list()} | \code{NULL})\cr
+\code{NULL} or a list with two elements:
+\itemize{
+\item \code{fn}: the transformation function applied after aggregating
+observation-wise losses (e.g. \code{sqrt} for RMSE)
+\item \code{deriv}: The derivative of the \code{fn}.
+}}
 }
 \if{html}{\out{</div>}}
 }
@@ -324,7 +319,7 @@ numbers of samples.
 If set to \code{"micro"}, the individual \link{Prediction} objects are first combined into a single new \link{Prediction} object which is then used to assess the performance.
 The function in \verb{$aggregator} is not used in this case.}
 
-\item{\code{aggregator}}{(\verb{function()})\cr
+\item{\code{aggregator}}{(\verb{function()} | \code{NULL})\cr
 Function to aggregate over multiple iterations. The role of this function depends on
 the value of field \code{"average"}:
 \itemize{
@@ -377,7 +372,7 @@ Label for the new instance.}
 String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
 The referenced help package can be opened via method \verb{$help()}.}
 
-\item{\code{trafo}}{(\code{list()} or \code{NULL})\cr
+\item{\code{trafo}}{(\code{list()} | \code{NULL})\cr
 An optional list with two elements, containing the transformation \code{"fn"} and its derivative \code{"deriv"}.
 The transformation function is the function that is applied after aggregating the pointwise losses, i.e.
 this requires an \verb{$obs_loss} to be present. An example is \code{sqrt} for RMSE.}

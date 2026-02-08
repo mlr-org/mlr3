@@ -254,7 +254,7 @@ Other Learner:
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{state}}{(\code{NULL} | named \code{list()})\cr
+\item{\code{state}}{(named \code{list()} | \code{NULL})\cr
 Current (internal) state of the learner.
 Contains all information gathered during \code{train()} and \code{predict()}.
 It is not recommended to access elements from \code{state} directly.
@@ -406,7 +406,7 @@ Default is \code{c(train = Inf, predict = Inf)}.
 Also see the section on error handling the mlr3book:
 \url{https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling}}
 
-\item{\code{man}}{(\code{character(1)})\cr
+\item{\code{man}}{(\code{character(1)} | \code{NULL})\cr
 String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
 Defaults to \code{NA}, but can be set by child classes.}
 }
