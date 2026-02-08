@@ -175,7 +175,7 @@ The function in <code>$aggregator</code> is not used in this case.</p></dd>
 
 
 <dt><code>aggregator</code></dt>
-<dd><p>(<code>function()</code>)<br>
+<dd><p>(<code>function()</code> | <code>NULL</code>)<br>
 Function to aggregate over multiple iterations. The role of this function depends on
 the value of field <code>"average"</code>:</p><ul><li><p><code>"macro"</code>: A numeric vector of scores (one per iteration) is passed.
 The aggregate function defaults to <code><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean()</a></code> in this case.</p></li>

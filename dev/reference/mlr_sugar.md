@@ -113,7 +113,7 @@ set_validate(learner, validate, ...)
 
 - validate:
 
-  (`numeric(1)`, `"predefined"`, `"test"`, or `NULL`)  
+  (`numeric(1)` \| `"predefined"` \| `"test"` \| `NULL`)  
   Which validation set to use.
 
 ## Value

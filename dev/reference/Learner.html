@@ -252,7 +252,7 @@ for established default tuning spaces.</p></li>
     <div class="section level2">
     <h2 id="public-fields">Public fields<a class="anchor" aria-label="anchor" href="#public-fields"></a></h2>
     <p></p><div class="r6-fields"><dl><dt><code>state</code></dt>
-<dd><p>(<code>NULL</code> | named <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>)<br>
+<dd><p>(named <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code> | <code>NULL</code>)<br>
 Current (internal) state of the learner.
 Contains all information gathered during <code>train()</code> and <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>.
 It is not recommended to access elements from <code>state</code> directly.
@@ -445,7 +445,7 @@ Also see the section on error handling the mlr3book:
 
 
 <dt><code>man</code></dt>
-<dd><p>(<code>character(1)</code>)<br>
+<dd><p>(<code>character(1)</code> | <code>NULL</code>)<br>
 String in the format <code>[pkg]::[topic]</code> pointing to a manual page for this object.
 Defaults to <code>NA</code>, but can be set by child classes.</p></dd>
 

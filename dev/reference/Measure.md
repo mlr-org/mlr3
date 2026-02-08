@@ -130,18 +130,6 @@ Other Measure:
 [`mlr_measures_regr.rsq`](https://mlr3.mlr-org.com/dev/reference/mlr_measures_regr.rsq.md),
 [`mlr_measures_selected_features`](https://mlr3.mlr-org.com/dev/reference/mlr_measures_selected_features.md)
 
-## Public fields
-
-- `trafo`:
-
-  ([`list()`](https://rdrr.io/r/base/list.html) \| `NULL`) `NULL` or a
-  list with two elements:
-
-  - `trafo`: the transformation function applied after aggregating
-    observation-wise losses (e.g. `sqrt` for RMSE)
-
-  - `deriv`: The derivative of the `trafo`.
-
 ## Active bindings
 
 - `predict_sets`:
@@ -309,9 +297,19 @@ Other Measure:
 
 - `man`:
 
-  (`character(1)`)  
+  (`character(1)` \| `NULL`)  
   String in the format `[pkg]::[topic]` pointing to a manual page for
   this object. Defaults to `NA`, but can be set by child classes.
+
+- `trafo`:
+
+  ([`list()`](https://rdrr.io/r/base/list.html) \| `NULL`)  
+  `NULL` or a list with two elements:
+
+  - `fn`: the transformation function applied after aggregating
+    observation-wise losses (e.g. `sqrt` for RMSE)
+
+  - `deriv`: The derivative of the `fn`.
 
 ## Methods
 
@@ -429,7 +427,7 @@ or [MeasureRegr](https://mlr3.mlr-org.com/dev/reference/MeasureRegr.md).
 
 - `aggregator`:
 
-  (`function()`)  
+  (`function()` \| `NULL`)  
   Function to aggregate over multiple iterations. The role of this
   function depends on the value of field `"average"`:
 
@@ -528,7 +526,7 @@ or [MeasureRegr](https://mlr3.mlr-org.com/dev/reference/MeasureRegr.md).
 
 - `trafo`:
 
-  ([`list()`](https://rdrr.io/r/base/list.html) or `NULL`)  
+  ([`list()`](https://rdrr.io/r/base/list.html) \| `NULL`)  
   An optional list with two elements, containing the transformation
   `"fn"` and its derivative `"deriv"`. The transformation function is
   the function that is applied after aggregating the pointwise losses,

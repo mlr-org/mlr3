@@ -127,13 +127,14 @@ duplicated column names lead to an exception.
 
 - `rows`:
 
-  (positive [`integer()`](https://rdrr.io/r/base/integer.html))  
+  (positive [`integer()`](https://rdrr.io/r/base/integer.html) \|
+  `NULL`)  
   Vector or row indices. Always refers to the complete data set, even
   after filtering.
 
 - `cols`:
 
-  ([`character()`](https://rdrr.io/r/base/character.html))  
+  ([`character()`](https://rdrr.io/r/base/character.html) \| `NULL`)  
   Vector of column names.
 
 ------------------------------------------------------------------------
@@ -175,13 +176,14 @@ silently ignored.
 
 - `rows`:
 
-  (positive [`integer()`](https://rdrr.io/r/base/integer.html))  
+  (positive [`integer()`](https://rdrr.io/r/base/integer.html) \|
+  `NULL`)  
   Vector or row indices. Always refers to the complete data set, even
   after filtering.
 
 - `cols`:
 
-  ([`character()`](https://rdrr.io/r/base/character.html))  
+  ([`character()`](https://rdrr.io/r/base/character.html) \| `NULL`)  
   Vector of column names.
 
 - `na_rm`:
@@ -208,13 +210,14 @@ of data. Non-existing rows and columns are silently ignored.
 
 - `rows`:
 
-  (positive [`integer()`](https://rdrr.io/r/base/integer.html))  
+  (positive [`integer()`](https://rdrr.io/r/base/integer.html) \|
+  `NULL`)  
   Vector or row indices. Always refers to the complete data set, even
   after filtering.
 
 - `cols`:
 
-  ([`character()`](https://rdrr.io/r/base/character.html))  
+  ([`character()`](https://rdrr.io/r/base/character.html) \| `NULL`)  
   Vector of column names.
 
 #### Returns

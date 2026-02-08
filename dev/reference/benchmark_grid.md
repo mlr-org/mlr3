@@ -54,7 +54,7 @@ benchmark_grid(
 
 - param_values:
 
-  ([`list()`](https://rdrr.io/r/base/list.html))  
+  ([`list()`](https://rdrr.io/r/base/list.html) \| `NULL`)  
   If you want to try many parameter settings for learners, you can pass
   them through the design which is optimized to be faster than creating
   learners for each setting.

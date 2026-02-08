@@ -288,7 +288,7 @@ Other Learner:
 
 - `state`:
 
-  (`NULL` \| named [`list()`](https://rdrr.io/r/base/list.html))  
+  (named [`list()`](https://rdrr.io/r/base/list.html) \| `NULL`)  
   Current (internal) state of the learner. Contains all information
   gathered during `train()` and
   [`predict()`](https://rdrr.io/r/stats/predict.html). It is not
@@ -526,7 +526,7 @@ Other Learner:
 
 - `man`:
 
-  (`character(1)`)  
+  (`character(1)` \| `NULL`)  
   String in the format `[pkg]::[topic]` pointing to a manual page for
   this object. Defaults to `NA`, but can be set by child classes.
 

@@ -125,12 +125,12 @@ Returns all unique hashes (`uhash` values) of all included
 
 - `view`:
 
-  `character(1)`  
+  (`character(1)` \| `NULL`)  
   Single `uhash` to restrict the results to.
 
 - `view`:
 
-  `character(1)`  
+  (`character(1)` \| `NULL`)  
   Single `uhash` to restrict the results to.
 
 #### Returns
@@ -155,12 +155,12 @@ given view. The `uhash` uniquely identifies an individual
 
 - `view`:
 
-  `character(1)`  
+  (`character(1)` \| `NULL`)  
   Single `uhash` to restrict the results to.
 
 - `view`:
 
-  `character(1)`  
+  (`character(1)` \| `NULL`)  
   Single `uhash` to restrict the results to.
 
 #### Returns
@@ -181,12 +181,12 @@ Returns the number of recorded iterations / experiments.
 
 - `view`:
 
-  `character(1)`  
+  (`character(1)` \| `NULL`)  
   Single `uhash` to restrict the results to.
 
 - `view`:
 
-  `character(1)`  
+  (`character(1)` \| `NULL`)  
   Single `uhash` to restrict the results to.
 
 #### Returns
@@ -208,12 +208,12 @@ Returns a table of included
 
 - `view`:
 
-  `character(1)`  
+  (`character(1)` \| `NULL`)  
   Single `uhash` to restrict the results to.
 
 - `view`:
 
-  `character(1)`  
+  (`character(1)` \| `NULL`)  
   Single `uhash` to restrict the results to.
 
 #### Returns
@@ -238,12 +238,12 @@ Returns a table of included
 
 - `view`:
 
-  `character(1)`  
+  (`character(1)` \| `NULL`)  
   Single `uhash` to restrict the results to.
 
 - `view`:
 
-  `character(1)`  
+  (`character(1)` \| `NULL`)  
   Single `uhash` to restrict the results to.
 
 - `states`:
@@ -286,12 +286,12 @@ reassembling the learners.
 
 - `view`:
 
-  `character(1)`  
+  (`character(1)` \| `NULL`)  
   Single `uhash` to restrict the results to.
 
 - `view`:
 
-  `character(1)`  
+  (`character(1)` \| `NULL`)  
   Single `uhash` to restrict the results to.
 
 ------------------------------------------------------------------------
@@ -309,12 +309,12 @@ Returns a table of included
 
 - `view`:
 
-  `character(1)`  
+  (`character(1)` \| `NULL`)  
   Single `uhash` to restrict the results to.
 
 - `view`:
 
-  `character(1)`  
+  (`character(1)` \| `NULL`)  
   Single `uhash` to restrict the results to.
 
 #### Returns
@@ -341,12 +341,12 @@ objects.
 
 - `view`:
 
-  `character(1)`  
+  (`character(1)` \| `NULL`)  
   Single `uhash` to restrict the results to.
 
 - `view`:
 
-  `character(1)`  
+  (`character(1)` \| `NULL`)  
   Single `uhash` to restrict the results to.
 
 - `predict_sets`:
@@ -412,12 +412,12 @@ objects.
 
 - `view`:
 
-  `character(1)`  
+  (`character(1)` \| `NULL`)  
   Single `uhash` to restrict the results to.
 
 - `view`:
 
-  `character(1)`  
+  (`character(1)` \| `NULL`)  
   Single `uhash` to restrict the results to.
 
 - `predict_sets`:
@@ -480,12 +480,12 @@ Returns additional data stored.
 
 - `view`:
 
-  `character(1)`  
+  (`character(1)` \| `NULL`)  
   Single `uhash` to restrict the results to.
 
 - `view`:
 
-  `character(1)`  
+  (`character(1)` \| `NULL`)  
   Single `uhash` to restrict the results to.
 
 #### Returns
@@ -616,12 +616,12 @@ Combines internal tables into a single flat
 
 - `view`:
 
-  `character(1)`  
+  (`character(1)` \| `NULL`)  
   Single `uhash` to restrict the results to.
 
 - `view`:
 
-  `character(1)`  
+  (`character(1)` \| `NULL`)  
   Single `uhash` to restrict the results to.
 
 - `reassemble_learners`:
@@ -692,12 +692,12 @@ Get a table of recorded learner logs.
 
 - `view`:
 
-  `character(1)`  
+  (`character(1)` \| `NULL`)  
   Single `uhash` to restrict the results to.
 
 - `view`:
 
-  `character(1)`  
+  (`character(1)` \| `NULL`)  
   Single `uhash` to restrict the results to.
 
 - `condition`:
@@ -724,12 +724,12 @@ learners, given they have output a probability prediction.
 
 - `view`:
 
-  `character(1)`  
+  (`character(1)` \| `NULL`)  
   Single `uhash` to restrict the results to.
 
 - `view`:
 
-  `character(1)`  
+  (`character(1)` \| `NULL`)  
   Single `uhash` to restrict the results to.
 
 - `threshold`:

@@ -209,7 +209,8 @@ Defaults to all rows with role `"use"`.
 
 - `rows`:
 
-  (positive [`integer()`](https://rdrr.io/r/base/integer.html))  
+  (positive [`integer()`](https://rdrr.io/r/base/integer.html) \|
+  `NULL`)  
   Vector or row indices. Always refers to the complete data set, even
   after filtering.
 
@@ -234,7 +235,7 @@ property `"twoclass"`/`"multiclass"`.
 
 - `cols`:
 
-  ([`character()`](https://rdrr.io/r/base/character.html))  
+  ([`character()`](https://rdrr.io/r/base/character.html) \| `NULL`)  
   Vector of column names.
 
 #### Returns

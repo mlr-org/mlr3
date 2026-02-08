@@ -321,7 +321,8 @@ performance is added for each
 - `measures`:
 
   ([Measure](https://mlr3.mlr-org.com/dev/reference/Measure.md) \| list
-  of [Measure](https://mlr3.mlr-org.com/dev/reference/Measure.md))  
+  of [Measure](https://mlr3.mlr-org.com/dev/reference/Measure.md) \|
+  `NULL`)  
   Measure(s) to calculate.
 
 - `ids`:
@@ -376,7 +377,8 @@ example taking the square-root.
 - `measures`:
 
   ([Measure](https://mlr3.mlr-org.com/dev/reference/Measure.md) \| list
-  of [Measure](https://mlr3.mlr-org.com/dev/reference/Measure.md))  
+  of [Measure](https://mlr3.mlr-org.com/dev/reference/Measure.md) \|
+  `NULL`)  
   Measure(s) to calculate.
 
 - `predict_sets`:
@@ -407,7 +409,8 @@ according to the respective aggregation function in
 - `measures`:
 
   ([Measure](https://mlr3.mlr-org.com/dev/reference/Measure.md) \| list
-  of [Measure](https://mlr3.mlr-org.com/dev/reference/Measure.md))  
+  of [Measure](https://mlr3.mlr-org.com/dev/reference/Measure.md) \|
+  `NULL`)  
   Measure(s) to calculate.
 
 #### Returns
@@ -789,9 +792,9 @@ rr$set_threshold(0.6)
 #> Key: <uhash, iteration>
 #>                                   uhash iteration      learner_state prediction
 #>                                  <char>     <int>             <list>     <list>
-#> 1: 792b38aa-b542-4ed2-91a3-f0105f4b6243         1 <learner_state[8]>  <list[1]>
-#> 2: 792b38aa-b542-4ed2-91a3-f0105f4b6243         2 <learner_state[8]>  <list[1]>
-#> 3: 792b38aa-b542-4ed2-91a3-f0105f4b6243         3 <learner_state[8]>  <list[1]>
+#> 1: 5abc5a16-167d-4111-9c7d-df925128d2ef         1 <learner_state[8]>  <list[1]>
+#> 2: 5abc5a16-167d-4111-9c7d-df925128d2ef         2 <learner_state[8]>  <list[1]>
+#> 3: 5abc5a16-167d-4111-9c7d-df925128d2ef         3 <learner_state[8]>  <list[1]>
 #>        learner_hash        task_hash    learner_phash  resampling_hash
 #>              <char>           <char>           <char>           <char>
 #> 1: 667ca7804cbe810f 062d5c9e3bac138b a2121f0bf1b9c2f6 fb4fd3525746a553

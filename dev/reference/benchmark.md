@@ -112,8 +112,9 @@ benchmark(
 
 - callbacks:
 
-  (List of
-  [mlr3misc::Callback](https://mlr3misc.mlr-org.com/reference/Callback.html))  
+  (list of
+  [mlr3misc::Callback](https://mlr3misc.mlr-org.com/reference/Callback.html)
+  \| `NULL`)  
   Callbacks to be executed during the resampling process. See
   [CallbackResample](https://mlr3.mlr-org.com/dev/reference/CallbackResample.md)
   and
@@ -244,12 +245,12 @@ bmr = benchmark(design)
 head(as.data.table(bmr))
 #>                                   uhash                   task
 #>                                  <char>                 <list>
-#> 1: ccca210d-2b4d-40fd-bd6d-3e10dbef9d55 <TaskClassif:penguins>
-#> 2: ccca210d-2b4d-40fd-bd6d-3e10dbef9d55 <TaskClassif:penguins>
-#> 3: ccca210d-2b4d-40fd-bd6d-3e10dbef9d55 <TaskClassif:penguins>
-#> 4: 1beb905d-b512-48cf-8e52-9374c3763bc1 <TaskClassif:penguins>
-#> 5: 1beb905d-b512-48cf-8e52-9374c3763bc1 <TaskClassif:penguins>
-#> 6: 1beb905d-b512-48cf-8e52-9374c3763bc1 <TaskClassif:penguins>
+#> 1: 6470fb14-6edd-4c54-9d7d-0217b5cbc9e5 <TaskClassif:penguins>
+#> 2: 6470fb14-6edd-4c54-9d7d-0217b5cbc9e5 <TaskClassif:penguins>
+#> 3: 6470fb14-6edd-4c54-9d7d-0217b5cbc9e5 <TaskClassif:penguins>
+#> 4: 9611a868-f07f-4b00-a56e-80f4e01ab32f <TaskClassif:penguins>
+#> 5: 9611a868-f07f-4b00-a56e-80f4e01ab32f <TaskClassif:penguins>
+#> 6: 9611a868-f07f-4b00-a56e-80f4e01ab32f <TaskClassif:penguins>
 #>                                            learner     resampling iteration
 #>                                             <list>         <list>     <int>
 #> 1: <LearnerClassifFeatureless:classif.featureless> <ResamplingCV>         1

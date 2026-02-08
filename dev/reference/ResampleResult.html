@@ -310,7 +310,7 @@ If <code>measures</code> is <code>NULL</code>, <code>measures</code> defaults to
 <div class="section">
 <h4 id="arguments-5">Arguments<a class="anchor" aria-label="anchor" href="#arguments-5"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>measures</code></dt>
-<dd><p>(<a href="Measure.html">Measure</a> | list of <a href="Measure.html">Measure</a>)<br>
+<dd><p>(<a href="Measure.html">Measure</a> | list of <a href="Measure.html">Measure</a> | <code>NULL</code>)<br>
 Measure(s) to calculate.</p></dd>
 
 
@@ -359,7 +359,7 @@ Note that some measures such as RMSE, do have an <code>$obs_loss</code>, but the
 <div class="section">
 <h4 id="arguments-6">Arguments<a class="anchor" aria-label="anchor" href="#arguments-6"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>measures</code></dt>
-<dd><p>(<a href="Measure.html">Measure</a> | list of <a href="Measure.html">Measure</a>)<br>
+<dd><p>(<a href="Measure.html">Measure</a> | list of <a href="Measure.html">Measure</a> | <code>NULL</code>)<br>
 Measure(s) to calculate.</p></dd>
 
 
@@ -388,7 +388,7 @@ If <code>measures</code> is <code>NULL</code>, <code>measures</code> defaults to
 <div class="section">
 <h4 id="arguments-7">Arguments<a class="anchor" aria-label="anchor" href="#arguments-7"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>measures</code></dt>
-<dd><p>(<a href="Measure.html">Measure</a> | list of <a href="Measure.html">Measure</a>)<br>
+<dd><p>(<a href="Measure.html">Measure</a> | list of <a href="Measure.html">Measure</a> | <code>NULL</code>)<br>
 Measure(s) to calculate.</p></dd>
 
 
@@ -770,9 +770,9 @@ Must be one of <code>"random"</code>, <code>"first"</code> or <code>"last"</code
 <span class="r-out co"><span class="r-pr">#&gt;</span> Key: &lt;uhash, iteration&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                   uhash iteration      learner_state prediction</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                  &lt;char&gt;     &lt;int&gt;             &lt;list&gt;     &lt;list&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 792b38aa-b542-4ed2-91a3-f0105f4b6243         1 &lt;learner_state[8]&gt;  &lt;list[1]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 792b38aa-b542-4ed2-91a3-f0105f4b6243         2 &lt;learner_state[8]&gt;  &lt;list[1]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 792b38aa-b542-4ed2-91a3-f0105f4b6243         3 &lt;learner_state[8]&gt;  &lt;list[1]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 5abc5a16-167d-4111-9c7d-df925128d2ef         1 &lt;learner_state[8]&gt;  &lt;list[1]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 5abc5a16-167d-4111-9c7d-df925128d2ef         2 &lt;learner_state[8]&gt;  &lt;list[1]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 5abc5a16-167d-4111-9c7d-df925128d2ef         3 &lt;learner_state[8]&gt;  &lt;list[1]&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        learner_hash        task_hash    learner_phash  resampling_hash</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              &lt;char&gt;           &lt;char&gt;           &lt;char&gt;           &lt;char&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: 667ca7804cbe810f 062d5c9e3bac138b a2121f0bf1b9c2f6 fb4fd3525746a553</span>

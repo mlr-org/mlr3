@@ -140,7 +140,7 @@ If <code>FALSE</code>, all learners (that need marshaling) are stored in marshal
 
 
 <dt id="arg-callbacks">callbacks<a class="anchor" aria-label="anchor" href="#arg-callbacks"></a></dt>
-<dd><p>(List of <a href="https://mlr3misc.mlr-org.com/reference/Callback.html" class="external-link">mlr3misc::Callback</a>)<br>
+<dd><p>(list of <a href="https://mlr3misc.mlr-org.com/reference/Callback.html" class="external-link">mlr3misc::Callback</a> | <code>NULL</code>)<br>
 Callbacks to be executed during the resampling process.
 See <a href="CallbackResample.html">CallbackResample</a> and <a href="ContextResample.html">ContextResample</a> for details.</p></dd>
 
@@ -251,12 +251,12 @@ or <code>"trace"</code>:</p>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/data.table/man/as.data.table.html" class="external-link">as.data.table</a></span><span class="op">(</span><span class="va">bmr</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                   uhash                   task</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                  &lt;char&gt;                 &lt;list&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: ccca210d-2b4d-40fd-bd6d-3e10dbef9d55 &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: ccca210d-2b4d-40fd-bd6d-3e10dbef9d55 &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: ccca210d-2b4d-40fd-bd6d-3e10dbef9d55 &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4: 1beb905d-b512-48cf-8e52-9374c3763bc1 &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5: 1beb905d-b512-48cf-8e52-9374c3763bc1 &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6: 1beb905d-b512-48cf-8e52-9374c3763bc1 &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 6470fb14-6edd-4c54-9d7d-0217b5cbc9e5 &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 6470fb14-6edd-4c54-9d7d-0217b5cbc9e5 &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 6470fb14-6edd-4c54-9d7d-0217b5cbc9e5 &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4: 9611a868-f07f-4b00-a56e-80f4e01ab32f &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5: 9611a868-f07f-4b00-a56e-80f4e01ab32f &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6: 9611a868-f07f-4b00-a56e-80f4e01ab32f &lt;TaskClassif:penguins&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                            learner     resampling iteration</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                             &lt;list&gt;         &lt;list&gt;     &lt;int&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: &lt;LearnerClassifFeatureless:classif.featureless&gt; &lt;ResamplingCV&gt;         1</span>

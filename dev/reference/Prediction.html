@@ -126,7 +126,7 @@ Set of predict types this object stores.</p></dd>
 
 
 <dt><code>man</code></dt>
-<dd><p>(<code>character(1)</code>)<br>
+<dd><p>(<code>character(1)</code> | <code>NULL</code>)<br>
 String in the format <code>[pkg]::[topic]</code> pointing to a manual page for this object.
 Defaults to <code>NA</code>, but can be set by child classes.</p></dd>
 
@@ -235,7 +235,7 @@ instead all predictions are used.</p><div class="section">
 <div class="section">
 <h4 id="arguments-2">Arguments<a class="anchor" aria-label="anchor" href="#arguments-2"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>measures</code></dt>
-<dd><p>(<a href="Measure.html">Measure</a> | list of <a href="Measure.html">Measure</a>)<br>
+<dd><p>(<a href="Measure.html">Measure</a> | list of <a href="Measure.html">Measure</a> | <code>NULL</code>)<br>
 Measure(s) to calculate.</p></dd>
 
 
@@ -271,7 +271,7 @@ Note that some measures such as RMSE, do have an <code>$obs_loss</code>, but the
 <div class="section">
 <h4 id="arguments-3">Arguments<a class="anchor" aria-label="anchor" href="#arguments-3"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>measures</code></dt>
-<dd><p>(<a href="Measure.html">Measure</a> | list of <a href="Measure.html">Measure</a>)<br>
+<dd><p>(<a href="Measure.html">Measure</a> | list of <a href="Measure.html">Measure</a> | <code>NULL</code>)<br>
 Measure(s) to calculate.</p></dd>
 
 

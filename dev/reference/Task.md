@@ -135,50 +135,6 @@ Other Task:
 [`mlr_tasks_wine`](https://mlr3.mlr-org.com/dev/reference/mlr_tasks_wine.md),
 [`mlr_tasks_zoo`](https://mlr3.mlr-org.com/dev/reference/mlr_tasks_zoo.md)
 
-## Public fields
-
-- `backend`:
-
-  ([DataBackend](https://mlr3.mlr-org.com/dev/reference/DataBackend.md))  
-  Abstract interface to the data of the task.
-
-- `col_info`:
-
-  ([`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html))  
-  Table with with 4 columns, mainly for internal purposes:
-
-  - `"id"` ([`character()`](https://rdrr.io/r/base/character.html))
-    stores the name of the column.
-
-  - `"type"` ([`character()`](https://rdrr.io/r/base/character.html))
-    holds the storage type of the variable, e.g. `integer`, `numeric` or
-    `character`. See
-    [mlr_reflections\$task_feature_types](https://mlr3.mlr-org.com/dev/reference/mlr_reflections.md)
-    for a complete list of allowed types.
-
-  - `"levels"` ([`list()`](https://rdrr.io/r/base/list.html)) stores a
-    vector of distinct values (levels) for ordered and unordered factor
-    variables.
-
-  - `"label"` ([`character()`](https://rdrr.io/r/base/character.html))
-    stores a vector of prettier, formated column names.
-
-  - `"fix_factor_levels"`
-    ([`logical()`](https://rdrr.io/r/base/logical.html)) stores flags
-    which determine if the levels of the respective variable need to be
-    reordered after querying the data from the
-    [DataBackend](https://mlr3.mlr-org.com/dev/reference/DataBackend.md).
-
-  Note that all columns of the
-  [DataBackend](https://mlr3.mlr-org.com/dev/reference/DataBackend.md),
-  also columns which are not selected or have any role, are listed in
-  this table.
-
-- `mlr3_version`:
-
-  (`package_version`)  
-  Package version of `mlr3` used to create the task.
-
 ## Active bindings
 
 - `id`:
@@ -188,7 +144,7 @@ Other Task:
 
 - `internal_valid_task`:
 
-  (`Task` or [`integer()`](https://rdrr.io/r/base/integer.html) or
+  (`Task` \| [`integer()`](https://rdrr.io/r/base/integer.html) \|
   `NULL`)  
   Optional validation task that can, e.g., be used for early stopping
   with learners such as XGBoost. See also the `$validate` field of
@@ -531,7 +487,7 @@ Other Task:
 
 - `man`:
 
-  (`character(1)`)  
+  (`character(1)` \| `NULL`)  
   String in the format `[pkg]::[topic]` pointing to a manual page for
   this object. Defaults to `NA`, but can be set by child classes.
 
@@ -540,6 +496,48 @@ Other Task:
   (named [`list()`](https://rdrr.io/r/base/list.html))  
   Additional arguments set during construction. Required for
   [`convert_task()`](https://mlr3.mlr-org.com/dev/reference/convert_task.md).
+
+- `backend`:
+
+  ([DataBackend](https://mlr3.mlr-org.com/dev/reference/DataBackend.md))  
+  Abstract interface to the data of the task.
+
+- `col_info`:
+
+  ([`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html))  
+  Table with with 4 columns, mainly for internal purposes:
+
+  - `"id"` ([`character()`](https://rdrr.io/r/base/character.html))
+    stores the name of the column.
+
+  - `"type"` ([`character()`](https://rdrr.io/r/base/character.html))
+    holds the storage type of the variable, e.g. `integer`, `numeric` or
+    `character`. See
+    [mlr_reflections\$task_feature_types](https://mlr3.mlr-org.com/dev/reference/mlr_reflections.md)
+    for a complete list of allowed types.
+
+  - `"levels"` ([`list()`](https://rdrr.io/r/base/list.html)) stores a
+    vector of distinct values (levels) for ordered and unordered factor
+    variables.
+
+  - `"label"` ([`character()`](https://rdrr.io/r/base/character.html))
+    stores a vector of prettier, formated column names.
+
+  - `"fix_factor_levels"`
+    ([`logical()`](https://rdrr.io/r/base/logical.html)) stores flags
+    which determine if the levels of the respective variable need to be
+    reordered after querying the data from the
+    [DataBackend](https://mlr3.mlr-org.com/dev/reference/DataBackend.md).
+
+  Note that all columns of the
+  [DataBackend](https://mlr3.mlr-org.com/dev/reference/DataBackend.md),
+  also columns which are not selected or have any role, are listed in
+  this table.
+
+- `mlr3_version`:
+
+  (`package_version`)  
+  Package version of `mlr3` used to create the task.
 
 ## Methods
 
@@ -746,13 +744,14 @@ columns with their respective column name.
 
 - `rows`:
 
-  (positive [`integer()`](https://rdrr.io/r/base/integer.html))  
+  (positive [`integer()`](https://rdrr.io/r/base/integer.html) \|
+  `NULL`)  
   Vector or row indices. Always refers to the complete data set, even
   after filtering.
 
 - `cols`:
 
-  ([`character()`](https://rdrr.io/r/base/character.html))  
+  ([`character()`](https://rdrr.io/r/base/character.html) \| `NULL`)  
   Vector of column names.
 
 - `ordered`:
@@ -858,7 +857,7 @@ update the stored level information, e.g. after subsetting a task with
 
 - `cols`:
 
-  ([`character()`](https://rdrr.io/r/base/character.html))  
+  ([`character()`](https://rdrr.io/r/base/character.html) \| `NULL`)  
   Vector of column names.
 
 #### Returns
@@ -886,7 +885,7 @@ Returns the number of missing observations for columns referenced in
 
 - `cols`:
 
-  ([`character()`](https://rdrr.io/r/base/character.html))  
+  ([`character()`](https://rdrr.io/r/base/character.html) \| `NULL`)  
   Vector of column names.
 
 #### Returns
@@ -915,7 +914,8 @@ mutators for more information.
 
 - `rows`:
 
-  (positive [`integer()`](https://rdrr.io/r/base/integer.html))  
+  (positive [`integer()`](https://rdrr.io/r/base/integer.html) \|
+  `NULL`)  
   Vector or row indices. Always refers to the complete data set, even
   after filtering.
 
@@ -950,7 +950,7 @@ mutators for more information.
 
 - `cols`:
 
-  ([`character()`](https://rdrr.io/r/base/character.html))  
+  ([`character()`](https://rdrr.io/r/base/character.html) \| `NULL`)  
   Vector of column names.
 
 #### Returns
@@ -1245,7 +1245,7 @@ columns with storage type "factor" or "ordered".
 
 - `cols`:
 
-  ([`character()`](https://rdrr.io/r/base/character.html))  
+  ([`character()`](https://rdrr.io/r/base/character.html) \| `NULL`)  
   Vector of column names.
 
 #### Returns

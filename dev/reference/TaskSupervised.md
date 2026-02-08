@@ -173,7 +173,8 @@ Defaults to all rows with role "use".
 
 - `rows`:
 
-  (positive [`integer()`](https://rdrr.io/r/base/integer.html))  
+  (positive [`integer()`](https://rdrr.io/r/base/integer.html) \|
+  `NULL`)  
   Vector or row indices. Always refers to the complete data set, even
   after filtering.
 

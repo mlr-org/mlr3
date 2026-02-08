@@ -83,7 +83,7 @@ Other Prediction:
 
 - `man`:
 
-  (`character(1)`)  
+  (`character(1)` \| `NULL`)  
   String in the format `[pkg]::[topic]` pointing to a manual page for
   this object. Defaults to `NA`, but can be set by child classes.
 
@@ -201,7 +201,8 @@ ignored by this method, instead all predictions are used.
 - `measures`:
 
   ([Measure](https://mlr3.mlr-org.com/dev/reference/Measure.md) \| list
-  of [Measure](https://mlr3.mlr-org.com/dev/reference/Measure.md))  
+  of [Measure](https://mlr3.mlr-org.com/dev/reference/Measure.md) \|
+  `NULL`)  
   Measure(s) to calculate.
 
 - `task`:
@@ -245,7 +246,8 @@ square-root.
 - `measures`:
 
   ([Measure](https://mlr3.mlr-org.com/dev/reference/Measure.md) \| list
-  of [Measure](https://mlr3.mlr-org.com/dev/reference/Measure.md))  
+  of [Measure](https://mlr3.mlr-org.com/dev/reference/Measure.md) \|
+  `NULL`)  
   Measure(s) to calculate.
 
 ------------------------------------------------------------------------
