@@ -125,19 +125,6 @@ Other Measure:
 \code{\link{mlr_measures_selected_features}}
 }
 \concept{Measure}
-\section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{trafo}}{(\code{list()} | \code{NULL})
-\code{NULL} or a list with two elements:
-\itemize{
-\item \code{trafo}: the transformation function applied after aggregating
-observation-wise losses (e.g. \code{sqrt} for RMSE)
-\item \code{deriv}: The derivative of the \code{trafo}.
-}}
-}
-\if{html}{\out{</div>}}
-}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
@@ -244,6 +231,14 @@ These packages are loaded, but not attached.}
 \item{\code{man}}{(\code{character(1)})\cr
 String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
 Defaults to \code{NA}, but can be set by child classes.}
+
+\item{\code{trafo}}{(\code{list()} | \code{NULL})\cr
+\code{NULL} or a list with two elements:
+\itemize{
+\item \code{fn}: the transformation function applied after aggregating
+observation-wise losses (e.g. \code{sqrt} for RMSE)
+\item \code{deriv}: The derivative of the \code{fn}.
+}}
 }
 \if{html}{\out{</div>}}
 }

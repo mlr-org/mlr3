@@ -230,32 +230,6 @@ Other Task:
 \code{\link{mlr_tasks_zoo}}
 }
 \concept{Task}
-\section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{backend}}{(\link{DataBackend})\cr
-Abstract interface to the data of the task.}
-
-\item{\code{col_info}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
-Table with with 4 columns, mainly for internal purposes:
-\itemize{
-\item \code{"id"} (\code{character()}) stores the name of the column.
-\item \code{"type"} (\code{character()}) holds the storage type of the variable, e.g. \code{integer}, \code{numeric} or \code{character}.
-See \link[=mlr_reflections]{mlr_reflections$task_feature_types} for a complete list of allowed types.
-\item \code{"levels"} (\code{list()}) stores a vector of distinct values (levels) for ordered and unordered factor variables.
-\item \code{"label"} (\code{character()}) stores a vector of prettier, formated column names.
-\item \code{"fix_factor_levels"} (\code{logical()}) stores flags which determine if the levels of the respective variable
-need to be reordered after querying the data from the \link{DataBackend}.
-}
-
-Note that all columns of the \link{DataBackend}, also columns which are not selected or have any role, are listed
-in this table.}
-
-\item{\code{mlr3_version}}{(\code{package_version})\cr
-Package version of \code{mlr3} used to create the task.}
-}
-\if{html}{\out{</div>}}
-}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
@@ -474,6 +448,27 @@ Defaults to \code{NA}, but can be set by child classes.}
 \item{\code{extra_args}}{(named \code{list()})\cr
 Additional arguments set during construction.
 Required for \code{\link[=convert_task]{convert_task()}}.}
+
+\item{\code{backend}}{(\link{DataBackend})\cr
+Abstract interface to the data of the task.}
+
+\item{\code{col_info}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
+Table with with 4 columns, mainly for internal purposes:
+\itemize{
+\item \code{"id"} (\code{character()}) stores the name of the column.
+\item \code{"type"} (\code{character()}) holds the storage type of the variable, e.g. \code{integer}, \code{numeric} or \code{character}.
+See \link[=mlr_reflections]{mlr_reflections$task_feature_types} for a complete list of allowed types.
+\item \code{"levels"} (\code{list()}) stores a vector of distinct values (levels) for ordered and unordered factor variables.
+\item \code{"label"} (\code{character()}) stores a vector of prettier, formated column names.
+\item \code{"fix_factor_levels"} (\code{logical()}) stores flags which determine if the levels of the respective variable
+need to be reordered after querying the data from the \link{DataBackend}.
+}
+
+Note that all columns of the \link{DataBackend}, also columns which are not selected or have any role, are listed
+in this table.}
+
+\item{\code{mlr3_version}}{(\code{package_version})\cr
+Package version of \code{mlr3} used to create the task.}
 }
 \if{html}{\out{</div>}}
 }
