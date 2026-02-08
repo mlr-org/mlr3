@@ -867,7 +867,7 @@ test_that("error conditions are working: callr", {
 
   expect_error(l$train(tsk("iris")), regexp = "reached elapsed time limit")
   l$configure(error_train = 1, sleep_train = NULL, timeout = c(train = Inf, predict = Inf))
-  expect_error(l$train(tsk("iris")), regexp = NA)
+  expect_learner(l$train(tsk("iris")))
 })
 
 test_that("error conditions are working: evaluate", {
@@ -890,12 +890,23 @@ test_that("error conditions are working: evaluate", {
 
   expect_error(l$train(tsk("iris")), regexp = "reached elapsed time limit")
   l$configure(error_train = 1, sleep_train = NULL, timeout = c(train = Inf, predict = Inf))
-  expect_error(l$train(tsk("iris")), regexp = NA)
+  expect_learner(l$train(tsk("iris")))
 })
 
 test_that("error conditions are working: try", {
   # no runtime test on CRAN
   skip_on_cran()
+
+  # try encapsulation prints to console
+  null_con = file(nullfile(), open = "wt")
+  sink(null_con, type = "message")
+  sink(null_con, type = "output")
+
+  on.exit({
+    sink(type = "message")
+    sink(type = "output")
+    close(null_con)
+  })
 
   l = lrn("classif.debug",
     timeout = c(train = 0.01),
@@ -911,9 +922,9 @@ test_that("error conditions are working: try", {
     }
   )
 
-  expect_error(l$train(tsk("iris")), regexp = "reached elapsed time limit")
+  expect_error(l$train(tsk("iris")), class = "Mlr3ErrorTimeout")
   l$configure(error_train = 1, sleep_train = NULL, timeout = c(train = Inf, predict = Inf))
-  expect_error(l$train(tsk("iris")), regexp = NA)
+  expect_learner(l$train(tsk("iris")))
 })
 
 test_that("error conditions are working: mirai", {
@@ -936,7 +947,7 @@ test_that("error conditions are working: mirai", {
 
   expect_error(l$train(tsk("iris")), regexp = "reached elapsed time limit")
   l$configure(error_train = 1, sleep_train = NULL, timeout = c(train = Inf, predict = Inf))
-  expect_error(l$train(tsk("iris")), regexp = NA)
+  expect_learner(l$train(tsk("iris")))
 })
 
 test_that("error conditions are working for predict", {
@@ -970,7 +981,6 @@ test_that("when: stage parameter is working", {
 
   # we catch error during train, but not during predict
   l$encapsulate("evaluate", lrn("classif.featureless"), function(cond, stage) {
-    print(cond)
     if (inherits(cond, "Mlr3TestError")) return(stage == "train")
     if (stage == "predict" && grepl("No model stored", cond$message)) return(FALSE)
     stop("test went wrong")
