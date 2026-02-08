@@ -61,6 +61,7 @@ assert_task = function(task, task_type = NULL, feature_types = NULL, task_proper
 #' @param tasks (list of [Task]).
 #' @rdname mlr_assertions
 assert_tasks = function(tasks, task_type = NULL, feature_types = NULL, task_properties = NULL, .var.name = vname(tasks)) {
+  assert_list(tasks, types = "Task")
   invisible(lapply(tasks, assert_task, task_type = task_type, feature_types = feature_types, task_properties = task_properties, .var.name = .var.name))
 }
 
@@ -108,6 +109,7 @@ test_matching_task_type = function(task_type, object, class) {
 #' @param learners (list of [Learner]).
 #' @rdname mlr_assertions
 assert_learners = function(learners, task = NULL, task_type = NULL, properties = character(), unique_ids = FALSE, .var.name = vname(learners)) {
+  assert_list(learners, types = "Learner")
   if (unique_ids) {
     ids = map_chr(learners, "id")
     if (!test_character(ids, unique = TRUE)) {
@@ -311,6 +313,7 @@ assert_scorable = function(measure, task, learner, prediction = NULL, .var.name 
 #' @param measures (list of [Measure]).
 #' @rdname mlr_assertions
 assert_measures = function(measures, task = NULL, learner = NULL, .var.name = vname(measures)) {
+  assert_list(measures, types = "Measure")
   lapply(measures, assert_measure, task = task, learner = learner, .var.name = .var.name)
   if (anyDuplicated(ids(measures))) {
     error_input("Measures need to have unique IDs")
@@ -341,6 +344,7 @@ assert_resampling = function(resampling, instantiated = NULL, .var.name = vname(
 #' @param resamplings (list of [Resampling]).
 #' @rdname mlr_assertions
 assert_resamplings = function(resamplings, instantiated = NULL, .var.name = vname(resamplings)) {
+  assert_list(resamplings, types = "Resampling")
   invisible(lapply(resamplings, assert_resampling, instantiated = instantiated, .var.name = .var.name))
 }
 
