@@ -897,6 +897,7 @@ test_that("error conditions are working: try", {
   # no runtime test on CRAN
   skip_on_cran()
 
+  # try encapsulation prints to console
   null_con = file(nullfile(), open = "wt")
   sink(null_con, type = "message")
   sink(null_con, type = "output")
