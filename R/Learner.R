@@ -864,6 +864,8 @@ Learner = R6Class("Learner",
       if (missing(rhs)) {
         return(private$.packages)
       }
+      # workaround for mlr3torch
+      if (is.null(rhs)) rhs = character(0)
       private$.packages = union("mlr3", assert_character(rhs, any.missing = FALSE, min.chars = 1L))
     },
 
