@@ -21,7 +21,7 @@ test_that("evaluate / single step", {
   expect_silent(enable_encapsulation(learner)$train(task, row_ids))
   log = learner$log
   expect_data_table(log)
-  expect_data_table(log, nrows = 2L, ncols = 3L, any.missing = FALSE)
+  expect_data_table(log, nrows = 2L, ncols = 4L, any.missing = FALSE)
   expect_factor(log$class)
   expect_set_equal(as.character(log$class), c("output", "warning"))
   expect_match(log$msg, "->train()", fixed = TRUE)
@@ -37,7 +37,7 @@ test_that("evaluate / single step", {
   p = enable_encapsulation(learner)$predict(task, row_ids = 101:150)
   log = learner$log[stage == "predict"]
   expect_data_table(log)
-  expect_data_table(log, nrows = 2L, ncols = 3L, any.missing = FALSE)
+  expect_data_table(log, nrows = 2L, ncols = 4L, any.missing = FALSE)
   expect_factor(log$class)
   expect_equal(as.character(log$class), c("output", "warning"))
   expect_match(log$msg, "->predict()",  fixed = TRUE)
