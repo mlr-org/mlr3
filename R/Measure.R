@@ -108,8 +108,8 @@ Measure = R6Class("Measure",
       private$.minimize = assert_flag(minimize, na.ok = TRUE)
       private$.average = assert_choice(average, c("micro", "macro", "custom", "macro_weighted"))
       private$.aggregator = assert_function(aggregator, null.ok = TRUE)
-      private$.trafo = assert_list(trafo, len = 2L, types = "function", null.ok = TRUE)
-      if (!is.null(private$.trafo)) {
+      private$.trafo_fun = assert_list(trafo, len = 2L, types = "function", null.ok = TRUE)
+      if (!is.null(private$.trafo_fun)) {
         assert_permutation(names(trafo), c("fn", "deriv"))
       }
 
@@ -503,13 +503,13 @@ Measure = R6Class("Measure",
     #' * `deriv`: The derivative of the `fn`.
     trafo = function(rhs) {
       if (missing(rhs)) {
-        return(private$.trafo)
+        return(private$.trafo_fun)
       }
       rhs = assert_list(rhs, len = 2L, types = "function", null.ok = TRUE)
       if (!is.null(rhs)) {
         assert_permutation(names(rhs), c("fn", "deriv"))
       }
-      private$.trafo = rhs
+      private$.trafo_fun = rhs
     }
   ),
 
@@ -525,7 +525,8 @@ Measure = R6Class("Measure",
     .minimize = NULL,
     .packages = NULL,
     .man = NULL,
-    .trafo = NULL,
+    # NB: .trafo is already taken by mlr3inferr
+    .trafo_fun = NULL,
     .properties = character(),
     .predict_sets = NULL,
     .extra_hash = character(),
