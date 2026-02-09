@@ -518,9 +518,6 @@ check_replicable = function(task, learner, seed, first_prediction, configure_lea
   TRUE
 }
 
-
-# -- Core experiment -----------------------------------------------------------
-
 #' @title Run a Single Learner Test
 #'
 #' @description
