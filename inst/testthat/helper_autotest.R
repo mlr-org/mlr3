@@ -629,26 +629,14 @@ run_experiment = function(task, learner, seed = NULL, configure_learner = NULL) 
   if (prediction$task_type != learner$task_type) {
     return(err("learner and prediction have different task_type"))
   }
-
-  # catch for mlr3proba tasks, which all return every possible predict type
-  if (!(learner$task_type %in% c("dens", "surv"))) {
-    expected = mlr3::mlr_reflections$learner_predict_types[[learner$task_type]][[learner$predict_type]]
-    msg = checkmate::check_subset(expected, prediction$predict_types, empty.ok = FALSE)
-    if (!isTRUE(msg)) {
-      return(err(msg))
-    }
-
-    if (learner$predict_type == "response") {
-      msg = checkmate::check_set_equal(learner$predict_type, prediction$predict_types)
-      if (!isTRUE(msg)) {
-        return(err(msg))
-      }
-    } else {
-      msg = checkmate::check_subset(learner$predict_type, prediction$predict_types, empty.ok = FALSE)
-      if (!isTRUE(msg)) {
-        return(err(msg))
-      }
-    }
+  expected = mlr3::mlr_reflections$learner_predict_types[[learner$task_type]][[learner$predict_type]]
+  msg = checkmate::check_subset(prediction$predict_types, expected, empty.ok = FALSE)
+  if (!isTRUE(msg)) {
+    return(err(msg))
+  }
+  msg = checkmate::check_subset(learner$predict_type, prediction$predict_types)
+  if (!isTRUE(msg)) {
+    return(err(msg))
   }
 
   # check score
