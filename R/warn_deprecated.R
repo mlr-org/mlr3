@@ -10,7 +10,7 @@
 #' The warning is of the format
 #' "what is deprecated and will be removed in the future."
 #'
-#' Use the 'deprecated_binding()' helper function to create an active binding
+#' Use the 'deprecated_binding_old()' helper function to create an active binding
 #' that generates a warning when accessed.
 #' @param what (character(1))\cr
 #'   A description of the deprecated entity. This should be somewhat descriptive,
@@ -19,7 +19,7 @@
 #'   it should be unique for each deprecated entity.
 #' @keywords internal
 #' @export
-warn_deprecated = function(what) {
+warn_deprecated_old = function(what) {
   assert_string(what)
   if (getOption("mlr3.warn_deprecated", TRUE) && !exists(what, envir = deprecated_warning_given_db)) {
     warning(paste0(what, " is deprecated and will be removed in the future."))
@@ -33,7 +33,7 @@ deprecated_warning_given_db = new.env(parent = emptyenv())
 #'
 #' @description
 #' Creates an active binding that generates a warning when accessed, using
-#' `warn_deprecated()`. The active binding will otherwise be read-only.
+#' `warn_deprecated_old()`. The active binding will otherwise be read-only.
 #'
 #' @param what (character(1))\cr
 #'   A description of the deprecated binding. Should be of the form `"Class$field"`.
@@ -44,21 +44,21 @@ deprecated_warning_given_db = new.env(parent = emptyenv())
 #' @examples
 #' MyClass = R6::R6Class("MyClass", public = list(),
 #'   active = list(
-#'     foo = deprecated_binding("MyClass$foo", "bar")
+#'     foo = deprecated_binding_old("MyClass$foo", "bar")
 #'   )
 #' )
 #' mco = MyClass$new()
 #' mco$foo
 #' @keywords internal
 #' @export
-deprecated_binding = function(what, value) {
+deprecated_binding_old = function(what, value) {
   assert_string(what)
   # build the function-expression that should be evaluated in the parent frame.
   fnq = substitute(function(rhs) {
       # don't throw a warning if we are converting the R6-object to a list, e.g.
       # when all.equals()-ing it.
       if (!identical(sys.call(-1)[[1]], quote(as.list.environment))) {
-        warn_deprecated(what)
+        warn_deprecated_old(what)
       }
       ## 'value' could be an expression that gets substituted here, which we only want to evaluate once
       x = value
