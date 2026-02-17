@@ -1501,13 +1501,13 @@ task_check_col_roles.Task = function(task, new_roles, ...) {
 
   # check offset
   if (length(new_roles[["offset"]]) && any(fget_keys(task$col_info, new_roles[["offset"]], "type", key = "id") %nin% c("numeric", "integer"))) {
-    error_input("Offset column(s) %s must be a numeric or integer column", paste0("'", new_roles[["offset"]], "'", collapse = ","))
+    error_input("Offset column(s) %s must be a numeric or integer column", paste0("'", new_roles[["offset"]], "'", collapse = ", "))
   }
 
   if (length(new_roles[["offset"]]) && any(task$missings(cols = new_roles[["offset"]]) > 0)) {
     missings = task$missings(cols = new_roles[["offset"]])
     missings = names(missings[missings > 0])
-    error_input("Offset column(s) %s contain missing values", paste0("'", missings, "'", collapse = ","))
+    error_input("Offset column(s) %s contain missing values", paste0("'", missings, "'", collapse = ", "))
   }
 
   new_roles
@@ -1523,7 +1523,7 @@ task_check_col_roles.TaskClassif = function(task, new_roles, ...) {
   }
 
   if (length(new_roles[["target"]]) && any(fget_keys(task$col_info, new_roles[["target"]], "type", key = "id") %nin% c("factor", "ordered"))) {
-    error_input("Target column(s) %s must be a factor or ordered factor", paste0("'", new_roles[["target"]], "'", collapse = ","))
+    error_input("Target column(s) '%s' must be a factor or ordered factor", new_roles[["target"]])
   }
 
   if (length(new_roles[["offset"]]) > 1L && length(task$class_names) == 2L) {
@@ -1548,7 +1548,7 @@ task_check_col_roles.TaskRegr = function(task, new_roles, ...) {
   }
 
   if (length(new_roles[["target"]]) && any(fget_keys(task$col_info, new_roles[["target"]], "type", key = "id") %nin% c("numeric", "integer"))) {
-    error_input("Target column '%s' must be a numeric or integer column", paste0("'", new_roles[["target"]], "'", collapse = ","))
+    error_input("Target column '%s' must be a numeric or integer column", new_roles[["target"]])
   }
 
   NextMethod()
