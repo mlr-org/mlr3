@@ -1,6 +1,13 @@
 # mlr3 1.4.0
 
 * feat: Add `$native_model` active binding to `Learner` to access the model from the upstream package.
+* feat: Learner store the condition of warnings and errors in the `log` field.
+* feat: No supervised tasks with missing target values are allowed anymore.
+* refactor: Validate the input of fields.
+* fix: Assert list input in `assert_learners`, `assert_tasks`, `assert_measures` and `assert_resamplings`.
+* fix: `convert_task` converts the internal validation task now.
+* fix: disable printing of class ratios for large tasks.
+* fix: Make quantiles resettable.
 
 # mlr3 1.3.0
 
