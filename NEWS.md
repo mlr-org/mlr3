@@ -1,4 +1,4 @@
-# mlr3 (development version)
+# mlr3 1.4.0
 
 * feat: Add `$native_model` active binding to `Learner` to access the model from the upstream package.
 
