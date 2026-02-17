@@ -178,7 +178,7 @@ This happens automatically during `resample()` and `benchmark()`.
 # mlr3 0.17.0
 
 * Learners cannot be added to the `HotstartStack` anymore when the model is missing.
-* Learners bellow the `hotstart_threshold` are not added to the `HotstartStack` anymore.
+* Learners below the `hotstart_threshold` are not added to the `HotstartStack` anymore.
 * The `learner$state$train_time` in hotstarted learners is now only the time of the last training.
 * Added debug messages to the hotstart stack.
 * Fixed bug where the `HotstartStack` did not work with column roles set in the task.
@@ -247,10 +247,10 @@ This happens automatically during `resample()` and `benchmark()`.
 
 * Most objects now have a new (optional) field `label`, i.e. `Task`,
   `TaskGenerator`, `Learner`, `Resampling`, and `Measure`.
-* `as.data.table()` methods for objects of class `Dictonary` have been extended
+* `as.data.table()` methods for objects of class `Dictionary` have been extended
   with additional columns.
 * `as_task_classif.formula()` and `as_task_regr.formula()` now remove additional
-  atrributes attached to the data which caused some some learners to break.
+  attributes attached to the data which caused some learners to break.
 * Packages are now loaded prior to calling the `$train()` and `$predict()`
   methods of a `Learner`. This ensures that package loading errors are properly
   propagated and not affected by encapsulation (#771).

@@ -96,7 +96,7 @@ If \code{NULL} (default), all parameters are checked.
 
 
 Checks various properties that learners have to satisfy.
-Used for testing learner implementations, especially if all methods and fields are implement as document.
+Used for testing learner implementations, especially if all methods and fields are implemented as documented.
 
 \strong{Parameters}
 \itemize{

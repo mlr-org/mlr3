@@ -10,7 +10,7 @@ Data backends provide a layer of abstraction for various data storage systems.
 It is not recommended to work directly with the DataBackend.
 Instead, all data access is handled transparently via the \link{Task}.
 
-This package currently shups with one implementation for backends:
+This package currently ships with one implementation for backends:
 \itemize{
 \item \link{DataBackendDataTable} which stores the data as \code{\link[data.table:data.table]{data.table::data.table()}}.
 }

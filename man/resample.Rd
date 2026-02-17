@@ -155,7 +155,7 @@ task = tsk("penguins")
 learner = lrn("classif.rpart")
 resampling = rsmp("cv")
 
-# Explicitly instantiate the resampling for this task for reproduciblity
+# Explicitly instantiate the resampling for this task for reproducibility
 set.seed(123)
 resampling$instantiate(task)
 

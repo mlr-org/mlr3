@@ -501,7 +501,7 @@ test_that("internal_valid_task is created correctly", {
   expect_null(task$internal_valid_task)
 })
 
-test_that("compatability check on validation task", {
+test_that("compatibility check on validation task", {
   learner = lrn("classif.debug", validate = "predefined")
   task = tsk("german_credit")
   task$internal_valid_task = 1:10
