@@ -38,6 +38,7 @@ jobs:
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      RUSH_TEST_USE_REDIS: true # tests are allowed to use Redis
       TARGET_PKG_DIR: mlr3
 
     strategy:
