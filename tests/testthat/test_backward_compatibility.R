@@ -1,7 +1,6 @@
 skip_if(Sys.getenv("GITHUB_ACTIONS") != "true", "Not on GitHub Actions")
 skip_if(!identical(Sys.getenv("BRANCH_NAME"), "release"), "Not in release branch")
 github_path = Sys.getenv("GITHUB_WORKSPACE")
-github_path = "."
 
 test_that("task classif backward compatibility", {
   task = readRDS(file.path(github_path, "tests", "testthat", "_object_snapshots", "task_classif.rds"))
