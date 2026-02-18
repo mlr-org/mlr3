@@ -1,0 +1,87 @@
+# Reverse dependency check workflow for the mlr3 ecosystem (v0.1.0)
+# To check a different target package, change `TARGET_PKG_DIR` in `jobs.revdep-check.env`.
+# To check different reverse dependencies (for example, mlr3tuning), update `strategy.matrix.include`.
+# Source: https://github.com/mlr-org/actions
+
+on:
+  workflow_dispatch:
+    inputs:
+      debug_enabled:
+        type: boolean
+        description: 'Run the build with tmate debugging enabled'
+        required: false
+        default: false
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+name: revdep-check
+
+jobs:
+  revdep-check:
+    runs-on: ubuntu-latest
+    services:
+      redis:
+        image: redis
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
+
+    name: ${{ matrix.package }}
+
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      TARGET_PKG_DIR: mlr3
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {package: mlr-org/mlr3learners, ref: main}
+          - {package: mlr-org/bbotk, ref: main}
+          - {package: mlr-org/mlr3tuning, ref: main}
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          path: ${{ env.TARGET_PKG_DIR }}
+
+      - uses: actions/checkout@v3
+        with:
+          repository: ${{ matrix.package }}
+          ref: ${{ matrix.ref }}
+          path: revdep-pkg
+
+      - uses: r-lib/actions/setup-pandoc@v2
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: release
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: any::rcmdcheck
+          needs: check
+          working-directory: revdep-pkg
+
+      - name: Install target package from source
+        run: R CMD INSTALL "${{ env.TARGET_PKG_DIR }}"
+        shell: bash
+
+      - uses: mxschmitt/action-tmate@v3
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.debug_enabled }}
+        with:
+          limit-access-to-actor: true
+
+      - uses: r-lib/actions/check-r-package@v2
+        with:
+          args: 'c("--no-manual")'
+          working-directory: revdep-pkg
+          error-on: '"note"'
