@@ -26,7 +26,7 @@ test_that("autotest catches error in predict", {
   expect_string(result$error)
 })
 
-test_that("autotest recognizes learner that does not use .get_weights()", {
+test_that("check_weights recognizes learner that does not use .get_weights()", {
   learner = R6Class("learner", inherit = LearnerClassifDebug, private = list(
     .train = function(task) {
       structure(
@@ -38,7 +38,7 @@ test_that("autotest recognizes learner that does not use .get_weights()", {
 
   task = tsk("spam")
 
-  result = run_experiment(task, learner)
+  result = check_weights(learner, task)
   expect_false(result$ok)
   expect_string(result$error, pattern = "get_weights was not called")
 })
@@ -62,7 +62,8 @@ test_that("autotest configure_learner works", {
   expect_equal(learner$param_set$values$error_train, 1)
 })
 
-test_that("autotest on marshal / unmarshal", {
+test_that("check_marshaling detects broken marshal / unmarshal", {
+  # broken marshal: does nothing
   learner = R6Class(
     "learner_broken_marshal",
     inherit = LearnerClassifDebug,
@@ -74,12 +75,13 @@ test_that("autotest on marshal / unmarshal", {
     )
   )$new()
 
-  task = tsk("spam")$clone(deep = TRUE)
-  task$id = "feat_all_spam"
-  result = run_experiment(task, learner)
+  task = tsk("spam")
+  suppressWarnings(learner$train(task))
+  result = check_marshaling(learner, task)
   expect_false(result$ok)
   expect_string(result$error, pattern = "marshal")
 
+  # broken marshal: missing "marshaled" class
   learner = R6Class(
     "learner_broken_marshal_class",
     inherit = LearnerClassifDebug,
@@ -94,13 +96,13 @@ test_that("autotest on marshal / unmarshal", {
     )
   )$new()
 
-  task = tsk("spam")$clone(deep = TRUE)
-  task$id = "feat_all_spam"
-  result = run_experiment(task, learner)
+  task = tsk("spam")
+  suppressWarnings(learner$train(task))
+  result = check_marshaling(learner, task)
   expect_false(result$ok)
   expect_string(result$error, pattern = "marshal")
 
-
+  # broken unmarshal: does nothing
   learner = R6Class(
     "learner_broken_marshal",
     inherit = LearnerClassifDebug,
@@ -112,12 +114,13 @@ test_that("autotest on marshal / unmarshal", {
     )
   )$new()
 
-  task = tsk("spam")$clone(deep = TRUE)
-  task$id = "feat_all_spam"
-  result = run_experiment(task, learner)
+  task = tsk("spam")
+  suppressWarnings(learner$train(task))
+  result = check_marshaling(learner, task)
   expect_false(result$ok)
   expect_string(result$error, pattern = "unmarshal")
 
+  # broken predict after unmarshal
   learner = R6Class(
     "learner_broken_marshal",
     inherit = LearnerClassifDebug,
@@ -133,17 +136,17 @@ test_that("autotest on marshal / unmarshal", {
   )$new()
   learner$param_set$set_values(count_marshaling = TRUE)
 
-  task = tsk("spam")$clone(deep = TRUE)
-  task$id = "feat_all_spam"
-  result = run_experiment(task, learner)
+  task = tsk("spam")
+  suppressWarnings(learner$train(task))
+  result = check_marshaling(learner, task)
   expect_false(result$ok)
   expect_string(result$error, pattern = "unmarshaled model is broken")
 })
 
-test_that("autotest on encapsulation", {
+test_that("check_encapsulation detects errors", {
   # error in train
   learner1 = R6Class(
-      "learner_broken_marshal",
+      "learner_broken_encaps",
       inherit = LearnerClassifDebug,
       private = list(
         .train = function(task) {
@@ -155,11 +158,10 @@ test_that("autotest on encapsulation", {
       )
     )$new()
     task = tsk("spam")
-    task$id = "feat_all_spam"
 
     with_mirai({
       mirai::everywhere({Sys.setenv(in_mirai = "TRUE")}, .compute = "mlr3_encapsulation")
-      result = run_experiment(task, learner1)
+      result = check_encapsulation(learner1, task)
     }, compute = "mlr3_encapsulation")
 
     expect_false(result$ok)
@@ -167,7 +169,7 @@ test_that("autotest on encapsulation", {
 
   # error in predict
   learner2 = R6Class(
-    "learner_broken_marshal",
+    "learner_broken_encaps",
     inherit = LearnerClassifDebug,
     private = list(
       .predict = function(task) {
@@ -180,11 +182,10 @@ test_that("autotest on encapsulation", {
   )$new()
 
   task = tsk("spam")
-  task$id = "feat_all_spam"
 
   with_mirai({
     mirai::everywhere({Sys.setenv(in_mirai = "TRUE")}, .compute = "mlr3_encapsulation")
-    result = run_experiment(task, learner2)
+    result = check_encapsulation(learner2, task)
   }, compute = "mlr3_encapsulation")
 
   expect_false(result$ok)
@@ -192,7 +193,7 @@ test_that("autotest on encapsulation", {
 
   # access on state
   learner3 = R6Class(
-    "learner_broken_marshal",
+    "learner_broken_encaps",
     inherit = LearnerClassifDebug,
     private = list(
       .predict = function(task) {
@@ -206,11 +207,10 @@ test_that("autotest on encapsulation", {
   )$new()
 
   task = tsk("spam")
-  task$id = "feat_all_spam"
 
   with_mirai({
     mirai::everywhere({Sys.setenv(in_mirai = "TRUE")}, .compute = "mlr3_encapsulation")
-    result = run_experiment(task, learner3)
+    result = check_encapsulation(learner3, task)
   }, compute = "mlr3_encapsulation")
 
   expect_false(result$ok)

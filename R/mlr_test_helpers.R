@@ -18,10 +18,8 @@
 #' This function runs a Learner's automatic test suite.
 #'
 #' During the autotests, multiple tasks are generated depending on the properties of the learner.
-#' The `run_autotest()` function then trains the learner on each task and predicts with all supported predict types.
-#' (see argument `predict_types`).
-#' To debug, simply run `result = run_autotest(learner)` and proceed with investigating
-#' the task, learner and prediction of the returned `result`.
+#' The `run_autotest()` function then trains the learner on each task and predicts with all supported predict types (see argument `predict_types`).
+#' To debug, simply run `result = run_autotest(learner)` and proceed with investigating the task, learner and prediction of the returned `result`.
 #'
 #' For example usages you can look at the autotests in various mlr3 source repositories such as mlr3learners.
 #' More information can be found in the `inst/testthat/autotest.R` file.
@@ -49,6 +47,20 @@
 #' `mirai::daemons(1, .compute = "mlr3_encapsulation")` in `tests/testthat/setup.R`.
 #' After the tests complete, stop them with
 #' `mirai::daemons(0, .compute = "mlr3_encapsulation")` in `tests/testthat/teardown.R`.
+#'
+#' **Check Functions**:
+#'
+#' The following capability checks are run by `run_autotest()`:
+#'
+#' * `check_reorder()`: Checks that reordering features does not change predictions.
+#' * `check_importance()`: Checks that the learner correctly implements `$importance()`.
+#' * `check_selected_features()`: Checks that the learner correctly implements `$selected_features()`.
+#' * `check_oob_error()`: Checks that the learner correctly implements `$oob_error()`.
+#' * `check_predict_newdata_fast()`: Checks that the learner correctly implements `$predict_newdata_fast()`.
+#' * `check_marshaling()`: Checks that the learner correctly implements `$marshaling()`.
+#' * `check_encapsulation()`: Checks that the learner correctly implements `$encapsulation()`.
+#'
+#' These are S3 methods that can be specialized by extension packages to handle learner-type-specific exceptions.
 #'
 #' @section run_paramtest():
 #'
