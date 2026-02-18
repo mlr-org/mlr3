@@ -1,24 +1,24 @@
 
 
-test_that("warn_deprecated works as expected", {
+test_that("warn_deprecated_old works as expected", {
 
   oldopts = options(mlr3.warn_deprecated = TRUE)
-  expect_warning(warn_deprecated("test"), "^test is deprecated and will be removed in the future\\.$")
-  expect_no_warning(warn_deprecated("test")) # no second warning
+  expect_warning(warn_deprecated_old("test"), "^test is deprecated and will be removed in the future\\.$")
+  expect_no_warning(warn_deprecated_old("test")) # no second warning
 
   oldopts = options(mlr3.warn_deprecated = FALSE)
-  expect_no_warning(warn_deprecated("test2")) # no warning when options disallow it
+  expect_no_warning(warn_deprecated_old("test2")) # no warning when options disallow it
 
   options(oldopts)
 })
 
-test_that("deprecated_binding works as expected", {
+test_that("deprecated_binding_old works as expected", {
 
   oldopts = options(mlr3.warn_deprecated = TRUE)
   MyClass = R6::R6Class("MyClass", public = list(val = 1),
     active = list(
-      foo = deprecated_binding("MyClass$foo", "bar"),
-      foo2 = deprecated_binding("MyClass$foo2", self$val)
+      foo = deprecated_binding_old("MyClass$foo", "bar"),
+      foo2 = deprecated_binding_old("MyClass$foo2", self$val)
     ),
   )
   mco = MyClass$new()
