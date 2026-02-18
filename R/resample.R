@@ -38,7 +38,7 @@
 #' learner = lrn("classif.rpart")
 #' resampling = rsmp("cv")
 #'
-#' # Explicitly instantiate the resampling for this task for reproduciblity
+#' # Explicitly instantiate the resampling for this task for reproducibility
 #' set.seed(123)
 #' resampling$instantiate(task)
 #'
@@ -159,7 +159,7 @@ resample = function(
   result_data = ResultData$new(data, data_extra, store_backends = store_backends)
 
   # the worker already ensures that models are sent back in marshaled form if unmarshal = FALSE, so we don't have
-  # to do anything in this case. This allows us to minimize the amount of marshaling in those situtions where
+  # to do anything in this case. This allows us to minimize the amount of marshaling in those situations where
   # the model is available in both states on the worker
   if (unmarshal && store_models) {
     result_data$unmarshal()

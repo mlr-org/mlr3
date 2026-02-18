@@ -365,7 +365,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #'
     #' @return
     #' Returns the object itself, but modified **by reference**.
-    #' You need to explicitly `$clone()` the object beforehand if you want to keeps
+    #' You need to explicitly `$clone()` the object beforehand if you want to keep
     #' the object in its previous state.
     #' @examples
     #' design = benchmark_grid(
@@ -444,7 +444,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #'
     #' @return
     #' Returns the object itself, but modified **by reference**.
-    #' You need to explicitly `$clone()` the object beforehand if you want to keeps
+    #' You need to explicitly `$clone()` the object beforehand if you want to keep
     #' the object in its previous state.
     #' @examples
     #' bmr$discard(models = TRUE)
@@ -525,7 +525,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #' * `"learner"` ([Learner]).
     #'
     #' Note that it is not feasible to access learned models via this field, as the training task would be ambiguous.
-    #' For this reason the returned learner are reset before they are returned.
+    #' For this reason the returned learners are reset before they are returned.
     #' Instead, select a row from the table returned by `$score()`.
     learners = function(rhs) {
       assert_ro_binding(rhs)

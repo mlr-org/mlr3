@@ -187,7 +187,7 @@ Table of included \link{Learner}s with three columns:
 }
 
 Note that it is not feasible to access learned models via this field, as the training task would be ambiguous.
-For this reason the returned learner are reset before they are returned.
+For this reason the returned learners are reset before they are returned.
 Instead, select a row from the table returned by \verb{$score()}.}
 
 \item{\code{resamplings}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
@@ -565,7 +565,7 @@ The resampling IDs to filter for.}
 }
 \subsection{Returns}{
 Returns the object itself, but modified \strong{by reference}.
-You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
+You need to explicitly \verb{$clone()} the object beforehand if you want to keep
 the object in its previous state.
 }
 \subsection{Examples}{
@@ -667,7 +667,7 @@ If \code{TRUE}, the stored model is removed from all \link{Learner}s.}
 }
 \subsection{Returns}{
 Returns the object itself, but modified \strong{by reference}.
-You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
+You need to explicitly \verb{$clone()} the object beforehand if you want to keep
 the object in its previous state.
 }
 \subsection{Examples}{

@@ -21,7 +21,7 @@
 #' @section Stochasticity & Reproducibility:
 #' The [`Resampling`] class only defines an abstract resampling strategy.
 #' Concrete data splits are obtained by calling `$instantiate()` on a [`Task`].
-#' To ensure repdocubility of results, you need to call `set.seed` before doing so.
+#' To ensure reproducibility of results, you need to call `set.seed` before doing so.
 #' Note that [`benchmark_grid`] internally does instantiate resamplings, so you need to set
 #' the seed before calling it.
 #'
@@ -153,7 +153,7 @@ Resampling = R6Class("Resampling",
     #'
     #' @return
     #' Returns the object itself, but modified **by reference**.
-    #' You need to explicitly `$clone()` the object beforehand if you want to keeps
+    #' You need to explicitly `$clone()` the object beforehand if you want to keep
     #' the object in its previous state.
     #' @examples
     #' task = tsk("penguins")

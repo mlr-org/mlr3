@@ -14,7 +14,7 @@ The following hyperparameters trigger the following actions:
 \item{message_predict:}{Probability to output a message during predict.}
 \item{message_train:}{Probability to output a message during train.}
 \item{predict_missing:}{Ratio of predictions which will be NA.}
-\item{predict_missing_type:}{To to encode missingness. \dQuote{na} will insert NA values, \dQuote{omit} will just return fewer predictions than requested.}
+\item{predict_missing_type:}{How to encode missingness. \dQuote{na} will insert NA values, \dQuote{omit} will just return fewer predictions than requested.}
 \item{save_tasks:}{Saves input task in \code{model} slot during training and prediction.}
 \item{segfault_predict:}{Probability to provokes a segfault during predict.}
 \item{segfault_train:}{Probability to provokes a segfault during train.}

@@ -9,7 +9,7 @@
 #' The following hyperparameters trigger the following actions:
 #' \describe{
 #'    \item{predict_missing:}{Ratio of predictions which will be NA.}
-#'    \item{predict_missing_type:}{To to encode missingness. \dQuote{na} will insert NA values, \dQuote{omit} will just return fewer predictions than requested.}
+#'    \item{predict_missing_type:}{How to encode missingness. \dQuote{na} will insert NA values, \dQuote{omit} will just return fewer predictions than requested.}
 #'    \item{save_tasks:}{Saves input task in `model` slot during training and prediction.}
 #'    \item{threads:}{Number of threads to use. Has no effect.}
 #'    \item{x:}{Numeric tuning parameter. Has no effect.}

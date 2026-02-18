@@ -19,7 +19,7 @@ e.g. \code{\link[=mlr_resamplings_cv]{cv}} or \code{\link[=mlr_resamplings_boots
 
 The \code{\link{Resampling}} class only defines an abstract resampling strategy.
 Concrete data splits are obtained by calling \verb{$instantiate()} on a \code{\link{Task}}.
-To ensure repdocubility of results, you need to call \code{set.seed} before doing so.
+To ensure reproducibility of results, you need to call \code{set.seed} before doing so.
 Note that \code{\link{benchmark_grid}} internally does instantiate resamplings, so you need to set
 the seed before calling it.
 }
@@ -311,7 +311,7 @@ Task used for instantiation.}
 }
 \subsection{Returns}{
 Returns the object itself, but modified \strong{by reference}.
-You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
+You need to explicitly \verb{$clone()} the object beforehand if you want to keep
 the object in its previous state.
 }
 \subsection{Examples}{
