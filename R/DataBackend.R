@@ -10,7 +10,7 @@
 #' It is not recommended to work directly with the DataBackend.
 #' Instead, all data access is handled transparently via the [Task].
 #'
-#' This package currently shups with one implementation for backends:
+#' This package currently ships with one implementation for backends:
 #'
 #' * [DataBackendDataTable] which stores the data as [data.table::data.table()].
 #'

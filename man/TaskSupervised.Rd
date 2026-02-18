@@ -5,7 +5,7 @@
 \title{Supervised Task}
 \description{
 This is the abstract base class for task objects like \link{TaskClassif} and \link{TaskRegr}.
-It extends \link{Task} with methods to handle a target columns.
+It extends \link{Task} with methods to handle a target column.
 Supervised tasks for probabilistic regression (including survival analysis) can be
 found in \CRANpkg{mlr3proba}.
 }

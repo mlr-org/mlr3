@@ -41,7 +41,7 @@
 #' The following methods change the task in-place:
 #' * Any modification of the lists `$col_roles` or `$row_roles`.
 #'   This provides a different "view" on the data without altering the data itself.
-#'   This may affects, e.g., `$data`, `$nrow`, `$ncol`, `n_features`, `row_ids`, and `$feature_names`.
+#'   This may affect, e.g., `$data`, `$nrow`, `$ncol`, `n_features`, `row_ids`, and `$feature_names`.
 #'   Altering `$col_roles` may affect, e.g., `$data`, `$ncol`, `$n_features`, and `$feature_names`.
 #'   Altering `$row_roles` may affect, e.g., `$data`, `$nrow`, and `$row_ids`.
 #' * Modification of column or row roles via `$set_col_roles()` or `$set_row_roles()`, respectively.
@@ -59,7 +59,7 @@
 #' @examples
 #' # We use the inherited class TaskClassif here,
 #' # because the base class `Task` is not intended for direct use
-#' task = TaskClassif$new("penguings", palmerpenguins::penguins, target = "species")
+#' task = TaskClassif$new("penguins", palmerpenguins::penguins, target = "species")
 #'
 #' task$nrow
 #' task$ncol
@@ -234,7 +234,7 @@ Task = R6Class("Task",
       }
 
 
-      # print additional columns are specified in reflections
+      # print additional columns as specified in reflections
       after = mlr_reflections$task_print_col_roles$after
       iwalk(after[after %chin% names(roles)], function(role, str) {
         cat_cli(cli_li("{str}: {roles[[role]]}"))
@@ -410,7 +410,7 @@ Task = R6Class("Task",
     #'
     #' @return
     #' Returns the object itself, but modified **by reference**.
-    #' You need to explicitly `$clone()` the object beforehand if you want to keeps
+    #' You need to explicitly `$clone()` the object beforehand if you want to keep
     #' the object in its previous state.
     #' @examples
     #' task = tsk("penguins")
@@ -434,7 +434,7 @@ Task = R6Class("Task",
     #'
     #' @return
     #' Returns the object itself, but modified **by reference**.
-    #' You need to explicitly `$clone()` the object beforehand if you want to keeps
+    #' You need to explicitly `$clone()` the object beforehand if you want to keep
     #' the object in its previous state.
     #' @examples
     #' task = tsk("penguins")
@@ -468,7 +468,7 @@ Task = R6Class("Task",
     #'
     #' @return
     #' Returns the object itself, but modified **by reference**.
-    #' You need to explicitly `$clone()` the object beforehand if you want to keeps
+    #' You need to explicitly `$clone()` the object beforehand if you want to keep
     #' the object in its previous state.
     #' @examples
     #' task = tsk("penguins")
@@ -632,7 +632,7 @@ Task = R6Class("Task",
     #'
     #' @return
     #' Returns the object itself, but modified **by reference**.
-    #' You need to explicitly `$clone()` the object beforehand if you want to keeps
+    #' You need to explicitly `$clone()` the object beforehand if you want to keep
     #' the object in its previous state.
     #' @examples
     #' task = tsk("penguins")
@@ -665,12 +665,12 @@ Task = R6Class("Task",
     #' @details
     #' Roles are first set exclusively (argument `roles`), then added (argument `add_to`) and finally
     #' removed (argument `remove_from`) from different roles.
-    #' Duplicated row ids are explicitly allowed, so you can add replicate an observation by repeating its
+    #' Duplicated row ids are explicitly allowed, so you can replicate an observation by repeating its
     #' `row_id`.
     #'
     #' @return
     #' Returns the object itself, but modified **by reference**.
-    #' You need to explicitly `$clone()` the object beforehand if you want to keeps
+    #' You need to explicitly `$clone()` the object beforehand if you want to keep
     #' the object in its previous state.
     #' @examples
     #' task = tsk("penguins")
@@ -709,7 +709,7 @@ Task = R6Class("Task",
     #'
     #' @return
     #' Returns the object itself, but modified **by reference**.
-    #' You need to explicitly `$clone()` the object beforehand if you want to keeps
+    #' You need to explicitly `$clone()` the object beforehand if you want to keep
     #' the object in its previous state.
     #' @examples
     #' task = tsk("penguins")
@@ -980,15 +980,15 @@ Task = R6Class("Task",
 
     #' @field properties (`character()`)\cr
     #' Set of task properties.
-    #' Possible properties are are stored in [mlr_reflections$task_properties][mlr_reflections].
+    #' Possible properties are stored in [mlr_reflections$task_properties][mlr_reflections].
     #' The following properties are currently standardized and understood by tasks in \CRANpkg{mlr3}:
     #'
     #' * `"strata"`: The task is resampled using one or more stratification variables (role `"stratum"`).
     #' * `"groups"`: The task comes with grouping/blocking information (role `"group"`).
     #' * `"weights_learner"`: If the task has observation weights with this role, they are passed to the [Learner] during train.
-    #'    The use of weights can be disabled via by setting the learner's hyperparameter `use_weights` to `FALSE`.
+    #'    The use of weights can be disabled by setting the learner's hyperparameter `use_weights` to `FALSE`.
     #' * `"weights_measure"`: If the task has observation weights with this role, they are passed to the [Measure] for weighted scoring.
-    #'    The use of weights can be disabled via by setting the measure's hyperparameter `use_weights` to `FALSE`.
+    #'    The use of weights can be disabled by setting the measure's hyperparameter `use_weights` to `FALSE`.
     #' * `"offset"`: The task includes one or more offset columns specifying fixed adjustments for model training and possibly for prediction (role `"offset"`).
     #' * `"ordered"`: The task has columns which define the row order (role `"order"`).
     #'
@@ -1044,9 +1044,9 @@ Task = R6Class("Task",
     #'   Not more than a single column can be associated with this role.
     #' * `"stratum"`: Stratification variables. Multiple discrete columns may have this role.
     #' * `"weights_learner"`: If the task has observation weights with this role, they are passed to the [Learner] during train.
-    #'    The use of weights can be disabled via by setting the learner's hyperparameter `use_weights` to `FALSE`.
+    #'    The use of weights can be disabled by setting the learner's hyperparameter `use_weights` to `FALSE`.
     #' * `"weights_measure"`: If the task has observation weights with this role, they are passed to the [Measure] for weighted scoring.
-    #'    The use of weights can be disabled via by setting the measure's hyperparameter `use_weights` to `FALSE`.
+    #'    The use of weights can be disabled by setting the measure's hyperparameter `use_weights` to `FALSE`.
     #' * `"offset"`: Numeric columns used to specify fixed adjustments for model training.
     #'   Some models use offsets to simply shift predictions, while others incorporate them to boost predictions from a baseline model.
     #'   For learners supporting offsets in multiclass settings, an offset column must be provided for each target class.
@@ -1109,7 +1109,7 @@ Task = R6Class("Task",
     #'
     #' * `N` (`integer()`) with the number of observations in the subpopulation, and
     #' * `row_id` (list of `integer()`) as list column with the row ids in the respective subpopulation.
-    #' Returns `NULL` if there are is no stratification variable.
+    #' Returns `NULL` if there is no stratification variable.
     #' See [Resampling] for more information on stratification.
     strata = function(rhs) {
       assert_has_backend(self)
@@ -1133,7 +1133,7 @@ Task = R6Class("Task",
     #' * `row_id` (`integer()`), and
     #' * grouping variable `group` (`vector()`).
     #'
-    #' Returns `NULL` if there are is no grouping column.
+    #' Returns `NULL` if there is no grouping column.
     #' See [Resampling] for more information on grouping.
     groups = function(rhs) {
       assert_has_backend(self)
@@ -1152,7 +1152,7 @@ Task = R6Class("Task",
     #' * `row_id` (`integer()`), and
     #' * ordering vector `order` (`integer()`).
     #'
-    #' Returns `NULL` if there are is no order column.
+    #' Returns `NULL` if there is no order column.
     order = function(rhs) {
       assert_has_backend(self)
       assert_ro_binding(rhs)
@@ -1181,7 +1181,7 @@ Task = R6Class("Task",
     #' * `row_id` (`integer()`), and
     #' * `weight` (`numeric()`).
     #'
-    #' Returns `NULL` if there are is no column with the designated role.
+    #' Returns `NULL` if there is no column with the designated role.
     weights_learner = function(rhs) {
       assert_has_backend(self)
       assert_ro_binding(rhs)
@@ -1200,7 +1200,7 @@ Task = R6Class("Task",
     #' * `row_id` (`integer()`), and
     #' * `weight` (`numeric()`).
     #'
-    #' Returns `NULL` if there are is no column with the designated role.
+    #' Returns `NULL` if there is no column with the designated role.
     weights_measure = function(rhs) {
       assert_has_backend(self)
       assert_ro_binding(rhs)
@@ -1239,7 +1239,7 @@ Task = R6Class("Task",
     },
 
     #' @field labels (named `character()`)\cr
-    #'   Retrieve `labels` (prettier formated names) from columns.
+    #'   Retrieve `labels` (prettier formatted names) from columns.
     #'   Internally queries the column `label` of the table in field `col_info`.
     #'   Columns ids referenced by the name of the vector, the labels are the actual string values.
     #'
@@ -1344,12 +1344,12 @@ Task = R6Class("Task",
     },
 
     #' @field col_info ([data.table::data.table()])\cr
-    #' Table with with 4 columns, mainly for internal purposes:
+    #' Table with 4 columns, mainly for internal purposes:
     #' - `"id"` (`character()`) stores the name of the column.
     #' - `"type"` (`character()`) holds the storage type of the variable, e.g. `integer`, `numeric` or `character`.
     #'   See [mlr_reflections$task_feature_types][mlr_reflections] for a complete list of allowed types.
     #' - `"levels"` (`list()`) stores a vector of distinct values (levels) for ordered and unordered factor variables.
-    #' - `"label"` (`character()`) stores a vector of prettier, formated column names.
+    #' - `"label"` (`character()`) stores a vector of prettier, formatted column names.
     #' - `"fix_factor_levels"` (`logical()`) stores flags which determine if the levels of the respective variable
     #'   need to be reordered after querying the data from the [DataBackend].
     #'
@@ -1501,13 +1501,13 @@ task_check_col_roles.Task = function(task, new_roles, ...) {
 
   # check offset
   if (length(new_roles[["offset"]]) && any(fget_keys(task$col_info, new_roles[["offset"]], "type", key = "id") %nin% c("numeric", "integer"))) {
-    error_input("Offset column(s) %s must be a numeric or integer column", paste0("'", new_roles[["offset"]], "'", collapse = ","))
+    error_input("Offset column(s) %s must be a numeric or integer column", paste0("'", new_roles[["offset"]], "'", collapse = ", "))
   }
 
   if (length(new_roles[["offset"]]) && any(task$missings(cols = new_roles[["offset"]]) > 0)) {
     missings = task$missings(cols = new_roles[["offset"]])
     missings = names(missings[missings > 0])
-    error_input("Offset column(s) %s contain missing values", paste0("'", missings, "'", collapse = ","))
+    error_input("Offset column(s) %s contain missing values", paste0("'", missings, "'", collapse = ", "))
   }
 
   new_roles
@@ -1523,7 +1523,7 @@ task_check_col_roles.TaskClassif = function(task, new_roles, ...) {
   }
 
   if (length(new_roles[["target"]]) && any(fget_keys(task$col_info, new_roles[["target"]], "type", key = "id") %nin% c("factor", "ordered"))) {
-    error_input("Target column(s) %s must be a factor or ordered factor", paste0("'", new_roles[["target"]], "'", collapse = ","))
+    error_input("Target column(s) '%s' must be a factor or ordered factor", new_roles[["target"]])
   }
 
   if (length(new_roles[["offset"]]) > 1L && length(task$class_names) == 2L) {
@@ -1548,7 +1548,7 @@ task_check_col_roles.TaskRegr = function(task, new_roles, ...) {
   }
 
   if (length(new_roles[["target"]]) && any(fget_keys(task$col_info, new_roles[["target"]], "type", key = "id") %nin% c("numeric", "integer"))) {
-    error_input("Target column '%s' must be a numeric or integer column", paste0("'", new_roles[["target"]], "'", collapse = ","))
+    error_input("Target column '%s' must be a numeric or integer column", new_roles[["target"]])
   }
 
   NextMethod()

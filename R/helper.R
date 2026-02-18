@@ -135,7 +135,7 @@ weighted_mean_sd = function(x, weights) {
 }
 
 # Alternative formatting function for Task / Learner / Measure because mlr3misc::error_* and warning_* fail with input
-# that is formated with angle brackets, e.g. "<TaskClassif:iris>",
+# that is formatted with angle brackets, e.g. "<TaskClassif:iris>",
 # see https://github.com/r-lib/cli/issues/789
 # Replace this with x$format() when the issue is solved.
 format_angle_brackets = function(x) {

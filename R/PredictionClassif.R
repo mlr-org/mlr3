@@ -132,7 +132,7 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
     #'
     #' @return
     #' Returns the object itself, but modified **by reference**.
-    #' You need to explicitly `$clone()` the object beforehand if you want to keeps
+    #' You need to explicitly `$clone()` the object beforehand if you want to keep
     #' the object in its previous state.
     set_threshold = function(threshold, ties_method = "random") {
       self$data = set_threshold_pdata(self$data, threshold, ties_method)

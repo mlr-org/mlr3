@@ -6,7 +6,7 @@
 #' @description
 #' This is the abstract base class for learner objects like [LearnerClassif] and [LearnerRegr].
 #'
-#' Learners are build around the three following key parts:
+#' Learners are built around the three following key parts:
 #'
 #' * Methods `$train()` and `$predict()` which call internal methods or private methods `$.train()`/`$.predict()`).
 #' * A [paradox::ParamSet] which stores meta-information about available hyperparameters, and also stores hyperparameter settings.
@@ -136,8 +136,8 @@
 #' CV Glmnet, on the other hand, can tune the regularization parameter based on an internal cross-validation.
 #' Internal tuning *can* therefore rely on the internal validation data, but does not necessarily do so.
 #'
-#' In order to be able to combine this internal hyperparamer tuning with the standard hyperparameter optimization
-#' implemented via \CRANpkg{mlr3tuning}, one most:
+#' In order to be able to combine this internal hyperparameter tuning with the standard hyperparameter optimization
+#' implemented via \CRANpkg{mlr3tuning}, one must:
 #' * annotate the learner with the `"internal_tuning"` property
 #' * implement the active binding `$internal_tuned_values` (see section *Optional Extractors*) as well as the
 #'   private method `$.extract_internal_tuned_values()` which extracts the internally tuned values from the [`Learner`]'s
@@ -267,7 +267,7 @@ Learner = R6Class("Learner",
     #'
     #' @return
     #' Returns the object itself, but modified **by reference**.
-    #' You need to explicitly `$clone()` the object beforehand if you want to keeps
+    #' You need to explicitly `$clone()` the object beforehand if you want to keep
     #' the object in its previous state.
     #' @examples
     #' task   = tsk("penguins")
@@ -382,7 +382,7 @@ Learner = R6Class("Learner",
     #' of the training task stored in the learner.
     #' If the learner has been fitted via [resample()] or [benchmark()], you need to pass the corresponding task stored
     #' in the [ResampleResult] or [BenchmarkResult], respectively.
-    #' Further, [`auto_convert`] is used for type-conversions to ensure compatability
+    #' Further, [`auto_convert`] is used for type-conversions to ensure compatibility
     #' of features between `$train()` and `$predict()`.
     #'
     #' If the stored training task has a `weights_measure` column, *and* if `newdata` contains a column with the same name,
@@ -394,7 +394,7 @@ Learner = R6Class("Learner",
     #'   All data formats convertible by [as_data_backend()] are supported, e.g.
     #'   `data.frame()` or [DataBackend].
     #'   If a [DataBackend] is provided as `newdata`, the row ids are preserved,
-    #'   otherwise they are set to to the sequence `1:nrow(newdata)`.
+    #'   otherwise they are set to the sequence `1:nrow(newdata)`.
     #'
     #' @param task ([Task]).
     #'
@@ -466,7 +466,7 @@ Learner = R6Class("Learner",
     #'
     #' @return
     #' Returns the object itself, but modified **by reference**.
-    #' You need to explicitly `$clone()` the object beforehand if you want to keeps
+    #' You need to explicitly `$clone()` the object beforehand if you want to keep
     #' the object in its previous state.
     #' @examples
     #' task = tsk("penguins")
@@ -507,11 +507,11 @@ Learner = R6Class("Learner",
     #' * `"evaluate"`: Uses the package \CRANpkg{evaluate} to call the learner, measure time and do the logging.
     #' * `"callr"`: Uses the package \CRANpkg{callr} to call the learner, measure time and do the logging.
     #'   This encapsulation spawns a separate R session in which the learner is called.
-    #'   While this comes with a considerable overhead, it also guards your session from being teared down by segfaults.
+    #'   While this comes with a considerable overhead, it also guards your session from being torn down by segfaults.
     #' * `"mirai"`: Uses the package \CRANpkg{mirai} to call the learner, measure time and do the logging.
     #'   This encapsulation calls the function in a `mirai` on a `daemon`.
     #'   The `daemon` can be pre-started via `daemons(1, .compute = "mlr3_encapsulation")`, otherwise a new R session will be created for each encapsulated call.
-    #'   If a `deamon` is already running with compute profile `"mlr3_encapsulation"`, it will be used to executed all calls.
+    #'   If a `daemon` is already running with compute profile `"mlr3_encapsulation"`, it will be used to execute all calls.
     #'   Using `mirai"` is similarly safe as `callr` but much faster if several learners are encapsulated one after the other on the same daemon.
     #'
     #' The fallback learner is fitted to create valid predictions in case that either the model fitting or the prediction of the original learner fails.
@@ -524,7 +524,7 @@ Learner = R6Class("Learner",
     #' Note that for errors of class `Mlr3ErrorConfig`, the function always errs and no fallback learner
     #' is trained.
     #'
-    #' Also see the section on error handling the mlr3book:
+    #' Also see the section on error handling in the mlr3book:
     #' \url{https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling}
     #'
     #' @param method `character(1)`\cr
@@ -903,7 +903,7 @@ Learner = R6Class("Learner",
     #' This works differently for different encapsulation methods, see
     #' [mlr3misc::encapsulate()].
     #' Default is `c(train = Inf, predict = Inf)`.
-    #' Also see the section on error handling the mlr3book:
+    #' Also see the section on error handling in the mlr3book:
     #' \url{https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling}
     timeout = function(rhs) {
       if (missing(rhs)) {
