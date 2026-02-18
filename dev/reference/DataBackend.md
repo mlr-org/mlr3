@@ -7,7 +7,7 @@ systems. It is not recommended to work directly with the DataBackend.
 Instead, all data access is handled transparently via the
 [Task](https://mlr3.mlr-org.com/dev/reference/Task.md).
 
-This package currently shups with one implementation for backends:
+This package currently ships with one implementation for backends:
 
 - [DataBackendDataTable](https://mlr3.mlr-org.com/dev/reference/DataBackendDataTable.md)
   which stores the data as

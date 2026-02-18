@@ -125,9 +125,9 @@ See the documentation of specific measures for more details.</p>
 
 <p>Many measurements cannot be calculated if the test set or predictions are unfortunate, for example because a denominator is 0.
 This typically occurs during (binary) classification if some entries of the confusion matrix are 0.
-For this reason, many measures which origin in <a href="https://CRAN.R-project.org/package=mlr3measures" class="external-link"><span class="pkg">mlr3measures</span></a> allow to change the default missing value (<code>NaN</code>) via the field <code>na_value</code>.</p>
+For this reason, many measures which originate in <a href="https://CRAN.R-project.org/package=mlr3measures" class="external-link"><span class="pkg">mlr3measures</span></a> allow to change the default missing value (<code>NaN</code>) via the field <code>na_value</code>.</p>
 <p>If you encounter missing values in a compound object like a <a href="ResampleResult.html">ResampleResult</a> or <a href="BenchmarkResult.html">BenchmarkResult</a> during scoring or aggregating, simply
-removing iterations with missing values is statistically arguable (but technically possible by prividng a custom aggregation function
+removing iterations with missing values is statistically arguable (but technically possible by providing a custom aggregation function
 which handles missing values, e.g. <code>function(x) mean(x, na.rm = TRUE)</code>). Instead, consider stratification on the target of the <a href="Task.html">Task</a>
 to work around missing values. Switching to micro averaging in the <a href="Resampling.html">Resampling</a> can also be a solution here.</p>
     </div>

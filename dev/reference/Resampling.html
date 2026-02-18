@@ -77,7 +77,7 @@ e.g. <code><a href="mlr_resamplings_cv.html">cv</a></code> or <code><a href="mlr
 
 <p>The <code>Resampling</code> class only defines an abstract resampling strategy.
 Concrete data splits are obtained by calling <code>$instantiate()</code> on a <code><a href="Task.html">Task</a></code>.
-To ensure repdocubility of results, you need to call <code>set.seed</code> before doing so.
+To ensure reproducibility of results, you need to call <code>set.seed</code> before doing so.
 Note that <code><a href="benchmark_grid.html">benchmark_grid</a></code> internally does instantiate resamplings, so you need to set
 the seed before calling it.</p>
     </div>
@@ -331,7 +331,7 @@ Task used for instantiation.</p></dd>
 <div class="section">
 <h4 id="returns">Returns<a class="anchor" aria-label="anchor" href="#returns"></a></h4>
 <p>Returns the object itself, but modified <strong>by reference</strong>.
-You need to explicitly <code>$clone()</code> the object beforehand if you want to keeps
+You need to explicitly <code>$clone()</code> the object beforehand if you want to keep
 the object in its previous state.</p>
 </div>
 <div class="section">

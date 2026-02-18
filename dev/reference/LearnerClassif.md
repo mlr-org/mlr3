@@ -31,7 +31,7 @@ Predefined learners can be found in the
 [mlr_learners](https://mlr3.mlr-org.com/dev/reference/mlr_learners.md).
 Essential classification learners can be found in this dictionary after
 loading [mlr3learners](https://CRAN.R-project.org/package=mlr3learners).
-Additional learners are implement in the Github package
+Additional learners are implemented in the Github package
 <https://github.com/mlr-org/mlr3extralearners>.
 
 ## See also

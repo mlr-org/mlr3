@@ -5,7 +5,7 @@ This is the abstract base class for learner objects like
 and
 [LearnerRegr](https://mlr3.mlr-org.com/dev/reference/LearnerRegr.md).
 
-Learners are build around the three following key parts:
+Learners are built around the three following key parts:
 
 - Methods `$train()` and `$predict()` which call internal methods or
   private methods `$.train()`/`$.predict()`).
@@ -194,9 +194,9 @@ hand, can tune the regularization parameter based on an internal
 cross-validation. Internal tuning *can* therefore rely on the internal
 validation data, but does not necessarily do so.
 
-In order to be able to combine this internal hyperparamer tuning with
+In order to be able to combine this internal hyperparameter tuning with
 the standard hyperparameter optimization implemented via
-[mlr3tuning](https://CRAN.R-project.org/package=mlr3tuning), one most:
+[mlr3tuning](https://CRAN.R-project.org/package=mlr3tuning), one must:
 
 - annotate the learner with the `"internal_tuning"` property
 
@@ -521,7 +521,7 @@ Other Learner:
   works differently for different encapsulation methods, see
   [`mlr3misc::encapsulate()`](https://mlr3misc.mlr-org.com/reference/encapsulate.html).
   Default is `c(train = Inf, predict = Inf)`. Also see the section on
-  error handling the mlr3book:
+  error handling in the mlr3book:
   <https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling>
 
 - `man`:
@@ -752,7 +752,7 @@ information in field `$state`.
 #### Returns
 
 Returns the object itself, but modified **by reference**. You need to
-explicitly `$clone()` the object beforehand if you want to keeps the
+explicitly `$clone()` the object beforehand if you want to keep the
 object in its previous state.
 
 #### Examples
@@ -819,7 +819,7 @@ or
 [BenchmarkResult](https://mlr3.mlr-org.com/dev/reference/BenchmarkResult.md),
 respectively. Further,
 [`auto_convert`](https://mlr3.mlr-org.com/dev/reference/auto_convert.md)
-is used for type-conversions to ensure compatability of features between
+is used for type-conversions to ensure compatibility of features between
 `$train()` and `$predict()`.
 
 If the stored training task has a `weights_measure` column, *and* if
@@ -845,7 +845,7 @@ Otherwise, no measure weights are used.
   If a
   [DataBackend](https://mlr3.mlr-org.com/dev/reference/DataBackend.md)
   is provided as `newdata`, the row ids are preserved, otherwise they
-  are set to to the sequence `1:nrow(newdata)`.
+  are set to the sequence `1:nrow(newdata)`.
 
 - `task`:
 
@@ -874,7 +874,7 @@ Reset the learner, i.e. un-train by resetting the `state`.
 #### Returns
 
 Returns the object itself, but modified **by reference**. You need to
-explicitly `$clone()` the object beforehand if you want to keeps the
+explicitly `$clone()` the object beforehand if you want to keep the
 object in its previous state.
 
 #### Examples
@@ -932,7 +932,7 @@ predict steps. There are currently four different methods implemented:
   [callr](https://CRAN.R-project.org/package=callr) to call the learner,
   measure time and do the logging. This encapsulation spawns a separate
   R session in which the learner is called. While this comes with a
-  considerable overhead, it also guards your session from being teared
+  considerable overhead, it also guards your session from being torn
   down by segfaults.
 
 - `"mirai"`: Uses the package
@@ -940,9 +940,9 @@ predict steps. There are currently four different methods implemented:
   measure time and do the logging. This encapsulation calls the function
   in a `mirai` on a `daemon`. The `daemon` can be pre-started via
   `daemons(1, .compute = "mlr3_encapsulation")`, otherwise a new R
-  session will be created for each encapsulated call. If a `deamon` is
+  session will be created for each encapsulated call. If a `daemon` is
   already running with compute profile `"mlr3_encapsulation"`, it will
-  be used to executed all calls. Using `mirai"` is similarly safe as
+  be used to execute all calls. Using `mirai"` is similarly safe as
   `callr` but much faster if several learners are encapsulated one after
   the other on the same daemon.
 
@@ -961,7 +961,7 @@ across the different encapsulation methods.
 Note that for errors of class `Mlr3ErrorConfig`, the function always
 errs and no fallback learner is trained.
 
-Also see the section on error handling the mlr3book:
+Also see the section on error handling in the mlr3book:
 <https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling>
 
 #### Usage

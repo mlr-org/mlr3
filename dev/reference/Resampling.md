@@ -29,7 +29,7 @@ e.g.
 The `Resampling` class only defines an abstract resampling strategy.
 Concrete data splits are obtained by calling `$instantiate()` on a
 [`Task`](https://mlr3.mlr-org.com/dev/reference/Task.md). To ensure
-repdocubility of results, you need to call `set.seed` before doing so.
+reproducibility of results, you need to call `set.seed` before doing so.
 Note that
 [`benchmark_grid`](https://mlr3.mlr-org.com/dev/reference/benchmark_grid.md)
 internally does instantiate resamplings, so you need to set the seed
@@ -324,7 +324,7 @@ them in `r$instance` in an arbitrary format.
 #### Returns
 
 Returns the object itself, but modified **by reference**. You need to
-explicitly `$clone()` the object beforehand if you want to keeps the
+explicitly `$clone()` the object beforehand if you want to keep the
 object in its previous state.
 
 #### Examples

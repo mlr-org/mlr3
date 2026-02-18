@@ -56,7 +56,7 @@ The following methods change the task in-place:
 
 - Any modification of the lists `$col_roles` or `$row_roles`. This
   provides a different "view" on the data without altering the data
-  itself. This may affects, e.g., `$data`, `$nrow`, `$ncol`,
+  itself. This may affect, e.g., `$data`, `$nrow`, `$ncol`,
   `n_features`, `row_ids`, and `$feature_names`. Altering `$col_roles`
   may affect, e.g., `$data`, `$ncol`, `$n_features`, and
   `$feature_names`. Altering `$row_roles` may affect, e.g., `$data`,
@@ -203,7 +203,7 @@ Other Task:
 - `properties`:
 
   ([`character()`](https://rdrr.io/r/base/character.html))  
-  Set of task properties. Possible properties are are stored in
+  Set of task properties. Possible properties are stored in
   [mlr_reflections\$task_properties](https://mlr3.mlr-org.com/dev/reference/mlr_reflections.md).
   The following properties are currently standardized and understood by
   tasks in [mlr3](https://CRAN.R-project.org/package=mlr3):
@@ -217,14 +217,14 @@ Other Task:
   - `"weights_learner"`: If the task has observation weights with this
     role, they are passed to the
     [Learner](https://mlr3.mlr-org.com/dev/reference/Learner.md) during
-    train. The use of weights can be disabled via by setting the
-    learner's hyperparameter `use_weights` to `FALSE`.
+    train. The use of weights can be disabled by setting the learner's
+    hyperparameter `use_weights` to `FALSE`.
 
   - `"weights_measure"`: If the task has observation weights with this
     role, they are passed to the
     [Measure](https://mlr3.mlr-org.com/dev/reference/Measure.md) for
-    weighted scoring. The use of weights can be disabled via by setting
-    the measure's hyperparameter `use_weights` to `FALSE`.
+    weighted scoring. The use of weights can be disabled by setting the
+    measure's hyperparameter `use_weights` to `FALSE`.
 
   - `"offset"`: The task includes one or more offset columns specifying
     fixed adjustments for model training and possibly for prediction
@@ -283,14 +283,14 @@ Other Task:
   - `"weights_learner"`: If the task has observation weights with this
     role, they are passed to the
     [Learner](https://mlr3.mlr-org.com/dev/reference/Learner.md) during
-    train. The use of weights can be disabled via by setting the
-    learner's hyperparameter `use_weights` to `FALSE`.
+    train. The use of weights can be disabled by setting the learner's
+    hyperparameter `use_weights` to `FALSE`.
 
   - `"weights_measure"`: If the task has observation weights with this
     role, they are passed to the
     [Measure](https://mlr3.mlr-org.com/dev/reference/Measure.md) for
-    weighted scoring. The use of weights can be disabled via by setting
-    the measure's hyperparameter `use_weights` to `FALSE`.
+    weighted scoring. The use of weights can be disabled by setting the
+    measure's hyperparameter `use_weights` to `FALSE`.
 
   - `"offset"`: Numeric columns used to specify fixed adjustments for
     model training. Some models use offsets to simply shift predictions,
@@ -351,7 +351,7 @@ Other Task:
   - `row_id` (list of
     [`integer()`](https://rdrr.io/r/base/integer.html)) as list column
     with the row ids in the respective subpopulation. Returns `NULL` if
-    there are is no stratification variable. See
+    there is no stratification variable. See
     [Resampling](https://mlr3.mlr-org.com/dev/reference/Resampling.md)
     for more information on stratification.
 
@@ -366,7 +366,7 @@ Other Task:
   - grouping variable `group`
     ([`vector()`](https://rdrr.io/r/base/vector.html)).
 
-  Returns `NULL` if there are is no grouping column. See
+  Returns `NULL` if there is no grouping column. See
   [Resampling](https://mlr3.mlr-org.com/dev/reference/Resampling.md) for
   more information on grouping.
 
@@ -381,7 +381,7 @@ Other Task:
   - ordering vector `order`
     ([`integer()`](https://rdrr.io/r/base/integer.html)).
 
-  Returns `NULL` if there are is no order column.
+  Returns `NULL` if there is no order column.
 
 - `weights`:
 
@@ -399,7 +399,7 @@ Other Task:
 
   - `weight` ([`numeric()`](https://rdrr.io/r/base/numeric.html)).
 
-  Returns `NULL` if there are is no column with the designated role.
+  Returns `NULL` if there is no column with the designated role.
 
 - `weights_measure`:
 
@@ -412,7 +412,7 @@ Other Task:
 
   - `weight` ([`numeric()`](https://rdrr.io/r/base/numeric.html)).
 
-  Returns `NULL` if there are is no column with the designated role.
+  Returns `NULL` if there is no column with the designated role.
 
 - `offset`:
 
@@ -435,7 +435,7 @@ Other Task:
 - `labels`:
 
   (named [`character()`](https://rdrr.io/r/base/character.html))  
-  Retrieve `labels` (prettier formated names) from columns. Internally
+  Retrieve `labels` (prettier formatted names) from columns. Internally
   queries the column `label` of the table in field `col_info`. Columns
   ids referenced by the name of the vector, the labels are the actual
   string values.
@@ -505,7 +505,7 @@ Other Task:
 - `col_info`:
 
   ([`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html))  
-  Table with with 4 columns, mainly for internal purposes:
+  Table with 4 columns, mainly for internal purposes:
 
   - `"id"` ([`character()`](https://rdrr.io/r/base/character.html))
     stores the name of the column.
@@ -521,7 +521,7 @@ Other Task:
     variables.
 
   - `"label"` ([`character()`](https://rdrr.io/r/base/character.html))
-    stores a vector of prettier, formated column names.
+    stores a vector of prettier, formatted column names.
 
   - `"fix_factor_levels"`
     ([`logical()`](https://rdrr.io/r/base/logical.html)) stores flags
@@ -922,7 +922,7 @@ mutators for more information.
 #### Returns
 
 Returns the object itself, but modified **by reference**. You need to
-explicitly `$clone()` the object beforehand if you want to keeps the
+explicitly `$clone()` the object beforehand if you want to keep the
 object in its previous state.
 
 #### Examples
@@ -956,7 +956,7 @@ mutators for more information.
 #### Returns
 
 Returns the object itself, but modified **by reference**. You need to
-explicitly `$clone()` the object beforehand if you want to keeps the
+explicitly `$clone()` the object beforehand if you want to keep the
 object in its previous state.
 
 #### Examples
@@ -1000,7 +1000,7 @@ mutators for more information.
 #### Returns
 
 Returns the object itself, but modified **by reference**. You need to
-explicitly `$clone()` the object beforehand if you want to keeps the
+explicitly `$clone()` the object beforehand if you want to keep the
 object in its previous state.
 
 #### Examples
@@ -1076,7 +1076,7 @@ mutators for more information.
 #### Returns
 
 Returns the object itself, but modified **by reference**. You need to
-explicitly `$clone()` the object beforehand if you want to keeps the
+explicitly `$clone()` the object beforehand if you want to keep the
 object in its previous state.
 
 #### Examples
@@ -1124,13 +1124,13 @@ Modifies the roles in `$row_roles` **in-place**.
 
 Roles are first set exclusively (argument `roles`), then added (argument
 `add_to`) and finally removed (argument `remove_from`) from different
-roles. Duplicated row ids are explicitly allowed, so you can add
-replicate an observation by repeating its `row_id`.
+roles. Duplicated row ids are explicitly allowed, so you can replicate
+an observation by repeating its `row_id`.
 
 #### Returns
 
 Returns the object itself, but modified **by reference**. You need to
-explicitly `$clone()` the object beforehand if you want to keeps the
+explicitly `$clone()` the object beforehand if you want to keep the
 object in its previous state.
 
 #### Examples
@@ -1186,7 +1186,7 @@ column.
 #### Returns
 
 Returns the object itself, but modified **by reference**. You need to
-explicitly `$clone()` the object beforehand if you want to keeps the
+explicitly `$clone()` the object beforehand if you want to keep the
 object in its previous state.
 
 #### Examples
@@ -1355,7 +1355,7 @@ The objects of this class are cloneable with this method.
 ``` r
 # We use the inherited class TaskClassif here,
 # because the base class `Task` is not intended for direct use
-task = TaskClassif$new("penguings", palmerpenguins::penguins, target = "species")
+task = TaskClassif$new("penguins", palmerpenguins::penguins, target = "species")
 
 task$nrow
 #> [1] 344

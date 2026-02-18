@@ -6,7 +6,7 @@
     }
   };
 </script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.10/font.css" rel="stylesheet"><link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet"><link href="../deps/Roboto_Slab-0.4.10/font.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Learner Class — Learner"><meta name="description" content="This is the abstract base class for learner objects like LearnerClassif and LearnerRegr.
-Learners are build around the three following key parts:
+Learners are built around the three following key parts:
 Methods $train() and $predict() which call internal methods or private methods $.train()/$.predict()).
 A paradox::ParamSet which stores meta-information about available hyperparameters, and also stores hyperparameter settings.
 Meta-information about the requirements and capabilities of the learner.
@@ -23,7 +23,7 @@ More (experimental) learners can be found in the GitHub repository: https://gith
 A guide on how to extend mlr3 with custom learners can be found in the mlr3book.
 To combine the learner with preprocessing operations like factor encoding, mlr3pipelines is recommended.
 Hyperparameters stored in the param_set can be tuned with mlr3tuning."><meta property="og:description" content="This is the abstract base class for learner objects like LearnerClassif and LearnerRegr.
-Learners are build around the three following key parts:
+Learners are built around the three following key parts:
 Methods $train() and $predict() which call internal methods or private methods $.train()/$.predict()).
 A paradox::ParamSet which stores meta-information about available hyperparameters, and also stores hyperparameter settings.
 Meta-information about the requirements and capabilities of the learner.
@@ -84,7 +84,7 @@ Hyperparameters stored in the param_set can be tuned with mlr3tuning."><meta pro
 
     <div class="ref-description section level2">
     <p>This is the abstract base class for learner objects like <a href="LearnerClassif.html">LearnerClassif</a> and <a href="LearnerRegr.html">LearnerRegr</a>.</p>
-<p>Learners are build around the three following key parts:</p><ul><li><p>Methods <code>$train()</code> and <code>$predict()</code> which call internal methods or private methods <code>$.train()</code>/<code>$.predict()</code>).</p></li>
+<p>Learners are built around the three following key parts:</p><ul><li><p>Methods <code>$train()</code> and <code>$predict()</code> which call internal methods or private methods <code>$.train()</code>/<code>$.predict()</code>).</p></li>
 <li><p>A <a href="https://paradox.mlr-org.com/reference/ParamSet.html" class="external-link">paradox::ParamSet</a> which stores meta-information about available hyperparameters, and also stores hyperparameter settings.</p></li>
 <li><p>Meta-information about the requirements and capabilities of the learner.</p></li>
 <li><p>The fitted model stored in field <code>$model</code>, available after calling <code>$train()</code>.</p></li>
@@ -196,8 +196,8 @@ is set to a non-<code>NULL</code> value.</p>
 XGBoost, for example, can tune the number of boosting rounds based on the validation performance.
 CV Glmnet, on the other hand, can tune the regularization parameter based on an internal cross-validation.
 Internal tuning <em>can</em> therefore rely on the internal validation data, but does not necessarily do so.</p>
-<p>In order to be able to combine this internal hyperparamer tuning with the standard hyperparameter optimization
-implemented via <a href="https://CRAN.R-project.org/package=mlr3tuning" class="external-link"><span class="pkg">mlr3tuning</span></a>, one most:</p><ul><li><p>annotate the learner with the <code>"internal_tuning"</code> property</p></li>
+<p>In order to be able to combine this internal hyperparameter tuning with the standard hyperparameter optimization
+implemented via <a href="https://CRAN.R-project.org/package=mlr3tuning" class="external-link"><span class="pkg">mlr3tuning</span></a>, one must:</p><ul><li><p>annotate the learner with the <code>"internal_tuning"</code> property</p></li>
 <li><p>implement the active binding <code>$internal_tuned_values</code> (see section <em>Optional Extractors</em>) as well as the
 private method <code>$.extract_internal_tuned_values()</code> which extracts the internally tuned values from the <code>Learner</code>'s
 model and returns them as a named <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>.
@@ -440,7 +440,7 @@ Timeout for the learner's train and predict steps, in seconds.
 This works differently for different encapsulation methods, see
 <code><a href="https://mlr3misc.mlr-org.com/reference/encapsulate.html" class="external-link">mlr3misc::encapsulate()</a></code>.
 Default is <code>c(train = Inf, predict = Inf)</code>.
-Also see the section on error handling the mlr3book:
+Also see the section on error handling in the mlr3book:
 <a href="https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling" class="external-link">https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling</a></p></dd>
 
 
@@ -623,7 +623,7 @@ For a simple split into training and test set, see <code><a href="partition.html
 <div class="section">
 <h4 id="returns">Returns<a class="anchor" aria-label="anchor" href="#returns"></a></h4>
 <p>Returns the object itself, but modified <strong>by reference</strong>.
-You need to explicitly <code>$clone()</code> the object beforehand if you want to keeps
+You need to explicitly <code>$clone()</code> the object beforehand if you want to keep
 the object in its previous state.</p>
 </div>
 <div class="section">
@@ -680,7 +680,7 @@ If the learner's <code>$train()</code> method has been called, there is a (size 
 of the training task stored in the learner.
 If the learner has been fitted via <code><a href="resample.html">resample()</a></code> or <code><a href="benchmark.html">benchmark()</a></code>, you need to pass the corresponding task stored
 in the <a href="ResampleResult.html">ResampleResult</a> or <a href="BenchmarkResult.html">BenchmarkResult</a>, respectively.
-Further, <code><a href="auto_convert.html">auto_convert</a></code> is used for type-conversions to ensure compatability
+Further, <code><a href="auto_convert.html">auto_convert</a></code> is used for type-conversions to ensure compatibility
 of features between <code>$train()</code> and <code>$predict()</code>.</p>
 <p>If the stored training task has a <code>weights_measure</code> column, <em>and</em> if <code>newdata</code> contains a column with the same name,
 that column must be numeric with no missing values and is used as measure weights column.
@@ -697,7 +697,7 @@ New data to predict on.
 All data formats convertible by <code><a href="as_data_backend.html">as_data_backend()</a></code> are supported, e.g.
 <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code> or <a href="DataBackend.html">DataBackend</a>.
 If a <a href="DataBackend.html">DataBackend</a> is provided as <code>newdata</code>, the row ids are preserved,
-otherwise they are set to to the sequence <code>1:nrow(newdata)</code>.</p></dd>
+otherwise they are set to the sequence <code>1:nrow(newdata)</code>.</p></dd>
 
 
 <dt><code>task</code></dt>
@@ -728,7 +728,7 @@ otherwise they are set to to the sequence <code>1:nrow(newdata)</code>.</p></dd>
 <div class="section">
 <h4 id="returns-3">Returns<a class="anchor" aria-label="anchor" href="#returns-3"></a></h4>
 <p>Returns the object itself, but modified <strong>by reference</strong>.
-You need to explicitly <code>$clone()</code> the object beforehand if you want to keeps
+You need to explicitly <code>$clone()</code> the object beforehand if you want to keep
 the object in its previous state.</p>
 </div>
 <div class="section">
@@ -774,11 +774,11 @@ Output is printed to the console and not logged.</p></li>
 <li><p><code>"evaluate"</code>: Uses the package <a href="https://CRAN.R-project.org/package=evaluate" class="external-link"><span class="pkg">evaluate</span></a> to call the learner, measure time and do the logging.</p></li>
 <li><p><code>"callr"</code>: Uses the package <a href="https://CRAN.R-project.org/package=callr" class="external-link"><span class="pkg">callr</span></a> to call the learner, measure time and do the logging.
 This encapsulation spawns a separate R session in which the learner is called.
-While this comes with a considerable overhead, it also guards your session from being teared down by segfaults.</p></li>
+While this comes with a considerable overhead, it also guards your session from being torn down by segfaults.</p></li>
 <li><p><code>"mirai"</code>: Uses the package <a href="https://CRAN.R-project.org/package=mirai" class="external-link"><span class="pkg">mirai</span></a> to call the learner, measure time and do the logging.
 This encapsulation calls the function in a <code>mirai</code> on a <code>daemon</code>.
 The <code>daemon</code> can be pre-started via <code>daemons(1, .compute = "mlr3_encapsulation")</code>, otherwise a new R session will be created for each encapsulated call.
-If a <code>deamon</code> is already running with compute profile <code>"mlr3_encapsulation"</code>, it will be used to executed all calls.
+If a <code>daemon</code> is already running with compute profile <code>"mlr3_encapsulation"</code>, it will be used to execute all calls.
 Using <code>mirai"</code> is similarly safe as <code>callr</code> but much faster if several learners are encapsulated one after the other on the same daemon.</p></li>
 </ul><p>The fallback learner is fitted to create valid predictions in case that either the model fitting or the prediction of the original learner fails.
 If the training step or the predict step of the original learner fails, the fallback is used to make the predictions.
@@ -788,7 +788,7 @@ If the training step fails, the <code>$model</code> field of the original learne
 The results are reproducible across the different encapsulation methods.</p>
 <p>Note that for errors of class <code>Mlr3ErrorConfig</code>, the function always errs and no fallback learner
 is trained.</p>
-<p>Also see the section on error handling the mlr3book:
+<p>Also see the section on error handling in the mlr3book:
 <a href="https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling" class="external-link">https://mlr3book.mlr-org.com/chapters/chapter10/advanced_technical_aspects_of_mlr3.html#sec-error-handling</a></p><div class="section">
 <h4 id="usage-9">Usage<a class="anchor" aria-label="anchor" href="#usage-9"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Learner</span><span class="op">$</span><span class="fu">encapsulate</span><span class="op">(</span><span class="va">method</span>, fallback <span class="op">=</span> <span class="cn">NULL</span>, when <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>

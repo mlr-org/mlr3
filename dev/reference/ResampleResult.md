@@ -442,7 +442,7 @@ specified in `iters`.
 #### Returns
 
 Returns the object itself, but modified **by reference**. You need to
-explicitly `$clone()` the object beforehand if you want to keeps the
+explicitly `$clone()` the object beforehand if you want to keep the
 object in its previous state.
 
 #### Examples
@@ -481,7 +481,7 @@ task's data.
 #### Returns
 
 Returns the object itself, but modified **by reference**. You need to
-explicitly `$clone()` the object beforehand if you want to keeps the
+explicitly `$clone()` the object beforehand if you want to keep the
 object in its previous state.
 
 ------------------------------------------------------------------------
@@ -792,9 +792,9 @@ rr$set_threshold(0.6)
 #> Key: <uhash, iteration>
 #>                                   uhash iteration      learner_state prediction
 #>                                  <char>     <int>             <list>     <list>
-#> 1: de9b5e67-f988-43c3-84e2-f3a27e928804         1 <learner_state[8]>  <list[1]>
-#> 2: de9b5e67-f988-43c3-84e2-f3a27e928804         2 <learner_state[8]>  <list[1]>
-#> 3: de9b5e67-f988-43c3-84e2-f3a27e928804         3 <learner_state[8]>  <list[1]>
+#> 1: 2d4fb031-78b7-4576-84de-082695f26942         1 <learner_state[8]>  <list[1]>
+#> 2: 2d4fb031-78b7-4576-84de-082695f26942         2 <learner_state[8]>  <list[1]>
+#> 3: 2d4fb031-78b7-4576-84de-082695f26942         3 <learner_state[8]>  <list[1]>
 #>        learner_hash        task_hash    learner_phash  resampling_hash
 #>              <char>           <char>           <char>           <char>
 #> 1: 667ca7804cbe810f 062d5c9e3bac138b a2121f0bf1b9c2f6 fb4fd3525746a553

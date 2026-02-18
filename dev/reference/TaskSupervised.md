@@ -4,7 +4,7 @@ This is the abstract base class for task objects like
 [TaskClassif](https://mlr3.mlr-org.com/dev/reference/TaskClassif.md) and
 [TaskRegr](https://mlr3.mlr-org.com/dev/reference/TaskRegr.md). It
 extends [Task](https://mlr3.mlr-org.com/dev/reference/Task.md) with
-methods to handle a target columns. Supervised tasks for probabilistic
+methods to handle a target column. Supervised tasks for probabilistic
 regression (including survival analysis) can be found in
 [mlr3proba](https://CRAN.R-project.org/package=mlr3proba).
 

@@ -218,7 +218,7 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.17.0" id="mlr3-0170">mlr3 0.17.0<a class="anchor" aria-label="anchor" href="#mlr3-0170"></a></h2><p class="text-muted">CRAN release: 2023-11-17</p>
 <ul><li>Learners cannot be added to the <code>HotstartStack</code> anymore when the model is missing.</li>
-<li>Learners bellow the <code>hotstart_threshold</code> are not added to the <code>HotstartStack</code> anymore.</li>
+<li>Learners below the <code>hotstart_threshold</code> are not added to the <code>HotstartStack</code> anymore.</li>
 <li>The <code>learner$state$train_time</code> in hotstarted learners is now only the time of the last training.</li>
 <li>Added debug messages to the hotstart stack.</li>
 <li>Fixed bug where the <code>HotstartStack</code> did not work with column roles set in the task.</li>
@@ -277,9 +277,9 @@
 <h2 class="pkg-version" data-toc-text="0.13.3" id="mlr3-0133">mlr3 0.13.3<a class="anchor" aria-label="anchor" href="#mlr3-0133"></a></h2><p class="text-muted">CRAN release: 2022-03-01</p>
 <ul><li>Most objects now have a new (optional) field <code>label</code>, i.e. <code>Task</code>, <code>TaskGenerator</code>, <code>Learner</code>, <code>Resampling</code>, and <code>Measure</code>.</li>
 <li>
-<code><a href="https://rdrr.io/pkg/data.table/man/as.data.table.html" class="external-link">as.data.table()</a></code> methods for objects of class <code>Dictonary</code> have been extended with additional columns.</li>
+<code><a href="https://rdrr.io/pkg/data.table/man/as.data.table.html" class="external-link">as.data.table()</a></code> methods for objects of class <code>Dictionary</code> have been extended with additional columns.</li>
 <li>
-<code><a href="../reference/as_task_classif.html">as_task_classif.formula()</a></code> and <code><a href="../reference/as_task_regr.html">as_task_regr.formula()</a></code> now remove additional atrributes attached to the data which caused some some learners to break.</li>
+<code><a href="../reference/as_task_classif.html">as_task_classif.formula()</a></code> and <code><a href="../reference/as_task_regr.html">as_task_regr.formula()</a></code> now remove additional attributes attached to the data which caused some learners to break.</li>
 <li>Packages are now loaded prior to calling the <code>$train()</code> and <code>$predict()</code> methods of a <code>Learner</code>. This ensures that package loading errors are properly propagated and not affected by encapsulation (<a href="https://github.com/mlr-org/mlr3/issues/771" class="external-link">#771</a>).</li>
 </ul></div>
     <div class="section level2">
