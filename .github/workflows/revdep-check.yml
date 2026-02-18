@@ -46,7 +46,6 @@ jobs:
       matrix:
         include:
           - {package: mlr-org/mlr3learners, ref: main}
-          - {package: mlr-org/bbotk, ref: main}
           - {package: mlr-org/mlr3tuning, ref: main}
 
     steps:
