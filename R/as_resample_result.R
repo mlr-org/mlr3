@@ -39,7 +39,7 @@ as_resample_result.ResultData = function(x, view = NULL, ...) { # nolint
 #' @export
 as_resample_result.list = function(x, task, learners, resampling, store_backends = TRUE, ...) { # nolint
   rdata = as_result_data(task = task, learners = learners, resampling = resampling,
-    iterations = seq_len(resampling$iters), predictions = x)
+    iterations = seq_len(resampling$iters), predictions = x, store_backends = store_backends)
 
   ResampleResult$new(rdata)
 }
