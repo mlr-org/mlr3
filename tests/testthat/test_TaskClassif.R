@@ -44,7 +44,7 @@ test_that("Target is character/factor", {
 
 test_that("TaskClassif rejects NAs in target", {
   dt = data.table::data.table(x = 1:10, y = factor(c(NA, letters[1:9])))
-  expect_error(as_task_classif(dt, target = "y"), "contain missing")
+  expect_message(as_task_classif(dt, target = "y"), "contains missing")
 })
 
 test_that("0 feature task", {
