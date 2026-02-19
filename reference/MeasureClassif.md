@@ -158,7 +158,7 @@ Creates a new instance of this
 
 - `aggregator`:
 
-  (`function()`)  
+  (`function()` \| `NULL`)  
   Function to aggregate over multiple iterations. The role of this
   function depends on the value of field `"average"`:
 

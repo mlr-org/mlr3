@@ -28,7 +28,7 @@ e.g. [`cv`](https://mlr3.mlr-org.com/reference/mlr_resamplings_cv.md) or
 The `Resampling` class only defines an abstract resampling strategy.
 Concrete data splits are obtained by calling `$instantiate()` on a
 [`Task`](https://mlr3.mlr-org.com/reference/Task.md). To ensure
-repdocubility of results, you need to call `set.seed` before doing so.
+reproducibility of results, you need to call `set.seed` before doing so.
 Note that
 [`benchmark_grid`](https://mlr3.mlr-org.com/reference/benchmark_grid.md)
 internally does instantiate resamplings, so you need to set the seed
@@ -112,17 +112,6 @@ Other Resampling:
 
 ## Public fields
 
-- `label`:
-
-  (`character(1)`)  
-  Label for this object. Can be used in tables, plot and text output
-  instead of the ID.
-
-- `param_set`:
-
-  ([paradox::ParamSet](https://paradox.mlr-org.com/reference/ParamSet.html))  
-  Set of hyperparameters.
-
 - `instance`:
 
   (any)  
@@ -134,6 +123,36 @@ Other Resampling:
 
   It is advised to not work directly with the `instance`, but instead
   only use the getters `$train_set()` and `$test_set()`.
+
+## Active bindings
+
+- `id`:
+
+  (`character(1)`)  
+  Identifier of the object. Used in tables, plot and text output.
+
+- `is_instantiated`:
+
+  (`logical(1)`)  
+  Is `TRUE` if the resampling has been instantiated.
+
+- `hash`:
+
+  (`character(1)`)  
+  Hash (unique identifier) for this object. If the object has not been
+  instantiated yet, `NA_character_` is returned. The hash is calculated
+  based on the class name, the id, the parameter set, and the instance.
+
+- `label`:
+
+  (`character(1)`)  
+  Label for this object. Can be used in tables, plot and text output
+  instead of the ID.
+
+- `param_set`:
+
+  ([paradox::ParamSet](https://paradox.mlr-org.com/reference/ParamSet.html))  
+  Set of hyperparameters.
 
 - `task_hash`:
 
@@ -164,28 +183,9 @@ Other Resampling:
 
 - `man`:
 
-  (`character(1)`)  
+  (`character(1)` \| `NULL`)  
   String in the format `[pkg]::[topic]` pointing to a manual page for
   this object. Defaults to `NA`, but can be set by child classes.
-
-## Active bindings
-
-- `id`:
-
-  (`character(1)`)  
-  Identifier of the object. Used in tables, plot and text output.
-
-- `is_instantiated`:
-
-  (`logical(1)`)  
-  Is `TRUE` if the resampling has been instantiated.
-
-- `hash`:
-
-  (`character(1)`)  
-  Hash (unique identifier) for this object. If the object has not been
-  instantiated yet, `NA_character_` is returned. The hash is calculated
-  based on the class name, the id, the parameter set, and the instance.
 
 ## Methods
 
@@ -323,7 +323,7 @@ them in `r$instance` in an arbitrary format.
 #### Returns
 
 Returns the object itself, but modified **by reference**. You need to
-explicitly `$clone()` the object beforehand if you want to keeps the
+explicitly `$clone()` the object beforehand if you want to keep the
 object in its previous state.
 
 #### Examples

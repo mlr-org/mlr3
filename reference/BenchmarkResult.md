@@ -31,7 +31,7 @@ extracted object without cloning it first.
 
 - `as.data.table(rr, ..., reassemble_learners = TRUE, convert_predictions = TRUE, predict_sets = "test", task_characteristics = FALSE)`  
   BenchmarkResult -\>
-  [`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html)  
+  [`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html)  
   Returns a tabular view of the internal data.
 
 - `c(...)`  
@@ -69,7 +69,7 @@ Other benchmark:
 
 - `tasks`:
 
-  ([`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html))  
+  ([`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html))  
   Table of included [Task](https://mlr3.mlr-org.com/reference/Task.md)s
   with three columns:
 
@@ -81,7 +81,7 @@ Other benchmark:
 
 - `learners`:
 
-  ([`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html))  
+  ([`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html))  
   Table of included
   [Learner](https://mlr3.mlr-org.com/reference/Learner.md)s with three
   columns:
@@ -95,12 +95,12 @@ Other benchmark:
 
   Note that it is not feasible to access learned models via this field,
   as the training task would be ambiguous. For this reason the returned
-  learner are reset before they are returned. Instead, select a row from
-  the table returned by `$score()`.
+  learners are reset before they are returned. Instead, select a row
+  from the table returned by `$score()`.
 
 - `resamplings`:
 
-  ([`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html))  
+  ([`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html))  
   Table of included
   [Resampling](https://mlr3.mlr-org.com/reference/Resampling.md)s with
   three columns:
@@ -114,7 +114,7 @@ Other benchmark:
 
 - `resample_results`:
 
-  ([`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html))  
+  ([`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html))  
   Returns a table with three columns:
 
   - `uhash` ([`character()`](https://rdrr.io/r/base/character.html)).
@@ -136,7 +136,7 @@ Other benchmark:
 
 - `uhash_table`:
 
-  ([data.table::data.table](https://rdatatable.gitlab.io/data.table/reference/data.table.html))  
+  ([data.table::data.table](https://rdrr.io/pkg/data.table/man/data.table.html))  
   Table with columns `uhash`, `learner_id`, `task_id` and
   `resampling_id`.
 
@@ -336,7 +336,7 @@ id of the respective
 - `measures`:
 
   ([Measure](https://mlr3.mlr-org.com/reference/Measure.md) \| list of
-  [Measure](https://mlr3.mlr-org.com/reference/Measure.md))  
+  [Measure](https://mlr3.mlr-org.com/reference/Measure.md) \| `NULL`)  
   Measure(s) to calculate.
 
 - `ids`:
@@ -361,7 +361,7 @@ id of the respective
 
 #### Returns
 
-[`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html).
+[`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html).
 
 #### Examples
 
@@ -374,7 +374,7 @@ id of the respective
 Calculates the observation-wise loss via the
 [Measure](https://mlr3.mlr-org.com/reference/Measure.md)'s `obs_loss`
 method. Returns a
-[`data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html)
+[`data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html)
 with columns from the predictions (e.g., `row_ids`, `truth`, `response`,
 etc.), plus one numeric column for each measure, named with the
 respective measure id, and a `resample_result` column. If there is no
@@ -392,7 +392,7 @@ aggregation, in this example taking the square-root.
 - `measures`:
 
   ([Measure](https://mlr3.mlr-org.com/reference/Measure.md) \| list of
-  [Measure](https://mlr3.mlr-org.com/reference/Measure.md))  
+  [Measure](https://mlr3.mlr-org.com/reference/Measure.md) \| `NULL`)  
   Measure(s) to calculate.
 
 - `predict_sets`:
@@ -447,7 +447,7 @@ from the returned
 - `measures`:
 
   ([Measure](https://mlr3.mlr-org.com/reference/Measure.md) \| list of
-  [Measure](https://mlr3.mlr-org.com/reference/Measure.md))  
+  [Measure](https://mlr3.mlr-org.com/reference/Measure.md) \| `NULL`)  
   Measure(s) to calculate.
 
 - `ids`:
@@ -479,7 +479,7 @@ from the returned
 
 #### Returns
 
-[`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html).
+[`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html).
 
 #### Examples
 
@@ -535,7 +535,7 @@ exclusive.
 #### Returns
 
 Returns the object itself, but modified **by reference**. You need to
-explicitly `$clone()` the object beforehand if you want to keeps the
+explicitly `$clone()` the object beforehand if you want to keep the
 object in its previous state.
 
 #### Examples
@@ -645,7 +645,7 @@ task's data.
 #### Returns
 
 Returns the object itself, but modified **by reference**. You need to
-explicitly `$clone()` the object beforehand if you want to keeps the
+explicitly `$clone()` the object beforehand if you want to keep the
 object in its previous state.
 
 #### Examples
@@ -790,8 +790,8 @@ bmr$tasks
 #> Key: <task_hash>
 #>           task_hash  task_id                   task
 #>              <char>   <char>                 <list>
-#> 1: 40bc78f17c7a5f3d penguins <TaskClassif:penguins>
-#> 2: f9791e97f9813150    sonar    <TaskClassif:sonar>
+#> 1: 062d5c9e3bac138b    sonar    <TaskClassif:sonar>
+#> 2: d6c81c98ebae7f4d penguins <TaskClassif:penguins>
 bmr$learners
 #> Key: <learner_hash>
 #>        learner_hash          learner_id
@@ -807,11 +807,11 @@ bmr$learners
 head(as.data.table(bmr, measures = c("classif.acc", "classif.auc")), 5)
 #>                                   uhash                task
 #>                                  <char>              <list>
-#> 1: 01092c93-f959-4494-8066-91cd457c61fe <TaskClassif:sonar>
-#> 2: 01092c93-f959-4494-8066-91cd457c61fe <TaskClassif:sonar>
-#> 3: 01092c93-f959-4494-8066-91cd457c61fe <TaskClassif:sonar>
-#> 4: fd5a18ce-17fc-42ef-8004-09fee5c72973 <TaskClassif:sonar>
-#> 5: fd5a18ce-17fc-42ef-8004-09fee5c72973 <TaskClassif:sonar>
+#> 1: e047baf7-9232-42a1-8411-800407c5e89f <TaskClassif:sonar>
+#> 2: e047baf7-9232-42a1-8411-800407c5e89f <TaskClassif:sonar>
+#> 3: e047baf7-9232-42a1-8411-800407c5e89f <TaskClassif:sonar>
+#> 4: d014c7bd-f112-4f88-a1a3-3e394e58de87 <TaskClassif:sonar>
+#> 5: d014c7bd-f112-4f88-a1a3-3e394e58de87 <TaskClassif:sonar>
 #>                                            learner     resampling iteration
 #>                                             <list>         <list>     <int>
 #> 1: <LearnerClassifFeatureless:classif.featureless> <ResamplingCV>         1
@@ -1040,30 +1040,30 @@ bmr$set_threshold(0.8, learner_ids = "classif.featureless")
 #> Key: <uhash, iteration>
 #>                                   uhash iteration      learner_state prediction
 #>                                  <char>     <int>             <list>     <list>
-#> 1: 3164adb9-db67-4dfc-8150-af5f5cd6c546         1 <learner_state[8]>  <list[1]>
-#> 2: b781380a-b74d-4304-bc15-4d873e42214f         1 <learner_state[9]>  <list[1]>
+#> 1: 17c483b0-c04f-45b6-a8ea-e69642489e72         1 <learner_state[9]>  <list[1]>
+#> 2: 2ec16e0a-1b68-4ed0-b691-f0e537bc2d40         1 <learner_state[8]>  <list[1]>
 #>        learner_hash        task_hash    learner_phash  resampling_hash
 #>              <char>           <char>           <char>           <char>
-#> 1: 918bbfdfae9c988e f9791e97f9813150 53c7d4b30df61d77 35db3d2bb507d357
-#> 2: c7c9e936a7ad47c2 f9791e97f9813150 02fee2b4eac6c687 35db3d2bb507d357
+#> 1: c7c9e936a7ad47c2 062d5c9e3bac138b 02fee2b4eac6c687 35db3d2bb507d357
+#> 2: 918bbfdfae9c988e 062d5c9e3bac138b 53c7d4b30df61d77 35db3d2bb507d357
 bmr$set_threshold(0.3, i = 2)
 #> Key: <uhash, iteration>
 #>                                   uhash iteration      learner_state prediction
 #>                                  <char>     <int>             <list>     <list>
-#> 1: 3164adb9-db67-4dfc-8150-af5f5cd6c546         1 <learner_state[8]>  <list[1]>
-#> 2: b781380a-b74d-4304-bc15-4d873e42214f         1 <learner_state[9]>  <list[1]>
+#> 1: 17c483b0-c04f-45b6-a8ea-e69642489e72         1 <learner_state[9]>  <list[1]>
+#> 2: 2ec16e0a-1b68-4ed0-b691-f0e537bc2d40         1 <learner_state[8]>  <list[1]>
 #>        learner_hash        task_hash    learner_phash  resampling_hash
 #>              <char>           <char>           <char>           <char>
-#> 1: 918bbfdfae9c988e f9791e97f9813150 53c7d4b30df61d77 35db3d2bb507d357
-#> 2: c7c9e936a7ad47c2 f9791e97f9813150 02fee2b4eac6c687 35db3d2bb507d357
+#> 1: c7c9e936a7ad47c2 062d5c9e3bac138b 02fee2b4eac6c687 35db3d2bb507d357
+#> 2: 918bbfdfae9c988e 062d5c9e3bac138b 53c7d4b30df61d77 35db3d2bb507d357
 bmr$set_threshold(0.7, uhashes = uhashes(bmr, learner_ids = "classif.featureless"))
 #> Key: <uhash, iteration>
 #>                                   uhash iteration      learner_state prediction
 #>                                  <char>     <int>             <list>     <list>
-#> 1: 3164adb9-db67-4dfc-8150-af5f5cd6c546         1 <learner_state[8]>  <list[1]>
-#> 2: b781380a-b74d-4304-bc15-4d873e42214f         1 <learner_state[9]>  <list[1]>
+#> 1: 17c483b0-c04f-45b6-a8ea-e69642489e72         1 <learner_state[9]>  <list[1]>
+#> 2: 2ec16e0a-1b68-4ed0-b691-f0e537bc2d40         1 <learner_state[8]>  <list[1]>
 #>        learner_hash        task_hash    learner_phash  resampling_hash
 #>              <char>           <char>           <char>           <char>
-#> 1: 918bbfdfae9c988e f9791e97f9813150 53c7d4b30df61d77 35db3d2bb507d357
-#> 2: c7c9e936a7ad47c2 f9791e97f9813150 02fee2b4eac6c687 35db3d2bb507d357
+#> 1: c7c9e936a7ad47c2 062d5c9e3bac138b 02fee2b4eac6c687 35db3d2bb507d357
+#> 2: 918bbfdfae9c988e 062d5c9e3bac138b 53c7d4b30df61d77 35db3d2bb507d357
 ```

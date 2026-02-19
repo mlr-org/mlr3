@@ -71,7 +71,7 @@ documentation of specific measures for more details.
 Many measurements cannot be calculated if the test set or predictions
 are unfortunate, for example because a denominator is 0. This typically
 occurs during (binary) classification if some entries of the confusion
-matrix are 0. For this reason, many measures which origin in
+matrix are 0. For this reason, many measures which originate in
 [mlr3measures](https://CRAN.R-project.org/package=mlr3measures) allow to
 change the default missing value (`NaN`) via the field `na_value`.
 
@@ -80,8 +80,8 @@ If you encounter missing values in a compound object like a
 or
 [BenchmarkResult](https://mlr3.mlr-org.com/reference/BenchmarkResult.md)
 during scoring or aggregating, simply removing iterations with missing
-values is statistically arguable (but technically possible by prividng a
-custom aggregation function which handles missing values, e.g.
+values is statistically arguable (but technically possible by providing
+a custom aggregation function which handles missing values, e.g.
 `function(x) mean(x, na.rm = TRUE)`). Instead, consider stratification
 on the target of the [Task](https://mlr3.mlr-org.com/reference/Task.md)
 to work around missing values. Switching to micro averaging in the
@@ -126,94 +126,6 @@ Other Measure:
 [`mlr_measures_regr.rqr`](https://mlr3.mlr-org.com/reference/mlr_measures_regr.rqr.md),
 [`mlr_measures_regr.rsq`](https://mlr3.mlr-org.com/reference/mlr_measures_regr.rsq.md),
 [`mlr_measures_selected_features`](https://mlr3.mlr-org.com/reference/mlr_measures_selected_features.md)
-
-## Public fields
-
-- `id`:
-
-  (`character(1)`)  
-  Identifier of the object. Used in tables, plot and text output.
-
-- `label`:
-
-  (`character(1)`)  
-  Label for this object. Can be used in tables, plot and text output
-  instead of the ID.
-
-- `task_type`:
-
-  (`character(1)`)  
-  Task type, e.g. `"classif"` or `"regr"`.
-
-  For a complete list of possible task types (depending on the loaded
-  packages), see
-  [`mlr_reflections$task_types$type`](https://mlr3.mlr-org.com/reference/mlr_reflections.md).
-
-- `param_set`:
-
-  ([paradox::ParamSet](https://paradox.mlr-org.com/reference/ParamSet.html))  
-  Set of hyperparameters.
-
-- `trafo`:
-
-  ([`list()`](https://rdrr.io/r/base/list.html) \| `NULL`) `NULL` or a
-  list with two elements:
-
-  - `trafo`: the transformation function applied after aggregating
-    observation-wise losses (e.g. `sqrt` for RMSE)
-
-  - `deriv`: The derivative of the `trafo`.
-
-- `predict_type`:
-
-  (`character(1)`)  
-  Required predict type of the
-  [Learner](https://mlr3.mlr-org.com/reference/Learner.md).
-
-- `check_prerequisites`:
-
-  (`character(1)`)  
-  How to proceed if one of the following prerequisites is not met:
-
-  - wrong predict type (e.g., probabilities required, but only labels
-    available).
-
-  - wrong predict set (e.g., learner predicted on training set, but
-    predictions of test set required).
-
-  - task properties not satisfied (e.g., binary classification measure
-    on multiclass task).
-
-  Possible values are `"ignore"` (just return `NaN`) and `"warn"`
-  (default, raise a warning before returning `NaN`).
-
-- `task_properties`:
-
-  ([`character()`](https://rdrr.io/r/base/character.html))  
-  Required properties of the
-  [Task](https://mlr3.mlr-org.com/reference/Task.md).
-
-- `range`:
-
-  (`numeric(2)`)  
-  Lower and upper bound of possible performance scores.
-
-- `minimize`:
-
-  (`logical(1)`)  
-  If `TRUE`, good predictions correspond to small values of performance
-  scores.
-
-- `packages`:
-
-  (`character(1)`)  
-  Set of required packages. These packages are loaded, but not attached.
-
-- `man`:
-
-  (`character(1)`)  
-  String in the format `[pkg]::[topic]` pointing to a manual page for
-  this object. Defaults to `NA`, but can be set by child classes.
 
 ## Active bindings
 
@@ -309,6 +221,92 @@ Other Measure:
   supports weights when it does not. For measures that do not support
   weights, `use_weights` needs to be set to `"ignore"` if tasks with
   weights should be handled (by dropping the weights).
+
+- `id`:
+
+  (`character(1)`)  
+  Identifier of the object. Used in tables, plot and text output.
+
+- `label`:
+
+  (`character(1)`)  
+  Label for this object. Can be used in tables, plot and text output
+  instead of the ID.
+
+- `task_type`:
+
+  (`character(1)`)  
+  Task type, e.g. `"classif"` or `"regr"`.
+
+  For a complete list of possible task types (depending on the loaded
+  packages), see
+  [`mlr_reflections$task_types$type`](https://mlr3.mlr-org.com/reference/mlr_reflections.md).
+
+- `param_set`:
+
+  ([paradox::ParamSet](https://paradox.mlr-org.com/reference/ParamSet.html))  
+  Set of hyperparameters.
+
+- `predict_type`:
+
+  (`character(1)`)  
+  Required predict type of the
+  [Learner](https://mlr3.mlr-org.com/reference/Learner.md).
+
+- `check_prerequisites`:
+
+  (`character(1)`)  
+  How to proceed if one of the following prerequisites is not met:
+
+  - wrong predict type (e.g., probabilities required, but only labels
+    available).
+
+  - wrong predict set (e.g., learner predicted on training set, but
+    predictions of test set required).
+
+  - task properties not satisfied (e.g., binary classification measure
+    on multiclass task).
+
+  Possible values are `"ignore"` (just return `NaN`) and `"warn"`
+  (default, raise a warning before returning `NaN`).
+
+- `task_properties`:
+
+  ([`character()`](https://rdrr.io/r/base/character.html))  
+  Required properties of the
+  [Task](https://mlr3.mlr-org.com/reference/Task.md).
+
+- `range`:
+
+  (`numeric(2)`)  
+  Lower and upper bound of possible performance scores.
+
+- `minimize`:
+
+  (`logical(1)`)  
+  If `TRUE`, good predictions correspond to small values of performance
+  scores.
+
+- `packages`:
+
+  (`character(1)`)  
+  Set of required packages. These packages are loaded, but not attached.
+
+- `man`:
+
+  (`character(1)` \| `NULL`)  
+  String in the format `[pkg]::[topic]` pointing to a manual page for
+  this object. Defaults to `NA`, but can be set by child classes.
+
+- `trafo`:
+
+  ([`list()`](https://rdrr.io/r/base/list.html) \| `NULL`)  
+  `NULL` or a list with two elements:
+
+  - `fn`: the transformation function applied after aggregating
+    observation-wise losses (e.g. `sqrt` for RMSE)
+
+  - `deriv`: The derivative of the `fn`.
 
 ## Methods
 
@@ -425,7 +423,7 @@ or [MeasureRegr](https://mlr3.mlr-org.com/reference/MeasureRegr.md).
 
 - `aggregator`:
 
-  (`function()`)  
+  (`function()` \| `NULL`)  
   Function to aggregate over multiple iterations. The role of this
   function depends on the value of field `"average"`:
 
@@ -524,7 +522,7 @@ or [MeasureRegr](https://mlr3.mlr-org.com/reference/MeasureRegr.md).
 
 - `trafo`:
 
-  ([`list()`](https://rdrr.io/r/base/list.html) or `NULL`)  
+  ([`list()`](https://rdrr.io/r/base/list.html) \| `NULL`)  
   An optional list with two elements, containing the transformation
   `"fn"` and its derivative `"deriv"`. The transformation function is
   the function that is applied after aggregating the pointwise losses,

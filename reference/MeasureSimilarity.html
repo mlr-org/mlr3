@@ -31,7 +31,7 @@ mlr_measures, prefixed with "sim.".'><meta property="og:image" content="https://
 
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.3.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.4.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -62,7 +62,7 @@ mlr_measures, prefixed with "sim.".'><meta property="og:image" content="https://
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Similarity Measure</h1>
-      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3/blob/v1.3.0/R/MeasureSimilarity.R" class="external-link"><code>R/MeasureSimilarity.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3/blob/main/R/MeasureSimilarity.R" class="external-link"><code>R/MeasureSimilarity.R</code></a></small>
       <div class="d-none name"><code>MeasureSimilarity.Rd</code></div>
     </div>
 
@@ -183,7 +183,7 @@ The function in <code>$aggregator</code> is not used in this case.</p></dd>
 
 
 <dt><code>aggregator</code></dt>
-<dd><p>(<code>function()</code>)<br>
+<dd><p>(<code>function()</code> | <code>NULL</code>)<br>
 Function to aggregate over multiple iterations. The role of this function depends on
 the value of field <code>"average"</code>:</p><ul><li><p><code>"macro"</code>: A numeric vector of scores (one per iteration) is passed.
 The aggregate function defaults to <code><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean()</a></code> in this case.</p></li>

@@ -33,7 +33,7 @@ benchmark(
 
   ([`data.frame()`](https://rdrr.io/r/base/data.frame.html))  
   Data frame (or
-  [`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html))
+  [`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html))
   with three columns: "task", "learner", and "resampling". Each row
   defines a resampling by providing a
   [Task](https://mlr3.mlr-org.com/reference/Task.md),
@@ -112,8 +112,9 @@ benchmark(
 
 - callbacks:
 
-  (List of
-  [mlr3misc::Callback](https://mlr3misc.mlr-org.com/reference/Callback.html))  
+  (list of
+  [mlr3misc::Callback](https://mlr3misc.mlr-org.com/reference/Callback.html)
+  \| `NULL`)  
   Callbacks to be executed during the resampling process. See
   [CallbackResample](https://mlr3.mlr-org.com/reference/CallbackResample.md)
   and
@@ -244,12 +245,12 @@ bmr = benchmark(design)
 head(as.data.table(bmr))
 #>                                   uhash                   task
 #>                                  <char>                 <list>
-#> 1: 5b74bf7c-92b1-4e5a-9833-036dca2b9725 <TaskClassif:penguins>
-#> 2: 5b74bf7c-92b1-4e5a-9833-036dca2b9725 <TaskClassif:penguins>
-#> 3: 5b74bf7c-92b1-4e5a-9833-036dca2b9725 <TaskClassif:penguins>
-#> 4: f8bbe809-e958-45eb-bd89-4ea87b0e0653 <TaskClassif:penguins>
-#> 5: f8bbe809-e958-45eb-bd89-4ea87b0e0653 <TaskClassif:penguins>
-#> 6: f8bbe809-e958-45eb-bd89-4ea87b0e0653 <TaskClassif:penguins>
+#> 1: 2150cfa9-e384-4ee0-a781-5195b902a1d1 <TaskClassif:penguins>
+#> 2: 2150cfa9-e384-4ee0-a781-5195b902a1d1 <TaskClassif:penguins>
+#> 3: 2150cfa9-e384-4ee0-a781-5195b902a1d1 <TaskClassif:penguins>
+#> 4: e328e7e2-d3d5-4c54-81ec-79d7145a256c <TaskClassif:penguins>
+#> 5: e328e7e2-d3d5-4c54-81ec-79d7145a256c <TaskClassif:penguins>
+#> 6: e328e7e2-d3d5-4c54-81ec-79d7145a256c <TaskClassif:penguins>
 #>                                            learner     resampling iteration
 #>                                             <list>         <list>     <int>
 #> 1: <LearnerClassifFeatureless:classif.featureless> <ResamplingCV>         1

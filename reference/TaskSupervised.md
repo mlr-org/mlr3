@@ -4,7 +4,7 @@ This is the abstract base class for task objects like
 [TaskClassif](https://mlr3.mlr-org.com/reference/TaskClassif.md) and
 [TaskRegr](https://mlr3.mlr-org.com/reference/TaskRegr.md). It extends
 [Task](https://mlr3.mlr-org.com/reference/Task.md) with methods to
-handle a target columns. Supervised tasks for probabilistic regression
+handle a target column. Supervised tasks for probabilistic regression
 (including survival analysis) can be found in
 [mlr3proba](https://CRAN.R-project.org/package=mlr3proba).
 
@@ -172,7 +172,8 @@ Defaults to all rows with role "use".
 
 - `rows`:
 
-  (positive [`integer()`](https://rdrr.io/r/base/integer.html))  
+  (positive [`integer()`](https://rdrr.io/r/base/integer.html) \|
+  `NULL`)  
   Vector or row indices. Always refers to the complete data set, even
   after filtering.
 

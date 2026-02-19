@@ -2,7 +2,7 @@
 
 Environment which stores various information to allow objects to examine
 and introspect their structure and properties (c.f.
-[Reflections](https://www.wikiwand.com/en/Reflection_(computer_programming))).
+[Reflections](https://en.wikipedia.org/wiki/Reflective_programming)).
 
 This environment be modified by third-party packages, e.g. by adding
 information about new task types or by extending the set of allowed
@@ -15,7 +15,7 @@ The following objects are set by
 [mlr3](https://CRAN.R-project.org/package=mlr3):
 
 - `task_types`
-  ([`data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html))  
+  ([`data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html))  
   Table with task type (`"type"`), the implementing package (`"pkg"`),
   and the names of the generators of the corresponding
   [Task](https://mlr3.mlr-org.com/reference/Task.md) (`"task"`),
@@ -135,7 +135,7 @@ mlr_reflections
 
 ``` r
 ls.str(mlr_reflections)
-#> auto_converters : <environment: 0x55e49da2baf8> 
+#> auto_converters : <environment: 0x564da94c1218> 
 #> default_measures : List of 3
 #>  $ classif     : chr "classif.ce"
 #>  $ regr        : chr "regr.mse"
@@ -146,14 +146,14 @@ ls.str(mlr_reflections)
 #>  $ regr        :List of 4
 #>  $ unsupervised: NULL
 #> learner_properties : List of 2
-#>  $ classif: chr [1:14] "featureless" "missings" "weights" "importance" ...
-#>  $ regr   : chr [1:12] "featureless" "missings" "weights" "importance" ...
+#>  $ classif: chr [1:15] "featureless" "missings" "weights" "importance" ...
+#>  $ regr   : chr [1:13] "featureless" "missings" "weights" "importance" ...
 #> loaded_packages :  chr "mlr3"
 #> measure_properties : List of 2
 #>  $ classif: chr [1:9] "na_score" "requires_task" "requires_learner" "requires_model" ...
 #>  $ regr   : chr [1:9] "na_score" "requires_task" "requires_learner" "requires_model" ...
 #> package_version : Classes 'package_version', 'numeric_version'  hidden list of 1
-#>  $ : int [1:3] 1 3 0
+#>  $ : int [1:3] 1 4 0
 #> predict_sets :  chr [1:3] "train" "test" "internal_valid"
 #> resampling_properties :  chr [1:2] "duplicated_ids" "weights"
 #> rr_names :  chr [1:4] "task" "learner" "resampling" "iteration"

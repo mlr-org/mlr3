@@ -31,7 +31,7 @@ Note that this object is usually constructed via a derived classes, e.g. Predict
 
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.3.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.4.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -62,7 +62,7 @@ Note that this object is usually constructed via a derived classes, e.g. Predict
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Abstract Prediction Object</h1>
-      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3/blob/v1.3.0/R/Prediction.R" class="external-link"><code>R/Prediction.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3/blob/main/R/Prediction.R" class="external-link"><code>R/Prediction.R</code></a></small>
       <div class="d-none name"><code>Prediction.Rd</code></div>
     </div>
 
@@ -82,8 +82,8 @@ E.g., the class probabilities for classification or the estimated standard error
 
 
 <ul><li><p><code>as.data.table(rr)</code><br>
-Prediction -&gt; <code><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code><br>
-Converts the data to a <code><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code>.</p></li>
+Prediction -&gt; <code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code><br>
+Converts the data to a <code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code>.</p></li>
 <li><p><code>c(..., keep_duplicates = TRUE)</code><br>
 (Prediction, Prediction, ...) -&gt; Prediction<br>
 Combines multiple <code>Prediction</code>s to a single <code>Prediction</code>.
@@ -126,7 +126,7 @@ Set of predict types this object stores.</p></dd>
 
 
 <dt><code>man</code></dt>
-<dd><p>(<code>character(1)</code>)<br>
+<dd><p>(<code>character(1)</code> | <code>NULL</code>)<br>
 String in the format <code>[pkg]::[topic]</code> pointing to a manual page for this object.
 Defaults to <code>NA</code>, but can be set by child classes.</p></dd>
 
@@ -235,7 +235,7 @@ instead all predictions are used.</p><div class="section">
 <div class="section">
 <h4 id="arguments-2">Arguments<a class="anchor" aria-label="anchor" href="#arguments-2"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>measures</code></dt>
-<dd><p>(<a href="Measure.html">Measure</a> | list of <a href="Measure.html">Measure</a>)<br>
+<dd><p>(<a href="Measure.html">Measure</a> | list of <a href="Measure.html">Measure</a> | <code>NULL</code>)<br>
 Measure(s) to calculate.</p></dd>
 
 
@@ -261,7 +261,7 @@ Measure(s) to calculate.</p></dd>
 </div><p></p><hr><a id="method-Prediction-obs_loss"></a><div class="section">
 <h3 id="method-obs-loss-">Method <code>obs_loss()</code><a class="anchor" aria-label="anchor" href="#method-obs-loss-"></a></h3>
 <p>Calculates the observation-wise loss via the <a href="Measure.html">Measure</a>'s <code>obs_loss</code> method.
-Returns a <code><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table()</a></code> with the columns of the matching Prediction object plus one additional numeric column for each measure, named with the respective measure id.
+Returns a <code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table()</a></code> with the columns of the matching Prediction object plus one additional numeric column for each measure, named with the respective measure id.
 If there is no observation-wise loss function for the measure, the column is filled with <code>NA_real_</code> values.
 Note that some measures such as RMSE, do have an <code>$obs_loss</code>, but they require an additional transformation after aggregation, in this example taking the square-root.</p><div class="section">
 <h4 id="usage-4">Usage<a class="anchor" aria-label="anchor" href="#usage-4"></a></h4>
@@ -271,7 +271,7 @@ Note that some measures such as RMSE, do have an <code>$obs_loss</code>, but the
 <div class="section">
 <h4 id="arguments-3">Arguments<a class="anchor" aria-label="anchor" href="#arguments-3"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>measures</code></dt>
-<dd><p>(<a href="Measure.html">Measure</a> | list of <a href="Measure.html">Measure</a>)<br>
+<dd><p>(<a href="Measure.html">Measure</a> | list of <a href="Measure.html">Measure</a> | <code>NULL</code>)<br>
 Measure(s) to calculate.</p></dd>
 
 

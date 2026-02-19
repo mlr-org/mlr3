@@ -102,8 +102,9 @@ resample(
 
 - callbacks:
 
-  (List of
-  [mlr3misc::Callback](https://mlr3misc.mlr-org.com/reference/Callback.html))  
+  (list of
+  [mlr3misc::Callback](https://mlr3misc.mlr-org.com/reference/Callback.html)
+  \| `NULL`)  
   Callbacks to be executed during the resampling process. See
   [CallbackResample](https://mlr3.mlr-org.com/reference/CallbackResample.md)
   and
@@ -217,7 +218,7 @@ task = tsk("penguins")
 learner = lrn("classif.rpart")
 resampling = rsmp("cv")
 
-# Explicitly instantiate the resampling for this task for reproduciblity
+# Explicitly instantiate the resampling for this task for reproducibility
 set.seed(123)
 resampling$instantiate(task)
 

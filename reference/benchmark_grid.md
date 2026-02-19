@@ -52,7 +52,7 @@ benchmark_grid(
 
 - param_values:
 
-  ([`list()`](https://rdrr.io/r/base/list.html))  
+  ([`list()`](https://rdrr.io/r/base/list.html) \| `NULL`)  
   If you want to try many parameter settings for learners, you can pass
   them through the design which is optimized to be faster than creating
   learners for each setting.
@@ -77,7 +77,7 @@ benchmark_grid(
 
 ## Value
 
-([`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html))
+([`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html))
 with the cross product of the input vectors.
 
 ## Errors and Warnings

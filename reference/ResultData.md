@@ -19,7 +19,7 @@ requirements.
 
   ([`list()`](https://rdrr.io/r/base/list.html))  
   List of
-  [`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html),
+  [`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html),
   arranged in a star schema. Do not operate directly on this list.
 
 ## Active bindings
@@ -91,7 +91,7 @@ construction method is provided by
 
 - `data`:
 
-  ([`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html))
+  ([`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html))
   \| `NULL`)  
   Do not initialize this object yourself, use
   [`as_result_data()`](https://mlr3.mlr-org.com/reference/as_result_data.md)
@@ -125,12 +125,12 @@ Returns all unique hashes (`uhash` values) of all included
 
 - `view`:
 
-  `character(1)`  
+  (`character(1)` \| `NULL`)  
   Single `uhash` to restrict the results to.
 
 - `view`:
 
-  `character(1)`  
+  (`character(1)` \| `NULL`)  
   Single `uhash` to restrict the results to.
 
 #### Returns
@@ -142,9 +142,9 @@ Returns all unique hashes (`uhash` values) of all included
 ### Method `uhash_table()`
 
 Returns a
-[`data.table`](https://rdatatable.gitlab.io/data.table/reference/data.table.html)
-with columns `uhash`, `learner_id`, `task_id` and `resampling_id` for
-the given view. The `uhash` uniquely identifies an individual
+[`data.table`](https://rdrr.io/pkg/data.table/man/data.table.html) with
+columns `uhash`, `learner_id`, `task_id` and `resampling_id` for the
+given view. The `uhash` uniquely identifies an individual
 [`ResampleResult`](https://mlr3.mlr-org.com/reference/ResampleResult.md).
 
 #### Usage
@@ -155,17 +155,17 @@ the given view. The `uhash` uniquely identifies an individual
 
 - `view`:
 
-  `character(1)`  
+  (`character(1)` \| `NULL`)  
   Single `uhash` to restrict the results to.
 
 - `view`:
 
-  `character(1)`  
+  (`character(1)` \| `NULL`)  
   Single `uhash` to restrict the results to.
 
 #### Returns
 
-[`data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html)
+[`data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html)
 
 ------------------------------------------------------------------------
 
@@ -181,12 +181,12 @@ Returns the number of recorded iterations / experiments.
 
 - `view`:
 
-  `character(1)`  
+  (`character(1)` \| `NULL`)  
   Single `uhash` to restrict the results to.
 
 - `view`:
 
-  `character(1)`  
+  (`character(1)` \| `NULL`)  
   Single `uhash` to restrict the results to.
 
 #### Returns
@@ -208,17 +208,17 @@ Returns a table of included
 
 - `view`:
 
-  `character(1)`  
+  (`character(1)` \| `NULL`)  
   Single `uhash` to restrict the results to.
 
 - `view`:
 
-  `character(1)`  
+  (`character(1)` \| `NULL`)  
   Single `uhash` to restrict the results to.
 
 #### Returns
 
-[`data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html)
+[`data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html)
 with columns `"task_hash"`
 ([`character()`](https://rdrr.io/r/base/character.html)) and `"task"`
 ([Task](https://mlr3.mlr-org.com/reference/Task.md)).
@@ -238,12 +238,12 @@ Returns a table of included
 
 - `view`:
 
-  `character(1)`  
+  (`character(1)` \| `NULL`)  
   Single `uhash` to restrict the results to.
 
 - `view`:
 
-  `character(1)`  
+  (`character(1)` \| `NULL`)  
   Single `uhash` to restrict the results to.
 
 - `states`:
@@ -263,7 +263,7 @@ Returns a table of included
 
 #### Returns
 
-[`data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html)
+[`data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html)
 with columns `"learner_hash"`
 ([`character()`](https://rdrr.io/r/base/character.html)) and `"learner"`
 ([Learner](https://mlr3.mlr-org.com/reference/Learner.md)).
@@ -286,12 +286,12 @@ reassembling the learners.
 
 - `view`:
 
-  `character(1)`  
+  (`character(1)` \| `NULL`)  
   Single `uhash` to restrict the results to.
 
 - `view`:
 
-  `character(1)`  
+  (`character(1)` \| `NULL`)  
   Single `uhash` to restrict the results to.
 
 ------------------------------------------------------------------------
@@ -309,17 +309,17 @@ Returns a table of included
 
 - `view`:
 
-  `character(1)`  
+  (`character(1)` \| `NULL`)  
   Single `uhash` to restrict the results to.
 
 - `view`:
 
-  `character(1)`  
+  (`character(1)` \| `NULL`)  
   Single `uhash` to restrict the results to.
 
 #### Returns
 
-[`data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html)
+[`data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html)
 with columns `"resampling_hash"`
 ([`character()`](https://rdrr.io/r/base/character.html)) and
 `"resampling"`
@@ -340,12 +340,12 @@ Returns a list of
 
 - `view`:
 
-  `character(1)`  
+  (`character(1)` \| `NULL`)  
   Single `uhash` to restrict the results to.
 
 - `view`:
 
-  `character(1)`  
+  (`character(1)` \| `NULL`)  
   Single `uhash` to restrict the results to.
 
 - `predict_sets`:
@@ -410,12 +410,12 @@ Returns a combined
 
 - `view`:
 
-  `character(1)`  
+  (`character(1)` \| `NULL`)  
   Single `uhash` to restrict the results to.
 
 - `view`:
 
-  `character(1)`  
+  (`character(1)` \| `NULL`)  
   Single `uhash` to restrict the results to.
 
 - `predict_sets`:
@@ -478,17 +478,17 @@ Returns additional data stored.
 
 - `view`:
 
-  `character(1)`  
+  (`character(1)` \| `NULL`)  
   Single `uhash` to restrict the results to.
 
 - `view`:
 
-  `character(1)`  
+  (`character(1)` \| `NULL`)  
   Single `uhash` to restrict the results to.
 
 #### Returns
 
-[`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html).
+[`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html).
 
 ------------------------------------------------------------------------
 
@@ -599,7 +599,7 @@ Modified `self` (invisibly).
 ### Method `as_data_table()`
 
 Combines internal tables into a single flat
-[`data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html).
+[`data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html).
 
 #### Usage
 
@@ -614,12 +614,12 @@ Combines internal tables into a single flat
 
 - `view`:
 
-  `character(1)`  
+  (`character(1)` \| `NULL`)  
   Single `uhash` to restrict the results to.
 
 - `view`:
 
-  `character(1)`  
+  (`character(1)` \| `NULL`)  
   Single `uhash` to restrict the results to.
 
 - `reassemble_learners`:
@@ -690,12 +690,12 @@ Get a table of recorded learner logs.
 
 - `view`:
 
-  `character(1)`  
+  (`character(1)` \| `NULL`)  
   Single `uhash` to restrict the results to.
 
 - `view`:
 
-  `character(1)`  
+  (`character(1)` \| `NULL`)  
   Single `uhash` to restrict the results to.
 
 - `condition`:
@@ -705,7 +705,7 @@ Get a table of recorded learner logs.
 
 #### Returns
 
-[`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html).
+[`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html).
 
 ------------------------------------------------------------------------
 
@@ -722,12 +722,12 @@ learners, given they have output a probability prediction.
 
 - `view`:
 
-  `character(1)`  
+  (`character(1)` \| `NULL`)  
   Single `uhash` to restrict the results to.
 
 - `view`:
 
-  `character(1)`  
+  (`character(1)` \| `NULL`)  
   Single `uhash` to restrict the results to.
 
 - `threshold`:

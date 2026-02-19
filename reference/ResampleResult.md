@@ -14,7 +14,7 @@ function.
 
 - `as.data.table(rr, reassemble_learners = TRUE, convert_predictions = TRUE, predict_sets = "test")`  
   ResampleResult -\>
-  [`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html)  
+  [`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html)  
   Returns a tabular view of the internal data.
 
 - `c(...)`  
@@ -92,14 +92,14 @@ Other resample:
 
 - `warnings`:
 
-  ([`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html))  
+  ([`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html))  
   A table with all warning messages. Column names are `"iteration"` and
   `"msg"`. Note that there can be multiple rows per resampling iteration
   if multiple warnings have been recorded.
 
 - `errors`:
 
-  ([`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html))  
+  ([`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html))  
   A table with all error messages. Column names are `"iteration"` and
   `"msg"`. Note that there can be multiple rows per resampling iteration
   if multiple errors have been recorded.
@@ -156,7 +156,7 @@ construction method is provided by
 - `data`:
 
   ([ResultData](https://mlr3.mlr-org.com/reference/ResultData.md) \|
-  [`data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html))  
+  [`data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html))  
   An object of type
   [ResultData](https://mlr3.mlr-org.com/reference/ResultData.md), either
   extracted from another ResampleResult, another
@@ -317,7 +317,7 @@ in `measures`, named with the id of the respective measure id. If
 - `measures`:
 
   ([Measure](https://mlr3.mlr-org.com/reference/Measure.md) \| list of
-  [Measure](https://mlr3.mlr-org.com/reference/Measure.md))  
+  [Measure](https://mlr3.mlr-org.com/reference/Measure.md) \| `NULL`)  
   Measure(s) to calculate.
 
 - `ids`:
@@ -342,7 +342,7 @@ in `measures`, named with the id of the respective measure id. If
 
 #### Returns
 
-[`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html).
+[`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html).
 
 #### Examples
 
@@ -355,7 +355,7 @@ in `measures`, named with the id of the respective measure id. If
 Calculates the observation-wise loss via the
 [Measure](https://mlr3.mlr-org.com/reference/Measure.md)'s `obs_loss`
 method. Returns a
-[`data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html)
+[`data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html)
 with an `iteration` column plus one numeric column for each measure,
 named with the respective measure id. If there is no observation-wise
 loss function for the measure, the column is filled with `NA_real_`
@@ -372,7 +372,7 @@ example taking the square-root.
 - `measures`:
 
   ([Measure](https://mlr3.mlr-org.com/reference/Measure.md) \| list of
-  [Measure](https://mlr3.mlr-org.com/reference/Measure.md))  
+  [Measure](https://mlr3.mlr-org.com/reference/Measure.md) \| `NULL`)  
   Measure(s) to calculate.
 
 - `predict_sets`:
@@ -403,7 +403,7 @@ is `NULL`, `measures` defaults to the return value of
 - `measures`:
 
   ([Measure](https://mlr3.mlr-org.com/reference/Measure.md) \| list of
-  [Measure](https://mlr3.mlr-org.com/reference/Measure.md))  
+  [Measure](https://mlr3.mlr-org.com/reference/Measure.md) \| `NULL`)  
   Measure(s) to calculate.
 
 #### Returns
@@ -435,7 +435,7 @@ specified in `iters`.
 #### Returns
 
 Returns the object itself, but modified **by reference**. You need to
-explicitly `$clone()` the object beforehand if you want to keeps the
+explicitly `$clone()` the object beforehand if you want to keep the
 object in its previous state.
 
 #### Examples
@@ -474,7 +474,7 @@ task's data.
 #### Returns
 
 Returns the object itself, but modified **by reference**. You need to
-explicitly `$clone()` the object beforehand if you want to keeps the
+explicitly `$clone()` the object beforehand if you want to keep the
 object in its previous state.
 
 ------------------------------------------------------------------------
@@ -785,12 +785,12 @@ rr$set_threshold(0.6)
 #> Key: <uhash, iteration>
 #>                                   uhash iteration      learner_state prediction
 #>                                  <char>     <int>             <list>     <list>
-#> 1: c61ce365-a751-49f8-b28b-50c62325447d         1 <learner_state[8]>  <list[1]>
-#> 2: c61ce365-a751-49f8-b28b-50c62325447d         2 <learner_state[8]>  <list[1]>
-#> 3: c61ce365-a751-49f8-b28b-50c62325447d         3 <learner_state[8]>  <list[1]>
+#> 1: 007490ac-744c-4da9-9117-f586b185257c         1 <learner_state[8]>  <list[1]>
+#> 2: 007490ac-744c-4da9-9117-f586b185257c         2 <learner_state[8]>  <list[1]>
+#> 3: 007490ac-744c-4da9-9117-f586b185257c         3 <learner_state[8]>  <list[1]>
 #>        learner_hash        task_hash    learner_phash  resampling_hash
 #>              <char>           <char>           <char>           <char>
-#> 1: 667ca7804cbe810f f9791e97f9813150 a2121f0bf1b9c2f6 b3a5e794ffec4cc0
-#> 2: 667ca7804cbe810f f9791e97f9813150 a2121f0bf1b9c2f6 b3a5e794ffec4cc0
-#> 3: 667ca7804cbe810f f9791e97f9813150 a2121f0bf1b9c2f6 b3a5e794ffec4cc0
+#> 1: 667ca7804cbe810f 062d5c9e3bac138b a2121f0bf1b9c2f6 fb4fd3525746a553
+#> 2: 667ca7804cbe810f 062d5c9e3bac138b a2121f0bf1b9c2f6 fb4fd3525746a553
+#> 3: 667ca7804cbe810f 062d5c9e3bac138b a2121f0bf1b9c2f6 fb4fd3525746a553
 ```

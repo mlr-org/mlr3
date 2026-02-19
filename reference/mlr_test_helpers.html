@@ -29,7 +29,7 @@ custom learners.'><meta property="og:image" content="https://mlr3.mlr-org.com/lo
 
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.3.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.4.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -60,7 +60,7 @@ custom learners.'><meta property="og:image" content="https://mlr3.mlr-org.com/lo
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Documentation of mlr3 test helpers</h1>
-      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3/blob/v1.3.0/R/mlr_test_helpers.R" class="external-link"><code>R/mlr_test_helpers.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3/blob/main/R/mlr_test_helpers.R" class="external-link"><code>R/mlr_test_helpers.R</code></a></small>
       <div class="d-none name"><code>mlr_test_helpers.Rd</code></div>
     </div>
 
@@ -104,7 +104,11 @@ Whether to check that running the learner twice with the same seed should result
 Default is <code>TRUE</code>.</p></li>
 <li><p><code>configure_learner</code> (<code>function(learner, task)</code>)<br>
 Before running a <code>learner</code> on a <code>task</code>, this function allows to change its parameter values depending on the input task.</p></li>
-</ul></div>
+</ul><p>To speed up test execution, start an encapsulation daemon in advance by calling
+<code>mirai::daemons(1, .compute = "mlr3_encapsulation")</code> in <code>tests/testthat/setup.R</code>.
+After the tests complete, stop them with
+<code>mirai::daemons(0, .compute = "mlr3_encapsulation")</code> in <code>tests/testthat/teardown.R</code>.</p>
+    </div>
     <div class="section level2">
     <h2 id="run-paramtest-">run_paramtest()<a class="anchor" aria-label="anchor" href="#run-paramtest-"></a></h2>
 
@@ -140,7 +144,7 @@ If <code>NULL</code> (default), all parameters are checked.</p></li>
 
 
 <p>Checks various properties that learners have to satisfy.
-Used for testing learner implementations, especially if all methods and fields are implement as document.</p>
+Used for testing learner implementations, especially if all methods and fields are implemented as documented.</p>
 <p><strong>Parameters</strong></p><ul><li><p><code>lrn</code> :: (<code><a href="Learner.html">Learner</a></code>)<br>
 The learner whose properties are being verified.</p></li>
 <li><p><code>tsk</code> :: (<code><a href="Task.html">Task</a></code>)<br>

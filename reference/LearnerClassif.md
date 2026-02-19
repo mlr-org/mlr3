@@ -31,7 +31,7 @@ Predefined learners can be found in the
 [mlr_learners](https://mlr3.mlr-org.com/reference/mlr_learners.md).
 Essential classification learners can be found in this dictionary after
 loading [mlr3learners](https://CRAN.R-project.org/package=mlr3learners).
-Additional learners are implement in the Github package
+Additional learners are implemented in the Github package
 <https://github.com/mlr-org/mlr3extralearners>.
 
 ## See also
@@ -263,7 +263,7 @@ or
 
 - `newdata`:
 
-  [`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html)  
+  [`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html)  
   New data to predict on.
 
 - `task`:

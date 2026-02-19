@@ -118,6 +118,11 @@ add-on packages provide additional functionality.
   with [mirai](https://CRAN.R-project.org/package=mirai). Defaults to
   `"mlr3_encapsulation"`.
 
+- `"mlr3.print_class_ratio_threshold"`: Maximum number of rows for which
+  class ratios are computed when printing a classification task. For
+  tasks with more rows, only class names are shown. Defaults to
+  `1000000`.
+
 ## Error Classes
 
 - `Mlr3Error`: The base mlr3 error class.

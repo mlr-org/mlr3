@@ -28,8 +28,8 @@ label. The following hyperparameters trigger the following actions:
 
 - predict_missing_type::
 
-  To to encode missingness. “na” will insert NA values, “omit” will just
-  return fewer predictions than requested.
+  How to encode missingness. “na” will insert NA values, “omit” will
+  just return fewer predictions than requested.
 
 - save_tasks::
 

@@ -23,7 +23,7 @@ For a more convenient way to retrieve and construct learners, see lrn()/lrns()."
 
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.3.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.4.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -54,7 +54,7 @@ For a more convenient way to retrieve and construct learners, see lrn()/lrns()."
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Dictionary of Learners</h1>
-      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3/blob/v1.3.0/R/mlr_learners.R" class="external-link"><code>R/mlr_learners.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3/blob/main/R/mlr_learners.R" class="external-link"><code>R/mlr_learners.R</code></a></small>
       <div class="d-none name"><code>mlr_learners.Rd</code></div>
     </div>
 
@@ -82,8 +82,8 @@ More learners are connected via <a href="https://github.com/mlr-org/mlr3extralea
     <h2 id="s-methods">S3 methods<a class="anchor" aria-label="anchor" href="#s-methods"></a></h2>
 
 
-<ul><li><p><code>as.data.table(dict, ..., objects = FALSE)</code><br><a href="https://mlr3misc.mlr-org.com/reference/Dictionary.html" class="external-link">mlr3misc::Dictionary</a> -&gt; <code><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code><br>
-Returns a <code><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code> with fields "key", "label", "task_type", "feature_types", "packages",
+<ul><li><p><code>as.data.table(dict, ..., objects = FALSE)</code><br><a href="https://mlr3misc.mlr-org.com/reference/Dictionary.html" class="external-link">mlr3misc::Dictionary</a> -&gt; <code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code><br>
+Returns a <code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code> with fields "key", "label", "task_type", "feature_types", "packages",
 "properties", and "predict_types" as columns.
 If <code>objects</code> is set to <code>TRUE</code>, the constructed objects are returned in the list column named <code>object</code>.</p></li>
 </ul></div>
@@ -110,7 +110,7 @@ If <code>objects</code> is set to <code>TRUE</code>, the constructed objects are
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/as.data.table.html" class="external-link">as.data.table</a></span><span class="op">(</span><span class="va">mlr_learners</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/pkg/data.table/man/as.data.table.html" class="external-link">as.data.table</a></span><span class="op">(</span><span class="va">mlr_learners</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Key: &lt;key&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                    key                              label task_type</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 &lt;char&gt;                             &lt;char&gt;    &lt;char&gt;</span>
@@ -120,22 +120,22 @@ If <code>objects</code> is set to <code>TRUE</code>, the constructed objects are
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4:          regr.debug       Debug Learner for Regression      regr</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5:    regr.featureless     Featureless Regression Learner      regr</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6:          regr.rpart                    Regression Tree      regr</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                           feature_types   packages</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                  &lt;list&gt;     &lt;list&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1:     logical,integer,numeric,character,factor,ordered       mlr3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: logical,integer,numeric,character,factor,ordered,...       mlr3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3:               logical,integer,numeric,factor,ordered mlr3,rpart</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4:     logical,integer,numeric,character,factor,ordered mlr3,stats</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5: logical,integer,numeric,character,factor,ordered,... mlr3,stats</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6:               logical,integer,numeric,factor,ordered mlr3,rpart</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                   properties</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                       &lt;list&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: hotstart_forward,internal_tuning,marshal,missings,multiclass,twoclass,...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: featureless,importance,missings,multiclass,selected_features,twoclass,...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3:         importance,missings,multiclass,selected_features,twoclass,weights</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4:                                                          missings,weights</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5:                 featureless,importance,missings,selected_features,weights</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6:                             importance,missings,selected_features,weights</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                              feature_types   packages</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                     &lt;list&gt;     &lt;list&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:        logical,integer,numeric,character,factor,ordered       mlr3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: logical,integer,numeric,character,factor,ordered,...[8]       mlr3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:                  logical,integer,numeric,factor,ordered mlr3,rpart</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:        logical,integer,numeric,character,factor,ordered mlr3,stats</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5: logical,integer,numeric,character,factor,ordered,...[8] mlr3,stats</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6:                  logical,integer,numeric,factor,ordered mlr3,rpart</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                      properties</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                          &lt;list&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: hotstart_forward,internal_tuning,marshal,missings,multiclass,twoclass,...[8]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: featureless,importance,missings,multiclass,selected_features,twoclass,...[7]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:            importance,missings,multiclass,selected_features,twoclass,weights</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:                                                             missings,weights</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5:                    featureless,importance,missings,selected_features,weights</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6:                                importance,missings,selected_features,weights</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            predict_types</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                   &lt;list&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:         response,prob</span>

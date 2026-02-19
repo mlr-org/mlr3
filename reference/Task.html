@@ -37,7 +37,7 @@ More toy tasks can be found in the dictionary after loading mlr3data."><meta pro
 
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.3.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.4.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -68,7 +68,7 @@ More toy tasks can be found in the dictionary after loading mlr3data."><meta pro
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Task Class</h1>
-      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3/blob/v1.3.0/R/Task.R" class="external-link"><code>R/Task.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3/blob/main/R/Task.R" class="external-link"><code>R/Task.R</code></a></small>
       <div class="d-none name"><code>Task.Rd</code></div>
     </div>
 
@@ -91,8 +91,8 @@ More toy tasks can be found in the dictionary after loading <a href="https://CRA
 
 
 <ul><li><p><code>as.data.table(t)</code><br>
-Task -&gt; <code><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code><br>
-Returns the complete data as <code><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code>.</p></li>
+Task -&gt; <code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code><br>
+Returns the complete data as <code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code>.</p></li>
 <li><p><code>head(t)</code><br>
 Calls <code><a href="https://rdrr.io/r/utils/head.html" class="external-link">head()</a></code> on the task's data.</p></li>
 <li><p><code>summary(t)</code><br>
@@ -104,7 +104,7 @@ Calls <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">
 
 <p>The following methods change the task in-place:</p><ul><li><p>Any modification of the lists <code>$col_roles</code> or <code>$row_roles</code>.
 This provides a different "view" on the data without altering the data itself.
-This may affects, e.g., <code>$data</code>, <code>$nrow</code>, <code>$ncol</code>, <code>n_features</code>, <code>row_ids</code>, and <code>$feature_names</code>.
+This may affect, e.g., <code>$data</code>, <code>$nrow</code>, <code>$ncol</code>, <code>n_features</code>, <code>row_ids</code>, and <code>$feature_names</code>.
 Altering <code>$col_roles</code> may affect, e.g., <code>$data</code>, <code>$ncol</code>, <code>$n_features</code>, and <code>$feature_names</code>.
 Altering <code>$row_roles</code> may affect, e.g., <code>$data</code>, <code>$nrow</code>, and <code>$row_ids</code>.</p></li>
 <li><p>Modification of column or row roles via <code>$set_col_roles()</code> or <code>$set_row_roles()</code>, respectively.
@@ -149,58 +149,6 @@ possibly freeing some memory consumed by the <a href="DataBackend.html">DataBack
 <code><a href="mlr_tasks_zoo.html">mlr_tasks_zoo</a></code></p></div>
     </div>
     <div class="section level2">
-    <h2 id="public-fields">Public fields<a class="anchor" aria-label="anchor" href="#public-fields"></a></h2>
-    <p></p><div class="r6-fields"><dl><dt><code>label</code></dt>
-<dd><p>(<code>character(1)</code>)<br>
-Label for this object.
-Can be used in tables, plot and text output instead of the ID.</p></dd>
-
-
-<dt><code>task_type</code></dt>
-<dd><p>(<code>character(1)</code>)<br>
-Task type, e.g. <code>"classif"</code> or <code>"regr"</code>.</p>
-<p>For a complete list of possible task types (depending on the loaded packages),
-see <code><a href="mlr_reflections.html">mlr_reflections$task_types$type</a></code>.</p></dd>
-
-
-<dt><code>backend</code></dt>
-<dd><p>(<a href="DataBackend.html">DataBackend</a>)<br>
-Abstract interface to the data of the task.</p></dd>
-
-
-<dt><code>col_info</code></dt>
-<dd><p>(<code><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
-Table with with 4 columns, mainly for internal purposes:</p><ul><li><p><code>"id"</code> (<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>) stores the name of the column.</p></li>
-<li><p><code>"type"</code> (<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>) holds the storage type of the variable, e.g. <code>integer</code>, <code>numeric</code> or <code>character</code>.
-See <a href="mlr_reflections.html">mlr_reflections$task_feature_types</a> for a complete list of allowed types.</p></li>
-<li><p><code>"levels"</code> (<code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>) stores a vector of distinct values (levels) for ordered and unordered factor variables.</p></li>
-<li><p><code>"label"</code> (<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>) stores a vector of prettier, formated column names.</p></li>
-<li><p><code>"fix_factor_levels"</code> (<code><a href="https://rdrr.io/r/base/logical.html" class="external-link">logical()</a></code>) stores flags which determine if the levels of the respective variable
-need to be reordered after querying the data from the <a href="DataBackend.html">DataBackend</a>.</p></li>
-</ul><p>Note that all columns of the <a href="DataBackend.html">DataBackend</a>, also columns which are not selected or have any role, are listed
-in this table.</p></dd>
-
-
-<dt><code>man</code></dt>
-<dd><p>(<code>character(1)</code>)<br>
-String in the format <code>[pkg]::[topic]</code> pointing to a manual page for this object.
-Defaults to <code>NA</code>, but can be set by child classes.</p></dd>
-
-
-<dt><code>extra_args</code></dt>
-<dd><p>(named <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>)<br>
-Additional arguments set during construction.
-Required for <code><a href="convert_task.html">convert_task()</a></code>.</p></dd>
-
-
-<dt><code>mlr3_version</code></dt>
-<dd><p>(<code>package_version</code>)<br>
-Package version of <code>mlr3</code> used to create the task.</p></dd>
-
-
-</dl><p></p></div>
-    </div>
-    <div class="section level2">
     <h2 id="active-bindings">Active bindings<a class="anchor" aria-label="anchor" href="#active-bindings"></a></h2>
     <p></p><div class="r6-active-bindings"><dl><dt><code>id</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
@@ -209,7 +157,7 @@ Used in tables, plot and text output.</p></dd>
 
 
 <dt><code>internal_valid_task</code></dt>
-<dd><p>(<code>Task</code> or <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code> or <code>NULL</code>)<br>
+<dd><p>(<code>Task</code> | <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code> | <code>NULL</code>)<br>
 Optional validation task that can, e.g., be used for early stopping with learners such as XGBoost.
 See also the <code>$validate</code> field of <code><a href="Learner.html">Learner</a></code>.
 If integers are assigned they are removed from the primary task and an internal validation task
@@ -235,7 +183,7 @@ Returns the row ids of the <a href="DataBackend.html">DataBackend</a> for observ
 
 
 <dt><code>row_names</code></dt>
-<dd><p>(<code><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
+<dd><p>(<code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
 Returns a table with two columns:</p><ul><li><p><code>"row_id"</code> (<code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>), and</p></li>
 <li><p><code>"row_name"</code> (<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>).</p></li>
 </ul></dd>
@@ -258,13 +206,13 @@ Returns all column names with role "target".</p></dd>
 <dt><code>properties</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 Set of task properties.
-Possible properties are are stored in <a href="mlr_reflections.html">mlr_reflections$task_properties</a>.
+Possible properties are stored in <a href="mlr_reflections.html">mlr_reflections$task_properties</a>.
 The following properties are currently standardized and understood by tasks in <a href="https://CRAN.R-project.org/package=mlr3" class="external-link"><span class="pkg">mlr3</span></a>:</p><ul><li><p><code>"strata"</code>: The task is resampled using one or more stratification variables (role <code>"stratum"</code>).</p></li>
 <li><p><code>"groups"</code>: The task comes with grouping/blocking information (role <code>"group"</code>).</p></li>
 <li><p><code>"weights_learner"</code>: If the task has observation weights with this role, they are passed to the <a href="Learner.html">Learner</a> during train.
-The use of weights can be disabled via by setting the learner's hyperparameter <code>use_weights</code> to <code>FALSE</code>.</p></li>
+The use of weights can be disabled by setting the learner's hyperparameter <code>use_weights</code> to <code>FALSE</code>.</p></li>
 <li><p><code>"weights_measure"</code>: If the task has observation weights with this role, they are passed to the <a href="Measure.html">Measure</a> for weighted scoring.
-The use of weights can be disabled via by setting the measure's hyperparameter <code>use_weights</code> to <code>FALSE</code>.</p></li>
+The use of weights can be disabled by setting the measure's hyperparameter <code>use_weights</code> to <code>FALSE</code>.</p></li>
 <li><p><code>"offset"</code>: The task includes one or more offset columns specifying fixed adjustments for model training and possibly for prediction (role <code>"offset"</code>).</p></li>
 <li><p><code>"ordered"</code>: The task has columns which define the row order (role <code>"order"</code>).</p></li>
 </ul><p>Note that above listed properties are calculated from the <code>$col_roles</code>, and may not be set explicitly.</p></dd>
@@ -290,9 +238,9 @@ For each resampling iteration, observations of the same group will be exclusivel
 Not more than a single column can be associated with this role.</p></li>
 <li><p><code>"stratum"</code>: Stratification variables. Multiple discrete columns may have this role.</p></li>
 <li><p><code>"weights_learner"</code>: If the task has observation weights with this role, they are passed to the <a href="Learner.html">Learner</a> during train.
-The use of weights can be disabled via by setting the learner's hyperparameter <code>use_weights</code> to <code>FALSE</code>.</p></li>
+The use of weights can be disabled by setting the learner's hyperparameter <code>use_weights</code> to <code>FALSE</code>.</p></li>
 <li><p><code>"weights_measure"</code>: If the task has observation weights with this role, they are passed to the <a href="Measure.html">Measure</a> for weighted scoring.
-The use of weights can be disabled via by setting the measure's hyperparameter <code>use_weights</code> to <code>FALSE</code>.</p></li>
+The use of weights can be disabled by setting the measure's hyperparameter <code>use_weights</code> to <code>FALSE</code>.</p></li>
 <li><p><code>"offset"</code>: Numeric columns used to specify fixed adjustments for model training.
 Some models use offsets to simply shift predictions, while others incorporate them to boost predictions from a baseline model.
 For learners supporting offsets in multiclass settings, an offset column must be provided for each target class.
@@ -322,58 +270,58 @@ Returns the total number of columns with role "feature" (i.e. the number of "act
 
 
 <dt><code>feature_types</code></dt>
-<dd><p>(<code><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
+<dd><p>(<code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
 Returns a table with columns <code>id</code> and <code>type</code> where <code>id</code> are the column names of "active"
 features of the task and <code>type</code> is the storage type.</p></dd>
 
 
 <dt><code>strata</code></dt>
-<dd><p>(<code><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
+<dd><p>(<code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
 If the task has columns designated with role <code>"stratum"</code>, returns a table with one subpopulation per row and two columns:</p><ul><li><p><code>N</code> (<code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>) with the number of observations in the subpopulation, and</p></li>
 <li><p><code>row_id</code> (list of <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>) as list column with the row ids in the respective subpopulation.
-Returns <code>NULL</code> if there are is no stratification variable.
+Returns <code>NULL</code> if there is no stratification variable.
 See <a href="Resampling.html">Resampling</a> for more information on stratification.</p></li>
 </ul></dd>
 
 
 <dt><code>groups</code></dt>
-<dd><p>(<code><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
+<dd><p>(<code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
 If the task has a column with designated role <code>"group"</code>, a table with two columns:</p><ul><li><p><code>row_id</code> (<code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>), and</p></li>
 <li><p>grouping variable <code>group</code> (<code><a href="https://rdrr.io/r/base/vector.html" class="external-link">vector()</a></code>).</p></li>
-</ul><p>Returns <code>NULL</code> if there are is no grouping column.
+</ul><p>Returns <code>NULL</code> if there is no grouping column.
 See <a href="Resampling.html">Resampling</a> for more information on grouping.</p></dd>
 
 
 <dt><code>order</code></dt>
-<dd><p>(<code><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
+<dd><p>(<code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
 If the task has at least one column with designated role <code>"order"</code>, a table with two columns:</p><ul><li><p><code>row_id</code> (<code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>), and</p></li>
 <li><p>ordering vector <code>order</code> (<code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>).</p></li>
-</ul><p>Returns <code>NULL</code> if there are is no order column.</p></dd>
+</ul><p>Returns <code>NULL</code> if there is no order column.</p></dd>
 
 
 <dt><code>weights</code></dt>
-<dd><p>(<code><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
+<dd><p>(<code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
 Deprecated, use <code>$weights_learner</code> instead.</p></dd>
 
 
 <dt><code>weights_learner</code></dt>
-<dd><p>(<code><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
+<dd><p>(<code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
 Returns the observation weights used for training a <a href="Learner.html">Learner</a> (column role <code>weights_learner</code>)
 as a <code>data.table</code> with the following columns:</p><ul><li><p><code>row_id</code> (<code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>), and</p></li>
 <li><p><code>weight</code> (<code><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric()</a></code>).</p></li>
-</ul><p>Returns <code>NULL</code> if there are is no column with the designated role.</p></dd>
+</ul><p>Returns <code>NULL</code> if there is no column with the designated role.</p></dd>
 
 
 <dt><code>weights_measure</code></dt>
-<dd><p>(<code><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
+<dd><p>(<code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
 Returns the observation weights used for scoring a prediction with a <a href="Measure.html">Measure</a> (column role <code>weights_measure</code>)
 as a <code>data.table</code> with the following columns:</p><ul><li><p><code>row_id</code> (<code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>), and</p></li>
 <li><p><code>weight</code> (<code><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric()</a></code>).</p></li>
-</ul><p>Returns <code>NULL</code> if there are is no column with the designated role.</p></dd>
+</ul><p>Returns <code>NULL</code> if there is no column with the designated role.</p></dd>
 
 
 <dt><code>offset</code></dt>
-<dd><p>(<code><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
+<dd><p>(<code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
 If the task has a column with designated role <code>"offset"</code>, a table with two or more columns:</p><ul><li><p><code>row_id</code> (<code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>), and</p></li>
 <li><p>offset variable(s) (<code><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric()</a></code>).</p></li>
 </ul><p>For regression or binary classification tasks, there will be only a single-column offset.
@@ -384,7 +332,7 @@ If there is only one offset column, it will be named as <code>offset</code>.</p>
 
 <dt><code>labels</code></dt>
 <dd><p>(named <code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
-Retrieve <code>labels</code> (prettier formated names) from columns.
+Retrieve <code>labels</code> (prettier formatted names) from columns.
 Internally queries the column <code>label</code> of the table in field <code>col_info</code>.
 Columns ids referenced by the name of the vector, the labels are the actual string values.</p>
 <p>Assigning to this column update the task by reference.
@@ -410,6 +358,54 @@ List of characteristics of the task, e.g. <code>list(n = 5, p = 7)</code>.</p></
 <dd><p>(<code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>)<br>
 Returns all row ids from the backend, regardless of their roles.
 This is different from <code>$row_ids</code> which only returns rows with role "use".</p></dd>
+
+
+<dt><code>label</code></dt>
+<dd><p>(<code>character(1)</code>)<br>
+Label for this object.
+Can be used in tables, plot and text output instead of the ID.</p></dd>
+
+
+<dt><code>task_type</code></dt>
+<dd><p>(<code>character(1)</code>)<br>
+Task type, e.g. <code>"classif"</code> or <code>"regr"</code>.</p>
+<p>For a complete list of possible task types (depending on the loaded packages),
+see <code><a href="mlr_reflections.html">mlr_reflections$task_types$type</a></code>.</p></dd>
+
+
+<dt><code>man</code></dt>
+<dd><p>(<code>character(1)</code> | <code>NULL</code>)<br>
+String in the format <code>[pkg]::[topic]</code> pointing to a manual page for this object.
+Defaults to <code>NA</code>, but can be set by child classes.</p></dd>
+
+
+<dt><code>extra_args</code></dt>
+<dd><p>(named <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>)<br>
+Additional arguments set during construction.
+Required for <code><a href="convert_task.html">convert_task()</a></code>.</p></dd>
+
+
+<dt><code>backend</code></dt>
+<dd><p>(<a href="DataBackend.html">DataBackend</a>)<br>
+Abstract interface to the data of the task.</p></dd>
+
+
+<dt><code>col_info</code></dt>
+<dd><p>(<code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
+Table with 4 columns, mainly for internal purposes:</p><ul><li><p><code>"id"</code> (<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>) stores the name of the column.</p></li>
+<li><p><code>"type"</code> (<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>) holds the storage type of the variable, e.g. <code>integer</code>, <code>numeric</code> or <code>character</code>.
+See <a href="mlr_reflections.html">mlr_reflections$task_feature_types</a> for a complete list of allowed types.</p></li>
+<li><p><code>"levels"</code> (<code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>) stores a vector of distinct values (levels) for ordered and unordered factor variables.</p></li>
+<li><p><code>"label"</code> (<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>) stores a vector of prettier, formatted column names.</p></li>
+<li><p><code>"fix_factor_levels"</code> (<code><a href="https://rdrr.io/r/base/logical.html" class="external-link">logical()</a></code>) stores flags which determine if the levels of the respective variable
+need to be reordered after querying the data from the <a href="DataBackend.html">DataBackend</a>.</p></li>
+</ul><p>Note that all columns of the <a href="DataBackend.html">DataBackend</a>, also columns which are not selected or have any role, are listed
+in this table.</p></dd>
+
+
+<dt><code>mlr3_version</code></dt>
+<dd><p>(<code>package_version</code>)<br>
+Package version of <code>mlr3</code> used to create the task.</p></dd>
 
 
 </dl><p></p></div>
@@ -572,13 +568,13 @@ Note that it is recommended to <strong>not</strong> rely on the order of columns
 <div class="section">
 <h4 id="arguments-4">Arguments<a class="anchor" aria-label="anchor" href="#arguments-4"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>rows</code></dt>
-<dd><p>(positive <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>)<br>
+<dd><p>(positive <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code> | <code>NULL</code>)<br>
 Vector or row indices.
 Always refers to the complete data set, even after filtering.</p></dd>
 
 
 <dt><code>cols</code></dt>
-<dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
+<dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code> | <code>NULL</code>)<br>
 Vector of column names.</p></dd>
 
 
@@ -591,7 +587,7 @@ If <code>TRUE</code>, data is ordered according to the columns with column role 
 </div>
 <div class="section">
 <h4 id="returns-1">Returns<a class="anchor" aria-label="anchor" href="#returns-1"></a></h4>
-<p>Depending on the <a href="DataBackend.html">DataBackend</a>, but usually a <code><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code>.</p>
+<p>Depending on the <a href="DataBackend.html">DataBackend</a>, but usually a <code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code>.</p>
 </div>
 <div class="section">
 <h4 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a></h4>
@@ -647,7 +643,7 @@ Right hand side of the formula. Defaults to <code>"."</code> (all features of th
 </div>
 <div class="section">
 <h4 id="returns-3">Returns<a class="anchor" aria-label="anchor" href="#returns-3"></a></h4>
-<p><code><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code> with <code>n</code> rows.</p>
+<p><code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code> with <code>n</code> rows.</p>
 </div>
 <div class="section">
 <h4 id="examples-2">Examples<a class="anchor" aria-label="anchor" href="#examples-2"></a></h4>
@@ -669,7 +665,7 @@ To update the stored level information, e.g. after subsetting a task with <code>
 <div class="section">
 <h4 id="arguments-7">Arguments<a class="anchor" aria-label="anchor" href="#arguments-7"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>cols</code></dt>
-<dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
+<dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code> | <code>NULL</code>)<br>
 Vector of column names.</p></dd>
 
 
@@ -698,7 +694,7 @@ Argument <code>cols</code> defaults to all columns with role "target" or "featur
 <div class="section">
 <h4 id="arguments-8">Arguments<a class="anchor" aria-label="anchor" href="#arguments-8"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>cols</code></dt>
-<dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
+<dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code> | <code>NULL</code>)<br>
 Vector of column names.</p></dd>
 
 
@@ -727,7 +723,7 @@ See the section on task mutators for more information.</p><div class="section">
 <div class="section">
 <h4 id="arguments-9">Arguments<a class="anchor" aria-label="anchor" href="#arguments-9"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>rows</code></dt>
-<dd><p>(positive <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>)<br>
+<dd><p>(positive <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code> | <code>NULL</code>)<br>
 Vector or row indices.
 Always refers to the complete data set, even after filtering.</p></dd>
 
@@ -737,7 +733,7 @@ Always refers to the complete data set, even after filtering.</p></dd>
 <div class="section">
 <h4 id="returns-6">Returns<a class="anchor" aria-label="anchor" href="#returns-6"></a></h4>
 <p>Returns the object itself, but modified <strong>by reference</strong>.
-You need to explicitly <code>$clone()</code> the object beforehand if you want to keeps
+You need to explicitly <code>$clone()</code> the object beforehand if you want to keep
 the object in its previous state.</p>
 </div>
 <div class="section">
@@ -761,7 +757,7 @@ See the section on task mutators for more information.</p><div class="section">
 <div class="section">
 <h4 id="arguments-10">Arguments<a class="anchor" aria-label="anchor" href="#arguments-10"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>cols</code></dt>
-<dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
+<dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code> | <code>NULL</code>)<br>
 Vector of column names.</p></dd>
 
 
@@ -770,7 +766,7 @@ Vector of column names.</p></dd>
 <div class="section">
 <h4 id="returns-7">Returns<a class="anchor" aria-label="anchor" href="#returns-7"></a></h4>
 <p>Returns the object itself, but modified <strong>by reference</strong>.
-You need to explicitly <code>$clone()</code> the object beforehand if you want to keeps
+You need to explicitly <code>$clone()</code> the object beforehand if you want to keep
 the object in its previous state.</p>
 </div>
 <div class="section">
@@ -808,7 +804,7 @@ See the section on task mutators for more information.</p><div class="section">
 <div class="section">
 <h4 id="returns-8">Returns<a class="anchor" aria-label="anchor" href="#returns-8"></a></h4>
 <p>Returns the object itself, but modified <strong>by reference</strong>.
-You need to explicitly <code>$clone()</code> the object beforehand if you want to keeps
+You need to explicitly <code>$clone()</code> the object beforehand if you want to keep
 the object in its previous state.</p>
 </div>
 <div class="section">
@@ -843,7 +839,7 @@ See the section on task mutators for more information.</p><div class="section">
 <div class="section">
 <h4 id="examples-8">Examples<a class="anchor" aria-label="anchor" href="#examples-8"></a></h4>
 <p></p><div class="r example copy"><div class="sourceCode"><pre><code><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="../reference/mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span>
-<span><span class="va">task</span><span class="op">$</span><span class="fu">cbind</span><span class="op">(</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table</a></span><span class="op">(</span>extra_col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="va">task</span><span class="op">$</span><span class="va">nrow</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">task</span><span class="op">$</span><span class="fu">cbind</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table</a></span><span class="op">(</span>extra_col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="va">task</span><span class="op">$</span><span class="va">nrow</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">task</span><span class="op">$</span><span class="fu">data</span><span class="op">(</span>cols <span class="op">=</span> <span class="st">"extra_col"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
@@ -874,7 +870,7 @@ New names.</p></dd>
 <div class="section">
 <h4 id="returns-9">Returns<a class="anchor" aria-label="anchor" href="#returns-9"></a></h4>
 <p>Returns the object itself, but modified <strong>by reference</strong>.
-You need to explicitly <code>$clone()</code> the object beforehand if you want to keeps
+You need to explicitly <code>$clone()</code> the object beforehand if you want to keep
 the object in its previous state.</p>
 </div>
 <div class="section">
@@ -922,14 +918,14 @@ Other row roles are preserved.</p></dd>
 <h4 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h4>
 <p>Roles are first set exclusively (argument <code>roles</code>), then added (argument <code>add_to</code>) and finally
 removed (argument <code>remove_from</code>) from different roles.
-Duplicated row ids are explicitly allowed, so you can add replicate an observation by repeating its
+Duplicated row ids are explicitly allowed, so you can replicate an observation by repeating its
 <code>row_id</code>.</p>
 </div>
 
 <div class="section">
 <h4 id="returns-10">Returns<a class="anchor" aria-label="anchor" href="#returns-10"></a></h4>
 <p>Returns the object itself, but modified <strong>by reference</strong>.
-You need to explicitly <code>$clone()</code> the object beforehand if you want to keeps
+You need to explicitly <code>$clone()</code> the object beforehand if you want to keep
 the object in its previous state.</p>
 </div>
 <div class="section">
@@ -984,7 +980,7 @@ Use the <code>$col_roles</code> field to swap the target column.</p>
 <div class="section">
 <h4 id="returns-11">Returns<a class="anchor" aria-label="anchor" href="#returns-11"></a></h4>
 <p>Returns the object itself, but modified <strong>by reference</strong>.
-You need to explicitly <code>$clone()</code> the object beforehand if you want to keeps
+You need to explicitly <code>$clone()</code> the object beforehand if you want to keep
 the object in its previous state.</p>
 </div>
 <div class="section">
@@ -1039,7 +1035,7 @@ List of character vectors of new levels, named by column names.</p></dd>
 <div class="section">
 <h4 id="arguments-17">Arguments<a class="anchor" aria-label="anchor" href="#arguments-17"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>cols</code></dt>
-<dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
+<dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code> | <code>NULL</code>)<br>
 Vector of column names.</p></dd>
 
 
@@ -1156,7 +1152,7 @@ the resulting backend contains it only once.</p>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># We use the inherited class TaskClassif here,</span></span></span>
 <span class="r-in"><span><span class="co"># because the base class `Task` is not intended for direct use</span></span></span>
-<span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="va"><a href="TaskClassif.html">TaskClassif</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="st">"penguings"</span>, <span class="fu">palmerpenguins</span><span class="fu">::</span><span class="va"><a href="https://allisonhorst.github.io/palmerpenguins/reference/penguins.html" class="external-link">penguins</a></span>, target <span class="op">=</span> <span class="st">"species"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="va"><a href="TaskClassif.html">TaskClassif</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="st">"penguins"</span>, <span class="fu">palmerpenguins</span><span class="fu">::</span><span class="va"><a href="https://allisonhorst.github.io/palmerpenguins/reference/penguins.html" class="external-link">penguins</a></span>, target <span class="op">=</span> <span class="st">"species"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">task</span><span class="op">$</span><span class="va">nrow</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 344</span>
@@ -1295,7 +1291,7 @@ the resulting backend contains it only once.</p>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">task</span><span class="op">$</span><span class="fu">cbind</span><span class="op">(</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table</a></span><span class="op">(</span>extra_col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="va">task</span><span class="op">$</span><span class="va">nrow</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">task</span><span class="op">$</span><span class="fu">cbind</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table</a></span><span class="op">(</span>extra_col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="va">task</span><span class="op">$</span><span class="va">nrow</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">task</span><span class="op">$</span><span class="fu">data</span><span class="op">(</span>cols <span class="op">=</span> <span class="st">"extra_col"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    extra_col</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        &lt;int&gt;</span>

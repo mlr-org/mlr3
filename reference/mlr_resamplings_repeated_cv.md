@@ -227,4 +227,5 @@ repeated_cv$instance # table
 #> 19:      9     2     2
 #> 20:     10     2     1
 #>     row_id   rep  fold
+#>      <int> <int> <int>
 ```

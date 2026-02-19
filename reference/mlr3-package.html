@@ -15,7 +15,7 @@ Efficient, object-oriented programming on the building blocks of machine learnin
 
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.3.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.4.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -46,7 +46,7 @@ Efficient, object-oriented programming on the building blocks of machine learnin
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>mlr3: Machine Learning in R - Next Generation</h1>
-      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3/blob/v1.3.0/R/zzz.R" class="external-link"><code>R/zzz.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3/blob/main/R/zzz.R" class="external-link"><code>R/zzz.R</code></a></small>
       <div class="d-none name"><code>mlr3-package.Rd</code></div>
     </div>
 
@@ -115,6 +115,9 @@ trained with a different version version of mlr3.</p></li>
 Defaults to <code>"mlr3_parallelization"</code>.</p></li>
 <li><p><code>"mlr3.mirai_encapsulation"</code>: Compute profile to use for encapsulation with <a href="https://CRAN.R-project.org/package=mirai" class="external-link"><span class="pkg">mirai</span></a>.
 Defaults to <code>"mlr3_encapsulation"</code>.</p></li>
+<li><p><code>"mlr3.print_class_ratio_threshold"</code>: Maximum number of rows for which class ratios are computed
+when printing a classification task. For tasks with more rows, only class names are shown.
+Defaults to <code>1000000</code>.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="error-classes">Error Classes<a class="anchor" aria-label="anchor" href="#error-classes"></a></h2>

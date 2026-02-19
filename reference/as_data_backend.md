@@ -27,7 +27,7 @@ as_data_backend(data, primary_key = NULL, keep_rownames = FALSE, ...)
   ([`data.frame()`](https://rdrr.io/r/base/data.frame.html))  
   The input [`data.frame()`](https://rdrr.io/r/base/data.frame.html).
   Automatically converted to a
-  [`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html).
+  [`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html).
 
 - primary_key:
 
@@ -50,7 +50,7 @@ as_data_backend(data, primary_key = NULL, keep_rownames = FALSE, ...)
   `"..rownames"` for `keep_rownames == TRUE`. Note that the created
   column will be used as a regular feature by the task unless you
   manually change the column role. Also see
-  [`data.table::as.data.table()`](https://rdatatable.gitlab.io/data.table/reference/as.data.table.html).
+  [`data.table::as.data.table()`](https://rdrr.io/pkg/data.table/man/as.data.table.html).
 
 ## Value
 

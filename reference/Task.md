@@ -37,9 +37,9 @@ More toy tasks can be found in the dictionary after loading
 
 - `as.data.table(t)`  
   Task -\>
-  [`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html)  
+  [`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html)  
   Returns the complete data as
-  [`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html).
+  [`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html).
 
 - `head(t)`  
   Calls [`head()`](https://rdrr.io/r/utils/head.html) on the task's
@@ -55,7 +55,7 @@ The following methods change the task in-place:
 
 - Any modification of the lists `$col_roles` or `$row_roles`. This
   provides a different "view" on the data without altering the data
-  itself. This may affects, e.g., `$data`, `$nrow`, `$ncol`,
+  itself. This may affect, e.g., `$data`, `$nrow`, `$ncol`,
   `n_features`, `row_ids`, and `$feature_names`. Altering `$col_roles`
   may affect, e.g., `$data`, `$ncol`, `$n_features`, and
   `$feature_names`. Altering `$row_roles` may affect, e.g., `$data`,
@@ -133,77 +133,6 @@ Other Task:
 [`mlr_tasks_wine`](https://mlr3.mlr-org.com/reference/mlr_tasks_wine.md),
 [`mlr_tasks_zoo`](https://mlr3.mlr-org.com/reference/mlr_tasks_zoo.md)
 
-## Public fields
-
-- `label`:
-
-  (`character(1)`)  
-  Label for this object. Can be used in tables, plot and text output
-  instead of the ID.
-
-- `task_type`:
-
-  (`character(1)`)  
-  Task type, e.g. `"classif"` or `"regr"`.
-
-  For a complete list of possible task types (depending on the loaded
-  packages), see
-  [`mlr_reflections$task_types$type`](https://mlr3.mlr-org.com/reference/mlr_reflections.md).
-
-- `backend`:
-
-  ([DataBackend](https://mlr3.mlr-org.com/reference/DataBackend.md))  
-  Abstract interface to the data of the task.
-
-- `col_info`:
-
-  ([`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html))  
-  Table with with 4 columns, mainly for internal purposes:
-
-  - `"id"` ([`character()`](https://rdrr.io/r/base/character.html))
-    stores the name of the column.
-
-  - `"type"` ([`character()`](https://rdrr.io/r/base/character.html))
-    holds the storage type of the variable, e.g. `integer`, `numeric` or
-    `character`. See
-    [mlr_reflections\$task_feature_types](https://mlr3.mlr-org.com/reference/mlr_reflections.md)
-    for a complete list of allowed types.
-
-  - `"levels"` ([`list()`](https://rdrr.io/r/base/list.html)) stores a
-    vector of distinct values (levels) for ordered and unordered factor
-    variables.
-
-  - `"label"` ([`character()`](https://rdrr.io/r/base/character.html))
-    stores a vector of prettier, formated column names.
-
-  - `"fix_factor_levels"`
-    ([`logical()`](https://rdrr.io/r/base/logical.html)) stores flags
-    which determine if the levels of the respective variable need to be
-    reordered after querying the data from the
-    [DataBackend](https://mlr3.mlr-org.com/reference/DataBackend.md).
-
-  Note that all columns of the
-  [DataBackend](https://mlr3.mlr-org.com/reference/DataBackend.md), also
-  columns which are not selected or have any role, are listed in this
-  table.
-
-- `man`:
-
-  (`character(1)`)  
-  String in the format `[pkg]::[topic]` pointing to a manual page for
-  this object. Defaults to `NA`, but can be set by child classes.
-
-- `extra_args`:
-
-  (named [`list()`](https://rdrr.io/r/base/list.html))  
-  Additional arguments set during construction. Required for
-  [`convert_task()`](https://mlr3.mlr-org.com/reference/convert_task.md).
-
-- `mlr3_version`:
-
-  (`package_version`)  
-  Package version of `mlr3` used to create the task.
-
 ## Active bindings
 
 - `id`:
@@ -213,7 +142,7 @@ Other Task:
 
 - `internal_valid_task`:
 
-  (`Task` or [`integer()`](https://rdrr.io/r/base/integer.html) or
+  (`Task` \| [`integer()`](https://rdrr.io/r/base/integer.html) \|
   `NULL`)  
   Optional validation task that can, e.g., be used for early stopping
   with learners such as XGBoost. See also the `$validate` field of
@@ -244,7 +173,7 @@ Other Task:
 
 - `row_names`:
 
-  ([`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html))  
+  ([`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html))  
   Returns a table with two columns:
 
   - `"row_id"` ([`integer()`](https://rdrr.io/r/base/integer.html)), and
@@ -272,7 +201,7 @@ Other Task:
 - `properties`:
 
   ([`character()`](https://rdrr.io/r/base/character.html))  
-  Set of task properties. Possible properties are are stored in
+  Set of task properties. Possible properties are stored in
   [mlr_reflections\$task_properties](https://mlr3.mlr-org.com/reference/mlr_reflections.md).
   The following properties are currently standardized and understood by
   tasks in [mlr3](https://CRAN.R-project.org/package=mlr3):
@@ -286,14 +215,14 @@ Other Task:
   - `"weights_learner"`: If the task has observation weights with this
     role, they are passed to the
     [Learner](https://mlr3.mlr-org.com/reference/Learner.md) during
-    train. The use of weights can be disabled via by setting the
-    learner's hyperparameter `use_weights` to `FALSE`.
+    train. The use of weights can be disabled by setting the learner's
+    hyperparameter `use_weights` to `FALSE`.
 
   - `"weights_measure"`: If the task has observation weights with this
     role, they are passed to the
     [Measure](https://mlr3.mlr-org.com/reference/Measure.md) for
-    weighted scoring. The use of weights can be disabled via by setting
-    the measure's hyperparameter `use_weights` to `FALSE`.
+    weighted scoring. The use of weights can be disabled by setting the
+    measure's hyperparameter `use_weights` to `FALSE`.
 
   - `"offset"`: The task includes one or more offset columns specifying
     fixed adjustments for model training and possibly for prediction
@@ -352,14 +281,14 @@ Other Task:
   - `"weights_learner"`: If the task has observation weights with this
     role, they are passed to the
     [Learner](https://mlr3.mlr-org.com/reference/Learner.md) during
-    train. The use of weights can be disabled via by setting the
-    learner's hyperparameter `use_weights` to `FALSE`.
+    train. The use of weights can be disabled by setting the learner's
+    hyperparameter `use_weights` to `FALSE`.
 
   - `"weights_measure"`: If the task has observation weights with this
     role, they are passed to the
     [Measure](https://mlr3.mlr-org.com/reference/Measure.md) for
-    weighted scoring. The use of weights can be disabled via by setting
-    the measure's hyperparameter `use_weights` to `FALSE`.
+    weighted scoring. The use of weights can be disabled by setting the
+    measure's hyperparameter `use_weights` to `FALSE`.
 
   - `"offset"`: Numeric columns used to specify fixed adjustments for
     model training. Some models use offsets to simply shift predictions,
@@ -404,13 +333,13 @@ Other Task:
 
 - `feature_types`:
 
-  ([`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html))  
+  ([`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html))  
   Returns a table with columns `id` and `type` where `id` are the column
   names of "active" features of the task and `type` is the storage type.
 
 - `strata`:
 
-  ([`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html))  
+  ([`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html))  
   If the task has columns designated with role `"stratum"`, returns a
   table with one subpopulation per row and two columns:
 
@@ -420,13 +349,13 @@ Other Task:
   - `row_id` (list of
     [`integer()`](https://rdrr.io/r/base/integer.html)) as list column
     with the row ids in the respective subpopulation. Returns `NULL` if
-    there are is no stratification variable. See
+    there is no stratification variable. See
     [Resampling](https://mlr3.mlr-org.com/reference/Resampling.md) for
     more information on stratification.
 
 - `groups`:
 
-  ([`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html))  
+  ([`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html))  
   If the task has a column with designated role `"group"`, a table with
   two columns:
 
@@ -435,13 +364,13 @@ Other Task:
   - grouping variable `group`
     ([`vector()`](https://rdrr.io/r/base/vector.html)).
 
-  Returns `NULL` if there are is no grouping column. See
+  Returns `NULL` if there is no grouping column. See
   [Resampling](https://mlr3.mlr-org.com/reference/Resampling.md) for
   more information on grouping.
 
 - `order`:
 
-  ([`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html))  
+  ([`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html))  
   If the task has at least one column with designated role `"order"`, a
   table with two columns:
 
@@ -450,16 +379,16 @@ Other Task:
   - ordering vector `order`
     ([`integer()`](https://rdrr.io/r/base/integer.html)).
 
-  Returns `NULL` if there are is no order column.
+  Returns `NULL` if there is no order column.
 
 - `weights`:
 
-  ([`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html))  
+  ([`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html))  
   Deprecated, use `$weights_learner` instead.
 
 - `weights_learner`:
 
-  ([`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html))  
+  ([`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html))  
   Returns the observation weights used for training a
   [Learner](https://mlr3.mlr-org.com/reference/Learner.md) (column role
   `weights_learner`) as a `data.table` with the following columns:
@@ -468,11 +397,11 @@ Other Task:
 
   - `weight` ([`numeric()`](https://rdrr.io/r/base/numeric.html)).
 
-  Returns `NULL` if there are is no column with the designated role.
+  Returns `NULL` if there is no column with the designated role.
 
 - `weights_measure`:
 
-  ([`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html))  
+  ([`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html))  
   Returns the observation weights used for scoring a prediction with a
   [Measure](https://mlr3.mlr-org.com/reference/Measure.md) (column role
   `weights_measure`) as a `data.table` with the following columns:
@@ -481,11 +410,11 @@ Other Task:
 
   - `weight` ([`numeric()`](https://rdrr.io/r/base/numeric.html)).
 
-  Returns `NULL` if there are is no column with the designated role.
+  Returns `NULL` if there is no column with the designated role.
 
 - `offset`:
 
-  ([`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html))  
+  ([`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html))  
   If the task has a column with designated role `"offset"`, a table with
   two or more columns:
 
@@ -504,7 +433,7 @@ Other Task:
 - `labels`:
 
   (named [`character()`](https://rdrr.io/r/base/character.html))  
-  Retrieve `labels` (prettier formated names) from columns. Internally
+  Retrieve `labels` (prettier formatted names) from columns. Internally
   queries the column `label` of the table in field `col_info`. Columns
   ids referenced by the name of the vector, the labels are the actual
   string values.
@@ -538,6 +467,75 @@ Other Task:
   ([`integer()`](https://rdrr.io/r/base/integer.html))  
   Returns all row ids from the backend, regardless of their roles. This
   is different from `$row_ids` which only returns rows with role "use".
+
+- `label`:
+
+  (`character(1)`)  
+  Label for this object. Can be used in tables, plot and text output
+  instead of the ID.
+
+- `task_type`:
+
+  (`character(1)`)  
+  Task type, e.g. `"classif"` or `"regr"`.
+
+  For a complete list of possible task types (depending on the loaded
+  packages), see
+  [`mlr_reflections$task_types$type`](https://mlr3.mlr-org.com/reference/mlr_reflections.md).
+
+- `man`:
+
+  (`character(1)` \| `NULL`)  
+  String in the format `[pkg]::[topic]` pointing to a manual page for
+  this object. Defaults to `NA`, but can be set by child classes.
+
+- `extra_args`:
+
+  (named [`list()`](https://rdrr.io/r/base/list.html))  
+  Additional arguments set during construction. Required for
+  [`convert_task()`](https://mlr3.mlr-org.com/reference/convert_task.md).
+
+- `backend`:
+
+  ([DataBackend](https://mlr3.mlr-org.com/reference/DataBackend.md))  
+  Abstract interface to the data of the task.
+
+- `col_info`:
+
+  ([`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html))  
+  Table with 4 columns, mainly for internal purposes:
+
+  - `"id"` ([`character()`](https://rdrr.io/r/base/character.html))
+    stores the name of the column.
+
+  - `"type"` ([`character()`](https://rdrr.io/r/base/character.html))
+    holds the storage type of the variable, e.g. `integer`, `numeric` or
+    `character`. See
+    [mlr_reflections\$task_feature_types](https://mlr3.mlr-org.com/reference/mlr_reflections.md)
+    for a complete list of allowed types.
+
+  - `"levels"` ([`list()`](https://rdrr.io/r/base/list.html)) stores a
+    vector of distinct values (levels) for ordered and unordered factor
+    variables.
+
+  - `"label"` ([`character()`](https://rdrr.io/r/base/character.html))
+    stores a vector of prettier, formatted column names.
+
+  - `"fix_factor_levels"`
+    ([`logical()`](https://rdrr.io/r/base/logical.html)) stores flags
+    which determine if the levels of the respective variable need to be
+    reordered after querying the data from the
+    [DataBackend](https://mlr3.mlr-org.com/reference/DataBackend.md).
+
+  Note that all columns of the
+  [DataBackend](https://mlr3.mlr-org.com/reference/DataBackend.md), also
+  columns which are not selected or have any role, are listed in this
+  table.
+
+- `mlr3_version`:
+
+  (`package_version`)  
+  Package version of `mlr3` used to create the task.
 
 ## Methods
 
@@ -742,13 +740,14 @@ columns with their respective column name.
 
 - `rows`:
 
-  (positive [`integer()`](https://rdrr.io/r/base/integer.html))  
+  (positive [`integer()`](https://rdrr.io/r/base/integer.html) \|
+  `NULL`)  
   Vector or row indices. Always refers to the complete data set, even
   after filtering.
 
 - `cols`:
 
-  ([`character()`](https://rdrr.io/r/base/character.html))  
+  ([`character()`](https://rdrr.io/r/base/character.html) \| `NULL`)  
   Vector of column names.
 
 - `ordered`:
@@ -762,7 +761,7 @@ columns with their respective column name.
 Depending on the
 [DataBackend](https://mlr3.mlr-org.com/reference/DataBackend.md), but
 usually a
-[`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html).
+[`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html).
 
 #### Examples
 
@@ -824,7 +823,7 @@ role `"target"` or `"feature"`.
 
 #### Returns
 
-[`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html)
+[`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html)
 with `n` rows.
 
 #### Examples
@@ -854,7 +853,7 @@ update the stored level information, e.g. after subsetting a task with
 
 - `cols`:
 
-  ([`character()`](https://rdrr.io/r/base/character.html))  
+  ([`character()`](https://rdrr.io/r/base/character.html) \| `NULL`)  
   Vector of column names.
 
 #### Returns
@@ -882,7 +881,7 @@ Returns the number of missing observations for columns referenced in
 
 - `cols`:
 
-  ([`character()`](https://rdrr.io/r/base/character.html))  
+  ([`character()`](https://rdrr.io/r/base/character.html) \| `NULL`)  
   Vector of column names.
 
 #### Returns
@@ -911,14 +910,15 @@ mutators for more information.
 
 - `rows`:
 
-  (positive [`integer()`](https://rdrr.io/r/base/integer.html))  
+  (positive [`integer()`](https://rdrr.io/r/base/integer.html) \|
+  `NULL`)  
   Vector or row indices. Always refers to the complete data set, even
   after filtering.
 
 #### Returns
 
 Returns the object itself, but modified **by reference**. You need to
-explicitly `$clone()` the object beforehand if you want to keeps the
+explicitly `$clone()` the object beforehand if you want to keep the
 object in its previous state.
 
 #### Examples
@@ -946,13 +946,13 @@ mutators for more information.
 
 - `cols`:
 
-  ([`character()`](https://rdrr.io/r/base/character.html))  
+  ([`character()`](https://rdrr.io/r/base/character.html) \| `NULL`)  
   Vector of column names.
 
 #### Returns
 
 Returns the object itself, but modified **by reference**. You need to
-explicitly `$clone()` the object beforehand if you want to keeps the
+explicitly `$clone()` the object beforehand if you want to keep the
 object in its previous state.
 
 #### Examples
@@ -996,7 +996,7 @@ mutators for more information.
 #### Returns
 
 Returns the object itself, but modified **by reference**. You need to
-explicitly `$clone()` the object beforehand if you want to keeps the
+explicitly `$clone()` the object beforehand if you want to keep the
 object in its previous state.
 
 #### Examples
@@ -1071,7 +1071,7 @@ mutators for more information.
 #### Returns
 
 Returns the object itself, but modified **by reference**. You need to
-explicitly `$clone()` the object beforehand if you want to keeps the
+explicitly `$clone()` the object beforehand if you want to keep the
 object in its previous state.
 
 #### Examples
@@ -1119,13 +1119,13 @@ Modifies the roles in `$row_roles` **in-place**.
 
 Roles are first set exclusively (argument `roles`), then added (argument
 `add_to`) and finally removed (argument `remove_from`) from different
-roles. Duplicated row ids are explicitly allowed, so you can add
-replicate an observation by repeating its `row_id`.
+roles. Duplicated row ids are explicitly allowed, so you can replicate
+an observation by repeating its `row_id`.
 
 #### Returns
 
 Returns the object itself, but modified **by reference**. You need to
-explicitly `$clone()` the object beforehand if you want to keeps the
+explicitly `$clone()` the object beforehand if you want to keep the
 object in its previous state.
 
 #### Examples
@@ -1181,7 +1181,7 @@ column.
 #### Returns
 
 Returns the object itself, but modified **by reference**. You need to
-explicitly `$clone()` the object beforehand if you want to keeps the
+explicitly `$clone()` the object beforehand if you want to keep the
 object in its previous state.
 
 #### Examples
@@ -1240,7 +1240,7 @@ columns with storage type "factor" or "ordered".
 
 - `cols`:
 
-  ([`character()`](https://rdrr.io/r/base/character.html))  
+  ([`character()`](https://rdrr.io/r/base/character.html) \| `NULL`)  
   Vector of column names.
 
 #### Returns
@@ -1350,7 +1350,7 @@ The objects of this class are cloneable with this method.
 ``` r
 # We use the inherited class TaskClassif here,
 # because the base class `Task` is not intended for direct use
-task = TaskClassif$new("penguings", palmerpenguins::penguins, target = "species")
+task = TaskClassif$new("penguins", palmerpenguins::penguins, target = "species")
 
 task$nrow
 #> [1] 344

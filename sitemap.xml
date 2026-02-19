@@ -58,7 +58,7 @@
 <url><loc>https://mlr3.mlr-org.com/reference/convert_task.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/reference/default_fallback.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/reference/default_measures.html</loc></url>
-<url><loc>https://mlr3.mlr-org.com/reference/deprecated_binding.html</loc></url>
+<url><loc>https://mlr3.mlr-org.com/reference/deprecated_binding_old.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/reference/index.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/reference/install_pkgs.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/reference/marshaling.html</loc></url>
@@ -179,6 +179,6 @@
 <url><loc>https://mlr3.mlr-org.com/reference/set_threads.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/reference/task_check_col_roles.html</loc></url>
 <url><loc>https://mlr3.mlr-org.com/reference/uhash.html</loc></url>
-<url><loc>https://mlr3.mlr-org.com/reference/warn_deprecated.html</loc></url>
+<url><loc>https://mlr3.mlr-org.com/reference/warn_deprecated_old.html</loc></url>
 </urlset>
 

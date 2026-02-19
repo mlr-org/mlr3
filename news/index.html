@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.3.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.4.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,15 +44,26 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Changelog</h1>
-      <small>Source: <a href="https://github.com/mlr-org/mlr3/blob/v1.3.0/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/mlr-org/mlr3/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.3.0" id="mlr3-130">mlr3 1.3.0<a class="anchor" aria-label="anchor" href="#mlr3-130"></a></h2>
+<h2 class="pkg-version" data-toc-text="1.4.0" id="mlr3-140">mlr3 1.4.0<a class="anchor" aria-label="anchor" href="#mlr3-140"></a></h2>
+<ul><li>feat: Add <code>$native_model</code> active binding to <code>Learner</code> to access the model from the upstream package.</li>
+<li>feat: Learner store the condition of warnings and errors in the <code>log</code> field.</li>
+<li>feat: No supervised tasks with missing target values are allowed anymore.</li>
+<li>refactor: Validate the input of fields.</li>
+<li>fix: Assert list input in <code>assert_learners</code>, <code>assert_tasks</code>, <code>assert_measures</code> and <code>assert_resamplings</code>.</li>
+<li>fix: <code>convert_task</code> converts the internal validation task now.</li>
+<li>fix: disable printing of class ratios for large tasks.</li>
+<li>fix: Make quantiles resettable.</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.3.0" id="mlr3-130">mlr3 1.3.0<a class="anchor" aria-label="anchor" href="#mlr3-130"></a></h2><p class="text-muted">CRAN release: 2025-12-03</p>
 <ul><li>feat: <code>Learner$predict()</code> can now add additional data to <code>PredictionClassif</code> and <code>PredictionRegr</code> objects via the <code>extra</code> field.</li>
 <li>feat: <code>Mlr3Error</code> and <code>Mlr3Warning</code> classes for errors and warnings.</li>
 <li>refactor: <code>$obs_loss</code> methods in <code>Measure</code>, <code>Prediction</code>, <code>ResampleResult</code>, and <code>BenchmarkResult</code>.</li>
-<li>perf: Use more <code><a href="https://rdrr.io/r/base/lengths.html" class="external-link">lengths()</a></code> and <code><a href="https://rdatatable.gitlab.io/data.table/reference/setattr.html" class="external-link">data.table::setattr()</a></code> in tests.</li>
+<li>perf: Use more <code><a href="https://rdrr.io/r/base/lengths.html" class="external-link">lengths()</a></code> and <code><a href="https://rdrr.io/pkg/data.table/man/setattr.html" class="external-link">data.table::setattr()</a></code> in tests.</li>
 <li>perf: Use <code><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr()</a></code> instead of <code><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes()</a></code> for extracting single attributes.</li>
 <li>test: Use more specialised test functions.</li>
 <li>fix: <code>weights_measure</code> now work with <code>stratum</code>.</li>
@@ -89,7 +100,7 @@
 <h2 class="pkg-version" data-toc-text="1.0.1" id="mlr3-101">mlr3 1.0.1<a class="anchor" aria-label="anchor" href="#mlr3-101"></a></h2><p class="text-muted">CRAN release: 2025-07-03</p>
 <ul><li>fix: The printer of <code>Learner</code> failed when the <code>validate</code> field was set.</li>
 <li>fix: Avoid printing empty line for feature less tasks.</li>
-<li>perf: Use <code><a href="https://rdatatable.gitlab.io/data.table/reference/setattr.html" class="external-link">data.table::setattr()</a></code> for less copying.</li>
+<li>perf: Use <code><a href="https://rdrr.io/pkg/data.table/man/setattr.html" class="external-link">data.table::setattr()</a></code> for less copying.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.0.0" id="mlr3-100">mlr3 1.0.0<a class="anchor" aria-label="anchor" href="#mlr3-100"></a></h2><p class="text-muted">CRAN release: 2025-06-18</p>
@@ -214,7 +225,7 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.17.0" id="mlr3-0170">mlr3 0.17.0<a class="anchor" aria-label="anchor" href="#mlr3-0170"></a></h2><p class="text-muted">CRAN release: 2023-11-17</p>
 <ul><li>Learners cannot be added to the <code>HotstartStack</code> anymore when the model is missing.</li>
-<li>Learners bellow the <code>hotstart_threshold</code> are not added to the <code>HotstartStack</code> anymore.</li>
+<li>Learners below the <code>hotstart_threshold</code> are not added to the <code>HotstartStack</code> anymore.</li>
 <li>The <code>learner$state$train_time</code> in hotstarted learners is now only the time of the last training.</li>
 <li>Added debug messages to the hotstart stack.</li>
 <li>Fixed bug where the <code>HotstartStack</code> did not work with column roles set in the task.</li>
@@ -227,7 +238,7 @@
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.16.1" id="mlr3-0161">mlr3 0.16.1<a class="anchor" aria-label="anchor" href="#mlr3-0161"></a></h2><p class="text-muted">CRAN release: 2023-06-17</p>
-<ul><li>Function <code><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table()</a></code> is now re-exported.</li>
+<ul><li>Function <code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table()</a></code> is now re-exported.</li>
 <li>Fixed a test which randomly failed.</li>
 <li>Improved documentation.</li>
 <li>Add encapsulation mode <code>"try"</code>, which works similar to <code>"none"</code> but captures errors</li>
@@ -273,9 +284,9 @@
 <h2 class="pkg-version" data-toc-text="0.13.3" id="mlr3-0133">mlr3 0.13.3<a class="anchor" aria-label="anchor" href="#mlr3-0133"></a></h2><p class="text-muted">CRAN release: 2022-03-01</p>
 <ul><li>Most objects now have a new (optional) field <code>label</code>, i.e. <code>Task</code>, <code>TaskGenerator</code>, <code>Learner</code>, <code>Resampling</code>, and <code>Measure</code>.</li>
 <li>
-<code><a href="https://rdatatable.gitlab.io/data.table/reference/as.data.table.html" class="external-link">as.data.table()</a></code> methods for objects of class <code>Dictonary</code> have been extended with additional columns.</li>
+<code><a href="https://rdrr.io/pkg/data.table/man/as.data.table.html" class="external-link">as.data.table()</a></code> methods for objects of class <code>Dictionary</code> have been extended with additional columns.</li>
 <li>
-<code><a href="../reference/as_task_classif.html">as_task_classif.formula()</a></code> and <code><a href="../reference/as_task_regr.html">as_task_regr.formula()</a></code> now remove additional atrributes attached to the data which caused some some learners to break.</li>
+<code><a href="../reference/as_task_classif.html">as_task_classif.formula()</a></code> and <code><a href="../reference/as_task_regr.html">as_task_regr.formula()</a></code> now remove additional attributes attached to the data which caused some learners to break.</li>
 <li>Packages are now loaded prior to calling the <code>$train()</code> and <code>$predict()</code> methods of a <code>Learner</code>. This ensures that package loading errors are properly propagated and not affected by encapsulation (<a href="https://github.com/mlr-org/mlr3/issues/771" class="external-link">#771</a>).</li>
 </ul></div>
     <div class="section level2">
@@ -315,7 +326,7 @@
 <li>New Resampling method: <code>ResamplingCustomCV</code>. Creates a custom resampling split based on the levels of a user-provided factor variable.</li>
 <li>New argument <code>encapsulate</code> for <code><a href="../reference/resample.html">resample()</a></code> and <code><a href="../reference/benchmark.html">benchmark()</a></code> to conveniently enable encapsulation and also set the fallback learner to the featureless learner. This is simply for convenience, configuring each learner individually is still possible and allows a more fine-grained control (<a href="https://github.com/mlr-org/mlr3/issues/634" class="external-link">#634</a>, <a href="https://github.com/mlr-org/mlr3/issues/642" class="external-link">#642</a>).</li>
 <li>New field <code>parallel_predict</code> for <code>Learner</code> to enable parallel predictions via the future backend. This currently is only enabled while calling the <code>$predict()</code> or <code>$predict_newdata</code> methods and is disabled during <code><a href="../reference/resample.html">resample()</a></code> and <code><a href="../reference/benchmark.html">benchmark()</a></code> where you have other means to parallelize.</li>
-<li>Deprecated public (and already documented as internal) field <code>$data</code> in <code>ResampleResult</code> and <code>BenchmarkResult</code> to simplify the API and avoid confusion. The converter <code><a href="https://rdatatable.gitlab.io/data.table/reference/as.data.table.html" class="external-link">as.data.table()</a></code> can be used instead to access the internal data.</li>
+<li>Deprecated public (and already documented as internal) field <code>$data</code> in <code>ResampleResult</code> and <code>BenchmarkResult</code> to simplify the API and avoid confusion. The converter <code><a href="https://rdrr.io/pkg/data.table/man/as.data.table.html" class="external-link">as.data.table()</a></code> can be used instead to access the internal data.</li>
 <li>Measures now have formal hyperparameters. A popular example where this is required is the F1 score, now implemented with customizable <code>beta</code>.</li>
 <li>Changed default of argument <code>ordered</code> in <code>Task$data()</code> from <code>TRUE</code> to <code>FALSE</code>.</li>
 <li>Fixed getter <code>ResamplingRepeatedCV$folds()</code> (<a href="https://github.com/mlr-org/mlr3/issues/643" class="external-link">#643</a>).</li>
@@ -326,7 +337,7 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.11.0" id="mlr3-0110">mlr3 0.11.0<a class="anchor" aria-label="anchor" href="#mlr3-0110"></a></h2><p class="text-muted">CRAN release: 2021-03-05</p>
 <ul><li>Added a <code>as.data.table.Resampling</code> method.</li>
-<li>Renamed column <code>"row_id"</code> to <code>"row_ids"</code> in the <code><a href="https://rdatatable.gitlab.io/data.table/reference/as.data.table.html" class="external-link">as.data.table()</a></code> methods for <code>PredictionClassif</code> and <code>PredictionRegr</code> (<a href="https://github.com/mlr-org/mlr3/issues/547" class="external-link">#547</a>).</li>
+<li>Renamed column <code>"row_id"</code> to <code>"row_ids"</code> in the <code><a href="https://rdrr.io/pkg/data.table/man/as.data.table.html" class="external-link">as.data.table()</a></code> methods for <code>PredictionClassif</code> and <code>PredictionRegr</code> (<a href="https://github.com/mlr-org/mlr3/issues/547" class="external-link">#547</a>).</li>
 <li>Added converters <code><a href="../reference/as_prediction_classif.html">as_prediction_classif()</a></code> and <code><a href="../reference/as_prediction_regr.html">as_prediction_regr()</a></code> to reverse the operation of <code>as.data.table.PredictionClassif()</code> and <code>as.data.table.PredictionRegr()</code>.</li>
 <li>Specifying a weight column during <code>learner$predict_newdata()</code> is not mandatory anymore (<a href="https://github.com/mlr-org/mlr3/issues/563" class="external-link">#563</a>).</li>
 <li>

@@ -36,7 +36,7 @@ Predefined learners can be found in the
 [mlr_learners](https://mlr3.mlr-org.com/reference/mlr_learners.md).
 Essential regression learners can be found in this dictionary after
 loading [mlr3learners](https://CRAN.R-project.org/package=mlr3learners).
-Additional learners are implement in the Github package
+Additional learners are implemented in the Github package
 <https://github.com/mlr-org/mlr3extralearners>.
 
 ## See also
@@ -104,7 +104,8 @@ Other Learner:
   Elements must be between 0 and 1, not missing and provided in
   ascending order. If only one quantile is provided, it is used as
   response. Otherwise, set `$quantile_response` to specify the response
-  quantile.
+  quantile. Set to `NULL` to reset both `$quantiles` and
+  `$quantile_response`.
 
 - `quantile_response`:
 
@@ -291,7 +292,7 @@ or
 
 - `newdata`:
 
-  [`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html)  
+  [`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html)  
   New data to predict on.
 
 - `task`:

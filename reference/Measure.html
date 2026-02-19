@@ -41,7 +41,7 @@ A guide on how to extend mlr3 with custom measures can be found in the mlr3book.
 
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.3.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.4.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -72,7 +72,7 @@ A guide on how to extend mlr3 with custom measures can be found in the mlr3book.
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Measure Class</h1>
-      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3/blob/v1.3.0/R/Measure.R" class="external-link"><code>R/Measure.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3/blob/main/R/Measure.R" class="external-link"><code>R/Measure.R</code></a></small>
       <div class="d-none name"><code>Measure.Rd</code></div>
     </div>
 
@@ -125,9 +125,9 @@ See the documentation of specific measures for more details.</p>
 
 <p>Many measurements cannot be calculated if the test set or predictions are unfortunate, for example because a denominator is 0.
 This typically occurs during (binary) classification if some entries of the confusion matrix are 0.
-For this reason, many measures which origin in <a href="https://CRAN.R-project.org/package=mlr3measures" class="external-link"><span class="pkg">mlr3measures</span></a> allow to change the default missing value (<code>NaN</code>) via the field <code>na_value</code>.</p>
+For this reason, many measures which originate in <a href="https://CRAN.R-project.org/package=mlr3measures" class="external-link"><span class="pkg">mlr3measures</span></a> allow to change the default missing value (<code>NaN</code>) via the field <code>na_value</code>.</p>
 <p>If you encounter missing values in a compound object like a <a href="ResampleResult.html">ResampleResult</a> or <a href="BenchmarkResult.html">BenchmarkResult</a> during scoring or aggregating, simply
-removing iterations with missing values is statistically arguable (but technically possible by prividng a custom aggregation function
+removing iterations with missing values is statistically arguable (but technically possible by providing a custom aggregation function
 which handles missing values, e.g. <code>function(x) mean(x, na.rm = TRUE)</code>). Instead, consider stratification on the target of the <a href="Task.html">Task</a>
 to work around missing values. Switching to micro averaging in the <a href="Resampling.html">Resampling</a> can also be a solution here.</p>
     </div>
@@ -158,82 +158,6 @@ to work around missing values. Switching to micro averaging in the <a href="Resa
 <code><a href="mlr_measures_regr.rqr.html">mlr_measures_regr.rqr</a></code>,
 <code><a href="mlr_measures_regr.rsq.html">mlr_measures_regr.rsq</a></code>,
 <code><a href="mlr_measures_selected_features.html">mlr_measures_selected_features</a></code></p></div>
-    </div>
-    <div class="section level2">
-    <h2 id="public-fields">Public fields<a class="anchor" aria-label="anchor" href="#public-fields"></a></h2>
-    <p></p><div class="r6-fields"><dl><dt><code>id</code></dt>
-<dd><p>(<code>character(1)</code>)<br>
-Identifier of the object.
-Used in tables, plot and text output.</p></dd>
-
-
-<dt><code>label</code></dt>
-<dd><p>(<code>character(1)</code>)<br>
-Label for this object.
-Can be used in tables, plot and text output instead of the ID.</p></dd>
-
-
-<dt><code>task_type</code></dt>
-<dd><p>(<code>character(1)</code>)<br>
-Task type, e.g. <code>"classif"</code> or <code>"regr"</code>.</p>
-<p>For a complete list of possible task types (depending on the loaded packages),
-see <code><a href="mlr_reflections.html">mlr_reflections$task_types$type</a></code>.</p></dd>
-
-
-<dt><code>param_set</code></dt>
-<dd><p>(<a href="https://paradox.mlr-org.com/reference/ParamSet.html" class="external-link">paradox::ParamSet</a>)<br>
-Set of hyperparameters.</p></dd>
-
-
-<dt><code>trafo</code></dt>
-<dd><p>(<code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code> | <code>NULL</code>)
-<code>NULL</code> or a list with two elements:</p><ul><li><p><code>trafo</code>: the transformation function applied after aggregating
-observation-wise losses (e.g. <code>sqrt</code> for RMSE)</p></li>
-<li><p><code>deriv</code>: The derivative of the <code>trafo</code>.</p></li>
-</ul></dd>
-
-
-<dt><code>predict_type</code></dt>
-<dd><p>(<code>character(1)</code>)<br>
-Required predict type of the <a href="Learner.html">Learner</a>.</p></dd>
-
-
-<dt><code>check_prerequisites</code></dt>
-<dd><p>(<code>character(1)</code>)<br>
-How to proceed if one of the following prerequisites is not met:</p><ul><li><p>wrong predict type (e.g., probabilities required, but only labels available).</p></li>
-<li><p>wrong predict set (e.g., learner predicted on training set, but predictions of test set required).</p></li>
-<li><p>task properties not satisfied (e.g., binary classification measure on multiclass task).</p></li>
-</ul><p>Possible values are <code>"ignore"</code> (just return <code>NaN</code>) and <code>"warn"</code> (default, raise a warning before returning <code>NaN</code>).</p></dd>
-
-
-<dt><code>task_properties</code></dt>
-<dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
-Required properties of the <a href="Task.html">Task</a>.</p></dd>
-
-
-<dt><code>range</code></dt>
-<dd><p>(<code>numeric(2)</code>)<br>
-Lower and upper bound of possible performance scores.</p></dd>
-
-
-<dt><code>minimize</code></dt>
-<dd><p>(<code>logical(1)</code>)<br>
-If <code>TRUE</code>, good predictions correspond to small values of performance scores.</p></dd>
-
-
-<dt><code>packages</code></dt>
-<dd><p>(<code>character(1)</code>)<br>
-Set of required packages.
-These packages are loaded, but not attached.</p></dd>
-
-
-<dt><code>man</code></dt>
-<dd><p>(<code>character(1)</code>)<br>
-String in the format <code>[pkg]::[topic]</code> pointing to a manual page for this object.
-Defaults to <code>NA</code>, but can be set by child classes.</p></dd>
-
-
-</dl><p></p></div>
     </div>
     <div class="section level2">
     <h2 id="active-bindings">Active bindings<a class="anchor" aria-label="anchor" href="#active-bindings"></a></h2>
@@ -298,6 +222,77 @@ For measures with the property <code>"requires_no_prediction"</code>, this is in
 For measures that have neither of the properties, this is initialized as <code>"error"</code>.
 The latter behavior is to avoid cases where a user erroneously assumes that a measure supports weights when it does not.
 For measures that do not support weights, <code>use_weights</code> needs to be set to <code>"ignore"</code> if tasks with weights should be handled (by dropping the weights).</p></dd>
+
+
+<dt><code>id</code></dt>
+<dd><p>(<code>character(1)</code>)<br>
+Identifier of the object.
+Used in tables, plot and text output.</p></dd>
+
+
+<dt><code>label</code></dt>
+<dd><p>(<code>character(1)</code>)<br>
+Label for this object.
+Can be used in tables, plot and text output instead of the ID.</p></dd>
+
+
+<dt><code>task_type</code></dt>
+<dd><p>(<code>character(1)</code>)<br>
+Task type, e.g. <code>"classif"</code> or <code>"regr"</code>.</p>
+<p>For a complete list of possible task types (depending on the loaded packages),
+see <code><a href="mlr_reflections.html">mlr_reflections$task_types$type</a></code>.</p></dd>
+
+
+<dt><code>param_set</code></dt>
+<dd><p>(<a href="https://paradox.mlr-org.com/reference/ParamSet.html" class="external-link">paradox::ParamSet</a>)<br>
+Set of hyperparameters.</p></dd>
+
+
+<dt><code>predict_type</code></dt>
+<dd><p>(<code>character(1)</code>)<br>
+Required predict type of the <a href="Learner.html">Learner</a>.</p></dd>
+
+
+<dt><code>check_prerequisites</code></dt>
+<dd><p>(<code>character(1)</code>)<br>
+How to proceed if one of the following prerequisites is not met:</p><ul><li><p>wrong predict type (e.g., probabilities required, but only labels available).</p></li>
+<li><p>wrong predict set (e.g., learner predicted on training set, but predictions of test set required).</p></li>
+<li><p>task properties not satisfied (e.g., binary classification measure on multiclass task).</p></li>
+</ul><p>Possible values are <code>"ignore"</code> (just return <code>NaN</code>) and <code>"warn"</code> (default, raise a warning before returning <code>NaN</code>).</p></dd>
+
+
+<dt><code>task_properties</code></dt>
+<dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
+Required properties of the <a href="Task.html">Task</a>.</p></dd>
+
+
+<dt><code>range</code></dt>
+<dd><p>(<code>numeric(2)</code>)<br>
+Lower and upper bound of possible performance scores.</p></dd>
+
+
+<dt><code>minimize</code></dt>
+<dd><p>(<code>logical(1)</code>)<br>
+If <code>TRUE</code>, good predictions correspond to small values of performance scores.</p></dd>
+
+
+<dt><code>packages</code></dt>
+<dd><p>(<code>character(1)</code>)<br>
+Set of required packages.
+These packages are loaded, but not attached.</p></dd>
+
+
+<dt><code>man</code></dt>
+<dd><p>(<code>character(1)</code> | <code>NULL</code>)<br>
+String in the format <code>[pkg]::[topic]</code> pointing to a manual page for this object.
+Defaults to <code>NA</code>, but can be set by child classes.</p></dd>
+
+
+<dt><code>trafo</code></dt>
+<dd><p>(<code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code> | <code>NULL</code>)<br><code>NULL</code> or a list with two elements:</p><ul><li><p><code>fn</code>: the transformation function applied after aggregating
+observation-wise losses (e.g. <code>sqrt</code> for RMSE)</p></li>
+<li><p><code>deriv</code>: The derivative of the <code>fn</code>.</p></li>
+</ul></dd>
 
 
 </dl><p></p></div>
@@ -386,7 +381,7 @@ The function in <code>$aggregator</code> is not used in this case.</p></dd>
 
 
 <dt><code>aggregator</code></dt>
-<dd><p>(<code>function()</code>)<br>
+<dd><p>(<code>function()</code> | <code>NULL</code>)<br>
 Function to aggregate over multiple iterations. The role of this function depends on
 the value of field <code>"average"</code>:</p><ul><li><p><code>"macro"</code>: A numeric vector of scores (one per iteration) is passed.
 The aggregate function defaults to <code><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean()</a></code> in this case.</p></li>
@@ -451,7 +446,7 @@ The referenced help package can be opened via method <code>$help()</code>.</p></
 
 
 <dt><code>trafo</code></dt>
-<dd><p>(<code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code> or <code>NULL</code>)<br>
+<dd><p>(<code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code> | <code>NULL</code>)<br>
 An optional list with two elements, containing the transformation <code>"fn"</code> and its derivative <code>"deriv"</code>.
 The transformation function is the function that is applied after aggregating the pointwise losses, i.e.
 this requires an <code>$obs_loss</code> to be present. An example is <code>sqrt</code> for RMSE.</p></dd>

@@ -59,6 +59,12 @@ repositories such as mlr3learners. More information can be found in the
   Before running a `learner` on a `task`, this function allows to change
   its parameter values depending on the input task.
 
+To speed up test execution, start an encapsulation daemon in advance by
+calling `mirai::daemons(1, .compute = "mlr3_encapsulation")` in
+`tests/testthat/setup.R`. After the tests complete, stop them with
+`mirai::daemons(0, .compute = "mlr3_encapsulation")` in
+`tests/testthat/teardown.R`.
+
 ## run_paramtest()
 
 **Description**:
@@ -107,7 +113,7 @@ source repositories such as
 
 Checks various properties that learners have to satisfy. Used for
 testing learner implementations, especially if all methods and fields
-are implement as document.
+are implemented as documented.
 
 **Parameters**
 

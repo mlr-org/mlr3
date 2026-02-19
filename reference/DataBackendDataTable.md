@@ -83,11 +83,11 @@ Creates a new instance of this
 Note that `DataBackendDataTable` does not copy the input data, while
 [`as_data_backend()`](https://mlr3.mlr-org.com/reference/as_data_backend.md)
 calls
-[`data.table::copy()`](https://rdatatable.gitlab.io/data.table/reference/copy.html).
+[`data.table::copy()`](https://rdrr.io/pkg/data.table/man/copy.html).
 [`as_data_backend()`](https://mlr3.mlr-org.com/reference/as_data_backend.md)
 also takes care about casting to a
-[`data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html)
-and adds a primary key column if necessary.
+[`data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html) and
+adds a primary key column if necessary.
 
 #### Usage
 
@@ -97,9 +97,9 @@ and adds a primary key column if necessary.
 
 - `data`:
 
-  ([`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html))  
+  ([`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html))  
   The input
-  [`data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html).
+  [`data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html).
 
 - `primary_key`:
 
@@ -127,13 +127,14 @@ duplicated column names lead to an exception.
 
 - `rows`:
 
-  (positive [`integer()`](https://rdrr.io/r/base/integer.html))  
+  (positive [`integer()`](https://rdrr.io/r/base/integer.html) \|
+  `NULL`)  
   Vector or row indices. Always refers to the complete data set, even
   after filtering.
 
 - `cols`:
 
-  ([`character()`](https://rdrr.io/r/base/character.html))  
+  ([`character()`](https://rdrr.io/r/base/character.html) \| `NULL`)  
   Vector of column names.
 
 ------------------------------------------------------------------------
@@ -155,7 +156,7 @@ Retrieve the first `n` rows.
 
 #### Returns
 
-[`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html)
+[`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html)
 of the first `n` rows.
 
 ------------------------------------------------------------------------
@@ -175,13 +176,14 @@ silently ignored.
 
 - `rows`:
 
-  (positive [`integer()`](https://rdrr.io/r/base/integer.html))  
+  (positive [`integer()`](https://rdrr.io/r/base/integer.html) \|
+  `NULL`)  
   Vector or row indices. Always refers to the complete data set, even
   after filtering.
 
 - `cols`:
 
-  ([`character()`](https://rdrr.io/r/base/character.html))  
+  ([`character()`](https://rdrr.io/r/base/character.html) \| `NULL`)  
   Vector of column names.
 
 - `na_rm`:
@@ -208,13 +210,14 @@ of data. Non-existing rows and columns are silently ignored.
 
 - `rows`:
 
-  (positive [`integer()`](https://rdrr.io/r/base/integer.html))  
+  (positive [`integer()`](https://rdrr.io/r/base/integer.html) \|
+  `NULL`)  
   Vector or row indices. Always refers to the complete data set, even
   after filtering.
 
 - `cols`:
 
-  ([`character()`](https://rdrr.io/r/base/character.html))  
+  ([`character()`](https://rdrr.io/r/base/character.html) \| `NULL`)  
   Vector of column names.
 
 #### Returns

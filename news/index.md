@@ -1,6 +1,23 @@
 # Changelog
 
+## mlr3 1.4.0
+
+- feat: Add `$native_model` active binding to `Learner` to access the
+  model from the upstream package.
+- feat: Learner store the condition of warnings and errors in the `log`
+  field.
+- feat: No supervised tasks with missing target values are allowed
+  anymore.
+- refactor: Validate the input of fields.
+- fix: Assert list input in `assert_learners`, `assert_tasks`,
+  `assert_measures` and `assert_resamplings`.
+- fix: `convert_task` converts the internal validation task now.
+- fix: disable printing of class ratios for large tasks.
+- fix: Make quantiles resettable.
+
 ## mlr3 1.3.0
+
+CRAN release: 2025-12-03
 
 - feat: `Learner$predict()` can now add additional data to
   `PredictionClassif` and `PredictionRegr` objects via the `extra`
@@ -9,7 +26,7 @@
 - refactor: `$obs_loss` methods in `Measure`, `Prediction`,
   `ResampleResult`, and `BenchmarkResult`.
 - perf: Use more [`lengths()`](https://rdrr.io/r/base/lengths.html) and
-  [`data.table::setattr()`](https://rdatatable.gitlab.io/data.table/reference/setattr.html)
+  [`data.table::setattr()`](https://rdrr.io/pkg/data.table/man/setattr.html)
   in tests.
 - perf: Use [`attr()`](https://rdrr.io/r/base/attr.html) instead of
   [`attributes()`](https://rdrr.io/r/base/attributes.html) for
@@ -63,7 +80,7 @@ CRAN release: 2025-07-03
   set.
 - fix: Avoid printing empty line for feature less tasks.
 - perf: Use
-  [`data.table::setattr()`](https://rdatatable.gitlab.io/data.table/reference/setattr.html)
+  [`data.table::setattr()`](https://rdrr.io/pkg/data.table/man/setattr.html)
   for less copying.
 
 ## mlr3 1.0.0
@@ -315,7 +332,7 @@ CRAN release: 2023-11-17
 
 - Learners cannot be added to the `HotstartStack` anymore when the model
   is missing.
-- Learners bellow the `hotstart_threshold` are not added to the
+- Learners below the `hotstart_threshold` are not added to the
   `HotstartStack` anymore.
 - The `learner$state$train_time` in hotstarted learners is now only the
   time of the last training.
@@ -339,7 +356,7 @@ CRAN release: 2023-11-17
 CRAN release: 2023-06-17
 
 - Function
-  [`data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html)
+  [`data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html)
   is now re-exported.
 - Fixed a test which randomly failed.
 - Improved documentation.
@@ -419,14 +436,14 @@ CRAN release: 2022-03-01
 
 - Most objects now have a new (optional) field `label`, i.e. `Task`,
   `TaskGenerator`, `Learner`, `Resampling`, and `Measure`.
-- [`as.data.table()`](https://rdatatable.gitlab.io/data.table/reference/as.data.table.html)
-  methods for objects of class `Dictonary` have been extended with
+- [`as.data.table()`](https://rdrr.io/pkg/data.table/man/as.data.table.html)
+  methods for objects of class `Dictionary` have been extended with
   additional columns.
 - [`as_task_classif.formula()`](https://mlr3.mlr-org.com/reference/as_task_classif.md)
   and
   [`as_task_regr.formula()`](https://mlr3.mlr-org.com/reference/as_task_regr.md)
-  now remove additional atrributes attached to the data which caused
-  some some learners to break.
+  now remove additional attributes attached to the data which caused
+  some learners to break.
 - Packages are now loaded prior to calling the `$train()` and
   `$predict()` methods of a `Learner`. This ensures that package loading
   errors are properly propagated and not affected by encapsulation
@@ -532,7 +549,7 @@ CRAN release: 2021-08-05
 - Deprecated public (and already documented as internal) field `$data`
   in `ResampleResult` and `BenchmarkResult` to simplify the API and
   avoid confusion. The converter
-  [`as.data.table()`](https://rdatatable.gitlab.io/data.table/reference/as.data.table.html)
+  [`as.data.table()`](https://rdrr.io/pkg/data.table/man/as.data.table.html)
   can be used instead to access the internal data.
 - Measures now have formal hyperparameters. A popular example where this
   is required is the F1 score, now implemented with customizable `beta`.
@@ -551,7 +568,7 @@ CRAN release: 2021-03-05
 
 - Added a `as.data.table.Resampling` method.
 - Renamed column `"row_id"` to `"row_ids"` in the
-  [`as.data.table()`](https://rdatatable.gitlab.io/data.table/reference/as.data.table.html)
+  [`as.data.table()`](https://rdrr.io/pkg/data.table/man/as.data.table.html)
   methods for `PredictionClassif` and `PredictionRegr`
   ([\#547](https://github.com/mlr-org/mlr3/issues/547)).
 - Added converters

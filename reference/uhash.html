@@ -23,7 +23,7 @@ via the field $uhash_table."><meta property="og:image" content="https://mlr3.mlr
 
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.3.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.4.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -54,7 +54,7 @@ via the field $uhash_table."><meta property="og:image" content="https://mlr3.mlr
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Obtain specific uhashes from a <a href="BenchmarkResult.html">BenchmarkResult</a></h1>
-      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3/blob/v1.3.0/R/BenchmarkResult.R" class="external-link"><code>R/BenchmarkResult.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3/blob/main/R/BenchmarkResult.R" class="external-link"><code>R/BenchmarkResult.R</code></a></small>
       <div class="d-none name"><code>uhash.Rd</code></div>
     </div>
 
@@ -133,19 +133,19 @@ Resampling ID.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   5    iris classif.featureless       holdout     1        0      0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   6    iris       classif.rpart       holdout     1        0      0</span>
 <span class="r-in"><span><span class="va">bmr</span><span class="op">$</span><span class="va">uhashes</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "4426ebcc-9715-4e05-a6b9-be5e09f4fc50"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "0721473c-0df8-450e-87da-5e90f5f3b191"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "f2ac347d-f510-48cb-ad3d-47b5da6d0f34"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4] "5b86d325-1076-4d95-9fac-120f44a80ecf"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5] "683ba1d4-98fc-4048-a082-ad26cc1bae1d"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [6] "e5ce3c03-a379-4178-985c-e247fbd156ec"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "063c6605-b4ea-493c-98dd-7856da27abb5"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "67b9e330-4dc1-40d5-8503-fecc832adb39"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "e44683cf-40b3-4acb-9977-3597f6b114ed"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4] "3a29abdb-6c28-4e90-85b9-0242c05873a4"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5] "26b5c414-1d7b-49fe-a6c1-900dc1823486"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [6] "3a3f237c-4e17-4655-af48-d06233325ad1"</span>
 <span class="r-in"><span><span class="fu">uhash</span><span class="op">(</span><span class="va">bmr</span>, learner_id <span class="op">=</span> <span class="st">"classif.debug"</span>, task_id <span class="op">=</span> <span class="st">"sonar"</span>, resampling_id <span class="op">=</span> <span class="st">"holdout"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "4426ebcc-9715-4e05-a6b9-be5e09f4fc50"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "063c6605-b4ea-493c-98dd-7856da27abb5"</span>
 <span class="r-in"><span><span class="fu">uhashes</span><span class="op">(</span><span class="va">bmr</span>, learner_ids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"classif.debug"</span>, <span class="st">"classif.featureless"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "4426ebcc-9715-4e05-a6b9-be5e09f4fc50"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "0721473c-0df8-450e-87da-5e90f5f3b191"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "5b86d325-1076-4d95-9fac-120f44a80ecf"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4] "683ba1d4-98fc-4048-a082-ad26cc1bae1d"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "063c6605-b4ea-493c-98dd-7856da27abb5"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "67b9e330-4dc1-40d5-8503-fecc832adb39"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "3a29abdb-6c28-4e90-85b9-0242c05873a4"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4] "26b5c414-1d7b-49fe-a6c1-900dc1823486"</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

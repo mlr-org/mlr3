@@ -35,7 +35,7 @@ The grid will be generated based on the Cartesian product of learners and pairs.
 
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.3.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.4.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -66,7 +66,7 @@ The grid will be generated based on the Cartesian product of learners and pairs.
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Generate a Benchmark Grid Design</h1>
-      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3/blob/v1.3.0/R/benchmark_grid.R" class="external-link"><code>R/benchmark_grid.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3/blob/main/R/benchmark_grid.R" class="external-link"><code>R/benchmark_grid.R</code></a></small>
       <div class="d-none name"><code>benchmark_grid.Rd</code></div>
     </div>
 
@@ -110,7 +110,7 @@ The grid will be generated based on the Cartesian product of learners and pairs.
 
 
 <dt id="arg-param-values">param_values<a class="anchor" aria-label="anchor" href="#arg-param-values"></a></dt>
-<dd><p>(<code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>)<br>
+<dd><p>(<code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code> | <code>NULL</code>)<br>
 If you want to try many parameter settings for learners, you can pass them through the design
 which is optimized to be faster than creating learners for each setting.</p>
 <p>A list of lists of named lists, from outer to inner:</p><ol><li><p>One list element for each <a href="Learner.html">Learner</a>.</p></li>
@@ -128,7 +128,7 @@ You need to provide the same number of tasks and instantiated resamplings.</p></
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>(<code><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code>) with the cross product of the input vectors.</p>
+    <p>(<code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code>) with the cross product of the input vectors.</p>
     </div>
     <div class="section level2">
     <h2 id="errors-and-warnings">Errors and Warnings<a class="anchor" aria-label="anchor" href="#errors-and-warnings"></a></h2>
@@ -199,7 +199,7 @@ You need to provide the same number of tasks and instantiated resamplings.</p></
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2: german_credit classif.rpart    holdout</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># manual construction of the grid with data.table::CJ()</span></span></span>
-<span class="r-in"><span><span class="va">grid</span> <span class="op">=</span> <span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/J.html" class="external-link">CJ</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span><span class="va">grid</span> <span class="op">=</span> <span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/data.table/man/J.html" class="external-link">CJ</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span> task <span class="op">=</span> <span class="va">tasks</span>,</span></span>
 <span class="r-in"><span>  learner <span class="op">=</span> <span class="va">learners</span>,</span></span>
 <span class="r-in"><span>  resampling <span class="op">=</span> <span class="va">resamplings</span>,</span></span>

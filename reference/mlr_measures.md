@@ -32,9 +32,9 @@ See
 - `as.data.table(dict, ..., objects = FALSE)`  
   [mlr3misc::Dictionary](https://mlr3misc.mlr-org.com/reference/Dictionary.html)
   -\>
-  [`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html)  
+  [`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html)  
   Returns a
-  [`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html)
+  [`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html)
   with fields "key", "label", "task_type", "packages", "predict_type",
   and "task_properties" as columns. If `objects` is set to `TRUE`, the
   constructed objects are returned in the list column named `object`.
@@ -142,6 +142,7 @@ as.data.table(mlr_measures)
 #> 62:         time_predict                                        Elapsed Time
 #> 63:           time_train                                        Elapsed Time
 #>                      key                                               label
+#>                   <char>                                              <char>
 #>     task_type          packages predict_type
 #>        <char>            <list>       <char>
 #>  1:      <NA>              mlr3         <NA>
@@ -208,6 +209,7 @@ as.data.table(mlr_measures)
 #> 62:      <NA>              mlr3         <NA>
 #> 63:      <NA>              mlr3         <NA>
 #>     task_type          packages predict_type
+#>        <char>            <list>       <char>
 #>                                                               properties
 #>                                                                   <list>
 #>  1:      na_score,requires_learner,requires_model,requires_no_prediction
@@ -274,6 +276,7 @@ as.data.table(mlr_measures)
 #> 62:                              requires_learner,requires_no_prediction
 #> 63:                              requires_learner,requires_no_prediction
 #>                                                               properties
+#>                                                                   <list>
 #>     task_properties
 #>              <list>
 #>  1:                
@@ -340,6 +343,7 @@ as.data.table(mlr_measures)
 #> 62:                
 #> 63:                
 #>     task_properties
+#>              <list>
 mlr_measures$get("classif.ce")
 #> 
 #> ── <MeasureClassifSimple> (classif.ce): Classification Error ───────────────────
