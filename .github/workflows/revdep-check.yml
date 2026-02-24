@@ -49,11 +49,11 @@ jobs:
           - {package: mlr-org/mlr3tuning, ref: main}
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
         with:
           path: ${{ env.TARGET_PKG_DIR }}
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
         with:
           repository: ${{ matrix.package }}
           ref: ${{ matrix.ref }}
