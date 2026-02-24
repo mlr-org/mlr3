@@ -4,6 +4,8 @@
 
 ## mlr3 1.4.0
 
+CRAN release: 2026-02-19
+
 - feat: Add `$native_model` active binding to `Learner` to access the
   model from the upstream package.
 - feat: Learner store the condition of warnings and errors in the `log`
