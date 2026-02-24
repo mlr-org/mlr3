@@ -564,8 +564,8 @@ run_experiment = function(task, learner, seed = NULL, configure_learner = NULL) 
     rr = resample(task, learner_encapsulated, rsmp("holdout"), store_models = TRUE)
     log = rr$learners[[1]]$state$log
     if ("error" %in% log$class) {
-      condition = log[class == "error"]$condition[[1]]
-      return(err("resample log has errors: %s", mlr3misc::str_collapse(conditionMessage(condition))))
+      conditions = log[class == "error"]$condition
+      return(err("resample log has errors: %s", mlr3misc::str_collapse(map_chr(conditions, conditionMessage))))
     }
   }
 

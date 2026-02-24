@@ -713,15 +713,15 @@ Learner = R6Class("Learner",
       self$state$log
     },
 
-    #' @field warnings (`character()`)\cr
-    #' Logged warnings as vector.
+    #' @field warnings (`list()`)\cr
+    #' Logged warnings condition objects.
     warnings = function(rhs) {
       assert_ro_binding(rhs)
       get_log_condition(self$state, "warning")
     },
 
-    #' @field errors (`character()`)\cr
-    #' Logged errors as vector.
+    #' @field errors (`list()`)\cr
+    #' Logged error condition objects.
     errors = function(rhs) {
       assert_ro_binding(rhs)
       get_log_condition(self$state, "error")
@@ -992,7 +992,7 @@ rd_info.Learner = function(obj, ...) {
 
 get_log_condition = function(state, condition) {
   if (is.null(state$log)) {
-    character()
+    list()
   } else {
     fget_key(state$log, condition, "condition", "class")
   }

@@ -309,11 +309,11 @@ Returns the output (including warning and errors) as table with columns
 \item \code{"condition"} (\code{condition}).
 }}
 
-\item{\code{warnings}}{(\code{character()})\cr
-Logged warnings as vector.}
+\item{\code{warnings}}{(\code{list()})\cr
+Logged warnings condition objects.}
 
-\item{\code{errors}}{(\code{character()})\cr
-Logged errors as vector.}
+\item{\code{errors}}{(\code{list()})\cr
+Logged error condition objects.}
 
 \item{\code{hash}}{(\code{character(1)})\cr
 Hash (unique identifier) for this object.
