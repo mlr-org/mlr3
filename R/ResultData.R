@@ -369,7 +369,7 @@ ResultData = R6Class("ResultData",
     logs = function(view = NULL, condition) {
       .__ii__ = private$get_view_index(view)
       learner_state = NULL
-      logs = map(self$data$fact[.__ii__, learner_state], function(s) list(msg = get_log_condition(s, condition)))
+      logs = map(self$data$fact[.__ii__, learner_state], function(s) list(condition = get_log_condition(s, condition)))
       rbindlist(logs, idcol = "iteration", use.names = TRUE)
     },
 

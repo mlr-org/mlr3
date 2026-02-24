@@ -76,6 +76,8 @@ Suggests:
     RhpcBLASctl,
     rpart,
     testthat (>= 3.3.0)
+Remotes:
+    mlr-org/mlr3misc@output
 Encoding: UTF-8
 Config/testthat/edition: 3
 Config/testthat/parallel: false

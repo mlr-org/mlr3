@@ -107,7 +107,6 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
     .timeout = learner$timeout["train"],
     .compute = getOption("mlr3.mirai_encapsulation", "mlr3_encapsulation")
   )
-
   cond = cond_from_log(result$log)
 
   # We still log the warnings and messages in the case of an error,
@@ -115,7 +114,7 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
   err = learner_will_err(cond, learner, stage = "train")
 
   # we don't log an existing (uncaught) error, because it's signalled
-  log = append_log(NULL, "train", result$log$class, result$log$msg, result$log$condition, log_error = !err)
+  log = append_log(NULL, stage = "train", class = result$log$class, condition = result$log$condition, log_error = !err)
 
   if (err) {
     stop(cond)
@@ -224,7 +223,7 @@ learner_predict = function(learner, task, row_ids = NULL) {
   if (task$nrow == 0L) {
     # return an empty prediction object, #421
     lg$debug("No observations in task, returning empty prediction data", task = task)
-    learner$state$log = append_log(learner$state$log, "predict", "output", condition = "No data to predict on, create empty prediction")
+    learner$state$log = append_log(learner$state$log, stage = "predict", class = "output", condition = list(simpleMessage("No data to predict on, create empty prediction")))
     return(create_empty_prediction_data(task, learner))
   }
 
@@ -263,7 +262,7 @@ learner_predict = function(learner, task, row_ids = NULL) {
 
     pdata = result$result
     # don't log an existing (uncaught) error, because it's signalled
-    learner$state$log = append_log(learner$state$log, "predict", result$log$class, result$log$msg, result$log$condition, log_error = !err)
+    learner$state$log = append_log(learner$state$log, stage = "predict", class = result$log$class, condition = result$log$condition, log_error = !err)
 
     if (err) {
       stop(cond)
@@ -289,7 +288,7 @@ learner_predict = function(learner, task, row_ids = NULL) {
       lg$debug("Creating new Prediction using fallback '%s'",
         fb$id, learner = fb$clone())
 
-      learner$state$log = append_log(learner$state$log, "predict", "output", condition = "Using fallback learner for predictions")
+      learner$state$log = append_log(learner$state$log, stage = "predict", class = "output", condition = list(simpleMessage("Using fallback learner for predictions")))
       pdata = predict_fb(task$row_ids)
     } else {
       miss_ids = is_missing_prediction_data(pdata)
@@ -298,7 +297,7 @@ learner_predict = function(learner, task, row_ids = NULL) {
         length(miss_ids), length(pdata$row_ids), fb$id, learner = fb$clone())
 
       if (length(miss_ids)) {
-        learner$state$log = append_log(learner$state$log, "predict", "output", condition = "Using fallback learner to impute predictions")
+        learner$state$log = append_log(learner$state$log, stage = "predict", class = "output", condition = list(simpleMessage("Using fallback learner to impute predictions")))
 
         pdata = c(pdata, predict_fb(miss_ids), keep_duplicates = FALSE)
       }
@@ -322,7 +321,7 @@ workhorse = function(
   is_sequential = TRUE,
   unmarshal = TRUE,
   callbacks = NULL
-) {
+  ) { # nolint
   ctx = ContextResample$new(task, learner, resampling, iteration)
 
   call_back("on_resample_begin", callbacks, ctx)
@@ -520,28 +519,23 @@ process_model_after_predict = function(learner, store_models, is_sequential, unm
   }
 }
 
-append_log = function(log = NULL, stage = NA_character_, class = NA_character_, msg = character(), condition = NULL, log_error = TRUE) {
+append_log = function(log = NULL, stage = NA_character_, class = NA_character_, condition = NULL, log_error = TRUE) {
   if (is.null(log)) {
     log = data.table(
       stage = factor(levels = c("train", "predict")),
       class = factor(levels = c("output", "warning", "error"), ordered = TRUE),
-      msg = character(),
       condition = list()
     )
   }
 
-  # extract messages from conditions
   if (length(condition)) {
-    msg = map_chr(condition, function(x) if (inherits(x, "condition")) conditionMessage(x) else x)
-  }
-
-  if (length(msg)) {
-    log = rbindlist(list(log, data.table(stage = stage, class = class, msg = msg, condition = condition)), use.names = TRUE)
+    log = rbindlist(list(log, data.table(stage = stage, class = class, condition = condition)), use.names = TRUE)
 
     # log messages with lgr / print to console
-    pwalk(list(stage, class, msg), function(s, c, m) {
-      if (c == "error" && log_error) lg$error("%s: %s", s, m)
-      if (c == "warning") lg$warn("%s: %s", s, m)
+    pwalk(list(stage, class, condition), function(s, cls, cond) {
+      m = conditionMessage(cond)
+      if (cls == "error" && log_error) lg$error("%s: %s", s, m)
+      if (cls == "warning") lg$warn("%s: %s", s, m)
     })
   }
 

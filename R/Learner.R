@@ -707,7 +707,7 @@ Learner = R6Class("Learner",
     #'
     #' * `"stage"` ("train" or "predict"),
     #' * `"class"` ("output", "warning", or "error"), and
-    #' * `"msg"` (`character()`).
+    #' * `"condition"` (`condition`).
     log = function(rhs) {
       assert_ro_binding(rhs)
       self$state$log
@@ -994,7 +994,7 @@ get_log_condition = function(state, condition) {
   if (is.null(state$log)) {
     character()
   } else {
-    fget_key(state$log, condition, "msg", "class")
+    fget_key(state$log, condition, "condition", "class")
   }
 }
 

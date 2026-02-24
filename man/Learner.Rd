@@ -306,7 +306,7 @@ Returns the output (including warning and errors) as table with columns
 \itemize{
 \item \code{"stage"} ("train" or "predict"),
 \item \code{"class"} ("output", "warning", or "error"), and
-\item \code{"msg"} (\code{character()}).
+\item \code{"condition"} (\code{condition}).
 }}
 
 \item{\code{warnings}}{(\code{character()})\cr
