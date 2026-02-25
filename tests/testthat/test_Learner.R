@@ -236,7 +236,7 @@ test_that("empty predict set (#421)", {
   learner$train(task, hout$train_set(1))
   pred = learner$predict(task, hout$test_set(1))
   expect_prediction(pred)
-  expect_match(learner$log$msg, "No data to predict on", all = FALSE)
+  expect_match(map_chr(learner$log$condition, conditionMessage), "No data to predict on", all = FALSE)
 })
 
 test_that("fallback learner is deep cloned (#511)", {

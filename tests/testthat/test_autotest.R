@@ -143,27 +143,27 @@ test_that("autotest on marshal / unmarshal", {
 test_that("autotest on encapsulation", {
   # error in train
   learner1 = R6Class(
-      "learner_broken_marshal",
-      inherit = LearnerClassifDebug,
-      private = list(
-        .train = function(task) {
-          if (Sys.getenv("in_mirai") == "TRUE") {
-            stop("Error in mirai process in train")
-          }
-          super$.train(task)
+    "learner_broken_marshal",
+    inherit = LearnerClassifDebug,
+    private = list(
+      .train = function(task) {
+        if (Sys.getenv("in_mirai") == "TRUE") {
+          stop("Error in mirai process in train")
         }
-      )
-    )$new()
-    task = tsk("spam")
-    task$id = "feat_all_spam"
+        super$.train(task)
+      }
+    )
+  )$new()
+  task = tsk("spam")
+  task$id = "feat_all_spam"
 
-    with_mirai({
-      mirai::everywhere({Sys.setenv(in_mirai = "TRUE")}, .compute = "mlr3_encapsulation")
-      result = run_experiment(task, learner1)
-    }, compute = "mlr3_encapsulation")
+  with_mirai({
+    mirai::everywhere({Sys.setenv(in_mirai = "TRUE")}, .compute = "mlr3_encapsulation")
+    result = run_experiment(task, learner1)
+  }, compute = "mlr3_encapsulation")
 
-    expect_false(result$ok)
-    expect_string(result$error, pattern = "Error in mirai process in train")
+  expect_false(result$ok)
+  expect_string(result$error, pattern = "Error in mirai process in train")
 
   # error in predict
   learner2 = R6Class(

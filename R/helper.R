@@ -141,3 +141,14 @@ weighted_mean_sd = function(x, weights) {
 format_angle_brackets = function(x) {
   sprintf("<<%s:%s>>", class(x)[1L], x$id)
 }
+
+#' @exportS3Method data.table::format_col
+format_col.condition = function(x, ...) {
+  msg = cli::ansi_strip(conditionMessage(x))
+  trimws(gsub("\n", " ", msg, fixed = TRUE))
+}
+
+#' @exportS3Method data.table::format_list_item
+format_list_item.condition = function(x, ...) {
+  format_col(x, ...)
+}

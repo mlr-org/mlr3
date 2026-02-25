@@ -21,10 +21,11 @@ test_that("evaluate / single step", {
   expect_silent(enable_encapsulation(learner)$train(task, row_ids))
   log = learner$log
   expect_data_table(log)
-  expect_data_table(log, nrows = 2L, ncols = 4L, any.missing = FALSE)
+  expect_data_table(log, nrows = 2L, ncols = 3L, any.missing = FALSE)
   expect_factor(log$class)
   expect_set_equal(as.character(log$class), c("output", "warning"))
-  expect_match(log$msg, "->train()", fixed = TRUE)
+  msgs = map_chr(log$condition, conditionMessage)
+  expect_match(msgs, "->train()", fixed = TRUE)
   expect_true("output" %in% log$class)
   expect_true("warning" %in% log$class)
   expect_false("error" %in% log$class)
@@ -37,10 +38,11 @@ test_that("evaluate / single step", {
   p = enable_encapsulation(learner)$predict(task, row_ids = 101:150)
   log = learner$log[stage == "predict"]
   expect_data_table(log)
-  expect_data_table(log, nrows = 2L, ncols = 4L, any.missing = FALSE)
+  expect_data_table(log, nrows = 2L, ncols = 3L, any.missing = FALSE)
   expect_factor(log$class)
   expect_equal(as.character(log$class), c("output", "warning"))
-  expect_match(log$msg, "->predict()",  fixed = TRUE)
+  msgs = map_chr(log$condition, conditionMessage)
+  expect_match(msgs, "->predict()",  fixed = TRUE)
 })
 
 test_that("evaluate / resample", {
