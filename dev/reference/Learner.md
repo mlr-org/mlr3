@@ -361,17 +361,17 @@ Other Learner:
 
   - `"class"` ("output", "warning", or "error"), and
 
-  - `"msg"` ([`character()`](https://rdrr.io/r/base/character.html)).
+  - `"condition"` (`condition`).
 
 - `warnings`:
 
-  ([`character()`](https://rdrr.io/r/base/character.html))  
-  Logged warnings as vector.
+  ([`list()`](https://rdrr.io/r/base/list.html))  
+  Logged warnings condition objects.
 
 - `errors`:
 
-  ([`character()`](https://rdrr.io/r/base/character.html))  
-  Logged errors as vector.
+  ([`list()`](https://rdrr.io/r/base/list.html))  
+  Logged error condition objects.
 
 - `hash`:
 

@@ -663,9 +663,9 @@ rr$prediction()$score(msr("classif.acc"))
 
 # check for warnings and errors
 rr$warnings
-#> Empty data.table (0 rows and 2 cols): iteration,msg
+#> Empty data.table (0 rows and 2 cols): iteration,condition
 rr$errors
-#> Empty data.table (0 rows and 2 cols): iteration,msg
+#> Empty data.table (0 rows and 2 cols): iteration,condition
 
 ## ------------------------------------------------
 ## Method `ResampleResult$prediction`
@@ -792,9 +792,9 @@ rr$set_threshold(0.6)
 #> Key: <uhash, iteration>
 #>                                   uhash iteration      learner_state prediction
 #>                                  <char>     <int>             <list>     <list>
-#> 1: 75947332-25de-45c9-adf7-33c47cff28ec         1 <learner_state[8]>  <list[1]>
-#> 2: 75947332-25de-45c9-adf7-33c47cff28ec         2 <learner_state[8]>  <list[1]>
-#> 3: 75947332-25de-45c9-adf7-33c47cff28ec         3 <learner_state[8]>  <list[1]>
+#> 1: 377e2f3f-ead2-4dfe-be65-a5c1e281e830         1 <learner_state[8]>  <list[1]>
+#> 2: 377e2f3f-ead2-4dfe-be65-a5c1e281e830         2 <learner_state[8]>  <list[1]>
+#> 3: 377e2f3f-ead2-4dfe-be65-a5c1e281e830         3 <learner_state[8]>  <list[1]>
 #>        learner_hash        task_hash    learner_phash  resampling_hash
 #>              <char>           <char>           <char>           <char>
 #> 1: 667ca7804cbe810f 062d5c9e3bac138b a2121f0bf1b9c2f6 fb4fd3525746a553
