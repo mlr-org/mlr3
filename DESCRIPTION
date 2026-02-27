@@ -60,7 +60,7 @@ Imports:
     methods,
     mlbench,
     mlr3measures (>= 1.2.0),
-    mlr3misc (>= 0.19.0),
+    mlr3misc (>= 0.21.0),
     parallelly,
     palmerpenguins,
     paradox (>= 1.0.1),
