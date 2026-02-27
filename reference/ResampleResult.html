@@ -19,7 +19,7 @@ ResampleResults can be visualized via mlr3viz's autoplot() function."><meta prop
 
     <a class="navbar-brand me-2" href="../index.html">mlr3</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.4.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.5.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -641,9 +641,9 @@ Must be one of <code>"random"</code>, <code>"first"</code> or <code>"last"</code
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># check for warnings and errors</span></span></span>
 <span class="r-in"><span><span class="va">rr</span><span class="op">$</span><span class="va">warnings</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Empty data.table (0 rows and 2 cols): iteration,msg</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Empty data.table (0 rows and 2 cols): iteration,condition</span>
 <span class="r-in"><span><span class="va">rr</span><span class="op">$</span><span class="va">errors</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Empty data.table (0 rows and 2 cols): iteration,msg</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Empty data.table (0 rows and 2 cols): iteration,condition</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
 <span class="r-in"><span><span class="co">## Method `ResampleResult$prediction`</span></span></span>
@@ -770,9 +770,9 @@ Must be one of <code>"random"</code>, <code>"first"</code> or <code>"last"</code
 <span class="r-out co"><span class="r-pr">#&gt;</span> Key: &lt;uhash, iteration&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                   uhash iteration      learner_state prediction</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                  &lt;char&gt;     &lt;int&gt;             &lt;list&gt;     &lt;list&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 007490ac-744c-4da9-9117-f586b185257c         1 &lt;learner_state[8]&gt;  &lt;list[1]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 007490ac-744c-4da9-9117-f586b185257c         2 &lt;learner_state[8]&gt;  &lt;list[1]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 007490ac-744c-4da9-9117-f586b185257c         3 &lt;learner_state[8]&gt;  &lt;list[1]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 2905f64c-7fd7-4c75-98df-3411169a6138         1 &lt;learner_state[8]&gt;  &lt;list[1]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 2905f64c-7fd7-4c75-98df-3411169a6138         2 &lt;learner_state[8]&gt;  &lt;list[1]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 2905f64c-7fd7-4c75-98df-3411169a6138         3 &lt;learner_state[8]&gt;  &lt;list[1]&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        learner_hash        task_hash    learner_phash  resampling_hash</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              &lt;char&gt;           &lt;char&gt;           &lt;char&gt;           &lt;char&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: 667ca7804cbe810f 062d5c9e3bac138b a2121f0bf1b9c2f6 fb4fd3525746a553</span>

@@ -1,6 +1,12 @@
 # Changelog
 
+## mlr3 1.5.0
+
+- feat: Replace messages with conditions in logs.
+
 ## mlr3 1.4.0
+
+CRAN release: 2026-02-19
 
 - feat: Add `$native_model` active binding to `Learner` to access the
   model from the upstream package.

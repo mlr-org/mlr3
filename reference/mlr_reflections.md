@@ -135,7 +135,7 @@ mlr_reflections
 
 ``` r
 ls.str(mlr_reflections)
-#> auto_converters : <environment: 0x564da94c1218> 
+#> auto_converters : <environment: 0x558f54c206a8> 
 #> default_measures : List of 3
 #>  $ classif     : chr "classif.ce"
 #>  $ regr        : chr "regr.mse"
@@ -153,7 +153,7 @@ ls.str(mlr_reflections)
 #>  $ classif: chr [1:9] "na_score" "requires_task" "requires_learner" "requires_model" ...
 #>  $ regr   : chr [1:9] "na_score" "requires_task" "requires_learner" "requires_model" ...
 #> package_version : Classes 'package_version', 'numeric_version'  hidden list of 1
-#>  $ : int [1:3] 1 4 0
+#>  $ : int [1:3] 1 5 0
 #> predict_sets :  chr [1:3] "train" "test" "internal_valid"
 #> resampling_properties :  chr [1:2] "duplicated_ids" "weights"
 #> rr_names :  chr [1:4] "task" "learner" "resampling" "iteration"
