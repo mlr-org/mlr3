@@ -28,3 +28,6 @@
 ^local_attic$
 ^tests/testthat/_object_snapshots$
 ^.claude$
+^man/figures/mlr3verse\.svg$
+^man/figures/block\.png$
+^man/figures/block\.svg$
