@@ -189,6 +189,7 @@ Learner = R6Class("Learner",
       private$.man = assert_string(man, na.ok = TRUE)
       private$.predict_sets = "test"
       private$.parallel_predict = FALSE
+      private$.predict_raw = FALSE
       private$.timeout = c(train = Inf, predict = Inf)
 
       if ("weights" %in% private$.properties) {
@@ -236,7 +237,7 @@ Learner = R6Class("Learner",
         cli_li("Feature Types: {self$feature_types}")
         cli_li("Encapsulation: {encapsulation} (fallback: {fallback})")
         cli_li("Properties: {self$properties}")
-        cli_li("Other settings: use_weights = '{self$use_weights}'")
+        cli_li("Other settings: use_weights = '{self$use_weights}', predict_raw = '{self$predict_raw}'")
       })
 
       w = self$warnings
@@ -729,11 +730,12 @@ Learner = R6Class("Learner",
 
     #' @field hash (`character(1)`)\cr
     #' Hash (unique identifier) for this object.
-    #' The hash is calculated based on the learner id, the parameter settings, the predict type, the fallback hash, the parallel predict setting, the validate setting, and the predict sets.
+    #' The hash is calculated based on the learner id, the parameter settings, the predict type, the fallback hash, the parallel predict setting, the validate setting, the predict sets, and the predict raw setting.
     hash = function(rhs) {
       assert_ro_binding(rhs)
       calculate_hash(class(self), self$id, self$param_set$values, private$.predict_type,
-        self$fallback$hash, self$parallel_predict, get0("validate", self), self$predict_sets, private$.use_weights)
+        self$fallback$hash, self$parallel_predict, get0("validate", self), self$predict_sets, private$.use_weights,
+        private$.predict_raw)
     },
 
     #' @field phash (`character(1)`)\cr
@@ -741,7 +743,7 @@ Learner = R6Class("Learner",
     phash = function(rhs) {
       assert_ro_binding(rhs)
       calculate_hash(class(self), self$id, private$.predict_type,
-        self$fallback$hash, self$parallel_predict, get0("validate", self), private$.use_weights)
+        self$fallback$hash, self$parallel_predict, get0("validate", self), private$.use_weights, private$.predict_raw)
     },
 
     #' @field predict_type (`character(1)`)\cr
@@ -898,6 +900,18 @@ Learner = R6Class("Learner",
       private$.parallel_predict = assert_flag(rhs)
     },
 
+    #' @field predict_raw (`logical(1)`)\cr
+    #' If set to `TRUE`, the raw prediction object from the upstream model is stored in the [Prediction] object (default: `FALSE`).
+    #' The raw prediction is stored as-is, without validation or subsetting during filtering.
+    #' When multiple predictions are combined via `c()`, the individual raw objects are collected into a `list()`.
+    #' Individual learner implementations must support this flag by including a `raw` element in the list returned by `$.predict()`.
+    predict_raw = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.predict_raw)
+      }
+      private$.predict_raw = assert_flag(rhs)
+    },
+
     #' @field timeout (named `numeric(2)`)\cr
     #' Timeout for the learner's train and predict steps, in seconds.
     #' This works differently for different encapsulation methods, see
@@ -934,6 +948,7 @@ Learner = R6Class("Learner",
     .packages = NULL,
     .predict_sets = NULL,
     .parallel_predict = NULL,
+    .predict_raw = NULL,
     .timeout = NULL,
     .man = NULL,
     .when = NULL,

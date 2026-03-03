@@ -141,6 +141,9 @@ c.PredictionDataRegr = function(..., keep_duplicates = TRUE) { # nolint
     result$distr = do.call(c, map(dots, "distr"))
   }
 
+  raw = discard(map(dots, "raw"), is.null)
+  if (length(raw)) result$raw = raw
+
   new_prediction_data(result, "regr")
 }
 

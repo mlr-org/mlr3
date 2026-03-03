@@ -147,6 +147,73 @@ test_that("extra data is stored", {
   expect_error(learner$predict(tsk("mtcars")), "Extra data must have the same length as the number of predictions")
 })
 
+test_that("raw data is stored", {
+  task = tsk("mtcars")
+  raw_obj = list(a = 1, b = "hello")
+  p = PredictionRegr$new(row_ids = task$row_ids, truth = task$truth(), response = task$truth(), raw = raw_obj)
+  expect_equal(p$raw, raw_obj)
+
+  # raw survives filtering
+  p2 = p$clone()$filter(1:3)
+  expect_equal(p2$raw, raw_obj)
+
+  # raw is NULL when not provided
+  p3 = PredictionRegr$new(row_ids = task$row_ids, truth = task$truth(), response = task$truth())
+  expect_null(p3$raw)
+})
+
+test_that("raw data is combined into list", {
+  task = tsk("mtcars")
+  p1 = PredictionRegr$new(row_ids = 1:3, truth = task$truth(1:3), response = task$truth(1:3), raw = list(x = 1))
+  p2 = PredictionRegr$new(row_ids = 4:6, truth = task$truth(4:6), response = task$truth(4:6), raw = list(x = 2))
+  combined = c(p1, p2)
+  expect_list(combined$raw, len = 2)
+  expect_equal(combined$raw[[1]], list(x = 1))
+  expect_equal(combined$raw[[2]], list(x = 2))
+
+  # combining with and without raw
+  p3 = PredictionRegr$new(row_ids = 7:9, truth = task$truth(7:9), response = task$truth(7:9))
+  combined2 = c(p1, p3)
+  expect_list(combined2$raw, len = 1)
+  expect_equal(combined2$raw[[1]], list(x = 1))
+
+  # combining without any raw
+  p4 = PredictionRegr$new(row_ids = 10:12, truth = task$truth(10:12), response = task$truth(10:12))
+  combined3 = c(p3, p4)
+  expect_null(combined3$raw)
+})
+
+test_that("raw data via learner predict", {
+  LearnerRaw = R6Class("LearnerRaw",
+    inherit = LearnerRegrDebug,
+    private = list(
+      .predict = function(task, ...) {
+        pred = super$.predict(task, ...)
+        pred$raw = list(upstream_output = "raw_value")
+        pred
+      }
+    )
+  )
+
+  learner = LearnerRaw$new()
+  learner$train(tsk("mtcars"))
+  pred = learner$predict(tsk("mtcars"))
+  expect_equal(pred$raw, list(upstream_output = "raw_value"))
+})
+
+test_that("predict_raw with regr.rpart", {
+  task = tsk("mtcars")
+  learner = lrn("regr.rpart", predict_raw = TRUE)
+  learner$train(task)
+  pred = learner$predict(task)
+  expect_numeric(pred$raw, len = task$nrow)
+
+  learner = lrn("regr.rpart")
+  learner$train(task)
+  pred = learner$predict(task)
+  expect_null(pred$raw)
+})
+
 test_that("obs_loss works", {
   task = tsk("mtcars")
   learner = lrn("regr.rpart")

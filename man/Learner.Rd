@@ -317,7 +317,7 @@ Logged error condition objects.}
 
 \item{\code{hash}}{(\code{character(1)})\cr
 Hash (unique identifier) for this object.
-The hash is calculated based on the learner id, the parameter settings, the predict type, the fallback hash, the parallel predict setting, the validate setting, and the predict sets.}
+The hash is calculated based on the learner id, the parameter settings, the predict type, the fallback hash, the parallel predict setting, the validate setting, the predict sets, and the predict raw setting.}
 
 \item{\code{phash}}{(\code{character(1)})\cr
 Hash (unique identifier) for this partial object, excluding some components which are varied systematically during tuning (parameter values).}
@@ -397,6 +397,12 @@ to parallelize.
 
 Note that the recorded time required for prediction reports the time required to predict
 is not properly defined and depends on the parallelization backend.}
+
+\item{\code{predict_raw}}{(\code{logical(1)})\cr
+If set to \code{TRUE}, the raw prediction object from the upstream model is stored in the \link{Prediction} object (default: \code{FALSE}).
+The raw prediction is stored as-is, without validation or subsetting during filtering.
+When multiple predictions are combined via \code{c()}, the individual raw objects are collected into a \code{list()}.
+Individual learner implementations must support this flag by including a \code{raw} element in the list returned by \verb{$.predict()}.}
 
 \item{\code{timeout}}{(named \code{numeric(2)})\cr
 Timeout for the learner's train and predict steps, in seconds.

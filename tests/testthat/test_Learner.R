@@ -699,6 +699,21 @@ test_that("configure method works", {
   expect_equal(learner$predict_sets, "train")
 })
 
+test_that("predict_raw flag works", {
+  learner = lrn("classif.rpart")
+  expect_false(learner$predict_raw)
+
+  learner$predict_raw = TRUE
+  expect_true(learner$predict_raw)
+
+  learner$configure(predict_raw = FALSE)
+  expect_false(learner$predict_raw)
+
+  h1 = lrn("classif.rpart")$hash
+  h2 = lrn("classif.rpart", predict_raw = TRUE)$hash
+  expect_true(h1 != h2)
+})
+
 test_that("selected_features works", {
   task = tsk("spam")
   # alter rpart class to not support feature selection

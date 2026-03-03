@@ -157,6 +157,16 @@ Prediction = R6Class("Prediction",
     extra = function(rhs) {
       assert_ro_binding(rhs)
       self$data$extra
+    },
+
+    #' @field raw (any)\cr
+    #'   Raw prediction object from the upstream model.
+    #'   Only available if the learner's `predict_raw` flag was set to `TRUE` and the learner implementation supports it.
+    #'   The object is stored as-is, without validation or subsetting during filtering.
+    #'   When multiple predictions are combined via `c()`, the individual raw objects are collected into a `list()`.
+    raw = function(rhs) {
+      assert_ro_binding(rhs)
+      self$data$raw
     }
   )
 )
