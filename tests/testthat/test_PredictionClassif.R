@@ -280,6 +280,25 @@ test_that("raw data via learner predict", {
   expect_equal(pred$raw, list(upstream_output = "raw_value"))
 })
 
+test_that("predict_raw with classif.rpart", {
+  task = tsk("iris")
+  learner = lrn("classif.rpart", predict_raw = TRUE)
+  learner$train(task)
+  pred = learner$predict(task)
+  expect_class(pred$raw, "factor")
+  expect_equal(length(pred$raw), task$nrow)
+
+  learner = lrn("classif.rpart", predict_type = "prob", predict_raw = TRUE)
+  learner$train(task)
+  pred = learner$predict(task)
+  expect_matrix(pred$raw, nrows = task$nrow)
+
+  learner = lrn("classif.rpart")
+  learner$train(task)
+  pred = learner$predict(task)
+  expect_null(pred$raw)
+})
+
 test_that("obs_loss works", {
   learner = lrn("classif.rpart", predict_type = "prob")
   task = tsk("pima")

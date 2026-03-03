@@ -201,6 +201,19 @@ test_that("raw data via learner predict", {
   expect_equal(pred$raw, list(upstream_output = "raw_value"))
 })
 
+test_that("predict_raw with regr.rpart", {
+  task = tsk("mtcars")
+  learner = lrn("regr.rpart", predict_raw = TRUE)
+  learner$train(task)
+  pred = learner$predict(task)
+  expect_numeric(pred$raw, len = task$nrow)
+
+  learner = lrn("regr.rpart")
+  learner$train(task)
+  pred = learner$predict(task)
+  expect_null(pred$raw)
+})
+
 test_that("obs_loss works", {
   task = tsk("mtcars")
   learner = lrn("regr.rpart")

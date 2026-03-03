@@ -525,7 +525,7 @@ run_experiment = function(task, learner, seed = NULL, configure_learner = NULL) 
       return(err("does not return a list"))
     }
 
-    msg = checkmate::check_names(names(prediction), subset.of = mlr3::mlr_reflections$learner_predict_types[[learner$task_type]][[learner$predict_type]])
+    msg = checkmate::check_names(names(prediction), subset.of = c(mlr3::mlr_reflections$learner_predict_types[[learner$task_type]][[learner$predict_type]], "extra", "raw"))
     if (!isTRUE(msg)) {
       return(err("Names of returned list do not match learner predict_types: %s", str_collapse(names(prediction))))
     }

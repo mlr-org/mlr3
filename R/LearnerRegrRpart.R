@@ -85,7 +85,8 @@ LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
       newdata = task$data(cols = task$feature_names)
       response = invoke(predict, self$model, newdata = newdata,
         .opts = allow_partial_matching, .args = pv)
-      list(response = unname(response))
+      raw = if (self$predict_raw) response
+      list(response = unname(response), raw = raw)
     }
   )
 )
