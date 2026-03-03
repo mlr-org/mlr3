@@ -312,7 +312,7 @@ print(lrn)
 #> • Encapsulation: none (fallback: -)
 #> • Properties: importance, missings, multiclass, selected_features, twoclass,
 #> and weights
-#> • Other settings: use_weights = 'use'
+#> • Other settings: use_weights = 'use', predict_raw = 'FALSE'
 
 # train the learner:
 task = tsk("penguins")

@@ -322,7 +322,7 @@ Logged error condition objects.</p></dd>
 <dt><code>hash</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 Hash (unique identifier) for this object.
-The hash is calculated based on the learner id, the parameter settings, the predict type, the fallback hash, the parallel predict setting, the validate setting, and the predict sets.</p></dd>
+The hash is calculated based on the learner id, the parameter settings, the predict type, the fallback hash, the parallel predict setting, the validate setting, the predict sets, and the predict raw setting.</p></dd>
 
 
 <dt><code>phash</code></dt>
@@ -432,6 +432,14 @@ and has no effect during <code><a href="resample.html">resample()</a></code> or 
 to parallelize.</p>
 <p>Note that the recorded time required for prediction reports the time required to predict
 is not properly defined and depends on the parallelization backend.</p></dd>
+
+
+<dt><code>predict_raw</code></dt>
+<dd><p>(<code>logical(1)</code>)<br>
+If set to <code>TRUE</code>, the raw prediction object from the upstream model is stored in the <a href="Prediction.html">Prediction</a> object (default: <code>FALSE</code>).
+The raw prediction is stored as-is, without validation or subsetting during filtering.
+When multiple predictions are combined via <code><a href="https://rdrr.io/r/base/c.html" class="external-link">c()</a></code>, the individual raw objects are collected into a <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>.
+Individual learner implementations must support this flag by including a <code>raw</code> element in the list returned by <code>$.predict()</code>.</p></dd>
 
 
 <dt><code>timeout</code></dt>

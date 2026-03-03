@@ -161,6 +161,14 @@ This is <code>NULL</code> if no weights are present.</p></dd>
 List of extra data stored in the prediction object.</p></dd>
 
 
+<dt><code>raw</code></dt>
+<dd><p>(any)<br>
+Raw prediction object from the upstream model.
+Only available if the learner's <code>predict_raw</code> flag was set to <code>TRUE</code> and the learner implementation supports it.
+The object is stored as-is, without validation or subsetting during filtering.
+When multiple predictions are combined via <code><a href="https://rdrr.io/r/base/c.html" class="external-link">c()</a></code>, the individual raw objects are collected into a <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>.</p></dd>
+
+
 </dl><p></p></div>
     </div>
     <div class="section level2">

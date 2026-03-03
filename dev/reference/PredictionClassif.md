@@ -129,7 +129,8 @@ Creates a new instance of this
       prob = NULL,
       weights = NULL,
       check = TRUE,
-      extra = NULL
+      extra = NULL,
+      raw = NULL
     )
 
 #### Arguments
@@ -184,6 +185,12 @@ Creates a new instance of this
 
   ([`list()`](https://rdrr.io/r/base/list.html))  
   List of extra data to be stored in the prediction object.
+
+- `raw`:
+
+  (any)  
+  Raw prediction object from the upstream model. Stored as-is without
+  validation.
 
 ------------------------------------------------------------------------
 

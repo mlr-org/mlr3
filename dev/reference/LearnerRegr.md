@@ -339,7 +339,7 @@ mlr_learners$get("regr.rpart")
 #> • Feature Types: logical, integer, numeric, factor, and ordered
 #> • Encapsulation: none (fallback: -)
 #> • Properties: importance, missings, selected_features, and weights
-#> • Other settings: use_weights = 'use'
+#> • Other settings: use_weights = 'use', predict_raw = 'FALSE'
 lrn("classif.featureless")
 #> 
 #> ── <LearnerClassifFeatureless> (classif.featureless): Featureless Classification
@@ -352,5 +352,5 @@ lrn("classif.featureless")
 #> • Encapsulation: none (fallback: -)
 #> • Properties: featureless, importance, missings, multiclass, selected_features,
 #> twoclass, and weights
-#> • Other settings: use_weights = 'use'
+#> • Other settings: use_weights = 'use', predict_raw = 'FALSE'
 ```

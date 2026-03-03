@@ -129,7 +129,8 @@ Requires package <code>distr6</code>(in repository <a href="https://raphaels1.r-
 <span>  distr <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  weights <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  check <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  extra <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  extra <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  raw <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
@@ -187,6 +188,11 @@ If <code>TRUE</code>, performs some argument checks and predict type conversions
 <dt><code>extra</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>)<br>
 List of extra data to be stored in the prediction object.</p></dd>
+
+
+<dt><code>raw</code></dt>
+<dd><p>(any)<br>
+Raw prediction object from the upstream model. Stored as-is without validation.</p></dd>
 
 
 </dl><p></p></div>

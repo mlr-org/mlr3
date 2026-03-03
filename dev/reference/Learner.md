@@ -378,8 +378,8 @@ Other Learner:
   (`character(1)`)  
   Hash (unique identifier) for this object. The hash is calculated based
   on the learner id, the parameter settings, the predict type, the
-  fallback hash, the parallel predict setting, the validate setting, and
-  the predict sets.
+  fallback hash, the parallel predict setting, the validate setting, the
+  predict sets, and the predict raw setting.
 
 - `phash`:
 
@@ -513,6 +513,20 @@ Other Learner:
   Note that the recorded time required for prediction reports the time
   required to predict is not properly defined and depends on the
   parallelization backend.
+
+- `predict_raw`:
+
+  (`logical(1)`)  
+  If set to `TRUE`, the raw prediction object from the upstream model is
+  stored in the
+  [Prediction](https://mlr3.mlr-org.com/dev/reference/Prediction.md)
+  object (default: `FALSE`). The raw prediction is stored as-is, without
+  validation or subsetting during filtering. When multiple predictions
+  are combined via [`c()`](https://rdrr.io/r/base/c.html), the
+  individual raw objects are collected into a
+  [`list()`](https://rdrr.io/r/base/list.html). Individual learner
+  implementations must support this flag by including a `raw` element in
+  the list returned by `$.predict()`.
 
 - `timeout`:
 
