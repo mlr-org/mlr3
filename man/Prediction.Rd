@@ -87,6 +87,12 @@ This is \code{NULL} if no weights are present.}
 
 \item{\code{extra}}{(\code{list()})\cr
 List of extra data stored in the prediction object.}
+
+\item{\code{raw}}{(any)\cr
+Raw prediction object from the upstream model.
+Only available if the learner's \code{predict_raw} flag was set to \code{TRUE} and the learner implementation supports it.
+The object is stored as-is, without validation or subsetting during filtering.
+When multiple predictions are combined via \code{c()}, the individual raw objects are collected into a \code{list()}.}
 }
 \if{html}{\out{</div>}}
 }

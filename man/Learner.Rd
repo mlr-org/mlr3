@@ -398,6 +398,12 @@ to parallelize.
 Note that the recorded time required for prediction reports the time required to predict
 is not properly defined and depends on the parallelization backend.}
 
+\item{\code{predict_raw}}{(\code{logical(1)})\cr
+If set to \code{TRUE}, the raw prediction object from the upstream model is stored in the \link{Prediction} object (default: \code{FALSE}).
+The raw prediction is stored as-is, without validation or subsetting during filtering.
+When multiple predictions are combined via \code{c()}, the individual raw objects are collected into a \code{list()}.
+Individual learner implementations must support this flag by including a \code{raw} element in the list returned by \verb{$.predict()}.}
+
 \item{\code{timeout}}{(named \code{numeric(2)})\cr
 Timeout for the learner's train and predict steps, in seconds.
 This works differently for different encapsulation methods, see

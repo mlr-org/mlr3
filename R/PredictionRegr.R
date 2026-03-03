@@ -54,6 +54,9 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
     #'
     #' @param extra (`list()`)\cr
     #'   List of extra data to be stored in the prediction object.
+    #'
+    #' @param raw (any)\cr
+    #'   Raw prediction object from the upstream model. Stored as-is without validation.
     initialize = function(
       task = NULL,
       row_ids = task$row_ids,
@@ -64,10 +67,11 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
       distr = NULL,
       weights = NULL,
       check = TRUE,
-      extra = NULL
+      extra = NULL,
+      raw = NULL
     ) {
       pdata = new_prediction_data(
-        list(row_ids = row_ids, truth = truth, response = response, se = se, quantiles = quantiles, distr = distr, weights = weights, extra = extra),
+        list(row_ids = row_ids, truth = truth, response = response, se = se, quantiles = quantiles, distr = distr, weights = weights, extra = extra, raw = raw),
         task_type = "regr"
       )
 

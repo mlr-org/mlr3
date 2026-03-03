@@ -131,6 +131,10 @@ c.PredictionDataClassif = function(..., keep_duplicates = TRUE) {
   result = as.list(tab)
   if (!is.null(extra)) result$extra = as.list(extra)
   result$prob = prob
+
+  raw = discard(map(dots, "raw"), is.null)
+  if (length(raw)) result$raw = raw
+
   new_prediction_data(result, "classif")
 }
 
