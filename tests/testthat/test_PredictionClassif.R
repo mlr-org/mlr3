@@ -299,6 +299,14 @@ test_that("predict_raw with classif.rpart", {
   expect_null(pred$raw)
 })
 
+test_that("predict_raw with resample", {
+  task = tsk("iris")
+  learner = lrn("classif.rpart", predict_raw = TRUE)
+  rr = resample(task, learner, rsmp("cv", folds = 3))
+  pred = rr$prediction()
+  expect_list(pred$raw, len = 3)
+})
+
 test_that("obs_loss works", {
   learner = lrn("classif.rpart", predict_type = "prob")
   task = tsk("pima")

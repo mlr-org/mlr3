@@ -730,7 +730,7 @@ Learner = R6Class("Learner",
 
     #' @field hash (`character(1)`)\cr
     #' Hash (unique identifier) for this object.
-    #' The hash is calculated based on the learner id, the parameter settings, the predict type, the fallback hash, the parallel predict setting, the validate setting, and the predict sets.
+    #' The hash is calculated based on the learner id, the parameter settings, the predict type, the fallback hash, the parallel predict setting, the validate setting, the predict sets, and the predict raw setting.
     hash = function(rhs) {
       assert_ro_binding(rhs)
       calculate_hash(class(self), self$id, self$param_set$values, private$.predict_type,
