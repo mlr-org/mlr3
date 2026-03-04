@@ -1,6 +1,6 @@
 # File created using '.gitignore Generator' for Visual Studio Code: https://bit.ly/vscode-gig
-# Created by https://www.toptal.com/developers/gitignore/api/windows,visualstudiocode,r,macos,linux
-# Edit at https://www.toptal.com/developers/gitignore?templates=windows,visualstudiocode,r,macos,linux
+# Created by https://www.toptal.com/developers/gitignore/api/windows,visualstudiocode,macos,linux,r
+# Edit at https://www.toptal.com/developers/gitignore?templates=windows,visualstudiocode,macos,linux,r
 
 ### Linux ###
 *~
@@ -150,7 +150,7 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# End of https://www.toptal.com/developers/gitignore/api/windows,visualstudiocode,r,macos,linux
+# End of https://www.toptal.com/developers/gitignore/api/windows,visualstudiocode,macos,linux,r
 
 # Custom rules (everything added below won't be overriden by 'Generate .gitignore File' if you use 'Update' option)
 
@@ -160,6 +160,7 @@ README.html
 src/*.o
 src/*.so
 src/*.dll
+.clangd
 
 # CRAN
 cran-comments.md
@@ -175,13 +176,11 @@ renv.lock
 
 # vscode
 .vscode
-.cursor
 
 # revdep
 revdep/
 
-# misc
-Meta/
-Rplots.pdf
-.cursor/
-.claude/
+# AI
+AGENTS.md
+CLAUDE.md
+.claude
