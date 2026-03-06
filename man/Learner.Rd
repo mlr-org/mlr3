@@ -317,7 +317,9 @@ Logged error condition objects.}
 
 \item{\code{hash}}{(\code{character(1)})\cr
 Hash (unique identifier) for this object.
-The hash is calculated based on the learner id, the parameter settings, the predict type, the fallback hash, the parallel predict setting, the validate setting, the predict sets, and the predict raw setting.}
+The hash is calculated based on the learner id, the parameter settings,
+the predict type, the fallback hash, the parallel predict setting,
+the validate setting, the predict sets, and the predict raw setting.}
 
 \item{\code{phash}}{(\code{character(1)})\cr
 Hash (unique identifier) for this partial object, excluding some components which are varied systematically during tuning (parameter values).}
@@ -753,7 +755,8 @@ Using \verb{mirai"} is similarly safe as \code{callr} but much faster if several
 
 The fallback learner is fitted to create valid predictions in case that either the model fitting or the prediction of the original learner fails.
 If the training step or the predict step of the original learner fails, the fallback is used to make the predictions.
-If the original learner only partially fails during predict step (usually in the form of missing to predict some observations or producing some \code{NA} predictions), these missing predictions are imputed by the fallback.
+If the original learner only partially fails during predict step (usually in the form of missing to predict some observations or producing some \code{NA} predictions),
+these missing predictions are imputed by the fallback.
 Note that the fallback is always trained, as we do not know in advance whether prediction will fail.
 If the training step fails, the \verb{$model} field of the original learner is \code{NULL}.
 The results are reproducible across the different encapsulation methods.
