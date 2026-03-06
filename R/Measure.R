@@ -77,7 +77,8 @@
 #'
 #' @template seealso_measure
 #' @export
-Measure = R6Class("Measure",
+Measure = R6Class(
+  "Measure",
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
@@ -133,7 +134,11 @@ Measure = R6Class("Measure",
       }
 
       private$.predict_type = predict_type
-      private$.predict_sets = assert_subset(predict_sets, mlr_reflections$predict_sets, empty.ok = "requires_no_prediction" %chin% properties)
+      private$.predict_sets = assert_subset(
+        predict_sets,
+        mlr_reflections$predict_sets,
+        empty.ok = "requires_no_prediction" %chin% properties
+      )
       private$.task_properties = task_properties
       private$.packages = union("mlr3", assert_character(packages, any.missing = FALSE, min.chars = 1L))
       private$.man = assert_string(man, na.ok = TRUE)
@@ -237,19 +242,30 @@ Measure = R6Class("Measure",
     #' rr = resample(task, learner, rsmp("holdout"))
     #' msr("classif.ce")$aggregate(rr)
     aggregate = function(rr) {
-      switch(self$average,
+      switch(
+        self$average,
         "macro_weighted" = {
           aggregator = self$aggregator %??% weighted.mean
-          tab = score_measures(rr, list(self), reassemble = FALSE, view = get_private(rr)$.view,
-            iters = get_private(rr$resampling)$.primary_iters)
+          tab = score_measures(
+            rr,
+            list(self),
+            reassemble = FALSE,
+            view = get_private(rr)$.view,
+            iters = get_private(rr$resampling)$.primary_iters
+          )
           # score_measures constructs both .weights and .samples, since it can work with multiple measures and hence
           # does not depend on an individual measure's `use_weights` setting.
           set_names(aggregator(tab[[self$id]], if (self$use_weights == "use") tab$.weights else tab$.samples), self$id)
         },
         "macro" = {
           aggregator = self$aggregator %??% mean
-          tab = score_measures(rr, list(self), reassemble = FALSE, view = get_private(rr)$.view,
-            iters = get_private(rr$resampling)$.primary_iters)
+          tab = score_measures(
+            rr,
+            list(self),
+            reassemble = FALSE,
+            view = get_private(rr)$.view,
+            iters = get_private(rr$resampling)$.primary_iters
+          )
           set_names(aggregator(tab[[self$id]]), self$id)
         },
         "micro" = {
@@ -260,9 +276,12 @@ Measure = R6Class("Measure",
             self$score(prediction, task = rr$task, learner = rr$learner)
           }
         },
-        "custom" =  {
-          if (!is.null(get_private(rr$resampling)$.primary_iters) && "primary_iters" %nin% self$properties &&
-              !test_permutation(get_private(rr$resampling)$.primary_iters, seq_len(rr$resampling$iters))) {
+        "custom" = {
+          if (
+            !is.null(get_private(rr$resampling)$.primary_iters) &&
+              "primary_iters" %nin% self$properties &&
+              !test_permutation(get_private(rr$resampling)$.primary_iters, seq_len(rr$resampling$iters))
+          ) {
             error_input("Resample result has non-NULL primary_iters, but measure '%s' cannot handle them", self$id)
           }
           private$.aggregator(rr)
@@ -287,7 +306,6 @@ Measure = R6Class("Measure",
     #' prediction = learner$predict(task)
     #' msr("classif.ce")$obs_loss(prediction)
     obs_loss = function(prediction, task = NULL, learner = NULL) {
-
       if (!is_scalar_na(self$task_type) && self$task_type != prediction$task_type) {
         error_input("Measure '%s' incompatible with task type '%s'", self$id, prediction$task_type)
       }
@@ -304,7 +322,11 @@ Measure = R6Class("Measure",
     #' @template field_predict_sets
     predict_sets = function(rhs) {
       if (!missing(rhs)) {
-        private$.predict_sets = assert_subset(rhs, mlr_reflections$predict_sets, empty.ok = "requires_no_prediction" %chin% self$properties)
+        private$.predict_sets = assert_subset(
+          rhs,
+          mlr_reflections$predict_sets,
+          empty.ok = "requires_no_prediction" %chin% self$properties
+        )
       }
       private$.predict_sets
     },
@@ -315,16 +337,30 @@ Measure = R6Class("Measure",
     #' Measure can define additional fields to be included in the hash by setting the field `$.extra_hash`.
     hash = function(rhs) {
       assert_ro_binding(rhs)
-      calculate_hash(class(self), self$id, self$param_set$values, private$.score,
-        private$.average, private$.aggregator, private$.obs_loss, self$trafo,
-        self$predict_sets, mget(private$.extra_hash, envir = self), private$.use_weights)
+      calculate_hash(
+        class(self),
+        self$id,
+        self$param_set$values,
+        private$.score,
+        private$.average,
+        private$.aggregator,
+        private$.obs_loss,
+        self$trafo,
+        self$predict_sets,
+        mget(private$.extra_hash, envir = self),
+        private$.use_weights
+      )
     },
 
     #' @field properties (`character()`)\cr
     #' Properties of this measure.
     properties = function(rhs) {
       if (!missing(rhs)) {
-        props = if (is.na(self$task_type)) unique(unlist(mlr_reflections$measure_properties, use.names = FALSE)) else mlr_reflections$measure_properties[[self$task_type]]
+        props = if (is.na(self$task_type)) {
+          unique(unlist(mlr_reflections$measure_properties, use.names = FALSE))
+        } else {
+          mlr_reflections$measure_properties[[self$task_type]]
+        }
         private$.properties = assert_subset(rhs, props)
       } else {
         private$.properties
@@ -561,7 +597,10 @@ Measure = R6Class("Measure",
 score_single_measure = function(measure, task, learner, train_set, prediction) {
   if (!length(measure$predict_sets)) {
     score = get_private(measure)$.score(
-      prediction = NULL, task = task, learner = learner, train_set = train_set
+      prediction = NULL,
+      task = task,
+      learner = learner,
+      train_set = train_set
     )
     return(score)
   }
@@ -593,8 +632,13 @@ score_single_measure = function(measure, task, learner, train_set, prediction) {
     return(NaN)
   }
 
-  get_private(measure)$.score(prediction = prediction, task = task, learner = learner, train_set = train_set,
-    weights = if (measure$use_weights == "use") prediction$weights)
+  get_private(measure)$.score(
+    prediction = prediction,
+    task = task,
+    learner = learner,
+    train_set = train_set,
+    weights = if (measure$use_weights == "use") prediction$weights
+  )
 }
 
 #' @title Workhorse function to calculate multiple scores
@@ -616,7 +660,11 @@ score_single_measure = function(measure, task, learner, train_set, prediction) {
 score_measures = function(obj, measures, reassemble = TRUE, view = NULL, iters = NULL) {
   reassemble_learners = reassemble ||
     some(measures, function(m) any(c("requires_learner", "requires_model") %chin% m$properties))
-  tab = get_private(obj)$.data$as_data_table(view = view, reassemble_learners = reassemble_learners, convert_predictions = FALSE)
+  tab = get_private(obj)$.data$as_data_table(
+    view = view,
+    reassemble_learners = reassemble_learners,
+    convert_predictions = FALSE
+  )
 
   set(tab, j = ".samples", value = map_dbl(tab$prediction, function(x) length(x$test$row_ids)))
   if (length(tab$prediction) && "weights" %chin% names(tab$prediction[[1L]]$test)) {
@@ -624,7 +672,6 @@ score_measures = function(obj, measures, reassemble = TRUE, view = NULL, iters =
   } else {
     set(tab, j = ".weights", value = tab$.samples)
   }
-
 
   if (!is.null(iters)) {
     tab = tab[list(iters), on = "iteration"]
@@ -635,7 +682,8 @@ score_measures = function(obj, measures, reassemble = TRUE, view = NULL, iters =
   for (measure in measures) {
     pmap(tmp, assert_scorable, measure = measure)
 
-    score = pmap_dbl(tab[, c("task", "learner", "resampling", "iteration", "prediction"), with = FALSE],
+    score = pmap_dbl(
+      tab[, c("task", "learner", "resampling", "iteration", "prediction"), with = FALSE],
       function(task, learner, resampling, iteration, prediction) {
         score_single_measure(measure, task, learner, train_set = resampling$train_set(iteration), prediction)
       }
@@ -650,7 +698,8 @@ score_measures = function(obj, measures, reassemble = TRUE, view = NULL, iters =
 #' @export
 # nolint next
 rd_info.Measure = function(obj, ...) {
-  x = c("",
+  x = c(
+    "",
     sprintf("* Task type: %s", rd_format_string(obj$task_type)),
     sprintf("* Range: %s", rd_format_range(obj$range[1L], obj$range[2L])),
     sprintf("* Minimize: %s", obj$minimize),

@@ -23,7 +23,10 @@ future_map = function(n, FUN, ..., MoreArgs = list()) {
   if (getOption("mlr3.debug", FALSE)) {
     lg$info("Running experiments sequentially in debug mode with %i iterations", n)
     mapply(FUN, ..., MoreArgs = MoreArgs, SIMPLIFY = FALSE, USE.NAMES = FALSE)
-  } else if (isNamespaceLoaded("mirai") && mirai::daemons_set(.compute = getOption("mlr3.mirai_parallelization", "mlr3_parallelization"))) {
+  } else if (
+    isNamespaceLoaded("mirai") &&
+      mirai::daemons_set(.compute = getOption("mlr3.mirai_parallelization", "mlr3_parallelization"))
+  ) {
     lg$debug("Running resample() via mirai with %i iterations", n)
     mirai::collect_mirai(mirai::mirai_map(
       data.table(...),
@@ -33,7 +36,11 @@ future_map = function(n, FUN, ..., MoreArgs = list()) {
     ))
   } else {
     is_sequential = inherits(plan(), "sequential")
-    scheduling = if (!is_sequential && isTRUE(getOption("mlr3.exec_random", TRUE))) structure(TRUE, ordering = "random") else TRUE
+    scheduling = if (!is_sequential && isTRUE(getOption("mlr3.exec_random", TRUE))) {
+      structure(TRUE, ordering = "random")
+    } else {
+      TRUE
+    }
     chunk_size = getOption("mlr3.exec_chunk_size", 1)
     chunk_bins = getOption("mlr3.exec_chunk_bins")
     if (!is.null(chunk_bins)) {

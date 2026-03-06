@@ -27,7 +27,8 @@
 #'
 #' @template seealso_prediction
 #' @export
-Prediction = R6Class("Prediction",
+Prediction = R6Class(
+  "Prediction",
   public = list(
     #' @field data (named `list()`)\cr
     #' Internal data structure.
@@ -91,7 +92,9 @@ Prediction = R6Class("Prediction",
     #' @return [Prediction].
     score = function(measures = NULL, task = NULL, learner = NULL, train_set = NULL) {
       measures = assert_measures(as_measures(measures, task_type = self$task_type))
-      scores = map_dbl(measures, function(m) m$score(prediction = self, task = task, learner = learner, train_set = train_set))
+      scores = map_dbl(measures, function(m) {
+        m$score(prediction = self, task = task, learner = learner, train_set = train_set)
+      })
       set_names(scores, ids(measures))
     },
 
@@ -106,7 +109,6 @@ Prediction = R6Class("Prediction",
       walk(measures, function(m) set(tab, j = m$id, value = m$obs_loss(prediction = self)))
       tab[]
     },
-
 
     #' @description
     #' Filters the [Prediction], keeping only predictions for the provided row_ids.

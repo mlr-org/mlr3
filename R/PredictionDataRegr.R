@@ -4,8 +4,12 @@
 check_prediction_data.PredictionDataRegr = function(pdata, ...) {
   pdata$row_ids = assert_row_ids(pdata$row_ids)
   n = length(pdata$row_ids)
-  if (is.null(pdata$truth)) pdata$truth = NA_real_
-  if (!length(pdata$row_ids)) pdata$truth = numeric()
+  if (is.null(pdata$truth)) {
+    pdata$truth = NA_real_
+  }
+  if (!length(pdata$row_ids)) {
+    pdata$truth = numeric()
+  }
 
   if (!is.null(pdata$response)) {
     pdata$response = assert_numeric(unname(pdata$response))
@@ -137,7 +141,9 @@ c.PredictionDataRegr = function(..., keep_duplicates = TRUE) {
 
   result = as.list(tab)
   result$quantiles = quantiles
-  if (!is.null(extra)) result$extra = as.list(extra)
+  if (!is.null(extra)) {
+    result$extra = as.list(extra)
+  }
 
   if ("distr" %chin% predict_types[[1L]]) {
     require_namespaces("distr6", msg = "To predict probability distributions, please install %s")
@@ -145,7 +151,9 @@ c.PredictionDataRegr = function(..., keep_duplicates = TRUE) {
   }
 
   raw = discard(map(dots, "raw"), is.null)
-  if (length(raw)) result$raw = raw
+  if (length(raw)) {
+    result$raw = raw
+  }
 
   new_prediction_data(result, "regr")
 }

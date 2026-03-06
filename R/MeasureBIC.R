@@ -16,7 +16,8 @@
 #'
 #' @template seealso_measure
 #' @export
-MeasureBIC = R6Class("MeasureBIC",
+MeasureBIC = R6Class(
+  "MeasureBIC",
   inherit = Measure,
   public = list(
     #' @description
@@ -39,12 +40,15 @@ MeasureBIC = R6Class("MeasureBIC",
     .score = function(prediction, learner, ...) {
       learner = learner$base_learner()
 
-      tryCatch({
-        stats::BIC(stats::logLik(learner$model))
-      }, error = function(e) {
-        warning_config("Learner '%s' does not support BIC calculation", learner$id)
-        NA_real_
-      })
+      tryCatch(
+        {
+          stats::BIC(stats::logLik(learner$model))
+        },
+        error = function(e) {
+          warning_config("Learner '%s' does not support BIC calculation", learner$id)
+          NA_real_
+        }
+      )
     }
   )
 )

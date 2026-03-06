@@ -31,7 +31,8 @@
 #'
 #' @template seealso_measure
 #' @export
-MeasureRegrRSQ = R6Class("MeasureRSQ",
+MeasureRegrRSQ = R6Class(
+  "MeasureRSQ",
   inherit = MeasureRegr,
   public = list(
     #' @description

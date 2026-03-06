@@ -212,7 +212,13 @@ benchmark = function(
     iteration = grid$iteration,
     param_values = grid$param_values,
     mode = grid$mode,
-    MoreArgs = list(store_models = store_models, lgr_index = lgr::logger_index(), pb = pb, unmarshal = unmarshal, callbacks = callbacks)
+    MoreArgs = list(
+      store_models = store_models,
+      lgr_index = lgr::logger_index(),
+      pb = pb,
+      unmarshal = unmarshal,
+      callbacks = callbacks
+    )
   )
 
   grid = insert_named(

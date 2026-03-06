@@ -16,7 +16,8 @@
 #'
 #' @template seealso_measure
 #' @export
-MeasureAIC = R6Class("MeasureAIC",
+MeasureAIC = R6Class(
+  "MeasureAIC",
   inherit = Measure,
   public = list(
     #' @description
@@ -42,12 +43,15 @@ MeasureAIC = R6Class("MeasureAIC",
       learner = learner$base_learner()
       k = self$param_set$values$k %??% 2L
 
-      tryCatch({
-        stats::AIC(stats::logLik(learner$model), k = k)
-      }, error = function(e) {
-        warning_config("Learner '%s' does not support AIC calculation", learner$id)
-        NA_real_
-      })
+      tryCatch(
+        {
+          stats::AIC(stats::logLik(learner$model), k = k)
+        },
+        error = function(e) {
+          warning_config("Learner '%s' does not support AIC calculation", learner$id)
+          NA_real_
+        }
+      )
     }
   )
 )

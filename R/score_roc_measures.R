@@ -89,7 +89,11 @@ print.roc_measures = function(x, abbreviations = TRUE, digits = 2L, ...) {
   # format measures
   x$measures = mapply(function(m, v) paste0(m, ": ", round(v, digits)), names(x$measures), x$measures)
 
-  res = cbind(round(x$confusion_matrix, digits = digits), c(x$measures[["tpr"]], x$measures[["fpr"]]), c(x$measures[["fnr"]], x$measures[["tnr"]]))
+  res = cbind(
+    round(x$confusion_matrix, digits = digits),
+    c(x$measures[["tpr"]], x$measures[["fpr"]]),
+    c(x$measures[["fnr"]], x$measures[["tnr"]])
+  )
   res = rbind(
     res,
     c(x$measures[["ppv"]], x$measures[["fomr"]], x$measures[["lr_plus"]], x$measures[["acc"]]),

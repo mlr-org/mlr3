@@ -26,7 +26,9 @@
 #'
 #' # alternative construction
 #' as_data_backend(palmerpenguins::penguins)
-DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
+DataBackendDataTable = R6Class(
+  "DataBackendDataTable",
+  inherit = DataBackend,
   cloneable = FALSE,
   public = list(
     #' @field compact_seq `logical(1)`\cr
@@ -119,7 +121,6 @@ DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
         named_vector(names(missind), 0L),
         map_int(self$data(rows, names(query_cols)), count_missing)
       )
-
     }
   ),
 

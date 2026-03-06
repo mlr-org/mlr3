@@ -21,9 +21,10 @@
 #' @examples
 #' TaskSupervised$new("penguins", task_type = "classif", backend = palmerpenguins::penguins,
 #'   target = "species")
-TaskSupervised = R6Class("TaskSupervised", inherit = Task,
+TaskSupervised = R6Class(
+  "TaskSupervised",
+  inherit = Task,
   public = list(
-
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #'

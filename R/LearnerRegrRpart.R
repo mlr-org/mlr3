@@ -20,11 +20,14 @@
 #'
 #' @template seealso_learner
 #' @export
-LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
+LearnerRegrRpart = R6Class(
+  "LearnerRegrRpart",
+  inherit = LearnerRegr,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
+      # fmt: skip
       ps = ps(
         cp             = p_dbl(0, 1, default = 0.01, tags = "train"),
         keep_model     = p_lgl(default = FALSE, tags = "train"),
@@ -83,10 +86,11 @@ LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
     .predict = function(task) {
       pv = self$param_set$get_values(tags = "predict")
       newdata = task$data(cols = task$feature_names)
-      response = invoke(predict, self$model, newdata = newdata,
-        .opts = allow_partial_matching, .args = pv)
+      response = invoke(predict, self$model, newdata = newdata, .opts = allow_partial_matching, .args = pv)
       result = list(response = unname(response))
-      if (self$predict_raw) result$raw = response
+      if (self$predict_raw) {
+        result$raw = response
+      }
       result
     }
   )

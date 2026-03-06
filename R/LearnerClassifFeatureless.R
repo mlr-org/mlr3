@@ -45,7 +45,15 @@ LearnerClassifFeatureless = R6Class(
         feature_types = mlr_reflections$task_feature_types,
         predict_types = c("response", "prob"),
         param_set = ps,
-        properties = c("featureless", "twoclass", "multiclass", "missings", "importance", "selected_features", "weights"),
+        properties = c(
+          "featureless",
+          "twoclass",
+          "multiclass",
+          "missings",
+          "importance",
+          "selected_features",
+          "weights"
+        ),
         label = "Featureless Classification Learner",
         man = "mlr3::mlr_learners_classif.featureless",
       )
@@ -76,7 +84,10 @@ LearnerClassifFeatureless = R6Class(
   private = list(
     .train = function(task) {
       weights = NULL
-      counts_table = data.table(truth = task$truth(), weights = private$.get_weights(task, 1.0))[, list(weights = sum(weights)), by = "truth"]
+      counts_table = data.table(truth = task$truth(), weights = private$.get_weights(task, 1.0))[,
+        list(weights = sum(weights)),
+        by = "truth"
+      ]
       tab = set_names(counts_table$weights, counts_table$truth)
       set_class(list(tab = tab, features = task$feature_names), "classif.featureless_model")
     },

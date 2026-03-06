@@ -75,7 +75,9 @@ quantile_weighted = function(x, probs, na.rm = FALSE, weights = NULL, digits = 7
   x = x[!is.na(x)] # if na.rm is FALSE and there are NAs, the assert stops us from getting here
 
   # we default to the unweighted quantile if there are no weights, no (non-NA) probs, or no (non-NA) x, or all weights are the same
-  if (is.null(weights) || length(x) == 0L || length(probs) == 0L || all(is.na(probs)) || length(unique(weights)) == 1L) {
+  if (
+    is.null(weights) || length(x) == 0L || length(probs) == 0L || all(is.na(probs)) || length(unique(weights)) == 1L
+  ) {
     return(quantile(x, probs, na.rm = na.rm, digits = digits, type = if (continuous) 7 else 2))
   }
 
@@ -104,7 +106,8 @@ quantile_weighted = function(x, probs, na.rm = FALSE, weights = NULL, digits = 7
     hi_indices = lo_indices + 1L
     lo_values = double_x_weighted[lo_indices]
     hi_values = double_x_weighted[hi_indices]
-    result = lo_values + (weight_targets - pivots[lo_indices]) * (hi_values - lo_values) / (pivots[hi_indices] - pivots[lo_indices])
+    result = lo_values +
+      (weight_targets - pivots[lo_indices]) * (hi_values - lo_values) / (pivots[hi_indices] - pivots[lo_indices])
     result[hi_indices > length(double_x_weighted)] = double_x_weighted[length(double_x_weighted)]
   } else {
     pivots = c(0, cumsum(weights))
@@ -116,7 +119,8 @@ quantile_weighted = function(x, probs, na.rm = FALSE, weights = NULL, digits = 7
     lo_values = x[lo_indices]
     hi_values = x[hi_indices]
     weights = weights + .Machine$double.xmin
-    result = (lo_values * weights[lo_indices] + hi_values * (weights[hi_indices])) / (weights[lo_indices] + weights[hi_indices])
+    result = (lo_values * weights[lo_indices] + hi_values * (weights[hi_indices])) /
+      (weights[lo_indices] + weights[hi_indices])
   }
 
   pnames = paste0(formatC(probs * 100, format = "fg", width = 1, digits = digits), "%")

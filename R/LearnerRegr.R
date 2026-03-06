@@ -164,7 +164,15 @@ LearnerRegr = R6Class(
         private$.quantile_response = NULL
         return(invisible(NULL))
       }
-      private$.quantiles = assert_numeric(rhs, lower = 0, upper = 1, any.missing = FALSE, min.len = 1L, sorted = TRUE, .var.name = "quantiles")
+      private$.quantiles = assert_numeric(
+        rhs,
+        lower = 0,
+        upper = 1,
+        any.missing = FALSE,
+        min.len = 1L,
+        sorted = TRUE,
+        .var.name = "quantiles"
+      )
 
       if (length(private$.quantiles) == 1L) {
         private$.quantile_response = private$.quantiles

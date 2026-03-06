@@ -59,7 +59,9 @@
 #' # new predictions
 #' p$set_threshold(th)$response
 #' p$score(measures = msr("classif.ce"))
-PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
+PredictionClassif = R6Class(
+  "PredictionClassif",
+  inherit = Prediction,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
@@ -109,9 +111,16 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
       extra = NULL,
       raw = NULL
     ) {
-
       pdata = new_prediction_data(
-        list(row_ids = row_ids, truth = truth, response = response, prob = prob, weights = weights, extra = extra, raw = raw),
+        list(
+          row_ids = row_ids,
+          truth = truth,
+          response = response,
+          prob = prob,
+          weights = weights,
+          extra = extra,
+          raw = raw
+        ),
         task_type = "classif"
       )
 
@@ -123,7 +132,6 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
       self$data = pdata
       self$predict_types = intersect(c("response", "prob"), names(pdata))
     },
-
 
     #' @description
     #' Sets the prediction response based on the provided threshold.
@@ -143,7 +151,6 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
       invisible(self)
     }
   ),
-
 
   active = list(
     #' @field response (`factor()`)\cr

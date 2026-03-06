@@ -25,18 +25,19 @@
 #'
 #' # Internal storage:
 #' insample$instance # just row ids
-ResamplingInsample = R6Class("ResamplingInsample", inherit = Resampling,
+ResamplingInsample = R6Class(
+  "ResamplingInsample",
+  inherit = Resampling,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
-      super$initialize(id = "insample",
-        label = "Insample Resampling", man = "mlr3::mlr_resamplings_insample")
+      super$initialize(id = "insample", label = "Insample Resampling", man = "mlr3::mlr_resamplings_insample")
     }
   ),
   active = list(
     #' @template field_iters
-    iters = function(rhs)  {
+    iters = function(rhs) {
       assert_ro_binding(rhs)
       1L
     }

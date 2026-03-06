@@ -36,7 +36,8 @@
 #'
 #' @template seealso_measure
 #' @export
-MeasureRegrRQR = R6Class("MeasureRQR",
+MeasureRegrRQR = R6Class(
+  "MeasureRQR",
   inherit = MeasureRegr,
   public = list(
     #' @description
@@ -62,7 +63,6 @@ MeasureRegrRQR = R6Class("MeasureRQR",
     .pred_set_mean = NULL,
 
     .score = function(prediction, task = NULL, train_set = NULL, weights = NULL, ...) {
-
       alpha = self$param_set$values$alpha
       probs = attr(prediction$data$quantiles, "probs")
       assert_choice(alpha, probs)

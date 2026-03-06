@@ -97,7 +97,12 @@ benchmark_grid = function(tasks, learners, resamplings, param_values = NULL, pai
         error_input("Resampling #%i ('%s' for task '%s') is not instantiated", i, resampling$id, task$id)
       }
       if (resampling$task_row_hash != task$row_hash) {
-        error_input("Resampling #%i ('%s' for task '%s') is not instantiated on the corresponding task", i, resampling$id, task$id)
+        error_input(
+          "Resampling #%i ('%s' for task '%s') is not instantiated on the corresponding task",
+          i,
+          resampling$id,
+          task$id
+        )
       }
     }
 
@@ -113,9 +118,15 @@ benchmark_grid = function(tasks, learners, resamplings, param_values = NULL, pai
     } else if (all(is_instantiated)) {
       # check that all row ids of the resamplings are present in the tasks
       pwalk(grid, function(task, resampling) {
-        if (!is.null(resamplings[[resampling]]$task_row_hash) &&
-            resamplings[[resampling]]$task_row_hash != tasks[[task]]$row_hash) {
-          error_input("Resampling '%s' is not instantiated on task '%s'", resamplings[[resampling]]$id, tasks[[task]]$id)
+        if (
+          !is.null(resamplings[[resampling]]$task_row_hash) &&
+            resamplings[[resampling]]$task_row_hash != tasks[[task]]$row_hash
+        ) {
+          error_input(
+            "Resampling '%s' is not instantiated on task '%s'",
+            resamplings[[resampling]]$id,
+            tasks[[task]]$id
+          )
         }
       })
 

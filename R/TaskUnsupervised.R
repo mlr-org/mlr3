@@ -16,7 +16,8 @@
 #' @export
 #' @examples
 #' TaskUnsupervised$new("penguins", task_type = "regr", backend = palmerpenguins::penguins)
-TaskUnsupervised = R6Class("TaskUnsupervised",
+TaskUnsupervised = R6Class(
+  "TaskUnsupervised",
   inherit = Task,
   public = list(
     #' @description

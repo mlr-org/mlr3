@@ -35,22 +35,34 @@
 #' as.data.table(mlr_learners)
 #' mlr_learners$get("classif.featureless")
 #' lrn("classif.rpart")
-mlr_learners = R6Class("DictionaryLearner",
-  inherit = Dictionary,
-  cloneable = FALSE,
-)$new()
+mlr_learners = R6Class("DictionaryLearner", inherit = Dictionary, cloneable = FALSE, )$new()
 
 #' @export
 as.data.table.DictionaryLearner = function(x, ..., objects = FALSE) {
   assert_flag(objects)
 
-  setkeyv(map_dtr(x$keys(), function(key) {
-    l = withCallingHandlers(x$get(key, .prototype = TRUE),
-      packageNotFoundWarning = function(w) invokeRestart("muffleWarning"))
-    insert_named(
-      list(key = key, label = l$label, task_type = l$task_type, feature_types = list(l$feature_types), packages = list(l$packages),
-        properties = list(l$properties), predict_types = list(l$predict_types)),
-      if (objects) list(object = list(l))
-    )
-  }, .fill = TRUE), "key")[]
+  setkeyv(
+    map_dtr(
+      x$keys(),
+      function(key) {
+        l = withCallingHandlers(x$get(key, .prototype = TRUE), packageNotFoundWarning = function(w) {
+          invokeRestart("muffleWarning")
+        })
+        insert_named(
+          list(
+            key = key,
+            label = l$label,
+            task_type = l$task_type,
+            feature_types = list(l$feature_types),
+            packages = list(l$packages),
+            properties = list(l$properties),
+            predict_types = list(l$predict_types)
+          ),
+          if (objects) list(object = list(l))
+        )
+      },
+      .fill = TRUE
+    ),
+    "key"
+  )[]
 }

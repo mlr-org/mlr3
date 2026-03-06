@@ -123,7 +123,14 @@ local({
 
   mlr_reflections$task_print_col_roles = list(
     before = character(),
-    after = c("Order by" = "order", "Strata" = "stratum", "Groups" = "group", "Offset" = "offset", "Weights/Learner" = "weights_learner", "Weights/Measure" = "weights_measure")
+    after = c(
+      "Order by" = "order",
+      "Strata" = "stratum",
+      "Groups" = "group",
+      "Offset" = "offset",
+      "Weights/Learner" = "weights_learner",
+      "Weights/Measure" = "weights_measure"
+    )
   )
 
   tmp = c("weights_learner", "weights_measure", "name", "order", "stratum", "group")
@@ -155,12 +162,25 @@ local({
 
   mlr_reflections$learner_predict_types = list(
     classif = list(response = "response", prob = c("response", "prob")),
-    regr = list(response = "response", se = c("response", "se"), quantiles = c("response", "quantiles"), distr = c("response", "se", "distr")),
+    regr = list(
+      response = "response",
+      se = c("response", "se"),
+      quantiles = c("response", "quantiles"),
+      distr = c("response", "se", "distr")
+    ),
     unsupervised = NULL
   )
 
   # Allowed tags for parameters
-  mlr_reflections$learner_param_tags = c("train", "predict", "hotstart", "importance", "threads", "required", "internal_tuning")
+  mlr_reflections$learner_param_tags = c(
+    "train",
+    "predict",
+    "hotstart",
+    "importance",
+    "threads",
+    "required",
+    "internal_tuning"
+  )
 
   ### Prediction
   mlr_reflections$predict_sets = c("train", "test", "internal_valid")
@@ -169,7 +189,17 @@ local({
   mlr_reflections$resampling_properties = c("duplicated_ids", "weights")
 
   ### Measures
-  tmp = c("na_score", "requires_task", "requires_learner", "requires_model", "requires_train_set", "weights", "primary_iters", "requires_no_prediction", "obs_loss")
+  tmp = c(
+    "na_score",
+    "requires_task",
+    "requires_learner",
+    "requires_model",
+    "requires_train_set",
+    "weights",
+    "primary_iters",
+    "requires_no_prediction",
+    "obs_loss"
+  )
   mlr_reflections$measure_properties = list(
     classif = tmp,
     regr = tmp

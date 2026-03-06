@@ -21,10 +21,10 @@
 #'
 #' @template seealso_measure
 #' @export
-MeasureElapsedTime = R6Class("MeasureElapsedTime",
+MeasureElapsedTime = R6Class(
+  "MeasureElapsedTime",
   inherit = Measure,
   public = list(
-
     #' @field stages (`character()`)\cr
     #' Which stages of the learner to measure?
     #' Usually set during construction.

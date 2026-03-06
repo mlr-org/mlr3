@@ -15,7 +15,9 @@
 #' p = learner$train(task)$predict(task)
 #' p$predict_types
 #' head(as.data.table(p))
-PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
+PredictionRegr = R6Class(
+  "PredictionRegr",
+  inherit = Prediction,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
@@ -71,7 +73,17 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
       raw = NULL
     ) {
       pdata = new_prediction_data(
-        list(row_ids = row_ids, truth = truth, response = response, se = se, quantiles = quantiles, distr = distr, weights = weights, extra = extra, raw = raw),
+        list(
+          row_ids = row_ids,
+          truth = truth,
+          response = response,
+          se = se,
+          quantiles = quantiles,
+          distr = distr,
+          weights = weights,
+          extra = extra,
+          raw = raw
+        ),
         task_type = "regr"
       )
 
@@ -83,7 +95,9 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
       self$data = pdata
       predict_types = intersect(names(mlr_reflections$learner_predict_types[["regr"]]), names(pdata))
       # response is in saved in quantiles matrix
-      if ("quantiles" %chin% predict_types) predict_types = union(predict_types, "response")
+      if ("quantiles" %chin% predict_types) {
+        predict_types = union(predict_types, "response")
+      }
       self$predict_types = predict_types
       if (is.null(pdata$response)) private$.quantile_response = attr(quantiles, "response")
     }
@@ -94,7 +108,9 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
     #' Access the stored predicted response.
     response = function(rhs) {
       assert_ro_binding(rhs)
-      if (!is.null(private$.quantile_response)) return(self$data$quantiles[, private$.quantile_response])
+      if (!is.null(private$.quantile_response)) {
+        return(self$data$quantiles[, private$.quantile_response])
+      }
       self$data$response %??% rep(NA_real_, length(self$data$row_ids))
     },
 

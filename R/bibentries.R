@@ -1,4 +1,5 @@
 #' @importFrom utils bibentry
+# fmt: skip
 bibentries = c(
   anderson_1936 = bibentry("article",
     doi       = "10.2307/2394164",

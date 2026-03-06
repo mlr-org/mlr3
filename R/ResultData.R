@@ -41,12 +41,38 @@ ResultData = R6Class(
       if (is.null(data)) {
         self$data = star_init()
       } else {
-        assert_names(names(data), permutation.of = c("task", "learner", "learner_state", "resampling", "iteration", "param_values", "prediction", "uhash", "learner_hash"))
+        assert_names(
+          names(data),
+          permutation.of = c(
+            "task",
+            "learner",
+            "learner_state",
+            "resampling",
+            "iteration",
+            "param_values",
+            "prediction",
+            "uhash",
+            "learner_hash"
+          )
+        )
 
         if (nrow(data) == 0L) {
           self$data = star_init()
         } else {
-          setcolorder(data, c("uhash", "iteration", "learner_state", "prediction", "task", "learner", "resampling", "param_values", "learner_hash"))
+          setcolorder(
+            data,
+            c(
+              "uhash",
+              "iteration",
+              "learner_state",
+              "prediction",
+              "task",
+              "learner",
+              "resampling",
+              "param_values",
+              "learner_hash"
+            )
+          )
           uhashes = data.table(uhash = unique(data$uhash))
           setkeyv(data, c("uhash", "iteration"))
 
@@ -112,12 +138,20 @@ ResultData = R6Class(
     #' @return `data.table()`
     uhash_table = function(view = NULL) {
       newtbl = list()
-      tbl = self$data$fact[private$get_view_index(view), c("uhash", "learner_phash", "task_hash", "resampling_hash"), with = FALSE]
+      tbl = self$data$fact[
+        private$get_view_index(view),
+        c("uhash", "learner_phash", "task_hash", "resampling_hash"),
+        with = FALSE
+      ]
       tbl = tbl[!duplicated(get("uhash")), ]
       # retrieve learner id, task id and resampling id from self$data$learners, self$data$tasks and self$data$resamplings
       newtbl$learner_id = self$data$learners[list(tbl$learner_phash), ids(get("learner")), on = "learner_phash"]
       newtbl$task_id = self$data$tasks[list(tbl$task_hash), ids(get("task")), on = "task_hash"]
-      newtbl$resampling_id = self$data$resamplings[list(tbl$resampling_hash), ids(get("resampling")), on = "resampling_hash"]
+      newtbl$resampling_id = self$data$resamplings[
+        list(tbl$resampling_hash),
+        ids(get("resampling")),
+        on = "resampling_hash"
+      ]
       newtbl$uhash = tbl$uhash
       setDT(newtbl)
       merge(self$data$uhashes, newtbl, by = "uhash", sort = FALSE)
@@ -165,7 +199,11 @@ ResultData = R6Class(
         tab = self$data$fact[.__ii__, c("learner_hash", "learner_phash", "learner_state"), with = FALSE]
         tab = merge(tab, self$data$learners, by = "learner_phash", sort = FALSE)
         tab = merge(tab, self$data$learner_components, by = "learner_hash", sort = TRUE)
-        set(tab, j = "learner", value = reassemble_learners(tab$learner, states = tab$learner_state, param_vals = tab$learner_param_vals))
+        set(
+          tab,
+          j = "learner",
+          value = reassemble_learners(tab$learner, states = tab$learner_state, param_vals = tab$learner_param_vals)
+        )
       } else {
         tab = unique(self$data$fact[.__ii__, c("learner_hash", "learner_phash"), with = FALSE], by = "learner_hash")
         tab = merge(tab, self$data$learners, by = "learner_phash", sort = FALSE)
@@ -296,7 +334,9 @@ ResultData = R6Class(
     #'   Additional arguments passed to [`marshal_model()`].
     marshal = function(...) {
       learner_state = NULL
-      self$data$fact[, learner_state := lapply(learner_state, function(x) marshal_state_if_model(.state = x, inplace = TRUE, ...))]
+      self$data$fact[,
+        learner_state := lapply(learner_state, function(x) marshal_state_if_model(.state = x, inplace = TRUE, ...))
+      ]
       invisible(self)
     },
     #' @description
@@ -306,7 +346,9 @@ ResultData = R6Class(
     #'   Additional arguments passed to [`unmarshal_model()`].
     unmarshal = function(...) {
       learner_state = NULL
-      self$data$fact[, learner_state := lapply(learner_state, function(x) unmarshal_state_if_model(.state = x, inplace = TRUE, ...))]
+      self$data$fact[,
+        learner_state := lapply(learner_state, function(x) unmarshal_state_if_model(.state = x, inplace = TRUE, ...))
+      ]
       invisible(self)
     },
 
@@ -341,7 +383,12 @@ ResultData = R6Class(
     #' @param convert_predictions (`logical(1)`)\cr
     #'   Convert [PredictionData] to [Prediction]?
     #' @template param_predict_sets
-    as_data_table = function(view = NULL, reassemble_learners = TRUE, convert_predictions = TRUE, predict_sets = "test") {
+    as_data_table = function(
+      view = NULL,
+      reassemble_learners = TRUE,
+      convert_predictions = TRUE,
+      predict_sets = "test"
+    ) {
       # nolint next
       .__ii__ = private$get_view_index(view)
 
@@ -356,7 +403,11 @@ ResultData = R6Class(
 
       if (nrow(tab)) {
         if (reassemble_learners) {
-          set(tab, j = "learner", value = reassemble_learners(tab$learner, states = tab$learner_state, param_vals = tab$learner_param_vals))
+          set(
+            tab,
+            j = "learner",
+            value = reassemble_learners(tab$learner, states = tab$learner_state, param_vals = tab$learner_param_vals)
+          )
         }
 
         if (convert_predictions) {
