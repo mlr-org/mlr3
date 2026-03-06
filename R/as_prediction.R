@@ -15,21 +15,24 @@ as_prediction = function(x, check = FALSE, ...) {
 
 #' @rdname as_prediction
 #' @export
-as_prediction.Prediction = function(x, check = FALSE, ...) { # nolint
+# nolint next
+as_prediction.Prediction = function(x, check = FALSE, ...) {
   x
 }
 
 
 #' @rdname as_prediction
 #' @export
-as_prediction.PredictionDataClassif = function(x, check = FALSE, ...) { # nolint
+# nolint next
+as_prediction.PredictionDataClassif = function(x, check = FALSE, ...) {
   invoke(PredictionClassif$new, check = check, .args = x)
 }
 
 
 #' @rdname as_prediction
 #' @export
-as_prediction.PredictionDataRegr = function(x, check = FALSE, ...) { # nolint
+# nolint next
+as_prediction.PredictionDataRegr = function(x, check = FALSE, ...) {
   invoke(PredictionRegr$new, check = check, .args = x)
 }
 
@@ -43,7 +46,8 @@ as_predictions = function(x, predict_sets = "test", ...) {
 
 #' @rdname as_prediction
 #' @export
-as_predictions.list = function(x, predict_sets = "test", ...) { # nolint
+# nolint next
+as_predictions.list = function(x, predict_sets = "test", ...) {
   result = replicate(length(x), list())
   ii = lengths(x) > 0L
   result[ii] = map(x[ii], function(li) {

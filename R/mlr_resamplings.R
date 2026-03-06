@@ -35,7 +35,8 @@ mlr_resamplings = R6Class("DictionaryResampling",
 )$new()
 
 #' @export
-as.data.table.DictionaryResampling = function(x, ..., objects = FALSE) { # nolint
+# nolint next
+as.data.table.DictionaryResampling = function(x, ..., objects = FALSE) {
   assert_flag(objects)
 
   setkeyv(map_dtr(x$keys(), function(key) {

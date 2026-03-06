@@ -351,8 +351,8 @@ Resampling = R6Class(
 
 
 #' @export
+# nolint next
 as.data.table.Resampling = function(x, ...) {
-  # nolint
   assert_resampling(x, instantiated = TRUE)
   iterations = seq_len(x$iters)
 

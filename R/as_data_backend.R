@@ -30,7 +30,8 @@ as_data_backend = function(data, primary_key = NULL, ...) {
 
 
 #' @export
-as_data_backend.DataBackend = function(data, primary_key = NULL, ...) { # nolint
+# nolint next
+as_data_backend.DataBackend = function(data, primary_key = NULL, ...) {
   data
 }
 
@@ -47,7 +48,8 @@ as_data_backend.DataBackend = function(data, primary_key = NULL, ...) { # nolint
 #'
 #' @rdname as_data_backend
 #' @export
-as_data_backend.data.frame = function(data, primary_key = NULL, keep_rownames = FALSE, ...) { # nolint
+# nolint next
+as_data_backend.data.frame = function(data, primary_key = NULL, keep_rownames = FALSE, ...) {
   assert_data_frame(data, min.cols = 1L, col.names = "unique")
 
   if (!isFALSE(keep_rownames)) {

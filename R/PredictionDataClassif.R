@@ -3,7 +3,7 @@
 #'   Task used for training the learner.
 #' @export
 check_prediction_data.PredictionDataClassif = function(pdata, train_task, ...) {
-  # nolint
+  # nolint next
   pdata$row_ids = assert_row_ids(pdata$row_ids)
   n = length(pdata$row_ids)
   assert_factor(pdata$truth, len = n, null.ok = TRUE)
@@ -71,8 +71,8 @@ check_prediction_data.PredictionDataClassif = function(pdata, train_task, ...) {
 
 #' @rdname PredictionData
 #' @export
+# nolint next
 is_missing_prediction_data.PredictionDataClassif = function(pdata, ...) {
-  # nolint
   miss = logical(length(pdata$row_ids))
   if (!is.null(pdata$response)) {
     miss = is.na(pdata$response)

@@ -648,7 +648,8 @@ score_measures = function(obj, measures, reassemble = TRUE, view = NULL, iters =
 
 
 #' @export
-rd_info.Measure = function(obj, ...) { # nolint
+# nolint next
+rd_info.Measure = function(obj, ...) {
   x = c("",
     sprintf("* Task type: %s", rd_format_string(obj$task_type)),
     sprintf("* Range: %s", rd_format_range(obj$range[1L], obj$range[2L])),

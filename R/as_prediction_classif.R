@@ -35,14 +35,16 @@ as_prediction_classif = function(x, ...) {
 
 #' @rdname as_prediction_classif
 #' @export
-as_prediction_classif.PredictionClassif = function(x, ...) { # nolint
+# nolint next
+as_prediction_classif.PredictionClassif = function(x, ...) {
   x
 }
 
 
 #' @rdname as_prediction_classif
 #' @export
-as_prediction_classif.data.frame = function(x, ...) { # nolint
+# nolint next
+as_prediction_classif.data.frame = function(x, ...) {
   assert_names(names(x), must.include = c("row_ids", "truth", "response"))
   prob_cols = setdiff(names(x), c("row_ids", "truth", "response", "weights"))
   if (!all(startsWith(prob_cols, "prob."))) {

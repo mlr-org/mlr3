@@ -189,8 +189,17 @@ Learner = R6Class(
       private$.id = assert_string(id, min.chars = 1L)
       private$.label = assert_string(label, na.ok = TRUE)
       private$.task_type = assert_choice(task_type, mlr_reflections$task_types$type)
-      private$.feature_types = assert_ordered_set(feature_types, mlr_reflections$task_feature_types, .var.name = "feature_types")
-      private$.predict_types = assert_ordered_set(predict_types, names(mlr_reflections$learner_predict_types[[task_type]]), empty.ok = FALSE, .var.name = "predict_types")
+      private$.feature_types = assert_ordered_set(
+        feature_types,
+        mlr_reflections$task_feature_types,
+        .var.name = "feature_types"
+      )
+      private$.predict_types = assert_ordered_set(
+        predict_types,
+        names(mlr_reflections$learner_predict_types[[task_type]]),
+        empty.ok = FALSE,
+        .var.name = "predict_types"
+      )
       private$.predict_type = predict_types[1L]
       private$.properties = sort(assert_subset(properties, mlr_reflections$learner_properties[[task_type]]))
       private$.packages = union("mlr3", assert_character(packages, any.missing = FALSE, min.chars = 1L))
@@ -242,7 +251,11 @@ Learner = R6Class(
       }
       cat_cli(cli_li("Packages: {.pkg {self$packages}}"))
 
-      pred_typs = replace(self$predict_types, self$predict_types == self$predict_type, paste0("[", self$predict_type, "]"))
+      pred_typs = replace(
+        self$predict_types,
+        self$predict_types == self$predict_type,
+        paste0("[", self$predict_type, "]")
+      )
       encapsulation = self$encapsulation[[1L]]
       fallback = if (encapsulation != "none") class(self$fallback)[[1L]] else "-"
 
@@ -378,7 +391,14 @@ Learner = R6Class(
         row_ids = row_ids %??% task$row_ids
         chunked = chunk_vector(row_ids, n_chunks = nbrOfWorkers(), shuffle = FALSE)
         self$model = marshal_model(self$model, inplace = TRUE)
-        pdata = future.apply::future_lapply(chunked, learner_predict, learner = self, task = task, future.globals = FALSE, future.seed = TRUE)
+        pdata = future.apply::future_lapply(
+          chunked,
+          learner_predict,
+          learner = self,
+          task = task,
+          future.globals = FALSE,
+          future.seed = TRUE
+        )
         pdata = do.call(c, pdata)
       } else {
         pdata = learner_predict(self, task, row_ids)
@@ -438,7 +458,10 @@ Learner = R6Class(
       impute = setdiff(task$col_roles[["target"]], newdata$colnames)
       tab1 = if (length(impute)) {
         # create list with correct NA types and cbind it to the backend
-        ci = insert_named(task$col_info[list(impute), c("id", "type", "levels"), on = "id", with = FALSE], list(value = NA))
+        ci = insert_named(
+          task$col_info[list(impute), c("id", "type", "levels"), on = "id", with = FALSE],
+          list(value = NA)
+        )
         na_cols = set_names(pmap(ci, function(..., nrow) rep(auto_convert(...), nrow), nrow = newdata$nrow), ci$id)
         invoke(data.table, .args = insert_named(na_cols, set_names(list(newdata$rownames), newdata$primary_key)))
       }
@@ -448,7 +471,16 @@ Learner = R6Class(
       ci = task$col_info[list(keep_cols), ][
         get("type") != col_info(newdata)[list(keep_cols), on = "id"]$type
       ]
-      tab2 = do.call(data.table, Map(auto_convert, value = as.list(newdata$data(rows = newdata$rownames, cols = ci$id)), id = ci$id, type = ci$type, levels = ci$levels))
+      tab2 = do.call(
+        data.table,
+        Map(
+          auto_convert,
+          value = as.list(newdata$data(rows = newdata$rownames, cols = ci$id)),
+          id = ci$id,
+          type = ci$type,
+          levels = ci$levels
+        )
+      )
 
       tab = cbind(tab1, tab2)
       if (ncol(tab)) {
@@ -459,12 +491,17 @@ Learner = R6Class(
       prevci = task$col_info
       task$backend = newdata
       task$col_info = col_info(task$backend)
-      task$col_info[, c("label", "fix_factor_levels")] = prevci[list(task$col_info$id), on = "id", c("label", "fix_factor_levels")]
+      task$col_info[, c("label", "fix_factor_levels")] = prevci[
+        list(task$col_info$id),
+        on = "id",
+        c("label", "fix_factor_levels")
+      ]
       task$col_info$fix_factor_levels[is.na(task$col_info$fix_factor_levels)] = FALSE
       task$row_roles$use = task$backend$rownames
 
       # reset column roles that are not in the newdata if they are optional
-      optional_col_roles = mlr_reflections$task_col_roles_optional_newdata[[task$task_type]] %??% c("weights_learner", "weights_measure", "name", "order", "stratum", "group")
+      optional_col_roles = mlr_reflections$task_col_roles_optional_newdata[[task$task_type]] %??%
+        c("weights_learner", "weights_measure", "name", "order", "stratum", "group")
       task_col_roles = task$col_roles
       for (role in optional_col_roles) {
         if (any(task_col_roles[[role]] %nin% newdata$colnames)) {
@@ -586,7 +623,10 @@ Learner = R6Class(
         }
 
         # check properties
-        properties = intersect(self$properties, c("twoclass", "multiclass", "missings", "importance", "selected_features"))
+        properties = intersect(
+          self$properties,
+          c("twoclass", "multiclass", "missings", "importance", "selected_features")
+        )
         missing_properties = setdiff(properties, fallback$properties)
 
         if (length(missing_properties)) {
@@ -651,7 +691,7 @@ Learner = R6Class(
               nn,
               class(self)[1L],
               did_you_mean(nn, c(param_ids, setdiff(names(self), ".__enclos_env__")))
-            ) # nolint
+            )
           }
           self[[nn]] = new_values[[i]]
         }
@@ -783,7 +823,16 @@ Learner = R6Class(
     #' Hash (unique identifier) for this partial object, excluding some components which are varied systematically during tuning (parameter values).
     phash = function(rhs) {
       assert_ro_binding(rhs)
-      calculate_hash(class(self), self$id, private$.predict_type, self$fallback$hash, self$parallel_predict, get0("validate", self), private$.use_weights, private$.predict_raw)
+      calculate_hash(
+        class(self),
+        self$id,
+        private$.predict_type,
+        self$fallback$hash,
+        self$parallel_predict,
+        get0("validate", self),
+        private$.use_weights,
+        private$.predict_raw
+      )
     },
 
     #' @field predict_type (`character(1)`)\cr
@@ -1059,11 +1108,14 @@ get_log_condition = function(state, condition) {
 
 #' @export
 default_values.Learner = function(x, search_space, task, ...) {
-  # nolint
+  # nolint next
   values = default_values(x$param_set)
 
   if (any(search_space$ids() %nin% names(values))) {
-    error_input("Could not find default values for the following parameters: %s", str_collapse(setdiff(search_space$ids(), names(values))))
+    error_input(
+      "Could not find default values for the following parameters: %s",
+      str_collapse(setdiff(search_space$ids(), names(values)))
+    )
   }
 
   values[search_space$ids()]

@@ -171,7 +171,8 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
 )
 
 #' @export
-as.data.table.PredictionClassif = function(x, ...) { # nolint
+# nolint next
+as.data.table.PredictionClassif = function(x, ...) {
   tab = as.data.table(x$data[c("row_ids", "truth", "response")])
 
   if ("prob" %chin% x$predict_types) {

@@ -172,7 +172,8 @@ Prediction = R6Class("Prediction",
 )
 
 #' @export
-c.Prediction = function(..., keep_duplicates = TRUE) { # nolint
+# nolint next
+c.Prediction = function(..., keep_duplicates = TRUE) {
   dots = list(...)
   if (length(dots) == 1L) {
     return(dots[[1L]])

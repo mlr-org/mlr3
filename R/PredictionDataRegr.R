@@ -1,6 +1,7 @@
 #' @rdname PredictionData
 #' @export
-check_prediction_data.PredictionDataRegr = function(pdata, ...) { # nolint
+# nolint next
+check_prediction_data.PredictionDataRegr = function(pdata, ...) {
   pdata$row_ids = assert_row_ids(pdata$row_ids)
   n = length(pdata$row_ids)
   if (is.null(pdata$truth)) pdata$truth = NA_real_
@@ -65,7 +66,8 @@ check_prediction_data.PredictionDataRegr = function(pdata, ...) { # nolint
 
 #' @rdname PredictionData
 #' @export
-is_missing_prediction_data.PredictionDataRegr = function(pdata, ...) { # nolint
+# nolint next
+is_missing_prediction_data.PredictionDataRegr = function(pdata, ...) {
   miss = logical(length(pdata$row_ids))
 
   if (!is.null(pdata$response)) {
@@ -88,7 +90,8 @@ is_missing_prediction_data.PredictionDataRegr = function(pdata, ...) { # nolint
 
 #' @rdname PredictionData
 #' @export
-c.PredictionDataRegr = function(..., keep_duplicates = TRUE) { # nolint
+# nolint next
+c.PredictionDataRegr = function(..., keep_duplicates = TRUE) {
   dots = list(...)
   assert_list(dots, "PredictionDataRegr")
   assert_flag(keep_duplicates)

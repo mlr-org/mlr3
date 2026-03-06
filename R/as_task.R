@@ -31,7 +31,8 @@ as_task.default = function(x, ...) {
 #' @param clone (`logical(1)`)\cr
 #'   If `TRUE`, ensures that the returned object is not the same as the input `x`.
 #' @export
-as_task.Task = function(x, clone = FALSE, ...) { # nolint
+# nolint next
+as_task.Task = function(x, clone = FALSE, ...) {
   assert_empty_ellipsis(...)
   if (isTRUE(clone)) x$clone(deep = TRUE) else x
 }
@@ -44,12 +45,14 @@ as_tasks = function(x, ...) {
 
 #' @rdname as_task
 #' @export
-as_tasks.default = function(x, ...) { # nolint
+# nolint next
+as_tasks.default = function(x, ...) {
   list(as_task(x, ...))
 }
 
 #' @rdname as_task
 #' @export
-as_tasks.list = function(x, ...) { # nolint
+# nolint next
+as_tasks.list = function(x, ...) {
   lapply(x, as_task, ...)
 }

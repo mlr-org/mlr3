@@ -105,7 +105,9 @@ BenchmarkResult = R6Class(
     print = function() {
       tab = self$aggregate(measures = list(), conditions = TRUE)
       set_data_table_class(tab)
-      cat_cli(cli_h1("{.cls {class(self)[1L]}} of {.val {private$.data$iterations()}} rows with {.val {nrow(tab)}} resampling run"))
+      cat_cli(cli_h1(
+        "{.cls {class(self)[1L]}} of {.val {private$.data$iterations()}} rows with {.val {nrow(tab)}} resampling run"
+      ))
       if (nrow(tab)) {
         tab = remove_named(tab, c("uhash", "resample_result"))
         print(tab, class = FALSE, row.names = FALSE, print.keys = FALSE, digits = 3L)
@@ -211,7 +213,11 @@ BenchmarkResult = R6Class(
         )
         predict_cols = sprintf("prediction_%s", predict_sets)
         for (i in seq_along(predict_sets)) {
-          set(tab, j = predict_cols[i], value = map(tab$prediction, function(p) as_prediction(p[[predict_sets[i]]], check = FALSE)))
+          set(
+            tab,
+            j = predict_cols[i],
+            value = map(tab$prediction, function(p) as_prediction(p[[predict_sets[i]]], check = FALSE))
+          )
         }
       } else {
         predict_cols = character()
@@ -219,7 +225,21 @@ BenchmarkResult = R6Class(
 
       set_data_table_class(tab, "bmr_score")
 
-      cns = c("uhash", "nr", "task", "task_id", "learner", "learner_id", "resampling", "resampling_id", "iteration", predict_cols, "warnings", "errors", ids(measures))
+      cns = c(
+        "uhash",
+        "nr",
+        "task",
+        "task_id",
+        "learner",
+        "learner_id",
+        "resampling",
+        "resampling_id",
+        "iteration",
+        predict_cols,
+        "warnings",
+        "errors",
+        ids(measures)
+      )
       cns = intersect(cns, names(tab))
       tab[, cns, with = FALSE]
     },
@@ -312,8 +332,16 @@ BenchmarkResult = R6Class(
           learner_phash = .SD$learner_phash[1L],
           resampling_hash = .SD$resampling_hash[1L],
           resample_result = list(create_rr(.BY[[1L]])),
-          warnings = if (conditions) sum(map_int(.SD$learner_state, function(s) sum(s$log$class == "warning"))) else NA_integer_,
-          errors = if (conditions) sum(map_int(.SD$learner_state, function(s) sum(s$log$class == "error"))) else NA_integer_
+          warnings = if (conditions) {
+            sum(map_int(.SD$learner_state, function(s) sum(s$log$class == "warning")))
+          } else {
+            NA_integer_
+          },
+          errors = if (conditions) {
+            sum(map_int(.SD$learner_state, function(s) sum(s$log$class == "error")))
+          } else {
+            NA_integer_
+          }
         ),
         by = "uhash",
         on = "uhash",
@@ -321,9 +349,24 @@ BenchmarkResult = R6Class(
       ]
 
       if (ids) {
-        tab = merge(tab, rdata$tasks[, list(task_hash = .SD$task_hash, task_id = ids(.SD$task))], by = "task_hash", sort = FALSE)
-        tab = merge(tab, rdata$learners[, list(learner_phash = .SD$learner_phash, learner_id = ids(.SD$learner))], by = "learner_phash", sort = FALSE)
-        tab = merge(tab, rdata$resamplings[, list(resampling_hash = .SD$resampling_hash, resampling_id = ids(.SD$resampling))], by = "resampling_hash", sort = FALSE)
+        tab = merge(
+          tab,
+          rdata$tasks[, list(task_hash = .SD$task_hash, task_id = ids(.SD$task))],
+          by = "task_hash",
+          sort = FALSE
+        )
+        tab = merge(
+          tab,
+          rdata$learners[, list(learner_phash = .SD$learner_phash, learner_id = ids(.SD$learner))],
+          by = "learner_phash",
+          sort = FALSE
+        )
+        tab = merge(
+          tab,
+          rdata$resamplings[, list(resampling_hash = .SD$resampling_hash, resampling_id = ids(.SD$resampling))],
+          by = "resampling_hash",
+          sort = FALSE
+        )
       }
 
       if (!uhashes) {
@@ -348,7 +391,19 @@ BenchmarkResult = R6Class(
 
       set_data_table_class(tab, "bmr_aggregate")
 
-      cns = c("uhash", "nr", "resample_result", "task_id", "learner_id", "resampling_id", "iters", "warnings", "errors", "params", names(scores))
+      cns = c(
+        "uhash",
+        "nr",
+        "resample_result",
+        "task_id",
+        "learner_id",
+        "resampling_id",
+        "iters",
+        "warnings",
+        "errors",
+        "params",
+        names(scores)
+      )
       cns = intersect(cns, names(tab))
       tab[, cns, with = FALSE]
     },
@@ -490,7 +545,15 @@ BenchmarkResult = R6Class(
     #' bmr$set_threshold(0.8, learner_ids = "classif.featureless")
     #' bmr$set_threshold(0.3, i = 2)
     #' bmr$set_threshold(0.7, uhashes = uhashes(bmr, learner_ids = "classif.featureless"))
-    set_threshold = function(threshold, i = NULL, uhashes = NULL, learner_ids = NULL, task_ids = NULL, resampling_ids = NULL, ties_method = "random") {
+    set_threshold = function(
+      threshold,
+      i = NULL,
+      uhashes = NULL,
+      learner_ids = NULL,
+      task_ids = NULL,
+      resampling_ids = NULL,
+      ties_method = "random"
+    ) {
       uhashes = private$.get_uhashes(i, uhashes, learner_ids, task_ids, resampling_ids)
       private$.data$set_threshold(uhashes, threshold, ties_method)
     }
@@ -628,11 +691,19 @@ BenchmarkResult = R6Class(
 )
 
 #' @export
+# nolint next
 as.data.table.BenchmarkResult = function(x, ..., hashes = FALSE, predict_sets = "test", task_characteristics = FALSE) {
-  # nolint
   assert_flag(task_characteristics)
   tab = get_private(x)$.data$as_data_table(view = NULL, predict_sets = predict_sets)
-  cns = c("uhash", "task", "learner", "resampling", "iteration", "prediction", if ("data_extra" %in% names(tab)) "data_extra")
+  cns = c(
+    "uhash",
+    "task",
+    "learner",
+    "resampling",
+    "iteration",
+    "prediction",
+    if ("data_extra" %in% names(tab)) "data_extra"
+  )
 
   tab = tab[, cns, with = FALSE]
 
@@ -649,8 +720,8 @@ as.data.table.BenchmarkResult = function(x, ..., hashes = FALSE, predict_sets = 
 }
 
 #' @export
+# nolint next
 c.BenchmarkResult = function(...) {
-  # nolint
   bmrs = lapply(list(...), as_benchmark_result)
   init = BenchmarkResult$new()
   Reduce(function(lhs, rhs) lhs$combine(rhs), bmrs, init = init)

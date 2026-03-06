@@ -105,7 +105,8 @@ LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
 )
 
 #' @export
-default_values.LearnerClassifRpart = function(x, search_space, task, ...) { # nolint
+# nolint next
+default_values.LearnerClassifRpart = function(x, search_space, task, ...) {
   special_defaults = list(
     minbucket = round(20 / 3)
   )

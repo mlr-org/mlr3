@@ -130,7 +130,8 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
 
 
 #' @export
-as.data.table.PredictionRegr = function(x, ...) { # nolint
+# nolint next
+as.data.table.PredictionRegr = function(x, ...) {
   tab = as.data.table(x$data[c("row_ids", "truth", "response", "se")])
 
   if ("quantiles" %chin% x$predict_types) {

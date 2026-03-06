@@ -93,7 +93,8 @@ LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
 )
 
 #' @export
-default_values.LearnerRegrRpart = function(x, search_space, task, ...) { # nolint
+# nolint next
+default_values.LearnerRegrRpart = function(x, search_space, task, ...) {
   special_defaults = list(
     minbucket = round(20 / 3)
   )
