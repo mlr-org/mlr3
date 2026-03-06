@@ -154,7 +154,7 @@
 #'   model and returns them as a named `list()`.
 #'   If the model is not trained yet, this method should return `NULL`.
 #' * Have at least one parameter tagged with `"internal_tuning"`, which requires to also provide a `in_tune_fn` and
-#'   `disable_tune_fn`, and *should* also include a default `aggr`egation function.
+#'   `disable_tune_fn`, and *should* also include a default aggregation function (`aggr`).
 #'
 #' For an example how to do this, see [`LearnerClassifDebug`].
 #'

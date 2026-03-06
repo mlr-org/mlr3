@@ -871,7 +871,7 @@ test_that("weights are used when appropriate", {
   learner$use_weights = "error"
   expect_error(learner$train(iris_weights_learner), "'use_weights' was set to\n  'error'")
 
-  # behaviour of learner that does not support weights
+  # behavior of learner that does not support weights
   llclass = R6Class(
     "dummy",
     inherit = LearnerClassif,

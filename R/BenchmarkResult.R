@@ -764,7 +764,7 @@ uhashes = function(bmr, learner_ids = NULL, task_ids = NULL, resampling_ids = NU
 
 #' @title Obtain specific uhashes from a [BenchmarkResult]
 #' @description
-#' In a [`BenchmarkResult`], each [ResampleResult] is *u*niquely identified by a *hash* (*uhash*).
+#' In a [`BenchmarkResult`], each [ResampleResult] is uniquely identified by a *hash* (*uhash*).
 #' Operations that select specific [ResampleResult]s from a [BenchmarkResult] operate using
 #' these hashes.
 #' This function allows to obtain uhashes for specific learners, tasks, and resamplings.

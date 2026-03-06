@@ -372,7 +372,7 @@ test_that("debug branch", {
 
 # uncomment when evaluate 1.0.4 is released
 
-# test_that("encapsulatiion", {
+# test_that("encapsulation", {
 #   learners = list(lrn("classif.debug", error_train = 1), lrn("classif.rpart"))
 #   grid = benchmark_grid(tasks, learners, resamplings)
 
