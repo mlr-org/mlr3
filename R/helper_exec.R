@@ -25,9 +25,12 @@ future_map = function(n, FUN, ..., MoreArgs = list()) {
     mapply(FUN, ..., MoreArgs = MoreArgs, SIMPLIFY = FALSE, USE.NAMES = FALSE)
   } else if (isNamespaceLoaded("mirai") && mirai::daemons_set(.compute = getOption("mlr3.mirai_parallelization", "mlr3_parallelization"))) {
     lg$debug("Running resample() via mirai with %i iterations", n)
-    mirai::collect_mirai(mirai::mirai_map(data.table(...), FUN,
+    mirai::collect_mirai(mirai::mirai_map(
+      data.table(...),
+      FUN,
       .args = c(MoreArgs, list(is_sequential = FALSE)),
-      .compute = getOption("mlr3.mirai_parallelization", "mlr3_parallelization")))
+      .compute = getOption("mlr3.mirai_parallelization", "mlr3_parallelization")
+    ))
   } else {
     is_sequential = inherits(plan(), "sequential")
     scheduling = if (!is_sequential && isTRUE(getOption("mlr3.exec_random", TRUE))) structure(TRUE, ordering = "random") else TRUE
@@ -49,9 +52,17 @@ future_map = function(n, FUN, ..., MoreArgs = list()) {
 
     lg$debug("Running resample() via future with %i iterations", n)
     future.apply::future_mapply(
-      FUN, ..., MoreArgs = MoreArgs, SIMPLIFY = FALSE, USE.NAMES = FALSE,
-      future.globals = FALSE, future.packages = mlr_reflections$loaded_packages, future.seed = TRUE,
-      future.scheduling = scheduling, future.chunk.size = chunk_size, future.stdout = stdout
+      FUN,
+      ...,
+      MoreArgs = MoreArgs,
+      SIMPLIFY = FALSE,
+      USE.NAMES = FALSE,
+      future.globals = FALSE,
+      future.packages = mlr_reflections$loaded_packages,
+      future.seed = TRUE,
+      future.scheduling = scheduling,
+      future.chunk.size = chunk_size,
+      future.stdout = stdout
     )
   }
 }

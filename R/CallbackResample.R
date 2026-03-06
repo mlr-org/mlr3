@@ -8,10 +8,10 @@
 #' For more information on callbacks, see the [callback_resample()] documentation.
 #'
 #' @export
-CallbackResample = R6Class("CallbackResample",
+CallbackResample = R6Class(
+  "CallbackResample",
   inherit = Callback,
   public = list(
-
     #' @field on_resample_begin (`function()`)\cr
     #' Stage called at the beginning of the resampling iteration.
     #' Called in `workhorse()` (internal).
@@ -43,7 +43,8 @@ CallbackResample = R6Class("CallbackResample",
 #' Evaluation callbacks are called at different stages of the resampling process.
 #' Each stage is called once per resampling iteration.
 #' The stages are prefixed with `on_resample_*`.
-#' The text in brackets indicates what happens between the stages in the internal `workhorse()` function and which accesses to the [ContextResample] (`ctx`) are typical for the stage.
+#' The text in brackets indicates what happens between the stages in the internal `workhorse()` function
+#' and which accesses to the [ContextResample] (`ctx`) are typical for the stage.
 #'
 #' ```
 #' Start Resampling Iteration on Worker
@@ -129,17 +130,23 @@ callback_resample = function(
   on_resample_before_predict = NULL,
   on_resample_end = NULL
 ) {
-  stages = discard(set_names(list(
-    on_resample_begin,
-    on_resample_before_train,
-    on_resample_before_predict,
-    on_resample_end),
-    c(
-      "on_resample_begin",
-      "on_resample_before_train",
-      "on_resample_before_predict",
-      "on_resample_end"
-    )), is.null)
+  stages = discard(
+    set_names(
+      list(
+        on_resample_begin,
+        on_resample_before_train,
+        on_resample_before_predict,
+        on_resample_end
+      ),
+      c(
+        "on_resample_begin",
+        "on_resample_before_train",
+        "on_resample_before_predict",
+        "on_resample_end"
+      )
+    ),
+    is.null
+  )
 
   stages = map(stages, function(stage) crate(assert_function(stage, args = c("callback", "context"))))
   callback = CallbackResample$new(id, label, man)
@@ -168,6 +175,8 @@ assert_resample_callback = function(callback, null_ok = FALSE) {
 #' @rdname assert_resample_callback
 assert_resample_callbacks = function(callbacks, null_ok = FALSE) {
   assert_list(callbacks, null.ok = null_ok)
-  if (null_ok && is.null(callbacks)) return(invisible(NULL))
+  if (null_ok && is.null(callbacks)) {
+    return(invisible(NULL))
+  }
   invisible(lapply(callbacks, assert_resample_callback))
 }

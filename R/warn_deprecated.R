@@ -1,4 +1,3 @@
-
 #' @title Give a Warning about a Deprecated Function, Argument, or Active Binding
 #'
 #' @description
@@ -54,7 +53,8 @@ deprecated_warning_given_db = new.env(parent = emptyenv())
 deprecated_binding_old = function(what, value) {
   assert_string(what)
   # build the function-expression that should be evaluated in the parent frame.
-  fnq = substitute(function(rhs) {
+  fnq = substitute(
+    function(rhs) {
       # don't throw a warning if we are converting the R6-object to a list, e.g.
       # when all.equals()-ing it.
       if (!identical(sys.call(-1)[[1]], quote(as.list.environment))) {

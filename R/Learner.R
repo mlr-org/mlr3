@@ -161,7 +161,8 @@
 #'
 #' @template seealso_learner
 #' @export
-Learner = R6Class("Learner",
+Learner = R6Class(
+  "Learner",
   public = list(
     #' @field state (named `list()` | `NULL`)\cr
     #' Current (internal) state of the learner.
@@ -174,15 +175,22 @@ Learner = R6Class("Learner",
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #'
     #' Note that this object is typically constructed via a derived classes, e.g. [LearnerClassif] or [LearnerRegr].
-    initialize = function(id, task_type, param_set = ps(), predict_types = character(), feature_types = character(),
-      properties = character(), packages = character(), label = NA_character_, man = NA_character_) {
-
+    initialize = function(
+      id,
+      task_type,
+      param_set = ps(),
+      predict_types = character(),
+      feature_types = character(),
+      properties = character(),
+      packages = character(),
+      label = NA_character_,
+      man = NA_character_
+    ) {
       private$.id = assert_string(id, min.chars = 1L)
       private$.label = assert_string(label, na.ok = TRUE)
       private$.task_type = assert_choice(task_type, mlr_reflections$task_types$type)
       private$.feature_types = assert_ordered_set(feature_types, mlr_reflections$task_feature_types, .var.name = "feature_types")
-      private$.predict_types = assert_ordered_set(predict_types, names(mlr_reflections$learner_predict_types[[task_type]]),
-        empty.ok = FALSE, .var.name = "predict_types")
+      private$.predict_types = assert_ordered_set(predict_types, names(mlr_reflections$learner_predict_types[[task_type]]), empty.ok = FALSE, .var.name = "predict_types")
       private$.predict_type = predict_types[1L]
       private$.properties = sort(assert_subset(properties, mlr_reflections$learner_properties[[task_type]]))
       private$.packages = union("mlr3", assert_character(packages, any.missing = FALSE, min.chars = 1L))
@@ -213,8 +221,14 @@ Learner = R6Class("Learner",
     #' Printer.
     #' @param ... (ignored).
     print = function(...) {
-      msg_h =  if (is.null(self$label) || is.na(self$label)) "" else paste0(": ", self$label)
-      model =  if (is.null(self$model)) "-" else if (is_marshaled_model(self$model)) "<marshaled>" else paste0(class(self$model)[1L])
+      msg_h = if (is.null(self$label) || is.na(self$label)) "" else paste0(": ", self$label)
+      model = if (is.null(self$model)) {
+        "-"
+      } else if (is_marshaled_model(self$model)) {
+        "<marshaled>"
+      } else {
+        paste0(class(self$model)[1L])
+      }
 
       cat_cli({
         cli_h1("{.cls {class(self)[1L]}} ({self$id}){msg_h}")
@@ -343,13 +357,16 @@ Learner = R6Class("Learner",
       # we need to marshal for call-r prediction and parallel prediction, but afterwards we reset the model
       # to it original state
       model_was_marshaled = is_marshaled_model(self$model)
-      on.exit({
-        if (model_was_marshaled) {
-          self$model = marshal_model(self$model, inplace = TRUE)
-        } else {
-          self$model = unmarshal_model(self$model, inplace = TRUE)
-        }
-      }, add = TRUE)
+      on.exit(
+        {
+          if (model_was_marshaled) {
+            self$model = marshal_model(self$model, inplace = TRUE)
+          } else {
+            self$model = unmarshal_model(self$model, inplace = TRUE)
+          }
+        },
+        add = TRUE
+      )
 
       # reset learner predict time; this is only cumulative for multiple predict sets,
       # not for multiple calls to predict / predict_newdata
@@ -361,9 +378,7 @@ Learner = R6Class("Learner",
         row_ids = row_ids %??% task$row_ids
         chunked = chunk_vector(row_ids, n_chunks = nbrOfWorkers(), shuffle = FALSE)
         self$model = marshal_model(self$model, inplace = TRUE)
-        pdata = future.apply::future_lapply(chunked,
-          learner_predict, learner = self, task = task,
-          future.globals = FALSE, future.seed = TRUE)
+        pdata = future.apply::future_lapply(chunked, learner_predict, learner = self, task = task, future.globals = FALSE, future.seed = TRUE)
         pdata = do.call(c, pdata)
       } else {
         pdata = learner_predict(self, task, row_ids)
@@ -431,10 +446,9 @@ Learner = R6Class("Learner",
       # Perform type conversion where necessary
       keep_cols = intersect(newdata$colnames, task$col_info$id)
       ci = task$col_info[list(keep_cols), ][
-        get("type") != col_info(newdata)[list(keep_cols), on = "id"]$type]
-      tab2 = do.call(data.table, Map(auto_convert,
-        value = as.list(newdata$data(rows = newdata$rownames, cols = ci$id)),
-        id = ci$id, type = ci$type, levels = ci$levels))
+        get("type") != col_info(newdata)[list(keep_cols), on = "id"]$type
+      ]
+      tab2 = do.call(data.table, Map(auto_convert, value = as.list(newdata$data(rows = newdata$rownames, cols = ci$id)), id = ci$id, type = ci$type, levels = ci$levels))
 
       tab = cbind(tab1, tab2)
       if (ncol(tab)) {
@@ -517,7 +531,8 @@ Learner = R6Class("Learner",
     #'
     #' The fallback learner is fitted to create valid predictions in case that either the model fitting or the prediction of the original learner fails.
     #' If the training step or the predict step of the original learner fails, the fallback is used to make the predictions.
-    #' If the original learner only partially fails during predict step (usually in the form of missing to predict some observations or producing some `NA` predictions), these missing predictions are imputed by the fallback.
+    #' If the original learner only partially fails during predict step (usually in the form of missing to predict some observations or producing some `NA` predictions),
+    #' these missing predictions are imputed by the fallback.
     #' Note that the fallback is always trained, as we do not know in advance whether prediction will fail.
     #' If the training step fails, the `$model` field of the original learner is `NULL`.
     #' The results are reproducible across the different encapsulation methods.
@@ -560,8 +575,14 @@ Learner = R6Class("Learner",
         assert_learner(fallback, task_type = self$task_type)
 
         if (!identical(self$predict_type, fallback$predict_type)) {
-          warning_config("The fallback learner '%s' and the base learner '%s' have different predict types: '%s' != '%s'.",
-            fallback$id, self$id, fallback$predict_type, self$predict_type, class = "Mlr3WarningConfigFallbackPredictType")
+          warning_config(
+            "The fallback learner '%s' and the base learner '%s' have different predict types: '%s' != '%s'.",
+            fallback$id,
+            self$id,
+            fallback$predict_type,
+            self$predict_type,
+            class = "Mlr3WarningConfigFallbackPredictType"
+          )
         }
 
         # check properties
@@ -569,8 +590,13 @@ Learner = R6Class("Learner",
         missing_properties = setdiff(properties, fallback$properties)
 
         if (length(missing_properties)) {
-          warning_config("The fallback learner '%s' does not have the following properties of the learner '%s': %s.",
-            fallback$id, self$id, str_collapse(missing_properties), class = "Mlr3WarningConfigFallbackProperties")
+          warning_config(
+            "The fallback learner '%s' does not have the following properties of the learner '%s': %s.",
+            fallback$id,
+            self$id,
+            str_collapse(missing_properties),
+            class = "Mlr3WarningConfigFallbackProperties"
+          )
         }
       } else if (method == "none" && !is.null(fallback)) {
         error_input("Fallback learner must be `NULL` if encapsulation is set to `none`.")
@@ -620,8 +646,12 @@ Learner = R6Class("Learner",
         for (i in seq_along(new_values)) {
           nn = ndots[[i]]
           if (!exists(nn, envir = self, inherits = FALSE)) {
-            error_config("Cannot set argument '%s' for '%s' (not a parameter, not a field).%s",
-              nn, class(self)[1L], did_you_mean(nn, c(param_ids, setdiff(names(self), ".__enclos_env__")))) # nolint
+            error_config(
+              "Cannot set argument '%s' for '%s' (not a parameter, not a field).%s",
+              nn,
+              class(self)[1L],
+              did_you_mean(nn, c(param_ids, setdiff(names(self), ".__enclos_env__")))
+            ) # nolint
           }
           self[[nn]] = new_values[[i]]
         }
@@ -730,20 +760,30 @@ Learner = R6Class("Learner",
 
     #' @field hash (`character(1)`)\cr
     #' Hash (unique identifier) for this object.
-    #' The hash is calculated based on the learner id, the parameter settings, the predict type, the fallback hash, the parallel predict setting, the validate setting, the predict sets, and the predict raw setting.
+    #' The hash is calculated based on the learner id, the parameter settings,
+    #' the predict type, the fallback hash, the parallel predict setting,
+    #' the validate setting, the predict sets, and the predict raw setting.
     hash = function(rhs) {
       assert_ro_binding(rhs)
-      calculate_hash(class(self), self$id, self$param_set$values, private$.predict_type,
-        self$fallback$hash, self$parallel_predict, get0("validate", self), self$predict_sets, private$.use_weights,
-        private$.predict_raw)
+      calculate_hash(
+        class(self),
+        self$id,
+        self$param_set$values,
+        private$.predict_type,
+        self$fallback$hash,
+        self$parallel_predict,
+        get0("validate", self),
+        self$predict_sets,
+        private$.use_weights,
+        private$.predict_raw
+      )
     },
 
     #' @field phash (`character(1)`)\cr
     #' Hash (unique identifier) for this partial object, excluding some components which are varied systematically during tuning (parameter values).
     phash = function(rhs) {
       assert_ro_binding(rhs)
-      calculate_hash(class(self), self$id, private$.predict_type,
-        self$fallback$hash, self$parallel_predict, get0("validate", self), private$.use_weights, private$.predict_raw)
+      calculate_hash(class(self), self$id, private$.predict_type, self$fallback$hash, self$parallel_predict, get0("validate", self), private$.use_weights, private$.predict_raw)
     },
 
     #' @field predict_type (`character(1)`)\cr
@@ -867,7 +907,9 @@ Learner = R6Class("Learner",
         return(private$.packages)
       }
       # workaround for mlr3torch
-      if (is.null(rhs)) rhs = character(0)
+      if (is.null(rhs)) {
+        rhs = character(0)
+      }
       private$.packages = union("mlr3", assert_character(rhs, any.missing = FALSE, min.chars = 1L))
     },
 
@@ -978,7 +1020,8 @@ Learner = R6Class("Learner",
     },
 
     deep_clone = function(name, value) {
-      switch(name,
+      switch(
+        name,
         .param_set = value$clone(deep = TRUE),
         .fallback = if (is.null(value)) NULL else value$clone(deep = TRUE),
         state = {
@@ -996,7 +1039,8 @@ Learner = R6Class("Learner",
 
 #' @export
 rd_info.Learner = function(obj, ...) {
-  x = c("",
+  x = c(
+    "",
     sprintf("* Task type: %s", rd_format_string(obj$task_type)),
     sprintf("* Predict Types: %s", rd_format_string(obj$predict_types)),
     sprintf("* Feature Types: %s", rd_format_string(obj$feature_types)),
@@ -1014,12 +1058,12 @@ get_log_condition = function(state, condition) {
 }
 
 #' @export
-default_values.Learner = function(x, search_space, task, ...) { # nolint
+default_values.Learner = function(x, search_space, task, ...) {
+  # nolint
   values = default_values(x$param_set)
 
   if (any(search_space$ids() %nin% names(values))) {
-    error_input("Could not find default values for the following parameters: %s",
-      str_collapse(setdiff(search_space$ids(), names(values))))
+    error_input("Could not find default values for the following parameters: %s", str_collapse(setdiff(search_space$ids(), names(values))))
   }
 
   values[search_space$ids()]
@@ -1035,10 +1079,13 @@ marshal_model.learner_state = function(model, inplace = FALSE, ...) {
     return(model)
   }
   model$model = mm
-  structure(list(
-    marshaled = model,
-    packages = "mlr3"
-  ), class = c("learner_state_marshaled", "list_marshaled", "marshaled"))
+  structure(
+    list(
+      marshaled = model,
+      packages = "mlr3"
+    ),
+    class = c("learner_state_marshaled", "list_marshaled", "marshaled")
+  )
 }
 
 #' @export

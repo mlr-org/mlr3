@@ -64,6 +64,7 @@ assert_validate = function(x) {
 
 # Generalization of quantile(type = 7) for weighted data.
 
+# nolint next
 quantile_weighted = function(x, probs, na.rm = FALSE, weights = NULL, digits = 7L, continuous = TRUE) {
   assert_flag(na.rm)
   assert_flag(continuous)
@@ -71,7 +72,7 @@ quantile_weighted = function(x, probs, na.rm = FALSE, weights = NULL, digits = 7
   assert_numeric(probs, lower = -100 * .Machine$double.eps, upper = 1 + 100 * .Machine$double.eps)
   assert_numeric(weights, lower = 0, any.missing = FALSE, len = length(x), null.ok = TRUE)
   weights = weights[!is.na(x)]
-  x = x[!is.na(x)]  # if na.rm is FALSE and there are NAs, the assert stops us from getting here
+  x = x[!is.na(x)] # if na.rm is FALSE and there are NAs, the assert stops us from getting here
 
   # we default to the unweighted quantile if there are no weights, no (non-NA) probs, or no (non-NA) x, or all weights are the same
   if (is.null(weights) || length(x) == 0L || length(probs) == 0L || all(is.na(probs)) || length(unique(weights)) == 1L) {
@@ -87,7 +88,7 @@ quantile_weighted = function(x, probs, na.rm = FALSE, weights = NULL, digits = 7
   x = x[x_order]
   weights = weights[x_order]
   if (continuous) {
-    double_weights = rep(weights / 2, each = 2)[c(-1, -2 * length(weights))] + .Machine$double.xmin  # avoid 0 weights so we don't have to handle division by 0
+    double_weights = rep(weights / 2, each = 2)[c(-1, -2 * length(weights))] + .Machine$double.xmin # avoid 0 weights so we don't have to handle division by 0
     double_x = rep(x, each = 2)[c(-1, -2 * length(x))] * double_weights
 
     double_x_weighted = (c(double_x, double_x[[length(double_x)]]) + c(double_x[[1]], double_x)) /
@@ -97,7 +98,7 @@ quantile_weighted = function(x, probs, na.rm = FALSE, weights = NULL, digits = 7
 
     weights_total = pivots[[length(pivots)]]
     weight_targets = weights_total * probs
-    weight_targets[weight_targets < 0] = 0  # since we allow -100 * .Machine$double.eps probs
+    weight_targets[weight_targets < 0] = 0 # since we allow -100 * .Machine$double.eps probs
 
     lo_indices = findInterval(weight_targets, pivots)
     hi_indices = lo_indices + 1L
@@ -108,10 +109,10 @@ quantile_weighted = function(x, probs, na.rm = FALSE, weights = NULL, digits = 7
   } else {
     pivots = c(0, cumsum(weights))
     weight_targets = pivots[[length(pivots)]] * probs
-    weight_targets[weight_targets < 0] = 0  # since we allow -100 * .Machine$double.eps probs
+    weight_targets[weight_targets < 0] = 0 # since we allow -100 * .Machine$double.eps probs
     pivots_used = pivots[-length(pivots)]
     hi_indices = findInterval(weight_targets, pivots_used)
-    lo_indices = hi_indices - (weight_targets %in% pivots_used[-1])  # use weighted average for ties
+    lo_indices = hi_indices - (weight_targets %in% pivots_used[-1]) # use weighted average for ties
     lo_values = x[lo_indices]
     hi_values = x[hi_indices]
     weights = weights + .Machine$double.xmin
@@ -130,7 +131,7 @@ weighted_mean_sd = function(x, weights) {
   }
   weights_sum = sum(weights)
   mean = sum(x * weights) / weights_sum
-  sd = sqrt(sum(weights * (x - mean)^2) / (weights_sum - sum(weights ^2) / weights_sum))
+  sd = sqrt(sum(weights * (x - mean)^2) / (weights_sum - sum(weights^2) / weights_sum))
   list(mean = mean, sd = sd)
 }
 

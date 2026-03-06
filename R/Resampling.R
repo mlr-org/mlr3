@@ -54,7 +54,8 @@
 #' The sets can be accessed via `$train_set(i)` and `$test_set(i)`, respectively.
 #'
 #' @section Inheriting:
-#' It is possible to overwrite both `private$.get_instance()` to have full control, or only `private$.sample()` when one wants to use the pre-defined mechanism for stratification and grouping.
+#' It is possible to overwrite both `private$.get_instance()` to have full control,
+#' or only `private$.sample()` when one wants to use the pre-defined mechanism for stratification and grouping.
 #'
 #' @template seealso_resampling
 #' @export
@@ -89,7 +90,8 @@
 #' r = rsmp("subsampling")
 #' r$instantiate(task)
 #' prop.table(table(task$truth(r$train_set(1)))) # roughly same proportion
-Resampling = R6Class("Resampling",
+Resampling = R6Class(
+  "Resampling",
   public = list(
     #' @field instance (any)\cr
     #'   During `instantiate()`, the instance is stored in this slot in an arbitrary format.
@@ -349,14 +351,18 @@ Resampling = R6Class("Resampling",
 
 
 #' @export
-as.data.table.Resampling = function(x, ...) { # nolint
+as.data.table.Resampling = function(x, ...) {
+  # nolint
   assert_resampling(x, instantiated = TRUE)
   iterations = seq_len(x$iters)
 
-  tab = rbindlist(list(
-    map_dtr(iterations, function(i) list(row_id = x$train_set(i)), .idcol = "iteration"),
-    map_dtr(iterations, function(i) list(row_id = x$test_set(i)), .idcol = "iteration")
-  ), idcol = "set")
+  tab = rbindlist(
+    list(
+      map_dtr(iterations, function(i) list(row_id = x$train_set(i)), .idcol = "iteration"),
+      map_dtr(iterations, function(i) list(row_id = x$test_set(i)), .idcol = "iteration")
+    ),
+    idcol = "set"
+  )
   set(tab, j = "set", value = factor(c("train", "test")[tab$set], levels = c("train", "test")))
   setkeyv(tab, c("set", "iteration"))[]
 }

@@ -74,7 +74,8 @@
 #' # Add new column "foo"
 #' task$cbind(data.frame(foo = 1:344))
 #' head(task)
-Task = R6Class("Task",
+Task = R6Class(
+  "Task",
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
@@ -103,12 +104,9 @@ Task = R6Class("Task",
       private$.col_info$fix_factor_levels = FALSE
 
       assert_subset(private$.col_info$type, mlr_reflections$task_feature_types, .var.name = "feature types")
-      pmap(private$.col_info,
-        function(id, levels, ...) {
-          assert_character(levels, any.missing = FALSE, min.len = 1L, null.ok = TRUE,
-            .var.name = sprintf("levels of '%s'", id))
-        }
-      )
+      pmap(private$.col_info, function(id, levels, ...) {
+        assert_character(levels, any.missing = FALSE, min.len = 1L, null.ok = TRUE, .var.name = sprintf("levels of '%s'", id))
+      })
 
       cn = private$.col_info$id # note: this sorts the columns!
       private$.row_roles = list(use = rn)
@@ -151,7 +149,12 @@ Task = R6Class("Task",
       if (!is.null(prev_internal_valid)) {
         lg$debug("Task %s already had an internal validation task that is being overwritten.", self$id)
         # in case something goes wrong
-        on.exit({private$.internal_valid_task = prev_internal_valid}, add = TRUE)
+        on.exit(
+          {
+            private$.internal_valid_task = prev_internal_valid
+          },
+          add = TRUE
+        )
         private$.internal_valid_task = NULL
       }
       private$.internal_valid_task = self$clone(deep = TRUE)
@@ -197,7 +200,7 @@ Task = R6Class("Task",
       if (class(self)[1L] == "TaskClassif") {
         if (!is.null(private$.backend) && self$nrow <= getOption("mlr3.print_class_ratio_threshold", 1000000L)) {
           class_freqs = table(self$truth()) / self$nrow * 100
-          class_freqs = class_freqs[order(-class_freqs, names(class_freqs))]  # Order by class frequency, then names
+          class_freqs = class_freqs[order(-class_freqs, names(class_freqs))] # Order by class frequency, then names
           classes = if ("twoclass" %in% self$properties) {
             sprintf("%s (positive class, %.0f%%), %s (%.0f%%)", self$positive, class_freqs[[self$positive]], self$negative, class_freqs[[self$negative]])
           } else {
@@ -232,7 +235,6 @@ Task = R6Class("Task",
           cli_end(ulid)
         })
       }
-
 
       # print additional columns as specified in reflections
       after = mlr_reflections$task_print_col_roles$after
@@ -298,20 +300,27 @@ Task = R6Class("Task",
       data = private$.backend$data(rows = rows, cols = query_cols)
 
       if (length(query_cols) && nrow(data) != length(rows)) {
-        error_mlr3("DataBackend did not return the queried rows correctly: %i requested, %i received.
-        The resampling was probably instantiated on a different task.", length(rows), nrow(data))  # TODO: more specific error necessary?
+        error_mlr3(
+          "DataBackend did not return the queried rows correctly: %i requested, %i received.
+        The resampling was probably instantiated on a different task.",
+          length(rows),
+          nrow(data)
+        ) # TODO: more specific error necessary?
       }
 
       if (length(rows) && ncol(data) != length(query_cols)) {
-        error_mlr3("DataBackend did not return the queried cols correctly: %i requested, %i received", length(cols), ncol(data))  # TODO: more specific error necessary?
+        error_mlr3("DataBackend did not return the queried cols correctly: %i requested, %i received", length(cols), ncol(data)) # TODO: more specific error necessary?
       }
 
+      # nolint next
       .__i__ = private$.col_info[["fix_factor_levels"]]
       if (any(.__i__)) {
         fix_factors = private$.col_info[.__i__, c("id", "levels"), with = FALSE]
         if (nrow(fix_factors)) {
           # ordering is slow
-          if (nrow(fix_factors) > 1L) fix_factors = fix_factors[list(names(data)), on = "id", nomatch = NULL]
+          if (nrow(fix_factors) > 1L) {
+            fix_factors = fix_factors[list(names(data)), on = "id", nomatch = NULL]
+          }
           data = fix_factor_levels(data, levels = set_names(fix_factors$levels, fix_factors$id))
         }
       }
@@ -391,7 +400,6 @@ Task = R6Class("Task",
     #' task$missings()
     missings = function(cols = NULL) {
       assert_has_backend(self)
-
 
       if (is.null(cols)) {
         cols = unlist(private$.col_roles[c("target", "feature")], use.names = FALSE)
@@ -497,9 +505,7 @@ Task = R6Class("Task",
         }
 
         ci = private$.col_info[list(keep_cols), on = "id"]
-        data = do.call(data.table, Map(auto_convert,
-          value = as.list(data)[ci$id],
-          id = ci$id, type = ci$type, levels = ci$levels))
+        data = do.call(data.table, Map(auto_convert, value = as.list(data)[ci$id], id = ci$id, type = ci$type, levels = ci$levels))
 
         data = as_data_backend(data, primary_key = pk)
       } else {
@@ -522,8 +528,7 @@ Task = R6Class("Task",
       }
 
       # merge col infos
-      tab = merge(private$.col_info, col_info(data), by = "id",
-        all.x = TRUE, all.y = FALSE, suffixes = c("", "_y"), sort = TRUE)
+      tab = merge(private$.col_info, col_info(data), by = "id", all.x = TRUE, all.y = FALSE, suffixes = c("", "_y"), sort = TRUE)
 
       # type check
       if (type_check) {
@@ -599,10 +604,13 @@ Task = R6Class("Task",
       private$.col_info = ujoin(private$.col_info, ci, key = "id")
 
       # add rows to col_info for new columns
-      private$.col_info = rbindlist(list(
-        private$.col_info,
-        insert_named(ci[!list(private$.col_info), on = "id"], list(label = NA_character_, fix_factor_levels = FALSE))
-      ), use.names = TRUE)
+      private$.col_info = rbindlist(
+        list(
+          private$.col_info,
+          insert_named(ci[!list(private$.col_info), on = "id"], list(label = NA_character_, fix_factor_levels = FALSE))
+        ),
+        use.names = TRUE
+      )
       setkeyv(private$.col_info, "id")
 
       # add new features
@@ -616,7 +624,6 @@ Task = R6Class("Task",
 
       invisible(self)
     },
-
 
     #' @description
     #' Renames columns by mapping column names in `old` to new column names in `new` (element-wise).
@@ -757,7 +764,6 @@ Task = R6Class("Task",
       invisible(self)
     },
 
-
     #' @description
     #' Updates the cache of stored factor levels, removing all levels not present in the current set of active rows.
     #' `cols` defaults to all columns with storage type "factor" or "ordered".
@@ -785,7 +791,6 @@ Task = R6Class("Task",
 
       invisible(self)
     },
-
 
     #' @description
     #' Cuts numeric variables into new factors columns which are added to the task with role
@@ -842,6 +847,7 @@ Task = R6Class("Task",
       assert_flag(internal_valid_task)
 
       b = private$.backend
+      # nolint next
       ..cns = union(b$primary_key, unlist(private$.col_roles, use.names = FALSE))
       dt = b$data(rows = unique(self$row_ids), cols = ..cns)
       private$.backend = as_data_backend(dt, primary_key = b$primary_key)
@@ -888,7 +894,8 @@ Task = R6Class("Task",
         rhs$internal_valid_task = NULL
         self$row_roles$use = train_ids
       } else {
-        if (!is.null(rhs$internal_valid_task)) { # avoid recursive structures
+        if (!is.null(rhs$internal_valid_task)) {
+          # avoid recursive structures
           error_input("Trying to assign task '%s' as a validation task, remove its validation task first.", rhs$id)
         }
         assert_task(rhs, task_type = self$task_type)
@@ -955,8 +962,7 @@ Task = R6Class("Task",
       if (length(nn) == 0L) {
         return(NULL)
       }
-      setnames(private$.backend$data(rows = self$row_ids, cols = c(private$.backend$primary_key, nn)),
-        c("row_id", "row_name"))
+      setnames(private$.backend$data(rows = self$row_ids, cols = c(private$.backend$primary_key, nn)), c("row_id", "row_name"))
     },
 
     #' @field feature_names (`character()`)\cr
@@ -1126,7 +1132,6 @@ Task = R6Class("Task",
       setnames(tab, c("..N", "..row_id"), c("N", "row_id"))[]
     },
 
-
     #' @field groups ([data.table::data.table()])\cr
     #' If the task has a column with designated role `"group"`, a table with two columns:
     #'
@@ -1233,7 +1238,7 @@ Task = R6Class("Task",
       data = private$.backend$data(private$.row_roles$use, c(private$.backend$primary_key, offset_cols))
       if (length(offset_cols) == 1L) {
         setnames(data, c("row_id", "offset"))[]
-      } else  {
+      } else {
         setnames(data, c("row_id", offset_cols))[]
       }
     },
@@ -1256,7 +1261,8 @@ Task = R6Class("Task",
         return(set_names(tab[["label"]], tab[["id"]]))
       }
 
-      if (is.data.frame(rhs)) { # convert to named character
+      if (is.data.frame(rhs)) {
+        # convert to named character
         assert_data_frame(rhs, ncols = 2L)
         assert_names(names(rhs), permutation.of = c("id", "label"))
         rhs = set_names(rhs[["label"]], rhs[["id"]])
@@ -1434,7 +1440,6 @@ task_set_roles = function(li, elements, roles = NULL, add_to = NULL, remove_from
       for (role in add_to) {
         li[[role]] = union(li[[role]], elements)
       }
-
     }
   }
 
@@ -1516,7 +1521,6 @@ task_check_col_roles.Task = function(task, new_roles, ...) {
 #' @rdname task_check_col_roles
 #' @export
 task_check_col_roles.TaskClassif = function(task, new_roles, ...) {
-
   # check target
   if (length(new_roles[["target"]]) > 1L) {
     error_input("There may only be up to one column with role 'target'")
@@ -1557,7 +1561,6 @@ task_check_col_roles.TaskRegr = function(task, new_roles, ...) {
 #' @rdname task_check_col_roles
 #' @export
 task_check_col_roles.TaskSupervised = function(task, new_roles, ...) {
-
   # check target
   if (length(new_roles$target) == 0L) {
     error_input("Supervised tasks need at least one target column")
@@ -1569,7 +1572,6 @@ task_check_col_roles.TaskSupervised = function(task, new_roles, ...) {
 #' @rdname task_check_col_roles
 #' @export
 task_check_col_roles.TaskUnsupervised = function(task, new_roles, ...) {
-
   # check target
   if (length(new_roles$target) != 0L) {
     error_input("Unsupervised tasks may not have a target column")
@@ -1602,7 +1604,8 @@ col_info = function(x, ...) {
 #' @param primary_key (`character()`)\cr
 #'   The primary key of the backend.
 #' @export
-col_info.data.table = function(x, primary_key = character(), ...) { # nolint
+col_info.data.table = function(x, primary_key = character(), ...) {
+  # nolint
   types = map_chr(x, function(x) class(x)[1L])
   discrete = setdiff(names(types)[types %chin% c("factor", "ordered")], primary_key)
   levels = insert_named(named_list(names(types)), lapply(x[, discrete, with = FALSE], distinct_values, drop = FALSE))
@@ -1611,7 +1614,8 @@ col_info.data.table = function(x, primary_key = character(), ...) { # nolint
 
 #' @rdname col_info
 #' @export
-col_info.DataBackend = function(x, ...) { # nolint
+col_info.DataBackend = function(x, ...) {
+  # nolint
   types = map_chr(x$head(1L), function(x) class(x)[1L])
   discrete = setdiff(names(types)[types %chin% c("factor", "ordered")], x$primary_key)
   levels = insert_named(named_list(names(types)), x$distinct(rows = NULL, cols = discrete))
@@ -1619,18 +1623,21 @@ col_info.DataBackend = function(x, ...) { # nolint
 }
 
 #' @export
-as.data.table.Task = function(x, ...) { # nolint
+as.data.table.Task = function(x, ...) {
+  # nolint
   x$data()
 }
 
 #' @export
-head.Task = function(x, n = 6L, ...) { # nolint
+head.Task = function(x, n = 6L, ...) {
+  # nolint
   assert_number(n, na.ok = FALSE)
   x$data(rows = head(x$row_ids, n))
 }
 
 #' @export
-tail.Task = function(x, n = 6L, ...) { # nolint
+tail.Task = function(x, n = 6L, ...) {
+  # nolint
   assert_number(n, na.ok = FALSE)
   x$data(rows = tail(x$row_ids, n))
 }
@@ -1650,8 +1657,10 @@ task_rm_backend = function(task) {
 
 
 #' @export
-rd_info.Task = function(obj, section, ...) { # nolint
-  x = c("",
+rd_info.Task = function(obj, section, ...) {
+  # nolint
+  x = c(
+    "",
     sprintf("* Task type: %s", rd_format_string(obj$task_type)),
     sprintf("* Dimensions: %ix%i", obj$nrow, obj$ncol),
     sprintf("* Properties: %s", rd_format_string(obj$properties)),

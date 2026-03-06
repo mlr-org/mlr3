@@ -16,9 +16,9 @@
 #' @examples
 #' # table overview
 #' print(ResultData$new()$data)
-ResultData = R6Class("ResultData",
+ResultData = R6Class(
+  "ResultData",
   public = list(
-
     #' @field data (`list()`)\cr
     #' List of [data.table::data.table()], arranged in a star schema.
     #' Do not operate directly on this list.
@@ -55,14 +55,10 @@ ResultData = R6Class("ResultData",
           data[, "learner_phash" := learner[[1L]]$phash, by = "uhash"]
           data[, "resampling_hash" := resampling[[1L]]$hash, by = "uhash"]
 
-          tasks = data[, list(task = .SD$task[1L]),
-            keyby = "task_hash"]
-          learners = data[, list(learner = list(.SD$learner[[1L]]$reset())),
-            keyby = "learner_phash"]
-          resamplings = data[, list(resampling = .SD$resampling[1L]),
-            keyby = "resampling_hash"]
-          learner_components = data[, list(learner_param_vals = list(.SD$param_values[[1L]])),
-            keyby = "learner_hash"]
+          tasks = data[, list(task = .SD$task[1L]), keyby = "task_hash"]
+          learners = data[, list(learner = list(.SD$learner[[1L]]$reset())), keyby = "learner_phash"]
+          resamplings = data[, list(resampling = .SD$resampling[1L]), keyby = "resampling_hash"]
+          learner_components = data[, list(learner_param_vals = list(.SD$param_values[[1L]])), keyby = "learner_hash"]
 
           set(data, j = "task", value = NULL)
           set(data, j = "learner", value = NULL)
@@ -83,8 +79,15 @@ ResultData = R6Class("ResultData",
             set(tasks, j = "task", value = lapply(tasks$task, task_rm_backend))
           }
 
-          self$data = list(fact = data, uhashes = uhashes, tasks = tasks, learners = learners,
-            resamplings = resamplings, learner_components = learner_components, data_extras = data_extras)
+          self$data = list(
+            fact = data,
+            uhashes = uhashes,
+            tasks = tasks,
+            learners = learners,
+            resamplings = resamplings,
+            learner_components = learner_components,
+            data_extras = data_extras
+          )
         }
       }
     },
@@ -137,6 +140,7 @@ ResultData = R6Class("ResultData",
     #'
     #' @return `data.table()` with columns `"task_hash"` (`character()`) and `"task"` ([Task]).
     tasks = function(view = NULL) {
+      # nolint next
       .__ii__ = private$get_view_index(view)
       tab = unique(self$data$fact[.__ii__, "task_hash", with = FALSE], by = "task_hash")
       merge(tab, self$data$tasks, by = "task_hash", sort = TRUE)
@@ -154,14 +158,14 @@ ResultData = R6Class("ResultData",
     #'
     #' @return `data.table()` with columns `"learner_hash"` (`character()`) and `"learner"` ([Learner]).
     learners = function(view = NULL, states = TRUE, reassemble = TRUE) {
+      # nolint next
       .__ii__ = private$get_view_index(view)
 
       if (states) {
         tab = self$data$fact[.__ii__, c("learner_hash", "learner_phash", "learner_state"), with = FALSE]
         tab = merge(tab, self$data$learners, by = "learner_phash", sort = FALSE)
         tab = merge(tab, self$data$learner_components, by = "learner_hash", sort = TRUE)
-        set(tab, j = "learner",
-          value = reassemble_learners(tab$learner, states = tab$learner_state, param_vals = tab$learner_param_vals))
+        set(tab, j = "learner", value = reassemble_learners(tab$learner, states = tab$learner_state, param_vals = tab$learner_param_vals))
       } else {
         tab = unique(self$data$fact[.__ii__, c("learner_hash", "learner_phash"), with = FALSE], by = "learner_hash")
         tab = merge(tab, self$data$learners, by = "learner_phash", sort = FALSE)
@@ -182,6 +186,7 @@ ResultData = R6Class("ResultData",
     #'
     #'  @return list of `list()`
     learner_states = function(view = NULL) {
+      # nolint next
       .__ii__ = private$get_view_index(view)
       learner_hash = learner_state = NULL
       self$data$fact[.__ii__][order(learner_hash), learner_state]
@@ -192,6 +197,7 @@ ResultData = R6Class("ResultData",
     #'
     #' @return `data.table()` with columns `"resampling_hash"` (`character()`) and `"resampling"` ([Resampling]).
     resamplings = function(view = NULL) {
+      # nolint next
       .__ii__ = private$get_view_index(view)
       tab = unique(self$data$fact[.__ii__, "resampling_hash", with = FALSE], by = "resampling_hash")
       merge(tab, self$data$resamplings, by = "resampling_hash", sort = TRUE)
@@ -204,6 +210,7 @@ ResultData = R6Class("ResultData",
     #'
     #' @return `list()` of [Prediction].
     predictions = function(view = NULL, predict_sets = "test") {
+      # nolint next
       .__ii__ = private$get_view_index(view)
       as_predictions(self$data$fact[.__ii__, "prediction", with = FALSE][[1L]], predict_sets = predict_sets)
     },
@@ -223,6 +230,7 @@ ResultData = R6Class("ResultData",
     #'
     #' @return [data.table::data.table()].
     data_extra = function(view = NULL) {
+      # nolint next
       .__ii__ = private$get_view_index(view)
       tab = self$data$fact[.__ii__, c("uhash", "iteration"), with = FALSE]
       merge(tab, self$data$data_extras, by = c("uhash", "iteration"), all.x = TRUE, sort = TRUE)
@@ -334,6 +342,7 @@ ResultData = R6Class("ResultData",
     #'   Convert [PredictionData] to [Prediction]?
     #' @template param_predict_sets
     as_data_table = function(view = NULL, reassemble_learners = TRUE, convert_predictions = TRUE, predict_sets = "test") {
+      # nolint next
       .__ii__ = private$get_view_index(view)
 
       tab = self$data$fact[.__ii__]
@@ -341,7 +350,9 @@ ResultData = R6Class("ResultData",
       tab = merge(tab, self$data$learners, by = "learner_phash", sort = FALSE)
       tab = merge(tab, self$data$resamplings, by = "resampling_hash", sort = FALSE)
       tab = merge(tab, self$data$learner_components, by = "learner_hash", sort = FALSE)
-      if (nrow(self$data$data_extras)) tab = merge(tab, self$data$data_extras, by = c("uhash", "iteration"), all.x = TRUE, sort = FALSE)
+      if (nrow(self$data$data_extras)) {
+        tab = merge(tab, self$data$data_extras, by = c("uhash", "iteration"), all.x = TRUE, sort = FALSE)
+      }
 
       if (nrow(tab)) {
         if (reassemble_learners) {
@@ -351,11 +362,21 @@ ResultData = R6Class("ResultData",
         if (convert_predictions) {
           set(tab, j = "prediction", value = as_predictions(tab$prediction, predict_sets = predict_sets))
         }
-
       }
 
-      cns = c("uhash", "task", "task_hash", "learner", "learner_hash", "learner_param_vals", "resampling",
-        "resampling_hash", "iteration", "prediction", if (nrow(self$data$data_extras)) "data_extra")
+      cns = c(
+        "uhash",
+        "task",
+        "task_hash",
+        "learner",
+        "learner_hash",
+        "learner_param_vals",
+        "resampling",
+        "resampling_hash",
+        "iteration",
+        "prediction",
+        if (nrow(self$data$data_extras)) "data_extra"
+      )
       merge(self$data$uhashes, tab[, cns, with = FALSE], by = "uhash", sort = FALSE)
     },
 
@@ -367,6 +388,7 @@ ResultData = R6Class("ResultData",
     #'
     #' @return [data.table::data.table()].
     logs = function(view = NULL, condition) {
+      # nolint next
       .__ii__ = private$get_view_index(view)
       learner_state = NULL
       logs = map(self$data$fact[.__ii__, learner_state], function(s) list(condition = get_log_condition(s, condition)))
@@ -382,10 +404,14 @@ ResultData = R6Class("ResultData",
     set_threshold = function(view = NULL, threshold, ties_method = "random") {
       assert_numeric(threshold, len = 1L, lower = 0, upper = 1)
       assert_choice(ties_method, c("random", "first", "last"))
+      # nolint next
       .__ii__ = private$get_view_index(view)
-      self$data$fact[.__ii__, "prediction" := lapply(get("prediction"), function(ps) {
-        list(lapply(ps, set_threshold_pdata, threshold, ties_method))
-      })]
+      self$data$fact[
+        .__ii__,
+        "prediction" := lapply(get("prediction"), function(ps) {
+          list(lapply(ps, set_threshold_pdata, threshold, ties_method))
+        })
+      ]
     }
   ),
 
@@ -430,7 +456,6 @@ star_init = function() {
     iteration = integer(),
     learner_state = list(),
     prediction = list(),
-
 
     learner_hash = character(),
     task_hash = character(),
@@ -482,7 +507,8 @@ star_init = function() {
     learners = learners,
     resamplings = resamplings,
     learner_components = learner_components,
-    data_extras = data_extras)
+    data_extras = data_extras
+  )
 }
 
 
@@ -498,15 +524,23 @@ reassemble_learners = function(learners, states = NULL, param_vals = NULL) {
   learners = lapply(learners, function(l) l$clone(deep = TRUE))
 
   if (!is.null(states)) {
-    Map(function(l, s) {
-      l$state = s
-    }, l = learners, s = states)
+    Map(
+      function(l, s) {
+        l$state = s
+      },
+      l = learners,
+      s = states
+    )
   }
 
   if (!is.null(param_vals)) {
-    Map(function(l, pv) {
-      l$param_set$values = pv
-    }, l = learners, pv = param_vals)
+    Map(
+      function(l, pv) {
+        l$param_set$values = pv
+      },
+      l = learners,
+      pv = param_vals
+    )
   }
   learners
 }

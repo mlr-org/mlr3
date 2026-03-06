@@ -80,6 +80,7 @@ mlr_reflections = new.env(parent = emptyenv())
 local({
   ### Task
   # task types + constructors
+  # fmt: skip
   mlr_reflections$task_types = rowwise_table(.key = "type",
     ~type,          ~package, ~task,              ~learner,         ~prediction,          ~prediction_data,         ~measure,
     "regr",         "mlr3",   "TaskRegr",         "LearnerRegr",    "PredictionRegr",     "PredictionDataRegr",     "MeasureRegr",
@@ -88,7 +89,14 @@ local({
   )
 
   mlr_reflections$task_feature_types = c(
-    lgl = "logical", int = "integer", dbl = "numeric", chr = "character", fct = "factor", ord = "ordered", pxc = "POSIXct", dte = "Date"
+    lgl = "logical",
+    int = "integer",
+    dbl = "numeric",
+    chr = "character",
+    fct = "factor",
+    ord = "ordered",
+    pxc = "POSIXct",
+    dte = "Date"
   )
 
   mlr_reflections$task_row_roles = c(
@@ -125,7 +133,21 @@ local({
   )
 
   ### Learner
-  tmp = c("featureless", "missings", "weights", "importance", "selected_features", "oob_error", "hotstart_forward", "hotstart_backward", "validation", "internal_tuning", "marshal", "offset", "new_levels")
+  tmp = c(
+    "featureless",
+    "missings",
+    "weights",
+    "importance",
+    "selected_features",
+    "oob_error",
+    "hotstart_forward",
+    "hotstart_backward",
+    "validation",
+    "internal_tuning",
+    "marshal",
+    "offset",
+    "new_levels"
+  )
   mlr_reflections$learner_properties = list(
     classif = c(tmp, "twoclass", "multiclass"),
     regr = tmp

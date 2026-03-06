@@ -14,7 +14,8 @@
 #'     repository \url{https://raphaels1.r-universe.dev}).
 #'  - `"quantiles"`: Predicts quantile estimates for each observation in the test set.
 #'    Set `$quantiles` to specify the quantiles to predict and `$quantile_response` to specify the response quantile.
-#'    See mlr3book [section](https://mlr3book.mlr-org.com/chapters/chapter13/beyond_regression_and_classification.html#sec-quantile-regression) on quantile regression for more details.
+#'    See mlr3book [section](https://mlr3book.mlr-org.com/chapters/chapter13/beyond_regression_and_classification.html#sec-quantile-regression)
+#'    on quantile regression for more details.
 #'
 #' Predefined learners can be found in the [dictionary][mlr3misc::Dictionary] [mlr_learners].
 #' Essential regression learners can be found in this dictionary after loading \CRANpkg{mlr3learners}.
@@ -39,15 +40,35 @@
 #'
 #' # get a specific learner from mlr_learners:
 #' mlr_learners$get("regr.rpart")
-#' lrn("classif.featureless")
-LearnerRegr = R6Class("LearnerRegr", inherit = Learner,
+#' lrn("regr.featureless")
+LearnerRegr = R6Class(
+  "LearnerRegr",
+  inherit = Learner,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    initialize = function(id, task_type = "regr", param_set = ps(), predict_types = "response", feature_types = character(), properties = character(), packages = character(), label = NA_character_, man = NA_character_) {
-      super$initialize(id = id, task_type = task_type, param_set = param_set, feature_types = feature_types,
-        predict_types = predict_types, properties = properties, packages = packages,
-        label = label, man = man)
+    initialize = function(
+      id,
+      task_type = "regr",
+      param_set = ps(),
+      predict_types = "response",
+      feature_types = character(),
+      properties = character(),
+      packages = character(),
+      label = NA_character_,
+      man = NA_character_
+    ) {
+      super$initialize(
+        id = id,
+        task_type = task_type,
+        param_set = param_set,
+        feature_types = feature_types,
+        predict_types = predict_types,
+        properties = properties,
+        packages = packages,
+        label = label,
+        man = man
+      )
     },
 
     #' @description
@@ -69,7 +90,9 @@ LearnerRegr = R6Class("LearnerRegr", inherit = Learner,
     #'
     #' @return `list()` with elements `"response"`, `"se"` or `"quantiles"` depending on the predict type.
     predict_newdata_fast = function(newdata, task = NULL) {
-      if (is.null(task) && is.null(self$state$train_task)) error_input("No task stored, and no task provided")
+      if (is.null(task) && is.null(self$state$train_task)) {
+        error_input("No task stored, and no task provided")
+      }
       feature_names = self$state$train_task$feature_names %??% task$feature_names
 
       # add data and most common used meta data
@@ -122,7 +145,6 @@ LearnerRegr = R6Class("LearnerRegr", inherit = Learner,
   ),
 
   active = list(
-
     #' @field quantiles (`numeric()`)\cr
     #' Numeric vector of probabilities to be used while predicting quantiles.
     #' Elements must be between 0 and 1, not missing and provided in ascending order.
@@ -164,7 +186,6 @@ LearnerRegr = R6Class("LearnerRegr", inherit = Learner,
       private$.quantiles = sort(union(private$.quantiles, private$.quantile_response))
     }
   ),
-
 
   private = list(
     .quantiles = NULL,
