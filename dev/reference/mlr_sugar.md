@@ -56,8 +56,8 @@ This is especially useful for learners such as `AutoTuner` of
 [mlr3tuning](https://CRAN.R-project.org/package=mlr3tuning) or
 `GraphLearner` of
 [mlr3pipelines](https://CRAN.R-project.org/package=mlr3pipelines) which
-have multiple levels of `$validate` fields., where the `$validate`
-fields need to be configured on multiple levels.
+have multiple levels of `$validate` fields, where the `$validate` fields
+need to be configured on multiple levels.
 
 ## Usage
 

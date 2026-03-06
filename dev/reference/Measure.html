@@ -19,7 +19,8 @@ In addition to these two functions, meta-information about the performance measu
 Predefined measures are stored in the dictionary mlr_measures,
 e.g. classif.auc or time_train.
 Many of the measures in mlr3 are implemented in mlr3measures as ordinary functions.
-A guide on how to extend mlr3 with custom measures can be found in the mlr3book."><meta property="og:description" content="This is the abstract base class for measures like MeasureClassif and MeasureRegr.
+A guide on how to extend mlr3 with custom measures can be found in the
+mlr3book."><meta property="og:description" content="This is the abstract base class for measures like MeasureClassif and MeasureRegr.
 Measures are classes tailored around two functions doing the work:
 A function $score() which quantifies the performance on a Prediction object, so a set
 of predicted observation via a scalar number – usually an aggregate of losses on the contained observations,
@@ -33,7 +34,8 @@ In addition to these two functions, meta-information about the performance measu
 Predefined measures are stored in the dictionary mlr_measures,
 e.g. classif.auc or time_train.
 Many of the measures in mlr3 are implemented in mlr3measures as ordinary functions.
-A guide on how to extend mlr3 with custom measures can be found in the mlr3book."><meta property="og:image" content="https://mlr3.mlr-org.com/logo.svg"><meta name="robots" content="noindex"></head><body>
+A guide on how to extend mlr3 with custom measures can be found in the
+mlr3book."><meta property="og:image" content="https://mlr3.mlr-org.com/logo.svg"><meta name="robots" content="noindex"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -88,7 +90,8 @@ with the complete resampling – usually by averaging or summing.</p></li>
 <p>Predefined measures are stored in the <a href="https://mlr3misc.mlr-org.com/reference/Dictionary.html" class="external-link">dictionary</a> <a href="mlr_measures.html">mlr_measures</a>,
 e.g. <code><a href="mlr_measures_classif.auc.html">classif.auc</a></code> or <code><a href="mlr_measures_elapsed_time.html">time_train</a></code>.
 Many of the measures in <span class="pkg">mlr3</span> are implemented in <a href="https://CRAN.R-project.org/package=mlr3measures" class="external-link"><span class="pkg">mlr3measures</span></a> as ordinary functions.</p>
-<p>A guide on how to extend <a href="https://CRAN.R-project.org/package=mlr3" class="external-link"><span class="pkg">mlr3</span></a> with custom measures can be found in the <a href="https://mlr3book.mlr-org.com" class="external-link">mlr3book</a>.</p>
+<p>A guide on how to extend <a href="https://CRAN.R-project.org/package=mlr3" class="external-link"><span class="pkg">mlr3</span></a> with custom measures can be found in the
+<a href="https://mlr3book.mlr-org.com" class="external-link">mlr3book</a>.</p>
     </div>
 
 
@@ -98,7 +101,8 @@ Many of the measures in <span class="pkg">mlr3</span> are implemented in <a href
 
 <p>For some measures (such as confidence intervals from <code>mlr3inferr</code>) it is necessary that a measure
 returns more than one value.
-In such cases it is necessary to overwrite the public methods <code>$aggregate()</code> and/or <code>$score()</code> to return a named <code><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric()</a></code>
+In such cases it is necessary to overwrite the public methods <code>$aggregate()</code> and/or <code>$score()</code>
+to return a named <code><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric()</a></code>
 where at least one of its names corresponds to the <code>id</code> of the measure itself.</p>
     </div>
     <div class="section level2">
@@ -107,15 +111,20 @@ where at least one of its names corresponds to the <code>id</code> of the measur
 
 
 <p>Many measures support observation weights, indicated by their property <code>"weights"</code>.
-The weights are stored in the <a href="Task.html">Task</a> where the column role <code>weights_measure</code> needs to be assigned to a single numeric column.
-The weights are automatically used if found in the task, this can be disabled by setting the field <code>use_weights</code> to <code>"ignore"</code>.
+The weights are stored in the <a href="Task.html">Task</a> where the column role <code>weights_measure</code> needs to be assigned
+to a single numeric column.
+The weights are automatically used if found in the task,
+this can be disabled by setting the field <code>use_weights</code> to <code>"ignore"</code>.
 See the description of <code>use_weights</code> for more information.</p>
-<p>If the measure is set-up to use weights but the task does not have a designated <code>weights_measure</code> column, an unweighted version is calculated instead.
+<p>If the measure is set-up to use weights but the task does not have a designated <code>weights_measure</code> column,
+an unweighted version is calculated instead.
 The weights do not necessarily need to sum up to 1, they are normalized by the measure if necessary.</p>
-<p>Most measures are so-called decomposable loss functions where a point-wise loss is computed and then either mean-aggregated or summed
-over the test set.
-For measures that do mean-aggregation, weights are typically used to compute the weighted mean, which normalizes weights to sum to 1.
-Measures that use sum-aggregation do not normalize weights and instead multiply individual losses with the given weights.
+<p>Most measures are so-called decomposable loss functions where a point-wise loss is computed
+and then either mean-aggregated or summed over the test set.
+For measures that do mean-aggregation, weights are typically used to compute the weighted mean,
+which normalizes weights to sum to 1.
+Measures that use sum-aggregation do not normalize weights and instead multiply individual losses
+with the given weights.
 See the documentation of specific measures for more details.</p>
     </div>
     <div class="section level2">
@@ -123,13 +132,17 @@ See the documentation of specific measures for more details.</p>
 
 
 
-<p>Many measurements cannot be calculated if the test set or predictions are unfortunate, for example because a denominator is 0.
+<p>Many measurements cannot be calculated if the test set or predictions are unfortunate,
+for example because a denominator is 0.
 This typically occurs during (binary) classification if some entries of the confusion matrix are 0.
-For this reason, many measures which originate in <a href="https://CRAN.R-project.org/package=mlr3measures" class="external-link"><span class="pkg">mlr3measures</span></a> allow to change the default missing value (<code>NaN</code>) via the field <code>na_value</code>.</p>
-<p>If you encounter missing values in a compound object like a <a href="ResampleResult.html">ResampleResult</a> or <a href="BenchmarkResult.html">BenchmarkResult</a> during scoring or aggregating, simply
-removing iterations with missing values is statistically arguable (but technically possible by providing a custom aggregation function
-which handles missing values, e.g. <code>function(x) mean(x, na.rm = TRUE)</code>). Instead, consider stratification on the target of the <a href="Task.html">Task</a>
-to work around missing values. Switching to micro averaging in the <a href="Resampling.html">Resampling</a> can also be a solution here.</p>
+For this reason, many measures which originate in <a href="https://CRAN.R-project.org/package=mlr3measures" class="external-link"><span class="pkg">mlr3measures</span></a> allow to change the
+default missing value (<code>NaN</code>) via the field <code>na_value</code>.</p>
+<p>If you encounter missing values in a compound object like a <a href="ResampleResult.html">ResampleResult</a> or <a href="BenchmarkResult.html">BenchmarkResult</a>
+during scoring or aggregating, simply removing iterations with missing values is statistically
+arguable (but technically possible by providing a custom aggregation function which handles
+missing values, e.g. <code>function(x) mean(x, na.rm = TRUE)</code>).
+Instead, consider stratification on the target of the <a href="Task.html">Task</a> to work around missing values.
+Switching to micro averaging in the <a href="Resampling.html">Resampling</a> can also be a solution here.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -177,7 +190,8 @@ to operate on specific subsets of the calculated prediction sets.</p></dd>
 <dt><code>hash</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 Hash (unique identifier) for this object.
-The hash is calculated based on the id, the parameter settings, predict sets and the <code>$score</code>, <code>$average</code>, <code>$aggregator</code>, <code>$obs_loss</code>, <code>$trafo</code> method.
+The hash is calculated based on the id, the parameter settings, predict sets and the <code>$score</code>,
+<code>$average</code>, <code>$aggregator</code>, <code>$obs_loss</code>, <code>$trafo</code> method.
 Measure can define additional fields to be included in the hash by setting the field <code>$.extra_hash</code>.</p></dd>
 
 
@@ -220,8 +234,10 @@ Settings are <code>"use"</code>, <code>"ignore"</code>, and <code>"error"</code>
 </ul><p>For measures with the property <code>"weights"</code>, this is initialized as <code>"use"</code>.
 For measures with the property <code>"requires_no_prediction"</code>, this is initialized as <code>"ignore"</code>.
 For measures that have neither of the properties, this is initialized as <code>"error"</code>.
-The latter behavior is to avoid cases where a user erroneously assumes that a measure supports weights when it does not.
-For measures that do not support weights, <code>use_weights</code> needs to be set to <code>"ignore"</code> if tasks with weights should be handled (by dropping the weights).</p></dd>
+The latter behavior is to avoid cases where a user erroneously assumes that a measure
+supports weights when it does not.
+For measures that do not support weights,
+<code>use_weights</code> needs to be set to <code>"ignore"</code> if tasks with weights should be handled (by dropping the weights).</p></dd>
 
 
 <dt><code>id</code></dt>
@@ -258,7 +274,8 @@ Required predict type of the <a href="Learner.html">Learner</a>.</p></dd>
 How to proceed if one of the following prerequisites is not met:</p><ul><li><p>wrong predict type (e.g., probabilities required, but only labels available).</p></li>
 <li><p>wrong predict set (e.g., learner predicted on training set, but predictions of test set required).</p></li>
 <li><p>task properties not satisfied (e.g., binary classification measure on multiclass task).</p></li>
-</ul><p>Possible values are <code>"ignore"</code> (just return <code>NaN</code>) and <code>"warn"</code> (default, raise a warning before returning <code>NaN</code>).</p></dd>
+</ul><p>Possible values are <code>"ignore"</code> (just return <code>NaN</code>) and <code>"warn"</code> (default,
+raise a warning before returning <code>NaN</code>).</p></dd>
 
 
 <dt><code>task_properties</code></dt>
@@ -402,8 +419,10 @@ Supported by <code>mlr3</code>:</p><ul><li><p><code>"requires_task"</code> (requ
 <li><p><code>"requires_train_set"</code> (requires the training indices from the <a href="Resampling.html">Resampling</a>),</p></li>
 <li><p><code>"na_score"</code> (the measure is expected to occasionally return <code>NA</code> or <code>NaN</code>),</p></li>
 <li><p><code>"weights"</code> (support weighted scoring using sample weights from task, column role <code>weights_measure</code>), and</p></li>
-<li><p><code>"primary_iters"</code> (the measure explictly handles resamplings that only use a subset of their iterations for the point estimate)</p></li>
-<li><p><code>"requires_no_prediction"</code> (No prediction is required; This usually means that the measure extracts some information from the learner state.).</p></li>
+<li><p><code>"primary_iters"</code> (the measure explicitly handles resamplings
+that only use a subset of their iterations for the point estimate)</p></li>
+<li><p><code>"requires_no_prediction"</code> (No prediction is required;
+This usually means that the measure extracts some information from the learner state.).</p></li>
 </ul></dd>
 
 
@@ -650,7 +669,7 @@ If there is no observation-wise loss function for the measure, <code>NA_real_</c
 <span class="r-in"><span><span class="va">rr</span> <span class="op">=</span> <span class="fu"><a href="resample.html">resample</a></span><span class="op">(</span><span class="va">task</span>, <span class="va">learner</span>, <span class="fu"><a href="mlr_sugar.html">rsmp</a></span><span class="op">(</span><span class="st">"holdout"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="mlr_sugar.html">msr</a></span><span class="op">(</span><span class="st">"classif.ce"</span><span class="op">)</span><span class="op">$</span><span class="fu">aggregate</span><span class="op">(</span><span class="va">rr</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> classif.ce </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.03478261 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.05217391 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
 <span class="r-in"><span><span class="co">## Method `Measure$obs_loss`</span></span></span>

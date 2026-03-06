@@ -202,7 +202,7 @@ Creates a new instance of this
   - `"weights"` (support weighted scoring using sample weights from
     task, column role `weights_measure`), and
 
-  - `"primary_iters"` (the measure explictly handles resamplings that
+  - `"primary_iters"` (the measure explicitly handles resamplings that
     only use a subset of their iterations for the point estimate)
 
   - `"requires_no_prediction"` (No prediction is required; This usually
@@ -273,7 +273,7 @@ bmr = benchmark(grid, store_models = TRUE)
 bmr$aggregate(msrs(c("classif.ce", "sim.jaccard")))
 #>       nr  task_id learner_id resampling_id iters classif.ce sim.jaccard
 #>    <int>   <char>     <char>        <char> <int>      <num>       <num>
-#> 1:     1 penguins         r1            cv     3  0.2093822   1.0000000
-#> 2:     2 penguins         r2            cv     3  0.0581490   0.7777778
+#> 1:     1 penguins         r1            cv     3 0.23249428   0.3333333
+#> 2:     2 penguins         r2            cv     3 0.06389525   0.5555556
 #> Hidden columns: resample_result
 ```

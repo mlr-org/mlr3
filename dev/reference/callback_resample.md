@@ -114,7 +114,7 @@ callback = callback_resample("selected_features",
 
 rr = resample(task, learner, resampling, callbacks = callback)
 rr$learners[[1]]$state$selected_features
-#> [1] "glucose"  "age"      "mass"     "pedigree" "pressure"
+#> [1] "glucose"  "mass"     "age"      "pressure" "insulin"  "pregnant"
 
 # holdout task callback
 callback = callback_resample("holdout_task",
@@ -136,7 +136,7 @@ rr$data_extra
 #> Key: <uhash, iteration>
 #>                                   uhash iteration data_extra
 #>                                  <char>     <int>     <list>
-#> 1: f7568cfa-98b6-474b-b43c-49a8bd04c701         1  <list[1]>
-#> 2: f7568cfa-98b6-474b-b43c-49a8bd04c701         2  <list[1]>
-#> 3: f7568cfa-98b6-474b-b43c-49a8bd04c701         3  <list[1]>
+#> 1: daa15a43-e6d7-4528-af43-bc45c94b6c05         1  <list[1]>
+#> 2: daa15a43-e6d7-4528-af43-bc45c94b6c05         2  <list[1]>
+#> 3: daa15a43-e6d7-4528-af43-bc45c94b6c05         3  <list[1]>
 ```

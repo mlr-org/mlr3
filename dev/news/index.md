@@ -45,7 +45,7 @@ CRAN release: 2025-12-03
 - perf: Use [`attr()`](https://rdrr.io/r/base/attr.html) instead of
   [`attributes()`](https://rdrr.io/r/base/attributes.html) for
   extracting single attributes.
-- test: Use more specialised test functions.
+- test: Use more specialized test functions.
 - fix: `weights_measure` now work with `stratum`.
 - fix: Encapsulation loads loaded packages on the workers.
 - fix: Learners can handle new factor levels.

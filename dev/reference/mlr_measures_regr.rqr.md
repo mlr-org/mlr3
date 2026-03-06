@@ -6,7 +6,7 @@ regression tasks.
 ## Details
 
 \\R^1(\alpha)\\ is defined as \$\$ 1 - \frac{\sum\_{i=1}^n \rho\_\alpha
-\left( t_i - r_i(\alpha) \right)}{\sum\_{i=1}^n \rho\_\alpha \left(
+\left( t_i - r_i(\alpha) \right)}{ \sum\_{i=1}^n \rho\_\alpha \left(
 t_i - q\_{\alpha} \right)}, \$\$ where for a quantile \\\alpha\\,
 \\\rho\_\alpha\\ is the pinball function, \\r_i(\alpha)\\ are the
 predictions for the quantile and \\q\_{\alpha}\\ is the empirical

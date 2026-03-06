@@ -9,7 +9,8 @@
 These functions are not contained in the mlr3 namespaces and are instead located in the inst/testthat
 directory of the source package or the testthat directory of the installed package.
 These files can be sourced with the following line of code:
-lapply(list.files(system.file("testthat", package = "mlr3"), pattern = "^helper.*\\.[rR]", full.names = TRUE), source)
+lapply(list.files(system.file("testthat", package = "mlr3"),
+  pattern = "^helper.*\\.[rR]", full.names = TRUE), source)
 
 Other extension packages such as mlr3proba have similar files that can be sourced accordingly.
 This manual page documents the most important helper functions that are relevant when users implement their own
@@ -17,7 +18,8 @@ custom learners.'><meta property="og:description" content='The mlr3 package cont
 These functions are not contained in the mlr3 namespaces and are instead located in the inst/testthat
 directory of the source package or the testthat directory of the installed package.
 These files can be sourced with the following line of code:
-lapply(list.files(system.file("testthat", package = "mlr3"), pattern = "^helper.*\\.[rR]", full.names = TRUE), source)
+lapply(list.files(system.file("testthat", package = "mlr3"),
+  pattern = "^helper.*\\.[rR]", full.names = TRUE), source)
 
 Other extension packages such as mlr3proba have similar files that can be sourced accordingly.
 This manual page documents the most important helper functions that are relevant when users implement their own
@@ -69,7 +71,8 @@ custom learners.'><meta property="og:image" content="https://mlr3.mlr-org.com/lo
 These functions are not contained in the mlr3 namespaces and are instead located in the <code>inst/testthat</code>
 directory of the source package or the <code>testthat</code> directory of the installed package.</p>
 <p>These files can be sourced with the following line of code:</p>
-<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">lapply</span>(<span class="fu">list.files</span>(<span class="fu">system.file</span>(<span class="st">"testthat"</span>, <span class="at">package =</span> <span class="st">"mlr3"</span>), <span class="at">pattern =</span> <span class="st">"^helper.*</span><span class="sc">\\</span><span class="st">.[rR]"</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>), source)</span></code></pre><p></p></div>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">lapply</span>(<span class="fu">list.files</span>(<span class="fu">system.file</span>(<span class="st">"testthat"</span>, <span class="at">package =</span> <span class="st">"mlr3"</span>),</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>  <span class="at">pattern =</span> <span class="st">"^helper.*</span><span class="sc">\\</span><span class="st">.[rR]"</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>), source)</span></code></pre><p></p></div>
 <p>Other extension packages such as <code>mlr3proba</code> have similar files that can be sourced accordingly.</p>
 <p>This manual page documents the most important helper functions that are relevant when users implement their own
 custom learners.</p>
@@ -98,12 +101,13 @@ If for some reason, one or more such tests ought to be disabled, this argument t
 that disables all tasks whose id matches the regular expression.</p></li>
 <li><p><code>predict_types</code> (<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 The predict types of the learner to check.
-Defaults to all predict typpes of the learner.</p></li>
+Defaults to all predict types of the learner.</p></li>
 <li><p><code>check_replicable</code> (<code>logical(1)</code>)<br>
 Whether to check that running the learner twice with the same seed should result in identical predictions.
 Default is <code>TRUE</code>.</p></li>
 <li><p><code>configure_learner</code> (<code>function(learner, task)</code>)<br>
-Before running a <code>learner</code> on a <code>task</code>, this function allows to change its parameter values depending on the input task.</p></li>
+Before running a <code>learner</code> on a <code>task</code>, this function allows to change its parameter values
+depending on the input task.</p></li>
 </ul><p>To speed up test execution, start an encapsulation daemon in advance by calling
 <code>mirai::daemons(1, .compute = "mlr3_encapsulation")</code> in <code>tests/testthat/setup.R</code>.
 After the tests complete, stop them with
@@ -125,7 +129,8 @@ excluded because these are only present in either the "control" object or the
 actual top-level function call. Such exclusions should go into argument
 <code>exclude</code> with a comment for the reason of the exclusion. See examples for
 more information.</p>
-<p>For example usages you can look at the parameter tests in various mlr3 source repositories such as <a href="https://CRAN.R-project.org/package=mlr3learners" class="external-link"><span class="pkg">mlr3learners</span></a>.</p>
+<p>For example usages you can look at the parameter tests in various mlr3 source repositories
+such as <a href="https://CRAN.R-project.org/package=mlr3learners" class="external-link"><span class="pkg">mlr3learners</span></a>.</p>
 <p><strong>Parameters</strong>:</p><ul><li><p><code>learner</code> (<code>Learner</code>)<br>
 The learner whose parameter set is being checked.</p></li>
 <li><p><code>fun</code> (<code>function()</code> or list of <code>functions()</code>s)<br>

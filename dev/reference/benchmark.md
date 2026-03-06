@@ -245,12 +245,12 @@ bmr = benchmark(design)
 head(as.data.table(bmr))
 #>                                   uhash                   task
 #>                                  <char>                 <list>
-#> 1: 146e61ef-1930-48bd-9d40-34c964922af3 <TaskClassif:penguins>
-#> 2: 146e61ef-1930-48bd-9d40-34c964922af3 <TaskClassif:penguins>
-#> 3: 146e61ef-1930-48bd-9d40-34c964922af3 <TaskClassif:penguins>
-#> 4: 7903d57a-3661-4702-a287-e36994198466 <TaskClassif:penguins>
-#> 5: 7903d57a-3661-4702-a287-e36994198466 <TaskClassif:penguins>
-#> 6: 7903d57a-3661-4702-a287-e36994198466 <TaskClassif:penguins>
+#> 1: 823f9188-fa66-4833-9b31-3f3aa4e214ac <TaskClassif:penguins>
+#> 2: 823f9188-fa66-4833-9b31-3f3aa4e214ac <TaskClassif:penguins>
+#> 3: 823f9188-fa66-4833-9b31-3f3aa4e214ac <TaskClassif:penguins>
+#> 4: 52219a8b-cc96-4443-8449-19f48d04e01e <TaskClassif:penguins>
+#> 5: 52219a8b-cc96-4443-8449-19f48d04e01e <TaskClassif:penguins>
+#> 6: 52219a8b-cc96-4443-8449-19f48d04e01e <TaskClassif:penguins>
 #>                                            learner     resampling iteration
 #>                                             <list>         <list>     <int>
 #> 1: <LearnerClassifFeatureless:classif.featureless> <ResamplingCV>         1
@@ -273,10 +273,10 @@ aggr = bmr$aggregate()
 print(aggr)
 #>       nr  task_id          learner_id resampling_id iters classif.ce
 #>    <int>   <char>              <char>        <char> <int>      <num>
-#> 1:     1 penguins classif.featureless            cv     3  0.5580219
-#> 2:     2 penguins       classif.rpart            cv     3  0.0756420
-#> 3:     3    sonar classif.featureless            cv     3  0.4661146
-#> 4:     4    sonar       classif.rpart            cv     3  0.2836439
+#> 1:     1 penguins classif.featureless            cv     3 0.55799644
+#> 2:     2 penguins       classif.rpart            cv     3 0.05812357
+#> 3:     3    sonar classif.featureless            cv     3 0.46583851
+#> 4:     4    sonar       classif.rpart            cv     3 0.32201518
 #> Hidden columns: resample_result
 
 ## Extract predictions of first resampling result
@@ -285,16 +285,16 @@ as.data.table(rr$prediction())
 #>      row_ids     truth response
 #>        <int>    <fctr>   <fctr>
 #>   1:       1    Adelie   Adelie
-#>   2:       3    Adelie   Adelie
-#>   3:       4    Adelie   Adelie
-#>   4:       9    Adelie   Adelie
-#>   5:      11    Adelie   Adelie
+#>   2:      10    Adelie   Adelie
+#>   3:      12    Adelie   Adelie
+#>   4:      13    Adelie   Adelie
+#>   5:      15    Adelie   Adelie
 #>  ---                           
-#> 340:     326 Chinstrap   Adelie
-#> 341:     327 Chinstrap   Adelie
-#> 342:     329 Chinstrap   Adelie
-#> 343:     338 Chinstrap   Adelie
-#> 344:     342 Chinstrap   Adelie
+#> 340:     324 Chinstrap   Adelie
+#> 341:     328 Chinstrap   Adelie
+#> 342:     333 Chinstrap   Adelie
+#> 343:     343 Chinstrap   Adelie
+#> 344:     344 Chinstrap   Adelie
 
 # Benchmarking with a custom design:
 # - fit classif.featureless on penguins with a 3-fold CV

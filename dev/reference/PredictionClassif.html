@@ -90,7 +90,8 @@ Note that it is possible that either none or multiple ratios are greater than 1 
 Anyway, the class label with maximum ratio is selected.
 In case of ties in the ratio, one of the tied class labels is selected randomly.</p>
 <p>Note that there are the following edge cases for threshold equal to <code>0</code> which are handled specially:</p><ol><li><p>With threshold 0 the resulting ratio gets <code>Inf</code> and thus gets always selected.
-If there are multiple ratios with value <code>Inf</code>, one is selected according to <code>ties_method</code> (randomly per default).</p></li>
+If there are multiple ratios with value <code>Inf</code>, one is selected according to <code>ties_method</code>
+(randomly per default).</p></li>
 <li><p>If additionally the predicted probability is also 0, the ratio <code>0/0</code> results in <code>NaN</code> values.
 These are simply replaced by <code>0</code> and thus will never get selected.</p></li>
 </ol></li>

@@ -226,13 +226,15 @@ The referenced help package can be opened via method <code>$help()</code>.</p></
 </div><p></p><hr><a id="method-LearnerClassif-predict_newdata_fast"></a><div class="section">
 <h3 id="method-predict-newdata-fast-">Method <code>predict_newdata_fast()</code><a class="anchor" aria-label="anchor" href="#method-predict-newdata-fast-"></a></h3>
 <p>Predicts outcomes for new data in <code>newdata</code> using the model fitted during <code>$train()</code>.
-This method is faster than <code>$predict_newdata()</code> as it skips assertions, type conversions, encapsulation, and logging.</p>
+This method is faster than <code>$predict_newdata()</code> as it skips assertions,
+type conversions, encapsulation, and logging.</p>
 <p>Unlike <code>$predict_newdata()</code>, this method does not return a <a href="Prediction.html">Prediction</a> object.
 Instead, it returns a list with either a <code>"response"</code> or <code>"prob"</code> element, depending on the prediction type.</p>
 <p>Note that <code>state$predict_time</code> and <code>state$log</code> will remain empty after using this method.
 Some learners may not support this method and may fail when it is called.
 Prefer <code>$predict_newdata()</code> unless performance is critical.</p>
-<p>If the model was trained via <code><a href="resample.html">resample()</a></code> or <code><a href="benchmark.html">benchmark()</a></code>, you must pass the associated task object stored in the corresponding <a href="ResampleResult.html">ResampleResult</a> or <a href="BenchmarkResult.html">BenchmarkResult</a>.</p><div class="section">
+<p>If the model was trained via <code><a href="resample.html">resample()</a></code> or <code><a href="benchmark.html">benchmark()</a></code>,
+you must pass the associated task object stored in the corresponding <a href="ResampleResult.html">ResampleResult</a> or <a href="BenchmarkResult.html">BenchmarkResult</a>.</p><div class="section">
 <h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">LearnerClassif</span><span class="op">$</span><span class="fu">predict_newdata_fast</span><span class="op">(</span><span class="va">newdata</span>, task <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>

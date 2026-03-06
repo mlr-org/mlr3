@@ -469,7 +469,7 @@ or [MeasureRegr](https://mlr3.mlr-org.com/dev/reference/MeasureRegr.md).
   - `"weights"` (support weighted scoring using sample weights from
     task, column role `weights_measure`), and
 
-  - `"primary_iters"` (the measure explictly handles resamplings that
+  - `"primary_iters"` (the measure explicitly handles resamplings that
     only use a subset of their iterations for the point estimate)
 
   - `"requires_no_prediction"` (No prediction is required; This usually
@@ -736,7 +736,7 @@ learner = lrn("classif.rpart")
 rr = resample(task, learner, rsmp("holdout"))
 msr("classif.ce")$aggregate(rr)
 #> classif.ce 
-#> 0.03478261 
+#> 0.05217391 
 
 ## ------------------------------------------------
 ## Method `Measure$obs_loss`

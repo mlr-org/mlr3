@@ -24,7 +24,9 @@ predict_missing:
 Ratio of predictions which will be NA.
 
 predict_missing_type:
-How to encode missingness. &amp;#8220;na&amp;#8221; will insert NA values, &amp;#8220;omit&amp;#8221; will just return fewer predictions than requested.
+How to encode missingness.
+&amp;#8220;na&amp;#8221; will insert NA values,
+&amp;#8220;omit&amp;#8221; will just return fewer predictions than requested.
 
 save_tasks:
 Saves input task in model slot during training and prediction.
@@ -36,10 +38,12 @@ segfault_train:
 Probability to provokes a segfault during train.
 
 sleep_train:
-Function returning a single number determining how many seconds to sleep during $train().
+Function returning a single number determining how many seconds
+to sleep during $train().
 
 sleep_predict:
-Function returning a single number determining how many seconds to sleep during $predict().
+Function returning a single number determining how many seconds
+to sleep during $predict().
 
 threads:
 Number of threads to use. Has no effect.
@@ -57,10 +61,12 @@ iter:
 Integer parameter for testing hotstarting.
 
 count_marshaling:
-If TRUE, marshal_model will increase the marshal_count by 1 each time it is called. The default is FALSE.
+If TRUE, marshal_model will increase the marshal_count
+by 1 each time it is called. The default is FALSE.
 
 check_pid:
-If TRUE, the $predict() function will throw an error if the model was not unmarshaled in the same session that is used for prediction.)
+If TRUE, the $predict() function will throw an error if the model
+was not unmarshaled in the same session that is used for prediction.)
 
 
 Note that segfaults may not be triggered reliably on your operating system.
@@ -83,7 +89,9 @@ predict_missing:
 Ratio of predictions which will be NA.
 
 predict_missing_type:
-How to encode missingness. &amp;#8220;na&amp;#8221; will insert NA values, &amp;#8220;omit&amp;#8221; will just return fewer predictions than requested.
+How to encode missingness.
+&amp;#8220;na&amp;#8221; will insert NA values,
+&amp;#8220;omit&amp;#8221; will just return fewer predictions than requested.
 
 save_tasks:
 Saves input task in model slot during training and prediction.
@@ -95,10 +103,12 @@ segfault_train:
 Probability to provokes a segfault during train.
 
 sleep_train:
-Function returning a single number determining how many seconds to sleep during $train().
+Function returning a single number determining how many seconds
+to sleep during $train().
 
 sleep_predict:
-Function returning a single number determining how many seconds to sleep during $predict().
+Function returning a single number determining how many seconds
+to sleep during $predict().
 
 threads:
 Number of threads to use. Has no effect.
@@ -116,10 +126,12 @@ iter:
 Integer parameter for testing hotstarting.
 
 count_marshaling:
-If TRUE, marshal_model will increase the marshal_count by 1 each time it is called. The default is FALSE.
+If TRUE, marshal_model will increase the marshal_count
+by 1 each time it is called. The default is FALSE.
 
 check_pid:
-If TRUE, the $predict() function will throw an error if the model was not unmarshaled in the same session that is used for prediction.)
+If TRUE, the $predict() function will throw an error if the model
+was not unmarshaled in the same session that is used for prediction.)
 
 
 Note that segfaults may not be triggered reliably on your operating system.
@@ -185,7 +197,9 @@ The following hyperparameters trigger the following actions:</p><dl><dt>error_pr
 <dd><p>Ratio of predictions which will be NA.</p></dd>
 
 <dt>predict_missing_type:</dt>
-<dd><p>How to encode missingness. “na” will insert NA values, “omit” will just return fewer predictions than requested.</p></dd>
+<dd><p>How to encode missingness.
+“na” will insert NA values,
+“omit” will just return fewer predictions than requested.</p></dd>
 
 <dt>save_tasks:</dt>
 <dd><p>Saves input task in <code>model</code> slot during training and prediction.</p></dd>
@@ -197,10 +211,12 @@ The following hyperparameters trigger the following actions:</p><dl><dt>error_pr
 <dd><p>Probability to provokes a segfault during train.</p></dd>
 
 <dt>sleep_train:</dt>
-<dd><p>Function returning a single number determining how many seconds to sleep during <code>$train()</code>.</p></dd>
+<dd><p>Function returning a single number determining how many seconds
+to sleep during <code>$train()</code>.</p></dd>
 
 <dt>sleep_predict:</dt>
-<dd><p>Function returning a single number determining how many seconds to sleep during <code>$predict()</code>.</p></dd>
+<dd><p>Function returning a single number determining how many seconds
+to sleep during <code>$predict()</code>.</p></dd>
 
 <dt>threads:</dt>
 <dd><p>Number of threads to use. Has no effect.</p></dd>
@@ -218,10 +234,12 @@ The following hyperparameters trigger the following actions:</p><dl><dt>error_pr
 <dd><p>Integer parameter for testing hotstarting.</p></dd>
 
 <dt>count_marshaling:</dt>
-<dd><p>If <code>TRUE</code>, <code>marshal_model</code> will increase the <code>marshal_count</code> by 1 each time it is called. The default is <code>FALSE</code>.</p></dd>
+<dd><p>If <code>TRUE</code>, <code>marshal_model</code> will increase the <code>marshal_count</code>
+by 1 each time it is called. The default is <code>FALSE</code>.</p></dd>
 
 <dt>check_pid:</dt>
-<dd><p>If <code>TRUE</code>, the <code>$predict()</code> function will throw an error if the model was not unmarshaled in the same session that is used for prediction.)</p></dd>
+<dd><p>If <code>TRUE</code>, the <code>$predict()</code> function will throw an error if the model
+was not unmarshaled in the same session that is used for prediction.)</p></dd>
 
 
 </dl><p>Note that segfaults may not be triggered reliably on your operating system.

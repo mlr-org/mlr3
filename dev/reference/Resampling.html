@@ -86,13 +86,17 @@ the seed before calling it.</p>
 
 
 <p>All derived classes support stratified sampling.
-The stratification variables are assumed to be discrete and must be stored in the <a href="Task.html">Task</a> with column role <code>"stratum"</code>.
-In case of multiple stratification variables, each combination of the values of the stratification variables forms a strata.</p>
-<p>First, the observations are divided into subpopulations based one or multiple stratification variables (assumed to be discrete), c.f. <code>task$strata</code>.</p>
+The stratification variables are assumed to be discrete and must be stored in the <a href="Task.html">Task</a>
+with column role <code>"stratum"</code>.
+In case of multiple stratification variables,
+each combination of the values of the stratification variables forms a strata.</p>
+<p>First, the observations are divided into subpopulations based one or multiple stratification
+variables (assumed to be discrete), c.f. <code>task$strata</code>.</p>
 <p>Second, the sampling is performed in each of the <code>k</code> subpopulations separately.
 Each subgroup is divided into <code>iter</code> training sets and <code>iter</code> test sets by the derived <code>Resampling</code>.
 These sets are merged based on their iteration number:
-all training sets from all subpopulations with iteration 1 are combined, then all training sets with iteration 2, and so on.
+all training sets from all subpopulations with iteration 1 are combined,
+then all training sets with iteration 2, and so on.
 Same is done for all test sets.
 The merged sets can be accessed via <code>$train_set(i)</code> and <code>$test_set(i)</code>, respectively.
 Note that this procedure can lead to set sizes that are slightly different from those
@@ -114,7 +118,8 @@ The sets can be accessed via <code>$train_set(i)</code> and <code>$test_set(i)</
     <h2 id="inheriting">Inheriting<a class="anchor" aria-label="anchor" href="#inheriting"></a></h2>
 
 
-<p>It is possible to overwrite both <code>private$.get_instance()</code> to have full control, or only <code>private$.sample()</code> when one wants to use the pre-defined mechanism for stratification and grouping.</p>
+<p>It is possible to overwrite both <code>private$.get_instance()</code> to have full control,
+or only <code>private$.sample()</code> when one wants to use the pre-defined mechanism for stratification and grouping.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -448,32 +453,32 @@ Iteration.</p></dd>
 <span class="r-in"><span><span class="co"># Extract train/test sets</span></span></span>
 <span class="r-in"><span><span class="va">train_set</span> <span class="op">=</span> <span class="va">r</span><span class="op">$</span><span class="fu">train_set</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">train_set</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 172   7 234 231  93  74 328  46  32  85  95 186 147 341  73 136  98 218  41</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [20]  42 295 279 155 260 290  47 192 199 145 127 223 228 166  60</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 339  58 251 232  16 266 315 319 148  18  38 231 287 290 117  76  28 178 156</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [20] 172   7 234 333  93  74  46  32  85  95 186 147 322  73 136</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/sets.html" class="external-link">intersect</a></span><span class="op">(</span><span class="va">train_set</span>, <span class="va">r</span><span class="op">$</span><span class="fu">test_set</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> integer(0)</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Another example: 10-fold CV</span></span></span>
 <span class="r-in"><span><span class="va">r</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">rsmp</a></span><span class="op">(</span><span class="st">"cv"</span><span class="op">)</span><span class="op">$</span><span class="fu">instantiate</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">r</span><span class="op">$</span><span class="fu">train_set</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   [1]  16  25  34  37  39  61  64  65  68  96  97 104 108 120 132 136 156 162</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [19] 173 175 182 184 221 223 227 230 245 268 272 309 313 317 324 331 333   6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [37]  12  22  50  53  60  76  78 110 118 130 138 158 178 187 190 196 198 199</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [55] 202 203 228 231 232 242 244 261 279 289 302 308 310 322 330 334   1   4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [73]   5   8  11  30  41  47  55  63  69  82  84  93  94  98 124 127 137 139</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [91] 145 189 234 238 275 291 297 301 304 315 323 327 337 340 342   2  14  28</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [109]  49  51  56  70  79  92  99 107 125 128 165 179 183 185 201 205 217 229</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [127] 235 240 250 253 255 256 259 263 285 326 328 332 339  10  15  33  38  42</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [145]  43  52  59  73  77  80  81  87  88  95 103 115 116 133 142 168 171 177</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [163] 207 209 210 248 251 282 287 300 305 307 318  20  23  36  83  91 105 122</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [181] 135 151 155 157 176 206 222 233 237 247 252 254 260 262 264 265 278 280</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [199] 286 294 295 296 298 299 303 335 344  17  21  26  31  46  48  58  66  71</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [217]  72 112 117 146 161 164 169 172 180 204 208 216 236 241 249 266 270 274</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [235] 276 283 292 311 320 321 336   9  13  32  40  67  86  89  90 102 106 109</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [253] 114 119 121 126 144 166 170 174 191 193 200 213 220 225 243 269 290 293</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [271] 314 316 319 338 343   3   7  18  19  24  29  44  57  62  75  85 100 101</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [289] 111 129 134 141 143 147 149 163 195 211 215 218 226 239 257 258 267 271</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [307] 277 284 325</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [1]   6  12  41  50  53  58  76  79  80  81  83  87 107 120 121 128 134 143</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [19] 154 174 175 181 183 190 195 198 199 224 230 239 278 289 299 334 336   4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [37]  10  31  38  54  66  69  75  82  89  92  94 100 126 141 152 153 157 177</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [55] 187 202 209 229 233 238 245 281 290 291 300 301 332 335 339 343  15  16</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [73]  21  24  25  27  30  46  57  63  78  98  99 108 117 118 122 144 149 156</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [91] 158 164 204 225 247 257 258 264 277 287 305 312 315 337 340  14  20  22</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [109]  32  44  65  67  72  85 116 123 131 146 150 161 173 179 200 212 216 222</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [127] 242 267 269 272 275 280 282 283 294 295 306 307 310   1   2  29  49  59</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [145]  68  71  74  88  93  96  97 102 111 127 138 139 151 176 185 188 189 193</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [163] 196 218 226 231 236 265 285 288 293 330 331  13  18  19  36  39  52 101</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [181] 132 145 155 170 184 192 205 206 207 213 228 244 251 262 263 266 270 271</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [199] 292 297 298 303 304 317 322 324 325   3   5   7  33  37  42  47  62  64</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [217]  84  86 103 106 115 140 147 167 180 186 191 194 208 220 237 243 261 296</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [235] 302 320 326 328 329 338 344  28  48  55  56  95 109 113 114 130 133 136</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [253] 137 142 148 163 165 214 217 219 223 234 241 248 249 250 252 254 260 274</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [271] 309 316 323 333 342   8   9  23  26  34  35  40  45  60  73  77  90  91</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [289] 105 110 112 119 124 125 135 160 162 166 168 182 210 211 215 268 286 311</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [307] 313 319 327</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Stratification</span></span></span>
 <span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"pima"</span><span class="op">)</span></span></span>
@@ -507,17 +512,17 @@ Iteration.</p></dd>
 <span class="r-in"><span><span class="va">resampling</span><span class="op">$</span><span class="fu">train_set</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   [1]   2   5   6   7   8   9  10  11  12  13  14  16  17  18  19  20  21  23</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [19]  24  25  26  27  30  33  34  35  37  38  39  40  41  42  43  45  46  47</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [37]  49  50  52  53  54  55  56  57  58  59  63  64  65  66  67  68  69  70</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [55]  71  75  76  78  79  80  82  83  84  85  86  87  88  90  91  92  93  94</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [73]  95  96  97  98  99 100 101 102 103 109 111 112 115 116 118 120 123 124</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [91] 126 128 129 130 131 132 136 138 140 141 143 144 145 146 147 148 150 152</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [109] 153 156 157 158 159 160 161 163 164 165 166 167 170 175 176 178 179 180</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [127] 182 183 184 185 187 188 189 191 192 193 195 196 197 198 200 201 202 203</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [145] 206 207 208 209 210 211 212 214 216 218 219 221 223 224 227 228 229 230</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [163] 232 233 237 240 241 244 245 246 247 248 252 255 256 257 260 261 262 264</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [181] 265 267 268 269 270 271 274 277 278 279 281 282 284 285 286 290 292 293</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [199] 294 295 296 299 301 302 305 308 309 311 313 314 316 318 319 320 321 325</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [217] 327 329 330 332 333 335 336 337 338 339 340 341 344</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [37]  49  50  52  53  54  55  56  57  58  63  64  65  66  67  68  69  70  71</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [55]  72  75  76  78  79  80  83  84  85  86  87  88  90  92  93  94  95  96</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [73]  97  98  99 100 101 102 103 109 111 112 115 116 118 120 123 124 126 128</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [91] 129 130 131 132 136 138 139 140 141 143 144 146 147 148 152 156 157 158</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [109] 159 160 161 162 163 164 165 166 167 168 170 171 175 176 178 179 181 182</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [127] 183 184 187 188 189 192 193 195 197 198 199 200 202 203 205 207 208 209</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [145] 210 211 215 216 218 220 221 222 224 225 228 229 232 233 236 237 238 239</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [163] 244 245 246 247 248 250 251 253 254 256 257 258 259 261 262 263 265 267</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [181] 268 271 272 273 276 277 278 279 280 284 287 288 289 290 293 294 295 296</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [199] 297 299 302 303 304 305 307 308 312 313 315 320 321 323 325 327 328 329</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [217] 330 331 332 333 334 335 336 339 340 341 342 343 344</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
 <span class="r-in"><span><span class="co">## Method `Resampling$test_set`</span></span></span>
@@ -526,13 +531,13 @@ Iteration.</p></dd>
 <span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">tsk</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">resampling</span> <span class="op">=</span> <span class="fu"><a href="mlr_sugar.html">rsmp</a></span><span class="op">(</span><span class="st">"holdout"</span><span class="op">)</span><span class="op">$</span><span class="fu">instantiate</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">resampling</span><span class="op">$</span><span class="fu">test_set</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   [1]   2   3   7   8  10  12  13  16  18  22  25  26  31  40  46  47  49  50</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [19]  57  58  60  66  67  70  71  72  74  76  79  83  85  86  88  90  93  94</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [37]  95  99 104 106 109 110 111 112 116 121 122 133 146 149 151 155 157 158</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [55] 159 160 162 167 170 171 172 174 177 178 179 181 183 186 187 189 202 207</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [73] 210 213 214 217 218 221 224 225 226 231 237 246 251 252 255 258 259 263</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [91] 265 269 274 285 291 292 293 297 299 304 305 308 311 316 318 319 321 323</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [109] 329 333 334 337 339 340 344</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [1]   2   3   7   8  10  11  12  13  18  22  25  26  31  40  46  47  49  50</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [19]  57  58  66  67  70  71  72  74  76  79  83  85  86  88  90  93  94  95</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [37]  99 104 106 109 110 111 112 116 119 121 122 133 145 146 149 154 155 157</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [55] 158 159 160 162 166 167 170 171 172 174 177 179 181 183 184 188 195 204</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [73] 205 208 210 213 216 221 223 225 226 228 229 247 248 252 253 256 257 264</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [91] 283 287 288 292 293 295 300 301 304 307 312 313 314 315 316 320 325 329</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [109] 330 331 335 338 339 340 343</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

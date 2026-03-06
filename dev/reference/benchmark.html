@@ -5,9 +5,11 @@
       fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
     }
   };
-</script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.10/font.css" rel="stylesheet"><link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet"><link href="../deps/Roboto_Slab-0.4.10/font.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Benchmark Multiple Learners on Multiple Tasks — benchmark"><meta name="description" content="Runs a benchmark on arbitrary combinations of tasks (Task), learners (Learner), and resampling strategies (Resampling), possibly in parallel.
+</script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.10/font.css" rel="stylesheet"><link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet"><link href="../deps/Roboto_Slab-0.4.10/font.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Benchmark Multiple Learners on Multiple Tasks — benchmark"><meta name="description" content="Runs a benchmark on arbitrary combinations of tasks (Task), learners (Learner),
+and resampling strategies (Resampling), possibly in parallel.
 For large-scale benchmarking we recommend to use the mlr3batchmark package.
-This package runs benchmark experiments on high-performance computing clusters and handles failed experiments."><meta property="og:description" content="Runs a benchmark on arbitrary combinations of tasks (Task), learners (Learner), and resampling strategies (Resampling), possibly in parallel.
+This package runs benchmark experiments on high-performance computing clusters and handles failed experiments."><meta property="og:description" content="Runs a benchmark on arbitrary combinations of tasks (Task), learners (Learner),
+and resampling strategies (Resampling), possibly in parallel.
 For large-scale benchmarking we recommend to use the mlr3batchmark package.
 This package runs benchmark experiments on high-performance computing clusters and handles failed experiments."><meta property="og:image" content="https://mlr3.mlr-org.com/logo.svg"><meta name="robots" content="noindex"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -53,7 +55,8 @@ This package runs benchmark experiments on high-performance computing clusters a
     </div>
 
     <div class="ref-description section level2">
-    <p>Runs a benchmark on arbitrary combinations of tasks (<a href="Task.html">Task</a>), learners (<a href="Learner.html">Learner</a>), and resampling strategies (<a href="Resampling.html">Resampling</a>), possibly in parallel.</p>
+    <p>Runs a benchmark on arbitrary combinations of tasks (<a href="Task.html">Task</a>), learners (<a href="Learner.html">Learner</a>),
+and resampling strategies (<a href="Resampling.html">Resampling</a>), possibly in parallel.</p>
 <p>For large-scale benchmarking we recommend to use the <a href="https://CRAN.R-project.org/package=mlr3batchmark" class="external-link"><span class="pkg">mlr3batchmark</span></a> package.
 This package runs benchmark experiments on high-performance computing clusters and handles failed experiments.</p>
     </div>
@@ -251,12 +254,12 @@ or <code>"trace"</code>:</p>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/data.table/man/as.data.table.html" class="external-link">as.data.table</a></span><span class="op">(</span><span class="va">bmr</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                   uhash                   task</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                  &lt;char&gt;                 &lt;list&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 146e61ef-1930-48bd-9d40-34c964922af3 &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 146e61ef-1930-48bd-9d40-34c964922af3 &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 146e61ef-1930-48bd-9d40-34c964922af3 &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4: 7903d57a-3661-4702-a287-e36994198466 &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5: 7903d57a-3661-4702-a287-e36994198466 &lt;TaskClassif:penguins&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6: 7903d57a-3661-4702-a287-e36994198466 &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 823f9188-fa66-4833-9b31-3f3aa4e214ac &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 823f9188-fa66-4833-9b31-3f3aa4e214ac &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 823f9188-fa66-4833-9b31-3f3aa4e214ac &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4: 52219a8b-cc96-4443-8449-19f48d04e01e &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5: 52219a8b-cc96-4443-8449-19f48d04e01e &lt;TaskClassif:penguins&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6: 52219a8b-cc96-4443-8449-19f48d04e01e &lt;TaskClassif:penguins&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                            learner     resampling iteration</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                             &lt;list&gt;         &lt;list&gt;     &lt;int&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: &lt;LearnerClassifFeatureless:classif.featureless&gt; &lt;ResamplingCV&gt;         1</span>
@@ -279,10 +282,10 @@ or <code>"trace"</code>:</p>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">aggr</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       nr  task_id          learner_id resampling_id iters classif.ce</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    &lt;int&gt;   &lt;char&gt;              &lt;char&gt;        &lt;char&gt; &lt;int&gt;      &lt;num&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1:     1 penguins classif.featureless            cv     3  0.5580219</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2:     2 penguins       classif.rpart            cv     3  0.0756420</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3:     3    sonar classif.featureless            cv     3  0.4661146</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4:     4    sonar       classif.rpart            cv     3  0.2836439</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:     1 penguins classif.featureless            cv     3 0.55799644</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:     2 penguins       classif.rpart            cv     3 0.05812357</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:     3    sonar classif.featureless            cv     3 0.46583851</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:     4    sonar       classif.rpart            cv     3 0.32201518</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Hidden columns: resample_result</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Extract predictions of first resampling result</span></span></span>
@@ -291,16 +294,16 @@ or <code>"trace"</code>:</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      row_ids     truth response</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        &lt;int&gt;    &lt;fctr&gt;   &lt;fctr&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   1:       1    Adelie   Adelie</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   2:       3    Adelie   Adelie</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   3:       4    Adelie   Adelie</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   4:       9    Adelie   Adelie</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   5:      11    Adelie   Adelie</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   2:      10    Adelie   Adelie</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   3:      12    Adelie   Adelie</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   4:      13    Adelie   Adelie</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   5:      15    Adelie   Adelie</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  ---                           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 340:     326 Chinstrap   Adelie</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 341:     327 Chinstrap   Adelie</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 342:     329 Chinstrap   Adelie</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 343:     338 Chinstrap   Adelie</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 344:     342 Chinstrap   Adelie</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 340:     324 Chinstrap   Adelie</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 341:     328 Chinstrap   Adelie</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 342:     333 Chinstrap   Adelie</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 343:     343 Chinstrap   Adelie</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 344:     344 Chinstrap   Adelie</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Benchmarking with a custom design:</span></span></span>
 <span class="r-in"><span><span class="co"># - fit classif.featureless on penguins with a 3-fold CV</span></span></span>
