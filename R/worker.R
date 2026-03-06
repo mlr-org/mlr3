@@ -412,9 +412,9 @@ workhorse = function(
   if (!is.null(pb)) {
     pb(sprintf("%s|%s|i:%i", task$id, learner$id, iteration))
   }
+  # fmt: skip
   if (
-    "internal_valid" %chin%
-      learner$predict_sets &&
+    "internal_valid" %chin% learner$predict_sets &&
       is.null(task$internal_valid_task) &&
       is.null(get0("validate", learner))
   ) {
