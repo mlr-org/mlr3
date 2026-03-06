@@ -59,9 +59,12 @@ test_that("setting threshold multiclass", {
   prob_before = p$prob
   response_before = p$response
 
-  expect_error({
-    p$set_threshold(c(0.5, 0.5))
-  }, "length") # check for correct length(threshold) = nclass
+  expect_error(
+    {
+      p$set_threshold(c(0.5, 0.5))
+    },
+    "length"
+  ) # check for correct length(threshold) = nclass
 
   x = p$set_threshold(set_names(c(1, 1, 1, 1, 1, 1, 1), task$class_names))
   expect_factor(x$response, levels = task$class_names, any.missing = FALSE)
@@ -109,7 +112,7 @@ test_that("confusion", {
   expect_matrix(cm, nrows = 3, ncols = 3, any.missing = FALSE)
   expect_equal(colnames(p$confusion), task$class_names)
   expect_equal(rownames(p$confusion), task$class_names)
-  expect_names(names(dimnames(cm)), identical.to =  c("response", "truth"))
+  expect_names(names(dimnames(cm)), identical.to = c("response", "truth"))
 })
 
 test_that("c", {
@@ -188,11 +191,15 @@ test_that("predictions with weights", {
 
   expect_equal(c(pred_with_weights, pred_with_weights)$weights, rep(c(1, 10, 100, 1, 10, 100), each = 50))
 
-  expect_equal(c(pred_with_weights$clone(deep = TRUE)$filter(1:10), pred_with_weights)$weights, rep(c(1, 10, 100, 1, 10, 100), each = 50)[c(1:10, 151:300)])
+  expect_equal(
+    c(pred_with_weights$clone(deep = TRUE)$filter(1:10), pred_with_weights)$weights,
+    rep(c(1, 10, 100, 1, 10, 100), each = 50)[c(1:10, 151:300)]
+  )
 })
 
 test_that("extra data is stored", {
-  LearnerExtra = R6Class("LearnerExtra",
+  LearnerExtra = R6Class(
+    "LearnerExtra",
     inherit = LearnerClassifDebug,
     private = list(
       .predict = function(task, ...) {
@@ -210,7 +217,8 @@ test_that("extra data is stored", {
   expect_equal(pred$extra[[1]], replicate(length(pred$response), "bar"))
   expect_prediction(pred)
 
-  LearnerExtra = R6Class("LearnerExtra",
+  LearnerExtra = R6Class(
+    "LearnerExtra",
     inherit = LearnerClassifDebug,
     private = list(
       .predict = function(task, ...) {
@@ -263,7 +271,8 @@ test_that("raw data is combined into list", {
 })
 
 test_that("raw data via learner predict", {
-  LearnerRaw = R6Class("LearnerRaw",
+  LearnerRaw = R6Class(
+    "LearnerRaw",
     inherit = LearnerClassifDebug,
     private = list(
       .predict = function(task, ...) {

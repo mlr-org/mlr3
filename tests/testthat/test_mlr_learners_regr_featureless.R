@@ -16,10 +16,7 @@ test_that("regr.featureless works on featureless task", {
 test_that("regr.featureless quantile prediction works", {
   task = tsk("mtcars")
 
-  learner = lrn("regr.featureless",
-    predict_type = "quantiles",
-    quantiles = c(0.1, 0.5, 0.9),
-    quantile_response = 0.5)
+  learner = lrn("regr.featureless", predict_type = "quantiles", quantiles = c(0.1, 0.5, 0.9), quantile_response = 0.5)
 
   learner$train(task)
   expect_numeric(learner$model$quantiles, len = 3L)
@@ -74,7 +71,8 @@ test_that("weights are respected", {
 
   # Calculate expected weighted median and mad manually
   expected_median = quantile_weighted(dt$dist, probs = 0.5, weights = w, continuous = FALSE)
-  expected_mad = quantile_weighted(abs(dt$dist - expected_median), probs = 0.5, weights = w, continuous = FALSE) * 1.4826
+  expected_mad = quantile_weighted(abs(dt$dist - expected_median), probs = 0.5, weights = w, continuous = FALSE) *
+    1.4826
 
   # Check model components
   expect_equal(learner$model$location, expected_median)
@@ -91,15 +89,27 @@ test_that("weights are respected", {
 
 
 test_that("weighted quantile helper function", {
-  wq = quantile_weighted(c(0, 1), weights = c(1, 2), probs = c(-.Machine$double.eps, 0, 1 / 6, 1 / 3, 0.5, 1, 1 + .Machine$double.eps))
+  wq = quantile_weighted(
+    c(0, 1),
+    weights = c(1, 2),
+    probs = c(-.Machine$double.eps, 0, 1 / 6, 1 / 3, 0.5, 1, 1 + .Machine$double.eps)
+  )
 
   expect_equal(unname(wq), c(0, 0, 1 / 3, 2 / 3, 3 / 4, 1, 1))
 
-  wqdisc = quantile_weighted(c(0, 1), weights = c(1, 2), probs = c(-.Machine$double.eps, 0, 1 / 6, 1 / 3, 0.5, 1, 1 + .Machine$double.eps), continuous = FALSE)
+  wqdisc = quantile_weighted(
+    c(0, 1),
+    weights = c(1, 2),
+    probs = c(-.Machine$double.eps, 0, 1 / 6, 1 / 3, 0.5, 1, 1 + .Machine$double.eps),
+    continuous = FALSE
+  )
   expect_equal(unname(wqdisc), c(0, 0, 0, 2 / 3, 1, 1, 1))
 
   expect_equal(unname(quantile_weighted(c(3, 4, 1, 2), weights = c(1, 1, 1, 1), probs = 0.5, continuous = FALSE)), 2.5)
   expect_equal(unname(quantile_weighted(c(3, 4, 1, 2), weights = c(1, 1, 1, 2), probs = 0.5, continuous = FALSE)), 2)
   expect_equal(unname(quantile_weighted(c(3, 4, 1, 2), weights = c(2, 1, 1, 2), probs = 0.5, continuous = FALSE)), 2.5)
-  expect_equal(unname(quantile_weighted(c(3, 4, 1, 2), weights = c(1, 2, 1, 2), probs = 0.5, continuous = FALSE)), 2 + 1 / 3)
+  expect_equal(
+    unname(quantile_weighted(c(3, 4, 1, 2), weights = c(1, 2, 1, 2), probs = 0.5, continuous = FALSE)),
+    2 + 1 / 3
+  )
 })

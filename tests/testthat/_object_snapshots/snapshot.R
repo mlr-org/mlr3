@@ -30,4 +30,3 @@ saveRDS(bmr, "tests/testthat/_object_snapshots/bmr.rds")
 
 measure = msr("classif.ce") # mlr3 1.0.0
 saveRDS(measure, "tests/testthat/_object_snapshots/measure.rds")
-

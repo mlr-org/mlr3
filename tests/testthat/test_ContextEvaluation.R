@@ -11,7 +11,22 @@ test_that("ContextResample works", {
   expect_resampling(ctx$resampling)
   expect_equal(ctx$iteration, iteration)
 
-  expect_error({ctx$task = tsk("spam")}, "read-only")
-  expect_error({ctx$resampling = rsmp("cv", folds = 5)}, "read-only")
-  expect_error({ctx$iteration = 2}, "read-only")
+  expect_error(
+    {
+      ctx$task = tsk("spam")
+    },
+    "read-only"
+  )
+  expect_error(
+    {
+      ctx$resampling = rsmp("cv", folds = 5)
+    },
+    "read-only"
+  )
+  expect_error(
+    {
+      ctx$iteration = 2
+    },
+    "read-only"
+  )
 })

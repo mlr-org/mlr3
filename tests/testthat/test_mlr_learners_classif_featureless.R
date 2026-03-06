@@ -29,7 +29,6 @@ test_that("Predict with prob", {
   expect_matrix(p$prob, nrows = task$nrow, ncols = 3L)
   expect_names(colnames(p$prob), permutation.of = levels(task$truth()))
 
-
   p = lrn("classif.featureless", predict_type = "prob", method = "sample")$train(task)$predict(task)
   expect_number(unique(as.numeric(p$prob)), lower = 0.33, upper = 0.34)
 
@@ -83,5 +82,4 @@ test_that("weights are respected", {
   expected_probs_mode = c(setosa = 100 / (100 + 1 + 1), versicolor = 1 / (100 + 1 + 1), virginica = 1 / (100 + 1 + 1))
   # Rounding necessary due to potential floating point inaccuracies
   expect_equal(round(p_prob_mode$prob[1, ], 4), round(expected_probs_mode, 4))
-
 })

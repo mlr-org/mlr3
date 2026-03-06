@@ -1,6 +1,10 @@
 test_that("log to text file", {
   # See #566
-  console_appender = if (packageVersion("lgr") >= "0.4.0") lg$inherited_appenders$console else lg$inherited_appenders$appenders.console
+  console_appender = if (packageVersion("lgr") >= "0.4.0") {
+    lg$inherited_appenders$console
+  } else {
+    lg$inherited_appenders$appenders.console
+  }
   f = tempfile("mlr3test_", fileext = "log")
   th1 = console_appender$threshold
 
@@ -57,7 +61,6 @@ test_that("logger works", {
 })
 
 test_that("thresholds are restored on workers", {
-
   on.exit({
     lgr::get_logger("mlr3")$set_threshold(0L)
     lgr::get_logger("mlr3/core")$set_threshold(0L)
@@ -97,4 +100,3 @@ test_that("thresholds are restored on workers", {
   }))
   expect_equal(res, "")
 })
-

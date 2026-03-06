@@ -127,13 +127,19 @@ test_that("offset column role works with binary tasks", {
   expect_data_table(task$offset, nrows = task$nrow, ncols = 2)
   expect_subset(c("row_id", "offset"), names(task$offset))
 
-  expect_error({
-     task$col_roles$offset = c("glucose", "diabetes")
-  }, "There may only be up to one column with role")
+  expect_error(
+    {
+      task$col_roles$offset = c("glucose", "diabetes")
+    },
+    "There may only be up to one column with role"
+  )
 
-  expect_error({
-    task$col_roles$offset = c("glucose")
-  }, "contain missing values")
+  expect_error(
+    {
+      task$col_roles$offset = c("glucose")
+    },
+    "contain missing values"
+  )
 
   expect_warning(lrn("classif.rpart")$train(task), "has offset")
 })
@@ -146,15 +152,21 @@ test_that("offset column role works with multiclass tasks", {
   expect_data_table(task$offset, nrows = task$nrow, ncols = 2)
   expect_subset(c("row_id", "offset"), names(task$offset))
 
-  expect_error({
-    task$col_roles$offset = "bill_length"
-  }, "contain missing values")
+  expect_error(
+    {
+      task$col_roles$offset = "bill_length"
+    },
+    "contain missing values"
+  )
 
   task = tsk("wine")
 
-  expect_error({
-    task$col_roles$offset = c("alcohol", "ash")
-  }, "Must be a subset of")
+  expect_error(
+    {
+      task$col_roles$offset = c("alcohol", "ash")
+    },
+    "Must be a subset of"
+  )
 
   task = tsk("wine")
   data = task$data()

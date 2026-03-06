@@ -71,7 +71,12 @@ test_that("multiclass with weights_measure", {
 
   # Ensure matrix dimensions and order match
   lvls = task$class_names
-  weighted_confusion_full = matrix(0, nrow = length(lvls), ncol = length(lvls), dimnames = list(response = lvls, truth = lvls))
+  weighted_confusion_full = matrix(
+    0,
+    nrow = length(lvls),
+    ncol = length(lvls),
+    dimnames = list(response = lvls, truth = lvls)
+  )
   weighted_confusion_full[rownames(weighted_confusion), colnames(weighted_confusion)] = weighted_confusion
 
   expected_cost = sum(weighted_confusion_full * costs)

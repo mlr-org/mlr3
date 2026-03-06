@@ -119,5 +119,3 @@ test_that("weights are respected", {
   expect_true(response_table["setosa"] > 90)
   expect_true(all(names(response_table) %in% task$class_names))
 })
-
-
