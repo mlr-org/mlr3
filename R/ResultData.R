@@ -144,7 +144,8 @@ ResultData = R6Class(
         with = FALSE
       ]
       tbl = tbl[!duplicated(get("uhash")), ]
-      # retrieve learner id, task id and resampling id from self$data$learners, self$data$tasks and self$data$resamplings
+      # retrieve learner id, task id and resampling id from self$data$learners, self$data$tasks
+      # and self$data$resamplings
       newtbl$learner_id = self$data$learners[list(tbl$learner_phash), ids(get("learner")), on = "learner_phash"]
       newtbl$task_id = self$data$tasks[list(tbl$task_hash), ids(get("task")), on = "task_hash"]
       newtbl$resampling_id = self$data$resamplings[
@@ -447,7 +448,8 @@ ResultData = R6Class(
     },
 
     #' @description
-    #' Sets the threshold for the response prediction of classification learners, given they have output a probability prediction.
+    #' Sets the threshold for the response prediction of classification learners,
+    #' given they have output a probability prediction.
     #' @template param_view
     #' @param threshold (`numeric(1)`)\cr
     #'   Threshold value.

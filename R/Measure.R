@@ -20,39 +20,50 @@
 #' e.g. [`classif.auc`][mlr_measures_classif.auc] or [`time_train`][mlr_measures_time_train].
 #' Many of the measures in \pkg{mlr3} are implemented in \CRANpkg{mlr3measures} as ordinary functions.
 #'
-#' A guide on how to extend \CRANpkg{mlr3} with custom measures can be found in the [mlr3book](https://mlr3book.mlr-org.com).
+#' A guide on how to extend \CRANpkg{mlr3} with custom measures can be found in the
+#' [mlr3book](https://mlr3book.mlr-org.com).
 #' @section Inheriting:
 #' For some measures (such as confidence intervals from `mlr3inferr`) it is necessary that a measure
 #' returns more than one value.
-#' In such cases it is necessary to overwrite the public methods `$aggregate()` and/or `$score()` to return a named `numeric()`
+#' In such cases it is necessary to overwrite the public methods `$aggregate()` and/or `$score()`
+#' to return a named `numeric()`
 #' where at least one of its names corresponds to the `id` of the measure itself.
 #'
 #' @section Weights:
 #'
 #' Many measures support observation weights, indicated by their property `"weights"`.
-#' The weights are stored in the [Task] where the column role `weights_measure` needs to be assigned to a single numeric column.
-#' The weights are automatically used if found in the task, this can be disabled by setting the field `use_weights` to `"ignore"`.
+#' The weights are stored in the [Task] where the column role `weights_measure` needs to be assigned
+#' to a single numeric column.
+#' The weights are automatically used if found in the task,
+#' this can be disabled by setting the field `use_weights` to `"ignore"`.
 #' See the description of `use_weights` for more information.
 #'
-#' If the measure is set-up to use weights but the task does not have a designated `weights_measure` column, an unweighted version is calculated instead.
+#' If the measure is set-up to use weights but the task does not have a designated `weights_measure` column,
+#' an unweighted version is calculated instead.
 #' The weights do not necessarily need to sum up to 1, they are normalized by the measure if necessary.
 #'
-#' Most measures are so-called decomposable loss functions where a point-wise loss is computed and then either mean-aggregated or summed
-#' over the test set.
-#' For measures that do mean-aggregation, weights are typically used to compute the weighted mean, which normalizes weights to sum to 1.
-#' Measures that use sum-aggregation do not normalize weights and instead multiply individual losses with the given weights.
+#' Most measures are so-called decomposable loss functions where a point-wise loss is computed
+#' and then either mean-aggregated or summed over the test set.
+#' For measures that do mean-aggregation, weights are typically used to compute the weighted mean,
+#' which normalizes weights to sum to 1.
+#' Measures that use sum-aggregation do not normalize weights and instead multiply individual losses
+#' with the given weights.
 #' See the documentation of specific measures for more details.
 #'
 #' @section Missing Values during Scoring:
 #'
-#' Many measurements cannot be calculated if the test set or predictions are unfortunate, for example because a denominator is 0.
+#' Many measurements cannot be calculated if the test set or predictions are unfortunate,
+#' for example because a denominator is 0.
 #' This typically occurs during (binary) classification if some entries of the confusion matrix are 0.
-#' For this reason, many measures which originate in \CRANpkg{mlr3measures} allow to change the default missing value (`NaN`) via the field `na_value`.
+#' For this reason, many measures which originate in \CRANpkg{mlr3measures} allow to change the
+#' default missing value (`NaN`) via the field `na_value`.
 #'
-#' If you encounter missing values in a compound object like a [ResampleResult] or [BenchmarkResult] during scoring or aggregating, simply
-#' removing iterations with missing values is statistically arguable (but technically possible by providing a custom aggregation function
-#' which handles missing values, e.g. `function(x) mean(x, na.rm = TRUE)`). Instead, consider stratification on the target of the [Task]
-#' to work around missing values. Switching to micro averaging in the [Resampling] can also be a solution here.
+#' If you encounter missing values in a compound object like a [ResampleResult] or [BenchmarkResult]
+#' during scoring or aggregating, simply removing iterations with missing values is statistically
+#' arguable (but technically possible by providing a custom aggregation function which handles
+#' missing values, e.g. `function(x) mean(x, na.rm = TRUE)`).
+#' Instead, consider stratification on the target of the [Task] to work around missing values.
+#' Switching to micro averaging in the [Resampling] can also be a solution here.
 #'
 #' @template param_id
 #' @template param_param_set
@@ -333,7 +344,8 @@ Measure = R6Class(
 
     #' @field hash (`character(1)`)\cr
     #' Hash (unique identifier) for this object.
-    #' The hash is calculated based on the id, the parameter settings, predict sets and the `$score`, `$average`, `$aggregator`, `$obs_loss`, `$trafo` method.
+    #' The hash is calculated based on the id, the parameter settings, predict sets and the `$score`,
+    #' `$average`, `$aggregator`, `$obs_loss`, `$trafo` method.
     #' Measure can define additional fields to be included in the hash by setting the field `$.extra_hash`.
     hash = function(rhs) {
       assert_ro_binding(rhs)
@@ -414,8 +426,10 @@ Measure = R6Class(
     #' For measures with the property `"weights"`, this is initialized as `"use"`.
     #' For measures with the property `"requires_no_prediction"`, this is initialized as `"ignore"`.
     #' For measures that have neither of the properties, this is initialized as `"error"`.
-    #' The latter behavior is to avoid cases where a user erroneously assumes that a measure supports weights when it does not.
-    #' For measures that do not support weights, `use_weights` needs to be set to `"ignore"` if tasks with weights should be handled (by dropping the weights).
+    #' The latter behavior is to avoid cases where a user erroneously assumes that a measure
+    #' supports weights when it does not.
+    #' For measures that do not support weights,
+    #' `use_weights` needs to be set to `"ignore"` if tasks with weights should be handled (by dropping the weights).
     use_weights = function(rhs) {
       if (!missing(rhs)) {
         private$.use_weights = assert_choice(rhs, c(if ("weights" %chin% self$properties) "use", "ignore", "error"))
@@ -478,7 +492,8 @@ Measure = R6Class(
     #' * wrong predict set (e.g., learner predicted on training set, but predictions of test set required).
     #' * task properties not satisfied (e.g., binary classification measure on multiclass task).
     #'
-    #' Possible values are `"ignore"` (just return `NaN`) and `"warn"` (default, raise a warning before returning `NaN`).
+    #' Possible values are `"ignore"` (just return `NaN`) and `"warn"` (default,
+    #' raise a warning before returning `NaN`).
     check_prerequisites = function(rhs) {
       if (missing(rhs)) {
         return(private$.check_prerequisites)

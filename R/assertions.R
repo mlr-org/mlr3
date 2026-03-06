@@ -62,12 +62,12 @@ assert_task = function(task, task_type = NULL, feature_types = NULL, task_proper
 #' @export
 #' @param tasks (list of [Task]).
 #' @rdname mlr_assertions
-# nolint next
 assert_tasks = function(
   tasks,
   task_type = NULL,
   feature_types = NULL,
   task_properties = NULL,
+  # nolint next
   .var.name = vname(tasks)
 ) {
   assert_list(tasks, types = "Task")
@@ -86,12 +86,12 @@ assert_tasks = function(
 #' @param learner ([Learner]).
 #' @param task_type (`character(1)`).
 #' @rdname mlr_assertions
-# nolint next
 assert_learner = function(
   learner,
   task = NULL,
   task_type = NULL,
   properties = character(),
+  # nolint next
   .var.name = vname(learner)
 ) {
   assert_class(learner, "Learner", .var.name = .var.name)
@@ -131,13 +131,13 @@ test_matching_task_type = function(task_type, object, class) {
 #' @export
 #' @param learners (list of [Learner]).
 #' @rdname mlr_assertions
-# nolint next
 assert_learners = function(
   learners,
   task = NULL,
   task_type = NULL,
   properties = character(),
   unique_ids = FALSE,
+  # nolint next
   .var.name = vname(learners)
 ) {
   assert_list(learners, types = "Learner")
@@ -219,6 +219,7 @@ assert_task_learner = function(task, learner, param_values = NULL, cols = NULL) 
   validate = get0("validate", learner)
   if (!is.null(task$internal_valid_task) && (is.numeric(validate) || identical(validate, "test"))) {
     error_config(
+      # nolint next
       "Parameter 'validate' of Learner '%s' cannot be set to 'test' or a ratio when internal_valid_task is present, remove it first",
       learner$id
     )
@@ -244,6 +245,7 @@ assert_learnable = function(task, learner, param_values = NULL) {
       if ("weights" %in% learner$properties) {
         " since 'use_weights' was set to 'error'."
       } else {
+        # nolint next
         " since the Learner does not support weights.\nYou may set 'use_weights' to 'ignore' if you want the Learner to ignore weights."
       }
     )
@@ -277,6 +279,7 @@ assert_predictable = function(task, learner) {
 
     if (!ok) {
       error_input(
+        # nolint next
         "Learner '%s' received task with different column info (feature type or factor level ordering) during train and predict.",
         learner$id
       )
@@ -303,6 +306,7 @@ assert_measure = function(measure, task = NULL, learner = NULL, prediction = NUL
       if ("weights" %in% measure$properties) {
         " since 'use_weights' was set to 'error'."
       } else {
+        # nolint next
         " since the Measure does not support weights.\nYou may set 'use_weights' to 'ignore' if you want the Measure to ignore weights."
       }
     )

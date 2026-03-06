@@ -10,7 +10,8 @@ directory of the source package or the \code{testthat} directory of the installe
 
 These files can be sourced with the following line of code:
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{lapply(list.files(system.file("testthat", package = "mlr3"), pattern = "^helper.*\\\\.[rR]", full.names = TRUE), source)
+\if{html}{\out{<div class="sourceCode">}}\preformatted{lapply(list.files(system.file("testthat", package = "mlr3"),
+  pattern = "^helper.*\\\\.[rR]", full.names = TRUE), source)
 }\if{html}{\out{</div>}}
 
 Other extension packages such as \code{mlr3proba} have similar files that can be sourced accordingly.
@@ -48,7 +49,8 @@ Defaults to all predict typpes of the learner.
 Whether to check that running the learner twice with the same seed should result in identical predictions.
 Default is \code{TRUE}.
 \item \code{configure_learner} (\verb{function(learner, task)})\cr
-Before running a \code{learner} on a \code{task}, this function allows to change its parameter values depending on the input task.
+Before running a \code{learner} on a \code{task}, this function allows to change its parameter values
+depending on the input task.
 }
 
 To speed up test execution, start an encapsulation daemon in advance by calling
@@ -74,7 +76,8 @@ actual top-level function call. Such exclusions should go into argument
 \code{exclude} with a comment for the reason of the exclusion. See examples for
 more information.
 
-For example usages you can look at the parameter tests in various mlr3 source repositories such as \CRANpkg{mlr3learners}.
+For example usages you can look at the parameter tests in various mlr3 source repositories
+such as \CRANpkg{mlr3learners}.
 
 \strong{Parameters}:
 \itemize{

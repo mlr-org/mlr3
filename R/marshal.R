@@ -15,14 +15,16 @@
 #'   This means, that the resulting object can be serialized and de-serialized without loss of information.
 #'   If a model is serializable anyway, nothing has to be implemented and the generic will fall back to the
 #'   default implementation of `marshal_model`, which is to return the object as-is.
-#'   Otherwise, the marshaled object should be a list with named elements `marshaled` and `packages`, where the former contains
+#'   Otherwise, the marshaled object should be a list with named elements `marshaled` and
+#'   `packages`, where the former contains
 #'   the marshaled object, and the latter the package that contains the packages required to unmarshal.
 #'   Most importantly, this list should contain the package that contains the `unmarshal_model` method.
 #'   The returned object should have the classes of the original object with the suffix `"_marshaled"` appended and the
 #'   root class should be set to `"marshaled"`.
 #' * the S3 generic `unmarshal_model(model, inplace ...)`.
 #'   Which takes in the marshaled model and returns it in unmarshaled form.
-#'   The generic takes care that the packages specified during `"marshal"` are loaded, and errs if they are not available.
+#'   The generic takes care that the packages specified during `"marshal"` are loaded,
+#'   and errs if they are not available.
 #'   Calling this function on a marshaled model should reconstruct the original model, i.e.
 #'   `unmarshal_model(marshal_model(x))` should return `x`.
 #'   The default implementation of this generic returns `x` as-is.
@@ -42,7 +44,8 @@
 #' methods for the class of the learner's model and tag the learner with the `"marshal"` property.
 #' To make marshaling accessible in an R6-manner, you should also add the public methods `$marshal()`, `$unmarshal()`
 #' and the active binding `$marshaled`.
-#' To make this as convenient as possible, the functions `learner_marshal(.learner, ...)`, `learner_unmarshal(.learner, ...)`
+#' To make this as convenient as possible, the functions `learner_marshal(.learner, ...)`,
+#' `learner_unmarshal(.learner, ...)`
 #' and `learner_marshaled(.learner)` are provided and can be called from the public methods.
 #'
 #' You can verify whether you have correctly implemented marshaling by using the internal test helper

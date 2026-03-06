@@ -100,9 +100,12 @@ Prediction = R6Class(
 
     #' @description
     #' Calculates the observation-wise loss via the [Measure]'s `obs_loss` method.
-    #' Returns a `data.table()` with the columns of the matching [Prediction] object plus one additional numeric column for each measure, named with the respective measure id.
+    #' Returns a `data.table()` with the columns of the matching [Prediction] object plus one additional numeric column
+    #' for each measure, named with the respective measure id.
     #' If there is no observation-wise loss function for the measure, the column is filled with `NA_real_` values.
-    #' Note that some measures such as RMSE, do have an `$obs_loss`, but they require an additional transformation after aggregation, in this example taking the square-root.
+    #' Note that some measures such as RMSE, do have an `$obs_loss`,
+    #' but they require an additional transformation after aggregation,
+    #' in this example taking the square-root.
     obs_loss = function(measures = NULL) {
       measures = assert_measures(as_measures(measures, task_type = self$task_type))
       tab = as.data.table(self)
@@ -163,7 +166,8 @@ Prediction = R6Class(
 
     #' @field raw (any)\cr
     #'   Raw prediction object from the upstream model.
-    #'   Only available if the learner's `predict_raw` flag was set to `TRUE` and the learner implementation supports it.
+    #'   Only available if the learner's `predict_raw` flag was set to `TRUE` and the learner implementation
+    #'   supports it.
     #'   The object is stored as-is, without validation or subsetting during filtering.
     #'   When multiple predictions are combined via `c()`, the individual raw objects are collected into a `list()`.
     raw = function(rhs) {

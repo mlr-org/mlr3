@@ -46,10 +46,12 @@
 #'   Altering `$row_roles` may affect, e.g., `$data`, `$nrow`, and `$row_ids`.
 #' * Modification of column or row roles via `$set_col_roles()` or `$set_row_roles()`, respectively.
 #'   They are an alternative to directly accessing `$col_roles` or `$row_roles`, with the same side effects.
-#' * `$select()` and `$filter()` subset the set of active features or rows in `$col_roles` or `$row_roles`, respectively.
+#' * `$select()` and `$filter()` subset the set of active features or rows in `$col_roles` or `$row_roles`,
+#'   respectively.
 #' * `$cbind()` and `$rbind()` change the task in-place by binding new columns or rows to the data.
 #' * `$rename()` changes column names.
-#' * `$set_levels()` and `$droplevels()` update the field `$col_info()` to automatically repair factor levels while querying data with `$data()`.
+#' * `$set_levels()` and `$droplevels()` update the field `$col_info()` to automatically repair
+#'   factor levels while querying data with `$data()`.
 #' * `$materialize_view()` creates a new [DataBackendDataTable] which keeps only the data in the currently active view
 #'   possibly freeing some memory consumed by the [DataBackend] stored in the `Task`.
 #'
@@ -272,14 +274,16 @@ Task = R6Class(
 
     #' @description
     #' Returns a slice of the data from the [DataBackend] as a `data.table`.
-    #' Rows default to observations with role `"use"`, and columns default to features with roles `"target"` or `"feature"`.
+    #' Rows default to observations with role `"use"`,
+    #' and columns default to features with roles `"target"` or `"feature"`.
     #' Rows must be a subset of `$row_ids`.
     #' If `rows` or `cols` are specified which do not exist in the [DataBackend], an exception is raised.
     #'
     #' Rows and columns are returned in the order specified via the arguments `rows` and `cols`.
     #' If `rows` is `NULL`, rows are returned in the order of `task$row_ids`.
     #' If `cols` is `NULL`, the column order defaults to `c(task$target_names, task$feature_names)`.
-    #' Note that it is recommended to **not** rely on the order of columns, and instead always address columns with their respective column name.
+    #' Note that it is recommended to **not** rely on the order of columns,
+    #' and instead always address columns with their respective column name.
     #'
     #' @param ordered (`logical(1)`)\cr
     #'   If `TRUE`, data is ordered according to the columns with column role `"order"`.
@@ -358,10 +362,12 @@ Task = R6Class(
 
     #' @description
     #' Constructs a [formula()], e.g. `[target] ~ [feature_1] + [feature_2] + ... + [feature_k]`,
-    #' using the features provided in argument `rhs` (defaults to all columns with role `"feature"`, symbolized by `"."`).
+    #' using the features provided in argument `rhs`
+    #' (defaults to all columns with role `"feature"`, symbolized by `"."`).
     #'
     #' Note that it is currently not possible to change the formula.
-    #' However, \CRANpkg{mlr3pipelines} provides a pipe operator interfacing [stats::model.matrix()] for this purpose: `"modelmatrix"`.
+    #' However, \CRANpkg{mlr3pipelines} provides a pipe operator interfacing [stats::model.matrix()] for this
+    #' purpose: `"modelmatrix"`.
     #'
     #' @param rhs (`character(1)`)\cr
     #'   Right hand side of the formula. Defaults to `"."` (all features of the task).
@@ -620,7 +626,8 @@ Task = R6Class(
     #'
     #' Adds additional columns to the [DataBackend] stored in `$backend`.
     #'
-    #' The row ids must be provided as column in `data` (with column name matching the primary key name of the [DataBackend]).
+    #' The row ids must be provided as column in `data`
+    #' (with column name matching the primary key name of the [DataBackend]).
     #' If this column is missing, it is assumed that the rows are exactly in the order of `$row_ids`.
     #' In case of name clashes of column names in `data` and [DataBackend], columns in `data` have higher precedence
     #' and virtually overwrite the columns in the [DataBackend].
@@ -765,7 +772,8 @@ Task = R6Class(
     #'   Other column roles are preserved.
     #'
     #' @details
-    #' Roles are first set exclusively (argument `roles`), then added (argument `add_to`) and finally removed (argument `remove_from`) from different roles.
+    #' Roles are first set exclusively (argument `roles`), then added (argument `add_to`) and finally removed
+    #' (argument `remove_from`) from different roles.
     #' Duplicated columns are removed from the same role.
     #' For tasks that only allow one target, the target column cannot be set with `$set_col_roles()`.
     #' Use the `$col_roles` field to swap the target column.
@@ -1057,11 +1065,14 @@ Task = R6Class(
     #'
     #' * `"strata"`: The task is resampled using one or more stratification variables (role `"stratum"`).
     #' * `"groups"`: The task comes with grouping/blocking information (role `"group"`).
-    #' * `"weights_learner"`: If the task has observation weights with this role, they are passed to the [Learner] during train.
+    #' * `"weights_learner"`: If the task has observation weights with this role,
+    #'    they are passed to the [Learner] during train.
     #'    The use of weights can be disabled by setting the learner's hyperparameter `use_weights` to `FALSE`.
-    #' * `"weights_measure"`: If the task has observation weights with this role, they are passed to the [Measure] for weighted scoring.
+    #' * `"weights_measure"`: If the task has observation weights with this role,
+    #'    they are passed to the [Measure] for weighted scoring.
     #'    The use of weights can be disabled by setting the measure's hyperparameter `use_weights` to `FALSE`.
-    #' * `"offset"`: The task includes one or more offset columns specifying fixed adjustments for model training and possibly for prediction (role `"offset"`).
+    #' * `"offset"`: The task includes one or more offset columns specifying fixed adjustments for model training
+    #'    and possibly for prediction (role `"offset"`).
     #' * `"ordered"`: The task has columns which define the row order (role `"order"`).
     #'
     #' Note that above listed properties are calculated from the `$col_roles`, and may not be set explicitly.
@@ -1083,8 +1094,10 @@ Task = R6Class(
     #'
     #' - `"use"`: Use in train / predict / resampling.
     #'
-    #' `row_roles` is a named list whose elements are named by row role and each element is an `integer()` vector of row ids.
-    #' To alter the roles, just modify the list, e.g. with  \R's set functions ([intersect()], [setdiff()], [union()], \ldots).
+    #' `row_roles` is a named list whose elements are named by row role and each element is an `integer()` vector of
+    #' row ids.
+    #' To alter the roles, just modify the list,
+    #' e.g. with \R's set functions ([intersect()], [setdiff()], [union()], \ldots).
     row_roles = function(rhs) {
       if (missing(rhs)) {
         return(private$.row_roles)
@@ -1116,26 +1129,35 @@ Task = R6Class(
     #'   Not more than a single column can be associated with this role.
     #' * `"order"`: Data returned by `$data()` is ordered by this column (or these columns).
     #'   Columns must be sortable with [order()].
-    #' * `"group"`: During resampling, observations with the same value of the variable with role "group" are marked as "belonging together".
-    #'   For each resampling iteration, observations of the same group will be exclusively assigned to be either in the training set or in the test set.
+    #' * `"group"`: During resampling, observations with the same value of the variable with role "group" are marked
+    #'   as "belonging together".
+    #'   For each resampling iteration, observations of the same group will be exclusively assigned to be either in
+    #'   the training set or in the test set.
     #'   Not more than a single column can be associated with this role.
     #' * `"stratum"`: Stratification variables. Multiple discrete columns may have this role.
-    #' * `"weights_learner"`: If the task has observation weights with this role, they are passed to the [Learner] during train.
+    #' * `"weights_learner"`: If the task has observation weights with this role,
+    #'    they are passed to the [Learner] during train.
     #'    The use of weights can be disabled by setting the learner's hyperparameter `use_weights` to `FALSE`.
-    #' * `"weights_measure"`: If the task has observation weights with this role, they are passed to the [Measure] for weighted scoring.
+    #' * `"weights_measure"`: If the task has observation weights with this role,
+    #'    they are passed to the [Measure] for weighted scoring.
     #'    The use of weights can be disabled by setting the measure's hyperparameter `use_weights` to `FALSE`.
     #' * `"offset"`: Numeric columns used to specify fixed adjustments for model training.
-    #'   Some models use offsets to simply shift predictions, while others incorporate them to boost predictions from a baseline model.
-    #'   For learners supporting offsets in multiclass settings, an offset column must be provided for each target class.
+    #'   Some models use offsets to simply shift predictions,
+    #'   while others incorporate them to boost predictions from a baseline model.
+    #'   For learners supporting offsets in multiclass settings,
+    #'   an offset column must be provided for each target class.
     #'   These columns must follow the naming convention `"offset_{target_class_name}"`.
     #'   For an example of a learner that supports offsets, see `LearnerClassifXgboost`  of \CRANpkg{mlr3learners}.
     #'
-    #' `col_roles` is a named list whose elements are named by column role and each element is a `character()` vector of column names.
-    #' To alter the roles, just modify the list, e.g. with \R's set functions ([intersect()], [setdiff()], [union()], \ldots).
+    #' `col_roles` is a named list whose elements are named by column role and each element is a `character()` vector
+    #' of column names.
+    #' To alter the roles, just modify the list,
+    #' e.g. with \R's set functions ([intersect()], [setdiff()], [union()], \ldots).
     #' The method `$set_col_roles` provides a convenient alternative to assign columns to roles.
     #'
     #' The roles `weights_learner` and `weights_measure` may only point to a single numeric column, but they can
-    #' all point to the same column or different columns. Weights must be non-negative numerics with at least one weight being > 0.
+    #' all point to the same column or different columns.
+    #' Weights must be non-negative numerics with at least one weight being > 0.
     #' They don't necessarily need to sum up to 1.
     col_roles = function(rhs) {
       if (missing(rhs)) {
@@ -1186,7 +1208,8 @@ Task = R6Class(
     },
 
     #' @field strata ([data.table::data.table()])\cr
-    #' If the task has columns designated with role `"stratum"`, returns a table with one subpopulation per row and two columns:
+    #' If the task has columns designated with role `"stratum"`,
+    #' returns a table with one subpopulation per row and two columns:
     #'
     #' * `N` (`integer()`) with the number of observations in the subpopulation, and
     #' * `row_id` (list of `integer()`) as list column with the row ids in the respective subpopulation.

@@ -49,6 +49,7 @@ as_prediction_classif.data.frame = function(x, ...) {
   prob_cols = setdiff(names(x), c("row_ids", "truth", "response", "weights"))
   if (!all(startsWith(prob_cols, "prob."))) {
     error_input(
+      # nolint next
       "Table may only contain columns 'row_ids', 'truth', 'response', 'weights' as well as columns prefixed with 'prob.' for class probabilities"
     )
   }

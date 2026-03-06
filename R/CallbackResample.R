@@ -2,9 +2,11 @@
 #'
 #' @description
 #' Specialized [mlr3misc::Callback] to customize the behavior of [resample()] and [benchmark()] in mlr3.
-#' For example, callbacks can be used to extract information from models on the worker or to store intermediate results to disk.
+#' For example, callbacks can be used to extract information from models on the worker
+#' or to store intermediate results to disk.
 #' The [callback_resample()] function is used to create instances of this class.
-#' Predefined callbacks are stored in the [dictionary][mlr3misc::Dictionary] [mlr_callbacks] and can be retrieved with [clbk()].
+#' Predefined callbacks are stored in the [dictionary][mlr3misc::Dictionary] [mlr_callbacks]
+#' and can be retrieved with [clbk()].
 #' For more information on callbacks, see the [callback_resample()] documentation.
 #'
 #' @export
@@ -38,7 +40,8 @@ CallbackResample = R6Class(
 #'
 #' @description
 #' Function to create a [CallbackResample].
-#' Predefined callbacks are stored in the [dictionary][mlr3misc::Dictionary] [mlr_callbacks] and can be retrieved with [clbk()].
+#' Predefined callbacks are stored in the [dictionary][mlr3misc::Dictionary] [mlr_callbacks]
+#' and can be retrieved with [clbk()].
 #'
 #' Evaluation callbacks are called at different stages of the resampling process.
 #' Each stage is called once per resampling iteration.

@@ -2,7 +2,8 @@
 #'
 #' @format [environment].
 #' @description
-#' Environment which stores various information to allow objects to examine and introspect their structure and properties
+#' Environment which stores various information to allow objects to examine and introspect their
+#' structure and properties
 #' (c.f. [Reflections](https://en.wikipedia.org/wiki/Reflective_programming)).
 #'
 #' This environment be modified by third-party packages, e.g. by adding information about new task types
@@ -46,7 +47,8 @@
 #' * `learner_predict_types` (list of list of `character()`)\cr
 #'   List of lists of supported [Learner] predict_types, named by their task type.
 #'   The inner list translates the `"predict_type"` to all predict types returned, e.g.
-#'   predict type `"prob"` for a [LearnerClassif] provides the probabilities as well as the predicted labels, therefore `"prob"` maps to `c("response", "prob")`.
+#'   predict type `"prob"` for a [LearnerClassif] provides the probabilities as well as the
+#'   predicted labels, therefore `"prob"` maps to `c("response", "prob")`.
 #'
 #' * `learner_predict_types` (list of list of `character()`)\cr
 #'   List of lists of supported [Learner] predict_types, named by their task type.
@@ -80,6 +82,7 @@ mlr_reflections = new.env(parent = emptyenv())
 local({
   ### Task
   # task types + constructors
+  # nolint start
   # fmt: skip
   mlr_reflections$task_types = rowwise_table(.key = "type",
     ~type,          ~package, ~task,              ~learner,         ~prediction,          ~prediction_data,         ~measure,
@@ -87,6 +90,7 @@ local({
     "classif",      "mlr3",   "TaskClassif",      "LearnerClassif", "PredictionClassif",  "PredictionDataClassif",  "MeasureClassif",
     "unsupervised", "mlr3",   "TaskUnsupervised", "Learner",        NA_character_,        NA_character_,            NA_character_
   )
+  # nolint end
 
   mlr_reflections$task_feature_types = c(
     lgl = "logical",

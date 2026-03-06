@@ -9,7 +9,8 @@
 #' Learners are built around the three following key parts:
 #'
 #' * Methods `$train()` and `$predict()` which call internal methods or private methods `$.train()`/`$.predict()`).
-#' * A [paradox::ParamSet] which stores meta-information about available hyperparameters, and also stores hyperparameter settings.
+#' * A [paradox::ParamSet] which stores meta-information about available hyperparameters,
+#'   and also stores hyperparameter settings.
 #' * Meta-information about the requirements and capabilities of the learner.
 #' * The fitted model stored in field `$model`, available after calling `$train()`.
 #'
@@ -19,10 +20,13 @@
 #' More classification and regression learners are implemented in the add-on package \CRANpkg{mlr3learners}.
 #' Learners for survival analysis (or more general, for probabilistic regression) can be found in \CRANpkg{mlr3proba}.
 #' Unsupervised cluster algorithms are implemented in \CRANpkg{mlr3cluster}.
-#' The dictionary [mlr_learners] gets automatically populated with the new learners as soon as the respective packages are loaded.
+#' The dictionary [mlr_learners] gets automatically populated with the new learners
+#' as soon as the respective packages are loaded.
 #'
-#' More (experimental) learners can be found in the GitHub repository: \url{https://github.com/mlr-org/mlr3extralearners}.
-#' A guide on how to extend \CRANpkg{mlr3} with custom learners can be found in the [mlr3book](https://mlr3book.mlr-org.com).
+#' More (experimental) learners can be found in the GitHub repository:
+#' \url{https://github.com/mlr-org/mlr3extralearners}.
+#' A guide on how to extend \CRANpkg{mlr3} with custom learners can be found in the
+#' [mlr3book](https://mlr3book.mlr-org.com).
 #'
 #' To combine the learner with preprocessing operations like factor encoding, \CRANpkg{mlr3pipelines} is recommended.
 #' Hyperparameters stored in the `param_set` can be tuned with \CRANpkg{mlr3tuning}.
@@ -69,14 +73,17 @@
 #' @section Weights:
 #'
 #' Many learners support observation weights, indicated by their property `"weights"`.
-#' The weights are stored in the [Task] where the column role `weights_learner` needs to be assigned to a single numeric column.
+#' The weights are stored in the [Task] where the column role `weights_learner` needs to be assigned
+#' to a single numeric column.
 #' If a task has weights and the learner supports them, they are used automatically.
 #' If a task has weights but the learner does not support them, an error is thrown by default.
 #' Both of these behaviors can be disabled by setting the `use_weights` field to `"ignore"`.
 #' See the description of `use_weights` for more information.
 #'
-#' If the learner is set-up to use weights but the task does not have a designated weight column, samples are considered to have equal weight.
-#' When weights are being used, they are passed down to the learner directly; the effect of weights depends on the specific learner.
+#' If the learner is set-up to use weights but the task does not have a designated weight column,
+#' samples are considered to have equal weight.
+#' When weights are being used, they are passed down to the learner directly;
+#' the effect of weights depends on the specific learner.
 #' Generally, weights do not need to sum up to 1.
 #'
 #' When implementing a Learner that uses weights, the `"weights"` property should be set.
@@ -94,11 +101,13 @@
 #' lrn$param_set$set_values(minsplit = 3, cp = 0.01)
 #' ```
 #' Note that this operation replaces all previously set hyperparameter values.
-#' If you only intend to change one specific hyperparameter value and leave the others as-is, you can use the helper function [mlr3misc::insert_named()]:
+#' If you only intend to change one specific hyperparameter value and leave the others as-is,
+#' you can use the helper function [mlr3misc::insert_named()]:
 #' ```
 #' lrn$param_set$values = mlr3misc::insert_named(lrn$param_set$values, list(cp = 0.001))
 #' ```
-#' If the learner has additional hyperparameters which are not encoded in the [ParamSet][paradox::ParamSet], you can easily extend the learner.
+#' If the learner has additional hyperparameters which are not encoded in the
+#' [ParamSet][paradox::ParamSet], you can easily extend the learner.
 #' Here, we add a factor hyperparameter with id `"foo"` and possible levels `"a"` and `"b"`:
 #' ```
 #' lrn$param_set$add(paradox::ParamFct$new("foo", levels = c("a", "b")))
@@ -140,7 +149,8 @@
 #' implemented via \CRANpkg{mlr3tuning}, one must:
 #' * annotate the learner with the `"internal_tuning"` property
 #' * implement the active binding `$internal_tuned_values` (see section *Optional Extractors*) as well as the
-#'   private method `$.extract_internal_tuned_values()` which extracts the internally tuned values from the [`Learner`]'s
+#'   private method `$.extract_internal_tuned_values()` which extracts the internally tuned values
+#'   from the [`Learner`]'s
 #'   model and returns them as a named `list()`.
 #'   If the model is not trained yet, this method should return `NULL`.
 #' * Have at least one parameter tagged with `"internal_tuning"`, which requires to also provide a `in_tune_fn` and
@@ -157,7 +167,8 @@
 #' Some [`Learner`]s can compute the out-of-bag error during training.
 #' In order to do this, the learner must:
 #' * annotate the learner with the `"oob_error"` property
-#' * implement the private method `$.extract_oob_error()` which extracts the out-of-bag error from the [`Learner`]'s model and returns it as a `numeric(1)`.
+#' * implement the private method `$.extract_oob_error()` which extracts the out-of-bag error
+#'   from the [`Learner`]'s model and returns it as a `numeric(1)`.
 #'
 #' @template seealso_learner
 #' @export
@@ -336,7 +347,8 @@ Learner = R6Class(
       invisible(self)
     },
     #' @description
-    #' Uses the fitted model stored in `$state` to generate predictions for a set of observations from the provided `task`.
+    #' Uses the fitted model stored in `$state` to generate predictions for a set of observations
+    #' from the provided `task`.
     #' This method requires that the learner has been previously trained using `$train()`.
     #'
     #' @param task ([Task])\cr
@@ -416,12 +428,14 @@ Learner = R6Class(
     #' Object `task` is the task used during `$train()` and required for conversion of `newdata`.
     #' If the learner's `$train()` method has been called, there is a (size reduced) version
     #' of the training task stored in the learner.
-    #' If the learner has been fitted via [resample()] or [benchmark()], you need to pass the corresponding task stored
-    #' in the [ResampleResult] or [BenchmarkResult], respectively.
+    #' If the learner has been fitted via [resample()] or [benchmark()],
+    #' you need to pass the corresponding task stored in the [ResampleResult] or
+    #' [BenchmarkResult], respectively.
     #' Further, [`auto_convert`] is used for type-conversions to ensure compatibility
     #' of features between `$train()` and `$predict()`.
     #'
-    #' If the stored training task has a `weights_measure` column, *and* if `newdata` contains a column with the same name,
+    #' If the stored training task has a `weights_measure` column,
+    #' *and* if `newdata` contains a column with the same name,
     #' that column must be numeric with no missing values and is used as measure weights column.
     #' Otherwise, no measure weights are used.
     #'
@@ -559,16 +573,25 @@ Learner = R6Class(
     #' * `"evaluate"`: Uses the package \CRANpkg{evaluate} to call the learner, measure time and do the logging.
     #' * `"callr"`: Uses the package \CRANpkg{callr} to call the learner, measure time and do the logging.
     #'   This encapsulation spawns a separate R session in which the learner is called.
-    #'   While this comes with a considerable overhead, it also guards your session from being torn down by segfaults.
-    #' * `"mirai"`: Uses the package \CRANpkg{mirai} to call the learner, measure time and do the logging.
+    #'   While this comes with a considerable overhead,
+    #'   it also guards your session from being torn down by segfaults.
+    #' * `"mirai"`: Uses the package \CRANpkg{mirai} to call the learner,
+    #'   measure time and do the logging.
     #'   This encapsulation calls the function in a `mirai` on a `daemon`.
-    #'   The `daemon` can be pre-started via `daemons(1, .compute = "mlr3_encapsulation")`, otherwise a new R session will be created for each encapsulated call.
-    #'   If a `daemon` is already running with compute profile `"mlr3_encapsulation"`, it will be used to execute all calls.
-    #'   Using `mirai"` is similarly safe as `callr` but much faster if several learners are encapsulated one after the other on the same daemon.
+    #'   The `daemon` can be pre-started via `daemons(1, .compute = "mlr3_encapsulation")`,
+    #'   otherwise a new R session will be created for each encapsulated call.
+    #'   If a `daemon` is already running with compute profile `"mlr3_encapsulation"`,
+    #'   it will be used to execute all calls.
+    #'   Using `mirai"` is similarly safe as `callr` but much faster if several learners
+    #'   are encapsulated one after the other on the same daemon.
     #'
-    #' The fallback learner is fitted to create valid predictions in case that either the model fitting or the prediction of the original learner fails.
-    #' If the training step or the predict step of the original learner fails, the fallback is used to make the predictions.
-    #' If the original learner only partially fails during predict step (usually in the form of missing to predict some observations or producing some `NA` predictions),
+    #' The fallback learner is fitted to create valid predictions in case that either the
+    #' model fitting or the prediction of the original learner fails.
+    #' If the training step or the predict step of the original learner fails,
+    #' the fallback is used to make the predictions.
+    #' If the original learner only partially fails during predict step
+    #' (usually in the form of missing to predict some observations or producing
+    #' some `NA` predictions),
     #' these missing predictions are imputed by the fallback.
     #' Note that the fallback is always trained, as we do not know in advance whether prediction will fail.
     #' If the training step fails, the `$model` field of the original learner is `NULL`.
@@ -727,9 +750,12 @@ Learner = R6Class(
     #' * `"error"`: throw an error if weights are present in the training `Task`.
     #'
     #' For `Learner`s with the property `"weights"`, this is initialized as `"use"`.
-    #' For `Learner`s that do not support weights, i.e. without the `"weights"` property, this is initialized as `"error"`.
-    #' The latter behavior is to avoid cases where a user erroneously assumes that a `Learner` supports weights when it does not.
-    #' For `Learner`s that do not support weights, `use_weights` needs to be set to `"ignore"` if tasks with weights should be handled (by dropping the weights).
+    #' For `Learner`s that do not support weights, i.e. without the `"weights"` property,
+    #' this is initialized as `"error"`.
+    #' The latter behavior is to avoid cases where a user erroneously assumes that a `Learner`
+    #' supports weights when it does not.
+    #' For `Learner`s that do not support weights, `use_weights` needs to be set to `"ignore"`
+    #' if tasks with weights should be handled (by dropping the weights).
     #' See Section 'weights' for more details.
     use_weights = function(rhs) {
       if (!missing(rhs)) {
@@ -752,8 +778,10 @@ Learner = R6Class(
     #' The native model object from the upstream package.
     #' For most learners, this is identical to `$model`.
     #' However, some learners store additional information beyond the model from the upstream package.
-    #' In such cases, `$model` contains a named list with the native model stored in element `model` along with additional information.
-    #' The `$native_model` field can be overwritten by the learner to return the actual model object from the upstream package.
+    #' In such cases, `$model` contains a named list with the native model stored in element `model`
+    #' along with additional information.
+    #' The `$native_model` field can be overwritten by the learner to return the actual model object
+    #' from the upstream package.
     #' The default returns `$model`.
     native_model = function(rhs) {
       assert_ro_binding(rhs)
@@ -820,7 +848,8 @@ Learner = R6Class(
     },
 
     #' @field phash (`character(1)`)\cr
-    #' Hash (unique identifier) for this partial object, excluding some components which are varied systematically during tuning (parameter values).
+    #' Hash (unique identifier) for this partial object, excluding some components
+    #' which are varied systematically during tuning (parameter values).
     phash = function(rhs) {
       assert_ro_binding(rhs)
       calculate_hash(
@@ -839,7 +868,8 @@ Learner = R6Class(
     #' Stores the currently active predict type, e.g. `"response"`.
     #' Must be an element of `$predict_types`.
     #' A few learners already use the predict type during training.
-    #' So there is no guarantee that changing the predict type after training will have any effect or does not lead to errors.
+    #' So there is no guarantee that changing the predict type after training will have any effect
+    #' or does not lead to errors.
     predict_type = function(rhs) {
       if (missing(rhs)) {
         return(private$.predict_type)
@@ -897,7 +927,8 @@ Learner = R6Class(
 
     #' @field predict_types (`character()`)\cr
     #' Stores the possible predict types the learner is capable of.
-    #' A complete list of candidate predict types, grouped by task type, is stored in [`mlr_reflections$learner_predict_types`][mlr_reflections].
+    #' A complete list of candidate predict types, grouped by task type,
+    #' is stored in [`mlr_reflections$learner_predict_types`][mlr_reflections].
     #' This field is read-only.
     predict_types = function(rhs) {
       assert_ro_binding(rhs)
@@ -930,7 +961,8 @@ Learner = R6Class(
 
     #' @field feature_types (`character()`)\cr
     #' Stores the feature types the learner can handle, e.g. `"logical"`, `"numeric"`, or `"factor"`.
-    #' A complete list of candidate feature types, grouped by task type, is stored in [`mlr_reflections$task_feature_types`][mlr_reflections].
+    #' A complete list of candidate feature types, grouped by task type,
+    #' is stored in [`mlr_reflections$task_feature_types`][mlr_reflections].
     feature_types = function(rhs) {
       if (missing(rhs)) {
         return(private$.feature_types)
@@ -940,7 +972,8 @@ Learner = R6Class(
 
     #' @field properties (`character()`)\cr
     #' Stores a set of properties/capabilities the learner has.
-    #' A complete list of candidate properties, grouped by task type, is stored in [`mlr_reflections$learner_properties`][mlr_reflections].
+    #' A complete list of candidate properties, grouped by task type,
+    #' is stored in [`mlr_reflections$learner_properties`][mlr_reflections].
     properties = function(rhs) {
       if (missing(rhs)) {
         return(private$.properties)
@@ -992,10 +1025,12 @@ Learner = R6Class(
     },
 
     #' @field predict_raw (`logical(1)`)\cr
-    #' If set to `TRUE`, the raw prediction object from the upstream model is stored in the [Prediction] object (default: `FALSE`).
+    #' If set to `TRUE`, the raw prediction object from the upstream model is stored in the
+    #' [Prediction] object (default: `FALSE`).
     #' The raw prediction is stored as-is, without validation or subsetting during filtering.
     #' When multiple predictions are combined via `c()`, the individual raw objects are collected into a `list()`.
-    #' Individual learner implementations must support this flag by including a `raw` element in the list returned by `$.predict()`.
+    #' Individual learner implementations must support this flag by including a `raw` element in the list returned
+    #' by `$.predict()`.
     predict_raw = function(rhs) {
       if (missing(rhs)) {
         return(private$.predict_raw)

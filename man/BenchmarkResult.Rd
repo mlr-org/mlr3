@@ -435,7 +435,9 @@ Calculates the observation-wise loss via the \link{Measure}'s \code{obs_loss} me
 Returns a \code{data.table()} with columns from the predictions (e.g., \code{row_ids}, \code{truth}, \code{response}, etc.),
 plus one numeric column for each measure, named with the respective measure id, and a \code{resample_result} column.
 If there is no observation-wise loss function for the measure, the column is filled with \code{NA_real_} values.
-Note that some measures such as RMSE, do have an \verb{$obs_loss}, but they require an additional transformation after aggregation, in this example taking the square-root.
+Note that some measures such as RMSE, do have an \verb{$obs_loss},
+but they require an additional transformation after aggregation,
+in this example taking the square-root.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{BenchmarkResult$obs_loss(measures = NULL, predict_sets = "test")}\if{html}{\out{</div>}}
 }
@@ -535,7 +537,8 @@ iterations with errors as extra integer column \code{"errors"}.}
 \subsection{Method \code{filter()}}{
 Subsets the benchmark result.
 You can either directly provide the row IDs or the uhashes of the resample results to keep,
-or use the \code{learner_ids}, \code{task_ids} and \code{resampling_ids} arguments to filter for learner, task and resampling IDs.
+or use the \code{learner_ids}, \code{task_ids} and \code{resampling_ids} arguments to filter for learner,
+task and resampling IDs.
 The three options are mutually exclusive.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{BenchmarkResult$filter(

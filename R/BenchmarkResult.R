@@ -22,7 +22,8 @@
 #' @template param_measures
 #'
 #' @section S3 Methods:
-#' * `as.data.table(rr, ..., reassemble_learners = TRUE, convert_predictions = TRUE, predict_sets = "test", task_characteristics = FALSE)`\cr
+#' * `as.data.table(rr, ..., reassemble_learners = TRUE, convert_predictions = TRUE,
+#'   predict_sets = "test", task_characteristics = FALSE)`\cr
 #'   [BenchmarkResult] -> [data.table::data.table()]\cr
 #'   Returns a tabular view of the internal data.
 #' * `c(...)`\cr
@@ -249,7 +250,9 @@ BenchmarkResult = R6Class(
     #' Returns a `data.table()` with columns from the predictions (e.g., `row_ids`, `truth`, `response`, etc.),
     #' plus one numeric column for each measure, named with the respective measure id, and a `resample_result` column.
     #' If there is no observation-wise loss function for the measure, the column is filled with `NA_real_` values.
-    #' Note that some measures such as RMSE, do have an `$obs_loss`, but they require an additional transformation after aggregation, in this example taking the square-root.
+    #' Note that some measures such as RMSE, do have an `$obs_loss`,
+    #' but they require an additional transformation after aggregation,
+    #' in this example taking the square-root.
     #'
     #' @param predict_sets (`character()`)\cr
     #'   The predict sets.
@@ -411,7 +414,8 @@ BenchmarkResult = R6Class(
     #' @description
     #' Subsets the benchmark result.
     #' You can either directly provide the row IDs or the uhashes of the resample results to keep,
-    #' or use the `learner_ids`, `task_ids` and `resampling_ids` arguments to filter for learner, task and resampling IDs.
+    #' or use the `learner_ids`, `task_ids` and `resampling_ids` arguments to filter for learner,
+    #' task and resampling IDs.
     #' The three options are mutually exclusive.
     #'
     #' @param i (`integer()` | `NULL`)\cr

@@ -79,7 +79,8 @@ LearnerClassif = R6Class(
 
     #' @description
     #' Predicts outcomes for new data in `newdata` using the model fitted during `$train()`.
-    #' This method is faster than `$predict_newdata()` as it skips assertions, type conversions, encapsulation, and logging.
+    #' This method is faster than `$predict_newdata()` as it skips assertions,
+    #' type conversions, encapsulation, and logging.
     #'
     #' Unlike `$predict_newdata()`, this method does not return a [Prediction] object.
     #' Instead, it returns a list with either a `"response"` or `"prob"` element, depending on the prediction type.
@@ -88,7 +89,8 @@ LearnerClassif = R6Class(
     #' Some learners may not support this method and may fail when it is called.
     #' Prefer `$predict_newdata()` unless performance is critical.
     #'
-    #' If the model was trained via [resample()] or [benchmark()], you must pass the associated task object stored in the corresponding [ResampleResult] or [BenchmarkResult].
+    #' If the model was trained via [resample()] or [benchmark()],
+    #' you must pass the associated task object stored in the corresponding [ResampleResult] or [BenchmarkResult].
     #'
     #' @param newdata [`data.table::data.table()`]\cr
     #'   New data to predict on.

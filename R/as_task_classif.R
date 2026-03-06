@@ -5,7 +5,8 @@
 #' This is a S3 generic. mlr3 ships with methods for the following objects:
 #'
 #' 1. [TaskClassif]: returns the object as-is, possibly cloned.
-#' 2. [`formula`], [data.frame()], [matrix()], and [DataBackend]: provides an alternative to the constructor of [TaskClassif].
+#' 2. [`formula`], [data.frame()], [matrix()], and [DataBackend]: provides an alternative to the
+#'    constructor of [TaskClassif].
 #' 3. [TaskRegr]: Calls [convert_task()].
 #'
 #' Note that the target column will be converted to a `factor()`, if possible.

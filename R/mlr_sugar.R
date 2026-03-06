@@ -21,7 +21,8 @@
 #' @param .keys (`character()`)\cr
 #'   Keys passed to the respective [dictionary][mlr3misc::Dictionary] to retrieve multiple objects.
 #' @param ... (named `list()`)\cr
-#'   Named arguments passed to the constructor, to be set as parameters in the [paradox::ParamSet], or to be set as public field.
+#'   Named arguments passed to the constructor, to be set as parameters in the [paradox::ParamSet],
+#'   or to be set as public field.
 #'   See [mlr3misc::dictionary_sugar_get()] for more details.
 #'
 #' @return [R6::R6Class] object of the respective type,

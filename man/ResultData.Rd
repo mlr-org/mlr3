@@ -559,7 +559,8 @@ The condition to extract. One of \code{"message"}, \code{"warning"} or \code{"er
 \if{html}{\out{<a id="method-ResultData-set_threshold"></a>}}
 \if{latex}{\out{\hypertarget{method-ResultData-set_threshold}{}}}
 \subsection{Method \code{set_threshold()}}{
-Sets the threshold for the response prediction of classification learners, given they have output a probability prediction.
+Sets the threshold for the response prediction of classification learners,
+given they have output a probability prediction.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{ResultData$set_threshold(view = NULL, threshold, ties_method = "random")}\if{html}{\out{</div>}}
 }

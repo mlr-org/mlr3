@@ -82,7 +82,8 @@ TaskGenerator = R6Class(
     },
 
     #' @description
-    #' Creates a task of type `task_type` with `n` observations, possibly using additional settings stored in `param_set`.
+    #' Creates a task of type `task_type` with `n` observations,
+    #' possibly using additional settings stored in `param_set`.
     #'
     #' @param n (`integer(1)`)\cr
     #'   Number of rows to generate.

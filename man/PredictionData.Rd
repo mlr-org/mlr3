@@ -56,16 +56,21 @@ If \code{TRUE}, the combined \link{PredictionData} object is filtered for duplic
 }
 \description{
 Objects of type \code{PredictionData} serve as a intermediate representation for objects of type \link{Prediction}.
-It is an internal data structure, implemented to optimize runtime and solve some issues emerging while serializing R6 objects.
-End-users typically do not need to worry about the details, package developers are advised to continue reading for some technical information.
+It is an internal data structure, implemented to optimize runtime and solve some issues
+emerging while serializing R6 objects.
+End-users typically do not need to worry about the details,
+package developers are advised to continue reading for some technical information.
 
 Unlike most other \CRANpkg{mlr3} objects, \code{PredictionData} relies on the S3 class system.
 The following operations must be supported to extend mlr3 for new task types:
 \itemize{
 \item \code{\link[=as_prediction_data]{as_prediction_data()}} converts objects to class \code{PredictionData}, e.g. objects of type \link{Prediction}.
 \item \code{\link[=as_prediction]{as_prediction()}} converts objects to class \link{Prediction}, e.g. objects of type \code{PredictionData}.
-\item \code{check_prediction_data()} is called on the return value of the predict method of a \link{Learner} to perform assertions and type conversions.
+\item \code{check_prediction_data()} is called on the return value of the predict method of a \link{Learner}
+to perform assertions and type conversions.
 Returns an update object of class \code{PredictionData}.
-\item \code{is_missing_prediction_data()} is used for the fallback learner (see \link{Learner}) to impute missing predictions. Returns vector with row ids which need imputation.
+\item \code{is_missing_prediction_data()} is used for the fallback learner (see \link{Learner}) to impute
+missing predictions.
+Returns vector with row ids which need imputation.
 }
 }

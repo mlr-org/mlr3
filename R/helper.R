@@ -74,23 +74,28 @@ quantile_weighted = function(x, probs, na.rm = FALSE, weights = NULL, digits = 7
   weights = weights[!is.na(x)]
   x = x[!is.na(x)] # if na.rm is FALSE and there are NAs, the assert stops us from getting here
 
-  # we default to the unweighted quantile if there are no weights, no (non-NA) probs, or no (non-NA) x, or all weights are the same
+  # we default to the unweighted quantile if there are no weights,
+  # no (non-NA) probs, or no (non-NA) x, or all weights are the same
   if (
     is.null(weights) || length(x) == 0L || length(probs) == 0L || all(is.na(probs)) || length(unique(weights)) == 1L
   ) {
     return(quantile(x, probs, na.rm = na.rm, digits = digits, type = if (continuous) 7 else 2))
   }
 
-  # We create a piecewise linear function with breaks both at the midpoints of the weights, as well as at the boundaries of the weights
+  # We create a piecewise linear function with breaks
+  # both at the midpoints of the weights, as well as at the boundaries of the weights
   # So if we have weights, ordered by corresponding x-value, w_(1), w_(2), ..., then we have breaks at
-  # 0 [weight midpoint], w_(1)/2 [weight boundary], w_(1)/2 + w_(2)/2 [weight midpoint], w_(1)/2 + w_(2) [weight boundary], w_(2)/2 + w_(3)/2 [weight midpoint]
-  # The function values at the weight midpoints are the x-values corresponding to the weights, and the function values at the weight boundaries are the
+  # 0 [weight midpoint], w_(1)/2 [weight boundary], w_(1)/2 + w_(2)/2 [weight midpoint],
+  # w_(1)/2 + w_(2) [weight boundary], w_(2)/2 + w_(3)/2 [weight midpoint]
+  # The function values at the weight midpoints are the x-values corresponding to the weights,
+  # and the function values at the weight boundaries are the
   # weighted average of the x-values of the previous and next weight midpoint.
   x_order = order(x)
   x = x[x_order]
   weights = weights[x_order]
   if (continuous) {
-    double_weights = rep(weights / 2, each = 2)[c(-1, -2 * length(weights))] + .Machine$double.xmin # avoid 0 weights so we don't have to handle division by 0
+    # avoid 0 weights so we don't have to handle division by 0
+    double_weights = rep(weights / 2, each = 2)[c(-1, -2 * length(weights))] + .Machine$double.xmin
     double_x = rep(x, each = 2)[c(-1, -2 * length(x))] * double_weights
 
     double_x_weighted = (c(double_x, double_x[[length(double_x)]]) + c(double_x[[1]], double_x)) /

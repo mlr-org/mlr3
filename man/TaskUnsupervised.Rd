@@ -4,7 +4,8 @@
 \alias{TaskUnsupervised}
 \title{Unsupervised Task}
 \description{
-This is the abstract base class for unsupervised tasks such as cluster tasks in \CRANpkg{mlr3cluster} and \CRANpkg{mlr3spatial}.
+This is the abstract base class for unsupervised tasks such as cluster tasks in
+\CRANpkg{mlr3cluster} and \CRANpkg{mlr3spatial}.
 }
 \examples{
 TaskUnsupervised$new("penguins", task_type = "regr", backend = palmerpenguins::penguins)

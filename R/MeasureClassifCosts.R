@@ -9,7 +9,8 @@
 #' The cost matrix is stored as slot `$costs`.
 #'
 #' For calculation of the score, the confusion matrix is multiplied element-wise with the cost matrix.
-#' The costs are then summed up (and potentially divided by the number of observations if `normalize` is set to `TRUE` (default)).
+#' The costs are then summed up (and potentially divided by the number of observations
+#' if `normalize` is set to `TRUE` (default)).
 #'
 #' @templateVar id classif.costs
 #' @template measure

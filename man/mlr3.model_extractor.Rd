@@ -12,7 +12,8 @@ The function must return a named list.}
 \description{
 This \link{CallbackResample} extracts information from the model after training with a user-defined function.
 This way information can be extracted from the model without saving the model (\code{store_models = FALSE}).
-The \code{fun} must be a function that takes a learner as input and returns the extracted information as named list (see example).
+The \code{fun} must be a function that takes a learner as input and returns the extracted information
+as named list (see example).
 The callback is very helpful to call \verb{$selected_features()}, \verb{$importance()}, \verb{$oob_error()} on the learner.
 }
 \examples{

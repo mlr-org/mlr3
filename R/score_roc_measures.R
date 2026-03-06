@@ -20,7 +20,8 @@
 #' The prediction object.
 #'
 #' @return `list()`\cr
-#'  A list containing two elements `confusion_matrix` which is the 2 times 2 confusion matrix of absolute frequencies and `measures`, a list of the above mentioned measures.
+#'  A list containing two elements `confusion_matrix` which is the 2 times 2 confusion matrix
+#'  of absolute frequencies and `measures`, a list of the above mentioned measures.
 #' @export
 #' @examples
 #' learner = lrn("classif.rpart", predict_type = "prob")

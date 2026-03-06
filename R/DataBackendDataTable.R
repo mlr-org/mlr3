@@ -39,7 +39,8 @@ DataBackendDataTable = R6Class(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #'
-    #' Note that `DataBackendDataTable` does not copy the input data, while `as_data_backend()` calls [data.table::copy()].
+    #' Note that `DataBackendDataTable` does not copy the input data,
+    #' while `as_data_backend()` calls [data.table::copy()].
     #' `as_data_backend()` also takes care about casting to a `data.table()` and adds a primary key column if necessary.
     #'
     #' @param data ([data.table::data.table()])\cr
@@ -57,7 +58,8 @@ DataBackendDataTable = R6Class(
     #' @description
     #' Returns a slice of the data.
     #' The rows must be addressed as vector of primary key values, columns must be referred to via column names.
-    #' Queries for rows with no matching row id and queries for columns with no matching column name are silently ignored.
+    #' Queries for rows with no matching row id and queries for columns with no matching column name are
+    #' silently ignored.
     #' Rows are guaranteed to be returned in the same order as `rows`, columns may be returned in an arbitrary order.
     #' Duplicated row ids result in duplicated rows, duplicated column names lead to an exception.
     data = function(rows, cols) {

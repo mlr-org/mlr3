@@ -244,6 +244,7 @@ learner_predict = function(learner, task, row_ids = NULL) {
 
     if (!is.null(v_train) && v_train != v_predict) {
       warning_mlr3(
+        # nolint next
         "Detected version mismatch: Learner '%s' has been trained with mlr3 version '%s', not matching currently installed version '%s'",
         learner$id,
         v_train,
@@ -418,6 +419,7 @@ workhorse = function(
       is.null(get0("validate", learner))
   ) {
     error_config(
+      # nolint next
       "Cannot set the predict_type field of learner '%s' to 'internal_valid' if there is no internal validation task configured",
       learner$id
     )
@@ -688,6 +690,7 @@ create_internal_valid_task = function(validate, task, test_row_ids, prev_valid, 
       }
       if (!identical(task$target_names, task$internal_valid_task$target_names)) {
         error_config(
+          # nolint next
           "Internal validation task '%s' has different target names than primary task '%s', did you modify the task after creating the internal validation task?",
           task$internal_valid_task$id,
           task$id
@@ -695,6 +698,7 @@ create_internal_valid_task = function(validate, task, test_row_ids, prev_valid, 
       }
       if (!test_permutation(task$feature_names, task$internal_valid_task$feature_names)) {
         error_config(
+          # nolint next
           "Internal validation task '%s' has different features than primary task '%s', did you modify the task after creating the internal validation task?",
           task$internal_valid_task$id,
           task$id

@@ -86,7 +86,8 @@ Convert object to a \link{TaskRegr}.
 This is a S3 generic. mlr3 ships with methods for the following objects:
 \enumerate{
 \item \link{TaskRegr}: returns the object as-is, possibly cloned.
-\item \code{\link{formula}}, \code{\link[=data.frame]{data.frame()}}, \code{\link[=matrix]{matrix()}}, and \link{DataBackend}: provides an alternative to the constructor of \link{TaskRegr}.
+\item \code{\link{formula}}, \code{\link[=data.frame]{data.frame()}}, \code{\link[=matrix]{matrix()}}, and \link{DataBackend}: provides an alternative to the
+constructor of \link{TaskRegr}.
 \item \link{TaskClassif}: Calls \code{\link[=convert_task]{convert_task()}}.
 }
 }

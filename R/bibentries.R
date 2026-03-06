@@ -53,6 +53,7 @@ bibentries = c(
     pages     = "e90081",
     author    = "Kristen B. Gorman and Tony D. Williams and William R. Fraser",
     editor    = "Andr\u00e8 Chiaradia",
+    # nolint next
     title     = "Ecological Sexual Dimorphism and Environmental Variability within a Community of Antarctic Penguins (Genus Pygoscelis)",
     journal   = "{PLoS} {ONE}"
   ),

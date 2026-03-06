@@ -35,7 +35,8 @@
 #'
 #'   Note that there are the following edge cases for threshold equal to `0` which are handled specially:
 #'   1. With threshold 0 the resulting ratio gets `Inf` and thus gets always selected.
-#'      If there are multiple ratios with value `Inf`, one is selected according to `ties_method` (randomly per default).
+#'      If there are multiple ratios with value `Inf`, one is selected according to `ties_method`
+#'      (randomly per default).
 #'   2. If additionally the predicted probability is also 0, the ratio `0/0` results in `NaN` values.
 #'      These are simply replaced by `0` and thus will never get selected.
 #'
