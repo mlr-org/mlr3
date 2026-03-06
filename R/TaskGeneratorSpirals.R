@@ -17,7 +17,8 @@
 #'
 #' task = generator$generate(200)
 #' str(task$data())
-TaskGeneratorSpirals = R6Class("TaskGeneratorSpirals",
+TaskGeneratorSpirals = R6Class(
+  "TaskGeneratorSpirals",
   inherit = TaskGenerator,
   public = list(
     #' @description
@@ -25,11 +26,17 @@ TaskGeneratorSpirals = R6Class("TaskGeneratorSpirals",
     initialize = function() {
       ps = ps(
         cycles = p_int(1L, default = 1L),
-        sd     = p_dbl(0, default = 0)
+        sd = p_dbl(0, default = 0)
       )
 
-      super$initialize(id = "spirals", "classif", "mlbench", ps,
-        label = "Spiral Classification", man = "mlr3::mlr_task_generators_spirals")
+      super$initialize(
+        id = "spirals",
+        "classif",
+        "mlbench",
+        ps,
+        label = "Spiral Classification",
+        man = "mlr3::mlr_task_generators_spirals"
+      )
     },
 
     #' @description

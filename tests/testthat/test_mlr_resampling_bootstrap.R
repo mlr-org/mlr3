@@ -4,7 +4,11 @@ test_that("bootstrap has duplicated ids", {
 })
 
 test_that("stratification", {
-  data = data.table(y = factor(rep(letters[1:2], times = c(90, 10))), x1 = runif(100), x2 = rep(LETTERS[1:2], times = c(50, 50)))
+  data = data.table(
+    y = factor(rep(letters[1:2], times = c(90, 10))),
+    x1 = runif(100),
+    x2 = rep(LETTERS[1:2], times = c(50, 50))
+  )
   b = as_data_backend(data)
   task = TaskClassif$new("stratify_data", b, target = "y")
   task$col_roles$stratum = task$target_names
@@ -24,8 +28,10 @@ test_that("grouping", {
 })
 
 test_that("#518", {
-  with_seed(36, {
-    test_df = data.frame(feat1 = runif(3000),
+  # nolint next
+  with_seed(36L, {
+    test_df = data.frame(
+      feat1 = runif(3000),
       feat2 = runif(3000),
       target = runif(3000),
       group = sample(paste0("g", 1:100), 3000, replace = TRUE)

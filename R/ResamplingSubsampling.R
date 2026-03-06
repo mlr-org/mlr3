@@ -39,19 +39,25 @@
 #'
 #' # Internal storage:
 #' subsampling$instance$train # list of index vectors
-ResamplingSubsampling = R6Class("ResamplingSubsampling", inherit = Resampling,
+ResamplingSubsampling = R6Class(
+  "ResamplingSubsampling",
+  inherit = Resampling,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       ps = ps(
-        ratio   = p_dbl(0, 1, tags = "required"),
+        ratio = p_dbl(0, 1, tags = "required"),
         repeats = p_int(1L, tags = "required")
       )
       ps$set_values(repeats = 30L, ratio = 2 / 3)
 
-      super$initialize(id = "subsampling", param_set = ps,
-        label = "Subsampling", man = "mlr3::mlr_resamplings_subsampling")
+      super$initialize(
+        id = "subsampling",
+        param_set = ps,
+        label = "Subsampling",
+        man = "mlr3::mlr_resamplings_subsampling"
+      )
     }
   ),
 
@@ -82,13 +88,13 @@ ResamplingSubsampling = R6Class("ResamplingSubsampling", inherit = Resampling,
     },
 
     .combine = function(instances) {
-      Reduce(function(lhs, rhs) {
-        n = length(lhs$row_ids)
-        list(train =
-          Map(function(x, y) c(x, y + n), lhs$train, rhs$train),
-        row_ids = c(lhs$row_ids, rhs$row_ids)
-        )
-      }, instances)
+      Reduce(
+        function(lhs, rhs) {
+          n = length(lhs$row_ids)
+          list(train = Map(function(x, y) c(x, y + n), lhs$train, rhs$train), row_ids = c(lhs$row_ids, rhs$row_ids))
+        },
+        instances
+      )
     }
   )
 )

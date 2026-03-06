@@ -20,7 +20,8 @@
 #' The prediction object.
 #'
 #' @return `list()`\cr
-#'  A list containing two elements `confusion_matrix` which is the 2 times 2 confusion matrix of absolute frequencies and `measures`, a list of the above mentioned measures.
+#'  A list containing two elements `confusion_matrix` which is the 2 times 2 confusion matrix
+#'  of absolute frequencies and `measures`, a list of the above mentioned measures.
 #' @export
 #' @examples
 #' learner = lrn("classif.rpart", predict_type = "prob")
@@ -42,26 +43,30 @@ score_roc_measures = function(pred) {
   score_fomr = 1 - score_npv
   score_acc = pred$score(msr("classif.acc"))
   score_fpr = pred$score(msr("classif.fpr"))
-  score_lr.plus = score_tpr / score_fpr
-  score_lr.minus = score_fnr / score_tnr
-  score_dor = score_lr.plus / score_lr.minus
+  score_lr_plus = score_tpr / score_fpr
+  score_lr_minus = score_fnr / score_tnr
+  score_dor = score_lr_plus / score_lr_minus
 
-  set_class(list(
-    confusion_matrix = pred$confusion,
-    measures = list(
-      tpr = score_tpr,
-      fpr = score_fpr,
-      fnr = score_fnr,
-      tnr = score_tnr,
-      ppv = score_ppv,
-      fdr = score_fdr,
-      npv = score_npv,
-      fomr = score_fomr,
-      acc = score_acc,
-      lr_plus = score_lr.plus,
-      lr_minus = score_lr.minus,
-      dor = score_dor)
-  ), "roc_measures")
+  set_class(
+    list(
+      confusion_matrix = pred$confusion,
+      measures = list(
+        tpr = score_tpr,
+        fpr = score_fpr,
+        fnr = score_fnr,
+        tnr = score_tnr,
+        ppv = score_ppv,
+        fdr = score_fdr,
+        npv = score_npv,
+        fomr = score_fomr,
+        acc = score_acc,
+        lr_plus = score_lr_plus,
+        lr_minus = score_lr_minus,
+        dor = score_dor
+      )
+    ),
+    "roc_measures"
+  )
 }
 
 #' @title Print ROC Measures
@@ -79,22 +84,27 @@ score_roc_measures = function(pred) {
 #'   Additional parameters, currently unused.
 #' @export
 print.roc_measures = function(x, abbreviations = TRUE, digits = 2L, ...) {
-
   assert_flag(abbreviations)
   assert_int(digits, lower = 1L)
 
   # format measures
   x$measures = mapply(function(m, v) paste0(m, ": ", round(v, digits)), names(x$measures), x$measures)
 
-  res = cbind(round(x$confusion_matrix, digits = digits),
+  res = cbind(
+    round(x$confusion_matrix, digits = digits),
     c(x$measures[["tpr"]], x$measures[["fpr"]]),
-    c(x$measures[["fnr"]], x$measures[["tnr"]]))
-  res = rbind(res,
+    c(x$measures[["fnr"]], x$measures[["tnr"]])
+  )
+  res = rbind(
+    res,
     c(x$measures[["ppv"]], x$measures[["fomr"]], x$measures[["lr_plus"]], x$measures[["acc"]]),
-    c(x$measures[["fdr"]], x$measures[["npv"]], x$measures[["lr_minus"]], x$measures[["dor"]]))
+    c(x$measures[["fdr"]], x$measures[["npv"]], x$measures[["lr_minus"]], x$measures[["dor"]])
+  )
 
   names(dimnames(res)) = c("true", "predicted")
-  cat_cli({cli_h2("ROC Measures")})
+  cat_cli({
+    cli_h2("ROC Measures")
+  })
   print(noquote(res))
   if (abbreviations) {
     cat_cli({

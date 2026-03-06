@@ -22,7 +22,9 @@ test_that("seeds work identical during sequential and parallel execution", {
   resampling = rsmp("cv", folds = 3L)
   measure = msr("classif.auc")
 
+  # nolint nexts
   rr1 = with_seed(123, with_future(future::sequential, resample(task, learner, resampling)))
+  # nolint next
   rr2 = with_seed(123, with_future(future::multisession, resample(task, learner, resampling)))
 
   expect_equal(
@@ -46,11 +48,19 @@ test_that("parallel benchmark", {
   expect_equal(bmr$aggregate(conditions = TRUE)$warnings, 0L)
   expect_equal(bmr$aggregate(conditions = TRUE)$errors, 0L)
 
-  grid = benchmark_grid(list(tsk("wine"), tsk("sonar")), list(lrn("classif.debug", id = "learner_1"), lrn("classif.debug", id = "learner_2")), rsmp("cv", folds = 2))
+  grid = benchmark_grid(
+    list(tsk("wine"), tsk("sonar")),
+    list(lrn("classif.debug", id = "learner_1"), lrn("classif.debug", id = "learner_2")),
+    rsmp("cv", folds = 2)
+  )
   njobs = 3L
-  bmr = with_future(future::multisession, {
-    benchmark(grid, store_models = TRUE)
-  }, workers = njobs)
+  bmr = with_future(
+    future::multisession,
+    {
+      benchmark(grid, store_models = TRUE)
+    },
+    workers = njobs
+  )
 
   expect_benchmark_result(bmr)
   pids = map_int(as.data.table(bmr)$learner, function(x) x$model$pid)
@@ -79,8 +89,10 @@ test_that("parallel seed", {
   task = tsk("wine")
   learner = lrn("classif.debug", predict_type = "prob")
 
+  # nolint next
   rr1 = with_seed(123, resample(task, learner, rsmp("cv", folds = 3)))
   with_future(future.callr::callr, {
+    # nolint next
     rr2 = with_seed(123, resample(task, learner, rsmp("cv", folds = 3)))
   })
   expect_equal(rr1$prediction()$prob, rr2$prediction()$prob)
@@ -91,9 +103,12 @@ test_that("data table threads are not changed in main session", {
   skip_on_cran()
 
   old_dt_threads = getDTthreads()
-  on.exit({
-    setDTthreads(old_dt_threads)
-  }, add = TRUE)
+  on.exit(
+    {
+      setDTthreads(old_dt_threads)
+    },
+    add = TRUE
+  )
   setDTthreads(2L)
 
   task = tsk("sonar")
@@ -101,9 +116,11 @@ test_that("data table threads are not changed in main session", {
   resampling = rsmp("cv", folds = 3L)
   measure = msr("classif.auc")
 
+  # nolint next
   rr1 = with_seed(123, with_future(future::sequential, resample(task, learner, resampling)))
   expect_equal(getDTthreads(), 2L)
 
+  # nolint next
   rr2 = with_seed(123, with_future(future::multisession, resample(task, learner, resampling)))
   expect_equal(getDTthreads(), 2L)
 })

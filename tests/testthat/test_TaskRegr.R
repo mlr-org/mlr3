@@ -64,9 +64,12 @@ test_that("offset column role works", {
   expect_data_table(task$offset, nrows = task$nrow, ncols = 2)
   expect_subset(c("row_id", "offset"), names(task$offset))
 
-  expect_error({
-    task$col_roles$offset = c("am", "gear")
-  }, "up to one")
+  expect_error(
+    {
+      task$col_roles$offset = c("am", "gear")
+    },
+    "up to one"
+  )
 
   task$col_roles$offset = character()
   expect_true("offset" %nin% task$properties)

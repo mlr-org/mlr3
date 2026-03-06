@@ -20,11 +20,14 @@
 #'
 #' @template seealso_learner
 #' @export
-LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
+LearnerClassifRpart = R6Class(
+  "LearnerClassifRpart",
+  inherit = LearnerClassif,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
+      # fmt: skip
       ps = ps(
         cp             = p_dbl(0, 1, default = 0.01, tags = "train"),
         keep_model     = p_lgl(default = FALSE, tags = "train"),
@@ -86,26 +89,34 @@ LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
       response = prob = NULL
 
       if ("response" %chin% self$predict_type) {
-        response = invoke(predict, self$model, newdata = newdata, type = "class",
-          .opts = allow_partial_matching, .args = pv)
+        response = invoke(
+          predict,
+          self$model,
+          newdata = newdata,
+          type = "class",
+          .opts = allow_partial_matching,
+          .args = pv
+        )
         raw = response
         response = unname(response)
       } else if ("prob" %chin% self$predict_type) {
-        prob = invoke(predict, self$model, newdata = newdata, type = "prob",
-          .opts = allow_partial_matching, .args = pv)
+        prob = invoke(predict, self$model, newdata = newdata, type = "prob", .opts = allow_partial_matching, .args = pv)
         raw = prob
         rownames(prob) = NULL
       }
 
       result = list(response = response, prob = prob)
-      if (self$predict_raw) result$raw = raw
+      if (self$predict_raw) {
+        result$raw = raw
+      }
       result
     }
   )
 )
 
 #' @export
-default_values.LearnerClassifRpart = function(x, search_space, task, ...) { # nolint
+# nolint next
+default_values.LearnerClassifRpart = function(x, search_space, task, ...) {
   special_defaults = list(
     minbucket = round(20 / 3)
   )

@@ -17,7 +17,6 @@ test_that("DataBackendCbind", {
   x = b$missings(b$rownames, c("Petal.Width", "Petal.Length"))
   expect_equal(x, set_names(c(0L, 30L), c("Petal.Width", "Petal.Length")))
 
-
   expect_equal(b$col_hashes, c(b1$col_hashes, b2$col_hashes)[setdiff(b$colnames, b$primary_key)])
 })
 
@@ -50,8 +49,6 @@ test_that("cbind backends with same columns", {
   expect_true(allMissing(data$Sepal.Width))
 
   expect_equal(b$col_hashes, insert_named(b1$col_hashes, b2$col_hashes)[setdiff(b$colnames, b$primary_key)])
-
-
 })
 
 test_that("Backends with different rows", {
@@ -69,5 +66,4 @@ test_that("Backends with different rows", {
   expect_data_table(b$head(Inf), nrows = 20, ncols = 6)
 
   expect_equal(b$col_hashes, c(b1$col_hashes, b2$col_hashes)[setdiff(b$colnames, b$primary_key)])
-
 })

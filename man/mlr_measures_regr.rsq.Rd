@@ -18,7 +18,8 @@ where \eqn{\bar{t} = \frac{1}{n} \sum_{i=1}^n t_i} and \eqn{w_i} are weights.
 Also known as coefficient of determination or explained variation.
 It compares the squared error of the predictions relative to a naive model predicting the mean.
 
-Note that weights are used to scale the squared error of individual predictions (both in the numerator and in the denominator),
+Note that weights are used to scale the squared error of individual predictions
+(both in the numerator and in the denominator),
 but the "plug in" value \eqn{\bar{t}} is computed without weights.
 
 This measure is undefined for constant \eqn{t}.

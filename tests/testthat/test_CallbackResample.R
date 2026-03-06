@@ -5,7 +5,8 @@ test_that("on_resample_begin works", {
   learner = lrn("classif.rpart")
   resampling = rsmp("cv", folds = 3)
 
-  callback = callback_resample("test",
+  callback = callback_resample(
+    "test",
 
     on_resample_begin = function(callback, context) {
       # expect_* does not work
@@ -25,7 +26,8 @@ test_that("on_resample_before_train works", {
   learner = lrn("classif.rpart")
   resampling = rsmp("cv", folds = 3)
 
-  callback = callback_resample("test",
+  callback = callback_resample(
+    "test",
 
     on_resample_before_train = function(callback, context) {
       assert_task(context$task)
@@ -37,7 +39,6 @@ test_that("on_resample_before_train works", {
   )
 
   expect_resample_result(resample(task, learner, resampling, callbacks = callback))
-
 })
 
 test_that("on_resample_before_predict works", {
@@ -45,7 +46,8 @@ test_that("on_resample_before_predict works", {
   learner = lrn("classif.rpart")
   resampling = rsmp("cv", folds = 3)
 
-  callback = callback_resample("test",
+  callback = callback_resample(
+    "test",
 
     on_resample_before_predict = function(callback, context) {
       assert_task(context$task)
@@ -63,7 +65,8 @@ test_that("on_resample_end works", {
   learner = lrn("classif.rpart")
   resampling = rsmp("cv", folds = 3)
 
-  callback = callback_resample("test",
+  callback = callback_resample(
+    "test",
 
     on_resample_end = function(callback, context) {
       assert_task(context$task)
@@ -84,11 +87,9 @@ test_that("writing to learner$state works", {
   learner = lrn("classif.rpart")
   resampling = rsmp("cv", folds = 3)
 
-  callback = callback_resample("test",
-    on_resample_end = function(callback, context) {
-      context$learner$state$test = 1
-    }
-  )
+  callback = callback_resample("test", on_resample_end = function(callback, context) {
+    context$learner$state$test = 1
+  })
 
   # resample result
   rr = resample(task, learner, resampling, callbacks = callback)
@@ -117,11 +118,9 @@ test_that("writing to data_extra works", {
   learner = lrn("classif.rpart")
   resampling = rsmp("cv", folds = 3)
 
-  callback = callback_resample("test",
-    on_resample_end = function(callback, context) {
-      context$data_extra$test = 1
-    }
-  )
+  callback = callback_resample("test", on_resample_end = function(callback, context) {
+    context$data_extra$test = 1
+  })
 
   # resample result
   rr = resample(task, learner, resampling, callbacks = callback)
@@ -153,11 +152,9 @@ test_that("data_extra is a list column", {
   learner = lrn("classif.rpart")
   resampling = rsmp("holdout")
 
-  callback = callback_resample("test",
-    on_resample_end = function(callback, context) {
-      context$data_extra$test = 1
-    }
-  )
+  callback = callback_resample("test", on_resample_end = function(callback, context) {
+    context$data_extra$test = 1
+  })
 
   rr = resample(task, learner, resampling, callbacks = callback)
   expect_list(as.data.table(rr)$data_extra, len = 1)
@@ -174,15 +171,13 @@ test_that("data_extra is null", {
   learner = lrn("classif.rpart")
   resampling = rsmp("cv", folds = 3)
 
-  callback = callback_resample("test",
-    on_resample_end = function(callback, context) {
-      context$learner$state$test = 1
-    }
-  )
+  callback = callback_resample("test", on_resample_end = function(callback, context) {
+    context$learner$state$test = 1
+  })
 
   # resample result
   rr = resample(task, learner, resampling, callbacks = callback)
-  expect_data_table(rr$data_extra, nrows =  3)
+  expect_data_table(rr$data_extra, nrows = 3)
   walk(rr$data_extra$data_extra, expect_null)
 
   # resample result data.table
@@ -205,7 +200,8 @@ test_that("learner cloning in workhorse is passed to context", {
   learner = lrn("classif.rpart")
   resampling = rsmp("holdout")
 
-  callback = callback_resample("test",
+  callback = callback_resample(
+    "test",
     on_resample_begin = function(callback, context) {
       callback$state$address_1 = data.table::address(context$learner)
     },
@@ -232,13 +228,11 @@ test_that("returning data_extra sometimes works ", {
   task = tsk("pima")
   resampling = rsmp("cv", folds = 3)
 
-  callback = callback_resample("test",
-    on_resample_end = function(callback, context) {
-      if (context$learner$id == "classif.featureless") {
-        context$data_extra$test = 1
-      }
+  callback = callback_resample("test", on_resample_end = function(callback, context) {
+    if (context$learner$id == "classif.featureless") {
+      context$data_extra$test = 1
     }
-  )
+  })
 
   design = benchmark_grid(task, learners, resampling)
   bmr = benchmark(design, callbacks = callback)

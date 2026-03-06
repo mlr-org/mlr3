@@ -36,7 +36,9 @@
 #'
 #' # Internal storage:
 #' cv$instance # table
-ResamplingCV = R6Class("ResamplingCV", inherit = Resampling,
+ResamplingCV = R6Class(
+  "ResamplingCV",
+  inherit = Resampling,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
@@ -46,8 +48,7 @@ ResamplingCV = R6Class("ResamplingCV", inherit = Resampling,
       )
       ps$set_values(folds = 10L)
 
-      super$initialize(id = "cv", param_set = ps,
-        label = "Cross-Validation", man = "mlr3::mlr_resamplings_cv")
+      super$initialize(id = "cv", param_set = ps, label = "Cross-Validation", man = "mlr3::mlr_resamplings_cv")
     }
   ),
 
@@ -81,6 +82,7 @@ ResamplingCV = R6Class("ResamplingCV", inherit = Resampling,
     },
 
     deep_clone = function(name, value) {
+      # fmt: skip
       switch(name,
         "instance" = copy(value),
         ".param_set" = value$clone(deep = TRUE),

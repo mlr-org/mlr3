@@ -35,7 +35,8 @@
 #'
 #'   Note that there are the following edge cases for threshold equal to `0` which are handled specially:
 #'   1. With threshold 0 the resulting ratio gets `Inf` and thus gets always selected.
-#'      If there are multiple ratios with value `Inf`, one is selected according to `ties_method` (randomly per default).
+#'      If there are multiple ratios with value `Inf`, one is selected according to `ties_method`
+#'      (randomly per default).
 #'   2. If additionally the predicted probability is also 0, the ratio `0/0` results in `NaN` values.
 #'      These are simply replaced by `0` and thus will never get selected.
 #'
@@ -59,7 +60,9 @@
 #' # new predictions
 #' p$set_threshold(th)$response
 #' p$score(measures = msr("classif.ce"))
-PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
+PredictionClassif = R6Class(
+  "PredictionClassif",
+  inherit = Prediction,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
@@ -109,9 +112,16 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
       extra = NULL,
       raw = NULL
     ) {
-
       pdata = new_prediction_data(
-        list(row_ids = row_ids, truth = truth, response = response, prob = prob, weights = weights, extra = extra, raw = raw),
+        list(
+          row_ids = row_ids,
+          truth = truth,
+          response = response,
+          prob = prob,
+          weights = weights,
+          extra = extra,
+          raw = raw
+        ),
         task_type = "classif"
       )
 
@@ -123,7 +133,6 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
       self$data = pdata
       self$predict_types = intersect(c("response", "prob"), names(pdata))
     },
-
 
     #' @description
     #' Sets the prediction response based on the provided threshold.
@@ -143,7 +152,6 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
       invisible(self)
     }
   ),
-
 
   active = list(
     #' @field response (`factor()`)\cr
@@ -171,7 +179,8 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
 )
 
 #' @export
-as.data.table.PredictionClassif = function(x, ...) { # nolint
+# nolint next
+as.data.table.PredictionClassif = function(x, ...) {
   tab = as.data.table(x$data[c("row_ids", "truth", "response")])
 
   if ("prob" %chin% x$predict_types) {

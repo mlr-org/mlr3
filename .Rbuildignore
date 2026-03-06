@@ -1,5 +1,7 @@
 ^\.ccache$
+^\.clangd$
 ^\.claude$
+^\.cspell$
 ^\.cursor$
 ^\.editorconfig$
 ^\.git$
@@ -12,8 +14,11 @@
 ^.*\.Rproj$
 ^AGENTS.md$
 ^air.toml$
+^attic$
+^attic_local$
 ^CITATION.cff$
 ^CLAUDE.md$
+^cspell.json$
 ^CONTRIBUTING.md$
 ^cran-comments\.md$
 ^CRAN-SUBMISSION$

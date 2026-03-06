@@ -38,7 +38,8 @@ In case of ties in the ratio, one of the tied class labels is selected randomly.
 Note that there are the following edge cases for threshold equal to \code{0} which are handled specially:
 \enumerate{
 \item With threshold 0 the resulting ratio gets \code{Inf} and thus gets always selected.
-If there are multiple ratios with value \code{Inf}, one is selected according to \code{ties_method} (randomly per default).
+If there are multiple ratios with value \code{Inf}, one is selected according to \code{ties_method}
+(randomly per default).
 \item If additionally the predicted probability is also 0, the ratio \code{0/0} results in \code{NaN} values.
 These are simply replaced by \code{0} and thus will never get selected.
 }

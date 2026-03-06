@@ -27,15 +27,19 @@
 #'
 #' @section Stratification:
 #' All derived classes support stratified sampling.
-#' The stratification variables are assumed to be discrete and must be stored in the [Task] with column role `"stratum"`.
-#' In case of multiple stratification variables, each combination of the values of the stratification variables forms a strata.
+#' The stratification variables are assumed to be discrete and must be stored in the [Task]
+#' with column role `"stratum"`.
+#' In case of multiple stratification variables,
+#' each combination of the values of the stratification variables forms a strata.
 #'
-#' First, the observations are divided into subpopulations based one or multiple stratification variables (assumed to be discrete), c.f. `task$strata`.
+#' First, the observations are divided into subpopulations based one or multiple stratification
+#' variables (assumed to be discrete), c.f. `task$strata`.
 #'
 #' Second, the sampling is performed in each of the `k` subpopulations separately.
 #' Each subgroup is divided into `iter` training sets and `iter` test sets by the derived `Resampling`.
 #' These sets are merged based on their iteration number:
-#' all training sets from all subpopulations with iteration 1 are combined, then all training sets with iteration 2, and so on.
+#' all training sets from all subpopulations with iteration 1 are combined,
+#' then all training sets with iteration 2, and so on.
 #' Same is done for all test sets.
 #' The merged sets can be accessed via `$train_set(i)` and `$test_set(i)`, respectively.
 #' Note that this procedure can lead to set sizes that are slightly different from those
@@ -54,7 +58,8 @@
 #' The sets can be accessed via `$train_set(i)` and `$test_set(i)`, respectively.
 #'
 #' @section Inheriting:
-#' It is possible to overwrite both `private$.get_instance()` to have full control, or only `private$.sample()` when one wants to use the pre-defined mechanism for stratification and grouping.
+#' It is possible to overwrite both `private$.get_instance()` to have full control,
+#' or only `private$.sample()` when one wants to use the pre-defined mechanism for stratification and grouping.
 #'
 #' @template seealso_resampling
 #' @export
@@ -89,7 +94,8 @@
 #' r = rsmp("subsampling")
 #' r$instantiate(task)
 #' prop.table(table(task$truth(r$train_set(1)))) # roughly same proportion
-Resampling = R6Class("Resampling",
+Resampling = R6Class(
+  "Resampling",
   public = list(
     #' @field instance (any)\cr
     #'   During `instantiate()`, the instance is stored in this slot in an arbitrary format.
@@ -349,14 +355,18 @@ Resampling = R6Class("Resampling",
 
 
 #' @export
-as.data.table.Resampling = function(x, ...) { # nolint
+# nolint next
+as.data.table.Resampling = function(x, ...) {
   assert_resampling(x, instantiated = TRUE)
   iterations = seq_len(x$iters)
 
-  tab = rbindlist(list(
-    map_dtr(iterations, function(i) list(row_id = x$train_set(i)), .idcol = "iteration"),
-    map_dtr(iterations, function(i) list(row_id = x$test_set(i)), .idcol = "iteration")
-  ), idcol = "set")
+  tab = rbindlist(
+    list(
+      map_dtr(iterations, function(i) list(row_id = x$train_set(i)), .idcol = "iteration"),
+      map_dtr(iterations, function(i) list(row_id = x$test_set(i)), .idcol = "iteration")
+    ),
+    idcol = "set"
+  )
   set(tab, j = "set", value = factor(c("train", "test")[tab$set], levels = c("train", "test")))
   setkeyv(tab, c("set", "iteration"))[]
 }

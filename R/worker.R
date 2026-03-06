@@ -18,7 +18,6 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
       error_learner_train("Learner '%s' on task '%s' returned NULL during internal %s()", learner$id, task$id, mode)
     }
 
-
     # In order to avoid unnecessary (un-)marshaling steps,
     # we already extract the internal tuned values and validation scores here.
     # They should only operate on the model and the param_vals so the
@@ -29,8 +28,10 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
     learner$state$param_vals = learner$param_set$values
 
     # Extract internal valid scores and tuned values if applicable.
-    internal_valid_scores = if (!is.null(get0("validate", learner)) &&
-      exists(".extract_internal_valid_scores", get_private(learner))) {
+    internal_valid_scores = if (
+      !is.null(get0("validate", learner)) &&
+        exists(".extract_internal_valid_scores", get_private(learner))
+    ) {
       get_private(learner)$.extract_internal_valid_scores()
     }
 
@@ -64,15 +65,23 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
 
   # subset to train set w/o cloning
   if (!is.null(train_row_ids)) {
-    lg$debug("Subsetting task '%s' to %i rows",
-      task$id, length(train_row_ids), task = task$clone(), row_ids = train_row_ids)
+    lg$debug(
+      "Subsetting task '%s' to %i rows",
+      task$id,
+      length(train_row_ids),
+      task = task$clone(),
+      row_ids = train_row_ids
+    )
 
     task_private = get_private(task)
     prev_use = task_private$.row_roles$use
-    on.exit({
-      task_private$.row_roles$use = prev_use
-    }, add = TRUE)
-    task_private$.row_roles$use  = train_row_ids
+    on.exit(
+      {
+        task_private$.row_roles$use = prev_use
+      },
+      add = TRUE
+    )
+    task_private$.row_roles$use = train_row_ids
     task_private$.row_hash = NULL
     task_private$.hash = NULL
   } else {
@@ -82,9 +91,12 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
   # handle the internal validation task
   validate = get0("validate", learner)
   prev_valid = task$internal_valid_task
-  on.exit({
-    task$internal_valid_task = prev_valid
-  }, add = TRUE)
+  on.exit(
+    {
+      task$internal_valid_task = prev_valid
+    },
+    add = TRUE
+  )
 
   # depending on the validate parameter, create the internal validation task (if needed)
   # modifies the task in place
@@ -93,13 +105,22 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
     error_config("Internal validation task for task '%s' has 0 observations", task$id)
   }
 
-  if (mode == "train") learner$state = list()
+  if (mode == "train") {
+    learner$state = list()
+  }
 
-  lg$debug("Calling %s method of Learner '%s' on task '%s' with %i observations",
-    mode, learner$id, task$id, task$nrow, learner = learner$clone())
+  lg$debug(
+    "Calling %s method of Learner '%s' on task '%s' with %i observations",
+    mode,
+    learner$id,
+    task$id,
+    task$nrow,
+    learner = learner$clone()
+  )
 
   # call train_wrapper with encapsulation
-  result = encapsulate(learner$encapsulation["train"],
+  result = encapsulate(
+    learner$encapsulation["train"],
     .f = train_wrapper,
     .args = list(learner = learner, task = task),
     .pkgs = c(learner$packages, mlr_reflections$loaded_packages),
@@ -122,16 +143,22 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
 
   train_time = result$elapsed
 
-  learner$state = set_class(insert_named(learner$state, list(
-    model = result$result$model,
-    log = log,
-    train_time = train_time,
-    param_vals = learner$param_set$values,
-    task_hash = task$hash,
-    feature_names = task$feature_names,
-    validate = get0("validate", learner),
-    mlr3_version = mlr_reflections$package_version
-  )), c("learner_state", "list"))
+  learner$state = set_class(
+    insert_named(
+      learner$state,
+      list(
+        model = result$result$model,
+        log = log,
+        train_time = train_time,
+        param_vals = learner$param_set$values,
+        task_hash = task$hash,
+        feature_names = task$feature_names,
+        validate = get0("validate", learner),
+        mlr3_version = mlr_reflections$package_version
+      )
+    ),
+    c("learner_state", "list")
+  )
 
   # store the results of the internal tuning / internal validation in the learner's state
   # otherwise this information is only available with store_models = TRUE
@@ -144,28 +171,44 @@ learner_train = function(learner, task, train_row_ids = NULL, test_row_ids = NUL
   learner$state$oob_error = result$result$oob_error
 
   if (is.null(result$result$model)) {
-    lg$info("Learner '%s' on task '%s' failed to %s a model",
-      learner$id, task$id, mode, learner = learner$clone(), messages = result$log$msg)
+    lg$info(
+      "Learner '%s' on task '%s' failed to %s a model",
+      learner$id,
+      task$id,
+      mode,
+      learner = learner$clone(),
+      messages = result$log$msg
+    )
   } else {
-    lg$debug("Learner '%s' on task '%s' succeeded to %s a model",
-      learner$id, task$id, mode, learner = learner$clone(), result = result$result$model, messages = result$log$msg)
+    lg$debug(
+      "Learner '%s' on task '%s' succeeded to %s a model",
+      learner$id,
+      task$id,
+      mode,
+      learner = learner$clone(),
+      result = result$result$model,
+      messages = result$log$msg
+    )
   }
 
   # fit fallback learner
   fb = learner$fallback
   if (!is.null(fb)) {
-    lg$info("Calling train method of fallback '%s' on task '%s' with %i observations",
-      fb$id, task$id, task$nrow, learner = fb$clone())
+    lg$info(
+      "Calling train method of fallback '%s' on task '%s' with %i observations",
+      fb$id,
+      task$id,
+      task$nrow,
+      learner = fb$clone()
+    )
 
     fb = assert_learner(as_learner(fb))
     require_namespaces(fb$packages)
     fb$train(task)
     learner$state$fallback_state = fb$state
 
-    lg$debug("Fitted fallback learner '%s'",
-      fb$id, learner = fb$clone())
+    lg$debug("Fitted fallback learner '%s'", fb$id, learner = fb$clone())
   }
-
 
   list(
     learner = learner,
@@ -200,22 +243,29 @@ learner_predict = function(learner, task, row_ids = NULL) {
     v_predict = mlr_reflections$package_version
 
     if (!is.null(v_train) && v_train != v_predict) {
-      warning_mlr3("Detected version mismatch: Learner '%s' has been trained with mlr3 version '%s', not matching currently installed version '%s'",
-        learner$id, v_train, v_predict)
+      warning_mlr3(
+        # nolint next
+        "Detected version mismatch: Learner '%s' has been trained with mlr3 version '%s', not matching currently installed version '%s'",
+        learner$id,
+        v_train,
+        v_predict
+      )
     }
   }
 
   # subset to test set w/o cloning
   if (!is.null(row_ids)) {
-    lg$debug("Subsetting task '%s' to %i rows",
-      task$id, length(row_ids), task = task$clone(), row_ids = row_ids)
+    lg$debug("Subsetting task '%s' to %i rows", task$id, length(row_ids), task = task$clone(), row_ids = row_ids)
 
     task_private = get_private(task)
     prev_use = task_private$.row_roles$use
-    on.exit({
-      task_private$.row_roles$use  = prev_use
-    }, add = TRUE)
-    task_private$.row_roles$use  = row_ids
+    on.exit(
+      {
+        task_private$.row_roles$use = prev_use
+      },
+      add = TRUE
+    )
+    task_private$.row_roles$use = row_ids
   } else {
     lg$debug("Skip subsetting of task '%s'", task$id)
   }
@@ -223,13 +273,17 @@ learner_predict = function(learner, task, row_ids = NULL) {
   if (task$nrow == 0L) {
     # return an empty prediction object, #421
     lg$debug("No observations in task, returning empty prediction data", task = task)
-    learner$state$log = append_log(learner$state$log, stage = "predict", class = "output", condition = list(simpleMessage("No data to predict on, create empty prediction")))
+    learner$state$log = append_log(
+      learner$state$log,
+      stage = "predict",
+      class = "output",
+      condition = list(simpleMessage("No data to predict on, create empty prediction"))
+    )
     return(create_empty_prediction_data(task, learner))
   }
 
   if (is.null(learner$state$model)) {
-    lg$debug("Learner '%s' has no model stored",
-      learner$id, learner = learner$clone())
+    lg$debug("Learner '%s' has no model stored", learner$id, learner = learner$clone())
 
     pdata = NULL
     learner$state$predict_time = NA_real_
@@ -239,8 +293,13 @@ learner_predict = function(learner, task, row_ids = NULL) {
     }
   } else {
     # call predict with encapsulation
-    lg$debug("Calling predict method of Learner '%s' on task '%s' with %i observations",
-      learner$id, task$id, task$nrow, learner = learner$clone())
+    lg$debug(
+      "Calling predict method of Learner '%s' on task '%s' with %i observations",
+      learner$id,
+      task$id,
+      task$nrow,
+      learner = learner$clone()
+    )
 
     if (learner$encapsulation[["predict"]] %in% c("callr", "mirai")) {
       learner$model = marshal_model(learner$model, inplace = TRUE)
@@ -262,17 +321,28 @@ learner_predict = function(learner, task, row_ids = NULL) {
 
     pdata = result$result
     # don't log an existing (uncaught) error, because it's signalled
-    learner$state$log = append_log(learner$state$log, stage = "predict", class = result$log$class, condition = result$log$condition, log_error = !err)
+    learner$state$log = append_log(
+      learner$state$log,
+      stage = "predict",
+      class = result$log$class,
+      condition = result$log$condition,
+      log_error = !err
+    )
 
     if (err) {
       stop(cond)
     }
     learner$state$predict_time = sum(learner$state$predict_time, result$elapsed)
 
-    lg$debug("Learner '%s' returned an object of class '%s'",
-      learner$id, class(pdata)[1L], learner = learner$clone(), prediction_data = pdata, messages = result$log$msg)
+    lg$debug(
+      "Learner '%s' returned an object of class '%s'",
+      learner$id,
+      class(pdata)[1L],
+      learner = learner$clone(),
+      prediction_data = pdata,
+      messages = result$log$msg
+    )
   }
-
 
   fb = learner$fallback
   if (!is.null(fb)) {
@@ -283,21 +353,34 @@ learner_predict = function(learner, task, row_ids = NULL) {
       as_prediction_data(fb$predict(task, row_ids), task, row_ids, check = TRUE, train_task = learner$state$train_task)
     }
 
-
     if (is.null(pdata)) {
-      lg$debug("Creating new Prediction using fallback '%s'",
-        fb$id, learner = fb$clone())
+      lg$debug("Creating new Prediction using fallback '%s'", fb$id, learner = fb$clone())
 
-      learner$state$log = append_log(learner$state$log, stage = "predict", class = "output", condition = list(simpleMessage("Using fallback learner for predictions")))
+      learner$state$log = append_log(
+        learner$state$log,
+        stage = "predict",
+        class = "output",
+        condition = list(simpleMessage("Using fallback learner for predictions"))
+      )
       pdata = predict_fb(task$row_ids)
     } else {
       miss_ids = is_missing_prediction_data(pdata)
 
-      lg$debug("Imputing %i/%i predictions using fallback '%s'",
-        length(miss_ids), length(pdata$row_ids), fb$id, learner = fb$clone())
+      lg$debug(
+        "Imputing %i/%i predictions using fallback '%s'",
+        length(miss_ids),
+        length(pdata$row_ids),
+        fb$id,
+        learner = fb$clone()
+      )
 
       if (length(miss_ids)) {
-        learner$state$log = append_log(learner$state$log, stage = "predict", class = "output", condition = list(simpleMessage("Using fallback learner to impute predictions")))
+        learner$state$log = append_log(
+          learner$state$log,
+          stage = "predict",
+          class = "output",
+          condition = list(simpleMessage("Using fallback learner to impute predictions"))
+        )
 
         pdata = c(pdata, predict_fb(miss_ids), keep_duplicates = FALSE)
       }
@@ -321,7 +404,7 @@ workhorse = function(
   is_sequential = TRUE,
   unmarshal = TRUE,
   callbacks = NULL
-  ) { # nolint
+) {
   ctx = ContextResample$new(task, learner, resampling, iteration)
 
   call_back("on_resample_begin", callbacks, ctx)
@@ -329,8 +412,17 @@ workhorse = function(
   if (!is.null(pb)) {
     pb(sprintf("%s|%s|i:%i", task$id, learner$id, iteration))
   }
-  if ("internal_valid" %chin% learner$predict_sets && is.null(task$internal_valid_task) && is.null(get0("validate", learner))) {
-    error_config("Cannot set the predict_type field of learner '%s' to 'internal_valid' if there is no internal validation task configured", learner$id)
+  # fmt: skip
+  if (
+    "internal_valid" %chin% learner$predict_sets &&
+      is.null(task$internal_valid_task) &&
+      is.null(get0("validate", learner))
+  ) {
+    error_config(
+      # nolint next
+      "Cannot set the predict_type field of learner '%s' to 'internal_valid' if there is no internal validation task configured",
+      learner$id
+    )
   }
 
   # restore settings on the workers
@@ -344,29 +436,43 @@ workhorse = function(
       old_blas_threads = RhpcBLASctl::blas_get_num_procs()
       on.exit(RhpcBLASctl::blas_set_num_threads(old_blas_threads), add = TRUE)
       RhpcBLASctl::blas_set_num_threads(1)
-    } else { # try the bare minimum to disable threading of the most popular blas implementations
+    } else {
+      # try the bare minimum to disable threading of the most popular blas implementations
       old_blas = Sys.getenv("OPENBLAS_NUM_THREADS")
       old_mkl = Sys.getenv("MKL_NUM_THREADS")
       Sys.setenv(OPENBLAS_NUM_THREADS = 1)
       Sys.setenv(MKL_NUM_THREADS = 1)
 
-      on.exit({
-        Sys.setenv(OPENBLAS_NUM_THREADS = old_blas)
-        Sys.setenv(MKL_NUM_THREADS = old_mkl)
-      }, add = TRUE)
+      on.exit(
+        {
+          Sys.setenv(OPENBLAS_NUM_THREADS = old_blas)
+          Sys.setenv(MKL_NUM_THREADS = old_mkl)
+        },
+        add = TRUE
+      )
     }
 
     # restore logger thresholds
     # skip inherited thresholds
     lgr_index = lgr_index[!lgr_index$threshold_inherited, ]
-    mapply(function(name, threshold) {
-      logger = lgr::get_logger(name)
-      logger$set_threshold(threshold)
-    }, lgr_index$name, lgr_index$threshold)
+    mapply(
+      function(name, threshold) {
+        logger = lgr::get_logger(name)
+        logger$set_threshold(threshold)
+      },
+      lgr_index$name,
+      lgr_index$threshold
+    )
   }
 
-  lg$info("%s learner '%s' on task '%s' (iter %i/%i)",
-    if (mode == "train") "Applying" else "Hotstarting", learner$id, task$id, iteration, resampling$iters)
+  lg$info(
+    "%s learner '%s' on task '%s' (iter %i/%i)",
+    if (mode == "train") "Applying" else "Hotstarting",
+    learner$id,
+    task$id,
+    iteration,
+    resampling$iters
+  )
 
   sets = list(
     train = resampling$train_set(iteration),
@@ -395,7 +501,10 @@ workhorse = function(
   # keep a copy of the model in current form in case this is the format that we want to send back to the main process
   # and not the format that we need for prediction
   model_copy_or_null = process_model_before_predict(
-    learner = learner, store_models = store_models, is_sequential = is_sequential, unmarshal = unmarshal
+    learner = learner,
+    store_models = store_models,
+    is_sequential = is_sequential,
+    unmarshal = unmarshal
   )
 
   # predict for each set
@@ -405,11 +514,16 @@ workhorse = function(
   pred_data = prediction_tasks_and_sets(task, train_result, validate, sets, predict_sets)
   call_back("on_resample_before_predict", callbacks, ctx)
 
-  pdatas = Map(function(set, row_ids, task) {
-    lg$debug("Creating Prediction for predict set '%s'", set)
+  pdatas = Map(
+    function(set, row_ids, task) {
+      lg$debug("Creating Prediction for predict set '%s'", set)
 
-    learner_predict(learner, task, row_ids)
-  }, set = predict_sets, row_ids = pred_data$sets, task = pred_data$tasks)
+      learner_predict(learner, task, row_ids)
+    },
+    set = predict_sets,
+    row_ids = pred_data$sets,
+    task = pred_data$tasks
+  )
 
   if (!length(predict_sets)) {
     learner$state$predict_time = 0L
@@ -418,7 +532,10 @@ workhorse = function(
 
   # set the model slot after prediction so it can be sent back to the main process
   process_model_after_predict(
-    learner = learner, store_models = store_models, is_sequential = is_sequential, model_copy = model_copy_or_null,
+    learner = learner,
+    store_models = store_models,
+    is_sequential = is_sequential,
+    model_copy = model_copy_or_null,
     unmarshal = unmarshal
   )
 
@@ -436,7 +553,8 @@ workhorse = function(
     prediction = ctx$pdatas,
     param_values = learner$param_set$values,
     learner_hash = learner_hash,
-    data_extra = ctx$data_extra)
+    data_extra = ctx$data_extra
+  )
 }
 
 # creates the tasks and row ids for the selected predict sets
@@ -477,7 +595,9 @@ process_model_before_predict = function(learner, store_models, is_sequential, un
 
   # the only scenario in which we keep a copy is when we now have the model in the correct form but need to transform
   # it for prediction
-  keep_copy = store_models & (currently_marshaled == final_needs_marshaling) && (currently_marshaled != predict_needs_marshaling)
+  keep_copy = store_models &
+    (currently_marshaled == final_needs_marshaling) &&
+    (currently_marshaled != predict_needs_marshaling)
 
   if (!keep_copy) {
     # here we either
@@ -513,7 +633,7 @@ process_model_after_predict = function(learner, store_models, is_sequential, unm
   if (store_models && !is.null(model_copy)) {
     # we created a copy of the model to avoid additional marshaling cycles
     learner$model = model_copy
-  } else if (store_models &&  !is_sequential || !unmarshal) {
+  } else if (store_models && !is_sequential || !unmarshal) {
     # no copy was created, here we make sure that we return the model the way the user wants it
     learner$model = marshal_model(learner$model, inplace = TRUE)
   }
@@ -534,7 +654,9 @@ append_log = function(log = NULL, stage = NA_character_, class = NA_character_, 
     # log messages with lgr / print to console
     pwalk(list(stage, class, condition), function(s, cls, cond) {
       m = conditionMessage(cond)
-      if (cls == "error" && log_error) lg$error("%s: %s", s, m)
+      if (cls == "error" && log_error) {
+        lg$error("%s: %s", s, m)
+      }
       if (cls == "warning") lg$warn("%s: %s", s, m)
     })
   }
@@ -550,24 +672,41 @@ create_internal_valid_task = function(validate, task, test_row_ids, prev_valid, 
 
   # Otherwise, predict_set = "internal_valid" is ambiguous
   if (!is.null(prev_valid) && (is.numeric(validate) || identical(validate, "test"))) {
-    error_config("Parameter 'validate' of Learner '%s' cannot be set to 'test' or a ratio when internal_valid_task is present", learner$id)
+    error_config(
+      "Parameter 'validate' of Learner '%s' cannot be set to 'test' or a ratio when internal_valid_task is present",
+      learner$id
+    )
   }
 
   if (is.character(validate)) {
     if (validate == "predefined") {
       if (is.null(task$internal_valid_task)) {
-        error_config("Parameter 'validate' is set to 'predefined' but no internal validation task is present. This commonly happens in GraphLearners and can be avoided by configuring the validation data for the  GraphLearner via `set_validate(glrn, validate = values)`. See https://mlr3book.mlr-org.com/chapters/chapter15/predsets_valid_inttune.html for more information.")
+        error_config(paste0(
+          "Parameter 'validate' is set to 'predefined' but no internal validation task is present. ",
+          "This commonly happens in GraphLearners and can be avoided by configuring the validation data for the ",
+          "GraphLearner via `set_validate(glrn, validate = values)`. ",
+          "See https://mlr3book.mlr-org.com/chapters/chapter15/predsets_valid_inttune.html for more information."
+        ))
       }
       if (!identical(task$target_names, task$internal_valid_task$target_names)) {
-        error_config("Internal validation task '%s' has different target names than primary task '%s', did you modify the task after creating the internal validation task?",
-          task$internal_valid_task$id, task$id)
+        error_config(
+          # nolint next
+          "Internal validation task '%s' has different target names than primary task '%s', did you modify the task after creating the internal validation task?",
+          task$internal_valid_task$id,
+          task$id
+        )
       }
       if (!test_permutation(task$feature_names, task$internal_valid_task$feature_names)) {
-        error_config("Internal validation task '%s' has different features than primary task '%s', did you modify the task after creating the internal validation task?",
-          task$internal_valid_task$id, task$id)
+        error_config(
+          # nolint next
+          "Internal validation task '%s' has different features than primary task '%s', did you modify the task after creating the internal validation task?",
+          task$internal_valid_task$id,
+          task$id
+        )
       }
       return(task)
-    } else { # validate is "test"
+    } else {
+      # validate is "test"
       if (is.null(test_row_ids)) {
         error_config("Parameter 'validate' cannot be set to 'test' when calling train manually.")
       }
@@ -590,9 +729,15 @@ create_internal_valid_task = function(validate, task, test_row_ids, prev_valid, 
 # This function returns TRUE,
 learner_will_err = function(cond, learner, stage) {
   when = get_private(learner)$.when
-  if (is.null(cond)) return(FALSE)
-  if (inherits(cond, "Mlr3ErrorConfig")) return(TRUE)
-  if (is.null(when)) return(FALSE)
+  if (is.null(cond)) {
+    return(FALSE)
+  }
+  if (inherits(cond, "Mlr3ErrorConfig")) {
+    return(TRUE)
+  }
+  if (is.null(when)) {
+    return(FALSE)
+  }
   !when(cond = cond, stage = stage)
 }
 

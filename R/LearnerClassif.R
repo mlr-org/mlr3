@@ -44,14 +44,33 @@
 #'
 #' # predict on new observations:
 #' lrn$predict(task, 201:344)$confusion
-LearnerClassif = R6Class("LearnerClassif", inherit = Learner,
+LearnerClassif = R6Class(
+  "LearnerClassif",
+  inherit = Learner,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    initialize = function(id, param_set = ps(), predict_types = "response", feature_types = character(), properties = character(), packages = character(), label = NA_character_, man = NA_character_) {
-      super$initialize(id = id, task_type = "classif", param_set = param_set, predict_types = predict_types,
-        feature_types = feature_types, properties = properties, packages = packages,
-        label = label, man = man)
+    initialize = function(
+      id,
+      param_set = ps(),
+      predict_types = "response",
+      feature_types = character(),
+      properties = character(),
+      packages = character(),
+      label = NA_character_,
+      man = NA_character_
+    ) {
+      super$initialize(
+        id = id,
+        task_type = "classif",
+        param_set = param_set,
+        predict_types = predict_types,
+        feature_types = feature_types,
+        properties = properties,
+        packages = packages,
+        label = label,
+        man = man
+      )
 
       if (getOption("mlr3.prob_as_default", FALSE) && "prob" %in% self$predict_types) {
         self$predict_type = "prob"
@@ -60,7 +79,8 @@ LearnerClassif = R6Class("LearnerClassif", inherit = Learner,
 
     #' @description
     #' Predicts outcomes for new data in `newdata` using the model fitted during `$train()`.
-    #' This method is faster than `$predict_newdata()` as it skips assertions, type conversions, encapsulation, and logging.
+    #' This method is faster than `$predict_newdata()` as it skips assertions,
+    #' type conversions, encapsulation, and logging.
     #'
     #' Unlike `$predict_newdata()`, this method does not return a [Prediction] object.
     #' Instead, it returns a list with either a `"response"` or `"prob"` element, depending on the prediction type.
@@ -69,7 +89,8 @@ LearnerClassif = R6Class("LearnerClassif", inherit = Learner,
     #' Some learners may not support this method and may fail when it is called.
     #' Prefer `$predict_newdata()` unless performance is critical.
     #'
-    #' If the model was trained via [resample()] or [benchmark()], you must pass the associated task object stored in the corresponding [ResampleResult] or [BenchmarkResult].
+    #' If the model was trained via [resample()] or [benchmark()],
+    #' you must pass the associated task object stored in the corresponding [ResampleResult] or [BenchmarkResult].
     #'
     #' @param newdata [`data.table::data.table()`]\cr
     #'   New data to predict on.
@@ -77,7 +98,9 @@ LearnerClassif = R6Class("LearnerClassif", inherit = Learner,
     #'
     #' @return `list()` with elements `"response"` or `"prob"` depending on the predict type.
     predict_newdata_fast = function(newdata, task = NULL) {
-      if (is.null(task) && is.null(self$state$train_task)) error_input("No task stored, and no task provided")
+      if (is.null(task) && is.null(self$state$train_task)) {
+        error_input("No task stored, and no task provided")
+      }
       feature_names = self$state$train_task$feature_names %??% task$feature_names
       class_names = self$state$train_task$class_names %??% task$class_names
 
@@ -95,7 +118,6 @@ LearnerClassif = R6Class("LearnerClassif", inherit = Learner,
         return(self$fallback$predict_newdata_fast(newdata))
       }
       pred = get_private(self)$.predict(fake_task)
-
 
       # predict missing predictions with fallback
       miss = logical(fake_task$nrow)

@@ -1,5 +1,4 @@
 test_that("MeasureRegrRSQ works", {
-
   measure = msr("regr.rsq")
   expect_equal(measure$properties, "weights")
 
@@ -64,7 +63,10 @@ test_that("MeasureRegrRSQ works with weights", {
   ss_res_train = ss_res_pred # Residuals don't depend on the mean used for SS_tot
   ss_tot_train = sum(weights * (truth - mu_train)^2)
   rsq_expected_train = 1 - ss_res_train / ss_tot_train
-  expect_equal(pred$score(measure_train_mean, task = task, train_set = train_set_indices), c(regr.rsq = rsq_expected_train))
+  expect_equal(
+    pred$score(measure_train_mean, task = task, train_set = train_set_indices),
+    c(regr.rsq = rsq_expected_train)
+  )
   expect_equal(measure_train_mean$score(pred, task = task, train_set = train_set_indices), rsq_expected_train)
 
   # Case 3: Perfect fit
@@ -79,11 +81,13 @@ test_that("MeasureRegrRSQ works with weights", {
   pred_const = PredictionRegr$new(row_ids = row_ids, truth = rep(3, 5), response = response, weights = weights)
   # mu_const_pred = weighted.mean(pred_const$truth, weights) # 3
   # ss_tot_const_pred = sum(weights * (pred_const$truth - mu_const_pred)^2) # sum(weights * (3 - 3)^2) = 0
-  # expect_equal(pred_const$score(measure_weighted), c(regr.rsq = -Inf)) # 1 - ss_res / 0 -> 1 - Inf -> -Inf? No, should be NaN
+  # expect_equal(pred_const$score(measure_weighted), c(regr.rsq = -Inf))
+  # # 1 - ss_res / 0 -> 1 - Inf -> -Inf? No, should be NaN
   # # R's 0/0 is NaN. If ss_res > 0, then pos/0 is Inf. 1 - Inf is -Inf.
   # # Let's check mlr3measures code (uses base::mean and base::weighted.mean)
   # # R: 1 - 5/0 = -Inf. The code uses sum((truth - response)^2) / sum((truth - mu)^2). So Inf. 1-Inf=-Inf.
   # # Let's test it:
+  # # nolint next
   # expect_equal(1 - sum(weights * (pred_const$truth - pred_const$response)^2) / sum(weights * (pred_const$truth - mu_const_pred)^2), -Inf)
   # # The measure code directly calculates this, so it should be -Inf, not NaN
   # # Let's re-evaluate based on the definition provided in the help page:
@@ -94,10 +98,17 @@ test_that("MeasureRegrRSQ works with weights", {
 
   # Use train mean = 4
   mu_const_train = 4
-  ss_tot_const_train = sum(weights * (pred_const$truth - mu_const_train)^2) # sum(weights * (3 - 4)^2) = sum(weights * (-1)^2) = sum(weights) = 7
+  # sum(weights * (3 - 4)^2) = sum(weights * (-1)^2) = sum(weights) = 7
+  ss_tot_const_train = sum(weights * (pred_const$truth - mu_const_train)^2)
   rsq_expected_const_train = 1 - sum(weights * (pred_const$truth - pred_const$response)^2) / ss_tot_const_train
-  expect_equal(pred_const$score(measure_train_mean, task = task, train_set = train_set_indices), c(regr.rsq = rsq_expected_const_train))
-  expect_equal(measure_train_mean$score(pred_const, task = task, train_set = train_set_indices), rsq_expected_const_train)
+  expect_equal(
+    pred_const$score(measure_train_mean, task = task, train_set = train_set_indices),
+    c(regr.rsq = rsq_expected_const_train)
+  )
+  expect_equal(
+    measure_train_mean$score(pred_const, task = task, train_set = train_set_indices),
+    rsq_expected_const_train
+  )
 })
 
 test_that("MeasureRegrRSQ works with weights during resampling", {
@@ -171,7 +182,6 @@ test_that("MeasureRegrRSQ works with weights during resampling", {
   weights_per_fold_train = map_dbl(rr_train_mean$predictions("test"), function(p) sum(p$weights))
   rsq_macro_w_manual_train = weighted.mean(scores_manual_train, weights_per_fold_train)
   expect_equal(rr_train_mean$aggregate(measure_train)[["regr.rsq"]], rsq_macro_w_manual_train)
-
 })
 
 test_that("MeasureRegrRSQ use_weights works", {
@@ -203,5 +213,4 @@ test_that("MeasureRegrRSQ use_weights works", {
   score_plain_error = rr_plain$aggregate(measure)
   expect_equal(score_plain_error, score_plain_use) # No error on unweighted task
   expect_error(rr_weighted$aggregate(measure), "since 'use_weights' was set to 'error'")
-
 })

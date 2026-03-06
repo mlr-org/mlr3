@@ -2,7 +2,8 @@
 #'
 #' @format [environment].
 #' @description
-#' Environment which stores various information to allow objects to examine and introspect their structure and properties
+#' Environment which stores various information to allow objects to examine and introspect their
+#' structure and properties
 #' (c.f. [Reflections](https://en.wikipedia.org/wiki/Reflective_programming)).
 #'
 #' This environment be modified by third-party packages, e.g. by adding information about new task types
@@ -46,7 +47,8 @@
 #' * `learner_predict_types` (list of list of `character()`)\cr
 #'   List of lists of supported [Learner] predict_types, named by their task type.
 #'   The inner list translates the `"predict_type"` to all predict types returned, e.g.
-#'   predict type `"prob"` for a [LearnerClassif] provides the probabilities as well as the predicted labels, therefore `"prob"` maps to `c("response", "prob")`.
+#'   predict type `"prob"` for a [LearnerClassif] provides the probabilities as well as the
+#'   predicted labels, therefore `"prob"` maps to `c("response", "prob")`.
 #'
 #' * `learner_predict_types` (list of list of `character()`)\cr
 #'   List of lists of supported [Learner] predict_types, named by their task type.
@@ -80,15 +82,25 @@ mlr_reflections = new.env(parent = emptyenv())
 local({
   ### Task
   # task types + constructors
+  # nolint start
+  # fmt: skip
   mlr_reflections$task_types = rowwise_table(.key = "type",
     ~type,          ~package, ~task,              ~learner,         ~prediction,          ~prediction_data,         ~measure,
     "regr",         "mlr3",   "TaskRegr",         "LearnerRegr",    "PredictionRegr",     "PredictionDataRegr",     "MeasureRegr",
     "classif",      "mlr3",   "TaskClassif",      "LearnerClassif", "PredictionClassif",  "PredictionDataClassif",  "MeasureClassif",
     "unsupervised", "mlr3",   "TaskUnsupervised", "Learner",        NA_character_,        NA_character_,            NA_character_
   )
+  # nolint end
 
   mlr_reflections$task_feature_types = c(
-    lgl = "logical", int = "integer", dbl = "numeric", chr = "character", fct = "factor", ord = "ordered", pxc = "POSIXct", dte = "Date"
+    lgl = "logical",
+    int = "integer",
+    dbl = "numeric",
+    chr = "character",
+    fct = "factor",
+    ord = "ordered",
+    pxc = "POSIXct",
+    dte = "Date"
   )
 
   mlr_reflections$task_row_roles = c(
@@ -115,7 +127,14 @@ local({
 
   mlr_reflections$task_print_col_roles = list(
     before = character(),
-    after = c("Order by" = "order", "Strata" = "stratum", "Groups" = "group", "Offset" = "offset", "Weights/Learner" = "weights_learner", "Weights/Measure" = "weights_measure")
+    after = c(
+      "Order by" = "order",
+      "Strata" = "stratum",
+      "Groups" = "group",
+      "Offset" = "offset",
+      "Weights/Learner" = "weights_learner",
+      "Weights/Measure" = "weights_measure"
+    )
   )
 
   tmp = c("weights_learner", "weights_measure", "name", "order", "stratum", "group")
@@ -125,7 +144,21 @@ local({
   )
 
   ### Learner
-  tmp = c("featureless", "missings", "weights", "importance", "selected_features", "oob_error", "hotstart_forward", "hotstart_backward", "validation", "internal_tuning", "marshal", "offset", "new_levels")
+  tmp = c(
+    "featureless",
+    "missings",
+    "weights",
+    "importance",
+    "selected_features",
+    "oob_error",
+    "hotstart_forward",
+    "hotstart_backward",
+    "validation",
+    "internal_tuning",
+    "marshal",
+    "offset",
+    "new_levels"
+  )
   mlr_reflections$learner_properties = list(
     classif = c(tmp, "twoclass", "multiclass"),
     regr = tmp
@@ -133,12 +166,25 @@ local({
 
   mlr_reflections$learner_predict_types = list(
     classif = list(response = "response", prob = c("response", "prob")),
-    regr = list(response = "response", se = c("response", "se"), quantiles = c("response", "quantiles"), distr = c("response", "se", "distr")),
+    regr = list(
+      response = "response",
+      se = c("response", "se"),
+      quantiles = c("response", "quantiles"),
+      distr = c("response", "se", "distr")
+    ),
     unsupervised = NULL
   )
 
   # Allowed tags for parameters
-  mlr_reflections$learner_param_tags = c("train", "predict", "hotstart", "importance", "threads", "required", "internal_tuning")
+  mlr_reflections$learner_param_tags = c(
+    "train",
+    "predict",
+    "hotstart",
+    "importance",
+    "threads",
+    "required",
+    "internal_tuning"
+  )
 
   ### Prediction
   mlr_reflections$predict_sets = c("train", "test", "internal_valid")
@@ -147,7 +193,17 @@ local({
   mlr_reflections$resampling_properties = c("duplicated_ids", "weights")
 
   ### Measures
-  tmp = c("na_score", "requires_task", "requires_learner", "requires_model", "requires_train_set", "weights", "primary_iters", "requires_no_prediction", "obs_loss")
+  tmp = c(
+    "na_score",
+    "requires_task",
+    "requires_learner",
+    "requires_model",
+    "requires_train_set",
+    "weights",
+    "primary_iters",
+    "requires_no_prediction",
+    "obs_loss"
+  )
   mlr_reflections$measure_properties = list(
     classif = tmp,
     regr = tmp

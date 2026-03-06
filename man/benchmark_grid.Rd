@@ -44,10 +44,14 @@ generate a design in an \code{\link[=expand.grid]{expand.grid()}} fashion (a.k.a
 
 There are two modes of operation, depending on the flag \code{paired}.
 \itemize{
-\item With \code{paired} set to \code{FALSE} (default), resampling strategies are not allowed to be instantiated, and instead will be instantiated per task internally.
-The only exception to this rule applies if all tasks have exactly the same row ids, and the resamplings are all instantiated for such tasks.
-The grid will be generated based on the Cartesian product of tasks, learners, and resamplings.
-Because the resamplings are instantiated on the tasks, reproducibility requires a seed to be set \strong{before} calling this function, as this process is stochastic.
+\item With \code{paired} set to \code{FALSE} (default), resampling strategies are not allowed to be
+instantiated, and instead will be instantiated per task internally.
+The only exception to this rule applies if all tasks have exactly the same row ids,
+and the resamplings are all instantiated for such tasks.
+The grid will be generated based on the Cartesian product of tasks, learners,
+and resamplings.
+Because the resamplings are instantiated on the tasks, reproducibility requires a seed
+to be set \strong{before} calling this function, as this process is stochastic.
 \item With \code{paired} set to \code{TRUE}, tasks and resamplings are treated as pairs.
 This means that you must provide as many tasks as corresponding instantiated resamplings.
 The grid will be generated based on the Cartesian product of learners and pairs.

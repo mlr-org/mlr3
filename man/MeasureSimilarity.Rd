@@ -159,8 +159,10 @@ Supported by \code{mlr3}:
 \item \code{"requires_train_set"} (requires the training indices from the \link{Resampling}),
 \item \code{"na_score"} (the measure is expected to occasionally return \code{NA} or \code{NaN}),
 \item \code{"weights"} (support weighted scoring using sample weights from task, column role \code{weights_measure}), and
-\item \code{"primary_iters"} (the measure explictly handles resamplings that only use a subset of their iterations for the point estimate)
-\item \code{"requires_no_prediction"} (No prediction is required; This usually means that the measure extracts some information from the learner state.).
+\item \code{"primary_iters"} (the measure explicitly handles resamplings
+that only use a subset of their iterations for the point estimate)
+\item \code{"requires_no_prediction"} (No prediction is required;
+This usually means that the measure extracts some information from the learner state.).
 }}
 
 \item{\code{predict_type}}{(\code{character(1)})\cr

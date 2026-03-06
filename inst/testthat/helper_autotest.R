@@ -5,10 +5,12 @@
 #' Extension packages need to specialize the S3 methods in the file.
 #
 #' @details
-#' `run_autotest(learner)` generates multiple tasks, depending on the properties of the learner and tests the learner on each task, with each predict type.
+#' `run_autotest(learner)` generates multiple tasks, depending on the properties of the learner
+#' and tests the learner on each task, with each predict type.
 #' Calls `generate_tasks()` to generate tasks and `run_experiment()` to run the experiments.
 #' See `generate_tasks()` for a list of tasks that are generated.
-#' To debug, simply run `result = run_autotest(learner)` and proceed with investigating he task, learner and prediction of the returned `result`.
+#' To debug, simply run `result = run_autotest(learner)`
+#' and proceed with investigating he task, learner and prediction of the returned `result`.
 #'
 #' `run_experiment(task, learner)` runs a single experiment.
 #' Calls `train()` and `predict()` on the learner and checks the prediction with `score()`.
@@ -65,8 +67,9 @@ generate_generic_tasks = function(learner, proto) {
       # no row with no missing -> complete.cases() won't help
       features = sample(features, n, replace = TRUE)
       data = proto$data(cols = proto$feature_names)
-      for (i in seq_along(features))
+      for (i in seq_along(features)) {
         data.table::set(data, i = i, j = features[i], NA)
+      }
       tasks$missings_each_row = proto$clone(deep = TRUE)$select(character())$cbind(data)
     }
   }
@@ -130,7 +133,8 @@ generate_generic_tasks = function(learner, proto) {
 #' @noRd
 generate_data = function(learner, N) {
   generate_feature = function(type) {
-    switch(type,
+    switch(
+      type,
       logical = sample(rep_len(c(TRUE, FALSE), N)),
       integer = sample(rep_len(1:3, N)),
       numeric = runif(N),
@@ -176,6 +180,7 @@ generate_tasks = function(learner, N = 30L) {
 }
 
 #' @export
+# nolint next
 generate_tasks.LearnerClassif = function(learner, N = 30L) {
   tasks = list()
 
@@ -204,8 +209,12 @@ generate_tasks.LearnerClassif = function(learner, N = 30L) {
   }
 
   # generate sanity task
+  # nolint next
   data = with_seed(100, {
-    data = data.table::data.table(x = c(rnorm(100, 0, 1), rnorm(100, 10, 1)), y = rep(as.factor(c("A", "B")), each = 100))
+    data = data.table::data.table(
+      x = c(rnorm(100, 0, 1), rnorm(100, 10, 1)),
+      y = rep(as.factor(c("A", "B")), each = 100)
+    )
     data$unimportant = runif(nrow(data), min = 0, max = 3)
     data
   })
@@ -215,13 +224,19 @@ generate_tasks.LearnerClassif = function(learner, N = 30L) {
   tasks$sanity_reordered = mlr3::TaskClassif$new("sanity_reordered", mlr3::as_data_backend(data), target = "y")
 
   # sanity task, but with other label as positive class to detect label switches
-  tasks$sanity_switched = mlr3::TaskClassif$new("sanity_switched", mlr3::as_data_backend(data), target = "y", positive = "B")
+  tasks$sanity_switched = mlr3::TaskClassif$new(
+    "sanity_switched",
+    mlr3::as_data_backend(data),
+    target = "y",
+    positive = "B"
+  )
 
   tasks
 }
 registerS3method("generate_tasks", "LearnerClassif", generate_tasks.LearnerClassif)
 
 #' @export
+# nolint next
 generate_tasks.LearnerRegr = function(learner, N = 30L) {
   target = rnorm(N)
   data = cbind(data.table::data.table(target = target), generate_data(learner, N))
@@ -230,6 +245,7 @@ generate_tasks.LearnerRegr = function(learner, N = 30L) {
   tasks = generate_generic_tasks(learner, task)
 
   # generate sanity task
+  # nolint next
   data = with_seed(100, {
     y = seq(from = -10, to = 10, length.out = 100)
     data.table::data.table(
@@ -260,12 +276,14 @@ sanity_check = function(prediction, ...) {
   UseMethod("sanity_check")
 }
 
+# nolint next
 sanity_check.PredictionClassif = function(prediction, ...) {
   prediction$score(mlr3::msr("classif.ce")) <= 0.3
 }
 registerS3method("sanity_check", "LearnerClassif", sanity_check.PredictionClassif)
 
 
+# nolint next
 sanity_check.PredictionRegr = function(prediction, ...) {
   prediction$score(mlr3::msr("regr.mse")) <= 2
 }
@@ -418,10 +436,14 @@ run_experiment = function(task, learner, seed = NULL, configure_learner = NULL) 
   stage = "score()"
 
   score = try(
-    prediction$score(mlr3::default_measures(learner$task_type),
+    prediction$score(
+      mlr3::default_measures(learner$task_type),
       task = task,
       learner = learner,
-      train_set = task$row_ids), silent = TRUE)
+      train_set = task$row_ids
+    ),
+    silent = TRUE
+  )
   if (inherits(score, "try-error")) {
     ok = score
     score = NULL
@@ -433,7 +455,9 @@ run_experiment = function(task, learner, seed = NULL, configure_learner = NULL) 
   }
 
   # run sanity check on sanity task
-  if (startsWith(task$id, "sanity") && !sanity_check(prediction, task = task, learner = learner, train_set = task$row_ids)) {
+  if (
+    startsWith(task$id, "sanity") && !sanity_check(prediction, task = task, learner = learner, train_set = task$row_ids)
+  ) {
     return(err("sanity check failed"))
   }
 
@@ -525,7 +549,14 @@ run_experiment = function(task, learner, seed = NULL, configure_learner = NULL) 
       return(err("does not return a list"))
     }
 
-    msg = checkmate::check_names(names(prediction), subset.of = c(mlr3::mlr_reflections$learner_predict_types[[learner$task_type]][[learner$predict_type]], "extra", "raw"))
+    msg = checkmate::check_names(
+      names(prediction),
+      subset.of = c(
+        mlr3::mlr_reflections$learner_predict_types[[learner$task_type]][[learner$predict_type]],
+        "extra",
+        "raw"
+      )
+    )
     if (!isTRUE(msg)) {
       return(err("Names of returned list do not match learner predict_types: %s", str_collapse(names(prediction))))
     }
@@ -557,7 +588,9 @@ run_experiment = function(task, learner, seed = NULL, configure_learner = NULL) 
 
   # check encapsulation
   stage = "encapsulation"
-  if (startsWith(task$id, "feat_all")  && !(learner$task_type == "surv" && learner$predict_type %in% c("lp", "response"))) {
+  if (
+    startsWith(task$id, "feat_all") && !(learner$task_type == "surv" && learner$predict_type %in% c("lp", "response"))
+  ) {
     learner_encapsulated = learner$clone(deep = TRUE)
     learner_encapsulated$encapsulate("mirai", default_fallback(learner_encapsulated))
 
@@ -565,7 +598,10 @@ run_experiment = function(task, learner, seed = NULL, configure_learner = NULL) 
     log = rr$learners[[1]]$state$log
     if ("error" %in% log$class) {
       conditions = log[class == "error"]$condition
-      return(err("resample log has errors: %s", mlr3misc::str_collapse(mlr3misc::map_chr(conditions, conditionMessage))))
+      return(err(
+        "resample log has errors: %s",
+        mlr3misc::str_collapse(mlr3misc::map_chr(conditions, conditionMessage))
+      ))
     }
   }
 
@@ -577,7 +613,8 @@ run_experiment = function(task, learner, seed = NULL, configure_learner = NULL) 
     prediction_marshaling = prediction_marshaling,
     learner_encapsulated = learner_encapsulated,
     error = character(),
-    seed = seed))
+    seed = seed
+  ))
 }
 
 #' @title Run Autotest for a Learner
@@ -611,7 +648,15 @@ run_experiment = function(task, learner, seed = NULL, configure_learner = NULL) 
 #'  - `error` (`character()`): Error message if `ok` is `FALSE`.
 #
 #' @noRd
-run_autotest = function(learner, N = 30L, exclude = NULL, predict_types = learner$predict_types, check_replicable = TRUE, configure_learner = NULL) { # nolint
+run_autotest = function(
+  learner,
+  N = 30L,
+  exclude = NULL,
+  predict_types = learner$predict_types,
+  check_replicable = TRUE,
+  configure_learner = NULL
+) {
+  # nolint
   if (!is.null(configure_learner)) {
     checkmate::assert_function(configure_learner, args = c("learner", "task"))
   }
@@ -652,7 +697,9 @@ run_autotest = function(learner, N = 30L, exclude = NULL, predict_types = learne
           return(repeated_run)
         }
 
-        if (check_replicable && !isTRUE(all.equal(as.data.table(run$prediction), as.data.table(repeated_run$prediction)))) {
+        if (
+          check_replicable && !isTRUE(all.equal(as.data.table(run$prediction), as.data.table(repeated_run$prediction)))
+        ) {
           return(make_err("Different results for replicated runs using fixed seed %i", run$seed))
         }
       }
@@ -678,11 +725,13 @@ run_autotest = function(learner, N = 30L, exclude = NULL, predict_types = learne
 #' Checks parameters of mlr3learners against parameters defined in the upstream functions of the respective learners.
 #'
 #' @details
-#' Some learners do not have all of their parameters stored within the learner function that is called within `.train()`.
+#' Some learners do not have all of their parameters stored within the learner function
+#' that is called within `.train()`.
 #' Sometimes learners come with a "control" function, e.g. [glmnet::glmnet.control()].
 #' Such need to be checked as well since they make up the full ParamSet of the respective learner.
 #'
-#' To work nicely with the defined ParamSet, certain parameters need to be excluded because these are only present in either the "control" object or the actual top-level function call.
+#' To work nicely with the defined ParamSet, certain parameters need to be excluded
+#' because these are only present in either the "control" object or the actual top-level function call.
 #' Such exclusions should go into argument `exclude` with a comment for the reason of the exclusion.
 #' See examples for more information.
 #'
@@ -738,13 +787,11 @@ run_paramtest = function(learner, fun, exclude = character(), tag = NULL) {
   merror = eerror = character(0)
 
   if (length(missing) > 0) {
-    merror = sprintf("Missing parameters for learner '%s': %s",
-      learner$id, paste0(missing, collapse = ", "))
+    merror = sprintf("Missing parameters for learner '%s': %s", learner$id, paste0(missing, collapse = ", "))
   }
 
   if (length(extra) > 0) {
-    eerror = sprintf("Extra parameters for learner '%s': %s",
-      learner$id, paste0(extra, collapse = ", "))
+    eerror = sprintf("Extra parameters for learner '%s': %s", learner$id, paste0(extra, collapse = ", "))
   }
 
   error = paste(merror, eerror, sep = "\n")
@@ -765,11 +812,14 @@ prob_vector_to_matrix = function(p, levs) {
 }
 
 suppress_fallback_warnings = function(expr) {
-  withCallingHandlers({expr},
+  withCallingHandlers(
+    {
+      expr
+    },
     warning = function(w) {
       if (inherits(w, "Mlr3WarningConfigFallbackPredictType") || inherits(w, "Mlr3WarningConfigFallbackProperties")) {
         invokeRestart("muffleWarning")
-     }
+      }
     }
   )
 }

@@ -13,19 +13,25 @@
 #'    \item{message_predict:}{Probability to output a message during predict.}
 #'    \item{message_train:}{Probability to output a message during train.}
 #'    \item{predict_missing:}{Ratio of predictions which will be NA.}
-#'    \item{predict_missing_type:}{How to encode missingness. \dQuote{na} will insert NA values, \dQuote{omit} will just return fewer predictions than requested.}
+#'    \item{predict_missing_type:}{How to encode missingness.
+#'      \dQuote{na} will insert NA values,
+#'      \dQuote{omit} will just return fewer predictions than requested.}
 #'    \item{save_tasks:}{Saves input task in `model` slot during training and prediction.}
 #'    \item{segfault_predict:}{Probability to provokes a segfault during predict.}
 #'    \item{segfault_train:}{Probability to provokes a segfault during train.}
-#'    \item{sleep_train:}{Function returning a single number determining how many seconds to sleep during `$train()`.}
-#'    \item{sleep_predict:}{Function returning a single number determining how many seconds to sleep during `$predict()`.}
+#'    \item{sleep_train:}{Function returning a single number determining how many seconds
+#'      to sleep during `$train()`.}
+#'    \item{sleep_predict:}{Function returning a single number determining how many seconds
+#'      to sleep during `$predict()`.}
 #'    \item{threads:}{Number of threads to use. Has no effect.}
 #'    \item{warning_predict:}{Probability to signal a warning during predict.}
 #'    \item{warning_train:}{Probability to signal a warning during train.}
 #'    \item{x:}{Numeric tuning parameter. Has no effect.}
 #'    \item{iter:}{Integer parameter for testing hotstarting.}
-#'    \item{count_marshaling:}{If `TRUE`, `marshal_model` will increase the `marshal_count` by 1 each time it is called. The default is `FALSE`.}
-#'    \item{check_pid:}{If `TRUE`, the `$predict()` function will throw an error if the model was not unmarshaled in the same session that is used for prediction.)}
+#'    \item{count_marshaling:}{If `TRUE`, `marshal_model` will increase the `marshal_count`
+#'      by 1 each time it is called. The default is `FALSE`.}
+#'    \item{check_pid:}{If `TRUE`, the `$predict()` function will throw an error if the model
+#'      was not unmarshaled in the same session that is used for prediction.)}
 #' }
 #' Note that segfaults may not be triggered reliably on your operating system.
 #' Also note that if they work as intended, they will tear down your R session immediately!
@@ -46,21 +52,33 @@
 #'
 #' # task_train and task_predict are the input tasks for train() and predict()
 #' names(learner$model)
-LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
+LearnerClassifDebug = R6Class(
+  "LearnerClassifDebug",
+  inherit = LearnerClassif,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       iter_aggr = crate(function(x) as.integer(ceiling(mean(unlist(x, use.names = FALSE)))), .parent = topenv())
-      iter_tune_fn = crate(function(domain, param_vals) {
-        assert_true(isTRUE(param_vals$early_stopping))
-        assert_true(domain$lower <= 1)
-        domain$upper
-      }, .parent = topenv())
+      iter_tune_fn = crate(
+        function(domain, param_vals) {
+          assert_true(isTRUE(param_vals$early_stopping))
+          assert_true(domain$lower <= 1)
+          domain$upper
+        },
+        .parent = topenv()
+      )
 
-      p_iter = p_int(1, default = 1, tags = c("train", "hotstart", "internal_tuning"),
-        aggr = iter_aggr, in_tune_fn = iter_tune_fn, disable_in_tune = list(early_stopping = FALSE))
+      p_iter = p_int(
+        1,
+        default = 1,
+        tags = c("train", "hotstart", "internal_tuning"),
+        aggr = iter_aggr,
+        in_tune_fn = iter_tune_fn,
+        disable_in_tune = list(early_stopping = FALSE)
+      )
 
+      # fmt: skip
       param_set = ps(
         error_predict        = p_dbl(0, 1, default = 0, tags = "predict"),
         error_train          = p_dbl(0, 1, default = 0, tags = "train"),
@@ -88,7 +106,16 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
         param_set = param_set,
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
         predict_types = c("response", "prob"),
-        properties = c("twoclass", "multiclass", "missings", "hotstart_forward", "validation", "internal_tuning", "marshal", "weights"),
+        properties = c(
+          "twoclass",
+          "multiclass",
+          "missings",
+          "hotstart_forward",
+          "validation",
+          "internal_tuning",
+          "marshal",
+          "weights"
+        ),
         man = "mlr3::mlr_learners_classif.debug",
         label = "Debug Learner for Classification"
       )
@@ -204,9 +231,18 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
       )
 
       if (!is.null(valid_truth)) {
-        valid_pred = private$.make_prediction(task$internal_valid_task, model, self$param_set$get_values(tags = "predict"))
+        valid_pred = private$.make_prediction(
+          task$internal_valid_task,
+          model,
+          self$param_set$get_values(tags = "predict")
+        )
 
-        valid_pred = as_prediction(as_prediction_data(valid_pred, task = task$internal_valid_task, check = TRUE, train_task = task))
+        valid_pred = as_prediction(as_prediction_data(
+          valid_pred,
+          task = task$internal_valid_task,
+          check = TRUE,
+          train_task = task
+        ))
 
         model$internal_valid_scores = list(acc = mlr3measures::acc(valid_truth, valid_pred$response))
         if (self$predict_type == "prob") {
@@ -287,10 +323,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
         response = rep.int(unclass(model$response), n)
         if (!is.null(pv$predict_missing)) {
           ii = sample.int(n, n * pv$predict_missing)
-          response = switch(missing_type,
-            "na" = replace(response, ii, NA),
-            "omit" = response[ii]
-          )
+          response = switch(missing_type, "na" = replace(response, ii, NA), "omit" = response[ii])
         }
       }
 
@@ -302,7 +335,8 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
 
         if (!is.null(pv$predict_missing)) {
           ii = sample.int(n, n * pv$predict_missing)
-          prob = switch(missing_type,
+          prob = switch(
+            missing_type,
             "na" = {
               prob[ii, ] = NA_real_
               prob
@@ -322,8 +356,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
       pars = self$param_set$get_values(tags = "train")
       id = self$model$id
 
-      model = list(response = as.character(sample(task$truth(), 1L)), pid = Sys.getpid(), iter = pars$iter,
-        id = id)
+      model = list(response = as.character(sample(task$truth(), 1L)), pid = Sys.getpid(), iter = pars$iter, id = id)
       set_class(model, "classif.debug_model")
     }
   )
@@ -338,9 +371,12 @@ marshal_model.classif.debug_model = function(model, inplace = FALSE, ...) {
   if (!is.null(model$marshal_count)) {
     model$marshal_count = model$marshal_count + 1L
   }
-  structure(list(
-    marshaled = model, packages = "mlr3"),
-  class = c("classif.debug_model_marshaled", "marshaled")
+  structure(
+    list(
+      marshaled = model,
+      packages = "mlr3"
+    ),
+    class = c("classif.debug_model_marshaled", "marshaled")
   )
 }
 

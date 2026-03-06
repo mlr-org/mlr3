@@ -7,7 +7,8 @@
 #'
 #' These files can be sourced with the following line of code:
 #' ```
-#' lapply(list.files(system.file("testthat", package = "mlr3"), pattern = "^helper.*\\.[rR]", full.names = TRUE), source)
+#' lapply(list.files(system.file("testthat", package = "mlr3"),
+#'   pattern = "^helper.*\\.[rR]", full.names = TRUE), source)
 #' ```
 #' Other extension packages such as `mlr3proba` have similar files that can be sourced accordingly.
 #'
@@ -38,12 +39,13 @@
 #'   that disables all tasks whose id matches the regular expression.
 #' * `predict_types` (`character()`)\cr
 #'   The predict types of the learner to check.
-#'   Defaults to all predict typpes of the learner.
+#'   Defaults to all predict types of the learner.
 #' * `check_replicable` (`logical(1)`)\cr
 #'   Whether to check that running the learner twice with the same seed should result in identical predictions.
 #'   Default is `TRUE`.
 #' * `configure_learner` (`function(learner, task)`)\cr
-#'   Before running a `learner` on a `task`, this function allows to change its parameter values depending on the input task.
+#'   Before running a `learner` on a `task`, this function allows to change its parameter values
+#'   depending on the input task.
 #'
 #' To speed up test execution, start an encapsulation daemon in advance by calling
 #' `mirai::daemons(1, .compute = "mlr3_encapsulation")` in `tests/testthat/setup.R`.
@@ -66,7 +68,8 @@
 #' `exclude` with a comment for the reason of the exclusion. See examples for
 #' more information.
 #'
-#' For example usages you can look at the parameter tests in various mlr3 source repositories such as \CRANpkg{mlr3learners}.
+#' For example usages you can look at the parameter tests in various mlr3 source repositories
+#' such as \CRANpkg{mlr3learners}.
 #'
 #' **Parameters**:
 #'

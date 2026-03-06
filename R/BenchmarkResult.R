@@ -5,8 +5,11 @@
 #' @description
 #' This is the result container object returned by [benchmark()].
 #' A [BenchmarkResult] consists of the data of multiple [ResampleResult]s.
-#' The contents of a `BenchmarkResult` and [ResampleResult] are almost identical and the stored [ResampleResult]s can be extracted via the `$resample_result(i)` method, where i is the index of the performed resample experiment.
-#' This allows us to investigate the extracted [ResampleResult] and individual resampling iterations, as well as the predictions and models from each fold.
+#' The contents of a `BenchmarkResult` and [ResampleResult] are almost identical
+#' and the stored [ResampleResult]s can be extracted via the `$resample_result(i)` method,
+#' where i is the index of the performed resample experiment.
+#' This allows us to investigate the extracted [ResampleResult]
+#' and individual resampling iterations, as well as the predictions and models from each fold.
 #'
 #' [BenchmarkResult]s can be visualized via \CRANpkg{mlr3viz}'s `autoplot()` function.
 #'
@@ -19,7 +22,8 @@
 #' @template param_measures
 #'
 #' @section S3 Methods:
-#' * `as.data.table(rr, ..., reassemble_learners = TRUE, convert_predictions = TRUE, predict_sets = "test", task_characteristics = FALSE)`\cr
+#' * `as.data.table(rr, ..., reassemble_learners = TRUE, convert_predictions = TRUE,
+#'   predict_sets = "test", task_characteristics = FALSE)`\cr
 #'   [BenchmarkResult] -> [data.table::data.table()]\cr
 #'   Returns a tabular view of the internal data.
 #' * `c(...)`\cr
@@ -67,7 +71,8 @@
 #' # reduce to subset with task id "sonar"
 #' bmr$filter(task_ids = "sonar")
 #' print(bmr)
-BenchmarkResult = R6Class("BenchmarkResult",
+BenchmarkResult = R6Class(
+  "BenchmarkResult",
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
@@ -101,7 +106,9 @@ BenchmarkResult = R6Class("BenchmarkResult",
     print = function() {
       tab = self$aggregate(measures = list(), conditions = TRUE)
       set_data_table_class(tab)
-      cat_cli(cli_h1("{.cls {class(self)[1L]}} of {.val {private$.data$iterations()}} rows with {.val {nrow(tab)}} resampling run"))
+      cat_cli(cli_h1(
+        "{.cls {class(self)[1L]}} of {.val {private$.data$iterations()}} rows with {.val {nrow(tab)}} resampling run"
+      ))
       if (nrow(tab)) {
         tab = remove_named(tab, c("uhash", "resample_result"))
         print(tab, class = FALSE, row.names = FALSE, print.keys = FALSE, digits = 3L)
@@ -207,7 +214,9 @@ BenchmarkResult = R6Class("BenchmarkResult",
         )
         predict_cols = sprintf("prediction_%s", predict_sets)
         for (i in seq_along(predict_sets)) {
-          set(tab, j = predict_cols[i],
+          set(
+            tab,
+            j = predict_cols[i],
             value = map(tab$prediction, function(p) as_prediction(p[[predict_sets[i]]], check = FALSE))
           )
         }
@@ -217,17 +226,33 @@ BenchmarkResult = R6Class("BenchmarkResult",
 
       set_data_table_class(tab, "bmr_score")
 
-      cns = c("uhash", "nr", "task", "task_id", "learner", "learner_id", "resampling", "resampling_id",
-        "iteration", predict_cols, "warnings", "errors", ids(measures))
+      cns = c(
+        "uhash",
+        "nr",
+        "task",
+        "task_id",
+        "learner",
+        "learner_id",
+        "resampling",
+        "resampling_id",
+        "iteration",
+        predict_cols,
+        "warnings",
+        "errors",
+        ids(measures)
+      )
       cns = intersect(cns, names(tab))
       tab[, cns, with = FALSE]
     },
 
     #' @description
     #' Calculates the observation-wise loss via the [Measure]'s `obs_loss` method.
-    #' Returns a `data.table()` with columns from the predictions (e.g., `row_ids`, `truth`, `response`, etc.), plus one numeric column for each measure, named with the respective measure id, and a `resample_result` column.
+    #' Returns a `data.table()` with columns from the predictions (e.g., `row_ids`, `truth`, `response`, etc.),
+    #' plus one numeric column for each measure, named with the respective measure id, and a `resample_result` column.
     #' If there is no observation-wise loss function for the measure, the column is filled with `NA_real_` values.
-    #' Note that some measures such as RMSE, do have an `$obs_loss`, but they require an additional transformation after aggregation, in this example taking the square-root.
+    #' Note that some measures such as RMSE, do have an `$obs_loss`,
+    #' but they require an additional transformation after aggregation,
+    #' in this example taking the square-root.
     #'
     #' @param predict_sets (`character()`)\cr
     #'   The predict sets.
@@ -235,10 +260,13 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #' bmr$obs_loss(msr("classif.acc"))
     obs_loss = function(measures = NULL, predict_sets = "test") {
       measures = assert_measures(as_measures(measures, task_type = self$task_type))
-      map_dtr(self$resample_results$resample_result,
+      map_dtr(
+        self$resample_results$resample_result,
         function(rr) {
           rr$obs_loss(measures, predict_sets)
-        }, .idcol = "resample_result")
+        },
+        .idcol = "resample_result"
+      )
     },
 
     #' @description
@@ -297,25 +325,51 @@ BenchmarkResult = R6Class("BenchmarkResult",
       }
 
       rdata = private$.data$data
-      tab = rdata$fact[rdata$uhashes, list(
-        nr = .GRP,
-        iters = .N,
-        task_hash = .SD$task_hash[1L],
-        learner_hash = .SD$learner_hash[1L],
-        learner_phash = .SD$learner_phash[1L],
-        resampling_hash = .SD$resampling_hash[1L],
-        resample_result = list(create_rr(.BY[[1L]])),
-        warnings = if (conditions) sum(map_int(.SD$learner_state, function(s) sum(s$log$class == "warning"))) else NA_integer_,
-        errors = if (conditions) sum(map_int(.SD$learner_state, function(s) sum(s$log$class == "error"))) else NA_integer_
-      ), by = "uhash", on = "uhash", nomatch = NULL]
+      tab = rdata$fact[
+        rdata$uhashes,
+        list(
+          nr = .GRP,
+          iters = .N,
+          task_hash = .SD$task_hash[1L],
+          learner_hash = .SD$learner_hash[1L],
+          learner_phash = .SD$learner_phash[1L],
+          resampling_hash = .SD$resampling_hash[1L],
+          resample_result = list(create_rr(.BY[[1L]])),
+          warnings = if (conditions) {
+            sum(map_int(.SD$learner_state, function(s) sum(s$log$class == "warning")))
+          } else {
+            NA_integer_
+          },
+          errors = if (conditions) {
+            sum(map_int(.SD$learner_state, function(s) sum(s$log$class == "error")))
+          } else {
+            NA_integer_
+          }
+        ),
+        by = "uhash",
+        on = "uhash",
+        nomatch = NULL
+      ]
 
       if (ids) {
-        tab = merge(tab, rdata$tasks[, list(task_hash = .SD$task_hash, task_id = ids(.SD$task))],
-          by = "task_hash", sort = FALSE)
-        tab = merge(tab, rdata$learners[, list(learner_phash = .SD$learner_phash, learner_id = ids(.SD$learner))],
-          by = "learner_phash", sort = FALSE)
-        tab = merge(tab, rdata$resamplings[, list(resampling_hash = .SD$resampling_hash, resampling_id = ids(.SD$resampling))],
-          by = "resampling_hash", sort = FALSE)
+        tab = merge(
+          tab,
+          rdata$tasks[, list(task_hash = .SD$task_hash, task_id = ids(.SD$task))],
+          by = "task_hash",
+          sort = FALSE
+        )
+        tab = merge(
+          tab,
+          rdata$learners[, list(learner_phash = .SD$learner_phash, learner_id = ids(.SD$learner))],
+          by = "learner_phash",
+          sort = FALSE
+        )
+        tab = merge(
+          tab,
+          rdata$resamplings[, list(resampling_hash = .SD$resampling_hash, resampling_id = ids(.SD$resampling))],
+          by = "resampling_hash",
+          sort = FALSE
+        )
       }
 
       if (!uhashes) {
@@ -340,8 +394,19 @@ BenchmarkResult = R6Class("BenchmarkResult",
 
       set_data_table_class(tab, "bmr_aggregate")
 
-      cns = c("uhash", "nr", "resample_result", "task_id", "learner_id", "resampling_id", "iters",
-        "warnings", "errors", "params", names(scores))
+      cns = c(
+        "uhash",
+        "nr",
+        "resample_result",
+        "task_id",
+        "learner_id",
+        "resampling_id",
+        "iters",
+        "warnings",
+        "errors",
+        "params",
+        names(scores)
+      )
       cns = intersect(cns, names(tab))
       tab[, cns, with = FALSE]
     },
@@ -349,7 +414,8 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #' @description
     #' Subsets the benchmark result.
     #' You can either directly provide the row IDs or the uhashes of the resample results to keep,
-    #' or use the `learner_ids`, `task_ids` and `resampling_ids` arguments to filter for learner, task and resampling IDs.
+    #' or use the `learner_ids`, `task_ids` and `resampling_ids` arguments to filter for learner,
+    #' task and resampling IDs.
     #' The three options are mutually exclusive.
     #'
     #' @param i (`integer()` | `NULL`)\cr
@@ -422,12 +488,10 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #' bmr$resample_result(i = 1)
     #' bmr$resample_result(uhash = uhashes(bmr, learner_id = "classif.debug"))
     #' @return [ResampleResult].
-    resample_result = function(i = NULL, uhash = NULL, task_id = NULL, learner_id = NULL,
-      resampling_id = NULL) {
+    resample_result = function(i = NULL, uhash = NULL, task_id = NULL, learner_id = NULL, resampling_id = NULL) {
       uhash = private$.get_uhashes(i, uhash, learner_id, task_id, resampling_id)
       if (length(uhash) != 1L) {
-        error_input("Method requires selecting exactly one ResampleResult, but got %s",
-          length(uhash))
+        error_input("Method requires selecting exactly one ResampleResult, but got %s", length(uhash))
       }
       ResampleResult$new(private$.data, view = uhash)
     },
@@ -485,8 +549,15 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #' bmr$set_threshold(0.8, learner_ids = "classif.featureless")
     #' bmr$set_threshold(0.3, i = 2)
     #' bmr$set_threshold(0.7, uhashes = uhashes(bmr, learner_ids = "classif.featureless"))
-    set_threshold = function(threshold, i = NULL, uhashes = NULL, learner_ids = NULL, task_ids = NULL,
-      resampling_ids = NULL, ties_method = "random") {
+    set_threshold = function(
+      threshold,
+      i = NULL,
+      uhashes = NULL,
+      learner_ids = NULL,
+      task_ids = NULL,
+      resampling_ids = NULL,
+      ties_method = "random"
+    ) {
       uhashes = private$.get_uhashes(i, uhashes, learner_ids, task_ids, resampling_ids)
       private$.data$set_threshold(uhashes, threshold, ties_method)
     }
@@ -560,10 +631,14 @@ BenchmarkResult = R6Class("BenchmarkResult",
       create_rr = function(view) {
         if (length(view)) ResampleResult$new(private$.data, view = copy(view)) else list()
       }
-      rdata$fact[rdata$uhashes, list(
-        nr = .GRP,
-        resample_result = list(create_rr(.BY[[1L]]))
-      ), by = "uhash"]
+      rdata$fact[
+        rdata$uhashes,
+        list(
+          nr = .GRP,
+          resample_result = list(create_rr(.BY[[1L]]))
+        ),
+        by = "uhash"
+      ]
     },
 
     #' @field n_resample_results (`integer(1)`)\cr
@@ -594,8 +669,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
     .data = NULL,
 
     .get_uhashes = function(i, uhashes, learner_ids, task_ids, resampling_ids) {
-      args = discard(list(learner_ids = learner_ids, task_ids = task_ids,
-        resampling_ids = resampling_ids), is.null)
+      args = discard(list(learner_ids = learner_ids, task_ids = task_ids, resampling_ids = resampling_ids), is.null)
 
       if (sum(!is.null(i), !is.null(uhashes), length(args) > 0L) > 1) {
         error_input("At most one of `i`, `uhash`, or IDs can be provided.")
@@ -621,11 +695,19 @@ BenchmarkResult = R6Class("BenchmarkResult",
 )
 
 #' @export
-as.data.table.BenchmarkResult = function(x, ..., hashes = FALSE, predict_sets = "test", task_characteristics = FALSE) { # nolint
+# nolint next
+as.data.table.BenchmarkResult = function(x, ..., hashes = FALSE, predict_sets = "test", task_characteristics = FALSE) {
   assert_flag(task_characteristics)
   tab = get_private(x)$.data$as_data_table(view = NULL, predict_sets = predict_sets)
-  cns = c("uhash", "task", "learner", "resampling", "iteration", "prediction",
-    if ("data_extra" %in% names(tab)) "data_extra")
+  cns = c(
+    "uhash",
+    "task",
+    "learner",
+    "resampling",
+    "iteration",
+    "prediction",
+    if ("data_extra" %in% names(tab)) "data_extra"
+  )
 
   tab = tab[, cns, with = FALSE]
 
@@ -642,7 +724,8 @@ as.data.table.BenchmarkResult = function(x, ..., hashes = FALSE, predict_sets = 
 }
 
 #' @export
-c.BenchmarkResult = function(...) { # nolint
+# nolint next
+c.BenchmarkResult = function(...) {
   bmrs = lapply(list(...), as_benchmark_result)
   init = BenchmarkResult$new()
   Reduce(function(lhs, rhs) lhs$combine(rhs), bmrs, init = init)
@@ -674,13 +757,14 @@ uhashes = function(bmr, learner_ids = NULL, task_ids = NULL, resampling_ids = NU
   bmr$uhash_table[
     (is.null(learner_ids) | (get("learner_id") %in% learner_ids)) &
       (is.null(task_ids) | (get("task_id") %in% task_ids)) &
-      (is.null(resampling_ids) | (get("resampling_id") %in% resampling_ids)), "uhash"
+      (is.null(resampling_ids) | (get("resampling_id") %in% resampling_ids)),
+    "uhash"
   ]$uhash
 }
 
 #' @title Obtain specific uhashes from a [BenchmarkResult]
 #' @description
-#' In a [`BenchmarkResult`], each [ResampleResult] is *u*niquely identified by a *hash* (*uhash*).
+#' In a [`BenchmarkResult`], each [ResampleResult] is uniquely identified by a *hash* (*uhash*).
 #' Operations that select specific [ResampleResult]s from a [BenchmarkResult] operate using
 #' these hashes.
 #' This function allows to obtain uhashes for specific learners, tasks, and resamplings.

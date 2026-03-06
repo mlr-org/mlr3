@@ -29,25 +29,29 @@
 #' as.data.table(mlr_resamplings)
 #' mlr_resamplings$get("cv")
 #' rsmp("subsampling")
-mlr_resamplings = R6Class("DictionaryResampling",
-  inherit = Dictionary,
-  cloneable = FALSE,
-)$new()
+mlr_resamplings = R6Class("DictionaryResampling", inherit = Dictionary, cloneable = FALSE, )$new()
 
 #' @export
-as.data.table.DictionaryResampling = function(x, ..., objects = FALSE) { # nolint
+# nolint next
+as.data.table.DictionaryResampling = function(x, ..., objects = FALSE) {
   assert_flag(objects)
 
-  setkeyv(map_dtr(x$keys(), function(key) {
-    r = tryCatch(x$get(key),
-      missingDefaultError = function(e) NULL)
-    if (is.null(r)) {
-      return(list(key = key))
-    }
+  setkeyv(
+    map_dtr(
+      x$keys(),
+      function(key) {
+        r = tryCatch(x$get(key), missingDefaultError = function(e) NULL)
+        if (is.null(r)) {
+          return(list(key = key))
+        }
 
-    insert_named(
-      list(key = key, label = r$label, params = list(r$param_set$ids()), iters = r$iters),
-      if (objects) list(object = list(r))
-    )
-  }, .fill = TRUE), "key")[]
+        insert_named(
+          list(key = key, label = r$label, params = list(r$param_set$ids()), iters = r$iters),
+          if (objects) list(object = list(r))
+        )
+      },
+      .fill = TRUE
+    ),
+    "key"
+  )[]
 }

@@ -1,7 +1,8 @@
 #' @title Benchmark Multiple Learners on Multiple Tasks
 #'
 #' @description
-#' Runs a benchmark on arbitrary combinations of tasks ([Task]), learners ([Learner]), and resampling strategies ([Resampling]), possibly in parallel.
+#' Runs a benchmark on arbitrary combinations of tasks ([Task]), learners ([Learner]),
+#' and resampling strategies ([Resampling]), possibly in parallel.
 #'
 #' For large-scale benchmarking we recommend to use the \CRANpkg{mlr3batchmark} package.
 #' This package runs benchmark experiments on high-performance computing clusters and handles failed experiments.
@@ -86,7 +87,16 @@
 #' ## Get the training set of the 2nd iteration of the featureless learner on penguins
 #' rr = bmr$aggregate()[learner_id == "classif.featureless"]$resample_result[[1]]
 #' rr$resampling$train_set(2)
-benchmark = function(design, store_models = FALSE, store_backends = TRUE, encapsulate = NA_character_, allow_hotstart = FALSE, clone = c("task", "learner", "resampling"), unmarshal = TRUE, callbacks = NULL) {
+benchmark = function(
+  design,
+  store_models = FALSE,
+  store_backends = TRUE,
+  encapsulate = NA_character_,
+  allow_hotstart = FALSE,
+  clone = c("task", "learner", "resampling"),
+  unmarshal = TRUE,
+  callbacks = NULL
+) {
   assert_subset(clone, c("task", "learner", "resampling"))
   assert_data_frame(design, min.rows = 1L)
   assert_names(names(design), must.include = c("task", "learner", "resampling"))
@@ -142,7 +152,9 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
     }
 
     data.table(
-      task = list(task), learner = list(learner), resampling = list(resampling),
+      task = list(task),
+      learner = list(learner),
+      resampling = list(resampling),
       iteration = rep(seq_len(iters), times = n_params),
       param_values = if (is.null(param_values)) list() else rep(param_values, each = iters),
       uhash = rep(UUIDgenerate(n = n_params), each = iters)
@@ -192,17 +204,33 @@ benchmark = function(design, store_models = FALSE, store_backends = TRUE, encaps
     set(grid, j = "mode", value = hotstart_grid$mode)
   }
 
-  res = future_map(n, workhorse,
-    task = grid$task, learner = grid$learner, resampling = grid$resampling, iteration = grid$iteration, param_values = grid$param_values, mode = grid$mode,
-    MoreArgs = list(store_models = store_models, lgr_index = lgr::logger_index(), pb = pb, unmarshal = unmarshal, callbacks = callbacks)
+  res = future_map(
+    n,
+    workhorse,
+    task = grid$task,
+    learner = grid$learner,
+    resampling = grid$resampling,
+    iteration = grid$iteration,
+    param_values = grid$param_values,
+    mode = grid$mode,
+    MoreArgs = list(
+      store_models = store_models,
+      lgr_index = lgr::logger_index(),
+      pb = pb,
+      unmarshal = unmarshal,
+      callbacks = callbacks
+    )
   )
 
-  grid = insert_named(grid, list(
-    learner_state = map(res, "learner_state"),
-    prediction = map(res, "prediction"),
-    param_values = map(res, "param_values"),
-    learner_hash = map_chr(res, "learner_hash")
-  ))
+  grid = insert_named(
+    grid,
+    list(
+      learner_state = map(res, "learner_state"),
+      prediction = map(res, "prediction"),
+      param_values = map(res, "param_values"),
+      learner_hash = map_chr(res, "learner_hash")
+    )
+  )
 
   lg$info("Finished benchmark")
 

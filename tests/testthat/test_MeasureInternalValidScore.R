@@ -18,7 +18,7 @@ test_that("internal valid score", {
   )
   expect_measure(msr("internal_valid_score"))
 
-  # learner that does not have it 
+  # learner that does not have it
   m = msr("internal_valid_score", select = "a")
   task = tsk("mtcars")
   learner = lrn("regr.debug")

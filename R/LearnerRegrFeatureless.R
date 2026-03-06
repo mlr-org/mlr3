@@ -27,7 +27,9 @@
 #'
 #' @template seealso_learner
 #' @export
-LearnerRegrFeatureless = R6Class("LearnerRegrFeatureless", inherit = LearnerRegr,
+LearnerRegrFeatureless = R6Class(
+  "LearnerRegrFeatureless",
+  inherit = LearnerRegr,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
@@ -48,7 +50,6 @@ LearnerRegrFeatureless = R6Class("LearnerRegrFeatureless", inherit = LearnerRegr
         man = "mlr3::mlr_learners_regr.featureless"
       )
     },
-
 
     #' @description
     #' All features have a score of `0` for this learner.
@@ -91,11 +92,15 @@ LearnerRegrFeatureless = R6Class("LearnerRegrFeatureless", inherit = LearnerRegr
         dispersion = quantile_weighted(abs(x - location), probs = 0.5, weights = weights, continuous = FALSE) * 1.4826
       }
 
-      set_class(list(
-        location = location,
-        dispersion = dispersion,
-        quantiles = quantiles,
-        features = task$feature_names), "regr.featureless_model")
+      set_class(
+        list(
+          location = location,
+          dispersion = dispersion,
+          quantiles = quantiles,
+          features = task$feature_names
+        ),
+        "regr.featureless_model"
+      )
     },
 
     .predict = function(task) {

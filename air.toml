@@ -1,5 +1,5 @@
 [format]
-line-width = 180                    # same as .editorconfig
+line-width = 120                    # same as .editorconfig
 indent-width = 2                    # same as .editorconfig
 indent-style = "space"              # same as .editorconfig
 line-ending = "lf"                  # same as .editorconfig

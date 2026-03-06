@@ -22,13 +22,15 @@ Predefined measures are stored in the \link[mlr3misc:Dictionary]{dictionary} \li
 e.g. \code{\link[=mlr_measures_classif.auc]{classif.auc}} or \code{\link[=mlr_measures_time_train]{time_train}}.
 Many of the measures in \pkg{mlr3} are implemented in \CRANpkg{mlr3measures} as ordinary functions.
 
-A guide on how to extend \CRANpkg{mlr3} with custom measures can be found in the \href{https://mlr3book.mlr-org.com}{mlr3book}.
+A guide on how to extend \CRANpkg{mlr3} with custom measures can be found in the
+\href{https://mlr3book.mlr-org.com}{mlr3book}.
 }
 \section{Inheriting}{
 
 For some measures (such as confidence intervals from \code{mlr3inferr}) it is necessary that a measure
 returns more than one value.
-In such cases it is necessary to overwrite the public methods \verb{$aggregate()} and/or \verb{$score()} to return a named \code{numeric()}
+In such cases it is necessary to overwrite the public methods \verb{$aggregate()} and/or \verb{$score()}
+to return a named \code{numeric()}
 where at least one of its names corresponds to the \code{id} of the measure itself.
 }
 
@@ -36,31 +38,40 @@ where at least one of its names corresponds to the \code{id} of the measure itse
 
 
 Many measures support observation weights, indicated by their property \code{"weights"}.
-The weights are stored in the \link{Task} where the column role \code{weights_measure} needs to be assigned to a single numeric column.
-The weights are automatically used if found in the task, this can be disabled by setting the field \code{use_weights} to \code{"ignore"}.
+The weights are stored in the \link{Task} where the column role \code{weights_measure} needs to be assigned
+to a single numeric column.
+The weights are automatically used if found in the task,
+this can be disabled by setting the field \code{use_weights} to \code{"ignore"}.
 See the description of \code{use_weights} for more information.
 
-If the measure is set-up to use weights but the task does not have a designated \code{weights_measure} column, an unweighted version is calculated instead.
+If the measure is set-up to use weights but the task does not have a designated \code{weights_measure} column,
+an unweighted version is calculated instead.
 The weights do not necessarily need to sum up to 1, they are normalized by the measure if necessary.
 
-Most measures are so-called decomposable loss functions where a point-wise loss is computed and then either mean-aggregated or summed
-over the test set.
-For measures that do mean-aggregation, weights are typically used to compute the weighted mean, which normalizes weights to sum to 1.
-Measures that use sum-aggregation do not normalize weights and instead multiply individual losses with the given weights.
+Most measures are so-called decomposable loss functions where a point-wise loss is computed
+and then either mean-aggregated or summed over the test set.
+For measures that do mean-aggregation, weights are typically used to compute the weighted mean,
+which normalizes weights to sum to 1.
+Measures that use sum-aggregation do not normalize weights and instead multiply individual losses
+with the given weights.
 See the documentation of specific measures for more details.
 }
 
 \section{Missing Values during Scoring}{
 
 
-Many measurements cannot be calculated if the test set or predictions are unfortunate, for example because a denominator is 0.
+Many measurements cannot be calculated if the test set or predictions are unfortunate,
+for example because a denominator is 0.
 This typically occurs during (binary) classification if some entries of the confusion matrix are 0.
-For this reason, many measures which originate in \CRANpkg{mlr3measures} allow to change the default missing value (\code{NaN}) via the field \code{na_value}.
+For this reason, many measures which originate in \CRANpkg{mlr3measures} allow to change the
+default missing value (\code{NaN}) via the field \code{na_value}.
 
-If you encounter missing values in a compound object like a \link{ResampleResult} or \link{BenchmarkResult} during scoring or aggregating, simply
-removing iterations with missing values is statistically arguable (but technically possible by providing a custom aggregation function
-which handles missing values, e.g. \code{function(x) mean(x, na.rm = TRUE)}). Instead, consider stratification on the target of the \link{Task}
-to work around missing values. Switching to micro averaging in the \link{Resampling} can also be a solution here.
+If you encounter missing values in a compound object like a \link{ResampleResult} or \link{BenchmarkResult}
+during scoring or aggregating, simply removing iterations with missing values is statistically
+arguable (but technically possible by providing a custom aggregation function which handles
+missing values, e.g. \code{function(x) mean(x, na.rm = TRUE)}).
+Instead, consider stratification on the target of the \link{Task} to work around missing values.
+Switching to micro averaging in the \link{Resampling} can also be a solution here.
 }
 
 \examples{
@@ -141,7 +152,8 @@ to operate on specific subsets of the calculated prediction sets.}
 
 \item{\code{hash}}{(\code{character(1)})\cr
 Hash (unique identifier) for this object.
-The hash is calculated based on the id, the parameter settings, predict sets and the \verb{$score}, \verb{$average}, \verb{$aggregator}, \verb{$obs_loss}, \verb{$trafo} method.
+The hash is calculated based on the id, the parameter settings, predict sets and the \verb{$score},
+\verb{$average}, \verb{$aggregator}, \verb{$obs_loss}, \verb{$trafo} method.
 Measure can define additional fields to be included in the hash by setting the field \verb{$.extra_hash}.}
 
 \item{\code{properties}}{(\code{character()})\cr
@@ -182,8 +194,10 @@ Settings are \code{"use"}, \code{"ignore"}, and \code{"error"}.
 For measures with the property \code{"weights"}, this is initialized as \code{"use"}.
 For measures with the property \code{"requires_no_prediction"}, this is initialized as \code{"ignore"}.
 For measures that have neither of the properties, this is initialized as \code{"error"}.
-The latter behavior is to avoid cases where a user erroneously assumes that a measure supports weights when it does not.
-For measures that do not support weights, \code{use_weights} needs to be set to \code{"ignore"} if tasks with weights should be handled (by dropping the weights).}
+The latter behavior is to avoid cases where a user erroneously assumes that a measure
+supports weights when it does not.
+For measures that do not support weights,
+\code{use_weights} needs to be set to \code{"ignore"} if tasks with weights should be handled (by dropping the weights).}
 
 \item{\code{id}}{(\code{character(1)})\cr
 Identifier of the object.
@@ -213,7 +227,8 @@ How to proceed if one of the following prerequisites is not met:
 \item task properties not satisfied (e.g., binary classification measure on multiclass task).
 }
 
-Possible values are \code{"ignore"} (just return \code{NaN}) and \code{"warn"} (default, raise a warning before returning \code{NaN}).}
+Possible values are \code{"ignore"} (just return \code{NaN}) and \code{"warn"} (default,
+raise a warning before returning \code{NaN}).}
 
 \item{\code{task_properties}}{(\code{character()})\cr
 Required properties of the \link{Task}.}
@@ -342,8 +357,10 @@ Supported by \code{mlr3}:
 \item \code{"requires_train_set"} (requires the training indices from the \link{Resampling}),
 \item \code{"na_score"} (the measure is expected to occasionally return \code{NA} or \code{NaN}),
 \item \code{"weights"} (support weighted scoring using sample weights from task, column role \code{weights_measure}), and
-\item \code{"primary_iters"} (the measure explictly handles resamplings that only use a subset of their iterations for the point estimate)
-\item \code{"requires_no_prediction"} (No prediction is required; This usually means that the measure extracts some information from the learner state.).
+\item \code{"primary_iters"} (the measure explicitly handles resamplings
+that only use a subset of their iterations for the point estimate)
+\item \code{"requires_no_prediction"} (No prediction is required;
+This usually means that the measure extracts some information from the learner state.).
 }}
 
 \item{\code{predict_type}}{(\code{character(1)})\cr

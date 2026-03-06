@@ -7,5 +7,5 @@ charset = utf-8                            # Ensure all files are saved in UTF-8
 end_of_line = lf                           # Use LF line endings (Unix style)
 indent_style = space                       # Use spaces for indentation
 indent_size = 2                            # always use 2 spaces for indentation, R, C, python, etc.
-max_line_length = 180                      # max line length
+max_line_length = 120                      # max line length
 trim_trailing_whitespace = true            # Remove trailing whitespace

@@ -9,7 +9,8 @@ Measure to compare true observed response with predicted quantiles in regression
 }
 \details{
 \eqn{R^1(\alpha)} is defined as \deqn{
-  1 - \frac{\sum_{i=1}^n \rho_\alpha \left( t_i - r_i(\alpha) \right)}{\sum_{i=1}^n \rho_\alpha \left( t_i - q_{\alpha} \right)},
+  1 - \frac{\sum_{i=1}^n \rho_\alpha \left( t_i - r_i(\alpha) \right)}{
+    \sum_{i=1}^n \rho_\alpha \left( t_i - q_{\alpha} \right)},
 }{
   1 - sum(pinball(t - r(alpha))) / sum(pinball(t - quantile(t, alpha))),
 }

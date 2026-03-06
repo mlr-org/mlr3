@@ -21,6 +21,7 @@ NULL
 #' @export
 #' @param b ([DataBackend]).
 #' @rdname mlr_assertions
+# nolint next
 assert_backend = function(b, .var.name = vname(b)) {
   assert_class(b, "DataBackend", .var.name = .var.name)
 }
@@ -32,6 +33,7 @@ assert_backend = function(b, .var.name = vname(b)) {
 #'   Set of required task properties.
 #' @rdname mlr_assertions
 #' @export
+# nolint next
 assert_task = function(task, task_type = NULL, feature_types = NULL, task_properties = NULL, .var.name = vname(task)) {
   assert_class(task, "Task", .var.name = .var.name)
 
@@ -60,9 +62,23 @@ assert_task = function(task, task_type = NULL, feature_types = NULL, task_proper
 #' @export
 #' @param tasks (list of [Task]).
 #' @rdname mlr_assertions
-assert_tasks = function(tasks, task_type = NULL, feature_types = NULL, task_properties = NULL, .var.name = vname(tasks)) {
+assert_tasks = function(
+  tasks,
+  task_type = NULL,
+  feature_types = NULL,
+  task_properties = NULL,
+  # nolint next
+  .var.name = vname(tasks)
+) {
   assert_list(tasks, types = "Task")
-  invisible(lapply(tasks, assert_task, task_type = task_type, feature_types = feature_types, task_properties = task_properties, .var.name = .var.name))
+  invisible(lapply(
+    tasks,
+    assert_task,
+    task_type = task_type,
+    feature_types = feature_types,
+    task_properties = task_properties,
+    .var.name = .var.name
+  ))
 }
 
 
@@ -70,7 +86,14 @@ assert_tasks = function(tasks, task_type = NULL, feature_types = NULL, task_prop
 #' @param learner ([Learner]).
 #' @param task_type (`character(1)`).
 #' @rdname mlr_assertions
-assert_learner = function(learner, task = NULL, task_type = NULL, properties = character(), .var.name = vname(learner)) {
+assert_learner = function(
+  learner,
+  task = NULL,
+  task_type = NULL,
+  properties = character(),
+  # nolint next
+  .var.name = vname(learner)
+) {
   assert_class(learner, "Learner", .var.name = .var.name)
 
   task_type = task_type %??% task$task_type
@@ -108,7 +131,15 @@ test_matching_task_type = function(task_type, object, class) {
 #' @export
 #' @param learners (list of [Learner]).
 #' @rdname mlr_assertions
-assert_learners = function(learners, task = NULL, task_type = NULL, properties = character(), unique_ids = FALSE, .var.name = vname(learners)) {
+assert_learners = function(
+  learners,
+  task = NULL,
+  task_type = NULL,
+  properties = character(),
+  unique_ids = FALSE,
+  # nolint next
+  .var.name = vname(learners)
+) {
   assert_list(learners, types = "Learner")
   if (unique_ids) {
     ids = map_chr(learners, "id")
@@ -116,7 +147,14 @@ assert_learners = function(learners, task = NULL, task_type = NULL, properties =
       error_input("Learners need to have unique IDs: %s", str_collapse(ids))
     }
   }
-  invisible(lapply(learners, assert_learner, task = task, task_type = NULL, properties = properties, .var.name = .var.name))
+  invisible(lapply(
+    learners,
+    assert_learner,
+    task = task,
+    task_type = NULL,
+    properties = properties,
+    .var.name = .var.name
+  ))
 }
 
 # this does not check the validation task, as this is only possible once the validation set is known,
@@ -126,14 +164,23 @@ assert_task_learner = function(task, learner, param_values = NULL, cols = NULL) 
   # remove pars that are covered by param_values
   pars = pars[names(pars) %nin% names(param_values)]
   if (length(pars) > 0L) {
-    error_config("%s cannot be trained with TuneToken present in hyperparameter: %s", format_angle_brackets(learner), str_collapse(names(pars)))
+    error_config(
+      "%s cannot be trained with TuneToken present in hyperparameter: %s",
+      format_angle_brackets(learner),
+      str_collapse(names(pars))
+    )
   }
   # check on class(learner) does not work with GraphLearner and AutoTuner
   # check on learner$task_type does not work with TaskUnsupervised
 
   if (!test_matching_task_type(task$task_type, learner, "learner")) {
-    error_input("Type '%s' of %s does not match type '%s' of %s",
-      task$task_type, format_angle_brackets(task), learner$task_type, format_angle_brackets(learner))
+    error_input(
+      "Type '%s' of %s does not match type '%s' of %s",
+      task$task_type,
+      format_angle_brackets(task),
+      learner$task_type,
+      format_angle_brackets(learner)
+    )
   }
 
   tmp = setdiff(task$feature_types$type, learner$feature_types)
@@ -144,28 +191,38 @@ assert_task_learner = function(task, learner, param_values = NULL, cols = NULL) 
   if ("missings" %nin% learner$properties) {
     miss = task$missings(cols = cols) > 0L
     if (any(miss)) {
-      error_input("Task '%s' has missing values in column(s) %s, but learner '%s' does not support this",
-        task$id, str_collapse(names(miss)[miss], quote = "'"), learner$id)
+      error_input(
+        "Task '%s' has missing values in column(s) %s, but learner '%s' does not support this",
+        task$id,
+        str_collapse(names(miss)[miss], quote = "'"),
+        learner$id
+      )
     }
   }
 
   if ("offset" %in% task$properties && "offset" %nin% learner$properties) {
-    warning_input("Task '%s' has offset, but learner '%s' does not support this, so it will be ignored",
-             task$id, learner$id)
+    warning_input(
+      "Task '%s' has offset, but learner '%s' does not support this, so it will be ignored",
+      task$id,
+      learner$id
+    )
   }
 
   tmp = mlr_reflections$task_mandatory_properties[[task$task_type]]
   if (length(tmp)) {
     tmp = setdiff(intersect(task$properties, tmp), learner$properties)
     if (length(tmp)) {
-      error_input("Task '%s' has property '%s', but learner '%s' does not support that",
-        task$id, tmp[1L], learner$id)
+      error_input("Task '%s' has property '%s', but learner '%s' does not support that", task$id, tmp[1L], learner$id)
     }
   }
 
   validate = get0("validate", learner)
   if (!is.null(task$internal_valid_task) && (is.numeric(validate) || identical(validate, "test"))) {
-    error_config("Parameter 'validate' of Learner '%s' cannot be set to 'test' or a ratio when internal_valid_task is present, remove it first", learner$id)
+    error_config(
+      # nolint next
+      "Parameter 'validate' of Learner '%s' cannot be set to 'test' or a ratio when internal_valid_task is present, remove it first",
+      learner$id
+    )
   }
 }
 
@@ -181,12 +238,17 @@ assert_learnable = function(task, learner, param_values = NULL) {
   # we only need to check whether the learner wants to error on weights in training,
   # since weights_learner are always ignored during prediction.
   if (learner$use_weights == "error" && "weights_learner" %in% task$properties) {
-    error_config("%s cannot be trained with weights in %s%s", format_angle_brackets(learner), format_angle_brackets(task),
+    error_config(
+      "%s cannot be trained with weights in %s%s",
+      format_angle_brackets(learner),
+      format_angle_brackets(task),
       if ("weights" %in% learner$properties) {
         " since 'use_weights' was set to 'error'."
       } else {
+        # nolint next
         " since the Learner does not support weights.\nYou may set 'use_weights' to 'ignore' if you want the Learner to ignore weights."
-      })
+      }
+    )
   }
   assert_task_learner(task, learner, param_values)
 }
@@ -209,7 +271,6 @@ assert_predictable = function(task, learner) {
     predict_type = fget_keys(task$col_info, i = ids, j = "type", key = "id")
     predict_levels = fget_keys(task$col_info, i = ids, j = "levels", key = "id")
 
-
     ok = all(train_type == predict_type)
 
     if ("new_levels" %nin% learner$properties) {
@@ -217,7 +278,11 @@ assert_predictable = function(task, learner) {
     }
 
     if (!ok) {
-      error_input("Learner '%s' received task with different column info (feature type or factor level ordering) during train and predict.", learner$id)
+      error_input(
+        # nolint next
+        "Learner '%s' received task with different column info (feature type or factor level ordering) during train and predict.",
+        learner$id
+      )
     }
   }
 
@@ -225,60 +290,78 @@ assert_predictable = function(task, learner) {
 }
 
 
-
 #' @export
 #' @param measure ([Measure]).
 #' @param prediction ([Prediction]).
 #' @rdname mlr_assertions
+# nolint next
 assert_measure = function(measure, task = NULL, learner = NULL, prediction = NULL, .var.name = vname(measure)) {
   assert_class(measure, "Measure", .var.name = .var.name)
 
   if (measure$use_weights == "error" && (!is.null(prediction$weights) || "weights_measure" %chin% task$properties)) {
-    error_input("%s cannot be evaluated with weights%s%s", format_angle_brackets(measure), if (!is.null(task)) paste0(" in ", format_angle_brackets(task)) else "",
+    error_input(
+      "%s cannot be evaluated with weights%s%s",
+      format_angle_brackets(measure),
+      if (!is.null(task)) paste0(" in ", format_angle_brackets(task)) else "",
       if ("weights" %in% measure$properties) {
         " since 'use_weights' was set to 'error'."
       } else {
+        # nolint next
         " since the Measure does not support weights.\nYou may set 'use_weights' to 'ignore' if you want the Measure to ignore weights."
       }
     )
   }
 
   if (!is.null(task)) {
-
     if (!is_scalar_na(measure$task_type) && !test_matching_task_type(task$task_type, measure, "measure")) {
-      error_input("Measure '%s' is not compatible with type '%s' of task '%s'",
-        measure$id, task$task_type, task$id)
+      error_input("Measure '%s' is not compatible with type '%s' of task '%s'", measure$id, task$task_type, task$id)
     }
 
     if (measure$check_prerequisites != "ignore") {
       miss = setdiff(measure$task_properties, task$properties)
       if (length(miss) > 0L) {
-        warning_config("Measure '%s' is missing properties %s of task '%s'",
-          measure$id, str_collapse(miss, quote = "'"), task$id)
+        warning_config(
+          "Measure '%s' is missing properties %s of task '%s'",
+          measure$id,
+          str_collapse(miss, quote = "'"),
+          task$id
+        )
       }
     }
   }
 
   if (!is.null(learner)) {
-
     if (!is_scalar_na(measure$task_type) && !test_matching_task_type(measure$task_type, learner, "learner")) {
-      error_input("Measure '%s' is not compatible with type '%s' of learner '%s'",
-        measure$id, learner$task_type, learner$id)
+      error_input(
+        "Measure '%s' is not compatible with type '%s' of learner '%s'",
+        measure$id,
+        learner$task_type,
+        learner$id
+      )
     }
 
     if (!is_scalar_na(measure$predict_type) && measure$check_prerequisites != "ignore") {
       predict_types = mlr_reflections$learner_predict_types[[learner$task_type]][[learner$predict_type]]
       if (measure$predict_type %nin% predict_types) {
-        warning_config("Measure '%s' is missing predict type '%s' of learner '%s'", measure$id, measure$predict_type, learner$id)
+        warning_config(
+          "Measure '%s' is missing predict type '%s' of learner '%s'",
+          measure$id,
+          measure$predict_type,
+          learner$id
+        )
       }
     }
 
     if (measure$check_prerequisites != "ignore") {
       miss = setdiff(measure$predict_sets, learner$predict_sets)
       if (length(miss) > 0L) {
-
-        warning_config("Measure '%s' needs predict sets %s, but learner '%s' only predicted on sets %s",
-          measure$id, str_collapse(miss, quote = "'"), learner$id, str_collapse(learner$predict_sets, quote = "'"))
+        warning_config(
+          "Measure '%s' needs predict sets %s, but learner '%s' only predicted on sets %s",
+          measure$id,
+          str_collapse(miss, quote = "'"),
+          learner$id,
+          str_collapse(learner$predict_sets, quote = "'")
+        )
       }
     }
   }
@@ -297,6 +380,7 @@ assert_measure = function(measure, task = NULL, learner = NULL, prediction = NUL
 #' @param measure ([Measure]).
 #' @param prediction ([Prediction]).
 #' @rdname mlr_assertions
+# nolint next
 assert_scorable = function(measure, task, learner, prediction = NULL, .var.name = vname(measure)) {
   if ("requires_model" %chin% measure$properties && is.null(learner$model)) {
     error_input("Measure '%s' requires the trained model", measure$id)
@@ -312,6 +396,7 @@ assert_scorable = function(measure, task, learner, prediction = NULL, .var.name 
 #' @export
 #' @param measures (list of [Measure]).
 #' @rdname mlr_assertions
+# nolint next
 assert_measures = function(measures, task = NULL, learner = NULL, .var.name = vname(measures)) {
   assert_list(measures, types = "Measure")
   lapply(measures, assert_measure, task = task, learner = learner, .var.name = .var.name)
@@ -324,6 +409,7 @@ assert_measures = function(measures, task = NULL, learner = NULL, .var.name = vn
 #' @export
 #' @param resampling ([Resampling]).
 #' @rdname mlr_assertions
+# nolint next
 assert_resampling = function(resampling, instantiated = NULL, .var.name = vname(resampling)) {
   assert_class(resampling, "Resampling", .var.name = .var.name)
 
@@ -343,6 +429,7 @@ assert_resampling = function(resampling, instantiated = NULL, .var.name = vname(
 #' @export
 #' @param resamplings (list of [Resampling]).
 #' @rdname mlr_assertions
+# nolint next
 assert_resamplings = function(resamplings, instantiated = NULL, .var.name = vname(resamplings)) {
   assert_list(resamplings, types = "Resampling")
   invisible(lapply(resamplings, assert_resampling, instantiated = instantiated, .var.name = .var.name))
@@ -352,8 +439,11 @@ assert_resamplings = function(resamplings, instantiated = NULL, .var.name = vnam
 #' @export
 #' @param prediction ([Prediction]).
 #' @rdname mlr_assertions
+# nolint next
 assert_prediction = function(prediction, .var.name = vname(prediction), null.ok = FALSE) {
-  if (null.ok && is.null(prediction)) return(prediction)
+  if (null.ok && is.null(prediction)) {
+    return(prediction)
+  }
   assert_class(prediction, "Prediction", .var.name = .var.name)
 }
 
@@ -361,6 +451,7 @@ assert_prediction = function(prediction, .var.name = vname(prediction), null.ok 
 #' @export
 #' @param rr ([ResampleResult]).
 #' @rdname mlr_assertions
+# nolint next
 assert_resample_result = function(rr, .var.name = vname(rr)) {
   assert_class(rr, "ResampleResult", .var.name = .var.name)
 }
@@ -369,21 +460,35 @@ assert_resample_result = function(rr, .var.name = vname(rr)) {
 #' @export
 #' @param bmr ([BenchmarkResult]).
 #' @rdname mlr_assertions
+# nolint next
 assert_benchmark_result = function(bmr, .var.name = vname(bmr)) {
   assert_class(bmr, "BenchmarkResult", .var.name = .var.name)
 }
 
 
+# nolint next
 assert_set = function(x, empty = TRUE, .var.name = vname(x)) {
-  assert_character(x, min.len = as.integer(!empty), any.missing = FALSE, min.chars = 1L, unique = TRUE, .var.name = .var.name)
+  assert_character(
+    x,
+    min.len = as.integer(!empty),
+    any.missing = FALSE,
+    min.chars = 1L,
+    unique = TRUE,
+    .var.name = .var.name
+  )
 }
 
 
+# nolint next
 assert_range = function(range, .var.name = vname(range)) {
   assert_numeric(range, len = 2L, any.missing = FALSE, .var.name = .var.name)
 
   if (diff(range) < 0) {
-    error_input("Invalid range specified. First value (%f) must be less than or equal to second value (%f)", range[1L], range[2L])
+    error_input(
+      "Invalid range specified. First value (%f) must be less than or equal to second value (%f)",
+      range[1L],
+      range[2L]
+    )
   }
 
   invisible(range)
@@ -395,6 +500,7 @@ assert_range = function(range, .var.name = vname(range)) {
 #' @param task ([Task])\cr
 #'   Task to check if row ids exist in it.
 #' @rdname mlr_assertions
+# nolint next
 assert_row_ids = function(row_ids, task = NULL, null.ok = FALSE, .var.name = vname(row_ids)) {
   row_ids = assert_integerish(row_ids, coerce = TRUE, null.ok = null.ok)
   if (!is.null(task)) {
@@ -410,7 +516,10 @@ assert_row_ids = function(row_ids, task = NULL, null.ok = FALSE, .var.name = vna
 #' @rdname mlr_assertions
 assert_has_backend = function(task) {
   if (is.null(task$backend)) {
-    error_input("The backend of Task '%s' has been removed. Set `store_backends` to `TRUE` during model fitting to conserve it.", task$id)
+    error_input(
+      "The backend of Task '%s' has been removed. Set `store_backends` to `TRUE` during model fitting to conserve it.",
+      task$id
+    )
   }
 }
 
@@ -418,11 +527,18 @@ assert_has_backend = function(task) {
 assert_prediction_count = function(actual, expected, type) {
   if (actual != expected) {
     if (actual < expected) {
-      error_learner_predict("Predicted %s not complete, %s for %i observations is missing",
-        type, type, expected - actual)
+      error_learner_predict(
+        "Predicted %s not complete, %s for %i observations is missing",
+        type,
+        type,
+        expected - actual
+      )
     } else {
-      error_learner_predict("Predicted %s contains %i additional predictions without matching rows",
-        type, actual - expected)
+      error_learner_predict(
+        "Predicted %s contains %i additional predictions without matching rows",
+        type,
+        actual - expected
+      )
     }
   }
 }
@@ -452,7 +568,6 @@ assert_row_sums = function(prob) {
 #'   If `TRUE`, the learner must have the `$quantile_response` field set.
 #' @rdname mlr_assertions
 assert_quantiles = function(learner, quantile_response = FALSE) {
-
   if (is.null(learner$quantiles)) {
     error_config("Quantiles must be set via `$quantiles`")
   }
@@ -464,6 +579,7 @@ assert_quantiles = function(learner, quantile_response = FALSE) {
   invisible(learner)
 }
 
+# nolint next
 assert_param_values = function(x, n_learners = NULL, .var.name = vname(x)) {
   assert_list(x, len = n_learners, .var.name = .var.name)
 
@@ -504,6 +620,7 @@ assert_empty_ellipsis = function(...) {
   }
   error_input(
     "Received unused arguments: %i unnamed, as well as named arguments %s.",
-    length(names) - length(names2), toString(names2)
+    length(names) - length(names2),
+    toString(names2)
   )
 }

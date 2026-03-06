@@ -25,7 +25,8 @@
 #'
 #' @template seealso_measure
 #' @export
-MeasureRegrPinball = R6Class("MeasureRegrPinball",
+MeasureRegrPinball = R6Class(
+  "MeasureRegrPinball",
   inherit = MeasureRegr,
   public = list(
     #' @description

@@ -27,14 +27,18 @@ test_that("autotest catches error in predict", {
 })
 
 test_that("autotest recognizes learner that does not use .get_weights()", {
-  learner = R6Class("learner", inherit = LearnerClassifDebug, private = list(
-    .train = function(task) {
-      structure(
-        list(response = as.character(sample(task$truth(), 1L))),
-        class = "classif.debug_model"
-      )
-    }
-  ))$new()
+  learner = R6Class(
+    "learner",
+    inherit = LearnerClassifDebug,
+    private = list(
+      .train = function(task) {
+        structure(
+          list(response = as.character(sample(task$truth(), 1L))),
+          class = "classif.debug_model"
+        )
+      }
+    )
+  )$new()
 
   task = tsk("spam")
 
@@ -86,8 +90,11 @@ test_that("autotest on marshal / unmarshal", {
     public = list(
       marshal = function(...) {
         # miss to set class "marshaled" in the model
-        self$model = structure(list(
-          marshaled = self$model, packages = "mlr3"),
+        self$model = structure(
+          list(
+            marshaled = self$model,
+            packages = "mlr3"
+          ),
           class = c("classif.debug_model_marshaled")
         )
       }
@@ -99,7 +106,6 @@ test_that("autotest on marshal / unmarshal", {
   result = run_experiment(task, learner)
   expect_false(result$ok)
   expect_string(result$error, pattern = "marshal")
-
 
   learner = R6Class(
     "learner_broken_marshal",
@@ -157,10 +163,18 @@ test_that("autotest on encapsulation", {
   task = tsk("spam")
   task$id = "feat_all_spam"
 
-  with_mirai({
-    mirai::everywhere({Sys.setenv(in_mirai = "TRUE")}, .compute = "mlr3_encapsulation")
-    result = run_experiment(task, learner1)
-  }, compute = "mlr3_encapsulation")
+  with_mirai(
+    {
+      mirai::everywhere(
+        {
+          Sys.setenv(in_mirai = "TRUE")
+        },
+        .compute = "mlr3_encapsulation"
+      )
+      result = run_experiment(task, learner1)
+    },
+    compute = "mlr3_encapsulation"
+  )
 
   expect_false(result$ok)
   expect_string(result$error, pattern = "Error in mirai process in train")
@@ -182,10 +196,18 @@ test_that("autotest on encapsulation", {
   task = tsk("spam")
   task$id = "feat_all_spam"
 
-  with_mirai({
-    mirai::everywhere({Sys.setenv(in_mirai = "TRUE")}, .compute = "mlr3_encapsulation")
-    result = run_experiment(task, learner2)
-  }, compute = "mlr3_encapsulation")
+  with_mirai(
+    {
+      mirai::everywhere(
+        {
+          Sys.setenv(in_mirai = "TRUE")
+        },
+        .compute = "mlr3_encapsulation"
+      )
+      result = run_experiment(task, learner2)
+    },
+    compute = "mlr3_encapsulation"
+  )
 
   expect_false(result$ok)
   expect_string(result$error, pattern = "Error in mirai process in predict")
@@ -208,10 +230,18 @@ test_that("autotest on encapsulation", {
   task = tsk("spam")
   task$id = "feat_all_spam"
 
-  with_mirai({
-    mirai::everywhere({Sys.setenv(in_mirai = "TRUE")}, .compute = "mlr3_encapsulation")
-    result = run_experiment(task, learner3)
-  }, compute = "mlr3_encapsulation")
+  with_mirai(
+    {
+      mirai::everywhere(
+        {
+          Sys.setenv(in_mirai = "TRUE")
+        },
+        .compute = "mlr3_encapsulation"
+      )
+      result = run_experiment(task, learner3)
+    },
+    compute = "mlr3_encapsulation"
+  )
 
   expect_false(result$ok)
   expect_string(result$error, pattern = "attempt to apply non-function")

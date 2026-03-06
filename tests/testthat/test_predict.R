@@ -78,10 +78,11 @@ test_that("predict_newdata with weights (#519)", {
   expect_prediction(pred)
   expect_equal(pred$weights, tsk("california_housing")$data()$total_rooms)
   # now both are present
-  pred = learner$predict_newdata(task$data(cols = c(task$target_names, task$feature_names, "households", "total_rooms")))
+  pred = learner$predict_newdata(task$data(
+    cols = c(task$target_names, task$feature_names, "households", "total_rooms")
+  ))
   expect_prediction(pred)
   expect_equal(pred$weights, tsk("california_housing")$data()$total_rooms)
-
 })
 
 test_that("parallel predict works", {
@@ -93,10 +94,7 @@ test_that("parallel predict works", {
   p1 = lrn$predict(task, row_ids = 20:1)
 
   lrn$parallel_predict = TRUE
-  p2 = with_future(future::multisession,
-    lrn$predict(task, row_ids = 20:1)
-  )
+  p2 = with_future(future::multisession, lrn$predict(task, row_ids = 20:1))
 
   expect_equal(as.data.table(p1), as.data.table(p2))
 })
-

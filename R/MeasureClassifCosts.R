@@ -9,7 +9,8 @@
 #' The cost matrix is stored as slot `$costs`.
 #'
 #' For calculation of the score, the confusion matrix is multiplied element-wise with the cost matrix.
-#' The costs are then summed up (and potentially divided by the number of observations if `normalize` is set to `TRUE` (default)).
+#' The costs are then summed up (and potentially divided by the number of observations
+#' if `normalize` is set to `TRUE` (default)).
 #'
 #' @templateVar id classif.costs
 #' @template measure
@@ -38,7 +39,8 @@
 #' learner = lrn("classif.rpart")
 #' rr = resample(task, learner, rsmp("cv", folds = 3))
 #' rr$aggregate(m)
-MeasureClassifCosts = R6Class("MeasureClassifCosts",
+MeasureClassifCosts = R6Class(
+  "MeasureClassifCosts",
   inherit = MeasureClassif,
   public = list(
     #' @description
@@ -91,9 +93,11 @@ MeasureClassifCosts = R6Class("MeasureClassifCosts",
       if (is.null(weights)) {
         confusion = table(response = prediction$response, truth = prediction$truth, useNA = "ifany")
       } else {
-        confusion = tapply(weights,
+        confusion = tapply(
+          weights,
           list(response = addNA(prediction$response, ifany = TRUE), truth = addNA(prediction$truth, ifany = TRUE)),
-          sum, default = 0
+          sum,
+          default = 0
         )
       }
 

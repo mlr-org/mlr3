@@ -9,7 +9,9 @@
 #' The following hyperparameters trigger the following actions:
 #' \describe{
 #'    \item{predict_missing:}{Ratio of predictions which will be NA.}
-#'    \item{predict_missing_type:}{How to encode missingness. \dQuote{na} will insert NA values, \dQuote{omit} will just return fewer predictions than requested.}
+#'    \item{predict_missing_type:}{How to encode missingness.
+#'      \dQuote{na} will insert NA values,
+#'      \dQuote{omit} will just return fewer predictions than requested.}
 #'    \item{save_tasks:}{Saves input task in `model` slot during training and prediction.}
 #'    \item{threads:}{Number of threads to use. Has no effect.}
 #'    \item{x:}{Numeric tuning parameter. Has no effect.}
@@ -28,7 +30,9 @@
 #'
 #' learner$model$task_train
 #' learner$model$task_predict
-LearnerRegrDebug = R6Class("LearnerRegrDebug", inherit = LearnerRegr,
+LearnerRegrDebug = R6Class(
+  "LearnerRegrDebug",
+  inherit = LearnerRegr,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
@@ -37,6 +41,7 @@ LearnerRegrDebug = R6Class("LearnerRegrDebug", inherit = LearnerRegr,
         id = "regr.debug",
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
         predict_types = c("response", "se", "quantiles"),
+        # fmt: skip
         param_set = ps(
           error_predict        = p_dbl(0, 1, default = 0, tags = "predict"),
           error_train          = p_dbl(0, 1, default = 0, tags = "train"),
@@ -149,7 +154,9 @@ LearnerRegrDebug = R6Class("LearnerRegrDebug", inherit = LearnerRegr,
 
       if (self$predict_type == "quantiles") {
         assert_quantiles(self, quantile_response = TRUE)
-        prediction = list(quantiles = matrix(self$model$quantiles, nrow = n, ncol = length(self$model$quantiles), byrow = TRUE))
+        prediction = list(
+          quantiles = matrix(self$model$quantiles, nrow = n, ncol = length(self$model$quantiles), byrow = TRUE)
+        )
         setattr(prediction$quantiles, "probs", self$model$quantile_probs)
         setattr(prediction$quantiles, "response", self$quantile_response)
         return(prediction)
@@ -163,6 +170,7 @@ LearnerRegrDebug = R6Class("LearnerRegrDebug", inherit = LearnerRegr,
         value = rep.int(self$model[[pt]], n)
         if (!is.null(pv$predict_missing)) {
           ii = sample.int(n, n * pv$predict_missing)
+          # fmt: skip
           value = switch(missing_type,
             "na" = replace(value, ii, NA),
             "omit" = value[ii]

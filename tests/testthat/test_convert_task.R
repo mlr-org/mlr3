@@ -7,15 +7,14 @@ test_that("convert_task - Regr -> Regr", {
   expect_true(result$col_roles$target == "households")
   expect_true(all(result$feature_names != "households"))
   expect_true(all(result$feature_names != "median_house_value"))
-  expect_true(all(unlist(imap(result$row_roles,
-    .f = function(z, x) {
-      all(result$row_roles[[x]] == task$row_roles[[x]])
-    }
-  ))))
+  expect_true(all(unlist(imap(result$row_roles, .f = function(z, x) {
+    all(result$row_roles[[x]] == task$row_roles[[x]])
+  }))))
   expect_true(
     every(c("weights_learner", "groups", "strata", "nrow"), function(x) {
       all(result[[x]] == task[[x]])
-    }))
+    })
+  )
 })
 
 test_that("convert_task - Regr -> Classif", {
@@ -27,15 +26,14 @@ test_that("convert_task - Regr -> Classif", {
   expect_true(result$col_roles$target == "ocean_proximity")
   expect_true(all(result$feature_names != "ocean_proximity"))
   expect_true(all(result$feature_names != "median_house_value"))
-  expect_true(all(unlist(imap(result$row_roles,
-    .f = function(z, x) {
-      all(result$row_roles[[x]] == task$row_roles[[x]])
-    }
-  ))))
+  expect_true(all(unlist(imap(result$row_roles, .f = function(z, x) {
+    all(result$row_roles[[x]] == task$row_roles[[x]])
+  }))))
   expect_true(
     every(c("weights_learner", "groups", "strata", "nrow"), function(x) {
       all(result[[x]] == task[[x]])
-    }))
+    })
+  )
 })
 
 test_that("convert_task - Classif -> Regr", {
@@ -47,15 +45,14 @@ test_that("convert_task - Classif -> Regr", {
   expect_true(result$col_roles$target == "Sepal.Width")
   expect_true(all(result$feature_names != "Sepal.Width"))
   expect_true(all(result$feature_names != "Species"))
-  expect_true(all(unlist(imap(result$row_roles,
-    .f = function(z, x) {
-      all(result$row_roles[[x]] == task$row_roles[[x]])
-    }
-  ))))
+  expect_true(all(unlist(imap(result$row_roles, .f = function(z, x) {
+    all(result$row_roles[[x]] == task$row_roles[[x]])
+  }))))
   expect_true(
     every(c("weights_learner", "groups", "strata", "nrow"), function(x) {
       all(result[[x]] == task[[x]])
-    }))
+    })
+  )
 })
 
 test_that("convert_task - same target", {
@@ -71,18 +68,17 @@ test_that("convert_task - same target", {
     expect_class(result, "TaskRegr")
     expect_task(result)
     expect_true(result$col_roles$target == "median_house_value")
-    expect_true(all(unlist(imap(result$row_roles,
-      .f = function(z, x) {
-        all(result$row_roles[[x]] == task$row_roles[[x]])
-      }
-    ))))
+    expect_true(all(unlist(imap(result$row_roles, .f = function(z, x) {
+      all(result$row_roles[[x]] == task$row_roles[[x]])
+    }))))
     expect_true(
       every(
         c("weights_learner", "groups", "strata", "nrow", "ncol", "feature_names", "target_names", "task_type"),
         function(x) {
           all(result[[x]] == task[[x]])
         }
-    ))
+      )
+    )
   }
 })
 
@@ -231,5 +227,4 @@ test_that("convert_task - Regr -> Regr with weights", {
   result = convert_task(task, target = "speed", drop_original_target = FALSE)
 
   expect_equal(result$weights_measure, task$weights_measure)
-
 })

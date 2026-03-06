@@ -102,18 +102,22 @@ test_that("predictions with weights", {
   pred_with_weights = ll$predict(cars_weights_measure)
   expect_equal(pred_with_weights$weights, rep(c(1, 10), each = 25))
 
-  pred_without_weights = ll$predict(cars_weights_learner)  # learner weights are ignored during predict
+  pred_without_weights = ll$predict(cars_weights_learner) # learner weights are ignored during predict
   expect_null(pred_without_weights$weights)
 
   expect_error(c(pred_with_weights, pred_without_weights), "Some predictions have weights, others do not")
 
   expect_equal(c(pred_with_weights, pred_with_weights)$weights, rep(c(1, 10, 1, 10), each = 25))
 
-  expect_equal(c(pred_with_weights$clone(deep = TRUE)$filter(1:10), pred_with_weights)$weights, rep(c(1, 10, 1, 10), each = 25)[c(1:10, 51:100)])
+  expect_equal(
+    c(pred_with_weights$clone(deep = TRUE)$filter(1:10), pred_with_weights)$weights,
+    rep(c(1, 10, 1, 10), each = 25)[c(1:10, 51:100)]
+  )
 })
 
 test_that("extra data is stored", {
-  LearnerExtra = R6Class("LearnerExtra",
+  LearnerExtra = R6Class(
+    "LearnerExtra",
     inherit = LearnerRegrDebug,
     private = list(
       .predict = function(task, ...) {
@@ -131,7 +135,8 @@ test_that("extra data is stored", {
   expect_equal(pred$extra[[1]], replicate(length(pred$response), "bar"))
   expect_prediction(pred)
 
-  LearnerExtra = R6Class("LearnerExtra",
+  LearnerExtra = R6Class(
+    "LearnerExtra",
     inherit = LearnerRegrDebug,
     private = list(
       .predict = function(task, ...) {
@@ -184,7 +189,8 @@ test_that("raw data is combined into list", {
 })
 
 test_that("raw data via learner predict", {
-  LearnerRaw = R6Class("LearnerRaw",
+  LearnerRaw = R6Class(
+    "LearnerRaw",
     inherit = LearnerRegrDebug,
     private = list(
       .predict = function(task, ...) {

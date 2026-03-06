@@ -50,27 +50,40 @@
 #'
 #' # remove task again
 #' mlr_tasks$remove("penguins.binary")
-mlr_tasks = R6Class("DictionaryTask",
-  inherit = Dictionary,
-  cloneable = FALSE
-)$new()
+mlr_tasks = R6Class("DictionaryTask", inherit = Dictionary, cloneable = FALSE)$new()
 
 
 #' @export
 as.data.table.DictionaryTask = function(x, ..., objects = FALSE) {
   assert_flag(objects)
 
-  setkeyv(map_dtr(x$keys(), function(key) {
-    t = tryCatch(x$get(key),
-      missingDefaultError = function(e) NULL)
-    if (is.null(t)) {
-      return(list(key = key))
-    }
+  setkeyv(
+    map_dtr(
+      x$keys(),
+      function(key) {
+        t = tryCatch(x$get(key), missingDefaultError = function(e) NULL)
+        if (is.null(t)) {
+          return(list(key = key))
+        }
 
-    feats = translate_types(t$feature_types$type)
-    insert_named(
-      c(list(key = key, label = t$label, task_type = t$task_type, nrow = t$nrow, ncol = t$ncol, properties = list(t$properties)), table(feats)),
-      if (objects) list(object = list(t))
-    )
-  }, .fill = TRUE), "key")[]
+        feats = translate_types(t$feature_types$type)
+        insert_named(
+          c(
+            list(
+              key = key,
+              label = t$label,
+              task_type = t$task_type,
+              nrow = t$nrow,
+              ncol = t$ncol,
+              properties = list(t$properties)
+            ),
+            table(feats)
+          ),
+          if (objects) list(object = list(t))
+        )
+      },
+      .fill = TRUE
+    ),
+    "key"
+  )[]
 }

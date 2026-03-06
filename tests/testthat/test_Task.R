@@ -168,7 +168,6 @@ test_that("Task cbind", {
   task = tsk("iris")$filter(integer())
   task$cbind(data.frame(x = integer()))
   expect_set_equal(c(task$target_names, task$feature_names), c(names(iris), "x"))
-
 })
 
 test_that("cbind/rbind works", {
@@ -208,7 +207,7 @@ test_that("filter works", {
   task$filter(91)
   expect_equal(task$nrow, 1L)
   expect_equal(task$row_ids, 91)
-  expect_integer(task$row_ids)  # #1285
+  expect_integer(task$row_ids) # #1285
   expect_data_table(task$data(), nrows = 1L, any.missing = FALSE)
 })
 
@@ -250,8 +249,13 @@ test_that("stratify works", {
 })
 
 test_that("groups/weights work", {
-  b = as_data_backend(data.table(x = runif(20), y = runif(20), w = runif(20),
-                                 o = runif(20), g = sample(letters[1:2], 20, replace = TRUE)))
+  b = as_data_backend(data.table(
+    x = runif(20),
+    y = runif(20),
+    w = runif(20),
+    o = runif(20),
+    g = sample(letters[1:2], 20, replace = TRUE)
+  ))
   task = TaskRegr$new("test", b, target = "y")
   task$set_row_roles(16:20, character())
 
@@ -280,9 +284,12 @@ test_that("groups/weights work", {
   task$col_roles$group = character()
   expect_true("groups" %nin% task$properties)
 
-  expect_error({
-    task$col_roles$weights_learner = c("w", "g")
-  }, "up to one")
+  expect_error(
+    {
+      task$col_roles$weights_learner = c("w", "g")
+    },
+    "up to one"
+  )
 })
 
 test_that("col roles are valid", {
@@ -291,26 +298,39 @@ test_that("col roles are valid", {
     logical = sample(c(TRUE, FALSE), 20, replace = TRUE),
     numeric = runif(20),
     integer = sample(1:3, 20, replace = TRUE),
-    factor = factor(sample(letters[1:3], 20, replace = TRUE))))
+    factor = factor(sample(letters[1:3], 20, replace = TRUE))
+  ))
   task = TaskRegr$new("test", b, target = "y")
 
   # weight
   expect_error(task$set_col_roles("logical", roles = "weights_learner"), "type")
   expect_error(task$set_col_roles("factor", roles = "weights_learner"), "type")
-  expect_error(task$set_col_roles(c("integer", "numeric"), roles = "weights_learner"), "There may only be up to one column with role")
+  expect_error(
+    task$set_col_roles(c("integer", "numeric"), roles = "weights_learner"),
+    "There may only be up to one column with role"
+  )
 
   expect_error(task$set_col_roles("logical", roles = "weights_measure"), "type")
   expect_error(task$set_col_roles("factor", roles = "weights_measure"), "type")
-  expect_error(task$set_col_roles(c("integer", "numeric"), roles = "weights_measure"), "There may only be up to one column with role")
+  expect_error(
+    task$set_col_roles(c("integer", "numeric"), roles = "weights_measure"),
+    "There may only be up to one column with role"
+  )
 
   # name
   expect_error(task$set_col_roles("logical", roles = "name"), "type")
   expect_error(task$set_col_roles("integer", roles = "name"), "type")
   expect_error(task$set_col_roles("numeric", roles = "name"), "type")
-  expect_error(task$set_col_roles(c("integer", "numeric"), roles = "name"), "There may only be up to one column with role")
+  expect_error(
+    task$set_col_roles(c("integer", "numeric"), roles = "name"),
+    "There may only be up to one column with role"
+  )
 
   # group
-  expect_error(task$set_col_roles(c("numeric", "factor"), roles = "group"), "There may only be up to one column with role")
+  expect_error(
+    task$set_col_roles(c("numeric", "factor"), roles = "group"),
+    "There may only be up to one column with role"
+  )
 
   # missing weights
   b = as_data_backend(data.table(y = runif(20), numeric = c(runif(19), NA_real_)))
@@ -329,22 +349,32 @@ test_that("col roles are valid", {
   # target classif
   b = as_data_backend(data.table(
     y = factor(sample(letters[1:3], 20, replace = TRUE)),
-    numeric = runif(20)))
+    numeric = runif(20)
+  ))
   task = as_task_classif(b, target = "y")
 
-  expect_error({task$col_roles = insert_named(task$col_roles, list(target = "numeric", feature = "y"))},
-    "must be a factor or ordered factor")
+  expect_error(
+    {
+      task$col_roles = insert_named(task$col_roles, list(target = "numeric", feature = "y"))
+    },
+    "must be a factor or ordered factor"
+  )
 
   expect_error(task$set_col_roles("numeric", roles = "target"), "up to one column with")
 
   # target regr
   b = as_data_backend(data.table(
     y = runif(20),
-    factor = factor(sample(letters[1:3], 20, replace = TRUE))))
+    factor = factor(sample(letters[1:3], 20, replace = TRUE))
+  ))
   task = TaskRegr$new("test", b, target = "y")
 
-  expect_error({task$col_roles = insert_named(task$col_roles, list(target = "factor", feature = "y"))},
-    "numeric or integer column")
+  expect_error(
+    {
+      task$col_roles = insert_named(task$col_roles, list(target = "factor", feature = "y"))
+    },
+    "numeric or integer column"
+  )
 
   expect_error(task$set_col_roles("factor", roles = "target"), "up to one column with")
 })
@@ -372,7 +402,8 @@ test_that("extra factor levels are stored (#179)", {
     x1 = factor(letters[1:5], levels = letters[5:1]),
     x2 = factor(letters[1:5], levels = letters),
     x3 = letters[1:5],
-    target = 1:5)
+    target = 1:5
+  )
   task = TaskRegr$new("extra_factor_levels", as_data_backend(dt), "target")
   expect_equal(task$levels("x2")$x2, letters)
 })
@@ -424,12 +455,18 @@ test_that("switch columns on and off (#301)", {
 test_that("row roles setters", {
   task = tsk("iris")
 
-  expect_error({
-    task$row_roles$use = "foo"
-  }, "integerish")
-  expect_error({
-    task$row_roles$foo = 1L
-  }, "extra elements")
+  expect_error(
+    {
+      task$row_roles$use = "foo"
+    },
+    "integerish"
+  )
+  expect_error(
+    {
+      task$row_roles$foo = 1L
+    },
+    "extra elements"
+  )
 
   task$row_roles$use = 1:20
   expect_equal(task$nrow, 20L)
@@ -448,17 +485,23 @@ test_that("row_ids_backend returns all backend rows", {
   expect_set_equal(task$row_ids, 51:100)
   expect_set_equal(task$row_ids_backend, 1:150)
 
-  expect_error({
-    task$row_ids_backend = 1:10
-  }, "read-only")
+  expect_error(
+    {
+      task$row_ids_backend = 1:10
+    },
+    "read-only"
+  )
 })
 
 test_that("col roles getters/setters", {
   task = tsk("iris")
 
-  expect_error({
-    task$col_roles$feature = "foo"
-  }, "subset")
+  expect_error(
+    {
+      task$col_roles$feature = "foo"
+    },
+    "subset"
+  )
 
   expect_error({
     task$col_roles$foo = "Species"
@@ -545,7 +588,12 @@ test_that("column labels", {
   task$labels = set_names(toupper(fn), fn)
   expect_equal(unname(task$labels), c("sp", toupper(fn)))
 
-  expect_error({ task$labels = c(foo = "as") }, "names")
+  expect_error(
+    {
+      task$labels = c(foo = "as")
+    },
+    "names"
+  )
 
   dt = data.table(id = c(task$target_names, task$feature_names))
   dt$label = tolower(dt$id)
@@ -569,7 +617,6 @@ test_that("set_levels", {
   expect_equal(levels(task$data(1)$sex), new_lvls)
   expect_equal(levels(head(task)$sex), new_lvls)
 
-
   new_lvls = c("female", "nothing")
   task$set_levels(list(sex = new_lvls))
 
@@ -584,8 +631,7 @@ test_that("set_levels", {
 
 test_that("special chars in feature names (#697)", {
   expect_error(
-    TaskRegr$new("test", data.table(`%asd` = 1:3, t = 3:1), target = "t")
-    ,
+    TaskRegr$new("test", data.table(`%asd` = 1:3, t = 3:1), target = "t"),
     "special character"
   )
 })
@@ -642,8 +688,18 @@ test_that("compatibility checks on internal_valid_task", {
   t1 = as_task_regr(d1, target = "y")
   t2 = as_task_regr(d2, target = "y")
   t3 = as_task_regr(d3, target = "y")
-  expect_error({t1$internal_valid_task = t2 }, "differs from the type")
-  expect_error({t1$internal_valid_task = t3 }, "not present")
+  expect_error(
+    {
+      t1$internal_valid_task = t2
+    },
+    "differs from the type"
+  )
+  expect_error(
+    {
+      t1$internal_valid_task = t3
+    },
+    "not present"
+  )
 })
 
 test_that("can NULL validation task", {
@@ -729,8 +785,10 @@ test_that("task$set_col_roles() with weights", {
 test_that("task$set_col_roles errors with wrong weights", {
   dd = iris
   dd$ww_chr = sample(letters, 150, replace = TRUE)
-  dd$ww_na = 1:150; dd$ww_na[1] = NA
-  dd$ww_neg = 1:150; dd$ww_neg[1] = -99
+  dd$ww_na = 1:150
+  dd$ww_na[1] = NA
+  dd$ww_neg = 1:150
+  dd$ww_neg[1] = -99
   tt = as_task_classif(dd, target = "Species")
 
   expect_error(tt$set_col_roles("ww_chr", "weights_learner"), "Must be of type")
@@ -790,7 +848,6 @@ test_that("rbind with weights", {
   # expect_equal(combined_weights_msr[row_id %in% original_row_ids], original_weights_msr) # ordering issue with join
   expect_equal(setkeyv(combined_weights_msr[list(original_row_ids), on = "row_id"], "row_id"), original_weights_msr)
   expect_equal(combined_weights_msr[row_id %in% 151:160]$weight, 2010:2001)
-
 
   # Check feature and factor level update
   expect_true(any(task$data(151:160)$Petal.Length > 100))
@@ -916,7 +973,8 @@ test_that("warn when internal valid task has 0 obs", {
 
 test_that("$data() is not called during task construction", {
   tbl = data.table(x = 1:10, y = 1:10, ..row_id = 1:10)
-  backend = R6Class("DataBackendTest",
+  backend = R6Class(
+    "DataBackendTest",
     inherit = DataBackendDataTable,
     cloneable = FALSE,
     public = list(
@@ -943,7 +1001,12 @@ test_that("row_hash works correctly", {
   expect_false(identical(task$row_hash, new_hash))
 
   # hash should be read-only
-  expect_error({task$row_hash = "new_hash"}, "is read-only")
+  expect_error(
+    {
+      task$row_hash = "new_hash"
+    },
+    "is read-only"
+  )
 })
 
 test_that("row_ids_backend works correctly", {
@@ -958,7 +1021,12 @@ test_that("row_ids_backend works correctly", {
   expect_set_equal(task$row_ids_backend, 1:768)
 
   # should be read-only
-  expect_error({task$row_ids_backend = 1:10}, "read-only")
+  expect_error(
+    {
+      task$row_ids_backend = 1:10
+    },
+    "read-only"
+  )
 
   # should match backend$rownames
   expect_set_equal(task$row_ids_backend, task$backend$rownames)
@@ -970,11 +1038,15 @@ test_that("row_ids_backend works correctly", {
 })
 
 test_that("$levels with cols works (#1323)", {
-  task = TaskClassif$new(id = "example", target = "target", backend = data.table(
-    target = factor(c("S", "T", "U")),
-    x = ordered(c("A", "B", "C")),
-    y = factor(c("L", "M", "N"))
-  ))
+  task = TaskClassif$new(
+    id = "example",
+    target = "target",
+    backend = data.table(
+      target = factor(c("S", "T", "U")),
+      x = ordered(c("A", "B", "C")),
+      y = factor(c("L", "M", "N"))
+    )
+  )
 
   expect_equal(task$levels(), list(target = c("S", "T", "U"), x = c("A", "B", "C"), y = c("L", "M", "N")))
   expect_equal(task$levels(cols = c("y", "x")), list(y = c("L", "M", "N"), x = c("A", "B", "C")))

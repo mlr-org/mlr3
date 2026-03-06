@@ -11,7 +11,8 @@
 mlr_reflections
 }
 \description{
-Environment which stores various information to allow objects to examine and introspect their structure and properties
+Environment which stores various information to allow objects to examine and introspect their
+structure and properties
 (c.f. \href{https://en.wikipedia.org/wiki/Reflective_programming}{Reflections}).
 
 This environment be modified by third-party packages, e.g. by adding information about new task types
@@ -47,7 +48,8 @@ List of vectors of supported \link{Learner} properties, named by their task type
 \item \code{learner_predict_types} (list of list of \code{character()})\cr
 List of lists of supported \link{Learner} predict_types, named by their task type.
 The inner list translates the \code{"predict_type"} to all predict types returned, e.g.
-predict type \code{"prob"} for a \link{LearnerClassif} provides the probabilities as well as the predicted labels, therefore \code{"prob"} maps to \code{c("response", "prob")}.
+predict type \code{"prob"} for a \link{LearnerClassif} provides the probabilities as well as the
+predicted labels, therefore \code{"prob"} maps to \code{c("response", "prob")}.
 \item \code{learner_predict_types} (list of list of \code{character()})\cr
 List of lists of supported \link{Learner} predict_types, named by their task type.
 \item \code{learner_param_tags} (\code{character()})\cr

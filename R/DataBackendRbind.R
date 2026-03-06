@@ -1,5 +1,8 @@
 #' @include DataBackend.R
-DataBackendRbind = R6Class("DataBackendRbind", inherit = DataBackend, cloneable = FALSE,
+DataBackendRbind = R6Class(
+  "DataBackendRbind",
+  inherit = DataBackend,
+  cloneable = FALSE,
   public = list(
     initialize = function(b1, b2) {
       assert_backend(b1)
@@ -26,7 +29,7 @@ DataBackendRbind = R6Class("DataBackendRbind", inherit = DataBackend, cloneable 
       }
 
       # duplicate rows / reorder columns
-      ijoin(data, rows,  intersect(cols, names(data)), pk)
+      ijoin(data, rows, intersect(cols, names(data)), pk)
     },
 
     head = function(n = 6L) {

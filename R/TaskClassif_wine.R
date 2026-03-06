@@ -6,7 +6,8 @@
 #'
 #' @description
 #' Wine data set from the UCI machine learning repository (\url{http://archive.ics.uci.edu/dataset/109/wine}).
-#' Results of a chemical analysis of three types of wines grown in the same region in Italy but derived from three different cultivars.
+#' Results of a chemical analysis of three types of wines grown in the same region in Italy
+#' but derived from three different cultivars.
 #'
 #' @templateVar id wine
 #' @template task
@@ -27,8 +28,7 @@ NULL
 
 load_task_wine = function(id = "wine") {
   b = as_data_backend(readRDS(system.file("extdata", "wine.rds", package = "mlr3")))
-  task = TaskClassif$new(id, b, target = "type",
-    label = "Wine Regions")
+  task = TaskClassif$new(id, b, target = "type", label = "Wine Regions")
   b$hash = task$man = "mlr3::mlr_tasks_wine"
   task
 }

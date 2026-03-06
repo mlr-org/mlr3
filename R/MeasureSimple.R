@@ -1,5 +1,6 @@
 #' @include MeasureClassif.R
-MeasureBinarySimple = R6Class("MeasureBinarySimple",
+MeasureBinarySimple = R6Class(
+  "MeasureBinarySimple",
   inherit = MeasureClassif,
   public = list(
     fun = NULL,
@@ -40,9 +41,15 @@ MeasureBinarySimple = R6Class("MeasureBinarySimple",
     .score = function(prediction, task, weights = NULL, ...) {
       truth = prediction$truth
       positive = levels(truth)[1L]
-      invoke(self$fun, .args = self$param_set$get_values(),
-        truth = truth, response = prediction$response, prob = prediction$prob[, positive],
-        positive = positive, na_value = self$na_value, sample_weights = weights
+      invoke(
+        self$fun,
+        .args = self$param_set$get_values(),
+        truth = truth,
+        response = prediction$response,
+        prob = prediction$prob[, positive],
+        positive = positive,
+        na_value = self$na_value,
+        sample_weights = weights
       )
     },
 
@@ -51,18 +58,21 @@ MeasureBinarySimple = R6Class("MeasureBinarySimple",
     .obs_loss = function(prediction, ...) {
       truth = prediction$truth
       positive = levels(truth)[1L]
-      invoke(self$fun_obs_loss,
+      invoke(
+        self$fun_obs_loss,
         .args = self$param_set$get_values(),
         truth = truth,
         response = prediction$response,
         prob = prediction$prob[, positive],
-        positive = positive)
+        positive = positive
+      )
     }
   )
 )
 
 #' @include MeasureClassif.R
-MeasureClassifSimple = R6Class("MeasureClassifSimple",
+MeasureClassifSimple = R6Class(
+  "MeasureClassifSimple",
   inherit = MeasureClassif,
   public = list(
     fun = NULL,
@@ -97,24 +107,32 @@ MeasureClassifSimple = R6Class("MeasureClassifSimple",
 
   private = list(
     .score = function(prediction, task, weights = NULL, ...) {
-      self$fun(truth = prediction$truth, response = prediction$response, prob = prediction$prob,
-        na_value = self$na_value, sample_weights = weights)
+      self$fun(
+        truth = prediction$truth,
+        response = prediction$response,
+        prob = prediction$prob,
+        na_value = self$na_value,
+        sample_weights = weights
+      )
     },
 
     .extra_hash = c("fun", "fun_obs_loss", "na_value"),
 
     .obs_loss = function(prediction, ...) {
-      invoke(self$fun_obs_loss,
+      invoke(
+        self$fun_obs_loss,
         .args = self$param_set$get_values(),
         truth = prediction$truth,
         response = prediction$response,
-        prob = prediction$prob)
+        prob = prediction$prob
+      )
     }
   )
 )
 
 #' @include MeasureRegr.R
-MeasureRegrSimple = R6Class("MeasureRegrSimple",
+MeasureRegrSimple = R6Class(
+  "MeasureRegrSimple",
   inherit = MeasureRegr,
   public = list(
     fun = NULL,
@@ -158,24 +176,32 @@ MeasureRegrSimple = R6Class("MeasureRegrSimple",
 
   private = list(
     .score = function(prediction, task, weights = NULL, ...) {
-      self$fun(truth = prediction$truth, response = prediction$response, se = prediction$se,
-        na_value = self$na_value, sample_weights = weights)
+      self$fun(
+        truth = prediction$truth,
+        response = prediction$response,
+        se = prediction$se,
+        na_value = self$na_value,
+        sample_weights = weights
+      )
     },
 
     .extra_hash = c("fun", "fun_obs_loss", "na_value"),
 
     .obs_loss = function(prediction, ...) {
-      invoke(self$fun_obs_loss,
+      invoke(
+        self$fun_obs_loss,
         .args = self$param_set$get_values(),
         truth = prediction$truth,
         response = prediction$response,
-        se = prediction$se)
+        se = prediction$se
+      )
     }
   )
 )
 
 #' @include MeasureSimilarity.R
-MeasureSimilaritySimple = R6Class("MeasureSimilaritySimple",
+MeasureSimilaritySimple = R6Class(
+  "MeasureSimilaritySimple",
   inherit = MeasureSimilarity,
   public = list(
     fun = NULL,

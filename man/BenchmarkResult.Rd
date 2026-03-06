@@ -6,8 +6,11 @@
 \description{
 This is the result container object returned by \code{\link[=benchmark]{benchmark()}}.
 A \link{BenchmarkResult} consists of the data of multiple \link{ResampleResult}s.
-The contents of a \code{BenchmarkResult} and \link{ResampleResult} are almost identical and the stored \link{ResampleResult}s can be extracted via the \verb{$resample_result(i)} method, where i is the index of the performed resample experiment.
-This allows us to investigate the extracted \link{ResampleResult} and individual resampling iterations, as well as the predictions and models from each fold.
+The contents of a \code{BenchmarkResult} and \link{ResampleResult} are almost identical
+and the stored \link{ResampleResult}s can be extracted via the \verb{$resample_result(i)} method,
+where i is the index of the performed resample experiment.
+This allows us to investigate the extracted \link{ResampleResult}
+and individual resampling iterations, as well as the predictions and models from each fold.
 
 \link{BenchmarkResult}s can be visualized via \CRANpkg{mlr3viz}'s \code{autoplot()} function.
 
@@ -429,9 +432,12 @@ if present.}
 \if{latex}{\out{\hypertarget{method-BenchmarkResult-obs_loss}{}}}
 \subsection{Method \code{obs_loss()}}{
 Calculates the observation-wise loss via the \link{Measure}'s \code{obs_loss} method.
-Returns a \code{data.table()} with columns from the predictions (e.g., \code{row_ids}, \code{truth}, \code{response}, etc.), plus one numeric column for each measure, named with the respective measure id, and a \code{resample_result} column.
+Returns a \code{data.table()} with columns from the predictions (e.g., \code{row_ids}, \code{truth}, \code{response}, etc.),
+plus one numeric column for each measure, named with the respective measure id, and a \code{resample_result} column.
 If there is no observation-wise loss function for the measure, the column is filled with \code{NA_real_} values.
-Note that some measures such as RMSE, do have an \verb{$obs_loss}, but they require an additional transformation after aggregation, in this example taking the square-root.
+Note that some measures such as RMSE, do have an \verb{$obs_loss},
+but they require an additional transformation after aggregation,
+in this example taking the square-root.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{BenchmarkResult$obs_loss(measures = NULL, predict_sets = "test")}\if{html}{\out{</div>}}
 }
@@ -531,7 +537,8 @@ iterations with errors as extra integer column \code{"errors"}.}
 \subsection{Method \code{filter()}}{
 Subsets the benchmark result.
 You can either directly provide the row IDs or the uhashes of the resample results to keep,
-or use the \code{learner_ids}, \code{task_ids} and \code{resampling_ids} arguments to filter for learner, task and resampling IDs.
+or use the \code{learner_ids}, \code{task_ids} and \code{resampling_ids} arguments to filter for learner,
+task and resampling IDs.
 The three options are mutually exclusive.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{BenchmarkResult$filter(

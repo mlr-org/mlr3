@@ -14,13 +14,15 @@ as_benchmark_result = function(x, ...) {
 
 #' @rdname as_benchmark_result
 #' @export
-as_benchmark_result.BenchmarkResult = function(x, ...) { # nolint
+# nolint next
+as_benchmark_result.BenchmarkResult = function(x, ...) {
   x
 }
 
 #' @rdname as_benchmark_result
 #' @export
-as_benchmark_result.ResampleResult = function(x, ...) { # nolint
+# nolint next
+as_benchmark_result.ResampleResult = function(x, ...) {
   private = get_private(x)
   rdata = private$.data$clone(deep = TRUE)
   if (!is.null(private$.view)) {

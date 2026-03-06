@@ -31,7 +31,8 @@
 #' task$class_names
 #' task$positive
 #' task$data(rows = 1:3, cols = task$feature_names[1:2])
-TaskClassif = R6Class("TaskClassif",
+TaskClassif = R6Class(
+  "TaskClassif",
   inherit = TaskSupervised,
   public = list(
     #' @description
@@ -49,8 +50,13 @@ TaskClassif = R6Class("TaskClassif",
     initialize = function(id, backend, target, positive = NULL, label = NA_character_, extra_args = list()) {
       assert_string(target)
       super$initialize(
-        id = id, task_type = "classif", backend = backend,
-        target = target, label = label, extra_args = extra_args)
+        id = id,
+        task_type = "classif",
+        backend = backend,
+        target = target,
+        label = label,
+        extra_args = extra_args
+      )
 
       update_classif_property(self, private)
 

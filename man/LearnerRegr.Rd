@@ -19,7 +19,8 @@ repository \url{https://raphaels1.r-universe.dev}).
 \itemize{
 \item \code{"quantiles"}: Predicts quantile estimates for each observation in the test set.
 Set \verb{$quantiles} to specify the quantiles to predict and \verb{$quantile_response} to specify the response quantile.
-See mlr3book \href{https://mlr3book.mlr-org.com/chapters/chapter13/beyond_regression_and_classification.html#sec-quantile-regression}{section} on quantile regression for more details.
+See the \href{https://mlr3book.mlr-org.com/chapters/chapter13/beyond_regression_and_classification.html}{mlr3book}
+on quantile regression for more details.
 }
 
 Predefined learners can be found in the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_learners}.
@@ -33,7 +34,7 @@ names(lrns)
 
 # get a specific learner from mlr_learners:
 mlr_learners$get("regr.rpart")
-lrn("classif.featureless")
+lrn("regr.featureless")
 }
 \seealso{
 \itemize{
@@ -187,7 +188,8 @@ The referenced help package can be opened via method \verb{$help()}.}
 \if{latex}{\out{\hypertarget{method-LearnerRegr-predict_newdata_fast}{}}}
 \subsection{Method \code{predict_newdata_fast()}}{
 Predicts outcomes for new data in \code{newdata} using the model fitted during \verb{$train()}.
-This method is faster than \verb{$predict_newdata()} as it skips assertions, type conversions, encapsulation, and logging.
+This method is faster than \verb{$predict_newdata()} as it skips assertions,
+type conversions, encapsulation, and logging.
 
 Unlike \verb{$predict_newdata()}, this method does not return a \link{Prediction} object.
 Instead, it returns a list with either a \code{"response"} or \code{"prob"} element, depending on the prediction type.
@@ -196,7 +198,8 @@ Note that \code{state$predict_time} and \code{state$log} will remain empty after
 Some learners may not support this method and may fail when it is called.
 Prefer \verb{$predict_newdata()} unless performance is critical.
 
-If the model was trained via \code{\link[=resample]{resample()}} or \code{\link[=benchmark]{benchmark()}}, you must pass the associated task object stored in the corresponding \link{ResampleResult} or \link{BenchmarkResult}.
+If the model was trained via \code{\link[=resample]{resample()}} or \code{\link[=benchmark]{benchmark()}},
+you must pass the associated task object stored in the corresponding \link{ResampleResult} or \link{BenchmarkResult}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{LearnerRegr$predict_newdata_fast(newdata, task = NULL)}\if{html}{\out{</div>}}
 }

@@ -72,7 +72,6 @@ resample = function(
   unmarshal = TRUE,
   callbacks = NULL
 ) {
-
   lg$debug("Start resampling")
 
   assert_subset(clone, c("task", "learner", "resampling"))
@@ -105,7 +104,6 @@ resample = function(
   }
 
   grid = if (allow_hotstart) {
-
     lg$debug("Resampling with hotstart enabled.")
 
     hotstart_grid = map_dtr(seq_len(n), function(iteration) {
@@ -138,8 +136,21 @@ resample = function(
     data.table(learner = replicate(n, learner), mode = "train")
   }
 
-  res = future_map(n, workhorse, iteration = seq_len(n), learner = grid$learner, mode = grid$mode,
-    MoreArgs = list(task = task, resampling = resampling, store_models = store_models, lgr_index = lgr::logger_index(), pb = pb, unmarshal = unmarshal, callbacks = callbacks)
+  res = future_map(
+    n,
+    workhorse,
+    iteration = seq_len(n),
+    learner = grid$learner,
+    mode = grid$mode,
+    MoreArgs = list(
+      task = task,
+      resampling = resampling,
+      store_models = store_models,
+      lgr_index = lgr::logger_index(),
+      pb = pb,
+      unmarshal = unmarshal,
+      callbacks = callbacks
+    )
   )
 
   data = data.table(

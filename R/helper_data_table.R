@@ -31,8 +31,10 @@ fget_keys = function(tab, i, j, key) {
   }
 }
 
+# nolint next
 ijoin = function(tab, .__i__, .__j__, .__key__, nomatch = NULL, mult = "all") {
   if (!is.list(.__i__)) {
+    # nolint next
     .__i__ = list(.__i__)
   }
   tab[.__i__, .__j__, with = FALSE, nomatch = nomatch, on = .__key__, mult = mult]

@@ -155,7 +155,8 @@ Printer.
 \if{html}{\out{<a id="method-TaskGenerator-generate"></a>}}
 \if{latex}{\out{\hypertarget{method-TaskGenerator-generate}{}}}
 \subsection{Method \code{generate()}}{
-Creates a task of type \code{task_type} with \code{n} observations, possibly using additional settings stored in \code{param_set}.
+Creates a task of type \code{task_type} with \code{n} observations,
+possibly using additional settings stored in \code{param_set}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{TaskGenerator$generate(n)}\if{html}{\out{</div>}}
 }

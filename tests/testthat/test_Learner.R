@@ -51,7 +51,6 @@ test_that("learner timings", {
   expect_equal(unname(t), as.double(c(NA, NA)))
   expect_names(names(t), identical.to = c("train", "predict"))
 
-
   learner$train(tsk("mtcars"))
   t = learner$timings
   expect_number(t[["train"]])
@@ -241,16 +240,18 @@ test_that("empty predict set (#421)", {
 
 test_that("fallback learner is deep cloned (#511)", {
   l = lrn("classif.rpart")
-  l$encapsulate("evaluate",lrn("classif.featureless"))
+  l$encapsulate("evaluate", lrn("classif.featureless"))
   expect_different_address(l$fallback, l$clone(deep = TRUE)$fallback)
 })
 
 test_that("learner cannot be trained with TuneToken present", {
   task = tsk("california_housing")
   learner = lrn("regr.rpart", cp = paradox::to_tune(0.1, 0.3))
-  expect_error(learner$train(task),
+  expect_error(
+    learner$train(task),
     regexp = "<LearnerRegrRpart:regr.rpart> cannot be trained with TuneToken present",
-    fixed = TRUE)
+    fixed = TRUE
+  )
 })
 
 test_that("integer<->numeric conversion in newdata (#533)", {
@@ -283,9 +284,18 @@ test_that("weights", {
   learner$use_weights = "error"
   expect_error(learner$train(task), "'use_weights' was set to 'error'")
 
-  ll = R6Class("dummy", inherit = LearnerClassif, public = list(
+  ll = R6Class(
+    "dummy",
+    inherit = LearnerClassif,
+    public = list(
       initialize = function() {
-        super$initialize(id = "dummy", param_set = ps(), feature_types = "numeric", predict_types = "response", properties = c("twoclass", "multiclass"))
+        super$initialize(
+          id = "dummy",
+          param_set = ps(),
+          feature_types = "numeric",
+          predict_types = "response",
+          properties = c("twoclass", "multiclass")
+        )
       }
     ),
     private = list(
@@ -294,13 +304,13 @@ test_that("weights", {
       }
     )
   )$new()
-  expect_error(ll$train(task), "Learner does not support weights")  # different error message from above!
+  expect_error(ll$train(task), "Learner does not support weights") # different error message from above!
 
   ll$use_weights = "ignore"
   expect_no_error(ll$train(task))
 })
 
-test_that("mandatory properties",  {
+test_that("mandatory properties", {
   task = tsk("iris")
   learner = lrn("classif.rpart")
   learner$properties = setdiff(learner$properties, "multiclass")
@@ -425,12 +435,14 @@ test_that("marshal state", {
 
 
 test_that("internal_valid_task is created correctly", {
-  LearnerClassifTest = R6Class("LearnerClassifTest", inherit = LearnerClassifDebug,
+  LearnerClassifTest = R6Class(
+    "LearnerClassifTest",
+    inherit = LearnerClassifDebug,
     public = list(
       task = NULL
     ),
     private = list(
-      .train = function(task, ...)  {
+      .train = function(task, ...) {
         self$task = task$clone(deep = TRUE)
         super$.train(task, ...)
       }
@@ -453,13 +465,15 @@ test_that("internal_valid_task is created correctly", {
   expect_null(learner1$task$internal_valid_task)
 
   # validate = "test"
-  LearnerClassifTest2 = R6Class("LearnerClassifTest2", inherit = LearnerClassifDebug,
+  LearnerClassifTest2 = R6Class(
+    "LearnerClassifTest2",
+    inherit = LearnerClassifDebug,
     public = list(
       expected_valid_ids = NULL,
       expected_train_ids = NULL
     ),
     private = list(
-      .train = function(task, ...)  {
+      .train = function(task, ...) {
         if (!test_permutation(task$internal_valid_task$row_ids, self$expected_valid_ids)) {
           stopf("something went wrong")
         }
@@ -479,9 +493,11 @@ test_that("internal_valid_task is created correctly", {
   expect_no_error(resample(task2, learner2, resampling))
 
   # ratio works
-  LearnerClassifTest3 = R6Class("LearnerClassifTest3", inherit = LearnerClassifDebug,
+  LearnerClassifTest3 = R6Class(
+    "LearnerClassifTest3",
+    inherit = LearnerClassifDebug,
     private = list(
-      .train = function(task, ...)  {
+      .train = function(task, ...) {
         if (length(task$internal_valid_task$row_ids) != 20) {
           stopf("something went wrong")
         }
@@ -514,7 +530,8 @@ test_that("compatibility check on validation task", {
 
 test_that("model is marshaled during parallel predict", {
   # by setting check_pid = TRUE, we ensure that unmarshal_model() sets the process id to the current
-  # id. LearnerClassifDebug then checks during `.predict()`, whether the marshal_id of the model is equal to the current process id and errs if this is not the case.
+  # id. LearnerClassifDebug then checks during `.predict()`,
+  # whether the marshal_id of the model is equal to the current process id and errs if this is not the case.
   task = tsk("iris")
   learner = lrn("classif.debug", check_pid = TRUE)
   learner$train(task)
@@ -527,7 +544,8 @@ test_that("model is marshaled during parallel predict", {
 
 test_that("model is marshaled during callr prediction", {
   # by setting check_pid = TRUE, we ensure that unmarshal_model() sets the process id to the current
-  # id. LearnerClassifDebug then checks during `.predict()`, whether the marshal_id of the model is equal to the current process id and errs if this is not the case.
+  # id. LearnerClassifDebug then checks during `.predict()`,
+  # whether the marshal_id of the model is equal to the current process id and errs if this is not the case.
   task = tsk("iris")
   learner = lrn("classif.debug", check_pid = TRUE)
   learner$encapsulate("callr", lrn("classif.featureless"))
@@ -570,7 +588,9 @@ test_that("learner state contains internal valid task information", {
 test_that("validation task with 0 observations", {
   learner = lrn("classif.debug", validate = "predefined")
   task = tsk("iris")
-  expect_warning({task$internal_valid_task = integer(0)})
+  expect_warning({
+    task$internal_valid_task = integer(0)
+  })
 })
 
 test_that("column info is compared during predict", {
@@ -617,13 +637,19 @@ test_that("quantiles in LearnerRegr", {
   expect_equal(learner$quantile_response, 0.6)
   expect_equal(learner$quantiles, c(0.05, 0.5, 0.6, 0.95))
 
-  expect_error({
-    learner$quantiles = c(0.5, 0.1)
-  }, "sorted")
+  expect_error(
+    {
+      learner$quantiles = c(0.5, 0.1)
+    },
+    "sorted"
+  )
 
-  expect_error({
-    learner$quantiles = integer()
-  }, "length")
+  expect_error(
+    {
+      learner$quantiles = integer()
+    },
+    "length"
+  )
 
   learner$train(task)
 
@@ -660,7 +686,13 @@ test_that("weights properties and defaults", {
   expect_true("weights" %in% ll$properties)
   expect_equal(ll$use_weights, "use")
 
-  ll = LearnerClassif$new(id = "dummy", param_set = ps(), feature_types = "numeric", predict_types = "response", properties = "twoclass")
+  ll = LearnerClassif$new(
+    id = "dummy",
+    param_set = ps(),
+    feature_types = "numeric",
+    predict_types = "response",
+    properties = "twoclass"
+  )
   expect_true("weights" %nin% ll$properties)
   expect_equal(ll$use_weights, "error")
 })
@@ -734,10 +766,12 @@ test_that("selected_features works", {
 
 test_that("predict_newdata auto conversion (#685)", {
   l = lrn("classif.debug", save_tasks = TRUE)$train(tsk("iris")$select(c("Sepal.Length", "Sepal.Width")))
-  expect_error(l$predict_newdata(data.table(Sepal.Length = 1, Sepal.Width = "abc")),
-    "Incompatible types during auto-converting column 'Sepal.Width'", fixed = TRUE)
-  expect_error(l$predict_newdata(data.table(Sepal.Length = 1L)),
-    "but is missing elements")
+  expect_error(
+    l$predict_newdata(data.table(Sepal.Length = 1, Sepal.Width = "abc")),
+    "Incompatible types during auto-converting column 'Sepal.Width'",
+    fixed = TRUE
+  )
+  expect_error(l$predict_newdata(data.table(Sepal.Length = 1L)), "but is missing elements")
 
   # New test for integerish value conversion to double
   p1 = l$predict_newdata(data.table(Sepal.Length = 1, Sepal.Width = 2))
@@ -749,7 +783,6 @@ test_that("predict_newdata auto conversion (#685)", {
 })
 
 test_that("predict_newdata creates column info correctly", {
-
   learner = lrn("classif.debug", save_tasks = TRUE)
   task = tsk("iris")
   task$col_info$label = letters[1:6]
@@ -794,7 +827,6 @@ test_that("marshaling and internal tuning", {
   l$train(task)
   expect_list(l$internal_tuned_values, types = "integer")
   expect_list(l$internal_valid_scores, types = "numeric")
-
 })
 
 test_that("prob_as_default works", {
@@ -812,26 +844,46 @@ test_that("prob_as_default works", {
 test_that("weights are used when appropriate", {
   learner = lrn("classif.featureless", predict_type = "prob")
   predict_task = tsk("iris")$filter(1)
-  expect_equal(unname(learner$train(tsk("iris"))$predict(predict_task)$prob), matrix(c(1, 1, 1) / 3, nrow = 1, ncol = 3))
+  expect_equal(
+    unname(learner$train(tsk("iris"))$predict(predict_task)$prob),
+    matrix(c(1, 1, 1) / 3, nrow = 1, ncol = 3)
+  )
 
   # weights_measure has no effect
-  expect_equal(unname(learner$train(iris_weights_measure)$predict(predict_task)$prob), matrix(c(1, 1, 1) / 3, nrow = 1, ncol = 3))
+  expect_equal(
+    unname(learner$train(iris_weights_measure)$predict(predict_task)$prob),
+    matrix(c(1, 1, 1) / 3, nrow = 1, ncol = 3)
+  )
 
-  expect_equal(unname(learner$train(iris_weights_learner)$predict(predict_task)$prob), matrix(c(1, 10, 100) / 111, nrow = 1, ncol = 3))
+  expect_equal(
+    unname(learner$train(iris_weights_learner)$predict(predict_task)$prob),
+    matrix(c(1, 10, 100) / 111, nrow = 1, ncol = 3)
+  )
 
   learner$use_weights = "ignore"
 
   # weights are ignored
-  expect_equal(unname(learner$train(iris_weights_learner)$predict(predict_task)$prob), matrix(c(1, 1, 1) / 3, nrow = 1, ncol = 3))
+  expect_equal(
+    unname(learner$train(iris_weights_learner)$predict(predict_task)$prob),
+    matrix(c(1, 1, 1) / 3, nrow = 1, ncol = 3)
+  )
 
   learner$use_weights = "error"
   expect_error(learner$train(iris_weights_learner), "'use_weights' was set to\n  'error'")
 
-  # behaviour of learner that does not support weights
-  llclass = R6Class("dummy", inherit = LearnerClassif,
+  # behavior of learner that does not support weights
+  llclass = R6Class(
+    "dummy",
+    inherit = LearnerClassif,
     public = list(
       initialize = function() {
-        super$initialize(id = "dummy", param_set = ps(), feature_types = "numeric", predict_types = "response", properties = c("twoclass", "multiclass"))
+        super$initialize(
+          id = "dummy",
+          param_set = ps(),
+          feature_types = "numeric",
+          predict_types = "response",
+          properties = c("twoclass", "multiclass")
+        )
       }
     ),
     private = list(
@@ -857,8 +909,14 @@ test_that("Learner printer for use_weights", {
 })
 
 test_that("Learner printer for encapsulation", {
-  expect_output(print(lrn("classif.featureless")$encapsulate("callr", lrn("classif.rpart"))), "Encapsulation: callr \\(fallback: LearnerClassifRpart\\)")
-  expect_output(print(lrn("classif.rpart")$encapsulate("evaluate", lrn("classif.featureless"))), "Encapsulation: evaluate \\(fallback: LearnerClassifFeatureless\\)")
+  expect_output(
+    print(lrn("classif.featureless")$encapsulate("callr", lrn("classif.rpart"))),
+    "Encapsulation: callr \\(fallback: LearnerClassifRpart\\)"
+  )
+  expect_output(
+    print(lrn("classif.rpart")$encapsulate("evaluate", lrn("classif.featureless"))),
+    "Encapsulation: evaluate \\(fallback: LearnerClassifFeatureless\\)"
+  )
   expect_output(print(lrn("classif.rpart")$encapsulate("none")), "Encapsulation: none \\(fallback: -\\)")
 })
 
@@ -866,10 +924,15 @@ test_that("error conditions are working: callr", {
   # no runtime test on CRAN
   skip_on_cran()
 
-  l = lrn("classif.debug",
+  l = lrn(
+    "classif.debug",
     timeout = c(train = 0.01),
     # Sys.sleep does not get interrupted reliably
-    sleep_train = function() while (TRUE) NULL
+    sleep_train = function() {
+      while (TRUE) {
+        NULL
+      }
+    }
   )
 
   l$encapsulate(
@@ -889,10 +952,15 @@ test_that("error conditions are working: evaluate", {
   # no runtime test on CRAN
   skip_on_cran()
 
-  l = lrn("classif.debug",
+  l = lrn(
+    "classif.debug",
     timeout = c(train = 0.2),
     # Sys.sleep does not get interrupted reliably
-    sleep_train = function() while (TRUE) NULL
+    sleep_train = function() {
+      while (TRUE) {
+        NULL
+      }
+    }
   )
 
   l$encapsulate(
@@ -923,10 +991,15 @@ test_that("error conditions are working: try", {
     close(null_con)
   })
 
-  l = lrn("classif.debug",
+  l = lrn(
+    "classif.debug",
     timeout = c(train = 0.01),
     # Sys.sleep does not get interrupted reliably
-    sleep_train = function() while (TRUE) NULL
+    sleep_train = function() {
+      while (TRUE) {
+        NULL
+      }
+    }
   )
 
   l$encapsulate(
@@ -946,10 +1019,15 @@ test_that("error conditions are working: mirai", {
   # no runtime test on CRAN
   skip_on_cran()
 
-  l = lrn("classif.debug",
+  l = lrn(
+    "classif.debug",
     timeout = c(train = 0.01),
     # Sys.sleep does not get interrupted reliably
-    sleep_train = function() while (TRUE) NULL
+    sleep_train = function() {
+      while (TRUE) {
+        NULL
+      }
+    }
   )
 
   l$encapsulate(
@@ -996,8 +1074,12 @@ test_that("when: stage parameter is working", {
 
   # we catch error during train, but not during predict
   l$encapsulate("evaluate", lrn("classif.featureless"), function(cond, stage) {
-    if (inherits(cond, "Mlr3TestError")) return(stage == "train")
-    if (stage == "predict" && grepl("No model stored", cond$message)) return(FALSE)
+    if (inherits(cond, "Mlr3TestError")) {
+      return(stage == "train")
+    }
+    if (stage == "predict" && grepl("No model stored", cond$message)) {
+      return(FALSE)
+    }
     stop("test went wrong")
   })
   l$configure(
@@ -1008,8 +1090,12 @@ test_that("when: stage parameter is working", {
   expect_null(l$model)
   expect_error(l$predict(task), regexp = "No model stored", class = "Mlr3ErrorLearnerNoModel")
   l$encapsulate("evaluate", lrn("classif.featureless"), function(cond, stage) {
-    if (inherits(cond, "Mlr3TestError")) return(stage == "train")
-    if (stage == "predict" && grepl("No model stored", cond$message)) return(TRUE)
+    if (inherits(cond, "Mlr3TestError")) {
+      return(stage == "train")
+    }
+    if (stage == "predict" && grepl("No model stored", cond$message)) {
+      return(TRUE)
+    }
     stop("test went wrong")
   })
   expect_class(l$predict(task), "PredictionClassif")
@@ -1020,7 +1106,9 @@ test_that("when: stage parameter is working", {
 })
 
 test_that("oob_error is available without storing models via $.extract_oob_error()", {
-  LearnerDummyOOB = R6::R6Class("LearnerDummyOOB", inherit = LearnerClassif,
+  LearnerDummyOOB = R6::R6Class(
+    "LearnerDummyOOB",
+    inherit = LearnerClassif,
     public = list(
       initialize = function() {
         super$initialize(
@@ -1083,7 +1171,8 @@ test_that("native_model returns model by default", {
 })
 
 test_that("native_model can be overwritten by learner", {
-  LearnerWithExtraInfo = R6Class("LearnerWithExtraInfo",
+  LearnerWithExtraInfo = R6Class(
+    "LearnerWithExtraInfo",
     inherit = LearnerClassif,
     public = list(
       initialize = function() {

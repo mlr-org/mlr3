@@ -10,7 +10,8 @@ True labels must be arranged in columns, predicted labels must be arranged  in r
 The cost matrix is stored as slot \verb{$costs}.
 
 For calculation of the score, the confusion matrix is multiplied element-wise with the cost matrix.
-The costs are then summed up (and potentially divided by the number of observations if \code{normalize} is set to \code{TRUE} (default)).
+The costs are then summed up (and potentially divided by the number of observations
+if \code{normalize} is set to \code{TRUE} (default)).
 }
 \section{Dictionary}{
 

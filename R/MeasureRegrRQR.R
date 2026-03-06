@@ -8,7 +8,8 @@
 #'
 #' @details
 #' \eqn{R^1(\alpha)} is defined as \deqn{
-#'   1 - \frac{\sum_{i=1}^n \rho_\alpha \left( t_i - r_i(\alpha) \right)}{\sum_{i=1}^n \rho_\alpha \left( t_i - q_{\alpha} \right)},
+#'   1 - \frac{\sum_{i=1}^n \rho_\alpha \left( t_i - r_i(\alpha) \right)}{
+#'     \sum_{i=1}^n \rho_\alpha \left( t_i - q_{\alpha} \right)},
 #' }{
 #'   1 - sum(pinball(t - r(alpha))) / sum(pinball(t - quantile(t, alpha))),
 #' }
@@ -36,7 +37,8 @@
 #'
 #' @template seealso_measure
 #' @export
-MeasureRegrRQR = R6Class("MeasureRQR",
+MeasureRegrRQR = R6Class(
+  "MeasureRQR",
   inherit = MeasureRegr,
   public = list(
     #' @description
@@ -62,7 +64,6 @@ MeasureRegrRQR = R6Class("MeasureRQR",
     .pred_set_mean = NULL,
 
     .score = function(prediction, task = NULL, train_set = NULL, weights = NULL, ...) {
-
       alpha = self$param_set$values$alpha
       probs = attr(prediction$data$quantiles, "probs")
       assert_choice(alpha, probs)

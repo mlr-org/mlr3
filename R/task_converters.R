@@ -28,8 +28,14 @@ convert_task = function(intask, target = NULL, new_type = NULL, drop_original_ta
   # get task_type from mlr_reflections and call constructor
   constructor = get(fget_key(mlr_reflections$task_types, new_type, "task", key = "type")[[1L]])
   common_args = intersect(names(intask$extra_args), names(formals(constructor$public_methods$initialize)))
-  newtask = invoke(constructor$new, id = intask$id, backend = intask$backend,
-    target = target, label = intask$label, .args = intask$extra_args[common_args])
+  newtask = invoke(
+    constructor$new,
+    id = intask$id,
+    backend = intask$backend,
+    target = target,
+    label = intask$label,
+    .args = intask$extra_args[common_args]
+  )
   newtask$extra_args = intask$extra_args
 
   # copy row_roles / col_roles / properties
@@ -60,7 +66,8 @@ convert_task = function(intask, target = NULL, new_type = NULL, drop_original_ta
       target = target,
       new_type = new_type,
       drop_original_target = drop_original_target,
-      drop_levels = drop_levels)
+      drop_levels = drop_levels
+    )
   }
 
   newtask
