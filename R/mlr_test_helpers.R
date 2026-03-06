@@ -39,7 +39,7 @@
 #'   that disables all tasks whose id matches the regular expression.
 #' * `predict_types` (`character()`)\cr
 #'   The predict types of the learner to check.
-#'   Defaults to all predict typpes of the learner.
+#'   Defaults to all predict types of the learner.
 #' * `check_replicable` (`logical(1)`)\cr
 #'   Whether to check that running the learner twice with the same seed should result in identical predictions.
 #'   Default is `TRUE`.

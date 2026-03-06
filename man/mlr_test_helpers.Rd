@@ -44,7 +44,7 @@ If for some reason, one or more such tests ought to be disabled, this argument t
 that disables all tasks whose id matches the regular expression.
 \item \code{predict_types} (\code{character()})\cr
 The predict types of the learner to check.
-Defaults to all predict typpes of the learner.
+Defaults to all predict types of the learner.
 \item \code{check_replicable} (\code{logical(1)})\cr
 Whether to check that running the learner twice with the same seed should result in identical predictions.
 Default is \code{TRUE}.

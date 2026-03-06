@@ -16,6 +16,7 @@ test_that("average with micro/macro", {
   learner = lrn("classif.featureless")
   macro = msr("classif.fbeta", id = "macro")
   micro = msr("classif.fbeta", id = "micro", average = "micro")
+  # nolint next
   with_seed(123, {
     rs = rsmp("cv", folds = 5)
     rr = resample(task, learner, rs)
