@@ -523,6 +523,14 @@ assert_has_backend = function(task) {
   }
 }
 
+assert_id = function(id, .var.name = "id") {
+  assert_string(id, min.chars = 1L, .var.name = .var.name)
+  if (grepl("%", id, fixed = TRUE)) {
+    error_config("ID '%s' must not contain the special character '%%'", id)
+  }
+  invisible(id)
+}
+
 # assertion to ensure a helpful error message
 assert_prediction_count = function(actual, expected, type) {
   if (actual != expected) {

@@ -197,7 +197,7 @@ Learner = R6Class(
       label = NA_character_,
       man = NA_character_
     ) {
-      private$.id = assert_string(id, min.chars = 1L)
+      private$.id = assert_id(id)
       private$.label = assert_string(label, na.ok = TRUE)
       private$.task_type = assert_choice(task_type, mlr_reflections$task_types$type)
       private$.feature_types = assert_ordered_set(
@@ -940,7 +940,7 @@ Learner = R6Class(
       if (missing(rhs)) {
         return(private$.id)
       }
-      private$.id = assert_string(rhs, min.chars = 1L)
+      private$.id = assert_id(rhs)
     },
 
     #' @template field_label

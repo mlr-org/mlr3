@@ -112,7 +112,7 @@ Measure = R6Class(
       man = NA_character_,
       trafo = NULL
     ) {
-      private$.id = assert_string(id, min.chars = 1L)
+      private$.id = assert_id(id)
       private$.label = assert_string(label, na.ok = TRUE)
       private$.task_type = task_type
       private$.param_set = assert_param_set(param_set)
@@ -443,7 +443,7 @@ Measure = R6Class(
       if (missing(rhs)) {
         return(private$.id)
       }
-      private$.id = assert_string(rhs, min.chars = 1L)
+      private$.id = assert_id(rhs)
     },
 
     #' @template field_label

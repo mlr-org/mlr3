@@ -1112,3 +1112,9 @@ test_that("class ratios are not printed for large tasks (#1382)", {
   options(mlr3.print_class_ratio_threshold = 0L)
   expect_output(print(task), "setosa, versicolor, virginica", fixed = TRUE)
 })
+
+test_that("id must not contain percent character (#1461)", {
+  expect_error(TaskClassif$new("a %>% b", backend = iris, target = "Species"), "must not contain")
+  task = tsk("iris")
+  expect_error(task$id <- "a %>% b", "must not contain") # nolint
+})

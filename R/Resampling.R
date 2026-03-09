@@ -114,7 +114,7 @@ Resampling = R6Class(
     #'
     #' Note that this object is typically constructed via a derived classes, e.g. [ResamplingCV] or [ResamplingHoldout].
     initialize = function(id, param_set = ps(), duplicated_ids = FALSE, label = NA_character_, man = NA_character_) {
-      private$.id = assert_string(id, min.chars = 1L)
+      private$.id = assert_id(id)
       private$.label = assert_string(label, na.ok = TRUE)
       private$.param_set = assert_param_set(param_set)
       private$.duplicated_ids = assert_flag(duplicated_ids)
@@ -212,7 +212,7 @@ Resampling = R6Class(
       }
 
       private$.hash = NULL
-      private$.id = assert_string(rhs, min.chars = 1L)
+      private$.id = assert_id(rhs)
     },
 
     #' @field is_instantiated (`logical(1)`)\cr
