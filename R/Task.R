@@ -84,7 +84,7 @@ Task = R6Class(
     #'
     #' Note that this object is typically constructed via a derived classes, e.g. [TaskClassif] or [TaskRegr].
     initialize = function(id, task_type, backend, label = NA_character_, extra_args = list()) {
-      private$.id = assert_string(id, min.chars = 1L)
+      private$.id = assert_id(id)
       private$.label = assert_string(label, na.ok = TRUE)
       private$.task_type = assert_choice(task_type, mlr_reflections$task_types$type)
       if (!inherits(backend, "DataBackend")) {
@@ -936,7 +936,7 @@ Task = R6Class(
       }
 
       private$.hash = NULL
-      private$.id = assert_string(rhs, min.chars = 1L)
+      private$.id = assert_id(rhs)
     },
 
     #' @field internal_valid_task (`Task` | `integer()` | `NULL`)\cr
