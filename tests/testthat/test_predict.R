@@ -49,6 +49,20 @@ test_that("missing predictions are handled gracefully / regr", {
 })
 
 
+test_that("predict_newdata preserves factor level order (#1459)", {
+  data = data.table(
+    target = factor(rep(c("0", "1"), each = 50), levels = c("0", "1")),
+    x = c(rnorm(50, 0), rnorm(50, 5))
+  )
+  task = TaskClassif$new("test", data, target = "target", positive = "1")
+  learner = lrn("classif.featureless", predict_type = "prob")$train(task)
+
+  p1 = learner$predict(task)
+  p2 = learner$predict_newdata(data)
+
+  expect_equal(p1$prob, p2$prob)
+})
+
 test_that("predict_newdata with weights (#519)", {
   # we had a problem where predict did not work if weights were present in the task
   # especially with the "predict_newdata" function

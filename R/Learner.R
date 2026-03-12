@@ -505,10 +505,10 @@ Learner = R6Class(
       prevci = task$col_info
       task$backend = newdata
       task$col_info = col_info(task$backend)
-      task$col_info[, c("label", "fix_factor_levels")] = prevci[
+      task$col_info[, c("label", "fix_factor_levels", "levels")] = prevci[
         list(task$col_info$id),
         on = "id",
-        c("label", "fix_factor_levels")
+        c("label", "fix_factor_levels", "levels")
       ]
       task$col_info$fix_factor_levels[is.na(task$col_info$fix_factor_levels)] = FALSE
       task$row_roles$use = task$backend$rownames
