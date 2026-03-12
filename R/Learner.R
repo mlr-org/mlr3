@@ -510,7 +510,19 @@ Learner = R6Class(
         on = "id",
         c("label", "fix_factor_levels")
       ]
-      task$col_info$fix_factor_levels[is.na(task$col_info$fix_factor_levels)] = FALSE
+
+      # BUG FIX: 
+      # restore factor levels for columns where fix_factor_levels = TRUE
+      ffl <- task$col_info$fix_factor_levels
+      task$col_info$fix_factor_levels <- replace(ffl, is.na(ffl), FALSE)
+      fix_ids <- task$col_info[get("fix_factor_levels") == TRUE, "id"][[1L]]
+      if (length(fix_ids)) {
+        ii <- task$col_info[list(fix_ids), on = "id", which = TRUE]
+        set(task$col_info,
+          i = ii, j = "levels",
+          value = prevci[list(fix_ids), on = "id", "levels"][[1L]]
+        )
+      }
       task$row_roles$use = task$backend$rownames
 
       # reset column roles that are not in the newdata if they are optional
