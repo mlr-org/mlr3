@@ -1,6 +1,8 @@
 {
   "version": "0.2",
   "language": "en-US", // we always use American English
+  // whitelist: disable all file types, then re-enable only what we want
+  "enableFiletypes": ["!*", "markdown", "plaintext", "r", "qmd"],
   "useGitignore": true, // respect .gitignore (avoids checking generated/ignored files)
   // additional paths to ignore beyond .gitignore
   "ignorePaths": [
