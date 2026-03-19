@@ -1,4 +1,5 @@
-# r cmd check workflow of the mlr3 ecosystem v0.4.0
+# r cmd check workflow of the mlr3 ecosystem v0.6.0
+# You can remove the `services.redis` section if the package does not require `rush` for the tests
 # https://github.com/mlr-org/actions
 on:
   workflow_dispatch:
@@ -20,12 +21,23 @@ name: r-cmd-check
 jobs:
   r-cmd-check:
     runs-on: ${{ matrix.config.os }}
+    services:
+      redis:
+        image: redis
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
 
     name: ${{ matrix.config.os }} (${{ matrix.config.r }})
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
+      RUSH_TEST_USE_REDIS: true
 
     strategy:
       fail-fast: false
@@ -55,5 +67,5 @@ jobs:
 
       - uses: r-lib/actions/check-r-package@v2
         with:
-          args: 'c("--no-manual", "--as-cran")'
           error-on: '"note"'
+          args: 'c("--no-manual", "--as-cran")'

@@ -1,4 +1,5 @@
-# pkgdown workflow of the mlr3 ecosystem v0.1.0
+# pkgdown workflow of the mlr3 ecosystem v0.2.0
+# You can remove the `services.redis` section if the package does not require `rush` for the tests
 # https://github.com/mlr-org/actions
 on:
   push:
@@ -17,9 +18,21 @@ name: pkgdown
 jobs:
   pkgdown:
     runs-on: ubuntu-latest
+    services:
+      redis:
+        image: redis
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
+
 
     concurrency:
       group: pkgdown-${{ github.event_name != 'pull_request' || github.run_id }}
+
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
