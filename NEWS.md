@@ -2,6 +2,7 @@
 
 * feat: `Learner` gains a `predict_raw` flag and `Prediction` gains a `raw` field to store the raw prediction object from the upstream model alongside standardized predictions.
 * fix: IDs containing `%` (e.g., from `deparse1(substitute(x))` with pipe expressions) now produce a clear error instead of causing cryptic `sprintf` failures downstream (#1461).
+* fix: `Learner$predict_newdata()` now preserves the target's factor level ordering from training, fixing inverted probabilities for binary classification when the positive class was not the first alphabetical level (#1459).
 
 # mlr3 1.5.0
 

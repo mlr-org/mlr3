@@ -820,6 +820,20 @@ test_that("predict_newdata creates column info correctly", {
   expect_true("row_id" %in% learner$model$task_predict$col_info$id)
 })
 
+test_that("predict_newdata preserves target level ordering (#1459)", {
+  data = data.table(
+    x = c(rnorm(50, 0), rnorm(50, 5)),
+    y = factor(rep(c("0", "1"), each = 50), levels = c("0", "1"))
+  )
+  task = as_task_classif(data, target = "y", positive = "1")
+  learner = lrn("classif.featureless", predict_type = "prob")
+  learner$train(task)
+
+  p1 = learner$predict(task)
+  p2 = learner$predict_newdata(data)
+  expect_equal(p1$prob, p2$prob)
+})
+
 test_that("marshaling and internal tuning", {
   l = lrn("classif.debug", validate = 0.3, early_stopping = TRUE, iter = 100)
   l$encapsulate("evaluate", lrn("classif.featureless"))
