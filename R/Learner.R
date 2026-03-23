@@ -511,6 +511,10 @@ Learner = R6Class(
         c("label", "fix_factor_levels")
       ]
       task$col_info$fix_factor_levels[is.na(task$col_info$fix_factor_levels)] = FALSE
+
+      # restore target levels from training task to preserve level ordering (e.g. positive class first)
+      target_ids = task$target_names
+      task$col_info[list(target_ids), "levels" := prevci[list(target_ids), "levels", on = "id"], on = "id"]
       task$row_roles$use = task$backend$rownames
 
       # reset column roles that are not in the newdata if they are optional
