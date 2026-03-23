@@ -9,6 +9,10 @@
   pipe expressions) now produce a clear error instead of causing cryptic
   `sprintf` failures downstream
   ([\#1461](https://github.com/mlr-org/mlr3/issues/1461)).
+- fix: `Learner$predict_newdata()` now preserves the target’s factor
+  level ordering from training, fixing inverted probabilities for binary
+  classification when the positive class was not the first alphabetical
+  level ([\#1459](https://github.com/mlr-org/mlr3/issues/1459)).
 
 ## mlr3 1.5.0
 
