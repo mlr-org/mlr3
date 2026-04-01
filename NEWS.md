@@ -1,4 +1,4 @@
-# mlr3 (development version)
+# mlr3 1.6.0
 
 * feat: `Learner` gains a `predict_raw` flag and `Prediction` gains a `raw` field to store the raw prediction object from the upstream model alongside standardized predictions.
 * fix: IDs containing `%` (e.g., from `deparse1(substitute(x))` with pipe expressions) now produce a clear error instead of causing cryptic `sprintf` failures downstream (#1461).
